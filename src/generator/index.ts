@@ -4,11 +4,11 @@ import { NanowindConfig } from '../types'
 export function createGenerator(config: NanowindConfig) {
   const { rules, theme, variants } = config
 
-  const cache = new Map<string, string | null>()
+  const cache = new Map<string, [number, string] | null>()
 
   return (code: string) => {
     const tokens = new Set(code.split(/[\s'"`;]/g))
-    const sheet: string[] = []
+    const sheet: [number, string][] = []
 
     tokens.forEach((token) => {
       if (cache.has(token)) {
@@ -19,7 +19,7 @@ export function createGenerator(config: NanowindConfig) {
       }
     })
 
-    for (const [matcher, handler] of rules) {
+    rules.forEach(([matcher, handler], ruleIndex) => {
       tokens.forEach((raw) => {
         const appliedVariants: NanowindVariant[] = []
         let current = raw
@@ -63,17 +63,18 @@ export function createGenerator(config: NanowindConfig) {
 
           const selector = appliedVariants.reduce((p, v) => v.selector?.(p) || p, `.${cssEscape(raw)}`)
           const css = `${selector}{${body}}`
-          sheet.push(css)
-          cache.set(raw, css)
+          const payload: [number, string] = [ruleIndex, css]
+          sheet.push(payload)
+          cache.set(raw, payload)
           tokens.delete(raw)
         }
       })
-    }
+    })
 
     tokens.forEach((token) => {
       cache.set(token, null)
     })
 
-    return sheet.join('\n')
+    return sheet.sort((a, b) => a[0] - b[0]).map(i => i[1]).join('\n')
   }
 }
