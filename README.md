@@ -15,11 +15,12 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 
 ###### Non-goal
 
-`nanowind` is designed **NOT** to be:
+`nanowind` is designed **NOT** to be/have:
 
-- Align with Tailwind or Windi CSS.
+- Align / compatible with Tailwind or Windi CSS.
 - CSS preprocessor (`@apply` etc.)
-- Plugins for Webpack or others (it's Vite only).
+- Tailwind's plugin system (but you can share the presets!)
+- Integrations for Webpack or others (it's Vite only).
 
 ## Sponsors
 

@@ -10,7 +10,7 @@ test('default', () => {
     'pl-10px',
     'hover:p-4',
     '!p-5px',
-    '!hover:p-10',
+    '!hover:px-10',
     'hover:!p-10',
   ].join(' '))).toMatchSnapshot()
 })

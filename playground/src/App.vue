@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import Foo from './components/Foo.vue'
-import Bar from './components/Bar.vue'
+import Root from './Root.vue'
 </script>
 
 <template>
-  <Foo />
-  <Bar />
+  <Suspense>
+    <Root />
+  </Suspense>
 </template>

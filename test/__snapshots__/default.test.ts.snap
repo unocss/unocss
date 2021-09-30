@@ -5,8 +5,8 @@ exports[`default 1`] = `
 .p-3{padding:0.75rem;}
 .hover\\\\:p-4:hover{padding:1rem;}
 .\\\\!p-5px{padding:5px !important;}
-.\\\\!hover\\\\:p-10:hover{padding:2.5rem !important;}
 .hover\\\\:\\\\!p-10:hover{padding:2.5rem !important;}
+.\\\\!hover\\\\:px-10:hover{padding-left:2.5rem !important; padding-right:2.5rem !important;}
 .pt-2{padding-top:0.5rem;}
 .pl-10px{padding-left:10px;}"
 `;

@@ -1,4 +1,4 @@
-import { NanowindVariant } from '../types'
+import { NanowindVariant } from '../../types'
 
 export const hover: NanowindVariant = {
   match: input => input.startsWith('hover:') ? input.slice(6) : undefined,
