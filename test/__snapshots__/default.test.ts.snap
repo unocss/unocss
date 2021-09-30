@@ -9,6 +9,9 @@ exports[`default 1`] = `
 .\\\\!hover\\\\:px-10:hover{padding-left:2.5rem !important; padding-right:2.5rem !important;}
 .pt-2{padding-top:0.5rem;}
 .pl-10px{padding-left:10px;}
+.m-auto{margin:auto;}
+.m-\\\\[3em\\\\]{margin:3em;}
+.my-auto{margin-top:auto; margin-bottom:auto;}
 .flex{display:flex;}
 .op-10{opacity:0.1;}
 .opacity-0{opacity:0;}

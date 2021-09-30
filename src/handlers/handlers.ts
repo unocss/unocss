@@ -1,4 +1,6 @@
 export function size(str: string) {
+  if (str === 'auto')
+    return str
   const match = str.match(/^([0-9.]+)([a-z]*)$/i)
   if (!match)
     return
@@ -35,4 +37,9 @@ export function fraction(str: string) {
   const num = parseFloat(left) / parseFloat(right)
   if (!Number.isNaN(num))
     return `${num * 100}%`
+}
+
+export function bracket(str: string) {
+  if (str[0] === '[' && str[str.length - 1] === ']')
+    return str.slice(1, -1)
 }

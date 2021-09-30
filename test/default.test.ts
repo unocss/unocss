@@ -21,5 +21,8 @@ test('default', () => {
     'border',
     'border-2',
     'font-mono',
+    'm-auto',
+    'my-auto',
+    'm-[3em]',
   ].join(' '))).toMatchSnapshot()
 })

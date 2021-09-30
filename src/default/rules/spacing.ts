@@ -3,19 +3,19 @@ import { directionMap } from '../../utils'
 import { h } from '../../handlers'
 
 const directionSize = (prefix: string) => ([_, direction, size]: string[]): NanowindCssEntries | undefined => {
-  const v = h.size.fraction(size)
+  const v = h.bracket.size.fraction(size)
   if (v)
     return directionMap[direction].map(i => [prefix + i, v])
 }
 
 export const paddings: NanowindRule[] = [
-  [/^p()-(\w+)$/, directionSize('padding')],
-  [/^p([xy]?)-(\w+)$/, directionSize('padding')],
-  [/^p([rltb]?)-(\w+)$/, directionSize('padding')],
+  [/^p()-([^-]+)$/, directionSize('padding')],
+  [/^p([xy]?)-([^-]+)$/, directionSize('padding')],
+  [/^p([rltb]?)-([^-]+)$/, directionSize('padding')],
 ]
 
 export const margins: NanowindRule[] = [
-  [/^m()-(\w+)$/, directionSize('margin')],
-  [/^m([xy]?)-(\w+)$/, directionSize('margin')],
-  [/^m([rltb]?)-(\w+)$/, directionSize('margin')],
+  [/^m()-([^-]+)$/, directionSize('margin')],
+  [/^m([xy]?)-([^-]+)$/, directionSize('margin')],
+  [/^m([rltb]?)-([^-]+)$/, directionSize('margin')],
 ]

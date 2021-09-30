@@ -1,6 +1,8 @@
 import { cssEscape, NanowindVariant, entriesToCss } from '..'
 import { NanowindConfig } from '../types'
 
+const cheatFilter = /[a-z]/
+
 export function createGenerator(config: NanowindConfig) {
   const { rules, theme, variants } = config
 
@@ -11,7 +13,10 @@ export function createGenerator(config: NanowindConfig) {
     const sheet: [number, string][] = []
 
     tokens.forEach((token) => {
-      if (cache.has(token)) {
+      if (!token.match(cheatFilter)) {
+        tokens.delete(token)
+      }
+      else if (cache.has(token)) {
         const r = cache.get(token)
         if (r)
           sheet.push(r)
