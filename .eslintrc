@@ -4,5 +4,7 @@
   },
   "extends": ["@antfu"],
   "plugins": ["jest"],
-  "rules": {}
+  "rules": {
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+  }
 }

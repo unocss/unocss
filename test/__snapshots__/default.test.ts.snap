@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`default 1`] = `
+".p-1{padding:0.25rem;}
+.p-3{padding:0.75rem;}
+.hover\\\\:p-4:hover{padding:1rem;}
+.\\\\!p-5px{padding:5px !important;}
+.\\\\!hover\\\\:p-10:hover{padding:2.5rem !important;}
+.hover\\\\:\\\\!p-10:hover{padding:2.5rem !important;}
+.pt-2{padding-top:0.5rem;}
+.pl-10px{padding-left:10px;}"
+`;

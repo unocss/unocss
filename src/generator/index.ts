@@ -1,4 +1,4 @@
-import { objToCss } from '..'
+import { cssEscape, NanowindVariant, objToCss } from '..'
 import { NanowindConfig } from '../types'
 
 export function createGenerator(config: NanowindConfig) {
@@ -6,31 +6,55 @@ export function createGenerator(config: NanowindConfig) {
 
   return (code: string) => {
     const tokens = new Set(code.split(/[\s'"`;]/g))
-    const css: string[] = []
+    const sheet: string[] = []
 
     tokens.forEach((token) => {
       if (cache.has(token)) {
         const r = cache.get(token)
         if (r)
-          css.push(r)
+          sheet.push(r)
         tokens.delete(token)
       }
     })
 
     for (const [matcher, handler] of config.rules) {
-      tokens.forEach((token) => {
-        const match = token.match(matcher)
+      tokens.forEach((raw) => {
+        const variants: NanowindVariant[] = []
+        let current = raw
+
+        let applied = false
+        while (true) {
+          applied = false
+          for (const v of config.variants) {
+            const result = v.match(current)
+            if (result) {
+              current = result
+              variants.push(v)
+              applied = true
+              break
+            }
+          }
+          if (!applied)
+            break
+        }
+
+        const match = current.match(matcher)
         if (match) {
-          let result = handler(Array.from(match))
-          if (!result)
+          let obj = handler(Array.from(match))
+          if (!obj)
             return
 
-          if (Array.isArray(result))
-            result = result[0] + objToCss(result[1])
+          obj = variants.reduce((p, v) => v.rewrite?.(p) || p, obj)
 
-          css.push(result)
-          cache.set(token, result)
-          tokens.delete(token)
+          const body = objToCss(obj)
+          if (!body)
+            return
+
+          const selector = variants.reduce((p, v) => v.selector?.(p) || p, `.${cssEscape(raw)}`)
+          const css = `${selector}{${body}}`
+          sheet.push(css)
+          cache.set(raw, css)
+          tokens.delete(raw)
         }
       })
     }
@@ -39,6 +63,6 @@ export function createGenerator(config: NanowindConfig) {
       cache.set(token, null)
     })
 
-    return css.join('\n')
+    return sheet.join('\n')
   }
 }

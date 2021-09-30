@@ -13,6 +13,14 @@
     "./vite": {
       "require": "./dist/vite.js",
       "import": "./dist/vite.mjs"
+    },
+    "./variants": {
+      "require": "./dist/variants/index.js",
+      "import": "./dist/variants/index.mjs"
+    },
+    "./rules": {
+      "require": "./dist/rules/index.js",
+      "import": "./dist/rules/index.mjs"
     }
   },
   "funding": "https://github.com/sponsors/antfu",

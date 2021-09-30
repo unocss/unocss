@@ -1,10 +1,10 @@
-export function objToCss(obj: any) {
-  return `{${objToCssPart(obj)}}`
-}
+import { NanowindCssObject } from '../types'
 
-export function objToCssPart(obj: any) {
+export function objToCss(obj?: NanowindCssObject) {
+  if (!obj)
+    return ''
   return Object.entries(obj)
-    .map(([key, value]) => value ? `${key}: ${value};` : undefined)
+    .map(([key, value]) => value ? `${key}:${value};` : undefined)
     .filter(Boolean)
     .join(' ')
 }
