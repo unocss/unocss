@@ -24,5 +24,7 @@ test('default', () => {
     'm-auto',
     'my-auto',
     'm-[3em]',
+    'sm:text-red-100',
+    'md:!hidden',
   ].join(' '))).toMatchSnapshot()
 })

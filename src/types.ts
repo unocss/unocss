@@ -5,9 +5,10 @@ export type NanowindCssEntries = [string, string | number | undefined][]
 
 export type NanowindRule = [RegExp | string, NanowindCssObject | NanowindCssEntries | ((match: string[], theme: NanowindTheme) => (NanowindCssObject | NanowindCssEntries | undefined))]
 export type NanowindVariant = {
-  match: (input: string) => string | undefined
-  selector?: (input: string) => string | undefined
-  rewrite?: (input: NanowindCssEntries) => NanowindCssEntries | undefined
+  match: (input: string, theme: NanowindTheme) => string | undefined
+  selector?: (input: string, theme: NanowindTheme) => string | undefined
+  rewrite?: (input: NanowindCssEntries, theme: NanowindTheme) => NanowindCssEntries | undefined
+  mediaQuery?: (selector: string, theme: NanowindTheme) => string | undefined
 }
 
 export interface NanowindTheme {

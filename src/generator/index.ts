@@ -33,7 +33,7 @@ export function createGenerator(config: NanowindConfig) {
         while (true) {
           applied = false
           for (const v of variants) {
-            const result = v.match(current)
+            const result = v.match(current, theme)
             if (result) {
               current = result
               appliedVariants.push(v)
@@ -60,14 +60,17 @@ export function createGenerator(config: NanowindConfig) {
           if (!Array.isArray(obj))
             obj = Object.entries(obj)
 
-          obj = appliedVariants.reduce((p, v) => v.rewrite?.(p) || p, obj)
+          obj = appliedVariants.reduce((p, v) => v.rewrite?.(p, theme) || p, obj)
 
           const body = entriesToCss(obj)
           if (!body)
             return
 
-          const selector = appliedVariants.reduce((p, v) => v.selector?.(p) || p, `.${cssEscape(raw)}`)
-          const css = `${selector}{${body}}`
+          const mediaQuery = appliedVariants.reduce((p: string | undefined, v) => v.mediaQuery?.(raw, theme) || p, undefined)
+          const selector = appliedVariants.reduce((p, v) => v.selector?.(p, theme) || p, `.${cssEscape(raw)}`)
+          let css = `${selector}{${body}}`
+          if (mediaQuery)
+            css = `${mediaQuery}{${css}}`
           const payload: [number, string] = [ruleIndex, css]
           sheet.push(payload)
           cache.set(raw, payload)
