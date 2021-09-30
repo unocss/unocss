@@ -1,6 +1,6 @@
-# miniwind
+# nanowind
 
-[![NPM version](https://img.shields.io/npm/v/miniwind?color=a1b858&label=)](https://www.npmjs.com/package/miniwind)
+[![NPM version](https://img.shields.io/npm/v/nanowind?color=a1b858&label=)](https://www.npmjs.com/package/nanowind)
 
 Crazy fast and lightweight on-demand atomic CSS framework.
 
@@ -15,7 +15,7 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 
 ###### Non-goal
 
-`miniwind` is designed **NOT** to be:
+`nanowind` is designed **NOT** to be:
 
 - Align with Tailwind or Windi CSS.
 - CSS preprocessor (`@apply` etc.)

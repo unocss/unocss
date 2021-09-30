@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.9.2",
-    "miniwind": "workspace:*",
+    "nanowind": "workspace:*",
     "typescript": "^4.4.3",
     "vite": "^2.6.0",
     "vite-plugin-inspect": "^0.3.7"

@@ -1,7 +1,7 @@
-export type MiniwindCssObject = Record<string, string | undefined>
-export type MiniwindCssRule = [string, MiniwindCssObject]
-export type MiniwindRule = [RegExp, (match: string[]) => string | MiniwindCssRule | undefined]
+export type NanowindCssObject = Record<string, string | undefined>
+export type NanowindCssRule = [string, NanowindCssObject]
+export type NanowindRule = [RegExp, (match: string[]) => string | NanowindCssRule | undefined]
 
-export interface MiniwindConfig {
-  rules: MiniwindRule[]
+export interface NanowindConfig {
+  rules: NanowindRule[]
 }

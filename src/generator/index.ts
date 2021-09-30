@@ -1,7 +1,7 @@
 import { objToCss } from '..'
-import { MiniwindConfig } from '../types'
+import { NanowindConfig } from '../types'
 
-export function createGenerator(config: MiniwindConfig) {
+export function createGenerator(config: NanowindConfig) {
   const cache = new Map<string, string | null>()
 
   return (code: string) => {

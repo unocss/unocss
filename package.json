@@ -1,5 +1,5 @@
 {
-  "name": "miniwind",
+  "name": "nanowind",
   "version": "0.0.0-alpha.0",
   "description": "",
   "main": "dist/index.js",
@@ -20,12 +20,12 @@
   "license": "MIT",
   "sideEffects": false,
   "bugs": {
-    "url": "https://github.com/antfu/miniwind/issues"
+    "url": "https://github.com/antfu/nanowind/issues"
   },
-  "homepage": "https://github.com/antfu/miniwind#readme",
+  "homepage": "https://github.com/antfu/nanowind#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/antfu/miniwind.git"
+    "url": "git+https://github.com/antfu/nanowind.git"
   },
   "keywords": [],
   "files": [
