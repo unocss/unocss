@@ -1,9 +1,9 @@
-import { NanowindCssObject } from '../types'
+import { NanowindCssEntries } from '..'
 
-export function objToCss(obj?: NanowindCssObject) {
-  if (!obj)
+export function entriesToCss(arr?: NanowindCssEntries) {
+  if (!arr)
     return ''
-  return Object.entries(obj)
+  return arr
     .map(([key, value]) => value ? `${key}:${value};` : undefined)
     .filter(Boolean)
     .join(' ')

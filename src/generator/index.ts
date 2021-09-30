@@ -1,4 +1,4 @@
-import { cssEscape, NanowindVariant, objToCss } from '..'
+import { cssEscape, NanowindVariant, entriesToCss } from '..'
 import { NanowindConfig } from '../types'
 
 export function createGenerator(config: NanowindConfig) {
@@ -44,9 +44,12 @@ export function createGenerator(config: NanowindConfig) {
           if (!obj)
             return
 
+          if (!Array.isArray(obj))
+            obj = Object.entries(obj)
+
           obj = variants.reduce((p, v) => v.rewrite?.(p) || p, obj)
 
-          const body = objToCss(obj)
+          const body = entriesToCss(obj)
           if (!body)
             return
 

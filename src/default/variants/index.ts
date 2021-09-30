@@ -8,9 +8,9 @@ export const hover: NanowindVariant = {
 export const important: NanowindVariant = {
   match: input => input.startsWith('!') ? input.slice(1) : undefined,
   rewrite: (input) => {
-    Object.keys(input).forEach((key) => {
-      if (input[key])
-        input[key] += ' !important'
+    input.forEach((v) => {
+      if (v[1])
+        v[1] += ' !important'
     })
     return input
   },

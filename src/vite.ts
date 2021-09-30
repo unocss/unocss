@@ -69,7 +69,7 @@ export default function NanowindVitePlugin(config: NanowindConfig = defaultConfi
       if (source)
         this.addWatchFile(source)
 
-      return `/* ${source} */\n${css}`
+      return `\n/* nanowind ${source} */\n${css}`
     },
   }
 }
