@@ -1,7 +1,6 @@
 import { createHash } from 'crypto'
-import { Plugin } from 'vite'
-import { MiniwindRule } from './types'
-import { createGenerator, defaultRules } from '.'
+import { Plugin, ViteDevServer } from 'vite'
+import { createGenerator, defaultRules, MiniwindConfig } from '.'
 
 function getHash(input: string, length = 8) {
   return createHash('sha256')
@@ -12,13 +11,36 @@ function getHash(input: string, length = 8) {
 
 const VIRTUAL_PREFIX = '/@virtual/miniwind/'
 
-export default function MiniwindVitePlugin(rules: MiniwindRule[] = defaultRules): Plugin {
-  const generate = createGenerator(rules)
+export default function MiniwindVitePlugin(config: MiniwindConfig = { rules: defaultRules }): Plugin {
+  const generate = createGenerator(config)
   const map = new Map<string, [string, string]>()
+  let server: ViteDevServer | undefined
+
+  const invalidate = (hash: string) => {
+    if (!server)
+      return
+    const id = `${VIRTUAL_PREFIX}${hash}.css`
+    const mod = server.moduleGraph.getModuleById(id)
+    if (!mod)
+      return
+    server.moduleGraph.invalidateModule(mod)
+    server.ws.send({
+      type: 'update',
+      updates: [{
+        acceptedPath: id,
+        path: id,
+        timestamp: +Date.now(),
+        type: 'js-update',
+      }],
+    })
+  }
 
   return {
     name: 'miniwind',
     enforce: 'post',
+    configureServer(_server) {
+      server = _server
+    },
     transform(code, id) {
       if (id.endsWith('.css'))
         return null
@@ -29,6 +51,8 @@ export default function MiniwindVitePlugin(rules: MiniwindRule[] = defaultRules)
 
       const hash = getHash(id)
       map.set(hash, [id, style])
+      invalidate(hash)
+
       return `import "${VIRTUAL_PREFIX}${hash}.css";${code}`
     },
     resolveId(id) {
@@ -45,7 +69,7 @@ export default function MiniwindVitePlugin(rules: MiniwindRule[] = defaultRules)
       if (source)
         this.addWatchFile(source)
 
-      return css
+      return `/* ${source} */\n${css}`
     },
   }
 }

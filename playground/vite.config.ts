@@ -9,4 +9,7 @@ export default defineConfig({
     Miniwind(),
     Inspect(),
   ],
+  build: {
+    // minify: false,
+  },
 })

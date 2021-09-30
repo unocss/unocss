@@ -35,7 +35,7 @@
     "prepublishOnly": "nr build",
     "dev": "tsup --watch src",
     "play": "npm -C playground run dev",
-    "build": "tsup",
+    "build": "tsup --minify",
     "release": "bumpp --commit --push --tag && pnpm publish",
     "lint": "eslint \"{src,test}/**/*.ts\"",
     "lint:fix": "nr lint -- --fix",

@@ -1,6 +1,7 @@
-import { MiniwindRule } from '../types'
+import { objToCss } from '..'
+import { MiniwindConfig } from '../types'
 
-export function createGenerator(rules: MiniwindRule[]) {
+export function createGenerator(config: MiniwindConfig) {
   const cache = new Map<string, string | null>()
 
   return (code: string) => {
@@ -16,16 +17,20 @@ export function createGenerator(rules: MiniwindRule[]) {
       }
     })
 
-    for (const [matcher, handler] of rules) {
+    for (const [matcher, handler] of config.rules) {
       tokens.forEach((token) => {
         const match = token.match(matcher)
         if (match) {
-          const result = handler(...Array.from(match))
-          if (result) {
-            css.push(result)
-            cache.set(token, result)
-            tokens.delete(token)
-          }
+          let result = handler(Array.from(match))
+          if (!result)
+            return
+
+          if (Array.isArray(result))
+            result = result[0] + objToCss(result[1])
+
+          css.push(result)
+          cache.set(token, result)
+          tokens.delete(token)
         }
       })
     }
