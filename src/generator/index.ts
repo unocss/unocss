@@ -2,6 +2,8 @@ import { cssEscape, NanowindVariant, entriesToCss } from '..'
 import { NanowindConfig } from '../types'
 
 export function createGenerator(config: NanowindConfig) {
+  const { rules, theme, variants } = config
+
   const cache = new Map<string, string | null>()
 
   return (code: string) => {
@@ -17,19 +19,19 @@ export function createGenerator(config: NanowindConfig) {
       }
     })
 
-    for (const [matcher, handler] of config.rules) {
+    for (const [matcher, handler] of rules) {
       tokens.forEach((raw) => {
-        const variants: NanowindVariant[] = []
+        const appliedVariants: NanowindVariant[] = []
         let current = raw
 
         let applied = false
         while (true) {
           applied = false
-          for (const v of config.variants) {
+          for (const v of variants) {
             const result = v.match(current)
             if (result) {
               current = result
-              variants.push(v)
+              appliedVariants.push(v)
               applied = true
               break
             }
@@ -38,22 +40,28 @@ export function createGenerator(config: NanowindConfig) {
             break
         }
 
-        const match = current.match(matcher)
+        const match = matcher === current
+          ? [current]
+          : current.match(matcher)
+
         if (match) {
-          let obj = handler(Array.from(match))
+          let obj = typeof handler === 'function'
+            ? handler(match, theme)
+            : handler
+
           if (!obj)
             return
 
           if (!Array.isArray(obj))
             obj = Object.entries(obj)
 
-          obj = variants.reduce((p, v) => v.rewrite?.(p) || p, obj)
+          obj = appliedVariants.reduce((p, v) => v.rewrite?.(p) || p, obj)
 
           const body = entriesToCss(obj)
           if (!body)
             return
 
-          const selector = variants.reduce((p, v) => v.selector?.(p) || p, `.${cssEscape(raw)}`)
+          const selector = appliedVariants.reduce((p, v) => v.selector?.(p) || p, `.${cssEscape(raw)}`)
           const css = `${selector}{${body}}`
           sheet.push(css)
           cache.set(raw, css)

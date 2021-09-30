@@ -1,7 +1,9 @@
-export type NanowindCssObject = Record<string, string | undefined>
-export type NanowindCssEntries = [string, string | undefined][]
+/* eslint-disable no-use-before-define */
 
-export type NanowindRule = [RegExp, (match: string[]) => (NanowindCssObject | NanowindCssEntries | undefined)]
+export type NanowindCssObject = Record<string, string | number | undefined>
+export type NanowindCssEntries = [string, string | number | undefined][]
+
+export type NanowindRule = [RegExp | string, NanowindCssObject | NanowindCssEntries | ((match: string[], theme: NanowindTheme) => (NanowindCssObject | NanowindCssEntries | undefined))]
 export type NanowindVariant = {
   match: (input: string) => string | undefined
   selector?: (input: string) => string | undefined

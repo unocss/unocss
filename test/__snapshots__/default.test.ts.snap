@@ -8,5 +8,14 @@ exports[`default 1`] = `
 .hover\\\\:\\\\!p-10:hover{padding:2.5rem !important;}
 .\\\\!hover\\\\:px-10:hover{padding-left:2.5rem !important; padding-right:2.5rem !important;}
 .pt-2{padding-top:0.5rem;}
-.pl-10px{padding-left:10px;}"
+.pl-10px{padding-left:10px;}
+.flex{display:flex;}
+.op-10{opacity:0.1;}
+.opacity-0{opacity:0;}
+.border{border-width:1px;}
+.border-2{border-width:2px;}
+.text-red-300{--nw-text-opacity:1; color:rgba(252,165,165,var(--nw-text-opacity));}
+.text-black\\\\/10{--nw-text-opacity:0.1; color:rgba(0,0,0,var(--nw-text-opacity));}
+.bg-teal-100\\\\/55{--nw-bg-opacity:0.55; background-color:rgba(204,251,241,var(--nw-bg-opacity));}
+.font-mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\\"Liberation Mono\\",\\"Courier New\\",monospace;}"
 `;

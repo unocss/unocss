@@ -16,6 +16,7 @@ const handler = function(
   str: string,
 ): string | undefined {
   const s = this.__options?.sequence || []
+  this.__options.sequence = []
   for (const n of s) {
     const res = handlers[n](str)
     if (res)
@@ -24,13 +25,13 @@ const handler = function(
   return undefined
 } as unknown as Handler
 
-function addProcessor(that: Handler, processor: HandlerName) {
+function addProcessor(that: Handler, name: HandlerName) {
   if (!that.__options) {
     that.__options = {
       sequence: [],
     }
   }
-  that.__options.sequence.push(processor)
+  that.__options.sequence.push(name)
   return that
 }
 

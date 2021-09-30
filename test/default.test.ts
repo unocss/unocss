@@ -12,5 +12,14 @@ test('default', () => {
     '!p-5px',
     '!hover:px-10',
     'hover:!p-10',
+    'op-10',
+    'opacity-0',
+    'flex',
+    'text-red-300',
+    'text-black/10',
+    'bg-teal-100/55',
+    'border',
+    'border-2',
+    'font-mono',
   ].join(' '))).toMatchSnapshot()
 })

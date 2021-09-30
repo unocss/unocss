@@ -5,6 +5,7 @@ import { defaultVariants } from './variants'
 
 export * from './rules'
 export * from './variants'
+export * from './theme'
 
 export const defaultConfig: NanowindConfig = {
   rules: defaultRules,

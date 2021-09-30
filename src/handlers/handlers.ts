@@ -10,6 +10,18 @@ export function size(str: string) {
     return `${num / 4}rem`
 }
 
+export function border(str: string) {
+  const match = str.match(/^([0-9.]+)([a-z]*)$/i)
+  if (!match)
+    return
+  const [, n, unit] = match
+  if (unit)
+    return str
+  const num = parseFloat(n)
+  if (!Number.isNaN(num))
+    return `${num}px`
+}
+
 export function percent(str: string) {
   if (str.endsWith('%'))
     str = str.slice(0, -1)
