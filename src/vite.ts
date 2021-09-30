@@ -1,6 +1,7 @@
 import { createHash } from 'crypto'
 import { Plugin, ViteDevServer } from 'vite'
-import { createGenerator, defaultConfig, NanowindConfig } from '.'
+import { resolveConfig } from './options'
+import { createGenerator, NanowindUserConfig } from '.'
 
 function getHash(input: string, length = 8) {
   return createHash('sha256')
@@ -11,8 +12,9 @@ function getHash(input: string, length = 8) {
 
 const VIRTUAL_PREFIX = '/@virtual/nanowind/'
 
-export default function NanowindVitePlugin(config: NanowindConfig = defaultConfig): Plugin {
-  const generate = createGenerator(config)
+export default function NanowindVitePlugin(config?: NanowindUserConfig): Plugin {
+  const resolved = resolveConfig(config)
+  const generate = createGenerator(resolved)
   const map = new Map<string, [string, string]>()
   let server: ViteDevServer | undefined
 
