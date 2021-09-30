@@ -4,6 +4,8 @@ import Root from './Root.vue'
 
 <template>
   <Suspense>
-    <Root class="font-sans" />
+    <div class="font-sans">
+      <Root />
+    </div>
   </Suspense>
 </template>

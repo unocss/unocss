@@ -2,53 +2,56 @@
   "name": "nanowind",
   "version": "0.0.0-alpha.0",
   "description": "",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "keywords": [],
+  "homepage": "https://github.com/antfu/nanowind#readme",
+  "bugs": {
+    "url": "https://github.com/antfu/nanowind/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antfu/nanowind.git"
+  },
+  "funding": "https://github.com/sponsors/antfu",
+  "license": "MIT",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "sideEffects": false,
   "exports": {
     ".": {
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./vite": {
-      "require": "./dist/vite.js",
-      "import": "./dist/vite.mjs"
+    "./default": {
+      "require": "./dist/default/index.js",
+      "import": "./dist/default/index.mjs"
     },
     "./handlers": {
       "require": "./dist/handlers/index.js",
       "import": "./dist/handlers/index.mjs"
     },
-    "./default": {
-      "require": "./dist/default/index.js",
-      "import": "./dist/default/index.mjs"
+    "./vite": {
+      "require": "./dist/vite.js",
+      "import": "./dist/vite.mjs"
     }
   },
-  "funding": "https://github.com/sponsors/antfu",
-  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
-  "license": "MIT",
-  "sideEffects": false,
-  "bugs": {
-    "url": "https://github.com/antfu/nanowind/issues"
-  },
-  "homepage": "https://github.com/antfu/nanowind#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/antfu/nanowind.git"
-  },
-  "keywords": [],
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "prepublishOnly": "nr build",
-    "dev": "tsup --watch src",
-    "play": "npm -C playground run dev",
     "build": "tsup --minify",
-    "release": "bumpp --commit --push --tag && pnpm publish",
+    "dev": "tsup --watch src",
     "lint": "eslint \"{src,test}/**/*.ts\"",
     "lint:fix": "nr lint -- --fix",
+    "play": "npm -C playground run dev",
+    "prepublishOnly": "nr build",
+    "release": "bumpp --commit --push --tag && pnpm publish",
     "test": "jest",
     "test:update": "jest -u"
+  },
+  "dependencies": {
+    "@rollup/pluginutils": "^4.1.1"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.7.0",

@@ -1,7 +1,13 @@
 import { createHash } from 'crypto'
-import { Plugin, ViteDevServer } from 'vite'
+import type { Plugin, ViteDevServer } from 'vite'
+import { FilterPattern, createFilter } from '@rollup/pluginutils'
 import { resolveConfig } from './options'
 import { createGenerator, NanowindUserConfig } from '.'
+
+export interface NanowindUserOptions extends NanowindUserConfig {
+  include?: FilterPattern
+  exclude?: FilterPattern
+}
 
 function getHash(input: string, length = 8) {
   return createHash('sha256')
@@ -10,13 +16,18 @@ function getHash(input: string, length = 8) {
     .substr(0, length)
 }
 
-const VIRTUAL_PREFIX = '/@virtual/nanowind/'
+const VIRTUAL_PREFIX = '/@nanowind/'
 
-export default function NanowindVitePlugin(config?: NanowindUserConfig): Plugin {
+export default function NanowindVitePlugin(config: NanowindUserOptions = {}): Plugin {
   const resolved = resolveConfig(config)
   const generate = createGenerator(resolved)
   const map = new Map<string, [string, string]>()
   let server: ViteDevServer | undefined
+
+  const filter = createFilter(
+    config.include || [/\.vue$/, /\.vue?vue/, /\.svelte$/, /\.[jt]sx?$/],
+    config.exclude || [/[\/\\]node_modules[\/\\]/, /[\/\\]dist[\/\\]/],
+  )
 
   const invalidate = (hash: string) => {
     if (!server)
@@ -44,8 +55,8 @@ export default function NanowindVitePlugin(config?: NanowindUserConfig): Plugin 
       server = _server
     },
     transform(code, id) {
-      if (id.endsWith('.css'))
-        return null
+      if (id.endsWith('.css') || !filter(id))
+        return
 
       const style = generate(code)
       if (!style)
