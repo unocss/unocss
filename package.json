@@ -1,0 +1,59 @@
+{
+  "name": "miniwind",
+  "version": "0.0.0-alpha.0",
+  "description": "",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    },
+    "./vite": {
+      "require": "./dist/vite.js",
+      "import": "./dist/vite.mjs"
+    }
+  },
+  "funding": "https://github.com/sponsors/antfu",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "license": "MIT",
+  "sideEffects": false,
+  "bugs": {
+    "url": "https://github.com/antfu/miniwind/issues"
+  },
+  "homepage": "https://github.com/antfu/miniwind#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antfu/miniwind.git"
+  },
+  "keywords": [],
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "prepublishOnly": "nr build",
+    "dev": "tsup --watch src",
+    "play": "npm -C playground run dev",
+    "build": "tsup",
+    "release": "bumpp --commit --push --tag && pnpm publish",
+    "lint": "eslint \"{src,test}/**/*.ts\"",
+    "lint:fix": "nr lint -- --fix",
+    "test": "jest",
+    "test:update": "jest -u"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^0.7.0",
+    "@antfu/ni": "^0.7.0",
+    "@types/jest": "^27.0.1",
+    "@types/node": "^16.7.1",
+    "bumpp": "^6.0.6",
+    "eslint": "^7.32.0",
+    "eslint-plugin-jest": "^24.4.0",
+    "esno": "^0.9.1",
+    "jest": "^27.0.6",
+    "ts-jest": "^27.0.5",
+    "tsup": "^4.14.0",
+    "typescript": "^4.3.5"
+  }
+}
