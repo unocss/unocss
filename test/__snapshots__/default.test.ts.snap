@@ -22,7 +22,9 @@ exports[`default 1`] = `
 .text-blue{--nw-text-opacity:1; color:rgba(96,165,250,var(--nw-text-opacity));}
 .text-black\\\\/10{--nw-text-opacity:0.1; color:rgba(0,0,0,var(--nw-text-opacity));}
 @media (min-width: 640px){.sm\\\\:text-red-100{--nw-text-opacity:1; color:rgba(254,226,226,var(--nw-text-opacity));}}
+.dark .dark\\\\:not-odd\\\\:text-red:not(:nth-child(odd)){--nw-text-opacity:1; color:rgba(248,113,113,var(--nw-text-opacity));}
 .bg-teal-100\\\\/55{--nw-bg-opacity:0.55; background-color:rgba(204,251,241,var(--nw-bg-opacity));}
+.hover\\\\:not-first\\\\:checked\\\\:bg-red\\\\/10:hover:not(:first):checked{--nw-bg-opacity:0.1; background-color:rgba(248,113,113,var(--nw-bg-opacity));}
 .font-mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\\"Liberation Mono\\",\\"Courier New\\",monospace;}
 .rounded{border-radius:0.25rem;}
 .rounded-md{border-radius:0.375rem;}

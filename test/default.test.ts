@@ -36,5 +36,7 @@ test('default', () => {
     'rounded-full',
     'rounded-[4px]',
     'rounded',
+    'dark:not-odd:text-red',
+    'hover:not-first:checked:bg-red/10',
   ].join(' '))).toMatchSnapshot()
 })

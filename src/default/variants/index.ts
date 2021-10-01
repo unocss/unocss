@@ -1,11 +1,7 @@
 import { NanowindVariant } from '../../types'
 import { breakpoints } from './breakpoints'
 import { darkClass, lightClass } from './dark'
-
-export const hover: NanowindVariant = {
-  match: input => input.startsWith('hover:') ? input.slice(6) : undefined,
-  selector: input => `${input}:hover`,
-}
+import { pseudoClasses, pseudoElements } from './pseudo'
 
 export const important: NanowindVariant = {
   match: input => input.startsWith('!') ? input.slice(1) : undefined,
@@ -19,9 +15,10 @@ export const important: NanowindVariant = {
 }
 
 export const defaultVariants = [
-  hover,
   important,
   breakpoints,
   darkClass,
   lightClass,
+  ...pseudoClasses,
+  ...pseudoElements,
 ]
