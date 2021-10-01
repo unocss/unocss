@@ -3,7 +3,10 @@
 export type NanowindCssObject = Record<string, string | number | undefined>
 export type NanowindCssEntries = [string, string | number | undefined][]
 
-export type NanowindRule = [RegExp | string, NanowindCssObject | NanowindCssEntries | ((match: string[], theme: NanowindTheme) => (NanowindCssObject | NanowindCssEntries | undefined))]
+export type NanowindDynamicRule = [RegExp, ((match: string[], theme: NanowindTheme) => (NanowindCssObject | NanowindCssEntries | undefined))]
+export type NanowindStaticRule = [string, NanowindCssObject | NanowindCssEntries]
+export type NanowindRule = NanowindDynamicRule | NanowindStaticRule
+
 export type NanowindVariant = {
   match: (input: string, theme: NanowindTheme) => string | undefined
   selector?: (input: string, theme: NanowindTheme) => string | undefined
