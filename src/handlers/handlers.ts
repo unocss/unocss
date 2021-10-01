@@ -32,6 +32,14 @@ export function percent(str: string) {
     return `${num}%`
 }
 
+export function opacity(str: string) {
+  if (str.endsWith('%'))
+    str = str.slice(0, -1)
+  const num = parseFloat(str)
+  if (!Number.isNaN(num))
+    return `${num / 100}`
+}
+
 export function fraction(str: string) {
   const [left, right] = str.split('/')
   const num = parseFloat(left) / parseFloat(right)

@@ -1,4 +1,5 @@
 import { NanowindTheme } from '../..'
+import { h } from '../../handlers'
 import { NanowindRule } from '../../types'
 
 export function hex2RGB(hex: string): number[] | undefined {
@@ -26,6 +27,10 @@ function resolveColor(theme: NanowindTheme, name: string, no = 'DEFAULT') {
   return rgb
 }
 
+export const opacity: NanowindRule[] = [
+  [/^op(?:acity)?-(\d+)$/, ([, d]) => ({ opacity: h.opacity(d) })],
+]
+
 export const textColors: NanowindRule[] = [
   [/^text-(\w+)(?:-(\d+))?(?:\/(\d+))?$/, ([, name, no, opacity = '100'], theme) => {
     const rgb = resolveColor(theme, name, no)
@@ -36,6 +41,7 @@ export const textColors: NanowindRule[] = [
       }
     }
   }],
+  [/^text-op(?:acity)?-(\d+)$/m, ([, opacity]) => ({ '--nw-text-opacity': h.opacity(opacity) })],
 ]
 
 export const bgColors: NanowindRule[] = [
@@ -48,6 +54,7 @@ export const bgColors: NanowindRule[] = [
       }
     }
   }],
+  [/^bg-op(?:acity)?-(\d+)$/m, ([, opacity]) => ({ '--nw-bg-opacity': h.opacity(opacity) })],
 ]
 
 export const borderColors: NanowindRule[] = [
@@ -60,4 +67,5 @@ export const borderColors: NanowindRule[] = [
       }
     }
   }],
+  [/^border-op(?:acity)?-(\d+)$/m, ([, opacity]) => ({ '--nw-border-opacity': h.opacity(opacity) })],
 ]

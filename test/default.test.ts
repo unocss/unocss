@@ -38,6 +38,8 @@ const fixture = [
   'text-base',
   'text-lg',
   'text-4xl',
+  'bg-red-100 bg-opacity-45',
+  'border-b border-t-2 border-green-100/10',
 ].join(' ')
 
 const generator = createGenerator(defaultConfig)
