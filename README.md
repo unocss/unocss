@@ -13,7 +13,7 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 - No preflights - no global pollutions.
 - Instant HMR.
 - No pre-scanning, no file watcher - all done in one pass.
-- [ ] CSS Scoping
+- CSS Scoping.
 - Library friendly - ships atomic styles with your component libraries, without asking users to install it.
 
 ###### Non-goal

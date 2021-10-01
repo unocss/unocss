@@ -17,11 +17,12 @@ function getHash(input: string, length = 8) {
 }
 
 const VIRTUAL_PREFIX = '/@nanowind/'
+const SCOPE_IMPORT_RE = / from (['"])(@nanowind\/scope)\1/
 
 export default function NanowindVitePlugin(config: NanowindUserOptions = {}): Plugin {
   const resolved = resolveConfig(config)
   const generate = createGenerator(resolved)
-  const map = new Map<string, [string, string]>()
+  const moduleMap = new Map<string, [string, string]>()
   let server: ViteDevServer | undefined
 
   const filter = createFilter(
@@ -58,15 +59,23 @@ export default function NanowindVitePlugin(config: NanowindUserOptions = {}): Pl
       if (id.endsWith('.css') || !filter(id))
         return
 
-      const style = generate(code)
-      if (!style)
+      const hash = getHash(id)
+      const hasScope = code.match(SCOPE_IMPORT_RE)
+
+      const style = generate(code, hasScope ? `.${hash}` : undefined)
+      if (!style && !hasScope)
         return null
 
-      const hash = getHash(id)
-      map.set(hash, [id, style])
+      if (hasScope)
+        code = code.replace(SCOPE_IMPORT_RE, ` from 'data:text/javascript;base64,${Buffer.from(`export default () => "${hash}"`).toString('base64')}'`)
+
+      moduleMap.set(hash, [id, style])
       invalidate(hash)
 
-      return `import "${VIRTUAL_PREFIX}${hash}.css";${code}`
+      return {
+        code: `import "${VIRTUAL_PREFIX}${hash}.css";${code}`,
+        map: null,
+      }
     },
     resolveId(id) {
       return id.startsWith(VIRTUAL_PREFIX) ? id : null
@@ -77,7 +86,7 @@ export default function NanowindVitePlugin(config: NanowindUserOptions = {}): Pl
 
       const hash = id.slice(VIRTUAL_PREFIX.length, -'.css'.length)
 
-      const [source, css] = map.get(hash) || []
+      const [source, css] = moduleMap.get(hash) || []
 
       if (source)
         this.addWatchFile(source)

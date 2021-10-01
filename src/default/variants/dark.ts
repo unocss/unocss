@@ -2,12 +2,12 @@ import { NanowindVariant } from '../..'
 
 export const darkClass: NanowindVariant = {
   match: input => input.startsWith('dark:') ? input.slice(5) : undefined,
-  selector: input => `.dark ${input}`,
+  selector: input => `.dark $$ ${input}`,
 }
 
 export const lightClass: NanowindVariant = {
   match: input => input.startsWith('light:') ? input.slice(6) : undefined,
-  selector: input => `.light ${input}`,
+  selector: input => `.light $$ ${input}`,
 }
 
 export const darkMedia: NanowindVariant = {

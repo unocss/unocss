@@ -31,6 +31,10 @@
     "./vite": {
       "require": "./dist/vite.js",
       "import": "./dist/vite.mjs"
+    },
+    "./vite/vue-sfc": {
+      "require": "./dist/vite-vue-sfc.js",
+      "import": "./dist/vite-vue-sfc.mjs"
     }
   },
   "main": "dist/index.js",
@@ -51,7 +55,8 @@
     "test:update": "jest -u"
   },
   "dependencies": {
-    "@rollup/pluginutils": "^4.1.1"
+    "@rollup/pluginutils": "^4.1.1",
+    "@nanowind/scope": "workspace:*"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.7.0",

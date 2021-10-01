@@ -6,6 +6,7 @@ const config: Options = {
   entryPoints: [
     'src/index.ts',
     'src/vite.ts',
+    'src/vite-vue-sfc.ts',
     'src/default/index.ts',
     'src/handlers/index.ts',
   ],

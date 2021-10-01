@@ -1,0 +1,12 @@
+{
+  "name": "@nanowind/scope",
+  "module": "./index.mjs",
+  "main": "./index.cjs",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./index.mjs",
+      "require": "./index.cjs"
+    }
+  }
+}
