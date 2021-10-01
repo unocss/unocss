@@ -1,7 +1,7 @@
 import { borders, borderStyles, rounded } from './border'
 import { bgColors, borderColors, opacity, textColors } from './colors'
 import { flex } from './flex'
-import { fonts, fontSizes, fontWeights } from './font'
+import { fonts, fontSizes, fontWeights, leadings, trackings } from './font'
 import { gaps } from './gap'
 import { sizes } from './size'
 import { paddings, margins } from './spacing'
@@ -36,4 +36,6 @@ export const defaultRules = [
   ...textDecorations,
   ...textTransforms,
   ...textAligns,
+  ...trackings,
+  ...leadings,
 ]

@@ -15,16 +15,13 @@ export type NanowindVariant = {
 }
 
 export interface NanowindTheme {
-  colors: Record<string, string | Record<string, string>>
-  breakpoints: Record<string, string>
-  fontFamily: {
-    sans: string
-    mono: string
-    serif: string
-    [x: string]: string
-  }
-  fontSize: Record<string, [string, string]>
   borderRadius: Record<string, string>
+  breakpoints: Record<string, string>
+  colors: Record<string, string | Record<string, string>>
+  fontFamily: Record<string, string>
+  fontSize: Record<string, [string, string]>
+  lineHeight: Record<string, string>
+  letterSpacing: Record<string, string>
 }
 
 export interface NanowindConfig {

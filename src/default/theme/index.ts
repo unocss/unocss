@@ -1,6 +1,6 @@
 import { NanowindTheme } from '../..'
 import { colors } from './colors'
-import { fontFamily, fontSize } from './font'
+import { fontFamily, fontSize, letterSpacing, lineHeight } from './font'
 
 export * from './colors'
 
@@ -30,4 +30,6 @@ export const defaultTheme: NanowindTheme = {
   fontSize,
   breakpoints,
   borderRadius,
+  lineHeight,
+  letterSpacing,
 }

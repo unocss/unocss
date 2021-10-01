@@ -46,3 +46,19 @@ export const fontWeights: NanowindRule[] = [
       return { 'font-weight': v }
   }],
 ]
+
+export const leadings: NanowindRule[] = [
+  [/^leading-([^-]+)$/, ([, s], theme) => {
+    const v = theme.lineHeight[s] || h.bracket.size(s)
+    if (v !== null)
+      return { 'line-height': v }
+  }],
+]
+
+export const trackings: NanowindRule[] = [
+  [/^tracking-([^-]+)$/, ([, s], theme) => {
+    const v = theme.letterSpacing[s] || h.bracket.size(s)
+    if (v !== null)
+      return { 'letter-spacing': v }
+  }],
+]
