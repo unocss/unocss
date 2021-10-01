@@ -37,3 +37,48 @@ export const userSelects: NanowindRule[] = [
   ['select-all', { 'user-select': 'all' }],
   ['select-auto', { 'user-select': 'auto' }],
 ]
+
+export const aligns: NanowindRule[] = [
+  ['align-baseline', { 'vertical-align': 'baseline' }],
+  ['align-top', { 'vertical-align': 'top' }],
+  ['align-middle', { 'vertical-align': 'middle' }],
+  ['align-text-top', { 'vertical-align': 'text-top' }],
+  ['align-text-bottom', { 'vertical-align': 'text-bottom' }],
+]
+
+export const whitespaces: NanowindRule[] = [
+  ['whitespace-normal', { 'white-space': 'normal' }],
+  ['whitespace-nowrap', { 'white-space': 'nowrap' }],
+  ['whitespace-pre', { 'white-space': 'pre' }],
+  ['whitespace-pre-line', { 'white-space': 'pre-line' }],
+  ['whitespace-pre-wrap', { 'white-space': 'pre-wrap' }],
+]
+
+export const breaks: NanowindRule[] = [
+  ['break-normal', { 'overflow-wrap': 'normal', 'word-break': 'normal' }],
+  ['break-works', { 'overflow-wrap': 'break-word' }],
+  ['break-all', { 'word-break': 'break-all' }],
+]
+
+export const textOverflows: NanowindRule[] = [
+  ['truncate', {
+    'overflow': 'hidden',
+    'text-overflow': 'ellipsis',
+    'white-space': 'nowrap',
+  }],
+  ['overflow-ellipsis', { 'text-overflow': 'ellipsis' }],
+  ['overflow-clip', { 'text-overflow': 'clip' }],
+]
+
+export const textTransforms: NanowindRule[] = [
+  ['uppercase', { 'text-transform': 'uppercase' }],
+  ['lowercase', { 'text-transform': 'lowercase' }],
+  ['capitalize', { 'text-transform': 'capitalize' }],
+  ['normal-case', { 'text-transform': 'none' }],
+]
+
+export const textDecorations: NanowindRule[] = [
+  ['underline', { 'text-decoration': 'underline' }],
+  ['line-through', { 'text-decoration': 'line-through' }],
+  ['no-underline', { 'text-decoration': 'none' }],
+]
