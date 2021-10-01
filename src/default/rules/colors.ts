@@ -16,9 +16,9 @@ export function hex2RGB(hex: string): number[] | undefined {
   }
 }
 
-function resolveColor(theme: NanowindTheme, name: string, no?: string) {
+function resolveColor(theme: NanowindTheme, name: string, no = 'DEFAULT') {
   let color = theme.colors[name]
-  if (no && typeof color !== 'string')
+  if (no && color && typeof color !== 'string')
     color = color[no]
   if (typeof color !== 'string')
     return

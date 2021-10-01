@@ -19,6 +19,7 @@ exports[`default 1`] = `
 .border{border-width:1px;}
 .border-2{border-width:2px;}
 .text-red-300{--nw-text-opacity:1; color:rgba(252,165,165,var(--nw-text-opacity));}
+.text-blue{--nw-text-opacity:1; color:rgba(96,165,250,var(--nw-text-opacity));}
 .text-black\\\\/10{--nw-text-opacity:0.1; color:rgba(0,0,0,var(--nw-text-opacity));}
 @media (min-width: 640px){.sm\\\\:text-red-100{--nw-text-opacity:1; color:rgba(254,226,226,var(--nw-text-opacity));}}
 .bg-teal-100\\\\/55{--nw-bg-opacity:0.55; background-color:rgba(204,251,241,var(--nw-bg-opacity));}

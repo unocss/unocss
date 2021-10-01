@@ -10,6 +10,7 @@ export const breakpoints: NanowindVariant = {
   mediaQuery(input, theme) {
     const query = input.split(':')[0]
     const point = theme.breakpoints[query]
-    return `@media (min-width: ${point})`
+    if (point)
+      return `@media (min-width: ${point})`
   },
 }

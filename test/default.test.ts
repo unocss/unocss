@@ -16,6 +16,8 @@ test('default', () => {
     'opacity-0',
     'flex',
     'text-red-300',
+    'text-blue',
+    'text-warn-gray',
     'text-black/10',
     'bg-teal-100/55',
     'border',
