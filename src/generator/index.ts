@@ -45,8 +45,10 @@ export function createGenerator(config: NanowindConfig) {
             break
         }
 
-        const match = matcher === current
-          ? [current]
+        const match = typeof matcher === 'string'
+          ? matcher === current
+            ? [current]
+            : null
           : current.match(matcher)
 
         if (match) {

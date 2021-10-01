@@ -38,5 +38,8 @@ test('default', () => {
     'rounded',
     'dark:not-odd:text-red',
     'hover:not-first:checked:bg-red/10',
+    'text-base',
+    'text-lg',
+    'text-4xl',
   ].join(' '))).toMatchSnapshot()
 })

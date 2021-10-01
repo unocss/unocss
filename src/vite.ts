@@ -25,7 +25,7 @@ export default function NanowindVitePlugin(config: NanowindUserOptions = {}): Pl
   let server: ViteDevServer | undefined
 
   const filter = createFilter(
-    config.include || [/\.vue$/, /\.vue?vue/, /\.svelte$/, /\.[jt]sx?$/],
+    config.include || [/\.vue$/, /\.vue?vue/, /\.svelte$/, /\.[jt]sx$/],
     config.exclude || [/[\/\\]node_modules[\/\\]/, /[\/\\]dist[\/\\]/],
   )
 

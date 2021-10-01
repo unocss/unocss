@@ -26,6 +26,9 @@ exports[`default 1`] = `
 .bg-teal-100\\\\/55{--nw-bg-opacity:0.55; background-color:rgba(204,251,241,var(--nw-bg-opacity));}
 .hover\\\\:not-first\\\\:checked\\\\:bg-red\\\\/10:hover:not(:first):checked{--nw-bg-opacity:0.1; background-color:rgba(248,113,113,var(--nw-bg-opacity));}
 .font-mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\\"Liberation Mono\\",\\"Courier New\\",monospace;}
+.text-base{font-size:1rem; line-height:1.5rem;}
+.text-lg{font-size:1.125rem; line-height:1.75rem;}
+.text-4xl{font-size:2.25rem; line-height:2.5rem;}
 .rounded{border-radius:0.25rem;}
 .rounded-md{border-radius:0.375rem;}
 .rounded-tr{border-top-right-radius:0.25rem;}
