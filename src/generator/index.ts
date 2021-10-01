@@ -1,13 +1,14 @@
-import { cssEscape, NanowindVariant, entriesToCss, NanowindDynamicRule, NanowindCssObject, NanowindCssEntries, NanowindRule, NanowindStaticRule } from '..'
+import { cssEscape, NanowindVariant, entriesToCss, NanowindCssObject, NanowindCssEntries, NanowindRule, NanowindStaticRule } from '..'
 import { NanowindConfig } from '../types'
 
-const cheatFilter = /[a-z]/
-const scopePlaceholder = / \$\$ /
+const reValidateFilter = /[a-z]/
+const reScopePlaceholder = / \$\$ /
+
+const hasScopePlaceholder = (css: string) => css.match(reScopePlaceholder)
 
 function applyScope(css: string, scope?: string) {
-  const hasPlaceholder = css.match(scopePlaceholder)
-  if (hasPlaceholder)
-    return css.replace(scopePlaceholder, scope ? ` ${scope} ` : ' ')
+  if (hasScopePlaceholder(css))
+    return css.replace(reScopePlaceholder, scope ? ` ${scope} ` : ' ')
   else
     return scope ? `${scope} ${css}` : css
 }
@@ -28,7 +29,7 @@ export function createGenerator(config: NanowindConfig) {
 
     tokens.forEach((raw) => {
       // filter out invalid tokens
-      if (!raw.match(cheatFilter))
+      if (!raw.match(reValidateFilter))
         return
 
       // use caches if possible
@@ -96,8 +97,11 @@ export function createGenerator(config: NanowindConfig) {
         const mediaQuery = variants.reduce((p: string | undefined, v) => v.mediaQuery?.(raw, theme) || p, undefined)
 
         let css = `${selector}{${body}}`
-        if (mediaQuery)
-          css = `${mediaQuery}{${css}}`
+        if (mediaQuery) {
+          css = hasScopePlaceholder(css)
+            ? `${mediaQuery}{${css}}`
+            : `${mediaQuery}{ $$ ${css}}`
+        }
 
         const payload: [number, string] = [i, css]
         sheet.push(payload)
