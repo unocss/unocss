@@ -21,6 +21,7 @@ export interface NanowindTheme {
     [x: string]: string
   }
   fontSize: Record<string, [string, string]>
+  borderRadius: Record<string, string>
 }
 
 export interface NanowindConfig {

@@ -26,5 +26,13 @@ test('default', () => {
     'm-[3em]',
     'sm:text-red-100',
     'md:!hidden',
+    'rounded-t-sm',
+    'rounded-md',
+    'rounded-tr',
+    'rounded-1/2',
+    'rounded-rb-1/2',
+    'rounded-full',
+    'rounded-[4px]',
+    'rounded',
   ].join(' '))).toMatchSnapshot()
 })

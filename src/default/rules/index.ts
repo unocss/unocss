@@ -1,4 +1,4 @@
-import { borders } from './border'
+import { borders, rounded } from './border'
 import { bgColors, borderColors, textColors } from './colors'
 import { fonts } from './font'
 import { opacity } from './opacity'
@@ -15,4 +15,5 @@ export const defaultRules = [
   ...bgColors,
   ...borderColors,
   ...fonts,
+  ...rounded,
 ]
