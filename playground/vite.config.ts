@@ -4,11 +4,20 @@ import Inspect from 'vite-plugin-inspect'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Nanowind from '../src/vite-vue-sfc'
+import { defaultTheme } from '../src'
 
 export default defineConfig({
   plugins: [
     Vue(),
-    Nanowind(),
+    Nanowind({
+      theme: {
+        ...defaultTheme,
+        fontFamily: {
+          ...defaultTheme.fontFamily,
+          sans: '\'Inter\', sans-serif',
+        },
+      },
+    }),
     Inspect(),
     Components({
       dts: 'src/components.d.ts',
@@ -16,7 +25,7 @@ export default defineConfig({
     AutoImport({
       imports: [
         'vue',
-        '@vueuse/core'
+        '@vueuse/core',
       ],
       dts: 'src/auto-imports.d.ts',
     }),

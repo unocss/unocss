@@ -24,6 +24,12 @@ export function border(str: string) {
     return `${num}px`
 }
 
+export function number(str: string) {
+  const num = parseFloat(str)
+  if (!Number.isNaN(num))
+    return num
+}
+
 export function percent(str: string) {
   if (str.endsWith('%'))
     str = str.slice(0, -1)

@@ -14,7 +14,19 @@ export const important: NanowindVariant = {
   },
 }
 
+export const negative: NanowindVariant = {
+  match: input => input.startsWith('-') ? input.slice(1) : undefined,
+  rewrite: (input) => {
+    input.forEach((v) => {
+      if (v[1]?.toString().match(/^\d/))
+        v[1] = `-${v[1]}`
+    })
+    return input
+  },
+}
+
 export const defaultVariants = [
+  negative,
   important,
   breakpoints,
   darkClass,

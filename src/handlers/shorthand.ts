@@ -14,7 +14,7 @@ export type Handler = {[K in HandlerName]: Handler} & {
 const handler = function(
   this: Handler,
   str: string,
-): string | undefined {
+): string | number | undefined {
   const s = this.__options?.sequence || []
   this.__options.sequence = []
   for (const n of s) {
