@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import prettier from 'prettier/standalone'
+import parserCSS from 'prettier/parser-postcss'
 import { createGenerator } from '../../../src/generator'
 import { defaultConfig } from '../../../src/default'
 
@@ -6,13 +8,31 @@ const generator = createGenerator(defaultConfig)
 
 const input = ref('sm:dark:!text-red')
 const output = computed(() => generator(input.value))
+const formatted = computed(() => prettier.format(output.value, {
+  parser: 'css',
+  plugins: [parserCSS],
+}))
 </script>
 
 <template>
-  <div class="font-mono flex flex-col gap-2 px-4 py-3">
-    <div>Input</div>
-    <textarea v-model="input" class="h-40 rounded p-2" />
-    <div>Output</div>
-    <textarea readonly :value="output" placeholder="No result" class="h-40 rounded p-2" />
+  <div class="font-mono flex flex-col gap-2 px-10 py-3 text-gray-400">
+    <textarea
+      v-model="input"
+      spellcheck="false"
+      autocorrect="off"
+      autocapitalize="off"
+      autocomplete="off"
+      class="h-40 text-off font-mono rounded p-2 bg-transparent text-inherit border border-gray-400/10 outline-none"
+    />
+    <textarea
+      readonly
+      :value="formatted"
+      placeholder="No result"
+      spellcheck="false"
+      autocorrect="off"
+      autocapitalize="off"
+      autocomplete="off"
+      class="h-40 text-sm font-mono rounded p-2 bg-transparent text-inherit border border-gray-400/10 outline-none"
+    />
   </div>
 </template>

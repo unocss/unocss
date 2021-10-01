@@ -4,3 +4,14 @@
     <Playground />
   </div>
 </template>
+
+<script setup>
+useDark()
+</script>
+
+<style>
+html.dark {
+  background: #080808;
+  color: white;
+}
+</style>

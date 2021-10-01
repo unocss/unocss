@@ -15,6 +15,7 @@ export default defineConfig({
         fontFamily: {
           ...defaultTheme.fontFamily,
           sans: '\'Inter\', sans-serif',
+          mono: '\'Fira Code\', monospace',
         },
       },
     }),
