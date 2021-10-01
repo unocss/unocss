@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
 import { createGenerator } from '../../../src/generator'
 import { defaultConfig } from '../../../src/default'
 
 const generator = createGenerator(defaultConfig)
 
-const input = ref('')
+const input = ref('sm:dark:!text-red')
 const output = computed(() => generator(input.value))
 </script>
 

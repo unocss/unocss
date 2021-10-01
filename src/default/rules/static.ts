@@ -82,3 +82,10 @@ export const textDecorations: NanowindRule[] = [
   ['line-through', { 'text-decoration': 'line-through' }],
   ['no-underline', { 'text-decoration': 'none' }],
 ]
+
+export const textAligns: NanowindRule[] = [
+  ['text-center', { 'text-align': 'center' }],
+  ['text-left', { 'text-align': 'left' }],
+  ['text-right', { 'text-align': 'right' }],
+  ['text-justify', { 'text-align': 'justify' }],
+]

@@ -7,13 +7,16 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.2.16"
+    "@vueuse/core": "^6.5.3",
+    "vue": "^3.2.19"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.9.2",
     "nanowind": "workspace:*",
     "typescript": "^4.4.3",
-    "vite": "^2.6.0",
-    "vite-plugin-inspect": "^0.3.7"
+    "unplugin-auto-import": "^0.4.10",
+    "unplugin-vue-components": "^0.15.6",
+    "vite": "^2.6.2",
+    "vite-plugin-inspect": "^0.3.8"
   }
 }
