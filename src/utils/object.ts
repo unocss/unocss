@@ -6,7 +6,7 @@ export function entriesToCss(arr?: MiniwindCssEntries) {
   return arr
     .map(([key, value]) => value != null ? `${key}:${value};` : undefined)
     .filter(Boolean)
-    .join(' ')
+    .join('')
 }
 
 export function isObject(item: any) {

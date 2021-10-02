@@ -134,7 +134,7 @@ export function createGenerator(userConfig: MiniwindUserConfig = {}) {
           .map(i => applyScope(i[1], scope))
           .join('\n')
         if (query)
-          return `${query} {\n${rules}\n}`
+          return `${query}{\n${rules}\n}`
         return rules
       })
       .join('\n')

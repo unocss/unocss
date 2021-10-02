@@ -1,5 +1,0 @@
-- packages
-  - 'fixtures/windicss'
-  - 'fixtures/tailwind-jit'
-  - 'fixtures/miniwind'
-  - 'fixtures/miniwind-vue'
