@@ -30,11 +30,15 @@ async function report() {
     return [target, average]
   })
 
-  const baseTime = average.find(i => i[0] === 'none')[1]
-  const fastest = average.sort((a, b) => a[1] - b[1])[1][1]
+  const minimum = targets.map((target) => {
+    return [target, result.filter(i => i.name === target).sort((a, b) => a.time - b.time)[0].time]
+  })
 
-  const delta = average.map(([target, avg]) => {
-    return [target, avg - baseTime]
+  const baseTime = minimum.find(i => i[0] === 'none')[1]
+  const fastest = minimum.sort((a, b) => a[1] - b[1])[1][1]
+
+  const delta = minimum.map(([target, m]) => {
+    return [target, m - baseTime]
   })
 
   console.log('\n\n')
@@ -45,13 +49,13 @@ async function report() {
   logs.push(`1064 utilities | x${result.length / targets.length} runs`)
   logs.push('')
 
-  average.forEach(([name, average]) => {
-    const d = average - baseTime
+  minimum.forEach(([name, min]) => {
+    const d = delta.find(i => i[0] === name)[1]
     const slowdown = d / (fastest - baseTime)
     logs.push([
       name.padEnd(15, ' '),
-      `avg.${average.toFixed(2).padStart(8, ' ')} ms /`,
-      `delta.${(average - baseTime).toFixed(2).padStart(8, ' ')} ms`,
+      `min.${min.toFixed(2).padStart(8, ' ')} ms /`,
+      `delta.${(d).toFixed(2).padStart(8, ' ')} ms`,
       slowdown ? `(x${slowdown.toFixed(2)})` : '',
     ].join(' '))
   })
@@ -63,6 +67,7 @@ async function report() {
   await fs.writeJSON(`${dir}/results/${date}.json`, {
     time: new Date(),
     versions,
+    minimum: Object.fromEntries(minimum),
     average: Object.fromEntries(average),
     delta: Object.fromEntries(delta),
     runs: result,
