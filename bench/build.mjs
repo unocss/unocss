@@ -1,10 +1,14 @@
 /* eslint-disable no-console */
 import { join } from 'path'
-import { promises as fs } from 'fs'
+import fs from 'fs-extra'
 import { build } from 'vite'
+import CreateVue from '@vitejs/plugin-vue'
 import { targets, dir } from './meta.mjs'
 
-const data = {}
+const result = {}
+const date = new Date().toISOString()
+
+const VuePlugin = CreateVue()
 
 function BuildTimePlugin(name) {
   let start = 0
@@ -13,14 +17,12 @@ function BuildTimePlugin(name) {
     name: 'time-log',
     apply: 'build',
     buildStart() {
-      start = Date.now()
+      start = performance.now()
       console.time(`build:${name}`)
     },
     buildEnd() {
       console.timeEnd(`build:${name}`)
-      data[name] = {
-        time: Date.now() - start,
-      }
+      result[name].time = performance.now() - start
     },
     async closeBundle() {
       const dist = join(dir, 'fixtures', name, 'dist/assets')
@@ -32,35 +34,45 @@ function BuildTimePlugin(name) {
           size += stat.size
         }
       }
-      data[name].size = size
+      result[name].size = size
     },
   }
 }
 
-for (let i = 0; i < 10; i++) {
-  console.log(`warning up... x${i + 1}`)
+console.log('warning up vite...')
+for (let i = 0; i < 10; i++)
   await run('none')
+
+console.log('\n\nstart')
+
+targets.sort(() => Math.random() - 0.5)
+
+for (let i = 0; i < targets.length; i++) {
+  const name = targets[i]
+  result[name] = { index: i, name, date }
+  await run(name, true)
 }
 
-console.log('\n\n')
-
-for (const target of targets)
-  await run(target, true)
-
 async function run(target, bench = false) {
-  if (bench)
-    console.log('\n----\n')
   const cwd = join(dir, 'fixtures', target)
   process.chdir(cwd)
   await build({
     root: cwd,
     logLevel: 'silent',
-    plugins: bench ? [BuildTimePlugin(target)] : [],
+    plugins: bench
+      ? [
+        VuePlugin,
+        BuildTimePlugin(target)]
+      : [
+        VuePlugin,
+      ],
   })
 }
 
-const baseTime = data.none.time
+console.log(Object.values(result))
 
-Object.values(data).forEach(v => v.pureTime = v.time - baseTime)
+const full = await fs.readJSON(`${dir}/result.json`) || []
 
-console.log(data)
+full.push(...Object.values(result))
+
+await fs.writeJSON(`${dir}/result.json`, full, { spaces: 2 })

@@ -5,6 +5,7 @@ import { dir } from './meta.mjs'
 const variants = [
   'hover',
   'focus',
+  'hover:focus:first:active',
   'dark',
   'md',
   'sm',
@@ -22,6 +23,8 @@ const names = [
 
 const values = [
   ...Array.from({ length: 10 }, (_, i) => i.toString()),
+  '100',
+  '300',
   'red-100',
   'teal-100/10',
   '[1px]',

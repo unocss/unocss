@@ -7,3 +7,4 @@ bench/fixtures/*/src
 !bench/fixtures/none/src
 bench/fixtures/none/src/Gen.vue
 *.log
+result.json

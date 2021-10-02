@@ -1,5 +1,4 @@
 import { defineConfig } from 'vite'
-import Vue from '@vitejs/plugin-vue'
 import Miniwind from '../../../dist/vite.mjs'
 
 export default defineConfig({
@@ -7,7 +6,6 @@ export default defineConfig({
     port: 3000,
   },
   plugins: [
-    Vue(),
     Miniwind(),
   ],
 })
