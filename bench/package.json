@@ -1,7 +1,6 @@
 {
   "scripts": {
-    "prepare": "node gen.mjs",
-    "start": "node run.mjs"
+    "start": "node gen.mjs && node run.mjs"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.9.2",
