@@ -1,6 +1,7 @@
 import { MiniwindVariant } from '../../../types'
+import { variantMatcher } from '../../../utils'
 
 export const variantChildren: MiniwindVariant = {
-  match: input => input.startsWith('all:') ? input.slice(4) : undefined,
+  match: variantMatcher('children'),
   selector: input => `${input} > *`,
 }

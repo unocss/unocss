@@ -1,31 +1,22 @@
-import { toArray } from '../../../utils'
+import { toArray, variantMatcher } from '../../../utils'
 import { MiniwindVariant } from '../../../types'
 
 export function createPseudoClassVariant(name: string, pseudo = name): MiniwindVariant[] {
-  const start = `${name}:`
-  const length = start.length
-
-  const notStart = `not-${name}:`
-  const notLength = notStart.length
-
   return [
     {
-      match: input => input.startsWith(start) ? input.slice(length) : undefined,
+      match: variantMatcher(name),
       selector: input => `${input}:${pseudo}`,
     },
     {
-      match: input => input.startsWith(notStart) ? input.slice(notLength) : undefined,
+      match: variantMatcher(`not-${name}`),
       selector: input => `${input}:not(:${pseudo})`,
     },
   ]
 }
 
 export function createPseudoElementVariant(name: string): MiniwindVariant {
-  const start = `${name}:`
-  const length = start.length
-
   return {
-    match: input => input.startsWith(start) ? input.slice(length) : undefined,
+    match: variantMatcher(name),
     selector: input => `${input}::${name}`,
   }
 }

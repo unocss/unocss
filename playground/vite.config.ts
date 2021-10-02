@@ -20,7 +20,7 @@ export default defineConfig({
         },
       ),
       presets: [
-        presetAttributify,
+        presetAttributify(),
         presetDefault,
       ],
     }),
