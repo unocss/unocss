@@ -5,6 +5,7 @@ import { variantAttributify } from './variant'
 
 export * from './extractor'
 export * from './variant'
+export * from './types'
 
 export const presetAttributify = (options?: AttributifyOptions): MiniwindPreset => ({
   variants: [

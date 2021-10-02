@@ -2,7 +2,8 @@
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
 import { createGenerator } from '../../../src/generator'
-import { presetAttributify, presetDefault } from '../../../src'
+import { presetAttributify } from '../../../src/presets/attributify'
+import { presetDefault } from '../../../src/presets/default'
 
 const generator = createGenerator({
   presets: [
