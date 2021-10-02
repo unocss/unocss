@@ -1,6 +1,5 @@
 import { MiniwindCssEntries, MiniwindRule } from '../../../types'
-import { directionMap } from '../../../utils'
-import { h } from '../../../handlers'
+import { directionMap, h } from '../../../utils'
 
 const directionSize = (prefix: string) => ([_, direction, size]: string[]): MiniwindCssEntries | undefined => {
   const v = h.bracket.size.fraction(size)

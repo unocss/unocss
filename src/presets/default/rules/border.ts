@@ -1,5 +1,5 @@
 import { cornerMap, directionMap, MiniwindTheme } from '../../..'
-import { h } from '../../../handlers'
+import { h } from '../../../utils'
 import { MiniwindCssEntries, MiniwindRule } from '../../../types'
 
 export const borders: MiniwindRule[] = [

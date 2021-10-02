@@ -1,6 +1,5 @@
-import { MiniwindTheme } from '../../..'
-import { h } from '../../../handlers'
-import { MiniwindRule } from '../../../types'
+import { MiniwindTheme, MiniwindRule } from '../../../types'
+import { h } from '../../../utils'
 
 export function hex2RGB(hex: string): number[] | undefined {
   const RGB_HEX = /^#?(?:([\da-f]{3})[\da-f]?|([\da-f]{6})(?:[\da-f]{2})?)$/i

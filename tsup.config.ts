@@ -7,8 +7,6 @@ const config: Options = {
     'src/index.ts',
     'src/vite.ts',
     'src/vite-vue-sfc.ts',
-    'src/default/index.ts',
-    'src/handlers/index.ts',
   ],
   clean: true,
   dts: true,

@@ -1,5 +1,5 @@
 import { MiniwindRule } from '../../../types'
-import { h } from '../../../handlers'
+import { h } from '../../../utils'
 
 export const gaps: MiniwindRule[] = [
   [/^gap-([^-]+)$/, ([, s]) => {

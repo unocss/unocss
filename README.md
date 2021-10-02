@@ -27,7 +27,7 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 
 ###### Disclamier
 
-> 🧪 This package is aimed to explore the possibilities of what an atomic CSS framework can be. It's not a replacement for Windi CSS or Tailwind. You will expect to see breaking changes and overhaul redesigns quite often.
+> 🧪 This package is trying to explore the possibilities of what an atomic CSS framework can be. It's not a replacement for Windi CSS or Tailwind. **Not production ready**, yet. Breaking changes and overhaul redesigns are expected frequently.
 
 ## Installation
 

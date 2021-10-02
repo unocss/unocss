@@ -1,6 +1,5 @@
-import { h } from '../../../handlers'
+import { h, toArray } from '../../../utils'
 import { MiniwindRule } from '../../../types'
-import { toArray } from '../../../utils'
 
 export const fonts: MiniwindRule[] = [
   [/^font-(\w+)$/, ([, d], theme) => {

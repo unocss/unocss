@@ -1,4 +1,4 @@
-import { h } from '../../../handlers'
+import { h } from '../../../utils'
 import { MiniwindRule } from '../../../types'
 
 export const sizes: MiniwindRule[] = [
