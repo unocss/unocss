@@ -1,6 +1,6 @@
-import { NanowindVariant } from '../..'
+import { NanowindVariant } from '../../../types'
 
-export const breakpoints: NanowindVariant = {
+export const variantBreakpoints: NanowindVariant = {
   match(input, theme) {
     for (const point of Object.keys(theme.breakpoints)) {
       if (input.startsWith(`${point}:`))

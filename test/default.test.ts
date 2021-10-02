@@ -1,4 +1,4 @@
-import { createGenerator, defaultConfig } from '../src'
+import { createGenerator } from '../src'
 
 const fixture = [
   'p-1',
@@ -42,12 +42,12 @@ const fixture = [
   'border-b border-t-2 border-green-100/10',
 ].join(' ')
 
-const generator = createGenerator(defaultConfig)
+const generator = createGenerator()
 
-test('default', () => {
-  expect(generator(fixture)).toMatchSnapshot()
+test('default', async() => {
+  expect(await generator(fixture)).toMatchSnapshot()
 })
 
-test('scope', () => {
-  expect(generator(fixture, '.foo-scope')).toMatchSnapshot()
+test('scope', async() => {
+  expect(await generator(fixture, '', '.foo-scope')).toMatchSnapshot()
 })

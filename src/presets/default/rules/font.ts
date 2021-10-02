@@ -1,6 +1,6 @@
-import { h } from '../../handlers'
-import { NanowindRule } from '../../types'
-import { toArray } from '../../utils'
+import { h } from '../../../handlers'
+import { NanowindRule } from '../../../types'
+import { toArray } from '../../../utils'
 
 export const fonts: NanowindRule[] = [
   [/^font-(\w+)$/, ([, d], theme) => {

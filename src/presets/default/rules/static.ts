@@ -1,4 +1,4 @@
-import { NanowindRule } from '../../types'
+import { NanowindRule } from '../../../types'
 
 export const displays: NanowindRule[] = [
   ['inline', { display: 'inline' }],

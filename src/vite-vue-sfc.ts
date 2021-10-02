@@ -17,8 +17,8 @@ export default function NanowindVueVitePlugin(config: NanowindUserOptions = {}):
     config.exclude || [/[\/\\]node_modules[\/\\]/, /[\/\\]dist[\/\\]/],
   )
 
-  function transformSFC(code: string) {
-    const style = generate(code)
+  async function transformSFC(code: string) {
+    const style = await generate(code)
     if (!style)
       return null
     return `${code}\n<style scoped>${style}</style>`
@@ -38,7 +38,7 @@ export default function NanowindVueVitePlugin(config: NanowindUserOptions = {}):
       if (filter(ctx.file)) {
         ctx.read = async() => {
           const code = await read()
-          return transformSFC(code) || code
+          return await transformSFC(code) || code
         }
       }
     },

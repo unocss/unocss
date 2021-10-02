@@ -1,6 +1,6 @@
-import { NanowindCssEntries, NanowindRule } from '../../types'
-import { directionMap } from '../../utils'
-import { h } from '../../handlers'
+import { NanowindCssEntries, NanowindRule } from '../../../types'
+import { directionMap } from '../../../utils'
+import { h } from '../../../handlers'
 
 const directionSize = (prefix: string) => ([_, direction, size]: string[]): NanowindCssEntries | undefined => {
   const v = h.bracket.size.fraction(size)

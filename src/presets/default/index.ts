@@ -1,5 +1,5 @@
-import { NanowindConfig } from '../types'
-import { defaultTheme } from './theme'
+import { NanowindPreset } from '../..'
+import { extractorSplit } from './extractors'
 import { defaultRules } from './rules'
 import { defaultVariants } from './variants'
 
@@ -7,8 +7,8 @@ export * from './rules'
 export * from './variants'
 export * from './theme'
 
-export const defaultConfig: NanowindConfig = {
+export const presetDefault: NanowindPreset = {
   rules: defaultRules,
   variants: defaultVariants,
-  theme: defaultTheme,
+  extractors: [extractorSplit],
 }

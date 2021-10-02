@@ -1,7 +1,8 @@
 /* eslint-disable no-use-before-define */
-
 export type NanowindCssObject = Record<string, string | number | undefined>
 export type NanowindCssEntries = [string, string | number | undefined][]
+
+export type NanowindExtractor = (code: string, id?: string) => Set<string> | Promise<Set<string>>
 
 export type NanowindDynamicRule = [RegExp, ((match: string[], theme: NanowindTheme) => (NanowindCssObject | NanowindCssEntries | undefined))]
 export type NanowindStaticRule = [string, NanowindCssObject | NanowindCssEntries]
@@ -24,10 +25,15 @@ export interface NanowindTheme {
   letterSpacing: Record<string, string>
 }
 
-export interface NanowindConfig {
-  rules: NanowindRule[]
-  variants: NanowindVariant[]
-  theme: NanowindTheme
+export interface NanowindUserConfig extends NanowindPreset {
+  theme?: NanowindTheme
+  presets?: NanowindPreset[]
 }
 
-export type NanowindUserConfig = Partial<NanowindConfig>
+export interface NanowindConfig extends Omit<Required<NanowindUserConfig>, 'presets'> {}
+
+export interface NanowindPreset {
+  rules?: NanowindRule[]
+  variants?: NanowindVariant[]
+  extractors?: NanowindExtractor[]
+}

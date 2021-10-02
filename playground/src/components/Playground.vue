@@ -2,13 +2,18 @@
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
 import { createGenerator } from '../../../src/generator'
-import { defaultConfig } from '../../../src/default'
+import { presetAttributify, presetDefault } from '../../../src'
 
-const generator = createGenerator(defaultConfig)
+const generator = createGenerator({
+  presets: [
+    presetAttributify,
+    presetDefault,
+  ],
+})
 
-const input = ref('sm:dark:!text-red')
-const output = computed(() => generator(input.value))
-const formatted = computed(() => prettier.format(output.value, {
+const input = ref('<div class="sm:dark:!text-red" bg="hover:red" />')
+const output = asyncComputed(() => generator(input.value))
+const formatted = computed(() => prettier.format(output.value || '', {
   parser: 'css',
   plugins: [parserCSS],
 }))

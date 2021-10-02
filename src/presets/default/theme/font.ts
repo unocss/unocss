@@ -1,7 +1,7 @@
 // port form Tailwind CSS and Windi CSS
 // TODO: add more details
 
-import { NanowindTheme } from '../../types'
+import { NanowindTheme } from '../../../types'
 
 export const fontFamily = {
   sans: [

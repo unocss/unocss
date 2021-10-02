@@ -1,6 +1,6 @@
-import { cornerMap, directionMap, NanowindTheme } from '../..'
-import { h } from '../../handlers'
-import { NanowindCssEntries, NanowindRule } from '../../types'
+import { cornerMap, directionMap, NanowindTheme } from '../../..'
+import { h } from '../../../handlers'
+import { NanowindCssEntries, NanowindRule } from '../../../types'
 
 export const borders: NanowindRule[] = [
   [/^border$/, handlerBorder],

@@ -1,6 +1,6 @@
-import { NanowindTheme } from '../..'
-import { h } from '../../handlers'
-import { NanowindRule } from '../../types'
+import { NanowindTheme } from '../../..'
+import { h } from '../../../handlers'
+import { NanowindRule } from '../../../types'
 
 export function hex2RGB(hex: string): number[] | undefined {
   const RGB_HEX = /^#?(?:([\da-f]{3})[\da-f]?|([\da-f]{6})(?:[\da-f]{2})?)$/i

@@ -1,5 +1,5 @@
-import { h } from '../../handlers'
-import { NanowindRule } from '../../types'
+import { h } from '../../../handlers'
+import { NanowindRule } from '../../../types'
 
 export const sizes: NanowindRule[] = [
   [/^w-([^-]+)$/, ([, s]) => ({ width: h.bracket.fraction.size(s) })],

@@ -1,4 +1,4 @@
-import { NanowindRule } from '../../types'
+import { NanowindRule } from '../../../types'
 
 export const flex: NanowindRule[] = [
   ['flex-col', { 'flex-direction': 'column' }],

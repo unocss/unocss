@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`attributify extractor 1`] = `
+Set {
+  "[bg~=\\"blue-400\\"]",
+  "[bg~=\\"hover:blue-500\\"]",
+  "[bg~=\\"dark:blue-500\\"]",
+  "[bg~=\\"dark:hover:blue-600\\"]",
+  "[text~=\\"sm\\"]",
+  "[text~=\\"white\\"]",
+  "[font~=\\"mono\\"]",
+  "[font~=\\"light\\"]",
+  "[p~=\\"y-2\\"]",
+  "[p~=\\"x-4\\"]",
+  "[border~=\\"2\\"]",
+  "[border~=\\"rounded\\"]",
+  "[border~=\\"blue-200\\"]",
+}
+`;
+
+exports[`attributify generate 1`] = `
+"[border~=\\"\\\\32 \\"]{border-width:2px;}
+[text~=\\"white\\"]{--nw-text-opacity:1; color:rgba(255,255,255,var(--nw-text-opacity));}
+[bg~=\\"blue-400\\"]{--nw-bg-opacity:1; background-color:rgba(96,165,250,var(--nw-bg-opacity));}
+[bg~=\\"hover\\\\:blue-500\\"]:hover{--nw-bg-opacity:1; background-color:rgba(59,130,246,var(--nw-bg-opacity));}
+.dark [bg~=\\"dark\\\\:blue-500\\"]{--nw-bg-opacity:1; background-color:rgba(59,130,246,var(--nw-bg-opacity));}
+.dark [bg~=\\"dark\\\\:hover\\\\:blue-600\\"]:hover{--nw-bg-opacity:1; background-color:rgba(37,99,235,var(--nw-bg-opacity));}
+[border~=\\"blue-200\\"]{--nw-border-opacity:1; border-color:rgba(191,219,254,var(--nw-border-opacity));}
+[font~=\\"mono\\"]{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\\"Liberation Mono\\",\\"Courier New\\",monospace;}
+[text~=\\"sm\\"]{font-size:0.875rem; line-height:1.25rem;}
+[font~=\\"light\\"]{font-weight:300;}
+.rounded{border-radius:0.25rem;}"
+`;
+
+exports[`attributify variant 1`] = `
+Array [
+  "bg-blue-400",
+  "hover:bg-blue-500",
+  "dark:bg-blue-500",
+  "dark:hover:bg-blue-600",
+  "text-sm",
+  "text-white",
+  "font-mono",
+  "font-light",
+  "p-y-2",
+  "p-x-4",
+  "border-2",
+  "border-rounded",
+  "border-blue-200",
+]
+`;

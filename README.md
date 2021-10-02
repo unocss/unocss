@@ -11,9 +11,9 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 - No parsing, no AST, incredible fast.
 - Fully customizable - no core utilities, only presets.
 - No preflights - no global pollutions.
-- Instant HMR.
 - No pre-scanning, no file watcher - all done in one pass.
 - CSS Scoping.
+- Windi CSS Attributify.
 - Library friendly - ships atomic styles with your component libraries, without asking users to install it.
 
 ###### Non-goal

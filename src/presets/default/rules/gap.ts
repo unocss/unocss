@@ -1,5 +1,5 @@
-import { NanowindRule } from '../../types'
-import { h } from '../../handlers'
+import { NanowindRule } from '../../../types'
+import { h } from '../../../handlers'
 
 export const gaps: NanowindRule[] = [
   [/^gap-([^-]+)$/, ([, s]) => {

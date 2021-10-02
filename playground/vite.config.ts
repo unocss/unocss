@@ -4,7 +4,7 @@ import Inspect from 'vite-plugin-inspect'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Nanowind from '../src/vite-vue-sfc'
-import { defaultTheme } from '../src'
+import { defaultTheme, presetDefault, presetAttributify } from '../src'
 
 export default defineConfig({
   plugins: [
@@ -18,6 +18,10 @@ export default defineConfig({
           mono: '\'Fira Code\', monospace',
         },
       },
+      presets: [
+        presetDefault,
+        presetAttributify,
+      ],
     }),
     Inspect(),
     Components({

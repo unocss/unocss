@@ -1,4 +1,4 @@
-import { NanowindTheme } from '../..'
+import { NanowindTheme } from '../../..'
 import { colors } from './colors'
 import { fontFamily, fontSize, letterSpacing, lineHeight } from './font'
 

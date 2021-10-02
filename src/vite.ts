@@ -55,14 +55,14 @@ export default function NanowindVitePlugin(config: NanowindUserOptions = {}): Pl
     configureServer(_server) {
       server = _server
     },
-    transform(code, id) {
+    async transform(code, id) {
       if (id.endsWith('.css') || !filter(id))
         return
 
       const hash = getHash(id)
       const hasScope = code.match(SCOPE_IMPORT_RE)
 
-      const style = generate(code, hasScope ? `.${hash}` : undefined)
+      const style = await generate(code, id, hasScope ? `.${hash}` : undefined)
       if (!style && !hasScope)
         return null
 

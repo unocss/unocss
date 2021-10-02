@@ -1,5 +1,5 @@
-import { toArray } from '../../utils'
-import { NanowindVariant } from '../../types'
+import { toArray } from '../../../utils'
+import { NanowindVariant } from '../../../types'
 
 export function createPseudoClassVariant(name: string, pseudo = name): NanowindVariant[] {
   const start = `${name}:`
@@ -30,7 +30,7 @@ export function createPseudoElementVariant(name: string): NanowindVariant {
   }
 }
 
-export const pseudoClasses = [
+export const variantPseudoClasses = [
   'active',
   'checked',
   'default',
@@ -65,7 +65,7 @@ export const pseudoClasses = [
 ]
   .flatMap(i => createPseudoClassVariant(...toArray(i) as [string, string]))
 
-export const pseudoElements = [
+export const variantPseudoElements = [
   'before',
   'after',
   'first-letter',
