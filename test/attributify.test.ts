@@ -1,5 +1,6 @@
-import { createGenerator, presetDefault } from '../src'
+import { createGenerator } from '../src'
 import { variantAttributify, extractorAttributify, presetAttributify } from '../src/presets/attributify'
+import { presetDefault } from '../src/presets/default'
 
 describe('attributify', () => {
   const code = `
@@ -32,7 +33,7 @@ describe('attributify', () => {
     const generate = createGenerator({
       presets: [
         presetAttributify(),
-        presetDefault,
+        presetDefault(),
       ],
     })
     expect(await generate(code)).toMatchSnapshot()

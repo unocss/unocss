@@ -1,9 +1,9 @@
 import { MiniwindUserConfig, MiniwindConfig } from './types'
-import { extractorSplit } from './presets/default/extractors'
-import { presetDefault, defaultTheme, uniq } from '.'
+import { extractorSplit, presetDefault, defaultTheme } from './presets/default'
+import { uniq } from '.'
 
 export function resolveConfig(config: MiniwindUserConfig = {}): MiniwindConfig {
-  const presets = config.presets || [presetDefault]
+  const presets = config.presets || [presetDefault()]
 
   function mergePresets<T extends 'rules' | 'variants' | 'extractors'>(key: T): MiniwindConfig[T] {
     return uniq([

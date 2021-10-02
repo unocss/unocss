@@ -1,20 +1,12 @@
 import type { Plugin } from 'vite'
-import { FilterPattern, createFilter } from '@rollup/pluginutils'
-import { resolveConfig } from './options'
-import { createGenerator, MiniwindUserConfig } from '.'
+import { createFilter } from '@rollup/pluginutils'
+import { ResolvedPluginContext } from './types'
+import { defaultExclude } from './utils'
 
-export interface MiniwindUserOptions extends MiniwindUserConfig {
-  include?: FilterPattern
-  exclude?: FilterPattern
-}
-
-export default function MiniwindVueVitePlugin(config: MiniwindUserOptions = {}): Plugin {
-  const resolved = resolveConfig(config)
-  const generate = createGenerator(resolved)
-
+export function VueScopedPlugin({ options, generate }: ResolvedPluginContext): Plugin {
   const filter = createFilter(
-    config.include || [/\.vue$/],
-    config.exclude || [/[\/\\]node_modules[\/\\]/, /[\/\\]dist[\/\\]/],
+    options.include || [/\.vue$/],
+    options.exclude || defaultExclude,
   )
 
   async function transformSFC(code: string) {
@@ -25,12 +17,11 @@ export default function MiniwindVueVitePlugin(config: MiniwindUserOptions = {}):
   }
 
   return {
-    name: 'miniwind',
+    name: 'miniwind:vue-scoped',
     enforce: 'pre',
     transform(code, id) {
       if (!filter(id))
         return
-
       return transformSFC(code)
     },
     handleHotUpdate(ctx) {

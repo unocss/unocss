@@ -1,4 +1,3 @@
-import fs from 'fs'
 import { createGenerator } from '../src'
 
 const fixture = [

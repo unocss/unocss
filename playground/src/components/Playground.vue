@@ -7,7 +7,7 @@ import { presetAttributify, presetDefault } from '../../../src'
 const generator = createGenerator({
   presets: [
     presetAttributify(),
-    presetDefault,
+    presetDefault(),
   ],
 })
 

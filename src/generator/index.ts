@@ -2,7 +2,6 @@ import { MiniwindVariant, MiniwindCssObject, MiniwindCssEntries, MiniwindRule, M
 import { resolveConfig } from '../options'
 import { cssEscape, entriesToCss } from '../utils'
 
-const reValidateFilter = /[a-z]/
 const reScopePlaceholder = / \$\$ /
 
 const hasScopePlaceholder = (css: string) => css.match(reScopePlaceholder)
@@ -36,8 +35,11 @@ export function createGenerator(userConfig: MiniwindUserConfig = {}) {
   const cache = new Map<string, Cache | null>()
   const extractors = config.extractors
 
-  return async(code: string, id?: string, scope?: string) => {
-    const results = await Promise.all(extractors.map(i => i(code, id)))
+  return async(input: string | Set<string>[], id?: string, scope?: string) => {
+    const tokensArray = Array.isArray(input)
+      ? input
+      : await Promise.all(extractors.map(i => i(input, id)))
+
     const sheet: Record<string, Cache[]> = {}
 
     function updateSheet(data: Cache) {
@@ -47,12 +49,8 @@ export function createGenerator(userConfig: MiniwindUserConfig = {}) {
       sheet[query].push(data)
     }
 
-    results.forEach((tokens) => {
+    tokensArray.forEach((tokens) => {
       tokens.forEach((raw) => {
-        // filter out invalid tokens
-        if (!raw.match(reValidateFilter))
-          return
-
         // use caches if possible
         if (cache.has(raw)) {
           const r = cache.get(raw)
