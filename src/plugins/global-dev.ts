@@ -66,7 +66,8 @@ export function GlobalScopeDevPlugin({ generate, options, config }: ResolvedPlug
       if (tokens.size === 0)
         await new Promise(resolve => setTimeout(resolve, 400))
 
-      return await generate([tokens])
+      const { css } = await generate([tokens])
+      return css
     },
     transformIndexHtml: {
       enforce: 'pre',

@@ -1,7 +1,11 @@
 .CodeMirror {
   height: 100%;
-  padding: 8px 10px;
+  width: 100%;
   font-family: inherit;
+}
+
+.CodeMirror-lines { 
+  padding-left: 10px;
 }
 
 .cm-s-vars .cm-tag {

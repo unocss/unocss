@@ -32,7 +32,7 @@ export function createGenerator(userConfig: MiniwindUserConfig = {}) {
 
   const rulesLength = rules.length
 
-  const cache = new Map<string, Cache | null>()
+  const _cache = new Map<string, Cache | null>()
   const extractors = config.extractors
 
   return async(input: string | Set<string>[], id?: string, scope?: string) => {
@@ -40,22 +40,26 @@ export function createGenerator(userConfig: MiniwindUserConfig = {}) {
       ? input
       : await Promise.all(extractors.map(i => i(input, id)))
 
+    const matched = new Set<string>()
     const sheet: Record<string, Cache[]> = {}
 
-    function updateSheet(data: Cache) {
-      const query = data[2] || ''
+    function hit(raw: string, payload: Cache) {
+      matched.add(raw)
+      _cache.set(raw, payload)
+
+      const query = payload[2] || ''
       if (!(query in sheet))
         sheet[query] = []
-      sheet[query].push(data)
+      sheet[query].push(payload)
     }
 
     tokensArray.forEach((tokens) => {
       tokens.forEach((raw) => {
         // use caches if possible
-        if (cache.has(raw)) {
-          const r = cache.get(raw)
+        if (_cache.get(raw)) {
+          const r = _cache.get(raw)
           if (r)
-            updateSheet(r)
+            hit(raw, r)
           return
         }
 
@@ -117,17 +121,16 @@ export function createGenerator(userConfig: MiniwindUserConfig = {}) {
 
           const css = `${selector}{${body}}`
           const payload = [i, css, mediaQuery] as const
-          updateSheet(payload)
-          cache.set(raw, payload)
+          hit(raw, payload)
           return
         }
 
         // set null cache for unmatched result
-        cache.set(raw, null)
+        _cache.set(raw, null)
       })
     })
 
-    return Object.entries(sheet)
+    const css = Object.entries(sheet)
       .map(([query, items]) => {
         const rules = items
           .sort((a, b) => a[0] - b[0])
@@ -138,5 +141,10 @@ export function createGenerator(userConfig: MiniwindUserConfig = {}) {
         return rules
       })
       .join('\n')
+
+    return {
+      css,
+      matched,
+    }
   }
 }

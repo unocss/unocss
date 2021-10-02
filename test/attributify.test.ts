@@ -8,6 +8,8 @@ describe('attributify', () => {
   bg="blue-400 hover:blue-500 dark:!blue-500 dark:hover:blue-600"
   text="sm white"
   flex="~ col"
+  p="t-2"
+  pt="2"
   border="rounded-xl"
   :font="condition ? 'mono' : 'sans'"
   v-bind:p="y-2 x-4"
@@ -36,6 +38,7 @@ describe('attributify', () => {
         presetDefault(),
       ],
     })
-    expect(await generate(code)).toMatchSnapshot()
+    const { css } = await generate(code)
+    expect(css).toMatchSnapshot()
   })
 })

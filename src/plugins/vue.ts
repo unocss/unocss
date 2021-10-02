@@ -10,10 +10,10 @@ export function VueScopedPlugin({ options, generate }: ResolvedPluginContext): P
   )
 
   async function transformSFC(code: string) {
-    const style = await generate(code)
-    if (!style)
+    const { css } = await generate(code)
+    if (!css)
       return null
-    return `${code}\n<style scoped>${style}</style>`
+    return `${code}\n<style scoped>${css}</style>`
   }
 
   return {

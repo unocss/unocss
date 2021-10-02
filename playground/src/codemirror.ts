@@ -8,7 +8,7 @@ import 'codemirror/addon/display/placeholder'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror-theme-vars/base.css'
 
-export async function useCodeMirror(
+export function useCodeMirror(
   textarea: Ref<HTMLTextAreaElement | null | undefined>,
   input: Ref<string> | WritableComputedRef<string>,
   options: CodeMirror.EditorConfiguration = {},

@@ -4,8 +4,6 @@ export const displays: MiniwindRule[] = [
   ['inline', { display: 'inline' }],
   ['block', { display: 'block' }],
   ['inline-block', { display: 'inline-block' }],
-  ['grid', { display: 'grid' }],
-  ['flex', { display: 'flex' }],
   ['table', { display: 'table' }],
   ['hidden', { display: 'none' }],
 ]
@@ -38,7 +36,7 @@ export const userSelects: MiniwindRule[] = [
   ['select-auto', { 'user-select': 'auto' }],
 ]
 
-export const verticals: MiniwindRule[] = [
+export const verticalAligns: MiniwindRule[] = [
   ['vertical-baseline', { 'vertical-align': 'baseline' }],
   ['vertical-top', { 'vertical-align': 'top' }],
   ['vertical-middle', { 'vertical-align': 'middle' }],
@@ -61,11 +59,7 @@ export const breaks: MiniwindRule[] = [
 ]
 
 export const textOverflows: MiniwindRule[] = [
-  ['truncate', {
-    'overflow': 'hidden',
-    'text-overflow': 'ellipsis',
-    'white-space': 'nowrap',
-  }],
+  ['truncate', { 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }],
   ['text-ellipsis', { 'text-overflow': 'ellipsis' }],
   ['text-clip', { 'text-overflow': 'clip' }],
 ]

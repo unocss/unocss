@@ -3,6 +3,7 @@ import { createGenerator } from '../src'
 const fixture = [
   'p-1',
   'pt-2',
+  'p-t-2',
   'p-3',
   'pl-10px',
   'hover:p-4',
@@ -47,9 +48,11 @@ const fixture = [
 const generator = createGenerator()
 
 test('default', async() => {
-  expect(await generator(fixture)).toMatchSnapshot()
+  const { css } = await generator(fixture)
+  expect(css).toMatchSnapshot()
 })
 
 test('scope', async() => {
-  expect(await generator(fixture, '', '.foo-scope')).toMatchSnapshot()
+  const { css } = await generator(fixture, '', '.foo-scope')
+  expect(css).toMatchSnapshot()
 })

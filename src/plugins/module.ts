@@ -47,14 +47,14 @@ export function ModuleScopePlugin({ generate, options }: ResolvedPluginContext):
       const hash = getHash(id)
       const hasScope = code.match(SCOPE_IMPORT_RE)
 
-      const style = await generate(code, id, hasScope ? `.${hash}` : undefined)
-      if (!style && !hasScope)
+      const { css } = await generate(code, id, hasScope ? `.${hash}` : undefined)
+      if (!css && !hasScope)
         return null
 
       if (hasScope)
         code = code.replace(SCOPE_IMPORT_RE, ` from 'data:text/javascript;base64,${Buffer.from(`export default () => "${hash}"`).toString('base64')}'`)
 
-      moduleMap.set(hash, [id, style])
+      moduleMap.set(hash, [id, css])
       invalidate(hash)
 
       return {

@@ -8,11 +8,11 @@ exports[`default 1`] = `
 .hover\\\\:\\\\!p-10:hover{padding:2.5rem !important;}
 .\\\\!hover\\\\:px-10:hover{padding-left:2.5rem !important;padding-right:2.5rem !important;}
 .pt-2{padding-top:0.5rem;}
+.p-t-2{padding-top:0.5rem;}
 .pl-10px{padding-left:10px;}
 .m-auto{margin:auto;}
 .m-\\\\[3em\\\\]{margin:3em;}
 .my-auto{margin-top:auto;margin-bottom:auto;}
-.flex{display:flex;}
 .op-10{opacity:0.1;}
 .opacity-0{opacity:0;}
 .text-red-300{--mw-text-opacity:1;color:rgba(252,165,165,var(--mw-text-opacity));}
@@ -40,6 +40,7 @@ exports[`default 1`] = `
 .rounded-\\\\[4px\\\\]{border-radius:4px;}
 .rounded-t-sm{border-top-left-radius:0.125rem;border-top-right-radius:0.125rem;}
 .rounded-rb-1\\\\/2{border-bottom-right-radius:50%;}
+.flex{display:flex;}
 @media (min-width: 640px){
 .sm\\\\:text-red-100{--mw-text-opacity:1;color:rgba(254,226,226,var(--mw-text-opacity));}
 .sm\\\\:text-red-200\\\\/10{color:rgba(254,202,202,0.1);}
@@ -58,11 +59,11 @@ exports[`scope 1`] = `
 .foo-scope .hover\\\\:\\\\!p-10:hover{padding:2.5rem !important;}
 .foo-scope .\\\\!hover\\\\:px-10:hover{padding-left:2.5rem !important;padding-right:2.5rem !important;}
 .foo-scope .pt-2{padding-top:0.5rem;}
+.foo-scope .p-t-2{padding-top:0.5rem;}
 .foo-scope .pl-10px{padding-left:10px;}
 .foo-scope .m-auto{margin:auto;}
 .foo-scope .m-\\\\[3em\\\\]{margin:3em;}
 .foo-scope .my-auto{margin-top:auto;margin-bottom:auto;}
-.foo-scope .flex{display:flex;}
 .foo-scope .op-10{opacity:0.1;}
 .foo-scope .opacity-0{opacity:0;}
 .foo-scope .text-red-300{--mw-text-opacity:1;color:rgba(252,165,165,var(--mw-text-opacity));}
@@ -90,6 +91,7 @@ exports[`scope 1`] = `
 .foo-scope .rounded-\\\\[4px\\\\]{border-radius:4px;}
 .foo-scope .rounded-t-sm{border-top-left-radius:0.125rem;border-top-right-radius:0.125rem;}
 .foo-scope .rounded-rb-1\\\\/2{border-bottom-right-radius:50%;}
+.foo-scope .flex{display:flex;}
 @media (min-width: 640px){
 .foo-scope .sm\\\\:text-red-100{--mw-text-opacity:1;color:rgba(254,226,226,var(--mw-text-opacity));}
 .foo-scope .sm\\\\:text-red-200\\\\/10{color:rgba(254,202,202,0.1);}

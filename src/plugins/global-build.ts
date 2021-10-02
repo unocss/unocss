@@ -34,7 +34,7 @@ export function GlobalScopeBuildPlugin({ config, options, generate }: ResolvedPl
         return null
 
       const result = await Promise.all(chunks.flatMap(code => config.extractors.map(i => i(code))))
-      const css = await generate(result)
+      const { css } = await generate(result)
 
       // fool the css plugin to generate the css in corresponding chunk
       const fakeCssId = `${chunk.fileName}.css`

@@ -9,5 +9,9 @@
     "strictNullChecks": true,
     "resolveJsonModule": true,
     "skipDefaultLibCheck": true
-  }
+  },
+  "exclude": [
+    "**/dist/**",
+    "**/entries/**",
+  ]
 }

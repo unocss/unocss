@@ -10,6 +10,8 @@ Set {
   "[text~=\\"white\\"]",
   "[flex~=\\"~\\"]",
   "[flex~=\\"col\\"]",
+  "[p~=\\"t-2\\"]",
+  "[pt~=\\"2\\"]",
   "[border~=\\"rounded-xl\\"]",
   "[font~=\\"condition\\"]",
   "[font~=\\"?\\"]",
@@ -26,9 +28,12 @@ Set {
 `;
 
 exports[`attributify generate 1`] = `
-"[mw-children~=\\"m-auto\\"] > *{margin:auto;}
+"[p~=\\"y-2\\"]{padding-top:0.5rem;padding-bottom:0.5rem;}
+[p~=\\"x-4\\"]{padding-left:1rem;padding-right:1rem;}
+[p~=\\"t-2\\"]{padding-top:0.5rem;}
+[pt~=\\"\\\\32 \\"]{padding-top:0.5rem;}
+[mw-children~=\\"m-auto\\"] > *{margin:auto;}
 .m-auto{margin:auto;}
-[flex~=\\"\\\\~\\"]{display:flex;}
 [text~=\\"white\\"]{--mw-text-opacity:1;color:rgba(255,255,255,var(--mw-text-opacity));}
 [bg~=\\"blue-400\\"]{--mw-bg-opacity:1;background-color:rgba(96,165,250,var(--mw-bg-opacity));}
 [bg~=\\"hover\\\\:blue-500\\"]:hover{--mw-bg-opacity:1;background-color:rgba(59,130,246,var(--mw-bg-opacity));}
@@ -43,6 +48,7 @@ exports[`attributify generate 1`] = `
 .rounded{border-radius:0.25rem;}
 [border~=\\"rounded-xl\\"]{border-radius:0.75rem;}
 .rounded-xl{border-radius:0.75rem;}
+[flex~=\\"\\\\~\\"]{display:flex;}
 [flex~=\\"col\\"]{flex-direction:column;}"
 `;
 
@@ -56,6 +62,8 @@ Array [
   "text-white",
   "flex",
   "flex-col",
+  "p-t-2",
+  "pt-2",
   "border-rounded-xl",
   "font-condition",
   "font-?",

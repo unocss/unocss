@@ -9,12 +9,12 @@ const directionSize = (prefix: string) => ([_, direction, size]: string[]): Mini
 
 export const paddings: MiniwindRule[] = [
   [/^p()-([^-]+)$/, directionSize('padding')],
-  [/^p([xy]?)-([^-]+)$/, directionSize('padding')],
-  [/^p([rltb]?)-([^-]+)$/, directionSize('padding')],
+  [/^p-?([xy])-([^-]+)$/, directionSize('padding')],
+  [/^p-?([rltb])-([^-]+)$/, directionSize('padding')],
 ]
 
 export const margins: MiniwindRule[] = [
   [/^m()-([^-]+)$/, directionSize('margin')],
-  [/^m([xy]?)-([^-]+)$/, directionSize('margin')],
-  [/^m([rltb]?)-([^-]+)$/, directionSize('margin')],
+  [/^m-?([xy])-([^-]+)$/, directionSize('margin')],
+  [/^m-?([rltb])-([^-]+)$/, directionSize('margin')],
 ]

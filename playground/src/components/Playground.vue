@@ -5,42 +5,51 @@ import { createGenerator } from '../../../src/generator'
 import { presetAttributify } from '../../../src/presets/attributify'
 import { presetDefault } from '../../../src/presets/default'
 
-const generator = createGenerator({
+const generate = createGenerator({
   presets: [
     presetAttributify(),
     presetDefault(),
   ],
 })
 
-const input = ref('<div class="sm:dark:!text-red" bg="hover:red" />')
-const output = asyncComputed(() => generator(input.value))
-const formatted = computed(() => prettier.format(output.value || '', {
+const input = useStorage('miniwind-input', '<div class="sm:dark:!text-red" bg="hover:red" />')
+const output = asyncComputed(() => generate(input.value), { css: '', matched: new Set<string>() })
+const formatted = computed(() => prettier.format(output.value?.css || '', {
   parser: 'css',
   plugins: [parserCSS],
 }))
 </script>
 
 <template>
-  <div
-    class="font-mono flex w-full gap-2 px-10 py-3"
-    text="sm gray-600 dark:gray-200"
-  >
-    <CodeMirror
-      v-model="input"
-      mode="htmlmixed"
-      h="90"
-      w="1/2"
-      overflow="hidden"
-      mw-border="~ gray-400/10 rounded"
-    />
-    <CodeMirror
-      v-model="formatted"
-      mode="css"
-      h="90"
-      w="1/2"
-      overflow="hidden"
-      mw-border="~ gray-400/10 rounded"
-      :read-only="true"
-    />
+  <div p="x-10">
+    <div
+      grid="~ cols-2 gap-2"
+      w="full"
+      class="font-mono py-3"
+      text="sm gray-600 dark:gray-200"
+    >
+      <CodeMirror
+        v-model="input"
+        mode="htmlmixed"
+        h="90"
+        overflow="hidden"
+        mw-border="~ gray-400/10 rounded"
+        :matched="output.matched"
+      />
+      <CodeMirror
+        v-model="formatted"
+        mode="css"
+        h="90"
+        overflow="hidden"
+        mw-border="~ gray-400/10 rounded"
+        :read-only="true"
+      />
+    </div>
   </div>
 </template>
+
+<style>
+.highlighted {
+  border-bottom: 1px dashed currentColor;
+}
+</style>

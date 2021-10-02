@@ -2,7 +2,7 @@ import { MiniwindRule } from '../../../types'
 import { h } from '../../../utils'
 
 export const gaps: MiniwindRule[] = [
-  [/^gap-([^-]+)$/, ([, s]) => {
+  [/^(?:flex-|grid-)gap-([^-]+)$/, ([, s]) => {
     const v = h.bracket.size(s)
     if (v != null) {
       return {
@@ -11,7 +11,7 @@ export const gaps: MiniwindRule[] = [
       }
     }
   }],
-  [/^gap-x-([^-]+)$/, ([, s]) => {
+  [/^(?:flex-|grid-)gap-x-([^-]+)$/, ([, s]) => {
     const v = h.bracket.size(s)
     if (v != null) {
       return {
@@ -20,7 +20,7 @@ export const gaps: MiniwindRule[] = [
       }
     }
   }],
-  [/^gap-y-([^-]+)$/, ([, s]) => {
+  [/^(?:flex-|grid-)gap-y-([^-]+)$/, ([, s]) => {
     const v = h.bracket.size(s)
     if (v != null) {
       return {
