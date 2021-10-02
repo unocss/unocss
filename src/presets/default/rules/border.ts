@@ -25,8 +25,12 @@ export const borderStyles: MiniwindRule[] = [
 function handlerBorder([, a, b]: string[]): MiniwindCssEntries | undefined {
   const [d, s = '1'] = directionMap[a] ? [a, b] : ['', a]
   const v = h.bracket.border(s)
-  if (v != null)
-    return directionMap[d].map(i => [`border${i}-width`, v])
+  if (v != null) {
+    return [
+      ...directionMap[d].map((i): [string, string] => [`border${i}-width`, v]),
+      ['border-style', 'solid'],
+    ]
+  }
 }
 
 function handlerRounded([, a, b]: string[], theme: MiniwindTheme): MiniwindCssEntries | undefined {

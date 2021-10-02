@@ -6,7 +6,7 @@ import { presetAttributify, presetDefault } from '../../../src'
 
 const generator = createGenerator({
   presets: [
-    presetAttributify,
+    presetAttributify(),
     presetDefault,
   ],
 })
@@ -24,27 +24,22 @@ const formatted = computed(() => prettier.format(output.value || '', {
     class="font-mono flex w-full gap-2 px-10 py-3"
     text="sm gray-600 dark:gray-200"
   >
-    <textarea
+    <CodeMirror
       v-model="input"
-      spellcheck="false"
-      autocorrect="off"
-      autocapitalize="off"
-      autocomplete="off"
+      mode="htmlmixed"
+      h="90"
       w="1/2"
-      h="80"
-      class="font-mono rounded p-2 bg-transparent text-inherit border border-gray-400/10 outline-none"
+      overflow="hidden"
+      mw-border="~ gray-400/10 rounded"
     />
-    <textarea
-      readonly
-      :value="formatted"
-      placeholder="No result"
-      spellcheck="false"
-      autocorrect="off"
-      autocapitalize="off"
-      autocomplete="off"
+    <CodeMirror
+      v-model="formatted"
+      mode="css"
+      h="90"
       w="1/2"
-      h="80"
-      class="font-mono rounded p-2 bg-transparent text-inherit border border-gray-400/10 outline-none"
+      overflow="hidden"
+      mw-border="~ gray-400/10 rounded"
+      :read-only="true"
     />
   </div>
 </template>

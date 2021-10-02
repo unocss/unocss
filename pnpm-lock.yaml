@@ -40,8 +40,11 @@ importers:
 
   playground:
     specifiers:
+      '@types/codemirror': ^5.60.4
       '@vitejs/plugin-vue': ^1.9.2
       '@vueuse/core': ^6.5.3
+      codemirror: ^5.63.1
+      codemirror-theme-vars: ^0.1.1
       miniwind: workspace:*
       prettier: ^2.4.1
       typescript: ^4.4.3
@@ -52,9 +55,12 @@ importers:
       vue: ^3.2.19
     dependencies:
       '@vueuse/core': 6.5.3_vue@3.2.19
+      codemirror: 5.63.1
       vue: 3.2.19
     devDependencies:
+      '@types/codemirror': 5.60.4
       '@vitejs/plugin-vue': 1.9.2_vite@2.6.2
+      codemirror-theme-vars: 0.1.1
       miniwind: link:..
       prettier: 2.4.1
       typescript: 4.4.3
@@ -821,6 +827,16 @@ packages:
       '@babel/types': 7.12.13
     dev: true
 
+  /@types/codemirror/5.60.4:
+    resolution: {integrity: sha512-SUQgBj9jZ+xj75zgwfgQZt0CManWBISN/YsE0xRmPwO6uDyLNpXO8bn2m59tpevsFw+eQdmx+qY1WjOrUgMDgw==}
+    dependencies:
+      '@types/tern': 0.23.4
+    dev: true
+
+  /@types/estree/0.0.50:
+    resolution: {integrity: sha512-C6N5s2ZFtuZRj54k2/zyRhNDjJwwcViAM3Nbm8zjBpbqAdZ00mr0CFxvSKeO8Y/e03WVFLpQMdHYVfUd6SB+Hw==}
+    dev: true
+
   /@types/graceful-fs/4.1.5:
     resolution: {integrity: sha512-anKkLmZZ+xm4p8JWBf4hElkM4XR+EZeA2M9BAkkTldmcyDY4mbdIJnRghDJH3Ov5ooY7/UAoENtmdMSkaAd7Cw==}
     dependencies:
@@ -880,6 +896,12 @@ packages:
 
   /@types/stack-utils/2.0.0:
     resolution: {integrity: sha512-RJJrrySY7A8havqpGObOB4W92QXKJo63/jFLLgpvOtsGUqbQZ9Sbgl35KMm1DjC6j7AvmmU2bIno+3IyEaemaw==}
+    dev: true
+
+  /@types/tern/0.23.4:
+    resolution: {integrity: sha512-JAUw1iXGO1qaWwEOzxTKJZ/5JxVeON9kvGZ/osgZaJImBnyjyn0cjovPsf6FNLmyGY8Vw9DoXZCMlfMkMwHRWg==}
+    dependencies:
+      '@types/estree': 0.0.50
     dev: true
 
   /@types/throttle-debounce/2.1.0:
@@ -1600,6 +1622,14 @@ packages:
     resolution: {integrity: sha1-bqa989hTrlTMuOR7+gvz+QMfsYQ=}
     engines: {iojs: '>= 1.0.0', node: '>= 0.12.0'}
     dev: true
+
+  /codemirror-theme-vars/0.1.1:
+    resolution: {integrity: sha512-Au0Ysn6tUMZB/1Jd5S8g4Or1kZxTuTnNx6MVs9H46Ad7w8IEjkHusH+4oyia/FBcVuAJO4DIlkDnPM8Qnnf1rg==}
+    dev: true
+
+  /codemirror/5.63.1:
+    resolution: {integrity: sha512-baivaNZreZOGh1/tYyTvCupC9NeWk7qlZeGUDi4nFKj/J0JU8FYKZND4QqLw70P7HOttlCt4JJAOj9GoIhHEkA==}
+    dev: false
 
   /collect-v8-coverage/1.0.1:
     resolution: {integrity: sha512-iBPtljfCNcTKNAto0KEtDfZ3qzjJvqE3aTGZsbhjSBlorqpXJlaWWtPO35D+ZImoC3KWejX64o+yPGxhWSTzfg==}

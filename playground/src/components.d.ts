@@ -5,6 +5,7 @@
 declare module 'vue' {
   export interface GlobalComponents {
     Bar: typeof import('./components/Bar.vue')['default']
+    CodeMirror: typeof import('./components/CodeMirror.vue')['default']
     Cover: typeof import('./components/Cover.vue')['default']
     Foo: typeof import('./components/Foo.vue')['default']
     Playground: typeof import('./components/Playground.vue')['default']
