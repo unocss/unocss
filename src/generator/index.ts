@@ -1,6 +1,6 @@
 import { MiniwindVariant, MiniwindCssObject, MiniwindCssEntries, MiniwindRule, MiniwindStaticRule, MiniwindUserConfig } from '../types'
 import { resolveConfig } from '../options'
-import { cssEscape, entriesToCss, toArray } from '../utils'
+import { cssEscape, entriesToCss } from '../utils'
 
 const reValidateFilter = /[a-z]/
 const reScopePlaceholder = / \$\$ /
@@ -25,17 +25,27 @@ function toSelector(raw: string) {
     return `.${cssEscape(raw)}`
 }
 
+type Cache = readonly [number, string, string | undefined]
+
 export function createGenerator(userConfig: MiniwindUserConfig = {}) {
   const config = resolveConfig(userConfig)
   const { rules, theme } = config
 
   const rulesLength = rules.length
-  const cache = new Map<string, [number, string] | null>()
-  const extractors = toArray(config.extractors)
+
+  const cache = new Map<string, Cache | null>()
+  const extractors = config.extractors
 
   return async(code: string, id?: string, scope?: string) => {
     const results = await Promise.all(extractors.map(i => i(code, id)))
-    const sheet: [number, string][] = []
+    const sheet: Record<string, Cache[]> = {}
+
+    function updateSheet(data: Cache) {
+      const query = data[2] || ''
+      if (!(query in sheet))
+        sheet[query] = []
+      sheet[query].push(data)
+    }
 
     results.forEach((tokens) => {
       tokens.forEach((raw) => {
@@ -47,7 +57,7 @@ export function createGenerator(userConfig: MiniwindUserConfig = {}) {
         if (cache.has(raw)) {
           const r = cache.get(raw)
           if (r)
-            sheet.push(r)
+            updateSheet(r)
           return
         }
 
@@ -107,15 +117,9 @@ export function createGenerator(userConfig: MiniwindUserConfig = {}) {
           const selector = variants.reduce((p, v) => v.selector?.(p, theme) || p, toSelector(raw))
           const mediaQuery = variants.reduce((p: string | undefined, v) => v.mediaQuery?.(raw, theme) || p, undefined)
 
-          let css = `${selector}{${body}}`
-          if (mediaQuery) {
-            css = hasScopePlaceholder(css)
-              ? `${mediaQuery}{${css}}`
-              : `${mediaQuery}{ $$ ${css}}`
-          }
-
-          const payload: [number, string] = [i, css]
-          sheet.push(payload)
+          const css = `${selector}{${body}}`
+          const payload = [i, css, mediaQuery] as const
+          updateSheet(payload)
           cache.set(raw, payload)
           return
         }
@@ -125,9 +129,16 @@ export function createGenerator(userConfig: MiniwindUserConfig = {}) {
       })
     })
 
-    return sheet
-      .sort((a, b) => a[0] - b[0])
-      .map(i => applyScope(i[1], scope))
+    return Object.entries(sheet)
+      .map(([query, items]) => {
+        const rules = items
+          .sort((a, b) => a[0] - b[0])
+          .map(i => applyScope(i[1], scope))
+          .join('\n')
+        if (query)
+          return `${query} {\n${rules}\n}`
+        return rules
+      })
       .join('\n')
   }
 }

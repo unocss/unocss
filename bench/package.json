@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "prepare": "node gen.mjs && node setup.mjs",
+    "build": "node build.mjs"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.9.2",
+    "autoprefixer": "^10.3.6",
+    "fs-extra": "^10.0.0",
+    "postcss": "^8.3.8",
+    "tailwindcss": "^2.2.16",
+    "vite": "^2.6.2",
+    "vite-plugin-windicss": "^1.4.9",
+    "vue": "^3.2.19"
+  }
+}

@@ -1,3 +1,4 @@
+import fs from 'fs'
 import { createGenerator } from '../src'
 
 const fixture = [
@@ -24,6 +25,8 @@ const fixture = [
   'my-auto',
   'm-[3em]',
   'sm:text-red-100',
+  'sm:text-red-200',
+  'sm:text-red-300',
   'md:!hidden',
   'rounded-t-sm',
   'rounded-md',
