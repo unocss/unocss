@@ -40,20 +40,26 @@ importers:
       '@vitejs/plugin-vue': ^1.9.2
       autoprefixer: ^10.3.6
       fs-extra: ^10.0.0
+      local-pkg: ^0.3.0
+      miniwind: workspace:*
       postcss: ^8.3.8
       tailwindcss: ^2.2.16
       vite: ^2.6.2
       vite-plugin-windicss: ^1.4.9
       vue: ^3.2.19
+      windicss: ^3.1.8
     devDependencies:
       '@vitejs/plugin-vue': 1.9.2_vite@2.6.2
       autoprefixer: 10.3.6_postcss@8.3.8
       fs-extra: 10.0.0
+      local-pkg: 0.3.0
+      miniwind: link:..
       postcss: 8.3.8
       tailwindcss: 2.2.16_d90402d1bb3b165c9c83046beac13a8b
       vite: 2.6.2
       vite-plugin-windicss: 1.4.9_typescript@4.4.3+vite@2.6.2
       vue: 3.2.19
+      windicss: 3.1.8
 
   packages/scope:
     specifiers: {}
@@ -3941,6 +3947,13 @@ packages:
 
   /local-pkg/0.1.0:
     resolution: {integrity: sha512-WsR2tHvRGIxcC2clC30ECb5fjywzsjQagaHIy1+ykZaHz0ByoB0OL2riHqIYA5YYnensRXLszwbzHkhKzehZDg==}
+    dependencies:
+      mlly: 0.2.2
+    dev: true
+
+  /local-pkg/0.3.0:
+    resolution: {integrity: sha512-JapWObmC38atpkIh2Y8M3223TP+GsdtR4s28Kut7Q98PT6MX7VwvAwPs2/rxpwi+hbDiHM4+dIvRCU67k+qHag==}
+    engines: {node: '>=14'}
     dependencies:
       mlly: 0.2.2
     dev: true
