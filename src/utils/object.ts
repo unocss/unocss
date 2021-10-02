@@ -1,4 +1,4 @@
-import { MiniwindCssEntries } from '..'
+import { MiniwindCssEntries, MiniwindRule, MiniwindStaticRule } from '../types'
 
 export function entriesToCss(arr?: MiniwindCssEntries) {
   if (!arr)
@@ -42,4 +42,8 @@ export function mergeDeep<T>(original: T, patch: DeepPartial<T>): T {
     })
   }
   return output
+}
+
+export function isStaticRule(rule: MiniwindRule): rule is MiniwindStaticRule {
+  return typeof rule[0] === 'string'
 }

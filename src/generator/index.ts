@@ -1,4 +1,4 @@
-import { MiniwindVariant, MiniwindCssObject, MiniwindCssEntries, MiniwindRule, MiniwindStaticRule, MiniwindUserConfig } from '../types'
+import { MiniwindVariant, MiniwindCssObject, MiniwindCssEntries, MiniwindUserConfig } from '../types'
 import { resolveConfig } from '../options'
 import { cssEscape, entriesToCss } from '../utils'
 
@@ -13,10 +13,6 @@ function applyScope(css: string, scope?: string) {
     return scope ? `${scope} ${css}` : css
 }
 
-function isStaticRule(rule: MiniwindRule): rule is MiniwindStaticRule {
-  return typeof rule[0] === 'string'
-}
-
 function toSelector(raw: string) {
   if (raw.startsWith('['))
     return raw.replace(/"(.*)"/, (_, i) => `"${cssEscape(i)}"`)
@@ -28,9 +24,9 @@ type Cache = readonly [number, string, string | undefined]
 
 export function createGenerator(userConfig: MiniwindUserConfig = {}) {
   const config = resolveConfig(userConfig)
-  const { rules, theme } = config
+  const { dynamicRules, theme, staticRulesMap } = config
 
-  const rulesLength = rules.length
+  const rulesLength = dynamicRules.length
 
   const _cache = new Map<string, Cache | null>()
   const extractors = config.extractors
@@ -83,29 +79,9 @@ export function createGenerator(userConfig: MiniwindUserConfig = {}) {
             break
         }
 
-        // match tokens
-        for (let i = 0; i < rulesLength; i++) {
-          const rule = rules[i]
-
-          let obj: MiniwindCssObject | MiniwindCssEntries | undefined
-
-          // static rule
-          if (isStaticRule(rule)) {
-            if (rule[0] !== processed)
-              continue
-            obj = rule[1]
-          }
-          // dynamic rule
-          else {
-            const [matcher, handler] = rule
-            const match = processed.match(matcher)
-            if (!match)
-              continue
-            obj = handler(match, theme)
-          }
-
+        function handleObj(index: number, obj: MiniwindCssObject | MiniwindCssEntries | undefined) {
           if (!obj)
-            continue
+            return
 
           if (!Array.isArray(obj))
             obj = Object.entries(obj)
@@ -114,15 +90,39 @@ export function createGenerator(userConfig: MiniwindUserConfig = {}) {
 
           const body = entriesToCss(obj)
           if (!body)
-            continue
+            return
 
           const selector = variants.reduce((p, v) => v.selector?.(p, theme) || p, toSelector(raw))
           const mediaQuery = variants.reduce((p: string | undefined, v) => v.mediaQuery?.(raw, theme) || p, undefined)
 
           const css = `${selector}{${body}}`
-          const payload = [i, css, mediaQuery] as const
+          const payload = [index, css, mediaQuery] as const
           hit(raw, payload)
+          return payload
+        }
+
+        // use map to for static rules
+        const staticMatch = staticRulesMap[processed]
+        if (staticMatch && handleObj(...staticMatch))
           return
+
+        // match rules
+        for (let i = 0; i < rulesLength; i++) {
+          const rule = dynamicRules[i]
+
+          // static rules are omitted as undefined
+          if (!rule)
+            continue
+
+          // dynamic rules
+          const [matcher, handler] = rule
+          const match = processed.match(matcher)
+          if (!match)
+            continue
+
+          const obj = handler(match, theme)
+          if (handleObj(i, obj))
+            return
         }
 
         // set null cache for unmatched result
