@@ -5,7 +5,7 @@ import { fonts, fontSizes, fontWeights, leadings, trackings } from './font'
 import { gaps } from './gap'
 import { sizes } from './size'
 import { paddings, margins } from './spacing'
-import { aligns, appearances, breaks, cursors, displays, pointerEvents, resizes, textAligns, textDecorations, textOverflows, textTransforms, userSelects, whitespaces } from './static'
+import { verticals, appearances, breaks, cursors, displays, pointerEvents, resizes, textAligns, textDecorations, textOverflows, textTransforms, userSelects, whitespaces } from './static'
 
 export const defaultRules = [
   ...paddings,
@@ -28,7 +28,7 @@ export const defaultRules = [
   ...appearances,
   ...pointerEvents,
   ...resizes,
-  ...aligns,
+  ...verticals,
   ...userSelects,
   ...whitespaces,
   ...breaks,

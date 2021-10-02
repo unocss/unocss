@@ -38,12 +38,12 @@ export const userSelects: NanowindRule[] = [
   ['select-auto', { 'user-select': 'auto' }],
 ]
 
-export const aligns: NanowindRule[] = [
-  ['align-baseline', { 'vertical-align': 'baseline' }],
-  ['align-top', { 'vertical-align': 'top' }],
-  ['align-middle', { 'vertical-align': 'middle' }],
-  ['align-text-top', { 'vertical-align': 'text-top' }],
-  ['align-text-bottom', { 'vertical-align': 'text-bottom' }],
+export const verticals: NanowindRule[] = [
+  ['vertical-baseline', { 'vertical-align': 'baseline' }],
+  ['vertical-top', { 'vertical-align': 'top' }],
+  ['vertical-middle', { 'vertical-align': 'middle' }],
+  ['vertical-text-top', { 'vertical-align': 'text-top' }],
+  ['vertical-text-bottom', { 'vertical-align': 'text-bottom' }],
 ]
 
 export const whitespaces: NanowindRule[] = [
@@ -66,15 +66,15 @@ export const textOverflows: NanowindRule[] = [
     'text-overflow': 'ellipsis',
     'white-space': 'nowrap',
   }],
-  ['overflow-ellipsis', { 'text-overflow': 'ellipsis' }],
-  ['overflow-clip', { 'text-overflow': 'clip' }],
+  ['text-ellipsis', { 'text-overflow': 'ellipsis' }],
+  ['text-clip', { 'text-overflow': 'clip' }],
 ]
 
 export const textTransforms: NanowindRule[] = [
-  ['uppercase', { 'text-transform': 'uppercase' }],
-  ['lowercase', { 'text-transform': 'lowercase' }],
-  ['capitalize', { 'text-transform': 'capitalize' }],
-  ['normal-case', { 'text-transform': 'none' }],
+  ['case-upper', { 'text-transform': 'uppercase' }],
+  ['case-lower', { 'text-transform': 'lowercase' }],
+  ['case-capital', { 'text-transform': 'capitalize' }],
+  ['case-normal', { 'text-transform': 'none' }],
 ]
 
 export const textDecorations: NanowindRule[] = [
