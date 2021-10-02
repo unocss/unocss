@@ -11,6 +11,10 @@ export function createPseudoClassVariant(name: string, pseudo = name): MiniwindV
       match: variantMatcher(`not-${name}`),
       selector: input => `${input}:not(:${pseudo})`,
     },
+    {
+      match: variantMatcher(`group-${name}`),
+      selector: input => `.group:${pseudo} ${input}`,
+    },
   ]
 }
 

@@ -1,4 +1,5 @@
 import { MiniwindRule } from '../../../types'
+import { transitions } from './animations'
 import { borders, borderStyles, rounded } from './border'
 import { bgColors, borderColors, opacity, textColors } from './colors'
 import { flex } from './flex'
@@ -58,4 +59,5 @@ export const defaultRules: MiniwindRule[] = [
   insets,
   floats,
   zIndexes,
+  transitions,
 ].flat(1)

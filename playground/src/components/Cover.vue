@@ -1,9 +1,11 @@
 <template>
-  <div class="h-80 text-center flex">
-    <div m="auto">
+  <div class="h-80 text-center flex select-none all:transition-400">
+    <div m="auto" class="group">
       <div class="font-100 text-4xl -mb-4">~</div>
-      <div class="text-5xl font-100">miniwind</div>
-      <div class="opacity-50 font-200 mt-1 tracking-wider">Re-imaging Atomic CSS</div>
+      <div class="text-5xl font-100">
+        <span class="group-hover:opacity-25">m</span><span>i</span><span class="group-hover:opacity-25">n</span><span>i</span><span class="group-hover:opacity-25">w</span><span>i</span><span class="group-hover:opacity-25">nd</span>
+      </div>
+      <div class="opacity-50 font-200 mt-1 tracking-wider group-hover:text-teal-400">Re-imaging Atomic CSS</div>
     </div>
   </div>
 </template>

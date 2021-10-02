@@ -35,7 +35,7 @@ export const defaultVariants = [
   variantNegative,
   variantImportant,
   variantBreakpoints,
-  variantChildren,
+  ...variantChildren,
   ...variantColorsClass,
   ...variantPseudoClasses,
   ...variantPseudoElements,
