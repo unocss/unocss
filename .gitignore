@@ -3,8 +3,6 @@ node_modules
 dist
 dist-ssr
 *.local
-bench/fixtures/*/src
-!bench/fixtures/none/src
-bench/fixtures/none/src/Gen.vue
+bench/source/Gen.vue
 *.log
 result.json

@@ -8,5 +8,4 @@ export const targets = [
   'windicss',
   'tailwind-jit',
   'miniwind',
-  'miniwind-vue',
 ]

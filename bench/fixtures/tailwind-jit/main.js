@@ -1,5 +1,2 @@
-import { createApp } from 'vue'
-import App from './src/App.vue'
+import '../../source/gen.js'
 import './style.css'
-
-createApp(App).mount('#app')

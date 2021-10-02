@@ -22,9 +22,6 @@ importers:
       vite-plugin-windicss: 1.4.9_vite@2.6.2
       vue: 3.2.19
 
-  fixtures/miniwind:
-    specifiers: {}
-
   fixtures/tailwind-jit:
     specifiers: {}
 

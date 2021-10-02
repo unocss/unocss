@@ -1,8 +1,9 @@
+/* eslint-disable no-console */
 import { execSync } from 'child_process'
 import fs from 'fs-extra'
 import { dir, targets } from './meta.mjs'
 
-const times = 20
+const times = 50
 
 await fs.writeJSON(`${dir}/result.json`, [], { spaces: 2 })
 
@@ -23,8 +24,18 @@ const average = targets.map((target) => {
 const baseTime = average.find(i => i[0] === 'none')[1]
 const fastest = average.sort((a, b) => a[1] - b[1])[1][1]
 
-average.forEach(([name, t]) => {
-  const d = t - baseTime
+console.log('\n\n')
+console.log(new Date().toLocaleString())
+console.log(`1064 utilities | x${result.length / targets.length} runs`)
+console.log('')
+
+average.forEach(([name, average]) => {
+  const d = average - baseTime
   const slowdown = d / (fastest - baseTime)
-  console.log(name.padEnd(15, ' '), `${(t - baseTime).toFixed(2).padStart(8, ' ')} ms`, `(x${slowdown.toFixed(2)})`)
+  console.log(
+    name.padEnd(15, ' '),
+    `avg.${average.toFixed(2).padStart(8, ' ')} ms /`,
+    `delta.${(average - baseTime).toFixed(2).padStart(8, ' ')} ms`,
+    slowdown ? `(x${slowdown.toFixed(2)})` : '',
+  )
 })

@@ -2,13 +2,10 @@
 import { join } from 'path'
 import fs from 'fs-extra'
 import { build } from 'vite'
-import CreateVue from '@vitejs/plugin-vue'
 import { targets, dir } from './meta.mjs'
 
 const result = {}
 const date = new Date().toISOString()
-
-const VuePlugin = CreateVue()
 
 function BuildTimePlugin(name) {
   let start = 0
@@ -18,10 +15,8 @@ function BuildTimePlugin(name) {
     apply: 'build',
     buildStart() {
       start = performance.now()
-      console.time(`build:${name}`)
     },
     buildEnd() {
-      console.timeEnd(`build:${name}`)
       result[name].time = performance.now() - start
     },
     async closeBundle() {
@@ -43,7 +38,7 @@ console.log('warning up vite...')
 for (let i = 0; i < 10; i++)
   await run('none')
 
-console.log('\n\nstart')
+console.log('\nstart')
 
 targets.sort(() => Math.random() - 0.5)
 
@@ -59,17 +54,16 @@ async function run(target, bench = false) {
   await build({
     root: cwd,
     logLevel: 'silent',
+    build: {
+      minify: false,
+    },
     plugins: bench
-      ? [
-        VuePlugin,
-        BuildTimePlugin(target)]
-      : [
-        VuePlugin,
-      ],
+      ? [BuildTimePlugin(target)]
+      : [],
   })
 }
 
-console.log(Object.values(result))
+// console.log(Object.values(result))
 
 const full = await fs.readJSON(`${dir}/result.json`) || []
 

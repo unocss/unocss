@@ -19,6 +19,8 @@ const names = [
   'm',
   'bg',
   'text',
+  'opacity',
+  'border-t',
 ]
 
 const values = [
@@ -26,11 +28,12 @@ const values = [
   '100',
   '300',
   'red-100',
-  'teal-100/10',
+  'blue-100/10',
   '[1px]',
   '[3.555em]',
   'none',
   'xl',
+  '2xl',
 ]
 
 const classes = []
@@ -42,5 +45,8 @@ for (const v of variants) {
   }
 }
 
-const content = `<template><div v-pre><div class="${classes.join(' ')}"/></div></template>`
-await fs.writeFile(join(dir, 'fixtures/none/src/Gen.vue'), content, 'utf-8')
+// eslint-disable-next-line no-console
+console.log(classes.length)
+
+const content = `document.getElementById('app').className = "${classes.join(' ')}"`
+await fs.writeFile(join(dir, 'source/gen.js'), content, 'utf-8')
