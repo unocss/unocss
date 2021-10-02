@@ -5,7 +5,7 @@ import { defaultExclude, defaultInclude } from './utils'
 
 const VIRTUAL_ENTRY = '/@miniwind/entry.css'
 
-export function GlobalScopeDevPlugin({ generate, options, config }: ResolvedPluginContext): Plugin {
+export function GlobalModeDevPlugin({ generate, options, config }: ResolvedPluginContext): Plugin {
   let server: ViteDevServer | undefined
 
   const filter = createFilter(
@@ -34,7 +34,7 @@ export function GlobalScopeDevPlugin({ generate, options, config }: ResolvedPlug
   const tokens = new Set<string>()
 
   return {
-    name: 'miniwind:global:dev',
+    name: 'miniwind:global',
     apply: 'serve',
     enforce: 'pre',
     configureServer(_server) {

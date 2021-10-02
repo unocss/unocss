@@ -3,7 +3,7 @@ import { createFilter } from '@rollup/pluginutils'
 import { ResolvedPluginContext } from './types'
 import { defaultExclude, defaultInclude } from './utils'
 
-export function GlobalScopeBuildPlugin({ config, options, generate }: ResolvedPluginContext): Plugin {
+export function ChunkModeBuildPlugin({ config, options, generate }: ResolvedPluginContext): Plugin {
   let cssPlugin: Plugin | undefined
 
   const filter = createFilter(
@@ -14,7 +14,7 @@ export function GlobalScopeBuildPlugin({ config, options, generate }: ResolvedPl
   const files: Record<string, string> = {}
 
   return {
-    name: 'miniwind:global:build',
+    name: 'miniwind:chunk',
     apply: 'build',
     enforce: 'pre',
     configResolved(config) {
@@ -27,7 +27,7 @@ export function GlobalScopeBuildPlugin({ config, options, generate }: ResolvedPl
       files[id] = code
       return null
     },
-    async renderChunk(code, chunk) {
+    async renderChunk(_, chunk) {
       const chunks = Object.keys(chunk.modules).map(i => files[i]).filter(Boolean)
 
       if (!chunks.length)

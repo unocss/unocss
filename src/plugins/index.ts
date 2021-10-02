@@ -1,20 +1,20 @@
 import { Plugin } from 'vite'
 import { createGenerator } from '../generator'
 import { resolveConfig } from '../options'
-import { GlobalScopeBuildPlugin } from './global-build'
-import { GlobalScopeDevPlugin } from './global-dev'
-import { ModuleScopePlugin } from './module'
+import { ChunkModeBuildPlugin } from './chunk-build'
+import { GlobalModeDevPlugin } from './global-dev'
+import { PerModuleModePlugin } from './per-module'
 import { MiniwindUserOptions, ResolvedPluginContext } from './types'
-import { VueScopedPlugin } from './vue'
+import { VueScopedPlugin } from './vue-scoped'
 
 export * from './types'
-export * from './global-build'
+export * from './chunk-build'
 export * from './global-dev'
-export * from './module'
-export * from './vue'
+export * from './per-module'
+export * from './vue-scoped'
 
-export default function MiniwindPlugin(options: MiniwindUserOptions = {}): Plugin[] {
-  const scope = options.scope ?? 'global'
+export default function MiniwibndPlugin(options: MiniwindUserOptions = {}): Plugin[] {
+  const mode = options.mode ?? 'global'
   const config = resolveConfig(options)
   const generate = createGenerator(config)
 
@@ -24,22 +24,22 @@ export default function MiniwindPlugin(options: MiniwindUserOptions = {}): Plugi
     options,
   }
 
-  if (scope === 'module') {
-    return [ModuleScopePlugin(context)]
+  if (mode === 'per-module') {
+    return [PerModuleModePlugin(context)]
   }
 
-  else if (scope === 'vue-scoped') {
+  else if (mode === 'vue-scoped') {
     return [VueScopedPlugin(context)]
   }
 
-  else if (scope === 'global') {
+  else if (mode === 'global') {
     return [
-      GlobalScopeBuildPlugin(context),
-      GlobalScopeDevPlugin(context),
+      ChunkModeBuildPlugin(context),
+      GlobalModeDevPlugin(context),
     ]
   }
 
   else {
-    throw new Error('never reach')
+    throw new Error(`[miniwind] unknown mode "${mode}"`)
   }
 }

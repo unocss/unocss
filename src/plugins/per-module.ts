@@ -6,7 +6,7 @@ import { defaultExclude, defaultInclude, getHash } from './utils'
 const VIRTUAL_PREFIX = '/@miniwind/'
 const SCOPE_IMPORT_RE = / from (['"])(@miniwind\/scope)\1/
 
-export function ModuleScopePlugin({ generate, options }: ResolvedPluginContext): Plugin {
+export function PerModuleModePlugin({ generate, options }: ResolvedPluginContext): Plugin {
   const moduleMap = new Map<string, [string, string]>()
   let server: ViteDevServer | undefined
 

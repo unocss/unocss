@@ -12,7 +12,6 @@ export default defineConfig({
   plugins: [
     Vue(),
     Miniwind({
-      scope: 'global',
       theme: mergeDeep(
         defaultTheme,
         {
