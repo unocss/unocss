@@ -4,23 +4,24 @@ import Inspect from 'vite-plugin-inspect'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Miniwind from '../src/vite-vue-sfc'
-import { defaultTheme, presetDefault, presetAttributify } from '../src'
+import { defaultTheme, presetDefault, presetAttributify, mergeDeep } from '../src'
 
 export default defineConfig({
   plugins: [
     Vue(),
     Miniwind({
-      theme: {
-        ...defaultTheme,
-        fontFamily: {
-          ...defaultTheme.fontFamily,
-          sans: '\'Inter\', sans-serif',
-          mono: '\'Fira Code\', monospace',
+      theme: mergeDeep(
+        defaultTheme,
+        {
+          fontFamily: {
+            sans: '\'Inter\', sans-serif',
+            mono: '\'Fira Code\', monospace',
+          },
         },
-      },
+      ),
       presets: [
-        presetDefault,
         presetAttributify,
+        presetDefault,
       ],
     }),
     Inspect(),

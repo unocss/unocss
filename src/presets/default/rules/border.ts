@@ -9,9 +9,9 @@ export const borders: MiniwindRule[] = [
 ]
 
 export const rounded: MiniwindRule[] = [
-  [/^rounded$/, handlerRounded],
-  [/^rounded(?:-([^-]+))?$/, handlerRounded],
-  [/^rounded(?:-([^-]+))?(?:-([^-]+))?$/, handlerRounded],
+  [/^(?:border-)?rounded$/, handlerRounded],
+  [/^(?:border-)?rounded(?:-([^-]+))?$/, handlerRounded],
+  [/^(?:border-)?rounded(?:-([^-]+))?(?:-([^-]+))?$/, handlerRounded],
 ]
 
 export const borderStyles: MiniwindRule[] = [

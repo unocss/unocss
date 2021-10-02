@@ -20,13 +20,14 @@ const formatted = computed(() => prettier.format(output.value || '', {
 </script>
 
 <template>
-  <div class="font-mono flex flex-col gap-2 px-10 py-3 text-gray-400">
+  <div class="font-mono flex w-full gap-2 px-10 py-3 text-gray-400">
     <textarea
       v-model="input"
       spellcheck="false"
       autocorrect="off"
       autocapitalize="off"
       autocomplete="off"
+      w="1/2"
       class="h-40 text-off font-mono rounded p-2 bg-transparent text-inherit border border-gray-400/10 outline-none"
     />
     <textarea
@@ -37,6 +38,7 @@ const formatted = computed(() => prettier.format(output.value || '', {
       autocorrect="off"
       autocapitalize="off"
       autocomplete="off"
+      w="1/2"
       class="h-40 text-sm font-mono rounded p-2 bg-transparent text-inherit border border-gray-400/10 outline-none"
     />
   </div>

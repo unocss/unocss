@@ -8,6 +8,9 @@ Set {
   "[bg~=\\"dark:hover:blue-600\\"]",
   "[text~=\\"sm\\"]",
   "[text~=\\"white\\"]",
+  "[flex~=\\"~\\"]",
+  "[flex~=\\"col\\"]",
+  "[border~=\\"rounded-xl\\"]",
   "[font~=\\"mono\\"]",
   "[font~=\\"light\\"]",
   "[p~=\\"y-2\\"]",
@@ -19,7 +22,8 @@ Set {
 `;
 
 exports[`attributify generate 1`] = `
-"[border~=\\"\\\\32 \\"]{border-width:2px;}
+"[flex~=\\"\\\\~\\"]{display:flex;}
+[border~=\\"\\\\32 \\"]{border-width:2px;}
 [text~=\\"white\\"]{--mw-text-opacity:1; color:rgba(255,255,255,var(--mw-text-opacity));}
 [bg~=\\"blue-400\\"]{--mw-bg-opacity:1; background-color:rgba(96,165,250,var(--mw-bg-opacity));}
 [bg~=\\"hover\\\\:blue-500\\"]:hover{--mw-bg-opacity:1; background-color:rgba(59,130,246,var(--mw-bg-opacity));}
@@ -29,7 +33,11 @@ exports[`attributify generate 1`] = `
 [font~=\\"mono\\"]{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\\"Liberation Mono\\",\\"Courier New\\",monospace;}
 [text~=\\"sm\\"]{font-size:0.875rem; line-height:1.25rem;}
 [font~=\\"light\\"]{font-weight:300;}
-.rounded{border-radius:0.25rem;}"
+[border~=\\"rounded\\"]{border-radius:0.25rem;}
+.rounded{border-radius:0.25rem;}
+[border~=\\"rounded-xl\\"]{border-radius:0.75rem;}
+.rounded-xl{border-radius:0.75rem;}
+[flex~=\\"col\\"]{flex-direction:column;}"
 `;
 
 exports[`attributify variant 1`] = `
@@ -40,6 +48,9 @@ Array [
   "dark:hover:bg-blue-600",
   "text-sm",
   "text-white",
+  "flex",
+  "flex-col",
+  "border-rounded-xl",
   "font-mono",
   "font-light",
   "p-y-2",
