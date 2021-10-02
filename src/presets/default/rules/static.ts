@@ -1,6 +1,6 @@
-import { NanowindRule } from '../../../types'
+import { MiniwindRule } from '../../../types'
 
-export const displays: NanowindRule[] = [
+export const displays: MiniwindRule[] = [
   ['inline', { display: 'inline' }],
   ['block', { display: 'block' }],
   ['inline-block', { display: 'inline-block' }],
@@ -10,35 +10,35 @@ export const displays: NanowindRule[] = [
   ['hidden', { display: 'none' }],
 ]
 
-export const appearances: NanowindRule[] = [
+export const appearances: MiniwindRule[] = [
   ['outline-none', { 'outline': '2px solid transparent', 'outline-offset': '2px' }],
   ['appearance-none', { appearance: 'none' }],
 ]
 
-export const cursors: NanowindRule[] = [
+export const cursors: MiniwindRule[] = [
   [/^cursor-(.+)$/, ([, c]) => ({ cursor: c })],
 ]
 
-export const pointerEvents: NanowindRule[] = [
+export const pointerEvents: MiniwindRule[] = [
   ['pointer-events-none', { 'pointer-events': 'none' }],
   ['pointer-events-auto', { 'pointer-events': 'auto' }],
 ]
 
-export const resizes: NanowindRule[] = [
+export const resizes: MiniwindRule[] = [
   ['resize-none', { resize: 'none' }],
   ['resize-x', { resize: 'horizontal' }],
   ['resize-y', { resize: 'vertical' }],
   ['resize', { resize: 'both' }],
 ]
 
-export const userSelects: NanowindRule[] = [
+export const userSelects: MiniwindRule[] = [
   ['select-none', { 'user-select': 'none' }],
   ['select-text', { 'user-select': 'text' }],
   ['select-all', { 'user-select': 'all' }],
   ['select-auto', { 'user-select': 'auto' }],
 ]
 
-export const verticals: NanowindRule[] = [
+export const verticals: MiniwindRule[] = [
   ['vertical-baseline', { 'vertical-align': 'baseline' }],
   ['vertical-top', { 'vertical-align': 'top' }],
   ['vertical-middle', { 'vertical-align': 'middle' }],
@@ -46,7 +46,7 @@ export const verticals: NanowindRule[] = [
   ['vertical-text-bottom', { 'vertical-align': 'text-bottom' }],
 ]
 
-export const whitespaces: NanowindRule[] = [
+export const whitespaces: MiniwindRule[] = [
   ['whitespace-normal', { 'white-space': 'normal' }],
   ['whitespace-nowrap', { 'white-space': 'nowrap' }],
   ['whitespace-pre', { 'white-space': 'pre' }],
@@ -54,13 +54,13 @@ export const whitespaces: NanowindRule[] = [
   ['whitespace-pre-wrap', { 'white-space': 'pre-wrap' }],
 ]
 
-export const breaks: NanowindRule[] = [
+export const breaks: MiniwindRule[] = [
   ['break-normal', { 'overflow-wrap': 'normal', 'word-break': 'normal' }],
   ['break-works', { 'overflow-wrap': 'break-word' }],
   ['break-all', { 'word-break': 'break-all' }],
 ]
 
-export const textOverflows: NanowindRule[] = [
+export const textOverflows: MiniwindRule[] = [
   ['truncate', {
     'overflow': 'hidden',
     'text-overflow': 'ellipsis',
@@ -70,20 +70,20 @@ export const textOverflows: NanowindRule[] = [
   ['text-clip', { 'text-overflow': 'clip' }],
 ]
 
-export const textTransforms: NanowindRule[] = [
+export const textTransforms: MiniwindRule[] = [
   ['case-upper', { 'text-transform': 'uppercase' }],
   ['case-lower', { 'text-transform': 'lowercase' }],
   ['case-capital', { 'text-transform': 'capitalize' }],
   ['case-normal', { 'text-transform': 'none' }],
 ]
 
-export const textDecorations: NanowindRule[] = [
+export const textDecorations: MiniwindRule[] = [
   ['underline', { 'text-decoration': 'underline' }],
   ['line-through', { 'text-decoration': 'line-through' }],
   ['no-underline', { 'text-decoration': 'none' }],
 ]
 
-export const textAligns: NanowindRule[] = [
+export const textAligns: MiniwindRule[] = [
   ['text-center', { 'text-align': 'center' }],
   ['text-left', { 'text-align': 'left' }],
   ['text-right', { 'text-align': 'right' }],

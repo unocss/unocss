@@ -1,6 +1,6 @@
-import { NanowindCssEntries } from '..'
+import { MiniwindCssEntries } from '..'
 
-export function entriesToCss(arr?: NanowindCssEntries) {
+export function entriesToCss(arr?: MiniwindCssEntries) {
   if (!arr)
     return ''
   return arr

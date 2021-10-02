@@ -1,20 +1,20 @@
-import { NanowindCssEntries, NanowindRule } from '../../../types'
+import { MiniwindCssEntries, MiniwindRule } from '../../../types'
 import { directionMap } from '../../../utils'
 import { h } from '../../../handlers'
 
-const directionSize = (prefix: string) => ([_, direction, size]: string[]): NanowindCssEntries | undefined => {
+const directionSize = (prefix: string) => ([_, direction, size]: string[]): MiniwindCssEntries | undefined => {
   const v = h.bracket.size.fraction(size)
   if (v)
     return directionMap[direction].map(i => [prefix + i, v])
 }
 
-export const paddings: NanowindRule[] = [
+export const paddings: MiniwindRule[] = [
   [/^p()-([^-]+)$/, directionSize('padding')],
   [/^p([xy]?)-([^-]+)$/, directionSize('padding')],
   [/^p([rltb]?)-([^-]+)$/, directionSize('padding')],
 ]
 
-export const margins: NanowindRule[] = [
+export const margins: MiniwindRule[] = [
   [/^m()-([^-]+)$/, directionSize('margin')],
   [/^m([xy]?)-([^-]+)$/, directionSize('margin')],
   [/^m([rltb]?)-([^-]+)$/, directionSize('margin')],

@@ -1,3 +1,3 @@
 module.exports = () => {
-  throw new Error('getNanowindScope() is a compile macro but get called directly, have you include this file to Nanowind\'s target')
+  throw new Error('getMiniwindScope() is a compile macro but get called directly, have you include this file to Miniwind\'s target')
 }

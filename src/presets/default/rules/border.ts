@@ -1,20 +1,20 @@
-import { cornerMap, directionMap, NanowindTheme } from '../../..'
+import { cornerMap, directionMap, MiniwindTheme } from '../../..'
 import { h } from '../../../handlers'
-import { NanowindCssEntries, NanowindRule } from '../../../types'
+import { MiniwindCssEntries, MiniwindRule } from '../../../types'
 
-export const borders: NanowindRule[] = [
+export const borders: MiniwindRule[] = [
   [/^border$/, handlerBorder],
   [/^border(?:-([^-]+))?$/, handlerBorder],
   [/^border(?:-([^-]+))?(?:-([^-]+))?$/, handlerBorder],
 ]
 
-export const rounded: NanowindRule[] = [
+export const rounded: MiniwindRule[] = [
   [/^rounded$/, handlerRounded],
   [/^rounded(?:-([^-]+))?$/, handlerRounded],
   [/^rounded(?:-([^-]+))?(?:-([^-]+))?$/, handlerRounded],
 ]
 
-export const borderStyles: NanowindRule[] = [
+export const borderStyles: MiniwindRule[] = [
   ['border-solid', { 'border-style': 'solid' }],
   ['border-dashed', { 'border-style': 'dashed' }],
   ['border-dotted', { 'border-style': 'dotted' }],
@@ -22,14 +22,14 @@ export const borderStyles: NanowindRule[] = [
   ['border-none', { 'border-style': 'none' }],
 ]
 
-function handlerBorder([, a, b]: string[]): NanowindCssEntries | undefined {
+function handlerBorder([, a, b]: string[]): MiniwindCssEntries | undefined {
   const [d, s = '1'] = directionMap[a] ? [a, b] : ['', a]
   const v = h.bracket.border(s)
   if (v != null)
     return directionMap[d].map(i => [`border${i}-width`, v])
 }
 
-function handlerRounded([, a, b]: string[], theme: NanowindTheme): NanowindCssEntries | undefined {
+function handlerRounded([, a, b]: string[], theme: MiniwindTheme): MiniwindCssEntries | undefined {
   const [d, s = 'DEFAULT'] = cornerMap[a] ? [a, b] : ['', a]
   const v = theme.borderRadius[s] || h.bracket.fraction.size(s)
   if (v != null)

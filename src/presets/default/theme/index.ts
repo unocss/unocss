@@ -1,4 +1,4 @@
-import { NanowindTheme } from '../../..'
+import { MiniwindTheme } from '../../..'
 import { colors } from './colors'
 import { fontFamily, fontSize, letterSpacing, lineHeight } from './font'
 
@@ -24,7 +24,7 @@ export const borderRadius = {
   'full': '9999px',
 }
 
-export const defaultTheme: NanowindTheme = {
+export const defaultTheme: MiniwindTheme = {
   colors,
   fontFamily,
   fontSize,

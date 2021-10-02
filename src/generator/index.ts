@@ -1,4 +1,4 @@
-import { NanowindVariant, NanowindCssObject, NanowindCssEntries, NanowindRule, NanowindStaticRule, NanowindUserConfig } from '../types'
+import { MiniwindVariant, MiniwindCssObject, MiniwindCssEntries, MiniwindRule, MiniwindStaticRule, MiniwindUserConfig } from '../types'
 import { resolveConfig } from '../options'
 import { cssEscape, entriesToCss, toArray } from '../utils'
 
@@ -14,7 +14,7 @@ function applyScope(css: string, scope?: string) {
     return scope ? `${scope} ${css}` : css
 }
 
-function isStaticRule(rule: NanowindRule): rule is NanowindStaticRule {
+function isStaticRule(rule: MiniwindRule): rule is MiniwindStaticRule {
   return typeof rule[0] === 'string'
 }
 
@@ -25,7 +25,7 @@ function toSelector(raw: string) {
     return `.${cssEscape(raw)}`
 }
 
-export function createGenerator(userConfig: NanowindUserConfig = {}) {
+export function createGenerator(userConfig: MiniwindUserConfig = {}) {
   const config = resolveConfig(userConfig)
   const { rules, theme } = config
 
@@ -52,7 +52,7 @@ export function createGenerator(userConfig: NanowindUserConfig = {}) {
         }
 
         // process variants
-        const variants: NanowindVariant[] = []
+        const variants: MiniwindVariant[] = []
         let processed = raw
 
         let applied = false
@@ -75,7 +75,7 @@ export function createGenerator(userConfig: NanowindUserConfig = {}) {
         for (let i = 0; i < rulesLength; i++) {
           const rule = rules[i]
 
-          let obj: NanowindCssObject | NanowindCssEntries | undefined
+          let obj: MiniwindCssObject | MiniwindCssEntries | undefined
 
           // static rule
           if (isStaticRule(rule)) {

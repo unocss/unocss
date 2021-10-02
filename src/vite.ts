@@ -2,9 +2,9 @@ import { createHash } from 'crypto'
 import type { Plugin, ViteDevServer } from 'vite'
 import { FilterPattern, createFilter } from '@rollup/pluginutils'
 import { resolveConfig } from './options'
-import { createGenerator, NanowindUserConfig } from '.'
+import { createGenerator, MiniwindUserConfig } from '.'
 
-export interface NanowindUserOptions extends NanowindUserConfig {
+export interface MiniwindUserOptions extends MiniwindUserConfig {
   include?: FilterPattern
   exclude?: FilterPattern
 }
@@ -16,10 +16,10 @@ function getHash(input: string, length = 8) {
     .substr(0, length)
 }
 
-const VIRTUAL_PREFIX = '/@nanowind/'
-const SCOPE_IMPORT_RE = / from (['"])(@nanowind\/scope)\1/
+const VIRTUAL_PREFIX = '/@miniwind/'
+const SCOPE_IMPORT_RE = / from (['"])(@miniwind\/scope)\1/
 
-export default function NanowindVitePlugin(config: NanowindUserOptions = {}): Plugin {
+export default function MiniwindVitePlugin(config: MiniwindUserOptions = {}): Plugin {
   const resolved = resolveConfig(config)
   const generate = createGenerator(resolved)
   const moduleMap = new Map<string, [string, string]>()
@@ -50,7 +50,7 @@ export default function NanowindVitePlugin(config: NanowindUserOptions = {}): Pl
   }
 
   return {
-    name: 'nanowind',
+    name: 'miniwind',
     enforce: 'post',
     configureServer(_server) {
       server = _server
@@ -91,7 +91,7 @@ export default function NanowindVitePlugin(config: NanowindUserOptions = {}): Pl
       if (source)
         this.addWatchFile(source)
 
-      return `\n/* nanowind ${source} */\n${css}`
+      return `\n/* miniwind ${source} */\n${css}`
     },
   }
 }

@@ -1,8 +1,8 @@
 import { h } from '../../../handlers'
-import { NanowindRule } from '../../../types'
+import { MiniwindRule } from '../../../types'
 import { toArray } from '../../../utils'
 
-export const fonts: NanowindRule[] = [
+export const fonts: MiniwindRule[] = [
   [/^font-(\w+)$/, ([, d], theme) => {
     const font = theme.fontFamily[d]
     if (font) {
@@ -26,7 +26,7 @@ const weightMap: Record<string, string> = {
   // int[0, 900] -> int
 }
 
-export const fontSizes: NanowindRule[] = [
+export const fontSizes: MiniwindRule[] = [
   [/^text-([^-]+)$/, ([, s = 'base'], theme) => {
     const result = toArray(theme.fontSize[s] || h.bracket.size(s))
     if (result?.[0]) {
@@ -39,7 +39,7 @@ export const fontSizes: NanowindRule[] = [
   }],
 ]
 
-export const fontWeights: NanowindRule[] = [
+export const fontWeights: MiniwindRule[] = [
   [/^font-([^-]+)$/, ([, s]) => {
     const v = weightMap[s] || h.number(s)
     if (v)
@@ -47,7 +47,7 @@ export const fontWeights: NanowindRule[] = [
   }],
 ]
 
-export const leadings: NanowindRule[] = [
+export const leadings: MiniwindRule[] = [
   [/^leading-([^-]+)$/, ([, s], theme) => {
     const v = theme.lineHeight[s] || h.bracket.size(s)
     if (v !== null)
@@ -55,7 +55,7 @@ export const leadings: NanowindRule[] = [
   }],
 ]
 
-export const trackings: NanowindRule[] = [
+export const trackings: MiniwindRule[] = [
   [/^tracking-([^-]+)$/, ([, s], theme) => {
     const v = theme.letterSpacing[s] || h.bracket.size(s)
     if (v !== null)

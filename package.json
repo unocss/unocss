@@ -1,15 +1,15 @@
 {
-  "name": "nanowind",
+  "name": "miniwind",
   "version": "0.0.0-alpha.0",
   "description": "",
   "keywords": [],
-  "homepage": "https://github.com/antfu/nanowind#readme",
+  "homepage": "https://github.com/antfu/miniwind#readme",
   "bugs": {
-    "url": "https://github.com/antfu/nanowind/issues"
+    "url": "https://github.com/antfu/miniwind/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/antfu/nanowind.git"
+    "url": "git+https://github.com/antfu/miniwind.git"
   },
   "funding": "https://github.com/sponsors/antfu",
   "license": "MIT",
@@ -55,7 +55,7 @@
     "test:update": "jest -u"
   },
   "dependencies": {
-    "@nanowind/scope": "workspace:*",
+    "@miniwind/scope": "workspace:*",
     "@rollup/pluginutils": "^4.1.1"
   },
   "devDependencies": {

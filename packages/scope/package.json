@@ -1,5 +1,5 @@
 {
-  "name": "@nanowind/scope",
+  "name": "@miniwind/scope",
   "module": "./index.mjs",
   "main": "./index.cjs",
   "types": "./index.d.ts",

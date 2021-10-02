@@ -1,21 +1,21 @@
 /* eslint-disable no-use-before-define */
-export type NanowindCssObject = Record<string, string | number | undefined>
-export type NanowindCssEntries = [string, string | number | undefined][]
+export type MiniwindCssObject = Record<string, string | number | undefined>
+export type MiniwindCssEntries = [string, string | number | undefined][]
 
-export type NanowindExtractor = (code: string, id?: string) => Set<string> | Promise<Set<string>>
+export type MiniwindExtractor = (code: string, id?: string) => Set<string> | Promise<Set<string>>
 
-export type NanowindDynamicRule = [RegExp, ((match: string[], theme: NanowindTheme) => (NanowindCssObject | NanowindCssEntries | undefined))]
-export type NanowindStaticRule = [string, NanowindCssObject | NanowindCssEntries]
-export type NanowindRule = NanowindDynamicRule | NanowindStaticRule
+export type MiniwindDynamicRule = [RegExp, ((match: string[], theme: MiniwindTheme) => (MiniwindCssObject | MiniwindCssEntries | undefined))]
+export type MiniwindStaticRule = [string, MiniwindCssObject | MiniwindCssEntries]
+export type MiniwindRule = MiniwindDynamicRule | MiniwindStaticRule
 
-export type NanowindVariant = {
-  match: (input: string, theme: NanowindTheme) => string | undefined
-  selector?: (input: string, theme: NanowindTheme) => string | undefined
-  rewrite?: (input: NanowindCssEntries, theme: NanowindTheme) => NanowindCssEntries | undefined
-  mediaQuery?: (selector: string, theme: NanowindTheme) => string | undefined
+export type MiniwindVariant = {
+  match: (input: string, theme: MiniwindTheme) => string | undefined
+  selector?: (input: string, theme: MiniwindTheme) => string | undefined
+  rewrite?: (input: MiniwindCssEntries, theme: MiniwindTheme) => MiniwindCssEntries | undefined
+  mediaQuery?: (selector: string, theme: MiniwindTheme) => string | undefined
 }
 
-export interface NanowindTheme {
+export interface MiniwindTheme {
   borderRadius: Record<string, string>
   breakpoints: Record<string, string>
   colors: Record<string, string | Record<string, string>>
@@ -25,15 +25,15 @@ export interface NanowindTheme {
   letterSpacing: Record<string, string>
 }
 
-export interface NanowindUserConfig extends NanowindPreset {
-  theme?: NanowindTheme
-  presets?: NanowindPreset[]
+export interface MiniwindUserConfig extends MiniwindPreset {
+  theme?: MiniwindTheme
+  presets?: MiniwindPreset[]
 }
 
-export interface NanowindConfig extends Omit<Required<NanowindUserConfig>, 'presets'> {}
+export interface MiniwindConfig extends Omit<Required<MiniwindUserConfig>, 'presets'> {}
 
-export interface NanowindPreset {
-  rules?: NanowindRule[]
-  variants?: NanowindVariant[]
-  extractors?: NanowindExtractor[]
+export interface MiniwindPreset {
+  rules?: MiniwindRule[]
+  variants?: MiniwindVariant[]
+  extractors?: MiniwindExtractor[]
 }

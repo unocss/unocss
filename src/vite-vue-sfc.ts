@@ -1,14 +1,14 @@
 import type { Plugin } from 'vite'
 import { FilterPattern, createFilter } from '@rollup/pluginutils'
 import { resolveConfig } from './options'
-import { createGenerator, NanowindUserConfig } from '.'
+import { createGenerator, MiniwindUserConfig } from '.'
 
-export interface NanowindUserOptions extends NanowindUserConfig {
+export interface MiniwindUserOptions extends MiniwindUserConfig {
   include?: FilterPattern
   exclude?: FilterPattern
 }
 
-export default function NanowindVueVitePlugin(config: NanowindUserOptions = {}): Plugin {
+export default function MiniwindVueVitePlugin(config: MiniwindUserOptions = {}): Plugin {
   const resolved = resolveConfig(config)
   const generate = createGenerator(resolved)
 
@@ -25,7 +25,7 @@ export default function NanowindVueVitePlugin(config: NanowindUserOptions = {}):
   }
 
   return {
-    name: 'nanowind',
+    name: 'miniwind',
     enforce: 'pre',
     transform(code, id) {
       if (!filter(id))

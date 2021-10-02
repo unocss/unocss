@@ -6,7 +6,7 @@ importers:
     specifiers:
       '@antfu/eslint-config': ^0.9.0
       '@antfu/ni': ^0.9.3
-      '@nanowind/scope': workspace:*
+      '@miniwind/scope': workspace:*
       '@rollup/pluginutils': ^4.1.1
       '@types/jest': ^27.0.2
       '@types/node': ^16.10.2
@@ -19,7 +19,7 @@ importers:
       tsup: ^5.2.1
       typescript: ^4.4.3
     dependencies:
-      '@nanowind/scope': link:packages/scope
+      '@miniwind/scope': link:packages/scope
       '@rollup/pluginutils': 4.1.1
     devDependencies:
       '@antfu/eslint-config': 0.9.0_eslint@7.32.0+typescript@4.4.3
@@ -42,7 +42,7 @@ importers:
     specifiers:
       '@vitejs/plugin-vue': ^1.9.2
       '@vueuse/core': ^6.5.3
-      nanowind: workspace:*
+      miniwind: workspace:*
       prettier: ^2.4.1
       typescript: ^4.4.3
       unplugin-auto-import: ^0.4.10
@@ -55,7 +55,7 @@ importers:
       vue: 3.2.19
     devDependencies:
       '@vitejs/plugin-vue': 1.9.2_vite@2.6.2
-      nanowind: link:..
+      miniwind: link:..
       prettier: 2.4.1
       typescript: 4.4.3
       unplugin-auto-import: 0.4.10_@vueuse+core@6.5.3+vite@2.6.2

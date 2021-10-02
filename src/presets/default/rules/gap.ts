@@ -1,7 +1,7 @@
-import { NanowindRule } from '../../../types'
+import { MiniwindRule } from '../../../types'
 import { h } from '../../../handlers'
 
-export const gaps: NanowindRule[] = [
+export const gaps: MiniwindRule[] = [
   [/^gap-([^-]+)$/, ([, s]) => {
     const v = h.bracket.size(s)
     if (v != null) {

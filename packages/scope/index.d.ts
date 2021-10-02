@@ -1,1 +1,1 @@
-export default function getNanowindScope(): string
+export default function getMiniwindScope(): string

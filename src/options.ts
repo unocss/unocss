@@ -1,11 +1,11 @@
-import { NanowindUserConfig, NanowindConfig } from './types'
+import { MiniwindUserConfig, MiniwindConfig } from './types'
 import { extractorSplit } from './presets/default/extractors'
 import { presetDefault, defaultTheme, uniq } from '.'
 
-export function resolveConfig(config: NanowindUserConfig = {}): NanowindConfig {
+export function resolveConfig(config: MiniwindUserConfig = {}): MiniwindConfig {
   const presets = config.presets || [presetDefault]
 
-  function mergePresets<T extends 'rules' | 'variants' | 'extractors'>(key: T): NanowindConfig[T] {
+  function mergePresets<T extends 'rules' | 'variants' | 'extractors'>(key: T): MiniwindConfig[T] {
     return uniq([
       ...presets.flatMap(p => (p[key] || []) as any[]),
       ...(config[key] || []) as any[],

@@ -1,9 +1,9 @@
-import { NanowindVariant } from '../../types'
+import { MiniwindVariant } from '../../types'
 
 const attributifyRE = /^\[(\w+)~="(.+)"\]$/
 const variantPrefixRE = /^(.*:)?(.*?)$/
 
-export const variantAttributify: NanowindVariant = {
+export const variantAttributify: MiniwindVariant = {
   match(input) {
     const match = input.match(attributifyRE)
     if (!match)

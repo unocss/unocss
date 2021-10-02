@@ -3,13 +3,13 @@ import Vue from '@vitejs/plugin-vue'
 import Inspect from 'vite-plugin-inspect'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
-import Nanowind from '../src/vite-vue-sfc'
+import Miniwind from '../src/vite-vue-sfc'
 import { defaultTheme, presetDefault, presetAttributify } from '../src'
 
 export default defineConfig({
   plugins: [
     Vue(),
-    Nanowind({
+    Miniwind({
       theme: {
         ...defaultTheme,
         fontFamily: {

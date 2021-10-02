@@ -1,6 +1,6 @@
-import { NanowindTheme } from '../../..'
+import { MiniwindTheme } from '../../..'
 import { h } from '../../../handlers'
-import { NanowindRule } from '../../../types'
+import { MiniwindRule } from '../../../types'
 
 export function hex2RGB(hex: string): number[] | undefined {
   const RGB_HEX = /^#?(?:([\da-f]{3})[\da-f]?|([\da-f]{6})(?:[\da-f]{2})?)$/i
@@ -17,7 +17,7 @@ export function hex2RGB(hex: string): number[] | undefined {
   }
 }
 
-function resolveColor(theme: NanowindTheme, attribute: string, varName: string, name: string, no = 'DEFAULT', opacity = '100') {
+function resolveColor(theme: MiniwindTheme, attribute: string, varName: string, name: string, no = 'DEFAULT', opacity = '100') {
   if (name === 'transparent') {
     return {
       [attribute]: 'transparent',
@@ -41,33 +41,33 @@ function resolveColor(theme: NanowindTheme, attribute: string, varName: string, 
   const rgb = hex2RGB(color)
   if (rgb) {
     return {
-      [`--nw-${varName}-opacity`]: parseFloat(opacity) / 100,
-      [attribute]: `rgba(${rgb?.join(',')},var(--nw-${varName}-opacity))`,
+      [`--mw-${varName}-opacity`]: parseFloat(opacity) / 100,
+      [attribute]: `rgba(${rgb?.join(',')},var(--mw-${varName}-opacity))`,
     }
   }
 }
 
-export const opacity: NanowindRule[] = [
+export const opacity: MiniwindRule[] = [
   [/^op(?:acity)?-(\d+)$/, ([, d]) => ({ opacity: h.opacity(d) })],
 ]
 
-export const textColors: NanowindRule[] = [
+export const textColors: MiniwindRule[] = [
   [/^text-(\w+)(?:-(\d+))?(?:\/(\d+))?$/, ([, name, no, opacity = '100'], theme) => {
     return resolveColor(theme, 'color', 'text', name, no, opacity)
   }],
-  [/^text-op(?:acity)?-(\d+)$/m, ([, opacity]) => ({ '--nw-text-opacity': h.opacity(opacity) })],
+  [/^text-op(?:acity)?-(\d+)$/m, ([, opacity]) => ({ '--mw-text-opacity': h.opacity(opacity) })],
 ]
 
-export const bgColors: NanowindRule[] = [
+export const bgColors: MiniwindRule[] = [
   [/^bg-(\w+)(?:-(\d+))?(?:\/(\d+))?$/, ([, name, no, opacity = '100'], theme) => {
     return resolveColor(theme, 'background-color', 'bg', name, no, opacity)
   }],
-  [/^bg-op(?:acity)?-(\d+)$/m, ([, opacity]) => ({ '--nw-bg-opacity': h.opacity(opacity) })],
+  [/^bg-op(?:acity)?-(\d+)$/m, ([, opacity]) => ({ '--mw-bg-opacity': h.opacity(opacity) })],
 ]
 
-export const borderColors: NanowindRule[] = [
+export const borderColors: MiniwindRule[] = [
   [/^border-(\w+)(?:-(\d+))?(?:\/(\d+))?$/, ([, name, no, opacity = '100'], theme) => {
     return resolveColor(theme, 'border-color', 'border', name, no, opacity)
   }],
-  [/^border-op(?:acity)?-(\d+)$/m, ([, opacity]) => ({ '--nw-border-opacity': h.opacity(opacity) })],
+  [/^border-op(?:acity)?-(\d+)$/m, ([, opacity]) => ({ '--mw-border-opacity': h.opacity(opacity) })],
 ]

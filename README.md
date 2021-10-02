@@ -1,8 +1,8 @@
-# nanowind
+# miniwind
 
-[![NPM version](https://img.shields.io/npm/v/nanowind?color=a1b858&label=)](https://www.npmjs.com/package/nanowind)
+[![NPM version](https://img.shields.io/npm/v/miniwind?color=a1b858&label=)](https://www.npmjs.com/package/miniwind)
 
-**Re-imaging atomic CSS**. An incredible fast and lightweight on-demand atomic CSS framework.
+**Re-imaging atomic CSS**. An incredibly fast and lightweight on-demand atomic CSS framework.
 
 Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcss.com/), [Twind](https://github.com/tw-in-js/twind) but:
 
@@ -18,7 +18,7 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 
 ###### Non-goal
 
-`nanowind` is designed **NOT** to be/have:
+`miniwind` is designed **NOT** to be/have:
 
 - Align / compatible with Tailwind or Windi CSS.
 - A CSS preprocessor (`@apply` etc.)
@@ -32,16 +32,16 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 ## Installation
 
 ```bash
-npm i -D nanowind
+npm i -D miniwind
 ```
 
 ```ts
 // vite.config.ts
-import Nanowind from 'nanowind/vite'
+import Miniwind from 'miniwind/vite'
 
 export default {
   plugins: [
-    Nanowind()
+    Miniwind()
   ]
 }
 ```

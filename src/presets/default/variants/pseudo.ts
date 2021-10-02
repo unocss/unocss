@@ -1,7 +1,7 @@
 import { toArray } from '../../../utils'
-import { NanowindVariant } from '../../../types'
+import { MiniwindVariant } from '../../../types'
 
-export function createPseudoClassVariant(name: string, pseudo = name): NanowindVariant[] {
+export function createPseudoClassVariant(name: string, pseudo = name): MiniwindVariant[] {
   const start = `${name}:`
   const length = start.length
 
@@ -20,7 +20,7 @@ export function createPseudoClassVariant(name: string, pseudo = name): NanowindV
   ]
 }
 
-export function createPseudoElementVariant(name: string): NanowindVariant {
+export function createPseudoElementVariant(name: string): MiniwindVariant {
   const start = `${name}:`
   const length = start.length
 

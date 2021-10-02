@@ -1,6 +1,6 @@
-import { NanowindVariant } from '../../../types'
+import { MiniwindVariant } from '../../../types'
 
-export const variantColorsClass: NanowindVariant[] = [
+export const variantColorsClass: MiniwindVariant[] = [
   {
     match: input => input.startsWith('dark:') ? input.slice(5) : undefined,
     selector: input => `.dark $$ ${input}`,
@@ -11,7 +11,7 @@ export const variantColorsClass: NanowindVariant[] = [
   },
 ]
 
-export const variantColorsMedia: NanowindVariant[] = [
+export const variantColorsMedia: MiniwindVariant[] = [
   {
     match: input => input.startsWith('dark:') ? input.slice(5) : undefined,
     mediaQuery: () => '@media (prefers-color-scheme: dark)',
