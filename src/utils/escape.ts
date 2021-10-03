@@ -1,9 +1,13 @@
+export function escapeRegExp(string: string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // $& means the whole matched string
+}
+
 // https://drafts.csswg.org/cssom/#serialize-an-identifier
 
 /**
  * CSS Selector Escape
  */
-export function cssEscape(str: string): string {
+export function escapeSelector(str: string): string {
   const length = str.length
   let index = -1
   let codeUnit
@@ -82,4 +86,4 @@ export function cssEscape(str: string): string {
   return result
 }
 
-export const e = cssEscape
+export const e = escapeSelector

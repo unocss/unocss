@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { getMatchedPositions } from '../../../src/utils'
 import { useCodeMirror } from '../codemirror'
 
 const props = defineProps<{
@@ -31,15 +32,8 @@ onMounted(async() => {
     // clear previous
     decorations.forEach(i => i.clear())
 
-    const v = input.value
-    // hightlight for classes
-    let start = 0
-    v.split(/[\s"']/g).forEach((i) => {
-      const end = start + i.length
-      if (props.matched?.has(i))
-        mark(start, end)
-      start = end + 1
-    })
+    getMatchedPositions(input.value, props.matched || new Set())
+      .forEach(i => mark(...i))
   }
 
   watchEffect(() => {

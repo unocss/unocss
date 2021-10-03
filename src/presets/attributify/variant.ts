@@ -1,7 +1,7 @@
 import { MiniwindVariant } from '../../types'
+import { isAttributifySelector } from '../../utils'
 import { AttributifyOptions } from './types'
 
-const attributifyRE = /^\[(.+)~="(.+)"\]$/
 const variantsRE = /^(.+\:\!?)?(.*?)$/
 
 export const variantAttributify = (options: AttributifyOptions = {}): MiniwindVariant => {
@@ -9,7 +9,7 @@ export const variantAttributify = (options: AttributifyOptions = {}): MiniwindVa
 
   return {
     match(input) {
-      const match = input.match(attributifyRE)
+      const match = isAttributifySelector(input)
       if (!match)
         return
 

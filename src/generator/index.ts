@@ -1,6 +1,6 @@
 import { MiniwindVariant, MiniwindCssObject, MiniwindCssEntries, MiniwindUserConfig } from '../types'
 import { resolveConfig } from '../options'
-import { cssEscape, entriesToCss } from '../utils'
+import { escapeSelector, entriesToCss } from '../utils'
 
 const reScopePlaceholder = / \$\$ /
 
@@ -15,9 +15,9 @@ function applyScope(css: string, scope?: string) {
 
 function toSelector(raw: string) {
   if (raw.startsWith('['))
-    return raw.replace(/"(.*)"/, (_, i) => `"${cssEscape(i)}"`)
+    return raw.replace(/"(.*)"/, (_, i) => `"${escapeSelector(i)}"`)
   else
-    return `.${cssEscape(raw)}`
+    return `.${escapeSelector(raw)}`
 }
 
 type Cache = readonly [number, string, string | undefined]
