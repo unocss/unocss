@@ -66,6 +66,7 @@ importers:
 
   playground:
     specifiers:
+      '@iconify-json/carbon': ^1.0.3
       '@types/codemirror': ^5.60.4
       '@vitejs/plugin-vue': ^1.9.2
       '@vueuse/core': ^6.5.3
@@ -75,6 +76,7 @@ importers:
       prettier: ^2.4.1
       typescript: ^4.4.3
       unplugin-auto-import: ^0.4.10
+      unplugin-icons: ^0.12.7
       unplugin-vue-components: ^0.15.6
       vite: ^2.6.2
       vite-plugin-inspect: ^0.3.8
@@ -84,6 +86,7 @@ importers:
       codemirror: 5.63.1
       vue: 3.2.19
     devDependencies:
+      '@iconify-json/carbon': 1.0.3
       '@types/codemirror': 5.60.4
       '@vitejs/plugin-vue': 1.9.2_vite@2.6.2
       codemirror-theme-vars: 0.1.1
@@ -91,6 +94,7 @@ importers:
       prettier: 2.4.1
       typescript: 4.4.3
       unplugin-auto-import: 0.4.10_@vueuse+core@6.5.3+vite@2.6.2
+      unplugin-icons: 0.12.7_vite@2.6.2
       unplugin-vue-components: 0.15.6_vite@2.6.2+vue@3.2.19
       vite: 2.6.2
       vite-plugin-inspect: 0.3.8_vite@2.6.2
@@ -184,6 +188,13 @@ packages:
     transitivePeerDependencies:
       - supports-color
       - typescript
+    dev: true
+
+  /@antfu/install-pkg/0.1.0:
+    resolution: {integrity: sha512-VaIJd3d1o7irZfK1U0nvBsHMyjkuyMP3HKYVV53z8DKyulkHKmjhhtccXO51WSPeeSHIeoJEoNOKavYpS7jkZw==}
+    dependencies:
+      execa: 5.1.1
+      find-up: 5.0.0
     dev: true
 
   /@antfu/ni/0.9.3:
@@ -546,6 +557,26 @@ packages:
 
   /@humanwhocodes/object-schema/1.2.0:
     resolution: {integrity: sha512-wdppn25U8z/2yiaT6YGquE6X8sSv7hNMWSXYSSU1jGv/yd6XqjXgTDJ8KP4NgjTXfJ3GbRjeeb8RTV7a/VpM+w==}
+    dev: true
+
+  /@iconify-json/carbon/1.0.3:
+    resolution: {integrity: sha512-ltobh3wpHVZelp9lEMnMYNwp4uoGO7cnBltl+tDeHgQ7qVW31JV9WdC9tOCT1zqovWmutvsmop/EcN2m74dcGA==}
+    dependencies:
+      '@iconify/types': 1.0.9
+    dev: true
+
+  /@iconify/json-tools/1.0.10:
+    resolution: {integrity: sha512-LFelJDOLZ6JHlmlAkgrvmcu4hpNPB91KYcr4f60D/exzU1eNOb4/KCVHIydGHIQFaOacIOD+Xy+B7P1z812cZg==}
+    dev: true
+
+  /@iconify/types/1.0.9:
+    resolution: {integrity: sha512-ALO6IGXBEztcySLq+vGJrgUJqGgiZJ8sTQ8mM6e3i77okM9fw8F23h6GLbbaMz/pNfeK8QHJBAOmx3LjhZ3YZw==}
+    dev: true
+
+  /@iconify/utils/1.0.10:
+    resolution: {integrity: sha512-a1n7qGqoOMdaD20DzxRVRgXr77qjVmyiEzJeLmIoBOXWE2ueJ1O/0EXHzTMGuYFWcKtu0pFHbqghNfh1vpTtdw==}
+    dependencies:
+      '@iconify/types': 1.0.9
     dev: true
 
   /@istanbuljs/load-nyc-config/1.1.0:
@@ -2676,6 +2707,21 @@ packages:
       strip-final-newline: 2.0.0
     dev: true
 
+  /execa/5.1.1:
+    resolution: {integrity: sha512-8uSpZZocAZRBAPIEINJj3Lo9HyGitllczc27Eh5YYojjMFMn8yHMDMaUHE2Jqfq05D/wucwI4JGURyXt1vchyg==}
+    engines: {node: '>=10'}
+    dependencies:
+      cross-spawn: 7.0.3
+      get-stream: 6.0.0
+      human-signals: 2.1.0
+      is-stream: 2.0.0
+      merge-stream: 2.0.0
+      npm-run-path: 4.0.1
+      onetime: 5.1.2
+      signal-exit: 3.0.3
+      strip-final-newline: 2.0.0
+    dev: true
+
   /exit/0.1.2:
     resolution: {integrity: sha1-BjJjj42HfMghB9MKD/8aF8uhzQw=}
     engines: {node: '>= 0.8.0'}
@@ -2761,6 +2807,14 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       locate-path: 5.0.0
+      path-exists: 4.0.0
+    dev: true
+
+  /find-up/5.0.0:
+    resolution: {integrity: sha512-78/PXT1wlLLDgTzDs7sjq9hzz0vXD+zn+7wypEe4fXQxCmdmqfGsEPQxmiCSQI3ajFV91bVSsvNtrJRiW6nGng==}
+    engines: {node: '>=10'}
+    dependencies:
+      locate-path: 6.0.0
       path-exists: 4.0.0
     dev: true
 
@@ -3973,6 +4027,13 @@ packages:
       p-locate: 4.1.0
     dev: true
 
+  /locate-path/6.0.0:
+    resolution: {integrity: sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==}
+    engines: {node: '>=10'}
+    dependencies:
+      p-locate: 5.0.0
+    dev: true
+
   /lodash.camelcase/4.3.0:
     resolution: {integrity: sha1-soqmKIorn8ZRA1x3EfZathkDMaY=}
     dev: true
@@ -4290,6 +4351,13 @@ packages:
       p-try: 2.2.0
     dev: true
 
+  /p-limit/3.1.0:
+    resolution: {integrity: sha512-TYOanM3wGwNGsZN2cVTYPArw454xnXj5qmWF1bEoAc4+cU/ol7GVh7odevjp1FNHduHc3KZMcFduxU5Xc6uJRQ==}
+    engines: {node: '>=10'}
+    dependencies:
+      yocto-queue: 0.1.0
+    dev: true
+
   /p-locate/2.0.0:
     resolution: {integrity: sha1-IKAQOyIqcMj9OcwuWAaA893l7EM=}
     engines: {node: '>=4'}
@@ -4302,6 +4370,13 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       p-limit: 2.3.0
+    dev: true
+
+  /p-locate/5.0.0:
+    resolution: {integrity: sha512-LaNjtRWUBY++zB5nE/NwcaoMylSPk+S+ZHNB1TzdbMJMny6dynpAGt7X/tl/QYq3TIeE6nxHppbo2LGymrG5Pw==}
+    engines: {node: '>=10'}
+    dependencies:
+      p-limit: 3.1.0
     dev: true
 
   /p-try/1.0.0:
@@ -5337,6 +5412,38 @@ packages:
       - webpack
     dev: true
 
+  /unplugin-icons/0.12.7_vite@2.6.2:
+    resolution: {integrity: sha512-KyG+RPS+8yy4pNwxEnz3M2uC6xJBpXtx8nvlyOzYxwVuI0deSOu5Km7gFvu2+0tYKXKkriCVEXAxmoJ5H8pO5w==}
+    peerDependencies:
+      '@svgr/core': ^5.5.0
+      '@vue/compiler-sfc': ^3.0.2
+      vue-template-compiler: ^2.6.12
+      vue-template-es2015-compiler: ^1.9.0
+    peerDependenciesMeta:
+      '@svgr/core':
+        optional: true
+      '@vue/compiler-sfc':
+        optional: true
+      vue-template-compiler:
+        optional: true
+      vue-template-es2015-compiler:
+        optional: true
+    dependencies:
+      '@antfu/install-pkg': 0.1.0
+      '@antfu/utils': 0.3.0
+      '@iconify/json-tools': 1.0.10
+      '@iconify/utils': 1.0.10
+      chalk: 4.1.2
+      debug: 4.3.2
+      local-pkg: 0.3.0
+      unplugin: 0.2.16_vite@2.6.2
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
+      - vite
+      - webpack
+    dev: true
+
   /unplugin-vue-components/0.15.6_vite@2.6.2+vue@3.2.19:
     resolution: {integrity: sha512-Prl+qtWtDwnxSYJckGn+WvrXElhEnjN9bJyi9D7d0mJcsspuFBlxRQEzAUnDvlr0CvuIkBZBVdXLu1oDTESjhg==}
     engines: {node: '>=14'}
@@ -5676,4 +5783,9 @@ packages:
       string-width: 4.2.0
       y18n: 5.0.8
       yargs-parser: 20.2.5
+    dev: true
+
+  /yocto-queue/0.1.0:
+    resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
+    engines: {node: '>=10'}
     dev: true

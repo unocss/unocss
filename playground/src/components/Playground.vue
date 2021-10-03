@@ -23,7 +23,7 @@ const formatted = computed(() => prettier.format(output.value?.css || '', {
 <template>
   <div p="x-10">
     <div
-      grid="~ cols-2 gap-2"
+      flex="~ col gap-2"
       w="full"
       class="font-mono py-3"
       text="sm gray-600 dark:gray-200"

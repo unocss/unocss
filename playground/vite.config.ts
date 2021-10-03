@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import Inspect from 'vite-plugin-inspect'
+import Icons from 'unplugin-icons/vite'
+import IconsResolver from 'unplugin-icons/resolver'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Miniwind from '../src/vite'
@@ -26,9 +28,13 @@ export default defineConfig({
         presetDefault(),
       ],
     }),
+    Icons({ autoInstall: true }),
     Inspect(),
     Components({
       dts: 'src/components.d.ts',
+      resolvers: [
+        IconsResolver({ prefix: '' }),
+      ],
     }),
     AutoImport({
       imports: [

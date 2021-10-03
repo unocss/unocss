@@ -1,8 +1,6 @@
 import { MiniwindRule } from '../../../types'
 
 export const flex: MiniwindRule[] = [
-  ['flex', { display: 'flex' }],
-  ['inline-flex', { display: 'inline-flex' }],
   ['flex-col', { 'flex-direction': 'column' }],
   ['flex-col-reverse', { 'flex-direction': 'column-reverse' }],
   ['flex-row', { 'flex-direction': 'row' }],
@@ -19,4 +17,6 @@ export const flex: MiniwindRule[] = [
   ['flex-grow-0', { 'flex-grow': 0 }],
   ['flex-shrink', { 'flex-shrink': 1 }],
   ['flex-shrink-0', { 'flex-shrink': 0 }],
+  ['flex', { display: 'flex' }],
+  ['inline-flex', { display: 'inline-flex' }],
 ]
