@@ -6,8 +6,6 @@ importers:
     specifiers:
       '@antfu/eslint-config': ^0.9.0
       '@antfu/ni': ^0.9.3
-      '@miniwind/scope': workspace:*
-      '@rollup/pluginutils': ^4.1.1
       '@types/jest': ^27.0.2
       '@types/node': ^16.10.2
       bumpp: ^7.1.1
@@ -18,9 +16,6 @@ importers:
       ts-jest: ^27.0.5
       tsup: ^5.2.1
       typescript: ^4.4.3
-    dependencies:
-      '@miniwind/scope': link:packages/scope
-      '@rollup/pluginutils': 4.1.1
     devDependencies:
       '@antfu/eslint-config': 0.9.0_eslint@7.32.0+typescript@4.4.3
       '@antfu/ni': 0.9.3
@@ -37,6 +32,7 @@ importers:
 
   bench:
     specifiers:
+      '@miniwind/vite': workspace:*
       '@vitejs/plugin-vue': ^1.9.2
       autoprefixer: ^10.3.6
       fs-extra: ^10.0.0
@@ -49,11 +45,12 @@ importers:
       vue: ^3.2.19
       windicss: ^3.1.8
     devDependencies:
+      '@miniwind/vite': link:../packages/vite
       '@vitejs/plugin-vue': 1.9.2_vite@2.6.2
       autoprefixer: 10.3.6_postcss@8.3.8
       fs-extra: 10.0.0
       local-pkg: 0.3.0
-      miniwind: link:..
+      miniwind: link:../packages/miniwind
       postcss: 8.3.8
       tailwindcss: 3.0.0-alpha.1_d90402d1bb3b165c9c83046beac13a8b
       vite: 2.6.2
@@ -61,8 +58,49 @@ importers:
       vue: 3.2.19
       windicss: 3.1.8
 
+  packages/core:
+    specifiers: {}
+
+  packages/miniwind:
+    specifiers:
+      '@miniwind/core': workspace:*
+      '@miniwind/preset-attributify': workspace:*
+      '@miniwind/preset-default': workspace:*
+      '@miniwind/vite': workspace:*
+    dependencies:
+      '@miniwind/core': link:../core
+      '@miniwind/preset-attributify': link:../preset-attributify
+      '@miniwind/preset-default': link:../preset-default
+      '@miniwind/vite': link:../vite
+
+  packages/preset-attributify:
+    specifiers:
+      '@miniwind/core': workspace:*
+    dependencies:
+      '@miniwind/core': link:../core
+
+  packages/preset-default:
+    specifiers:
+      '@miniwind/core': workspace:*
+    dependencies:
+      '@miniwind/core': link:../core
+
   packages/scope:
     specifiers: {}
+
+  packages/vite:
+    specifiers:
+      '@miniwind/core': workspace:*
+      '@miniwind/preset-attributify': workspace:*
+      '@miniwind/preset-default': workspace:*
+      '@miniwind/scope': workspace:*
+      '@rollup/pluginutils': ^4.1.1
+    dependencies:
+      '@miniwind/core': link:../core
+      '@miniwind/preset-attributify': link:../preset-attributify
+      '@miniwind/preset-default': link:../preset-default
+      '@miniwind/scope': link:../scope
+      '@rollup/pluginutils': 4.1.1
 
   playground:
     specifiers:
@@ -90,7 +128,7 @@ importers:
       '@types/codemirror': 5.60.4
       '@vitejs/plugin-vue': 1.9.2_vite@2.6.2
       codemirror-theme-vars: 0.1.1
-      miniwind: link:..
+      miniwind: link:../packages/miniwind
       prettier: 2.4.1
       typescript: 4.4.3
       unplugin-auto-import: 0.4.10_@vueuse+core@6.5.3+vite@2.6.2

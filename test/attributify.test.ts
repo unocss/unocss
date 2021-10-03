@@ -1,6 +1,5 @@
-import { createGenerator } from '../src'
-import { variantAttributify, extractorAttributify, presetAttributify } from '../src/presets/attributify'
-import { presetDefault } from '../src/presets/default'
+import { createGenerator, presetDefault } from '../packages/preset-default/src'
+import { variantAttributify, extractorAttributify, presetAttributify } from '../packages/preset-attributify/src'
 
 describe('attributify', () => {
   const code = `

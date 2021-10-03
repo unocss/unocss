@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "node run.mjs"
+    "bench": "node run.mjs"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.9.2",
@@ -13,6 +13,7 @@
     "vite-plugin-windicss": "^1.4.9",
     "vue": "^3.2.19",
     "windicss": "^3.1.8",
-    "miniwind": "workspace:*"
+    "miniwind": "workspace:*",
+    "@miniwind/vite": "workspace:*"
   }
 }

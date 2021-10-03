@@ -1,0 +1,38 @@
+{
+  "name": "@miniwind/preset-default",
+  "version": "0.0.0-alpha.0",
+  "description": "",
+  "keywords": [],
+  "homepage": "https://github.com/antfu/miniwind#readme",
+  "bugs": {
+    "url": "https://github.com/antfu/miniwind/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antfu/miniwind.git"
+  },
+  "funding": "https://github.com/sponsors/antfu",
+  "license": "MIT",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup --minify",
+    "dev": "tsup --watch src",
+    "prepublishOnly": "nr build"
+  },
+  "dependencies": {
+    "@miniwind/core": "workspace:*"
+  }
+}

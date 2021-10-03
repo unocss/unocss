@@ -1,4 +1,4 @@
-import { createGenerator } from '../src'
+import { createGenerator } from '../packages/preset-default/src'
 
 const fixture = [
   'p-1',

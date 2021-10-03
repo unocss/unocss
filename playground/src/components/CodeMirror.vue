@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getMatchedPositions } from '../../../src/utils'
+import { getMatchedPositions } from '../../../packages/miniwind/src'
 import { useCodeMirror } from '../codemirror'
 
 const props = defineProps<{

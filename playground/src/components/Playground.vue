@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
-import { createGenerator } from '../../../src/generator'
-import { presetAttributify } from '../../../src/presets/attributify'
-import { presetDefault } from '../../../src/presets/default'
+import { createGenerator, presetAttributify, presetDefault } from '../../../packages/miniwind'
 
 const generate = createGenerator({
   presets: [

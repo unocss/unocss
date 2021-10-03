@@ -5,10 +5,8 @@ import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
-import Miniwind from '../src/vite'
-import { mergeDeep } from '../src'
-import { defaultTheme, presetDefault } from '../src/presets/default'
-import { presetAttributify } from '../src/presets/attributify'
+import Miniwind from '../packages/vite/src'
+import { mergeDeep, defaultTheme, presetDefault, presetAttributify } from '../packages/miniwind/src'
 
 export default defineConfig({
   plugins: [

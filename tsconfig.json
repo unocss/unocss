@@ -8,7 +8,14 @@
     "strict": true,
     "strictNullChecks": true,
     "resolveJsonModule": true,
-    "skipDefaultLibCheck": true
+    "skipDefaultLibCheck": true,
+    "paths": {
+      "miniwind": ["./packages/miniwind/src/index.ts"],
+      "@miniwind/core": ["./packages/core/src/index.ts"],
+      "@miniwind/vite": ["./packages/vite/src/index.ts"],
+      "@miniwind/preset-default": ["./packages/preset-default/src/index.ts"],
+      "@miniwind/preset-attributify": ["./packages/preset-attributify/src/index.ts"],
+    }
   },
   "exclude": [
     "**/dist/**",

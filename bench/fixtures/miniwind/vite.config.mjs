@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite'
-import Miniwind from '../../../dist/vite.mjs'
+import Miniwind from '@minwind/vite'
 
 export default defineConfig({
   plugins: [

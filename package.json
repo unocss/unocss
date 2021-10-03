@@ -1,62 +1,16 @@
 {
-  "name": "miniwind",
+  "name": "@miniwind/monorepo",
+  "private": true,
   "version": "0.0.0-alpha.0",
-  "description": "",
-  "keywords": [],
-  "homepage": "https://github.com/antfu/miniwind#readme",
-  "bugs": {
-    "url": "https://github.com/antfu/miniwind/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/antfu/miniwind.git"
-  },
-  "funding": "https://github.com/sponsors/antfu",
-  "license": "MIT",
-  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
-  "sideEffects": false,
-  "exports": {
-    ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
-    },
-    "./presets": {
-      "require": "./dist/presets.js",
-      "import": "./dist/presets.mjs"
-    },
-    "./presets/default": {
-      "require": "./dist/presets-default.js",
-      "import": "./dist/presets-default.mjs"
-    },
-    "./presets/attributify": {
-      "require": "./dist/presets-attributify.js",
-      "import": "./dist/presets-attributify.mjs"
-    },
-    "./vite": {
-      "require": "./dist/vite.js",
-      "import": "./dist/vite.mjs"
-    }
-  },
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
   "scripts": {
-    "build": "tsup --minify",
-    "dev": "tsup --watch src",
-    "lint": "eslint \"{src,test}/**/*.ts\"",
+    "build": "pnpm -r --filter !playground run build",
+    "dev": "pnpm -r --filter !playground run dev",
+    "lint": "eslint \"{src,test,packages,playground}/**/*.{ts,vue}\"",
     "lint:fix": "nr lint -- --fix",
     "play": "npm -C playground run dev",
-    "prepublishOnly": "nr build",
-    "release": "bumpp --commit --push --tag && pnpm publish",
+    "release": "bumpp --commit --push --tag && pnpm -r publish",
     "test": "jest",
     "test:update": "jest -u"
-  },
-  "dependencies": {
-    "@miniwind/scope": "workspace:*",
-    "@rollup/pluginutils": "^4.1.1"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.9.0",
