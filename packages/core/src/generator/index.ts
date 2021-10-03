@@ -16,6 +16,7 @@ export function createGenerator(defaults: UserConfigDefaults, userConfig: UserCo
       : await Promise.all(extractors.map(i => i(input, id)))
 
     const matched = new Set<string>()
+    const excluded = new Set<string>()
     const sheet: Record<string, StringifiedUtil[]> = {}
 
     function hit(raw: string, payload: StringifiedUtil | StringifiedUtil[]) {
@@ -47,6 +48,7 @@ export function createGenerator(defaults: UserConfigDefaults, userConfig: UserCo
         }
 
         if (isExcluded(config, raw)) {
+          excluded.add(raw)
           _cache.set(raw, null)
           return
         }
@@ -54,6 +56,7 @@ export function createGenerator(defaults: UserConfigDefaults, userConfig: UserCo
         const applied = applyVariants(config, raw)
 
         if (isExcluded(config, applied[1])) {
+          excluded.add(raw)
           _cache.set(raw, null)
           return
         }
@@ -98,6 +101,7 @@ export function createGenerator(defaults: UserConfigDefaults, userConfig: UserCo
     return {
       css,
       matched,
+      excluded,
     }
   }
 }
