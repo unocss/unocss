@@ -8,7 +8,7 @@ export const borders: MiniwindRule[] = [
   [/^border(?:-([^-]+))?(?:-([^-]+))?$/, handlerBorder],
 ]
 
-export const rounded: MiniwindRule[] = [
+export const borderRadius: MiniwindRule[] = [
   [/^(?:border-)?rounded$/, handlerRounded],
   [/^(?:border-)?rounded(?:-([^-]+))?$/, handlerRounded],
   [/^(?:border-)?rounded(?:-([^-]+))?(?:-([^-]+))?$/, handlerRounded],

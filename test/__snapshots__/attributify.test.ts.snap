@@ -41,13 +41,13 @@ exports[`attributify generate 1`] = `
 .dark [bg~=\\"dark\\\\:hover\\\\:blue-600\\"]:hover{--mw-bg-opacity:1;background-color:rgba(37,99,235,var(--mw-bg-opacity));}
 [border~=\\"\\\\32 \\"]{border-width:2px;border-style:solid;}
 [border~=\\"blue-200\\"]{--mw-border-opacity:1;border-color:rgba(191,219,254,var(--mw-border-opacity));}
-[font~=\\"mono\\"]{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\\"Liberation Mono\\",\\"Courier New\\",monospace;}
-[font~=\\"sans\\"]{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\\"Segoe UI\\",Roboto,\\"Helvetica Neue\\",Arial,\\"Noto Sans\\",sans-serif,\\"Apple Color Emoji\\",\\"Segoe UI Emoji\\",\\"Segoe UI Symbol\\",\\"Noto Color Emoji\\";}
-[text~=\\"sm\\"]{font-size:0.875rem;line-height:1.25rem;}
 [border~=\\"rounded\\"]{border-radius:0.25rem;}
 .rounded{border-radius:0.25rem;}
 [border~=\\"rounded-xl\\"]{border-radius:0.75rem;}
 .rounded-xl{border-radius:0.75rem;}
+[font~=\\"mono\\"]{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\\"Liberation Mono\\",\\"Courier New\\",monospace;}
+[font~=\\"sans\\"]{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\\"Segoe UI\\",Roboto,\\"Helvetica Neue\\",Arial,\\"Noto Sans\\",sans-serif,\\"Apple Color Emoji\\",\\"Segoe UI Emoji\\",\\"Segoe UI Symbol\\",\\"Noto Color Emoji\\";}
+[text~=\\"sm\\"]{font-size:0.875rem;line-height:1.25rem;}
 [flex~=\\"\\\\~\\"]{display:flex;}
 [flex~=\\"col\\"]{flex-direction:column;}"
 `;

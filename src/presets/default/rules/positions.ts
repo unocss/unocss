@@ -17,6 +17,10 @@ export const justifies: MiniwindRule[] = [
   ['justify-evenly', { 'justify-content': 'space-evenly' }],
 ]
 
+export const orders: MiniwindRule[] = [
+  [/^order-(.+)$/, ([, v]) => ({ order: { first: '-9999', last: '9999', none: '0' }[v] || h.bracket.number(v) })],
+]
+
 const basicSet = ['auto', 'start', 'end', 'center', 'stretch']
 
 export const justifyItems: MiniwindRule[] = basicSet
@@ -87,4 +91,20 @@ export const floats: MiniwindRule[] = [
 export const zIndexes: MiniwindRule[] = [
   ['z-auto', { 'z-index': 'auto' }],
   [/^z-([^-]+)$/, ([, v]) => ({ 'z-index': h.number(v) })],
+]
+
+export const objectPositions: MiniwindRule[] = [
+  ['object-cover', { 'object-fit': 'cover' }],
+  ['object-contain', { 'object-fit': 'contain' }],
+  ['object-fill', { 'object-fit': 'fill' }],
+  ['object-scale-down', { 'object-fit': 'scale-down' }],
+  ['object-none', { 'object-fit': 'none' }],
+  ['object-bottom', { 'object-position': 'bottom' }],
+  ['object-top', { 'object-position': 'top' }],
+  ['object-right', { 'object-position': 'right' }],
+  ['object-left', { 'object-position': 'left' }],
+  ['object-lb', { 'object-position': 'left bottom' }],
+  ['object-lt', { 'object-position': 'left top' }],
+  ['object-rb', { 'object-position': 'right bottom' }],
+  ['object-rt', { 'object-position': 'right top' }],
 ]

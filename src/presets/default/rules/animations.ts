@@ -14,4 +14,9 @@ export const transitions: MiniwindRule[] = [
       'transition-duration': `${duration}ms`,
     }
   }],
+  [/^duration-(\d+)$/, ([, duration = '150']) => {
+    return {
+      'transition-duration': `${duration}ms`,
+    }
+  }],
 ]

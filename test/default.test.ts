@@ -43,6 +43,11 @@ const fixture = [
   'text-4xl',
   'bg-red-100 bg-opacity-45',
   'border-b border-t-2 border-green-100/10',
+  'blur-4',
+  'gap-4',
+  '-gap-y-5',
+  'z-100',
+  'order-first',
 ].join(' ')
 
 const generator = createGenerator()
