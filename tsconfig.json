@@ -11,6 +11,7 @@
     "skipDefaultLibCheck": true,
     "paths": {
       "miniwind": ["./packages/miniwind/src/index.ts"],
+      "miniwind/vite": ["./packages/miniwind/src/vite.ts"],
       "@miniwind/core": ["./packages/core/src/index.ts"],
       "@miniwind/vite": ["./packages/vite/src/index.ts"],
       "@miniwind/preset-default": ["./packages/preset-default/src/index.ts"],
