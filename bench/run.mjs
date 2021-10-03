@@ -2,12 +2,14 @@
 import { execSync } from 'child_process'
 import fs from 'fs-extra'
 import { dir, targets, getVersions } from './meta.mjs'
+import { generateMock } from './gen.mjs'
 
 const times = 50
 const versions = await getVersions()
 
 console.log(versions)
 
+const classes = await generateMock()
 await run()
 await report()
 
@@ -46,7 +48,7 @@ async function report() {
   const logs = []
 
   logs.push(new Date().toLocaleString())
-  logs.push(`1064 utilities | x${result.length / targets.length} runs`)
+  logs.push(`${classes.length} utilities | x${result.length / targets.length} runs`)
   logs.push('')
 
   minimum.forEach(([name, min]) => {
@@ -67,6 +69,7 @@ async function report() {
   await fs.writeJSON(`${dir}/results/${date}.json`, {
     time: new Date(),
     versions,
+    utilities: classes.length,
     minimum: Object.fromEntries(minimum),
     average: Object.fromEntries(average),
     delta: Object.fromEntries(delta),

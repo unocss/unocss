@@ -48,6 +48,10 @@ const fixture = [
   '-gap-y-5',
   'z-100',
   'order-first',
+  'text-[#124]',
+  'bg-[#153]/10',
+  'bg-#452233/40',
+  'bg-hex-452233/40',
 ].join(' ')
 
 const generator = createGenerator()

@@ -3,27 +3,44 @@ import { h, hex2RGB } from '../../../utils'
 
 const colorResolver
 = (attribute: string, varName: string) =>
-  ([, name, no = 'DEFAULT', opacity]: string[], theme: Theme) => {
-    if (name === 'transparent') {
-      return {
-        [attribute]: 'transparent',
+  ([, body]: string[], theme: Theme) => {
+    const [main, opacity] = body.split('/')
+    const [name, no = 'DEFAULT'] = main.split(/-/g)
+
+    if (!name)
+      return
+
+    let color: string | Record<string, string> | undefined
+    const bracket = h.bracket(main) || main
+    if (bracket.startsWith('#'))
+      color = bracket.slice(1)
+    if (bracket.startsWith('hex-'))
+      color = bracket.slice(4)
+
+    if (!color) {
+      if (name === 'transparent') {
+        return {
+          [attribute]: 'transparent',
+        }
       }
-    }
-    else if (name === 'inherit') {
-      return {
-        [attribute]: 'inherit',
+      else if (name === 'inherit') {
+        return {
+          [attribute]: 'inherit',
+        }
       }
-    }
-    else if (name === 'current') {
-      return {
-        [attribute]: 'currentColor',
+      else if (name === 'current') {
+        return {
+          [attribute]: 'currentColor',
+        }
       }
+      color = theme.colors[name]
+      if (no && color && typeof color !== 'string')
+        color = color[no]
     }
-    let color = theme.colors[name]
-    if (no && color && typeof color !== 'string')
-      color = color[no]
+
     if (typeof color !== 'string')
       return
+
     const rgb = hex2RGB(color)
     if (rgb) {
       if (opacity) {
@@ -45,16 +62,16 @@ export const opacity: Rule[] = [
 ]
 
 export const textColors: Rule[] = [
-  [/^text-(\w+)(?:-(\d+))?(?:\/(\d+))?$/, colorResolver('color', 'text')],
+  [/^text-(.+)$/, colorResolver('color', 'text')],
   [/^text-op(?:acity)?-(\d+)$/m, ([, opacity]) => ({ '--mw-text-opacity': h.opacity(opacity) })],
 ]
 
 export const bgColors: Rule[] = [
-  [/^bg-(\w+)(?:-(\d+))?(?:\/(\d+))?$/, colorResolver('background-color', 'bg')],
+  [/^bg-(.+)$/, colorResolver('background-color', 'bg')],
   [/^bg-op(?:acity)?-(\d+)$/m, ([, opacity]) => ({ '--mw-bg-opacity': h.opacity(opacity) })],
 ]
 
 export const borderColors: Rule[] = [
-  [/^border-(\w+)(?:-(\d+))?(?:\/(\d+))?$/, colorResolver('border-color', 'border')],
+  [/^border-(.+)$/, colorResolver('border-color', 'border')],
   [/^border-op(?:acity)?-(\d+)$/m, ([, opacity]) => ({ '--mw-border-opacity': h.opacity(opacity) })],
 ]

@@ -7,6 +7,7 @@ const variants = [
   'focus',
   'hover:focus:first:active',
   'dark',
+  'dark:focus',
   'md',
   'sm',
   'lg',
@@ -21,6 +22,7 @@ const names = [
   'text',
   'opacity',
   'border-t',
+  'grid-col-',
 ]
 
 const values = [
@@ -31,22 +33,28 @@ const values = [
   'blue-100/10',
   '[1px]',
   '[3.555em]',
+  '[1fr,min-content,100px]',
+  '[#525343]',
   'none',
   'xl',
   '2xl',
 ]
 
-const classes = []
+export async function generateMock() {
+  const classes = []
 
-for (const v of variants) {
-  for (const n of names) {
-    for (const t of values)
-      classes.push(`${v}:${n}-${t}`)
+  for (const v of variants) {
+    for (const n of names) {
+      for (const t of values)
+        classes.push(`${v}:${n}-${t}`)
+    }
   }
+
+  // eslint-disable-next-line no-console
+  console.log(`Generate ${classes.length} utils`)
+
+  const content = `document.getElementById('app').className = "${classes.join(' ')}"`
+  await fs.writeFile(join(dir, 'source/gen.js'), content, 'utf-8')
+
+  return classes
 }
-
-// eslint-disable-next-line no-console
-console.log(classes.length)
-
-const content = `document.getElementById('app').className = "${classes.join(' ')}"`
-await fs.writeFile(join(dir, 'source/gen.js'), content, 'utf-8')

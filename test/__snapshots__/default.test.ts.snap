@@ -19,9 +19,13 @@ exports[`default 1`] = `
 .text-blue{--mw-text-opacity:1;color:rgba(96,165,250,var(--mw-text-opacity));}
 .text-black\\\\/10{color:rgba(0,0,0,0.1);}
 .dark .dark\\\\:not-odd\\\\:text-red:not(:nth-child(odd)){--mw-text-opacity:1;color:rgba(248,113,113,var(--mw-text-opacity));}
+.text-\\\\[\\\\#124\\\\]{--mw-text-opacity:1;color:rgba(17,34,68,var(--mw-text-opacity));}
 .bg-teal-100\\\\/55{background-color:rgba(204,251,241,0.55);}
 .hover\\\\:not-first\\\\:checked\\\\:bg-red\\\\/10:hover:not(:first):checked{background-color:rgba(248,113,113,0.1);}
 .bg-red-100{--mw-bg-opacity:1;background-color:rgba(254,226,226,var(--mw-bg-opacity));}
+.bg-\\\\[\\\\#153\\\\]\\\\/10{background-color:rgba(17,85,51,0.1);}
+.bg-\\\\#452233\\\\/40{background-color:rgba(69,34,51,0.4);}
+.bg-hex-452233\\\\/40{background-color:rgba(69,34,51,0.4);}
 .bg-opacity-45{--mw-bg-opacity:0.45;}
 .border{border-width:1px;border-style:solid;}
 .border-2{border-width:2px;border-style:solid;}
@@ -73,9 +77,13 @@ exports[`scope 1`] = `
 .foo-scope .text-blue{--mw-text-opacity:1;color:rgba(96,165,250,var(--mw-text-opacity));}
 .foo-scope .text-black\\\\/10{color:rgba(0,0,0,0.1);}
 .dark .foo-scope .dark\\\\:not-odd\\\\:text-red:not(:nth-child(odd)){--mw-text-opacity:1;color:rgba(248,113,113,var(--mw-text-opacity));}
+.foo-scope .text-\\\\[\\\\#124\\\\]{--mw-text-opacity:1;color:rgba(17,34,68,var(--mw-text-opacity));}
 .foo-scope .bg-teal-100\\\\/55{background-color:rgba(204,251,241,0.55);}
 .foo-scope .hover\\\\:not-first\\\\:checked\\\\:bg-red\\\\/10:hover:not(:first):checked{background-color:rgba(248,113,113,0.1);}
 .foo-scope .bg-red-100{--mw-bg-opacity:1;background-color:rgba(254,226,226,var(--mw-bg-opacity));}
+.foo-scope .bg-\\\\[\\\\#153\\\\]\\\\/10{background-color:rgba(17,85,51,0.1);}
+.foo-scope .bg-\\\\#452233\\\\/40{background-color:rgba(69,34,51,0.4);}
+.foo-scope .bg-hex-452233\\\\/40{background-color:rgba(69,34,51,0.4);}
 .foo-scope .bg-opacity-45{--mw-bg-opacity:0.45;}
 .foo-scope .border{border-width:1px;border-style:solid;}
 .foo-scope .border-2{border-width:2px;border-style:solid;}
