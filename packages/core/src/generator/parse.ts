@@ -15,8 +15,8 @@ export function parseUtil(config: ResolvedConfig, input: string | ApplyVariantRe
   if (staticMatch?.[1])
     return [staticMatch[0], raw, normalizeEntries(staticMatch[1]), variants]
 
-  // match rules
-  for (let i = 0; i < rulesSize; i++) {
+  // match rules, from last to first
+  for (let i = rulesSize; i >= 0; i--) {
     const rule = rulesDynamic[i]
 
     // static rules are omitted as undefined
