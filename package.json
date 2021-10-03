@@ -3,12 +3,12 @@
   "private": true,
   "version": "0.0.0-alpha.0",
   "scripts": {
-    "build": "pnpm -r --filter !playground run build",
-    "dev": "pnpm -r --filter !playground run dev",
-    "lint": "eslint \"{src,test,packages,playground}/**/*.{ts,vue}\"",
+    "build": "pnpm -r --parallel --filter !playground run build",
+    "dev": "pnpm -r --parallel --filter !playground run dev",
+    "lint": "eslint \"**/*.{ts,vue,mjs}\"",
     "lint:fix": "nr lint -- --fix",
     "play": "npm -C playground run dev",
-    "release": "bumpp --commit --push --tag && pnpm -r publish",
+    "release": "bumpp package.json packages/*/package.json --commit --push --tag && pnpm -r publish",
     "test": "jest",
     "test:update": "jest -u"
   },

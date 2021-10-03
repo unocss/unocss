@@ -105,6 +105,10 @@ importers:
   playground:
     specifiers:
       '@iconify-json/carbon': ^1.0.3
+      '@miniwind/core': workspace:*
+      '@miniwind/preset-attributify': workspace:*
+      '@miniwind/preset-default': workspace:*
+      '@miniwind/vite': workspace:*
       '@types/codemirror': ^5.60.4
       '@vitejs/plugin-vue': ^1.9.2
       '@vueuse/core': ^6.5.3
@@ -125,6 +129,10 @@ importers:
       vue: 3.2.19
     devDependencies:
       '@iconify-json/carbon': 1.0.3
+      '@miniwind/core': link:../packages/core
+      '@miniwind/preset-attributify': link:../packages/preset-attributify
+      '@miniwind/preset-default': link:../packages/preset-default
+      '@miniwind/vite': link:../packages/vite
       '@types/codemirror': 5.60.4
       '@vitejs/plugin-vue': 1.9.2_vite@2.6.2
       codemirror-theme-vars: 0.1.1
