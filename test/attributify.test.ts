@@ -1,5 +1,4 @@
-import { createGenerator, presetDefault } from '../packages/preset-default/src'
-import { variantAttributify, extractorAttributify, presetAttributify } from '../packages/preset-attributify/src'
+import { createGenerator, presetDefault, variantAttributify, extractorAttributify, presetAttributify } from 'miniwind'
 
 describe('attributify', () => {
   const code = `

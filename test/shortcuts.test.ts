@@ -1,4 +1,4 @@
-import { createGenerator } from '../packages/preset-default/src'
+import { createGenerator } from 'miniwind'
 
 describe('shortcuts', () => {
   const generate = createGenerator({

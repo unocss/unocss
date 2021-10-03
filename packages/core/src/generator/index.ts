@@ -22,7 +22,7 @@ export function createGenerator(defaults: UserConfigDefaults, userConfig: UserCo
       matched.add(raw)
       _cache.set(raw, payload)
 
-      if (!Array.isArray(payload[0]))
+      if (typeof payload[0] === 'number')
         payload = [payload as StringifiedUtil]
 
       for (const item of payload as StringifiedUtil[]) {
