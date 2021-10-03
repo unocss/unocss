@@ -12,6 +12,8 @@ export type Rule = DynamicRule | StaticRule
 
 export type DynamicShortcut = [RegExp, ((match: string[]) => (string | string [] | undefined))]
 export type StaticShortcut = [string, string | string[]]
+export type StaticShortcutMap = Record<string, string | string[]>
+export type UserShortcuts = StaticShortcutMap | (StaticShortcut | DynamicShortcut | StaticShortcutMap)[]
 export type Shortcut = StaticShortcut | DynamicShortcut
 
 export type Variant = {
@@ -31,6 +33,13 @@ export interface Theme {
   letterSpacing: Record<string, string>
 }
 
+export interface Preset {
+  rules?: Rule[]
+  variants?: Variant[]
+  shortcuts?: UserShortcuts
+  extractors?: Extractor[]
+}
+
 export interface UserConfig extends Preset {
   theme?: Theme
   presets?: Preset[]
@@ -42,17 +51,11 @@ export interface UserConfigDefaults extends Preset {
   presets: Preset[]
 }
 
-export interface ResolvedConfig extends Omit<Required<UserConfig>, 'presets' | 'rules'> {
+export interface ResolvedConfig extends Omit<Required<UserConfig>, 'presets' | 'rules' | 'shortcuts'> {
+  shortcuts: Shortcut[]
   rulesSize: number
   rulesDynamic: (DynamicRule|undefined)[]
   rulesStaticMap: Record<string, [number, CSSObject | CSSEntries] | undefined>
-}
-
-export interface Preset {
-  rules?: Rule[]
-  variants?: Variant[]
-  shortcuts?: Shortcut[]
-  extractors?: Extractor[]
 }
 
 export type ApplyVariantResult = [

@@ -1,6 +1,15 @@
-import { UserConfig, ResolvedConfig, UserConfigDefaults } from './types'
-import { isStaticRule, uniq } from './utils'
+import { UserShortcuts } from 'miniwind'
+import { UserConfig, ResolvedConfig, UserConfigDefaults, Shortcut } from './types'
+import { isStaticRule, toArray, uniq } from './utils'
 import { extractorSplit } from './extractors'
+
+export function resolveShortcuts(shortcuts: UserShortcuts): Shortcut[] {
+  return toArray(shortcuts).flatMap((s) => {
+    if (Array.isArray(s))
+      return [s]
+    return Object.entries(s)
+  })
+}
 
 export function resolveConfig(defaults: UserConfigDefaults, userConfig: UserConfig = {}): ResolvedConfig {
   const config = Object.assign({}, defaults, userConfig) as UserConfigDefaults
@@ -8,8 +17,8 @@ export function resolveConfig(defaults: UserConfigDefaults, userConfig: UserConf
 
   function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts'>(key: T): Required<UserConfig>[T] {
     return uniq([
-      ...presets.flatMap(p => (p[key] || []) as any[]),
-      ...(config[key] || []) as any[],
+      ...presets.flatMap(p => toArray(p[key] || []) as any[]),
+      ...toArray(config[key] || []) as any[],
     ])
   }
 
@@ -38,7 +47,7 @@ export function resolveConfig(defaults: UserConfigDefaults, userConfig: UserConf
     rulesDynamic: rules as ResolvedConfig['rulesDynamic'],
     rulesStaticMap,
     variants: mergePresets('variants'),
-    shortcuts: mergePresets('shortcuts'),
+    shortcuts: resolveShortcuts(mergePresets('shortcuts')),
     extractors,
   }
 }
