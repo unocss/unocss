@@ -34,6 +34,7 @@ export interface Theme {
 export interface UserConfig extends Preset {
   theme?: Theme
   presets?: Preset[]
+  mergeSelectors?: boolean
 }
 
 export interface UserConfigDefaults extends Preset {

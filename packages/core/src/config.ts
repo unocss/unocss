@@ -32,6 +32,7 @@ export function resolveConfig(defaults: UserConfigDefaults, userConfig: UserConf
   })
 
   return {
+    mergeSelectors: true,
     ...config,
     rulesSize,
     rulesDynamic: rules as ResolvedConfig['rulesDynamic'],
