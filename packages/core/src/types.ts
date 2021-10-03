@@ -16,6 +16,8 @@ export type StaticShortcutMap = Record<string, string | string[]>
 export type UserShortcuts = StaticShortcutMap | (StaticShortcut | DynamicShortcut | StaticShortcutMap)[]
 export type Shortcut = StaticShortcut | DynamicShortcut
 
+export type ExcludeRule = string | RegExp
+
 export type Variant = {
   match: (input: string, theme: Theme) => string | undefined
   selector?: (input: string, theme: Theme) => string | undefined
@@ -34,16 +36,55 @@ export interface Theme {
 }
 
 export interface Preset {
+  /**
+   * Rules to generate CSS utilities
+   */
   rules?: Rule[]
+
+  /**
+   * Variants that preprocess the selectors,
+   * having the ability to rewrite the CSS object.
+   */
   variants?: Variant[]
+
+  /**
+   * Similar to Windi CSS's shortcuts,
+   * allows you have create new utilities by combining existing ones.
+   */
   shortcuts?: UserShortcuts
+
+  /**
+   * Rules to exclude the selectors for your design system (to narrow down the possibilities).
+   * Combining `warnExcluded` options it can also helps you identify wrong usages.
+   */
+  excluded?: ExcludeRule[]
+
+  /**
+   * Extractors to handle the source file and outputs possible classes/selectors
+   * Can be language-aware.
+   */
   extractors?: Extractor[]
 }
 
-export interface UserConfig extends Preset {
+export interface GeneratorOptions {
+  /**
+   * Merge utilities with the exact same body to save the file size
+   *
+   * @default true
+   */
+  mergeSelectors?: boolean
+
+  /**
+   * Emit warning when excluded selectors are found
+   *
+   * @default true
+   */
+  warnExcluded?: boolean
+}
+
+export interface UserConfig extends Preset, GeneratorOptions {
   theme?: Theme
   presets?: Preset[]
-  mergeSelectors?: boolean
 }
 
 export interface UserConfigDefaults extends Preset {
@@ -58,7 +99,7 @@ export interface ResolvedConfig extends Omit<Required<UserConfig>, 'presets' | '
   rulesStaticMap: Record<string, [number, CSSObject | CSSEntries] | undefined>
 }
 
-export type ApplyVariantResult = [
+export type ApplyVariantResult = readonly [
   string /* raw */,
   string /* processed */,
   Variant[]

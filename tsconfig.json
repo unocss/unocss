@@ -20,6 +20,6 @@
   },
   "exclude": [
     "**/dist/**",
-    "**/entries/**",
+    "**/node_modules/**",
   ]
 }
