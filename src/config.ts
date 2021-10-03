@@ -5,7 +5,7 @@ import { isStaticRule, uniq } from '.'
 export function resolveConfig(config: UserConfig = {}): ResolvedConfig {
   const presets = config.presets || [presetDefault()]
 
-  function mergePresets<T extends 'rules' | 'variants' | 'extractors'>(key: T): Required<UserConfig>[T] {
+  function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts'>(key: T): Required<UserConfig>[T] {
     return uniq([
       ...presets.flatMap(p => (p[key] || []) as any[]),
       ...(config[key] || []) as any[],
@@ -37,6 +37,7 @@ export function resolveConfig(config: UserConfig = {}): ResolvedConfig {
     rulesDynamic: rules as ResolvedConfig['rulesDynamic'],
     rulesStaticMap,
     variants: mergePresets('variants'),
+    shortcuts: mergePresets('shortcuts'),
     extractors,
   }
 }

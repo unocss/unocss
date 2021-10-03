@@ -1,6 +1,6 @@
 import { Plugin } from 'vite'
 import { createGenerator } from '../generator'
-import { resolveConfig } from '../options'
+import { resolveConfig } from '../config'
 import { ChunkModeBuildPlugin } from './chunk-build'
 import { GlobalModeDevPlugin } from './global-dev'
 import { PerModuleModePlugin } from './per-module'
@@ -13,7 +13,7 @@ export * from './global-dev'
 export * from './per-module'
 export * from './vue-scoped'
 
-export default function MiniwibndPlugin(options: MiniwindUserOptions = {}): Plugin[] {
+export default function MiniwindPlugin(options: MiniwindUserOptions = {}): Plugin[] {
   const mode = options.mode ?? 'global'
   const config = resolveConfig(options)
   const generate = createGenerator(config)

@@ -2,11 +2,17 @@
 export type CSSObject = Record<string, string | number | undefined>
 export type CSSEntries = [string, string | number | undefined][]
 
-export type Extractor = (code: string, id?: string) => Set<string> | Promise<Set<string>>
+export type Awaitable<T> = T | Promise<T>
+
+export type Extractor = (code: string, id?: string) => Awaitable<Set<string> | undefined>
 
 export type DynamicRule = [RegExp, ((match: string[], theme: Theme) => (CSSObject | CSSEntries | undefined))]
 export type StaticRule = [string, CSSObject | CSSEntries]
 export type Rule = DynamicRule | StaticRule
+
+export type DynamicShortcut = [RegExp, ((match: string[]) => (string | string [] | undefined))]
+export type StaticShortcut = [string, string | string[]]
+export type Shortcut = StaticShortcut | DynamicShortcut
 
 export type Variant = {
   match: (input: string, theme: Theme) => string | undefined
@@ -39,8 +45,15 @@ export interface ResolvedConfig extends Omit<Required<UserConfig>, 'presets' | '
 export interface Preset {
   rules?: Rule[]
   variants?: Variant[]
+  shortcuts?: Shortcut[]
   extractors?: Extractor[]
 }
+
+export type ApplyVariantResult = [
+  string /* raw */,
+  string /* processed */,
+  Variant[]
+]
 
 export type ParsedUtil = readonly [
   number /* index */,

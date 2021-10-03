@@ -47,7 +47,7 @@ export function GlobalModeDevPlugin({ generate, options, config }: ResolvedPlugi
       Promise.all(config.extractors.map(e => e(code)))
         .then((sets) => {
           sets.forEach((i) => {
-            i.forEach((t) => {
+            i?.forEach((t) => {
               tokens.add(t)
             })
           })

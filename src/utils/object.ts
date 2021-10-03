@@ -1,3 +1,4 @@
+import { Shortcut, StaticShortcut } from '..'
 import { CSSEntries, Rule, StaticRule } from '../types'
 
 export function entriesToCss(arr?: CSSEntries) {
@@ -7,6 +8,10 @@ export function entriesToCss(arr?: CSSEntries) {
     .map(([key, value]) => value != null ? `${key}:${value};` : undefined)
     .filter(Boolean)
     .join('')
+}
+
+export function isNestedArray<T extends any[]>(v: T | T[]): v is T[] {
+  return Array.isArray(v[0])
 }
 
 export function isObject(item: any) {
@@ -46,4 +51,8 @@ export function mergeDeep<T>(original: T, patch: DeepPartial<T>): T {
 
 export function isStaticRule(rule: Rule): rule is StaticRule {
   return typeof rule[0] === 'string'
+}
+
+export function isStaticShortcut(s: Shortcut): s is StaticShortcut {
+  return typeof s[0] === 'string'
 }

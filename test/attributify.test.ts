@@ -28,7 +28,7 @@ describe('attributify', () => {
 
   test('variant', async() => {
     const variant = variantAttributify()
-    expect(Array.from(await extract).map(i => variant.match(i, {} as any))).toMatchSnapshot()
+    expect(Array.from(await extract || []).map(i => variant.match(i, {} as any))).toMatchSnapshot()
   })
 
   test('generate', async() => {
