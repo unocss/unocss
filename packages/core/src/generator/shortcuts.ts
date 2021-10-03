@@ -28,33 +28,40 @@ export function expandShortcut(config: ResolvedConfig, processed: string) {
   return result
 }
 
-export function stringifyShortcuts(config: ResolvedConfig, parent: ApplyVariantResult, input: ParsedUtil[]): StringifiedUtil[] | undefined {
-  const selectorMap: [string, string | undefined, CSSEntries][] = []
+export function stringifyShortcuts(config: ResolvedConfig, parent: ApplyVariantResult, expanded: ParsedUtil[]): StringifiedUtil[] | undefined {
+  const selectorMap: [string, string | undefined, CSSEntries, number][] = []
 
-  const maxIndex = input.map(i => i[0]).sort((a, b) => b - a)[0]
+  expanded.sort((a, b) => a[0] - b[0])
 
   const [raw, , parentVariants] = parent
 
-  for (const item of input) {
+  for (const item of expanded) {
     const variants = [...item[3], ...parentVariants]
     const selector = variants.reduce((p, v) => v.selector?.(p, config.theme) || p, toSelector(raw))
     const mediaQuery = variants.reduce((p: string | undefined, v) => v.mediaQuery?.(item[1], config.theme) || p, undefined)
     const entries = variants.reduce((p, v) => v.rewrite?.(p, config.theme) || p, item[2])
 
+    // find existing selector/mediaQuery pair and merge
     let mapItem = selectorMap.find(i => i[0] === selector && i[1] === mediaQuery)
     if (!mapItem) {
-      mapItem = [selector, mediaQuery, []]
+      mapItem = [selector, mediaQuery, [], item[0]]
       selectorMap.push(mapItem)
     }
+
+    // append entries
     mapItem[2].push(...entries)
+
+    // if there is a rule have higher index, update the index
+    if (item[0] > mapItem[3])
+      mapItem[3] = item[0]
   }
 
   return selectorMap
-    .map(([selector, mediaQuery, entries]): StringifiedUtil | undefined => {
+    .map(([selector, mediaQuery, entries, index]): StringifiedUtil | undefined => {
       const body = entriesToCss(entries)
       if (!body)
         return undefined
-      return [maxIndex, `${selector}{${body}}`, mediaQuery]
+      return [index, `${selector}{${body}}`, mediaQuery]
     })
     .filter(Boolean) as StringifiedUtil[]
 }
