@@ -1,5 +1,6 @@
+import { MiniwindCssEntries } from '../../..'
 import { MiniwindRule } from '../../../types'
-import { h } from '../../../utils'
+import { directionMap, h } from '../../../utils'
 
 export const positions: MiniwindRule[] = [
   ['relative', { position: 'relative' }],
@@ -8,76 +9,74 @@ export const positions: MiniwindRule[] = [
 ]
 
 export const justifies: MiniwindRule[] = [
-  ['justify-start', {
-    '-webkit-box-pack': 'start',
-    '-ms-flex-pack': 'start',
-    '-webkit-justify-content': 'flex-start',
-    'justify-content': 'flex-start',
-  }],
-  ['justify-end', {
-    '-webkit-box-pack': 'end',
-    '-ms-flex-pack': 'end',
-    '-webkit-justify-content': 'flex-end',
-    'justify-content': 'flex-end',
-  }],
-  ['justify-center', {
-    '-webkit-box-pack': 'center',
-    '-ms-flex-pack': 'center',
-    '-webkit-justify-content': 'center',
-    'justify-content': 'center',
-  }],
-  ['justify-between', {
-    '-webkit-box-pack': 'justify',
-    '-ms-flex-pack': 'justify',
-    '-webkit-justify-content': 'space-between',
-    'justify-content': 'space-between',
-  }],
-  ['justify-around', {
-    '-ms-flex-pack': 'distribute',
-    '-webkit-justify-content': 'space-around',
-    'justify-content': 'space-around',
-  }],
-  ['justify-evenly', {
-    '-ms-flex-pack': 'space-evenly',
-    '-webkit-justify-content': 'space-evenly',
-    'justify-content': 'space-evenly',
-  }],
+  ['justify-start', { 'justify-content': 'flex-start' }],
+  ['justify-end', { 'justify-content': 'flex-end' }],
+  ['justify-center', { 'justify-content': 'center' }],
+  ['justify-between', { 'justify-content': 'space-between' }],
+  ['justify-around', { 'justify-content': 'space-around' }],
+  ['justify-evenly', { 'justify-content': 'space-evenly' }],
 ]
 
-export const justifyItems: MiniwindRule[] = [
-  // TODO: https://windicss.org/utilities/positioning.html#justify-items
-]
+const basicSet = ['auto', 'start', 'end', 'center', 'stretch']
 
-export const justifySelfs: MiniwindRule[] = [
-  // TODO: https://windicss.org/utilities/positioning.html#justify-items
-]
+export const justifyItems: MiniwindRule[] = basicSet
+  .map(i => [`justify-items-${i}`, { 'justify-items': i }])
+
+export const justifySelfs: MiniwindRule[] = basicSet
+  .map(i => [`justify-self-${i}`, { 'justify-self': i }])
 
 export const alignContents: MiniwindRule[] = [
-  // TODO:
+  ['content-start', { 'align-content': 'flex-start' }],
+  ['content-end', { 'align-content': 'flex-end' }],
+  ['content-center', { 'align-content': 'center' }],
+  ['content-between', { 'align-content': 'space-between' }],
+  ['content-around', { 'align-content': 'space-around' }],
+  ['content-evenly', { 'align-content': 'space-evenly' }],
 ]
 
 export const alignItems: MiniwindRule[] = [
-  // TODO:
+  ['items-start', { 'align-items': 'flex-start' }],
+  ['items-end', { 'align-items': 'flex-end' }],
+  ['items-center', { 'align-items': 'center' }],
+  ['items-baseline', { 'align-items': 'baseline' }],
+  ['items-stretch', { 'align-items': 'stretch' }],
 ]
 
 export const alignSelfs: MiniwindRule[] = [
-  // TODO:
+  ['self-auto', { 'align-self': 'auto' }],
+  ['self-start', { 'align-self': 'flex-start' }],
+  ['self-end', { 'align-self': 'flex-end' }],
+  ['self-center', { 'align-self': 'center' }],
+  ['self-stretch', { 'align-items': 'stretch' }],
 ]
 
 export const placeContents: MiniwindRule[] = [
-  // TODO:
+  ['place-content-start', { 'place-content': 'start' }],
+  ['place-content-end', { 'place-content': 'end' }],
+  ['place-content-center', { 'place-content': 'center' }],
+  ['place-content-between', { 'place-content': 'space-between' }],
+  ['place-content-around', { 'place-content': 'space-around' }],
+  ['place-content-evenly', { 'place-content': 'space-evenly' }],
+  ['place-content-stretch', { 'place-content': 'stretch' }],
 ]
 
-export const placeItems: MiniwindRule[] = [
-  // TODO:
-]
+export const placeItems: MiniwindRule[] = basicSet
+  .map(i => [`place-items-${i}`, { 'place-items': i }])
 
-export const placeSelfs: MiniwindRule[] = [
-  // TODO:
-]
+export const placeSelfs: MiniwindRule[] = basicSet
+  .map(i => [`place-self-${i}`, { 'place-self': i }])
+
+function handleInsetValue(v: string): string | number | undefined {
+  return { auto: 'auto', full: '100%' }[v] || h.bracket.fraction.number(v)
+}
 
 export const insets: MiniwindRule[] = [
-  // TODO:
+  [/^inset-(x|y)-(.+)$/i, ([, d, v]): MiniwindCssEntries | undefined => {
+    const r = handleInsetValue(v)
+    if (r != null)
+      return directionMap[d].map(i => [i.slice(1), r])
+  }],
+  [/^(top|left|right|bottom|inset)-(.+)$/i, ([, d, v]) => ({ [d]: handleInsetValue(v) })],
 ]
 
 export const floats: MiniwindRule[] = [

@@ -51,6 +51,9 @@ export function createGenerator(userConfig: MiniwindUserConfig = {}) {
 
     tokensArray.forEach((tokens) => {
       tokens.forEach((raw) => {
+        if (matched.has(raw))
+          return
+
         // use caches if possible
         if (_cache.get(raw)) {
           const r = _cache.get(raw)

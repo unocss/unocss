@@ -5,12 +5,19 @@ export const displays: MiniwindRule[] = [
   ['block', { display: 'block' }],
   ['inline-block', { display: 'inline-block' }],
   ['table', { display: 'table' }],
+  ['contents', { display: 'contents' }],
+  ['flow-root', { display: 'flow-root' }],
+  ['list-item', { display: 'list-item' }],
   ['hidden', { display: 'none' }],
 ]
 
 export const appearances: MiniwindRule[] = [
   ['outline-none', { 'outline': '2px solid transparent', 'outline-offset': '2px' }],
   ['appearance-none', { appearance: 'none' }],
+  ['visible', { visibility: 'visible' }],
+  ['invisible', { visibility: 'hidden' }],
+  ['backface-visible', { 'backface-visibility': 'visible' }],
+  ['backface-hidden', { 'backface-visibility': 'hidden' }],
 ]
 
 export const cursors: MiniwindRule[] = [
