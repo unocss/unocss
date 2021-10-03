@@ -65,6 +65,16 @@ export default {
 
 That's it, have fun.
 
+## Acknowledgement
+
+- [Atomic CSS](https://acss.io/)
+- [Bootstrap Utilities](https://getbootstrap.com/docs/5.1/utilities/flex/)
+- [Chakra UI Style Props](https://chakra-ui.com/docs/features/style-props)
+- [Tachyons](https://tachyons.io/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Twind](https://github.com/tw-in-js/twind)
+- [Windi CSS](http://windicss.org/)
+
 ## Sponsors
 
 <p align="center">

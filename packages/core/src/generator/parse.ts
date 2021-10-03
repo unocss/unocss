@@ -55,3 +55,7 @@ export function stringifyUtil(config: ResolvedConfig, input?: string | ParsedUti
   const css = `${selector}{${body}}`
   return [index, css, mediaQuery]
 }
+
+export function isExcluded(config: ResolvedConfig, raw: string) {
+  return config.excluded.some(e => typeof e === 'string' ? e === raw : e.test(raw))
+}

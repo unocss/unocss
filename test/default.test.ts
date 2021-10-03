@@ -1,10 +1,11 @@
 import { createGenerator } from 'miniwind'
 
 const fixture = [
-  'p-1',
-  'pt-2',
   'p-t-2',
-  'p-3',
+  'pt-2',
+  'p-2',
+  'pt2',
+  'p2',
   'pl-10px',
   'hover:p-4',
   '!p-5px',
@@ -54,14 +55,9 @@ const fixture = [
   'bg-hex-452233/40',
 ].join(' ')
 
-const generator = createGenerator()
+const generate = createGenerator()
 
 test('default', async() => {
-  const { css } = await generator(fixture)
-  expect(css).toMatchSnapshot()
-})
-
-test('scope', async() => {
-  const { css } = await generator(fixture, '', '.foo-scope')
+  const { css } = await generate(fixture)
   expect(css).toMatchSnapshot()
 })

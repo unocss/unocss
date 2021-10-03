@@ -1,7 +1,7 @@
 import { UserConfig, ParsedUtil, StringifiedUtil, UserConfigDefaults } from '../types'
 import { resolveConfig } from '../config'
 import { expandShortcut, stringifyShortcuts } from './shortcuts'
-import { parseUtil, stringifyUtil } from './parse'
+import { isExcluded, parseUtil, stringifyUtil } from './parse'
 import { applyVariants } from './variant'
 import { applyScope } from './utils'
 
@@ -46,7 +46,17 @@ export function createGenerator(defaults: UserConfigDefaults, userConfig: UserCo
           return
         }
 
+        if (isExcluded(config, raw)) {
+          _cache.set(raw, null)
+          return
+        }
+
         const applied = applyVariants(config, raw)
+
+        if (isExcluded(config, applied[1])) {
+          _cache.set(raw, null)
+          return
+        }
 
         // expand shortcuts
         const expanded = expandShortcut(config, applied[1])
