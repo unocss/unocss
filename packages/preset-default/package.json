@@ -19,13 +19,15 @@
     ".": {
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
-    }
+    },
+    "./reset.css": "./reset.css"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "*.css"
   ],
   "scripts": {
     "build": "tsup --minify",
