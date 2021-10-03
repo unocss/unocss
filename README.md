@@ -2,13 +2,15 @@
 
 [![NPM version](https://img.shields.io/npm/v/miniwind?color=a1b858&label=)](https://www.npmjs.com/package/miniwind)
 
-**Re-imaging atomic CSS**. Instant and lightweight on-demand atomic CSS framework.
+**Re-imaging atomic CSS**.
+
+An instant on-demand atomic-CSS engine.
 
 Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcss.com/), [Twind](https://github.com/tw-in-js/twind) but:
 
-- No parsing, no AST, instant. (⚡️ 100x faster than Windi CSS or Tailwind JIT)
+- No parsing, no AST, it's INSTANT. (⚡️ 100x faster than Windi CSS or Tailwind JIT)
 - CSS code-splitting.
-- Fully customizable - no core utilities, only presets.
+- Fully customizable - no core utilities, all functionalities are provided via presets.
 - No preflights - no global pollutions.
 - No pre-scanning, no file watcher - all done in one pass.
 - CSS Scoping.
