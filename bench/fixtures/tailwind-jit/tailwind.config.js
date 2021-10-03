@@ -1,7 +1,7 @@
 module.exports = {
   mode: 'jit',
   darkMode: 'class',
-  purge: [
+  content: [
     '../../source/*.js',
   ],
   warn: false,

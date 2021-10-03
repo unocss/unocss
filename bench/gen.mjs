@@ -18,7 +18,6 @@ const names = [
   'pt',
   'mx',
   'm',
-  'bg',
   'text',
   'opacity',
   'border-t',
