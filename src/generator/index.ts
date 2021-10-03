@@ -1,4 +1,4 @@
-import { MiniwindVariant, MiniwindCssObject, MiniwindCssEntries, MiniwindUserConfig } from '../types'
+import { MiniwindVariant, MiniwindCssObject, MiniwindCssEntries, MiniwindUserConfig, MiniwindConfig } from '../types'
 import { resolveConfig } from '../options'
 import { escapeSelector, entriesToCss } from '../utils'
 
@@ -20,15 +20,91 @@ function toSelector(raw: string) {
     return `.${escapeSelector(raw)}`
 }
 
-type Cache = readonly [number, string, string | undefined]
+export type UtilParsed = readonly [
+  number /* index */,
+  string /* raw */,
+  MiniwindCssEntries,
+  MiniwindVariant[]
+]
+
+export type UtilStringified = readonly [
+  number /* index */,
+  string /* css */,
+  string | undefined /* media query */,
+]
+
+export function normalizeEntries(obj: MiniwindCssObject | MiniwindCssEntries) {
+  return !Array.isArray(obj) ? Object.entries(obj) : obj
+}
+
+export function parseUtil(config: MiniwindConfig, raw: string): UtilParsed | undefined {
+  const { theme, rulesStaticMap: staticRulesMap, rulesDynamic: dynamicRules, rulesSize: rulesLength } = config
+
+  // process variants
+  const variants: MiniwindVariant[] = []
+  let processed = raw
+  let applied = false
+  while (true) {
+    applied = false
+    for (const v of config.variants) {
+      const result = v.match(processed, theme)
+      if (result && result !== processed) {
+        processed = result
+        variants.push(v)
+        applied = true
+        break
+      }
+    }
+    if (!applied)
+      break
+  }
+
+  // use map to for static rules
+  const staticMatch = staticRulesMap[processed]
+  if (staticMatch?.[1])
+    return [staticMatch[0], raw, normalizeEntries(staticMatch[1]), variants]
+
+  // match rules
+  for (let i = 0; i < rulesLength; i++) {
+    const rule = dynamicRules[i]
+
+    // static rules are omitted as undefined
+    if (!rule)
+      continue
+
+    // dynamic rules
+    const [matcher, handler] = rule
+    const match = processed.match(matcher)
+    if (!match)
+      continue
+
+    const obj = handler(match, theme)
+    if (obj)
+      return [i, raw, normalizeEntries(obj), variants]
+  }
+}
+
+export function stringifyUtil(config: MiniwindConfig, parsed?: UtilParsed): UtilStringified | undefined {
+  if (!parsed)
+    return
+
+  const theme = config.theme
+  const [index, raw, entries, variants] = parsed
+
+  const body = entriesToCss(variants.reduce((p, v) => v.rewrite?.(p, config.theme) || p, entries))
+  if (!body)
+    return
+
+  const selector = variants.reduce((p, v) => v.selector?.(p, theme) || p, toSelector(raw))
+  const mediaQuery = variants.reduce((p: string | undefined, v) => v.mediaQuery?.(raw, theme) || p, undefined)
+
+  const css = `${selector}{${body}}`
+  return [index, css, mediaQuery]
+}
 
 export function createGenerator(userConfig: MiniwindUserConfig = {}) {
   const config = resolveConfig(userConfig)
-  const { dynamicRules, theme, staticRulesMap } = config
-
-  const rulesLength = dynamicRules.length
-
-  const _cache = new Map<string, Cache | null>()
+  const _cache = new Map<string, UtilStringified | null>()
   const extractors = config.extractors
 
   return async(input: string | Set<string>[], id?: string, scope?: string) => {
@@ -37,9 +113,9 @@ export function createGenerator(userConfig: MiniwindUserConfig = {}) {
       : await Promise.all(extractors.map(i => i(input, id)))
 
     const matched = new Set<string>()
-    const sheet: Record<string, Cache[]> = {}
+    const sheet: Record<string, UtilStringified[]> = {}
 
-    function hit(raw: string, payload: Cache) {
+    function hit(raw: string, payload: UtilStringified) {
       matched.add(raw)
       _cache.set(raw, payload)
 
@@ -55,77 +131,17 @@ export function createGenerator(userConfig: MiniwindUserConfig = {}) {
           return
 
         // use caches if possible
-        if (_cache.get(raw)) {
+        if (_cache.has(raw)) {
           const r = _cache.get(raw)
           if (r)
             hit(raw, r)
           return
         }
 
-        // process variants
-        const variants: MiniwindVariant[] = []
-        let processed = raw
-
-        let applied = false
-        while (true) {
-          applied = false
-          for (const v of config.variants) {
-            const result = v.match(processed, theme)
-            if (result && result !== processed) {
-              processed = result
-              variants.push(v)
-              applied = true
-              break
-            }
-          }
-          if (!applied)
-            break
-        }
-
-        function handleObj(index: number, obj: MiniwindCssObject | MiniwindCssEntries | undefined) {
-          if (!obj)
-            return
-
-          if (!Array.isArray(obj))
-            obj = Object.entries(obj)
-
-          obj = variants.reduce((p, v) => v.rewrite?.(p, theme) || p, obj)
-
-          const body = entriesToCss(obj)
-          if (!body)
-            return
-
-          const selector = variants.reduce((p, v) => v.selector?.(p, theme) || p, toSelector(raw))
-          const mediaQuery = variants.reduce((p: string | undefined, v) => v.mediaQuery?.(raw, theme) || p, undefined)
-
-          const css = `${selector}{${body}}`
-          const payload = [index, css, mediaQuery] as const
-          hit(raw, payload)
-          return payload
-        }
-
-        // use map to for static rules
-        const staticMatch = staticRulesMap[processed]
-        if (staticMatch && handleObj(...staticMatch))
+        const r = stringifyUtil(config, parseUtil(config, raw))
+        if (r) {
+          hit(raw, r)
           return
-
-        // match rules
-        for (let i = 0; i < rulesLength; i++) {
-          const rule = dynamicRules[i]
-
-          // static rules are omitted as undefined
-          if (!rule)
-            continue
-
-          // dynamic rules
-          const [matcher, handler] = rule
-          const match = processed.match(matcher)
-          if (!match)
-            continue
-
-          const obj = handler(match, theme)
-          if (handleObj(i, obj))
-            return
         }
 
         // set null cache for unmatched result

@@ -17,11 +17,15 @@ export function resolveConfig(config: MiniwindUserConfig = {}): MiniwindConfig {
     extractors.push(extractorSplit)
 
   const rules = mergePresets('rules')
-  const staticRulesMap: MiniwindConfig['staticRulesMap'] = {}
+  const rulesStaticMap: MiniwindConfig['rulesStaticMap'] = {}
+
+  const rulesSize = rules.length
 
   rules.forEach((rule, i) => {
     if (isStaticRule(rule)) {
-      staticRulesMap[rule[0]] = [i, rule[1]]
+      rulesStaticMap[rule[0]] = [i, rule[1]]
+      // delete static rules so we can't skip them in matching
+      // but keep the order
       delete rules[i]
     }
   })
@@ -29,8 +33,9 @@ export function resolveConfig(config: MiniwindUserConfig = {}): MiniwindConfig {
   return {
     theme: defaultTheme,
     ...config,
-    dynamicRules: rules as MiniwindConfig['dynamicRules'],
-    staticRulesMap,
+    rulesSize,
+    rulesDynamic: rules as MiniwindConfig['rulesDynamic'],
+    rulesStaticMap,
     variants: mergePresets('variants'),
     extractors,
   }

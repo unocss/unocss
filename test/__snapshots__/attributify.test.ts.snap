@@ -48,8 +48,8 @@ exports[`attributify generate 1`] = `
 [font~=\\"mono\\"]{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\\"Liberation Mono\\",\\"Courier New\\",monospace;}
 [font~=\\"sans\\"]{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\\"Segoe UI\\",Roboto,\\"Helvetica Neue\\",Arial,\\"Noto Sans\\",sans-serif,\\"Apple Color Emoji\\",\\"Segoe UI Emoji\\",\\"Segoe UI Symbol\\",\\"Noto Color Emoji\\";}
 [text~=\\"sm\\"]{font-size:0.875rem;line-height:1.25rem;}
-[flex~=\\"\\\\~\\"]{display:flex;}
-[flex~=\\"col\\"]{flex-direction:column;}"
+[flex~=\\"col\\"]{flex-direction:column;}
+[flex~=\\"\\\\~\\"]{display:flex;}"
 `;
 
 exports[`attributify variant 1`] = `

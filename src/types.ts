@@ -31,8 +31,9 @@ export interface MiniwindUserConfig extends MiniwindPreset {
 }
 
 export interface MiniwindConfig extends Omit<Required<MiniwindUserConfig>, 'presets' | 'rules'> {
-  dynamicRules: (MiniwindDynamicRule|undefined)[]
-  staticRulesMap: Record<string, [number, MiniwindCssObject | MiniwindCssEntries] | undefined>
+  rulesSize: number
+  rulesDynamic: (MiniwindDynamicRule|undefined)[]
+  rulesStaticMap: Record<string, [number, MiniwindCssObject | MiniwindCssEntries] | undefined>
 }
 
 export interface MiniwindPreset {
