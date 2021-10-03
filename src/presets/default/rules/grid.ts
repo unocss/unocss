@@ -1,6 +1,6 @@
-import { MiniwindRule } from '../../../types'
+import { Rule } from '../../../types'
 
-export const grids: MiniwindRule[] = [
+export const grids: Rule[] = [
   ['grid', { display: 'grid' }],
   ['inline-grid', { display: 'inline-grid' }],
   [/^grid-cols-(\d+)$/, ([, d]) => ({ 'grid-template-columns': `repeat(${d}, minmax(0, 1fr))` })],

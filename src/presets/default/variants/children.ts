@@ -1,7 +1,7 @@
-import { MiniwindVariant } from '../../../types'
+import { Variant } from '../../../types'
 import { variantMatcher } from '../../../utils'
 
-export const variantChildren: MiniwindVariant[] = [
+export const variantChildren: Variant[] = [
   {
     match: variantMatcher('children'),
     selector: input => `${input} > *`,

@@ -1,4 +1,4 @@
-import { MiniwindRule } from '../../../types'
+import { Rule } from '../../../types'
 
 const overflowValues = [
   'auto',
@@ -7,7 +7,7 @@ const overflowValues = [
   'scroll',
 ]
 
-export const overflows: MiniwindRule[] = [
+export const overflows: Rule[] = [
   [/^overflow-(.+)$/, ([, v]) => overflowValues.includes(v) ? { overflow: v } : undefined],
   [/^overflow-([xy])-(.+)$/, ([, d, v]) => overflowValues.includes(v) ? { [`overflow-${d}`]: v } : undefined],
 ]

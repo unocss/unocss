@@ -1,4 +1,4 @@
-import { MiniwindRule } from '../../../types'
+import { Rule } from '../../../types'
 import { transitions } from './animations'
 import { borders, borderStyles, borderRadius } from './border'
 import { bgColors, borderColors, opacity, textColors } from './colors'
@@ -13,7 +13,7 @@ import { sizes } from './size'
 import { paddings, margins } from './spacing'
 import { verticalAligns, appearances, breaks, cursors, displays, pointerEvents, resizes, textAligns, textDecorations, textOverflows, textTransforms, userSelects, whitespaces } from './static'
 
-export const defaultRules: MiniwindRule[] = [
+export const defaultRules: Rule[] = [
   paddings,
   margins,
   displays,

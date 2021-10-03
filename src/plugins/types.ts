@@ -1,8 +1,8 @@
 import { FilterPattern } from '@rollup/pluginutils'
 import { createGenerator } from '../generator'
-import { MiniwindConfig, MiniwindUserConfig } from '../types'
+import { ResolvedConfig, UserConfig } from '../types'
 
-export interface MiniwindUserOptions extends MiniwindUserConfig {
+export interface MiniwindUserOptions extends UserConfig {
   include?: FilterPattern
   exclude?: FilterPattern
 
@@ -21,6 +21,6 @@ export interface MiniwindUserOptions extends MiniwindUserConfig {
 
 export interface ResolvedPluginContext {
   options: MiniwindUserOptions
-  config: MiniwindConfig
+  config: ResolvedConfig
   generate: ReturnType<typeof createGenerator>
 }

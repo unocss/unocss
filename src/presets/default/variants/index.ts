@@ -1,4 +1,4 @@
-import { MiniwindVariant } from '../../../types'
+import { Variant } from '../../../types'
 import { variantBreakpoints } from './breakpoints'
 import { variantChildren } from './children'
 import { variantColorsClass } from './dark'
@@ -9,7 +9,7 @@ export * from './dark'
 export * from './children'
 export * from './pseudo'
 
-export const variantImportant: MiniwindVariant = {
+export const variantImportant: Variant = {
   match: input => input.startsWith('!') ? input.slice(1) : undefined,
   rewrite: (input) => {
     input.forEach((v) => {
@@ -20,7 +20,7 @@ export const variantImportant: MiniwindVariant = {
   },
 }
 
-export const variantNegative: MiniwindVariant = {
+export const variantNegative: Variant = {
   match: input => input.startsWith('-') ? input.slice(1) : undefined,
   rewrite: (input) => {
     input.forEach((v) => {

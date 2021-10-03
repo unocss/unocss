@@ -1,7 +1,7 @@
 import { h } from '../../../utils'
-import { MiniwindRule } from '../../../types'
+import { Rule } from '../../../types'
 
-export const sizes: MiniwindRule[] = [
+export const sizes: Rule[] = [
   ['w-full', { width: '100%' }],
   ['h-full', { height: '100%' }],
   ['w-screen', { width: '100vw' }],

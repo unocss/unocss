@@ -1,9 +1,9 @@
-import { MiniwindTheme, MiniwindRule } from '../../../types'
+import { Theme, Rule } from '../../../types'
 import { h, hex2RGB } from '../../../utils'
 
 const colorResolver
 = (attribute: string, varName: string) =>
-  ([, name, no = 'DEFAULT', opacity]: string[], theme: MiniwindTheme) => {
+  ([, name, no = 'DEFAULT', opacity]: string[], theme: Theme) => {
     if (name === 'transparent') {
       return {
         [attribute]: 'transparent',
@@ -40,21 +40,21 @@ const colorResolver
     }
   }
 
-export const opacity: MiniwindRule[] = [
+export const opacity: Rule[] = [
   [/^op(?:acity)?-(\d+)$/, ([, d]) => ({ opacity: h.opacity(d) })],
 ]
 
-export const textColors: MiniwindRule[] = [
+export const textColors: Rule[] = [
   [/^text-(\w+)(?:-(\d+))?(?:\/(\d+))?$/, colorResolver('color', 'text')],
   [/^text-op(?:acity)?-(\d+)$/m, ([, opacity]) => ({ '--mw-text-opacity': h.opacity(opacity) })],
 ]
 
-export const bgColors: MiniwindRule[] = [
+export const bgColors: Rule[] = [
   [/^bg-(\w+)(?:-(\d+))?(?:\/(\d+))?$/, colorResolver('background-color', 'bg')],
   [/^bg-op(?:acity)?-(\d+)$/m, ([, opacity]) => ({ '--mw-bg-opacity': h.opacity(opacity) })],
 ]
 
-export const borderColors: MiniwindRule[] = [
+export const borderColors: Rule[] = [
   [/^border-(\w+)(?:-(\d+))?(?:\/(\d+))?$/, colorResolver('border-color', 'border')],
   [/^border-op(?:acity)?-(\d+)$/m, ([, opacity]) => ({ '--mw-border-opacity': h.opacity(opacity) })],
 ]

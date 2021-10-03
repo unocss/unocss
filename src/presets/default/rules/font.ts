@@ -1,7 +1,7 @@
 import { h, toArray } from '../../../utils'
-import { MiniwindRule } from '../../../types'
+import { Rule } from '../../../types'
 
-export const fonts: MiniwindRule[] = [
+export const fonts: Rule[] = [
   [/^font-(\w+)$/, ([, d], theme) => {
     const font = theme.fontFamily[d]
     if (font) {
@@ -25,7 +25,7 @@ const weightMap: Record<string, string> = {
   // int[0, 900] -> int
 }
 
-export const fontSizes: MiniwindRule[] = [
+export const fontSizes: Rule[] = [
   [/^text-([^-]+)$/, ([, s = 'base'], theme) => {
     const result = toArray(theme.fontSize[s] || h.bracket.size(s))
     if (result?.[0]) {
@@ -38,7 +38,7 @@ export const fontSizes: MiniwindRule[] = [
   }],
 ]
 
-export const fontWeights: MiniwindRule[] = [
+export const fontWeights: Rule[] = [
   [/^font-([^-]+)$/, ([, s]) => {
     const v = weightMap[s] || h.number(s)
     if (v)
@@ -46,7 +46,7 @@ export const fontWeights: MiniwindRule[] = [
   }],
 ]
 
-export const leadings: MiniwindRule[] = [
+export const leadings: Rule[] = [
   [/^leading-([^-]+)$/, ([, s], theme) => {
     const v = theme.lineHeight[s] || h.bracket.size(s)
     if (v !== null)
@@ -54,7 +54,7 @@ export const leadings: MiniwindRule[] = [
   }],
 ]
 
-export const trackings: MiniwindRule[] = [
+export const trackings: Rule[] = [
   [/^tracking-([^-]+)$/, ([, s], theme) => {
     const v = theme.letterSpacing[s] || h.bracket.size(s)
     if (v !== null)

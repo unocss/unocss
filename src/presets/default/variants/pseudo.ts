@@ -1,7 +1,7 @@
 import { toArray, variantMatcher } from '../../../utils'
-import { MiniwindVariant } from '../../../types'
+import { Variant } from '../../../types'
 
-export function createPseudoClassVariant(name: string, pseudo = name): MiniwindVariant[] {
+export function createPseudoClassVariant(name: string, pseudo = name): Variant[] {
   return [
     {
       match: variantMatcher(name),
@@ -18,7 +18,7 @@ export function createPseudoClassVariant(name: string, pseudo = name): MiniwindV
   ]
 }
 
-export function createPseudoElementVariant(name: string): MiniwindVariant {
+export function createPseudoElementVariant(name: string): Variant {
   return {
     match: variantMatcher(name),
     selector: input => `${input}::${name}`,

@@ -1,11 +1,11 @@
-import { MiniwindUserConfig, MiniwindConfig } from './types'
+import { UserConfig, ResolvedConfig } from './types'
 import { extractorSplit, presetDefault, defaultTheme } from './presets/default'
 import { isStaticRule, uniq } from '.'
 
-export function resolveConfig(config: MiniwindUserConfig = {}): MiniwindConfig {
+export function resolveConfig(config: UserConfig = {}): ResolvedConfig {
   const presets = config.presets || [presetDefault()]
 
-  function mergePresets<T extends 'rules' | 'variants' | 'extractors'>(key: T): Required<MiniwindUserConfig>[T] {
+  function mergePresets<T extends 'rules' | 'variants' | 'extractors'>(key: T): Required<UserConfig>[T] {
     return uniq([
       ...presets.flatMap(p => (p[key] || []) as any[]),
       ...(config[key] || []) as any[],
@@ -17,7 +17,7 @@ export function resolveConfig(config: MiniwindUserConfig = {}): MiniwindConfig {
     extractors.push(extractorSplit)
 
   const rules = mergePresets('rules')
-  const rulesStaticMap: MiniwindConfig['rulesStaticMap'] = {}
+  const rulesStaticMap: ResolvedConfig['rulesStaticMap'] = {}
 
   const rulesSize = rules.length
 
@@ -34,7 +34,7 @@ export function resolveConfig(config: MiniwindUserConfig = {}): MiniwindConfig {
     theme: defaultTheme,
     ...config,
     rulesSize,
-    rulesDynamic: rules as MiniwindConfig['rulesDynamic'],
+    rulesDynamic: rules as ResolvedConfig['rulesDynamic'],
     rulesStaticMap,
     variants: mergePresets('variants'),
     extractors,

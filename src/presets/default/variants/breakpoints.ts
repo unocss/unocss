@@ -1,6 +1,6 @@
-import { MiniwindVariant } from '../../../types'
+import { Variant } from '../../../types'
 
-export const variantBreakpoints: MiniwindVariant = {
+export const variantBreakpoints: Variant = {
   match(input, theme) {
     for (const point of Object.keys(theme.breakpoints)) {
       if (input.startsWith(`${point}:`) || input.startsWith(`${point}-`))

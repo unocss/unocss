@@ -1,7 +1,7 @@
 // port form Tailwind CSS and Windi CSS
 // TODO: add more details
 
-import { MiniwindTheme } from '../../../types'
+import { Theme } from '../../../types'
 
 export const fontFamily = {
   sans: [
@@ -40,7 +40,7 @@ export const fontFamily = {
   ].join(','),
 }
 
-export const fontSize: MiniwindTheme['fontSize'] = {
+export const fontSize: Theme['fontSize'] = {
   'xs': ['0.75rem', '1rem'],
   'sm': ['0.875rem', '1.25rem'],
   'base': ['1rem', '1.5rem'],
@@ -56,7 +56,7 @@ export const fontSize: MiniwindTheme['fontSize'] = {
   '9xl': ['8rem', '1'],
 }
 
-export const lineHeight: MiniwindTheme['lineHeight'] = {
+export const lineHeight: Theme['lineHeight'] = {
   none: '1',
   tight: '1.25',
   snug: '1.375',
@@ -65,7 +65,7 @@ export const lineHeight: MiniwindTheme['lineHeight'] = {
   loose: '2',
 }
 
-export const letterSpacing: MiniwindTheme['letterSpacing'] = {
+export const letterSpacing: Theme['letterSpacing'] = {
   tighter: '-0.05em',
   tight: '-0.025em',
   normal: '0em',

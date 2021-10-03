@@ -1,4 +1,4 @@
-import { MiniwindRule } from '../../..'
+import { Rule } from '../../..'
 
 const filterContnet = 'var(--mw-blur) var(--mw-brightness) var(--mw-contrast) var(--mw-grayscale) var(--mw-hue-rotate) var(--mw-invert) var(--mw-saturate) var(--mw-sepia) var(--mw-drop-shadow)'
 
@@ -15,7 +15,7 @@ const init = {
   'filter': filterContnet,
 }
 
-export const filters: MiniwindRule[] = [
+export const filters: Rule[] = [
   ['filter', init],
   ['filter-none', { filter: 'none' }],
   [/^blur(?:-(\d+))?$/, ([, d]) => ({ '--mw-blur': `blur(${d}px)`, 'filter': filterContnet })],

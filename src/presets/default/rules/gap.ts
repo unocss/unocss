@@ -1,7 +1,7 @@
-import { MiniwindRule } from '../../../types'
+import { Rule } from '../../../types'
 import { h } from '../../../utils'
 
-export const gaps: MiniwindRule[] = [
+export const gaps: Rule[] = [
   [/^(?:flex-|grid-)gap-([^-]+)$/, ([, s]) => {
     const v = h.bracket.size(s)
     if (v != null) {

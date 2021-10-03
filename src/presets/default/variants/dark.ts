@@ -1,7 +1,7 @@
-import { MiniwindVariant } from '../../../types'
+import { Variant } from '../../../types'
 import { variantMatcher } from '../../../utils'
 
-export const variantColorsClass: MiniwindVariant[] = [
+export const variantColorsClass: Variant[] = [
   {
     match: variantMatcher('dark'),
     selector: input => `.dark $$ ${input}`,
@@ -12,7 +12,7 @@ export const variantColorsClass: MiniwindVariant[] = [
   },
 ]
 
-export const variantColorsMedia: MiniwindVariant[] = [
+export const variantColorsMedia: Variant[] = [
   {
     match: variantMatcher('dark'),
     mediaQuery: () => '@media (prefers-color-scheme: dark)',

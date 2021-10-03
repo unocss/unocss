@@ -1,21 +1,21 @@
 /* eslint-disable no-use-before-define */
-export type MiniwindCssObject = Record<string, string | number | undefined>
-export type MiniwindCssEntries = [string, string | number | undefined][]
+export type CSSObject = Record<string, string | number | undefined>
+export type CSSEntries = [string, string | number | undefined][]
 
-export type MiniwindExtractor = (code: string, id?: string) => Set<string> | Promise<Set<string>>
+export type Extractor = (code: string, id?: string) => Set<string> | Promise<Set<string>>
 
-export type MiniwindDynamicRule = [RegExp, ((match: string[], theme: MiniwindTheme) => (MiniwindCssObject | MiniwindCssEntries | undefined))]
-export type MiniwindStaticRule = [string, MiniwindCssObject | MiniwindCssEntries]
-export type MiniwindRule = MiniwindDynamicRule | MiniwindStaticRule
+export type DynamicRule = [RegExp, ((match: string[], theme: Theme) => (CSSObject | CSSEntries | undefined))]
+export type StaticRule = [string, CSSObject | CSSEntries]
+export type Rule = DynamicRule | StaticRule
 
-export type MiniwindVariant = {
-  match: (input: string, theme: MiniwindTheme) => string | undefined
-  selector?: (input: string, theme: MiniwindTheme) => string | undefined
-  rewrite?: (input: MiniwindCssEntries, theme: MiniwindTheme) => MiniwindCssEntries | undefined
-  mediaQuery?: (selector: string, theme: MiniwindTheme) => string | undefined
+export type Variant = {
+  match: (input: string, theme: Theme) => string | undefined
+  selector?: (input: string, theme: Theme) => string | undefined
+  rewrite?: (input: CSSEntries, theme: Theme) => CSSEntries | undefined
+  mediaQuery?: (selector: string, theme: Theme) => string | undefined
 }
 
-export interface MiniwindTheme {
+export interface Theme {
   borderRadius: Record<string, string>
   breakpoints: Record<string, string>
   colors: Record<string, string | Record<string, string>>
@@ -25,19 +25,32 @@ export interface MiniwindTheme {
   letterSpacing: Record<string, string>
 }
 
-export interface MiniwindUserConfig extends MiniwindPreset {
-  theme?: MiniwindTheme
-  presets?: MiniwindPreset[]
+export interface UserConfig extends Preset {
+  theme?: Theme
+  presets?: Preset[]
 }
 
-export interface MiniwindConfig extends Omit<Required<MiniwindUserConfig>, 'presets' | 'rules'> {
+export interface ResolvedConfig extends Omit<Required<UserConfig>, 'presets' | 'rules'> {
   rulesSize: number
-  rulesDynamic: (MiniwindDynamicRule|undefined)[]
-  rulesStaticMap: Record<string, [number, MiniwindCssObject | MiniwindCssEntries] | undefined>
+  rulesDynamic: (DynamicRule|undefined)[]
+  rulesStaticMap: Record<string, [number, CSSObject | CSSEntries] | undefined>
 }
 
-export interface MiniwindPreset {
-  rules?: MiniwindRule[]
-  variants?: MiniwindVariant[]
-  extractors?: MiniwindExtractor[]
+export interface Preset {
+  rules?: Rule[]
+  variants?: Variant[]
+  extractors?: Extractor[]
 }
+
+export type ParsedUtil = readonly [
+  number /* index */,
+  string /* raw */,
+  CSSEntries,
+  Variant[]
+]
+
+export type StringifiedUtil = readonly [
+  number /* index */,
+  string /* css */,
+  string | undefined /* media query */,
+]

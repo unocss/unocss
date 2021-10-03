@@ -1,9 +1,9 @@
 // port form Tailwind CSS and Windi CSS
 // TODO: add more details
 
-import { MiniwindTheme } from '../../../types'
+import { Theme } from '../../../types'
 
-export const colors: MiniwindTheme['colors'] = {
+export const colors: Theme['colors'] = {
   black: '#000',
   white: '#fff',
   rose: {

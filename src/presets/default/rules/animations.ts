@@ -1,9 +1,9 @@
-import { MiniwindRule } from '../../../types'
+import { Rule } from '../../../types'
 
 const transitionProps = ['background-color', 'border-color', 'color', 'fill', 'stroke', 'opacity', 'box-shadow', 'transform', 'filter', 'backdrop-filter']
 const transitionPropsStr = transitionProps.join(', ')
 
-export const transitions: MiniwindRule[] = [
+export const transitions: Rule[] = [
   [/^transition(?:-([a-z-]+))?(?:-(\d+))?$/, ([, prop, duration = '150']) => {
     if (prop && !transitionProps.includes(prop))
       return

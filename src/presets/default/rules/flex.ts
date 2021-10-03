@@ -1,6 +1,6 @@
-import { MiniwindRule } from '../../../types'
+import { Rule } from '../../../types'
 
-export const flex: MiniwindRule[] = [
+export const flex: Rule[] = [
   ['flex-col', { 'flex-direction': 'column' }],
   ['flex-col-reverse', { 'flex-direction': 'column-reverse' }],
   ['flex-row', { 'flex-direction': 'row' }],

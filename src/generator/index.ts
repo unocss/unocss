@@ -1,4 +1,4 @@
-import { MiniwindVariant, MiniwindCssObject, MiniwindCssEntries, MiniwindUserConfig, MiniwindConfig } from '../types'
+import { Variant, CSSObject, CSSEntries, UserConfig, ResolvedConfig, ParsedUtil, StringifiedUtil } from '../types'
 import { resolveConfig } from '../options'
 import { escapeSelector, entriesToCss } from '../utils'
 
@@ -20,28 +20,15 @@ function toSelector(raw: string) {
     return `.${escapeSelector(raw)}`
 }
 
-export type UtilParsed = readonly [
-  number /* index */,
-  string /* raw */,
-  MiniwindCssEntries,
-  MiniwindVariant[]
-]
-
-export type UtilStringified = readonly [
-  number /* index */,
-  string /* css */,
-  string | undefined /* media query */,
-]
-
-export function normalizeEntries(obj: MiniwindCssObject | MiniwindCssEntries) {
+export function normalizeEntries(obj: CSSObject | CSSEntries) {
   return !Array.isArray(obj) ? Object.entries(obj) : obj
 }
 
-export function parseUtil(config: MiniwindConfig, raw: string): UtilParsed | undefined {
+export function parseUtil(config: ResolvedConfig, raw: string): ParsedUtil | undefined {
   const { theme, rulesStaticMap: staticRulesMap, rulesDynamic: dynamicRules, rulesSize: rulesLength } = config
 
   // process variants
-  const variants: MiniwindVariant[] = []
+  const variants: Variant[] = []
   let processed = raw
   let applied = false
   while (true) {
@@ -84,7 +71,7 @@ export function parseUtil(config: MiniwindConfig, raw: string): UtilParsed | und
   }
 }
 
-export function stringifyUtil(config: MiniwindConfig, parsed?: UtilParsed): UtilStringified | undefined {
+export function stringifyUtil(config: ResolvedConfig, parsed?: ParsedUtil): StringifiedUtil | undefined {
   if (!parsed)
     return
 
@@ -102,9 +89,9 @@ export function stringifyUtil(config: MiniwindConfig, parsed?: UtilParsed): Util
   return [index, css, mediaQuery]
 }
 
-export function createGenerator(userConfig: MiniwindUserConfig = {}) {
+export function createGenerator(userConfig: UserConfig = {}) {
   const config = resolveConfig(userConfig)
-  const _cache = new Map<string, UtilStringified | null>()
+  const _cache = new Map<string, StringifiedUtil | null>()
   const extractors = config.extractors
 
   return async(input: string | Set<string>[], id?: string, scope?: string) => {
@@ -113,9 +100,9 @@ export function createGenerator(userConfig: MiniwindUserConfig = {}) {
       : await Promise.all(extractors.map(i => i(input, id)))
 
     const matched = new Set<string>()
-    const sheet: Record<string, UtilStringified[]> = {}
+    const sheet: Record<string, StringifiedUtil[]> = {}
 
-    function hit(raw: string, payload: UtilStringified) {
+    function hit(raw: string, payload: StringifiedUtil) {
       matched.add(raw)
       _cache.set(raw, payload)
 

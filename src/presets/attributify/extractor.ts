@@ -1,11 +1,11 @@
-import { MiniwindExtractor } from '../../types'
+import { Extractor } from '../../types'
 
 const strippedPrefixes = [
   'v-bind:',
   ':',
 ]
 
-export const extractorAttributify: MiniwindExtractor = (code) => {
+export const extractorAttributify: Extractor = (code) => {
   return new Set(
     Array.from(code.matchAll(/([\w:-]+)=(["'])([^\2]+?)\2/g))
       .flatMap(([, name, _, content = '']) => {

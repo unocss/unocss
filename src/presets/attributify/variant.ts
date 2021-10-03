@@ -1,10 +1,10 @@
-import { MiniwindVariant } from '../../types'
+import { Variant } from '../../types'
 import { isAttributifySelector } from '../../utils'
 import { AttributifyOptions } from './types'
 
 const variantsRE = /^(.+\:\!?)?(.*?)$/
 
-export const variantAttributify = (options: AttributifyOptions = {}): MiniwindVariant => {
+export const variantAttributify = (options: AttributifyOptions = {}): Variant => {
   const prefix = options.prefix ?? 'mw-'
 
   return {
