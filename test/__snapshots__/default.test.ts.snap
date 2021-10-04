@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`default 1`] = `
-".p-2{padding:0.5rem;}
-.p2{padding:0.5rem;}
+"
+.p-2, .p2{padding:0.5rem;}
 .hover\\\\:p-4:hover{padding:1rem;}
 .\\\\!p-5px{padding:5px !important;}
 .hover\\\\:\\\\!p-10:hover{padding:2.5rem !important;}
 .\\\\!hover\\\\:px-10:hover{padding-left:2.5rem !important;padding-right:2.5rem !important;}
-.p-t-2{padding-top:0.5rem;}
-.pt-2{padding-top:0.5rem;}
-.pt2{padding-top:0.5rem;}
+
+
+.pt-2, .p-t-2, .pt2{padding-top:0.5rem;}
 .pl-10px{padding-left:10px;}
 .m-auto{margin:auto;}
 .m-\\\\[3em\\\\]{margin:3em;}
@@ -20,8 +20,8 @@ exports[`default 1`] = `
 .hover\\\\:not-first\\\\:checked\\\\:bg-red\\\\/10:hover:not(:first):checked{background-color:rgba(248,113,113,0.1);}
 .bg-red-100{--mw-bg-opacity:1;background-color:rgba(254,226,226,var(--mw-bg-opacity));}
 .bg-\\\\[\\\\#153\\\\]\\\\/10{background-color:rgba(17,85,51,0.1);}
-.bg-\\\\#452233\\\\/40{background-color:rgba(69,34,51,0.4);}
-.bg-hex-452233\\\\/40{background-color:rgba(69,34,51,0.4);}
+
+.bg-\\\\#452233\\\\/40, .bg-hex-452233\\\\/40{background-color:rgba(69,34,51,0.4);}
 .bg-opacity-45{--mw-bg-opacity:0.45;}
 .border{border-width:1px;border-style:solid;}
 .border-2{border-width:2px;border-style:solid;}

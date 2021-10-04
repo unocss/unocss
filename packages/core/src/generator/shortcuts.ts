@@ -56,7 +56,7 @@ export function stringifyShortcuts(config: ResolvedConfig, parent: ApplyVariantR
       const body = entriesToCss(entries)
       if (!body)
         return undefined
-      return [index, `${selector}{${body}}`, mediaQuery]
+      return [index, selector, body, mediaQuery]
     })
     .filter(Boolean) as StringifiedUtil[]
 }

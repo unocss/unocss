@@ -117,6 +117,7 @@ export type ParsedUtil = readonly [
 
 export type StringifiedUtil = readonly [
   number /* index */,
-  string /* css */,
+  string /* selector */,
+  string /* body */,
   string | undefined /* media query */,
 ]

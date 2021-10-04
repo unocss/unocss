@@ -52,8 +52,7 @@ export function stringifyUtil(config: ResolvedConfig, input?: string | ParsedUti
   const selector = variants.reduce((p, v) => v.selector?.(p, theme) || p, toEscapedSelector(raw))
   const mediaQuery = variants.reduce((p: string | undefined, v) => v.mediaQuery?.(raw, theme) || p, undefined)
 
-  const css = `${selector}{${body}}`
-  return [index, css, mediaQuery]
+  return [index, selector, body, mediaQuery]
 }
 
 export function isExcluded(config: ResolvedConfig, raw: string) {

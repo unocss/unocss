@@ -28,7 +28,7 @@ export function createGenerator(defaults: UserConfigDefaults, userConfig: UserCo
         payload = [payload as StringifiedUtil]
 
       for (const item of payload as StringifiedUtil[]) {
-        const query = item[2] || ''
+        const query = item[3] || ''
         if (!(query in sheet))
           sheet[query] = []
         sheet[query].push(item)
@@ -89,13 +89,30 @@ export function createGenerator(defaults: UserConfigDefaults, userConfig: UserCo
 
     const css = Object.entries(sheet)
       .map(([query, items]) => {
-        const rules = items
+        const itemsSize = items.length
+        const sorted: [string, string][] = items
           .sort((a, b) => a[0] - b[0])
-          .map(i => applyScope(i[1], scope))
+          .map(a => [applyScope(a[1], scope), a[2]])
+        const rules = sorted
+          .map(([selector, body], idx) => {
+            if (config.mergeSelectors) {
+              // search for rules that has exact same body, and merge them
+              // the index is reversed to make sure we always merge to the last one
+              for (let i = itemsSize - 1; i > idx; i--) {
+                const current = sorted[i]
+                if (current[1] === body) {
+                  current[0] = `${selector}, ${current[0]}`
+                  return ''
+                }
+              }
+            }
+            return `${selector}{${body}}`
+          })
           .join('\n')
-        if (query)
-          return `${query}{\n${rules}\n}`
-        return rules
+
+        return query
+          ? `${query}{\n${rules}\n}`
+          : rules
       })
       .join('\n')
 
