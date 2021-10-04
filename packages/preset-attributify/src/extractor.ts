@@ -1,25 +1,42 @@
-import { Extractor } from '@hummin/core'
+import { Extractor, isValidSelector } from '@hummin/core'
+import { AttributifyOptions } from '.'
 
 const strippedPrefixes = [
   'v-bind:',
   ':',
 ]
 
-export const extractorAttributify: Extractor = (code) => {
-  return new Set(
-    Array.from(code.matchAll(/([\w:-]+)=(["'])([^\2]+?)\2/g))
-      .flatMap(([, name, _, content = '']) => {
-        for (const prefix of strippedPrefixes) {
-          if (name.startsWith(prefix)) {
-            name = name.slice(prefix.length)
-            break
-          }
-        }
+const valuedAttributeRE = /([\w:-]+)=(["'])([^\2]+?)\2/g
+const htmlStartingTagRE = /<[\w-]+?\s([\s\S]+?)>\n/g
+const nonValuedAttributeRE = /[\s]([\w.:\[\]\-]+?)[\s]/g
 
-        return content
-          .split(/[\s'"`;]/g)
-          .filter(Boolean)
-          .map(v => `[${name}~="${v}"]`)
-      }),
-  )
+export const extractorAttributify = (options?: AttributifyOptions): Extractor => (code) => {
+  const result = Array.from(code.matchAll(valuedAttributeRE))
+    .flatMap(([, name, _, content = '']) => {
+      for (const prefix of strippedPrefixes) {
+        if (name.startsWith(prefix)) {
+          name = name.slice(prefix.length)
+          break
+        }
+      }
+      return content
+        .split(/[\s'"`;]/g)
+        .filter(Boolean)
+        .map(v => `[${name}~="${v}"]`)
+    })
+
+  if (options?.nonValuedAttribute !== false) {
+    Array.from(code.matchAll(htmlStartingTagRE))
+      .forEach(([, attrs]) => {
+        attrs = attrs.replace(htmlStartingTagRE, '')
+        result.push(
+          ...Array.from(attrs.matchAll(nonValuedAttributeRE))
+            .map(([, i]) => i)
+            .filter(isValidSelector)
+            .map(i => `[${i}=""]`),
+        )
+      })
+  }
+
+  return new Set(result)
 }

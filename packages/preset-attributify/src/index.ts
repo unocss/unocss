@@ -12,6 +12,6 @@ export const presetAttributify = (options?: AttributifyOptions): Preset => ({
     variantAttributify(options),
   ],
   extractors: [
-    extractorAttributify,
+    extractorAttributify(options),
   ],
 })

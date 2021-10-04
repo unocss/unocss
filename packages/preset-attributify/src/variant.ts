@@ -20,7 +20,7 @@ export const variantAttributify = (options: AttributifyOptions = {}): Variant =>
 
       const content = match[2]
       const [, variants = '', body = content] = content.match(variantsRE) || []
-      if (body === '~')
+      if (body === '~' || !body)
         return `${variants}${name}`
       else
         return `${variants}${name}-${body}`

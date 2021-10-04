@@ -13,12 +13,14 @@ describe('attributify', () => {
   v-bind:p="y-2 x-4"
   border="2 rounded blue-200"
   mw-children="m-auto"
+  pt2
+  inline-block
 >
   Button
 </button>
 `
 
-  const extract = extractorAttributify(code, '')
+  const extract = extractorAttributify()(code, '')
 
   test('extractor', async() => {
     expect(await extract).toMatchSnapshot()

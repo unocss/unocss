@@ -24,6 +24,10 @@ Set {
   "[border~=\\"rounded\\"]",
   "[border~=\\"blue-200\\"]",
   "[mw-children~=\\"m-auto\\"]",
+  "[hover:blue-500=\\"\\"]",
+  "[rounded=\\"\\"]",
+  "[pt2=\\"\\"]",
+  "[inline-block=\\"\\"]",
 }
 `;
 
@@ -32,8 +36,12 @@ exports[`attributify generate 1`] = `
 [p~=\\"x-4\\"]{padding-left:1rem;padding-right:1rem;}
 [p~=\\"t-2\\"]{padding-top:0.5rem;}
 [pt~=\\"\\\\32 \\"]{padding-top:0.5rem;}
+[pt2=\\"\\"]{padding-top:0.5rem;}
+.pt2{padding-top:0.5rem;}
 [mw-children~=\\"m-auto\\"] > *{margin:auto;}
 .m-auto{margin:auto;}
+[inline-block=\\"\\"]{display:inline-block;}
+.inline-block{display:inline-block;}
 [bg~=\\"blue-400\\"]{--mw-bg-opacity:1;background-color:rgba(96,165,250,var(--mw-bg-opacity));}
 [bg~=\\"hover\\\\:blue-500\\"]:hover{--mw-bg-opacity:1;background-color:rgba(59,130,246,var(--mw-bg-opacity));}
 .dark [bg~=\\"dark\\\\:\\\\!blue-500\\"]{--mw-bg-opacity:1 !important;background-color:rgba(59,130,246,var(--mw-bg-opacity)) !important;}
@@ -42,6 +50,7 @@ exports[`attributify generate 1`] = `
 [border~=\\"blue-200\\"]{--mw-border-opacity:1;border-color:rgba(191,219,254,var(--mw-border-opacity));}
 [border~=\\"rounded-xl\\"]{border-radius:0.75rem;}
 [border~=\\"rounded\\"]{border-radius:0.25rem;}
+[rounded=\\"\\"]{border-radius:0.25rem;}
 .rounded-xl{border-radius:0.75rem;}
 .rounded{border-radius:0.25rem;}
 [font~=\\"mono\\"]{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\\"Liberation Mono\\",\\"Courier New\\",monospace;}
@@ -76,5 +85,9 @@ Array [
   "border-rounded",
   "border-blue-200",
   "children-m-auto",
+  "hover:blue-500",
+  "rounded",
+  "pt2",
+  "inline-block",
 ]
 `;
