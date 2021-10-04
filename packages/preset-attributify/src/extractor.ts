@@ -1,4 +1,4 @@
-import { Extractor, isValidSelector } from '@hummin/core'
+import { Extractor, isValidSelector } from '@unocss/core'
 import { AttributifyOptions } from '.'
 
 const strippedPrefixes = [

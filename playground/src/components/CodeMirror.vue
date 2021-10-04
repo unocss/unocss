@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getMatchedPositions } from 'hummin'
+import { getMatchedPositions } from 'unocss'
 import { useCodeMirror } from '../codemirror'
 
 const props = defineProps<{

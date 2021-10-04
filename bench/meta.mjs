@@ -9,18 +9,18 @@ export const targets = [
   'none',
   'windicss',
   'tailwind-jit',
-  'hummin',
+  'unocss',
 ]
 
 const pkgs = [
   'vite',
-  'hummin',
+  'unocss',
   'windicss',
   'tailwindcss',
 ]
 
 export async function getVersions() {
   const versions = Object.fromEntries(await Promise.all(pkgs.map(async i => [i, (await getPackageInfo(i))?.packageJson?.version])))
-  versions.hummin = (await fs.readJSON(resolve(dir, '../package.json'))).version
+  versions.unocss = (await fs.readJSON(resolve(dir, '../package.json'))).version
   return versions
 }

@@ -1,15 +1,15 @@
 {
-  "name": "@hummin/core",
+  "name": "@unocss/core",
   "version": "0.0.0-alpha.0",
   "description": "",
   "keywords": [],
-  "homepage": "https://github.com/antfu/hummin#readme",
+  "homepage": "https://github.com/antfu/unocss#readme",
   "bugs": {
-    "url": "https://github.com/antfu/hummin/issues"
+    "url": "https://github.com/antfu/unocss/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/antfu/hummin.git"
+    "url": "git+https://github.com/antfu/unocss.git"
   },
   "funding": "https://github.com/sponsors/antfu",
   "license": "MIT",

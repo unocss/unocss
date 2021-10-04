@@ -1,4 +1,4 @@
-import { Theme } from '@hummin/core'
+import { Theme } from '@unocss/core'
 import { colors } from './colors'
 import { fontFamily, fontSize, letterSpacing, lineHeight } from './font'
 

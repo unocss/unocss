@@ -1,4 +1,4 @@
-import { Theme, Rule, handler as h, hex2RGB } from '@hummin/core'
+import { Theme, Rule, handler as h, hex2RGB } from '@unocss/core'
 
 const colorResolver
 = (attribute: string, varName: string) =>

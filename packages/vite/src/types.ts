@@ -1,8 +1,8 @@
 import { FilterPattern } from '@rollup/pluginutils'
-import { ResolvedConfig, UserConfig } from '@hummin/core'
+import { ResolvedConfig, UserConfig } from '@unocss/core'
 import { createGenerator } from './init'
 
-export interface HumminUserOptions extends UserConfig {
+export interface UnocssUserOptions extends UserConfig {
   include?: FilterPattern
   exclude?: FilterPattern
 
@@ -20,7 +20,7 @@ export interface HumminUserOptions extends UserConfig {
 }
 
 export interface ResolvedPluginContext {
-  options: HumminUserOptions
+  options: UnocssUserOptions
   config: ResolvedConfig
   generate: ReturnType<typeof createGenerator>
 }

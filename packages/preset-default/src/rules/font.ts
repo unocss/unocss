@@ -1,4 +1,4 @@
-import { handler as h, toArray, Rule } from '@hummin/core'
+import { handler as h, toArray, Rule } from '@unocss/core'
 
 export const fonts: Rule[] = [
   [/^font-(\w+)$/, ([, d], theme) => {

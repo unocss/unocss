@@ -1,15 +1,15 @@
 {
-  "name": "hummin",
+  "name": "unocss",
   "version": "0.0.0-alpha.0",
   "description": "",
   "keywords": [],
-  "homepage": "https://github.com/antfu/hummin#readme",
+  "homepage": "https://github.com/antfu/unocss#readme",
   "bugs": {
-    "url": "https://github.com/antfu/hummin/issues"
+    "url": "https://github.com/antfu/unocss/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/antfu/hummin.git"
+    "url": "git+https://github.com/antfu/unocss.git"
   },
   "funding": "https://github.com/sponsors/antfu",
   "license": "MIT",
@@ -37,9 +37,9 @@
     "prepublishOnly": "nr build"
   },
   "dependencies": {
-    "@hummin/core": "workspace:*",
-    "@hummin/vite": "workspace:*",
-    "@hummin/preset-default": "workspace:*",
-    "@hummin/preset-attributify": "workspace:*"
+    "@unocss/core": "workspace:*",
+    "@unocss/vite": "workspace:*",
+    "@unocss/preset-default": "workspace:*",
+    "@unocss/preset-attributify": "workspace:*"
   }
 }

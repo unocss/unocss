@@ -1,10 +1,10 @@
-import { createHumminWithDefaults } from '@hummin/core'
-import { defaultTheme, presetDefault } from '@hummin/preset-default'
+import { createUnocssWithDefaults } from '@unocss/core'
+import { defaultTheme, presetDefault } from '@unocss/preset-default'
 
 export const {
   createGenerator,
   resolveConfig,
-} = createHumminWithDefaults({
+} = createUnocssWithDefaults({
   theme: defaultTheme,
   presets: [
     presetDefault(),

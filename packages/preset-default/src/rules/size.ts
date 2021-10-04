@@ -1,4 +1,4 @@
-import { handler as h, Rule } from '@hummin/core'
+import { handler as h, Rule } from '@unocss/core'
 
 export const sizes: Rule[] = [
   ['w-full', { width: '100%' }],

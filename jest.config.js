@@ -10,7 +10,7 @@ module.exports = {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
   moduleNameMapper: {
-    '^@hummin/(.*)$': '<rootDir>/packages/$1/src/index.ts',
-    '^hummin$': '<rootDir>/packages/hummin/src/index.ts',
+    '^@unocss/(.*)$': '<rootDir>/packages/$1/src/index.ts',
+    '^unocss$': '<rootDir>/packages/unocss/src/index.ts',
   },
 }

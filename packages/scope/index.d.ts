@@ -1,1 +1,1 @@
-export default function getHumminScope(): string
+export default function getUnocssScope(): string

@@ -1,9 +1,9 @@
 import { defineConfig } from 'vite'
-import Hummin from '@minwind/vite'
+import Unocss from '@minwind/vite'
 
 export default defineConfig({
   plugins: [
-    Hummin({
+    Unocss({
       include: [/\.js$/],
     }),
   ],

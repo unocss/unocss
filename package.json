@@ -1,5 +1,5 @@
 {
-  "name": "@hummin/monorepo",
+  "name": "@unocss/monorepo",
   "private": true,
   "version": "0.0.0-alpha.0",
   "scripts": {
@@ -25,10 +25,10 @@
     "ts-jest": "^27.0.5",
     "tsup": "^5.2.1",
     "typescript": "^4.4.3",
-    "hummin": "workspace:*",
-    "@hummin/core": "workspace:*",
-    "@hummin/vite": "workspace:*",
-    "@hummin/preset-default": "workspace:*",
-    "@hummin/preset-attributify": "workspace:*"
+    "unocss": "workspace:*",
+    "@unocss/core": "workspace:*",
+    "@unocss/vite": "workspace:*",
+    "@unocss/preset-default": "workspace:*",
+    "@unocss/preset-attributify": "workspace:*"
   }
 }

@@ -14,7 +14,7 @@ export function ChunkModeBuildPlugin({ config, options, generate }: ResolvedPlug
   const files: Record<string, string> = {}
 
   return {
-    name: 'hummin:chunk',
+    name: 'unocss:chunk',
     apply: 'build',
     enforce: 'pre',
     configResolved(config) {

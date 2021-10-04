@@ -1,5 +1,5 @@
 {
-  "name": "@hummin/scope",
+  "name": "@unocss/scope",
   "module": "./index.mjs",
   "main": "./index.cjs",
   "types": "./index.d.ts",

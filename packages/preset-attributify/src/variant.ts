@@ -1,4 +1,4 @@
-import { Variant, isAttributifySelector } from '@hummin/core'
+import { Variant, isAttributifySelector } from '@unocss/core'
 import { AttributifyOptions } from './types'
 
 const variantsRE = /^(.+\:\!?)?(.*?)$/

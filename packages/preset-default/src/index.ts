@@ -1,4 +1,4 @@
-import { createHumminWithDefaults, extractorSplit, Preset } from '@hummin/core'
+import { createUnocssWithDefaults, extractorSplit, Preset } from '@unocss/core'
 import { defaultRules } from './rules'
 import { defaultTheme } from './theme'
 import { defaultVariants } from './variants'
@@ -16,7 +16,7 @@ export const presetDefault = (): Preset => ({
 export const {
   createGenerator,
   resolveConfig,
-} = createHumminWithDefaults({
+} = createUnocssWithDefaults({
   theme: defaultTheme,
   presets: [
     presetDefault(),

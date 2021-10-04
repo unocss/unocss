@@ -1,4 +1,4 @@
-import { createGenerator } from 'hummin'
+import { createGenerator } from 'unocss'
 
 const fixture = [
   'p-t-2',

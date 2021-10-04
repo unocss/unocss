@@ -1,4 +1,4 @@
-import { createGenerator, presetDefault, variantAttributify, extractorAttributify, presetAttributify } from 'hummin'
+import { createGenerator, presetDefault, variantAttributify, extractorAttributify, presetAttributify } from 'unocss'
 
 describe('attributify', () => {
   const code = `

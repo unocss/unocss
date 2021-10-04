@@ -1,4 +1,4 @@
-import { createGenerator } from 'hummin'
+import { createGenerator } from 'unocss'
 
 describe('exclude', () => {
   test('basic', async() => {

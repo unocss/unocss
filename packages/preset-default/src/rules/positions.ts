@@ -1,4 +1,4 @@
-import { CSSEntries, Rule, directionMap, handler as h } from '@hummin/core'
+import { CSSEntries, Rule, directionMap, handler as h } from '@unocss/core'
 
 export const positions: Rule[] = [
   ['relative', { position: 'relative' }],

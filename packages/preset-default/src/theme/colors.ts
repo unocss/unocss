@@ -1,7 +1,7 @@
 // port form Tailwind CSS and Windi CSS
 // TODO: add more details
 
-import { Theme } from '@hummin/core'
+import { Theme } from '@unocss/core'
 
 export const colors: Theme['colors'] = {
   black: '#000',

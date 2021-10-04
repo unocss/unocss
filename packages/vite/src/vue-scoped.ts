@@ -17,7 +17,7 @@ export function VueScopedPlugin({ options, generate }: ResolvedPluginContext): P
   }
 
   return {
-    name: 'hummin:vue-scoped',
+    name: 'unocss:vue-scoped',
     enforce: 'pre',
     transform(code, id) {
       if (!filter(id))

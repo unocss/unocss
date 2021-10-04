@@ -10,12 +10,12 @@
     "resolveJsonModule": true,
     "skipDefaultLibCheck": true,
     "paths": {
-      "hummin": ["./packages/hummin/src/index.ts"],
-      "hummin/vite": ["./packages/hummin/src/vite.ts"],
-      "@hummin/core": ["./packages/core/src/index.ts"],
-      "@hummin/vite": ["./packages/vite/src/index.ts"],
-      "@hummin/preset-default": ["./packages/preset-default/src/index.ts"],
-      "@hummin/preset-attributify": ["./packages/preset-attributify/src/index.ts"],
+      "unocss": ["./packages/unocss/src/index.ts"],
+      "unocss/vite": ["./packages/unocss/src/vite.ts"],
+      "@unocss/core": ["./packages/core/src/index.ts"],
+      "@unocss/vite": ["./packages/vite/src/index.ts"],
+      "@unocss/preset-default": ["./packages/preset-default/src/index.ts"],
+      "@unocss/preset-attributify": ["./packages/preset-attributify/src/index.ts"],
     }
   },
   "exclude": [

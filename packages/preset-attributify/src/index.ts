@@ -1,4 +1,4 @@
-import { Preset } from '@hummin/core'
+import { Preset } from '@unocss/core'
 import { extractorAttributify } from './extractor'
 import { AttributifyOptions } from './types'
 import { variantAttributify } from './variant'

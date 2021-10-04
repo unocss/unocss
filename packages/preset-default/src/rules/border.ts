@@ -1,4 +1,4 @@
-import { cornerMap, directionMap, Theme, handler as h, CSSEntries, Rule } from '@hummin/core'
+import { cornerMap, directionMap, Theme, handler as h, CSSEntries, Rule } from '@unocss/core'
 
 export const borders: Rule[] = [
   [/^border$/, handlerBorder],

@@ -3,8 +3,8 @@ import { createFilter } from '@rollup/pluginutils'
 import { ResolvedPluginContext } from './types'
 import { defaultExclude, defaultInclude, getHash } from './utils'
 
-const VIRTUAL_PREFIX = '/@hummin/'
-const SCOPE_IMPORT_RE = / from (['"])(@hummin\/scope)\1/
+const VIRTUAL_PREFIX = '/@unocss/'
+const SCOPE_IMPORT_RE = / from (['"])(@unocss\/scope)\1/
 
 export function PerModuleModePlugin({ generate, options }: ResolvedPluginContext): Plugin {
   const moduleMap = new Map<string, [string, string]>()
@@ -35,7 +35,7 @@ export function PerModuleModePlugin({ generate, options }: ResolvedPluginContext
   }
 
   return {
-    name: 'hummin:module-scope',
+    name: 'unocss:module-scope',
     enforce: 'post',
     configureServer(_server) {
       server = _server
@@ -76,7 +76,7 @@ export function PerModuleModePlugin({ generate, options }: ResolvedPluginContext
       if (source)
         this.addWatchFile(source)
 
-      return `\n/* hummin ${source} */\n${css}`
+      return `\n/* unocss ${source} */\n${css}`
     },
   }
 }

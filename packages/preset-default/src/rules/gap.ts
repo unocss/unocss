@@ -1,4 +1,4 @@
-import { Rule, handler as h } from '@hummin/core'
+import { Rule, handler as h } from '@unocss/core'
 
 export const gaps: Rule[] = [
   [/^(?:flex-|grid-)gap-([^-]+)$/, ([, s]) => {

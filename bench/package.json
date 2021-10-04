@@ -13,7 +13,7 @@
     "vite-plugin-windicss": "^1.4.9",
     "vue": "^3.2.19",
     "windicss": "^3.1.8",
-    "hummin": "workspace:*",
-    "@hummin/vite": "workspace:*"
+    "unocss": "workspace:*",
+    "@unocss/vite": "workspace:*"
   }
 }

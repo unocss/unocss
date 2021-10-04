@@ -1,8 +1,8 @@
 import { createHash } from 'crypto'
-import { UserConfig } from '@hummin/core'
-import { presetAttributify } from '@hummin/preset-attributify'
-import { presetDefault } from '@hummin/preset-default'
-import plugin from '@hummin/vite'
+import { UserConfig } from '@unocss/core'
+import { presetAttributify } from '@unocss/preset-attributify'
+import { presetDefault } from '@unocss/preset-default'
+import plugin from '@unocss/vite'
 
 function getHash(input: string, length = 8) {
   return createHash('sha256')
