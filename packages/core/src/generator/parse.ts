@@ -1,7 +1,7 @@
 import { ResolvedConfig, ParsedUtil, StringifiedUtil, ApplyVariantResult } from '../types'
 import { entriesToCss } from '../utils'
 import { applyVariants } from './variant'
-import { normalizeEntries, toSelector } from './utils'
+import { normalizeEntries, toEscapedSelector } from './utils'
 
 export function parseUtil(config: ResolvedConfig, input: string | ApplyVariantResult): ParsedUtil | undefined {
   const { theme, rulesStaticMap, rulesDynamic, rulesSize } = config
@@ -49,7 +49,7 @@ export function stringifyUtil(config: ResolvedConfig, input?: string | ParsedUti
   if (!body)
     return
 
-  const selector = variants.reduce((p, v) => v.selector?.(p, theme) || p, toSelector(raw))
+  const selector = variants.reduce((p, v) => v.selector?.(p, theme) || p, toEscapedSelector(raw))
   const mediaQuery = variants.reduce((p: string | undefined, v) => v.mediaQuery?.(raw, theme) || p, undefined)
 
   const css = `${selector}{${body}}`

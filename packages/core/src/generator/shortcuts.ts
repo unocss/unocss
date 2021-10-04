@@ -1,6 +1,6 @@
 import { ApplyVariantResult, CSSEntries, ParsedUtil, ResolvedConfig, StringifiedUtil } from '../types'
 import { entriesToCss, isStaticShortcut } from '../utils'
-import { toSelector } from './utils'
+import { toEscapedSelector } from './utils'
 
 export function expandShortcut(config: ResolvedConfig, processed: string) {
   let result: string | string[] | undefined
@@ -37,7 +37,7 @@ export function stringifyShortcuts(config: ResolvedConfig, parent: ApplyVariantR
 
   for (const item of expanded) {
     const variants = [...item[3], ...parentVariants]
-    const selector = variants.reduce((p, v) => v.selector?.(p, config.theme) || p, toSelector(raw))
+    const selector = variants.reduce((p, v) => v.selector?.(p, config.theme) || p, toEscapedSelector(raw))
     const mediaQuery = variants.reduce((p: string | undefined, v) => v.mediaQuery?.(item[1], config.theme) || p, undefined)
     const entries = variants.reduce((p, v) => v.rewrite?.(p, config.theme) || p, item[2])
 

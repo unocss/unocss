@@ -12,10 +12,9 @@ export function applyScope(css: string, scope?: string) {
     return scope ? `${scope} ${css}` : css
 }
 
-export function toSelector(raw: string) {
+export function toEscapedSelector(raw: string) {
   if (raw.startsWith('['))
     return raw.replace(/"(.*)"/, (_, i) => `"${escapeSelector(i)}"`)
-
   else
     return `.${escapeSelector(raw)}`
 }

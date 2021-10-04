@@ -5,6 +5,7 @@ import { isExcluded, parseUtil, stringifyUtil } from './parse'
 import { applyVariants } from './variant'
 import { applyScope } from './utils'
 
+// TODO: move this to class
 export function createGenerator(defaults: UserConfigDefaults, userConfig: UserConfig = {}) {
   const config = resolveConfig(defaults, userConfig)
   const _cache = new Map<string, StringifiedUtil | StringifiedUtil[] | null>()
