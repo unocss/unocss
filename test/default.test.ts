@@ -2,8 +2,10 @@ import { createGenerator, escapeSelector } from 'unocss'
 
 const classes = [
   '-gap-y-5',
+  '-m-auto',
   '!hover:px-10',
   '!p-5px',
+  'all:m-auto',
   'bg-[#153]/10',
   'bg-#452233/40',
   'bg-hex-452233/40',
@@ -16,24 +18,39 @@ const classes = [
   'border-green-100/10',
   'border-t-2',
   'border',
+  'children:m-auto',
   'dark:not-odd:text-red',
+  'dark:text-xl',
+  'duration-111',
+  'flex-[hi]',
   'flex',
   'font-mono',
   'gap-4',
+  'gap-x-1',
+  'grid-cols-[1fr,2fr,100px,min-content]',
+  'grid-cols-2',
+  'grid-rows-[1fr,2fr,100px,min-content]',
+  'grid-rows-3',
+  'grid',
+  'h-1',
   'hover:!p-10',
   'hover:not-first:checked:bg-red/10',
   'hover:p-4',
+  'leading-2',
+  'light:text-sm',
   'm-[3em]',
   'm-0',
   'm-1/2',
   'm-auto',
-  '-m-auto',
+  'max-h-[1px]',
   'md:!hidden',
   'md:m-1',
   'my-auto',
   'op-10',
   'opacity-0',
   'order-first',
+  'overflow-auto',
+  'overflow-x-scroll',
   'p-2',
   'p-t-2',
   'p2',
@@ -58,9 +75,13 @@ const classes = [
   'text-lg',
   'text-red-100',
   'text-red-200/10',
-  'text-red-300',
   'text-red-300/20',
   'top-0',
+  'tracking-wide',
+  'transition-200',
+  'transition',
+  'w-1/2',
+  'z-1',
   'z-100',
 ]
 
@@ -69,6 +90,7 @@ const uno = createGenerator()
 
 test('default', async() => {
   const { css } = await uno.generate(code)
+  const { css: css2 } = await uno.generate(code)
 
   const unmatched = []
   for (const i of classes) {
@@ -77,4 +99,5 @@ test('default', async() => {
   }
   expect(unmatched).toEqual([])
   expect(css).toMatchSnapshot()
+  expect(css).toEqual(css2)
 })

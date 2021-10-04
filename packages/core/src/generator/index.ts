@@ -73,7 +73,7 @@ export class UnoGenerator {
         const expanded = this.expandShortcut(applied[1])
         if (expanded) {
           const utils = this.stringifyShortcuts(applied, expanded)
-          if (utils?.length) {
+          if (utils.length) {
             hit(raw, utils)
             return
           }
@@ -105,7 +105,7 @@ export class UnoGenerator {
             for (let i = size - 1; i > idx; i--) {
               const current = sorted[i]
               if (current[1] === body) {
-                current[0] = `${selector}, ${current[0]}`
+                current[0] = `${selector},${current[0]}`
                 return null
               }
             }

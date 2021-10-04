@@ -13,4 +13,13 @@ module.exports = {
     '^@unocss/(.*)$': '<rootDir>/packages/$1/src/index.ts',
     '^unocss$': '<rootDir>/packages/unocss/src/index.ts',
   },
+  coveragePathIgnorePatterns: [
+    '/node_modules/',
+    '/bench/',
+    '/playground/',
+    '/vite',
+    'core/src/utils/playground.ts',
+    'core/src/utils/object.ts',
+    'core/src/utils/map.ts',
+  ],
 }

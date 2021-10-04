@@ -1,8 +1,9 @@
-node_modules
 .DS_Store
+*.local
+*.log
+bench/source/gen.js
+coverage
 dist
 dist-ssr
-*.local
-bench/source/gen.js
-*.log
+node_modules
 result.json

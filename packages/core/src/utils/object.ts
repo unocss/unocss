@@ -10,10 +10,6 @@ export function entriesToCss(arr?: CSSEntries) {
     .join('')
 }
 
-export function isNestedArray<T extends any[]>(v: T | T[]): v is T[] {
-  return Array.isArray(v[0])
-}
-
 export function isObject(item: any) {
   return (item && typeof item === 'object' && !Array.isArray(item))
 }
