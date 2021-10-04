@@ -1,5 +1,5 @@
 import { ApplyVariantResult, CSSEntries, ParsedUtil, ResolvedConfig, StringifiedUtil } from '../types'
-import { entriesToCss, isStaticShortcut } from '../utils'
+import { entriesToCss, isStaticShortcut, TwoKeyMap } from '../utils'
 import { toEscapedSelector } from './utils'
 
 export function expandShortcut(config: ResolvedConfig, processed: string) {
@@ -29,7 +29,7 @@ export function expandShortcut(config: ResolvedConfig, processed: string) {
 }
 
 export function stringifyShortcuts(config: ResolvedConfig, parent: ApplyVariantResult, expanded: ParsedUtil[]): StringifiedUtil[] | undefined {
-  const selectorMap: [string, string | undefined, CSSEntries, number][] = []
+  const selectorMap = new TwoKeyMap<string, string | undefined, [CSSEntries, number]>()
 
   expanded.sort((a, b) => a[0] - b[0])
 
@@ -42,22 +42,17 @@ export function stringifyShortcuts(config: ResolvedConfig, parent: ApplyVariantR
     const entries = variants.reduce((p, v) => v.rewrite?.(p, config.theme) || p, item[2])
 
     // find existing selector/mediaQuery pair and merge
-    let mapItem = selectorMap.find(i => i[0] === selector && i[1] === mediaQuery)
-    if (!mapItem) {
-      mapItem = [selector, mediaQuery, [], item[0]]
-      selectorMap.push(mapItem)
-    }
-
+    const mapItem = selectorMap.getFallback(selector, mediaQuery, [[], item[0]])
     // append entries
-    mapItem[2].push(...entries)
+    mapItem[0].push(...entries)
 
     // if there is a rule have higher index, update the index
-    if (item[0] > mapItem[3])
-      mapItem[3] = item[0]
+    if (item[0] > mapItem[1])
+      mapItem[1] = item[0]
   }
 
   return selectorMap
-    .map(([selector, mediaQuery, entries, index]): StringifiedUtil | undefined => {
+    .map(([entries, index], selector, mediaQuery): StringifiedUtil | undefined => {
       const body = entriesToCss(entries)
       if (!body)
         return undefined
