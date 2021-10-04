@@ -1,6 +1,5 @@
 import { FilterPattern } from '@rollup/pluginutils'
-import { ResolvedConfig, UserConfig } from '@unocss/core'
-import { createGenerator } from './init'
+import { UserConfig } from '@unocss/core'
 
 export interface UnocssUserOptions extends UserConfig {
   include?: FilterPattern
@@ -17,10 +16,4 @@ export interface UnocssUserOptions extends UserConfig {
    * @default 'global'
    */
   mode?: 'global' | 'per-module' | 'vue-scoped'
-}
-
-export interface ResolvedPluginContext {
-  options: UnocssUserOptions
-  config: ResolvedConfig
-  generate: ReturnType<typeof createGenerator>
 }

@@ -1,12 +1,13 @@
 import type { Plugin, ViteDevServer } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
-import { ResolvedPluginContext } from './types'
+import { UnoGenerator } from 'unocss'
 import { defaultExclude, defaultInclude, getHash } from './utils'
+import { UnocssUserOptions } from '.'
 
 const VIRTUAL_PREFIX = '/@unocss/'
 const SCOPE_IMPORT_RE = / from (['"])(@unocss\/scope)\1/
 
-export function PerModuleModePlugin({ generate, options }: ResolvedPluginContext): Plugin {
+export function PerModuleModePlugin(uno: UnoGenerator, options: UnocssUserOptions): Plugin {
   const moduleMap = new Map<string, [string, string]>()
   let server: ViteDevServer | undefined
 
@@ -47,7 +48,7 @@ export function PerModuleModePlugin({ generate, options }: ResolvedPluginContext
       const hash = getHash(id)
       const hasScope = code.match(SCOPE_IMPORT_RE)
 
-      const { css } = await generate(code, id, hasScope ? `.${hash}` : undefined)
+      const { css } = await uno.generate(code, id, hasScope ? `.${hash}` : undefined)
       if (!css && !hasScope)
         return null
 

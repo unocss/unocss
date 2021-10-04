@@ -14,9 +14,9 @@ export const fixture = [
   'md:!hidden',
 ].join(' ')
 
-const generator = createGenerator()
+const uno = createGenerator()
 
 test('scope', async() => {
-  const { css } = await generator(fixture, '', '.foo-scope')
+  const { css } = await uno.generate(fixture, '', '.foo-scope')
   expect(css).toMatchSnapshot()
 })

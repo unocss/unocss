@@ -1,10 +1,14 @@
-import { createGenerator as _createGenerator } from './generator'
+import { UnoGenerator } from './generator'
 import { resolveConfig as _resolveConfig } from './config'
-import { RestArgs, UserConfigDefaults } from './types'
+import { RestArgs, UserConfig, UserConfigDefaults } from './types'
 
 export function createUnocssWithDefaults(defaults: UserConfigDefaults) {
   return {
-    createGenerator: (...args: RestArgs<typeof _createGenerator>) => _createGenerator(defaults, ...args),
-    resolveConfig: (...args: RestArgs<typeof _resolveConfig>) => _resolveConfig(defaults, ...args),
+    resolveConfig(...args: RestArgs<typeof _resolveConfig>) {
+      _resolveConfig(defaults, ...args)
+    },
+    createGenerator(config?: UserConfig) {
+      return new UnoGenerator(defaults, config)
+    },
   }
 }

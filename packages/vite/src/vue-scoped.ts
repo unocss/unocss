@@ -1,16 +1,17 @@
 import type { Plugin } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
-import { ResolvedPluginContext } from './types'
+import { UnoGenerator } from 'unocss'
 import { defaultExclude } from './utils'
+import { UnocssUserOptions } from '.'
 
-export function VueScopedPlugin({ options, generate }: ResolvedPluginContext): Plugin {
+export function VueScopedPlugin(uno: UnoGenerator, options: UnocssUserOptions): Plugin {
   const filter = createFilter(
     options.include || [/\.vue$/],
     options.exclude || defaultExclude,
   )
 
   async function transformSFC(code: string) {
-    const { css } = await generate(code)
+    const { css } = await uno.generate(code)
     if (!css)
       return null
     return `${code}\n<style scoped>${css}</style>`

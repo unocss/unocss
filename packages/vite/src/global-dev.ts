@@ -1,11 +1,12 @@
 import type { Plugin, ViteDevServer } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
-import { ResolvedPluginContext } from './types'
+import { UnoGenerator } from 'unocss'
 import { defaultExclude, defaultInclude } from './utils'
+import { UnocssUserOptions } from '.'
 
 const VIRTUAL_ENTRY = '/@unocss/entry.css'
 
-export function GlobalModeDevPlugin({ generate, options, config }: ResolvedPluginContext): Plugin {
+export function GlobalModeDevPlugin(uno: UnoGenerator, options: UnocssUserOptions): Plugin {
   let server: ViteDevServer | undefined
 
   const filter = createFilter(
@@ -44,7 +45,7 @@ export function GlobalModeDevPlugin({ generate, options, config }: ResolvedPlugi
       if (id.endsWith('.css') || !filter(id))
         return
 
-      Promise.all(config.extractors.map(e => e(code)))
+      Promise.all(uno.config.extractors.map(e => e(code)))
         .then((sets) => {
           sets.forEach((i) => {
             i?.forEach((t) => {
@@ -66,7 +67,7 @@ export function GlobalModeDevPlugin({ generate, options, config }: ResolvedPlugi
       if (tokens.size === 0)
         await new Promise(resolve => setTimeout(resolve, 400))
 
-      const { css } = await generate([tokens])
+      const { css } = await uno.generate([tokens])
       return css
     },
     transformIndexHtml: {

@@ -65,10 +65,10 @@ const classes = [
 ]
 
 const code = classes.join(' ')
-const generate = createGenerator()
+const uno = createGenerator()
 
 test('default', async() => {
-  const { css } = await generate(code)
+  const { css } = await uno.generate(code)
 
   const unmatched = []
   for (const i of classes) {

@@ -32,13 +32,13 @@ describe('attributify', () => {
   })
 
   test('generate', async() => {
-    const generate = createGenerator({
+    const uno = createGenerator({
       presets: [
         presetAttributify(),
         presetDefault(),
       ],
     })
-    const { css } = await generate(code)
+    const { css } = await uno.generate(code)
     expect(css).toMatchSnapshot()
   })
 })
