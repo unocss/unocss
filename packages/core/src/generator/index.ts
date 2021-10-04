@@ -1,11 +1,12 @@
-import { UserConfig, ParsedUtil, StringifiedUtil, UserConfigDefaults, ApplyVariantResult, Variant, ResolvedConfig, CSSEntries } from '../types'
+import { UserConfig, ParsedUtil, StringifiedUtil, UserConfigDefaults, VariantMatchedResult, Variant, ResolvedConfig, CSSEntries, GenerateResult } from '../types'
 import { resolveConfig } from '../config'
 import { entriesToCss, isStaticShortcut, TwoKeyMap } from '../utils'
 import { applyScope, normalizeEntries, toEscapedSelector } from './utils'
 
 export class UnoGenerator {
-  private _cache = new Map<string, StringifiedUtil | StringifiedUtil[] | null>()
+  private _cache = new Map<string, StringifiedUtil[] | null>()
   public config: ResolvedConfig
+  public excluded = new Set<string>()
 
   constructor(
     public defaults: UserConfigDefaults,
@@ -14,33 +15,36 @@ export class UnoGenerator {
     this.config = resolveConfig(defaults, userConfig)
   }
 
-  async generate(input: string | (Set<string> | undefined)[], id?: string, scope?: string) {
+  async applyExtractors(code: string, id?: string) {
+    return await Promise.all(this.config.extractors.map(i => i(code, id)))
+  }
+
+  async generate(
+    input: string | (Set<string> | undefined)[],
+    id?: string,
+    scope?: string,
+  ): Promise<GenerateResult> {
     const tokensArray = Array.isArray(input)
       ? input
-      : await Promise.all(this.config.extractors.map(i => i(input, id)))
+      : await this.applyExtractors(input, id)
 
     const matched = new Set<string>()
-    const excluded = new Set<string>()
-    const sheet: Record<string, StringifiedUtil[]> = {}
+    const sheet = new Map<string, StringifiedUtil[]>()
 
-    const hit = (raw: string, payload: StringifiedUtil | StringifiedUtil[]) => {
-      matched.add(raw)
+    const hit = (raw: string, payload: StringifiedUtil[]) => {
       this._cache.set(raw, payload)
 
-      if (typeof payload[0] === 'number')
-        payload = [payload as StringifiedUtil]
-
-      for (const item of payload as StringifiedUtil[]) {
+      for (const item of payload) {
         const query = item[3] || ''
-        if (!(query in sheet))
-          sheet[query] = []
-        sheet[query].push(item)
+        if (!sheet.has(query))
+          sheet.set(query, [])
+        sheet.get(query)!.push(item)
       }
     }
 
     tokensArray.forEach((tokens) => {
       tokens?.forEach((raw) => {
-        if (matched.has(raw))
+        if (matched.has(raw) || this.excluded.has(raw))
           return
 
         // use caches if possible
@@ -52,15 +56,15 @@ export class UnoGenerator {
         }
 
         if (this.isExcluded(raw)) {
-          excluded.add(raw)
+          this.excluded.add(raw)
           this._cache.set(raw, null)
           return
         }
 
-        const applied = this.applyVariants(raw)
+        const applied = this.matchVariants(raw)
 
         if (this.isExcluded(applied[1])) {
-          excluded.add(raw)
+          this.excluded.add(raw)
           this._cache.set(raw, null)
           return
         }
@@ -68,19 +72,17 @@ export class UnoGenerator {
         // expand shortcuts
         const expanded = this.expandShortcut(applied[1])
         if (expanded) {
-          const parsed = (expanded.map(i => this.parseUtil(i)).filter(Boolean) || []) as ParsedUtil[]
-          const r = this.stringifyShortcuts(applied, parsed)
-          if (r?.length) {
-            hit(raw, r)
+          const utils = this.stringifyShortcuts(applied, expanded)
+          if (utils?.length) {
+            hit(raw, utils)
             return
           }
         }
         // no shortcut
         else {
-          const util = this.parseUtil(applied)
-          const r = this.stringifyUtil(util)
-          if (r) {
-            hit(raw, r)
+          const util = this.stringifyUtil(this.parseUtil(applied))
+          if (util) {
+            hit(raw, [util])
             return
           }
         }
@@ -90,45 +92,43 @@ export class UnoGenerator {
       })
     })
 
-    const css = Object.entries(sheet)
-      .map(([query, items]) => {
-        const itemsSize = items.length
-        const sorted: [string, string][] = items
-          .sort((a, b) => a[0] - b[0])
-          .map(a => [applyScope(a[1], scope), a[2]])
-        const rules = sorted
-          .map(([selector, body], idx) => {
-            if (this.config.mergeSelectors) {
-              // search for rules that has exact same body, and merge them
-              // the index is reversed to make sure we always merge to the last one
-              for (let i = itemsSize - 1; i > idx; i--) {
-                const current = sorted[i]
-                if (current[1] === body) {
-                  current[0] = `${selector}, ${current[0]}`
-                  return null
-                }
+    const css = Array.from(sheet).map(([query, items]) => {
+      const size = items.length
+      const sorted: [string, string][] = items
+        .sort((a, b) => a[0] - b[0])
+        .map(a => [applyScope(a[1], scope), a[2]])
+      const rules = sorted
+        .map(([selector, body], idx) => {
+          if (this.config.mergeSelectors) {
+            // search for rules that has exact same body, and merge them
+            // the index is reversed to make sure we always merge to the last one
+            for (let i = size - 1; i > idx; i--) {
+              const current = sorted[i]
+              if (current[1] === body) {
+                current[0] = `${selector}, ${current[0]}`
+                return null
               }
             }
-            return `${selector}{${body}}`
-          })
-          .filter(Boolean)
-          .join('\n')
+          }
+          return `${selector}{${body}}`
+        })
+        .filter(Boolean)
+        .join('\n')
 
-        return query
-          ? `${query}{\n${rules}\n}`
-          : rules
-      })
+      return query
+        ? `${query}{\n${rules}\n}`
+        : rules
+    })
       .join('\n')
 
     return {
       css,
       matched,
-      excluded,
     }
   }
 
-  applyVariants(raw: string): ApplyVariantResult {
-  // process variants
+  matchVariants(raw: string): VariantMatchedResult {
+    // process variants
     const variants: Variant[] = []
     let processed = raw
     let applied = false
@@ -150,11 +150,23 @@ export class UnoGenerator {
     return [raw, processed, variants]
   }
 
-  parseUtil(input: string | ApplyVariantResult): ParsedUtil | undefined {
+  applyVariants(parsed: ParsedUtil, variants = parsed[3], raw = parsed[1]) {
+    const theme = this.config.theme
+    const selector = variants.reduce((p, v) => v.selector?.(p, theme) || p, toEscapedSelector(raw))
+    const mediaQuery = variants.reduce((p: string | undefined, v) => v.mediaQuery?.(parsed[1], theme) || p, undefined)
+    const entries = variants.reduce((p, v) => v.rewrite?.(p, theme) || p, parsed[2])
+    return [
+      selector,
+      entries,
+      mediaQuery,
+    ] as const
+  }
+
+  parseUtil(input: string | VariantMatchedResult): ParsedUtil | undefined {
     const { theme, rulesStaticMap, rulesDynamic, rulesSize } = this.config
 
     const [raw, processed, variants] = typeof input === 'string'
-      ? this.applyVariants(input)
+      ? this.matchVariants(input)
       : input
 
     // use map to for static rules
@@ -182,24 +194,20 @@ export class UnoGenerator {
     }
   }
 
-  stringifyUtil(input?: string | ParsedUtil): StringifiedUtil | undefined {
-    if (typeof input === 'string')
-      input = this.parseUtil(input)
+  stringifyUtil(parsed?: string | ParsedUtil): StringifiedUtil | undefined {
+    if (typeof parsed === 'string')
+      parsed = this.parseUtil(parsed)
 
-    if (!input)
+    if (!parsed)
       return
 
-    const theme = this.config.theme
-    const [index, raw, entries, variants] = input
+    const [selector, entries, mediaQuery] = this.applyVariants(parsed)
+    const body = entriesToCss(entries)
 
-    const body = entriesToCss(variants.reduce((p, v) => v.rewrite?.(p, this.config.theme) || p, entries))
     if (!body)
       return
 
-    const selector = variants.reduce((p, v) => v.selector?.(p, theme) || p, toEscapedSelector(raw))
-    const mediaQuery = variants.reduce((p: string | undefined, v) => v.mediaQuery?.(raw, theme) || p, undefined)
-
-    return [index, selector, body, mediaQuery]
+    return [parsed[0], selector, body, mediaQuery]
   }
 
   expandShortcut(processed: string) {
@@ -228,19 +236,18 @@ export class UnoGenerator {
     return result
   }
 
-  stringifyShortcuts(parent: ApplyVariantResult, expanded: ParsedUtil[]): StringifiedUtil[] | undefined {
-    const theme = this.config.theme
+  stringifyShortcuts(parent: VariantMatchedResult, expanded: string[]) {
     const selectorMap = new TwoKeyMap<string, string | undefined, [CSSEntries, number]>()
 
-    expanded.sort((a, b) => a[0] - b[0])
+    const parsed = expanded
+      .map(i => this.parseUtil(i) as ParsedUtil)
+      .filter(Boolean)
+      .sort((a, b) => a[0] - b[0])
 
     const [raw, , parentVariants] = parent
 
-    for (const item of expanded) {
-      const variants = [...item[3], ...parentVariants]
-      const selector = variants.reduce((p, v) => v.selector?.(p, theme) || p, toEscapedSelector(raw))
-      const mediaQuery = variants.reduce((p: string | undefined, v) => v.mediaQuery?.(item[1], theme) || p, undefined)
-      const entries = variants.reduce((p, v) => v.rewrite?.(p, theme) || p, item[2])
+    for (const item of parsed) {
+      const [selector, entries, mediaQuery] = this.applyVariants(item, [...item[3], ...parentVariants], raw)
 
       // find existing selector/mediaQuery pair and merge
       const mapItem = selectorMap.getFallback(selector, mediaQuery, [[], item[0]])

@@ -102,7 +102,12 @@ export interface ResolvedConfig extends Omit<Required<UserConfig>, 'presets' | '
   rulesStaticMap: Record<string, [number, CSSObject | CSSEntries] | undefined>
 }
 
-export type ApplyVariantResult = readonly [
+export interface GenerateResult {
+  css: string
+  matched: Set<string>
+}
+
+export type VariantMatchedResult = readonly [
   string /* raw */,
   string /* processed */,
   Variant[]
