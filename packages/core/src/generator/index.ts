@@ -102,12 +102,13 @@ export function createGenerator(defaults: UserConfigDefaults, userConfig: UserCo
                 const current = sorted[i]
                 if (current[1] === body) {
                   current[0] = `${selector}, ${current[0]}`
-                  return ''
+                  return null
                 }
               }
             }
             return `${selector}{${body}}`
           })
+          .filter(Boolean)
           .join('\n')
 
         return query

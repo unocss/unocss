@@ -1,10 +1,10 @@
 import { Options } from 'tsup'
 
 const config: Options = {
-  splitting: false,
+  splitting: true,
   format: ['esm', 'cjs'],
   entryPoints: [
-    'src/index.ts',
+    'src/*.ts',
   ],
   minify: true,
   minifySyntax: true,
