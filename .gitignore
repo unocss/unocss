@@ -3,6 +3,6 @@ node_modules
 dist
 dist-ssr
 *.local
-bench/source/Gen.vue
+bench/source/gen.js
 *.log
 result.json

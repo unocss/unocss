@@ -8,7 +8,7 @@ export const dir = dirname(fileURLToPath(import.meta.url))
 export const targets = [
   'none',
   'windicss',
-  'tailwind-jit',
+  'tailwindcss',
   'unocss',
 ]
 

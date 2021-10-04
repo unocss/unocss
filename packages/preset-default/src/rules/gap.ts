@@ -1,7 +1,7 @@
 import { Rule, handler as h } from '@unocss/core'
 
 export const gaps: Rule[] = [
-  [/^(?:flex-|grid-)gap-([^-]+)$/, ([, s]) => {
+  [/^(?:flex-|grid-)?gap-([^-]+)$/, ([, s]) => {
     const v = h.bracket.size(s)
     if (v != null) {
       return {
@@ -10,7 +10,7 @@ export const gaps: Rule[] = [
       }
     }
   }],
-  [/^(?:flex-|grid-)gap-x-([^-]+)$/, ([, s]) => {
+  [/^(?:flex-|grid-)?gap-x-([^-]+)$/, ([, s]) => {
     const v = h.bracket.size(s)
     if (v != null) {
       return {
@@ -19,7 +19,7 @@ export const gaps: Rule[] = [
       }
     }
   }],
-  [/^(?:flex-|grid-)gap-y-([^-]+)$/, ([, s]) => {
+  [/^(?:flex-|grid-)?gap-y-([^-]+)$/, ([, s]) => {
     const v = h.bracket.size(s)
     if (v != null) {
       return {

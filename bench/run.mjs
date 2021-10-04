@@ -1,15 +1,13 @@
 /* eslint-disable no-console */
 import { execSync } from 'child_process'
+import { join } from 'path'
 import fs from 'fs-extra'
+import { escapeSelector } from 'unocss'
 import { dir, targets, getVersions } from './meta.mjs'
-import { generateMock } from './gen.mjs'
+import { writeMock, classes } from './gen.mjs'
 
 const times = 50
 const versions = await getVersions()
-
-console.log(versions)
-
-const classes = await generateMock()
 await run()
 await report()
 
@@ -17,8 +15,24 @@ async function run() {
   await fs.writeJSON(`${dir}/result.json`, [], { spaces: 2 })
 
   for (let i = 0; i < times; i++) {
-    console.log(`x${i + 1}`)
+    console.log(`\nx${i + 1}`)
+    await writeMock()
     execSync('node build.mjs', { stdio: 'inherit' })
+  }
+}
+
+async function checkClasses() {
+  for (const name of targets) {
+    if (name === 'none')
+      continue
+    const dist = join(dir, 'fixtures', name, 'dist/assets')
+    const file = (await fs.readdir(dist)).find(i => i.endsWith('.css'))
+    const content = await fs.readFile(join(dist, file), 'utf-8')
+    const lose = classes.filter(i => !content.includes(escapeSelector(i)))
+    if (lose.length) {
+      console.log(name.padEnd(12), `${lose.length} unmatched`)
+      console.log(lose)
+    }
   }
 }
 
@@ -36,14 +50,21 @@ async function report() {
     return [target, result.filter(i => i.name === target).sort((a, b) => a.time - b.time)[0].time]
   })
 
-  const baseTime = minimum.find(i => i[0] === 'none')[1]
-  const fastest = minimum.sort((a, b) => a[1] - b[1])[1][1]
+  // base on what you want to compare
+  const metric = average // minimal
 
-  const delta = minimum.map(([target, m]) => {
+  const baseTime = metric.find(i => i[0] === 'none')[1]
+  const fastest = metric.sort((a, b) => a[1] - b[1])[1][1]
+
+  const delta = metric.map(([target, m]) => {
     return [target, m - baseTime]
   })
 
-  console.log('\n\n')
+  console.log('\n')
+
+  await checkClasses()
+
+  console.log('\n')
 
   const logs = []
 
@@ -51,13 +72,14 @@ async function report() {
   logs.push(`${classes.length} utilities | x${result.length / targets.length} runs`)
   logs.push('')
 
-  minimum.forEach(([name, min]) => {
+  metric.forEach(([name, t]) => {
     const d = delta.find(i => i[0] === name)[1]
     const slowdown = d / (fastest - baseTime)
     logs.push([
-      name.padEnd(15, ' '),
-      `min.${min.toFixed(2).padStart(8, ' ')} ms /`,
-      `delta.${(d).toFixed(2).padStart(8, ' ')} ms`,
+      name.padEnd(12, ' '),
+      (versions[name] ? `v${(versions[name])}` : '').padEnd(14, ' '),
+      `${t.toFixed(2).padStart(10, ' ')} ms /`,
+      `delta.${(d).toFixed(2).padStart(10, ' ')} ms`,
       slowdown ? `(x${slowdown.toFixed(2)})` : '',
     ].join(' '))
   })
@@ -75,5 +97,6 @@ async function report() {
     delta: Object.fromEntries(delta),
     runs: result,
   }, { spaces: 2 })
+
   await fs.writeFile(`${dir}/results/${date}.md`, `\`\`\`\n${logs.join('\n')}\n\`\`\``)
 }

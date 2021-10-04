@@ -40,7 +40,6 @@ export function resolveConfig(defaults: UserConfigDefaults, userConfig: UserConf
   })
 
   return {
-    // TODO: support them
     mergeSelectors: true,
     warnExcluded: true,
     excluded: [],

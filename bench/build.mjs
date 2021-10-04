@@ -19,31 +19,18 @@ function BuildTimePlugin(name) {
     buildEnd() {
       result[name].time = performance.now() - start
     },
-    async closeBundle() {
-      const dist = join(dir, 'fixtures', name, 'dist/assets')
-      const files = await fs.readdir(dist)
-      let size = 0
-      for (const file of files) {
-        if (file.endsWith('.css')) {
-          const stat = await fs.lstat(join(dist, file))
-          size += stat.size
-        }
-      }
-      result[name].size = size
-    },
   }
 }
 
-console.log('warning up vite...')
+console.log('warning up...')
 for (let i = 0; i < 10; i++)
   await run('none')
-
-console.log('\nstart')
 
 targets.sort(() => Math.random() - 0.5)
 
 for (let i = 0; i < targets.length; i++) {
   const name = targets[i]
+  console.log(`- ${name}`)
   result[name] = { index: i, name, date }
   await run(name, true)
 }
@@ -62,8 +49,6 @@ async function run(target, bench = false) {
       : [],
   })
 }
-
-// console.log(Object.values(result))
 
 const full = await fs.readJSON(`${dir}/result.json`) || []
 

@@ -69,16 +69,16 @@ export const placeSelfs: Rule[] = basicSet
   .map(i => [`place-self-${i}`, { 'place-self': i }])
 
 function handleInsetValue(v: string): string | number | undefined {
-  return { auto: 'auto', full: '100%' }[v] || h.bracket.fraction.number(v)
+  return { auto: 'auto', full: '100%' }[v] ?? h.bracket.fraction.size(v)
 }
 
 export const insets: Rule[] = [
-  [/^inset-(x|y)-(.+)$/i, ([, d, v]): CSSEntries | undefined => {
+  [/^inset-(x|y)-(.+)$/, ([, d, v]): CSSEntries | undefined => {
     const r = handleInsetValue(v)
     if (r != null)
       return directionMap[d].map(i => [i.slice(1), r])
   }],
-  [/^(top|left|right|bottom|inset)-(.+)$/i, ([, d, v]) => ({ [d]: handleInsetValue(v) })],
+  [/^(top|left|right|bottom|inset)-(.+)$/, ([, d, v]) => ({ [d]: handleInsetValue(v) })],
 ]
 
 export const floats: Rule[] = [

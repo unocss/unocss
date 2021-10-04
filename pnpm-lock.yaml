@@ -6,63 +6,63 @@ importers:
     specifiers:
       '@antfu/eslint-config': ^0.9.0
       '@antfu/ni': ^0.9.3
-      '@hummin/core': workspace:*
-      '@hummin/preset-attributify': workspace:*
-      '@hummin/preset-default': workspace:*
-      '@hummin/vite': workspace:*
       '@types/jest': ^27.0.2
       '@types/node': ^16.10.2
+      '@unocss/core': workspace:*
+      '@unocss/preset-attributify': workspace:*
+      '@unocss/preset-default': workspace:*
+      '@unocss/vite': workspace:*
       bumpp: ^7.1.1
       eslint: ^7.32.0
       eslint-plugin-jest: ^24.5.0
       esno: ^0.10.0
-      hummin: workspace:*
       jest: ^27.2.4
       ts-jest: ^27.0.5
       tsup: ^5.2.1
       typescript: ^4.4.3
+      unocss: workspace:*
     devDependencies:
       '@antfu/eslint-config': 0.9.0_eslint@7.32.0+typescript@4.4.3
       '@antfu/ni': 0.9.3
-      '@hummin/core': link:packages/core
-      '@hummin/preset-attributify': link:packages/preset-attributify
-      '@hummin/preset-default': link:packages/preset-default
-      '@hummin/vite': link:packages/vite
       '@types/jest': 27.0.2
       '@types/node': 16.10.2
+      '@unocss/core': link:packages/core
+      '@unocss/preset-attributify': link:packages/preset-attributify
+      '@unocss/preset-default': link:packages/preset-default
+      '@unocss/vite': link:packages/vite
       bumpp: 7.1.1
       eslint: 7.32.0
       eslint-plugin-jest: 24.5.0_eslint@7.32.0+typescript@4.4.3
       esno: 0.10.0
-      hummin: link:packages/hummin
       jest: 27.2.4
       ts-jest: 27.0.5_52a571d76319e63aeaa66dc9db9e90cc
       tsup: 5.2.1_typescript@4.4.3
       typescript: 4.4.3
+      unocss: link:packages/unocss
 
   bench:
     specifiers:
-      '@hummin/vite': workspace:*
+      '@unocss/vite': workspace:*
       '@vitejs/plugin-vue': ^1.9.2
       autoprefixer: ^10.3.6
       fs-extra: ^10.0.0
-      hummin: workspace:*
       local-pkg: ^0.3.0
       postcss: ^8.3.8
       tailwindcss: ^3.0.0-alpha.1
+      unocss: workspace:*
       vite: ^2.6.2
       vite-plugin-windicss: ^1.4.9
       vue: ^3.2.19
       windicss: ^3.1.8
     devDependencies:
-      '@hummin/vite': link:../packages/vite
+      '@unocss/vite': link:../packages/vite
       '@vitejs/plugin-vue': 1.9.2_vite@2.6.2
       autoprefixer: 10.3.6_postcss@8.3.8
       fs-extra: 10.0.0
-      hummin: link:../packages/hummin
       local-pkg: 0.3.0
       postcss: 8.3.8
       tailwindcss: 3.0.0-alpha.1_d90402d1bb3b165c9c83046beac13a8b
+      unocss: link:../packages/unocss
       vite: 2.6.2
       vite-plugin-windicss: 1.4.9_typescript@4.4.3+vite@2.6.2
       vue: 3.2.19
@@ -74,62 +74,62 @@ importers:
   packages/early-preview:
     specifiers: {}
 
-  packages/hummin:
-    specifiers:
-      '@hummin/core': workspace:*
-      '@hummin/preset-attributify': workspace:*
-      '@hummin/preset-default': workspace:*
-      '@hummin/vite': workspace:*
-    dependencies:
-      '@hummin/core': link:../core
-      '@hummin/preset-attributify': link:../preset-attributify
-      '@hummin/preset-default': link:../preset-default
-      '@hummin/vite': link:../vite
-
   packages/preset-attributify:
     specifiers:
-      '@hummin/core': workspace:*
+      '@unocss/core': workspace:*
     dependencies:
-      '@hummin/core': link:../core
+      '@unocss/core': link:../core
 
   packages/preset-default:
     specifiers:
-      '@hummin/core': workspace:*
+      '@unocss/core': workspace:*
     dependencies:
-      '@hummin/core': link:../core
+      '@unocss/core': link:../core
 
   packages/scope:
     specifiers: {}
 
+  packages/unocss:
+    specifiers:
+      '@unocss/core': workspace:*
+      '@unocss/preset-attributify': workspace:*
+      '@unocss/preset-default': workspace:*
+      '@unocss/vite': workspace:*
+    dependencies:
+      '@unocss/core': link:../core
+      '@unocss/preset-attributify': link:../preset-attributify
+      '@unocss/preset-default': link:../preset-default
+      '@unocss/vite': link:../vite
+
   packages/vite:
     specifiers:
-      '@hummin/core': workspace:*
-      '@hummin/preset-attributify': workspace:*
-      '@hummin/preset-default': workspace:*
-      '@hummin/scope': workspace:*
       '@rollup/pluginutils': ^4.1.1
+      '@unocss/core': workspace:*
+      '@unocss/preset-attributify': workspace:*
+      '@unocss/preset-default': workspace:*
+      '@unocss/scope': workspace:*
     dependencies:
-      '@hummin/core': link:../core
-      '@hummin/preset-attributify': link:../preset-attributify
-      '@hummin/preset-default': link:../preset-default
-      '@hummin/scope': link:../scope
       '@rollup/pluginutils': 4.1.1
+      '@unocss/core': link:../core
+      '@unocss/preset-attributify': link:../preset-attributify
+      '@unocss/preset-default': link:../preset-default
+      '@unocss/scope': link:../scope
 
   playground:
     specifiers:
-      '@hummin/core': workspace:*
-      '@hummin/preset-attributify': workspace:*
-      '@hummin/preset-default': workspace:*
-      '@hummin/vite': workspace:*
       '@iconify-json/carbon': ^1.0.3
       '@types/codemirror': ^5.60.4
+      '@unocss/core': workspace:*
+      '@unocss/preset-attributify': workspace:*
+      '@unocss/preset-default': workspace:*
+      '@unocss/vite': workspace:*
       '@vitejs/plugin-vue': ^1.9.2
       '@vueuse/core': ^6.5.3
       codemirror: ^5.63.1
       codemirror-theme-vars: ^0.1.1
-      hummin: workspace:*
       prettier: ^2.4.1
       typescript: ^4.4.3
+      unocss: workspace:*
       unplugin-auto-import: ^0.4.10
       unplugin-icons: ^0.12.7
       unplugin-vue-components: ^0.15.6
@@ -141,17 +141,17 @@ importers:
       codemirror: 5.63.1
       vue: 3.2.19
     devDependencies:
-      '@hummin/core': link:../packages/core
-      '@hummin/preset-attributify': link:../packages/preset-attributify
-      '@hummin/preset-default': link:../packages/preset-default
-      '@hummin/vite': link:../packages/vite
       '@iconify-json/carbon': 1.0.3
       '@types/codemirror': 5.60.4
+      '@unocss/core': link:../packages/core
+      '@unocss/preset-attributify': link:../packages/preset-attributify
+      '@unocss/preset-default': link:../packages/preset-default
+      '@unocss/vite': link:../packages/vite
       '@vitejs/plugin-vue': 1.9.2_vite@2.6.2
       codemirror-theme-vars: 0.1.1
-      hummin: link:../packages/hummin
       prettier: 2.4.1
       typescript: 4.4.3
+      unocss: link:../packages/unocss
       unplugin-auto-import: 0.4.10_@vueuse+core@6.5.3+vite@2.6.2
       unplugin-icons: 0.12.7_vite@2.6.2
       unplugin-vue-components: 0.15.6_vite@2.6.2+vue@3.2.19

@@ -2,7 +2,7 @@ import { Shortcut, StaticShortcut } from '..'
 import { CSSEntries, Rule, StaticRule } from '../types'
 
 export function entriesToCss(arr?: CSSEntries) {
-  if (!arr)
+  if (arr == null)
     return ''
   return arr
     .map(([key, value]) => value != null ? `${key}:${value};` : undefined)
