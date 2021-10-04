@@ -10,12 +10,12 @@
     "resolveJsonModule": true,
     "skipDefaultLibCheck": true,
     "paths": {
-      "miniwind": ["./packages/miniwind/src/index.ts"],
-      "miniwind/vite": ["./packages/miniwind/src/vite.ts"],
-      "@miniwind/core": ["./packages/core/src/index.ts"],
-      "@miniwind/vite": ["./packages/vite/src/index.ts"],
-      "@miniwind/preset-default": ["./packages/preset-default/src/index.ts"],
-      "@miniwind/preset-attributify": ["./packages/preset-attributify/src/index.ts"],
+      "hummin": ["./packages/hummin/src/index.ts"],
+      "hummin/vite": ["./packages/hummin/src/vite.ts"],
+      "@hummin/core": ["./packages/core/src/index.ts"],
+      "@hummin/vite": ["./packages/vite/src/index.ts"],
+      "@hummin/preset-default": ["./packages/preset-default/src/index.ts"],
+      "@hummin/preset-attributify": ["./packages/preset-attributify/src/index.ts"],
     }
   },
   "exclude": [

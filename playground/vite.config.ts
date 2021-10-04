@@ -6,22 +6,22 @@ import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
-import Miniwind from '@miniwind/vite'
-import { mergeDeep, defaultTheme, presetDefault, presetAttributify } from '../packages/miniwind/src'
+import Hummin from '@hummin/vite'
+import { mergeDeep, defaultTheme, presetDefault, presetAttributify } from 'hummin'
 
 export default defineConfig({
   resolve: {
     alias: {
-      'miniwind': resolve('../packages/miniwind/src/index.ts'),
-      '@miniwind/core': resolve('../packages/core/src/index.ts'),
-      '@miniwind/vite': resolve('../packages/vite/src/index.ts'),
-      '@miniwind/preset-default': resolve('../packages/preset-default/src/index.ts'),
-      '@miniwind/preset-attributify': resolve('../packages/preset-attributify/src/index.ts'),
+      'hummin': resolve('../packages/hummin/src/index.ts'),
+      '@hummin/core': resolve('../packages/core/src/index.ts'),
+      '@hummin/vite': resolve('../packages/vite/src/index.ts'),
+      '@hummin/preset-default': resolve('../packages/preset-default/src/index.ts'),
+      '@hummin/preset-attributify': resolve('../packages/preset-attributify/src/index.ts'),
     },
   },
   plugins: [
     Vue(),
-    Miniwind({
+    Hummin({
       theme: mergeDeep(
         defaultTheme,
         {

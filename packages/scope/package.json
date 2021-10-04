@@ -1,5 +1,5 @@
 {
-  "name": "@miniwind/scope",
+  "name": "@hummin/scope",
   "module": "./index.mjs",
   "main": "./index.cjs",
   "types": "./index.d.ts",

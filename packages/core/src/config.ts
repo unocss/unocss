@@ -1,5 +1,4 @@
-import { UserShortcuts } from 'miniwind'
-import { UserConfig, ResolvedConfig, UserConfigDefaults, Shortcut } from './types'
+import { UserShortcuts, UserConfig, ResolvedConfig, UserConfigDefaults, Shortcut } from './types'
 import { isStaticRule, toArray, uniq } from './utils'
 import { extractorSplit } from './extractors'
 

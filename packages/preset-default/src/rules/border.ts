@@ -1,4 +1,4 @@
-import { cornerMap, directionMap, Theme, handler as h, CSSEntries, Rule } from '@miniwind/core'
+import { cornerMap, directionMap, Theme, handler as h, CSSEntries, Rule } from '@hummin/core'
 
 export const borders: Rule[] = [
   [/^border$/, handlerBorder],

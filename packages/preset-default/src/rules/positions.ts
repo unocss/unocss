@@ -1,4 +1,4 @@
-import { CSSEntries, Rule, directionMap, handler as h } from '@miniwind/core'
+import { CSSEntries, Rule, directionMap, handler as h } from '@hummin/core'
 
 export const positions: Rule[] = [
   ['relative', { position: 'relative' }],

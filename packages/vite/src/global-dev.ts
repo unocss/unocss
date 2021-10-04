@@ -3,7 +3,7 @@ import { createFilter } from '@rollup/pluginutils'
 import { ResolvedPluginContext } from './types'
 import { defaultExclude, defaultInclude } from './utils'
 
-const VIRTUAL_ENTRY = '/@miniwind/entry.css'
+const VIRTUAL_ENTRY = '/@hummin/entry.css'
 
 export function GlobalModeDevPlugin({ generate, options, config }: ResolvedPluginContext): Plugin {
   let server: ViteDevServer | undefined
@@ -34,7 +34,7 @@ export function GlobalModeDevPlugin({ generate, options, config }: ResolvedPlugi
   const tokens = new Set<string>()
 
   return {
-    name: 'miniwind:global',
+    name: 'hummin:global',
     apply: 'serve',
     enforce: 'pre',
     configureServer(_server) {

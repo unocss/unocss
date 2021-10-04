@@ -1,4 +1,4 @@
-import { createGenerator } from 'miniwind'
+import { createGenerator } from 'hummin'
 
 describe('order', () => {
   test('static', async() => {

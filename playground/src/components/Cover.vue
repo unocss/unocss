@@ -5,7 +5,7 @@
         ~
       </div>
       <div class="text-5xl font-100">
-        <span class="group-hover:opacity-25">m</span><span>i</span><span class="group-hover:opacity-25">n</span><span>i</span><span class="group-hover:opacity-25">w</span><span>i</span><span class="group-hover:opacity-25">nd</span>
+        <span class="group-hover:opacity-25">hum</span><span>min</span><span class="group-hover:opacity-25">css</span>
       </div>
       <div class="op-20 font-200 mt-1 tracking-wider" group-hover="text-teal-400 op-50">
         Re-imaging Atomic CSS

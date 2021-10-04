@@ -1,1 +1,1 @@
-export default function getMiniwindScope(): string
+export default function getHumminScope(): string

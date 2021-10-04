@@ -1,4 +1,4 @@
-import { createMiniwindWithDefaults, extractorSplit, Preset } from '@miniwind/core'
+import { createHumminWithDefaults, extractorSplit, Preset } from '@hummin/core'
 import { defaultRules } from './rules'
 import { defaultTheme } from './theme'
 import { defaultVariants } from './variants'
@@ -16,7 +16,7 @@ export const presetDefault = (): Preset => ({
 export const {
   createGenerator,
   resolveConfig,
-} = createMiniwindWithDefaults({
+} = createHumminWithDefaults({
   theme: defaultTheme,
   presets: [
     presetDefault(),

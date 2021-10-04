@@ -6,48 +6,48 @@ importers:
     specifiers:
       '@antfu/eslint-config': ^0.9.0
       '@antfu/ni': ^0.9.3
-      '@miniwind/core': workspace:*
-      '@miniwind/preset-attributify': workspace:*
-      '@miniwind/preset-default': workspace:*
-      '@miniwind/vite': workspace:*
+      '@hummin/core': workspace:*
+      '@hummin/preset-attributify': workspace:*
+      '@hummin/preset-default': workspace:*
+      '@hummin/vite': workspace:*
       '@types/jest': ^27.0.2
       '@types/node': ^16.10.2
       bumpp: ^7.1.1
       eslint: ^7.32.0
       eslint-plugin-jest: ^24.5.0
       esno: ^0.10.0
+      hummin: workspace:*
       jest: ^27.2.4
-      miniwind: workspace:*
       ts-jest: ^27.0.5
       tsup: ^5.2.1
       typescript: ^4.4.3
     devDependencies:
       '@antfu/eslint-config': 0.9.0_eslint@7.32.0+typescript@4.4.3
       '@antfu/ni': 0.9.3
-      '@miniwind/core': link:packages/core
-      '@miniwind/preset-attributify': link:packages/preset-attributify
-      '@miniwind/preset-default': link:packages/preset-default
-      '@miniwind/vite': link:packages/vite
+      '@hummin/core': link:packages/core
+      '@hummin/preset-attributify': link:packages/preset-attributify
+      '@hummin/preset-default': link:packages/preset-default
+      '@hummin/vite': link:packages/vite
       '@types/jest': 27.0.2
       '@types/node': 16.10.2
       bumpp: 7.1.1
       eslint: 7.32.0
       eslint-plugin-jest: 24.5.0_eslint@7.32.0+typescript@4.4.3
       esno: 0.10.0
+      hummin: link:packages/hummin
       jest: 27.2.4
-      miniwind: link:packages/miniwind
       ts-jest: 27.0.5_52a571d76319e63aeaa66dc9db9e90cc
       tsup: 5.2.1_typescript@4.4.3
       typescript: 4.4.3
 
   bench:
     specifiers:
-      '@miniwind/vite': workspace:*
+      '@hummin/vite': workspace:*
       '@vitejs/plugin-vue': ^1.9.2
       autoprefixer: ^10.3.6
       fs-extra: ^10.0.0
+      hummin: workspace:*
       local-pkg: ^0.3.0
-      miniwind: workspace:*
       postcss: ^8.3.8
       tailwindcss: ^3.0.0-alpha.1
       vite: ^2.6.2
@@ -55,12 +55,12 @@ importers:
       vue: ^3.2.19
       windicss: ^3.1.8
     devDependencies:
-      '@miniwind/vite': link:../packages/vite
+      '@hummin/vite': link:../packages/vite
       '@vitejs/plugin-vue': 1.9.2_vite@2.6.2
       autoprefixer: 10.3.6_postcss@8.3.8
       fs-extra: 10.0.0
+      hummin: link:../packages/hummin
       local-pkg: 0.3.0
-      miniwind: link:../packages/miniwind
       postcss: 8.3.8
       tailwindcss: 3.0.0-alpha.1_d90402d1bb3b165c9c83046beac13a8b
       vite: 2.6.2
@@ -72,71 +72,62 @@ importers:
     specifiers: {}
 
   packages/early-preview:
-    specifiers:
-      '@miniwind/core': workspace:*
-      '@miniwind/preset-attributify': workspace:*
-      '@miniwind/preset-default': workspace:*
-      '@miniwind/vite': workspace:*
-    devDependencies:
-      '@miniwind/core': link:../core
-      '@miniwind/preset-attributify': link:../preset-attributify
-      '@miniwind/preset-default': link:../preset-default
-      '@miniwind/vite': link:../vite
+    specifiers: {}
 
-  packages/miniwind:
+  packages/hummin:
     specifiers:
-      '@miniwind/core': workspace:*
-      '@miniwind/preset-attributify': workspace:*
-      '@miniwind/preset-default': workspace:*
-      '@miniwind/vite': workspace:*
+      '@hummin/core': workspace:*
+      '@hummin/preset-attributify': workspace:*
+      '@hummin/preset-default': workspace:*
+      '@hummin/vite': workspace:*
     dependencies:
-      '@miniwind/core': link:../core
-      '@miniwind/preset-attributify': link:../preset-attributify
-      '@miniwind/preset-default': link:../preset-default
-      '@miniwind/vite': link:../vite
+      '@hummin/core': link:../core
+      '@hummin/preset-attributify': link:../preset-attributify
+      '@hummin/preset-default': link:../preset-default
+      '@hummin/vite': link:../vite
 
   packages/preset-attributify:
     specifiers:
-      '@miniwind/core': workspace:*
+      '@hummin/core': workspace:*
     dependencies:
-      '@miniwind/core': link:../core
+      '@hummin/core': link:../core
 
   packages/preset-default:
     specifiers:
-      '@miniwind/core': workspace:*
+      '@hummin/core': workspace:*
     dependencies:
-      '@miniwind/core': link:../core
+      '@hummin/core': link:../core
 
   packages/scope:
     specifiers: {}
 
   packages/vite:
     specifiers:
-      '@miniwind/core': workspace:*
-      '@miniwind/preset-attributify': workspace:*
-      '@miniwind/preset-default': workspace:*
-      '@miniwind/scope': workspace:*
+      '@hummin/core': workspace:*
+      '@hummin/preset-attributify': workspace:*
+      '@hummin/preset-default': workspace:*
+      '@hummin/scope': workspace:*
       '@rollup/pluginutils': ^4.1.1
     dependencies:
-      '@miniwind/core': link:../core
-      '@miniwind/preset-attributify': link:../preset-attributify
-      '@miniwind/preset-default': link:../preset-default
-      '@miniwind/scope': link:../scope
+      '@hummin/core': link:../core
+      '@hummin/preset-attributify': link:../preset-attributify
+      '@hummin/preset-default': link:../preset-default
+      '@hummin/scope': link:../scope
       '@rollup/pluginutils': 4.1.1
 
   playground:
     specifiers:
+      '@hummin/core': workspace:*
+      '@hummin/preset-attributify': workspace:*
+      '@hummin/preset-default': workspace:*
+      '@hummin/vite': workspace:*
       '@iconify-json/carbon': ^1.0.3
-      '@miniwind/core': workspace:*
-      '@miniwind/preset-attributify': workspace:*
-      '@miniwind/preset-default': workspace:*
-      '@miniwind/vite': workspace:*
       '@types/codemirror': ^5.60.4
       '@vitejs/plugin-vue': ^1.9.2
       '@vueuse/core': ^6.5.3
       codemirror: ^5.63.1
       codemirror-theme-vars: ^0.1.1
-      miniwind: workspace:*
+      hummin: workspace:*
       prettier: ^2.4.1
       typescript: ^4.4.3
       unplugin-auto-import: ^0.4.10
@@ -150,15 +141,15 @@ importers:
       codemirror: 5.63.1
       vue: 3.2.19
     devDependencies:
+      '@hummin/core': link:../packages/core
+      '@hummin/preset-attributify': link:../packages/preset-attributify
+      '@hummin/preset-default': link:../packages/preset-default
+      '@hummin/vite': link:../packages/vite
       '@iconify-json/carbon': 1.0.3
-      '@miniwind/core': link:../packages/core
-      '@miniwind/preset-attributify': link:../packages/preset-attributify
-      '@miniwind/preset-default': link:../packages/preset-default
-      '@miniwind/vite': link:../packages/vite
       '@types/codemirror': 5.60.4
       '@vitejs/plugin-vue': 1.9.2_vite@2.6.2
       codemirror-theme-vars: 0.1.1
-      miniwind: link:../packages/miniwind
+      hummin: link:../packages/hummin
       prettier: 2.4.1
       typescript: 4.4.3
       unplugin-auto-import: 0.4.10_@vueuse+core@6.5.3+vite@2.6.2

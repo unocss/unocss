@@ -1,4 +1,4 @@
-import { Preset } from '@miniwind/core'
+import { Preset } from '@hummin/core'
 import { extractorAttributify } from './extractor'
 import { AttributifyOptions } from './types'
 import { variantAttributify } from './variant'

@@ -1,4 +1,4 @@
-import { createGenerator, presetDefault, variantAttributify, extractorAttributify, presetAttributify } from 'miniwind'
+import { createGenerator, presetDefault, variantAttributify, extractorAttributify, presetAttributify } from 'hummin'
 
 describe('attributify', () => {
   const code = `

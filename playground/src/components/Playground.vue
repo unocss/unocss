@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
-import { createGenerator, presetAttributify, presetDefault } from '../../../packages/miniwind'
+import { createGenerator, presetAttributify, presetDefault } from 'hummin'
 
 const generate = createGenerator({
   presets: [
@@ -10,8 +10,8 @@ const generate = createGenerator({
   ],
 })
 
-const input = useStorage('miniwind-input', '<div class="sm:dark:!text-red" bg="hover:red" />')
-const output = asyncComputed(() => generate(input.value), { css: '', matched: new Set<string>() })
+const input = useStorage('hummin-input', '<div class="sm:dark:!text-red" bg="hover:red" />')
+const output = asyncComputed(() => generate(input.value), { css: '', matched: new Set<string>(), excluded: new Set<string>() })
 const formatted = computed(() => prettier.format(output.value?.css || '', {
   parser: 'css',
   plugins: [parserCSS],

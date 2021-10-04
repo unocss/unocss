@@ -1,9 +1,8 @@
-# miniwind
+# hummin
 
 ###### *Re-imaging Atomic-CSS*
 
-[![NPM version](https://img.shields.io/npm/v/miniwind?color=a1b858&label=)](https://www.npmjs.com/package/miniwind)
-
+[![NPM version](https://img.shields.io/npm/v/hummin?color=a1b858&label=)](https://www.npmjs.com/package/hummin)
 
 An instant on-demand Atomic-CSS engine.
 
@@ -14,7 +13,7 @@ An instant on-demand Atomic-CSS engine.
 1344 utilities | x50 runs
 
 none                           5.62 ms / delta.   0.00 ms 
-miniwind                       6.25 ms / delta.   0.63 ms (x1)
+hummin                         6.25 ms / delta.   0.63 ms (x1)
 windicss     v3.1.8          550.73 ms / delta. 545.11 ms (x866.97)
 tailwind-jit v3.0.0-alpha.1  608.88 ms / delta. 603.26 ms (x959.46)
 ```
@@ -35,7 +34,7 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 
 ###### Non-goal
 
-`miniwind` is designed **NOT** to be/have:
+`hummin` is designed **NOT** to be/have:
 
 - Align / compatible with Tailwind or Windi CSS.
 - A CSS preprocessor (`@apply` etc.)
@@ -49,16 +48,16 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 ## Installation
 
 ```bash
-npm i -D miniwind
+npm i -D hummin
 ```
 
 ```ts
 // vite.config.ts
-import Miniwind from 'miniwind/vite'
+import Hummin from 'hummin/vite'
 
 export default {
   plugins: [
-    Miniwind()
+    Hummin()
   ]
 }
 ```

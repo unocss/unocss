@@ -1,10 +1,10 @@
-import { createMiniwindWithDefaults } from '@miniwind/core'
-import { defaultTheme, presetDefault } from '@miniwind/preset-default'
+import { createHumminWithDefaults } from '@hummin/core'
+import { defaultTheme, presetDefault } from '@hummin/preset-default'
 
 export const {
   createGenerator,
   resolveConfig,
-} = createMiniwindWithDefaults({
+} = createHumminWithDefaults({
   theme: defaultTheme,
   presets: [
     presetDefault(),

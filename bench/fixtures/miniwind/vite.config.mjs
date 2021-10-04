@@ -1,9 +1,9 @@
 import { defineConfig } from 'vite'
-import Miniwind from '@minwind/vite'
+import Hummin from '@minwind/vite'
 
 export default defineConfig({
   plugins: [
-    Miniwind({
+    Hummin({
       include: [/\.js$/],
     }),
   ],

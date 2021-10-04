@@ -3,7 +3,7 @@ import { createGenerator, resolveConfig } from './init'
 import { ChunkModeBuildPlugin } from './chunk-build'
 import { GlobalModeDevPlugin } from './global-dev'
 import { PerModuleModePlugin } from './per-module'
-import { MiniwindUserOptions, ResolvedPluginContext } from './types'
+import { HumminUserOptions, ResolvedPluginContext } from './types'
 import { VueScopedPlugin } from './vue-scoped'
 
 export * from './types'
@@ -12,7 +12,7 @@ export * from './global-dev'
 export * from './per-module'
 export * from './vue-scoped'
 
-export default function MiniwindPlugin(options: MiniwindUserOptions = {}): Plugin[] {
+export default function HumminPlugin(options: HumminUserOptions = {}): Plugin[] {
   const mode = options.mode ?? 'global'
   const config = resolveConfig(options)
   const generate = createGenerator(config)
@@ -39,6 +39,6 @@ export default function MiniwindPlugin(options: MiniwindUserOptions = {}): Plugi
   }
 
   else {
-    throw new Error(`[miniwind] unknown mode "${mode}"`)
+    throw new Error(`[hummin] unknown mode "${mode}"`)
   }
 }

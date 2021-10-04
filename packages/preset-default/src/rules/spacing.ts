@@ -1,4 +1,4 @@
-import { CSSEntries, Rule, directionMap, handler as h } from '@miniwind/core'
+import { CSSEntries, Rule, directionMap, handler as h } from '@hummin/core'
 
 const directionSize = (prefix: string) => ([_, direction, size]: string[]): CSSEntries | undefined => {
   const v = h.bracket.size.fraction(size)

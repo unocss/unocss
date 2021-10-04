@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getMatchedPositions } from '../../../packages/miniwind/src'
+import { getMatchedPositions } from 'hummin'
 import { useCodeMirror } from '../codemirror'
 
 const props = defineProps<{

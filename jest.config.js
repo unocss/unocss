@@ -10,7 +10,7 @@ module.exports = {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
   moduleNameMapper: {
-    '^@miniwind/(.*)$': '<rootDir>/packages/$1/src/index.ts',
-    '^miniwind$': '<rootDir>/packages/miniwind/src/index.ts',
+    '^@hummin/(.*)$': '<rootDir>/packages/$1/src/index.ts',
+    '^hummin$': '<rootDir>/packages/hummin/src/index.ts',
   },
 }

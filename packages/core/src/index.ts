@@ -10,7 +10,7 @@ export type ArgumentType<T> = T extends ((...args: infer A) => any) ? A : never
 export type Shift<T> = T extends [_: any, ...args: infer A] ? A : never
 export type RestArgs<T> = Shift<ArgumentType<T>>
 
-export function createMiniwindWithDefaults(defaults: UserConfigDefaults) {
+export function createHumminWithDefaults(defaults: UserConfigDefaults) {
   return {
     createGenerator: (...args: RestArgs<typeof _createGenerator>) => _createGenerator(defaults, ...args),
     resolveConfig: (...args: RestArgs<typeof _resolveConfig>) => _resolveConfig(defaults, ...args),

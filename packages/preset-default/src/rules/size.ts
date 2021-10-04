@@ -1,4 +1,4 @@
-import { handler as h, Rule } from '@miniwind/core'
+import { handler as h, Rule } from '@hummin/core'
 
 export const sizes: Rule[] = [
   ['w-full', { width: '100%' }],

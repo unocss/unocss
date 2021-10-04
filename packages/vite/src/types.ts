@@ -1,8 +1,8 @@
 import { FilterPattern } from '@rollup/pluginutils'
-import { ResolvedConfig, UserConfig } from '@miniwind/core'
+import { ResolvedConfig, UserConfig } from '@hummin/core'
 import { createGenerator } from './init'
 
-export interface MiniwindUserOptions extends UserConfig {
+export interface HumminUserOptions extends UserConfig {
   include?: FilterPattern
   exclude?: FilterPattern
 
@@ -20,7 +20,7 @@ export interface MiniwindUserOptions extends UserConfig {
 }
 
 export interface ResolvedPluginContext {
-  options: MiniwindUserOptions
+  options: HumminUserOptions
   config: ResolvedConfig
   generate: ReturnType<typeof createGenerator>
 }

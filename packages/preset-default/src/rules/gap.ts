@@ -1,4 +1,4 @@
-import { Rule, handler as h } from '@miniwind/core'
+import { Rule, handler as h } from '@hummin/core'
 
 export const gaps: Rule[] = [
   [/^(?:flex-|grid-)gap-([^-]+)$/, ([, s]) => {

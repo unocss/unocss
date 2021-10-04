@@ -1,4 +1,4 @@
-import { Extractor } from '@miniwind/core'
+import { Extractor } from '@hummin/core'
 
 const strippedPrefixes = [
   'v-bind:',

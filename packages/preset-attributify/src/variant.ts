@@ -1,4 +1,4 @@
-import { Variant, isAttributifySelector } from '@miniwind/core'
+import { Variant, isAttributifySelector } from '@hummin/core'
 import { AttributifyOptions } from './types'
 
 const variantsRE = /^(.+\:\!?)?(.*?)$/

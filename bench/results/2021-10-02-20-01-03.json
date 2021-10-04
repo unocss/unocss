@@ -2,13 +2,13 @@
   "time": "2021-10-02T20:01:03.168Z",
   "versions": {
     "vite": "2.6.2",
-    "miniwind": "0.0.0-alpha.0",
+    "hummin": "0.0.0-alpha.0",
     "windicss": "3.1.8",
     "tailwindcss": "2.2.16"
   },
   "minimum": {
     "none": 5.566749811172485,
-    "miniwind": 6.228707790374756,
+    "hummin": 6.228707790374756,
     "windicss": 553.8222081661224,
     "tailwind-jit": 617.4347498416901
   },
@@ -16,11 +16,11 @@
     "none": 6.706424970626831,
     "windicss": 573.3470466566085,
     "tailwind-jit": 668.4974974346161,
-    "miniwind": 9.565221676826477
+    "hummin": 9.565221676826477
   },
   "delta": {
     "none": 0,
-    "miniwind": 0.6619579792022705,
+    "hummin": 0.6619579792022705,
     "windicss": 548.25545835495,
     "tailwind-jit": 611.8680000305176
   },
@@ -48,7 +48,7 @@
     },
     {
       "index": 3,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T19:59:23.655Z",
       "time": 9.142874956130981,
       "size": 38641
@@ -76,7 +76,7 @@
     },
     {
       "index": 3,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T19:59:25.978Z",
       "time": 7.722333908081055,
       "size": 38641
@@ -97,7 +97,7 @@
     },
     {
       "index": 2,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T19:59:27.990Z",
       "time": 9.360374927520752,
       "size": 38641
@@ -132,7 +132,7 @@
     },
     {
       "index": 3,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T19:59:29.918Z",
       "time": 7.545832872390747,
       "size": 38641
@@ -146,7 +146,7 @@
     },
     {
       "index": 1,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T19:59:31.929Z",
       "time": 8.14437484741211,
       "size": 38641
@@ -167,7 +167,7 @@
     },
     {
       "index": 0,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T19:59:33.869Z",
       "time": 16.081249952316284,
       "size": 38641
@@ -216,14 +216,14 @@
     },
     {
       "index": 3,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T19:59:35.819Z",
       "time": 7.389999866485596,
       "size": 38641
     },
     {
       "index": 0,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T19:59:37.773Z",
       "time": 16.949124813079834,
       "size": 38641
@@ -265,7 +265,7 @@
     },
     {
       "index": 2,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T19:59:39.715Z",
       "time": 6.570167064666748,
       "size": 38641
@@ -286,7 +286,7 @@
     },
     {
       "index": 1,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T19:59:41.746Z",
       "time": 8.39454197883606,
       "size": 38641
@@ -328,7 +328,7 @@
     },
     {
       "index": 3,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T19:59:43.751Z",
       "time": 8.159832954406738,
       "size": 38641
@@ -342,7 +342,7 @@
     },
     {
       "index": 1,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T19:59:45.769Z",
       "time": 7.637832880020142,
       "size": 38641
@@ -384,7 +384,7 @@
     },
     {
       "index": 3,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T19:59:47.710Z",
       "time": 8.211666822433472,
       "size": 38641
@@ -412,7 +412,7 @@
     },
     {
       "index": 3,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T19:59:49.710Z",
       "time": 7.075082778930664,
       "size": 38641
@@ -440,7 +440,7 @@
     },
     {
       "index": 3,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T19:59:51.708Z",
       "time": 6.983083009719849,
       "size": 38641
@@ -454,7 +454,7 @@
     },
     {
       "index": 1,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T19:59:53.679Z",
       "time": 8.357749938964844,
       "size": 38641
@@ -496,7 +496,7 @@
     },
     {
       "index": 3,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T19:59:55.679Z",
       "time": 7.05887508392334,
       "size": 38641
@@ -524,7 +524,7 @@
     },
     {
       "index": 3,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T19:59:57.669Z",
       "time": 7.1639158725738525,
       "size": 38641
@@ -545,7 +545,7 @@
     },
     {
       "index": 2,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T19:59:59.653Z",
       "time": 6.228707790374756,
       "size": 38641
@@ -580,7 +580,7 @@
     },
     {
       "index": 3,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:01.670Z",
       "time": 7.196084022521973,
       "size": 38641
@@ -601,7 +601,7 @@
     },
     {
       "index": 2,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:03.715Z",
       "time": 9.555042028427124,
       "size": 38641
@@ -622,7 +622,7 @@
     },
     {
       "index": 1,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:05.737Z",
       "time": 8.735249996185303,
       "size": 38641
@@ -643,7 +643,7 @@
     },
     {
       "index": 0,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:07.681Z",
       "time": 16.618375062942505,
       "size": 38641
@@ -678,7 +678,7 @@
     },
     {
       "index": 1,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:09.669Z",
       "time": 12.81237506866455,
       "size": 38641
@@ -720,7 +720,7 @@
     },
     {
       "index": 3,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:11.626Z",
       "time": 8.650707960128784,
       "size": 38641
@@ -748,7 +748,7 @@
     },
     {
       "index": 3,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:13.597Z",
       "time": 7.2522499561309814,
       "size": 38641
@@ -762,7 +762,7 @@
     },
     {
       "index": 1,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:15.587Z",
       "time": 8.354417085647583,
       "size": 38641
@@ -783,7 +783,7 @@
     },
     {
       "index": 0,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:17.594Z",
       "time": 15.887375116348267,
       "size": 38641
@@ -818,7 +818,7 @@
     },
     {
       "index": 1,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:19.593Z",
       "time": 8.32437515258789,
       "size": 38641
@@ -853,7 +853,7 @@
     },
     {
       "index": 2,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:21.617Z",
       "time": 6.425999879837036,
       "size": 38641
@@ -867,7 +867,7 @@
     },
     {
       "index": 0,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:23.543Z",
       "time": 16.86312484741211,
       "size": 38641
@@ -902,7 +902,7 @@
     },
     {
       "index": 1,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:25.543Z",
       "time": 8.536082983016968,
       "size": 38641
@@ -923,7 +923,7 @@
     },
     {
       "index": 0,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:27.555Z",
       "time": 16.60841703414917,
       "size": 38641
@@ -965,7 +965,7 @@
     },
     {
       "index": 2,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:29.608Z",
       "time": 9.271832942962646,
       "size": 38641
@@ -993,7 +993,7 @@
     },
     {
       "index": 2,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:31.630Z",
       "time": 6.393207788467407,
       "size": 38641
@@ -1014,7 +1014,7 @@
     },
     {
       "index": 1,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:33.625Z",
       "time": 13.02174997329712,
       "size": 38641
@@ -1035,7 +1035,7 @@
     },
     {
       "index": 0,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:35.562Z",
       "time": 16.49583411216736,
       "size": 38641
@@ -1063,7 +1063,7 @@
     },
     {
       "index": 0,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:37.553Z",
       "time": 15.72895884513855,
       "size": 38641
@@ -1112,7 +1112,7 @@
     },
     {
       "index": 3,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:39.533Z",
       "time": 7.056041955947876,
       "size": 38641
@@ -1140,7 +1140,7 @@
     },
     {
       "index": 3,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:41.531Z",
       "time": 6.917083024978638,
       "size": 38641
@@ -1168,7 +1168,7 @@
     },
     {
       "index": 3,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:43.521Z",
       "time": 7.11537504196167,
       "size": 38641
@@ -1182,7 +1182,7 @@
     },
     {
       "index": 1,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:45.519Z",
       "time": 7.748584032058716,
       "size": 38641
@@ -1224,7 +1224,7 @@
     },
     {
       "index": 3,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:47.456Z",
       "time": 7.334458827972412,
       "size": 38641
@@ -1245,7 +1245,7 @@
     },
     {
       "index": 2,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:49.456Z",
       "time": 9.37137484550476,
       "size": 38641
@@ -1266,7 +1266,7 @@
     },
     {
       "index": 1,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:51.394Z",
       "time": 8.42424988746643,
       "size": 38641
@@ -1301,7 +1301,7 @@
     },
     {
       "index": 2,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:53.395Z",
       "time": 9.494999885559082,
       "size": 38641
@@ -1315,7 +1315,7 @@
     },
     {
       "index": 0,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:55.347Z",
       "time": 17.121750116348267,
       "size": 38641
@@ -1357,7 +1357,7 @@
     },
     {
       "index": 2,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:57.336Z",
       "time": 6.858458995819092,
       "size": 38641
@@ -1392,7 +1392,7 @@
     },
     {
       "index": 3,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:00:59.351Z",
       "time": 6.9229161739349365,
       "size": 38641
@@ -1420,7 +1420,7 @@
     },
     {
       "index": 3,
-      "name": "miniwind",
+      "name": "hummin",
       "date": "2021-10-02T20:01:01.335Z",
       "time": 6.986708879470825,
       "size": 38641

@@ -1,4 +1,4 @@
-import { handler as h, toArray, Rule } from '@miniwind/core'
+import { handler as h, toArray, Rule } from '@hummin/core'
 
 export const fonts: Rule[] = [
   [/^font-(\w+)$/, ([, d], theme) => {

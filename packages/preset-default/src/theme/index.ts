@@ -1,4 +1,4 @@
-import { Theme } from '@miniwind/core'
+import { Theme } from '@hummin/core'
 import { colors } from './colors'
 import { fontFamily, fontSize, letterSpacing, lineHeight } from './font'
 

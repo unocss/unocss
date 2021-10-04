@@ -1,15 +1,15 @@
 {
-  "name": "@miniwind/vite",
+  "name": "@hummin/vite",
   "version": "0.0.0-alpha.0",
   "description": "",
   "keywords": [],
-  "homepage": "https://github.com/antfu/miniwind#readme",
+  "homepage": "https://github.com/antfu/hummin#readme",
   "bugs": {
-    "url": "https://github.com/antfu/miniwind/issues"
+    "url": "https://github.com/antfu/hummin/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/antfu/miniwind.git"
+    "url": "git+https://github.com/antfu/hummin.git"
   },
   "funding": "https://github.com/sponsors/antfu",
   "license": "MIT",
@@ -33,10 +33,10 @@
     "prepublishOnly": "nr build"
   },
   "dependencies": {
-    "@miniwind/scope": "workspace:*",
-    "@miniwind/core": "workspace:*",
-    "@miniwind/preset-default": "workspace:*",
-    "@miniwind/preset-attributify": "workspace:*",
+    "@hummin/scope": "workspace:*",
+    "@hummin/core": "workspace:*",
+    "@hummin/preset-default": "workspace:*",
+    "@hummin/preset-attributify": "workspace:*",
     "@rollup/pluginutils": "^4.1.1"
   }
 }

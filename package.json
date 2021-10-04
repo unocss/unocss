@@ -1,5 +1,5 @@
 {
-  "name": "@miniwind/monorepo",
+  "name": "@hummin/monorepo",
   "private": true,
   "version": "0.0.0-alpha.0",
   "scripts": {
@@ -25,10 +25,10 @@
     "ts-jest": "^27.0.5",
     "tsup": "^5.2.1",
     "typescript": "^4.4.3",
-    "miniwind": "workspace:*",
-    "@miniwind/core": "workspace:*",
-    "@miniwind/vite": "workspace:*",
-    "@miniwind/preset-default": "workspace:*",
-    "@miniwind/preset-attributify": "workspace:*"
+    "hummin": "workspace:*",
+    "@hummin/core": "workspace:*",
+    "@hummin/vite": "workspace:*",
+    "@hummin/preset-default": "workspace:*",
+    "@hummin/preset-attributify": "workspace:*"
   }
 }

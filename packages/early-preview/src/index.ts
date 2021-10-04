@@ -1,8 +1,8 @@
 import { createHash } from 'crypto'
-import { UserConfig } from '@miniwind/core'
-import { presetAttributify } from '@miniwind/preset-attributify'
-import { presetDefault } from '@miniwind/preset-default'
-import plugin from '@miniwind/vite'
+import { UserConfig } from '@hummin/core'
+import { presetAttributify } from '@hummin/preset-attributify'
+import { presetDefault } from '@hummin/preset-default'
+import plugin from '@hummin/vite'
 
 function getHash(input: string, length = 8) {
   return createHash('sha256')
