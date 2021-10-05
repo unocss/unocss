@@ -56,6 +56,14 @@ const names = [
       ...sizes,
     ],
   ),
+  ...map([
+    'grid-cols',
+  ], [
+    '1',
+    '2',
+    '[1fr,3em]',
+    '[20px,min-content,1fr]',
+  ]),
 ]
 
 function map(a, b, join = '-') {

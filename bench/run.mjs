@@ -7,6 +7,7 @@ import { dir, targets, getVersions } from './meta.mjs'
 import { writeMock, classes } from './gen.mjs'
 
 const times = 50
+const metric = 'average' // 'min'
 const versions = await getVersions()
 await run()
 await report()
@@ -15,7 +16,7 @@ async function run() {
   await fs.writeJSON(`${dir}/result.json`, [], { spaces: 2 })
 
   for (let i = 0; i < times; i++) {
-    console.log(`\nx${i + 1}`)
+    console.log(`\n(${i + 1}/${times})`)
     await writeMock()
     execSync('node build.mjs', { stdio: 'inherit' })
   }
@@ -51,12 +52,12 @@ async function report() {
   })
 
   // base on what you want to compare
-  const metric = average // minimal
+  const data = metric === 'min' ? minimum : average
 
-  const baseTime = metric.find(i => i[0] === 'none')[1]
-  const fastest = metric.sort((a, b) => a[1] - b[1])[1][1]
+  const baseTime = data.find(i => i[0] === 'none')[1]
+  const fastest = data.sort((a, b) => a[1] - b[1])[1][1]
 
-  const delta = metric.map(([target, m]) => {
+  const delta = data.map(([target, m]) => {
     return [target, m - baseTime]
   })
 
@@ -69,10 +70,10 @@ async function report() {
   const logs = []
 
   logs.push(new Date().toLocaleString())
-  logs.push(`${classes.length} utilities | x${result.length / targets.length} runs`)
+  logs.push(`${classes.length} utilities | x${result.length / targets.length} runs (${metric} build time)`)
   logs.push('')
 
-  metric.forEach(([name, t]) => {
+  data.forEach(([name, t]) => {
     const d = delta.find(i => i[0] === name)[1]
     const slowdown = d / (fastest - baseTime)
     logs.push([

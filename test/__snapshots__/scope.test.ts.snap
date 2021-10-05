@@ -9,7 +9,7 @@ exports[`scope 1`] = `
 .dark .foo-scope .dark\\\\:text-xl,.dark .foo-scope .dark\\\\:hover\\\\:text-xl:hover{font-size:1.25rem;line-height:1.75rem;}
 .foo-scope .flex{display:flex;}
 @media (min-width: 640px){
-.foo-scope .sm\\\\:text-red-100{--mw-text-opacity:1;color:rgba(254,226,226,var(--mw-text-opacity));}
+.foo-scope .sm\\\\:text-red-100{--un-text-opacity:1;color:rgba(254,226,226,var(--un-text-opacity));}
 .foo-scope .sm\\\\:text-red-200\\\\/10{color:rgba(254,202,202,0.1);}
 }
 @media (min-width: 768px){

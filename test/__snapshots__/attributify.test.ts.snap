@@ -23,7 +23,7 @@ Set {
   "[border~=\\"2\\"]",
   "[border~=\\"rounded\\"]",
   "[border~=\\"blue-200\\"]",
-  "[mw-children~=\\"m-auto\\"]",
+  "[un-children~=\\"m-auto\\"]",
   "[hover:blue-500=\\"\\"]",
   "[rounded=\\"\\"]",
   "[pt2=\\"\\"]",
@@ -35,20 +35,20 @@ exports[`attributify generate 1`] = `
 "[p~=\\"y-2\\"]{padding-top:0.5rem;padding-bottom:0.5rem;}
 [p~=\\"x-4\\"]{padding-left:1rem;padding-right:1rem;}
 [pt2=\\"\\"],[pt~=\\"\\\\32 \\"],[p~=\\"t-2\\"],.pt2{padding-top:0.5rem;}
-[mw-children~=\\"m-auto\\"] > *,.m-auto{margin:auto;}
+[un-children~=\\"m-auto\\"] > *,.m-auto{margin:auto;}
 [inline-block=\\"\\"],.inline-block{display:inline-block;}
-[bg~=\\"blue-400\\"]{--mw-bg-opacity:1;background-color:rgba(96,165,250,var(--mw-bg-opacity));}
-[bg~=\\"hover\\\\:blue-500\\"]:hover{--mw-bg-opacity:1;background-color:rgba(59,130,246,var(--mw-bg-opacity));}
-.dark [bg~=\\"dark\\\\:\\\\!blue-500\\"]{--mw-bg-opacity:1 !important;background-color:rgba(59,130,246,var(--mw-bg-opacity)) !important;}
-.dark [bg~=\\"dark\\\\:hover\\\\:blue-600\\"]:hover{--mw-bg-opacity:1;background-color:rgba(37,99,235,var(--mw-bg-opacity));}
+[bg~=\\"blue-400\\"]{--un-bg-opacity:1;background-color:rgba(96,165,250,var(--un-bg-opacity));}
+[bg~=\\"hover\\\\:blue-500\\"]:hover{--un-bg-opacity:1;background-color:rgba(59,130,246,var(--un-bg-opacity));}
+.dark [bg~=\\"dark\\\\:\\\\!blue-500\\"]{--un-bg-opacity:1 !important;background-color:rgba(59,130,246,var(--un-bg-opacity)) !important;}
+.dark [bg~=\\"dark\\\\:hover\\\\:blue-600\\"]:hover{--un-bg-opacity:1;background-color:rgba(37,99,235,var(--un-bg-opacity));}
 [border~=\\"\\\\32 \\"]{border-width:2px;border-style:solid;}
-[border~=\\"blue-200\\"]{--mw-border-opacity:1;border-color:rgba(191,219,254,var(--mw-border-opacity));}
+[border~=\\"blue-200\\"]{--un-border-opacity:1;border-color:rgba(191,219,254,var(--un-border-opacity));}
 [border~=\\"rounded-xl\\"],.rounded-xl{border-radius:0.75rem;}
 [rounded=\\"\\"],[border~=\\"rounded\\"],.rounded{border-radius:0.25rem;}
 [font~=\\"mono\\"]{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\\"Liberation Mono\\",\\"Courier New\\",monospace;}
 [font~=\\"sans\\"]{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\\"Segoe UI\\",Roboto,\\"Helvetica Neue\\",Arial,\\"Noto Sans\\",sans-serif,\\"Apple Color Emoji\\",\\"Segoe UI Emoji\\",\\"Segoe UI Symbol\\",\\"Noto Color Emoji\\";}
 [text~=\\"sm\\"]{font-size:0.875rem;line-height:1.25rem;}
-[text~=\\"white\\"]{--mw-text-opacity:1;color:rgba(255,255,255,var(--mw-text-opacity));}
+[text~=\\"white\\"]{--un-text-opacity:1;color:rgba(255,255,255,var(--un-text-opacity));}
 [flex~=\\"col\\"]{flex-direction:column;}
 [flex~=\\"\\\\~\\"]{display:flex;}"
 `;

@@ -5,7 +5,7 @@
         ~
       </div>
       <div class="text-5xl font-100">
-        <span class="group-hover:opacity-25">hum</span><span>min</span><span class="group-hover:opacity-25">css</span>
+        unocss
       </div>
       <div class="op-20 font-200 mt-1 tracking-wider" group-hover="text-teal-400 op-50">
         Re-imaging Atomic CSS

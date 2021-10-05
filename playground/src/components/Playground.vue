@@ -3,7 +3,7 @@ import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
 import { createGenerator, presetAttributify, presetDefault } from 'unocss'
 
-const generate = createGenerator({
+const uno = createGenerator({
   presets: [
     presetAttributify(),
     presetDefault(),
@@ -11,7 +11,7 @@ const generate = createGenerator({
 })
 
 const input = useStorage('unocss-input', '<div class="sm:dark:!text-red" bg="hover:red" />')
-const output = asyncComputed(() => generate(input.value), { css: '', matched: new Set<string>(), excluded: new Set<string>() })
+const output = asyncComputed(() => uno.generate(input.value), { css: '', matched: new Set<string>() })
 const formatted = computed(() => prettier.format(output.value?.css || '', {
   parser: 'css',
   plugins: [parserCSS],
@@ -31,7 +31,7 @@ const formatted = computed(() => prettier.format(output.value?.css || '', {
         mode="htmlmixed"
         h="90"
         overflow="hidden"
-        mw-border="~ gray-400/10 rounded"
+        un-border="~ gray-400/10 rounded"
         :matched="output.matched"
       />
       <CodeMirror
@@ -39,7 +39,7 @@ const formatted = computed(() => prettier.format(output.value?.css || '', {
         mode="css"
         h="90"
         overflow="hidden"
-        mw-border="~ gray-400/10 rounded"
+        un-border="~ gray-400/10 rounded"
         :read-only="true"
       />
     </div>

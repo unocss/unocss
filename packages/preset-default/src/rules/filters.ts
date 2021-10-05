@@ -1,22 +1,22 @@
 import { Rule } from '../../../core/src'
 
-const filterContnet = 'var(--mw-blur) var(--mw-brightness) var(--mw-contrast) var(--mw-grayscale) var(--mw-hue-rotate) var(--mw-invert) var(--mw-saturate) var(--mw-sepia) var(--mw-drop-shadow)'
+const filterContnet = 'var(--un-blur) var(--un-brightness) var(--un-contrast) var(--un-grayscale) var(--un-hue-rotate) var(--un-invert) var(--un-saturate) var(--un-sepia) var(--un-drop-shadow)'
 
 const init = {
-  '--mw-blur': 'var(--mw-empty,/*!*/ /*!*/)',
-  '--mw-brightness': 'var(--mw-empty,/*!*/ /*!*/)',
-  '--mw-contrast': 'var(--mw-empty,/*!*/ /*!*/)',
-  '--mw-grayscale': 'var(--mw-empty,/*!*/ /*!*/)',
-  '--mw-hue-rotate': 'var(--mw-empty,/*!*/ /*!*/)',
-  '--mw-invert': 'var(--mw-empty,/*!*/ /*!*/)',
-  '--mw-saturate': 'var(--mw-empty,/*!*/ /*!*/)',
-  '--mw-sepia': 'var(--mw-empty,/*!*/ /*!*/)',
-  '--mw-drop-shadow': 'var(--mw-empty,/*!*/ /*!*/)',
+  '--un-blur': 'var(--un-empty,/*!*/ /*!*/)',
+  '--un-brightness': 'var(--un-empty,/*!*/ /*!*/)',
+  '--un-contrast': 'var(--un-empty,/*!*/ /*!*/)',
+  '--un-grayscale': 'var(--un-empty,/*!*/ /*!*/)',
+  '--un-hue-rotate': 'var(--un-empty,/*!*/ /*!*/)',
+  '--un-invert': 'var(--un-empty,/*!*/ /*!*/)',
+  '--un-saturate': 'var(--un-empty,/*!*/ /*!*/)',
+  '--un-sepia': 'var(--un-empty,/*!*/ /*!*/)',
+  '--un-drop-shadow': 'var(--un-empty,/*!*/ /*!*/)',
   'filter': filterContnet,
 }
 
 export const filters: Rule[] = [
   ['filter', init],
   ['filter-none', { filter: 'none' }],
-  [/^blur(?:-(\d+))?$/, ([, d]) => ({ '--mw-blur': `blur(${d}px)`, 'filter': filterContnet })],
+  [/^blur(?:-(\d+))?$/, ([, d]) => ({ '--un-blur': `blur(${d}px)`, 'filter': filterContnet })],
 ]

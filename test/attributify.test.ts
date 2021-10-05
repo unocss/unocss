@@ -12,7 +12,7 @@ describe('attributify', () => {
   :font="condition ? 'mono' : 'sans'"
   v-bind:p="y-2 x-4"
   border="2 rounded blue-200"
-  mw-children="m-auto"
+  un-children="m-auto"
   pt2
   inline-block
 >

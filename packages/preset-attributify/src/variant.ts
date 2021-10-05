@@ -4,7 +4,7 @@ import { AttributifyOptions } from './types'
 const variantsRE = /^(.+\:\!?)?(.*?)$/
 
 export const variantAttributify = (options: AttributifyOptions = {}): Variant => {
-  const prefix = options.prefix ?? 'mw-'
+  const prefix = options.prefix ?? 'un-'
 
   return {
     match(input) {

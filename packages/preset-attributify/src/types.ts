@@ -1,6 +1,6 @@
 export interface AttributifyOptions {
   /**
-   * @default 'mw-'
+   * @default 'un-'
    */
   prefix?: string
 

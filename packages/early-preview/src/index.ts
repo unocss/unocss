@@ -13,7 +13,7 @@ function getHash(input: string, length = 8) {
 
 export default (obj: UserConfig, key: string) => {
   // 0dc2327d
-  if (key !== getHash('mwmwmw'))
+  if (key !== getHash('ununun'))
     return null
 
   return plugin({
