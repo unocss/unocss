@@ -1,5 +1,4 @@
 export * from './escape'
-export * from './maps'
 export * from './object'
 export * from './basic'
 export * from './variant'

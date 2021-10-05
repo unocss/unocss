@@ -3,6 +3,7 @@ export type Awaitable<T> = T | Promise<T>
 export type ArgumentType<T> = T extends ((...args: infer A) => any) ? A : never
 export type Shift<T> = T extends [_: any, ...args: infer A] ? A : never
 export type RestArgs<T> = Shift<ArgumentType<T>>
+export type DeepPartial<T> = { [P in keyof T]?: DeepPartial<T[P]> }
 
 export type CSSObject = Record<string, string | number | undefined>
 export type CSSEntries = [string, string | number | undefined][]

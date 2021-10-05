@@ -1,4 +1,4 @@
-import { Theme, Rule, handler as h, hex2RGB } from '@unocss/core'
+import { Theme, Rule, handler as h, hex2rgba } from '@unocss/core'
 
 const colorResolver
 = (attribute: string, varName: string) =>
@@ -40,17 +40,19 @@ const colorResolver
     if (typeof color !== 'string')
       return
 
-    const rgb = hex2RGB(color)
-    if (rgb) {
-      if (opacity) {
+    const rgba = hex2rgba(color)
+    if (rgba) {
+      const a = opacity ? (parseFloat(opacity) / 100) : rgba[3]
+      if (a != null && !Number.isNaN(a)) {
+        rgba[3] = a
         return {
-          [attribute]: `rgba(${rgb?.join(',')},${parseFloat(opacity) / 100})`,
+          [attribute]: `rgba(${rgba.join(',')})`,
         }
       }
       else {
         return {
           [`--un-${varName}-opacity`]: 1,
-          [attribute]: `rgba(${rgb?.join(',')},var(--un-${varName}-opacity))`,
+          [attribute]: `rgba(${rgba.slice(0, 3).join(',')},var(--un-${varName}-opacity))`,
         }
       }
     }

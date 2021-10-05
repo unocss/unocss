@@ -1,5 +1,5 @@
 import { Shortcut, StaticShortcut } from '..'
-import { CSSEntries, Rule, StaticRule } from '../types'
+import { CSSEntries, DeepPartial, Rule, StaticRule } from '../types'
 
 export function entriesToCss(arr?: CSSEntries) {
   if (arr == null)
@@ -12,10 +12,6 @@ export function entriesToCss(arr?: CSSEntries) {
 
 export function isObject(item: any) {
   return (item && typeof item === 'object' && !Array.isArray(item))
-}
-
-type DeepPartial<T> = {
-  [P in keyof T]?: DeepPartial<T[P]>;
 }
 
 export function mergeDeep<T>(original: T, patch: DeepPartial<T>): T {
@@ -49,6 +45,6 @@ export function isStaticRule(rule: Rule): rule is StaticRule {
   return typeof rule[0] === 'string'
 }
 
-export function isStaticShortcut(s: Shortcut): s is StaticShortcut {
-  return typeof s[0] === 'string'
+export function isStaticShortcut(sc: Shortcut): sc is StaticShortcut {
+  return typeof sc[0] === 'string'
 }

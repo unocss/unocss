@@ -1,4 +1,5 @@
-import { CSSEntries, Rule, directionMap, handler as h } from '@unocss/core'
+import { CSSEntries, Rule, handler as h } from '@unocss/core'
+import { directionMap } from '../utils'
 
 export const positions: Rule[] = [
   ['relative', { position: 'relative' }],

@@ -7,6 +7,8 @@ const classes = [
   '!p-5px',
   'all:m-auto',
   'bg-[#153]/10',
+  'bg-[#1533]',
+  'bg-[#1533]/10',
   'bg-#452233/40',
   'bg-hex-452233/40',
   'bg-opacity-45',

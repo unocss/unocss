@@ -1,4 +1,5 @@
-import { cornerMap, directionMap, Theme, handler as h, CSSEntries, Rule } from '@unocss/core'
+import { Theme, handler as h, CSSEntries, Rule } from '@unocss/core'
+import { cornerMap, directionMap } from '../utils'
 
 export const borders: Rule[] = [
   [/^border$/, handlerBorder],
