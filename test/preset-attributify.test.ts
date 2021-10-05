@@ -1,4 +1,5 @@
-import { createGenerator, presetDefault, variantAttributify, extractorAttributify, presetAttributify } from 'unocss'
+import { createGenerator, presetWind } from 'unocss'
+import presetAttributify, { variantAttributify, extractorAttributify } from '@unocss/preset-attributify'
 
 describe('attributify', () => {
   const code = `
@@ -35,7 +36,7 @@ describe('attributify', () => {
     const uno = createGenerator({
       presets: [
         presetAttributify(),
-        presetDefault(),
+        presetWind(),
       ],
     })
     const { css } = await uno.generate(code)

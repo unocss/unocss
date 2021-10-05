@@ -7,7 +7,7 @@ export * from './extractor'
 export * from './variant'
 export * from './types'
 
-export const presetAttributify = (options?: AttributifyOptions): Preset => ({
+const preset = (options?: AttributifyOptions): Preset => ({
   variants: [
     variantAttributify(options),
   ],
@@ -15,3 +15,5 @@ export const presetAttributify = (options?: AttributifyOptions): Preset => ({
     extractorAttributify(options),
   ],
 })
+
+export default preset

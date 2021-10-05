@@ -1,5 +1,5 @@
 import { UserShortcuts, UserConfig, ResolvedConfig, UserConfigDefaults, Shortcut } from './types'
-import { isStaticRule, toArray, uniq } from './utils'
+import { isStaticRule, mergeDeep, toArray, uniq } from './utils'
 import { extractorSplit } from './extractors'
 
 export function resolveShortcuts(shortcuts: UserShortcuts): Shortcut[] {
@@ -10,7 +10,10 @@ export function resolveShortcuts(shortcuts: UserShortcuts): Shortcut[] {
   })
 }
 
-export function resolveConfig(defaults: UserConfigDefaults, userConfig: UserConfig = {}): ResolvedConfig {
+export function resolveConfig(
+  userConfig: UserConfig = {},
+  defaults: UserConfigDefaults = {},
+): ResolvedConfig {
   const config = Object.assign({}, defaults, userConfig) as UserConfigDefaults
   const presets = config.presets || []
 
@@ -43,6 +46,7 @@ export function resolveConfig(defaults: UserConfigDefaults, userConfig: UserConf
     mergeSelectors: true,
     warnExcluded: true,
     excluded: [],
+    theme: [...presets.map(p => p.theme || {}), config.theme || {}].reduce((a, p) => mergeDeep(a, p), {}),
     ...config,
     rulesSize,
     rulesDynamic: rules as ResolvedConfig['rulesDynamic'],

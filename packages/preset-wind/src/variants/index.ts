@@ -31,7 +31,7 @@ export const variantNegative: Variant = {
   },
 }
 
-export const defaultVariants = [
+export const variants = [
   variantNegative,
   variantImportant,
   variantBreakpoints,

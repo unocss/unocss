@@ -1,5 +1,5 @@
 {
-  "name": "unocss",
+  "name": "@unocss/preset-uno",
   "version": "0.0.0-alpha.0",
   "description": "",
   "keywords": [],
@@ -20,16 +20,26 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./vite": {
-      "require": "./dist/vite.js",
-      "import": "./dist/vite.mjs"
-    }
+    "./theme": {
+      "require": "./dist/theme.js",
+      "import": "./dist/theme.mjs"
+    },
+    "./variants": {
+      "require": "./dist/variants.js",
+      "import": "./dist/variants.mjs"
+    },
+    "./rules": {
+      "require": "./dist/rules.js",
+      "import": "./dist/rules.mjs"
+    },
+    "./reset.css": "./reset.css"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "*.css"
   ],
   "scripts": {
     "build": "tsup --minify",
@@ -37,10 +47,6 @@
     "prepublishOnly": "nr build"
   },
   "dependencies": {
-    "@unocss/core": "workspace:*",
-    "@unocss/vite": "workspace:*",
-    "@unocss/preset-wind": "workspace:*",
-    "@unocss/preset-uno": "workspace:*",
-    "@unocss/preset-attributify": "workspace:*"
+    "@unocss/core": "workspace:*"
   }
 }

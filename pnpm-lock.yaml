@@ -10,7 +10,8 @@ importers:
       '@types/node': ^16.10.2
       '@unocss/core': workspace:*
       '@unocss/preset-attributify': workspace:*
-      '@unocss/preset-default': workspace:*
+      '@unocss/preset-uno': workspace:*
+      '@unocss/preset-wind': workspace:*
       '@unocss/vite': workspace:*
       bumpp: ^7.1.1
       eslint: ^7.32.0
@@ -28,7 +29,8 @@ importers:
       '@types/node': 16.10.2
       '@unocss/core': link:packages/core
       '@unocss/preset-attributify': link:packages/preset-attributify
-      '@unocss/preset-default': link:packages/preset-default
+      '@unocss/preset-uno': link:packages/preset-uno
+      '@unocss/preset-wind': link:packages/preset-wind
       '@unocss/vite': link:packages/vite
       bumpp: 7.1.1
       eslint: 7.32.0
@@ -80,7 +82,13 @@ importers:
     dependencies:
       '@unocss/core': link:../core
 
-  packages/preset-default:
+  packages/preset-uno:
+    specifiers:
+      '@unocss/core': workspace:*
+    dependencies:
+      '@unocss/core': link:../core
+
+  packages/preset-wind:
     specifiers:
       '@unocss/core': workspace:*
     dependencies:
@@ -93,12 +101,14 @@ importers:
     specifiers:
       '@unocss/core': workspace:*
       '@unocss/preset-attributify': workspace:*
-      '@unocss/preset-default': workspace:*
+      '@unocss/preset-uno': workspace:*
+      '@unocss/preset-wind': workspace:*
       '@unocss/vite': workspace:*
     dependencies:
       '@unocss/core': link:../core
       '@unocss/preset-attributify': link:../preset-attributify
-      '@unocss/preset-default': link:../preset-default
+      '@unocss/preset-uno': link:../preset-uno
+      '@unocss/preset-wind': link:../preset-wind
       '@unocss/vite': link:../vite
 
   packages/vite:
@@ -106,13 +116,15 @@ importers:
       '@rollup/pluginutils': ^4.1.1
       '@unocss/core': workspace:*
       '@unocss/preset-attributify': workspace:*
-      '@unocss/preset-default': workspace:*
+      '@unocss/preset-uno': workspace:*
+      '@unocss/preset-wind': workspace:*
       '@unocss/scope': workspace:*
     dependencies:
       '@rollup/pluginutils': 4.1.1
       '@unocss/core': link:../core
       '@unocss/preset-attributify': link:../preset-attributify
-      '@unocss/preset-default': link:../preset-default
+      '@unocss/preset-uno': link:../preset-uno
+      '@unocss/preset-wind': link:../preset-wind
       '@unocss/scope': link:../scope
 
   playground:
@@ -121,7 +133,8 @@ importers:
       '@types/codemirror': ^5.60.4
       '@unocss/core': workspace:*
       '@unocss/preset-attributify': workspace:*
-      '@unocss/preset-default': workspace:*
+      '@unocss/preset-uno': workspace:*
+      '@unocss/preset-wind': workspace:*
       '@unocss/vite': workspace:*
       '@vitejs/plugin-vue': ^1.9.2
       '@vueuse/core': ^6.5.3
@@ -145,7 +158,8 @@ importers:
       '@types/codemirror': 5.60.4
       '@unocss/core': link:../packages/core
       '@unocss/preset-attributify': link:../packages/preset-attributify
-      '@unocss/preset-default': link:../packages/preset-default
+      '@unocss/preset-uno': link:../packages/preset-uno
+      '@unocss/preset-wind': link:../packages/preset-wind
       '@unocss/vite': link:../packages/vite
       '@vitejs/plugin-vue': 1.9.2_vite@2.6.2
       codemirror-theme-vars: 0.1.1

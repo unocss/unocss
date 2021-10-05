@@ -34,7 +34,7 @@ function handlerBorder([, a, b]: string[]): CSSEntries | undefined {
 
 function handlerRounded([, a, b]: string[], theme: Theme): CSSEntries | undefined {
   const [d, s = 'DEFAULT'] = cornerMap[a] ? [a, b] : ['', a]
-  const v = theme.borderRadius[s] || h.bracket.fraction.size(s)
+  const v = theme.borderRadius?.[s] || h.bracket.fraction.size(s)
   if (v != null)
     return cornerMap[d].map(i => [`border${i}-radius`, v])
 }

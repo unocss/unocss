@@ -1,4 +1,5 @@
 import { createGenerator, escapeSelector } from 'unocss'
+import wind from '@unocss/preset-wind'
 
 const classes = [
   '-gap-y-5',
@@ -88,7 +89,11 @@ const classes = [
 ]
 
 const code = classes.join(' ')
-const uno = createGenerator()
+const uno = createGenerator({
+  presets: [
+    wind(),
+  ],
+})
 
 test('default', async() => {
   const { css } = await uno.generate(code)

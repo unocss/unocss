@@ -29,7 +29,8 @@
     "unocss": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/vite": "workspace:*",
-    "@unocss/preset-default": "workspace:*",
+    "@unocss/preset-wind": "workspace:*",
+    "@unocss/preset-uno": "workspace:*",
     "@unocss/preset-attributify": "workspace:*"
   }
 }

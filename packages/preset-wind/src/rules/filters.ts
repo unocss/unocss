@@ -1,4 +1,4 @@
-import { Rule } from '../../../core/src'
+import { Rule } from 'unocss'
 
 const filterContnet = 'var(--un-blur) var(--un-brightness) var(--un-contrast) var(--un-grayscale) var(--un-hue-rotate) var(--un-invert) var(--un-saturate) var(--un-sepia) var(--un-drop-shadow)'
 

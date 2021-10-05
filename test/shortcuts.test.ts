@@ -1,4 +1,4 @@
-import { createGenerator } from 'unocss'
+import { createGenerator, presetWind } from 'unocss'
 
 describe('shortcuts', () => {
   const uno = createGenerator({
@@ -9,6 +9,9 @@ describe('shortcuts', () => {
         sh3: 'sm:m-2 m-3',
       },
       [/^button-(\d)$/, ([, d]) => [`px${(+d) * 3}`, `py${(+d) * 2}`]],
+    ],
+    presets: [
+      presetWind(),
     ],
   })
 

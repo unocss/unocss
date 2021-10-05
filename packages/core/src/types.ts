@@ -30,13 +30,13 @@ export type Variant = {
 }
 
 export interface Theme {
-  borderRadius: Record<string, string>
-  breakpoints: Record<string, string>
-  colors: Record<string, string | Record<string, string>>
-  fontFamily: Record<string, string>
-  fontSize: Record<string, [string, string]>
-  lineHeight: Record<string, string>
-  letterSpacing: Record<string, string>
+  borderRadius?: Record<string, string>
+  breakpoints?: Record<string, string>
+  colors?: Record<string, string | Record<string, string>>
+  fontFamily?: Record<string, string>
+  fontSize?: Record<string, [string, string]>
+  lineHeight?: Record<string, string>
+  letterSpacing?: Record<string, string>
 }
 
 export interface Preset {
@@ -68,6 +68,11 @@ export interface Preset {
    * Can be language-aware.
    */
   extractors?: Extractor[]
+
+  /**
+   * Theme object for shared configuration between rules
+   */
+  theme?: Theme
 }
 
 export interface GeneratorOptions {
@@ -92,8 +97,8 @@ export interface UserConfig extends Preset, GeneratorOptions {
 }
 
 export interface UserConfigDefaults extends Preset {
-  theme: Theme
-  presets: Preset[]
+  theme?: Theme
+  presets?: Preset[]
 }
 
 export interface ResolvedConfig extends Omit<Required<UserConfig>, 'presets' | 'rules' | 'shortcuts'> {

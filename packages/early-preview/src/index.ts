@@ -1,8 +1,7 @@
 import { createHash } from 'crypto'
 import { UserConfig } from '@unocss/core'
-import { presetAttributify } from '@unocss/preset-attributify'
-import { presetDefault } from '@unocss/preset-default'
 import plugin from '@unocss/vite'
+import { presetAttributify, presetUno } from 'unocss'
 
 function getHash(input: string, length = 8) {
   return createHash('sha256')
@@ -12,15 +11,13 @@ function getHash(input: string, length = 8) {
 }
 
 export default (obj: UserConfig, key: string) => {
-  // 0dc2327d
   if (key !== getHash('ununun'))
     return null
 
-  return plugin({
+  return plugin(obj, {
     presets: [
       presetAttributify(),
-      presetDefault(),
+      presetUno(),
     ],
-    ...obj,
   })
 }

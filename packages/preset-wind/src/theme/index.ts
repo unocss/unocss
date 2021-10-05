@@ -1,5 +1,5 @@
 import { Theme } from '@unocss/core'
-import { defaultColors } from './colors'
+import { colors } from './colors'
 import { fontFamily, fontSize, letterSpacing, lineHeight } from './font'
 
 export * from './colors'
@@ -24,8 +24,8 @@ export const borderRadius = {
   'full': '9999px',
 }
 
-export const defaultTheme: Theme = {
-  colors: defaultColors,
+export const theme: Theme = {
+  colors,
   fontFamily,
   fontSize,
   breakpoints,

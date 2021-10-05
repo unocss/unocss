@@ -3,7 +3,7 @@
 
 import { Theme } from '@unocss/core'
 
-export const defaultColors: Theme['colors'] = {
+export const colors: Theme['colors'] = {
   black: '#000',
   white: '#fff',
   rose: {

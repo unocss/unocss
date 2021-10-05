@@ -9,10 +9,10 @@ export class UnoGenerator {
   public excluded = new Set<string>()
 
   constructor(
-    public defaults: UserConfigDefaults,
     public userConfig: UserConfig = {},
+    public defaults: UserConfigDefaults = {},
   ) {
-    this.config = resolveConfig(defaults, userConfig)
+    this.config = resolveConfig(userConfig, defaults)
   }
 
   async applyExtractors(code: string, id?: string) {
@@ -274,6 +274,6 @@ export class UnoGenerator {
   }
 }
 
-export function createUnoGenerator(defaults: UserConfigDefaults, config?: UserConfig) {
-  return new UnoGenerator(defaults, config)
+export function createGenerator(config?: UserConfig, defaults?: UserConfigDefaults) {
+  return new UnoGenerator(config, defaults)
 }

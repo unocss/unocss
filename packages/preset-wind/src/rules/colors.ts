@@ -32,7 +32,7 @@ const colorResolver
           [attribute]: 'currentColor',
         }
       }
-      color = theme.colors[name]
+      color = theme.colors?.[name]
       if (no && color && typeof color !== 'string')
         color = color[no]
     }
