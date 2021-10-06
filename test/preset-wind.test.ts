@@ -79,6 +79,8 @@ const classes = [
   'text-red-100',
   'text-red-200/10',
   'text-red-300/20',
+  'text-red100',
+  'text-red2',
   'top-0',
   'tracking-wide',
   'transition-200',

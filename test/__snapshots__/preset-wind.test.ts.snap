@@ -45,9 +45,10 @@ exports[`default 1`] = `
 .text-\\\\[\\\\#124\\\\]{--un-text-opacity:1;color:rgba(17,34,68,var(--un-text-opacity));}
 .text-black\\\\/10{color:rgba(0,0,0,0.1);}
 .text-blue{--un-text-opacity:1;color:rgba(96,165,250,var(--un-text-opacity));}
-.text-red-100{--un-text-opacity:1;color:rgba(254,226,226,var(--un-text-opacity));}
 .text-red-200\\\\/10{color:rgba(254,202,202,0.1);}
 .text-red-300\\\\/20{color:rgba(252,165,165,0.2);}
+.text-red-100,.text-red100{--un-text-opacity:1;color:rgba(254,226,226,var(--un-text-opacity));}
+.text-red2{--un-text-opacity:1;color:rgba(254,202,202,var(--un-text-opacity));}
 .flex-\\\\[hi\\\\]{flex:hi;}
 .flex{display:flex;}
 .grid{display:grid;}
