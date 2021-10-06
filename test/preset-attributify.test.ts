@@ -14,7 +14,7 @@ describe('attributify', () => {
   v-bind:p="y-2 x-4"
   border="2 rounded blue-200"
   un-children="m-auto"
-  pt2
+  pt2 ma rounded-sm
   inline-block
 >
   Button

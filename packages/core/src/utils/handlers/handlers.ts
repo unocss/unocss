@@ -1,6 +1,6 @@
 export function size(str: string) {
-  if (str === 'auto')
-    return str
+  if (str === 'auto' || str === 'a')
+    return 'auto'
   const match = str.match(/^([0-9.]+)([a-z]*)$/i)
   if (!match)
     return
