@@ -2,7 +2,7 @@ import { createGenerator, presetWind } from 'unocss'
 import presetAttributify, { variantAttributify, extractorAttributify } from '@unocss/preset-attributify'
 
 describe('attributify', () => {
-  const code = `
+  const fixture1 = `
 <button 
   bg="blue-400 hover:blue-500 dark:!blue-500 dark:hover:blue-600"
   text="sm white"
@@ -21,25 +21,52 @@ describe('attributify', () => {
 </button>
 `
 
-  const extract = extractorAttributify()(code, '')
+  const fixture2 = `
+<template>
+  <div h-80 text-center flex select-none all:transition-400>
+    <div ma group>
+      <div font-100 text-4xl mb--3>
+        ~
+      </div>
+      <div text-5xl font-100>
+        unocss
+      </div>
+      <div op-20 font-200 mt-1 tracking-wider group-hover="text-teal-400 op-50">
+        Re-imaging Atomic CSS
+      </div>
+    </div>
+  </div>
+</template>
+`
 
-  test('extractor', async() => {
-    expect(await extract).toMatchSnapshot()
+  const uno = createGenerator({
+    presets: [
+      presetAttributify(),
+      presetWind(),
+    ],
+  })
+
+  test('extractor1', async() => {
+    expect(await extractorAttributify()(fixture1)).toMatchSnapshot()
+  })
+
+  test('extractor2', async() => {
+    expect(await extractorAttributify()(fixture2)).toMatchSnapshot()
   })
 
   test('variant', async() => {
     const variant = variantAttributify()
-    expect(Array.from(await extract || []).map(i => variant.match(i, {} as any))).toMatchSnapshot()
+    expect(Array.from(await extractorAttributify()(fixture1) || [])
+      .map(i => variant.match(i, {} as any))).toMatchSnapshot()
   })
 
-  test('generate', async() => {
-    const uno = createGenerator({
-      presets: [
-        presetAttributify(),
-        presetWind(),
-      ],
-    })
-    const { css } = await uno.generate(code)
+  test('fixture1', async() => {
+    const { css } = await uno.generate(fixture1)
+    expect(css).toMatchSnapshot()
+  })
+
+  test('fixture2', async() => {
+    const { css } = await uno.generate(fixture2)
     expect(css).toMatchSnapshot()
   })
 })

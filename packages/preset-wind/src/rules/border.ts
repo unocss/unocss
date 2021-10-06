@@ -8,9 +8,9 @@ export const borders: Rule[] = [
 ]
 
 export const borderRadius: Rule[] = [
-  [/^(?:border-)?rounded$/, handlerRounded],
-  [/^(?:border-)?rounded(?:-([^-]+))?$/, handlerRounded],
-  [/^(?:border-)?rounded(?:-([^-]+))?(?:-([^-]+))?$/, handlerRounded],
+  [/^(?:border-)?(?:rounded|rd)$/, handlerRounded],
+  [/^(?:border-)?(?:rounded|rd)(?:-([^-]+))?$/, handlerRounded],
+  [/^(?:border-)?(?:rounded|rd)(?:-([^-]+))?(?:-([^-]+))?$/, handlerRounded],
 ]
 
 export const borderStyles: Rule[] = [

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`attributify extractor 1`] = `
+exports[`attributify extractor1 1`] = `
 Set {
   "[bg~=\\"blue-400\\"]",
   "[bg~=\\"hover:blue-500\\"]",
@@ -33,7 +33,29 @@ Set {
 }
 `;
 
-exports[`attributify generate 1`] = `
+exports[`attributify extractor2 1`] = `
+Set {
+  "[group-hover~=\\"text-teal-400\\"]",
+  "[group-hover~=\\"op-50\\"]",
+  "[h-80=\\"\\"]",
+  "[text-center=\\"\\"]",
+  "[flex=\\"\\"]",
+  "[select-none=\\"\\"]",
+  "[all:transition-400=\\"\\"]",
+  "[ma=\\"\\"]",
+  "[group=\\"\\"]",
+  "[font-100=\\"\\"]",
+  "[text-4xl=\\"\\"]",
+  "[mb--3=\\"\\"]",
+  "[text-5xl=\\"\\"]",
+  "[op-20=\\"\\"]",
+  "[font-200=\\"\\"]",
+  "[mt-1=\\"\\"]",
+  "[tracking-wider=\\"\\"]",
+}
+`;
+
+exports[`attributify fixture1 1`] = `
 "[p~=\\"y-2\\"]{padding-top:0.5rem;padding-bottom:0.5rem;}
 [p~=\\"x-4\\"]{padding-left:1rem;padding-right:1rem;}
 [pt2=\\"\\"],[pt~=\\"\\\\32 \\"],[p~=\\"t-2\\"],.pt2{padding-top:0.5rem;}
@@ -54,6 +76,24 @@ exports[`attributify generate 1`] = `
 [text~=\\"white\\"]{--un-text-opacity:1;color:rgba(255,255,255,var(--un-text-opacity));}
 [flex~=\\"col\\"]{flex-direction:column;}
 [flex~=\\"\\\\~\\"]{display:flex;}"
+`;
+
+exports[`attributify fixture2 1`] = `
+"[ma=\\"\\"],.ma{margin:auto;}
+[mt-1=\\"\\"],.mt-1{margin-top:0.25rem;}
+[op-20=\\"\\"],.op-20{opacity:0.2;}
+.group:hover [group-hover~=\\"op-50\\"],.op-50{opacity:0.5;}
+[text-4xl=\\"\\"],.text-4xl{font-size:2.25rem;line-height:2.5rem;}
+[text-5xl=\\"\\"],.text-5xl{font-size:3rem;line-height:1;}
+.font-100,[font-100=\\"\\"],.font-100\\\\>{font-weight:100;}
+[font-200=\\"\\"],.font-200{font-weight:200;}
+[text-center=\\"\\"],.text-center{text-align:center;}
+.group:hover [group-hover~=\\"text-teal-400\\"],.text-teal-400{--un-text-opacity:1;color:rgba(45,212,191,var(--un-text-opacity));}
+[flex=\\"\\"],.flex{display:flex;}
+[h-80=\\"\\"],.h-80{height:20rem;}
+[select-none=\\"\\"],.select-none{user-select:none;}
+[tracking-wider=\\"\\"],.tracking-wider{letter-spacing:0.05em;}
+[all:transition-400=\\"\\"] *{transition-property:background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:400ms;}"
 `;
 
 exports[`attributify variant 1`] = `
