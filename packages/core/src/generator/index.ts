@@ -33,6 +33,7 @@ export class UnoGenerator {
 
     const hit = (raw: string, payload: StringifiedUtil[]) => {
       this._cache.set(raw, payload)
+      matched.add(raw)
 
       for (const item of payload) {
         const query = item[3] || ''

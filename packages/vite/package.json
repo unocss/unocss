@@ -35,9 +35,6 @@
   "dependencies": {
     "@unocss/scope": "workspace:*",
     "@unocss/core": "workspace:*",
-    "@unocss/preset-uno": "workspace:*",
-    "@unocss/preset-wind": "workspace:*",
-    "@unocss/preset-attributify": "workspace:*",
     "@rollup/pluginutils": "^4.1.1"
   }
 }

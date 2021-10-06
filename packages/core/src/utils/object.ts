@@ -25,7 +25,7 @@ export function mergeDeep<T>(original: T, patch: DeepPartial<T>): T {
     return [...o] as any
 
   const output = { ...o }
-  if (isObject(o) && isObject(o)) {
+  if (isObject(o) && isObject(p)) {
     Object.keys(p).forEach((key) => {
       if (isObject(p[key])) {
         if (!(key in o))

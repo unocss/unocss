@@ -45,7 +45,7 @@ export function GlobalModeDevPlugin(uno: UnoGenerator, options: UnocssUserOption
       if (id.endsWith('.css') || !filter(id))
         return
 
-      Promise.all(uno.config.extractors.map(e => e(code)))
+      uno.applyExtractors(code)
         .then((sets) => {
           sets.forEach((i) => {
             i?.forEach((t) => {

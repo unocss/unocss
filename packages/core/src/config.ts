@@ -42,14 +42,17 @@ export function resolveConfig(
     }
   })
 
-  const theme = [...presets.map(p => p.theme || {}), config.theme || {}].reduce((a, p) => mergeDeep(a, p), {})
+  const theme = [
+    ...presets.map(p => p.theme || {}),
+    config.theme || {},
+  ].reduce((a, p) => mergeDeep(a, p), {})
 
   return {
     mergeSelectors: true,
     warnExcluded: true,
     excluded: [],
-    theme,
     ...config,
+    theme,
     rulesSize,
     rulesDynamic: rules as ResolvedConfig['rulesDynamic'],
     rulesStaticMap,
