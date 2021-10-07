@@ -1,5 +1,6 @@
 import { Plugin } from 'vite'
 import { createGenerator, UserConfigDefaults } from 'unocss'
+import { loadConfig } from '@unocss/config'
 import { ChunkModeBuildPlugin } from './chunk-build'
 import { GlobalModeDevPlugin } from './global-dev'
 import { PerModuleModePlugin } from './per-module'
@@ -12,22 +13,27 @@ export * from './global-dev'
 export * from './per-module'
 export * from './vue-scoped'
 
-export default function UnocssPlugin(options: UnocssUserOptions = {}, defaults?: UserConfigDefaults): Plugin[] {
-  const mode = options.mode ?? 'global'
-  const uno = createGenerator(options, defaults)
+export default function UnocssPlugin(
+  configOrPath: UnocssUserOptions | string,
+  defaults?: UserConfigDefaults,
+): Plugin[] {
+  const { config = {} } = loadConfig(configOrPath)
+
+  const mode = config.mode ?? 'global'
+  const uno = createGenerator(config, defaults)
 
   if (mode === 'per-module') {
-    return [PerModuleModePlugin(uno, options)]
+    return [PerModuleModePlugin(uno, config)]
   }
 
   else if (mode === 'vue-scoped') {
-    return [VueScopedPlugin(uno, options)]
+    return [VueScopedPlugin(uno, config)]
   }
 
   else if (mode === 'global') {
     return [
-      ChunkModeBuildPlugin(uno, options),
-      GlobalModeDevPlugin(uno, options),
+      ChunkModeBuildPlugin(uno, config),
+      GlobalModeDevPlugin(uno, config),
     ]
   }
 

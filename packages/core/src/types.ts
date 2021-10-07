@@ -132,3 +132,7 @@ export type StringifiedUtil = readonly [
   string /* body */,
   string | undefined /* media query */,
 ]
+
+export function defineConfig(config: UserConfig) {
+  return config
+}

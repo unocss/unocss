@@ -1,7 +1,7 @@
 {
-  "name": "@unocss/vite",
+  "name": "@unocss/config",
   "version": "0.0.0-alpha.0",
-  "description": "",
+  "description": "Config loader for UnoCSS",
   "keywords": [],
   "homepage": "https://github.com/antfu/unocss#readme",
   "bugs": {
@@ -17,12 +17,10 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
+      "require": "./dist/index.js"
     }
   },
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
@@ -33,9 +31,10 @@
     "prepublishOnly": "nr build"
   },
   "dependencies": {
-    "@unocss/scope": "workspace:*",
     "@unocss/core": "workspace:*",
-    "@unocss/config": "workspace:*",
-    "@rollup/pluginutils": "^4.1.1"
+    "sucrase": "^3.20.1"
+  },
+  "devDependencies": {
+    "find-up": "^6.1.0"
   }
 }

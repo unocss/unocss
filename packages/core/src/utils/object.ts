@@ -10,7 +10,7 @@ export function entriesToCss(arr?: CSSEntries) {
     .join('')
 }
 
-export function isObject(item: any) {
+export function isObject(item: any): item is Record<string, any> {
   return (item && typeof item === 'object' && !Array.isArray(item))
 }
 

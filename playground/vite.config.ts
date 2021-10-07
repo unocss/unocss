@@ -7,7 +7,6 @@ import IconsResolver from 'unplugin-icons/resolver'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Unocss from '@unocss/vite'
-import { presetAttributify, presetWind } from 'unocss'
 
 export default defineConfig({
   resolve: {
@@ -22,18 +21,7 @@ export default defineConfig({
   },
   plugins: [
     Vue(),
-    Unocss({
-      theme: {
-        fontFamily: {
-          sans: '\'Inter\', sans-serif',
-          mono: '\'Fira Code\', monospace',
-        },
-      },
-      presets: [
-        presetAttributify(),
-        presetWind(),
-      ],
-    }),
+    Unocss(),
     Icons({ autoInstall: true }),
     Inspect(),
     Components({

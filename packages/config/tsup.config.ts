@@ -7,6 +7,7 @@ const config: Options = {
     'src/index.ts',
   ],
   clean: true,
+  dts: true,
 }
 
 export default config
