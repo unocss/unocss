@@ -1,5 +1,12 @@
 export interface AttributifyOptions {
   /**
+   * Only generate CSS for attributify or class
+   *
+   * @default true
+   */
+  strict?: boolean
+
+  /**
    * @default 'un-'
    */
   prefix?: string

@@ -1,4 +1,4 @@
-import { extractorSplit, Preset } from '@unocss/core'
+import { Preset } from '@unocss/core'
 import { rules } from './rules'
 import { theme } from './theme'
 import { variants } from './variants'
@@ -9,7 +9,6 @@ export const preset = (): Preset => ({
   theme,
   rules,
   variants,
-  extractors: [extractorSplit],
 })
 
 export default preset

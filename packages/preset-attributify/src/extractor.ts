@@ -6,6 +6,7 @@ const strippedPrefixes = [
   ':',
 ]
 
+const splitterRE = /[\s'"`;]/g
 const valuedAttributeRE = /([\w:-]+)=(["'])([^\2]+?)\2/g
 const htmlStartingTagRE = /<[\w-]+?\s([\s\S]+?)>\n/g
 const nonValuedAttributeRE = /(?<=\s|^)([\w.:\[\]\-]+?)(?=[\s\n]|$)/g
@@ -19,10 +20,18 @@ export const extractorAttributify = (options?: AttributifyOptions): Extractor =>
           break
         }
       }
-      return content
-        .split(/[\s'"`;]/g)
-        .filter(Boolean)
-        .map(v => `[${name}~="${v}"]`)
+
+      if (['class', 'className'].includes(name)) {
+        return content
+          .split(splitterRE)
+          .filter(isValidSelector)
+      }
+      else {
+        return content
+          .split(splitterRE)
+          .filter(Boolean)
+          .map(v => `[${name}~="${v}"]`)
+      }
     })
 
   if (options?.nonValuedAttribute !== false) {
