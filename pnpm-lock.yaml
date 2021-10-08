@@ -102,6 +102,12 @@ importers:
     dependencies:
       '@unocss/core': link:../core
 
+  packages/reset:
+    specifiers:
+      '@csstools/normalize.css': ^12.0.0
+    devDependencies:
+      '@csstools/normalize.css': 12.0.0
+
   packages/scope:
     specifiers: {}
 
@@ -139,6 +145,7 @@ importers:
       '@unocss/preset-attributify': workspace:*
       '@unocss/preset-uno': workspace:*
       '@unocss/preset-wind': workspace:*
+      '@unocss/reset': workspace:*
       '@unocss/vite': workspace:*
       '@vitejs/plugin-vue': ^1.9.2
       '@vueuse/core': ^6.5.3
@@ -164,6 +171,7 @@ importers:
       '@unocss/preset-attributify': link:../packages/preset-attributify
       '@unocss/preset-uno': link:../packages/preset-uno
       '@unocss/preset-wind': link:../packages/preset-wind
+      '@unocss/reset': link:../packages/reset
       '@unocss/vite': link:../packages/vite
       '@vitejs/plugin-vue': 1.9.2_vite@2.6.2
       codemirror-theme-vars: 0.1.1
@@ -602,6 +610,10 @@ packages:
 
   /@bcoe/v8-coverage/0.2.3:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
+    dev: true
+
+  /@csstools/normalize.css/12.0.0:
+    resolution: {integrity: sha512-M0qqxAcwCsIVfpFQSlGN5XjXWu8l5JDZN+fPt1LeW5SZexQTgnaEvgXAY+CeygRw0EeppWHi12JxESWiWrB0Sg==}
     dev: true
 
   /@eslint/eslintrc/0.4.3:

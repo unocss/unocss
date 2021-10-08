@@ -31,8 +31,7 @@
     "./rules": {
       "require": "./dist/rules.js",
       "import": "./dist/rules.mjs"
-    },
-    "./reset.css": "./reset.css"
+    }
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",

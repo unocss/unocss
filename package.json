@@ -18,6 +18,11 @@
     "@antfu/ni": "^0.9.3",
     "@types/jest": "^27.0.2",
     "@types/node": "^16.10.2",
+    "@unocss/core": "workspace:*",
+    "@unocss/preset-attributify": "workspace:*",
+    "@unocss/preset-uno": "workspace:*",
+    "@unocss/preset-wind": "workspace:*",
+    "@unocss/vite": "workspace:*",
     "bumpp": "^7.1.1",
     "eslint": "^7.32.0",
     "eslint-plugin-jest": "^24.5.0",
@@ -26,11 +31,6 @@
     "ts-jest": "^27.0.5",
     "tsup": "^5.2.1",
     "typescript": "^4.4.3",
-    "unocss": "workspace:*",
-    "@unocss/core": "workspace:*",
-    "@unocss/vite": "workspace:*",
-    "@unocss/preset-wind": "workspace:*",
-    "@unocss/preset-uno": "workspace:*",
-    "@unocss/preset-attributify": "workspace:*"
+    "unocss": "workspace:*"
   }
 }

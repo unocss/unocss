@@ -1,0 +1,30 @@
+{
+  "name": "@unocss/reset",
+  "version": "0.0.0-alpha.0",
+  "description": "",
+  "keywords": [],
+  "homepage": "https://github.com/antfu/unocss#readme",
+  "bugs": {
+    "url": "https://github.com/antfu/unocss/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antfu/unocss.git"
+  },
+  "funding": "https://github.com/sponsors/antfu",
+  "license": "MIT",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "exports": {
+    "./*": "./*"
+  },
+  "files": [
+    "*.css"
+  ],
+  "scripts": {
+    "build": "esno scripts/copy.ts",
+    "prepublishOnly": "nr build"
+  },
+  "devDependencies": {
+    "@csstools/normalize.css": "^12.0.0"
+  }
+}
