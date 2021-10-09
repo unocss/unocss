@@ -1,4 +1,4 @@
-# unocss
+# UnoCSS
 
 ###### *Re-imaging Atomic-CSS*
 
@@ -28,13 +28,13 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 - No pre-scanning, no file watcher - all done in one pass.
 - Code-splitting for CSS - great for MPA.
 - CSS Scoping.
-- [Windi CSS Attributify Mode](https://windicss.org/posts/v30.html#attributify-mode).
+- [Windi CSS Attributify Mode](#attributify-mode).
 - [Windi CSS Shortcuts](https://windicss.org/features/shortcuts.html).
 - Library friendly - ships atomic styles with your component libraries and safely scoped.
 
 ###### Non-goal
 
-`unocss` is designed **NOT** to be/have:
+UnoCSS is designed **NOT** to be/have:
 
 - Align / compatible with Tailwind / Windi CSS.
 - A CSS preprocessor (`@apply` etc.)
@@ -43,7 +43,7 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 
 ###### Disclamier
 
-> 🧪 This package is trying to explore the possibilities of what an atomic CSS framework can be. **Not production ready**, yet. Breaking changes and overhaul redesigns happen frequently.
+> 🧪 This package is trying to explore the possibilities of what an atomic CSS framework can be. **Not production-ready**, yet. Breaking changes and overhaul redesigns happen frequently.
 
 ## Installation
 
@@ -64,15 +64,257 @@ export default {
 
 That's it, have fun.
 
+## Configrations
+
+UnoCSS is an atomic-CSS engine instead of a framework. Everything is designed with flexibility and performance in mind. In UnoCSS, there are no core utilities, all functionalities are provided via presets. By default, UnoCSS applies a default preset with a common superset of the popular utilities-first framework, including Tailwind CSS, Windi CSS, Bootstrap, Tachyons, etc.
+
+For example, both `ml-3` (Tailwind), `ms-2` (Bootstrap), `ma4` (Tachyons), `mt-10px` (Windi CSS) are valid.
+
+```css
+.ma4 { margin: 1rem; }
+.ml-3 { margin-left: 0.75rem; }
+.ms-2 { margin-inline-start: 0.5rem; }
+.mt-10px { margin-top: 10px; }
+```
+
+For more details about the default preset, you can check out our [playground](https://unocss-play.antfu.me) and try out. Meanwhile, you can also check out [the preset's implementation](./packages/preset-uno/src/rules).
+
+> Please note at the current stage, the default preset is more like a playground to experiment the possibility of UnoCSS and as a reference for making custom preset. It does NOT follow semver and subjects to changes without further notice. We don't not recommended to use it on serious works, use custom rules to make sure the stable outcome instead.
+
+### Presets
+
+Presets are the heart of UnoCSS that let you make your own custom framework in mintues. We are providing the following presets officially:
+
+- [@unocss/preset-uno](./packages/preset-uno) - The default preset.
+- [@unocss/preset-attributify](./packages/preset-attributify) - Provides [Attributify Mode](#attributify-mode) to other presets and rules.
+- [@unocss/preset-wind](./presets/preset-wind) - [WIP] Rules that compatible with Tailwind and Windi CSS.
+
+To set preset to your project:
+
+```ts
+// vite.config.ts
+import Unocss from 'unocss/vite'
+import { presetUno, presetAttributify, presetWind } from 'unocss'
+
+export default {
+  plugins: [
+    Unocss({
+      presets: [
+        presetAttributify({ /* preset options */}),
+        presetUno(),
+        // ...custom presets
+      ]
+    })
+  ]
+}
+```
+
+Customization is one of the keys of UnoCSS, so when the `presets` options is provide, the default preset will be ignored.
+
+To disable the default preset, you can set `presets` to an empty array:
+
+```ts
+// vite.config.ts
+import Unocss from 'unocss/vite'
+
+export default {
+  plugins: [
+    Unocss({
+      presets: [], // disable default preset
+      rules: [
+        // your custom rules
+      ]
+    })
+  ]
+}
+```
+
+### Custom Rules
+
+###### Static Rules
+
+Writing custom rules for UnoCSS is super easy. For example:
+
+```ts
+rules: [
+  ['m-1', { margin: '0.25rem' }]
+]
+```
+
+You will have the following CSS generated whenever `m-1` is detected in users' codebase:
+
+```css
+.m-1 { margin: 0.25rem; }
+```
+
+###### Dynamic Rules
+
+To make it smarter, change the matcher to a RegExp and the body to a function:
+
+```ts
+rules: [
+  [/^m-(\d)$/, ([, d]) => ({ margin: `${d / 4}rem` })],
+  [/^p-(\d)$/, (match) => ({ padding: `${match[1] / 4}rem` })],
+]
+```
+
+The first argument of the body function is the match result, you can destructure it to get the matched groups.
+
+With the code above, the following usage will generates
+
+```html
+<div class="m-100">
+  <button class="m-3">
+    <icon class="p-5" />
+    My Button
+  </button>
+</div>
+```
+
+the corresponsing CSS:
+
+```css
+.m-100 { margin: 25rem; }
+.m-3 { margin: 0.75rem; }
+.p-5 { padding: 1.25rem; }
+```
+
+Congratulations! Now you got your own powerful atomic-css utilities, enjoy!
+
+### Shortcuts
+
+// TODO:
+
+### Custom Variants
+
+[Variants](https://windicss.org/utilities/variants.html#variants) allows your to apply some variations to your existing rules. For example, to implement the `hover:` variant from Tailwind:
+
+```ts
+variants: [
+  {
+    match: s => s.startsWith('hover:') ? s.slice(6) : null,
+    selector: s => `${s}:hover`,
+  },
+],
+rules: [
+  [/^m-(\d)$/, ([, d]) => ({ margin: `${d / 4}rem` })],
+]
+```
+
+- `match` controls when the variant is enabled, if the return value is a string, it will be used as the selector for matching the rules.
+- `selector` provides the availability customizing the generated CSS selector.
+
+Let's have a tour of what happend when matching for `hover:m-2`:
+
+- `hover:m-2` is extracted from users usages
+- `hover:m-2` send to all variants for matching
+- `hover:m-2` is matched by our vairant, and returns `m-2`
+- the result `m-2` will be used for the next round of variants matching
+- if no more variants matched, `m-2` will then goes to match the rules
+- our first rule get matched and generates `.m-2 { margin: 0.5rem; }`
+- then we apply our variants transformation to the generated CSS, in this case, we add `:hover` to the selector
+
+As a result, the following CSS will be generated:
+
+```css
+.hover\:m-2:hover { margin: 0.5rem; }
+```
+
+With this, we could have `m-2` applied only when user hover on the element.
+
+The variant system is very powerful and hard to be covered fully in this guide, you can check [the default preset's implementation](./packages/preset-uno/src/variants) to see more advanced usages.
+
+### Attributify Mode
+
+[Windi CSS's Attributify Mode](https://windicss.org/posts/v30.html#attributify-mode) is one of the most beloved features. Basically, it allows you to separate and then group your utils in attributes.
+
+Imaging you have this button using Tailwind's utilities. When the list get long, it's becomes really hard to read and maintain.
+
+```html
+<button class="bg-blue-400 hover:bg-blue-500 text-sm text-white font-mono font-light py-2 px-4 rounded border-2 border-blue-200 dark:bg-blue-500 dark:hover:bg-blue-600">
+  Button
+</button>
+```
+
+With attributify mode, you can separate utilities into attributes:
+
+```html
+<button 
+	bg="blue-400 hover:blue-500 dark:blue-500 dark:hover:blue-600"
+  text="sm white"
+  font="mono light"
+  p="y-2 x-4"
+  border="2 rounded blue-200"
+>
+  Button
+</button>
+```
+
+For example, `text-sm text-white` could be grouped into `test="sm white"` without duplicating the same prefix.
+
+In UnoCSS, we also implemented this feature as the `attributify` preset that will make the attributify mode work for your custom rules with almost zero effort.
+
+```ts
+// vite.config.ts
+import Unocss from 'unocss/vite'
+import { presetUno, presetAttributify } from 'unocss'
+
+export default {
+  plugins: [
+    Unocss({
+      presets: [
+        // specific presets to enable attributify mode
+        presetAttributify(),
+        // the default preset
+        presetUno(),
+      ]
+    })
+  ]
+}
+```
+
+Intestinally, the magic of attributify mode is done by only [one variant](./packages/preset-attributify/src/variant.ts) and [one extractor](./packages/preset-attributify/src/extractor.ts) - in total of only ~50 lines of code! This is could also be a showcase of how powerful and flexible UnoCSS is.
+
+###### Valueless Attributify
+
+In additional to Windi CSS's Attributify Mode, UnoCSS also supports valueless attributes.
+
+For example, 
+
+```html
+<div class="m-2 rounded text-teal-400" />
+```
+
+now can be
+
+```html
+<div m-2 rounded text-teal-400 />
+```
+
+### Make a Custom Preset
+
+> TODO:
+
+#### Extractors
+
+> TODO:
+
+### Excluding Rules
+
+> TODO:
+
 ## Acknowledgement
 
 - [Atomic CSS](https://acss.io/)
 - [Bootstrap Utilities](https://getbootstrap.com/docs/5.1/utilities/flex/)
 - [Chakra UI Style Props](https://chakra-ui.com/docs/features/style-props)
+- [Semantic UI](https://semantic-ui.com/)
 - [Tachyons](https://tachyons.io/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Twind](https://github.com/tw-in-js/twind)
 - [Windi CSS](http://windicss.org/)
+
+> alphabet order
 
 ## Sponsors
 

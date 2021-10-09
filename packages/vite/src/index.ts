@@ -14,7 +14,7 @@ export * from './per-module'
 export * from './vue-scoped'
 
 export default function UnocssPlugin(
-  configOrPath: UnocssUserOptions | string,
+  configOrPath?: UnocssUserOptions | string,
   defaults: UserConfigDefaults = {
     presets: [
       presetUno(),
@@ -22,6 +22,8 @@ export default function UnocssPlugin(
   },
 ): Plugin[] {
   const { config = {} } = loadConfig(configOrPath)
+
+  // TODO: HMR for config
 
   const mode = config.mode ?? 'global'
   const uno = createGenerator(config, defaults)
