@@ -3,9 +3,12 @@ export const directionMap: Record<string, string[]> = {
   'r': ['-right'],
   't': ['-top'],
   'b': ['-bottom'],
+  's': ['-inline-start'],
+  'e': ['-inline-end'],
   'x': ['-left', '-right'],
   'y': ['-top', '-bottom'],
   '': [''],
+  'a': [''],
 }
 
 export const cornerMap: Record<string, string[]> = {

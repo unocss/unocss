@@ -1,4 +1,4 @@
-import { createGenerator, presetWind } from 'unocss'
+import { createGenerator, presetUno } from 'unocss'
 import presetAttributify, { variantAttributify, extractorAttributify } from '@unocss/preset-attributify'
 
 describe('attributify', () => {
@@ -43,7 +43,7 @@ describe('attributify', () => {
   const uno = createGenerator({
     presets: [
       presetAttributify(),
-      presetWind(),
+      presetUno(),
     ],
   })
 

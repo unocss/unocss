@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
-import { createGenerator, presetAttributify, presetWind } from 'unocss'
+import { createGenerator, presetAttributify, presetUno } from 'unocss'
 
 const uno = createGenerator({
   presets: [
     presetAttributify(),
-    presetWind(),
+    presetUno(),
   ],
 })
 

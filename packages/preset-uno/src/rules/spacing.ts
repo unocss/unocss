@@ -8,13 +8,13 @@ const directionSize = (prefix: string) => ([_, direction, size]: string[]): CSSE
 }
 
 export const paddings: Rule[] = [
-  [/^p()-?([^-]+)$/, directionSize('padding')],
+  [/^pa?()-?([^-]+)$/, directionSize('padding')],
   [/^p-?([xy])-?([^-]+)$/, directionSize('padding')],
-  [/^p-?([rltb])-?([^-]+)$/, directionSize('padding')],
+  [/^p-?([rltbse])-?([^-]+)$/, directionSize('padding')],
 ]
 
 export const margins: Rule[] = [
-  [/^m()-?([^-]+)$/, directionSize('margin')],
+  [/^ma?()-?([^-]+)$/, directionSize('margin')],
   [/^m-?([xy])-?([^-]+)$/, directionSize('margin')],
-  [/^m-?([rltb])-?([^-]+)$/, directionSize('margin')],
+  [/^m-?([rltbse])-?([^-]+)$/, directionSize('margin')],
 ]

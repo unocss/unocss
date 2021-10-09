@@ -1,10 +1,10 @@
-import { createGenerator, presetWind } from 'unocss'
+import { createGenerator, presetUno } from 'unocss'
 
 describe('exclude', () => {
   test('basic', async() => {
     const uno = createGenerator({
       presets: [
-        presetWind(),
+        presetUno(),
       ],
     })
     const dos = createGenerator({
@@ -14,7 +14,7 @@ describe('exclude', () => {
         /^text-/,
       ],
       presets: [
-        presetWind(),
+        presetUno(),
       ],
     })
     const { css: css1 } = await uno.generate('block text-red-200 hover:block')

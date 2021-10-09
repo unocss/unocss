@@ -1,5 +1,5 @@
 import { Plugin } from 'vite'
-import { createGenerator, UserConfigDefaults } from 'unocss'
+import { createGenerator, presetUno, UserConfigDefaults } from 'unocss'
 import { loadConfig } from '@unocss/config'
 import { ChunkModeBuildPlugin } from './chunk-build'
 import { GlobalModeDevPlugin } from './global-dev'
@@ -15,7 +15,11 @@ export * from './vue-scoped'
 
 export default function UnocssPlugin(
   configOrPath: UnocssUserOptions | string,
-  defaults?: UserConfigDefaults,
+  defaults: UserConfigDefaults = {
+    presets: [
+      presetUno(),
+    ],
+  },
 ): Plugin[] {
   const { config = {} } = loadConfig(configOrPath)
 
