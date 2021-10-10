@@ -23,23 +23,22 @@ tailwindcss  v3.0.0-alpha.1    1044.62 ms / delta.   1034.14 ms (x522.45)
 Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcss.com/), [Twind](https://github.com/tw-in-js/twind) but:
 
 - No parsing, no AST, it's **INSTANT** (500x faster than Windi CSS or Tailwind JIT)
-- Fully customizable - no core utilities, all functionalities are provided via presets.
-- No preflights - no global pollutions.
-- No pre-scanning, no file watcher - all done in one pass.
+- [Fully customizable](#configurations) - no core utilities, all functionalities are provided via presets.
+- [Shortcuts](#shortcuts) - aliasing utilities, dynamically.
+- [Attributify Mode](./packages/preset-attributify/) - group utilities in attributes
+- [CSS Icons](./packages/preset-icons/) - use any icon as a single class.
 - Code-splitting for CSS - great for MPA.
-- CSS Scoping.
-- [Windi CSS Attributify Mode](#attributify-mode).
-- [Windi CSS Shortcuts](https://windicss.org/features/shortcuts.html).
+- [CSS Scoping](#css-scoping)
 - Library friendly - ships atomic styles with your component libraries and safely scoped.
 
 ###### Non-goal
 
 UnoCSS is designed **NOT** to be/have:
 
-- Align / compatible with Tailwind / Windi CSS.
-- A CSS preprocessor (`@apply` etc.)
-- Tailwind's plugin system (but you can write custom rules in seconds and share them as presets!)
-- Integrations for Webpack or others (it's Vite only).
+- Align with Tailwind - technically, UnoCSS is flexible enough to do that, but it's not a priority.
+- A CSS preprocessor (e.g. `@apply`) - but you can use [shortcuts](#shortcuts).
+- Tailwind's plugin system - but you can write custom rules in seconds and share them as presets!
+- Integrations for Webpack or others - it's Vite only.
 
 ###### Disclamier
 
@@ -64,7 +63,7 @@ export default {
 
 That's it, have fun.
 
-## Configrations
+## Configurations
 
 UnoCSS is an atomic-CSS engine instead of a framework. Everything is designed with flexibility and performance in mind. In UnoCSS, there are no core utilities, all functionalities are provided via presets.
 
@@ -87,7 +86,7 @@ Presets are the heart of UnoCSS that let you make your own custom framework in m
 
 - [@unocss/preset-uno](./packages/preset-uno) - The default preset.
 - [@unocss/preset-attributify](./packages/preset-attributify) - Provides [Attributify Mode](#attributify-mode) to other presets and rules.
-- [@unocss/preset-wind](./presets/preset-wind) - [WIP] Rules that compatible with Tailwind and Windi CSS.
+- [@unocss/preset-icons](./packages/preset-icons) - Use any icon as a class utility.
 
 To set presets to your project:
 
@@ -183,7 +182,76 @@ Congratulations! Now you got your own powerful atomic-css utilities, enjoy!
 
 ### Shortcuts
 
-// TODO:
+UnoCSS provides the shortcuts functionality that is similar to [Windi CSS's](https://windicss.org/features/shortcuts.html)
+
+```ts
+shortcuts: {
+  // shortcuts to multiple utilities
+  'btn': 'py-2 px-4 font-semibold rounded-lg shadow-md',
+  'btn-green': 'text-white bg-green-500 hover:bg-green-700',
+  // single utility alias
+  'red': 'text-red-100'
+}
+```
+
+In addition to the plain mapping, UnoCSS also allows you to define dynamic shortcuts.
+
+Similar to [Rules](#custom-rules), a dynamic shortcut is the combination of a matcher RegExp and a handler function.
+
+```ts
+shortcuts: [
+  // you could still have object style
+  {
+    'btn': 'py-2 px-4 font-semibold rounded-lg shadow-md',
+  },
+  // dynamic shortcuts
+  [/^btn-(.*)$/, ([, c]) => `bg-${c}-400 text-${c}-100 py-2 px-4 rounded-lg`],
+]
+```
+
+With this, we could use `btn-green` and `btn-red` to generate the following CSS:
+
+```css
+.btn-green {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  --un-bg-opacity: 1;
+  background-color: rgba(74, 222, 128, var(--un-bg-opacity));
+  border-radius: 0.5rem;
+  --un-text-opacity: 1;
+  color: rgba(220, 252, 231, var(--un-text-opacity));
+}
+.btn-red {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  --un-bg-opacity: 1;
+  background-color: rgba(248, 113, 113, var(--un-bg-opacity));
+  border-radius: 0.5rem;
+  --un-text-opacity: 1;
+  color: rgba(254, 226, 226, var(--un-text-opacity));
+}
+```
+
+### Rules Merging
+
+By default, UnoCSS will merge CSS rules with the same body to minimize the CSS size.
+
+For example, `<div class="m-2 hover:m2">` will generate
+
+```css
+.hover\:m2:hover, .m-2 { margin: 0.5rem; }
+```
+
+instead of two separate rules:
+
+```css
+.hover\:m2:hover { margin: 0.5rem; }
+.m-2 { margin: 0.5rem; }
+```
 
 ### Style Reseting
 
@@ -205,14 +273,14 @@ rules: [
 ]
 ```
 
-- `match` controls when the variant is enabled, if the return value is a string, it will be used as the selector for matching the rules.
-- `selector` provides the availability customizing the generated CSS selector.
+- `match` controls when the variant is enabled. If the return value is a string, it will be used as the selector for matching the rules.
+- `selector` provides the availability of customizing the generated CSS selector.
 
 Let's have a tour of what happened when matching for `hover:m-2`:
 
 - `hover:m-2` is extracted from users usages
 - `hover:m-2` send to all variants for matching
-- `hover:m-2` is matched by our variant, and returns `m-2`
+- `hover:m-2` is matched by our variant and returns `m-2`
 - the result `m-2` will be used for the next round of variants matching
 - if no more variant is matched, `m-2` will then goes to match the rules
 - our first rule get matched and generates `.m-2 { margin: 0.5rem; }`
@@ -232,76 +300,7 @@ The variant system is very powerful and can't be covered fully in this guide, yo
 
 // TODO:
 
-## Attributify Mode
-
-[Windi CSS's Attributify Mode](https://windicss.org/posts/v30.html#attributify-mode) is one of the most beloved features. Basically, it allows you to separate and then group your utils in attributes.
-
-Imagine you have this button using Tailwind's utilities. When the list gets long, it becomes really hard to read and maintain.
-
-```html
-<button class="bg-blue-400 hover:bg-blue-500 text-sm text-white font-mono font-light py-2 px-4 rounded border-2 border-blue-200 dark:bg-blue-500 dark:hover:bg-blue-600">
-  Button
-</button>
-```
-
-With attributify mode, you can separate utilities into attributes:
-
-```html
-<button 
-	bg="blue-400 hover:blue-500 dark:blue-500 dark:hover:blue-600"
-  text="sm white"
-  font="mono light"
-  p="y-2 x-4"
-  border="2 rounded blue-200"
->
-  Button
-</button>
-```
-
-For example, `text-sm text-white` could be grouped into `test="sm white"` without duplicating the same prefix.
-
-In UnoCSS, we also implemented this feature as the `attributify` preset that will make the attributify mode work for your custom rules with almost zero effort.
-
-```ts
-// vite.config.ts
-import Unocss from 'unocss/vite'
-import { presetUno, presetAttributify } from 'unocss'
-
-export default {
-  plugins: [
-    Unocss({
-      presets: [
-        // specific presets to enable attributify mode
-        presetAttributify(),
-        // the default preset
-        presetUno(),
-      ]
-    })
-  ]
-}
-```
-
-Intestinally, the magic of attributify mode is done by only [one variant](./packages/preset-attributify/src/variant.ts) and [one extractor](./packages/preset-attributify/src/extractor.ts) - in a total of only ~50 lines of code! This is could also be a showcase of how powerful and flexible UnoCSS is.
-
-###### Valueless Attributify
-
-In addition to Windi CSS's Attributify Mode, UnoCSS also supports valueless attributes.
-
-For example, 
-
-```html
-<div class="m-2 rounded text-teal-400" />
-```
-
-now can be
-
-```html
-<div m-2 rounded text-teal-400 />
-```
-
-[Learn More](./packages/preset-attributify)
-
-## Use Icons
+### CSS Scoping
 
 // TODO:
 

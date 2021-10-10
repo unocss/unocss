@@ -2,7 +2,7 @@
 
 The default preset for [UnoCSS](https://github.com/antfu/unocss).
 
-> Please note that this preset is more like a playground at the current stage to experiment with the possibility of UnoCSS and as also a reference for making a custom preset. It does NOT follow semver and subjects to changes without further notice. We don't recommend using it on serious works. Use custom rules instead to ensure a stable outcome.
+> Please note that this preset is more like a playground at the current stage to experiment with the possibility of UnoCSS and also as a reference for making a custom preset. It does NOT follow semver and subjects to changes without further notice. We don't recommend using it on serious works. Use custom rules instead to ensure a stable outcome.
 
 ## Installation
 

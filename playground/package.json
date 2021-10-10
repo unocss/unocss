@@ -21,7 +21,6 @@
     "@unocss/vite": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
-    "@unocss/preset-wind": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
     "@unocss/reset": "workspace:*",
     "prettier": "^2.4.1",

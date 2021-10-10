@@ -16,7 +16,6 @@
       "@unocss/vite": ["./packages/vite/src/index.ts"],
       "@unocss/config": ["./packages/config/src/index.ts"],
       "@unocss/preset-uno": ["./packages/preset-uno/src/index.ts"],
-      "@unocss/preset-wind": ["./packages/preset-wind/src/index.ts"],
       "@unocss/preset-icons": ["./packages/preset-icons/src/index.ts"],
       "@unocss/preset-attributify": ["./packages/preset-attributify/src/index.ts"],
     }

@@ -15,7 +15,6 @@ export default defineConfig({
       '@unocss/core': resolve('../packages/core/src/index.ts'),
       '@unocss/vite': resolve('../packages/vite/src/index.ts'),
       '@unocss/preset-uno': resolve('../packages/preset-uno/src/index.ts'),
-      '@unocss/preset-wind': resolve('../packages/preset-wind/src/index.ts'),
       '@unocss/preset-attributify': resolve('../packages/preset-attributify/src/index.ts'),
       '@unocss/preset-icons': resolve('../packages/preset-icons/src/index.ts'),
     },
