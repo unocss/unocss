@@ -3,14 +3,14 @@
     <Cover />
     <div class="text-3xl flex gap-4 my-10 justify-center all:my-auto">
       <!-- A basic anchor icon from Phosphor icons -->
-      <div class="i-ph-anchor-simple-thin" />
+      <div i-ph-anchor-simple-thin />
       <!-- An orange alarm from Material Design Icons -->
-      <div class="i-mdi-alarm text-orange-400" />
+      <div i-mdi-alarm text-orange-400 />
       <!-- A large Vue logo -->
-      <div class="i-logos-vue text-6xl" />
+      <div i-logos-vue text-6xl />
       <!-- Sun in light mode, Moon in dark mode, from Carbon -->
-      <div class="i-carbon-sun dark:i-carbon-moon cursor-pointer" @click="isDark = !isDark" />
-      <div class="i-twemoji-grinning-face-with-smiling-eyes hover:i-twemoji-face-with-tears-of-joy" />
+      <div i-carbon-sun dark:i-carbon-moon cursor-pointer @click="isDark = !isDark" />
+      <div i-twemoji-grinning-face-with-smiling-eyes hover:i-twemoji-face-with-tears-of-joy />
     </div>
     <Playground />
   </div>

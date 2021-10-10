@@ -10,7 +10,7 @@ export type CSSEntries = [string, string | number | undefined][]
 
 export type Extractor = (code: string, id?: string) => Awaitable<Set<string> | undefined>
 
-export type DynamicRule = [RegExp, ((match: string[], theme: Theme) => (CSSObject | CSSEntries | undefined))]
+export type DynamicRule = [RegExp, ((match: string[], theme: Theme) => Awaitable<CSSObject | CSSEntries | undefined>)]
 export type StaticRule = [string, CSSObject | CSSEntries]
 export type Rule = DynamicRule | StaticRule
 

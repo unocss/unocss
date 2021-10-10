@@ -22,11 +22,12 @@ exports[`default 1`] = `
 .bg-teal-100\\\\/55{background-color:rgba(204,251,241,0.55);}
 .hover\\\\:not-first\\\\:checked\\\\:bg-red\\\\/10:hover:not(:first):checked{background-color:rgba(248,113,113,0.1);}
 .bg-opacity-45{--un-bg-opacity:0.45;}
+.border{border-width:1px;border-style:solid;}
 .border-2{border-width:2px;border-style:solid;}
 .border-b{border-bottom-width:1px;border-style:solid;}
 .border-t-2{border-top-width:2px;border-style:solid;}
-.border{border-width:1px;border-style:solid;}
 .border-green-100\\\\/10{border-color:rgba(220,252,231,0.1);}
+.rounded{border-radius:0.25rem;}
 .rounded-\\\\[4px\\\\]{border-radius:4px;}
 .rounded-1\\\\/2{border-radius:50%;}
 .rounded-full{border-radius:9999px;}
@@ -34,7 +35,6 @@ exports[`default 1`] = `
 .rounded-rb-1\\\\/2{border-bottom-right-radius:50%;}
 .rounded-t-sm{border-top-left-radius:0.125rem;border-top-right-radius:0.125rem;}
 .rounded-tr{border-top-right-radius:0.25rem;}
-.rounded{border-radius:0.25rem;}
 .font-mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\\"Liberation Mono\\",\\"Courier New\\",monospace;}
 .dark .dark\\\\:text-xl{font-size:1.25rem;line-height:1.75rem;}
 .light .light\\\\:text-sm{font-size:0.875rem;line-height:1.25rem;}
@@ -70,8 +70,8 @@ exports[`default 1`] = `
 .top-0{top:0rem;}
 .z-1{z-index:1;}
 .z-100{z-index:100;}
-.transition-200{transition-property:background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:200ms;}
 .transition{transition-property:background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms;}
+.transition-200{transition-property:background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:200ms;}
 .duration-111{transition-duration:111ms;}
 .blur-4{--un-blur:blur(4px);filter:var(--un-blur) var(--un-brightness) var(--un-contrast) var(--un-grayscale) var(--un-hue-rotate) var(--un-invert) var(--un-saturate) var(--un-sepia) var(--un-drop-shadow);}
 @media (min-width: 768px){

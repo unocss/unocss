@@ -50,8 +50,8 @@ export class UnoGenerator {
       }
     }
 
-    tokensArray.forEach((tokens) => {
-      tokens?.forEach((raw) => {
+    await Promise.all(
+      tokensArray.flatMap(tokens => Array.from(tokens || []).map(async(raw) => {
         if (matched.has(raw) || this.excluded.has(raw))
           return
 
@@ -80,7 +80,7 @@ export class UnoGenerator {
         // expand shortcuts
         const expanded = this.expandShortcut(applied[1])
         if (expanded) {
-          const utils = this.stringifyShortcuts(applied, expanded)
+          const utils = await this.stringifyShortcuts(applied, expanded)
           if (utils.length) {
             hit(raw, utils)
             return
@@ -88,7 +88,7 @@ export class UnoGenerator {
         }
         // no shortcut
         else {
-          const util = this.stringifyUtil(this.parseUtil(applied))
+          const util = this.stringifyUtil(await this.parseUtil(applied))
           if (util) {
             hit(raw, [util])
             return
@@ -97,13 +97,13 @@ export class UnoGenerator {
 
         // set null cache for unmatched result
         this._cache.set(raw, null)
-      })
-    })
+      })),
+    )
 
     const css = Array.from(sheet).map(([query, items]) => {
       const size = items.length
       const sorted: [string, string][] = items
-        .sort((a, b) => a[0] - b[0])
+        .sort((a, b) => a[0] - b[0] || a[1].localeCompare(b[1]))
         .map(a => [applyScope(a[1], scope), a[2]])
       const rules = sorted
         .map(([selector, body], idx) => {
@@ -170,7 +170,7 @@ export class UnoGenerator {
     ] as const
   }
 
-  parseUtil(input: string | VariantMatchedResult): ParsedUtil | undefined {
+  async parseUtil(input: string | VariantMatchedResult): Promise<ParsedUtil | undefined> {
     const { theme, rulesStaticMap, rulesDynamic, rulesSize } = this.config
 
     const [raw, processed, variants] = typeof input === 'string'
@@ -196,16 +196,13 @@ export class UnoGenerator {
       if (!match)
         continue
 
-      const obj = handler(match, theme)
+      const obj = await handler(match, theme)
       if (obj)
         return [i, raw, normalizeEntries(obj), variants]
     }
   }
 
-  stringifyUtil(parsed?: string | ParsedUtil): StringifiedUtil | undefined {
-    if (typeof parsed === 'string')
-      parsed = this.parseUtil(parsed)
-
+  stringifyUtil(parsed?: ParsedUtil): StringifiedUtil | undefined {
     if (!parsed)
       return
 
@@ -244,11 +241,11 @@ export class UnoGenerator {
     return result
   }
 
-  stringifyShortcuts(parent: VariantMatchedResult, expanded: string[]) {
+  async stringifyShortcuts(parent: VariantMatchedResult, expanded: string[]) {
     const selectorMap = new TwoKeyMap<string, string | undefined, [CSSEntries, number]>()
 
-    const parsed = expanded
-      .map(i => this.parseUtil(i) as ParsedUtil)
+    const parsed = (await Promise.all(expanded
+      .map(i => this.parseUtil(i) as Promise<ParsedUtil>)))
       .filter(Boolean)
       .sort((a, b) => a[0] - b[0])
 

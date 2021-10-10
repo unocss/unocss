@@ -48,6 +48,18 @@ function searchForIcon(collection: string, id: string, scale: number) {
   }
 }
 
+// https://bl.ocks.org/jennyknuth/222825e315d45a738ed9d6e04c7a88d0
+function encodeSvg(svg: string) {
+  return svg.replace('<svg', (~svg.indexOf('xmlns') ? '<svg' : '<svg xmlns="http://www.w3.org/2000/svg"'))
+    .replace(/"/g, '\'')
+    .replace(/%/g, '%25')
+    .replace(/#/g, '%23')
+    .replace(/{/g, '%7B')
+    .replace(/}/g, '%7D')
+    .replace(/</g, '%3C')
+    .replace(/>/g, '%3E')
+}
+
 export const preset = ({
   scale = 1,
   mode = 'auto',
@@ -58,15 +70,11 @@ export const preset = ({
         const svg = searchForIcon(c, n, scale)
         if (!svg) return
 
-        let inlineSvg = svg.replace(/"/g, '\'')
-        if (!inlineSvg.includes('http://www.w3.org/2000/svg'))
-          inlineSvg = inlineSvg.replace('<svg ', '<svg xmlns=\'http://www.w3.org/2000/svg\' ')
-
         let _mode = mode
         if (_mode === 'auto')
-          _mode = inlineSvg.includes('currentColor') ? 'mask' : 'background-img'
+          _mode = svg.includes('currentColor') ? 'mask' : 'background-img'
 
-        const url = `url("data:image/svg+xml;base64,${Buffer.from(inlineSvg, 'utf-8').toString('base64')}")`
+        const url = `url("data:image/svg+xml;utf8,${encodeSvg(svg)}")`
 
         if (_mode === 'mask') {
           // Thanks to https://codepen.io/noahblon/post/coloring-svgs-in-css-background-images
