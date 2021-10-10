@@ -66,7 +66,9 @@ That's it, have fun.
 
 ## Configrations
 
-UnoCSS is an atomic-CSS engine instead of a framework. Everything is designed with flexibility and performance in mind. In UnoCSS, there are no core utilities, all functionalities are provided via presets. By default, UnoCSS applies a default preset with a common superset of the popular utilities-first framework, including Tailwind CSS, Windi CSS, Bootstrap, Tachyons, etc.
+UnoCSS is an atomic-CSS engine instead of a framework. Everything is designed with flexibility and performance in mind. In UnoCSS, there are no core utilities, all functionalities are provided via presets.
+
+By default, UnoCSS applies [the default preset](./packages/preset-uno). Which provides a common superset of the popular utilities-first framework, including Tailwind CSS, Windi CSS, Bootstrap, Tachyons, etc.
 
 For example, both `ml-3` (Tailwind), `ms-2` (Bootstrap), `ma4` (Tachyons), `mt-10px` (Windi CSS) are valid.
 
@@ -77,7 +79,7 @@ For example, both `ml-3` (Tailwind), `ms-2` (Bootstrap), `ma4` (Tachyons), `mt-1
 .mt-10px { margin-top: 10px; }
 ```
 
-[Learn more](./packages/preset-uno).
+[Learn more about the default preset](./packages/preset-uno).
 
 ### Presets
 
