@@ -1,6 +1,6 @@
 # @unocss/preset-icons
 
-Use any icons with a single class.
+Use **any** icons with **a single class** for [UnoCSS](https://github.com/antfu/unocss).
 
 ```html
 <!-- A basic anchor icon from Phosphor icons -->
@@ -47,3 +47,7 @@ Unocss({
 ### Mode
 
 // TODO:
+
+## License
+
+MIT License © 2021-PRESENT [Anthony Fu](https://github.com/antfu)

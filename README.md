@@ -77,9 +77,7 @@ For example, both `ml-3` (Tailwind), `ms-2` (Bootstrap), `ma4` (Tachyons), `mt-1
 .mt-10px { margin-top: 10px; }
 ```
 
-For more details about the default preset, you can check out our [playground](https://unocss-play.antfu.me) and try out. Meanwhile, you can also check out [the preset's implementation](./packages/preset-uno/src/rules).
-
-> Please note at the current stage, the default preset is more like a playground to experiment the possibility of UnoCSS and as a reference for making custom preset. It does NOT follow semver and subjects to changes without further notice. We don't not recommended to use it on serious works, use custom rules to make sure the stable outcome instead.
+[Learn more](./packages/preset-uno).
 
 ### Presets
 
@@ -89,7 +87,7 @@ Presets are the heart of UnoCSS that let you make your own custom framework in m
 - [@unocss/preset-attributify](./packages/preset-attributify) - Provides [Attributify Mode](#attributify-mode) to other presets and rules.
 - [@unocss/preset-wind](./presets/preset-wind) - [WIP] Rules that compatible with Tailwind and Windi CSS.
 
-To set preset to your project:
+To set presets to your project:
 
 ```ts
 // vite.config.ts
@@ -109,7 +107,7 @@ export default {
 }
 ```
 
-Customization is one of the keys of UnoCSS, so when the `presets` options is provide, the default preset will be ignored.
+When the `presets` option is specified, the default preset will be ignored.
 
 To disable the default preset, you can set `presets` to an empty array:
 
@@ -298,6 +296,8 @@ now can be
 ```html
 <div m-2 rounded text-teal-400 />
 ```
+
+[Learn More](./packages/preset-attributify)
 
 ## Use Icons
 
