@@ -2,7 +2,7 @@
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
 import { createGenerator } from 'unocss'
-import config from '../../unocss.config'
+import config from '../../unocss.client.config'
 
 const uno = createGenerator(config)
 

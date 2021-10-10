@@ -160,7 +160,7 @@ rules: [
 
 The first argument of the body function is the match result, you can destructure it to get the matched groups.
 
-With the code above, the following usage will generates
+With the code above, the following usage will be generated
 
 ```html
 <div class="m-100">
@@ -185,6 +185,10 @@ Congratulations! Now you got your own powerful atomic-css utilities, enjoy!
 
 // TODO:
 
+### Style Reseting
+
+// TODO:
+
 ### Custom Variants
 
 [Variants](https://windicss.org/utilities/variants.html#variants) allows your to apply some variations to your existing rules. For example, to implement the `hover:` variant from Tailwind:
@@ -204,15 +208,15 @@ rules: [
 - `match` controls when the variant is enabled, if the return value is a string, it will be used as the selector for matching the rules.
 - `selector` provides the availability customizing the generated CSS selector.
 
-Let's have a tour of what happend when matching for `hover:m-2`:
+Let's have a tour of what happened when matching for `hover:m-2`:
 
 - `hover:m-2` is extracted from users usages
 - `hover:m-2` send to all variants for matching
-- `hover:m-2` is matched by our vairant, and returns `m-2`
+- `hover:m-2` is matched by our variant, and returns `m-2`
 - the result `m-2` will be used for the next round of variants matching
-- if no more variants matched, `m-2` will then goes to match the rules
+- if no more variant is matched, `m-2` will then goes to match the rules
 - our first rule get matched and generates `.m-2 { margin: 0.5rem; }`
-- then we apply our variants transformation to the generated CSS, in this case, we add `:hover` to the selector
+- finally, we apply our variants transformation to the generated CSS. In this case, we prepended `:hover` to the selector
 
 As a result, the following CSS will be generated:
 
@@ -220,15 +224,19 @@ As a result, the following CSS will be generated:
 .hover\:m-2:hover { margin: 0.5rem; }
 ```
 
-With this, we could have `m-2` applied only when user hover on the element.
+With this, we could have `m-2` applied only when users hover over the element.
 
-The variant system is very powerful and hard to be covered fully in this guide, you can check [the default preset's implementation](./packages/preset-uno/src/variants) to see more advanced usages.
+The variant system is very powerful and can't be covered fully in this guide, you can check [the default preset's implementation](./packages/preset-uno/src/variants) to see more advanced usages.
 
-### Attributify Mode
+### Excluding Rules
+
+// TODO:
+
+## Attributify Mode
 
 [Windi CSS's Attributify Mode](https://windicss.org/posts/v30.html#attributify-mode) is one of the most beloved features. Basically, it allows you to separate and then group your utils in attributes.
 
-Imaging you have this button using Tailwind's utilities. When the list get long, it's becomes really hard to read and maintain.
+Imagine you have this button using Tailwind's utilities. When the list gets long, it becomes really hard to read and maintain.
 
 ```html
 <button class="bg-blue-400 hover:bg-blue-500 text-sm text-white font-mono font-light py-2 px-4 rounded border-2 border-blue-200 dark:bg-blue-500 dark:hover:bg-blue-600">
@@ -273,11 +281,11 @@ export default {
 }
 ```
 
-Intestinally, the magic of attributify mode is done by only [one variant](./packages/preset-attributify/src/variant.ts) and [one extractor](./packages/preset-attributify/src/extractor.ts) - in total of only ~50 lines of code! This is could also be a showcase of how powerful and flexible UnoCSS is.
+Intestinally, the magic of attributify mode is done by only [one variant](./packages/preset-attributify/src/variant.ts) and [one extractor](./packages/preset-attributify/src/extractor.ts) - in a total of only ~50 lines of code! This is could also be a showcase of how powerful and flexible UnoCSS is.
 
 ###### Valueless Attributify
 
-In additional to Windi CSS's Attributify Mode, UnoCSS also supports valueless attributes.
+In addition to Windi CSS's Attributify Mode, UnoCSS also supports valueless attributes.
 
 For example, 
 
@@ -291,17 +299,19 @@ now can be
 <div m-2 rounded text-teal-400 />
 ```
 
-### Make a Custom Preset
+## Use Icons
 
-> TODO:
+// TODO:
 
-#### Extractors
+## Make a Custom Preset
 
-> TODO:
+// TODO:
 
-### Excluding Rules
+### Extractors
 
-> TODO:
+// TODO:
+
+### Publish
 
 ## Acknowledgement
 

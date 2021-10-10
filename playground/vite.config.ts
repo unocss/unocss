@@ -17,6 +17,7 @@ export default defineConfig({
       '@unocss/preset-uno': resolve('../packages/preset-uno/src/index.ts'),
       '@unocss/preset-wind': resolve('../packages/preset-wind/src/index.ts'),
       '@unocss/preset-attributify': resolve('../packages/preset-attributify/src/index.ts'),
+      '@unocss/preset-icons': resolve('../packages/preset-icons/src/index.ts'),
     },
   },
   plugins: [

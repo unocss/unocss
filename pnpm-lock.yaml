@@ -6,13 +6,21 @@ importers:
     specifiers:
       '@antfu/eslint-config': ^0.9.0
       '@antfu/ni': ^0.9.3
+      '@iconify-json/carbon': ^1.0.3
+      '@iconify-json/logos': ^1.0.1
+      '@iconify-json/mdi': ^1.0.1
+      '@iconify-json/ph': ^1.0.1
+      '@iconify-json/twemoji': ^1.0.1
       '@types/jest': ^27.0.2
       '@types/node': ^16.10.2
       '@unocss/core': workspace:*
       '@unocss/preset-attributify': workspace:*
+      '@unocss/preset-icons': workspace:*
       '@unocss/preset-uno': workspace:*
       '@unocss/preset-wind': workspace:*
+      '@unocss/reset': workspace:*
       '@unocss/vite': workspace:*
+      '@vueuse/core': ^6.5.3
       bumpp: ^7.1.1
       eslint: ^7.32.0
       eslint-plugin-jest: ^24.5.0
@@ -25,13 +33,21 @@ importers:
     devDependencies:
       '@antfu/eslint-config': 0.9.0_eslint@7.32.0+typescript@4.4.3
       '@antfu/ni': 0.9.3
+      '@iconify-json/carbon': 1.0.3
+      '@iconify-json/logos': 1.0.1
+      '@iconify-json/mdi': 1.0.1
+      '@iconify-json/ph': 1.0.1
+      '@iconify-json/twemoji': 1.0.1
       '@types/jest': 27.0.2
       '@types/node': 16.10.2
       '@unocss/core': link:packages/core
       '@unocss/preset-attributify': link:packages/preset-attributify
+      '@unocss/preset-icons': link:packages/preset-icons
       '@unocss/preset-uno': link:packages/preset-uno
       '@unocss/preset-wind': link:packages/preset-wind
+      '@unocss/reset': link:packages/reset
       '@unocss/vite': link:packages/vite
+      '@vueuse/core': 6.5.3
       bumpp: 7.1.1
       eslint: 7.32.0
       eslint-plugin-jest: 24.5.0_eslint@7.32.0+typescript@4.4.3
@@ -89,6 +105,19 @@ importers:
       '@unocss/core': workspace:*
     dependencies:
       '@unocss/core': link:../core
+
+  packages/preset-icons:
+    specifiers:
+      '@iconify/types': ^1.0.10
+      '@iconify/utils': ^1.0.13
+      '@unocss/core': workspace:*
+      local-pkg: ^0.3.0
+    dependencies:
+      '@iconify/utils': 1.0.13
+      '@unocss/core': link:../core
+    devDependencies:
+      '@iconify/types': 1.0.10
+      local-pkg: 0.3.0
 
   packages/preset-uno:
     specifiers:
@@ -651,12 +680,39 @@ packages:
   /@iconify-json/carbon/1.0.3:
     resolution: {integrity: sha512-ltobh3wpHVZelp9lEMnMYNwp4uoGO7cnBltl+tDeHgQ7qVW31JV9WdC9tOCT1zqovWmutvsmop/EcN2m74dcGA==}
     dependencies:
-      '@iconify/types': 1.0.9
+      '@iconify/types': 1.0.10
+    dev: true
+
+  /@iconify-json/logos/1.0.1:
+    resolution: {integrity: sha512-rb3IOhL2ilOdALOTg3vltsMhXpGcRVSryDRyCoZcsqCDGH27havNfdZO+VETk2+CPA7SF1nMmhkm7CDkd5sXRQ==}
+    dependencies:
+      '@iconify/types': 1.0.10
+    dev: true
+
+  /@iconify-json/mdi/1.0.1:
+    resolution: {integrity: sha512-lrv4f2R2iBDz72DunjH9AvBHPTZS0IdmmXDTYo7MDsScm98NM2YCJpiT+ersxYKhOduI4eO/GAasxypl2+4xDg==}
+    dependencies:
+      '@iconify/types': 1.0.10
+    dev: true
+
+  /@iconify-json/ph/1.0.1:
+    resolution: {integrity: sha512-Y+RWsvECPgQvlKmJ2XSpEYrdjpyza8HtaXj/lcyz9NipMiFFe11GrfiuwLG/AfCLBVYjGGe2ZWpxFBO3I+Mtzg==}
+    dependencies:
+      '@iconify/types': 1.0.10
+    dev: true
+
+  /@iconify-json/twemoji/1.0.1:
+    resolution: {integrity: sha512-viObtFZYDIHb2nXA1AWofyf3NEE4oO0NN6zpSOOgdV2r6WB/hHoPpV3P1T942vxH+OAVUPB7d08QAE5cIs7BEw==}
+    dependencies:
+      '@iconify/types': 1.0.10
     dev: true
 
   /@iconify/json-tools/1.0.10:
     resolution: {integrity: sha512-LFelJDOLZ6JHlmlAkgrvmcu4hpNPB91KYcr4f60D/exzU1eNOb4/KCVHIydGHIQFaOacIOD+Xy+B7P1z812cZg==}
     dev: true
+
+  /@iconify/types/1.0.10:
+    resolution: {integrity: sha512-SN3z6einVeUckDQiE8p4POF7X4hk4/y2+a7a4ogJOCxX5XT6z1zXNN8dwS5O1vloXpc6mkHizRZm2qPnhK6NnQ==}
 
   /@iconify/types/1.0.9:
     resolution: {integrity: sha512-ALO6IGXBEztcySLq+vGJrgUJqGgiZJ8sTQ8mM6e3i77okM9fw8F23h6GLbbaMz/pNfeK8QHJBAOmx3LjhZ3YZw==}
@@ -667,6 +723,12 @@ packages:
     dependencies:
       '@iconify/types': 1.0.9
     dev: true
+
+  /@iconify/utils/1.0.13:
+    resolution: {integrity: sha512-d7Tz22Lh28bH6axcsnDovQJXorw8OTl8zjSjjv34KyToG375ILNNDvTjWuFGf/VPxgpZkl0+vYYeHOldw5ittw==}
+    dependencies:
+      '@iconify/types': 1.0.10
+    dev: false
 
   /@istanbuljs/load-nyc-config/1.1.0:
     resolution: {integrity: sha512-VjeHSlIzpv/NyD3N0YuHfXOPDIixcA1q2ZV98wsMqcYlPmv2n3Yb2lYP9XMElnaFVXg5A7YLTeLu6V84uQDjmQ==}
@@ -1312,6 +1374,21 @@ packages:
   /@vue/shared/3.2.19:
     resolution: {integrity: sha512-Knqhx7WieLdVgwCAZgTVrDCXZ50uItuecLh9JdLC8O+a5ayaSyIQYveUK3hCRNC7ws5zalHmZwfdLMGaS8r4Ew==}
 
+  /@vueuse/core/6.5.3:
+    resolution: {integrity: sha512-o3CTu4nEqs371sDY5qLBX0r4QOm6GVpm3ApQc2Y+p8OMI2rRGartQo8xRykpUfsyq602A+SVtm/wxIWBkD/KCQ==}
+    peerDependencies:
+      '@vue/composition-api': ^1.1.0
+      vue: ^2.6.0 || ^3.2.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      vue:
+        optional: true
+    dependencies:
+      '@vueuse/shared': 6.5.3
+      vue-demi: 0.11.4
+    dev: true
+
   /@vueuse/core/6.5.3_vue@3.2.19:
     resolution: {integrity: sha512-o3CTu4nEqs371sDY5qLBX0r4QOm6GVpm3ApQc2Y+p8OMI2rRGartQo8xRykpUfsyq602A+SVtm/wxIWBkD/KCQ==}
     peerDependencies:
@@ -1327,6 +1404,20 @@ packages:
       vue: 3.2.19
       vue-demi: 0.11.4_vue@3.2.19
     dev: false
+
+  /@vueuse/shared/6.5.3:
+    resolution: {integrity: sha512-ChOKu3mECyZeqGJ/gHVm0CaHoZK5/TwNZr1ZM/aqH+RaRNQvC1qkLf1/8PBugzN3yRgC3BtZ/M1kLpGe/BFylw==}
+    peerDependencies:
+      '@vue/composition-api': ^1.1.0
+      vue: ^2.6.0 || ^3.2.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      vue:
+        optional: true
+    dependencies:
+      vue-demi: 0.11.4
+    dev: true
 
   /@vueuse/shared/6.5.3_vue@3.2.19:
     resolution: {integrity: sha512-ChOKu3mECyZeqGJ/gHVm0CaHoZK5/TwNZr1ZM/aqH+RaRNQvC1qkLf1/8PBugzN3yRgC3BtZ/M1kLpGe/BFylw==}
@@ -5539,6 +5630,19 @@ packages:
       rollup: 2.57.0
     optionalDependencies:
       fsevents: 2.3.2
+    dev: true
+
+  /vue-demi/0.11.4:
+    resolution: {integrity: sha512-/3xFwzSykLW2HiiLie43a+FFgNOcokbBJ+fzvFXd0r2T8MYohqvphUyDQ8lbAwzQ3Dlcrb1c9ykifGkhSIAk6A==}
+    engines: {node: '>=12'}
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^3.0.0-0 || ^2.6.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
     dev: true
 
   /vue-demi/0.11.4_vue@3.2.19:

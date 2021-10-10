@@ -1,5 +1,5 @@
 <template>
-  <div h-80 text-center flex select-none all:transition-400>
+  <div h-80 text-center flex select-none all:transition-opacity-400>
     <div ma group>
       <div font-100 text-4xl mb--3>
         ~

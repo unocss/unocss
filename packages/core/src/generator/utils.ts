@@ -1,5 +1,5 @@
 import { CSSObject, CSSEntries } from '../types'
-import { escapeSelector } from '../utils'
+import { escapeSelector as e } from '../utils'
 
 const reScopePlaceholder = / \$\$ /
 export const hasScopePlaceholder = (css: string) => css.match(reScopePlaceholder)
@@ -13,9 +13,9 @@ export function applyScope(css: string, scope?: string) {
 
 export function toEscapedSelector(raw: string) {
   if (raw.startsWith('['))
-    return raw.replace(/"(.*)"/, (_, i) => `"${escapeSelector(i)}"`)
+    return raw.replace(/^\[(.+?)(~?=)"(.*)"\]$/, (_, n, s, i) => `[${e(n)}${s}"${e(i)}"]`)
   else
-    return `.${escapeSelector(raw)}`
+    return `.${e(raw)}`
 }
 
 export function normalizeEntries(obj: CSSObject | CSSEntries) {
