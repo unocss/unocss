@@ -3,24 +3,17 @@ import type { IconifyJSON } from '@iconify/types'
 import { iconToSVG } from '@iconify/utils/lib/svg/build'
 import { defaults as DefaultIconCustomizations } from '@iconify/utils/lib/customisations'
 import { getIconData } from '@iconify/utils/lib/icon-set/get-icon'
+import { encodeSvg, isNode, warnOnce } from './utils'
 
 export interface Options {
   scale?: number
   mode?: 'mask' | 'background-img' | 'auto'
   prefix?: string
+  warn?: boolean
   collections?: Record<string, IconifyJSON | undefined | (() => Awaitable<IconifyJSON | undefined>)>
 }
 
-const isNode = typeof process < 'u' && typeof process.stdout < 'u'
-
-const warned = new Set<string>()
-
-function warnOnce(msg: string) {
-  if (warned.has(msg))
-    return
-  console.warn(msg)
-  warned.add(msg)
-}
+const COLLECTION_NAME_PARTS_MAX = 3
 
 async function searchForIcon(
   collection: string,
@@ -35,10 +28,8 @@ async function searchForIcon(
     const { loadCollectionFromFS } = await import('./fs')
     iconSet = await loadCollectionFromFS(collection)
   }
-  if (!iconSet) {
-    warnOnce(`[unocss] failed to load icon set "${collection}"`)
+  if (!iconSet)
     return
-  }
 
   const iconData = getIconData(iconSet, id, true)
   if (iconData) {
@@ -51,29 +42,40 @@ async function searchForIcon(
   }
 }
 
-// https://bl.ocks.org/jennyknuth/222825e315d45a738ed9d6e04c7a88d0
-function encodeSvg(svg: string) {
-  return svg.replace('<svg', (~svg.indexOf('xmlns') ? '<svg' : '<svg xmlns="http://www.w3.org/2000/svg"'))
-    .replace(/"/g, '\'')
-    .replace(/%/g, '%25')
-    .replace(/#/g, '%23')
-    .replace(/{/g, '%7B')
-    .replace(/}/g, '%7D')
-    .replace(/</g, '%3C')
-    .replace(/>/g, '%3E')
-}
-
 export const preset = ({
   scale = 1,
   mode = 'auto',
   prefix = 'i-',
+  warn = false,
   collections = {},
 }: Options = {}): Preset => {
   return {
     rules: [
-      [new RegExp(`^${prefix}(\\w+)-(.+)$`), async([, c, n]) => {
-        const svg = await searchForIcon(c, n, collections, scale)
-        if (!svg) return
+      [new RegExp(`^${prefix}([a-z0-9:-]+)$`), async([full, body]) => {
+        let collection = ''
+        let name = ''
+        let svg: string | undefined
+
+        if (body.includes(':')) {
+          [collection, name] = body.split(':')
+          svg = await searchForIcon(collection, name, collections, scale)
+        }
+        else {
+          const parts = body.split(/-/g)
+          for (let i = COLLECTION_NAME_PARTS_MAX; i >= 1; i--) {
+            collection = parts.slice(0, i).join('-')
+            name = parts.slice(i).join('-')
+            svg = await searchForIcon(collection, name, collections, scale)
+            if (svg)
+              break
+          }
+        }
+
+        if (!svg) {
+          if (warn)
+            warnOnce(`[unocss] failed to load icon "${full}"`)
+          return
+        }
 
         let _mode = mode
         if (_mode === 'auto')

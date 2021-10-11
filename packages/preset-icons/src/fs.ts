@@ -1,24 +1,27 @@
 import { promises as fs } from 'fs'
-import { resolveModule } from 'local-pkg'
+import { resolveModule, isPackageExists } from 'local-pkg'
 import type { IconifyJSON } from '@iconify/types'
 
-const _collections: Record<string, IconifyJSON | false> = {}
+const _collections: Record<string, Promise<IconifyJSON | undefined>> = {}
 
-export async function loadCollectionFromFS(name: string): Promise<IconifyJSON | undefined> {
-  if (_collections[name] === false)
-    return
+const isLegacyExists = isPackageExists('@iconify/json')
 
-  if (_collections[name])
-    return _collections[name] as IconifyJSON
+export async function loadCollectionFromFS(name: string) {
+  if (!_collections[name])
+    _collections[name] = task()
+  return _collections[name]
 
-  const jsonPath = resolveModule(`@iconify-json/${name}/icons.json`)
-  if (jsonPath) {
-    const icons = JSON.parse(await fs.readFile(jsonPath, 'utf8'))
-    _collections[name] = icons
-    return icons
-  }
-  else {
-    _collections[name] = false
-    return undefined
+  async function task() {
+    let jsonPath = resolveModule(`@iconify-json/${name}/icons.json`)
+    if (!jsonPath && isLegacyExists)
+      jsonPath = resolveModule(`@iconify/json/json/${name}.json`)
+
+    if (jsonPath) {
+      const icons = JSON.parse(await fs.readFile(jsonPath, 'utf8'))
+      return icons
+    }
+    else {
+      return undefined
+    }
   }
 }
