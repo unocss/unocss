@@ -15,7 +15,7 @@ const preset = (options?: AttributifyOptions): Preset => {
     extractorAttributify(options),
   ]
 
-  if (options?.strict === false)
+  if (!options?.strict)
     extractors.unshift(extractorSplit)
 
   return {

@@ -23,7 +23,7 @@ export function ChunkModeBuildPlugin(uno: UnoGenerator, options: UnocssUserOptio
       cssPlugin = config.plugins.find(i => i.name === 'vite:css-post')
     },
     transform(code, id) {
-      if (id.endsWith('.css') || !filter(id))
+      if (!filter(id))
         return
 
       files[id] = code

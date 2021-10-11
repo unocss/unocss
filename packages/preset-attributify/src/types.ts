@@ -2,7 +2,7 @@ export interface AttributifyOptions {
   /**
    * Only generate CSS for attributify or class
    *
-   * @default true
+   * @default false
    */
   strict?: boolean
 

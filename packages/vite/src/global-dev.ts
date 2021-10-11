@@ -1,6 +1,6 @@
 import type { Plugin, ViteDevServer } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
-import { UnoGenerator } from 'unocss'
+import { mergeSet, UnoGenerator } from 'unocss'
 import { defaultExclude, defaultInclude } from './utils'
 import { UnocssUserOptions } from '.'
 
@@ -42,12 +42,12 @@ export function GlobalModeDevPlugin(uno: UnoGenerator, options: UnocssUserOption
       server = _server
     },
     async transform(code, id) {
-      if (id.endsWith('.css') || !filter(id))
+      if (!filter(id))
         return
 
       uno.applyExtractors(code)
         .then((sets) => {
-          sets.forEach(i => tokens.add(i))
+          mergeSet(tokens, sets)
           invalidate()
         })
 
@@ -64,7 +64,7 @@ export function GlobalModeDevPlugin(uno: UnoGenerator, options: UnocssUserOption
         await new Promise(resolve => setTimeout(resolve, 400))
 
       const { css } = await uno.generate(tokens)
-      return css
+      return `/* unocss */\n${css}`
     },
     transformIndexHtml: {
       enforce: 'pre',

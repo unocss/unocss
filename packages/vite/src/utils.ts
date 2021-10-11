@@ -7,5 +7,5 @@ export function getHash(input: string, length = 8) {
     .substr(0, length)
 }
 
-export const defaultExclude = [/[\/\\]node_modules[\/\\]/, /[\/\\]dist[\/\\]/]
-export const defaultInclude = [/\.vue$/, /\.vue?vue/, /\.svelte$/, /\.[jt]sx$/, /\.mdx?$/]
+export const defaultExclude = [/[\/\\]node_modules[\/\\]/, /[\/\\]dist[\/\\]/, /\.(css|postcss|sass|scss|less|stylus|styl)$/]
+export const defaultInclude = [/\.vue$/, /\.vue\?vue/, /\.svelte$/, /\.[jt]sx$/, /\.mdx?$/]

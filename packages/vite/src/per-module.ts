@@ -42,7 +42,7 @@ export function PerModuleModePlugin(uno: UnoGenerator, options: UnocssUserOption
       server = _server
     },
     async transform(code, id) {
-      if (id.endsWith('.css') || !filter(id))
+      if (!filter(id))
         return
 
       const hash = getHash(id)
