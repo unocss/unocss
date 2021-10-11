@@ -39,7 +39,7 @@ export interface Theme {
   letterSpacing?: Record<string, string>
 }
 
-export interface Preset {
+export interface ConfigBase {
   /**
    * Rules to generate CSS utilities
    */
@@ -75,6 +75,10 @@ export interface Preset {
   theme?: Theme
 }
 
+export interface Preset extends ConfigBase {
+  enforce?: 'pre' | 'post'
+}
+
 export interface GeneratorOptions {
   /**
    * Merge utilities with the exact same body to save the file size
@@ -91,12 +95,12 @@ export interface GeneratorOptions {
   warnExcluded?: boolean
 }
 
-export interface UserConfig extends Preset, GeneratorOptions {
+export interface UserConfig extends ConfigBase, GeneratorOptions {
   theme?: Theme
   presets?: Preset[]
 }
 
-export interface UserConfigDefaults extends Preset {
+export interface UserConfigDefaults extends ConfigBase {
   theme?: Theme
   presets?: Preset[]
 }

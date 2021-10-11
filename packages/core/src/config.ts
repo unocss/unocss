@@ -15,11 +15,17 @@ export function resolveConfig(
   defaults: UserConfigDefaults = {},
 ): ResolvedConfig {
   const config = Object.assign({}, defaults, userConfig) as UserConfigDefaults
-  const presets = config.presets || []
+  const rawPresets = config.presets || []
+
+  const sortedPresets = [
+    ...rawPresets.filter(p => p.enforce === 'pre'),
+    ...rawPresets.filter(p => !p.enforce),
+    ...rawPresets.filter(p => p.enforce === 'post'),
+  ]
 
   function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts'>(key: T): Required<UserConfig>[T] {
     return uniq([
-      ...presets.flatMap(p => toArray(p[key] || []) as any[]),
+      ...sortedPresets.flatMap(p => toArray(p[key] || []) as any[]),
       ...toArray(config[key] || []) as any[],
     ])
   }
@@ -43,7 +49,7 @@ export function resolveConfig(
   })
 
   const theme = [
-    ...presets.map(p => p.theme || {}),
+    ...sortedPresets.map(p => p.theme || {}),
     config.theme || {},
   ].reduce((a, p) => mergeDeep(a, p), {})
 

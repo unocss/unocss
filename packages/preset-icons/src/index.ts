@@ -50,6 +50,7 @@ export const preset = ({
   collections = {},
 }: Options = {}): Preset => {
   return {
+    enforce: 'pre',
     rules: [
       [new RegExp(`^${prefix}([a-z0-9:-]+)$`), async([full, body]) => {
         let collection = ''
