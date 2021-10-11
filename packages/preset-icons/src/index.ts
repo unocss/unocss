@@ -13,6 +13,15 @@ export interface Options {
 
 const isNode = typeof process < 'u' && typeof process.stdout < 'u'
 
+const warned = new Set<string>()
+
+function warnOnce(msg: string) {
+  if (warned.has(msg))
+    return
+  console.warn(msg)
+  warned.add(msg)
+}
+
 async function searchForIcon(
   collection: string,
   id: string,
@@ -26,8 +35,10 @@ async function searchForIcon(
     const { loadCollectionFromFS } = await import('./fs')
     iconSet = await loadCollectionFromFS(collection)
   }
-  if (!iconSet)
+  if (!iconSet) {
+    warnOnce(`[unocss] failed to load icon set "${collection}"`)
     return
+  }
 
   const iconData = getIconData(iconSet, id, true)
   if (iconData) {

@@ -47,11 +47,7 @@ export function GlobalModeDevPlugin(uno: UnoGenerator, options: UnocssUserOption
 
       uno.applyExtractors(code)
         .then((sets) => {
-          sets.forEach((i) => {
-            i?.forEach((t) => {
-              tokens.add(t)
-            })
-          })
+          sets.forEach(i => tokens.add(i))
           invalidate()
         })
 
@@ -67,12 +63,18 @@ export function GlobalModeDevPlugin(uno: UnoGenerator, options: UnocssUserOption
       if (tokens.size === 0)
         await new Promise(resolve => setTimeout(resolve, 400))
 
-      const { css } = await uno.generate([tokens])
+      const { css } = await uno.generate(tokens)
       return css
     },
     transformIndexHtml: {
       enforce: 'pre',
       async transform(code) {
+        uno.applyExtractors(code)
+          .then((sets) => {
+            sets.forEach(i => tokens.add(i))
+            invalidate()
+          })
+
         return `${code}<script src="${VIRTUAL_ENTRY}" type="module"></script>`
       },
     },

@@ -69,6 +69,8 @@ const classes = [
   'rounded',
   'sm:m-1',
   'sm:m1',
+  'lt-sm:m1',
+  'lt-lg:m2',
   'text-[#124]',
   'text-4xl',
   'text-base',

@@ -1,6 +1,6 @@
 import type { Plugin } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
-import { UnoGenerator } from 'unocss'
+import { mergeSet, UnoGenerator } from 'unocss'
 import { defaultExclude, defaultInclude } from './utils'
 import { UnocssUserOptions } from '.'
 
@@ -13,6 +13,7 @@ export function ChunkModeBuildPlugin(uno: UnoGenerator, options: UnocssUserOptio
   )
 
   const files: Record<string, string> = {}
+  const html: string[] = []
 
   return {
     name: 'unocss:chunk',
@@ -29,12 +30,15 @@ export function ChunkModeBuildPlugin(uno: UnoGenerator, options: UnocssUserOptio
       return null
     },
     async renderChunk(_, chunk) {
-      const chunks = Object.keys(chunk.modules).map(i => files[i]).filter(Boolean)
+      const chunks = [
+        ...Object.keys(chunk.modules).map(i => files[i]).filter(Boolean),
+        ...html,
+      ]
 
       if (!chunks.length)
         return null
 
-      const result = await Promise.all(chunks.flatMap(code => uno.config.extractors.map(i => i(code))))
+      const result = (await Promise.all(chunks.map(c => uno.applyExtractors(c)))).reduce(mergeSet, new Set())
       const { css } = await uno.generate(result)
 
       // fool the css plugin to generate the css in corresponding chunk
@@ -50,6 +54,9 @@ export function ChunkModeBuildPlugin(uno: UnoGenerator, options: UnocssUserOptio
       }
 
       return null
+    },
+    transformIndexHtml(code) {
+      html.push(code)
     },
   }
 }

@@ -1,7 +1,7 @@
 {
   "name": "@unocss/reset",
   "version": "0.0.0-alpha.0",
-  "description": "",
+  "description": "Collection of CSS reseting",
   "keywords": [],
   "homepage": "https://github.com/antfu/unocss#readme",
   "bugs": {

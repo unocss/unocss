@@ -80,5 +80,11 @@ exports[`default 1`] = `
 }
 @media (min-width: 640px){
 .sm\\\\:m-1,.sm\\\\:m1{margin:0.25rem;}
+}
+@media (max-width: 640px){
+.lt-sm\\\\:m1{margin:0.25rem;}
+}
+@media (max-width: 1024px){
+.lt-lg\\\\:m2{margin:0.5rem;}
 }"
 `;

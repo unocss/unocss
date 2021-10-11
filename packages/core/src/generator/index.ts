@@ -23,17 +23,18 @@ export class UnoGenerator {
   }
 
   async applyExtractors(code: string, id?: string) {
-    return await Promise.all(this.config.extractors.map(i => i(code, id)))
+    const result = await Promise.all(this.config.extractors.map(i => i(code, id)))
+    return new Set(result.flatMap(r => Array.from(r || [])))
   }
 
   async generate(
-    input: string | (Set<string> | undefined)[],
+    input: string | Set<string>,
     id?: string,
     scope?: string,
   ): Promise<GenerateResult> {
-    const tokensArray = Array.isArray(input)
-      ? input
-      : await this.applyExtractors(input, id)
+    const tokens = typeof input === 'string'
+      ? await this.applyExtractors(input, id)
+      : input
 
     const matched = new Set<string>()
     const sheet = new Map<string, StringifiedUtil[]>()
@@ -50,55 +51,53 @@ export class UnoGenerator {
       }
     }
 
-    await Promise.all(
-      tokensArray.flatMap(tokens => Array.from(tokens || []).map(async(raw) => {
-        if (matched.has(raw) || this.excluded.has(raw))
-          return
+    await Promise.all(Array.from(tokens).map(async(raw) => {
+      if (matched.has(raw) || this.excluded.has(raw))
+        return
 
-        // use caches if possible
-        if (this._cache.has(raw)) {
-          const r = this._cache.get(raw)
-          if (r)
-            hit(raw, r)
-          return
-        }
+      // use caches if possible
+      if (this._cache.has(raw)) {
+        const r = this._cache.get(raw)
+        if (r)
+          hit(raw, r)
+        return
+      }
 
-        if (this.isExcluded(raw)) {
-          this.excluded.add(raw)
-          this._cache.set(raw, null)
-          return
-        }
-
-        const applied = this.matchVariants(raw)
-
-        if (this.isExcluded(applied[1])) {
-          this.excluded.add(raw)
-          this._cache.set(raw, null)
-          return
-        }
-
-        // expand shortcuts
-        const expanded = this.expandShortcut(applied[1])
-        if (expanded) {
-          const utils = await this.stringifyShortcuts(applied, expanded)
-          if (utils.length) {
-            hit(raw, utils)
-            return
-          }
-        }
-        // no shortcut
-        else {
-          const util = this.stringifyUtil(await this.parseUtil(applied))
-          if (util) {
-            hit(raw, [util])
-            return
-          }
-        }
-
-        // set null cache for unmatched result
+      if (this.isExcluded(raw)) {
+        this.excluded.add(raw)
         this._cache.set(raw, null)
-      })),
-    )
+        return
+      }
+
+      const applied = this.matchVariants(raw)
+
+      if (this.isExcluded(applied[1])) {
+        this.excluded.add(raw)
+        this._cache.set(raw, null)
+        return
+      }
+
+      // expand shortcuts
+      const expanded = this.expandShortcut(applied[1])
+      if (expanded) {
+        const utils = await this.stringifyShortcuts(applied, expanded)
+        if (utils.length) {
+          hit(raw, utils)
+          return
+        }
+      }
+      // no shortcut
+      else {
+        const util = this.stringifyUtil(await this.parseUtil(applied))
+        if (util) {
+          hit(raw, [util])
+          return
+        }
+      }
+
+      // set null cache for unmatched result
+      this._cache.set(raw, null)
+    }))
 
     const css = Array.from(sheet).map(([query, items]) => {
       const size = items.length
