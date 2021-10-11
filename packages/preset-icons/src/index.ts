@@ -1,39 +1,31 @@
-import fs from 'fs'
-import { Preset } from '@unocss/core'
-import { IconifyJSON } from '@iconify/types'
+import type { Awaitable, Preset } from '@unocss/core'
+import type { IconifyJSON } from '@iconify/types'
 import { iconToSVG } from '@iconify/utils/lib/svg/build'
 import { defaults as DefaultIconCustomizations } from '@iconify/utils/lib/customisations'
 import { getIconData } from '@iconify/utils/lib/icon-set/get-icon'
-import { resolveModule } from 'local-pkg'
 
 export interface Options {
   scale?: number
   mode?: 'mask' | 'background-img' | 'auto'
+  prefix?: string
+  collections?: Record<string, IconifyJSON | undefined | (() => Awaitable<IconifyJSON | undefined>)>
 }
 
-const _collections: Record<string, IconifyJSON | false> = {}
+const isNode = typeof process < 'u' && typeof process.stdout < 'u'
 
-function loadCollection(name: string): IconifyJSON | undefined {
-  if (_collections[name] === false)
-    return
-
-  if (_collections[name])
-    return _collections[name] as IconifyJSON
-
-  const jsonPath = resolveModule(`@iconify-json/${name}/icons.json`)
-  if (jsonPath) {
-    const icons = JSON.parse(fs.readFileSync(jsonPath, 'utf8'))
-    _collections[name] = icons
-    return icons
+async function searchForIcon(
+  collection: string,
+  id: string,
+  collections: Required<Options>['collections'],
+  scale: number,
+) {
+  let iconSet = collections[collection]
+  if (typeof iconSet === 'function')
+    iconSet = await iconSet()
+  if (!iconSet && isNode) {
+    const { loadCollectionFromFS } = await import('./fs')
+    iconSet = await loadCollectionFromFS(collection)
   }
-  else {
-    _collections[name] = false
-    return undefined
-  }
-}
-
-function searchForIcon(collection: string, id: string, scale: number) {
-  const iconSet = loadCollection(collection)
   if (!iconSet)
     return
 
@@ -63,11 +55,13 @@ function encodeSvg(svg: string) {
 export const preset = ({
   scale = 1,
   mode = 'auto',
+  prefix = 'i-',
+  collections = {},
 }: Options = {}): Preset => {
   return {
     rules: [
-      [/^i-(\w+)-(.+)$/, ([, c, n]) => {
-        const svg = searchForIcon(c, n, scale)
+      [new RegExp(`^${prefix}(\\w+)-(.+)$`), async([, c, n]) => {
+        const svg = await searchForIcon(c, n, collections, scale)
         if (!svg) return
 
         let _mode = mode

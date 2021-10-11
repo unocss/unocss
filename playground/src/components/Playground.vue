@@ -2,10 +2,9 @@
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
 import { createGenerator } from 'unocss'
-import config from '../../unocss.client.config'
+import config from '../../unocss.config'
 
 const uno = createGenerator(config)
-
 const input = useStorage('unocss-input', '<div class="sm:dark:!text-red" bg="hover:red" />')
 const output = asyncComputed(() => uno.generate(input.value), { css: '', matched: new Set<string>() })
 const formatted = computed(() => prettier.format(output.value?.css || '', {

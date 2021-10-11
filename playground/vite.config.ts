@@ -40,5 +40,11 @@ export default defineConfig({
   ],
   build: {
     minify: false,
+    rollupOptions: {
+      external: [
+        'local-pkg',
+        'fs',
+      ],
+    },
   },
 })

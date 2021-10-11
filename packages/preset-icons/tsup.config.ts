@@ -6,9 +6,10 @@ const config: Options = {
   entryPoints: [
     'src/*.ts',
   ],
-  minify: true,
-  minifySyntax: true,
-  minifyIdentifiers: true,
+  target: 'esnext',
+  // minify: true,
+  // minifySyntax: true,
+  // minifyIdentifiers: true,
   clean: true,
   dts: true,
 }

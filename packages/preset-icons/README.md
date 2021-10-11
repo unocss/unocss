@@ -48,6 +48,10 @@ Unocss({
 
 // TODO:
 
+## Credits
+
+This preset is inspired from [this PR](https://github.com/antfu/unplugin-icons/issues/88) created by [@husayt](https://github.com/husayt).
+
 ## License
 
 MIT License © 2021-PRESENT [Anthony Fu](https://github.com/antfu)

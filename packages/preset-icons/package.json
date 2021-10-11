@@ -20,17 +20,9 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./theme": {
-      "require": "./dist/theme.js",
-      "import": "./dist/theme.mjs"
-    },
-    "./variants": {
-      "require": "./dist/variants.js",
-      "import": "./dist/variants.mjs"
-    },
-    "./rules": {
-      "require": "./dist/rules.js",
-      "import": "./dist/rules.mjs"
+    "./fs": {
+      "require": "./dist/fs.js",
+      "import": "./dist/fs.mjs"
     }
   },
   "main": "dist/index.js",
@@ -41,16 +33,16 @@
     "*.css"
   ],
   "scripts": {
-    "build": "tsup --minify",
+    "build": "tsup",
     "dev": "tsup --watch src",
     "prepublishOnly": "nr build"
   },
   "dependencies": {
     "@iconify/utils": "^1.0.13",
-    "@unocss/core": "workspace:*"
+    "@unocss/core": "workspace:*",
+    "local-pkg": "^0.3.0"
   },
   "devDependencies": {
-    "@iconify/types": "^1.0.10",
-    "local-pkg": "^0.3.0"
+    "@iconify/types": "^1.0.10"
   }
 }
