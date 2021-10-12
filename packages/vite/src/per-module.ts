@@ -1,19 +1,18 @@
 import type { Plugin, ViteDevServer } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
-import { UnoGenerator } from 'unocss'
 import { defaultExclude, defaultInclude, getHash } from './utils'
-import { UnocssUserOptions } from '.'
+import { Context } from './context'
 
 const VIRTUAL_PREFIX = '/@unocss/'
 const SCOPE_IMPORT_RE = / from (['"])(@unocss\/scope)\1/
 
-export function PerModuleModePlugin(uno: UnoGenerator, options: UnocssUserOptions): Plugin {
+export function PerModuleModePlugin({ uno, config }: Context): Plugin {
   const moduleMap = new Map<string, [string, string]>()
   let server: ViteDevServer | undefined
 
   const filter = createFilter(
-    options.include || defaultInclude,
-    options.exclude || defaultExclude,
+    config.include || defaultInclude,
+    config.exclude || defaultExclude,
   )
 
   const invalidate = (hash: string) => {

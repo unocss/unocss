@@ -15,16 +15,24 @@ export class UnoGenerator {
     this.config = resolveConfig(userConfig, defaults)
   }
 
-  setConfig(userConfig: UserConfig) {
+  setConfig(userConfig?: UserConfig) {
+    if (!userConfig)
+      return
     this.userConfig = userConfig
     this.config = resolveConfig(userConfig, this.defaults)
     this.excluded = new Set()
     this._cache = new Map()
   }
 
-  async applyExtractors(code: string, id?: string) {
-    const result = await Promise.all(this.config.extractors.map(i => i(code, id)))
-    return new Set(result.flatMap(r => Array.from(r || [])))
+  async applyExtractors(code: string, id?: string, set = new Set()) {
+    await Promise.all(
+      this.config.extractors
+        .map(async(i) => {
+          const result = await i(code, id)
+          result?.forEach(t => set.add(t))
+        }),
+    )
+    return set
   }
 
   async generate(

@@ -1,13 +1,12 @@
 import type { Plugin } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
-import { UnoGenerator } from 'unocss'
+import { Context } from './context'
 import { defaultExclude } from './utils'
-import { UnocssUserOptions } from '.'
 
-export function VueScopedPlugin(uno: UnoGenerator, options: UnocssUserOptions): Plugin {
+export function VueScopedPlugin({ uno, config }: Context): Plugin {
   const filter = createFilter(
-    options.include || [/\.vue$/],
-    options.exclude || defaultExclude,
+    config.include || [/\.vue$/],
+    config.exclude || defaultExclude,
   )
 
   async function transformSFC(code: string) {

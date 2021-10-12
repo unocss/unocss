@@ -50,3 +50,13 @@ export class TwoKeyMap<K1, K2, V> {
       )
   }
 }
+
+export class BetterMap<K, V> extends Map<K, V> {
+  map<R>(mapFn: (value: V, key: K) => R): R[] {
+    const result: R[] = []
+    this.forEach((v, k) => {
+      result.push(mapFn(v, k))
+    })
+    return result
+  }
+}

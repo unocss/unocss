@@ -1,38 +1,43 @@
 import type { Plugin, ViteDevServer } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
-import { mergeSet, UnoGenerator } from 'unocss'
 import { defaultExclude, defaultInclude } from './utils'
-import { UnocssUserOptions } from '.'
+import { Context } from './context'
 
 const VIRTUAL_ENTRY = '/@unocss/entry.css'
 
-export function GlobalModeDevPlugin(uno: UnoGenerator, options: UnocssUserOptions): Plugin {
+export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }: Context): Plugin {
   let server: ViteDevServer | undefined
 
   const filter = createFilter(
-    options.include || defaultInclude,
-    options.exclude || defaultExclude,
+    config.include || defaultInclude,
+    config.exclude || defaultExclude,
   )
 
-  const invalidate = () => {
+  let init = false
+  const tasks: Promise<any>[] = []
+  let timer: any
+
+  onInvalidate(() => {
     if (!server)
       return
     const mod = server.moduleGraph.getModuleById(VIRTUAL_ENTRY)
     if (!mod)
       return
-    server.moduleGraph.invalidateModule(mod)
-    server.ws.send({
-      type: 'update',
-      updates: [{
-        acceptedPath: VIRTUAL_ENTRY,
-        path: VIRTUAL_ENTRY,
-        timestamp: +Date.now(),
-        type: 'js-update',
-      }],
-    })
-  }
 
-  const tokens = new Set<string>()
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      server!.moduleGraph.invalidateModule(mod)
+      server!.ws.send({
+        type: 'update',
+        updates: [{
+          acceptedPath: VIRTUAL_ENTRY,
+          path: VIRTUAL_ENTRY,
+          timestamp: +Date.now(),
+          type: 'js-update',
+        }],
+      })
+    }, 10)
+  })
 
   return {
     name: 'unocss:global',
@@ -41,16 +46,11 @@ export function GlobalModeDevPlugin(uno: UnoGenerator, options: UnocssUserOption
     configureServer(_server) {
       server = _server
     },
-    async transform(code, id) {
+    transform(code, id) {
       if (!filter(id))
         return
 
-      uno.applyExtractors(code)
-        .then((sets) => {
-          mergeSet(tokens, sets)
-          invalidate()
-        })
-
+      scan(code, id)
       return null
     },
     resolveId(id) {
@@ -60,21 +60,19 @@ export function GlobalModeDevPlugin(uno: UnoGenerator, options: UnocssUserOption
       if (id !== VIRTUAL_ENTRY)
         return null
 
-      if (tokens.size === 0)
+      if (!init) {
         await new Promise(resolve => setTimeout(resolve, 400))
+        init = true
+      }
 
+      await Promise.all(tasks)
       const { css } = await uno.generate(tokens)
       return `/* unocss */\n${css}`
     },
     transformIndexHtml: {
       enforce: 'pre',
-      async transform(code) {
-        uno.applyExtractors(code)
-          .then((sets) => {
-            sets.forEach(i => tokens.add(i))
-            invalidate()
-          })
-
+      async transform(code, { path }) {
+        tasks.push(scan(code, path))
         return `${code}<script src="${VIRTUAL_ENTRY}" type="module"></script>`
       },
     },

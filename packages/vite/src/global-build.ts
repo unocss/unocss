@@ -1,26 +1,19 @@
+import { Context } from 'vm'
 import type { Plugin } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
-import { mergeSet, UnoGenerator } from 'unocss'
 import { defaultExclude, defaultInclude } from './utils'
-import { UnocssUserOptions } from '.'
 
 const VIRTUAL_ENTRY = '/@unocss/entry.css'
 const PLACEHOLDER = '#--unocss--{--unocss:true}'
 const PLACEHOLDER_RE = /#--unocss--\s*{\s*--unocss:\s*true;?\s*}/
 
-export function GlobalModeBuildPlugin(uno: UnoGenerator, options: UnocssUserOptions): Plugin[] {
+export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: Context): Plugin[] {
   const filter = createFilter(
-    options.include || defaultInclude,
-    options.exclude || defaultExclude,
+    config.include || defaultInclude,
+    config.exclude || defaultExclude,
   )
 
-  const tokens = new Set<string>()
   const tasks: Promise<any>[] = []
-
-  function scan(code: string) {
-    tasks.push(uno.applyExtractors(code)
-      .then(sets => mergeSet(tokens, sets)))
-  }
 
   return [
     {
@@ -30,7 +23,7 @@ export function GlobalModeBuildPlugin(uno: UnoGenerator, options: UnocssUserOpti
       transform(code, id) {
         if (!filter(id))
           return
-        scan(code)
+        tasks.push(scan(code, id))
         return null
       },
       resolveId(id) {
@@ -43,8 +36,8 @@ export function GlobalModeBuildPlugin(uno: UnoGenerator, options: UnocssUserOpti
       },
       transformIndexHtml: {
         enforce: 'pre',
-        transform(code) {
-          scan(code)
+        transform(code, { path }) {
+          tasks.push(scan(code, path))
           return `${code}<script src="${VIRTUAL_ENTRY}" type="module"></script>`
         },
       },

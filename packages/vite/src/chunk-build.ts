@@ -1,15 +1,14 @@
 import type { Plugin } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
-import { mergeSet, UnoGenerator } from 'unocss'
+import { Context } from './context'
 import { defaultExclude, defaultInclude } from './utils'
-import { UnocssUserOptions } from '.'
 
-export function ChunkModeBuildPlugin(uno: UnoGenerator, options: UnocssUserOptions): Plugin {
+export function ChunkModeBuildPlugin({ uno, config }: Context): Plugin {
   let cssPlugin: Plugin | undefined
 
   const filter = createFilter(
-    options.include || defaultInclude,
-    options.exclude || defaultExclude,
+    config.include || defaultInclude,
+    config.exclude || defaultExclude,
   )
 
   const files: Record<string, string> = {}
@@ -34,8 +33,9 @@ export function ChunkModeBuildPlugin(uno: UnoGenerator, options: UnocssUserOptio
       if (!chunks.length)
         return null
 
-      const result = (await Promise.all(chunks.map(c => uno.applyExtractors(c)))).reduce(mergeSet, new Set())
-      const { css } = await uno.generate(result)
+      const tokens = new Set<string>()
+      await Promise.all(chunks.map(c => uno.applyExtractors(c, undefined, tokens)))
+      const { css } = await uno.generate(tokens)
 
       // fool the css plugin to generate the css in corresponding chunk
       const fakeCssId = `${chunk.fileName}.css`
