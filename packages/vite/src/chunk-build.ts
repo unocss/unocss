@@ -13,7 +13,6 @@ export function ChunkModeBuildPlugin(uno: UnoGenerator, options: UnocssUserOptio
   )
 
   const files: Record<string, string> = {}
-  const html: string[] = []
 
   return {
     name: 'unocss:chunk',
@@ -30,10 +29,7 @@ export function ChunkModeBuildPlugin(uno: UnoGenerator, options: UnocssUserOptio
       return null
     },
     async renderChunk(_, chunk) {
-      const chunks = [
-        ...Object.keys(chunk.modules).map(i => files[i]).filter(Boolean),
-        ...html,
-      ]
+      const chunks = Object.keys(chunk.modules).map(i => files[i]).filter(Boolean)
 
       if (!chunks.length)
         return null
@@ -55,8 +51,11 @@ export function ChunkModeBuildPlugin(uno: UnoGenerator, options: UnocssUserOptio
 
       return null
     },
-    transformIndexHtml(code) {
-      html.push(code)
+    async transformIndexHtml(code) {
+      const { css } = await uno.generate(code)
+
+      if (css)
+        return `${code}<style>${css}</style>`
     },
   }
 }

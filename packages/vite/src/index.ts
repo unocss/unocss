@@ -6,6 +6,7 @@ import { GlobalModeDevPlugin } from './global-dev'
 import { PerModuleModePlugin } from './per-module'
 import { UnocssUserOptions } from './types'
 import { VueScopedPlugin } from './vue-scoped'
+import { GlobalModeBuildPlugin } from './global-build'
 
 export * from './types'
 export * from './chunk-build'
@@ -37,6 +38,13 @@ export default function UnocssPlugin(
   }
 
   else if (mode === 'global') {
+    return [
+      ...GlobalModeBuildPlugin(uno, config),
+      GlobalModeDevPlugin(uno, config),
+    ]
+  }
+
+  else if (mode === 'dist-chunk') {
     return [
       ChunkModeBuildPlugin(uno, config),
       GlobalModeDevPlugin(uno, config),
