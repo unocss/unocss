@@ -20,7 +20,13 @@ export default defineConfig({
     },
   },
   plugins: [
-    Vue(),
+    Vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: tag => tag === 'preview-box',
+        },
+      },
+    }),
     Unocss(),
     Icons({ autoInstall: true }),
     Inspect(),

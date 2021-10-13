@@ -1,0 +1,13 @@
+<div h-full text-center flex select-none all:transition-opacity-400>
+  <div ma class="group">
+    <div font-100 text-4xl mb="-3">
+      ~
+    </div>
+    <div text-5xl font-100 group-hover="op-20">
+      unocss
+    </div>
+    <div op-20 font-200 mt-1 tracking-wider group-hover="op-50">
+      Re-imaging Atomic CSS
+    </div>
+  </div>
+</div>
