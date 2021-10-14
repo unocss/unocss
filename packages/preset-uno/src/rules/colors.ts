@@ -58,21 +58,27 @@ const colorResolver
     }
   }
 
+/**
+ * @example op10 op-30 opacity-100
+ */
 export const opacity: Rule[] = [
-  [/^op(?:acity)?-(\d+)$/, ([, d]) => ({ opacity: h.opacity(d) })],
+  [/^op(?:acity)?-?(\d+)$/, ([, d]) => ({ opacity: h.opacity(d) })],
 ]
 
+/**
+ * @example c-red color-red5 text-red-300
+ */
 export const textColors: Rule[] = [
-  [/^text-(.+)$/, colorResolver('color', 'text')],
-  [/^text-op(?:acity)?-(\d+)$/m, ([, opacity]) => ({ '--un-text-opacity': h.opacity(opacity) })],
+  [/^(?:text|color|c)-(.+)$/, colorResolver('color', 'text')],
+  [/^(?:text|color|c)-op(?:acity)?-?(\d+)$/m, ([, opacity]) => ({ '--un-text-opacity': h.opacity(opacity) })],
 ]
 
 export const bgColors: Rule[] = [
   [/^bg-(.+)$/, colorResolver('background-color', 'bg')],
-  [/^bg-op(?:acity)?-(\d+)$/m, ([, opacity]) => ({ '--un-bg-opacity': h.opacity(opacity) })],
+  [/^bg-op(?:acity)?-?(\d+)$/m, ([, opacity]) => ({ '--un-bg-opacity': h.opacity(opacity) })],
 ]
 
 export const borderColors: Rule[] = [
   [/^border-(.+)$/, colorResolver('border-color', 'border')],
-  [/^border-op(?:acity)?-(\d+)$/m, ([, opacity]) => ({ '--un-border-opacity': h.opacity(opacity) })],
+  [/^border-op(?:acity)?-?(\d+)$/m, ([, opacity]) => ({ '--un-border-opacity': h.opacity(opacity) })],
 ]

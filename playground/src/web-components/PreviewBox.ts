@@ -2,36 +2,6 @@ const template = document.createElement('template')
 
 template.innerHTML = `
   <style>
-    *::-webkit-scrollbar {
-      background-color: transparent;
-      height: 12px;
-      width: 12px;
-    }
-    *::-webkit-scrollbar-thumb {
-      transition: background .2s ease-in-out;
-      border: 3px solid transparent;
-      -webkit-background-clip: content-box;
-      background-clip: content-box;
-      --tw-bg-opacity: 1;
-      background-color: rgba(229, 231, 235, var(--tw-bg-opacity));
-      border-radius: 9999px;
-    }
-    .dark *::-webkit-scrollbar-thumb {
-      --tw-bg-opacity: 1;
-      background-color: rgba(50, 50, 50, var(--tw-bg-opacity));
-    }
-    *::-webkit-scrollbar-thumb:hover {
-      --tw-bg-opacity: 1;
-      background-color: rgba(209, 213, 219, var(--tw-bg-opacity));
-    }
-    .dark *::-webkit-scrollbar-thumb:hover {
-      --tw-bg-opacity: 1;
-      background-color: rgba(60, 60, 60, var(--tw-bg-opacity));
-    }
-    *::-webkit-scrollbar-corner {
-      background-color: transparent;
-    }  
-
     :host {
       width: 100%;
       height: 100%;
@@ -114,13 +84,6 @@ class Play extends HTMLElement {
       classes,
       html,
     } = data
-
-    // console.log({
-    //   css,
-    //   fixedCss,
-    //   classes,
-    //   html,
-    // })
 
     if (css) {
       if (this.styleEl)

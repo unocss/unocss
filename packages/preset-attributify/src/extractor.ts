@@ -8,7 +8,7 @@ const strippedPrefixes = [
 
 const splitterRE = /[\s'"`;]/g
 const valuedAttributeRE = /([\w:-]+)=(["'])([^\2]+?)\2/g
-const htmlStartingTagRE = /<[\w-]+?\s([\s\S]+?)>\n/g
+const htmlStartingTagRE = /<[\w-]+?\s([\s\S]+?)>/g
 const nonValuedAttributeRE = /(?<=\s|^)([\w.:\[\]\-]+?)(?=[\s\n]|$)/g
 
 export const extractorAttributify = (options?: AttributifyOptions): Extractor => (code) => {

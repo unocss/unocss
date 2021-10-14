@@ -1,13 +1,18 @@
-<div h-full text-center flex select-none all:transition-opacity-400>
+<div h-full text-center flex select-none all:transition-400>
   <div ma class="group">
-    <div font-100 text-4xl mb="-3">
-      ~
-    </div>
-    <div text-5xl font-100 group-hover="op-20">
+    <div text-5xl fw100 group-hover="op80">
       unocss
     </div>
-    <div op-20 font-200 mt-1 tracking-wider group-hover="op-50">
-      Re-imaging Atomic CSS
+    <div op30 fw200 mt1 tracking-wider group-hover="op100 c-teal">
+      Re-imaging Atomic-CSS
+    </div>
+    <div m5 flex justify-center text-2xl op30 group-hover="op80">
+      <a
+        i-carbon-logo-github
+        text-inherit
+        href="https://github.com/antfu/unocss"
+        target="_blank"
+      ></a>
     </div>
   </div>
 </div>

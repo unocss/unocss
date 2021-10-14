@@ -38,7 +38,7 @@ export const fontSizes: Rule[] = [
 ]
 
 export const fontWeights: Rule[] = [
-  [/^font-([^-]+)$/, ([, s]) => {
+  [/^(?:font|fw)-?([^-]+)$/, ([, s]) => {
     const v = weightMap[s] || h.number(s)
     if (v)
       return { 'font-weight': v }
@@ -46,7 +46,7 @@ export const fontWeights: Rule[] = [
 ]
 
 export const leadings: Rule[] = [
-  [/^leading-([^-]+)$/, ([, s], theme) => {
+  [/^(?:leading|lh)-([^-]+)$/, ([, s], theme) => {
     const v = theme.lineHeight?.[s] || h.bracket.size(s)
     if (v !== null)
       return { 'line-height': v }
