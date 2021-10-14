@@ -1,7 +1,10 @@
+const numberWithUnitRE = /^(-?[0-9.]+)([a-z]*)$/i
+const numberRE = /^(-?[0-9.]+)$/i
+
 export function size(str: string) {
   if (str === 'auto' || str === 'a')
     return 'auto'
-  const match = str.match(/^(-?[0-9.]+)([a-z]*)$/i)
+  const match = str.match(numberWithUnitRE)
   if (!match)
     return
   const [, n, unit] = match
@@ -13,7 +16,7 @@ export function size(str: string) {
 }
 
 export function border(str: string) {
-  const match = str.match(/^([0-9.]+)([a-z]*)$/i)
+  const match = str.match(numberWithUnitRE)
   if (!match)
     return
   const [, n, unit] = match
@@ -25,6 +28,8 @@ export function border(str: string) {
 }
 
 export function number(str: string) {
+  if (!numberRE.test(str))
+    return
   const num = parseFloat(str)
   if (!Number.isNaN(num))
     return num
