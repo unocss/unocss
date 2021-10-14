@@ -12,6 +12,7 @@ import { alignContents, alignItems, alignSelfs, floats, insets, justifies, justi
 import { sizes } from './size'
 import { paddings, margins } from './spacing'
 import { verticalAligns, appearances, breaks, cursors, displays, pointerEvents, resizes, textAligns, textDecorations, textOverflows, textTransforms, userSelects, whitespaces } from './static'
+import { transforms } from './transform'
 
 export const rules: Rule[] = [
   paddings,
@@ -64,4 +65,5 @@ export const rules: Rule[] = [
   objectPositions,
   transitions,
   filters,
+  transforms,
 ].flat(1)

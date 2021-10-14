@@ -35,14 +35,6 @@ export function percent(str: string) {
     str = str.slice(0, -1)
   const num = parseFloat(str)
   if (!Number.isNaN(num))
-    return `${num}%`
-}
-
-export function opacity(str: string) {
-  if (str.endsWith('%'))
-    str = str.slice(0, -1)
-  const num = parseFloat(str)
-  if (!Number.isNaN(num))
     return `${num / 100}`
 }
 

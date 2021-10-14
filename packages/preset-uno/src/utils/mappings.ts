@@ -27,8 +27,9 @@ export const cornerMap: Record<string, string[]> = {
   '': [''],
 }
 
-export const shorthands = {
-  m: 'margin',
-  p: 'padding',
-  bg: 'background',
+export const xyzMap: Record<string, string[]> = {
+  'x': ['-x'],
+  'y': ['-y'],
+  'z': ['-z'],
+  '': ['-x', '-y'],
 }
