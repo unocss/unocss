@@ -38,9 +38,9 @@
     "prepublishOnly": "nr build"
   },
   "dependencies": {
-    "@iconify/utils": "^1.0.13",
+    "@iconify/utils": "^1.0.18",
     "@unocss/core": "workspace:*",
-    "local-pkg": "^0.3.0"
+    "local-pkg": "^0.4.0"
   },
   "devDependencies": {
     "@iconify/types": "^1.0.10"

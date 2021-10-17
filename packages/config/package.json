@@ -30,9 +30,9 @@
   },
   "dependencies": {
     "@unocss/core": "workspace:*",
-    "sucrase": "^3.20.1"
+    "sucrase": "^3.20.2"
   },
   "devDependencies": {
-    "find-up": "^6.1.0"
+    "find-up": "^6.2.0"
   }
 }

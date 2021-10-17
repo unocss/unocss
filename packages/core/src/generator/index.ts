@@ -24,7 +24,7 @@ export class UnoGenerator {
     this._cache = new Map()
   }
 
-  async applyExtractors(code: string, id?: string, set = new Set()) {
+  async applyExtractors(code: string, id?: string, set = new Set<string>()) {
     await Promise.all(
       this.config.extractors
         .map(async(i) => {

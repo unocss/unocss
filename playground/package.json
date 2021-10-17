@@ -8,28 +8,28 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@vueuse/core": "^6.5.3",
-    "codemirror": "^5.63.1",
+    "@vueuse/core": "^6.6.1",
+    "codemirror": "^5.63.3",
     "splitpanes": "^3.0.6",
-    "vue": "^3.2.19"
+    "vue": "^3.2.20"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "^1.0.3",
-    "@types/codemirror": "^5.60.4",
+    "@iconify-json/carbon": "^1.0.7",
+    "@types/codemirror": "^5.60.5",
     "@unocss/core": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
     "@unocss/reset": "workspace:*",
     "@unocss/vite": "workspace:*",
-    "@vitejs/plugin-vue": "^1.9.2",
+    "@vitejs/plugin-vue": "^1.9.3",
     "codemirror-theme-vars": "^0.1.1",
     "prettier": "^2.4.1",
-    "typescript": "^4.4.3",
+    "typescript": "^4.4.4",
     "unocss": "workspace:*",
-    "unplugin-auto-import": "^0.4.10",
-    "unplugin-icons": "^0.12.7",
+    "unplugin-auto-import": "^0.4.12",
+    "unplugin-icons": "^0.12.16",
     "unplugin-vue-components": "^0.15.6",
-    "vite": "^2.6.2",
-    "vite-plugin-inspect": "^0.3.8"
+    "vite": "^2.6.7",
+    "vite-plugin-inspect": "^0.3.9"
   }
 }

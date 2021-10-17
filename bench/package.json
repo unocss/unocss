@@ -3,17 +3,17 @@
     "bench": "node run.mjs"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^1.9.2",
-    "autoprefixer": "^10.3.6",
+    "@unocss/vite": "workspace:*",
+    "@vitejs/plugin-vue": "^1.9.3",
+    "autoprefixer": "^10.3.7",
     "fs-extra": "^10.0.0",
-    "local-pkg": "^0.3.0",
-    "postcss": "^8.3.8",
+    "local-pkg": "^0.4.0",
+    "postcss": "^8.3.9",
     "tailwindcss": "^3.0.0-alpha.1",
-    "vite": "^2.6.2",
-    "vite-plugin-windicss": "^1.4.9",
-    "vue": "^3.2.19",
-    "windicss": "^3.1.8",
     "unocss": "workspace:*",
-    "@unocss/vite": "workspace:*"
+    "vite": "^2.6.7",
+    "vite-plugin-windicss": "^1.4.11",
+    "vue": "^3.2.20",
+    "windicss": "^3.1.9"
   }
 }

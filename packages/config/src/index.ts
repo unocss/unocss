@@ -33,7 +33,7 @@ export function loadConfig<U extends UserConfig>(dirOrPath: string | U = process
       'unocss.config.ts',
       'unocss.config.mts',
       'unocss.config.cts',
-    ], { cwd: dirOrPath })
+    ], { cwd: dirOrPath! })
     : dirOrPath
 
   if (!filepath || !fs.existsSync(filepath))
