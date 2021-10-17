@@ -26,15 +26,17 @@ const panelSizes = useStorage<number[]>('unocss-panel-sizes', [
 function handleResize(event: ({ size: number })[]) {
   panelSizes.value = event.map(({ size }) => size)
 }
+function isCollapsed(index: number) {
+  return panelSizes.value[index] <= titleHeightPercent.value
+}
 function togglePanel(index: number) {
-  if (panelSizes.value[index] <= titleHeightPercent.value)
+  if (isCollapsed(index))
     panelSizes.value[index] = 100 / panelSizes.value.length
   else
     panelSizes.value[index] = titleHeightPercent.value
 
   normalizePanels()
 }
-
 function normalizePanels() {
   const ignoredIndex: number[] = []
   let orignalSum = 0
@@ -75,7 +77,11 @@ const formatted = computed(() => {
     <Pane :min-size="titleHeightPercent" :size="panelSizes[0]" flex flex-col>
       <TitleBar title="HTML">
         <template #before>
-          <div class="i-carbon-chevron-right mr-1 transform rotate-90" @click="togglePanel(0)"></div>
+          <div
+            class="i-carbon-chevron-right mr-1 transition-transform transform"
+            :class="isCollapsed(0) ? '' : 'rotate-90'"
+            @click="togglePanel(0)"
+          />
         </template>
         <label>
           <input v-model="isDark" type="checkbox" />
@@ -93,7 +99,11 @@ const formatted = computed(() => {
     <Pane :min-size="titleHeightPercent" :size="panelSizes[1]" flex flex-col>
       <TitleBar title="Output CSS">
         <template #before>
-          <div class="i-carbon-chevron-right mr-1" @click="togglePanel(1)"></div>
+          <div
+            class="i-carbon-chevron-right mr-1 transition-transform transform"
+            :class="isCollapsed(1) ? '' : 'rotate-90'"
+            @click="togglePanel(1)"
+          />
         </template>
         <label>
           <input v-model="isPrettify" type="checkbox" />
@@ -111,7 +121,11 @@ const formatted = computed(() => {
     <Pane :min-size="titleHeightPercent" :size="panelSizes[2]" flex flex-col>
       <TitleBar title="Config">
         <template #before>
-          <div class="i-carbon-chevron-right mr-1" @click="togglePanel(2)"></div>
+          <div
+            class="i-carbon-chevron-right mr-1 transition-transform transform"
+            :class="isCollapsed(2) ? '' : 'rotate-90'"
+            @click="togglePanel(2)"
+          />
         </template>
       </TitleBar>
       <CodeMirror v-model="customConfigRaw" flex-auto mode="javascript" border="l gray-400/20" />
