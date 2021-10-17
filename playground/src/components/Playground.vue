@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
+// @ts-ignore
+import { Splitpanes, Pane } from 'splitpanes'
 import { isDark } from '../logics/dark'
 import { customConfigRaw, inputHTML, output } from '../logics/uno'
 import { defaultConfigRaw, defaultHTML } from '../defaults'
@@ -28,77 +30,54 @@ const iframeData = reactive({
 </script>
 
 <template>
-  <div h-screen w-screen grid="~ cols-[2fr,3fr]">
-    <preview-box h-full v-bind="iframeData" :dark="isDark" />
-    <div
-      grid="~ rows-[40px,1fr,40px,1fr]"
-      h-screen
-      overflow-hidden
-      text="sm gray-600 dark:gray-200"
-    >
-      <div
-        style="background-color: var(--cm-background)"
-        border="l b gray-400/20"
-        text="gray-400/80"
-        px-3
-        select-none
-        flex
-        all:my-auto
-      >
-        <div mr-5 op-60>
-          HTML
-        </div>
-        <label>
-          <input v-model="isDark" type="checkbox" />
-          Dark
-        </label>
-      </div>
-      <CodeMirror
-        v-model="inputHTML"
-        relative
-        font-mono
-        overflow-auto
-        mode="htmlmixed"
-        border="l gray-400/20"
-        :matched="output.matched"
-      />
-      <!---->
-      <div
-        style="background-color: var(--cm-background)"
-        border="l t gray-400/20"
-        text="gray-400/80"
-        px-3
-        select-none
-        flex
-        all:my-auto
-      >
-        <div mr-5 op-60>
-          Output CSS
-        </div>
-        <label>
-          <input v-model="isPrettify" type="checkbox" />
-          Prettify
-        </label>
-      </div>
-      <CodeMirror
-        v-model="formatted"
-        relative
-        font-mono
-        overflow-auto
-        mode="css"
-        border="l t gray-400/20"
-        :read-only="true"
-      />
-      <CodeMirror
-        v-model="customConfigRaw"
-        relative
-        font-mono
-        overflow-auto
-        mode="javascript"
-        border="l t gray-400/20"
-      />
-    </div>
-  </div>
+  <Splitpanes h-screen w-screen>
+    <Pane>
+      <preview-box h-full v-bind="iframeData" :dark="isDark" />
+    </Pane>
+    <Pane>
+      <Splitpanes horizontal h-screen>
+        <Pane min-size="10" flex flex-col>
+          <TitleBar title="HTML">
+            <label>
+              <input v-model="isDark" type="checkbox" />
+              Dark
+            </label>
+          </TitleBar>
+          <CodeMirror
+            v-model="inputHTML"
+            flex-auto
+            mode="htmlmixed"
+            border="l gray-400/20"
+            :matched="output.matched"
+          />
+        </Pane>
+        <Pane min-size="10" flex flex-col>
+          <TitleBar title="Output CSS">
+            <label>
+              <input v-model="isPrettify" type="checkbox" />
+              Prettify
+            </label>
+          </TitleBar>
+          <CodeMirror
+            v-model="formatted"
+            flex-auto
+            mode="css"
+            border="l gray-400/20"
+            :read-only="true"
+          />
+        </Pane>
+        <Pane min-size="10" flex flex-col>
+          <TitleBar title="Config"></TitleBar>
+          <CodeMirror
+            v-model="customConfigRaw"
+            flex-auto
+            mode="javascript"
+            border="l gray-400/20"
+          />
+        </Pane>
+      </Splitpanes>
+    </Pane>
+  </Splitpanes>
 </template>
 
 <style>

@@ -175,6 +175,7 @@ importers:
       codemirror: ^5.63.1
       codemirror-theme-vars: ^0.1.1
       prettier: ^2.4.1
+      splitpanes: ^3.0.6
       typescript: ^4.4.3
       unocss: workspace:*
       unplugin-auto-import: ^0.4.10
@@ -186,6 +187,7 @@ importers:
     dependencies:
       '@vueuse/core': 6.5.3_vue@3.2.19
       codemirror: 5.63.1
+      splitpanes: 3.0.6
       vue: 3.2.19
     devDependencies:
       '@iconify-json/carbon': 1.0.3
@@ -5113,6 +5115,10 @@ packages:
   /spdx-license-ids/3.0.7:
     resolution: {integrity: sha512-U+MTEOO0AiDzxwFvoa4JVnMV6mZlJKk2sBLt90s7G0Gd0Mlknc7kxEn3nuDPNZRta7O2uy8oLcZLVT+4sqNZHQ==}
     dev: true
+
+  /splitpanes/3.0.6:
+    resolution: {integrity: sha512-Ogxc+e2te4Tp5IpMwjOPO1ZvXUf2PsuEoyZhF9H5Hp6XOB0mLg/OnEZFaK2MxT7Q3O+WSEKE7CeOoTC+4zsQ6A==}
+    dev: false
 
   /sprintf-js/1.0.3:
     resolution: {integrity: sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=}

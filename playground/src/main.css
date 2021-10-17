@@ -1,3 +1,34 @@
 html.dark {
   color-scheme: dark;
 }
+
+.splitpanes__splitter {
+  position: relative;
+}
+
+.splitpanes__splitter:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: opacity 0.4s;
+  background-color: rgba(125,125,125,0.1);
+  opacity: 0;
+  z-index: 1;
+}
+
+.splitpanes__splitter:hover:before {
+  opacity: 1;
+}
+
+.splitpanes--vertical > .splitpanes__splitter:before {
+  left: -15px;
+  right: -15px;
+  height: 100%;
+}
+
+.splitpanes--horizontal > .splitpanes__splitter:before {
+  top: -15px;
+  bottom: -15px;
+  width: 100%;
+}

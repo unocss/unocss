@@ -45,7 +45,12 @@ onMounted(async() => {
 </script>
 
 <template>
-  <div>
+  <div
+    relative
+    font-mono
+    overflow-auto
+    text-sm
+  >
     <textarea ref="el" />
   </div>
 </template>

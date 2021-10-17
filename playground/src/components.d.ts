@@ -11,6 +11,7 @@ declare module 'vue' {
     Foo: typeof import('./components/Foo.vue')['default']
     Playground: typeof import('./components/Playground.vue')['default']
     Root: typeof import('./components/Root.vue')['default']
+    TitleBar: typeof import('./components/TitleBar.vue')['default']
   }
 }
 
