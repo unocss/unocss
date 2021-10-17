@@ -8,6 +8,7 @@
     "lint": "eslint \"**/*.{ts,vue,mjs}\"",
     "lint:fix": "nr lint -- --fix",
     "play": "npm -C playground run dev",
+    "play:build": "nr build && npm -C playground run build",
     "bench": "npm -C bench run bench",
     "release": "bumpp package.json packages/*/package.json --commit --push --tag && pnpm -r publish",
     "test": "jest",

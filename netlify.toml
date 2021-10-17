@@ -1,0 +1,12 @@
+[build.environment]
+  NPM_FLAGS = "--prefix=/dev/null"
+  NODE_VERSION = "14"
+
+[build]
+  publish = "playground/dist"
+  command = "npx pnpm i --store=node_modules/.pnpm-store && npm run play:build"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
