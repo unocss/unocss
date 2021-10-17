@@ -22,13 +22,13 @@ html.dark {
 }
 
 .splitpanes--vertical > .splitpanes__splitter:before {
-  left: -15px;
-  right: -15px;
+  left: -10px;
+  right: -10px;
   height: 100%;
 }
 
 .splitpanes--horizontal > .splitpanes__splitter:before {
-  top: -15px;
-  bottom: -15px;
+  top: -10px;
+  bottom: -10px;
   width: 100%;
 }

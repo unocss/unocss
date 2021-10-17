@@ -4,13 +4,11 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
-    Bar: typeof import('./components/Bar.vue')['default']
     'Carbon:code': typeof import('~icons/carbon/code')['default']
     CodeMirror: typeof import('./components/CodeMirror.vue')['default']
     Cover: typeof import('./components/Cover.vue')['default']
-    Foo: typeof import('./components/Foo.vue')['default']
+    Editor: typeof import('./components/Editor.vue')['default']
     Playground: typeof import('./components/Playground.vue')['default']
-    Root: typeof import('./components/Root.vue')['default']
     TitleBar: typeof import('./components/TitleBar.vue')['default']
   }
 }

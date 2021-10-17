@@ -9,6 +9,7 @@ const modules: any = {
 
 let customConfig: UserConfig = {}
 
+export const init = ref(false)
 export const customConfigRaw = useStorage('unocss-custom-config', defaultConfigRaw)
 export const customConfigError = ref<Error>()
 export const inputHTML = useStorage('unocss-input', defaultHTML)
@@ -58,4 +59,5 @@ export function evaluateConfig() {
 
 export async function generate() {
   output.value = await uno.generate(inputHTML.value)
+  init.value = true
 }
