@@ -1,3 +1,4 @@
+export const defaultHTML = `
 <div h-full text-center flex select-none all:transition-400>
   <div ma class="group">
     <div text-5xl fw100 group-hover="op80">
@@ -16,3 +17,14 @@
     </div>
   </div>
 </div>
+`.trim()
+
+export const defaultConfigRaw = `
+import { defineConfig } from 'unocss'
+
+export default defineConfig({
+  rules: [
+    ['custom-rule', { color: 'red' }]
+  ]
+})
+`.trim()

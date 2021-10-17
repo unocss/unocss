@@ -6,7 +6,7 @@ export default defineConfig({
     fontFamily: {
       sans: '\'Inter\', sans-serif',
       mono: '\'Fira Code\', monospace',
-    }, //
+    },
   },
   presets: [
     presetAttributify({ strict: false }),

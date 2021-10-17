@@ -2,16 +2,16 @@
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
 import { isDark } from '../logics/dark'
-// @ts-ignore
-import defaultInput from '../default.txt?raw'
-import { uno } from '../logics/uno'
+import { customConfigRaw, inputHTML, output } from '../logics/uno'
+import { defaultConfigRaw, defaultHTML } from '../defaults'
+
+if (!inputHTML.value)
+  inputHTML.value = defaultHTML
+if (!customConfigRaw.value)
+  customConfigRaw.value = defaultConfigRaw
 
 const isPrettify = ref(false)
 
-const input = useStorage('unocss-input', defaultInput)
-if (!input.value)
-  input.value = defaultInput
-const output = asyncComputed(() => uno.generate(input.value), { css: '', matched: new Set<string>() })
 const formatted = computed(() => {
   if (!isPrettify.value)
     return output.value?.css || ''
@@ -23,7 +23,7 @@ const formatted = computed(() => {
 
 const iframeData = reactive({
   css: formatted,
-  html: input,
+  html: inputHTML,
 })
 </script>
 
@@ -54,7 +54,7 @@ const iframeData = reactive({
         </label>
       </div>
       <CodeMirror
-        v-model="input"
+        v-model="inputHTML"
         relative
         font-mono
         overflow-auto
@@ -88,6 +88,14 @@ const iframeData = reactive({
         mode="css"
         border="l t gray-400/20"
         :read-only="true"
+      />
+      <CodeMirror
+        v-model="customConfigRaw"
+        relative
+        font-mono
+        overflow-auto
+        mode="javascript"
+        border="l t gray-400/20"
       />
     </div>
   </div>
