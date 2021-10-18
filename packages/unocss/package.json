@@ -44,6 +44,6 @@
     "@unocss/vite": "workspace:*"
   },
   "devDependencies": {
-    "nanoevents": "^6.0.1"
+    "nanoevents": "^6.0.2"
   }
 }

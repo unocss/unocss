@@ -37,9 +37,9 @@
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/scope": "workspace:*",
-    "nanoevents": "^6.0.1"
+    "nanoevents": "^6.0.2"
   },
   "devDependencies": {
-    "vite": "^2.6.7"
+    "vite": "^2.6.9"
   }
 }

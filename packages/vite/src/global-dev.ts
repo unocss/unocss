@@ -13,7 +13,6 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
     config.exclude || defaultExclude,
   )
 
-  let init = false
   const tasks: Promise<any>[] = []
   let timer: any
 
@@ -45,6 +44,18 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
     enforce: 'pre',
     configureServer(_server) {
       server = _server
+
+      server.ws.on('connect', (ws) => {
+        ws.send(JSON.stringify({
+          type: 'update',
+          updates: [{
+            acceptedPath: VIRTUAL_ENTRY,
+            path: VIRTUAL_ENTRY,
+            timestamp: +Date.now(),
+            type: 'js-update',
+          }],
+        }))
+      })
     },
     transform(code, id) {
       if (!filter(id))
@@ -59,11 +70,6 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
     async load(id) {
       if (id !== VIRTUAL_ENTRY)
         return null
-
-      if (!init) {
-        await new Promise(resolve => setTimeout(resolve, 400))
-        init = true
-      }
 
       await Promise.all(tasks)
       const { css } = await uno.generate(tokens)
