@@ -1,7 +1,9 @@
 import { createGenerator, GenerateResult, UserConfig } from 'unocss'
 import * as __unocss from 'unocss'
 import config from '../../unocss.config'
-import { defaultConfigRaw, defaultHTML } from '../defaults'
+import { customConfigRaw, inputHTML } from './url'
+
+export { customConfigRaw, inputHTML } from './url'
 
 const modules: any = {
   unocss: __unocss,
@@ -10,9 +12,7 @@ const modules: any = {
 let customConfig: UserConfig = {}
 
 export const init = ref(false)
-export const customConfigRaw = useStorage('unocss-custom-config', defaultConfigRaw)
 export const customConfigError = ref<Error>()
-export const inputHTML = useStorage('unocss-input', defaultHTML)
 
 export const uno = createGenerator({}, config)
 export const options = useStorage('unocss-options', {})
@@ -30,10 +30,12 @@ watch(
   { immediate: true },
 )
 
-export function evaluateConfig() {
+const AsyncFunction = Object.getPrototypeOf(async() => {}).constructor
+
+export async function evaluateConfig() {
   customConfigError.value = undefined
   const code = customConfigRaw.value
-    .replace(/import\s*(.*?)\s*from\s*(['"])([\w-]+)\2/g, 'const $1 = __require("$3");')
+    .replace(/import\s*(.*?)\s*from\s*(['"])([\w-]+)\2/g, 'const $1 = await __require("$3");')
     .replace(/export default /, 'return ')
 
   const __require = (name: string): any => {
@@ -42,9 +44,9 @@ export function evaluateConfig() {
 
   try {
     // eslint-disable-next-line no-new-func
-    const fn = new Function('__require', code)
+    const fn = new AsyncFunction('__require', code)
 
-    const result = fn(__require)
+    const result = await fn(__require)
 
     if (result) {
       customConfig = result

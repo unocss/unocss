@@ -7,6 +7,7 @@ import { isDark } from '../logics/dark'
 import { customConfigRaw, inputHTML, output } from '../logics/uno'
 import { defaultConfigRaw, defaultHTML } from '../defaults'
 
+const loading = ref(true)
 const TITLE_HEIGHT = 34
 const { height: vh } = useWindowSize()
 const titleHeightPercent = computed(() => TITLE_HEIGHT / vh.value * 100)
@@ -22,12 +23,13 @@ const panelSizes = useStorage<number[]>('unocss-panel-sizes', [
   100 - titleHeightPercent.value * 2,
   titleHeightPercent.value,
   titleHeightPercent.value,
-])
+], localStorage, { listenToStorageChanges: false })
+
 function handleResize(event: ({ size: number })[]) {
   panelSizes.value = event.map(({ size }) => size)
 }
 function isCollapsed(index: number) {
-  return panelSizes.value[index] <= titleHeightPercent.value
+  return panelSizes.value[index] <= titleHeightPercent.value + 3
 }
 function togglePanel(index: number) {
   if (isCollapsed(index))
@@ -70,10 +72,17 @@ const formatted = computed(() => {
     plugins: [parserCSS],
   })
 })
+
+onMounted(() => {
+  // prevent init transition
+  setTimeout(() => {
+    loading.value = false
+  }, 200)
+})
 </script>
 
 <template>
-  <Splitpanes ref="panel" horizontal h-screen @resize="handleResize">
+  <Splitpanes ref="panel" :class="{loading}" horizontal h-screen @resize="handleResize">
     <Pane :min-size="titleHeightPercent" :size="panelSizes[0]" flex flex-col>
       <TitleBar title="HTML">
         <template #before>
@@ -136,5 +145,8 @@ const formatted = computed(() => {
 <style>
 .highlighted {
   border-bottom: 1px dashed currentColor;
+}
+.splitpanes.loading .splitpanes__pane {
+  transition: none !important;
 }
 </style>

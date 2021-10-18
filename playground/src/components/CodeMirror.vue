@@ -112,6 +112,6 @@ html.dark {
   --cm-line-number: #888888;
   --cm-line-number-gutter: #eeeeee;
   --cm-line-highlight-background: #444444;
-  --cm-selection-background: #444444;
+  --cm-selection-background: #44444450;
 }
 </style>
