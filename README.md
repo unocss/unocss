@@ -314,13 +314,9 @@ With this, we could have `m-2` applied only when users hover over the element.
 
 The variant system is very powerful and can't be covered fully in this guide, you can check [the default preset's implementation](./packages/preset-uno/src/variants) to see more advanced usages.
 
-### Excluding Rules
-
-// TODO:
-
 ### CSS Scoping
 
-// TODO:
+> 🚧 This part is still under experiment. You might want to read the code to see how it works currently.
 
 ## Make a Custom Preset
 
@@ -331,6 +327,8 @@ The variant system is very powerful and can't be covered fully in this guide, yo
 // TODO:
 
 ### Publish
+
+// TODO:
 
 ## Acknowledgement
 
