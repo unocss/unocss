@@ -5,7 +5,7 @@ export const defaultHTML = `
       unocss
     </div>
     <div op30 text-lg fw300 m1>
-      The next-generation atomic CSS engine
+      The instant on-demand Atomic CSS engine.
     </div>
     <div m2 flex justify-center text-2xl op30 group-hover="op80">
       <a

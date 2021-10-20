@@ -1,10 +1,10 @@
 # UnoCSS
 
-###### *Re-imaging Atomic-CSS*
-
 [![NPM version](https://img.shields.io/npm/v/unocss?color=a1b858&label=)](https://www.npmjs.com/package/unocss)
 
-An instant on-demand Atomic-CSS engine.
+The instant on-demand Atomic CSS engine.
+
+[Online Playground](https://unocss.antfu.me/)
 
 ---
 
@@ -22,12 +22,12 @@ tailwindcss  v3.0.0-alpha.1    1044.62 ms / delta.   1034.14 ms (x522.45)
 
 Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcss.com/), [Twind](https://github.com/tw-in-js/twind) but:
 
-- No parsing, no AST, it's **INSTANT** (500x faster than Windi CSS or Tailwind JIT)
+- No parsing, no AST, no scanning, it's **INSTANT** (500x faster than Windi CSS or Tailwind JIT)
 - [Fully customizable](#configurations) - no core utilities, all functionalities are provided via presets.
 - [Shortcuts](#shortcuts) - aliasing utilities, dynamically.
 - [Attributify Mode](./packages/preset-attributify/) - group utilities in attributes
 - [CSS Icons](./packages/preset-icons/) - use any icon as a single class.
-- Code-splitting for CSS - great for MPA.
+- Code-splitting for CSS - ships minimal CSS for MPA.
 - [CSS Scoping](#css-scoping)
 - Library friendly - ships atomic styles with your component libraries and safely scoped.
 
@@ -65,7 +65,7 @@ That's it, have fun.
 
 ## Configurations
 
-UnoCSS is an atomic-CSS engine instead of a framework. Everything is designed with flexibility and performance in mind. In UnoCSS, there are no core utilities, all functionalities are provided via presets.
+UnoCSS is an atomic-CSS engine instead of a framework. Everything is designed with flexibility and performance in mind. In UnoCSS, there are no core utilities; all functionalities are provided via presets.
 
 By default, UnoCSS applies [the default preset](./packages/preset-uno). Which provides a common superset of the popular utilities-first framework, including Tailwind CSS, Windi CSS, Bootstrap, Tachyons, etc.
 
@@ -159,7 +159,7 @@ rules: [
 
 The first argument of the body function is the match result, you can destructure it to get the matched groups.
 
-With the code above, the following usage will be generated
+For example, with the following usage:
 
 ```html
 <div class="m-100">
@@ -170,7 +170,7 @@ With the code above, the following usage will be generated
 </div>
 ```
 
-the corresponsing CSS:
+the corresponding CSS will be generated:
 
 ```css
 .m-100 { margin: 25rem; }
