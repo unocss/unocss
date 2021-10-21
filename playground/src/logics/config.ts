@@ -1,7 +1,8 @@
 import { defineConfig, presetAttributify, presetUno } from 'unocss'
 import presetIcons from '@unocss/preset-icons'
+import { options } from './url'
 
-export default defineConfig({
+export const defaultConfig = computed(() => defineConfig({
   theme: {
     fontFamily: {
       sans: '\'Inter\', sans-serif',
@@ -9,7 +10,7 @@ export default defineConfig({
     },
   },
   presets: [
-    presetAttributify({ strict: true }),
+    presetAttributify({ strict: !!options.value.strict }),
     presetIcons({
       collections: {
         carbon: () => import('@iconify-json/carbon/icons.json').then(i => i.default as any),
@@ -20,4 +21,4 @@ export default defineConfig({
     }),
     presetUno(),
   ],
-})
+}))

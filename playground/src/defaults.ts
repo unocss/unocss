@@ -31,3 +31,7 @@ export default defineConfig({
   ]
 })
 `.trim()
+
+export const defaultOptions = JSON.stringify({
+  strict: true,
+})

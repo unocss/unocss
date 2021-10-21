@@ -15,9 +15,11 @@ export class UnoGenerator {
     this.config = resolveConfig(userConfig, defaults)
   }
 
-  setConfig(userConfig?: UserConfig) {
+  setConfig(userConfig?: UserConfig, defaults?: UserConfigDefaults) {
     if (!userConfig)
       return
+    if (defaults)
+      this.defaults = defaults
     this.userConfig = userConfig
     this.config = resolveConfig(userConfig, this.defaults)
     this.excluded = new Set()

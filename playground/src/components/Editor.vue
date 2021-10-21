@@ -6,6 +6,7 @@ import { Splitpanes, Pane } from 'splitpanes'
 import { isDark } from '../logics/dark'
 import { customConfigRaw, inputHTML, output } from '../logics/uno'
 import { defaultConfigRaw, defaultHTML } from '../defaults'
+import { options } from '../logics/url'
 
 const loading = ref(true)
 const TITLE_HEIGHT = 34
@@ -93,9 +94,12 @@ onMounted(() => {
           />
         </template>
         <label>
-          <input v-model="isDark" type="checkbox" />
-          Dark
+          <input v-model="options.strict" type="checkbox" />
+          Strict
         </label>
+        <div flex-auto />
+        <button i-carbon-sun dark-i-carbon-moon text-xl op-50 hover:op-100 @click="isDark = !isDark">
+        </button>
       </TitleBar>
       <CodeMirror
         v-model="inputHTML"

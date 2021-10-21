@@ -1,7 +1,7 @@
 import { createGenerator, GenerateResult, UserConfig } from 'unocss'
 import * as __unocss from 'unocss'
-import config from '../../unocss.config'
 import { customConfigRaw, inputHTML } from './url'
+import { defaultConfig } from './config'
 
 export { customConfigRaw, inputHTML } from './url'
 
@@ -14,7 +14,7 @@ let customConfig: UserConfig = {}
 export const init = ref(false)
 export const customConfigError = ref<Error>()
 
-export const uno = createGenerator({}, config)
+export const uno = createGenerator({}, defaultConfig.value)
 export const options = useStorage('unocss-options', {})
 export const output = shallowRef<GenerateResult>({ css: '', matched: new Set<string>() })
 
@@ -50,7 +50,7 @@ export async function evaluateConfig() {
 
     if (result) {
       customConfig = result
-      uno.setConfig(customConfig)
+      uno.setConfig(customConfig, defaultConfig.value)
       generate()
     }
   }
@@ -58,6 +58,11 @@ export async function evaluateConfig() {
     customConfigError.value = e
   }
 }
+
+watch(defaultConfig, () => {
+  uno.setConfig(customConfig, defaultConfig.value)
+  generate()
+})
 
 export async function generate() {
   output.value = await uno.generate(inputHTML.value)
