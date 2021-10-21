@@ -3,7 +3,8 @@ import { createFilter } from '@rollup/pluginutils'
 import { defaultExclude, defaultInclude } from './utils'
 import { Context } from './context'
 
-const VIRTUAL_ENTRY = '/@unocss/entry.css'
+const VIRTUAL_ENTRY = '/@unocss-entry'
+const READY_CALLBACK = '/__unocss_ready'
 
 export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }: Context): Plugin {
   let server: ViteDevServer | undefined
@@ -15,28 +16,33 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
 
   const tasks: Promise<any>[] = []
   let timer: any
+  let lastUpdate = +new Date()
 
-  onInvalidate(() => {
+  function invalidate() {
     if (!server)
       return
     const mod = server.moduleGraph.getModuleById(VIRTUAL_ENTRY)
     if (!mod)
       return
-
+    lastUpdate = +new Date()
+    server!.moduleGraph.invalidateModule(mod)
     clearTimeout(timer)
-    timer = setTimeout(() => {
-      server!.moduleGraph.invalidateModule(mod)
-      server!.ws.send({
-        type: 'update',
-        updates: [{
-          acceptedPath: VIRTUAL_ENTRY,
-          path: VIRTUAL_ENTRY,
-          timestamp: +Date.now(),
-          type: 'js-update',
-        }],
-      })
-    }, 10)
-  })
+    timer = setTimeout(sendUpdate, 10)
+  }
+
+  function sendUpdate() {
+    server!.ws.send({
+      type: 'update',
+      updates: [{
+        acceptedPath: VIRTUAL_ENTRY,
+        path: VIRTUAL_ENTRY,
+        timestamp: lastUpdate,
+        type: 'js-update',
+      }],
+    })
+  }
+
+  onInvalidate(invalidate)
 
   return {
     name: 'unocss:global',
@@ -44,17 +50,23 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
     enforce: 'pre',
     configureServer(_server) {
       server = _server
-
-      server.ws.on('connect', (ws) => {
-        ws.send(JSON.stringify({
-          type: 'update',
-          updates: [{
-            acceptedPath: VIRTUAL_ENTRY,
-            path: VIRTUAL_ENTRY,
-            timestamp: +Date.now(),
-            type: 'js-update',
-          }],
-        }))
+      server.middlewares.use(async(req, res, next) => {
+        if (req.url === READY_CALLBACK) {
+          let body = ''
+          await new Promise((resolve) => {
+            req.on('data', (chunk) => {
+              body += chunk
+            })
+            req.on('end', resolve)
+          })
+          if (+body !== lastUpdate)
+            sendUpdate()
+          res.statusCode = 200
+          res.end()
+        }
+        else {
+          return next()
+        }
       })
     },
     transform(code, id) {
@@ -73,7 +85,16 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
 
       await Promise.all(tasks)
       const { css } = await uno.generate(tokens)
-      return `/* unocss */\n${css}`
+      return `
+import { updateStyle, removeStyle } from "/@vite/client";
+const id = "${VIRTUAL_ENTRY}"
+import.meta.hot.accept()
+import.meta.hot.prune(() => removeStyle(id))
+const css = \`/* unocss */\n${css.replace(/`/g, '\\`')}\`
+updateStyle(id, css)
+export default css
+fetch('${READY_CALLBACK}', { method: 'POST', body: '${lastUpdate}' })
+`
     },
     transformIndexHtml: {
       enforce: 'pre',
