@@ -10,7 +10,10 @@ importers:
       '@iconify-json/logos': ^1.0.1
       '@iconify-json/mdi': ^1.0.6
       '@iconify-json/ph': ^1.0.1
+      '@iconify-json/ri': ^1.0.1
+      '@iconify-json/tabler': ^1.0.1
       '@iconify-json/twemoji': ^1.0.2
+      '@iconify-json/uim': ^1.0.1
       '@types/jest': ^27.0.2
       '@types/node': ^16.11.1
       '@types/ws': ^8.2.0
@@ -38,7 +41,10 @@ importers:
       '@iconify-json/logos': 1.0.1
       '@iconify-json/mdi': 1.0.6
       '@iconify-json/ph': 1.0.1
+      '@iconify-json/ri': 1.0.1
+      '@iconify-json/tabler': 1.0.1
       '@iconify-json/twemoji': 1.0.2
+      '@iconify-json/uim': 1.0.1
       '@types/jest': 27.0.2
       '@types/node': 16.11.1
       '@types/ws': 8.2.0
@@ -170,7 +176,6 @@ importers:
 
   playground:
     specifiers:
-      '@iconify-json/carbon': ^1.0.7
       '@types/codemirror': ^5.60.5
       '@types/lz-string': ^1.3.34
       '@unocss/core': workspace:*
@@ -200,7 +205,6 @@ importers:
       splitpanes: 3.0.6
       vue: 3.2.20
     devDependencies:
-      '@iconify-json/carbon': 1.0.7
       '@types/codemirror': 5.60.5
       '@types/lz-string': 1.3.34
       '@unocss/core': link:../packages/core
@@ -748,8 +752,26 @@ packages:
       '@iconify/types': 1.0.10
     dev: true
 
+  /@iconify-json/ri/1.0.1:
+    resolution: {integrity: sha512-e1zVwnD+Mn62J/zrF2jh80RrPHF5f2LI0/IAgPBK3inO327Z2HTfK5HAvqNBLxOkyU9vDO+RkOAEKGJ2j6Iybg==}
+    dependencies:
+      '@iconify/types': 1.0.10
+    dev: true
+
+  /@iconify-json/tabler/1.0.1:
+    resolution: {integrity: sha512-3J7cM8EkqdhUozAyD8hijPUmKWv38wSfYNs1wNmWbZup2GtllLwxyvhRlOR89WSiHwtqmYzpvBUHvxHmpxaJpw==}
+    dependencies:
+      '@iconify/types': 1.0.10
+    dev: true
+
   /@iconify-json/twemoji/1.0.2:
     resolution: {integrity: sha512-kr1WiObcPMU4bJDLVH8x0tk5WaP95QFVsVIdNUMpbzYgx5vBa8lx9LKhOv+D6y+Co+bCAIP9N97ObaRM1fe4Kg==}
+    dependencies:
+      '@iconify/types': 1.0.10
+    dev: true
+
+  /@iconify-json/uim/1.0.1:
+    resolution: {integrity: sha512-qKE1xTsHtpXCuJmv+dgIQ0LTrZzKl5XvPcr50OSk3vMhLk6ptZNcZk8HWdqCpVWyMConzh4rFS/kn0SY9duO3A==}
     dependencies:
       '@iconify/types': 1.0.10
     dev: true
