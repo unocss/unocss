@@ -81,10 +81,14 @@ export const classes = [
 ]
 
 export async function writeMock() {
-  const shuffled = shuffle(classes)
-  const content = `document.getElementById('app').className = "${shuffled.join(' ')}"`
-  await fs.writeFile(join(dir, 'source/gen.js'), content, 'utf-8')
-  return shuffled
+  const content1 = `document.getElementById('app').className = "${shuffle(classes).join(' ')}"`
+  const content2 = `document.getElementById('app').className = "${shuffle(classes).join(' ')}"`
+  const content3 = `document.getElementById('app').className = "${shuffle(classes).join(' ')}"`
+  await fs.writeFile(join(dir, 'source/gen1.js'), content1, 'utf-8')
+  await fs.writeFile(join(dir, 'source/gen2.js'), content2, 'utf-8')
+  await fs.writeFile(join(dir, 'source/gen3.js'), content3, 'utf-8')
+  await fs.writeFile(join(dir, 'source/gen.js'), 'import "./gen1";import "./gen2";import "./gen3";', 'utf-8')
+  return classes
 }
 
 export function shuffle(array) {

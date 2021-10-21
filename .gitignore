@@ -1,7 +1,7 @@
 .DS_Store
 *.local
 *.log
-bench/source/gen.js
+bench/source/gen*.js
 coverage
 dist
 dist-ssr

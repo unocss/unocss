@@ -4,7 +4,7 @@ import Unocss from '@unocss/vite'
 export default defineConfig({
   plugins: [
     Unocss({
-      mergeSelectors: false,
+      mergeSelectors: true,
       include: [/\.js$/],
     }),
   ],

@@ -6,23 +6,11 @@ The instant on-demand Atomic CSS engine.
 
 [Online Playground](https://unocss.antfu.me/)
 
----
-
-```
-10/4/2021, 11:32:11 PM
-1608 utilities | x50 runs
-
-none                             10.48 ms / delta.      0.00 ms 
-unocss       v0.0.0              12.46 ms / delta.      1.98 ms (x1.00)
-windicss     v3.1.8             885.20 ms / delta.    874.72 ms (x441.91)
-tailwindcss  v3.0.0-alpha.1    1044.62 ms / delta.   1034.14 ms (x522.45)
-```
-
----
+## Features
 
 Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcss.com/), [Twind](https://github.com/tw-in-js/twind) but:
 
-- No parsing, no AST, no scanning, it's **INSTANT** (500x faster than Windi CSS or Tailwind JIT)
+- No parsing, no AST, no scanning, it's **INSTANT** (200x faster than Windi CSS or Tailwind JIT)
 - [Fully customizable](#configurations) - no core utilities, all functionalities are provided via presets.
 - [Shortcuts](#shortcuts) - aliasing utilities, dynamically.
 - [Attributify Mode](./packages/preset-attributify/) - group utilities in attributes
@@ -30,6 +18,16 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 - Code-splitting for CSS - ships minimal CSS for MPA.
 - [CSS Scoping](#css-scoping)
 - Library friendly - ships atomic styles with your component libraries and safely scoped.
+
+```
+10/21/2021, 2:17:45 PM
+1656 utilities | x50 runs (min build time)
+
+none                              8.75 ms / delta.      0.00 ms 
+unocss       v0.0.0              13.72 ms / delta.      4.97 ms (x1.00)
+windicss     v3.1.9             980.41 ms / delta.    971.66 ms (x195.36)
+tailwindcss  v3.0.0-alpha.1    1258.54 ms / delta.   1249.79 ms (x251.28)
+```
 
 ###### Non-goal
 
@@ -179,6 +177,10 @@ the corresponding CSS will be generated:
 ```
 
 Congratulations! Now you got your own powerful atomic-css utilities, enjoy!
+
+### Ordering
+
+UnoCSS will retain the order of the rules you defined to the generated CSS. Later ones come with higher priority.
 
 ### Shortcuts
 

@@ -7,7 +7,7 @@ import { dir, targets, getVersions } from './meta.mjs'
 import { writeMock, classes } from './gen.mjs'
 
 const times = 50
-const metric = 'average' // 'min'
+const metric = 'min' // 'average' or 'min'
 const versions = await getVersions()
 await run()
 await report()
