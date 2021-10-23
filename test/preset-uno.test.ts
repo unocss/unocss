@@ -1,6 +1,6 @@
 import { createGenerator, escapeSelector, presetUno } from 'unocss'
 
-const classes = [
+const targets = [
   '-gap-y-5',
   '-m-auto',
   '!hover:px-10',
@@ -89,25 +89,40 @@ const classes = [
   'w-1/2',
   'z-1',
   'z-100',
+  'filter',
+  'invert',
 ]
 
-const code = classes.join(' ')
+const nonTargets = [
+  '--p-2',
+  'hover:hover:m2',
+]
+
 const uno = createGenerator({
   presets: [
     presetUno(),
   ],
 })
 
-test('default', async() => {
+test('targets', async() => {
+  const code = targets.join(' ')
   const { css } = await uno.generate(code)
   const { css: css2 } = await uno.generate(code)
 
   const unmatched = []
-  for (const i of classes) {
+  for (const i of targets) {
     if (!css.includes(escapeSelector(i)))
       unmatched.push(i)
   }
   expect(unmatched).toEqual([])
   expect(css).toMatchSnapshot()
   expect(css).toEqual(css2)
+})
+
+test('non-targets', async() => {
+  const code = nonTargets.join(' ')
+  const { css, matched } = await uno.generate(code)
+
+  expect(Array.from(matched)).toEqual([])
+  expect(css).toMatch('')
 })
