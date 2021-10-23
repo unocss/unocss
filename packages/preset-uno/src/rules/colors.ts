@@ -4,7 +4,9 @@ const colorResolver
 = (attribute: string, varName: string) =>
   ([, body]: string[], theme: Theme) => {
     const [main, opacity] = body.split('/')
-    const [name, no = 'DEFAULT'] = main.split(/(?<=[a-z])-?(?=[0-9])/g)
+    const [name, no = 'DEFAULT'] = main
+      .replace(/([a-z])([0-9])/g, '$1-$2')
+      .split(/-/g)
 
     if (!name)
       return
