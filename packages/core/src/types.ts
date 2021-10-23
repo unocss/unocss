@@ -23,10 +23,28 @@ export type Shortcut = StaticShortcut | DynamicShortcut
 export type ExcludeRule = string | RegExp
 
 export type Variant = {
+  /**
+   * The entry function to match and rewrite the selector for futher processing.
+   */
   match: (input: string, theme: Theme) => string | undefined
+  /**
+   * Rewrite the output selector. Often be used to append pesudo classes or parents.
+   */
   selector?: (input: string, theme: Theme) => string | undefined
+  /**
+   * Rewrite the output css body. The input come in [key,value][] pairs.
+   */
   rewrite?: (input: CSSEntries, theme: Theme) => CSSEntries | undefined
+  /**
+   * Provide media query to the output css.
+   */
   mediaQuery?: (selector: string, theme: Theme) => string | undefined
+  /**
+   * Allows this variant to be used more than once in matching a single rule
+   *
+   * @default false
+   */
+  multiPass?: boolean
 }
 
 export interface Theme {

@@ -152,6 +152,8 @@ export class UnoGenerator {
     while (true) {
       applied = false
       for (const v of this.config.variants) {
+        if (!v.multiPass && variants.includes(v))
+          continue
         const result = v.match(processed, this.config.theme)
         if (result && result !== processed) {
           processed = result
