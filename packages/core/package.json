@@ -31,6 +31,5 @@
     "build": "tsup",
     "dev": "tsup --watch src",
     "prepublishOnly": "nr build"
-  },
-  "dependencies": {}
+  }
 }
