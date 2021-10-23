@@ -8,5 +8,6 @@
       "import": "./index.mjs",
       "require": "./index.cjs"
     }
-  }
+  },
+  "version": "0.1.0-beta.1"
 }
