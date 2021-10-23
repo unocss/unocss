@@ -15,7 +15,9 @@ Set {
   "[p~=\\"t-2\\"]",
   "[pt~=\\"2\\"]",
   "[border~=\\"rounded-xl\\"]",
-  "[font~=\\"condition\\"]",
+  "[font~=\\"foo\\"]",
+  "[font~=\\">\\"]",
+  "[font~=\\"bar\\"]",
   "[font~=\\"?\\"]",
   "[font~=\\"mono\\"]",
   "[font~=\\":\\"]",
@@ -26,8 +28,6 @@ Set {
   "[border~=\\"rounded\\"]",
   "[border~=\\"blue-200\\"]",
   "[un-children~=\\"m-auto\\"]",
-  "[hover:blue-500=\\"\\"]",
-  "[rounded=\\"\\"]",
   "[pt2=\\"\\"]",
   "[ma=\\"\\"]",
   "[rounded-sm=\\"\\"]",
@@ -37,8 +37,6 @@ Set {
 
 exports[`attributify extractor2 1`] = `
 Set {
-  "[group-hover~=\\"text-teal-400\\"]",
-  "[group-hover~=\\"op-50\\"]",
   "[h-80=\\"\\"]",
   "[text-center=\\"\\"]",
   "[flex=\\"\\"]",
@@ -54,6 +52,8 @@ Set {
   "[font-200=\\"\\"]",
   "[mt-1=\\"\\"]",
   "[tracking-wider=\\"\\"]",
+  "[group-hover~=\\"text-teal-400\\"]",
+  "[group-hover~=\\"op-50\\"]",
 }
 `;
 
@@ -70,8 +70,8 @@ exports[`attributify fixture1 1`] = `
 [border~=\\"\\\\32 \\"]{border-width:2px;border-style:solid;}
 [border~=\\"blue-200\\"]{--un-border-opacity:1;border-color:rgba(191,219,254,var(--un-border-opacity));}
 [border~=\\"rounded-xl\\"]{border-radius:0.75rem;}
+[border~=\\"rounded\\"]{border-radius:0.25rem;}
 [rounded-sm=\\"\\"]{border-radius:0.125rem;}
-[border~=\\"rounded\\"],[rounded=\\"\\"]{border-radius:0.25rem;}
 [font~=\\"mono\\"]{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\\"Liberation Mono\\",\\"Courier New\\",monospace;}
 [font~=\\"sans\\"]{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\\"Segoe UI\\",Roboto,\\"Helvetica Neue\\",Arial,\\"Noto Sans\\",sans-serif,\\"Apple Color Emoji\\",\\"Segoe UI Emoji\\",\\"Segoe UI Symbol\\",\\"Noto Color Emoji\\";}
 [text~=\\"sm\\"]{font-size:0.875rem;line-height:1.25rem;}
@@ -84,6 +84,7 @@ exports[`attributify fixture1 1`] = `
 
 exports[`attributify fixture2 1`] = `
 "[ma=\\"\\"]{margin:auto;}
+[mb--3=\\"\\"]{margin-bottom:-0.75rem;}
 [mt-1=\\"\\"]{margin-top:0.25rem;}
 .group:hover [group-hover~=\\"op-50\\"]{opacity:0.5;}
 [op-20=\\"\\"]{opacity:0.2;}
@@ -115,7 +116,9 @@ Array [
   "p-t-2",
   "pt-2",
   "border-rounded-xl",
-  "font-condition",
+  "font-foo",
+  "font->",
+  "font-bar",
   "font-?",
   "font-mono",
   "font-:",
@@ -126,8 +129,6 @@ Array [
   "border-rounded",
   "border-blue-200",
   "children-m-auto",
-  "hover:blue-500",
-  "rounded",
   "pt2",
   "ma",
   "rounded-sm",

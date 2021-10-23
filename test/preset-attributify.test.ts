@@ -11,7 +11,7 @@ describe('attributify', () => {
   p="t-2"
   pt="2"
   border="rounded-xl"
-  :font="condition ? 'mono' : 'sans'"
+  :font="foo > bar ? 'mono' : 'sans'"
   v-bind:p="y-2 x-4"
   border="2 rounded blue-200"
   un-children="m-auto"
@@ -42,7 +42,7 @@ describe('attributify', () => {
 
   const uno = createGenerator({
     presets: [
-      presetAttributify(),
+      presetAttributify({ strict: true }),
       presetUno(),
     ],
   })
