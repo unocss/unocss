@@ -19,4 +19,5 @@ export const filters: Rule[] = [
   ['filter', init],
   ['filter-none', { filter: 'none' }],
   [/^blur(?:-(\d+))?$/, ([, d]) => ({ '--un-blur': `blur(${d}px)`, 'filter': filterContnet })],
+  ['invert', { '--un-invert': 'invert(100%)' }],
 ]

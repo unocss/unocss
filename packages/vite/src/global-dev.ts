@@ -90,7 +90,7 @@ import { updateStyle, removeStyle } from "/@vite/client";
 const id = "${VIRTUAL_ENTRY}"
 import.meta.hot.accept()
 import.meta.hot.prune(() => removeStyle(id))
-const css = \`/* unocss */\n${css.replace(/`/g, '\\`')}\`
+const css = ${JSON.stringify(`/* unocss */\n${css}`)}
 updateStyle(id, css)
 export default css
 fetch('${READY_CALLBACK}', { method: 'POST', body: '${lastUpdate}' })
