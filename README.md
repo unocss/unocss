@@ -1,10 +1,13 @@
 # UnoCSS
 
-[![NPM version](https://img.shields.io/npm/v/unocss?color=a1b858&label=)](https://www.npmjs.com/package/unocss)
-
 The instant on-demand Atomic CSS engine.
 
+[![NPM version](https://img.shields.io/npm/v/unocss?color=a1b858&label=)](https://www.npmjs.com/package/unocss)
+
+
 [Online Playground](https://unocss.antfu.me/)
+
+> 💡 I highly recommend you to read this blog post - [**Reimagine Atomic CSS**](https://antfu.me/posts/reimagine-atomic-css#no-parsing-no-ast) to learn the story behind this tool.
 
 ## Features
 
@@ -334,7 +337,7 @@ The variant system is very powerful and can't be covered fully in this guide, yo
 
 ## Acknowledgement
 
-- [Atomic CSS](https://acss.io/)
+- [ACSS](https://acss.io/)
 - [Bootstrap Utilities](https://getbootstrap.com/docs/5.1/utilities/flex/)
 - [Chakra UI Style Props](https://chakra-ui.com/docs/features/style-props)
 - [Semantic UI](https://semantic-ui.com/)

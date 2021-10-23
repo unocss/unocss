@@ -1,6 +1,6 @@
 # @unocss/preset-icons
 
-Use **any** icons with **a single class** for [UnoCSS](https://github.com/antfu/unocss).
+Use **any** icons with **Pure CSS** for [UnoCSS](https://github.com/antfu/unocss).
 
 ```html
 <!-- A basic anchor icon from Phosphor icons -->
@@ -17,7 +17,7 @@ Use **any** icons with **a single class** for [UnoCSS](https://github.com/antfu/
 
 <img src="https://user-images.githubusercontent.com/11247099/136709053-31b4db79-eddc-4dc6-aa2d-388086332630.gif" height="100"><br><sup>This is powered by pure CSS</sup>
 
-## Installation
+## Install
 
 ```bash
 npm i -D @unocss/preset-icons @iconify-json/[the-collection-you-want]
@@ -35,6 +35,8 @@ Unocss({
   ]
 })
 ```
+
+> 💡 You can also use this preset alone as a complement to your existing UI frameworks to have pure CSS icons!
 
 ## Configurations
 
