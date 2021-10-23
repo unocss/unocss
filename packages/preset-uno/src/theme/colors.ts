@@ -1,5 +1,8 @@
-// port form Tailwind CSS and Windi CSS
-// TODO: add more details
+// based on the colors from Tailwind CSS
+// https://github.com/tailwindlabs/tailwindcss/blob/master/src/public/colors.js
+//
+// and Windi CSS
+// https://github.com/windicss/windicss/blob/main/src/config/colors.ts
 
 import { Theme } from '@unocss/core'
 

@@ -52,7 +52,7 @@ Unocss({
 
 ## Credits
 
-This preset is inspired from [this PR](https://github.com/antfu/unplugin-icons/issues/88) created by [@husayt](https://github.com/husayt).
+This preset is inspired from [this issue](https://github.com/antfu/unplugin-icons/issues/88) created by [@husayt](https://github.com/husayt). Based on the work of [this PR](https://github.com/antfu/unplugin-icons/pull/90) by [@userquin](https://github.com/userquin).
 
 ## License
 

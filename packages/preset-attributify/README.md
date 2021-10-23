@@ -63,6 +63,10 @@ now can be
 <div m-2 rounded text-teal-400 />
 ```
 
+## Credits
+
+Initial idea by [@Tahul](https://github.com/Tahul) and [@antfu](https://github.com/antfu). Pior implementation in Windi CSS by [@voorjaar](https://github.com/voorjaar).
+
 ## License
 
 MIT License © 2021-PRESENT [Anthony Fu](https://github.com/antfu)
