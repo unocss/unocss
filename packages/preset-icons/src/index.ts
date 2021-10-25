@@ -11,6 +11,7 @@ export interface Options {
   prefix?: string
   warn?: boolean
   collections?: Record<string, IconifyJSON | undefined | (() => Awaitable<IconifyJSON | undefined>)>
+  extraProperties?: Record<string, string>
 }
 
 const COLLECTION_NAME_PARTS_MAX = 3
@@ -48,6 +49,7 @@ export const preset = ({
   prefix = 'i-',
   warn = false,
   collections = {},
+  extraProperties = {},
 }: Options = {}): Preset => {
   return {
     enforce: 'pre',
@@ -95,6 +97,7 @@ export const preset = ({
             'background-color': 'currentColor',
             'height': `${scale}em`,
             'width': `${scale}em`,
+            ...extraProperties,
           }
         }
         else {
@@ -104,6 +107,7 @@ export const preset = ({
             'background-color': 'transparent',
             'height': `${scale}em`,
             'width': `${scale}em`,
+            ...extraProperties,
           }
         }
       }],
