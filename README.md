@@ -4,9 +4,11 @@ The instant on-demand Atomic CSS engine.
 
 [![NPM version](https://img.shields.io/npm/v/unocss?color=a1b858&label=)](https://www.npmjs.com/package/unocss)
 
-[🤹‍♂️ Online Playground](https://unocss.antfu.me/)
-
 > 💡 I highly recommend to read this blog post - [**Reimagine Atomic CSS**](https://antfu.me/posts/reimagine-atomic-css#no-parsing-no-ast) for the story behind this tool.
+
+## Try it!
+
+[🤹‍♂️ Online Playground](https://unocss.antfu.me/)
 
 ## Features
 
@@ -15,8 +17,9 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 - No parsing, no AST, no scanning, it's **INSTANT** (200x faster than Windi CSS or Tailwind JIT)
 - [Fully customizable](#configurations) - no core utilities, all functionalities are provided via presets.
 - [Shortcuts](#shortcuts) - aliasing utilities, dynamically.
-- [Attributify Mode](./packages/preset-attributify/) - group utilities in attributes
-- [Pure CSS Icons](./packages/preset-icons/) - use any icon as a single class.
+- [Attributify Mode](https://github.com/antfu/unocss/tree/main/packages/preset-attributify/) - group utilities in attributes
+- [Pure CSS Icons](https://github.com/antfu/unocss/tree/main/packages/preset-icons/) - use any icon as a single class.
+- Code-splitting for CSS - ships minimal CSS for MPA.
 - [CSS Scoping](#css-scoping)
 - Code-splitting for CSS - ships minimal CSS for MPA.
 - Library friendly - ships atomic styles with your component libraries and safely scoped.
@@ -69,7 +72,7 @@ That's it, have fun.
 
 UnoCSS is an atomic-CSS engine instead of a framework. Everything is designed with flexibility and performance in mind. In UnoCSS, there are no core utilities; all functionalities are provided via presets.
 
-By default, UnoCSS applies [the default preset](./packages/preset-uno). Which provides a common superset of the popular utilities-first framework, including Tailwind CSS, Windi CSS, Bootstrap, Tachyons, etc.
+By default, UnoCSS applies [the default preset](https://github.com/antfu/unocss/tree/main/packages/preset-uno). Which provides a common superset of the popular utilities-first framework, including Tailwind CSS, Windi CSS, Bootstrap, Tachyons, etc.
 
 For example, both `ml-3` (Tailwind), `ms-2` (Bootstrap), `ma4` (Tachyons), `mt-10px` (Windi CSS) are valid.
 
@@ -80,15 +83,15 @@ For example, both `ml-3` (Tailwind), `ms-2` (Bootstrap), `ma4` (Tachyons), `mt-1
 .mt-10px { margin-top: 10px; }
 ```
 
-[Learn more about the default preset](./packages/preset-uno).
+[Learn more about the default preset](https://github.com/antfu/unocss/tree/main/packages/preset-uno).
 
 ### Presets
 
-Presets are the heart of UnoCSS that let you make your own custom framework in mintues. We are providing the following presets officially:
+Presets are the heart of UnoCSS that lets you make your own custom framework in minutes. We are providing the following presets officially:
 
-- [@unocss/preset-uno](./packages/preset-uno) - The default preset.
-- [@unocss/preset-attributify](./packages/preset-attributify) - Provides [Attributify Mode](#attributify-mode) to other presets and rules.
-- [@unocss/preset-icons](./packages/preset-icons) - Use any icon as a class utility.
+- [@unocss/preset-uno](https://github.com/antfu/unocss/tree/main/packages/preset-uno) - The default preset.
+- [@unocss/preset-attributify](https://github.com/antfu/unocss/tree/main/packages/preset-attributify) - Provides [Attributify Mode](#attributify-mode) to other presets and rules.
+- [@unocss/preset-icons](https://github.com/antfu/unocss/tree/main/packages/preset-icons) - Use any icon as a class utility.
 
 To set presets to your project:
 
@@ -180,11 +183,11 @@ the corresponding CSS will be generated:
 .p-5 { padding: 1.25rem; }
 ```
 
-Congratulations! Now you got your own powerful atomic-css utilities, enjoy!
+Congratulations! Now you got your own powerful atomic CSS utilities, enjoy!
 
 ### Ordering
 
-UnoCSS will retain the order of the rules you defined to the generated CSS. Later ones come with higher priority.
+UnoCSS keeps the order of the rules you defined to the generated CSS. Later ones come with higher priority.
 
 ### Shortcuts
 
@@ -318,7 +321,7 @@ As a result, the following CSS will be generated:
 
 With this, we could have `m-2` applied only when users hover over the element.
 
-The variant system is very powerful and can't be covered fully in this guide, you can check [the default preset's implementation](./packages/preset-uno/src/variants) to see more advanced usages.
+The variant system is very powerful and can't be covered fully in this guide, you can check [the default preset's implementation](https://github.com/antfu/unocss/tree/main/packages/preset-uno/src/variants) to see more advanced usages.
 
 ### CSS Scoping
 

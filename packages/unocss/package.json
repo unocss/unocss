@@ -35,7 +35,7 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch src",
-    "prepublishOnly": "nr build"
+    "prepublishOnly": "nr build && cp ../../README.md ."
   },
   "dependencies": {
     "@unocss/core": "workspace:*",
