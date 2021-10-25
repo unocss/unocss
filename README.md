@@ -4,10 +4,9 @@ The instant on-demand Atomic CSS engine.
 
 [![NPM version](https://img.shields.io/npm/v/unocss?color=a1b858&label=)](https://www.npmjs.com/package/unocss)
 
+[🤹‍♂️ Online Playground](https://unocss.antfu.me/)
 
-[Online Playground](https://unocss.antfu.me/)
-
-> 💡 I highly recommend you to read this blog post - [**Reimagine Atomic CSS**](https://antfu.me/posts/reimagine-atomic-css#no-parsing-no-ast) to learn the story behind this tool.
+> 💡 I highly recommend to read this blog post - [**Reimagine Atomic CSS**](https://antfu.me/posts/reimagine-atomic-css#no-parsing-no-ast) for the story behind this tool.
 
 ## Features
 
@@ -17,10 +16,12 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 - [Fully customizable](#configurations) - no core utilities, all functionalities are provided via presets.
 - [Shortcuts](#shortcuts) - aliasing utilities, dynamically.
 - [Attributify Mode](./packages/preset-attributify/) - group utilities in attributes
-- [CSS Icons](./packages/preset-icons/) - use any icon as a single class.
-- Code-splitting for CSS - ships minimal CSS for MPA.
+- [Pure CSS Icons](./packages/preset-icons/) - use any icon as a single class.
 - [CSS Scoping](#css-scoping)
+- Code-splitting for CSS - ships minimal CSS for MPA.
 - Library friendly - ships atomic styles with your component libraries and safely scoped.
+
+###### Benchmark
 
 ```
 10/21/2021, 2:17:45 PM
@@ -39,11 +40,11 @@ UnoCSS is designed **NOT** to be/have:
 - Align with Tailwind - technically, UnoCSS is flexible enough to do that, but it's not a priority.
 - A CSS preprocessor (e.g. `@apply`) - but you can use [shortcuts](#shortcuts).
 - Tailwind's plugin system - but you can write custom rules in seconds and share them as presets!
-- Integrations for Webpack or others - it's Vite only.
+- Integrations for Webpack or others - it's **Vite only** (at this moment)
 
 ###### Disclamier
 
-> 🧪 This package is trying to explore the possibilities of what an atomic CSS framework can be. **Not production-ready**, yet. Breaking changes and overhaul redesigns happen frequently.
+> 🧪 This package is trying to explore the possibilities of what an atomic CSS framework can be. **Not production-ready**, yet. Expect breaking changes and overhaul redesigns.
 
 ## Installation
 
@@ -323,7 +324,7 @@ The variant system is very powerful and can't be covered fully in this guide, yo
 
 > 🚧 This part is still under experiment. You might want to read the code to see how it works currently.
 
-## Make a Custom Preset
+<!-- ## Make a Custom Preset
 
 // TODO:
 
@@ -333,9 +334,11 @@ The variant system is very powerful and can't be covered fully in this guide, yo
 
 ### Publish
 
-// TODO:
+// TODO: -->
 
 ## Acknowledgement
+
+> in alphabet order
 
 - [ACSS](https://acss.io/)
 - [Bootstrap Utilities](https://getbootstrap.com/docs/5.1/utilities/flex/)
@@ -345,8 +348,6 @@ The variant system is very powerful and can't be covered fully in this guide, yo
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Twind](https://github.com/tw-in-js/twind)
 - [Windi CSS](http://windicss.org/)
-
-> alphabet order
 
 ## Sponsors
 
