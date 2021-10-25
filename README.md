@@ -6,7 +6,7 @@ The instant on-demand Atomic CSS engine.
 
 > 💡 I highly recommend to read this blog post - [**Reimagine Atomic CSS**](https://antfu.me/posts/reimagine-atomic-css#no-parsing-no-ast) for the story behind this tool.
 
-## Try it!
+###### Try it!
 
 [🤹‍♂️ Online Playground](https://unocss.antfu.me/)
 

@@ -4,7 +4,7 @@ import parserCSS from 'prettier/parser-postcss'
 // @ts-ignore
 import { Splitpanes, Pane } from 'splitpanes'
 import { isDark } from '../logics/dark'
-import { customConfigRaw, inputHTML, output } from '../logics/uno'
+import { customConfigRaw, inputHTML, output, customConfigError } from '../logics/uno'
 import { defaultConfigRaw, defaultHTML } from '../defaults'
 import { options } from '../logics/url'
 
@@ -98,7 +98,14 @@ onMounted(() => {
           Strict
         </label>
         <div flex-auto />
-        <button i-carbon-sun dark-i-carbon-moon text-xl op-50 hover:op-100 @click="isDark = !isDark">
+        <button
+          i-carbon-sun
+          dark-i-carbon-moon
+          text-xl
+          op-50
+          hover:op-100
+          @click="isDark = !isDark"
+        >
         </button>
       </TitleBar>
       <CodeMirror
@@ -131,7 +138,7 @@ onMounted(() => {
         :read-only="true"
       />
     </Pane>
-    <Pane :min-size="titleHeightPercent" :size="panelSizes[2]" flex flex-col>
+    <Pane :min-size="titleHeightPercent" :size="panelSizes[2]" flex flex-col relative>
       <TitleBar title="Config">
         <template #before>
           <div
@@ -142,6 +149,18 @@ onMounted(() => {
         </template>
       </TitleBar>
       <CodeMirror v-model="customConfigRaw" flex-auto mode="javascript" border="l gray-400/20" />
+      <div
+        v-if="customConfigError"
+        absolute
+        left-0
+        right-0
+        bottom-0
+        p="x-2 y-1"
+        bg="red-400/20"
+        text="red-400 sm"
+      >
+        {{ customConfigError.toString() }}
+      </div>
     </Pane>
   </Splitpanes>
 </template>
