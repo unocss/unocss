@@ -6,9 +6,6 @@ const config: Options = {
   entryPoints: [
     'src/*.ts',
   ],
-  minify: true,
-  minifySyntax: true,
-  minifyIdentifiers: true,
   clean: true,
   dts: true,
 }

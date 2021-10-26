@@ -7,9 +7,6 @@ const config: Options = {
     'src/*.ts',
   ],
   target: 'esnext',
-  // minify: true,
-  // minifySyntax: true,
-  // minifyIdentifiers: true,
   clean: true,
   dts: true,
 }

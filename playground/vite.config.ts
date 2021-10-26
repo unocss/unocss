@@ -45,7 +45,6 @@ export default defineConfig({
     }),
   ],
   build: {
-    minify: true,
     rollupOptions: {
       external: [
         'local-pkg',
