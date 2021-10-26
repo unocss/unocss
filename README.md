@@ -156,8 +156,8 @@ To make it smarter, change the matcher to a RegExp and the body to a function:
 
 ```ts
 rules: [
-  [/^m-(\d)$/, ([, d]) => ({ margin: `${d / 4}rem` })],
-  [/^p-(\d)$/, (match) => ({ padding: `${match[1] / 4}rem` })],
+  [/^m-(\d+)$/, ([, d]) => ({ margin: `${d / 4}rem` })],
+  [/^p-(\d+)$/, (match) => ({ padding: `${match[1] / 4}rem` })],
 ]
 ```
 
