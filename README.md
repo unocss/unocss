@@ -4,7 +4,7 @@ The instant on-demand Atomic CSS engine.
 
 [![NPM version](https://img.shields.io/npm/v/unocss?color=a1b858&label=)](https://www.npmjs.com/package/unocss)
 
-> 💡 I highly recommend to read this blog post - [**Reimagine Atomic CSS**](https://antfu.me/posts/reimagine-atomic-css#no-parsing-no-ast) for the story behind this tool.
+> 💡 I highly recommend reading this blog post - [**Reimagine Atomic CSS**](https://antfu.me/posts/reimagine-atomic-css) for the story behind this tool.
 
 ###### Try it!
 
