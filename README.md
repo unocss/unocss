@@ -44,7 +44,7 @@ UnoCSS is designed **NOT** to be/have:
 - Tailwind's plugin system - but you can write custom rules in seconds and share them as presets!
 - Integrations for Webpack or others - it's **Vite only** (at this moment)
 
-###### Disclamier
+###### Disclaimer
 
 > 🧪 This package is trying to explore the possibilities of what an atomic CSS framework can be. **Not production-ready**, yet. Expect breaking changes and overhaul redesigns.
 
