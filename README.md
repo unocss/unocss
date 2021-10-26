@@ -19,7 +19,6 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 - [Shortcuts](#shortcuts) - aliasing utilities, dynamically.
 - [Attributify Mode](https://github.com/antfu/unocss/tree/main/packages/preset-attributify/) - group utilities in attributes
 - [Pure CSS Icons](https://github.com/antfu/unocss/tree/main/packages/preset-icons/) - use any icon as a single class.
-- Code-splitting for CSS - ships minimal CSS for MPA.
 - [CSS Scoping](#css-scoping)
 - Code-splitting for CSS - ships minimal CSS for MPA.
 - Library friendly - ships atomic styles with your component libraries and safely scoped.
