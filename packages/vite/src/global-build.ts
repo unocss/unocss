@@ -52,6 +52,9 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: Context): P
         const keys = Object.keys(bundle)
           .filter(i => i.endsWith('.css'))
 
+        if (!keys.length)
+          return
+
         await Promise.all(tasks)
         const { css } = await uno.generate(tokens)
         let replaced = false
