@@ -3,7 +3,7 @@ import { createFilter } from '@rollup/pluginutils'
 import { defaultExclude, defaultInclude } from './utils'
 import { Context } from './context'
 
-const VIRTUAL_ENTRY = '/@unocss-entry'
+const VIRTUAL_ENTRY = '/@unocss-entry.css'
 const READY_CALLBACK = '/__unocss_ready'
 
 export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }: Context): Plugin {
@@ -44,6 +44,8 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
 
   onInvalidate(invalidate)
 
+  let mainEntry: string | undefined
+
   return {
     name: 'unocss:global',
     apply: 'serve',
@@ -52,15 +54,7 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
       server = _server
       server.middlewares.use(async(req, res, next) => {
         if (req.url === READY_CALLBACK) {
-          let body = ''
-          await new Promise((resolve) => {
-            req.on('data', (chunk) => {
-              body += chunk
-            })
-            req.on('end', resolve)
-          })
-          if (+body !== lastUpdate)
-            sendUpdate()
+          sendUpdate()
           res.statusCode = 200
           res.end()
         }
@@ -69,46 +63,34 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
         }
       })
     },
-    transform(code, id) {
-      if (!filter(id))
-        return
+    transform(code, id, context) {
+      // @ts-expect-error
+      const isSSR = context === true || context?.ssr === true
+      if (filter(id))
+        scan(code, id)
 
-      scan(code, id)
+      // we treat the first incoming module as the main entry
+      if (!isSSR && (mainEntry == null || mainEntry === id) && !id.includes('node_modules/vite')) {
+        mainEntry = id
+        code = `
+await import("${VIRTUAL_ENTRY}").then(() => fetch('${READY_CALLBACK}'));
+${code}
+`
+        return code
+      }
+
       return null
     },
     resolveId(id) {
       return id === VIRTUAL_ENTRY ? id : null
     },
-    async load(id, context) {
-      // @ts-expect-error for future API changes
-      const isSSR = (context === true || context?.ssr === true)
+    async load(id) {
       if (id !== VIRTUAL_ENTRY)
         return null
 
       await Promise.all(tasks)
       const { css } = await uno.generate(tokens)
-      if (isSSR) {
-        return `export default ${JSON.stringify(`/* unocss */\n${css}`)}`
-      }
-      else {
-        return `
-import { updateStyle, removeStyle } from "/@vite/client";
-const id = "${VIRTUAL_ENTRY}"
-import.meta.hot.accept()
-import.meta.hot.prune(() => removeStyle(id))
-const css = ${JSON.stringify(`/* unocss */\n${css}`)}
-updateStyle(id, css)
-export default css
-fetch('${READY_CALLBACK}', { method: 'POST', body: '${lastUpdate}' })
-`
-      }
-    },
-    transformIndexHtml: {
-      enforce: 'pre',
-      async transform(code, { path }) {
-        tasks.push(scan(code, path))
-        return `${code}<script src="${VIRTUAL_ENTRY}" type="module"></script>`
-      },
+      return css
     },
   }
 }
