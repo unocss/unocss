@@ -48,6 +48,7 @@ Set {
   "[text-4xl=\\"\\"]",
   "[mb--3=\\"\\"]",
   "[text-5xl=\\"\\"]",
+  "[sm~=\\"bg-blue-600\\"]",
   "[op-20=\\"\\"]",
   "[font-200=\\"\\"]",
   "[mt-1=\\"\\"]",
@@ -98,7 +99,10 @@ exports[`attributify fixture2 1`] = `
 [h-80=\\"\\"]{height:20rem;}
 [select-none=\\"\\"]{user-select:none;}
 [tracking-wider=\\"\\"]{letter-spacing:0.05em;}
-[all\\\\:transition-400=\\"\\"] *{transition-property:background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:400ms;}"
+[all\\\\:transition-400=\\"\\"] *{transition-property:background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:400ms;}
+@media (min-width: 640px){
+[sm~=\\"bg-blue-600\\"]{--un-bg-opacity:1;background-color:rgba(37,99,235,var(--un-bg-opacity));}
+}"
 `;
 
 exports[`attributify variant 1`] = `

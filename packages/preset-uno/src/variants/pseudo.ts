@@ -1,27 +1,16 @@
-import { toArray, variantMatcher, Variant } from '@unocss/core'
+import { toArray, Variant } from '@unocss/core'
+import { variantMatcher } from '../utils/variants'
 
 export function createPseudoClassVariant(name: string, pseudo = name): Variant[] {
   return [
-    {
-      match: variantMatcher(name),
-      selector: input => `${input}:${pseudo}`,
-    },
-    {
-      match: variantMatcher(`not-${name}`),
-      selector: input => `${input}:not(:${pseudo})`,
-    },
-    {
-      match: variantMatcher(`group-${name}`),
-      selector: input => `.group:${pseudo} ${input}`,
-    },
+    variantMatcher(name, input => `${input}:${pseudo}`),
+    variantMatcher(`not-${name}`, input => `${input}:not(:${pseudo})`),
+    variantMatcher(`group-${name}`, input => `.group:${pseudo} ${input}`),
   ]
 }
 
 export function createPseudoElementVariant(name: string): Variant {
-  return {
-    match: variantMatcher(name),
-    selector: input => `${input}::${name}`,
-  }
+  return variantMatcher(name, input => `${input}::${name}`)
 }
 
 export const variantPseudoClasses = [

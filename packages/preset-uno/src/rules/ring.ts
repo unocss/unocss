@@ -3,7 +3,6 @@ import { Theme } from '../theme'
 import { handler as h } from '../utils'
 import { ringColors, ringOffsetColors } from './color'
 
-// TODO: support color and opacity
 export const rings: Rule<Theme>[] = [
   // size
   [/^ring-?(.*)$/, ([, d]) => {

@@ -22,23 +22,33 @@ export type Shortcut = StaticShortcut | DynamicShortcut
 
 export type ExcludeRule = string | RegExp
 
-export type Variant<Theme extends {} = {}> = {
+export interface VariantHandler {
   /**
-   * The entry function to match and rewrite the selector for futher processing.
+   * The result rewritten selector for the next round of matching
    */
-  match: (input: string, theme: Theme) => string | undefined
+  matcher: string
   /**
    * Rewrite the output selector. Often be used to append pesudo classes or parents.
    */
-  selector?: (input: string, theme: Theme) => string | undefined
+  selector?: (input: string) => string | undefined
   /**
    * Rewrite the output css body. The input come in [key,value][] pairs.
    */
-  rewrite?: (input: CSSEntries, theme: Theme) => CSSEntries | undefined
+  body?: (body: CSSEntries) => CSSEntries | undefined
   /**
    * Provide media query to the output css.
    */
-  mediaQuery?: (selector: string, theme: Theme) => string | undefined
+  mediaQuery?: string | undefined
+}
+
+export type VariantFunction<Theme extends {} = {}> = (matcher: string, raw: string, theme: Theme) => string | VariantHandler | undefined
+
+export type VariantObject<Theme extends {} = {}> = {
+  /**
+   * The entry function to match and rewrite the selector for futher processing.
+   */
+  match: VariantFunction<Theme>
+
   /**
    * Allows this variant to be used more than once in matching a single rule
    *
@@ -46,6 +56,8 @@ export type Variant<Theme extends {} = {}> = {
    */
   multiPass?: boolean
 }
+
+export type Variant<Theme extends {} = {}> = VariantFunction<Theme> | VariantObject<Theme>
 
 export interface ConfigBase<Theme extends {} = {}> {
   /**
@@ -115,6 +127,7 @@ export interface UserConfigDefaults<Theme extends {} = {}> extends ConfigBase<Th
 
 export interface ResolvedConfig extends Omit<Required<UserConfig>, 'presets' | 'rules' | 'shortcuts'> {
   shortcuts: Shortcut[]
+  variants: VariantObject[]
   rulesSize: number
   rulesDynamic: (DynamicRule|undefined)[]
   rulesStaticMap: Record<string, [number, CSSObject | CSSEntries] | undefined>
@@ -128,14 +141,14 @@ export interface GenerateResult {
 export type VariantMatchedResult = readonly [
   string /* raw */,
   string /* processed */,
-  Variant[]
+  VariantHandler[]
 ]
 
 export type ParsedUtil = readonly [
   number /* index */,
   string /* raw */,
   CSSEntries,
-  Variant[]
+  VariantHandler[]
 ]
 
 export type StringifiedUtil = readonly [

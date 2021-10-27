@@ -3,25 +3,23 @@ import { Theme } from '../theme'
 
 const regexCache: Record<string, RegExp> = {}
 
-export const variantBreakpoints: Variant<Theme> = {
-  match(input, theme) {
-    for (const point of Object.keys(theme.breakpoints || {})) {
-      if (!regexCache[point])
-        regexCache[point] = new RegExp(`^((?:lt-)?${point}[:-])`)
-      const match = input.match(regexCache[point])
-      if (match)
-        return input.slice(match[1].length)
-    }
-  },
-  mediaQuery(input, theme) {
-    const [, d, s] = input.match(/^(lt-)?(\w+)[:-]/) || []
-    if (!s)
-      return
+export const variantBreakpoints: Variant<Theme> = (matcher, _, theme) => {
+  for (const [point, size] of Object.entries(theme.breakpoints || {})) {
+    if (!regexCache[point])
+      regexCache[point] = new RegExp(`^((?:lt-)?${point}[:-])`)
+
+    const match = matcher.match(regexCache[point])
+    if (!match)
+      continue
+
+    const [, pre] = match
     let direction = 'min'
-    if (d === 'lt-')
+    if (pre.startsWith('lt-'))
       direction = 'max'
-    const point = theme.breakpoints?.[s]
-    if (point)
-      return `@media (${direction}-width: ${point})`
-  },
+
+    return {
+      matcher: matcher.slice(pre.length),
+      mediaQuery: `@media (${direction}-width: ${size})`,
+    }
+  }
 }

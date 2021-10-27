@@ -290,10 +290,16 @@ import '@unocss/reset/tailwind.css'
 
 ```ts
 variants: [
-  {
-    match: s => s.startsWith('hover:') ? s.slice(6) : null,
-    selector: s => `${s}:hover`,
-  },
+  // hover:
+  (matcher) => {
+    if (!matcher.startsWith('hover:'))
+      return matcher
+    return {
+      // slice `hover:` prefix and passed to the next variants and rules
+      matcher: matcher.slice(6),
+      selector: s => `${s}:hover`,
+    }
+  }
 ],
 rules: [
   [/^m-(\d)$/, ([, d]) => ({ margin: `${d / 4}rem` })],
@@ -311,7 +317,7 @@ Let's have a tour of what happened when matching for `hover:m-2`:
 - the result `m-2` will be used for the next round of variants matching
 - if no more variant is matched, `m-2` will then goes to match the rules
 - our first rule get matched and generates `.m-2 { margin: 0.5rem; }`
-- finally, we apply our variants transformation to the generated CSS. In this case, we prepended `:hover` to the selector
+- finally, we apply our variants transformation to the generated CSS. In this case, we prepended `:hover` to the `selector` hook
 
 As a result, the following CSS will be generated:
 

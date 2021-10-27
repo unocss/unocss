@@ -1,6 +1,7 @@
 import { UserConfig, ParsedUtil, StringifiedUtil, UserConfigDefaults, VariantMatchedResult, Variant, ResolvedConfig, CSSEntries, GenerateResult, CSSObject } from '../types'
 import { resolveConfig } from '../config'
 import { e, entriesToCss, isStaticShortcut, TwoKeyMap } from '../utils'
+import { VariantHandler } from '..'
 
 export class UnoGenerator {
   private _cache = new Map<string, StringifiedUtil[] | null>()
@@ -145,18 +146,24 @@ export class UnoGenerator {
 
   matchVariants(raw: string): VariantMatchedResult {
     // process variants
-    const variants: Variant[] = []
+    const usedVariants = new Set<Variant>()
+    const handlers: VariantHandler[] = []
     let processed = raw
     let applied = false
     while (true) {
       applied = false
       for (const v of this.config.variants) {
-        if (!v.multiPass && variants.includes(v))
+        if (!v.multiPass && usedVariants.has(v))
           continue
-        const result = v.match(processed, this.config.theme)
-        if (result && result !== processed) {
-          processed = result
-          variants.push(v)
+        let handler = v.match(processed, raw, this.config.theme)
+        if (!handler)
+          continue
+        if (typeof handler === 'string')
+          handler = { matcher: handler }
+        if (handler && handler.matcher !== processed) {
+          processed = handler.matcher
+          handlers.push(handler)
+          usedVariants.add(v)
           applied = true
           break
         }
@@ -165,14 +172,13 @@ export class UnoGenerator {
         break
     }
 
-    return [raw, processed, variants]
+    return [raw, processed, handlers]
   }
 
-  applyVariants(parsed: ParsedUtil, variants = parsed[3], raw = parsed[1]) {
-    const theme = this.config.theme
-    const selector = variants.reduce((p, v) => v.selector?.(p, theme) || p, toEscapedSelector(raw))
-    const mediaQuery = variants.reduce((p: string | undefined, v) => v.mediaQuery?.(parsed[1], theme) || p, undefined)
-    const entries = variants.reduce((p, v) => v.rewrite?.(p, theme) || p, parsed[2])
+  applyVariants(parsed: ParsedUtil, variantHandlers = parsed[3], raw = parsed[1]) {
+    const selector = variantHandlers.reduce((p, v) => v.selector?.(p) || p, toEscapedSelector(raw))
+    const mediaQuery = variantHandlers.reduce((p: string | undefined, v) => v.mediaQuery || p, undefined)
+    const entries = variantHandlers.reduce((p, v) => v.body?.(p) || p, parsed[2])
     return [
       selector,
       entries,

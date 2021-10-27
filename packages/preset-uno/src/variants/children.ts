@@ -1,12 +1,7 @@
-import { Variant, variantMatcher } from '@unocss/core'
+import { Variant } from '@unocss/core'
+import { variantMatcher } from '../utils'
 
 export const variantChildren: Variant[] = [
-  {
-    match: variantMatcher('children'),
-    selector: input => `${input} > *`,
-  },
-  {
-    match: variantMatcher('all'),
-    selector: input => `${input} *`,
-  },
+  variantMatcher('children', input => `${input} > *`),
+  variantMatcher('all', input => `${input} *`),
 ]

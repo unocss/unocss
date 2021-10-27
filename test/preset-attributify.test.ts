@@ -29,7 +29,7 @@ describe('attributify', () => {
       <div font-100 text-4xl mb--3>
         ~
       </div>
-      <div text-5xl font-100>
+      <div text-5xl font-100 sm="bg-blue-600">
         unocss
       </div>
       <div op-20 font-200 mt-1 tracking-wider group-hover="text-teal-400 op-50">
@@ -58,7 +58,11 @@ describe('attributify', () => {
   test('variant', async() => {
     const variant = variantAttributify()
     expect(Array.from(await extractorAttributify()(fixture1) || [])
-      .map(i => variant.match(i, {} as any))).toMatchSnapshot()
+      .map((i) => {
+        const r = variant(i, i, {} as any)
+        return typeof r === 'string' ? r : r ? r.matcher : r
+      }))
+      .toMatchSnapshot()
   })
 
   test('fixture1', async() => {

@@ -10,25 +10,39 @@ export * from './children'
 export * from './pseudo'
 
 export const variantImportant: Variant = {
-  match: input => input.startsWith('!') ? input.slice(1) : undefined,
-  rewrite: (input) => {
-    input.forEach((v) => {
-      if (v[1])
-        v[1] += ' !important'
-    })
-    return input
+  match(matcher) {
+    if (matcher.startsWith('!')) {
+      return {
+        matcher: matcher.slice(1),
+        body: (body) => {
+          body.forEach((v) => {
+            if (v[1])
+              v[1] += ' !important'
+          })
+          return body
+        },
+      }
+    }
   },
+
 }
 
 export const variantNegative: Variant = {
-  match: input => input.startsWith('-') ? input.slice(1) : undefined,
-  rewrite: (input) => {
-    input.forEach((v) => {
-      if (v[1]?.toString().match(/^\d/))
-        v[1] = `-${v[1]}`
-    })
-    return input
+  match(matcher) {
+    if (matcher.startsWith('-')) {
+      return {
+        matcher: matcher.slice(1),
+        body: (body) => {
+          body.forEach((v) => {
+            if (v[1]?.toString().match(/^\d/))
+              v[1] = `-${v[1]}`
+          })
+          return body
+        },
+      }
+    }
   },
+
 }
 
 export const variants = [

@@ -1,5 +1,5 @@
 import { UserShortcuts, UserConfig, ResolvedConfig, UserConfigDefaults, Shortcut } from './types'
-import { isStaticRule, mergeDeep, toArray, uniq } from './utils'
+import { isStaticRule, mergeDeep, normalizeVariant, toArray, uniq } from './utils'
 import { extractorSplit } from './extractors'
 
 export function resolveShortcuts(shortcuts: UserShortcuts): Shortcut[] {
@@ -62,7 +62,7 @@ export function resolveConfig(
     rulesSize,
     rulesDynamic: rules as ResolvedConfig['rulesDynamic'],
     rulesStaticMap,
-    variants: mergePresets('variants'),
+    variants: mergePresets('variants').map(normalizeVariant),
     shortcuts: resolveShortcuts(mergePresets('shortcuts')),
     extractors,
   }
