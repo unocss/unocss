@@ -1,5 +1,5 @@
 import './web-components/PreviewBox'
-import '@unocss/reset/eric-meyer.css'
+import '@unocss/reset/tailwind.css'
 import 'splitpanes/dist/splitpanes.css'
 import './main.css'
 
