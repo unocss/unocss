@@ -50,6 +50,9 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
     name: 'unocss:global',
     apply: 'serve',
     enforce: 'pre',
+    buildStart() {
+      mainEntry = undefined
+    },
     configureServer(_server) {
       server = _server
       server.middlewares.use(async(req, res, next) => {
@@ -72,11 +75,12 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
       // we treat the first incoming module as the main entry
       if (!isSSR && (mainEntry == null || mainEntry === id) && !id.includes('node_modules/vite')) {
         mainEntry = id
-        code = `
-await import("${VIRTUAL_ENTRY}").then(() => fetch('${READY_CALLBACK}'));
-${code}
-`
-        return code
+        return {
+          code: `await import("${VIRTUAL_ENTRY}").then(() => fetch('${READY_CALLBACK}'));${code}`,
+          map: {
+            mappings: '',
+          },
+        }
       }
 
       return null
