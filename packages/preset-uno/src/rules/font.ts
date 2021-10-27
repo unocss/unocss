@@ -1,4 +1,5 @@
-import { handler as h, toArray, Rule } from '@unocss/core'
+import { toArray, Rule } from '@unocss/core'
+import { handler as h } from '../utils'
 
 export const fonts: Rule[] = [
   [/^font-(\w+)$/, ([, d], theme) => {

@@ -1,4 +1,5 @@
-import { Rule, handler as h } from '@unocss/core'
+import { Rule } from '@unocss/core'
+import { handler as h } from '../utils'
 
 export const gaps: Rule[] = [
   [/^(?:flex-|grid-)?gap-([^-]+)$/, ([, s]) => {

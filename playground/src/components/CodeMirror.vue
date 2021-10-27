@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getMatchedPositions } from 'unocss'
+import { getMatchedPositions } from '../logics/pos'
 import { useCodeMirror } from '../logics/codemirror'
 
 const props = defineProps<{

@@ -14,8 +14,9 @@ The instant on-demand Atomic CSS engine.
 
 Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcss.com/), [Twind](https://github.com/tw-in-js/twind) but:
 
-- No parsing, no AST, no scanning, it's **INSTANT** (200x faster than Windi CSS or Tailwind JIT)
 - [Fully customizable](#configurations) - no core utilities, all functionalities are provided via presets.
+- No parsing, no AST, no scanning, it's **INSTANT** (200x faster than Windi CSS or Tailwind JIT)
+- &lt;3kb min+gzip - zero deps and browser friendly.
 - [Shortcuts](#shortcuts) - aliasing utilities, dynamically.
 - [Attributify Mode](https://github.com/antfu/unocss/tree/main/packages/preset-attributify/) - group utilities in attributes
 - [Pure CSS Icons](https://github.com/antfu/unocss/tree/main/packages/preset-icons/) - use any icon as a single class.

@@ -1,4 +1,5 @@
-import { handler as h, Rule } from '@unocss/core'
+import { Rule } from '@unocss/core'
+import { handler as h } from '../utils'
 
 export const sizes: Rule[] = [
   ['w-full', { width: '100%' }],

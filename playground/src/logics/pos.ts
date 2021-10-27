@@ -1,4 +1,4 @@
-import { escapeRegExp as e, isAttributifySelector } from '.'
+import { escapeRegExp as e, isAttributifySelector } from 'unocss'
 
 export function getMatchedPositions(code: string, matched: Set<string>) {
   const result: [number, number][] = []

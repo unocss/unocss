@@ -1,7 +1,6 @@
-import { UserConfig, ParsedUtil, StringifiedUtil, UserConfigDefaults, VariantMatchedResult, Variant, ResolvedConfig, CSSEntries, GenerateResult } from '../types'
+import { UserConfig, ParsedUtil, StringifiedUtil, UserConfigDefaults, VariantMatchedResult, Variant, ResolvedConfig, CSSEntries, GenerateResult, CSSObject } from '../types'
 import { resolveConfig } from '../config'
-import { entriesToCss, isStaticShortcut, TwoKeyMap } from '../utils'
-import { applyScope, normalizeEntries, toEscapedSelector } from './utils'
+import { e, entriesToCss, isStaticShortcut, TwoKeyMap } from '../utils'
 
 export class UnoGenerator {
   private _cache = new Map<string, StringifiedUtil[] | null>()
@@ -292,4 +291,25 @@ export class UnoGenerator {
 
 export function createGenerator(config?: UserConfig, defaults?: UserConfigDefaults) {
   return new UnoGenerator(config, defaults)
+}
+
+const reScopePlaceholder = / \$\$ /
+export const hasScopePlaceholder = (css: string) => css.match(reScopePlaceholder)
+
+function applyScope(css: string, scope?: string) {
+  if (hasScopePlaceholder(css))
+    return css.replace(reScopePlaceholder, scope ? ` ${scope} ` : ' ')
+  else
+    return scope ? `${scope} ${css}` : css
+}
+
+function toEscapedSelector(raw: string) {
+  if (raw.startsWith('['))
+    return raw.replace(/^\[(.+?)(~?=)"(.*)"\]$/, (_, n, s, i) => `[${e(n)}${s}"${e(i)}"]`)
+  else
+    return `.${e(raw)}`
+}
+
+function normalizeEntries(obj: CSSObject | CSSEntries) {
+  return !Array.isArray(obj) ? Object.entries(obj) : obj
 }
