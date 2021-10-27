@@ -1,7 +1,7 @@
 // port form Tailwind CSS and Windi CSS
 // TODO: add more details
 
-import { Theme } from '../../../core/src/types'
+import { Theme } from '../theme'
 
 export const fontFamily = {
   sans: [

@@ -9,6 +9,7 @@ import { gaps } from './gap'
 import { grids } from './grid'
 import { overflows } from './layouts'
 import { alignContents, alignItems, alignSelfs, floats, insets, justifies, justifyItems, justifySelfs, objectPositions, orders, placeContents, placeItems, placeSelfs, positions, zIndexes } from './positions'
+import { shadows } from './shadows'
 import { sizes } from './size'
 import { paddings, margins } from './spacing'
 import { verticalAligns, appearances, breaks, cursors, displays, pointerEvents, resizes, textAligns, textDecorations, textOverflows, textTransforms, userSelects, whitespaces } from './static'
@@ -50,6 +51,7 @@ export const rules: Rule[] = [
   overflows,
   positions,
   orders,
+  shadows,
   justifies,
   justifyItems,
   justifySelfs,

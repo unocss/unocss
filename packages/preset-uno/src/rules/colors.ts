@@ -1,4 +1,5 @@
-import { Theme, Rule, hex2rgba } from '@unocss/core'
+import { Rule, hex2rgba } from '@unocss/core'
+import { Theme } from '../theme'
 import { handler as h } from '../utils'
 
 const colorResolver

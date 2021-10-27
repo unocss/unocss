@@ -4,7 +4,7 @@
 // and Windi CSS
 // https://github.com/windicss/windicss/blob/main/src/config/colors.ts
 
-import { Theme } from '@unocss/core'
+import { Theme } from '../theme'
 
 export const colors: Theme['colors'] = {
   black: '#000',

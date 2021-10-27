@@ -1,7 +1,8 @@
 import { toArray, Rule } from '@unocss/core'
+import { Theme } from '../theme'
 import { handler as h } from '../utils'
 
-export const fonts: Rule[] = [
+export const fonts: Rule<Theme>[] = [
   [/^font-(\w+)$/, ([, d], theme) => {
     const font = theme.fontFamily?.[d]
     if (font) {
@@ -25,7 +26,7 @@ const weightMap: Record<string, string> = {
   // int[0, 900] -> int
 }
 
-export const fontSizes: Rule[] = [
+export const fontSizes: Rule<Theme>[] = [
   [/^text-([^-]+)$/, ([, s = 'base'], theme) => {
     const result = toArray(theme.fontSize?.[s] || h.bracket.size(s))
     if (result?.[0]) {
@@ -46,7 +47,7 @@ export const fontWeights: Rule[] = [
   }],
 ]
 
-export const leadings: Rule[] = [
+export const leadings: Rule<Theme>[] = [
   [/^(?:leading|lh)-([^-]+)$/, ([, s], theme) => {
     const v = theme.lineHeight?.[s] || h.bracket.size(s)
     if (v !== null)
@@ -54,7 +55,7 @@ export const leadings: Rule[] = [
   }],
 ]
 
-export const trackings: Rule[] = [
+export const trackings: Rule<Theme>[] = [
   [/^tracking-([^-]+)$/, ([, s], theme) => {
     const v = theme.letterSpacing?.[s] || h.bracket.size(s)
     if (v !== null)

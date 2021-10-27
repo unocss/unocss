@@ -10,9 +10,9 @@ export type CSSEntries = [string, string | number | undefined][]
 
 export type Extractor = (code: string, id?: string) => Awaitable<Set<string> | undefined>
 
-export type DynamicRule = [RegExp, ((match: string[], theme: Theme) => Awaitable<CSSObject | CSSEntries | undefined>)]
+export type DynamicRule<Theme extends {} = {}> = [RegExp, ((match: string[], theme: Theme) => Awaitable<CSSObject | CSSEntries | undefined>)]
 export type StaticRule = [string, CSSObject | CSSEntries]
-export type Rule = DynamicRule | StaticRule
+export type Rule<Theme extends {} = {}> = DynamicRule<Theme> | StaticRule
 
 export type DynamicShortcut = [RegExp, ((match: string[]) => (string | string [] | undefined))]
 export type StaticShortcut = [string, string | string[]]
@@ -22,7 +22,7 @@ export type Shortcut = StaticShortcut | DynamicShortcut
 
 export type ExcludeRule = string | RegExp
 
-export type Variant = {
+export type Variant<Theme extends {} = {}> = {
   /**
    * The entry function to match and rewrite the selector for futher processing.
    */
@@ -47,17 +47,7 @@ export type Variant = {
   multiPass?: boolean
 }
 
-export interface Theme {
-  borderRadius?: Record<string, string>
-  breakpoints?: Record<string, string>
-  colors?: Record<string, string | Record<string, string>>
-  fontFamily?: Record<string, string>
-  fontSize?: Record<string, [string, string]>
-  lineHeight?: Record<string, string>
-  letterSpacing?: Record<string, string>
-}
-
-export interface ConfigBase {
+export interface ConfigBase<Theme extends {} = {}> {
   /**
    * Rules to generate CSS utilities
    */
@@ -113,12 +103,12 @@ export interface GeneratorOptions {
   warnExcluded?: boolean
 }
 
-export interface UserConfig extends ConfigBase, GeneratorOptions {
+export interface UserConfig<Theme extends {} = {}> extends ConfigBase<Theme>, GeneratorOptions {
   theme?: Theme
   presets?: Preset[]
 }
 
-export interface UserConfigDefaults extends ConfigBase {
+export interface UserConfigDefaults<Theme extends {} = {}> extends ConfigBase<Theme> {
   theme?: Theme
   presets?: Preset[]
 }
