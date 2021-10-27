@@ -79,13 +79,19 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
     resolveId(id) {
       return id === VIRTUAL_ENTRY ? id : null
     },
-    async load(id) {
+    async load(id, context) {
+      // @ts-expect-error for future API changes
+      const isSSR = (context === true || context?.ssr === true)
       if (id !== VIRTUAL_ENTRY)
         return null
 
       await Promise.all(tasks)
       const { css } = await uno.generate(tokens)
-      return `
+      if (isSSR) {
+        return `export default ${JSON.stringify(`/* unocss */\n${css}`)}`
+      }
+      else {
+        return `
 import { updateStyle, removeStyle } from "/@vite/client";
 const id = "${VIRTUAL_ENTRY}"
 import.meta.hot.accept()
@@ -95,6 +101,7 @@ updateStyle(id, css)
 export default css
 fetch('${READY_CALLBACK}', { method: 'POST', body: '${lastUpdate}' })
 `
+      }
     },
     transformIndexHtml: {
       enforce: 'pre',
