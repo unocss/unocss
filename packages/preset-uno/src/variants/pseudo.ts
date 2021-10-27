@@ -1,5 +1,4 @@
-import { toArray, variantMatcher } from '@unocss/core'
-import { Variant } from '@unocss/core'
+import { toArray, variantMatcher, Variant } from '@unocss/core'
 
 export function createPseudoClassVariant(name: string, pseudo = name): Variant[] {
   return [
@@ -32,7 +31,7 @@ export const variantPseudoClasses = [
   'empty',
   'enabled',
   'first-of-type',
-  'first',
+  ['first', 'first-child'],
   'focus-visible',
   'focus-within',
   'focus',
@@ -40,7 +39,7 @@ export const variantPseudoClasses = [
   'indeterminate',
   'invalid',
   'last-of-type',
-  'last',
+  ['last', 'last-child'],
   'link',
   'only-child',
   'only-of-type',
