@@ -49,7 +49,7 @@ const colorResolver
       const a = opacity ? opacity[0] === "[" ? h.bracket.percent(opacity)! : (parseFloat(opacity) / 100) : rgba[3]
       if (a != null && !Number.isNaN(a)) {
         // @ts-expect-error
-        rgba[3] = a
+        rgba[3] = typeof a === 'string' && !a.includes('%') ? parseFloat(a) : a
         return {
           [attribute]: `rgba(${rgba.join(',')})`,
         }
