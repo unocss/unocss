@@ -33,7 +33,7 @@ export const transforms: Rule[] = [
 ]
 
 function handleTranslate([, d, b]: string[]): CSSEntries | undefined {
-  const v = h.bracket.rem(b)
+  const v = h.bracket.fraction.rem(b)
   if (v != null) {
     return [
       ...xyzMap[d].map((i): [string, string] => [`--un-translate${i}`, v]),

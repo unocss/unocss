@@ -74,12 +74,12 @@ function handleInsetValue(v: string): string | number | undefined {
 }
 
 export const insets: Rule[] = [
-  [/^inset-(x|y)-(.+)$/, ([, d, v]): CSSEntries | undefined => {
+  [/^(top|left|right|bottom|inset)-(.+)$/, ([, d, v]) => ({ [d]: handleInsetValue(v) })],
+  [/^inset-([xy])-(.+)$/, ([, d, v]): CSSEntries | undefined => {
     const r = handleInsetValue(v)
-    if (r != null)
+    if (r != null && d in directionMap)
       return directionMap[d].map(i => [i.slice(1), r])
   }],
-  [/^(top|left|right|bottom|inset)-(.+)$/, ([, d, v]) => ({ [d]: handleInsetValue(v) })],
 ]
 
 export const floats: Rule[] = [
