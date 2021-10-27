@@ -101,6 +101,7 @@ const targets = [
   'ring-offset-green5',
   'inset-x-5',
   'translate-y-1/4',
+  'text-opacity-[13.3333333%]',
 ]
 
 const nonTargets = [

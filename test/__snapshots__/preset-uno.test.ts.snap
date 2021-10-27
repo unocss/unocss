@@ -50,6 +50,7 @@ exports[`targets 1`] = `
 .text-red-300\\\\/20{color:rgba(252,165,165,0.2);}
 .text-red-100,.text-red100{--un-text-opacity:1;color:rgba(254,226,226,var(--un-text-opacity));}
 .text-red2{--un-text-opacity:1;color:rgba(254,202,202,var(--un-text-opacity));}
+.text-opacity-\\\\[13\\\\.3333333\\\\%\\\\]{--un-text-opacity:13.3333333%;}
 .shadow{--un-shadow:0px 0px 1px rgb(0 0 0 / 20%), 0px 0px 1px rgb(1 0 5 / 10%);-webkit-box-shadow:var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow);box-shadow:var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow);}
 .shadow-xl{--un-shadow:1px 1px 3px rgb(0 0 0 / 29%), 2px 4px 7px rgb(73 64 125 / 35%);-webkit-box-shadow:var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow);box-shadow:var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow);}
 .ring{--un-ring-inset:var(--un-empty, );--un-ring-offset-width:0px;--un-ring-offset-color:#fff;--un-ring-color:rgba(59, 130, 246, .5);--un-ring-offset-shadow:var(--un-ring-inset) 0 0 0 var(--un-ring-offset-width) var(--un-ring-offset-color);--un-ring-shadow:var(--un-ring-inset) 0 0 0 calc(1px + var(--un-ring-offset-width)) var(--un-ring-color);-webkit-box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow, 0 0 #0000);;box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow, 0 0 #0000);;}

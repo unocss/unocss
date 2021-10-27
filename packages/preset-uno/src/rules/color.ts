@@ -66,7 +66,7 @@ const colorResolver
  * @example op10 op-30 opacity-100
  */
 export const opacity: Rule[] = [
-  [/^op(?:acity)?-?(\d+)$/, ([, d]) => ({ opacity: h.percent(d) })],
+  [/^op(?:acity)?-?(.+)$/, ([, d]) => ({ opacity: h.bracket.percent(d) })],
 ]
 
 /**
@@ -74,25 +74,25 @@ export const opacity: Rule[] = [
  */
 export const textColors: Rule[] = [
   [/^(?:text|color|c)-(.+)$/, colorResolver('color', 'text')],
-  [/^(?:text|color|c)-op(?:acity)?-?(\d+)$/m, ([, opacity]) => ({ '--un-text-opacity': h.percent(opacity) })],
+  [/^(?:text|color|c)-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-text-opacity': h.bracket.percent(opacity) })],
 ]
 
 export const bgColors: Rule[] = [
   [/^bg-(.+)$/, colorResolver('background-color', 'bg')],
-  [/^bg-op(?:acity)?-?(\d+)$/m, ([, opacity]) => ({ '--un-bg-opacity': h.percent(opacity) })],
+  [/^bg-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-bg-opacity': h.bracket.percent(opacity) })],
 ]
 
 export const borderColors: Rule[] = [
   [/^border-(.+)$/, colorResolver('border-color', 'border')],
-  [/^border-op(?:acity)?-?(\d+)$/m, ([, opacity]) => ({ '--un-border-opacity': h.percent(opacity) })],
+  [/^border-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-border-opacity': h.bracket.percent(opacity) })],
 ]
 
 export const ringColors: Rule[] = [
   [/^ring-(.+)$/, colorResolver('--un-ring-color', 'ring')],
-  [/^ring-op(?:acity)?-?(\d+)$/m, ([, opacity]) => ({ '--un-ring-opacity': h.percent(opacity) })],
+  [/^ring-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-ring-opacity': h.bracket.percent(opacity) })],
 ]
 
 export const ringOffsetColors: Rule[] = [
   [/^ring-offset-(.+)$/, colorResolver('--un-ring-offset-color', 'ring-offset')],
-  [/^ring-offset-op(?:acity)?-?(\d+)$/m, ([, opacity]) => ({ '--un-ring-offset-opacity': h.percent(opacity) })],
+  [/^ring-offset-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-ring-offset-opacity': h.bracket.percent(opacity) })],
 ]
