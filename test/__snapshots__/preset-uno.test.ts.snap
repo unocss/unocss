@@ -21,6 +21,10 @@ exports[`targets 1`] = `
 .bg-\\\\#452233\\\\/40,.bg-hex-452233\\\\/40{background-color:rgba(69,34,51,0.4);}
 .bg-red-100{--un-bg-opacity:1;background-color:rgba(254,226,226,var(--un-bg-opacity));}
 .bg-teal-100\\\\/55{background-color:rgba(204,251,241,0.55);}
+.bg-teal-200\\\\:55{background-color:rgba(153,246,228,0.55);}
+.bg-teal-300\\\\:\\\\[\\\\.55\\\\]{background-color:rgba(94,234,212,0.55);}
+.bg-teal-400\\\\/\\\\[\\\\.55\\\\]{background-color:rgba(45,212,191,0.55);}
+.bg-teal-500\\\\/\\\\[55\\\\%\\\\]{background-color:rgba(20,184,166,55%);}
 .hover\\\\:not-first\\\\:checked\\\\:bg-red\\\\/10:hover:not(:first-child):checked{background-color:rgba(248,113,113,0.1);}
 .bg-opacity-45{--un-bg-opacity:0.45;}
 .border{border-width:1px;border-style:solid;}

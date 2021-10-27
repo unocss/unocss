@@ -5,7 +5,7 @@ import { handler as h } from '../utils'
 const colorResolver
 = (attribute: string, varName: string) =>
   ([, body]: string[], theme: Theme) => {
-    const [main, opacity] = body.split('/')
+    const [main, opacity] = body.split(/(?:\/|:)/)
     const [name, no = 'DEFAULT'] = main
       .replace(/([a-z])([0-9])/g, '$1-$2')
       .split(/-/g)
@@ -46,9 +46,10 @@ const colorResolver
 
     const rgba = hex2rgba(color)
     if (rgba) {
-      const a = opacity ? (parseFloat(opacity) / 100) : rgba[3]
+      const a = opacity ? opacity[0] === "[" ? h.bracket.percent(opacity)! : (parseFloat(opacity) / 100) : rgba[3]
       if (a != null && !Number.isNaN(a)) {
-        rgba[3] = a
+        // @ts-expect-error
+        rgba[3] = typeof a === 'string' && !a.includes('%') ? parseFloat(a) : a
         return {
           [attribute]: `rgba(${rgba.join(',')})`,
         }
