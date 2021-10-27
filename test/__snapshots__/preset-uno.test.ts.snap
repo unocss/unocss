@@ -13,6 +13,7 @@ exports[`targets 1`] = `
 .m-1\\\\/2{margin:50%;}
 .children\\\\:m-auto > *,.all\\\\:m-auto *,.-m-auto,.m-auto{margin:auto;}
 .my-auto{margin-top:auto;margin-bottom:auto;}
+.mt-\\\\[-10\\\\.2\\\\%\\\\]{margin-top:-10.2%;}
 .op-10{opacity:0.1;}
 .opacity-0{opacity:0;}
 .bg-\\\\[\\\\#1533\\\\]{background-color:rgba(17,85,51,0.2);}
@@ -67,6 +68,8 @@ exports[`targets 1`] = `
 .overflow-auto{overflow:auto;}
 .overflow-x-scroll{overflow-x:scroll;}
 .order-first{order:-9999;}
+.shadow{--un-shadow:0px 0px 1px rgb(0 0 0 / 20%), 0px 0px 1px rgb(1 0 5 / 10%);-webkit-box-shadow:var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow);box-shadow:var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow);}
+.shadow-xl{--un-shadow:1px 1px 3px rgb(0 0 0 / 29%), 2px 4px 7px rgb(73 64 125 / 35%);-webkit-box-shadow:var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow);box-shadow:var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow);}
 .top-0{top:0rem;}
 .z-1{z-index:1;}
 .z-100{z-index:100;}

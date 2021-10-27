@@ -1,4 +1,4 @@
-import { Variant } from '../../../core/src/types'
+import { Variant } from '@unocss/core'
 import { variantBreakpoints } from './breakpoints'
 import { variantChildren } from './children'
 import { variantColorsClass } from './dark'

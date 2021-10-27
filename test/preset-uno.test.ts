@@ -91,6 +91,9 @@ const targets = [
   'z-100',
   'filter',
   'invert',
+  'shadow',
+  'shadow-xl',
+  'mt-[-10.2%]',
 ]
 
 const nonTargets = [

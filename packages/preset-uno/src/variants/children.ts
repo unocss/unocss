@@ -1,5 +1,4 @@
-import { Variant } from '../../../core/src/types'
-import { variantMatcher } from '../../../core/src/utils'
+import { Variant, variantMatcher } from '@unocss/core'
 
 export const variantChildren: Variant[] = [
   {

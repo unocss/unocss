@@ -1,4 +1,4 @@
-import { Rule } from '../../../core/src/types'
+import { Rule } from '@unocss/core'
 
 const overflowValues = [
   'auto',

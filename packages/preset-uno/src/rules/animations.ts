@@ -1,4 +1,4 @@
-import { Rule } from '../../../core/src/types'
+import { Rule } from '@unocss/core'
 
 const transitionProps = ['background-color', 'border-color', 'color', 'fill', 'stroke', 'opacity', 'box-shadow', 'transform', 'filter', 'backdrop-filter']
 const transitionPropsStr = transitionProps.join(', ')

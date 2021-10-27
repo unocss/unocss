@@ -1,8 +1,9 @@
-import { Variant } from '../../../core/src/types'
+import { Variant } from '@unocss/core'
+import { Theme } from '../theme'
 
 const regexCache: Record<string, RegExp> = {}
 
-export const variantBreakpoints: Variant = {
+export const variantBreakpoints: Variant<Theme> = {
   match(input, theme) {
     for (const point of Object.keys(theme.breakpoints || {})) {
       if (!regexCache[point])

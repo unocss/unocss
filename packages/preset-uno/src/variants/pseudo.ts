@@ -1,5 +1,5 @@
-import { toArray, variantMatcher } from '../../../core/src/utils'
-import { Variant } from '../../../core/src/types'
+import { toArray, variantMatcher } from '@unocss/core'
+import { Variant } from '@unocss/core'
 
 export function createPseudoClassVariant(name: string, pseudo = name): Variant[] {
   return [
