@@ -8,7 +8,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@vueuse/core": "^6.6.2",
+    "@vueuse/core": "^6.7.3",
     "codemirror": "^5.63.3",
     "lz-string": "^1.4.4",
     "splitpanes": "^3.0.6",
@@ -27,10 +27,10 @@
     "prettier": "^2.4.1",
     "typescript": "^4.4.4",
     "unocss": "workspace:*",
-    "unplugin-auto-import": "^0.4.12",
-    "unplugin-icons": "^0.12.16",
-    "unplugin-vue-components": "^0.15.6",
-    "vite": "^2.6.10",
+    "unplugin-auto-import": "^0.4.13",
+    "unplugin-icons": "^0.12.17",
+    "unplugin-vue-components": "^0.16.0",
+    "vite": "^2.6.12",
     "vite-plugin-inspect": "^0.3.9"
   }
 }

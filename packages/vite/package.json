@@ -40,6 +40,6 @@
     "nanoevents": "^6.0.2"
   },
   "devDependencies": {
-    "vite": "^2.6.9"
+    "vite": "^2.6.12"
   }
 }

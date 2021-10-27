@@ -6,6 +6,7 @@ const config: Options = {
   entryPoints: [
     'src/index.ts',
   ],
+  target: 'node14',
   clean: true,
   dts: true,
 }

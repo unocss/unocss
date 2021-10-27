@@ -6,6 +6,7 @@ const config: Options = {
   entryPoints: [
     'src/*.ts',
   ],
+  target: 'es2018',
   clean: true,
   dts: true,
 }

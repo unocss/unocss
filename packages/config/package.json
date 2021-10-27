@@ -28,11 +28,14 @@
     "dev": "tsup --watch src",
     "prepublishOnly": "nr build"
   },
+  "engines": {
+    "node": ">=14"
+  },
   "dependencies": {
     "@unocss/core": "workspace:*",
     "sucrase": "^3.20.3"
   },
   "devDependencies": {
-    "find-up": "^6.2.0"
+    "find-up": "^5"
   }
 }

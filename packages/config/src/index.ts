@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { findUpSync } from 'find-up'
+import findUp from 'find-up'
 import { UserConfig } from 'unocss'
 import { transform } from 'sucrase'
 
@@ -26,7 +26,7 @@ export function loadConfig<U extends UserConfig>(dirOrPath: string | U = process
   }
 
   const filepath = isDir(dirOrPath)
-    ? findUpSync([
+    ? findUp.sync([
       'unocss.config.js',
       'unocss.config.cjs',
       'unocss.config.mjs',

@@ -8,11 +8,11 @@
     "autoprefixer": "^10.3.7",
     "fs-extra": "^10.0.0",
     "local-pkg": "^0.4.0",
-    "postcss": "^8.3.9",
+    "postcss": "^8.3.11",
     "tailwindcss": "^3.0.0-alpha.1",
     "unocss": "workspace:*",
-    "vite": "^2.6.9",
-    "vite-plugin-windicss": "^1.4.11",
+    "vite": "^2.6.12",
+    "vite-plugin-windicss": "^1.4.12",
     "vue": "^3.2.20",
     "windicss": "^3.1.9"
   }
