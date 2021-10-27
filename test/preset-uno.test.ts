@@ -94,6 +94,11 @@ const targets = [
   'shadow',
   'shadow-xl',
   'mt-[-10.2%]',
+  'ring',
+  'ring-10',
+  'ring-red2',
+  'ring-offset-4',
+  'ring-offset-green5',
 ]
 
 const nonTargets = [

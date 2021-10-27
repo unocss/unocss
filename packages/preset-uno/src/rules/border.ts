@@ -1,8 +1,9 @@
 import { CSSEntries, Rule } from '@unocss/core'
 import { Theme } from '../theme'
 import { cornerMap, directionMap, handler as h } from '../utils'
+import { borderColors } from './color'
 
-export const borders: Rule[] = [
+export const borderSizes: Rule[] = [
   [/^border$/, handlerBorder],
   [/^border(?:-([^-]+))?$/, handlerBorder],
   [/^border(?:-([^-]+))?(?:-([^-]+))?$/, handlerBorder],
@@ -22,9 +23,16 @@ export const borderStyles: Rule[] = [
   ['border-none', { 'border-style': 'none' }],
 ]
 
+export const borders = [
+  borderSizes,
+  borderColors,
+  borderStyles,
+  borderRadius,
+].flat(1)
+
 function handlerBorder([, a, b]: string[]): CSSEntries | undefined {
   const [d, s = '1'] = directionMap[a] ? [a, b] : ['', a]
-  const v = h.bracket.border(s)
+  const v = h.bracket.px(s)
   if (v != null) {
     return [
       ...directionMap[d].map((i): [string, string] => [`border${i}-width`, v]),
@@ -35,7 +43,7 @@ function handlerBorder([, a, b]: string[]): CSSEntries | undefined {
 
 function handlerRounded([, a, b]: string[], theme: Theme): CSSEntries | undefined {
   const [d, s = 'DEFAULT'] = cornerMap[a] ? [a, b] : ['', a]
-  const v = theme.borderRadius?.[s] || h.bracket.fraction.size(s)
+  const v = theme.borderRadius?.[s] || h.bracket.fraction.rem(s)
   if (v != null)
     return cornerMap[d].map(i => [`border${i}-radius`, v])
 }

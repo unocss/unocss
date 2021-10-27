@@ -1,7 +1,7 @@
 const numberWithUnitRE = /^(-?[0-9.]+)([a-z]*)$/i
 const numberRE = /^(-?[0-9.]+)$/i
 
-export function size(str: string) {
+export function rem(str: string) {
   if (str === 'auto' || str === 'a')
     return 'auto'
   const match = str.match(numberWithUnitRE)
@@ -15,7 +15,7 @@ export function size(str: string) {
     return `${num / 4}rem`
 }
 
-export function border(str: string) {
+export function px(str: string) {
   const match = str.match(numberWithUnitRE)
   if (!match)
     return

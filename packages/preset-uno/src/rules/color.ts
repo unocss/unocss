@@ -86,3 +86,13 @@ export const borderColors: Rule[] = [
   [/^border-(.+)$/, colorResolver('border-color', 'border')],
   [/^border-op(?:acity)?-?(\d+)$/m, ([, opacity]) => ({ '--un-border-opacity': h.percent(opacity) })],
 ]
+
+export const ringColors: Rule[] = [
+  [/^ring-(.+)$/, colorResolver('--un-ring-color', 'ring')],
+  [/^ring-op(?:acity)?-?(\d+)$/m, ([, opacity]) => ({ '--un-ring-opacity': h.percent(opacity) })],
+]
+
+export const ringOffsetColors: Rule[] = [
+  [/^ring-offset-(.+)$/, colorResolver('--un-ring-offset-color', 'ring-offset')],
+  [/^ring-offset-op(?:acity)?-?(\d+)$/m, ([, opacity]) => ({ '--un-ring-offset-opacity': h.percent(opacity) })],
+]

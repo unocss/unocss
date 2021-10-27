@@ -2,7 +2,7 @@ import { CSSEntries, Rule } from '@unocss/core'
 import { directionMap, handler as h } from '../utils'
 
 const directionSize = (prefix: string) => ([_, direction, size]: string[]): CSSEntries | undefined => {
-  const v = h.bracket.size.fraction(size)
+  const v = h.bracket.rem.fraction(size)
   if (v)
     return directionMap[direction].map(i => [prefix + i, v])
 }

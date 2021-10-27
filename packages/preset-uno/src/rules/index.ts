@@ -1,15 +1,16 @@
 import { Rule } from 'unocss'
-import { transitions } from './animations'
-import { borders, borderStyles, borderRadius } from './border'
-import { bgColors, borderColors, opacity, textColors } from './colors'
+import { transitions } from './animation'
+import { borders } from './border'
+import { bgColors, opacity, textColors } from './color'
 import { filters } from './filters'
 import { flex } from './flex'
-import { fonts, fontSizes, fontWeights, leadings, trackings } from './font'
+import { fonts, leadings, trackings } from './font'
 import { gaps } from './gap'
 import { grids } from './grid'
-import { overflows } from './layouts'
-import { alignContents, alignItems, alignSelfs, floats, insets, justifies, justifyItems, justifySelfs, objectPositions, orders, placeContents, placeItems, placeSelfs, positions, zIndexes } from './positions'
-import { shadows } from './shadows'
+import { overflows } from './layout'
+import { alignContents, alignItems, alignSelfs, floats, insets, justifies, justifyItems, justifySelfs, objectPositions, orders, placeContents, placeItems, placeSelfs, positions, zIndexes } from './position'
+import { rings } from './ring'
+import { shadows } from './shadow'
 import { sizes } from './size'
 import { paddings, margins } from './spacing'
 import { verticalAligns, appearances, breaks, cursors, displays, pointerEvents, resizes, textAligns, textDecorations, textOverflows, textTransforms, userSelects, whitespaces } from './static'
@@ -22,17 +23,14 @@ export const rules: Rule[] = [
   opacity,
   bgColors,
   borders,
-  borderColors,
-  borderStyles,
-  borderRadius,
   fonts,
-  fontSizes,
-  fontWeights,
   textOverflows,
   textDecorations,
   textTransforms,
   textAligns,
   textColors,
+  shadows,
+  rings,
   flex,
   grids,
   gaps,
@@ -51,7 +49,6 @@ export const rules: Rule[] = [
   overflows,
   positions,
   orders,
-  shadows,
   justifies,
   justifyItems,
   justifySelfs,
