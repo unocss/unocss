@@ -99,6 +99,8 @@ const targets = [
   'ring-red2',
   'ring-offset-4',
   'ring-offset-green5',
+  'inset-x-5',
+  'translate-y-1/4',
 ]
 
 const nonTargets = [
