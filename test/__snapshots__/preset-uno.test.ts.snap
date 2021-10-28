@@ -69,6 +69,16 @@ exports[`targets 1`] = `
 .grid-rows-3{grid-template-rows:repeat(3, minmax(0, 1fr));}
 .grid-cols-\\\\[1fr\\\\2c 2fr\\\\2c 100px\\\\2c min-content\\\\]{grid-template-columns:1fr 2fr 100px min-content;}
 .grid-rows-\\\\[1fr\\\\2c 2fr\\\\2c 100px\\\\2c min-content\\\\]{grid-template-rows:1fr 2fr 100px min-content;}
+.auto-flow-cols-dense{grid-auto-flow:columns dense;}
+.row-start-full{grid-row-start:full;}
+.row-end-1{grid-row-end:1;}
+.auto-rows-auto{grid-auto-rows:auto;}
+.auto-rows-fr{grid-auto-rows:minmax(0, 1fr);}
+.auto-rows-min{grid-auto-rows:min-content;}
+.auto-cols-auto{grid-auto-columns:auto;}
+.row-auto{grid-row:auto;}
+.row-span-full{grid-row:1 / -1;}
+.col-span-1{grid-column:span 1 / span 1;}
 .gap-4{grid-gap:1rem;gap:1rem;}
 .gap-x-1{grid-column-gap:0.25rem;column-gap:0.25rem;}
 .-gap-y-5{grid-row-gap:-1.25rem;row-gap:-1.25rem;}
