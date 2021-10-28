@@ -42,6 +42,12 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: Context): P
 
         return null
       },
+      transformIndexHtml: {
+        enforce: 'pre',
+        transform(code, { path }) {
+          tasks.push(scan(code, path))
+        },
+      },
       resolveId(id) {
         return id === VIRTUAL_ENTRY ? id : null
       },

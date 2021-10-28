@@ -85,6 +85,12 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
 
       return null
     },
+    transformIndexHtml: {
+      enforce: 'pre',
+      transform(code, { path }) {
+        scan(code, path)
+      },
+    },
     resolveId(id) {
       return id === VIRTUAL_ENTRY ? id : null
     },
