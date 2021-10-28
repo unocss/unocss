@@ -1,6 +1,6 @@
-import { Theme } from "../theme";
-import { handler as h } from "../utils";
 import { toArray, Rule } from '@unocss/core'
+import { Theme } from '../theme'
+import { handler as h } from '../utils'
 
 const calSize = (s: string, theme: Theme) => toArray(theme.fontSize?.[s] || h.bracket.rem(s))[0]
 
