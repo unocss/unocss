@@ -185,6 +185,57 @@ the corresponding CSS will be generated:
 
 Congratulations! Now you got your own powerful atomic CSS utilities, enjoy!
 
+###### Full Controlled Rules
+
+<details>
+<summary>It's an advance feature, you should not need it in most of the cases.</summary>
+
+When you really need some advanced rules that can't be covered by the combination of [Dynamic Rules](#dynamic-rules) and [Variants](#custom-variants), you also provide a way to give you full controls of generating the CSS.
+
+By returning a `string` from the dynamic rule's body function, it will be directly passed to the generated CSS. That also means you would need to take care of things like CSS escaping, variants applying, CSS constructing, and so on.
+
+```ts
+import Unocss, { escape as e } from 'unocss'
+
+Unocss({
+  rules: [
+    [/^custom-(.+)$/, ([, name], { rawSelector, currentSelector, variantHandlers, theme }) => {
+      // discard mismatched rules
+      if (name.includes('something'))
+        return
+
+      // if you want, you can disable the variants for this rule
+      if (variantHandlers.length)
+        return
+
+      // return a string instead of an object
+      return `
+.${e(rawSelector)} {
+  font-size: ${theme.fontSize.sm};
+}
+/* you can have multiple rules */
+.${e(rawSelector)}::after {
+  content: 'after';
+}
+.foo > .${e(rawSelector)} {
+  color: red;
+}
+/* or media queries */
+@media (min-width: ${theme.breakpoints.sm}) {
+  .${e(rawSelector)} {
+    font-size: ${theme.fontSize.sm};
+  }
+}
+`
+    }]
+  ]
+})
+```
+
+Note is an advanced feature, you might need to read some code to take the full power of it.
+
+</details>
+
 ### Ordering
 
 UnoCSS keeps the order of the rules you defined to the generated CSS. Later ones come with higher priority.

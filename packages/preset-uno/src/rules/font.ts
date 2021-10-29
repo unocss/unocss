@@ -3,7 +3,7 @@ import { Theme } from '../theme'
 import { handler as h } from '../utils'
 
 export const fontsFamilies: Rule<Theme>[] = [
-  [/^font-(\w+)$/, ([, d], theme) => {
+  [/^font-(\w+)$/, ([, d], { theme }) => {
     const font = theme.fontFamily?.[d]
     if (font) {
       return {
@@ -27,7 +27,7 @@ const weightMap: Record<string, string> = {
 }
 
 export const fontSizes: Rule<Theme>[] = [
-  [/^text-([^-]+)$/, ([, s = 'base'], theme) => {
+  [/^text-([^-]+)$/, ([, s = 'base'], { theme }) => {
     const result = toArray(theme.fontSize?.[s] || h.bracket.rem(s))
     if (result?.[0]) {
       const [size, height = '1'] = result
@@ -48,7 +48,7 @@ export const fontWeights: Rule[] = [
 ]
 
 export const leadings: Rule<Theme>[] = [
-  [/^(?:leading|lh)-([^-]+)$/, ([, s], theme) => {
+  [/^(?:leading|lh)-([^-]+)$/, ([, s], { theme }) => {
     const v = theme.lineHeight?.[s] || h.bracket.rem(s)
     if (v !== null)
       return { 'line-height': v }
@@ -56,7 +56,7 @@ export const leadings: Rule<Theme>[] = [
 ]
 
 export const trackings: Rule<Theme>[] = [
-  [/^tracking-([^-]+)$/, ([, s], theme) => {
+  [/^tracking-([^-]+)$/, ([, s], { theme }) => {
     const v = theme.letterSpacing?.[s] || h.bracket.rem(s)
     if (v !== null)
       return { 'letter-spacing': v }

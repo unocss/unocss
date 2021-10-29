@@ -1,4 +1,5 @@
-import { Variant, VariantObject } from '..'
+import { StringifiedUtil } from '..'
+import { ParsedUtil, RawUtil, Variant, VariantObject } from '../types'
 
 export const attributifyRE = /^\[(.+?)~?="(.*)"\]$/
 export const validateFilterRE = /[a-z]/
@@ -15,4 +16,8 @@ export function normalizeVariant(variant: Variant): VariantObject {
   return typeof variant === 'function'
     ? { match: variant }
     : variant
+}
+
+export function isRawUtil(util: ParsedUtil | RawUtil | StringifiedUtil): util is RawUtil {
+  return util.length === 2
 }

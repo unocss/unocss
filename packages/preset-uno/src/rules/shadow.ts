@@ -3,7 +3,7 @@ import { Theme } from '../theme'
 
 // TODO: support color and opacity
 export const shadows: Rule<Theme>[] = [
-  [/^shadow-?(.*)$/, ([, d], theme) => {
+  [/^shadow-?(.*)$/, ([, d], { theme }) => {
     const value = theme?.textShadow?.[d || 'DEFAULT']
     if (value) {
       return {

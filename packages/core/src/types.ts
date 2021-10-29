@@ -1,3 +1,5 @@
+import type { UnoGenerator } from './generator'
+
 /* eslint-disable no-use-before-define */
 export type Awaitable<T> = T | Promise<T>
 export type ArgumentType<T> = T extends ((...args: infer A) => any) ? A : never
@@ -8,9 +10,17 @@ export type DeepPartial<T> = { [P in keyof T]?: DeepPartial<T[P]> }
 export type CSSObject = Record<string, string | number | undefined>
 export type CSSEntries = [string, string | number | undefined][]
 
+export interface RuleContext<Theme extends {} = {}> {
+  rawSelector: string
+  currentSelector: string
+  generator: UnoGenerator
+  theme: Theme
+  variantHandlers: VariantHandler[]
+}
+
 export type Extractor = (code: string, id?: string) => Awaitable<Set<string> | undefined>
 
-export type DynamicRule<Theme extends {} = {}> = [RegExp, ((match: string[], theme: Theme) => Awaitable<CSSObject | CSSEntries | undefined>)]
+export type DynamicRule<Theme extends {} = {}> = [RegExp, ((match: string[], context: Readonly<RuleContext<Theme>>) => Awaitable<CSSObject | CSSEntries | string | undefined>)]
 export type StaticRule = [string, CSSObject | CSSEntries]
 export type Rule<Theme extends {} = {}> = DynamicRule<Theme> | StaticRule
 
@@ -151,9 +161,14 @@ export type ParsedUtil = readonly [
   VariantHandler[]
 ]
 
+export type RawUtil = readonly [
+  number /* index */,
+  string /* raw css */,
+]
+
 export type StringifiedUtil = readonly [
   number /* index */,
-  string /* selector */,
+  string | undefined /* selector */,
   string /* body */,
   string | undefined /* media query */,
 ]

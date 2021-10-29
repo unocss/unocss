@@ -1,4 +1,4 @@
-import { CSSEntries, Rule } from '@unocss/core'
+import { CSSEntries, Rule, RuleContext } from '@unocss/core'
 import { Theme } from '../theme'
 import { cornerMap, directionMap, handler as h } from '../utils'
 import { borderColors } from './color'
@@ -41,7 +41,7 @@ function handlerBorder([, a, b]: string[]): CSSEntries | undefined {
   }
 }
 
-function handlerRounded([, a, b]: string[], theme: Theme): CSSEntries | undefined {
+function handlerRounded([, a, b]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
   const [d, s = 'DEFAULT'] = cornerMap[a] ? [a, b] : ['', a]
   const v = theme.borderRadius?.[s] || h.bracket.fraction.rem(s)
   if (v != null)

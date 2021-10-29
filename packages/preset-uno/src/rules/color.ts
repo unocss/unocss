@@ -1,10 +1,10 @@
-import { Rule, hex2rgba } from '@unocss/core'
+import { Rule, hex2rgba, RuleContext } from '@unocss/core'
 import { Theme } from '../theme'
 import { handler as h } from '../utils'
 
 const colorResolver
 = (attribute: string, varName: string) =>
-  ([, body]: string[], theme: Theme) => {
+  ([, body]: string[], { theme }: RuleContext<Theme>) => {
     const [main, opacity] = body.split(/(?:\/|:)/)
     const [name, no = 'DEFAULT'] = main
       .replace(/([a-z])([0-9])/g, '$1-$2')

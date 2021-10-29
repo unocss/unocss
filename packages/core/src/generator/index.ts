@@ -1,7 +1,7 @@
-import { UserConfig, ParsedUtil, StringifiedUtil, UserConfigDefaults, VariantMatchedResult, Variant, ResolvedConfig, CSSEntries, GenerateResult, CSSObject } from '../types'
+import { UserConfig, ParsedUtil, StringifiedUtil, UserConfigDefaults, VariantMatchedResult, Variant, ResolvedConfig, CSSEntries, GenerateResult, CSSObject, RawUtil } from '../types'
 import { resolveConfig } from '../config'
-import { e, entriesToCss, isStaticShortcut, TwoKeyMap } from '../utils'
-import { VariantHandler } from '..'
+import { e, entriesToCss, isRawUtil, isStaticShortcut, TwoKeyMap } from '../utils'
+import { RuleContext, VariantHandler } from '..'
 
 export class UnoGenerator {
   private _cache = new Map<string, StringifiedUtil[] | null>()
@@ -111,23 +111,25 @@ export class UnoGenerator {
 
     const css = Array.from(sheet).map(([query, items]) => {
       const size = items.length
-      const sorted: [string, string][] = items
-        .sort((a, b) => a[0] - b[0] || a[1].localeCompare(b[1]))
-        .map(a => [applyScope(a[1], scope), a[2]])
+      const sorted = items
+        .sort((a, b) => a[0] - b[0] || a[1]?.localeCompare(b[1] || '') || 0)
+        .map(a => [a[1] ? applyScope(a[1], scope) : a[1], a[2]])
       const rules = sorted
         .map(([selector, body], idx) => {
-          if (this.config.mergeSelectors) {
+          if (selector && this.config.mergeSelectors) {
             // search for rules that has exact same body, and merge them
             // the index is reversed to make sure we always merge to the last one
             for (let i = size - 1; i > idx; i--) {
               const current = sorted[i]
-              if (current[1] === body) {
+              if (current[0] && current[1] === body) {
                 current[0] = `${selector},${current[0]}`
                 return null
               }
             }
           }
-          return `${selector}{${body}}`
+          return selector
+            ? `${selector}{${body}}`
+            : body
         })
         .filter(Boolean)
         .join('\n')
@@ -186,17 +188,25 @@ export class UnoGenerator {
     ] as const
   }
 
-  async parseUtil(input: string | VariantMatchedResult): Promise<ParsedUtil | undefined> {
+  async parseUtil(input: string | VariantMatchedResult): Promise<ParsedUtil | RawUtil | undefined> {
     const { theme, rulesStaticMap, rulesDynamic, rulesSize } = this.config
 
-    const [raw, processed, variants] = typeof input === 'string'
+    const [raw, processed, variantHandlers] = typeof input === 'string'
       ? this.matchVariants(input)
       : input
 
     // use map to for static rules
     const staticMatch = rulesStaticMap[processed]
     if (staticMatch?.[1])
-      return [staticMatch[0], raw, normalizeEntries(staticMatch[1]), variants]
+      return [staticMatch[0], raw, normalizeEntries(staticMatch[1]), variantHandlers]
+
+    const context: RuleContext = {
+      rawSelector: raw,
+      currentSelector: processed,
+      theme,
+      generator: this,
+      variantHandlers,
+    }
 
     // match rules, from last to first
     for (let i = rulesSize; i >= 0; i--) {
@@ -212,15 +222,20 @@ export class UnoGenerator {
       if (!match)
         continue
 
-      const obj = await handler(match, theme)
-      if (obj)
-        return [i, raw, normalizeEntries(obj), variants]
+      const result = await handler(match, context)
+      if (typeof result === 'string')
+        return [i, result]
+      if (result)
+        return [i, raw, normalizeEntries(result), variantHandlers]
     }
   }
 
-  stringifyUtil(parsed?: ParsedUtil): StringifiedUtil | undefined {
+  stringifyUtil(parsed?: ParsedUtil | RawUtil): StringifiedUtil | undefined {
     if (!parsed)
       return
+
+    if (isRawUtil(parsed))
+      return [parsed[0], undefined, parsed[1], undefined]
 
     const [selector, entries, mediaQuery] = this.applyVariants(parsed)
     const body = entriesToCss(entries)

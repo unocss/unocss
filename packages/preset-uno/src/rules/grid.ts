@@ -28,8 +28,8 @@ export const grids: Rule[] = [
   [/^(?:grid-)?row-end-(.+)$/, ([, v]) => ({ 'grid-row-end': `${v}` })],
   [/^(?:grid-)?col-start-(.+)$/, ([, v]) => ({ 'grid-column-start': `${v}` })],
   [/^(?:grid-)?col-end-(.+)$/, ([, v]) => ({ 'grid-column-end': `${v}` })],
-  [/^(?:grid-)?auto-rows-(.+)$/, ([, v], theme) => ({ 'grid-auto-rows': `${autoDirection(v, theme)}` })],
-  [/^(?:grid-)?auto-cols-(.+)$/, ([, v], theme) => ({ 'grid-auto-columns': `${autoDirection(v, theme)}` })],
+  [/^(?:grid-)?auto-rows-(.+)$/, ([, v], { theme }) => ({ 'grid-auto-rows': `${autoDirection(v, theme)}` })],
+  [/^(?:grid-)?auto-cols-(.+)$/, ([, v], { theme }) => ({ 'grid-auto-columns': `${autoDirection(v, theme)}` })],
   [/^(?:grid-)?row-((?!(start)|(end)).+)$/, ([, v]) => {
     const shortArr = v.split('-')
     if (shortArr[0] === 'span') {
