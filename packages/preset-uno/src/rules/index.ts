@@ -1,5 +1,5 @@
 import { Rule } from 'unocss'
-import { transitions } from './animation'
+import { transitions } from './transition'
 import { borders } from './border'
 import { bgColors, opacity, textColors } from './color'
 import { filters } from './filters'
