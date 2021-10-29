@@ -6,6 +6,8 @@ import { Context } from './context'
 const VIRTUAL_ENTRY = '/@unocss-entry.css'
 const READY_CALLBACK = '/__unocss_ready'
 
+const JS_RE = /\.[mc]?[tj]sx?$/
+
 export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }: Context): Plugin {
   let server: ViteDevServer | undefined
 
@@ -73,7 +75,7 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
         scan(code, id)
 
       // we treat the first incoming module as the main entry
-      if (!isSSR && (mainEntry == null || mainEntry === id) && !id.includes('node_modules/vite')) {
+      if (!isSSR && (mainEntry == null || mainEntry === id) && !id.includes('node_modules/vite') && JS_RE.test(id)) {
         mainEntry = id
         return {
           code: `await import("${VIRTUAL_ENTRY}").then(() => fetch('${READY_CALLBACK}'));${code}`,
