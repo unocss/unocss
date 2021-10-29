@@ -2,9 +2,11 @@
 
 exports[`targets 1`] = `
 ".\\\\!p-5px{padding:5px !important;}
-.hover\\\\:\\\\!p-10:hover{padding:2.5rem !important;}
-.hover\\\\:p-4:hover{padding:1rem;}
-.p-2,.p2{padding:0.5rem;}
+.group:focus .group-focus\\\\:p-4{padding:1rem;}
+.hover\\\\:\\\\!p-1:hover{padding:0.25rem !important;}
+.hover\\\\:p-5:hover{padding:1.25rem;}
+.not-hover\\\\:p-3:not(:hover){padding:0.75rem;}
+.p-2,.first\\\\:p-2:first-child,.p2{padding:0.5rem;}
 .\\\\!hover\\\\:px-10:hover{padding-left:2.5rem !important;padding-right:2.5rem !important;}
 .pl-10px{padding-left:10px;}
 .pt-2,.p-t-2,.pt2{padding-top:0.5rem;}

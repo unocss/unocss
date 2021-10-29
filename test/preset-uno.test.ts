@@ -49,9 +49,12 @@ const targets = [
   'row-start-full',
   'auto-flow-cols-dense',
   'h-1',
-  'hover:!p-10',
+  'hover:!p-1',
+  'first:p-2',
+  'not-hover:p-3',
+  'group-focus:p-4',
   'hover:not-first:checked:bg-red/10',
-  'hover:p-4',
+  'hover:p-5',
   'leading-2',
   'light:text-sm',
   'm-[3em]',
@@ -125,7 +128,8 @@ const targets = [
 
 const nonTargets = [
   '--p-2',
-  'hover:hover:m2',
+  'before:before:m2',
+  'hi',
 ]
 
 const uno = createGenerator({
