@@ -61,9 +61,16 @@ import Unocss from 'unocss/vite'
 
 export default {
   plugins: [
-    Unocss()
+    Unocss({ /* options */ })
   ]
 }
+```
+
+Add `uno.css` to your main entry:
+
+```ts
+// main.ts
+import 'uno.css'
 ```
 
 That's it, have fun.

@@ -2,7 +2,9 @@ import type { Plugin, ViteDevServer } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
 import { defaultExclude, defaultInclude } from '../../utils'
 import { Context } from '../../context'
-import { READY_CALLBACK, VIRTUAL_ENTRY } from './shared'
+import { READY_CALLBACK, VIRTUAL_ENTRY, VIRTUAL_ENTRY_ALIAS } from './shared'
+
+const WARN_TIMEOUT = 2000
 
 export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }: Context): Plugin[] {
   let server: ViteDevServer | undefined
@@ -13,19 +15,22 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
   )
 
   const tasks: Promise<any>[] = []
-  let timer: any
-  let lastUpdate = +new Date()
+  let invalidateTimer: any
+  let lastUpdate = Date.now()
+  let lastServed = 0
+  let resolved = false
+  let resolvedWarnTimer: any
 
-  function invalidate() {
+  function invalidate(timer = 10) {
     if (!server)
       return
     const mod = server.moduleGraph.getModuleById(VIRTUAL_ENTRY)
     if (!mod)
       return
-    lastUpdate = +new Date()
+    lastUpdate = Date.now()
     server!.moduleGraph.invalidateModule(mod)
-    clearTimeout(timer)
-    timer = setTimeout(sendUpdate, 10)
+    clearTimeout(invalidateTimer)
+    invalidateTimer = setTimeout(sendUpdate, timer)
   }
 
   function sendUpdate() {
@@ -40,6 +45,21 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
     })
   }
 
+  function setWarnTimer() {
+    if (!resolved && !resolvedWarnTimer) {
+      resolvedWarnTimer = setTimeout(() => {
+        if (!resolved) {
+          const msg = '[unocss] entry module not found, have you add `import \'uno.css\'` in your main entry?'
+          console.warn(msg)
+          server!.ws.send({
+            type: 'error',
+            err: { message: msg, stack: '' },
+          })
+        }
+      }, WARN_TIMEOUT)
+    }
+  }
+
   onInvalidate(invalidate)
 
   return [
@@ -50,8 +70,11 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
       configureServer(_server) {
         server = _server
         server.middlewares.use(async(req, res, next) => {
-          if (req.url === READY_CALLBACK) {
-            sendUpdate()
+          setWarnTimer()
+          if (req.url?.startsWith(READY_CALLBACK)) {
+            const servedTime = +req.url.slice(READY_CALLBACK.length + 1)
+            if (servedTime < lastUpdate)
+              invalidate(0)
             res.statusCode = 200
             res.end()
           }
@@ -72,7 +95,10 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
         },
       },
       resolveId(id) {
-        return id === VIRTUAL_ENTRY ? id : null
+        if (VIRTUAL_ENTRY_ALIAS.includes(id)) {
+          resolved = true
+          return VIRTUAL_ENTRY
+        }
       },
       async load(id) {
         if (id !== VIRTUAL_ENTRY)
@@ -80,7 +106,17 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
 
         await Promise.all(tasks)
         const { css } = await uno.generate(tokens)
+        lastServed = Date.now()
         return css
+      },
+    },
+    {
+      name: 'unocss:global:post',
+      apply: 'serve',
+      enforce: 'post',
+      transform(code, id) {
+        if (id === VIRTUAL_ENTRY)
+          return `${code}\nawait fetch("${READY_CALLBACK}/${lastServed}")`
       },
     },
   ]
