@@ -1,21 +1,14 @@
 import { Context } from 'vm'
 import type { Plugin } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
-import { defaultExclude, defaultInclude } from './utils'
-
-const VIRTUAL_ENTRY = '/@unocss-entry.css'
-const PLACEHOLDER = '#--unocss--{--unocss:true}'
-const PLACEHOLDER_RE = /#--unocss--\s*{\s*--unocss:\s*true;?\s*}/
-
-const JS_RE = /\.[mc]?[tj]sx?$/
+import { defaultExclude, defaultInclude } from '../../utils'
+import { PLACEHOLDER, PLACEHOLDER_RE, VIRTUAL_ENTRY } from './shared'
 
 export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: Context): Plugin[] {
   const filter = createFilter(
     config.include || defaultInclude,
     config.exclude || defaultExclude,
   )
-
-  let mainEntry: string | undefined
 
   const tasks: Promise<any>[] = []
 
@@ -24,23 +17,9 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: Context): P
       name: 'unocss:global:build:scan',
       apply: 'build',
       enforce: 'pre',
-      buildStart() {
-        mainEntry = undefined
-      },
       transform(code, id) {
         if (filter(id))
           tasks.push(scan(code, id))
-
-        // we treat the first incoming module as the main entry
-        if (mainEntry === id || (mainEntry == null && !id.includes('node_modules/vite') && JS_RE.test(id) && id.startsWith('/'))) {
-          mainEntry = id
-          return {
-            code: `${code};import '${VIRTUAL_ENTRY}';`,
-            map: {
-              mappings: '',
-            },
-          }
-        }
 
         return null
       },
