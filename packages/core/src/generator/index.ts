@@ -162,7 +162,7 @@ export class UnoGenerator {
           continue
         if (typeof handler === 'string')
           handler = { matcher: handler }
-        if (handler && handler.matcher !== processed) {
+        if (handler) {
           processed = handler.matcher
           handlers.push(handler)
           usedVariants.add(v)
@@ -172,6 +172,9 @@ export class UnoGenerator {
       }
       if (!applied)
         break
+
+      if (handlers.length > 500)
+        throw new Error(`Too many variants applied to "${raw}"`)
     }
 
     return [raw, processed, handlers]
