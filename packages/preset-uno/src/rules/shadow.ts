@@ -37,19 +37,8 @@ const colorResolver = (body: string, theme: Theme) => {
 
   const rgba = hex2rgba(useColor)
   if (rgba) {
-    const a = opacity ? opacity[0] === '[' ? h.bracket.percent(opacity)! : (parseFloat(opacity) / 100) : rgba[3]
-    if (a != null && !Number.isNaN(a)) {
-      // @ts-expect-error
-      rgba[3] = typeof a === 'string' && !a.includes('%') ? parseFloat(a) : a
-      useColor = rgba.join(',')
-    }
-    else {
-      useColor = rgba.slice(0, 3).join(',')
-    }
-    // todo@userquin: should be always?
-    // useColor = rgba.slice(0, 3).join(',')
     return {
-      '--un-shadow-color': `${useColor}`,
+      '--un-shadow-color': `${rgba.slice(0, 3).join(',')}`,
     }
   }
 }
