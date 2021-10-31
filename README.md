@@ -105,7 +105,7 @@ To set presets to your project:
 ```ts
 // vite.config.ts
 import Unocss from 'unocss/vite'
-import { presetUno, presetAttributify, presetWind } from 'unocss'
+import { presetUno, presetAttributify } from 'unocss'
 
 export default {
   plugins: [
