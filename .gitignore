@@ -1,4 +1,5 @@
 .DS_Store
+.idea/
 *.local
 *.log
 bench/source/gen*.js
