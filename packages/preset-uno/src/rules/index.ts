@@ -2,6 +2,7 @@ import { Rule } from 'unocss'
 import { transitions } from './transition'
 import { borders } from './border'
 import { bgColors, opacity, textColors } from './color'
+import { bgAttachments, bgBlendModes, bgClips, bgGradients, bgImages, bgOrigins, bgPositions, bgSizes, bgRepeats } from './background'
 import { filters } from './filters'
 import { flex } from './flex'
 import { fonts, leadings, trackings } from './font'
@@ -21,7 +22,16 @@ export const rules: Rule[] = [
   margins,
   displays,
   opacity,
+  bgAttachments,
+  bgBlendModes,
+  bgClips,
   bgColors,
+  bgGradients,
+  bgImages,
+  bgOrigins,
+  bgPositions,
+  bgSizes,
+  bgRepeats,
   borders,
   fonts,
   textOverflows,
