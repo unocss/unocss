@@ -3,7 +3,7 @@ import { Theme } from '../theme'
 import { handler as h } from '../utils'
 import { extractColor } from './color'
 
-const colorResolver = (mode: 'from' | 'via' | 'to') =>
+const colorResolver = (mode: 'from' | 'to' | 'via') =>
   ([, body]: string[], { theme }: RuleContext<Theme>) => {
     const data = extractColor(body)
 
@@ -123,8 +123,8 @@ export const bgClips: Rule[] = [
 
 export const bgGradients: Rule[] = [
   [/^from-(.+)$/, colorResolver('from')],
-  [/^via-(.+)$/, colorResolver('via')],
   [/^to-(.+)$/, colorResolver('to')],
+  [/^via-(.+)$/, colorResolver('via')],
 ]
 
 export const bgImages: Rule[] = [
