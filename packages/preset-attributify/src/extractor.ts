@@ -7,7 +7,7 @@ const strippedPrefixes = [
 ]
 
 const splitterRE = /[\s'"`;]+/g
-const elementRE = /<[\w][\w:\.$-]+\s((?:'[\s\S]*?'|"[\s\S]*?"|`[\s\S]*?`|\{[\s\S]*?\}|[\s\S]*?)*?)>/g
+const elementRE = /<\w[\w:\.$-]*\s((?:'[\s\S]*?'|"[\s\S]*?"|`[\s\S]*?`|\{[\s\S]*?\}|[\s\S]*?)*?)>/g
 const valuedAttributeRE = /([\w:-]+)(?:=(["'])([^\2]+?)\2)?/g
 
 export const extractorAttributify = (options?: AttributifyOptions): Extractor => (code) => {
