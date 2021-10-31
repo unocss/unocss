@@ -12,16 +12,26 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v2
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.0.1
         with:
-          node-version: '14'
+          version: 6.15.1
+
+      - name: Use Node.js v16
+        uses: actions/setup-node@v2
+        with:
+          node-version: v16
           registry-url: https://registry.npmjs.org/
-      # - run: npm i -g pnpm @antfu/ni
-      # - run: nci
-      # - run: nr test --if-present
-      # - run: npm publish --access public
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          cache: "pnpm"
+
+      - run: pnpm install
+
       - run: npx conventional-github-releaser -p angular
+        continue-on-error: true
         env:
           CONVENTIONAL_GITHUB_RELEASER_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      - run: pnpm -r publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
