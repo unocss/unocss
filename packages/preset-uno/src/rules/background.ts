@@ -83,7 +83,7 @@ const colorResolver = (mode: 'from' | 'via' | 'to') =>
           }
         case 'to':
           return {
-            '--un-gradient-to': `rgba(${useColor}, var(--un-gradient-to, 1))`,
+            '--un-gradient-to': `rgba(${useColor}, var(--un-to-opacity, 1))`,
           }
       }
     }
