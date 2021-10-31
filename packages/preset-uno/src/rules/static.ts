@@ -1,10 +1,10 @@
 import { Rule } from '@unocss/core'
 
+// display table included on table.ts
 export const displays: Rule[] = [
   ['inline', { display: 'inline' }],
   ['block', { display: 'block' }],
   ['inline-block', { display: 'inline-block' }],
-  ['table', { display: 'table' }],
   ['contents', { display: 'contents' }],
   ['flow-root', { display: 'flow-root' }],
   ['list-item', { display: 'list-item' }],
