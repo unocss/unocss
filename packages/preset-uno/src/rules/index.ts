@@ -15,6 +15,7 @@ import { shadows } from './shadow'
 import { sizes } from './size'
 import { paddings, margins } from './spacing'
 import { verticalAligns, appearances, breaks, cursors, displays, pointerEvents, resizes, textAligns, textDecorations, textOverflows, textTransforms, userSelects, whitespaces } from './static'
+import { tables } from './table'
 import { transforms } from './transform'
 
 export const rules: Rule[] = [
@@ -74,5 +75,6 @@ export const rules: Rule[] = [
   objectPositions,
   transitions,
   filters,
+  tables,
   transforms,
 ].flat(1)
