@@ -130,43 +130,27 @@ export const bgGradients: Rule[] = [
 export const bgImages: Rule[] = [
   ['bg-none', { 'background-image': 'none' }],
   ['bg-gradient-to-t', {
-    //   'background-image': '-o-linear-gradient(bottom, var(--un-gradient-stops))',
-    //   'background-image': '-webkit-gradient(linear, left bottom, left top, from(var(--un-gradient-stops)))',
     'background-image': 'linear-gradient(to bottom right, var(--un-gradient-stops))',
   }],
   ['bg-gradient-to-tr', {
-    //   'background-image': '-o-linear-gradient(bottom left, var(--un-gradient-stops))',
-    //   'background-image': '-webkit-gradient(linear, left bottom, right top, from(var(--un-gradient-stops)))',
     'background-image': 'linear-gradient(to top right, var(--un-gradient-stops))',
   }],
   ['bg-gradient-to-r', {
-    //   'background-image': '-o-linear-gradient(left, var(--un-gradient-stops))',
-    //   'background-image': '-webkit-gradient(linear, left top, right top, from(var(--un-gradient-stops)))',
     'background-image': 'linear-gradient(to right, var(--un-gradient-stops))',
   }],
   ['bg-gradient-to-br', {
-    //   'background-image': '-o-linear-gradient(top left, var(--un-gradient-stops))',
-    //   'background-image': '-webkit-gradient(linear, left top, right bottom, from(var(--un-gradient-stops)))',
     'background-image': 'linear-gradient(to bottom right, var(--un-gradient-stops))',
   }],
   ['bg-gradient-to-b', {
-    //   'background-image': '-o-linear-gradient(top, var(--un-gradient-stops))',
-    //   'background-image': '-webkit-gradient(linear, left top, left bottom, from(var(--un-gradient-stops)))',
     'background-image': 'linear-gradient(to bottom, var(--un-gradient-stops))',
   }],
   ['bg-gradient-to-bl', {
-    //   'background-image': '-o-linear-gradient(top right, var(--un-gradient-stops))',
-    //   'background-image': '-webkit-gradient(linear, right top, left bottom, from(var(--un-gradient-stops)))',
     'background-image': 'linear-gradient(to bottom left, var(--un-gradient-stops))',
   }],
   ['bg-gradient-to-l', {
-    //   'background-image': '-o-linear-gradient(right, var(--un-gradient-stops))',
-    //   'background-image': '-webkit-gradient(linear, right top, left top, from(var(--un-gradient-stops)))',
     'background-image': 'linear-gradient(to left, var(--un-gradient-stops))',
   }],
   ['bg-gradient-to-tl', {
-    //   'background-image': '-o-linear-gradient(bottom right, var(--un-gradient-stops))',
-    //   'background-image': '-webkit-gradient(linear, right bottom, left top, from(var(--un-gradient-stops)))',
     'background-image': 'linear-gradient(to top left, var(--un-gradient-stops))',
   }],
 ]
