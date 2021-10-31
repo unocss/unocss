@@ -1,6 +1,6 @@
 import { Rule } from '@unocss/core'
 
-export const table: Rule[] = [
+export const tables: Rule[] = [
   ['border-collapse', { 'border-collapse': 'collapse' }],
   ['border-separate', { 'border-collapse': 'separate' }],
   ['caption-top', { 'caption-side': 'top' }],
