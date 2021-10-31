@@ -141,6 +141,8 @@ exports[`targets 1`] = `
 .inline-table{display:inline-table;}
 .table{display:table;}
 .table-auto{table-layout:auto;}
+.table-empty-cells-visible{empty-cells:show;}
+.table-empty-cells-hidden{empty-cells:hide;}
 .table-caption{display:table-caption;}
 .table-footer-group{display:table-footer-group;}
 .table-row-group{display:table-row-group;}

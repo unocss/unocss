@@ -117,6 +117,8 @@ const targets = [
   'table',
   'table-auto',
   'table-caption',
+  'table-empty-cells-visible',
+  'table-empty-cells-hidden',
   'table-footer-group',
   'table-row-group',
   'text-[#124]',
