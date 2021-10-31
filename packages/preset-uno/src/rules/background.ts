@@ -63,7 +63,6 @@ const colorResolver = (mode: 'from' | 'via' | 'to') =>
     const rgba = hex2rgba(useColor)
     if (rgba) {
       const a = opacity ? opacity[0] === '[' ? h.bracket.percent(opacity)! : (parseFloat(opacity) / 100) : rgba[3]
-      let useColor: string
       if (a != null && !Number.isNaN(a)) {
         // @ts-expect-error
         rgba[3] = typeof a === 'string' && !a.includes('%') ? parseFloat(a) : a
