@@ -5,10 +5,10 @@ importers:
   .:
     specifiers:
       '@antfu/eslint-config': ^0.10.0
-      '@antfu/ni': ^0.10.0
-      '@iconify-json/carbon': ^1.0.7
+      '@antfu/ni': ^0.10.1
+      '@iconify-json/carbon': ^1.0.8
       '@iconify-json/logos': ^1.0.1
-      '@iconify-json/mdi': ^1.0.6
+      '@iconify-json/mdi': ^1.0.7
       '@iconify-json/ph': ^1.0.2
       '@iconify-json/ri': ^1.0.1
       '@iconify-json/tabler': ^1.0.1
@@ -23,7 +23,7 @@ importers:
       '@unocss/preset-uno': workspace:*
       '@unocss/reset': workspace:*
       '@unocss/vite': workspace:*
-      '@vueuse/core': ^6.7.3
+      '@vueuse/core': ^6.7.4
       brotli-size: ^4.0.0
       bumpp: ^7.1.1
       eslint: ^8.1.0
@@ -40,10 +40,10 @@ importers:
       ws: ^8.2.3
     devDependencies:
       '@antfu/eslint-config': 0.10.0_eslint@8.1.0+typescript@4.4.4
-      '@antfu/ni': 0.10.0
-      '@iconify-json/carbon': 1.0.7
+      '@antfu/ni': 0.10.1
+      '@iconify-json/carbon': 1.0.8
       '@iconify-json/logos': 1.0.1
-      '@iconify-json/mdi': 1.0.6
+      '@iconify-json/mdi': 1.0.7
       '@iconify-json/ph': 1.0.2
       '@iconify-json/ri': 1.0.1
       '@iconify-json/tabler': 1.0.1
@@ -58,7 +58,7 @@ importers:
       '@unocss/preset-uno': link:packages/preset-uno
       '@unocss/reset': link:packages/reset
       '@unocss/vite': link:packages/vite
-      '@vueuse/core': 6.7.3
+      '@vueuse/core': 6.7.4
       brotli-size: 4.0.0
       bumpp: 7.1.1
       eslint: 8.1.0
@@ -329,8 +329,8 @@ packages:
       find-up: 5.0.0
     dev: true
 
-  /@antfu/ni/0.10.0:
-    resolution: {integrity: sha512-vBdbz/dXJjm8bpEmDuFo/rXC5cMwVO/1xnSVy+34H2RbVo40rB7zWLZZwFFhdYBRZuA+H/IPg2QOoUeaHKqVRQ==}
+  /@antfu/ni/0.10.1:
+    resolution: {integrity: sha512-0inkclq/aYzVHYjfc3fqw7wH9kpjaRu161FtjSxQLSUZGU2Agn9h44NmEgfhpr2diOZmajM+g/gddHpQK937pg==}
     hasBin: true
     dev: true
 
@@ -736,8 +736,8 @@ packages:
     resolution: {integrity: sha512-wdppn25U8z/2yiaT6YGquE6X8sSv7hNMWSXYSSU1jGv/yd6XqjXgTDJ8KP4NgjTXfJ3GbRjeeb8RTV7a/VpM+w==}
     dev: true
 
-  /@iconify-json/carbon/1.0.7:
-    resolution: {integrity: sha512-WZ8Dw9I1n7+rf+9mp7pvsIGx0V2chux3unnjaYjGCTvcD1N2Tr1+iwAJEuohBWGYYFeqJwU+J7MTNEG7wR5yTQ==}
+  /@iconify-json/carbon/1.0.8:
+    resolution: {integrity: sha512-C1DJbsObX9tLdalhzt5vlmqHWm6IE+58Yu6FSw+frYVuAKcw9VjhQBpJX7WxmJNK3Wy57Y1obUnkLb8xVip3oQ==}
     dependencies:
       '@iconify/types': 1.0.10
     dev: true
@@ -748,8 +748,8 @@ packages:
       '@iconify/types': 1.0.10
     dev: true
 
-  /@iconify-json/mdi/1.0.6:
-    resolution: {integrity: sha512-SLaeou/9FKXNJd58tfyw0Vfm40DbEmUf4LHAvD8cuvcysAulgM9NGm0/RQtmUwwJDUZxFKrujNdfh9xK89dkSA==}
+  /@iconify-json/mdi/1.0.7:
+    resolution: {integrity: sha512-CZJ6u3zpE9e4TXFQVhU5fazespAE0U3K4IZsV+Gg/xTLpeLnXU64UBzS/zpjXYaMC6G1Hl8A0l0FYlgb4vl1Mw==}
     dependencies:
       '@iconify/types': 1.0.10
     dev: true
@@ -1380,21 +1380,6 @@ packages:
   /@vue/shared/3.2.20:
     resolution: {integrity: sha512-FbpX+hD5BvXCQerEYO7jtAGHlhAkhTQ4KIV73kmLWNlawWhTiVuQxizgVb0BOkX5oG9cIRZ42EG++d/k/Efp0w==}
 
-  /@vueuse/core/6.7.3:
-    resolution: {integrity: sha512-Cqvk/e4DbdfZlUmVRcxr4rkK5CMn6KqN7TLx2L1++F9HrvlD/FIET3KQ/W7+wHowhdKEjdOUCFJtyU0k65xH2g==}
-    peerDependencies:
-      '@vue/composition-api': ^1.1.0
-      vue: ^2.6.0 || ^3.2.0
-    peerDependenciesMeta:
-      '@vue/composition-api':
-        optional: true
-      vue:
-        optional: true
-    dependencies:
-      '@vueuse/shared': 6.7.3
-      vue-demi: 0.11.4
-    dev: true
-
   /@vueuse/core/6.7.3_vue@3.2.20:
     resolution: {integrity: sha512-Cqvk/e4DbdfZlUmVRcxr4rkK5CMn6KqN7TLx2L1++F9HrvlD/FIET3KQ/W7+wHowhdKEjdOUCFJtyU0k65xH2g==}
     peerDependencies:
@@ -1411,8 +1396,8 @@ packages:
       vue-demi: 0.11.4_vue@3.2.20
     dev: false
 
-  /@vueuse/shared/6.7.3:
-    resolution: {integrity: sha512-6syKgXvdikcSEHJzF7iVyXMqe7y7C7pH35EhH70zQLPnLXH6op9OgD2u4Ro1zyxESRkotbFIsuQJghG5IzXbKA==}
+  /@vueuse/core/6.7.4:
+    resolution: {integrity: sha512-y39SD+pxDkv7/Fe369c02FQpr/148otQr64ScPDTpw4fGnspc8ONXCNU3gTrvDFRuiylirdPBpXgmt/GDQO7RA==}
     peerDependencies:
       '@vue/composition-api': ^1.1.0
       vue: ^2.6.0 || ^3.2.0
@@ -1422,6 +1407,7 @@ packages:
       vue:
         optional: true
     dependencies:
+      '@vueuse/shared': 6.7.4
       vue-demi: 0.11.4
     dev: true
 
@@ -1439,6 +1425,20 @@ packages:
       vue: 3.2.20
       vue-demi: 0.11.4_vue@3.2.20
     dev: false
+
+  /@vueuse/shared/6.7.4:
+    resolution: {integrity: sha512-Lkm8myEiOj0sIqSXck5EXDbu0W705Q10BxydGLMfiV6wAY4U1zu+YgEgR37Wy2/mT1545pwQqiJ7bd3kQQFCMw==}
+    peerDependencies:
+      '@vue/composition-api': ^1.1.0
+      vue: ^2.6.0 || ^3.2.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      vue:
+        optional: true
+    dependencies:
+      vue-demi: 0.11.4
+    dev: true
 
   /@windicss/config/1.4.12:
     resolution: {integrity: sha512-+ckfkRoWC8wia5o7iCyDmydiJEkjX6lVEb6a2QVPI9WQ9Mi7hqfgOoStijOsEn0wIz95FDiOfVe5aSb1V4jEtw==}
@@ -2992,6 +2992,7 @@ packages:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
+    requiresBuild: true
     dev: true
     optional: true
 
