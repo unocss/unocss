@@ -2,23 +2,39 @@ import { Rule, hex2rgba, RuleContext } from '@unocss/core'
 import { Theme } from '../theme'
 import { handler as h } from '../utils'
 
+export const extractColor = (body: string) => {
+  const [main, opacity] = body.split(/(?:\/|:)/)
+  const [name, no = 'DEFAULT'] = main
+    .replace(/([a-z])([0-9])/g, '$1-$2')
+    .split(/-/g)
+
+  if (!name)
+    return
+
+  let color: string | Record<string, string> | undefined
+  const bracket = h.bracket(main) || main
+  if (bracket.startsWith('#'))
+    color = bracket.slice(1)
+  if (bracket.startsWith('hex-'))
+    color = bracket.slice(4)
+
+  return { opacity, name, no, color }
+}
+
 const colorResolver
 = (attribute: string, varName: string) =>
   ([, body]: string[], { theme }: RuleContext<Theme>) => {
-    const [main, opacity] = body.split(/(?:\/|:)/)
-    const [name, no = 'DEFAULT'] = main
-      .replace(/([a-z])([0-9])/g, '$1-$2')
-      .split(/-/g)
+    const data = extractColor(body)
+
+    if (!data)
+      return
+
+    const { opacity, name, no, color } = data
 
     if (!name)
       return
 
-    let color: string | Record<string, string> | undefined
-    const bracket = h.bracket(main) || main
-    if (bracket.startsWith('#'))
-      color = bracket.slice(1)
-    if (bracket.startsWith('hex-'))
-      color = bracket.slice(4)
+    let useColor = color
 
     if (!color) {
       if (name === 'transparent') {
@@ -36,15 +52,15 @@ const colorResolver
           [attribute]: 'currentColor',
         }
       }
-      color = theme.colors?.[name]
-      if (no && color && typeof color !== 'string')
-        color = color[no]
+      useColor = theme.colors?.[name]
+      if (no && useColor && typeof useColor !== 'string')
+        useColor = useColor[no]
     }
 
-    if (typeof color !== 'string')
+    if (typeof useColor !== 'string')
       return
 
-    const rgba = hex2rgba(color)
+    const rgba = hex2rgba(useColor)
     if (rgba) {
       const a = opacity ? opacity[0] === '[' ? h.bracket.percent(opacity)! : (parseFloat(opacity) / 100) : rgba[3]
       if (a != null && !Number.isNaN(a)) {
