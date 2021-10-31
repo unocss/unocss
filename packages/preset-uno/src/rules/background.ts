@@ -130,7 +130,7 @@ export const bgGradients: Rule[] = [
 export const bgImages: Rule[] = [
   ['bg-none', { 'background-image': 'none' }],
   ['bg-gradient-to-t', {
-    'background-image': 'linear-gradient(to bottom right, var(--un-gradient-stops))',
+    'background-image': 'linear-gradient(to top, var(--un-gradient-stops))',
   }],
   ['bg-gradient-to-tr', {
     'background-image': 'linear-gradient(to top right, var(--un-gradient-stops))',
