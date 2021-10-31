@@ -36,8 +36,7 @@
     "@rollup/pluginutils": "^4.1.1",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
-    "@unocss/scope": "workspace:*",
-    "nanoevents": "^6.0.2"
+    "@unocss/scope": "workspace:*"
   },
   "devDependencies": {
     "vite": "^2.6.12"

@@ -43,9 +43,6 @@
     "@unocss/preset-uno": "workspace:*",
     "@unocss/vite": "workspace:*"
   },
-  "devDependencies": {
-    "nanoevents": "^6.0.2"
-  },
   "engines": {
     "node": ">=14"
   }

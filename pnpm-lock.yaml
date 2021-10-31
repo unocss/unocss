@@ -156,14 +156,11 @@ importers:
       '@unocss/preset-attributify': workspace:*
       '@unocss/preset-uno': workspace:*
       '@unocss/vite': workspace:*
-      nanoevents: ^6.0.2
     dependencies:
       '@unocss/core': link:../core
       '@unocss/preset-attributify': link:../preset-attributify
       '@unocss/preset-uno': link:../preset-uno
       '@unocss/vite': link:../vite
-    devDependencies:
-      nanoevents: 6.0.2
 
   packages/vite:
     specifiers:
@@ -171,14 +168,12 @@ importers:
       '@unocss/config': workspace:*
       '@unocss/core': workspace:*
       '@unocss/scope': workspace:*
-      nanoevents: ^6.0.2
       vite: ^2.6.12
     dependencies:
       '@rollup/pluginutils': 4.1.1
       '@unocss/config': link:../config
       '@unocss/core': link:../core
       '@unocss/scope': link:../scope
-      nanoevents: 6.0.2
     devDependencies:
       vite: 2.6.12
 
@@ -4314,10 +4309,6 @@ packages:
   /nanocolors/0.2.12:
     resolution: {integrity: sha512-SFNdALvzW+rVlzqexid6epYdt8H9Zol7xDoQarioEFcFN0JHo4CYNztAxmtfgGTVRCmFlEOqqhBpoFGKqSAMug==}
     dev: true
-
-  /nanoevents/6.0.2:
-    resolution: {integrity: sha512-FRS2otuFcPPYDPYViNWQ42+1iZqbXydinkRHTHFxrF4a1CpBfmydR9zkI44WSXAXCyPrkcGtPk5CnpW6Y3lFKQ==}
-    engines: {node: ^12.0.0 || ^14.0.0 || >=16.0.0}
 
   /nanoid/3.1.28:
     resolution: {integrity: sha512-gSu9VZ2HtmoKYe/lmyPFES5nknFrHa+/DT9muUFWFMi6Jh9E1I7bkvlQ8xxf1Kos9pi9o8lBnIOkatMhKX/YUw==}

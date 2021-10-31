@@ -1,11 +1,11 @@
 import { Plugin } from 'vite'
-import { createGenerator, presetUno, UserConfigDefaults } from 'unocss'
+import { createGenerator, UserConfigDefaults } from '@unocss/core'
 import { loadConfig } from '@unocss/config'
 import { createContext } from './context'
 import { ChunkModeBuildPlugin } from './modes/chunk-build'
 import { GlobalModeDevPlugin, GlobalModePlugin } from './modes/global'
 import { PerModuleModePlugin } from './modes/per-module'
-import { UnocssUserOptions } from './types'
+import { UnocssPluginOptions } from './types'
 import { VueScopedPlugin } from './modes/vue-scoped'
 import { ConfigHMRPlugin } from './config-hmr'
 
@@ -16,12 +16,8 @@ export * from './modes/per-module'
 export * from './modes/vue-scoped'
 
 export default function UnocssPlugin(
-  configOrPath?: UnocssUserOptions | string,
-  defaults: UserConfigDefaults = {
-    presets: [
-      presetUno(),
-    ],
-  },
+  configOrPath?: UnocssPluginOptions | string,
+  defaults: UserConfigDefaults = {},
 ): Plugin[] {
   const { config = {}, filepath } = loadConfig(configOrPath)
 

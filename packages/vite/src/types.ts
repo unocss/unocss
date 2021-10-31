@@ -1,7 +1,7 @@
 import { FilterPattern } from '@rollup/pluginutils'
 import { UserConfig } from '@unocss/core'
 
-export interface UnocssUserOptions extends UserConfig {
+export interface UnocssPluginOptions extends UserConfig {
   include?: FilterPattern
   exclude?: FilterPattern
 
