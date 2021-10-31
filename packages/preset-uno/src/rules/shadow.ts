@@ -1,6 +1,5 @@
 import { hex2rgba, Rule } from '@unocss/core'
 import { Theme } from '../theme'
-import { handler as h } from '../utils'
 import { extractColor } from './color'
 
 const colorResolver = (body: string, theme: Theme) => {
@@ -9,7 +8,7 @@ const colorResolver = (body: string, theme: Theme) => {
   if (!data)
     return
 
-  const { opacity, name, no, color } = data
+  const { name, no, color } = data
 
   if (!name)
     return
@@ -37,6 +36,7 @@ const colorResolver = (body: string, theme: Theme) => {
 
   const rgba = hex2rgba(useColor)
   if (rgba) {
+    // shadow opacity ignore
     return {
       '--un-shadow-color': `${rgba.slice(0, 3).join(',')}`,
     }
