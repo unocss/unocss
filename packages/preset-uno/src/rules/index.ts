@@ -11,7 +11,7 @@ import { grids } from './grid'
 import { overflows } from './layout'
 import { alignContents, alignItems, alignSelfs, floats, insets, justifies, justifyItems, justifySelfs, objectPositions, orders, placeContents, placeItems, placeSelfs, positions, zIndexes } from './position'
 import { rings } from './ring'
-import { shadows } from './shadow'
+import { mixBlendModes, shadows } from './shadow'
 import { sizes } from './size'
 import { paddings, margins } from './spacing'
 import { verticalAligns, appearances, breaks, cursors, displays, pointerEvents, resizes, textAligns, textDecorations, textOverflows, textTransforms, userSelects, whitespaces } from './static'
@@ -40,6 +40,7 @@ export const rules: Rule[] = [
   textTransforms,
   textAligns,
   textColors,
+  mixBlendModes,
   shadows,
   rings,
   flex,
