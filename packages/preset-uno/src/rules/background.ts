@@ -31,7 +31,7 @@ const colorResolver = (mode: 'from' | 'via' | 'to') =>
             }
           case 'to':
             return {
-              '--un-gradient-from': 'transparent',
+              '--un-gradient-to': 'transparent',
             }
         }
       }
@@ -48,7 +48,7 @@ const colorResolver = (mode: 'from' | 'via' | 'to') =>
             }
           case 'to':
             return {
-              '--un-gradient-from': 'currentColor',
+              '--un-gradient-to': 'currentColor',
             }
         }
       }
@@ -83,7 +83,7 @@ const colorResolver = (mode: 'from' | 'via' | 'to') =>
           }
         case 'to':
           return {
-            '--un-gradient-from': `rgba(${useColor}, var(--un-gradient-to, 1))`,
+            '--un-gradient-to': `rgba(${useColor}, var(--un-gradient-to, 1))`,
           }
       }
     }
@@ -203,4 +203,3 @@ export const bgSizes: Rule[] = [
   ['bg-cover', { 'background-repeat': 'cover' }],
   ['bg-contain', { 'background-position': 'contain' }],
 ]
-
