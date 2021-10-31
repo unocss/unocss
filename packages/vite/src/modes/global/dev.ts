@@ -112,10 +112,12 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
     },
     {
       name: 'unocss:global:post',
-      apply: 'serve',
+      apply(config, env) {
+        return env.command === 'serve' && !config.build?.ssr
+      },
       enforce: 'post',
       transform(code, id) {
-        if (id === VIRTUAL_ENTRY)
+        if (id === VIRTUAL_ENTRY && code.includes('import.meta.hot'))
           return `${code}\nawait fetch("${READY_CALLBACK}/${lastServed}")`
       },
     },
