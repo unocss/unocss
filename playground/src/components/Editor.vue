@@ -68,10 +68,16 @@ const isPrettify = ref(false)
 const formatted = computed(() => {
   if (!isPrettify.value)
     return output.value?.css || ''
-  return prettier.format(output.value?.css || '', {
-    parser: 'css',
-    plugins: [parserCSS],
-  })
+  try {
+    return prettier.format(output.value?.css || '', {
+      parser: 'css',
+      plugins: [parserCSS],
+    })
+  }
+  catch (e) {
+    console.error(e)
+    return `/* Error on prettifying: ${e} */\n${output.value?.css || ''}`
+  }
 })
 
 onMounted(() => {
