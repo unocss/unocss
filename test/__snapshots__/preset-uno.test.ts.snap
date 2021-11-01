@@ -124,10 +124,10 @@ exports[`targets 1`] = `
 .w-1\\\\/2{width:50%;}
 .h-1{height:0.25rem;}
 .max-h-\\\\[1px\\\\]{max-height:1px;}
+.max-w-screen-lg{max-width:1024px;}
 .list-none{list-style-type:none;}
 .list-disc{list-style-type:disc;}
 .list-inside{list-style-position:inside;}
-.max-w-screen-lg{max-width:1024px;}
 .tracking-wide{letter-spacing:0.025em;}
 .leading-2{line-height:0.5rem;}
 .overflow-auto{overflow:auto;}
