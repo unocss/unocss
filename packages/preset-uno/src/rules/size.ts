@@ -1,4 +1,5 @@
-import { Rule } from '@unocss/core'
+import { Rule, RuleContext } from '@unocss/core'
+import { Theme } from '../theme'
 import { handler as h } from '../utils'
 
 export const sizes: Rule[] = [
@@ -10,4 +11,9 @@ export const sizes: Rule[] = [
   [/^h-([^-]+)$/, ([, s]) => ({ height: h.bracket.fraction.rem(s) })],
   [/^max-w-([^-]+)$/, ([, s]) => ({ 'max-width': h.bracket.fraction.rem(s) })],
   [/^max-h-([^-]+)$/, ([, s]) => ({ 'max-height': h.bracket.fraction.rem(s) })],
+  [/^max-w-screen-([a-z]+)$/, ([, s], { theme }: RuleContext<Theme>) => {
+    const v = theme.breakpoints?.[s]
+    if (v != null)
+      return { 'max-width': v }
+  }],
 ]
