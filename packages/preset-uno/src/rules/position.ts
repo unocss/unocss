@@ -107,3 +107,11 @@ export const objectPositions: Rule[] = [
   ['object-rb', { 'object-position': 'right bottom' }],
   ['object-rt', { 'object-position': 'right top' }],
 ]
+
+export const boxSizing: Rule[] = [
+  [
+    /^box-(border|content)$/, ([, value]) => ({
+      'box-sizing': `${value}-box`,
+    }),
+  ],
+]
