@@ -1,0 +1,40 @@
+<style>
+  html,
+  body,
+  #container {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+  }
+  .dark {
+    color: #fff;
+    background: #050505;
+  }
+</style>
+
+<body>
+  <div id="container"></div>
+  <style id="style"></style>
+</body>
+
+<script type="module">
+import '@unocss/reset/tailwind.css'
+
+const container = document.getElementById('container')
+const style = document.getElementById('style')
+const root = document.body.parentElement
+
+if (window.parent.document.body.parentElement.className.includes('dark'))
+  root.classList.toggle('dark', true)
+
+window.addEventListener('message', ({ data }) => {
+  const payload = JSON.parse(data)
+  if (payload.source !== 'unocss-playground')
+    return
+
+  container.innerHTML = payload.html
+  style.innerHTML = payload.css
+  root.classList.toggle('dark', payload.dark)
+})
+</script>

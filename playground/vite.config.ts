@@ -50,6 +50,10 @@ export default defineConfig({
         'local-pkg',
         'fs',
       ],
+      input: [
+        'index.html',
+        '__play.html',
+      ],
     },
   },
 })

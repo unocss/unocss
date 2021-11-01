@@ -1,4 +1,3 @@
-import './web-components/PreviewBox'
 import '@unocss/reset/tailwind.css'
 import 'splitpanes/dist/splitpanes.css'
 import 'uno.css'

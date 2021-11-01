@@ -1,5 +1,7 @@
-html.dark {
+.dark {
   color-scheme: dark;
+  background: #080808;
+  color: white;
 }
 
 .splitpanes__splitter {
