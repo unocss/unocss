@@ -88,6 +88,7 @@ const targets = [
   'm-1/2',
   'm-auto',
   'max-h-[1px]',
+  'max-w-screen-lg',
   'md:!hidden',
   'md:m-1',
   'mix-blend-normal',
