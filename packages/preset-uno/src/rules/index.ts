@@ -9,7 +9,7 @@ import { fonts, leadings, trackings } from './font'
 import { gaps } from './gap'
 import { grids } from './grid'
 import { overflows } from './layout'
-import { alignContents, alignItems, alignSelfs, floats, insets, justifies, justifyItems, justifySelfs, objectPositions, orders, placeContents, placeItems, placeSelfs, positions, zIndexes } from './position'
+import { alignContents, alignItems, alignSelfs, floats, insets, justifies, justifyItems, justifySelfs, objectPositions, boxSizing, orders, placeContents, placeItems, placeSelfs, positions, zIndexes } from './position'
 import { rings } from './ring'
 import { mixBlendModes, shadows } from './shadow'
 import { sizes } from './size'
@@ -74,6 +74,7 @@ export const rules: Rule[] = [
   floats,
   zIndexes,
   objectPositions,
+  boxSizing,
   transitions,
   filters,
   tables,

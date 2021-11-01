@@ -129,6 +129,8 @@ exports[`targets 1`] = `
 .inset-x-5{left:1.25rem;right:1.25rem;}
 .z-1{z-index:1;}
 .z-100{z-index:100;}
+.box-border{box-sizing:border-box;}
+.box-content{box-sizing:content-box;}
 .transition{transition-property:color, border-color, background-color, flex-grow, flex, flex-shrink, caret-color, font, gap, opacity, visibility, z-index, font-weight, zoom, text-shadow, transform, box-shadow, backround-position, left, right, top, bottom, object-position, max-height, min-height, max-width, min-width, height, width, border-width, margin, padding, outline-width, outline-offset, font-size, line-height, text-indent, vertical-align, border-spacing, letter-spacing, word-spacing, stroke, filter, backdrop-filter, fill, mask, mask-size, mask-border, clip-path, clip;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms;}
 .transition-200{transition-property:color, border-color, background-color, flex-grow, flex, flex-shrink, caret-color, font, gap, opacity, visibility, z-index, font-weight, zoom, text-shadow, transform, box-shadow, backround-position, left, right, top, bottom, object-position, max-height, min-height, max-width, min-width, height, width, border-width, margin, padding, outline-width, outline-offset, font-size, line-height, text-indent, vertical-align, border-spacing, letter-spacing, word-spacing, stroke, filter, backdrop-filter, fill, mask, mask-size, mask-border, clip-path, clip;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:200ms;}
 .transition-none{transition-property:none;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms;}

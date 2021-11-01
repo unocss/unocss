@@ -149,6 +149,8 @@ const targets = [
   'w-1/2',
   'z-1',
   'z-100',
+  'box-content',
+  'box-border',
   'filter',
   'invert',
   'shadow',
