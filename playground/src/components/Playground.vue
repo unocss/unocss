@@ -1,37 +1,17 @@
 <script setup lang="ts">
+import { breakpointsTailwind } from '@vueuse/core'
 // @ts-ignore
 import { Splitpanes, Pane } from 'splitpanes'
-import { isDark } from '../logics/dark'
-import { inputHTML, output, init } from '../logics/uno'
 
-const iframe = ref<HTMLIFrameElement>()
+const bp = useBreakpoints(breakpointsTailwind)
 
-const iframeData = reactive({
-  source: 'unocss-playground',
-  css: computed(() => output.value.css),
-  html: inputHTML,
-  dark: isDark,
-})
-
-async function send() {
-  iframe.value?.contentWindow?.postMessage(JSON.stringify(iframeData), location.origin)
-}
-
-watch([iframeData, iframe], send, { deep: true })
+const isMobile = bp.smaller('sm')
 </script>
 
 <template>
-  <Splitpanes h-screen w-screen>
+  <Splitpanes h-screen w-screen :horizontal="isMobile">
     <Pane>
-      <iframe
-        v-show="init"
-        ref="iframe"
-        h-full
-        w-full
-        :class="{ dark: isDark }"
-        src="/__play.html"
-        @load="send"
-      />
+      <Preview />
     </Pane>
     <Pane>
       <Editor />
