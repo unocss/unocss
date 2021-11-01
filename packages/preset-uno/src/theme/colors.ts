@@ -9,6 +9,7 @@ import { Theme } from '../theme'
 export const colors: Theme['colors'] = {
   black: '#000',
   white: '#fff',
+  inherit: 'inherit',
   rose: {
     50: '#fff1f2',
     100: '#ffe4e6',
