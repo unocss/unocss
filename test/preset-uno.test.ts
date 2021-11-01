@@ -168,6 +168,8 @@ const targets = [
   'ring-offset-green5',
   'inset-x-5',
   'translate-y-1/4',
+  'preserve-3d',
+  'preserve-flat',
   'text-opacity-[13.3333333%]',
   'via-current',
   'via-green-500',

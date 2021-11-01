@@ -16,6 +16,9 @@ export const transforms: Rule[] = [
       'transform': 'rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z))',
     },
   ],
+  [/^preserve-(3d|flat)$/, ([, value]) => ({
+    'transform-style': value === '3d' ? `preserve-${value}` : value,
+  })],
   [/^translate()-([^-]+)$/, handleTranslate],
   [/^translate-([xyz])-([^-]+)$/, handleTranslate],
   [/^scale()-([^-]+)$/, handleScale],
