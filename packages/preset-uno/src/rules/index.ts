@@ -14,7 +14,7 @@ import { rings } from './ring'
 import { mixBlendModes, shadows } from './shadow'
 import { sizes } from './size'
 import { paddings, margins } from './spacing'
-import { verticalAligns, appearances, breaks, cursors, displays, pointerEvents, resizes, textAligns, textDecorations, textOverflows, textTransforms, userSelects, whitespaces } from './static'
+import { verticalAligns, appearances, breaks, cursors, displays, pointerEvents, resizes, textAligns, textDecorations, textOverflows, textTransforms, userSelects, whitespaces, listStyleType, listStylePosition } from './static'
 import { tables } from './table'
 import { transforms } from './transform'
 
@@ -55,6 +55,8 @@ export const rules: Rule[] = [
   verticalAligns,
   userSelects,
   whitespaces,
+  listStyleType,
+  listStylePosition,
   breaks,
   trackings,
   leadings,
