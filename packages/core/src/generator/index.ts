@@ -276,13 +276,13 @@ export class UnoGenerator {
     if (typeof result === 'string')
       result = result.split(/ /g)
 
-    return uniq(result.flatMap(r => this.expandShortcut(r, depth - 1) || [r]))
+    return result.flatMap(r => this.expandShortcut(r, depth - 1) || [r])
   }
 
   async stringifyShortcuts(parent: VariantMatchedResult, expanded: string[]) {
     const selectorMap = new TwoKeyMap<string, string | undefined, [CSSEntries, number]>()
 
-    const parsed = (await Promise.all(expanded
+    const parsed = (await Promise.all(uniq(expanded)
       .map(i => this.parseUtil(i) as Promise<ParsedUtil>)))
       .filter(Boolean)
       .sort((a, b) => a[0] - b[0])
