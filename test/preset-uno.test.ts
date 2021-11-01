@@ -174,6 +174,13 @@ const targets = [
   'via-current',
   'via-green-500',
   'via-transparent',
+  'list-none',
+  'list-disc',
+  'list-inside',
+  'space-x-2',
+  'space-y-4',
+  'space-x-reverse',
+  'next:mt-0',
 ]
 
 const nonTargets = [

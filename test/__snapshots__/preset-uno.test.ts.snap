@@ -16,6 +16,10 @@ exports[`targets 1`] = `
 .children\\\\:m-auto > *,.all\\\\:m-auto *,.-m-auto,.m-auto{margin:auto;}
 .my-auto{margin-top:auto;margin-bottom:auto;}
 .mt-\\\\[-10\\\\.2\\\\%\\\\]{margin-top:-10.2%;}
+.next\\\\:mt-0+*{margin-top:0rem;}
+.space-x-2>:not([hidden])~:not([hidden]){--un-space-x-reverse:0;margin-left:calc(0.5rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(0.5rem * var(--un-space-x-reverse));}
+.space-x-reverse>:not([hidden])~:not([hidden]){--un-space-x-reverse:1;}
+.space-y-4>:not([hidden])~:not([hidden]){--un-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--un-space-y-reverse)));margin-bottom:calc(1rem * calc(1 - var(--un-space-y-reverse)));}
 .op-10{opacity:0.1;}
 .opacity-0{opacity:0;}
 .bg-fixed{background-attachment:fixed;}
@@ -121,6 +125,9 @@ exports[`targets 1`] = `
 .h-1{height:0.25rem;}
 .max-h-\\\\[1px\\\\]{max-height:1px;}
 .max-w-screen-lg{max-width:1024px;}
+.list-none{list-style-type:none;}
+.list-disc{list-style-type:disc;}
+.list-inside{list-style-position:inside;}
 .tracking-wide{letter-spacing:0.025em;}
 .leading-2{line-height:0.5rem;}
 .overflow-auto{overflow:auto;}
