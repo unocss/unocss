@@ -74,9 +74,9 @@ const formatted = computed(() => {
       plugins: [parserCSS],
     })
   }
-  catch (e) {
+  catch (e: any) {
     console.error(e)
-    return `/* Error on prettifying: ${e} */\n${output.value?.css || ''}`
+    return `/* Error on prettifying: ${e.message} */\n${output.value?.css || ''}`
   }
 })
 
