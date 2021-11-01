@@ -1,6 +1,6 @@
-import { UserConfig, ParsedUtil, StringifiedUtil, UserConfigDefaults, VariantMatchedResult, Variant, ResolvedConfig, CSSEntries, GenerateResult, CSSObject, RawUtil, Shortcut, StaticShortcut } from '../types'
+import { UserConfig, ParsedUtil, StringifiedUtil, UserConfigDefaults, VariantMatchedResult, Variant, ResolvedConfig, CSSEntries, GenerateResult, CSSObject, RawUtil } from '../types'
 import { resolveConfig } from '../config'
-import { e, entriesToCss, isRawUtil, isStaticShortcut, TwoKeyMap } from '../utils'
+import { e, entriesToCss, isRawUtil, isStaticShortcut, TwoKeyMap, uniq } from '../utils'
 import { RuleContext, VariantHandler } from '..'
 
 export class UnoGenerator {
@@ -89,7 +89,7 @@ export class UnoGenerator {
 
       // expand shortcuts
       const expanded = this.expandShortcut(applied[1])
-      if (expanded) {
+      if (expanded?.length) {
         const utils = await this.stringifyShortcuts(applied, expanded)
         if (utils.length) {
           hit(raw, utils)
@@ -249,48 +249,17 @@ export class UnoGenerator {
     return [parsed[0], selector, body, mediaQuery]
   }
 
-  resolveStaticShortcut(matter: Array<string>, result: Array<string>, resolved: Set<string>) {
-    if (matter !== result)
-      matter.forEach(d => !result.includes(d) && result.push(d))
+  expandShortcut(processed: string, depth = 3): string[] | undefined {
+    if (depth === 0)
+      return
 
-    const getList = (shortcut: StaticShortcut) => (Array.isArray(shortcut[1])
-      ? shortcut[1]
-      : shortcut[1].split(' ')
-    ).filter(item => !resolved.has(item))
-
-    const scanShortcut = () => {
-      return matter.reduce((acc, cur) => {
-        const filterd = this.config.shortcuts.find(shortcut => isStaticShortcut(shortcut) && (shortcut[0] === cur))
-        return filterd ? acc.concat([filterd]) : acc
-      }, [] as Array<Shortcut>)
-    }
-    const nestShortcuts = scanShortcut() as StaticShortcut[]
-
-    nestShortcuts.forEach((shortcut) => {
-      const idx = result.findIndex(item => item === shortcut[0])
-      const hasIncluded = resolved.has(shortcut[0])
-      resolved.add(shortcut[0])
-
-      if (~idx) {
-        result.splice(idx, 1)
-        if (!hasIncluded) {
-          result.splice(idx, 0, ...(this.resolveStaticShortcut(
-            getList(shortcut),
-            result,
-            resolved)
-          ))
-        }
-      }
-    })
-    return result
-  }
-
-  expandShortcut(processed: string) {
     let result: string | string[] | undefined
     for (const s of this.config.shortcuts) {
       if (isStaticShortcut(s)) {
-        if (s[0] === processed)
+        if (s[0] === processed) {
           result = s[1]
+          break
+        }
       }
       else {
         const match = processed.match(s[0])
@@ -307,12 +276,7 @@ export class UnoGenerator {
     if (typeof result === 'string')
       result = result.split(/ /g)
 
-    return Array.from(
-      new Set(
-        this.resolveStaticShortcut(result, result, new Set([processed]),
-        ),
-      ),
-    )
+    return uniq(result.flatMap(r => this.expandShortcut(r, depth - 1) || [r]))
   }
 
   async stringifyShortcuts(parent: VariantMatchedResult, expanded: string[]) {
