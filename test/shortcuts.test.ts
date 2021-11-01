@@ -11,7 +11,7 @@ describe('shortcuts', () => {
       {
         btn: 'mr-10',
         btn1: 'ml-10 btn',
-        btn2: 'sh1 btn1'
+        btn2: 'sh1 btn1',
       },
       [/^button-(\d)$/, ([, d]) => [`px${(+d) * 3}`, `py${(+d) * 2}`]],
     ],
