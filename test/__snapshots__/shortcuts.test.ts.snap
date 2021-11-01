@@ -5,12 +5,20 @@ exports[`shortcuts dynamic 1`] = `
 .button-2{padding-left:1.5rem;padding-right:1.5rem;padding-top:1rem;padding-bottom:1rem;}"
 `;
 
+exports[`shortcuts nesting static 1`] = `
+".btn{margin-right:2.5rem;}
+.btn1{margin-left:2.5rem;margin-right:2.5rem;}
+.btn2{padding-left:0.5rem;padding-right:0.5rem;padding-top:0.75rem;padding-bottom:0.75rem;margin:0.75rem;margin-left:2.5rem;margin-right:2.5rem;}
+@media (min-width: 640px){
+.btn2{margin:0.5rem;}
+}"
+`;
+
 exports[`shortcuts static 1`] = `
-".sh1{padding-left:0.5rem;padding-right:0.5rem;padding-top:0.75rem;padding-bottom:0.75rem;}
-.sh3{margin:0.75rem;}
+".sh1,.sh3{padding-left:0.5rem;padding-right:0.5rem;padding-top:0.75rem;padding-bottom:0.75rem;margin:0.75rem;}
 .focus\\\\:sh2:focus,.sh2{font-size:0.875rem;line-height:1.25rem;font-size:1.125rem;line-height:1.75rem;}
 .focus\\\\:sh2:hover:focus,.sh2:hover{font-size:1.125rem;line-height:1.75rem;}
 @media (min-width: 640px){
-.sh3{margin:0.5rem;}
+.sh1,.sh3{margin:0.5rem;}
 }"
 `;

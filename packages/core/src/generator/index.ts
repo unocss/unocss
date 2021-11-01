@@ -1,6 +1,6 @@
 import { UserConfig, ParsedUtil, StringifiedUtil, UserConfigDefaults, VariantMatchedResult, Variant, ResolvedConfig, CSSEntries, GenerateResult, CSSObject, RawUtil } from '../types'
 import { resolveConfig } from '../config'
-import { e, entriesToCss, isRawUtil, isStaticShortcut, TwoKeyMap } from '../utils'
+import { e, entriesToCss, isRawUtil, isStaticShortcut, TwoKeyMap, uniq } from '../utils'
 import { RuleContext, VariantHandler } from '..'
 
 export class UnoGenerator {
@@ -89,7 +89,7 @@ export class UnoGenerator {
 
       // expand shortcuts
       const expanded = this.expandShortcut(applied[1])
-      if (expanded) {
+      if (expanded?.length) {
         const utils = await this.stringifyShortcuts(applied, expanded)
         if (utils.length) {
           hit(raw, utils)
@@ -249,13 +249,17 @@ export class UnoGenerator {
     return [parsed[0], selector, body, mediaQuery]
   }
 
-  expandShortcut(processed: string) {
-    let result: string | string[] | undefined
+  expandShortcut(processed: string, depth = 3): string[] | undefined {
+    if (depth === 0)
+      return
 
+    let result: string | string[] | undefined
     for (const s of this.config.shortcuts) {
       if (isStaticShortcut(s)) {
-        if (s[0] === processed)
+        if (s[0] === processed) {
           result = s[1]
+          break
+        }
       }
       else {
         const match = processed.match(s[0])
@@ -272,7 +276,7 @@ export class UnoGenerator {
     if (typeof result === 'string')
       result = result.split(/ /g)
 
-    return result
+    return uniq(result.flatMap(r => this.expandShortcut(r, depth - 1) || [r]))
   }
 
   async stringifyShortcuts(parent: VariantMatchedResult, expanded: string[]) {
