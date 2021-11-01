@@ -166,7 +166,7 @@ const targets = [
   'inset-x-5',
   'translate-y-1/4',
   'preserve-3d',
-  'flat',
+  'preserve-flat',
   'text-opacity-[13.3333333%]',
   'via-current',
   'via-green-500',
