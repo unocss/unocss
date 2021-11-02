@@ -80,6 +80,22 @@ exports[`targets 1`] = `
 .text-4xl{font-size:2.25rem;line-height:2.5rem;}
 .text-base{font-size:1rem;line-height:1.5rem;}
 .text-lg{font-size:1.125rem;line-height:1.75rem;}
+.tab{-moz-tab-size:4;-o-tab-size:4;tab-size:4;}
+.tab-6{-moz-tab-size:6;-o-tab-size:6;tab-size:6;}
+.indent{text-indent:1.5rem;}
+.indent-1\\\\/2{text-indent:50%;}
+.indent-lg{text-indent:2rem;}
+.underline{text-decoration:underline;}
+.underline-dashed{text-decoration-style:dashed;}
+.underline-red-500{-webkit-text-decoration-color:rgba(239,68,68,var(--un-line-opacity));--un-line-opacity:1;text-decoration-color:rgba(239,68,68,var(--un-line-opacity));}
+.underline-op80{--un-line-opacity:0.8;}
+.underline-5{text-decoration-thickness:5;}
+.underline-auto{text-decoration-thickness:auto;}
+.underline-offset-0\\\\.6rem{text-underline-offset:0.6rem;}
+.text-stroke-6{-webkit-text-stroke-width:6px;}
+.text-stroke-sm{-webkit-text-stroke-width:thin;}
+.text-stroke-blue-500{--un-text-stroke-opacity:1;-webkit-text-stroke-color:rgba(59,130,246,var(--un-text-stroke-opacity));}
+.text-stroke-op-60{--un-text-stroke-opacity:0.6;}
 .dark .dark\\\\:not-odd\\\\:text-red:not(:nth-child(odd)){--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
 .text-\\\\[\\\\#124\\\\]{--un-text-opacity:1;color:rgba(17,34,68,var(--un-text-opacity));}
 .text-black\\\\/10{color:rgba(0,0,0,0.1);}
@@ -89,6 +105,11 @@ exports[`targets 1`] = `
 .text-red-100,.text-red100{--un-text-opacity:1;color:rgba(254,226,226,var(--un-text-opacity));}
 .text-red2{--un-text-opacity:1;color:rgba(254,202,202,var(--un-text-opacity));}
 .text-opacity-\\\\[13\\\\.3333333\\\\%\\\\]{--un-text-opacity:13.3333333%;}
+.italic{font-style:italic;}
+.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-smoothing:grayscale;}
+.hyphens-none{-webkit-hyphens:none;-ms-hyphens:none;hyphens:none;}
+.write-normal{writing-mode:horizontal-tb;}
+.write-orient-sideways{text-orientation:sideways;}
 .mix-blend-normal{mix-blend-mode:normal;}
 .mix-blend-color-light{mix-blend-mode:color-light;}
 .shadow{--un-shadow-color:0,0,0;--un-shadow:0 1px 3px 0 rgba(var(--un-shadow-color), 0.1), 0 1px 2px 0 rgba(var(--un-shadow-color), 0.06);-webkit-box-shadow:var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow);box-shadow:var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow);}

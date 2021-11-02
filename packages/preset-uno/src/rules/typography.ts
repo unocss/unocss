@@ -63,6 +63,50 @@ export const trackings: Rule<Theme>[] = [
   }],
 ]
 
+export const tabSizes: Rule<Theme>[] = [
+  [/^tab-?([^-]*)$/, ([, s]) => {
+    const v = h.bracket.number.rem(s) || 4
+    return {
+      '-moz-tab-size': v,
+      '-o-tab-size': v,
+      'tab-size': v,
+    }
+  }],
+]
+
+export const textDecorationLengths: Rule<Theme>[] = [
+  [/^underline-([^-]+)$/, ([, s]) => {
+    const v = h.bracket.number.rem(s)
+    if (v != null)
+      return { 'text-decoration-thickness': v }
+  }],
+]
+
+export const textDecorationOffsets: Rule<Theme>[] = [
+  [/^underline-offset-([^-]+)$/, ([, s]) => {
+    const v = h.bracket.number.rem(s)
+    if (v != null)
+      return { 'text-underline-offset': v }
+  }],
+]
+
+export const textIndents: Rule<Theme>[] = [
+  [/^indent-?([^-]*)$/, ([, s], { theme }) => {
+    const v = theme.textIndent?.[s] || h.bracket.fraction.rem(s) || theme.textIndent?.DEFAULT
+    if (v != null)
+      return { 'text-indent': v }
+  }],
+]
+
+export const textStrokeWidths: Rule<Theme>[] = [
+  [/^text-stroke-?([^-]*)$/, ([, s], { theme }) => {
+    const num = h.bracket.number(s)
+    const v = theme.textStrokeWidth?.[s] || (num && `${num}px`) || h.bracket.rem(s) || theme.textStrokeWidth?.DEFAULT
+    if (v != null)
+      return { '-webkit-text-stroke-width': v }
+  }],
+]
+
 export const fonts = [
   fontsFamilies,
   fontSizes,

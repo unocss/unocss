@@ -1,5 +1,5 @@
 import { colors } from './colors'
-import { fontFamily, fontSize, letterSpacing, lineHeight } from './font'
+import { fontFamily, fontSize, letterSpacing, lineHeight, textIndent, textStrokeWidth } from './font'
 import { breakpoints, borderRadius, textShadow } from './misc'
 
 export * from './colors'
@@ -13,6 +13,8 @@ export interface Theme {
   lineHeight?: Record<string, string>
   letterSpacing?: Record<string, string>
   textShadow?: Record<string, string>
+  textIndent?: Record<string, string>
+  textStrokeWidth?: Record<string, string>
 }
 
 export const theme: Theme = {
@@ -24,4 +26,6 @@ export const theme: Theme = {
   lineHeight,
   letterSpacing,
   textShadow,
+  textIndent,
+  textStrokeWidth,
 }

@@ -83,9 +83,64 @@ export const textDecorations: Rule[] = [
   ['no-underline', { 'text-decoration': 'none' }],
 ]
 
+export const textDecorationStyles: Rule[] = [
+  ['underline-solid', { 'text-decoration-style': 'solid' }],
+  ['underline-double', { 'text-decoration-style': 'double' }],
+  ['underline-dotted', { 'text-decoration-style': 'dotted' }],
+  ['underline-dashed', { 'text-decoration-style': 'dashed' }],
+]
+
 export const textAligns: Rule[] = [
   ['text-center', { 'text-align': 'center' }],
   ['text-left', { 'text-align': 'left' }],
   ['text-right', { 'text-align': 'right' }],
   ['text-justify', { 'text-align': 'justify' }],
+]
+
+export const fontStyles: Rule[] = [
+  ['italic', { 'font-style': 'italic' }],
+  ['not-italic', { 'font-style': 'normal' }],
+]
+
+export const fontSmoothings: Rule[] = [
+  ['antialiased', {
+    '-webkit-font-smoothing': 'antialiased',
+    '-moz-osx-font-smoothing': 'grayscale',
+    'font-smoothing': 'grayscale',
+  }],
+  ['subpixel-antialiased', {
+    '-webkit-font-smoothing': 'auto',
+    '-moz-osx-font-smoothing': 'auto',
+    'font-smoothing': 'auto',
+  }],
+]
+
+export const hyphens: Rule[] = [
+  ['hyphens-none', {
+    '-webkit-hyphens': 'none',
+    '-ms-hyphens': 'none',
+    'hyphens': 'none',
+  }],
+  ['hyphens-manual', {
+    '-webkit-hyphens': 'manual',
+    '-ms-hyphens': 'manual',
+    'hyphens': 'manual',
+  }],
+  ['hyphens-auto', {
+    '-webkit-hyphens': 'auto',
+    '-ms-hyphens': 'auto',
+    'hyphens': 'auto',
+  }],
+]
+
+export const writingModes: Rule[] = [
+  ['write-normal', { 'writing-mode': 'horizontal-tb' }],
+  ['write-vertical-right', { 'writing-mode': 'vertical-rl' }],
+  ['write-vertical-left', { 'writing-mode': 'vertical-lr' }],
+]
+
+export const writingOrientations: Rule[] = [
+  ['write-orient-mixed', { 'text-orientation': 'mixed' }],
+  ['write-orient-upright', { 'text-orientation': 'upright' }],
+  ['write-orient-sideways', { 'text-orientation': 'sideways' }],
 ]
