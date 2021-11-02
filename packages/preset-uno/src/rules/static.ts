@@ -13,7 +13,6 @@ export const displays: Rule[] = [
 
 export const appearances: Rule[] = [
   ['outline-none', { 'outline': '2px solid transparent', 'outline-offset': '2px' }],
-  ['appearance-none', { appearance: 'none' }],
   ['visible', { visibility: 'visible' }],
   ['invisible', { visibility: 'hidden' }],
   ['backface-visible', { 'backface-visibility': 'visible' }],

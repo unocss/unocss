@@ -17,7 +17,7 @@ import { paddings, margins } from './spacing'
 import { verticalAligns, appearances, breaks, cursors, displays, pointerEvents, resizes, textAligns, textDecorations, textOverflows, textTransforms, userSelects, whitespaces } from './static'
 import { tables } from './table'
 import { transforms } from './transform'
-import { listStyle } from './behaviors'
+import { listStyle, caretColors, boxDecorationBreaks, caretOpacity, imageRenderings, appearance } from './behaviors'
 
 export const rules: Rule[] = [
   paddings,
@@ -57,6 +57,11 @@ export const rules: Rule[] = [
   userSelects,
   whitespaces,
   listStyle,
+  caretColors,
+  boxDecorationBreaks,
+  caretOpacity,
+  imageRenderings,
+  appearance,
   breaks,
   trackings,
   leadings,

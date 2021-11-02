@@ -21,7 +21,7 @@ export const extractColor = (body: string) => {
   return { opacity, name, no, color }
 }
 
-const colorResolver
+export const colorResolver
 = (attribute: string, varName: string) =>
   ([, body]: string[], { theme }: RuleContext<Theme>) => {
     const data = extractColor(body)
