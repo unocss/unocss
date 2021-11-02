@@ -2,7 +2,7 @@ import type { Plugin, ViteDevServer } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
 import { defaultExclude, defaultInclude } from '../../utils'
 import { Context } from '../../context'
-import { READY_CALLBACK, VIRTUAL_ENTRY, VIRTUAL_ENTRY_ALIAS } from './shared'
+import { READY_CALLBACK_DEFAULT, VIRTUAL_ENTRY_DEFAULT, VIRTUAL_ENTRY_ALIAS } from './shared'
 
 const WARN_TIMEOUT = 2000
 
@@ -21,10 +21,13 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
   let resolved = false
   let resolvedWarnTimer: any
 
+  const entry = config.__virtualModuleEntry || VIRTUAL_ENTRY_DEFAULT
+  const callbackUrl = config.__onStyleReadyCallback || READY_CALLBACK_DEFAULT
+
   function invalidate(timer = 10) {
     if (!server)
       return
-    const mod = server.moduleGraph.getModuleById(VIRTUAL_ENTRY)
+    const mod = server.moduleGraph.getModuleById(entry)
     if (!mod)
       return
     lastUpdate = Date.now()
@@ -37,8 +40,8 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
     server!.ws.send({
       type: 'update',
       updates: [{
-        acceptedPath: VIRTUAL_ENTRY,
-        path: VIRTUAL_ENTRY,
+        acceptedPath: entry,
+        path: entry,
         timestamp: lastUpdate,
         type: 'js-update',
       }],
@@ -71,8 +74,8 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
         server = _server
         server.middlewares.use(async(req, res, next) => {
           setWarnTimer()
-          if (req.url?.startsWith(READY_CALLBACK)) {
-            const servedTime = +req.url.slice(READY_CALLBACK.length + 1)
+          if (req.url?.startsWith(callbackUrl)) {
+            const servedTime = +req.url.slice(callbackUrl.length + 1)
             if (servedTime < lastUpdate)
               invalidate(0)
             res.statusCode = 200
@@ -97,11 +100,11 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
       resolveId(id) {
         if (VIRTUAL_ENTRY_ALIAS.includes(id)) {
           resolved = true
-          return VIRTUAL_ENTRY
+          return entry
         }
       },
       async load(id) {
-        if (id !== VIRTUAL_ENTRY)
+        if (id !== entry)
           return null
 
         await Promise.all(tasks)
@@ -117,8 +120,8 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
       },
       enforce: 'post',
       transform(code, id) {
-        if (id === VIRTUAL_ENTRY && code.includes('import.meta.hot'))
-          return `${code}\nawait fetch("${READY_CALLBACK}/${lastServed}")`
+        if (id === entry && code.includes('import.meta.hot'))
+          return `${code}\nawait fetch("${callbackUrl}/${lastServed}")`
       },
     },
   ]
