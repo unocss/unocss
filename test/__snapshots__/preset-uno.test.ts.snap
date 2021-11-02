@@ -133,7 +133,7 @@ exports[`targets 1`] = `
 .decoration-slice{box-decoration-break:slice;}
 .caret-op-90{--un-caret-opacity:0.9;}
 .image-render-pixel{-ms-interpolation-mode:nearest-neighbor;image-rendering:-webkit-optimize-contrast;image-rendering:-moz-crisp-edges;image-rendering:-o-pixelated;image-rendering:pixelated;}
-.appearance-none{appearance:none;-webkit-appearance:none;-moz-appearance:none;}
+.appearance-none{appearance-none:none;}
 .tracking-wide{letter-spacing:0.025em;}
 .leading-2{line-height:0.5rem;}
 .overflow-auto{overflow:auto;}
