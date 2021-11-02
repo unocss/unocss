@@ -85,7 +85,7 @@ exports[`targets 1`] = `
 .indent-1\\\\/2{text-indent:50%;}
 .indent-lg{text-indent:2rem;}
 .underline{text-decoration:underline;}
-.underline-dashed{-webkit-text-decoration-style:dashed;text-decoration-style:dashed;}
+.underline-dashed{text-decoration-style:dashed;}
 .underline-red-500{-webkit-text-decoration-color:rgba(239,68,68,var(--un-line-opacity));--un-line-opacity:1;text-decoration-color:rgba(239,68,68,var(--un-line-opacity));}
 .underline-op80{--un-line-opacity:0.8;}
 .underline-5{text-decoration-thickness:5;}
@@ -107,8 +107,8 @@ exports[`targets 1`] = `
 .italic{font-style:italic;}
 .antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
 .hyphens-none{-webkit-hyphens:none;-ms-hyphens:none;hyphens:none;}
-.write-normal{-webkit-writing-mode:horizontal-tb;-ms-writing-mode:lr-tb;writing-mode:horizontal-tb;}
-.write-orient-sideways{-webkit-text-orientation:sideways;text-orientation:sideways;}
+.write-normal{writing-mode:horizontal-tb;}
+.write-orient-sideways{text-orientation:sideways;}
 .mix-blend-normal{mix-blend-mode:normal;}
 .mix-blend-color-light{mix-blend-mode:color-light;}
 .shadow{--un-shadow-color:0,0,0;--un-shadow:0 1px 3px 0 rgba(var(--un-shadow-color), 0.1), 0 1px 2px 0 rgba(var(--un-shadow-color), 0.06);-webkit-box-shadow:var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow);box-shadow:var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow);}

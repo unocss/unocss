@@ -85,22 +85,10 @@ export const textDecorations: Rule[] = [
 ]
 
 export const textDecorationStyles: Rule[] = [
-  ['underline-solid', {
-    '-webkit-text-decoration-style': 'solid',
-    'text-decoration-style': 'solid',
-  }],
-  ['underline-double', {
-    '-webkit-text-decoration-style': 'double',
-    'text-decoration-style': 'double',
-  }],
-  ['underline-dotted', {
-    '-webkit-text-decoration-style': 'dotted',
-    'text-decoration-style': 'dotted',
-  }],
-  ['underline-dashed', {
-    '-webkit-text-decoration-style': 'dashed',
-    'text-decoration-style': 'dashed',
-  }],
+  ['underline-solid', { 'text-decoration-style': 'solid' }],
+  ['underline-double', { 'text-decoration-style': 'double' }],
+  ['underline-dotted', { 'text-decoration-style': 'dotted' }],
+  ['underline-dashed', { 'text-decoration-style': 'dashed' }],
 ]
 
 export const textAligns: Rule[] = [
@@ -145,36 +133,15 @@ export const hyphens: Rule[] = [
 ]
 
 export const writingModes: Rule[] = [
-  ['write-normal', {
-    '-webkit-writing-mode': 'horizontal-tb',
-    '-ms-writing-mode': 'lr-tb',
-    'writing-mode': 'horizontal-tb',
-  }],
-  ['write-vertical-right', {
-    '-webkit-writing-mode': 'vertical-rl',
-    '-ms-writing-mode': 'tb-rl',
-    'writing-mode': 'vertical-rl',
-  }],
-  ['write-vertical-left', {
-    '-webkit-writing-mode': 'vertical-lr',
-    '-ms-writing-mode': 'tb-lr',
-    'writing-mode': 'vertical-lr',
-  }],
+  ['write-normal', { 'writing-mode': 'horizontal-tb' }],
+  ['write-vertical-right', { 'writing-mode': 'vertical-rl' }],
+  ['write-vertical-left', { 'writing-mode': 'vertical-lr' }],
 ]
 
 export const writingOrientations: Rule[] = [
-  ['write-orient-mixed', {
-    '-webkit-text-orientation': 'mixed',
-    'text-orientation': 'mixed',
-  }],
-  ['write-orient-upright', {
-    '-webkit-text-orientation': 'upright',
-    'text-orientation': 'upright',
-  }],
-  ['write-orient-sideways', {
-    '-webkit-text-orientation': 'sideways',
-    'text-orientation': 'sideways',
-  }],
+  ['write-orient-mixed', { 'text-orientation': 'mixed' }],
+  ['write-orient-upright', { 'text-orientation': 'upright' }],
+  ['write-orient-sideways', { 'text-orientation': 'sideways' }],
 ]
 
 export const listStyleTypes: Rule[] = [
