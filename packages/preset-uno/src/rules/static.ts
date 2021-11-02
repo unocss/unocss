@@ -84,6 +84,25 @@ export const textDecorations: Rule[] = [
   ['no-underline', { 'text-decoration': 'none' }],
 ]
 
+export const textDecorationStyles: Rule[] = [
+  ['underline-solid', {
+    '-webkit-text-decoration-style': 'solid',
+    'text-decoration-style': 'solid',
+  }],
+  ['underline-double', {
+    '-webkit-text-decoration-style': 'double',
+    'text-decoration-style': 'double',
+  }],
+  ['underline-dotted', {
+    '-webkit-text-decoration-style': 'dotted',
+    'text-decoration-style': 'dotted',
+  }],
+  ['underline-dashed', {
+    '-webkit-text-decoration-style': 'dashed',
+    'text-decoration-style': 'dashed',
+  }],
+]
+
 export const textAligns: Rule[] = [
   ['text-center', { 'text-align': 'center' }],
   ['text-left', { 'text-align': 'left' }],
@@ -91,7 +110,74 @@ export const textAligns: Rule[] = [
   ['text-justify', { 'text-align': 'justify' }],
 ]
 
-export const listStyleType: Rule[] = [
+export const fontStyles: Rule[] = [
+  ['italic', { 'font-style': 'italic' }],
+  ['not-italic', { 'font-style': 'normal' }],
+]
+
+export const fontSmoothings: Rule[] = [
+  ['antialiased', {
+    '-webkit-font-smoothing': 'antialiased',
+    '-moz-osx-font-smoothing': 'grayscale',
+  }],
+  ['subpixel-antialiased', {
+    '-webkit-font-smoothing': 'auto',
+    '-moz-osx-font-smoothing': 'auto',
+  }],
+]
+
+export const hyphens: Rule[] = [
+  ['hyphens-none', {
+    '-webkit-hyphens': 'none',
+    '-ms-hyphens': 'none',
+    'hyphens': 'none',
+  }],
+  ['hyphens-manual', {
+    '-webkit-hyphens': 'manual',
+    '-ms-hyphens': 'manual',
+    'hyphens': 'manual',
+  }],
+  ['hyphens-auto', {
+    '-webkit-hyphens': 'auto',
+    '-ms-hyphens': 'auto',
+    'hyphens': 'auto',
+  }],
+]
+
+export const writingModes: Rule[] = [
+  ['write-normal', {
+    '-webkit-writing-mode': 'horizontal-tb',
+    '-ms-writing-mode': 'lr-tb',
+    'writing-mode': 'horizontal-tb',
+  }],
+  ['write-vertical-right', {
+    '-webkit-writing-mode': 'vertical-rl',
+    '-ms-writing-mode': 'tb-rl',
+    'writing-mode': 'vertical-rl',
+  }],
+  ['write-vertical-left', {
+    '-webkit-writing-mode': 'vertical-lr',
+    '-ms-writing-mode': 'tb-lr',
+    'writing-mode': 'vertical-lr',
+  }],
+]
+
+export const writingOrientations: Rule[] = [
+  ['write-orient-mixed', {
+    '-webkit-text-orientation': 'mixed',
+    'text-orientation': 'mixed',
+  }],
+  ['write-orient-upright', {
+    '-webkit-text-orientation': 'upright',
+    'text-orientation': 'upright',
+  }],
+  ['write-orient-sideways', {
+    '-webkit-text-orientation': 'sideways',
+    'text-orientation': 'sideways',
+  }],
+]
+
+export const listStyleTypes: Rule[] = [
   ['list-none', { 'list-style-type': 'none' }],
   ['list-disc', { 'list-style-type': 'disc' }],
   ['list-circle', { 'list-style-type': 'circle' }],
@@ -105,7 +191,7 @@ export const listStyleType: Rule[] = [
   ['list-upper-alpha', { 'list-style-type': 'upper-alpha' }],
 ]
 
-export const listStylePosition: Rule[] = [
+export const listStylePositions: Rule[] = [
   ['list-inside', { 'list-style-position': 'inside' }],
   ['list-outside', { 'list-style-position': 'outside' }],
 ]

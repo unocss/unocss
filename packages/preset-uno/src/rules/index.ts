@@ -1,11 +1,11 @@
 import { Rule } from 'unocss'
 import { transitions } from './transition'
 import { borders } from './border'
-import { bgColors, opacity, textColors } from './color'
+import { bgColors, opacity, textColors, textDecorationColors, textStrokeColors } from './color'
 import { bgAttachments, bgBlendModes, bgClips, bgGradients, bgImages, bgOrigins, bgPositions, bgSizes, bgRepeats } from './background'
 import { filters } from './filters'
 import { flex } from './flex'
-import { fonts, leadings, trackings } from './font'
+import { fonts, leadings, tabSizes, textDecorationLengths, textDecorationOffsets, textIndents, textStrokeWidths, trackings } from './typography'
 import { gaps } from './gap'
 import { grids } from './grid'
 import { overflows } from './layout'
@@ -14,7 +14,7 @@ import { rings } from './ring'
 import { mixBlendModes, shadows } from './shadow'
 import { sizes } from './size'
 import { paddings, margins } from './spacing'
-import { verticalAligns, appearances, breaks, cursors, displays, pointerEvents, resizes, textAligns, textDecorations, textOverflows, textTransforms, userSelects, whitespaces, listStyleType, listStylePosition } from './static'
+import { verticalAligns, appearances, breaks, cursors, displays, pointerEvents, resizes, textAligns, textDecorations, textOverflows, textTransforms, userSelects, whitespaces, listStyleTypes, listStylePositions, fontStyles, fontSmoothings, hyphens, textDecorationStyles, writingModes, writingOrientations } from './static'
 import { tables } from './table'
 import { transforms } from './transform'
 
@@ -35,11 +35,24 @@ export const rules: Rule[] = [
   bgRepeats,
   borders,
   fonts,
+  tabSizes,
+  textIndents,
   textOverflows,
   textDecorations,
+  textDecorationStyles,
+  textDecorationColors,
+  textDecorationLengths,
+  textDecorationOffsets,
+  textStrokeWidths,
+  textStrokeColors,
   textTransforms,
   textAligns,
   textColors,
+  fontStyles,
+  fontSmoothings,
+  hyphens,
+  writingModes,
+  writingOrientations,
   mixBlendModes,
   shadows,
   rings,
@@ -55,8 +68,8 @@ export const rules: Rule[] = [
   verticalAligns,
   userSelects,
   whitespaces,
-  listStyleType,
-  listStylePosition,
+  listStyleTypes,
+  listStylePositions,
   breaks,
   trackings,
   leadings,
