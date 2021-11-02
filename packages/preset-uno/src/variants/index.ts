@@ -36,8 +36,6 @@ export const variantNegative: Variant = {
         body: (body) => {
           body.forEach((v) => {
             v[1] = v[1]?.toString().replace(/[0-9.]+[a-z]+/, i => `-${i}`)
-            if (!v[0].includes('reverse') && v[1]?.toString().match(/^\d/))
-              v[1] = `-${v[1]}`
           })
           return body
         },
