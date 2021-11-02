@@ -65,7 +65,7 @@ export const trackings: Rule<Theme>[] = [
 
 export const tabSizes: Rule<Theme>[] = [
   [/^tab-?([^-]*)$/, ([, s]) => {
-    const v = h.bracket.number(s) || h.bracket.rem(s) || 4
+    const v = h.bracket.number.rem(s) || 4
     return {
       '-moz-tab-size': v,
       '-o-tab-size': v,
@@ -76,7 +76,7 @@ export const tabSizes: Rule<Theme>[] = [
 
 export const textDecorationLengths: Rule<Theme>[] = [
   [/^underline-([^-]+)$/, ([, s]) => {
-    const v = h.bracket.number(s) || h.bracket.rem(s)
+    const v = h.bracket.number.rem(s)
     if (v != null)
       return { 'text-decoration-thickness': v }
   }],
@@ -84,7 +84,7 @@ export const textDecorationLengths: Rule<Theme>[] = [
 
 export const textDecorationOffsets: Rule<Theme>[] = [
   [/^underline-offset-([^-]+)$/, ([, s]) => {
-    const v = h.bracket.number(s) || h.bracket.rem(s)
+    const v = h.bracket.number.rem(s)
     if (v != null)
       return { 'text-underline-offset': v }
   }],
@@ -92,7 +92,7 @@ export const textDecorationOffsets: Rule<Theme>[] = [
 
 export const textIndents: Rule<Theme>[] = [
   [/^indent-?([^-]*)$/, ([, s], { theme }) => {
-    const v = theme.textIndent?.[s] || h.bracket.fraction(s) || h.bracket.rem(s) || theme.textIndent?.DEFAULT
+    const v = theme.textIndent?.[s] || h.bracket.fraction.rem(s) || theme.textIndent?.DEFAULT
     if (v != null)
       return { 'text-indent': v }
   }],
