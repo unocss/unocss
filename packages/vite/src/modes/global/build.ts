@@ -1,8 +1,8 @@
-import { Context } from 'vm'
 import type { Plugin } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
 import { defaultExclude, defaultInclude } from '../../utils'
-import { PLACEHOLDER, PLACEHOLDER_RE, VIRTUAL_ENTRY, VIRTUAL_ENTRY_ALIAS } from './shared'
+import { Context } from '../../context'
+import { PLACEHOLDER, PLACEHOLDER_RE, VIRTUAL_ENTRY_DEFAULT, VIRTUAL_ENTRY_ALIAS } from './shared'
 
 export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: Context): Plugin[] {
   const filter = createFilter(
@@ -11,6 +11,7 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: Context): P
   )
 
   const tasks: Promise<any>[] = []
+  const entry = config.__virtualModuleEntry || VIRTUAL_ENTRY_DEFAULT
 
   return [
     {
@@ -30,10 +31,12 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: Context): P
         },
       },
       resolveId(id) {
-        return VIRTUAL_ENTRY_ALIAS.includes(id) ? VIRTUAL_ENTRY : null
+        return VIRTUAL_ENTRY_ALIAS.includes(id)
+          ? entry
+          : null
       },
       async load(id) {
-        if (id !== VIRTUAL_ENTRY)
+        if (id !== entry)
           return null
         return PLACEHOLDER
       },

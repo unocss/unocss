@@ -145,22 +145,3 @@ export const writingOrientations: Rule[] = [
   ['write-orient-upright', { 'text-orientation': 'upright' }],
   ['write-orient-sideways', { 'text-orientation': 'sideways' }],
 ]
-
-export const listStyleTypes: Rule[] = [
-  ['list-none', { 'list-style-type': 'none' }],
-  ['list-disc', { 'list-style-type': 'disc' }],
-  ['list-circle', { 'list-style-type': 'circle' }],
-  ['list-square', { 'list-style-type': 'square' }],
-  ['list-decimal', { 'list-style-type': 'decimal' }],
-  ['list-zero-decimal', { 'list-style-type': 'decimal-leading-zero' }],
-  ['list-greek', { 'list-style-type': 'lower-greek' }],
-  ['list-roman', { 'list-style-type': 'lower-roman' }],
-  ['list-upper-roman', { 'list-style-type': 'upper-roman' }],
-  ['list-alpha', { 'list-style-type': 'lower-alpha' }],
-  ['list-upper-alpha', { 'list-style-type': 'upper-alpha' }],
-]
-
-export const listStylePositions: Rule[] = [
-  ['list-inside', { 'list-style-position': 'inside' }],
-  ['list-outside', { 'list-style-position': 'outside' }],
-]

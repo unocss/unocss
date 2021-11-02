@@ -1,7 +1,7 @@
 import { FilterPattern } from '@rollup/pluginutils'
 import { UserConfig } from '@unocss/core'
 
-export interface UnocssPluginOptions extends UserConfig {
+export interface VitePluginOptions {
   include?: FilterPattern
   exclude?: FilterPattern
 
@@ -16,4 +16,18 @@ export interface UnocssPluginOptions extends UserConfig {
    * @default 'global'
    */
   mode?: 'global' | 'per-module' | 'vue-scoped' | 'dist-chunk'
+
+  /**
+   * @internal
+   * @default '/__unocss/entry.css'
+   */
+  __virtualModuleEntry?: string
+
+  /**
+   * @internal
+   * @default '/__unocss/ready'
+   */
+  __onStyleReadyCallback?: string
 }
+
+export interface UnocssPluginOptions extends UserConfig, VitePluginOptions {}
