@@ -55,7 +55,7 @@ export const imageRenderings: Rule[] = [
   ]],
 ]
 
-export const Appearance: Rule[] = [
+export const appearance: Rule[] = [
   ['appearance-none', {
     'appearance-none': 'none',
   }],
