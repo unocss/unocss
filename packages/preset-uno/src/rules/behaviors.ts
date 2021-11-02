@@ -1,9 +1,9 @@
 import { Rule } from '@unocss/core'
 
 const listStyleProps = [
-  'none', 'disc', 'circle', 'square', 
-  'decimal', 'zero-decimal', 'greek', 'roman', 
-  'upper-roman','alpha', 'upper-alpha',
+  'none', 'disc', 'circle', 'square',
+  'decimal', 'zero-decimal', 'greek', 'roman',
+  'upper-roman', 'alpha', 'upper-alpha',
 ]
 
 export const listStyle: Rule[] = [
