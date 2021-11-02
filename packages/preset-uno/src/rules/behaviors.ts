@@ -110,9 +110,7 @@ export const imageRenderings: Rule[] = [
 ]
 
 export const Appearance: Rule[] = [
-  ['appearance-none', [
-    ['appearance', 'none'],
-    ['-webkit-appearance', 'none'],
-    ['-moz-appearance', 'none'],
-  ]],
+  ['appearance-none', {
+    'appearance-none': 'none',
+  }],
 ]
