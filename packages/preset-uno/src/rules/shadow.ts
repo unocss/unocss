@@ -1,44 +1,27 @@
-import { hex2rgba, Rule } from '@unocss/core'
+import { Rule } from '@unocss/core'
 import { Theme } from '../theme'
-import { extractColor } from './color'
+import { parseColorUtil } from './color'
 
 const colorResolver = (body: string, theme: Theme) => {
-  const data = extractColor(body)
+  const data = parseColorUtil(body, theme)
 
   if (!data)
     return
 
-  const { name, no, color } = data
+  const { color, rgba } = data
 
-  if (!name)
+  if (!color)
     return
 
-  let useColor = color
-
-  if (!color) {
-    if (name === 'transparent') {
-      return {
-        '--un-shadow-color': 'transparent',
-      }
-    }
-    else if (name === 'current') {
-      return {
-        '--un-shadow-color': 'currentColor',
-      }
-    }
-    useColor = theme.colors?.[name]
-    if (no && useColor && typeof useColor !== 'string')
-      useColor = useColor[no]
-  }
-
-  if (typeof useColor !== 'string')
-    return
-
-  const rgba = hex2rgba(useColor)
   if (rgba) {
-    // shadow opacity ignore
+    // shadow opacity ignored
     return {
       '--un-shadow-color': `${rgba.slice(0, 3).join(',')}`,
+    }
+  }
+  else {
+    return {
+      '--un-shadow-color': color,
     }
   }
 }
