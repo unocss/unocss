@@ -60,3 +60,17 @@ export const appearance: Rule[] = [
     'appearance-none': 'none',
   }],
 ]
+
+const overflowValues = [
+  'none',
+  'auto',
+  'hidden',
+  'visible',
+  'scroll',
+  'contain',
+]
+
+export const overscrolls: Rule[] = [
+  [/^overscroll-(.+)$/, ([, v]) => overflowValues.includes(v) ? { 'overscroll-behavior': v } : undefined],
+  [/^overscroll-([xy])-(.+)$/, ([, d, v]) => overflowValues.includes(v) ? { [`overscroll-behavior-${d}`]: v } : undefined],
+]
