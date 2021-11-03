@@ -5,8 +5,8 @@ fs.copyFileSync(
   'normalize.css',
 )
 
-const sanitize = 'sanitize'
-!fs.existsSync(sanitize) && fs.mkdirSync(sanitize)
+if (!fs.existsSync('sanitize'))
+  fs.mkdirSync('sanitize')
 
 for (const stylesheet of [
   'sanitize.css',
@@ -18,7 +18,7 @@ for (const stylesheet of [
   'ui-monospace.css',
 ]) {
   fs.copyFileSync(
-    `node_modules/${sanitize}.css/${stylesheet}`,
-    `${sanitize}/${stylesheet}`,
+    `node_modules/sanitize.css/${stylesheet}`,
+    `sanitize/${stylesheet}`,
   )
 }
