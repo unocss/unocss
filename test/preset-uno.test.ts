@@ -209,6 +209,9 @@ const targets = [
   'text-stroke-op-60',
   'write-normal',
   'write-orient-sideways',
+  'animate-none',
+  '!animate-ping',
+  'hover:animate-bounce',
 ]
 
 const nonTargets = [

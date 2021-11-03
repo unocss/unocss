@@ -18,6 +18,7 @@ import { verticalAligns, appearances, breaks, cursors, displays, pointerEvents, 
 import { tables } from './table'
 import { transforms } from './transform'
 import { listStyle, caretColors, boxDecorationBreaks, caretOpacity, imageRenderings, appearance } from './behaviors'
+import { animations } from './animation'
 
 export const rules: Rule[] = [
   paddings,
@@ -90,6 +91,7 @@ export const rules: Rule[] = [
   placeContents,
   placeItems,
   placeSelfs,
+  animations,
   insets,
   floats,
   zIndexes,

@@ -161,6 +161,11 @@ exports[`targets 1`] = `
 .overflow-auto{overflow:auto;}
 .overflow-x-scroll{overflow-x:scroll;}
 .order-first{order:-9999;}
+@keyframes ping {0% {transform:scale(1);opacity:1;} 75%, 100% {transform:scale(2);opacity:0;}}
+.\\\\!animate-ping{animation:ping 1s linear infinite !important;}
+@keyframes bounce {0%, 100% {transform:translateY(-25%);animation-timing-function:cubic-bezier(0.8,0,1,1);} 50% {transform:translateY(0);animation-timing-function:cubic-bezier(0,0,0.2,1);}}
+.hover\\\\:animate-bounce:hover{animation:bounce 1s linear infinite;}
+.animate-none{animation:none;}
 .top-0{top:0rem;}
 .inset-x-5{left:1.25rem;right:1.25rem;}
 .z-1{z-index:1;}
