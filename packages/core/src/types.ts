@@ -11,11 +11,32 @@ export type CSSObject = Record<string, string | number | undefined>
 export type CSSEntries = [string, string | number | undefined][]
 
 export interface RuleContext<Theme extends {} = {}> {
+  /**
+   * Unprocessed selector from user input.
+   * Useful for generating CSS rule.
+   */
   rawSelector: string
+  /**
+   * Current selector for rule matching
+   */
   currentSelector: string
+  /**
+   * UnoCSS generator instance
+   */
   generator: UnoGenerator
+  /**
+   * The theme object
+   */
   theme: Theme
+  /**
+   * Matched variants handlers for this rule.
+   */
   variantHandlers: VariantHandler[]
+  /**
+   * Constrcut a custom CSS rule.
+   * Variants and selector escaping will be handled automatically.
+   */
+  constructCSS: (body: CSSEntries | CSSObject, overrideSelector?: string) => string
 }
 
 export type Extractor = (code: string, id?: string) => Awaitable<Set<string> | undefined>

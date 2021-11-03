@@ -212,6 +212,9 @@ const targets = [
   'grid-cols-$1',
   'color-$red',
   'bg-$test-variable',
+  'animate-none',
+  '!animate-ping',
+  'hover:animate-bounce',
 ]
 
 const nonTargets = [

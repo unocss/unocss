@@ -1,91 +1,54 @@
-import { Rule, hex2rgba, RuleContext } from '@unocss/core'
+import { Rule, RuleContext } from '@unocss/core'
 import { Theme } from '../theme'
 import { handler as h } from '../utils'
-import { extractColor } from './color'
+import { parseColorUtil } from './color'
 
 const colorResolver = (mode: 'from' | 'to' | 'via') =>
   ([, body]: string[], { theme }: RuleContext<Theme>) => {
-    const data = extractColor(body)
+    const data = parseColorUtil(body, theme)
 
     if (!data)
       return
 
-    const { opacity, name, no, color } = data
+    const { opacity, color, rgba } = data
 
-    if (!name)
+    if (!color)
       return
 
-    let useColor = color
-
-    if (!color) {
-      if (name === 'transparent') {
-        switch (mode) {
-          case 'from':
-            return {
-              '--un-gradient-from': 'transparent',
-              '--un-gradient-stops': 'var(--un-gradient-from), var(--un-gradient-to, rgba(255, 255, 255, 0))',
-            }
-          case 'via':
-            return {
-              '--un-gradient-stops': 'var(--un-gradient-from), transparent, var(--un-gradient-to, rgba(255, 255, 255, 0))',
-            }
-          case 'to':
-            return {
-              '--un-gradient-to': 'transparent',
-            }
-        }
-      }
-      else if (name === 'current') {
-        switch (mode) {
-          case 'from':
-            return {
-              '--un-gradient-from': 'currentColor',
-              '--un-gradient-stops': 'var(--un-gradient-from), var(--un-gradient-to, rgba(255, 255, 255, 0))',
-            }
-          case 'via':
-            return {
-              '--un-gradient-stops': 'var(--un-gradient-from), currentColor, var(--un-gradient-to, rgba(255, 255, 255, 0))',
-            }
-          case 'to':
-            return {
-              '--un-gradient-to': 'currentColor',
-            }
-        }
-      }
-      useColor = theme.colors?.[name]
-      if (no && useColor && typeof useColor !== 'string')
-        useColor = useColor[no]
-    }
-
-    if (typeof useColor !== 'string')
-      return
-
-    const rgba = hex2rgba(useColor)
+    let colorString = color
     if (rgba) {
-      const a = opacity ? opacity[0] === '[' ? h.bracket.percent(opacity)! : (parseFloat(opacity) / 100) : rgba[3]
+      const a = opacity
+        ? opacity[0] === '['
+          ? h.bracket.percent(opacity)!
+          : (parseFloat(opacity) / 100)
+        : rgba[3]
+
       if (a != null && !Number.isNaN(a)) {
         // @ts-expect-error
-        rgba[3] = typeof a === 'string' && !a.includes('%') ? parseFloat(a) : a
-        useColor = rgba.join(',')
+        rgba[3] = typeof a === 'string' && !a.includes('%')
+          ? parseFloat(a)
+          : a
+        colorString = `rgba(${rgba.join(',')}, var(--un-${mode}-opacity, 1))`
       }
       else {
-        useColor = rgba.slice(0, 3).join(',')
+        colorString = `rgba(${rgba.slice(0, 3).join(',')}, var(--un-${mode}-opacity, 1))`
       }
-      switch (mode) {
-        case 'from':
-          return {
-            '--un-gradient-from': `rgba(${useColor}, var(--un-from-opacity, 1))`,
-            '--un-gradient-stops': 'var(--un-gradient-from), var(--un-gradient-to, rgba(255, 255, 255, 0))',
-          }
-        case 'via':
-          return {
-            '--un-gradient-stops': `var(--un-gradient-from), rgba(${useColor}, var(--un-via-opacity, 1)), var(--un-gradient-to, rgba(255, 255, 255, 0))`,
-          }
-        case 'to':
-          return {
-            '--un-gradient-to': `rgba(${useColor}, var(--un-to-opacity, 1))`,
-          }
-      }
+    }
+
+    switch (mode) {
+      case 'from':
+        return {
+          '--un-gradient-from': colorString,
+          '--un-gradient-stops': 'var(--un-gradient-from), var(--un-gradient-to, rgba(255, 255, 255, 0))',
+        }
+      case 'via':
+        return {
+          '--un-gradient-stops': `var(--un-gradient-from), ${colorString}, var(--un-gradient-to, rgba(255, 255, 255, 0))`,
+        }
+      case 'to':
+        return {
+          '--un-gradient-to': colorString,
+        }
     }
   }
 

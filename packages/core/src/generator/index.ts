@@ -191,6 +191,16 @@ export class UnoGenerator {
     ] as const
   }
 
+  constructCustomCSS(context: Readonly<RuleContext>, body: CSSObject | CSSEntries, overrideSelector?: string) {
+    body = normalizeEntries(body)
+
+    const [selector, entries, mediaQuery] = this.applyVariants([0, overrideSelector || context.rawSelector, body, context.variantHandlers])
+    const cssBody = `${selector}{${entriesToCss(entries)}}`
+    if (mediaQuery)
+      return `${mediaQuery}{${cssBody}}`
+    return cssBody
+  }
+
   async parseUtil(input: string | VariantMatchedResult): Promise<ParsedUtil | RawUtil | undefined> {
     const { theme, rulesStaticMap, rulesDynamic, rulesSize } = this.config
 
@@ -209,6 +219,7 @@ export class UnoGenerator {
       theme,
       generator: this,
       variantHandlers,
+      constructCSS: (...args) => this.constructCustomCSS(context, ...args),
     }
 
     // match rules, from last to first

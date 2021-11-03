@@ -1,15 +1,21 @@
 {
-  "name": "@unocss/preset-icons",
+  "name": "@unocss/nuxt",
   "version": "0.4.12",
-  "description": "",
-  "keywords": [],
+  "description": "Nuxt module for UnoCSS",
+  "keywords": [
+    "unocss",
+    "nuxt-module",
+    "nuxt",
+    "nuxt3"
+  ],
   "homepage": "https://github.com/antfu/unocss#readme",
   "bugs": {
     "url": "https://github.com/antfu/unocss/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/antfu/unocss.git"
+    "url": "git+https://github.com/antfu/unocss.git",
+    "directory": "packages/nuxt"
   },
   "funding": "https://github.com/sponsors/antfu",
   "license": "MIT",
@@ -19,18 +25,13 @@
     ".": {
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
-    },
-    "./fs": {
-      "require": "./dist/fs.js",
-      "import": "./dist/fs.mjs"
     }
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
-    "dist",
-    "*.css"
+    "dist"
   ],
   "scripts": {
     "build": "tsup",
@@ -38,11 +39,7 @@
     "prepublishOnly": "nr build"
   },
   "dependencies": {
-    "@iconify/utils": "^1.0.18",
-    "@unocss/core": "workspace:*",
-    "local-pkg": "^0.4.0"
-  },
-  "devDependencies": {
-    "@iconify/types": "^1.0.10"
+    "unocss": "workspace:*",
+    "@nuxt/kit": "npm:@nuxt/kit-edge@latest"
   }
 }
