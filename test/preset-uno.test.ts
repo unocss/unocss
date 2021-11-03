@@ -212,6 +212,9 @@ const targets = [
   'animate-none',
   '!animate-ping',
   'hover:animate-bounce',
+  'placeholder-color-red-1',
+  'placeholder-transparent',
+  'placeholder-opacity-60',
 ]
 
 const nonTargets = [

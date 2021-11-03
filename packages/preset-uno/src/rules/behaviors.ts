@@ -60,3 +60,17 @@ export const appearance: Rule[] = [
     'appearance-none': 'none',
   }],
 ]
+
+export const placeholder: Rule[] = [
+  [
+    /^placeholder-opacity-(\d+)$/, ([, d]) => ({
+      'placeholder-opacity': h.bracket.percent(d),
+    }),
+  ],
+  [
+    /^placeholder-(?!opacity)(.+)$/, (match, config) => {
+      match[1] = match[1].replace(/^color-/, '')
+      return colorResolver('placeholder-color', 'placeholder-color')(match, config)
+    },
+  ],
+]
