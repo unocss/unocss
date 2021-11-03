@@ -63,13 +63,13 @@ export const appearance: Rule[] = [
 
 // There is no match in the rule，like `bg`
 const unMatchedAbbreviation: Record<string, string> = {
-  'bg': 'background-color'
+  bg: 'background-color',
 }
 
 export const variables: Rule[] = [[
   /^(.+)-\$(.+)$/, async([v], config) => {
     const [prop, varName] = v.split(/-\$/)
-    if(unMatchedAbbreviation[prop]) {
+    if (unMatchedAbbreviation[prop]) {
       return {
         [prop]: `var(--${unMatchedAbbreviation[prop]})`,
       }
