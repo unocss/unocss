@@ -19,8 +19,10 @@ import { tables } from './table'
 import { transforms } from './transform'
 import { listStyle, caretColors, boxDecorationBreaks, caretOpacity, imageRenderings, appearance, placeholder, overscrolls } from './behaviors'
 import { animations } from './animation'
+import { cssVariables } from './variables'
 
 export const rules: Rule[] = [
+  cssVariables,
   paddings,
   margins,
   displays,
