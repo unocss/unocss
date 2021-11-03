@@ -17,7 +17,7 @@ import { paddings, margins } from './spacing'
 import { verticalAligns, appearances, breaks, cursors, displays, pointerEvents, resizes, textAligns, textDecorations, textOverflows, textTransforms, userSelects, whitespaces, fontStyles, fontSmoothings, hyphens, textDecorationStyles, writingModes, writingOrientations } from './static'
 import { tables } from './table'
 import { transforms } from './transform'
-import { listStyle, caretColors, boxDecorationBreaks, caretOpacity, imageRenderings, appearance } from './behaviors'
+import { listStyle, caretColors, boxDecorationBreaks, caretOpacity, imageRenderings, appearance, overscrolls } from './behaviors'
 import { animations } from './animation'
 
 export const rules: Rule[] = [
@@ -76,6 +76,7 @@ export const rules: Rule[] = [
   caretOpacity,
   imageRenderings,
   appearance,
+  overscrolls,
   breaks,
   trackings,
   leadings,

@@ -156,6 +156,8 @@ exports[`targets 1`] = `
 .caret-op-90{--un-caret-opacity:0.9;}
 .image-render-pixel{-ms-interpolation-mode:nearest-neighbor;image-rendering:-webkit-optimize-contrast;image-rendering:-moz-crisp-edges;image-rendering:-o-pixelated;image-rendering:pixelated;}
 .appearance-none{appearance-none:none;}
+.overscroll-contain{overscroll-behavior:contain;}
+.overscroll-x-auto{overscroll-behavior-x:auto;}
 .tracking-wide{letter-spacing:0.025em;}
 .leading-2{line-height:0.5rem;}
 .overflow-auto{overflow:auto;}
