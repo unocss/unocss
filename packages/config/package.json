@@ -3,13 +3,14 @@
   "version": "0.4.11",
   "description": "Config loader for UnoCSS",
   "keywords": [],
-  "homepage": "https://github.com/antfu/unocss#readme",
+  "homepage": "https://github.com/antfu/unocsstree/main/packages/config#readme",
   "bugs": {
     "url": "https://github.com/antfu/unocss/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/antfu/unocss.git"
+    "url": "git+https://github.com/antfu/unocss.git",
+    "directory": "packages/config"
   },
   "funding": "https://github.com/sponsors/antfu",
   "license": "MIT",

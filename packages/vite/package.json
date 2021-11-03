@@ -1,15 +1,20 @@
 {
   "name": "@unocss/vite",
   "version": "0.4.11",
-  "description": "",
-  "keywords": [],
-  "homepage": "https://github.com/antfu/unocss#readme",
+  "description": "The Vite plugin for UnoCSS",
+  "keywords": [
+    "unocss",
+    "vite",
+    "vite-plugin"
+  ],
+  "homepage": "https://github.com/antfu/unocss/tree/main/packages/vite#readme",
   "bugs": {
     "url": "https://github.com/antfu/unocss/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/antfu/unocss.git"
+    "url": "git+https://github.com/antfu/unocss.git",
+    "directory": "packages/vite"
   },
   "funding": "https://github.com/sponsors/antfu",
   "license": "MIT",

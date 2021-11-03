@@ -1,8 +1,15 @@
 {
   "name": "unocss",
   "version": "0.4.11",
-  "description": "",
-  "keywords": [],
+  "description": "The instant on-demand Atomic CSS engine.",
+  "keywords": [
+    "unocss",
+    "atomic-css",
+    "atomic-css-engine",
+    "css",
+    "tailwind",
+    "windicss"
+  ],
   "homepage": "https://github.com/antfu/unocss#readme",
   "bugs": {
     "url": "https://github.com/antfu/unocss/issues"
