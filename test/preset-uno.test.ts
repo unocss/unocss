@@ -209,6 +209,9 @@ const targets = [
   'text-stroke-op-60',
   'write-normal',
   'write-orient-sideways',
+  'grid-cols-$1',
+  'color-$red',
+  'bg-$test-variable',
 ]
 
 const nonTargets = [

@@ -1,7 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`targets 1`] = `
-".\\\\!p-5px{padding:5px !important;}
+".bg-\\\\$test-variable{bg:var(--background-color);}
+.color-\\\\$red{color:var(--red);}
+.grid-cols-\\\\$1{grid-cols:var(--1);}
+.\\\\!p-5px{padding:5px !important;}
 .group:focus .group-focus\\\\:p-4{padding:1rem;}
 .hover\\\\:\\\\!p-1:hover{padding:0.25rem !important;}
 .hover\\\\:p-5:hover{padding:1.25rem;}

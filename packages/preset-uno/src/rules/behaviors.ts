@@ -61,9 +61,19 @@ export const appearance: Rule[] = [
   }],
 ]
 
+// There is no match in the rule，like `bg`
+const unMatchedAbbreviation: Record<string, string> = {
+  'bg': 'background-color'
+}
+
 export const variables: Rule[] = [[
   /^(.+)-\$(.+)$/, async([v], config) => {
     const [prop, varName] = v.split(/-\$/)
+    if(unMatchedAbbreviation[prop]) {
+      return {
+        [prop]: `var(--${unMatchedAbbreviation[prop]})`,
+      }
+    }
     const data = await config.generator.parseUtil(prop)
     // To get the name of the abbreviated attribute
     const variable = Number(data?.length) > 2 ? data![2]![0][0] : varName
