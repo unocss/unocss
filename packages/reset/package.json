@@ -18,13 +18,14 @@
     "./*": "./*"
   },
   "files": [
-    "*.css"
+    "**/*.css"
   ],
   "scripts": {
     "build": "esno scripts/copy.ts",
     "prepublishOnly": "nr build"
   },
   "devDependencies": {
-    "@csstools/normalize.css": "^12.0.0"
+    "@csstools/normalize.css": "^12.0.0",
+    "sanitize.css": "^13.0.0"
   }
 }
