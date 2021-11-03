@@ -216,6 +216,7 @@ const targets = [
   'object-$fit',
   'bg-$test-variable',
   'bg-blend-$data',
+  '!m-$c-m',
   'animate-none',
   '!animate-ping',
   'hover:animate-bounce',
