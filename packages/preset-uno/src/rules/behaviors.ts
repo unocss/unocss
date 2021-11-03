@@ -61,25 +61,69 @@ export const appearance: Rule[] = [
   }],
 ]
 
-// There is no match in the rule，like `bg`
-const unMatchedAbbreviation: Record<string, string> = {
-  bg: 'background-color',
-}
+// These are abbreviations
+const unMatchedAbbreviation = {
+  'w': 'with',
+  'h': 'height',
+  'max-w': 'max-width',
+  'max-h': 'max-height',
+  'padding-x': 'padding-left',
+  'padding-y': 'padding-top',
+  'margin-x': 'margin-left',
+  'margin-y': 'margin-top',
+  'visible': 'visibility',
+  'select': 'user-select',
+  'vertical': 'vertical-align',
+  'backface': 'backface-visibility',
+  'whitespace': 'white-space',
+  'break': 'word-break',
+  'case': 'text-transform',
+  'write': 'writing-mode',
+  'write-orient': 'text-orientation',
+  'origin': 'transform-origin',
+  'bg': 'background-color',
+  'bg-blend': 'background-blend-mode',
+  'bg-clip': '-webkit-background-clip',
+  'bg-gradient': 'linear-gradient',
+  'bg-origin-border': 'background-origin',
+  'bg-position': 'background-position',
+  'bg-repeat': 'background-repeat',
+  'bg-size': 'background-size',
+  'border-opacity': 'background-opacity',
+  'tab': 'tab-size',
+  'underline': 'text-decoration-thickness',
+  'underline-offset': 'text-underline-offset',
+  'indent': 'text-indent',
+  'text': 'color',
+  'grid-cols': 'grid-template-columns',
+  'grid-rows': 'grid-template-rows',
+  'auto-flow': 'grid-auto-flow',
+  'row-start': 'grid-row-start',
+  'row-end': 'grid-row-end',
+  'justify': 'justify-content',
+  'content': 'align-content',
+  'items': 'align-items',
+  'self': 'align-self',
+  'object': 'object-fit',
+  'mix-blend': 'mix-blend-mode',
+} as const
 
 export const variables: Rule[] = [[
-  /^(.+)-\$(.+)$/, async([v], config) => {
+  /^(.+)-\$(.+)$/, async([v]) => {
     const [prop, varName] = v.split(/-\$/)
-    if (unMatchedAbbreviation[prop]) {
+
+    if (prop in unMatchedAbbreviation) {
       return {
-        [prop]: `var(--${unMatchedAbbreviation[prop]})`,
+        // @ts-expect-error
+        [unMatchedAbbreviation[prop]]: `var(--${varName})`,
       }
     }
-    const data = await config.generator.parseUtil(prop)
+    // const data = await config.generator.parseUtil(prop)
     // To get the name of the abbreviated attribute
-    const variable = Number(data?.length) > 2 ? data![2]![0][0] : varName
+    // const variable = Number(data?.length) > 2 ? data![2]![0][0] : varName
 
     return {
-      [prop]: `var(--${variable})`,
+      [prop]: `var(--${varName})`,
     }
   },
 ]]
