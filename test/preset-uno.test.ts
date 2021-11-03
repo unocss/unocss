@@ -99,6 +99,8 @@ const targets = [
   'order-first',
   'overflow-auto',
   'overflow-x-scroll',
+  'overscroll-x-auto',
+  'overscroll-contain',
   'p-2',
   'p-t-2',
   'p2',

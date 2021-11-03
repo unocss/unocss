@@ -159,6 +159,8 @@ exports[`targets 1`] = `
 .placeholder-opacity-60{placeholder-opacity:0.6;}
 .placeholder-color-red-1{--un-placeholder-color-opacity:1;placeholder-color:rgba(254,226,226,var(--un-placeholder-color-opacity));}
 .placeholder-transparent{placeholder-color:transparent;}
+.overscroll-contain{overscroll-behavior:contain;}
+.overscroll-x-auto{overscroll-behavior-x:auto;}
 .tracking-wide{letter-spacing:0.025em;}
 .leading-2{line-height:0.5rem;}
 .overflow-auto{overflow:auto;}
