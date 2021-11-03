@@ -21,8 +21,8 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
   let resolved = false
   let resolvedWarnTimer: any
 
-  const entry = config.__virtualModuleEntry || VIRTUAL_ENTRY_DEFAULT
-  const callbackUrl = config.__onStyleReadyCallback || READY_CALLBACK_DEFAULT
+  let entry = config.__virtualModuleEntry || VIRTUAL_ENTRY_DEFAULT
+  let callbackUrl = config.__onStyleReadyCallback || READY_CALLBACK_DEFAULT
 
   function invalidate(timer = 10) {
     if (!server)
@@ -70,6 +70,10 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
       name: 'unocss:global',
       apply: 'serve',
       enforce: 'pre',
+      configResolved({ base }) {
+        entry = base.slice(0, -1) + (config.__virtualModuleEntry || VIRTUAL_ENTRY_DEFAULT)
+        callbackUrl = base.slice(0, -1) + (config.__onStyleReadyCallback || READY_CALLBACK_DEFAULT)
+      },
       configureServer(_server) {
         server = _server
         server.middlewares.use(async(req, res, next) => {
