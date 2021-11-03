@@ -10,10 +10,16 @@ npm i @unocss/reset
 // main.js
 // pick one of the following
 
-// normalize.css
+// normalize.css https://necolas.github.io/normalize.css/
 import '@unocss/reset/normalize.css'
+
+// sanitize.css https://github.com/csstools/sanitize.css#usage
+import '@unocss/reset/sanitize/sanitize.css'
+import '@unocss/reset/sanitize/assets.css'
+
 // reset.css by Eric Meyer https://meyerweb.com/eric/tools/css/reset/index.html
 import '@unocss/reset/eric-meyer.css'
+
 // preflights from tailwind
 import '@unocss/reset/tailwind.css'
 ```
