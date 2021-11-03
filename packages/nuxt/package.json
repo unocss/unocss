@@ -1,0 +1,45 @@
+{
+  "name": "@unocss/nuxt",
+  "version": "0.4.11",
+  "description": "Nuxt module for UnoCSS",
+  "keywords": [
+    "unocss",
+    "nuxt-module",
+    "nuxt",
+    "nuxt3"
+  ],
+  "homepage": "https://github.com/antfu/unocss#readme",
+  "bugs": {
+    "url": "https://github.com/antfu/unocss/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antfu/unocss.git",
+    "directory": "packages/nuxt"
+  },
+  "funding": "https://github.com/sponsors/antfu",
+  "license": "MIT",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch src",
+    "prepublishOnly": "nr build"
+  },
+  "dependencies": {
+    "unocss": "workspace:*",
+    "@nuxt/kit": "npm:@nuxt/kit-edge@latest"
+  }
+}
