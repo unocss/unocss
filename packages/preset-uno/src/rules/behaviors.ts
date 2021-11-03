@@ -22,7 +22,6 @@ const outlineStyle = [
 export const outline: Rule[] = [
   [
     new RegExp(`^outline-(${outlineStyle.join('|')})$`), ([, d]) => {
-
       return {
         'outline-style': d,
       }
