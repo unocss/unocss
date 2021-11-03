@@ -156,6 +156,11 @@ exports[`targets 1`] = `
 .caret-op-90{--un-caret-opacity:0.9;}
 .image-render-pixel{-ms-interpolation-mode:nearest-neighbor;image-rendering:-webkit-optimize-contrast;image-rendering:-moz-crisp-edges;image-rendering:-o-pixelated;image-rendering:pixelated;}
 .appearance-none{appearance-none:none;}
+.outline-inset{outline-style:inset;}
+.outline-solid{outline-style:solid;}
+.outline-width-10px{outline-width:10px;}
+.outline-color-red-1{--un-outline-color-opacity:1;outline-color:rgba(254,226,226,var(--un-outline-color-opacity));}
+.outline-dashed-red{outline:2px dashed;--un-outline-color-opacity:1;outline-color:rgba(248,113,113,var(--un-outline-color-opacity));}
 .tracking-wide{letter-spacing:0.025em;}
 .leading-2{line-height:0.5rem;}
 .overflow-auto{overflow:auto;}

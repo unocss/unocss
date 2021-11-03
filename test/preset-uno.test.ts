@@ -212,6 +212,11 @@ const targets = [
   'animate-none',
   '!animate-ping',
   'hover:animate-bounce',
+  'outline-solid',
+  'outline-dashed-red',
+  'outline-color-red-1',
+  'outline-width-10px',
+  'outline-inset',
 ]
 
 const nonTargets = [
