@@ -133,6 +133,11 @@ export interface ConfigBase<Theme extends {} = {}> {
   theme?: Theme
 
   /**
+   * Layer orders. Default to 0.
+   */
+  layers?: Record<string, number>
+
+  /**
    * Custom function to sort layers.
    */
   sortLayers?: (layers: string[]) => string[]

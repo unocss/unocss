@@ -116,7 +116,10 @@ export class UnoGenerator {
     }))
 
     const layerCache: Record<string, string> = {}
-    const layers = this.config.sortLayers(Array.from(layerSet))
+    const layers = this.config.sortLayers(Array
+      .from(layerSet)
+      .sort((a, b) => ((this.config.layers[a] ?? 0) - (this.config.layers[b] ?? 0)) || a.localeCompare(b)),
+    )
 
     const getLayer = (layer: string) => {
       if (layerCache[layer])

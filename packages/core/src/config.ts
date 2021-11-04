@@ -23,6 +23,8 @@ export function resolveConfig(
     ...rawPresets.filter(p => p.enforce === 'post'),
   ]
 
+  const layers = Object.assign({}, ...rawPresets.map(i => i.layers), userConfig.layers)
+
   function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts'>(key: T): Required<UserConfig>[T] {
     return uniq([
       ...sortedPresets.flatMap(p => toArray(p[key] || []) as any[]),
@@ -57,8 +59,9 @@ export function resolveConfig(
     mergeSelectors: true,
     warnExcluded: true,
     excluded: [],
-    sortLayers: layers => layers.sort(),
+    sortLayers: layers => layers,
     ...config,
+    layers,
     theme,
     rulesSize,
     rulesDynamic: rules as ResolvedConfig['rulesDynamic'],
