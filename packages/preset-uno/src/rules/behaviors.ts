@@ -3,8 +3,8 @@ import { handler as h } from '../utils'
 import { colorResolver } from './color'
 
 const outlineStyle = [
+  'none', // deal by /^outline-([a-z]+)$/
   'auto',
-  'none',
   'dotted',
   'dashed',
   'solid',
@@ -19,38 +19,61 @@ const outlineStyle = [
   'unset',
 ]
 
+const parseOutlineSize = (s: string) => {
+  const propName = ['width', 'offset'].find(item => s.startsWith(item)) || 'width'
+  const size = h.bracket.fraction.rem((s.replace(/^(offset\-|width\-)/, '')))
+  if (size) {
+    return {
+      [`outline-${propName}`]: size,
+    }
+  }
+}
+
 export const outline: Rule[] = [
+  ['outline', { 'outline-style': 'solid' }],
   [
-    new RegExp(`^outline-(${outlineStyle.join('|')})$`), ([, d]) => {
-      return {
-        'outline-style': d,
-      }
-    },
-  ],
-  [
-    /^outline-width-(.+)$/, ([, d]) => {
-      const size = h.bracket.fraction.rem(d)
+    /^outline-(.+)$/, (match, config) => {
+      const [, d] = match
 
-      return {
-        'outline-width': size,
-      }
-    },
-  ],
-  [
-    /^outline-color-(.+)$/, colorResolver('outline-color', 'outline-color'),
-  ],
-  [
-    new RegExp(`^outline-(${outlineStyle.join('|')})-(.+)$`), (reg, config) => {
-      const style = outlineStyle.find(item => reg.includes(item))
-      // colorResolver need arguments[1] match
-      reg[1] = reg[2]
-      const color = colorResolver('outline-color', 'outline-color')(reg, config)
-      if (!color)
-        return
+      const handlerList = [
+        () => {
+          if (d === 'none') {
+            return {
+              'outline': '2px solid transparent',
+              'outline-offset': '2px',
+            }
+          }
+        },
 
-      return {
-        outline: `2px ${style}`,
-        ...color,
+        () => {
+          const matchedStyle = outlineStyle.find(item => item === d)
+          if (matchedStyle) {
+            return {
+              'outline-style': matchedStyle,
+            }
+          }
+        },
+
+        () => {
+          const sizeSheet = parseOutlineSize(d)
+          if (sizeSheet)
+            return sizeSheet
+        },
+
+        () => {
+          if (match[1].startsWith('color-'))
+            match[1] = match[1].replace('color-', '')
+
+          const colorSheet = colorResolver('outline-color', 'outline-color')(match, config)
+          if (colorSheet)
+            return colorSheet
+        },
+      ]
+
+      for (const h of handlerList) {
+        const res = h()
+        if (res)
+          return res
       }
     },
   ],
