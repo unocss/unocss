@@ -22,6 +22,6 @@ export const defaultConfig = computed(() => defineConfig({
         uim: () => import('@iconify-json/uim/icons.json').then(i => i.default as any),
       },
     }),
-    presetUno(),
+    presetUno(true),
   ],
 }))
