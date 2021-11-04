@@ -14,7 +14,7 @@ const transitionSizeProps = [
   'font-size', 'line-height', 'text-indent', 'vertical-align',
   'border-spacing', 'letter-spacing', 'word-spacing',
 ]
-const transitionSwtichProps = ['all', 'none']
+const transitionSwitchProps = ['all', 'none']
 const transitionEnhanceProps = ['stroke', 'filter', 'backdrop-filter', 'fill', 'mask', 'mask-size', 'mask-border', 'clip-path', 'clip']
 const transitionProps = [
   ...transitionBasicProps,
@@ -26,7 +26,7 @@ const transitionProps = [
 const transitionPropsStr = transitionProps.join(', ')
 
 const validateProperty = (prop: string): string | undefined => {
-  if (prop && ![...transitionProps, ...transitionSwtichProps].includes(prop))
+  if (prop && ![...transitionProps, ...transitionSwitchProps].includes(prop))
     return
 
   return prop || transitionPropsStr

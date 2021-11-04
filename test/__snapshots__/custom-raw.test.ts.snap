@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`custom-raw basic 1`] = `
-".before{content:before;}
+"/* layer: default */
+.before{content:before;}
 /* return a string to take full control of the generated CSS */
 /* this also means you have to take care of all the things yourself */
 /* for example, escaping, applying variants, etc. */
