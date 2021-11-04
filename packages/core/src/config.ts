@@ -25,7 +25,7 @@ export function resolveConfig(
 
   const layers = Object.assign({}, ...rawPresets.map(i => i.layers), userConfig.layers)
 
-  function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts'>(key: T): Required<UserConfig>[T] {
+  function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights'>(key: T): Required<UserConfig>[T] {
     return uniq([
       ...sortedPresets.flatMap(p => toArray(p[key] || []) as any[]),
       ...toArray(config[key] || []) as any[],
@@ -66,6 +66,7 @@ export function resolveConfig(
     rulesSize,
     rulesDynamic: rules as ResolvedConfig['rulesDynamic'],
     rulesStaticMap,
+    preflights: mergePresets('preflights'),
     variants: mergePresets('variants').map(normalizeVariant),
     shortcuts: resolveShortcuts(mergePresets('shortcuts')),
     extractors,

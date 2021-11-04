@@ -39,9 +39,10 @@ export class UnoGenerator {
 
   async generate(
     input: string | Set<string>,
-    id?: string,
     {
+      id,
       scope,
+      preflights = true,
       layerComments = true,
     }: GenerateOptions = {},
   ): Promise<GenerateResult> {
@@ -115,6 +116,13 @@ export class UnoGenerator {
       this._cache.set(raw, null)
     }))
 
+    if (preflights) {
+      this.config.preflights.forEach((i) => {
+        if (i.layer)
+          layerSet.add(i.layer)
+      })
+    }
+
     const layerCache: Record<string, string> = {}
     const layers = this.config.sortLayers(Array
       .from(layerSet)
@@ -125,7 +133,7 @@ export class UnoGenerator {
       if (layerCache[layer])
         return layerCache[layer]
 
-      const css = Array.from(sheet).map(([query, items]) => {
+      let css = Array.from(sheet).map(([query, items]) => {
         const size = items.length
         const sorted = items
           .filter(i => (i[4]?.layer || 'default') === layer)
@@ -159,6 +167,17 @@ export class UnoGenerator {
       })
         .filter(Boolean)
         .join('\n')
+
+      if (preflights) {
+        css = [
+          ...this.config.preflights
+            .filter(i => (i.layer || 'default') === layer)
+            .map(i => i.getCSS())
+            .filter(Boolean),
+          css,
+        ]
+          .join('\n')
+      }
 
       return layerCache[layer] = layerComments
         ? `/* layer: ${layer} */\n${css}`

@@ -58,7 +58,7 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: Context): P
           return
 
         await Promise.all(tasks)
-        const result = await uno.generate(tokens, undefined, { layerComments: false })
+        const result = await uno.generate(tokens, { layerComments: false })
         let replaced = false
 
         for (const file of files) {

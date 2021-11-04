@@ -58,6 +58,11 @@ export type StaticShortcutMap = Record<string, string | string[]>
 export type UserShortcuts = StaticShortcutMap | (StaticShortcut | DynamicShortcut | StaticShortcutMap)[]
 export type Shortcut = StaticShortcut | DynamicShortcut
 
+export interface Preflight {
+  getCSS: () => string | undefined
+  layer?: string
+}
+
 export type ExcludeRule = string | RegExp
 
 export interface VariantHandler {
@@ -126,6 +131,11 @@ export interface ConfigBase<Theme extends {} = {}> {
    * Can be language-aware.
    */
   extractors?: Extractor[]
+
+  /**
+   * Raw CSS injections.
+   */
+  preflights?: Preflight[]
 
   /**
    * Theme object for shared configuration between rules
@@ -218,6 +228,18 @@ export type StringifiedUtil = readonly [
 ]
 
 export interface GenerateOptions {
+  /**
+   * Filepath of the file being processed.
+   */
+  id?: string
+
+  /**
+   * Generate preflights (if defined)
+   *
+   * @default true
+   */
+  preflights?: boolean
+
   /**
    * @expiremental
    */
