@@ -1,7 +1,7 @@
 import { Rule } from '@unocss/core'
 
 const variablesAbbrMap: Record<string, string> = {
-  'w': 'with',
+  'w': 'width',
   'h': 'height',
   'max-w': 'max-width',
   'max-h': 'max-height',
@@ -26,7 +26,7 @@ const variablesAbbrMap: Record<string, string> = {
   'bg-position': 'background-position',
   'bg-repeat': 'background-repeat',
   'bg-size': 'background-size',
-  'border-opacity': 'background-opacity',
+  'bg-opacity': 'background-opacity',
   'tab': 'tab-size',
   'underline': 'text-decoration-thickness',
   'underline-offset': 'text-underline-offset',
