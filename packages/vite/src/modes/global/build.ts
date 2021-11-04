@@ -67,7 +67,7 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: Context): P
             chunk.source = chunk.source.replace(PLACEHOLDER_RE, (_, layer) => {
               replaced = true
               if (layer === ALL_LAYERS)
-                return result.css
+                return result.getLayers(Array.from(entries.values()))
               else
                 return result.getLayer(layer) || ''
             })
