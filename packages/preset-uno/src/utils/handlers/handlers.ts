@@ -54,3 +54,8 @@ export function bracket(str: string) {
   if (str[0] === '[' && str[str.length - 1] === ']')
     return str.slice(1, -1)
 }
+
+export function cssvar(str: string) {
+  if (str.startsWith('$'))
+    return `var(--${str.slice(1)})`
+}

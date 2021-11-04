@@ -29,6 +29,7 @@ exports[`targets 1`] = `
 .space-x-reverse>:not([hidden])~:not([hidden]){--un-space-x-reverse:1;}
 .space-y-4>:not([hidden])~:not([hidden]){--un-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--un-space-y-reverse)));margin-bottom:calc(1rem * calc(1 - var(--un-space-y-reverse)));}
 .op-10{opacity:0.1;}
+.opacity-\\\\$opa{opacity:var(--opa);}
 .opacity-0{opacity:0;}
 .bg-fixed{background-attachment:fixed;}
 .bg-local{background-attachment:local;}
@@ -150,9 +151,13 @@ exports[`targets 1`] = `
 .gap-4{grid-gap:1rem;gap:1rem;}
 .gap-x-1{grid-column-gap:0.25rem;column-gap:0.25rem;}
 .-gap-y-5{grid-row-gap:-1.25rem;row-gap:-1.25rem;}
-.w-1\\\\/2{width:50%;}
+.min-h-full{min-height:100%;}
 .h-1{height:0.25rem;}
 .max-h-\\\\[1px\\\\]{max-height:1px;}
+.min-h-\\\\[5rem\\\\]{min-height:5rem;}
+.min-h-3{min-height:0.75rem;}
+.min-w-3{min-width:0.75rem;}
+.w-1\\\\/2{width:50%;}
 .max-w-screen-lg{max-width:1024px;}
 .list-disc{list-style-type:disc;}
 .list-none{list-style-type:none;}
@@ -178,6 +183,7 @@ exports[`targets 1`] = `
 @keyframes bounce {0%, 100% {transform:translateY(-25%);animation-timing-function:cubic-bezier(0.8,0,1,1);} 50% {transform:translateY(0);animation-timing-function:cubic-bezier(0,0,0.2,1);}}
 .hover\\\\:animate-bounce:hover{animation:bounce 1s linear infinite;}
 .animate-none{animation:none;}
+.top-\\\\$top-height{top:var(--top-height);}
 .top-0{top:0rem;}
 .inset-x-5{left:1.25rem;right:1.25rem;}
 .z-1{z-index:1;}
