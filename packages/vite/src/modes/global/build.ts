@@ -2,7 +2,9 @@ import type { Plugin } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
 import { defaultExclude, defaultInclude } from '../../utils'
 import { Context } from '../../context'
-import { PLACEHOLDER, PLACEHOLDER_RE, VIRTUAL_ENTRY_DEFAULT, VIRTUAL_ENTRY_ALIAS } from './shared'
+import { resolveId, ALL_LAYERS } from './shared'
+
+const PLACEHOLDER_RE = /#--unocss--\s*{\s*layer:\s*([\w-]+);?\s*}/
 
 export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: Context): Plugin[] {
   const filter = createFilter(
@@ -11,7 +13,7 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: Context): P
   )
 
   const tasks: Promise<any>[] = []
-  const entry = config.__virtualModuleEntry || VIRTUAL_ENTRY_DEFAULT
+  const entries = new Map<string, string>()
 
   return [
     {
@@ -30,14 +32,16 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: Context): P
         },
       },
       resolveId(id) {
-        return VIRTUAL_ENTRY_ALIAS.includes(id)
-          ? entry
-          : null
+        const entry = resolveId(id)
+        if (entry) {
+          entries.set(entry.id, entry.layer)
+          return entry.id
+        }
       },
       async load(id) {
-        if (id !== entry)
-          return null
-        return PLACEHOLDER
+        const layer = entries.get(id)
+        if (layer)
+          return `#--unocss--{layer:${layer}}`
       },
     },
     {
@@ -54,16 +58,19 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: Context): P
           return
 
         await Promise.all(tasks)
-        const { css } = await uno.generate(tokens, undefined, { layerComments: false })
+        const result = await uno.generate(tokens, undefined, { layerComments: false })
         let replaced = false
 
         for (const file of files) {
           const chunk = bundle[file]
           if (chunk.type === 'asset' && typeof chunk.source === 'string') {
-            if (PLACEHOLDER_RE.test(chunk.source)) {
-              chunk.source = chunk.source.replace(PLACEHOLDER_RE, css)
+            chunk.source = chunk.source.replace(PLACEHOLDER_RE, (_, layer) => {
               replaced = true
-            }
+              if (layer === ALL_LAYERS)
+                return result.css
+              else
+                return result.getLayer(layer) || ''
+            })
           }
         }
 

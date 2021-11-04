@@ -1,12 +1,24 @@
 
+export const READY_CALLBACK_DEFAULT = '/__unocss_ready'
 export const VIRTUAL_ENTRY_DEFAULT = '/__unocss/entry.css'
+export const ALL_LAYERS = '__ALL__'
 export const VIRTUAL_ENTRY_ALIAS = [
-  '/__unocss/entry.css',
-  '/@unocss-entry.css',
-  'uno.css',
-  'virtual:uno.css',
+  /^(?:virtual:)?uno(?:-(.+))?\.css$/,
 ]
 
-export const READY_CALLBACK_DEFAULT = '/__unocss/ready'
-export const PLACEHOLDER = '#--unocss--{--unocss:true}'
-export const PLACEHOLDER_RE = /#--unocss--\s*{\s*--unocss:\s*true;?\s*}/
+export function resolveId(id: string, base = '/') {
+  for (const alias of VIRTUAL_ENTRY_ALIAS) {
+    const match = id.match(alias)
+    if (match) {
+      return match[1]
+        ? {
+          id: `${base}__uno_${match[1]}.css`,
+          layer: match[1],
+        }
+        : {
+          id: `${base}__uno.css`,
+          layer: ALL_LAYERS,
+        }
+    }
+  }
+}
