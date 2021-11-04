@@ -122,7 +122,7 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
         const result = await uno.generate(tokens)
         lastServed = Date.now()
         if (layer === ALL_LAYERS)
-          return result.css
+          return result.getLayers(Array.from(entries.values()))
         else
           return result.getLayer(layer)
       },

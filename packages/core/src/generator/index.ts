@@ -115,7 +115,13 @@ export class UnoGenerator {
       this._cache.set(raw, null)
     }))
 
+    const layerCache: Record<string, string> = {}
+    const layers = this.config.sortLayers(Array.from(layerSet))
+
     const getLayer = (layer: string) => {
+      if (layerCache[layer])
+        return layerCache[layer]
+
       const css = Array.from(sheet).map(([query, items]) => {
         const size = items.length
         const sorted = items
@@ -151,21 +157,21 @@ export class UnoGenerator {
         .filter(Boolean)
         .join('\n')
 
-      return layerComments
+      return layerCache[layer] = layerComments
         ? `/* layer: ${layer} */\n${css}`
         : css
     }
 
-    let cache: string | undefined
-    const layers = this.config.sortLayers(Array.from(layerSet))
+    const getLayers = (excludes?: string[]) => {
+      return layers
+        .filter(i => !excludes?.includes(i))
+        .map(i => getLayer(i) || '').join('\n')
+    }
 
     return {
-      get css() {
-        if (!cache)
-          cache = layers.map(i => getLayer(i) || '').join('\n')
-        return cache
-      },
+      get css() { return getLayers() },
       layers,
+      getLayers,
       getLayer,
       matched,
     }

@@ -12,6 +12,11 @@ export interface Options {
   warn?: boolean
   collections?: Record<string, IconifyJSON | undefined | (() => Awaitable<IconifyJSON | undefined>)>
   extraProperties?: Record<string, string>
+  /**
+   * Rule layer
+   * @default '$icons'
+   */
+  layer?: string
 }
 
 const COLLECTION_NAME_PARTS_MAX = 3
@@ -50,6 +55,7 @@ export const preset = ({
   warn = false,
   collections = {},
   extraProperties = {},
+  layer = '$icons',
 }: Options = {}): Preset => {
   return {
     enforce: 'pre',
@@ -112,7 +118,7 @@ export const preset = ({
           }
         }
       },
-      { layer: '$icons' },
+      { layer },
     ]],
   }
 }
