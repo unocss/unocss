@@ -3,7 +3,7 @@ import { handler as h } from '../utils'
 import { colorResolver } from './color'
 
 const outlineStyle = [
-  'none', // deal by /^outline-([a-z]+)$/
+  'none',
   'auto',
   'dotted',
   'dashed',
