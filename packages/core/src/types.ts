@@ -135,7 +135,7 @@ export interface ConfigBase<Theme extends {} = {}> {
   /**
    * Custom function to sort layers.
    */
-  sortLayers?: (layers: string[]) => undefined | string[]
+  sortLayers?: (layers: string[]) => string[]
 }
 
 export interface Preset extends ConfigBase {
