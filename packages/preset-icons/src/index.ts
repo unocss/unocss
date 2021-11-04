@@ -53,8 +53,9 @@ export const preset = ({
 }: Options = {}): Preset => {
   return {
     enforce: 'pre',
-    rules: [
-      [new RegExp(`^${prefix}([a-z0-9:-]+)$`), async([full, body]) => {
+    rules: [[
+      new RegExp(`^${prefix}([a-z0-9:-]+)$`),
+      async([full, body]) => {
         let collection = ''
         let name = ''
         let svg: string | undefined
@@ -110,8 +111,9 @@ export const preset = ({
             ...extraProperties,
           }
         }
-      }],
-    ],
+      },
+      { layer: '_icons' },
+    ]],
   }
 }
 
