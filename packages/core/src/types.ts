@@ -184,31 +184,31 @@ export interface GenerateResult {
 }
 
 export type VariantMatchedResult = readonly [
-  string /* raw */,
-  string /* processed */,
-  VariantHandler[]
+  raw: string,
+  current: string,
+  variants: VariantHandler[]
 ]
 
 export type ParsedUtil = readonly [
-  number /* index */,
-  string /* raw */,
-  CSSEntries,
-  RuleMeta | undefined,
-  VariantHandler[]
+  index: number,
+  raw: string,
+  entries: CSSEntries,
+  meta: RuleMeta | undefined,
+  variants: VariantHandler[]
 ]
 
 export type RawUtil = readonly [
-  number /* index */,
-  string /* raw css */,
-  RuleMeta | undefined,
+  index: number,
+  rawCSS: string,
+  meta: RuleMeta | undefined,
 ]
 
 export type StringifiedUtil = readonly [
-  number /* index */,
-  string | undefined /* selector */,
-  string /* body */,
-  string | undefined /* media query */,
-  RuleMeta | undefined,
+  index: number,
+  selector: string | undefined,
+  body: string,
+  mediaQuery: string | undefined,
+  meta: RuleMeta | undefined,
 ]
 
 export interface GenerateOptions {
