@@ -27,13 +27,13 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 ###### Benchmark
 
 ```
-10/21/2021, 2:17:45 PM
+11/5/2021, 4:26:57 AM
 1656 utilities | x50 runs (min build time)
 
-none                              8.75 ms / delta.      0.00 ms 
-unocss       v0.0.0              13.72 ms / delta.      4.97 ms (x1.00)
-windicss     v3.1.9             980.41 ms / delta.    971.66 ms (x195.36)
-tailwindcss  v3.0.0-alpha.1    1258.54 ms / delta.   1249.79 ms (x251.28)
+none                              8.30 ms / delta.      0.00 ms 
+unocss       v0.4.15             13.58 ms / delta.      5.28 ms (x1.00)
+windicss     v3.2.1             989.57 ms / delta.    981.27 ms (x185.94)
+tailwindcss  v3.0.0-alpha.1    1290.96 ms / delta.   1282.66 ms (x243.05)
 ```
 
 ###### Non-goal
