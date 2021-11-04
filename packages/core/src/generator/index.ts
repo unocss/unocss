@@ -115,7 +115,7 @@ export class UnoGenerator {
       this._cache.set(raw, null)
     }))
 
-    const buildLayer = (layer: string) => {
+    const getLayer = (layer: string) => {
       const css = Array.from(sheet).map(([query, items]) => {
         const size = items.length
         const sorted = items
@@ -156,23 +156,14 @@ export class UnoGenerator {
         : css
     }
 
-    let cssCache: string | undefined
-    let layers = Array.from(layerSet)
-    const layerCache = new Map<string | undefined, string>()
-
-    layers = this.config.sortLayers(layers) || layers
-
-    const getLayer = (name: string) => {
-      if (layerCache.has(name))
-        return layerCache.get(name)
-      return buildLayer(name)
-    }
+    let cache: string | undefined
+    const layers = this.config.sortLayers(Array.from(layerSet))
 
     return {
       get css() {
-        if (!cssCache)
-          cssCache = layers.map(i => getLayer(i) || '').join('\n')
-        return cssCache
+        if (!cache)
+          cache = layers.map(i => getLayer(i) || '').join('\n')
+        return cache
       },
       layers,
       getLayer,
