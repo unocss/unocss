@@ -70,7 +70,7 @@ export const placeSelfs: Rule[] = basicSet
   .map(i => [`place-self-${i}`, { 'place-self': i }])
 
 function handleInsetValue(v: string): string | number | undefined {
-  return { auto: 'auto', full: '100%' }[v] ?? h.bracket.fraction.rem(v)
+  return { auto: 'auto', full: '100%' }[v] ?? h.bracket.fraction.cssvar.rem(v)
 }
 
 export const insets: Rule[] = [
