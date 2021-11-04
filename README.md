@@ -342,6 +342,8 @@ import '@unocss/reset/eric-meyer.css'
 import '@unocss/reset/tailwind.css'
 ```
 
+Learn more at [@unocss/reset](https://github.com/antfu/unocss/tree/main/packages/reset).
+
 ### Custom Variants
 
 [Variants](https://windicss.org/utilities/variants.html#variants) allows you to apply some variations to your existing rules. For example, to implement the `hover:` variant from Tailwind:
@@ -386,6 +388,55 @@ As a result, the following CSS will be generated:
 With this, we could have `m-2` applied only when users hover over the element.
 
 The variant system is very powerful and can't be covered fully in this guide, you can check [the default preset's implementation](https://github.com/antfu/unocss/tree/main/packages/preset-uno/src/variants) to see more advanced usages.
+
+### Layers
+
+The orders of CSS will affect their priorities. While we will [retain the order of rules](#ordering), sometimes you may want to group some utilities to have more explicit control of their orders.
+
+Unlike Tailwind, which offers fixed 3 layers (`base`, `components`, `utilities`), UnoCSS allows you to define your own layers as you want. To set the layer, you can pass the metadata as the third item of your rules:
+
+```ts
+rules: [
+  [/^m-(\d)$/, ([, d]) => ({ margin: `${d / 4}rem` }), { layer: 'utilities' }],
+  // when you omit the layer, it will be `default`
+  ['btn', { padding: '4px' }]
+]
+```
+
+This will make it generates:
+
+```css
+/* layer: default */
+.btn { padding: 4px; }
+/* layer: utilities */
+.m-2 { margin: 0.5rem; }
+```
+
+You can control the order of layers by:
+
+```ts
+layers: {
+  components: -1,
+  default: 1,
+  utilities: 2,
+  'my-layer': 3,
+}
+```
+
+Layers without specified order will be sorted alphabetically.
+
+When you want to have your custom CSS between layers, you can update your entry module:
+
+```ts
+// 'uno:[layer-name].css'
+import 'uno:components.css'
+// layers that are not 'components' and 'utilities' will fallback to here
+import 'uno.css'
+// your own CSS
+import './my-custom.css'
+// "utilities" layer will have the highest priority
+import 'uno:utilities.css'
+```
 
 ### CSS Scoping
 

@@ -14,7 +14,7 @@ export interface Options {
   extraProperties?: Record<string, string>
   /**
    * Rule layer
-   * @default '$icons'
+   * @default 'icons'
    */
   layer?: string
 }
@@ -55,10 +55,13 @@ export const preset = ({
   warn = false,
   collections = {},
   extraProperties = {},
-  layer = '$icons',
+  layer = 'icons',
 }: Options = {}): Preset => {
   return {
     enforce: 'pre',
+    layers: {
+      icons: -10,
+    },
     rules: [[
       new RegExp(`^${prefix}([a-z0-9:-]+)$`),
       async([full, body]) => {
