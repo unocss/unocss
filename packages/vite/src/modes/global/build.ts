@@ -55,7 +55,7 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: Context): P
           return
 
         await Promise.all(tasks)
-        const { css } = await uno.generate(tokens)
+        const { css } = await uno.generate(tokens, undefined, { layerComments: false })
         let replaced = false
 
         if (!css)

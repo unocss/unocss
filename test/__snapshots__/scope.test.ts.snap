@@ -1,3 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`scope 1`] = `""`;
+exports[`scope 1`] = `
+"/* layer: default */
+"
+`;

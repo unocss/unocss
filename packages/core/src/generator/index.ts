@@ -1,7 +1,7 @@
 import { UserConfig, ParsedUtil, StringifiedUtil, UserConfigDefaults, VariantMatchedResult, Variant, ResolvedConfig, CSSEntries, GenerateResult, CSSObject, RawUtil } from '../types'
 import { resolveConfig } from '../config'
 import { e, entriesToCss, isRawUtil, isStaticShortcut, TwoKeyMap, uniq } from '../utils'
-import { RuleContext, VariantHandler } from '..'
+import { GenerateOptions, RuleContext, RuleMeta, VariantHandler } from '..'
 
 export class UnoGenerator {
   private _cache = new Map<string, StringifiedUtil[] | null>()
@@ -40,12 +40,16 @@ export class UnoGenerator {
   async generate(
     input: string | Set<string>,
     id?: string,
-    scope?: string,
+    {
+      scope,
+      layerComments = true,
+    }: GenerateOptions = {},
   ): Promise<GenerateResult> {
     const tokens = typeof input === 'string'
       ? await this.applyExtractors(input, id)
       : input
 
+    const layerSet = new Set<string>(['default'])
     const matched = new Set<string>()
     const sheet = new Map<string, StringifiedUtil[]>()
 
@@ -58,6 +62,8 @@ export class UnoGenerator {
         if (!sheet.has(query))
           sheet.set(query, [])
         sheet.get(query)!.push(item)
+        if (item[4]?.layer)
+          layerSet.add(item[4].layer)
       }
     }
 
@@ -89,9 +95,9 @@ export class UnoGenerator {
 
       // expand shortcuts
       const expanded = this.expandShortcut(applied[1])
-      if (expanded?.length) {
-        const utils = await this.stringifyShortcuts(applied, expanded)
-        if (utils.length) {
+      if (expanded) {
+        const utils = await this.stringifyShortcuts(applied, expanded[0], expanded[1])
+        if (utils?.length) {
           hit(raw, utils)
           return
         }
@@ -109,39 +115,67 @@ export class UnoGenerator {
       this._cache.set(raw, null)
     }))
 
-    const css = Array.from(sheet).map(([query, items]) => {
-      const size = items.length
-      const sorted = items
-        .sort((a, b) => a[0] - b[0] || a[1]?.localeCompare(b[1] || '') || 0)
-        .map(a => [a[1] ? applyScope(a[1], scope) : a[1], a[2]])
-      const rules = sorted
-        .map(([selector, body], idx) => {
-          if (selector && this.config.mergeSelectors) {
-            // search for rules that has exact same body, and merge them
-            // the index is reversed to make sure we always merge to the last one
-            for (let i = size - 1; i > idx; i--) {
-              const current = sorted[i]
-              if (current[0] && current[1] === body) {
-                current[0] = `${selector},${current[0]}`
-                return null
+    const buildLayer = (layer: string) => {
+      const css = Array.from(sheet).map(([query, items]) => {
+        const size = items.length
+        const sorted = items
+          .filter(i => (i[4]?.layer || 'default') === layer)
+          .sort((a, b) => a[0] - b[0] || a[1]?.localeCompare(b[1] || '') || 0)
+          .map(a => [a[1] ? applyScope(a[1], scope) : a[1], a[2]])
+        if (!sorted.length)
+          return undefined
+        const rules = sorted
+          .map(([selector, body], idx) => {
+            if (selector && this.config.mergeSelectors) {
+              // search for rules that has exact same body, and merge them
+              // the index is reversed to make sure we always merge to the last one
+              for (let i = size - 1; i > idx; i--) {
+                const current = sorted[i]
+                if (current && current[0] && current[1] === body) {
+                  current[0] = `${selector},${current[0]}`
+                  return null
+                }
               }
             }
-          }
-          return selector
-            ? `${selector}{${body}}`
-            : body
-        })
+            return selector
+              ? `${selector}{${body}}`
+              : body
+          })
+          .filter(Boolean)
+          .join('\n')
+
+        return query
+          ? `${query}{\n${rules}\n}`
+          : rules
+      })
         .filter(Boolean)
         .join('\n')
 
-      return query
-        ? `${query}{\n${rules}\n}`
-        : rules
-    })
-      .join('\n')
+      return layerComments
+        ? `/* layer: ${layer} */\n${css}`
+        : css
+    }
+
+    let cssCache: string | undefined
+    let layers = Array.from(layerSet)
+    const layerCache = new Map<string | undefined, string>()
+
+    layers = this.config.sortLayers(layers) || layers
+
+    const getLayer = (name: string) => {
+      if (layerCache.has(name))
+        return layerCache.get(name)
+      return buildLayer(name)
+    }
 
     return {
-      css,
+      get css() {
+        if (!cssCache)
+          cssCache = layers.map(i => getLayer(i) || '').join('\n')
+        return cssCache
+      },
+      layers,
+      getLayer,
       matched,
     }
   }
@@ -180,7 +214,7 @@ export class UnoGenerator {
     return [raw, processed, handlers]
   }
 
-  applyVariants(parsed: ParsedUtil, variantHandlers = parsed[3], raw = parsed[1]) {
+  applyVariants(parsed: ParsedUtil, variantHandlers = parsed[4], raw = parsed[1]) {
     const selector = variantHandlers.reduce((p, v) => v.selector?.(p) || p, toEscapedSelector(raw))
     const mediaQuery = variantHandlers.reduce((p: string | undefined, v) => v.mediaQuery || p, undefined)
     const entries = variantHandlers.reduce((p, v) => v.body?.(p) || p, parsed[2])
@@ -194,7 +228,7 @@ export class UnoGenerator {
   constructCustomCSS(context: Readonly<RuleContext>, body: CSSObject | CSSEntries, overrideSelector?: string) {
     body = normalizeEntries(body)
 
-    const [selector, entries, mediaQuery] = this.applyVariants([0, overrideSelector || context.rawSelector, body, context.variantHandlers])
+    const [selector, entries, mediaQuery] = this.applyVariants([0, overrideSelector || context.rawSelector, body, undefined, context.variantHandlers])
     const cssBody = `${selector}{${entriesToCss(entries)}}`
     if (mediaQuery)
       return `${mediaQuery}{${cssBody}}`
@@ -211,7 +245,7 @@ export class UnoGenerator {
     // use map to for static rules
     const staticMatch = rulesStaticMap[processed]
     if (staticMatch?.[1])
-      return [staticMatch[0], raw, normalizeEntries(staticMatch[1]), variantHandlers]
+      return [staticMatch[0], raw, normalizeEntries(staticMatch[1]), staticMatch[2], variantHandlers]
 
     const context: RuleContext = {
       rawSelector: raw,
@@ -231,16 +265,16 @@ export class UnoGenerator {
         continue
 
       // dynamic rules
-      const [matcher, handler] = rule
+      const [matcher, handler, meta] = rule
       const match = processed.match(matcher)
       if (!match)
         continue
 
       const result = await handler(match, context)
       if (typeof result === 'string')
-        return [i, result]
+        return [i, result, meta]
       if (result)
-        return [i, raw, normalizeEntries(result), variantHandlers]
+        return [i, raw, normalizeEntries(result), meta, variantHandlers]
     }
   }
 
@@ -249,7 +283,7 @@ export class UnoGenerator {
       return
 
     if (isRawUtil(parsed))
-      return [parsed[0], undefined, parsed[1], undefined]
+      return [parsed[0], undefined, parsed[1], undefined, parsed[2]]
 
     const [selector, entries, mediaQuery] = this.applyVariants(parsed)
     const body = entriesToCss(entries)
@@ -257,17 +291,19 @@ export class UnoGenerator {
     if (!body)
       return
 
-    return [parsed[0], selector, body, mediaQuery]
+    return [parsed[0], selector, body, mediaQuery, parsed[3]]
   }
 
-  expandShortcut(processed: string, depth = 3): string[] | undefined {
+  expandShortcut(processed: string, depth = 3): [string[], RuleMeta | undefined] | undefined {
     if (depth === 0)
       return
 
+    let meta: RuleMeta | undefined
     let result: string | string[] | undefined
     for (const s of this.config.shortcuts) {
       if (isStaticShortcut(s)) {
         if (s[0] === processed) {
+          meta = meta || s[2]
           result = s[1]
           break
         }
@@ -276,8 +312,10 @@ export class UnoGenerator {
         const match = processed.match(s[0])
         if (match)
           result = s[1](match)
-        if (result)
+        if (result) {
+          meta = meta || s[2]
           break
+        }
       }
     }
 
@@ -287,10 +325,13 @@ export class UnoGenerator {
     if (typeof result === 'string')
       result = result.split(/ /g)
 
-    return result.flatMap(r => this.expandShortcut(r, depth - 1) || [r])
+    return [
+      result.flatMap(r => this.expandShortcut(r, depth - 1)?.[0] || [r]),
+      meta,
+    ]
   }
 
-  async stringifyShortcuts(parent: VariantMatchedResult, expanded: string[]) {
+  async stringifyShortcuts(parent: VariantMatchedResult, expanded: string[], meta: RuleMeta | undefined): Promise<StringifiedUtil[] | undefined> {
     const selectorMap = new TwoKeyMap<string, string | undefined, [CSSEntries, number]>()
 
     const parsed = (await Promise.all(uniq(expanded)
@@ -301,7 +342,9 @@ export class UnoGenerator {
     const [raw, , parentVariants] = parent
 
     for (const item of parsed) {
-      const [selector, entries, mediaQuery] = this.applyVariants(item, [...item[3], ...parentVariants], raw)
+      if (isRawUtil(item))
+        continue
+      const [selector, entries, mediaQuery] = this.applyVariants(item, [...item[4], ...parentVariants], raw)
 
       // find existing selector/mediaQuery pair and merge
       const mapItem = selectorMap.getFallback(selector, mediaQuery, [[], item[0]])
@@ -316,9 +359,9 @@ export class UnoGenerator {
     return selectorMap
       .map(([entries, index], selector, mediaQuery): StringifiedUtil | undefined => {
         const body = entriesToCss(entries)
-        if (!body)
-          return undefined
-        return [index, selector, body, mediaQuery]
+        if (body)
+          return [index, selector, body, mediaQuery, meta]
+        return undefined
       })
       .filter(Boolean) as StringifiedUtil[]
   }

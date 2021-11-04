@@ -47,7 +47,7 @@ export function PerModuleModePlugin({ uno, config }: Context): Plugin {
       const hash = getHash(id)
       const hasScope = code.match(SCOPE_IMPORT_RE)
 
-      const { css } = await uno.generate(code, id, hasScope ? `.${hash}` : undefined)
+      const { css } = await uno.generate(code, id, { scope: hasScope ? `.${hash}` : undefined })
       if (!css && !hasScope)
         return null
 

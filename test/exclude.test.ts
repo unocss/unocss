@@ -17,13 +17,13 @@ describe('exclude', () => {
         presetUno(),
       ],
     })
-    const { css: css1 } = await uno.generate('block text-red-200 hover:block')
-    const { css: css2 } = await dos.generate('block text-red-200 hover:block')
+    const { css: css1 } = await uno.generate('block text-red-200 hover:block', undefined, { layerComments: false })
+    const { css: css2 } = await dos.generate('block text-red-200 hover:block', undefined, { layerComments: false })
     expect(css1).toContain('.block')
     expect(css1).toContain('.text-red-200')
     expect(css2).toBe('')
 
-    const { css: css3 } = await dos.generate('block text-red-200 hover:block')
+    const { css: css3 } = await dos.generate('block text-red-200 hover:block', undefined, { layerComments: false })
     expect(css3).toBe('')
   })
 })

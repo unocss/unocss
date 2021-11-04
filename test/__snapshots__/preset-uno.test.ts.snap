@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`targets 1`] = `
-".\\\\!m-\\\\$c-m{margin:var(--c-m) !important;}
+"/* layer: default */
+.\\\\!m-\\\\$c-m{margin:var(--c-m) !important;}
 .bg-\\\\$test-variable{background-color:var(--test-variable);}
 .bg-blend-\\\\$data{background-blend-mode:var(--data);}
 .color-\\\\$red{color:var(--red);}
