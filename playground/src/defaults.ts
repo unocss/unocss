@@ -1,7 +1,7 @@
 export const defaultHTML = `
 <div h-full text-center flex select-none all:transition-400>
   <div ma>
-    <div text-5xl fw100>
+    <div text-5xl fw100 animate-bounce>
       unocss
     </div>
     <div op30 text-lg fw300 m1>

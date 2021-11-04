@@ -1,4 +1,4 @@
-import { BetterMap, UnoGenerator } from 'unocss'
+import { BetterMap, UnoGenerator } from '@unocss/core'
 import { UnocssPluginOptions } from './types'
 
 export function createContext(

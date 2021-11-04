@@ -99,6 +99,8 @@ const targets = [
   'order-first',
   'overflow-auto',
   'overflow-x-scroll',
+  'overscroll-x-auto',
+  'overscroll-contain',
   'p-2',
   'p-t-2',
   'p2',
@@ -209,6 +211,14 @@ const targets = [
   'text-stroke-op-60',
   'write-normal',
   'write-orient-sideways',
+  'grid-cols-$1',
+  'color-$red',
+  'tab-$tabprop',
+  'items-$size',
+  'object-$fit',
+  'bg-$test-variable',
+  'bg-blend-$data',
+  '!m-$c-m',
   'animate-none',
   '!animate-ping',
   'hover:animate-bounce',
@@ -218,8 +228,10 @@ const targets = [
   'outline-inset',
   'outline-110',
   'outline-blue-2',
-
   'outline-none',
+  'placeholder-color-red-1',
+  'placeholder-transparent',
+  'placeholder-opacity-60',
 ]
 
 const nonTargets = [

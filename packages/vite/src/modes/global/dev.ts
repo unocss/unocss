@@ -7,7 +7,7 @@ import { READY_CALLBACK_DEFAULT, VIRTUAL_ENTRY_DEFAULT, VIRTUAL_ENTRY_ALIAS } fr
 const WARN_TIMEOUT = 2000
 
 export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }: Context): Plugin[] {
-  let server: ViteDevServer | undefined
+  const servers: ViteDevServer[] = []
 
   const filter = createFilter(
     config.include || defaultInclude,
@@ -21,23 +21,23 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
   let resolved = false
   let resolvedWarnTimer: any
 
-  const entry = config.__virtualModuleEntry || VIRTUAL_ENTRY_DEFAULT
-  const callbackUrl = config.__onStyleReadyCallback || READY_CALLBACK_DEFAULT
+  let entry = config.__virtualModuleEntry || VIRTUAL_ENTRY_DEFAULT
+  let callbackUrl = config.__onStyleReadyCallback || READY_CALLBACK_DEFAULT
 
   function invalidate(timer = 10) {
-    if (!server)
-      return
-    const mod = server.moduleGraph.getModuleById(entry)
-    if (!mod)
-      return
-    lastUpdate = Date.now()
-    server!.moduleGraph.invalidateModule(mod)
-    clearTimeout(invalidateTimer)
-    invalidateTimer = setTimeout(sendUpdate, timer)
+    for (const server of servers) {
+      const mod = server.moduleGraph.getModuleById(entry)
+      if (!mod)
+        return
+      lastUpdate = Date.now()
+      server!.moduleGraph.invalidateModule(mod)
+      clearTimeout(invalidateTimer)
+      invalidateTimer = setTimeout(sendUpdate, timer)
+    }
   }
 
   function sendUpdate() {
-    server!.ws.send({
+    servers.forEach(({ ws }) => ws.send({
       type: 'update',
       updates: [{
         acceptedPath: entry,
@@ -45,7 +45,7 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
         timestamp: lastUpdate,
         type: 'js-update',
       }],
-    })
+    }))
   }
 
   function setWarnTimer() {
@@ -54,10 +54,10 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
         if (!resolved) {
           const msg = '[unocss] entry module not found, have you add `import \'uno.css\'` in your main entry?'
           console.warn(msg)
-          server!.ws.send({
+          servers.forEach(({ ws }) => ws.send({
             type: 'error',
             err: { message: msg, stack: '' },
-          })
+          }))
         }
       }, WARN_TIMEOUT)
     }
@@ -70,9 +70,13 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
       name: 'unocss:global',
       apply: 'serve',
       enforce: 'pre',
+      configResolved({ base }) {
+        entry = base.slice(0, -1) + (config.__virtualModuleEntry || VIRTUAL_ENTRY_DEFAULT)
+        callbackUrl = base.slice(0, -1) + (config.__onStyleReadyCallback || READY_CALLBACK_DEFAULT)
+      },
       configureServer(_server) {
-        server = _server
-        server.middlewares.use(async(req, res, next) => {
+        servers.push(_server)
+        _server.middlewares.use(async(req, res, next) => {
           setWarnTimer()
           if (req.url?.startsWith(callbackUrl)) {
             const servedTime = +req.url.slice(callbackUrl.length + 1)
