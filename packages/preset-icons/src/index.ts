@@ -112,7 +112,7 @@ export const preset = ({
           }
         }
       },
-      { layer: '_icons' },
+      { layer: '$icons' },
     ]],
   }
 }

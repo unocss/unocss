@@ -16,18 +16,6 @@ export interface VitePluginOptions {
    * @default 'global'
    */
   mode?: 'global' | 'per-module' | 'vue-scoped' | 'dist-chunk'
-
-  /**
-   * @internal
-   * @default '/__unocss/entry.css'
-   */
-  __virtualModuleEntry?: string
-
-  /**
-   * @internal
-   * @default '/__unocss/ready'
-   */
-  __onStyleReadyCallback?: string
 }
 
 export interface UnocssPluginOptions extends UserConfig, VitePluginOptions {}
