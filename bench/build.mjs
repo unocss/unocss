@@ -22,7 +22,7 @@ function BuildTimePlugin(name) {
   }
 }
 
-console.log('warning up...')
+console.log('warming up...')
 for (let i = 0; i < 10; i++)
   await run('none')
 

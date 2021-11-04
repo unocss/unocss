@@ -21,7 +21,6 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: Context): P
       transform(code, id) {
         if (filter(id))
           tasks.push(scan(code, id))
-
         return null
       },
       transformIndexHtml: {
@@ -57,9 +56,6 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: Context): P
         await Promise.all(tasks)
         const { css } = await uno.generate(tokens, undefined, { layerComments: false })
         let replaced = false
-
-        if (!css)
-          return
 
         for (const file of files) {
           const chunk = bundle[file]
