@@ -8,7 +8,9 @@ export default function UnocssVitePlugin(configOrPath: UnocssPluginOptions | str
     configOrPath,
     {
       presets: [
-        presetUno(),
+        presetUno({
+          dev: process.env.NODE_ENV === 'development',
+        }),
       ],
     },
   )

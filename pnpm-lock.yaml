@@ -121,7 +121,7 @@ importers:
       '@nuxt/kit': npm:@nuxt/kit-edge@latest
       unocss: workspace:*
     dependencies:
-      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27264620.a62351a
+      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27267528.292b524
       unocss: link:../unocss
 
   packages/preset-attributify:
@@ -210,7 +210,6 @@ importers:
       typescript: ^4.4.4
       unocss: workspace:*
       unplugin-auto-import: ^0.4.13
-      unplugin-icons: ^0.12.17
       unplugin-vue-components: ^0.16.0
       vite: ^2.6.13
       vite-plugin-inspect: ^0.3.9
@@ -235,7 +234,6 @@ importers:
       typescript: 4.4.4
       unocss: link:../packages/unocss
       unplugin-auto-import: 0.4.13_@vueuse+core@6.7.4+vite@2.6.13
-      unplugin-icons: 0.12.17_vite@2.6.13
       unplugin-vue-components: 0.16.0_vite@2.6.13+vue@3.2.21
       vite: 2.6.13
       vite-plugin-inspect: 0.3.9_vite@2.6.13
@@ -329,13 +327,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
       - typescript
-    dev: true
-
-  /@antfu/install-pkg/0.1.0:
-    resolution: {integrity: sha512-VaIJd3d1o7irZfK1U0nvBsHMyjkuyMP3HKYVV53z8DKyulkHKmjhhtccXO51WSPeeSHIeoJEoNOKavYpS7jkZw==}
-    dependencies:
-      execa: 5.1.1
-      find-up: 5.0.0
     dev: true
 
   /@antfu/ni/0.10.1:
@@ -794,6 +785,7 @@ packages:
     resolution: {integrity: sha512-uCfJ7FdTxDk1DLKsvynTsYX4LnkGIDw+LCpoY0mRdl+NrNPCjYZ8HHYs4xzmo7cryRe0ZT0yuF2f3oipPIHn8w==}
     dependencies:
       '@iconify/types': 1.0.10
+    dev: false
 
   /@istanbuljs/load-nyc-config/1.1.0:
     resolution: {integrity: sha512-VjeHSlIzpv/NyD3N0YuHfXOPDIixcA1q2ZV98wsMqcYlPmv2n3Yb2lYP9XMElnaFVXg5A7YLTeLu6V84uQDjmQ==}
@@ -1030,8 +1022,8 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
 
-  /@nuxt/kit-edge/3.0.0-27264620.a62351a:
-    resolution: {integrity: sha512-aHbEMGx+6OIEIEOzJFq4sBtnZYsuCdLccbeMw6BuOTUEgRbewC0qGzujQM4G37PCn0AA5VdyKMFIFR6D1E93KA==}
+  /@nuxt/kit-edge/3.0.0-27267528.292b524:
+    resolution: {integrity: sha512-ng6b+VY5lNUfNYDApPcusP/i9y4S0CEc9h9H6GFUAnXi5BmRSWbFReNLDDUDcZY9yMU/TEgEidQ8zFZ5GF5dkg==}
     engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0}
     dependencies:
       consola: 2.15.3
@@ -1043,13 +1035,13 @@ packages:
       hookable: 5.0.0
       jiti: 1.12.9
       lodash.template: 4.5.0
-      mlly: 0.3.11
+      mlly: 0.3.12
       pathe: 0.2.0
       pkg-types: 0.3.1
       rc9: 1.2.0
       scule: 0.2.1
       semver: 7.3.5
-      std-env: 2.3.1
+      std-env: 3.0.0
       ufo: 0.7.9
       unctx: 1.0.2
       untyped: 0.2.11
@@ -1929,6 +1921,7 @@ packages:
 
   /ci-info/3.2.0:
     resolution: {integrity: sha512-dVqRX7fLUm8J6FgHJ418XuIgDLZDkYcDFTeL6TA2gt5WlIZUQrrH6EZrNClwT/H0FateUsZkGIOPRrLbP+PR9A==}
+    dev: true
 
   /cjs-module-lexer/1.2.2:
     resolution: {integrity: sha512-cOU9usZw8/dXIXKtwa8pM0OTJQuJkxMN6w30csNRUerHfeQ5R6U3kkU/FtJeIf3M202OHfY2U8ccInBG7/xogA==}
@@ -4174,10 +4167,6 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /kolorist/1.5.0:
-    resolution: {integrity: sha512-pPobydIHK884YBtkS/tWSZXpSAEpcMbilyun3KL37ot935qL2HNKm/tI45i/Rd+MxdIWEhm7/LmUQzWZYK+Qhg==}
-    dev: true
-
   /leven/3.1.0:
     resolution: {integrity: sha512-qsda+H8jTaUaN/x5vzW2rzc+8Rw4TAQ/4KjB46IwK5VH+IlVeeeje/EoZRpiXvIqjFgK84QffqPztGI3VBLG1A==}
     engines: {node: '>=6'}
@@ -4371,8 +4360,8 @@ packages:
     dependencies:
       import-meta-resolve: 1.1.1
 
-  /mlly/0.3.11:
-    resolution: {integrity: sha512-Md4jt3kLrp7ebOTdJ2YAF6TXE5Yd5D1CqdizxqG/Km6jHtR7tatu0oefAjvi1EgfvN8vu/Y/7mAutzpYCrHktw==}
+  /mlly/0.3.12:
+    resolution: {integrity: sha512-+5DdpxP48PpfV/FcP4j/8TREPycnROCg0hX1nmD6aoZ2lD4FpZI4sxWG6l6YpUktXi/vckj8NaAl3DVQSkIn3w==}
     dev: false
 
   /ms/2.0.0:
@@ -4701,7 +4690,7 @@ packages:
     resolution: {integrity: sha512-BjECNgz/tsyqg0/T4Z/U7WbFQXUT24nfkxPbALcrk/uHVeZf9MrGG4tfvYtu+jsrHCFMseLQ6woQddDEBATw3A==}
     dependencies:
       jsonc-parser: 3.0.0
-      mlly: 0.3.11
+      mlly: 0.3.12
       pathe: 0.2.0
     dev: false
 
@@ -5122,10 +5111,8 @@ packages:
       escape-string-regexp: 2.0.0
     dev: true
 
-  /std-env/2.3.1:
-    resolution: {integrity: sha512-eOsoKTWnr6C8aWrqJJ2KAReXoa7Vn5Ywyw6uCXgA/xDhxPoaIsBa5aNJmISY04dLwXPBnDHW4diGM7Sn5K4R/g==}
-    dependencies:
-      ci-info: 3.2.0
+  /std-env/3.0.0:
+    resolution: {integrity: sha512-GoFEqAGzhaexp/T01rIiLOK9LHa6HmVwEUyeU4cwdSnOhfxpw9IMeAFi44SHWbCErEs29qEh7vAOUbtUmoycjA==}
     dev: false
 
   /string-argv/0.3.1:
@@ -5574,37 +5561,6 @@ packages:
       - webpack
     dev: true
 
-  /unplugin-icons/0.12.17_vite@2.6.13:
-    resolution: {integrity: sha512-y6KNKlwcLXlbfpZY48lO0blsH/uwHbvxD2sgCaw1AhgFk9Bjw7hA1kQxhUWPAIRySeobve2YP7HGKLHoIctXPA==}
-    peerDependencies:
-      '@svgr/core': ^5.5.0
-      '@vue/compiler-sfc': ^3.0.2
-      vue-template-compiler: ^2.6.12
-      vue-template-es2015-compiler: ^1.9.0
-    peerDependenciesMeta:
-      '@svgr/core':
-        optional: true
-      '@vue/compiler-sfc':
-        optional: true
-      vue-template-compiler:
-        optional: true
-      vue-template-es2015-compiler:
-        optional: true
-    dependencies:
-      '@antfu/install-pkg': 0.1.0
-      '@antfu/utils': 0.3.0
-      '@iconify/utils': 1.0.18
-      debug: 4.3.2
-      kolorist: 1.5.0
-      local-pkg: 0.4.0
-      unplugin: 0.2.18_vite@2.6.13
-    transitivePeerDependencies:
-      - rollup
-      - supports-color
-      - vite
-      - webpack
-    dev: true
-
   /unplugin-vue-components/0.16.0_vite@2.6.13+vue@3.2.21:
     resolution: {integrity: sha512-BM/5p6/btLgDjUxf290cKbzbaGow95NFibhp+TSQhL0wyb1Q6sP0nmlqOvGnpLANFq0+urXxXDloMLlTJH6Fww==}
     engines: {node: '>=14'}
@@ -5631,24 +5587,6 @@ packages:
 
   /unplugin/0.2.16_vite@2.6.13:
     resolution: {integrity: sha512-KkXatHba0baJszSHW+2e8EQU/5Bz7rYwzYXu8wUeq97tE6K3wvub+7OWSuRv04LttvzNLsJ2jXEyR35gofv74Q==}
-    peerDependencies:
-      rollup: ^2.50.0
-      vite: ^2.3.0
-      webpack: 4 || 5
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-      vite:
-        optional: true
-      webpack:
-        optional: true
-    dependencies:
-      vite: 2.6.13
-      webpack-virtual-modules: 0.4.3
-    dev: true
-
-  /unplugin/0.2.18_vite@2.6.13:
-    resolution: {integrity: sha512-6FkdaEpq0pV5CT/GaxDmwVaBkR7AnrpYwl+F5AEFiJqyeM5n8faQPqmw1nUCWwcUBGfAByP3ENVFEyq0+UQtaQ==}
     peerDependencies:
       rollup: ^2.50.0
       vite: ^2.3.0
