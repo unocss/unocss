@@ -5,8 +5,6 @@ const variablesAbbrMap: Record<string, string> = {
   'h': 'height',
   'max-w': 'max-width',
   'max-h': 'max-height',
-  'p': 'padding',
-  'm': 'margin',
   'visible': 'visibility',
   'select': 'user-select',
   'vertical': 'vertical-align',
