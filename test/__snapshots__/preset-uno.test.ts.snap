@@ -2,7 +2,6 @@
 
 exports[`targets 1`] = `
 "/* layer: default */
-.\\\\!m-\\\\$c-m{margin:var(--c-m) !important;}
 .bg-\\\\$test-variable{background-color:var(--test-variable);}
 .bg-blend-\\\\$data{background-blend-mode:var(--data);}
 .color-\\\\$red{color:var(--red);}
@@ -17,15 +16,19 @@ exports[`targets 1`] = `
 .p-2,.first\\\\:p-2:first-child,.p2{padding:0.5rem;}
 .\\\\!hover\\\\:px-10:hover{padding-left:2.5rem !important;padding-right:2.5rem !important;}
 .pl-10px{padding-left:10px;}
+.pt-\\\\$title2{padding-top:var(--title2);}
 .pt-2,.p-t-2,.pt2{padding-top:0.5rem;}
+.\\\\!m-\\\\$c-m{margin:var(--c-m) !important;}
 .m-\\\\[3em\\\\]{margin:3em;}
 .m-0{margin:0rem;}
 .m-1\\\\/2{margin:50%;}
 .children\\\\:m-auto > *,.all\\\\:m-auto *,.-m-auto,.m-auto{margin:auto;}
 .my-auto{margin-top:auto;margin-bottom:auto;}
 .mt-\\\\[-10\\\\.2\\\\%\\\\]{margin-top:-10.2%;}
+.mt-\\\\$height{margin-top:var(--height);}
 .next\\\\:mt-0+*{margin-top:0rem;}
 .-space-x-4>:not([hidden])~:not([hidden]){--un-space-x-reverse:0;margin-left:calc(-1rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(-1rem * var(--un-space-x-reverse));}
+.space-x-\\\\$space>:not([hidden])~:not([hidden]){--un-space-x-reverse:0;margin-left:calc(var(--space) * calc(1 - var(--un-space-x-reverse)));margin-right:calc(var(--space) * var(--un-space-x-reverse));}
 .space-x-2>:not([hidden])~:not([hidden]){--un-space-x-reverse:0;margin-left:calc(0.5rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(0.5rem * var(--un-space-x-reverse));}
 .space-x-reverse>:not([hidden])~:not([hidden]){--un-space-x-reverse:1;}
 .space-y-4>:not([hidden])~:not([hidden]){--un-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--un-space-y-reverse)));margin-bottom:calc(1rem * calc(1 - var(--un-space-y-reverse)));}
