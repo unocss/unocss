@@ -240,9 +240,15 @@ export class UnoGenerator {
   }
 
   applyVariants(parsed: ParsedUtil, variantHandlers = parsed[4], raw = parsed[1]) {
-    const selector = variantHandlers.reduce((p, v) => v.selector?.(p) || p, toEscapedSelector(raw))
-      .replace(/\s.*:merge\(.+\)/g, '')
-      .replace(/:merge\((.+)\)/, '$1')
+    let selector = variantHandlers.reduce((p, v) => v.selector?.(p) || p, toEscapedSelector(raw))
+    if (selector.includes(':merge(')) {
+      selector = selector
+        .split(',')
+        .map(e => e.trim()
+          .replace(/\s[\w\s-\.]*:merge\(.+\)/g, '')
+          .replace(/([\w\s-\.]*):merge\((.+)\)/, '$1$2'),
+        ).join(', ')
+    }
     const mediaQuery = variantHandlers.reduce((p: string | undefined, v) => v.mediaQuery || p, undefined)
     const entries = variantHandlers.reduce((p, v) => v.body?.(p) || p, parsed[2])
     return [
