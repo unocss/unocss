@@ -68,16 +68,11 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
 
   onInvalidate(invalidate)
 
-  let base = '/'
-
   return [
     {
       name: 'unocss:global',
       apply: 'serve',
       enforce: 'pre',
-      configResolved(config) {
-        base = config.base
-      },
       configureServer(_server) {
         servers.push(_server)
         _server.middlewares.use(async(req, res, next) => {
@@ -106,7 +101,7 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
         },
       },
       resolveId(id) {
-        const entry = resolveId(id, base)
+        const entry = resolveId(id)
         if (entry) {
           resolved = true
           entries.set(entry.id, entry.layer)
