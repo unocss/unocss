@@ -35,46 +35,29 @@ export const outline: Rule[] = [
     /^outline-(.+)$/, (match, config) => {
       const [, d] = match
 
-      const handlerList = [
-        () => {
-          if (d === 'none') {
-            return {
-              'outline': '2px solid transparent',
-              'outline-offset': '2px',
-            }
-          }
-        },
-
-        () => {
-          const matchedStyle = outlineStyle.find(item => item === d)
-          if (matchedStyle) {
-            return {
-              'outline-style': matchedStyle,
-            }
-          }
-        },
-
-        () => {
-          const sizeSheet = parseOutlineSize(d)
-          if (sizeSheet)
-            return sizeSheet
-        },
-
-        () => {
-          if (match[1].startsWith('color-'))
-            match[1] = match[1].replace('color-', '')
-
-          const colorSheet = colorResolver('outline-color', 'outline-color')(match, config)
-          if (colorSheet)
-            return colorSheet
-        },
-      ]
-
-      for (const h of handlerList) {
-        const res = h()
-        if (res)
-          return res
+      if (d === 'none') {
+        return {
+          'outline': '2px solid transparent',
+          'outline-offset': '2px',
+        }
       }
+
+      if (outlineStyle.includes(d)) {
+        return {
+          'outline-style': d,
+        }
+      }
+
+      const sizeSheet = parseOutlineSize(d)
+      if (sizeSheet)
+        return sizeSheet
+
+      const colorSheet = colorResolver('outline-color', 'outline-color')([
+        match[0],
+        match[1].replace(/^color-/, ''),
+      ], config)
+      if (colorSheet)
+        return colorSheet
     },
   ],
 ]
