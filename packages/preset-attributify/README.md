@@ -45,7 +45,7 @@ With attributify mode, you can separate utilities into attributes:
 </button>
 ```
 
-For example, `text-sm text-white` could be grouped into `test="sm white"` without duplicating the same prefix.
+For example, `text-sm text-white` could be grouped into `text="sm white"` without duplicating the same prefix.
 
 ###### Valueless Attributify
 
