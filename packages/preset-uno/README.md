@@ -15,7 +15,7 @@ import presetUno from '@unocss/preset-uno'
 
 Unocss({
   presets: [
-    presetUno({ /* options */ })
+    presetUno()
   ]
 })
 ```
