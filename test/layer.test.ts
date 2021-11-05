@@ -10,11 +10,12 @@ describe('layers', () => {
         [/^d(\d+)$/, ([, d]) => `/* RAW ${d} */`, { layer: 'd' }],
       ],
       shortcuts: [
-        ['abc', 'a b c2 d3', { layer: 'shortcuts' }],
+        ['abcd', 'a b c2 d3', { layer: 's' }],
+        ['abc', 'a b c4'],
       ],
       presets: [],
     })
-    const { css } = await uno.generate('a b abc d4 c5')
+    const { css } = await uno.generate('a b abc abcd d4 c5')
     expect(css).toMatchSnapshot()
   })
 })

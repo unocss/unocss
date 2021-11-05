@@ -350,7 +350,11 @@ export class UnoGenerator {
     ]
   }
 
-  async stringifyShortcuts(parent: VariantMatchedResult, expanded: string[], meta: RuleMeta | undefined): Promise<StringifiedUtil[] | undefined> {
+  async stringifyShortcuts(
+    parent: VariantMatchedResult,
+    expanded: string[],
+    meta: RuleMeta = { layer: this.config.shortcutsLayer },
+  ): Promise<StringifiedUtil[] | undefined> {
     const selectorMap = new TwoKeyMap<string, string | undefined, [CSSEntries, number]>()
 
     const parsed = (await Promise.all(uniq(expanded)

@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`layers static 1`] = `
-"/* layer: a */
+"/* layer: shortcuts */
+.abc{name:bar1;name:bar2;name:4;}
+/* layer: a */
 .a{name:bar1;}
 /* layer: b */
 .b{name:bar2;}
@@ -11,6 +13,6 @@ exports[`layers static 1`] = `
 /* RAW 4 */
 /* layer: default */
 
-/* layer: shortcuts */
-.abc{name:bar1;name:bar2;name:2;}"
+/* layer: s */
+.abcd{name:bar1;name:bar2;name:2;}"
 `;

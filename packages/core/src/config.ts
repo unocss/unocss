@@ -10,6 +10,11 @@ export function resolveShortcuts(shortcuts: UserShortcuts): Shortcut[] {
   })
 }
 
+const defaultLayers = {
+  shortcuts: -1,
+  default: 0,
+}
+
 export function resolveConfig(
   userConfig: UserConfig = {},
   defaults: UserConfigDefaults = {},
@@ -23,7 +28,7 @@ export function resolveConfig(
     ...rawPresets.filter(p => p.enforce === 'post'),
   ]
 
-  const layers = Object.assign({}, ...rawPresets.map(i => i.layers), userConfig.layers)
+  const layers = Object.assign(defaultLayers, ...rawPresets.map(i => i.layers), userConfig.layers)
 
   function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights'>(key: T): Required<UserConfig>[T] {
     return uniq([
@@ -61,6 +66,7 @@ export function resolveConfig(
     excluded: [],
     sortLayers: layers => layers,
     ...config,
+    shortcutsLayer: config.shortcutsLayer || 'shortcuts',
     layers,
     theme,
     rulesSize,

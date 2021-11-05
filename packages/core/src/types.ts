@@ -173,15 +173,27 @@ export interface GeneratorOptions {
   warnExcluded?: boolean
 }
 
-export interface UserConfig<Theme extends {} = {}> extends ConfigBase<Theme>, GeneratorOptions {
+export interface UserOnlyOptions<Theme extends {} = {}> {
+  /**
+   * The theme object, will be merged with the theme provides by presets
+   */
   theme?: Theme
+
+  /**
+   * Layout name of shortcuts
+   *
+   * @default 'shortcuts'
+   */
+  shortcutsLayer?: string
+
+  /**
+   * Presets
+   */
   presets?: Preset[]
 }
 
-export interface UserConfigDefaults<Theme extends {} = {}> extends ConfigBase<Theme> {
-  theme?: Theme
-  presets?: Preset[]
-}
+export interface UserConfig<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions {}
+export interface UserConfigDefaults<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme> {}
 
 export interface ResolvedConfig extends Omit<Required<UserConfig>, 'presets' | 'rules' | 'shortcuts'> {
   shortcuts: Shortcut[]
