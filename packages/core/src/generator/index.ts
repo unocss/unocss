@@ -245,8 +245,8 @@ export class UnoGenerator {
       selector = selector
         .split(',')
         .map(e => e.trim()
-          .replace(/\s[\w\s-\.]*:merge\(.+\)/g, '')
-          .replace(/([\w\s-\.]*):merge\((.+)\)/, '$1$2'),
+          .replace(/\s:merge\(.+\)/g, '')
+          .replace(/:merge\((.+)\)/, '$1'),
         ).join(', ')
     }
     const mediaQuery = variantHandlers.reduce((p: string | undefined, v) => v.mediaQuery || p, undefined)
