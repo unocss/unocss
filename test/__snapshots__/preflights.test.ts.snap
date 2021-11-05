@@ -6,7 +6,5 @@ exports[`preflights basic 1`] = `
 
 /* layer: preflight */
 .hello { text: red }
-
-/* layer: void */
 "
 `;

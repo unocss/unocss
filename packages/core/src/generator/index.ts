@@ -179,7 +179,7 @@ export class UnoGenerator {
           .join('\n')
       }
 
-      return layerCache[layer] = layerComments
+      return layerCache[layer] = layerComments && css
         ? `/* layer: ${layer} */\n${css}`
         : css
     }
@@ -187,7 +187,9 @@ export class UnoGenerator {
     const getLayers = (excludes?: string[]) => {
       return layers
         .filter(i => !excludes?.includes(i))
-        .map(i => getLayer(i) || '').join('\n')
+        .map(i => getLayer(i) || '')
+        .filter(Boolean)
+        .join('\n')
     }
 
     return {

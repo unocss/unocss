@@ -3,9 +3,7 @@
 exports[`shortcuts dynamic 1`] = `
 "/* layer: shortcuts */
 .button-1{padding-left:0.75rem;padding-right:0.75rem;padding-top:0.5rem;padding-bottom:0.5rem;}
-.button-2{padding-left:1.5rem;padding-right:1.5rem;padding-top:1rem;padding-bottom:1rem;}
-/* layer: default */
-"
+.button-2{padding-left:1.5rem;padding-right:1.5rem;padding-top:1rem;padding-bottom:1rem;}"
 `;
 
 exports[`shortcuts nesting static 1`] = `
@@ -15,9 +13,7 @@ exports[`shortcuts nesting static 1`] = `
 .btn2{padding-left:0.5rem;padding-right:0.5rem;padding-top:0.75rem;padding-bottom:0.75rem;margin:0.75rem;margin-left:2.5rem;margin-right:2.5rem;}
 @media (min-width: 640px){
 .btn2{margin:0.5rem;}
-}
-/* layer: default */
-"
+}"
 `;
 
 exports[`shortcuts static 1`] = `
@@ -27,7 +23,5 @@ exports[`shortcuts static 1`] = `
 .focus\\\\:sh2:hover:focus,.sh2:hover{font-size:1.125rem;line-height:1.75rem;}
 @media (min-width: 640px){
 .sh1,.sh3{margin:0.5rem;}
-}
-/* layer: default */
-"
+}"
 `;
