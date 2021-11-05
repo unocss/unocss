@@ -1,5 +1,5 @@
-import { whereAmI } from './where-am-i'
+import { questionMark } from './question-mark'
 
 export const devRules = [
-  whereAmI,
+  questionMark,
 ]
