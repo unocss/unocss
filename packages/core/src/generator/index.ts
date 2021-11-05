@@ -1,4 +1,4 @@
-import { UserConfig, ParsedUtil, StringifiedUtil, UserConfigDefaults, VariantMatchedResult, Variant, ResolvedConfig, CSSEntries, GenerateResult, CSSObject, RawUtil } from '../types'
+import { UserConfig, ParsedUtil, StringifiedUtil, UserConfigDefaults, VariantMatchedResult, Variant, ResolvedConfig, CSSEntries, GenerateResult, CSSObject, RawUtil, ExtractorContext } from '../types'
 import { resolveConfig } from '../config'
 import { e, entriesToCss, isRawUtil, isStaticShortcut, TwoKeyMap, uniq } from '../utils'
 import { GenerateOptions, RuleContext, RuleMeta, VariantHandler } from '..'
@@ -27,13 +27,17 @@ export class UnoGenerator {
   }
 
   async applyExtractors(code: string, id?: string, set = new Set<string>()) {
-    await Promise.all(
-      this.config.extractors
-        .map(async(i) => {
-          const result = await i(code, id)
-          result?.forEach(t => set.add(t))
-        }),
-    )
+    const context: ExtractorContext = {
+      get original() { return code },
+      code,
+      id,
+    }
+
+    for (const extractor of this.config.extractors) {
+      const result = await extractor.extract(context)
+      result?.forEach(t => set.add(t))
+    }
+
     return set
   }
 

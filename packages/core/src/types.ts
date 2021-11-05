@@ -39,7 +39,17 @@ export interface RuleContext<Theme extends {} = {}> {
   constructCSS: (body: CSSEntries | CSSObject, overrideSelector?: string) => string
 }
 
-export type Extractor = (code: string, id?: string) => Awaitable<Set<string> | undefined>
+export interface ExtractorContext {
+  readonly original: string
+  code: string
+  id?: string
+}
+
+export interface Extractor {
+  name: string
+  extract(ctx: ExtractorContext): Awaitable<Set<string> | undefined>
+  order?: number
+}
 
 export interface RuleMeta {
   layer?: string

@@ -1,5 +1,5 @@
 import { createGenerator, presetUno } from 'unocss'
-import presetAttributify, { variantAttributify, extractorAttributify } from '@unocss/preset-attributify'
+import presetAttributify, { variantAttributify } from '@unocss/preset-attributify'
 
 describe('attributify', () => {
   const fixture1 = `
@@ -48,16 +48,16 @@ describe('attributify', () => {
   })
 
   test('extractor1', async() => {
-    expect(await extractorAttributify()(fixture1)).toMatchSnapshot()
+    expect(await uno.applyExtractors(fixture1)).toMatchSnapshot()
   })
 
   test('extractor2', async() => {
-    expect(await extractorAttributify()(fixture2)).toMatchSnapshot()
+    expect(await uno.applyExtractors(fixture2)).toMatchSnapshot()
   })
 
   test('variant', async() => {
     const variant = variantAttributify()
-    expect(Array.from(await extractorAttributify()(fixture1) || [])
+    expect(Array.from(await uno.applyExtractors(fixture1) || [])
       .map((i) => {
         const r = variant(i, i, {} as any)
         return typeof r === 'string' ? r : r ? r.matcher : r

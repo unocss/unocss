@@ -40,6 +40,7 @@ export function resolveConfig(
   const extractors = mergePresets('extractors')
   if (!extractors.length)
     extractors.push(extractorSplit)
+  extractors.sort((a, b) => (a.order || 0) - (b.order || 0))
 
   const rules = mergePresets('rules')
   const rulesStaticMap: ResolvedConfig['rulesStaticMap'] = {}
