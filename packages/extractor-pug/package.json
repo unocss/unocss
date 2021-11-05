@@ -1,22 +1,20 @@
 {
-  "name": "@unocss/preset-icons",
+  "name": "@unocss/extractor-pug",
   "version": "0.5.1",
-  "description": "Pure CSS Icons for UnoCSS",
+  "description": "UnoCSS extractor for Pug",
   "keywords": [
     "unocss",
-    "unocss-preset",
-    "icons",
-    "css-icons",
-    "iconify"
+    "unocss-extractor",
+    "pug"
   ],
-  "homepage": "https://github.com/antfu/unocss/tree/main/packages/preset-icons#readme",
+  "homepage": "https://github.com/antfu/unocss/tree/main/packages/extractor-pug#readme",
   "bugs": {
     "url": "https://github.com/antfu/unocss/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/antfu/unocss.git",
-    "directory": "packages/preset-icons"
+    "directory": "packages/extractor-pug"
   },
   "funding": "https://github.com/sponsors/antfu",
   "license": "MIT",
@@ -26,30 +24,30 @@
     ".": {
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
-    },
-    "./fs": {
-      "require": "./dist/fs.js",
-      "import": "./dist/fs.mjs"
     }
   },
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "files": [
-    "dist",
-    "*.css"
+    "dist"
   ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch src",
     "prepublishOnly": "nr build"
   },
-  "dependencies": {
-    "@iconify/utils": "^1.0.18",
-    "@unocss/core": "workspace:*",
-    "local-pkg": "^0.4.0"
+  "peerDependencies": {
+    "pug": "^3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "pug": {
+      "optional": true
+    }
   },
   "devDependencies": {
-    "@iconify/types": "^1.0.10"
+    "@unocss/core": "workspace:*",
+    "@types/pug": "^2.0.5",
+    "pug": "^3.0.0"
   }
 }

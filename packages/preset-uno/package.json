@@ -1,15 +1,19 @@
 {
   "name": "@unocss/preset-uno",
   "version": "0.5.1",
-  "description": "",
-  "keywords": [],
-  "homepage": "https://github.com/antfu/unocss#readme",
+  "description": "The default preset for UnoCSS",
+  "keywords": [
+    "unocss",
+    "unocss-preset"
+  ],
+  "homepage": "https://github.com/antfu/unocss/tree/main/packages/preset-uno#readme",
   "bugs": {
     "url": "https://github.com/antfu/unocss/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/antfu/unocss.git"
+    "url": "git+https://github.com/antfu/unocss.git",
+    "directory": "packages/preset-uno"
   },
   "funding": "https://github.com/sponsors/antfu",
   "license": "MIT",
