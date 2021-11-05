@@ -27,13 +27,13 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 ###### Benchmark
 
 ```
-10/21/2021, 2:17:45 PM
+11/5/2021, 4:26:57 AM
 1656 utilities | x50 runs (min build time)
 
-none                              8.75 ms / delta.      0.00 ms 
-unocss       v0.0.0              13.72 ms / delta.      4.97 ms (x1.00)
-windicss     v3.1.9             980.41 ms / delta.    971.66 ms (x195.36)
-tailwindcss  v3.0.0-alpha.1    1258.54 ms / delta.   1249.79 ms (x251.28)
+none                              8.30 ms / delta.      0.00 ms 
+unocss       v0.4.15             13.58 ms / delta.      5.28 ms (x1.00)
+windicss     v3.2.1             989.57 ms / delta.    981.27 ms (x185.94)
+tailwindcss  v3.0.0-alpha.1    1290.96 ms / delta.   1282.66 ms (x243.05)
 ```
 
 ###### Non-goal
@@ -342,6 +342,8 @@ import '@unocss/reset/eric-meyer.css'
 import '@unocss/reset/tailwind.css'
 ```
 
+Learn more at [@unocss/reset](https://github.com/antfu/unocss/tree/main/packages/reset).
+
 ### Custom Variants
 
 [Variants](https://windicss.org/utilities/variants.html#variants) allows you to apply some variations to your existing rules. For example, to implement the `hover:` variant from Tailwind:
@@ -386,6 +388,55 @@ As a result, the following CSS will be generated:
 With this, we could have `m-2` applied only when users hover over the element.
 
 The variant system is very powerful and can't be covered fully in this guide, you can check [the default preset's implementation](https://github.com/antfu/unocss/tree/main/packages/preset-uno/src/variants) to see more advanced usages.
+
+### Layers
+
+The orders of CSS will affect their priorities. While we will [retain the order of rules](#ordering), sometimes you may want to group some utilities to have more explicit control of their orders.
+
+Unlike Tailwind, which offers fixed 3 layers (`base`, `components`, `utilities`), UnoCSS allows you to define your own layers as you want. To set the layer, you can pass the metadata as the third item of your rules:
+
+```ts
+rules: [
+  [/^m-(\d)$/, ([, d]) => ({ margin: `${d / 4}rem` }), { layer: 'utilities' }],
+  // when you omit the layer, it will be `default`
+  ['btn', { padding: '4px' }]
+]
+```
+
+This will make it generates:
+
+```css
+/* layer: default */
+.btn { padding: 4px; }
+/* layer: utilities */
+.m-2 { margin: 0.5rem; }
+```
+
+You can control the order of layers by:
+
+```ts
+layers: {
+  components: -1,
+  default: 1,
+  utilities: 2,
+  'my-layer': 3,
+}
+```
+
+Layers without specified order will be sorted alphabetically.
+
+When you want to have your custom CSS between layers, you can update your entry module:
+
+```ts
+// 'uno:[layer-name].css'
+import 'uno:components.css'
+// layers that are not 'components' and 'utilities' will fallback to here
+import 'uno.css'
+// your own CSS
+import './my-custom.css'
+// "utilities" layer will have the highest priority
+import 'uno:utilities.css'
+```
 
 ### CSS Scoping
 

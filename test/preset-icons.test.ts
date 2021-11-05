@@ -14,7 +14,8 @@ describe('attributify', () => {
   })
 
   test('fixture1', async() => {
-    const { css } = await uno.generate(fixture1)
+    const { css, layers } = await uno.generate(fixture1)
+    expect(layers).toEqual(['icons', 'default'])
     expect(css).toMatchSnapshot()
   })
 })

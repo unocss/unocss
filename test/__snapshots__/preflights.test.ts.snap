@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`preflights basic 1`] = `
+"/* layer: default */
+.default-preflight {}
+
+/* layer: preflight */
+.hello { text: red }
+
+/* layer: void */
+"
+`;

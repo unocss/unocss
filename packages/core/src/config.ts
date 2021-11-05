@@ -23,7 +23,9 @@ export function resolveConfig(
     ...rawPresets.filter(p => p.enforce === 'post'),
   ]
 
-  function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts'>(key: T): Required<UserConfig>[T] {
+  const layers = Object.assign({}, ...rawPresets.map(i => i.layers), userConfig.layers)
+
+  function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights'>(key: T): Required<UserConfig>[T] {
     return uniq([
       ...sortedPresets.flatMap(p => toArray(p[key] || []) as any[]),
       ...toArray(config[key] || []) as any[],
@@ -41,7 +43,7 @@ export function resolveConfig(
 
   rules.forEach((rule, i) => {
     if (isStaticRule(rule)) {
-      rulesStaticMap[rule[0]] = [i, rule[1]]
+      rulesStaticMap[rule[0]] = [i, rule[1], rule[2]]
       // delete static rules so we can't skip them in matching
       // but keep the order
       delete rules[i]
@@ -57,11 +59,14 @@ export function resolveConfig(
     mergeSelectors: true,
     warnExcluded: true,
     excluded: [],
+    sortLayers: layers => layers,
     ...config,
+    layers,
     theme,
     rulesSize,
     rulesDynamic: rules as ResolvedConfig['rulesDynamic'],
     rulesStaticMap,
+    preflights: mergePresets('preflights'),
     variants: mergePresets('variants').map(normalizeVariant),
     shortcuts: resolveShortcuts(mergePresets('shortcuts')),
     extractors,

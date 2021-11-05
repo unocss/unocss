@@ -41,15 +41,27 @@ export interface RuleContext<Theme extends {} = {}> {
 
 export type Extractor = (code: string, id?: string) => Awaitable<Set<string> | undefined>
 
-export type DynamicRule<Theme extends {} = {}> = [RegExp, ((match: string[], context: Readonly<RuleContext<Theme>>) => Awaitable<CSSObject | CSSEntries | string | undefined>)]
-export type StaticRule = [string, CSSObject | CSSEntries]
+export interface RuleMeta {
+  layer?: string
+}
+
+export type DynamicMatcher<Theme extends {} = {}> = ((match: string[], context: Readonly<RuleContext<Theme>>) => Awaitable<CSSObject | CSSEntries | string | undefined>)
+export type DynamicRule<Theme extends {} = {}> = [RegExp, DynamicMatcher<Theme>] | [RegExp, DynamicMatcher<Theme>, RuleMeta]
+export type StaticRule = [string, CSSObject | CSSEntries] | [string, CSSObject | CSSEntries, RuleMeta]
 export type Rule<Theme extends {} = {}> = DynamicRule<Theme> | StaticRule
 
-export type DynamicShortcut = [RegExp, ((match: string[]) => (string | string [] | undefined))]
-export type StaticShortcut = [string, string | string[]]
+export type DynamicShortcutMatcher = ((match: string[]) => (string | string [] | undefined))
+
+export type DynamicShortcut = [RegExp, DynamicShortcutMatcher] | [RegExp, DynamicShortcutMatcher, RuleMeta]
+export type StaticShortcut = [string, string | string[]] | [string, string | string[], RuleMeta]
 export type StaticShortcutMap = Record<string, string | string[]>
 export type UserShortcuts = StaticShortcutMap | (StaticShortcut | DynamicShortcut | StaticShortcutMap)[]
 export type Shortcut = StaticShortcut | DynamicShortcut
+
+export interface Preflight {
+  getCSS: () => string | undefined
+  layer?: string
+}
 
 export type ExcludeRule = string | RegExp
 
@@ -121,9 +133,24 @@ export interface ConfigBase<Theme extends {} = {}> {
   extractors?: Extractor[]
 
   /**
+   * Raw CSS injections.
+   */
+  preflights?: Preflight[]
+
+  /**
    * Theme object for shared configuration between rules
    */
   theme?: Theme
+
+  /**
+   * Layer orders. Default to 0.
+   */
+  layers?: Record<string, number>
+
+  /**
+   * Custom function to sort layers.
+   */
+  sortLayers?: (layers: string[]) => string[]
 }
 
 export interface Preset extends ConfigBase {
@@ -161,35 +188,67 @@ export interface ResolvedConfig extends Omit<Required<UserConfig>, 'presets' | '
   variants: VariantObject[]
   rulesSize: number
   rulesDynamic: (DynamicRule|undefined)[]
-  rulesStaticMap: Record<string, [number, CSSObject | CSSEntries] | undefined>
+  rulesStaticMap: Record<string, [number, CSSObject | CSSEntries, RuleMeta | undefined] | undefined>
 }
 
 export interface GenerateResult {
   css: string
+  layers: string[]
+  getLayer(name?: string): string | undefined
+  getLayers(excludes?: string[]): string
   matched: Set<string>
 }
 
 export type VariantMatchedResult = readonly [
-  string /* raw */,
-  string /* processed */,
-  VariantHandler[]
+  raw: string,
+  current: string,
+  variants: VariantHandler[]
 ]
 
 export type ParsedUtil = readonly [
-  number /* index */,
-  string /* raw */,
-  CSSEntries,
-  VariantHandler[]
+  index: number,
+  raw: string,
+  entries: CSSEntries,
+  meta: RuleMeta | undefined,
+  variants: VariantHandler[]
 ]
 
 export type RawUtil = readonly [
-  number /* index */,
-  string /* raw css */,
+  index: number,
+  rawCSS: string,
+  meta: RuleMeta | undefined,
 ]
 
 export type StringifiedUtil = readonly [
-  number /* index */,
-  string | undefined /* selector */,
-  string /* body */,
-  string | undefined /* media query */,
+  index: number,
+  selector: string | undefined,
+  body: string,
+  mediaQuery: string | undefined,
+  meta: RuleMeta | undefined,
 ]
+
+export interface GenerateOptions {
+  /**
+   * Filepath of the file being processed.
+   */
+  id?: string
+
+  /**
+   * Generate preflights (if defined)
+   *
+   * @default true
+   */
+  preflights?: boolean
+
+  /**
+   * @expiremental
+   */
+  scope?: string
+
+  /**
+   * Show layer seperator in comments
+   *
+   * @default true
+   */
+  layerComments?: boolean
+}

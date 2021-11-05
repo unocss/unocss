@@ -79,7 +79,7 @@ export const colorResolver
  * @example op10 op-30 opacity-100
  */
 export const opacity: Rule[] = [
-  [/^op(?:acity)?-?(.+)$/, ([, d]) => ({ opacity: h.bracket.percent(d) })],
+  [/^op(?:acity)?-?(.+)$/, ([, d]) => ({ opacity: h.bracket.percent.cssvar(d) })],
 ]
 
 /**
@@ -87,7 +87,7 @@ export const opacity: Rule[] = [
  */
 export const textColors: Rule[] = [
   [/^(?:text|color|c)-(.+)$/, colorResolver('color', 'text')],
-  [/^(?:text|color|c)-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-text-opacity': h.bracket.percent(opacity) })],
+  [/^(?:text|color|c)-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-text-opacity': h.bracket.percent.cssvar(opacity) })],
 ]
 
 export const textDecorationColors: Rule[] = [
