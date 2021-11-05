@@ -1,6 +1,6 @@
 {
   "name": "@unocss/nuxt",
-  "version": "0.4.16",
+  "version": "0.5.0",
   "description": "Nuxt module for UnoCSS",
   "keywords": [
     "unocss",
