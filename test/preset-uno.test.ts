@@ -79,6 +79,7 @@ const targets = [
   'first:p-2',
   'not-hover:p-3',
   'group-focus:p-4',
+  'group-hover:group-focus:text-center',
   'hover:not-first:checked:bg-red/10',
   'hover:p-5',
   'leading-2',

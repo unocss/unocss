@@ -108,6 +108,7 @@ exports[`targets 1`] = `
 .text-stroke-sm{-webkit-text-stroke-width:thin;}
 .text-stroke-blue-500{--un-text-stroke-opacity:1;-webkit-text-stroke-color:rgba(59,130,246,var(--un-text-stroke-opacity));}
 .text-stroke-op-60{--un-text-stroke-opacity:0.6;}
+.group:focus:hover .group-hover\\\\:group-focus\\\\:text-center{text-align:center;}
 .dark .dark\\\\:not-odd\\\\:text-red:not(:nth-child(odd)){--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
 .text-\\\\[\\\\#124\\\\]{--un-text-opacity:1;color:rgba(17,34,68,var(--un-text-opacity));}
 .text-black\\\\/10{color:rgba(0,0,0,0.1);}
