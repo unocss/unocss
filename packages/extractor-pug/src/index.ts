@@ -16,7 +16,7 @@ export default function extractorPug(): Extractor {
     name: 'pug',
     order: -1,
     async extract(ctx) {
-      if (ctx.id?.match(/\.vue$/ || ctx.id?.match(/\.vue\?vue/))) {
+      if (ctx.id?.match(/\.vue$/) || ctx.id?.match(/\.vue\?vue/)) {
         const matches = Array.from(ctx.code.matchAll(regexVueTemplate))
         let tail = ''
         for (const match of matches) {
