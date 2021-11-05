@@ -84,9 +84,7 @@ export const variantPseudoClasses: VariantObject = {
       const pseudo = PseudoClasses[match[1]] || match[1]
       return {
         matcher: input.slice(match[1].length + 7),
-        selector: s => s.includes('.group:')
-          ? s.replace(/\.group:/, `.group:${pseudo}:`)
-          : `.group:${pseudo} ${s}`,
+        selector: s => `:merge(.group):${pseudo} ${s}`,
       }
     }
   },
