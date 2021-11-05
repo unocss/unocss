@@ -2,13 +2,25 @@ import { Preset } from '@unocss/core'
 import { rules } from './rules'
 import { theme } from './theme'
 import { variants } from './variants'
-import { whereAmI } from './rules/where-am-i'
+import { devRules } from './dev'
 
 export { theme, colors } from './theme'
 
-export const preset = (debug = false): Preset => ({
+export interface PresetUnoOptions {
+  /**
+   * Enable development only rules
+   *
+   * @default false
+   */
+  dev?: boolean
+}
+
+export const preset = (options: PresetUnoOptions = {}): Preset => ({
   theme,
-  rules: [...rules, whereAmI(debug)],
+  rules: [
+    ...rules,
+    ...(options.dev ? devRules : []),
+  ],
   variants,
 })
 
