@@ -1,6 +1,6 @@
 import type { Plugin } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
-import { defaultExclude, defaultInclude } from '../../utils'
+import { defaultExclude, defaultInclude, getPath } from '../../utils'
 import { Context } from '../../context'
 import { resolveId, ALL_LAYERS } from './shared'
 
@@ -39,7 +39,7 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: Context): P
         }
       },
       async load(id) {
-        const layer = entries.get(id)
+        const layer = entries.get(getPath(id))
         if (layer)
           return `#--unocss--{layer:${layer}}`
       },

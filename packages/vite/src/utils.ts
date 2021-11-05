@@ -9,3 +9,7 @@ export function getHash(input: string, length = 8) {
     .digest('hex')
     .substr(0, length)
 }
+
+export function getPath(id: string) {
+  return id.replace(/\?.*$/, '')
+}

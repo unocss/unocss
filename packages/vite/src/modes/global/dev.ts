@@ -1,6 +1,6 @@
 import type { Plugin, ViteDevServer } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
-import { defaultExclude, defaultInclude } from '../../utils'
+import { defaultExclude, defaultInclude, getPath } from '../../utils'
 import { Context } from '../../context'
 import { READY_CALLBACK_DEFAULT, resolveId, ALL_LAYERS } from './shared'
 
@@ -109,7 +109,7 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
         }
       },
       async load(id) {
-        const layer = entries.get(id)
+        const layer = entries.get(getPath(id))
         if (!layer)
           return null
 
@@ -129,7 +129,7 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
       },
       enforce: 'post',
       transform(code, id) {
-        if (entries.has(id) && code.includes('import.meta.hot'))
+        if (entries.has(getPath(id)) && code.includes('import.meta.hot'))
           return `${code}\nawait fetch("${READY_CALLBACK_DEFAULT}/${lastServed}")`
       },
     },
