@@ -15,7 +15,7 @@ import { extractorSplit } from '@unocss/core'
 Unocss({
   extractors: [
     extractorPug(),
-    extractorSplit(),
+    extractorSplit,
   ]
 })
 ```
