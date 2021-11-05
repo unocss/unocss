@@ -190,6 +190,13 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
    * Presets
    */
   presets?: Preset[]
+
+  /**
+   * Environment mode
+   *
+   * @default 'build'
+   */
+  envMode?: 'dev' | 'build'
 }
 
 export interface UserConfig<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions {}

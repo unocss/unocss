@@ -20,6 +20,7 @@ import { transforms } from './transform'
 import { listStyle, caretColors, boxDecorationBreaks, caretOpacity, imageRenderings, appearance, placeholder, overscrolls, outline } from './behaviors'
 import { animations } from './animation'
 import { cssVariables } from './variables'
+import { questionMark } from './question-mark'
 
 export const rules: Rule[] = [
   cssVariables,
@@ -106,4 +107,7 @@ export const rules: Rule[] = [
   filters,
   tables,
   transforms,
+
+  // should be the last
+  questionMark,
 ].flat(1)

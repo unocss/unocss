@@ -66,6 +66,7 @@ export function resolveConfig(
     excluded: [],
     sortLayers: layers => layers,
     ...config,
+    envMode: config.envMode || 'build',
     shortcutsLayer: config.shortcutsLayer || 'shortcuts',
     layers,
     theme,

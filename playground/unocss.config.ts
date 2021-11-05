@@ -3,6 +3,7 @@ import presetIcons from '@unocss/preset-icons'
 
 export function createConfig({ strict = true, dev = true } = {}) {
   return defineConfig({
+    envMode: dev ? 'dev' : 'build',
     theme: {
       fontFamily: {
         sans: '\'Inter\', sans-serif',
@@ -22,7 +23,7 @@ export function createConfig({ strict = true, dev = true } = {}) {
           uim: () => import('@iconify-json/uim/icons.json').then(i => i.default as any),
         },
       }),
-      presetUno({ dev }),
+      presetUno(),
     ],
   })
 }
