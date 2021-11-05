@@ -2,7 +2,7 @@ import { StringifiedUtil } from '..'
 import { ParsedUtil, RawUtil, Variant, VariantObject } from '../types'
 
 export const attributifyRE = /^\[(.+?)~?="(.*)"\]$/
-export const validateFilterRE = /[a-z]/
+export const validateFilterRE = /[a-z?]/
 
 export function isAttributifySelector(selector: string) {
   return selector.match(attributifyRE)
