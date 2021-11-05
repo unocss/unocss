@@ -242,7 +242,7 @@ export class UnoGenerator {
   applyVariants(parsed: ParsedUtil, variantHandlers = parsed[4], raw = parsed[1]) {
     const selector = variantHandlers.reduce((p, v) => v.selector?.(p) || p, toEscapedSelector(raw))
       .replace(/\s.*:merge\(.+\)/g, '')
-      .replace(/:merge\((.+)\)/g, '$1')
+      .replace(/:merge\((.+)\)/, '$1')
     const mediaQuery = variantHandlers.reduce((p: string | undefined, v) => v.mediaQuery || p, undefined)
     const entries = variantHandlers.reduce((p, v) => v.body?.(p) || p, parsed[2])
     return [
