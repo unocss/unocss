@@ -17,12 +17,12 @@ export const animations: Rule[] = [
   ['animate-none', { animation: 'none' }],
   [/^animation(?:-duration)?-((\d+)(?:(s|ms)?))$/, ([, d]) => {
     return {
-      'animtion-duration': h.bracket.time(d.replace(/-duration/, '')),
+      'animation-duration': h.bracket.time(d.replace(/-duration/, '')),
     }
   }],
   [/^animation-delay-((\d+)(?:(s|ms)?))$/, ([, d]) => {
     return {
-      'animtion-delay': h.bracket.time(d),
+      'animation-delay': h.bracket.time(d),
     }
   }],
 ]
