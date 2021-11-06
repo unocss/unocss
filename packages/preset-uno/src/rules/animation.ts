@@ -49,8 +49,8 @@ export const animations: Rule[] = [
     }),
   ],
   [
-    /^animation-play(?:-state)?-(paused|running|inherit|initial|revert|unset)$/, ([,d]) => ({
+    /^animation-play(?:-state)?-(paused|running|inherit|initial|revert|unset)$/, ([, d]) => ({
       'animation-play-state': d,
-    })
-  ]
+    }),
+  ],
 ]
