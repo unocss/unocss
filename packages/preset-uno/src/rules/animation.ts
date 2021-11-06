@@ -26,12 +26,12 @@ export const animations: Rule[] = [
     }
   }],
   [
-    /^animation-(?:fill-)?mode-(none|forwards|backwards|both)$/, ([, d]) => ({
-      'animation-fill-mode': d,
+    /^animation-(?:fill-)?mode-(.+)$/, ([, d]) => ({
+      'animation-fill-mode': d.replace(/\-/g, ', '),
     }),
   ],
   [
-    /^animation-direction-(normal|reverse|alternate|alternate-reverse)$/, ([, d]) => ({
+    /^animation-(?:direction)?-(normal|reverse|alternate|alternate-reverse)$/, ([, d]) => ({
       'animation-direction': d,
     }),
   ],
@@ -48,4 +48,9 @@ export const animations: Rule[] = [
       'animation-name': d,
     }),
   ],
+  [
+    /^animation-play(?:-state)?-(paused|running|inherit|initial|revert|unset)$/, ([,d]) => ({
+      'animation-play-state': d,
+    })
+  ]
 ]

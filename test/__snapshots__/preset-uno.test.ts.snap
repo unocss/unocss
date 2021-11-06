@@ -206,6 +206,8 @@ exports[`targets 1`] = `
 .animation-count-2,.animation-iteration-count-2{animation-iteration-count:2;}
 .animation-iteration-count-2-4-infinity{animation-iteration-count:2, 4, infinity;}
 .animation-name-move{animation-name:move;}
+.animation-play-paused{animation-play-state:paused;}
+.animation-play-state-running{animation-play-state:running;}
 .top-\\\\$top-height{top:var(--top-height);}
 .top-0{top:0rem;}
 .inset-x-5{left:1.25rem;right:1.25rem;}

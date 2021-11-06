@@ -238,6 +238,8 @@ const targets = [
   'animation-delay-100s',
   'animation-speed-$speed',
   'animation-name-move',
+  'animation-play-paused',
+  'animation-play-state-running',
   'animation-mode-none',
   'animation-fill-mode-both',
   'animation-direction-alternate-reverse',
