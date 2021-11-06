@@ -59,3 +59,10 @@ export function cssvar(str: string) {
   if (str.startsWith('$'))
     return `var(--${str.slice(1)})`
 }
+
+export function time(str: string) {
+  if (/ms|s$/.test(str))
+    return str
+
+  return `${str}ms`
+}

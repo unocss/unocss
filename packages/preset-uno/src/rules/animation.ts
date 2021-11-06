@@ -1,4 +1,5 @@
 import { Rule } from '@unocss/core'
+import { handler as h } from '../utils'
 
 const keyframes: any = {
   spin: '@keyframes spin {from {transform:rotate(0deg);} to {transform:rotate(360deg);}}',
@@ -14,4 +15,14 @@ export const animations: Rule[] = [
     return `${keyframes[name]}\n${constructCSS({ animation: `${name} 1s linear infinite` })}`
   }],
   ['animate-none', { animation: 'none' }],
+  [/^animation(?:-duration)?-((\d+)(?:(s|ms)?))$/, ([, d]) => {
+    return {
+      'animtion-duration': h.bracket.time(d.replace(/-duration/, '')),
+    }
+  }],
+  [/^animation-delay-((\d+)(?:(s|ms)?))$/, ([, d]) => {
+    return {
+      'animtion-delay': h.bracket.time(d),
+    }
+  }],
 ]

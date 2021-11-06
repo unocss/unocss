@@ -2,6 +2,7 @@
 
 exports[`targets 1`] = `
 "/* layer: default */
+.animation-speed-\\\\$speed{animation-speed:var(--speed);}
 .bg-\\\\$test-variable{background-color:var(--test-variable);}
 .bg-blend-\\\\$data{background-blend-mode:var(--data);}
 .color-\\\\$red{color:var(--red);}
@@ -195,6 +196,10 @@ exports[`targets 1`] = `
 @keyframes bounce {0%, 100% {transform:translateY(-25%);animation-timing-function:cubic-bezier(0.8,0,1,1);} 50% {transform:translateY(0);animation-timing-function:cubic-bezier(0,0,0.2,1);}}
 .hover\\\\:animate-bounce:hover{animation:bounce 1s linear infinite;}
 .animate-none{animation:none;}
+.animation-100s{animtion-duration:100s;}
+.animation-300{animtion-duration:300ms;}
+.animation-duration-100{animtion-duration:100ms;}
+.animation-delay-100s{animtion-delay:100s;}
 .top-\\\\$top-height{top:var(--top-height);}
 .top-0{top:0rem;}
 .inset-x-5{left:1.25rem;right:1.25rem;}
