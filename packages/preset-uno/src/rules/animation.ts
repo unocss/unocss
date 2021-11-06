@@ -25,4 +25,27 @@ export const animations: Rule[] = [
       'animation-delay': h.bracket.time(d),
     }
   }],
+  [
+    /^animation-(?:fill-)?mode-(none|forwards|backwards|both)$/, ([, d]) => ({
+      'animation-fill-mode': d,
+    }),
+  ],
+  [
+    /^animation-direction-(normal|reverse|alternate|alternate-reverse)$/, ([, d]) => ({
+      'animation-direction': d,
+    }),
+  ],
+  [
+    /^animation-(?:iteration-)?count-(.+)$/, ([, d]) => {
+      const value = d.replace(/\-/g, ', ')
+      return {
+        'animation-iteration-count': value,
+      }
+    },
+  ],
+  [
+    /^animation-name-(.+)/, ([, d]) => ({
+      'animation-name': d,
+    }),
+  ],
 ]

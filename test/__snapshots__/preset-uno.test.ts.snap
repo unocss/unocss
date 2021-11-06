@@ -200,6 +200,12 @@ exports[`targets 1`] = `
 .animation-300{animation-duration:300ms;}
 .animation-duration-100{animation-duration:100ms;}
 .animation-delay-100s{animation-delay:100s;}
+.animation-fill-mode-both{animation-fill-mode:both;}
+.animation-mode-none{animation-fill-mode:none;}
+.animation-direction-alternate-reverse{animation-direction:alternate-reverse;}
+.animation-count-2,.animation-iteration-count-2{animation-iteration-count:2;}
+.animation-iteration-count-2-4-infinity{animation-iteration-count:2, 4, infinity;}
+.animation-name-move{animation-name:move;}
 .top-\\\\$top-height{top:var(--top-height);}
 .top-0{top:0rem;}
 .inset-x-5{left:1.25rem;right:1.25rem;}
