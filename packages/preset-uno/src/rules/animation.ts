@@ -31,7 +31,7 @@ export const animations: Rule[] = [
     }),
   ],
   [
-    /^animation-(?:direction)?-(normal|reverse|alternate|alternate-reverse)$/, ([, d]) => ({
+    /^animation-(?:direction)?-(normal|reverse|alternate|alternate-reverse|inherit|initial|revert|unset)$/, ([, d]) => ({
       'animation-direction': d,
     }),
   ],
