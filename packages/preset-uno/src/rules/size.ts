@@ -9,7 +9,7 @@ export const sizes: Rule[] = [
   ['h-screen', { height: '100vh' }],
   ['max-w-full', { 'max-height': '100%' }],
   ['min-h-full', { 'min-height': '100%' }],
-  ['max-w-screnn', { 'max-height': '100vw' }],
+  ['max-w-screen', { 'max-height': '100vw' }],
   ['min-h-screen', { 'min-height': '100vh' }],
   [/^(((min|max)-)?(w|h))-([^-]+)$/, ([, , , m, w, s]) => ({ [getPropName(m, w)]: h.bracket.fraction.rem(s) })],
   [/^(((min|max)-)?(w))-screen-([a-z]+)$/, ([, , , m, w, s], { theme }: RuleContext<Theme>) => {
