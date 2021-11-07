@@ -61,6 +61,11 @@ export function cssvar(str: string) {
 }
 
 export function time(str: string) {
+  const duration = Number(str.replace(/(s|ms)$/, ''))
+
+  if (isNaN(duration))
+    return
+
   if (/ms|s$/.test(str))
     return str
 

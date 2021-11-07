@@ -15,14 +15,22 @@ export const animations: Rule[] = [
     return `${keyframes[name]}\n${constructCSS({ animation: `${name} 1s linear infinite` })}`
   }],
   ['animate-none', { animation: 'none' }],
-  [/^animate(?:-duration)?-((\d+)(?:(s|ms)?))$/, ([, d]) => {
+  [/^animate(?:-duration)?-((.+)(?:(s|ms)?))$/, ([, d]) => {
+    const duration = h.bracket.time(d.replace(/-duration/, ''))
+    if (!duration)
+      return
+
     return {
-      'animation-duration': h.bracket.time(d.replace(/-duration/, '')),
+      'animation-duration': duration,
     }
   }],
-  [/^animate-delay-((\d+)(?:(s|ms)?))$/, ([, d]) => {
+  [/^animate-delay-((.+)(?:(s|ms)?))$/, ([, d]) => {
+    const delay = h.bracket.time(d)
+    if (!delay)
+      return
+
     return {
-      'animation-delay': h.bracket.time(d),
+      'animation-delay': delay,
     }
   }],
   [
@@ -31,7 +39,7 @@ export const animations: Rule[] = [
     }),
   ],
   [
-    /^animate-(?:direction)?-(normal|reverse|alternate|alternate-reverse|inherit|initial|revert|unset)$/, ([, d]) => ({
+    /^animate-(?:direction-)?(normal|reverse|alternate|alternate-reverse|inherit|initial|revert|unset)$/, ([, d]) => ({
       'animation-direction': d,
     }),
   ],
