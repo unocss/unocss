@@ -3,10 +3,19 @@ import { resolveConfig } from '../config'
 import { e, entriesToCss, isRawUtil, isStaticShortcut, TwoKeyMap, uniq } from '../utils'
 import { GenerateOptions, RuleContext, RuleMeta, VariantHandler } from '..'
 
+type Type = 'cached' | 'matched' | 'unmatched' | 'cached-null' | 'exclued';
+
 export class UnoGenerator {
   private _cache = new Map<string, StringifiedUtil[] | null>()
   public config: ResolvedConfig
   public excluded = new Set<string>()
+  private onTrigger!: (
+    className: string,
+    event: {
+      type: Type,
+      varients: any,
+    }
+  ) => void
 
   constructor(
     public userConfig: UserConfig = {},
@@ -73,20 +82,25 @@ export class UnoGenerator {
     }
 
     await Promise.all(Array.from(tokens).map(async(raw) => {
-      if (matched.has(raw) || this.excluded.has(raw))
+      if (matched.has(raw) || this.excluded.has(raw)) {
+        this.onTrigger(raw,  {type: this.excluded.has(raw) ? 'exclued' : 'cached', varients: null})
         return
+      }
 
       // use caches if possible
       if (this._cache.has(raw)) {
         const r = this._cache.get(raw)
         if (r)
           hit(raw, r)
+        
+        this.onTrigger(raw,  {type: r?  'cached': 'cached-null', varients: r})
         return
       }
 
       if (this.isExcluded(raw)) {
         this.excluded.add(raw)
         this._cache.set(raw, null)
+        this.onTrigger(raw,  {type: 'exclued', varients: null})
         return
       }
 
@@ -95,6 +109,7 @@ export class UnoGenerator {
       if (this.isExcluded(applied[1])) {
         this.excluded.add(raw)
         this._cache.set(raw, null)
+        this.onTrigger(raw,  {type: 'exclued', varients: applied})
         return
       }
 
@@ -112,10 +127,12 @@ export class UnoGenerator {
         const util = this.stringifyUtil(await this.parseUtil(applied))
         if (util) {
           hit(raw, [util])
+          this.onTrigger(raw,  {type: 'matched', varients: util})
           return
         }
       }
 
+      this.onTrigger(raw,  {type: 'cached-null', varients: null})
       // set null cache for unmatched result
       this._cache.set(raw, null)
     }))
