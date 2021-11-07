@@ -30,6 +30,7 @@ const parseOutlineSize = (s: string) => {
 }
 
 export const outline: Rule[] = [
+  ['outline-none', { 'outline': '2px solid transparent', 'outline-offset': '2px' }],
   ['outline', { 'outline-style': 'solid' }],
   [
     /^outline-(.+)$/, (match, config) => {

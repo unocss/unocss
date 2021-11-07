@@ -74,7 +74,7 @@ exports[`targets 1`] = `
 .bg-no-repeat{background-repeat:no-repeat;}
 .bg-repeat-space{background-position:space;}
 .border{border-width:1px;border-style:solid;}
-.border-2{border-width:2px;border-style:solid;}
+.b-2,.border-2{border-width:2px;border-style:solid;}
 .border-b{border-bottom-width:1px;border-style:solid;}
 .border-t-2{border-top-width:2px;border-style:solid;}
 .border-green-100\\\\/10{border-color:rgba(220,252,231,0.1);}
@@ -165,6 +165,8 @@ exports[`targets 1`] = `
 .w-1\\\\/2{width:50%;}
 .max-w-screen-lg{max-width:1024px;}
 .outline-none{outline:2px solid transparent;outline-offset:2px;}
+.select-none{user-select:none;}
+.ws-nowrap{white-space:nowrap;}
 .list-disc{list-style-type:disc;}
 .list-none{list-style-type:none;}
 .list-none-inside{list-style-position:inside;list-style-type:none;}

@@ -14,13 +14,14 @@ import { rings } from './ring'
 import { mixBlendModes, shadows } from './shadow'
 import { sizes } from './size'
 import { paddings, margins } from './spacing'
-import { verticalAligns, appearances, breaks, cursors, displays, pointerEvents, resizes, textAligns, textDecorations, textOverflows, textTransforms, userSelects, whitespaces, fontStyles, fontSmoothings, hyphens, textDecorationStyles, writingModes, writingOrientations } from './static'
+import { appearances, breaks, cursors, displays, pointerEvents, resizes, textDecorations, textOverflows, textTransforms, userSelects, whitespaces, fontStyles, fontSmoothings, hyphens, textDecorationStyles, writingModes, writingOrientations } from './static'
 import { tables } from './table'
 import { transforms } from './transform'
 import { listStyle, caretColors, boxDecorationBreaks, caretOpacity, imageRenderings, appearance, placeholder, overscrolls, outline } from './behaviors'
 import { animations } from './animation'
 import { cssVariables } from './variables'
 import { questionMark } from './question-mark'
+import { textAligns, verticalAligns } from './align'
 
 export const rules: Rule[] = [
   cssVariables,

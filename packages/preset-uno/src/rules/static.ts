@@ -12,7 +12,6 @@ export const displays: Rule[] = [
 ]
 
 export const appearances: Rule[] = [
-  ['outline-none', { 'outline': '2px solid transparent', 'outline-offset': '2px' }],
   ['visible', { visibility: 'visible' }],
   ['invisible', { visibility: 'hidden' }],
   ['backface-visible', { 'backface-visibility': 'visible' }],
@@ -36,26 +35,11 @@ export const resizes: Rule[] = [
 ]
 
 export const userSelects: Rule[] = [
-  ['select-none', { 'user-select': 'none' }],
-  ['select-text', { 'user-select': 'text' }],
-  ['select-all', { 'user-select': 'all' }],
-  ['select-auto', { 'user-select': 'auto' }],
-]
-
-export const verticalAligns: Rule[] = [
-  ['vertical-baseline', { 'vertical-align': 'baseline' }],
-  ['vertical-top', { 'vertical-align': 'top' }],
-  ['vertical-middle', { 'vertical-align': 'middle' }],
-  ['vertical-text-top', { 'vertical-align': 'text-top' }],
-  ['vertical-text-bottom', { 'vertical-align': 'text-bottom' }],
+  [/^select-(none|text|all|auto)$/, ([, v]) => ({ 'user-select': v })],
 ]
 
 export const whitespaces: Rule[] = [
-  ['whitespace-normal', { 'white-space': 'normal' }],
-  ['whitespace-nowrap', { 'white-space': 'nowrap' }],
-  ['whitespace-pre', { 'white-space': 'pre' }],
-  ['whitespace-pre-line', { 'white-space': 'pre-line' }],
-  ['whitespace-pre-wrap', { 'white-space': 'pre-wrap' }],
+  [/^(?:whitespace|ws)-(normal|nowrap|pre|pre-line|pre-wrap)$/, ([, v]) => ({ 'white-space': v })],
 ]
 
 export const breaks: Rule[] = [
@@ -88,13 +72,6 @@ export const textDecorationStyles: Rule[] = [
   ['underline-double', { 'text-decoration-style': 'double' }],
   ['underline-dotted', { 'text-decoration-style': 'dotted' }],
   ['underline-dashed', { 'text-decoration-style': 'dashed' }],
-]
-
-export const textAligns: Rule[] = [
-  ['text-center', { 'text-align': 'center' }],
-  ['text-left', { 'text-align': 'left' }],
-  ['text-right', { 'text-align': 'right' }],
-  ['text-justify', { 'text-align': 'justify' }],
 ]
 
 export const fontStyles: Rule[] = [

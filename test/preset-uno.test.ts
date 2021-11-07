@@ -242,6 +242,11 @@ const targets = [
   'placeholder-color-red-1',
   'placeholder-transparent',
   'placeholder-opacity-60',
+  'select-none',
+  'ws-nowrap',
+  'b-2',
+  'v-top',
+  'v-mid',
 ]
 
 const nonTargets = [

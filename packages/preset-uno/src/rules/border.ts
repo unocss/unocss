@@ -5,8 +5,8 @@ import { borderColors } from './color'
 
 export const borderSizes: Rule[] = [
   [/^border$/, handlerBorder],
-  [/^border(?:-([^-]+))?$/, handlerBorder],
-  [/^border(?:-([^-]+))?(?:-([^-]+))?$/, handlerBorder],
+  [/^(?:border|b)(?:-([^-]+))?$/, handlerBorder],
+  [/^(?:border|b)(?:-([^-]+))?(?:-([^-]+))?$/, handlerBorder],
 ]
 
 export const borderRadius: Rule[] = [
