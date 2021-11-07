@@ -8,7 +8,6 @@ const keyframes: any = {
   bounce: '@keyframes bounce {0%, 100% {transform:translateY(-25%);animation-timing-function:cubic-bezier(0.8,0,1,1);} 50% {transform:translateY(0);animation-timing-function:cubic-bezier(0,0,0.2,1);}}',
 }
 
-// TODO: support custom speed, duration, delay
 // https://windicss.org/plugins/community/animations.html
 export const animations: Rule[] = [
   [/^animate-(none|spin|ping|pulse|bounce)$/, ([, name], { constructCSS }) => {
