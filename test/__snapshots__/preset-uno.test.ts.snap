@@ -164,7 +164,8 @@ exports[`targets 1`] = `
 .min-w-3{min-width:0.75rem;}
 .w-1\\\\/2{width:50%;}
 .max-w-screen-lg{max-width:1024px;}
-.outline-none{outline:2px solid transparent;outline-offset:2px;}
+.v-mid{vertical-align:middle;}
+.v-top{vertical-align:top;}
 .select-none{user-select:none;}
 .ws-nowrap{white-space:nowrap;}
 .list-disc{list-style-type:disc;}
@@ -176,6 +177,7 @@ exports[`targets 1`] = `
 .caret-op-90{--un-caret-opacity:0.9;}
 .image-render-pixel{-ms-interpolation-mode:nearest-neighbor;image-rendering:-webkit-optimize-contrast;image-rendering:-moz-crisp-edges;image-rendering:-o-pixelated;image-rendering:pixelated;}
 .appearance-none{appearance-none:none;}
+.outline-none{outline:2px solid transparent;outline-offset:2px;}
 .outline-110{outline-width:27.5rem;}
 .outline-blue-2{--un-outline-color-opacity:1;outline-color:rgba(191,219,254,var(--un-outline-color-opacity));}
 .outline-color-red-1{--un-outline-color-opacity:1;outline-color:rgba(254,226,226,var(--un-outline-color-opacity));}
