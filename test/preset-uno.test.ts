@@ -160,7 +160,6 @@ const targets = [
   'z-100',
   'box-content',
   'box-border',
-  'invert',
   'shadow',
   'shadow-transparent',
   'shadow-current',
