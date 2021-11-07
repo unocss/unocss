@@ -15,28 +15,28 @@ export const animations: Rule[] = [
     return `${keyframes[name]}\n${constructCSS({ animation: `${name} 1s linear infinite` })}`
   }],
   ['animate-none', { animation: 'none' }],
-  [/^animation(?:-duration)?-((\d+)(?:(s|ms)?))$/, ([, d]) => {
+  [/^animate(?:-duration)?-((\d+)(?:(s|ms)?))$/, ([, d]) => {
     return {
       'animation-duration': h.bracket.time(d.replace(/-duration/, '')),
     }
   }],
-  [/^animation-delay-((\d+)(?:(s|ms)?))$/, ([, d]) => {
+  [/^animate-delay-((\d+)(?:(s|ms)?))$/, ([, d]) => {
     return {
       'animation-delay': h.bracket.time(d),
     }
   }],
   [
-    /^animation-(?:fill-)?mode-(none|forwards|backwards|both|inherit|initial|revert|unset)$/, ([, d]) => ({
+    /^animate-(?:fill-)?mode-(none|forwards|backwards|both|inherit|initial|revert|unset)$/, ([, d]) => ({
       'animation-fill-mode': d.replace(/\-/g, ', '),
     }),
   ],
   [
-    /^animation-(?:direction)?-(normal|reverse|alternate|alternate-reverse|inherit|initial|revert|unset)$/, ([, d]) => ({
+    /^animate-(?:direction)?-(normal|reverse|alternate|alternate-reverse|inherit|initial|revert|unset)$/, ([, d]) => ({
       'animation-direction': d,
     }),
   ],
   [
-    /^animation-(?:iteration-)?count-(.+)$/, ([, d]) => {
+    /^animate-(?:iteration-)?count-(.+)$/, ([, d]) => {
       const value = d.replace(/\-/g, ', ')
       return {
         'animation-iteration-count': value,
@@ -44,12 +44,12 @@ export const animations: Rule[] = [
     },
   ],
   [
-    /^animation-name-(.+)/, ([, d]) => ({
+    /^animate-name-(.+)/, ([, d]) => ({
       'animation-name': d,
     }),
   ],
   [
-    /^animation-play(?:-state)?-(paused|running|inherit|initial|revert|unset)$/, ([, d]) => ({
+    /^animate-play(?:-state)?-(paused|running|inherit|initial|revert|unset)$/, ([, d]) => ({
       'animation-play-state': d,
     }),
   ],

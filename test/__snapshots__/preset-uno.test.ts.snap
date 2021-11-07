@@ -2,7 +2,7 @@
 
 exports[`targets 1`] = `
 "/* layer: default */
-.animation-speed-\\\\$speed{animation-speed:var(--speed);}
+.animate-speed-\\\\$speed{animation-speed:var(--speed);}
 .bg-\\\\$test-variable{background-color:var(--test-variable);}
 .bg-blend-\\\\$data{background-blend-mode:var(--data);}
 .color-\\\\$red{color:var(--red);}
@@ -196,18 +196,19 @@ exports[`targets 1`] = `
 @keyframes bounce {0%, 100% {transform:translateY(-25%);animation-timing-function:cubic-bezier(0.8,0,1,1);} 50% {transform:translateY(0);animation-timing-function:cubic-bezier(0,0,0.2,1);}}
 .hover\\\\:animate-bounce:hover{animation:bounce 1s linear infinite;}
 .animate-none{animation:none;}
-.animation-100s{animation-duration:100s;}
-.animation-300{animation-duration:300ms;}
-.animation-duration-100{animation-duration:100ms;}
-.animation-delay-100s{animation-delay:100s;}
-.animation-fill-mode-both{animation-fill-mode:both;}
-.animation-mode-none{animation-fill-mode:none;}
-.animation-direction-alternate-reverse{animation-direction:alternate-reverse;}
-.animation-count-2,.animation-iteration-count-2{animation-iteration-count:2;}
-.animation-iteration-count-2-4-infinity{animation-iteration-count:2, 4, infinity;}
-.animation-name-move{animation-name:move;}
-.animation-play-paused{animation-play-state:paused;}
-.animation-play-state-running{animation-play-state:running;}
+.animate-100s{animation-duration:100s;}
+.animate-300{animation-duration:300ms;}
+.animate-duration-100{animation-duration:100ms;}
+.animate-delay-100s{animation-delay:100s;}
+.animate-fill-mode-both{animation-fill-mode:both;}
+.animate-mode-none{animation-fill-mode:none;}
+.animate-direction-alternate-reverse{animation-direction:alternate-reverse;}
+.animate-count-2\\\\.4{animation-iteration-count:2.4;}
+.animate-iteration-count-2{animation-iteration-count:2;}
+.animate-iteration-count-2-4-infinity{animation-iteration-count:2, 4, infinity;}
+.animate-name-move{animation-name:move;}
+.animate-play-paused{animation-play-state:paused;}
+.animate-play-state-running{animation-play-state:running;}
 .top-\\\\$top-height{top:var(--top-height);}
 .top-0{top:0rem;}
 .inset-x-5{left:1.25rem;right:1.25rem;}
