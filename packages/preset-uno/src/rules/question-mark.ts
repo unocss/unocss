@@ -1,5 +1,10 @@
 import { Rule } from '@unocss/core'
 
+/**
+ * Used for debugging, only avaliable in development mode.
+ *
+ * @example `?` / `where`
+ */
 export const questionMark: Rule[] = [
   [
     /^(where|\?)$/, (_, { constructCSS, generator }) => {

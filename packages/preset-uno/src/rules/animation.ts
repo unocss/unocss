@@ -10,54 +10,13 @@ const keyframes: any = {
 
 // https://windicss.org/plugins/community/animations.html
 export const animations: Rule[] = [
-  [/^animate-(spin|ping|pulse|bounce)$/, ([, name], { constructCSS }) => {
-    return `${keyframes[name]}\n${constructCSS({ animation: `${name} 1s linear infinite` })}`
-  }],
+  [/^animate-(spin|ping|pulse|bounce)$/, ([, name], { constructCSS }) => `${keyframes[name]}\n${constructCSS({ animation: `${name} 1s linear infinite` })}`],
   ['animate-none', { animation: 'none' }],
-  [/^animate(?:-duration)?-((.+)(?:(s|ms)?))$/, ([, d]) => {
-    const duration = h.bracket.time(d.replace(/-duration/, ''))
-    if (!duration)
-      return
-
-    return {
-      'animation-duration': duration,
-    }
-  }],
-  [/^animate-delay-((.+)(?:(s|ms)?))$/, ([, d]) => {
-    const delay = h.bracket.time(d)
-    if (!delay)
-      return
-
-    return {
-      'animation-delay': delay,
-    }
-  }],
-  [
-    /^animate-(?:fill-)?mode-(none|forwards|backwards|both|inherit|initial|revert|unset)$/, ([, d]) => ({
-      'animation-fill-mode': d,
-    }),
-  ],
-  [
-    /^animate-(?:direction-)?(normal|reverse|alternate|alternate-reverse|inherit|initial|revert|unset)$/, ([, d]) => ({
-      'animation-direction': d,
-    }),
-  ],
-  [
-    /^animate-(?:iteration-)?count-(.+)$/, ([, d]) => {
-      const value = d.replace(/\-/g, ', ')
-      return {
-        'animation-iteration-count': value,
-      }
-    },
-  ],
-  [
-    /^animate-name-(.+)/, ([, d]) => ({
-      'animation-name': d,
-    }),
-  ],
-  [
-    /^animate-play(?:-state)?-(paused|running|inherit|initial|revert|unset)$/, ([, d]) => ({
-      'animation-play-state': d,
-    }),
-  ],
+  [/^animate(?:-duration)?-((.+)(?:(s|ms)?))$/, ([, d]) => ({ 'animation-duration': h.bracket.time(d.replace(/-duration/, '')) })],
+  [/^animate-delay-((.+)(?:(s|ms)?))$/, ([, d]) => ({ 'animation-delay': h.bracket.time(d) })],
+  [/^animate-(?:fill-)?mode-(none|forwards|backwards|both|inherit|initial|revert|unset)$/, ([, d]) => ({ 'animation-fill-mode': d })],
+  [/^animate-(?:direction-)?(normal|reverse|alternate|alternate-reverse|inherit|initial|revert|unset)$/, ([, d]) => ({ 'animation-direction': d })],
+  [/^animate-(?:iteration-)?count-(.+)$/, ([, d]) => ({ 'animation-iteration-count': d.replace(/\-/g, ', ') })],
+  [/^animate-name-(.+)/, ([, d]) => ({ 'animation-name': d })],
+  [/^animate-play(?:-state)?-(paused|running|inherit|initial|revert|unset)$/, ([, d]) => ({ 'animation-play-state': d })],
 ]

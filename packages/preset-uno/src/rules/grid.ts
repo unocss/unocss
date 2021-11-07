@@ -38,7 +38,6 @@ export const grids: Rule[] = [
           'grid-row': '1 / -1',
         }
       }
-
       return isNumber(shortArr[1]) ? { 'grid-row': `span ${shortArr[1]} / span ${shortArr[1]}` } : undefined
     }
     return { 'grid-row': v.split('-').join(' ') }
@@ -51,7 +50,6 @@ export const grids: Rule[] = [
           'grid-column': '1 / -1',
         }
       }
-
       return isNumber(shortArr[1]) ? { 'grid-column': `span ${shortArr[1]} / span ${shortArr[1]}` } : undefined
     }
     return { 'grid-column': v.split('-').join(' ') }

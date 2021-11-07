@@ -1,4 +1,4 @@
-import { Rule, CSSEntries, CSSObject } from 'unocss'
+import { Rule, CSSEntries, CSSObject } from '@unocss/core'
 import { xyzMap, handler as h } from '../utils'
 
 export const transforms: Rule[] = [

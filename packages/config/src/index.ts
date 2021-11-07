@@ -1,6 +1,6 @@
 import fs from 'fs'
 import findUp from 'find-up'
-import { UserConfig } from 'unocss'
+import { UserConfig } from '@unocss/core'
 import { transform } from 'sucrase'
 
 export interface ConfigResult<U> {

@@ -296,10 +296,14 @@ export class UnoGenerator {
         continue
 
       const result = await handler(match, context)
+      if (!result)
+        continue
+
       if (typeof result === 'string')
         return [i, result, meta]
-      if (result)
-        return [i, raw, normalizeEntries(result), meta, variantHandlers]
+      const entries = normalizeEntries(result).filter(i => i[1] != null)
+      if (entries.length)
+        return [i, raw, entries, meta, variantHandlers]
     }
   }
 

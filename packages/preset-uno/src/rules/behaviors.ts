@@ -2,22 +2,8 @@ import { Rule } from '@unocss/core'
 import { handler as h } from '../utils'
 import { colorResolver } from './color'
 
-const outlineStyle = [
-  'none',
-  'auto',
-  'dotted',
-  'dashed',
-  'solid',
-  'double',
-  'groove',
-  'ridge',
-  'inset',
-  'outset',
-  'inherit',
-  'initial',
-  'revert',
-  'unset',
-]
+const outlineStyle = ['none', 'auto', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'inherit', 'initial', 'revert', 'unset']
+const listStyleProps = ['none', 'disc', 'circle', 'square', 'decimal', 'zero-decimal', 'greek', 'roman', 'upper-roman', 'alpha', 'upper-alpha']
 
 const parseOutlineSize = (s: string) => {
   const propName = ['width', 'offset'].find(item => s.startsWith(item)) || 'width'
@@ -61,12 +47,6 @@ export const outline: Rule[] = [
         return colorSheet
     },
   ],
-]
-
-const listStyleProps = [
-  'none', 'disc', 'circle', 'square',
-  'decimal', 'zero-decimal', 'greek', 'roman',
-  'upper-roman', 'alpha', 'upper-alpha',
 ]
 
 export const listStyle: Rule[] = [
@@ -117,19 +97,19 @@ export const imageRenderings: Rule[] = [
 ]
 
 export const appearance: Rule[] = [
-  ['appearance-none', {
-    'appearance-none': 'none',
-  }],
+  ['appearance-none', { 'appearance-none': 'none' }],
 ]
 
 export const placeholder: Rule[] = [
   [
-    /^placeholder-opacity-(\d+)$/, ([, d]) => ({
+    /^placeholder-opacity-(\d+)$/,
+    ([, d]) => ({
       'placeholder-opacity': h.bracket.percent(d),
     }),
   ],
   [
-    /^placeholder-(?!opacity)(.+)$/, (match, config) => {
+    /^placeholder-(?!opacity)(.+)$/,
+    (match, config) => {
       match[1] = match[1].replace(/^color-/, '')
       return colorResolver('placeholder-color', 'placeholder-color')(match, config)
     },

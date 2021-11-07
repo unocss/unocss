@@ -1,6 +1,8 @@
-import { Rule, toArray, RuleContext } from 'unocss'
+import { Rule, toArray, RuleContext } from '@unocss/core'
 import { Theme } from '../theme'
 import { handler as h } from '../utils'
+
+const varEmpty = 'var(--un-empty,/*!*/ /*!*/)'
 
 const persentWithDefault = (defaultValue = '1') => (str?: string) => {
   const v = str ? h.bracket.percent(str) : defaultValue
@@ -17,30 +19,30 @@ const toFilter = (varName: string, resolver: (str: string, theme: Theme) => stri
 const filterContnet = 'var(--un-blur) var(--un-brightness) var(--un-contrast) var(--un-grayscale) var(--un-hue-rotate) var(--un-invert) var(--un-saturate) var(--un-sepia) var(--un-drop-shadow)'
 
 const filter = {
-  '--un-blur': 'var(--un-empty,/*!*/ /*!*/)',
-  '--un-brightness': 'var(--un-empty,/*!*/ /*!*/)',
-  '--un-contrast': 'var(--un-empty,/*!*/ /*!*/)',
-  '--un-grayscale': 'var(--un-empty,/*!*/ /*!*/)',
-  '--un-hue-rotate': 'var(--un-empty,/*!*/ /*!*/)',
-  '--un-invert': 'var(--un-empty,/*!*/ /*!*/)',
-  '--un-saturate': 'var(--un-empty,/*!*/ /*!*/)',
-  '--un-sepia': 'var(--un-empty,/*!*/ /*!*/)',
-  '--un-drop-shadow': 'var(--un-empty,/*!*/ /*!*/)',
+  '--un-blur': varEmpty,
+  '--un-brightness': varEmpty,
+  '--un-contrast': varEmpty,
+  '--un-grayscale': varEmpty,
+  '--un-hue-rotate': varEmpty,
+  '--un-invert': varEmpty,
+  '--un-saturate': varEmpty,
+  '--un-sepia': varEmpty,
+  '--un-drop-shadow': varEmpty,
   'filter': filterContnet,
 }
 
 const backdropFilterContent = 'var(--un-backdrop-blur) var(--un-backdrop-brightness) var(--un-backdrop-contrast) var(--un-backdrop-grayscale) var(--un-backdrop-hue-rotate) var(--un-backdrop-invert) var(--un-backdrop-saturate) var(--un-backdrop-sepia)'
 
 const backdropFilter = {
-  '--un-backdrop-blur': 'var(--un-empty,/*!*/ /*!*/)',
-  '--un-backdrop-brightness': 'var(--un-empty,/*!*/ /*!*/)',
-  '--un-backdrop-contrast': 'var(--un-empty,/*!*/ /*!*/)',
-  '--un-backdrop-grayscale': 'var(--un-empty,/*!*/ /*!*/)',
-  '--un-backdrop-hue-rotate': 'var(--un-empty,/*!*/ /*!*/)',
-  '--un-backdrop-invert': 'var(--un-empty,/*!*/ /*!*/)',
-  '--un-backdrop-saturate': 'var(--un-empty,/*!*/ /*!*/)',
-  '--un-backdrop-sepia': 'var(--un-empty,/*!*/ /*!*/)',
-  '--un-backdrop-drop-shadow': 'var(--un-empty,/*!*/ /*!*/)',
+  '--un-backdrop-blur': varEmpty,
+  '--un-backdrop-brightness': varEmpty,
+  '--un-backdrop-contrast': varEmpty,
+  '--un-backdrop-grayscale': varEmpty,
+  '--un-backdrop-hue-rotate': varEmpty,
+  '--un-backdrop-invert': varEmpty,
+  '--un-backdrop-saturate': varEmpty,
+  '--un-backdrop-sepia': varEmpty,
+  '--un-backdrop-drop-shadow': varEmpty,
   '-webkit-backdrop-filter': backdropFilterContent,
   'filter': backdropFilterContent,
 }
