@@ -26,7 +26,7 @@ export const animations: Rule[] = [
     }
   }],
   [
-    /^animation-(?:fill-)?mode-(.+)$/, ([, d]) => ({
+    /^animation-(?:fill-)?mode-(none|forwards|backwards|both|inherit|initial|revert|unset)$/, ([, d]) => ({
       'animation-fill-mode': d.replace(/\-/g, ', '),
     }),
   ],
