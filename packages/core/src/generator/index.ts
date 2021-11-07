@@ -9,13 +9,13 @@ export class UnoGenerator {
   private _cache = new Map<string, StringifiedUtil[] | null>()
   public config: ResolvedConfig
   public excluded = new Set<string>()
-  private onTrigger!: (
+  private onTrigger: (
     className: string,
     event: {
       type: Type,
       varients: any,
     }
-  ) => void
+  ) => void = () => {}
 
   constructor(
     public userConfig: UserConfig = {},
