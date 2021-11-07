@@ -41,6 +41,7 @@ const variablesAbbrMap: Record<string, string> = {
   'self': 'align-self',
   'object': 'object-fit',
   'mix-blend': 'mix-blend-mode',
+  'animate-speed': 'animation-speed',
 }
 
 export const cssVariables: Rule[] = [[
