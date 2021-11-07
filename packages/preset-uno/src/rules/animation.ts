@@ -10,7 +10,7 @@ const keyframes: any = {
 
 // https://windicss.org/plugins/community/animations.html
 export const animations: Rule[] = [
-  [/^animate-(none|spin|ping|pulse|bounce)$/, ([, name], { constructCSS }) => {
+  [/^animate-(spin|ping|pulse|bounce)$/, ([, name], { constructCSS }) => {
     return `${keyframes[name]}\n${constructCSS({ animation: `${name} 1s linear infinite` })}`
   }],
   ['animate-none', { animation: 'none' }],
