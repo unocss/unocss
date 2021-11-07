@@ -92,7 +92,7 @@ export const textDecorationOffsets: Rule<Theme>[] = [
 
 export const textIndents: Rule<Theme>[] = [
   [/^indent-?([^-]*)$/, ([, s], { theme }) => {
-    const v = theme.textIndent?.[s] || h.bracket.fraction.rem(s) || theme.textIndent?.DEFAULT
+    const v = theme.textIndent?.[s || 'DEFAULT'] || h.bracket.fraction.rem(s)
     if (v != null)
       return { 'text-indent': v }
   }],
@@ -100,8 +100,7 @@ export const textIndents: Rule<Theme>[] = [
 
 export const textStrokeWidths: Rule<Theme>[] = [
   [/^text-stroke-?([^-]*)$/, ([, s], { theme }) => {
-    const num = h.bracket.number(s)
-    const v = theme.textStrokeWidth?.[s] || (num && `${num}px`) || h.bracket.rem(s) || theme.textStrokeWidth?.DEFAULT
+    const v = theme.textStrokeWidth?.[s || 'DEFAULT'] || h.bracket.px(s)
     if (v != null)
       return { '-webkit-text-stroke-width': v }
   }],
