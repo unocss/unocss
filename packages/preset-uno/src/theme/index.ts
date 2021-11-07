@@ -1,6 +1,7 @@
 import { colors } from './colors'
 import { fontFamily, fontSize, letterSpacing, lineHeight, textIndent, textStrokeWidth } from './font'
 import { breakpoints, borderRadius, textShadow } from './misc'
+import { blur, dropShadow } from './filters'
 
 export * from './colors'
 
@@ -15,6 +16,9 @@ export interface Theme {
   textShadow?: Record<string, string>
   textIndent?: Record<string, string>
   textStrokeWidth?: Record<string, string>
+  // filters
+  blur?: Record<string, string>
+  dropShadow?: Record<string, string | string[]>
 }
 
 export const theme: Theme = {
@@ -28,4 +32,6 @@ export const theme: Theme = {
   textShadow,
   textIndent,
   textStrokeWidth,
+  blur,
+  dropShadow,
 }

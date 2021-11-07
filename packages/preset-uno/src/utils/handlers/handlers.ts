@@ -51,8 +51,8 @@ export function fraction(str: string) {
 }
 
 export function bracket(str: string) {
-  if (str[0] === '[' && str[str.length - 1] === ']')
-    return str.slice(1, -1)
+  if (str && str[0] === '[' && str[str.length - 1] === ']')
+    return str.slice(1, -1).replace(/_/g, ' ')
 }
 
 export function cssvar(str: string) {

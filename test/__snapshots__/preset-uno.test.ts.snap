@@ -231,8 +231,45 @@ exports[`targets 1`] = `
 .transition-property-all{transition-property:all;}
 .transition-property-width{transition-property:width;}
 .filter{--un-blur:var(--un-empty,/*!*/ /*!*/);--un-brightness:var(--un-empty,/*!*/ /*!*/);--un-contrast:var(--un-empty,/*!*/ /*!*/);--un-grayscale:var(--un-empty,/*!*/ /*!*/);--un-hue-rotate:var(--un-empty,/*!*/ /*!*/);--un-invert:var(--un-empty,/*!*/ /*!*/);--un-saturate:var(--un-empty,/*!*/ /*!*/);--un-sepia:var(--un-empty,/*!*/ /*!*/);--un-drop-shadow:var(--un-empty,/*!*/ /*!*/);filter:var(--un-blur) var(--un-brightness) var(--un-contrast) var(--un-grayscale) var(--un-hue-rotate) var(--un-invert) var(--un-saturate) var(--un-sepia) var(--un-drop-shadow);}
-.blur-4{--un-blur:blur(4px);filter:var(--un-blur) var(--un-brightness) var(--un-contrast) var(--un-grayscale) var(--un-hue-rotate) var(--un-invert) var(--un-saturate) var(--un-sepia) var(--un-drop-shadow);}
-.invert{--un-invert:invert(100%);}
+.backdrop-filter{--un-backdrop-blur:var(--un-empty,/*!*/ /*!*/);--un-backdrop-brightness:var(--un-empty,/*!*/ /*!*/);--un-backdrop-contrast:var(--un-empty,/*!*/ /*!*/);--un-backdrop-grayscale:var(--un-empty,/*!*/ /*!*/);--un-backdrop-hue-rotate:var(--un-empty,/*!*/ /*!*/);--un-backdrop-invert:var(--un-empty,/*!*/ /*!*/);--un-backdrop-saturate:var(--un-empty,/*!*/ /*!*/);--un-backdrop-sepia:var(--un-empty,/*!*/ /*!*/);--un-backdrop-drop-shadow:var(--un-empty,/*!*/ /*!*/);-webkit-backdrop-filter:var(--un-backdrop-blur) var(--un-backdrop-brightness) var(--un-backdrop-contrast) var(--un-backdrop-grayscale) var(--un-backdrop-hue-rotate) var(--un-backdrop-invert) var(--un-backdrop-saturate) var(--un-backdrop-sepia);filter:var(--un-backdrop-blur) var(--un-backdrop-brightness) var(--un-backdrop-contrast) var(--un-backdrop-grayscale) var(--un-backdrop-hue-rotate) var(--un-backdrop-invert) var(--un-backdrop-saturate) var(--un-backdrop-sepia);}
+.backdrop-blur{--un-backdrop-blur:blur(8px);}
+.backdrop-blur-4{--un-backdrop-blur:blur(4px);}
+.backdrop-blur-md{--un-backdrop-blur:blur(12px);}
+.blur{--un-blur:blur(8px);}
+.blur-4{--un-blur:blur(4px);}
+.blur-md{--un-blur:blur(12px);}
+.backdrop-brightness-0{--un-backdrop-brightness:brightness(0);}
+.backdrop-brightness-60{--un-backdrop-brightness:brightness(0.6);}
+.brightness-0{--un-brightness:brightness(0);}
+.brightness-60{--un-brightness:brightness(0.6);}
+.backdrop-contrast-125{--un-backdrop-contrast:contrast(1.25);}
+.contrast-125{--un-contrast:contrast(1.25);}
+.drop-shadow{--un-drop-shadow:drop-shadow(drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1)) drop-shadow(0 1px 1px rgba(0, 0, 0, 0.06)));}
+.drop-shadow-\\\\[0_4px_3px_\\\\#000\\\\]{--un-drop-shadow:drop-shadow(drop-shadow(0 4px 3px #000));}
+.drop-shadow-md{--un-drop-shadow:drop-shadow(drop-shadow(0 4px 3px rgba(0, 0, 0, 0.07)) drop-shadow(0 2px 2px rgba(0, 0, 0, 0.06)));}
+.drop-shadow-none{--un-drop-shadow:drop-shadow(drop-shadow(0 0 #0000));}
+.backdrop-grayscale{--un-backdrop-grayscale:grayscale(1);}
+.backdrop-grayscale-90{--un-backdrop-grayscale:grayscale(0.9);}
+.grayscale{--un-grayscale:grayscale(1);}
+.grayscale-90{--un-grayscale:grayscale(0.9);}
+.-backdrop-hue-rotate-90{--un-backdrop-hue-rotate:hue-rotate(-90deg);}
+.-hue-rotate-90{--un-hue-rotate:hue-rotate(-90deg);}
+.backdrop-hue-rotate-0{--un-backdrop-hue-rotate:hue-rotate(undefineddeg);}
+.backdrop-hue-rotate-360{--un-backdrop-hue-rotate:hue-rotate(360deg);}
+.hue-rotate-0{--un-hue-rotate:hue-rotate(undefineddeg);}
+.hue-rotate-360{--un-hue-rotate:hue-rotate(360deg);}
+.backdrop-invert{--un-backdrop-invert:invert(1);}
+.backdrop-invert-90{--un-backdrop-invert:invert(0.9);}
+.invert{--un-invert:invert(1);}
+.invert-90{--un-invert:invert(0.9);}
+.backdrop-saturate{--un-backdrop-saturate:saturate(0);}
+.backdrop-saturate-30{--un-backdrop-saturate:saturate(0.3);}
+.saturate{--un-saturate:saturate(0);}
+.saturate-30{--un-saturate:saturate(0.3);}
+.backdrop-sepia{--un-backdrop-sepia:sepia(1);}
+.backdrop-sepia-80{--un-backdrop-sepia:sepia(0.8);}
+.sepia{--un-sepia:sepia(1);}
+.sepia-80{--un-sepia:sepia(0.8);}
 .border-collapse{border-collapse:collapse;}
 .border-separate{border-collapse:separate;}
 .caption-top{caption-side:top;}
