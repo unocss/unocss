@@ -1,7 +1,8 @@
-import { createGenerator, presetUno } from 'unocss'
+import { createGenerator } from '@unocss/core'
 import presetIcons from '@unocss/preset-icons'
+import presetUno from '@unocss/preset-uno'
 
-describe('attributify', () => {
+describe('preset-icons', () => {
   const fixture1 = `
 <button class="i-carbon-sun dark:i-carbon-moon" />
 `

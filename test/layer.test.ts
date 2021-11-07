@@ -1,4 +1,4 @@
-import { createGenerator } from 'unocss'
+import { createGenerator } from '@unocss/core'
 
 describe('layers', () => {
   test('static', async() => {

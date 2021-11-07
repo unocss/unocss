@@ -1,4 +1,5 @@
-import { createGenerator, escapeSelector, presetUno } from 'unocss'
+import { createGenerator, escapeSelector } from '@unocss/core'
+import presetUno from '@unocss/preset-uno'
 
 const targets = [
   '-gap-y-5',

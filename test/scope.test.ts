@@ -1,4 +1,5 @@
-import { createGenerator, presetUno } from 'unocss'
+import { createGenerator } from '@unocss/core'
+import presetUno from '@unocss/preset-uno'
 
 export const fixture = new Set([
   'pl-10px',

@@ -1,4 +1,4 @@
-import { createGenerator, e } from 'unocss'
+import { createGenerator, e } from '@unocss/core'
 
 describe('custom-raw', () => {
   test('basic', async() => {

@@ -1,4 +1,4 @@
-import { createGenerator } from 'unocss'
+import { createGenerator } from '@unocss/core'
 
 describe('preflights', () => {
   test('basic', async() => {

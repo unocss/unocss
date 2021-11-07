@@ -1,4 +1,4 @@
-import { hex2rgba } from 'unocss'
+import { hex2rgba } from '@unocss/core'
 
 describe('color utils', () => {
   it('convert hex to rgb', () => {
