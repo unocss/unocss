@@ -23,7 +23,7 @@ export const margins: Rule[] = [
       return { [`--un-space-${direction}-reverse`]: 1 }
 
     const results = directionSize('margin')(match)?.map((item) => {
-      const value = item[0].endsWith('right')
+      const value = item[0].endsWith('right') || item[0].endsWith('bottom')
         ? `calc(${item[1]} * var(--un-space-${direction}-reverse))`
         : `calc(${item[1]} * calc(1 - var(--un-space-${direction}-reverse)))`
       return [item[0], value] as typeof item
