@@ -1,20 +1,26 @@
 <script setup lang="ts">
-import { info } from '../composables/fetch'
+import { info, moduleTree } from '../composables/fetch'
 </script>
 
 <template>
-  <ul v-if="info" overflow="auto">
-    <li v-for="id of info.modules" :key="id">
-      <RouterLink
-        block
-        font-mono
-        b="b main"
-        p="x3 y2"
-        text-sm
-        :to="`/module/${encodeURIComponent(id)}`"
-      >
-        <ModuleId :id="id" />
-      </Routerlink>
-    </li>
-  </ul>
+  <div v-if="info" overflow="auto" px2 py4>
+    <RouterLink to="/" text-sm m="l-3.7">
+      <div i-carbon-dashboard />
+      <span>
+        Overview
+      </span>
+    </RouterLink>
+    <ModuleTreeNode
+      v-if="Object.keys(moduleTree.workspace.children).length"
+      mt-2
+      :node="moduleTree.workspace"
+      icon="i-carbon-portfolio"
+    />
+    <ModuleTreeNode
+      v-if="Object.keys(moduleTree.root.children).length"
+      mt-2
+      :node="moduleTree.root"
+      icon="i-carbon-vmdk-disk"
+    />
+  </div>
 </template>

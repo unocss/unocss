@@ -5,9 +5,12 @@
 declare module 'vue' {
   export interface GlobalComponents {
     CodeMirror: typeof import('./components/CodeMirror.vue')['default']
+    FileIcon: typeof import('./components/FileIcon.vue')['default']
     ModuleId: typeof import('./components/ModuleId.vue')['default']
     ModuleInfo: typeof import('./components/ModuleInfo.vue')['default']
     ModuleList: typeof import('./components/ModuleList.vue')['default']
+    ModuleTree: typeof import('./components/ModuleTree.vue')['default']
+    ModuleTreeNode: typeof import('./components/ModuleTreeNode.vue')['default']
     NarBar: typeof import('./components/NarBar.vue')['default']
     Overview: typeof import('./components/Overview.vue')['default']
     TitleBar: typeof import('./components/TitleBar.vue')['default']

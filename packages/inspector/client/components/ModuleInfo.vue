@@ -11,7 +11,7 @@ function openEditor() {
 </script>
 
 <template>
-  <div v-if="mod" h-full grid="~ rows-[max-content,1fr]" overflow-hidden>
+  <div v-if="mod" h-full grid="~ rows-[max-content,1fr]" of-hidden>
     <div
       bg-gray4:10
       p-5
@@ -35,10 +35,9 @@ function openEditor() {
         {{ mod.matched.length }}
       </div>
     </div>
-    <div h-full overflow-hidden grid grid-cols-2>
+    <div h-full of-hidden grid grid-cols-2>
       <CodeMirror
         h-full
-        pl1
         :model-value="mod.code"
         :read-only="true"
         :mode="mode"

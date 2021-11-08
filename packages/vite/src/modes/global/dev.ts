@@ -96,8 +96,8 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
       },
       transformIndexHtml: {
         enforce: 'pre',
-        transform(code, { path }) {
-          scan(code, path)
+        transform(code, { filename }) {
+          scan(code, filename)
         },
       },
       resolveId(id) {
