@@ -4,7 +4,7 @@ import { handler as h } from '../utils'
 
 const varEmpty = 'var(--un-empty,/*!*/ /*!*/)'
 
-const persentWithDefault = (defaultValue = '1') => (str?: string) => {
+const percentWithDefault = (defaultValue = '1') => (str?: string) => {
   const v = str ? h.bracket.percent(str) : defaultValue
   return v && parseFloat(v) <= 1 ? v : undefined
 }
@@ -63,9 +63,9 @@ export const filters: Rule<Theme>[] = [
     if (v)
       return toArray(v).map(v => `drop-shadow(${v})`).join(' ')
   })],
-  [/^(backdrop-)?grayscale(?:-(\d+))?$/, toFilter('grayscale', persentWithDefault())],
+  [/^(backdrop-)?grayscale(?:-(\d+))?$/, toFilter('grayscale', percentWithDefault())],
   [/^(backdrop-)?hue-rotate-(\d+)$/, toFilter('hue-rotate', s => `${h.bracket.number(s)}deg`)],
-  [/^(backdrop-)?invert(?:-(\d+))?$/, toFilter('invert', persentWithDefault())],
-  [/^(backdrop-)?saturate(?:-(\d+))?$/, toFilter('saturate', persentWithDefault('0'))],
-  [/^(backdrop-)?sepia(?:-(\d+))?$/, toFilter('sepia', persentWithDefault())],
+  [/^(backdrop-)?invert(?:-(\d+))?$/, toFilter('invert', percentWithDefault())],
+  [/^(backdrop-)?saturate(?:-(\d+))?$/, toFilter('saturate', percentWithDefault('0'))],
+  [/^(backdrop-)?sepia(?:-(\d+))?$/, toFilter('sepia', percentWithDefault())],
 ]
