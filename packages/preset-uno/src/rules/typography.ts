@@ -76,7 +76,7 @@ export const tabSizes: Rule<Theme>[] = [
 
 export const textDecorationLengths: Rule<Theme>[] = [
   [/^underline-([^-]+)$/, ([, s]) => {
-    const v = h.bracket.number.rem(s)
+    const v = s === 'auto' ? s : h.bracket.px(s)
     if (v != null)
       return { 'text-decoration-thickness': v }
   }],
@@ -84,7 +84,7 @@ export const textDecorationLengths: Rule<Theme>[] = [
 
 export const textDecorationOffsets: Rule<Theme>[] = [
   [/^underline-offset-([^-]+)$/, ([, s]) => {
-    const v = h.bracket.number.rem(s)
+    const v = s === 'auto' ? s : h.bracket.px(s)
     if (v != null)
       return { 'text-underline-offset': v }
   }],
