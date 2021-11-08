@@ -97,7 +97,10 @@ export const imageRenderings: Rule[] = [
 ]
 
 export const appearance: Rule[] = [
-  ['appearance-none', { 'appearance-none': 'none' }],
+  ['appearance-none', {
+    'appearance': 'none',
+    '-webkit-appearance': 'none',
+  }],
 ]
 
 export const placeholder: Rule[] = [
