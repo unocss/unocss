@@ -119,7 +119,7 @@ onMounted(() => {
         flex-auto
         mode="htmlmixed"
         border="l gray-400/20"
-        :matched="output.matched"
+        :matched="output?.matched || new Set()"
       />
     </Pane>
     <Pane :min-size="titleHeightPercent" :size="panelSizes[1]" flex flex-col>
@@ -172,9 +172,6 @@ onMounted(() => {
 </template>
 
 <style>
-.highlighted {
-  border-bottom: 1px dashed currentColor;
-}
 .splitpanes.loading .splitpanes__pane {
   transition: none !important;
 }

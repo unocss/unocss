@@ -16,7 +16,7 @@ export const customConfigError = ref<Error>()
 
 export const uno = createGenerator({}, defaultConfig.value)
 export const options = useStorage('unocss-options', {})
-export const output = shallowRef<GenerateResult>({ css: '', matched: new Set<string>() })
+export const output = shallowRef<GenerateResult>()
 
 debouncedWatch(
   customConfigRaw,

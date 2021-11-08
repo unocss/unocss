@@ -1,12 +1,12 @@
 import type { Plugin } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
 import { defaultExclude, defaultInclude, getPath } from '../../utils'
-import { Context } from '../../context'
+import { UnocssPluginContext } from '../../context'
 import { resolveId, ALL_LAYERS } from './shared'
 
 const PLACEHOLDER_RE = /#--unocss--\s*{\s*layer\s*:\s*(.+?);?\s*}/g
 
-export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: Context): Plugin[] {
+export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: UnocssPluginContext): Plugin[] {
   const filter = createFilter(
     config.include || defaultInclude,
     config.exclude || defaultExclude,

@@ -1,6 +1,7 @@
 import { Plugin } from 'vite'
 import { createGenerator, UserConfigDefaults } from '@unocss/core'
 import { loadConfig } from '@unocss/config'
+import UnocssInspector from '@unocss/inspector'
 import { createContext } from './context'
 import { ChunkModeBuildPlugin } from './modes/chunk-build'
 import { GlobalModeDevPlugin, GlobalModePlugin } from './modes/global'
@@ -15,6 +16,8 @@ export * from './modes/global'
 export * from './modes/per-module'
 export * from './modes/vue-scoped'
 
+export { UnocssPluginContext } from './context'
+
 export default function UnocssPlugin(
   configOrPath?: UnocssPluginOptions | string,
   defaults: UserConfigDefaults = {},
@@ -28,6 +31,9 @@ export default function UnocssPlugin(
   const plugins = [
     ConfigHMRPlugin(ctx),
   ]
+
+  if (config.inspector !== false)
+    plugins.push(UnocssInspector(ctx))
 
   if (mode === 'per-module') {
     plugins.push(PerModuleModePlugin(ctx))

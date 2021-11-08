@@ -1,0 +1,67 @@
+{
+  "name": "@unocss/inspector",
+  "version": "0.6.5",
+  "description": "The inspector UI for UnoCSS",
+  "keywords": [
+    "unocss",
+    "inspector",
+    "debugger"
+  ],
+  "homepage": "https://github.com/antfu/unocss/tree/main/packages/inspector#readme",
+  "bugs": {
+    "url": "https://github.com/antfu/unocss/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antfu/unocss.git",
+    "directory": "packages/inspector"
+  },
+  "funding": "https://github.com/sponsors/antfu",
+  "license": "MIT",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup --clean && vite build",
+    "dev": "tsup --watch node",
+    "play": "vite",
+    "prepublishOnly": "nr build"
+  },
+  "devDependencies": {
+    "@iconify-json/carbon": "^1.0.9",
+    "@types/codemirror": "^5.60.5",
+    "@unocss/config": "workspace:*",
+    "@unocss/core": "workspace:*",
+    "@unocss/preset-attributify": "workspace:*",
+    "@unocss/preset-icons": "workspace:*",
+    "@unocss/preset-uno": "workspace:*",
+    "@unocss/vite": "workspace:*",
+    "@vitejs/plugin-vue": "^1.9.4",
+    "@vueuse/core": "^6.8.0",
+    "codemirror": "^5.63.3",
+    "codemirror-theme-vars": "^0.1.1",
+    "prettier": "^2.4.1",
+    "splitpanes": "^3.0.6",
+    "unocss": "workspace:*",
+    "unplugin-auto-import": "^0.4.13",
+    "unplugin-vue-components": "^0.17.2",
+    "vite": "^2.6.13",
+    "vite-plugin-pages": "^0.18.2",
+    "vue": "^3.2.21",
+    "vue-router": "^4.0.12"
+  },
+  "dependencies": {
+    "sirv": "^1.0.18"
+  }
+}

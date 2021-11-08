@@ -6,7 +6,7 @@ const iframe = ref<HTMLIFrameElement>()
 
 const iframeData = reactive({
   source: 'unocss-playground',
-  css: computed(() => output.value.css),
+  css: computed(() => output.value?.css || ''),
   html: inputHTML,
   dark: isDark,
 })

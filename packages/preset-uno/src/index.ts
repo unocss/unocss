@@ -6,6 +6,7 @@ import { variants } from './variants'
 export { theme, colors } from './theme'
 
 export const preset = (): Preset => ({
+  name: '@unocss/preset-uno',
   theme,
   rules,
   variants,

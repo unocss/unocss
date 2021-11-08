@@ -1,12 +1,12 @@
 import type { Plugin, ViteDevServer } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
 import { defaultExclude, defaultInclude, getHash } from '../utils'
-import { Context } from '../context'
+import { UnocssPluginContext } from '../context'
 
 const VIRTUAL_PREFIX = '/@unocss/'
 const SCOPE_IMPORT_RE = / from (['"])(@unocss\/scope)\1/
 
-export function PerModuleModePlugin({ uno, config }: Context): Plugin {
+export function PerModuleModePlugin({ uno, config }: UnocssPluginContext): Plugin {
   const moduleMap = new Map<string, [string, string]>()
   let server: ViteDevServer | undefined
 
