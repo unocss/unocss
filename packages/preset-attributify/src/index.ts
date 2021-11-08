@@ -19,6 +19,7 @@ const preset = (options?: AttributifyOptions): Preset => {
     extractors.unshift(extractorSplit)
 
   return {
+    name: '@unocss/preset-attributify',
     variants,
     extractors,
   }

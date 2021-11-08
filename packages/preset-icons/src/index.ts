@@ -58,6 +58,7 @@ export const preset = ({
   layer = 'icons',
 }: Options = {}): Preset => {
   return {
+    name: '@unocss/preset-icons',
     enforce: 'pre',
     layers: {
       icons: -10,

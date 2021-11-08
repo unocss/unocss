@@ -164,6 +164,7 @@ export interface ConfigBase<Theme extends {} = {}> {
 }
 
 export interface Preset extends ConfigBase {
+  name: string
   enforce?: 'pre' | 'post'
 }
 

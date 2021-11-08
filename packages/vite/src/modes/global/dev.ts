@@ -1,12 +1,12 @@
 import type { Plugin, ViteDevServer } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
 import { defaultExclude, defaultInclude, getPath } from '../../utils'
-import { Context } from '../../context'
+import { UnocssPluginContext } from '../../context'
 import { READY_CALLBACK_DEFAULT, resolveId, ALL_LAYERS } from './shared'
 
 const WARN_TIMEOUT = 2000
 
-export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }: Context): Plugin[] {
+export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }: UnocssPluginContext): Plugin[] {
   const servers: ViteDevServer[] = []
 
   const filter = createFilter(

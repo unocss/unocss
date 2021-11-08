@@ -36,4 +36,4 @@ export function createContext(
   }
 }
 
-export type Context = ReturnType<typeof createContext>
+export type UnocssPluginContext = ReturnType<typeof createContext>

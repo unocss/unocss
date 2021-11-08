@@ -15,6 +15,8 @@ export * from './modes/global'
 export * from './modes/per-module'
 export * from './modes/vue-scoped'
 
+export { UnocssPluginContext } from './context'
+
 export default function UnocssPlugin(
   configOrPath?: UnocssPluginOptions | string,
   defaults: UserConfigDefaults = {},

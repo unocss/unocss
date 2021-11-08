@@ -1,8 +1,8 @@
 import { loadConfig } from '@unocss/config'
 import { Plugin } from 'vite'
-import { Context } from './context'
+import { UnocssPluginContext } from './context'
 
-export function ConfigHMRPlugin({ uno, configFilepath: filepath, invalidate, tokens, modules }: Context): Plugin | undefined {
+export function ConfigHMRPlugin({ uno, configFilepath: filepath, invalidate, tokens, modules }: UnocssPluginContext): Plugin | undefined {
   return {
     name: 'unocss:config',
     configureServer(server) {

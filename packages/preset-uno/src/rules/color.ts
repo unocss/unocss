@@ -114,8 +114,8 @@ export const bgColors: Rule[] = [
 ]
 
 export const borderColors: Rule[] = [
-  [/^border-(.+)$/, colorResolver('border-color', 'border')],
-  [/^border-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-border-opacity': h.bracket.percent(opacity) })],
+  [/^(?:border|b)-(.+)$/, colorResolver('border-color', 'border')],
+  [/^(?:border|b)-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-border-opacity': h.bracket.percent(opacity) })],
 ]
 
 export const ringColors: Rule[] = [
