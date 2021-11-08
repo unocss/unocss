@@ -43,7 +43,7 @@ const backdropFilter = {
   '--un-backdrop-saturate': varEmpty,
   '--un-backdrop-sepia': varEmpty,
   '-webkit-backdrop-filter': backdropFilterContent,
-  'filter': backdropFilterContent,
+  'backdrop-filter': backdropFilterContent,
 }
 
 export const filters: Rule<Theme>[] = [
