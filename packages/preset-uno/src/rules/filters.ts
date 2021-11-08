@@ -42,7 +42,6 @@ const backdropFilter = {
   '--un-backdrop-invert': varEmpty,
   '--un-backdrop-saturate': varEmpty,
   '--un-backdrop-sepia': varEmpty,
-  '--un-backdrop-drop-shadow': varEmpty,
   '-webkit-backdrop-filter': backdropFilterContent,
   'filter': backdropFilterContent,
 }
