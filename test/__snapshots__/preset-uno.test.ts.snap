@@ -102,9 +102,12 @@ exports[`targets 1`] = `
 .underline-dashed{text-decoration-style:dashed;}
 .underline-red-500{-webkit-text-decoration-color:rgba(239,68,68,var(--un-line-opacity));--un-line-opacity:1;text-decoration-color:rgba(239,68,68,var(--un-line-opacity));}
 .underline-op80{--un-line-opacity:0.8;}
-.underline-5{text-decoration-thickness:5;}
+.underline-1rem{text-decoration-thickness:1rem;}
+.underline-5{text-decoration-thickness:5px;}
 .underline-auto{text-decoration-thickness:auto;}
 .underline-offset-0\\\\.6rem{text-underline-offset:0.6rem;}
+.underline-offset-4{text-underline-offset:4px;}
+.underline-offset-auto{text-underline-offset:auto;}
 .text-stroke-6{-webkit-text-stroke-width:6px;}
 .text-stroke-sm{-webkit-text-stroke-width:thin;}
 .text-stroke-blue-500{--un-text-stroke-opacity:1;-webkit-text-stroke-color:rgba(59,130,246,var(--un-text-stroke-opacity));}
