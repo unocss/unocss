@@ -1,14 +1,21 @@
-# UnoCSS
+<p align="center">
+<img src="https://raw.githubusercontent.com/antfu/unocss/main/playground/public/icon.svg" style="width:100px;" />
+</p>
 
+<h1 align="center">UnoCSS</h1>
+
+<p align="center">
 The instant on-demand Atomic CSS engine.
+</p>
 
-[![NPM version](https://img.shields.io/npm/v/unocss?color=a1b858&label=)](https://www.npmjs.com/package/unocss)
-
-> 💡 I highly recommend reading this blog post - [**Reimagine Atomic CSS**](https://antfu.me/posts/reimagine-atomic-css) for the story behind this tool.
-
-###### Try it!
-
-[🤹‍♂️ Online Playground](https://unocss.antfu.me/)
+<p align="center">
+<a href="https://www.npmjs.com/package/unocss"><img src="https://img.shields.io/npm/v/unocss?color=c95f8b&amp;label=" alt="NPM version"></a></p>
+<blockquote>
+<p>💡 I highly recommend reading this blog post - <a href="https://antfu.me/posts/reimagine-atomic-css"><strong>Reimagine Atomic CSS</strong></a> for the story behind UnoCSS.</p>
+</blockquote>
+<br>
+<p align="center"><a href="https://unocss.antfu.me/">🤹‍♂️ Online Playground</a></p>
+<br>
 
 ## Features
 
@@ -16,10 +23,12 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 
 - [Fully customizable](#configurations) - no core utilities, all functionalities are provided via presets.
 - No parsing, no AST, no scanning, it's **INSTANT** (200x faster than Windi CSS or Tailwind JIT)
-- &lt;3kb min+gzip - zero deps and browser friendly.
+- ~3.5kb min+gzip - zero deps and browser friendly.
 - [Shortcuts](#shortcuts) - aliasing utilities, dynamically.
 - [Attributify Mode](https://github.com/antfu/unocss/tree/main/packages/preset-attributify/) - group utilities in attributes
 - [Pure CSS Icons](https://github.com/antfu/unocss/tree/main/packages/preset-icons/) - use any icon as a single class.
+- [Inspector](#inspector) - inspect and debug interatively.
+- [CSS-in-JS Runtime version](https://github.com/antfu/unocss/tree/main/packages/runtime)
 - [CSS Scoping](#css-scoping)
 - Code-splitting for CSS - ships minimal CSS for MPA.
 - Library friendly - ships atomic styles with your component libraries and safely scoped.
