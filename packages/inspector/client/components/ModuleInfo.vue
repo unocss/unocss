@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Splitpanes, Pane } from 'splitpanes'
 import { fetchModule } from '../composables/fetch'
 
 const props = defineProps<{ id: string }>()
@@ -32,17 +33,42 @@ function openEditor() {
         <div op50>
           CSS Size
         </div>
-        {{ ((mod?.gzipSize || 0) / 1024).toFixed(2) }} KiB <span op50>gzipped</span>
+        {{ ((mod?.gzipSize || 0) / 1024).toFixed(2) }} KiB
+        <span op50>gzipped</span>
       </div>
     </StatusBar>
-    <div h-full of-hidden grid grid-cols-2>
-      <CodeMirror
-        h-full
-        :model-value="mod.code"
-        :read-only="true"
-        :mode="mode"
-        :matched="mod.matched"
-      />
+    <Splitpanes flex h-full w-full>
+      <Pane of-hidden border-gray-2 border-r-1>
+        <CodeMirror
+          min-size="5"
+          h-full
+          :model-value="mod.code"
+          :read-only="true"
+          :mode="mode"
+          :matched="mod.matched"
+        />
+      </Pane>
+      <Pane>
+        <CodeMirror
+          h-full
+          :model-value="mod.code"
+          :read-only="true"
+          :mode="mode"
+          :matched="mod.matched"
+        />
+      </Pane>
+    </Splitpanes>
+    <!-- <Splitpanes min-size="5" h-full flex :push-other-panes="false">
+      <Pane>
+        <CodeMirror
+          h-full
+          :model-value="mod.code"
+          :read-only="true"
+          :mode="mode"
+          :matched="mod.matched"
+        />
+      </Pane>
+
       <CodeMirror
         h-full
         b="l main"
@@ -50,6 +76,8 @@ function openEditor() {
         :read-only="true"
         mode="css"
       />
-    </div>
+    </Splitpanes> -->
+    <!-- <div h-full of-hidden grid grid-cols-2> -->
+    <!-- </div> -->
   </div>
 </template>

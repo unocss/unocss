@@ -19,6 +19,7 @@ declare module 'vue' {
     Sidebar: typeof import('./components/Sidebar.vue')['default']
     StatusBar: typeof import('./components/StatusBar.vue')['default']
     TitleBar: typeof import('./components/TitleBar.vue')['default']
+    UploadSection: typeof import('./components/UploadSection.vue')['default']
   }
 }
 

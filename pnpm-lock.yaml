@@ -164,9 +164,11 @@ importers:
       '@unocss/vite': workspace:*
       gzip-size: ^6.0.0
       sirv: ^1.0.18
+      splitpanes: ^3.0.6
     dependencies:
       gzip-size: 6.0.0
       sirv: 1.0.18
+      splitpanes: 3.0.6
     devDependencies:
       '@unocss/core': link:../core
       '@unocss/preset-attributify': link:../preset-attributify
@@ -5360,7 +5362,6 @@ packages:
 
   /splitpanes/3.0.6:
     resolution: {integrity: sha512-Ogxc+e2te4Tp5IpMwjOPO1ZvXUf2PsuEoyZhF9H5Hp6XOB0mLg/OnEZFaK2MxT7Q3O+WSEKE7CeOoTC+4zsQ6A==}
-    dev: true
 
   /sprintf-js/1.0.3:
     resolution: {integrity: sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=}
