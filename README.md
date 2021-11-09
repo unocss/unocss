@@ -429,6 +429,14 @@ rules: [
 ]
 ```
 
+### Prefix
+
+To apply a global prefix to all utilities and shortcuts, you can specify the `prefix` property in your config.
+
+```ts
+prefix: 'uno-'
+```
+
 ### Layers
 
 The orders of CSS will affect their priorities. While we will [retain the order of rules](#ordering), sometimes you may want to group some utilities to have more explicit control of their orders.
