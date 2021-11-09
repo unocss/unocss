@@ -213,7 +213,7 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
 export interface UserConfig<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions {}
 export interface UserConfigDefaults<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme> {}
 
-export interface ResolvedConfig extends Omit<Required<UserConfig>, 'presets' | 'rules' | 'shortcuts'> {
+export interface ResolvedConfig extends Omit<Required<UserConfig>, 'rules' | 'shortcuts'> {
   shortcuts: Shortcut[]
   variants: VariantObject[]
   rulesSize: number

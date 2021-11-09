@@ -16,6 +16,7 @@ declare module 'vue' {
     Repl: typeof import('./components/Repl.vue')['default']
     REPL: typeof import('./components/REPL.vue')['default']
     ReplPlayground: typeof import('./components/ReplPlayground.vue')['default']
+    StatusBar: typeof import('./components/StatusBar.vue')['default']
     TitleBar: typeof import('./components/TitleBar.vue')['default']
   }
 }

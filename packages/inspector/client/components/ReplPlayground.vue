@@ -11,19 +11,14 @@ const { data: result } = fetchRepl(input)
 
 <template>
   <div h-full grid="~ rows-[max-content,1fr]" of-hidden>
-    <div
-      bg-gray4:10
-      p-5
-      b="b main"
-      text="sm gray5"
-    >
-      <div font-bold>
+    <StatusBar>
+      <div>
         REPL Playground
       </div>
-      <div>
+      <div op60>
         Edit your code below to test and play UnoCSS's matching and generating.
       </div>
-    </div>
+    </StatusBar>
     <div h-full of-hidden grid grid-cols-2>
       <CodeMirror
         v-model="input"

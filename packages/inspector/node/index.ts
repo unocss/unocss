@@ -2,6 +2,7 @@ import { resolve } from 'path'
 import sirv from 'sirv'
 import type { Plugin, ResolvedConfig, ViteDevServer } from 'vite'
 import type { UnocssPluginContext } from '@unocss/vite'
+import gzipSize from 'gzip-size'
 import { ModuleInfo, ProjectInfo } from '../types'
 
 export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
@@ -21,7 +22,7 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
           root: config.root,
           modules: Array.from(ctx.modules.keys()),
           configPath: ctx.configFilepath,
-          config: ctx.config,
+          config: ctx.uno.config,
         }
         res.setHeader('Content-Type', 'application/json')
         res.write(JSON.stringify(info, null, 2))
@@ -61,6 +62,19 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
         const mod = {
           ...result,
           matched: Array.from(result.matched),
+        }
+        res.setHeader('Content-Type', 'application/json')
+        res.write(JSON.stringify(mod, null, 2))
+        res.end()
+        return
+      }
+
+      if (req.url.startsWith('/overview')) {
+        const result = await ctx.uno.generate(ctx.tokens)
+        const mod = {
+          ...result,
+          matched: Array.from(result.matched),
+          gzipSize: await gzipSize(result.css),
         }
         res.setHeader('Content-Type', 'application/json')
         res.write(JSON.stringify(mod, null, 2))

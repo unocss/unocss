@@ -39,6 +39,7 @@
     "prepublishOnly": "nr build"
   },
   "dependencies": {
+    "gzip-size": "^6.0.0",
     "sirv": "^1.0.18"
   }
 }

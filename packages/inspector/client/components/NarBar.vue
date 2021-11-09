@@ -10,7 +10,7 @@ const toggleDark = useToggle(isDark)
     flex
     children:my-auto
   >
-    <div>UnoCSS Inspector</div>
+    <div>Inspector</div>
     <div flex-auto />
     <button text-lg i-carbon-sun dark:i-carbon-moon @click="toggleDark()" />
   </nav>

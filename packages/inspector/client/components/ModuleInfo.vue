@@ -12,13 +12,7 @@ function openEditor() {
 
 <template>
   <div v-if="mod" h-full grid="~ rows-[max-content,1fr]" of-hidden>
-    <div
-      bg-gray4:10
-      p-5
-      b="b main"
-      grid="~ cols-2"
-      text="sm gray5"
-    >
+    <StatusBar grid="~ cols-2">
       <div>
         <div op50>
           Module
@@ -34,7 +28,7 @@ function openEditor() {
         </div>
         {{ mod.matched.length }}
       </div>
-    </div>
+    </StatusBar>
     <div h-full of-hidden grid grid-cols-2>
       <CodeMirror
         h-full
@@ -45,8 +39,7 @@ function openEditor() {
       />
       <CodeMirror
         h-full
-        b-l
-        b-main
+        b="l main"
         :model-value="mod.css"
         :read-only="true"
         mode="css"

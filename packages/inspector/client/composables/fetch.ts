@@ -1,12 +1,13 @@
-import { GenerateResult } from '@unocss/core'
 import { Ref, unref } from 'vue'
-import { ModuleInfo, ProjectInfo } from '../../types'
+import { ModuleInfo, OverviewInfo, ProjectInfo, Result } from '../../types'
 
 const API_ROOT = '/__unocss/inspect_api'
 
 export const info = ref<ProjectInfo>()
 
-fetch(API_ROOT).then(r => r.json()).then(r => info.value = r)
+fetch(API_ROOT)
+  .then(r => r.json())
+  .then(r => info.value = r)
 
 export function fetchModule(id: string | Ref<string>) {
   return useFetch(computed(() => `${API_ROOT}/module?id=${encodeURIComponent(unref(id))}`), { refetch: true })
@@ -16,7 +17,12 @@ export function fetchModule(id: string | Ref<string>) {
 export function fetchRepl(input: Ref<string>) {
   const debounced = useDebounce(input, 500)
   return useFetch(computed(() => `${API_ROOT}/repl?token=${encodeURIComponent(debounced.value)}`), { refetch: true })
-    .json<GenerateResult>()
+    .json<Result>()
+}
+
+export function fetchOverview() {
+  return useFetch(computed(() => `${API_ROOT}/overview`), { refetch: true })
+    .json<OverviewInfo>()
 }
 
 export interface ModuleDest {

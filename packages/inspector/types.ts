@@ -1,14 +1,21 @@
-import { GenerateResult, UserConfig } from '@unocss/core'
+import { GenerateResult, ResolvedConfig } from '@unocss/core'
 
 export interface ProjectInfo {
   root: string
   modules: string[]
   configPath?: string
-  config: UserConfig
+  config: ResolvedConfig
 }
 
-export interface ModuleInfo extends Omit<GenerateResult, 'matched'> {
+export interface Result extends Omit<GenerateResult, 'matched'> {
+  matched: string[]
+}
+
+export interface ModuleInfo extends Result {
   code: string
   id: string
-  matched: string[]
+}
+
+export interface OverviewInfo extends Result {
+  gzipSize: number
 }
