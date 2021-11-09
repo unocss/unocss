@@ -158,6 +158,11 @@ export interface ConfigBase<Theme extends {} = {}> {
   layers?: Record<string, number>
 
   /**
+   * A global prefix
+   */
+  prefix?: string | null
+
+  /**
    * Custom function to sort layers.
    */
   sortLayers?: (layers: string[]) => string[]
@@ -189,6 +194,11 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
    * The theme object, will be merged with the theme provides by presets
    */
   theme?: Theme
+
+  /**
+   * A global prefix
+   */
+  prefix?: string | null
 
   /**
    * Layout name of shortcuts

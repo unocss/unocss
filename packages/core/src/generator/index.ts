@@ -72,7 +72,7 @@ export class UnoGenerator {
       }
     }
 
-    await Promise.all(Array.from(tokens).map(async(raw) => {
+    await Promise.all(Array.from(tokens).map(async (raw) => {
       if (matched.has(raw) || this.excluded.has(raw))
         return
 
@@ -90,7 +90,13 @@ export class UnoGenerator {
         return
       }
 
-      const applied = this.matchVariants(raw)
+      const applied = this.matchPrefix(this.matchVariants(raw))
+
+      if (!applied) {
+        this.excluded.add(raw)
+        this._cache.set(raw, null)
+        return
+      }
 
       if (this.isExcluded(applied[1])) {
         this.excluded.add(raw)
@@ -397,6 +403,12 @@ export class UnoGenerator {
         return undefined
       })
       .filter(Boolean) as StringifiedUtil[]
+  }
+
+  matchPrefix(result: VariantMatchedResult): VariantMatchedResult | undefined {
+    if (!this.config.prefix) return result
+    if (result[1].indexOf(this.config.prefix) !== 0) return
+    return [result[0], result[1].substr(this.config.prefix.length), result[2]]
   }
 
   isExcluded(raw: string) {
