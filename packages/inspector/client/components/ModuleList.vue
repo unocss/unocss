@@ -6,8 +6,8 @@ import { info, moduleTree } from '../composables/fetch'
   <div
     v-if="info"
     overflow="auto"
-    p="x2 y4"
-    flex="~ col gap-4"
+    p="y4"
+    flex="~ col gap-3"
   >
     <RouterLink block to="/" text-sm m="l-3.7">
       <div i-carbon-dashboard />
@@ -21,14 +21,17 @@ import { info, moduleTree } from '../composables/fetch'
         REPL
       </span>
     </RouterLink>
+    <div b="b main"></div>
     <ModuleTreeNode
       v-if="Object.keys(moduleTree.workspace.children).length"
       :node="moduleTree.workspace"
+      pl3
       icon="i-carbon-portfolio"
     />
     <ModuleTreeNode
       v-if="Object.keys(moduleTree.root.children).length"
       :node="moduleTree.root"
+      pl3
       icon="i-carbon-vmdk-disk"
     />
   </div>
