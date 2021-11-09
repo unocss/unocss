@@ -9,3 +9,4 @@ dist-ssr
 node_modules
 result.json
 packages/unocss/README.md
+packages/runtime/*.global.js
