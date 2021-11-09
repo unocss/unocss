@@ -1,22 +1,33 @@
 <script setup lang="ts">
-import { getMatchedPositions } from '../logics/pos'
-import { useCodeMirror } from '../logics/codemirror'
+import { getMatchedPositions } from '../composables/pos'
+import { useCodeMirror } from '../composables/codemirror'
 
+const emit = defineEmits<{ (input: any): void }>()
 const props = defineProps<{
   modelValue: string
   mode?: string
   readOnly?: boolean
-  matched?: Set<string>
+  matched?: Set<string> | string[]
 }>()
-const emit = defineEmits<{
-  (input: any): void
-}>()
+
+const modeMap: Record<string, string> = {
+  html: 'htmlmixed',
+  vue: 'htmlmixed',
+  js: 'javascript',
+  mjs: 'javascript',
+  cjs: 'javascript',
+  ts: 'typescript',
+  mts: 'typescript',
+}
 
 const el = ref<HTMLTextAreaElement>()
 const input = useVModel(props, 'modelValue', emit, { passive: true })
 
 onMounted(async() => {
-  const cm = useCodeMirror(el, input, props)
+  const cm = useCodeMirror(el, input, {
+    ...props,
+    mode: modeMap[props.mode || ''] || props.mode,
+  })
   cm.setSize('100%', '100%')
   setTimeout(() => cm.refresh(), 100)
   const decorations: CodeMirror.TextMarker<CodeMirror.MarkerRange>[] = []
@@ -32,15 +43,15 @@ onMounted(async() => {
   function highlight() {
     // clear previous
     decorations.forEach(i => i.clear())
-
-    getMatchedPositions(input.value, props.matched || new Set())
+    getMatchedPositions(props.modelValue, Array.from(props.matched || []))
       .forEach(i => mark(...i))
   }
 
-  watchEffect(() => {
+  watch(() => [props.modelValue, props.matched], async() => {
+    await nextTick()
     if (props.matched)
       highlight()
-  })
+  }, { immediate: true })
 })
 </script>
 
@@ -113,5 +124,9 @@ html.dark {
   --cm-line-number-gutter: #eeeeee;
   --cm-line-highlight-background: #444444;
   --cm-selection-background: #44444450;
+}
+
+.highlighted {
+  border-bottom: 1px dashed currentColor;
 }
 </style>

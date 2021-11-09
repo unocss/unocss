@@ -27,8 +27,8 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: UnocssPlugi
       },
       transformIndexHtml: {
         enforce: 'pre',
-        transform(code, { path }) {
-          tasks.push(scan(code, path))
+        transform(code, { filename }) {
+          tasks.push(scan(code, filename))
         },
       },
       resolveId(id) {

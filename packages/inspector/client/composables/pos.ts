@@ -1,6 +1,6 @@
-import { escapeRegExp as e, isAttributifySelector } from 'unocss'
+import { escapeRegExp as e, isAttributifySelector } from '@unocss/core'
 
-export function getMatchedPositions(code: string, matched: Set<string>) {
+export function getMatchedPositions(code: string, matched: string[]) {
   const result: [number, number][] = []
 
   const attributify: RegExpMatchArray[] = []

@@ -18,16 +18,14 @@ export default defineConfig({
     },
   },
   plugins: [
-    Vue({
-      template: {
-        compilerOptions: {
-          isCustomElement: tag => tag === 'preview-box',
-        },
-      },
-    }),
+    Vue(),
     Unocss(),
     Inspect(),
     Components({
+      dirs: [
+        'src/components',
+        '../packages/inspector/client/components',
+      ],
       dts: 'src/components.d.ts',
     }),
     AutoImport({

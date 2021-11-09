@@ -6,6 +6,13 @@ export interface VitePluginOptions {
   exclude?: FilterPattern
 
   /**
+   * Enable UnoCSS inspector
+   *
+   * @default true
+   */
+  inspector?: boolean
+
+  /**
    * CSS Generation mode
    *
    * - `global` - generate a single CSS sheet for entire App

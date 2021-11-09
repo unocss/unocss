@@ -1,6 +1,8 @@
 import { Plugin } from 'vite'
 import { createGenerator, UserConfigDefaults } from '@unocss/core'
 import { loadConfig } from '@unocss/config'
+// @ts-expect-error why?
+import UnocssInspector from '@unocss/inspector'
 import { createContext } from './context'
 import { ChunkModeBuildPlugin } from './modes/chunk-build'
 import { GlobalModeDevPlugin, GlobalModePlugin } from './modes/global'
@@ -30,6 +32,9 @@ export default function UnocssPlugin(
   const plugins = [
     ConfigHMRPlugin(ctx),
   ]
+
+  if (config.inspector !== false)
+    plugins.push(UnocssInspector(ctx))
 
   if (mode === 'per-module') {
     plugins.push(PerModuleModePlugin(ctx))
