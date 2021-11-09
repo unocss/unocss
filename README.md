@@ -389,6 +389,33 @@ With this, we could have `m-2` applied only when users hover over the element.
 
 The variant system is very powerful and can't be covered fully in this guide, you can check [the default preset's implementation](https://github.com/antfu/unocss/tree/main/packages/preset-uno/src/variants) to see more advanced usages.
 
+### Extend Theme
+
+UnoCSS also supports the theming system that you might be familiar with in Tailwind / Windi. At the user level, you can specify the `theme` property in your config and it will be deep merged to the default theme.
+
+```ts
+theme: {
+  colors: {
+    'very-cool': '#0000ff',
+  },
+  breakpoints: {
+    xs: '320px',
+    sm: '640px',
+  }
+}
+```
+
+To consume the theme in rules:
+
+```ts
+rules: [
+  [/^text-(.*)$/, ([, c], { theme }) => {
+    if (theme.colors[c])
+      return { color: theme.colors[c] }
+  }]
+]
+```
+
 ### Layers
 
 The orders of CSS will affect their priorities. While we will [retain the order of rules](#ordering), sometimes you may want to group some utilities to have more explicit control of their orders.
