@@ -7,6 +7,7 @@ const config: Options = {
     'node/index.ts',
   ],
   target: 'node14',
+  clean: true,
   dts: true,
 }
 

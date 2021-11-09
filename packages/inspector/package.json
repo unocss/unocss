@@ -33,7 +33,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup --clean && vite build",
+    "build": "tsup && vite build",
     "dev": "tsup --watch node",
     "play": "vite",
     "prepublishOnly": "nr build"
