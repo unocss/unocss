@@ -9,12 +9,12 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
   let config: ResolvedConfig
 
   function configureServer(server: ViteDevServer) {
-    server.middlewares.use('/__unocss/inspect', sirv(resolve(__dirname, '../dist/client'), {
+    server.middlewares.use('/__unocss', sirv(resolve(__dirname, '../dist/client'), {
       single: true,
       dev: true,
     }))
 
-    server.middlewares.use('/__unocss/inspect_api', async(req, res, next) => {
+    server.middlewares.use('/__unocss_api', async(req, res, next) => {
       if (!req.url)
         return next()
       if (req.url === '/') {

@@ -6,7 +6,7 @@ import Unocss from 'unocss/vite'
 import Pages from 'vite-plugin-pages'
 
 export default defineConfig(({ command }) => ({
-  base: command === 'build' ? '/__unocss/inspect/' : '/',
+  base: command === 'build' ? '/__unocss' : '/',
   plugins: [
     Unocss('unocss.config.ts'),
     Vue(),

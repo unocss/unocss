@@ -1,7 +1,7 @@
 import { Ref, unref } from 'vue'
 import { ModuleInfo, OverviewInfo, ProjectInfo, Result } from '../../types'
 
-const API_ROOT = '/__unocss/inspect_api'
+const API_ROOT = '/__unocss_api'
 
 export const info = ref<ProjectInfo>()
 

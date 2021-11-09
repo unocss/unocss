@@ -67,8 +67,6 @@ const { data } = fetchOverview()
     </StatusBar>
     <CodeMirror
       h-full
-      b-l
-      b-main
       :model-value="data?.css || '/* empty */'"
       :read-only="true"
       mode="css"

@@ -1,6 +1,6 @@
 
 export const READY_CALLBACK_DEFAULT = '/__unocss_ready'
-export const VIRTUAL_ENTRY_DEFAULT = '/__unocss/entry.css'
+export const VIRTUAL_ENTRY_DEFAULT = '/__unocss_entry.css'
 export const ALL_LAYERS = '__ALL__'
 export const VIRTUAL_ENTRY_ALIAS = [
   /^(?:virtual:)?uno(?::(.+))?\.css(\?.*)?$/,
