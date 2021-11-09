@@ -13,6 +13,9 @@ declare module 'vue' {
     ModuleTreeNode: typeof import('./components/ModuleTreeNode.vue')['default']
     NarBar: typeof import('./components/NarBar.vue')['default']
     Overview: typeof import('./components/Overview.vue')['default']
+    Repl: typeof import('./components/Repl.vue')['default']
+    REPL: typeof import('./components/REPL.vue')['default']
+    ReplPlayground: typeof import('./components/ReplPlayground.vue')['default']
     TitleBar: typeof import('./components/TitleBar.vue')['default']
   }
 }

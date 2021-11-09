@@ -53,6 +53,21 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
         return
       }
 
+      if (req.url.startsWith('/repl')) {
+        const query = new URLSearchParams(req.url.slice(5))
+        const token = query.get('token') || ''
+
+        const result = await ctx.uno.generate(token, { preflights: false })
+        const mod = {
+          ...result,
+          matched: Array.from(result.matched),
+        }
+        res.setHeader('Content-Type', 'application/json')
+        res.write(JSON.stringify(mod, null, 2))
+        res.end()
+        return
+      }
+
       next()
     })
   }

@@ -1,3 +1,4 @@
+import { GenerateResult } from '@unocss/core'
 import { Ref, unref } from 'vue'
 import { ModuleInfo, ProjectInfo } from '../../types'
 
@@ -10,6 +11,12 @@ fetch(API_ROOT).then(r => r.json()).then(r => info.value = r)
 export function fetchModule(id: string | Ref<string>) {
   return useFetch(computed(() => `${API_ROOT}/module?id=${encodeURIComponent(unref(id))}`), { refetch: true })
     .json<ModuleInfo>()
+}
+
+export function fetchRepl(input: Ref<string>) {
+  const debounced = useDebounce(input, 500)
+  return useFetch(computed(() => `${API_ROOT}/repl?token=${encodeURIComponent(debounced.value)}`), { refetch: true })
+    .json<GenerateResult>()
 }
 
 export interface ModuleDest {

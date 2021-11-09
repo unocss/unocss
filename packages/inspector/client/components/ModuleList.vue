@@ -3,22 +3,31 @@ import { info, moduleTree } from '../composables/fetch'
 </script>
 
 <template>
-  <div v-if="info" overflow="auto" px2 py4>
-    <RouterLink to="/" text-sm m="l-3.7">
+  <div
+    v-if="info"
+    overflow="auto"
+    p="x2 y4"
+    flex="~ col gap-4"
+  >
+    <RouterLink block to="/" text-sm m="l-3.7">
       <div i-carbon-dashboard />
       <span>
         Overview
       </span>
     </RouterLink>
+    <RouterLink block to="/repl" text-sm m="l-3.7">
+      <div i-carbon-terminal />
+      <span>
+        REPL
+      </span>
+    </RouterLink>
     <ModuleTreeNode
       v-if="Object.keys(moduleTree.workspace.children).length"
-      mt-2
       :node="moduleTree.workspace"
       icon="i-carbon-portfolio"
     />
     <ModuleTreeNode
       v-if="Object.keys(moduleTree.root.children).length"
-      mt-2
       :node="moduleTree.root"
       icon="i-carbon-vmdk-disk"
     />

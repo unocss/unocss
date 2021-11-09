@@ -3,7 +3,7 @@ import { TreeNode } from '../composables/fetch'
 
 withDefaults(defineProps<{
   node: TreeNode
-  icon: string
+  icon?: string
 }>(), {
   icon: 'i-carbon-folder',
 })
@@ -17,7 +17,7 @@ const route = useRoute()
       cursor-default
       select-none
       text-sm
-      leading="1.6rem"
+      p="y1"
     >
       <div :class="icon"></div>
       {{ node.name }}
@@ -27,21 +27,18 @@ const route = useRoute()
     <div
       v-for="i of node.items"
       :key="i.full"
-      ml6
+      ml4
     >
       <RouterLink
         block
         text-sm
-        leading="1.6rem"
+        p="x2 y1"
+        rounded
         :to="`/module/${encodeURIComponent(i.full)}`"
+        :class="{ 'bg-gray/10': i.full === route.params.id}"
       >
         <FileIcon :id="i.path" />
-        <span
-          ml-1
-          op75
-          hover:op100
-          :class="{ 'font-bold': i.full === route.params.id}"
-        >
+        <span ml-1>
           {{ i.path.split('/').pop() }}
         </span>
       </Routerlink>
