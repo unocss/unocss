@@ -45,6 +45,7 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
         const mod: ModuleInfo = {
           ...result,
           matched: Array.from(result.matched),
+          gzipSize: await gzipSize(result.css),
           code,
           id,
         }

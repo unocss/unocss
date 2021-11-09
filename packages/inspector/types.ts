@@ -14,6 +14,7 @@ export interface Result extends Omit<GenerateResult, 'matched'> {
 export interface ModuleInfo extends Result {
   code: string
   id: string
+  gzipSize: number
 }
 
 export interface OverviewInfo extends Result {

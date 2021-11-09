@@ -12,7 +12,7 @@ function openEditor() {
 
 <template>
   <div v-if="mod" h-full grid="~ rows-[max-content,1fr]" of-hidden>
-    <StatusBar grid="~ cols-2">
+    <StatusBar grid="~ cols-3">
       <div>
         <div op50>
           Module
@@ -24,9 +24,15 @@ function openEditor() {
       </div>
       <div>
         <div op50>
-          Matched
+          Matched Rules
         </div>
         {{ mod.matched.length }}
+      </div>
+      <div>
+        <div op50>
+          CSS Size
+        </div>
+        {{ ((mod?.gzipSize || 0) / 1024).toFixed(2) }} KiB <span op50>gzipped</span>
       </div>
     </StatusBar>
     <div h-full of-hidden grid grid-cols-2>
