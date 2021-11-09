@@ -24,6 +24,7 @@ import { questionMark } from './question-mark'
 import { textAligns, verticalAligns } from './align'
 
 export const rules: Rule[] = [
+  screenReadersAccess,
   cssVariables,
   paddings,
   margins,
@@ -108,7 +109,6 @@ export const rules: Rule[] = [
   filters,
   tables,
   transforms,
-  screenReadersAccess,
 
   // should be the last
   questionMark,
