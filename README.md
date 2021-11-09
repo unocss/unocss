@@ -467,7 +467,7 @@ import 'uno:utilities.css'
 
 ### Inspector
 
-From v0.7.0, our Vite plugin now ships with a inspector for you to inspect and degbug your setup. Visit `http://localhost:3000/__unocss` in your Vite dev server to see the inspector.
+From v0.7.0, our Vite plugin now ships with a dev inspector ([@unocss/inspector](https://github.com/antfu/unocss/tree/main/packages/inspector)) for you to view, play and analyse your custom rules and setup. Visit `http://localhost:3000/__unocss` in your Vite dev server to see it.
 
 <img src="https://user-images.githubusercontent.com/11247099/140885990-1827f5ce-f12a-4ed4-9d63-e5145a65fb4a.png">
 

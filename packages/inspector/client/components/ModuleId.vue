@@ -5,7 +5,7 @@ defineProps<{ id?: string }>()
 </script>
 
 <template>
-  <span v-if="id && info">
+  <span v-if="id && info" ws-wrap>
     <template v-if="id.startsWith(info.root)">
       <span op80>.</span>
       <span>{{ id.slice(info.root.length) }}</span>

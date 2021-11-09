@@ -4,16 +4,7 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
-    CodeMirror: typeof import('./../../packages/inspector/client/components/CodeMirror.vue')['default']
-    Editor: typeof import('./components/Editor.vue')['default']
-    ModuleId: typeof import('./../../packages/inspector/client/components/ModuleId.vue')['default']
-    ModuleInfo: typeof import('./../../packages/inspector/client/components/ModuleInfo.vue')['default']
-    ModuleList: typeof import('./../../packages/inspector/client/components/ModuleList.vue')['default']
-    NarBar: typeof import('./../../packages/inspector/client/components/NarBar.vue')['default']
-    Overview: typeof import('./../../packages/inspector/client/components/Overview.vue')['default']
-    Playground: typeof import('./components/Playground.vue')['default']
-    Preview: typeof import('./components/Preview.vue')['default']
-    TitleBar: typeof import('./../../packages/inspector/client/components/TitleBar.vue')['default']
+
   }
 }
 
