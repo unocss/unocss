@@ -1,0 +1,38 @@
+{
+  "name": "@unocss/runtime",
+  "version": "0.6.6",
+  "description": "CSS-in-JS Runtime for UnoCSS",
+  "keywords": [
+    "unocss",
+    "css-in-js"
+  ],
+  "homepage": "https://github.com/antfu/unocss/tree/main/packages/runtime#readme",
+  "bugs": {
+    "url": "https://github.com/antfu/unocss/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antfu/unocss.git",
+    "directory": "packages/runtime"
+  },
+  "funding": "https://github.com/sponsors/antfu",
+  "license": "MIT",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "unpkg": "./index.global.js",
+  "jsdelivr": "./index.global.js",
+  "files": [
+    "*.global.js"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch src",
+    "play": "live-server --open=/play",
+    "prepublishOnly": "nr build"
+  },
+  "devDependencies": {
+    "@unocss/core": "workspace:*",
+    "@unocss/preset-attributify": "workspace:*",
+    "@unocss/preset-icons": "workspace:*",
+    "@unocss/preset-uno": "workspace:*"
+  }
+}

@@ -1,0 +1,19 @@
+<script src="../attributify.global.js"></script>
+
+<body p10 font-sans>
+  <div id="hi" class="text-red" font="bold" text="xl" animate-bounce>Hello</div>
+  <button id="btn">Change Color</button>
+</body>
+
+<script>
+const colors = ['red', 'teal', 'orange', 'sky']
+let index = 0
+
+const hi = document.getElementById('hi')
+const btn = document.getElementById('btn')
+
+btn.addEventListener('click', () => {
+  index = (index + 1) % colors.length
+  hi.className = `text-${colors[index]}`
+})
+</script>
