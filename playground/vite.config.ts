@@ -44,8 +44,8 @@ export default defineConfig({
         'fs',
       ],
       input: [
-        'index.html',
-        '__play.html',
+        resolve('./index.html'),
+        resolve('./__play.html'),
       ],
     },
   },
