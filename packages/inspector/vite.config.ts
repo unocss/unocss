@@ -9,13 +9,13 @@ import Pages from 'vite-plugin-pages'
 export default defineConfig(({ command }) => ({
   resolve: {
     alias: {
-      'unocss': resolve('../packages/unocss/src/index.ts'),
-      '@unocss/core': resolve('../packages/core/src/index.ts'),
-      '@unocss/vite': resolve('../packages/vite/src/index.ts'),
-      '@unocss/inspector': resolve('../packages/inspector/node/index.ts'),
-      '@unocss/preset-uno': resolve('../packages/preset-uno/src/index.ts'),
-      '@unocss/preset-attributify': resolve('../packages/preset-attributify/src/index.ts'),
-      '@unocss/preset-icons': resolve('../packages/preset-icons/src/index.ts'),
+      'unocss': resolve('../unocss/src/index.ts'),
+      '@unocss/core': resolve('../core/src/index.ts'),
+      '@unocss/vite': resolve('../vite/src/index.ts'),
+      '@unocss/inspector': resolve('../inspector/node/index.ts'),
+      '@unocss/preset-uno': resolve('../preset-uno/src/index.ts'),
+      '@unocss/preset-attributify': resolve('../preset-attributify/src/index.ts'),
+      '@unocss/preset-icons': resolve('../preset-icons/src/index.ts'),
     },
   },
   base: command === 'build' ? '/__unocss/' : '/',
