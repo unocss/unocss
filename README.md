@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/antfu/unocss/main/playground/public/icon.svg" style="width:100px;" />
+<img src="https://raw.githubusercontent.com/antfu/unocss/main/playground/public/icon-gray.svg" style="width:100px;" />
 </p>
 
 <h1 align="center">UnoCSS</h1>
@@ -10,9 +10,11 @@ The instant on-demand Atomic CSS engine.
 
 <p align="center">
 <a href="https://www.npmjs.com/package/unocss"><img src="https://img.shields.io/npm/v/unocss?color=c95f8b&amp;label=" alt="NPM version"></a></p>
-<blockquote>
-<p>💡 I highly recommend reading this blog post - <a href="https://antfu.me/posts/reimagine-atomic-css"><strong>Reimagine Atomic CSS</strong></a> for the story behind UnoCSS.</p>
+
+<blockquote align="center">
+<p>💡 I highly recommend reading this blog post - <br><a href="https://antfu.me/posts/reimagine-atomic-css"><strong>Reimagine Atomic CSS</strong></a><br>for the story behind</p>
 </blockquote>
+
 <br>
 <p align="center"><a href="https://unocss.antfu.me/">🤹‍♂️ Online Playground</a></p>
 <br>
