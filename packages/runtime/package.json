@@ -26,8 +26,7 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch src",
-    "play": "live-server --open=/play",
-    "prepublishOnly": "nr build"
+    "play": "live-server --open=/play"
   },
   "devDependencies": {
     "@unocss/core": "workspace:*",

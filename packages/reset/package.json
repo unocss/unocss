@@ -21,8 +21,7 @@
     "**/*.css"
   ],
   "scripts": {
-    "build": "esno scripts/copy.ts",
-    "prepublishOnly": "nr build"
+    "build": "esno scripts/copy.ts"
   },
   "devDependencies": {
     "@csstools/normalize.css": "^12.0.0",

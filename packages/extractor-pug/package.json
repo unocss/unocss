@@ -34,8 +34,7 @@
   ],
   "scripts": {
     "build": "tsup",
-    "dev": "tsup --watch src",
-    "prepublishOnly": "nr build"
+    "dev": "tsup --watch src"
   },
   "peerDependencies": {
     "pug": "^3.0.0"

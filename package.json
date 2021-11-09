@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "bench": "npm -C bench run bench",
-    "build": "pnpm -r --parallel --filter !playground run build",
+    "build": "pnpm -r --parallel --filter !playground run build && pnpm -r run post",
     "dev": "pnpm -r --parallel --filter !playground run dev",
     "lint": "eslint \"**/*.{ts,vue,mjs}\"",
     "lint:fix": "nr lint -- --fix",

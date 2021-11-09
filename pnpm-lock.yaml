@@ -156,18 +156,31 @@ importers:
 
   packages/inspector:
     specifiers:
+      '@unocss/core': workspace:*
+      '@unocss/preset-attributify': workspace:*
+      '@unocss/preset-icons': workspace:*
+      '@unocss/preset-uno': workspace:*
+      '@unocss/reset': workspace:*
+      '@unocss/vite': workspace:*
       gzip-size: ^6.0.0
       sirv: ^1.0.18
     dependencies:
       gzip-size: 6.0.0
       sirv: 1.0.18
+    devDependencies:
+      '@unocss/core': link:../core
+      '@unocss/preset-attributify': link:../preset-attributify
+      '@unocss/preset-icons': link:../preset-icons
+      '@unocss/preset-uno': link:../preset-uno
+      '@unocss/reset': link:../reset
+      '@unocss/vite': link:../vite
 
   packages/nuxt:
     specifiers:
       '@nuxt/kit': npm:@nuxt/kit-edge@latest
       unocss: workspace:*
     dependencies:
-      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27274194.82d1741
+      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27274229.29599f0
       unocss: link:../unocss
 
   packages/preset-attributify:
@@ -1039,8 +1052,8 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
 
-  /@nuxt/kit-edge/3.0.0-27274194.82d1741:
-    resolution: {integrity: sha512-SmzLi+UsEkN6+9SfPnGh2kBGcrlKAb1g5Jjg7LryRDKRfn754k1F3dUxkeuPzu2TdRETS7Vine4LEUii+lrn5A==}
+  /@nuxt/kit-edge/3.0.0-27274229.29599f0:
+    resolution: {integrity: sha512-8GyQaBXQh6RelLe5ahXBTZWugaBYKd3cESc+GqxoHlFVy0i2HqZkUggFShDEoT7FCckzfGHTZF5uV04k87D73w==}
     engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0}
     dependencies:
       consola: 2.15.3

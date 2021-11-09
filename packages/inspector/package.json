@@ -33,13 +33,21 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup && vite build",
+    "build": "tsup ",
+    "post": "vite build",
     "dev": "tsup --watch node",
-    "play": "vite",
-    "prepublishOnly": "nr build"
+    "play": "vite"
   },
   "dependencies": {
     "gzip-size": "^6.0.0",
     "sirv": "^1.0.18"
+  },
+  "devDependencies": {
+    "@unocss/core": "workspace:*",
+    "@unocss/preset-attributify": "workspace:*",
+    "@unocss/preset-icons": "workspace:*",
+    "@unocss/preset-uno": "workspace:*",
+    "@unocss/reset": "workspace:*",
+    "@unocss/vite": "workspace:*"
   }
 }

@@ -31,6 +31,8 @@ jobs:
         continue-on-error: true
         env:
           CONVENTIONAL_GITHUB_RELEASER_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      
+      - run: pnpm run build
 
       - run: pnpm -r publish --access public --no-git-checks
         env:

@@ -41,8 +41,7 @@
   ],
   "scripts": {
     "build": "tsup",
-    "dev": "tsup --watch src",
-    "prepublishOnly": "nr build"
+    "dev": "tsup --watch src"
   },
   "dependencies": {
     "@iconify/utils": "^1.0.18",
