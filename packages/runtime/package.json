@@ -18,20 +18,31 @@
   "funding": "https://github.com/sponsors/antfu",
   "license": "MIT",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
-  "unpkg": "./index.global.js",
-  "jsdelivr": "./index.global.js",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "main": "./dist/index.js",
+  "jsdelivr": "./uno.global.js",
+  "unpkg": "./uno.global.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "files": [
-    "*.global.js"
+    "*.global.js",
+    "dist"
   ],
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch src",
+    "build": "pnpm run build:node && pnpm run build:cdn",
+    "build:cdn": "tsup src/cdn/*.ts --format iife --minify --out-dir .",
+    "build:node": "tsup src/index.ts --format esm,cjs --dts",
+    "dev": "pnpm run build:node -- --watch src & pnpm run build:cdn -- --watch src",
     "play": "live-server --open=/play"
   },
-  "devDependencies": {
+  "dependencies": {
     "@unocss/core": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
-    "@unocss/preset-icons": "workspace:*",
     "@unocss/preset-uno": "workspace:*"
   }
 }
