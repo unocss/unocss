@@ -471,6 +471,10 @@ From v0.7.0, our Vite plugin now ships with a dev inspector ([@unocss/inspector]
 
 <img src="https://user-images.githubusercontent.com/11247099/140885990-1827f5ce-f12a-4ed4-9d63-e5145a65fb4a.png">
 
+### Runtime (CSS-in-JS)
+
+See [@unocss/runtime](https://github.com/antfu/unocss/tree/main/packages/runtime)
+
 ### CSS Scoping
 
 > 🚧 This part is still under experiment. You might want to read the code to see how it works currently.

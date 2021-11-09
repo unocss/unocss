@@ -7,6 +7,7 @@ const config: Options = {
     'src/*.ts',
   ],
   minify: true,
+  outDir: __dirname,
 }
 
 export default config

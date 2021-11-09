@@ -18,10 +18,10 @@
   "funding": "https://github.com/sponsors/antfu",
   "license": "MIT",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
-  "unpkg": "dist/index.global.js",
-  "jsdelivr": "dist/index.global.js",
+  "unpkg": "./index.global.js",
+  "jsdelivr": "./index.global.js",
   "files": [
-    "dist"
+    "*.global.js"
   ],
   "scripts": {
     "build": "tsup",
