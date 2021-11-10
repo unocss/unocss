@@ -3,6 +3,10 @@ html, body, #app {
   overflow: hidden;
 }
 
+html:not(.dark) {
+  color-scheme: light;
+}
+
 .dark {
   color-scheme: dark;
   background: #080808;
