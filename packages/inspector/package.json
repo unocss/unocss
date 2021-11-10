@@ -40,8 +40,7 @@
   },
   "dependencies": {
     "gzip-size": "^6.0.0",
-    "sirv": "^1.0.18",
-    "splitpanes": "^3.0.6"
+    "sirv": "^1.0.18"
   },
   "devDependencies": {
     "@unocss/core": "workspace:*",

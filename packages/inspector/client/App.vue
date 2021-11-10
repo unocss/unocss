@@ -1,15 +1,17 @@
+<script setup lang="ts">
+// @ts-expect-error
+import { Splitpanes, Pane } from 'splitpanes'
+</script>
+
 <template>
-  <splitpanes h-full flex>
-    <pane min-size="5" size="10" :push-other-panes="false">
+  <Splitpanes h-full flex>
+    <Pane size="15" :push-other-panes="false">
       <Sidebar />
     </pane>
-    <pane size="90">
+    <Pane size="85">
       <div h-full of-hidden>
         <RouterView />
       </div>
     </pane>
-  </splitpanes>
+  </Splitpanes>
 </template>
-<script setup lang="ts">
-import { Splitpanes, Pane } from 'splitpanes'
-</script>
