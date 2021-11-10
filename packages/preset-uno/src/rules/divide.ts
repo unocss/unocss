@@ -25,15 +25,13 @@ function handlerDivide([, a, b]: string[]): CSSEntries | undefined {
   if (v != null) {
     const results = directionMap[d].map((item): [string, string] => {
       const key = `border${item}-width`
-      const value =
-        item.endsWith('right') || item.endsWith('bottom')
-          ? `calc(${v} * var(--un-divide-${d}-reverse))`
-          : `calc(${v} * calc(1 - var(--un-divide-${d}-reverse)))`
+      const value = item.endsWith('right') || item.endsWith('bottom')
+        ? `calc(${v} * var(--un-divide-${d}-reverse))`
+        : `calc(${v} * calc(1 - var(--un-divide-${d}-reverse)))`
       return [key, value]
     })
 
-    if (results) {
+    if (results)
       return [[`--un-divide-${d}-reverse`, 0], ...results]
-    }
   }
 }
