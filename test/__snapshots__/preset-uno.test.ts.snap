@@ -296,6 +296,7 @@ exports[`targets 1`] = `
 .table-row-group{display:table-row-group;}
 .preserve-3d{transform-style:preserve-3d;}
 .preserve-flat{transform-style:flat;}
+.-translate-y-1\\\\/2{--un-translate-y:-50%;}
 .translate-y-1\\\\/4{--un-translate-y:25%;}
 @media (min-width: 768px){
 .md\\\\:m-1{margin:0.25rem;}
