@@ -10,21 +10,20 @@ const toggleDark = useToggle(isDark)
     flex
     children:my-auto
   >
-    <div flex children:my-auto>
+    <div flex flex-auto children:my-auto ws-nowrap>
       <img
         src="/icon.svg"
         filter
         dark:invert
-        h="1.3em"
         inline-block
+        h="1.3em"
         m="r-1.5"
       >
-      <div>
+      <div of-hidden>
         Inspector
         <sup text-teal5 bg-teal5:10 p="x1.5 y0.5" rounded italic>beta</sup>
       </div>
     </div>
-    <div flex-auto />
     <button text-lg i-carbon-sun dark:i-carbon-moon @click="toggleDark()" />
   </nav>
 </template>
