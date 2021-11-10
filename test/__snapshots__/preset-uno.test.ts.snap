@@ -207,9 +207,9 @@ exports[`targets 1`] = `
 .overflow-auto{overflow:auto;}
 .overflow-x-scroll{overflow-x:scroll;}
 .order-first{order:-9999;}
-@keyframes ping {0% {transform:scale(1);opacity:1;} 75%, 100% {transform:scale(2);opacity:0;}}
+@keyframes ping{0%{transform:scale(1);opacity:1}75%,100%{transform:scale(2);opacity:0}}
 .\\\\!animate-ping{animation:ping 1s linear infinite !important;}
-@keyframes bounce {from, 20%, 53%, 80%, to {animation-timing-function:cubic-bezier(0.215,0.61,0.355,1); transform:translate3d(0,0,0);} 40%, 43% {animation-timing-function:cubic-bezier(0.755,0.05,0.855,0.06); transform:translate3d(0,-30px,0);} 70% {animation-timing-function:cubic-bezier(0.755,0.05,0.855,0.06); transform:translate3d(0,-15px,0);} 90% {transform:translate3d(0,-4px,0);}}
+@keyframes bounce{from,20%,53%,80%,to{animation-timing-function:cubic-bezier(0.215,0.61,0.355,1);transform:translate3d(0,0,0)}40%,43%{animation-timing-function:cubic-bezier(0.755,0.05,0.855,0.06);transform:translate3d(0,-30px,0)}70%{animation-timing-function:cubic-bezier(0.755,0.05,0.855,0.06);transform:translate3d(0,-15px,0)}90%{transform:translate3d(0,-4px,0)}}
 .hover\\\\:animate-bounce:hover{animation:bounce 1s linear infinite;}
 .animate-none{animation:none;}
 .animate-100s{animation-duration:100s;}
