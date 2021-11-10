@@ -44,7 +44,7 @@ export const whitespaces: Rule[] = [
 
 export const breaks: Rule[] = [
   ['break-normal', { 'overflow-wrap': 'normal', 'word-break': 'normal' }],
-  ['break-works', { 'overflow-wrap': 'break-word' }],
+  ['break-word', { 'overflow-wrap': 'break-word' }],
   ['break-all', { 'word-break': 'break-all' }],
 ]
 
