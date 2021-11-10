@@ -87,6 +87,15 @@ exports[`targets 1`] = `
 .rounded-rb-1\\\\/2{border-bottom-right-radius:50%;}
 .rounded-t-sm{border-top-left-radius:0.125rem;border-top-right-radius:0.125rem;}
 .rounded-tr{border-top-right-radius:0.25rem;}
+.divide-x-4>:not([hidden])~:not([hidden]){--un-divide-x-reverse:0;border-left-width:calc(4px * calc(1 - var(--un-divide-x-reverse)));border-right-width:calc(4px * var(--un-divide-x-reverse));}
+.divide-y-4>:not([hidden])~:not([hidden]){--un-divide-y-reverse:0;border-top-width:calc(4px * calc(1 - var(--un-divide-y-reverse)));border-bottom-width:calc(4px * var(--un-divide-y-reverse));}
+.divide-x-reverse>:not([hidden])~:not([hidden]){--un-divide-x-reverse:1;}
+.divide-current>:not([hidden])~:not([hidden]){border-color:currentColor;}
+.divide-green-500>:not([hidden])~:not([hidden]){--un-divide-opacity:1;border-color:rgba(34,197,94,var(--un-divide-opacity));}
+.divide-transparent>:not([hidden])~:not([hidden]){border-color:transparent;}
+.divide-opacity-50>:not([hidden])~:not([hidden]){--un-divide-opacity:0.5;}
+.divide-dashed>:not([hidden])~:not([hidden]){border-style:dashed;}
+.divide-dotted>:not([hidden])~:not([hidden]){border-style:dotted;}
 .font-mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\\"Liberation Mono\\",\\"Courier New\\",monospace;}
 .dark .dark\\\\:text-xl{font-size:1.25rem;line-height:1.75rem;}
 .light .light\\\\:text-sm{font-size:0.875rem;line-height:1.25rem;}

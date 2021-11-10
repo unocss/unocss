@@ -127,3 +127,8 @@ export const ringOffsetColors: Rule[] = [
   [/^ring-offset-(.+)$/, colorResolver('--un-ring-offset-color', 'ring-offset')],
   [/^ring-offset-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-ring-offset-opacity': h.bracket.percent(opacity) })],
 ]
+
+export const divideColors: Rule[] = [
+  [/^divide-(.+)$/, colorResolver('border-color', 'divide')],
+  [/^divide-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-divide-opacity': h.bracket.percent(opacity) })],
+]

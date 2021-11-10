@@ -46,7 +46,7 @@ export const variantNegative: Variant = {
 }
 
 export const variantSpace: Variant = (matcher) => {
-  if (/^space-?([xy])-?(-?.+)$/.test(matcher)) {
+  if (/^space-?([xy])-?(-?.+)$/.test(matcher) || /^divide-/.test(matcher)) {
     return {
       matcher,
       selector: (input) => {

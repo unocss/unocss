@@ -22,6 +22,7 @@ import { animations } from './animation'
 import { cssVariables } from './variables'
 import { questionMark } from './question-mark'
 import { textAligns, verticalAligns } from './align'
+import { divides } from './divide'
 
 export const rules: Rule[] = [
   screenReadersAccess,
@@ -41,6 +42,7 @@ export const rules: Rule[] = [
   bgSizes,
   bgRepeats,
   borders,
+  divides,
   fonts,
   tabSizes,
   textIndents,
