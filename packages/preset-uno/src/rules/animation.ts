@@ -108,7 +108,7 @@ export const animations: Rule[] = [
   [/^animate-(.*)$/, ([, name], { constructCSS }) => {
     const kf = keyframes[name]
     if (kf)
-      return `${kf}\n${constructCSS({ 'animation-name': name })}`
+      return `${kf}\n${constructCSS({ animation: `${name} 1s linear infinite` })}`
   }],
   ['animate-none', { animation: 'none' }],
   [/^animate(?:-duration)?-((.+)(?:(s|ms)?))$/, ([, d]) => ({ 'animation-duration': h.bracket.time(d.replace(/-duration/, '')) })],
