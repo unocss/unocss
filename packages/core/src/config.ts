@@ -67,7 +67,7 @@ export function resolveConfig(
     excluded: [],
     presets: [],
     sortLayers: layers => layers,
-    prefix: null,
+    prefix: false,
     ...config,
     envMode: config.envMode || 'build',
     shortcutsLayer: config.shortcutsLayer || 'shortcuts',
