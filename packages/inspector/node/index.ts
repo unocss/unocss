@@ -1,15 +1,20 @@
-import { resolve } from 'path'
+import { resolve, dirname } from 'path'
+import { fileURLToPath } from 'url'
 import sirv from 'sirv'
 import type { Plugin, ResolvedConfig, ViteDevServer } from 'vite'
 import type { UnocssPluginContext } from '@unocss/vite'
 import gzipSize from 'gzip-size'
 import { ModuleInfo, ProjectInfo } from '../types'
 
+const _dirname = typeof __dirname !== 'undefined'
+  ? __dirname
+  : dirname(fileURLToPath(import.meta.url))
+
 export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
   let config: ResolvedConfig
 
   function configureServer(server: ViteDevServer) {
-    server.middlewares.use('/__unocss', sirv(resolve(__dirname, '../dist/client'), {
+    server.middlewares.use('/__unocss', sirv(resolve(_dirname, '../dist/client'), {
       single: true,
       dev: true,
     }))
