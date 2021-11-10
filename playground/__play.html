@@ -41,8 +41,8 @@ window.addEventListener('message', ({ data }) => {
   const scripts = container.querySelectorAll('script')
   for (let i = 0; i < scripts.length; i++) {
     const script = document.createElement('script')
-    script.type = scripts[i].type || 'text/javascript'
-    if (scripts[i].hasAttribute('src')) script.src = scripts[i].src
+    for (const attr of scripts[i].attributes)
+      script.setAttribute(attr.name, attr.value)
     script.innerHTML = scripts[i].innerHTML
     scripts[i].replaceWith(script)
   }
