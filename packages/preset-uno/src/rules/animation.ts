@@ -4,12 +4,10 @@ import { handler as h } from '../utils'
 const keyframes: any = {
   'spin': '@keyframes spin {from {transform:rotate(0deg);} to {transform:rotate(360deg);}}',
   'ping': '@keyframes ping {0% {transform:scale(1);opacity:1;} 75%, 100% {transform:scale(2);opacity:0;}}',
-  'pulse': '@keyframes pulse {0%, 100% {opacity:1;} 50% {opacity:.5;}}',
-  'bounce': '@keyframes bounce {0%, 100% {transform:translateY(-25%);animation-timing-function:cubic-bezier(0.8,0,1,1);} 50% {transform:translateY(0);animation-timing-function:cubic-bezier(0,0,0.2,1);}}',
   // https://windicss.org/plugins/community/animations.html
-  // 'bounce': '@keyframes bounce {from, 20%, 53%, 80%, to {animation-timing-function:cubic-bezier(0.215,0.61,0.355,1); transform:translate3d(0,0,0);} 40%, 43% {animation-timing-function:cubic-bezier(0.755,0.05,0.855,0.06); transform:translate3d(0,-30px,0);} 70% {animation-timing-function:cubic-bezier(0.755,0.05,0.855,0.06); transform:translate3d(0,-15px,0);} 90% {transform:translate3d(0,-4px,0);}}',
+  'bounce': '@keyframes bounce {from, 20%, 53%, 80%, to {animation-timing-function:cubic-bezier(0.215,0.61,0.355,1); transform:translate3d(0,0,0);} 40%, 43% {animation-timing-function:cubic-bezier(0.755,0.05,0.855,0.06); transform:translate3d(0,-30px,0);} 70% {animation-timing-function:cubic-bezier(0.755,0.05,0.855,0.06); transform:translate3d(0,-15px,0);} 90% {transform:translate3d(0,-4px,0);}}',
   'flash': '@keyframes flash {from, 50%, to {opacity:1;} 25%, 75% {opacity:0;}}',
-  // 'pulse': '@keyframes pulse {from {transform:scale3d(1,1,1);} 50% {transform:scale3d(1.05,1.05,1.05);} to {transform:scale3d(1,1,1);}}',
+  'pulse': '@keyframes pulse {from {transform:scale3d(1,1,1);} 50% {transform:scale3d(1.05,1.05,1.05);} to {transform:scale3d(1,1,1);}}',
   'rubber-band': '@keyframes rubber-band {from {transform:scale3d(1,1,1);} 30% {transform:scale3d(1.25,0.75,1);} 40% {transform:scale3d(0.75,1.25,1);} 50% {transform:scale3d(1.15,0.85,1);} 65% {transform:scale3d(0.95,1.05,1);} 75% {transform:scale3d(1.05,0.95,1);} to {transform:scale3d(1,1,1);}}',
   'shake-x': '@keyframes shake-x {from, to {transform:translate3d(0,0,0);} 10%, 30%, 50%, 70%, 90% {transform:translate3d(-10px,0,0);} 20%, 40%, 60%, 80% {transform:translate3d(10px,0,0);}}',
   'shake-y': '@keyframes shake-y {from, to {transform:translate3d(0,0,0);} 10%, 30%, 50%, 70%, 90% {transform:translate3d(0,-10px,0);} 20%, 40%, 60%, 80% {transform:translate3d(0,10px,0);}}',
@@ -110,9 +108,8 @@ export const animations: Rule[] = [
   [/^animate-(.*)$/, ([, name], { constructCSS }) => {
     const kf = keyframes[name]
     if (kf)
-      return `${kf}\n${constructCSS({ animation: `${name} 1s linear infinite` })}`
+      return `${kf}\n${constructCSS({ 'animation-name': name })}`
   }],
-  // [/^animate-(spin|ping|pulse|bounce)$/, ([, name], { constructCSS }) => `${keyframes[name]}\n${constructCSS({ animation: `${name} 1s linear infinite` })}`],
   ['animate-none', { animation: 'none' }],
   [/^animate(?:-duration)?-((.+)(?:(s|ms)?))$/, ([, d]) => ({ 'animation-duration': h.bracket.time(d.replace(/-duration/, '')) })],
   [/^animate-delay-((.+)(?:(s|ms)?))$/, ([, d]) => ({ 'animation-delay': h.bracket.time(d) })],
