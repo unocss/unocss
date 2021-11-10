@@ -38,13 +38,13 @@ window.addEventListener('message', ({ data }) => {
 
   container.innerHTML = payload.html
 
-  const scripts = container.querySelectorAll('script');
+  const scripts = container.querySelectorAll('script')
   for (let i = 0; i < scripts.length; i++) {
-    const script = document.createElement('script');
-    script.type = scripts[i].type || 'text/javascript';
-    if (scripts[i].hasAttribute('src')) script.src = scripts[i].src;
-    script.innerHTML = scripts[i].innerHTML;
-    scripts[i].replaceWith(script);
+    const script = document.createElement('script')
+    script.type = scripts[i].type || 'text/javascript'
+    if (scripts[i].hasAttribute('src')) script.src = scripts[i].src
+    script.innerHTML = scripts[i].innerHTML
+    scripts[i].replaceWith(script)
   }
 
   style.innerHTML = payload.css
