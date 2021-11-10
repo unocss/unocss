@@ -17,6 +17,7 @@ const route = useRoute()
       cursor-default
       select-none
       text-sm
+      truncate
       p="y1"
     >
       <div :class="icon"></div>
@@ -28,6 +29,7 @@ const route = useRoute()
       v-for="i of node.items"
       :key="i.full"
       ml4
+      truncate
     >
       <RouterLink
         block

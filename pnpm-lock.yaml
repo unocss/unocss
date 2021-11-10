@@ -220,12 +220,10 @@ importers:
     specifiers:
       '@unocss/core': workspace:*
       '@unocss/preset-attributify': workspace:*
-      '@unocss/preset-icons': workspace:*
       '@unocss/preset-uno': workspace:*
-    devDependencies:
+    dependencies:
       '@unocss/core': link:../core
       '@unocss/preset-attributify': link:../preset-attributify
-      '@unocss/preset-icons': link:../preset-icons
       '@unocss/preset-uno': link:../preset-uno
 
   packages/scope:
