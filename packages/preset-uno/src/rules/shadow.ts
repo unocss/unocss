@@ -45,14 +45,13 @@ export const mixBlendModes: Rule[] = [
   ['mix-blend-luminosity', { 'mix-blend-mode': 'luminosity' }],
 ]
 
-export const shadows: Rule<Theme>[] = [
+export const boxShadows: Rule<Theme>[] = [
   [/^shadow-?(.*)$/, ([, d], { theme }) => {
-    const value = theme?.textShadow?.[d || 'DEFAULT']
+    const value = theme?.boxShadow?.[d || 'DEFAULT']
     if (value) {
       return {
         '--un-shadow-color': '0,0,0',
         '--un-shadow': value,
-        '-webkit-box-shadow': 'var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow)',
         'box-shadow': 'var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow)',
       }
     }
