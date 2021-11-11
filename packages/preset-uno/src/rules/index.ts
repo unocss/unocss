@@ -5,13 +5,13 @@ import { bgColors, opacity, textColors, textDecorationColors, textStrokeColors }
 import { bgAttachments, bgBlendModes, bgClips, bgGradients, bgImages, bgOrigins, bgPositions, bgSizes, bgRepeats } from './background'
 import { filters } from './filters'
 import { flex } from './flex'
-import { fonts, leadings, tabSizes, textDecorationLengths, textDecorationOffsets, textIndents, textStrokeWidths, trackings } from './typography'
+import { fonts, leadings, tabSizes, textDecorationLengths, textDecorationOffsets, textIndents, textShadows, textStrokeWidths, trackings } from './typography'
 import { gaps } from './gap'
 import { grids } from './grid'
 import { overflows } from './layout'
 import { alignContents, alignItems, alignSelfs, floats, insets, justifies, justifyItems, justifySelfs, objectPositions, boxSizing, orders, placeContents, placeItems, placeSelfs, positions, zIndexes } from './position'
 import { rings } from './ring'
-import { mixBlendModes, shadows } from './shadow'
+import { mixBlendModes, boxShadows } from './shadow'
 import { sizes } from './size'
 import { paddings, margins } from './spacing'
 import { appearances, breaks, cursors, displays, pointerEvents, resizes, screenReadersAccess, textDecorations, textOverflows, textTransforms, userSelects, whitespaces, fontStyles, fontSmoothings, hyphens, textDecorationStyles, writingModes, writingOrientations } from './static'
@@ -54,6 +54,7 @@ export const rules: Rule[] = [
   textDecorationOffsets,
   textStrokeWidths,
   textStrokeColors,
+  textShadows,
   textTransforms,
   textAligns,
   textColors,
@@ -63,7 +64,7 @@ export const rules: Rule[] = [
   writingModes,
   writingOrientations,
   mixBlendModes,
-  shadows,
+  boxShadows,
   rings,
   flex,
   grids,

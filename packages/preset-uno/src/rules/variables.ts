@@ -28,7 +28,6 @@ const variablesAbbrMap: Record<string, string> = {
   'tab': 'tab-size',
   'underline': 'text-decoration-thickness',
   'underline-offset': 'text-underline-offset',
-  'indent': 'text-indent',
   'text': 'color',
   'grid-cols': 'grid-template-columns',
   'grid-rows': 'grid-template-rows',
