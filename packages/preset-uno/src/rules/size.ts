@@ -2,6 +2,14 @@ import { Rule, RuleContext } from '@unocss/core'
 import { Theme } from '../theme'
 import { handler as h } from '../utils'
 
+function getPropName(minmax: string, hw: string) {
+  const minMaxMap: Record<string, string> = {
+    w: 'width',
+    h: 'height',
+  }
+  return `${minmax ? `${minmax}-` : ''}${minMaxMap[hw]}`
+}
+
 export const sizes: Rule[] = [
   ['w-full', { width: '100%' }],
   ['h-full', { height: '100%' }],
@@ -19,21 +27,19 @@ export const sizes: Rule[] = [
   ['min-h-none', { 'min-height': 'none' }],
   ['min-h-full', { 'min-height': '100%' }],
   ['min-h-screen', { 'min-height': '100vh' }],
-  [/^(((min|max)-)?(w|h))-([^-]+)$/, ([, , , m, w, s]) => ({ [getPropName(m, w)]: h.bracket.fraction.rem(s) })],
-  [/^(((min|max)-)?(w))-screen-([a-z]+)$/, ([, , , m, w, s], { theme }: RuleContext<Theme>) => {
+  [/^(?:(min|max)-)?(w|h)-(.+)$/, ([, m, w, s]) => ({ [getPropName(m, w)]: h.bracket.cssvar.fraction.rem(s) })],
+  [/^(?:(min|max)-)?(w)-screen-(.+)$/, ([, m, w, s], { theme }: RuleContext<Theme>) => {
     const v = theme.breakpoints?.[s]
     if (v != null)
       return { [getPropName(m, w)]: v }
   }],
 ]
 
-function getPropName(minmax: string, hw: string) {
-  const minMaxMap: Record<string, string> = {
-    w: 'width',
-    h: 'height',
-    min: 'min-',
-    max: 'max-',
-  }
-
-  return `${minMaxMap[minmax] ?? ''}${minMaxMap[hw]}`
-}
+export const aspectRatio: Rule[] = [
+  ['aspect-ratio-auto', { 'aspect-ratio': 'auto' }],
+  [/^aspect-ratio-(.+)$/, ([, d]: string[]) => {
+    const v = (/^\d+\/\d+$/.test(d) ? d : null) || h.bracket.cssvar.number(d)
+    if (v != null)
+      return { 'aspect-ratio': v }
+  }],
+]

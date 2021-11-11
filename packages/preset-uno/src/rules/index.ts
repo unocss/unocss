@@ -12,7 +12,7 @@ import { overflows } from './layout'
 import { alignContents, alignItems, alignSelfs, floats, insets, justifies, justifyItems, justifySelfs, objectPositions, boxSizing, orders, placeContents, placeItems, placeSelfs, positions, zIndexes } from './position'
 import { rings } from './ring'
 import { mixBlendModes, boxShadows } from './shadow'
-import { sizes } from './size'
+import { sizes, aspectRatio } from './size'
 import { paddings, margins } from './spacing'
 import { appearances, breaks, cursors, displays, pointerEvents, resizes, screenReadersAccess, textDecorations, textOverflows, textTransforms, userSelects, whitespaces, fontStyles, fontSmoothings, hyphens, textDecorationStyles, writingModes, writingOrientations } from './static'
 import { tables } from './table'
@@ -71,6 +71,7 @@ export const rules: Rule[] = [
   gaps,
   positions,
   sizes,
+  aspectRatio,
   cursors,
   appearances,
   pointerEvents,
