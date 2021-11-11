@@ -180,6 +180,8 @@ exports[`targets 1`] = `
 .w-1\\\\/2{width:50%;}
 .max-w-screen-lg{max-width:1024px;}
 .min-w-screen-md{min-width:768px;}
+.aspect-ratio-auto{aspect-ratio:auto;}
+.aspect-ratio-\\\\[auto_16\\\\/9\\\\]{aspect-ratio:auto 16/9;}
 .aspect-ratio-\\\\$var{aspect-ratio:var(--var);}
 .aspect-ratio-0\\\\.7{aspect-ratio:0.7;}
 .aspect-ratio-3\\\\/2{aspect-ratio:3/2;}
