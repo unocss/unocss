@@ -15,10 +15,12 @@ importers:
       '@iconify-json/twemoji': ^1.0.2
       '@iconify-json/uim': ^1.0.2
       '@types/codemirror': ^5.60.5
+      '@types/fs-extra': ^9.0.13
       '@types/jest': ^27.0.2
       '@types/lz-string': ^1.3.34
       '@types/node': ^16.11.6
       '@types/ws': ^8.2.0
+      '@unocss/cli': workspace:*
       '@unocss/core': workspace:*
       '@unocss/preset-attributify': workspace:*
       '@unocss/preset-icons': workspace:*
@@ -34,7 +36,9 @@ importers:
       eslint: ^8.1.0
       eslint-plugin-jest: ^25.2.2
       esno: ^0.10.1
+      execa: ^5.1.1
       fast-glob: ^3.2.7
+      fs-extra: ^10.0.0
       gzip-size: ^6.0.0
       jest: ^27.3.1
       lz-string: ^1.4.4
@@ -64,10 +68,12 @@ importers:
       '@iconify-json/twemoji': 1.0.2
       '@iconify-json/uim': 1.0.2
       '@types/codemirror': 5.60.5
+      '@types/fs-extra': 9.0.13
       '@types/jest': 27.0.2
       '@types/lz-string': 1.3.34
       '@types/node': 16.11.6
       '@types/ws': 8.2.0
+      '@unocss/cli': link:packages/cli
       '@unocss/core': link:packages/core
       '@unocss/preset-attributify': link:packages/preset-attributify
       '@unocss/preset-icons': link:packages/preset-icons
@@ -83,7 +89,9 @@ importers:
       eslint: 8.1.0
       eslint-plugin-jest: 25.2.2_eslint@8.1.0+typescript@4.4.4
       esno: 0.10.1
+      execa: 5.1.1
       fast-glob: 3.2.7
+      fs-extra: 10.0.0
       gzip-size: 6.0.0
       jest: 27.3.1
       lz-string: 1.4.4
@@ -130,6 +138,28 @@ importers:
       vue: 3.2.21
       windicss: 3.2.1
 
+  packages/cli:
+    specifiers:
+      '@unocss/config': workspace:*
+      '@unocss/core': workspace:*
+      '@unocss/preset-uno': workspace:*
+      cac: ^6.7.11
+      chokidar: ^3.5.2
+      colorette: ^2.0.16
+      consola: ^2.15.3
+      fast-glob: ^3.2.7
+      pathe: ^0.2.0
+    dependencies:
+      '@unocss/config': link:../config
+      '@unocss/core': link:../core
+      '@unocss/preset-uno': link:../preset-uno
+      cac: 6.7.11
+      chokidar: 3.5.2
+      colorette: 2.0.16
+      consola: 2.15.3
+      fast-glob: 3.2.7
+      pathe: 0.2.0
+
   packages/config:
     specifiers:
       '@unocss/core': workspace:*
@@ -156,31 +186,18 @@ importers:
 
   packages/inspector:
     specifiers:
-      '@unocss/core': workspace:*
-      '@unocss/preset-attributify': workspace:*
-      '@unocss/preset-icons': workspace:*
-      '@unocss/preset-uno': workspace:*
-      '@unocss/reset': workspace:*
-      '@unocss/vite': workspace:*
       gzip-size: ^6.0.0
       sirv: ^1.0.18
     dependencies:
       gzip-size: 6.0.0
       sirv: 1.0.18
-    devDependencies:
-      '@unocss/core': link:../core
-      '@unocss/preset-attributify': link:../preset-attributify
-      '@unocss/preset-icons': link:../preset-icons
-      '@unocss/preset-uno': link:../preset-uno
-      '@unocss/reset': link:../reset
-      '@unocss/vite': link:../vite
 
   packages/nuxt:
     specifiers:
       '@nuxt/kit': npm:@nuxt/kit-edge@latest
       unocss: workspace:*
     dependencies:
-      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27274229.29599f0
+      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27277498.850ef69
       unocss: link:../unocss
 
   packages/preset-attributify:
@@ -231,6 +248,7 @@ importers:
 
   packages/unocss:
     specifiers:
+      '@unocss/cli': workspace:*
       '@unocss/core': workspace:*
       '@unocss/preset-attributify': workspace:*
       '@unocss/preset-icons': workspace:*
@@ -238,6 +256,7 @@ importers:
       '@unocss/reset': workspace:*
       '@unocss/vite': workspace:*
     dependencies:
+      '@unocss/cli': link:../cli
       '@unocss/core': link:../core
       '@unocss/preset-attributify': link:../preset-attributify
       '@unocss/preset-icons': link:../preset-icons
@@ -1050,8 +1069,8 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
 
-  /@nuxt/kit-edge/3.0.0-27274229.29599f0:
-    resolution: {integrity: sha512-8GyQaBXQh6RelLe5ahXBTZWugaBYKd3cESc+GqxoHlFVy0i2HqZkUggFShDEoT7FCckzfGHTZF5uV04k87D73w==}
+  /@nuxt/kit-edge/3.0.0-27277498.850ef69:
+    resolution: {integrity: sha512-nlRbNf0wZwIuDzUs20AE9O4bE1rcIv3yaA/oYFhqUlXumiEDqHPmiuDAL5Trbe+E3Ut7EmZxgrcwUgQ0zQ8fuQ==}
     engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0}
     dependencies:
       consola: 2.15.3
@@ -1063,7 +1082,7 @@ packages:
       hookable: 5.0.0
       jiti: 1.12.9
       lodash.template: 4.5.0
-      mlly: 0.3.12
+      mlly: 0.3.13
       pathe: 0.2.0
       pkg-types: 0.3.1
       rc9: 1.2.0
@@ -1141,6 +1160,12 @@ packages:
     resolution: {integrity: sha512-C6N5s2ZFtuZRj54k2/zyRhNDjJwwcViAM3Nbm8zjBpbqAdZ00mr0CFxvSKeO8Y/e03WVFLpQMdHYVfUd6SB+Hw==}
     dev: true
 
+  /@types/fs-extra/9.0.13:
+    resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
+    dependencies:
+      '@types/node': 16.11.6
+    dev: true
+
   /@types/graceful-fs/4.1.5:
     resolution: {integrity: sha512-anKkLmZZ+xm4p8JWBf4hElkM4XR+EZeA2M9BAkkTldmcyDY4mbdIJnRghDJH3Ov5ooY7/UAoENtmdMSkaAd7Cw==}
     dependencies:
@@ -1180,10 +1205,6 @@ packages:
 
   /@types/lz-string/1.3.34:
     resolution: {integrity: sha512-j6G1e8DULJx3ONf6NdR5JiR2ZY3K3PaaqiEuKYkLQO0Czfi1AzrtjfnfCROyWGeDd5IVMKCwsgSmMip9OWijow==}
-    dev: true
-
-  /@types/node/16.11.0:
-    resolution: {integrity: sha512-8MLkBIYQMuhRBQzGN9875bYsOhPnf/0rgXGo66S2FemHkhbn9qtsz9ywV1iCG+vbjigE4WUNVvw37Dx+L0qsPg==}
     dev: true
 
   /@types/node/16.11.1:
@@ -1612,7 +1633,6 @@ packages:
     dependencies:
       normalize-path: 3.0.0
       picomatch: 2.3.0
-    dev: true
 
   /arg/5.0.1:
     resolution: {integrity: sha512-e0hDa9H2Z9AwFkk2qDlwhoMYE4eToKarchkQHovNdLTCYMHZHeRjI71crOh+dio4K6u1IcwubQqo79Ga4CyAQA==}
@@ -1785,7 +1805,6 @@ packages:
   /binary-extensions/2.2.0:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
     engines: {node: '>=8'}
-    dev: true
 
   /brace-expansion/1.1.11:
     resolution: {integrity: sha512-iCuPHDFgrHX7H2vEI/5xpz07zSHB00TpugqhmYtVmMO6518mCuRMoOYFldEBl0g187ufozdaHgWKcYFb61qGiA==}
@@ -1874,6 +1893,11 @@ packages:
       semver: 7.3.5
     dev: true
 
+  /cac/6.7.11:
+    resolution: {integrity: sha512-m4xrA2MKfid6uDV2j2+0mXrtPGxlvAW0y+7Gnn2P8WVMSG+4e4tcoYX++94ZPblPfpBccJ5e7HvKdghlX5yiDA==}
+    engines: {node: '>=8'}
+    dev: false
+
   /cac/6.7.3:
     resolution: {integrity: sha512-ECVqVZh74qgSuZG9YOt2OJPI3wGcf+EwwuF/XIOYqZBD0KZYLtgPWqFPxmDPQ6joxI1nOlvVgRV6VT53Ooyocg==}
     engines: {node: '>=8'}
@@ -1959,7 +1983,6 @@ packages:
       readdirp: 3.6.0
     optionalDependencies:
       fsevents: 2.3.2
-    dev: true
 
   /ci-info/3.2.0:
     resolution: {integrity: sha512-dVqRX7fLUm8J6FgHJ418XuIgDLZDkYcDFTeL6TA2gt5WlIZUQrrH6EZrNClwT/H0FateUsZkGIOPRrLbP+PR9A==}
@@ -2021,6 +2044,10 @@ packages:
   /color-name/1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
     dev: true
+
+  /colorette/2.0.16:
+    resolution: {integrity: sha512-hUewv7oMjCp+wkBv5Rm0v87eJhq4woh5rSR+42YSQJKecCqgIqNkZ6lAlQms/BwHPJA5NKMRlpxPRv0n8HQW6g==}
+    dev: false
 
   /combined-stream/1.0.8:
     resolution: {integrity: sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==}
@@ -3131,7 +3158,7 @@ packages:
     resolution: {integrity: sha512-C5owb14u9eJwizKGdchcDUQeFtlSHHthBk8pbX9Vc1PFZrLombudjDnNns88aYslCyF6IY5SUw3Roz6xShcEIQ==}
     engines: {node: '>=12'}
     dependencies:
-      graceful-fs: 4.2.6
+      graceful-fs: 4.2.8
       jsonfile: 6.1.0
       universalify: 2.0.0
     dev: true
@@ -3144,7 +3171,6 @@ packages:
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
     requiresBuild: true
-    dev: true
     optional: true
 
   /function-bind/1.1.1:
@@ -3247,10 +3273,6 @@ packages:
       ignore: 5.1.8
       merge2: 1.4.1
       slash: 3.0.0
-
-  /graceful-fs/4.2.6:
-    resolution: {integrity: sha512-nTnJ528pbqxYanhpDYsi4Rd8MAeaBA67+RZ10CM1m3bTAVFEDcd5AuA4a6W5YkGZ1iNXHzZz8T6TBKLeBuNriQ==}
-    dev: true
 
   /graceful-fs/4.2.8:
     resolution: {integrity: sha512-qkIilPUYcNhJpd33n0GBXTB1MMPp14TxEsEs0pTrsSVucApsYzW5V+Q8Qxhik6KU3evy+qkAAowTByymK0avdg==}
@@ -3456,7 +3478,6 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       binary-extensions: 2.2.0
-    dev: true
 
   /is-boolean-object/1.1.2:
     resolution: {integrity: sha512-gDYaKHJmnj4aWxyj6YHyXVpdQawtVLHU5cb+eztPGczf6cjuTdwve5ZIEfgXqH4e57An1D1AKf8CZ3kYrQRqYA==}
@@ -4094,7 +4115,7 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
       '@jest/types': 27.2.5
-      '@types/node': 16.11.0
+      '@types/node': 16.11.6
       chalk: 4.1.2
       graceful-fs: 4.2.8
       is-ci: 3.0.0
@@ -4510,8 +4531,8 @@ packages:
     dependencies:
       import-meta-resolve: 1.1.1
 
-  /mlly/0.3.12:
-    resolution: {integrity: sha512-+5DdpxP48PpfV/FcP4j/8TREPycnROCg0hX1nmD6aoZ2lD4FpZI4sxWG6l6YpUktXi/vckj8NaAl3DVQSkIn3w==}
+  /mlly/0.3.13:
+    resolution: {integrity: sha512-EXpbSPqSQLR9NEdB25uoyIYLSUvAqDEI7wUeM1HwXHsPF5Gx7cP7kuby5Mz2LfCPxBrgMnbcyPhcTCJRTQ+uvA==}
     dev: false
 
   /ms/2.0.0:
@@ -4585,7 +4606,6 @@ packages:
   /normalize-path/3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
     engines: {node: '>=0.10.0'}
-    dev: true
 
   /normalize-range/0.1.2:
     resolution: {integrity: sha1-LRDAa9/TEuqXd2laTShDlFa3WUI=}
@@ -4850,7 +4870,7 @@ packages:
     resolution: {integrity: sha512-BjECNgz/tsyqg0/T4Z/U7WbFQXUT24nfkxPbALcrk/uHVeZf9MrGG4tfvYtu+jsrHCFMseLQ6woQddDEBATw3A==}
     dependencies:
       jsonc-parser: 3.0.0
-      mlly: 0.3.12
+      mlly: 0.3.13
       pathe: 0.2.0
     dev: false
 
@@ -5132,7 +5152,6 @@ packages:
     engines: {node: '>=8.10.0'}
     dependencies:
       picomatch: 2.3.0
-    dev: true
 
   /regexp-tree/0.1.24:
     resolution: {integrity: sha512-s2aEVuLhvnVJW6s/iPgEGK6R+/xngd2jNQ+xy4bXNDKxZKJH6jpPHY6kVeVv1IeLCHgswRj+Kl3ELaDjG6V1iw==}

@@ -1,0 +1,50 @@
+{
+  "name": "@unocss/cli",
+  "version": "0.7.7",
+  "description": "CLI for UnoCSS",
+  "keywords": [],
+  "homepage": "https://github.com/antfu/unocss/tree/main/packages/cli#readme",
+  "bugs": {
+    "url": "https://github.com/antfu/unocss/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antfu/unocss.git",
+    "directory": "packages/cli"
+  },
+  "funding": "https://github.com/sponsors/antfu",
+  "license": "MIT",
+  "author": {
+    "name": "Johann Schopplich",
+    "email": "pkg@johannschopplich.com",
+    "url": "https://johannschopplich.com"
+  },
+  "exports": "./dist/index.js",
+  "main": "./dist/index.js",
+  "bin": {
+    "unocss": "./bin/unocss.js"
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "bin",
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch src"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "dependencies": {
+    "@unocss/config": "workspace:*",
+    "@unocss/core": "workspace:*",
+    "@unocss/preset-uno": "workspace:*",
+    "cac": "^6.7.11",
+    "chokidar": "^3.5.2",
+    "colorette": "^2.0.16",
+    "consola": "^2.15.3",
+    "fast-glob": "^3.2.7",
+    "pathe": "^0.2.0"
+  }
+}

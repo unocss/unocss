@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "@unocss/core": "workspace:*",
+    "@unocss/cli": "workspace:*",
     "@unocss/reset": "workspace:*",
     "@unocss/preset-icons": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
