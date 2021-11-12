@@ -1,6 +1,6 @@
 {
   "name": "@unocss/monorepo",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "private": true,
   "scripts": {
     "bench": "npm -C bench run bench",
