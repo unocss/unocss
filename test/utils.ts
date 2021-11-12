@@ -8,7 +8,7 @@ export const bin = resolve(__dirname, '../packages/cli/bin/unocss.js')
 // https://stackoverflow.com/questions/52788380/get-the-current-test-spec-name-in-jest
 export const getTestName = () => expect.getState().currentTestName
 
-export async function run(files: Record<string, string>) {
+export async function runCli(files: Record<string, string>) {
   const testDir = resolve(cacheDir, getTestName())
 
   await Promise.all(

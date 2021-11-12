@@ -186,31 +186,18 @@ importers:
 
   packages/inspector:
     specifiers:
-      '@unocss/core': workspace:*
-      '@unocss/preset-attributify': workspace:*
-      '@unocss/preset-icons': workspace:*
-      '@unocss/preset-uno': workspace:*
-      '@unocss/reset': workspace:*
-      '@unocss/vite': workspace:*
       gzip-size: ^6.0.0
       sirv: ^1.0.18
     dependencies:
       gzip-size: 6.0.0
       sirv: 1.0.18
-    devDependencies:
-      '@unocss/core': link:../core
-      '@unocss/preset-attributify': link:../preset-attributify
-      '@unocss/preset-icons': link:../preset-icons
-      '@unocss/preset-uno': link:../preset-uno
-      '@unocss/reset': link:../reset
-      '@unocss/vite': link:../vite
 
   packages/nuxt:
     specifiers:
       '@nuxt/kit': npm:@nuxt/kit-edge@latest
       unocss: workspace:*
     dependencies:
-      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27276275.abfbd2f
+      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27277498.850ef69
       unocss: link:../unocss
 
   packages/preset-attributify:
@@ -261,6 +248,7 @@ importers:
 
   packages/unocss:
     specifiers:
+      '@unocss/cli': workspace:*
       '@unocss/core': workspace:*
       '@unocss/preset-attributify': workspace:*
       '@unocss/preset-icons': workspace:*
@@ -268,6 +256,7 @@ importers:
       '@unocss/reset': workspace:*
       '@unocss/vite': workspace:*
     dependencies:
+      '@unocss/cli': link:../cli
       '@unocss/core': link:../core
       '@unocss/preset-attributify': link:../preset-attributify
       '@unocss/preset-icons': link:../preset-icons
@@ -1080,8 +1069,8 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
 
-  /@nuxt/kit-edge/3.0.0-27276275.abfbd2f:
-    resolution: {integrity: sha512-BtYM+3bDdAOtnXYUkGEqtTk5V1dWJC5+8TMz8Bl5nG9Ygn9nyzAKaMRzNveE50ZWZLVIjQ0fDQrgVtIyQhHwmA==}
+  /@nuxt/kit-edge/3.0.0-27277498.850ef69:
+    resolution: {integrity: sha512-nlRbNf0wZwIuDzUs20AE9O4bE1rcIv3yaA/oYFhqUlXumiEDqHPmiuDAL5Trbe+E3Ut7EmZxgrcwUgQ0zQ8fuQ==}
     engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0}
     dependencies:
       consola: 2.15.3
@@ -1093,7 +1082,7 @@ packages:
       hookable: 5.0.0
       jiti: 1.12.9
       lodash.template: 4.5.0
-      mlly: 0.3.12
+      mlly: 0.3.13
       pathe: 0.2.0
       pkg-types: 0.3.1
       rc9: 1.2.0
@@ -4542,8 +4531,8 @@ packages:
     dependencies:
       import-meta-resolve: 1.1.1
 
-  /mlly/0.3.12:
-    resolution: {integrity: sha512-+5DdpxP48PpfV/FcP4j/8TREPycnROCg0hX1nmD6aoZ2lD4FpZI4sxWG6l6YpUktXi/vckj8NaAl3DVQSkIn3w==}
+  /mlly/0.3.13:
+    resolution: {integrity: sha512-EXpbSPqSQLR9NEdB25uoyIYLSUvAqDEI7wUeM1HwXHsPF5Gx7cP7kuby5Mz2LfCPxBrgMnbcyPhcTCJRTQ+uvA==}
     dev: false
 
   /ms/2.0.0:
@@ -4881,7 +4870,7 @@ packages:
     resolution: {integrity: sha512-BjECNgz/tsyqg0/T4Z/U7WbFQXUT24nfkxPbALcrk/uHVeZf9MrGG4tfvYtu+jsrHCFMseLQ6woQddDEBATw3A==}
     dependencies:
       jsonc-parser: 3.0.0
-      mlly: 0.3.12
+      mlly: 0.3.13
       pathe: 0.2.0
     dev: false
 

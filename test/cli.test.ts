@@ -1,12 +1,12 @@
 import { remove } from 'fs-extra'
-import { run, cacheDir } from './utils'
+import { runCli, cacheDir } from './utils'
 
 beforeAll(async() => {
   await remove(cacheDir)
 })
 
 it('builds uno.css', async() => {
-  const { output } = await run({
+  const { output } = await runCli({
     'views/index.html': '<div class="p-4 max-w-screen-md"></div>',
   })
 
@@ -14,7 +14,7 @@ it('builds uno.css', async() => {
 })
 
 it('supports unocss.config.js', async() => {
-  const { output } = await run({
+  const { output } = await runCli({
     'views/index.html': '<div class="box"></div>',
     'unocss.config.js': `
       import { defineConfig } from 'unocss'
