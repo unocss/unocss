@@ -1,6 +1,6 @@
 import { dirname, resolve } from 'path'
 import { fileURLToPath } from 'url'
-import { defineNuxtModule, extendViteConfig, extendWebpackConfig, addPluginTemplate, addComponent, addComponentsDir } from '@nuxt/kit'
+import { defineNuxtModule, extendViteConfig, extendWebpackConfig, addPluginTemplate, addComponentsDir } from '@nuxt/kit'
 import Unocss, { UnocssPluginOptions } from 'unocss/vite'
 
 const dir = dirname(fileURLToPath(import.meta.url))
