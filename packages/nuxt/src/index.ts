@@ -1,5 +1,9 @@
-import { defineNuxtModule, extendViteConfig, extendWebpackConfig, addPluginTemplate } from '@nuxt/kit'
+import { dirname, resolve } from 'path'
+import { fileURLToPath } from 'url'
+import { defineNuxtModule, extendViteConfig, extendWebpackConfig, addPluginTemplate, addComponent, addComponentsDir } from '@nuxt/kit'
 import Unocss, { UnocssPluginOptions } from 'unocss/vite'
+
+const dir = dirname(fileURLToPath(import.meta.url))
 
 export default defineNuxtModule<UnocssPluginOptions>({
   name: 'unocss',
@@ -12,6 +16,11 @@ export default defineNuxtModule<UnocssPluginOptions>({
       filename: 'unocss.mjs',
       src: '',
       getContents: () => 'import \'uno.css\';export default () => {};',
+    })
+
+    addComponentsDir({
+      path: resolve(dir, '../runtime'),
+      watch: false,
     })
 
     extendViteConfig((config) => {

@@ -32,7 +32,8 @@
   "types": "./dist/index.d.ts",
   "files": [
     "dist",
-    "index.cjs"
+    "index.cjs",
+    "runtime"
   ],
   "scripts": {
     "build": "tsup",
