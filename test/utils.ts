@@ -3,7 +3,7 @@ import { readFile, outputFile } from 'fs-extra'
 import execa from 'execa'
 
 export const cacheDir = resolve(__dirname, '.cache')
-export const bin = resolve(__dirname, '../packages/cli/bin/unocss.js')
+export const cli = resolve(__dirname, '../packages/cli/src/cli.ts')
 
 // https://stackoverflow.com/questions/52788380/get-the-current-test-spec-name-in-jest
 export const getTestName = () => expect.getState().currentTestName
@@ -17,7 +17,7 @@ export async function runCli(files: Record<string, string>) {
     ),
   )
 
-  const { exitCode, stdout, stderr } = await execa(bin, ['views/**/*'], {
+  const { exitCode, stdout, stderr } = await execa('npx', ['esno', cli, 'views/**/*'], {
     cwd: testDir,
   })
 
