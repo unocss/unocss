@@ -4,7 +4,7 @@ import { defaultExclude, defaultInclude, getPath } from '../../utils'
 import { UnocssPluginContext } from '../../context'
 import { resolveId, ALL_LAYERS } from './shared'
 
-const PLACEHOLDER_RE = /#--unocss--\s*{\s*layer\s*:\s*(.+?);?\s*}/g
+export const PLACEHOLDER_RE = /#--unocss--\s*{\s*layer\s*:\s*(.+?);?\s*}/g
 
 export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: UnocssPluginContext): Plugin[] {
   const filter = createFilter(
@@ -38,7 +38,7 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: UnocssPlugi
           return entry.id
         }
       },
-      async load(id) {
+      load(id) {
         const layer = entries.get(getPath(id))
         if (layer)
           return `#--unocss--{layer:${layer}}`
