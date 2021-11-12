@@ -23,15 +23,16 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "require": "./dist/index.js",
+      "require": "./index.cjs",
       "import": "./dist/index.mjs"
     }
   },
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "main": "./index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "index.cjs"
   ],
   "scripts": {
     "build": "tsup",
