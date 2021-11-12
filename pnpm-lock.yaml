@@ -287,17 +287,15 @@ importers:
       '@types/webpack': ^5.28.0
       '@unocss/config': workspace:*
       '@unocss/core': workspace:*
-      '@unocss/inspector': workspace:*
-      '@unocss/scope': workspace:*
       unplugin: ^0.2.20
       webpack: ^5.64.0
+      webpack-sources: ^3.2.1
     dependencies:
       '@rollup/pluginutils': 4.1.1
       '@unocss/config': link:../config
       '@unocss/core': link:../core
-      '@unocss/inspector': link:../inspector
-      '@unocss/scope': link:../scope
       unplugin: 0.2.20_vite@2.6.13+webpack@5.64.0
+      webpack-sources: 3.2.1
     devDependencies:
       '@types/webpack': 5.28.0
       webpack: 5.64.0
@@ -12799,7 +12797,6 @@ packages:
   /webpack-sources/3.2.1:
     resolution: {integrity: sha512-t6BMVLQ0AkjBOoRTZgqrWm7xbXMBzD+XDq2EZ96+vMfn3qKgsvdXZhbPZ4ElUOpdv4u+iiGe+w3+J75iy/bYGA==}
     engines: {node: '>=10.13.0'}
-    dev: true
 
   /webpack-virtual-modules/0.4.3:
     resolution: {integrity: sha512-5NUqC2JquIL2pBAAo/VfBP6KuGkHIZQXW/lNKupLPfhViwh8wNsu0BObtl09yuKZszeEUfbXz8xhrHvSG16Nqw==}
