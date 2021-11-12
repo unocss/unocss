@@ -14,16 +14,24 @@ The CLI for UnoCSS. A perfect fit for traditional backends.
 
 ## Installation
 
-If you want to use `@unocss/cli` right away, simply call it with `npx`:
+This package is shipped with the `unocss` package:
 
 ```bash
-npx @unocss/cli "site/{snippets,templates}/**/*.php"
+npm i -D unocss
 ```
 
-Or install it with a package manager of your choice:
+You can also install it standalone:
 
 ```bash
-npm i @unocss/cli -D # or pnpm i @unocss/cli -D
+npm i -D @unocss/cli
+```
+
+## Usage
+
+You can also pass multiple glob patterns to `@unocss/cli`:
+
+```bash
+unocss "site/snippets/**/*.php" "site/templates/**/*.php"
 ```
 
 Example package configuration:
@@ -42,37 +50,27 @@ Example package configuration:
 }
 ```
 
-Global installation is supported as well, but not recommended.
-
-## Usage
-
-You can also pass multiple glob patterns to `@unocss/cli`:
-
-```bash
-npx @unocss/cli "site/snippets/**/*.php" "site/templates/**/*.php"
-```
-
 ### Development
 
 Add the `--watch` (or `-w`) flag to enable watching for file changes:
 
 ```bash
-npx @unocss/cli "site/{snippets,templates}/**/*.php" --watch
+unocss "site/{snippets,templates}/**/*.php" --watch
 ```
 
 ### Production
 
 ```bash
-npx @unocss/cli "site/{snippets,templates}/**/*.php"
+unocss "site/{snippets,templates}/**/*.php"
 ```
 
 The final `uno.css` will be generated to the current directory by default.
 
 ## Built-in Features
 
-### `unocss.config.js` Support
+### Configurations
 
-Create a `unocss.config.js` configuration file the root-level of your project to customize UnoCSS.
+Create a `unocss.config.js` or `unocss.config.ts` configuration file the root-level of your project to customize UnoCSS.
 
 ```js
 import { defineConfig } from 'unocss'
@@ -86,7 +84,7 @@ export default defineConfig({
 
 For a list of options, head over to the [UnoCSS configurations](https://github.com/antfu/unocss#configurations) docs.
 
-## Options
+## CLI Options
 
 > Inspect all available options with `unocss --help`.
 

@@ -6,16 +6,18 @@ import { cyan, dim, green, white } from 'colorette'
 import { createGenerator } from '@unocss/core'
 import type { UnoGenerator } from '@unocss/core'
 import { loadConfig } from '@unocss/config'
-import { name, version } from '../package.json'
+import { version } from '../package.json'
 import { handleError, PrettyError } from './errors'
 import { debouncePromise } from './utils'
 import { defaultConfig } from './config'
-import type { Options, NormalizedOptions } from './types'
+import type { CliOptions, ResolvedCliOptions } from './types'
 
+const name = 'unocss'
 let uno: UnoGenerator
+
 const fileCache = new Map<string, string>()
 
-export async function generate(options: NormalizedOptions) {
+export async function generate(options: ResolvedCliOptions) {
   const outFile = options.outFile ?? resolve(process.cwd(), 'uno.css')
   const { css, matched } = await uno.generate([...fileCache].join('\n'))
 
@@ -34,18 +36,18 @@ export async function generate(options: NormalizedOptions) {
   }
 }
 
-const normalizeOptions = async(options: Options) => {
+export async function resolveOptions(options: CliOptions) {
   if (!options.patterns?.length) {
     throw new PrettyError(
       `No glob patterns, try ${cyan(`${name} <path/to/**/*>`)}`,
     )
   }
 
-  return options as NormalizedOptions
+  return options as ResolvedCliOptions
 }
 
-export async function build(_options: Options) {
-  const options = await normalizeOptions(_options)
+export async function build(_options: CliOptions) {
+  const options = await resolveOptions(_options)
 
   uno = createGenerator(
     loadConfig()?.config ?? {},
