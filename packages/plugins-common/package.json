@@ -4,5 +4,6 @@
   "dependencies": {
     "@unocss/core": "workspace:*",
     "@unocss/scope": "workspace:*"
-  }
+  },
+  "version": "0.9.0"
 }
