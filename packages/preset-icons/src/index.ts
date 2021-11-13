@@ -5,7 +5,7 @@ import { defaults as DefaultIconCustomizations } from '@iconify/utils/lib/custom
 import { getIconData } from '@iconify/utils/lib/icon-set/get-icon'
 import { encodeSvg, isNode, warnOnce } from './utils'
 
-export interface Options {
+export interface IconsOptions {
   scale?: number
   mode?: 'mask' | 'background-img' | 'auto'
   prefix?: string
@@ -24,7 +24,7 @@ const COLLECTION_NAME_PARTS_MAX = 3
 async function searchForIcon(
   collection: string,
   id: string,
-  collections: Required<Options>['collections'],
+  collections: Required<IconsOptions>['collections'],
   scale: number,
 ) {
   let iconSet = collections[collection]
@@ -56,7 +56,7 @@ export const preset = ({
   collections = {},
   extraProperties = {},
   layer = 'icons',
-}: Options = {}): Preset => {
+}: IconsOptions = {}): Preset => {
   return {
     name: '@unocss/preset-icons',
     enforce: 'pre',
