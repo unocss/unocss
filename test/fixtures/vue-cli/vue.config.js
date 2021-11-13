@@ -1,4 +1,4 @@
-const UnoCSS = require('../../dist').default
+const UnoCSS = require('@unocss/webpack').default
 
 module.exports = {
   configureWebpack: {

@@ -2,6 +2,8 @@
 
 The Webpack plugin for UnoCSS.
 
+> This plugin does not come with any default presets.
+
 ## Installation
 
 ```bash
@@ -10,7 +12,7 @@ npm i -D @unocss/webpack
 
 ```ts
 // webpack.config.js
-const UnoCSS = require('@unocss/webpack')
+const UnoCSS = require('@unocss/webpack').default
 
 module.exports = {
   plugins: [

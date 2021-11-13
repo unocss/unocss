@@ -1,9 +1,9 @@
 import { BetterMap, UnoGenerator } from '@unocss/core'
-import { UnocssPluginOptions } from './types'
+import { VitePluginOptions } from './types'
 
 export function createContext(
   uno: UnoGenerator,
-  config: UnocssPluginOptions,
+  config: VitePluginOptions,
   configFilepath?: string,
 ) {
   const invalidations: Array<() => void> = []

@@ -1,10 +1,9 @@
 import type { Plugin } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
-import { defaultExclude, defaultInclude, getPath } from '../../utils'
+import { getPath } from '../../utils'
 import { UnocssPluginContext } from '../../context'
-import { resolveId, ALL_LAYERS } from './shared'
-
-export const PLACEHOLDER_RE = /#--unocss--\s*{\s*layer\s*:\s*(.+?);?\s*}/g
+import { defaultExclude, defaultInclude } from '../../../../plugins-common/defaults'
+import { ALL_LAYERS, getLayerPlaceholder, PLACEHOLDER_RE, resolveId } from '../../../../plugins-common/layers'
 
 export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: UnocssPluginContext): Plugin[] {
   const filter = createFilter(
@@ -41,7 +40,7 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: UnocssPlugi
       load(id) {
         const layer = entries.get(getPath(id))
         if (layer)
-          return `#--unocss--{layer:${layer}}`
+          return getLayerPlaceholder(layer)
       },
     },
     {
@@ -66,10 +65,9 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: UnocssPlugi
           if (chunk.type === 'asset' && typeof chunk.source === 'string') {
             chunk.source = chunk.source.replace(PLACEHOLDER_RE, (_, layer) => {
               replaced = true
-              if (layer === ALL_LAYERS)
-                return result.getLayers(undefined, Array.from(entries.values()))
-              else
-                return result.getLayer(layer) || ''
+              return layer === ALL_LAYERS
+                ? result.getLayers(undefined, Array.from(entries.values()))
+                : result.getLayer(layer) || ''
             })
           }
         }

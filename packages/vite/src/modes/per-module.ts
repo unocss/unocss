@@ -1,7 +1,8 @@
 import type { Plugin, ViteDevServer } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
-import { defaultExclude, defaultInclude, getHash } from '../utils'
+import { getHash } from '../utils'
 import { UnocssPluginContext } from '../context'
+import { defaultExclude, defaultInclude } from '../../../plugins-common/defaults'
 
 const VIRTUAL_PREFIX = '/@unocss/'
 const SCOPE_IMPORT_RE = / from (['"])(@unocss\/scope)\1/

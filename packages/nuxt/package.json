@@ -40,7 +40,12 @@
     "dev": "tsup --watch src"
   },
   "dependencies": {
-    "unocss": "workspace:*",
+    "@unocss/core": "workspace:*",
+    "@unocss/webpack": "workspace:*",
+    "@unocss/vite": "workspace:*",
+    "@unocss/preset-uno": "workspace:*",
+    "@unocss/preset-attributify": "workspace:*",
+    "@unocss/preset-icons": "workspace:*",
     "@nuxt/kit": "npm:@nuxt/kit-edge@latest"
   }
 }

@@ -1,5 +1,5 @@
-- packages
-  - playground
-  - packages/*
-  - packages/webpack/fixtures/*
-  - bench
+packages:
+  - 'playground'
+  - 'packages/*'
+  - 'bench'
+  - '!**/test/**'
