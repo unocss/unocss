@@ -1,6 +1,6 @@
 import { PluginOptions } from '../../plugins-common/types'
 
-export interface VitePluginOptions extends PluginOptions {
+export interface VitePluginOptions<Theme extends {} = {}> extends PluginOptions<Theme> {
   /**
    * Enable UnoCSS inspector
    *

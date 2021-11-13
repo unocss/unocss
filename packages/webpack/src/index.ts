@@ -8,11 +8,11 @@ import { defaultInclude, defaultExclude } from '../../plugins-common/defaults'
 import { resolveId, ALL_LAYERS, PLACEHOLDER_RE } from '../../plugins-common/layers'
 import { PluginOptions } from '../../plugins-common/types'
 
-export interface WebpackPluginOptions extends PluginOptions {}
+export interface WebpackPluginOptions<Theme extends {} = {}> extends PluginOptions<Theme> {}
 
 const name = 'unocss:webpack'
 
-export function defineConfig(config: WebpackPluginOptions) {
+export function defineConfig<Theme extends {}>(config: WebpackPluginOptions<Theme>) {
   return config
 }
 

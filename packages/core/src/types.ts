@@ -163,7 +163,7 @@ export interface ConfigBase<Theme extends {} = {}> {
   sortLayers?: (layers: string[]) => string[]
 }
 
-export interface Preset extends ConfigBase {
+export interface Preset<Theme extends {} = {}> extends ConfigBase<Theme> {
   name: string
   enforce?: 'pre' | 'post'
 }

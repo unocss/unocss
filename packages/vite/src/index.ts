@@ -18,7 +18,7 @@ export * from './modes/vue-scoped'
 
 export { UnocssPluginContext } from './context'
 
-export function defineConfig(config: VitePluginOptions) {
+export function defineConfig<Theme extends {}>(config: VitePluginOptions<Theme>) {
   return config
 }
 
