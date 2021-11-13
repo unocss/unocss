@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "bench": "npm -C bench run bench",
-    "build": "pnpm -r --parallel --filter !playground --filter !cli run build && pnpm -C packages/cli run build && pnpm -r run post",
+    "build": "pnpm -r --filter !playground --filter !fixtures run build && pnpm -r run build-post",
     "dev": "pnpm -r --parallel --filter !playground run dev",
     "lint": "eslint \"**/*.{ts,vue,mjs}\"",
     "lint:fix": "nr lint -- --fix",
@@ -38,6 +38,7 @@
     "@unocss/preset-icons": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
     "@unocss/reset": "workspace:*",
+    "@unocss/webpack": "workspace:*",
     "@unocss/vite": "workspace:*",
     "@vitejs/plugin-vue": "^1.9.4",
     "@vueuse/core": "^6.7.4",

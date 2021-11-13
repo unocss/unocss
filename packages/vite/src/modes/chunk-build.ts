@@ -1,7 +1,7 @@
 import type { Plugin } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
 import { UnocssPluginContext } from '../context'
-import { defaultExclude, defaultInclude } from '../utils'
+import { defaultInclude, defaultExclude } from '../../../plugins-common/defaults'
 
 export function ChunkModeBuildPlugin({ uno, config }: UnocssPluginContext): Plugin {
   let cssPlugin: Plugin | undefined

@@ -1,4 +1,5 @@
-- packages
-  - playground
-  - packages/*
-  - bench
+packages:
+  - 'playground'
+  - 'packages/*'
+  - 'bench'
+  - '!**/test/**'

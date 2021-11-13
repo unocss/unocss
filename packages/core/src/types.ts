@@ -225,7 +225,7 @@ export interface GenerateResult {
   css: string
   layers: string[]
   getLayer(name?: string): string | undefined
-  getLayers(excludes?: string[]): string
+  getLayers(includes?: string[], excludes?: string[]): string
   matched: Set<string>
 }
 

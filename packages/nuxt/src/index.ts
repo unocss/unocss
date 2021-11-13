@@ -1,17 +1,26 @@
 import { dirname, resolve } from 'path'
 import { fileURLToPath } from 'url'
 import { defineNuxtModule, extendViteConfig, extendWebpackConfig, addPluginTemplate, addComponentsDir } from '@nuxt/kit'
-import Unocss, { UnocssPluginOptions } from 'unocss/vite'
+import { UserConfig } from '@unocss/core'
 
 const dir = dirname(fileURLToPath(import.meta.url))
 
-export default defineNuxtModule<UnocssPluginOptions>({
-  name: 'unocss',
-  defaults: {},
-  configKey: 'unocss',
-  setup(options, nuxt) {
-    nuxt.options.alias['/_nuxt/@unocss-entry.css'] = '/@unocss-entry.css'
+export interface UnocssNuxtOptions extends UserConfig {
+  /**
+   * Injecting `uno.css` entry automatically
+   *
+   * @default true
+   */
+  autoImport?: boolean
+}
 
+export default defineNuxtModule<UnocssNuxtOptions>({
+  name: 'unocss',
+  defaults: {
+    autoImport: true,
+  },
+  configKey: 'unocss',
+  setup(options) {
     addPluginTemplate({
       filename: 'unocss.mjs',
       src: '',
@@ -23,13 +32,16 @@ export default defineNuxtModule<UnocssPluginOptions>({
       watch: false,
     })
 
-    extendViteConfig((config) => {
+    extendViteConfig(async(config) => {
+      const { default: Plugin } = await import('@unocss/vite')
       config.plugins = config.plugins || []
-      config.plugins.unshift(...Unocss(options))
+      config.plugins.unshift(...Plugin(options))
     })
 
-    extendWebpackConfig(() => {
-      throw new Error('UnoCSS does not support Webpack at this moment')
+    extendWebpackConfig(async(config) => {
+      const { default: Plugin } = await import('@unocss/webpack')
+      config.plugins = config.plugins || []
+      config.plugins.push(Plugin(options))
     })
   },
 })

@@ -6,9 +6,9 @@ import { createContext } from './context'
 import { ChunkModeBuildPlugin } from './modes/chunk-build'
 import { GlobalModeDevPlugin, GlobalModePlugin } from './modes/global'
 import { PerModuleModePlugin } from './modes/per-module'
-import { UnocssPluginOptions } from './types'
 import { VueScopedPlugin } from './modes/vue-scoped'
 import { ConfigHMRPlugin } from './config-hmr'
+import { VitePluginOptions } from './types'
 
 export * from './types'
 export * from './modes/chunk-build'
@@ -18,8 +18,12 @@ export * from './modes/vue-scoped'
 
 export { UnocssPluginContext } from './context'
 
+export function defineConfig(config: VitePluginOptions) {
+  return config
+}
+
 export default function UnocssPlugin(
-  configOrPath?: UnocssPluginOptions | string,
+  configOrPath?: VitePluginOptions | string,
   defaults: UserConfigDefaults = {},
 ): Plugin[] {
   const { config = {}, filepath } = loadConfig(configOrPath)

@@ -33,8 +33,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup ",
-    "post": "vite build",
+    "build": "tsup",
+    "build-post": "vite build",
     "dev": "tsup --watch node",
     "play": "vite"
   },

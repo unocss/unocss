@@ -1,21 +1,19 @@
 {
-  "name": "@unocss/nuxt",
-  "version": "0.8.1",
-  "description": "Nuxt module for UnoCSS",
+  "name": "@unocss/webpack",
+  "version": "0.8.0",
+  "description": "The Webpack plugin for UnoCSS",
   "keywords": [
     "unocss",
-    "nuxt-module",
-    "nuxt",
-    "nuxt3"
+    "webpack-plugin"
   ],
-  "homepage": "https://github.com/antfu/unocss#readme",
+  "homepage": "https://github.com/antfu/unocss/tree/main/packages/webpack#readme",
   "bugs": {
     "url": "https://github.com/antfu/unocss/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/antfu/unocss.git",
-    "directory": "packages/nuxt"
+    "directory": "packages/webpack"
   },
   "funding": "https://github.com/sponsors/antfu",
   "license": "MIT",
@@ -23,29 +21,33 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "require": "./index.cjs",
+      "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     }
   },
-  "main": "./index.cjs",
+  "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist",
-    "index.cjs",
-    "runtime"
+    "dist"
   ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch src"
   },
   "dependencies": {
+    "@rollup/pluginutils": "^4.1.1",
+    "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
-    "@unocss/webpack": "workspace:*",
-    "@unocss/vite": "workspace:*",
-    "@unocss/preset-uno": "workspace:*",
-    "@unocss/preset-attributify": "workspace:*",
-    "@unocss/preset-icons": "workspace:*",
-    "@nuxt/kit": "npm:@nuxt/kit-edge@latest"
+    "unplugin": "^0.2.20",
+    "webpack-sources": "^3.2.1"
+  },
+  "peerDependencies": {
+    "webpack": "^4 || ^5"
+  },
+  "devDependencies": {
+    "@types/webpack": "^5.28.0",
+    "@types/webpack-sources": "^3.2.0",
+    "webpack": "^5.64.0"
   }
 }
