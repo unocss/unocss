@@ -30,7 +30,7 @@
     "dist"
   ],
   "scripts": {
-    "build-post": "tsup",
+    "build": "tsup",
     "dev": "tsup --watch src"
   },
   "engines": {

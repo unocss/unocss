@@ -41,7 +41,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     extendWebpackConfig(async(config) => {
       const { default: Plugin } = await import('@unocss/webpack')
       config.plugins = config.plugins || []
-      config.plugins.unshift(...Plugin(options))
+      config.plugins.push(Plugin(options))
     })
   },
 })
