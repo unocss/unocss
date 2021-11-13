@@ -1,14 +1,53 @@
 import { colors } from './colors'
-import { fontFamily, fontSize, letterSpacing, lineHeight, textIndent, textStrokeWidth, textShadow } from './font'
+import {
+  fontFamily,
+  fontSize,
+  letterSpacing,
+  lineHeight,
+  textIndent,
+  textStrokeWidth,
+  textShadow,
+} from './font'
 import { breakpoints, borderRadius, boxShadow } from './misc'
 import { blur, dropShadow } from './filters'
 
 export * from './colors'
 
+type Colors =
+  | 'inherit'
+  | 'current'
+  | 'transparent'
+  | 'black'
+  | 'white'
+  | 'rose'
+  | 'pink'
+  | 'fuchsia'
+  | 'purple'
+  | 'violet'
+  | 'indigo'
+  | 'blue'
+  | 'sky'
+  | 'cyan'
+  | 'teal'
+  | 'emerald'
+  | 'green'
+  | 'lime'
+  | 'yellow'
+  | 'amber'
+  | 'orange'
+  | 'red'
+  | 'warmgray'
+  | 'truegray'
+  | 'gray'
+  | 'coolgray'
+  | 'bluegray'
+  | 'light'
+  | 'dark'
+
 export interface Theme {
   borderRadius?: Record<string, string>
   breakpoints?: Record<string, string>
-  colors?: Record<string, string | Record<string, string>>
+  colors?: Record<Colors, string | Record<number | string, string>>
   fontFamily?: Record<string, string>
   fontSize?: Record<string, [string, string]>
   lineHeight?: Record<string, string>
