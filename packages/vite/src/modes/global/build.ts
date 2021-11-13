@@ -67,7 +67,7 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: UnocssPlugi
             chunk.source = chunk.source.replace(PLACEHOLDER_RE, (_, layer) => {
               replaced = true
               if (layer === ALL_LAYERS)
-                return result.getLayers(Array.from(entries.values()))
+                return result.getLayers(undefined, Array.from(entries.values()))
               else
                 return result.getLayer(layer) || ''
             })

@@ -188,8 +188,8 @@ export class UnoGenerator {
         : css
     }
 
-    const getLayers = (excludes?: string[]) => {
-      return layers
+    const getLayers = (includes = layers, excludes?: string[]) => {
+      return includes
         .filter(i => !excludes?.includes(i))
         .map(i => getLayer(i) || '')
         .filter(Boolean)

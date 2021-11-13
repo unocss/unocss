@@ -32,6 +32,7 @@ const unplugin = createUnplugin((configOrPath?: UnocssPluginOptions | string) =>
   const entries = new Map<string, string>()
 
   const isDev = !!process.env.WEBPACK_DEV_SERVER
+  let devInitialized = false
 
   const plugin = <UnpluginOptions>{
     name: 'unocss:webpack',
@@ -51,6 +52,7 @@ const unplugin = createUnplugin((configOrPath?: UnocssPluginOptions | string) =>
         return entry.id
       }
     },
+    // serve the placeholders in build
     load: isDev
       ? undefined
       : (id) => {
@@ -59,29 +61,37 @@ const unplugin = createUnplugin((configOrPath?: UnocssPluginOptions | string) =>
           return `#--unocss--{layer:${layer}}`
       },
     webpack(compiler) {
-      compiler.hooks.compilation.tap(name, (compilation) => {
-        compilation.hooks.optimizeChunkAssets.tapPromise(name, async(chunks) => {
-          const files = Array.from(chunks)
-            .flatMap(i => [...i.files])
-            .filter(i => i.endsWith('.css'))
+      // replace the placeholders in build
+      if (!isDev) {
+        compiler.hooks.compilation.tap(name, (compilation) => {
+          compilation.hooks.optimizeAssets.tapPromise(name, async() => {
+            const files = Object.keys(compilation.assets)
+              .filter(i => i.endsWith('.css'))
 
-          await Promise.all(tasks)
-          const result = await uno.generate(tokens, { layerComments: false })
+            await Promise.all(tasks)
+            const result = await uno.generate(tokens, { layerComments: false })
 
-          for (const file of files) {
-            let code = compilation.assets[file].source().toString()
-            let replaced = false
-            code = code.replace(PLACEHOLDER_RE, (_, layer) => {
-              replaced = true
-              if (layer === ALL_LAYERS)
-                return result.getLayers(Array.from(entries.values()))
-              else
-                return result.getLayer(layer) || ''
-            })
-            if (replaced)
-              compilation.assets[file] = new RawSource(code) as any
-          }
+            for (const file of files) {
+              let code = compilation.assets[file].source().toString()
+              let replaced = false
+              code = code.replace(PLACEHOLDER_RE, (_, layer) => {
+                replaced = true
+                return layer === ALL_LAYERS
+                  ? result.getLayers(undefined, Array.from(entries.values()))
+                  : result.getLayer(layer) || ''
+              })
+              if (replaced)
+                compilation.assets[file] = new RawSource(code) as any
+            }
+          })
         })
+      }
+      // workaround: retrigger file update after the initial bundle finished
+      compiler.hooks.done.tap('done', () => {
+        if (isDev && !devInitialized) {
+          devInitialized = true
+          updateModules()
+        }
       })
     },
   } as Required<ResolvedUnpluginOptions>
@@ -111,7 +121,7 @@ const unplugin = createUnplugin((configOrPath?: UnocssPluginOptions | string) =>
         if (!layer)
           return
         const code = layer === ALL_LAYERS
-          ? result.getLayers()
+          ? result.getLayers(undefined, Array.from(entries.values()))
           : result.getLayer(layer) || ''
         plugin.__vfs.writeModule(id, code)
       })

@@ -53,10 +53,8 @@ tailwindcss  v3.0.0-alpha.1    1290.96 ms / delta.   1282.66 ms (x243.05)
 
 UnoCSS is designed **NOT** to be/have:
 
-- Align with Tailwind - technically, UnoCSS is flexible enough to do that, but it's not a priority.
 - A CSS preprocessor (e.g. `@apply`) - but you can use [shortcuts](#shortcuts).
 - Tailwind's plugin system - but you can write custom rules in seconds and share them as presets!
-- Integrations for Webpack or others - it's **Vite only** (at this moment)
 
 ###### Disclaimer
 
