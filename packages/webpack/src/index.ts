@@ -1,8 +1,8 @@
 import { BetterMap, createGenerator, UserConfigDefaults } from '@unocss/core'
 import { loadConfig } from '@unocss/config'
 import { createUnplugin, UnpluginOptions, ResolvedUnpluginOptions } from 'unplugin'
-import { RawSource } from 'webpack-sources'
 import { createFilter } from '@rollup/pluginutils'
+import * as WebpackSources from 'webpack-sources'
 import { getPath } from '../../vite/src/utils'
 import { defaultInclude, defaultExclude } from '../../plugins-common/defaults'
 import { resolveId, ALL_LAYERS, PLACEHOLDER_RE } from '../../plugins-common/layers'
@@ -85,7 +85,7 @@ export default function WebpackPlugin(
                     : result.getLayer(layer) || ''
                 })
                 if (replaced)
-                  compilation.assets[file] = new RawSource(code) as any
+                  compilation.assets[file] = new WebpackSources.RawSource(code) as any
               }
             })
           })
