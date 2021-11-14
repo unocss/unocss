@@ -5,12 +5,13 @@ import { createFilter } from '@rollup/pluginutils'
 import WebpackSources from 'webpack-sources'
 import { getPath } from '../../vite/src/utils'
 import { defaultInclude, defaultExclude } from '../../plugins-common/defaults'
-import { resolveId, ALL_LAYERS, PLACEHOLDER_RE, getLayerPlaceholder } from '../../plugins-common/layers'
+import { resolveId, LAYER_MARK_ALL, LAYER_PLACEHOLDER_RE, getLayerPlaceholder } from '../../plugins-common/layers'
 import { PluginOptions } from '../../plugins-common/types'
 
 export interface WebpackPluginOptions<Theme extends {} = {}> extends PluginOptions<Theme> {}
 
-const name = 'unocss:webpack'
+const PLUGIN_NAME = 'unocss:webpack'
+const UPDATE_DEBOUNCE = 10
 
 export function defineConfig<Theme extends {}>(config: WebpackPluginOptions<Theme>) {
   return config
@@ -34,8 +35,6 @@ export default function WebpackPlugin(
     const tokens = new Set<string>()
     const tasks: Promise<any>[] = []
     const entries = new Map<string, string>()
-
-    const isDev = !!process.env.WEBPACK_DEV_SERVER || process.env.NODE_ENV === 'development'
 
     const plugin = <UnpluginOptions>{
       name: 'unocss:webpack',
@@ -63,8 +62,8 @@ export default function WebpackPlugin(
       },
       webpack(compiler) {
         // replace the placeholders
-        compiler.hooks.compilation.tap(name, (compilation) => {
-          compilation.hooks.optimizeAssets.tapPromise(name, async() => {
+        compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation) => {
+          compilation.hooks.optimizeAssets.tapPromise(PLUGIN_NAME, async() => {
             const files = Object.keys(compilation.assets)
 
             await Promise.all(tasks)
@@ -73,9 +72,9 @@ export default function WebpackPlugin(
             for (const file of files) {
               let code = compilation.assets[file].source().toString()
               let replaced = false
-              code = code.replace(PLACEHOLDER_RE, (_, quote, layer) => {
+              code = code.replace(LAYER_PLACEHOLDER_RE, (_, quote, layer) => {
                 replaced = true
-                const css = layer === ALL_LAYERS
+                const css = layer === LAYER_MARK_ALL
                   ? result.getLayers(undefined, Array.from(entries.values()))
                   : result.getLayer(layer) || ''
 
@@ -107,7 +106,7 @@ export default function WebpackPlugin(
     let timer: any
     function scheduleUpdate() {
       clearTimeout(timer)
-      timer = setTimeout(updateModules, 10)
+      timer = setTimeout(updateModules, UPDATE_DEBOUNCE)
     }
 
     async function updateModules() {
@@ -121,7 +120,7 @@ export default function WebpackPlugin(
           const layer = entries.get(path)
           if (!layer)
             return
-          const code = layer === ALL_LAYERS
+          const code = layer === LAYER_MARK_ALL
             ? result.getLayers(undefined, Array.from(entries.values()))
             : result.getLayer(layer) || ''
           plugin.__vfs.writeModule(id, code)

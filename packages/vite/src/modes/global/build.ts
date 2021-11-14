@@ -3,7 +3,7 @@ import { createFilter } from '@rollup/pluginutils'
 import { getPath } from '../../utils'
 import { UnocssPluginContext } from '../../context'
 import { defaultExclude, defaultInclude } from '../../../../plugins-common/defaults'
-import { ALL_LAYERS, getLayerPlaceholder, PLACEHOLDER_RE, resolveId } from '../../../../plugins-common/layers'
+import { LAYER_MARK_ALL, getLayerPlaceholder, LAYER_PLACEHOLDER_RE, resolveId } from '../../../../plugins-common/layers'
 
 export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: UnocssPluginContext): Plugin[] {
   const filter = createFilter(
@@ -63,9 +63,9 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: UnocssPlugi
         for (const file of files) {
           const chunk = bundle[file]
           if (chunk.type === 'asset' && typeof chunk.source === 'string') {
-            chunk.source = chunk.source.replace(PLACEHOLDER_RE, (_, __, layer) => {
+            chunk.source = chunk.source.replace(LAYER_PLACEHOLDER_RE, (_, __, layer) => {
               replaced = true
-              return layer === ALL_LAYERS
+              return layer === LAYER_MARK_ALL
                 ? result.getLayers(undefined, Array.from(entries.values()))
                 : result.getLayer(layer) || ''
             })

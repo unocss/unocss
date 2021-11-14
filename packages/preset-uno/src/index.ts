@@ -1,7 +1,6 @@
 import { Preset } from '@unocss/core'
 import { rules } from './rules'
-import { Theme } from './theme'
-import { theme } from './theme'
+import { Theme, theme } from './theme'
 import { variants } from './variants'
 
 export { theme, colors } from './theme'
