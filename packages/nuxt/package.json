@@ -43,6 +43,7 @@
     "@unocss/core": "workspace:*",
     "@unocss/webpack": "workspace:*",
     "@unocss/vite": "workspace:*",
+    "@unocss/reset": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
     "@unocss/preset-icons": "workspace:*",

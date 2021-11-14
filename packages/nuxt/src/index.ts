@@ -12,11 +12,18 @@ const dir = dirname(fileURLToPath(import.meta.url))
 
 export interface UnocssNuxtOptions extends UserConfig {
   /**
-   * Injecting `uno.css` entry automatically
+   * Injecting `uno.css` entry
    *
    * @default true
    */
   autoImport?: boolean
+
+  /**
+   * Injecting `@unocss/reset/tailwind.css` entry
+   *
+   * @default false
+   */
+  preflight?: boolean
 
   /**
    * Installing UnoCSS components
@@ -72,7 +79,15 @@ export default defineNuxtModule<UnocssNuxtOptions>({
       addPluginTemplate({
         filename: 'unocss.mjs',
         src: '',
-        getContents: () => 'import \'uno.css\';export default () => {};',
+        getContents: () => {
+          const lines = [
+            'import \'uno.css\'',
+            'export default () => {};',
+          ]
+          if (options.preflight)
+            lines.unshift('import \'@unocss/reset/tailwind.css\'')
+          return lines.join('\n')
+        },
       })
     }
 

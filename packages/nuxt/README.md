@@ -23,7 +23,10 @@ npm i -g @unocss/nuxt
 export default {
   buildModules: [
     '@unocss/nuxt'
-  ]
+  ],
+  unocss: {
+    // options
+  }
 }
 ```
 
