@@ -51,7 +51,7 @@ Unocss({
 
 ## Configuration
 
-Refer to the [type definition](https://github.com/antfu/unocss/blob/main/packages/preset-icons/src/index.ts#L8) for all configrations avaliable.
+Refer to the [type definition](https://github.com/antfu/unocss/blob/main/packages/preset-icons/src/types.ts#L4) for all configurations avaliable.
 
 ### Extra Properties
 
