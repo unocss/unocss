@@ -201,6 +201,7 @@ importers:
       '@unocss/preset-attributify': workspace:*
       '@unocss/preset-icons': workspace:*
       '@unocss/preset-uno': workspace:*
+      '@unocss/reset': workspace:*
       '@unocss/vite': workspace:*
       '@unocss/webpack': workspace:*
     dependencies:
@@ -209,6 +210,7 @@ importers:
       '@unocss/preset-attributify': link:../preset-attributify
       '@unocss/preset-icons': link:../preset-icons
       '@unocss/preset-uno': link:../preset-uno
+      '@unocss/reset': link:../reset
       '@unocss/vite': link:../vite
       '@unocss/webpack': link:../webpack
 
