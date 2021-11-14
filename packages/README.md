@@ -12,6 +12,6 @@
 | [@unocss/reset](./reset) | Collection of common CSS resets | ✅ |
 | [@unocss/vite](./vite) | The Vite plugins | ✅ |
 | [@unocss/webpack](./webpack) | The Webpack plugin | No |
-| [@unocss/nuxt](./webpack) | The Nuxt Module | No |
+| [@unocss/nuxt](./nuxt) | The Nuxt Module | No |
 | [@unocss/runtime](./runtime) | CSS-in-JS Runtime for UnoCSS | No |
 | [@unocss/extractor-pug](./extractor-pug) | Extractor for Pug | No |
