@@ -36,7 +36,6 @@ export default function WebpackPlugin(
     const entries = new Map<string, string>()
 
     const isDev = !!process.env.WEBPACK_DEV_SERVER || process.env.NODE_ENV === 'development'
-    let devInitialized = false
 
     const plugin = <UnpluginOptions>{
       name: 'unocss:webpack',
@@ -56,20 +55,17 @@ export default function WebpackPlugin(
           return entry.id
         }
       },
-      // serve the placeholders in build
-      load: isDev
-        ? undefined
-        : (id) => {
-          const layer = entries.get(getPath(id))
-          if (layer)
-            return getLayerPlaceholder(layer)
-        },
+      // serve the placeholders in virtual module
+      load(id) {
+        const layer = entries.get(getPath(id))
+        if (layer)
+          return getLayerPlaceholder(layer)
+      },
       webpack(compiler) {
-        // replace the placeholders in build
+        // replace the placeholders
         compiler.hooks.compilation.tap(name, (compilation) => {
           compilation.hooks.optimizeAssets.tapPromise(name, async() => {
             const files = Object.keys(compilation.assets)
-              .filter(i => i.endsWith('.css'))
 
             await Promise.all(tasks)
             const result = await uno.generate(tokens, { layerComments: false })
@@ -77,23 +73,26 @@ export default function WebpackPlugin(
             for (const file of files) {
               let code = compilation.assets[file].source().toString()
               let replaced = false
-              code = code.replace(PLACEHOLDER_RE, (_, layer) => {
+              code = code.replace(PLACEHOLDER_RE, (_, quote, layer) => {
                 replaced = true
-                return layer === ALL_LAYERS
+                const css = layer === ALL_LAYERS
                   ? result.getLayers(undefined, Array.from(entries.values()))
                   : result.getLayer(layer) || ''
+
+                if (!quote)
+                  return css
+
+                // the css is in a js file, escaping
+                let escaped = JSON.stringify(css).slice(1, -1)
+                // in `eval()`, escaping twice
+                if (quote === '\\"')
+                  escaped = JSON.stringify(escaped).slice(1, -1)
+                return quote + escaped
               })
               if (replaced)
                 compilation.assets[file] = new WebpackSources.RawSource(code) as any
             }
           })
-        })
-        // workaround: retrigger file update after the initial bundle finished
-        compiler.hooks.done.tap('done', () => {
-          if (isDev && !devInitialized) {
-            devInitialized = true
-            updateModules()
-          }
         })
       },
     } as Required<ResolvedUnpluginOptions>

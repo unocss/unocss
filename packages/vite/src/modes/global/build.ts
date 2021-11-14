@@ -63,7 +63,7 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: UnocssPlugi
         for (const file of files) {
           const chunk = bundle[file]
           if (chunk.type === 'asset' && typeof chunk.source === 'string') {
-            chunk.source = chunk.source.replace(PLACEHOLDER_RE, (_, layer) => {
+            chunk.source = chunk.source.replace(PLACEHOLDER_RE, (_, __, layer) => {
               replaced = true
               return layer === ALL_LAYERS
                 ? result.getLayers(undefined, Array.from(entries.values()))

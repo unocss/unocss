@@ -2,6 +2,15 @@
 
 Nuxt module for UnoCSS
 
+## Supporting Status
+
+| | Nuxt 2 | Nuxt Bridge | Nuxt 3 |
+| --- | --- | --- | --- |
+| Webpack Dev | ✅ | ✅ | 🚧 |
+| Webpack Build | ✅ | ✅ | ✅ |
+| Vite Dev | - | ✅ | ✅ |
+| Vite Build | - | ✅ | ✅ |
+
 ## Installation
 
 ```bash
