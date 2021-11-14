@@ -1,5 +1,8 @@
+.cache
 .DS_Store
 .idea/
+.nuxt
+.output
 *.local
 *.log
 bench/source/gen*.js
@@ -7,7 +10,7 @@ coverage
 dist
 dist-ssr
 node_modules
-result.json
-packages/unocss/README.md
 packages/runtime/*.global.js
-.cache
+packages/unocss/README.md
+result.json
+test/fixtures/**/pnpm-lock.yaml

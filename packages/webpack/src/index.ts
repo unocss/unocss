@@ -2,10 +2,10 @@ import { BetterMap, createGenerator, UserConfigDefaults } from '@unocss/core'
 import { loadConfig } from '@unocss/config'
 import { createUnplugin, UnpluginOptions, ResolvedUnpluginOptions } from 'unplugin'
 import { createFilter } from '@rollup/pluginutils'
-import * as WebpackSources from 'webpack-sources'
+import WebpackSources from 'webpack-sources'
 import { getPath } from '../../vite/src/utils'
 import { defaultInclude, defaultExclude } from '../../plugins-common/defaults'
-import { resolveId, ALL_LAYERS, PLACEHOLDER_RE } from '../../plugins-common/layers'
+import { resolveId, ALL_LAYERS, PLACEHOLDER_RE, getLayerPlaceholder } from '../../plugins-common/layers'
 import { PluginOptions } from '../../plugins-common/types'
 
 export interface WebpackPluginOptions<Theme extends {} = {}> extends PluginOptions<Theme> {}
@@ -35,7 +35,7 @@ export default function WebpackPlugin(
     const tasks: Promise<any>[] = []
     const entries = new Map<string, string>()
 
-    const isDev = !!process.env.WEBPACK_DEV_SERVER
+    const isDev = !!process.env.WEBPACK_DEV_SERVER || process.env.NODE_ENV === 'development'
     let devInitialized = false
 
     const plugin = <UnpluginOptions>{
@@ -62,34 +62,32 @@ export default function WebpackPlugin(
         : (id) => {
           const layer = entries.get(getPath(id))
           if (layer)
-            return `#--unocss--{layer:${layer}}`
+            return getLayerPlaceholder(layer)
         },
       webpack(compiler) {
-      // replace the placeholders in build
-        if (!isDev) {
-          compiler.hooks.compilation.tap(name, (compilation) => {
-            compilation.hooks.optimizeAssets.tapPromise(name, async() => {
-              const files = Object.keys(compilation.assets)
-                .filter(i => i.endsWith('.css'))
+        // replace the placeholders in build
+        compiler.hooks.compilation.tap(name, (compilation) => {
+          compilation.hooks.optimizeAssets.tapPromise(name, async() => {
+            const files = Object.keys(compilation.assets)
+              .filter(i => i.endsWith('.css'))
 
-              await Promise.all(tasks)
-              const result = await uno.generate(tokens, { layerComments: false })
+            await Promise.all(tasks)
+            const result = await uno.generate(tokens, { layerComments: false })
 
-              for (const file of files) {
-                let code = compilation.assets[file].source().toString()
-                let replaced = false
-                code = code.replace(PLACEHOLDER_RE, (_, layer) => {
-                  replaced = true
-                  return layer === ALL_LAYERS
-                    ? result.getLayers(undefined, Array.from(entries.values()))
-                    : result.getLayer(layer) || ''
-                })
-                if (replaced)
-                  compilation.assets[file] = new WebpackSources.RawSource(code) as any
-              }
-            })
+            for (const file of files) {
+              let code = compilation.assets[file].source().toString()
+              let replaced = false
+              code = code.replace(PLACEHOLDER_RE, (_, layer) => {
+                replaced = true
+                return layer === ALL_LAYERS
+                  ? result.getLayers(undefined, Array.from(entries.values()))
+                  : result.getLayer(layer) || ''
+              })
+              if (replaced)
+                compilation.assets[file] = new WebpackSources.RawSource(code) as any
+            }
           })
-        }
+        })
         // workaround: retrigger file update after the initial bundle finished
         compiler.hooks.done.tap('done', () => {
           if (isDev && !devInitialized) {

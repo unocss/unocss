@@ -5,6 +5,8 @@ import { UserConfig } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import presetAttributify, { AttributifyOptions } from '@unocss/preset-attributify'
 import presetIcons, { IconsOptions } from '@unocss/preset-icons'
+import WebpackPlugin from '@unocss/webpack'
+import VitePlugin from '@unocss/vite'
 
 const dir = dirname(fileURLToPath(import.meta.url))
 
@@ -15,6 +17,14 @@ export interface UnocssNuxtOptions extends UserConfig {
    * @default true
    */
   autoImport?: boolean
+
+  /**
+   * Installing UnoCSS components
+   * - `<UnoIcon>`
+   *
+   * @default true
+   */
+  components?: boolean
 
   /**
    * Enable the default preset
@@ -42,6 +52,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
   name: 'unocss',
   defaults: {
     autoImport: true,
+    components: true,
     uno: true,
   },
   configKey: 'unocss',
@@ -65,21 +76,21 @@ export default defineNuxtModule<UnocssNuxtOptions>({
       })
     }
 
-    addComponentsDir({
-      path: resolve(dir, '../runtime'),
-      watch: false,
+    if (options.components) {
+      addComponentsDir({
+        path: resolve(dir, '../runtime'),
+        watch: false,
+      })
+    }
+
+    extendViteConfig((config) => {
+      config.plugins = config.plugins || []
+      config.plugins.unshift(...VitePlugin(options))
     })
 
-    extendViteConfig(async(config) => {
-      const { default: Plugin } = await import('@unocss/vite')
+    extendWebpackConfig((config) => {
       config.plugins = config.plugins || []
-      config.plugins.unshift(...Plugin(options))
-    })
-
-    extendWebpackConfig(async(config) => {
-      const { default: Plugin } = await import('@unocss/webpack')
-      config.plugins = config.plugins || []
-      config.plugins.push(Plugin(options))
+      config.plugins.unshift(WebpackPlugin(options))
     })
   },
 })

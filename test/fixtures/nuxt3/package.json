@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "nuxi build",
+    "dev": "nuxi dev",
+    "start": "node .output/server/index.mjs"
+  },
+  "devDependencies": {
+    "nuxt3": "latest",
+    "@iconify-json/carbon": "^1.0.9",
+    "@unocss/core": "link:../../../packages/core",
+    "@unocss/nuxt": "link:../../../packages/nuxt",
+    "@unocss/reset": "link:../../../packages/reset",
+    "unocss": "link:../../../packages/unocss"
+  }
+}
