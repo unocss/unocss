@@ -23,12 +23,14 @@ import { cssVariables } from './variables'
 import { questionMark } from './question-mark'
 import { textAligns, verticalAligns } from './align'
 import { divides } from './divide'
+import { lineClamps } from './line-clamp'
 
 export const rules: Rule[] = [
   screenReadersAccess,
   cssVariables,
   paddings,
   margins,
+  lineClamps,
   displays,
   opacity,
   bgAttachments,

@@ -330,6 +330,9 @@ const targets = [
   'backdrop-saturate-30',
   'backdrop-sepia',
   'backdrop-sepia-80',
+  'line-clamp-7',
+  'line-clamp-100',
+  'line-clamp-none',
 ]
 
 const nonTargets = [
