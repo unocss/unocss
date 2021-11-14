@@ -94,14 +94,14 @@ All `CSS` properties added to the `extraProperties` configuration option will be
 The way you include the icon collections should be installing it from `@iconify/json` or adding each collection from
 its own package using `@iconify-json/<collection>`.
 
-If you include `@iconify/json` or a lot of individual collections may cause degradation, since this preset will need
-to traverse all collections to find the requested icon.
+If you include `@iconify/json` or a lot of individual collections, it may cause degradation, since this preset will need
+to traverse all collections to look up the requested icon.
 
-This configuration option allow you to hint this preset what collections are you using, and so, it will only find on
+This configuration option will allow you to hint this preset what collections are you using, and so, it will only find on
 these collections.
 
-This option can be also be used to load your own icons, you only need to provide the loader via `Awaittable`, and os you
-can for example read your svg icons from some directory.
+This option can be also be used to load your own icons, you only need to provide the loader via `Awaitable`, and so you
+can, for example, read your svg icons from some directory.
 
 ### Layer
 
@@ -110,7 +110,7 @@ override if the name conflicts.
 
 ### Warn
 
-The flag will allow you to be warned when you include a collection  that is not installed or an icon that is missing 
+The flag will allow you to be warned when you include a collection that is not installed or an icon that is missing 
 from the collection.
 
 The default value is `false`.
