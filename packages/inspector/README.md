@@ -12,9 +12,9 @@ Visit `http://localhost:3000/__unocss` in your Vite dev server to see the inspec
 - [x] Basic Overview
 - [x] Basic REPL
 - [x] Basic file view
+- [x] Resizeable sidebar (use `splitpanes`, refer to playground)
 - [ ] Data caches (move the fetches to shared modules instead of in components)
 - [ ] Manual refresh button
-- [ ] Resizeable sidebar (use `splitpanes`, refer to playground)
 - [ ] Auto reload on file changes (reuse Vite's hmr if possible)
 - [ ] Config view
 - [ ] Edit files directly
