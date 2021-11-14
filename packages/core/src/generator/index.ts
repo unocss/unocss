@@ -90,7 +90,19 @@ export class UnoGenerator {
         return
       }
 
-      const applied = this.matchPrefix(this.matchVariants(raw))
+      let processed = raw
+      if (this.config.prefix && !this.config.prefixUtilities) {
+        // check for attributify mode
+        const start = raw.indexOf('[') === 0 ? 1 : 0
+        if (raw.indexOf(this.config.prefix) !== start) {
+          this.excluded.add(raw)
+          this._cache.set(raw, null)
+          return
+        }
+        processed = raw.substr(this.config.prefix.length + start)
+      }
+
+      const applied = this.matchUtilityPrefix(this.matchVariants(raw, processed))
 
       if (!applied || this.isExcluded(applied[1])) {
         this.excluded.add(raw)
@@ -205,11 +217,11 @@ export class UnoGenerator {
     }
   }
 
-  matchVariants(raw: string): VariantMatchedResult {
+  matchVariants(raw: string, unprefixed?: string): VariantMatchedResult {
     // process variants
     const usedVariants = new Set<Variant>()
     const handlers: VariantHandler[] = []
-    let processed = raw
+    let processed = unprefixed || raw
     let applied = false
     while (true) {
       applied = false
@@ -399,8 +411,9 @@ export class UnoGenerator {
       .filter(Boolean) as StringifiedUtil[]
   }
 
-  matchPrefix(result: VariantMatchedResult): VariantMatchedResult | undefined {
+  matchUtilityPrefix(result: VariantMatchedResult): VariantMatchedResult | undefined {
     if (!this.config.prefix) return result
+    if (!this.config.prefixUtilities) return result
     if (result[1].indexOf(this.config.prefix) !== 0) return
     return [result[0], result[1].substr(this.config.prefix.length), result[2]]
   }

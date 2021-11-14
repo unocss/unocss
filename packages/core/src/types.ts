@@ -196,6 +196,11 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
   prefix?: string | false
 
   /**
+   * Global prefix
+   */
+  prefixUtilities?: boolean
+
+  /**
    * Layout name of shortcuts
    *
    * @default 'shortcuts'
