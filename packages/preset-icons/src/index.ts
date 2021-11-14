@@ -3,7 +3,7 @@ import { iconToSVG } from '@iconify/utils/lib/svg/build'
 import { defaults as DefaultIconCustomizations } from '@iconify/utils/lib/customisations'
 import { getIconData } from '@iconify/utils/lib/icon-set/get-icon'
 import { encodeSvg, isNode, warnOnce } from './utils'
-import { IconsOptions } from './types'
+import type { IconsOptions } from './types'
 
 const COLLECTION_NAME_PARTS_MAX = 3
 
