@@ -90,7 +90,7 @@ export class UnoGenerator {
         return
       }
 
-      let processed = raw
+      let unprefixed = raw
       if (this.config.prefix && !this.config.prefixUtilities) {
         // check for attributify mode
         const start = raw.indexOf('[') === 0 ? 1 : 0
@@ -99,10 +99,10 @@ export class UnoGenerator {
           this._cache.set(raw, null)
           return
         }
-        processed = raw.substr(this.config.prefix.length + start)
+        unprefixed = raw.substr(this.config.prefix.length + start)
       }
 
-      const applied = this.matchUtilityPrefix(this.matchVariants(raw, processed))
+      const applied = this.matchUtilityPrefix(this.matchVariants(raw, unprefixed))
 
       if (!applied || this.isExcluded(applied[1])) {
         this.excluded.add(raw)
