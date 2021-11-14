@@ -1,9 +1,9 @@
 import presetIcons from '@unocss/preset-icons'
 import presetAttributify from '@unocss/preset-attributify'
 import presetUno from '@unocss/preset-uno'
-import { UnocssPluginOptions } from '@unocss/vite'
+import { VitePluginOptions } from '@unocss/vite'
 
-export function createConfig(): UnocssPluginOptions {
+export function createConfig(): VitePluginOptions {
   return {
     envMode: 'build',
     theme: {
@@ -26,7 +26,7 @@ export function createConfig(): UnocssPluginOptions {
     ],
     shortcuts: {
       'b-main': 'border-gray-400 border-opacity-30',
-      'bg-main': 'bg-gray-400',
+      'bg-main': 'bg-gray-405',
     },
   }
 }

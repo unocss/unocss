@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { fetchOverview, info } from '../composables/fetch'
+import { overview, overviewFetch, info } from '../composables/fetch'
 
-const { data } = fetchOverview()
+overviewFetch.execute()
 </script>
 
 <template>
@@ -35,6 +35,12 @@ const { data } = fetchOverview()
           </div>
           {{ info?.config.shortcuts.length }}
         </div>
+        <div v-if="info?.configPath">
+          <div op80>
+            Config File
+          </div>
+          <ModuleId :id="info.configPath" />
+        </div>
       </div>
       <div b="t main" p4 grid="~ cols-4 gap-4">
         <div>
@@ -47,27 +53,27 @@ const { data } = fetchOverview()
           <div op80>
             CSS Size
           </div>
-          {{ ((data?.gzipSize || 0) / 1024).toFixed(2) }} KiB <span op50>gzipped</span>
+          {{ ((overview?.gzipSize || 0) / 1024).toFixed(2) }} KiB <span op50>gzipped</span>
         </div>
         <div>
           <div op80>
             Matched Rules
           </div>
-          {{ data?.matched.length }}
+          {{ overview?.matched.length }}
         </div>
         <div>
           <div op80>
             Layers
           </div>
           <div op50 ws-pre>
-            {{ data?.layers.join('\n') }}
+            {{ overview?.layers.join('\n') }}
           </div>
         </div>
       </div>
     </StatusBar>
     <CodeMirror
       h-full
-      :model-value="data?.css || '/* empty */'"
+      :model-value="overview?.css || '/* empty */'"
       :read-only="true"
       mode="css"
     />

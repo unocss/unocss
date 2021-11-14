@@ -1,4 +1,5 @@
 import fs from 'fs'
+import { resolve } from 'path'
 import findUp from 'find-up'
 import { UserConfig } from '@unocss/core'
 import { transform } from 'sucrase'
@@ -25,7 +26,9 @@ export function loadConfig<U extends UserConfig>(dirOrPath: string | U = process
     }
   }
 
-  const filepath = isDir(dirOrPath)
+  dirOrPath = resolve(dirOrPath)
+
+  let filepath = isDir(dirOrPath)
     ? findUp.sync([
       'unocss.config.js',
       'unocss.config.cjs',
@@ -35,6 +38,9 @@ export function loadConfig<U extends UserConfig>(dirOrPath: string | U = process
       'unocss.config.cts',
     ], { cwd: dirOrPath! })
     : dirOrPath
+
+  if (filepath && dirOrPath !== filepath)
+    filepath = resolve(dirOrPath, filepath)
 
   if (!filepath || !fs.existsSync(filepath))
     return {}

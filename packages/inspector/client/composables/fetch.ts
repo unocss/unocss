@@ -1,28 +1,40 @@
 import { Ref, unref } from 'vue'
 import { ModuleInfo, OverviewInfo, ProjectInfo, Result } from '../../types'
+import { onConfigChanged, onModuleUpdated } from './hmr'
 
 const API_ROOT = '/__unocss_api'
 
-export const info = ref<ProjectInfo>()
+export const infoFetch = useFetch(API_ROOT).json<ProjectInfo>()
+export const overviewFetch = useFetch(`${API_ROOT}/overview`, { immediate: false }).json<OverviewInfo>()
 
-fetch(API_ROOT)
-  .then(r => r.json())
-  .then(r => info.value = r)
+export const info = infoFetch.data
+export const overview = overviewFetch.data
+
+onConfigChanged(() => {
+  infoFetch.execute()
+  overviewFetch.execute()
+})
 
 export function fetchModule(id: string | Ref<string>) {
-  return useFetch(computed(() => `${API_ROOT}/module?id=${encodeURIComponent(unref(id))}`), { refetch: true })
+  const result = useFetch(computed(() => `${API_ROOT}/module?id=${encodeURIComponent(unref(id))}`), { refetch: true })
     .json<ModuleInfo>()
+
+  onConfigChanged(() => result.execute())
+  onModuleUpdated((update) => {
+    if (update.path === unref(id) || update.path === unref(id).slice(info.value?.root.length || 0)) {
+      setTimeout(() => {
+        result.execute()
+      }, 50)
+    }
+  })
+
+  return result
 }
 
 export function fetchRepl(input: Ref<string>) {
   const debounced = useDebounce(input, 500)
   return useFetch(computed(() => `${API_ROOT}/repl?token=${encodeURIComponent(debounced.value)}`), { refetch: true })
     .json<Result>()
-}
-
-export function fetchOverview() {
-  return useFetch(computed(() => `${API_ROOT}/overview`), { refetch: true })
-    .json<OverviewInfo>()
 }
 
 export interface ModuleDest {
