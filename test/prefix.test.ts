@@ -2,7 +2,7 @@ import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import presetIcons from '@unocss/preset-icons'
 
-test('prefix', async () => {
+test('prefix', async() => {
   const positive = [
     'uno-pl-10px',
     'uno-hover:p-4',
@@ -36,7 +36,7 @@ test('prefix', async () => {
   expect(css).toMatchSnapshot()
 })
 
-test('prefix icons', async () => {
+test('prefix icons', async() => {
   const positive = [
     'uno:i-carbon-sun',
     'uno:dark:i-carbon-moon',
@@ -60,7 +60,7 @@ test('prefix icons', async () => {
   expect(css).toMatchSnapshot()
 })
 
-test('prefix utilities', async () => {
+test('prefix utilities', async() => {
   const positive = [
     'uno-pl-10px',
     'hover:uno-p-4',
@@ -95,7 +95,7 @@ test('prefix utilities', async () => {
   expect(css).toMatchSnapshot()
 })
 
-test('prefix utilities - icons', async () => {
+test('prefix utilities - icons', async() => {
   const positive = [
     'uno:i-carbon-sun',
     'dark:uno:i-carbon-moon',
