@@ -45,7 +45,7 @@ Example package configuration:
     "build": "unocss \"site/{snippets,templates}/**/*.php\""
   },
   "devDependencies": {
-    "@unocss/cli": "^0.9.3"
+    "@unocss/cli": "latest"
   }
 }
 ```
