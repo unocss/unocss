@@ -1,5 +1,5 @@
 import { readFile, writeFile } from 'fs/promises'
-import { relative, resolve } from 'pathe'
+import { relative, resolve, basename } from 'pathe'
 import fg from 'fast-glob'
 import consola from 'consola'
 import { cyan, dim, green, white } from 'colorette'
@@ -44,9 +44,10 @@ export async function resolveOptions(options: CliOptions) {
 
 export async function build(_options: CliOptions) {
   const options = await resolveOptions(_options)
+  const { filepath, config } = loadConfig()
 
   uno = createGenerator(
-    loadConfig()?.config ?? {},
+    config,
     defaultConfig,
   )
 
@@ -86,14 +87,21 @@ export async function build(_options: CliOptions) {
       ignored,
     })
 
+    if (filepath) watcher.add(filepath)
+
     watcher.on('all', async(type, file) => {
-      consola.log(`${green(`${type}`)} ${white(dim(file))}`)
+      if (file === filepath) {
+        uno.setConfig(loadConfig(filepath).config)
+        consola.info(`${cyan(basename(file))} changed, setting new config`)
+      }
+      else {
+        consola.log(`${green(`${type}`)} ${white(dim(file))}`)
 
-      if (type.startsWith('unlink'))
-        fileCache.delete(file)
-
-      else
-        fileCache.set(file, await readFile(file, 'utf8'))
+        if (type.startsWith('unlink'))
+          fileCache.delete(file)
+        else
+          fileCache.set(file, await readFile(file, 'utf8'))
+      }
 
       debouncedBuild()
     })

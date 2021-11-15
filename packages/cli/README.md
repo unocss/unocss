@@ -45,7 +45,7 @@ Example package configuration:
     "build": "unocss \"site/{snippets,templates}/**/*.php\""
   },
   "devDependencies": {
-    "@unocss/cli": "^0.7.7"
+    "@unocss/cli": "latest"
   }
 }
 ```
@@ -99,4 +99,5 @@ Indicates if the files found by the glob pattern should be watched.
 ## License
 
 MIT License © 2021-PRESENT [Anthony Fu](https://github.com/antfu)
+
 MIT License © 2021-PRESENT [Johann Schopplich](https://github.com/johannschopplich)
