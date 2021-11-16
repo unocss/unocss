@@ -1,4 +1,4 @@
-import { promises as fs } from 'fs'
+import { promises as fs, existsSync } from 'fs'
 import { join } from 'path'
 import { dir } from './meta.mjs'
 
@@ -84,6 +84,8 @@ export async function writeMock() {
   const content1 = `document.getElementById('app').className = "${shuffle(classes).join(' ')}"`
   const content2 = `document.getElementById('app').className = "${shuffle(classes).join(' ')}"`
   const content3 = `document.getElementById('app').className = "${shuffle(classes).join(' ')}"`
+  if (!existsSync(join(dir, 'source')))
+    await fs.mkdir(join(dir, 'source'))
   await fs.writeFile(join(dir, 'source/gen1.js'), content1, 'utf-8')
   await fs.writeFile(join(dir, 'source/gen2.js'), content2, 'utf-8')
   await fs.writeFile(join(dir, 'source/gen3.js'), content3, 'utf-8')
