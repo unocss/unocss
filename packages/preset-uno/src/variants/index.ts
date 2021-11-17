@@ -35,7 +35,7 @@ export const variantNegative: Variant = {
         matcher: matcher.slice(1),
         body: (body) => {
           body.forEach((v) => {
-            v[1] = v[1]?.toString().replace(/[0-9.]+(?:[a-z]+|%)/, i => `-${i}`)
+            v[1] = v[1]?.toString().replace(/[0-9.]+(?:[a-z]+|%)?/, i => `-${i}`)
           })
           return body
         },
