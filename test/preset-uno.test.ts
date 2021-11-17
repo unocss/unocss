@@ -176,6 +176,8 @@ const targets = [
   'transition-200',
   'transition',
   'w-1/2',
+  '-z-1',
+  'z-0',
   'z-1',
   'z-100',
   'box-content',
