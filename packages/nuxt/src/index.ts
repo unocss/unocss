@@ -1,16 +1,16 @@
 import { dirname, resolve } from 'path'
 import { fileURLToPath } from 'url'
 import { defineNuxtModule, extendViteConfig, extendWebpackConfig, addPluginTemplate, addComponentsDir } from '@nuxt/kit'
-import { UserConfig } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import presetAttributify, { AttributifyOptions } from '@unocss/preset-attributify'
 import presetIcons, { IconsOptions } from '@unocss/preset-icons'
 import WebpackPlugin from '@unocss/webpack'
 import VitePlugin from '@unocss/vite'
+import { PluginOptions } from '../../plugins-common/types'
 
 const dir = dirname(fileURLToPath(import.meta.url))
 
-export interface UnocssNuxtOptions extends UserConfig {
+export interface UnocssNuxtOptions extends PluginOptions {
   /**
    * Injecting `uno.css` entry
    *
