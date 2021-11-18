@@ -14,7 +14,7 @@ Nuxt module for UnoCSS
 ## Installation
 
 ```bash
-npm i -g @unocss/nuxt
+npm i -D @unocss/nuxt
 ```
 
 ```js
