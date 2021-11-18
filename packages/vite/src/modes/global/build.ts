@@ -61,7 +61,7 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: UnocssPlugi
         const result = await uno.generate(tokens, { layerComments: false })
         let replaced = false
 
-        const cssReplacedMap = new Map<string, string>()
+        const cssReplacedMap: Record<string, string> = {}
         for (const file of cssFiles) {
           const chunk = bundle[file]
           if (chunk.type === 'asset' && typeof chunk.source === 'string') {
@@ -76,7 +76,7 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: UnocssPlugi
             // recalculate hash
             if (currentReplaced) {
               const newName = chunk.fileName.replace(/\.(\w+)\.css$/, `.${getHash(chunk.source)}.css`)
-              cssReplacedMap.set(chunk.fileName, newName)
+              cssReplacedMap[chunk.fileName] = newName
               chunk.fileName = newName
             }
           }
@@ -85,10 +85,10 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: UnocssPlugi
         if (!replaced)
           this.error(new Error('[unocss] does not found CSS placeholder in the generated chunks,\nthis is likely an internal bug of unocss vite plugin'))
 
-        if (!cssReplacedMap.size)
-          return
-
+        // rewrite updated CSS hash
         const entires = Object.entries(cssReplacedMap)
+        if (!entires.length)
+          return
         for (const file of files) {
           const chunk = bundle[file]
           if (chunk.type === 'chunk' && typeof chunk.code === 'string') {
