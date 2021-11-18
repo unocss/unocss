@@ -50,7 +50,7 @@ export class UnoGenerator {
       scope,
       preflights = true,
       safelist = true,
-      layerComments = true,
+      minify = false,
     }: GenerateOptions = {},
   ): Promise<GenerateResult> {
     const tokens = typeof input === 'string'
@@ -59,6 +59,8 @@ export class UnoGenerator {
 
     if (safelist)
       this.config.safelist.forEach(s => tokens.add(s))
+
+    const nl = minify ? '' : '\n'
 
     const layerSet = new Set<string>(['default'])
     const matched = new Set<string>()
@@ -171,14 +173,14 @@ export class UnoGenerator {
                 : body
             })
             .filter(Boolean)
-            .join('\n')
+            .join(nl)
 
           return parent
-            ? `${parent}{\n${rules}\n}`
+            ? `${parent}{${nl}${rules}${nl}}`
             : rules
         })
         .filter(Boolean)
-        .join('\n')
+        .join(nl)
 
       if (preflights) {
         css = [
@@ -188,11 +190,11 @@ export class UnoGenerator {
             .filter(Boolean),
           css,
         ]
-          .join('\n')
+          .join(nl)
       }
 
-      return layerCache[layer] = layerComments && css
-        ? `/* layer: ${layer} */\n${css}`
+      return layerCache[layer] = !minify && css
+        ? `/* layer: ${layer} */${nl}${css}`
         : css
     }
 
@@ -201,7 +203,7 @@ export class UnoGenerator {
         .filter(i => !excludes?.includes(i))
         .map(i => getLayer(i) || '')
         .filter(Boolean)
-        .join('\n')
+        .join(nl)
     }
 
     return {

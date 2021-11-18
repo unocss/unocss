@@ -58,7 +58,7 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: UnocssPlugi
           return
 
         await Promise.all(tasks)
-        const result = await uno.generate(tokens, { layerComments: false })
+        const result = await uno.generate(tokens, { minify: true })
         let replaced = false
 
         const cssReplacedMap: Record<string, string> = {}

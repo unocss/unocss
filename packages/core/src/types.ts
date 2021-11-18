@@ -281,14 +281,14 @@ export interface GenerateOptions {
   safelist?: boolean
 
   /**
+   * Genreate minified CSS
+   * @default false
+   */
+  minify?: boolean
+
+  /**
    * @expiremental
    */
   scope?: string
 
-  /**
-   * Show layer seperator in comments
-   *
-   * @default true
-   */
-  layerComments?: boolean
 }
