@@ -329,12 +329,6 @@ importers:
   playground:
     specifiers: {}
 
-  test/fixtures/vite-pug:
-    specifiers:
-      pug: ^3.0.0
-    devDependencies:
-      pug: 3.0.2
-
 packages:
 
   /@antfu/eslint-config-basic/0.10.0_eslint@8.2.0:
