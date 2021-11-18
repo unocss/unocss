@@ -9,8 +9,8 @@ describe('exclude', () => {
       ],
     })
     const dos = createGenerator({
-      warnExcluded: false,
-      excluded: [
+      warnBlocked: false,
+      blocklist: [
         'block',
         /^text-/,
       ],

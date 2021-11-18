@@ -6,7 +6,7 @@ import { GenerateOptions, RuleContext, RuleMeta, VariantHandler } from '..'
 export class UnoGenerator {
   private _cache = new Map<string, StringifiedUtil[] | null>()
   public config: ResolvedConfig
-  public excluded = new Set<string>()
+  public blocked = new Set<string>()
   public parentOrders = new Map<string, number>()
 
   constructor(
@@ -23,7 +23,7 @@ export class UnoGenerator {
       this.defaults = defaults
     this.userConfig = userConfig
     this.config = resolveConfig(userConfig, this.defaults)
-    this.excluded.clear()
+    this.blocked.clear()
     this.parentOrders.clear()
     this._cache.clear()
   }
@@ -75,7 +75,7 @@ export class UnoGenerator {
     }
 
     await Promise.all(Array.from(tokens).map(async(raw) => {
-      if (matched.has(raw) || this.excluded.has(raw))
+      if (matched.has(raw) || this.blocked.has(raw))
         return
 
       // use caches if possible
@@ -86,16 +86,16 @@ export class UnoGenerator {
         return
       }
 
-      if (this.isExcluded(raw)) {
-        this.excluded.add(raw)
+      if (this.isBlocked(raw)) {
+        this.blocked.add(raw)
         this._cache.set(raw, null)
         return
       }
 
       const applied = this.matchVariants(raw)
 
-      if (this.isExcluded(applied[1])) {
-        this.excluded.add(raw)
+      if (this.isBlocked(applied[1])) {
+        this.blocked.add(raw)
         this._cache.set(raw, null)
         return
       }
@@ -405,8 +405,8 @@ export class UnoGenerator {
       .filter(Boolean) as StringifiedUtil[]
   }
 
-  isExcluded(raw: string) {
-    return this.config.excluded.some(e => typeof e === 'string' ? e === raw : e.test(raw))
+  isBlocked(raw: string) {
+    return this.config.blocklist.some(e => typeof e === 'string' ? e === raw : e.test(raw))
   }
 }
 
