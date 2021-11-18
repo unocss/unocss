@@ -40,6 +40,7 @@
     "@unocss/reset": "workspace:*",
     "@unocss/webpack": "workspace:*",
     "@unocss/vite": "workspace:*",
+    "@unocss/extractor-pug": "workspace:*",
     "@vitejs/plugin-vue": "^1.9.4",
     "@vueuse/core": "^6.7.4",
     "brotli-size": "^4.0.0",

@@ -22,6 +22,7 @@ importers:
       '@types/ws': ^8.2.0
       '@unocss/cli': workspace:*
       '@unocss/core': workspace:*
+      '@unocss/extractor-pug': workspace:*
       '@unocss/preset-attributify': workspace:*
       '@unocss/preset-icons': workspace:*
       '@unocss/preset-uno': workspace:*
@@ -76,6 +77,7 @@ importers:
       '@types/ws': 8.2.0
       '@unocss/cli': link:packages/cli
       '@unocss/core': link:packages/core
+      '@unocss/extractor-pug': link:packages/extractor-pug
       '@unocss/preset-attributify': link:packages/preset-attributify
       '@unocss/preset-icons': link:packages/preset-icons
       '@unocss/preset-uno': link:packages/preset-uno
@@ -205,7 +207,7 @@ importers:
       '@unocss/vite': workspace:*
       '@unocss/webpack': workspace:*
     dependencies:
-      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27277498.850ef69
+      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27287661.1e0e881
       '@unocss/core': link:../core
       '@unocss/preset-attributify': link:../preset-attributify
       '@unocss/preset-icons': link:../preset-icons
@@ -326,6 +328,12 @@ importers:
 
   playground:
     specifiers: {}
+
+  test/fixtures/vite-pug:
+    specifiers:
+      pug: ^3.0.0
+    devDependencies:
+      pug: 3.0.2
 
 packages:
 
@@ -1112,8 +1120,8 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
 
-  /@nuxt/kit-edge/3.0.0-27277498.850ef69:
-    resolution: {integrity: sha512-nlRbNf0wZwIuDzUs20AE9O4bE1rcIv3yaA/oYFhqUlXumiEDqHPmiuDAL5Trbe+E3Ut7EmZxgrcwUgQ0zQ8fuQ==}
+  /@nuxt/kit-edge/3.0.0-27287661.1e0e881:
+    resolution: {integrity: sha512-PouZlRT4Z83o4OfZl7norLkaUH0CWuZCDNt/5vKKgGk4JkeExh4Zk/sTeoBdh3yJMuuAdZx1j5B3+q2wXes1oQ==}
     engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0}
     dependencies:
       consola: 2.15.3
