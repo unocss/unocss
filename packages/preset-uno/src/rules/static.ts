@@ -1,5 +1,4 @@
 import { Rule } from '@unocss/core'
-import { handler as h } from '../utils'
 
 // display table included on table.ts
 export const displays: Rule[] = [
