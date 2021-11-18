@@ -1,7 +1,7 @@
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 
-describe('exclude', () => {
+describe('blocklist', () => {
   test('basic', async() => {
     const uno = createGenerator({
       presets: [

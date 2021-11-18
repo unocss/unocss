@@ -137,6 +137,11 @@ export interface ConfigBase<Theme extends {} = {}> {
   blocklist?: BlocklistRule[]
 
   /**
+   * Utilities that always been included
+   */
+  safelist?: string[]
+
+  /**
    * Extractors to handle the source file and outputs possible classes/selectors
    * Can be language-aware.
    */
@@ -269,6 +274,11 @@ export interface GenerateOptions {
    * @default true
    */
   preflights?: boolean
+
+  /**
+   * Includes safelist
+   */
+  safelist?: boolean
 
   /**
    * @expiremental

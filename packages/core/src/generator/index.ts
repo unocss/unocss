@@ -49,12 +49,16 @@ export class UnoGenerator {
       id,
       scope,
       preflights = true,
+      safelist = true,
       layerComments = true,
     }: GenerateOptions = {},
   ): Promise<GenerateResult> {
     const tokens = typeof input === 'string'
       ? await this.applyExtractors(input, id)
       : input
+
+    if (safelist)
+      this.config.safelist.forEach(s => tokens.add(s))
 
     const layerSet = new Set<string>(['default'])
     const matched = new Set<string>()
