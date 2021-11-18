@@ -4,6 +4,7 @@ export const lineClamps: Rule[] = [
   [/^line-clamp-(\d+)$/, ([, v]) => ({
     'overflow': 'hidden',
     'display': '-webkit-box',
+    'word-break': 'break-all',
     '-webkit-box-orient': 'vertical',
     '-webkit-line-clamp': v,
     'line-clamp': v,

@@ -51,14 +51,6 @@ export const breaks: Rule[] = [
 
 export const textOverflows: Rule[] = [
   ['truncate', { 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }],
-  [/^truncate-([1-9])/, ([, d]) => ({
-    'display': '-webkit-box !important',
-    'text-overflow': 'ellipsis',
-    'word-break': 'break-all',
-    '-webkit-box-orient': 'vertical !important',
-    '-webkit-line-clamp': h.number(d),
-    'overflow': 'hidden',
-  })],
   ['text-ellipsis', { 'text-overflow': 'ellipsis' }],
   ['text-clip', { 'text-overflow': 'clip' }],
 ]
