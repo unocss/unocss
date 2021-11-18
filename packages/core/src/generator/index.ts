@@ -7,6 +7,7 @@ export class UnoGenerator {
   private _cache = new Map<string, StringifiedUtil[] | null>()
   public config: ResolvedConfig
   public excluded = new Set<string>()
+  public parentOrders = new Map<string, number>()
 
   constructor(
     public userConfig: UserConfig = {},
@@ -22,8 +23,9 @@ export class UnoGenerator {
       this.defaults = defaults
     this.userConfig = userConfig
     this.config = resolveConfig(userConfig, this.defaults)
-    this.excluded = new Set()
-    this._cache = new Map()
+    this.excluded.clear()
+    this.parentOrders.clear()
+    this._cache.clear()
   }
 
   async applyExtractors(code: string, id?: string, set = new Set<string>()) {
@@ -63,10 +65,10 @@ export class UnoGenerator {
       matched.add(raw)
 
       for (const item of payload) {
-        const query = item[3] || ''
-        if (!sheet.has(query))
-          sheet.set(query, [])
-        sheet.get(query)!.push(item)
+        const parent = item[3] || ''
+        if (!sheet.has(parent))
+          sheet.set(parent, [])
+        sheet.get(parent)!.push(item)
         if (item[4]?.layer)
           layerSet.add(item[4].layer)
       }
@@ -137,38 +139,40 @@ export class UnoGenerator {
       if (layerCache[layer])
         return layerCache[layer]
 
-      let css = Array.from(sheet).map(([query, items]) => {
-        const size = items.length
-        const sorted = items
-          .filter(i => (i[4]?.layer || 'default') === layer)
-          .sort((a, b) => a[0] - b[0] || a[1]?.localeCompare(b[1] || '') || 0)
-          .map(a => [a[1] ? applyScope(a[1], scope) : a[1], a[2]])
-        if (!sorted.length)
-          return undefined
-        const rules = sorted
-          .map(([selector, body], idx) => {
-            if (selector && this.config.mergeSelectors) {
-              // search for rules that has exact same body, and merge them
-              // the index is reversed to make sure we always merge to the last one
-              for (let i = size - 1; i > idx; i--) {
-                const current = sorted[i]
-                if (current && current[0] && current[1] === body) {
-                  current[0] = `${selector},${current[0]}`
-                  return null
+      let css = Array.from(sheet)
+        .sort((a, b) => (this.parentOrders.get(a[0]) || 0) - (this.parentOrders.get(b[0]) || 0))
+        .map(([parent, items]) => {
+          const size = items.length
+          const sorted = items
+            .filter(i => (i[4]?.layer || 'default') === layer)
+            .sort((a, b) => a[0] - b[0] || a[1]?.localeCompare(b[1] || '') || 0)
+            .map(a => [a[1] ? applyScope(a[1], scope) : a[1], a[2]])
+          if (!sorted.length)
+            return undefined
+          const rules = sorted
+            .map(([selector, body], idx) => {
+              if (selector && this.config.mergeSelectors) {
+                // search for rules that has exact same body, and merge them
+                // the index is reversed to make sure we always merge to the last one
+                for (let i = size - 1; i > idx; i--) {
+                  const current = sorted[i]
+                  if (current && current[0] && current[1] === body) {
+                    current[0] = `${selector},${current[0]}`
+                    return null
+                  }
                 }
               }
-            }
-            return selector
-              ? `${selector}{${body}}`
-              : body
-          })
-          .filter(Boolean)
-          .join('\n')
+              return selector
+                ? `${selector}{${body}}`
+                : body
+            })
+            .filter(Boolean)
+            .join('\n')
 
-        return query
-          ? `${query}{\n${rules}\n}`
-          : rules
-      })
+          return parent
+            ? `${parent}{\n${rules}\n}`
+            : rules
+        })
         .filter(Boolean)
         .join('\n')
 
@@ -223,6 +227,8 @@ export class UnoGenerator {
           handler = { matcher: handler }
         if (handler) {
           processed = handler.matcher
+          if (Array.isArray(handler.parent))
+            this.parentOrders.set(handler.parent[0], handler.parent[1])
           handlers.push(handler)
           usedVariants.add(v)
           applied = true
@@ -240,13 +246,13 @@ export class UnoGenerator {
   }
 
   applyVariants(parsed: ParsedUtil, variantHandlers = parsed[4], raw = parsed[1]) {
-    const selector = variantHandlers.reduce((p, v) => v.selector?.(p) || p, toEscapedSelector(raw))
-    const mediaQuery = variantHandlers.reduce((p: string | undefined, v) => v.mediaQuery || p, undefined)
-    const entries = variantHandlers.reduce((p, v) => v.body?.(p) || p, parsed[2])
     return [
-      selector,
-      entries,
-      mediaQuery,
+      // selector
+      variantHandlers.reduce((p, v) => v.selector?.(p) || p, toEscapedSelector(raw)),
+      // entries
+      variantHandlers.reduce((p, v) => v.body?.(p) || p, parsed[2]),
+      // parent
+      variantHandlers.reduce((p: string | undefined, v) => Array.isArray(v.parent) ? v.parent[0] : v.parent || p, undefined),
     ] as const
   }
 

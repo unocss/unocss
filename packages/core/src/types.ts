@@ -89,9 +89,9 @@ export interface VariantHandler {
    */
   body?: (body: CSSEntries) => CSSEntries | undefined
   /**
-   * Provide media query to the output css.
+   * Provide a parent selector(e.g. media query) to the output css.
    */
-  mediaQuery?: string | undefined
+  parent?: string | [string, number] | undefined
 }
 
 export type VariantFunction<Theme extends {} = {}> = (matcher: string, raw: string, theme: Theme) => string | VariantHandler | undefined
@@ -253,7 +253,7 @@ export type StringifiedUtil = readonly [
   index: number,
   selector: string | undefined,
   body: string,
-  mediaQuery: string | undefined,
+  parent: string | undefined,
   meta: RuleMeta | undefined,
 ]
 

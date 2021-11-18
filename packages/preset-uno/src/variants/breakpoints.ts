@@ -14,12 +14,15 @@ export const variantBreakpoints: Variant<Theme> = (matcher, _, theme) => {
 
     const [, pre] = match
     let direction = 'min'
-    if (pre.startsWith('lt-'))
+    let order = parseInt(size)
+    if (pre.startsWith('lt-')) {
       direction = 'max'
+      order = -order
+    }
 
     return {
       matcher: matcher.slice(pre.length),
-      mediaQuery: `@media (${direction}-width: ${size})`,
+      parent: [`@media (${direction}-width: ${size})`, order],
     }
   }
 }

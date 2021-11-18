@@ -2,6 +2,12 @@
 
 exports[`targets 1`] = `
 "/* layer: default */
+@media (max-width: 1024px){
+.lt-lg\\\\:m2{margin:0.5rem;}
+}
+@media (max-width: 640px){
+.lt-sm\\\\:m1{margin:0.25rem;}
+}
 .animate-speed-\\\\$speed{animation-speed:var(--speed);}
 .bg-\\\\$test-variable{background-color:var(--test-variable);}
 .bg-blend-\\\\$data{background-blend-mode:var(--data);}
@@ -315,17 +321,11 @@ exports[`targets 1`] = `
 .preserve-flat{transform-style:flat;}
 .-translate-y-1\\\\/2{--un-translate-y:-50%;}
 .translate-y-1\\\\/4{--un-translate-y:25%;}
-@media (min-width: 768px){
-.md\\\\:m-1{margin:0.25rem;}
-.md\\\\:\\\\!hidden{display:none !important;}
-}
 @media (min-width: 640px){
 .sm\\\\:m-1,.sm\\\\:m1{margin:0.25rem;}
 }
-@media (max-width: 640px){
-.lt-sm\\\\:m1{margin:0.25rem;}
-}
-@media (max-width: 1024px){
-.lt-lg\\\\:m2{margin:0.5rem;}
+@media (min-width: 768px){
+.md\\\\:m-1{margin:0.25rem;}
+.md\\\\:\\\\!hidden{display:none !important;}
 }"
 `;
