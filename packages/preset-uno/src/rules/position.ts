@@ -5,6 +5,8 @@ export const positions: Rule[] = [
   ['relative', { position: 'relative' }],
   ['absolute', { position: 'absolute' }],
   ['fixed', { position: 'fixed' }],
+  ['static', { position: 'static' }],
+  ['sticky', { position: 'sticky' }],
 ]
 
 export const justifies: Rule[] = [

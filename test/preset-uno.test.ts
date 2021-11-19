@@ -335,6 +335,12 @@ const targets = [
   'line-clamp-7',
   'line-clamp-100',
   'line-clamp-none',
+  // position
+  'static',
+  'relative',
+  'absolute',
+  'fixed',
+  'sticky',
 ]
 
 const nonTargets = [
