@@ -2,10 +2,17 @@ import { colors } from './colors'
 import { fontFamily, fontSize, letterSpacing, lineHeight, textIndent, textStrokeWidth, textShadow } from './font'
 import { breakpoints, borderRadius, boxShadow } from './misc'
 import { blur, dropShadow } from './filters'
+import { width, height, maxWidth, maxHeight } from './size'
 
 export * from './colors'
 
 export interface Theme {
+  width?: Record<string, string>
+  height?: Record<string, string>
+  maxWidth?: Record<string, string>
+  maxHeight?: Record<string, string>
+  minWidth?: Record<string, string>
+  minHeight?: Record<string, string>
   borderRadius?: Record<string, string>
   breakpoints?: Record<string, string>
   colors?: Record<string, string | Record<string, string>>
@@ -23,6 +30,12 @@ export interface Theme {
 }
 
 export const theme: Theme = {
+  width,
+  height,
+  maxWidth,
+  maxHeight,
+  minWidth: maxWidth,
+  minHeight: maxHeight,
   colors,
   fontFamily,
   fontSize,
