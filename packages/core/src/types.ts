@@ -6,6 +6,8 @@ export type ArgumentType<T> = T extends ((...args: infer A) => any) ? A : never
 export type Shift<T> = T extends [_: any, ...args: infer A] ? A : never
 export type RestArgs<T> = Shift<ArgumentType<T>>
 export type DeepPartial<T> = { [P in keyof T]?: DeepPartial<T[P]> }
+export type FlatObjectTuple<T> = { [K in keyof T]: T[K] }
+export type PartialByKeys<T, K extends keyof T = keyof T> = FlatObjectTuple<Partial<Pick<T, Extract<keyof T, K>>> & Omit<T, K>>
 
 export type CSSObject = Record<string, string | number | undefined>
 export type CSSEntries = [string, string | number | undefined][]
@@ -73,7 +75,7 @@ export interface Preflight {
   layer?: string
 }
 
-export type ExcludeRule = string | RegExp
+export type BlocklistRule = string | RegExp
 
 export interface VariantHandler {
   /**
@@ -89,9 +91,9 @@ export interface VariantHandler {
    */
   body?: (body: CSSEntries) => CSSEntries | undefined
   /**
-   * Provide media query to the output css.
+   * Provide a parent selector(e.g. media query) to the output css.
    */
-  mediaQuery?: string | undefined
+  parent?: string | [string, number] | undefined
 }
 
 export type VariantFunction<Theme extends {} = {}> = (matcher: string, raw: string, theme: Theme) => string | VariantHandler | undefined
@@ -134,7 +136,12 @@ export interface ConfigBase<Theme extends {} = {}> {
    * Rules to exclude the selectors for your design system (to narrow down the possibilities).
    * Combining `warnExcluded` options it can also helps you identify wrong usages.
    */
-  excluded?: ExcludeRule[]
+  blocklist?: BlocklistRule[]
+
+  /**
+   * Utilities that always been included
+   */
+  safelist?: string[]
 
   /**
    * Extractors to handle the source file and outputs possible classes/selectors
@@ -177,11 +184,11 @@ export interface GeneratorOptions {
   mergeSelectors?: boolean
 
   /**
-   * Emit warning when excluded selectors are found
+   * Emit warning when matched selectors are presented in blocklist
    *
    * @default true
    */
-  warnExcluded?: boolean
+  warnBlocked?: boolean
 }
 
 export interface UserOnlyOptions<Theme extends {} = {}> {
@@ -189,6 +196,11 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
    * The theme object, will be merged with the theme provides by presets
    */
   theme?: Theme
+
+  /**
+   * Preprocess the incoming utilities, return falsy value to exclude
+   */
+  preprocess?: (matcher: string) => string | undefined
 
   /**
    * Layout name of shortcuts
@@ -213,7 +225,10 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
 export interface UserConfig<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions {}
 export interface UserConfigDefaults<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme> {}
 
-export interface ResolvedConfig extends Omit<Required<UserConfig>, 'rules' | 'shortcuts'> {
+export interface ResolvedConfig extends Omit<
+PartialByKeys<Required<UserConfig>, 'preprocess'>,
+'rules' | 'shortcuts'
+> {
   shortcuts: Shortcut[]
   variants: VariantObject[]
   rulesSize: number
@@ -253,7 +268,7 @@ export type StringifiedUtil = readonly [
   index: number,
   selector: string | undefined,
   body: string,
-  mediaQuery: string | undefined,
+  parent: string | undefined,
   meta: RuleMeta | undefined,
 ]
 
@@ -271,14 +286,19 @@ export interface GenerateOptions {
   preflights?: boolean
 
   /**
+   * Includes safelist
+   */
+  safelist?: boolean
+
+  /**
+   * Genreate minified CSS
+   * @default false
+   */
+  minify?: boolean
+
+  /**
    * @expiremental
    */
   scope?: string
 
-  /**
-   * Show layer seperator in comments
-   *
-   * @default true
-   */
-  layerComments?: boolean
 }

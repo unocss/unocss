@@ -488,6 +488,18 @@ import './my-custom.css'
 import 'uno:utilities.css'
 ```
 
+### Utilities Preprocess & Prefixing
+
+UnoCSS also provides the ability to preprocess and transform extracted utilities before processing to the matcher. For example, the following example allows you to add a global prefix to all utilities:
+
+```ts
+preprocess(matcher) {
+  return matcher.startsWith('prefix-')
+    ? matcher.slice(7)
+    : undefined // ignore
+}
+```
+
 ### Inspector
 
 From v0.7.0, our Vite plugin now ships with a dev inspector ([@unocss/inspector](https://github.com/antfu/unocss/tree/main/packages/inspector)) for you to view, play and analyse your custom rules and setup. Visit `http://localhost:3000/__unocss` in your Vite dev server to see it.

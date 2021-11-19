@@ -1,7 +1,7 @@
 import { Rule } from '@unocss/core'
 import { transitions } from './transition'
 import { borders } from './border'
-import { bgColors, opacity, textColors, textDecorationColors, textStrokeColors } from './color'
+import { bgColors, opacity, textColors, textDecorationColors, textStrokeColors, fillColors } from './color'
 import { bgAttachments, bgBlendModes, bgClips, bgGradients, bgImages, bgOrigins, bgPositions, bgSizes, bgRepeats } from './background'
 import { filters } from './filters'
 import { flex } from './flex'
@@ -14,7 +14,7 @@ import { rings } from './ring'
 import { mixBlendModes, boxShadows } from './shadow'
 import { sizes, aspectRatio } from './size'
 import { paddings, margins } from './spacing'
-import { appearances, breaks, cursors, displays, pointerEvents, resizes, screenReadersAccess, textDecorations, textOverflows, textTransforms, userSelects, whitespaces, fontStyles, fontSmoothings, hyphens, textDecorationStyles, writingModes, writingOrientations } from './static'
+import { appearances, breaks, cursors, displays, pointerEvents, resizes, screenReadersAccess, textDecorations, textOverflows, textTransforms, userSelects, whitespaces, fontStyles, fontSmoothings, hyphens, textDecorationStyles, writingModes, writingOrientations, isolations } from './static'
 import { tables } from './table'
 import { transforms } from './transform'
 import { listStyle, caretColors, boxDecorationBreaks, caretOpacity, imageRenderings, appearance, placeholder, overscrolls, outline } from './behaviors'
@@ -31,6 +31,7 @@ export const rules: Rule[] = [
   paddings,
   margins,
   lineClamps,
+  isolations,
   displays,
   opacity,
   bgAttachments,
@@ -43,6 +44,7 @@ export const rules: Rule[] = [
   bgPositions,
   bgSizes,
   bgRepeats,
+  fillColors,
   borders,
   divides,
   fonts,

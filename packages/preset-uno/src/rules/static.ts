@@ -164,3 +164,8 @@ export const screenReadersAccess: Rule[] = [
     },
   ],
 ]
+
+export const isolations: Rule[] = [
+  ['isolate', { isolation: 'isolate' }],
+  ['isolate-auto', { isolation: 'auto' }],
+]
