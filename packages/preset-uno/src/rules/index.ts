@@ -1,6 +1,7 @@
 import { Rule } from '@unocss/core'
 import { transitions } from './transition'
 import { borders } from './border'
+import { container } from './container'
 import { bgColors, opacity, textColors, textDecorationColors, textStrokeColors, fillColors } from './color'
 import { bgAttachments, bgBlendModes, bgClips, bgGradients, bgImages, bgOrigins, bgPositions, bgSizes, bgRepeats } from './background'
 import { filters } from './filters'
@@ -32,6 +33,7 @@ export const rules: Rule[] = [
   margins,
   lineClamps,
   isolations,
+  container,
   displays,
   opacity,
   bgAttachments,

@@ -26,7 +26,6 @@ export const sizes: Rule<Theme>[] = [
     if (v != null)
       return { [getPropName(m, w)]: v }
   }],
-  ['container', { width: '100%' }],
 ]
 
 export const aspectRatio: Rule[] = [
