@@ -80,6 +80,11 @@ export class UnoGenerator {
       }
     }
 
+    const block = (raw: string) => {
+      this.blocked.add(raw)
+      this._cache.set(raw, null)
+    }
+
     await Promise.all(Array.from(tokens).map(async(raw) => {
       if (matched.has(raw) || this.blocked.has(raw))
         return
@@ -92,48 +97,30 @@ export class UnoGenerator {
         return
       }
 
-      if (this.isBlocked(raw)) {
-        this.blocked.add(raw)
-        this._cache.set(raw, null)
-        return
-      }
+      let current = raw
+      if (this.config.preprocess)
+        current = this.config.preprocess(raw)!
 
-      let unprefixed = raw
-      if (this.config.prefix && !this.config.prefixUtilities) {
-        // check for attributify mode
-        const start = raw.indexOf('[') === 0 ? 1 : 0
-        if (raw.indexOf(this.config.prefix) !== start) {
-          this.blocked.add(raw)
-          this._cache.set(raw, null)
-          return
-        }
-        unprefixed = raw.substr(this.config.prefix.length + start)
-      }
+      if (this.isBlocked(current))
+        return block(current)
 
-      const applied = this.matchUtilityPrefix(this.matchVariants(raw, unprefixed))
+      const applied = this.matchVariants(raw, current)
 
-      if (!applied || this.isBlocked(applied[1])) {
-        this.blocked.add(raw)
-        this._cache.set(raw, null)
-        return
-      }
+      if (!applied || this.isBlocked(applied[1]))
+        return block(raw)
 
       // expand shortcuts
       const expanded = this.expandShortcut(applied[1])
       if (expanded) {
         const utils = await this.stringifyShortcuts(applied, expanded[0], expanded[1])
-        if (utils?.length) {
-          hit(raw, utils)
-          return
-        }
+        if (utils?.length)
+          return hit(raw, utils)
       }
       // no shortcut
       else {
         const util = this.stringifyUtil(await this.parseUtil(applied))
-        if (util) {
-          hit(raw, [util])
-          return
-        }
+        if (util)
+          return hit(raw, [util])
       }
 
       // set null cache for unmatched result
@@ -227,11 +214,11 @@ export class UnoGenerator {
     }
   }
 
-  matchVariants(raw: string, unprefixed?: string): VariantMatchedResult {
+  matchVariants(raw: string, current?: string): VariantMatchedResult {
     // process variants
     const usedVariants = new Set<Variant>()
     const handlers: VariantHandler[] = []
-    let processed = unprefixed || raw
+    let processed = current || raw
     let applied = false
     while (true) {
       applied = false
@@ -423,15 +410,8 @@ export class UnoGenerator {
       .filter(Boolean) as StringifiedUtil[]
   }
 
-  matchUtilityPrefix(result: VariantMatchedResult): VariantMatchedResult | undefined {
-    if (!this.config.prefix) return result
-    if (!this.config.prefixUtilities) return result
-    if (result[1].indexOf(this.config.prefix) !== 0) return
-    return [result[0], result[1].substr(this.config.prefix.length), result[2]]
-  }
-
   isBlocked(raw: string) {
-    return this.config.blocklist.some(e => typeof e === 'string' ? e === raw : e.test(raw))
+    return !raw || this.config.blocklist.some(e => typeof e === 'string' ? e === raw : e.test(raw))
   }
 }
 
