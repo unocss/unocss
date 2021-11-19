@@ -213,8 +213,8 @@ exports[`targets 1`] = `
 .max-w-screen-lg{max-width:1024px;}
 .min-w-screen-lg{min-width:1024px;}
 .container{width:100%;}
-.container-2xl{width:1536px;}
-.container-sm{width:640px;}
+.container-2xl{max-width:1536px;}
+.container-sm{max-width:640px;}
 .aspect-ratio-auto{aspect-ratio:auto;}
 .aspect-ratio-\\\\[auto_16\\\\/9\\\\]{aspect-ratio:auto 16/9;}
 .aspect-ratio-\\\\$var{aspect-ratio:var(--var);}

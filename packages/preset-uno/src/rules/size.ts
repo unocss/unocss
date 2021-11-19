@@ -30,7 +30,7 @@ export const sizes: Rule<Theme>[] = [
   [/^container-(.+)$/, ([, w], { theme }) => {
     const v = theme.breakpoints?.[w]
     if (v != null)
-      return { width: v }
+      return { 'max-width': v }
   }],
 ]
 
