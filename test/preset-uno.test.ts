@@ -359,6 +359,10 @@ const targets = [
   // isolation
   'isolate',
   'isolate-auto',
+  // object-position
+  'object-center',
+  'object-ct',
+  'object-cb',
 ]
 
 const nonTargets = [

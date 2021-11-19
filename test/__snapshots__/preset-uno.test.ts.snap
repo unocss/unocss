@@ -277,6 +277,9 @@ exports[`targets 1`] = `
 .z-0{z-index:0;}
 .z-1{z-index:1;}
 .z-100{z-index:100;}
+.object-center{object-position:center;}
+.object-cb{object-position:center bottom;}
+.object-ct{object-position:center top;}
 .box-border{box-sizing:border-box;}
 .box-content{box-sizing:content-box;}
 .transition{transition-property:color, border-color, background-color, flex-grow, flex, flex-shrink, caret-color, font, gap, opacity, visibility, z-index, font-weight, zoom, text-shadow, transform, box-shadow, backround-position, left, right, top, bottom, object-position, max-height, min-height, max-width, min-width, height, width, border-width, margin, padding, outline-width, outline-offset, font-size, line-height, text-indent, vertical-align, border-spacing, letter-spacing, word-spacing, stroke, filter, backdrop-filter, fill, mask, mask-size, mask-border, clip-path, clip;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms;}
