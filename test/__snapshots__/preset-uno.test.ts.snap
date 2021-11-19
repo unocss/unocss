@@ -182,13 +182,13 @@ exports[`targets 1`] = `
 .gap-4{grid-gap:1rem;gap:1rem;}
 .gap-x-1{grid-column-gap:0.25rem;column-gap:0.25rem;}
 .-gap-y-5{grid-row-gap:-1.25rem;row-gap:-1.25rem;}
-.min-h-full{min-height:100%;}
 .h-\\\\$var{height:var(--var);}
 .h-1{height:0.25rem;}
 .max-h-\\\\[1px\\\\]{max-height:1px;}
 .max-w-\\\\$var{max-width:var(--var);}
 .min-h-\\\\[5rem\\\\]{min-height:5rem;}
 .min-h-3{min-height:0.75rem;}
+.min-h-full{min-height:100%;}
 .min-w-3{min-width:0.75rem;}
 .w-1\\\\/2{width:50%;}
 .max-w-screen-lg{max-width:1024px;}
