@@ -28,7 +28,7 @@ const colorResolver = (mode: 'from' | 'to' | 'via') =>
         rgba[3] = typeof a === 'string' && !a.includes('%')
           ? parseFloat(a)
           : a
-        colorString = `rgba(${rgba.join(',')}, var(--un-${mode}-opacity, 1))`
+        colorString = `rgba(${rgba.join(',')})`
       }
       else {
         colorString = `rgba(${rgba.slice(0, 3).join(',')}, var(--un-${mode}-opacity, 1))`
@@ -88,6 +88,9 @@ export const bgGradients: Rule[] = [
   [/^from-(.+)$/, colorResolver('from')],
   [/^to-(.+)$/, colorResolver('to')],
   [/^via-(.+)$/, colorResolver('via')],
+  [/^from-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-from-opacity': h.bracket.percent(opacity) })],
+  [/^to-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-to-opacity': h.bracket.percent(opacity) })],
+  [/^via-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-via-opacity': h.bracket.percent(opacity) })],
 ]
 
 export const bgImages: Rule[] = [
