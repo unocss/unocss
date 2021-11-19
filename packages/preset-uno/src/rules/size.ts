@@ -27,11 +27,6 @@ export const sizes: Rule<Theme>[] = [
       return { [getPropName(m, w)]: v }
   }],
   ['container', { width: '100%' }],
-  [/^container-(.+)$/, ([, w], { theme }) => {
-    const v = theme.breakpoints?.[w]
-    if (v != null)
-      return { 'max-width': v }
-  }],
 ]
 
 export const aspectRatio: Rule[] = [
