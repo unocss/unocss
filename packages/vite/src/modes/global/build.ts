@@ -1,10 +1,9 @@
 import type { Plugin } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
-import { defaultExclude, defaultInclude, getPath } from '../../utils'
+import { getHash, getPath } from '../../utils'
 import { UnocssPluginContext } from '../../context'
-import { resolveId, ALL_LAYERS } from './shared'
-
-const PLACEHOLDER_RE = /#--unocss--\s*{\s*layer\s*:\s*(.+?);?\s*}/g
+import { defaultExclude, defaultInclude } from '../../../../plugins-common/defaults'
+import { LAYER_MARK_ALL, getLayerPlaceholder, LAYER_PLACEHOLDER_RE, resolveId } from '../../../../plugins-common/layers'
 
 export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: UnocssPluginContext): Plugin[] {
   const filter = createFilter(
@@ -38,10 +37,10 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: UnocssPlugi
           return entry.id
         }
       },
-      async load(id) {
+      load(id) {
         const layer = entries.get(getPath(id))
         if (layer)
-          return `#--unocss--{layer:${layer}}`
+          return getLayerPlaceholder(layer)
       },
     },
     {
@@ -52,30 +51,55 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens }: UnocssPlugi
       enforce: 'post',
       async generateBundle(options, bundle) {
         const files = Object.keys(bundle)
+        const cssFiles = files
           .filter(i => i.endsWith('.css'))
 
-        if (!files.length)
+        if (!cssFiles.length)
           return
 
         await Promise.all(tasks)
-        const result = await uno.generate(tokens, { layerComments: false })
+        const result = await uno.generate(tokens, { minify: true })
         let replaced = false
 
-        for (const file of files) {
+        const cssReplacedMap: Record<string, string> = {}
+        for (const file of cssFiles) {
           const chunk = bundle[file]
           if (chunk.type === 'asset' && typeof chunk.source === 'string') {
-            chunk.source = chunk.source.replace(PLACEHOLDER_RE, (_, layer) => {
+            let currentReplaced = false
+            chunk.source = chunk.source.replace(LAYER_PLACEHOLDER_RE, (_, __, layer) => {
+              currentReplaced = true
               replaced = true
-              if (layer === ALL_LAYERS)
-                return result.getLayers(Array.from(entries.values()))
-              else
-                return result.getLayer(layer) || ''
+              return layer === LAYER_MARK_ALL
+                ? result.getLayers(undefined, Array.from(entries.values()))
+                : result.getLayer(layer) || ''
             })
+            // recalculate hash
+            if (currentReplaced) {
+              const newName = chunk.fileName.replace(/\.(\w+)\.css$/, `.${getHash(chunk.source)}.css`)
+              cssReplacedMap[chunk.fileName] = newName
+              chunk.fileName = newName
+            }
           }
         }
 
         if (!replaced)
           this.error(new Error('[unocss] does not found CSS placeholder in the generated chunks,\nthis is likely an internal bug of unocss vite plugin'))
+
+        // rewrite updated CSS hash
+        const entires = Object.entries(cssReplacedMap)
+        if (!entires.length)
+          return
+        for (const file of files) {
+          const chunk = bundle[file]
+          if (chunk.type === 'chunk' && typeof chunk.code === 'string') {
+            for (const [k, v] of entires)
+              chunk.code = chunk.code.replace(k, v)
+          }
+          else if (chunk.type === 'asset' && typeof chunk.source === 'string') {
+            for (const [k, v] of entires)
+              chunk.source = chunk.source.replace(k, v)
+          }
+        }
       },
     },
   ]

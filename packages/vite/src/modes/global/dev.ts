@@ -1,8 +1,10 @@
 import type { Plugin, ViteDevServer } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
-import { defaultExclude, defaultInclude, getPath } from '../../utils'
+import { getPath } from '../../utils'
 import { UnocssPluginContext } from '../../context'
-import { READY_CALLBACK_DEFAULT, resolveId, ALL_LAYERS } from './shared'
+import { defaultExclude, defaultInclude } from '../../../../plugins-common/defaults'
+import { LAYER_MARK_ALL, resolveId } from '../../../../plugins-common/layers'
+import { READY_CALLBACK_DEFAULT } from './shared'
 
 const WARN_TIMEOUT = 2000
 
@@ -116,10 +118,9 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
         await Promise.all(tasks)
         const result = await uno.generate(tokens)
         lastServed = Date.now()
-        if (layer === ALL_LAYERS)
-          return result.getLayers(Array.from(entries.values()))
-        else
-          return result.getLayer(layer)
+        return layer === LAYER_MARK_ALL
+          ? result.getLayers(undefined, Array.from(entries.values()))
+          : result.getLayer(layer)
       },
     },
     {

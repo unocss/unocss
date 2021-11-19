@@ -1,6 +1,6 @@
 {
   "name": "unocss",
-  "version": "0.7.3",
+  "version": "0.11.1",
   "description": "The instant on-demand Atomic CSS engine.",
   "keywords": [
     "unocss",
@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "@unocss/core": "workspace:*",
+    "@unocss/cli": "workspace:*",
     "@unocss/reset": "workspace:*",
     "@unocss/preset-icons": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",

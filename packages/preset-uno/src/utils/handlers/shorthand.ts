@@ -19,7 +19,7 @@ const handler = function(
   this.__options.sequence = []
   for (const n of s) {
     const res = handlers[n](str)
-    if (res)
+    if (res != null)
       return res
   }
   return undefined

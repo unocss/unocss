@@ -19,4 +19,5 @@ export const flex: Rule[] = [
   ['flex-shrink-0', { 'flex-shrink': 0 }],
   ['flex', { display: 'flex' }],
   ['inline-flex', { display: 'inline-flex' }],
+  ['flex-inline', { display: 'inline-flex' }],
 ]

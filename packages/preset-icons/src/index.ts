@@ -1,30 +1,18 @@
-import type { Awaitable, Preset } from '@unocss/core'
-import type { IconifyJSON } from '@iconify/types'
+import type { Preset } from '@unocss/core'
 import { iconToSVG } from '@iconify/utils/lib/svg/build'
 import { defaults as DefaultIconCustomizations } from '@iconify/utils/lib/customisations'
 import { getIconData } from '@iconify/utils/lib/icon-set/get-icon'
 import { encodeSvg, isNode, warnOnce } from './utils'
-
-export interface Options {
-  scale?: number
-  mode?: 'mask' | 'background-img' | 'auto'
-  prefix?: string
-  warn?: boolean
-  collections?: Record<string, IconifyJSON | undefined | (() => Awaitable<IconifyJSON | undefined>)>
-  extraProperties?: Record<string, string>
-  /**
-   * Rule layer
-   * @default 'icons'
-   */
-  layer?: string
-}
+import type { IconsOptions } from './types'
 
 const COLLECTION_NAME_PARTS_MAX = 3
+
+export { IconsOptions }
 
 async function searchForIcon(
   collection: string,
   id: string,
-  collections: Required<Options>['collections'],
+  collections: Required<IconsOptions>['collections'],
   scale: number,
 ) {
   let iconSet = collections[collection]
@@ -56,7 +44,7 @@ export const preset = ({
   collections = {},
   extraProperties = {},
   layer = 'icons',
-}: Options = {}): Preset => {
+}: IconsOptions = {}): Preset => {
   return {
     name: '@unocss/preset-icons',
     enforce: 'pre',

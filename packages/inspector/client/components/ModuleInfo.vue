@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { extractorAttributify } from '@unocss/preset-attributify'
 import { fetchModule } from '../composables/fetch'
 
 const props = defineProps<{ id: string }>()
@@ -8,11 +9,19 @@ const mode = props.id.split(/\./g).pop()
 function openEditor() {
   fetch(`/__open-in-editor?file=${encodeURIComponent(props.id)}`)
 }
+
+const extractor = extractorAttributify({ strict: true })
+const unmatchedClasses = asyncComputed(async() => {
+  const result = await extractor.extract({ code: mod.value?.code || '' } as any) || []
+  return Array.from(result)
+    .filter(i => !i.startsWith('['))
+    .filter(i => !mod.value?.matched.includes(i))
+})
 </script>
 
 <template>
   <div v-if="mod" h-full grid="~ rows-[max-content,1fr]" of-hidden>
-    <StatusBar grid="~ cols-3">
+    <StatusBar grid="~ cols-3 gap-4">
       <div>
         <div op50>
           Module
@@ -33,6 +42,14 @@ function openEditor() {
           CSS Size
         </div>
         {{ ((mod?.gzipSize || 0) / 1024).toFixed(2) }} KiB <span op50>gzipped</span>
+      </div>
+      <div v-if="unmatchedClasses.length" row-span-3>
+        <div op50>
+          Potentially Unmatched
+        </div>
+        <code>
+          {{ unmatchedClasses.join(', ') }}
+        </code>
       </div>
     </StatusBar>
     <div h-full of-hidden grid grid-cols-2>

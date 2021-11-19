@@ -1,10 +1,6 @@
 import { Rule } from '@unocss/core'
 
 const variablesAbbrMap: Record<string, string> = {
-  'w': 'width',
-  'h': 'height',
-  'max-w': 'max-width',
-  'max-h': 'max-height',
   'visible': 'visibility',
   'select': 'user-select',
   'vertical': 'vertical-align',
@@ -28,7 +24,6 @@ const variablesAbbrMap: Record<string, string> = {
   'tab': 'tab-size',
   'underline': 'text-decoration-thickness',
   'underline-offset': 'text-underline-offset',
-  'indent': 'text-indent',
   'text': 'color',
   'grid-cols': 'grid-template-columns',
   'grid-rows': 'grid-template-rows',

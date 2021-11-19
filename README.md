@@ -53,10 +53,8 @@ tailwindcss  v3.0.0-alpha.1    1290.96 ms / delta.   1282.66 ms (x243.05)
 
 UnoCSS is designed **NOT** to be/have:
 
-- Align with Tailwind - technically, UnoCSS is flexible enough to do that, but it's not a priority.
 - A CSS preprocessor (e.g. `@apply`) - but you can use [shortcuts](#shortcuts).
 - Tailwind's plugin system - but you can write custom rules in seconds and share them as presets!
-- Integrations for Webpack or others - it's **Vite only** (at this moment)
 
 ###### Disclaimer
 
@@ -88,6 +86,8 @@ import 'uno.css'
 
 That's it, have fun.
 
+See [all packages](https://github.com/antfu/unocss/tree/main/packages).
+
 ## Configurations
 
 UnoCSS is an atomic-CSS engine instead of a framework. Everything is designed with flexibility and performance in mind. In UnoCSS, there are no core utilities; all functionalities are provided via presets.
@@ -107,11 +107,19 @@ For example, both `ml-3` (Tailwind), `ms-2` (Bootstrap), `ma4` (Tachyons), `mt-1
 
 ### Presets
 
-Presets are the heart of UnoCSS that lets you make your own custom framework in minutes. We are providing the following presets officially:
+Presets are the heart of UnoCSS that lets you make your own custom framework in minutes.
+
+###### Official Presets
 
 - [@unocss/preset-uno](https://github.com/antfu/unocss/tree/main/packages/preset-uno) - The default preset.
 - [@unocss/preset-attributify](https://github.com/antfu/unocss/tree/main/packages/preset-attributify) - Provides [Attributify Mode](#attributify-mode) to other presets and rules.
 - [@unocss/preset-icons](https://github.com/antfu/unocss/tree/main/packages/preset-icons) - Use any icon as a class utility.
+
+###### Community Presets
+
+- [unocss-preset-typography](https://github.com/ydcjeff/unocss-preset-typography) - Typography Preset by [@ydcjeff](https://github.com/ydcjeff)
+
+### Use Presets
 
 To set presets to your project:
 
@@ -208,7 +216,9 @@ Congratulations! Now you got your own powerful atomic CSS utilities, enjoy!
 ###### Full Controlled Rules
 
 <details>
-<summary>It's an advance feature, you should not need it in most of the cases.</summary>
+<summary>This is an advance feature, you don't need it in most of the cases.</summary>
+
+<br>
 
 When you really need some advanced rules that can't be covered by the combination of [Dynamic Rules](#dynamic-rules) and [Variants](#custom-variants), you also provide a way to give you full controls of generating the CSS.
 
@@ -252,7 +262,7 @@ Unocss({
 })
 ```
 
-Note is an advanced feature, you might need to read some code to take the full power of it.
+You might need to read some code to take the full power of it.
 
 </details>
 

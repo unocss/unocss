@@ -2,7 +2,7 @@ import { Options } from 'tsup'
 
 const config: Options = {
   splitting: false,
-  format: ['esm', 'cjs'],
+  format: ['esm'],
   entryPoints: [
     'src/index.ts',
   ],

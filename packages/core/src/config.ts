@@ -63,8 +63,9 @@ export function resolveConfig(
 
   return {
     mergeSelectors: true,
-    warnExcluded: true,
-    excluded: [],
+    warnBlocked: true,
+    blocklist: [],
+    safelist: [],
     presets: [],
     sortLayers: layers => layers,
     prefix: false,

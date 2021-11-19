@@ -91,18 +91,26 @@ export const textDecorationOffsets: Rule<Theme>[] = [
 ]
 
 export const textIndents: Rule<Theme>[] = [
-  [/^indent-?([^-]*)$/, ([, s], { theme }) => {
-    const v = theme.textIndent?.[s || 'DEFAULT'] || h.bracket.fraction.rem(s)
+  [/^indent(?:-(.+))?$/, ([, s], { theme }) => {
+    const v = theme.textIndent?.[s || 'DEFAULT'] || h.bracket.cssvar.fraction.rem(s)
     if (v != null)
       return { 'text-indent': v }
   }],
 ]
 
 export const textStrokeWidths: Rule<Theme>[] = [
-  [/^text-stroke-?([^-]*)$/, ([, s], { theme }) => {
-    const v = theme.textStrokeWidth?.[s || 'DEFAULT'] || h.bracket.px(s)
+  [/^text-stroke(?:-(.+))?$/, ([, s], { theme }) => {
+    const v = theme.textStrokeWidth?.[s || 'DEFAULT'] || h.bracket.cssvar.px(s)
     if (v != null)
       return { '-webkit-text-stroke-width': v }
+  }],
+]
+
+export const textShadows: Rule<Theme>[] = [
+  [/^text-shadow(?:-(.+))?$/, ([, s], { theme }) => {
+    const v = theme.textShadow?.[s || 'DEFAULT'] || h.bracket.cssvar(s)
+    if (v != null)
+      return { 'text-shadow': v }
   }],
 ]
 

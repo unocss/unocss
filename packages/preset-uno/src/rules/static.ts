@@ -44,7 +44,7 @@ export const whitespaces: Rule[] = [
 
 export const breaks: Rule[] = [
   ['break-normal', { 'overflow-wrap': 'normal', 'word-break': 'normal' }],
-  ['break-works', { 'overflow-wrap': 'break-word' }],
+  ['break-word', { 'overflow-wrap': 'break-word' }],
   ['break-all', { 'word-break': 'break-all' }],
 ]
 
@@ -59,6 +59,11 @@ export const textTransforms: Rule[] = [
   ['case-lower', { 'text-transform': 'lowercase' }],
   ['case-capital', { 'text-transform': 'capitalize' }],
   ['case-normal', { 'text-transform': 'none' }],
+  // tailwind compact
+  ['uppercase', { 'text-transform': 'uppercase' }],
+  ['lowercase', { 'text-transform': 'lowercase' }],
+  ['capitalize', { 'text-transform': 'capitalize' }],
+  ['normal-case', { 'text-transform': 'none' }],
 ]
 
 export const textDecorations: Rule[] = [
