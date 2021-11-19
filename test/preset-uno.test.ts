@@ -373,7 +373,9 @@ const nonTargets = [
 
 const uno = createGenerator({
   presets: [
-    presetUno(),
+    presetUno({
+      dark: 'media',
+    }),
   ],
 })
 
