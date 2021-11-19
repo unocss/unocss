@@ -8,5 +8,5 @@ exports[`builds uno.css 1`] = `
 
 exports[`supports unocss.config.js 1`] = `
 "/* layer: shortcuts */
-.box{padding:1rem;margin-left:auto;margin-right:auto;--un-bg-opacity:1;background-color:rgba(244,244,245,var(--un-bg-opacity));border-radius:0.375rem;--un-shadow-color:0,0,0;--un-shadow:0 1px 2px 0 rgba(var(--un-shadow-color), 0.05);box-shadow:var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow);max-width:7xl;}"
+.box{padding:1rem;margin-left:auto;margin-right:auto;--un-bg-opacity:1;background-color:rgba(244,244,245,var(--un-bg-opacity));border-radius:0.375rem;--un-shadow-color:0,0,0;--un-shadow:0 1px 2px 0 rgba(var(--un-shadow-color), 0.05);box-shadow:var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow);max-width:80rem;}"
 `;

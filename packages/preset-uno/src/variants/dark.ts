@@ -12,14 +12,14 @@ export const variantColorsMedia: Variant[] = [
     if (dark) {
       return {
         ...dark,
-        mediaQuery: '@media (prefers-color-scheme: dark)',
+        parent: '@media (prefers-color-scheme: dark)',
       }
     }
     const light = variantMatcher('light')(v)
     if (light) {
       return {
         ...light,
-        mediaQuery: '@media (prefers-color-scheme: dark)',
+        parent: '@media (prefers-color-scheme: dark)',
       }
     }
   },

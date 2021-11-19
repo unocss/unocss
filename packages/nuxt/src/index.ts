@@ -58,9 +58,12 @@ export interface UnocssNuxtOptions extends PluginOptions {
 export default defineNuxtModule<UnocssNuxtOptions>({
   name: 'unocss',
   defaults: {
-    autoImport: true,
-    components: true,
     uno: true,
+    attributify: false,
+    preflight: false,
+    icons: false,
+    components: true,
+    autoImport: true,
   },
   configKey: 'unocss',
   setup(options) {

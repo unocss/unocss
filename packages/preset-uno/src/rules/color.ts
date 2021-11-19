@@ -132,3 +132,9 @@ export const divideColors: Rule[] = [
   [/^divide-(.+)$/, colorResolver('border-color', 'divide')],
   [/^divide-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-divide-opacity': h.bracket.percent(opacity) })],
 ]
+
+export const fillColors: Rule[] = [
+  ['fill-none', { fill: 'none' }],
+  [/^fill-(.+)$/, colorResolver('fill', 'fill')],
+  [/^fill-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-fill-opacity': h.bracket.percent(opacity) })],
+]

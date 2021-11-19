@@ -14,8 +14,22 @@ Nuxt module for UnoCSS
 ## Installation
 
 ```bash
-npm i -g @unocss/nuxt
+npm i -D @unocss/nuxt
 ```
+
+```js
+// nuxt.config.js
+
+export default {
+  buildModules: [
+    '@unocss/nuxt'
+  ]
+}
+```
+
+## Configuration
+
+In the Nuxt module, we also provided some shortcuts for official presets:
 
 ```js
 // nuxt.config.js
@@ -25,7 +39,14 @@ export default {
     '@unocss/nuxt'
   ],
   unocss: {
-    // options
+    // presets
+    uno: true, // enabled `@unocss/preset-uno`
+    icons: true, // enabled `@unocss/preset-icons`
+    attributify: true, // enabled `@unocss/preset-attributify`,
+
+    // core options
+    shortcuts: [],
+    rules: [],
   }
 }
 ```

@@ -2,6 +2,12 @@
 
 exports[`targets 1`] = `
 "/* layer: default */
+@media (max-width: 1024px){
+.lt-lg\\\\:m2{margin:0.5rem;}
+}
+@media (max-width: 640px){
+.lt-sm\\\\:m1{margin:0.25rem;}
+}
 .animate-speed-\\\\$speed{animation-speed:var(--speed);}
 .bg-\\\\$test-variable{background-color:var(--test-variable);}
 .bg-blend-\\\\$data{background-blend-mode:var(--data);}
@@ -36,6 +42,8 @@ exports[`targets 1`] = `
 .line-clamp-100{overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:100;line-clamp:100;}
 .line-clamp-7{overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:7;line-clamp:7;}
 .line-clamp-none{-webkit-line-clamp:unset;line-clamp:unset;}
+.isolate{isolation:isolate;}
+.isolate-auto{isolation:auto;}
 .op-10{opacity:0.1;}
 .opacity-\\\\$opa{opacity:var(--opa);}
 .opacity-0{opacity:0;}
@@ -66,7 +74,9 @@ exports[`targets 1`] = `
 .to-transparent{--un-gradient-to:transparent;}
 .via-current{--un-gradient-stops:var(--un-gradient-from), currentColor, var(--un-gradient-to, rgba(255, 255, 255, 0));}
 .via-green-500{--un-gradient-stops:var(--un-gradient-from), rgba(34,197,94, var(--un-via-opacity, 1)), var(--un-gradient-to, rgba(255, 255, 255, 0));}
+.via-green-500\\\\/30{--un-gradient-stops:var(--un-gradient-from), rgba(34,197,94,0.3), var(--un-gradient-to, rgba(255, 255, 255, 0));}
 .via-transparent{--un-gradient-stops:var(--un-gradient-from), transparent, var(--un-gradient-to, rgba(255, 255, 255, 0));}
+.via-opacity-30{--un-via-opacity:0.3;}
 .bg-none{background-image:none;}
 .bg-gradient-to-t{background-image:linear-gradient(to top, var(--un-gradient-stops));}
 .bg-gradient-to-tl{background-image:linear-gradient(to top left, var(--un-gradient-stops));}
@@ -77,6 +87,10 @@ exports[`targets 1`] = `
 .bg-cover{background-repeat:cover;}
 .bg-no-repeat{background-repeat:no-repeat;}
 .bg-repeat-space{background-position:space;}
+.fill-none{fill:none;}
+.fill-current{fill:currentColor;}
+.fill-green-400{--un-fill-opacity:1;fill:rgba(74,222,128,var(--un-fill-opacity));}
+.fill-opacity-80{--un-fill-opacity:0.8;}
 .border{border-width:1px;border-style:solid;}
 .b-2,.border-2{border-width:2px;border-style:solid;}
 .border-b{border-bottom-width:1px;border-style:solid;}
@@ -176,17 +190,31 @@ exports[`targets 1`] = `
 .gap-4{grid-gap:1rem;gap:1rem;}
 .gap-x-1{grid-column-gap:0.25rem;column-gap:0.25rem;}
 .-gap-y-5{grid-row-gap:-1.25rem;row-gap:-1.25rem;}
-.min-h-full{min-height:100%;}
 .h-\\\\$var{height:var(--var);}
 .h-1{height:0.25rem;}
+.h-1\\\\/4{height:25%;}
+.h-21{height:5.25rem;}
+.h-auto{height:auto;}
+.h-lg{height:32rem;}
 .max-h-\\\\[1px\\\\]{max-height:1px;}
 .max-w-\\\\$var{max-width:var(--var);}
-.min-h-\\\\[5rem\\\\]{min-height:5rem;}
-.min-h-3{min-height:0.75rem;}
-.min-w-3{min-width:0.75rem;}
-.w-1\\\\/2{width:50%;}
+.max-w-20{max-width:5rem;}
+.max-w-full{max-width:100%;}
+.max-w-lg{max-width:32rem;}
+.max-w-none{max-width:none;}
+.min-h-\\\\[1px\\\\]{min-height:1px;}
+.min-w-\\\\$var{min-width:var(--var);}
+.min-w-20{min-width:5rem;}
+.min-w-full{min-width:100%;}
+.min-w-lg{min-width:32rem;}
+.min-w-none{min-width:none;}
+.w-1{width:0.25rem;}
+.w-1\\\\/4{width:25%;}
+.w-21{width:5.25rem;}
+.w-auto{width:auto;}
+.w-lg{width:32rem;}
 .max-w-screen-lg{max-width:1024px;}
-.min-w-screen-md{min-width:768px;}
+.min-w-screen-lg{min-width:1024px;}
 .aspect-ratio-auto{aspect-ratio:auto;}
 .aspect-ratio-\\\\[auto_16\\\\/9\\\\]{aspect-ratio:auto 16/9;}
 .aspect-ratio-\\\\$var{aspect-ratio:var(--var);}
@@ -318,17 +346,11 @@ exports[`targets 1`] = `
 .preserve-flat{transform-style:flat;}
 .-translate-y-1\\\\/2{--un-translate-y:-50%;}
 .translate-y-1\\\\/4{--un-translate-y:25%;}
-@media (min-width: 768px){
-.md\\\\:m-1{margin:0.25rem;}
-.md\\\\:\\\\!hidden{display:none !important;}
-}
 @media (min-width: 640px){
 .sm\\\\:m-1,.sm\\\\:m1{margin:0.25rem;}
 }
-@media (max-width: 640px){
-.lt-sm\\\\:m1{margin:0.25rem;}
-}
-@media (max-width: 1024px){
-.lt-lg\\\\:m2{margin:0.5rem;}
+@media (min-width: 768px){
+.md\\\\:m-1{margin:0.25rem;}
+.md\\\\:\\\\!hidden{display:none !important;}
 }"
 `;

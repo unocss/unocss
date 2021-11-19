@@ -73,7 +73,7 @@ export interface Preflight {
   layer?: string
 }
 
-export type ExcludeRule = string | RegExp
+export type BlocklistRule = string | RegExp
 
 export interface VariantHandler {
   /**
@@ -89,9 +89,9 @@ export interface VariantHandler {
    */
   body?: (body: CSSEntries) => CSSEntries | undefined
   /**
-   * Provide media query to the output css.
+   * Provide a parent selector(e.g. media query) to the output css.
    */
-  mediaQuery?: string | undefined
+  parent?: string | [string, number] | undefined
 }
 
 export type VariantFunction<Theme extends {} = {}> = (matcher: string, raw: string, theme: Theme) => string | VariantHandler | undefined
@@ -134,7 +134,12 @@ export interface ConfigBase<Theme extends {} = {}> {
    * Rules to exclude the selectors for your design system (to narrow down the possibilities).
    * Combining `warnExcluded` options it can also helps you identify wrong usages.
    */
-  excluded?: ExcludeRule[]
+  blocklist?: BlocklistRule[]
+
+  /**
+   * Utilities that always been included
+   */
+  safelist?: string[]
 
   /**
    * Extractors to handle the source file and outputs possible classes/selectors
@@ -177,11 +182,11 @@ export interface GeneratorOptions {
   mergeSelectors?: boolean
 
   /**
-   * Emit warning when excluded selectors are found
+   * Emit warning when matched selectors are presented in blocklist
    *
    * @default true
    */
-  warnExcluded?: boolean
+  warnBlocked?: boolean
 }
 
 export interface UserOnlyOptions<Theme extends {} = {}> {
@@ -253,7 +258,7 @@ export type StringifiedUtil = readonly [
   index: number,
   selector: string | undefined,
   body: string,
-  mediaQuery: string | undefined,
+  parent: string | undefined,
   meta: RuleMeta | undefined,
 ]
 
@@ -271,14 +276,19 @@ export interface GenerateOptions {
   preflights?: boolean
 
   /**
+   * Includes safelist
+   */
+  safelist?: boolean
+
+  /**
+   * Genreate minified CSS
+   * @default false
+   */
+  minify?: boolean
+
+  /**
    * @expiremental
    */
   scope?: string
 
-  /**
-   * Show layer seperator in comments
-   *
-   * @default true
-   */
-  layerComments?: boolean
 }
