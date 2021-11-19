@@ -67,7 +67,7 @@ export default function WebpackPlugin(
             const files = Object.keys(compilation.assets)
 
             await Promise.all(tasks)
-            const result = await uno.generate(tokens, { layerComments: false })
+            const result = await uno.generate(tokens, { minify: true })
 
             for (const file of files) {
               let code = compilation.assets[file].source().toString()
@@ -113,7 +113,7 @@ export default function WebpackPlugin(
       if (!plugin.__vfsModules)
         return
 
-      const result = await uno.generate(tokens, { layerComments: false })
+      const result = await uno.generate(tokens)
       Array.from(plugin.__vfsModules)
         .forEach((id) => {
           const path = id.slice(plugin.__virtualModulePrefix.length)
