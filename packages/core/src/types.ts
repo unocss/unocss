@@ -6,6 +6,8 @@ export type ArgumentType<T> = T extends ((...args: infer A) => any) ? A : never
 export type Shift<T> = T extends [_: any, ...args: infer A] ? A : never
 export type RestArgs<T> = Shift<ArgumentType<T>>
 export type DeepPartial<T> = { [P in keyof T]?: DeepPartial<T[P]> }
+export type FlatObjectTuple<T> = { [K in keyof T]: T[K] }
+export type PartialByKeys<T, K extends keyof T = keyof T> = FlatObjectTuple<Partial<Pick<T, Extract<keyof T, K>>> & Omit<T, K>>
 
 export type CSSObject = Record<string, string | number | undefined>
 export type CSSEntries = [string, string | number | undefined][]
@@ -196,6 +198,11 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
   theme?: Theme
 
   /**
+   * Preprocess the incoming utilities, return falsy value to exclude
+   */
+  preprocess?: (matcher: string) => string | undefined
+
+  /**
    * Layout name of shortcuts
    *
    * @default 'shortcuts'
@@ -218,7 +225,10 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
 export interface UserConfig<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions {}
 export interface UserConfigDefaults<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme> {}
 
-export interface ResolvedConfig extends Omit<Required<UserConfig>, 'rules' | 'shortcuts'> {
+export interface ResolvedConfig extends Omit<
+PartialByKeys<Required<UserConfig>, 'preprocess'>,
+'rules' | 'shortcuts'
+> {
   shortcuts: Shortcut[]
   variants: VariantObject[]
   rulesSize: number

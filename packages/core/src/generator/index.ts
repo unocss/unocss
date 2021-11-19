@@ -80,6 +80,11 @@ export class UnoGenerator {
       }
     }
 
+    const block = (raw: string) => {
+      this.blocked.add(raw)
+      this._cache.set(raw, null)
+    }
+
     await Promise.all(Array.from(tokens).map(async(raw) => {
       if (matched.has(raw) || this.blocked.has(raw))
         return
@@ -92,36 +97,30 @@ export class UnoGenerator {
         return
       }
 
-      if (this.isBlocked(raw)) {
-        this.blocked.add(raw)
-        this._cache.set(raw, null)
-        return
-      }
+      let current = raw
+      if (this.config.preprocess)
+        current = this.config.preprocess(raw)!
 
-      const applied = this.matchVariants(raw)
+      if (this.isBlocked(current))
+        return block(current)
 
-      if (this.isBlocked(applied[1])) {
-        this.blocked.add(raw)
-        this._cache.set(raw, null)
-        return
-      }
+      const applied = this.matchVariants(raw, current)
+
+      if (!applied || this.isBlocked(applied[1]))
+        return block(raw)
 
       // expand shortcuts
       const expanded = this.expandShortcut(applied[1])
       if (expanded) {
         const utils = await this.stringifyShortcuts(applied, expanded[0], expanded[1])
-        if (utils?.length) {
-          hit(raw, utils)
-          return
-        }
+        if (utils?.length)
+          return hit(raw, utils)
       }
       // no shortcut
       else {
         const util = this.stringifyUtil(await this.parseUtil(applied))
-        if (util) {
-          hit(raw, [util])
-          return
-        }
+        if (util)
+          return hit(raw, [util])
       }
 
       // set null cache for unmatched result
@@ -215,11 +214,11 @@ export class UnoGenerator {
     }
   }
 
-  matchVariants(raw: string): VariantMatchedResult {
+  matchVariants(raw: string, current?: string): VariantMatchedResult {
     // process variants
     const usedVariants = new Set<Variant>()
     const handlers: VariantHandler[] = []
-    let processed = raw
+    let processed = current || raw
     let applied = false
     while (true) {
       applied = false
@@ -412,7 +411,7 @@ export class UnoGenerator {
   }
 
   isBlocked(raw: string) {
-    return this.config.blocklist.some(e => typeof e === 'string' ? e === raw : e.test(raw))
+    return !raw || this.config.blocklist.some(e => typeof e === 'string' ? e === raw : e.test(raw))
   }
 }
 
