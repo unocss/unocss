@@ -26,6 +26,12 @@ export const sizes: Rule<Theme>[] = [
     if (v != null)
       return { [getPropName(m, w)]: v }
   }],
+  ['container', { width: '100%' }],
+  [/^container-(.+)$/, ([, w], { theme }) => {
+    const v = theme.breakpoints?.[w]
+    if (v != null)
+      return { width: v }
+  }],
 ]
 
 export const aspectRatio: Rule[] = [
