@@ -44,6 +44,11 @@ const targets = [
   'border-separate',
   'border-t-2',
   'border',
+  // fill
+  'fill-none',
+  'fill-current',
+  'fill-green-400',
+  'fill-opacity-80',
   // divide
   'divide',
   'divide-y-4',
