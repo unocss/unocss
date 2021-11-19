@@ -98,6 +98,7 @@ export const objectPositions: Rule[] = [
   ['object-fill', { 'object-fit': 'fill' }],
   ['object-scale-down', { 'object-fit': 'scale-down' }],
   ['object-none', { 'object-fit': 'none' }],
+  ['object-center', { 'object-position': 'center' }],
   ['object-bottom', { 'object-position': 'bottom' }],
   ['object-top', { 'object-position': 'top' }],
   ['object-right', { 'object-position': 'right' }],
@@ -106,6 +107,8 @@ export const objectPositions: Rule[] = [
   ['object-lt', { 'object-position': 'left top' }],
   ['object-rb', { 'object-position': 'right bottom' }],
   ['object-rt', { 'object-position': 'right top' }],
+  ['object-cb', { 'object-position': 'center bottom' }],
+  ['object-ct', { 'object-position': 'center top' }],
 ]
 
 export const boxSizing: Rule[] = [
