@@ -356,15 +356,13 @@ const targets = [
   'line-clamp-7',
   'line-clamp-100',
   'line-clamp-none',
-<<<<<<< HEAD
+  // object-position
   'object-center',
   'object-ct',
   'object-cb',
-=======
   // isolation
   'isolate',
   'isolate-auto',
->>>>>>> main
 ]
 
 const nonTargets = [
