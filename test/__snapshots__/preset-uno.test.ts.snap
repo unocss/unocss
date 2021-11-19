@@ -87,6 +87,10 @@ exports[`targets 1`] = `
 .bg-cover{background-repeat:cover;}
 .bg-no-repeat{background-repeat:no-repeat;}
 .bg-repeat-space{background-position:space;}
+.fill-none{fill:none;}
+.fill-current{fill:currentColor;}
+.fill-green-400{--un-fill-opacity:1;fill:rgba(74,222,128,var(--un-fill-opacity));}
+.fill-opacity-80{--un-fill-opacity:0.8;}
 .border{border-width:1px;border-style:solid;}
 .b-2,.border-2{border-width:2px;border-style:solid;}
 .border-b{border-bottom-width:1px;border-style:solid;}

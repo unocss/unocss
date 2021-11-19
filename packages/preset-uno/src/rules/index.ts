@@ -1,7 +1,7 @@
 import { Rule } from '@unocss/core'
 import { transitions } from './transition'
 import { borders } from './border'
-import { bgColors, opacity, textColors, textDecorationColors, textStrokeColors } from './color'
+import { bgColors, opacity, textColors, textDecorationColors, textStrokeColors, fillColors } from './color'
 import { bgAttachments, bgBlendModes, bgClips, bgGradients, bgImages, bgOrigins, bgPositions, bgSizes, bgRepeats } from './background'
 import { filters } from './filters'
 import { flex } from './flex'
@@ -44,6 +44,7 @@ export const rules: Rule[] = [
   bgPositions,
   bgSizes,
   bgRepeats,
+  fillColors,
   borders,
   divides,
   fonts,
