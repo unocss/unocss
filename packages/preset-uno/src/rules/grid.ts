@@ -4,8 +4,6 @@ import { handler as h } from '../utils'
 
 const calSize = (s: string, theme: Theme) => toArray(theme.fontSize?.[s] || h.bracket.rem(s))[0]
 
-const isNumber = (s: string) => !isNaN(Number(s))
-
 const autoDirection = (selector: string, theme: Theme) => {
   if (selector === 'min')
     return 'min-content'
@@ -23,35 +21,28 @@ export const grids: Rule[] = [
   [/^grid-rows-(\d+)$/, ([, d]) => ({ 'grid-template-rows': `repeat(${d},minmax(0,1fr))` })],
   [/^grid-cols-\[(.+)\]$/, ([, v]) => ({ 'grid-template-columns': v.replace(/,/g, ' ') })],
   [/^grid-rows-\[(.+)\]$/, ([, v]) => ({ 'grid-template-rows': v.replace(/,/g, ' ') })],
-  [/^(?:grid-)?auto-flow-(.+)$/, ([, v]) => ({ 'grid-auto-flow': `${v.replace('col', 'column').split('-').join(' ')}` })],
-  [/^(?:grid-)?row-start-(.+)$/, ([, v]) => ({ 'grid-row-start': `${v}` })],
-  [/^(?:grid-)?row-end-(.+)$/, ([, v]) => ({ 'grid-row-end': `${v}` })],
-  [/^(?:grid-)?col-start-(.+)$/, ([, v]) => ({ 'grid-column-start': `${v}` })],
-  [/^(?:grid-)?col-end-(.+)$/, ([, v]) => ({ 'grid-column-end': `${v}` })],
-  [/^(?:grid-)?auto-rows-(.+)$/, ([, v], { theme }) => ({ 'grid-auto-rows': `${autoDirection(v, theme)}` })],
-  [/^(?:grid-)?auto-cols-(.+)$/, ([, v], { theme }) => ({ 'grid-auto-columns': `${autoDirection(v, theme)}` })],
-  [/^(?:grid-)?row-((?!(start)|(end)).+)$/, ([, v]) => {
-    const shortArr = v.split('-')
-    if (shortArr[0] === 'span') {
-      if (shortArr[1] === 'full') {
-        return {
-          'grid-row': '1/-1',
-        }
-      }
-      return isNumber(shortArr[1]) ? { 'grid-row': `span ${shortArr[1]}/span ${shortArr[1]}` } : undefined
+  [/^(?:grid-)?auto-flow-([\w.-]+)$/, ([, v]) => ({ 'grid-auto-flow': `${v.replace('col', 'column').split('-').join(' ')}` })],
+  [/^(?:grid-)?row-start-([\w.-]+)$/, ([, v]) => ({ 'grid-row-start': `${v}` })],
+  [/^(?:grid-)?row-end-([\w.-]+)$/, ([, v]) => ({ 'grid-row-end': `${v}` })],
+  [/^(?:grid-)?col-start-([\w.-]+)$/, ([, v]) => ({ 'grid-column-start': `${v}` })],
+  [/^(?:grid-)?col-end-([\w.]+)$/, ([, v]) => ({ 'grid-column-end': `${v}` })],
+  [/^(?:grid-)?auto-rows-([\w.-]+)$/, ([, v], { theme }) => ({ 'grid-auto-rows': `${autoDirection(v, theme)}` })],
+  [/^(?:grid-)?auto-cols-([\w.-]+)$/, ([, v], { theme }) => ({ 'grid-auto-columns': `${autoDirection(v, theme)}` })],
+  [/^(?:grid-)?(row|col)-(.+)$/, ([, d, v]) => {
+    const key = d === 'row' ? 'grid-row' : 'grid-column'
+    let raw = h.bracket(v)
+    if (raw)
+      return { [key]: raw }
+    const parts = v.split('-')
+    if (parts.length === 1 && parts[0] === 'auto')
+      return { [key]: parts[0] }
+    if (parts[0] === 'span') {
+      if (parts[1] === 'full')
+        return { [key]: '1/-1' }
+
+      raw = h.number.bracket(parts[1])?.toString().replace(/_/g, ' ')
+      if (raw)
+        return { [key]: `span ${raw}/span ${raw}` }
     }
-    return { 'grid-row': v.split('-').join(' ') }
-  }],
-  [/^(?:grid-)?col-((?!(start)|(end)).+)$/, ([, v]) => {
-    const shortArr = v.split('-')
-    if (shortArr[0] === 'span') {
-      if (shortArr[1] === 'full') {
-        return {
-          'grid-column': '1 / -1',
-        }
-      }
-      return isNumber(shortArr[1]) ? { 'grid-column': `span ${shortArr[1]}/span ${shortArr[1]}` } : undefined
-    }
-    return { 'grid-column': v.split('-').join(' ') }
   }],
 ]

@@ -201,9 +201,11 @@ exports[`targets 1`] = `
 .auto-rows-fr{grid-auto-rows:minmax(0,1fr);}
 .auto-rows-min{grid-auto-rows:min-content;}
 .auto-cols-auto{grid-auto-columns:auto;}
-.row-auto{grid-row:auto;}
-.row-span-full{grid-row:1/-1;}
 .col-span-1{grid-column:span 1/span 1;}
+.row-\\\\[span_1\\\\/span_2\\\\]{grid-row:span 1/span 2;}
+.row-auto{grid-row:auto;}
+.row-span-\\\\[hi\\\\]{grid-row:span hi/span hi;}
+.row-span-full{grid-row:1/-1;}
 .gap-4{grid-gap:1rem;gap:1rem;}
 .gap-x-1{grid-column-gap:0.25rem;column-gap:0.25rem;}
 .-gap-y-5{grid-row-gap:-1.25rem;row-gap:-1.25rem;}
