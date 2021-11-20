@@ -2,7 +2,7 @@
 
 exports[`containers 1`] = `
 "/* layer: shortcuts */
-.lg\\\\:container,.container,.md\\\\:container{max-width:100%;}
+.container{max-width:100%;}
 @media (min-width: 640px){
 .container{max-width:640px;}
 }
