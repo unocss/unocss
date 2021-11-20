@@ -16,6 +16,16 @@ const autoDirection = (selector: string, theme: Theme) => {
   return calSize(selector, theme)
 }
 
+const validRowOrColumn = (values: string[]): boolean => {
+  switch (values.length) {
+    case 1:
+    case 2:
+      return values.every(v => v === 'auto' || isNumber(v))
+    default:
+      return false
+  }
+}
+
 export const grids: Rule[] = [
   ['grid', { display: 'grid' }],
   ['inline-grid', { display: 'inline-grid' }],
@@ -40,7 +50,7 @@ export const grids: Rule[] = [
       }
       return isNumber(shortArr[1]) ? { 'grid-row': `span ${shortArr[1]}/span ${shortArr[1]}` } : undefined
     }
-    return { 'grid-row': v.split('-').join(' ') }
+    return validRowOrColumn(shortArr) ? { 'grid-row': v.split('-').join(' ') } : undefined
   }],
   [/^(?:grid-)?col-((?!(start)|(end)).+)$/, ([, v]) => {
     const shortArr = v.split('-')
@@ -52,6 +62,6 @@ export const grids: Rule[] = [
       }
       return isNumber(shortArr[1]) ? { 'grid-column': `span ${shortArr[1]}/span ${shortArr[1]}` } : undefined
     }
-    return { 'grid-column': v.split('-').join(' ') }
+    return validRowOrColumn(shortArr) ? { 'grid-column': v.split('-').join(' ') } : undefined
   }],
 ]
