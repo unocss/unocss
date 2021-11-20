@@ -1,5 +1,6 @@
 import { Preset } from '@unocss/core'
 import { rules } from './rules'
+import { containerShortcuts } from './rules/container'
 import { Theme, theme } from './theme'
 import { variantColorsClass, variantColorsMedia, variants } from './variants'
 
@@ -21,6 +22,9 @@ export const preset = (options: UnoOptions = {}): Preset<Theme> => ({
     ...options.dark === 'media'
       ? variantColorsMedia
       : variantColorsClass,
+  ],
+  shortcuts: [
+    ...containerShortcuts,
   ],
 })
 

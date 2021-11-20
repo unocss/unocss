@@ -109,16 +109,25 @@ export class UnoGenerator {
       if (!applied || this.isBlocked(applied[1]))
         return block(raw)
 
+      const context: RuleContext = {
+        rawSelector: raw,
+        currentSelector: applied[1],
+        theme: this.config.theme,
+        generator: this,
+        variantHandlers: applied[2],
+        constructCSS: (...args) => this.constructCustomCSS(context, ...args),
+      }
+
       // expand shortcuts
-      const expanded = this.expandShortcut(applied[1])
+      const expanded = this.expandShortcut(applied[1], context)
       if (expanded) {
-        const utils = await this.stringifyShortcuts(applied, expanded[0], expanded[1])
+        const utils = await this.stringifyShortcuts(applied, context, expanded[0], expanded[1])
         if (utils?.length)
           return hit(raw, utils)
       }
       // no shortcut
       else {
-        const util = this.stringifyUtil(await this.parseUtil(applied))
+        const util = this.stringifyUtil(await this.parseUtil(applied, context))
         if (util)
           return hit(raw, [util])
       }
@@ -271,26 +280,21 @@ export class UnoGenerator {
     return cssBody
   }
 
-  async parseUtil(input: string | VariantMatchedResult): Promise<ParsedUtil | RawUtil | undefined> {
-    const { theme, rulesStaticMap, rulesDynamic, rulesSize } = this.config
-
+  async parseUtil(input: string | VariantMatchedResult, context: RuleContext, internal = false): Promise<ParsedUtil | RawUtil | undefined> {
     const [raw, processed, variantHandlers] = typeof input === 'string'
       ? this.matchVariants(input)
       : input
 
     // use map to for static rules
-    const staticMatch = rulesStaticMap[processed]
-    if (staticMatch?.[1])
-      return [staticMatch[0], raw, normalizeEntries(staticMatch[1]), staticMatch[2], variantHandlers]
-
-    const context: RuleContext = {
-      rawSelector: raw,
-      currentSelector: processed,
-      theme,
-      generator: this,
-      variantHandlers,
-      constructCSS: (...args) => this.constructCustomCSS(context, ...args),
+    const staticMatch = this.config.rulesStaticMap[processed]
+    if (staticMatch) {
+      if (staticMatch[1] && (internal || !staticMatch[2]?.internal))
+        return [staticMatch[0], raw, normalizeEntries(staticMatch[1]), staticMatch[2], variantHandlers]
     }
+
+    context.variantHandlers = variantHandlers
+
+    const { rulesDynamic, rulesSize } = this.config
 
     // match rules, from last to first
     for (let i = rulesSize; i >= 0; i--) {
@@ -298,6 +302,10 @@ export class UnoGenerator {
 
       // static rules are omitted as undefined
       if (!rule)
+        continue
+
+      // ignore internal rules
+      if (rule[2]?.internal && !internal)
         continue
 
       // dynamic rules
@@ -334,7 +342,7 @@ export class UnoGenerator {
     return [parsed[0], selector, body, mediaQuery, parsed[3]]
   }
 
-  expandShortcut(processed: string, depth = 3): [string[], RuleMeta | undefined] | undefined {
+  expandShortcut(processed: string, context: RuleContext, depth = 3): [string[], RuleMeta | undefined] | undefined {
     if (depth === 0)
       return
 
@@ -351,7 +359,7 @@ export class UnoGenerator {
       else {
         const match = processed.match(s[0])
         if (match)
-          result = s[1](match)
+          result = s[1](match, context)
         if (result) {
           meta = meta || s[2]
           break
@@ -366,20 +374,21 @@ export class UnoGenerator {
       result = result.split(/ /g)
 
     return [
-      result.flatMap(r => this.expandShortcut(r, depth - 1)?.[0] || [r]),
+      result.flatMap(r => this.expandShortcut(r, context, depth - 1)?.[0] || [r]),
       meta,
     ]
   }
 
   async stringifyShortcuts(
     parent: VariantMatchedResult,
+    context: RuleContext,
     expanded: string[],
     meta: RuleMeta = { layer: this.config.shortcutsLayer },
   ): Promise<StringifiedUtil[] | undefined> {
     const selectorMap = new TwoKeyMap<string, string | undefined, [CSSEntries, number]>()
 
     const parsed = (await Promise.all(uniq(expanded)
-      .map(i => this.parseUtil(i) as Promise<ParsedUtil>)))
+      .map(i => this.parseUtil(i, context, true) as Promise<ParsedUtil>)))
       .filter(Boolean)
       .sort((a, b) => a[0] - b[0])
 

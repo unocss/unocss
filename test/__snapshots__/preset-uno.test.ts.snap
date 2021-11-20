@@ -1,5 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`containers 1`] = `
+"/* layer: shortcuts */
+.container{max-width:100%;}
+@media (min-width: 640px){
+.container{max-width:640px;}
+}
+@media (min-width: 768px){
+.container,.md\\\\:container{max-width:768px;}
+}
+@media (min-width: 1024px){
+.lg\\\\:container,.container,.md\\\\:container{max-width:1024px;}
+}
+@media (min-width: 1280px){
+.lg\\\\:container,.container,.md\\\\:container{max-width:1280px;}
+}
+@media (min-width: 1536px){
+.lg\\\\:container,.container,.md\\\\:container{max-width:1536px;}
+}"
+`;
+
 exports[`targets 1`] = `
 "/* layer: default */
 @media (max-width: 1024px){

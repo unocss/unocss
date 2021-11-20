@@ -54,7 +54,16 @@ export interface Extractor {
 }
 
 export interface RuleMeta {
+  /**
+   * The layer name of this rule.
+   * @default 'default'
+   */
   layer?: string
+  /**
+   * Internal rules will only be matched for shortcuts but not the user code.
+   * @default false
+   */
+  internal?: boolean
 }
 
 export type DynamicMatcher<Theme extends {} = {}> = ((match: string[], context: Readonly<RuleContext<Theme>>) => Awaitable<CSSObject | CSSEntries | string | undefined>)
@@ -62,13 +71,13 @@ export type DynamicRule<Theme extends {} = {}> = [RegExp, DynamicMatcher<Theme>]
 export type StaticRule = [string, CSSObject | CSSEntries] | [string, CSSObject | CSSEntries, RuleMeta]
 export type Rule<Theme extends {} = {}> = DynamicRule<Theme> | StaticRule
 
-export type DynamicShortcutMatcher = ((match: string[]) => (string | string [] | undefined))
+export type DynamicShortcutMatcher<Theme extends {} = {}> = ((match: string[], context: Readonly<RuleContext<Theme>>) => (string | string [] | undefined))
 
-export type DynamicShortcut = [RegExp, DynamicShortcutMatcher] | [RegExp, DynamicShortcutMatcher, RuleMeta]
 export type StaticShortcut = [string, string | string[]] | [string, string | string[], RuleMeta]
 export type StaticShortcutMap = Record<string, string | string[]>
-export type UserShortcuts = StaticShortcutMap | (StaticShortcut | DynamicShortcut | StaticShortcutMap)[]
-export type Shortcut = StaticShortcut | DynamicShortcut
+export type DynamicShortcut<Theme extends {} = {}> = [RegExp, DynamicShortcutMatcher<Theme>] | [RegExp, DynamicShortcutMatcher<Theme>, RuleMeta]
+export type UserShortcuts<Theme extends {} = {}> = StaticShortcutMap | (StaticShortcut | DynamicShortcut<Theme> | StaticShortcutMap)[]
+export type Shortcut<Theme extends {} = {}> = StaticShortcut | DynamicShortcut<Theme>
 
 export interface Preflight {
   getCSS: () => string | undefined
@@ -300,5 +309,4 @@ export interface GenerateOptions {
    * @expiremental
    */
   scope?: string
-
 }

@@ -20,8 +20,15 @@ export const variantBreakpoints: Variant<Theme> = (matcher, _, theme) => {
       order = -order
     }
 
+    const m = matcher.slice(pre.length)
+    // container rule is responsive, but also is breakpoint aware
+    // it is handled on its own module (container.ts) and so we
+    // exclude it from here
+    if (m === 'container')
+      continue
+
     return {
-      matcher: matcher.slice(pre.length),
+      matcher: m,
       parent: [`@media (${direction}-width: ${size})`, order],
     }
   }
