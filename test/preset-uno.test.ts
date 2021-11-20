@@ -113,8 +113,6 @@ const targets = [
   'min-w-full',
   'min-w-$var',
   'min-w-screen-lg',
-  'container',
-  'lg:container',
   'h-$var',
   'hover:!p-1',
   'inline-table',
@@ -402,4 +400,19 @@ test('non-targets', async() => {
 
   expect(Array.from(matched)).toEqual([])
   expect(css).toMatch('')
+})
+
+test('containers', async() => {
+  const targets = [
+    'container',
+    'md:container',
+    'lg:container',
+  ]
+  const nonTargets = [
+    '__container',
+  ]
+  const { css, matched } = await uno.generate(new Set([...targets, ...nonTargets]))
+
+  expect(matched).toEqual(new Set(targets))
+  expect(css).toMatchSnapshot()
 })

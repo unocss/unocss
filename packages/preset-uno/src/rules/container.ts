@@ -1,31 +1,38 @@
-import { Rule } from '@unocss/core'
+import { Rule, toArray, Shortcut } from '@unocss/core'
 import { Theme } from '../theme'
 
+const queryMatcher = /@media \(min-width: (.+)\)/
+
 export const container: Rule<Theme>[] = [
-  [/^((.+):)?container$/, (m, { theme }) => {
-    const bps = theme.breakpoints
-
-    if (!bps)
-      return undefined
-
-    const [,, useBp] = m
-
-    if (useBp && useBp.length > 0 && !bps[useBp])
-      return undefined
-
-    const keys = Array.from(Object.keys(bps))
-
-    if (bps[useBp]) {
-      const idx = keys.findIndex(cbp => cbp === useBp)
-      if (idx !== -1) {
-        return keys.slice(idx).map((bp, idx) => {
-          return `@media (min-width:${bps[bp]}) {.${useBp}\\:container,[${useBp}\\:container=""]{${idx === 0 ? 'width:100%;' : ''}max-width:${bps[bp]}}}`
-        }).join('\n')
+  [
+    /^__container$/,
+    (m, { variantHandlers }) => {
+      let width = '100%'
+      for (const v of variantHandlers) {
+        const query = toArray(v.parent || [])[0]
+        if (typeof query === 'string') {
+          const match = query.match(queryMatcher)?.[1]
+          if (match)
+            width = match
+        }
       }
-      return undefined
-    }
+      return { 'max-width': width }
+    },
+    { internal: true },
+  ],
+]
 
-    const entries = keys.map(bp => `@media (min-width:${bps[bp]}) {.container,[container=""]{max-width:${bps[bp]}}}`)
-    return `.container,[container=""]{width:100%}\n${entries.join('\n')}`
+export const containerShortcuts: Shortcut<Theme>[] = [
+  [/^(?:(\w+)[:-])?container$/, ([, bp], { theme }) => {
+    let points = Object.keys(theme.breakpoints || {})
+    if (bp) {
+      if (!points.includes(bp))
+        return
+      points = points.slice(points.indexOf(bp))
+    }
+    const shortcuts = points.map(p => `${p}:__container`)
+    if (!bp)
+      shortcuts.unshift('__container')
+    return shortcuts
   }],
 ]
