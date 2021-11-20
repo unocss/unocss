@@ -183,7 +183,7 @@ exports[`targets 1`] = `
 .auto-cols-auto{grid-auto-columns:auto;}
 .col-span-1{grid-column:span 1/span 1;}
 .row-\\\\[span_1\\\\/span_2\\\\]{grid-row:span 1/span 2;}
-.row-auto{grid-row:auto undefined;}
+.row-auto{grid-row:auto;}
 .row-span-\\\\[hi\\\\]{grid-row:span hi/span hi;}
 .row-span-full{grid-row:1/-1;}
 .gap-4{grid-gap:1rem;gap:1rem;}
