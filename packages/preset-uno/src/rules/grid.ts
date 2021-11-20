@@ -40,7 +40,7 @@ export const grids: Rule[] = [
   [/^(?:grid-)?col-end-(.+)$/, ([, v]) => ({ 'grid-column-end': `${v}` })],
   [/^(?:grid-)?auto-rows-(.+)$/, ([, v], { theme }) => ({ 'grid-auto-rows': `${autoDirection(v, theme)}` })],
   [/^(?:grid-)?auto-cols-(.+)$/, ([, v], { theme }) => ({ 'grid-auto-columns': `${autoDirection(v, theme)}` })],
-  [/^(?:grid-)?row-((?!(start)|(end)).+)$/, ([, v]) => {
+  [/^(?:grid-)?row-\[((?!(start)|(end)).+)]$/, ([, v]) => {
     const shortArr = v.split('-')
     if (shortArr[0] === 'span') {
       if (shortArr[1] === 'full') {
@@ -52,7 +52,7 @@ export const grids: Rule[] = [
     }
     return validRowOrColumn(shortArr) ? { 'grid-row': v.split('-').join(' ') } : undefined
   }],
-  [/^(?:grid-)?col-((?!(start)|(end)).+)$/, ([, v]) => {
+  [/^(?:grid-)?col-\[((?!(start)|(end)).+)]$/, ([, v]) => {
     const shortArr = v.split('-')
     if (shortArr[0] === 'span') {
       if (shortArr[1] === 'full') {
