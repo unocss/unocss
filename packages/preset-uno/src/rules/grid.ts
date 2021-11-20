@@ -4,8 +4,6 @@ import { handler as h } from '../utils'
 
 const calSize = (s: string, theme: Theme) => toArray(theme.fontSize?.[s] || h.bracket.rem(s))[0]
 
-const isNumber = (s: string) => !isNaN(Number(s))
-
 const autoDirection = (selector: string, theme: Theme) => {
   if (selector === 'min')
     return 'min-content'
@@ -14,16 +12,6 @@ const autoDirection = (selector: string, theme: Theme) => {
   else if (selector === 'fr')
     return 'minmax(0,1fr)'
   return calSize(selector, theme)
-}
-
-const validRowOrColumn = (values: string[]): boolean => {
-  switch (values.length) {
-    case 1:
-    case 2:
-      return values.every(v => v === 'auto' || isNumber(v))
-    default:
-      return false
-  }
 }
 
 export const grids: Rule[] = [
