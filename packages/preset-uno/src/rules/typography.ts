@@ -1,4 +1,5 @@
 import { toArray, Rule } from '@unocss/core'
+import { isNumber } from '@vueuse/core'
 import { Theme } from '../theme'
 import { handler as h } from '../utils'
 
@@ -63,9 +64,10 @@ export const trackings: Rule<Theme>[] = [
   }],
 ]
 
+// https://developer.mozilla.org/en-US/docs/Web/CSS/tab-size#values
 export const tabSizes: Rule<Theme>[] = [
-  [/^tab-?([^-]*)$/, ([, s]) => {
-    const v = h.bracket.number.rem(s) || 4
+  [/^tab-?(inherit|initial|revert|unset|([0-9]+(.*)?))$/, ([, t, s]) => {
+    const v = isNumber(s) ? (h.bracket.number.rem(s) || 4) : t
     return {
       '-moz-tab-size': v,
       '-o-tab-size': v,
