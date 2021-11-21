@@ -238,6 +238,8 @@ const targets = [
   'hyphens-none',
   'tab',
   'tab-6',
+  'tab-1em',
+  'tab-unset',
   'indent',
   'indent-1/2',
   'indent-lg',

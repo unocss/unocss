@@ -138,7 +138,9 @@ exports[`targets 1`] = `
 .text-4xl{font-size:2.25rem;line-height:2.5rem;}
 .text-base{font-size:1rem;line-height:1.5rem;}
 .text-lg{font-size:1.125rem;line-height:1.75rem;}
+.tab-1em{-moz-tab-size:1em;-o-tab-size:1em;tab-size:1em;}
 .tab-6{-moz-tab-size:6;-o-tab-size:6;tab-size:6;}
+.tab-unset{-moz-tab-size:unset;-o-tab-size:unset;tab-size:unset;}
 .indent{text-indent:1.5rem;}
 .indent-1\\\\/2{text-indent:50%;}
 .indent-lg{text-indent:2rem;}
