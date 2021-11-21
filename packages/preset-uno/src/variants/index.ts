@@ -2,7 +2,6 @@ import { Variant } from '@unocss/core'
 import { Theme } from '../theme'
 import { variantBreakpoints } from './breakpoints'
 import { variantChildren } from './children'
-import { variantColorsClass } from './dark'
 import { variantPseudoClasses, variantPseudoElements } from './pseudo'
 
 export * from './breakpoints'
@@ -62,7 +61,6 @@ export const variants: Variant<Theme>[] = [
   variantImportant,
   variantBreakpoints,
   ...variantChildren,
-  ...variantColorsClass,
   variantPseudoClasses,
   variantPseudoElements,
 ]
