@@ -1,14 +1,10 @@
-import { BetterMap, createGenerator, UserConfigDefaults } from '@unocss/core'
-import { loadConfig } from '@unocss/config'
+import { UserConfigDefaults } from '@unocss/core'
 import { createUnplugin, UnpluginOptions, ResolvedUnpluginOptions } from 'unplugin'
-import { createFilter } from '@rollup/pluginutils'
 import WebpackSources from 'webpack-sources'
 import { getPath } from '../../plugins-common/utils'
-import { defaultInclude, defaultExclude } from '../../plugins-common/defaults'
-import { resolveId, LAYER_MARK_ALL, LAYER_PLACEHOLDER_RE, getLayerPlaceholder } from '../../plugins-common/layers'
-import { PluginOptions } from '../../plugins-common/types'
+import { resolveId, LAYER_MARK_ALL, LAYER_PLACEHOLDER_RE, getLayerPlaceholder, PluginConfig, createContext } from '../../plugins-common'
 
-export interface WebpackPluginOptions<Theme extends {} = {}> extends PluginOptions<Theme> {}
+export interface WebpackPluginOptions<Theme extends {} = {}> extends PluginConfig<Theme> {}
 
 const PLUGIN_NAME = 'unocss:webpack'
 const UPDATE_DEBOUNCE = 10
@@ -22,17 +18,9 @@ export default function WebpackPlugin(
   defaults?: UserConfigDefaults,
 ) {
   return createUnplugin(() => {
-    const { config = {} } = loadConfig(configOrPath)
+    const context = createContext(configOrPath, defaults)
+    const { uno, tokens, modules, filter } = context
 
-    const filter = createFilter(
-      config.include || defaultInclude,
-      config.exclude || defaultExclude,
-    )
-
-    const uno = createGenerator(config, defaults)
-
-    const modules = new BetterMap<string, string>()
-    const tokens = new Set<string>()
     const tasks: Promise<any>[] = []
     const entries = new Map<string, string>()
 
@@ -40,7 +28,7 @@ export default function WebpackPlugin(
       name: 'unocss:webpack',
       enforce: 'pre',
       transformInclude(id) {
-        return filter(id)
+        return filter('', id)
       },
       transform(code, id) {
         tasks.push(scan(code, id))

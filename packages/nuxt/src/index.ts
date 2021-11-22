@@ -6,11 +6,11 @@ import presetAttributify, { AttributifyOptions } from '@unocss/preset-attributif
 import presetIcons, { IconsOptions } from '@unocss/preset-icons'
 import WebpackPlugin from '@unocss/webpack'
 import VitePlugin from '@unocss/vite'
-import { PluginOptions } from '../../plugins-common/types'
+import { PluginConfig } from '../../plugins-common/types'
 
 const dir = dirname(fileURLToPath(import.meta.url))
 
-export interface UnocssNuxtOptions extends PluginOptions {
+export interface UnocssNuxtOptions extends PluginConfig {
   /**
    * Injecting `uno.css` entry
    *

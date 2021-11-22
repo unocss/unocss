@@ -1,14 +1,13 @@
 import { Plugin } from 'vite'
-import { createGenerator, UserConfigDefaults } from '@unocss/core'
-import { loadConfig } from '@unocss/config'
+import { UserConfigDefaults } from '@unocss/core'
 import UnocssInspector from '@unocss/inspector'
-import { createContext } from './context'
+import { createContext } from '../../plugins-common'
 import { ChunkModeBuildPlugin } from './modes/chunk-build'
 import { GlobalModeDevPlugin, GlobalModePlugin } from './modes/global'
 import { PerModuleModePlugin } from './modes/per-module'
 import { VueScopedPlugin } from './modes/vue-scoped'
 import { ConfigHMRPlugin } from './config-hmr'
-import { VitePluginOptions } from './types'
+import { VitePluginConfig } from './types'
 
 export * from './types'
 export * from './modes/chunk-build'
@@ -16,21 +15,19 @@ export * from './modes/global'
 export * from './modes/per-module'
 export * from './modes/vue-scoped'
 
-export { UnocssPluginContext } from './context'
+export { UnocssPluginContext } from '../../plugins-common'
 
-export function defineConfig<Theme extends {}>(config: VitePluginOptions<Theme>) {
+export function defineConfig<Theme extends {}>(config: VitePluginConfig<Theme>) {
   return config
 }
 
 export default function UnocssPlugin(
-  configOrPath?: VitePluginOptions | string,
+  configOrPath?: VitePluginConfig | string,
   defaults: UserConfigDefaults = {},
 ): Plugin[] {
-  const { config = {}, filepath } = loadConfig(configOrPath)
-
+  const ctx = createContext<VitePluginConfig>(configOrPath, defaults)
+  const { config } = ctx
   const mode = config.mode ?? 'global'
-  const uno = createGenerator(config, defaults)
-  const ctx = createContext(uno, config, filepath)
 
   const plugins = [
     ConfigHMRPlugin(ctx),

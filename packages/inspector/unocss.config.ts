@@ -1,9 +1,9 @@
 import presetIcons from '@unocss/preset-icons'
 import presetAttributify from '@unocss/preset-attributify'
 import presetUno from '@unocss/preset-uno'
-import { VitePluginOptions } from '@unocss/vite'
+import { VitePluginConfig } from '@unocss/vite'
 
-export function createConfig(): VitePluginOptions {
+export function createConfig(): VitePluginConfig {
   return {
     envMode: 'build',
     theme: {

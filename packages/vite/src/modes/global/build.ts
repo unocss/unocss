@@ -1,16 +1,16 @@
 import type { Plugin } from 'vite'
-import { createFilter } from '@rollup/pluginutils'
 import { getHash, getPath } from '../../../../plugins-common/utils'
-import { UnocssPluginContext } from '../../context'
-import { defaultExclude, defaultInclude } from '../../../../plugins-common/defaults'
-import { LAYER_MARK_ALL, getLayerPlaceholder, LAYER_PLACEHOLDER_RE, resolveId, HASH_PLACEHOLDER_RE, getHashPlaceholder } from '../../../../plugins-common/layers'
+import { UnocssPluginContext } from '../../../../plugins-common/context'
+import {
+  getHashPlaceholder,
+  getLayerPlaceholder,
+  HASH_PLACEHOLDER_RE,
+  LAYER_MARK_ALL,
+  LAYER_PLACEHOLDER_RE,
+  resolveId,
+} from '../../../../plugins-common'
 
-export function GlobalModeBuildPlugin({ uno, config, scan, tokens, modules }: UnocssPluginContext): Plugin[] {
-  const filter = createFilter(
-    config.include || defaultInclude,
-    config.exclude || defaultExclude,
-  )
-
+export function GlobalModeBuildPlugin({ uno, scan, tokens, modules, filter }: UnocssPluginContext): Plugin[] {
   const vfsLayerMap = new Map<string, string>()
   let tasks: Promise<any>[] = []
   let cssPlugin: Plugin | undefined
@@ -25,7 +25,7 @@ export function GlobalModeBuildPlugin({ uno, config, scan, tokens, modules }: Un
         vfsLayerMap.clear()
       },
       transform(code, id) {
-        if (filter(id))
+        if (filter(code, id))
           tasks.push(scan(code, id))
         return null
       },

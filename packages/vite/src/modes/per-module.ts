@@ -1,20 +1,13 @@
 import type { Plugin, ViteDevServer } from 'vite'
-import { createFilter } from '@rollup/pluginutils'
 import { getHash } from '../../../plugins-common/utils'
-import { UnocssPluginContext } from '../context'
-import { defaultExclude, defaultInclude } from '../../../plugins-common/defaults'
+import { UnocssPluginContext } from '../../../plugins-common'
 
 const VIRTUAL_PREFIX = '/@unocss/'
 const SCOPE_IMPORT_RE = / from (['"])(@unocss\/scope)\1/
 
-export function PerModuleModePlugin({ uno, config }: UnocssPluginContext): Plugin {
+export function PerModuleModePlugin({ uno, filter }: UnocssPluginContext): Plugin {
   const moduleMap = new Map<string, [string, string]>()
   let server: ViteDevServer | undefined
-
-  const filter = createFilter(
-    config.include || defaultInclude,
-    config.exclude || defaultExclude,
-  )
 
   const invalidate = (hash: string) => {
     if (!server)
@@ -42,7 +35,7 @@ export function PerModuleModePlugin({ uno, config }: UnocssPluginContext): Plugi
       server = _server
     },
     async transform(code, id) {
-      if (!filter(id))
+      if (!filter(code, id))
         return
 
       const hash = getHash(id)

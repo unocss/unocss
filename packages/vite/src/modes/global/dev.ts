@@ -1,20 +1,12 @@
 import type { Plugin, ViteDevServer } from 'vite'
-import { createFilter } from '@rollup/pluginutils'
 import { getPath } from '../../../../plugins-common/utils'
-import { UnocssPluginContext } from '../../context'
-import { defaultExclude, defaultInclude } from '../../../../plugins-common/defaults'
-import { LAYER_MARK_ALL, resolveId } from '../../../../plugins-common/layers'
+import { UnocssPluginContext, LAYER_MARK_ALL, resolveId } from '../../../../plugins-common'
 import { READY_CALLBACK_DEFAULT } from './shared'
 
 const WARN_TIMEOUT = 2000
 
-export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }: UnocssPluginContext): Plugin[] {
+export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, scan, filter }: UnocssPluginContext): Plugin[] {
   const servers: ViteDevServer[] = []
-
-  const filter = createFilter(
-    config.include || defaultInclude,
-    config.exclude || defaultExclude,
-  )
 
   const tasks: Promise<any>[] = []
   const entries = new Map<string, string>()
@@ -92,7 +84,7 @@ export function GlobalModeDevPlugin({ config, uno, tokens, onInvalidate, scan }:
         })
       },
       transform(code, id) {
-        if (filter(id))
+        if (filter(code, id))
           scan(code, id)
         return null
       },
