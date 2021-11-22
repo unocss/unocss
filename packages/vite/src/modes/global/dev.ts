@@ -1,6 +1,6 @@
 import type { Plugin, ViteDevServer } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
-import { getPath } from '../../utils'
+import { getPath } from '../../../../plugins-common/utils'
 import { UnocssPluginContext } from '../../context'
 import { defaultExclude, defaultInclude } from '../../../../plugins-common/defaults'
 import { LAYER_MARK_ALL, resolveId } from '../../../../plugins-common/layers'
