@@ -62,6 +62,8 @@ UnoCSS is designed **NOT** to be/have:
 
 ## Installation
 
+### Vite
+
 ```bash
 npm i -D unocss
 ```
@@ -87,6 +89,24 @@ import 'uno.css'
 That's it, have fun.
 
 See [all packages](https://github.com/antfu/unocss/tree/main/packages).
+
+### Nuxt
+
+```bash
+npm i -D @unocss/nuxt
+```
+
+```ts
+// nuxt.config.js
+
+export default {
+  buildModules: [
+    '@unocss/nuxt'
+  ]
+}
+```
+
+Refer to the full documentation on https://github.com/antfu/unocss/tree/main/packages/nuxt
 
 ## Configurations
 
