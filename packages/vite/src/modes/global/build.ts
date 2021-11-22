@@ -63,15 +63,17 @@ export function GlobalModeBuildPlugin({ uno, extract, tokens, modules, filter }:
         const hash = getHash(css)
 
         // fool the css plugin to generate the css in corresponding chunk
-        const fakeCssId = `${chunk.fileName}-unocss-hash.css`
-        // @ts-ignore
-        await cssPlugin!.transform(getHashPlaceholder(hash), fakeCssId)
-        chunk.modules[fakeCssId] = {
-          code: null,
-          originalLength: 0,
-          removedExports: [],
-          renderedExports: [],
-          renderedLength: 0,
+        if (cssPlugin) {
+          const fakeCssId = `${chunk.fileName}-unocss-hash.css`
+          // @ts-ignore
+          await cssPlugin!.transform(getHashPlaceholder(hash), fakeCssId)
+          chunk.modules[fakeCssId] = {
+            code: null,
+            originalLength: 0,
+            removedExports: [],
+            renderedExports: [],
+            renderedLength: 0,
+          }
         }
 
         return null
