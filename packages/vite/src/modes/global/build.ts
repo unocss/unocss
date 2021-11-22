@@ -3,12 +3,19 @@ import { getHash, getPath } from '../../../../plugins-common/utils'
 import { UnocssPluginContext } from '../../../../plugins-common/context'
 import {
   getHashPlaceholder,
+  getLayer,
   getLayerPlaceholder,
   HASH_PLACEHOLDER_RE,
   LAYER_MARK_ALL,
   LAYER_PLACEHOLDER_RE,
   resolveId,
 } from '../../../../plugins-common'
+
+const cssPluginIds = [
+  'vite:css-post',
+  // astro compact
+  '@astrojs/rollup-plugin-build-css',
+]
 
 export function GlobalModeBuildPlugin({ uno, extract, tokens, modules, filter }: UnocssPluginContext): Plugin[] {
   const vfsLayerMap = new Map<string, string>()
@@ -17,7 +24,7 @@ export function GlobalModeBuildPlugin({ uno, extract, tokens, modules, filter }:
 
   return [
     {
-      name: 'unocss:global:build:scan',
+      name: 'unocss:global:build:extra',
       apply: 'build',
       enforce: 'pre',
       buildStart() {
@@ -43,12 +50,12 @@ export function GlobalModeBuildPlugin({ uno, extract, tokens, modules, filter }:
         }
       },
       load(id) {
-        const layer = vfsLayerMap.get(getPath(id))
+        const layer = vfsLayerMap.get(getPath(id)) || getLayer(id)
         if (layer)
           return getLayerPlaceholder(layer)
       },
       configResolved(config) {
-        cssPlugin = config.plugins.find(i => i.name === 'vite:css-post')
+        cssPlugin = config.plugins.find(i => cssPluginIds.includes(i.name))
       },
       // we inject a hash to chunk before the dist hash calculation to make sure
       // the hash is different when unocss changes

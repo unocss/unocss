@@ -20,6 +20,12 @@ export function resolveId(id: string) {
   }
 }
 
+export function getLayer(id: string) {
+  if (id === '/__uno.css')
+    return LAYER_MARK_ALL
+  return id.match(/^\/__uno_(\w+)\.css$/)?.[1]
+}
+
 export const LAYER_PLACEHOLDER_RE = /(\\?")?#--unocss--\s*{\s*layer\s*:\s*(.+?);?\s*}/g
 export function getLayerPlaceholder(layer: string) {
   return `#--unocss--{layer:${layer}}`
