@@ -47,9 +47,15 @@ export function GlobalModeBuildPlugin({ uno, extract, tokens, modules, filter }:
         if (layer)
           return getLayerPlaceholder(layer)
       },
+      configResolved(config) {
+        cssPlugin = config.plugins.find(i => i.name === 'vite:css-post')
+      },
       // we inject a hash to chunk before the dist hash calculation to make sure
       // the hash is different when unocss changes
       async renderChunk(_, chunk) {
+        if (!cssPlugin)
+          return null
+
         const chunks = Object.keys(chunk.modules).filter(i => modules.has(i))
 
         if (!chunks.length)
@@ -63,17 +69,15 @@ export function GlobalModeBuildPlugin({ uno, extract, tokens, modules, filter }:
         const hash = getHash(css)
 
         // fool the css plugin to generate the css in corresponding chunk
-        if (cssPlugin) {
-          const fakeCssId = `${chunk.fileName}-unocss-hash.css`
-          // @ts-ignore
-          await cssPlugin!.transform(getHashPlaceholder(hash), fakeCssId)
-          chunk.modules[fakeCssId] = {
-            code: null,
-            originalLength: 0,
-            removedExports: [],
-            renderedExports: [],
-            renderedLength: 0,
-          }
+        const fakeCssId = `${chunk.fileName}-unocss-hash.css`
+        // @ts-ignore
+        await cssPlugin!.transform(getHashPlaceholder(hash), fakeCssId)
+        chunk.modules[fakeCssId] = {
+          code: null,
+          originalLength: 0,
+          removedExports: [],
+          renderedExports: [],
+          renderedLength: 0,
         }
 
         return null
@@ -83,9 +87,6 @@ export function GlobalModeBuildPlugin({ uno, extract, tokens, modules, filter }:
       name: 'unocss:global:build:generate',
       apply(options, { command }) {
         return command === 'build' && !options.build?.ssr
-      },
-      configResolved(config) {
-        cssPlugin = config.plugins.find(i => i.name === 'vite:css-post')
       },
       enforce: 'post',
       // rewrite the css placeholders
