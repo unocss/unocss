@@ -100,3 +100,5 @@ export const letterSpacing: Theme['letterSpacing'] = {
   wider: '0.05em',
   widest: '0.1em',
 }
+
+export const wordSpacing: Theme['wordSpacing'] = letterSpacing

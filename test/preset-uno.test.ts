@@ -180,6 +180,8 @@ const targets = [
   'transition-property-all',
   'transition-200',
   'transition',
+  'word-spacing-wide',
+  'word-spacing-2',
   '-z-1',
   'z-0',
   'z-1',

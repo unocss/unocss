@@ -6,7 +6,7 @@ import { bgColors, opacity, textColors, textDecorationColors, textStrokeColors, 
 import { bgAttachments, bgBlendModes, bgClips, bgGradients, bgImages, bgOrigins, bgPositions, bgSizes, bgRepeats } from './background'
 import { filters } from './filters'
 import { flex } from './flex'
-import { fonts, leadings, tabSizes, textDecorationLengths, textDecorationOffsets, textIndents, textShadows, textStrokeWidths, trackings } from './typography'
+import { fonts, leadings, tabSizes, textDecorationLengths, textDecorationOffsets, textIndents, textShadows, textStrokeWidths, trackings, wordSpacings } from './typography'
 import { gaps } from './gap'
 import { grids } from './grid'
 import { overflows } from './layout'
@@ -96,6 +96,7 @@ export const rules: Rule[] = [
   overscrolls,
   breaks,
   trackings,
+  wordSpacings,
   leadings,
   overflows,
   positions,
