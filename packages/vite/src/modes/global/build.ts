@@ -10,7 +10,7 @@ import {
   resolveId,
 } from '../../../../plugins-common'
 
-export function GlobalModeBuildPlugin({ uno, scan, tokens, modules, filter }: UnocssPluginContext): Plugin[] {
+export function GlobalModeBuildPlugin({ uno, extract, tokens, modules, filter }: UnocssPluginContext): Plugin[] {
   const vfsLayerMap = new Map<string, string>()
   let tasks: Promise<any>[] = []
   let cssPlugin: Plugin | undefined
@@ -26,13 +26,13 @@ export function GlobalModeBuildPlugin({ uno, scan, tokens, modules, filter }: Un
       },
       transform(code, id) {
         if (filter(code, id))
-          tasks.push(scan(code, id))
+          tasks.push(extract(code, id))
         return null
       },
       transformIndexHtml: {
         enforce: 'pre',
         transform(code, { filename }) {
-          tasks.push(scan(code, filename))
+          tasks.push(extract(code, filename))
         },
       },
       resolveId(id) {

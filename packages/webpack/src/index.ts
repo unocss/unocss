@@ -19,7 +19,13 @@ export default function WebpackPlugin(
 ) {
   return createUnplugin(() => {
     const context = createContext(configOrPath, defaults)
-    const { uno, tokens, modules, filter } = context
+    const { uno, tokens, filter, extract, onInvalidate } = context
+
+    let timer: any
+    onInvalidate(() => {
+      clearTimeout(timer)
+      timer = setTimeout(updateModules, UPDATE_DEBOUNCE)
+    })
 
     const tasks: Promise<any>[] = []
     const entries = new Map<string, string>()
@@ -31,7 +37,7 @@ export default function WebpackPlugin(
         return filter('', id)
       },
       transform(code, id) {
-        tasks.push(scan(code, id))
+        tasks.push(extract(code, id))
         return null
       },
       resolveId(id) {
@@ -83,19 +89,6 @@ export default function WebpackPlugin(
         })
       },
     } as Required<ResolvedUnpluginOptions>
-
-    async function scan(code: string, id?: string) {
-      if (id)
-        modules.set(id, code)
-      await uno.applyExtractors(code, id, tokens)
-      scheduleUpdate()
-    }
-
-    let timer: any
-    function scheduleUpdate() {
-      clearTimeout(timer)
-      timer = setTimeout(updateModules, UPDATE_DEBOUNCE)
-    }
 
     async function updateModules() {
       if (!plugin.__vfsModules)

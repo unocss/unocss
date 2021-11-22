@@ -12,7 +12,7 @@ export interface UnocssPluginContext<Config extends PluginConfig = PluginConfig>
   modules: BetterMap<string, string>
   filter: (code: string, id: string) => boolean
   reloadConfig: () => Promise<void>
-  scan: (code: string, id?: string) => Promise<void>
+  extract: (code: string, id?: string) => Promise<void>
   configFilepath?: string
 
   invalidate: () => void
@@ -75,7 +75,7 @@ export function createContext<Config extends PluginConfig = PluginConfig>(
     filter,
     reloadConfig,
     uno,
-    scan,
+    extract: scan,
     config,
     configFilepath: filepath,
   }

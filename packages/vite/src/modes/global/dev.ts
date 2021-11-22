@@ -5,7 +5,7 @@ import { READY_CALLBACK_DEFAULT } from './shared'
 
 const WARN_TIMEOUT = 2000
 
-export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, scan, filter }: UnocssPluginContext): Plugin[] {
+export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter }: UnocssPluginContext): Plugin[] {
   const servers: ViteDevServer[] = []
 
   const tasks: Promise<any>[] = []
@@ -85,13 +85,13 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, scan, filter }:
       },
       transform(code, id) {
         if (filter(code, id))
-          scan(code, id)
+          extract(code, id)
         return null
       },
       transformIndexHtml: {
         enforce: 'pre',
         transform(code, { filename }) {
-          scan(code, filename)
+          extract(code, filename)
         },
       },
       resolveId(id) {
