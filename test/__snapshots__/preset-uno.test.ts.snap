@@ -267,6 +267,8 @@ exports[`targets 1`] = `
 .overscroll-contain{overscroll-behavior:contain;}
 .overscroll-x-auto{overscroll-behavior-x:auto;}
 .tracking-wide{letter-spacing:0.025em;}
+.word-spacing-2{word-spacing:0.5rem;}
+.word-spacing-wide{word-spacing:0.025em;}
 .leading-2{line-height:0.5rem;}
 .overflow-auto{overflow:auto;}
 .overflow-x-scroll{overflow-x:scroll;}

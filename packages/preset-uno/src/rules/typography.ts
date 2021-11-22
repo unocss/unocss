@@ -63,6 +63,14 @@ export const trackings: Rule<Theme>[] = [
   }],
 ]
 
+export const wordSpacings: Rule<Theme>[] = [
+  [/^word-spacing-([^-]+)$/, ([, s], { theme }) => {
+    const v = theme.wordSpacing?.[s] || h.bracket.rem(s)
+    if (v !== null)
+      return { 'word-spacing': v }
+  }],
+]
+
 export const tabSizes: Rule<Theme>[] = [
   [/^tab-?([^-]*)$/, ([, s]) => {
     s = s || '4'
