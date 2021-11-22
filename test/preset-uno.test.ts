@@ -238,6 +238,7 @@ const targets = [
   'hyphens-none',
   'tab',
   'tab-6',
+  'tab-inherit',
   'indent',
   'indent-1/2',
   'indent-lg',
@@ -373,6 +374,10 @@ const nonTargets = [
   'before:before:m2',
   'hi',
   'row-{row.id}',
+  'tabs',
+  'tab.hello',
+  'text-anything',
+  'p-anything',
 ]
 
 const uno = createGenerator({

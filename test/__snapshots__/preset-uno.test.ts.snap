@@ -35,6 +35,7 @@ exports[`targets 1`] = `
 .grid-cols-\\\\$1{grid-template-columns:var(--1);}
 .items-\\\\$size{align-items:var(--size);}
 .object-\\\\$fit{object-fit:var(--fit);}
+.tab-\\\\$tabprop{tab-size:var(--tabprop);}
 .\\\\!p-5px{padding:5px !important;}
 .group:focus .group-focus\\\\:p-4{padding:1rem;}
 .hover\\\\:\\\\!p-1:hover{padding:0.25rem !important;}
@@ -137,8 +138,9 @@ exports[`targets 1`] = `
 .text-4xl{font-size:2.25rem;line-height:2.5rem;}
 .text-base{font-size:1rem;line-height:1.5rem;}
 .text-lg{font-size:1.125rem;line-height:1.75rem;}
-.tab,.tab-\\\\$tabprop{-moz-tab-size:4;-o-tab-size:4;tab-size:4;}
+.tab{-moz-tab-size:4;-o-tab-size:4;tab-size:4;}
 .tab-6{-moz-tab-size:6;-o-tab-size:6;tab-size:6;}
+.tab-inherit{-moz-tab-size:inherit;-o-tab-size:inherit;tab-size:inherit;}
 .indent{text-indent:1.5rem;}
 .indent-1\\\\/2{text-indent:50%;}
 .indent-lg{text-indent:2rem;}

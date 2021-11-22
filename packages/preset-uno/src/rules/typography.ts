@@ -65,11 +65,14 @@ export const trackings: Rule<Theme>[] = [
 
 export const tabSizes: Rule<Theme>[] = [
   [/^tab-?([^-]*)$/, ([, s]) => {
-    const v = h.bracket.number.rem(s) || 4
-    return {
-      '-moz-tab-size': v,
-      '-o-tab-size': v,
-      'tab-size': v,
+    s = s || '4'
+    const v = h.bracket.global.number(s)
+    if (v !== null) {
+      return {
+        '-moz-tab-size': v,
+        '-o-tab-size': v,
+        'tab-size': v,
+      }
     }
   }],
 ]

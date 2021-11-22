@@ -1,6 +1,6 @@
 import type { Plugin, ViteDevServer } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
-import { getHash } from '../utils'
+import { getHash } from '../../../plugins-common/utils'
 import { UnocssPluginContext } from '../context'
 import { defaultExclude, defaultInclude } from '../../../plugins-common/defaults'
 
