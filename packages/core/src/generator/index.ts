@@ -1,9 +1,10 @@
-import { UserConfig, ParsedUtil, StringifiedUtil, UserConfigDefaults, VariantMatchedResult, Variant, ResolvedConfig, CSSEntries, GenerateResult, CSSObject, RawUtil, ExtractorContext } from '../types'
+import { UserConfig, ParsedUtil, StringifiedUtil, UserConfigDefaults, VariantMatchedResult, Variant, ResolvedConfig, CSSEntries, GenerateResult, CSSObject, RawUtil, ExtractorContext, GenerateOptions, RuleContext, RuleMeta, VariantHandler } from '../types'
 import { resolveConfig } from '../config'
 import { e, entriesToCss, isRawUtil, isStaticShortcut, TwoKeyMap, uniq } from '../utils'
-import { GenerateOptions, RuleContext, RuleMeta, VariantHandler } from '..'
+import { version } from '../../package.json'
 
 export class UnoGenerator {
+  public version = version
   private _cache = new Map<string, StringifiedUtil[] | null>()
   public config: ResolvedConfig
   public blocked = new Set<string>()

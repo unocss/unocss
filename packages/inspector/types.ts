@@ -1,6 +1,7 @@
 import { GenerateResult, ResolvedConfig } from '@unocss/core'
 
 export interface ProjectInfo {
+  version: string
   root: string
   modules: string[]
   configPath?: string
