@@ -1,3 +1,7 @@
 {
-  "exclude": ["find-up"]
+  "exclude": [
+    "find-up",
+    "execa",
+    "gzip-size"
+  ]
 }

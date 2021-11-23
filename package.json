@@ -50,7 +50,7 @@
     "eslint": "^8.3.0",
     "eslint-plugin-jest": "^25.3.0",
     "esno": "^0.12.1",
-    "execa": "^6.0.0",
+    "execa": "^5.1.1",
     "fast-glob": "^3.2.7",
     "fs-extra": "^10.0.0",
     "gzip-size": "^6.0.0",
