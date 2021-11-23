@@ -199,6 +199,7 @@ importers:
   packages/nuxt:
     specifiers:
       '@nuxt/kit': npm:@nuxt/kit-edge@latest
+      '@nuxt/schema': ^0.1.0-edge
       '@unocss/core': workspace:*
       '@unocss/preset-attributify': workspace:*
       '@unocss/preset-icons': workspace:*
@@ -207,7 +208,7 @@ importers:
       '@unocss/vite': workspace:*
       '@unocss/webpack': workspace:*
     dependencies:
-      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27287661.1e0e881
+      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27293794.c3b72a6
       '@unocss/core': link:../core
       '@unocss/preset-attributify': link:../preset-attributify
       '@unocss/preset-icons': link:../preset-icons
@@ -215,6 +216,8 @@ importers:
       '@unocss/reset': link:../reset
       '@unocss/vite': link:../vite
       '@unocss/webpack': link:../webpack
+    devDependencies:
+      '@nuxt/schema': 0.1.0-edge
 
   packages/plugins-common:
     specifiers:
@@ -1114,17 +1117,16 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
 
-  /@nuxt/kit-edge/3.0.0-27287661.1e0e881:
-    resolution: {integrity: sha512-PouZlRT4Z83o4OfZl7norLkaUH0CWuZCDNt/5vKKgGk4JkeExh4Zk/sTeoBdh3yJMuuAdZx1j5B3+q2wXes1oQ==}
+  /@nuxt/kit-edge/3.0.0-27293794.c3b72a6:
+    resolution: {integrity: sha512-4d1t1kkuEiYRJu05qDCofB7l9zGLBzlG2VhpxuKP6KdyqO8yRiyZS1OpYeUn4mf1CcmOSRwIsbcJaw9jCbBrzQ==}
     engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0}
     dependencies:
+      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27293794.c3b72a6
       consola: 2.15.3
-      create-require: 1.1.1
       defu: 5.0.0
       dotenv: 10.0.0
       globby: 11.0.4
       hash-sum: 2.0.0
-      hookable: 5.0.0
       jiti: 1.12.9
       lodash.template: 4.5.0
       mlly: 0.3.13
@@ -1133,11 +1135,27 @@ packages:
       rc9: 1.2.0
       scule: 0.2.1
       semver: 7.3.5
+      unctx: 1.0.2
+      untyped: 0.3.0
+    dev: false
+
+  /@nuxt/schema-edge/3.0.0-27293794.c3b72a6:
+    resolution: {integrity: sha512-KMjj64EoOi87z8DDNoc48WwiqGXkgCH4a+pTE2+qZIlbeuS+CccnSL9LZNIhK2+WDLj4Vn1pOOKmCRTW32QuAA==}
+    engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0}
+    dependencies:
+      create-require: 1.1.1
+      defu: 5.0.0
+      jiti: 1.12.9
+      pathe: 0.2.0
+      scule: 0.2.1
       std-env: 3.0.1
       ufo: 0.7.9
-      unctx: 1.0.2
-      untyped: 0.2.13
-    dev: false
+
+  /@nuxt/schema/0.1.0-edge:
+    resolution: {integrity: sha512-jCno/q4KmFgJzyHe7LoW98q+5n1vF+6WyNELMBJT134gGxbiwpa5jyRq4j+GzS8Q8H1NEtKldF402CO8Tu8f9A==}
+    dependencies:
+      '@nuxt/schema-edge': 3.0.0-27293794.c3b72a6
+    dev: true
 
   /@polka/url/1.0.0-next.21:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
@@ -2300,7 +2318,6 @@ packages:
 
   /create-require/1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
-    dev: false
 
   /cross-spawn/7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
@@ -2423,7 +2440,6 @@ packages:
 
   /defu/5.0.0:
     resolution: {integrity: sha512-VHg73EDeRXlu7oYWRmmrNp/nl7QkdXUxkQQKig0Zk8daNmm84AbGoC8Be6/VVLJEKxn12hR0UBmz8O+xQiAPKQ==}
-    dev: false
 
   /delayed-stream/1.0.0:
     resolution: {integrity: sha1-3zrhmayt+31ECqrgsp4icrJOxhk=}
@@ -3542,10 +3558,6 @@ packages:
 
   /hash-sum/2.0.0:
     resolution: {integrity: sha512-WdZTbAByD+pHfl/g9QSsBIIwy8IT+EsPiKDs0KNX+zSHhdDLFKdZu0BQHljvO+0QI/BasbMSUa8wYNCZTvhslg==}
-    dev: false
-
-  /hookable/5.0.0:
-    resolution: {integrity: sha512-IqoJ8oXCNTUtNfqwbUQvLd+6ebVXk5qqGpSMOe4BS514vd4bEEH+hd9lva48mbbbe9q4eFKmsOViTZkr7ludHg==}
     dev: false
 
   /hosted-git-info/2.8.9:
@@ -5032,7 +5044,6 @@ packages:
 
   /pathe/0.2.0:
     resolution: {integrity: sha512-sTitTPYnn23esFR3RlqYBWn4c45WGeLcsKzQiUpXJAyfcWkolvlYpV8FLo7JishK946oQwMFUCHXQ9AjGPKExw==}
-    dev: false
 
   /picocolors/1.0.0:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
@@ -5459,7 +5470,6 @@ packages:
 
   /scule/0.2.1:
     resolution: {integrity: sha512-M9gnWtn3J0W+UhJOHmBxBTwv8mZCan5i1Himp60t6vvZcor0wr+IM0URKmIglsWJ7bRujNAVVN77fp+uZaWoKg==}
-    dev: false
 
   /semver/5.7.1:
     resolution: {integrity: sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==}
@@ -5594,7 +5604,6 @@ packages:
 
   /std-env/3.0.1:
     resolution: {integrity: sha512-mC1Ps9l77/97qeOZc+HrOL7TIaOboHqMZ24dGVQrlxFcpPpfCHpH+qfUT7Dz+6mlG8+JPA1KfBQo19iC/+Ngcw==}
-    dev: false
 
   /string-argv/0.3.1:
     resolution: {integrity: sha512-a1uQGz7IyVy9YwhqjZIZu1c8JO8dNIe20xBmSS6qu9kv++k3JGzCVmprbNN5Kn+BgzD5E7YYwg1CcjuJMRNsvg==}
@@ -6142,8 +6151,8 @@ packages:
       webpack-virtual-modules: 0.4.3
     dev: false
 
-  /untyped/0.2.13:
-    resolution: {integrity: sha512-dnvCmDKTb+zg504JyQ9h1sWINAyxnP6KgmvUH6s6BjLV+3fvjZTiUklL15VvEqpDjy4Leq/xzlZ+JxskeoM5mg==}
+  /untyped/0.3.0:
+    resolution: {integrity: sha512-n4M5/T1wWlHFmohk0EhS+yM7W/h5dOtQldOV3MVEbZY1fTy5A47UL8+d8GLW1iwmaAwNrM5ERy3qe1k0T/Yc7A==}
     dev: false
 
   /uri-js/4.4.1:
