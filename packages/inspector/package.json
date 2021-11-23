@@ -39,7 +39,7 @@
     "play": "vite"
   },
   "dependencies": {
-    "gzip-size": "^7.0.0",
+    "gzip-size": "^6.0.0",
     "sirv": "^1.0.18"
   }
 }
