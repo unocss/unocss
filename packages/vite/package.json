@@ -40,10 +40,10 @@
     "@rollup/pluginutils": "^4.1.1",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
-    "@unocss/scope": "workspace:*",
-    "@unocss/inspector": "workspace:*"
+    "@unocss/inspector": "workspace:*",
+    "@unocss/scope": "workspace:*"
   },
   "devDependencies": {
-    "vite": "^2.6.13"
+    "vite": "^2.6.14"
   }
 }

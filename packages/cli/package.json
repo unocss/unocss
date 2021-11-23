@@ -40,7 +40,7 @@
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
-    "cac": "^6.7.11",
+    "cac": "^6.7.12",
     "chokidar": "^3.5.2",
     "colorette": "^2.0.16",
     "consola": "^2.15.3",

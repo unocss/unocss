@@ -39,8 +39,8 @@
     "@rollup/pluginutils": "^4.1.1",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
-    "unplugin": "^0.2.20",
-    "webpack-sources": "^3.2.1"
+    "unplugin": "^0.2.21",
+    "webpack-sources": "^3.2.2"
   },
   "peerDependencies": {
     "webpack": "^4 || ^5"
@@ -48,6 +48,6 @@
   "devDependencies": {
     "@types/webpack": "^5.28.0",
     "@types/webpack-sources": "^3.2.0",
-    "webpack": "^5.64.0"
+    "webpack": "^5.64.2"
   }
 }

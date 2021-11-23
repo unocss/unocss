@@ -50,6 +50,6 @@
     "@unocss/webpack": "workspace:*"
   },
   "devDependencies": {
-    "@nuxt/schema": "^0.1.0-edge"
+    "@nuxt/schema": "npm:@nuxt/schema-edge@latest"
   }
 }

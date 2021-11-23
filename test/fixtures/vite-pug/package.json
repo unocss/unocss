@@ -7,6 +7,6 @@
     "serve": "vite preview"
   },
   "devDependencies": {
-    "pug": "^3.0.0"
+    "pug": "^3.0.2"
   }
 }

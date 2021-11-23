@@ -44,11 +44,11 @@
     "dev": "tsup --watch src"
   },
   "dependencies": {
-    "@iconify/utils": "^1.0.18",
+    "@iconify/utils": "^1.0.19",
     "@unocss/core": "workspace:*",
     "local-pkg": "^0.4.0"
   },
   "devDependencies": {
-    "@iconify/types": "^1.0.10"
+    "@iconify/types": "^1.0.12"
   }
 }
