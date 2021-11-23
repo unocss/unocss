@@ -114,7 +114,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
 })
 
 declare module '@nuxt/schema' {
-  interface ConfigSchema {
+  interface NuxtConfig {
     unocss?: UnocssNuxtOptions
   }
 }
