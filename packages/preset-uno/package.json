@@ -40,6 +40,16 @@
       "import": "./dist/rules.mjs",
       "types": "./dist/rules.d.ts"
     },
+    "./colors": {
+      "require": "./dist/colors.js",
+      "import": "./dist/colors.mjs",
+      "types": "./dist/colors.d.ts"
+    },
+    "./utils": {
+      "require": "./dist/utils.js",
+      "import": "./dist/utils.mjs",
+      "types": "./dist/utils.d.ts"
+    },
     "./*": "./*"
   },
   "main": "dist/index.js",

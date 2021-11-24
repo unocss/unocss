@@ -4,7 +4,7 @@
 // and Windi CSS
 // https://github.com/windicss/windicss/blob/main/src/config/colors.ts
 
-import { Theme } from '../theme'
+import { Theme } from './types'
 
 export const colors: Theme['colors'] = {
   inherit: 'inherit',
