@@ -117,4 +117,7 @@ declare module '@nuxt/schema' {
   interface NuxtConfig {
     unocss?: UnocssNuxtOptions
   }
+  interface NuxtOptions {
+    unocss?: UnocssNuxtOptions
+  }
 }
