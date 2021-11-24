@@ -7,12 +7,12 @@
   },
   "dependencies": {
     "core-js": "^3.19.1",
-    "vue": "^3.2.21"
+    "vue": "^3.2.22"
   },
   "devDependencies": {
     "@unocss/webpack": "link:../../../packages/webpack",
     "@vue/cli-plugin-babel": "~4.5.15",
     "@vue/cli-service": "~4.5.15",
-    "@vue/compiler-sfc": "^3.2.21"
+    "@vue/compiler-sfc": "^3.2.22"
   }
 }

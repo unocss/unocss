@@ -1,15 +1,8 @@
 import type { Plugin } from 'vite'
-import { createFilter } from '@rollup/pluginutils'
-import { UnocssPluginContext } from '../context'
-import { defaultInclude, defaultExclude } from '../../../plugins-common/defaults'
+import { UnocssPluginContext } from '../../../plugins-common/context'
 
-export function ChunkModeBuildPlugin({ uno, config }: UnocssPluginContext): Plugin {
+export function ChunkModeBuildPlugin({ uno, filter }: UnocssPluginContext): Plugin {
   let cssPlugin: Plugin | undefined
-
-  const filter = createFilter(
-    config.include || defaultInclude,
-    config.exclude || defaultExclude,
-  )
 
   const files: Record<string, string> = {}
 
@@ -21,7 +14,7 @@ export function ChunkModeBuildPlugin({ uno, config }: UnocssPluginContext): Plug
       cssPlugin = config.plugins.find(i => i.name === 'vite:css-post')
     },
     transform(code, id) {
-      if (!filter(id))
+      if (!filter(code, id))
         return
 
       files[id] = code

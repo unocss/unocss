@@ -1,4 +1,4 @@
-const numberWithUnitRE = /^(-?[0-9.]+)([a-z]*)$/i
+const numberWithUnitRE = /^(-?[0-9.]+)(px|pt|pc|rem|em|%|vh|vw|in|cm|mm|ex|ch|vmin|vmax)?$/i
 const numberRE = /^(-?[0-9.]+)$/i
 
 export function rem(str: string) {
@@ -70,4 +70,9 @@ export function time(str: string) {
     return str
 
   return `${str}ms`
+}
+
+export function global(str: string) {
+  if (['inherit', 'initial', 'unset'].includes(str))
+    return str
 }

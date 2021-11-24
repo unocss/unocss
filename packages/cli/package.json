@@ -1,6 +1,6 @@
 {
   "name": "@unocss/cli",
-  "version": "0.11.2",
+  "version": "0.12.4",
   "description": "CLI for UnoCSS",
   "keywords": [],
   "homepage": "https://github.com/antfu/unocss/tree/main/packages/cli#readme",
@@ -40,7 +40,7 @@
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
-    "cac": "^6.7.11",
+    "cac": "^6.7.12",
     "chokidar": "^3.5.2",
     "colorette": "^2.0.16",
     "consola": "^2.15.3",

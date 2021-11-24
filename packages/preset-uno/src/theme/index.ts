@@ -1,5 +1,5 @@
 import { colors } from './colors'
-import { fontFamily, fontSize, letterSpacing, lineHeight, textIndent, textStrokeWidth, textShadow } from './font'
+import { fontFamily, fontSize, letterSpacing, lineHeight, textIndent, textStrokeWidth, textShadow, wordSpacing } from './font'
 import { breakpoints, borderRadius, boxShadow } from './misc'
 import { blur, dropShadow } from './filters'
 import { width, height, maxWidth, maxHeight } from './size'
@@ -20,6 +20,7 @@ export interface Theme {
   fontSize?: Record<string, [string, string]>
   lineHeight?: Record<string, string>
   letterSpacing?: Record<string, string>
+  wordSpacing?: Record<string, string>
   boxShadow?: Record<string, string>
   textIndent?: Record<string, string>
   textShadow?: Record<string, string>
@@ -43,6 +44,7 @@ export const theme: Theme = {
   borderRadius,
   lineHeight,
   letterSpacing,
+  wordSpacing,
   boxShadow,
   textIndent,
   textShadow,

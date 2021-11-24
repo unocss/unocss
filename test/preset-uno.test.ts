@@ -74,21 +74,6 @@ const targets = [
   'from-transparent',
   'gap-4',
   'gap-x-1',
-  'grid-cols-[1fr,2fr,100px,min-content]',
-  'grid-cols-2',
-  'grid-rows-[1fr,2fr,100px,min-content]',
-  'grid-rows-3',
-  'grid',
-  'auto-rows-min',
-  'auto-rows-fr',
-  'row-auto',
-  'auto-cols-auto',
-  'auto-rows-auto',
-  'col-span-1',
-  'row-span-full',
-  'row-end-1',
-  'row-start-full',
-  'auto-flow-cols-dense',
   'h-auto',
   'h-1',
   'h-21',
@@ -195,6 +180,8 @@ const targets = [
   'transition-property-all',
   'transition-200',
   'transition',
+  'word-spacing-wide',
+  'word-spacing-2',
   '-z-1',
   'z-0',
   'z-1',
@@ -253,6 +240,7 @@ const targets = [
   'hyphens-none',
   'tab',
   'tab-6',
+  'tab-inherit',
   'indent',
   'indent-1/2',
   'indent-lg',
@@ -266,7 +254,6 @@ const targets = [
   'text-shadow-$var',
   'write-normal',
   'write-orient-sideways',
-  'grid-cols-$1',
   'color-$red',
   'tab-$tabprop',
   'items-$size',
@@ -311,6 +298,25 @@ const targets = [
   'b-2',
   'v-top',
   'v-mid',
+  // grid
+  'grid-cols-$1',
+  'grid-cols-[1fr,2fr,100px,min-content]',
+  'grid-cols-2',
+  'grid-rows-[1fr,2fr,100px,min-content]',
+  'grid-rows-3',
+  'grid',
+  'auto-rows-min',
+  'auto-rows-fr',
+  'row-auto',
+  'row-span-[hi]',
+  'row-[span_1/span_2]',
+  'auto-cols-auto',
+  'auto-rows-auto',
+  'col-span-1',
+  'row-span-full',
+  'row-end-1',
+  'row-start-full',
+  'auto-flow-cols-dense',
   // filters
   'filter',
   'blur',
@@ -375,11 +381,18 @@ const nonTargets = [
   '--p-2',
   'before:before:m2',
   'hi',
+  'row-{row.id}',
+  'tabs',
+  'tab.hello',
+  'text-anything',
+  'p-anything',
 ]
 
 const uno = createGenerator({
   presets: [
-    presetUno(),
+    presetUno({
+      dark: 'media',
+    }),
   ],
 })
 
@@ -404,4 +417,19 @@ test('non-targets', async() => {
 
   expect(Array.from(matched)).toEqual([])
   expect(css).toMatch('')
+})
+
+test('containers', async() => {
+  const targets = [
+    'container',
+    'md:container',
+    'lg:container',
+  ]
+  const nonTargets = [
+    '__container',
+  ]
+  const { css, matched } = await uno.generate(new Set([...targets, ...nonTargets]))
+
+  expect(matched).toEqual(new Set(targets))
+  expect(css).toMatchSnapshot()
 })

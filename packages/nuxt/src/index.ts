@@ -1,16 +1,16 @@
 import { dirname, resolve } from 'path'
 import { fileURLToPath } from 'url'
 import { defineNuxtModule, extendViteConfig, extendWebpackConfig, addPluginTemplate, addComponentsDir } from '@nuxt/kit'
-import presetUno from '@unocss/preset-uno'
+import presetUno, { UnoOptions } from '@unocss/preset-uno'
 import presetAttributify, { AttributifyOptions } from '@unocss/preset-attributify'
 import presetIcons, { IconsOptions } from '@unocss/preset-icons'
 import WebpackPlugin from '@unocss/webpack'
 import VitePlugin from '@unocss/vite'
-import { PluginOptions } from '../../plugins-common/types'
+import { PluginConfig } from '../../plugins-common/types'
 
 const dir = dirname(fileURLToPath(import.meta.url))
 
-export interface UnocssNuxtOptions extends PluginOptions {
+export interface UnocssNuxtOptions extends PluginConfig {
   /**
    * Injecting `uno.css` entry
    *
@@ -38,7 +38,7 @@ export interface UnocssNuxtOptions extends PluginOptions {
    * Only works when `presets` is not specified
    * @default true
    */
-  uno?: boolean
+  uno?: boolean | UnoOptions
 
   /**
    * Enable attributify mode and the options of it
@@ -71,11 +71,11 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     if (options.presets == null) {
       options.presets = []
       if (options.uno)
-        options.presets.push(presetUno())
+        options.presets.push(presetUno(typeof options.uno === 'boolean' ? {} : options.uno))
       if (options.attributify)
-        options.presets.push(presetAttributify(typeof options.attributify == 'boolean' ? {} : options.attributify))
+        options.presets.push(presetAttributify(typeof options.attributify === 'boolean' ? {} : options.attributify))
       if (options.icons)
-        options.presets.push(presetIcons(typeof options.icons == 'boolean' ? {} : options.icons))
+        options.presets.push(presetIcons(typeof options.icons === 'boolean' ? {} : options.icons))
     }
 
     if (options.autoImport) {
@@ -113,8 +113,8 @@ export default defineNuxtModule<UnocssNuxtOptions>({
   },
 })
 
-declare module '@nuxt/kit' {
-  interface ConfigSchema {
+declare module '@nuxt/schema' {
+  interface NuxtConfig {
     unocss?: UnocssNuxtOptions
   }
 }

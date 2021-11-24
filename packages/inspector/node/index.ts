@@ -24,6 +24,7 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
         return next()
       if (req.url === '/') {
         const info: ProjectInfo = {
+          version: ctx.uno.version,
           root: config.root,
           modules: Array.from(ctx.modules.keys()),
           configPath: ctx.configFilepath,

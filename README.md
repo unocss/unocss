@@ -62,6 +62,8 @@ UnoCSS is designed **NOT** to be/have:
 
 ## Installation
 
+### Vite
+
 ```bash
 npm i -D unocss
 ```
@@ -88,6 +90,24 @@ That's it, have fun.
 
 See [all packages](https://github.com/antfu/unocss/tree/main/packages).
 
+### Nuxt
+
+```bash
+npm i -D @unocss/nuxt
+```
+
+```ts
+// nuxt.config.js
+
+export default {
+  buildModules: [
+    '@unocss/nuxt'
+  ]
+}
+```
+
+Refer to the full documentation on https://github.com/antfu/unocss/tree/main/packages/nuxt
+
 ## Configurations
 
 UnoCSS is an atomic-CSS engine instead of a framework. Everything is designed with flexibility and performance in mind. In UnoCSS, there are no core utilities; all functionalities are provided via presets.
@@ -112,7 +132,7 @@ Presets are the heart of UnoCSS that lets you make your own custom framework in 
 ###### Official Presets
 
 - [@unocss/preset-uno](https://github.com/antfu/unocss/tree/main/packages/preset-uno) - The default preset.
-- [@unocss/preset-attributify](https://github.com/antfu/unocss/tree/main/packages/preset-attributify) - Provides [Attributify Mode](#attributify-mode) to other presets and rules.
+- [@unocss/preset-attributify](https://github.com/antfu/unocss/tree/main/packages/preset-attributify) - Provides [Attributify Mode](https://github.com/antfu/unocss/tree/main/packages/preset-attributify#attributify-mode) to other presets and rules.
 - [@unocss/preset-icons](https://github.com/antfu/unocss/tree/main/packages/preset-icons) - Use any icon as a class utility.
 
 ###### Community Presets

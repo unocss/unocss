@@ -1,14 +1,10 @@
-import { BetterMap, createGenerator, UserConfigDefaults } from '@unocss/core'
-import { loadConfig } from '@unocss/config'
+import { UserConfigDefaults } from '@unocss/core'
 import { createUnplugin, UnpluginOptions, ResolvedUnpluginOptions } from 'unplugin'
-import { createFilter } from '@rollup/pluginutils'
 import WebpackSources from 'webpack-sources'
-import { getPath } from '../../vite/src/utils'
-import { defaultInclude, defaultExclude } from '../../plugins-common/defaults'
-import { resolveId, LAYER_MARK_ALL, LAYER_PLACEHOLDER_RE, getLayerPlaceholder } from '../../plugins-common/layers'
-import { PluginOptions } from '../../plugins-common/types'
+import { getPath } from '../../plugins-common/utils'
+import { resolveId, LAYER_MARK_ALL, LAYER_PLACEHOLDER_RE, getLayerPlaceholder, PluginConfig, createContext } from '../../plugins-common'
 
-export interface WebpackPluginOptions<Theme extends {} = {}> extends PluginOptions<Theme> {}
+export interface WebpackPluginOptions<Theme extends {} = {}> extends PluginConfig<Theme> {}
 
 const PLUGIN_NAME = 'unocss:webpack'
 const UPDATE_DEBOUNCE = 10
@@ -22,17 +18,15 @@ export default function WebpackPlugin(
   defaults?: UserConfigDefaults,
 ) {
   return createUnplugin(() => {
-    const { config = {} } = loadConfig(configOrPath)
+    const context = createContext(configOrPath, defaults)
+    const { uno, tokens, filter, extract, onInvalidate } = context
 
-    const filter = createFilter(
-      config.include || defaultInclude,
-      config.exclude || defaultExclude,
-    )
+    let timer: any
+    onInvalidate(() => {
+      clearTimeout(timer)
+      timer = setTimeout(updateModules, UPDATE_DEBOUNCE)
+    })
 
-    const uno = createGenerator(config, defaults)
-
-    const modules = new BetterMap<string, string>()
-    const tokens = new Set<string>()
     const tasks: Promise<any>[] = []
     const entries = new Map<string, string>()
 
@@ -40,10 +34,10 @@ export default function WebpackPlugin(
       name: 'unocss:webpack',
       enforce: 'pre',
       transformInclude(id) {
-        return filter(id)
+        return filter('', id)
       },
       transform(code, id) {
-        tasks.push(scan(code, id))
+        tasks.push(extract(code, id))
         return null
       },
       resolveId(id) {
@@ -95,19 +89,6 @@ export default function WebpackPlugin(
         })
       },
     } as Required<ResolvedUnpluginOptions>
-
-    async function scan(code: string, id?: string) {
-      if (id)
-        modules.set(id, code)
-      await uno.applyExtractors(code, id, tokens)
-      scheduleUpdate()
-    }
-
-    let timer: any
-    function scheduleUpdate() {
-      clearTimeout(timer)
-      timer = setTimeout(updateModules, UPDATE_DEBOUNCE)
-    }
 
     async function updateModules() {
       if (!plugin.__vfsModules)

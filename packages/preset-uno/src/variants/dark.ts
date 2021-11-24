@@ -19,7 +19,7 @@ export const variantColorsMedia: Variant[] = [
     if (light) {
       return {
         ...light,
-        parent: '@media (prefers-color-scheme: dark)',
+        parent: '@media (prefers-color-scheme: light)',
       }
     }
   },

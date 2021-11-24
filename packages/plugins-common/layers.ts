@@ -1,7 +1,6 @@
 export const VIRTUAL_ENTRY_ALIAS = [
   /^(?:virtual:)?uno(?::(.+))?\.css(\?.*)?$/,
 ]
-export const LAYER_PLACEHOLDER_RE = /(\\?")?#--unocss--\s*{\s*layer\s*:\s*(.+?);?\s*}/g
 export const LAYER_MARK_ALL = '__ALL__'
 
 export function resolveId(id: string) {
@@ -21,6 +20,12 @@ export function resolveId(id: string) {
   }
 }
 
+export const LAYER_PLACEHOLDER_RE = /(\\?")?#--unocss--\s*{\s*layer\s*:\s*(.+?);?\s*}/g
 export function getLayerPlaceholder(layer: string) {
   return `#--unocss--{layer:${layer}}`
+}
+
+export const HASH_PLACEHOLDER_RE = /#--unocss-hash--\s*{\s*content\s*:\s*"(.+?)";?\s*}/g
+export function getHashPlaceholder(hash: string) {
+  return `#--unocss-hash--{content:"${hash}"}`
 }
