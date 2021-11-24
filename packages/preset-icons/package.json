@@ -25,11 +25,13 @@
   "exports": {
     ".": {
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
     },
     "./fs": {
       "require": "./dist/fs.js",
-      "import": "./dist/fs.mjs"
+      "import": "./dist/fs.mjs",
+      "types": "./dist/fs.d.ts"
     }
   },
   "main": "dist/index.js",
