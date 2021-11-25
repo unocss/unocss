@@ -17,6 +17,8 @@ const autoDirection = (selector: string, theme: Theme) => {
 export const grids: Rule[] = [
   ['grid', { display: 'grid' }],
   ['inline-grid', { display: 'inline-grid' }],
+  [/^grid-cols-minmax-([\w.-]+)$/, ([, d]) => ({ 'grid-template-columns': `repeat(auto-fill, minmax(${d}, 1fr))` })],
+  [/^grid-rows-minmax-([\w.-]+)$/, ([, d]) => ({ 'grid-template-rows': `repeat(auto-fill, minmax(${d}, 1fr))` })],
   [/^grid-cols-(\d+)$/, ([, d]) => ({ 'grid-template-columns': `repeat(${d},minmax(0,1fr))` })],
   [/^grid-rows-(\d+)$/, ([, d]) => ({ 'grid-template-rows': `repeat(${d},minmax(0,1fr))` })],
   [/^grid-cols-\[(.+)\]$/, ([, v]) => ({ 'grid-template-columns': v.replace(/,/g, ' ') })],

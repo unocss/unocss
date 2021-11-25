@@ -195,6 +195,8 @@ exports[`targets 1`] = `
 .flex-\\\\[hi\\\\]{flex:hi;}
 .flex{display:flex;}
 .grid{display:grid;}
+.grid-cols-minmax-1rem{grid-template-columns:repeat(auto-fill, minmax(1rem, 1fr));}
+.grid-rows-minmax-100px{grid-template-rows:repeat(auto-fill, minmax(100px, 1fr));}
 .grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr));}
 .grid-rows-3{grid-template-rows:repeat(3,minmax(0,1fr));}
 .grid-cols-\\\\[1fr\\\\2c 2fr\\\\2c 100px\\\\2c min-content\\\\]{grid-template-columns:1fr 2fr 100px min-content;}

@@ -317,6 +317,8 @@ const targets = [
   'row-end-1',
   'row-start-full',
   'auto-flow-cols-dense',
+  'grid-cols-minmax-1rem',
+  'grid-rows-minmax-100px',
   // filters
   'filter',
   'blur',
