@@ -1,6 +1,6 @@
 import { UserConfig, ParsedUtil, StringifiedUtil, UserConfigDefaults, VariantMatchedResult, Variant, ResolvedConfig, CSSEntries, GenerateResult, CSSObject, RawUtil, ExtractorContext, GenerateOptions, RuleContext, RuleMeta, VariantHandler } from '../types'
 import { resolveConfig } from '../config'
-import { e, entriesToCss, isRawUtil, isStaticShortcut, TwoKeyMap, uniq } from '../utils'
+import { e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, TwoKeyMap, uniq } from '../utils'
 import { version } from '../../package.json'
 
 export class UnoGenerator {
@@ -372,7 +372,7 @@ export class UnoGenerator {
       return
 
     if (typeof result === 'string')
-      result = result.split(/ /g)
+      result = expandVariantGroup(result).split(/ /g)
 
     return [
       result.flatMap(r => this.expandShortcut(r, context, depth - 1)?.[0] || [r]),
