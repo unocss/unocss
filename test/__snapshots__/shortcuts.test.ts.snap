@@ -18,10 +18,16 @@ exports[`shortcuts nesting static 1`] = `
 
 exports[`shortcuts static 1`] = `
 "/* layer: shortcuts */
-.sh1,.sh3{padding-left:0.5rem;padding-right:0.5rem;padding-top:0.75rem;padding-bottom:0.75rem;margin:0.75rem;}
+.sh1{padding-left:0.5rem;padding-right:0.5rem;padding-top:0.75rem;padding-bottom:0.75rem;margin:0.75rem;}
+.sh3{margin:0.75rem;}
 .focus\\\\:sh2:focus,.sh2{font-size:0.875rem;line-height:1.25rem;font-size:1.125rem;line-height:1.75rem;}
 .focus\\\\:sh2:hover:focus,.sh2:hover{font-size:1.125rem;line-height:1.75rem;}
 @media (min-width: 640px){
 .sh1,.sh3{margin:0.5rem;}
 }"
+`;
+
+exports[`shortcuts warn 1`] = `
+"/* layer: shortcuts */
+.bad-one{padding:0.5rem;}"
 `;

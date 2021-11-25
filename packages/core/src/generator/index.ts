@@ -1,6 +1,6 @@
 import { UserConfig, ParsedUtil, StringifiedUtil, UserConfigDefaults, VariantMatchedResult, Variant, ResolvedConfig, CSSEntries, GenerateResult, CSSObject, RawUtil, ExtractorContext, GenerateOptions, RuleContext, RuleMeta, VariantHandler } from '../types'
 import { resolveConfig } from '../config'
-import { e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, TwoKeyMap, uniq } from '../utils'
+import { e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, TwoKeyMap, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
 
 export class UnoGenerator {
@@ -368,11 +368,11 @@ export class UnoGenerator {
       }
     }
 
+    if (typeof result === 'string')
+      result = expandVariantGroup(result).split(/\s+/g)
+
     if (!result)
       return
-
-    if (typeof result === 'string')
-      result = expandVariantGroup(result).split(/ /g)
 
     return [
       result.flatMap(r => this.expandShortcut(r, context, depth - 1)?.[0] || [r]),
@@ -388,8 +388,14 @@ export class UnoGenerator {
   ): Promise<StringifiedUtil[] | undefined> {
     const selectorMap = new TwoKeyMap<string, string | undefined, [CSSEntries, number]>()
 
-    const parsed = (await Promise.all(uniq(expanded)
-      .map(i => this.parseUtil(i, context, true) as Promise<ParsedUtil>)))
+    const parsed = (
+      await Promise.all(uniq(expanded)
+        .map(async(i) => {
+          const result = await this.parseUtil(i, context, true)
+          if (!result)
+            warnOnce(`unmatched utility "${i}" in shortcut "${parent[1]}"`)
+          return result as ParsedUtil
+        })))
       .filter(Boolean)
       .sort((a, b) => a[0] - b[0])
 

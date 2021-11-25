@@ -197,7 +197,7 @@ export interface GeneratorOptions {
    *
    * @default true
    */
-  warnBlocked?: boolean
+  warn?: boolean
 }
 
 export interface UserOnlyOptions<Theme extends {} = {}> {
