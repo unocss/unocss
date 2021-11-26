@@ -216,11 +216,6 @@ exports[`targets 1`] = `
 .gap-4{grid-gap:1rem;gap:1rem;}
 .gap-x-1{grid-column-gap:0.25rem;column-gap:0.25rem;}
 .-gap-y-5{grid-row-gap:-1.25rem;row-gap:-1.25rem;}
-.relative{position:relative;}
-.absolute{position:absolute;}
-.fixed{position:fixed;}
-.sticky{position:sticky;}
-.static{position:static;}
 .h-\\\\$var{height:var(--var);}
 .h-1{height:0.25rem;}
 .h-1\\\\/4{height:25%;}
