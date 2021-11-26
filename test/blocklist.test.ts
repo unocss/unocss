@@ -9,7 +9,7 @@ describe('blocklist', () => {
       ],
     })
     const dos = createGenerator({
-      warnBlocked: false,
+      warn: false,
       blocklist: [
         'block',
         /^text-/,

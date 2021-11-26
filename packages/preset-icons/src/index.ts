@@ -1,8 +1,8 @@
-import type { Preset } from '@unocss/core'
+import { Preset, warnOnce } from '@unocss/core'
 import { iconToSVG } from '@iconify/utils/lib/svg/build'
 import { defaults as DefaultIconCustomizations } from '@iconify/utils/lib/customisations'
 import { getIconData } from '@iconify/utils/lib/icon-set/get-icon'
-import { encodeSvg, isNode, warnOnce } from './utils'
+import { encodeSvg, isNode } from './utils'
 import type { IconsOptions } from './types'
 
 const COLLECTION_NAME_PARTS_MAX = 3
@@ -75,7 +75,7 @@ export const preset = ({
 
         if (!svg) {
           if (warn)
-            warnOnce(`[unocss] failed to load icon "${full}"`)
+            warnOnce(`failed to load icon "${full}"`)
           return
         }
 

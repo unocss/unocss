@@ -317,6 +317,8 @@ const targets = [
   'row-end-1',
   'row-start-full',
   'auto-flow-cols-dense',
+  'grid-cols-minmax-1rem',
+  'grid-rows-minmax-100px',
   // filters
   'filter',
   'blur',
@@ -375,6 +377,10 @@ const targets = [
   'object-center',
   'object-ct',
   'object-cb',
+  // custom colors
+  'text-custom-a',
+  'bg-custom-b',
+  'border-custom-b/10',
 ]
 
 const nonTargets = [
@@ -394,6 +400,14 @@ const uno = createGenerator({
       dark: 'media',
     }),
   ],
+  theme: {
+    colors: {
+      custom: {
+        a: 'var(--custom)',
+        b: 'rgba(var(--custom), %alpha)',
+      },
+    },
+  },
 })
 
 test('targets', async() => {

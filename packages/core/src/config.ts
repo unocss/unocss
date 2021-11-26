@@ -63,7 +63,7 @@ export function resolveConfig(
 
   return {
     mergeSelectors: true,
-    warnBlocked: true,
+    warn: true,
     blocklist: [],
     safelist: [],
     presets: [],

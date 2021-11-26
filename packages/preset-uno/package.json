@@ -1,6 +1,6 @@
 {
   "name": "@unocss/preset-uno",
-  "version": "0.12.4",
+  "version": "0.12.9",
   "description": "The default preset for UnoCSS",
   "keywords": [
     "unocss",
@@ -22,20 +22,35 @@
   "exports": {
     ".": {
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
     },
     "./theme": {
       "require": "./dist/theme.js",
-      "import": "./dist/theme.mjs"
+      "import": "./dist/theme.mjs",
+      "types": "./dist/theme.d.ts"
     },
     "./variants": {
       "require": "./dist/variants.js",
-      "import": "./dist/variants.mjs"
+      "import": "./dist/variants.mjs",
+      "types": "./dist/variants.d.ts"
     },
     "./rules": {
       "require": "./dist/rules.js",
-      "import": "./dist/rules.mjs"
-    }
+      "import": "./dist/rules.mjs",
+      "types": "./dist/rules.d.ts"
+    },
+    "./colors": {
+      "require": "./dist/colors.js",
+      "import": "./dist/colors.mjs",
+      "types": "./dist/colors.d.ts"
+    },
+    "./utils": {
+      "require": "./dist/utils.js",
+      "import": "./dist/utils.mjs",
+      "types": "./dist/utils.d.ts"
+    },
+    "./*": "./*"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",

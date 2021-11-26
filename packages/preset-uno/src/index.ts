@@ -6,6 +6,8 @@ import { variantColorsClass, variantColorsMedia, variants } from './variants'
 
 export { theme, colors } from './theme'
 
+export type { Theme }
+
 export interface UnoOptions {
   /**
    * @default 'class'

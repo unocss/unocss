@@ -1,6 +1,6 @@
 {
   "name": "@unocss/preset-icons",
-  "version": "0.12.4",
+  "version": "0.12.9",
   "description": "Pure CSS Icons for UnoCSS",
   "keywords": [
     "unocss",
@@ -25,11 +25,13 @@
   "exports": {
     ".": {
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
     },
     "./fs": {
       "require": "./dist/fs.js",
-      "import": "./dist/fs.mjs"
+      "import": "./dist/fs.mjs",
+      "types": "./dist/fs.d.ts"
     }
   },
   "main": "dist/index.js",
