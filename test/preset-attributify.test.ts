@@ -18,6 +18,10 @@ describe('attributify', () => {
   un-children="m-auto"
   pt2 ma rounded-sm
   inline-block
+  transform
+  translate-x-100%
+  translate-y-[10%]
+  rotate-30
 >
   Button
 </button>
