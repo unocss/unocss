@@ -302,6 +302,7 @@ const targets = [
   'b-2',
   'v-top',
   'v-mid',
+  'disabled:op50',
   // grid
   'grid-cols-$1',
   'grid-cols-[1fr,2fr,100px,min-content]',

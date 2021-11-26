@@ -6,6 +6,7 @@ export const PseudoClasses: Record<string, string | undefined> = Object.fromEntr
   'default',
   'empty',
   'enabled',
+  'disabled',
   'first-of-type',
   ['first', 'first-child'],
   'focus-visible',

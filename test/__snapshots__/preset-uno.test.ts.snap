@@ -65,6 +65,7 @@ exports[`targets 1`] = `
 .line-clamp-none{-webkit-line-clamp:unset;line-clamp:unset;}
 .isolate{isolation:isolate;}
 .isolate-auto{isolation:auto;}
+.disabled\\\\:op50:disabled{opacity:0.5;}
 .op-10{opacity:0.1;}
 .opacity-\\\\$opa{opacity:var(--opa);}
 .opacity-0{opacity:0;}
