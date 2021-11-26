@@ -372,7 +372,11 @@ exports[`targets 1`] = `
 .table-row-group{display:table-row-group;}
 .preserve-3d{transform-style:preserve-3d;}
 .preserve-flat{transform-style:flat;}
+.-translate-full{--un-translate-x:-100%;--un-translate-y:-100%;}
+.translate-full{--un-translate-x:100%;--un-translate-y:100%;}
+.-translate-x-full{--un-translate-x:-100%;}
 .-translate-y-1\\\\/2{--un-translate-y:-50%;}
+.translate-x-full{--un-translate-x:100%;}
 .translate-y-1\\\\/4{--un-translate-y:25%;}
 @media (prefers-color-scheme: dark){
 .dark\\\\:text-xl{font-size:1.25rem;line-height:1.75rem;}
