@@ -23,13 +23,6 @@ export const grids: Rule[] = [
   [/^grid-rows-(\d+)$/, ([, d]) => ({ 'grid-template-rows': `repeat(${d},minmax(0,1fr))` })],
   [/^grid-cols-\[(.+)\]$/, ([, v]) => ({ 'grid-template-columns': v.replace(/,/g, ' ') })],
   [/^grid-rows-\[(.+)\]$/, ([, v]) => ({ 'grid-template-rows': v.replace(/,/g, ' ') })],
-  [/^(?:grid-)?auto-flow-([\w.-]+)$/, ([, v]) => ({ 'grid-auto-flow': `${v.replace('col', 'column').split('-').join(' ')}` })],
-  [/^(?:grid-)?row-start-([\w.-]+)$/, ([, v]) => ({ 'grid-row-start': `${v}` })],
-  [/^(?:grid-)?row-end-([\w.-]+)$/, ([, v]) => ({ 'grid-row-end': `${v}` })],
-  [/^(?:grid-)?col-start-([\w.-]+)$/, ([, v]) => ({ 'grid-column-start': `${v}` })],
-  [/^(?:grid-)?col-end-([\w.]+)$/, ([, v]) => ({ 'grid-column-end': `${v}` })],
-  [/^(?:grid-)?auto-rows-([\w.-]+)$/, ([, v], { theme }) => ({ 'grid-auto-rows': `${autoDirection(v, theme)}` })],
-  [/^(?:grid-)?auto-cols-([\w.-]+)$/, ([, v], { theme }) => ({ 'grid-auto-columns': `${autoDirection(v, theme)}` })],
   [/^(?:grid-)?(row|col)-(.+)$/, ([, d, v]) => {
     const key = d === 'row' ? 'grid-row' : 'grid-column'
     let raw = h.bracket(v)
@@ -47,4 +40,11 @@ export const grids: Rule[] = [
         return { [key]: `span ${raw}/span ${raw}` }
     }
   }],
+  [/^(?:grid-)?auto-flow-([\w.-]+)$/, ([, v]) => ({ 'grid-auto-flow': `${v.replace('col', 'column').split('-').join(' ')}` })],
+  [/^(?:grid-)?row-start-([\w.-]+)$/, ([, v]) => ({ 'grid-row-start': `${v}` })],
+  [/^(?:grid-)?row-end-([\w.-]+)$/, ([, v]) => ({ 'grid-row-end': `${v}` })],
+  [/^(?:grid-)?col-start-([\w.-]+)$/, ([, v]) => ({ 'grid-column-start': `${v}` })],
+  [/^(?:grid-)?col-end-([\w.]+)$/, ([, v]) => ({ 'grid-column-end': `${v}` })],
+  [/^(?:grid-)?auto-rows-([\w.-]+)$/, ([, v], { theme }) => ({ 'grid-auto-rows': `${autoDirection(v, theme)}` })],
+  [/^(?:grid-)?auto-cols-([\w.-]+)$/, ([, v], { theme }) => ({ 'grid-auto-columns': `${autoDirection(v, theme)}` })],
 ]
