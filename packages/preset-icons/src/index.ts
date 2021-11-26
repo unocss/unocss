@@ -15,6 +15,8 @@ async function searchForIcon(
   collections: Required<IconsOptions>['collections'],
   scale: number,
 ) {
+  if (!collection || !id)
+    return
   let iconSet = collections[collection]
   if (typeof iconSet === 'function')
     iconSet = await iconSet()
