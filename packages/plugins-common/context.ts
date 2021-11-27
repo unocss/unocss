@@ -40,11 +40,13 @@ export function createContext<Config extends PluginConfig = PluginConfig>(
     invalidations.forEach(cb => cb())
   }
 
-  async function scan(code: string, id?: string) {
+  async function extract(code: string, id?: string) {
     if (id)
       modules.set(id, code)
+    const len = tokens.size
     await uno.applyExtractors(code, id, tokens)
-    invalidate()
+    if (tokens.size > len)
+      invalidate()
   }
 
   async function reloadConfig() {
@@ -75,7 +77,7 @@ export function createContext<Config extends PluginConfig = PluginConfig>(
     filter,
     reloadConfig,
     uno,
-    extract: scan,
+    extract,
     config,
     configFilepath: filepath,
   }
