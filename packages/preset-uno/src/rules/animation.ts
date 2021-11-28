@@ -104,11 +104,58 @@ const keyframes: Record<string, string> = {
   'back-out-left': '{0%{opacity:1;transform:scale(1)}80%{opacity:0.7;transform:translateX(-2000px) scale(0.7)}100%{opacity:0.7;transform:translateY(-700px) scale(0.7)}}',
 }
 
+const durations: Record<string, string> = {
+  'heart-beat': '1.3s',
+  'bounce-in': '0.75s',
+  'bounce-out': '0.75s',
+  'flip-out-x': '0.75s',
+  'flip-out-y': '0.75s',
+  'hinge': '2s',
+}
+
+const timingFns: Record<string, string> = {
+  'head-shake': 'ease-in-out',
+  'heart-beat': 'ease-in-out',
+  'pulse': 'ease-in-out',
+  'light-speed-in-left': 'ease-out',
+  'light-speed-in-right': 'ease-out',
+  'light-speed-out-left': 'ease-in',
+  'light-speed-out-right': 'ease-in',
+}
+
+const properties: Record<string, object> = {
+  'bounce': { 'transform-origin': 'center bottom' },
+  'jello': { 'transform-origin': 'center' },
+  'swing': { 'transform-origin': 'top center' },
+  'flip': { 'backface-visibility': 'visible' },
+  'flip-in-x': { 'backface-visibility': 'visible !important' },
+  'flip-in-y': { 'backface-visibility': 'visible !important' },
+  'flip-out-x': { 'backface-visibility': 'visible !important' },
+  'flip-out-y': { 'backface-visibility': 'visible !important' },
+  'rotate-in': { 'transform-origin': 'center' },
+  'rotate-in-down-left': { 'transform-origin': 'left bottom' },
+  'rotate-in-down-right': { 'transform-origin': 'right bottom' },
+  'rotate-in-up-left': { 'transform-origin': 'left bottom' },
+  'rotate-in-up-right': { 'transform-origin': 'right bottom' },
+  'rotate-out': { 'transform-origin': 'center' },
+  'rotate-out-down-left': { 'transform-origin': 'left bottom' },
+  'rotate-out-down-right': { 'transform-origin': 'right bottom' },
+  'rotate-out-up-left': { 'transform-origin': 'left bottom' },
+  'rotate-out-up-right': { 'transform-origin': 'right bottom' },
+  'hinge': { 'transform-origin': 'top left' },
+  'zoom-out-down': { 'transform-origin': 'center bottom' },
+  'zoom-out-left': { 'transform-origin': 'left center' },
+  'zoom-out-right': { 'transform-origin': 'right center' },
+  'zoom-out-up': { 'transform-origin': 'center bottom' },
+}
+
 export const animations: Rule[] = [
   [/^animate-(.*)$/, ([, name], { constructCSS }) => {
     const kf = keyframes[name]
-    if (kf)
-      return `@keyframes ${name}${kf}\n${constructCSS({ animation: `${name} 1s linear infinite` })}`
+    if (kf) {
+      return `@keyframes ${name}${kf}\n${constructCSS(
+        Object.assign({ animation: `${name} ${durations[name] || '1s'} ${timingFns[name] || 'linear'} infinite` }, properties[name]))}`
+    }
   }],
   ['animate-none', { animation: 'none' }],
   [/^animate(?:-duration)?-((.+)(?:(s|ms)?))$/, ([, d]) => ({ 'animation-duration': h.bracket.time(d.replace(/-duration/, '')) })],
