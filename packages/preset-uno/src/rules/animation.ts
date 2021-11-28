@@ -105,7 +105,6 @@ const keyframes: Record<string, string> = {
 }
 
 const durations: Record<string, string> = {
-  ...getDefaultValue(keyframes, '1s'),
   'heart-beat': '1.3s',
   'bounce-in': '0.75s',
   'bounce-out': '0.75s',
@@ -115,7 +114,6 @@ const durations: Record<string, string> = {
 }
 
 const timingFns: Record<string, string> = {
-  ...getDefaultValue(keyframes, 'linear'),
   'head-shake': 'ease-in-out',
   'heart-beat': 'ease-in-out',
   'pulse': 'ease-in-out',
@@ -125,12 +123,7 @@ const timingFns: Record<string, string> = {
   'light-speed-out-right': 'ease-in',
 }
 
-const iterations: Record<string, string> = {
-  ...getDefaultValue(keyframes, 'infinite'),
-}
-
-const properties: Record<string, object | null> = {
-  ...getDefaultValue(keyframes, null),
+const properties: Record<string, object> = {
   'bounce': { 'transform-origin': 'center bottom' },
   'jello': { 'transform-origin': 'center' },
   'swing': { 'transform-origin': 'top center' },
@@ -156,16 +149,12 @@ const properties: Record<string, object | null> = {
   'zoom-out-up': { 'transform-origin': 'center bottom' },
 }
 
-function getDefaultValue<T>(map: Record<string, string>, defaultValue: T): Record<string, T> {
-  return Object.fromEntries(Object.entries(map).map(([key]) => ([key, defaultValue])))
-}
-
 export const animations: Rule[] = [
   [/^animate-(.*)$/, ([, name], { constructCSS }) => {
     const kf = keyframes[name]
     if (kf) {
       return `@keyframes ${name}${kf}\n${constructCSS(
-        Object.assign({ animation: `${name} ${durations[name]} ${timingFns[name]} ${iterations[name]}` }, properties[name]))}`
+        Object.assign({ animation: `${name} ${durations[name] || '1s'} ${timingFns[name] || 'linear'} infinite` }, properties[name]))}`
     }
   }],
   ['animate-none', { animation: 'none' }],
