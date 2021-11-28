@@ -23,7 +23,6 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
         const mod = server.moduleGraph.getModuleById(id)
         if (!mod)
           continue
-        lastUpdate = Date.now()
         server!.moduleGraph.invalidateModule(mod)
       }
     }
@@ -32,6 +31,7 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
   }
 
   function sendUpdate() {
+    lastUpdate = Date.now()
     for (const server of servers) {
       server.ws.send({
         type: 'update',

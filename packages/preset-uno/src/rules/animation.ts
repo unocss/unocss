@@ -104,11 +104,30 @@ const keyframes: Record<string, string> = {
   'back-out-left': '{0%{opacity:1;transform:scale(1)}80%{opacity:0.7;transform:translateX(-2000px) scale(0.7)}100%{opacity:0.7;transform:translateY(-700px) scale(0.7)}}',
 }
 
+const durations: Record<string, string> = {
+  ...getDefaultValue(keyframes, '1s'),
+  pulse: '2s',
+}
+
+const timingFns: Record<string, string> = {
+  ...getDefaultValue(keyframes, 'linear'),
+  ping: 'cubic-bezier(0, 0, 0.2, 1)',
+  pulse: 'cubic-bezier(0.4, 0, 0.6, 1)',
+}
+
+const iterations: Record<string, string> = {
+  ...getDefaultValue(keyframes, 'infinite'),
+}
+
+function getDefaultValue(map: Record<string, string>, defaultValue: string) {
+  return Object.fromEntries(Object.entries(map).map(([key]) => ([key, defaultValue])))
+}
+
 export const animations: Rule[] = [
   [/^animate-(.*)$/, ([, name], { constructCSS }) => {
     const kf = keyframes[name]
     if (kf)
-      return `@keyframes ${name}${kf}\n${constructCSS({ animation: `${name} 1s linear infinite` })}`
+      return `@keyframes ${name}${kf}\n${constructCSS({ animation: `${name} ${durations[name]} ${timingFns[name]} ${iterations[name]}` })}`
   }],
   ['animate-none', { animation: 'none' }],
   [/^animate(?:-duration)?-((.+)(?:(s|ms)?))$/, ([, d]) => ({ 'animation-duration': h.bracket.time(d.replace(/-duration/, '')) })],
