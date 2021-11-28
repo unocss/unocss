@@ -281,8 +281,10 @@ exports[`targets 1`] = `
 .order-first{order:-9999;}
 @keyframes ping{0%{transform:scale(1);opacity:1}75%,100%{transform:scale(2);opacity:0}}
 .\\\\!animate-ping{animation:ping 1s linear infinite !important;}
+@keyframes pulse{from{transform:scale3d(1,1,1)}50%{transform:scale3d(1.05,1.05,1.05)}to{transform:scale3d(1,1,1)}}
+.animate-pulse{animation:pulse 1s ease-in-out infinite;}
 @keyframes bounce{from,20%,53%,80%,to{animation-timing-function:cubic-bezier(0.215,0.61,0.355,1);transform:translate3d(0,0,0)}40%,43%{animation-timing-function:cubic-bezier(0.755,0.05,0.855,0.06);transform:translate3d(0,-30px,0)}70%{animation-timing-function:cubic-bezier(0.755,0.05,0.855,0.06);transform:translate3d(0,-15px,0)}90%{transform:translate3d(0,-4px,0)}}
-.hover\\\\:animate-bounce:hover{animation:bounce 1s linear infinite;}
+.hover\\\\:animate-bounce:hover{animation:bounce 1s linear infinite;transform-origin:center bottom;}
 .animate-none{animation:none;}
 .animate-100s{animation-duration:100s;}
 .animate-300{animation-duration:300ms;}

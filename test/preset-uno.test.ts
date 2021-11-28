@@ -270,6 +270,7 @@ const targets = [
   'space-x-$space',
   'animate-none',
   '!animate-ping',
+  'animate-pulse',
   'hover:animate-bounce',
   'animate-300',
   'animate-100s',

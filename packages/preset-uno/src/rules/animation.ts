@@ -106,28 +106,67 @@ const keyframes: Record<string, string> = {
 
 const durations: Record<string, string> = {
   ...getDefaultValue(keyframes, '1s'),
-  pulse: '2s',
+  'heart-beat': '1.3s',
+  'bounce-in': '0.75s',
+  'bounce-out': '0.75s',
+  'flip-out-x': '0.75s',
+  'flip-out-y': '0.75s',
+  'hinge': '2s',
 }
 
 const timingFns: Record<string, string> = {
   ...getDefaultValue(keyframes, 'linear'),
-  ping: 'cubic-bezier(0, 0, 0.2, 1)',
-  pulse: 'cubic-bezier(0.4, 0, 0.6, 1)',
+  'head-shake': 'ease-in-out',
+  'heart-beat': 'ease-in-out',
+  'pulse': 'ease-in-out',
+  'light-speed-in-left': 'ease-out',
+  'light-speed-in-right': 'ease-out',
+  'light-speed-out-left': 'ease-in',
+  'light-speed-out-right': 'ease-in',
 }
 
 const iterations: Record<string, string> = {
   ...getDefaultValue(keyframes, 'infinite'),
 }
 
-function getDefaultValue(map: Record<string, string>, defaultValue: string) {
+const properties: Record<string, object | null> = {
+  ...getDefaultValue(keyframes, null),
+  'bounce': { 'transform-origin': 'center bottom' },
+  'jello': { 'transform-origin': 'center' },
+  'swing': { 'transform-origin': 'top center' },
+  'flip': { 'backface-visibility': 'visible' },
+  'flip-in-x': { 'backface-visibility': 'visible !important' },
+  'flip-in-y': { 'backface-visibility': 'visible !important' },
+  'flip-out-x': { 'backface-visibility': 'visible !important' },
+  'flip-out-y': { 'backface-visibility': 'visible !important' },
+  'rotate-in': { 'transform-origin': 'center' },
+  'rotate-in-down-left': { 'transform-origin': 'left bottom' },
+  'rotate-in-down-right': { 'transform-origin': 'right bottom' },
+  'rotate-in-up-left': { 'transform-origin': 'left bottom' },
+  'rotate-in-up-right': { 'transform-origin': 'right bottom' },
+  'rotate-out': { 'transform-origin': 'center' },
+  'rotate-out-down-left': { 'transform-origin': 'left bottom' },
+  'rotate-out-down-right': { 'transform-origin': 'right bottom' },
+  'rotate-out-up-left': { 'transform-origin': 'left bottom' },
+  'rotate-out-up-right': { 'transform-origin': 'right bottom' },
+  'hinge': { 'transform-origin': 'top left' },
+  'zoom-out-down': { 'transform-origin': 'center bottom' },
+  'zoom-out-left': { 'transform-origin': 'left center' },
+  'zoom-out-right': { 'transform-origin': 'right center' },
+  'zoom-out-up': { 'transform-origin': 'center bottom' },
+}
+
+function getDefaultValue<T>(map: Record<string, string>, defaultValue: T): Record<string, T> {
   return Object.fromEntries(Object.entries(map).map(([key]) => ([key, defaultValue])))
 }
 
 export const animations: Rule[] = [
   [/^animate-(.*)$/, ([, name], { constructCSS }) => {
     const kf = keyframes[name]
-    if (kf)
-      return `@keyframes ${name}${kf}\n${constructCSS({ animation: `${name} ${durations[name]} ${timingFns[name]} ${iterations[name]}` })}`
+    if (kf) {
+      return `@keyframes ${name}${kf}\n${constructCSS(
+        Object.assign({ animation: `${name} ${durations[name]} ${timingFns[name]} ${iterations[name]}` }, properties[name]))}`
+    }
   }],
   ['animate-none', { animation: 'none' }],
   [/^animate(?:-duration)?-((.+)(?:(s|ms)?))$/, ([, d]) => ({ 'animation-duration': h.bracket.time(d.replace(/-duration/, '')) })],
