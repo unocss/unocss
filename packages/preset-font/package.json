@@ -1,0 +1,57 @@
+{
+  "name": "@unocss/preset-font",
+  "version": "0.12.13",
+  "description": "Pure CSS font for UnoCSS",
+  "keywords": [
+    "unocss",
+    "unocss-preset",
+    "font",
+    "css-font",
+    "iconify"
+  ],
+  "homepage": "https://github.com/antfu/unocss/tree/main/packages/preset-font#readme",
+  "bugs": {
+    "url": "https://github.com/antfu/unocss/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antfu/unocss.git",
+    "directory": "packages/preset-font"
+  },
+  "funding": "https://github.com/sponsors/antfu",
+  "license": "MIT",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./fs": {
+      "require": "./dist/fs.js",
+      "import": "./dist/fs.mjs",
+      "types": "./dist/fs.d.ts"
+    }
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "*.css"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch src"
+  },
+  "dependencies": {
+    "@iconify/utils": "^1.0.19",
+    "@unocss/core": "workspace:*",
+    "fontmin": "^0.9.9",
+    "local-pkg": "^0.4.0"
+  },
+  "devDependencies": {
+    "@iconify/types": "^1.0.12"
+  }
+}
