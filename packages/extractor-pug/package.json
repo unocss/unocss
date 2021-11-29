@@ -1,6 +1,6 @@
 {
   "name": "@unocss/extractor-pug",
-  "version": "0.12.14",
+  "version": "0.12.15",
   "description": "UnoCSS extractor for Pug",
   "keywords": [
     "unocss",
