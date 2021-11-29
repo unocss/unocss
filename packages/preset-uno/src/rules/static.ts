@@ -42,6 +42,10 @@ export const whitespaces: Rule[] = [
   [/^(?:whitespace|ws)-(normal|nowrap|pre|pre-line|pre-wrap)$/, ([, v]) => ({ 'white-space': v })],
 ]
 
+export const contents: Rule[] = [
+  ['content-empty', { content: '""' }],
+]
+
 export const breaks: Rule[] = [
   ['break-normal', { 'overflow-wrap': 'normal', 'word-break': 'normal' }],
   ['break-word', { 'overflow-wrap': 'break-word' }],
