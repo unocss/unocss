@@ -67,7 +67,7 @@ export function cssvar(str: string) {
     return `var(--${str.slice(1)})`
 }
 
-const timeRe = /(s|ms)$/
+const timeRe = /(ms|s)$/
 export function time(str: string) {
   const duration = Number(str.replace(timeRe, ''))
 
