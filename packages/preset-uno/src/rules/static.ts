@@ -44,6 +44,7 @@ export const whitespaces: Rule[] = [
 
 export const contents: Rule[] = [
   ['content-empty', { content: '""' }],
+  [/^content-\[(.+)\]$/, ([, v]) => ({ content: v })],
 ]
 
 export const breaks: Rule[] = [
