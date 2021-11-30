@@ -24,6 +24,7 @@ export function createContext<Config extends PluginConfig = PluginConfig>(
   defaults: UserConfigDefaults = {},
 ): UnocssPluginContext<Config> {
   const { config = {} as Config, filepath } = loadConfig<Config>(configOrPath)
+  let rawConfig = config
 
   const uno = createGenerator(config, defaults)
 
@@ -52,7 +53,8 @@ export function createContext<Config extends PluginConfig = PluginConfig>(
   async function reloadConfig() {
     if (!filepath)
       return
-    uno.setConfig(loadConfig(filepath).config)
+    rawConfig = loadConfig(filepath).config as Config
+    uno.setConfig(rawConfig)
     uno.config.envMode = 'dev'
     rollupFilter = createFilter(
       config.include || defaultInclude,
@@ -78,7 +80,9 @@ export function createContext<Config extends PluginConfig = PluginConfig>(
     reloadConfig,
     uno,
     extract,
-    config,
+    get config() {
+      return rawConfig
+    },
     configFilepath: filepath,
   }
 }
