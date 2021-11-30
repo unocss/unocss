@@ -149,6 +149,8 @@ const properties: Record<string, object> = {
   'zoom-out-up': { 'transform-origin': 'center bottom' },
 }
 
+const animationDurationRe = /-duration/
+const animationIterationCountRe = /-/g
 export const animations: Rule[] = [
   [/^animate-(.*)$/, ([, name], { constructCSS }) => {
     const kf = keyframes[name]
@@ -158,11 +160,11 @@ export const animations: Rule[] = [
     }
   }],
   ['animate-none', { animation: 'none' }],
-  [/^animate(?:-duration)?-((.+)(?:(s|ms)?))$/, ([, d]) => ({ 'animation-duration': h.bracket.time(d.replace(/-duration/, '')) })],
+  [/^animate(?:-duration)?-((.+)(?:(s|ms)?))$/, ([, d]) => ({ 'animation-duration': h.bracket.time(d.replace(animationDurationRe, '')) })],
   [/^animate-delay-((.+)(?:(s|ms)?))$/, ([, d]) => ({ 'animation-delay': h.bracket.time(d) })],
   [/^animate-(?:fill-)?mode-(none|forwards|backwards|both|inherit|initial|revert|unset)$/, ([, d]) => ({ 'animation-fill-mode': d })],
   [/^animate-(?:direction-)?(normal|reverse|alternate|alternate-reverse|inherit|initial|revert|unset)$/, ([, d]) => ({ 'animation-direction': d })],
-  [/^animate-(?:iteration-)?count-(.+)$/, ([, d]) => ({ 'animation-iteration-count': d.replace(/\-/g, ', ') })],
+  [/^animate-(?:iteration-)?count-(.+)$/, ([, d]) => ({ 'animation-iteration-count': d.replace(animationIterationCountRe, ', ') })],
   [/^animate-name-(.+)/, ([, d]) => ({ 'animation-name': d })],
   [/^animate-play(?:-state)?-(paused|running|inherit|initial|revert|unset)$/, ([, d]) => ({ 'animation-play-state': d })],
 ]

@@ -49,10 +49,13 @@ export const outline: Rule[] = [
   ],
 ]
 
+const listStyleRe1 = /-inside|-outside/
+const listStyleRe2 = /inside|outside/
+
 export const listStyle: Rule[] = [
-  [new RegExp(`^list-((${listStyleProps.join('|')})(?:(-outside|-inside))?)$`), ([, value]) => {
-    const style = value.split(/-outside|-inside/)[0]
-    const position = /inside|outside/.exec(value) ?? []
+  [new RegExp(`^list-((${listStyleProps.join('|')})(?:(-inside|-outside))?)$`), ([, value]) => {
+    const style = value.split(listStyleRe1)[0]
+    const position = listStyleRe2.exec(value) ?? []
 
     if (position.length) {
       return {

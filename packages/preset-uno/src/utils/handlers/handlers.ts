@@ -67,13 +67,14 @@ export function cssvar(str: string) {
     return `var(--${str.slice(1)})`
 }
 
+const timeRe = /(s|ms)$/
 export function time(str: string) {
-  const duration = Number(str.replace(/(s|ms)$/, ''))
+  const duration = Number(str.replace(timeRe, ''))
 
   if (isNaN(duration))
     return
 
-  if (/ms|s$/.test(str))
+  if (timeRe.test(str))
     return str
 
   return `${str}ms`
