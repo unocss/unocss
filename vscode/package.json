@@ -1,0 +1,46 @@
+{
+  "name": "unocss",
+  "displayName": "UnoCSS",
+  "version": "0.0.0",
+  "private": true,
+  "description": "IDE Support for UnoCSS",
+  "categories": [
+    "Other"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/antfu/unocss",
+    "directory": "vscode"
+  },
+  "license": "MIT",
+  "publisher": "antfu",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsup src/index.ts --external vscode",
+    "dev": "nr build --watch src",
+    "release": "bumpp --commit --tag --push && vsce publish",
+    "vscode:prepublish": "npm run build"
+  },
+  "contributes": {
+    "commands": [],
+    "configuration": {
+      "type": "object",
+      "title": "UnoCSS",
+      "properties": {}
+    }
+  },
+  "activationEvents": [
+    "*"
+  ],
+  "devDependencies": {
+    "@types/vscode": "^1.62.0",
+    "prettier": "^2.5.0",
+    "tsup": "^5.10.0",
+    "unconfig": "^0.1.0",
+    "vsce": "^2.5.1"
+  },
+  "engines": {
+    "vscode": "^1.62.0"
+  },
+  "icon": "res/logo.png"
+}

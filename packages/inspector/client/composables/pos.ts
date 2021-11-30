@@ -1,8 +1,7 @@
 import { escapeRegExp as e, isAttributifySelector } from '@unocss/core'
 
 export function getMatchedPositions(code: string, matched: string[]) {
-  const result: [number, number][] = []
-
+  const result: [number, number, string][] = []
   const attributify: RegExpMatchArray[] = []
   const plain = new Set<string>()
 
@@ -22,7 +21,7 @@ export function getMatchedPositions(code: string, matched: string[]) {
   code.split(/[\s"';<>]/g).forEach((i) => {
     const end = start + i.length
     if (plain.has(i))
-      result.push([start, end])
+      result.push([start, end, i])
     start = end + 1
   })
 
@@ -33,7 +32,7 @@ export function getMatchedPositions(code: string, matched: string[]) {
       .forEach((match) => {
         const start = match.index! + match[0].indexOf(value)
         const end = start + value.length
-        result.push([start, end])
+        result.push([start, end, `[${name}="${value}"]`])
       })
   })
 

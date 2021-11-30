@@ -5,6 +5,7 @@
 .output
 *.local
 *.log
+*.vsix
 bench/source/gen*.js
 coverage
 dist
