@@ -28,6 +28,7 @@ export const preset = (options: UnoOptions = {}): Preset<Theme> => ({
   shortcuts: [
     ...containerShortcuts,
   ],
+  options,
 })
 
 export default preset
