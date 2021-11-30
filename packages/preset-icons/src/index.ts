@@ -38,18 +38,20 @@ async function searchForIcon(
   }
 }
 
-export const preset = ({
-  scale = 1,
-  mode = 'auto',
-  prefix = 'i-',
-  warn = false,
-  collections = {},
-  extraProperties = {},
-  layer = 'icons',
-}: IconsOptions = {}): Preset => {
+export const preset = (options: IconsOptions = {}): Preset => {
+  const {
+    scale = 1,
+    mode = 'auto',
+    prefix = 'i-',
+    warn = false,
+    collections = {},
+    extraProperties = {},
+    layer = 'icons',
+  } = options
   return {
     name: '@unocss/preset-icons',
     enforce: 'pre',
+    options,
     layers: {
       icons: -10,
     },

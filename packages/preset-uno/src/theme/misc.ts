@@ -1,4 +1,4 @@
-// keep in ASC order: container.ts needs that order
+// keep in ASC order: container.ts and breakpoints.ts need that order
 export const breakpoints = {
   'sm': '640px',
   'md': '768px',

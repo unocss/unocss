@@ -567,6 +567,10 @@ See [@unocss/runtime](https://github.com/antfu/unocss/tree/main/packages/runtime
   </a>
 </p>
 
+## Project Activity
+
+![Alt](https://repobeats.axiom.co/api/embed/00d8bcc7f3651c0f0cccf9228f5776fb111ab478.svg "Repobeats analytics image")
+
 ## License
 
 [MIT](./LICENSE) License © 2021 [Anthony Fu](https://github.com/antfu)

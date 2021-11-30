@@ -1,9 +1,16 @@
 import { Plugin } from 'vite'
 import { UnocssPluginContext } from '../../plugins-common/context'
 
-export function ConfigHMRPlugin({ uno, configFilepath, reloadConfig }: UnocssPluginContext): Plugin | undefined {
+export function ConfigHMRPlugin(ctx: UnocssPluginContext): Plugin | undefined {
+  const { uno, configFilepath, reloadConfig } = ctx
   return {
     name: 'unocss:config',
+    api: {
+      get config() {
+        if (!configFilepath)
+          return ctx.config
+      },
+    },
     configureServer(server) {
       uno.config.envMode = 'dev'
 

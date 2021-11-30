@@ -182,6 +182,10 @@ export interface ConfigBase<Theme extends {} = {}> {
 export interface Preset<Theme extends {} = {}> extends ConfigBase<Theme> {
   name: string
   enforce?: 'pre' | 'post'
+  /**
+   * Preset options for other tools like IDE to consume
+   */
+  options?: any
 }
 
 export interface GeneratorOptions {

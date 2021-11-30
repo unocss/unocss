@@ -22,6 +22,7 @@ const preset = (options?: AttributifyOptions): Preset => {
     name: '@unocss/preset-attributify',
     variants,
     extractors,
+    options,
   }
 }
 
