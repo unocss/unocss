@@ -18,6 +18,7 @@ export const variantImportant: Variant = {
 
 }
 
+const variantNegativeRe = /[0-9.]+(?:[a-z]+|%)?/
 export const variantNegative: Variant = {
   match(matcher) {
     if (matcher.startsWith('-')) {
@@ -25,7 +26,7 @@ export const variantNegative: Variant = {
         matcher: matcher.slice(1),
         body: (body) => {
           body.forEach((v) => {
-            v[1] = v[1]?.toString().replace(/[0-9.]+(?:[a-z]+|%)?/, i => `-${i}`)
+            v[1] = v[1]?.toString().replace(variantNegativeRe, i => `-${i}`)
           })
           return body
         },
@@ -35,8 +36,10 @@ export const variantNegative: Variant = {
 
 }
 
+const variantSpaceRe1 = /^space-?([xy])-?(-?.+)$/
+const variantSpaceRe2 = /^divide-/
 export const variantSpace: Variant = (matcher) => {
-  if (/^space-?([xy])-?(-?.+)$/.test(matcher) || /^divide-/.test(matcher)) {
+  if (variantSpaceRe1.test(matcher) || variantSpaceRe2.test(matcher)) {
     return {
       matcher,
       selector: (input) => {

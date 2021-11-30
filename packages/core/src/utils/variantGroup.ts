@@ -1,5 +1,6 @@
 export const regexClassGroup = /([!\w+:_/-]+?)([:-])\(((?:[!\w\s:/\\,%#.$-]|\[.*?\])*?)\)/gm
 
+const regexGroupReplace = /^(!?)(.*)/
 export function expandVariantGroup(str: string): string {
   const replaces: [number, number, string][] = []
   let match
@@ -8,7 +9,7 @@ export function expandVariantGroup(str: string): string {
     const start = match.index
     const end = start + match[0].length
     const [, pre, sep, body] = match
-    const replacement = body.split(/\s/g).map(i => i.replace(/^(!?)(.*)/, `$1${pre}${sep}$2`)).join(' ')
+    const replacement = body.split(/\s/g).map(i => i.replace(regexGroupReplace, `$1${pre}${sep}$2`)).join(' ')
     replaces.unshift([start, end, replacement])
   }
   let result = str

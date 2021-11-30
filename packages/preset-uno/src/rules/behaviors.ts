@@ -4,10 +4,12 @@ import { colorResolver } from './color'
 
 const outlineStyle = ['none', 'auto', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'inherit', 'initial', 'revert', 'unset']
 const listStyleProps = ['none', 'disc', 'circle', 'square', 'decimal', 'zero-decimal', 'greek', 'roman', 'upper-roman', 'alpha', 'upper-alpha']
+const outlineSizeRe = /^(offset\-|width\-)/
+const colorOutlineRe = /^color-/
 
 const parseOutlineSize = (s: string) => {
   const propName = ['width', 'offset'].find(item => s.startsWith(item)) || 'width'
-  const size = h.bracket.fraction.rem((s.replace(/^(offset\-|width\-)/, '')))
+  const size = h.bracket.fraction.rem((s.replace(outlineSizeRe, '')))
   if (size) {
     return {
       [`outline-${propName}`]: size,
@@ -41,7 +43,7 @@ export const outline: Rule[] = [
 
       const colorSheet = colorResolver('outline-color', 'outline-color')([
         match[0],
-        match[1].replace(/^color-/, ''),
+        match[1].replace(colorOutlineRe, ''),
       ], config)
       if (colorSheet)
         return colorSheet
@@ -49,10 +51,13 @@ export const outline: Rule[] = [
   ],
 ]
 
+const listStyleRe1 = /-outside|-inside/
+const listStyleRe2 = /inside|outside/
+
 export const listStyle: Rule[] = [
   [new RegExp(`^list-((${listStyleProps.join('|')})(?:(-outside|-inside))?)$`), ([, value]) => {
-    const style = value.split(/-outside|-inside/)[0]
-    const position = /inside|outside/.exec(value) ?? []
+    const style = value.split(listStyleRe1)[0]
+    const position = listStyleRe2.exec(value) ?? []
 
     if (position.length) {
       return {
@@ -113,7 +118,7 @@ export const placeholder: Rule[] = [
   [
     /^placeholder-(?!opacity)(.+)$/,
     (match, config) => {
-      match[1] = match[1].replace(/^color-/, '')
+      match[1] = match[1].replace(colorOutlineRe, '')
       return colorResolver('placeholder-color', 'placeholder-color')(match, config)
     },
   ],

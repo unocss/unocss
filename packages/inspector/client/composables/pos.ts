@@ -1,5 +1,6 @@
 import { escapeRegExp as e, isAttributifySelector } from '@unocss/core'
 
+const codeSplitRe = /[\s"';<>]/g
 export function getMatchedPositions(code: string, matched: string[]) {
   const result: [number, number][] = []
 
@@ -19,7 +20,7 @@ export function getMatchedPositions(code: string, matched: string[]) {
 
   // hightlight for plain classes
   let start = 0
-  code.split(/[\s"';<>]/g).forEach((i) => {
+  code.split(codeSplitRe).forEach((i) => {
     const end = start + i.length
     if (plain.has(i))
       result.push([start, end])

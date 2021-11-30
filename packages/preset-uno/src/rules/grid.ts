@@ -14,6 +14,9 @@ const autoDirection = (selector: string, theme: Theme) => {
   return calSize(selector, theme)
 }
 
+const gridCommaRe = /,/g
+const gridUnderscoreRe = /_/g
+
 export const grids: Rule[] = [
   ['grid', { display: 'grid' }],
   ['inline-grid', { display: 'inline-grid' }],
@@ -21,8 +24,8 @@ export const grids: Rule[] = [
   [/^grid-rows-minmax-([\w.-]+)$/, ([, d]) => ({ 'grid-template-rows': `repeat(auto-fill, minmax(${d}, 1fr))` })],
   [/^grid-cols-(\d+)$/, ([, d]) => ({ 'grid-template-columns': `repeat(${d},minmax(0,1fr))` })],
   [/^grid-rows-(\d+)$/, ([, d]) => ({ 'grid-template-rows': `repeat(${d},minmax(0,1fr))` })],
-  [/^grid-cols-\[(.+)\]$/, ([, v]) => ({ 'grid-template-columns': v.replace(/,/g, ' ') })],
-  [/^grid-rows-\[(.+)\]$/, ([, v]) => ({ 'grid-template-rows': v.replace(/,/g, ' ') })],
+  [/^grid-cols-\[(.+)\]$/, ([, v]) => ({ 'grid-template-columns': v.replace(gridCommaRe, ' ') })],
+  [/^grid-rows-\[(.+)\]$/, ([, v]) => ({ 'grid-template-rows': v.replace(gridCommaRe, ' ') })],
   [/^(?:grid-)?(row|col)-(.+)$/, ([, d, v]) => {
     const key = d === 'row' ? 'grid-row' : 'grid-column'
     let raw = h.bracket(v)
@@ -35,7 +38,7 @@ export const grids: Rule[] = [
       if (parts[1] === 'full')
         return { [key]: '1/-1' }
 
-      raw = h.number.bracket(parts[1])?.toString().replace(/_/g, ' ')
+      raw = h.number.bracket(parts[1])?.toString().replace(gridUnderscoreRe, ' ')
       if (raw)
         return { [key]: `span ${raw}/span ${raw}` }
     }

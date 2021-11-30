@@ -7,6 +7,7 @@ export function getHash(input: string, length = 8) {
     .substr(0, length)
 }
 
+const pathReplacementRe = /\?.*$/
 export function getPath(id: string) {
-  return id.replace(/\?.*$/, '')
+  return id.replace(pathReplacementRe, '')
 }

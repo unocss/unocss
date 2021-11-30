@@ -51,13 +51,17 @@ export function fraction(str: string) {
     return `${num * 100}%`
 }
 
+const bracketUndersoreRe = /_/g
+const bracketCalcRe = /calc\((.*)/g
+const bracketCalcReplaceRe = /(-?\d*\.?\d(?!\b-.+[,)](?![^+\-/*])\D)(?:%|[a-z]+)?|\))([+\-/*])/g
+
 export function bracket(str: string) {
   if (str && str[0] === '[' && str[str.length - 1] === ']') {
     return str
       .slice(1, -1)
-      .replace(/_/g, ' ')
-      .replace(/calc\((.*)/g, (v) => {
-        return v.replace(/(-?\d*\.?\d(?!\b-.+[,)](?![^+\-/*])\D)(?:%|[a-z]+)?|\))([+\-/*])/g, '$1 $2 ')
+      .replace(bracketUndersoreRe, ' ')
+      .replace(bracketCalcRe, (v) => {
+        return v.replace(bracketCalcReplaceRe, '$1 $2 ')
       })
   }
 }

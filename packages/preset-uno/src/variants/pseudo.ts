@@ -60,6 +60,7 @@ export const variantPseudoElements: VariantFunction = (input: string) => {
   }
 }
 
+const PseudoClassesGroupPrefixRE = /\.group:/
 export const variantPseudoClasses: VariantObject = {
   match: (input: string) => {
     let match = input.match(PseudoClassesRE)
@@ -86,7 +87,7 @@ export const variantPseudoClasses: VariantObject = {
       return {
         matcher: input.slice(match[1].length + 7),
         selector: s => s.includes('.group:')
-          ? s.replace(/\.group:/, `.group:${pseudo}:`)
+          ? s.replace(PseudoClassesGroupPrefixRE, `.group:${pseudo}:`)
           : `.group:${pseudo} ${s}`,
       }
     }

@@ -2,11 +2,15 @@ import { Rule, hex2rgba, RuleContext } from '@unocss/core'
 import { Theme } from '../theme'
 import { handler as h } from '../utils'
 
+const colorShorthandRe = /(?:\/|:)/
+const colorWeightRe = /([a-z])([0-9])/g
+const colorSplitRe = /-/g
+
 export const parseColorUtil = (body: string, theme: Theme) => {
-  const [main, opacity] = body.split(/(?:\/|:)/)
+  const [main, opacity] = body.split(colorShorthandRe)
   const [name, no = 'DEFAULT'] = main
-    .replace(/([a-z])([0-9])/g, '$1-$2')
-    .split(/-/g)
+    .replace(colorWeightRe, '$1-$2')
+    .split(colorSplitRe)
 
   if (!name)
     return

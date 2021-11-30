@@ -445,9 +445,10 @@ function applyScope(css: string, scope?: string) {
     return scope ? `${scope} ${css}` : css
 }
 
+const reEscapeSelector = /^\[(.+?)(~?=)"(.*)"\]$/
 function toEscapedSelector(raw: string) {
   if (raw.startsWith('['))
-    return raw.replace(/^\[(.+?)(~?=)"(.*)"\]$/, (_, n, s, i) => `[${e(n)}${s}"${e(i)}"]`)
+    return raw.replace(reEscapeSelector, (_, n, s, i) => `[${e(n)}${s}"${e(i)}"]`)
   else
     return `.${e(raw)}`
 }
