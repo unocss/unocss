@@ -1446,10 +1446,10 @@ uc.micro@^1.0.1, uc.micro@^1.0.5:
   resolved "https://registry.yarnpkg.com/uc.micro/-/uc.micro-1.0.6.tgz#9c411a802a409a91fc6cf74081baba34b24499ac"
   integrity sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA==
 
-unconfig@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/unconfig/-/unconfig-0.2.0.tgz#7a7a096c4fa974277bbb9b45790cf6af77f3da1e"
-  integrity sha512-EtIUhy1xr3D1Y2tl6iS2yvN7vl9FG0qMPnQebnE0HAnknELmB2uibP9VndsEriU/ZA1o8+rfR8ChBDfc1G0JVA==
+unconfig@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/unconfig/-/unconfig-0.2.1.tgz#aade527cf3f872e114c82287839fe63df0d23ba0"
+  integrity sha512-Ji+7j9BRuKp38ORTcH6/eWFkD1e7zb+dYi+mxosqSyAdZYPgSohkWvgP21+laeHFvhqp66DgUYYyEDUke+h53A==
   dependencies:
     "@antfu/utils" "^0.3.0"
     defu "^5.0.0"

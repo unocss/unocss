@@ -1,10 +1,10 @@
 import { DecorationOptions, DecorationRangeBehavior, MarkdownString, Range, window, workspace } from 'vscode'
 import { createConfigLoader } from 'unconfig'
-import { sourceObjectFields, sourcePluginFactory } from 'unconfig/dist/presets'
+import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
 import { createGenerator } from '@unocss/core'
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
-import { getMatchedPositions } from '../../packages/inspector/client/composables/pos'
+import { getMatchedPositions } from '../../inspector/client/composables/pos'
 
 export async function activate() {
   const cwd = workspace.workspaceFolders?.[0].uri.fsPath
