@@ -1,11 +1,10 @@
 import { createFilter } from '@rollup/pluginutils'
 import { createConfigLoader, LoadConfigResult } from '@unocss/config'
-import { BetterMap, createGenerator, UnoGenerator, UserConfigDefaults } from '@unocss/core'
+import { BetterMap, createGenerator, UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { INCLUDE_COMMENT } from './constants'
 import { defaultExclude, defaultInclude } from './defaults'
-import { PluginConfig } from './types'
 
-export interface UnocssPluginContext<Config extends PluginConfig = PluginConfig> {
+export interface UnocssPluginContext<Config extends UserConfig = UserConfig> {
   ready: Promise<LoadConfigResult<Config>>
   uno: UnoGenerator
   tokens: Set<string>
@@ -20,7 +19,7 @@ export interface UnocssPluginContext<Config extends PluginConfig = PluginConfig>
   onInvalidate: (fn: () => void) => void
 }
 
-export function createContext<Config extends PluginConfig = PluginConfig>(
+export function createContext<Config extends UserConfig = UserConfig>(
   configOrPath?: Config | string,
   defaults: UserConfigDefaults = {},
 ): UnocssPluginContext<Config> {

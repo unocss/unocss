@@ -1,4 +1,5 @@
-import { resolve } from 'path'
+import { resolve, dirname } from 'path'
+import fs from 'fs'
 import { UserConfig } from '@unocss/core'
 import { createConfigLoader as createLoader, LoadConfigResult } from 'unconfig'
 import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
@@ -6,7 +7,7 @@ import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
 export { LoadConfigResult }
 
 export function createConfigLoader<U extends UserConfig>(configOrPath: string | U = process.cwd()): () => Promise<LoadConfigResult<U>> {
-  let inlineConfig: U | undefined
+  let inlineConfig = {} as U
 
   if (typeof configOrPath !== 'string') {
     inlineConfig = configOrPath
@@ -21,53 +22,55 @@ export function createConfigLoader<U extends UserConfig>(configOrPath: string | 
     }
   }
 
-  configOrPath = resolve(configOrPath)
+  const resolved = resolve(configOrPath)
+  let cwd = resolved
+
+  let isFile = false
+  if (fs.existsSync(resolved) && fs.statSync(resolved).isFile()) {
+    isFile = true
+    cwd = dirname(resolved)
+  }
 
   const loader = createLoader<U>({
-    sources: [
-      {
-        files: [
-          'unocss.config',
-          'uno.config',
-        ],
-      },
-      sourcePluginFactory({
-        files: 'vite.config',
-        targetModule: 'unocss/vite',
-      }),
-      sourceObjectFields({
-        files: 'nuxt.config',
-        fields: 'unocss',
-      }),
-    ],
-    cwd: configOrPath,
+    sources: isFile
+      ? [
+        {
+          files: resolved,
+          extensions: [],
+        },
+      ]
+      : [
+        {
+          files: [
+            'unocss.config',
+            'uno.config',
+          ],
+        },
+        sourcePluginFactory({
+          files: 'vite.config',
+          targetModule: 'unocss/vite',
+        }),
+        sourceObjectFields({
+          files: 'nuxt.config',
+          fields: 'unocss',
+        }),
+      ],
+    cwd,
     defaults: inlineConfig,
   })
 
   return async() => {
     const result = await loader.load()
-    if (result.config.configDeps)
-      result.sources = [...result.sources, ...result.config.configDeps]
+    if (result.config?.configDeps) {
+      result.sources = [
+        ...result.sources,
+        ...result.config.configDeps.map(i => resolve(cwd, i)),
+      ]
+    }
     return result
   }
 }
 
 export function loadConfig<U extends UserConfig>(dirOrPath: string | U) {
   return createConfigLoader<U>(dirOrPath)()
-}
-
-declare module '@unocss/core' {
-  interface ExtraConfig {
-    /**
-     * Load from configs files
-     *
-     * set `false` to disable
-     */
-    configFile?: string | false
-
-    /**
-     * List of files that will also triggers config reloads
-     */
-    configDeps?: string[]
-  }
 }

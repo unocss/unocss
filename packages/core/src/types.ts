@@ -80,6 +80,8 @@ export type DynamicShortcut<Theme extends {} = {}> = [RegExp, DynamicShortcutMat
 export type UserShortcuts<Theme extends {} = {}> = StaticShortcutMap | (StaticShortcut | DynamicShortcut<Theme> | StaticShortcutMap)[]
 export type Shortcut<Theme extends {} = {}> = StaticShortcut | DynamicShortcut<Theme>
 
+export type FilterPattern = ReadonlyArray<string | RegExp> | string | RegExp | null
+
 export interface Preflight {
   getCSS: () => string | undefined
   layer?: string
@@ -239,9 +241,31 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
 /**
  * For other modules to aggregate the options
  */
-export interface ExtraConfig {}
+export interface PluginOptions {
+  /**
+   * Load from configs files
+   *
+   * set `false` to disable
+   */
+  configFile?: string | false
 
-export interface UserConfig<Theme extends {} = {}> extends ExtraConfig, ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions {}
+  /**
+   * List of files that will also triggers config reloads
+   */
+  configDeps?: string[]
+
+  /**
+   * Patterns that filter the files being extracted.
+   */
+  include?: FilterPattern
+
+  /**
+   * Patterns that filter the files NOT being extracted.
+   */
+  exclude?: FilterPattern
+}
+
+export interface UserConfig<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions, PluginOptions {}
 export interface UserConfigDefaults<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme> {}
 
 export interface ResolvedConfig extends Omit<
