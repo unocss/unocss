@@ -19,7 +19,6 @@
   "scripts": {
     "build": "cp ../../LICENSE . && tsup src/index.ts --external vscode",
     "dev": "nr build --watch src",
-    "release": "bumpp --commit --tag --push && vsce publish",
     "vscode:prepublish": "npm run build"
   },
   "contributes": {
