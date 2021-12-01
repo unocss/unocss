@@ -167,10 +167,10 @@ importers:
   packages/config:
     specifiers:
       '@unocss/core': workspace:*
-      unconfig: ^0.2.1
+      unconfig: ^0.2.2
     dependencies:
       '@unocss/core': link:../core
-      unconfig: 0.2.1
+      unconfig: 0.2.2
 
   packages/core:
     specifiers: {}
@@ -6327,8 +6327,8 @@ packages:
       which-boxed-primitive: 1.0.2
     dev: true
 
-  /unconfig/0.2.1:
-    resolution: {integrity: sha512-Ji+7j9BRuKp38ORTcH6/eWFkD1e7zb+dYi+mxosqSyAdZYPgSohkWvgP21+laeHFvhqp66DgUYYyEDUke+h53A==}
+  /unconfig/0.2.2:
+    resolution: {integrity: sha512-JN1MeYJ/POnjBj7NgOJJxPp6+NcD6Nd0hEuK0D89kjm9GvQQUq8HeE2Eb7PZgtu+64mWkDiqeJn1IZoLH7htPg==}
     dependencies:
       '@antfu/utils': 0.3.0
       defu: 5.0.0

@@ -35,7 +35,7 @@ export default defineConfig(({ command }) => ({
       dts: 'client/auto-imports.d.ts',
     }),
     Pages({
-      pagesDir: 'client/pages',
+      dirs: 'client/pages',
     }),
   ],
   build: {

@@ -1,12 +1,11 @@
 import { resolve, dirname } from 'path'
 import fs from 'fs'
 import { UserConfig } from '@unocss/core'
-import { createConfigLoader as createLoader, LoadConfigResult } from 'unconfig'
-import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
+import { createConfigLoader as createLoader, LoadConfigResult, LoadConfigSource } from 'unconfig'
 
-export { LoadConfigResult }
+export { LoadConfigResult, LoadConfigSource }
 
-export function createConfigLoader<U extends UserConfig>(configOrPath: string | U = process.cwd()): () => Promise<LoadConfigResult<U>> {
+export function createConfigLoader<U extends UserConfig>(configOrPath: string | U = process.cwd(), extraConfigSources: LoadConfigSource[] = []): () => Promise<LoadConfigResult<U>> {
   let inlineConfig = {} as U
 
   if (typeof configOrPath !== 'string') {
@@ -46,14 +45,7 @@ export function createConfigLoader<U extends UserConfig>(configOrPath: string | 
             'uno.config',
           ],
         },
-        sourcePluginFactory({
-          files: 'vite.config',
-          targetModule: 'unocss/vite',
-        }),
-        sourceObjectFields({
-          files: 'nuxt.config',
-          fields: 'unocss',
-        }),
+        ...extraConfigSources,
       ],
     cwd,
     defaults: inlineConfig,
@@ -61,7 +53,8 @@ export function createConfigLoader<U extends UserConfig>(configOrPath: string | 
 
   return async() => {
     const result = await loader.load()
-    if (result.config?.configDeps) {
+    result.config = result.config || inlineConfig
+    if (result.config.configDeps) {
       result.sources = [
         ...result.sources,
         ...result.config.configDeps.map(i => resolve(cwd, i)),
