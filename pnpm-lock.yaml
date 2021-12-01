@@ -55,7 +55,7 @@ importers:
       unplugin-vue-components: ^0.17.2
       vite: ^2.6.14
       vite-plugin-inspect: ^0.3.10
-      vite-plugin-pages: ^0.18.2
+      vite-plugin-pages: ^0.19.0-beta.6
       vue: ^3.2.21
       vue-router: ^4.0.12
     devDependencies:
@@ -110,7 +110,7 @@ importers:
       unplugin-vue-components: 0.17.2_vite@2.6.14+vue@3.2.21
       vite: 2.6.14
       vite-plugin-inspect: 0.3.10_vite@2.6.14
-      vite-plugin-pages: 0.18.2_vite@2.6.14
+      vite-plugin-pages: 0.19.0-beta.6_vite@2.6.14
       vue: 3.2.21
       vue-router: 4.0.12_vue@3.2.21
 
@@ -6509,8 +6509,8 @@ packages:
       - supports-color
     dev: true
 
-  /vite-plugin-pages/0.18.2_vite@2.6.14:
-    resolution: {integrity: sha512-Z6ylvMKYSiCngtSpWw9pHN4UzjMQvOG7f0RtLMDKm1LrO5iye7V8BS8Rfdvrl9Nz+D2W+i0pi98+vOL5VsmTvQ==}
+  /vite-plugin-pages/0.19.0-beta.6_vite@2.6.14:
+    resolution: {integrity: sha512-FH52XaVdvH8WW+2taNdI6Wh17VdNwWfDB96qnne/UuIxkzKlCQowSvDvbQGyO8X5rK2s+9Qtd2BA2ZRtIACuLA==}
     peerDependencies:
       '@vue/compiler-sfc': '>=3'
       vite: '>=2'
@@ -6523,8 +6523,9 @@ packages:
       deep-equal: 2.0.5
       fast-glob: 3.2.7
       json5: 2.2.0
+      local-pkg: 0.4.0
       vite: 2.6.14
-      yaml: 2.0.0-8
+      yaml: 2.0.0-9
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -6865,8 +6866,8 @@ packages:
     engines: {node: '>= 6'}
     dev: true
 
-  /yaml/2.0.0-8:
-    resolution: {integrity: sha512-QaYgJZMfWD6fKN/EYMk6w1oLWPCr1xj9QaPSZW5qkDb3y8nGCXhy2Ono+AF4F+CSL/vGcqswcAT0BaS//pgD2A==}
+  /yaml/2.0.0-9:
+    resolution: {integrity: sha512-Bf2KowHjyVkIIiGMt7+fbhmlvKOaE8DWuD07bnL4+FQ9sPmEl/5IzGpBpoxPqOaHuyasBjJhyXDcISpJWfhCGw==}
     engines: {node: '>= 12'}
     dev: true
 
