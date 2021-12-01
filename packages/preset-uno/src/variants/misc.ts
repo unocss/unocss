@@ -25,6 +25,8 @@ export const variantNegative: Variant = {
         matcher: matcher.slice(1),
         body: (body) => {
           body.forEach((v) => {
+            if (v[0].startsWith('--un-scale') || v[1]?.toString() === '0')
+              return
             v[1] = v[1]?.toString().replace(/[0-9.]+(?:[a-z]+|%)?/, i => `-${i}`)
           })
           return body
