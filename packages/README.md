@@ -15,3 +15,4 @@
 | [@unocss/nuxt](./nuxt) | The Nuxt Module | No |
 | [@unocss/runtime](./runtime) | CSS-in-JS Runtime for UnoCSS | No |
 | [@unocss/extractor-pug](./extractor-pug) | Extractor for Pug | No |
+| [VS Code Extension](./vscode) | UnoCSS for VS Code | - |
