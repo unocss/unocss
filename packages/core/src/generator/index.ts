@@ -129,7 +129,7 @@ export class UnoGenerator {
       // no shortcut
       else {
         const utils = (await this.parseUtil(applied, context))
-          .map((util) => this.stringifyUtil(util))
+          .map(util => this.stringifyUtil(util))
           .filter(Boolean) as StringifiedUtil[]
         if (utils.length)
           return hit(raw, utils)
