@@ -66,7 +66,7 @@ exports[`attributify fixture1 1`] = `
 "/* layer: default */
 [p~=\\"x-4\\"]{padding-left:1rem;padding-right:1rem;}
 [p~=\\"y-2\\"]{padding-top:0.5rem;padding-bottom:0.5rem;}
-[pt~=\\"\\\\32 \\"],[p~=\\"t-2\\"],[pt2=\\"\\"]{padding-top:0.5rem;}
+[p~=\\"t-2\\"],[pt~=\\"\\\\32 \\"],[pt2=\\"\\"]{padding-top:0.5rem;}
 [ma=\\"\\"],[un-children~=\\"m-auto\\"] > *{margin:auto;}
 [inline-block=\\"\\"]{display:inline-block;}
 .dark [bg~=\\"dark\\\\:\\\\!blue-500\\"]{--un-bg-opacity:1 !important;background-color:rgba(59,130,246,var(--un-bg-opacity)) !important;}
@@ -86,7 +86,7 @@ exports[`attributify fixture1 1`] = `
 [flex~=\\"\\\\~\\"]{display:flex;}
 .absolute{position:absolute;}
 .fixed{position:fixed;}
-[transform=\\"\\"]{--un-rotate:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;transform:rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z));}
+[transform=\\"\\"],[translate-x-100\\\\%=\\"\\"],[rotate-30=\\"\\"]{--un-rotate:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;transform:rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z));}
 [translate-x-100\\\\%=\\"\\"]{--un-translate-x:100%;}
 [rotate-30=\\"\\"]{--un-rotate:30deg;}"
 `;
