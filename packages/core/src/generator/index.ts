@@ -165,14 +165,14 @@ export class UnoGenerator {
           if (!sorted.length)
             return undefined
           const rules = sorted
+            .reverse()
             .map(([selector, body], idx) => {
               if (selector && this.config.mergeSelectors) {
                 // search for rules that has exact same body, and merge them
-                // the index is reversed to make sure we always merge to the last one
-                for (let i = size - 1; i > idx; i--) {
+                for (let i = idx + 1; i < size; i++) {
                   const current = sorted[i]
                   if (current && current[0] && current[1] === body) {
-                    current[0] = `${selector},${current[0]}`
+                    current[0] = `${current[0]},${selector}`
                     return null
                   }
                 }
@@ -182,6 +182,7 @@ export class UnoGenerator {
                 : body
             })
             .filter(Boolean)
+            .reverse()
             .join(nl)
 
           return parent
