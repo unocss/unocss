@@ -26,14 +26,14 @@ export default function UnocssPlugin(
   defaults: UserConfigDefaults = {},
 ): Plugin[] {
   const ctx = createContext<VitePluginConfig>(configOrPath, defaults)
-  const { config } = ctx
-  const mode = config.mode ?? 'global'
+  const inlineConfig = (configOrPath && typeof configOrPath !== 'string') ? configOrPath : {}
+  const mode = inlineConfig.mode ?? 'global'
 
   const plugins = [
     ConfigHMRPlugin(ctx),
   ]
 
-  if (config.inspector !== false)
+  if (inlineConfig.inspector !== false)
     plugins.push(UnocssInspector(ctx))
 
   if (mode === 'per-module') {

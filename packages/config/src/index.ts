@@ -1,62 +1,43 @@
-import fs from 'fs'
 import { resolve } from 'path'
-import findUp from 'find-up'
 import { UserConfig } from '@unocss/core'
-import { transform } from 'sucrase'
+import { createConfigLoader as createLoader, LoadConfigResult } from 'unconfig'
+import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
 
-export interface ConfigResult<U> {
-  filepath?: string
-  config?: U
-}
+export { LoadConfigResult }
 
-function isDir(path: string) {
-  try {
-    const stat = fs.lstatSync(path)
-    return stat.isDirectory()
-  }
-  catch (e) {
-    return false
-  }
-}
-
-export function loadConfig<U extends UserConfig>(dirOrPath: string | U = process.cwd()): ConfigResult<U> {
+export function createConfigLoader<U extends UserConfig>(dirOrPath: string | U = process.cwd()): () => Promise<LoadConfigResult<U>> {
   if (typeof dirOrPath !== 'string') {
-    return {
-      config: dirOrPath,
-    }
+    return async() => ({
+      config: dirOrPath as U,
+      sources: [],
+    })
   }
 
   dirOrPath = resolve(dirOrPath)
 
-  let filepath = isDir(dirOrPath)
-    ? findUp.sync([
-      'unocss.config.js',
-      'unocss.config.cjs',
-      'unocss.config.mjs',
-      'unocss.config.ts',
-      'unocss.config.mts',
-      'unocss.config.cts',
-    ], { cwd: dirOrPath! })
-    : dirOrPath
+  const loader = createLoader<U>({
+    sources: [
+      {
+        files: [
+          'unocss.config',
+          'uno.config',
+        ],
+      },
+      sourcePluginFactory({
+        files: 'vite.config',
+        targetModule: 'unocss/vite',
+      }),
+      sourceObjectFields({
+        files: 'nuxt.config',
+        fields: 'unocss',
+      }),
+    ],
+    cwd: dirOrPath,
+  })
 
-  if (filepath && dirOrPath !== filepath)
-    filepath = resolve(dirOrPath, filepath)
-
-  if (!filepath || !fs.existsSync(filepath))
-    return {}
-
-  return readConfig<U>(filepath)
+  return loader.load
 }
 
-export function readConfig<U>(filepath: string): ConfigResult<U> {
-  const content = fs.readFileSync(filepath, 'utf-8')
-  const transformed = transform(content, { transforms: ['typescript', 'imports'] }).code
-
-  // eslint-disable-next-line no-new-func
-  const result = (new Function('require', `let exports = {};${transformed}; return exports.default;`))(require)
-
-  return {
-    filepath,
-    config: result,
-  }
+export function loadConfig<U extends UserConfig>(dirOrPath: string | U) {
+  return createConfigLoader<U>(dirOrPath)()
 }

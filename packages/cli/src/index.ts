@@ -5,7 +5,7 @@ import consola from 'consola'
 import { cyan, dim, green, white } from 'colorette'
 import { createGenerator } from '@unocss/core'
 import type { UnoGenerator } from '@unocss/core'
-import { loadConfig } from '@unocss/config'
+import { createConfigLoader } from '@unocss/config'
 import { version } from '../package.json'
 import { handleError, PrettyError } from './errors'
 import { debouncePromise } from './utils'
@@ -44,7 +44,8 @@ export async function resolveOptions(options: CliOptions) {
 
 export async function build(_options: CliOptions) {
   const options = await resolveOptions(_options)
-  const { filepath, config } = loadConfig()
+  const loadConfig = createConfigLoader()
+  const { config, sources: configSources } = await loadConfig()
 
   uno = createGenerator(
     config,
@@ -87,24 +88,26 @@ export async function build(_options: CliOptions) {
       ignored,
     })
 
-    if (filepath) watcher.add(filepath)
+    if (configSources.length) {
+      watcher.add(configSources)
 
-    watcher.on('all', async(type, file) => {
-      if (file === filepath) {
-        uno.setConfig(loadConfig(filepath).config)
-        consola.info(`${cyan(basename(file))} changed, setting new config`)
-      }
-      else {
-        consola.log(`${green(`${type}`)} ${white(dim(file))}`)
+      watcher.on('all', async(type, file) => {
+        if (configSources.includes(file)) {
+          uno.setConfig((await loadConfig()).config)
+          consola.info(`${cyan(basename(file))} changed, setting new config`)
+        }
+        else {
+          consola.log(`${green(`${type}`)} ${white(dim(file))}`)
 
-        if (type.startsWith('unlink'))
-          fileCache.delete(file)
-        else
-          fileCache.set(file, await readFile(file, 'utf8'))
-      }
+          if (type.startsWith('unlink'))
+            fileCache.delete(file)
+          else
+            fileCache.set(file, await readFile(file, 'utf8'))
+        }
 
-      debouncedBuild()
-    })
+        debouncedBuild()
+      })
+    }
   }
 
   await generate(options)

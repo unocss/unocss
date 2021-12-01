@@ -10,7 +10,7 @@ import {
   resolveId,
 } from '../../../../plugins-common'
 
-export function GlobalModeBuildPlugin({ uno, extract, tokens, modules, filter }: UnocssPluginContext): Plugin[] {
+export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, filter }: UnocssPluginContext): Plugin[] {
   const vfsLayerMap = new Map<string, string>()
   let tasks: Promise<any>[] = []
   let cssPlugin: Plugin | undefined
@@ -47,8 +47,9 @@ export function GlobalModeBuildPlugin({ uno, extract, tokens, modules, filter }:
         if (layer)
           return getLayerPlaceholder(layer)
       },
-      configResolved(config) {
+      async configResolved(config) {
         cssPlugin = config.plugins.find(i => i.name === 'vite:css-post')
+        await ready
       },
       // we inject a hash to chunk before the dist hash calculation to make sure
       // the hash is different when unocss changes

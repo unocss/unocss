@@ -1,19 +1,20 @@
 import { createFilter } from '@rollup/pluginutils'
-import { loadConfig } from '@unocss/config'
+import { createConfigLoader, LoadConfigResult } from '@unocss/config'
 import { BetterMap, createGenerator, UnoGenerator, UserConfigDefaults } from '@unocss/core'
 import { INCLUDE_COMMENT } from './constants'
 import { defaultExclude, defaultInclude } from './defaults'
 import { PluginConfig } from './types'
 
 export interface UnocssPluginContext<Config extends PluginConfig = PluginConfig> {
+  ready: Promise<LoadConfigResult<Config>>
   uno: UnoGenerator
-  config: Config
   tokens: Set<string>
   modules: BetterMap<string, string>
   filter: (code: string, id: string) => boolean
-  reloadConfig: () => Promise<void>
   extract: (code: string, id?: string) => Promise<void>
-  configFilepath?: string
+
+  reloadConfig: () => Promise<LoadConfigResult<Config>>
+  getConfig: () => Promise<Config>
 
   invalidate: () => void
   onInvalidate: (fn: () => void) => void
@@ -23,19 +24,35 @@ export function createContext<Config extends PluginConfig = PluginConfig>(
   configOrPath?: Config | string,
   defaults: UserConfigDefaults = {},
 ): UnocssPluginContext<Config> {
-  const { config = {} as Config, filepath } = loadConfig<Config>(configOrPath)
-  let rawConfig = config
+  const loadConfig = createConfigLoader(configOrPath)
 
-  const uno = createGenerator(config, defaults)
+  let rawConfig = {} as Config
+  const uno = createGenerator(rawConfig, defaults)
+  let rollupFilter = createFilter(defaultInclude, defaultExclude)
 
   const invalidations: Array<() => void> = []
 
   const modules = new BetterMap<string, string>()
   const tokens = new Set<string>()
-  let rollupFilter = createFilter(
-    config.include || defaultInclude,
-    config.exclude || defaultExclude,
-  )
+
+  const ready = reloadConfig()
+
+  async function reloadConfig() {
+    const result = await loadConfig()
+
+    rawConfig = result.config
+    uno.setConfig(rawConfig)
+    uno.config.envMode = 'dev'
+    rollupFilter = createFilter(
+      rawConfig.include || defaultInclude,
+      rawConfig.exclude || defaultExclude,
+    )
+    tokens.clear()
+    await Promise.all(modules.map((code, id) => uno.applyExtractors(code, id, tokens)))
+    invalidate()
+
+    return result
+  }
 
   function invalidate() {
     invalidations.forEach(cb => cb())
@@ -50,26 +67,17 @@ export function createContext<Config extends PluginConfig = PluginConfig>(
       invalidate()
   }
 
-  async function reloadConfig() {
-    if (!filepath)
-      return
-    rawConfig = loadConfig(filepath).config as Config
-    uno.setConfig(rawConfig)
-    uno.config.envMode = 'dev'
-    rollupFilter = createFilter(
-      config.include || defaultInclude,
-      config.exclude || defaultExclude,
-    )
-    tokens.clear()
-    await Promise.all(modules.map((code, id) => uno.applyExtractors(code, id, tokens)))
-    invalidate()
-  }
-
   const filter = (code: string, id: string) => {
     return code.includes(INCLUDE_COMMENT) || rollupFilter(id)
   }
 
+  async function getConfig() {
+    await ready
+    return rawConfig
+  }
+
   return {
+    ready,
     tokens,
     modules,
     invalidate,
@@ -80,9 +88,6 @@ export function createContext<Config extends PluginConfig = PluginConfig>(
     reloadConfig,
     uno,
     extract,
-    get config() {
-      return rawConfig
-    },
-    configFilepath: filepath,
+    getConfig,
   }
 }

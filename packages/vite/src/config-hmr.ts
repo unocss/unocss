@@ -2,27 +2,26 @@ import { Plugin } from 'vite'
 import { UnocssPluginContext } from '../../plugins-common/context'
 
 export function ConfigHMRPlugin(ctx: UnocssPluginContext): Plugin | undefined {
-  const { uno, configFilepath, reloadConfig } = ctx
+  const { ready, uno } = ctx
   return {
     name: 'unocss:config',
-    api: {
-      get config() {
-        if (!configFilepath)
-          return ctx.config
-      },
+    async configResolved() {
+      await ready
     },
-    configureServer(server) {
+    async configureServer(server) {
       uno.config.envMode = 'dev'
 
-      if (!configFilepath)
+      const { sources } = await ready
+
+      if (!sources.length)
         return
 
-      server.watcher.add(configFilepath)
+      server.watcher.add(sources)
       server.watcher.on('change', async(p) => {
-        if (p !== configFilepath)
+        if (!sources.includes(p))
           return
 
-        reloadConfig()
+        await ctx.reloadConfig()
 
         server.ws.send({
           type: 'custom',
