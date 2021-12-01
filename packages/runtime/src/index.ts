@@ -62,6 +62,7 @@ export default function init(options: RuntimeOptions = {}) {
     const mutationObserver = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         const target = mutation.target as Element
+        if (target === el) return
         const attrs = Array.from(target.attributes)
           .map(i => i.value ? `${i.name}="${i.value}"` : i.name)
           .join(' ')
