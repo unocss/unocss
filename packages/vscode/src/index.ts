@@ -1,4 +1,4 @@
-import { DecorationOptions, DecorationRangeBehavior, MarkdownString, Range, window, workspace } from 'vscode'
+import { DecorationOptions, DecorationRangeBehavior, MarkdownString, Range, StatusBarAlignment, window, workspace } from 'vscode'
 
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
@@ -14,17 +14,17 @@ export async function activate() {
 
   const { sources } = await context.ready
 
-  if (sources.length)
-    window.showInformationMessage(`UnoCSS: Configure load from \n${sources.join('\n')}`)
-  else
+  if (!sources.length)
     return
 
   const { uno, filter } = context
+  const status = window.createStatusBarItem(StatusBarAlignment.Right, 200)
+  status.text = 'UnoCSS'
 
-  workspace.onDidChangeTextDocument(async(e) => {
-    if (sources.includes(e.document.uri.fsPath)) {
+  workspace.onDidSaveTextDocument(async(doc) => {
+    if (sources.includes(doc.uri.fsPath)) {
       await context.reloadConfig()
-      window.showInformationMessage(`UnoCSS: Config reload by ${e.document.uri.fsPath}`)
+      window.showInformationMessage(`UnoCSS: Config reload by ${doc.uri.fsPath}`)
     }
   })
 
@@ -44,7 +44,7 @@ export async function activate() {
     if (!filter(code, id))
       return reset()
 
-    const result = await uno.generate(code, { id, preflights: false })
+    const result = await uno.generate(code, { id, preflights: false, minify: true })
 
     const ranges: DecorationOptions[] = await Promise.all(
       getMatchedPositions(code, Array.from(result.matched))
@@ -62,9 +62,13 @@ export async function activate() {
     )
 
     editor.setDecorations(UnderlineDecoration, ranges)
+    status.text = `UnoCSS: ${result.matched.size}`
+    status.tooltip = new MarkdownString(`${result.matched.size} utilities used in this file`)
+    status.show()
 
     function reset() {
       editor?.setDecorations(UnderlineDecoration, [])
+      status.hide()
     }
   }
 
