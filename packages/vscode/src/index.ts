@@ -19,12 +19,11 @@ export async function activate() {
   else
     return
 
-  const { uno } = context
+  const { uno, filter } = context
 
   workspace.onDidChangeTextDocument(async(e) => {
     if (sources.includes(e.document.uri.fsPath)) {
-      const result = await context.reloadConfig()
-      uno.setConfig(result.config)
+      await context.reloadConfig()
       window.showInformationMessage(`UnoCSS: Config reload by ${e.document.uri.fsPath}`)
     }
   })
@@ -34,17 +33,21 @@ export async function activate() {
     rangeBehavior: DecorationRangeBehavior.ClosedClosed,
   })
 
-  async function updateAnnotation() {
-    const editor = window.activeTextEditor
+  async function updateAnnotation(editor = window.activeTextEditor) {
     const doc = editor?.document
     if (!doc)
-      return
+      return reset()
 
-    const text = doc.getText()
-    const result = await uno.generate(text, { id: doc.uri.fsPath, preflights: false })
+    const code = doc.getText()
+    const id = doc.uri.fsPath
+
+    if (!filter(code, id))
+      return reset()
+
+    const result = await uno.generate(code, { id, preflights: false })
 
     const ranges: DecorationOptions[] = await Promise.all(
-      getMatchedPositions(text, Array.from(result.matched))
+      getMatchedPositions(code, Array.from(result.matched))
         .map(async(i): Promise<DecorationOptions> => {
           const css = (await uno.generate(new Set([i[2]]), { minify: true, preflights: false })).css
           const prettified = prettier.format(css, {
@@ -59,6 +62,10 @@ export async function activate() {
     )
 
     editor.setDecorations(UnderlineDecoration, ranges)
+
+    function reset() {
+      editor?.setDecorations(UnderlineDecoration, [])
+    }
   }
 
   window.onDidChangeActiveTextEditor(updateAnnotation)
