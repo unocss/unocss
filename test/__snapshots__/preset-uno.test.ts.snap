@@ -263,11 +263,11 @@ exports[`targets 1`] = `
 .caret-op-90{--un-caret-opacity:0.9;}
 .image-render-pixel{-ms-interpolation-mode:nearest-neighbor;image-rendering:-webkit-optimize-contrast;image-rendering:-moz-crisp-edges;image-rendering:-o-pixelated;image-rendering:pixelated;}
 .appearance-none{appearance:none;-webkit-appearance:none;}
-.outline-none{outline:2px solid transparent;outline-offset:2px;}
 .outline-110{outline-width:27.5rem;}
 .outline-blue-2{--un-outline-color-opacity:1;outline-color:rgba(191,219,254,var(--un-outline-color-opacity));}
 .outline-color-red-1{--un-outline-color-opacity:1;outline-color:rgba(254,226,226,var(--un-outline-color-opacity));}
 .outline-inset{outline-style:inset;}
+.outline-none{outline:2px solid transparent;outline-offset:2px;}
 .outline-solid{outline-style:solid;}
 .outline-width-10px{outline-width:10px;}
 .placeholder-opacity-60{placeholder-opacity:0.6;}

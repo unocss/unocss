@@ -128,9 +128,11 @@ export class UnoGenerator {
       }
       // no shortcut
       else {
-        const util = this.stringifyUtil(await this.parseUtil(applied, context))
-        if (util)
-          return hit(raw, [util])
+        const utils = (await this.parseUtil(applied, context))
+          .map((util) => this.stringifyUtil(util))
+          .filter(Boolean) as StringifiedUtil[]
+        if (utils.length)
+          return hit(raw, utils)
       }
 
       // set null cache for unmatched result
@@ -161,7 +163,8 @@ export class UnoGenerator {
           const sorted = items
             .filter(i => (i[4]?.layer || 'default') === layer)
             .sort((a, b) => a[0] - b[0] || a[1]?.localeCompare(b[1] || '') || 0)
-            .map(a => [a[1] ? applyScope(a[1], scope) : a[1], a[2]])
+            .map(a => [a[1] ? applyScope(a[1], scope) : a[1], a[2]]) // [selector, body]
+            .map(a => [a[0] === undefined ? a[0] : { [a[0]]: true }, a[1]]) // [{ selector: true }, body]
           if (!sorted.length)
             return undefined
           const rules = sorted
@@ -172,13 +175,13 @@ export class UnoGenerator {
                 for (let i = size - 1; i > idx; i--) {
                   const current = sorted[i]
                   if (current && current[0] && current[1] === body) {
-                    current[0] = `${selector},${current[0]}`
+                    current[0] = { ...(selector as object), ...(current[0] as object) }
                     return null
                   }
                 }
               }
               return selector
-                ? `${selector}{${body}}`
+                ? `${Object.keys(selector).join(',')}{${body}}`
                 : body
             })
             .filter(Boolean)
@@ -281,16 +284,18 @@ export class UnoGenerator {
     return cssBody
   }
 
-  async parseUtil(input: string | VariantMatchedResult, context: RuleContext, internal = false): Promise<ParsedUtil | RawUtil | undefined> {
+  async parseUtil(input: string | VariantMatchedResult, context: RuleContext, internal = false): Promise<(ParsedUtil | RawUtil)[]> {
     const [raw, processed, variantHandlers] = typeof input === 'string'
       ? this.matchVariants(input)
       : input
+
+    const utils = []
 
     // use map to for static rules
     const staticMatch = this.config.rulesStaticMap[processed]
     if (staticMatch) {
       if (staticMatch[1] && (internal || !staticMatch[2]?.internal))
-        return [staticMatch[0], raw, normalizeEntries(staticMatch[1]), staticMatch[2], variantHandlers]
+        utils.push([staticMatch[0], raw, normalizeEntries(staticMatch[1]), staticMatch[2], variantHandlers] as ParsedUtil)
     }
 
     context.variantHandlers = variantHandlers
@@ -319,12 +324,17 @@ export class UnoGenerator {
       if (!result)
         continue
 
-      if (typeof result === 'string')
-        return [i, result, meta]
+      if (typeof result === 'string') {
+        utils.push([i, result, meta] as RawUtil)
+        continue
+      }
+
       const entries = normalizeEntries(result).filter(i => i[1] != null)
       if (entries.length)
-        return [i, raw, entries, meta, variantHandlers]
+        utils.push([i, raw, entries, meta, variantHandlers] as ParsedUtil)
     }
+
+    return utils
   }
 
   stringifyUtil(parsed?: ParsedUtil | RawUtil): StringifiedUtil | undefined {
@@ -392,10 +402,11 @@ export class UnoGenerator {
       await Promise.all(uniq(expanded)
         .map(async(i) => {
           const result = await this.parseUtil(i, context, true)
-          if (!result)
+          if (!result.length)
             warnOnce(`unmatched utility "${i}" in shortcut "${parent[1]}"`)
-          return result as ParsedUtil
+          return result
         })))
+      .flat(1)
       .filter(Boolean)
       .sort((a, b) => a[0] - b[0])
 
