@@ -25,15 +25,34 @@ jobs:
           registry-url: https://registry.npmjs.org/
           cache: "pnpm"
 
-      - run: pnpm install
-
       - run: npx conventional-github-releaser -p angular
         continue-on-error: true
         env:
           CONVENTIONAL_GITHUB_RELEASER_TOKEN: ${{secrets.GITHUB_TOKEN}}
       
-      - run: pnpm run build
+      - name: Install Dependencies
+        run: pnpm install
 
-      - run: pnpm -r publish --access public --no-git-checks
+      - name: Instal VS Code Extension Dependencies
+        run: yarn install && npm i -g vsce ovsx
+        working-directory: ./packages/vscode
+
+      - name: PNPM build
+        run: pnpm run build
+
+      - name: Publish to NPM
+        run: pnpm -r publish --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
+      - name: Publish to VSCE
+        run: vsce publish -p ${{secrets.VSCE_TOKEN}}
+        working-directory: ./packages/vscode
+        env:
+          VSCE_TOKEN: ${{secrets.VSCE_TOKEN}}
+
+      - name: Publish to OVSX
+        run: ovsx publish -p ${{secrets.OVSX_TOKEN}}
+        working-directory: ./packages/vscode
+        env:
+          OVSX_TOKEN: ${{secrets.OVSX_TOKEN}}
