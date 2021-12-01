@@ -1,5 +1,5 @@
+import { relative } from 'path'
 import { DecorationOptions, DecorationRangeBehavior, MarkdownString, Range, StatusBarAlignment, window, workspace } from 'vscode'
-
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
 import { getMatchedPositions } from '../../inspector/client/composables/pos'
@@ -10,12 +10,18 @@ export async function activate() {
   if (!cwd)
     return
 
+  const log = window.createOutputChannel('UnoCSS')
+
   const context = createContext(cwd)
 
   const { sources } = await context.ready
 
-  if (!sources.length)
+  if (!sources.length) {
+    log.appendLine('No config files found, disabled')
     return
+  }
+
+  log.appendLine(`Configuration loaded from\n${sources.map(s => ` - ${relative(cwd, s)}`).join('\n')}`)
 
   const { uno, filter } = context
   const status = window.createStatusBarItem(StatusBarAlignment.Right, 200)
@@ -24,7 +30,7 @@ export async function activate() {
   workspace.onDidSaveTextDocument(async(doc) => {
     if (sources.includes(doc.uri.fsPath)) {
       await context.reloadConfig()
-      window.showInformationMessage(`UnoCSS: Config reload by ${doc.uri.fsPath}`)
+      log.appendLine(`Config reloaded by ${relative(cwd, doc.uri.fsPath)}`)
     }
   })
 
@@ -49,14 +55,16 @@ export async function activate() {
     const ranges: DecorationOptions[] = await Promise.all(
       getMatchedPositions(code, Array.from(result.matched))
         .map(async(i): Promise<DecorationOptions> => {
-          const css = (await uno.generate(new Set([i[2]]), { minify: true, preflights: false })).css
-          const prettified = prettier.format(css, {
-            parser: 'css',
-            plugins: [parserCSS],
-          })
+          const css = (await uno.generate(new Set([i[2]]), { preflights: false })).css
           return {
             range: new Range(doc.positionAt(i[0]), doc.positionAt(i[1])),
-            hoverMessage: new MarkdownString(`\`\`\`css\n${prettified}\n\`\`\``),
+            get hoverMessage() {
+              const prettified = prettier.format(css, {
+                parser: 'css',
+                plugins: [parserCSS],
+              })
+              return new MarkdownString(`\`\`\`css\n${prettified}\n\`\`\``)
+            },
           }
         }),
     )
@@ -72,12 +80,30 @@ export async function activate() {
     }
   }
 
+  const throttledUpdateAnnotation = throttle(updateAnnotation, 200)
+
   window.onDidChangeActiveTextEditor(updateAnnotation)
   workspace.onDidChangeTextDocument((e) => {
     if (e.document === window.activeTextEditor?.document)
-      updateAnnotation()
+      throttledUpdateAnnotation()
   })
   updateAnnotation()
 }
 
 export function deactivate() {}
+
+function throttle<T extends((...args: any) => any)>(func: T, timeFrame: number) {
+  let lastTime = 0
+  let timer: any
+  return function() {
+    const now = Date.now()
+    clearTimeout(timer)
+    if (now - lastTime >= timeFrame) {
+      func()
+      lastTime = now
+    }
+    else {
+      timer = setTimeout(func, timeFrame)
+    }
+  }
+}
