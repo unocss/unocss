@@ -8,6 +8,7 @@ export type RestArgs<T> = Shift<ArgumentType<T>>
 export type DeepPartial<T> = { [P in keyof T]?: DeepPartial<T[P]> }
 export type FlatObjectTuple<T> = { [K in keyof T]: T[K] }
 export type PartialByKeys<T, K extends keyof T = keyof T> = FlatObjectTuple<Partial<Pick<T, Extract<keyof T, K>>> & Omit<T, K>>
+export type RequiredByKey<T, K extends keyof T = keyof T> = FlatObjectTuple<Required<Pick<T, Extract<keyof T, K>>> & Omit<T, K>>
 
 export type CSSObject = Record<string, string | number | undefined>
 export type CSSEntries = [string, string | number | undefined][]
@@ -235,11 +236,16 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
   envMode?: 'dev' | 'build'
 }
 
-export interface UserConfig<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions {}
+/**
+ * For other modules to aggregate the options
+ */
+export interface ExtraConfig {}
+
+export interface UserConfig<Theme extends {} = {}> extends ExtraConfig, ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions {}
 export interface UserConfigDefaults<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme> {}
 
 export interface ResolvedConfig extends Omit<
-PartialByKeys<Required<UserConfig>, 'preprocess'>,
+RequiredByKey<UserConfig, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>,
 'rules' | 'shortcuts'
 > {
   shortcuts: Shortcut[]
