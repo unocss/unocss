@@ -1,13 +1,16 @@
 import { DecorationOptions, DecorationRangeBehavior, MarkdownString, Range, window, workspace } from 'vscode'
 import { loadConfig } from 'unconfig'
-import { createGenerator } from '@unocss/core'
+import { createGenerator, UserConfig } from '@unocss/core'
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
 import { getMatchedPositions } from '../../packages/inspector/client/composables/pos'
 
 export async function activate() {
-  const cwd = workspace.workspaceFolders[0].uri.fsPath
-  const result = await loadConfig({
+  const cwd = workspace.workspaceFolders?.[0].uri.fsPath
+  if (!cwd)
+    return
+
+  const result = await loadConfig<UserConfig>({
     sources: [
       {
         files: 'unocss.config',
