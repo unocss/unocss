@@ -36,7 +36,7 @@
     "@types/vscode": "^1.62.0",
     "prettier": "^2.5.0",
     "tsup": "^5.10.0",
-    "unconfig": "^0.1.0",
+    "unconfig": "^0.2.0",
     "vsce": "^2.5.1"
   },
   "engines": {
