@@ -9,13 +9,15 @@ import Unocss from '@unocss/vite'
 export default defineConfig({
   resolve: {
     alias: {
-      'unocss': resolve('../packages/unocss/src/index.ts'),
-      '@unocss/core': resolve('../packages/core/src/index.ts'),
-      '@unocss/vite': resolve('../packages/vite/src/index.ts'),
-      '@unocss/inspector': resolve('../packages/inspector/node/index.ts'),
-      '@unocss/preset-uno': resolve('../packages/preset-uno/src/index.ts'),
-      '@unocss/preset-attributify': resolve('../packages/preset-attributify/src/index.ts'),
-      '@unocss/preset-icons': resolve('../packages/preset-icons/src/index.ts'),
+      'unocss': resolve('../packages/unocss/src/'),
+      '@unocss/core': resolve('../packages/core/src/'),
+      '@unocss/vite': resolve('../packages/vite/src/'),
+      '@unocss/inspector': resolve('../packages/inspector/node/'),
+      '@unocss/preset-mini': resolve('../packages/preset-mini/src/'),
+      '@unocss/preset-wind': resolve('../packages/preset-wind/src/'),
+      '@unocss/preset-uno': resolve('../packages/preset-uno/src/'),
+      '@unocss/preset-attributify': resolve('../packages/preset-attributify/src/'),
+      '@unocss/preset-icons': resolve('../packages/preset-icons/src/'),
     },
   },
   plugins: [
