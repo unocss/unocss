@@ -1,19 +1,19 @@
 {
-  "name": "@unocss/preset-uno",
+  "name": "@unocss/preset-mini",
   "version": "0.14.3",
-  "description": "The default preset for UnoCSS",
+  "description": "The minimal preset for UnoCSS",
   "keywords": [
     "unocss",
     "unocss-preset"
   ],
-  "homepage": "https://github.com/antfu/unocss/tree/main/packages/preset-uno#readme",
+  "homepage": "https://github.com/antfu/unocss/tree/main/packages/preset-mini#readme",
   "bugs": {
     "url": "https://github.com/antfu/unocss/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/antfu/unocss.git",
-    "directory": "packages/preset-uno"
+    "directory": "packages/preset-mini"
   },
   "funding": "https://github.com/sponsors/antfu",
   "license": "MIT",
@@ -64,7 +64,6 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@unocss/core": "workspace:*",
-    "@unocss/preset-wind": "workspace:*"
+    "@unocss/core": "workspace:*"
   }
 }

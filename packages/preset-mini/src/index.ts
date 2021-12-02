@@ -1,22 +1,21 @@
 import { Preset } from '@unocss/core'
 import { rules } from './rules'
-import { containerShortcuts } from './rules/container'
 import { Theme, theme } from './theme'
 import { variantColorsClass, variantColorsMedia, variants } from './variants'
 
-export { theme, colors } from '@unocss/preset-wind'
+export { theme, colors } from './theme'
 
 export type { Theme }
 
-export interface UnoOptions {
+export interface PresetMiniOptions {
   /**
    * @default 'class'
    */
   dark?: 'class' | 'media'
 }
 
-export const preset = (options: UnoOptions = {}): Preset<Theme> => ({
-  name: '@unocss/preset-uno',
+export const presetMini = (options: PresetMiniOptions = {}): Preset<Theme> => ({
+  name: '@unocss/preset-mini',
   theme,
   rules,
   variants: [
@@ -25,10 +24,7 @@ export const preset = (options: UnoOptions = {}): Preset<Theme> => ({
       ? variantColorsMedia
       : variantColorsClass,
   ],
-  shortcuts: [
-    ...containerShortcuts,
-  ],
   options,
 })
 
-export default preset
+export default presetMini

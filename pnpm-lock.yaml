@@ -247,11 +247,27 @@ importers:
     devDependencies:
       '@iconify/types': 1.0.12
 
-  packages/preset-uno:
+  packages/preset-mini:
     specifiers:
       '@unocss/core': workspace:*
     dependencies:
       '@unocss/core': link:../core
+
+  packages/preset-uno:
+    specifiers:
+      '@unocss/core': workspace:*
+      '@unocss/preset-wind': workspace:*
+    dependencies:
+      '@unocss/core': link:../core
+      '@unocss/preset-wind': link:../preset-wind
+
+  packages/preset-wind:
+    specifiers:
+      '@unocss/core': workspace:*
+      '@unocss/preset-mini': workspace:*
+    dependencies:
+      '@unocss/core': link:../core
+      '@unocss/preset-mini': link:../preset-mini
 
   packages/reset:
     specifiers:
