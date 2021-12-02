@@ -15,7 +15,11 @@ export async function activate() {
 
   const context = createContext(cwd, {}, [
     sourcePluginFactory({
-      files: 'vite.config',
+      files: [
+        'vite.config',
+        'svelte.config',
+        'astro.config',
+      ],
       targetModule: 'unocss/vite',
     }),
     sourceObjectFields({
