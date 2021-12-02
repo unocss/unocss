@@ -47,3 +47,7 @@ jobs:
 
       - name: Test
         run: pnpm run test
+
+      - name: Install & Build VS Code Extension
+        run: yarn install && yarn build
+        working-directory: ./packages/vscode

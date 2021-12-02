@@ -49,6 +49,7 @@ const PseudoClassesStr = Object.keys(PseudoClasses).join('|')
 const PseudoClassesRE = new RegExp(`^(${PseudoClassesStr})[:-]`)
 const PseudoClassesNotRE = new RegExp(`^not-(${PseudoClassesStr})[:-]`)
 const PseudoClassesGroupRE = new RegExp(`^group-(${PseudoClassesStr})[:-]`)
+const PseudoClassesPeerRE = new RegExp(`^peer-(${PseudoClassesStr})[:-]`)
 
 export const variantPseudoElements: VariantFunction = (input: string) => {
   const match = input.match(PseudoElementsRE)
@@ -88,6 +89,17 @@ export const variantPseudoClasses: VariantObject = {
         selector: s => s.includes('.group:')
           ? s.replace(/\.group:/, `.group:${pseudo}:`)
           : `.group:${pseudo} ${s}`,
+      }
+    }
+
+    match = input.match(PseudoClassesPeerRE)
+    if (match) {
+      const pseudo = PseudoClasses[match[1]] || match[1]
+      return {
+        matcher: input.slice(match[1].length + 6),
+        selector: s => s.includes('.peer:')
+          ? s.replace(/\.peer:/, `.peer:${pseudo}:`)
+          : `.peer:${pseudo} ~ ${s}`,
       }
     }
   },

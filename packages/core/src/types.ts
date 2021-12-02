@@ -8,6 +8,7 @@ export type RestArgs<T> = Shift<ArgumentType<T>>
 export type DeepPartial<T> = { [P in keyof T]?: DeepPartial<T[P]> }
 export type FlatObjectTuple<T> = { [K in keyof T]: T[K] }
 export type PartialByKeys<T, K extends keyof T = keyof T> = FlatObjectTuple<Partial<Pick<T, Extract<keyof T, K>>> & Omit<T, K>>
+export type RequiredByKey<T, K extends keyof T = keyof T> = FlatObjectTuple<Required<Pick<T, Extract<keyof T, K>>> & Omit<T, K>>
 
 export type CSSObject = Record<string, string | number | undefined>
 export type CSSEntries = [string, string | number | undefined][]
@@ -66,7 +67,9 @@ export interface RuleMeta {
   internal?: boolean
 }
 
-export type DynamicMatcher<Theme extends {} = {}> = ((match: string[], context: Readonly<RuleContext<Theme>>) => Awaitable<CSSObject | CSSEntries | string | undefined>)
+export type CSSValues = CSSObject | CSSEntries | (CSSObject | CSSEntries)[]
+
+export type DynamicMatcher<Theme extends {} = {}> = ((match: string[], context: Readonly<RuleContext<Theme>>) => Awaitable<CSSValues | string | undefined>)
 export type DynamicRule<Theme extends {} = {}> = [RegExp, DynamicMatcher<Theme>] | [RegExp, DynamicMatcher<Theme>, RuleMeta]
 export type StaticRule = [string, CSSObject | CSSEntries] | [string, CSSObject | CSSEntries, RuleMeta]
 export type Rule<Theme extends {} = {}> = DynamicRule<Theme> | StaticRule
@@ -78,6 +81,8 @@ export type StaticShortcutMap = Record<string, string | string[]>
 export type DynamicShortcut<Theme extends {} = {}> = [RegExp, DynamicShortcutMatcher<Theme>] | [RegExp, DynamicShortcutMatcher<Theme>, RuleMeta]
 export type UserShortcuts<Theme extends {} = {}> = StaticShortcutMap | (StaticShortcut | DynamicShortcut<Theme> | StaticShortcutMap)[]
 export type Shortcut<Theme extends {} = {}> = StaticShortcut | DynamicShortcut<Theme>
+
+export type FilterPattern = ReadonlyArray<string | RegExp> | string | RegExp | null
 
 export interface Preflight {
   getCSS: () => string | undefined
@@ -235,11 +240,38 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
   envMode?: 'dev' | 'build'
 }
 
-export interface UserConfig<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions {}
+/**
+ * For other modules to aggregate the options
+ */
+export interface PluginOptions {
+  /**
+   * Load from configs files
+   *
+   * set `false` to disable
+   */
+  configFile?: string | false
+
+  /**
+   * List of files that will also triggers config reloads
+   */
+  configDeps?: string[]
+
+  /**
+   * Patterns that filter the files being extracted.
+   */
+  include?: FilterPattern
+
+  /**
+   * Patterns that filter the files NOT being extracted.
+   */
+  exclude?: FilterPattern
+}
+
+export interface UserConfig<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions, PluginOptions {}
 export interface UserConfigDefaults<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme> {}
 
 export interface ResolvedConfig extends Omit<
-PartialByKeys<Required<UserConfig>, 'preprocess'>,
+RequiredByKey<UserConfig, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>,
 'rules' | 'shortcuts'
 > {
   shortcuts: Shortcut[]

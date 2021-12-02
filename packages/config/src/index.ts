@@ -1,62 +1,69 @@
+import { resolve, dirname } from 'path'
 import fs from 'fs'
-import { resolve } from 'path'
-import findUp from 'find-up'
 import { UserConfig } from '@unocss/core'
-import { transform } from 'sucrase'
+import { createConfigLoader as createLoader, LoadConfigResult, LoadConfigSource } from 'unconfig'
 
-export interface ConfigResult<U> {
-  filepath?: string
-  config?: U
-}
+export { LoadConfigResult, LoadConfigSource }
 
-function isDir(path: string) {
-  try {
-    const stat = fs.lstatSync(path)
-    return stat.isDirectory()
-  }
-  catch (e) {
-    return false
-  }
-}
+export function createConfigLoader<U extends UserConfig>(configOrPath: string | U = process.cwd(), extraConfigSources: LoadConfigSource[] = []): () => Promise<LoadConfigResult<U>> {
+  let inlineConfig = {} as U
 
-export function loadConfig<U extends UserConfig>(dirOrPath: string | U = process.cwd()): ConfigResult<U> {
-  if (typeof dirOrPath !== 'string') {
-    return {
-      config: dirOrPath,
+  if (typeof configOrPath !== 'string') {
+    inlineConfig = configOrPath
+    if (inlineConfig.configFile === false) {
+      return async() => ({
+        config: inlineConfig as U,
+        sources: [],
+      })
+    }
+    else {
+      configOrPath = inlineConfig.configFile || process.cwd()
     }
   }
 
-  dirOrPath = resolve(dirOrPath)
+  const resolved = resolve(configOrPath)
+  let cwd = resolved
 
-  let filepath = isDir(dirOrPath)
-    ? findUp.sync([
-      'unocss.config.js',
-      'unocss.config.cjs',
-      'unocss.config.mjs',
-      'unocss.config.ts',
-      'unocss.config.mts',
-      'unocss.config.cts',
-    ], { cwd: dirOrPath! })
-    : dirOrPath
+  let isFile = false
+  if (fs.existsSync(resolved) && fs.statSync(resolved).isFile()) {
+    isFile = true
+    cwd = dirname(resolved)
+  }
 
-  if (filepath && dirOrPath !== filepath)
-    filepath = resolve(dirOrPath, filepath)
+  const loader = createLoader<U>({
+    sources: isFile
+      ? [
+        {
+          files: resolved,
+          extensions: [],
+        },
+      ]
+      : [
+        {
+          files: [
+            'unocss.config',
+            'uno.config',
+          ],
+        },
+        ...extraConfigSources,
+      ],
+    cwd,
+    defaults: inlineConfig,
+  })
 
-  if (!filepath || !fs.existsSync(filepath))
-    return {}
-
-  return readConfig<U>(filepath)
+  return async() => {
+    const result = await loader.load()
+    result.config = result.config || inlineConfig
+    if (result.config.configDeps) {
+      result.sources = [
+        ...result.sources,
+        ...result.config.configDeps.map(i => resolve(cwd, i)),
+      ]
+    }
+    return result
+  }
 }
 
-export function readConfig<U>(filepath: string): ConfigResult<U> {
-  const content = fs.readFileSync(filepath, 'utf-8')
-  const transformed = transform(content, { transforms: ['typescript', 'imports'] }).code
-
-  // eslint-disable-next-line no-new-func
-  const result = (new Function('require', `let exports = {};${transformed}; return exports.default;`))(require)
-
-  return {
-    filepath,
-    config: result,
-  }
+export function loadConfig<U extends UserConfig>(dirOrPath: string | U) {
+  return createConfigLoader<U>(dirOrPath)()
 }

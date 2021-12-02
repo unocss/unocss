@@ -34,6 +34,7 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 - [Inspector](#inspector) - inspect and debug interatively.
 - [CSS-in-JS Runtime version](https://github.com/antfu/unocss/tree/main/packages/runtime)
 - [CSS Scoping](#css-scoping)
+- [VS Code extension](https://marketplace.visualstudio.com/items?itemName=antfu.unocss)
 - Code-splitting for CSS - ships minimal CSS for MPA.
 - Library friendly - ships atomic styles with your component libraries and safely scoped.
 

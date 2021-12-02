@@ -5,6 +5,7 @@
 .output
 *.local
 *.log
+*.vsix
 bench/source/gen*.js
 coverage
 dist
@@ -12,5 +13,6 @@ dist-ssr
 node_modules
 packages/runtime/*.global.js
 packages/unocss/README.md
+packages/vscode/LICENSE
 result.json
 test/fixtures/**/pnpm-lock.yaml

@@ -13,7 +13,9 @@ const _dirname = typeof __dirname !== 'undefined'
 export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
   let config: ResolvedConfig
 
-  function configureServer(server: ViteDevServer) {
+  async function configureServer(server: ViteDevServer) {
+    await ctx.ready
+
     server.middlewares.use('/__unocss', sirv(resolve(_dirname, '../dist/client'), {
       single: true,
       dev: true,
@@ -27,8 +29,8 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
           version: ctx.uno.version,
           root: config.root,
           modules: Array.from(ctx.modules.keys()),
-          configPath: ctx.configFilepath,
           config: ctx.uno.config,
+          configSources: (await ctx.ready).sources,
         }
         res.setHeader('Content-Type', 'application/json')
         res.write(JSON.stringify(info, null, 2))

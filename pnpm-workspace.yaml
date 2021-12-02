@@ -1,5 +1,6 @@
 packages:
   - 'playground'
   - 'packages/*'
+  - '!packages/vscode'
   - 'bench'
   - '!**/test/**'

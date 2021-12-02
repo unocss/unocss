@@ -1,6 +1,6 @@
-import { UserConfig, ParsedUtil, StringifiedUtil, UserConfigDefaults, VariantMatchedResult, Variant, ResolvedConfig, CSSEntries, GenerateResult, CSSObject, RawUtil, ExtractorContext, GenerateOptions, RuleContext, RuleMeta, VariantHandler } from '../types'
+import { UserConfig, ParsedUtil, StringifiedUtil, UserConfigDefaults, VariantMatchedResult, Variant, ResolvedConfig, CSSEntries, GenerateResult, CSSObject, RawUtil, ExtractorContext, GenerateOptions, RuleContext, RuleMeta, VariantHandler, CSSValues } from '../types'
 import { resolveConfig } from '../config'
-import { e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, TwoKeyMap, uniq, warnOnce } from '../utils'
+import { e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, notNull, TwoKeyMap, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
 
 export class UnoGenerator {
@@ -128,9 +128,9 @@ export class UnoGenerator {
       }
       // no shortcut
       else {
-        const util = this.stringifyUtil(await this.parseUtil(applied, context))
-        if (util)
-          return hit(raw, [util])
+        const utils = (await this.parseUtil(applied, context))?.map(i => this.stringifyUtil(i)).filter(notNull)
+        if (utils?.length)
+          return hit(raw, utils)
       }
 
       // set null cache for unmatched result
@@ -165,14 +165,14 @@ export class UnoGenerator {
           if (!sorted.length)
             return undefined
           const rules = sorted
+            .reverse()
             .map(([selector, body], idx) => {
               if (selector && this.config.mergeSelectors) {
                 // search for rules that has exact same body, and merge them
-                // the index is reversed to make sure we always merge to the last one
-                for (let i = size - 1; i > idx; i--) {
+                for (let i = idx + 1; i < size; i++) {
                   const current = sorted[i]
                   if (current && current[0] && current[1] === body) {
-                    current[0] = `${selector},${current[0]}`
+                    current[0] = `${current[0]},${selector}`
                     return null
                   }
                 }
@@ -182,6 +182,7 @@ export class UnoGenerator {
                 : body
             })
             .filter(Boolean)
+            .reverse()
             .join(nl)
 
           return parent
@@ -272,7 +273,7 @@ export class UnoGenerator {
   }
 
   constructCustomCSS(context: Readonly<RuleContext>, body: CSSObject | CSSEntries, overrideSelector?: string) {
-    body = normalizeEntries(body)
+    body = normalizeCSSEntries(body)
 
     const [selector, entries, mediaQuery] = this.applyVariants([0, overrideSelector || context.rawSelector, body, undefined, context.variantHandlers])
     const cssBody = `${selector}{${entriesToCss(entries)}}`
@@ -281,7 +282,7 @@ export class UnoGenerator {
     return cssBody
   }
 
-  async parseUtil(input: string | VariantMatchedResult, context: RuleContext, internal = false): Promise<ParsedUtil | RawUtil | undefined> {
+  async parseUtil(input: string | VariantMatchedResult, context: RuleContext, internal = false): Promise<ParsedUtil[] | RawUtil[] | undefined> {
     const [raw, processed, variantHandlers] = typeof input === 'string'
       ? this.matchVariants(input)
       : input
@@ -290,7 +291,7 @@ export class UnoGenerator {
     const staticMatch = this.config.rulesStaticMap[processed]
     if (staticMatch) {
       if (staticMatch[1] && (internal || !staticMatch[2]?.internal))
-        return [staticMatch[0], raw, normalizeEntries(staticMatch[1]), staticMatch[2], variantHandlers]
+        return [[staticMatch[0], raw, normalizeCSSEntries(staticMatch[1]), staticMatch[2], variantHandlers]]
     }
 
     context.variantHandlers = variantHandlers
@@ -320,10 +321,10 @@ export class UnoGenerator {
         continue
 
       if (typeof result === 'string')
-        return [i, result, meta]
-      const entries = normalizeEntries(result).filter(i => i[1] != null)
+        return [[i, result, meta]]
+      const entries = normalizeCSSValues(result).filter(i => i.length)
       if (entries.length)
-        return [i, raw, entries, meta, variantHandlers]
+        return entries.map(e => [i, raw, e, meta, variantHandlers])
     }
   }
 
@@ -394,8 +395,9 @@ export class UnoGenerator {
           const result = await this.parseUtil(i, context, true)
           if (!result)
             warnOnce(`unmatched utility "${i}" in shortcut "${parent[1]}"`)
-          return result as ParsedUtil
+          return (result || []) as ParsedUtil[]
         })))
+      .flat(1)
       .filter(Boolean)
       .sort((a, b) => a[0] - b[0])
 
@@ -452,6 +454,19 @@ function toEscapedSelector(raw: string) {
     return `.${e(raw)}`
 }
 
-function normalizeEntries(obj: CSSObject | CSSEntries) {
-  return !Array.isArray(obj) ? Object.entries(obj) : obj
+export function normalizeCSSEntries(obj: CSSEntries | CSSObject): CSSEntries {
+  return (!Array.isArray(obj) ? Object.entries(obj) : obj).filter(i => i[1] != null)
+}
+
+export function normalizeCSSValues(obj: CSSValues): CSSEntries[] {
+  if (Array.isArray(obj)) {
+    // @ts-expect-error
+    if (obj.find(i => !Array.isArray(i) || Array.isArray(i[0])))
+      return (obj as any).map((i: any) => normalizeCSSEntries(i))
+    else
+      return [obj as any]
+  }
+  else {
+    return [normalizeCSSEntries(obj)]
+  }
 }

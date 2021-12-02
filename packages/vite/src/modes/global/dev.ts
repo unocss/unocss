@@ -67,7 +67,7 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
       name: 'unocss:global',
       apply: 'serve',
       enforce: 'pre',
-      configureServer(_server) {
+      async configureServer(_server) {
         servers.push(_server)
         _server.middlewares.use(async(req, res, next) => {
           setWarnTimer()
