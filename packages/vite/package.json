@@ -1,6 +1,6 @@
 {
   "name": "@unocss/vite",
-  "version": "0.13.1",
+  "version": "0.14.0",
   "description": "The Vite plugin for UnoCSS",
   "keywords": [
     "unocss",

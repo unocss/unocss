@@ -1,6 +1,6 @@
 {
   "name": "@unocss/core",
-  "version": "0.13.1",
+  "version": "0.14.0",
   "description": "The instant on-demand Atomic CSS engine.",
   "keywords": [
     "unocss",
