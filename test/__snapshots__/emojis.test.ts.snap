@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`emojis extractor1 1`] = `
+Set {
+  "[🦉=\\"\\"]",
+  "🦉",
+  "[🦉~=\\"1\\"]",
+  "[🥝-2=\\"\\"]",
+  "[type~=\\"button\\"]",
+}
+`;
+
+exports[`emojis fixture1 1`] = `
+"/* layer: default */
+.🦉,[🦉=\\"\\"]{color:red;}"
+`;
