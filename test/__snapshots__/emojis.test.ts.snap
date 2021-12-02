@@ -6,7 +6,11 @@ Set {
   "🦉",
   "[🦉~=\\"1\\"]",
   "[🥝-2=\\"\\"]",
+  "[type~=\\"submit\\"]",
 }
 `;
 
-exports[`emojis fixture1 1`] = `""`;
+exports[`emojis fixture1 1`] = `
+"/* layer: default */
+.🦉,[🦉=\\"\\"]{color:red;}"
+`;

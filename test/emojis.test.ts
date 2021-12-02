@@ -4,7 +4,7 @@ import presetAttributify from '@unocss/preset-attributify'
 describe('emojis', () => {
   const fixture1 = `
     <button 
-    🦉 class="🦉" 🦉="1" 🥝-2
+    🦉 class="🦉" 🦉="1" 🥝-2 type="button"
     >
     Button
     </button>
@@ -12,6 +12,11 @@ describe('emojis', () => {
   const uno = createGenerator({
     presets: [
       presetAttributify({ strict: true }),
+    ],
+    rules: [
+      ['🦉', {
+        color: 'red',
+      }],
     ],
   })
 
