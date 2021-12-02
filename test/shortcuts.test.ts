@@ -18,7 +18,7 @@ describe('shortcuts', () => {
       },
       [/^button-(\d)$/, ([, d]) => [`px${(+d) * 3}`, `py${(+d) * 2}`]],
       ['bad-one', 'p2 unmatched'],
-      ['transform-duplicated', 'translate-x-1 translate-y-2 scale-4'],
+      ['transform-duplicated', 'translate-x-1 translate-y-2 scale-4 hover:scale-2 active:scale-x-4'],
     ],
     presets: [
       presetUno(),

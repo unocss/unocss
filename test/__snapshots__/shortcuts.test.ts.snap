@@ -8,6 +8,10 @@ exports[`shortcuts dynamic 1`] = `
 
 exports[`shortcuts merge transform-duplicated 1`] = `
 "/* layer: shortcuts */
+.transform-duplicated:hover {
+  --un-scale-x: 0.02;
+  --un-scale-y: 0.02;
+}
 .transform-duplicated {
   --un-rotate: 0;
   --un-scale-x: 1;
@@ -26,6 +30,9 @@ exports[`shortcuts merge transform-duplicated 1`] = `
   --un-translate-y: 0.5rem;
   --un-scale-x: 0.04;
   --un-scale-y: 0.04;
+}
+.transform-duplicated:active {
+  --un-scale-x: 0.04;
 }
 "
 `;
