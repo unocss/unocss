@@ -1,6 +1,6 @@
 import { Rule } from '@unocss/core'
-import { colorResolver } from '@unocss/preset-mini/dist/rules'
-import { handler as h } from '@unocss/preset-mini/dist/utils'
+import { colorResolver } from '@unocss/preset-mini/rules'
+import { handler as h } from '@unocss/preset-mini/utils'
 
 const listStyleProps = ['none', 'disc', 'circle', 'square', 'decimal', 'zero-decimal', 'greek', 'roman', 'upper-roman', 'alpha', 'upper-alpha']
 

@@ -57,6 +57,7 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist",
+    "*.d.ts",
     "*.css"
   ],
   "scripts": {

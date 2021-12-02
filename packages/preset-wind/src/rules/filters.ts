@@ -1,7 +1,7 @@
 import { Rule, toArray, RuleContext, CSSValues } from '@unocss/core'
-import { CONTROL_BYPASS_PSEUDO } from '@unocss/preset-mini/dist/variants'
+import { CONTROL_BYPASS_PSEUDO } from '@unocss/preset-mini/variants'
 import { Theme } from '@unocss/preset-mini'
-import { handler as h } from '@unocss/preset-mini/dist/utils'
+import { handler as h } from '@unocss/preset-mini/utils'
 
 const varEmpty = 'var(--un-empty,/*!*/ /*!*/)'
 const filterContnet = 'var(--un-blur) var(--un-brightness) var(--un-contrast) var(--un-grayscale) var(--un-hue-rotate) var(--un-invert) var(--un-saturate) var(--un-sepia) var(--un-drop-shadow)'

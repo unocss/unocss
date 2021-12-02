@@ -1,1 +1,1 @@
-export * from '@unocss/preset-mini/dist/colors'
+export * from '@unocss/preset-mini/colors'

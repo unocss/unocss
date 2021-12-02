@@ -1,5 +1,5 @@
 import { CSSEntries, Rule } from '@unocss/core'
-import { directionMap, handler as h } from '@unocss/preset-mini/dist/utils'
+import { directionMap, handler as h } from '@unocss/preset-mini/utils'
 
 const directionSize = (prefix: string) => ([_, direction, size]: string[]): CSSEntries | undefined => {
   const v = h.bracket.rem.fraction.cssvar(size)

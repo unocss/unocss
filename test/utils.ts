@@ -19,7 +19,7 @@ export async function runCli(files: Record<string, string>) {
 
   const { exitCode, stdout, stderr } = await execa('npx', ['esno', cli, 'views/**/*'], {
     cwd: testDir,
-    stdio: 'inherit',
+    // stdio: 'inherit',
   })
 
   const logs = stdout + stderr

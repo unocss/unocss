@@ -1,1 +1,1 @@
-export * from '@unocss/preset-mini/dist/utils'
+export * from '@unocss/preset-mini/utils'

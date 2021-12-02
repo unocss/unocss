@@ -1,6 +1,6 @@
 import { CSSEntries, Rule } from '@unocss/core'
-import { directionMap, handler as h } from '@unocss/preset-mini/dist/utils'
-import { colorResolver } from '@unocss/preset-mini/src/rules'
+import { directionMap, handler as h } from '@unocss/preset-mini/utils'
+import { colorResolver } from '@unocss/preset-mini/rules'
 
 export const divideColors: Rule[] = [
   [/^divide-(.+)$/, colorResolver('border-color', 'divide')],
