@@ -1,5 +1,6 @@
 import { Rule, CSSValues } from '@unocss/core'
 import { xyzMap, handler as h } from '../utils'
+import { CONTROL_BYPASS_PSEUDO } from '../variants/pseudo'
 
 const transformBase = {
   '--un-rotate': 0,
@@ -12,6 +13,7 @@ const transformBase = {
   '--un-translate-y': 0,
   '--un-translate-z': 0,
   'transform': 'rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z))',
+  [CONTROL_BYPASS_PSEUDO]: '',
 }
 
 export const transforms: Rule[] = [

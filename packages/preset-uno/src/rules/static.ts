@@ -1,6 +1,6 @@
 import { Rule } from '@unocss/core'
 
-const varEmpty = 'var(--un-empty,/*!*/ /*!*/)'
+export const varEmpty = 'var(--un-empty,/*!*/ /*!*/)'
 
 // display table included on table.ts
 export const displays: Rule[] = [
@@ -88,27 +88,6 @@ export const textDecorationStyles: Rule[] = [
 export const fontStyles: Rule[] = [
   ['italic', { 'font-style': 'italic' }],
   ['not-italic', { 'font-style': 'normal' }],
-]
-
-const fontVariantNumericBase = {
-  '--un-ordinal': varEmpty,
-  '--un-slashed-zero': varEmpty,
-  '--un-numeric-figure': varEmpty,
-  '--un-numeric-spacing': varEmpty,
-  '--un-numeric-fraction': varEmpty,
-  'font-variant-numeric': 'var(--un-ordinal) var(--un-slashed-zero) var(--un-numeric-figure) var(--un-numeric-spacing) var(--un-numeric-fraction)',
-}
-
-export const fontVariantNumeric: Rule[] = [
-  [/^ordinal$/, () => [fontVariantNumericBase, { '--un-ordinal': 'ordinal' }]],
-  [/^slashed-zero$/, () => [fontVariantNumericBase, { '--un-slashed-zero': 'slashed-zero' }]],
-  [/^lining-nums$/, () => [fontVariantNumericBase, { '--un-numeric-figure': 'lining-nums' }]],
-  [/^oldstyle-nums$/, () => [fontVariantNumericBase, { '--un-numeric-figure': 'oldstyle-nums' }]],
-  [/^proportional-nums$/, () => [fontVariantNumericBase, { '--un-numeric-spacing': 'proportional-nums' }]],
-  [/^tabular-nums$/, () => [fontVariantNumericBase, { '--un-numeric-spacing': 'tabular-nums' }]],
-  [/^diagonal-fractions$/, () => [fontVariantNumericBase, { '--un-numeric-fraction': 'diagonal-fractions' }]],
-  [/^stacked-fractions$/, () => [fontVariantNumericBase, { '--un-numeric-fraction': 'stacked-fractions' }]],
-  ['normal-nums', { 'font-variant-numeric': 'normal' }],
 ]
 
 export const fontSmoothings: Rule[] = [

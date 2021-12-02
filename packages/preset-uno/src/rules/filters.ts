@@ -1,6 +1,7 @@
 import { Rule, toArray, RuleContext, CSSValues } from '@unocss/core'
 import { Theme } from '../theme'
 import { handler as h } from '../utils'
+import { CONTROL_BYPASS_PSEUDO } from '../variants/pseudo'
 
 const varEmpty = 'var(--un-empty,/*!*/ /*!*/)'
 const filterContnet = 'var(--un-blur) var(--un-brightness) var(--un-contrast) var(--un-grayscale) var(--un-hue-rotate) var(--un-invert) var(--un-saturate) var(--un-sepia) var(--un-drop-shadow)'
@@ -16,6 +17,7 @@ const filterBase = {
   '--un-sepia': varEmpty,
   '--un-drop-shadow': varEmpty,
   'filter': filterContnet,
+  [CONTROL_BYPASS_PSEUDO]: '',
 }
 
 const backdropFilterContent = 'var(--un-backdrop-blur) var(--un-backdrop-brightness) var(--un-backdrop-contrast) var(--un-backdrop-grayscale) var(--un-backdrop-hue-rotate) var(--un-backdrop-invert) var(--un-backdrop-saturate) var(--un-backdrop-sepia)'
@@ -31,6 +33,7 @@ const backdropFilterBase = {
   '--un-backdrop-sepia': varEmpty,
   '-webkit-backdrop-filter': backdropFilterContent,
   'backdrop-filter': backdropFilterContent,
+  [CONTROL_BYPASS_PSEUDO]: '',
 }
 
 const percentWithDefault = (defaultValue = '1') => (str?: string) => {

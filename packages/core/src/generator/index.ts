@@ -262,11 +262,11 @@ export class UnoGenerator {
   }
 
   applyVariants(parsed: ParsedUtil, variantHandlers = parsed[4], raw = parsed[1]) {
+    const entries = variantHandlers.reduce((p, v) => v.body?.(p) || p, parsed[2])
     return [
       // selector
-      variantHandlers.reduce((p, v) => v.selector?.(p) || p, toEscapedSelector(raw)),
-      // entries
-      variantHandlers.reduce((p, v) => v.body?.(p) || p, parsed[2]),
+      variantHandlers.reduce((p, v) => v.selector?.(p, entries) || p, toEscapedSelector(raw)),
+      entries,
       // parent
       variantHandlers.reduce((p: string | undefined, v) => Array.isArray(v.parent) ? v.parent[0] : v.parent || p, undefined),
     ] as const

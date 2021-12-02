@@ -19,6 +19,10 @@ export function normalizeCSSValues(obj: CSSValues): CSSEntries[] {
 
 export function clearIdenticalEntries(entry: CSSEntries): CSSEntries {
   return entry.filter(([k, v], idx) => {
+    // remove control keys
+    if (k.startsWith('$$'))
+      return false
+    // remove identical entries
     for (let i = idx - 1; i >= 0; i--) {
       if (entry[i][0] === k && entry[i][1] === v)
         return false
