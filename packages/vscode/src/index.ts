@@ -4,7 +4,7 @@ import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
 import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
 import { getMatchedPositions } from '../../inspector/client/composables/pos'
-import { createContext } from '../../plugins-common'
+import { createContext, INCLUDE_COMMENT_IDE } from '../../plugins-common'
 
 export async function activate() {
   const cwd = workspace.workspaceFolders?.[0].uri.fsPath
@@ -61,7 +61,7 @@ export async function activate() {
     const code = doc.getText()
     const id = doc.uri.fsPath
 
-    if (!filter(code, id))
+    if (!code.includes(INCLUDE_COMMENT_IDE) && !filter(code, id))
       return reset()
 
     const result = await uno.generate(code, { id, preflights: false, minify: true })
