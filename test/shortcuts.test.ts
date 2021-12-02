@@ -1,5 +1,7 @@
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
+import prettier from 'prettier/standalone'
+import parserCSS from 'prettier/parser-postcss'
 
 describe('shortcuts', () => {
   const uno = createGenerator({
@@ -16,6 +18,7 @@ describe('shortcuts', () => {
       },
       [/^button-(\d)$/, ([, d]) => [`px${(+d) * 3}`, `py${(+d) * 2}`]],
       ['bad-one', 'p2 unmatched'],
+      ['transform-duplicated', 'translate-x-1 translate-y-2 scale-4'],
     ],
     presets: [
       presetUno(),
@@ -47,5 +50,14 @@ describe('shortcuts', () => {
 
     warn.mockReset()
     warn.mockRestore()
+  })
+
+  test('merge transform-duplicated', async() => {
+    const { css } = await uno.generate('transform-duplicated')
+    const prettified = prettier.format(css, {
+      parser: 'css',
+      plugins: [parserCSS],
+    })
+    expect(prettified).toMatchSnapshot()
   })
 })
