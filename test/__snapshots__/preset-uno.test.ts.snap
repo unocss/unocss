@@ -177,6 +177,10 @@ exports[`targets 1`] = `
 .text-red2{--un-text-opacity:1;color:rgba(254,202,202,var(--un-text-opacity));}
 .text-opacity-\\\\[13\\\\.3333333\\\\%\\\\]{--un-text-opacity:13.3333333%;}
 .italic{font-style:italic;}
+.lining-nums,.tabular-nums{--un-ordinal:var(--un-empty,/*!*/ /*!*/);--un-slashed-zero:var(--un-empty,/*!*/ /*!*/);--un-numeric-figure:var(--un-empty,/*!*/ /*!*/);--un-numeric-spacing:var(--un-empty,/*!*/ /*!*/);--un-numeric-fraction:var(--un-empty,/*!*/ /*!*/);font-variant-numeric:var(--un-ordinal) var(--un-slashed-zero) var(--un-numeric-figure) var(--un-numeric-spacing) var(--un-numeric-fraction);}
+.lining-nums{--un-numeric-figure:lining-nums;}
+.tabular-nums{--un-numeric-spacing:tabular-nums;}
+.normal-nums{font-variant-numeric:normal;}
 .antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-smoothing:grayscale;}
 .hyphens-none{-webkit-hyphens:none;-ms-hyphens:none;hyphens:none;}
 .write-normal{writing-mode:horizontal-tb;}
