@@ -9,6 +9,8 @@ const packages = [
   'core',
   'preset-attributify',
   'preset-icons',
+  'preset-mini',
+  'preset-wind',
   'preset-uno',
 ]
 
