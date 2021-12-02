@@ -1,7 +1,7 @@
 import { StringifiedUtil, ParsedUtil, RawUtil, Variant, VariantObject } from '../types'
 
 export const attributifyRE = /^\[(.+?)~?="(.*)"\]$/
-export const validateFilterRE = /[a-z?]/
+export const validateFilterRE = /(?!\d|-{2}|-\d)[a-zA-Z0-9\u00A0-\uFFFF-_:%-?]/
 
 export function isAttributifySelector(selector: string) {
   return selector.match(attributifyRE)
