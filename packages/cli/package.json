@@ -19,10 +19,10 @@
     "email": "pkg@johannschopplich.com",
     "url": "https://johannschopplich.com"
   },
-  "exports": "./dist/index.js",
-  "main": "./dist/index.js",
+  "exports": "./dist/index.cjs",
+  "main": "./dist/index.cjs",
   "bin": {
-    "unocss": "./bin/unocss.js"
+    "unocss": "./bin/unocss.cjs"
   },
   "types": "./dist/index.d.ts",
   "files": [
@@ -30,8 +30,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch src"
+    "build": "unbuild",
+    "stub": "unbuild --stub"
   },
   "engines": {
     "node": ">=14"

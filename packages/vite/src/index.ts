@@ -15,7 +15,7 @@ export * from './modes/global'
 export * from './modes/per-module'
 export * from './modes/vue-scoped'
 
-export { UnocssPluginContext } from '../../plugins-common'
+export type { UnocssPluginContext } from '../../plugins-common'
 
 export function defineConfig<Theme extends {}>(config: VitePluginConfig<Theme>) {
   return config

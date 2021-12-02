@@ -22,21 +22,22 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "require": "./dist/index.js",
+      "require": "./dist/index.cjs",
       "import": "./dist/index.mjs"
     }
   },
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "unbuild",
     "build-post": "vite build",
-    "dev": "tsup --watch node",
-    "play": "vite"
+    "stub": "unbuild --stub",
+    "dev": "nr play",
+    "play": "nr stub && vite"
   },
   "dependencies": {
     "gzip-size": "^6.0.0",

@@ -21,38 +21,38 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "require": "./dist/index.js",
+      "require": "./dist/index.cjs",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
     "./theme": {
-      "require": "./dist/theme.js",
+      "require": "./dist/theme.cjs",
       "import": "./dist/theme.mjs",
       "types": "./dist/theme.d.ts"
     },
     "./variants": {
-      "require": "./dist/variants.js",
+      "require": "./dist/variants.cjs",
       "import": "./dist/variants.mjs",
       "types": "./dist/variants.d.ts"
     },
     "./rules": {
-      "require": "./dist/rules.js",
+      "require": "./dist/rules.cjs",
       "import": "./dist/rules.mjs",
       "types": "./dist/rules.d.ts"
     },
     "./colors": {
-      "require": "./dist/colors.js",
+      "require": "./dist/colors.cjs",
       "import": "./dist/colors.mjs",
       "types": "./dist/colors.d.ts"
     },
     "./utils": {
-      "require": "./dist/utils.js",
+      "require": "./dist/utils.cjs",
       "import": "./dist/utils.mjs",
       "types": "./dist/utils.d.ts"
     },
     "./*": "./*"
   },
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
@@ -60,8 +60,8 @@
     "*.css"
   ],
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch src"
+    "build": "unbuild",
+    "stub": "unbuild --stub"
   },
   "dependencies": {
     "@unocss/core": "workspace:*"
