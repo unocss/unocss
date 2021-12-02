@@ -24,17 +24,17 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "require": "./dist/index.js",
+      "require": "./dist/index.cjs",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
     "./vite": {
-      "require": "./dist/vite.js",
+      "require": "./dist/vite.cjs",
       "import": "./dist/vite.mjs",
       "types": "./dist/vite.d.ts"
     }
   },
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "index.d.ts",
   "files": [
@@ -42,9 +42,8 @@
     "*.d.ts"
   ],
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch src",
-    "prepublishOnly": "nr build && cp ../../README.md ."
+    "build": "cp ../../README.md . && unbuild",
+    "stub": "unbuild --stub"
   },
   "dependencies": {
     "@unocss/core": "workspace:*",

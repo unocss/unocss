@@ -22,19 +22,19 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "require": "./dist/index.js",
+      "require": "./dist/index.cjs",
       "import": "./dist/index.mjs"
     }
   },
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch src"
+    "build": "unbuild",
+    "stub": "unbuild --stub"
   },
   "peerDependencies": {
     "pug": "^3.0.0"
