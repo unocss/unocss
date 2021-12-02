@@ -35,6 +35,7 @@ Set {
   "[transform=\\"\\"]",
   "[translate-x-100%=\\"\\"]",
   "[translate-y-=\\"\\"]",
+  "[%=\\"\\"]",
   "[rotate-30=\\"\\"]",
 }
 `;
@@ -149,6 +150,7 @@ Array [
   "transform",
   "translate-x-100%",
   "translate-y-",
+  "%",
   "rotate-30",
 ]
 `;
