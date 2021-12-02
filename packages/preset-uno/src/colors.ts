@@ -1,1 +1,1 @@
-export * from './theme/colors'
+export * from '@unocss/preset-mini/dist/colors'

@@ -1,8 +1,6 @@
 import { toArray, Rule } from '@unocss/core'
 import { Theme } from '../theme'
 import { handler as h } from '../utils'
-import { CONTROL_BYPASS_PSEUDO } from '../variants/pseudo'
-import { varEmpty } from './static'
 
 export const fontsFamilies: Rule<Theme>[] = [
   [/^font-(\w+)$/, ([, d], { theme }) => {
@@ -125,28 +123,6 @@ export const textShadows: Rule<Theme>[] = [
     if (v != null)
       return { 'text-shadow': v }
   }],
-]
-
-const fontVariantNumericBase = {
-  '--un-ordinal': varEmpty,
-  '--un-slashed-zero': varEmpty,
-  '--un-numeric-figure': varEmpty,
-  '--un-numeric-spacing': varEmpty,
-  '--un-numeric-fraction': varEmpty,
-  'font-variant-numeric': 'var(--un-ordinal) var(--un-slashed-zero) var(--un-numeric-figure) var(--un-numeric-spacing) var(--un-numeric-fraction)',
-  [CONTROL_BYPASS_PSEUDO]: '',
-}
-
-export const fontVariantNumeric: Rule[] = [
-  [/^ordinal$/, () => [fontVariantNumericBase, { '--un-ordinal': 'ordinal' }]],
-  [/^slashed-zero$/, () => [fontVariantNumericBase, { '--un-slashed-zero': 'slashed-zero' }]],
-  [/^lining-nums$/, () => [fontVariantNumericBase, { '--un-numeric-figure': 'lining-nums' }]],
-  [/^oldstyle-nums$/, () => [fontVariantNumericBase, { '--un-numeric-figure': 'oldstyle-nums' }]],
-  [/^proportional-nums$/, () => [fontVariantNumericBase, { '--un-numeric-spacing': 'proportional-nums' }]],
-  [/^tabular-nums$/, () => [fontVariantNumericBase, { '--un-numeric-spacing': 'tabular-nums' }]],
-  [/^diagonal-fractions$/, () => [fontVariantNumericBase, { '--un-numeric-fraction': 'diagonal-fractions' }]],
-  [/^stacked-fractions$/, () => [fontVariantNumericBase, { '--un-numeric-fraction': 'stacked-fractions' }]],
-  ['normal-nums', { 'font-variant-numeric': 'normal' }],
 ]
 
 export const fonts = [

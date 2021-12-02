@@ -10,7 +10,8 @@ module.exports = {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
   moduleNameMapper: {
-    '^@unocss/(.*)$': '<rootDir>/packages/$1/src/index.ts',
+    '^@unocss/([^/]*)$': '<rootDir>/packages/$1/src/index.ts',
+    '^@unocss/(.*?)/dist/(.*?)$': '<rootDir>/packages/$1/dist/$2.cjs',
     '^unocss$': '<rootDir>/packages/unocss/src/index.ts',
   },
   coveragePathIgnorePatterns: [

@@ -30,16 +30,6 @@
       "import": "./dist/theme.mjs",
       "types": "./dist/theme.d.ts"
     },
-    "./variants": {
-      "require": "./dist/variants.cjs",
-      "import": "./dist/variants.mjs",
-      "types": "./dist/variants.d.ts"
-    },
-    "./rules": {
-      "require": "./dist/rules.cjs",
-      "import": "./dist/rules.mjs",
-      "types": "./dist/rules.d.ts"
-    },
     "./colors": {
       "require": "./dist/colors.cjs",
       "import": "./dist/colors.mjs",
@@ -65,6 +55,7 @@
   },
   "dependencies": {
     "@unocss/core": "workspace:*",
-    "@unocss/preset-wind": "workspace:*"
+    "@unocss/preset-wind": "workspace:*",
+    "@unocss/preset-mini": "workspace:*"
   }
 }
