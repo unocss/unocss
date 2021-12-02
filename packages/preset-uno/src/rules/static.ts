@@ -100,14 +100,14 @@ const fontVariantNumericBase = {
 }
 
 export const fontVariantNumeric: Rule[] = [
-  [/^ordinal$/, () => [ fontVariantNumericBase, { '--un-ordinal': 'ordinal' } ]],
-  [/^slashed-zero$/, () => [ fontVariantNumericBase, { '--un-slashed-zero': 'slashed-zero' } ]],
-  [/^lining-nums$/, () => [ fontVariantNumericBase, { '--un-numeric-figure': 'lining-nums' } ]],
-  [/^oldstyle-nums$/, () => [ fontVariantNumericBase, { '--un-numeric-figure': 'oldstyle-nums' } ]],
-  [/^proportional-nums$/, () => [ fontVariantNumericBase, { '--un-numeric-spacing': 'proportional-nums' } ]],
-  [/^tabular-nums$/, () => [ fontVariantNumericBase, { '--un-numeric-spacing': 'tabular-nums' } ]],
-  [/^diagonal-fractions$/, () => [ fontVariantNumericBase, { '--un-numeric-fraction': 'diagonal-fractions' } ]],
-  [/^stacked-fractions$/, () => [ fontVariantNumericBase, { '--un-numeric-fraction': 'stacked-fractions' } ]],
+  [/^ordinal$/, () => [fontVariantNumericBase, { '--un-ordinal': 'ordinal' }]],
+  [/^slashed-zero$/, () => [fontVariantNumericBase, { '--un-slashed-zero': 'slashed-zero' }]],
+  [/^lining-nums$/, () => [fontVariantNumericBase, { '--un-numeric-figure': 'lining-nums' }]],
+  [/^oldstyle-nums$/, () => [fontVariantNumericBase, { '--un-numeric-figure': 'oldstyle-nums' }]],
+  [/^proportional-nums$/, () => [fontVariantNumericBase, { '--un-numeric-spacing': 'proportional-nums' }]],
+  [/^tabular-nums$/, () => [fontVariantNumericBase, { '--un-numeric-spacing': 'tabular-nums' }]],
+  [/^diagonal-fractions$/, () => [fontVariantNumericBase, { '--un-numeric-fraction': 'diagonal-fractions' }]],
+  [/^stacked-fractions$/, () => [fontVariantNumericBase, { '--un-numeric-fraction': 'stacked-fractions' }]],
   ['normal-nums', { 'font-variant-numeric': 'normal' }],
 ]
 
