@@ -1,4 +1,4 @@
-import { UserConfigDefaults, createGenerator, UserConfig } from '@unocss/core'
+import { UnoGenerator, UserConfigDefaults, createGenerator, UserConfig } from '@unocss/core'
 
 export interface RuntimeOptions {
   /**
@@ -10,6 +10,7 @@ export interface RuntimeOptions {
 declare global {
   interface Window {
     __unocss?: UserConfig & { runtime?: RuntimeOptions }
+    __unocss_runtime?: { uno: UnoGenerator; extractAll: () => void; version: string }
   }
 }
 
@@ -65,13 +66,33 @@ export default function init(options: RuntimeOptions = {}) {
     })
   })
 
-  mutationObserver.observe(document.documentElement || document.body, {
-    childList: true,
-    subtree: true,
-    attributes: true,
-  })
+  let observing = false
+  function observe() {
+    if (!observing)
+      return
+    const target = document.documentElement || document.body
+    if (!target)
+      return
+    mutationObserver.observe(target, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+    })
+    observing = true
+  }
 
-  extractAll()
-  window.addEventListener('load', extractAll)
-  window.addEventListener('DOMContentLoaded', extractAll)
+  function execute() {
+    extractAll()
+    observe()
+  }
+
+  window.__unocss_runtime = window.__unocss_runtime = {
+    version: uno.version,
+    uno,
+    extractAll,
+  }
+
+  execute()
+  window.addEventListener('load', execute)
+  window.addEventListener('DOMContentLoaded', execute)
 }
