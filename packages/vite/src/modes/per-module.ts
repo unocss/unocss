@@ -1,9 +1,9 @@
 import type { Plugin, ViteDevServer } from 'vite'
-import { getHash } from '../../../plugins-common/utils'
-import { UnocssPluginContext } from '../../../plugins-common'
+import { UnocssPluginContext, getHash, INCLUDE_COMMENT } from '../../../plugins-common'
 
 const VIRTUAL_PREFIX = '/@unocss/'
 const SCOPE_IMPORT_RE = / from (['"])(@unocss\/scope)\1/
+const SCOPE_IMPORT_ASSIGMENT_RE = new RegExp(`\s+from\s+['"](${INCLUDE_COMMENT})['"]`, 'i')
 
 export function PerModuleModePlugin({ uno, filter }: UnocssPluginContext): Plugin {
   const moduleMap = new Map<string, [string, string]>()
@@ -50,6 +50,13 @@ export function PerModuleModePlugin({ uno, filter }: UnocssPluginContext): Plugi
 
       moduleMap.set(hash, [id, css])
       invalidate(hash)
+
+      if (code.match(SCOPE_IMPORT_ASSIGMENT_RE)) {
+        return {
+          code: code.replace(INCLUDE_COMMENT, `${VIRTUAL_PREFIX}${hash}.css`),
+          map: null,
+        }
+      }
 
       return {
         code: `import "${VIRTUAL_PREFIX}${hash}.css";${code}`,
