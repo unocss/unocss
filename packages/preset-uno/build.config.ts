@@ -5,10 +5,11 @@ export default defineBuildConfig({
     'src/index',
     'src/theme',
     'src/utils',
-    'src/rules',
     'src/colors',
-    'src/variants',
   ],
   clean: true,
   declaration: true,
+  externals: [
+    'unocss',
+  ],
 })

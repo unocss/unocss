@@ -1,1 +1,1 @@
-export * from './theme/index'
+export * from '@unocss/preset-mini/theme'

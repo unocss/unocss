@@ -8,7 +8,7 @@ const strippedPrefixes = [
 
 const splitterRE = /[\s'"`;]+/g
 const elementRE = /<\w[\w:\.$-]*\s((?:'[\s\S]*?'|"[\s\S]*?"|`[\s\S]*?`|\{[\s\S]*?\}|[\s\S]*?)*?)>/g
-const valuedAttributeRE = /([?]|(?!\d|-{2}|-\d)[a-zA-Z0-9\u00A0-\uFFFF-_:%-]+)(?:=(["'])([^\2]+?)\2)?/g
+const valuedAttributeRE = /([?]|(?!\d|-{2}|-\d)[a-zA-Z0-9\u00A0-\uFFFF-_:%-]+)(?:=(["'])([^\2]*?)\2)?/g
 
 export const extractorAttributify = (options?: AttributifyOptions): Extractor => ({
   name: 'attributify',
@@ -16,6 +16,9 @@ export const extractorAttributify = (options?: AttributifyOptions): Extractor =>
     const result = Array.from(code.matchAll(elementRE))
       .flatMap(match => Array.from((match[1] || '').matchAll(valuedAttributeRE)))
       .flatMap(([, name, _, content]) => {
+        if (options?.ignoreAttributes?.includes(name))
+          return []
+
         for (const prefix of strippedPrefixes) {
           if (name.startsWith(prefix)) {
             name = name.slice(prefix.length)

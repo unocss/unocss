@@ -3,7 +3,7 @@ import fs from 'fs'
 import { UserConfig } from '@unocss/core'
 import { createConfigLoader as createLoader, LoadConfigResult, LoadConfigSource } from 'unconfig'
 
-export { LoadConfigResult, LoadConfigSource }
+export type { LoadConfigResult, LoadConfigSource }
 
 export function createConfigLoader<U extends UserConfig>(configOrPath: string | U = process.cwd(), extraConfigSources: LoadConfigSource[] = []): () => Promise<LoadConfigResult<U>> {
   let inlineConfig = {} as U

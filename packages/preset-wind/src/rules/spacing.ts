@@ -1,5 +1,5 @@
 import { CSSEntries, Rule } from '@unocss/core'
-import { directionMap, handler as h } from '../utils'
+import { directionMap, handler as h } from '@unocss/preset-mini/utils'
 
 const directionSize = (prefix: string) => ([_, direction, size]: string[]): CSSEntries | undefined => {
   const v = h.bracket.rem.fraction.cssvar(size)
@@ -7,16 +7,7 @@ const directionSize = (prefix: string) => ([_, direction, size]: string[]): CSSE
     return directionMap[direction].map(i => [prefix + i, v])
 }
 
-export const paddings: Rule[] = [
-  [/^pa?()-?(-?.+)$/, directionSize('padding')],
-  [/^p-?([xy])-?(-?.+)$/, directionSize('padding')],
-  [/^p-?([rltbse])-?(-?.+)$/, directionSize('padding')],
-]
-
-export const margins: Rule[] = [
-  [/^ma?()-?(-?.+)$/, directionSize('margin')],
-  [/^m-?([xy])-?(-?.+)$/, directionSize('margin')],
-  [/^m-?([rltbse])-?(-?.+)$/, directionSize('margin')],
+export const spaces: Rule[] = [
   [/^space-?([xy])-?(-?.+)$/, (match) => {
     const [, direction, size] = match
     if (size === 'reverse')

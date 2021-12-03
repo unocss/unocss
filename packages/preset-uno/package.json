@@ -1,6 +1,6 @@
 {
   "name": "@unocss/preset-uno",
-  "version": "0.14.3",
+  "version": "0.15.3",
   "description": "The default preset for UnoCSS",
   "keywords": [
     "unocss",
@@ -30,16 +30,6 @@
       "import": "./dist/theme.mjs",
       "types": "./dist/theme.d.ts"
     },
-    "./variants": {
-      "require": "./dist/variants.cjs",
-      "import": "./dist/variants.mjs",
-      "types": "./dist/variants.d.ts"
-    },
-    "./rules": {
-      "require": "./dist/rules.cjs",
-      "import": "./dist/rules.mjs",
-      "types": "./dist/rules.d.ts"
-    },
     "./colors": {
       "require": "./dist/colors.cjs",
       "import": "./dist/colors.mjs",
@@ -64,6 +54,8 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@unocss/core": "workspace:*"
+    "@unocss/core": "workspace:*",
+    "@unocss/preset-wind": "workspace:*",
+    "@unocss/preset-mini": "workspace:*"
   }
 }
