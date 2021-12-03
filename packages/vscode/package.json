@@ -17,7 +17,7 @@
   "main": "./dist/index.js",
   "preview": true,
   "scripts": {
-    "build": "esno scripts/copy-files.ts && tsup src/index.ts --external vscode",
+    "build": "tsup src/index.ts --external vscode",
     "dev": "nr build --watch src",
     "vscode:prepublish": "npm run build"
   },
@@ -38,7 +38,6 @@
   ],
   "devDependencies": {
     "@types/vscode": "^1.62.0",
-    "esno": "^0.12.1",
     "prettier": "^2.5.0",
     "tsup": "^5.10.1"
   },

@@ -305,7 +305,6 @@ importers:
       '@unocss/preset-uno': workspace:*
       '@unocss/reset': workspace:*
       '@unocss/vite': workspace:*
-      esno: ^0.12.1
     dependencies:
       '@unocss/cli': link:../cli
       '@unocss/core': link:../core
@@ -314,8 +313,6 @@ importers:
       '@unocss/preset-uno': link:../preset-uno
       '@unocss/reset': link:../reset
       '@unocss/vite': link:../vite
-    devDependencies:
-      esno: 0.12.1_typescript@4.5.2
 
   packages/vite:
     specifiers:

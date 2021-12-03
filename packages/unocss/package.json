@@ -42,7 +42,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "build": "esno scripts/copy-files.ts && unbuild",
+    "build": "unbuild",
     "stub": "unbuild --stub"
   },
   "dependencies": {
@@ -53,9 +53,6 @@
     "@unocss/preset-attributify": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
     "@unocss/vite": "workspace:*"
-  },
-  "devDependencies": {
-    "esno": "^0.12.1"
   },
   "engines": {
     "node": ">=14"

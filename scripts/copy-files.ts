@@ -3,7 +3,8 @@ import { resolve } from 'path'
 
 // relative to scripts directory
 const destinations = [
-  ['../../../LICENSE', '../LICENSE'],
+  ['../LICENSE', '../packages/vscode/LICENSE'],
+  ['../README.md', '../packages/unocss/README.md'],
 ]
 
 destinations.forEach(([src, dest]) => {
