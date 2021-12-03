@@ -17,7 +17,7 @@
   "main": "./dist/index.js",
   "preview": true,
   "scripts": {
-    "build": "cp ../../LICENSE . && tsup src/index.ts --external vscode",
+    "build": "tsup src/index.ts --external vscode",
     "dev": "nr build --watch src",
     "vscode:prepublish": "npm run build"
   },

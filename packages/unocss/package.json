@@ -42,7 +42,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "build": "cp ../../README.md . && unbuild",
+    "build": "unbuild",
     "stub": "unbuild --stub"
   },
   "dependencies": {
