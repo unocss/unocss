@@ -230,7 +230,7 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
   /**
    * Presets
    */
-  presets?: Preset[]
+  presets?: (Preset | Preset[])[]
 
   /**
    * Environment mode

@@ -1,7 +1,7 @@
 import { dirname, resolve } from 'path'
 import { fileURLToPath } from 'url'
 import { defineNuxtModule, extendViteConfig, extendWebpackConfig, addPluginTemplate, addComponentsDir } from '@nuxt/kit'
-import presetUno, { UnoOptions } from '@unocss/preset-uno'
+import { presetUno, PresetUnoOptions } from '@unocss/preset-uno'
 import presetAttributify, { AttributifyOptions } from '@unocss/preset-attributify'
 import presetIcons, { IconsOptions } from '@unocss/preset-icons'
 import WebpackPlugin from '@unocss/webpack'
@@ -38,7 +38,7 @@ export interface UnocssNuxtOptions extends UserConfig {
    * Only works when `presets` is not specified
    * @default true
    */
-  uno?: boolean | UnoOptions
+  uno?: boolean | PresetUnoOptions
 
   /**
    * Enable attributify mode and the options of it

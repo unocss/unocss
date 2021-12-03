@@ -1,7 +1,7 @@
 import { Rule, RuleContext } from '@unocss/core'
-import { Theme } from '../theme'
-import { handler as h } from '../utils'
-import { parseColorUtil } from './color'
+import { handler as h } from '@unocss/preset-mini/utils'
+import { parseColorUtil } from '@unocss/preset-mini/rules'
+import { Theme } from '@unocss/preset-mini'
 
 const colorResolver = (mode: 'from' | 'to' | 'via') =>
   ([, body]: string[], { theme }: RuleContext<Theme>) => {

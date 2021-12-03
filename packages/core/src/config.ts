@@ -20,7 +20,7 @@ export function resolveConfig(
   defaults: UserConfigDefaults = {},
 ): ResolvedConfig {
   const config = Object.assign({}, defaults, userConfig) as UserConfigDefaults
-  const rawPresets = config.presets || []
+  const rawPresets = (config.presets || []).flatMap(toArray)
 
   const sortedPresets = [
     ...rawPresets.filter(p => p.enforce === 'pre'),
@@ -66,9 +66,9 @@ export function resolveConfig(
     warn: true,
     blocklist: [],
     safelist: [],
-    presets: [],
     sortLayers: layers => layers,
     ...config,
+    presets: sortedPresets,
     envMode: config.envMode || 'build',
     shortcutsLayer: config.shortcutsLayer || 'shortcuts',
     layers,

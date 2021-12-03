@@ -1,19 +1,19 @@
 {
-  "name": "@unocss/preset-uno",
+  "name": "@unocss/preset-wind",
   "version": "0.14.3",
-  "description": "The default preset for UnoCSS",
+  "description": "Tailwind / Windi CSS compact preset for UnoCSS",
   "keywords": [
     "unocss",
     "unocss-preset"
   ],
-  "homepage": "https://github.com/antfu/unocss/tree/main/packages/preset-uno#readme",
+  "homepage": "https://github.com/antfu/unocss/tree/main/packages/preset-wind#readme",
   "bugs": {
     "url": "https://github.com/antfu/unocss/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/antfu/unocss.git",
-    "directory": "packages/preset-uno"
+    "directory": "packages/preset-wind"
   },
   "funding": "https://github.com/sponsors/antfu",
   "license": "MIT",
@@ -24,21 +24,6 @@
       "require": "./dist/index.cjs",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
-    },
-    "./theme": {
-      "require": "./dist/theme.cjs",
-      "import": "./dist/theme.mjs",
-      "types": "./dist/theme.d.ts"
-    },
-    "./colors": {
-      "require": "./dist/colors.cjs",
-      "import": "./dist/colors.mjs",
-      "types": "./dist/colors.d.ts"
-    },
-    "./utils": {
-      "require": "./dist/utils.cjs",
-      "import": "./dist/utils.mjs",
-      "types": "./dist/utils.d.ts"
     },
     "./*": "./*"
   },
@@ -55,7 +40,6 @@
   },
   "dependencies": {
     "@unocss/core": "workspace:*",
-    "@unocss/preset-wind": "workspace:*",
     "@unocss/preset-mini": "workspace:*"
   }
 }

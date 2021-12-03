@@ -1,5 +1,5 @@
 import { Rule, toArray, Shortcut } from '@unocss/core'
-import { Theme } from '../theme'
+import { Theme } from '@unocss/preset-mini'
 
 const queryMatcher = /@media \(min-width: (.+)\)/
 

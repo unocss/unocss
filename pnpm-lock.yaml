@@ -26,7 +26,9 @@ importers:
       '@unocss/extractor-pug': workspace:*
       '@unocss/preset-attributify': workspace:*
       '@unocss/preset-icons': workspace:*
+      '@unocss/preset-mini': workspace:*
       '@unocss/preset-uno': workspace:*
+      '@unocss/preset-wind': workspace:*
       '@unocss/reset': workspace:*
       '@unocss/vite': workspace:*
       '@unocss/webpack': workspace:*
@@ -83,7 +85,9 @@ importers:
       '@unocss/extractor-pug': link:packages/extractor-pug
       '@unocss/preset-attributify': link:packages/preset-attributify
       '@unocss/preset-icons': link:packages/preset-icons
+      '@unocss/preset-mini': link:packages/preset-mini
       '@unocss/preset-uno': link:packages/preset-uno
+      '@unocss/preset-wind': link:packages/preset-wind
       '@unocss/reset': link:packages/reset
       '@unocss/vite': link:packages/vite
       '@unocss/webpack': link:packages/webpack
@@ -247,11 +251,29 @@ importers:
     devDependencies:
       '@iconify/types': 1.0.12
 
-  packages/preset-uno:
+  packages/preset-mini:
     specifiers:
       '@unocss/core': workspace:*
     dependencies:
       '@unocss/core': link:../core
+
+  packages/preset-uno:
+    specifiers:
+      '@unocss/core': workspace:*
+      '@unocss/preset-mini': workspace:*
+      '@unocss/preset-wind': workspace:*
+    dependencies:
+      '@unocss/core': link:../core
+      '@unocss/preset-mini': link:../preset-mini
+      '@unocss/preset-wind': link:../preset-wind
+
+  packages/preset-wind:
+    specifiers:
+      '@unocss/core': workspace:*
+      '@unocss/preset-mini': workspace:*
+    dependencies:
+      '@unocss/core': link:../core
+      '@unocss/preset-mini': link:../preset-mini
 
   packages/reset:
     specifiers:
