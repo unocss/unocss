@@ -99,7 +99,7 @@ export interface VariantHandler {
   /**
    * Rewrite the output selector. Often be used to append pesudo classes or parents.
    */
-  selector?: (input: string) => string | undefined
+  selector?: (input: string, body: CSSEntries) => string | undefined
   /**
    * Rewrite the output css body. The input come in [key,value][] pairs.
    */

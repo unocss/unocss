@@ -1,4 +1,6 @@
-import { toArray, VariantFunction, VariantObject } from '@unocss/core'
+import { CSSEntries, toArray, VariantFunction, VariantObject } from '@unocss/core'
+
+export const CONTROL_BYPASS_PSEUDO = '$$no-pseudo'
 
 export const PseudoClasses: Record<string, string | undefined> = Object.fromEntries([
   'active',
@@ -56,9 +58,13 @@ export const variantPseudoElements: VariantFunction = (input: string) => {
   if (match) {
     return {
       matcher: input.slice(match[1].length + 1),
-      selector: input => `${input}::${match[1]}`,
+      selector: (s, body) => shouldAdd(body) && `${s}::${match[1]}`,
     }
   }
+}
+
+function shouldAdd(entires: CSSEntries) {
+  return !entires.find(i => i[0] === CONTROL_BYPASS_PSEUDO) || undefined
 }
 
 export const variantPseudoClasses: VariantObject = {
@@ -68,7 +74,7 @@ export const variantPseudoClasses: VariantObject = {
       const pseudo = PseudoClasses[match[1]] || match[1]
       return {
         matcher: input.slice(match[1].length + 1),
-        selector: input => `${input}:${pseudo}`,
+        selector: (s, body) => shouldAdd(body) && `${s}:${pseudo}`,
       }
     }
 
@@ -77,7 +83,7 @@ export const variantPseudoClasses: VariantObject = {
       const pseudo = PseudoClasses[match[1]] || match[1]
       return {
         matcher: input.slice(match[1].length + 5),
-        selector: input => `${input}:not(:${pseudo})`,
+        selector: (s, body) => shouldAdd(body) && `${s}:not(:${pseudo})`,
       }
     }
 
@@ -86,7 +92,7 @@ export const variantPseudoClasses: VariantObject = {
       const pseudo = PseudoClasses[match[1]] || match[1]
       return {
         matcher: input.slice(match[1].length + 7),
-        selector: s => s.includes('.group:')
+        selector: (s, body) => shouldAdd(body) && s.includes('.group:')
           ? s.replace(/\.group:/, `.group:${pseudo}:`)
           : `.group:${pseudo} ${s}`,
       }
@@ -97,7 +103,7 @@ export const variantPseudoClasses: VariantObject = {
       const pseudo = PseudoClasses[match[1]] || match[1]
       return {
         matcher: input.slice(match[1].length + 6),
-        selector: s => s.includes('.peer:')
+        selector: (s, body) => shouldAdd(body) && s.includes('.peer:')
           ? s.replace(/\.peer:/, `.peer:${pseudo}:`)
           : `.peer:${pseudo} ~ ${s}`,
       }

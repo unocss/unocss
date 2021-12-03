@@ -1,6 +1,6 @@
 {
   "name": "@unocss/nuxt",
-  "version": "0.14.0",
+  "version": "0.14.3",
   "description": "Nuxt module for UnoCSS",
   "keywords": [
     "unocss",
@@ -36,8 +36,8 @@
     "runtime"
   ],
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch src"
+    "build": "unbuild",
+    "stub": "unbuild --stub"
   },
   "dependencies": {
     "@nuxt/kit": "npm:@nuxt/kit-edge@latest",

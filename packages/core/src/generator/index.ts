@@ -1,6 +1,6 @@
-import { UserConfig, ParsedUtil, StringifiedUtil, UserConfigDefaults, VariantMatchedResult, Variant, ResolvedConfig, CSSEntries, GenerateResult, CSSObject, RawUtil, ExtractorContext, GenerateOptions, RuleContext, RuleMeta, VariantHandler, CSSValues } from '../types'
+import { UserConfig, ParsedUtil, StringifiedUtil, UserConfigDefaults, VariantMatchedResult, Variant, ResolvedConfig, CSSEntries, GenerateResult, CSSObject, RawUtil, ExtractorContext, GenerateOptions, RuleContext, RuleMeta, VariantHandler } from '../types'
 import { resolveConfig } from '../config'
-import { e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, notNull, TwoKeyMap, uniq, warnOnce } from '../utils'
+import { e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, normalizeCSSEntries, normalizeCSSValues, notNull, TwoKeyMap, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
 
 export class UnoGenerator {
@@ -262,11 +262,11 @@ export class UnoGenerator {
   }
 
   applyVariants(parsed: ParsedUtil, variantHandlers = parsed[4], raw = parsed[1]) {
+    const entries = variantHandlers.reduce((p, v) => v.body?.(p) || p, parsed[2])
     return [
       // selector
-      variantHandlers.reduce((p, v) => v.selector?.(p) || p, toEscapedSelector(raw)),
-      // entries
-      variantHandlers.reduce((p, v) => v.body?.(p) || p, parsed[2]),
+      variantHandlers.reduce((p, v) => v.selector?.(p, entries) || p, toEscapedSelector(raw)),
+      entries,
       // parent
       variantHandlers.reduce((p: string | undefined, v) => Array.isArray(v.parent) ? v.parent[0] : v.parent || p, undefined),
     ] as const
@@ -452,21 +452,4 @@ function toEscapedSelector(raw: string) {
     return raw.replace(/^\[(.+?)(~?=)"(.*)"\]$/, (_, n, s, i) => `[${e(n)}${s}"${e(i)}"]`)
   else
     return `.${e(raw)}`
-}
-
-export function normalizeCSSEntries(obj: CSSEntries | CSSObject): CSSEntries {
-  return (!Array.isArray(obj) ? Object.entries(obj) : obj).filter(i => i[1] != null)
-}
-
-export function normalizeCSSValues(obj: CSSValues): CSSEntries[] {
-  if (Array.isArray(obj)) {
-    // @ts-expect-error
-    if (obj.find(i => !Array.isArray(i) || Array.isArray(i[0])))
-      return (obj as any).map((i: any) => normalizeCSSEntries(i))
-    else
-      return [obj as any]
-  }
-  else {
-    return [normalizeCSSEntries(obj)]
-  }
 }
