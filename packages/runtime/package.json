@@ -37,7 +37,7 @@
     "build": "pnpm run build:node && pnpm run build:cdn",
     "build:cdn": "tsup src/cdn/*.ts --format iife --minify --out-dir .",
     "build:node": "tsup src/index.ts --format esm,cjs --dts",
-    "watch": "pnpm run build:node -- --watch src & pnpm run build:cdn -- --watch src",
+    "watch": "tsup src/cdn/*.ts --format iife --watch src --out-dir .",
     "dev": "nr watch & live-server --open=/play"
   },
   "dependencies": {
