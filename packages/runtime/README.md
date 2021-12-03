@@ -55,6 +55,14 @@ With `@unocss/preset-uno` and `@unocss/preset-attributify` presets:
 <script src="https://unpkg.com/@unocss/runtime/attributify.global.js"></script>
 ```
 
+###### Mini
+
+With `@unocss/preset-mini` and `@unocss/preset-attributify` preset:
+
+```html
+<script src="https://unpkg.com/@unocss/runtime/mini.global.js"></script>
+```
+
 ## Bundler Usage
 
 ```bash
