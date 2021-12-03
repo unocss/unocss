@@ -7,7 +7,7 @@
 Add this line to your `index.html` and play:
 
 ```html
-<script src="https://unpkg.com/@unocss/runtime"></script>
+<script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></script>
 ```
 
 To configure UnoCSS (optional):
@@ -29,6 +29,14 @@ window.__unocss = {
 
 By default, `@unocss/preset-uno` will be applied.
 
+The runtime does not come with preflights, if you want to have style resets, you can either add your own, or use one form `@unocss/reset`:
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unocss/reset/normalize.min.css">
+<!-- or -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unocss/reset/tailwind.min.css">
+```
+
 ### CDN Builds
 
 ###### Core
@@ -36,7 +44,7 @@ By default, `@unocss/preset-uno` will be applied.
 Without any preset:
 
 ```html
-<script src="https://unpkg.com/@unocss/runtime/core.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@unocss/runtime/core.global.js"></script>
 ```
 
 ###### Uno (default)
@@ -44,7 +52,7 @@ Without any preset:
 With `@unocss/preset-uno` preset:
 
 ```html
-<script src="https://unpkg.com/@unocss/runtime/uno.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@unocss/runtime/uno.global.js"></script>
 ```
 
 ###### Attributify
@@ -52,7 +60,7 @@ With `@unocss/preset-uno` preset:
 With `@unocss/preset-uno` and `@unocss/preset-attributify` presets:
 
 ```html
-<script src="https://unpkg.com/@unocss/runtime/attributify.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@unocss/runtime/attributify.global.js"></script>
 ```
 
 ###### Mini
@@ -60,7 +68,7 @@ With `@unocss/preset-uno` and `@unocss/preset-attributify` presets:
 With `@unocss/preset-mini` and `@unocss/preset-attributify` preset:
 
 ```html
-<script src="https://unpkg.com/@unocss/runtime/mini.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@unocss/runtime/mini.global.js"></script>
 ```
 
 ## Bundler Usage
