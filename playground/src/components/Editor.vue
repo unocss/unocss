@@ -7,6 +7,7 @@ import { isDark } from '../logics/dark'
 import { customConfigRaw, inputHTML, output, customConfigError } from '../logics/uno'
 import { defaultConfigRaw, defaultHTML } from '../defaults'
 import { options } from '../logics/url'
+import { version } from '../../../package.json'
 
 const loading = ref(true)
 const TITLE_HEIGHT = 34
@@ -42,7 +43,7 @@ function togglePanel(index: number) {
 }
 function normalizePanels() {
   const ignoredIndex: number[] = []
-  let orignalSum = 0
+  let originalSum = 0
   let ignoredSum = 0
 
   panelSizes.value.forEach((v, idx) => {
@@ -51,11 +52,11 @@ function normalizePanels() {
       ignoredSum += v
     }
     else {
-      orignalSum += v
+      originalSum += v
     }
   })
 
-  const resize = (100 - ignoredSum) / orignalSum
+  const resize = (100 - ignoredSum) / originalSum
 
   panelSizes.value.forEach((v, idx) => {
     if (ignoredIndex.includes(idx))
@@ -100,19 +101,29 @@ onMounted(() => {
           />
         </template>
         <label>
-          <input v-model="options.strict" type="checkbox" />
+          <input v-model="options.strict" type="checkbox">
           Strict
         </label>
         <div flex-auto />
+        <div text-sm op50>
+          v{{ version }}
+        </div>
+        <a
+          i-carbon-logo-github
+          text-xl
+          op75
+          hover:op100
+          href="https://github.com/antfu/unocss"
+          target="_blank"
+        />
         <button
           i-carbon-sun
           dark-i-carbon-moon
           text-xl
-          op-50
-          hover:op-100
+          op75
+          hover:op100
           @click="isDark = !isDark"
-        >
-        </button>
+        />
       </TitleBar>
       <CodeMirror
         v-model="inputHTML"
@@ -132,7 +143,7 @@ onMounted(() => {
           />
         </template>
         <label>
-          <input v-model="isPrettify" type="checkbox" />
+          <input v-model="isPrettify" type="checkbox">
           Prettify
         </label>
       </TitleBar>
