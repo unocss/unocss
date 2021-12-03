@@ -29,4 +29,9 @@ export interface AttributifyOptions {
    * @default true
    */
   nonValuedAttribute?: boolean
+
+  /**
+   * A list of attributes to be ignored from extracting.
+   */
+  ignoreAttributes?: string[]
 }
