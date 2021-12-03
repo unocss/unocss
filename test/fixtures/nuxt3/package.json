@@ -6,7 +6,7 @@
     "start": "node .output/server/index.mjs"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "^1.0.11",
+    "@iconify-json/carbon": "^1.0.12",
     "@unocss/core": "link:../../../packages/core",
     "@unocss/nuxt": "link:../../../packages/nuxt",
     "@unocss/reset": "link:../../../packages/reset",
