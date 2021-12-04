@@ -28,6 +28,7 @@ exports[`targets 1`] = `
 @media (max-width: 640px){
 .lt-sm\\\\:m1{margin:0.25rem;}
 }
+.-p-px{padding:-1px;}
 .\\\\!p-5px{padding:5px !important;}
 .first\\\\:p-2:first-child,.p-2,.p2{padding:0.5rem;}
 .group:focus .group-focus\\\\:p-4{padding:1rem;}
@@ -44,6 +45,7 @@ exports[`targets 1`] = `
 .m-0{margin:0rem;}
 .m-1\\\\/2{margin:50%;}
 .my-auto{margin-top:auto;margin-bottom:auto;}
+.-mb-px{margin-bottom:-1px;}
 .mt-\\\\[-10\\\\.2\\\\%\\\\]{margin-top:-10.2%;}
 .mt-\\\\$height{margin-top:var(--height);}
 .next\\\\:mt-0+*{margin-top:0rem;}
@@ -233,7 +235,7 @@ exports[`targets 1`] = `
 .transition-property-width{transition-property:width;}
 .preserve-3d{transform-style:preserve-3d;}
 .preserve-flat{transform-style:flat;}
-.-translate-full,.translate-full,.-translate-x-full,.-translate-y-1\\\\/2,.hover\\\\:translate-x-3,.translate-x-full,.translate-y-1\\\\/4,.active\\\\:scale-4{--un-rotate:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;transform:rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z));}
+.-translate-full,.translate-full,.-translate-x-full,.-translate-y-1\\\\/2,.hover\\\\:translate-x-3,.translate-x-full,.translate-y-1\\\\/4,.translate-y-px,.active\\\\:scale-4{--un-rotate:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;transform:rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z));}
 .-translate-full{--un-translate-x:-100%;--un-translate-y:-100%;}
 .translate-full{--un-translate-x:100%;--un-translate-y:100%;}
 .-translate-x-full{--un-translate-x:-100%;}
@@ -241,6 +243,7 @@ exports[`targets 1`] = `
 .hover\\\\:translate-x-3:hover{--un-translate-x:0.75rem;}
 .translate-x-full{--un-translate-x:100%;}
 .translate-y-1\\\\/4{--un-translate-y:25%;}
+.translate-y-px{--un-translate-y:1px;}
 .active\\\\:scale-4:active{--un-scale-x:0.04;--un-scale-y:0.04;}
 .transform-gpu{transform:rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translate3d(var(--un-translate-x), var(--un-translate-y), var(--un-translate-z));}
 .animate-speed-\\\\$speed{animation-speed:var(--speed);}

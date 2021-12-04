@@ -1,9 +1,12 @@
 const numberWithUnitRE = /^(-?[0-9.]+)(px|pt|pc|rem|em|%|vh|vw|in|cm|mm|ex|ch|vmin|vmax)?$/i
 const numberRE = /^(-?[0-9.]+)$/i
+const unitOnlyRE = /^(px)$/i
 
 export function rem(str: string) {
   if (str === 'auto' || str === 'a')
     return 'auto'
+  if (str.match(unitOnlyRE))
+    return `1${str}`
   const match = str.match(numberWithUnitRE)
   if (!match)
     return
@@ -16,6 +19,8 @@ export function rem(str: string) {
 }
 
 export function px(str: string) {
+  if (str.match(unitOnlyRE))
+    return `1${str}`
   const match = str.match(numberWithUnitRE)
   if (!match)
     return
