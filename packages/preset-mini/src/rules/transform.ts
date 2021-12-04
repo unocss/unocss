@@ -27,15 +27,15 @@ const transformBase = {
 
 export const transforms: Rule[] = [
   ['transform', transformBase],
-  ['transform-gpu', transformGpu],
-  ['transform-cpu', transformCpu],
-  ['transform-none', { transform: 'none' }],
   [/^preserve-(3d|flat)$/, ([, value]) => ({ 'transform-style': value === '3d' ? `preserve-${value}` : value })],
   [/^translate()-([^-]+)$/, handleTranslate],
   [/^translate-([xyz])-([^-]+)$/, handleTranslate],
   [/^scale()-([^-]+)$/, handleScale],
   [/^scale-([xyz])-([^-]+)$/, handleScale],
   [/^rotate-([^-]+)(?:deg)?$/, handleRotate],
+  ['transform-gpu', transformGpu],
+  ['transform-cpu', transformCpu],
+  ['transform-none', { transform: 'none' }],
   ['origin-center', { 'transform-origin': 'center' }],
   ['origin-top', { 'transform-origin': 'top' }],
   ['origin-top-right', { 'transform-origin': 'top right' }],
