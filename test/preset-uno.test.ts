@@ -351,6 +351,7 @@ const targets = [
   'sepia',
   'sepia-80',
   // transforms
+  'transform-gpu',
   'translate-y-1/4',
   '-translate-y-1/2',
   'translate-full',
