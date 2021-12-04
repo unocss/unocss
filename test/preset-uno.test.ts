@@ -353,7 +353,10 @@ const targets = [
   'sepia',
   'sepia-80',
   // transforms
+  'transform',
   'transform-gpu',
+  'transform-cpu',
+  'transform-none',
   'translate-y-1/4',
   '-translate-y-1/2',
   'translate-y-px',

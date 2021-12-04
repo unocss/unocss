@@ -2,6 +2,16 @@ import { Rule, CSSValues } from '@unocss/core'
 import { xyzMap, handler as h } from '../utils'
 import { CONTROL_BYPASS_PSEUDO } from '../variants/pseudo'
 
+const transformGpu = {
+  transform: 'rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translate3d(var(--un-translate-x), var(--un-translate-y), var(--un-translate-z))',
+  [CONTROL_BYPASS_PSEUDO]: '',
+}
+
+const transformCpu = {
+  transform: 'rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z))',
+  [CONTROL_BYPASS_PSEUDO]: '',
+}
+
 const transformBase = {
   '--un-rotate': 0,
   '--un-scale-x': 1,
@@ -12,13 +22,7 @@ const transformBase = {
   '--un-translate-x': 0,
   '--un-translate-y': 0,
   '--un-translate-z': 0,
-  'transform': 'rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z))',
-  [CONTROL_BYPASS_PSEUDO]: '',
-}
-
-const transformGpu = {
-  transform: 'rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translate3d(var(--un-translate-x), var(--un-translate-y), var(--un-translate-z))',
-  [CONTROL_BYPASS_PSEUDO]: '',
+  ...transformCpu,
 }
 
 export const transforms: Rule[] = [
@@ -30,6 +34,8 @@ export const transforms: Rule[] = [
   [/^scale-([xyz])-([^-]+)$/, handleScale],
   [/^rotate-([^-]+)(?:deg)?$/, handleRotate],
   ['transform-gpu', transformGpu],
+  ['transform-cpu', transformCpu],
+  ['transform-none', { transform: 'none' }],
   ['origin-center', { 'transform-origin': 'center' }],
   ['origin-top', { 'transform-origin': 'top' }],
   ['origin-top-right', { 'transform-origin': 'top right' }],
