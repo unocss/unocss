@@ -9,6 +9,16 @@ const COLLECTION_NAME_PARTS_MAX = 3
 
 export { IconsOptions }
 
+async function importFsModule(): Promise<typeof import('./fs')> {
+  try {
+    return await import('./fs')
+  }
+  catch {
+    // for non-node environments
+    return require('./fs.cjs')
+  }
+}
+
 async function searchForIcon(
   collection: string,
   id: string,
@@ -21,7 +31,7 @@ async function searchForIcon(
   if (typeof iconSet === 'function')
     iconSet = await iconSet()
   if (!iconSet && isNode) {
-    const { loadCollectionFromFS } = await import('./fs')
+    const { loadCollectionFromFS } = await importFsModule()
     iconSet = await loadCollectionFromFS(collection)
   }
   if (!iconSet)
