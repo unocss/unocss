@@ -12,11 +12,15 @@ export const parseColorUtil = (body: string, theme: Theme) => {
     return
 
   let color: string | undefined
-  const bracket = h.bracket(main) || main
-  if (bracket.startsWith('#'))
-    color = bracket.slice(1)
-  if (bracket.startsWith('hex-'))
-    color = bracket.slice(4)
+  const bracket = h.bracket(main)
+  const bracketOrMain = bracket || main
+
+  if (bracketOrMain.startsWith('#'))
+    color = bracketOrMain.slice(1)
+  if (bracketOrMain.startsWith('hex-'))
+    color = bracketOrMain.slice(4)
+
+  color = color || bracket
 
   if (!color) {
     const colorData = theme.colors?.[name]
