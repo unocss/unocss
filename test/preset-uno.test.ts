@@ -163,6 +163,8 @@ const targets = [
   'table-footer-group',
   'table-row-group',
   'text-[#124]',
+  'text-[2em]',
+  'text-[calc(1em-1px)]',
   'text-4xl',
   'text-base',
   'text-black/10',
