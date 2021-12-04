@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "bench": "npm -C bench run bench",
-    "build": "pnpm -r --filter !playground run build && pnpm -r run build-post",
+    "build": "esno scripts/copy-files.ts && pnpm -r --filter !playground run build && pnpm -r run build-post",
     "dev": "nr stub",
     "stub": "pnpm -r --parallel run stub",
     "lint": "eslint \"**/*.{ts,vue,mjs}\"",
