@@ -242,6 +242,7 @@ exports[`targets 1`] = `
 .translate-x-full{--un-translate-x:100%;}
 .translate-y-1\\\\/4{--un-translate-y:25%;}
 .active\\\\:scale-4:active{--un-scale-x:0.04;--un-scale-y:0.04;}
+.transform-gpu{transform:rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translate3d(var(--un-translate-x), var(--un-translate-y), var(--un-translate-z));}
 .animate-speed-\\\\$speed{animation-speed:var(--speed);}
 .bg-\\\\$test-variable{background-color:var(--test-variable);}
 .bg-blend-\\\\$data{background-blend-mode:var(--data);}
