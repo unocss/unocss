@@ -22,14 +22,14 @@ const transformBase = {
   '--un-translate-x': 0,
   '--un-translate-y': 0,
   '--un-translate-z': 0,
-  ...transformCpu
+  ...transformCpu,
 }
 
 export const transforms: Rule[] = [
   ['transform', transformBase],
   ['transform-gpu', transformGpu],
   ['transform-cpu', transformCpu],
-  ['transform-none', {'transform': 'none'}],
+  ['transform-none', { transform: 'none' }],
   [/^preserve-(3d|flat)$/, ([, value]) => ({ 'transform-style': value === '3d' ? `preserve-${value}` : value })],
   [/^translate()-([^-]+)$/, handleTranslate],
   [/^translate-([xyz])-([^-]+)$/, handleTranslate],
