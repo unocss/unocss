@@ -16,6 +16,11 @@ const transformBase = {
   [CONTROL_BYPASS_PSEUDO]: '',
 }
 
+const transformGpu = {
+  transform: 'rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translate3d(var(--un-translate-x), var(--un-translate-y), var(--un-translate-z))',
+  [CONTROL_BYPASS_PSEUDO]: '',
+}
+
 export const transforms: Rule[] = [
   ['transform', transformBase],
   [/^preserve-(3d|flat)$/, ([, value]) => ({ 'transform-style': value === '3d' ? `preserve-${value}` : value })],
@@ -24,6 +29,7 @@ export const transforms: Rule[] = [
   [/^scale()-([^-]+)$/, handleScale],
   [/^scale-([xyz])-([^-]+)$/, handleScale],
   [/^rotate-([^-]+)(?:deg)?$/, handleRotate],
+  ['transform-gpu', transformGpu],
   ['origin-center', { 'transform-origin': 'center' }],
   ['origin-top', { 'transform-origin': 'top' }],
   ['origin-top-right', { 'transform-origin': 'top right' }],
