@@ -9,29 +9,17 @@ import presetUno from '@unocss/preset-uno'
 export default defineConfig({
   plugins: [
     UnoCss({
-      mode: 'svelte-scoped',
-      // preprocess(matcher) {
-      //   if (matcher.startsWith('class:') && matcher.includes('=', 5)) {
-      //     const clazz = matcher.slice(6)
-      //     console.log(`${matcher} => ${clazz.substring(0, clazz.indexOf('='))}`)
-      //     return clazz.substring(0, clazz.indexOf('='))
-      //   }
-      //   if (matcher.startsWith('data-')) {
-      //     console.log(matcher.slice(5))
-      //     return matcher.slice(5)
-      //   }
-      //   return matcher
-      // },
+      mode: 'svelte',
       shortcuts: [
         { logo: 'i-logos-svelte-icon w-6em h-6em transform transition-800 hover:rotate-180' },
       ],
       presets: [
-        presetAttributify(/* {
+        presetAttributify({
           // prefix: 'data-',
-          //strict: undefined,
+          strict: undefined,
           // prefixedOnly: true,
-          // nonValuedAttribute: true,
-        } */),
+          nonValuedAttribute: true,
+        }),
         presetUno(),
         presetIcons({
           extraProperties: {
