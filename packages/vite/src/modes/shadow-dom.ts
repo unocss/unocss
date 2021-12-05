@@ -2,16 +2,15 @@ import type { Plugin, ViteDevServer } from 'vite'
 import { UnocssPluginContext, getHash } from '../../../plugins-common'
 
 const VIRTUAL_PREFIX = '/@unocss/'
-const SCOPE_IMPORT_RE = / from (['"])(@unocss\/scope)\1/
+const SCOPE_IMPORT_RE = new RegExp(`\\s+from\\s+['"](${VIRTUAL_PREFIX}(.*))['"]`, 'i')
 
-export function PerModuleModePlugin({ uno, filter }: UnocssPluginContext): Plugin {
+export function ShadowDomModuleModePlugin({ uno, filter }: UnocssPluginContext): Plugin {
   const moduleMap = new Map<string, [string, string]>()
   let server: ViteDevServer | undefined
 
-  const invalidate = (hash: string) => {
+  const invalidate = (id: string) => {
     if (!server)
       return
-    const id = `${VIRTUAL_PREFIX}${hash}.css`
     const mod = server.moduleGraph.getModuleById(id)
     if (!mod)
       return
@@ -28,7 +27,7 @@ export function PerModuleModePlugin({ uno, filter }: UnocssPluginContext): Plugi
   }
 
   return {
-    name: 'unocss:module-scope',
+    name: 'unocss:shadow-dom',
     enforce: 'post',
     configureServer(_server) {
       server = _server
@@ -38,20 +37,25 @@ export function PerModuleModePlugin({ uno, filter }: UnocssPluginContext): Plugi
         return
 
       const hash = getHash(id)
-      const hasScope = code.match(SCOPE_IMPORT_RE)
 
-      const { css } = await uno.generate(code, { id, scope: hasScope ? `.${hash}` : undefined, preflights: false })
-      if (!css && !hasScope)
+      const { css } = await uno.generate(code, { id, preflights: false })
+      if (!css)
         return null
 
-      if (hasScope)
-        code = code.replace(SCOPE_IMPORT_RE, ` from 'data:text/javascript;base64,${Buffer.from(`export default () => "${hash}"`).toString('base64')}'`)
+      const imported = code.match(SCOPE_IMPORT_RE)
+      if (!imported)
+        return null
+
+      const useId = `${VIRTUAL_PREFIX}${hash}.css`
 
       moduleMap.set(hash, [id, css])
-      invalidate(hash)
+      invalidate(useId)
 
+      let idx = code.indexOf(useId)
+      const useCode = idx > -1 ? code.slice(idx + useId.length + 1) : code
+      idx = useCode.indexOf(imported[1])
       return {
-        code: `import "${VIRTUAL_PREFIX}${hash}.css";${code}`,
+        code: `${useCode.slice(0, idx)}${useId}${useCode.slice(idx + imported[1].length)}`,
         map: null,
       }
     },
