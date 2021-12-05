@@ -87,6 +87,8 @@ exports[`targets 1`] = `
 .font-mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\\"Liberation Mono\\",\\"Courier New\\",monospace;}
 .dark .dark\\\\:text-xl{font-size:1.25rem;line-height:1.75rem;}
 .light .light\\\\:text-sm{font-size:0.875rem;line-height:1.25rem;}
+.text-\\\\[2em\\\\]{font-size:2em;}
+.text-\\\\[calc\\\\(1em-1px\\\\)\\\\]{font-size:calc(1em - 1px);}
 .text-4xl{font-size:2.25rem;line-height:2.5rem;}
 .text-base{font-size:1rem;line-height:1.5rem;}
 .text-lg{font-size:1.125rem;line-height:1.75rem;}
