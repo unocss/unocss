@@ -150,6 +150,6 @@ export const bgRepeats: Rule[] = [
 
 export const bgSizes: Rule[] = [
   ['bg-auto', { 'background-size': 'auto' }],
-  ['bg-cover', { 'background-repeat': 'cover' }],
-  ['bg-contain', { 'background-position': 'contain' }],
+  ['bg-cover', { 'background-size': 'cover' }],
+  ['bg-contain', { 'background-size': 'contain' }],
 ]
