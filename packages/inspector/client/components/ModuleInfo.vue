@@ -28,7 +28,7 @@ const unmatchedClasses = asyncComputed(async() => {
         </div>
         <a cursor-pointer op80 hover:op100 @click="openEditor">
           <ModuleId :id="mod.id" mr-1 />
-          <div i-carbon-launch></div>
+          <div i-carbon-launch />
         </a>
       </div>
       <div>

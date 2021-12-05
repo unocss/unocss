@@ -22,7 +22,7 @@ import { moduleTree } from '../composables/fetch'
           REPL
         </span>
       </RouterLink>
-      <div b="b main"></div>
+      <div b="b main" />
       <ModuleTreeNode
         v-if="Object.keys(moduleTree.workspace.children).length"
         :node="moduleTree.workspace"

@@ -20,7 +20,7 @@ const route = useRoute()
       truncate
       p="y1"
     >
-      <div :class="icon"></div>
+      <div :class="icon" />
       {{ node.name }}
     </summary>
 

@@ -14,12 +14,12 @@ defineProps<{
     flex
     all:my-auto
   >
-    <slot name="before"></slot>
+    <slot name="before" />
     <div mr-2 op-60>
       {{ title }}
     </div>
     <div flex gap-2 flex-auto>
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>
