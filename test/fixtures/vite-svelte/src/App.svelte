@@ -1,5 +1,6 @@
 <script lang="ts">
     import { fade, fly } from 'svelte/transition'
+    import Footer from './Footer.svelte'
     let logo = false
     let red = false
     function toggleLogo() {
@@ -23,7 +24,7 @@
 
   <br/>
 
-  <div class:bg-red-600={red}>BG Color should change</div>
+  <div class:bg-blue-400={red}>BG Color should change</div>
 
   <br/>
 
@@ -33,6 +34,8 @@
   <br />
 
   <div class="absolute mt-20px bottom-0">absolute</div>
+
+  <Footer />
 
 </main>
 
