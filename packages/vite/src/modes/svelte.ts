@@ -4,15 +4,7 @@ import { defaultExclude, UnocssPluginContext } from '../../../plugins-common'
 
 export function SveltePlugin({ uno, ready }: UnocssPluginContext): Plugin[] {
   let filter = createFilter([/\.svelte$/], defaultExclude)
-  const classMatcher = /^\[class:(.+)=/
-  const preprocess: (matcher: string) => string | undefined = (matcher) => {
-    const match = matcher.match(classMatcher)
-    // todo@userquin: this is not working!!!
-    if (match)
-      return match[1]
-
-    return matcher
-  }
+  const regexp = /(class:(.+)={)/g
   return [
     {
       name: 'unocss:svelte',
@@ -23,16 +15,20 @@ export function SveltePlugin({ uno, ready }: UnocssPluginContext): Plugin[] {
           config.include || [/\.svelte$/],
           config.exclude || defaultExclude,
         )
-        if (!uno.config.preprocess)
-          uno.config.preprocess = preprocess
-
-        // todo@userquin: this is not working!!!
-        uno.config.shortcuts = uno.config.shortcuts || []
-        uno.config.shortcuts.push([/^class:(.+)$/, ([g, s], ctx) => {
-          console.log(`class => ${g} => ${s} => ${ctx.rawSelector} => ${ctx.rawSelector === g}`)
-          // we should be able to return StaticShortcutMap
-          return s
-        }])
+        uno.config.extractors = uno.config.extractors || []
+        uno.config.extractors.push({
+          name: 'unocss:svelte-class-extractor',
+          async extract({ code }) {
+            const result = code.match(regexp)
+            return result
+              ? result.reduce((acc, r) => {
+                acc.add(r.slice(6, r.length - 2))
+                return acc
+              }, new Set<string>())
+              : undefined
+          },
+          order: 0,
+        })
 
         uno.config.blocklist = uno.config.blocklist || []
         // remove global styles and attribute styles
