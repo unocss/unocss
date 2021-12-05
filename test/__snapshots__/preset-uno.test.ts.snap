@@ -118,8 +118,6 @@ exports[`targets 1`] = `
 .group:focus:hover .group-hover\\\\:group-focus\\\\:text-center{text-align:center;}
 .dark .dark\\\\:not-odd\\\\:text-red:not(:nth-child(odd)){--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
 .text-\\\\[\\\\#124\\\\]{--un-text-opacity:1;color:rgba(17,34,68,var(--un-text-opacity));}
-.text-\\\\[2em\\\\]{color:2em;}
-.text-\\\\[calc\\\\(1em-1px\\\\)\\\\]{color:calc(1em - 1px);}
 .text-\\\\[var\\\\(--color\\\\)\\\\]{color:var(--color);}
 .text-black\\\\/10{color:rgba(0,0,0,0.1);}
 .text-blue{--un-text-opacity:1;color:rgba(96,165,250,var(--un-text-opacity));}
