@@ -12,6 +12,7 @@ export default defineConfig({
       mode: 'svelte',
       shortcuts: [
         { logo: 'i-logos-svelte-icon w-6em h-6em transform transition-800 hover:rotate-180' },
+        { foo: '!bg-yellow-400' },
       ],
       presets: [
         presetAttributify(),

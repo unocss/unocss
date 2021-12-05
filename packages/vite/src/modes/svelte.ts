@@ -4,7 +4,7 @@ import { defaultExclude, UnocssPluginContext } from '../../../plugins-common'
 
 export function SveltePlugin({ uno, ready }: UnocssPluginContext): Plugin[] {
   let filter = createFilter([/\.svelte$/], defaultExclude)
-  const regexp = /(class:(.+)={)/g
+  const regexp = [/(class:(.+)={)/g, /(class:(.+)\s|>)/g]
   return [
     {
       name: 'unocss:svelte',
@@ -19,13 +19,22 @@ export function SveltePlugin({ uno, ready }: UnocssPluginContext): Plugin[] {
         uno.config.extractors.push({
           name: 'unocss:svelte-class-extractor',
           async extract({ code }) {
-            const result = code.match(regexp)
-            return result
-              ? result.reduce((acc, r) => {
-                acc.add(r.slice(6, r.length - 2))
-                return acc
-              }, new Set<string>())
-              : undefined
+            let result = code.match(regexp[0])
+            const entries = new Set<string>()
+            if (result) {
+              result.forEach((r) => {
+                entries.add(r.slice(6, r.length - 2))
+              })
+            }
+
+            result = code.match(regexp[1])
+            if (result) {
+              result.forEach((r) => {
+                entries.add(r.trim())
+              })
+            }
+
+            return entries.size > 0 ? entries : undefined
           },
           order: 0,
         })

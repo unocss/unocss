@@ -1,7 +1,16 @@
 <script lang="ts">
-  let yellow = true
+  let foo = true
 </script>
 <footer>
-  <div class="bg-blue-600" class:bg-yellow-600={yellow}>Footer</div>
+  <div
+      class="bar"
+      class:foo
+  >Footer</div>
+  <div class="bar" class:foo>Footer2</div>
 </footer>
+<style>
+    .bar {
+        background-color: green;
+    }
+</style>
 
