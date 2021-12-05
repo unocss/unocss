@@ -7,8 +7,9 @@ export function SveltePlugin({ uno, ready }: UnocssPluginContext): Plugin[] {
   const classMatcher = /^\[class:(.+)=/
   const preprocess: (matcher: string) => string | undefined = (matcher) => {
     const match = matcher.match(classMatcher)
+    // todo@userquin: this is not working!!!
     if (match)
-      return `[${match[1]}=""]`
+      return match[1]
 
     return matcher
   }
@@ -24,6 +25,13 @@ export function SveltePlugin({ uno, ready }: UnocssPluginContext): Plugin[] {
         )
         if (!uno.config.preprocess)
           uno.config.preprocess = preprocess
+
+        // todo@userquin: this is not working!!!
+        uno.config.shortcuts = uno.config.shortcuts || []
+        uno.config.shortcuts.push([/^class:(.+)$/, ([g, s], ctx) => {
+          console.log(`class => ${g} => ${s} => ${ctx.rawSelector} => ${ctx.rawSelector === g}`)
+          return ctx.rawSelector === g ? s : undefined
+        }])
 
         uno.config.blocklist = uno.config.blocklist || []
         // remove global styles and attribute styles

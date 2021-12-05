@@ -24,11 +24,11 @@
 
   <br/>
 
-  <div class:bg-red-500={red}>BG Color should change</div>
+  <div class:bg-red-400={red}>BG Color should change</div>
 
   <br/>
 
-  <button class="bg-red-400" on:click={toggleLogo}>{button}</button>
+  <button class="bg-red-100" on:click={toggleLogo}>{button}</button>
   <button on:click={toggleSpan}>Change BG Color: {span}</button>
 
   <br />
