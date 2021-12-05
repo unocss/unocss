@@ -14,12 +14,12 @@ export default defineConfig({
         { logo: 'i-logos-svelte-icon w-6em h-6em transform transition-800 hover:rotate-180' },
       ],
       presets: [
-        presetAttributify({
+        presetAttributify(/* {
           // prefix: 'data-',
-          strict: undefined,
+          // strict: false,
           // prefixedOnly: true,
-          nonValuedAttribute: true,
-        }),
+          // nonValuedAttribute: true,
+        } */),
         presetUno(),
         presetIcons({
           extraProperties: {

@@ -30,7 +30,8 @@ export function SveltePlugin({ uno, ready }: UnocssPluginContext): Plugin[] {
         uno.config.shortcuts = uno.config.shortcuts || []
         uno.config.shortcuts.push([/^class:(.+)$/, ([g, s], ctx) => {
           console.log(`class => ${g} => ${s} => ${ctx.rawSelector} => ${ctx.rawSelector === g}`)
-          return ctx.rawSelector === g ? s : undefined
+          // we should be able to return StaticShortcutMap
+          return s
         }])
 
         uno.config.blocklist = uno.config.blocklist || []
