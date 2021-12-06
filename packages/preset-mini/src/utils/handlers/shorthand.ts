@@ -13,7 +13,7 @@ export type Handler = {[K in HandlerName]: Handler} & {
   }
 }
 
-const handlers: Record<string, ValueHandlerCallback> = {};
+const handlers: Record<string, ValueHandlerCallback> = {}
 
 const handler = function(
   this: Handler,
