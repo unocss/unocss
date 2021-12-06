@@ -17,6 +17,7 @@
     "@typescript-eslint/parser": "^4.31.1",
     "@unocss/preset-icons": "link:../../../packages/presets-icons",
     "eslint": "^7.32.0",
+    "eslint-plugin-svelte3": "^3.2.1",
     "svelte": "^3.44.1",
     "svelte-check": "^2.2.8",
     "svelte-preprocess": "^4.9.8",
