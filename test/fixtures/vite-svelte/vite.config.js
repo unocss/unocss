@@ -2,7 +2,6 @@ import { defineConfig } from 'vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import UnoCss from 'unocss/vite'
 import presetIcons from '@unocss/preset-icons'
-import presetAttributify from '@unocss/preset-attributify'
 import presetUno from '@unocss/preset-uno'
 
 // https://vitejs.dev/config/
@@ -16,7 +15,6 @@ export default defineConfig({
         { bar: 'bg-green-400' },
       ],
       presets: [
-        presetAttributify(),
         presetUno(),
         presetIcons({
           extraProperties: {

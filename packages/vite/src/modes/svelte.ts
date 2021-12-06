@@ -25,11 +25,6 @@ export function SveltePlugin({ uno, ready }: UnocssPluginContext): Plugin[] {
           },
           order: 0,
         })
-
-        uno.config.blocklist = uno.config.blocklist || []
-        // remove global styles and attribute styles
-        if (uno.config.blocklist.length === 0)
-          uno.config.blocklist.push(/^\.\\!/, /^\[/)
       },
       transform(code, id) {
         if (!filter(id))
