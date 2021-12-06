@@ -1,0 +1,25 @@
+{
+  "name": "unocss-sveltekit",
+  "scripts": {
+    "dev": "svelte-kit dev",
+    "build": "svelte-kit build",
+    "package": "svelte-kit package",
+    "preview": "svelte-kit preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
+    "lint": "eslint --ignore-path .gitignore ."
+  },
+  "devDependencies": {
+    "@iconify-json/logos": "^1.0.1",
+    "@sveltejs/adapter-static": "next",
+    "@sveltejs/kit": "next",
+    "@unocss/preset-icons": "link:../../../packages/presets-icons",
+    "svelte": "^3.44.1",
+    "svelte-check": "^2.2.8",
+    "svelte-preprocess": "^4.9.8",
+    "tslib": "^2.3.1",
+    "typescript": "^4.5.2",
+    "unocss": "link:../../../packages/unocss"
+  },
+  "type": "module"
+}
