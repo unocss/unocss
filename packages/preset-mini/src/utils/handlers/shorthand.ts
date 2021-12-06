@@ -1,8 +1,10 @@
-import * as handlers from './handlers'
+import * as miniHandlers from './handlers'
 
-export type HandlerName = keyof typeof handlers
+export type ValueHandlerCallback = (str: string) => string | number | undefined
 
-export const handlersNames = Object.keys(handlers) as HandlerName[]
+export type HandlerName = (keyof typeof miniHandlers) | string
+
+export const handlersNames = Object.keys(miniHandlers) as HandlerName[]
 
 export type Handler = {[K in HandlerName]: Handler} & {
   (str: string): string | undefined
@@ -10,6 +12,8 @@ export type Handler = {[K in HandlerName]: Handler} & {
     sequence: HandlerName[]
   }
 }
+
+const handlers: Record<string, ValueHandlerCallback> = {};
 
 const handler = function(
   this: Handler,
@@ -35,13 +39,19 @@ function addProcessor(that: Handler, name: HandlerName) {
   return that
 }
 
-handlersNames.forEach((i) => {
-  Object.defineProperty(handler, i, {
-    enumerable: true,
-    get() {
-      return addProcessor(this, i)
-    },
-  })
-})
+Object.entries(miniHandlers).forEach(([name, callback]) => registerProcessor(name, callback))
+
+export function registerProcessor(name: HandlerName, callback: ValueHandlerCallback) {
+  if (!(name in handlers)) {
+    Object.defineProperty(handler, name, {
+      enumerable: true,
+      get() {
+        return addProcessor(this, name)
+      },
+    })
+  }
+
+  handlers[name] = callback
+}
 
 export { handler }
