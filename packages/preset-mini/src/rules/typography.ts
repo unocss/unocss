@@ -41,6 +41,11 @@ export const fontSizes: Rule<Theme>[] = [
       }
     }
   }],
+  [/^font-size-(.+)$/, ([, s]) => {
+    const raw = h.bracket.rem(s)
+    if (raw)
+      return { 'font-size': raw }
+  }],
 ]
 
 export const fontWeights: Rule[] = [
