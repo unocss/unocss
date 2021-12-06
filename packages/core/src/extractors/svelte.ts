@@ -1,12 +1,16 @@
 import { Extractor } from '../types'
-import { isValidSelector } from '../utils'
+import { splitCode } from './split'
 
 export const svelteExtractor: Extractor = {
   name: 'svelte',
   order: 0,
-  extract({ code }) {
-    return new Set(code.split(/[\s'"`;>=]+/g).filter(isValidSelector).map((r) => {
-      return r.startsWith('class:') ? r.slice(6) : r
-    }))
+  extract({ code, id }) {
+    let result = splitCode(code)
+    if (id && id.endsWith('.svelte')) {
+      result = result.map((r) => {
+        return r.startsWith('class:') ? r.slice(6) : r
+      })
+    }
+    return new Set(result)
   },
 }
