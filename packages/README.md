@@ -7,7 +7,7 @@
 | [@unocss/cli](./cli) | Command line interface for UnoCSS | ✅ |
 | [@unocss/preset-uno](./preset-uno) | The default preset, a superset of common Atomic CSS frameworks | ✅ |
 | [@unocss/preset-mini](./preset-mini) | The minimal but essential rules and variants | ✅ |
-| [@unocss/preset-wind](./preset-uno) | Tailwind / Windi CSS compact preset | ✅ |
+| [@unocss/preset-wind](./preset-wind) | Tailwind / Windi CSS compact preset | ✅ |
 | [@unocss/preset-attributify](./preset-attributify) | Enables Attributify Mode for other rules | ✅ |
 | [@unocss/preset-icons](./preset-icons) | Pure CSS Icons solution powered by Iconify | ✅ |
 | [@unocss/config](./config) | Configuration file loader | ✅ |
