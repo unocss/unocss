@@ -37,6 +37,7 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 - [VS Code extension](https://marketplace.visualstudio.com/items?itemName=antfu.unocss)
 - Code-splitting for CSS - ships minimal CSS for MPA.
 - Library friendly - ships atomic styles with your component libraries and safely scoped.
+- [Allow scanning for `.ts` files](#allow-scanning-for-ts-files)
 
 ###### Benchmark
 
@@ -546,6 +547,11 @@ See [@unocss/runtime](https://github.com/antfu/unocss/tree/main/packages/runtime
 ### Publish
 
 // TODO: -->
+
+### Allow scanning for `.ts` files
+
+By default `.ts` is not scanned by UnoCSS, you can either add `/* @unocss-include */` comment in the file or include all the `.ts` files by passing the include option.
+
 
 ## Acknowledgement
 
