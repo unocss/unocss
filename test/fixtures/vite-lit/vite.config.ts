@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import UnoCss from 'unocss/vite'
-import { presetUno, presetAttributify } from 'unocss'
+import presetUno from '@unocss/preset-uno'
+import presetAttributify from '@unocss/preset-attributify'
 import presetIcons from '@unocss/preset-icons'
 import ViteInspector from 'vite-plugin-inspect'
 

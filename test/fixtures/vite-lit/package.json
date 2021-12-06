@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.0.1",
+    "@unocss/preset-icons": "link:../../../packages/presets-icons",
     "typescript": "^4.5.2",
     "unocss": "link:../../../packages/unocss",
     "vite": "^2.6.14",
