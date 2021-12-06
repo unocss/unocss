@@ -1,6 +1,7 @@
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import presetAttributify, { variantAttributify } from '@unocss/preset-attributify'
+import { describe, expect, test } from 'vitest'
 
 describe('attributify', () => {
   const fixture1 = `

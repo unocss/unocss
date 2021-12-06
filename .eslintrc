@@ -1,9 +1,5 @@
 {
-  "env": {
-    "jest": true
-  },
   "extends": ["@antfu"],
-  "plugins": ["jest"],
   "rules": {
     "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "no-restricted-imports": [

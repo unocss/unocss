@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`custom-raw basic 1`] = `
+exports[`custom-raw > basic 1`] = `
 "/* layer: default */
 .before{content:before;}
 /* return a string to take full control of the generated CSS */

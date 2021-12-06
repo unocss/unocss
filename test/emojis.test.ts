@@ -1,5 +1,6 @@
 import { createGenerator } from '@unocss/core'
 import presetAttributify from '@unocss/preset-attributify'
+import { describe, expect, test } from 'vitest'
 
 describe('emojis', () => {
   const fixture1 = `
