@@ -4,7 +4,7 @@ import { defaultExclude, UnocssPluginContext } from '../../../plugins-common'
 
 export function SveltePlugin({ uno, ready }: UnocssPluginContext): Plugin[] {
   let filter = createFilter([/\.svelte$/], defaultExclude)
-  const regexp = [/(class:(.+)={)/g, /(class:(.+)\s|>)/g]
+  const regexp = /[\s'"`;>=]+/g
   return [
     {
       name: 'unocss:svelte',
@@ -17,24 +17,11 @@ export function SveltePlugin({ uno, ready }: UnocssPluginContext): Plugin[] {
         )
         uno.config.extractors = uno.config.extractors || []
         uno.config.extractors.push({
-          name: 'unocss:svelte-class-extractor',
+          name: 'svelte-class-extractor',
           async extract({ code }) {
-            let result = code.match(regexp[0])
-            const entries = new Set<string>()
-            if (result) {
-              result.forEach((r) => {
-                entries.add(r.slice(6, r.length - 2))
-              })
-            }
-
-            result = code.match(regexp[1])
-            if (result) {
-              result.forEach((r) => {
-                entries.add(r.trim())
-              })
-            }
-
-            return entries.size > 0 ? entries : undefined
+            return new Set(code.split(regexp).filter((r) => {
+              return r && r.startsWith('class:')
+            }).map(r => r.slice(6)))
           },
           order: 0,
         })
@@ -42,7 +29,7 @@ export function SveltePlugin({ uno, ready }: UnocssPluginContext): Plugin[] {
         uno.config.blocklist = uno.config.blocklist || []
         // remove global styles and attribute styles
         if (uno.config.blocklist.length === 0)
-          uno.config.blocklist.push(/^\.\\!//*, /^\[/ */)
+          uno.config.blocklist.push(/^\.\\!/, /^\[/)
       },
       transform(code, id) {
         if (!filter(id))
