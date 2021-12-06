@@ -1,6 +1,7 @@
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import presetIcons from '@unocss/preset-icons'
+import { expect, test } from 'vitest'
 
 test('prefix', async() => {
   const positive = [
@@ -34,7 +35,7 @@ test('prefix', async() => {
     },
   })
   const { css, matched } = await uno.generate(new Set([...positive, ...negative]))
-  expect(matched).toEqual(new Set(positive))
+  expect(matched).eql(new Set(positive))
   expect(css).toMatchSnapshot()
 })
 
@@ -69,6 +70,6 @@ test('tailwind prefix', async() => {
     },
   })
   const { css, matched } = await uno.generate(new Set([...positive, ...negative]))
-  expect(matched).toEqual(new Set(positive))
+  expect(matched).eql(new Set(positive))
   expect(css).toMatchSnapshot()
 })

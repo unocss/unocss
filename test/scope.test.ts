@@ -1,5 +1,6 @@
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
+import { expect, test } from 'vitest'
 
 export const fixture = new Set([
   'pl-10px',

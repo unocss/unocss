@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`layers static 1`] = `
+exports[`layers > static 1`] = `
 "/* layer: shortcuts */
 .abc{name:bar1;name:bar2;name:4;}
 /* layer: a */

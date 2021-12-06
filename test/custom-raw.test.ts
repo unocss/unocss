@@ -1,4 +1,5 @@
 import { createGenerator, e } from '@unocss/core'
+import { describe, expect, test } from 'vitest'
 
 describe('custom-raw', () => {
   test('basic', async() => {
