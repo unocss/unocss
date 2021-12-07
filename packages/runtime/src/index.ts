@@ -11,11 +11,11 @@ declare global {
   interface Window {
     __unocss?: UserConfig & { runtime?: RuntimeOptions }
     __unocss_runtime?: {
-      uno: UnoGenerator;
-      extractAll: () => void;
-      inspect: (callback?: (element: Element) => void) => void;
-      toggleObserver: (state?: bool) => void;
-      version: string;
+      uno: UnoGenerator,
+      extractAll: () => void,
+      inspect: (callback?: (element: Element) => void) => void,
+      toggleObserver: (state?: bool) => void,
+      version: string,
     }
   }
 }
