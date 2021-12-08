@@ -46,7 +46,7 @@ describe('shortcuts', () => {
     const { css } = await uno.generate('bad-one')
     expect(css).toMatchSnapshot()
 
-    expect(warn).toBeCalledOnce()
+    expect(warn).toHaveBeenCalledOnce()
     expect(warn.args[0]).eql(['[unocss]', 'unmatched utility "unmatched" in shortcut "bad-one"'])
 
     warn.restore()
