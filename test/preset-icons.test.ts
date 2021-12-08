@@ -1,6 +1,7 @@
 import { createGenerator } from '@unocss/core'
 import presetIcons from '@unocss/preset-icons'
 import presetUno from '@unocss/preset-uno'
+import { describe, expect, test } from 'vitest'
 
 describe('preset-icons', () => {
   const fixture1 = `

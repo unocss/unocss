@@ -521,6 +521,12 @@ preprocess(matcher) {
 }
 ```
 
+### Scanning
+
+By default UnoCSS will scan for components files like: `.jsx`, `.tsx`, `.vue`, `.md`, `.html`, `.svelte`, `.astro`. 
+
+`.js` and `.ts` files are not included by default. You can add `@unocss-include` anywhere in the file that you want UnoCSS to scan at per-file bias, or include `*.js` or `*.ts` in the configuration to make all js/ts files as scan targets.
+
 ### Inspector
 
 From v0.7.0, our Vite plugin now ships with a dev inspector ([@unocss/inspector](https://github.com/antfu/unocss/tree/main/packages/inspector)) for you to view, play and analyse your custom rules and setup. Visit `http://localhost:3000/__unocss` in your Vite dev server to see it.
@@ -546,6 +552,7 @@ See [@unocss/runtime](https://github.com/antfu/unocss/tree/main/packages/runtime
 ### Publish
 
 // TODO: -->
+
 
 ## Acknowledgement
 

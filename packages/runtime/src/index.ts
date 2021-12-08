@@ -10,7 +10,13 @@ export interface RuntimeOptions {
 declare global {
   interface Window {
     __unocss?: UserConfig & { runtime?: RuntimeOptions }
-    __unocss_runtime?: { uno: UnoGenerator; extractAll: () => void; version: string }
+    __unocss_runtime?: {
+      uno: UnoGenerator
+      extractAll: () => void
+      inspect: (callback?: (element: Element) => boolean) => void
+      toggleObserver: (state?: boolean) => void
+      version: string
+    }
   }
 }
 
@@ -23,6 +29,8 @@ export default function init(options: RuntimeOptions = {}) {
   Object.assign(options, window.__unocss?.runtime)
 
   let el: HTMLStyleElement | undefined
+  let paused = false
+  let inspector: ((element: Element) => boolean) | undefined
 
   const uno = createGenerator(window.__unocss || {}, options.defaults)
   const tokens = new Set<string>()
@@ -49,14 +57,19 @@ export default function init(options: RuntimeOptions = {}) {
   }
 
   function extractAll() {
-    if (document.body && document.body.outerHTML)
-      extract(document.body.outerHTML)
+    const html = document.body && document.body.outerHTML
+    if (html)
+      extract(html)
   }
 
   const mutationObserver = new MutationObserver((mutations) => {
+    if (paused)
+      return
     mutations.forEach((mutation) => {
       const target = mutation.target as Element
       if (target === el)
+        return
+      if (inspector && !inspector(target))
         return
       const attrs = Array.from(target.attributes)
         .map(i => i.value ? `${i.name}="${i.value}"` : i.name)
@@ -90,6 +103,15 @@ export default function init(options: RuntimeOptions = {}) {
     version: uno.version,
     uno,
     extractAll,
+    inspect(callback) {
+      inspector = callback
+    },
+    toggleObserver(set) {
+      if (set === undefined)
+        paused = !paused
+      else
+        paused = !!set
+    },
   }
 
   execute()

@@ -1,4 +1,5 @@
 import { createGenerator } from '@unocss/core'
+import { describe, expect, test } from 'vitest'
 
 describe('preflights', () => {
   test('basic', async() => {

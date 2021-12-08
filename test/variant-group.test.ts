@@ -1,4 +1,5 @@
 import { expandVariantGroup } from '@unocss/core'
+import { describe, test, expect } from 'vitest'
 
 describe('variant-group', () => {
   test('basic', async() => {

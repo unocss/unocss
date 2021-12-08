@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`emojis extractor1 1`] = `
+exports[`emojis > extractor1 1`] = `
 Set {
   "[🦉=\\"\\"]",
   "🦉",
@@ -10,7 +10,7 @@ Set {
 }
 `;
 
-exports[`emojis fixture1 1`] = `
+exports[`emojis > fixture1 1`] = `
 "/* layer: default */
 .🦉,[🦉=\\"\\"]{color:red;}"
 `;

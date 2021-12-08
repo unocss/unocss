@@ -1,5 +1,6 @@
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
+import { describe, expect, test } from 'vitest'
 
 describe('safelist', () => {
   test('basic', async() => {
