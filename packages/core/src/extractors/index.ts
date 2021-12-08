@@ -1,2 +1,2 @@
 export { extractorSplit } from './split'
-export * from './svelte'
+export { extractorSvelte } from './svelte'

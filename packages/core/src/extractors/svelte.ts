@@ -1,7 +1,7 @@
 import { Extractor } from '../types'
 import { splitCode } from './split'
 
-export const svelteExtractor: Extractor = {
+export const extractorSvelte: Extractor = {
   name: 'svelte',
   order: 0,
   extract({ code, id }) {
