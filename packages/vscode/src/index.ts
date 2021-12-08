@@ -43,8 +43,14 @@ export async function activate() {
 
   workspace.onDidSaveTextDocument(async(doc) => {
     if (sources.includes(doc.uri.fsPath)) {
-      await context.reloadConfig()
-      log.appendLine(`Config reloaded by ${relative(cwd, doc.uri.fsPath)}`)
+      try {
+        await context.reloadConfig()
+        log.appendLine(`Config reloaded by ${relative(cwd, doc.uri.fsPath)}`)
+      }
+      catch (e) {
+        log.appendLine('Error on loading config')
+        log.appendLine(String(e))
+      }
     }
   })
 
@@ -61,7 +67,7 @@ export async function activate() {
     const code = doc.getText()
     const id = doc.uri.fsPath
 
-    if (!code.includes(INCLUDE_COMMENT_IDE) && !filter(code, id))
+    if (!code || (!code.includes(INCLUDE_COMMENT_IDE) && !filter(code, id)))
       return reset()
 
     const result = await uno.generate(code, { id, preflights: false, minify: true })
