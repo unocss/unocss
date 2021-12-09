@@ -7,14 +7,49 @@ export interface RuntimeOptions {
   defaults?: UserConfigDefaults
 }
 
+export type RuntimeInspectorCallback = (element: Element) => boolean
+
 declare global {
   interface Window {
     __unocss?: UserConfig & { runtime?: RuntimeOptions }
     __unocss_runtime?: {
+      /**
+       * The UnoCSS instance.
+       *
+       * @type {UnoGenerator}
+       */
       uno: UnoGenerator
+
+      /**
+       * Rerun extractor on the whole <body>, regardless of paused status or inspection limitation.
+       *
+       * @returns {void}
+       */
       extractAll: () => void
-      inspect: (callback?: (element: Element) => boolean) => void
+
+      /**
+       * Set/unset inspection callback to allow/ignore element to be extracted.
+       *
+       * @param {RuntimeInspectorCallback} [callback] - Callback to determine whether the element will be extracted.
+       *
+       * @returns {void}
+       */
+      inspect: (callback?: RuntimeInspectorCallback) => void
+
+      /**
+       * Pause/resume/toggle the runtime.
+       *
+       * @param {boolean} [state] - False or True respectively pause or resume the runtime. Undefined parameter toggles the pause/resume state.
+       *
+       * @returns {void}
+       */
       toggleObserver: (state?: boolean) => void
+
+      /**
+       * The UnoCSS version.
+       *
+       * @type {string}
+       */
       version: string
     }
   }
@@ -30,7 +65,7 @@ export default function init(options: RuntimeOptions = {}) {
 
   let el: HTMLStyleElement | undefined
   let paused = false
-  let inspector: ((element: Element) => boolean) | undefined
+  let inspector: RuntimeInspectorCallback | undefined
 
   const uno = createGenerator(window.__unocss || {}, options.defaults)
   const tokens = new Set<string>()
