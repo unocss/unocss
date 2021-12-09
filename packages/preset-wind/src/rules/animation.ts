@@ -107,6 +107,7 @@ const keyframes: Record<string, string> = {
 }
 
 const durations: Record<string, string> = {
+  'tw-pulse': '2s',
   'heart-beat': '1.3s',
   'bounce-in': '0.75s',
   'bounce-out': '0.75s',
@@ -116,6 +117,8 @@ const durations: Record<string, string> = {
 }
 
 const timingFns: Record<string, string> = {
+  'tw-pulse': 'cubic-bezier(0.4,0,.6,1)',
+  'ping': 'cubic-bezier(0,0,.2,1)',
   'head-shake': 'ease-in-out',
   'heart-beat': 'ease-in-out',
   'pulse': 'ease-in-out',
