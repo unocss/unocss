@@ -3,11 +3,13 @@ import { handler as h } from '@unocss/preset-mini/utils'
 
 // https://windicss.org/plugins/community/animations.html
 const keyframes: Record<string, string> = {
+  'pulse': '{0%, 100% {opacity:1} 50% {opacity:.5}}',
+  'bounce': '{0%, 100% {transform:translateY(-25%);animation-timing-function:cubic-bezier(0.8,0,1,1)} 50% {transform:translateY(0);animation-timing-function:cubic-bezier(0,0,0.2,1)}}',
   'spin': '{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}',
   'ping': '{0%{transform:scale(1);opacity:1}75%,100%{transform:scale(2);opacity:0}}',
-  'bounce': '{from,20%,53%,80%,to{animation-timing-function:cubic-bezier(0.215,0.61,0.355,1);transform:translate3d(0,0,0)}40%,43%{animation-timing-function:cubic-bezier(0.755,0.05,0.855,0.06);transform:translate3d(0,-30px,0)}70%{animation-timing-function:cubic-bezier(0.755,0.05,0.855,0.06);transform:translate3d(0,-15px,0)}90%{transform:translate3d(0,-4px,0)}}',
+  'bounce-alt': '{from,20%,53%,80%,to{animation-timing-function:cubic-bezier(0.215,0.61,0.355,1);transform:translate3d(0,0,0)}40%,43%{animation-timing-function:cubic-bezier(0.755,0.05,0.855,0.06);transform:translate3d(0,-30px,0)}70%{animation-timing-function:cubic-bezier(0.755,0.05,0.855,0.06);transform:translate3d(0,-15px,0)}90%{transform:translate3d(0,-4px,0)}}',
   'flash': '{from,50%,to{opacity:1}25%,75%{opacity:0}}',
-  'pulse': '{from{transform:scale3d(1,1,1)}50%{transform:scale3d(1.05,1.05,1.05)}to{transform:scale3d(1,1,1)}}',
+  'pulse-alt': '{from{transform:scale3d(1,1,1)}50%{transform:scale3d(1.05,1.05,1.05)}to{transform:scale3d(1,1,1)}}',
   'rubber-band': '{from{transform:scale3d(1,1,1)}30%{transform:scale3d(1.25,0.75,1)}40%{transform:scale3d(0.75,1.25,1)}50%{transform:scale3d(1.15,0.85,1)}65%{transform:scale3d(0.95,1.05,1)}75%{transform:scale3d(1.05,0.95,1)}to{transform:scale3d(1,1,1)}}',
   'shake-x': '{from,to{transform:translate3d(0,0,0)}10%,30%,50%,70%,90%{transform:translate3d(-10px,0,0)}20%,40%,60%,80%{transform:translate3d(10px,0,0)}}',
   'shake-y': '{from,to{transform:translate3d(0,0,0)}10%,30%,50%,70%,90%{transform:translate3d(0,-10px,0)}20%,40%,60%,80%{transform:translate3d(0,10px,0)}}',
@@ -105,6 +107,7 @@ const keyframes: Record<string, string> = {
 }
 
 const durations: Record<string, string> = {
+  'pulse': '2s',
   'heart-beat': '1.3s',
   'bounce-in': '0.75s',
   'bounce-out': '0.75s',
@@ -114,9 +117,11 @@ const durations: Record<string, string> = {
 }
 
 const timingFns: Record<string, string> = {
+  'pulse': 'cubic-bezier(0.4,0,.6,1)',
+  'ping': 'cubic-bezier(0,0,.2,1)',
   'head-shake': 'ease-in-out',
   'heart-beat': 'ease-in-out',
-  'pulse': 'ease-in-out',
+  'pulse-alt': 'ease-in-out',
   'light-speed-in-left': 'ease-out',
   'light-speed-in-right': 'ease-out',
   'light-speed-out-left': 'ease-in',
@@ -124,7 +129,7 @@ const timingFns: Record<string, string> = {
 }
 
 const properties: Record<string, object> = {
-  'bounce': { 'transform-origin': 'center bottom' },
+  'bounce-alt': { 'transform-origin': 'center bottom' },
   'jello': { 'transform-origin': 'center' },
   'swing': { 'transform-origin': 'top center' },
   'flip': { 'backface-visibility': 'visible' },
