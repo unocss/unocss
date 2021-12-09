@@ -3,6 +3,8 @@ import { handler as h } from '@unocss/preset-mini/utils'
 
 // https://windicss.org/plugins/community/animations.html
 const keyframes: Record<string, string> = {
+  'tw-pulse': '{0%, 100% {opacity:1} 50% {opacity:.5}}',
+  'tw-bounce': '{0%, 100% {transform:translateY(-25%);animation-timing-function:cubic-bezier(0.8,0,1,1)} 50% {transform:translateY(0);animation-timing-function:cubic-bezier(0,0,0.2,1)}}',
   'spin': '{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}',
   'ping': '{0%{transform:scale(1);opacity:1}75%,100%{transform:scale(2);opacity:0}}',
   'bounce': '{from,20%,53%,80%,to{animation-timing-function:cubic-bezier(0.215,0.61,0.355,1);transform:translate3d(0,0,0)}40%,43%{animation-timing-function:cubic-bezier(0.755,0.05,0.855,0.06);transform:translate3d(0,-30px,0)}70%{animation-timing-function:cubic-bezier(0.755,0.05,0.855,0.06);transform:translate3d(0,-15px,0)}90%{transform:translate3d(0,-4px,0)}}',
