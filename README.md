@@ -109,6 +109,61 @@ export default {
 
 Refer to the full documentation on https://github.com/antfu/unocss/tree/main/packages/nuxt
 
+### Vite + Svelte
+
+You must add `Unocss` plugin before `@sveltejs/vite-plugin-svelte`.
+
+To support `class:foo` and `class:foo={bar}` add `Unocss` and configure `svelteExtractor`:
+
+```ts
+// vite.config.js
+import { svelte } from '@sveltejs/vite-plugin-svelte'
+import Unocss from 'unocss/vite'
+import { svelteExtractor } from '@unocss/core'
+
+export default {
+  plugins: [
+    Unocss({
+      extractors: [svelteExtractor],
+      /* options */
+    }),
+    svelte()
+  ]
+}
+```
+
+###  Sveltekit
+
+To support `class:foo` and `class:foo={bar}` add `Unocss` plugin and configure `svelteExtractor`:
+
+```ts
+// svelte.config.js
+import preprocess from 'svelte-preprocess'
+import UnoCss from 'unocss/vite'
+import { svelteExtractor } from '@unocss/core'
+
+/** @type {import('@sveltejs/kit').Config} */
+const config = {
+  // Consult https://github.com/sveltejs/svelte-preprocess
+  // for more information about preprocessors
+  preprocess: preprocess(),
+
+  kit: {
+
+    // hydrate the <div id="svelte"> element in src/app.html
+    target: '#svelte',
+    vite: {
+      plugins: [
+        UnoCss({
+          extractors: [svelteExtractor],
+          /* options */
+        })
+      ]
+    }
+  }
+}  
+```
+
 ## Configurations
 
 UnoCSS is an atomic-CSS engine instead of a framework. Everything is designed with flexibility and performance in mind. In UnoCSS, there are no core utilities; all functionalities are provided via presets.
