@@ -129,7 +129,7 @@ const timingFns: Record<string, string> = {
 }
 
 const properties: Record<string, object> = {
-  'bounce': { 'transform-origin': 'center bottom' },
+  'bounce-alt': { 'transform-origin': 'center bottom' },
   'jello': { 'transform-origin': 'center' },
   'swing': { 'transform-origin': 'top center' },
   'flip': { 'backface-visibility': 'visible' },
