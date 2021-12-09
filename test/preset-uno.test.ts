@@ -296,6 +296,7 @@ const targets = [
   'animate-none',
   '!animate-ping',
   'animate-pulse',
+  'animate-pulse-alt',
   'hover:animate-bounce',
   'animate-300',
   'animate-100s',
