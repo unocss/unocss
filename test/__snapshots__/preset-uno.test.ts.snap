@@ -96,8 +96,6 @@ exports[`targets 1`] = `
 .border{border-width:1px;border-style:solid;}
 .border-b{border-bottom-width:1px;border-style:solid;}
 .border-t-2{border-top-width:2px;border-style:solid;}
-.border-custom-b\\\\/10{border-color:rgba(var(--custom), 0.1);}
-.border-green-100\\\\/10{border-color:rgba(220,252,231,0.1);}
 .rounded{border-radius:0.25rem;}
 .rounded-\\\\[4px\\\\]{border-radius:4px;}
 .rounded-1\\\\/2{border-radius:50%;}
@@ -106,6 +104,8 @@ exports[`targets 1`] = `
 .rounded-rb-1\\\\/2{border-bottom-right-radius:50%;}
 .rounded-t-sm{border-top-left-radius:0.125rem;border-top-right-radius:0.125rem;}
 .rounded-tr{border-top-right-radius:0.25rem;}
+.border-custom-b\\\\/10{border-color:rgba(var(--custom), 0.1);}
+.border-green-100\\\\/10{border-color:rgba(220,252,231,0.1);}
 .divide-x-4>:not([hidden])~:not([hidden]){--un-divide-x-reverse:0;border-left-width:calc(4px * calc(1 - var(--un-divide-x-reverse)));border-right-width:calc(4px * var(--un-divide-x-reverse));}
 .divide-y-4>:not([hidden])~:not([hidden]){--un-divide-y-reverse:0;border-top-width:calc(4px * calc(1 - var(--un-divide-y-reverse)));border-bottom-width:calc(4px * var(--un-divide-y-reverse));}
 .divide-x-reverse>:not([hidden])~:not([hidden]){--un-divide-x-reverse:1;}
@@ -119,6 +119,10 @@ exports[`targets 1`] = `
 .text-4xl{font-size:2.25rem;line-height:2.5rem;}
 .text-base{font-size:1rem;line-height:1.5rem;}
 .text-lg{font-size:1.125rem;line-height:1.75rem;}
+.leading-2{line-height:0.5rem;}
+.tracking-wide{letter-spacing:0.025em;}
+.word-spacing-2{word-spacing:0.5rem;}
+.word-spacing-wide{word-spacing:0.025em;}
 .tab{-moz-tab-size:4;-o-tab-size:4;tab-size:4;}
 .tab-6{-moz-tab-size:6;-o-tab-size:6;tab-size:6;}
 .tab-inherit{-moz-tab-size:inherit;-o-tab-size:inherit;tab-size:inherit;}
@@ -236,10 +240,6 @@ exports[`targets 1`] = `
 .decoration-slice{box-decoration-break:slice;}
 .caret-op-90{--un-caret-opacity:0.9;}
 .image-render-pixel{-ms-interpolation-mode:nearest-neighbor;image-rendering:-webkit-optimize-contrast;image-rendering:-moz-crisp-edges;image-rendering:-o-pixelated;image-rendering:pixelated;}
-.tracking-wide{letter-spacing:0.025em;}
-.word-spacing-2{word-spacing:0.5rem;}
-.word-spacing-wide{word-spacing:0.025em;}
-.leading-2{line-height:0.5rem;}
 .overflow-auto{overflow:auto;}
 .overflow-x-scroll{overflow-x:scroll;}
 .outline-none{outline:2px solid transparent;outline-offset:2px;}

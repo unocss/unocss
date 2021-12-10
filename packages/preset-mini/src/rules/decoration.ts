@@ -1,5 +1,6 @@
 import { Rule } from '@unocss/core'
 import { handler as h } from '../utils'
+import { colorResolver } from './color'
 
 export const textDecorations: Rule[] = [
   ['underline', { 'text-decoration': 'underline' }],
@@ -22,4 +23,16 @@ export const textDecorations: Rule[] = [
     if (v != null)
       return { 'text-underline-offset': v }
   }],
+
+  // colors
+  [/^(?:underline|decoration)-(.+)$/, (match, ctx) => {
+    const result = colorResolver('text-decoration-color', 'line')(match, ctx)
+    if (result) {
+      return {
+        '-webkit-text-decoration-color': result['text-decoration-color'],
+        ...result,
+      }
+    }
+  }],
+  [/^(?:underline|decoration)-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-line-opacity': h.bracket.percent(opacity) })],
 ]

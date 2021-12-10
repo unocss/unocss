@@ -1,6 +1,8 @@
 import { CSSEntries, Rule } from '@unocss/core'
 import { directionMap, handler as h } from '../utils'
 
+const basicSet = ['auto', 'start', 'end', 'center', 'stretch']
+
 export const positions: Rule[] = [
   ['relative', { position: 'relative' }],
   ['absolute', { position: 'absolute' }],
@@ -16,38 +18,33 @@ export const justifies: Rule[] = [
   ['justify-between', { 'justify-content': 'space-between' }],
   ['justify-around', { 'justify-content': 'space-around' }],
   ['justify-evenly', { 'justify-content': 'space-evenly' }],
+
+  // items
+  ...basicSet.map((i): Rule => [`justify-items-${i}`, { 'justify-items': i }]),
+  ...basicSet.map((i): Rule => [`justify-self-${i}`, { 'justify-self': i }]),
 ]
 
 export const orders: Rule[] = [
   [/^order-(.+)$/, ([, v]) => ({ order: { first: '-9999', last: '9999', none: '0' }[v] || h.bracket.number(v) })],
 ]
 
-const basicSet = ['auto', 'start', 'end', 'center', 'stretch']
-
-export const justifyItems: Rule[] = basicSet
-  .map(i => [`justify-items-${i}`, { 'justify-items': i }])
-
-export const justifySelfs: Rule[] = basicSet
-  .map(i => [`justify-self-${i}`, { 'justify-self': i }])
-
-export const alignContents: Rule[] = [
+export const alignments: Rule[] = [
+  // contents
   ['content-start', { 'align-content': 'flex-start' }],
   ['content-end', { 'align-content': 'flex-end' }],
   ['content-center', { 'align-content': 'center' }],
   ['content-between', { 'align-content': 'space-between' }],
   ['content-around', { 'align-content': 'space-around' }],
   ['content-evenly', { 'align-content': 'space-evenly' }],
-]
 
-export const alignItems: Rule[] = [
+  // items
   ['items-start', { 'align-items': 'flex-start' }],
   ['items-end', { 'align-items': 'flex-end' }],
   ['items-center', { 'align-items': 'center' }],
   ['items-baseline', { 'align-items': 'baseline' }],
   ['items-stretch', { 'align-items': 'stretch' }],
-]
 
-export const alignSelfs: Rule[] = [
+  // selfs
   ['self-auto', { 'align-self': 'auto' }],
   ['self-start', { 'align-self': 'flex-start' }],
   ['self-end', { 'align-self': 'flex-end' }],
@@ -55,7 +52,7 @@ export const alignSelfs: Rule[] = [
   ['self-stretch', { 'align-items': 'stretch' }],
 ]
 
-export const placeContents: Rule[] = [
+export const placements: Rule[] = [
   ['place-content-start', { 'place-content': 'start' }],
   ['place-content-end', { 'place-content': 'end' }],
   ['place-content-center', { 'place-content': 'center' }],
@@ -63,13 +60,13 @@ export const placeContents: Rule[] = [
   ['place-content-around', { 'place-content': 'space-around' }],
   ['place-content-evenly', { 'place-content': 'space-evenly' }],
   ['place-content-stretch', { 'place-content': 'stretch' }],
+
+  // items
+  ...basicSet.map((i): Rule => [`place-items-${i}`, { 'place-items': i }]),
+
+  // self
+  ...basicSet.map((i): Rule => [`place-self-${i}`, { 'place-self': i }]),
 ]
-
-export const placeItems: Rule[] = basicSet
-  .map(i => [`place-items-${i}`, { 'place-items': i }])
-
-export const placeSelfs: Rule[] = basicSet
-  .map(i => [`place-self-${i}`, { 'place-self': i }])
 
 function handleInsetValue(v: string): string | number | undefined {
   return { auto: 'auto', full: '100%' }[v] ?? h.bracket.fraction.cssvar.rem(v)

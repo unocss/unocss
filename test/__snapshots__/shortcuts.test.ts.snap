@@ -57,8 +57,3 @@ exports[`shortcuts > static 1`] = `
 .sh1,.sh3{margin:0.5rem;}
 }"
 `;
-
-exports[`shortcuts > warn 1`] = `
-"/* layer: shortcuts */
-.bad-one{padding:0.5rem;}"
-`;

@@ -1,6 +1,7 @@
 import { Rule } from '@unocss/core'
 
-export const flexBase: Rule[] = [
+export const flex: Rule[] = [
+  // base
   ['flex', { display: 'flex' }],
   ['inline-flex', { display: 'inline-flex' }],
   ['flex-inline', { display: 'inline-flex' }],
@@ -13,9 +14,8 @@ export const flexBase: Rule[] = [
   ['flex-shrink-0', { 'flex-shrink': 0 }],
   ['flex-grow', { 'flex-grow': 1 }],
   ['flex-grow-0', { 'flex-grow': 0 }],
-]
 
-export const flexDirections: Rule[] = [
+  // directions
   ['flex-row', { 'flex-direction': 'row' }],
   ['flex-row-reverse', { 'flex-direction': 'row-reverse' }],
   ['flex-col', { 'flex-direction': 'column' }],
@@ -24,8 +24,3 @@ export const flexDirections: Rule[] = [
   ['flex-wrap-reverse', { 'flex-wrap': 'wrap-reverse' }],
   ['flex-nowrap', { 'flex-wrap': 'nowrap' }],
 ]
-
-export const flex = [
-  flexBase,
-  flexDirections,
-].flat(1)

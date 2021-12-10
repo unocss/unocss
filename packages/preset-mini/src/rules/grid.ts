@@ -14,7 +14,8 @@ const autoDirection = (selector: string, theme: Theme) => {
   return calSize(selector, theme)
 }
 
-export const gridBase: Rule[] = [
+export const grids: Rule[] = [
+  // base
   ['grid', { display: 'grid' }],
   ['inline-grid', { display: 'inline-grid' }],
   [/^(?:grid-)?col-start-([\w.-]+)$/, ([, v]) => ({ 'grid-column-start': `${v}` })],
@@ -38,9 +39,8 @@ export const gridBase: Rule[] = [
         return { [key]: `span ${raw}/span ${raw}` }
     }
   }],
-]
 
-export const gridTemplates: Rule[] = [
+  // templates
   [/^(?:grid-)?auto-cols-([\w.-]+)$/, ([, v], { theme }) => ({ 'grid-auto-columns': `${autoDirection(v, theme)}` })],
   [/^(?:grid-)?auto-flow-([\w.-]+)$/, ([, v]) => ({ 'grid-auto-flow': `${v.replace('col', 'column').split('-').join(' ')}` })],
   [/^(?:grid-)?auto-rows-([\w.-]+)$/, ([, v], { theme }) => ({ 'grid-auto-rows': `${autoDirection(v, theme)}` })],
@@ -51,8 +51,3 @@ export const gridTemplates: Rule[] = [
   [/^grid-cols-\[(.+)\]$/, ([, v]) => ({ 'grid-template-columns': v.replace(/,/g, ' ') })],
   [/^grid-rows-\[(.+)\]$/, ([, v]) => ({ 'grid-template-rows': v.replace(/,/g, ' ') })],
 ]
-
-export const grids = [
-  gridBase,
-  gridTemplates,
-].flat(1)

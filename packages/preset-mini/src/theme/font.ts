@@ -63,6 +63,7 @@ export const textIndent: Theme['textIndent'] = {
   '2xl': '3rem',
   '3xl': '4rem',
 }
+
 export const textStrokeWidth: Theme['textStrokeWidth'] = {
   DEFAULT: '1.5rem',
   none: '0',

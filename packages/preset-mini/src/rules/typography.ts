@@ -1,17 +1,7 @@
 import { toArray, Rule } from '@unocss/core'
 import { Theme } from '../theme'
 import { handler as h } from '../utils'
-
-export const fontsFamilies: Rule<Theme>[] = [
-  [/^font-(\w+)$/, ([, d], { theme }) => {
-    const font = theme.fontFamily?.[d]
-    if (font) {
-      return {
-        'font-family': font,
-      }
-    }
-  }],
-]
+import { colorResolver } from './color'
 
 const weightMap: Record<string, string> = {
   thin: '100',
@@ -26,7 +16,18 @@ const weightMap: Record<string, string> = {
   // int[0, 900] -> int
 }
 
-export const fontSizes: Rule<Theme>[] = [
+export const fonts: Rule<Theme>[] = [
+  // family
+  [/^font-(\w+)$/, ([, d], { theme }) => {
+    const font = theme.fontFamily?.[d]
+    if (font) {
+      return {
+        'font-family': font,
+      }
+    }
+  }],
+
+  // size
   [/^text-(.+)$/, ([, s = 'base'], { theme }) => {
     const size = h.bracket.rem(s)
     if (size)
@@ -46,33 +47,29 @@ export const fontSizes: Rule<Theme>[] = [
     if (raw)
       return { 'font-size': raw }
   }],
-]
 
-export const fontWeights: Rule[] = [
+  // weights
   [/^(?:font|fw)-?([^-]+)$/, ([, s]) => {
     const v = weightMap[s] || h.number(s)
     if (v)
       return { 'font-weight': v }
   }],
-]
 
-export const leadings: Rule<Theme>[] = [
+  // leadings
   [/^(?:leading|lh)-([^-]+)$/, ([, s], { theme }) => {
     const v = theme.lineHeight?.[s] || h.bracket.rem(s)
     if (v !== null)
       return { 'line-height': v }
   }],
-]
 
-export const trackings: Rule<Theme>[] = [
+  // tracking
   [/^tracking-([^-]+)$/, ([, s], { theme }) => {
     const v = theme.letterSpacing?.[s] || h.bracket.rem(s)
     if (v !== null)
       return { 'letter-spacing': v }
   }],
-]
 
-export const wordSpacings: Rule<Theme>[] = [
+  // workspacing
   [/^word-spacing-([^-]+)$/, ([, s], { theme }) => {
     const v = theme.wordSpacing?.[s] || h.bracket.rem(s)
     if (v !== null)
@@ -102,12 +99,17 @@ export const textIndents: Rule<Theme>[] = [
   }],
 ]
 
-export const textStrokeWidths: Rule<Theme>[] = [
+export const textStrokes: Rule<Theme>[] = [
+  // widths
   [/^text-stroke(?:-(.+))?$/, ([, s], { theme }) => {
     const v = theme.textStrokeWidth?.[s || 'DEFAULT'] || h.bracket.cssvar.px(s)
     if (v != null)
       return { '-webkit-text-stroke-width': v }
   }],
+
+  // colors
+  [/^text-stroke-(.+)$/, colorResolver('-webkit-text-stroke-color', 'text-stroke')],
+  [/^text-stroke-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-text-stroke-opacity': h.bracket.percent(opacity) })],
 ]
 
 export const textShadows: Rule<Theme>[] = [
@@ -117,9 +119,3 @@ export const textShadows: Rule<Theme>[] = [
       return { 'text-shadow': v }
   }],
 ]
-
-export const fonts = [
-  fontsFamilies,
-  fontSizes,
-  fontWeights,
-].flat(1)

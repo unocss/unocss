@@ -1,13 +1,13 @@
 import { Rule } from '@unocss/core'
 import { transitions } from './transition'
 import { borders } from './border'
-import { bgColors, opacity, textColors, textDecorationColors, textStrokeColors, fillColors } from './color'
+import { bgColors, opacity, textColors, fillColors } from './color'
 import { flex } from './flex'
-import { fonts, leadings, tabSizes, textIndents, textShadows, textStrokeWidths, trackings, wordSpacings } from './typography'
+import { fonts, tabSizes, textIndents, textShadows, textStrokes } from './typography'
 import { gaps } from './gap'
 import { grids } from './grid'
 import { overflows } from './layout'
-import { alignContents, alignItems, alignSelfs, floats, insets, justifies, justifyItems, justifySelfs, boxSizing, orders, placeContents, placeItems, placeSelfs, positions, zIndexes } from './position'
+import { alignments, floats, insets, justifies, boxSizing, orders, placements, positions, zIndexes } from './position'
 import { rings } from './ring'
 import { boxShadows } from './shadow'
 import { sizes, aspectRatio } from './size'
@@ -35,9 +35,7 @@ export const rules: Rule[] = [
   textIndents,
   textOverflows,
   textDecorations,
-  textDecorationColors,
-  textStrokeWidths,
-  textStrokeColors,
+  textStrokes,
   textShadows,
   textTransforms,
   textAligns,
@@ -60,9 +58,6 @@ export const rules: Rule[] = [
   userSelects,
   whitespaces,
   breaks,
-  trackings,
-  wordSpacings,
-  leadings,
   overflows,
   outline,
   appearance,
@@ -70,14 +65,8 @@ export const rules: Rule[] = [
   positions,
   orders,
   justifies,
-  justifyItems,
-  justifySelfs,
-  alignContents,
-  alignItems,
-  alignSelfs,
-  placeContents,
-  placeItems,
-  placeSelfs,
+  alignments,
+  placements,
   insets,
   floats,
   zIndexes,

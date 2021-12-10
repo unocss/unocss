@@ -2,7 +2,7 @@ import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
-import { describe, test, expect, spy } from 'vitest'
+import { describe, test, expect } from 'vitest'
 
 describe('shortcuts', () => {
   const uno = createGenerator({
@@ -39,17 +39,6 @@ describe('shortcuts', () => {
   test('dynamic', async() => {
     const { css } = await uno.generate('button-1 button-2')
     expect(css).toMatchSnapshot()
-  })
-
-  test('warn', async() => {
-    const warn = spy(global.console, 'warn')
-    const { css } = await uno.generate('bad-one')
-    expect(css).toMatchSnapshot()
-
-    expect(warn).toHaveBeenCalledOnce()
-    expect(warn.args[0]).eql(['[unocss]', 'unmatched utility "unmatched" in shortcut "bad-one"'])
-
-    warn.restore()
   })
 
   test('merge transform-duplicated', async() => {

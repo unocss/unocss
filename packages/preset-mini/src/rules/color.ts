@@ -97,24 +97,6 @@ export const textColors: Rule[] = [
   [/^(?:text|color|c)-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-text-opacity': h.bracket.percent.cssvar(opacity) })],
 ]
 
-export const textDecorationColors: Rule[] = [
-  [/^(?:underline|decoration)-(.+)$/, (match, ctx) => {
-    const result = colorResolver('text-decoration-color', 'line')(match, ctx)
-    if (result) {
-      return {
-        '-webkit-text-decoration-color': result['text-decoration-color'],
-        ...result,
-      }
-    }
-  }],
-  [/^(?:underline|decoration)-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-line-opacity': h.bracket.percent(opacity) })],
-]
-
-export const textStrokeColors: Rule[] = [
-  [/^text-stroke-(.+)$/, colorResolver('-webkit-text-stroke-color', 'text-stroke')],
-  [/^text-stroke-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-text-stroke-opacity': h.bracket.percent(opacity) })],
-]
-
 export const bgColors: Rule[] = [
   [/^bg-(.+)$/, colorResolver('background-color', 'bg')],
   [/^bg-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-bg-opacity': h.bracket.percent(opacity) })],
