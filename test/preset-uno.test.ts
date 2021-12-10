@@ -422,6 +422,7 @@ const nonTargets = [
 
 const targetsDarkClass = [
   'dark:not-odd:text-red',
+  'light:text-sm',
   'dark:text-xl',
 ]
 
