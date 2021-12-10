@@ -1,5 +1,7 @@
 import { Preset } from '@unocss/core'
-import { presetMini, Theme } from '@unocss/preset-mini'
+import { Theme } from '@unocss/preset-mini'
+import { theme } from '@unocss/preset-mini/theme'
+import { variantColorsClass, variantColorsMedia, variants } from '@unocss/preset-mini/variants'
 import { rules } from './rules'
 import { containerShortcuts } from './rules/container'
 
@@ -14,16 +16,20 @@ export interface UnoOptions {
   dark?: 'class' | 'media'
 }
 
-export const presetWind = (options: UnoOptions = {}): Preset<Theme>[] => ([
-  presetMini(),
-  {
-    name: '@unocss/preset-wind',
-    rules,
-    shortcuts: [
-      ...containerShortcuts,
-    ],
-    options,
-  },
-])
+export const presetWind = (options: UnoOptions = {}): Preset<Theme> => ({
+  name: '@unocss/preset-wind',
+  theme,
+  rules,
+  shortcuts: [
+    ...containerShortcuts,
+  ],
+  variants: [
+    ...variants,
+    ...options.dark === 'media'
+      ? variantColorsMedia
+      : variantColorsClass,
+  ],
+  options,
+})
 
 export default presetWind
