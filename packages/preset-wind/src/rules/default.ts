@@ -50,6 +50,7 @@ import {
   verticalAligns,
   whitespaces,
   zIndexes,
+  cssVariables as miniCssVariables,
 } from '@unocss/preset-mini/rules'
 import { container } from './container'
 import { backgroundStyles } from './background'
@@ -68,6 +69,7 @@ import { fontVariantNumeric } from './typography'
 export const rules: Rule[] = [
   screenReadersAccess,
   cssVariables,
+  miniCssVariables,
   paddings,
   margins,
   spaces,

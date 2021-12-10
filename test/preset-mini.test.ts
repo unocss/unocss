@@ -1,11 +1,12 @@
 import { createGenerator, escapeSelector } from '@unocss/core'
-import presetWind from '@unocss/preset-wind'
+import presetMini from '@unocss/preset-mini'
 import { describe, expect, test } from 'vitest'
+import { presetMiniTargets } from './preset-mini-targets'
 import { presetWindiTargets } from './preset-wind-targets'
 
 const uno = createGenerator({
   presets: [
-    presetWind({
+    presetMini({
       dark: 'media',
     }),
   ],
@@ -19,14 +20,14 @@ const uno = createGenerator({
   },
 })
 
-describe('preset-wind', () => {
+describe('preset-mini', () => {
   test('targets', async() => {
-    const code = presetWindiTargets.join(' ')
+    const code = presetMiniTargets.join(' ')
     const { css } = await uno.generate(code)
     const { css: css2 } = await uno.generate(code)
 
     const unmatched = []
-    for (const i of presetWindiTargets) {
+    for (const i of presetMiniTargets) {
       if (!css.includes(escapeSelector(i)))
         unmatched.push(i)
     }
@@ -35,18 +36,11 @@ describe('preset-wind', () => {
     expect(css).toEqual(css2)
   })
 
-  test('containers', async() => {
-    const targets = [
-      'container',
-      'md:container',
-      'lg:container',
-    ]
-    const nonTargets = [
-      '__container',
-    ]
-    const { css, matched } = await uno.generate(new Set([...targets, ...nonTargets]))
+  test('utils from preset-wind should be non-targets', async() => {
+    const code = presetWindiTargets.join(' ')
+    const { css, matched } = await uno.generate(code)
 
-    expect(matched).toEqual(new Set(targets))
-    expect(css).toMatchSnapshot()
+    expect(Array.from(matched)).toEqual([])
+    expect(css).toBe('')
   })
 })

@@ -9,17 +9,8 @@ const variablesAbbrMap: Record<string, string> = {
   'break': 'word-break',
   'color': 'color',
   'case': 'text-transform',
-  'write': 'writing-mode',
-  'write-orient': 'text-orientation',
   'origin': 'transform-origin',
   'bg': 'background-color',
-  'bg-blend': 'background-blend-mode',
-  'bg-clip': '-webkit-background-clip',
-  'bg-gradient': 'linear-gradient',
-  'bg-origin-border': 'background-origin',
-  'bg-position': 'background-position',
-  'bg-repeat': 'background-repeat',
-  'bg-size': 'background-size',
   'bg-opacity': 'background-opacity',
   'tab': 'tab-size',
   'underline': 'text-decoration-thickness',
@@ -35,8 +26,6 @@ const variablesAbbrMap: Record<string, string> = {
   'items': 'align-items',
   'self': 'align-self',
   'object': 'object-fit',
-  'mix-blend': 'mix-blend-mode',
-  'animate-speed': 'animation-speed',
 }
 
 export const cssVariables: Rule[] = [[
