@@ -2,6 +2,7 @@
   "exclude": [
     "find-up",
     "execa",
-    "gzip-size"
+    "gzip-size",
+    "@types/vscode"
   ]
 }
