@@ -236,16 +236,7 @@ const targets = [
   'lining-nums',
   'normal-nums',
   'tabular-nums',
-  'underline',
-  'underline-dashed',
-  'underline-red-500',
-  'underline-op80',
-  'underline-auto',
-  'underline-5',
-  'underline-1rem',
-  'underline-offset-auto',
-  'underline-offset-4',
-  'underline-offset-0.6rem',
+
   'antialiased',
   'hyphens-none',
   'tab',
@@ -292,28 +283,6 @@ const targets = [
   'disabled:op50',
   'h-[calc(1000px-4rem)]',
   'w-[calc(calc(100px*10)-4rem)]',
-  // animation
-  'animate-none',
-  '!animate-ping',
-  'animate-pulse',
-  'animate-pulse-alt',
-  'hover:animate-bounce',
-  'animate-300',
-  'animate-100s',
-  'animate-duration-100',
-  'animate-duration-100.32',
-  'animate-delay--1.37',
-  'animate-speed-$speed',
-  'animate-name-move',
-  'animate-play-paused',
-  'animate-normal',
-  'animate-play-state-running',
-  'animate-mode-none',
-  'animate-fill-mode-both',
-  'animate-direction-alternate-reverse',
-  'animate-count-2.4',
-  'animate-iteration-count-2',
-  'animate-iteration-count-2-4-infinity',
   // grid
   'grid-cols-$1',
   'grid-cols-[1fr,2fr,100px,min-content]',
@@ -335,29 +304,6 @@ const targets = [
   'auto-flow-cols-dense',
   'grid-cols-minmax-1rem',
   'grid-rows-minmax-100px',
-  // filters
-  'filter',
-  'blur',
-  'blur-md',
-  'blur-4',
-  'brightness-0',
-  'brightness-60',
-  'contrast-125',
-  'drop-shadow',
-  'drop-shadow-[0_4px_3px_#000]',
-  'drop-shadow-none',
-  'drop-shadow-md',
-  'grayscale',
-  'grayscale-90',
-  'hue-rotate-0',
-  'hue-rotate-360',
-  '-hue-rotate-90',
-  'invert',
-  'invert-90',
-  'saturate',
-  'saturate-30',
-  'sepia',
-  'sepia-80',
   // transforms
   'transform',
   'transform-gpu',
@@ -374,31 +320,6 @@ const targets = [
   'active:scale-4',
   'preserve-3d',
   'preserve-flat',
-  // backdrop filters
-  'backdrop-filter',
-  'backdrop-blur',
-  'backdrop-blur-md',
-  'backdrop-blur-4',
-  'backdrop-brightness-0',
-  'backdrop-brightness-60',
-  'backdrop-contrast-125',
-  'backdrop-grayscale',
-  'backdrop-grayscale-90',
-  'backdrop-hue-rotate-0',
-  'backdrop-hue-rotate-360',
-  '-backdrop-hue-rotate-90',
-  'backdrop-invert',
-  'backdrop-invert-90',
-  'backdrop-saturate',
-  'backdrop-saturate-30',
-  'backdrop-sepia',
-  'backdrop-sepia-80',
-  'line-clamp-7',
-  'line-clamp-100',
-  'line-clamp-none',
-  // isolation
-  'isolate',
-  'isolate-auto',
   // object-position
   'object-center',
   'object-ct',
@@ -457,19 +378,4 @@ test('non-targets', async() => {
 
   expect(Array.from(matched)).toEqual([])
   expect(css).toBe('')
-})
-
-test('containers', async() => {
-  const targets = [
-    'container',
-    'md:container',
-    'lg:container',
-  ]
-  const nonTargets = [
-    '__container',
-  ]
-  const { css, matched } = await uno.generate(new Set([...targets, ...nonTargets]))
-
-  expect(matched).toEqual(new Set(targets))
-  expect(css).toMatchSnapshot()
 })

@@ -94,22 +94,6 @@ export const tabSizes: Rule<Theme>[] = [
   }],
 ]
 
-export const textDecorationLengths: Rule<Theme>[] = [
-  [/^underline-([^-]+)$/, ([, s]) => {
-    const v = s === 'auto' ? s : h.bracket.px(s)
-    if (v != null)
-      return { 'text-decoration-thickness': v }
-  }],
-]
-
-export const textDecorationOffsets: Rule<Theme>[] = [
-  [/^underline-offset-([^-]+)$/, ([, s]) => {
-    const v = s === 'auto' ? s : h.bracket.px(s)
-    if (v != null)
-      return { 'text-underline-offset': v }
-  }],
-]
-
 export const textIndents: Rule<Theme>[] = [
   [/^indent(?:-(.+))?$/, ([, s], { theme }) => {
     const v = theme.textIndent?.[s || 'DEFAULT'] || h.bracket.cssvar.fraction.rem(s)

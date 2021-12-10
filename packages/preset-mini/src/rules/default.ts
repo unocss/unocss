@@ -3,7 +3,7 @@ import { transitions } from './transition'
 import { borders } from './border'
 import { bgColors, opacity, textColors, textDecorationColors, textStrokeColors, fillColors } from './color'
 import { flex } from './flex'
-import { fonts, leadings, tabSizes, textDecorationLengths, textDecorationOffsets, textIndents, textShadows, textStrokeWidths, trackings, wordSpacings } from './typography'
+import { fonts, leadings, tabSizes, textIndents, textShadows, textStrokeWidths, trackings, wordSpacings } from './typography'
 import { gaps } from './gap'
 import { grids } from './grid'
 import { overflows } from './layout'
@@ -12,12 +12,13 @@ import { rings } from './ring'
 import { boxShadows } from './shadow'
 import { sizes, aspectRatio } from './size'
 import { paddings, margins } from './spacing'
-import { appearances, breaks, cursors, displays, pointerEvents, resizes, textDecorations, textOverflows, textTransforms, userSelects, whitespaces, fontStyles, fontSmoothings, textDecorationStyles, contents } from './static'
+import { appearances, breaks, cursors, displays, pointerEvents, resizes, textOverflows, textTransforms, userSelects, whitespaces, fontStyles, fontSmoothings, contents } from './static'
 import { transforms } from './transform'
 import { cssVariables } from './variables'
 import { questionMark } from './question-mark'
 import { textAligns, verticalAligns } from './align'
 import { appearance, outline, placeholder } from './behaviors'
+import { textDecorations } from './decoration'
 
 export const rules: Rule[] = [
   cssVariables,
@@ -34,10 +35,7 @@ export const rules: Rule[] = [
   textIndents,
   textOverflows,
   textDecorations,
-  textDecorationStyles,
   textDecorationColors,
-  textDecorationLengths,
-  textDecorationOffsets,
   textStrokeWidths,
   textStrokeColors,
   textShadows,

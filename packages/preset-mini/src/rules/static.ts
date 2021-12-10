@@ -67,19 +67,6 @@ export const textTransforms: Rule[] = [
   ['case-normal', { 'text-transform': 'none' }],
 ]
 
-export const textDecorations: Rule[] = [
-  ['underline', { 'text-decoration': 'underline' }],
-  ['line-through', { 'text-decoration': 'line-through' }],
-  ['no-underline', { 'text-decoration': 'none' }],
-]
-
-export const textDecorationStyles: Rule[] = [
-  ['underline-solid', { 'text-decoration-style': 'solid' }],
-  ['underline-double', { 'text-decoration-style': 'double' }],
-  ['underline-dotted', { 'text-decoration-style': 'dotted' }],
-  ['underline-dashed', { 'text-decoration-style': 'dashed' }],
-]
-
 export const fontStyles: Rule[] = [
   ['italic', { 'font-style': 'italic' }],
   ['not-italic', { 'font-style': 'normal' }],

@@ -98,7 +98,7 @@ export const textColors: Rule[] = [
 ]
 
 export const textDecorationColors: Rule[] = [
-  [/^underline-(.+)$/, (match, ctx) => {
+  [/^(?:underline|decoration)-(.+)$/, (match, ctx) => {
     const result = colorResolver('text-decoration-color', 'line')(match, ctx)
     if (result) {
       return {
@@ -107,7 +107,7 @@ export const textDecorationColors: Rule[] = [
       }
     }
   }],
-  [/^underline-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-line-opacity': h.bracket.percent(opacity) })],
+  [/^(?:underline|decoration)-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-line-opacity': h.bracket.percent(opacity) })],
 ]
 
 export const textStrokeColors: Rule[] = [
