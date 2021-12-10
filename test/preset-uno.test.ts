@@ -420,6 +420,11 @@ const nonTargets = [
   'p-anything',
 ]
 
+const targetsDarkClass = [
+  'dark:not-odd:text-red',
+  'dark:text-xl',
+]
+
 const uno = createGenerator({
   presets: [
     presetUno({
@@ -434,6 +439,12 @@ const uno = createGenerator({
       },
     },
   },
+})
+
+const unoDarkClass = createGenerator({
+  presets: [
+    presetUno(),
+  ],
 })
 
 test('targets', async() => {
@@ -472,4 +483,19 @@ test('containers', async() => {
 
   expect(matched).toEqual(new Set(targets))
   expect(css).toMatchSnapshot()
+})
+
+test('targets-dark-class', async() => {
+  const code = targetsDarkClass.join(' ')
+  const { css } = await unoDarkClass.generate(code)
+  const { css: css2 } = await unoDarkClass.generate(code)
+
+  const unmatched = []
+  for (const i of targetsDarkClass) {
+    if (!css.includes(escapeSelector(i)))
+      unmatched.push(i)
+  }
+  expect(unmatched).toEqual([])
+  expect(css).toMatchSnapshot()
+  expect(css).toEqual(css2)
 })

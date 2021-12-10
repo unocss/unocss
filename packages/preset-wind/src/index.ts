@@ -15,7 +15,7 @@ export interface UnoOptions {
 }
 
 export const presetWind = (options: UnoOptions = {}): Preset<Theme>[] => ([
-  presetMini(),
+  presetMini({ dark: options?.dark || 'class' }),
   {
     name: '@unocss/preset-wind',
     rules,
