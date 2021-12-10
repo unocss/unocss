@@ -12,15 +12,16 @@ import {
   boxSizing,
   breaks,
   contents,
-  cssVariables as miniCssVariables,
   cursors,
   displays,
   fillColors,
   flex,
   floats,
+  fontSizes,
   fontSmoothings,
   fontStyles,
-  // fonts,
+  fontWeights,
+  fontsFamilies,
   gaps,
   grids,
   insets,
@@ -57,7 +58,6 @@ import {
   textShadows,
   textStrokeColors,
   textStrokeWidths,
-  textTransforms as miniTextTransforms,
   trackings,
   transforms,
   transitions,
@@ -66,10 +66,6 @@ import {
   whitespaces,
   wordSpacings,
   zIndexes,
-
-  fontsFamilies,
-  fontSizes,
-  fontWeights,
 } from '@unocss/preset-mini/rules'
 import { container } from './container'
 import { bgAttachments, bgBlendModes, bgClips, bgGradients, bgImages, bgOrigins, bgPositions, bgSizes, bgRepeats } from './background'
@@ -87,7 +83,6 @@ import { fontVariantNumeric } from './typography'
 
 export const rules: Rule[] = [
   screenReadersAccess,
-  miniCssVariables,
   cssVariables,
   paddings,
   margins,
@@ -125,7 +120,6 @@ export const rules: Rule[] = [
   textStrokeWidths,
   textStrokeColors,
   textShadows,
-  miniTextTransforms,
   textTransforms,
   textAligns,
   textColors,
