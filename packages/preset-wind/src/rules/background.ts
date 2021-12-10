@@ -52,13 +52,13 @@ const colorResolver = (mode: 'from' | 'to' | 'via') =>
     }
   }
 
-export const bgAttachments: Rule[] = [
+export const backgroundStyles: Rule[] = [
+  // attachments
   ['bg-fixed', { 'background-attachment': 'fixed' }],
   ['bg-local', { 'background-attachment': 'local' }],
   ['bg-scroll', { 'background-attachment': 'scroll' }],
-]
 
-export const bgBlendModes: Rule[] = [
+  // blends
   ['bg-blend-normal', { 'background-blend-mode': 'normal' }],
   ['bg-blend-multiply', { 'background-blend-mode': 'multiply' }],
   ['bg-blend-screen', { 'background-blend-mode': 'screen' }],
@@ -75,25 +75,22 @@ export const bgBlendModes: Rule[] = [
   ['bg-blend-saturation', { 'background-blend-mode': 'saturation' }],
   ['bg-blend-color', { 'background-blend-mode': 'color' }],
   ['bg-blend-luminosity', { 'background-blend-mode': 'luminosity' }],
-]
 
-export const bgClips: Rule[] = [
+  // clips
   ['bg-clip-border', { '-webkit-background-clip': 'border-box', 'background-attachment': 'border-box' }],
   ['bg-clip-content', { '-webkit-background-clip': 'content-box', 'background-attachment': 'content-box' }],
   ['bg-clip-padding', { '-webkit-background-clip': 'padding-box', 'background-attachment': 'padding-box' }],
   ['bg-clip-text', { '-webkit-background-clip': 'text', 'background-attachment': 'text' }],
-]
 
-export const bgGradients: Rule[] = [
+  // gradients
   [/^from-(.+)$/, colorResolver('from')],
   [/^to-(.+)$/, colorResolver('to')],
   [/^via-(.+)$/, colorResolver('via')],
   [/^from-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-from-opacity': h.bracket.percent(opacity) })],
   [/^to-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-to-opacity': h.bracket.percent(opacity) })],
   [/^via-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-via-opacity': h.bracket.percent(opacity) })],
-]
 
-export const bgImages: Rule[] = [
+  // images
   ['bg-none', { 'background-image': 'none' }],
   ['bg-gradient-to-t', {
     'background-image': 'linear-gradient(to top, var(--un-gradient-stops))',
@@ -119,15 +116,13 @@ export const bgImages: Rule[] = [
   ['bg-gradient-to-tl', {
     'background-image': 'linear-gradient(to top left, var(--un-gradient-stops))',
   }],
-]
 
-export const bgOrigins: Rule[] = [
+  // origins
   ['bg-origin-border', { 'background-origin': 'border-box' }],
   ['bg-origin-padding', { 'background-origin': 'padding-box' }],
   ['bg-origin-content', { 'background-origin': 'content-box' }],
-]
 
-export const bgPositions: Rule[] = [
+  // positions
   ['bg-bottom', { 'background-position': 'bottom' }],
   ['bg-center', { 'background-position': 'center' }],
   ['bg-left', { 'background-position': 'left' }],
@@ -137,18 +132,16 @@ export const bgPositions: Rule[] = [
   ['bg-right-bottom', { 'background-position': 'right bottom' }],
   ['bg-right-top', { 'background-position': 'right top' }],
   ['bg-top', { 'background-position': 'top' }],
-]
 
-export const bgRepeats: Rule[] = [
+  // repeats
   ['bg-repeat', { 'background-repeat': 'repeat' }],
   ['bg-no-repeat', { 'background-repeat': 'no-repeat' }],
   ['bg-repeat-x', { 'background-position': 'repeat-x' }],
   ['bg-repeat-y', { 'background-position': 'repeat-y' }],
   ['bg-repeat-round', { 'background-position': 'round' }],
   ['bg-repeat-space', { 'background-position': 'space' }],
-]
 
-export const bgSizes: Rule[] = [
+  // size
   ['bg-auto', { 'background-size': 'auto' }],
   ['bg-cover', { 'background-size': 'cover' }],
   ['bg-contain', { 'background-size': 'contain' }],

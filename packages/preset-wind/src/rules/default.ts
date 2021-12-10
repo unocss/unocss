@@ -52,7 +52,7 @@ import {
   zIndexes,
 } from '@unocss/preset-mini/rules'
 import { container } from './container'
-import { bgAttachments, bgBlendModes, bgClips, bgGradients, bgImages, bgOrigins, bgPositions, bgSizes, bgRepeats } from './background'
+import { backgroundStyles } from './background'
 import { filters } from './filters'
 import { mixBlendModes } from './shadow'
 import { spaces } from './spacing'
@@ -76,16 +76,8 @@ export const rules: Rule[] = [
   container,
   displays,
   opacity,
-  bgAttachments,
-  bgBlendModes,
-  bgClips,
+  backgroundStyles,
   bgColors,
-  bgGradients,
-  bgImages,
-  bgOrigins,
-  bgPositions,
-  bgRepeats,
-  bgSizes,
   fillColors,
   borders,
   divides,
