@@ -44,13 +44,14 @@ onMounted(async() => {
     // clear previous
     decorations.forEach(i => i.clear())
     getMatchedPositions(props.modelValue, Array.from(props.matched || []))
-      .forEach(i => mark(...i))
+      .forEach(i => mark(i[0], i[1]))
   }
 
+  let timer: any = 0
   watch(() => [props.modelValue, props.matched], async() => {
-    await nextTick()
+    clearTimeout(timer)
     if (props.matched)
-      highlight()
+      timer = setTimeout(highlight, 100)
   }, { immediate: true })
 })
 </script>
