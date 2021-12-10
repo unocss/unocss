@@ -14,15 +14,13 @@ const autoDirection = (selector: string, theme: Theme) => {
   return calSize(selector, theme)
 }
 
-export const grids: Rule[] = [
+export const gridBase: Rule[] = [
   ['grid', { display: 'grid' }],
   ['inline-grid', { display: 'inline-grid' }],
-  [/^grid-cols-minmax-([\w.-]+)$/, ([, d]) => ({ 'grid-template-columns': `repeat(auto-fill, minmax(${d}, 1fr))` })],
-  [/^grid-rows-minmax-([\w.-]+)$/, ([, d]) => ({ 'grid-template-rows': `repeat(auto-fill, minmax(${d}, 1fr))` })],
-  [/^grid-cols-(\d+)$/, ([, d]) => ({ 'grid-template-columns': `repeat(${d},minmax(0,1fr))` })],
-  [/^grid-rows-(\d+)$/, ([, d]) => ({ 'grid-template-rows': `repeat(${d},minmax(0,1fr))` })],
-  [/^grid-cols-\[(.+)\]$/, ([, v]) => ({ 'grid-template-columns': v.replace(/,/g, ' ') })],
-  [/^grid-rows-\[(.+)\]$/, ([, v]) => ({ 'grid-template-rows': v.replace(/,/g, ' ') })],
+  [/^(?:grid-)?col-start-([\w.-]+)$/, ([, v]) => ({ 'grid-column-start': `${v}` })],
+  [/^(?:grid-)?col-end-([\w.]+)$/, ([, v]) => ({ 'grid-column-end': `${v}` })],
+  [/^(?:grid-)?row-start-([\w.-]+)$/, ([, v]) => ({ 'grid-row-start': `${v}` })],
+  [/^(?:grid-)?row-end-([\w.-]+)$/, ([, v]) => ({ 'grid-row-end': `${v}` })],
   [/^(?:grid-)?(row|col)-(.+)$/, ([, d, v]) => {
     const key = d === 'row' ? 'grid-row' : 'grid-column'
     let raw = h.bracket(v)
@@ -40,11 +38,21 @@ export const grids: Rule[] = [
         return { [key]: `span ${raw}/span ${raw}` }
     }
   }],
-  [/^(?:grid-)?auto-flow-([\w.-]+)$/, ([, v]) => ({ 'grid-auto-flow': `${v.replace('col', 'column').split('-').join(' ')}` })],
-  [/^(?:grid-)?row-start-([\w.-]+)$/, ([, v]) => ({ 'grid-row-start': `${v}` })],
-  [/^(?:grid-)?row-end-([\w.-]+)$/, ([, v]) => ({ 'grid-row-end': `${v}` })],
-  [/^(?:grid-)?col-start-([\w.-]+)$/, ([, v]) => ({ 'grid-column-start': `${v}` })],
-  [/^(?:grid-)?col-end-([\w.]+)$/, ([, v]) => ({ 'grid-column-end': `${v}` })],
-  [/^(?:grid-)?auto-rows-([\w.-]+)$/, ([, v], { theme }) => ({ 'grid-auto-rows': `${autoDirection(v, theme)}` })],
-  [/^(?:grid-)?auto-cols-([\w.-]+)$/, ([, v], { theme }) => ({ 'grid-auto-columns': `${autoDirection(v, theme)}` })],
 ]
+
+export const gridTemplates: Rule[] = [
+  [/^(?:grid-)?auto-cols-([\w.-]+)$/, ([, v], { theme }) => ({ 'grid-auto-columns': `${autoDirection(v, theme)}` })],
+  [/^(?:grid-)?auto-flow-([\w.-]+)$/, ([, v]) => ({ 'grid-auto-flow': `${v.replace('col', 'column').split('-').join(' ')}` })],
+  [/^(?:grid-)?auto-rows-([\w.-]+)$/, ([, v], { theme }) => ({ 'grid-auto-rows': `${autoDirection(v, theme)}` })],
+  [/^grid-cols-minmax-([\w.-]+)$/, ([, d]) => ({ 'grid-template-columns': `repeat(auto-fill, minmax(${d}, 1fr))` })],
+  [/^grid-rows-minmax-([\w.-]+)$/, ([, d]) => ({ 'grid-template-rows': `repeat(auto-fill, minmax(${d}, 1fr))` })],
+  [/^grid-cols-(\d+)$/, ([, d]) => ({ 'grid-template-columns': `repeat(${d},minmax(0,1fr))` })],
+  [/^grid-rows-(\d+)$/, ([, d]) => ({ 'grid-template-rows': `repeat(${d},minmax(0,1fr))` })],
+  [/^grid-cols-\[(.+)\]$/, ([, v]) => ({ 'grid-template-columns': v.replace(/,/g, ' ') })],
+  [/^grid-rows-\[(.+)\]$/, ([, v]) => ({ 'grid-template-rows': v.replace(/,/g, ' ') })],
+]
+
+export const grids = [
+  gridBase,
+  gridTemplates,
+].flat(1)
