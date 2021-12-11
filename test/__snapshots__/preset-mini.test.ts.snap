@@ -2,7 +2,7 @@
 
 exports[`preset-mini > targets 1`] = `
 "/* layer: default */
-.border-\\\\$color{border-color:var(--color);}
+.border-\\\\$color,.border-\\\\[var\\\\(--color\\\\)\\\\]{border-color:var(--color);}
 .grid-cols-\\\\$1{grid-template-columns:var(--1);}
 .border-t-\\\\$color{border-top-color:var(--color);}
 .border-x-\\\\$color{border-left-color:var(--color);border-right-color:var(--color);}
@@ -22,7 +22,6 @@ exports[`preset-mini > targets 1`] = `
 .border-\\\\[\\\\#124\\\\]{--un-border-opacity:1;border-color:rgba(17,34,68,var(--un-border-opacity));}
 .border-\\\\[2em\\\\]{border-color:2em;}
 .border-\\\\[calc\\\\(1em-1px\\\\)\\\\]{border-color:calc(1em - 1px);}
-.border-\\\\[var\\\\(--color\\\\)\\\\]{border-color:var(--color);}
 .border-black\\\\/10{border-color:rgba(0,0,0,0.1);}
 .border-blue{--un-border-opacity:1;border-color:rgba(96,165,250,var(--un-border-opacity));}
 .border-green-100\\\\/20{border-color:rgba(220,252,231,0.2);}
