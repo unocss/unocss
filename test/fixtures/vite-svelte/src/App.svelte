@@ -3,6 +3,7 @@
     import Footer from './Footer.svelte'
     let logo = false
     let red = false
+    let x = 'abc?cbd'
     function toggleLogo() {
         logo = !logo
     }
@@ -11,6 +12,7 @@
     }
     $: button = logo ? 'Hide logo' : 'Show logo'
     $: span = red ? 'Normal' : 'Red'
+    $: console.log(x)
 </script>
 
 <main>
