@@ -1,4 +1,5 @@
 import { Rule } from '@unocss/core'
+import { directionMap } from '../utils'
 
 const variablesAbbrMap: Record<string, string> = {
   'visible': 'visibility',
@@ -7,6 +8,8 @@ const variablesAbbrMap: Record<string, string> = {
   'backface': 'backface-visibility',
   'whitespace': 'white-space',
   'break': 'word-break',
+  'b': 'border-color',
+  'border': 'border-color',
   'color': 'color',
   'case': 'text-transform',
   'origin': 'transform-origin',
@@ -28,13 +31,17 @@ const variablesAbbrMap: Record<string, string> = {
   'object': 'object-fit',
 }
 
-export const cssVariables: Rule[] = [[
-  /^(.+)-\$(.+)$/, ([, name, varname]) => {
+export const cssVariables: Rule[] = [
+  [/^(.+)-\$(.+)$/, ([, name, varname]) => {
     const prop = variablesAbbrMap[name]
     if (prop) {
       return {
         [prop]: `var(--${varname})`,
       }
     }
-  },
-]]
+  }],
+  [/^(?:border|b)-([^-]+)-\$(.+)$/, ([, a, v]: string[]) => {
+    if (a in directionMap)
+      return directionMap[a].map((i): [string, string] => [`border${i}-color`, `var(--${v})`])
+  }],
+]
