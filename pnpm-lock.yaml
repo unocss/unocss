@@ -47,7 +47,7 @@ importers:
       prettier: ^2.5.1
       splitpanes: ^3.0.6
       terser: ^5.10.0
-      tsup: 5.11.0
+      tsup: 5.11.1
       typescript: ^4.5.3
       unbuild: ^0.6.3
       unocss: workspace:*
@@ -56,8 +56,8 @@ importers:
       vite: ^2.7.1
       vite-node: ^0.1.11
       vite-plugin-inspect: ^0.3.11
-      vite-plugin-pages: ^0.19.0-beta.8
-      vitest: ^0.0.57
+      vite-plugin-pages: ^0.19.0
+      vitest: ^0.0.61
       vue: ^3.2.24
       vue-router: ^4.0.12
     devDependencies:
@@ -104,7 +104,7 @@ importers:
       prettier: 2.5.1
       splitpanes: 3.0.6
       terser: 5.10.0
-      tsup: 5.11.0_typescript@4.5.3
+      tsup: 5.11.1_typescript@4.5.3
       typescript: 4.5.3
       unbuild: 0.6.3
       unocss: link:packages/unocss
@@ -113,8 +113,8 @@ importers:
       vite: 2.7.1
       vite-node: 0.1.11
       vite-plugin-inspect: 0.3.11_vite@2.7.1
-      vite-plugin-pages: 0.19.0-beta.8_vite@2.7.1
-      vitest: 0.0.57_vite@2.7.1
+      vite-plugin-pages: 0.19.0_vite@2.7.1
+      vitest: 0.0.61_vite@2.7.1
       vue: 3.2.24
       vue-router: 4.0.12_vue@3.2.24
 
@@ -126,7 +126,7 @@ importers:
       fs-extra: ^10.0.0
       local-pkg: ^0.4.0
       postcss: ^8.4.4
-      tailwindcss: ^3.0.0
+      tailwindcss: ^3.0.1
       unocss: workspace:*
       vite: ^2.7.1
       vite-plugin-windicss: ^1.5.4
@@ -139,7 +139,7 @@ importers:
       fs-extra: 10.0.0
       local-pkg: 0.4.0
       postcss: 8.4.4
-      tailwindcss: 3.0.0_6b4e3d148bdcb715d5f821ed0a9c268b
+      tailwindcss: 3.0.1_6b4e3d148bdcb715d5f821ed0a9c268b
       unocss: link:../packages/unocss
       vite: 2.7.1
       vite-plugin-windicss: 1.5.4_vite@2.7.1
@@ -6167,8 +6167,8 @@ packages:
       get-port: 3.2.0
     dev: true
 
-  /tailwindcss/3.0.0_6b4e3d148bdcb715d5f821ed0a9c268b:
-    resolution: {integrity: sha512-UPAp2PS5vojAvGClJFIkdh2hfFyaSWo09Ma9j2vZYW+ANhTvpUHFjY85JgtrvvXXREtDvOXy2BxW1yHOz8apCg==}
+  /tailwindcss/3.0.1_6b4e3d148bdcb715d5f821ed0a9c268b:
+    resolution: {integrity: sha512-EVDXVZkcueZ77/zfOJw7XkzCuxe5TCiT/S9pw9P183oRzSuwMZ7WO+W/L76jbJQA5qxGeUBJOVOLVBuAUfeZ3g==}
     engines: {node: '>=12.13.0'}
     hasBin: true
     peerDependencies:
@@ -6379,8 +6379,8 @@ packages:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
     dev: true
 
-  /tsup/5.11.0_typescript@4.5.3:
-    resolution: {integrity: sha512-iy74qlWklvBJfEICApr4voHSMGrR/KfBWJSC8K1a9l8ks8Sle46vSP9d83T+qX5ZlDSlQc8Pd1V8ScZ8dyvUgw==}
+  /tsup/5.11.1_typescript@4.5.3:
+    resolution: {integrity: sha512-4J1kknLCT7dlVoyoGwSl62cUo7QIar89pdOFhK5V5T81M9G2MR1WFbPlFnc6kHC10qgLBeoJdjnrnscJn9yc/w==}
     hasBin: true
     peerDependencies:
       typescript: ^4.2.3
@@ -6697,8 +6697,8 @@ packages:
       - supports-color
     dev: true
 
-  /vite-plugin-pages/0.19.0-beta.8_vite@2.7.1:
-    resolution: {integrity: sha512-jPSh0VWceFcw7/U8Nw8+bu23TessyZbCJetj/Nmn+reBrIA6GNsEEdTgqvl2AJxMksB+/oKh3FzUwj8z4nlZag==}
+  /vite-plugin-pages/0.19.0_vite@2.7.1:
+    resolution: {integrity: sha512-PJhqjwuEDo87gMg6TmkI1EsNOaoyMobPJ5nCCd/8Bf9a/1PjRu3zpkDUU3daV81WvfVmLNH9hWR6aHZSP5yEkQ==}
     peerDependencies:
       '@vue/compiler-sfc': '>=3'
       vite: '>=2'
@@ -6755,8 +6755,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.0.57_vite@2.7.1:
-    resolution: {integrity: sha512-u8vJsMuHv0ohGzOmeKZuvjmGgWLB/LzEnDfHez4W+vQ2N/lEAUAG2VkyOR1O9TuYHUfCGtVHF/g8FEfX6K9twA==}
+  /vitest/0.0.61_vite@2.7.1:
+    resolution: {integrity: sha512-OuW73Fc6PRWEk+jghRBEqbO9Tht9HH90/bIJhqznyV1RpKwl2nSREiAAN64B6Pd2DejIrOCscvIOB1nOztGDzg==}
     engines: {node: '>=16.0.0'}
     hasBin: true
     peerDependencies:
