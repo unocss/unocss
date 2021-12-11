@@ -127,6 +127,14 @@ exports[`attributify > fixture2 1`] = `
 }"
 `;
 
+exports[`attributify > fixture3 1`] = `
+"/* layer: default */
+[bg~=\\"blue-400\\"]{--un-bg-opacity:1;background-color:rgba(96,165,250,var(--un-bg-opacity));}
+[bg~=\\"hover\\\\:blue-500\\"]:hover{--un-bg-opacity:1;background-color:rgba(59,130,246,var(--un-bg-opacity));}
+[dark=\\"\\"] [bg~=\\"dark\\\\:\\\\!blue-500\\"]{--un-bg-opacity:1 !important;background-color:rgba(59,130,246,var(--un-bg-opacity)) !important;}
+[dark=\\"\\"] [bg~=\\"dark\\\\:hover\\\\:blue-600\\"]:hover{--un-bg-opacity:1;background-color:rgba(37,99,235,var(--un-bg-opacity));}"
+`;
+
 exports[`attributify > variant 1`] = `
 Array [
   undefined,
