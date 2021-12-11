@@ -1,7 +1,7 @@
 import adapter from '@sveltejs/adapter-static'
 import preprocess from 'svelte-preprocess'
 import UnoCss from 'unocss/vite'
-import { svelteExtractor } from '@unocss/core'
+import { extractorSvelte } from '@unocss/core'
 import presetIcons from '@unocss/preset-icons'
 import presetUno from '@unocss/preset-uno'
 
@@ -19,7 +19,7 @@ const config = {
     vite: {
       plugins: [
         UnoCss({
-          extractors: [svelteExtractor],
+          extractors: [extractorSvelte],
           shortcuts: [
             { logo: 'i-logos-svelte-icon w-6em h-6em transform transition-800 hover:rotate-180' },
             { foo: 'bg-yellow-400' },

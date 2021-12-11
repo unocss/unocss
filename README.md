@@ -113,18 +113,18 @@ Refer to the full documentation on https://github.com/antfu/unocss/tree/main/pac
 
 You must add `Unocss` plugin before `@sveltejs/vite-plugin-svelte`.
 
-To support `class:foo` and `class:foo={bar}` add `Unocss` and configure `svelteExtractor`:
+To support `class:foo` and `class:foo={bar}` add `Unocss` and configure `extractorSvelte`:
 
 ```ts
 // vite.config.js
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import Unocss from 'unocss/vite'
-import { svelteExtractor } from '@unocss/core'
+import { extractorSvelte } from '@unocss/core'
 
 export default {
   plugins: [
     Unocss({
-      extractors: [svelteExtractor],
+      extractors: [extractorSvelte],
       /* options */
     }),
     svelte()
@@ -134,13 +134,13 @@ export default {
 
 ###  Sveltekit
 
-To support `class:foo` and `class:foo={bar}` add `Unocss` plugin and configure `svelteExtractor`:
+To support `class:foo` and `class:foo={bar}` add `Unocss` plugin and configure `extractorSvelte`:
 
 ```ts
 // svelte.config.js
 import preprocess from 'svelte-preprocess'
 import UnoCss from 'unocss/vite'
-import { svelteExtractor } from '@unocss/core'
+import { extractorSvelte } from '@unocss/core'
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -155,7 +155,7 @@ const config = {
     vite: {
       plugins: [
         UnoCss({
-          extractors: [svelteExtractor],
+          extractors: [extractorSvelte],
           /* options */
         })
       ]
