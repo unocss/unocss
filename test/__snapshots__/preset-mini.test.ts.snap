@@ -2,7 +2,10 @@
 
 exports[`preset-mini > targets 1`] = `
 "/* layer: default */
+.border-\\\\$color{border-color:var(--color);}
 .grid-cols-\\\\$1{grid-template-columns:var(--1);}
+.border-t-\\\\$color{border-top-color:var(--color);}
+.border-x-\\\\$color{border-left-color:var(--color);border-right-color:var(--color);}
 .bg-\\\\[\\\\#153\\\\]\\\\/10,.bg-\\\\[\\\\#1533\\\\]\\\\/10{background-color:rgba(17,85,51,0.1);}
 .bg-\\\\[\\\\#1533\\\\]{background-color:rgba(17,85,51,0.2);}
 .bg-\\\\[rgba\\\\(1\\\\2c 2\\\\2c 3\\\\2c 0\\\\.5\\\\)\\\\]{background-color:rgba(1,2,3,0.5);}
