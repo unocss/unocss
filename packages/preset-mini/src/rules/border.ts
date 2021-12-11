@@ -1,4 +1,4 @@
-import { CSSEntries, RuleContext, Rule } from '@unocss/core'
+import { CSSEntries, CSSObject, RuleContext, Rule } from '@unocss/core'
 import { Theme } from '../theme'
 import { cornerMap, directionMap, handler as h } from '../utils'
 import { colorResolver } from './color'
@@ -6,8 +6,15 @@ import { colorResolver } from './color'
 export const borders: Rule[] = [
   // size
   [/^border$/, handlerBorder],
-  [/^(?:border|b)(?:-([^-]+))?$/, handlerBorder],
-  [/^(?:border|b)(?:-([^-]+))?(?:-([^-]+))?$/, handlerBorder],
+  [/^(?:border|b)()-(.+)$/, handlerBorder],
+  [/^(?:border|b)-([^-]+)-(.+)$/, handlerBorder],
+  [/^(?:border|b)()-size-(.+)$/, handlerBorderSize],
+  [/^(?:border|b)-([^-]+)-size-(.+)$/, handlerBorderSize],
+
+  // colors
+  [/^(?:border|b)()-(.+)$/, handlerBorderColor],
+  [/^(?:border|b)-([^-]+)-(.+)$/, handlerBorderColor],
+  [/^(?:border|b)-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-border-opacity': h.bracket.percent(opacity) })],
 
   // style
   ['border-solid', { 'border-style': 'solid' }],
@@ -20,20 +27,35 @@ export const borders: Rule[] = [
   [/^(?:border-)?(?:rounded|rd)$/, handlerRounded],
   [/^(?:border-)?(?:rounded|rd)(?:-([^-]+))?$/, handlerRounded],
   [/^(?:border-)?(?:rounded|rd)(?:-([^-]+))?(?:-([^-]+))?$/, handlerRounded],
-
-  // colors
-  [/^(?:border|b)-(.+)$/, colorResolver('border-color', 'border')],
-  [/^(?:border|b)-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-border-opacity': h.bracket.percent(opacity) })],
 ]
 
-function handlerBorder([, a, b]: string[]): CSSEntries | undefined {
+function handlerBorder(m: string[]): CSSEntries | undefined {
+  const borderSizes = handlerBorderSize(m)
+  if (borderSizes) {
+    return [
+      ...borderSizes,
+      ['border-style', 'solid'],
+    ]
+  }
+}
+
+function handlerBorderSize([, a, b]: string[]): CSSEntries | undefined {
   const [d, s = '1'] = directionMap[a] ? [a, b] : ['', a]
   const v = h.bracket.px(s)
   if (v != null) {
     return [
       ...directionMap[d].map((i): [string, string] => [`border${i}-width`, v]),
-      ['border-style', 'solid'],
     ]
+  }
+}
+
+function handlerBorderColor([, a, c]: string[], ctx: RuleContext) {
+  const ofColor = colorResolver('border-color', 'border')(['', c], ctx)
+  if (ofColor) {
+    const borders = directionMap[directionMap[a] ? a : ''].map(i => colorResolver(`border${i}-color`, 'border')(['', c], ctx))
+    const borderObject = {}
+    Object.assign(borderObject, ...borders)
+    return borderObject as CSSObject
   }
 }
 

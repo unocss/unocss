@@ -2,7 +2,7 @@
 
 exports[`preset-mini > targets 1`] = `
 "/* layer: default */
-.border-\\\\$color{border-color:var(--color);}
+.border-\\\\$color,.border-\\\\[var\\\\(--color\\\\)\\\\]{border-color:var(--color);}
 .grid-cols-\\\\$1{grid-template-columns:var(--1);}
 .border-t-\\\\$color{border-top-color:var(--color);}
 .border-x-\\\\$color{border-left-color:var(--color);border-right-color:var(--color);}
@@ -17,9 +17,20 @@ exports[`preset-mini > targets 1`] = `
 .bg-teal-400\\\\/\\\\[\\\\.55\\\\]{background-color:rgba(45,212,191,0.55);}
 .bg-teal-500\\\\/\\\\[55\\\\%\\\\]{background-color:rgba(20,184,166,55%);}
 .border{border-width:1px;border-style:solid;}
-.border-2{border-width:2px;border-style:solid;}
-.border-b{border-bottom-width:1px;border-style:solid;}
+.border-4{border-width:4px;border-style:solid;}
 .border-t-2{border-top-width:2px;border-style:solid;}
+.border-\\\\[\\\\#124\\\\]{--un-border-opacity:1;border-color:rgba(17,34,68,var(--un-border-opacity));}
+.border-\\\\[2em\\\\]{border-color:2em;}
+.border-\\\\[calc\\\\(1em-1px\\\\)\\\\]{border-color:calc(1em - 1px);}
+.border-black\\\\/10{border-color:rgba(0,0,0,0.1);}
+.border-blue{--un-border-opacity:1;border-color:rgba(96,165,250,var(--un-border-opacity));}
+.border-green-100\\\\/20{border-color:rgba(220,252,231,0.2);}
+.border-red-100,.border-red100{--un-border-opacity:1;border-color:rgba(254,226,226,var(--un-border-opacity));}
+.border-red-200\\\\/10{border-color:rgba(254,202,202,0.1);}
+.border-red-300\\\\/20{border-color:rgba(252,165,165,0.2);}
+.border-red2{--un-border-opacity:1;border-color:rgba(254,202,202,var(--un-border-opacity));}
+.border-x-\\\\[rgb\\\\(1\\\\2c 2\\\\2c 3\\\\)\\\\]\\\\/\\\\[0\\\\.5\\\\]{border-left-color:rgb(1,2,3);border-right-color:rgb(1,2,3);}
+.border-y-red{--un-border-opacity:1;border-top-color:rgba(248,113,113,var(--un-border-opacity));border-bottom-color:rgba(248,113,113,var(--un-border-opacity));}
 .rounded{border-radius:0.25rem;}
 .rounded-\\\\[4px\\\\]{border-radius:4px;}
 .rounded-1\\\\/2{border-radius:50%;}
@@ -28,7 +39,6 @@ exports[`preset-mini > targets 1`] = `
 .rounded-rb-1\\\\/2{border-bottom-right-radius:50%;}
 .rounded-t-sm{border-top-left-radius:0.125rem;border-top-right-radius:0.125rem;}
 .rounded-tr{border-top-right-radius:0.25rem;}
-.border-green-100\\\\/10{border-color:rgba(220,252,231,0.1);}
 .underline{text-decoration:underline;}
 .decoration-none{text-decoration:none;}
 .underline-dashed{text-decoration-style:dashed;}
