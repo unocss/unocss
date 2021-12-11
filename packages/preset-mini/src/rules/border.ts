@@ -52,9 +52,7 @@ function handlerBorderSize([, a, b]: string[]): CSSEntries | undefined {
 function handlerBorderColor([, a, c]: string[], ctx: RuleContext) {
   const ofColor = colorResolver('border-color', 'border')(['', c], ctx)
   if (ofColor) {
-    const borders = directionMap[directionMap[a] ? a : ''].map((i) =>
-      colorResolver(`border${i}-color`, 'border')(['', c], ctx)
-    )
+    const borders = directionMap[directionMap[a] ? a : ''].map(i => colorResolver(`border${i}-color`, 'border')(['', c], ctx))
     const borderObject = {}
     Object.assign(borderObject, ...borders)
     return borderObject as CSSObject
