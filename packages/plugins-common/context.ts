@@ -42,7 +42,7 @@ export function createContext<Config extends UserConfig = UserConfig>(
 
     rawConfig = result.config
     uno.setConfig(rawConfig)
-    uno.config.envMode = 'dev'
+    uno.config.envMode = rawConfig.envMode ?? 'build'
     rollupFilter = createFilter(
       rawConfig.include || defaultInclude,
       rawConfig.exclude || defaultExclude,
