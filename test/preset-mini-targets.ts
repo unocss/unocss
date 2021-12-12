@@ -13,6 +13,7 @@ export const presetMiniTargets: string[] = [
   'border-red2',
   'border-[var(--color)]',
   'border-b',
+  'border-x',
   'border-green-100/20',
   'border-t-2',
   'border-y-red',

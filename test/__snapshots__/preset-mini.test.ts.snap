@@ -18,7 +18,9 @@ exports[`preset-mini > targets 1`] = `
 .bg-teal-500\\\\/\\\\[55\\\\%\\\\]{background-color:rgba(20,184,166,55%);}
 .border{border-width:1px;border-style:solid;}
 .border-4{border-width:4px;border-style:solid;}
+.border-b{border-bottom-width:1px;border-style:solid;}
 .border-t-2{border-top-width:2px;border-style:solid;}
+.border-x{border-left-width:1px;border-right-width:1px;border-style:solid;}
 .border-\\\\[\\\\#124\\\\]{--un-border-opacity:1;border-color:rgba(17,34,68,var(--un-border-opacity));}
 .border-\\\\[2em\\\\]{border-color:2em;}
 .border-\\\\[calc\\\\(1em-1px\\\\)\\\\]{border-color:calc(1em - 1px);}
