@@ -1,4 +1,4 @@
-import { VariantHandler } from '@unocss/core'
+import type { VariantHandler } from '@unocss/core'
 
 export const variantMatcher = (name: string, selector?: (input: string) => string | undefined) => {
   const length = name.length + 1

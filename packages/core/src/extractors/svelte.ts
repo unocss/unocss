@@ -1,4 +1,4 @@
-import { Extractor } from '../types'
+import type { Extractor } from '../types'
 import { splitCode } from './split'
 
 export const extractorSvelte: Extractor = {

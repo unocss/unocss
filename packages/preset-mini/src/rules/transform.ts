@@ -1,4 +1,4 @@
-import { Rule, CSSValues } from '@unocss/core'
+import type { Rule, CSSValues } from '@unocss/core'
 import { xyzMap, handler as h } from '../utils'
 import { CONTROL_BYPASS_PSEUDO } from '../variants/pseudo'
 

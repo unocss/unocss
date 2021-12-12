@@ -1,4 +1,4 @@
-import { Rule } from '@unocss/core'
+import type { Rule } from '@unocss/core'
 import { transitions } from './transition'
 import { borders } from './border'
 import { bgColors, opacity, textColors, fillColors } from './color'

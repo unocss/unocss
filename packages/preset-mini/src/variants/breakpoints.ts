@@ -1,5 +1,5 @@
-import { Variant } from '@unocss/core'
-import { Theme } from '../theme'
+import type { Variant } from '@unocss/core'
+import type { Theme } from '../theme'
 
 const regexCache: Record<string, RegExp> = {}
 

@@ -3,7 +3,7 @@ import { fontFamily, fontSize, letterSpacing, lineHeight, textIndent, textStroke
 import { breakpoints, borderRadius, boxShadow } from './misc'
 import { blur, dropShadow } from './filters'
 import { width, height, maxWidth, maxHeight } from './size'
-import { Theme } from './types'
+import type { Theme } from './types'
 
 export * from './colors'
 

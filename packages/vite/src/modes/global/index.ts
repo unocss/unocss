@@ -1,4 +1,4 @@
-import { UnocssPluginContext } from '../../../../plugins-common'
+import type { UnocssPluginContext } from '../../../../plugins-common'
 import { GlobalModeBuildPlugin } from './build'
 import { GlobalModeDevPlugin } from './dev'
 

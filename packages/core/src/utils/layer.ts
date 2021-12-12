@@ -1,4 +1,4 @@
-import { Rule } from '../types'
+import type { Rule } from '../types'
 
 export function withLayer<T>(layer: string, rules: Rule<T>[]) {
   rules.forEach((r) => {

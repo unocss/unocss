@@ -1,4 +1,4 @@
-import { Extractor } from '../types'
+import type { Extractor } from '../types'
 import { isValidSelector } from '../utils'
 
 export const splitCode = (code: string) => code.split(/[\s'"`;>=]+/g).filter(isValidSelector)

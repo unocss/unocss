@@ -1,4 +1,4 @@
-import { Rule } from '@unocss/core'
+import type { Rule } from '@unocss/core'
 import { handler as h } from '@unocss/preset-mini/utils'
 
 // https://windicss.org/plugins/community/animations.html

@@ -1,5 +1,6 @@
-import { Rule, hex2rgba, RuleContext } from '@unocss/core'
-import { Theme } from '../theme'
+import type { Rule, RuleContext } from '@unocss/core'
+import { hex2rgba } from '@unocss/core'
+import type { Theme } from '../theme'
 import { handler as h } from '../utils'
 
 export const parseColorUtil = (body: string, theme: Theme) => {

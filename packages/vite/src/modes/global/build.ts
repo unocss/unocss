@@ -1,6 +1,6 @@
 import type { Plugin } from 'vite'
 import { getHash, getPath } from '../../../../plugins-common/utils'
-import { UnocssPluginContext } from '../../../../plugins-common/context'
+import type { UnocssPluginContext } from '../../../../plugins-common/context'
 import {
   getHashPlaceholder,
   getLayerPlaceholder,

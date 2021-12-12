@@ -1,4 +1,4 @@
-import { Rule } from '@unocss/core'
+import type { Rule } from '@unocss/core'
 import { colorResolver } from '@unocss/preset-mini/rules'
 import { handler as h } from '@unocss/preset-mini/utils'
 

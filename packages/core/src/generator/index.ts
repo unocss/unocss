@@ -1,4 +1,4 @@
-import { UserConfig, ParsedUtil, StringifiedUtil, UserConfigDefaults, VariantMatchedResult, Variant, ResolvedConfig, CSSEntries, GenerateResult, CSSObject, RawUtil, ExtractorContext, GenerateOptions, RuleContext, RuleMeta, VariantHandler } from '../types'
+import type { UserConfig, ParsedUtil, StringifiedUtil, UserConfigDefaults, VariantMatchedResult, Variant, ResolvedConfig, CSSEntries, GenerateResult, CSSObject, RawUtil, ExtractorContext, GenerateOptions, RuleContext, RuleMeta, VariantHandler } from '../types'
 import { resolveConfig } from '../config'
 import { e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, normalizeCSSEntries, normalizeCSSValues, notNull, TwoKeyMap, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'

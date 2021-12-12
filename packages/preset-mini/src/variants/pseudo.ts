@@ -1,4 +1,5 @@
-import { CSSEntries, toArray, VariantFunction, VariantObject } from '@unocss/core'
+import type { CSSEntries, VariantFunction, VariantObject } from '@unocss/core'
+import { toArray } from '@unocss/core'
 
 export const CONTROL_BYPASS_PSEUDO = '$$no-pseudo'
 

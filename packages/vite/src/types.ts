@@ -1,4 +1,4 @@
-import { UserConfig } from '@unocss/core'
+import type { UserConfig } from '@unocss/core'
 
 export interface VitePluginConfig<Theme extends {} = {}> extends UserConfig<Theme> {
   /**

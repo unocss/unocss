@@ -1,4 +1,4 @@
-import { Update, UpdatePayload } from 'vite/types/hmrPayload'
+import type { Update, UpdatePayload } from 'vite/types/hmrPayload'
 
 const MODULE_PATH = '/@vite/client'
 

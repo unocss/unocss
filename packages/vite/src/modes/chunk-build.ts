@@ -1,5 +1,5 @@
 import type { Plugin } from 'vite'
-import { UnocssPluginContext } from '../../../plugins-common/context'
+import type { UnocssPluginContext } from '../../../plugins-common/context'
 
 export function ChunkModeBuildPlugin({ uno, filter }: UnocssPluginContext): Plugin {
   let cssPlugin: Plugin | undefined

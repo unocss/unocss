@@ -1,7 +1,8 @@
 import { resolve, dirname } from 'path'
 import fs from 'fs'
-import { UserConfig } from '@unocss/core'
-import { createConfigLoader as createLoader, LoadConfigResult, LoadConfigSource } from 'unconfig'
+import type { UserConfig } from '@unocss/core'
+import type { LoadConfigResult, LoadConfigSource } from 'unconfig'
+import { createConfigLoader as createLoader } from 'unconfig'
 
 export type { LoadConfigResult, LoadConfigSource }
 

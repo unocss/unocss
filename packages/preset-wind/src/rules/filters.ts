@@ -1,6 +1,7 @@
-import { Rule, toArray, RuleContext, CSSValues } from '@unocss/core'
+import type { Rule, RuleContext, CSSValues } from '@unocss/core'
+import { toArray } from '@unocss/core'
 import { CONTROL_BYPASS_PSEUDO } from '@unocss/preset-mini/variants'
-import { Theme } from '@unocss/preset-mini'
+import type { Theme } from '@unocss/preset-mini'
 import { handler as h } from '@unocss/preset-mini/utils'
 
 const varEmpty = 'var(--un-empty,/*!*/ /*!*/)'

@@ -4,7 +4,7 @@ import sirv from 'sirv'
 import type { Plugin, ResolvedConfig, ViteDevServer } from 'vite'
 import type { UnocssPluginContext } from '@unocss/vite'
 import gzipSize from 'gzip-size'
-import { ModuleInfo, ProjectInfo } from '../types'
+import type { ModuleInfo, ProjectInfo } from '../types'
 
 const _dirname = typeof __dirname !== 'undefined'
   ? __dirname

@@ -1,5 +1,6 @@
 import type { Plugin, ViteDevServer } from 'vite'
-import { UnocssPluginContext, getPath, LAYER_MARK_ALL, resolveId } from '../../../../plugins-common'
+import type { UnocssPluginContext } from '../../../../plugins-common'
+import { getPath, LAYER_MARK_ALL, resolveId } from '../../../../plugins-common'
 import { READY_CALLBACK_DEFAULT } from './shared'
 
 const WARN_TIMEOUT = 2000

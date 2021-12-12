@@ -1,4 +1,4 @@
-import { Rule } from '@unocss/core'
+import type { Rule } from '@unocss/core'
 import { handler as h } from '../utils'
 
 export const gaps: Rule[] = [

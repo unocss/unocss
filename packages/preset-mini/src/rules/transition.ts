@@ -1,4 +1,4 @@
-import { Rule } from '@unocss/core'
+import type { Rule } from '@unocss/core'
 
 const transitionBasicProps = [
   'color', 'border-color', 'background-color', 'flex-grow', 'flex', 'flex-shrink',

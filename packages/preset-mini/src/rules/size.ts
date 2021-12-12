@@ -1,5 +1,5 @@
-import { Rule, RuleContext } from '@unocss/core'
-import { Theme } from '../theme'
+import type { Rule, RuleContext } from '@unocss/core'
+import type { Theme } from '../theme'
 import { handler as h, capitalize } from '../utils'
 
 function getPropName(minmax: string, hw: string) {

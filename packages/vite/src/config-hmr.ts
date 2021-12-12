@@ -1,5 +1,5 @@
-import { Plugin } from 'vite'
-import { UnocssPluginContext } from '../../plugins-common/context'
+import type { Plugin } from 'vite'
+import type { UnocssPluginContext } from '../../plugins-common/context'
 
 export function ConfigHMRPlugin(ctx: UnocssPluginContext): Plugin | undefined {
   const { ready, uno } = ctx

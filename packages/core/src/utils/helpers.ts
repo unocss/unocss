@@ -1,4 +1,4 @@
-import { StringifiedUtil, ParsedUtil, RawUtil, Variant, VariantObject } from '../types'
+import type { StringifiedUtil, ParsedUtil, RawUtil, Variant, VariantObject } from '../types'
 
 export const attributifyRE = /^\[(.+?)~?="(.*)"\]$/
 export const validateFilterRE = /(?!\d|-{2}|-\d)[a-zA-Z0-9\u00A0-\uFFFF-_:%-?]/

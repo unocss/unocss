@@ -1,6 +1,6 @@
 import type { Plugin, ViteDevServer } from 'vite'
 import { getHash } from '../../../plugins-common/utils'
-import { UnocssPluginContext } from '../../../plugins-common'
+import type { UnocssPluginContext } from '../../../plugins-common'
 
 const VIRTUAL_PREFIX = '/@unocss/'
 const SCOPE_IMPORT_RE = / from (['"])(@unocss\/scope)\1/

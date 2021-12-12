@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TreeNode } from '../composables/fetch'
+import type { TreeNode } from '../composables/fetch'
 
 withDefaults(defineProps<{
   node: TreeNode

@@ -1,6 +1,8 @@
 import { createFilter } from '@rollup/pluginutils'
-import { createConfigLoader, LoadConfigResult, LoadConfigSource } from '@unocss/config'
-import { BetterMap, createGenerator, UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
+import type { LoadConfigResult, LoadConfigSource } from '@unocss/config'
+import { createConfigLoader } from '@unocss/config'
+import type { UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
+import { BetterMap, createGenerator } from '@unocss/core'
 import { INCLUDE_COMMENT } from './constants'
 import { defaultExclude, defaultInclude } from './defaults'
 

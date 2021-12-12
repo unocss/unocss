@@ -1,4 +1,5 @@
-import { createGenerator, GenerateResult, UserConfig } from 'unocss'
+import type { GenerateResult, UserConfig } from 'unocss'
+import { createGenerator } from 'unocss'
 import * as __unocss from 'unocss'
 import { customConfigRaw, inputHTML } from './url'
 import { defaultConfig } from './config'

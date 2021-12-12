@@ -1,5 +1,5 @@
-import { Rule } from '@unocss/core'
-import { Theme } from '../theme'
+import type { Rule } from '@unocss/core'
+import type { Theme } from '../theme'
 import { handler as h } from '../utils'
 import { ringColors, ringOffsetColors } from './color'
 

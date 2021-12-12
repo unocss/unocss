@@ -1,4 +1,4 @@
-import { Rule } from '@unocss/core'
+import type { Rule } from '@unocss/core'
 import { directionMap } from '../utils'
 
 const variablesAbbrMap: Record<string, string> = {

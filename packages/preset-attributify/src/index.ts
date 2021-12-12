@@ -1,6 +1,7 @@
-import { extractorSplit, Preset } from '@unocss/core'
+import type { Preset } from '@unocss/core'
+import { extractorSplit } from '@unocss/core'
 import { extractorAttributify } from './extractor'
-import { AttributifyOptions } from './types'
+import type { AttributifyOptions } from './types'
 import { variantAttributify } from './variant'
 
 export * from './extractor'

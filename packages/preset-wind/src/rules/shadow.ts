@@ -1,4 +1,4 @@
-import { Rule } from '@unocss/core'
+import type { Rule } from '@unocss/core'
 
 export const mixBlendModes: Rule[] = [
   ['mix-blend-normal', { 'mix-blend-mode': 'normal' }],

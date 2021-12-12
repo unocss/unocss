@@ -1,5 +1,5 @@
-import { CSSEntries, CSSObject, RuleContext, Rule } from '@unocss/core'
-import { Theme } from '../theme'
+import type { CSSEntries, CSSObject, RuleContext, Rule } from '@unocss/core'
+import type { Theme } from '../theme'
 import { cornerMap, directionMap, handler as h } from '../utils'
 import { colorResolver } from './color'
 

@@ -1,4 +1,4 @@
-import { Shortcut, StaticShortcut, CSSEntries, CSSValues, DeepPartial, Rule, StaticRule, CSSObject } from '../types'
+import type { Shortcut, StaticShortcut, CSSEntries, CSSValues, DeepPartial, Rule, StaticRule, CSSObject } from '../types'
 
 export function normalizeCSSEntries(obj: CSSEntries | CSSObject): CSSEntries {
   return (!Array.isArray(obj) ? Object.entries(obj) : obj).filter(i => i[1] != null)

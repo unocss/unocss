@@ -1,4 +1,5 @@
-import { Preset, warnOnce } from '@unocss/core'
+import type { Preset } from '@unocss/core'
+import { warnOnce } from '@unocss/core'
 import { iconToSVG } from '@iconify/utils/lib/svg/build'
 import { defaults as DefaultIconCustomizations } from '@iconify/utils/lib/customisations'
 import { getIconData } from '@iconify/utils/lib/icon-set/get-icon'

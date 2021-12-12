@@ -1,12 +1,15 @@
 import { dirname, resolve } from 'path'
 import { fileURLToPath } from 'url'
 import { defineNuxtModule, extendViteConfig, extendWebpackConfig, addPluginTemplate, addComponentsDir } from '@nuxt/kit'
-import { presetUno, PresetUnoOptions } from '@unocss/preset-uno'
-import presetAttributify, { AttributifyOptions } from '@unocss/preset-attributify'
-import presetIcons, { IconsOptions } from '@unocss/preset-icons'
+import type { PresetUnoOptions } from '@unocss/preset-uno'
+import { presetUno } from '@unocss/preset-uno'
+import type { AttributifyOptions } from '@unocss/preset-attributify'
+import presetAttributify from '@unocss/preset-attributify'
+import type { IconsOptions } from '@unocss/preset-icons'
+import presetIcons from '@unocss/preset-icons'
 import WebpackPlugin from '@unocss/webpack'
 import VitePlugin from '@unocss/vite'
-import { UserConfig } from '@unocss/core'
+import type { UserConfig } from '@unocss/core'
 
 const dir = dirname(fileURLToPath(import.meta.url))
 

@@ -1,4 +1,4 @@
-import { Rule } from '@unocss/core'
+import type { Rule } from '@unocss/core'
 
 const variablesAbbrMap: Record<string, string> = {
   'write': 'writing-mode',

@@ -1,5 +1,6 @@
 import { relative } from 'path'
-import { DecorationOptions, DecorationRangeBehavior, MarkdownString, Range, StatusBarAlignment, window, workspace } from 'vscode'
+import type { DecorationOptions } from 'vscode'
+import { DecorationRangeBehavior, MarkdownString, Range, StatusBarAlignment, window, workspace } from 'vscode'
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
 import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'

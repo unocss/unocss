@@ -1,4 +1,4 @@
-import { Rule } from '@unocss/core'
+import type { Rule } from '@unocss/core'
 import { varEmpty } from '@unocss/preset-mini/rules'
 import { CONTROL_BYPASS_PSEUDO } from '@unocss/preset-mini/variants'
 

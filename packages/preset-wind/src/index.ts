@@ -1,5 +1,5 @@
-import { Preset } from '@unocss/core'
-import { Theme } from '@unocss/preset-mini'
+import type { Preset } from '@unocss/core'
+import type { Theme } from '@unocss/preset-mini'
 import { theme } from '@unocss/preset-mini/theme'
 import { variantColorsClass, variantColorsMedia, variants } from '@unocss/preset-mini/variants'
 import { rules } from './rules'

@@ -1,5 +1,6 @@
-import { isAttributifySelector, VariantFunction } from '@unocss/core'
-import { AttributifyOptions } from './types'
+import type { VariantFunction } from '@unocss/core'
+import { isAttributifySelector } from '@unocss/core'
+import type { AttributifyOptions } from './types'
 
 const variantsRE = /^(.+\:\!?)?(.*?)$/
 

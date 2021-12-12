@@ -1,4 +1,4 @@
-import { CSSEntries, Rule } from '@unocss/core'
+import type { CSSEntries, Rule } from '@unocss/core'
 import { directionMap, handler as h } from '@unocss/preset-mini/utils'
 import { colorResolver } from '@unocss/preset-mini/rules'
 
