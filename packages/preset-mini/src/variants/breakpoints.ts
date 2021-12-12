@@ -15,6 +15,14 @@ export const variantBreakpoints: Variant<Theme> = (matcher, _, theme) => {
       continue
 
     const [, pre] = match
+
+    const m = matcher.slice(pre.length)
+    // container rule is responsive, but also is breakpoint aware
+    // it is handled on its own module (container.ts) and so we
+    // exclude it from here
+    if (m === 'container')
+      continue
+
     let direction = 'min'
     let order = 1000 // parseInt(size)
     if (pre.startsWith('lt-')) {
@@ -24,13 +32,6 @@ export const variantBreakpoints: Variant<Theme> = (matcher, _, theme) => {
     else {
       order += (idx + 1)
     }
-
-    const m = matcher.slice(pre.length)
-    // container rule is responsive, but also is breakpoint aware
-    // it is handled on its own module (container.ts) and so we
-    // exclude it from here
-    if (m === 'container')
-      continue
 
     // support for windicss @<breakpoint> => last breakpoint will not have the upper bound
     if (pre.startsWith('at-') && idx < variantEntries.length - 1) {
