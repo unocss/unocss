@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "core-js": "^3.19.3",
-    "vue": "^3.2.24"
+    "vue": "^3.2.25"
   },
   "devDependencies": {
     "@unocss/webpack": "link:../../../packages/webpack",

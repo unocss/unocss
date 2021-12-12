@@ -17,7 +17,7 @@
     "test:update": "vitest -u"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.12.2",
+    "@antfu/eslint-config": "^0.13.1",
     "@antfu/ni": "^0.12.0",
     "@iconify-json/carbon": "^1.0.12",
     "@iconify-json/logos": "^1.0.1",
@@ -45,7 +45,7 @@
     "@unocss/vite": "workspace:*",
     "@unocss/webpack": "workspace:*",
     "@vitejs/plugin-vue": "^1.10.2",
-    "@vueuse/core": "^7.2.2",
+    "@vueuse/core": "^7.3.0",
     "brotli-size": "^4.0.0",
     "bumpp": "^7.1.1",
     "codemirror": "^5.64.0",
@@ -56,6 +56,7 @@
     "fast-glob": "^3.2.7",
     "fs-extra": "^10.0.0",
     "gzip-size": "^6.0.0",
+    "happy-dom": "^2.24.5",
     "lz-string": "^1.4.4",
     "prettier": "^2.5.1",
     "splitpanes": "^3.0.6",
@@ -70,8 +71,9 @@
     "vite-node": "^0.1.11",
     "vite-plugin-inspect": "^0.3.11",
     "vite-plugin-pages": "^0.19.0",
-    "vitest": "^0.0.62",
-    "vue": "^3.2.24",
-    "vue-router": "^4.0.12"
+    "vitest": "^0.0.68",
+    "vue": "^3.2.25",
+    "vue-router": "^4.0.12",
+    "jsdom": "^19.0.0"
   }
 }
