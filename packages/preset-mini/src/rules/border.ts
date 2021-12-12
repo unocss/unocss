@@ -7,13 +7,13 @@ export const borders: Rule[] = [
   // size
   [/^border$/, handlerBorder],
   [/^(?:border|b)()-(.+)$/, handlerBorder],
-  [/^(?:border|b)-([^-]+)-(.+)$/, handlerBorder],
+  [/^(?:border|b)-([^-]+)(?:-(.+))?$/, handlerBorder],
   [/^(?:border|b)()-size-(.+)$/, handlerBorderSize],
   [/^(?:border|b)-([^-]+)-size-(.+)$/, handlerBorderSize],
 
   // colors
   [/^(?:border|b)()-(.+)$/, handlerBorderColor],
-  [/^(?:border|b)-([^-]+)-(.+)$/, handlerBorderColor],
+  [/^(?:border|b)-([^-]+)(?:-(.+))?$/, handlerBorderColor],
   [/^(?:border|b)-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-border-opacity': h.bracket.percent(opacity) })],
 
   // style
@@ -50,12 +50,14 @@ function handlerBorderSize([, a, b]: string[]): CSSEntries | undefined {
 }
 
 function handlerBorderColor([, a, c]: string[], ctx: RuleContext) {
-  const ofColor = colorResolver('border-color', 'border')(['', c], ctx)
-  if (ofColor) {
-    const borders = directionMap[directionMap[a] ? a : ''].map(i => colorResolver(`border${i}-color`, 'border')(['', c], ctx))
-    const borderObject = {}
-    Object.assign(borderObject, ...borders)
-    return borderObject as CSSObject
+  if (c !== undefined) {
+    const ofColor = colorResolver('border-color', 'border')(['', c], ctx)
+    if (ofColor) {
+      const borders = directionMap[directionMap[a] ? a : ''].map(i => colorResolver(`border${i}-color`, 'border')(['', c], ctx))
+      const borderObject = {}
+      Object.assign(borderObject, ...borders)
+      return borderObject as CSSObject
+    }
   }
 }
 
