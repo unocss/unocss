@@ -16,10 +16,13 @@ export const variantBreakpoints: Variant<Theme> = (matcher, _, theme) => {
 
     const [, pre] = match
     let direction = 'min'
-    let order = parseInt(size)
+    let order = 1000 // parseInt(size)
     if (pre.startsWith('lt-')) {
       direction = 'max'
-      order = -order
+      order -= (idx + 1)
+    }
+    else {
+      order += (idx + 1)
     }
 
     const m = matcher.slice(pre.length)
