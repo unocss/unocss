@@ -56,9 +56,9 @@
     "fast-glob": "^3.2.7",
     "fs-extra": "^10.0.0",
     "gzip-size": "^6.0.0",
-    "happy-dom": "^2.24.5",
     "lz-string": "^1.4.4",
     "prettier": "^2.5.1",
+    "rollup": "^2.61.1",
     "splitpanes": "^3.0.6",
     "terser": "^5.10.0",
     "tsup": "5.11.1",
@@ -71,9 +71,8 @@
     "vite-node": "^0.1.11",
     "vite-plugin-inspect": "^0.3.11",
     "vite-plugin-pages": "^0.19.0",
-    "vitest": "^0.0.68",
+    "vitest": "^0.0.70",
     "vue": "^3.2.25",
-    "vue-router": "^4.0.12",
-    "jsdom": "^19.0.0"
+    "vue-router": "^4.0.12"
   }
 }
