@@ -15,8 +15,8 @@ export const rings: Rule<Theme>[] = [
         '--un-ring-color': 'rgba(59, 130, 246, .5)',
         '--un-ring-offset-shadow': 'var(--un-ring-inset) 0 0 0 var(--un-ring-offset-width) var(--un-ring-offset-color)',
         '--un-ring-shadow': `var(--un-ring-inset) 0 0 0 calc(${value} + var(--un-ring-offset-width)) var(--un-ring-color)`,
-        '-webkit-box-shadow': 'var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow, 0 0 #0000);',
-        'box-shadow': 'var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow, 0 0 #0000);',
+        '-webkit-box-shadow': 'var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow, 0 0 #0000)',
+        'box-shadow': 'var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow, 0 0 #0000)',
       }
     }
   }],
