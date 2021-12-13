@@ -2,10 +2,10 @@ import type { Preset } from '@unocss/core'
 import { extractorSplit } from '@unocss/core'
 import { extractorAttributify } from './extractor'
 import type { AttributifyOptions } from './types'
-import { variantAttributify, variantPseudoClasses } from './variant'
+import { variantAttributify, variantPseudoClasses } from './variants'
 
 export * from './extractor'
-export * from './variant'
+export * from './variants'
 export * from './types'
 
 const preset = (options?: AttributifyOptions): Preset => {
