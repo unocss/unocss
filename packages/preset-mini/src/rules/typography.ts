@@ -70,7 +70,7 @@ export const fonts: Rule<Theme>[] = [
       return { 'letter-spacing': v }
   }],
 
-  // workspacing
+  // word-spacing
   [/^word-spacing-([^-]+)$/, ([, s], { theme }) => {
     const v = theme.wordSpacing?.[s] || h.bracket.rem(s)
     if (v !== null)
