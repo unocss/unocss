@@ -64,3 +64,8 @@ export const overscrolls: Rule[] = [
   [/^overscroll-(.+)$/, ([, v]) => overflowValues.includes(v) ? { 'overscroll-behavior': v } : undefined],
   [/^overscroll-([xy])-(.+)$/, ([, d, v]) => overflowValues.includes(v) ? { [`overscroll-behavior-${d}`]: v } : undefined],
 ]
+
+export const scrollBehaviors: Rule[] = [
+  ['scroll-auto', { 'scroll-behavior': 'auto' }],
+  ['scroll-smooth', { 'scroll-behavior': 'smooth' }],
+]
