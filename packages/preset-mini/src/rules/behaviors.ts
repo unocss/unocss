@@ -6,7 +6,7 @@ const outlineStyle = ['none', 'auto', 'dotted', 'dashed', 'solid', 'double', 'gr
 
 const parseOutlineSize = (s: string) => {
   const propName = ['width', 'offset'].find(item => s.startsWith(item)) || 'width'
-  const size = h.bracket.fraction.rem((s.replace(/^(offset\-|width\-)/, '')))
+  const size = h.bracket.fraction.rem((s.replace(/^(offset\-|width\-|size\-)/, '')))
   if (size) {
     return {
       [`outline-${propName}`]: size,

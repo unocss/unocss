@@ -144,7 +144,6 @@ export const rules: Rule[] = [
   mixBlendModes,
   boxShadows,
   outline,
-  // outline-width, // TODO: implementation
   rings,
   imageRenderings,
   filters,
