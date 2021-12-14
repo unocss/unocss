@@ -65,6 +65,7 @@ import { cssVariables } from './variables'
 import { divides } from './divide'
 import { lineClamps } from './line-clamp'
 import { fontVariantNumeric } from './typography'
+import { touchActions } from './touch-actions'
 
 export const rules: Rule[] = [
   miniCssVariables,
@@ -91,7 +92,7 @@ export const rules: Rule[] = [
   transforms,
   animations,
   cursors,
-  // touchAction, // TODO: implementation
+  touchActions,
   userSelects,
   resizes,
   // scrolls, // TODO: implementation

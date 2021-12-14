@@ -45,6 +45,9 @@ exports[`targets 1`] = `
 .table-caption{display:table-caption;}
 .table-footer-group{display:table-footer-group;}
 .table-row-group{display:table-row-group;}
+.touch-pan-left,.touch-pan-y{--un-pan-x:var(--un-empty,/*!*/ /*!*/);--un-pan-y:var(--un-empty,/*!*/ /*!*/);--un-pinch-zoom:var(--un-empty,/*!*/ /*!*/);--un-touch-action:var(--un-pan-x) var(--un-pan-y) var(--un-pinch-zoom);}
+.touch-pan-left{--un-pan-x:pan-left;touch-action:var(--un-touch-action);}
+.touch-pan-y{--un-pan-y:pan-y;touch-action:var(--un-touch-action);}
 .select-none{user-select:none;}
 .list-disc{list-style-type:disc;}
 .list-none{list-style-type:none;}

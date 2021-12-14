@@ -216,6 +216,8 @@ const targets = [
   'v-top',
   'v-mid',
   'disabled:op50',
+  'touch-pan-left',
+  'touch-pan-y',
 
   // custom colors
   'text-custom-a',
