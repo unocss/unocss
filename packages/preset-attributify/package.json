@@ -37,6 +37,7 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@unocss/core": "workspace:*"
+    "@unocss/core": "workspace:*",
+    "@unocss/preset-mini": "workspace:*"
   }
 }

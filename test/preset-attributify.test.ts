@@ -5,7 +5,7 @@ import { describe, expect, test } from 'vitest'
 
 describe('attributify', () => {
   const fixture1 = `
-<button 
+<button
   class="absolute fixed"
   bg="blue-400 hover:blue-500 dark:!blue-500 dark:hover:blue-600"
   text="sm white"
@@ -36,7 +36,8 @@ describe('attributify', () => {
   const fixture2 = `
 <template>
   <div h-80 text-center flex select-none all:transition-400>
-    <div ma group>
+    <input type="checkbox" peer>
+    <div ma group peer-checked="shadow-lg">
       <div font-100 text-4xl mb--3>
         ~
       </div>
