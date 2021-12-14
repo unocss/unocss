@@ -78,7 +78,7 @@ export function time(str: string) {
   if (isNaN(duration))
     return
 
-  if (/ms|s$/.test(str))
+  if (/(s|ms)$/.test(str))
     return str
 
   return `${str}ms`
