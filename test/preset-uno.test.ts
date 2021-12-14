@@ -156,6 +156,8 @@ const targets = [
   'image-render-pixel',
   'decoration-slice',
   'appearance-none',
+  'accent-op-90',
+  'accent-red',
   'caret-op-90',
   'caret-red',
   'space-x-2',

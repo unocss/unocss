@@ -59,7 +59,7 @@ import { mixBlendModes } from './shadow'
 import { spaces } from './spacing'
 import { screenReadersAccess, textTransforms, hyphens, writingModes, writingOrientations, isolations, objectPositions } from './static'
 import { tables } from './table'
-import { listStyle, caretColors, boxDecorationBreaks, caretOpacity, imageRenderings, overscrolls, scrollBehaviors } from './behaviors'
+import { listStyle, caretColors, boxDecorationBreaks, caretOpacity, imageRenderings, overscrolls, scrollBehaviors, accentColors, accentOpacity } from './behaviors'
 import { animations } from './animation'
 import { cssVariables } from './variables'
 import { divides } from './divide'
@@ -138,7 +138,8 @@ export const rules: Rule[] = [
   placeholder,
   caretColors,
   caretOpacity,
-  // accentColors, // TODO: implementation
+  accentColors,
+  accentOpacity,
   opacity,
   mixBlendModes,
   boxShadows,

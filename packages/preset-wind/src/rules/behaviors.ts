@@ -31,6 +31,14 @@ export const boxDecorationBreaks: Rule[] = [
   ['decoration-clone', { 'box-decoration-break': 'clone' }],
 ]
 
+export const accentOpacity: Rule[] = [
+  [/^accent-op(?:acity)?-?(.+)$/, ([, d]) => ({ '--un-accent-opacity': h.bracket.percent(d) })],
+]
+
+export const accentColors: Rule[] = [
+  [/^accent-(.+)$/, colorResolver('accent-color', 'accent')],
+]
+
 export const caretOpacity: Rule[] = [
   [/^caret-op(?:acity)?-?(.+)$/, ([, d]) => ({ '--un-caret-opacity': h.bracket.percent(d) })],
 ]
