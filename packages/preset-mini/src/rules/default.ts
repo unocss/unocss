@@ -1,7 +1,7 @@
 import type { Rule } from '@unocss/core'
 import { transitions } from './transition'
 import { borders } from './border'
-import { bgColors, opacity, textColors, fillColors } from './color'
+import { bgColors, opacity, textColors } from './color'
 import { flex } from './flex'
 import { fonts, tabSizes, textIndents, textShadows, textStrokes } from './typography'
 import { gaps } from './gap'
@@ -19,6 +19,7 @@ import { questionMark } from './question-mark'
 import { textAligns, verticalAligns } from './align'
 import { appearance, outline, placeholder } from './behaviors'
 import { textDecorations } from './decoration'
+import { svgUtilities } from './svg'
 
 export const rules: Rule[] = [
   cssVariables,
@@ -27,7 +28,7 @@ export const rules: Rule[] = [
   displays,
   opacity,
   bgColors,
-  fillColors,
+  svgUtilities,
   borders,
   contents,
   fonts,

@@ -116,10 +116,20 @@ exports[`targets 1`] = `
 .bg-repeat-space{background-position:space;}
 .bg-auto{background-size:auto;}
 .bg-cover{background-size:cover;}
-.fill-none{fill:none;}
+.fill-\\\\[\\\\#123\\\\]{--un-fill-opacity:1;fill:rgba(17,34,51,var(--un-fill-opacity));}
+.fill-\\\\[1rem\\\\]{fill:1rem;}
 .fill-current{fill:currentColor;}
 .fill-green-400{--un-fill-opacity:1;fill:rgba(74,222,128,var(--un-fill-opacity));}
 .fill-opacity-80{--un-fill-opacity:0.8;}
+.fill-none{fill:none;}
+.stroke-size-\\\\[1rem\\\\]{stroke-width:1rem;}
+.stroke-size-1,.stroke-size-1px{stroke-width:1px;}
+.stroke-\\\\[\\\\#123\\\\]{--un-stroke-opacity:1;stroke:rgba(17,34,51,var(--un-stroke-opacity));}
+.stroke-\\\\[1rem\\\\]{stroke:1rem;}
+.stroke-current{stroke:currentColor;}
+.stroke-green-400{--un-stroke-opacity:1;stroke:rgba(74,222,128,var(--un-stroke-opacity));}
+.stroke-opacity-80{--un-stroke-opacity:0.8;}
+.stroke-none{stroke:none;}
 .-p-px{padding:-1px;}
 .\\\\!p-5px{padding:5px !important;}
 .first\\\\:p-2:first-child,.p-2,.p2{padding:0.5rem;}

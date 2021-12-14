@@ -117,9 +117,3 @@ export const ringOffsetColors: Rule[] = [
   [/^ring-offset-(.+)$/, colorResolver('--un-ring-offset-color', 'ring-offset')],
   [/^ring-offset-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-ring-offset-opacity': h.bracket.percent(opacity) })],
 ]
-
-export const fillColors: Rule[] = [
-  ['fill-none', { fill: 'none' }],
-  [/^fill-(.+)$/, colorResolver('fill', 'fill')],
-  [/^fill-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-fill-opacity': h.bracket.percent(opacity) })],
-]
