@@ -85,6 +85,6 @@ export function time(str: string) {
 }
 
 export function global(str: string) {
-  if (['inherit', 'initial', 'unset'].includes(str))
+  if (['inherit', 'initial', 'revert', 'unset'].includes(str))
     return str
 }
