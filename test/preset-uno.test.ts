@@ -204,6 +204,7 @@ const targets = [
   'outline-110',
   'outline-blue-2',
   'outline-none',
+  'outline-[var(--red)]',
   'outline-size-[var(--width)]',
   'outline-offset-[var(--offset)]',
   'placeholder-color-red-1',

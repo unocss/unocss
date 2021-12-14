@@ -34,16 +34,16 @@ export const outline: Rule[] = [
         }
       }
 
-      const sizeSheet = parseOutlineSize(d)
-      if (sizeSheet)
-        return sizeSheet
-
       const colorSheet = colorResolver('outline-color', 'outline-color')([
         match[0],
         match[1].replace(/^color-/, ''),
       ], config)
       if (colorSheet)
         return colorSheet
+
+      const sizeSheet = parseOutlineSize(d)
+      if (sizeSheet)
+        return sizeSheet
     },
   ],
 ]
