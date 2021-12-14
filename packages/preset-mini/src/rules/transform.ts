@@ -28,11 +28,12 @@ const transformBase = {
 export const transforms: Rule[] = [
   ['transform', transformBase],
   [/^preserve-(3d|flat)$/, ([, value]) => ({ 'transform-style': value === '3d' ? `preserve-${value}` : value })],
-  [/^translate()-([^-]+)$/, handleTranslate],
-  [/^translate-([xyz])-([^-]+)$/, handleTranslate],
-  [/^scale()-([^-]+)$/, handleScale],
-  [/^scale-([xyz])-([^-]+)$/, handleScale],
-  [/^rotate-([^-]+)(?:deg)?$/, handleRotate],
+  [/^translate()-(.+)$/, handleTranslate],
+  [/^translate-([xyz])-(.+)$/, handleTranslate],
+  [/^scale()-(.+)$/, handleScale],
+  [/^scale-([xyz])-(.+)$/, handleScale],
+  [/^rotate-(.+)$/, handleRotate],
+  [/^rotate-((?!\[)[^-]+?)(?:deg)?$/, handleRotateWithUnit],
   ['transform-gpu', transformGpu],
   ['transform-cpu', transformCpu],
   ['transform-none', { transform: 'none' }],
@@ -71,12 +72,22 @@ function handleScale([, d, b]: string[]): CSSValues | undefined {
   }
 }
 
-function handleRotate([, b]: string[]): CSSValues | undefined {
+function handleRotateWithUnit([, b]: string[]): CSSValues | undefined {
   const v = h.bracket.number(b)
   if (v != null) {
     return [
       transformBase,
       { '--un-rotate': `${v}deg` },
+    ]
+  }
+}
+
+function handleRotate([, b]: string[]): CSSValues | undefined {
+  const v = h.bracket(b)
+  if (v != null) {
+    return [
+      transformBase,
+      { '--un-rotate': v },
     ]
   }
 }

@@ -227,6 +227,7 @@ const nonTargets = [
   'tab.hello',
   'text-anything',
   'p-anything',
+  'rotate-[3]deg',
 ]
 
 const uno = createGenerator({
