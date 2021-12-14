@@ -1,5 +1,29 @@
 import type { Rule } from '@unocss/core'
 
+const cssBasicProps = [
+  'color', 'border-color', 'background-color', 'flex-grow', 'flex', 'flex-shrink',
+  'caret-color', 'font', 'gap', 'opacity', 'visibility', 'z-index', 'font-weight',
+  'zoom', 'text-shadow', 'transform', 'box-shadow',
+]
+const cssPositionProps = [
+  'backround-position', 'left', 'right', 'top', 'bottom', 'object-position',
+]
+const cssSizeProps = [
+  'max-height', 'min-height', 'max-width', 'min-width', 'height', 'width',
+  'border-width', 'margin', 'padding', 'outline-width', 'outline-offset',
+  'font-size', 'line-height', 'text-indent', 'vertical-align',
+  'border-spacing', 'letter-spacing', 'word-spacing',
+]
+const cssEnhanceProps = ['stroke', 'filter', 'backdrop-filter', 'fill', 'mask', 'mask-size', 'mask-border', 'clip-path', 'clip']
+
+// Not all, but covers most high frequency attributes
+export const cssProps = [
+  ...cssBasicProps,
+  ...cssPositionProps,
+  ...cssSizeProps,
+  ...cssEnhanceProps,
+]
+
 export const varEmpty = 'var(--un-empty,/*!*/ /*!*/)'
 
 // display table included on table.ts
