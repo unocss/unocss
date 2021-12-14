@@ -2,6 +2,17 @@ const numberWithUnitRE = /^(-?[0-9.]+)(px|pt|pc|rem|em|%|vh|vw|in|cm|mm|ex|ch|vm
 const numberRE = /^(-?[0-9.]+)$/i
 const unitOnlyRE = /^(px)$/i
 
+export function numberWithUnit(str: string) {
+  if (str === 'auto' || str === 'a')
+    return 'auto'
+  const match = str.match(numberWithUnitRE)
+  if (!match)
+    return
+  const [,, unit] = match
+  if (unit)
+    return str
+}
+
 export function rem(str: string) {
   if (str === 'auto' || str === 'a')
     return 'auto'

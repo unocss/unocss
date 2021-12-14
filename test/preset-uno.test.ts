@@ -218,6 +218,9 @@ const targets = [
   'disabled:op50',
   'touch-pan-left',
   'touch-pan-y',
+  'columns-3',
+  'columns-5em',
+  'columns-auto',
 
   // scroll-spaces
   'scroll-m-[3em]',

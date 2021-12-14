@@ -63,6 +63,9 @@ exports[`targets 1`] = `
 .list-none-inside{list-style-position:inside;list-style-type:none;}
 .list-outside{list-style-position:outside;}
 .appearance-none{appearance:none;-webkit-appearance:none;}
+.columns-3{column:3;}
+.columns-5em{column:5em;}
+.columns-auto{column:auto;}
 .gap-4{grid-gap:1rem;gap:1rem;}
 .gap-x-1{grid-column-gap:0.25rem;column-gap:0.25rem;}
 .-gap-y-5{grid-row-gap:-1.25rem;row-gap:-1.25rem;}

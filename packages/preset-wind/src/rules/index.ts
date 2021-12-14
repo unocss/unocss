@@ -2,6 +2,7 @@
 export * from './animation'
 export * from './background'
 export * from './behaviors'
+export * from './columns'
 export * from './container'
 export * from './default'
 export * from './divide'
