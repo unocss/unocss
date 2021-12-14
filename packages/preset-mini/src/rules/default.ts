@@ -17,7 +17,7 @@ import { transforms } from './transform'
 import { cssVariables } from './variables'
 import { questionMark } from './question-mark'
 import { textAligns, verticalAligns } from './align'
-import { appearance, outline, placeholder } from './behaviors'
+import { appearance, outline, placeholder, willChange } from './behaviors'
 import { textDecorations } from './decoration'
 import { svgUtilities } from './svg'
 
@@ -74,6 +74,7 @@ export const rules: Rule[] = [
   boxSizing,
   transitions,
   transforms,
+  willChange,
 
   // should be the last
   questionMark,

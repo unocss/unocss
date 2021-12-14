@@ -1,6 +1,7 @@
 import type { Rule } from '@unocss/core'
 import { handler as h } from '../utils'
 import { colorResolver } from './color'
+import { cssProps } from './static'
 
 const outlineStyle = ['none', 'auto', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'inherit', 'initial', 'revert', 'unset']
 
@@ -69,4 +70,21 @@ export const placeholder: Rule[] = [
       return colorResolver('placeholder-color', 'placeholder-color')(match, config)
     },
   ],
+]
+
+const cssPropsStr = cssProps.join(', ')
+
+const validateProperty = (prop: string): string | undefined => {
+  if (prop && !cssProps.includes(prop))
+    return
+
+  return prop || cssPropsStr
+}
+
+export const willChange: Rule[] = [
+  [/^will-change-(.*)/, ([, p]) => {
+    const w = validateProperty(p) || h.global(p)
+    if (w)
+      return { 'will-change': w }
+  }],
 ]

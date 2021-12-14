@@ -223,6 +223,7 @@ exports[`targets 1`] = `
 .ring-offset-green5{--un-ring-offset-opacity:1;--un-ring-offset-color:rgba(34,197,94,var(--un-ring-offset-opacity));}
 .image-render-pixel{-ms-interpolation-mode:nearest-neighbor;image-rendering:-webkit-optimize-contrast;image-rendering:-moz-crisp-edges;image-rendering:-o-pixelated;image-rendering:pixelated;}
 .duration-111{transition-duration:111ms;}
+.will-change-transform{will-change:transform;}
 @media (prefers-color-scheme: dark){
 .dark\\\\:text-xl{font-size:1.25rem;line-height:1.75rem;}
 .dark\\\\:not-odd\\\\:text-red:not(:nth-child(odd)){--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}

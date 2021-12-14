@@ -50,6 +50,7 @@ import {
   userSelects,
   verticalAligns,
   whitespaces,
+  willChange,
   zIndexes,
 } from '@unocss/preset-mini/rules'
 import { container } from './container'
@@ -149,7 +150,7 @@ export const rules: Rule[] = [
   imageRenderings,
   filters,
   transitions,
-  // willChange, // TODO: implementation
+  willChange,
   contents,
 
   // should be the last

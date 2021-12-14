@@ -233,6 +233,7 @@ const targets = [
   'columns-3',
   'columns-5em',
   'columns-auto',
+  'will-change-transform',
 
   // scroll-spaces
   'scroll-m-[3em]',
@@ -264,6 +265,8 @@ const nonTargets = [
   'text-anything',
   'p-anything',
   'rotate-[3]deg',
+  'will-change-all',
+  'will-change-none',
 ]
 
 const uno = createGenerator({
