@@ -1,6 +1,6 @@
 import type { Rule, RuleContext, CSSValues } from '@unocss/core'
 import { toArray } from '@unocss/core'
-import { CONTROL_BYPASS_PSEUDO } from '@unocss/preset-mini/variants'
+import { CONTROL_BYPASS_PSEUDO_CLASS } from '@unocss/preset-mini/variants'
 import type { Theme } from '@unocss/preset-mini'
 import { handler as h } from '@unocss/preset-mini/utils'
 
@@ -18,7 +18,7 @@ const filterBase = {
   '--un-sepia': varEmpty,
   '--un-drop-shadow': varEmpty,
   'filter': filterContnet,
-  [CONTROL_BYPASS_PSEUDO]: '',
+  [CONTROL_BYPASS_PSEUDO_CLASS]: '',
 }
 
 const backdropFilterContent = 'var(--un-backdrop-blur) var(--un-backdrop-brightness) var(--un-backdrop-contrast) var(--un-backdrop-grayscale) var(--un-backdrop-hue-rotate) var(--un-backdrop-invert) var(--un-backdrop-saturate) var(--un-backdrop-sepia)'
@@ -34,7 +34,7 @@ const backdropFilterBase = {
   '--un-backdrop-sepia': varEmpty,
   '-webkit-backdrop-filter': backdropFilterContent,
   'backdrop-filter': backdropFilterContent,
-  [CONTROL_BYPASS_PSEUDO]: '',
+  [CONTROL_BYPASS_PSEUDO_CLASS]: '',
 }
 
 const percentWithDefault = (defaultValue = '1') => (str?: string) => {

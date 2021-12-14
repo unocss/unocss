@@ -1,15 +1,15 @@
 import type { Rule, CSSValues } from '@unocss/core'
 import { xyzMap, handler as h } from '../utils'
-import { CONTROL_BYPASS_PSEUDO } from '../variants/pseudo'
+import { CONTROL_BYPASS_PSEUDO_CLASS } from '../variants/pseudo'
 
 const transformGpu = {
   transform: 'rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translate3d(var(--un-translate-x), var(--un-translate-y), var(--un-translate-z))',
-  [CONTROL_BYPASS_PSEUDO]: '',
+  [CONTROL_BYPASS_PSEUDO_CLASS]: '',
 }
 
 const transformCpu = {
   transform: 'rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z))',
-  [CONTROL_BYPASS_PSEUDO]: '',
+  [CONTROL_BYPASS_PSEUDO_CLASS]: '',
 }
 
 const transformBase = {

@@ -102,6 +102,7 @@ export const presetMiniTargets: string[] = [
   '-translate-x-full',
   'hover:translate-x-3',
   'peer-checked:translate-x-[var(--reveal)]',
+  'before:translate-y-full',
   'rotate-1deg',
   '-rotate-2',
   'rotate-[var(--spin)]',

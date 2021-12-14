@@ -1,6 +1,6 @@
 import type { Rule } from '@unocss/core'
 import { varEmpty } from '@unocss/preset-mini/rules'
-import { CONTROL_BYPASS_PSEUDO } from '@unocss/preset-mini/variants'
+import { CONTROL_BYPASS_PSEUDO_CLASS } from '@unocss/preset-mini/variants'
 
 const fontVariantNumericBase = {
   '--un-ordinal': varEmpty,
@@ -9,7 +9,7 @@ const fontVariantNumericBase = {
   '--un-numeric-spacing': varEmpty,
   '--un-numeric-fraction': varEmpty,
   'font-variant-numeric': 'var(--un-ordinal) var(--un-slashed-zero) var(--un-numeric-figure) var(--un-numeric-spacing) var(--un-numeric-fraction)',
-  [CONTROL_BYPASS_PSEUDO]: '',
+  [CONTROL_BYPASS_PSEUDO_CLASS]: '',
 }
 
 export const fontVariantNumeric: Rule[] = [

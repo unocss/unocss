@@ -1,7 +1,7 @@
 import type { CSSEntries, VariantFunction, VariantObject } from '@unocss/core'
 import { toArray } from '@unocss/core'
 
-export const CONTROL_BYPASS_PSEUDO = '$$no-pseudo'
+export const CONTROL_BYPASS_PSEUDO_CLASS = '$$no-pseudo'
 
 export const PseudoClasses: Record<string, string | undefined> = Object.fromEntries([
   'active',
@@ -59,13 +59,13 @@ export const variantPseudoElements: VariantFunction = (input: string) => {
   if (match) {
     return {
       matcher: input.slice(match[1].length + 1),
-      selector: (s, body) => shouldAdd(body) && `${s}::${match[1]}`,
+      selector: s => `${s}::${match[1]}`,
     }
   }
 }
 
 function shouldAdd(entires: CSSEntries) {
-  return !entires.find(i => i[0] === CONTROL_BYPASS_PSEUDO) || undefined
+  return !entires.find(i => i[0] === CONTROL_BYPASS_PSEUDO_CLASS) || undefined
 }
 
 export const variantPseudoClasses: VariantObject = {
