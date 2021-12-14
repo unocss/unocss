@@ -5,7 +5,7 @@ import { describe, expect, test } from 'vitest'
 
 describe('attributify', () => {
   const fixture1 = `
-<button 
+<button
   class="absolute fixed"
   bg="blue-400 hover:blue-500 dark:!blue-500 dark:hover:blue-600"
   text="sm white"
@@ -35,8 +35,9 @@ describe('attributify', () => {
 
   const fixture2 = `
 <template>
-  <div h-80 text-center flex select-none all:transition-400>
-    <div ma group>
+  <div h-80 text-center flex flex-col align-center select-none all:transition-400>
+    <input type="checkbox" peer mt-a>
+    <div mb-a group peer-checked="text-4xl">
       <div font-100 text-4xl mb--3>
         ~
       </div>
@@ -48,13 +49,22 @@ describe('attributify', () => {
       </div>
     </div>
   </div>
+  <div flex>
+    <div ma inline-flex relative h-14>
+      <input type="text" m-0 pt-4 px-4 text-true-gray-800 peer placeholder>
+      <label absolute leading-1rem left-4 pointer-events-none text-gray-7 top="1/3" transition="200 linear"
+        peer-not-placeholder-shown="-translate-y-4 scale-75 origin-top-left text-green-500"
+        peer-focus="-translate-y-4 scale-75 origin-top-left text-green-500"
+      >Experience now!</label>
+    </div>
+  </div>
 </template>
 `
 
   const uno = createGenerator({
     presets: [
       presetAttributify({ strict: true }),
-      presetUno(),
+      presetUno({ attributifyPseudo: true }),
     ],
   })
 
