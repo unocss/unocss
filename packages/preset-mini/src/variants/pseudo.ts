@@ -1,5 +1,5 @@
-import type { CSSEntries, VariantFunction, VariantObject } from '@unocss/core'
-import { toArray } from '@unocss/core'
+import type { CSSEntries, VariantFunction, VariantHandler, VariantObject } from '@unocss/core'
+import { escapeRegExp, toArray } from '@unocss/core'
 
 export const CONTROL_BYPASS_PSEUDO_CLASS = '$$no-pseudo'
 
@@ -60,8 +60,27 @@ const PseudoElementsRE = new RegExp(`^(${PseudoElements.join('|')})[:-]`)
 const PseudoClassesStr = Object.keys(PseudoClasses).join('|')
 const PseudoClassesRE = new RegExp(`^(${PseudoClassesStr})[:-]`)
 const PseudoClassesNotRE = new RegExp(`^not-(${PseudoClassesStr})[:-]`)
-const PseudoClassesGroupRE = new RegExp(`^group-((not-)?(${PseudoClassesStr}))[:-]`)
-const PseudoClassesPeerRE = new RegExp(`^peer-((not-)?(${PseudoClassesStr}))[:-]`)
+
+export const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: string) => {
+  const re = new RegExp(`^${tag}-((not-)?(${PseudoClassesStr}))[:-]`)
+  const rawRe = new RegExp('^' + escapeRegExp(parent) + ':')
+  return (input: string): VariantHandler | undefined => {
+    const match = input.match(re)
+    if (match) {
+      let pseudo = PseudoClasses[match[3]] || match[3]
+      if (match[2])
+        pseudo = `not(:${pseudo})`
+      return {
+        matcher: input.slice(match[1].length + tag.length + 2),
+        selector: (s, body) => {
+          return shouldAdd(body) && rawRe.test(s)
+            ? s.replace(rawRe, `${parent}:${pseudo}:`)
+            : `${parent}:${pseudo}${combinator}${s}`
+        },
+      }
+    }
+  }
+}
 
 export const variantPseudoElements: VariantFunction = (input: string) => {
   const match = input.match(PseudoElementsRE)
@@ -97,31 +116,13 @@ export const variantPseudoClasses: VariantObject = {
       }
     }
 
-    match = input.match(PseudoClassesGroupRE)
-    if (match) {
-      let pseudo = PseudoClasses[match[3]] || match[3]
-      if (match[2])
-        pseudo = `not(:${pseudo})`
-      return {
-        matcher: input.slice(match[1].length + 7),
-        selector: (s, body) => shouldAdd(body) && s.includes('.group:')
-          ? s.replace(/\.group:/, `.group:${pseudo}:`)
-          : `.group:${pseudo} ${s}`,
-      }
-    }
+    let g = taggedPseudoClassMatcher('group', '.group', ' ')(input)
+    if (g)
+      return g
 
-    match = input.match(PseudoClassesPeerRE)
-    if (match) {
-      let pseudo = PseudoClasses[match[3]] || match[3]
-      if (match[2])
-        pseudo = `not(:${pseudo})`
-      return {
-        matcher: input.slice(match[1].length + 6),
-        selector: (s, body) => shouldAdd(body) && s.includes('.peer:')
-          ? s.replace(/\.peer:/, `.peer:${pseudo}:`)
-          : `.peer:${pseudo}~${s}`,
-      }
-    }
+    let p = taggedPseudoClassMatcher('peer', '.peer', '~')(input)
+    if (p)
+      return p
   },
   multiPass: true,
 }

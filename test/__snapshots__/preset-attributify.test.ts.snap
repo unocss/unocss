@@ -51,8 +51,11 @@ Set {
   "[flex=\\"\\"]",
   "[select-none=\\"\\"]",
   "[all:transition-400=\\"\\"]",
+  "[type~=\\"checkbox\\"]",
+  "[peer=\\"\\"]",
   "[ma=\\"\\"]",
   "[group=\\"\\"]",
+  "[peer-checked~=\\"shadow-lg\\"]",
   "[font-100=\\"\\"]",
   "[text-4xl=\\"\\"]",
   "[mb--3=\\"\\"]",
@@ -62,8 +65,16 @@ Set {
   "[font-200=\\"\\"]",
   "[mt-1=\\"\\"]",
   "[tracking-wider=\\"\\"]",
-  "[group-hover~=\\"text-teal-400\\"]",
-  "[group-hover~=\\"op-50\\"]",
+  "[group-focus-group-hover~=\\"text-teal-400\\"]",
+  "[group-focus-group-hover~=\\"op-50\\"]",
+  "[peer-focus~=\\"-translate-y-4\\"]",
+  "[peer-focus~=\\"scale-75\\"]",
+  "[peer-focus~=\\"origin-top-left\\"]",
+  "[peer-focus~=\\"text-green-500\\"]",
+  "[peer-not-placeholder-shown~=\\"-translate-y-4\\"]",
+  "[peer-not-placeholder-shown~=\\"scale-75\\"]",
+  "[peer-not-placeholder-shown~=\\"origin-top-left\\"]",
+  "[peer-not-placeholder-shown~=\\"text-green-500\\"]",
 }
 `;
 
@@ -107,6 +118,10 @@ exports[`attributify > fixture2 1`] = `
 [mt-1=\\"\\"]{margin-top:0.25rem;}
 [h-80=\\"\\"]{height:20rem;}
 [flex=\\"\\"]{display:flex;}
+[peer=\\"\\"]:focus~[peer-focus~=\\"-translate-y-4\\"],[peer=\\"\\"]:not(:placeholder-shown)~[peer-not-placeholder-shown~=\\"-translate-y-4\\"],[peer=\\"\\"]:focus~[peer-focus~=\\"scale-75\\"],[peer=\\"\\"]:not(:placeholder-shown)~[peer-not-placeholder-shown~=\\"scale-75\\"]{--un-rotate:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;transform:rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z));}
+[peer=\\"\\"]:focus~[peer-focus~=\\"-translate-y-4\\"],[peer=\\"\\"]:not(:placeholder-shown)~[peer-not-placeholder-shown~=\\"-translate-y-4\\"]{--un-translate-y:-1rem;}
+[peer=\\"\\"]:focus~[peer-focus~=\\"scale-75\\"],[peer=\\"\\"]:not(:placeholder-shown)~[peer-not-placeholder-shown~=\\"scale-75\\"]{--un-scale-x:0.75;--un-scale-y:0.75;}
+[peer=\\"\\"]:focus~[peer-focus~=\\"origin-top-left\\"],[peer=\\"\\"]:not(:placeholder-shown)~[peer-not-placeholder-shown~=\\"origin-top-left\\"]{transform-origin:top left;}
 [select-none=\\"\\"]{user-select:none;}
 [text-center=\\"\\"]{text-align:center;}
 [text-4xl=\\"\\"]{font-size:2.25rem;line-height:2.5rem;}
@@ -114,9 +129,11 @@ exports[`attributify > fixture2 1`] = `
 [font-100=\\"\\"]{font-weight:100;}
 [font-200=\\"\\"]{font-weight:200;}
 [tracking-wider=\\"\\"]{letter-spacing:0.05em;}
-.group:hover [group-hover~=\\"text-teal-400\\"]{--un-text-opacity:1;color:rgba(45,212,191,var(--un-text-opacity));}
-.group:hover [group-hover~=\\"op-50\\"]{opacity:0.5;}
+[group=\\"\\"]:hover:focus [group-focus-group-hover~=\\"text-teal-400\\"]{--un-text-opacity:1;color:rgba(45,212,191,var(--un-text-opacity));}
+[peer=\\"\\"]:focus~[peer-focus~=\\"text-green-500\\"],[peer=\\"\\"]:not(:placeholder-shown)~[peer-not-placeholder-shown~=\\"text-green-500\\"]{--un-text-opacity:1;color:rgba(34,197,94,var(--un-text-opacity));}
+[group=\\"\\"]:hover:focus [group-focus-group-hover~=\\"op-50\\"]{opacity:0.5;}
 [op-20=\\"\\"]{opacity:0.2;}
+[peer=\\"\\"]:checked~[peer-checked~=\\"shadow-lg\\"]{--un-shadow-color:0,0,0;--un-shadow:0 10px 15px -3px rgba(var(--un-shadow-color), 0.1), 0 4px 6px -2px rgba(var(--un-shadow-color), 0.05);box-shadow:var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow);}
 [all\\\\:transition-400=\\"\\"] *{transition-property:color, border-color, background-color, flex-grow, flex, flex-shrink, caret-color, font, gap, opacity, visibility, z-index, font-weight, zoom, text-shadow, transform, box-shadow, backround-position, left, right, top, bottom, object-position, max-height, min-height, max-width, min-width, height, width, border-width, margin, padding, outline-width, outline-offset, font-size, line-height, text-indent, vertical-align, border-spacing, letter-spacing, word-spacing, stroke, filter, backdrop-filter, fill, mask, mask-size, mask-border, clip-path, clip;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:400ms;}
 @media (min-width: 640px){
 [sm~=\\"bg-blue-600\\"]{--un-bg-opacity:1;background-color:rgba(37,99,235,var(--un-bg-opacity));}
