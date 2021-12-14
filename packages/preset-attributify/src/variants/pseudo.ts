@@ -1,12 +1,12 @@
 import type { CSSEntries, VariantObject } from '@unocss/core'
-import { CONTROL_BYPASS_PSEUDO, PseudoClasses } from '@unocss/preset-mini/variants'
+import { CONTROL_BYPASS_PSEUDO_CLASS, PseudoClasses } from '@unocss/preset-mini/variants'
 
 const PseudoClassesStr = Object.keys(PseudoClasses).join('|')
 const PseudoClassesGroupRE = new RegExp(`^group-(${PseudoClassesStr})[:-]`)
 const PseudoClassesPeerRE = new RegExp(`^peer-(${PseudoClassesStr})[:-]`)
 
 function shouldAdd(entires: CSSEntries) {
-  return !entires.find(i => i[0] === CONTROL_BYPASS_PSEUDO) || undefined
+  return !entires.find(i => i[0] === CONTROL_BYPASS_PSEUDO_CLASS) || undefined
 }
 
 export const variantPseudoClasses: VariantObject = {
