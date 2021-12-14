@@ -59,7 +59,7 @@ import { mixBlendModes } from './shadow'
 import { spaces } from './spacing'
 import { screenReadersAccess, textTransforms, hyphens, writingModes, writingOrientations, isolations, objectPositions } from './static'
 import { tables } from './table'
-import { listStyle, caretColors, boxDecorationBreaks, caretOpacity, imageRenderings, overscrolls } from './behaviors'
+import { listStyle, caretColors, boxDecorationBreaks, caretOpacity, imageRenderings, overscrolls, scrollBehaviors } from './behaviors'
 import { animations } from './animation'
 import { cssVariables } from './variables'
 import { divides } from './divide'
@@ -107,7 +107,7 @@ export const rules: Rule[] = [
   divides,
   overflows,
   overscrolls,
-  // scrollBehavior, // TODO: implementation
+  scrollBehaviors,
   textOverflows,
   whitespaces,
   wordBreaks,
