@@ -49,6 +49,15 @@ exports[`targets 1`] = `
 .touch-pan-left{--un-pan-x:pan-left;touch-action:var(--un-touch-action);}
 .touch-pan-y{--un-pan-y:pan-y;touch-action:var(--un-touch-action);}
 .select-none{user-select:none;}
+.scroll-m-\\\\[3em\\\\]{scroll-margin:3em;}
+.scroll-m-0{scroll-margin:0rem;}
+.scroll-m-1\\\\/2{scroll-margin:50%;}
+.scroll-m-auto{scroll-margin:auto;}
+.-scroll-mb-px{scroll-margin-bottom:-1px;}
+.-scroll-p-px{scroll-padding:-1px;}
+.scroll-p-2,.scroll-p2{scroll-padding:0.5rem;}
+.scroll-p-t-2,.scroll-pt-2,.scroll-pt2{scroll-padding-top:0.5rem;}
+.scroll-pl-10px{scroll-padding-left:10px;}
 .list-disc{list-style-type:disc;}
 .list-none{list-style-type:none;}
 .list-none-inside{list-style-position:inside;list-style-type:none;}

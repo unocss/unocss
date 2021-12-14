@@ -219,6 +219,20 @@ const targets = [
   'touch-pan-left',
   'touch-pan-y',
 
+  // scroll-spaces
+  'scroll-m-[3em]',
+  'scroll-m-0',
+  'scroll-m-1/2',
+  'scroll-m-auto',
+  '-scroll-mb-px',
+  'scroll-p-2',
+  'scroll-p-t-2',
+  'scroll-p2',
+  'scroll-pl-10px',
+  'scroll-pt-2',
+  'scroll-pt2',
+  '-scroll-p-px',
+
   // custom colors
   'text-custom-a',
   'bg-custom-b',
