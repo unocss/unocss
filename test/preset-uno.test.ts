@@ -66,6 +66,7 @@ const targets = [
   'group-focus:p-4',
   'group-hover:group-focus:text-center',
   'peer-checked:bg-blue-500',
+  'peer-not-placeholder-shown:text-2xl',
   'hover:not-first:checked:bg-red/10',
   'hover:p-5',
   'leading-2',
