@@ -115,7 +115,7 @@ export const variantPseudoClasses: VariantObject = {
         matcher: input.slice(match[1].length + 6),
         selector: (s, body) => shouldAdd(body) && s.includes('.peer:')
           ? s.replace(/\.peer:/, `.peer:${pseudo}:`)
-          : `.peer:${pseudo} ~ ${s}`,
+          : `.peer:${pseudo}~${s}`,
       }
     }
   },

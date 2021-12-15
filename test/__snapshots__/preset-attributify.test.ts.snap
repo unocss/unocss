@@ -74,7 +74,7 @@ exports[`attributify > fixture1 1`] = `
 [m~=\\"\\\\31 \\"]{margin:0.25rem;}
 [m~=\\"\\\\32 \\"]{margin:0.5rem;}
 [m~=\\"\\\\33 \\"]{margin:0.75rem;}
-[ma=\\"\\"],[un-children~=\\"m-auto\\"] > *{margin:auto;}
+[ma=\\"\\"],[un-children~=\\"m-auto\\"]>*{margin:auto;}
 [inline-block=\\"\\"]{display:inline-block;}
 [flex~=\\"\\\\~\\"]{display:flex;}
 [flex~=\\"col\\"]{flex-direction:column;}

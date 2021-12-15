@@ -16,7 +16,7 @@ exports[`targets 1`] = `
 .z-1{z-index:1;}
 .z-100{z-index:100;}
 .order-first{order:-9999;}
-.-m-auto,.all\\\\:m-auto *,.children\\\\:m-auto > *,.m-auto{margin:auto;}
+.-m-auto,.all\\\\:m-auto *,.children\\\\:m-auto>*,.m-auto{margin:auto;}
 .\\\\!m-\\\\$c-m{margin:var(--c-m) !important;}
 .m-\\\\[3em\\\\]{margin:3em;}
 .m-0{margin:0rem;}
@@ -84,7 +84,7 @@ exports[`targets 1`] = `
 .bg-custom-b{background-color:rgba(var(--custom), 1);}
 .bg-hex-452233\\\\/40{background-color:rgba(69,34,51,0.4);}
 .hover\\\\:not-first\\\\:checked\\\\:bg-red\\\\/10:hover:not(:first-child):checked{background-color:rgba(248,113,113,0.1);}
-.peer:checked ~ .peer-checked\\\\:bg-blue-500{--un-bg-opacity:1;background-color:rgba(59,130,246,var(--un-bg-opacity));}
+.peer:checked~.peer-checked\\\\:bg-blue-500{--un-bg-opacity:1;background-color:rgba(59,130,246,var(--un-bg-opacity));}
 .bg-opacity-45{--un-bg-opacity:0.45;}
 .decoration-slice{box-decoration-break:slice;}
 .bg-fixed{background-attachment:fixed;}
