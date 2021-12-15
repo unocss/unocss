@@ -1,14 +1,14 @@
 import type { VariantHandler } from '@unocss/core'
 
 export const variantMatcher = (name: string, selector?: (input: string) => string | undefined) => {
-  const length = name.length + 1
-  const re = new RegExp(`^${name}[:-]`)
+  const re = new RegExp(`^(${name})[:-]`)
   return (input: string): VariantHandler | undefined => {
-    return input.match(re)
-      ? {
-        matcher: input.slice(length),
+    const match = input.match(re)
+    if (match) {
+      return {
+        matcher: input.slice(match[1].length + 1),
         selector,
       }
-      : undefined
+    }
   }
 }
