@@ -4,38 +4,47 @@ import { toArray } from '@unocss/core'
 export const CONTROL_BYPASS_PSEUDO_CLASS = '$$no-pseudo'
 
 export const PseudoClasses: Record<string, string | undefined> = Object.fromEntries([
+  // location
+  'any-link',
+  'link',
+  'visited',
+  'target',
+
+  // user action
+  'hover',
   'active',
-  'checked',
-  'default',
-  'empty',
-  'enabled',
-  'disabled',
-  'first-of-type',
-  ['first', 'first-child'],
   'focus-visible',
   'focus-within',
   'focus',
-  'hover',
-  'indeterminate',
-  'invalid',
-  'last-of-type',
-  ['last', 'last-child'],
-  'link',
-  'only-child',
-  'only-of-type',
-  'optional',
-  'placeholder-shown',
+
+  // input
+  'autofill',
+  'enabled',
+  'disabled',
   'read-only',
   'read-write',
-  'required',
-  'root',
-  'target',
+  'placeholder-shown',
+  'default',
+  'checked',
+  'indeterminate',
   'valid',
-  'visited',
+  'invalid',
+  'required',
+  'optional',
+
+  // tree-structural
+  'root',
+  'empty',
   ['even-of-type', 'nth-of-type(even)'],
   ['even', 'nth-child(even)'],
   ['odd-of-type', 'nth-of-type(odd)'],
   ['odd', 'nth-child(odd)'],
+  'first-of-type',
+  ['first', 'first-child'],
+  'last-of-type',
+  ['last', 'last-child'],
+  'only-child',
+  'only-of-type',
 ].map(toArray))
 
 const PseudoElements = [
