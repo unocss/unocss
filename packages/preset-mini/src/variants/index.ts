@@ -1,6 +1,6 @@
 /* @export-submodules */
 export * from './breakpoints'
-export * from './children'
+export * from './combinators'
 export * from './dark'
 export * from './default'
 export * from './misc'
