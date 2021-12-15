@@ -176,7 +176,7 @@ const targets = [
   'space-y-4',
   '-space-x-4',
   'space-x-reverse',
-  'next:mt-0',
+  'sibling:mt-0',
   'italic',
   'lining-nums',
   'normal-nums',

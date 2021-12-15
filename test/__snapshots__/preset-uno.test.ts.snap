@@ -25,7 +25,7 @@ exports[`targets 1`] = `
 .-mb-px{margin-bottom:-1px;}
 .mt-\\\\[-10\\\\.2\\\\%\\\\]{margin-top:-10.2%;}
 .mt-\\\\$height{margin-top:var(--height);}
-.next\\\\:mt-0+*{margin-top:0rem;}
+.sibling\\\\:mt-0+*{margin-top:0rem;}
 .box-border{box-sizing:border-box;}
 .box-content{box-sizing:content-box;}
 .aspect-ratio-auto{aspect-ratio:auto;}
