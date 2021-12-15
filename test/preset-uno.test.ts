@@ -50,6 +50,8 @@ const targets = [
   'children:m-auto',
   'dark:not-odd:text-red',
   'dark:text-xl',
+  '.dark:text-xl',
+  '@dark:text-xl',
   'duration-111',
   'flex-[hi]',
   'flex',
