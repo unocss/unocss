@@ -60,8 +60,8 @@ const PseudoElementsRE = new RegExp(`^(${PseudoElements.join('|')})[:-]`)
 const PseudoClassesStr = Object.keys(PseudoClasses).join('|')
 const PseudoClassesRE = new RegExp(`^(${PseudoClassesStr})[:-]`)
 const PseudoClassesNotRE = new RegExp(`^not-(${PseudoClassesStr})[:-]`)
-const PseudoClassesGroupRE = new RegExp(`^group-(${PseudoClassesStr})[:-]`)
-const PseudoClassesPeerRE = new RegExp(`^peer-(${PseudoClassesStr})[:-]`)
+const PseudoClassesGroupRE = new RegExp(`^group-((not-)?(${PseudoClassesStr}))[:-]`)
+const PseudoClassesPeerRE = new RegExp(`^peer-((not-)?(${PseudoClassesStr}))[:-]`)
 
 export const variantPseudoElements: VariantFunction = (input: string) => {
   const match = input.match(PseudoElementsRE)
@@ -99,7 +99,9 @@ export const variantPseudoClasses: VariantObject = {
 
     match = input.match(PseudoClassesGroupRE)
     if (match) {
-      const pseudo = PseudoClasses[match[1]] || match[1]
+      let pseudo = PseudoClasses[match[3]] || match[3]
+      if (match[2])
+        pseudo = `not(:${pseudo})`
       return {
         matcher: input.slice(match[1].length + 7),
         selector: (s, body) => shouldAdd(body) && s.includes('.group:')
@@ -110,7 +112,9 @@ export const variantPseudoClasses: VariantObject = {
 
     match = input.match(PseudoClassesPeerRE)
     if (match) {
-      const pseudo = PseudoClasses[match[1]] || match[1]
+      let pseudo = PseudoClasses[match[3]] || match[3]
+      if (match[2])
+        pseudo = `not(:${pseudo})`
       return {
         matcher: input.slice(match[1].length + 6),
         selector: (s, body) => shouldAdd(body) && s.includes('.peer:')
