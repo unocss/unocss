@@ -63,7 +63,7 @@ const PseudoClassesNotRE = new RegExp(`^not-(${PseudoClassesStr})[:-]`)
 
 export const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: string) => {
   const re = new RegExp(`^${tag}-((not-)?(${PseudoClassesStr}))[:-]`)
-  const rawRe = new RegExp('^' + escapeRegExp(parent) + ':')
+  const rawRe = new RegExp(`^${escapeRegExp(parent)}:`)
   return (input: string): VariantHandler | undefined => {
     const match = input.match(re)
     if (match) {
@@ -116,11 +116,11 @@ export const variantPseudoClasses: VariantObject = {
       }
     }
 
-    let g = taggedPseudoClassMatcher('group', '.group', ' ')(input)
+    const g = taggedPseudoClassMatcher('group', '.group', ' ')(input)
     if (g)
       return g
 
-    let p = taggedPseudoClassMatcher('peer', '.peer', '~')(input)
+    const p = taggedPseudoClassMatcher('peer', '.peer', '~')(input)
     if (p)
       return p
   },
