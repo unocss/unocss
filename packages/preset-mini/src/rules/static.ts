@@ -1,4 +1,5 @@
 import type { Rule } from '@unocss/core'
+import { createKeywordRules } from '../utils'
 
 const cssBasicProps = [
   'color', 'border-color', 'background-color', 'flex-grow', 'flex', 'flex-shrink',
@@ -61,7 +62,11 @@ export const resizes: Rule[] = [
 ]
 
 export const userSelects: Rule[] = [
-  [/^select-(text|all|auto)$/, ([, v]) => ({ 'user-select': v })],
+  ...createKeywordRules('select', 'user-select', [
+    'auto',
+    'all',
+    'text',
+  ]),
   ['select-none', { 'user-select': 'none' }],
 ]
 
@@ -81,14 +86,18 @@ export const breaks: Rule[] = [
 
 export const textOverflows: Rule[] = [
   ['truncate', { 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }],
-  ['text-ellipsis', { 'text-overflow': 'ellipsis' }],
-  ['text-clip', { 'text-overflow': 'clip' }],
+  ...createKeywordRules('text', 'text-overflow', [
+    'clip',
+    'ellipsis',
+  ]),
 ]
 
 export const textTransforms: Rule[] = [
-  ['case-upper', { 'text-transform': 'uppercase' }],
-  ['case-lower', { 'text-transform': 'lowercase' }],
-  ['case-capital', { 'text-transform': 'capitalize' }],
+  ...createKeywordRules('case', 'text-transform', [
+    ['capital', 'capitalize'],
+    ['lower', 'lowercase'],
+    ['upper', 'uppercase'],
+  ]),
   ['case-normal', { 'text-transform': 'none' }],
 ]
 

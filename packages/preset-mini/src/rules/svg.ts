@@ -1,21 +1,15 @@
 import type { Rule } from '@unocss/core'
-import { colorResolver, handler as h } from '../utils'
+import { createColorAndOpacityRulePair, sizePxResolver } from '../utils'
 
 export const svgUtilities: Rule[] = [
   // fills
-  [/^fill-(.+)$/, colorResolver('fill', 'fill')],
-  [/^fill-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-fill-opacity': h.bracket.percent(opacity) })],
+  ...createColorAndOpacityRulePair('fill'),
   ['fill-none', { fill: 'none' }],
 
   // stroke size
-  [/^stroke-(?:size-|width-)?(.+)$/, ([, s]) => {
-    const v = h.bracket.fraction.px.number(s)
-    if (v)
-      return { 'stroke-width': v }
-  }],
+  [/^stroke-(?:size-|width-)?(.+)$/, sizePxResolver('stroke-width')],
 
   // stroke colors
-  [/^stroke-(.+)$/, colorResolver('stroke', 'stroke')],
-  [/^stroke-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-stroke-opacity': h.bracket.percent(opacity) })],
+  ...createColorAndOpacityRulePair('stroke'),
   ['stroke-none', { stroke: 'none' }],
 ]
