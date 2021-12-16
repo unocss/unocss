@@ -1,4 +1,5 @@
 import type { Rule } from '@unocss/core'
+import { createKeywordRules } from '@unocss/preset-mini/utils'
 
 export const textTransforms: Rule[] = [
   // tailwind compact
@@ -27,15 +28,19 @@ export const hyphens: Rule[] = [
 ]
 
 export const writingModes: Rule[] = [
-  ['write-normal', { 'writing-mode': 'horizontal-tb' }],
-  ['write-vertical-right', { 'writing-mode': 'vertical-rl' }],
-  ['write-vertical-left', { 'writing-mode': 'vertical-lr' }],
+  ...createKeywordRules('write', 'writing-mode', [
+    ['normal', 'horizontal-tb'],
+    ['vertical-right', 'vertical-rl'],
+    ['vertical-left', 'vertical-lr'],
+  ]),
 ]
 
 export const writingOrientations: Rule[] = [
-  ['write-orient-mixed', { 'text-orientation': 'mixed' }],
-  ['write-orient-upright', { 'text-orientation': 'upright' }],
-  ['write-orient-sideways', { 'text-orientation': 'sideways' }],
+  ...createKeywordRules('write-orient', 'text-orientation', [
+    'mixed',
+    'upright',
+    'sideways',
+  ]),
 ]
 
 export const screenReadersAccess: Rule[] = [
@@ -74,22 +79,26 @@ export const isolations: Rule[] = [
 
 export const objectPositions: Rule[] = [
   // object fit
-  ['object-cover', { 'object-fit': 'cover' }],
-  ['object-contain', { 'object-fit': 'contain' }],
-  ['object-fill', { 'object-fit': 'fill' }],
-  ['object-scale-down', { 'object-fit': 'scale-down' }],
+  ...createKeywordRules('object', 'object-fit', [
+    'contain',
+    'cover',
+    'fill',
+    'scale-down',
+  ]),
   ['object-none', { 'object-fit': 'none' }],
 
   // object position
-  ['object-center', { 'object-position': 'center' }],
-  ['object-bottom', { 'object-position': 'bottom' }],
-  ['object-top', { 'object-position': 'top' }],
-  ['object-right', { 'object-position': 'right' }],
-  ['object-left', { 'object-position': 'left' }],
-  ['object-lb', { 'object-position': 'left bottom' }],
-  ['object-lt', { 'object-position': 'left top' }],
-  ['object-rb', { 'object-position': 'right bottom' }],
-  ['object-rt', { 'object-position': 'right top' }],
-  ['object-cb', { 'object-position': 'center bottom' }],
-  ['object-ct', { 'object-position': 'center top' }],
+  ...createKeywordRules('object', 'object-position', [
+    'bottom',
+    'center',
+    'left',
+    'right',
+    'top',
+    ['cb', 'center bottom'],
+    ['ct', 'center top'],
+    ['lb', 'left bottom'],
+    ['lt', 'left top'],
+    ['rb', 'right bottom'],
+    ['rt', 'right top'],
+  ]),
 ]

@@ -1,9 +1,8 @@
 import type { CSSEntries, Rule } from '@unocss/core'
-import { colorResolver, directionMap, handler as h } from '@unocss/preset-mini/utils'
+import { createColorAndOpacityRulePair, createKeywordRules, directionMap, handler as h } from '@unocss/preset-mini/utils'
 
 export const divideColors: Rule[] = [
-  [/^divide-(.+)$/, colorResolver('border-color', 'divide')],
-  [/^divide-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-divide-opacity': h.bracket.percent(opacity) })],
+  ...createColorAndOpacityRulePair('divide', 'border-color'),
 ]
 
 export const divideSizes: Rule[] = [
@@ -13,10 +12,12 @@ export const divideSizes: Rule[] = [
 ]
 
 export const divideStyles: Rule[] = [
-  ['divide-solid', { 'border-style': 'solid' }],
-  ['divide-dashed', { 'border-style': 'dashed' }],
-  ['divide-dotted', { 'border-style': 'dotted' }],
-  ['divide-double', { 'border-style': 'double' }],
+  ...createKeywordRules('divide', 'border-style', [
+    'dashed',
+    'dotted',
+    'double',
+    'solid',
+  ]),
   ['divide-none', { 'border-style': 'none' }],
 ]
 

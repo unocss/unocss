@@ -1,5 +1,5 @@
 import type { Rule } from '@unocss/core'
-import { colorResolver, handler as h } from '@unocss/preset-mini/utils'
+import { createColorOpacityRule, createColorRule, createKeywordRules } from '@unocss/preset-mini/utils'
 
 const listStyleProps = ['disc', 'circle', 'square', 'decimal', 'zero-decimal', 'greek', 'roman', 'upper-roman', 'alpha', 'upper-alpha']
 
@@ -16,29 +16,34 @@ export const listStyle: Rule[] = [
     }
     return { 'list-style-type': style }
   }],
-  [/^list-(outside|inside)$/, ([, value]) => ({ 'list-style-position': value })],
+  ...createKeywordRules('list', 'list-style-position', [
+    'inside',
+    'outside',
+  ]),
   ['list-none', { 'list-style-type': 'none' }],
 ]
 
 export const boxDecorationBreaks: Rule[] = [
-  ['decoration-slice', { 'box-decoration-break': 'slice' }],
-  ['decoration-clone', { 'box-decoration-break': 'clone' }],
+  ...createKeywordRules('decoration', 'box-decoration-break', [
+    'clone',
+    'slice',
+  ]),
 ]
 
 export const accentOpacity: Rule[] = [
-  [/^accent-op(?:acity)?-?(.+)$/, ([, d]) => ({ '--un-accent-opacity': h.bracket.percent(d) })],
+  createColorOpacityRule('accent'),
 ]
 
 export const accentColors: Rule[] = [
-  [/^accent-(.+)$/, colorResolver('accent-color', 'accent')],
+  createColorRule('accent', 'accent-color'),
 ]
 
 export const caretOpacity: Rule[] = [
-  [/^caret-op(?:acity)?-?(.+)$/, ([, d]) => ({ '--un-caret-opacity': h.bracket.percent(d) })],
+  createColorOpacityRule('caret'),
 ]
 
 export const caretColors: Rule[] = [
-  [/^caret-(.+)$/, colorResolver('caret-color', 'caret')],
+  createColorRule('caret', 'caret-color'),
 ]
 
 export const imageRenderings: Rule[] = [
@@ -70,6 +75,8 @@ export const overscrolls: Rule[] = [
 ]
 
 export const scrollBehaviors: Rule[] = [
-  ['scroll-auto', { 'scroll-behavior': 'auto' }],
-  ['scroll-smooth', { 'scroll-behavior': 'smooth' }],
+  ...createKeywordRules('scroll', 'scroll-behavior', [
+    'auto',
+    'smooth',
+  ]),
 ]

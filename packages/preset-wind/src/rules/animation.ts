@@ -1,5 +1,5 @@
 import type { Rule } from '@unocss/core'
-import { handler as h } from '@unocss/preset-mini/utils'
+import { createKeywordRules, createGlobalKeywordRules, handler as h } from '@unocss/preset-mini/utils'
 
 // https://windicss.org/plugins/community/animations.html
 const keyframes: Record<string, string> = {
@@ -168,18 +168,29 @@ export const animations: Rule[] = [
   [/^animate-delay-((.+)(?:(s|ms)?))$/, ([, d]) => ({ 'animation-delay': h.bracket.time(d) })],
 
   // fill mode
-  [/^animate-(?:fill-)?mode-(forwards|backwards|both|inherit|initial|revert|unset)$/, ([, d]) => ({ 'animation-fill-mode': d })],
+  ...createGlobalKeywordRules(['animate-mode', 'animate-fill-mode'], 'animation-fill-mode', [
+    'backwards',
+    'both',
+    'forwards',
+  ]),
   ['animate-mode-none', { 'animation-fill-mode': 'none' }],
   ['animate-fill-mode-none', { 'animation-fill-mode': 'none' }],
 
   // direction
-  [/^animate-(?:direction-)?(reverse|alternate|alternate-reverse|inherit|initial|revert|unset)$/, ([, d]) => ({ 'animation-direction': d })],
+  ...createGlobalKeywordRules(['animate', 'animate-direction'], 'animation-direction', [
+    'alternate',
+    'alternate-reverse',
+    'reverse',
+  ]),
   ['animate-normal', { 'animation-direction': 'normal' }],
   ['animate-direction-normal', { 'animation-direction': 'normal' }],
 
   // others
   [/^animate-(?:iteration-)?count-(.+)$/, ([, d]) => ({ 'animation-iteration-count': d.replace(/\-/g, ', ') })],
   [/^animate-name-(.+)/, ([, d]) => ({ 'animation-name': d })],
-  [/^animate-play(?:-state)?-(paused|running|inherit|initial|revert|unset)$/, ([, d]) => ({ 'animation-play-state': d })],
+  ...createKeywordRules(['animate-play', 'animate-play-state'], 'animation-play-state', [
+    'paused',
+    'running',
+  ]),
   ['animate-none', { animation: 'none' }],
 ]
