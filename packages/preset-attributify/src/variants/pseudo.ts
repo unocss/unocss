@@ -3,11 +3,11 @@ import { taggedPseudoClassMatcher } from '@unocss/preset-mini/variants'
 
 export const variantPseudoClasses: VariantObject = {
   match: (input: string) => {
-    let g = taggedPseudoClassMatcher('group', '[group=""]', ' ')(input)
+    const g = taggedPseudoClassMatcher('group', '[group=""]', ' ')(input)
     if (g)
       return g
 
-    let p = taggedPseudoClassMatcher('peer', '[peer=""]', '~')(input)
+    const p = taggedPseudoClassMatcher('peer', '[peer=""]', '~')(input)
     if (p)
       return p
   },
