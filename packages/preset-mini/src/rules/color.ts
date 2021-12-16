@@ -5,9 +5,10 @@ import { handler as h } from '../utils'
 
 export const parseColorUtil = (body: string, theme: Theme) => {
   const [main, opacity] = body.split(/(?:\/|:)/)
-  const [name, no = 'DEFAULT'] = main
+  const colors = main
     .replace(/([a-z])([0-9])/g, '$1-$2')
     .split(/-/g)
+  const [name] = colors
 
   if (!name)
     return
@@ -23,8 +24,20 @@ export const parseColorUtil = (body: string, theme: Theme) => {
 
   color = color || bracket
 
+  let no = 'DEFAULT'
   if (!color) {
-    const colorData = theme.colors?.[name]
+    let colorData = theme.colors?.[name]
+    if (colorData) {
+      [, no = no] = colors
+    }
+    else {
+      if (colors.slice(-1)[0].match(/^\d+$/))
+        no = colors.pop() as string
+      colorData = theme.colors?.[
+        colors.join('-').replace(/(-[a-z])/g, n => n.slice(1).toUpperCase())
+      ]
+    }
+
     if (typeof colorData === 'string')
       color = colorData
     else if (no && colorData)

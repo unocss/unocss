@@ -83,6 +83,7 @@ exports[`targets 1`] = `
 .border-custom-b\\\\/10{border-color:rgba(var(--custom), 0.1);}
 .bg-custom-b{background-color:rgba(var(--custom), 1);}
 .bg-hex-452233\\\\/40{background-color:rgba(69,34,51,0.4);}
+.bg-true-gray,.bg-true-gray-400,.bg-truegray,.bg-truegray-400{--un-bg-opacity:1;background-color:rgba(163,163,163,var(--un-bg-opacity));}
 .hover\\\\:not-first\\\\:checked\\\\:bg-red\\\\/10:hover:not(:first-child):checked{background-color:rgba(248,113,113,0.1);}
 .peer:checked~.peer-checked\\\\:bg-blue-500{--un-bg-opacity:1;background-color:rgba(59,130,246,var(--un-bg-opacity));}
 .bg-opacity-45{--un-bg-opacity:0.45;}

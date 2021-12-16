@@ -28,6 +28,10 @@ const targets = [
   'bg-repeat-space',
   'bg-right-bottom',
   'bg-scroll',
+  'bg-truegray',
+  'bg-true-gray',
+  'bg-truegray-400',
+  'bg-true-gray-400',
   // fill
   'fill-none',
   'fill-current',
