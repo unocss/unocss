@@ -2,7 +2,7 @@ import { readFile, writeFile } from 'fs/promises'
 import { relative, resolve, basename } from 'pathe'
 import fg from 'fast-glob'
 import consola from 'consola'
-import { cyan, dim, green, white } from 'colorette'
+import { cyan, dim, green, reset } from 'colorette'
 import { createGenerator } from '@unocss/core'
 import type { UnoGenerator } from '@unocss/core'
 import { createConfigLoader } from '@unocss/config'
@@ -79,7 +79,7 @@ export async function build(_options: CliOptions) {
 
     consola.info(
       `Watching for changes in ${
-        cyan(Array.isArray(patterns) ? patterns.join(white(', ')) : patterns)}`,
+        cyan(Array.isArray(patterns) ? patterns.join(reset(', ')) : patterns)}`,
     )
 
     const watcher = watch(patterns, {
@@ -97,7 +97,7 @@ export async function build(_options: CliOptions) {
           consola.info(`${cyan(basename(file))} changed, setting new config`)
         }
         else {
-          consola.log(`${green(`${type}`)} ${white(dim(file))}`)
+          consola.log(`${green(`${type}`)} ${reset(dim(file))}`)
 
           if (type.startsWith('unlink'))
             fileCache.delete(file)
