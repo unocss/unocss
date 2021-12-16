@@ -376,7 +376,9 @@ export class UnoGenerator {
       return
 
     return [
-      result.flatMap(r => this.expandShortcut(r, context, depth - 1)?.[0] || [r]),
+      result
+        .flatMap(r => this.expandShortcut(r, context, depth - 1)?.[0] || [r])
+        .filter(r => r !== ''),
       meta,
     ]
   }
