@@ -155,7 +155,7 @@ const properties: Record<string, object> = {
 }
 
 export const animations: Rule[] = [
-  [/^animate-(.*)$/, ([, name], { constructCSS }) => {
+  [/^animate-(.+)$/, ([, name], { constructCSS }) => {
     const kf = keyframes[name]
     if (kf) {
       return `@keyframes ${name}${kf}\n${constructCSS(

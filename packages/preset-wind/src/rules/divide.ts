@@ -3,7 +3,7 @@ import { colorResolver, directionMap, handler as h } from '@unocss/preset-mini/u
 
 export const divideColors: Rule[] = [
   [/^divide-(.+)$/, colorResolver('border-color', 'divide')],
-  [/^divide-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-divide-opacity': h.bracket.percent(opacity) })],
+  [/^divide-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-divide-opacity': h.bracket.percent(opacity) })],
 ]
 
 export const divideSizes: Rule[] = [

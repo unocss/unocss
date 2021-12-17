@@ -4,25 +4,19 @@ import { colorResolver, handler as h } from '@unocss/preset-mini/utils'
 const listStyleProps = ['none', 'disc', 'circle', 'square', 'decimal', 'zero-decimal', 'greek', 'roman', 'upper-roman', 'alpha', 'upper-alpha']
 
 export const listStyle: Rule[] = [
-  [new RegExp(`^list-((${listStyleProps.join('|')})(?:(-outside|-inside))?)$`), ([, value]) => {
+  [new RegExp(`^list-((?:${listStyleProps.join('|')})(?:-outside|-inside)?)$`), ([, value]) => {
     const style = value.split(/-outside|-inside/)[0]
-    const position = /inside|outside/.exec(value) ?? []
+    const position = /outside|inside/.exec(value) ?? []
 
     if (position.length) {
       return {
         'list-style-position': `${position[0]}`,
-        'list-style-type': `${style}`,
+        'list-style-type': style,
       }
     }
-    return {
-      'list-style-type': `${style}`,
-    }
+    return { 'list-style-type': style }
   }],
-  [/^list-(inside|outside)$/, ([, value]) => {
-    return {
-      'list-style-position': value,
-    }
-  }],
+  [/^list-(outside|inside)$/, ([, value]) => ({ 'list-style-position': value })],
 ]
 
 export const boxDecorationBreaks: Rule[] = [

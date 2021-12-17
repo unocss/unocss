@@ -51,6 +51,17 @@ const colorResolver = (mode: 'from' | 'to' | 'via') =>
     }
   }
 
+const bgGradientDirections: Record<string, string> = {
+  t: 'top',
+  tr: 'top right',
+  r: 'right',
+  br: 'bottom right',
+  b: 'bottom',
+  bl: 'bottom left',
+  l: 'left',
+  tl: 'top left',
+}
+
 export const backgroundStyles: Rule[] = [
   // attachments
   ['bg-fixed', { 'background-attachment': 'fixed' }],
@@ -85,35 +96,16 @@ export const backgroundStyles: Rule[] = [
   [/^from-(.+)$/, colorResolver('from')],
   [/^to-(.+)$/, colorResolver('to')],
   [/^via-(.+)$/, colorResolver('via')],
-  [/^from-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-from-opacity': h.bracket.percent(opacity) })],
-  [/^to-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-to-opacity': h.bracket.percent(opacity) })],
-  [/^via-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-via-opacity': h.bracket.percent(opacity) })],
+  [/^from-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-from-opacity': h.bracket.percent(opacity) })],
+  [/^to-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-to-opacity': h.bracket.percent(opacity) })],
+  [/^via-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-via-opacity': h.bracket.percent(opacity) })],
 
   // images
   ['bg-none', { 'background-image': 'none' }],
-  ['bg-gradient-to-t', {
-    'background-image': 'linear-gradient(to top, var(--un-gradient-stops))',
-  }],
-  ['bg-gradient-to-tr', {
-    'background-image': 'linear-gradient(to top right, var(--un-gradient-stops))',
-  }],
-  ['bg-gradient-to-r', {
-    'background-image': 'linear-gradient(to right, var(--un-gradient-stops))',
-  }],
-  ['bg-gradient-to-br', {
-    'background-image': 'linear-gradient(to bottom right, var(--un-gradient-stops))',
-  }],
-  ['bg-gradient-to-b', {
-    'background-image': 'linear-gradient(to bottom, var(--un-gradient-stops))',
-  }],
-  ['bg-gradient-to-bl', {
-    'background-image': 'linear-gradient(to bottom left, var(--un-gradient-stops))',
-  }],
-  ['bg-gradient-to-l', {
-    'background-image': 'linear-gradient(to left, var(--un-gradient-stops))',
-  }],
-  ['bg-gradient-to-tl', {
-    'background-image': 'linear-gradient(to top left, var(--un-gradient-stops))',
+  [/^bg-gradient-to-([trbl]{1,2})$/, ([, d]) => {
+    const v = bgGradientDirections[d]
+    if (v)
+      return { 'background-image': `linear-gradient(to ${v}, var(--un-gradient-stops))` }
   }],
 
   // origins
