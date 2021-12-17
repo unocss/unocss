@@ -1,5 +1,5 @@
-import type { CSSEntries, RuleContext } from '@unocss/core'
-import { hex2rgba } from '@unocss/core'
+import type { CSSEntries, CSSObject, CSSPropertyValue, Rule, RuleContext } from '@unocss/core'
+import { escapeRegExp, hex2rgba, toArray } from '@unocss/core'
 import type { Theme } from '../theme'
 import { handler as h } from './handlers'
 import { directionMap } from './mappings'
@@ -110,4 +110,76 @@ export const colorResolver = (attribute: string, varName: string) => ([, body]: 
       [attribute]: color.replace('%alpha', `${a || 1}`),
     }
   }
+}
+
+export const colorOpacityResolver = (varName: string) => ([, o]: string[]) => {
+  const v = h.bracket.percent.cssvar(o)
+  if (v !== undefined)
+    return { [`--un-${[varName]}-opacity`]: v }
+}
+
+export const createColorRule = (name: string, prop?: string, varName?: string): Rule => [
+  new RegExp(`^${escapeRegExp(name)}-(.+)$`),
+  colorResolver(prop ?? name, varName ?? name),
+]
+
+export const createColorOpacityRule = (name: string, varName?: string): Rule => [
+  new RegExp(`^${escapeRegExp(name)}-op(?:acity)?-?(.+)$`),
+  colorOpacityResolver(varName ?? name),
+]
+
+export const createColorAndOpacityRulePair = (name: string, prop?: string, varName?: string) => [
+  createColorRule(name, prop, varName),
+  createColorOpacityRule(name, varName),
+]
+
+function generateCssObject(props: string | string[], value: string | number) {
+  if (typeof props === 'string')
+    return { [props]: value }
+
+  const css: CSSObject = {}
+  props.forEach(prop => css[prop] = value)
+  return css
+}
+
+export const keywordResolver = (props: string | string[], keywords: CSSPropertyValue[] = []) => {
+  const cache = Object.fromEntries(keywords.map(toArray))
+  return ([, s]: string[]) => {
+    if (s in cache)
+      return generateCssObject(props, cache[s] ?? s)
+  }
+}
+
+export const globalKeywordResolver = (props: string | string[], keywords: CSSPropertyValue[] = []) => {
+  const cache = Object.fromEntries(keywords.map(toArray))
+  return ([, s]: string[]) => {
+    const v = s in cache ? (cache[s] ?? s) : h.global(s)
+    if (v !== undefined)
+      return generateCssObject(props, v)
+  }
+}
+
+export const createKeywordRules = (bases: string | string[], props: string | string[], keywords: CSSPropertyValue[] = []): Rule[] =>
+  keywords
+    .map(key => typeof key === 'string' ? [key, key] : key)
+    .map(([k, v]) => {
+      if (typeof bases === 'string')
+        bases = [bases]
+      return bases.map(base => [`${base}-${k}`, generateCssObject(props, v)] as Rule)
+    })
+    .flat(1)
+
+export const createGlobalKeywordRules = (bases: string | string[], props: string | string[], keywords: CSSPropertyValue[] = []): Rule[] =>
+  createKeywordRules(bases, props, ['inherit', 'initial', 'revert', 'unset', ...keywords])
+
+export const sizeRemResolver = (prop: string) => ([, s]: string[]) => {
+  const v = h.bracket.auto.rem.fraction.percent.cssvar(s)
+  if (v !== undefined)
+    return { [prop]: v }
+}
+
+export const sizePxResolver = (prop: string) => ([, s]: string[]) => {
+  const v = h.bracket.px.cssvar(s)
+  if (v !== undefined)
+    return { [prop]: v }
 }

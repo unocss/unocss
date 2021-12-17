@@ -12,6 +12,7 @@ export type RequiredByKey<T, K extends keyof T = keyof T> = FlatObjectTuple<Requ
 
 export type CSSObject = Record<string, string | number | undefined>
 export type CSSEntries = [string, string | number | undefined][]
+export type CSSPropertyValue = string | [string, string]
 
 export interface RuleContext<Theme extends {} = {}> {
   /**
