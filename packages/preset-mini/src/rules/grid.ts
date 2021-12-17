@@ -3,7 +3,7 @@ import { toArray } from '@unocss/core'
 import type { Theme } from '../theme'
 import { handler as h } from '../utils'
 
-const calSize = (s: string, theme: Theme) => toArray(theme.fontSize?.[s] || h.bracket.rem(s))[0]
+const calSize = (s: string, theme: Theme) => toArray(theme.fontSize?.[s] || h.bracket.auto.rem(s))[0]
 
 const autoDirection = (selector: string, theme: Theme) => {
   if (selector === 'min')

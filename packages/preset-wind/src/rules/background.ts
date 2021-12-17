@@ -1,11 +1,10 @@
 import type { Rule, RuleContext } from '@unocss/core'
-import { handler as h } from '@unocss/preset-mini/utils'
-import { parseColorUtil } from '@unocss/preset-mini/rules'
+import { handler as h, parseColor } from '@unocss/preset-mini/utils'
 import type { Theme } from '@unocss/preset-mini'
 
 const colorResolver = (mode: 'from' | 'to' | 'via') =>
   ([, body]: string[], { theme }: RuleContext<Theme>) => {
-    const data = parseColorUtil(body, theme)
+    const data = parseColor(body, theme)
 
     if (!data)
       return

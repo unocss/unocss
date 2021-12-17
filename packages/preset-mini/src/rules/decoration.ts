@@ -1,6 +1,5 @@
 import type { Rule } from '@unocss/core'
-import { handler as h } from '../utils'
-import { colorResolver } from './color'
+import { colorResolver, handler as h } from '../utils'
 
 export const textDecorations: Rule[] = [
   ['underline', { 'text-decoration': 'underline' }],

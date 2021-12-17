@@ -1,13 +1,12 @@
 import type { Rule } from '@unocss/core'
-import { handler as h } from '../utils'
-import { colorResolver } from './color'
+import { colorResolver, handler as h } from '../utils'
 import { cssProps } from './static'
 
 const outlineStyle = ['none', 'auto', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'inherit', 'initial', 'revert', 'unset']
 
 const parseOutlineSize = (s: string) => {
   const propName = ['width', 'offset'].find(item => s.startsWith(item)) || 'width'
-  const size = h.bracket.fraction.rem((s.replace(/^(offset\-|width\-|size\-)/, '')))
+  const size = h.bracket.fraction.auto.rem((s.replace(/^(offset\-|width\-|size\-)/, '')))
   if (size) {
     return {
       [`outline-${propName}`]: size,

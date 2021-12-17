@@ -1,9 +1,9 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { parseColorUtil } from './color'
+import { parseColor } from '../utils'
 
 const colorResolver = (body: string, theme: Theme) => {
-  const data = parseColorUtil(body, theme)
+  const data = parseColor(body, theme)
 
   if (!data)
     return

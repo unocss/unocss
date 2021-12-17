@@ -69,7 +69,7 @@ export const placements: Rule[] = [
 ]
 
 function handleInsetValue(v: string): string | number | undefined {
-  return { auto: 'auto', full: '100%' }[v] ?? h.bracket.fraction.cssvar.rem(v)
+  return { auto: 'auto', full: '100%' }[v] ?? h.bracket.fraction.cssvar.auto.rem(v)
 }
 
 export const insets: Rule[] = [

@@ -1,7 +1,6 @@
 import type { CSSEntries, CSSObject, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { cornerMap, directionMap, handler as h } from '../utils'
-import { colorResolver } from './color'
+import { colorResolver, cornerMap, directionMap, handler as h } from '../utils'
 
 export const borders: Rule[] = [
   // size
@@ -63,7 +62,7 @@ function handlerBorderColor([, a, c]: string[], ctx: RuleContext) {
 
 function handlerRounded([, a, b]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
   const [d, s = 'DEFAULT'] = cornerMap[a] ? [a, b] : ['', a]
-  const v = theme.borderRadius?.[s] || h.bracket.fraction.rem(s)
+  const v = theme.borderRadius?.[s] || h.bracket.fraction.auto.rem(s)
   if (v != null)
     return cornerMap[d].map(i => [`border${i}-radius`, v])
 }

@@ -49,7 +49,7 @@ export const transforms: Rule[] = [
 ]
 
 function handleTranslate([, d, b]: string[]): CSSValues | undefined {
-  const v = h.bracket.fraction.rem(b)
+  const v = h.bracket.fraction.auto.rem(b)
   if (v != null) {
     return [
       transformBase,
