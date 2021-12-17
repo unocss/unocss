@@ -1,10 +1,20 @@
 export const presetMiniTargets: string[] = [
   // align
+  'vertical-baseline',
+  'align-text-bottom',
   'v-top',
   'v-mid',
+  'text-left',
 
   // behaviors
   'outline-none',
+  'outline',
+  'outline-gray',
+  'outline-gray-400',
+  'outline-size-4',
+  'outline-width-4',
+  'outline-offset-4',
+  'outline-unset',
   'outline-solid',
   'outline-color-red-1',
   'outline-width-10px',
@@ -20,10 +30,13 @@ export const presetMiniTargets: string[] = [
   'placeholder-transparent',
   'placeholder-opacity-60',
   'will-change-transform',
+  'will-change-unset',
 
   // border
   'b-2',
   'border',
+  'border-double',
+  'border-none',
   'border-4',
   'border-b',
   'border-x',
@@ -36,6 +49,7 @@ export const presetMiniTargets: string[] = [
   'rounded-t-sm',
   'rounded-tr',
   'rounded',
+  'border-rounded',
 
   // color, op
   'op-10',
@@ -99,11 +113,17 @@ export const presetMiniTargets: string[] = [
 
   // color - ring
   'ring-red2',
+  'ring-red2/5',
+  'ring-op-5',
+  'ring-offset-red2',
+  'ring-offset-red2/5',
+  'ring-offset-op-5',
 
   // decoration
   'decoration-none',
   'decoration-transparent',
   'decoration-purple/50',
+  'decoration-5',
   'underline',
   'underline-dashed',
   'underline-red-500',
@@ -118,8 +138,12 @@ export const presetMiniTargets: string[] = [
   // flex, gap
   'flex-[hi]',
   'flex',
+  'flex-row',
+  'flex-col-reverse',
   'gap-4',
   'gap-x-1',
+  'flex-gap-y-1',
+  'grid-gap-y-1',
 
   // grid
   'grid-cols-$1',
@@ -144,25 +168,47 @@ export const presetMiniTargets: string[] = [
   'grid-rows-minmax-100px',
 
   // layout
+  'of-y-visible',
   'overflow-auto',
   'overflow-x-scroll',
 
   // position
+  'justify-start',
+  'justify-center',
+  'justify-items-end',
+  'justify-self-stretch',
   'order-first',
+  'order-none',
+  'content-start',
+  'content-center',
+  'items-end',
+  'self-stretch',
+  'place-content-stretch',
+  'place-items-stretch',
+  'place-self-stretch',
+
+  // position - insets
   'top-0',
   'top-$top-height',
   'inset-x-5',
+  'float-left',
+  'float-none',
+  'clear-both',
+  'clear-none',
   'z-0',
   'z-1',
   'z-100',
+  'z-auto',
   'box-content',
   'box-border',
 
   // ring, shadow
   'ring',
   'ring-10',
+  'ring-offset',
   'ring-offset-4',
   'ring-offset-green5',
+  'ring-inset',
   'shadow',
   'shadow-transparent',
   'shadow-current',
@@ -223,8 +269,22 @@ export const presetMiniTargets: string[] = [
   'my-auto',
 
   // static
+  'contents',
+  'backface-hidden',
+  'cursor-pointer',
+  'pointer-events-none',
+  'pointer-events-auto',
+  'resize',
+  'resize-none',
+  'select-all',
   'select-none',
+  'whitespace-pre-wrap',
   'ws-nowrap',
+  'content-empty',
+  'break-normal',
+  'text-clip',
+  'case-upper', // !
+  'case-normal', // !
   'italic',
   'antialiased',
 
@@ -258,6 +318,7 @@ export const presetMiniTargets: string[] = [
   'rotate-[var(--spin)]',
   'preserve-3d',
   'preserve-flat',
+  'origin-top-left',
 
   // transition
   'transition-none',
@@ -267,7 +328,9 @@ export const presetMiniTargets: string[] = [
   'transition-property-all',
   'transition-200',
   'transition',
+  'property-all',
   'duration-111',
+  'ease-out',
 
   // transition - timings
   'ease-linear',
@@ -277,7 +340,11 @@ export const presetMiniTargets: string[] = [
   'text-4xl',
   'text-base',
   'text-lg',
+  'text-size-[2em]',
+  'font-thin',
+  'fw-900',
   'leading-2',
+  'lh-[1.5]',
   'tracking-wide',
   'tracking-[2/5]',
   'word-spacing-1',
