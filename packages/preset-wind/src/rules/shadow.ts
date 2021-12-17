@@ -1,7 +1,6 @@
 import type { Rule } from '@unocss/core'
 
 export const mixBlendModes: Rule[] = [
-  ['mix-blend-normal', { 'mix-blend-mode': 'normal' }],
   ['mix-blend-multiply', { 'mix-blend-mode': 'multiply' }],
   ['mix-blend-screen', { 'mix-blend-mode': 'screen' }],
   ['mix-blend-overlay', { 'mix-blend-mode': 'overlay' }],
@@ -17,4 +16,5 @@ export const mixBlendModes: Rule[] = [
   ['mix-blend-saturation', { 'mix-blend-mode': 'saturation' }],
   ['mix-blend-color', { 'mix-blend-mode': 'color' }],
   ['mix-blend-luminosity', { 'mix-blend-mode': 'luminosity' }],
+  ['mix-blend-normal', { 'mix-blend-mode': 'normal' }],
 ]

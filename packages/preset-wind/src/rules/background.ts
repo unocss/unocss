@@ -69,7 +69,6 @@ export const backgroundStyles: Rule[] = [
   ['bg-scroll', { 'background-attachment': 'scroll' }],
 
   // blends
-  ['bg-blend-normal', { 'background-blend-mode': 'normal' }],
   ['bg-blend-multiply', { 'background-blend-mode': 'multiply' }],
   ['bg-blend-screen', { 'background-blend-mode': 'screen' }],
   ['bg-blend-overlay', { 'background-blend-mode': 'overlay' }],
@@ -85,6 +84,7 @@ export const backgroundStyles: Rule[] = [
   ['bg-blend-saturation', { 'background-blend-mode': 'saturation' }],
   ['bg-blend-color', { 'background-blend-mode': 'color' }],
   ['bg-blend-luminosity', { 'background-blend-mode': 'luminosity' }],
+  ['bg-blend-normal', { 'background-blend-mode': 'normal' }],
 
   // clips
   ['bg-clip-border', { '-webkit-background-clip': 'border-box', 'background-attachment': 'border-box' }],
@@ -101,12 +101,12 @@ export const backgroundStyles: Rule[] = [
   [/^via-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-via-opacity': h.bracket.percent(opacity) })],
 
   // images
-  ['bg-none', { 'background-image': 'none' }],
   [/^bg-gradient-to-([trbl]{1,2})$/, ([, d]) => {
     const v = bgGradientDirections[d]
     if (v)
       return { 'background-image': `linear-gradient(to ${v}, var(--un-gradient-stops))` }
   }],
+  ['bg-none', { 'background-image': 'none' }],
 
   // origins
   ['bg-origin-border', { 'background-origin': 'border-box' }],

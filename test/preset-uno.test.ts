@@ -19,6 +19,7 @@ const nonTargets = [
   'text-anything',
   'p-anything',
   'rotate-[3]deg',
+  'list-none-inside',
   'will-change-all',
   'will-change-none',
 ]

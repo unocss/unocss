@@ -59,7 +59,6 @@ export const presetWindiTargets: string[] = [
   'list-none',
   'list-disc',
   'list-outside',
-  'list-none-inside',
   'decoration-slice',
   'accent-op-90',
   'accent-red',
