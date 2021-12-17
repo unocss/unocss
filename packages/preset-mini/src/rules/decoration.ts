@@ -4,10 +4,8 @@ import { colorResolver, handler as h } from '../utils'
 export const textDecorations: Rule[] = [
   ['underline', { 'text-decoration': 'underline' }],
   ['line-through', { 'text-decoration': 'line-through' }],
-  ['no-underline', { 'text-decoration': 'none' }],
   ['decoration-underline', { 'text-decoration': 'underline' }],
   ['decoration-line-through', { 'text-decoration': 'line-through' }],
-  ['decoration-none', { 'text-decoration': 'none' }],
 
   // style
   [/^(?:underline|decoration)-(solid|double|dotted|dashed|wavy)$/, ([, d]) => ({ 'text-decoration-style': d })],
@@ -34,4 +32,7 @@ export const textDecorations: Rule[] = [
     }
   }],
   [/^(?:underline|decoration)-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-line-opacity': h.bracket.percent(opacity) })],
+
+  ['no-underline', { 'text-decoration': 'none' }],
+  ['decoration-none', { 'text-decoration': 'none' }],
 ]

@@ -25,7 +25,8 @@ export const justifies: Rule[] = [
 ]
 
 export const orders: Rule[] = [
-  [/^order-(.+)$/, ([, v]) => ({ order: { first: '-9999', last: '9999', none: '0' }[v] || h.bracket.number(v) })],
+  [/^order-(.+)$/, ([, v]) => ({ order: { first: '-9999', last: '9999' }[v] || h.bracket.number(v) })],
+  ['order-none', { order: '0' }],
 ]
 
 export const alignments: Rule[] = [
@@ -82,8 +83,10 @@ export const insets: Rule[] = [
 ]
 
 export const floats: Rule[] = [
-  [/^float-(left|right|none)$/, ([, value]) => ({ float: value })],
-  [/^clear-(left|right|both|none)$/, ([, value]) => ({ clear: value })],
+  [/^float-(left|right)$/, ([, value]) => ({ float: value })],
+  ['float-none', { float: 'none' }],
+  [/^clear-(left|right|both)$/, ([, value]) => ({ clear: value })],
+  ['clear-none', { clear: 'none' }],
 ]
 
 export const zIndexes: Rule[] = [

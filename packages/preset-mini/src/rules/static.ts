@@ -49,19 +49,20 @@ export const cursors: Rule[] = [
 ]
 
 export const pointerEvents: Rule[] = [
-  ['pointer-events-none', { 'pointer-events': 'none' }],
   ['pointer-events-auto', { 'pointer-events': 'auto' }],
+  ['pointer-events-none', { 'pointer-events': 'none' }],
 ]
 
 export const resizes: Rule[] = [
-  ['resize-none', { resize: 'none' }],
   ['resize-x', { resize: 'horizontal' }],
   ['resize-y', { resize: 'vertical' }],
   ['resize', { resize: 'both' }],
+  ['resize-none', { resize: 'none' }],
 ]
 
 export const userSelects: Rule[] = [
-  [/^select-(none|text|all|auto)$/, ([, v]) => ({ 'user-select': v })],
+  [/^select-(text|all|auto)$/, ([, v]) => ({ 'user-select': v })],
+  ['select-none', { 'user-select': 'none' }],
 ]
 
 export const whitespaces: Rule[] = [

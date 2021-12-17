@@ -116,7 +116,6 @@ exports[`preset-mini > targets 1`] = `
 .indent-lg{text-indent:2rem;}
 .text-clip{text-overflow:clip;}
 .underline{text-decoration:underline;}
-.decoration-none{text-decoration:none;}
 .underline-dashed{text-decoration-style:dashed;}
 .underline-1rem{text-decoration-thickness:1rem;}
 .underline-5,.decoration-5{text-decoration-thickness:5px;}
@@ -128,6 +127,7 @@ exports[`preset-mini > targets 1`] = `
 .decoration-transparent{-webkit-text-decoration-color:transparent;text-decoration-color:transparent;}
 .underline-red-500{-webkit-text-decoration-color:rgba(239,68,68,var(--un-line-opacity));--un-line-opacity:1;text-decoration-color:rgba(239,68,68,var(--un-line-opacity));}
 .underline-op80{--un-line-opacity:0.8;}
+.decoration-none{text-decoration:none;}
 .text-stroke-6{-webkit-text-stroke-width:6px;}
 .text-stroke-sm{-webkit-text-stroke-width:thin;}
 .text-stroke-blue-500{--un-text-stroke-opacity:1;-webkit-text-stroke-color:rgba(59,130,246,var(--un-text-stroke-opacity));}
@@ -236,10 +236,10 @@ exports[`preset-mini > targets 1`] = `
 .aspect-ratio-3\\\\/2{aspect-ratio:3/2;}
 .cursor-pointer{cursor:pointer;}
 .backface-hidden{backface-visibility:hidden;}
-.pointer-events-none{pointer-events:none;}
 .pointer-events-auto{pointer-events:auto;}
-.resize-none{resize:none;}
+.pointer-events-none{pointer-events:none;}
 .resize{resize:both;}
+.resize-none{resize:none;}
 .align-text-bottom{vertical-align:text-bottom;}
 .v-mid{vertical-align:middle;}
 .v-top{vertical-align:top;}
@@ -252,7 +252,6 @@ exports[`preset-mini > targets 1`] = `
 .overflow-auto{overflow:auto;}
 .of-y-visible{overflow-y:visible;}
 .overflow-x-scroll{overflow-x:scroll;}
-.outline-none{outline:2px solid transparent;outline-offset:2px;}
 .outline,.outline-solid{outline-style:solid;}
 .outline-\\\\[var\\\\(--red\\\\)\\\\]{outline-color:var(--red);}
 .outline-110{outline-width:27.5rem;}
@@ -266,6 +265,7 @@ exports[`preset-mini > targets 1`] = `
 .outline-size-4,.outline-width-4{outline-width:1rem;}
 .outline-unset{outline-style:unset;}
 .outline-width-10px{outline-width:10px;}
+.outline-none{outline:2px solid transparent;outline-offset:2px;}
 .appearance-none{appearance:none;-webkit-appearance:none;}
 .placeholder-opacity-60{placeholder-opacity:0.6;}
 .placeholder-color-red-1{--un-placeholder-color-opacity:1;placeholder-color:rgba(254,226,226,var(--un-placeholder-color-opacity));}
