@@ -21,13 +21,56 @@ export const presetWindiTargets: string[] = [
   'animate-iteration-count-2-4-infinity',
 
   // background
-  //
+  'bg-auto',
+  'bg-blend-normal',
+  'bg-blend-color-burn',
+  'bg-blend-luminosity',
+  'bg-bottom',
+  'bg-clip-border',
+  'bg-clip-text',
+  'bg-cover',
+  'bg-fixed',
+  'bg-gradient-to-t',
+  'bg-gradient-to-tl',
+  'bg-local',
+  'bg-no-repeat',
+  'bg-none',
+  'bg-origin-border',
+  'bg-repeat-space',
+  'bg-right-bottom',
+  'bg-scroll',
+
+  // bg gradient
+  'from-current',
+  'from-green-500',
+  'from-transparent',
+  'to-current',
+  'to-green-500',
+  'to-transparent',
+  'via-current',
+  'via-green-500',
+  'via-green-500/30',
+  'via-transparent',
+  'via-opacity-30',
 
   // behaviors
-  //
+  'list-none',
+  'list-disc',
+  'list-outside',
+  'list-none-inside',
+  'decoration-slice',
+  'accent-op-90',
+  'accent-red',
+  'caret-op-90',
+  'caret-red',
+  'image-render-pixel',
+  'overscroll-x-auto',
+  'overscroll-contain',
 
   // columns
-  //
+  'columns-3',
+  'columns-5em',
+  'columns-auto',
 
   // container
   //
@@ -91,16 +134,32 @@ export const presetWindiTargets: string[] = [
   'line-clamp-100',
   'line-clamp-none',
 
-  // scrolls
-  //
+  // scrolls - spaces
+  'scroll-m-[3em]',
+  'scroll-m-0',
+  'scroll-m-1/2',
+  'scroll-m-auto',
+  'scroll-p-2',
+  'scroll-p-t-2',
+  'scroll-p2',
+  'scroll-pl-10px',
+  'scroll-pt-2',
+  'scroll-pt2',
 
   // shadow
-  //
+  'mix-blend-normal',
+  'mix-blend-color-light',
 
   // spacing
-  //
+  'space-x-2',
+  'space-y-4',
+  'space-x-reverse',
+  'space-x-$space',
 
   // static
+  'hyphens-none',
+  'write-normal',
+  'write-orient-sideways',
   'isolate',
   'isolate-auto',
 
@@ -112,10 +171,40 @@ export const presetWindiTargets: string[] = [
   // tables
   'border-collapse',
   'border-separate',
+  'caption-top',
+  'caption-bottom',
+  'inline-table',
+  'table',
+  'table-auto',
+  'table-caption',
+  'table-empty-cells-visible',
+  'table-empty-cells-hidden',
+  'table-footer-group',
+  'table-row-group',
+
+  // touch-actions
+  'touch-pan-left',
+  'touch-pan-y',
+
+  // typography
+  'lining-nums',
+  'normal-nums',
+  'tabular-nums',
+
+  // variables
+  'bg-blend-$data',
+
+  // dark/light
+  '.dark:text-xl',
+  '@dark:text-xl',
 
   // variants
   '!animate-ping',
   '-backdrop-hue-rotate-90',
   '-hue-rotate-90',
   'hover:animate-bounce',
+
+  '-scroll-mb-px',
+  '-scroll-p-px',
+  '-space-x-4',
 ]
