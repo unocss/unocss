@@ -55,6 +55,7 @@ export const appearance: Rule[] = [
   }],
 ]
 
+// TODO: convert to pseudo-element
 export const placeholder: Rule[] = [
   [
     /^placeholder-opacity-(\d+)$/,

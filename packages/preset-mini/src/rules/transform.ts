@@ -37,6 +37,8 @@ export const transforms: Rule[] = [
   ['transform-gpu', transformGpu],
   ['transform-cpu', transformCpu],
   ['transform-none', { transform: 'none' }],
+
+  // transform origins
   ['origin-center', { 'transform-origin': 'center' }],
   ['origin-top', { 'transform-origin': 'top' }],
   ['origin-top-right', { 'transform-origin': 'top right' }],

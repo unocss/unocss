@@ -28,7 +28,7 @@ const colorResolver = (body: string, theme: Theme) => {
 
 export const boxShadows: Rule<Theme>[] = [
   [/^shadow-?(.*)$/, ([, d], { theme }) => {
-    const value = theme?.boxShadow?.[d || 'DEFAULT']
+    const value = theme.boxShadow?.[d || 'DEFAULT']
     if (value) {
       return {
         '--un-shadow-color': '0,0,0',

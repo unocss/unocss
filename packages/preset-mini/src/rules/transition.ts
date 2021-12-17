@@ -23,11 +23,7 @@ export const transitions: Rule[] = [
       'transition-duration': `${duration}ms`,
     }
   }],
-  [/^duration-(\d+)$/, ([, duration = '150']) => {
-    return {
-      'transition-duration': `${duration}ms`,
-    }
-  }],
+  [/^duration-(\d+)$/, ([, duration = '150']) => ({ 'transition-duration': `${duration}ms` })],
   ['ease', { 'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)' }],
   ['ease-linear', { 'transition-timing-function': 'linear' }],
   ['ease-in', { 'transition-timing-function': 'cubic-bezier(0.4, 0, 1, 1)' }],
@@ -39,6 +35,6 @@ export const transitions: Rule[] = [
   [/^(?:transition-)?property-([a-z-]+)$/, ([, v]) => {
     const transitionProperty = validateProperty(v)
     if (transitionProperty)
-      return ({ 'transition-property': transitionProperty })
+      return { 'transition-property': transitionProperty }
   }],
 ]

@@ -49,7 +49,7 @@ export const alignments: Rule[] = [
   ['self-start', { 'align-self': 'flex-start' }],
   ['self-end', { 'align-self': 'flex-end' }],
   ['self-center', { 'align-self': 'center' }],
-  ['self-stretch', { 'align-items': 'stretch' }],
+  ['self-stretch', { 'align-self': 'stretch' }],
 ]
 
 export const placements: Rule[] = [

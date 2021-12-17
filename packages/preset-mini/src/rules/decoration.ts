@@ -14,7 +14,7 @@ export const textDecorations: Rule[] = [
 
   // thickness
   [/^(?:underline|decoration)-([^-]+)$/, ([, s]) => ({ 'text-decoration-thickness': ['auto', 'from-font'].includes(s) ? s : h.bracket.px(s) })],
-  [/^decoration-(.*)$/, ([, d]) => ({ 'text-decoration-thickness': h.bracket.px(d) })],
+  [/^decoration-(.+)$/, ([, d]) => ({ 'text-decoration-thickness': h.bracket.px(d) })],
 
   // offset
   [/^underline-offset-([^-]+)$/, ([, s]) => {
@@ -33,5 +33,5 @@ export const textDecorations: Rule[] = [
       }
     }
   }],
-  [/^(?:underline|decoration)-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-line-opacity': h.bracket.percent(opacity) })],
+  [/^(?:underline|decoration)-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-line-opacity': h.bracket.percent(opacity) })],
 ]
