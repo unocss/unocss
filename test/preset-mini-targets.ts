@@ -142,5 +142,5 @@ export const presetMiniTargets: string[] = [
   'transition',
 
   // transition-timing-function
-  'ease-linear'
+  'ease-linear',
 ]
