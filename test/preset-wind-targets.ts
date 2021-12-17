@@ -43,9 +43,11 @@ export const presetWindiTargets: string[] = [
   // bg gradient
   'from-current',
   'from-green-500',
+  'from-green-500/50',
   'from-transparent',
   'to-current',
   'to-green-500',
+  'to-green-500/50',
   'to-transparent',
   'via-current',
   'via-green-500',
@@ -66,11 +68,16 @@ export const presetWindiTargets: string[] = [
   'image-render-pixel',
   'overscroll-x-auto',
   'overscroll-contain',
+  'overscroll-none',
+  'scroll-auto',
 
   // columns
   'columns-3',
   'columns-5em',
   'columns-auto',
+  'break-before-avoid-page',
+  'break-inside-avoid-column',
+  'break-after-column',
 
   // container
   //
@@ -86,9 +93,11 @@ export const presetWindiTargets: string[] = [
   'divide-dotted',
   'divide-transparent',
   'divide-current',
+  'divide-none',
 
   // filters
   'filter',
+  'filter-none',
   'blur',
   'blur-md',
   'blur-4',
@@ -112,6 +121,7 @@ export const presetWindiTargets: string[] = [
 
   // filters - backdrop
   'backdrop-filter',
+  'backdrop-filter-none',
   'backdrop-blur',
   'backdrop-blur-md',
   'backdrop-blur-4',
@@ -134,7 +144,13 @@ export const presetWindiTargets: string[] = [
   'line-clamp-100',
   'line-clamp-none',
 
-  // scrolls - spaces
+  // scrolls
+  'snap-y',
+  'snap-mandatory',
+  'snap-none',
+  'snap-center',
+  'snap-align-none',
+  'snap-always',
   'scroll-m-[3em]',
   'scroll-m-0',
   'scroll-m-1/2',
@@ -146,24 +162,25 @@ export const presetWindiTargets: string[] = [
   'scroll-pt-2',
   'scroll-pt2',
 
-  // shadow
+  // shadow, spacing
   'mix-blend-normal',
   'mix-blend-color-light',
-
-  // spacing
   'space-x-2',
   'space-y-4',
   'space-x-reverse',
   'space-x-$space',
 
   // static
+  'capitalize',
+  'normal-case',
   'hyphens-none',
+  'hyphens-auto',
   'write-normal',
   'write-orient-sideways',
+  'not-sr-only',
   'isolate',
   'isolate-auto',
-
-  // static - object
+  'object-none',
   'object-center',
   'object-ct',
   'object-cb',
@@ -185,6 +202,9 @@ export const presetWindiTargets: string[] = [
   // touch-actions
   'touch-pan-left',
   'touch-pan-y',
+  'touch-pinch-zoom',
+  'touch-manipulation',
+  'touch-none',
 
   // typography
   'lining-nums',
