@@ -71,7 +71,7 @@
     "vite-node": "^0.1.11",
     "vite-plugin-inspect": "^0.3.11",
     "vite-plugin-pages": "^0.19.4",
-    "vitest": "^0.0.95",
+    "vitest": "^0.0.96",
     "vue": "^3.2.26",
     "vue-router": "^4.0.12"
   }

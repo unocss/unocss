@@ -58,7 +58,7 @@ importers:
       vite-node: ^0.1.11
       vite-plugin-inspect: ^0.3.11
       vite-plugin-pages: ^0.19.4
-      vitest: ^0.0.95
+      vitest: ^0.0.96
       vue: ^3.2.26
       vue-router: ^4.0.12
     devDependencies:
@@ -116,7 +116,7 @@ importers:
       vite-node: 0.1.11
       vite-plugin-inspect: 0.3.11_vite@2.7.3
       vite-plugin-pages: 0.19.4_vite@2.7.3
-      vitest: 0.0.95_vite@2.7.3
+      vitest: 0.0.96_vite@2.7.3
       vue: 3.2.26
       vue-router: 4.0.12_vue@3.2.26
 
@@ -5300,8 +5300,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.0.95_vite@2.7.3:
-    resolution: {integrity: sha512-D05cdIe7Lpy0kc4As80asNfopdyqqVpBg/HYV8Pr9HhWZtV0/5IDq2/BUHaZwt80haXqXheAHd6hlXCTk/JpBQ==}
+  /vitest/0.0.96_vite@2.7.3:
+    resolution: {integrity: sha512-qQiHmthTRfZ/jd729esq0J+tK757PYIWs4kT3RsNwEuk8T+m4eFpu+N5niHbdMyAC/DyziCZ9BwDgCRgwN1YWg==}
     engines: {node: '>=16.0.0'}
     hasBin: true
     peerDependencies:
