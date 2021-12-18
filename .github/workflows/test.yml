@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-  
+
       - name: Install pnpm
         uses: pnpm/action-setup@v2.0.1
         with:
@@ -34,9 +34,12 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           registry-url: https://registry.npmjs.org/
-          cache: "pnpm"
+          cache: 'pnpm'
 
       - run: pnpm install
+
+      - name: Lint
+        run: pnpm run lint
 
       - name: Build
         run: pnpm run build
