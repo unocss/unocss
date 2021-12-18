@@ -50,7 +50,7 @@ importers:
       terser: ^5.10.0
       tsup: 5.11.6
       typescript: ^4.5.4
-      unbuild: ^0.6.7
+      unbuild: 0.6.3
       unocss: workspace:*
       unplugin-auto-import: ^0.5.3
       unplugin-vue-components: ^0.17.9
@@ -108,7 +108,7 @@ importers:
       terser: 5.10.0
       tsup: 5.11.6_typescript@4.5.4
       typescript: 4.5.4
-      unbuild: 0.6.7
+      unbuild: 0.6.3
       unocss: link:packages/unocss
       unplugin-auto-import: 0.5.3_32d4293f4426c2b9c9dd273e9fb3b6b2
       unplugin-vue-components: 0.17.9_563ad9df933244afba860adc7847e3e3
@@ -5047,8 +5047,8 @@ packages:
       which-boxed-primitive: 1.0.2
     dev: true
 
-  /unbuild/0.6.7:
-    resolution: {integrity: sha512-dbn5mXWASNi+ra9KtxjAY5ifNH5GzrarqU2hexF3pF9J24BrQlH2DC0v1QvhkF1Hw8eS1Pc6HC929Z++TaOuPQ==}
+  /unbuild/0.6.3:
+    resolution: {integrity: sha512-TgG3p2waZoetzXZqL+IBTOncbmu/1b8ZgcS2YygDZRb+fKb9kTK7ASBCFQjy9Mjp3meziEDDdaDx9/rv6Zc+5w==}
     hasBin: true
     dependencies:
       '@rollup/plugin-alias': 3.1.8_rollup@2.61.1
