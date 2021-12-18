@@ -37,7 +37,7 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@rollup/pluginutils": "^4.1.1",
+    "@rollup/pluginutils": "^4.1.2",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "unplugin": "^0.2.21",

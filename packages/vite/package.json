@@ -38,13 +38,13 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@rollup/pluginutils": "^4.1.1",
+    "@rollup/pluginutils": "^4.1.2",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/inspector": "workspace:*",
     "@unocss/scope": "workspace:*"
   },
   "devDependencies": {
-    "vite": "^2.7.1"
+    "vite": "^2.7.3"
   }
 }
