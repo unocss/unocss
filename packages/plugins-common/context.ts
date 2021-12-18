@@ -3,7 +3,7 @@ import type { LoadConfigResult, LoadConfigSource } from '@unocss/config'
 import { createConfigLoader } from '@unocss/config'
 import type { UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { BetterMap, createGenerator } from '@unocss/core'
-import { INCLUDE_COMMENT } from './constants'
+import { IMPORT_CSS, INCLUDE_COMMENT } from './constants'
 import { defaultExclude, defaultInclude } from './defaults'
 
 export interface UnocssPluginContext<Config extends UserConfig = UserConfig> {
@@ -70,7 +70,7 @@ export function createContext<Config extends UserConfig = UserConfig>(
   }
 
   const filter = (code: string, id: string) => {
-    return code.includes(INCLUDE_COMMENT) || rollupFilter(id)
+    return code.includes(IMPORT_CSS) || code.includes(INCLUDE_COMMENT) || rollupFilter(id)
   }
 
   async function getConfig() {

@@ -1,10 +1,10 @@
 import type { Plugin } from 'vite'
 import type { UnocssPluginContext } from '../../../plugins-common'
-import { INCLUDE_COMMENT } from '../../../plugins-common'
+import { IMPORT_CSS } from '../../../plugins-common'
 
 export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin {
   async function transformWebComponent(code: string) {
-    const imported = code.match(INCLUDE_COMMENT)
+    const imported = code.match(IMPORT_CSS)
     if (!imported)
       return code
 
@@ -12,7 +12,7 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
     if (!css)
       return code
 
-    return code.replace(INCLUDE_COMMENT, css)
+    return code.replace(IMPORT_CSS, css)
   }
 
   return {
