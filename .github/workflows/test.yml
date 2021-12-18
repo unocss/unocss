@@ -18,7 +18,6 @@ jobs:
     strategy:
       matrix:
         node-version: [14.x, 16.x]
-        # os: [ubuntu-latest, windows-latest, macos-latest]
         os: [ubuntu-latest]
       fail-fast: false
 
@@ -38,9 +37,6 @@ jobs:
           cache: "pnpm"
 
       - run: pnpm install
-
-      - name: Lint
-        run: pnpm run lint
 
       - name: Build
         run: pnpm run build
