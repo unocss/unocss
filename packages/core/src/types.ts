@@ -14,6 +14,30 @@ export type CSSObject = Record<string, string | number | undefined>
 export type CSSEntries = [string, string | number | undefined][]
 export type CSSPropertyValue = string | [string, string]
 
+export type RGBAColorValue = [number, number, number, number] | [number, number, number]
+export type ParsedColorValue = {
+  /**
+   * Parsed color value.
+   */
+  color?: string
+  /**
+   * Parsed opacity value.
+   */
+  opacity: string
+  /**
+   * Color name.
+   */
+  name: string
+  /**
+   * Color scale. Preferrably 000 - 999
+   */
+  no: string
+  /**
+   * Color scale. Preferrably 000 - 999
+   */
+  rgba?: RGBAColorValue
+}
+
 export interface RuleContext<Theme extends {} = {}> {
   /**
    * Unprocessed selector from user input.

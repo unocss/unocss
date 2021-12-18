@@ -1,4 +1,4 @@
-import type { CSSEntries, CSSObject, CSSPropertyValue, Rule, RuleContext } from '@unocss/core'
+import type { CSSEntries, CSSObject, CSSPropertyValue, DynamicMatcher, DynamicRule, ParsedColorValue, RuleContext, StaticRule } from '@unocss/core'
 import { escapeRegExp, hex2rgba, toArray } from '@unocss/core'
 import type { Theme } from '../theme'
 import { handler as h } from './handlers'
@@ -8,18 +8,35 @@ export function capitalize<T extends string>(str: T) {
   return str.charAt(0).toUpperCase() + str.slice(1) as Capitalize<T>
 }
 
-export const directionSize = (prefix: string) => ([_, direction, size]: string[]): CSSEntries | undefined => {
+/**
+ * Provide {DynamicMatcher} function returning spacing definition. See spacing rules.
+ *
+ * @param {string} propertyPrefix - Property for the css value to be created. Postfix will be appended according to direction matched.
+ * @return {DynamicMatcher}  {DynamicMatcher} function for generating expanded css values based on matched direction.
+ * @see directionMap
+ */
+export const directionSize = (propertyPrefix: string): DynamicMatcher => ([_, direction, size]: string[]): CSSEntries | undefined => {
   const v = h.bracket.auto.rem.fraction.cssvar(size)
   if (v !== undefined)
-    return directionMap[direction].map(i => [`${prefix}${i}`, v])
+    return directionMap[direction].map(i => [`${propertyPrefix}${i}`, v])
 }
 
+/**
+ * Obtain color from theme by camel-casing colors.
+ */
 const getThemeColor = (theme: Theme, colors: string[]) =>
   theme.colors?.[
     colors.join('-').replace(/(-[a-z])/g, n => n.slice(1).toUpperCase())
   ]
 
-export const parseColor = (body: string, theme: Theme) => {
+/**
+ * Parse color string into rgba (if possible) + opacity.
+ *
+ * @param {string} body - Color string to be parsed
+ * @param {Theme} theme
+ * @return {ParsedColorValue | undefined}  {ParsedColorValue | undefined}
+ */
+export const parseColor = (body: string, theme: Theme): ParsedColorValue | undefined => {
   const [main, opacity] = body.split(/(?:\/|:)/)
   const colors = main
     .replace(/([a-z])([0-9])/g, '$1-$2')
@@ -71,7 +88,16 @@ export const parseColor = (body: string, theme: Theme) => {
   }
 }
 
-export const colorResolver = (attribute: string, varName: string) => ([, body]: string[], { theme }: RuleContext<Theme>) => {
+/**
+ * Provide {DynamicMatcher} function to produce color value matched from rule.
+ *
+ * @see ParsedColorValue
+ *
+ * @param {string} property - Property for the css value to be created.
+ * @param {string} varName - Base name for the opacity variable.
+ * @return {DynamicMatcher}  {DynamicMatcher} function for generating color value with opacity (if applicable).
+ */
+export const colorResolver = (property: string, varName: string) => ([, body]: string[], { theme }: RuleContext<Theme>): CSSObject | undefined => {
   const data = parseColor(body, theme)
 
   if (!data)
@@ -95,91 +121,175 @@ export const colorResolver = (attribute: string, varName: string) => ([, body]: 
         ? parseFloat(a)
         : a
       return {
-        [attribute]: `rgba(${rgba.join(',')})`,
+        [property]: `rgba(${rgba.join(',')})`,
       }
     }
     else {
       return {
         [`--un-${varName}-opacity`]: 1,
-        [attribute]: `rgba(${rgba.slice(0, 3).join(',')},var(--un-${varName}-opacity))`,
+        [property]: `rgba(${rgba.slice(0, 3).join(',')},var(--un-${varName}-opacity))`,
       }
     }
   }
   else {
     return {
-      [attribute]: color.replace('%alpha', `${a || 1}`),
+      [property]: color.replace('%alpha', `${a || 1}`),
     }
   }
 }
 
-export const colorOpacityResolver = (varName: string) => ([, o]: string[]) => {
+/**
+ * Provide {DynamicMatcher} function to produce opacity value matched from rule.
+ *
+ * @param {string} varName - Base name for the opacity variable.
+ * @return {DynamicMatcher}  {DynamicMatcher} function for generating opacity modifier.
+ */
+export const colorOpacityResolver = (varName: string): DynamicMatcher => ([, o]: string[]): CSSObject | undefined => {
   const v = h.bracket.percent.cssvar(o)
   if (v !== undefined)
     return { [`--un-${[varName]}-opacity`]: v }
 }
 
-export const createColorRule = (name: string, prop?: string, varName?: string): Rule => [
+/**
+ * Create rule for parsing color. Rule will match: <@param name>-\<color name>.
+ *
+ * @param {string} name - Prefix for the rule.
+ * @param {string} [property] - Property for the css value to be created. If omitted, @param name will be used.
+ * @param {string} [varName] - Base name for the opacity variable. If omitted, @param name will be used.
+ * @return {DynamicRule}  {DynamicRule} object.
+ */
+export const createColorRule = (name: string, property?: string, varName?: string): DynamicRule => [
   new RegExp(`^${escapeRegExp(name)}-(.+)$`),
-  colorResolver(prop ?? name, varName ?? name),
+  colorResolver(property ?? name, varName ?? name),
 ]
 
-export const createColorOpacityRule = (name: string, varName?: string): Rule => [
+/**
+ * Create rule for parsing opacity. Rule will match:
+ * - <@param name>-opacity-\<opacity>
+ * - <@param name>-opacity\<opacity>
+ * - <@param name>-op-\<opacity>
+ * - <@param name>-op\<opacity>
+ *
+ * @param {string} name - Prefix for the rule.
+ * @param {string} [varName] - Base name for the opacity variable. If omitted, @param name will be used.
+ * @return {DynamicRule}  {DynamicRule} object.
+ */
+export const createColorOpacityRule = (name: string, varName?: string): DynamicRule => [
   new RegExp(`^${escapeRegExp(name)}-op(?:acity)?-?(.+)$`),
   colorOpacityResolver(varName ?? name),
 ]
 
-export const createColorAndOpacityRulePair = (name: string, prop?: string, varName?: string) => [
+/**
+ * Create a pair of rules for parsing color and opacity.
+ * @see createColorRule
+ * @see createColorOpacityRule
+ *
+ * @param {string} name - Prefix for the rule.
+ * @param {string} [property] - Property for the css value to be created. If omitted, @param name will be used.
+ * @param {string} [varName] - Base name for the opacity variable. If omitted, @param name will be used.
+ * @return {DynamicRule[]}  {DynamicRule[]} object.
+ */
+export const createColorAndOpacityRulePair = (name: string, prop?: string, varName?: string): DynamicRule[] => [
   createColorRule(name, prop, varName),
   createColorOpacityRule(name, varName),
 ]
 
-function generateCssObject(props: string | string[], value: string | number) {
-  if (typeof props === 'string')
-    return { [props]: value }
+/**
+ * Create CSSObject from multiple properties with the same value.
+ */
+function generateCssObject(properties: string | string[], value: string | number) {
+  if (typeof properties === 'string')
+    return { [properties]: value }
 
   const css: CSSObject = {}
-  props.forEach(prop => css[prop] = value)
+  properties.forEach(prop => css[prop] = value)
   return css
 }
 
-export const keywordResolver = (props: string | string[], keywords: CSSPropertyValue[] = []) => {
+/**
+ * Provide {DynamicMatcher} function to produce css object from available keywords.
+ *
+ * @param {(string | string[])} properties - Properties for the css object.
+ * @param {CSSPropertyValue[]} [keywords=[]] - Tuples with first element for matching and second element for property value.
+ * @return {DynamicMatcher}  {DynamicMatcher} function for generating css object.
+ */
+export const keywordResolver = (properties: string | string[], keywords: CSSPropertyValue[] = []) => {
   const cache = Object.fromEntries(keywords.map(toArray))
   return ([, s]: string[]) => {
     if (s in cache)
-      return generateCssObject(props, cache[s] ?? s)
+      return generateCssObject(properties, cache[s] ?? s)
   }
 }
 
-export const globalKeywordResolver = (props: string | string[], keywords: CSSPropertyValue[] = []) => {
+/**
+ * Provide {DynamicMatcher} function to produce css object from available keywords, and css values of inherit, initial, revert and unset.
+ *
+ * @param {(string | string[])} properties - Properties for the css object.
+ * @param {CSSPropertyValue[]} [keywords=[]] - Tuples with first element for matching and second element for property value.
+ * @return {DynamicMatcher}  {DynamicMatcher} function for generating css object.
+ */
+export const globalKeywordResolver = (properties: string | string[], keywords: CSSPropertyValue[] = []) => {
   const cache = Object.fromEntries(keywords.map(toArray))
   return ([, s]: string[]) => {
     const v = s in cache ? (cache[s] ?? s) : h.global(s)
     if (v !== undefined)
-      return generateCssObject(props, v)
+      return generateCssObject(properties, v)
   }
 }
 
-export const createKeywordRules = (bases: string | string[], props: string | string[], keywords: CSSPropertyValue[] = []): Rule[] =>
+/**
+ * Create rules for generating css object from matching keywords.
+ *
+ * @param {(string | string[])} names - Prefix for the rule.
+ * @param {(string | string[])} properties - Properties for the css object.
+ * @param {CSSPropertyValue[]} [keywords=[]] - Tuples with first element for matching and second element for property value.
+ * @return {StaticRule[]}  {StaticRule[]} object.
+ */
+export const createKeywordRules = (names: string | string[], properties: string | string[], keywords: CSSPropertyValue[] = []) =>
   keywords
     .map(key => typeof key === 'string' ? [key, key] : key)
     .map(([k, v]) => {
-      if (typeof bases === 'string')
-        bases = [bases]
-      return bases.map(base => [`${base}-${k}`, generateCssObject(props, v)] as Rule)
+      if (typeof names === 'string')
+        names = [names]
+      return names.map(base => [`${base}-${k}`, generateCssObject(properties, v)] as StaticRule)
     })
     .flat(1)
 
-export const createGlobalKeywordRules = (bases: string | string[], props: string | string[], keywords: CSSPropertyValue[] = []): Rule[] =>
-  createKeywordRules(bases, props, ['inherit', 'initial', 'revert', 'unset', ...keywords])
+/**
+ * Create rules for generating css object from matching keywords, and css values of inherit, initial, revert and unset.
+ *
+ * @param {(string | string[])} names - Prefix for the rule.
+ * @param {(string | string[])} properties - Properties for the css object.
+ * @param {CSSPropertyValue[]} [keywords=[]] - Tuples with first element for matching and second element for property value.
+ * @return {StaticRule[]}  {StaticRule[]} object.
+ */
+export const createGlobalKeywordRules = (names: string | string[], properties: string | string[], keywords: CSSPropertyValue[] = []): StaticRule[] =>
+  createKeywordRules(names, properties, ['inherit', 'initial', 'revert', 'unset', ...keywords])
 
-export const sizeRemResolver = (prop: string) => ([, s]: string[]) => {
+/**
+ * Provide {DynamicMatcher} function to produce length value matched from rule. Handler used: bracket, auto, rem, fraction, percent & cssvar.
+ *
+ * @see ValueHandler
+ *
+ * @param {string} property - Property for the css object.
+ * @return {DynamicMatcher}  {DynamicMatcher} function for generating opacity modifier.
+ */
+export const sizeRemResolver = (property: string): DynamicMatcher => ([, s]: string[]) => {
   const v = h.bracket.auto.rem.fraction.percent.cssvar(s)
   if (v !== undefined)
-    return { [prop]: v }
+    return { [property]: v } as CSSObject
 }
 
-export const sizePxResolver = (prop: string) => ([, s]: string[]) => {
+/**
+ * Provide {DynamicMatcher} function to produce length value matched from rule. Handler used: bracket, px, cssvar.
+ *
+ * @see ValueHandler
+ *
+ * @param {string} property - Property for the css object.
+ * @return {DynamicMatcher}  {DynamicMatcher} function for generating opacity modifier.
+ */
+export const sizePxResolver = (property: string): DynamicMatcher => ([, s]: string[]) => {
   const v = h.bracket.px.cssvar(s)
   if (v !== undefined)
-    return { [prop]: v }
+    return { [property]: v } as CSSObject
 }
