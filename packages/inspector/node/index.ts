@@ -1,4 +1,4 @@
-import { resolve, dirname } from 'path'
+import { dirname, resolve } from 'path'
 import { fileURLToPath } from 'url'
 import sirv from 'sirv'
 import type { Plugin, ResolvedConfig, ViteDevServer } from 'vite'

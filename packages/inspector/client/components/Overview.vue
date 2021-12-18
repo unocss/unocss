@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { overview, overviewFetch, info } from '../composables/fetch'
+import { info, overview, overviewFetch } from '../composables/fetch'
 
 overviewFetch.execute()
 </script>

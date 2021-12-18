@@ -5,7 +5,7 @@ import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
 import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
 import { getMatchedPositions } from '../../inspector/client/composables/pos'
-import { createContext, INCLUDE_COMMENT_IDE } from '../../plugins-common'
+import { INCLUDE_COMMENT_IDE, createContext } from '../../plugins-common'
 
 export async function activate() {
   const cwd = workspace.workspaceFolders?.[0].uri.fsPath

@@ -1,6 +1,6 @@
 import { dirname, resolve } from 'path'
 import { fileURLToPath } from 'url'
-import { defineNuxtModule, extendViteConfig, extendWebpackConfig, addPluginTemplate, addComponentsDir } from '@nuxt/kit'
+import { addComponentsDir, addPluginTemplate, defineNuxtModule, extendViteConfig, extendWebpackConfig } from '@nuxt/kit'
 import type { PresetUnoOptions } from '@unocss/preset-uno'
 import { presetUno } from '@unocss/preset-uno'
 import type { AttributifyOptions } from '@unocss/preset-attributify'

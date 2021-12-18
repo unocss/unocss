@@ -1,6 +1,6 @@
 import type { Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { handler as h, capitalize } from '../utils'
+import { capitalize, handler as h } from '../utils'
 
 function getPropName(minmax: string, hw: string) {
   return `${minmax ? `${minmax}-` : ''}${hw === 'h' ? 'height' : 'width'}`

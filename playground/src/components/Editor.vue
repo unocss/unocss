@@ -2,9 +2,9 @@
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
 // @ts-ignore
-import { Splitpanes, Pane } from 'splitpanes'
+import { Pane, Splitpanes } from 'splitpanes'
 import { isDark } from '../logics/dark'
-import { customConfigRaw, inputHTML, output, customConfigError } from '../logics/uno'
+import { customConfigError, customConfigRaw, inputHTML, output } from '../logics/uno'
 import { defaultConfigRaw, defaultHTML } from '../defaults'
 import { options } from '../logics/url'
 import { version } from '../../../package.json'

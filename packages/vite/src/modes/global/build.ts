@@ -2,11 +2,11 @@ import type { Plugin } from 'vite'
 import { getHash, getPath } from '../../../../plugins-common/utils'
 import type { UnocssPluginContext } from '../../../../plugins-common/context'
 import {
-  getHashPlaceholder,
-  getLayerPlaceholder,
   HASH_PLACEHOLDER_RE,
   LAYER_MARK_ALL,
   LAYER_PLACEHOLDER_RE,
+  getHashPlaceholder,
+  getLayerPlaceholder,
   resolveId,
 } from '../../../../plugins-common'
 

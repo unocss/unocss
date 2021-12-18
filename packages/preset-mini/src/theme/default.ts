@@ -1,8 +1,8 @@
 import { colors } from './colors'
-import { fontFamily, fontSize, letterSpacing, lineHeight, textIndent, textStrokeWidth, textShadow, wordSpacing } from './font'
-import { breakpoints, borderRadius, boxShadow } from './misc'
+import { fontFamily, fontSize, letterSpacing, lineHeight, textIndent, textShadow, textStrokeWidth, wordSpacing } from './font'
+import { borderRadius, boxShadow, breakpoints } from './misc'
 import { blur, dropShadow } from './filters'
-import { width, height, maxWidth, maxHeight } from './size'
+import { height, maxHeight, maxWidth, width } from './size'
 import type { Theme } from './types'
 
 export * from './colors'
