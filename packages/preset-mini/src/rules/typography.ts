@@ -1,7 +1,7 @@
 import type { Rule } from '@unocss/core'
 import { toArray } from '@unocss/core'
 import type { Theme } from '../theme'
-import { createColorAndOpacityRulePair, sizeRemResolver, handler as h } from '../utils'
+import { createColorAndOpacityRulePair, handler as h, sizeRemResolver } from '../utils'
 
 const weightMap: Record<string, string> = {
   thin: '100',

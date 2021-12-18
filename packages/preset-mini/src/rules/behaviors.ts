@@ -1,5 +1,5 @@
 import type { Rule } from '@unocss/core'
-import { createColorAndOpacityRulePair, createColorRule, handler as h, sizeRemResolver, createGlobalKeywordRules } from '../utils'
+import { createColorAndOpacityRulePair, createColorRule, createGlobalKeywordRules, handler as h, sizeRemResolver } from '../utils'
 import { cssProps } from './static'
 
 export const outline: Rule[] = [

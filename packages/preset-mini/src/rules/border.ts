@@ -1,6 +1,6 @@
 import type { CSSEntries, CSSObject, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { createColorOpacityRule, cornerMap, directionMap, createKeywordRules, handler as h, colorResolver } from '../utils'
+import { colorResolver, cornerMap, createColorOpacityRule, createKeywordRules, directionMap, handler as h } from '../utils'
 
 export const borders: Rule[] = [
   // size

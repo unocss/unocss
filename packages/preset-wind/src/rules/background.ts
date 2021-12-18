@@ -1,5 +1,5 @@
 import type { Rule, RuleContext } from '@unocss/core'
-import { createKeywordRules, handler as h, parseColor, createColorOpacityRule } from '@unocss/preset-mini/utils'
+import { createColorOpacityRule, createKeywordRules, handler as h, parseColor } from '@unocss/preset-mini/utils'
 import type { Theme } from '@unocss/preset-mini'
 
 const colorResolver = (mode: 'from' | 'to' | 'via') =>

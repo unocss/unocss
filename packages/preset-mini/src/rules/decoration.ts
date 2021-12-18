@@ -1,5 +1,5 @@
 import type { Rule } from '@unocss/core'
-import { createColorOpacityRule, keywordResolver, sizePxResolver, createKeywordRules, colorResolver } from '../utils'
+import { colorResolver, createColorOpacityRule, createKeywordRules, keywordResolver, sizePxResolver } from '../utils'
 
 export const textDecorations: Rule[] = [
   ['underline', { 'text-decoration': 'underline' }],

@@ -1,5 +1,5 @@
 import type { Rule } from '@unocss/core'
-import { createKeywordRules, createGlobalKeywordRules, handler as h } from '@unocss/preset-mini/utils'
+import { createGlobalKeywordRules, createKeywordRules, handler as h } from '@unocss/preset-mini/utils'
 
 // https://windicss.org/plugins/community/animations.html
 const keyframes: Record<string, string> = {
