@@ -1,11 +1,11 @@
-import { existsSync, promises as fs } from 'fs'
+import { promises as fs    , existsSync,  } from 'fs'
 import { join } from 'path'
 import { dir } from './meta.mjs'
 
 const sizes = [
   'sm',
   'lg',
-  'xl',
+  'xl'
 ]
 
 const colors = map(
