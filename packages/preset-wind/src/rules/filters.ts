@@ -1,4 +1,4 @@
-import type { Rule, RuleContext, CSSValues } from '@unocss/core'
+import type { CSSValues, Rule, RuleContext } from '@unocss/core'
 import { toArray } from '@unocss/core'
 import { CONTROL_BYPASS_PSEUDO_CLASS } from '@unocss/preset-mini/variants'
 import type { Theme } from '@unocss/preset-mini'

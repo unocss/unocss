@@ -1,4 +1,4 @@
-import type { UserShortcuts, UserConfig, ResolvedConfig, UserConfigDefaults, Shortcut } from './types'
+import type { ResolvedConfig, Shortcut, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
 import { isStaticRule, mergeDeep, normalizeVariant, toArray, uniq } from './utils'
 import { extractorSplit } from './extractors'
 

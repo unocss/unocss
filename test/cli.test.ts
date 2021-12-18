@@ -1,6 +1,6 @@
 import { resolve } from 'path'
 import fs from 'fs-extra'
-import { expect, it, beforeAll, describe, afterAll } from 'vitest'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import execa from 'execa'
 
 export const cacheDir = resolve('.cache')

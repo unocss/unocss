@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { breakpointsTailwind } from '@vueuse/core'
 // @ts-ignore
-import { Splitpanes, Pane } from 'splitpanes'
+import { Pane, Splitpanes } from 'splitpanes'
 
 const bp = useBreakpoints(breakpointsTailwind)
 

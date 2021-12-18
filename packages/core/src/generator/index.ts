@@ -1,6 +1,6 @@
-import type { UserConfig, ParsedUtil, StringifiedUtil, UserConfigDefaults, VariantMatchedResult, Variant, ResolvedConfig, CSSEntries, GenerateResult, CSSObject, RawUtil, ExtractorContext, GenerateOptions, RuleContext, RuleMeta, VariantHandler } from '../types'
+import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, RawUtil, ResolvedConfig, RuleContext, RuleMeta, StringifiedUtil, UserConfig, UserConfigDefaults, Variant, VariantHandler, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
-import { e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, normalizeCSSEntries, normalizeCSSValues, notNull, TwoKeyMap, uniq, warnOnce } from '../utils'
+import { TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, normalizeCSSEntries, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
 
 export class UnoGenerator {

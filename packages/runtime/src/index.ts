@@ -1,4 +1,4 @@
-import type { UnoGenerator, UserConfigDefaults, UserConfig } from '@unocss/core'
+import type { UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
 
 export interface RuntimeOptions {

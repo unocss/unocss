@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { isDark } from '../logics/dark'
-import { inputHTML, output, init } from '../logics/uno'
+import { init, inputHTML, output } from '../logics/uno'
 
 const iframe = ref<HTMLIFrameElement>()
 

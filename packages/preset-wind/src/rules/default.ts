@@ -8,9 +8,7 @@ import {
   borders,
   boxShadows,
   boxSizing,
-  breaks as wordBreaks,
   contents,
-  cssVariables as miniCssVariables,
   cursors,
   displays,
   flex,
@@ -23,6 +21,7 @@ import {
   insets,
   justifies,
   margins,
+  cssVariables as miniCssVariables,
   opacity,
   orders,
   outline,
@@ -51,6 +50,7 @@ import {
   verticalAligns,
   whitespaces,
   willChange,
+  breaks as wordBreaks,
   zIndexes,
 } from '@unocss/preset-mini/rules'
 import { container } from './container'
@@ -58,9 +58,9 @@ import { backgroundStyles } from './background'
 import { filters } from './filters'
 import { mixBlendModes } from './shadow'
 import { spaces } from './spacing'
-import { screenReadersAccess, textTransforms, hyphens, writingModes, writingOrientations, isolations, objectPositions } from './static'
+import { hyphens, isolations, objectPositions, screenReadersAccess, textTransforms, writingModes, writingOrientations } from './static'
 import { tables } from './table'
-import { listStyle, caretColors, boxDecorationBreaks, caretOpacity, imageRenderings, overscrolls, scrollBehaviors, accentColors, accentOpacity } from './behaviors'
+import { accentColors, accentOpacity, boxDecorationBreaks, caretColors, caretOpacity, imageRenderings, listStyle, overscrolls, scrollBehaviors } from './behaviors'
 import { animations } from './animation'
 import { cssVariables } from './variables'
 import { divides } from './divide'

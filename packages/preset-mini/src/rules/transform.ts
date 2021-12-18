@@ -1,5 +1,5 @@
-import type { Rule, CSSValues } from '@unocss/core'
-import { xyzMap, handler as h } from '../utils'
+import type { CSSValues, Rule } from '@unocss/core'
+import { handler as h, xyzMap } from '../utils'
 import { CONTROL_BYPASS_PSEUDO_CLASS } from '../variants/pseudo'
 
 const transformGpu = {

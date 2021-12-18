@@ -2,7 +2,7 @@
 import { join } from 'path'
 import fs from 'fs-extra'
 import { build } from 'vite'
-import { targets, dir } from './meta.mjs'
+import { dir, targets } from './meta.mjs'
 
 const result = {}
 const date = new Date().toISOString()

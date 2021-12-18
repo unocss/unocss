@@ -1,5 +1,5 @@
 import { promises as fs } from 'fs'
-import { resolveModule, isPackageExists } from 'local-pkg'
+import { isPackageExists, resolveModule } from 'local-pkg'
 import type { IconifyJSON } from '@iconify/types'
 
 const _collections: Record<string, Promise<IconifyJSON | undefined>> = {}

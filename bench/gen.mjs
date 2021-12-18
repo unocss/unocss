@@ -1,4 +1,4 @@
-import { promises as fs, existsSync } from 'fs'
+import { existsSync, promises as fs } from 'fs'
 import { join } from 'path'
 import { dir } from './meta.mjs'
 

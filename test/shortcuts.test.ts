@@ -2,7 +2,7 @@ import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
-import { describe, test, expect } from 'vitest'
+import { describe, expect, test } from 'vitest'
 
 describe('shortcuts', () => {
   const uno = createGenerator({

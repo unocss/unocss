@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // @ts-expect-error
-import { Splitpanes, Pane } from 'splitpanes'
+import { Pane, Splitpanes } from 'splitpanes'
 </script>
 
 <template>
