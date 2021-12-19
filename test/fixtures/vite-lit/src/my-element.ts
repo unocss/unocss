@@ -17,9 +17,6 @@ export class MyElement extends LitElement {
       padding: 16px;
       max-width: 800px;
     }
-    my-another-element::part(xcool-part) {
-      background-color: #fefefe;
-    }
     @unocss-import
   `
 
