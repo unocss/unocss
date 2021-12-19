@@ -9,10 +9,7 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
       return code
 
     const { css } = await uno.generate(code, { preflights: false })
-    if (!css)
-      return code
-
-    return code.replace(IMPORT_CSS, css)
+    return code.replace(IMPORT_CSS, css || '')
   }
 
   return {
