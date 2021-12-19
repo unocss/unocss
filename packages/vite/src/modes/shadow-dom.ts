@@ -15,6 +15,7 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
     let { css, matched } = await uno.generate(code, { preflights: false })
 
     if (css && matched) {
+      // check if we need to apply some ::part
       const partsToApply = Array.from(matched).reduce((acc, e) => {
         if (e.match(partRegex)) {
           const cssEntryRegex = `\\\.${e.replace(
@@ -39,7 +40,7 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
 
         return acc
       }, new Map<string, string>())
-      if (partsToApply) {
+      if (partsToApply.size > 0) {
         css = Array.from(partsToApply.entries()).reduce((k, [r, name]) => {
           let regexp = cache.get(r)
           if (!regexp) {

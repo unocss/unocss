@@ -1,6 +1,6 @@
 import { LitElement, css, html } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
-import { MyAnotherElement } from './my-another-element'
+import './my-another-element'
 
 /**
  * An example element.
