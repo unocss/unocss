@@ -1,5 +1,6 @@
 import { LitElement, css, html } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
+import { MyAnotherElement } from './my-another-element'
 
 /**
  * An example element.
@@ -15,6 +16,9 @@ export class MyElement extends LitElement {
       border: solid 1px gray;
       padding: 16px;
       max-width: 800px;
+    }
+    my-another-element::part(xcool-part) {
+      background-color: #fefefe;
     }
     @unocss-import
   `
@@ -50,6 +54,8 @@ export class MyElement extends LitElement {
       <button @click=${this._toggleSpan} part="button">
         Change BG Color:: ${this.span ? 'Normal' : 'Red'}
       </button>
+      <my-another-element class="part-[cool-part]:cool-green">Testing css part</my-another-element>
+      <my-another-element class="part-[cool-part]:cool-blue">Testing css part</my-another-element>
       <slot></slot>
     `
   }

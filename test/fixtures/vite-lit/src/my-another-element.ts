@@ -3,7 +3,10 @@ template.innerHTML = `
 <style>
 @unocss-import
 </style>
-<button class="bg-green-300"><slot></slot></button>
+<div class="m-1em">
+  <button class="bg-green-300"><slot></slot></button>
+  <div part="cool-part">Testing part</div>
+</div>
 `
 
 export class MyAnotherElement extends HTMLElement {

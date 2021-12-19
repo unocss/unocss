@@ -21,6 +21,8 @@ export default defineConfig({
       mode: 'shadow-dom',
       shortcuts: [
         { logo: 'i-logos-webcomponents w-6em h-6em transform transition-800 hover:rotate-180' },
+        { 'cool-blue': 'bg-blue-500 text-white' },
+        { 'cool-green': 'bg-green-500 text-black' },
       ],
       presets: [
         presetUno(),
