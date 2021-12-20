@@ -12,6 +12,7 @@ export const positions: Rule[] = [
 ]
 
 export const justifies: Rule[] = [
+  // contents
   ['justify-start', { 'justify-content': 'flex-start' }],
   ['justify-end', { 'justify-content': 'flex-end' }],
   ['justify-center', { 'justify-content': 'center' }],
@@ -19,13 +20,15 @@ export const justifies: Rule[] = [
   ['justify-around', { 'justify-content': 'space-around' }],
   ['justify-evenly', { 'justify-content': 'space-evenly' }],
 
-  // items
+  // items, selfs
   ...basicSet.map((i): Rule => [`justify-items-${i}`, { 'justify-items': i }]),
   ...basicSet.map((i): Rule => [`justify-self-${i}`, { 'justify-self': i }]),
 ]
 
 export const orders: Rule[] = [
-  [/^order-(.+)$/, ([, v]) => ({ order: { first: '-9999', last: '9999' }[v] || h.bracket.number(v) })],
+  [/^order-(.+)$/, ([, v]) => ({ order: h.bracket.number(v) })],
+  ['order-first', { order: '-9999' }],
+  ['order-last', { order: '9999' }],
   ['order-none', { order: '0' }],
 ]
 
@@ -54,6 +57,7 @@ export const alignments: Rule[] = [
 ]
 
 export const placements: Rule[] = [
+  // contents
   ['place-content-start', { 'place-content': 'start' }],
   ['place-content-end', { 'place-content': 'end' }],
   ['place-content-center', { 'place-content': 'center' }],
@@ -62,10 +66,8 @@ export const placements: Rule[] = [
   ['place-content-evenly', { 'place-content': 'space-evenly' }],
   ['place-content-stretch', { 'place-content': 'stretch' }],
 
-  // items
+  // items, selfs
   ...basicSet.map((i): Rule => [`place-items-${i}`, { 'place-items': i }]),
-
-  // self
   ...basicSet.map((i): Rule => [`place-self-${i}`, { 'place-self': i }]),
 ]
 
@@ -83,9 +85,15 @@ export const insets: Rule[] = [
 ]
 
 export const floats: Rule[] = [
-  [/^float-(left|right)$/, ([, value]) => ({ float: value })],
+  // floats
+  ['float-left', { float: 'left' }],
+  ['float-right', { float: 'right' }],
   ['float-none', { float: 'none' }],
-  [/^clear-(left|right|both)$/, ([, value]) => ({ clear: value })],
+
+  // clears
+  ['clear-left', { clear: 'left' }],
+  ['clear-right', { clear: 'right' }],
+  ['clear-both', { clear: 'both' }],
   ['clear-none', { clear: 'none' }],
 ]
 
@@ -95,9 +103,6 @@ export const zIndexes: Rule[] = [
 ]
 
 export const boxSizing: Rule[] = [
-  [
-    /^box-(border|content)$/, ([, value]) => ({
-      'box-sizing': `${value}-box`,
-    }),
-  ],
+  ['box-border', { 'box-sizing': 'border-box' }],
+  ['box-content', { 'box-sizing': 'content-box' }],
 ]

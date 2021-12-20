@@ -1,42 +1,19 @@
 import type { Rule } from '@unocss/core'
 import { colorResolver, handler as h } from '../utils'
 
-const outlineStyle = ['auto', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'inherit', 'initial', 'revert', 'unset']
-
-const parseOutlineSize = (s: string) => {
-  const propName = ['width', 'offset'].find(item => s.startsWith(item)) || 'width'
-  const size = h.bracket.fraction.auto.rem((s.replace(/^(offset\-|width\-|size\-)/, '')))
-  if (size) {
-    return {
-      [`outline-${propName}`]: size,
-    }
-  }
-}
-
 export const outline: Rule[] = [
+  // size
+  [/^outline-(?:width-|size-)?(.+)$/, ([, d]) => ({ 'outline-width': h.bracket.fraction.auto.rem(d) })],
+
+  // color
+  [/^outline-(?:color-)?(.+)$/, colorResolver('outline-color', 'outline-color')],
+
+  // offset
+  [/^outline-offset-(.+)$/, ([, d]) => ({ 'outline-offset': h.bracket.fraction.auto.rem(d) })],
+
+  // style
   ['outline', { 'outline-style': 'solid' }],
-  [
-    /^outline-(.+)$/, (match, config) => {
-      const [, d] = match
-
-      if (outlineStyle.includes(d)) {
-        return {
-          'outline-style': d,
-        }
-      }
-
-      const colorSheet = colorResolver('outline-color', 'outline-color')([
-        match[0],
-        match[1].replace(/^color-/, ''),
-      ], config)
-      if (colorSheet)
-        return colorSheet
-
-      const sizeSheet = parseOutlineSize(d)
-      if (sizeSheet)
-        return sizeSheet
-    },
-  ],
+  [/^outline-(auto|dotted|dashed|solid|double|groove|ridge|inset|outset|inherit|initial|revert|unset)$/, ([, c]) => ({ 'outline-style': c })],
   ['outline-none', { 'outline': '2px solid transparent', 'outline-offset': '2px' }],
 ]
 
