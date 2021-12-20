@@ -4,13 +4,13 @@ template.innerHTML = `
 @unocss-import
 </style>
 <div class="m-1em">
-  <button class="bg-green-300"><slot></slot></button>
+  <button class="bg-red-300"><slot></slot></button>
   <div part="cool-part">Testing part</div>
   <div part="another-cool-part">Testing another part</div>
 </div>
 `
 
-export class MyAnotherElement extends HTMLElement {
+export class MyCollisionElement extends HTMLElement {
   _clicked = false
 
   constructor() {
@@ -28,13 +28,13 @@ export class MyAnotherElement extends HTMLElement {
     this._clicked = !this._clicked
     const button = this.shadowRoot?.querySelector('button')
     if (this._clicked) {
-      button?.classList?.remove('bg-green-300')
-      button?.classList?.add('bg-blue-300')
+      button?.classList?.remove('bg-red-300')
+      button?.classList?.add('bg-yellow-300')
     }
     else {
-      button?.classList?.remove('bg-blue-300')
-      button?.classList?.add('bg-green-300')
+      button?.classList?.remove('bg-yellow-300')
+      button?.classList?.add('bg-red-300')
     }
   }
 }
-window.customElements.define('my-another-element', MyAnotherElement)
+window.customElements.define('my-collision-element', MyCollisionElement)

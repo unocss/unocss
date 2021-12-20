@@ -1,6 +1,7 @@
 import { LitElement, css, html } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 import './my-another-element'
+import './my-collision-element'
 
 /**
  * An example element.
@@ -51,8 +52,15 @@ export class MyElement extends LitElement {
       <button @click=${this._toggleSpan} part="button">
         Change BG Color:: ${this.span ? 'Normal' : 'Red'}
       </button>
+      <my-another-element class="part-[cool-part]:cool-green part-[another-cool-part]:cool-green">Testing css part</my-another-element>
+      <my-another-element class="part-[cool-part]:cool-green part-[another-cool-part]:cool-blue">Testing css part</my-another-element>
+      <my-another-element class="part-[cool-part]:cool-blue  part-[another-cool-part]:cool-green">Testing css part</my-another-element>
+      <my-another-element class="part-[cool-part]:cool-blue  part-[another-cool-part]:cool-blue">Testing css part</my-another-element>
       <my-another-element class="part-[cool-part]:cool-green">Testing css part</my-another-element>
       <my-another-element class="part-[cool-part]:cool-blue">Testing css part</my-another-element>
+      <my-another-element class="part-[cool-part]:cool-blue">Testing css part</my-another-element>
+      <my-collision-element class="part-[cool-part]:cool-blue">Testing css part</my-collision-element>
+      <my-collision-element class="part-[cool-part]:cool-green">Testing css part</my-collision-element>
       <slot></slot>
     `
   }
