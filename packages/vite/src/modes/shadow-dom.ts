@@ -64,10 +64,10 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
 
         return acc
       }, new Array<PartData>())
-      const partsToApply = new Map<string, Array<string>>()
       if (useParts.length > 0) {
         let useCode = code
         let element: RegExpExecArray | null
+        const partsToApply = new Map<string, Array<string>>()
         const { elementIdxMap, idxResolver } = idxMapFactory()
         // We need to traverse the code to find the web components using the original class/attr part.
         // We need traverse the code to apply the same order the components are on the code: we are using nth-of-type.
