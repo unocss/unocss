@@ -13,23 +13,43 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
     if (!element)
       return null
 
-    return useParts.filter(p => element[2].includes(p.rule)).map(({ rule, part }) => {
-      const idx = idxResolver(element[1])
-      return [
-        element[1],
-        `.${rule.replace(
-          /\[/g, '\\[',
-        ).replace(
-          /]/g, '\\]',
-        ).replace(
-          /:/g, '\\:')}::part(${part})`,
-        `${element[1]}:nth-of-type(${idx})::part(${part})`,
-      ]
-    })
+    const applyParts = useParts.filter(p => element[2].includes(p.rule))
+    if (applyParts.length === 0)
+      return null
+
+    const name = element[1]
+    return {
+      name,
+      entries: applyParts.map(({ rule, part }) => {
+        const idx = idxResolver(name)
+        return [
+          `.${rule.replace(
+            /\[/g, '\\[',
+          ).replace(
+            /]/g, '\\]',
+          ).replace(
+            /:/g, '\\:')}::part(${part})`,
+          `${name}:nth-of-type(${idx})::part(${part})`,
+        ]
+      }),
+    }
   }
-  async function transformWebComponent(code: string) {
-    const imported = code.match(IMPORT_CSS)
-    if (!imported)
+  const idxMapFactory = () => {
+    const elementIdxMap = new Map<string, number>()
+    return {
+      elementIdxMap,
+      idxResolver: (name: string) => {
+        let idx = elementIdxMap.get(name)
+        if (!idx) {
+          idx = 1
+          elementIdxMap.set(name, idx)
+        }
+        return idx
+      },
+    }
+  }
+  const transformWebComponent = async(code: string) => {
+    if (!code.match(IMPORT_CSS))
       return code
 
     // eslint-disable-next-line prefer-const
@@ -48,18 +68,10 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
       if (useParts.length > 0) {
         let useCode = code
         let element: RegExpExecArray | null
-        const elementIdxMap = new Map<string, number>()
+        const { elementIdxMap, idxResolver } = idxMapFactory()
         // We need to traverse the code to find the web components using the original class/attr part.
-        // We need traverse the code to apply the same order the components are on the code.
+        // We need traverse the code to apply the same order the components are on the code: we are using nth-of-type.
         // A web component can have multiple parts, and so, we need to collect all of them: see checkElement above.
-        const idxResolver = (name: string): number => {
-          let idx = elementIdxMap.get(name)
-          if (!idx) {
-            idx = 1
-            elementIdxMap.set(name, idx)
-          }
-          return idx
-        }
         // eslint-disable-next-line no-cond-assign
         while (element = nameRegexp.exec(useCode)) {
           const result = checkElement(
@@ -67,9 +79,8 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
             idxResolver,
             element,
           )
-          if (result && result.length > 0) {
-            // the first element is the web component name
-            result.forEach(([, name, replacement]) => {
+          if (result) {
+            result.entries.forEach(([name, replacement]) => {
               let list = partsToApply.get(name)
               if (!list) {
                 list = []
@@ -77,8 +88,7 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
               }
               list.push(replacement)
             })
-            const [name] = result[0]
-            elementIdxMap.set(name, elementIdxMap.get(name)! + 1)
+            elementIdxMap.set(result.name, elementIdxMap.get(result.name)! + 1)
           }
           useCode = useCode.slice(element[0].length + 1)
         }
