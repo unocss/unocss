@@ -37,6 +37,8 @@ export const transforms: Rule[] = [
   ['transform-gpu', transformGpu],
   ['transform-cpu', transformCpu],
   ['transform-none', { transform: 'none' }],
+
+  // transform origins
   ['origin-center', { 'transform-origin': 'center' }],
   ['origin-top', { 'transform-origin': 'top' }],
   ['origin-top-right', { 'transform-origin': 'top right' }],
@@ -49,7 +51,7 @@ export const transforms: Rule[] = [
 ]
 
 function handleTranslate([, d, b]: string[]): CSSValues | undefined {
-  const v = h.bracket.fraction.rem(b)
+  const v = h.bracket.fraction.auto.rem(b)
   if (v != null) {
     return [
       transformBase,

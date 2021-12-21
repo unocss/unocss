@@ -25,7 +25,8 @@ export const justifies: Rule[] = [
 ]
 
 export const orders: Rule[] = [
-  [/^order-(.+)$/, ([, v]) => ({ order: { first: '-9999', last: '9999', none: '0' }[v] || h.bracket.number(v) })],
+  [/^order-(.+)$/, ([, v]) => ({ order: { first: '-9999', last: '9999' }[v] || h.bracket.number(v) })],
+  ['order-none', { order: '0' }],
 ]
 
 export const alignments: Rule[] = [
@@ -49,7 +50,7 @@ export const alignments: Rule[] = [
   ['self-start', { 'align-self': 'flex-start' }],
   ['self-end', { 'align-self': 'flex-end' }],
   ['self-center', { 'align-self': 'center' }],
-  ['self-stretch', { 'align-items': 'stretch' }],
+  ['self-stretch', { 'align-self': 'stretch' }],
 ]
 
 export const placements: Rule[] = [
@@ -69,7 +70,7 @@ export const placements: Rule[] = [
 ]
 
 function handleInsetValue(v: string): string | number | undefined {
-  return { auto: 'auto', full: '100%' }[v] ?? h.bracket.fraction.cssvar.rem(v)
+  return { auto: 'auto', full: '100%' }[v] ?? h.bracket.fraction.cssvar.auto.rem(v)
 }
 
 export const insets: Rule[] = [
@@ -82,8 +83,10 @@ export const insets: Rule[] = [
 ]
 
 export const floats: Rule[] = [
-  [/^float-(left|right|none)$/, ([, value]) => ({ float: value })],
-  [/^clear-(left|right|both|none)$/, ([, value]) => ({ clear: value })],
+  [/^float-(left|right)$/, ([, value]) => ({ float: value })],
+  ['float-none', { float: 'none' }],
+  [/^clear-(left|right|both)$/, ([, value]) => ({ clear: value })],
+  ['clear-none', { clear: 'none' }],
 ]
 
 export const zIndexes: Rule[] = [

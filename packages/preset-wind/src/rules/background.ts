@@ -1,11 +1,10 @@
 import type { Rule, RuleContext } from '@unocss/core'
-import { handler as h } from '@unocss/preset-mini/utils'
-import { parseColorUtil } from '@unocss/preset-mini/rules'
+import { handler as h, parseColor } from '@unocss/preset-mini/utils'
 import type { Theme } from '@unocss/preset-mini'
 
 const colorResolver = (mode: 'from' | 'to' | 'via') =>
   ([, body]: string[], { theme }: RuleContext<Theme>) => {
-    const data = parseColorUtil(body, theme)
+    const data = parseColor(body, theme)
 
     if (!data)
       return
@@ -52,6 +51,17 @@ const colorResolver = (mode: 'from' | 'to' | 'via') =>
     }
   }
 
+const bgGradientDirections: Record<string, string> = {
+  t: 'top',
+  tr: 'top right',
+  r: 'right',
+  br: 'bottom right',
+  b: 'bottom',
+  bl: 'bottom left',
+  l: 'left',
+  tl: 'top left',
+}
+
 export const backgroundStyles: Rule[] = [
   // attachments
   ['bg-fixed', { 'background-attachment': 'fixed' }],
@@ -59,7 +69,6 @@ export const backgroundStyles: Rule[] = [
   ['bg-scroll', { 'background-attachment': 'scroll' }],
 
   // blends
-  ['bg-blend-normal', { 'background-blend-mode': 'normal' }],
   ['bg-blend-multiply', { 'background-blend-mode': 'multiply' }],
   ['bg-blend-screen', { 'background-blend-mode': 'screen' }],
   ['bg-blend-overlay', { 'background-blend-mode': 'overlay' }],
@@ -75,6 +84,7 @@ export const backgroundStyles: Rule[] = [
   ['bg-blend-saturation', { 'background-blend-mode': 'saturation' }],
   ['bg-blend-color', { 'background-blend-mode': 'color' }],
   ['bg-blend-luminosity', { 'background-blend-mode': 'luminosity' }],
+  ['bg-blend-normal', { 'background-blend-mode': 'normal' }],
 
   // clips
   ['bg-clip-border', { '-webkit-background-clip': 'border-box', 'background-attachment': 'border-box' }],
@@ -86,36 +96,17 @@ export const backgroundStyles: Rule[] = [
   [/^from-(.+)$/, colorResolver('from')],
   [/^to-(.+)$/, colorResolver('to')],
   [/^via-(.+)$/, colorResolver('via')],
-  [/^from-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-from-opacity': h.bracket.percent(opacity) })],
-  [/^to-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-to-opacity': h.bracket.percent(opacity) })],
-  [/^via-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-via-opacity': h.bracket.percent(opacity) })],
+  [/^from-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-from-opacity': h.bracket.percent(opacity) })],
+  [/^to-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-to-opacity': h.bracket.percent(opacity) })],
+  [/^via-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-via-opacity': h.bracket.percent(opacity) })],
 
   // images
+  [/^bg-gradient-to-([trbl]{1,2})$/, ([, d]) => {
+    const v = bgGradientDirections[d]
+    if (v)
+      return { 'background-image': `linear-gradient(to ${v}, var(--un-gradient-stops))` }
+  }],
   ['bg-none', { 'background-image': 'none' }],
-  ['bg-gradient-to-t', {
-    'background-image': 'linear-gradient(to top, var(--un-gradient-stops))',
-  }],
-  ['bg-gradient-to-tr', {
-    'background-image': 'linear-gradient(to top right, var(--un-gradient-stops))',
-  }],
-  ['bg-gradient-to-r', {
-    'background-image': 'linear-gradient(to right, var(--un-gradient-stops))',
-  }],
-  ['bg-gradient-to-br', {
-    'background-image': 'linear-gradient(to bottom right, var(--un-gradient-stops))',
-  }],
-  ['bg-gradient-to-b', {
-    'background-image': 'linear-gradient(to bottom, var(--un-gradient-stops))',
-  }],
-  ['bg-gradient-to-bl', {
-    'background-image': 'linear-gradient(to bottom left, var(--un-gradient-stops))',
-  }],
-  ['bg-gradient-to-l', {
-    'background-image': 'linear-gradient(to left, var(--un-gradient-stops))',
-  }],
-  ['bg-gradient-to-tl', {
-    'background-image': 'linear-gradient(to top left, var(--un-gradient-stops))',
-  }],
 
   // origins
   ['bg-origin-border', { 'background-origin': 'border-box' }],

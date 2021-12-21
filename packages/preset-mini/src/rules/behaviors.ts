@@ -1,13 +1,12 @@
 import type { Rule } from '@unocss/core'
-import { handler as h } from '../utils'
-import { colorResolver } from './color'
+import { colorResolver, handler as h } from '../utils'
 import { cssProps } from './static'
 
-const outlineStyle = ['none', 'auto', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'inherit', 'initial', 'revert', 'unset']
+const outlineStyle = ['auto', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'inherit', 'initial', 'revert', 'unset']
 
 const parseOutlineSize = (s: string) => {
   const propName = ['width', 'offset'].find(item => s.startsWith(item)) || 'width'
-  const size = h.bracket.fraction.rem((s.replace(/^(offset\-|width\-|size\-)/, '')))
+  const size = h.bracket.fraction.auto.rem((s.replace(/^(offset\-|width\-|size\-)/, '')))
   if (size) {
     return {
       [`outline-${propName}`]: size,
@@ -16,18 +15,10 @@ const parseOutlineSize = (s: string) => {
 }
 
 export const outline: Rule[] = [
-  ['outline-none', { 'outline': '2px solid transparent', 'outline-offset': '2px' }],
   ['outline', { 'outline-style': 'solid' }],
   [
     /^outline-(.+)$/, (match, config) => {
       const [, d] = match
-
-      if (d === 'none') {
-        return {
-          'outline': '2px solid transparent',
-          'outline-offset': '2px',
-        }
-      }
 
       if (outlineStyle.includes(d)) {
         return {
@@ -47,6 +38,7 @@ export const outline: Rule[] = [
         return sizeSheet
     },
   ],
+  ['outline-none', { 'outline': '2px solid transparent', 'outline-offset': '2px' }],
 ]
 
 export const appearance: Rule[] = [
@@ -56,6 +48,7 @@ export const appearance: Rule[] = [
   }],
 ]
 
+// TODO: convert to pseudo-element
 export const placeholder: Rule[] = [
   [
     /^placeholder-opacity-(\d+)$/,

@@ -3,8 +3,8 @@ import { toArray } from '@unocss/core'
 import { CONTROL_BYPASS_PSEUDO_CLASS } from '@unocss/preset-mini/variants'
 import type { Theme } from '@unocss/preset-mini'
 import { handler as h } from '@unocss/preset-mini/utils'
+import { varEmpty } from '@unocss/preset-mini/rules'
 
-const varEmpty = 'var(--un-empty,/*!*/ /*!*/)'
 const filterContnet = 'var(--un-blur) var(--un-brightness) var(--un-contrast) var(--un-grayscale) var(--un-hue-rotate) var(--un-invert) var(--un-saturate) var(--un-sepia) var(--un-drop-shadow)'
 
 const filterBase = {

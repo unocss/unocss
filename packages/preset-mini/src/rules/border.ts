@@ -1,7 +1,6 @@
 import type { CSSEntries, CSSObject, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { cornerMap, directionMap, handler as h } from '../utils'
-import { colorResolver } from './color'
+import { colorResolver, cornerMap, directionMap, handler as h } from '../utils'
 
 export const borders: Rule[] = [
   // size
@@ -25,8 +24,8 @@ export const borders: Rule[] = [
 
   // radius
   [/^(?:border-)?(?:rounded|rd)$/, handlerRounded],
-  [/^(?:border-)?(?:rounded|rd)(?:-([^-]+))?$/, handlerRounded],
-  [/^(?:border-)?(?:rounded|rd)(?:-([^-]+))?(?:-([^-]+))?$/, handlerRounded],
+  [/^(?:border-)?(?:rounded|rd)(?:-(.+))?$/, handlerRounded],
+  [/^(?:border-)?(?:rounded|rd)(?:-([^-]+))?(?:-(.+))?$/, handlerRounded],
 ]
 
 function handlerBorder(m: string[]): CSSEntries | undefined {
@@ -42,28 +41,22 @@ function handlerBorder(m: string[]): CSSEntries | undefined {
 function handlerBorderSize([, a, b]: string[]): CSSEntries | undefined {
   const [d, s = '1'] = directionMap[a] ? [a, b] : ['', a]
   const v = h.bracket.px(s)
-  if (v != null) {
-    return [
-      ...directionMap[d].map((i): [string, string] => [`border${i}-width`, v]),
-    ]
-  }
+  if (v !== undefined)
+    return directionMap[d].map(i => [`border${i}-width`, v])
 }
 
 function handlerBorderColor([, a, c]: string[], ctx: RuleContext) {
-  if (c !== undefined) {
-    const ofColor = colorResolver('border-color', 'border')(['', c], ctx)
-    if (ofColor) {
-      const borders = directionMap[directionMap[a] ? a : ''].map(i => colorResolver(`border${i}-color`, 'border')(['', c], ctx))
-      const borderObject = {}
-      Object.assign(borderObject, ...borders)
-      return borderObject as CSSObject
-    }
+  if (c !== undefined && colorResolver('border-color', 'border')(['', c], ctx)) {
+    return Object.assign({},
+      ...directionMap[directionMap[a] ? a : '']
+        .map(i => colorResolver(`border${i}-color`, 'border')(['', c], ctx)),
+    ) as CSSObject
   }
 }
 
 function handlerRounded([, a, b]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
   const [d, s = 'DEFAULT'] = cornerMap[a] ? [a, b] : ['', a]
-  const v = theme.borderRadius?.[s] || h.bracket.fraction.rem(s)
-  if (v != null)
+  const v = theme.borderRadius?.[s] || h.auto.rem.fraction.bracket.cssvar(s)
+  if (v !== undefined)
     return cornerMap[d].map(i => [`border${i}-radius`, v])
 }

@@ -1,9 +1,9 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { parseColorUtil } from './color'
+import { parseColor } from '../utils'
 
 const colorResolver = (body: string, theme: Theme) => {
-  const data = parseColorUtil(body, theme)
+  const data = parseColor(body, theme)
 
   if (!data)
     return
@@ -28,7 +28,7 @@ const colorResolver = (body: string, theme: Theme) => {
 
 export const boxShadows: Rule<Theme>[] = [
   [/^shadow-?(.*)$/, ([, d], { theme }) => {
-    const value = theme?.boxShadow?.[d || 'DEFAULT']
+    const value = theme.boxShadow?.[d || 'DEFAULT']
     if (value) {
       return {
         '--un-shadow-color': '0,0,0',

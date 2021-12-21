@@ -3,7 +3,7 @@ import { handler as h } from '@unocss/preset-mini/utils'
 
 export const columns: Rule[] = [
   [/^columns-(.+)$/, ([, v]) => {
-    const column = h.bracket.global.number.numberWithUnit(v)
+    const column = h.bracket.global.number.auto.numberWithUnit(v)
     if (column)
       return { column }
   }],

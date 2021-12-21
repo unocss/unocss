@@ -3,7 +3,7 @@ import { handler as h } from '../utils'
 
 export const gaps: Rule[] = [
   [/^(?:flex-|grid-)?gap-([^-]+)$/, ([, s]) => {
-    const v = h.bracket.rem(s)
+    const v = h.bracket.auto.rem(s)
     if (v != null) {
       return {
         'grid-gap': v,
@@ -12,7 +12,7 @@ export const gaps: Rule[] = [
     }
   }],
   [/^(?:flex-|grid-)?gap-x-([^-]+)$/, ([, s]) => {
-    const v = h.bracket.rem(s)
+    const v = h.bracket.auto.rem(s)
     if (v != null) {
       return {
         'grid-column-gap': v,
@@ -21,7 +21,7 @@ export const gaps: Rule[] = [
     }
   }],
   [/^(?:flex-|grid-)?gap-y-([^-]+)$/, ([, s]) => {
-    const v = h.bracket.rem(s)
+    const v = h.bracket.auto.rem(s)
     if (v != null) {
       return {
         'grid-row-gap': v,

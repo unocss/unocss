@@ -73,11 +73,14 @@ export const isolations: Rule[] = [
 ]
 
 export const objectPositions: Rule[] = [
+  // object fit
   ['object-cover', { 'object-fit': 'cover' }],
   ['object-contain', { 'object-fit': 'contain' }],
   ['object-fill', { 'object-fit': 'fill' }],
   ['object-scale-down', { 'object-fit': 'scale-down' }],
   ['object-none', { 'object-fit': 'none' }],
+
+  // object position
   ['object-center', { 'object-position': 'center' }],
   ['object-bottom', { 'object-position': 'bottom' }],
   ['object-top', { 'object-position': 'top' }],

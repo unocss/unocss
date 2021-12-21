@@ -155,19 +155,31 @@ const properties: Record<string, object> = {
 }
 
 export const animations: Rule[] = [
-  [/^animate-(.*)$/, ([, name], { constructCSS }) => {
+  [/^animate-(.+)$/, ([, name], { constructCSS }) => {
     const kf = keyframes[name]
     if (kf) {
       return `@keyframes ${name}${kf}\n${constructCSS(
         Object.assign({ animation: `${name} ${durations[name] || '1s'} ${timingFns[name] || 'linear'} infinite` }, properties[name]))}`
     }
   }],
-  ['animate-none', { animation: 'none' }],
+
+  // timing
   [/^animate(?:-duration)?-((.+)(?:(s|ms)?))$/, ([, d]) => ({ 'animation-duration': h.bracket.time(d.replace(/-duration/, '')) })],
   [/^animate-delay-((.+)(?:(s|ms)?))$/, ([, d]) => ({ 'animation-delay': h.bracket.time(d) })],
-  [/^animate-(?:fill-)?mode-(none|forwards|backwards|both|inherit|initial|revert|unset)$/, ([, d]) => ({ 'animation-fill-mode': d })],
-  [/^animate-(?:direction-)?(normal|reverse|alternate|alternate-reverse|inherit|initial|revert|unset)$/, ([, d]) => ({ 'animation-direction': d })],
+
+  // fill mode
+  [/^animate-(?:fill-)?mode-(forwards|backwards|both|inherit|initial|revert|unset)$/, ([, d]) => ({ 'animation-fill-mode': d })],
+  ['animate-mode-none', { 'animation-fill-mode': 'none' }],
+  ['animate-fill-mode-none', { 'animation-fill-mode': 'none' }],
+
+  // direction
+  [/^animate-(?:direction-)?(reverse|alternate|alternate-reverse|inherit|initial|revert|unset)$/, ([, d]) => ({ 'animation-direction': d })],
+  ['animate-normal', { 'animation-direction': 'normal' }],
+  ['animate-direction-normal', { 'animation-direction': 'normal' }],
+
+  // others
   [/^animate-(?:iteration-)?count-(.+)$/, ([, d]) => ({ 'animation-iteration-count': d.replace(/\-/g, ', ') })],
   [/^animate-name-(.+)/, ([, d]) => ({ 'animation-name': d })],
   [/^animate-play(?:-state)?-(paused|running|inherit|initial|revert|unset)$/, ([, d]) => ({ 'animation-play-state': d })],
+  ['animate-none', { animation: 'none' }],
 ]

@@ -1,10 +1,9 @@
 import type { CSSEntries, Rule } from '@unocss/core'
-import { directionMap, handler as h } from '@unocss/preset-mini/utils'
-import { colorResolver } from '@unocss/preset-mini/rules'
+import { colorResolver, directionMap, handler as h } from '@unocss/preset-mini/utils'
 
 export const divideColors: Rule[] = [
   [/^divide-(.+)$/, colorResolver('border-color', 'divide')],
-  [/^divide-op(?:acity)?-?(.+)$/m, ([, opacity]) => ({ '--un-divide-opacity': h.bracket.percent(opacity) })],
+  [/^divide-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-divide-opacity': h.bracket.percent(opacity) })],
 ]
 
 export const divideSizes: Rule[] = [

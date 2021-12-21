@@ -3,8 +3,6 @@ const numberRE = /^(-?[0-9.]+)$/i
 const unitOnlyRE = /^(px)$/i
 
 export function numberWithUnit(str: string) {
-  if (str === 'auto' || str === 'a')
-    return 'auto'
   const match = str.match(numberWithUnitRE)
   if (!match)
     return
@@ -13,9 +11,12 @@ export function numberWithUnit(str: string) {
     return str
 }
 
-export function rem(str: string) {
+export function auto(str: string) {
   if (str === 'auto' || str === 'a')
     return 'auto'
+}
+
+export function rem(str: string) {
   if (str.match(unitOnlyRE))
     return `1${str}`
   const match = str.match(numberWithUnitRE)

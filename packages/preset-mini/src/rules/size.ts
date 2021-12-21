@@ -17,7 +17,7 @@ function getThemeValue(minmax: string, hw: string, theme: Theme, prop: string) {
 
 export const sizes: Rule<Theme>[] = [
   [/^(?:(min|max)-)?(w|h)-(.+)$/, ([, m, w, s], { theme }) => {
-    const v = getThemeValue(m, w, theme, s) || h.bracket.cssvar.fraction.rem(s)
+    const v = getThemeValue(m, w, theme, s) || h.bracket.cssvar.fraction.auto.rem(s)
     if (v != null)
       return { [getPropName(m, w)]: v }
   }],

@@ -1,29 +1,23 @@
 import type { Rule } from '@unocss/core'
-import { colorResolver } from '@unocss/preset-mini/rules'
-import { handler as h } from '@unocss/preset-mini/utils'
+import { colorResolver, handler as h } from '@unocss/preset-mini/utils'
 
-const listStyleProps = ['none', 'disc', 'circle', 'square', 'decimal', 'zero-decimal', 'greek', 'roman', 'upper-roman', 'alpha', 'upper-alpha']
+const listStyleProps = ['disc', 'circle', 'square', 'decimal', 'zero-decimal', 'greek', 'roman', 'upper-roman', 'alpha', 'upper-alpha']
 
 export const listStyle: Rule[] = [
-  [new RegExp(`^list-((${listStyleProps.join('|')})(?:(-outside|-inside))?)$`), ([, value]) => {
+  [new RegExp(`^list-((?:${listStyleProps.join('|')})(?:-outside|-inside)?)$`), ([, value]) => {
     const style = value.split(/-outside|-inside/)[0]
-    const position = /inside|outside/.exec(value) ?? []
+    const position = /outside|inside/.exec(value) ?? []
 
     if (position.length) {
       return {
         'list-style-position': `${position[0]}`,
-        'list-style-type': `${style}`,
+        'list-style-type': style,
       }
     }
-    return {
-      'list-style-type': `${style}`,
-    }
+    return { 'list-style-type': style }
   }],
-  [/^list-(inside|outside)$/, ([, value]) => {
-    return {
-      'list-style-position': value,
-    }
-  }],
+  [/^list-(outside|inside)$/, ([, value]) => ({ 'list-style-position': value })],
+  ['list-none', { 'list-style-type': 'none' }],
 ]
 
 export const boxDecorationBreaks: Rule[] = [
@@ -60,7 +54,6 @@ export const imageRenderings: Rule[] = [
 ]
 
 const overflowValues = [
-  'none',
   'auto',
   'hidden',
   'visible',
@@ -70,7 +63,10 @@ const overflowValues = [
 
 export const overscrolls: Rule[] = [
   [/^overscroll-(.+)$/, ([, v]) => overflowValues.includes(v) ? { 'overscroll-behavior': v } : undefined],
+  ['overscroll-none', { 'overscroll-behavior': 'none' }],
   [/^overscroll-([xy])-(.+)$/, ([, d, v]) => overflowValues.includes(v) ? { [`overscroll-behavior-${d}`]: v } : undefined],
+  ['overscroll-x-none', { 'overscroll-behavior-x': 'none' }],
+  ['overscroll-y-none', { 'overscroll-behavior-y': 'none' }],
 ]
 
 export const scrollBehaviors: Rule[] = [
