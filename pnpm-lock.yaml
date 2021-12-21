@@ -211,7 +211,7 @@ importers:
       '@unocss/vite': workspace:*
       '@unocss/webpack': workspace:*
     dependencies:
-      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27328916.daec432
+      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27333874.279bfdc
       '@unocss/core': link:../core
       '@unocss/preset-attributify': link:../preset-attributify
       '@unocss/preset-icons': link:../preset-icons
@@ -220,7 +220,7 @@ importers:
       '@unocss/vite': link:../vite
       '@unocss/webpack': link:../webpack
     devDependencies:
-      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27328916.daec432
+      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27333874.279bfdc
 
   packages/plugins-common:
     specifiers:
@@ -233,10 +233,8 @@ importers:
   packages/preset-attributify:
     specifiers:
       '@unocss/core': workspace:*
-      '@unocss/preset-mini': workspace:*
     dependencies:
       '@unocss/core': link:../core
-      '@unocss/preset-mini': link:../preset-mini
 
   packages/preset-icons:
     specifiers:
@@ -810,11 +808,11 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
 
-  /@nuxt/kit-edge/3.0.0-27328916.daec432:
-    resolution: {integrity: sha512-N6PaA7rE0iQk8Rom+w4Q03DfothzmX2kTzVeeQ2F6c4CYN2c3XsrZsY2HjEZ8gnJ+hOnZohB6apAZlEdRuvCFA==}
+  /@nuxt/kit-edge/3.0.0-27333874.279bfdc:
+    resolution: {integrity: sha512-VZkc8GFgtl2B3zRnxNYM6Cl67VSf9KKt59O6jcQdoyrMnxXzCvH5pV8JVv9YlAmgD8TWju8HjbSWSlaoGLCQrg==}
     engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0}
     dependencies:
-      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27328916.daec432
+      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27333874.279bfdc
       consola: 2.15.3
       defu: 5.0.0
       dotenv: 10.0.0
@@ -822,7 +820,7 @@ packages:
       hash-sum: 2.0.0
       jiti: 1.12.9
       lodash.template: 4.5.0
-      mlly: 0.3.15
+      mlly: 0.3.16
       pathe: 0.2.0
       pkg-types: 0.3.2
       rc9: 1.2.0
@@ -832,8 +830,8 @@ packages:
       untyped: 0.3.0
     dev: false
 
-  /@nuxt/schema-edge/3.0.0-27328916.daec432:
-    resolution: {integrity: sha512-CwEBcuW7TWLiZbf4222Kl73gIjo7Vw1xCKUPkZE8bmuIbYKcvWUhldPspO2dAXlc3+b1rzshaVzlfApJ6QGSGA==}
+  /@nuxt/schema-edge/3.0.0-27333874.279bfdc:
+    resolution: {integrity: sha512-Sq916xV7EwE9YkTETx5gOYXJaHQAg8iZm3hy1VPmvrzPkJxvbAjLVnidLs3X0PbuRyeGL8UQ3fJ4J235nF1mSA==}
     engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0}
     dependencies:
       create-require: 1.1.1
@@ -3888,6 +3886,10 @@ packages:
 
   /mlly/0.3.15:
     resolution: {integrity: sha512-3btbOX6XaoIMXRhLu0T/D9jPRrjJXl4R7Dl+EbpN7BYcQwehmt5UAYrIa2m9D/ywcXIUvDM+OTCON+ShFggndg==}
+
+  /mlly/0.3.16:
+    resolution: {integrity: sha512-DVydmuR8fmiMetH39kp8VXYslN0XDh+OxULuU/ov8TMwVIxDGQ8PsJIrNi6cZZaHiIYL6wtO6+sjGpVc7msKUg==}
+    dev: false
 
   /mri/1.2.0:
     resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
