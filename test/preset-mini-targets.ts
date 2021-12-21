@@ -478,4 +478,18 @@ export const presetMiniTargets: string[] = [
 
   // variants - pseudo classes
   'placeholder-shown-color-transparent',
+
+  // variants - pseudo functions
+  'not-hover:p-4px',
+  'is-hover:p-4px',
+  'where-hover:p-2',
+  'has-hover:p-2',
+  'peer-not-placeholder-shown:text-3xl',
+  'hover:not-first:checked:bg-true-gray/10',
+  'peer-is-placeholder-shown:text-3xl',
+  'hover:is-first:checked:bg-true-gray/10',
+  'group-where-placeholder-shown:text-4xl',
+  'focus-within:where-first:checked:bg-gray/20',
+  'group-has-placeholder-shown:text-4xl',
+  'focus-within:has-first:checked:bg-gray/20',
 ]

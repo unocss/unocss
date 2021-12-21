@@ -13,10 +13,11 @@ exports[`preset-mini > targets 1`] = `
 .border-x-\\\\$color{border-left-color:var(--color);border-right-color:var(--color);}
 .-p-px{padding:-1px;}
 .\\\\!p-5px{padding:5px !important;}
-.first\\\\:p-2:first-child,.p-2,.p2{padding:0.5rem;}
+.first\\\\:p-2:first-child,.has-hover\\\\:p-2:has(:hover),.p-2,.p2,.where-hover\\\\:p-2:where(:hover){padding:0.5rem;}
 .group:focus .group-focus\\\\:p-4{padding:1rem;}
 .hover\\\\:\\\\!p-1:hover{padding:0.25rem !important;}
 .hover\\\\:p-5:hover{padding:1.25rem;}
+.is-hover\\\\:p-4px:is(:hover),.not-hover\\\\:p-4px:not(:hover){padding:4px;}
 .not-hover\\\\:p-3:not(:hover){padding:0.75rem;}
 .\\\\!hover\\\\:px-10:hover{padding-left:2.5rem !important;padding-right:2.5rem !important;}
 .p-t-2,.pt-2,.pt2{padding-top:0.5rem;}
@@ -48,6 +49,8 @@ exports[`preset-mini > targets 1`] = `
 .bg-teal-300\\\\:\\\\[\\\\.55\\\\]{background-color:rgba(94,234,212,0.55);}
 .bg-teal-400\\\\/\\\\[\\\\.55\\\\]{background-color:rgba(45,212,191,0.55);}
 .bg-teal-500\\\\/\\\\[55\\\\%\\\\]{background-color:rgba(20,184,166,55%);}
+.focus-within\\\\:has-first\\\\:checked\\\\:bg-gray\\\\/20:focus-within:has(:first-child):checked,.focus-within\\\\:where-first\\\\:checked\\\\:bg-gray\\\\/20:focus-within:where(:first-child):checked{background-color:rgba(156,163,175,0.2);}
+.hover\\\\:is-first\\\\:checked\\\\:bg-true-gray\\\\/10:hover:is(:first-child):checked,.hover\\\\:not-first\\\\:checked\\\\:bg-true-gray\\\\/10:hover:not(:first-child):checked{background-color:rgba(163,163,163,0.1);}
 .hover\\\\:not-first\\\\:checked\\\\:bg-red\\\\/10:hover:not(:first-child):checked{background-color:rgba(248,113,113,0.1);}
 .peer:checked~.peer-checked\\\\:bg-blue-500{--un-bg-opacity:1;background-color:rgba(59,130,246,var(--un-bg-opacity));}
 .bg-opacity-45{--un-bg-opacity:0.45;}
@@ -105,8 +108,9 @@ exports[`preset-mini > targets 1`] = `
 .border-none{border-style:none;}
 .content-empty{content:\\"\\";}
 .font-mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\\"Liberation Mono\\",\\"Courier New\\",monospace;}
+.group:has(:placeholder-shown) .group-has-placeholder-shown\\\\:text-4xl,.group:where(:placeholder-shown) .group-where-placeholder-shown\\\\:text-4xl,.text-4xl{font-size:2.25rem;line-height:2.5rem;}
+.peer:is(:placeholder-shown)~.peer-is-placeholder-shown\\\\:text-3xl,.peer:not(:placeholder-shown)~.peer-not-placeholder-shown\\\\:text-3xl{font-size:1.875rem;line-height:2.25rem;}
 .peer:not(:placeholder-shown)~.peer-not-placeholder-shown\\\\:text-2xl{font-size:1.5rem;line-height:2rem;}
-.text-4xl{font-size:2.25rem;line-height:2.5rem;}
 .text-base{font-size:1rem;line-height:1.5rem;}
 .text-lg{font-size:1.125rem;line-height:1.75rem;}
 .text-size-\\\\[2em\\\\]{font-size:2em;}
