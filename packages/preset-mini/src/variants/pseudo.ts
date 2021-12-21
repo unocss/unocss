@@ -55,6 +55,7 @@ const PseudoElements = [
   'selection',
 ]
 
+const PartClassesRE = /(part-\[(.+)]:)(.+)/
 const PseudoElementsRE = new RegExp(`^(${PseudoElements.join('|')})[:-]`)
 
 const PseudoClassesStr = Object.keys(PseudoClasses).join('|')
@@ -120,6 +121,22 @@ export const variantPseudoClasses: VariantObject = {
         selector: (s, body) => shouldAdd(body) && s.includes('.peer:')
           ? s.replace(/\.peer:/, `.peer:${pseudo}:`)
           : `.peer:${pseudo}~${s}`,
+      }
+    }
+  },
+  multiPass: true,
+}
+
+export const partClasses: VariantObject = {
+  match: (input: string) => {
+    const match = input.match(PartClassesRE)
+    if (match) {
+      const part = `part(${match[2]})`
+      return {
+        matcher: input.slice(match[1].length),
+        selector: (s, body) => {
+          return shouldAdd(body) && `${s}::${part}`
+        },
       }
     }
   },

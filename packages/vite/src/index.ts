@@ -6,6 +6,7 @@ import { ChunkModeBuildPlugin } from './modes/chunk-build'
 import { GlobalModeDevPlugin, GlobalModePlugin } from './modes/global'
 import { PerModuleModePlugin } from './modes/per-module'
 import { VueScopedPlugin } from './modes/vue-scoped'
+import { ShadowDomModuleModePlugin } from './modes/shadow-dom'
 import { ConfigHMRPlugin } from './config-hmr'
 import type { VitePluginConfig } from './types'
 
@@ -41,6 +42,9 @@ export default function UnocssPlugin(
   }
   else if (mode === 'vue-scoped') {
     plugins.push(VueScopedPlugin(ctx))
+  }
+  else if (mode === 'shadow-dom') {
+    plugins.push(ShadowDomModuleModePlugin(ctx))
   }
   else if (mode === 'global') {
     plugins.push(...GlobalModePlugin(ctx))

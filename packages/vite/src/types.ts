@@ -18,5 +18,5 @@ export interface VitePluginConfig<Theme extends {} = {}> extends UserConfig<Them
    *
    * @default 'global'
    */
-  mode?: 'global' | 'per-module' | 'vue-scoped' | 'dist-chunk'
+  mode?: 'global' | 'per-module' | 'vue-scoped' | 'dist-chunk' | 'shadow-dom'
 }
