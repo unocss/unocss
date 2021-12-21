@@ -15,7 +15,7 @@ const cssSizeProps = [
 const cssEnhanceProps = ['stroke', 'filter', 'backdrop-filter', 'fill', 'mask', 'mask-size', 'mask-border', 'clip-path', 'clip']
 
 // Not all, but covers most high frequency attributes
-export const cssProps = [
+const cssProps = [
   ...cssBasicProps,
   ...cssPositionProps,
   ...cssSizeProps,
