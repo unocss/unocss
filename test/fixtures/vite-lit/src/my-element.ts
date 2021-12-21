@@ -18,7 +18,7 @@ export class MyElement extends LitElement {
       padding: 16px;
       max-width: 800px;
     }
-    @unocss-import
+    @unocss-include
   `
 
   /**
@@ -42,7 +42,7 @@ export class MyElement extends LitElement {
   render() {
     return html`
       <span class="logo"></span>
-      <h1 class="mt-6em animate-jack-in-the-box animate-2s" text-green-600>Hello, ${this.name}!</h1>
+      <h1 class="mt-2em animate-jack-in-the-box animate-2s" text-green-600>Hello, ${this.name}!</h1>
       <br />
       ${this.span ? html` <div class="bg-red-400">BG Color should change</div>` : html` <div>BG Color should change</div>`}
       <br />

@@ -1,7 +1,7 @@
 const template = document.createElement('template')
 template.innerHTML = `
 <style>
-@unocss-import
+@unocss-include
 </style>
 <div class="m-1em">
   <button class="bg-green-300"><slot></slot></button>
