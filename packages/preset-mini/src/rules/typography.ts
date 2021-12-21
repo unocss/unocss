@@ -1,7 +1,7 @@
 import type { Rule } from '@unocss/core'
 import { toArray } from '@unocss/core'
 import type { Theme } from '../theme'
-import { createColorAndOpacityRulePair, handler as h, sizeRemResolver } from '../utils'
+import { colorResolver, handler as h } from '../utils'
 
 const weightMap: Record<string, string> = {
   thin: '100',
@@ -42,7 +42,11 @@ export const fonts: Rule<Theme>[] = [
       }
     }
   }],
-  [/^text-size-(.+)$/, sizeRemResolver('font-size')],
+  [/^text-size-(.+)$/, ([, s]) => {
+    const raw = h.bracket.auto.rem(s)
+    if (raw)
+      return { 'font-size': raw }
+  }],
 
   // weights
   [/^(?:font|fw)-?([^-]+)$/, ([, s]) => {
@@ -104,7 +108,8 @@ export const textStrokes: Rule<Theme>[] = [
   }],
 
   // colors
-  ...createColorAndOpacityRulePair('text-stroke', '-webkit-text-stroke-color'),
+  [/^text-stroke-(.+)$/, colorResolver('-webkit-text-stroke-color', 'text-stroke')],
+  [/^text-stroke-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-stroke-opacity': h.bracket.percent(opacity) })],
 ]
 
 export const textShadows: Rule<Theme>[] = [

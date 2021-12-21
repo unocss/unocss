@@ -1,5 +1,5 @@
 import type { Rule } from '@unocss/core'
-import { colorResolver, createColorOpacityRule, createKeywordRules, keywordResolver, sizePxResolver } from '../utils'
+import { colorResolver, handler as h } from '../utils'
 
 export const textDecorations: Rule[] = [
   ['underline', { 'text-decoration': 'underline' }],
@@ -8,22 +8,18 @@ export const textDecorations: Rule[] = [
   ['decoration-line-through', { 'text-decoration': 'line-through' }],
 
   // style
-  ...createKeywordRules(['underline', 'decoration'], 'text-decoration-style', [
-    'dashed',
-    'dotted',
-    'double',
-    'solid',
-    'wavy',
-  ]),
+  [/^(?:underline|decoration)-(solid|double|dotted|dashed|wavy)$/, ([, d]) => ({ 'text-decoration-style': d })],
 
-  // size
-  [/^(?:underline|decoration)-(?:size-)?(.+)$/, sizePxResolver('text-decoration-thickness')],
-  [/^(?:underline|decoration)-(?:size-)?(.+)$/, keywordResolver('text-decoration-thickness', [
-    'auto',
-    'from-front',
-  ])],
-  [/^underline-offset-(.+)$/, sizePxResolver('text-underline-offset')],
-  ['underline-offset-auto', { 'text-underline-offset': 'auto' }],
+  // thickness
+  [/^(?:underline|decoration)-([^-]+)$/, ([, s]) => ({ 'text-decoration-thickness': ['auto', 'from-font'].includes(s) ? s : h.bracket.px(s) })],
+  [/^decoration-(.+)$/, ([, d]) => ({ 'text-decoration-thickness': h.bracket.px(d) })],
+
+  // offset
+  [/^underline-offset-([^-]+)$/, ([, s]) => {
+    const v = s === 'auto' ? s : h.bracket.px(s)
+    if (v != null)
+      return { 'text-underline-offset': v }
+  }],
 
   // colors
   [/^(?:underline|decoration)-(.+)$/, (match, ctx) => {
@@ -35,8 +31,7 @@ export const textDecorations: Rule[] = [
       }
     }
   }],
-  createColorOpacityRule('decoration', 'line'),
-  createColorOpacityRule('underline', 'line'),
+  [/^(?:underline|decoration)-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-line-opacity': h.bracket.percent(opacity) })],
 
   ['no-underline', { 'text-decoration': 'none' }],
   ['decoration-none', { 'text-decoration': 'none' }],

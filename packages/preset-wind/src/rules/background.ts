@@ -1,5 +1,5 @@
 import type { Rule, RuleContext } from '@unocss/core'
-import { createColorOpacityRule, createKeywordRules, handler as h, parseColor } from '@unocss/preset-mini/utils'
+import { handler as h, parseColor } from '@unocss/preset-mini/utils'
 import type { Theme } from '@unocss/preset-mini'
 
 const colorResolver = (mode: 'from' | 'to' | 'via') =>
@@ -64,47 +64,41 @@ const bgGradientDirections: Record<string, string> = {
 
 export const backgroundStyles: Rule[] = [
   // attachments
-  ...createKeywordRules('bg', 'background-attachment', [
-    'fixed',
-    'local',
-    'scroll',
-  ]),
+  ['bg-fixed', { 'background-attachment': 'fixed' }],
+  ['bg-local', { 'background-attachment': 'local' }],
+  ['bg-scroll', { 'background-attachment': 'scroll' }],
 
   // blends
-  ...createKeywordRules('bg-blend', 'background-blend-mode', [
-    'color',
-    'color-burn',
-    'color-dodge',
-    'darken',
-    'difference',
-    'exclusion',
-    'hard-light',
-    'hue',
-    'lighten',
-    'luminosity',
-    'multiply',
-    'overlay',
-    'saturation',
-    'screen',
-    'soft-light',
-  ]),
+  ['bg-blend-multiply', { 'background-blend-mode': 'multiply' }],
+  ['bg-blend-screen', { 'background-blend-mode': 'screen' }],
+  ['bg-blend-overlay', { 'background-blend-mode': 'overlay' }],
+  ['bg-blend-darken', { 'background-blend-mode': 'darken' }],
+  ['bg-blend-lighten', { 'background-blend-mode': 'lighten' }],
+  ['bg-blend-color-dodge', { 'background-blend-mode': 'color-dodge' }],
+  ['bg-blend-color-burn', { 'background-blend-mode': 'color-burn' }],
+  ['bg-blend-hard-light', { 'background-blend-mode': 'hard-light' }],
+  ['bg-blend-soft-light', { 'background-blend-mode': 'soft-light' }],
+  ['bg-blend-difference', { 'background-blend-mode': 'difference' }],
+  ['bg-blend-exclusion', { 'background-blend-mode': 'exclusion' }],
+  ['bg-blend-hue', { 'background-blend-mode': 'hue' }],
+  ['bg-blend-saturation', { 'background-blend-mode': 'saturation' }],
+  ['bg-blend-color', { 'background-blend-mode': 'color' }],
+  ['bg-blend-luminosity', { 'background-blend-mode': 'luminosity' }],
   ['bg-blend-normal', { 'background-blend-mode': 'normal' }],
 
   // clips
-  ...createKeywordRules('bg-clip', ['-webkit-background-clip', 'background-attachment'], [
-    'text',
-    ['border', 'border-box'],
-    ['content', 'content-box'],
-    ['padding', 'padding-box'],
-  ]),
+  ['bg-clip-border', { '-webkit-background-clip': 'border-box', 'background-attachment': 'border-box' }],
+  ['bg-clip-content', { '-webkit-background-clip': 'content-box', 'background-attachment': 'content-box' }],
+  ['bg-clip-padding', { '-webkit-background-clip': 'padding-box', 'background-attachment': 'padding-box' }],
+  ['bg-clip-text', { '-webkit-background-clip': 'text', 'background-attachment': 'text' }],
 
   // gradients
   [/^from-(.+)$/, colorResolver('from')],
   [/^to-(.+)$/, colorResolver('to')],
   [/^via-(.+)$/, colorResolver('via')],
-  createColorOpacityRule('from'),
-  createColorOpacityRule('to'),
-  createColorOpacityRule('via'),
+  [/^from-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-from-opacity': h.bracket.percent(opacity) })],
+  [/^to-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-to-opacity': h.bracket.percent(opacity) })],
+  [/^via-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-via-opacity': h.bracket.percent(opacity) })],
 
   // images
   [/^bg-gradient-to-([trbl]{1,2})$/, ([, d]) => {
@@ -115,41 +109,31 @@ export const backgroundStyles: Rule[] = [
   ['bg-none', { 'background-image': 'none' }],
 
   // origins
-  ...createKeywordRules('bg-origin', 'background-origin', [
-    ['border', 'border-box'],
-    ['content', 'content-box'],
-    ['padding', 'padding-box'],
-  ]),
+  ['bg-origin-border', { 'background-origin': 'border-box' }],
+  ['bg-origin-padding', { 'background-origin': 'padding-box' }],
+  ['bg-origin-content', { 'background-origin': 'content-box' }],
 
   // positions
-  ...createKeywordRules('bg', 'background-position', [
-    'bottom',
-    'center',
-    'left',
-    'right',
-    'top',
-    ['left-bottom', 'left bottom'],
-    ['left-top', 'left top'],
-    ['right-bottom', 'right bottom'],
-    ['right-top', 'right top'],
-  ]),
+  ['bg-bottom', { 'background-position': 'bottom' }],
+  ['bg-center', { 'background-position': 'center' }],
+  ['bg-left', { 'background-position': 'left' }],
+  ['bg-left-bottom', { 'background-position': 'left bottom' }],
+  ['bg-left-top', { 'background-position': 'left top' }],
+  ['bg-right', { 'background-position': 'right' }],
+  ['bg-right-bottom', { 'background-position': 'right bottom' }],
+  ['bg-right-top', { 'background-position': 'right top' }],
+  ['bg-top', { 'background-position': 'top' }],
 
   // repeats
-  ...createKeywordRules('bg', 'background-repeat', [
-    'repeat',
-    'no-repeat',
-  ]),
-  ...createKeywordRules('bg-repeat', 'background-position', [
-    'round',
-    'space',
-    ['x', 'repeat-x'],
-    ['y', 'repeat-y'],
-  ]),
+  ['bg-repeat', { 'background-repeat': 'repeat' }],
+  ['bg-no-repeat', { 'background-repeat': 'no-repeat' }],
+  ['bg-repeat-x', { 'background-position': 'repeat-x' }],
+  ['bg-repeat-y', { 'background-position': 'repeat-y' }],
+  ['bg-repeat-round', { 'background-position': 'round' }],
+  ['bg-repeat-space', { 'background-position': 'space' }],
 
   // size
-  ...createKeywordRules('bg', 'background-size', [
-    'auto',
-    'cover',
-    'contain',
-  ]),
+  ['bg-auto', { 'background-size': 'auto' }],
+  ['bg-cover', { 'background-size': 'cover' }],
+  ['bg-contain', { 'background-size': 'contain' }],
 ]

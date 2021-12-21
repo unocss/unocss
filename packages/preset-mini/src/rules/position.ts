@@ -1,22 +1,7 @@
-import type { CSSEntries, CSSPropertyValue, Rule } from '@unocss/core'
-import { createKeywordRules, directionMap, handler as h } from '../utils'
+import type { CSSEntries, Rule } from '@unocss/core'
+import { directionMap, handler as h } from '../utils'
 
-const contentSet: CSSPropertyValue[] = [
-  'center',
-  ['around', 'space-around'],
-  ['between', 'space-between'],
-  ['end', 'flex-end'],
-  ['evenly', 'space-evenly'],
-  ['start', 'flex-start'],
-]
-
-const basicSet = [
-  'auto',
-  'center',
-  'end',
-  'start',
-  'stretch',
-]
+const basicSet = ['auto', 'start', 'end', 'center', 'stretch']
 
 export const positions: Rule[] = [
   ['relative', { position: 'relative' }],
@@ -27,9 +12,16 @@ export const positions: Rule[] = [
 ]
 
 export const justifies: Rule[] = [
-  ...createKeywordRules('justify', 'justify-content', contentSet),
-  ...createKeywordRules('justify-items', 'justify-items', basicSet),
-  ...createKeywordRules('justify-self', 'justify-self', basicSet),
+  ['justify-start', { 'justify-content': 'flex-start' }],
+  ['justify-end', { 'justify-content': 'flex-end' }],
+  ['justify-center', { 'justify-content': 'center' }],
+  ['justify-between', { 'justify-content': 'space-between' }],
+  ['justify-around', { 'justify-content': 'space-around' }],
+  ['justify-evenly', { 'justify-content': 'space-evenly' }],
+
+  // items
+  ...basicSet.map((i): Rule => [`justify-items-${i}`, { 'justify-items': i }]),
+  ...basicSet.map((i): Rule => [`justify-self-${i}`, { 'justify-self': i }]),
 ]
 
 export const orders: Rule[] = [
@@ -39,39 +31,42 @@ export const orders: Rule[] = [
 
 export const alignments: Rule[] = [
   // contents
-  ...createKeywordRules('content', 'align-content', contentSet),
+  ['content-start', { 'align-content': 'flex-start' }],
+  ['content-end', { 'align-content': 'flex-end' }],
+  ['content-center', { 'align-content': 'center' }],
+  ['content-between', { 'align-content': 'space-between' }],
+  ['content-around', { 'align-content': 'space-around' }],
+  ['content-evenly', { 'align-content': 'space-evenly' }],
 
   // items
-  ...createKeywordRules('items', 'align-items', [
-    'baseline',
-    'center',
-    'stretch',
-    ['end', 'flex-end'],
-    ['start', 'flex-start'],
-  ]),
+  ['items-start', { 'align-items': 'flex-start' }],
+  ['items-end', { 'align-items': 'flex-end' }],
+  ['items-center', { 'align-items': 'center' }],
+  ['items-baseline', { 'align-items': 'baseline' }],
+  ['items-stretch', { 'align-items': 'stretch' }],
 
   // selfs
-  ...createKeywordRules('self', 'align-self', [
-    'auto',
-    'center',
-    'stretch',
-    ['end', 'flex-end'],
-    ['start', 'flex-start'],
-  ]),
+  ['self-auto', { 'align-self': 'auto' }],
+  ['self-start', { 'align-self': 'flex-start' }],
+  ['self-end', { 'align-self': 'flex-end' }],
+  ['self-center', { 'align-self': 'center' }],
+  ['self-stretch', { 'align-self': 'stretch' }],
 ]
 
 export const placements: Rule[] = [
-  ...createKeywordRules('place-content', 'place-content', [
-    'center',
-    'end',
-    'start',
-    'stretch',
-    ['around', 'space-around'],
-    ['between', 'space-between'],
-    ['evenly', 'space-evenly'],
-  ]),
-  ...createKeywordRules('place-items', 'place-items', basicSet),
-  ...createKeywordRules('place-self', 'place-self', basicSet),
+  ['place-content-start', { 'place-content': 'start' }],
+  ['place-content-end', { 'place-content': 'end' }],
+  ['place-content-center', { 'place-content': 'center' }],
+  ['place-content-between', { 'place-content': 'space-between' }],
+  ['place-content-around', { 'place-content': 'space-around' }],
+  ['place-content-evenly', { 'place-content': 'space-evenly' }],
+  ['place-content-stretch', { 'place-content': 'stretch' }],
+
+  // items
+  ...basicSet.map((i): Rule => [`place-items-${i}`, { 'place-items': i }]),
+
+  // self
+  ...basicSet.map((i): Rule => [`place-self-${i}`, { 'place-self': i }]),
 ]
 
 function handleInsetValue(v: string): string | number | undefined {
@@ -88,16 +83,9 @@ export const insets: Rule[] = [
 ]
 
 export const floats: Rule[] = [
-  ...createKeywordRules('float', 'float', [
-    'left',
-    'right',
-  ]),
+  [/^float-(left|right)$/, ([, value]) => ({ float: value })],
   ['float-none', { float: 'none' }],
-  ...createKeywordRules('clear', 'clear', [
-    'left',
-    'right',
-    'both',
-  ]),
+  [/^clear-(left|right|both)$/, ([, value]) => ({ clear: value })],
   ['clear-none', { clear: 'none' }],
 ]
 
@@ -107,8 +95,9 @@ export const zIndexes: Rule[] = [
 ]
 
 export const boxSizing: Rule[] = [
-  ...createKeywordRules('box', 'box-sizing', [
-    ['border', 'border-box'],
-    ['content', 'content-box'],
-  ]),
+  [
+    /^box-(border|content)$/, ([, value]) => ({
+      'box-sizing': `${value}-box`,
+    }),
+  ],
 ]

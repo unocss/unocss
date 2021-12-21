@@ -1,6 +1,6 @@
 import type { CSSEntries, CSSObject, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorResolver, cornerMap, createColorOpacityRule, createKeywordRules, directionMap, handler as h } from '../utils'
+import { colorResolver, cornerMap, directionMap, handler as h } from '../utils'
 
 export const borders: Rule[] = [
   // size
@@ -13,16 +13,13 @@ export const borders: Rule[] = [
   // colors
   [/^(?:border|b)()-(.+)$/, handlerBorderColor],
   [/^(?:border|b)-([^-]+)(?:-(.+))?$/, handlerBorderColor],
-  createColorOpacityRule('b', 'border'),
-  createColorOpacityRule('border'),
+  [/^(?:border|b)-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-border-opacity': h.bracket.percent(opacity) })],
 
   // style
-  ...createKeywordRules('border', 'border-style', [
-    'dashed',
-    'dotted',
-    'double',
-    'solid',
-  ]),
+  ['border-solid', { 'border-style': 'solid' }],
+  ['border-dashed', { 'border-style': 'dashed' }],
+  ['border-dotted', { 'border-style': 'dotted' }],
+  ['border-double', { 'border-style': 'double' }],
   ['border-none', { 'border-style': 'none' }],
 
   // radius

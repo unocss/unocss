@@ -1,5 +1,5 @@
 import type { CSSValues, Rule } from '@unocss/core'
-import { createKeywordRules, handler as h, xyzMap } from '../utils'
+import { handler as h, xyzMap } from '../utils'
 import { CONTROL_BYPASS_PSEUDO_CLASS } from '../variants/pseudo'
 
 const transformGpu = {
@@ -38,17 +38,16 @@ export const transforms: Rule[] = [
   ['transform-cpu', transformCpu],
   ['transform-none', { transform: 'none' }],
 
-  ...createKeywordRules('origin', 'transform-origin', [
-    'bottom',
-    'center',
-    'left',
-    'right',
-    'top',
-    ['bottom-left', 'bottom left'],
-    ['bottom-right', 'bottom right'],
-    ['top-left', 'top left'],
-    ['top-right', 'top right'],
-  ]),
+  // transform origins
+  ['origin-center', { 'transform-origin': 'center' }],
+  ['origin-top', { 'transform-origin': 'top' }],
+  ['origin-top-right', { 'transform-origin': 'top right' }],
+  ['origin-right', { 'transform-origin': 'right' }],
+  ['origin-bottom-right', { 'transform-origin': 'bottom right' }],
+  ['origin-bottom', { 'transform-origin': 'bottom' }],
+  ['origin-bottom-left', { 'transform-origin': 'bottom left' }],
+  ['origin-left', { 'transform-origin': 'left' }],
+  ['origin-top-left', { 'transform-origin': 'top left' }],
 ]
 
 function handleTranslate([, d, b]: string[]): CSSValues | undefined {

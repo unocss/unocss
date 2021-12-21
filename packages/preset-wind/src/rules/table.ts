@@ -1,34 +1,22 @@
 import type { Rule } from '@unocss/core'
-import { createKeywordRules } from '@unocss/preset-mini/utils'
 
 export const tables: Rule[] = [
+  ['border-collapse', { 'border-collapse': 'collapse' }],
+  ['border-separate', { 'border-collapse': 'separate' }],
+  ['caption-top', { 'caption-side': 'top' }],
+  ['caption-bottom', { 'caption-side': 'bottom' }],
   ['inline-table', { display: 'inline-table' }],
   ['table', { display: 'table' }],
-  ...createKeywordRules('table', 'display', [
-    ['caption', 'table-caption'],
-    ['cell', 'table-cell'],
-    ['column', 'table-column'],
-    ['column-group', 'table-column-group'],
-    ['footer-group', 'table-footer-group'],
-    ['header-group', 'table-header-group'],
-    ['inline', 'inline-table'],
-    ['row', 'table-row'],
-    ['row-group', 'table-row-group'],
-  ]),
-
-  // layouts
-  ...createKeywordRules('table', 'table-layout', [
-    'auto',
-    'fixed',
-  ]),
-  ...createKeywordRules('border', 'border-collapse', [
-    'collapse',
-    'separate',
-  ]),
-  ...createKeywordRules('caption', 'caption-side', [
-    'bottom',
-    'top',
-  ]),
+  ['table-auto', { 'table-layout': 'auto' }],
   ['table-empty-cells-visible', { 'empty-cells': 'show' }],
   ['table-empty-cells-hidden', { 'empty-cells': 'hide' }],
+  ['table-fixed', { 'table-layout': 'fixed' }],
+  ['table-caption', { display: 'table-caption' }],
+  ['table-cell', { display: 'table-cell' }],
+  ['table-column', { display: 'table-column' }],
+  ['table-column-group', { display: 'table-column-group' }],
+  ['table-footer-group', { display: 'table-footer-group' }],
+  ['table-header-group', { display: 'table-header-group' }],
+  ['table-row', { display: 'table-row' }],
+  ['table-row-group', { display: 'table-row-group' }],
 ]

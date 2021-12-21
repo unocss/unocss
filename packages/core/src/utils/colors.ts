@@ -1,9 +1,7 @@
-import type { RGBAColorValue } from '../types'
-
 /* eslint-disable no-case-declarations */
 const hexRE = /^#?([\da-f]+)$/i
 
-export function hex2rgba(hex = ''): RGBAColorValue | undefined {
+export function hex2rgba(hex = ''): [number, number, number, number] | [number, number, number] | undefined {
   const [, body] = hex.match(hexRE) || []
 
   if (!body)

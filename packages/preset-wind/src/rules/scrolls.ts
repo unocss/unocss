@@ -1,5 +1,5 @@
 import type { Rule } from '@unocss/core'
-import { createKeywordRules, directionSize } from '@unocss/preset-mini/utils'
+import { directionSize } from '@unocss/preset-mini/utils'
 import { CONTROL_BYPASS_PSEUDO_CLASS } from '@unocss/preset-mini/variants'
 
 export const scrolls: Rule[] = [
@@ -13,25 +13,19 @@ export const scrolls: Rule[] = [
       'scroll-snap-type': `${d} var(--un-scroll-snap-strictness)`,
     },
   ]],
-  ...createKeywordRules('snap', '--un-scroll-snap-strictness', [
-    'mandatory',
-    'proximity',
-  ]),
+  ['snap-mandatory', { '--un-scroll-snap-strictness': 'mandatory' }],
+  ['snap-proximity', { '--un-scroll-snap-strictness': 'proximity' }],
   ['snap-none', { 'scroll-snap-type': 'none' }],
 
   // snap align
-  ...createKeywordRules('snap', 'scroll-snap-align', [
-    'center',
-    'end',
-    'start',
-  ]),
+  ['snap-start', { 'scroll-snap-align': 'start' }],
+  ['snap-end', { 'scroll-snap-align': 'end' }],
+  ['snap-center', { 'scroll-snap-align': 'center' }],
   ['snap-align-none', { 'scroll-snap-align': 'none' }],
 
   // snap stop
-  ...createKeywordRules('snap', 'scroll-snap-stop', [
-    'always',
-    'normal',
-  ]),
+  ['snap-normal', { 'scroll-snap-stop': 'normal' }],
+  ['snap-always', { 'scroll-snap-stop': 'always' }],
 
   // scroll margin
   [/^scroll-ma?()-?(-?.+)$/, directionSize('scroll-margin')],
