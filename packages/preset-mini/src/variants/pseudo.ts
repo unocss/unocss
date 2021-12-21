@@ -55,7 +55,7 @@ const PseudoElements = [
   'selection',
 ]
 
-const PartClassesRE = /(part-\[(.*)]:)(.*)/
+const PartClassesRE = /(part-\[(.+)]:)(.+)/
 const PseudoElementsRE = new RegExp(`^(${PseudoElements.join('|')})[:-]`)
 
 const PseudoClassesStr = Object.keys(PseudoClasses).join('|')

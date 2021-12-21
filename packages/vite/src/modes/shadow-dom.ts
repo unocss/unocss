@@ -1,6 +1,6 @@
 import type { Plugin } from 'vite'
 import type { UnocssPluginContext } from '../../../plugins-common'
-import { IMPORT_CSS } from '../../../plugins-common'
+import { INCLUDE_COMMENT } from '../../../plugins-common'
 
 export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin {
   const partExtractorRegex = /^part-\[(.+)]:/
@@ -18,26 +18,18 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
       return null
 
     const name = element[1]
+    const idx = idxResolver(name)
     return {
       name,
-      entries: applyParts.map(({ rule, part }) => {
-        const idx = idxResolver(name)
-        return [
-          `.${rule.replace(
-            /\[/g, '\\[',
-          ).replace(
-            /]/g, '\\]',
-          ).replace(
-            /:/g, '\\:')}::part(${part})`,
-          `${name}:nth-of-type(${idx})::part(${part})`,
-        ]
-      }),
+      entries: applyParts.map(({ rule, part }) => [
+        `.${rule.replace(/[:[\]]/g, '\\$&')}::part(${part})`,
+        `${name}:nth-of-type(${idx})::part(${part})`,
+      ]),
     }
   }
   const idxMapFactory = () => {
     const elementIdxMap = new Map<string, number>()
     return {
-      elementIdxMap,
       idxResolver: (name: string) => {
         let idx = elementIdxMap.get(name)
         if (!idx) {
@@ -46,10 +38,13 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
         }
         return idx
       },
+      incrementIdx: (name: string) => {
+        elementIdxMap.set(name, elementIdxMap.get(name)! + 1)
+      },
     }
   }
   const transformWebComponent = async(code: string) => {
-    if (!code.match(IMPORT_CSS))
+    if (!code.match(INCLUDE_COMMENT))
       return code
 
     // eslint-disable-next-line prefer-const
@@ -68,7 +63,7 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
         let useCode = code
         let element: RegExpExecArray | null
         const partsToApply = new Map<string, Array<string>>()
-        const { elementIdxMap, idxResolver } = idxMapFactory()
+        const { idxResolver, incrementIdx } = idxMapFactory()
         // We need to traverse the code to find the web components using the original class/attr part.
         // We need traverse the code to apply the same order the components are on the code: we are using nth-of-type.
         // A web component can have multiple parts, and so, we need to collect all of them: see checkElement above.
@@ -88,7 +83,7 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
               }
               list.push(replacement)
             })
-            elementIdxMap.set(result.name, elementIdxMap.get(result.name)! + 1)
+            incrementIdx(result.name)
           }
           useCode = useCode.slice(element[0].length + 1)
         }
@@ -100,7 +95,7 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
       }
     }
 
-    return code.replace(IMPORT_CSS, css || '')
+    return code.replace(INCLUDE_COMMENT, css || '')
   }
 
   return {
