@@ -64,7 +64,7 @@ describe('attributify', () => {
   const uno = createGenerator({
     presets: [
       presetAttributify({ strict: true }),
-      presetUno(),
+      presetUno({ attributifyPseudo: true }),
     ],
   })
 

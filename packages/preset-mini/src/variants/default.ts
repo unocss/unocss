@@ -1,16 +1,17 @@
 import type { Variant } from '@unocss/core'
+import type { PresetMiniOptions } from '..'
 import type { Theme } from '../theme'
 import { variantBreakpoints } from './breakpoints'
 import { variantCombinators } from './combinators'
 import { variantImportant, variantNegative, variantSpace } from './misc'
 import { variantPseudoClasses, variantPseudoElements } from './pseudo'
 
-export const variants: Variant<Theme>[] = [
+export const variants = (options: PresetMiniOptions): Variant<Theme>[] => [
   variantSpace,
   variantNegative,
   variantImportant,
   variantBreakpoints,
   ...variantCombinators,
-  variantPseudoClasses,
+  variantPseudoClasses(options),
   variantPseudoElements,
 ]

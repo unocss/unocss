@@ -13,6 +13,10 @@ export interface PresetMiniOptions {
    * @default 'class'
    */
   dark?: 'class' | 'media'
+  /**
+   * @default false
+   */
+  attributifyPseudo?: Boolean
 }
 
 export const presetMini = (options: PresetMiniOptions = {}): Preset<Theme> => ({
@@ -20,7 +24,7 @@ export const presetMini = (options: PresetMiniOptions = {}): Preset<Theme> => ({
   theme,
   rules,
   variants: [
-    ...variants,
+    ...variants(options),
     ...options.dark === 'media'
       ? variantColorsMedia
       : variantColorsClass,

@@ -15,6 +15,10 @@ export interface UnoOptions {
    * @default 'class'
    */
   dark?: 'class' | 'media'
+  /**
+   * @default false
+   */
+  attributifyPseudo?: Boolean
 }
 
 export const presetWind = (options: UnoOptions = {}): Preset<Theme> => ({
@@ -25,7 +29,7 @@ export const presetWind = (options: UnoOptions = {}): Preset<Theme> => ({
     ...containerShortcuts,
   ],
   variants: [
-    ...miniVariants,
+    ...miniVariants(options),
     ...variantColorsScheme,
     ...options.dark === 'media'
       ? variantColorsMedia
