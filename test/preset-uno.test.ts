@@ -20,8 +20,21 @@ const nonTargets = [
   'p-anything',
   'rotate-[3]deg',
   'list-none-inside',
+
+  // mini - behaviors
   'will-change-all',
   'will-change-none',
+  'will-change-margins,padding',
+  'will-change-padding,margins',
+
+  // mini - transition
+  'property-colour',
+  'property-background-color,colour-300',
+  'property-colour-background-color-300',
+  'transition-unset',
+  'transition-colour',
+  'transition-background-color,colour-300',
+  'transition-colour,background-color-300',
 ]
 
 const uno = createGenerator({
