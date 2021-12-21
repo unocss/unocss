@@ -1,6 +1,6 @@
 import type { Plugin } from 'vite'
 import type { UnocssPluginContext } from '../../../plugins-common'
-import { INCLUDE_COMMENT } from '../../../plugins-common'
+import { CSS_PLACEHOLDER } from '../../../plugins-common'
 
 export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin {
   const partExtractorRegex = /^part-\[(.+)]:/
@@ -44,7 +44,7 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
     }
   }
   const transformWebComponent = async(code: string) => {
-    if (!code.match(INCLUDE_COMMENT))
+    if (!code.match(CSS_PLACEHOLDER))
       return code
 
     // eslint-disable-next-line prefer-const
@@ -95,7 +95,7 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
       }
     }
 
-    return code.replace(INCLUDE_COMMENT, css || '')
+    return code.replace(CSS_PLACEHOLDER, css || '')
   }
 
   return {

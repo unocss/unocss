@@ -18,7 +18,7 @@ export class MyElement extends LitElement {
       padding: 16px;
       max-width: 800px;
     }
-    @unocss-include
+    @unocss-placeholder
   `
 
   /**
