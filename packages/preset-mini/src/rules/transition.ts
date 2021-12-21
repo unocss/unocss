@@ -29,5 +29,5 @@ export const transitions: Rule[] = [
   // nones
   ['transition-property-none', { 'transition-property': 'none' }],
   ['property-none', { 'transition-property': 'none' }],
-  ['transition-none', { 'transition': 'none' }],
+  ['transition-none', { transition: 'none' }],
 ]
