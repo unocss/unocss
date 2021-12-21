@@ -1,4 +1,4 @@
-import type { Rule } from '@unocss/core'
+import type { CSSObject, Rule } from '@unocss/core'
 import { colorResolver, handler as h } from '../utils'
 
 export const textDecorations: Rule[] = [
@@ -23,7 +23,7 @@ export const textDecorations: Rule[] = [
 
   // colors
   [/^(?:underline|decoration)-(.+)$/, (match, ctx) => {
-    const result = colorResolver('text-decoration-color', 'line')(match, ctx)
+    const result = colorResolver('text-decoration-color', 'line')(match, ctx) as CSSObject | undefined
     if (result) {
       return {
         '-webkit-text-decoration-color': result['text-decoration-color'],

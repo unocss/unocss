@@ -1,4 +1,4 @@
-import type { CSSEntries, DynamicMatcher, ParsedColorValue, RuleContext } from '@unocss/core'
+import type { CSSEntries, CSSObject, DynamicMatcher, ParsedColorValue, RuleContext } from '@unocss/core'
 import { hex2rgba } from '@unocss/core'
 import type { Theme } from '../theme'
 import { handler as h } from './handlers'
@@ -121,7 +121,7 @@ export const parseColor = (body: string, theme: Theme): ParsedColorValue | undef
  * @param {string} varName - Base name for the opacity variable.
  * @return {DynamicMatcher}  {@link DynamicMatcher} object.
  */
-export const colorResolver = (property: string, varName: string): DynamicMatcher => ([, body]: string[], { theme }: RuleContext<Theme>) => {
+export const colorResolver = (property: string, varName: string): DynamicMatcher => ([, body]: string[], { theme }: RuleContext<Theme>): CSSObject | undefined => {
   const data = parseColor(body, theme)
 
   if (!data)
