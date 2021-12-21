@@ -1,3 +1,27 @@
+const cssBasicProps = [
+  'color', 'border-color', 'background-color', 'flex-grow', 'flex', 'flex-shrink',
+  'caret-color', 'font', 'gap', 'opacity', 'visibility', 'z-index', 'font-weight',
+  'zoom', 'text-shadow', 'transform', 'box-shadow',
+]
+const cssPositionProps = [
+  'backround-position', 'left', 'right', 'top', 'bottom', 'object-position',
+]
+const cssSizeProps = [
+  'max-height', 'min-height', 'max-width', 'min-width', 'height', 'width',
+  'border-width', 'margin', 'padding', 'outline-width', 'outline-offset',
+  'font-size', 'line-height', 'text-indent', 'vertical-align',
+  'border-spacing', 'letter-spacing', 'word-spacing',
+]
+const cssEnhanceProps = ['stroke', 'filter', 'backdrop-filter', 'fill', 'mask', 'mask-size', 'mask-border', 'clip-path', 'clip']
+
+// Not all, but covers most high frequency attributes
+const cssProps = [
+  ...cssBasicProps,
+  ...cssPositionProps,
+  ...cssSizeProps,
+  ...cssEnhanceProps,
+]
+
 const numberWithUnitRE = /^(-?[0-9.]+)(px|pt|pc|rem|em|%|vh|vw|in|cm|mm|ex|ch|vmin|vmax)?$/i
 const numberRE = /^(-?[0-9.]+)$/i
 const unitOnlyRE = /^(px)$/i
@@ -99,4 +123,16 @@ export function time(str: string) {
 export function global(str: string) {
   if (['inherit', 'initial', 'revert', 'unset'].includes(str))
     return str
+}
+
+export function properties(str: string) {
+  if (str === undefined)
+    return
+
+  for (const prop of str.split(',')) {
+    if (!cssProps.includes(prop))
+      return
+  }
+
+  return str
 }

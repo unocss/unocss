@@ -297,16 +297,23 @@ exports[`preset-mini > targets 1`] = `
 .z-100{z-index:100;}
 .box-border{box-sizing:border-box;}
 .box-content{box-sizing:content-box;}
-.transition{transition-property:color, border-color, background-color, flex-grow, flex, flex-shrink, caret-color, font, gap, opacity, visibility, z-index, font-weight, zoom, text-shadow, transform, box-shadow, backround-position, left, right, top, bottom, object-position, max-height, min-height, max-width, min-width, height, width, border-width, margin, padding, outline-width, outline-offset, font-size, line-height, text-indent, vertical-align, border-spacing, letter-spacing, word-spacing, stroke, filter, backdrop-filter, fill, mask, mask-size, mask-border, clip-path, clip;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms;}
-.transition-200{transition-property:color, border-color, background-color, flex-grow, flex, flex-shrink, caret-color, font, gap, opacity, visibility, z-index, font-weight, zoom, text-shadow, transform, box-shadow, backround-position, left, right, top, bottom, object-position, max-height, min-height, max-width, min-width, height, width, border-width, margin, padding, outline-width, outline-offset, font-size, line-height, text-indent, vertical-align, border-spacing, letter-spacing, word-spacing, stroke, filter, backdrop-filter, fill, mask, mask-size, mask-border, clip-path, clip;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:200ms;}
-.transition-none{transition-property:none;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms;}
+.transition{transition-property:all;transition-timing-function:cubic-bezier(0.4,0,0.2,1);transition-duration:150ms;}
+.transition-200{transition-property:all;transition-timing-function:cubic-bezier(0.4,0,0.2,1);transition-duration:200ms;}
+.transition-background-color\\\\2c color-200{transition-property:background-color,color;transition-timing-function:cubic-bezier(0.4,0,0.2,1);transition-duration:200ms;}
+.transition-color\\\\2c background-color-200{transition-property:color,background-color;transition-timing-function:cubic-bezier(0.4,0,0.2,1);transition-duration:200ms;}
+.transition-opacity-200{transition-property:opacity;transition-timing-function:cubic-bezier(0.4,0,0.2,1);transition-duration:200ms;}
 .duration-111{transition-duration:111ms;}
 .ease-linear{transition-timing-function:linear;}
 .ease-out{transition-timing-function:cubic-bezier(0, 0, 0.2, 1);}
 .transition-delay-300{transition-delay:300ms;}
 .transition-duration-300{transition-duration:300ms;}
 .property-all,.transition-property-all{transition-property:all;}
+.property-margin\\\\2c padding{transition-property:margin,padding;}
+.property-padding\\\\2c margin{transition-property:padding,margin;}
+.property-unset{transition-property:unset;}
 .transition-property-width{transition-property:width;}
+.property-none{transition-property:none;}
+.transition-none{transition:none;}
 .transform,.-translate-full,.translate-full,.-translate-x-full,.-translate-y-1\\\\/2,.before\\\\:translate-y-full::before,.hover\\\\:translate-x-3,.peer:checked~.peer-checked\\\\:translate-x-\\\\[var\\\\(--reveal\\\\)\\\\],.translate-x-full,.translate-y-1\\\\/4,.translate-y-px,.active\\\\:scale-4,.rotate-\\\\[var\\\\(--spin\\\\)\\\\],.-rotate-2,.rotate-1deg{--un-rotate:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;transform:rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z));}
 .preserve-3d{transform-style:preserve-3d;}
 .preserve-flat{transform-style:flat;}
@@ -328,6 +335,8 @@ exports[`preset-mini > targets 1`] = `
 .transform-cpu{transform:rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z));}
 .transform-none{transform:none;}
 .origin-top-left{transform-origin:top left;}
+.will-change-margin\\\\2c padding{will-change:margin,padding;}
+.will-change-padding\\\\2c margin{will-change:padding,margin;}
 .will-change-transform{will-change:transform;}
 .will-change-unset{will-change:unset;}
 @media (prefers-color-scheme: dark){

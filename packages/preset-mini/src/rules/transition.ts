@@ -1,26 +1,19 @@
 import type { Rule } from '@unocss/core'
-import { cssProps } from './static'
+import { handler as h } from '../utils'
 
-const transitionSwitchProps = ['all', 'none']
-const transitionPropsStr = cssProps.join(', ')
-
-const validateProperty = (prop: string): string | undefined => {
-  if (prop && ![...cssProps, ...transitionSwitchProps].includes(prop))
-    return
-
-  return prop || transitionPropsStr
+const transitionProperty = (prop: string): string | undefined => {
+  return h.properties(prop) || (prop === 'all' ? prop : undefined)
 }
 
 export const transitions: Rule[] = [
-  [/^transition(?:-([a-z-]+))?(?:-(\d+))?$/, ([, prop, duration = '150']) => {
-    const transitionProperty = validateProperty(prop)
-    if (!transitionProperty)
-      return
-
-    return {
-      'transition-property': transitionProperty,
-      'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)',
-      'transition-duration': `${duration}ms`,
+  [/^transition(?:-([a-z-]+(?:,[a-z-]+)*))?(?:-(\d+))?$/, ([, prop = 'all', duration = '150']) => {
+    const p = transitionProperty(prop)
+    if (p) {
+      return {
+        'transition-property': p,
+        'transition-timing-function': 'cubic-bezier(0.4,0,0.2,1)',
+        'transition-duration': `${duration}ms`,
+      }
     }
   }],
   [/^duration-(\d+)$/, ([, duration = '150']) => ({ 'transition-duration': `${duration}ms` })],
@@ -31,10 +24,10 @@ export const transitions: Rule[] = [
   ['ease-in-out', { 'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)' }],
   [/^transition-delay-(\d+)$/, ([, v]) => ({ 'transition-delay': `${v}ms` })],
   [/^transition-duration-(\d+)$/, ([, v]) => ({ 'transition-duration': `${v}ms` })],
-  // TODO： Support the writing of '[prop, prop]' by supporting more symbols through the parser
-  [/^(?:transition-)?property-([a-z-]+)$/, ([, v]) => {
-    const transitionProperty = validateProperty(v)
-    if (transitionProperty)
-      return { 'transition-property': transitionProperty }
-  }],
+  [/^(?:transition-)?property-(.+)$/, ([, v]) => ({ 'transition-property': h.global(v) || transitionProperty(v) })],
+
+  // nones
+  ['transition-property-none', { 'transition-property': 'none' }],
+  ['property-none', { 'transition-property': 'none' }],
+  ['transition-none', { transition: 'none' }],
 ]
