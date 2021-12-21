@@ -61,6 +61,7 @@
     "rollup": "^2.61.1",
     "splitpanes": "^3.0.6",
     "terser": "^5.10.0",
+    "tsup": "^5.11.7",
     "typescript": "^4.5.4",
     "unbuild": "^0.6.7",
     "unocss": "workspace:*",
