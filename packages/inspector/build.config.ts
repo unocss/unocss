@@ -10,4 +10,7 @@ export default defineBuildConfig({
     'vite',
     '@unocss/vite',
   ],
+  rollup: {
+    emitCJS: true,
+  },
 })

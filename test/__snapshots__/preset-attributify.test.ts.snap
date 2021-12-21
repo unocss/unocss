@@ -124,7 +124,7 @@ exports[`attributify > fixture2 1`] = `
 `;
 
 exports[`attributify > variant 1`] = `
-Array [
+[
   undefined,
   undefined,
   "bg-blue-400",

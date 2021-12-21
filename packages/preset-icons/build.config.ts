@@ -10,4 +10,7 @@ export default defineBuildConfig({
   externals: [
     '@iconify/types',
   ],
+  rollup: {
+    emitCJS: true,
+  },
 })
