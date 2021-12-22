@@ -9,11 +9,6 @@ export const textTransforms: Rule[] = [
 ]
 
 export const hyphens: Rule[] = [
-  ['hyphens-none', {
-    '-webkit-hyphens': 'none',
-    '-ms-hyphens': 'none',
-    'hyphens': 'none',
-  }],
   ['hyphens-manual', {
     '-webkit-hyphens': 'manual',
     '-ms-hyphens': 'manual',
@@ -24,18 +19,23 @@ export const hyphens: Rule[] = [
     '-ms-hyphens': 'auto',
     'hyphens': 'auto',
   }],
+  ['hyphens-none', {
+    '-webkit-hyphens': 'none',
+    '-ms-hyphens': 'none',
+    'hyphens': 'none',
+  }],
 ]
 
 export const writingModes: Rule[] = [
-  ['write-normal', { 'writing-mode': 'horizontal-tb' }],
   ['write-vertical-right', { 'writing-mode': 'vertical-rl' }],
   ['write-vertical-left', { 'writing-mode': 'vertical-lr' }],
+  ['write-normal', { 'writing-mode': 'horizontal-tb' }],
 ]
 
 export const writingOrientations: Rule[] = [
   ['write-orient-mixed', { 'text-orientation': 'mixed' }],
-  ['write-orient-upright', { 'text-orientation': 'upright' }],
   ['write-orient-sideways', { 'text-orientation': 'sideways' }],
+  ['write-orient-upright', { 'text-orientation': 'upright' }],
 ]
 
 export const screenReadersAccess: Rule[] = [

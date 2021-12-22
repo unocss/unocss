@@ -37,7 +37,9 @@ export const resizes: Rule[] = [
 ]
 
 export const userSelects: Rule[] = [
-  [/^select-(text|all|auto)$/, ([, v]) => ({ 'user-select': v })],
+  ['select-auto', { 'user-select': 'auto' }],
+  ['select-all', { 'user-select': 'all' }],
+  ['select-text', { 'user-select': 'text' }],
   ['select-none', { 'user-select': 'none' }],
 ]
 

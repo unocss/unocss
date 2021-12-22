@@ -35,7 +35,7 @@ export const grids: Rule[] = [
       if (parts[1] === 'full')
         return { [key]: '1/-1' }
 
-      raw = h.number.bracket(parts[1])?.toString().replace(/_/g, ' ')
+      raw = h.number.bracket(parts[1])
       if (raw)
         return { [key]: `span ${raw}/span ${raw}` }
     }
