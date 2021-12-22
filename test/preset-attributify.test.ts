@@ -5,7 +5,7 @@ import { describe, expect, test } from 'vitest'
 
 describe('attributify', () => {
   const fixture1 = `
-<button 
+<button
   class="absolute fixed"
   bg="blue-400 hover:blue-500 dark:!blue-500 dark:hover:blue-600"
   text="sm white"
@@ -37,7 +37,10 @@ describe('attributify', () => {
 <template>
   <div h-80 text-center flex select-none all:transition-400>
     <div ma group>
-      <div font-100 text-4xl mb--3>
+      <div
+        font-100 text-4xl mb--3 p-10
+        bg-gradient="to-r from-yellow-400 via-red-500 to-pink-500"
+      >
         ~
       </div>
       <div text-5xl font-100 sm="bg-blue-600">

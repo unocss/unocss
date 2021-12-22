@@ -93,12 +93,12 @@ export const backgroundStyles: Rule[] = [
   ['bg-clip-text', { '-webkit-background-clip': 'text', 'background-attachment': 'text' }],
 
   // gradients
-  [/^from-(.+)$/, colorResolver('from')],
-  [/^to-(.+)$/, colorResolver('to')],
-  [/^via-(.+)$/, colorResolver('via')],
-  [/^from-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-from-opacity': h.bracket.percent(opacity) })],
-  [/^to-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-to-opacity': h.bracket.percent(opacity) })],
-  [/^via-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-via-opacity': h.bracket.percent(opacity) })],
+  [/^(?:bg-gradient-)?from-(.+)$/, colorResolver('from')],
+  [/^(?:bg-gradient-)?to-(.+)$/, colorResolver('to')],
+  [/^(?:bg-gradient-)?via-(.+)$/, colorResolver('via')],
+  [/^(?:bg-gradient-)?from-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-from-opacity': h.bracket.percent(opacity) })],
+  [/^(?:bg-gradient-)?to-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-to-opacity': h.bracket.percent(opacity) })],
+  [/^(?:bg-gradient-)?via-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-via-opacity': h.bracket.percent(opacity) })],
 
   // images
   [/^bg-gradient-to-([trbl]{1,2})$/, ([, d]) => {
