@@ -54,18 +54,23 @@ export const parseColor = (body: string, theme: Theme): ParsedColorValue | undef
   if (!name)
     return
 
-  let color: string | undefined
-  const bracket = h.bracket(main)
-  const bracketOrMain = bracket || main
-
-  if (bracketOrMain.startsWith('#'))
-    color = bracketOrMain.slice(1)
-  if (bracketOrMain.startsWith('hex-'))
-    color = bracketOrMain.slice(4)
-
-  color = color || bracket
-
   let no = 'DEFAULT'
+  let color = h.bracket(main)
+  if (color) {
+    return {
+      opacity,
+      name,
+      no,
+      color,
+      rgba: undefined,
+    }
+  }
+
+  if (main.startsWith('#'))
+    color = main.slice(1)
+  if (main.startsWith('hex-'))
+    color = main.slice(4)
+
   if (!color) {
     let colorData
     const [scale] = colors.slice(-1)
