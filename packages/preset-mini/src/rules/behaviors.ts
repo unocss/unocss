@@ -24,23 +24,6 @@ export const appearance: Rule[] = [
   }],
 ]
 
-// TODO: convert to pseudo-element
-export const placeholder: Rule[] = [
-  [
-    /^placeholder-opacity-(\d+)$/,
-    ([, d]) => ({
-      'placeholder-opacity': h.bracket.percent(d),
-    }),
-  ],
-  [
-    /^placeholder-(?!opacity)(.+)$/,
-    (match, config) => {
-      match[1] = match[1].replace(/^color-/, '')
-      return colorResolver('placeholder-color', 'placeholder-color')(match, config)
-    },
-  ],
-]
-
 export const willChange: Rule[] = [
   [/^will-change-(.+)/, ([, p]) => ({ 'will-change': h.properties.global(p) })],
 ]
