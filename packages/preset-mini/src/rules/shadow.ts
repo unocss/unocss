@@ -36,9 +36,10 @@ export const boxShadows: Rule<Theme>[] = [
         'box-shadow': 'var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow)',
       }
     }
-
+  }],
+  [/^shadow-?(.*)$/, ([, d], { theme }) => {
     const color = colorResolver(d, theme)
     if (color)
       return color
-  }],
+  }, { layer: 'color' }],
 ]

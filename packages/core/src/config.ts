@@ -13,6 +13,7 @@ export function resolveShortcuts(shortcuts: UserShortcuts): Shortcut[] {
 const defaultLayers = {
   shortcuts: -1,
   default: 0,
+  color: 1,
 }
 
 export function resolveConfig(
