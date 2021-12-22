@@ -7,8 +7,6 @@ export const columns: Rule[] = [
     if (column)
       return { column }
   }],
-  // TODO: support for non-variable spaced-values
-  // https://developer.mozilla.org/en-US/docs/Web/CSS/columns#syntax
 
   // break before
   ['break-before-auto', { 'break-before': 'auto' }],

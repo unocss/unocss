@@ -55,12 +55,9 @@ const toFilter = (varName: string, resolver: (str: string, theme: Theme) => stri
 
 export const filters: Rule<Theme>[] = [
   ['filter', filterBase],
-  ['filter-none', { filter: 'none' }],
   ['backdrop-filter', backdropFilterBase],
-  ['backdrop-filter-none', {
-    '-webkit-backdrop-filter': 'none',
-    'backdrop-filter': 'none',
-  }],
+
+  // filters
   [/^(backdrop-)?blur(?:-(.+))?$/, toFilter('blur', (s, theme) => theme.blur?.[s || 'DEFAULT'] || h.bracket.px(s))],
   [/^(backdrop-)?brightness-(\d+)$/, toFilter('brightness', s => h.bracket.percent(s))],
   [/^(backdrop-)?contrast-(\d+)$/, toFilter('contrast', s => h.bracket.percent(s))],
@@ -74,4 +71,11 @@ export const filters: Rule<Theme>[] = [
   [/^(backdrop-)?invert(?:-(\d+))?$/, toFilter('invert', percentWithDefault())],
   [/^(backdrop-)?saturate(?:-(\d+))?$/, toFilter('saturate', percentWithDefault('0'))],
   [/^(backdrop-)?sepia(?:-(\d+))?$/, toFilter('sepia', percentWithDefault())],
+
+  // nones
+  ['filter-none', { filter: 'none' }],
+  ['backdrop-filter-none', {
+    '-webkit-backdrop-filter': 'none',
+    'backdrop-filter': 'none',
+  }],
 ]
