@@ -66,5 +66,8 @@
   },
   "dependencies": {
     "@unocss/core": "workspace:*"
+  },
+  "devDependencies": {
+    "fontmin": "^0.9.9"
   }
 }

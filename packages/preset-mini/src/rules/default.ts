@@ -20,6 +20,7 @@ import { textAligns, verticalAligns } from './align'
 import { appearance, outline, willChange } from './behaviors'
 import { textDecorations } from './decoration'
 import { svgUtilities } from './svg'
+import { glyphs } from './fonts'
 
 export const rules: Rule[] = [
   cssVariables,
@@ -74,6 +75,7 @@ export const rules: Rule[] = [
   transitions,
   transforms,
   willChange,
+  glyphs,
 
   // should be the last
   questionMark,
