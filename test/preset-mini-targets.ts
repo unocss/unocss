@@ -26,9 +26,6 @@ export const presetMiniTargets: string[] = [
   'outline-size-[var(--width)]',
   'outline-offset-[var(--offset)]',
   'appearance-none',
-  'placeholder-color-red-1',
-  'placeholder-transparent',
-  'placeholder-opacity-60',
   'will-change-margin,padding',
   'will-change-padding,margin',
   'will-change-transform',
@@ -395,11 +392,9 @@ export const presetMiniTargets: string[] = [
   '-translate-x-full',
   '-translate-y-1/2',
   'active:scale-4',
-  'before:translate-y-full',
   'hover:translate-x-3',
   'peer-checked:translate-x-[var(--reveal)]',
 
-  'before:translate-y-full',
   '-rotate-2',
   'active:scale-4',
   '!hover:px-10',
@@ -432,4 +427,15 @@ export const presetMiniTargets: string[] = [
   'peer-not-placeholder-shown:text-2xl',
   'sm:m-1',
   'sm:m1',
+
+  // variants - pseudo elements
+  'before:translate-y-full',
+  'placeholder-opacity-60',
+  'placeholder-color-opacity-60',
+  'placeholder-color-red-1',
+  'placeholder:color-transparent',
+  'selection:color-[var(--select-color)]',
+
+  // variants - pseudo classes
+  'placeholder-shown-color-transparent',
 ]

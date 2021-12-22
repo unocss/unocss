@@ -48,6 +48,7 @@ export const PseudoClasses: Record<string, string | undefined> = Object.fromEntr
 ].map(toArray))
 
 const PseudoElements = [
+  'placeholder',
   'before',
   'after',
   'first-letter',
