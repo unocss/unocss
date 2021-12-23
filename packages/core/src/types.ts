@@ -32,7 +32,7 @@ export type ParsedColorValue = {
    */
   no: string
   /**
-   * Color scale. Preferrably 000 - 999
+   * {@link RGBAColorValue}
    */
   rgba?: RGBAColorValue
 }
