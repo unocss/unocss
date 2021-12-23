@@ -91,6 +91,10 @@ That's it, have fun.
 
 See [all packages](https://github.com/antfu/unocss/tree/main/packages).
 
+Refer to the full documentation on [Vite](https://github.com/antfu/unocss/blob/main/packages/vite/README.md): 
+- modes: `global`, `dist-chunk`, `per-module`, `vue-scoped`, and `shadow-dom`.
+- frameworks: `React`, `Preact`, `WebComponents`, `Svelte`, `Sveltekit` and `Solid`.
+
 ### Nuxt
 
 ```bash
@@ -108,61 +112,6 @@ export default {
 ```
 
 Refer to the full documentation on https://github.com/antfu/unocss/tree/main/packages/nuxt
-
-### Vite + Svelte
-
-You must add `Unocss` plugin before `@sveltejs/vite-plugin-svelte`.
-
-To support `class:foo` and `class:foo={bar}` add `Unocss` and configure `extractorSvelte`:
-
-```ts
-// vite.config.js
-import { svelte } from '@sveltejs/vite-plugin-svelte'
-import Unocss from 'unocss/vite'
-import { extractorSvelte } from '@unocss/core'
-
-export default {
-  plugins: [
-    Unocss({
-      extractors: [extractorSvelte],
-      /* options */
-    }),
-    svelte()
-  ]
-}
-```
-
-###  Sveltekit
-
-To support `class:foo` and `class:foo={bar}` add `Unocss` plugin and configure `extractorSvelte`:
-
-```ts
-// svelte.config.js
-import preprocess from 'svelte-preprocess'
-import UnoCss from 'unocss/vite'
-import { extractorSvelte } from '@unocss/core'
-
-/** @type {import('@sveltejs/kit').Config} */
-const config = {
-  // Consult https://github.com/sveltejs/svelte-preprocess
-  // for more information about preprocessors
-  preprocess: preprocess(),
-
-  kit: {
-
-    // hydrate the <div id="svelte"> element in src/app.html
-    target: '#svelte',
-    vite: {
-      plugins: [
-        UnoCss({
-          extractors: [extractorSvelte],
-          /* options */
-        })
-      ]
-    }
-  }
-}  
-```
 
 ## Configurations
 
