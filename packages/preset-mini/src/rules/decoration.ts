@@ -7,19 +7,9 @@ export const textDecorations: Rule[] = [
   ['decoration-underline', { 'text-decoration': 'underline' }],
   ['decoration-line-through', { 'text-decoration': 'line-through' }],
 
-  // style
-  [/^(?:underline|decoration)-(solid|double|dotted|dashed|wavy)$/, ([, d]) => ({ 'text-decoration-style': d })],
-
-  // thickness
-  [/^(?:underline|decoration)-([^-]+)$/, ([, s]) => ({ 'text-decoration-thickness': ['auto', 'from-font'].includes(s) ? s : h.bracket.px(s) })],
-  [/^decoration-(.+)$/, ([, d]) => ({ 'text-decoration-thickness': h.bracket.px(d) })],
-
-  // offset
-  [/^underline-offset-([^-]+)$/, ([, s]) => {
-    const v = s === 'auto' ? s : h.bracket.px(s)
-    if (v != null)
-      return { 'text-underline-offset': v }
-  }],
+  // size
+  [/^(?:underline|decoration)-(?:size-)?(.+)$/, ([, s]) => ({ 'text-decoration-thickness': h.bracket.px(s) })],
+  [/^(?:underline|decoration)-(auto|from-font)$/, ([, s]) => ({ 'text-decoration-thickness': s })],
 
   // colors
   [/^(?:underline|decoration)-(.+)$/, (match, ctx) => {
@@ -33,6 +23,11 @@ export const textDecorations: Rule[] = [
   }],
   [/^(?:underline|decoration)-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-line-opacity': h.bracket.percent(opacity) })],
 
+  // offset
+  [/^underline-offset-(.+)$/, ([, s]) => ({ 'text-underline-offset': h.auto.bracket.px(s) })],
+
+  // style
+  [/^(?:underline|decoration)-(solid|double|dotted|dashed|wavy|inherit|initial|revert|unset)$/, ([, d]) => ({ 'text-decoration-style': d })],
   ['no-underline', { 'text-decoration': 'none' }],
   ['decoration-none', { 'text-decoration': 'none' }],
 ]

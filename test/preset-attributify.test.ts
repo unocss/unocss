@@ -38,7 +38,10 @@ describe('attributify', () => {
   <div h-80 text-center flex flex-col align-center select-none all:transition-400>
     <input type="checkbox" peer mt-a>
     <div mb-a group peer-checked="text-4xl">
-      <div font-100 text-4xl mb--3>
+      <div
+        font-100 text-4xl mb--3 p-10
+        bg-gradient="to-r from-yellow-400 via-red-500 to-pink-500"
+      >
         ~
       </div>
       <div text-5xl font-100 sm="bg-blue-600">

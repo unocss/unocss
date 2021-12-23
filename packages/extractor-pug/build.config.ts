@@ -10,4 +10,7 @@ export default defineBuildConfig({
     'pug',
     '@unocss/core',
   ],
+  rollup: {
+    emitCJS: true,
+  },
 })

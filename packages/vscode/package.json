@@ -1,7 +1,7 @@
 {
   "name": "unocss",
   "displayName": "UnoCSS",
-  "version": "0.16.4",
+  "version": "0.17.3",
   "private": true,
   "description": "UnoCSS for VS Code",
   "categories": [
@@ -39,7 +39,7 @@
   "devDependencies": {
     "@types/vscode": "^1.62.0",
     "prettier": "^2.5.1",
-    "tsup": "^5.11.6"
+    "tsup": "^5.11.7"
   },
   "engines": {
     "vscode": "^1.62.0"

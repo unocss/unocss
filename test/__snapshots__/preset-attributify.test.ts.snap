@@ -62,6 +62,11 @@ Set {
   "[font-100=\\"\\"]",
   "[text-4xl=\\"\\"]",
   "[mb--3=\\"\\"]",
+  "[p-10=\\"\\"]",
+  "[bg-gradient~=\\"to-r\\"]",
+  "[bg-gradient~=\\"from-yellow-400\\"]",
+  "[bg-gradient~=\\"via-red-500\\"]",
+  "[bg-gradient~=\\"to-pink-500\\"]",
   "[text-5xl=\\"\\"]",
   "[sm~=\\"bg-blue-600\\"]",
   "[op-20=\\"\\"]",
@@ -155,6 +160,11 @@ exports[`attributify > fixture2 1`] = `
 [peer=\\"\\"]:focus~[peer-focus~=\\"scale-75\\"],[peer=\\"\\"]:not(:placeholder-shown)~[peer-not-placeholder-shown~=\\"scale-75\\"]{--un-scale-x:0.75;--un-scale-y:0.75;}
 [peer=\\"\\"]:focus~[peer-focus~=\\"origin-top-left\\"],[peer=\\"\\"]:not(:placeholder-shown)~[peer-not-placeholder-shown~=\\"origin-top-left\\"]{transform-origin:top left;}
 [select-none=\\"\\"]{user-select:none;}
+[bg-gradient~=\\"from-yellow-400\\"]{--un-gradient-from:rgba(250,204,21, var(--un-from-opacity, 1));--un-gradient-stops:var(--un-gradient-from), var(--un-gradient-to, rgba(255, 255, 255, 0));}
+[bg-gradient~=\\"to-pink-500\\"]{--un-gradient-to:rgba(236,72,153, var(--un-to-opacity, 1));}
+[bg-gradient~=\\"via-red-500\\"]{--un-gradient-stops:var(--un-gradient-from), rgba(239,68,68, var(--un-via-opacity, 1)), var(--un-gradient-to, rgba(255, 255, 255, 0));}
+[bg-gradient~=\\"to-r\\"]{background-image:linear-gradient(to right, var(--un-gradient-stops));}
+[p-10=\\"\\"]{padding:2.5rem;}
 [px-4=\\"\\"]{padding-left:1rem;padding-right:1rem;}
 [pt-4=\\"\\"]{padding-top:1rem;}
 [text-center=\\"\\"]{text-align:center;}
@@ -178,7 +188,7 @@ exports[`attributify > fixture2 1`] = `
 `;
 
 exports[`attributify > variant 1`] = `
-Array [
+[
   undefined,
   undefined,
   "bg-blue-400",

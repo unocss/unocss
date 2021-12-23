@@ -59,7 +59,10 @@ export interface UnocssNuxtOptions extends UserConfig {
 }
 
 export default defineNuxtModule<UnocssNuxtOptions>({
-  name: 'unocss',
+  meta: {
+    name: 'unocss',
+    configKey: 'unocss',
+  },
   defaults: {
     uno: true,
     attributify: false,
@@ -68,7 +71,6 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     components: true,
     autoImport: true,
   },
-  configKey: 'unocss',
   setup(options) {
     // preset shortcuts
     if (options.presets == null) {

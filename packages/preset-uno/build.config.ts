@@ -12,4 +12,7 @@ export default defineBuildConfig({
   externals: [
     'unocss',
   ],
+  rollup: {
+    emitCJS: true,
+  },
 })

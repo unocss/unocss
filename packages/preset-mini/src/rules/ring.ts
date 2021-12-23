@@ -1,7 +1,6 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { handler as h } from '../utils'
-import { ringColors, ringOffsetColors } from './color'
+import { colorResolver, handler as h } from '../utils'
 import { varEmpty } from './static'
 
 export const rings: Rule<Theme>[] = [
@@ -21,13 +20,23 @@ export const rings: Rule<Theme>[] = [
       }
     }
   }],
+
+  // offset size
   ['ring-offset', { '--un-ring-offset-width': '1px' }],
   [/^ring-offset-(.+)$/, ([, d]) => {
     const value = h.px(d || '1')
     if (value)
       return { '--un-ring-offset-width': value }
   }],
+
+  // colors
+  [/^ring-(.+)$/, colorResolver('--un-ring-color', 'ring')],
+  [/^ring-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-ring-opacity': h.bracket.percent(opacity) })],
+
+  // offset color
+  [/^ring-offset-(.+)$/, colorResolver('--un-ring-offset-color', 'ring-offset')],
+  [/^ring-offset-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-ring-offset-opacity': h.bracket.percent(opacity) })],
+
+  // style
   ['ring-inset', { '--un-ring-inset': 'inset' }],
-  ...ringColors,
-  ...ringOffsetColors,
 ]

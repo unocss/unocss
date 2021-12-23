@@ -24,9 +24,9 @@ declare global {
       /**
        * Rerun extractor on the whole <body>, regardless of paused status or inspection limitation.
        *
-       * @returns {void}
+       * @returns {Promise<void>}
        */
-      extractAll: () => void
+      extractAll: () => Promise<void>
 
       /**
        * Set/unset inspection callback to allow/ignore element to be extracted.
@@ -92,10 +92,10 @@ export default function init(options: RuntimeOptions = {}) {
     scheduleUpdate()
   }
 
-  function extractAll() {
+  async function extractAll() {
     const html = document.body && document.body.outerHTML
     if (html)
-      extract(html)
+      await extract(html)
   }
 
   const mutationObserver = new MutationObserver((mutations) => {

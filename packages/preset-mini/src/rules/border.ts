@@ -15,17 +15,17 @@ export const borders: Rule[] = [
   [/^(?:border|b)-([^-]+)(?:-(.+))?$/, handlerBorderColor],
   [/^(?:border|b)-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-border-opacity': h.bracket.percent(opacity) })],
 
+  // radius
+  [/^(?:border-)?(?:rounded|rd)$/, handlerRounded],
+  [/^(?:border-)?(?:rounded|rd)(?:-(.+))?$/, handlerRounded],
+  [/^(?:border-)?(?:rounded|rd)(?:-([^-]+))?(?:-(.+))?$/, handlerRounded],
+
   // style
   ['border-solid', { 'border-style': 'solid' }],
   ['border-dashed', { 'border-style': 'dashed' }],
   ['border-dotted', { 'border-style': 'dotted' }],
   ['border-double', { 'border-style': 'double' }],
   ['border-none', { 'border-style': 'none' }],
-
-  // radius
-  [/^(?:border-)?(?:rounded|rd)$/, handlerRounded],
-  [/^(?:border-)?(?:rounded|rd)(?:-(.+))?$/, handlerRounded],
-  [/^(?:border-)?(?:rounded|rd)(?:-([^-]+))?(?:-(.+))?$/, handlerRounded],
 ]
 
 function handlerBorder(m: string[]): CSSEntries | undefined {
