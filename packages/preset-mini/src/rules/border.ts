@@ -34,39 +34,6 @@ export const borders: Rule[] = [
   ['border-none', { 'border-style': 'none' }],
 ]
 
-function handlerBorder(m: string[]): CSSEntries | undefined {
-  const borderSizes = handlerBorderSize(m)
-  if (borderSizes) {
-    return [
-      ...borderSizes,
-      ['border-style', 'solid'],
-    ]
-  }
-}
-
-function handlerBorderSize([, a, b]: string[]): CSSEntries | undefined {
-  const [d, s = '1'] = directionMap[a] ? [a, b] : ['', a]
-  const v = h.bracket.px(s)
-  if (v !== undefined)
-    return directionMap[d].map(i => [`border${i}-width`, v])
-}
-
-function handlerBorderColor([, a, c]: string[], ctx: RuleContext) {
-  if (borderHasColor(c, ctx)) {
-    return Object.assign({},
-      ...directionMap[directionMap[a] ? a : '']
-        .map(i => borderColorResolver(i)(['', c], ctx)),
-    ) as CSSObject
-  }
-}
-
-function handlerRounded([, a, b]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
-  const [d, s = 'DEFAULT'] = cornerMap[a] ? [a, b] : ['', a]
-  const v = theme.borderRadius?.[s] || h.auto.rem.fraction.bracket.cssvar(s)
-  if (v !== undefined)
-    return cornerMap[d].map(i => [`border${i}-radius`, v])
-}
-
 const borderHasColor = (color: string, { theme }: RuleContext<Theme>): Boolean => {
   return color !== undefined && !!parseColor(color, theme)?.color
 }
@@ -101,13 +68,14 @@ const borderColorResolver = (direction: string): DynamicMatcher => ([, body]: st
     else {
       if (direction === '') {
         return {
-          [`--un-border-opacity`]: 1,
+          ['--un-border-opacity']: 1,
           [`border${direction}-color`]: `rgba(${rgba.slice(0, 3).join(',')},var(--un-border${direction}-opacity))`,
         }
-      } else {
+      }
+      else {
         return {
-          [`--un-border-opacity`]: 1,
-          [`--un-border${direction}-opacity`]: `var(--un-border-opacity)`,
+          ['--un-border-opacity']: 1,
+          [`--un-border${direction}-opacity`]: 'var(--un-border-opacity)',
           [`border${direction}-color`]: `rgba(${rgba.slice(0, 3).join(',')},var(--un-border${direction}-opacity))`,
         }
       }
@@ -120,3 +88,35 @@ const borderColorResolver = (direction: string): DynamicMatcher => ([, body]: st
   }
 }
 
+function handlerBorder(m: string[]): CSSEntries | undefined {
+  const borderSizes = handlerBorderSize(m)
+  if (borderSizes) {
+    return [
+      ...borderSizes,
+      ['border-style', 'solid'],
+    ]
+  }
+}
+
+function handlerBorderSize([, a, b]: string[]): CSSEntries | undefined {
+  const [d, s = '1'] = directionMap[a] ? [a, b] : ['', a]
+  const v = h.bracket.px(s)
+  if (v !== undefined)
+    return directionMap[d].map(i => [`border${i}-width`, v])
+}
+
+function handlerBorderColor([, a, c]: string[], ctx: RuleContext) {
+  if (borderHasColor(c, ctx)) {
+    return Object.assign({},
+      ...directionMap[directionMap[a] ? a : '']
+        .map(i => borderColorResolver(i)(['', c], ctx)),
+    ) as CSSObject
+  }
+}
+
+function handlerRounded([, a, b]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
+  const [d, s = 'DEFAULT'] = cornerMap[a] ? [a, b] : ['', a]
+  const v = theme.borderRadius?.[s] || h.auto.rem.fraction.bracket.cssvar(s)
+  if (v !== undefined)
+    return cornerMap[d].map(i => [`border${i}-radius`, v])
+}
