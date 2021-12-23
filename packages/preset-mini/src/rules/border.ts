@@ -14,11 +14,11 @@ export const borders: Rule[] = [
   [/^(?:border|b)()-(.+)$/, handlerBorderColor],
   [/^(?:border|b)-([^-]+)(?:-(.+))?$/, handlerBorderColor],
   [/^(?:border|b)-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-border-opacity': h.bracket.percent(opacity) })],
-  [/^(?:border|b)-([^-]+)-op(?:acity)?-?(.+)$/, ([, a, opacity]): CSSEntries | undefined => {
+  [/^(?:border|b)-([^-]+)-op(?:acity)?-?(.+)$/, ([, a, opacity]) => {
     const v = h.bracket.percent(opacity)
     const d = directionMap[a]
     if (v !== undefined && d)
-      return d.map(i => [`--un-border${i}-opacity`, v])
+      return d.map(i => [`--un-border${i}-opacity`, v]) as CSSEntries
   }],
 
   // radius
@@ -34,7 +34,7 @@ export const borders: Rule[] = [
   ['border-none', { 'border-style': 'none' }],
 ]
 
-const borderHasColor = (color: string, { theme }: RuleContext<Theme>): Boolean => {
+const borderHasColor = (color: string, { theme }: RuleContext<Theme>) => {
   return color !== undefined && !!parseColor(color, theme)?.color
 }
 
