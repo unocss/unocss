@@ -26,6 +26,7 @@ const colorResolver = (body: string, theme: Theme) => {
   }
 }
 
+// don't merge rules:
 export const boxShadows: Rule<Theme>[] = [
   [/^shadow-?(.*)$/, ([, d], { theme }) => {
     const value = theme.boxShadow?.[d || 'DEFAULT']
@@ -37,9 +38,5 @@ export const boxShadows: Rule<Theme>[] = [
       }
     }
   }],
-  [/^shadow-?(.*)$/, ([, d], { theme }) => {
-    const color = colorResolver(d, theme)
-    if (color)
-      return color
-  }, { layer: 'color' }],
+  [/^shadow-(.+)$/, ([, d], { theme }) => colorResolver(d, theme)],
 ]
