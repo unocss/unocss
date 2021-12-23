@@ -170,11 +170,11 @@ exports[`preset-mini > targets 1`] = `
 .italic{font-style:italic;}
 .antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-smoothing:grayscale;}
 .shadow{--un-shadow-color:0,0,0;--un-shadow:0 1px 3px 0 rgba(var(--un-shadow-color), 0.1), 0 1px 2px 0 rgba(var(--un-shadow-color), 0.06);box-shadow:var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow);}
+.shadow-none{--un-shadow-color:0,0,0;--un-shadow:none;box-shadow:var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow);}
+.shadow-xl{--un-shadow-color:0,0,0;--un-shadow:0 20px 25px -5px rgba(var(--un-shadow-color), 0.1), 0 10px 10px -5px rgba(var(--un-shadow-color), 0.04);box-shadow:var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow);}
 .shadow-current{--un-shadow-color:currentColor;}
 .shadow-green-500{--un-shadow-color:34,197,94;}
-.shadow-none{--un-shadow-color:0,0,0;--un-shadow:none;box-shadow:var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow);}
 .shadow-transparent{--un-shadow-color:transparent;}
-.shadow-xl{--un-shadow-color:0,0,0;--un-shadow:0 20px 25px -5px rgba(var(--un-shadow-color), 0.1), 0 10px 10px -5px rgba(var(--un-shadow-color), 0.04);box-shadow:var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow);}
 .ring{--un-ring-inset:var(--un-empty,/*!*/ /*!*/);--un-ring-offset-width:0px;--un-ring-offset-color:#fff;--un-ring-color:rgba(59, 130, 246, .5);--un-ring-offset-shadow:var(--un-ring-inset) 0 0 0 var(--un-ring-offset-width) var(--un-ring-offset-color);--un-ring-shadow:var(--un-ring-inset) 0 0 0 calc(1px + var(--un-ring-offset-width)) var(--un-ring-color);-webkit-box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow, 0 0 #0000);box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow, 0 0 #0000);}
 .ring-10{--un-ring-inset:var(--un-empty,/*!*/ /*!*/);--un-ring-offset-width:0px;--un-ring-offset-color:#fff;--un-ring-color:rgba(59, 130, 246, .5);--un-ring-offset-shadow:var(--un-ring-inset) 0 0 0 var(--un-ring-offset-width) var(--un-ring-offset-color);--un-ring-shadow:var(--un-ring-inset) 0 0 0 calc(10px + var(--un-ring-offset-width)) var(--un-ring-color);-webkit-box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow, 0 0 #0000);box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow, 0 0 #0000);}
 .ring-offset{--un-ring-offset-width:1px;}
