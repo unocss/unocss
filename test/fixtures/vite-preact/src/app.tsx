@@ -1,6 +1,4 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-// noinspection ES6UnusedImports
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Fragment, h } from 'preact'
 import { useState } from 'preact/compat'
 
