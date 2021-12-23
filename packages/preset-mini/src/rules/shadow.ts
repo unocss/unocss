@@ -26,7 +26,6 @@ const colorResolver = (body: string, theme: Theme) => {
   }
 }
 
-// don't merge rules:
 export const boxShadows: Rule<Theme>[] = [
   [/^shadow-?(.*)$/, ([, d], { theme }) => {
     const value = theme.boxShadow?.[d || 'DEFAULT']
