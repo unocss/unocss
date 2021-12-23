@@ -1,0 +1,23 @@
+{
+  "name": "vite-template-solid",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@iconify-json/logos": "^1.0.2",
+    "@unocss/core": "link:../../../packages/core",
+    "@unocss/preset-attributify": "link:../../../packages/preset-attributify",
+    "@unocss/preset-icons": "link:../../../packages/presets-icons",
+    "typescript": "^4.5.4",
+    "unocss": "link:../../../packages/unocss",
+    "vite": "^2.7.4",
+    "vite-plugin-solid": "^2.1.4"
+  },
+  "dependencies": {
+    "solid-js": "^1.2.6"
+  }
+}

@@ -60,7 +60,7 @@ export class MyElement extends LitElement {
       <my-another-element class="part-[cool-part]:cool-blue">Testing css part</my-another-element>
       <my-another-element class="part-[cool-part]:cool-blue">Testing css part</my-another-element>
       <my-collision-element class="part-[cool-part]:cool-blue">Testing css part</my-collision-element>
-      <my-collision-element class="part-[cool-part]:cool-green">Testing css part</my-collision-element>
+      <my-collision-element class="part-[cool-part]:cool-green part-[another-cool-part]:bg-red-500">Testing css part</my-collision-element>
       <slot></slot>
     `
   }

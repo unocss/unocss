@@ -62,11 +62,45 @@ To inline the generated css, you only need to configure the plugin mode to `shad
 
 Some UI/App frameworks have some caveats that must be fixed to make it work, if you're using one of the following frameworks, just apply the suggestions.
 
-### React (WIP)
+### React
 
-You must add the plugin before `@vitejs/plugin-react`.
+If you're using `@vitejs/plugin-react`:
 
-If you are using `@unocss/preset-attributify`, you should remove `tsc` from the `build` script.
+```ts
+// vite.config.js
+import react from '@vitejs/plugin-react'
+import Unocss from 'unocss/vite'
+
+export default {
+  plugins: [
+    react(),
+    Unocss({
+      /* options */
+    }),
+  ]
+}
+```
+
+or if you're using `@vitejs/plugin-react-refresh`:
+
+```ts
+// vite.config.js
+import reactRefresh from '@vitejs/plugin-react-refresh'
+import Unocss from 'unocss/vite'
+
+export default {
+  plugins: [
+    reactRefresh(),
+    Unocss({
+      /* options */
+    }),
+  ]
+}
+```
+
+If you're using `@unocss/preset-attributify` you should remove `tsc` from the `build` script.
+
+If you are using `@vitejs/plugin-react` with `@unocss/preset-attributify`, you must add the plugin before `@vitejs/plugin-react`.
 
 ```ts
 // vite.config.js
@@ -83,11 +117,47 @@ export default {
 }
 ```
 
-### Preact (WIP)
+You have a `React` example project on [test/fixtures/vite-react](https://github.com/antfu/unocss/tree/main/test/fixtures/vite-react) directory  using both plugins, check the scripts on `package.json` and its Vite configuration file.
 
-You must add the plugin before `@preact/preset-vite`.
+### Preact
 
-If you are using `@unocss/preset-attributify`, you should remove `tsc` from the `build` script.
+If you're using `@preact/preset-vite`:
+
+```ts
+// vite.config.js
+import preact from '@preact/preset-vite'
+import Unocss from 'unocss/vite'
+
+export default {
+  plugins: [
+    preact(),
+    Unocss({
+      /* options */
+    }),
+  ]
+}
+```
+
+or if you're using `@prefresh/vite`:
+
+```ts
+// vite.config.js
+import prefresh from '@prefresh/vite'
+import Unocss from 'unocss/vite'
+
+export default {
+  plugins: [
+    prefresh(),
+    Unocss({
+      /* options */
+    }),
+  ]
+}
+```
+
+If you're using `@unocss/preset-attributify` you should remove `tsc` from the `build` script.
+
+If you are using `@preact/preset-vite` with `@unocss/preset-attributify`, you must add the plugin before `@preact/preset-vite`.
 
 ```ts
 // vite.config.js
@@ -103,6 +173,71 @@ export default {
   ]
 }
 ```
+
+You have a `Preact` example project on [test/fixtures/vite-preact](https://github.com/antfu/unocss/tree/main/test/fixtures/vite-preact) directory  using both plugins, check the scripts on `package.json` and its Vite configuration file.
+
+### Svelte
+
+You must add the plugin before `@sveltejs/vite-plugin-svelte`.
+
+To support `class:foo` and `class:foo={bar}` add the plugin and configure `extractorSvelte` on `extractors` option.
+
+You can use simple rules with `class:`, for example `class:bg-red-500={foo}` or using `shorcuts` to include multiples rules, see `src/App.svelte` on linked example project bellow.
+
+```ts
+// vite.config.js
+import { svelte } from '@sveltejs/vite-plugin-svelte'
+import Unocss from 'unocss/vite'
+import { extractorSvelte } from '@unocss/core'
+
+export default {
+  plugins: [
+    Unocss({
+      extractors: [extractorSvelte],
+      /* more options */
+    }),
+    svelte()
+  ]
+}
+```
+
+You have a `Vite + Svelte` example project on [test/fixtures/vite-svelte](https://github.com/antfu/unocss/tree/main/test/fixtures/vite-svelte) directory.
+
+###  Sveltekit
+
+To support `class:foo` and `class:foo={bar}` add the plugin and configure `extractorSvelte` on `extractors` option.
+
+You can use simple rules with `class:`, for example `class:bg-red-500={foo}` or using `shorcuts` to include multiples rules, see `src/routes/__layout.svelte` on linked example project bellow.
+
+```ts
+// svelte.config.js
+import preprocess from 'svelte-preprocess'
+import UnoCss from 'unocss/vite'
+import { extractorSvelte } from '@unocss/core'
+
+/** @type {import('@sveltejs/kit').Config} */
+const config = {
+  // Consult https://github.com/sveltejs/svelte-preprocess
+  // for more information about preprocessors
+  preprocess: preprocess(),
+
+  kit: {
+
+    // hydrate the <div id="svelte"> element in src/app.html
+    target: '#svelte',
+    vite: {
+      plugins: [
+        UnoCss({
+          extractors: [extractorSvelte],
+          /* more options */
+        })
+      ]
+    }
+  }
+}  
+```
+
+You have a `SvelteKit` example project on [test/fixtures/sveltekit](https://github.com/antfu/unocss/tree/main/test/fixtures/sveltekit) directory.
 
 ### Web Components
 
@@ -151,9 +286,13 @@ export class MyElement extends LitElement {
 }
 ```
 
+You have a `Web Components` example project on [test/fixtures/vite-lit](https://github.com/antfu/unocss/tree/main/test/fixtures/vite-lit) directory.
+
 #### `::part` built-in support
 
-You can use `::part` since the plugin supports it via `shortcuts` and using `part-[<part-name>]:<shortcut>` rule from `preset-mini`.
+You can use `::part` since the plugin supports it via `shortcuts` and using `part-[<part-name>]:<rule|shortcut>` rule from `preset-mini`, for example using it with simple rules like `part-[<part-name>]:bg-green-500` or using some `shortcut`: check `src/my-element.ts` on linked example project bellow.
+
+The `part-[<part-name>]:<rule|shortcut>` will work only with this plugin using the `shadow-dom` mode.
 
 The plugin uses `nth-of-type` to avoid collisions with multiple parts in the same web component and for the same parts on distinct web components, you don't need to worry about it, the plugin will take care for you.
 
@@ -202,64 +341,24 @@ template.innerHTML = `
 `
 ```
 
-### Svelte
-
-You must add the plugin before `@sveltejs/vite-plugin-svelte`.
-
-To support `class:foo` and `class:foo={bar}` add the plugin and configure `extractorSvelte` on `extractors` option:
+### Solid
 
 ```ts
 // vite.config.js
-import { svelte } from '@sveltejs/vite-plugin-svelte'
+import solidPlugin from 'vite-plugin-solid'
 import Unocss from 'unocss/vite'
-import { extractorSvelte } from '@unocss/core'
 
 export default {
   plugins: [
+    solidPlugin(),
     Unocss({
-      extractors: [extractorSvelte],
-      /* more options */
+      /* options */
     }),
-    svelte()
   ]
 }
 ```
 
-###  Sveltekit
-
-To support `class:foo` and `class:foo={bar}` add the plugin and configure `extractorSvelte` on `extractors` option:
-
-```ts
-// svelte.config.js
-import preprocess from 'svelte-preprocess'
-import UnoCss from 'unocss/vite'
-import { extractorSvelte } from '@unocss/core'
-
-/** @type {import('@sveltejs/kit').Config} */
-const config = {
-  // Consult https://github.com/sveltejs/svelte-preprocess
-  // for more information about preprocessors
-  preprocess: preprocess(),
-
-  kit: {
-
-    // hydrate the <div id="svelte"> element in src/app.html
-    target: '#svelte',
-    vite: {
-      plugins: [
-        UnoCss({
-          extractors: [extractorSvelte],
-          /* more options */
-        })
-      ]
-    }
-  }
-}  
-```
-
-### Solid
-
-`WIP`: coming soon.
+You have a `Vite + Solid` example project on [test/fixtures/vite-solid](https://github.com/antfu/unocss/tree/main/test/fixtures/vite-solid) directory.
 
 ## License
 
