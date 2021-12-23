@@ -15,6 +15,7 @@ export interface VitePluginConfig<Theme extends {} = {}> extends UserConfig<Them
    * - `dist-chunk` - generate a CSS sheet for each code chunk on build, great for MPA
    * - `per-module` - generate a CSS sheet for each module, can be scoped
    * - `vue-scoped` - inject generated CSS to Vue SFC's `<style scoped>` for isolation
+   * - `shadow-dom` - inject generated CSS to `Shadow DOM` css style block for each web component
    *
    * @default 'global'
    */

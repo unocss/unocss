@@ -40,29 +40,29 @@ This mode enables a set of Vite plugins for `build` and for `dev` with `HMR` sup
 
 The generated `css` will be a global stylesheet injected on the `index.html`.
 
-### vue-scoped
+### vue-scoped (WIP)
 
-`WIP`: coming soon.
+This mode will inject generated CSS to Vue SFC's `<style scoped>` for isolation.
 
-### per-module
+### per-module (WIP)
 
-`WIP`: coming soon.
+This mode will generate a CSS sheet for each module, can be scoped.
 
-### chunk
+### dist-chunk (WIP)
 
-`WIP`: coming soon.
+This mode will generate a CSS sheet for each code chunk on build, great for MPA.
 
 ### shadow-dom
 
 Since `Web Components` uses `Shadow DOM`, there is no way to style content directly from a global stylesheet (unless you use `custom css vars`, those will penetrate the `Shadow DOM`), you need to inline the generated css by the plugin into the `Shadow DOM` style.
 
-To inline the css, you only need to configure the plugin mode to `shadow-dom` and include `@unocss-placeholder` magic placeholder on each web component style css block.
+To inline the generated css, you only need to configure the plugin mode to `shadow-dom` and include `@unocss-placeholder` magic placeholder on each web component style css block.
 
 ## Frameworks
 
 Some UI/App frameworks have some caveats that must be fixed to make it work, if you're using one of the following frameworks, just apply the suggestions.
 
-### React
+### React (WIP)
 
 You must add the plugin before `@vitejs/plugin-react`.
 
@@ -83,15 +83,15 @@ export default {
 }
 ```
 
-### Preact
+### Preact (WIP)
 
-You must add the plugin before `@vitejs/plugin-react`.
+You must add the plugin before `@preact/preset-vite`.
 
 If you are using `@unocss/preset-attributify`, you should remove `tsc` from the `build` script.
 
 ```ts
 // vite.config.js
-import preact from '@vitejs/plugin-preact'
+import preact from '@preact/preset-vite'
 import Unocss from 'unocss/vite'
 
 export default {
@@ -153,7 +153,7 @@ export class MyElement extends LitElement {
 
 #### `::part` built-in support
 
-You can use `::part` since the plugin supports it via `shortcuts` and using `part-[<part-name>]:<shortcut>` rules.
+You can use `::part` since the plugin supports it via `shortcuts` and using `part-[<part-name>]:<shortcut>` rule from `preset-mini`.
 
 The plugin uses `nth-of-type` to avoid collisions with multiple parts in the same web component and for the same parts on distinct web components, you don't need to worry about it, the plugin will take care for you.
 
