@@ -10,7 +10,7 @@ export const flex: Rule[] = [
   ['flex-auto', { flex: '1 1 auto' }],
   ['flex-initial', { flex: '0 1 auto' }],
   ['flex-none', { flex: 'none' }],
-  [/^flex-(\[.+\])$/, ([, d]) => ({ flex: h.bracket(d) })],
+  [/^flex-(\[.+\])$/, ([, d]) => ({ flex: h.bracket(d).replace(/\d+\/\d+/, $1 => h.fraction($1)) })],
   ['flex-shrink', { 'flex-shrink': 1 }],
   ['flex-shrink-0', { 'flex-shrink': 0 }],
   ['flex-grow', { 'flex-grow': 1 }],
