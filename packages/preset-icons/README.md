@@ -67,6 +67,13 @@ presetIcons({
 })
 ```
 
+## Runtime
+
+You can force using `background-img` or `mask` on any icon on your html, will take precedence over `mode` configuration option, using:
+
+- `<prefix><collection>[-:]<icon>?bg` for `background-img`: will generate the icon as a background image
+- `<prefix><collection>[-:]<icon>?mask` for `mask`: will generate the icon as a mask image
+
 ## Credits
 
 This preset is inspired from [this issue](https://github.com/antfu/unplugin-icons/issues/88) created by [@husayt](https://github.com/husayt). Based on the work of [this PR](https://github.com/antfu/unplugin-icons/pull/90) by [@userquin](https://github.com/userquin).
