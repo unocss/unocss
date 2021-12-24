@@ -1,6 +1,6 @@
 {
   "name": "@unocss/runtime",
-  "version": "0.17.3",
+  "version": "0.18.0",
   "description": "CSS-in-JS Runtime for UnoCSS",
   "keywords": [
     "unocss",
