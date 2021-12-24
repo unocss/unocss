@@ -1,5 +1,6 @@
 import type { Rule } from '@unocss/core'
 import { handler as h } from '@unocss/preset-mini/utils'
+import type { Theme } from '@unocss/preset-mini'
 
 // https://windicss.org/plugins/community/animations.html
 const keyframes: Record<string, string> = {
@@ -154,12 +155,15 @@ const properties: Record<string, object> = {
   'zoom-out-up': { 'transform-origin': 'center bottom' },
 }
 
-export const animations: Rule[] = [
-  [/^animate-(.+)$/, ([, name], { constructCSS }) => {
-    const kf = keyframes[name]
+export const animations: Rule<Theme>[] = [
+  [/^animate-(.+)$/, ([, name], { theme, constructCSS }) => {
+    const kf = (theme.animation?.keyframes && theme.animation.keyframes[name]) ?? keyframes[name]
     if (kf) {
+      const duration = (theme.animation?.durations && theme.animation.durations[name]) || durations[name] || '1s'
+      const timing = (theme.animation?.timingFns && theme.animation.timingFns[name]) || timingFns[name] || 'linear'
+      const props = (theme.animation?.properties && theme.animation.properties[name]) ?? properties[name]
       return `@keyframes ${name}${kf}\n${constructCSS(
-        Object.assign({ animation: `${name} ${durations[name] || '1s'} ${timingFns[name] || 'linear'} infinite` }, properties[name]))}`
+        Object.assign({ animation: `${name} ${duration} ${timing} infinite` }, props))}`
     }
   }],
 
