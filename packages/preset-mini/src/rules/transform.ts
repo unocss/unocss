@@ -34,6 +34,8 @@ export const transforms: Rule[] = [
   [/^scale-([xyz])-(.+)$/, handleScale],
   [/^rotate-(.+)$/, handleRotate],
   [/^rotate-((?!\[)[^-]+?)(?:deg)?$/, handleRotateWithUnit],
+  [/^skew-([xy])-(.+)$/, handleSkew],
+  [/^skew-([xy])-((?!\[)[^-]+?)(?:deg)?$/, handleSkewWithUnit],
   ['transform-gpu', transformGpu],
   ['transform-cpu', transformCpu],
   ['transform-none', { transform: 'none' }],
@@ -90,6 +92,26 @@ function handleRotate([, b]: string[]): CSSValues | undefined {
     return [
       transformBase,
       { '--un-rotate': v },
+    ]
+  }
+}
+
+function handleSkewWithUnit([, d, b]: string[]): CSSValues | undefined {
+  const v = h.bracket.number(b)
+  if (v != null) {
+    return [
+      transformBase,
+      { [`--un-skew-${d}`]: `${v}deg` },
+    ]
+  }
+}
+
+function handleSkew([, d, b]: string[]): CSSValues | undefined {
+  const v = h.bracket(b)
+  if (v != null) {
+    return [
+      transformBase,
+      { [`--un-skew-${d}`]: v },
     ]
   }
 }
