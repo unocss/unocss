@@ -4,7 +4,7 @@ import type { PresetMiniOptions } from '..'
 
 export const CONTROL_BYPASS_PSEUDO_CLASS = '$$no-pseudo'
 
-export const PseudoClasses: Record<string, string | undefined> = Object.fromEntries([
+const PseudoClasses: Record<string, string | undefined> = Object.fromEntries([
   // location
   'any-link',
   'link',
@@ -57,26 +57,35 @@ const PseudoElements = [
   'selection',
 ]
 
+const PseudoClassFunctions = [
+  'not',
+  'is',
+  'where',
+  'has',
+]
+
 const PartClassesRE = /(part-\[(.+)]:)(.+)/
 const PseudoElementsRE = new RegExp(`^(${PseudoElements.join('|')})[:-]`)
 
 const PseudoClassesStr = Object.keys(PseudoClasses).join('|')
+const PseudoClassFunctionsStr = PseudoClassFunctions.join('|')
+
 const PseudoClassesRE = new RegExp(`^(${PseudoClassesStr})[:-]`)
-const PseudoClassesNotRE = new RegExp(`^not-(${PseudoClassesStr})[:-]`)
+const PseudoClassFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesStr})[:-]`)
 
 function shouldAdd(entires: CSSEntries) {
   return !entires.find(i => i[0] === CONTROL_BYPASS_PSEUDO_CLASS) || undefined
 }
 
-function taggedPseudoClassMatcher(tag: string, parent: string, combinator: string) {
-  const re = new RegExp(`^${tag}-((not-)?(${PseudoClassesStr}))[:-]`)
+const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: string) => {
+  const re = new RegExp(`^${tag}-((?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesStr}))[:-]`)
   const rawRe = new RegExp(`^${escapeRegExp(parent)}:`)
   return (input: string): VariantHandler | undefined => {
     const match = input.match(re)
     if (match) {
       let pseudo = PseudoClasses[match[3]] || match[3]
       if (match[2])
-        pseudo = `not(:${pseudo})`
+        pseudo = `${match[2]}(:${pseudo})`
       return {
         matcher: input.slice(match[1].length + tag.length + 2),
         selector: (s, body) => {
@@ -101,7 +110,7 @@ export const variantPseudoElements: VariantFunction = (input: string) => {
 
 export const variantPseudoClasses: VariantObject = {
   match: (input: string) => {
-    let match = input.match(PseudoClassesRE)
+    const match = input.match(PseudoClassesRE)
     if (match) {
       const pseudo = PseudoClasses[match[1]] || match[1]
       return {
@@ -109,13 +118,19 @@ export const variantPseudoClasses: VariantObject = {
         selector: (s, body) => shouldAdd(body) && `${s}:${pseudo}`,
       }
     }
+  },
+  multiPass: true,
+}
 
-    match = input.match(PseudoClassesNotRE)
+export const variantPseudoClassFunctions: VariantObject = {
+  match: (input: string) => {
+    const match = input.match(PseudoClassFunctionsRE)
     if (match) {
-      const pseudo = PseudoClasses[match[1]] || match[1]
+      const fn = match[1]
+      const pseudo = PseudoClasses[match[2]] || match[2]
       return {
-        matcher: input.slice(match[1].length + 5),
-        selector: (s, body) => shouldAdd(body) && `${s}:not(:${pseudo})`,
+        matcher: input.slice(match[1].length + match[2].length + 2),
+        selector: (s, body) => shouldAdd(body) && `${s}:${fn}(:${pseudo})`,
       }
     }
   },
