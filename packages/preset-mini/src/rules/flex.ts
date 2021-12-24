@@ -1,4 +1,5 @@
 import type { Rule } from '@unocss/core'
+import { handler as h } from '../utils'
 
 export const flex: Rule[] = [
   // base
@@ -9,7 +10,14 @@ export const flex: Rule[] = [
   ['flex-auto', { flex: '1 1 auto' }],
   ['flex-initial', { flex: '0 1 auto' }],
   ['flex-none', { flex: 'none' }],
-  [/^flex-\[(.+)\]$/, ([, d]) => ({ flex: d })],
+  [/^flex-\[(.+)\]$/, ([, d]) => {
+    if (/\d+\/\d+/.test(d))
+      d = d.replace(/\d+\/\d+/, $1 => h.fraction($1)!)
+    d = d.replace(/(?<![a-zA-Z]+)-(?=\w+)/g, ' ')
+    return {
+      flex: d,
+    }
+  }],
   ['flex-shrink', { 'flex-shrink': 1 }],
   ['flex-shrink-0', { 'flex-shrink': 0 }],
   ['flex-grow', { 'flex-grow': 1 }],
