@@ -93,12 +93,12 @@ export interface RuleMeta {
 
 export type CSSValues = CSSObject | CSSEntries | (CSSObject | CSSEntries)[]
 
-export type DynamicMatcher<Theme extends {} = {}> = ((match: string[], context: Readonly<RuleContext<Theme>>) => Awaitable<CSSValues | string | undefined>)
+export type DynamicMatcher<Theme extends {} = {}> = ((match: RegExpMatchArray, context: Readonly<RuleContext<Theme>>) => Awaitable<CSSValues | string | undefined>)
 export type DynamicRule<Theme extends {} = {}> = [RegExp, DynamicMatcher<Theme>] | [RegExp, DynamicMatcher<Theme>, RuleMeta]
 export type StaticRule = [string, CSSObject | CSSEntries] | [string, CSSObject | CSSEntries, RuleMeta]
 export type Rule<Theme extends {} = {}> = DynamicRule<Theme> | StaticRule
 
-export type DynamicShortcutMatcher<Theme extends {} = {}> = ((match: string[], context: Readonly<RuleContext<Theme>>) => (string | string [] | undefined))
+export type DynamicShortcutMatcher<Theme extends {} = {}> = ((match: RegExpMatchArray, context: Readonly<RuleContext<Theme>>) => (string | string [] | undefined))
 
 export type StaticShortcut = [string, string | string[]] | [string, string | string[], RuleMeta]
 export type StaticShortcutMap = Record<string, string | string[]>
