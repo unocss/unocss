@@ -6,17 +6,19 @@ export const variantColorsScheme: Variant[] = [
   variantMatcher('\\.light', input => `.light $$ ${input}`),
 
   (v) => {
-    const dark = variantMatcher('@dark')(v)
-    if (dark) {
+    const match = variantMatcher('@dark')(v)
+    if (match) {
       return {
-        ...dark,
+        ...match,
         parent: '@media (prefers-color-scheme: dark)',
       }
     }
-    const light = variantMatcher('@light')(v)
-    if (light) {
+  },
+  (v) => {
+    const match = variantMatcher('@light')(v)
+    if (match) {
       return {
-        ...light,
+        ...match,
         parent: '@media (prefers-color-scheme: light)',
       }
     }

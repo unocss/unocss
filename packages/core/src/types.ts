@@ -37,6 +37,8 @@ export type ParsedColorValue = {
   rgba?: RGBAColorValue
 }
 
+export type PresetOptions = Record<string, any>
+
 export interface RuleContext<Theme extends {} = {}> {
   /**
    * Unprocessed selector from user input.
@@ -64,12 +66,36 @@ export interface RuleContext<Theme extends {} = {}> {
    * Variants and selector escaping will be handled automatically.
    */
   constructCSS: (body: CSSEntries | CSSObject, overrideSelector?: string) => string
+  /**
+   * User-provided options from preset.
+   */
+  readonly options: PresetOptions
+}
+
+export interface VariantContext<Theme extends {} = {}> {
+  /**
+   * Unprocessed selector from user input.
+   */
+  rawSelector: string
+  /**
+   * UnoCSS generator instance
+   */
+  generator: UnoGenerator
+  /**
+   * The theme object
+   */
+  theme: Theme
+  /**
+   * User-provided options from preset.
+   */
+  readonly options: PresetOptions
 }
 
 export interface ExtractorContext {
   readonly original: string
   code: string
   id?: string
+  readonly options: PresetOptions
 }
 
 export interface Extractor {
@@ -134,7 +160,7 @@ export interface VariantHandler {
   parent?: string | [string, number] | undefined
 }
 
-export type VariantFunction<Theme extends {} = {}> = (matcher: string, raw: string, theme: Theme) => string | VariantHandler | undefined
+export type VariantFunction<Theme extends {} = {}> = (matcher: string, context: Readonly<VariantContext<Theme>>) => string | VariantHandler | undefined
 
 export type VariantObject<Theme extends {} = {}> = {
   /**
@@ -303,6 +329,7 @@ RequiredByKey<UserConfig, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'l
   rulesSize: number
   rulesDynamic: (DynamicRule|undefined)[]
   rulesStaticMap: Record<string, [number, CSSObject | CSSEntries, RuleMeta | undefined] | undefined>
+  options: PresetOptions
 }
 
 export interface GenerateResult {

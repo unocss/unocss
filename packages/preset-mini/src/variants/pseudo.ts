@@ -1,6 +1,5 @@
 import type { CSSEntries, VariantFunction, VariantHandler, VariantObject } from '@unocss/core'
 import { escapeRegExp, toArray } from '@unocss/core'
-import type { PresetMiniOptions } from '..'
 
 export const CONTROL_BYPASS_PSEUDO_CLASS = '$$no-pseudo'
 
@@ -137,15 +136,13 @@ export const variantPseudoClassFunctions: VariantObject = {
   multiPass: true,
 }
 
-export const variantTaggedPseudoClasses = (options: PresetMiniOptions = {}): VariantObject => ({
-  match: (input: string) => {
-    const attributify = !!options?.attributifyPseudo
-
-    const g = taggedPseudoClassMatcher('group', attributify ? '[group=""]' : '.group', ' ')(input)
+export const variantTaggedPseudoClasses: VariantObject = ({
+  match: (input, { options: { attributifyPseudo } }) => {
+    const g = taggedPseudoClassMatcher('group', attributifyPseudo ? '[group=""]' : '.group', ' ')(input)
     if (g)
       return g
 
-    const p = taggedPseudoClassMatcher('peer', attributify ? '[peer=""]' : '.peer', '~')(input)
+    const p = taggedPseudoClassMatcher('peer', attributifyPseudo ? '[peer=""]' : '.peer', '~')(input)
     if (p)
       return p
   },

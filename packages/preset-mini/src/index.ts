@@ -1,4 +1,4 @@
-import type { Preset } from '@unocss/core'
+import type { Preset, PresetOptions } from '@unocss/core'
 import { rules } from './rules'
 import type { Theme, ThemeAnimation } from './theme'
 import { theme } from './theme'
@@ -8,7 +8,7 @@ export { theme, colors } from './theme'
 
 export type { ThemeAnimation, Theme }
 
-export interface PresetMiniOptions {
+export interface PresetMiniOptions extends PresetOptions {
   /**
    * @default 'class'
    */
@@ -19,12 +19,17 @@ export interface PresetMiniOptions {
   attributifyPseudo?: Boolean
 }
 
-export const presetMini = (options: PresetMiniOptions = {}): Preset<Theme> => ({
-  name: '@unocss/preset-mini',
-  theme,
-  rules,
-  variants: variants(options),
-  options,
-})
+export const presetMini = (options: PresetMiniOptions = {}): Preset<Theme> => {
+  options.dark = options.dark ?? 'class'
+  options.attributifyPseudo = options.attributifyPseudo ?? false
+
+  return {
+    name: '@unocss/preset-mini',
+    theme,
+    rules,
+    variants,
+    options,
+  }
+}
 
 export default presetMini
