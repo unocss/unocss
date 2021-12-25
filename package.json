@@ -37,6 +37,7 @@
     "@unocss/core": "workspace:*",
     "@unocss/extractor-pug": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
+    "@unocss/preset-glyphs": "workspace:*",
     "@unocss/preset-icons": "workspace:*",
     "@unocss/preset-mini": "workspace:*",
     "@unocss/preset-uno": "workspace:*",

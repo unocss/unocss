@@ -15,6 +15,7 @@ export const alias: AliasOptions = {
   '@unocss/preset-uno': r('./packages/preset-uno/src/'),
   '@unocss/preset-attributify': r('./packages/preset-attributify/src/'),
   '@unocss/preset-icons': r('./packages/preset-icons/src/'),
+  '@unocss/preset-glyphs': r('./packages/preset-glyphs/src/'),
 }
 
 export default defineConfig({

@@ -22,6 +22,7 @@
       "@unocss/preset-mini/utils": ["./packages/preset-mini/src/utils.ts"],
       "@unocss/preset-uno": ["./packages/preset-uno/src/index.ts"],
       "@unocss/preset-icons": ["./packages/preset-icons/src/index.ts"],
+      "@unocss/preset-glyphs": ["./packages/preset-glyphs/src/index.ts"],
       "@unocss/preset-attributify": ["./packages/preset-attributify/src/index.ts"],
     }
   },
