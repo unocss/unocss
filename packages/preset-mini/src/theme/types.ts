@@ -1,8 +1,10 @@
+export type Keyframe = string | Record<string, Record<string, string>>
+
 export interface Animation {
-  keyframes?: Record<string, string>
+  keyframes?: Record<string, Keyframe>
   durations?: Record<string, string>
   timingFns?: Record<string, string>
-  properties?: Record<string, object>
+  properties?: Record<string, Record<string, string | number>>
 }
 
 export interface Theme {

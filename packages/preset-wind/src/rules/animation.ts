@@ -1,6 +1,7 @@
 import type { Rule } from '@unocss/core'
 import { handler as h } from '@unocss/preset-mini/utils'
 import type { Theme } from '@unocss/preset-mini'
+import { Keyframe } from '@unocss/preset-mini/src/theme'
 
 // https://windicss.org/plugins/community/animations.html
 const keyframes: Record<string, string> = {
@@ -159,10 +160,21 @@ export const animations: Rule<Theme>[] = [
   [/^animate-(.+)$/, ([, name], { theme, constructCSS }) => {
     const kf = (theme.animation?.keyframes && theme.animation.keyframes[name]) ?? keyframes[name]
     if (kf) {
-      const duration = (theme.animation?.durations && theme.animation.durations[name]) || durations[name] || '1s'
-      const timing = (theme.animation?.timingFns && theme.animation.timingFns[name]) || timingFns[name] || 'linear'
+      const kfString = typeof kf === 'string'
+        ? kf
+        : `{${Object.keys(kf).reduce((kfAcc, kfKey) => {
+          const kfValue = kf[kfKey]
+          const values = Object.keys(kfValue).map((kfProp) => {
+            return `${kfProp}:${kfValue[kfProp].replace(/, /g, ',')};`
+          })
+          kfAcc.push(`${kfKey} {${values.join(' ')}}`)
+          return kfAcc
+        }, new Array<string>()).join(' ')}}`
+
+      const duration = (theme.animation?.durations && theme.animation.durations[name]) ?? durations[name] ?? '1s'
+      const timing = (theme.animation?.timingFns && theme.animation.timingFns[name]) ?? timingFns[name] ?? 'linear'
       const props = (theme.animation?.properties && theme.animation.properties[name]) ?? properties[name]
-      return `@keyframes ${name}${kf}\n${constructCSS(
+      return `@keyframes ${name}${kfString}\n${constructCSS(
         Object.assign({ animation: `${name} ${duration} ${timing} infinite` }, props))}`
     }
   }],
