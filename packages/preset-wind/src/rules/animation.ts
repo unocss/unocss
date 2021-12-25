@@ -1,7 +1,6 @@
 import type { Rule } from '@unocss/core'
 import { handler as h } from '@unocss/preset-mini/utils'
 import type { Theme } from '@unocss/preset-mini'
-import { Keyframe } from '@unocss/preset-mini/src/theme'
 
 // https://windicss.org/plugins/community/animations.html
 const keyframes: Record<string, string> = {
