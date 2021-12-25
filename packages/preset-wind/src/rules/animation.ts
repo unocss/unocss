@@ -164,8 +164,8 @@ export const animations: Rule<Theme>[] = [
         kfString = kf.trim()
         if (!kfString.startsWith('{'))
           kfString = `{${kfString}`
-        const match = kfString.match(/}/g)
-        if (!match || match.length % 2 === 0)
+        const match = kfString.match(/[{}]/g)
+        if (!match || match.filter(m => m === '{').length !== match.filter(m => m === '}').length)
           kfString = `${kfString}}`
       }
       else {
