@@ -5,14 +5,14 @@ import { describe, expect, test } from 'vitest'
 
 describe('preset-glyphs', () => {
   const fixture1 = `
-<button class="g-font-unocss" />
+<button class="g-rondure-uno hover:g-rondure-css">unocss</button>
 `
 
   const uno = createGenerator({
     presets: [
       presetGlyphs({
         fonts: {
-
+          rondure: './test/fonts/Rondure-Regular.ttf',
         },
       }),
       presetUno(),
