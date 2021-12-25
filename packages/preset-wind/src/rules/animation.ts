@@ -159,9 +159,17 @@ export const animations: Rule<Theme>[] = [
   [/^animate-(.+)$/, ([, name], { theme, constructCSS }) => {
     const kf = (theme.animation?.keyframes && theme.animation.keyframes[name]) ?? keyframes[name]
     if (kf) {
-      const kfString = typeof kf === 'string'
-        ? kf
-        : `{${Object.keys(kf).reduce((kfAcc, kfKey) => {
+      let kfString: string
+      if (typeof kf === 'string') {
+        kfString = kf.trim()
+        if (!kfString.startsWith('{'))
+          kfString = `{${kfString}`
+        const match = kfString.match(/}/g)
+        if (!match || match.length % 2 === 0)
+          kfString = `${kfString}}`
+      }
+      else {
+        kfString = `{${Object.keys(kf).reduce((kfAcc, kfKey) => {
           const kfValue = kf[kfKey]
           const values = Object.keys(kfValue).map((kfProp) => {
             return `${kfProp}:${kfValue[kfProp].replace(/, /g, ',')};`
@@ -169,6 +177,7 @@ export const animations: Rule<Theme>[] = [
           kfAcc.push(`${kfKey} {${values.join(' ')}}`)
           return kfAcc
         }, new Array<string>()).join(' ')}}`
+      }
 
       const duration = (theme.animation?.durations && theme.animation.durations[name]) ?? durations[name] ?? '1s'
       const timing = (theme.animation?.timingFns && theme.animation.timingFns[name]) ?? timingFns[name] ?? 'linear'

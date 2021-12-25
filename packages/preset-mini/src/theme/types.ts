@@ -4,7 +4,7 @@ export interface Animation {
   keyframes?: Record<string, Keyframe>
   durations?: Record<string, string>
   timingFns?: Record<string, string>
-  properties?: Record<string, Record<string, string | number>>
+  properties?: Record<string, object>
 }
 
 export interface Theme {
