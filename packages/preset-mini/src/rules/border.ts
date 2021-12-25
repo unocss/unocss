@@ -13,12 +13,12 @@ export const borders: Rule[] = [
   // colors
   [/^(?:border|b)()-(.+)$/, handlerBorderColor],
   [/^(?:border|b)-([^-]+)(?:-(.+))?$/, handlerBorderColor],
-  [/^(?:border|b)-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-border-opacity': h.bracket.percent(opacity) })],
-  [/^(?:border|b)-([^-]+)-op(?:acity)?-?(.+)$/, ([, a, opacity]) => {
+  [/^(?:border|b)-op(?:acity)?-?(.+)$/, ([, opacity], { options: { variablePrefix: p } }) => ({ [`--${p}border-opacity`]: h.bracket.percent(opacity) })],
+  [/^(?:border|b)-([^-]+)-op(?:acity)?-?(.+)$/, ([, a, opacity], { options: { variablePrefix: p } }) => {
     const v = h.bracket.percent(opacity)
     const d = directionMap[a]
     if (v !== undefined && d)
-      return d.map(i => [`--un-border${i}-opacity`, v]) as CSSEntries
+      return d.map(i => [`--${p}border${i}-opacity`, v]) as CSSEntries
   }],
 
   // radius
@@ -38,7 +38,7 @@ const borderHasColor = (color: string, { theme }: RuleContext<Theme>) => {
   return color !== undefined && !!parseColor(color, theme)?.color
 }
 
-const borderColorResolver = (direction: string): DynamicMatcher => ([, body]: string[], { theme }: RuleContext<Theme>): CSSObject | undefined => {
+const borderColorResolver = (direction: string): DynamicMatcher => ([, body]: string[], { theme, options: { variablePrefix: p } }): CSSObject | undefined => {
   const data = parseColor(body, theme)
 
   if (!data)
@@ -68,15 +68,15 @@ const borderColorResolver = (direction: string): DynamicMatcher => ([, body]: st
     else {
       if (direction === '') {
         return {
-          '--un-border-opacity': 1,
-          [`border${direction}-color`]: `rgba(${rgba.slice(0, 3).join(',')},var(--un-border${direction}-opacity))`,
+          [`--${p}border-opacity`]: 1,
+          [`border${direction}-color`]: `rgba(${rgba.slice(0, 3).join(',')},var(--${p}border${direction}-opacity))`,
         }
       }
       else {
         return {
-          '--un-border-opacity': 1,
-          [`--un-border${direction}-opacity`]: 'var(--un-border-opacity)',
-          [`border${direction}-color`]: `rgba(${rgba.slice(0, 3).join(',')},var(--un-border${direction}-opacity))`,
+          [`--${p}border-opacity`]: 1,
+          [`--${p}border${direction}-opacity`]: `var(--${p}border-opacity)`,
+          [`border${direction}-color`]: `rgba(${rgba.slice(0, 3).join(',')},var(--${p}border${direction}-opacity))`,
         }
       }
     }
