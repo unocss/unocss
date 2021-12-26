@@ -1,8 +1,4 @@
 export const presetMiniTargets: string[] = [
-  // fonts
-  // 'glyph-webdings-abc',
-  // 'glyph-webdings-人',
-
   // align
   'vertical-baseline',
   'align-text-bottom',
