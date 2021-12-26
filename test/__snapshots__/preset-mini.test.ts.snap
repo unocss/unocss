@@ -233,6 +233,11 @@ exports[`preset-mini > targets 1`] = `
 .flex-gap-y-1,.grid-gap-y-1{grid-row-gap:0.25rem;row-gap:0.25rem;}
 .gap-4{grid-gap:1rem;gap:1rem;}
 .gap-x-1{grid-column-gap:0.25rem;column-gap:0.25rem;}
+.absolute{position:absolute;}
+.pos-fixed{position:fixed;}
+.position-sticky{position:sticky;}
+.relative{position:relative;}
+.static{position:static;}
 .h-\\\\[calc\\\\(1000px-4rem\\\\)\\\\]{height:calc(1000px - 4rem);}
 .h-\\\\$var{height:var(--var);}
 .h-1{height:0.25rem;}

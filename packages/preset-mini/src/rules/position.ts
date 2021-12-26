@@ -4,11 +4,8 @@ import { directionMap, handler as h } from '../utils'
 const basicSet = ['auto', 'start', 'end', 'center', 'stretch']
 
 export const positions: Rule[] = [
-  ['relative', { position: 'relative' }],
-  ['absolute', { position: 'absolute' }],
-  ['fixed', { position: 'fixed' }],
-  ['sticky', { position: 'sticky' }],
-  ['static', { position: 'static' }],
+  [/^(?:position-|pos-)?(relative|absolute|fixed|sticky)$/, ([, v]) => ({ position: v })],
+  [/^(?:position-|pos-)?(static)$/, ([, v]) => ({ position: v })],
 ]
 
 export const justifies: Rule[] = [
@@ -76,8 +73,8 @@ function handleInsetValue(v: string): string | number | undefined {
 }
 
 export const insets: Rule[] = [
-  [/^(top|left|right|bottom|inset)-(.+)$/, ([, d, v]) => ({ [d]: handleInsetValue(v) })],
-  [/^inset-([xy])-(.+)$/, ([, d, v]): CSSEntries | undefined => {
+  [/^(?:position-|pos-)?(top|left|right|bottom|inset)-(.+)$/, ([, d, v]) => ({ [d]: handleInsetValue(v) })],
+  [/^(?:position-|pos-)?inset-([xy])-(.+)$/, ([, d, v]): CSSEntries | undefined => {
     const r = handleInsetValue(v)
     if (r != null && d in directionMap)
       return directionMap[d].map(i => [i.slice(1), r])
