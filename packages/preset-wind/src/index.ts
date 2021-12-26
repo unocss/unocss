@@ -1,14 +1,16 @@
 import type { Preset } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
-import { theme } from '@unocss/preset-mini/theme'
 import { variants } from '@unocss/preset-mini/variants'
 import { rules } from './rules'
 import { containerShortcuts } from './rules/container'
+import { theme } from './theme'
 import { variantColorsScheme } from './variants'
 
-export { theme, colors } from '@unocss/preset-mini'
+export { colors } from '@unocss/preset-mini'
 
 export type { Theme } from '@unocss/preset-mini'
+
+export { theme }
 
 export interface UnoOptions {
   /**

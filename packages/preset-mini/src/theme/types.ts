@@ -1,7 +1,5 @@
-export type Keyframe = string | Record<string, Record<string, string>>
-
-export interface Animation {
-  keyframes?: Record<string, Keyframe>
+export interface ThemeAnimation {
+  keyframes?: Record<string, string>
   durations?: Record<string, string>
   timingFns?: Record<string, string>
   properties?: Record<string, object>
@@ -30,5 +28,5 @@ export interface Theme {
   blur?: Record<string, string>
   dropShadow?: Record<string, string | string[]>
   // animation
-  animation?: Animation
+  animation?: ThemeAnimation
 }
