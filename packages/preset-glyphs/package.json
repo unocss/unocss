@@ -1,0 +1,48 @@
+{
+  "name": "@unocss/preset-glyphs",
+  "version": "0.18.0",
+  "description": "Embed subset of glyphs from fonts for UnoCSS",
+  "keywords": [
+    "unocss",
+    "unocss-preset",
+    "font"
+  ],
+  "homepage": "https://github.com/antfu/unocss/tree/main/packages/preset-glyphs#readme",
+  "bugs": {
+    "url": "https://github.com/antfu/unocss/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antfu/unocss.git",
+    "directory": "packages/preset-glyphs"
+  },
+  "funding": "https://github.com/sponsors/antfu",
+  "license": "MIT",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "*.css"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub"
+  },
+  "dependencies": {
+    "@unocss/core": "workspace:*",
+    "local-pkg": "^0.4.0"
+  },
+  "devDependencies": {
+    "fontmin": "^0.9.9"
+  }
+}
