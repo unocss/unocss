@@ -170,6 +170,11 @@ export const presetMiniTargets: string[] = [
 
   // flex, gap
   'flex-[hi]',
+  'flex-[1_0_100%]',
+  'flex-[0_0_auto]',
+  'flex-[1_1_1/2]',
+  'flex-[1_auto]',
+  'flex-[fit-content]',
   'flex',
   'flex-row',
   'flex-col-reverse',

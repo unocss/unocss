@@ -202,6 +202,11 @@ exports[`preset-mini > targets 1`] = `
 .ring-offset-op-5{--un-ring-offset-opacity:0.05;}
 .ring-inset{--un-ring-inset:inset;}
 .flex{display:flex;}
+.flex-\\\\[0_0_auto\\\\]{flex:0 0 auto;}
+.flex-\\\\[1_0_100\\\\%\\\\]{flex:1 0 100%;}
+.flex-\\\\[1_1_1\\\\/2\\\\]{flex:1 1 50%;}
+.flex-\\\\[1_auto\\\\]{flex:1 auto;}
+.flex-\\\\[fit-content\\\\]{flex:fit-content;}
 .flex-\\\\[hi\\\\]{flex:hi;}
 .flex-row{flex-direction:row;}
 .flex-col-reverse{flex-direction:column-reverse;}
