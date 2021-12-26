@@ -4,14 +4,11 @@ import { e } from '@unocss/core'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const Fontmin = require('fontmin')
 
-// Adjust font files here. Actual variable should be in preset config
+// Copy font files here. Actual variable should be in preset config
 const fontList: Record<string, string> = {
   webdings: './packages/preset-mini/fonts/webdings.ttf',
 }
 
-/**
- * @example glyph-webdings-uno
- */
 export const glyphs: Rule[] = [
   [/^glyph-([\w]+)-(.+)$/, ([, font, glyphs]: string[], { rawSelector }) => {
     const path = fontList[font]
@@ -24,7 +21,7 @@ export const glyphs: Rule[] = [
           // Subset glyphs
           .use(Fontmin.glyph({ text: glyphs }))
 
-          // Save as base64. I cannot figure out how to get out just the raw font data
+          // Save as base64. I cannot figure out how to get out just the raw ttf font data
           .use(Fontmin.css({ base64: true }))
 
         f.run((err: any, files: any[]) => {
@@ -36,7 +33,7 @@ export const glyphs: Rule[] = [
           // The @font-face selector. Search inside fontmin source for font-face.tpl
           const fontMinCss = files[1].contents.toString()
 
-          // Take out the encoded ttf font data
+          // Take out the font data
           const base64FontData = fontMinCss.replace(/^[\s\S]*?;base64,([^)]+)\)[\s\S]*$/, '$1')
 
           // Redo the @font-face with less properties than the original
