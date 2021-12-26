@@ -237,6 +237,7 @@ exports[`preset-mini > targets 1`] = `
 .pos-fixed{position:fixed;}
 .position-sticky{position:sticky;}
 .relative{position:relative;}
+.static{position:static;}
 .h-\\\\[calc\\\\(1000px-4rem\\\\)\\\\]{height:calc(1000px - 4rem);}
 .h-\\\\$var{height:var(--var);}
 .h-1{height:0.25rem;}

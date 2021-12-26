@@ -4,7 +4,8 @@ import { directionMap, handler as h } from '../utils'
 const basicSet = ['auto', 'start', 'end', 'center', 'stretch']
 
 export const positions: Rule[] = [
-  [/^(?:position-|pos-)?(relative|absolute|fixed|sticky|static)$/, ([, v]) => ({ position: v })],
+  [/^(?:position-|pos-)?(relative|absolute|fixed|sticky)$/, ([, v]) => ({ position: v })],
+  [/^(?:position-|pos-)?(static)$/, ([, v]) => ({ position: v })],
 ]
 
 export const justifies: Rule[] = [
