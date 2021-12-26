@@ -67,7 +67,7 @@ presetIcons({
 })
 ```
 
-## Explicitly Set Modes
+## Modes Overriding
 
 By default, this preset will choose the rendering modes automatically for each icon based on the icons' characteristics. You can read more in this [blog post](https://antfu.me/posts/icons-in-pure-css). In some cases, you may want to explicitly set the rendering modes for each icon.
 
