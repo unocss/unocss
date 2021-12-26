@@ -2,7 +2,7 @@
 
 Use **any** icons with **Pure CSS** for [UnoCSS](https://github.com/antfu/unocss).
 
-<blockquote align="center">
+<blockquote>
 <p>💡 Recommend reading - <br><a href="https://antfu.me/posts/icons-in-pure-css"><strong>Icons in Pure CSS</strong></a><br></p>
 </blockquote>
 
@@ -66,6 +66,15 @@ presetIcons({
   }
 })
 ```
+
+## Modes Overriding
+
+By default, this preset will choose the rendering modes automatically for each icon based on the icons' characteristics. You can read more in this [blog post](https://antfu.me/posts/icons-in-pure-css). In some cases, you may want to explicitly set the rendering modes for each icon.
+
+- `?bg` for `background-img` - renders the icon as a background image
+- `?mask` for `mask` - renders the icon as a mask image
+
+for example, `vscode-icons:file-type-light-db`, an icon with colors that will be rendered as a background image. Use `vscode-icons:file-type-light-db?bg` to render it as a mask image and bypass it's colors.
 
 ## Credits
 
