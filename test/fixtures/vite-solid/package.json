@@ -14,7 +14,7 @@
     "@unocss/preset-icons": "link:../../../packages/presets-icons",
     "typescript": "^4.5.4",
     "unocss": "link:../../../packages/unocss",
-    "vite": "^2.7.4",
+    "vite": "^2.7.6",
     "vite-plugin-solid": "^2.1.4"
   },
   "dependencies": {
