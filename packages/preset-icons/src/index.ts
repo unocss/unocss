@@ -67,8 +67,8 @@ export const preset = (options: IconsOptions = {}): Preset => {
       icons: -10,
     },
     rules: [[
-      new RegExp(`^${prefix}([a-z0-9:-]+)(\\?(mask|bg))?$`),
-      async([full, body,, useMode]) => {
+      new RegExp(`^${prefix}([a-z0-9:-]+)(?:\\?(mask|bg))?$`),
+      async([full, body, _mode]) => {
         let collection = ''
         let name = ''
         let svg: string | undefined
@@ -94,12 +94,8 @@ export const preset = (options: IconsOptions = {}): Preset => {
           return
         }
 
-        let _mode = mode
-        if (useMode === 'bg')
-          _mode = 'background-img'
-        else if (useMode === 'mask')
-          _mode = 'mask'
-        else if (_mode === 'auto')
+        _mode = _mode || mode
+        if (_mode === 'auto')
           _mode = svg.includes('currentColor') ? 'mask' : 'background-img'
 
         const url = `url("data:image/svg+xml;utf8,${encodeSvg(svg)}")`
