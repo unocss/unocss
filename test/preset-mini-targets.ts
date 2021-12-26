@@ -211,6 +211,10 @@ export const presetMiniTargets: string[] = [
   'overflow-x-scroll',
 
   // position
+  'relative',
+  'absolute',
+  'pos-fixed',
+  'position-sticky',
   'justify-start',
   'justify-center',
   'justify-items-end',

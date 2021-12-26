@@ -140,8 +140,8 @@ exports[`attributify > fixture1 1`] = `
 exports[`attributify > fixture2 1`] = `
 "/* layer: default */
 [pointer-events-none=\\"\\"]{pointer-events:none;}
-[relative=\\"\\"]{position:relative;}
 [absolute=\\"\\"]{position:absolute;}
+[relative=\\"\\"]{position:relative;}
 [left-4=\\"\\"]{left:1rem;}
 [top~=\\"\\\\31 \\\\/3\\"]{top:33.33333333333333%;}
 [m-0=\\"\\"]{margin:0rem;}
