@@ -31,15 +31,15 @@ export const preset = (options: GlyphsOptions = {}): Preset => {
         const path = fonts[fontAlias]
         if (!path) {
           if (warn)
-            warnOnce(`failed to load font "${fontAlias}" at "${path}"`)
+            warnOnce(`no font defined for "${fontAlias}"`)
           return
         }
 
-        // Always subset space
+        // Always subset space character
         const fontData = await subsetFont(path, ` ${glyphs}`)
         if (!fontData) {
           if (warn)
-            warnOnce(`failed to subset font "${fontAlias}"`)
+            warnOnce(`failed to load/subset font "${fontAlias}" at "${path}"`)
           return
         }
 

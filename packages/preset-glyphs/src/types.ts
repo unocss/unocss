@@ -1,8 +1,7 @@
 export interface GlyphsOptions {
   /**
-   * Scale related to the current font size (1em).
+   * List of font and its path.
    *
-   * @default 1
    */
   fonts?: Record<string, string>
   /**

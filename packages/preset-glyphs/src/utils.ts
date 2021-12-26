@@ -8,9 +8,12 @@ export function subsetFont(path: string, glyphs: string) {
     if (!isNode)
       return resolve(undefined)
 
-    const f = new Fontmin()
-      .src(path)
-      .use(Fontmin.glyph({ text: glyphs }))
+    const f = new Fontmin().src(path)
+
+    if (path.match(/\.otf$/))
+      f.use(Fontmin.otf2ttf())
+
+    f.use(Fontmin.glyph({ text: glyphs }))
       .use(Fontmin.css({ base64: true }))
 
     f.run((err: any, files: any[]) => {
