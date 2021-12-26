@@ -1,12 +1,12 @@
 import type { Preset } from '@unocss/core'
 import { rules } from './rules'
-import type { Theme } from './theme'
+import type { Theme, ThemeAnimation } from './theme'
 import { theme } from './theme'
 import { variants } from './variants'
 
 export { theme, colors } from './theme'
 
-export type { Theme }
+export type { ThemeAnimation, Theme }
 
 export interface PresetMiniOptions {
   /**
