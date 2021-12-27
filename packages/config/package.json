@@ -1,6 +1,6 @@
 {
   "name": "@unocss/config",
-  "version": "0.18.1",
+  "version": "0.19.0",
   "description": "Config loader for UnoCSS",
   "keywords": [],
   "homepage": "https://github.com/antfu/unocss/tree/main/packages/config#readme",
