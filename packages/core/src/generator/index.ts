@@ -157,12 +157,27 @@ export class UnoGenerator {
         return layerCache[layer]
 
       let css = Array.from(sheet)
-        .sort((a, b) => (this.parentOrders.get(a[0]) || 0) - (this.parentOrders.get(b[0]) || 0))
+        .map((s) => {
+          s[1].sort((a, b) => a[0] - b[0] || a[1]?.localeCompare(b[1] || '') || 0)
+          return s
+        })
+        .sort((a, b) => {
+          const parentOrderA = this.parentOrders.get(a[0])
+          const parentOrderB = this.parentOrders.get(b[0])
+          if (parentOrderA !== undefined && parentOrderB !== undefined)
+            return parentOrderA - parentOrderB
+
+          const ruleOrderA = a[1].slice(-1)[0][0]
+          const ruleOrderB = b[1].slice(-1)[0][0]
+          if (ruleOrderA !== undefined && ruleOrderB !== undefined)
+            return ruleOrderB - ruleOrderA
+
+          return (parentOrderA || 0) - (parentOrderB || 0)
+        })
         .map(([parent, items]) => {
           const size = items.length
           const sorted = items
             .filter(i => (i[4]?.layer || 'default') === layer)
-            .sort((a, b) => a[0] - b[0] || a[1]?.localeCompare(b[1] || '') || 0)
             .map(a => [a[1] ? applyScope(a[1], scope) : a[1], a[2]])
           if (!sorted.length)
             return undefined
