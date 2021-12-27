@@ -45,6 +45,6 @@
     "@unocss/scope": "workspace:*"
   },
   "devDependencies": {
-    "vite": "^2.7.6"
+    "vite": "^2.7.7"
   }
 }
