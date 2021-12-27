@@ -1,4 +1,4 @@
-import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, RawUtil, ResolvedConfig, RuleContext, RuleMeta, StringifiedUtil, UserConfig, UserConfigDefaults, Variant, VariantHandler, VariantMatchedResult } from '../types'
+import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, RawUtil, ResolvedConfig, RuleContext, RuleMeta, StringifiedUtil, UserConfig, UserConfigDefaults, Variant, VariantContext, VariantHandler, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
 import { TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, normalizeCSSEntries, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
@@ -34,6 +34,7 @@ export class UnoGenerator {
       get original() { return code },
       code,
       id,
+      options: this.config.options,
     }
 
     for (const extractor of this.config.extractors) {
@@ -117,6 +118,7 @@ export class UnoGenerator {
         generator: this,
         variantHandlers: applied[2],
         constructCSS: (...args) => this.constructCustomCSS(context, ...args),
+        options: this.config.options,
       }
 
       // expand shortcuts
@@ -231,12 +233,20 @@ export class UnoGenerator {
     const handlers: VariantHandler[] = []
     let processed = current || raw
     let applied = false
+
+    const context: VariantContext = {
+      rawSelector: raw,
+      theme: this.config.theme,
+      generator: this,
+      options: this.config.options,
+    }
+
     while (true) {
       applied = false
       for (const v of this.config.variants) {
         if (!v.multiPass && usedVariants.has(v))
           continue
-        let handler = v.match(processed, raw, this.config.theme)
+        let handler = v.match(processed, context)
         if (!handler)
           continue
         if (typeof handler === 'string')

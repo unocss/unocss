@@ -1,4 +1,7 @@
 import type { Rule } from '@unocss/core'
+import { cacheFunction } from '@unocss/core'
+
+export const varEmptyFn = cacheFunction((prefix: string) => `var(--${prefix}empty,/*!*/ /*!*/)`)
 
 export const varEmpty = 'var(--un-empty,/*!*/ /*!*/)'
 
