@@ -21,7 +21,7 @@ export const textDecorations: Rule[] = [
       }
     }
   }],
-  [/^(?:underline|decoration)-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-line-opacity': h.bracket.percent(opacity) })],
+  [/^(?:underline|decoration)-op(?:acity)?-?(.+)$/, ([, opacity], { options: { variablePrefix: p } }) => ({ [`--${p}line-opacity`]: h.bracket.percent(opacity) })],
 
   // offset
   [/^underline-offset-(.+)$/, ([, s]) => ({ 'text-underline-offset': h.auto.bracket.px(s) })],

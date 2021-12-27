@@ -121,7 +121,7 @@ export const parseColor = (body: string, theme: Theme): ParsedColorValue | undef
  * @param {string} varName - Base name for the opacity variable.
  * @return {DynamicMatcher}  {@link DynamicMatcher} object.
  */
-export const colorResolver = (property: string, varName: string): DynamicMatcher => ([, body]: string[], { theme }: RuleContext<Theme>): CSSObject | undefined => {
+export const colorResolver = (property: string, varName: string): DynamicMatcher => ([, body]: string[], { theme, options: { variablePrefix: p } }: RuleContext<Theme>): CSSObject | undefined => {
   const data = parseColor(body, theme)
 
   if (!data)
@@ -150,8 +150,8 @@ export const colorResolver = (property: string, varName: string): DynamicMatcher
     }
     else {
       return {
-        [`--un-${varName}-opacity`]: 1,
-        [property]: `rgba(${rgba.slice(0, 3).join(',')},var(--un-${varName}-opacity))`,
+        [`--${p}${varName}-opacity`]: 1,
+        [property]: `rgba(${rgba.slice(0, 3).join(',')},var(--${p}${varName}-opacity))`,
       }
     }
   }

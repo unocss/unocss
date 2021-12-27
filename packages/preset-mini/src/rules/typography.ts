@@ -109,7 +109,7 @@ export const textStrokes: Rule<Theme>[] = [
 
   // colors
   [/^text-stroke-(.+)$/, colorResolver('-webkit-text-stroke-color', 'text-stroke')],
-  [/^text-stroke-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-stroke-opacity': h.bracket.percent(opacity) })],
+  [/^text-stroke-op(?:acity)?-?(.+)$/, ([, opacity], { options: { variablePrefix: p } }) => ({ [`--${p}text-stroke-opacity`]: h.bracket.percent(opacity) })],
 ]
 
 export const textShadows: Rule<Theme>[] = [
