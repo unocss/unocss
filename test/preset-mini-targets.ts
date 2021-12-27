@@ -185,9 +185,10 @@ export const presetMiniTargets: string[] = [
 
   // grid
   'grid-cols-$1',
-  'grid-cols-[1fr,2fr,100px,min-content]',
+  'grid-cols-[1fr_2fr_100px_min-content]',
   'grid-cols-2',
-  'grid-rows-[1fr,2fr,100px,min-content]',
+  'grid-cols-[repeat(3,auto)]',
+  'grid-rows-[1fr_2fr_100px_min-content]',
   'grid-rows-3',
   'grid',
   'auto-rows-min',
