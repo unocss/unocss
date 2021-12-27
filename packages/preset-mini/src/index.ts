@@ -17,16 +17,11 @@ export interface PresetMiniOptions extends PresetOptions {
    * @default false
    */
   attributifyPseudo?: Boolean
-  /**
-   * @default 'un-'
-   */
-  variablePrefix?: string
 }
 
 export const presetMini = (options: PresetMiniOptions = {}): Preset<Theme> => {
   options.dark = options.dark ?? 'class'
   options.attributifyPseudo = options.attributifyPseudo ?? false
-  options.variablePrefix = options.variablePrefix ?? 'un-'
 
   return {
     name: '@unocss/preset-mini',
