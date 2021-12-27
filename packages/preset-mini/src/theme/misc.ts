@@ -1,4 +1,4 @@
-import { cacheFunction } from "unocss"
+import { cacheFunction } from '@unocss/core'
 
 // keep in ASC order: container.ts and breakpoints.ts need that order
 export const breakpoints = {
