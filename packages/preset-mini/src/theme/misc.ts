@@ -1,3 +1,5 @@
+import { cacheFunction } from "unocss"
+
 // keep in ASC order: container.ts and breakpoints.ts need that order
 export const breakpoints = {
   'sm': '640px',
@@ -19,13 +21,15 @@ export const borderRadius = {
   'full': '9999px',
 }
 
-export const boxShadow = {
-  'DEFAULT': '0 1px 3px 0 rgba(var(--un-shadow-color), 0.1), 0 1px 2px 0 rgba(var(--un-shadow-color), 0.06)',
-  'sm': '0 1px 2px 0 rgba(var(--un-shadow-color), 0.05)',
-  'md': '0 4px 6px -1px rgba(var(--un-shadow-color), 0.1), 0 2px 4px -1px rgba(var(--un-shadow-color), 0.06)',
-  'lg': '0 10px 15px -3px rgba(var(--un-shadow-color), 0.1), 0 4px 6px -2px rgba(var(--un-shadow-color), 0.05)',
-  'xl': '0 20px 25px -5px rgba(var(--un-shadow-color), 0.1), 0 10px 10px -5px rgba(var(--un-shadow-color), 0.04)',
-  '2xl': '25px 50px -12px rgba(var(--un-shadow-color), 0.25)',
-  'inner': 'inset 0 2px 4px 0 rgba(var(--un-shadow-color), 0.06)',
+export const boxShadowFns = cacheFunction((p: string): Record<string, string> => ({
+  'DEFAULT': `0 1px 3px 0 rgba(var(--${p}shadow-color), 0.1), 0 1px 2px 0 rgba(var(--${p}shadow-color), 0.06)`,
+  'sm': `0 1px 2px 0 rgba(var(--${p}shadow-color), 0.05)`,
+  'md': `0 4px 6px -1px rgba(var(--${p}shadow-color), 0.1), 0 2px 4px -1px rgba(var(--${p}shadow-color), 0.06)`,
+  'lg': `0 10px 15px -3px rgba(var(--${p}shadow-color), 0.1), 0 4px 6px -2px rgba(var(--${p}shadow-color), 0.05)`,
+  'xl': `0 20px 25px -5px rgba(var(--${p}shadow-color), 0.1), 0 10px 10px -5px rgba(var(--${p}shadow-color), 0.04)`,
+  '2xl': `25px 50px -12px rgba(var(--${p}shadow-color), 0.25)`,
+  'inner': `inset 0 2px 4px 0 rgba(var(--${p}shadow-color), 0.06)`,
   'none': 'none',
-}
+}))
+
+export const boxShadow = boxShadowFns('un-')

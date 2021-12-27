@@ -1,5 +1,6 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
+import { boxShadowFns } from '../theme'
 import { parseColor } from '../utils'
 
 const colorResolver = (body: string, theme: Theme) => {
@@ -27,13 +28,14 @@ const colorResolver = (body: string, theme: Theme) => {
 }
 
 export const boxShadows: Rule<Theme>[] = [
-  [/^shadow-?(.*)$/, ([, d], { theme }) => {
-    const value = theme.boxShadow?.[d || 'DEFAULT']
+  [/^shadow-?(.*)$/, ([, d], { theme, options: { variablePrefix: p } }) => {
+    d = d || 'DEFAULT'
+    const value = boxShadowFns(p)?.[d] || theme.boxShadow?.[d]
     if (value) {
       return {
-        '--un-shadow-color': '0,0,0',
-        '--un-shadow': value,
-        'box-shadow': 'var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow)',
+        [`--${p}shadow-color`]: '0,0,0',
+        [`--${p}shadow`]: value,
+        'box-shadow': `var(--${p}ring-offset-shadow, 0 0 #0000), var(--${p}ring-shadow, 0 0 #0000), var(--${p}shadow)`,
       }
     }
   }],
