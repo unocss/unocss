@@ -241,7 +241,7 @@ export interface ConfigBase<Theme extends {} = {}> {
   /**
    * Custom function to alter generated css.
    */
-  prepareLayer?: (css: string, layer: string, options: PresetOptions) => string
+  prepareLayer?: (css: string, layer: string) => string
 }
 
 export interface Preset<Theme extends {} = {}> extends ConfigBase<Theme> {

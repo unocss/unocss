@@ -205,7 +205,7 @@ export class UnoGenerator {
           .join(nl)
       }
 
-      css = this.config.prepareLayer(css, layer, this.config.options)
+      css = this.config.prepareLayer(css, layer)
 
       return layerCache[layer] = !minify && css
         ? `/* layer: ${layer} */${nl}${css}`
