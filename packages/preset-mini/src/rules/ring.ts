@@ -1,38 +1,42 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
 import { colorResolver, handler as h } from '../utils'
-import { varEmptyFn } from './static'
+import { varEmpty } from './static'
 
 export const rings: Rule<Theme>[] = [
   // size
-  [/^ring-?(.*)$/, ([, d], { options: { variablePrefix: p } }) => {
+  [/^ring-?(.*)$/, ([, d]) => {
     const value = h.px(d || '1')
     if (value) {
       return {
-        [`--${p}ring-inset`]: varEmptyFn(p),
-        [`--${p}ring-offset-width`]: '0px',
-        [`--${p}ring-offset-color`]: '#fff',
-        [`--${p}ring-color`]: 'rgba(59, 130, 246, .5)',
-        [`--${p}ring-offset-shadow`]: `var(--${p}ring-inset) 0 0 0 var(--${p}ring-offset-width) var(--${p}ring-offset-color)`,
-        [`--${p}ring-shadow`]: `var(--${p}ring-inset) 0 0 0 calc(${value} + var(--${p}ring-offset-width)) var(--${p}ring-color)`,
-        '-webkit-box-shadow': `var(--${p}ring-offset-shadow), var(--${p}ring-shadow), var(--${p}shadow, 0 0 #0000)`,
-        'box-shadow': `var(--${p}ring-offset-shadow), var(--${p}ring-shadow), var(--${p}shadow, 0 0 #0000)`,
+        '--un-ring-inset': varEmpty,
+        '--un-ring-offset-width': '0px',
+        '--un-ring-offset-color': '#fff',
+        '--un-ring-color': 'rgba(59, 130, 246, .5)',
+        '--un-ring-offset-shadow': 'var(--un-ring-inset) 0 0 0 var(--un-ring-offset-width) var(--un-ring-offset-color)',
+        '--un-ring-shadow': `var(--un-ring-inset) 0 0 0 calc(${value} + var(--un-ring-offset-width)) var(--un-ring-color)`,
+        '-webkit-box-shadow': 'var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow, 0 0 #0000)',
+        'box-shadow': 'var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow, 0 0 #0000)',
       }
     }
   }],
 
   // offset size
-  [/^ring-offset$/, (_, { options: { variablePrefix: p } }) => ({ [`--${p}ring-offset-width`]: '1px' })],
-  [/^ring-offset-(.+)$/, ([, d], { options: { variablePrefix: p } }) => ({ [`--${p}ring-offset-width`]: h.px(d || '1') })],
+  ['ring-offset', { '--un-ring-offset-width': '1px' }],
+  [/^ring-offset-(.+)$/, ([, d]) => {
+    const value = h.px(d || '1')
+    if (value)
+      return { '--un-ring-offset-width': value }
+  }],
 
   // colors
-  [/^ring-(.+)$/, (m, ctx) => colorResolver(`--${ctx.options.variablePrefix}ring-color`, 'ring')(m, ctx)],
-  [/^ring-op(?:acity)?-?(.+)$/, ([, opacity], { options: { variablePrefix: p } }) => ({ [`--${p}ring-opacity`]: h.bracket.percent(opacity) })],
+  [/^ring-(.+)$/, colorResolver('--un-ring-color', 'ring')],
+  [/^ring-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-ring-opacity': h.bracket.percent(opacity) })],
 
   // offset color
-  [/^ring-offset-(.+)$/, (m, ctx) => colorResolver(`--${ctx.options.variablePrefix}ring-offset-color`, 'ring-offset')(m, ctx)],
-  [/^ring-offset-op(?:acity)?-?(.+)$/, ([, opacity], { options: { variablePrefix: p } }) => ({ [`--${p}ring-offset-opacity`]: h.bracket.percent(opacity) })],
+  [/^ring-offset-(.+)$/, colorResolver('--un-ring-offset-color', 'ring-offset')],
+  [/^ring-offset-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-ring-offset-opacity': h.bracket.percent(opacity) })],
 
   // style
-  [/^ring-inset$/, (_, { options: { variablePrefix: p } }) => ({ [`--${p}ring-inset`]: 'inset' })],
+  ['ring-inset', { '--un-ring-inset': 'inset' }],
 ]

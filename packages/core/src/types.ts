@@ -178,6 +178,9 @@ export type VariantObject<Theme extends {} = {}> = {
 
 export type Variant<Theme extends {} = {}> = VariantFunction<Theme> | VariantObject<Theme>
 
+export type Preprocessor = (matcher: string) => string | undefined
+export type Postprocessor = (util: UtilObject) => void
+
 export interface ConfigBase<Theme extends {} = {}> {
   /**
    * Rules to generate CSS utilities
@@ -232,6 +235,16 @@ export interface ConfigBase<Theme extends {} = {}> {
    * Custom function to sort layers.
    */
   sortLayers?: (layers: string[]) => string[]
+
+  /**
+   * Preprocess the incoming utilities, return falsy value to exclude
+   */
+  preprocess?: Preprocessor | Preprocessor[]
+
+  /**
+   * Process the generate utils object
+   */
+  postprocess?: Postprocessor | Postprocessor[]
 }
 
 export interface Preset<Theme extends {} = {}> extends ConfigBase<Theme> {
@@ -240,7 +253,7 @@ export interface Preset<Theme extends {} = {}> extends ConfigBase<Theme> {
   /**
    * Preset options for other tools like IDE to consume
    */
-  options?: any
+  options?: PresetOptions
 }
 
 export interface GeneratorOptions {
@@ -264,11 +277,6 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
    * The theme object, will be merged with the theme provides by presets
    */
   theme?: Theme
-
-  /**
-   * Preprocess the incoming utilities, return falsy value to exclude
-   */
-  preprocess?: (matcher: string) => string | undefined
 
   /**
    * Layout name of shortcuts
@@ -326,6 +334,8 @@ RequiredByKey<UserConfig, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'l
 > {
   shortcuts: Shortcut[]
   variants: VariantObject[]
+  preprocess: Preprocessor[]
+  postprocess: Postprocessor[]
   rulesSize: number
   rulesDynamic: (DynamicRule|undefined)[]
   rulesStaticMap: Record<string, [number, CSSObject | CSSEntries, RuleMeta | undefined] | undefined>
@@ -367,6 +377,12 @@ export type StringifiedUtil = readonly [
   parent: string | undefined,
   meta: RuleMeta | undefined,
 ]
+
+export interface UtilObject {
+  selector: string
+  entries: CSSEntries
+  parent: string | undefined
+}
 
 export interface GenerateOptions {
   /**

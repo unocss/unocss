@@ -1,4 +1,4 @@
-import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, RawUtil, ResolvedConfig, RuleContext, RuleMeta, StringifiedUtil, UserConfig, UserConfigDefaults, Variant, VariantContext, VariantHandler, VariantMatchedResult } from '../types'
+import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, RawUtil, ResolvedConfig, RuleContext, RuleMeta, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
 import { TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, normalizeCSSEntries, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
@@ -100,8 +100,8 @@ export class UnoGenerator {
       }
 
       let current = raw
-      if (this.config.preprocess)
-        current = this.config.preprocess(raw)!
+      for (const p of this.config.preprocess)
+        current = p(raw)!
 
       if (this.isBlocked(current))
         return block(current)
@@ -278,24 +278,26 @@ export class UnoGenerator {
     return [raw, processed, handlers]
   }
 
-  applyVariants(parsed: ParsedUtil, variantHandlers = parsed[4], raw = parsed[1]) {
+  applyVariants(parsed: ParsedUtil, variantHandlers = parsed[4], raw = parsed[1]): UtilObject {
     const entries = variantHandlers.reduce((p, v) => v.body?.(p) || p, parsed[2])
-    return [
-      // selector
-      variantHandlers.reduce((p, v) => v.selector?.(p, entries) || p, toEscapedSelector(raw)),
+    const obj: UtilObject = {
+      selector: variantHandlers.reduce((p, v) => v.selector?.(p, entries) || p, toEscapedSelector(raw)),
       entries,
-      // parent
-      variantHandlers.reduce((p: string | undefined, v) => Array.isArray(v.parent) ? v.parent[0] : v.parent || p, undefined),
-    ] as const
+      parent: variantHandlers.reduce((p: string | undefined, v) => Array.isArray(v.parent) ? v.parent[0] : v.parent || p, undefined),
+    }
+
+    for (const p of this.config.postprocess)
+      p(obj)
+    return obj
   }
 
   constructCustomCSS(context: Readonly<RuleContext>, body: CSSObject | CSSEntries, overrideSelector?: string) {
     body = normalizeCSSEntries(body)
 
-    const [selector, entries, mediaQuery] = this.applyVariants([0, overrideSelector || context.rawSelector, body, undefined, context.variantHandlers])
+    const { selector, entries, parent } = this.applyVariants([0, overrideSelector || context.rawSelector, body, undefined, context.variantHandlers])
     const cssBody = `${selector}{${entriesToCss(entries)}}`
-    if (mediaQuery)
-      return `${mediaQuery}{${cssBody}}`
+    if (parent)
+      return `${parent}{${cssBody}}`
     return cssBody
   }
 
@@ -352,13 +354,13 @@ export class UnoGenerator {
     if (isRawUtil(parsed))
       return [parsed[0], undefined, parsed[1], undefined, parsed[2]]
 
-    const [selector, entries, mediaQuery] = this.applyVariants(parsed)
+    const { selector, entries, parent } = this.applyVariants(parsed)
     const body = entriesToCss(entries)
 
     if (!body)
       return
 
-    return [parsed[0], selector, body, mediaQuery, parsed[3]]
+    return [parsed[0], selector, body, parent, parsed[3]]
   }
 
   expandShortcut(processed: string, context: RuleContext, depth = 3): [string[], RuleMeta | undefined] | undefined {
@@ -425,10 +427,10 @@ export class UnoGenerator {
     for (const item of parsed) {
       if (isRawUtil(item))
         continue
-      const [selector, entries, mediaQuery] = this.applyVariants(item, [...item[4], ...parentVariants], raw)
+      const { selector, entries, parent } = this.applyVariants(item, [...item[4], ...parentVariants], raw)
 
       // find existing selector/mediaQuery pair and merge
-      const mapItem = selectorMap.getFallback(selector, mediaQuery, [[], item[0]])
+      const mapItem = selectorMap.getFallback(selector, parent, [[], item[0]])
       // append entries
       mapItem[0].push(...entries)
 
