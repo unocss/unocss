@@ -22,6 +22,13 @@ export const preset = (options: GlyphsOptions = {}): Preset => {
     layers: {
       glyphs: -10,
     },
+    postprocess: (obj) => {
+      if (obj.selector.includes(prefix)
+        && obj.entries.length === 2
+        && obj.entries.find(([prop]) => prop === 'font-family')
+        && obj.entries.find(([prop]) => prop === 'src'))
+        obj.selector = '@font-face'
+    },
     rules: [[
       new RegExp(`^${prefix}([\\w]+)-(.+)$`),
       async([full, fontAlias, glyphs]: string[]): Promise<CSSValues | undefined> => {
@@ -35,8 +42,11 @@ export const preset = (options: GlyphsOptions = {}): Preset => {
           return
         }
 
-        // Always subset space character
-        const fontData = await subsetFont(path, ` ${glyphs}`)
+        // Subset space only if there's underscore
+        if (glyphs.includes('_'))
+          glyphs = ` ${glyphs}`
+
+        const fontData = await subsetFont(path, glyphs)
         if (!fontData) {
           if (warn)
             warnOnce(`failed to load/subset font "${fontAlias}" at "${path}"`)
@@ -49,14 +59,15 @@ export const preset = (options: GlyphsOptions = {}): Preset => {
         }
 
         const fontName = aliasMap[full]
-        const url = `data:application/x-font-ttf;charset=utf-8;base64,${fontData}`
-        const rule = `@font-face{font-family:"${fontName}";src:url(${url}) format("truetype");}`
 
         return [
-          [
-            [`--un-dummy:none;}\n${rule}\n.un-dummy{--un-dummy`, 'none'], // TODO: raw string CSSValues support
-          ],
-          { 'font-family': fontName },
+          {
+            'font-family': fontName,
+            'src': `url(data:application/x-font-ttf;charset=utf-8;base64,${fontData}) format("truetype")`,
+          },
+          {
+            'font-family': fontName,
+          },
         ]
       },
       { layer },

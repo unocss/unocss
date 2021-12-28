@@ -5,7 +5,7 @@ import { describe, expect, test } from 'vitest'
 
 describe('preset-glyphs', () => {
   const fixture1 = `
-<button class="g-rondure-uno hover:g-rondure-css">unocss</button>
+<button class="g-rondure-uno hover:g-rondure-cs">unocss</button>
 `
 
   const uno = createGenerator({
