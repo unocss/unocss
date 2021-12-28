@@ -9,7 +9,7 @@ export const divideColors: Rule[] = [
 export const divideSizes: Rule[] = [
   [/^divide-?([xy])$/, handlerDivide],
   [/^divide-?([xy])-?(-?.+)$/, handlerDivide],
-  [/^divide-?([xy])-reverse$/, ([, d]) => [[`--un-divide-${d}-reverse`, 1]]],
+  [/^divide-?([xy])-reverse$/, ([, d]) => ({ [`--un-divide-${d}-reverse`]: 1 })],
 ]
 
 export const divideStyles: Rule[] = [
@@ -22,20 +22,24 @@ export const divideStyles: Rule[] = [
 
 export const divides = [divideSizes, divideColors, divideStyles].flat(1)
 
-function handlerDivide([, a, b]: string[]): CSSEntry[] | undefined {
+function handlerDivide([, a, b]: string[]): CSSEntry[][] | undefined {
   const [d, s = '1'] = directionMap[a] ? [a, b] : ['', a]
   const v = h.bracket.px(s)
 
   if (v != null) {
-    const results = directionMap[d].map((item): [string, string] => {
+    const results = directionMap[d].map((item) => {
       const key = `border${item}-width`
       const value = item.endsWith('right') || item.endsWith('bottom')
         ? `calc(${v} * var(--un-divide-${d}-reverse))`
         : `calc(${v} * calc(1 - var(--un-divide-${d}-reverse)))`
-      return [key, value]
+      return [key, value] as CSSEntry
     })
 
-    if (results)
-      return [[`--un-divide-${d}-reverse`, 0], ...results]
+    if (results) {
+      return [[
+        [`--un-divide-${d}-reverse`, 0],
+        ...results,
+      ]]
+    }
   }
 }

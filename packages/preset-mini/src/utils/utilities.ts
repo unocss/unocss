@@ -15,10 +15,13 @@ export function capitalize<T extends string>(str: T) {
  * @return {DynamicMatcher}  {@link DynamicMatcher}
  * @see {@link directionMap}
  */
-export const directionSize = (propertyPrefix: string): DynamicMatcher => ([_, direction, size]: string[]): CSSEntry[] | undefined => {
+export const directionSize = (propertyPrefix: string): DynamicMatcher => ([_, direction, size]: string[]): CSSEntry[][] | undefined => {
   const v = h.bracket.auto.rem.fraction.cssvar(size)
-  if (v !== undefined)
-    return directionMap[direction].map(i => [`${propertyPrefix}${i}`, v])
+  if (v !== undefined) {
+    return [
+      directionMap[direction].map(i => [`${propertyPrefix}${i}`, v] as CSSEntry),
+    ]
+  }
 }
 
 /**

@@ -17,8 +17,11 @@ export const borders: Rule[] = [
   [/^(?:border|b)-([^-]+)-op(?:acity)?-?(.+)$/, ([, a, opacity]) => {
     const v = h.bracket.percent(opacity)
     const d = directionMap[a]
-    if (v !== undefined && d)
-      return d.map(i => [`--un-border${i}-opacity`, v]) as CSSEntry[]
+    if (v !== undefined && d) {
+      return [
+        d.map(i => [`--un-border${i}-opacity`, v] as CSSEntry),
+      ]
+    }
   }],
 
   // radius
@@ -88,21 +91,24 @@ const borderColorResolver = (direction: string): DynamicMatcher => ([, body]: st
   }
 }
 
-function handlerBorder(m: string[]): CSSEntry[] | undefined {
+function handlerBorder(m: string[]) {
   const borderSizes = handlerBorderSize(m)
   if (borderSizes) {
-    return [
-      ...borderSizes,
-      ['border-style', 'solid'],
-    ]
+    return borderSizes.map(border => [
+      ...border,
+      ['border-style', 'solid'] as CSSEntry,
+    ])
   }
 }
 
-function handlerBorderSize([, a, b]: string[]): CSSEntry[] | undefined {
+function handlerBorderSize([, a, b]: string[]) {
   const [d, s = '1'] = directionMap[a] ? [a, b] : ['', a]
   const v = h.bracket.px(s)
-  if (v !== undefined)
-    return directionMap[d].map(i => [`border${i}-width`, v])
+  if (v !== undefined) {
+    return [
+      directionMap[d].map(i => [`border${i}-width`, v] as CSSEntry),
+    ]
+  }
 }
 
 function handlerBorderColor([, a, c]: string[], ctx: RuleContext) {
@@ -114,9 +120,12 @@ function handlerBorderColor([, a, c]: string[], ctx: RuleContext) {
   }
 }
 
-function handlerRounded([, a, b]: string[], { theme }: RuleContext<Theme>): CSSEntry[] | undefined {
+function handlerRounded([, a, b]: string[], { theme }: RuleContext<Theme>) {
   const [d, s = 'DEFAULT'] = cornerMap[a] ? [a, b] : ['', a]
   const v = theme.borderRadius?.[s] || h.auto.rem.fraction.bracket.cssvar(s)
-  if (v !== undefined)
-    return cornerMap[d].map(i => [`border${i}-radius`, v])
+  if (v !== undefined) {
+    return [
+      cornerMap[d].map(i => [`border${i}-radius`, v] as CSSEntry),
+    ]
+  }
 }

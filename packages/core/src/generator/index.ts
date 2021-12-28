@@ -1,6 +1,6 @@
 import type { CSSEntry, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, RawUtil, ResolvedConfig, RuleContext, RuleMeta, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
-import { TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, normalizeCSSEntries, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
+import { TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, normalizeCSSValue, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
 
 export class UnoGenerator {
@@ -292,7 +292,7 @@ export class UnoGenerator {
   }
 
   constructCustomCSS(context: Readonly<RuleContext>, body: CSSObject | CSSEntry[], overrideSelector?: string) {
-    body = normalizeCSSEntries(body)
+    body = normalizeCSSValue(body)
 
     const { selector, entries, parent } = this.applyVariants([0, overrideSelector || context.rawSelector, body, undefined, context.variantHandlers])
     const cssBody = `${selector}{${entriesToCss(entries)}}`
@@ -310,7 +310,7 @@ export class UnoGenerator {
     const staticMatch = this.config.rulesStaticMap[processed]
     if (staticMatch) {
       if (staticMatch[1] && (internal || !staticMatch[2]?.internal))
-        return [[staticMatch[0], raw, normalizeCSSEntries(staticMatch[1]), staticMatch[2], variantHandlers]]
+        return [[staticMatch[0], raw, normalizeCSSValue(staticMatch[1]), staticMatch[2], variantHandlers]]
     }
 
     context.variantHandlers = variantHandlers

@@ -1,4 +1,4 @@
-import type { CSSValues, Rule } from '@unocss/core'
+import type { CSSEntry, Rule } from '@unocss/core'
 import { handler as h, xyzMap } from '../utils'
 import { CONTROL_BYPASS_PSEUDO_CLASS } from '../variants/pseudo'
 
@@ -52,31 +52,27 @@ export const transforms: Rule[] = [
   ['origin-top-left', { 'transform-origin': 'top left' }],
 ]
 
-function handleTranslate([, d, b]: string[]): CSSValues | undefined {
+function handleTranslate([, d, b]: string[]) {
   const v = h.bracket.fraction.auto.rem(b)
   if (v != null) {
     return [
       transformBase,
-      [
-        ...xyzMap[d].map((i): [string, string] => [`--un-translate${i}`, v]),
-      ],
+      xyzMap[d].map(i => [`--un-translate${i}`, v] as CSSEntry),
     ]
   }
 }
 
-function handleScale([, d, b]: string[]): CSSValues | undefined {
+function handleScale([, d, b]: string[]) {
   const v = h.bracket.fraction.percent(b)
   if (v != null) {
     return [
       transformBase,
-      [
-        ...xyzMap[d].map((i): [string, string] => [`--un-scale${i}`, v]),
-      ],
+      xyzMap[d].map(i => [`--un-scale${i}`, v] as CSSEntry),
     ]
   }
 }
 
-function handleRotateWithUnit([, b]: string[]): CSSValues | undefined {
+function handleRotateWithUnit([, b]: string[]) {
   const v = h.bracket.number(b)
   if (v != null) {
     return [
@@ -86,7 +82,7 @@ function handleRotateWithUnit([, b]: string[]): CSSValues | undefined {
   }
 }
 
-function handleRotate([, b]: string[]): CSSValues | undefined {
+function handleRotate([, b]: string[]) {
   const v = h.bracket(b)
   if (v != null) {
     return [
@@ -96,7 +92,7 @@ function handleRotate([, b]: string[]): CSSValues | undefined {
   }
 }
 
-function handleSkewWithUnit([, d, b]: string[]): CSSValues | undefined {
+function handleSkewWithUnit([, d, b]: string[]) {
   const v = h.bracket.number(b)
   if (v != null) {
     return [
@@ -106,7 +102,7 @@ function handleSkewWithUnit([, d, b]: string[]): CSSValues | undefined {
   }
 }
 
-function handleSkew([, d, b]: string[]): CSSValues | undefined {
+function handleSkew([, d, b]: string[]) {
   const v = h.bracket(b)
   if (v != null) {
     return [

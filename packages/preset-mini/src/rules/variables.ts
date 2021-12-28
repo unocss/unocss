@@ -1,4 +1,4 @@
-import type { Rule } from '@unocss/core'
+import type { CSSEntry, Rule } from '@unocss/core'
 import { directionMap } from '../utils'
 
 const variablesAbbrMap: Record<string, string> = {
@@ -41,7 +41,10 @@ export const cssVariables: Rule[] = [
     }
   }],
   [/^(?:border|b)-([^-]+)-\$(.+)$/, ([, a, v]: string[]) => {
-    if (a in directionMap)
-      return directionMap[a].map((i): [string, string] => [`border${i}-color`, `var(--${v})`])
+    if (a in directionMap) {
+      return [
+        directionMap[a].map(i => [`border${i}-color`, `var(--${v})`] as CSSEntry),
+      ]
+    }
   }],
 ]

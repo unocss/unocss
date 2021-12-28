@@ -1,20 +1,14 @@
 import type { CSSEntry, CSSObject, CSSValues, DeepPartial, Rule, Shortcut, StaticRule, StaticShortcut } from '../types'
 
-export function normalizeCSSEntries(obj: CSSEntry[] | CSSObject): CSSEntry[] {
+export function normalizeCSSValue(obj: CSSEntry[] | CSSObject): CSSEntry[] {
   return (!Array.isArray(obj) ? Object.entries(obj) : obj).filter(i => i[1] != null)
 }
 
 export function normalizeCSSValues(obj: CSSValues): CSSEntry[][] {
-  if (Array.isArray(obj)) {
-    // @ts-expect-error
-    if (obj.find(i => !Array.isArray(i) || Array.isArray(i[0])))
-      return (obj as any).map((i: any) => normalizeCSSEntries(i))
-    else
-      return [obj as any]
-  }
-  else {
-    return [normalizeCSSEntries(obj)]
-  }
+  if (Array.isArray(obj))
+    return obj.map(i => normalizeCSSValue(i))
+
+  return [normalizeCSSValue(obj)]
 }
 
 export function clearIdenticalEntries(entry: CSSEntry[]): CSSEntry[] {
