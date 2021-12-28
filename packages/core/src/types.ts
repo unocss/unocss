@@ -179,6 +179,7 @@ export type VariantObject<Theme extends {} = {}> = {
 export type Variant<Theme extends {} = {}> = VariantFunction<Theme> | VariantObject<Theme>
 
 export type Preprocessor = (matcher: string) => string | undefined
+export type Postprocessor = (util: UtilObject) => void
 
 export interface ConfigBase<Theme extends {} = {}> {
   /**
@@ -239,6 +240,11 @@ export interface ConfigBase<Theme extends {} = {}> {
    * Preprocess the incoming utilities, return falsy value to exclude
    */
   preprocess?: Preprocessor | Preprocessor[]
+
+  /**
+   * Process the generate utils object
+   */
+  postprocess?: Postprocessor | Postprocessor[]
 }
 
 export interface Preset<Theme extends {} = {}> extends ConfigBase<Theme> {
@@ -329,6 +335,7 @@ RequiredByKey<UserConfig, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'l
   shortcuts: Shortcut[]
   variants: VariantObject[]
   preprocess: Preprocessor[]
+  postprocess: Postprocessor[]
   rulesSize: number
   rulesDynamic: (DynamicRule|undefined)[]
   rulesStaticMap: Record<string, [number, CSSObject | CSSEntries, RuleMeta | undefined] | undefined>

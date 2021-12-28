@@ -273,11 +273,15 @@ export class UnoGenerator {
 
   applyVariants(parsed: ParsedUtil, variantHandlers = parsed[4], raw = parsed[1]): UtilObject {
     const entries = variantHandlers.reduce((p, v) => v.body?.(p) || p, parsed[2])
-    return {
+    const obj: UtilObject = {
       selector: variantHandlers.reduce((p, v) => v.selector?.(p, entries) || p, toEscapedSelector(raw)),
       entries,
       parent: variantHandlers.reduce((p: string | undefined, v) => Array.isArray(v.parent) ? v.parent[0] : v.parent || p, undefined),
     }
+
+    for (const p of this.config.postprocess)
+      p(obj)
+    return obj
   }
 
   constructCustomCSS(context: Readonly<RuleContext>, body: CSSObject | CSSEntries, overrideSelector?: string) {
