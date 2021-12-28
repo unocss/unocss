@@ -253,7 +253,7 @@ export interface Preset<Theme extends {} = {}> extends ConfigBase<Theme> {
   /**
    * Preset options for other tools like IDE to consume
    */
-  options?: any
+  options?: PresetOptions
 }
 
 export interface GeneratorOptions {
