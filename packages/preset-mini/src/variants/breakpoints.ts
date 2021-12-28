@@ -3,7 +3,7 @@ import type { Theme } from '../theme'
 
 const regexCache: Record<string, RegExp> = {}
 
-export const variantBreakpoints: Variant<Theme> = (matcher, _, theme) => {
+export const variantBreakpoints: Variant<Theme> = (matcher, { theme }) => {
   const variantEntries: Array<[string, string, number]>
       = Object.entries(theme.breakpoints || {}).map(([point, size], idx) => [point, size, idx])
   for (const [point, size, idx] of variantEntries) {

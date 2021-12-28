@@ -1,24 +1,23 @@
 import type { Variant } from '@unocss/core'
-import type { PresetMiniOptions } from '..'
 import type { Theme } from '../theme'
 import { variantBreakpoints } from './breakpoints'
 import { variantCombinators } from './combinators'
-import { variantColorsClass, variantColorsMedia } from './dark'
+import { variantColorsMediaOrClass } from './dark'
 import { variantImportant, variantNegative, variantSpace } from './misc'
+import { variantPrint } from './prints'
 import { partClasses, variantPseudoClassFunctions, variantPseudoClasses, variantPseudoElements, variantTaggedPseudoClasses } from './pseudo'
 
-export const variants = (options: PresetMiniOptions): Variant<Theme>[] => [
+export const variants: Variant<Theme>[] = [
   variantSpace,
   variantNegative,
   variantImportant,
+  variantPrint,
   variantBreakpoints,
   ...variantCombinators,
   variantPseudoClasses,
   variantPseudoClassFunctions,
-  variantTaggedPseudoClasses(options),
+  variantTaggedPseudoClasses,
   variantPseudoElements,
   partClasses,
-  ...options.dark === 'media'
-    ? variantColorsMedia
-    : variantColorsClass,
+  ...variantColorsMediaOrClass,
 ]

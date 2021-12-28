@@ -1,3 +1,9 @@
+export interface ThemeAnimation {
+  keyframes?: Record<string, string>
+  durations?: Record<string, string>
+  timingFns?: Record<string, string>
+  properties?: Record<string, object>
+}
 
 export interface Theme {
   width?: Record<string, string>
@@ -21,4 +27,6 @@ export interface Theme {
   // filters
   blur?: Record<string, string>
   dropShadow?: Record<string, string | string[]>
+  // animation
+  animation?: ThemeAnimation
 }

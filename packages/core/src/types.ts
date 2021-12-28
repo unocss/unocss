@@ -37,6 +37,8 @@ export type ParsedColorValue = {
   rgba?: RGBAColorValue
 }
 
+export type PresetOptions = Record<string, any>
+
 export interface RuleContext<Theme extends {} = {}> {
   /**
    * Unprocessed selector from user input.
@@ -64,12 +66,36 @@ export interface RuleContext<Theme extends {} = {}> {
    * Variants and selector escaping will be handled automatically.
    */
   constructCSS: (body: CSSEntries | CSSObject, overrideSelector?: string) => string
+  /**
+   * User-provided options from preset.
+   */
+  readonly options: PresetOptions
+}
+
+export interface VariantContext<Theme extends {} = {}> {
+  /**
+   * Unprocessed selector from user input.
+   */
+  rawSelector: string
+  /**
+   * UnoCSS generator instance
+   */
+  generator: UnoGenerator
+  /**
+   * The theme object
+   */
+  theme: Theme
+  /**
+   * User-provided options from preset.
+   */
+  readonly options: PresetOptions
 }
 
 export interface ExtractorContext {
   readonly original: string
   code: string
   id?: string
+  readonly options: PresetOptions
 }
 
 export interface Extractor {
@@ -134,7 +160,7 @@ export interface VariantHandler {
   parent?: string | [string, number] | undefined
 }
 
-export type VariantFunction<Theme extends {} = {}> = (matcher: string, raw: string, theme: Theme) => string | VariantHandler | undefined
+export type VariantFunction<Theme extends {} = {}> = (matcher: string, context: Readonly<VariantContext<Theme>>) => string | VariantHandler | undefined
 
 export type VariantObject<Theme extends {} = {}> = {
   /**
@@ -151,6 +177,9 @@ export type VariantObject<Theme extends {} = {}> = {
 }
 
 export type Variant<Theme extends {} = {}> = VariantFunction<Theme> | VariantObject<Theme>
+
+export type Preprocessor = (matcher: string) => string | undefined
+export type Postprocessor = (util: UtilObject) => void
 
 export interface ConfigBase<Theme extends {} = {}> {
   /**
@@ -206,6 +235,16 @@ export interface ConfigBase<Theme extends {} = {}> {
    * Custom function to sort layers.
    */
   sortLayers?: (layers: string[]) => string[]
+
+  /**
+   * Preprocess the incoming utilities, return falsy value to exclude
+   */
+  preprocess?: Preprocessor | Preprocessor[]
+
+  /**
+   * Process the generate utils object
+   */
+  postprocess?: Postprocessor | Postprocessor[]
 }
 
 export interface Preset<Theme extends {} = {}> extends ConfigBase<Theme> {
@@ -214,7 +253,7 @@ export interface Preset<Theme extends {} = {}> extends ConfigBase<Theme> {
   /**
    * Preset options for other tools like IDE to consume
    */
-  options?: any
+  options?: PresetOptions
 }
 
 export interface GeneratorOptions {
@@ -238,11 +277,6 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
    * The theme object, will be merged with the theme provides by presets
    */
   theme?: Theme
-
-  /**
-   * Preprocess the incoming utilities, return falsy value to exclude
-   */
-  preprocess?: (matcher: string) => string | undefined
 
   /**
    * Layout name of shortcuts
@@ -300,9 +334,12 @@ RequiredByKey<UserConfig, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'l
 > {
   shortcuts: Shortcut[]
   variants: VariantObject[]
+  preprocess: Preprocessor[]
+  postprocess: Postprocessor[]
   rulesSize: number
   rulesDynamic: (DynamicRule|undefined)[]
   rulesStaticMap: Record<string, [number, CSSObject | CSSEntries, RuleMeta | undefined] | undefined>
+  options: PresetOptions
 }
 
 export interface GenerateResult {
@@ -340,6 +377,12 @@ export type StringifiedUtil = readonly [
   parent: string | undefined,
   meta: RuleMeta | undefined,
 ]
+
+export interface UtilObject {
+  selector: string
+  entries: CSSEntries
+  parent: string | undefined
+}
 
 export interface GenerateOptions {
   /**

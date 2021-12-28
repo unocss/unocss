@@ -1,4 +1,6 @@
-export interface AttributifyOptions {
+import type { PresetOptions } from '@unocss/core'
+
+export interface AttributifyOptions extends PresetOptions {
   /**
    * Only generate CSS for attributify or class
    *

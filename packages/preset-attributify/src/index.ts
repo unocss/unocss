@@ -8,15 +8,21 @@ export * from './extractor'
 export * from './variant'
 export * from './types'
 
-const preset = (options?: AttributifyOptions): Preset => {
+const preset = (options: AttributifyOptions = {}): Preset => {
+  options.strict = options.strict ?? false
+  options.prefix = options.prefix ?? 'un-'
+  options.prefixedOnly = options.prefixedOnly ?? false
+  options.nonValuedAttribute = options.nonValuedAttribute ?? true
+  options.ignoreAttributes = options.ignoreAttributes ?? []
+
   const variants = [
-    variantAttributify(options),
+    variantAttributify,
   ]
   const extractors = [
-    extractorAttributify(options),
+    extractorAttributify,
   ]
 
-  if (!options?.strict)
+  if (!options.strict)
     extractors.unshift(extractorSplit)
 
   return {

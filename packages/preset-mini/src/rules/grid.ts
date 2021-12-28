@@ -45,10 +45,10 @@ export const grids: Rule[] = [
   [/^(?:grid-)?auto-cols-([\w.-]+)$/, ([, v], { theme }) => ({ 'grid-auto-columns': autoDirection(v, theme) })],
   [/^(?:grid-)?auto-flow-([\w.-]+)$/, ([, v]) => ({ 'grid-auto-flow': v.replace('col', 'column').split('-').join(' ') })],
   [/^(?:grid-)?auto-rows-([\w.-]+)$/, ([, v], { theme }) => ({ 'grid-auto-rows': autoDirection(v, theme) })],
+  [/^grid-cols-(.+)$/, ([, v]) => ({ 'grid-template-columns': h.bracket(v) })],
+  [/^grid-rows-(.+)$/, ([, v]) => ({ 'grid-template-rows': h.bracket(v) })],
   [/^grid-cols-minmax-([\w.-]+)$/, ([, d]) => ({ 'grid-template-columns': `repeat(auto-fill,minmax(${d},1fr))` })],
   [/^grid-rows-minmax-([\w.-]+)$/, ([, d]) => ({ 'grid-template-rows': `repeat(auto-fill,minmax(${d},1fr))` })],
   [/^grid-cols-(\d+)$/, ([, d]) => ({ 'grid-template-columns': `repeat(${d},minmax(0,1fr))` })],
   [/^grid-rows-(\d+)$/, ([, d]) => ({ 'grid-template-rows': `repeat(${d},minmax(0,1fr))` })],
-  [/^grid-cols-\[(.+)\]$/, ([, v]) => ({ 'grid-template-columns': v.replace(/,/g, ' ') })],
-  [/^grid-rows-\[(.+)\]$/, ([, v]) => ({ 'grid-template-rows': v.replace(/,/g, ' ') })],
 ]

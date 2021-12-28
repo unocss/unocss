@@ -170,6 +170,11 @@ export const presetMiniTargets: string[] = [
 
   // flex, gap
   'flex-[hi]',
+  'flex-[1_0_100%]',
+  'flex-[0_0_auto]',
+  'flex-[1_1_1/2]',
+  'flex-[1_auto]',
+  'flex-[fit-content]',
   'flex',
   'flex-row',
   'flex-col-reverse',
@@ -180,9 +185,10 @@ export const presetMiniTargets: string[] = [
 
   // grid
   'grid-cols-$1',
-  'grid-cols-[1fr,2fr,100px,min-content]',
+  'grid-cols-[1fr_2fr_100px_min-content]',
   'grid-cols-2',
-  'grid-rows-[1fr,2fr,100px,min-content]',
+  'grid-cols-[repeat(3,auto)]',
+  'grid-rows-[1fr_2fr_100px_min-content]',
   'grid-rows-3',
   'grid',
   'auto-rows-min',
@@ -206,6 +212,11 @@ export const presetMiniTargets: string[] = [
   'overflow-x-scroll',
 
   // position
+  'static',
+  'relative',
+  'absolute',
+  'pos-fixed',
+  'position-sticky',
   'justify-start',
   'justify-center',
   'justify-items-end',
@@ -467,6 +478,10 @@ export const presetMiniTargets: string[] = [
   'peer-not-placeholder-shown:text-2xl',
   'sm:m-1',
   'sm:m1',
+
+  // variants prints
+  'print:block',
+  'print:link:!underline',
 
   // variants - pseudo elements
   'before:translate-y-full',

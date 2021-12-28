@@ -29,7 +29,7 @@ window.__unocss = {
 
 By default, `@unocss/preset-uno` will be applied.
 
-The runtime does not come with preflights, if you want to have style resets, you can either add your own, or use one form `@unocss/reset`:
+The runtime does not come with preflights, if you want to have style resets, you can either add your own, or use one from `@unocss/reset`:
 
 ```html
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unocss/reset/normalize.min.css">

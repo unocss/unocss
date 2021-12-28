@@ -1,0 +1,8 @@
+// Vitest Snapshot v1
+
+exports[`postprocess 1`] = `
+"/* layer: default */
+.scale-100{--hello-rotate:0;--hello-scale-x:1;--hello-scale-y:1;--hello-scale-z:1;--hello-skew-x:0;--hello-skew-y:0;--hello-translate-x:0;--hello-translate-y:0;--hello-translate-z:0;transform:rotate(var(--hello-rotate)) scaleX(var(--hello-scale-x)) scaleY(var(--hello-scale-y)) scaleZ(var(--hello-scale-z)) skewX(var(--hello-skew-x)) skewY(var(--hello-skew-y)) translateX(var(--hello-translate-x)) translateY(var(--hello-translate-y)) translateZ(var(--hello-translate-z));}
+.scale-100{--hello-scale-x:1;--hello-scale-y:1;}
+.text-opacity-50{--hi-text-opacity:0.5;}"
+`;

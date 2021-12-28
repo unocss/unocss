@@ -1,38 +1,36 @@
 import type { Preset } from '@unocss/core'
-import type { Theme } from '@unocss/preset-mini'
-import { theme } from '@unocss/preset-mini/theme'
+import type { PresetMiniOptions, Theme } from '@unocss/preset-mini'
 import { variants } from '@unocss/preset-mini/variants'
 import { rules } from './rules'
 import { containerShortcuts } from './rules/container'
+import { theme } from './theme'
 import { variantColorsScheme } from './variants'
 
-export { theme, colors } from '@unocss/preset-mini'
+export { colors } from '@unocss/preset-mini'
 
 export type { Theme } from '@unocss/preset-mini'
 
-export interface UnoOptions {
-  /**
-   * @default 'class'
-   */
-  dark?: 'class' | 'media'
-  /**
-   * @default false
-   */
-  attributifyPseudo?: Boolean
-}
+export { theme }
 
-export const presetWind = (options: UnoOptions = {}): Preset<Theme> => ({
-  name: '@unocss/preset-wind',
-  theme,
-  rules,
-  shortcuts: [
-    ...containerShortcuts,
-  ],
-  variants: [
-    ...variants(options),
-    ...variantColorsScheme,
-  ],
-  options,
-})
+export interface UnoOptions extends PresetMiniOptions { }
+
+export const presetWind = (options: UnoOptions = {}): Preset<Theme> => {
+  options.dark = options.dark ?? 'class'
+  options.attributifyPseudo = options.attributifyPseudo ?? false
+
+  return {
+    name: '@unocss/preset-wind',
+    theme,
+    rules,
+    shortcuts: [
+      ...containerShortcuts,
+    ],
+    variants: [
+      ...variants,
+      ...variantColorsScheme,
+    ],
+    options,
+  }
+}
 
 export default presetWind
