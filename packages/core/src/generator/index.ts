@@ -100,8 +100,8 @@ export class UnoGenerator {
       }
 
       let current = raw
-      if (this.config.preprocess)
-        current = this.config.preprocess(raw)!
+      for (const p of this.config.preprocess)
+        current = p(raw)!
 
       if (this.isBlocked(current))
         return block(current)

@@ -1,6 +1,7 @@
 import type { ResolvedConfig, Shortcut, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
 import { isStaticRule, mergeDeep, normalizeVariant, toArray, uniq } from './utils'
 import { extractorSplit } from './extractors'
+import type { Preprocessor } from '.'
 
 export function resolveShortcuts(shortcuts: UserShortcuts): Shortcut[] {
   return toArray(shortcuts).flatMap((s) => {
@@ -30,7 +31,7 @@ export function resolveConfig(
 
   const layers = Object.assign(defaultLayers, ...rawPresets.map(i => i.layers), userConfig.layers)
 
-  function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights'>(key: T): Required<UserConfig>[T] {
+  function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess'>(key: T): Required<UserConfig>[T] {
     return uniq([
       ...sortedPresets.flatMap(p => toArray(p[key] || []) as any[]),
       ...toArray(config[key] || []) as any[],
@@ -81,6 +82,7 @@ export function resolveConfig(
     rulesSize,
     rulesDynamic: rules as ResolvedConfig['rulesDynamic'],
     rulesStaticMap,
+    preprocess: mergePresets('preprocess') as Preprocessor[],
     preflights: mergePresets('preflights'),
     variants: mergePresets('variants').map(normalizeVariant),
     shortcuts: resolveShortcuts(mergePresets('shortcuts')),

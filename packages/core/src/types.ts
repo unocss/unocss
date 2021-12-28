@@ -178,6 +178,8 @@ export type VariantObject<Theme extends {} = {}> = {
 
 export type Variant<Theme extends {} = {}> = VariantFunction<Theme> | VariantObject<Theme>
 
+export type Preprocessor = (matcher: string) => string | undefined
+
 export interface ConfigBase<Theme extends {} = {}> {
   /**
    * Rules to generate CSS utilities
@@ -232,6 +234,11 @@ export interface ConfigBase<Theme extends {} = {}> {
    * Custom function to sort layers.
    */
   sortLayers?: (layers: string[]) => string[]
+
+  /**
+   * Preprocess the incoming utilities, return falsy value to exclude
+   */
+  preprocess?: Preprocessor | Preprocessor[]
 }
 
 export interface Preset<Theme extends {} = {}> extends ConfigBase<Theme> {
@@ -264,11 +271,6 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
    * The theme object, will be merged with the theme provides by presets
    */
   theme?: Theme
-
-  /**
-   * Preprocess the incoming utilities, return falsy value to exclude
-   */
-  preprocess?: (matcher: string) => string | undefined
 
   /**
    * Layout name of shortcuts
@@ -326,6 +328,7 @@ RequiredByKey<UserConfig, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'l
 > {
   shortcuts: Shortcut[]
   variants: VariantObject[]
+  preprocess: Preprocessor[]
   rulesSize: number
   rulesDynamic: (DynamicRule|undefined)[]
   rulesStaticMap: Record<string, [number, CSSObject | CSSEntries, RuleMeta | undefined] | undefined>
