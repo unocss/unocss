@@ -205,6 +205,8 @@ export class UnoGenerator {
           .join(nl)
       }
 
+      css = this.config.prepareLayer(css, layer, this.config.options)
+
       return layerCache[layer] = !minify && css
         ? `/* layer: ${layer} */${nl}${css}`
         : css
@@ -286,7 +288,7 @@ export class UnoGenerator {
     body = normalizeCSSEntries(body)
 
     const [selector, entries, mediaQuery] = this.applyVariants([0, overrideSelector || context.rawSelector, body, undefined, context.variantHandlers])
-    const cssBody = `${selector}{${entriesToCss(entries)}}`
+    const cssBody = `${selector}{${entriesToCss(entries, this.config.serializeEntry)}}`
     if (mediaQuery)
       return `${mediaQuery}{${cssBody}}`
     return cssBody
@@ -346,7 +348,7 @@ export class UnoGenerator {
       return [parsed[0], undefined, parsed[1], undefined, parsed[2]]
 
     const [selector, entries, mediaQuery] = this.applyVariants(parsed)
-    const body = entriesToCss(entries)
+    const body = entriesToCss(entries, this.config.serializeEntry)
 
     if (!body)
       return
@@ -432,7 +434,7 @@ export class UnoGenerator {
 
     return selectorMap
       .map(([entries, index], selector, mediaQuery): StringifiedUtil | undefined => {
-        const body = entriesToCss(entries)
+        const body = entriesToCss(entries, this.config.serializeEntry)
         if (body)
           return [index, selector, body, mediaQuery, meta]
         return undefined

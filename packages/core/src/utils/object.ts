@@ -31,11 +31,11 @@ export function clearIdenticalEntries(entry: CSSEntries): CSSEntries {
   })
 }
 
-export function entriesToCss(arr?: CSSEntries) {
+export function entriesToCss(arr: CSSEntries | undefined, serializer: (key: string, value: string | number) => string) {
   if (arr == null)
     return ''
   return clearIdenticalEntries(arr)
-    .map(([key, value]) => value != null ? `${key}:${value};` : undefined)
+    .map(([key, value]) => value != null ? serializer(key, value) : undefined)
     .filter(Boolean)
     .join('')
 }

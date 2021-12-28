@@ -232,6 +232,16 @@ export interface ConfigBase<Theme extends {} = {}> {
    * Custom function to sort layers.
    */
   sortLayers?: (layers: string[]) => string[]
+
+  /**
+   * Custom function to serialize css entry {@link CSSEntries}.
+   */
+  serializeEntry?: (key: string, value: string | number) => string
+
+  /**
+   * Custom function to alter generated css.
+   */
+  prepareLayer?: (css: string, layer: string, options: PresetOptions) => string
 }
 
 export interface Preset<Theme extends {} = {}> extends ConfigBase<Theme> {
@@ -321,7 +331,7 @@ export interface UserConfig<Theme extends {} = {}> extends ConfigBase<Theme>, Us
 export interface UserConfigDefaults<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme> {}
 
 export interface ResolvedConfig extends Omit<
-RequiredByKey<UserConfig, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>,
+RequiredByKey<UserConfig, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers' | 'serializeEntry' | 'prepareLayer'>,
 'rules' | 'shortcuts'
 > {
   shortcuts: Shortcut[]

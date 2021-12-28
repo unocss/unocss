@@ -72,6 +72,8 @@ export function resolveConfig(
     blocklist: [],
     safelist: [],
     sortLayers: layers => layers,
+    serializeEntry: (key, value) => `${key}:${value};`,
+    prepareLayer: css => css,
     ...config,
     presets: sortedPresets,
     envMode: config.envMode || 'build',
