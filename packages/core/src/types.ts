@@ -371,6 +371,12 @@ export type StringifiedUtil = readonly [
   meta: RuleMeta | undefined,
 ]
 
+export interface UtilObject {
+  selector: string
+  entries: CSSEntries
+  parent: string | undefined
+}
+
 export interface GenerateOptions {
   /**
    * Filepath of the file being processed.
