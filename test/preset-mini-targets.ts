@@ -479,6 +479,10 @@ export const presetMiniTargets: string[] = [
   'sm:m-1',
   'sm:m1',
 
+  // variants prints
+  'print:block',
+  'print:link:!underline',
+
   // variants - pseudo elements
   'before:translate-y-full',
   'placeholder-opacity-60',
