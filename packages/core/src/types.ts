@@ -117,7 +117,7 @@ export interface RuleMeta {
   internal?: boolean
 }
 
-export type CSSValues = CSSObject | CSSEntry[] | (CSSObject | CSSEntry[])[]
+export type CSSValues = CSSObject | (CSSObject | CSSEntry[])[]
 
 export type DynamicMatcher<Theme extends {} = {}> = ((match: RegExpMatchArray, context: Readonly<RuleContext<Theme>>) => Awaitable<CSSValues | string | undefined>)
 export type DynamicRule<Theme extends {} = {}> = [RegExp, DynamicMatcher<Theme>] | [RegExp, DynamicMatcher<Theme>, RuleMeta]
