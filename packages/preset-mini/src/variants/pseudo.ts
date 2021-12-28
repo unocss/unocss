@@ -1,4 +1,4 @@
-import type { CSSEntries, VariantFunction, VariantHandler, VariantObject } from '@unocss/core'
+import type { CSSEntry, VariantFunction, VariantHandler, VariantObject } from '@unocss/core'
 import { escapeRegExp, toArray } from '@unocss/core'
 
 export const CONTROL_BYPASS_PSEUDO_CLASS = '$$no-pseudo'
@@ -72,7 +72,7 @@ const PseudoClassFunctionsStr = PseudoClassFunctions.join('|')
 const PseudoClassesRE = new RegExp(`^(${PseudoClassesStr})[:-]`)
 const PseudoClassFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesStr})[:-]`)
 
-function shouldAdd(entires: CSSEntries) {
+function shouldAdd(entires: CSSEntry[]) {
   return !entires.find(i => i[0] === CONTROL_BYPASS_PSEUDO_CLASS) || undefined
 }
 

@@ -1,10 +1,10 @@
-import type { CSSEntries, CSSObject, CSSValues, DeepPartial, Rule, Shortcut, StaticRule, StaticShortcut } from '../types'
+import type { CSSEntry, CSSObject, CSSValues, DeepPartial, Rule, Shortcut, StaticRule, StaticShortcut } from '../types'
 
-export function normalizeCSSEntries(obj: CSSEntries | CSSObject): CSSEntries {
+export function normalizeCSSEntries(obj: CSSEntry[] | CSSObject): CSSEntry[] {
   return (!Array.isArray(obj) ? Object.entries(obj) : obj).filter(i => i[1] != null)
 }
 
-export function normalizeCSSValues(obj: CSSValues): CSSEntries[] {
+export function normalizeCSSValues(obj: CSSValues): CSSEntry[][] {
   if (Array.isArray(obj)) {
     // @ts-expect-error
     if (obj.find(i => !Array.isArray(i) || Array.isArray(i[0])))
@@ -17,7 +17,7 @@ export function normalizeCSSValues(obj: CSSValues): CSSEntries[] {
   }
 }
 
-export function clearIdenticalEntries(entry: CSSEntries): CSSEntries {
+export function clearIdenticalEntries(entry: CSSEntry[]): CSSEntry[] {
   return entry.filter(([k, v], idx) => {
     // remove control keys
     if (k.startsWith('$$'))
@@ -31,7 +31,7 @@ export function clearIdenticalEntries(entry: CSSEntries): CSSEntries {
   })
 }
 
-export function entriesToCss(arr?: CSSEntries) {
+export function entriesToCss(arr?: CSSEntry[]) {
   if (arr == null)
     return ''
   return clearIdenticalEntries(arr)

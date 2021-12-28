@@ -1,4 +1,4 @@
-import type { CSSEntries, CSSObject, DynamicMatcher, Rule, RuleContext } from '@unocss/core'
+import type { CSSEntry, CSSObject, DynamicMatcher, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { cornerMap, directionMap, handler as h, parseColor } from '../utils'
 
@@ -18,7 +18,7 @@ export const borders: Rule[] = [
     const v = h.bracket.percent(opacity)
     const d = directionMap[a]
     if (v !== undefined && d)
-      return d.map(i => [`--un-border${i}-opacity`, v]) as CSSEntries
+      return d.map(i => [`--un-border${i}-opacity`, v]) as CSSEntry[]
   }],
 
   // radius
@@ -88,7 +88,7 @@ const borderColorResolver = (direction: string): DynamicMatcher => ([, body]: st
   }
 }
 
-function handlerBorder(m: string[]): CSSEntries | undefined {
+function handlerBorder(m: string[]): CSSEntry[] | undefined {
   const borderSizes = handlerBorderSize(m)
   if (borderSizes) {
     return [
@@ -98,7 +98,7 @@ function handlerBorder(m: string[]): CSSEntries | undefined {
   }
 }
 
-function handlerBorderSize([, a, b]: string[]): CSSEntries | undefined {
+function handlerBorderSize([, a, b]: string[]): CSSEntry[] | undefined {
   const [d, s = '1'] = directionMap[a] ? [a, b] : ['', a]
   const v = h.bracket.px(s)
   if (v !== undefined)
@@ -114,7 +114,7 @@ function handlerBorderColor([, a, c]: string[], ctx: RuleContext) {
   }
 }
 
-function handlerRounded([, a, b]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
+function handlerRounded([, a, b]: string[], { theme }: RuleContext<Theme>): CSSEntry[] | undefined {
   const [d, s = 'DEFAULT'] = cornerMap[a] ? [a, b] : ['', a]
   const v = theme.borderRadius?.[s] || h.auto.rem.fraction.bracket.cssvar(s)
   if (v !== undefined)

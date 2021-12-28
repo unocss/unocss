@@ -65,7 +65,7 @@ export interface RuleContext<Theme extends {} = {}> {
    * Constrcut a custom CSS rule.
    * Variants and selector escaping will be handled automatically.
    */
-  constructCSS: (body: CSSEntries | CSSObject, overrideSelector?: string) => string
+  constructCSS: (body: CSSEntry[] | CSSObject, overrideSelector?: string) => string
   /**
    * User-provided options from preset.
    */
@@ -117,11 +117,11 @@ export interface RuleMeta {
   internal?: boolean
 }
 
-export type CSSValues = CSSObject | CSSEntries | (CSSObject | CSSEntries)[]
+export type CSSValues = CSSObject | CSSEntry[] | (CSSObject | CSSEntry[])[]
 
 export type DynamicMatcher<Theme extends {} = {}> = ((match: RegExpMatchArray, context: Readonly<RuleContext<Theme>>) => Awaitable<CSSValues | string | undefined>)
 export type DynamicRule<Theme extends {} = {}> = [RegExp, DynamicMatcher<Theme>] | [RegExp, DynamicMatcher<Theme>, RuleMeta]
-export type StaticRule = [string, CSSObject | CSSEntries] | [string, CSSObject | CSSEntries, RuleMeta]
+export type StaticRule = [string, CSSObject | CSSEntry[]] | [string, CSSObject | CSSEntry[], RuleMeta]
 export type Rule<Theme extends {} = {}> = DynamicRule<Theme> | StaticRule
 
 export type DynamicShortcutMatcher<Theme extends {} = {}> = ((match: RegExpMatchArray, context: Readonly<RuleContext<Theme>>) => (string | string [] | undefined))
@@ -149,11 +149,11 @@ export interface VariantHandler {
   /**
    * Rewrite the output selector. Often be used to append pesudo classes or parents.
    */
-  selector?: (input: string, body: CSSEntries) => string | undefined
+  selector?: (input: string, body: CSSEntry[]) => string | undefined
   /**
    * Rewrite the output css body. The input come in [key,value][] pairs.
    */
-  body?: (body: CSSEntries) => CSSEntries | undefined
+  body?: (body: CSSEntry[]) => CSSEntry[] | undefined
   /**
    * Provide a parent selector(e.g. media query) to the output css.
    */
@@ -338,7 +338,7 @@ RequiredByKey<UserConfig, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'l
   postprocess: Postprocessor[]
   rulesSize: number
   rulesDynamic: (DynamicRule|undefined)[]
-  rulesStaticMap: Record<string, [number, CSSObject | CSSEntries, RuleMeta | undefined] | undefined>
+  rulesStaticMap: Record<string, [number, CSSObject | CSSEntry[], RuleMeta | undefined] | undefined>
   options: PresetOptions
 }
 
@@ -359,7 +359,7 @@ export type VariantMatchedResult = readonly [
 export type ParsedUtil = readonly [
   index: number,
   raw: string,
-  entries: CSSEntries,
+  entries: CSSEntry[],
   meta: RuleMeta | undefined,
   variants: VariantHandler[]
 ]
@@ -380,7 +380,7 @@ export type StringifiedUtil = readonly [
 
 export interface UtilObject {
   selector: string
-  entries: CSSEntries
+  entries: CSSEntry[]
   parent: string | undefined
 }
 

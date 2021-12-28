@@ -1,4 +1,4 @@
-import type { CSSEntries, Rule } from '@unocss/core'
+import type { CSSEntry, Rule } from '@unocss/core'
 import { directionMap, handler as h } from '../utils'
 
 const basicSet = ['auto', 'start', 'end', 'center', 'stretch']
@@ -74,7 +74,7 @@ function handleInsetValue(v: string): string | number | undefined {
 
 export const insets: Rule[] = [
   [/^(?:position-|pos-)?(top|left|right|bottom|inset)-(.+)$/, ([, d, v]) => ({ [d]: handleInsetValue(v) })],
-  [/^(?:position-|pos-)?inset-([xy])-(.+)$/, ([, d, v]): CSSEntries | undefined => {
+  [/^(?:position-|pos-)?inset-([xy])-(.+)$/, ([, d, v]): CSSEntry[] | undefined => {
     const r = handleInsetValue(v)
     if (r != null && d in directionMap)
       return directionMap[d].map(i => [i.slice(1), r])

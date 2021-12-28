@@ -1,4 +1,4 @@
-import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, RawUtil, ResolvedConfig, RuleContext, RuleMeta, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantMatchedResult } from '../types'
+import type { CSSEntry, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, RawUtil, ResolvedConfig, RuleContext, RuleMeta, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
 import { TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, normalizeCSSEntries, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
@@ -291,7 +291,7 @@ export class UnoGenerator {
     return obj
   }
 
-  constructCustomCSS(context: Readonly<RuleContext>, body: CSSObject | CSSEntries, overrideSelector?: string) {
+  constructCustomCSS(context: Readonly<RuleContext>, body: CSSObject | CSSEntry[], overrideSelector?: string) {
     body = normalizeCSSEntries(body)
 
     const { selector, entries, parent } = this.applyVariants([0, overrideSelector || context.rawSelector, body, undefined, context.variantHandlers])
@@ -408,7 +408,7 @@ export class UnoGenerator {
     expanded: string[],
     meta: RuleMeta = { layer: this.config.shortcutsLayer },
   ): Promise<StringifiedUtil[] | undefined> {
-    const selectorMap = new TwoKeyMap<string, string | undefined, [CSSEntries, number]>()
+    const selectorMap = new TwoKeyMap<string, string | undefined, [CSSEntry[], number]>()
 
     const parsed = (
       await Promise.all(uniq(expanded)

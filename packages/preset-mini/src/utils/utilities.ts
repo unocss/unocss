@@ -1,4 +1,4 @@
-import type { CSSEntries, CSSObject, DynamicMatcher, ParsedColorValue, RuleContext } from '@unocss/core'
+import type { CSSEntry, CSSObject, DynamicMatcher, ParsedColorValue, RuleContext } from '@unocss/core'
 import { hex2rgba } from '@unocss/core'
 import type { Theme } from '../theme'
 import { handler as h } from './handlers'
@@ -15,7 +15,7 @@ export function capitalize<T extends string>(str: T) {
  * @return {DynamicMatcher}  {@link DynamicMatcher}
  * @see {@link directionMap}
  */
-export const directionSize = (propertyPrefix: string): DynamicMatcher => ([_, direction, size]: string[]): CSSEntries | undefined => {
+export const directionSize = (propertyPrefix: string): DynamicMatcher => ([_, direction, size]: string[]): CSSEntry[] | undefined => {
   const v = h.bracket.auto.rem.fraction.cssvar(size)
   if (v !== undefined)
     return directionMap[direction].map(i => [`${propertyPrefix}${i}`, v])

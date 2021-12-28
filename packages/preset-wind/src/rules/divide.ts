@@ -1,4 +1,4 @@
-import type { CSSEntries, Rule } from '@unocss/core'
+import type { CSSEntry, Rule } from '@unocss/core'
 import { colorResolver, directionMap, handler as h } from '@unocss/preset-mini/utils'
 
 export const divideColors: Rule[] = [
@@ -22,7 +22,7 @@ export const divideStyles: Rule[] = [
 
 export const divides = [divideSizes, divideColors, divideStyles].flat(1)
 
-function handlerDivide([, a, b]: string[]): CSSEntries | undefined {
+function handlerDivide([, a, b]: string[]): CSSEntry[] | undefined {
   const [d, s = '1'] = directionMap[a] ? [a, b] : ['', a]
   const v = h.bracket.px(s)
 
