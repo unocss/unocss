@@ -17,7 +17,6 @@ export interface UnoOptions extends PresetMiniOptions { }
 export const presetWind = (options: UnoOptions = {}): Preset<Theme> => {
   options.dark = options.dark ?? 'class'
   options.attributifyPseudo = options.attributifyPseudo ?? false
-  options.variablePrefix = options.variablePrefix ?? 'un-'
 
   return {
     name: '@unocss/preset-wind',
