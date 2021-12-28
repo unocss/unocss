@@ -1,4 +1,4 @@
-import type { Preset, PresetOptions } from '@unocss/core'
+import type { Postprocessor, Preset, PresetOptions } from '@unocss/core'
 import { rules } from './rules'
 import type { Theme, ThemeAnimation } from './theme'
 import { theme } from './theme'
@@ -17,6 +17,10 @@ export interface PresetMiniOptions extends PresetOptions {
    * @default false
    */
   attributifyPseudo?: Boolean
+  /**
+   * @default 'un-'
+   */
+  variablePrefix?: string
 }
 
 export const presetMini = (options: PresetMiniOptions = {}): Preset<Theme> => {
@@ -29,7 +33,20 @@ export const presetMini = (options: PresetMiniOptions = {}): Preset<Theme> => {
     rules,
     variants,
     options,
+    postprocess: options.variablePrefix && options.variablePrefix !== 'un-'
+      ? VarPrefixPostprocessor(options.variablePrefix)
+      : undefined,
   }
 }
 
 export default presetMini
+
+function VarPrefixPostprocessor(prefix: string): Postprocessor {
+  return (obj) => {
+    obj.entries.forEach((i) => {
+      i[0] = i[0].replace(/^--un-/, `--${prefix}`)
+      if (typeof i[1] === 'string')
+        i[1] = i[1].replace(/var\(--un-/g, `var(--${prefix}`)
+    })
+  }
+}

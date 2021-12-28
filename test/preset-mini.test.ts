@@ -43,4 +43,22 @@ describe('preset-mini', () => {
     expect(Array.from(matched)).toEqual([])
     expect(css).toBe('')
   })
+
+  test('custom var prefix', async() => {
+    const uno = createGenerator({
+      presets: [
+        presetMini({
+          variablePrefix: 'hi-',
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'text-opacity-50',
+      'text-red',
+      'scale-100',
+    ].join(' '))
+
+    expect(css).toMatchSnapshot()
+  })
 })

@@ -1,5 +1,13 @@
 // Vitest Snapshot v1
 
+exports[`preset-mini > custom var prefix 1`] = `
+"/* layer: default */
+.text-red{--hi-text-opacity:1;color:rgba(248,113,113,var(--hi-text-opacity));}
+.text-opacity-50{--hi-text-opacity:0.5;}
+.scale-100{--hi-rotate:0;--hi-scale-x:1;--hi-scale-y:1;--hi-scale-z:1;--hi-skew-x:0;--hi-skew-y:0;--hi-translate-x:0;--hi-translate-y:0;--hi-translate-z:0;transform:rotate(var(--hi-rotate)) scaleX(var(--hi-scale-x)) scaleY(var(--hi-scale-y)) scaleZ(var(--hi-scale-z)) skewX(var(--hi-skew-x)) skewY(var(--hi-skew-y)) translateX(var(--hi-translate-x)) translateY(var(--hi-translate-y)) translateZ(var(--hi-translate-z));}
+.scale-100{--hi-scale-x:1;--hi-scale-y:1;}"
+`;
+
 exports[`preset-mini > targets 1`] = `
 "/* layer: default */
 .bg-\\\\$test-variable{background-color:var(--test-variable);}
