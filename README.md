@@ -144,6 +144,8 @@ Presets are the heart of UnoCSS that lets you make your own custom framework in 
 
 - [unocss-preset-typography](https://github.com/ydcjeff/unocss-preset-typography) - Typography Preset by [@ydcjeff](https://github.com/ydcjeff)
 
+- [unocss-preset-scalpel](https://github.com/macheteHot/unocss-preset-scalpel) - Scalpel Preset by [@macheteHot](https://github.com/macheteHot/)
+
 ### Use Presets
 
 To set presets to your project:
