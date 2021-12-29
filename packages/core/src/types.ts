@@ -158,6 +158,10 @@ export interface VariantHandler {
    * Provide a parent selector(e.g. media query) to the output css.
    */
   parent?: string | [string, number] | undefined
+  /**
+   * Variant ordering.
+   */
+  order?: number
 }
 
 export type VariantFunction<Theme extends {} = {}> = (matcher: string, context: Readonly<VariantContext<Theme>>) => string | VariantHandler | undefined

@@ -279,7 +279,10 @@ export class UnoGenerator {
   }
 
   applyVariants(parsed: ParsedUtil, variantHandlers = parsed[4], raw = parsed[1]): UtilObject {
+    variantHandlers.sort((a, b) => (a.order || 0) - (b.order || 0))
+
     const entries = variantHandlers.reduce((p, v) => v.body?.(p) || p, parsed[2])
+
     const obj: UtilObject = {
       selector: variantHandlers.reduce((p, v) => v.selector?.(p, entries) || p, toEscapedSelector(raw)),
       entries,
