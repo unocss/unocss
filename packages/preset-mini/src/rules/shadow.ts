@@ -39,6 +39,6 @@ export const boxShadows: Rule<Theme>[] = [
       }
     }
   }],
-  ['shadow-inset', { '--un-shadow-inset': 'inset' }],
   [/^shadow-(.+)$/, ([, d], { theme }) => colorResolver(d, theme)],
+  ['shadow-inset', { '--un-shadow-inset': 'inset' }],
 ]
