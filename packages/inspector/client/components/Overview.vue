@@ -20,7 +20,7 @@ overviewFetch.execute()
           <div op80>
             Rules
           </div>
-          {{ info?.config?.rulesDynamic?.length }} <span op50>dynamic</span><br>
+          {{ info?.config?.rulesDynamic?.filter(Boolean).length }} <span op50>dynamic</span><br>
           {{ Object.keys(info?.config?.rulesStaticMap || {}).length }} <span op50>static</span>
         </div>
         <div>
