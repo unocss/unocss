@@ -1,6 +1,7 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
 import { parseColor } from '../utils'
+import { varEmpty } from './static'
 
 const colorResolver = (body: string, theme: Theme) => {
   const data = parseColor(body, theme)
@@ -31,11 +32,13 @@ export const boxShadows: Rule<Theme>[] = [
     const value = theme.boxShadow?.[d || 'DEFAULT']
     if (value) {
       return {
+        '--un-shadow-inset': varEmpty,
         '--un-shadow-color': '0,0,0',
         '--un-shadow': value,
         'box-shadow': 'var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow)',
       }
     }
   }],
+  ['shadow-inset', { '--un-shadow-inset': 'inset' }],
   [/^shadow-(.+)$/, ([, d], { theme }) => colorResolver(d, theme)],
 ]
