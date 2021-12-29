@@ -315,15 +315,11 @@ export class UnoGenerator {
 
     context.variantHandlers = variantHandlers
 
-    const { rulesDynamic, rulesSize } = this.config
+    const { rulesDynamic } = this.config
 
     // match rules, from last to first
-    for (let i = rulesSize; i >= 0; i--) {
-      const rule = rulesDynamic[i]
-
-      // static rules are omitted as undefined
-      if (!rule)
-        continue
+    for (let j = rulesDynamic.length - 1; j >= 0; j--) {
+      const [i, rule] = rulesDynamic[j]
 
       // ignore internal rules
       if (rule[2]?.internal && !internal)

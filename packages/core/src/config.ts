@@ -1,4 +1,4 @@
-import type { Postprocessor, ResolvedConfig, Shortcut, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
+import type { DynamicRule, Postprocessor, ResolvedConfig, Shortcut, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
 import { isStaticRule, mergeDeep, normalizeVariant, toArray, uniq } from './utils'
 import { extractorSplit } from './extractors'
 import type { Preprocessor } from '.'
@@ -43,19 +43,15 @@ export function resolveConfig(
     extractors.push(extractorSplit)
   extractors.sort((a, b) => (a.order || 0) - (b.order || 0))
 
-  const rules = mergePresets('rules')
   const rulesStaticMap: ResolvedConfig['rulesStaticMap'] = {}
 
-  const rulesSize = rules.length
-
-  rules.forEach((rule, i) => {
-    if (isStaticRule(rule)) {
+  const rulesDynamic = mergePresets('rules').map((rule, i) => {
+    if (isStaticRule(rule))
       rulesStaticMap[rule[0]] = [i, rule[1], rule[2]]
-      // delete static rules so we can't skip them in matching
-      // but keep the order
-      delete rules[i]
-    }
-  })
+    else if (rule)
+      return [i, rule]
+    return false
+  }).filter(Boolean) as [number, DynamicRule][]
 
   const theme = [
     ...sortedPresets.map(p => p.theme || {}),
@@ -79,8 +75,7 @@ export function resolveConfig(
     shortcutsLayer: config.shortcutsLayer || 'shortcuts',
     layers,
     theme,
-    rulesSize,
-    rulesDynamic: rules as ResolvedConfig['rulesDynamic'],
+    rulesDynamic,
     rulesStaticMap,
     preprocess: mergePresets('preprocess') as Preprocessor[],
     postprocess: mergePresets('postprocess') as Postprocessor[],

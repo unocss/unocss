@@ -329,15 +329,14 @@ export interface UserConfig<Theme extends {} = {}> extends ConfigBase<Theme>, Us
 export interface UserConfigDefaults<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme> {}
 
 export interface ResolvedConfig extends Omit<
-RequiredByKey<UserConfig, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>,
-'rules' | 'shortcuts'
+RequiredByKey<UserConfig, 'mergeSelectors' | 'theme' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>,
+'shortcuts'
 > {
   shortcuts: Shortcut[]
   variants: VariantObject[]
   preprocess: Preprocessor[]
   postprocess: Postprocessor[]
-  rulesSize: number
-  rulesDynamic: (DynamicRule|undefined)[]
+  rulesDynamic: [number, DynamicRule][]
   rulesStaticMap: Record<string, [number, CSSObject | CSSEntries, RuleMeta | undefined] | undefined>
   options: PresetOptions
 }
