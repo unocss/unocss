@@ -259,6 +259,7 @@ export const presetMiniTargets: string[] = [
   'shadow-none',
   'shadow-xl',
   'shadow-green-500',
+  'shadow-inset',
 
   // size
   'h-auto',
