@@ -480,6 +480,10 @@ export const presetMiniTargets: string[] = [
   'sm:m-1',
   'sm:m1',
 
+  // variants orientations
+  'portrait:hidden',
+  'landscape:hidden',
+
   // variants prints
   'print:block',
   'print:link:!underline',
@@ -494,6 +498,8 @@ export const presetMiniTargets: string[] = [
 
   // variants - pseudo classes
   'placeholder-shown-color-transparent',
+  'in-range:color-pink-100',
+  'out-of-range:color-pink-100',
 
   // variants - pseudo functions
   'not-hover:p-4px',

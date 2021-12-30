@@ -4,6 +4,7 @@ import { variantBreakpoints } from './breakpoints'
 import { variantCombinators } from './combinators'
 import { variantColorsMediaOrClass } from './dark'
 import { variantImportant, variantNegative, variantSpace } from './misc'
+import { variantOrientations } from './orientations'
 import { variantPrint } from './prints'
 import { partClasses, variantPseudoClassFunctions, variantPseudoClasses, variantPseudoElements, variantTaggedPseudoClasses } from './pseudo'
 
@@ -12,6 +13,7 @@ export const variants: Variant<Theme>[] = [
   variantNegative,
   variantImportant,
   variantPrint,
+  ...variantOrientations,
   variantBreakpoints,
   ...variantCombinators,
   variantPseudoClasses,
