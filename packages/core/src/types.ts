@@ -28,13 +28,17 @@ export type ParsedColorValue = {
    */
   name: string
   /**
-   * Color scale. Preferrably 000 - 999
+   * Color scale, preferrably 000 - 999.
    */
   no: string
   /**
    * {@link RGBAColorValue}
    */
   rgba?: RGBAColorValue
+  /**
+   * Parsed rgba's alpha value.
+   */
+  alpha?: number | string
 }
 
 export type PresetOptions = Record<string, any>
