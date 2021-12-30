@@ -279,11 +279,12 @@ export class UnoGenerator {
   }
 
   applyVariants(parsed: ParsedUtil, variantHandlers = parsed[4], raw = parsed[1]): UtilObject {
-    const entries = variantHandlers.reduce((p, v) => v.body?.(p) || p, parsed[2])
+    const handlers = [...variantHandlers].sort((a, b) => (a.order || 0) - (b.order || 0))
+    const entries = handlers.reduce((p, v) => v.body?.(p) || p, parsed[2])
     const obj: UtilObject = {
-      selector: variantHandlers.reduce((p, v) => v.selector?.(p, entries) || p, toEscapedSelector(raw)),
+      selector: handlers.reduce((p, v) => v.selector?.(p, entries) || p, toEscapedSelector(raw)),
       entries,
-      parent: variantHandlers.reduce((p: string | undefined, v) => Array.isArray(v.parent) ? v.parent[0] : v.parent || p, undefined),
+      parent: handlers.reduce((p: string | undefined, v) => Array.isArray(v.parent) ? v.parent[0] : v.parent || p, undefined),
     }
 
     for (const p of this.config.postprocess)
