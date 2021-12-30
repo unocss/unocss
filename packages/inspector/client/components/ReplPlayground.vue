@@ -10,7 +10,7 @@ const { data: result } = fetchRepl(input)
 </script>
 
 <template>
-  <div h-full grid="~ rows-[max-content,1fr]" of-hidden>
+  <div h-full grid="~ rows-[max-content_1fr]" of-hidden>
     <StatusBar>
       <div>
         REPL Playground

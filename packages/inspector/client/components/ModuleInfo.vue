@@ -20,7 +20,7 @@ const unmatchedClasses = asyncComputed(async() => {
 </script>
 
 <template>
-  <div v-if="mod" h-full grid="~ rows-[max-content,1fr]" of-hidden>
+  <div v-if="mod" h-full grid="~ rows-[max-content_1fr]" of-hidden>
     <StatusBar grid="~ cols-3 gap-4">
       <div>
         <div op50>

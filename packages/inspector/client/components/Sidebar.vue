@@ -3,7 +3,7 @@ import { moduleTree } from '../composables/fetch'
 </script>
 
 <template>
-  <div h-full grid="~ rows-[max-content,1fr]" b="r main" of-hidden>
+  <div h-full grid="~ rows-[max-content_1fr]" b="r main" of-hidden>
     <NarBar />
     <div
       overflow="auto"
