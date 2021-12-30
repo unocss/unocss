@@ -246,4 +246,7 @@ export const presetWindiTargets: string[] = [
   // variants - pseudo
   'file:bg-violet-50',
   'hover:file:bg-violet-100',
+  'marker:bg-violet-200',
+  'motion-reduce:hover:translate-0',
+  'motion-safe:transition',
 ]
