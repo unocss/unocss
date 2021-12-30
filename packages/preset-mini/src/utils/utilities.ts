@@ -62,6 +62,8 @@ export const parseColor = (body: string, theme: Theme): ParsedColorValue | undef
     color = bracketOrMain.slice(1)
   if (bracketOrMain.startsWith('hex-'))
     color = bracketOrMain.slice(4)
+  if (main.startsWith('$'))
+    color = h.cssvar(main)
 
   color = color || bracket
 
@@ -150,7 +152,7 @@ export const colorResolver = (property: string, varName: string): DynamicMatcher
     }
     else {
       return {
-        [`--un-${varName}-opacity`]: 1,
+        [`--un-${varName}-opacity`]: (opacity && h.cssvar(opacity)) ?? 1,
         [property]: `rgba(${rgba.slice(0, 3).join(',')},var(--un-${varName}-opacity))`,
       }
     }

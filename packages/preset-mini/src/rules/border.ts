@@ -68,13 +68,13 @@ const borderColorResolver = (direction: string): DynamicMatcher => ([, body]: st
     else {
       if (direction === '') {
         return {
-          '--un-border-opacity': 1,
+          '--un-border-opacity': (opacity && h.cssvar(opacity)) ?? 1,
           [`border${direction}-color`]: `rgba(${rgba.slice(0, 3).join(',')},var(--un-border${direction}-opacity))`,
         }
       }
       else {
         return {
-          '--un-border-opacity': 1,
+          '--un-border-opacity': (opacity && h.cssvar(opacity)) ?? 1,
           [`--un-border${direction}-opacity`]: 'var(--un-border-opacity)',
           [`border${direction}-color`]: `rgba(${rgba.slice(0, 3).join(',')},var(--un-border${direction}-opacity))`,
         }
