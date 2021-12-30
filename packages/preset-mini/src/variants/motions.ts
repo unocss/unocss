@@ -1,5 +1,5 @@
 import type { Variant } from '@unocss/core'
-import { variantParentMatcher } from '@unocss/preset-mini/utils'
+import { variantParentMatcher } from '../utils'
 
 export const variantMotions: Variant[] = [
   variantParentMatcher('motion-reduce', '@media (prefers-reduced-motion: reduce)'),
