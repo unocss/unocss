@@ -8,11 +8,7 @@ export const svgUtilities: Rule[] = [
   ['fill-none', { fill: 'none' }],
 
   // stroke size
-  [/^stroke-(?:size-|width-)?(.+)$/, ([, s]) => {
-    const v = h.bracket.fraction.px.number(s)
-    if (v)
-      return { 'stroke-width': v }
-  }],
+  [/^stroke-(?:size-|width-)?(.+)$/, ([, s]) => ({ 'stroke-width': h.bracket.fraction.px.number(s) })],
 
   // stroke colors
   [/^stroke-(.+)$/, colorResolver('stroke', 'stroke')],

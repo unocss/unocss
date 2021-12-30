@@ -22,11 +22,7 @@ export const rings: Rule<Theme>[] = [
 
   // offset size
   ['ring-offset', { '--un-ring-offset-width': '1px' }],
-  [/^ring-offset-(.+)$/, ([, d]) => {
-    const value = h.px(d || '1')
-    if (value)
-      return { '--un-ring-offset-width': value }
-  }],
+  [/^ring-offset-(.+)$/, ([, d]) => ({ '--un-ring-offset-width': h.px(d || '1') })],
 
   // colors
   [/^ring-(.+)$/, colorResolver('--un-ring-color', 'ring')],

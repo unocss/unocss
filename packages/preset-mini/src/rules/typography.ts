@@ -18,14 +18,7 @@ const weightMap: Record<string, string> = {
 
 export const fonts: Rule<Theme>[] = [
   // family
-  [/^font-(\w+)$/, ([, d], { theme }) => {
-    const font = theme.fontFamily?.[d]
-    if (font) {
-      return {
-        'font-family': font,
-      }
-    }
-  }],
+  [/^font-(\w+)$/, ([, d], { theme }) => ({ 'font-family': theme.fontFamily?.[d] })],
 
   // size
   [/^text-(.+)$/, ([, s = 'base'], { theme }) => {
@@ -42,39 +35,19 @@ export const fonts: Rule<Theme>[] = [
       }
     }
   }],
-  [/^text-size-(.+)$/, ([, s]) => {
-    const raw = h.bracket.auto.rem(s)
-    if (raw)
-      return { 'font-size': raw }
-  }],
+  [/^text-size-(.+)$/, ([, s]) => ({ 'font-size': h.bracket.auto.rem(s) })],
 
   // weights
-  [/^(?:font|fw)-?([^-]+)$/, ([, s]) => {
-    const v = weightMap[s] || h.number(s)
-    if (v)
-      return { 'font-weight': v }
-  }],
+  [/^(?:font|fw)-?([^-]+)$/, ([, s]) => ({ 'font-weight': weightMap[s] || h.number(s) })],
 
   // leadings
-  [/^(?:leading|lh)-([^-]+)$/, ([, s], { theme }) => {
-    const v = theme.lineHeight?.[s] || h.bracket.auto.rem(s)
-    if (v !== null)
-      return { 'line-height': v }
-  }],
+  [/^(?:leading|lh)-([^-]+)$/, ([, s], { theme }) => ({ 'line-height': theme.lineHeight?.[s] || h.bracket.auto.rem(s) })],
 
   // tracking
-  [/^tracking-([^-]+)$/, ([, s], { theme }) => {
-    const v = theme.letterSpacing?.[s] || h.bracket.auto.rem(s)
-    if (v !== null)
-      return { 'letter-spacing': v }
-  }],
+  [/^tracking-([^-]+)$/, ([, s], { theme }) => ({ 'letter-spacing': theme.letterSpacing?.[s] || h.bracket.auto.rem(s) })],
 
   // word-spacing
-  [/^word-spacing-([^-]+)$/, ([, s], { theme }) => {
-    const v = theme.wordSpacing?.[s] || h.bracket.auto.rem(s)
-    if (v !== null)
-      return { 'word-spacing': v }
-  }],
+  [/^word-spacing-([^-]+)$/, ([, s], { theme }) => ({ 'word-spacing': theme.wordSpacing?.[s] || h.bracket.auto.rem(s) })],
 ]
 
 export const tabSizes: Rule<Theme>[] = [
@@ -91,20 +64,12 @@ export const tabSizes: Rule<Theme>[] = [
 ]
 
 export const textIndents: Rule<Theme>[] = [
-  [/^indent(?:-(.+))?$/, ([, s], { theme }) => {
-    const v = theme.textIndent?.[s || 'DEFAULT'] || h.bracket.cssvar.fraction.auto.rem(s)
-    if (v != null)
-      return { 'text-indent': v }
-  }],
+  [/^indent(?:-(.+))?$/, ([, s], { theme }) => ({ 'text-indent': theme.textIndent?.[s || 'DEFAULT'] || h.bracket.cssvar.fraction.auto.rem(s) })],
 ]
 
 export const textStrokes: Rule<Theme>[] = [
   // widths
-  [/^text-stroke(?:-(.+))?$/, ([, s], { theme }) => {
-    const v = theme.textStrokeWidth?.[s || 'DEFAULT'] || h.bracket.cssvar.px(s)
-    if (v != null)
-      return { '-webkit-text-stroke-width': v }
-  }],
+  [/^text-stroke(?:-(.+))?$/, ([, s], { theme }) => ({ '-webkit-text-stroke-width': theme.textStrokeWidth?.[s || 'DEFAULT'] || h.bracket.cssvar.px(s) })],
 
   // colors
   [/^text-stroke-(.+)$/, colorResolver('-webkit-text-stroke-color', 'text-stroke')],
@@ -112,9 +77,5 @@ export const textStrokes: Rule<Theme>[] = [
 ]
 
 export const textShadows: Rule<Theme>[] = [
-  [/^text-shadow(?:-(.+))?$/, ([, s], { theme }) => {
-    const v = theme.textShadow?.[s || 'DEFAULT'] || h.bracket.cssvar(s)
-    if (v != null)
-      return { 'text-shadow': v }
-  }],
+  [/^text-shadow(?:-(.+))?$/, ([, s], { theme }) => ({ 'text-shadow': theme.textShadow?.[s || 'DEFAULT'] || h.bracket.cssvar(s) })],
 ]
