@@ -493,6 +493,8 @@ export const presetMiniTargets: string[] = [
   'selection:color-[var(--select-color)]',
 
   // variants - pseudo classes
+  'rtl:text-right',
+  'ltr:text-left',
   'placeholder-shown-color-transparent',
 
   // variants - pseudo functions

@@ -3,6 +3,7 @@ import type { Theme } from '../theme'
 import { variantBreakpoints } from './breakpoints'
 import { variantCombinators } from './combinators'
 import { variantColorsMediaOrClass } from './dark'
+import { variantLanguageDirections } from './directions'
 import { variantImportant, variantNegative, variantSpace } from './misc'
 import { variantPrint } from './prints'
 import { partClasses, variantPseudoClassFunctions, variantPseudoClasses, variantPseudoElements, variantTaggedPseudoClasses } from './pseudo'
@@ -20,4 +21,5 @@ export const variants: Variant<Theme>[] = [
   variantPseudoElements,
   partClasses,
   ...variantColorsMediaOrClass,
+  ...variantLanguageDirections,
 ]
