@@ -30,7 +30,7 @@ describe('order', () => {
   test('variant', async() => {
     const uno = createGenerator({
       rules: [
-        [/^foo-.$/, ([m]) => ({ name: m })]
+        [/^foo-.$/, ([m]) => ({ name: m })],
       ],
       presets: [],
       variants: [
@@ -59,4 +59,3 @@ describe('order', () => {
     expect(css).toEqual(css2)
   })
 })
-
