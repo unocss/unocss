@@ -34,11 +34,8 @@ const variablesAbbrMap: Record<string, string> = {
 export const cssVariables: Rule[] = [
   [/^(.+)-\$(.+)$/, ([, name, varname]) => {
     const prop = variablesAbbrMap[name]
-    if (prop) {
-      return {
-        [prop]: `var(--${varname})`,
-      }
-    }
+    if (prop)
+      return { [prop]: `var(--${varname})` }
   }],
   [/^(?:border|b)-([^-]+)-\$(.+)$/, ([, a, v]: string[]) => {
     if (a in directionMap)

@@ -79,9 +79,8 @@ export const fonts: Rule<Theme>[] = [
 
 export const tabSizes: Rule<Theme>[] = [
   [/^tab-?([^-]*)$/, ([, s]) => {
-    s = s || '4'
-    const v = h.bracket.global.number(s)
-    if (v !== null) {
+    const v = h.bracket.global.number(s || '4')
+    if (v != null) {
       return {
         '-moz-tab-size': v,
         '-o-tab-size': v,

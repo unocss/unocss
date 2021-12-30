@@ -57,9 +57,7 @@ function handleTranslate([, d, b]: string[]): CSSValues | undefined {
   if (v != null) {
     return [
       transformBase,
-      [
-        ...xyzMap[d].map((i): [string, string] => [`--un-translate${i}`, v]),
-      ],
+      xyzMap[d].map((i): [string, string] => [`--un-translate${i}`, v]),
     ]
   }
 }
@@ -69,9 +67,7 @@ function handleScale([, d, b]: string[]): CSSValues | undefined {
   if (v != null) {
     return [
       transformBase,
-      [
-        ...xyzMap[d].map((i): [string, string] => [`--un-scale${i}`, v]),
-      ],
+      xyzMap[d].map((i): [string, string] => [`--un-scale${i}`, v]),
     ]
   }
 }

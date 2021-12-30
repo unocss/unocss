@@ -1,4 +1,4 @@
-import type { Rule, RuleContext } from '@unocss/core'
+import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
 import { capitalize, handler as h } from '../utils'
 
@@ -21,7 +21,7 @@ export const sizes: Rule<Theme>[] = [
     if (v != null)
       return { [getPropName(m, w)]: v }
   }],
-  [/^(?:(min|max)-)?(w)-screen-(.+)$/, ([, m, w, s], { theme }: RuleContext<Theme>) => {
+  [/^(?:(min|max)-)?(w)-screen-(.+)$/, ([, m, w, s], { theme }) => {
     const v = theme.breakpoints?.[s]
     if (v != null)
       return { [getPropName(m, w)]: v }

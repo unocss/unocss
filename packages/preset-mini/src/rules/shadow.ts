@@ -3,7 +3,7 @@ import type { Theme } from '../theme'
 import { parseColor } from '../utils'
 import { varEmpty } from './static'
 
-const colorResolver = (body: string, theme: Theme) => {
+const shadowColorResolver = (body: string, theme: Theme) => {
   const data = parseColor(body, theme)
 
   if (!data)
@@ -39,6 +39,6 @@ export const boxShadows: Rule<Theme>[] = [
       }
     }
   }],
-  [/^shadow-(.+)$/, ([, d], { theme }) => colorResolver(d, theme)],
+  [/^shadow-(.+)$/, ([, d], { theme }) => shadowColorResolver(d, theme)],
   ['shadow-inset', { '--un-shadow-inset': 'inset' }],
 ]

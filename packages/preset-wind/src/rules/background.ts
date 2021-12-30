@@ -2,7 +2,7 @@ import type { Rule, RuleContext } from '@unocss/core'
 import { handler as h, parseColor } from '@unocss/preset-mini/utils'
 import type { Theme } from '@unocss/preset-mini'
 
-const colorResolver = (mode: 'from' | 'to' | 'via') =>
+const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
   ([, body]: string[], { theme }: RuleContext<Theme>) => {
     const data = parseColor(body, theme)
 
@@ -93,9 +93,9 @@ export const backgroundStyles: Rule[] = [
   ['bg-clip-text', { '-webkit-background-clip': 'text', 'background-attachment': 'text' }],
 
   // gradients
-  [/^(?:bg-gradient-)?from-(.+)$/, colorResolver('from')],
-  [/^(?:bg-gradient-)?to-(.+)$/, colorResolver('to')],
-  [/^(?:bg-gradient-)?via-(.+)$/, colorResolver('via')],
+  [/^(?:bg-gradient-)?from-(.+)$/, bgGradientColorResolver('from')],
+  [/^(?:bg-gradient-)?to-(.+)$/, bgGradientColorResolver('to')],
+  [/^(?:bg-gradient-)?via-(.+)$/, bgGradientColorResolver('via')],
   [/^(?:bg-gradient-)?from-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-from-opacity': h.bracket.percent(opacity) })],
   [/^(?:bg-gradient-)?to-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-to-opacity': h.bracket.percent(opacity) })],
   [/^(?:bg-gradient-)?via-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-via-opacity': h.bracket.percent(opacity) })],
