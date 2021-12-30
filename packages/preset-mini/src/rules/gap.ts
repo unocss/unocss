@@ -1,19 +1,19 @@
 import type { Rule } from '@unocss/core'
 import { handler as h } from '../utils'
 
+const directions: Record<string, string> = {
+  '': '',
+  'x-': 'column-',
+  'y-': 'row-',
+}
+
 export const gaps: Rule[] = [
   [/^(?:flex-|grid-)?gap-(x-|y-)?([^-]+)$/, ([, d = '', s]) => {
     const v = h.bracket.auto.rem(s)
     if (v != null) {
-      const direction = {
-        '': '',
-        'x-': 'column-',
-        'y-': 'row-',
-      }[d]
-
       return {
-        [`grid-${direction}gap`]: v,
-        [`${direction}gap`]: v,
+        [`grid-${directions[d]}gap`]: v,
+        [`${directions[d]}gap`]: v,
       }
     }
   }],
