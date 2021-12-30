@@ -229,7 +229,7 @@ export const presetWindiTargets: string[] = [
   // variables
   'bg-blend-$data',
 
-  // dark/light
+  // variants - dark/light
   '.dark:text-xl',
   '@dark:text-xl',
 
@@ -242,4 +242,8 @@ export const presetWindiTargets: string[] = [
   '-scroll-mb-px',
   '-scroll-p-px',
   '-space-x-4',
+
+  // variants - pseudo
+  'file:bg-violet-50',
+  'hover:file:bg-violet-100',
 ]
