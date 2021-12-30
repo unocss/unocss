@@ -494,6 +494,7 @@ export const presetMiniTargets: string[] = [
 
   // variants - pseudo classes
   'placeholder-shown-color-transparent',
+  'open:color-pink-100',
 
   // variants - pseudo functions
   'not-hover:p-4px',
