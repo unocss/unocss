@@ -1,12 +1,3 @@
-import type { VariantFunction } from '@unocss/core'
-import { variantMatcher } from '../utils'
+import { variantParentMatcher } from '../utils'
 
-export const variantPrint: VariantFunction = (v) => {
-  const print = variantMatcher('print')(v)
-  if (print) {
-    return {
-      ...print,
-      parent: '@media print',
-    }
-  }
-}
+export const variantPrint = variantParentMatcher('print', '@media print')
