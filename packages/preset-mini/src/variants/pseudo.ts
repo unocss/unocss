@@ -56,6 +56,7 @@ const PseudoElements = [
   'first-letter',
   'first-line',
   'selection',
+  'marker',
 ]
 
 const PseudoClassFunctions = [
