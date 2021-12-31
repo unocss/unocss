@@ -5,7 +5,7 @@ overviewFetch.execute()
 </script>
 
 <template>
-  <div h-full grid="~ rows-[max-content,1fr]">
+  <div h-full grid="~ rows-[max-content_1fr]">
     <StatusBar p0>
       <div p4 grid="~ cols-4 gap-4">
         <div>

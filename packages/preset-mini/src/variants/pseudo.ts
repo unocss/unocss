@@ -30,6 +30,8 @@ const PseudoClasses: Record<string, string | undefined> = Object.fromEntries([
   'indeterminate',
   'valid',
   'invalid',
+  'in-range',
+  'out-of-range',
   'required',
   'optional',
 
@@ -55,6 +57,7 @@ const PseudoElements = [
   'first-letter',
   'first-line',
   'selection',
+  'marker',
 ]
 
 const PseudoClassFunctions = [

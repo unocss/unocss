@@ -101,6 +101,13 @@ export const presetMiniTargets: string[] = [
   'c-hex-335577/10',
   'c-hex-44557733',
   'c-hex-44557733/10',
+  'c-[#157]/$opacity-variable',
+  'c-[#2573]/$opacity-variable',
+  'c-[#335577]/$opacity-variable',
+  'c-[#44557733]/$opacity-variable',
+  'c-$color-variable',
+  'c-$color-variable/10',
+  'c-$color-variable/$opacity-variable',
   'op-10',
   'opacity-0',
   'opacity-$opa',
@@ -480,6 +487,14 @@ export const presetMiniTargets: string[] = [
   'sm:m-1',
   'sm:m1',
 
+  // variants motion
+  'motion-reduce:hover:translate-0',
+  'motion-safe:transition',
+
+  // variants orientations
+  'portrait:hidden',
+  'landscape:hidden',
+
   // variants prints
   'print:block',
   'print:link:!underline',
@@ -491,10 +506,15 @@ export const presetMiniTargets: string[] = [
   'placeholder-color-red-1',
   'placeholder:color-transparent',
   'selection:color-[var(--select-color)]',
+  'marker:bg-violet-200',
 
   // variants - pseudo classes
+  'rtl:text-right',
+  'ltr:text-left',
   'placeholder-shown-color-transparent',
   'open:color-pink-100',
+  'in-range:color-pink-100',
+  'out-of-range:color-pink-100',
 
   // variants - pseudo functions
   'not-hover:p-4px',
