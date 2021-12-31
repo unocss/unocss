@@ -9,29 +9,17 @@ const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
     if (!data)
       return
 
-    const { opacity, color, rgba } = data
+    const { alpha, color, rgba } = data
 
     if (!color)
       return
 
     let colorString = color
     if (rgba) {
-      const a = opacity
-        ? opacity[0] === '['
-          ? h.bracket.percent(opacity)!
-          : (parseFloat(opacity) / 100)
-        : rgba[3]
-
-      if (a != null && !Number.isNaN(a)) {
-        // @ts-expect-error
-        rgba[3] = typeof a === 'string' && !a.includes('%')
-          ? parseFloat(a)
-          : a
+      if (alpha != null)
         colorString = `rgba(${rgba.join(',')})`
-      }
-      else {
-        colorString = `rgba(${rgba.slice(0, 3).join(',')}, var(--un-${mode}-opacity, 1))`
-      }
+      else
+        colorString = `rgba(${rgba.join(',')}, var(--un-${mode}-opacity, 1))`
     }
 
     switch (mode) {

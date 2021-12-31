@@ -89,12 +89,34 @@ export const parseColor = (body: string, theme: Theme): ParsedColorValue | undef
       color = colorData[no]
   }
 
+  const rgba = hex2rgba(color)
+
+  const alpha = opacity
+    ? opacity[0] === '['
+      ? h.bracket.percent(opacity)!
+      : (parseFloat(opacity) / 100)
+    : rgba?.[3]
+
+  const hasAlpha = alpha != null && !Number.isNaN(alpha)
+  if (rgba) {
+    if (hasAlpha) {
+      // @ts-expect-error
+      rgba[3] = typeof alpha === 'string' && !alpha.includes('%')
+        ? parseFloat(alpha)
+        : alpha
+    }
+    else {
+      rgba.splice(3)
+    }
+  }
+
   return {
     opacity,
     name,
     no,
     color,
-    rgba: hex2rgba(color),
+    rgba,
+    alpha: hasAlpha ? alpha : undefined,
   }
 }
 
@@ -129,23 +151,13 @@ export const colorResolver = (property: string, varName: string): DynamicMatcher
   if (!data)
     return
 
-  const { opacity, color, rgba } = data
+  const { alpha, opacity, color, rgba } = data
 
   if (!color)
     return
 
-  const a = opacity
-    ? opacity[0] === '['
-      ? h.bracket.percent(opacity)!
-      : (parseFloat(opacity) / 100)
-    : rgba?.[3]
-
   if (rgba) {
-    if (a != null && !Number.isNaN(a)) {
-      // @ts-expect-error
-      rgba[3] = typeof a === 'string' && !a.includes('%')
-        ? parseFloat(a)
-        : a
+    if (alpha != null) {
       return {
         [property]: `rgba(${rgba.join(',')})`,
       }
@@ -153,13 +165,13 @@ export const colorResolver = (property: string, varName: string): DynamicMatcher
     else {
       return {
         [`--un-${varName}-opacity`]: (opacity && h.cssvar(opacity)) ?? 1,
-        [property]: `rgba(${rgba.slice(0, 3).join(',')},var(--un-${varName}-opacity))`,
+        [property]: `rgba(${rgba.join(',')},var(--un-${varName}-opacity))`,
       }
     }
   }
   else {
     return {
-      [property]: color.replace('%alpha', `${a || 1}`),
+      [property]: color.replace('%alpha', `${alpha || 1}`),
     }
   }
 }

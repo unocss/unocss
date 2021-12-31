@@ -44,23 +44,13 @@ const borderColorResolver = (direction: string): DynamicMatcher => ([, body]: st
   if (!data)
     return
 
-  const { opacity, color, rgba } = data
+  const { alpha, opacity, color, rgba } = data
 
   if (!color)
     return
 
-  const a = opacity
-    ? opacity[0] === '['
-      ? h.bracket.percent(opacity)!
-      : (parseFloat(opacity) / 100)
-    : rgba?.[3]
-
   if (rgba) {
-    if (a != null && !Number.isNaN(a)) {
-      // @ts-expect-error
-      rgba[3] = typeof a === 'string' && !a.includes('%')
-        ? parseFloat(a)
-        : a
+    if (alpha != null) {
       return {
         [`border${direction}-color`]: `rgba(${rgba.join(',')})`,
       }
@@ -69,21 +59,21 @@ const borderColorResolver = (direction: string): DynamicMatcher => ([, body]: st
       if (direction === '') {
         return {
           '--un-border-opacity': (opacity && h.cssvar(opacity)) ?? 1,
-          [`border${direction}-color`]: `rgba(${rgba.slice(0, 3).join(',')},var(--un-border${direction}-opacity))`,
+          [`border${direction}-color`]: `rgba(${rgba.join(',')},var(--un-border${direction}-opacity))`,
         }
       }
       else {
         return {
           '--un-border-opacity': (opacity && h.cssvar(opacity)) ?? 1,
           [`--un-border${direction}-opacity`]: 'var(--un-border-opacity)',
-          [`border${direction}-color`]: `rgba(${rgba.slice(0, 3).join(',')},var(--un-border${direction}-opacity))`,
+          [`border${direction}-color`]: `rgba(${rgba.join(',')},var(--un-border${direction}-opacity))`,
         }
       }
     }
   }
   else {
     return {
-      [`border${direction}-color`]: color.replace('%alpha', `${a || 1}`),
+      [`border${direction}-color`]: color.replace('%alpha', `${alpha || 1}`),
     }
   }
 }
