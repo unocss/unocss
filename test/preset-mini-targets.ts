@@ -512,6 +512,7 @@ export const presetMiniTargets: string[] = [
   'rtl:text-right',
   'ltr:text-left',
   'placeholder-shown-color-transparent',
+  'open:color-pink-100',
   'in-range:color-pink-100',
   'out-of-range:color-pink-100',
 

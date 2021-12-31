@@ -182,7 +182,7 @@ exports[`preset-mini > targets 1`] = `
 .color-blue-400\\\\/10,.color-blue\\\\/10{color:rgba(96,165,250,0.1);}
 .color-blue-gray,.color-blue-gray-400,.color-bluegray,.color-bluegray-400{--un-text-opacity:1;color:rgba(148,163,184,var(--un-text-opacity));}
 .color-blue-gray-400\\\\/10,.color-blue-gray\\\\/10,.color-bluegray-400\\\\/10,.color-bluegray\\\\/10{color:rgba(148,163,184,0.1);}
-.in-range\\\\:color-pink-100:in-range,.out-of-range\\\\:color-pink-100:out-of-range{--un-text-opacity:1;color:rgba(252,231,243,var(--un-text-opacity));}
+.in-range\\\\:color-pink-100:in-range,.open\\\\:color-pink-100[open],.out-of-range\\\\:color-pink-100:out-of-range{--un-text-opacity:1;color:rgba(252,231,243,var(--un-text-opacity));}
 .placeholder-color-red-1::placeholder,.text-red-100,.text-red100{--un-text-opacity:1;color:rgba(254,226,226,var(--un-text-opacity));}
 .placeholder-shown-color-transparent:placeholder-shown,.placeholder\\\\:color-transparent::placeholder{color:transparent;}
 .selection\\\\:color-\\\\[var\\\\(--select-color\\\\)\\\\]::selection{color:var(--select-color);}
