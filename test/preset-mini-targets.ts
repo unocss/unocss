@@ -487,6 +487,14 @@ export const presetMiniTargets: string[] = [
   'sm:m-1',
   'sm:m1',
 
+  // variants motion
+  'motion-reduce:hover:translate-0',
+  'motion-safe:transition',
+
+  // variants orientations
+  'portrait:hidden',
+  'landscape:hidden',
+
   // variants prints
   'print:block',
   'print:link:!underline',
@@ -498,9 +506,12 @@ export const presetMiniTargets: string[] = [
   'placeholder-color-red-1',
   'placeholder:color-transparent',
   'selection:color-[var(--select-color)]',
+  'marker:bg-violet-200',
 
   // variants - pseudo classes
   'placeholder-shown-color-transparent',
+  'in-range:color-pink-100',
+  'out-of-range:color-pink-100',
 
   // variants - pseudo functions
   'not-hover:p-4px',
