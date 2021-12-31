@@ -162,7 +162,8 @@ exports[`preset-mini > targets 1`] = `
 .case-upper{text-transform:uppercase;}
 .case-normal{text-transform:none;}
 .group:focus:hover .group-hover\\\\:group-focus\\\\:text-center{text-align:center;}
-.text-left{text-align:left;}
+.text-left,[dir=\\"ltr\\"] .ltr\\\\:text-left{text-align:left;}
+[dir=\\"rtl\\"] .rtl\\\\:text-right{text-align:right;}
 .c-\\\\[\\\\#157\\\\],.c-\\\\#157,.c-hex-157{--un-text-opacity:1;color:rgba(17,85,119,var(--un-text-opacity));}
 .c-\\\\[\\\\#157\\\\]\\\\/\\\\$opacity-variable{--un-text-opacity:var(--opacity-variable);color:rgba(17,85,119,var(--un-text-opacity));}
 .c-\\\\[\\\\#157\\\\]\\\\/10,.c-\\\\#157\\\\/10,.c-hex-157\\\\/10{color:rgba(17,85,119,0.1);}
