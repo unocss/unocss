@@ -507,6 +507,8 @@ export const presetMiniTargets: string[] = [
   'placeholder:color-transparent',
   'selection:color-[var(--select-color)]',
   'marker:bg-violet-200',
+  'file:bg-violet-50',
+  'hover:file:bg-violet-100',
 
   // variants - pseudo classes
   'rtl:text-right',
