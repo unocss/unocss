@@ -51,9 +51,12 @@ exports[`shortcuts > static 1`] = `
 "/* layer: shortcuts */
 .sh3{margin:0.75rem;}
 .sh1{margin:0.75rem;padding-left:0.5rem;padding-right:0.5rem;padding-top:0.75rem;padding-bottom:0.75rem;}
-.focus\\\\:sh2:focus,.sh2{font-size:0.875rem;line-height:1.25rem;font-size:1.125rem;line-height:1.75rem;}
-.focus\\\\:sh2:hover:focus,.sh2:hover{font-size:1.125rem;line-height:1.75rem;}
+.focus\\\\:sh2:focus,
+.sh2{font-size:0.875rem;line-height:1.25rem;font-size:1.125rem;line-height:1.75rem;}
+.focus\\\\:sh2:hover:focus,
+.sh2:hover{font-size:1.125rem;line-height:1.75rem;}
 @media (min-width: 640px){
-.sh1,.sh3{margin:0.5rem;}
+.sh1,
+.sh3{margin:0.5rem;}
 }"
 `;
