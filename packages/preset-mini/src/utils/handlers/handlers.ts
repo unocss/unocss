@@ -26,6 +26,10 @@ const numberWithUnitRE = /^(-?[0-9.]+)(px|pt|pc|rem|em|%|vh|vw|in|cm|mm|ex|ch|vm
 const numberRE = /^(-?[0-9.]+)$/i
 const unitOnlyRE = /^(px)$/i
 
+function round(n: number) {
+  return n.toFixed(10).replace(/\.0+$/, '').replace(/(\.\d+?)0+/, '$1')
+}
+
 export function numberWithUnit(str: string) {
   const match = str.match(numberWithUnitRE)
   if (!match)
@@ -51,7 +55,7 @@ export function rem(str: string) {
     return str
   const num = parseFloat(n)
   if (!Number.isNaN(num))
-    return `${num / 4}rem`
+    return `${round(num / 4)}rem`
 }
 
 export function px(str: string) {
@@ -65,7 +69,7 @@ export function px(str: string) {
     return str
   const num = parseFloat(n)
   if (!Number.isNaN(num))
-    return `${num}px`
+    return `${round(num)}px`
 }
 
 export function number(str: string) {
@@ -81,7 +85,7 @@ export function percent(str: string) {
     str = str.slice(0, -1)
   const num = parseFloat(str)
   if (!Number.isNaN(num))
-    return `${num / 100}`
+    return `${round(num / 100)}`
 }
 
 export function fraction(str: string) {
@@ -89,7 +93,7 @@ export function fraction(str: string) {
   const [left, right] = str.split('/')
   const num = parseFloat(left) / parseFloat(right)
   if (!Number.isNaN(num))
-    return `${num * 100}%`
+    return `${round(num * 100)}%`
 }
 
 export function bracket(str: string) {
@@ -126,9 +130,6 @@ export function global(str: string) {
 }
 
 export function properties(str: string) {
-  if (str === undefined)
-    return
-
   for (const prop of str.split(',')) {
     if (!cssProps.includes(prop))
       return
