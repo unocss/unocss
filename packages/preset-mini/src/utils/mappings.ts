@@ -33,3 +33,38 @@ export const xyzMap: Record<string, string[]> = {
   'z': ['-z'],
   '': ['-x', '-y'],
 }
+
+const basePositionMap = [
+  'top',
+  'top center',
+  'top left',
+  'top right',
+  'bottom',
+  'bottom center',
+  'bottom left',
+  'bottom right',
+  'left',
+  'left center',
+  'left top',
+  'left bottom',
+  'right',
+  'right center',
+  'right top',
+  'right bottom',
+  'center',
+  'center top',
+  'center bottom',
+  'center left',
+  'center right',
+  'center center',
+]
+
+export const positionMap: Record<string, string> = Object.assign(
+  {},
+
+  // [{ top: 'top' }, { 'top-center': 'top center' }, ...]
+  ...basePositionMap.map(p => ({ [p.replace(/ /, '-')]: p })),
+
+  // [{ t: 'top' }, { tc: 'top center' }, ...]
+  ...basePositionMap.map(p => ({ [p.replace(/\b(\w)\w+/g, '$1').replace(/ /, '')]: p })),
+)
