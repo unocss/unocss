@@ -261,8 +261,23 @@ exports[`preset-mini > targets 1`] = `
 .h-\\\\[calc\\\\(1000px-4rem\\\\)\\\\]{height:calc(1000px - 4rem);}
 .h-\\\\$var{height:var(--var);}
 .h-1{height:0.25rem;}
+.h-1\\\\.000\\\\%{height:1%;}
+.h-1\\\\.001\\\\%{height:1.001%;}
+.h-1\\\\.010\\\\%{height:1.01%;}
+.h-1\\\\.100\\\\%{height:1.1%;}
+.h-1\\\\/2,.h-2\\\\/4,.h-3\\\\/6{height:50%;}
+.h-1\\\\/3,.h-2\\\\/6{height:33.3333333333%;}
 .h-1\\\\/4{height:25%;}
+.h-1\\\\/5{height:20%;}
+.h-1\\\\/6{height:16.6666666667%;}
+.h-2\\\\/2{height:100%;}
+.h-2\\\\/3,.h-4\\\\/6{height:66.6666666667%;}
 .h-21{height:5.25rem;}
+.h-3\\\\/2{height:150%;}
+.h-3\\\\/4{height:75%;}
+.h-5\\\\/6{height:83.3333333333%;}
+.h-6\\\\/7{height:85.7142857143%;}
+.h-8\\\\/7{height:114.2857142857%;}
 .h-auto{height:auto;}
 .h-lg{height:32rem;}
 .max-h-\\\\[1px\\\\]{max-height:1px;}
@@ -367,7 +382,7 @@ exports[`preset-mini > targets 1`] = `
 .transition-property-width{transition-property:width;}
 .property-none{transition-property:none;}
 .transition-none{transition:none;}
-.transform,.-translate-full,.translate-full,.-translate-x-full,.-translate-y-1\\\\/2,.before\\\\:translate-y-full::before,.hover\\\\:translate-x-3,.peer:checked~.peer-checked\\\\:translate-x-\\\\[var\\\\(--reveal\\\\)\\\\],.translate-x-full,.translate-y-1\\\\/4,.translate-y-px,.active\\\\:scale-4,.rotate-\\\\[var\\\\(--spin\\\\)\\\\],.-rotate-2,.rotate-1deg,.skew-x-\\\\[var\\\\(--skew-x\\\\)\\\\],.skew-y-\\\\[var\\\\(--skew-y\\\\)\\\\],.skew-x-10,.skew-x-10deg,.skew-y-10,.skew-y-10deg{--un-rotate:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;transform:rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z));}
+.transform,.-translate-full,.translate-full,.-translate-x-full,.-translate-y-1\\\\/2,.before\\\\:translate-y-full::before,.hover\\\\:translate-x-3,.peer:checked~.peer-checked\\\\:translate-x-\\\\[var\\\\(--reveal\\\\)\\\\],.translate-x-full,.translate-y-1\\\\/4,.translate-y-px,.active\\\\:scale-4,.rotate-\\\\[var\\\\(--spin\\\\)\\\\],.-rotate-2,.rotate-1deg,.skew-x-\\\\[var\\\\(--skew-x\\\\)\\\\],.skew-y-\\\\[var\\\\(--skew-y\\\\)\\\\],.skew-x-10,.skew-x-10\\\\.00deg,.skew-x-10\\\\.01deg,.skew-x-10\\\\.10deg,.skew-x-10\\\\.11deg,.skew-x-10deg,.skew-y-10,.skew-y-10deg{--un-rotate:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;transform:rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z));}
 .preserve-3d{transform-style:preserve-3d;}
 .preserve-flat{transform-style:flat;}
 .-translate-full{--un-translate-x:-100%;--un-translate-y:-100%;}
@@ -386,7 +401,10 @@ exports[`preset-mini > targets 1`] = `
 .rotate-1deg{--un-rotate:1deg;}
 .skew-x-\\\\[var\\\\(--skew-x\\\\)\\\\]{--un-skew-x:var(--skew-x);}
 .skew-y-\\\\[var\\\\(--skew-y\\\\)\\\\]{--un-skew-y:var(--skew-y);}
-.skew-x-10,.skew-x-10deg{--un-skew-x:10deg;}
+.skew-x-10,.skew-x-10\\\\.00deg,.skew-x-10deg{--un-skew-x:10deg;}
+.skew-x-10\\\\.01deg{--un-skew-x:10.01deg;}
+.skew-x-10\\\\.10deg{--un-skew-x:10.1deg;}
+.skew-x-10\\\\.11deg{--un-skew-x:10.11deg;}
 .skew-y-10,.skew-y-10deg{--un-skew-y:10deg;}
 .transform-gpu{transform:rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translate3d(var(--un-translate-x), var(--un-translate-y), var(--un-translate-z));}
 .transform-cpu{transform:rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z));}
