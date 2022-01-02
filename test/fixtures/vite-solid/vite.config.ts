@@ -22,7 +22,6 @@ export default defineConfig({
           },
         }),
       ],
-      inspector: true,
     }),
   ],
   build: {

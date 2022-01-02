@@ -1,7 +1,7 @@
 import { dirname, resolve } from 'path'
 import { fileURLToPath } from 'url'
 import sirv from 'sirv'
-import type { Plugin, ResolvedConfig, ViteDevServer } from 'vite'
+import type { Plugin, ViteDevServer } from 'vite'
 import type { UnocssPluginContext } from '@unocss/vite'
 import gzipSize from 'gzip-size'
 import type { ModuleInfo, ProjectInfo } from '../types'
@@ -11,8 +11,6 @@ const _dirname = typeof __dirname !== 'undefined'
   : dirname(fileURLToPath(import.meta.url))
 
 export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
-  let config: ResolvedConfig
-
   async function configureServer(server: ViteDevServer) {
     await ctx.ready
 
@@ -27,7 +25,8 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
       if (req.url === '/') {
         const info: ProjectInfo = {
           version: ctx.uno.version,
-          root: config.root,
+          // use the resolved config from the dev server
+          root: server.config.root,
           modules: Array.from(ctx.modules.keys()),
           config: ctx.uno.config,
           configSources: (await ctx.ready).sources,
@@ -98,9 +97,6 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
   return <Plugin>{
     name: 'unocss:inspector',
     apply: 'serve',
-    configResolved(_config) {
-      config = _config
-    },
     configureServer,
   }
 }
