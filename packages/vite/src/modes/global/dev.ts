@@ -19,7 +19,7 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
   let resolvedWarnTimer: any
 
   function configResolved(config: ViteResolvedConfig) {
-    base = config?.base || ''
+    base = config.base || ''
     if (base === '/')
       base = ''
     else if (base.endsWith('/'))
