@@ -18,7 +18,7 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
   let resolved = false
   let resolvedWarnTimer: any
 
-  function configureBase(config: ViteResolvedConfig) {
+  function configResolved(config: ViteResolvedConfig) {
     base = config?.base || ''
     if (base === '/')
       base = ''
@@ -76,6 +76,7 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
       name: 'unocss:global',
       apply: 'serve',
       enforce: 'pre',
+      configResolved,
       async configureServer(_server) {
         servers.push(_server)
         _server.middlewares.use(async(req, res, next) => {
@@ -95,9 +96,6 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
             return next()
           }
         })
-      },
-      configResolved(config) {
-        configureBase(config)
       },
       transform(code, id) {
         if (filter(code, id))
@@ -133,9 +131,7 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
     },
     {
       name: 'unocss:global:post',
-      configResolved(config) {
-        configureBase(config)
-      },
+      configResolved,
       apply(config, env) {
         return env.command === 'serve' && !config.build?.ssr
       },
