@@ -414,28 +414,6 @@ exports[`preset-mini > targets 1`] = `
 .will-change-padding\\\\2c margin{will-change:padding,margin;}
 .will-change-transform{will-change:transform;}
 .will-change-unset{will-change:unset;}
-@media (max-width: 1024px){
-.lt-lg\\\\:m2{margin:0.5rem;}
-}
-@media (max-width: 640px){
-.lt-sm\\\\:m1{margin:0.25rem;}
-}
-@media (min-width: 640px) and (max-width: 768px){
-.at-sm\\\\:m1{margin:0.25rem;}
-}
-@media (min-width: 640px){
-.sm\\\\:m-1,.sm\\\\:m1{margin:0.25rem;}
-}
-@media (min-width: 768px){
-.md\\\\:m-1{margin:0.25rem;}
-.md\\\\:\\\\!hidden{display:none !important;}
-}
-@media (min-width: 1024px) and (max-width: 1280px){
-.at-lg\\\\:m2{margin:0.5rem;}
-}
-@media (min-width: 1536px){
-.at-2xl\\\\:m2{margin:0.5rem;}
-}
 @media (orientation: landscape){
 .landscape\\\\:hidden{display:none;}
 }
@@ -459,5 +437,27 @@ exports[`preset-mini > targets 1`] = `
 @media print{
 .print\\\\:block{display:block;}
 .print\\\\:link\\\\:\\\\!underline:link{text-decoration:underline !important;}
+}
+@media (max-width: 1024px){
+.lt-lg\\\\:m2{margin:0.5rem;}
+}
+@media (max-width: 640px){
+.lt-sm\\\\:m1{margin:0.25rem;}
+}
+@media (min-width: 640px){
+.sm\\\\:m-1,.sm\\\\:m1{margin:0.25rem;}
+}
+@media (min-width: 640px) and (max-width: 768px){
+.at-sm\\\\:m1{margin:0.25rem;}
+}
+@media (min-width: 768px){
+.md\\\\:m-1{margin:0.25rem;}
+.md\\\\:\\\\!hidden{display:none !important;}
+}
+@media (min-width: 1024px) and (max-width: 1280px){
+.at-lg\\\\:m2{margin:0.5rem;}
+}
+@media (min-width: 1536px){
+.at-2xl\\\\:m2{margin:0.5rem;}
 }"
 `;
