@@ -53,7 +53,9 @@ exports[`preset-mini > targets 1`] = `
 .bg-teal-300\\\\:\\\\[\\\\.55\\\\]{background-color:rgba(94,234,212,0.55);}
 .bg-teal-400\\\\/\\\\[\\\\.55\\\\]{background-color:rgba(45,212,191,0.55);}
 .bg-teal-500\\\\/\\\\[55\\\\%\\\\]{background-color:rgba(20,184,166,55%);}
+.file\\\\:bg-violet-50::file-selector-button{--un-bg-opacity:1;background-color:rgba(245,243,255,var(--un-bg-opacity));}
 .focus-within\\\\:has-first\\\\:checked\\\\:bg-gray\\\\/20:focus-within:has(:first-child):checked,.focus-within\\\\:where-first\\\\:checked\\\\:bg-gray\\\\/20:focus-within:where(:first-child):checked{background-color:rgba(156,163,175,0.2);}
+.hover\\\\:file\\\\:bg-violet-100:hover::file-selector-button{--un-bg-opacity:1;background-color:rgba(237,233,254,var(--un-bg-opacity));}
 .hover\\\\:is-first\\\\:checked\\\\:bg-true-gray\\\\/10:hover:is(:first-child):checked,.hover\\\\:not-first\\\\:checked\\\\:bg-true-gray\\\\/10:hover:not(:first-child):checked{background-color:rgba(163,163,163,0.1);}
 .hover\\\\:not-first\\\\:checked\\\\:bg-red\\\\/10:hover:not(:first-child):checked{background-color:rgba(248,113,113,0.1);}
 .marker\\\\:bg-violet-200::marker{--un-bg-opacity:1;background-color:rgba(221,214,254,var(--un-bg-opacity));}

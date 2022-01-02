@@ -50,7 +50,7 @@ const PseudoClasses: Record<string, string | undefined> = Object.fromEntries([
   'only-of-type',
 ].map(toArray))
 
-const PseudoElements = [
+const PseudoElements: Record<string, string | undefined> = Object.fromEntries([
   'placeholder',
   'before',
   'after',
@@ -58,7 +58,8 @@ const PseudoElements = [
   'first-line',
   'selection',
   'marker',
-]
+  ['file', '::file-selector-button'],
+].map(toArray))
 
 const PseudoClassFunctions = [
   'not',
@@ -67,12 +68,12 @@ const PseudoClassFunctions = [
   'has',
 ]
 
-const PartClassesRE = /(part-\[(.+)]:)(.+)/
-const PseudoElementsRE = new RegExp(`^(${PseudoElements.join('|')})[:-]`)
-
+const PseudoElementsStr = Object.keys(PseudoElements).join('|')
 const PseudoClassesStr = Object.keys(PseudoClasses).join('|')
 const PseudoClassFunctionsStr = PseudoClassFunctions.join('|')
 
+const PartClassesRE = /(part-\[(.+)]:)(.+)/
+const PseudoElementsRE = new RegExp(`^(${PseudoElementsStr})[:-]`)
 const PseudoClassesRE = new RegExp(`^(${PseudoClassesStr})[:-]`)
 const PseudoClassFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesStr})[:-]`)
 
@@ -104,9 +105,10 @@ const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: strin
 export const variantPseudoElements: VariantFunction = (input: string) => {
   const match = input.match(PseudoElementsRE)
   if (match) {
+    const pseudo = PseudoElements[match[1]] || `::${match[1]}`
     return {
       matcher: input.slice(match[1].length + 1),
-      selector: s => `${s}::${match[1]}`,
+      selector: s => `${s}${pseudo}`,
     }
   }
 }

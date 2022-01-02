@@ -245,8 +245,4 @@ export const presetWindiTargets: string[] = [
   '-scroll-mb-px',
   '-scroll-p-px',
   '-space-x-4',
-
-  // variants - pseudo
-  'file:bg-violet-50',
-  'hover:file:bg-violet-100',
 ]
