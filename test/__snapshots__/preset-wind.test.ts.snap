@@ -164,8 +164,8 @@ exports[`preset-wind > targets 1`] = `
 .bg-auto{background-size:auto;}
 .bg-cover{background-size:cover;}
 .object-none{object-fit:none;}
-.object-center{object-position:center;}
 .object-cb{object-position:center bottom;}
+.object-center{object-position:center;}
 .object-ct{object-position:center top;}
 .dark .\\\\.dark\\\\:text-xl{font-size:1.25rem;line-height:1.75rem;}
 .capitalize{text-transform:capitalize;}

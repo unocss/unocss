@@ -1,5 +1,5 @@
 import type { Rule, RuleContext } from '@unocss/core'
-import { handler as h, parseColor } from '@unocss/preset-mini/utils'
+import { handler as h, parseColor, positionMap } from '@unocss/preset-mini/utils'
 import type { Theme } from '@unocss/preset-mini'
 
 const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
@@ -38,17 +38,6 @@ const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
         }
     }
   }
-
-const bgGradientDirections: Record<string, string> = {
-  t: 'top',
-  tr: 'top right',
-  r: 'right',
-  br: 'bottom right',
-  b: 'bottom',
-  bl: 'bottom left',
-  l: 'left',
-  tl: 'top left',
-}
 
 export const backgroundStyles: Rule[] = [
   // attachments
@@ -89,10 +78,10 @@ export const backgroundStyles: Rule[] = [
   [/^(?:bg-gradient-)?via-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-via-opacity': h.bracket.percent(opacity) })],
 
   // images
+  // ignore any center position
   [/^bg-gradient-to-([trbl]{1,2})$/, ([, d]) => {
-    const v = bgGradientDirections[d]
-    if (v)
-      return { 'background-image': `linear-gradient(to ${v}, var(--un-gradient-stops))` }
+    if (d in positionMap)
+      return { 'background-image': `linear-gradient(to ${positionMap[d]}, var(--un-gradient-stops))` }
   }],
   ['bg-none', { 'background-image': 'none' }],
 
@@ -102,15 +91,8 @@ export const backgroundStyles: Rule[] = [
   ['bg-origin-content', { 'background-origin': 'content-box' }],
 
   // positions
-  ['bg-bottom', { 'background-position': 'bottom' }],
-  ['bg-center', { 'background-position': 'center' }],
-  ['bg-left', { 'background-position': 'left' }],
-  ['bg-left-bottom', { 'background-position': 'left bottom' }],
-  ['bg-left-top', { 'background-position': 'left top' }],
-  ['bg-right', { 'background-position': 'right' }],
-  ['bg-right-bottom', { 'background-position': 'right bottom' }],
-  ['bg-right-top', { 'background-position': 'right top' }],
-  ['bg-top', { 'background-position': 'top' }],
+  // skip 1 & 2 letters shortcut
+  [/^bg-([-\w]{3,})$/, ([, s]) => ({ 'background-position': positionMap[s] })],
 
   // repeats
   ['bg-repeat', { 'background-repeat': 'repeat' }],
