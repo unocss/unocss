@@ -121,7 +121,6 @@ exports[`preset-wind > targets 1`] = `
 .overscroll-none{overscroll-behavior:none;}
 .overscroll-x-auto{overscroll-behavior-x:auto;}
 .scroll-auto{scroll-behavior:auto;}
-.decoration-slice{box-decoration-break:slice;}
 .bg-blend-color-burn{background-blend-mode:color-burn;}
 .bg-blend-luminosity{background-blend-mode:luminosity;}
 .bg-blend-normal{background-blend-mode:normal;}
@@ -151,6 +150,7 @@ exports[`preset-wind > targets 1`] = `
 .bg-gradient-to-t{background-image:linear-gradient(to top, var(--un-gradient-stops));}
 .bg-gradient-to-tl{background-image:linear-gradient(to top left, var(--un-gradient-stops));}
 .bg-none{background-image:none;}
+.box-decoration-slice{box-decoration-break:slice;}
 .bg-auto{background-size:auto;}
 .bg-cover{background-size:cover;}
 .bg-fixed{background-attachment:fixed;}
