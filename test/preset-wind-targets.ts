@@ -1,5 +1,7 @@
 export const presetWindiTargets: string[] = [
   // animation
+  'keyframes-pulse',
+  'keyframes-pulse-alt',
   'animate-none',
   'animate-pulse',
   'animate-pulse-alt',
