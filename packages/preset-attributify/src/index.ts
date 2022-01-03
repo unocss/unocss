@@ -16,10 +16,10 @@ const preset = (options: AttributifyOptions = {}): Preset => {
   options.ignoreAttributes = options.ignoreAttributes ?? []
 
   const variants = [
-    variantAttributify,
+    variantAttributify(options),
   ]
   const extractors = [
-    extractorAttributify,
+    extractorAttributify(options),
   ]
 
   if (!options.strict)

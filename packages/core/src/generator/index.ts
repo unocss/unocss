@@ -34,7 +34,6 @@ export class UnoGenerator {
       get original() { return code },
       code,
       id,
-      options: this.config.options,
     }
 
     for (const extractor of this.config.extractors) {
@@ -118,7 +117,6 @@ export class UnoGenerator {
         generator: this,
         variantHandlers: applied[2],
         constructCSS: (...args) => this.constructCustomCSS(context, ...args),
-        options: this.config.options,
       }
 
       // expand shortcuts
@@ -238,7 +236,6 @@ export class UnoGenerator {
       rawSelector: raw,
       theme: this.config.theme,
       generator: this,
-      options: this.config.options,
     }
 
     while (true) {

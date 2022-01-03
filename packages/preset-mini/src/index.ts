@@ -31,7 +31,7 @@ export const presetMini = (options: PresetMiniOptions = {}): Preset<Theme> => {
     name: '@unocss/preset-mini',
     theme,
     rules,
-    variants,
+    variants: variants(options),
     options,
     postprocess: options.variablePrefix && options.variablePrefix !== 'un-'
       ? VarPrefixPostprocessor(options.variablePrefix)

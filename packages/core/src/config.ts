@@ -62,11 +62,6 @@ export function resolveConfig(
     config.theme || {},
   ].reduce((a, p) => mergeDeep(a, p), {})
 
-  const options = Object.assign({}, ...config.presets
-    ?.map(p => Array.isArray(p) ? p : [p])
-    .flat(1)
-    .map(p => p.options ?? {}) || [])
-
   return {
     mergeSelectors: true,
     warn: true,
@@ -88,6 +83,5 @@ export function resolveConfig(
     variants: mergePresets('variants').map(normalizeVariant),
     shortcuts: resolveShortcuts(mergePresets('shortcuts')),
     extractors,
-    options,
   }
 }
