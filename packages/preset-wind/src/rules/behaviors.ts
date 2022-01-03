@@ -20,11 +20,6 @@ export const listStyle: Rule[] = [
   ['list-none', { 'list-style-type': 'none' }],
 ]
 
-export const boxDecorationBreaks: Rule[] = [
-  ['decoration-slice', { 'box-decoration-break': 'slice' }],
-  ['decoration-clone', { 'box-decoration-break': 'clone' }],
-]
-
 export const accentOpacity: Rule[] = [
   [/^accent-op(?:acity)?-?(.+)$/, ([, d]) => ({ '--un-accent-opacity': h.bracket.percent(d) })],
 ]

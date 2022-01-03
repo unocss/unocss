@@ -40,11 +40,6 @@ const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
   }
 
 export const backgroundStyles: Rule[] = [
-  // attachments
-  ['bg-fixed', { 'background-attachment': 'fixed' }],
-  ['bg-local', { 'background-attachment': 'local' }],
-  ['bg-scroll', { 'background-attachment': 'scroll' }],
-
   // blends
   ['bg-blend-multiply', { 'background-blend-mode': 'multiply' }],
   ['bg-blend-screen', { 'background-blend-mode': 'screen' }],
@@ -63,11 +58,7 @@ export const backgroundStyles: Rule[] = [
   ['bg-blend-luminosity', { 'background-blend-mode': 'luminosity' }],
   ['bg-blend-normal', { 'background-blend-mode': 'normal' }],
 
-  // clips
-  ['bg-clip-border', { '-webkit-background-clip': 'border-box', 'background-attachment': 'border-box' }],
-  ['bg-clip-content', { '-webkit-background-clip': 'content-box', 'background-attachment': 'content-box' }],
-  ['bg-clip-padding', { '-webkit-background-clip': 'padding-box', 'background-attachment': 'padding-box' }],
-  ['bg-clip-text', { '-webkit-background-clip': 'text', 'background-attachment': 'text' }],
+  // TODO: bg-[url] { background-image: x }
 
   // gradients
   [/^(?:bg-gradient-)?from-(.+)$/, bgGradientColorResolver('from')],
@@ -79,16 +70,32 @@ export const backgroundStyles: Rule[] = [
 
   // images
   // ignore any center position
-  [/^bg-gradient-to-([trbl]{1,2})$/, ([, d]) => {
+  [/^bg-gradient-to-([rltb]{1,2})$/, ([, d]) => {
     if (d in positionMap)
       return { 'background-image': `linear-gradient(to ${positionMap[d]}, var(--un-gradient-stops))` }
   }],
   ['bg-none', { 'background-image': 'none' }],
 
-  // origins
-  ['bg-origin-border', { 'background-origin': 'border-box' }],
-  ['bg-origin-padding', { 'background-origin': 'padding-box' }],
-  ['bg-origin-content', { 'background-origin': 'content-box' }],
+  ['box-decoration-slice', { 'box-decoration-break': 'slice' }],
+  ['box-decoration-clone', { 'box-decoration-break': 'clone' }],
+
+  // TODO: bg-[number] { background-size: x }
+
+  // size
+  ['bg-auto', { 'background-size': 'auto' }],
+  ['bg-cover', { 'background-size': 'cover' }],
+  ['bg-contain', { 'background-size': 'contain' }],
+
+  // attachments
+  ['bg-fixed', { 'background-attachment': 'fixed' }],
+  ['bg-local', { 'background-attachment': 'local' }],
+  ['bg-scroll', { 'background-attachment': 'scroll' }],
+
+  // clips
+  ['bg-clip-border', { '-webkit-background-clip': 'border-box', 'background-attachment': 'border-box' }],
+  ['bg-clip-content', { '-webkit-background-clip': 'content-box', 'background-attachment': 'content-box' }],
+  ['bg-clip-padding', { '-webkit-background-clip': 'padding-box', 'background-attachment': 'padding-box' }],
+  ['bg-clip-text', { '-webkit-background-clip': 'text', 'background-attachment': 'text' }],
 
   // positions
   // skip 1 & 2 letters shortcut
@@ -102,8 +109,8 @@ export const backgroundStyles: Rule[] = [
   ['bg-repeat-round', { 'background-position': 'round' }],
   ['bg-repeat-space', { 'background-position': 'space' }],
 
-  // size
-  ['bg-auto', { 'background-size': 'auto' }],
-  ['bg-cover', { 'background-size': 'cover' }],
-  ['bg-contain', { 'background-size': 'contain' }],
+  // origins
+  ['bg-origin-border', { 'background-origin': 'border-box' }],
+  ['bg-origin-padding', { 'background-origin': 'padding-box' }],
+  ['bg-origin-content', { 'background-origin': 'content-box' }],
 ]

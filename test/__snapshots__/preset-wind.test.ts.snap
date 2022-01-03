@@ -121,15 +121,9 @@ exports[`preset-wind > targets 1`] = `
 .overscroll-none{overscroll-behavior:none;}
 .overscroll-x-auto{overscroll-behavior-x:auto;}
 .scroll-auto{scroll-behavior:auto;}
-.decoration-slice{box-decoration-break:slice;}
-.bg-fixed{background-attachment:fixed;}
-.bg-local{background-attachment:local;}
-.bg-scroll{background-attachment:scroll;}
 .bg-blend-color-burn{background-blend-mode:color-burn;}
 .bg-blend-luminosity{background-blend-mode:luminosity;}
 .bg-blend-normal{background-blend-mode:normal;}
-.bg-clip-border{-webkit-background-clip:border-box;background-attachment:border-box;}
-.bg-clip-text{-webkit-background-clip:text;background-attachment:text;}
 .bg-gradient-from-current,.from-current{--un-gradient-from:currentColor;--un-gradient-stops:var(--un-gradient-from), var(--un-gradient-to, rgba(255, 255, 255, 0));}
 .bg-gradient-from-green-600{--un-gradient-from:rgba(22,163,74, var(--un-from-opacity, 1));--un-gradient-stops:var(--un-gradient-from), var(--un-gradient-to, rgba(255, 255, 255, 0));}
 .bg-gradient-from-green-600\\\\/60{--un-gradient-from:rgba(22,163,74,0.6);--un-gradient-stops:var(--un-gradient-from), var(--un-gradient-to, rgba(255, 255, 255, 0));}
@@ -156,13 +150,19 @@ exports[`preset-wind > targets 1`] = `
 .bg-gradient-to-t{background-image:linear-gradient(to top, var(--un-gradient-stops));}
 .bg-gradient-to-tl{background-image:linear-gradient(to top left, var(--un-gradient-stops));}
 .bg-none{background-image:none;}
-.bg-origin-border{background-origin:border-box;}
+.box-decoration-slice{box-decoration-break:slice;}
+.bg-auto{background-size:auto;}
+.bg-cover{background-size:cover;}
+.bg-fixed{background-attachment:fixed;}
+.bg-local{background-attachment:local;}
+.bg-scroll{background-attachment:scroll;}
+.bg-clip-border{-webkit-background-clip:border-box;background-attachment:border-box;}
+.bg-clip-text{-webkit-background-clip:text;background-attachment:text;}
 .bg-bottom{background-position:bottom;}
 .bg-right-bottom{background-position:right bottom;}
 .bg-no-repeat{background-repeat:no-repeat;}
 .bg-repeat-space{background-position:space;}
-.bg-auto{background-size:auto;}
-.bg-cover{background-size:cover;}
+.bg-origin-border{background-origin:border-box;}
 .object-none{object-fit:none;}
 .object-cb{object-position:center bottom;}
 .object-center{object-position:center;}
