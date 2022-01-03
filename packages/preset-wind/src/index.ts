@@ -1,9 +1,10 @@
 import type { Preset } from '@unocss/core'
 import type { PresetMiniOptions, Theme } from '@unocss/preset-mini'
+import { variants as miniVariants } from '@unocss/preset-mini/variants'
 import { rules } from './rules'
 import { containerShortcuts } from './rules/container'
 import { theme } from './theme'
-import { variants } from './variants'
+import { variantColorsScheme } from './variants'
 
 export { colors } from '@unocss/preset-mini'
 
@@ -24,7 +25,10 @@ export const presetWind = (options: UnoOptions = {}): Preset<Theme> => {
     shortcuts: [
       ...containerShortcuts,
     ],
-    variants,
+    variants: [
+      ...miniVariants(options),
+      ...variantColorsScheme,
+    ],
     options,
   }
 }

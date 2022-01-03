@@ -1,5 +1,6 @@
 import type { Extractor } from '@unocss/core'
 import { isValidSelector } from '@unocss/core'
+import type { AttributifyOptions } from '.'
 
 const strippedPrefixes = [
   'v-bind:',
@@ -10,13 +11,13 @@ const splitterRE = /[\s'"`;]+/g
 const elementRE = /<\w[\w:\.$-]*\s((?:'[\s\S]*?'|"[\s\S]*?"|`[\s\S]*?`|\{[\s\S]*?\}|[\s\S]*?)*?)>/g
 const valuedAttributeRE = /([?]|(?!\d|-{2}|-\d)[a-zA-Z0-9\u00A0-\uFFFF-_:%-]+)(?:=(["'])([^\2]*?)\2)?/g
 
-export const extractorAttributify: Extractor = {
+export const extractorAttributify = (options?: AttributifyOptions): Extractor => ({
   name: 'attributify',
-  extract({ code, options: { ignoreAttributes, nonValuedAttribute } }) {
+  extract({ code }) {
     const result = Array.from(code.matchAll(elementRE))
       .flatMap(match => Array.from((match[1] || '').matchAll(valuedAttributeRE)))
       .flatMap(([, name, _, content]) => {
-        if (ignoreAttributes?.includes(name))
+        if (options?.ignoreAttributes?.includes(name))
           return []
 
         for (const prefix of strippedPrefixes) {
@@ -27,7 +28,7 @@ export const extractorAttributify: Extractor = {
         }
 
         if (!content) {
-          if (isValidSelector(name) && nonValuedAttribute !== false)
+          if (isValidSelector(name) && options?.nonValuedAttribute !== false)
             return [`[${name}=""]`]
           return []
         }
@@ -47,4 +48,4 @@ export const extractorAttributify: Extractor = {
 
     return new Set(result)
   },
-}
+})

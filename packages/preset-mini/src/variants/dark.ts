@@ -1,21 +1,17 @@
-import type { Variant } from '@unocss/core'
+import type { VariantFunction } from '@unocss/core'
+import type { PresetMiniOptions } from '..'
 import { variantMatcher, variantParentMatcher } from '../utils'
 
-export const variantColorsMediaOrClass: Variant[] = [
-  (v, { options: { dark } }) => {
-    if (dark === 'class')
-      return variantMatcher('dark', input => `.dark $$ ${input}`)(v)
-  },
-  (v, { options: { dark } }) => {
-    if (dark === 'class')
-      return variantMatcher('light', input => `.light $$ ${input}`)(v)
-  },
-  (v, { options: { dark } }) => {
-    if (dark === 'media')
-      return variantParentMatcher('dark', '@media (prefers-color-scheme: dark)')(v)
-  },
-  (v, { options: { dark } }) => {
-    if (dark === 'media')
-      return variantParentMatcher('light', '@media (prefers-color-scheme: light)')(v)
-  },
-]
+export const variantColorsMediaOrClass = (options: PresetMiniOptions = {}): VariantFunction[] => {
+  if (options?.dark === 'class') {
+    return [
+      variantMatcher('dark', input => `.dark $$ ${input}`),
+      variantMatcher('light', input => `.light $$ ${input}`),
+    ]
+  }
+
+  return [
+    variantParentMatcher('dark', '@media (prefers-color-scheme: dark)'),
+    variantParentMatcher('light', '@media (prefers-color-scheme: light)'),
+  ]
+}

@@ -80,19 +80,15 @@ describe('attributify', () => {
   })
 
   test('variant', async() => {
+    const variant = variantAttributify({
+      prefix: 'un-',
+      prefixedOnly: false,
+      strict: true,
+    })
+
     expect(Array.from(await uno.applyExtractors(fixture1) || [])
       .map((i) => {
-        const r = variantAttributify(i, {
-          generator: uno,
-          options: {
-            prefix: 'un-',
-            prefixedOnly: false,
-            strict: true,
-          },
-          rawSelector: i,
-          theme: {},
-        })
-
+        const r = variant(i)
         return typeof r === 'string' ? r : r ? r.matcher : r
       }))
       .toMatchSnapshot()
