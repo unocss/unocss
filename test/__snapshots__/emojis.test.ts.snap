@@ -12,5 +12,6 @@ Set {
 
 exports[`emojis > fixture1 1`] = `
 "/* layer: default */
-.🦉,[🦉=\\"\\"]{color:red;}"
+.🦉,
+[🦉=\\"\\"]{color:red;}"
 `;

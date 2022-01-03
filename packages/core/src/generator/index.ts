@@ -174,7 +174,7 @@ export class UnoGenerator {
                 for (let i = idx + 1; i < size; i++) {
                   const current = sorted[i]
                   if (current && current[0] && current[1] === body) {
-                    current[0] = `${current[0]},${selector}`
+                    current[0] = `${current[0]},${nl}${selector}`
                     return null
                   }
                 }

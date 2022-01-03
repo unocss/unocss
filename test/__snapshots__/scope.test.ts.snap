@@ -8,7 +8,8 @@ exports[`scope 1`] = `
 .foo-scope .hover\\\\:p-4:hover{padding:1rem;}
 .foo-scope .\\\\!hover\\\\:px-10:hover{padding-left:2.5rem !important;padding-right:2.5rem !important;}
 .foo-scope .pl-10px{padding-left:10px;}
-.dark .foo-scope .dark\\\\:hover\\\\:text-xl:hover,.dark .foo-scope .dark\\\\:text-xl{font-size:1.25rem;line-height:1.75rem;}
+.dark .foo-scope .dark\\\\:hover\\\\:text-xl:hover,
+.dark .foo-scope .dark\\\\:text-xl{font-size:1.25rem;line-height:1.75rem;}
 @media (min-width: 640px){
 .foo-scope .sm\\\\:text-red-100{--un-text-opacity:1;color:rgba(254,226,226,var(--un-text-opacity));}
 .foo-scope .sm\\\\:text-red-200\\\\/10{color:rgba(254,202,202,0.1);}
