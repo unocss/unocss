@@ -3,34 +3,38 @@ import type { Theme } from '../theme'
 import { cornerMap, directionMap, handler as h, parseColor } from '../utils'
 
 export const borders: Rule[] = [
+  // compound
+  [/^(?:border|b)()(?:-(.+))?$/, handlerBorder],
+  [/^(?:border|b)-([xy])(?:-(.+))?$/, handlerBorder],
+  [/^(?:border|b)-([rltbse])(?:-(.+))?$/, handlerBorder],
+
   // size
-  [/^border$/, handlerBorder],
-  [/^(?:border|b)()-(.+)$/, handlerBorder],
-  [/^(?:border|b)-([^-]+)(?:-(.+))?$/, handlerBorder],
-  [/^(?:border|b)()-size-(.+)$/, handlerBorderSize],
-  [/^(?:border|b)-([^-]+)-size-(.+)$/, handlerBorderSize],
+  [/^(?:border|b)-()size-(.+)$/, handlerBorderSize],
+  [/^(?:border|b)-([xy])-size-(.+)$/, handlerBorderSize],
+  [/^(?:border|b)-([rltbse])-size-(.+)$/, handlerBorderSize],
 
   // colors
-  [/^(?:border|b)()-(.+)$/, handlerBorderColor],
-  [/^(?:border|b)-([^-]+)(?:-(.+))?$/, handlerBorderColor],
-  [/^(?:border|b)-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-border-opacity': h.bracket.percent(opacity) })],
-  [/^(?:border|b)-([^-]+)-op(?:acity)?-?(.+)$/, ([, a, opacity]) => {
-    const v = h.bracket.percent(opacity)
-    const d = directionMap[a]
-    if (v !== undefined && d)
-      return d.map(i => [`--un-border${i}-opacity`, v]) as CSSEntries
-  }],
+  [/^(?:border|b)-()(?:color-)?(.+)$/, handlerBorderColor],
+  [/^(?:border|b)-([xy])-(?:color-)?(.+)$/, handlerBorderColor],
+  [/^(?:border|b)-([rltbse])-(?:color-)?(.+)$/, handlerBorderColor],
+
+  // opacity
+  [/^(?:border|b)-()op(?:acity)?-?(.+)$/, handlerBorderOpacity],
+  [/^(?:border|b)-([xy])-op(?:acity)?-?(.+)$/, handlerBorderOpacity],
+  [/^(?:border|b)-([rltbse])-op(?:acity)?-?(.+)$/, handlerBorderOpacity],
 
   // radius
-  [/^(?:border-)?(?:rounded|rd)$/, handlerRounded],
-  [/^(?:border-)?(?:rounded|rd)(?:-(.+))?$/, handlerRounded],
-  [/^(?:border-)?(?:rounded|rd)(?:-([^-]+))?(?:-(.+))?$/, handlerRounded],
+  [/^(?:border-)?(?:rounded|rd)()(?:-(.+))?$/, handlerRounded],
+  [/^(?:border-)?(?:rounded|rd)-([xy])(?:-(.+))?$/, handlerRounded],
+  [/^(?:border-)?(?:rounded|rd)-([rltb])(?:-(.+))?$/, handlerRounded],
+  [/^(?:border-)?(?:rounded|rd)-([rltb]{2})(?:-(.+))?$/, handlerRounded],
 
   // style
   ['border-solid', { 'border-style': 'solid' }],
   ['border-dashed', { 'border-style': 'dashed' }],
   ['border-dotted', { 'border-style': 'dotted' }],
   ['border-double', { 'border-style': 'double' }],
+  ['border-hidden', { 'border-style': 'hidden' }],
   ['border-none', { 'border-style': 'none' }],
 ]
 
@@ -88,25 +92,29 @@ function handlerBorder(m: string[]): CSSEntries | undefined {
   }
 }
 
-function handlerBorderSize([, a, b]: string[]): CSSEntries | undefined {
-  const [d, s = '1'] = directionMap[a] ? [a, b] : ['', a]
-  const v = h.bracket.px(s)
-  if (v !== undefined)
-    return directionMap[d].map(i => [`border${i}-width`, v])
+function handlerBorderSize([, a = '', b = '1']: string[]): CSSEntries | undefined {
+  const v = h.bracket.px(b)
+  if (a in directionMap && v != null)
+    return directionMap[a].map(i => [`border${i}-width`, v])
 }
 
-function handlerBorderColor([, a, c]: string[], ctx: RuleContext) {
-  if (borderHasColor(c, ctx)) {
-    return Object.assign({},
-      ...directionMap[directionMap[a] ? a : '']
-        .map(i => borderColorResolver(i)(['', c], ctx)),
-    ) as CSSObject
+function handlerBorderColor([, a = '', c]: string[], ctx: RuleContext): CSSObject | undefined {
+  if (a in directionMap && borderHasColor(c, ctx)) {
+    return Object.assign(
+      {},
+      ...directionMap[a].map(i => borderColorResolver(i)(['', c], ctx)),
+    )
   }
 }
 
-function handlerRounded([, a, b]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
-  const [d, s = 'DEFAULT'] = cornerMap[a] ? [a, b] : ['', a]
+function handlerBorderOpacity([, a = '', opacity]: string[]): CSSEntries | undefined {
+  const v = h.bracket.percent(opacity)
+  if (a in directionMap && v != null)
+    return directionMap[a].map(i => [`--un-border${i}-opacity`, v])
+}
+
+function handlerRounded([, a = '', s = 'DEFAULT']: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
   const v = theme.borderRadius?.[s] || h.auto.rem.fraction.bracket.cssvar(s)
-  if (v !== undefined)
-    return cornerMap[d].map(i => [`border${i}-radius`, v])
+  if (a in cornerMap && v != null)
+    return cornerMap[a].map(i => [`border${i}-radius`, v])
 }
