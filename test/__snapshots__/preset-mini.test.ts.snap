@@ -347,8 +347,8 @@ exports[`preset-mini > targets 1`] = `
 .justify-center{justify-content:center;}
 .justify-items-end{justify-items:end;}
 .justify-self-stretch{justify-self:stretch;}
-.content-start{align-content:flex-start;}
 .content-center{align-content:center;}
+.content-start{align-content:flex-start;}
 .items-end{align-items:flex-end;}
 .self-stretch{align-self:stretch;}
 .place-content-stretch{place-content:stretch;}
