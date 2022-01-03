@@ -356,9 +356,9 @@ exports[`preset-mini > targets 1`] = `
 .place-content-stretch{place-content:stretch;}
 .place-items-stretch{place-items:stretch;}
 .place-self-stretch{place-self:stretch;}
+.inset-x-5{left:1.25rem;right:1.25rem;}
 .top-\\\\$top-height{top:var(--top-height);}
 .top-0{top:0rem;}
-.inset-x-5{left:1.25rem;right:1.25rem;}
 .float-left{float:left;}
 .float-none{float:none;}
 .clear-both{clear:both;}

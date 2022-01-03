@@ -89,13 +89,16 @@ function handleInsetValue(v: string): string | number | undefined {
   return { auto: 'auto', full: '100%' }[v] ?? h.bracket.fraction.cssvar.auto.rem(v)
 }
 
+function handleInsetValues([, d, v]: string[]): CSSEntries | undefined {
+  const r = handleInsetValue(v)
+  if (r != null && d in directionMap)
+    return directionMap[d].map(i => [i.slice(1), r])
+}
+
 export const insets: Rule[] = [
-  [/^(?:position-|pos-)?(top|left|right|bottom|inset)-(.+)$/, ([, d, v]) => ({ [d]: handleInsetValue(v) })],
-  [/^(?:position-|pos-)?inset-([xy])-(.+)$/, ([, d, v]): CSSEntries | undefined => {
-    const r = handleInsetValue(v)
-    if (r != null && d in directionMap)
-      return directionMap[d].map(i => [i.slice(1), r])
-  }],
+  [/^(?:position-|pos-)?inset-()(.+)$/, handleInsetValues],
+  [/^(?:position-|pos-)?inset-([xy])-(.+)$/, handleInsetValues],
+  [/^(?:position-|pos-)?(top|left|right|bottom)-(.+)$/, ([, d, v]) => ({ [d]: handleInsetValue(v) })],
 ]
 
 export const floats: Rule[] = [
