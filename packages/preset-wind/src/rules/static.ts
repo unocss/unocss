@@ -1,4 +1,5 @@
 import type { Rule } from '@unocss/core'
+import { positionMap } from '@unocss/preset-mini/utils'
 
 export const textTransforms: Rule[] = [
   // tailwind compact
@@ -81,15 +82,6 @@ export const objectPositions: Rule[] = [
   ['object-none', { 'object-fit': 'none' }],
 
   // object position
-  ['object-center', { 'object-position': 'center' }],
-  ['object-bottom', { 'object-position': 'bottom' }],
-  ['object-top', { 'object-position': 'top' }],
-  ['object-right', { 'object-position': 'right' }],
-  ['object-left', { 'object-position': 'left' }],
-  ['object-lb', { 'object-position': 'left bottom' }],
-  ['object-lt', { 'object-position': 'left top' }],
-  ['object-rb', { 'object-position': 'right bottom' }],
-  ['object-rt', { 'object-position': 'right top' }],
-  ['object-cb', { 'object-position': 'center bottom' }],
-  ['object-ct', { 'object-position': 'center top' }],
+  // skip dashed rules
+  [/^object-([\w]+)$/, ([, s]) => ({ 'object-position': positionMap[s] })],
 ]

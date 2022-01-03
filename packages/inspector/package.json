@@ -1,6 +1,6 @@
 {
   "name": "@unocss/inspector",
-  "version": "0.20.2",
+  "version": "0.20.3",
   "description": "The inspector UI for UnoCSS",
   "keywords": [
     "unocss",
@@ -41,6 +41,6 @@
   },
   "dependencies": {
     "gzip-size": "^6.0.0",
-    "sirv": "^1.0.19"
+    "sirv": "^2.0.0"
   }
 }

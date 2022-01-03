@@ -50,6 +50,10 @@ exports[`preset-wind > targets 1`] = `
 .table-empty-cells-visible{empty-cells:show;}
 .table-empty-cells-hidden{empty-cells:hide;}
 @keyframes pulse{0%, 100% {opacity:1} 50% {opacity:.5}}
+.keyframes-pulse{animation:pulse;}
+@keyframes pulse-alt{from{transform:scale3d(1,1,1)}50%{transform:scale3d(1.05,1.05,1.05)}to{transform:scale3d(1,1,1)}}
+.keyframes-pulse-alt{animation:pulse-alt;}
+@keyframes pulse{0%, 100% {opacity:1} 50% {opacity:.5}}
 .animate-pulse{animation:pulse 2s cubic-bezier(0.4,0,.6,1) infinite;}
 @keyframes pulse-alt{from{transform:scale3d(1,1,1)}50%{transform:scale3d(1.05,1.05,1.05)}to{transform:scale3d(1,1,1)}}
 .animate-pulse-alt{animation:pulse-alt 1s ease-in-out infinite;}
@@ -59,7 +63,10 @@ exports[`preset-wind > targets 1`] = `
 .hover\\\\:animate-bounce:hover{animation:bounce 1s linear infinite;}
 .animate-100s{animation-duration:100s;}
 .animate-300{animation-duration:300ms;}
-.animate-duration-100{animation-duration:100ms;}
+.animate-duration-100,
+.animate-duration-100\\\\.00{animation-duration:100ms;}
+.animate-duration-100\\\\.02{animation-duration:100.02ms;}
+.animate-duration-100\\\\.30{animation-duration:100.3ms;}
 .animate-duration-100\\\\.32{animation-duration:100.32ms;}
 .animate-delay--1\\\\.37{animation-delay:-1.37ms;}
 .animate-fill-mode-both{animation-fill-mode:both;}
@@ -67,8 +74,9 @@ exports[`preset-wind > targets 1`] = `
 .animate-direction-alternate-reverse{animation-direction:alternate-reverse;}
 .animate-normal{animation-direction:normal;}
 .animate-count-2\\\\.4{animation-iteration-count:2.4;}
+.animate-iteration-count-\\\\[2\\\\2c 4\\\\2c infinity\\\\],
+.animate-iteration-count-2-4-infinity{animation-iteration-count:2,4,infinity;}
 .animate-iteration-count-2{animation-iteration-count:2;}
-.animate-iteration-count-2-4-infinity{animation-iteration-count:2, 4, infinity;}
 .animate-name-move{animation-name:move;}
 .animate-play-paused{animation-play-state:paused;}
 .animate-play-state-running{animation-play-state:running;}
@@ -131,17 +139,9 @@ exports[`preset-wind > targets 1`] = `
 .overscroll-none{overscroll-behavior:none;}
 .overscroll-x-auto{overscroll-behavior-x:auto;}
 .scroll-auto{scroll-behavior:auto;}
-.file\\\\:bg-violet-50::file-selector-button{--un-bg-opacity:1;background-color:rgba(245,243,255,var(--un-bg-opacity));}
-.hover\\\\:file\\\\:bg-violet-100:hover::file-selector-button{--un-bg-opacity:1;background-color:rgba(237,233,254,var(--un-bg-opacity));}
-.decoration-slice{box-decoration-break:slice;}
-.bg-fixed{background-attachment:fixed;}
-.bg-local{background-attachment:local;}
-.bg-scroll{background-attachment:scroll;}
 .bg-blend-color-burn{background-blend-mode:color-burn;}
 .bg-blend-luminosity{background-blend-mode:luminosity;}
 .bg-blend-normal{background-blend-mode:normal;}
-.bg-clip-border{-webkit-background-clip:border-box;background-attachment:border-box;}
-.bg-clip-text{-webkit-background-clip:text;background-attachment:text;}
 .bg-gradient-from-current,
 .from-current{--un-gradient-from:currentColor;--un-gradient-stops:var(--un-gradient-from), var(--un-gradient-to, rgba(255, 255, 255, 0));}
 .bg-gradient-from-green-600{--un-gradient-from:rgba(22,163,74, var(--un-from-opacity, 1));--un-gradient-stops:var(--un-gradient-from), var(--un-gradient-to, rgba(255, 255, 255, 0));}
@@ -174,16 +174,22 @@ exports[`preset-wind > targets 1`] = `
 .bg-gradient-to-t{background-image:linear-gradient(to top, var(--un-gradient-stops));}
 .bg-gradient-to-tl{background-image:linear-gradient(to top left, var(--un-gradient-stops));}
 .bg-none{background-image:none;}
-.bg-origin-border{background-origin:border-box;}
+.box-decoration-slice{box-decoration-break:slice;}
+.bg-auto{background-size:auto;}
+.bg-cover{background-size:cover;}
+.bg-fixed{background-attachment:fixed;}
+.bg-local{background-attachment:local;}
+.bg-scroll{background-attachment:scroll;}
+.bg-clip-border{-webkit-background-clip:border-box;background-attachment:border-box;}
+.bg-clip-text{-webkit-background-clip:text;background-attachment:text;}
 .bg-bottom{background-position:bottom;}
 .bg-right-bottom{background-position:right bottom;}
 .bg-no-repeat{background-repeat:no-repeat;}
 .bg-repeat-space{background-position:space;}
-.bg-auto{background-size:auto;}
-.bg-cover{background-size:cover;}
+.bg-origin-border{background-origin:border-box;}
 .object-none{object-fit:none;}
-.object-center{object-position:center;}
 .object-cb{object-position:center bottom;}
+.object-center{object-position:center;}
 .object-ct{object-position:center top;}
 .dark .\\\\.dark\\\\:text-xl{font-size:1.25rem;line-height:1.75rem;}
 .capitalize{text-transform:capitalize;}
@@ -201,7 +207,7 @@ exports[`preset-wind > targets 1`] = `
 .caret-op-90{--un-caret-opacity:0.9;}
 .accent-red{--un-accent-opacity:1;accent-color:rgba(248,113,113,var(--un-accent-opacity));}
 .accent-op-90{--un-accent-opacity:0.9;}
-.mix-blend-color-light{mix-blend-mode:color-light;}
+.mix-blend-hard-light{mix-blend-mode:hard-light;}
 .mix-blend-normal{mix-blend-mode:normal;}
 .image-render-pixel{-ms-interpolation-mode:nearest-neighbor;image-rendering:-webkit-optimize-contrast;image-rendering:-moz-crisp-edges;image-rendering:-o-pixelated;image-rendering:pixelated;}
 .filter,

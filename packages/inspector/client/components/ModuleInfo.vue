@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { extractorAttributify } from '@unocss/preset-attributify'
+import attributifyPreset from '@unocss/preset-attributify'
 import { fetchModule } from '../composables/fetch'
 
 const props = defineProps<{ id: string }>()
@@ -10,10 +10,17 @@ function openEditor() {
   fetch(`/__open-in-editor?file=${encodeURIComponent(props.id)}`)
 }
 
-const extractor = extractorAttributify({ strict: true })
+const { extractors } = attributifyPreset({ strict: true })
 const unmatchedClasses = asyncComputed(async() => {
-  const result = await extractor.extract({ code: mod.value?.code || '' } as any) || []
-  return Array.from(result)
+  const set = new Set<string>()
+  if (extractors) {
+    const context = { code: mod.value?.code || '' } as any
+    for (const extractor of extractors) {
+      const result = await extractor.extract(context)
+      result?.forEach(t => set.add(t))
+    }
+  }
+  return Array.from(set)
     .filter(i => !i.startsWith('['))
     .filter(i => !mod.value?.matched.includes(i))
 })

@@ -1,11 +1,16 @@
 export const presetWindiTargets: string[] = [
   // animation
+  'keyframes-pulse',
+  'keyframes-pulse-alt',
   'animate-none',
   'animate-pulse',
   'animate-pulse-alt',
   'animate-300',
   'animate-100s',
   'animate-duration-100',
+  'animate-duration-100.00',
+  'animate-duration-100.02',
+  'animate-duration-100.30',
   'animate-duration-100.32',
   'animate-delay--1.37',
   'animate-speed-$speed',
@@ -19,6 +24,7 @@ export const presetWindiTargets: string[] = [
   'animate-count-2.4',
   'animate-iteration-count-2',
   'animate-iteration-count-2-4-infinity',
+  'animate-iteration-count-[2,4,infinity]',
 
   // background
   'bg-auto',
@@ -75,7 +81,7 @@ export const presetWindiTargets: string[] = [
   'list-none',
   'list-disc',
   'list-outside',
-  'decoration-slice',
+  'box-decoration-slice',
   'accent-op-90',
   'accent-red',
   'caret-op-90',
@@ -182,7 +188,7 @@ export const presetWindiTargets: string[] = [
 
   // shadow, spacing
   'mix-blend-normal',
-  'mix-blend-color-light',
+  'mix-blend-hard-light',
   'space-x-2',
   'space-y-4',
   'space-x-reverse',
@@ -245,8 +251,4 @@ export const presetWindiTargets: string[] = [
   '-scroll-mb-px',
   '-scroll-p-px',
   '-space-x-4',
-
-  // variants - pseudo
-  'file:bg-violet-50',
-  'hover:file:bg-violet-100',
 ]

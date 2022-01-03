@@ -1,4 +1,4 @@
-import type { Plugin, ViteDevServer } from 'vite'
+import type { Plugin, ViteDevServer, ResolvedConfig as ViteResolvedConfig } from 'vite'
 import type { UnocssPluginContext } from '../../../../plugins-common'
 import { LAYER_MARK_ALL, getPath, resolveId } from '../../../../plugins-common'
 import { READY_CALLBACK_DEFAULT } from './shared'
@@ -7,6 +7,7 @@ const WARN_TIMEOUT = 2000
 
 export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter }: UnocssPluginContext): Plugin[] {
   const servers: ViteDevServer[] = []
+  let base = ''
 
   const tasks: Promise<any>[] = []
   const entries = new Map<string, string>()
@@ -16,6 +17,14 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
   let lastServed = 0
   let resolved = false
   let resolvedWarnTimer: any
+
+  function configResolved(config: ViteResolvedConfig) {
+    base = config.base || ''
+    if (base === '/')
+      base = ''
+    else if (base.endsWith('/'))
+      base = base.slice(0, base.length - 1)
+  }
 
   function invalidate(timer = 10) {
     for (const server of servers) {
@@ -67,12 +76,17 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
       name: 'unocss:global',
       apply: 'serve',
       enforce: 'pre',
+      configResolved,
       async configureServer(_server) {
         servers.push(_server)
         _server.middlewares.use(async(req, res, next) => {
+          let url = req.url
+          if (url && base.length > 0 && url.startsWith(base))
+            url = url.slice(base.length)
+
           setWarnTimer()
-          if (req.url?.startsWith(READY_CALLBACK_DEFAULT)) {
-            const servedTime = +req.url.slice(READY_CALLBACK_DEFAULT.length + 1)
+          if (url?.startsWith(READY_CALLBACK_DEFAULT)) {
+            const servedTime = +url.slice(READY_CALLBACK_DEFAULT.length + 1)
             if (servedTime < lastUpdate)
               invalidate(0)
             res.statusCode = 200
@@ -117,13 +131,14 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
     },
     {
       name: 'unocss:global:post',
+      configResolved,
       apply(config, env) {
         return env.command === 'serve' && !config.build?.ssr
       },
       enforce: 'post',
       transform(code, id) {
         if (entries.has(getPath(id)) && code.includes('import.meta.hot'))
-          return `${code}\nawait fetch("${READY_CALLBACK_DEFAULT}/${lastServed}")`
+          return `${code}\nawait fetch("${base}${READY_CALLBACK_DEFAULT}/${lastServed}")`
       },
     },
   ]

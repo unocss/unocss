@@ -1,5 +1,5 @@
 import type { Rule, RuleContext } from '@unocss/core'
-import { handler as h, parseColor } from '@unocss/preset-mini/utils'
+import { handler as h, parseColor, positionMap } from '@unocss/preset-mini/utils'
 import type { Theme } from '@unocss/preset-mini'
 
 const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
@@ -39,23 +39,7 @@ const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
     }
   }
 
-const bgGradientDirections: Record<string, string> = {
-  t: 'top',
-  tr: 'top right',
-  r: 'right',
-  br: 'bottom right',
-  b: 'bottom',
-  bl: 'bottom left',
-  l: 'left',
-  tl: 'top left',
-}
-
 export const backgroundStyles: Rule[] = [
-  // attachments
-  ['bg-fixed', { 'background-attachment': 'fixed' }],
-  ['bg-local', { 'background-attachment': 'local' }],
-  ['bg-scroll', { 'background-attachment': 'scroll' }],
-
   // blends
   ['bg-blend-multiply', { 'background-blend-mode': 'multiply' }],
   ['bg-blend-screen', { 'background-blend-mode': 'screen' }],
@@ -74,11 +58,7 @@ export const backgroundStyles: Rule[] = [
   ['bg-blend-luminosity', { 'background-blend-mode': 'luminosity' }],
   ['bg-blend-normal', { 'background-blend-mode': 'normal' }],
 
-  // clips
-  ['bg-clip-border', { '-webkit-background-clip': 'border-box', 'background-attachment': 'border-box' }],
-  ['bg-clip-content', { '-webkit-background-clip': 'content-box', 'background-attachment': 'content-box' }],
-  ['bg-clip-padding', { '-webkit-background-clip': 'padding-box', 'background-attachment': 'padding-box' }],
-  ['bg-clip-text', { '-webkit-background-clip': 'text', 'background-attachment': 'text' }],
+  // TODO: bg-[url] { background-image: x }
 
   // gradients
   [/^(?:bg-gradient-)?from-(.+)$/, bgGradientColorResolver('from')],
@@ -89,28 +69,37 @@ export const backgroundStyles: Rule[] = [
   [/^(?:bg-gradient-)?via-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-via-opacity': h.bracket.percent(opacity) })],
 
   // images
-  [/^bg-gradient-to-([trbl]{1,2})$/, ([, d]) => {
-    const v = bgGradientDirections[d]
-    if (v)
-      return { 'background-image': `linear-gradient(to ${v}, var(--un-gradient-stops))` }
+  // ignore any center position
+  [/^bg-gradient-to-([rltb]{1,2})$/, ([, d]) => {
+    if (d in positionMap)
+      return { 'background-image': `linear-gradient(to ${positionMap[d]}, var(--un-gradient-stops))` }
   }],
   ['bg-none', { 'background-image': 'none' }],
 
-  // origins
-  ['bg-origin-border', { 'background-origin': 'border-box' }],
-  ['bg-origin-padding', { 'background-origin': 'padding-box' }],
-  ['bg-origin-content', { 'background-origin': 'content-box' }],
+  ['box-decoration-slice', { 'box-decoration-break': 'slice' }],
+  ['box-decoration-clone', { 'box-decoration-break': 'clone' }],
+
+  // TODO: bg-[number] { background-size: x }
+
+  // size
+  ['bg-auto', { 'background-size': 'auto' }],
+  ['bg-cover', { 'background-size': 'cover' }],
+  ['bg-contain', { 'background-size': 'contain' }],
+
+  // attachments
+  ['bg-fixed', { 'background-attachment': 'fixed' }],
+  ['bg-local', { 'background-attachment': 'local' }],
+  ['bg-scroll', { 'background-attachment': 'scroll' }],
+
+  // clips
+  ['bg-clip-border', { '-webkit-background-clip': 'border-box', 'background-attachment': 'border-box' }],
+  ['bg-clip-content', { '-webkit-background-clip': 'content-box', 'background-attachment': 'content-box' }],
+  ['bg-clip-padding', { '-webkit-background-clip': 'padding-box', 'background-attachment': 'padding-box' }],
+  ['bg-clip-text', { '-webkit-background-clip': 'text', 'background-attachment': 'text' }],
 
   // positions
-  ['bg-bottom', { 'background-position': 'bottom' }],
-  ['bg-center', { 'background-position': 'center' }],
-  ['bg-left', { 'background-position': 'left' }],
-  ['bg-left-bottom', { 'background-position': 'left bottom' }],
-  ['bg-left-top', { 'background-position': 'left top' }],
-  ['bg-right', { 'background-position': 'right' }],
-  ['bg-right-bottom', { 'background-position': 'right bottom' }],
-  ['bg-right-top', { 'background-position': 'right top' }],
-  ['bg-top', { 'background-position': 'top' }],
+  // skip 1 & 2 letters shortcut
+  [/^bg-([-\w]{3,})$/, ([, s]) => ({ 'background-position': positionMap[s] })],
 
   // repeats
   ['bg-repeat', { 'background-repeat': 'repeat' }],
@@ -120,8 +109,8 @@ export const backgroundStyles: Rule[] = [
   ['bg-repeat-round', { 'background-position': 'round' }],
   ['bg-repeat-space', { 'background-position': 'space' }],
 
-  // size
-  ['bg-auto', { 'background-size': 'auto' }],
-  ['bg-cover', { 'background-size': 'cover' }],
-  ['bg-contain', { 'background-size': 'contain' }],
+  // origins
+  ['bg-origin-border', { 'background-origin': 'border-box' }],
+  ['bg-origin-padding', { 'background-origin': 'padding-box' }],
+  ['bg-origin-content', { 'background-origin': 'content-box' }],
 ]

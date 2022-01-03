@@ -19,7 +19,6 @@ export function createValueHandler<K extends string>(handlers: Record<K, ValueHa
       if (res != null)
         return res
     }
-    return undefined
   } as unknown as ValueHandler<K>
 
   function addProcessor(that: ValueHandler<K>, name: K) {

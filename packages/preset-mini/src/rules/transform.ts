@@ -1,5 +1,5 @@
 import type { CSSValues, Rule } from '@unocss/core'
-import { handler as h, xyzMap } from '../utils'
+import { handler as h, positionMap, xyzMap } from '../utils'
 import { CONTROL_BYPASS_PSEUDO_CLASS } from '../variants/pseudo'
 
 const transformGpu = {
@@ -36,20 +36,14 @@ export const transforms: Rule[] = [
   [/^rotate-((?!\[)[^-]+?)(?:deg)?$/, handleRotateWithUnit],
   [/^skew-([xy])-(.+)$/, handleSkew],
   [/^skew-([xy])-((?!\[)[^-]+?)(?:deg)?$/, handleSkewWithUnit],
+
   ['transform-gpu', transformGpu],
   ['transform-cpu', transformCpu],
   ['transform-none', { transform: 'none' }],
 
   // transform origins
-  ['origin-center', { 'transform-origin': 'center' }],
-  ['origin-top', { 'transform-origin': 'top' }],
-  ['origin-top-right', { 'transform-origin': 'top right' }],
-  ['origin-right', { 'transform-origin': 'right' }],
-  ['origin-bottom-right', { 'transform-origin': 'bottom right' }],
-  ['origin-bottom', { 'transform-origin': 'bottom' }],
-  ['origin-bottom-left', { 'transform-origin': 'bottom left' }],
-  ['origin-left', { 'transform-origin': 'left' }],
-  ['origin-top-left', { 'transform-origin': 'top left' }],
+  // skip 1 & 2 letters shortcut
+  [/^origin-([-\w]{3,})$/, ([, s]) => ({ 'transform-origin': positionMap[s] })],
 ]
 
 function handleTranslate([, d, b]: string[]): CSSValues | undefined {
