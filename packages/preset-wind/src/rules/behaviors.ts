@@ -48,19 +48,15 @@ export const imageRenderings: Rule[] = [
   ]],
 ]
 
-const overflowValues = [
-  'auto',
-  'hidden',
-  'visible',
-  'scroll',
-  'contain',
-]
-
 export const overscrolls: Rule[] = [
-  [/^overscroll-(.+)$/, ([, v]) => overflowValues.includes(v) ? { 'overscroll-behavior': v } : undefined],
+  ['overscroll-auto', { 'overscroll-behavior': 'auto' }],
+  ['overscroll-contain', { 'overscroll-behavior': 'contain' }],
   ['overscroll-none', { 'overscroll-behavior': 'none' }],
-  [/^overscroll-([xy])-(.+)$/, ([, d, v]) => overflowValues.includes(v) ? { [`overscroll-behavior-${d}`]: v } : undefined],
+  ['overscroll-x-auto', { 'overscroll-behavior-x': 'auto' }],
+  ['overscroll-x-contain', { 'overscroll-behavior-x': 'contain' }],
   ['overscroll-x-none', { 'overscroll-behavior-x': 'none' }],
+  ['overscroll-y-auto', { 'overscroll-behavior-y': 'auto' }],
+  ['overscroll-y-contain', { 'overscroll-behavior-y': 'contain' }],
   ['overscroll-y-none', { 'overscroll-behavior-y': 'none' }],
 ]
 
