@@ -19,15 +19,13 @@ const { data: result } = fetchRepl(input)
         Edit your code below to test and play UnoCSS's matching and generating.
       </div>
     </StatusBar>
-    <div h-full of-hidden grid grid-cols-2>
+    <div h-full of-hidden grid grid-cols-2 class="scrolls rpel-main-scrolls">
       <CodeMirror
         v-model="input"
-        h-full
         mode="html"
         :matched="result?.matched || []"
       />
       <CodeMirror
-        h-full
         b-l
         b-main
         :model-value="result?.css || '/* empty */'"

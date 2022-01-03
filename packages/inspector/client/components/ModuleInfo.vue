@@ -66,6 +66,7 @@ const unmatchedClasses = asyncComputed(async() => {
         :read-only="true"
         :mode="mode"
         :matched="mod.matched"
+        class="full-scrolls"
       />
       <CodeMirror
         h-full
@@ -73,6 +74,7 @@ const unmatchedClasses = asyncComputed(async() => {
         :model-value="mod.css"
         :read-only="true"
         mode="css"
+        class="full-scrolls"
       />
     </div>
   </div>
