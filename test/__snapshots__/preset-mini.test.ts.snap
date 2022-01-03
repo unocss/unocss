@@ -303,11 +303,13 @@ exports[`preset-mini > targets 1`] = `
 .w-lg{width:32rem;}
 .max-w-screen-lg{max-width:1024px;}
 .min-w-screen-lg{min-width:1024px;}
-.aspect-ratio-auto{aspect-ratio:auto;}
-.aspect-ratio-\\\\[auto_16\\\\/9\\\\]{aspect-ratio:auto 16/9;}
+.aspect-\\\\[auto_16\\\\/9\\\\],.aspect-ratio-\\\\[auto_16\\\\/9\\\\]{aspect-ratio:auto 16/9;}
+.aspect-auto{aspect-ratio:auto;}
 .aspect-ratio-\\\\$var{aspect-ratio:var(--var);}
 .aspect-ratio-0\\\\.7{aspect-ratio:0.7;}
 .aspect-ratio-3\\\\/2{aspect-ratio:3/2;}
+.aspect-ratio-square{aspect-ratio:1/1;}
+.aspect-ratio-video{aspect-ratio:16/9;}
 .cursor-pointer{cursor:pointer;}
 .backface-hidden{backface-visibility:hidden;}
 .pointer-events-auto{pointer-events:auto;}

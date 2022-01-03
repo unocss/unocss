@@ -320,11 +320,14 @@ export const presetMiniTargets: string[] = [
   'w-[calc(calc(100px*10)-4rem)]',
 
   // size - ar
-  'aspect-ratio-auto',
+  'aspect-ratio-square',
+  'aspect-ratio-video',
+  'aspect-auto',
   'aspect-ratio-3/2',
   'aspect-ratio-0.7',
   'aspect-ratio-$var',
   'aspect-ratio-[auto_16/9]',
+  'aspect-[auto_16/9]',
 
   // spacing
   'p-2',

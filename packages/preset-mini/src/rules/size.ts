@@ -29,6 +29,18 @@ export const sizes: Rule<Theme>[] = [
 ]
 
 export const aspectRatio: Rule[] = [
-  ['aspect-ratio-auto', { 'aspect-ratio': 'auto' }],
-  [/^aspect-ratio-(.+)$/, ([, d]: string[]) => ({ 'aspect-ratio': (/^\d+\/\d+$/.test(d) ? d : null) || h.bracket.cssvar.number(d) })],
+  [/^aspect-(?:ratio-)?(.+)$/, ([, d]: string[]) => {
+    if (/^\d+\/\d+$/.test(d))
+      return { 'aspect-ratio': d }
+
+    const v = {
+      auto: 'auto',
+      square: '1/1',
+      video: '16/9',
+    }[d]
+    if (v != null)
+      return { 'aspect-ratio': v }
+
+    return { 'aspect-ratio': h.bracket.cssvar.number(d) }
+  }],
 ]
