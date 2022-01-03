@@ -1,22 +1,22 @@
 import type { Rule } from '@unocss/core'
 import { colorResolver, handler as h } from '@unocss/preset-mini/utils'
 
-const listStyleProps = ['disc', 'circle', 'square', 'decimal', 'zero-decimal', 'greek', 'roman', 'upper-roman', 'alpha', 'upper-alpha']
-
 export const listStyle: Rule[] = [
-  [new RegExp(`^list-((?:${listStyleProps.join('|')})(?:-outside|-inside)?)$`), ([, value]) => {
-    const style = value.split(/-outside|-inside/)[0]
-    const position = /outside|inside/.exec(value) ?? []
-
-    if (position.length) {
+  // base
+  [/^list-(disc|circle|square|decimal|zero-decimal|greek|roman|upper-roman|alpha|upper-alpha)(?:-(outside|inside))?$/, ([, style, position]) => {
+    if (position != null) {
       return {
-        'list-style-position': `${position[0]}`,
+        'list-style-position': position,
         'list-style-type': style,
       }
     }
+
     return { 'list-style-type': style }
   }],
-  [/^list-(outside|inside)$/, ([, value]) => ({ 'list-style-position': value })],
+
+  // styles
+  ['list-outside', { 'list-style-position': 'outside' }],
+  ['list-inside', { 'list-style-position': 'inside' }],
   ['list-none', { 'list-style-type': 'none' }],
 ]
 
