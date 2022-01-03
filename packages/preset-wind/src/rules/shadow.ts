@@ -8,7 +8,7 @@ export const mixBlendModes: Rule[] = [
   ['mix-blend-lighten', { 'mix-blend-mode': 'lighten' }],
   ['mix-blend-color-dodge', { 'mix-blend-mode': 'color-dodge' }],
   ['mix-blend-color-burn', { 'mix-blend-mode': 'color-burn' }],
-  ['mix-blend-color-light', { 'mix-blend-mode': 'color-light' }],
+  ['mix-blend-hard-light', { 'mix-blend-mode': 'hard-light' }],
   ['mix-blend-soft-light', { 'mix-blend-mode': 'soft-light' }],
   ['mix-blend-difference', { 'mix-blend-mode': 'difference' }],
   ['mix-blend-exclusion', { 'mix-blend-mode': 'exclusion' }],
