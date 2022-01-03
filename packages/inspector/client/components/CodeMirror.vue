@@ -14,13 +14,12 @@ const modeMap: Record<string, string> = {
   html: 'htmlmixed',
   vue: 'htmlmixed',
   svelte: 'htmlmixed',
-  astro: 'htmlmixed',
   js: 'javascript',
   jsx: 'jsx',
   mjs: 'javascript',
   cjs: 'javascript',
   ts: 'typescript',
-  tsx: 'typescript-jsx',
+  tsx: 'jsx',
   mts: 'typescript',
 }
 
