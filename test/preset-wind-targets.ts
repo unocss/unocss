@@ -185,7 +185,7 @@ export const presetWindiTargets: string[] = [
 
   // shadow, spacing
   'mix-blend-normal',
-  'mix-blend-color-light',
+  'mix-blend-hard-light',
   'space-x-2',
   'space-y-4',
   'space-x-reverse',
