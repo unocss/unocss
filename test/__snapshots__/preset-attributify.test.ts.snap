@@ -161,6 +161,8 @@ exports[`attributify > fixture2 1`] = `
 [flex=\\"\\"]{display:flex;}
 [inline-flex=\\"\\"]{display:inline-flex;}
 [flex-col=\\"\\"]{flex-direction:column;}
+[peer=\\"\\"]:focus~[peer-focus~=\\"origin-top-left\\"],
+[peer=\\"\\"]:not(:placeholder-shown)~[peer-not-placeholder-shown~=\\"origin-top-left\\"]{transform-origin:top left;}
 [peer=\\"\\"]:focus~[peer-focus~=\\"-translate-y-4\\"],
 [peer=\\"\\"]:not(:placeholder-shown)~[peer-not-placeholder-shown~=\\"-translate-y-4\\"],
 [peer=\\"\\"]:focus~[peer-focus~=\\"scale-75\\"],
@@ -169,8 +171,6 @@ exports[`attributify > fixture2 1`] = `
 [peer=\\"\\"]:not(:placeholder-shown)~[peer-not-placeholder-shown~=\\"-translate-y-4\\"]{--un-translate-y:-1rem;}
 [peer=\\"\\"]:focus~[peer-focus~=\\"scale-75\\"],
 [peer=\\"\\"]:not(:placeholder-shown)~[peer-not-placeholder-shown~=\\"scale-75\\"]{--un-scale-x:0.75;--un-scale-y:0.75;}
-[peer=\\"\\"]:focus~[peer-focus~=\\"origin-top-left\\"],
-[peer=\\"\\"]:not(:placeholder-shown)~[peer-not-placeholder-shown~=\\"origin-top-left\\"]{transform-origin:top left;}
 [select-none=\\"\\"]{user-select:none;}
 [bg-gradient~=\\"from-yellow-400\\"]{--un-gradient-from:rgba(250,204,21, var(--un-from-opacity, 1));--un-gradient-stops:var(--un-gradient-from), var(--un-gradient-to, rgba(255, 255, 255, 0));}
 [bg-gradient~=\\"to-pink-500\\"]{--un-gradient-to:rgba(236,72,153, var(--un-to-opacity, 1));}
