@@ -43,6 +43,10 @@ exports[`preset-wind > targets 1`] = `
 .table-empty-cells-visible{empty-cells:show;}
 .table-empty-cells-hidden{empty-cells:hide;}
 @keyframes pulse{0%, 100% {opacity:1} 50% {opacity:.5}}
+.keyframes-pulse{animation:pulse;}
+@keyframes pulse-alt{from{transform:scale3d(1,1,1)}50%{transform:scale3d(1.05,1.05,1.05)}to{transform:scale3d(1,1,1)}}
+.keyframes-pulse-alt{animation:pulse-alt;}
+@keyframes pulse{0%, 100% {opacity:1} 50% {opacity:.5}}
 .animate-pulse{animation:pulse 2s cubic-bezier(0.4,0,.6,1) infinite;}
 @keyframes pulse-alt{from{transform:scale3d(1,1,1)}50%{transform:scale3d(1.05,1.05,1.05)}to{transform:scale3d(1,1,1)}}
 .animate-pulse-alt{animation:pulse-alt 1s ease-in-out infinite;}

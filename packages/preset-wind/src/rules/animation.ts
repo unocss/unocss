@@ -3,6 +3,12 @@ import { handler as h } from '@unocss/preset-mini/utils'
 import type { Theme } from '@unocss/preset-mini'
 
 export const animations: Rule<Theme>[] = [
+  [/^keyframes-(.+)$/, ([, name], { theme, constructCSS }) => {
+    const kf = theme.animation?.keyframes?.[name]
+    if (kf)
+      return `@keyframes ${name}${kf}\n${constructCSS({ animation: `${name}` })}`
+  }],
+
   [/^animate-(.+)$/, ([, name], { theme, constructCSS }) => {
     const kf = theme.animation?.keyframes?.[name]
     if (kf) {
