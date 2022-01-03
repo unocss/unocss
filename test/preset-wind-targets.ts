@@ -22,6 +22,7 @@ export const presetWindiTargets: string[] = [
   'animate-count-2.4',
   'animate-iteration-count-2',
   'animate-iteration-count-2-4-infinity',
+  'animate-iteration-count-[2,4,infinity]',
 
   // background
   'bg-auto',

@@ -62,8 +62,8 @@ exports[`preset-wind > targets 1`] = `
 .animate-direction-alternate-reverse{animation-direction:alternate-reverse;}
 .animate-normal{animation-direction:normal;}
 .animate-count-2\\\\.4{animation-iteration-count:2.4;}
+.animate-iteration-count-\\\\[2\\\\2c 4\\\\2c infinity\\\\],.animate-iteration-count-2-4-infinity{animation-iteration-count:2,4,infinity;}
 .animate-iteration-count-2{animation-iteration-count:2;}
-.animate-iteration-count-2-4-infinity{animation-iteration-count:2, 4, infinity;}
 .animate-name-move{animation-name:move;}
 .animate-play-paused{animation-play-state:paused;}
 .animate-play-state-running{animation-play-state:running;}
