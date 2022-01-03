@@ -1,8 +1,6 @@
 import type { CSSEntries, Rule } from '@unocss/core'
 import { directionMap, handler as h } from '../utils'
 
-const basicSet = ['auto', 'start', 'end', 'center', 'stretch']
-
 export const positions: Rule[] = [
   [/^(?:position-|pos-)?(relative|absolute|fixed|sticky)$/, ([, v]) => ({ position: v })],
   [/^(?:position-|pos-)?(static)$/, ([, v]) => ({ position: v })],
@@ -17,9 +15,18 @@ export const justifies: Rule[] = [
   ['justify-around', { 'justify-content': 'space-around' }],
   ['justify-evenly', { 'justify-content': 'space-evenly' }],
 
-  // items, selfs
-  ...basicSet.map((i): Rule => [`justify-items-${i}`, { 'justify-items': i }]),
-  ...basicSet.map((i): Rule => [`justify-self-${i}`, { 'justify-self': i }]),
+  // items
+  ['justify-items-start', { 'justify-items': 'start' }],
+  ['justify-items-end', { 'justify-items': 'end' }],
+  ['justify-items-center', { 'justify-items': 'center' }],
+  ['justify-items-stretch', { 'justify-items': 'stretch' }],
+
+  // selfs
+  ['justify-self-auto', { 'justify-self': 'auto' }],
+  ['justify-self-start', { 'justify-self': 'start' }],
+  ['justify-self-end', { 'justify-self': 'end' }],
+  ['justify-self-center', { 'justify-self': 'center' }],
+  ['justify-self-stretch', { 'justify-self': 'stretch' }],
 ]
 
 export const orders: Rule[] = [
@@ -31,9 +38,9 @@ export const orders: Rule[] = [
 
 export const alignments: Rule[] = [
   // contents
+  ['content-center', { 'align-content': 'center' }],
   ['content-start', { 'align-content': 'flex-start' }],
   ['content-end', { 'align-content': 'flex-end' }],
-  ['content-center', { 'align-content': 'center' }],
   ['content-between', { 'align-content': 'space-between' }],
   ['content-around', { 'align-content': 'space-around' }],
   ['content-evenly', { 'align-content': 'space-evenly' }],
@@ -51,21 +58,31 @@ export const alignments: Rule[] = [
   ['self-end', { 'align-self': 'flex-end' }],
   ['self-center', { 'align-self': 'center' }],
   ['self-stretch', { 'align-self': 'stretch' }],
+  ['self-baseline', { 'align-self': 'baseline' }],
 ]
 
 export const placements: Rule[] = [
   // contents
+  ['place-content-center', { 'place-content': 'center' }],
   ['place-content-start', { 'place-content': 'start' }],
   ['place-content-end', { 'place-content': 'end' }],
-  ['place-content-center', { 'place-content': 'center' }],
   ['place-content-between', { 'place-content': 'space-between' }],
   ['place-content-around', { 'place-content': 'space-around' }],
   ['place-content-evenly', { 'place-content': 'space-evenly' }],
   ['place-content-stretch', { 'place-content': 'stretch' }],
 
-  // items, selfs
-  ...basicSet.map((i): Rule => [`place-items-${i}`, { 'place-items': i }]),
-  ...basicSet.map((i): Rule => [`place-self-${i}`, { 'place-self': i }]),
+  // items
+  ['place-items-start', { 'place-items': 'start' }],
+  ['place-items-end', { 'place-items': 'end' }],
+  ['place-items-center', { 'place-items': 'center' }],
+  ['place-items-stretch', { 'place-items': 'stretch' }],
+
+  // selfs
+  ['place-self-auto', { 'place-self': 'auto' }],
+  ['place-self-start', { 'place-self': 'start' }],
+  ['place-self-end', { 'place-self': 'end' }],
+  ['place-self-center', { 'place-self': 'center' }],
+  ['place-self-stretch', { 'place-self': 'stretch' }],
 ]
 
 function handleInsetValue(v: string): string | number | undefined {
