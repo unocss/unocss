@@ -227,6 +227,9 @@ exports[`preset-mini > targets 1`] = `
 .flex-\\\\[1_auto\\\\]{flex:1 auto;}
 .flex-\\\\[fit-content\\\\]{flex:fit-content;}
 .flex-\\\\[hi\\\\]{flex:hi;}
+.basis-auto{flex-basis:auto;}
+.flex-basis-0{flex-basis:0rem;}
+.flex-basis-1\\\\/2{flex-basis:50%;}
 .flex-row{flex-direction:row;}
 .flex-col-reverse{flex-direction:column-reverse;}
 .grid{display:grid;}
