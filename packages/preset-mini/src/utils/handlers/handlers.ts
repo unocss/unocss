@@ -115,6 +115,16 @@ export function time(str: string) {
     return unit ? `${round(num)}${unit}` : `${round(num)}ms`
 }
 
+export function degree(str: string) {
+  const match = str.match(/^(-?[0-9.]+)(deg)?$/i)
+  if (!match)
+    return
+  const [, n, unit] = match
+  const num = parseFloat(n)
+  if (!Number.isNaN(num))
+    return unit ? `${round(num)}${unit}` : `${round(num)}deg`
+}
+
 export function global(str: string) {
   if (['inherit', 'initial', 'revert', 'unset'].includes(str))
     return str
