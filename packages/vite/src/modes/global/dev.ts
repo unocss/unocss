@@ -1,12 +1,11 @@
 import type { Plugin, ViteDevServer, ResolvedConfig as ViteResolvedConfig } from 'vite'
 import type { UnocssPluginContext } from '../../../../plugins-common'
 import { LAYER_MARK_ALL, getPath, resolveId } from '../../../../plugins-common'
-import type { VitePluginConfig } from '../../types'
 import { READY_CALLBACK_DEFAULT } from './shared'
 
 const WARN_TIMEOUT = 2000
 
-export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter, ready }: UnocssPluginContext<VitePluginConfig>): Plugin[] {
+export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter }: UnocssPluginContext): Plugin[] {
   const servers: ViteDevServer[] = []
   let base = ''
   let frontEndUrl: string | undefined
@@ -27,16 +26,8 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
     else if (base.endsWith('/'))
       base = base.slice(0, base.length - 1)
 
-    const { config: { frontend } } = await ready
-    if (frontend) {
-      if (typeof frontend === 'object') {
-        frontEndUrl = `http${frontend.https ? 's' : ''}://${frontend.host}:${frontend.port}`
-      }
-      else {
-        const { host, port, https } = config.server
-        frontEndUrl = `http${https ? 's' : ''}://${host as string}:${port as number}`
-      }
-    }
+    const { host, port, https } = config.server
+    frontEndUrl = `http${https ? 's' : ''}://${host as string}:${port as number}`
   }
 
   function invalidate(timer = 10) {
@@ -151,9 +142,16 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
       enforce: 'post',
       async transform(code, id) {
         if (entries.has(getPath(id)) && code.includes('import.meta.hot')) {
-          return frontEndUrl
-            ? `${code}\nawait fetch("${frontEndUrl}${base}${READY_CALLBACK_DEFAULT}/${lastServed}", { mode: "no-cors" })`
-            : `${code}\nawait fetch("${base}${READY_CALLBACK_DEFAULT}/${lastServed}")`
+          return `${code}
+async function __fetch_unocss_ready() {
+  const { protocol: pt1, host: h1, port: p1 } = new URL("${frontEndUrl}");
+  const { protocol: pt2, host: h2, port: p2 } = document.location.href;
+  if (pt1 !== pt2 || h1 !== h2 || p1 !== p2)
+    await fetch("${frontEndUrl}${base}${READY_CALLBACK_DEFAULT}/${lastServed}", { mode: "no-cors" });
+  else
+    await fetch("${base}${READY_CALLBACK_DEFAULT}/${lastServed}");
+}
+await __fetch_unocss_ready();`
         }
       },
     },

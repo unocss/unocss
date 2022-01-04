@@ -1,22 +1,5 @@
 import type { UserConfig } from '@unocss/core'
 
-export type ServerConfig = {
-  /**
-   * Use `https`?.
-   *
-   * @default false
-   */
-  https: boolean
-  /**
-   * The host.
-   */
-  host: string
-  /**
-   * The port.
-   */
-  port: number
-}
-
 export interface VitePluginConfig<Theme extends {} = {}> extends UserConfig<Theme> {
   /**
    * Enable UnoCSS inspector
@@ -37,17 +20,4 @@ export interface VitePluginConfig<Theme extends {} = {}> extends UserConfig<Them
    * @default 'global'
    */
   mode?: 'global' | 'per-module' | 'vue-scoped' | 'dist-chunk' | 'shadow-dom'
-
-  /**
-   * Support for Vite application behind a frontend server.
-   *
-   * **WARNING**: this will work only with `mode: 'global'`.
-   *
-   * This allows the plugin to work for example with `PHP + Laravel + Inertia` doing request to the Vite server directly.
-   * You can enable it to use the Vite configuration or provide custom one.
-   * The plugin will emit a `fetch` chunk using `{ mode: 'no-cors' }` adding the `scheme`, `host` and `port` to the `fetch url`.
-   *
-   * @default false
-   */
-  frontend?: boolean | ServerConfig
 }
