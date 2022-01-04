@@ -423,7 +423,11 @@ exports[`preset-mini > targets 1`] = `
 .place-content-stretch{place-content:stretch;}
 .place-items-stretch{place-items:stretch;}
 .place-self-stretch{place-self:stretch;}
+.inset-\\\\[5px\\\\]{inset:5px;}
+.inset-0{inset:0rem;}
+.inset-5{inset:1.25rem;}
 .inset-x-5{left:1.25rem;right:1.25rem;}
+.inset-y-5{top:1.25rem;bottom:1.25rem;}
 .top-\\\\$top-height{top:var(--top-height);}
 .top-0{top:0rem;}
 .float-left{float:left;}
