@@ -6,13 +6,17 @@ import { handler as h } from '../utils'
 const rowCol = (s: string) => s.replace('col', 'column')
 
 const autoDirection = (selector: string, theme: Theme) => {
+  const v = theme.fontSize?.[selector]
+  if (v != null)
+    return toArray(v)[0]
+
   switch (selector) {
-    case 'auto': return 'auto'
     case 'min': return 'min-content'
     case 'max': return 'max-content'
     case 'fr': return 'minmax(0,1fr)'
   }
-  return toArray(theme.fontSize?.[selector] || h.bracket.auto.rem(selector))[0]
+
+  return h.bracket.auto.rem(selector)
 }
 
 export const grids: Rule[] = [
