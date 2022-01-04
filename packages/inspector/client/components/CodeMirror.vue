@@ -14,13 +14,12 @@ const modeMap: Record<string, string> = {
   html: 'htmlmixed',
   vue: 'htmlmixed',
   svelte: 'htmlmixed',
-  astro: 'htmlmixed',
   js: 'javascript',
   jsx: 'jsx',
   mjs: 'javascript',
   cjs: 'javascript',
   ts: 'typescript',
-  tsx: 'typescript-jsx',
+  tsx: 'jsx',
   mts: 'typescript',
 }
 
@@ -64,7 +63,6 @@ onMounted(async() => {
   <div
     relative
     font-mono
-    overflow-auto
     text-sm
   >
     <textarea ref="el" />
@@ -102,6 +100,9 @@ onMounted(async() => {
   --cm-decorator: #bd8f8f;
   --cm-regex: #ab5e3f;
   --cm-json-property: #698c96;
+  /* scrollbars colors */
+  --uni-ttc-c-thumb: #ddd;
+  --uni-ttc-c-track: white;
 }
 
 html.dark {
@@ -129,9 +130,56 @@ html.dark {
   --cm-line-number-gutter: #eeeeee;
   --cm-line-highlight-background: #444444;
   --cm-selection-background: #44444450;
+  /* scrollbars colors */
+  --uni-ttc-c-thumb: #666;
+  --uni-ttc-c-track: black;
 }
 
 .highlighted {
   border-bottom: 1px dashed currentColor;
+}
+.CodeMirror-scroll::-webkit-scrollbar,
+.scrolls::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.full-scrolls .CodeMirror .CodeMirror-scroll,
+.scrolls {
+  overflow: auto !important;
+  height: calc(100vh - 2px) !important;
+  scrollbar-width: thin;
+  scrollbar-color: var(--uni-ttc-c-thumb) var(--uni-ttc-c-track);
+}
+.scrolls-sidebar {
+  height: calc(100vh - 25px - 1.5rem - 65px - 1rem - 2px) !important;
+}
+.overview-scrolls .CodeMirror .CodeMirror-scroll {
+  /* TODO: make it responsive, overview headers can grow */
+  height: calc(100vh - 116px - 1rem - 61px - 1rem - 2px) !important;
+}
+.rpel-main-scrolls .CodeMirror .CodeMirror-scroll {
+  height: calc(100vh - 41px - 2.5rem) !important;
+}
+.CodeMirror-scroll::-webkit-scrollbar-track,
+.scrolls::-webkit-scrollbar-track {
+  background: var(--uni-ttc-c-track);
+}
+.CodeMirror-scroll::-webkit-scrollbar-thumb,
+.scrolls::-webkit-scrollbar-thumb {
+  background-color: var(--uni-ttc-c-thumb);
+  border-radius: 3px;
+  border: 2px solid var(--uni-ttc-c-thumb);
+}
+.CodeMirror {
+  overflow: unset !important;
+}
+.CodeMirror-vscrollbar,
+.CodeMirror-hscrollbar {
+  display: none !important;
+}
+.CodeMirror-scroll {
+  margin-bottom: unset !important;
+  margin-right: unset !important;
+  padding-bottom: unset !important;
 }
 </style>

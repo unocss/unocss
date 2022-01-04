@@ -5,9 +5,9 @@ overviewFetch.execute()
 </script>
 
 <template>
-  <div h-full grid="~ rows-[max-content_1fr]">
+  <div h-full>
     <StatusBar p0>
-      <div p4 grid="~ cols-4 gap-4">
+      <div p="x4 y2" grid="~ cols-4 gap-4">
         <div>
           <div op80>
             Presets
@@ -50,7 +50,7 @@ overviewFetch.execute()
           </div>
         </div>
       </div>
-      <div b="t main" p4 grid="~ cols-4 gap-4">
+      <div b="t main" p="x4 y2" grid="~ cols-4 gap-4">
         <div>
           <div op80>
             Included Files
@@ -80,10 +80,10 @@ overviewFetch.execute()
       </div>
     </StatusBar>
     <CodeMirror
-      h-full
       :model-value="overview?.css || '/* empty */'"
       :read-only="true"
       mode="css"
+      class="scrolls overview-scrolls"
     />
   </div>
 </template>
