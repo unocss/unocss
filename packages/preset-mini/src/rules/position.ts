@@ -86,7 +86,7 @@ export const placements: Rule[] = [
 ]
 
 function handleInsetValue(v: string): string | number | undefined {
-  return { auto: 'auto', full: '100%' }[v] ?? h.bracket.fraction.cssvar.auto.rem(v)
+  return { auto: 'auto', full: '100%', 0: 0 }[v] ?? h.bracket.fraction.cssvar.auto.rem(v)
 }
 
 function handleInsetValues([, d, v]: string[]): CSSEntries | undefined {
@@ -96,8 +96,9 @@ function handleInsetValues([, d, v]: string[]): CSSEntries | undefined {
 }
 
 export const insets: Rule[] = [
+  [/^(?:position-|pos-)?inset-()(.+)$/, ([, , v]) => ({ inset: handleInsetValue(v) })],
   [/^(?:position-|pos-)?inset-([xy])-(.+)$/, handleInsetValues],
-  [/^(?:position-|pos-)?(top|left|right|bottom|inset)-(.+)$/, ([, d, v]) => ({ [d]: handleInsetValue(v) })],
+  [/^(?:position-|pos-)?(top|left|right|bottom)-(.+)$/, ([, d, v]) => ({ [d]: handleInsetValue(v) })],
 ]
 
 export const floats: Rule[] = [
