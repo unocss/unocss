@@ -59,7 +59,7 @@ import { mixBlendModes } from './shadow'
 import { spaces } from './spacing'
 import { hyphens, isolations, objectPositions, screenReadersAccess, textTransforms, writingModes, writingOrientations } from './static'
 import { tables } from './table'
-import { accentColors, accentOpacity, caretColors, caretOpacity, imageRenderings, listStyle, overscrolls, scrollBehaviors } from './behaviors'
+import { accents, carets, imageRenderings, listStyle, overscrolls, scrollBehaviors } from './behaviors'
 import { animations } from './animation'
 import { cssVariables } from './variables'
 import { divides } from './divide'
@@ -129,16 +129,15 @@ export const rules: Rule[] = [
   textColors,
   textDecorations,
   fontSmoothings,
+  // TODO placeholders,
   tabSizes,
   textStrokes,
   textShadows,
   hyphens,
   writingModes,
   writingOrientations,
-  caretColors,
-  caretOpacity,
-  accentColors,
-  accentOpacity,
+  carets,
+  accents,
   opacity,
   mixBlendModes,
   boxShadows,

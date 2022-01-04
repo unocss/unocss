@@ -20,20 +20,14 @@ export const listStyle: Rule[] = [
   ['list-none', { 'list-style-type': 'none' }],
 ]
 
-export const accentOpacity: Rule[] = [
+export const accents: Rule[] = [
+  [/^accent-(.+)$/, colorResolver('accent-color', 'accent')],
   [/^accent-op(?:acity)?-?(.+)$/, ([, d]) => ({ '--un-accent-opacity': h.bracket.percent(d) })],
 ]
 
-export const accentColors: Rule[] = [
-  [/^accent-(.+)$/, colorResolver('accent-color', 'accent')],
-]
-
-export const caretOpacity: Rule[] = [
-  [/^caret-op(?:acity)?-?(.+)$/, ([, d]) => ({ '--un-caret-opacity': h.bracket.percent(d) })],
-]
-
-export const caretColors: Rule[] = [
+export const carets: Rule[] = [
   [/^caret-(.+)$/, colorResolver('caret-color', 'caret')],
+  [/^caret-op(?:acity)?-?(.+)$/, ([, d]) => ({ '--un-caret-opacity': h.bracket.percent(d) })],
 ]
 
 export const imageRenderings: Rule[] = [
