@@ -26,24 +26,28 @@ const transformBase = {
 }
 
 export const transforms: Rule[] = [
+  // base
   ['transform', transformBase],
-  [/^preserve-(3d|flat)$/, ([, value]) => ({ 'transform-style': value === '3d' ? `preserve-${value}` : value })],
-  [/^translate()-(.+)$/, handleTranslate],
-  [/^translate-([xyz])-(.+)$/, handleTranslate],
-  [/^scale()-(.+)$/, handleScale],
-  [/^scale-([xyz])-(.+)$/, handleScale],
-  [/^rotate-(.+)$/, handleRotate],
-  [/^rotate-((?!\[)[^-]+?)(?:deg)?$/, handleRotateWithUnit],
-  [/^skew-([xy])-(.+)$/, handleSkew],
-  [/^skew-([xy])-((?!\[)[^-]+?)(?:deg)?$/, handleSkewWithUnit],
 
+  // origins
+  // skip 1 & 2 letters shortcut
+  [/^origin-([-\w]{3,})$/, ([, s]) => ({ 'transform-origin': positionMap[s] })],
+
+  // modifiers
+  [/^translate-()(.+)$/, handleTranslate],
+  [/^translate-([xyz])-(.+)$/, handleTranslate],
+  [/^rotate-(.+)$/, handleRotate],
+  [/^skew-()(.+)$/, handleSkew],
+  [/^skew-([xy])-(.+)$/, handleSkew],
+  [/^scale-()(.+)$/, handleScale],
+  [/^scale-([xyz])-(.+)$/, handleScale],
+
+  // style
+  ['preserve-3d', { 'transform-style': 'preserve-3d' }],
+  ['preserve-flat', { 'transform-style': 'flat' }],
   ['transform-gpu', transformGpu],
   ['transform-cpu', transformCpu],
   ['transform-none', { transform: 'none' }],
-
-  // transform origins
-  // skip 1 & 2 letters shortcut
-  [/^origin-([-\w]{3,})$/, ([, s]) => ({ 'transform-origin': positionMap[s] })],
 ]
 
 function handleTranslate([, d, b]: string[]): CSSValues | undefined {
@@ -66,18 +70,8 @@ function handleScale([, d, b]: string[]): CSSValues | undefined {
   }
 }
 
-function handleRotateWithUnit([, b]: string[]): CSSValues | undefined {
-  const v = h.bracket.number(b)
-  if (v != null) {
-    return [
-      transformBase,
-      { '--un-rotate': `${v}deg` },
-    ]
-  }
-}
-
 function handleRotate([, b]: string[]): CSSValues | undefined {
-  const v = h.bracket(b)
+  const v = h.bracket.degree(b)
   if (v != null) {
     return [
       transformBase,
@@ -86,18 +80,8 @@ function handleRotate([, b]: string[]): CSSValues | undefined {
   }
 }
 
-function handleSkewWithUnit([, d, b]: string[]): CSSValues | undefined {
-  const v = h.bracket.number(b)
-  if (v != null) {
-    return [
-      transformBase,
-      { [`--un-skew-${d}`]: `${v}deg` },
-    ]
-  }
-}
-
 function handleSkew([, d, b]: string[]): CSSValues | undefined {
-  const v = h.bracket(b)
+  const v = h.bracket.degree(b)
   if (v != null) {
     return [
       transformBase,
