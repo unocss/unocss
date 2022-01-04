@@ -3,7 +3,7 @@ import { moduleTree } from '../composables/fetch'
 </script>
 
 <template>
-  <div>
+  <div h-full>
     <div b="r main" of-hidden>
       <NarBar />
       <div
