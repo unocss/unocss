@@ -69,7 +69,7 @@
     "unplugin-vue-components": "^0.17.11",
     "vite": "^2.7.10",
     "vite-node": "^0.1.11",
-    "vite-plugin-inspect": "^0.3.12",
+    "vite-plugin-inspect": "^0.3.13",
     "vite-plugin-pages": "^0.19.8",
     "vitest": "^0.0.126",
     "vue": "^3.2.26",

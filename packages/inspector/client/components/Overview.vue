@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { info, overview, overviewFetch } from '../composables/fetch'
+import { useScrollStyle } from '../composables/useScrollStyle'
+
+const status = ref(null)
+const style = useScrollStyle(status, 'overview-scrolls')
 
 overviewFetch.execute()
 </script>
 
 <template>
   <div h-full>
-    <StatusBar p0>
+    <StatusBar ref="status" p0>
       <div p="x4 y2" grid="~ cols-4 gap-4">
         <div>
           <div op80>
@@ -84,6 +88,7 @@ overviewFetch.execute()
       :read-only="true"
       mode="css"
       class="scrolls overview-scrolls"
+      :style="style"
     />
   </div>
 </template>

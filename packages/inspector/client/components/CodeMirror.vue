@@ -154,11 +154,16 @@ html.dark {
   height: calc(100vh - 25px - 1.5rem - 65px - 1rem - 2px) !important;
 }
 .overview-scrolls .CodeMirror .CodeMirror-scroll {
-  /* TODO: make it responsive, overview headers can grow */
-  height: calc(100vh - 116px - 1rem - 61px - 1rem - 2px) !important;
+  --use-overview-scrolls: var(--overview-scrolls, calc(100vh - 116px - 1rem - 61px - 1rem - 2px));
+  height: var(--use-overview-scrolls) !important;
 }
-.rpel-main-scrolls .CodeMirror .CodeMirror-scroll {
-  height: calc(100vh - 41px - 2.5rem) !important;
+.module-scrolls .CodeMirror .CodeMirror-scroll {
+  --use-module-scrolls: var(--module-scrolls, calc(100vh - 41px - 2.5rem));
+  height: var(--use-module-scrolls) !important;
+}
+.rpel-scrolls .CodeMirror .CodeMirror-scroll {
+  --use-rpel-scrolls: var(--rpel-scrolls, calc(100vh - 41px - 2.5rem));
+  height: var(--use-rpel-scrolls) !important;
 }
 .CodeMirror-scroll::-webkit-scrollbar-track,
 .scrolls::-webkit-scrollbar-track {
@@ -169,6 +174,10 @@ html.dark {
   background-color: var(--uni-ttc-c-thumb);
   border-radius: 3px;
   border: 2px solid var(--uni-ttc-c-thumb);
+}
+.CodeMirror-scroll::-webkit-scrollbar-corner,
+.scrolls::-webkit-scrollbar-corner {
+  background-color: var(--uni-ttc-c-track);
 }
 .CodeMirror {
   overflow: unset !important;

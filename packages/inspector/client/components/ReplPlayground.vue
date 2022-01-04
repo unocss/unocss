@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import { fetchRepl } from '../composables/fetch'
+import { useScrollStyle } from '../composables/useScrollStyle'
+
+const status = ref(null)
+const style = useScrollStyle(status, 'rpel-scrolls')
 
 const input = useStorage(
   'unocss:inspector:repl',
@@ -11,7 +15,7 @@ const { data: result } = fetchRepl(input)
 
 <template>
   <div h-full grid="~ rows-[max-content_1fr]" of-hidden>
-    <StatusBar>
+    <StatusBar ref="status">
       <div>
         REPL Playground
       </div>
@@ -19,11 +23,13 @@ const { data: result } = fetchRepl(input)
         Edit your code below to test and play UnoCSS's matching and generating.
       </div>
     </StatusBar>
-    <div h-full of-hidden grid grid-cols-2 class="scrolls rpel-main-scrolls">
+    <div h-full of-hidden grid grid-cols-2>
       <CodeMirror
         v-model="input"
         mode="html"
         :matched="result?.matched || []"
+        class="scrolls rpel-scrolls"
+        :style="style"
       />
       <CodeMirror
         b-l
@@ -31,6 +37,8 @@ const { data: result } = fetchRepl(input)
         :model-value="result?.css || '/* empty */'"
         :read-only="true"
         mode="css"
+        class="scrolls rpel-scrolls"
+        :style="style"
       />
     </div>
   </div>
