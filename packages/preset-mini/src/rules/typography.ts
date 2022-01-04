@@ -51,7 +51,7 @@ export const fonts: Rule<Theme>[] = [
 ]
 
 export const tabSizes: Rule<Theme>[] = [
-  [/^tab-?([^-]*)$/, ([, s]) => {
+  [/^tab(?:-([^-]+))?$/, ([, s]) => {
     const v = h.bracket.global.number(s || '4')
     if (v != null) {
       return {

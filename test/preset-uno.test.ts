@@ -27,6 +27,12 @@ const nonTargets = [
   'will-change-margins,padding',
   'will-change-padding,margins',
 
+  // mini - ring
+  'ring-',
+
+  // mini - shadow
+  'shadow-',
+
   // mini - transition
   'property-colour',
   'property-background-color,colour-300',
@@ -35,6 +41,9 @@ const nonTargets = [
   'transition-colour',
   'transition-background-color,colour-300',
   'transition-colour,background-color-300',
+
+  // mini - typography
+  'tab-',
 ]
 
 const uno = createGenerator({

@@ -5,7 +5,7 @@ import { varEmpty } from './static'
 
 export const rings: Rule<Theme>[] = [
   // size
-  [/^ring-?(.*)$/, ([, d]) => {
+  [/^ring(?:-(.+))?$/, ([, d]) => {
     const value = h.px(d || '1')
     if (value) {
       return {
