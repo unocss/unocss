@@ -1,6 +1,6 @@
 import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, RawUtil, ResolvedConfig, RuleContext, RuleMeta, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
-import { TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, normalizeCSSEntries, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
+import { CONTROL_SHORTCUT_NO_MERGE, TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, normalizeCSSEntries, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
 
 export class UnoGenerator {
@@ -162,6 +162,7 @@ export class UnoGenerator {
             .filter(i => (i[4]?.layer || 'default') === layer)
             .sort((a, b) => a[0] - b[0] || a[1]?.localeCompare(b[1] || '') || 0)
             .map(a => [a[1] ? applyScope(a[1], scope) : a[1], a[2]])
+            .map(a => [a[0] == null ? a[0] : [a[0]], a[1]]) as [string[] | undefined, string][]
           if (!sorted.length)
             return undefined
           const rules = sorted
@@ -172,13 +173,13 @@ export class UnoGenerator {
                 for (let i = idx + 1; i < size; i++) {
                   const current = sorted[i]
                   if (current && current[0] && current[1] === body) {
-                    current[0] = `${current[0]},${nl}${selector}`
+                    current[0].push(...selector)
                     return null
                   }
                 }
               }
               return selector
-                ? `${selector}{${body}}`
+                ? `${[...new Set(selector)].join(`,${nl}`)}{${body}}`
                 : body
             })
             .filter(Boolean)
@@ -399,7 +400,7 @@ export class UnoGenerator {
     expanded: string[],
     meta: RuleMeta = { layer: this.config.shortcutsLayer },
   ): Promise<StringifiedUtil[] | undefined> {
-    const selectorMap = new TwoKeyMap<string, string | undefined, [CSSEntries, number]>()
+    const selectorMap = new TwoKeyMap<string, string | undefined, [CSSEntries[], number]>()
 
     const parsed = (
       await Promise.all(uniq(expanded)
@@ -423,20 +424,21 @@ export class UnoGenerator {
       // find existing selector/mediaQuery pair and merge
       const mapItem = selectorMap.getFallback(selector, parent, [[], item[0]])
       // append entries
-      mapItem[0].push(...entries)
-
-      // if there is a rule have higher index, update the index
-      if (item[0] > mapItem[1])
-        mapItem[1] = item[0]
+      mapItem[0].push(entries)
     }
 
     return selectorMap
-      .map(([entries, index], selector, mediaQuery): StringifiedUtil | undefined => {
-        const body = entriesToCss(entries)
-        if (body)
-          return [index, selector, body, mediaQuery, meta]
-        return undefined
+      .map(([e, index], selector, mediaQuery) => {
+        const split = e.filter(entries => entries.some(entry => entry[0] === CONTROL_SHORTCUT_NO_MERGE))
+        const rest = e.filter(entries => entries.every(entry => entry[0] !== CONTROL_SHORTCUT_NO_MERGE))
+        return [...split, rest.flat(1)].map((entries): StringifiedUtil | undefined => {
+          const body = entriesToCss(entries)
+          if (body)
+            return [index, selector, body, mediaQuery, meta]
+          return undefined
+        })
       })
+      .flat(1)
       .filter(Boolean) as StringifiedUtil[]
   }
 
