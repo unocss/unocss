@@ -1,6 +1,10 @@
 import type { Rule } from '@unocss/core'
 import { positionMap } from '@unocss/preset-mini/utils'
 
+export const contents: Rule[] = [
+  ['content-none', { content: '""' }],
+]
+
 export const textTransforms: Rule[] = [
   // tailwind compact
   ['uppercase', { 'text-transform': 'uppercase' }],

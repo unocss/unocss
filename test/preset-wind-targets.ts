@@ -208,6 +208,7 @@ export const presetWindiTargets: string[] = [
   'object-center',
   'object-ct',
   'object-cb',
+  'content-none',
 
   // tables
   'border-collapse',

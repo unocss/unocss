@@ -290,6 +290,7 @@ exports[`preset-wind > targets 1`] = `
 .sepia-80{--un-sepia:sepia(0.8);}
 .filter-none{filter:none;}
 .backdrop-filter-none{-webkit-backdrop-filter:none;backdrop-filter:none;}
+.content-none{content:\\"\\";}
 @media (prefers-color-scheme: dark){
 .\\\\@dark\\\\:text-xl{font-size:1.25rem;line-height:1.75rem;}
 }"

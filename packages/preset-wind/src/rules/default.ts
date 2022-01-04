@@ -8,7 +8,6 @@ import {
   borders,
   boxShadows,
   boxSizing,
-  contents,
   cursors,
   displays,
   flex,
@@ -21,6 +20,7 @@ import {
   insets,
   justifies,
   margins,
+  contents as miniContent,
   cssVariables as miniCssVariables,
   opacity,
   orders,
@@ -57,7 +57,7 @@ import { backgroundStyles } from './background'
 import { filters } from './filters'
 import { mixBlendModes } from './shadow'
 import { spaces } from './spacing'
-import { hyphens, isolations, objectPositions, screenReadersAccess, textTransforms, writingModes, writingOrientations } from './static'
+import { contents, hyphens, isolations, objectPositions, screenReadersAccess, textTransforms, writingModes, writingOrientations } from './static'
 import { tables } from './table'
 import { accentColors, accentOpacity, caretColors, caretOpacity, imageRenderings, listStyle, overscrolls, scrollBehaviors } from './behaviors'
 import { animations } from './animation'
@@ -148,6 +148,7 @@ export const rules: Rule[] = [
   filters,
   transitions,
   willChange,
+  miniContent,
   contents,
 
   // should be the last
