@@ -1,18 +1,17 @@
 import type { CSSEntries, Rule } from '@unocss/core'
 import { colorResolver, directionMap, handler as h } from '@unocss/preset-mini/utils'
 
-export const divideColors: Rule[] = [
-  [/^divide-(.+)$/, colorResolver('border-color', 'divide')],
-  [/^divide-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-divide-opacity': h.bracket.percent(opacity) })],
-]
-
-export const divideSizes: Rule[] = [
+export const divides: Rule[] = [
+  // divides
   [/^divide-?([xy])$/, handlerDivide],
   [/^divide-?([xy])-?(-?.+)$/, handlerDivide],
-  [/^divide-?([xy])-reverse$/, ([, d]) => [[`--un-divide-${d}-reverse`, 1]]],
-]
+  [/^divide-?([xy])-reverse$/, ([, d]) => ({ [`--un-divide-${d}-reverse`]: 1 })],
 
-export const divideStyles: Rule[] = [
+  // color & opacity
+  [/^divide-(.+)$/, colorResolver('border-color', 'divide')],
+  [/^divide-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-divide-opacity': h.bracket.percent(opacity) })],
+
+  // styles
   ['divide-solid', { 'border-style': 'solid' }],
   ['divide-dashed', { 'border-style': 'dashed' }],
   ['divide-dotted', { 'border-style': 'dotted' }],
@@ -20,12 +19,8 @@ export const divideStyles: Rule[] = [
   ['divide-none', { 'border-style': 'none' }],
 ]
 
-export const divides = [divideSizes, divideColors, divideStyles].flat(1)
-
-function handlerDivide([, a, b]: string[]): CSSEntries | undefined {
-  const [d, s = '1'] = directionMap[a] ? [a, b] : ['', a]
+function handlerDivide([, d, s = '1']: string[]): CSSEntries | undefined {
   const v = h.bracket.px(s)
-
   if (v != null) {
     const results = directionMap[d].map((item): [string, string] => {
       const key = `border${item}-width`
