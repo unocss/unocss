@@ -281,6 +281,14 @@ exports[`preset-mini > targets 1`] = `
 .flex-\\\\[1_auto\\\\]{flex:1 auto;}
 .flex-\\\\[fit-content\\\\]{flex:fit-content;}
 .flex-\\\\[hi\\\\]{flex:hi;}
+.flex-shrink,
+.shrink{flex-shrink:1;}
+.flex-shrink-0,
+.shrink-0{flex-shrink:0;}
+.flex-grow,
+.grow{flex-grow:1;}
+.flex-grow-0,
+.grow-0{flex-grow:0;}
 .basis-auto{flex-basis:auto;}
 .flex-basis-0{flex-basis:0rem;}
 .flex-basis-1\\\\/2{flex-basis:50%;}

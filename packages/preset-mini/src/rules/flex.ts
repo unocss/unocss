@@ -15,10 +15,10 @@ export const flex: Rule[] = [
   [/^flex-(\[.+\])$/, ([, d]) => ({ flex: h.bracket(d)!.replace(/\d+\/\d+/, $1 => h.fraction($1)!) })],
 
   // shrink/grow/basis
-  ['flex-shrink', { 'flex-shrink': 1 }],
-  ['flex-shrink-0', { 'flex-shrink': 0 }],
-  ['flex-grow', { 'flex-grow': 1 }],
-  ['flex-grow-0', { 'flex-grow': 0 }],
+  [/^(?:flex-)?shrink$/, () => ({ 'flex-shrink': 1 })],
+  [/^(?:flex-)?shrink-0$/, () => ({ 'flex-shrink': 0 })],
+  [/^(?:flex-)?grow$/, () => ({ 'flex-grow': 1 })],
+  [/^(?:flex-)?grow-0$/, () => ({ 'flex-grow': 0 })],
   [/^(?:flex-)?basis-(.+)$/, ([, d]) => ({ 'flex-basis': h.bracket.fraction.auto.rem(d) })],
 
   // directions
