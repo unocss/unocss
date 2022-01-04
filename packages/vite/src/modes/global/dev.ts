@@ -140,7 +140,7 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
         return env.command === 'serve' && !config.build?.ssr
       },
       enforce: 'post',
-      async transform(code, id) {
+      transform(code, id) {
         if (entries.has(getPath(id)) && code.includes('import.meta.hot')) {
           return `${code}
 async function __fetch_unocss_ready() {
