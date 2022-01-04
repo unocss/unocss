@@ -3,6 +3,7 @@ import type { Rule } from '@unocss/core'
 const overflowValues = [
   'auto',
   'hidden',
+  'clip',
   'visible',
   'scroll',
 ]

@@ -53,7 +53,7 @@ export const contents: Rule[] = [
 
 export const breaks: Rule[] = [
   ['break-normal', { 'overflow-wrap': 'normal', 'word-break': 'normal' }],
-  ['break-word', { 'overflow-wrap': 'break-word' }],
+  ['break-words', { 'overflow-wrap': 'break-word' }],
   ['break-all', { 'word-break': 'break-all' }],
 ]
 
