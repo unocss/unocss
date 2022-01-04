@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import attributifyPreset from '@unocss/preset-attributify'
 import { fetchModule } from '../composables/fetch'
+import { useScrollStyle } from '../composables/useScrollStyle'
 
 const props = defineProps<{ id: string }>()
 const { data: mod } = fetchModule(toRef(props, 'id'))
 const mode = props.id.split(/\./g).pop()
+const status = ref(null)
+const style = useScrollStyle(status, 'module-scrolls')
 
 function openEditor() {
   fetch(`/__open-in-editor?file=${encodeURIComponent(props.id)}`)
@@ -28,7 +31,7 @@ const unmatchedClasses = asyncComputed(async() => {
 
 <template>
   <div v-if="mod" h-full of-hidden>
-    <StatusBar grid="~ cols-3 gap-4">
+    <StatusBar ref="status" grid="~ cols-3 gap-4">
       <div>
         <div op50>
           Module
@@ -66,7 +69,8 @@ const unmatchedClasses = asyncComputed(async() => {
         :read-only="true"
         :mode="mode"
         :matched="mod.matched"
-        class="module-scrolls"
+        class="scrolls module-scrolls"
+        :style="style"
       />
       <CodeMirror
         h-full
@@ -74,7 +78,8 @@ const unmatchedClasses = asyncComputed(async() => {
         :model-value="mod.css"
         :read-only="true"
         mode="css"
-        class="module-scrolls"
+        class="scrolls module-scrolls"
+        :style="style"
       />
     </div>
   </div>
