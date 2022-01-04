@@ -3,11 +3,12 @@ import type { Theme } from '@unocss/preset-mini'
 import { handler as h, parseColor } from '@unocss/preset-mini/utils'
 
 export const variantPseudoPlaceholder: VariantFunction = (input: string, { theme }) => {
-  const match = input.match(/^placeholder-(.+?)$/)
-  if (match) {
-    if (hasColorValue(match[1], theme) || hasOpacityValue(match[1])) {
+  const m = input.match(/^(.*)\b(placeholder-)(.+?)$/)
+  if (m) {
+    const [, pre = '', p, body] = m
+    if (hasColorValue(body, theme) || hasOpacityValue(body)) {
       return {
-        matcher: input.replace(/-/, '-$-placeholder-'),
+        matcher: `${pre}${p}$-placeholder-${body}`,
       }
     }
   }
@@ -19,7 +20,7 @@ function hasColorValue(body: string, theme: Theme) {
 
 function hasOpacityValue(body: string) {
   const match = body.match(/^op(?:acity)?-?(.+)$/)
-  if (match[1] != null)
+  if (match && match[1] != null)
     return h.bracket.percent.cssvar(match[1]) != null
   return false
 }

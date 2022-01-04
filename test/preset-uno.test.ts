@@ -13,6 +13,10 @@ const targets = [
   'placeholder-inherit',
   'placeholder-opacity-10',
   'placeholder-op90',
+
+  // mini + wind - placeholder
+  'focus:placeholder-red-300',
+  'hover:placeholder-op90',
 ]
 
 const nonTargets = [
