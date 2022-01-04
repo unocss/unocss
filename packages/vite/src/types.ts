@@ -39,7 +39,7 @@ export interface VitePluginConfig<Theme extends {} = {}> extends UserConfig<Them
   mode?: 'global' | 'per-module' | 'vue-scoped' | 'dist-chunk' | 'shadow-dom'
 
   /**
-   * Front end where the Vite application is behind.
+   * Support for Vite application behind a frontend server.
    *
    * **WARNING**: this will work only with `mode: 'global'`.
    *
