@@ -215,7 +215,7 @@ export const presetMiniTargets: string[] = [
   'row-span-full',
   'row-end-1',
   'row-start-full',
-  'auto-flow-cols-dense',
+  'auto-flow-col-dense',
   'grid-cols-minmax-1rem',
   'grid-rows-minmax-100px',
 
