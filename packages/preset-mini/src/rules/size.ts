@@ -8,39 +8,41 @@ function getPropName(minmax: string, hw: string) {
 
 type SizeProps = 'width' | 'height' | 'maxWidth' | 'maxHeight' | 'minWidth' | 'minHeight'
 
-function getThemeValue(minmax: string, hw: string, theme: Theme, prop: string) {
+function getSizeValue(minmax: string, hw: string, theme: Theme, prop: string) {
   let str: SizeProps = `${hw === 'h' ? 'height' : 'width'}`
   if (minmax)
     str = `${minmax as 'min' | 'max'}${capitalize(str)}`
-  return theme[str]?.[prop]
+  const v = theme[str]?.[prop]
+  if (v != null)
+    return v
+
+  switch (prop) {
+    case 'fit':
+    case 'max':
+    case 'min':
+      return `${prop}-content`
+  }
+
+  return h.bracket.cssvar.fraction.auto.rem(prop)
 }
 
 export const sizes: Rule<Theme>[] = [
-  [/^(?:(min|max)-)?(w|h)-(.+)$/, ([, m, w, s], { theme }) => {
-    const v = getThemeValue(m, w, theme, s) || h.bracket.cssvar.fraction.auto.rem(s)
-    if (v != null)
-      return { [getPropName(m, w)]: v }
-  }],
-  [/^(?:(min|max)-)?(w)-screen-(.+)$/, ([, m, w, s], { theme }) => {
-    const v = theme.breakpoints?.[s]
-    if (v != null)
-      return { [getPropName(m, w)]: v }
-  }],
+  [/^(?:(min|max)-)?(w|h)-(.+)$/, ([, m, w, s], { theme }) => ({ [getPropName(m, w)]: getSizeValue(m, w, theme, s) })],
+  [/^(?:(min|max)-)?(w)-screen-(.+)$/, ([, m, w, s], { theme }) => ({ [getPropName(m, w)]: theme.breakpoints?.[s] })],
 ]
 
+function getAspectRatio(prop: string) {
+  if (/^\d+\/\d+$/.test(prop))
+    return prop
+
+  switch (prop) {
+    case 'square': return '1/1'
+    case 'video': return '16/9'
+  }
+
+  return h.bracket.cssvar.auto.number(prop)
+}
+
 export const aspectRatio: Rule[] = [
-  [/^aspect-(?:ratio-)?(.+)$/, ([, d]: string[]) => {
-    if (/^\d+\/\d+$/.test(d))
-      return { 'aspect-ratio': d }
-
-    const v = {
-      auto: 'auto',
-      square: '1/1',
-      video: '16/9',
-    }[d]
-    if (v != null)
-      return { 'aspect-ratio': v }
-
-    return { 'aspect-ratio': h.bracket.cssvar.number(d) }
-  }],
+  [/^aspect-(?:ratio-)?(.+)$/, ([, d]: string[]) => ({ 'aspect-ratio': getAspectRatio(d) })],
 ]
