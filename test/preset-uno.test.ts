@@ -27,6 +27,14 @@ const nonTargets = [
   'will-change-margins,padding',
   'will-change-padding,margins',
 
+  // mini - filters
+  'brightness',
+  'hue-rotate',
+  'saturate',
+  'backdrop-brightness',
+  'backdrop-hue-rotate',
+  'backdrop-saturate',
+
   // mini - ring
   'ring-',
 
