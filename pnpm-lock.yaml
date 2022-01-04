@@ -56,7 +56,7 @@ importers:
       unplugin-vue-components: ^0.17.11
       vite: ^2.7.10
       vite-node: ^0.1.11
-      vite-plugin-inspect: ^0.3.12
+      vite-plugin-inspect: ^0.3.13
       vite-plugin-pages: ^0.19.8
       vitest: ^0.0.126
       vue: ^3.2.26
@@ -114,7 +114,7 @@ importers:
       unplugin-vue-components: 0.17.11_95e0d1fabfe6a3bc972c7b440477cc9b
       vite: 2.7.10
       vite-node: 0.1.11
-      vite-plugin-inspect: 0.3.12_vite@2.7.10
+      vite-plugin-inspect: 0.3.13_vite@2.7.10
       vite-plugin-pages: 0.19.8_vite@2.7.10
       vitest: 0.0.126
       vue: 3.2.26
@@ -5049,8 +5049,8 @@ packages:
       - supports-color
     dev: true
 
-  /vite-plugin-inspect/0.3.12_vite@2.7.10:
-    resolution: {integrity: sha512-Qs3MLpHlrkC7f1CYDo4BiIOS2q6/svsmbIKwQdOHVRhHieVb2RUcvKcXrZ3GOVV986OoDc7zQWvFhwrKOCQLbw==}
+  /vite-plugin-inspect/0.3.13_vite@2.7.10:
+    resolution: {integrity: sha512-Naie3Rx/0IbmQSknfQPVrvWKiar7fCu50u+uLcUgt54yX0espduLDnI8IEtOYlsCA4gHs93IYKtxFDTxAThmYw==}
     engines: {node: '>=14'}
     peerDependencies:
       vite: ^2.0.0
