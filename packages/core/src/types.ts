@@ -70,10 +70,6 @@ export interface RuleContext<Theme extends {} = {}> {
    * Variants and selector escaping will be handled automatically.
    */
   constructCSS: (body: CSSEntries | CSSObject, overrideSelector?: string) => string
-  /**
-   * User-provided options from preset.
-   */
-  readonly options: PresetOptions
 }
 
 export interface VariantContext<Theme extends {} = {}> {
@@ -89,17 +85,12 @@ export interface VariantContext<Theme extends {} = {}> {
    * The theme object
    */
   theme: Theme
-  /**
-   * User-provided options from preset.
-   */
-  readonly options: PresetOptions
 }
 
 export interface ExtractorContext {
   readonly original: string
   code: string
   id?: string
-  readonly options: PresetOptions
 }
 
 export interface Extractor {
@@ -347,7 +338,6 @@ RequiredByKey<UserConfig, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'l
   rulesSize: number
   rulesDynamic: (DynamicRule|undefined)[]
   rulesStaticMap: Record<string, [number, CSSObject | CSSEntries, RuleMeta | undefined] | undefined>
-  options: PresetOptions
 }
 
 export interface GenerateResult {
