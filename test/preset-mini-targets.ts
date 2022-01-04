@@ -1,6 +1,7 @@
 export const presetMiniTargets: string[] = [
   // align
   'vertical-baseline',
+  'vertical-super',
   'align-text-bottom',
   'v-top',
   'v-mid',
@@ -9,6 +10,7 @@ export const presetMiniTargets: string[] = [
   // behaviors
   'outline-none',
   'outline',
+  'outline-hidden',
   'outline-gray',
   'outline-gray-400',
   'outline-size-4',
@@ -30,6 +32,7 @@ export const presetMiniTargets: string[] = [
   'will-change-padding,margin',
   'will-change-transform',
   'will-change-unset',
+  'will-change-auto',
 
   // border
   'b-2',
@@ -212,7 +215,7 @@ export const presetMiniTargets: string[] = [
   'row-span-full',
   'row-end-1',
   'row-start-full',
-  'auto-flow-cols-dense',
+  'auto-flow-col-dense',
   'grid-cols-minmax-1rem',
   'grid-rows-minmax-100px',
 
@@ -220,6 +223,7 @@ export const presetMiniTargets: string[] = [
   'of-y-visible',
   'overflow-auto',
   'overflow-x-scroll',
+  'overflow-y-clip',
 
   // position
   'static',
@@ -245,6 +249,10 @@ export const presetMiniTargets: string[] = [
   'top-0',
   'top-$top-height',
   'inset-x-5',
+  'inset-y-5',
+  'inset-0',
+  'inset-5',
+  'inset-[5px]',
   'float-left',
   'float-none',
   'clear-both',
@@ -359,6 +367,7 @@ export const presetMiniTargets: string[] = [
   'ws-nowrap',
   'content-empty',
   'break-normal',
+  'break-words',
   'text-clip',
   'case-upper', // !
   'case-normal', // !

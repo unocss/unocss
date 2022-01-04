@@ -2,10 +2,11 @@ import type { CSSObject, Rule } from '@unocss/core'
 import { colorResolver, handler as h } from '../utils'
 
 export const textDecorations: Rule[] = [
-  ['underline', { 'text-decoration': 'underline' }],
-  ['line-through', { 'text-decoration': 'line-through' }],
-  ['decoration-underline', { 'text-decoration': 'underline' }],
-  ['decoration-line-through', { 'text-decoration': 'line-through' }],
+  ['underline', { 'text-decoration-line': 'underline' }],
+  ['overline', { 'text-decoration-line': 'overline' }],
+  ['line-through', { 'text-decoration-line': 'line-through' }],
+  ['decoration-underline', { 'text-decoration-line': 'underline' }],
+  ['decoration-line-through', { 'text-decoration-line': 'line-through' }],
 
   // size
   [/^(?:underline|decoration)-(?:size-)?(.+)$/, ([, s]) => ({ 'text-decoration-thickness': h.bracket.px(s) })],

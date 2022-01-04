@@ -13,7 +13,7 @@ export const outline: Rule[] = [
 
   // style
   ['outline', { 'outline-style': 'solid' }],
-  [/^outline-(auto|dotted|dashed|solid|double|groove|ridge|inset|outset|inherit|initial|revert|unset)$/, ([, c]) => ({ 'outline-style': c })],
+  [/^outline-(auto|dashed|dotted|double|hidden|solid|groove|ridge|inset|outset|inherit|initial|revert|unset)$/, ([, c]) => ({ 'outline-style': c })],
   ['outline-none', { 'outline': '2px solid transparent', 'outline-offset': '2px' }],
 ]
 
@@ -25,5 +25,5 @@ export const appearance: Rule[] = [
 ]
 
 export const willChange: Rule[] = [
-  [/^will-change-(.+)/, ([, p]) => ({ 'will-change': h.properties.global(p) })],
+  [/^will-change-(.+)/, ([, p]) => ({ 'will-change': h.properties.auto.global(p) })],
 ]

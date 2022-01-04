@@ -7,7 +7,7 @@ const verticalAlignAlias: Record<string, string> = {
 }
 
 export const verticalAligns: Rule[] = [
-  [/^(?:vertical|align|v)-(baseline|top|bottom|middle|text-top|text-bottom|mid|base|btm)$/, ([, v]) => ({ 'vertical-align': verticalAlignAlias[v] || v })],
+  [/^(?:vertical|align|v)-(baseline|top|middle|bottom|text-top|text-bottom|sub|super|mid|base|btm)$/, ([, v]) => ({ 'vertical-align': verticalAlignAlias[v] || v })],
 ]
 
 export const textAligns: Rule[] = [

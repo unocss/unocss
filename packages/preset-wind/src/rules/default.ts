@@ -55,9 +55,8 @@ import {
 import { container } from './container'
 import { backgroundStyles } from './background'
 import { filters } from './filters'
-import { mixBlendModes } from './shadow'
 import { spaces } from './spacing'
-import { hyphens, isolations, objectPositions, screenReadersAccess, textTransforms, writingModes, writingOrientations } from './static'
+import { backgroundBlendModes, hyphens, isolations, mixBlendModes, objectPositions, screenReadersAccess, textTransforms, writingModes, writingOrientations } from './static'
 import { tables } from './table'
 import { accentColors, accentOpacity, caretColors, caretOpacity, imageRenderings, listStyle, overscrolls, scrollBehaviors } from './behaviors'
 import { animations } from './animation'
@@ -140,6 +139,7 @@ export const rules: Rule[] = [
   accentColors,
   accentOpacity,
   opacity,
+  backgroundBlendModes,
   mixBlendModes,
   boxShadows,
   outline,

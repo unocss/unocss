@@ -139,9 +139,6 @@ exports[`preset-wind > targets 1`] = `
 .overscroll-none{overscroll-behavior:none;}
 .overscroll-x-auto{overscroll-behavior-x:auto;}
 .scroll-auto{scroll-behavior:auto;}
-.bg-blend-color-burn{background-blend-mode:color-burn;}
-.bg-blend-luminosity{background-blend-mode:luminosity;}
-.bg-blend-normal{background-blend-mode:normal;}
 .bg-gradient-from-current,
 .from-current{--un-gradient-from:currentColor;--un-gradient-stops:var(--un-gradient-from), var(--un-gradient-to, rgba(255, 255, 255, 0));}
 .bg-gradient-from-green-600{--un-gradient-from:rgba(22,163,74, var(--un-from-opacity, 1));--un-gradient-stops:var(--un-gradient-from), var(--un-gradient-to, rgba(255, 255, 255, 0));}
@@ -207,6 +204,9 @@ exports[`preset-wind > targets 1`] = `
 .caret-op-90{--un-caret-opacity:0.9;}
 .accent-red{--un-accent-opacity:1;accent-color:rgba(248,113,113,var(--un-accent-opacity));}
 .accent-op-90{--un-accent-opacity:0.9;}
+.bg-blend-color-burn{background-blend-mode:color-burn;}
+.bg-blend-luminosity{background-blend-mode:luminosity;}
+.bg-blend-normal{background-blend-mode:normal;}
 .mix-blend-hard-light{mix-blend-mode:hard-light;}
 .mix-blend-normal{mix-blend-mode:normal;}
 .image-render-pixel{-ms-interpolation-mode:nearest-neighbor;image-rendering:-webkit-optimize-contrast;image-rendering:-moz-crisp-edges;image-rendering:-o-pixelated;image-rendering:pixelated;}

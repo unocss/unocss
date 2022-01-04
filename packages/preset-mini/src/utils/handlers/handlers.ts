@@ -1,25 +1,21 @@
-const cssBasicProps = [
+// Not all, but covers most high frequency attributes
+const cssProps = [
+  // basic props
   'color', 'border-color', 'background-color', 'flex-grow', 'flex', 'flex-shrink',
   'caret-color', 'font', 'gap', 'opacity', 'visibility', 'z-index', 'font-weight',
   'zoom', 'text-shadow', 'transform', 'box-shadow',
-]
-const cssPositionProps = [
+
+  // positions
   'backround-position', 'left', 'right', 'top', 'bottom', 'object-position',
-]
-const cssSizeProps = [
+
+  // sizes
   'max-height', 'min-height', 'max-width', 'min-width', 'height', 'width',
   'border-width', 'margin', 'padding', 'outline-width', 'outline-offset',
   'font-size', 'line-height', 'text-indent', 'vertical-align',
   'border-spacing', 'letter-spacing', 'word-spacing',
-]
-const cssEnhanceProps = ['stroke', 'filter', 'backdrop-filter', 'fill', 'mask', 'mask-size', 'mask-border', 'clip-path', 'clip']
 
-// Not all, but covers most high frequency attributes
-const cssProps = [
-  ...cssBasicProps,
-  ...cssPositionProps,
-  ...cssSizeProps,
-  ...cssEnhanceProps,
+  // enhances
+  'stroke', 'filter', 'backdrop-filter', 'fill', 'mask', 'mask-size', 'mask-border', 'clip-path', 'clip',
 ]
 
 const numberWithUnitRE = /^(-?[0-9.]+)(px|pt|pc|rem|em|%|vh|vw|in|cm|mm|ex|ch|vmin|vmax)?$/i
