@@ -10,8 +10,6 @@ export const baseSize = {
   '5xl': '64rem',
   '6xl': '72rem',
   '7xl': '80rem',
-  'min': 'min-content',
-  'max': 'max-content',
   'prose': '65ch',
 }
 
