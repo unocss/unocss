@@ -157,6 +157,7 @@ html.dark {
   /* TODO: make it responsive, overview headers can grow */
   height: calc(100vh - 116px - 1rem - 61px - 1rem - 2px) !important;
 }
+.module-main-scrolls .CodeMirror .CodeMirror-scroll,
 .rpel-main-scrolls .CodeMirror .CodeMirror-scroll {
   height: calc(100vh - 41px - 2.5rem) !important;
 }

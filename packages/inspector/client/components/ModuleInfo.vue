@@ -27,7 +27,7 @@ const unmatchedClasses = asyncComputed(async() => {
 </script>
 
 <template>
-  <div v-if="mod" h-full grid="~ rows-[max-content_1fr]" of-hidden>
+  <div v-if="mod" h-full of-hidden>
     <StatusBar grid="~ cols-3 gap-4">
       <div>
         <div op50>
@@ -66,7 +66,7 @@ const unmatchedClasses = asyncComputed(async() => {
         :read-only="true"
         :mode="mode"
         :matched="mod.matched"
-        class="full-scrolls"
+        class="module-scrolls"
       />
       <CodeMirror
         h-full
@@ -74,7 +74,7 @@ const unmatchedClasses = asyncComputed(async() => {
         :model-value="mod.css"
         :read-only="true"
         mode="css"
-        class="full-scrolls"
+        class="module-scrolls"
       />
     </div>
   </div>
