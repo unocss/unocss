@@ -252,6 +252,10 @@ export const presetWindiTargets: string[] = [
   '.dark:text-xl',
   '@dark:text-xl',
 
+  // variants - placeholder
+  'placeholder-red-400',
+  'placeholder-inherit',
+
   // variants
   '!animate-ping',
   '-backdrop-hue-rotate-90',
