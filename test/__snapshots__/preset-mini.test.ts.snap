@@ -161,7 +161,7 @@ exports[`preset-mini > targets 1`] = `
 .indent-1\\\\/2{text-indent:50%;}
 .indent-lg{text-indent:2rem;}
 .text-clip{text-overflow:clip;}
-.underline{text-decoration:underline;}
+.underline{text-decoration-line:underline;}
 .decoration-5,
 .underline-5{text-decoration-thickness:5px;}
 .underline-1rem{text-decoration-thickness:1rem;}
@@ -380,14 +380,17 @@ exports[`preset-mini > targets 1`] = `
 .v-mid{vertical-align:middle;}
 .v-top{vertical-align:top;}
 .vertical-baseline{vertical-align:baseline;}
+.vertical-super{vertical-align:super;}
 .select-all{user-select:all;}
 .select-none{user-select:none;}
 .whitespace-pre-wrap{white-space:pre-wrap;}
 .ws-nowrap{white-space:nowrap;}
 .break-normal{overflow-wrap:normal;word-break:normal;}
+.break-words{overflow-wrap:break-word;}
 .overflow-auto{overflow:auto;}
 .of-y-visible{overflow-y:visible;}
 .overflow-x-scroll{overflow-x:scroll;}
+.overflow-y-clip{overflow-y:clip;}
 .outline-110{outline-width:27.5rem;}
 .outline-size-\\\\[var\\\\(--width\\\\)\\\\]{outline-width:var(--width);}
 .outline-size-4,
@@ -402,6 +405,7 @@ exports[`preset-mini > targets 1`] = `
 .outline-offset-4{outline-offset:1rem;}
 .outline,
 .outline-solid{outline-style:solid;}
+.outline-hidden{outline-style:hidden;}
 .outline-inset{outline-style:inset;}
 .outline-unset{outline-style:unset;}
 .outline-none{outline:2px solid transparent;outline-offset:2px;}
@@ -506,6 +510,7 @@ exports[`preset-mini > targets 1`] = `
 .transform-cpu{transform:rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z));}
 .transform-none{transform:none;}
 .origin-top-left{transform-origin:top left;}
+.will-change-auto{will-change:auto;}
 .will-change-margin\\\\2c padding{will-change:margin,padding;}
 .will-change-padding\\\\2c margin{will-change:padding,margin;}
 .will-change-transform{will-change:transform;}
@@ -532,7 +537,7 @@ exports[`preset-mini > targets 1`] = `
 }
 @media print{
 .print\\\\:block{display:block;}
-.print\\\\:link\\\\:\\\\!underline:link{text-decoration:underline !important;}
+.print\\\\:link\\\\:\\\\!underline:link{text-decoration-line:underline !important;}
 }
 @media (max-width: 1024px){
 .lt-lg\\\\:m2{margin:0.5rem;}
