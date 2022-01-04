@@ -36,7 +36,8 @@ exports[`preset-wind > targets 1`] = `
 .line-clamp-7{overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:7;line-clamp:7;}
 .line-clamp-none{-webkit-line-clamp:unset;line-clamp:unset;}
 .isolate{isolation:isolate;}
-.isolate-auto{isolation:auto;}
+.isolate-auto,
+.isolation-auto{isolation:auto;}
 .inline-table{display:inline-table;}
 .table{display:table;}
 .table-caption{display:table-caption;}
@@ -89,7 +90,9 @@ exports[`preset-wind > targets 1`] = `
 .touch-pinch-zoom{--un-pinch-zoom:pinch-zoom;touch-action:var(--un-touch-action);}
 .touch-manipulation{touch-action:manipulation;}
 .touch-none{touch-action:none;}
+.snap-both,
 .snap-y{--un-scroll-snap-strictness:proximity;}
+.snap-both{scroll-snap-type:both var(--un-scroll-snap-strictness);}
 .snap-y{scroll-snap-type:y var(--un-scroll-snap-strictness);}
 .snap-mandatory{--un-scroll-snap-strictness:mandatory;}
 .snap-none{scroll-snap-type:none;}
@@ -123,8 +126,8 @@ exports[`preset-wind > targets 1`] = `
 .-space-x-4>:not([hidden])~:not([hidden]){--un-space-x-reverse:0;margin-left:calc(-1rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(-1rem * var(--un-space-x-reverse));}
 .space-x-\\\\$space>:not([hidden])~:not([hidden]){--un-space-x-reverse:0;margin-left:calc(var(--space) * calc(1 - var(--un-space-x-reverse)));margin-right:calc(var(--space) * var(--un-space-x-reverse));}
 .space-x-2>:not([hidden])~:not([hidden]){--un-space-x-reverse:0;margin-left:calc(0.5rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(0.5rem * var(--un-space-x-reverse));}
-.space-x-reverse>:not([hidden])~:not([hidden]){--un-space-x-reverse:1;}
 .space-y-4>:not([hidden])~:not([hidden]){--un-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--un-space-y-reverse)));margin-bottom:calc(1rem * var(--un-space-y-reverse));}
+.space-x-reverse>:not([hidden])~:not([hidden]){--un-space-x-reverse:1;}
 .divide-x-4>:not([hidden])~:not([hidden]){--un-divide-x-reverse:0;border-left-width:calc(4px * calc(1 - var(--un-divide-x-reverse)));border-right-width:calc(4px * var(--un-divide-x-reverse));}
 .divide-y-4>:not([hidden])~:not([hidden]){--un-divide-y-reverse:0;border-top-width:calc(4px * calc(1 - var(--un-divide-y-reverse)));border-bottom-width:calc(4px * var(--un-divide-y-reverse));}
 .divide-x-reverse>:not([hidden])~:not([hidden]){--un-divide-x-reverse:1;}
@@ -185,8 +188,10 @@ exports[`preset-wind > targets 1`] = `
 .bg-repeat-space{background-position:space;}
 .bg-origin-border{background-origin:border-box;}
 .object-none{object-fit:none;}
-.object-cb{object-position:center bottom;}
+.object-cb,
+.object-center-bottom{object-position:center bottom;}
 .object-center{object-position:center;}
+.object-center-top,
 .object-ct{object-position:center top;}
 .dark .\\\\.dark\\\\:text-xl{font-size:1.25rem;line-height:1.75rem;}
 .capitalize{text-transform:capitalize;}

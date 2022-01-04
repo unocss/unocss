@@ -170,6 +170,7 @@ export const presetWindiTargets: string[] = [
 
   // scrolls
   'snap-y',
+  'snap-both',
   'snap-mandatory',
   'snap-none',
   'snap-center',
@@ -204,10 +205,13 @@ export const presetWindiTargets: string[] = [
   'not-sr-only',
   'isolate',
   'isolate-auto',
+  'isolation-auto',
   'object-none',
   'object-center',
   'object-ct',
   'object-cb',
+  'object-center-top',
+  'object-center-bottom',
 
   // tables
   'border-collapse',

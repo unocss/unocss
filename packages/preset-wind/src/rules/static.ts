@@ -71,6 +71,7 @@ export const screenReadersAccess: Rule[] = [
 export const isolations: Rule[] = [
   ['isolate', { isolation: 'isolate' }],
   ['isolate-auto', { isolation: 'auto' }],
+  ['isolation-auto', { isolation: 'auto' }],
 ]
 
 export const objectPositions: Rule[] = [
@@ -82,8 +83,7 @@ export const objectPositions: Rule[] = [
   ['object-none', { 'object-fit': 'none' }],
 
   // object position
-  // skip dashed rules
-  [/^object-([\w]+)$/, ([, s]) => ({ 'object-position': positionMap[s] })],
+  [/^object-([-\w]+)$/, ([, s]) => ({ 'object-position': positionMap[s] })],
 ]
 
 export const backgroundBlendModes: Rule[] = [
