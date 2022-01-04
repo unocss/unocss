@@ -5,4 +5,3 @@ export const placeholders: Rule[] = [
   [/^\$-placeholder-(.+)$/, colorResolver('color', 'placeholder')],
   [/^\$-placeholder-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-placeholder-opacity': h.bracket.percent.cssvar(opacity) })],
 ]
-

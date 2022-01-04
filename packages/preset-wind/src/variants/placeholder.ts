@@ -1,10 +1,13 @@
 import type { VariantFunction } from '@unocss/core'
+import { handler as h, parseColor } from '@unocss/preset-mini/utils'
 
-export const variantPseudoPlaceholder: VariantFunction = (input: string) => {
-  if (input.match(/^placeholder-/)) {
-    return {
-      matcher: input.replace(/-/, '-$-placeholder-'),
+export const variantPseudoPlaceholder: VariantFunction = (input: string, { theme }) => {
+  const match = input.match(/^placeholder-(.+?)$/)
+  if (match) {
+    if (!!parseColor(match[1], theme)?.color || match[1].match(/^op(?:acity)?-?(.+)$/)) {
+      return {
+        matcher: input.replace(/-/, '-$-placeholder-'),
+      }
     }
   }
 }
-
