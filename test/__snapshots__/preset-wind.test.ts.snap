@@ -300,6 +300,8 @@ exports[`preset-wind > targets 1`] = `
 .blur-none{filter:blur(0);}
 .drop-shadow-none{filter:drop-shadow(0);}
 .backdrop-blur-none{-webkit-backdrop-filter:blur(0);backdrop-filter:blur(0);}
+.placeholder-inherit::placeholder{color:inherit;}
+.placeholder-red-400::placeholder{--un-placeholder-opacity:1;color:rgba(248,113,113,var(--un-placeholder-opacity));}
 @media (prefers-color-scheme: dark){
 .\\\\@dark\\\\:text-xl{font-size:1.25rem;line-height:1.75rem;}
 }"
