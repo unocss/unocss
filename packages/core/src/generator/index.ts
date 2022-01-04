@@ -161,7 +161,8 @@ export class UnoGenerator {
           const sorted = items
             .filter(i => (i[4]?.layer || 'default') === layer)
             .sort((a, b) => a[0] - b[0] || a[1]?.localeCompare(b[1] || '') || 0)
-            .map(a => [a[1] ? applyScope(a[1], scope) : a[1], a[2]])
+            .map(a => [a[1] ? applyScope(a[1], scope) : a[1], a[2]]) // [selector, body]
+            .map(a => [a[0] == null ? a[0] : { [a[0]]: true }, a[1]]) // [{ selector: true }, body]
           if (!sorted.length)
             return undefined
           const rules = sorted
@@ -172,13 +173,13 @@ export class UnoGenerator {
                 for (let i = idx + 1; i < size; i++) {
                   const current = sorted[i]
                   if (current && current[0] && current[1] === body) {
-                    current[0] = `${current[0]},${nl}${selector}`
+                    current[0] = { ...(selector as object), ...(current[0] as object) }
                     return null
                   }
                 }
               }
               return selector
-                ? `${selector}{${body}}`
+                ? `${Object.keys(selector).reverse().join(`,${nl}`)}{${body}}`
                 : body
             })
             .filter(Boolean)
@@ -423,20 +424,17 @@ export class UnoGenerator {
       // find existing selector/mediaQuery pair and merge
       const mapItem = selectorMap.getFallback(selector, parent, [[], item[0]])
       // append entries
-      mapItem[0].push(...entries)
-
-      // if there is a rule have higher index, update the index
-      if (item[0] > mapItem[1])
-        mapItem[1] = item[0]
+      mapItem[0].push(entries)
     }
 
     return selectorMap
-      .map(([entries, index], selector, mediaQuery): StringifiedUtil | undefined => {
+      .map(([e, index], selector, mediaQuery) => e.map((entries): StringifiedUtil | undefined => {
         const body = entriesToCss(entries)
         if (body)
           return [index, selector, body, mediaQuery, meta]
         return undefined
-      })
+      }))
+      .flat(1)
       .filter(Boolean) as StringifiedUtil[]
   }
 

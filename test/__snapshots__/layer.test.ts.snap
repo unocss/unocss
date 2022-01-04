@@ -2,7 +2,9 @@
 
 exports[`layers > static 1`] = `
 "/* layer: shortcuts */
-.abc{name:bar1;name:bar2;name:4;}
+.abc{name:bar1;}
+.abc{name:bar2;}
+.abc{name:4;}
 /* layer: a */
 .a{name:bar1;}
 /* layer: b */
@@ -12,5 +14,7 @@ exports[`layers > static 1`] = `
 /* layer: d */
 /* RAW 4 */
 /* layer: s */
-.abcd{name:bar1;name:bar2;name:2;}"
+.abcd{name:bar1;}
+.abcd{name:bar2;}
+.abcd{name:2;}"
 `;

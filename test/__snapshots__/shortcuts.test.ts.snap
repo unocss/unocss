@@ -2,16 +2,14 @@
 
 exports[`shortcuts > dynamic 1`] = `
 "/* layer: shortcuts */
-.button-1{padding-left:0.75rem;padding-right:0.75rem;padding-top:0.5rem;padding-bottom:0.5rem;}
-.button-2{padding-left:1.5rem;padding-right:1.5rem;padding-top:1rem;padding-bottom:1rem;}"
+.button-1{padding-left:0.75rem;padding-right:0.75rem;}
+.button-1{padding-top:0.5rem;padding-bottom:0.5rem;}
+.button-2{padding-left:1.5rem;padding-right:1.5rem;}
+.button-2{padding-top:1rem;padding-bottom:1rem;}"
 `;
 
 exports[`shortcuts > merge transform-duplicated 1`] = `
 "/* layer: shortcuts */
-.transform-duplicated:hover {
-  --un-scale-x: 0.02;
-  --un-scale-y: 0.02;
-}
 .transform-duplicated {
   --un-rotate: 0;
   --un-scale-x: 1;
@@ -26,10 +24,20 @@ exports[`shortcuts > merge transform-duplicated 1`] = `
     scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x))
     skewY(var(--un-skew-y)) translateX(var(--un-translate-x))
     translateY(var(--un-translate-y)) translateZ(var(--un-translate-z));
+}
+.transform-duplicated {
   --un-translate-x: 0.25rem;
+}
+.transform-duplicated {
   --un-translate-y: 0.5rem;
+}
+.transform-duplicated {
   --un-scale-x: 0.04;
   --un-scale-y: 0.04;
+}
+.transform-duplicated:hover {
+  --un-scale-x: 0.02;
+  --un-scale-y: 0.02;
 }
 .transform-duplicated:active {
   --un-scale-x: 0.04;
@@ -39,9 +47,14 @@ exports[`shortcuts > merge transform-duplicated 1`] = `
 
 exports[`shortcuts > nesting static 1`] = `
 "/* layer: shortcuts */
-.btn{margin-right:2.5rem;}
-.btn1{margin-left:2.5rem;margin-right:2.5rem;}
-.btn2{margin:0.75rem;margin-left:2.5rem;margin-right:2.5rem;padding-left:0.5rem;padding-right:0.5rem;padding-top:0.75rem;padding-bottom:0.75rem;}
+.btn2{margin:0.75rem;}
+.btn2,
+.btn1{margin-left:2.5rem;}
+.btn2,
+.btn,
+.btn1{margin-right:2.5rem;}
+.btn2{padding-left:0.5rem;padding-right:0.5rem;}
+.btn2{padding-top:0.75rem;padding-bottom:0.75rem;}
 @media (min-width: 640px){
 .btn2{margin:0.5rem;}
 }"
@@ -49,11 +62,15 @@ exports[`shortcuts > nesting static 1`] = `
 
 exports[`shortcuts > static 1`] = `
 "/* layer: shortcuts */
+.sh1,
 .sh3{margin:0.75rem;}
-.sh1{margin:0.75rem;padding-left:0.5rem;padding-right:0.5rem;padding-top:0.75rem;padding-bottom:0.75rem;}
+.sh1{padding-left:0.5rem;padding-right:0.5rem;}
+.sh1{padding-top:0.75rem;padding-bottom:0.75rem;}
 .focus\\\\:sh2:focus,
-.sh2{font-size:0.875rem;line-height:1.25rem;font-size:1.125rem;line-height:1.75rem;}
+.sh2{font-size:0.875rem;line-height:1.25rem;}
+.focus\\\\:sh2:focus,
 .focus\\\\:sh2:hover:focus,
+.sh2,
 .sh2:hover{font-size:1.125rem;line-height:1.75rem;}
 @media (min-width: 640px){
 .sh1,
