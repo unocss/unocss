@@ -287,18 +287,18 @@ exports[`preset-mini > targets 1`] = `
 .flex-row{flex-direction:row;}
 .flex-col-reverse{flex-direction:column-reverse;}
 .grid{display:grid;}
-.row-start-full{grid-row-start:full;}
-.row-end-1{grid-row-end:1;}
-.col-span-1{grid-column:span 1/span 1;}
 .row-\\\\[span_1\\\\/span_2\\\\]{grid-row:span 1/span 2;}
 .row-auto{grid-row:auto;}
+.col-span-1{grid-column:span 1/span 1;}
 .row-span-\\\\[hi\\\\]{grid-row:span hi/span hi;}
 .row-span-full{grid-row:1/-1;}
+.row-start-full{grid-row-start:full;}
+.row-end-1{grid-row-end:1;}
 .auto-cols-auto{grid-auto-columns:auto;}
-.auto-flow-cols-dense{grid-auto-flow:columns dense;}
 .auto-rows-auto{grid-auto-rows:auto;}
 .auto-rows-fr{grid-auto-rows:minmax(0,1fr);}
 .auto-rows-min{grid-auto-rows:min-content;}
+.auto-flow-col-dense{grid-auto-flow:column dense;}
 .grid-cols-\\\\[1fr_2fr_100px_min-content\\\\]{grid-template-columns:1fr 2fr 100px min-content;}
 .grid-cols-\\\\[repeat\\\\(3\\\\2c auto\\\\)\\\\]{grid-template-columns:repeat(3,auto);}
 .grid-rows-\\\\[1fr_2fr_100px_min-content\\\\]{grid-template-rows:1fr 2fr 100px min-content;}
