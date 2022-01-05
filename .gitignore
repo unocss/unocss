@@ -16,3 +16,5 @@ packages/unocss/README.md
 packages/vscode/LICENSE
 result.json
 test/fixtures/**/pnpm-lock.yaml
+elm-stuff/
+dist-ssr/

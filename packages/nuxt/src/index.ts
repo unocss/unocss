@@ -1,15 +1,19 @@
 import { dirname, resolve } from 'path'
 import { fileURLToPath } from 'url'
 import { addComponentsDir, addPluginTemplate, defineNuxtModule, extendViteConfig, extendWebpackConfig } from '@nuxt/kit'
-import type { PresetUnoOptions } from '@unocss/preset-uno'
-import { presetUno } from '@unocss/preset-uno'
-import type { AttributifyOptions } from '@unocss/preset-attributify'
-import presetAttributify from '@unocss/preset-attributify'
-import type { IconsOptions } from '@unocss/preset-icons'
-import presetIcons from '@unocss/preset-icons'
 import WebpackPlugin from '@unocss/webpack'
 import VitePlugin from '@unocss/vite'
+
+import presetUno from '@unocss/preset-uno'
+import presetAttributify from '@unocss/preset-attributify'
+import presetIcons from '@unocss/preset-icons'
+import presetWebFonts from '@unocss/preset-web-fonts'
+
+import type { PresetUnoOptions } from '@unocss/preset-uno'
+import type { AttributifyOptions } from '@unocss/preset-attributify'
+import type { IconsOptions } from '@unocss/preset-icons'
 import type { UserConfig } from '@unocss/core'
+import type { WebFontsOptions } from '@unocss/preset-web-fonts'
 
 const dir = dirname(fileURLToPath(import.meta.url))
 
@@ -56,6 +60,13 @@ export interface UnocssNuxtOptions extends UserConfig {
    * @default false
    */
   icons?: boolean | IconsOptions
+
+  /**
+   * Enable web fonts preset and the options of it
+   * Only works when `presets` is not specified
+   * @default false
+   */
+  webFonts?: boolean | WebFontsOptions
 }
 
 export default defineNuxtModule<UnocssNuxtOptions>({
@@ -64,12 +75,15 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     configKey: 'unocss',
   },
   defaults: {
+    autoImport: true,
+    preflight: false,
+    components: true,
+
+    // presets
     uno: true,
     attributify: false,
-    preflight: false,
+    webFonts: false,
     icons: false,
-    components: true,
-    autoImport: true,
   },
   setup(options) {
     // preset shortcuts
@@ -81,6 +95,8 @@ export default defineNuxtModule<UnocssNuxtOptions>({
         options.presets.push(presetAttributify(typeof options.attributify === 'boolean' ? {} : options.attributify))
       if (options.icons)
         options.presets.push(presetIcons(typeof options.icons === 'boolean' ? {} : options.icons))
+      if (options.webFonts)
+        options.presets.push(presetWebFonts(typeof options.webFonts === 'boolean' ? {} : options.webFonts))
     }
 
     if (options.autoImport) {

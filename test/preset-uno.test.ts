@@ -7,6 +7,16 @@ const targets = [
   'text-custom-a',
   'bg-custom-b',
   'border-custom-b/10',
+
+  // wind - placeholder
+  'placeholder-red-400',
+  'placeholder-inherit',
+  'placeholder-opacity-10',
+  'placeholder-op90',
+
+  // mini + wind - placeholder
+  'focus:placeholder-red-300',
+  'hover:placeholder-op90',
 ]
 
 const nonTargets = [
@@ -26,6 +36,14 @@ const nonTargets = [
   'will-change-none',
   'will-change-margins,padding',
   'will-change-padding,margins',
+
+  // mini - filters
+  'brightness',
+  'hue-rotate',
+  'saturate',
+  'backdrop-brightness',
+  'backdrop-hue-rotate',
+  'backdrop-saturate',
 
   // mini - ring
   'ring-',

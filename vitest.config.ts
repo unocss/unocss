@@ -13,6 +13,7 @@ export const alias: AliasOptions = {
   '@unocss/preset-mini': r('./packages/preset-mini/src/'),
   '@unocss/preset-wind': r('./packages/preset-wind/src/'),
   '@unocss/preset-uno': r('./packages/preset-uno/src/'),
+  '@unocss/preset-web-fonts': r('./packages/preset-web-fonts/src/'),
   '@unocss/preset-attributify': r('./packages/preset-attributify/src/'),
   '@unocss/preset-icons': r('./packages/preset-icons/src/'),
 }
