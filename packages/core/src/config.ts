@@ -1,7 +1,6 @@
-import type { Postprocessor, ResolvedConfig, Shortcut, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
-import { isStaticRule, mergeDeep, normalizeVariant, toArray, uniq } from './utils'
+import type { Postprocessor, Preprocessor, ResolvedConfig, Shortcut, ThemeExtender, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
+import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq } from './utils'
 import { extractorSplit } from './extractors'
-import type { Preprocessor } from '.'
 
 export function resolveShortcuts(shortcuts: UserShortcuts): Shortcut[] {
   return toArray(shortcuts).flatMap((s) => {
@@ -31,7 +30,7 @@ export function resolveConfig(
 
   const layers = Object.assign(defaultLayers, ...rawPresets.map(i => i.layers), userConfig.layers)
 
-  function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess'>(key: T): Required<UserConfig>[T] {
+  function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme'>(key: T): Required<UserConfig>[T] {
     return uniq([
       ...sortedPresets.flatMap(p => toArray(p[key] || []) as any[]),
       ...toArray(config[key] || []) as any[],
@@ -57,10 +56,12 @@ export function resolveConfig(
     }
   })
 
-  const theme = [
+  const theme = clone([
     ...sortedPresets.map(p => p.theme || {}),
     config.theme || {},
-  ].reduce((a, p) => mergeDeep(a, p), {})
+  ].reduce((a, p) => mergeDeep(a, p), {}))
+
+  ;(mergePresets('extendTheme') as ThemeExtender<any>[]).forEach(extendTheme => extendTheme(theme))
 
   return {
     mergeSelectors: true,
