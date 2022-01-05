@@ -6,6 +6,8 @@ import type { WebFontMeta, WebFontsOptions, WebFontsProviders } from './types'
 
 export * from './types'
 
+const layerName = '__webfonts__'
+
 export function normalizedFontMeta(meta: WebFontMeta | string, defaultProvider: WebFontsProviders): WebFontMeta {
   if (typeof meta !== 'string') {
     meta.provider = meta.provider ?? defaultProvider
@@ -40,6 +42,9 @@ const preset = (options: WebFontsOptions = {}): Preset<any> => {
 
   const preset: Preset<any> = {
     name: '@unocss/preset-web-fonts',
+    layers: {
+      [layerName]: -Infinity,
+    },
     preflights: [
       {
         getCSS() {
@@ -51,7 +56,7 @@ const preset = (options: WebFontsOptions = {}): Preset<any> => {
           }
           return preflights.filter(Boolean).join('\n')
         },
-        layer: '_webfonts',
+        layer: layerName,
       },
     ],
   }
