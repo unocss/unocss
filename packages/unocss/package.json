@@ -52,6 +52,7 @@
     "@unocss/preset-icons": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
+    "@unocss/preset-web-fonts": "workspace:*",
     "@unocss/vite": "workspace:*"
   },
   "engines": {

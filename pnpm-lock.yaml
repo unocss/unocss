@@ -209,6 +209,7 @@ importers:
       '@unocss/preset-attributify': workspace:*
       '@unocss/preset-icons': workspace:*
       '@unocss/preset-uno': workspace:*
+      '@unocss/preset-web-fonts': workspace:*
       '@unocss/reset': workspace:*
       '@unocss/vite': workspace:*
       '@unocss/webpack': workspace:*
@@ -218,6 +219,7 @@ importers:
       '@unocss/preset-attributify': link:../preset-attributify
       '@unocss/preset-icons': link:../preset-icons
       '@unocss/preset-uno': link:../preset-uno
+      '@unocss/preset-web-fonts': link:../preset-web-fonts
       '@unocss/reset': link:../reset
       '@unocss/vite': link:../vite
       '@unocss/webpack': link:../webpack
@@ -309,6 +311,7 @@ importers:
       '@unocss/preset-attributify': workspace:*
       '@unocss/preset-icons': workspace:*
       '@unocss/preset-uno': workspace:*
+      '@unocss/preset-web-fonts': workspace:*
       '@unocss/reset': workspace:*
       '@unocss/vite': workspace:*
     dependencies:
@@ -317,6 +320,7 @@ importers:
       '@unocss/preset-attributify': link:../preset-attributify
       '@unocss/preset-icons': link:../preset-icons
       '@unocss/preset-uno': link:../preset-uno
+      '@unocss/preset-web-fonts': link:../preset-web-fonts
       '@unocss/reset': link:../reset
       '@unocss/vite': link:../vite
 

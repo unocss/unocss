@@ -25,7 +25,7 @@ const providers = {
   none: NoneProvider,
 }
 
-export default (options: WebFontsOptions = {}): Preset<any> => {
+const preset = (options: WebFontsOptions = {}): Preset<any> => {
   const {
     provider: defaultProvider = 'google',
     extendTheme = true,
@@ -75,3 +75,5 @@ export default (options: WebFontsOptions = {}): Preset<any> => {
 
   return preset
 }
+
+export default preset

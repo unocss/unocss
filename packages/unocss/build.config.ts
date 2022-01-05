@@ -7,6 +7,7 @@ export default defineBuildConfig({
     'src/preset-uno',
     'src/preset-icons',
     'src/preset-attributify',
+    'src/preset-web-fonts',
   ],
   clean: true,
   declaration: true,
