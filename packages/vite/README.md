@@ -362,14 +362,12 @@ You have a `Vite + Solid` example project on [test/fixtures/vite-solid](https://
 
 ### Elm
 
-You **must** add the `vite-plugin-elm` plugin before `UnoCSS` plugin.
-
-The `UnoCSS Inspector` will not show your `elm` source code (`http://localhost:3000/__unocss/`), instead will show the compiled output.
+You need to add the `vite-plugin-elm` plugin before UnoCSS's plugin.
 
 ```ts
 // vite.config.js
-import { defineConfig } from "vite";
-import elmPlugin from "vite-plugin-elm";
+import { defineConfig } from 'vite'
+import elmPlugin from 'vite-plugin-elm'
 import Unocss from 'unocss/vite'
 
 export default defineConfig({
