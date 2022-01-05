@@ -22,7 +22,6 @@ const plugins: (PluginOption | PluginOption[])[] = [
         },
       }),
     ],
-    inspector: true,
   }),
 ]
 
