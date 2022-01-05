@@ -1,6 +1,6 @@
 import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, RawUtil, ResolvedConfig, RuleContext, RuleMeta, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
-import { TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, normalizeCSSEntries, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
+import { CONTROL_SHORTCUT_NO_MERGE, TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, normalizeCSSEntries, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
 
 export class UnoGenerator {
@@ -425,6 +425,20 @@ export class UnoGenerator {
       // append entries
       mapItem[0].push(entries)
     }
+
+    return selectorMap
+      .map(([e, index], selector, mediaQuery) => {
+        const split = e.filter(entries => entries.filter(entry => entry[0] === CONTROL_SHORTCUT_NO_MERGE).length > 0)
+        const rest = e.filter(entries => entries.filter(entry => entry[0] === CONTROL_SHORTCUT_NO_MERGE).length === 0)
+        return [...split, rest.flat(1)].map((entries) => {
+          const body = entriesToCss(entries)
+          if (body)
+            return [index, selector, body, mediaQuery, meta]
+          return undefined
+        })
+      })
+      .flat(1)
+      .filter(Boolean) as StringifiedUtil[]
 
     return selectorMap
       .map(([e, index], selector, mediaQuery) => e.map((entries): StringifiedUtil | undefined => {
