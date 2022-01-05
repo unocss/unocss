@@ -360,6 +360,28 @@ export default {
 
 You have a `Vite + Solid` example project on [test/fixtures/vite-solid](https://github.com/antfu/unocss/tree/main/test/fixtures/vite-solid) directory.
 
+### Elm
+
+You need to add the `vite-plugin-elm` plugin before UnoCSS's plugin.
+
+```ts
+// vite.config.js
+import { defineConfig } from 'vite'
+import elmPlugin from 'vite-plugin-elm'
+import Unocss from 'unocss/vite'
+
+export default defineConfig({
+  plugins: [
+    elmPlugin(),
+    Unocss({
+      /* options */
+    })
+  ]
+})
+```
+
+You have a `Vite + Elm` example project on [test/fixtures/vite-elm](https://github.com/antfu/unocss/tree/main/test/fixtures/vite-elm) directory.
+
 ## License
 
 MIT License © 2021-PRESENT [Anthony Fu](https://github.com/antfu)
