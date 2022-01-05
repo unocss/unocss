@@ -430,7 +430,7 @@ export class UnoGenerator {
       .map(([e, index], selector, mediaQuery) => {
         const split = e.filter(entries => entries.filter(entry => entry[0] === CONTROL_SHORTCUT_NO_MERGE).length > 0)
         const rest = e.filter(entries => entries.filter(entry => entry[0] === CONTROL_SHORTCUT_NO_MERGE).length === 0)
-        return [...split, rest.flat(1)].map((entries): StringifiedUtil | undefined  => {
+        return [...split, rest.flat(1)].map((entries): StringifiedUtil | undefined => {
           const body = entriesToCss(entries)
           if (body)
             return [index, selector, body, mediaQuery, meta]
