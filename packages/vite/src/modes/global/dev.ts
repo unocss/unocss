@@ -26,8 +26,13 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
     else if (base.endsWith('/'))
       base = base.slice(0, base.length - 1)
 
-    const { host, port, https } = config.server
-    frontEndUrl = `http${https ? 's' : ''}://${host as string}:${port as number}`
+    // eslint-disable-next-line prefer-const
+    let { host, port, https } = config.server
+    if (!host || host === '0.0.0.0')
+      host = 'localhost'
+    if (!port)
+      port = 3000
+    frontEndUrl = `http${https ? 's' : ''}://${host ?? ''}:${port}`
   }
 
   function invalidate(timer = 10) {
@@ -143,15 +148,14 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
       transform(code, id) {
         if (entries.has(getPath(id)) && code.includes('import.meta.hot')) {
           return `${code}
-async function __fetch_unocss_ready() {
+await (async() => {
   const { protocol: pt1, host: h1, port: p1 } = new URL("${frontEndUrl}");
-  const { protocol: pt2, host: h2, port: p2 } = document.location.href;
+  const { protocol: pt2, host: h2, port: p2 } = new URL(document.location.href);
   if (pt1 !== pt2 || h1 !== h2 || p1 !== p2)
-    await fetch("${frontEndUrl}${base}${READY_CALLBACK_DEFAULT}/${lastServed}", { mode: "no-cors" });
+    await fetch("${frontEndUrl}${base}${READY_CALLBACK_DEFAULT}/${lastServed}",{mode:"no-cors"});
   else
     await fetch("${base}${READY_CALLBACK_DEFAULT}/${lastServed}");
-}
-await __fetch_unocss_ready();`
+})();`
         }
       },
     },

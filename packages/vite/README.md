@@ -360,6 +360,14 @@ export default {
 
 You have a `Vite + Solid` example project on [test/fixtures/vite-solid](https://github.com/antfu/unocss/tree/main/test/fixtures/vite-solid) directory.
 
+## Front-end server on develop with global mode
+
+If you are using some front end server in front of the Vite application during development (for example `PHP + Laravel + Inertia`) you should configure the following Vite `server` options:
+1) `scheme` via `https` option: default `false` 
+2) `host`, if Vite doesn't resolve it or if you configure `0.0.0.0`, then, the plugin will use `localhost`
+3) `port`: if Vite doesn't resolve it, then the plugin will use `3000`
+
+
 ## License
 
 MIT License © 2021-PRESENT [Anthony Fu](https://github.com/antfu)
