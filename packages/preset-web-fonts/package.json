@@ -1,0 +1,51 @@
+{
+  "name": "@unocss/preset-web-fonts",
+  "version": "0.21.0",
+  "description": "Web Fonts support for Uno CSS",
+  "keywords": [
+    "unocss",
+    "unocss-preset",
+    "fonts",
+    "web-fonts",
+    "google-fonts"
+  ],
+  "homepage": "https://github.com/antfu/unocss/tree/main/packages/preset-web-fonts#readme",
+  "bugs": {
+    "url": "https://github.com/antfu/unocss/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antfu/unocss.git",
+    "directory": "packages/preset-web-fonts"
+  },
+  "funding": "https://github.com/sponsors/antfu",
+  "license": "MIT",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./fs": {
+      "require": "./dist/fs.cjs",
+      "import": "./dist/fs.mjs",
+      "types": "./dist/fs.d.ts"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "*.css"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub"
+  },
+  "dependencies": {
+    "@unocss/core": "workspace:*"
+  }
+}

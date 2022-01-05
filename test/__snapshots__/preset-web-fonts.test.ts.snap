@@ -1,0 +1,12 @@
+// Vitest Snapshot v1
+
+exports[`web-fonts 1`] = `
+"/* layer: _webfonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Fira+Code&family=Fira+Mono:wght@400;700&family=Lobster&family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+/* layer: default */
+.font-lato{font-family:\\"Lato\\",sans-serif;}
+.font-lobster{font-family:\\"Lobster\\";}
+.font-mono{font-family:\\"Fira Code\\",\\"Fira Mono\\",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\\"Liberation Mono\\",\\"Courier New\\",monospace;}
+.font-sans{font-family:\\"Roboto\\",ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\\"Segoe UI\\",Roboto,\\"Helvetica Neue\\",Arial,\\"Noto Sans\\",sans-serif,\\"Apple Color Emoji\\",\\"Segoe UI Emoji\\",\\"Segoe UI Symbol\\",\\"Noto Color Emoji\\";}"
+`;

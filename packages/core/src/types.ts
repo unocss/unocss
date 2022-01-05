@@ -2,6 +2,7 @@ import type { UnoGenerator } from './generator'
 
 /* eslint-disable no-use-before-define */
 export type Awaitable<T> = T | Promise<T>
+export type Arrayable<T> = T | T[]
 export type ArgumentType<T> = T extends ((...args: infer A) => any) ? A : never
 export type Shift<T> = T extends [_: any, ...args: infer A] ? A : never
 export type RestArgs<T> = Shift<ArgumentType<T>>
@@ -179,6 +180,7 @@ export type Variant<Theme extends {} = {}> = VariantFunction<Theme> | VariantObj
 
 export type Preprocessor = (matcher: string) => string | undefined
 export type Postprocessor = (util: UtilObject) => void
+export type ThemeExtender<T> = (theme: T) => void
 
 export interface ConfigBase<Theme extends {} = {}> {
   /**
@@ -238,12 +240,17 @@ export interface ConfigBase<Theme extends {} = {}> {
   /**
    * Preprocess the incoming utilities, return falsy value to exclude
    */
-  preprocess?: Preprocessor | Preprocessor[]
+  preprocess?: Arrayable<Preprocessor>
 
   /**
    * Process the generate utils object
    */
-  postprocess?: Postprocessor | Postprocessor[]
+  postprocess?: Arrayable<Postprocessor>
+
+  /**
+   * Custom functions to extend the theme object
+   */
+  extendTheme?: Arrayable<ThemeExtender<Theme>>
 }
 
 export interface Preset<Theme extends {} = {}> extends ConfigBase<Theme> {
