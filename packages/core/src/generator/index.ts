@@ -161,8 +161,7 @@ export class UnoGenerator {
           const sorted = items
             .filter(i => (i[4]?.layer || 'default') === layer)
             .sort((a, b) => a[0] - b[0] || a[1]?.localeCompare(b[1] || '') || 0)
-            .map(a => [a[1] ? applyScope(a[1], scope) : a[1], a[2]]) // [selector, body]
-            .map(a => [a[0] == null ? a[0] : { [a[0]]: true }, a[1]]) // [{ selector: true }, body]
+            .map(a => [a[1] ? applyScope(a[1], scope) : a[1], a[2]])
           if (!sorted.length)
             return undefined
           const rules = sorted
@@ -173,13 +172,13 @@ export class UnoGenerator {
                 for (let i = idx + 1; i < size; i++) {
                   const current = sorted[i]
                   if (current && current[0] && current[1] === body) {
-                    current[0] = { ...(selector as object), ...(current[0] as object) }
+                    mergeSelector(current, selector, nl)
                     return null
                   }
                 }
               }
               return selector
-                ? `${Object.keys(selector).reverse().join(`,${nl}`)}{${body}}`
+                ? `${selector}{${body}}`
                 : body
             })
             .filter(Boolean)
@@ -462,4 +461,11 @@ function toEscapedSelector(raw: string) {
     return raw.replace(/^\[(.+?)(~?=)"(.*)"\]$/, (_, n, s, i) => `[${e(n)}${s}"${e(i)}"]`)
   else
     return `.${e(raw)}`
+}
+
+function mergeSelector(entry: string[], s: string, nl: string) {
+  const existing = entry[0]
+  if (s === existing || existing.startsWith(`${s},${nl}`) || existing.endsWith(`,${nl}${s}`) || existing.includes(`,${nl}${s},${nl}`))
+    return
+  entry[0] = `${entry[0]},${nl}${s}`
 }
