@@ -399,7 +399,7 @@ export class UnoGenerator {
     expanded: string[],
     meta: RuleMeta = { layer: this.config.shortcutsLayer },
   ): Promise<StringifiedUtil[] | undefined> {
-    const selectorMap = new TwoKeyMap<string, string | undefined, [CSSEntries, number]>()
+    const selectorMap = new TwoKeyMap<string, string | undefined, [CSSEntries[], number]>()
 
     const parsed = (
       await Promise.all(uniq(expanded)
@@ -463,9 +463,9 @@ function toEscapedSelector(raw: string) {
     return `.${e(raw)}`
 }
 
-function mergeSelector(entry: string[], s: string, nl: string) {
-  const existing = entry[0]
-  if (s === existing || existing.startsWith(`${s},${nl}`) || existing.endsWith(`,${nl}${s}`) || existing.includes(`,${nl}${s},${nl}`))
+function mergeSelector(entry: (string | undefined)[], s: string, nl: string) {
+  const e = entry[0]
+  if (e == null || e === s || e.startsWith(`${s},${nl}`) || e.endsWith(`,${nl}${s}`) || e.includes(`,${nl}${s},${nl}`))
     return
-  entry[0] = `${entry[0]},${nl}${s}`
+  entry[0] = `${e},${nl}${s}`
 }
