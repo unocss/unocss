@@ -10,17 +10,18 @@ const props = defineProps<{
   matched?: Set<string> | string[]
 }>()
 
-const modeMap: Record<string, string> = {
+const modeMap: Record<string, any> = {
   html: 'htmlmixed',
   vue: 'htmlmixed',
   svelte: 'htmlmixed',
   js: 'javascript',
-  jsx: 'jsx',
   mjs: 'javascript',
   cjs: 'javascript',
-  ts: 'typescript',
-  tsx: 'jsx',
-  mts: 'typescript',
+  ts: { name: 'javascript', typescript: true },
+  mts: { name: 'javascript', typescript: true },
+  cts: { name: 'javascript', typescript: true },
+  jsx: { name: 'javascript', jsx: true },
+  tsx: { name: 'javascript', typescript: true, jsx: true },
 }
 
 const el = ref<HTMLTextAreaElement>()
