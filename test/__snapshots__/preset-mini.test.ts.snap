@@ -134,7 +134,8 @@ exports[`preset-mini > targets 1`] = `
 .rounded-tr{border-top-right-radius:0.25rem;}
 .border-double{border-style:double;}
 .border-none{border-style:none;}
-.content-empty{content:\\"\\";}
+.content-empty,
+.content-none{content:\\"\\";}
 .font-mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\\"Liberation Mono\\",\\"Courier New\\",monospace;}
 .group:has(:placeholder-shown) .group-has-placeholder-shown\\\\:text-4xl,
 .group:where(:placeholder-shown) .group-where-placeholder-shown\\\\:text-4xl,
