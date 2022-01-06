@@ -33,6 +33,8 @@ export const presetMiniTargets: string[] = [
   'will-change-transform',
   'will-change-unset',
   'will-change-auto',
+  'will-change-scroll',
+  'will-change-contents',
 
   // border
   'b-2',

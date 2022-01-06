@@ -523,8 +523,10 @@ exports[`preset-mini > targets 1`] = `
 .transform-cpu{transform:rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z));}
 .transform-none{transform:none;}
 .will-change-auto{will-change:auto;}
+.will-change-contents{will-change:contents;}
 .will-change-margin\\\\2c padding{will-change:margin,padding;}
 .will-change-padding\\\\2c margin{will-change:padding,margin;}
+.will-change-scroll{will-change:scroll-position;}
 .will-change-transform{will-change:transform;}
 .will-change-unset{will-change:unset;}
 @media (orientation: landscape){
