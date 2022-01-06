@@ -401,6 +401,15 @@ export const presetMiniTargets: string[] = [
   'stroke-size-1',
   'stroke-size-1px',
   'stroke-size-[1rem]',
+  'stroke-dash-1',
+  'stroke-dash-[5,3,2]',
+  'stroke-offset-1',
+  'stroke-offset-1px',
+  'stroke-offset-[1rem]',
+  'stroke-cap-round',
+  'stroke-cap-auto',
+  'stroke-join-clip',
+  'stroke-join-auto',
 
   // transforms
   'transform',
