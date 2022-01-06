@@ -24,7 +24,7 @@ describe('shortcuts', () => {
     presets: [
       presetUno(),
     ],
-    rules:[
+    rules: [
       [/^with-no-merge$/, () => [
         {
           'no-merge': 1,
