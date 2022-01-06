@@ -24,6 +24,13 @@ export const appearance: Rule[] = [
   }],
 ]
 
+const willChangeProperty = (prop: string): string | undefined => {
+  return h.properties.auto.global(prop) ?? {
+    contents: 'contents',
+    scroll: 'scroll-position',
+  }[prop]
+}
+
 export const willChange: Rule[] = [
-  [/^will-change-(.+)/, ([, p]) => ({ 'will-change': h.properties.auto.global(p) })],
+  [/^will-change-(.+)/, ([, p]) => ({ 'will-change': willChangeProperty(p) })],
 ]
