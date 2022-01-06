@@ -162,23 +162,24 @@ export class UnoGenerator {
             .filter(i => (i[4]?.layer || 'default') === layer)
             .sort((a, b) => a[0] - b[0] || a[1]?.localeCompare(b[1] || '') || 0)
             .map(a => [a[1] ? applyScope(a[1], scope) : a[1], a[2]])
+            .map(a => [a[0] == null ? [] : [a[0]], a[1]]) as [any[], any][]
           if (!sorted.length)
             return undefined
           const rules = sorted
             .reverse()
             .map(([selector, body], idx) => {
-              if (selector && this.config.mergeSelectors) {
+              if (selector.length && this.config.mergeSelectors) {
                 // search for rules that has exact same body, and merge them
                 for (let i = idx + 1; i < size; i++) {
                   const current = sorted[i]
-                  if (current && current[0] && current[1] === body) {
-                    mergeSelector(current, selector, nl)
+                  if (current && current[0].length && current[1] === body) {
+                    current[0].push(...selector)
                     return null
                   }
                 }
               }
-              return selector
-                ? `${selector}{${body}}`
+              return selector.length
+                ? `${[...new Set(selector)].join(`,${nl}`)}{${body}}`
                 : body
             })
             .filter(Boolean)
@@ -465,11 +466,4 @@ function toEscapedSelector(raw: string) {
     return raw.replace(/^\[(.+?)(~?=)"(.*)"\]$/, (_, n, s, i) => `[${e(n)}${s}"${e(i)}"]`)
   else
     return `.${e(raw)}`
-}
-
-function mergeSelector(entry: (string | undefined)[], s: string, nl: string) {
-  const e = entry[0]
-  if (e == null || e === s || e.startsWith(`${s},${nl}`) || e.endsWith(`,${nl}${s}`) || e.includes(`,${nl}${s},${nl}`))
-    return
-  entry[0] = `${e},${nl}${s}`
 }
