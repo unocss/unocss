@@ -376,6 +376,7 @@ export const presetMiniTargets: string[] = [
   'whitespace-pre-wrap',
   'ws-nowrap',
   'content-empty',
+  'content-none',
   'break-normal',
   'break-words',
   'text-clip',
