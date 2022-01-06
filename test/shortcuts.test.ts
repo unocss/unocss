@@ -1,4 +1,4 @@
-import { createGenerator } from '@unocss/core'
+import { CONTROL_SHORTCUT_NO_MERGE, createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
@@ -24,6 +24,18 @@ describe('shortcuts', () => {
     presets: [
       presetUno(),
     ],
+    rules: [
+      [/^with-no-merge$/, () => [
+        {
+          'no-merge': 1,
+          [CONTROL_SHORTCUT_NO_MERGE]: '',
+        },
+        {
+          merged: 1,
+        },
+      ]],
+      ['merge-candidate', { merged: 1 }],
+    ],
   })
 
   test('static', async() => {
@@ -48,5 +60,10 @@ describe('shortcuts', () => {
       plugins: [parserCSS],
     })
     expect(prettified).toMatchSnapshot()
+  })
+
+  test('no-merge', async() => {
+    const { css } = await uno.generate('with-no-merge merge-candidate')
+    expect(css).toMatchSnapshot()
   })
 })
