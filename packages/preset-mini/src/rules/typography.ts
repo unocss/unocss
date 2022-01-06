@@ -22,18 +22,16 @@ export const fonts: Rule<Theme>[] = [
 
   // size
   [/^text-(.+)$/, ([, s = 'base'], { theme }) => {
-    const size = h.bracket.auto.rem(s)
-    if (size)
-      return { 'font-size': size }
-
     const themed = toArray(theme.fontSize?.[s])
     if (themed?.[0]) {
-      const [size, height] = themed
+      const [size, height = '1'] = themed
       return {
         'font-size': size,
         'line-height': height,
       }
     }
+
+    return { 'font-size': h.bracket.auto.rem(s) }
   }],
   [/^text-size-(.+)$/, ([, s]) => ({ 'font-size': h.bracket.auto.rem(s) })],
 

@@ -451,6 +451,7 @@ export const presetMiniTargets: string[] = [
   'text-4xl',
   'text-base',
   'text-lg',
+  'text-2em',
   'text-size-[2em]',
   'font-thin',
   'fw-900',
