@@ -152,9 +152,10 @@ exports[`preset-mini > targets 1`] = `
 .peer:is(:placeholder-shown)~.peer-is-placeholder-shown\\\\:text-3xl,
 .peer:not(:placeholder-shown)~.peer-not-placeholder-shown\\\\:text-3xl{font-size:1.875rem;line-height:2.25rem;}
 .peer:not(:placeholder-shown)~.peer-not-placeholder-shown\\\\:text-2xl{font-size:1.5rem;line-height:2rem;}
+.text-2em,
+.text-size-\\\\[2em\\\\]{font-size:2em;}
 .text-base{font-size:1rem;line-height:1.5rem;}
 .text-lg{font-size:1.125rem;line-height:1.75rem;}
-.text-size-\\\\[2em\\\\]{font-size:2em;}
 .font-thin{font-weight:100;}
 .fw-900{font-weight:900;}
 .leading-2{line-height:0.5rem;}
