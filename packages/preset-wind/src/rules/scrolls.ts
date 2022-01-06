@@ -1,13 +1,13 @@
 import type { Rule } from '@unocss/core'
+import { CONTROL_SHORTCUT_NO_MERGE } from '@unocss/core'
 import { directionSize } from '@unocss/preset-mini/utils'
-import { CONTROL_BYPASS_PSEUDO_CLASS } from '@unocss/preset-mini/variants'
 
 export const scrolls: Rule[] = [
   // snap type
   [/^snap-(x|y|both)$/, ([, d]) => [
     {
       '--un-scroll-snap-strictness': 'proximity',
-      [CONTROL_BYPASS_PSEUDO_CLASS]: '',
+      [CONTROL_SHORTCUT_NO_MERGE]: '',
     },
     {
       'scroll-snap-type': `${d} var(--un-scroll-snap-strictness)`,
