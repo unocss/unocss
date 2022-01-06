@@ -84,20 +84,11 @@ exports[`preset-mini > targets 1`] = `
 .stroke-size-\\\\[1rem\\\\]{stroke-width:1rem;}
 .stroke-size-1,
 .stroke-size-1px{stroke-width:1px;}
-.stroke-dash-\\\\[5\\\\2c 3\\\\2c 2\\\\]{stroke-dasharray:5,3,2;}
-.stroke-dash-1{stroke-dasharray:1;}
-.stroke-offset-\\\\[1rem\\\\]{stroke-dashoffset:1rem;}
-.stroke-offset-1,
-.stroke-offset-1px{stroke-dashoffset:1px;}
 .stroke-\\\\[\\\\#123\\\\]{--un-stroke-opacity:1;stroke:rgba(17,34,51,var(--un-stroke-opacity));}
 .stroke-\\\\[1rem\\\\]{stroke:1rem;}
 .stroke-current{stroke:currentColor;}
 .stroke-green-400{--un-stroke-opacity:1;stroke:rgba(74,222,128,var(--un-stroke-opacity));}
 .stroke-opacity-80{--un-stroke-opacity:0.8;}
-.stroke-cap-round{stroke-linecap:round;}
-.stroke-cap-auto{stroke-linecap:butt;}
-.stroke-join-clip{stroke-linejoin:miter-clip;}
-.stroke-join-auto{stroke-linejoin:miter;}
 .stroke-none{stroke:none;}
 .b-2{border-width:2px;border-style:solid;}
 .border{border-width:1px;border-style:solid;}
