@@ -6,6 +6,7 @@ import { ChunkModeBuildPlugin } from './modes/chunk-build'
 import { GlobalModeDevPlugin, GlobalModePlugin } from './modes/global'
 import { PerModuleModePlugin } from './modes/per-module'
 import { VueScopedPlugin } from './modes/vue-scoped'
+import { SvelteScopedPlugin } from './modes/svelte-scoped'
 import { ShadowDomModuleModePlugin } from './modes/shadow-dom'
 import { ConfigHMRPlugin } from './config-hmr'
 import type { VitePluginConfig } from './types'
@@ -15,6 +16,7 @@ export * from './modes/chunk-build'
 export * from './modes/global'
 export * from './modes/per-module'
 export * from './modes/vue-scoped'
+export * from './modes/svelte-scoped'
 
 export type { UnocssPluginContext } from '../../plugins-common'
 
@@ -42,6 +44,9 @@ export default function UnocssPlugin(
   }
   else if (mode === 'vue-scoped') {
     plugins.push(VueScopedPlugin(ctx))
+  }
+  else if (mode === 'svelte-scoped') {
+    plugins.push(SvelteScopedPlugin(ctx))
   }
   else if (mode === 'shadow-dom') {
     plugins.push(ShadowDomModuleModePlugin(ctx))
