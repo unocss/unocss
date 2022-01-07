@@ -435,6 +435,13 @@ export const presetMiniTargets: string[] = [
   'preserve-3d',
   'preserve-flat',
   'origin-top-left',
+  'perspect-100',
+  'perspect-800px',
+  'perspect-23rem',
+  'perspect-origin-center',
+  'perspect-origin-top-right',
+  'perspect-origin-[150%]',
+  'perspect-origin-[150%_150%]',
 
   // transition
   'transition-none',

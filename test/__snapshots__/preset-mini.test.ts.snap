@@ -479,6 +479,13 @@ exports[`preset-mini > targets 1`] = `
 .property-none{transition-property:none;}
 .transition-none{transition:none;}
 .origin-top-left{transform-origin:top left;}
+.perspect-100{-webkit-perspective:100px;perspective:100px;}
+.perspect-23rem{-webkit-perspective:23rem;perspective:23rem;}
+.perspect-800px{-webkit-perspective:800px;perspective:800px;}
+.perspect-origin-\\\\[150\\\\%_150\\\\%\\\\]{-webkit-perspective-origin:150% 150%;perspective-origin:150% 150%;}
+.perspect-origin-\\\\[150\\\\%\\\\]{-webkit-perspective-origin:150%;perspective-origin:150%;}
+.perspect-origin-center{-webkit-perspective-origin:center;perspective-origin:center;}
+.perspect-origin-top-right{-webkit-perspective-origin:top right;perspective-origin:top right;}
 .-translate-full,
 .translate-full,
 .-translate-x-full,

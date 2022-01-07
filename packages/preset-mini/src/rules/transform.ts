@@ -29,6 +29,28 @@ export const transforms: Rule[] = [
   // skip 1 & 2 letters shortcut
   [/^origin-([-\w]{3,})$/, ([, s]) => ({ 'transform-origin': positionMap[s] })],
 
+  // perspectives
+  [/^perspect-(.+)$/, ([, s]) => {
+    const v = h.px.numberWithUnit(s)
+    if (v != null) {
+      return {
+        '-webkit-perspective': v,
+        'perspective': v,
+      }
+    }
+  }],
+
+  // skip 1 & 2 letters shortcut
+  [/^perspect-origin-(.+)$/, ([, s]) => {
+    const v = h.bracket(s) ?? (s.length >= 3 ? positionMap[s] : undefined)
+    if (v != null) {
+      return {
+        '-webkit-perspective-origin': v,
+        'perspective-origin': v,
+      }
+    }
+  }],
+
   // modifiers
   [/^translate-()(.+)$/, handleTranslate],
   [/^translate-([xyz])-(.+)$/, handleTranslate],
