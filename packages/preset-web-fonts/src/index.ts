@@ -48,7 +48,7 @@ const preset = (options: WebFontsOptions = {}): Preset<any> => {
       if (!importCache[url]) {
         try {
           const { default: axios } = await import('axios')
-          const { data } = await axios.get(url)
+          const { data } = await axios.get(url, { headers: {} })
           importCache[url] = data
         }
         catch (e) {
