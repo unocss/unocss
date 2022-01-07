@@ -30,7 +30,7 @@ For examples:
 
 ## Install
 
-For all icon sets,
+For all the icon sets available on Iconify (~130MB)
 ```bash
 npm i -D @unocss/preset-icons @iconify/json
 ```
