@@ -30,7 +30,7 @@ const getThemeColor = (theme: Theme, colors: string[]) =>
   ]
 
 /**
- * Parse color string into rgba (if possible) with opacity opacity. Color value will be matched to theme object before converting to rgb value.
+ * Parse color string into rgba (if possible) with opacity. Color value will be matched to theme object before converting to rgb value.
  *
  * @example Parseable strings:
  * 'red' // From theme, if 'red' is available

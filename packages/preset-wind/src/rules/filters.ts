@@ -1,11 +1,8 @@
 import type { CSSValues, Rule, RuleContext } from '@unocss/core'
-import { toArray } from '@unocss/core'
-import { CONTROL_BYPASS_PSEUDO_CLASS } from '@unocss/preset-mini/variants'
+import { CONTROL_SHORTCUT_NO_MERGE, toArray } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
 import { handler as h } from '@unocss/preset-mini/utils'
 import { varEmpty } from '@unocss/preset-mini/rules'
-
-const filterContnet = 'var(--un-blur) var(--un-brightness) var(--un-contrast) var(--un-drop-shadow) var(--un-grayscale) var(--un-hue-rotate) var(--un-invert) var(--un-saturate) var(--un-sepia)'
 
 const filterBase = {
   '--un-blur': varEmpty,
@@ -17,11 +14,9 @@ const filterBase = {
   '--un-invert': varEmpty,
   '--un-saturate': varEmpty,
   '--un-sepia': varEmpty,
-  'filter': filterContnet,
-  [CONTROL_BYPASS_PSEUDO_CLASS]: '',
+  '--un-filter': 'var(--un-blur) var(--un-brightness) var(--un-contrast) var(--un-drop-shadow) var(--un-grayscale) var(--un-hue-rotate) var(--un-invert) var(--un-saturate) var(--un-sepia)',
+  [CONTROL_SHORTCUT_NO_MERGE]: '',
 }
-
-const backdropFilterContent = 'var(--un-backdrop-blur) var(--un-backdrop-brightness) var(--un-backdrop-contrast) var(--un-backdrop-grayscale) var(--un-backdrop-hue-rotate) var(--un-backdrop-invert) var(--un-backdrop-opacity) var(--un-backdrop-saturate) var(--un-backdrop-sepia)'
 
 const backdropFilterBase = {
   '--un-backdrop-blur': varEmpty,
@@ -33,9 +28,8 @@ const backdropFilterBase = {
   '--un-backdrop-opacity': varEmpty,
   '--un-backdrop-saturate': varEmpty,
   '--un-backdrop-sepia': varEmpty,
-  '-webkit-backdrop-filter': backdropFilterContent,
-  'backdrop-filter': backdropFilterContent,
-  [CONTROL_BYPASS_PSEUDO_CLASS]: '',
+  '--un-backdrop-filter': 'var(--un-backdrop-blur) var(--un-backdrop-brightness) var(--un-backdrop-contrast) var(--un-backdrop-grayscale) var(--un-backdrop-hue-rotate) var(--un-backdrop-invert) var(--un-backdrop-opacity) var(--un-backdrop-saturate) var(--un-backdrop-sepia)',
+  [CONTROL_SHORTCUT_NO_MERGE]: '',
 }
 
 const percentWithDefault = (str?: string) => {
@@ -52,17 +46,29 @@ const toFilter = (varName: string, resolver: (str: string, theme: Theme) => stri
   ([, b, s]: string[], { theme }: RuleContext<Theme>): CSSValues | undefined => {
     const value = resolver(s, theme)
     if (value != null && value !== '') {
-      return [
-        b ? backdropFilterBase : filterBase,
-        { [`--un-${b || ''}${varName}`]: `${varName}(${value})` },
-      ]
+      if (b) {
+        return [
+          backdropFilterBase,
+          {
+            [`--un-${b}${varName}`]: `${varName}(${value})`,
+            '-webkit-backdrop-filter': 'var(--un-backdrop-filter)',
+            'backdrop-filter': 'var(--un-backdrop-filter)',
+          },
+        ]
+      }
+      else {
+        return [
+          filterBase,
+          {
+            [`--un-${varName}`]: `${varName}(${value})`,
+            filter: 'var(--un-filter)',
+          },
+        ]
+      }
     }
   }
 
 export const filters: Rule<Theme>[] = [
-  ['filter', filterBase],
-  ['backdrop-filter', backdropFilterBase],
-
   // filters
   [/^(backdrop-)?blur(?:-(.+))?$/, toFilter('blur', (s, theme) => theme.blur?.[s || 'DEFAULT'] || h.bracket.px(s))],
   [/^(backdrop-)?brightness-(.+)$/, toFilter('brightness', s => h.bracket.percent(s))],
@@ -84,6 +90,19 @@ export const filters: Rule<Theme>[] = [
   [/^(backdrop-)opacity-(.+)$/, toFilter('opacity', s => h.bracket.percent(s))],
   [/^(backdrop-)?saturate-(.+)$/, toFilter('saturate', s => h.bracket.percent(s))],
   [/^(backdrop-)?sepia(?:-(.+))?$/, toFilter('sepia', percentWithDefault)],
+
+  // base
+  [/^filter$/, () => [
+    filterBase,
+    { filter: 'var(--un-filter)' },
+  ]],
+  [/^backdrop-filter$/, () => [
+    backdropFilterBase,
+    {
+      '-webkit-backdrop-filter': 'var(--un-backdrop-filter)',
+      'backdrop-filter': 'var(--un-backdrop-filter)',
+    },
+  ]],
 
   // nones
   ['filter-none', { filter: 'none' }],

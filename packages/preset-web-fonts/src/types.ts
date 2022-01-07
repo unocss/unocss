@@ -35,10 +35,18 @@ export interface WebFontsOptions {
    * @default 'fontFamily'
    */
   themeKey?: string
+
+  /**
+   * Inline CSS @import()
+   *
+   * @default true
+   */
+  inlineImports?: boolean
 }
 
 export interface Provider {
   name: WebFontsProviders
-  getPreflight(fonts: WebFontMeta[]): string
+  getPreflight?(fonts: WebFontMeta[]): string
+  getImportUrl?(fonts: WebFontMeta[]): string | undefined
   getFontName(font: WebFontMeta): string
 }

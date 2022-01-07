@@ -33,6 +33,8 @@ export const presetMiniTargets: string[] = [
   'will-change-transform',
   'will-change-unset',
   'will-change-auto',
+  'will-change-scroll',
+  'will-change-contents',
 
   // border
   'b-2',
@@ -374,6 +376,7 @@ export const presetMiniTargets: string[] = [
   'whitespace-pre-wrap',
   'ws-nowrap',
   'content-empty',
+  'content-none',
   'break-normal',
   'break-words',
   'text-clip',
@@ -398,6 +401,15 @@ export const presetMiniTargets: string[] = [
   'stroke-size-1',
   'stroke-size-1px',
   'stroke-size-[1rem]',
+  'stroke-dash-1',
+  'stroke-dash-[5,3,2]',
+  'stroke-offset-1',
+  'stroke-offset-1px',
+  'stroke-offset-[1rem]',
+  'stroke-cap-round',
+  'stroke-cap-auto',
+  'stroke-join-clip',
+  'stroke-join-auto',
 
   // transforms
   'transform',
@@ -458,6 +470,7 @@ export const presetMiniTargets: string[] = [
   'text-4xl',
   'text-base',
   'text-lg',
+  'text-2em',
   'text-size-[2em]',
   'font-thin',
   'fw-900',
