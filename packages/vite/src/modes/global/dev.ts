@@ -147,7 +147,8 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
       enforce: 'post',
       transform(code, id) {
         if (entries.has(getPath(id)) && code.includes('import.meta.hot')) {
-          return `${code}
+          return frontEndUrl
+            ? `${code}
 await (async() => {
   const { protocol: pt1, host: h1, port: p1 } = new URL("${frontEndUrl}");
   const { protocol: pt2, host: h2, port: p2 } = new URL(document.location.href);
@@ -156,6 +157,7 @@ await (async() => {
   else
     await fetch("${base}${READY_CALLBACK_DEFAULT}/${lastServed}");
 })();`
+            : `${code}\nawait fetch("${base}${READY_CALLBACK_DEFAULT}/${lastServed}")`
         }
       },
     },
