@@ -31,7 +31,7 @@ For examples:
 ## Install
 
 ```bash
-npm i -D @unocss/preset-icons @iconify/[the-collection-you-want]
+npm i -D @unocss/preset-icons @iconify-json/[the-collection-you-want]
 ```
 
 We use [Iconify](https://iconify.design) as our data source of icons. You need to install the corresponding iconset in `devDependencies` by following the `@iconify-json/*` pattern. For example, `@iconify-json/mdi` for [Material Design Icons](https://materialdesignicons.com/), `@iconify-json/tabler` for [Tabler](https://tabler-icons.io/). You can refer to [Icônes](https://icones.js.org/) or [Iconify](https://icon-sets.iconify.design/) for all the collections available.
