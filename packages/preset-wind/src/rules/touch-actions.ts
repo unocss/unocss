@@ -1,13 +1,13 @@
 import type { Rule } from '@unocss/core'
+import { CONTROL_SHORTCUT_NO_MERGE } from '@unocss/core'
 import { varEmpty } from '@unocss/preset-mini/rules'
-import { CONTROL_BYPASS_PSEUDO_CLASS } from '@unocss/preset-mini/variants'
 
 const touchActionBase = {
   '--un-pan-x': varEmpty,
   '--un-pan-y': varEmpty,
   '--un-pinch-zoom': varEmpty,
   '--un-touch-action': 'var(--un-pan-x) var(--un-pan-y) var(--un-pinch-zoom)',
-  [CONTROL_BYPASS_PSEUDO_CLASS]: '',
+  [CONTROL_SHORTCUT_NO_MERGE]: '',
 }
 
 export const touchActions: Rule[] = [
