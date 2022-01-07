@@ -3,7 +3,7 @@ import { colorResolver, handler as h } from '../utils'
 
 export const outline: Rule[] = [
   // size
-  [/^outline-(?:width-|size-)?(.+)$/, ([, d]) => ({ 'outline-width': h.bracket.fraction.auto.rem(d) })],
+  [/^outline-(?:size-)?(.+)$/, ([, d]) => ({ 'outline-width': h.bracket.fraction.auto.rem(d) })],
 
   // color
   [/^outline-(?:color-)?(.+)$/, colorResolver('outline-color', 'outline-color')],

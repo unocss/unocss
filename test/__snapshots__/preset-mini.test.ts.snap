@@ -412,9 +412,8 @@ exports[`preset-mini > targets 1`] = `
 .overflow-y-clip{overflow-y:clip;}
 .outline-110{outline-width:27.5rem;}
 .outline-size-\\\\[var\\\\(--width\\\\)\\\\]{outline-width:var(--width);}
-.outline-size-4,
-.outline-width-4{outline-width:1rem;}
-.outline-width-10px{outline-width:10px;}
+.outline-size-10px{outline-width:10px;}
+.outline-size-4{outline-width:1rem;}
 .outline-\\\\[var\\\\(--red\\\\)\\\\]{outline-color:var(--red);}
 .outline-blue-2{--un-outline-color-opacity:1;outline-color:rgba(191,219,254,var(--un-outline-color-opacity));}
 .outline-color-red-1{--un-outline-color-opacity:1;outline-color:rgba(254,226,226,var(--un-outline-color-opacity));}
