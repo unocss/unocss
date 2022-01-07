@@ -15,7 +15,7 @@
     "build": "tsc && vite build"
   },
   "dependencies": {
-    "lit": "^2.0.2"
+    "lit": "^2.1.1"
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.0.4",
