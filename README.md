@@ -136,14 +136,16 @@ Presets are the heart of UnoCSS that lets you make your own custom framework in 
 
 ###### Official Presets
 
-- [@unocss/preset-uno](https://github.com/antfu/unocss/tree/main/packages/preset-uno) - The default preset.
+- [@unocss/preset-uno](https://github.com/antfu/unocss/tree/main/packages/preset-uno) - The default preset (right now it's equivalent to `@unocss/preset-wind`).
+- [@unocss/preset-mini](https://github.com/antfu/unocss/tree/main/packages/preset-mini) - The minimal but essential rules and variants.
+- [@unocss/preset-wind](https://github.com/antfu/unocss/tree/main/packages/preset-wind) - Tailwind / Windi CSS compact preset.
 - [@unocss/preset-attributify](https://github.com/antfu/unocss/tree/main/packages/preset-attributify) - Provides [Attributify Mode](https://github.com/antfu/unocss/tree/main/packages/preset-attributify#attributify-mode) to other presets and rules.
 - [@unocss/preset-icons](https://github.com/antfu/unocss/tree/main/packages/preset-icons) - Use any icon as a class utility.
+- [@unocss/preset-web-fonts](https://github.com/antfu/unocss/tree/main/packages/preset-web-fonts) - Web fonts at ease.
 
 ###### Community Presets
 
 - [unocss-preset-typography](https://github.com/ydcjeff/unocss-preset-typography) - Typography Preset by [@ydcjeff](https://github.com/ydcjeff)
-
 - [unocss-preset-scalpel](https://github.com/macheteHot/unocss-preset-scalpel) - Scalpel Preset by [@macheteHot](https://github.com/macheteHot/)
 
 ### Use Presets
