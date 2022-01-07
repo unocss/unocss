@@ -5,6 +5,7 @@ import { theme } from './theme'
 import { variants } from './variants'
 
 export { theme, colors } from './theme'
+export { parseColor } from './utils'
 
 export type { ThemeAnimation, Theme }
 
