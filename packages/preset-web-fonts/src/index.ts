@@ -31,6 +31,7 @@ const preset = (options: WebFontsOptions = {}): Preset<any> => {
   const {
     provider: defaultProvider = 'google',
     extendTheme = true,
+    inlineImports = true,
     themeKey = 'fontFamily',
   } = options
 
@@ -40,6 +41,30 @@ const preset = (options: WebFontsOptions = {}): Preset<any> => {
   )
   const fonts = Object.values(fontObject).flatMap(i => i)
 
+  const importCache: Record<string, string> = {}
+
+  async function importUrl(url: string) {
+    if (inlineImports) {
+      if (!importCache[url]) {
+        try {
+          const { default: axios } = await import('axios')
+          const { data } = await axios.get(url)
+          importCache[url] = data
+        }
+        catch (e) {
+          console.error('Failed to fetch web fonts')
+          console.error(e)
+          if (typeof process !== 'undefined' && process.env.CI)
+            throw e
+        }
+      }
+      return importCache[url]
+    }
+    else {
+      return `@import url('${url}')`
+    }
+  }
+
   const preset: Preset<any> = {
     name: '@unocss/preset-web-fonts',
     layers: {
@@ -47,13 +72,23 @@ const preset = (options: WebFontsOptions = {}): Preset<any> => {
     },
     preflights: [
       {
-        getCSS() {
+        async getCSS() {
           const names = new Set(fonts.map(i => i.provider || defaultProvider))
-          const preflights = []
+          const preflights: (string | undefined)[] = []
+
           for (const name of names) {
+            const fontsForProvider = fonts.filter(i => i.provider === name)
             const provider = providers[name]
-            preflights.push(provider.getPreflight(fonts.filter(i => i.provider === name)))
+
+            if (provider.getImportUrl) {
+              const url = provider.getImportUrl(fontsForProvider)
+              if (url)
+                preflights.push(await importUrl(url))
+            }
+
+            preflights.push(provider.getPreflight?.(fontsForProvider))
           }
+
           return preflights.filter(Boolean).join('\n')
         },
         layer: layerName,

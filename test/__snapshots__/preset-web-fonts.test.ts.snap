@@ -1,8 +1,81 @@
 // Vitest Snapshot v1
 
-exports[`web-fonts 1`] = `
+exports[`web-fonts (inline: false) 1`] = `
 "/* layer: __webfonts__ */
-@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Fira+Code&family=Fira+Mono:wght@400;700&family=Lobster&family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Fira+Code&family=Fira+Mono:wght@400;700&family=Lobster&family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap')
+/* layer: default */
+.font-lato{font-family:\\"Lato\\",sans-serif;}
+.font-lobster{font-family:\\"Lobster\\";}
+.font-mono{font-family:\\"Fira Code\\",\\"Fira Mono\\",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\\"Liberation Mono\\",\\"Courier New\\",monospace;}
+.font-sans{font-family:\\"Roboto\\",ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\\"Segoe UI\\",Roboto,\\"Helvetica Neue\\",Arial,\\"Noto Sans\\",sans-serif,\\"Apple Color Emoji\\",\\"Segoe UI Emoji\\",\\"Segoe UI Symbol\\",\\"Noto Color Emoji\\";}"
+`;
+
+exports[`web-fonts (inline: true) 1`] = `
+"/* layer: __webfonts__ */
+@font-face {
+  font-family: 'Fira Code';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(http://fonts.gstatic.com/s/firacode/v14/uU9eCBsR6Z2vfE9aq3bL0fxyUs4tcw4W_D1sFVc.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Fira Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(http://fonts.gstatic.com/s/firamono/v9/N0bX2SlFPv1weGeLZDtQIQ.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Fira Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(http://fonts.gstatic.com/s/firamono/v9/N0bS2SlFPv1weGeLZDtondv3mQ.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Lato';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(http://fonts.gstatic.com/s/lato/v20/S6u8w4BMUTPHjxswWw.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Lato';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url(http://fonts.gstatic.com/s/lato/v20/S6u_w4BMUTPHjxsI5wqPHA.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(http://fonts.gstatic.com/s/lato/v20/S6uyw4BMUTPHvxk.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(http://fonts.gstatic.com/s/lato/v20/S6u9w4BMUTPHh6UVew8.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Lobster';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(http://fonts.gstatic.com/s/lobster/v23/neILzCirqoswsqX9_oU.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(http://fonts.gstatic.com/s/roboto/v29/KFOmCnqEu92Fr1Me5Q.ttf) format('truetype');
+}
+
 /* layer: default */
 .font-lato{font-family:\\"Lato\\",sans-serif;}
 .font-lobster{font-family:\\"Lobster\\";}

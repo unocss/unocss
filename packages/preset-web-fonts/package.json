@@ -46,6 +46,7 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
+    "axios": "^0.24.0",
     "@unocss/core": "workspace:*"
   }
 }
