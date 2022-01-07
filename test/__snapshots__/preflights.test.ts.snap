@@ -3,8 +3,6 @@
 exports[`preflights > basic 1`] = `
 "/* layer: default */
 .default-preflight {}
-
 /* layer: preflight */
-.hello { text: red }
-"
+.hello { text: red }"
 `;

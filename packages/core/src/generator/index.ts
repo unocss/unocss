@@ -150,6 +150,25 @@ export class UnoGenerator {
       .sort((a, b) => ((this.config.layers[a] ?? 0) - (this.config.layers[b] ?? 0)) || a.localeCompare(b)),
     )
 
+    let preflightsMap: Record<string, string> = {}
+    if (preflights) {
+      preflightsMap = Object.fromEntries(
+        await Promise.all(layers.map(
+          async(layer) => {
+            const preflights = await Promise.all(
+              this.config.preflights
+                .filter(i => (i.layer || 'default') === layer)
+                .map(async i => await i.getCSS()),
+            )
+            const css = preflights
+              .filter(Boolean)
+              .join(nl)
+            return [layer, css]
+          },
+        )),
+      )
+    }
+
     const getLayer = (layer: string) => {
       if (layerCache[layer])
         return layerCache[layer]
@@ -194,13 +213,8 @@ export class UnoGenerator {
         .join(nl)
 
       if (preflights) {
-        css = [
-          ...this.config.preflights
-            .filter(i => (i.layer || 'default') === layer)
-            .map(i => i.getCSS())
-            .filter(Boolean),
-          css,
-        ]
+        css = [preflightsMap[layer], css]
+          .filter(Boolean)
           .join(nl)
       }
 

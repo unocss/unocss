@@ -3,7 +3,6 @@
 exports[`web-fonts 1`] = `
 "/* layer: __webfonts__ */
 @import url('https://fonts.googleapis.com/css2?family=Roboto&family=Fira+Code&family=Fira+Mono:wght@400;700&family=Lobster&family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap');
-
 /* layer: default */
 .font-lato{font-family:\\"Lato\\",sans-serif;}
 .font-lobster{font-family:\\"Lobster\\";}
