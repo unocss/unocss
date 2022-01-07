@@ -49,6 +49,12 @@ Unocss({
 
 > 💡 You can also use this preset alone as a complement to your existing UI frameworks to have pure CSS icons!
 
+If you prefer to install the all the icon sets available on Iconify at once (~130MB):
+
+```bash
+npm i -D @iconify/json
+```
+
 ## Configuration
 
 Refer to the [type definition](https://github.com/antfu/unocss/blob/main/packages/preset-icons/src/types.ts#L4) for all configurations avaliable.
