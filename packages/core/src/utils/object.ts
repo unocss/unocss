@@ -6,7 +6,7 @@ export function normalizeCSSEntries(obj: CSSEntries | CSSObject): CSSEntries {
 
 export function normalizeCSSValues(obj: CSSValues): CSSEntries[] {
   if (Array.isArray(obj)) {
-    // @ts-expect-error
+    // @ts-expect-error type cast
     if (obj.find(i => !Array.isArray(i) || Array.isArray(i[0])))
       return (obj as any).map((i: any) => normalizeCSSEntries(i))
     else
@@ -83,7 +83,6 @@ export function clone<T>(val: T): T {
 
   if (Object.prototype.toString.call(val) === '[object Object]') {
     out = {} // null
-    // eslint-disable-next-line no-restricted-syntax
     for (k in val) {
       if (k === '__proto__') {
         Object.defineProperty(out, k, {

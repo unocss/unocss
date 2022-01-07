@@ -32,7 +32,7 @@ export function ChunkModeBuildPlugin({ uno, filter }: UnocssPluginContext): Plug
 
       // fool the css plugin to generate the css in corresponding chunk
       const fakeCssId = `${chunk.fileName}.css`
-      // @ts-ignore
+      // @ts-expect-error no this context
       await cssPlugin!.transform(css, fakeCssId)
       chunk.modules[fakeCssId] = {
         code: null,

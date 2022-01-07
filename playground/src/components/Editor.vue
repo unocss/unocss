@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
-// @ts-ignore
+// @ts-expect-error missing types
 import { Pane, Splitpanes } from 'splitpanes'
 import { isDark } from '../logics/dark'
 import { customConfigError, customConfigRaw, inputHTML, output } from '../logics/uno'

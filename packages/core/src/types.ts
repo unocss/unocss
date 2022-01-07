@@ -15,7 +15,7 @@ export type CSSObject = Record<string, string | number | undefined>
 export type CSSEntries = [string, string | number | undefined][]
 
 export type RGBAColorValue = [number, number, number, number] | [number, number, number]
-export type ParsedColorValue = {
+export interface ParsedColorValue {
   /**
    * Parsed color value.
    */
@@ -162,7 +162,7 @@ export interface VariantHandler {
 
 export type VariantFunction<Theme extends {} = {}> = (matcher: string, context: Readonly<VariantContext<Theme>>) => string | VariantHandler | undefined
 
-export type VariantObject<Theme extends {} = {}> = {
+export interface VariantObject<Theme extends {} = {}> {
   /**
    * The entry function to match and rewrite the selector for futher processing.
    */
@@ -358,7 +358,7 @@ export interface GenerateResult {
 export type VariantMatchedResult = readonly [
   raw: string,
   current: string,
-  variants: VariantHandler[]
+  variants: VariantHandler[],
 ]
 
 export type ParsedUtil = readonly [
@@ -366,7 +366,7 @@ export type ParsedUtil = readonly [
   raw: string,
   entries: CSSEntries,
   meta: RuleMeta | undefined,
-  variants: VariantHandler[]
+  variants: VariantHandler[],
 ]
 
 export type RawUtil = readonly [

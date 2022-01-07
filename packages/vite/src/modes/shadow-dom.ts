@@ -5,7 +5,7 @@ import { CSS_PLACEHOLDER } from '../../../plugins-common'
 export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin {
   const partExtractorRegex = /^part-\[(.+)]:/
   const nameRegexp = /<([^\s^!>]+)\s*([^>]*)>/
-  type PartData = {
+  interface PartData {
     part: string
     rule: string
   }

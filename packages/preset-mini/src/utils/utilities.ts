@@ -100,10 +100,9 @@ export const parseColor = (body: string, theme: Theme): ParsedColorValue | undef
   const hasAlpha = alpha != null && !Number.isNaN(alpha)
   if (rgba) {
     if (hasAlpha) {
-      // @ts-expect-error
       rgba[3] = typeof alpha === 'string' && !alpha.includes('%')
         ? parseFloat(alpha)
-        : alpha
+        : alpha as number
     }
     else {
       rgba.splice(3)
