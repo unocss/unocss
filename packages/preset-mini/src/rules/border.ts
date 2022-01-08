@@ -9,9 +9,9 @@ export const borders: Rule[] = [
   [/^(?:border|b)-([rltbse])(?:-(.+))?$/, handlerBorder],
 
   // size
-  [/^(?:border|b)-()size-(.+)$/, handlerBorderSize],
-  [/^(?:border|b)-([xy])-size-(.+)$/, handlerBorderSize],
-  [/^(?:border|b)-([rltbse])-size-(.+)$/, handlerBorderSize],
+  [/^(?:border|b)-()(?:width|size)-(.+)$/, handlerBorderSize],
+  [/^(?:border|b)-([xy])-(?:width|size)-(.+)$/, handlerBorderSize],
+  [/^(?:border|b)-([rltbse])-(?:width|size)-(.+)$/, handlerBorderSize],
 
   // colors
   [/^(?:border|b)-()(?:color-)?(.+)$/, handlerBorderColor],
