@@ -113,6 +113,35 @@ export default {
 
 Refer to the full documentation on https://github.com/antfu/unocss/tree/main/packages/nuxt
 
+### Sveltekit
+
+```bash
+npm i -D unocss
+```
+
+```ts
+// svelte.config.js
+import Unocss from 'unocss/vite'
+export default {
+  kit: {
+    vite: {
+      plugins: [
+        Unocss({ /* options */ })
+      ]
+    }
+  }
+}
+```
+
+Add `uno.css` to your main entry:
+
+```ts
+// route/__layout.svelte
+<script>
+  import 'uno.css'
+<script>
+```
+
 ## Configurations
 
 UnoCSS is an atomic-CSS engine instead of a framework. Everything is designed with flexibility and performance in mind. In UnoCSS, there are no core utilities; all functionalities are provided via presets.
