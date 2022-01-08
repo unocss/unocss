@@ -215,20 +215,12 @@ You can use simple rules with `class:`, for example `class:bg-red-500={foo}` or 
 
 ```ts
 // svelte.config.js
-import preprocess from 'svelte-preprocess'
 import UnoCss from 'unocss/vite'
 import { extractorSvelte } from '@unocss/core'
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-  // Consult https://github.com/sveltejs/svelte-preprocess
-  // for more information about preprocessors
-  preprocess: preprocess(),
-
   kit: {
-
-    // hydrate the <div id="svelte"> element in src/app.html
-    target: '#svelte',
     vite: {
       plugins: [
         UnoCss({
