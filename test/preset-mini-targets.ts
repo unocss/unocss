@@ -1,4 +1,7 @@
 export const presetMiniTargets: string[] = [
+  // shortcuts
+  'clearfix',
+
   // align
   'vertical-baseline',
   'vertical-super',

@@ -32,6 +32,9 @@ export const presetMini = (options: PresetMiniOptions = {}): Preset<Theme> => {
     name: '@unocss/preset-mini',
     theme,
     rules,
+    shortcuts: [
+      ['clearfix', 'after:block after:clear-both after:content-none'],
+    ],
     variants: variants(options),
     options,
     postprocess: options.variablePrefix && options.variablePrefix !== 'un-'

@@ -9,7 +9,9 @@ exports[`preset-mini > custom var prefix 1`] = `
 `;
 
 exports[`preset-mini > targets 1`] = `
-"/* layer: default */
+"/* layer: shortcuts */
+.clearfix::after{display:block;content:\\"\\";clear:both;}
+/* layer: default */
 .grid-cols-\\\\$1{grid-template-columns:var(--1);}
 .items-\\\\$size{align-items:var(--size);}
 .object-\\\\$fit{object-fit:var(--fit);}
