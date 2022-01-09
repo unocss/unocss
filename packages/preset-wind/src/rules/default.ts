@@ -9,6 +9,7 @@ import {
   boxShadows,
   boxSizing,
   contents,
+  cssProperty,
   cursors,
   displays,
   flex,
@@ -72,6 +73,7 @@ import { placeholders } from './placeholder'
 export const rules: Rule[] = [
   miniCssVariables,
   cssVariables,
+  cssProperty,
   container,
   screenReadersAccess,
   pointerEvents,

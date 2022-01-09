@@ -475,9 +475,9 @@ function applyScope(css: string, scope?: string) {
     return scope ? `${scope} ${css}` : css
 }
 
+const attributifyRe = /^\[(.+?)(~?=)"(.*)"\]$/
 function toEscapedSelector(raw: string) {
-  if (raw.startsWith('['))
-    return raw.replace(/^\[(.+?)(~?=)"(.*)"\]$/, (_, n, s, i) => `[${e(n)}${s}"${e(i)}"]`)
-  else
-    return `.${e(raw)}`
+  if (raw.startsWith('[') && attributifyRe.test(raw))
+    return raw.replace(attributifyRe, (_, n, s, i) => `[${e(n)}${s}"${e(i)}"]`)
+  return `.${e(raw)}`
 }
