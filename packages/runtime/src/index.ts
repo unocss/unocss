@@ -1,11 +1,17 @@
 import type { UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
+import { autoPrefixer } from './utils'
 
 export interface RuntimeOptions {
   /**
    * Default config of UnoCSS
    */
   defaults?: UserConfigDefaults
+  /**
+   * Enable css property auto prefixer
+   * @default false
+   */
+  autoPrefix?: boolean
 }
 
 export type RuntimeInspectorCallback = (element: Element) => boolean
@@ -62,13 +68,24 @@ export default function init(options: RuntimeOptions = {}) {
     return
   }
 
+  const defaultOptions = options.defaults || {}
+  if (options.autoPrefix) {
+    let postprocess = defaultOptions.postprocess
+    if (!postprocess)
+      postprocess = []
+    if (!Array.isArray(postprocess))
+      postprocess = [postprocess]
+    postprocess.unshift(autoPrefixer(document.createElement('div').style))
+    defaultOptions.postprocess = postprocess
+  }
+
   Object.assign(options, window.__unocss?.runtime)
 
   let styleElement: HTMLStyleElement | undefined
   let paused = false
   let inspector: RuntimeInspectorCallback | undefined
 
-  const uno = createGenerator(window.__unocss || {}, options.defaults)
+  const uno = createGenerator(window.__unocss || {}, defaultOptions)
   const tokens = new Set<string>()
 
   let _timer: number | undefined
