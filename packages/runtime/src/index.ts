@@ -1,5 +1,6 @@
-import type { UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
+import type { Postprocessor, UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
+import { capitalize } from '@unocss/preset-mini/utils'
 
 export interface RuntimeOptions {
   /**
@@ -63,12 +64,17 @@ export default function init(options: RuntimeOptions = {}) {
   }
 
   Object.assign(options, window.__unocss?.runtime)
+  const userOptions = Object.assign({
+    postprocess: [
+      autoPrefixer(),
+    ],
+  }, window.__unocss || {})
 
   let el: HTMLStyleElement | undefined
   let paused = false
   let inspector: RuntimeInspectorCallback | undefined
 
-  const uno = createGenerator(window.__unocss || {}, options.defaults)
+  const uno = createGenerator(userOptions, options.defaults)
   const tokens = new Set<string>()
 
   let _timer: number | undefined
@@ -153,4 +159,33 @@ export default function init(options: RuntimeOptions = {}) {
   execute()
   window.addEventListener('load', execute)
   window.addEventListener('DOMContentLoaded', execute)
+}
+
+function autoPrefixer(): Postprocessor {
+  const prefixes = ['Webkit', 'Moz', 'ms']
+  const prefixCache: Record<string, string> = {}
+  const elementStyle = document.createElement('div').style
+
+  const camelize = (str: string) => str.replace(/-(\w)/g, (_, c) => c ? c.toUpperCase() : '')
+
+  function autoPrefix(rawName: string): string {
+    const cached = prefixCache[rawName]
+    if (cached)
+      return cached
+    let name = camelize(rawName)
+    if (name !== 'filter' && name in elementStyle)
+      return (prefixCache[rawName] = name)
+    name = capitalize(name)
+    for (let i = 0; i < prefixes.length; i++) {
+      const prefixed = `${prefixes[i]}${name}`
+      if (prefixed in elementStyle)
+        return (prefixCache[rawName] = prefixed)
+    }
+    return rawName
+  }
+
+  return ({ entries }) => entries.forEach((e) => {
+    if (!e[0].startsWith('--'))
+      e[0] = autoPrefix(e[0])
+  })
 }
