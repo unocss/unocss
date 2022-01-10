@@ -28,10 +28,15 @@ exports[`preset-mini > targets 1`] = `
 .not-hover\\\\:p-4px:not(:hover){padding:4px;}
 .not-hover\\\\:p-3:not(:hover){padding:0.75rem;}
 .\\\\!hover\\\\:px-10:hover{padding-left:2.5rem !important;padding-right:2.5rem !important;}
+.p-p-2,
+.pp-2,
+.pp2{padding-block-start:0.5rem;}
 .p-t-2,
 .pt-2,
 .pt2{padding-top:0.5rem;}
 .pl-10px{padding-left:10px;}
+.pp-\\\\$title2{padding-block-start:var(--title2);}
+.ps-10px{padding-inline-start:10px;}
 .pt-\\\\$title2{padding-top:var(--title2);}
 .-m-auto,
 .all\\\\:m-auto *,
@@ -41,8 +46,11 @@ exports[`preset-mini > targets 1`] = `
 .m-\\\\[3em\\\\]{margin:3em;}
 .m-0{margin:0rem;}
 .m-1\\\\/2{margin:50%;}
+.mk-auto{margin-block-start:auto;margin-block-end:auto;}
 .my-auto{margin-top:auto;margin-bottom:auto;}
 .-mb-px{margin-bottom:-1px;}
+.mp-\\\\[-10\\\\.2\\\\%\\\\]{margin-block-start:-10.2%;}
+.mp-\\\\$height{margin-block-start:var(--height);}
 .mt-\\\\[-10\\\\.2\\\\%\\\\]{margin-top:-10.2%;}
 .mt-\\\\$height{margin-top:var(--height);}
 .next\\\\:mt-0+*{margin-top:0rem;}
@@ -102,8 +110,11 @@ exports[`preset-mini > targets 1`] = `
 .b-2{border-width:2px;border-style:solid;}
 .border{border-width:1px;border-style:solid;}
 .border-4{border-width:4px;border-style:solid;}
+.border-i{border-inline-start-width:1px;border-inline-end-width:1px;border-style:solid;}
 .border-x{border-left-width:1px;border-right-width:1px;border-style:solid;}
 .border-b{border-bottom-width:1px;border-style:solid;}
+.border-p-2{border-block-start-width:2px;border-style:solid;}
+.border-q{border-block-end-width:1px;border-style:solid;}
 .border-t-2{border-top-width:2px;border-style:solid;}
 .border-\\\\[\\\\#124\\\\]{--un-border-opacity:1;border-color:rgba(17,34,68,var(--un-border-opacity));}
 .border-\\\\[2em\\\\]{border-color:2em;}
@@ -138,7 +149,10 @@ exports[`preset-mini > targets 1`] = `
 .rounded-1\\\\/2{border-radius:50%;}
 .rounded-full{border-radius:9999px;}
 .rounded-md{border-radius:0.375rem;}
+.rounded-p-sm{border-start-start-radius:0.125rem;border-start-end-radius:0.125rem;}
 .rounded-t-sm{border-top-left-radius:0.125rem;border-top-right-radius:0.125rem;}
+.rounded-eq-1\\\\/2{border-end-end-radius:50%;}
+.rounded-pe{border-start-end-radius:0.25rem;}
 .rounded-rb-1\\\\/2{border-bottom-right-radius:50%;}
 .rounded-tr{border-top-right-radius:0.25rem;}
 .border-double{border-style:double;}
@@ -361,13 +375,39 @@ exports[`preset-mini > targets 1`] = `
 .h-8\\\\/7{height:114.2857142857%;}
 .h-auto{height:auto;}
 .h-lg{height:32rem;}
+.i-\\\\[calc\\\\(calc\\\\(100px\\\\*10\\\\)-4rem\\\\)\\\\]{inline-size:calc(calc(100px * 10) - 4rem);}
+.i-1{inline-size:0.25rem;}
+.i-1\\\\/4{inline-size:25%;}
+.i-21{inline-size:5.25rem;}
+.i-auto{inline-size:auto;}
+.i-lg{inline-size:32rem;}
+.k-\\\\[calc\\\\(1000px-4rem\\\\)\\\\]{block-size:calc(1000px - 4rem);}
+.k-\\\\$var{block-size:var(--var);}
+.k-1{block-size:0.25rem;}
+.k-1\\\\/2{block-size:50%;}
+.k-21{block-size:5.25rem;}
+.k-8\\\\/7{block-size:114.2857142857%;}
+.k-auto{block-size:auto;}
+.k-lg{block-size:32rem;}
 .max-h-\\\\[1px\\\\]{max-height:1px;}
+.max-i-\\\\$var{max-inline-size:var(--var);}
+.max-i-20{max-inline-size:5rem;}
+.max-i-full{max-inline-size:100%;}
+.max-i-lg{max-inline-size:32rem;}
+.max-i-none{max-inline-size:none;}
+.max-k-\\\\[1px\\\\]{max-block-size:1px;}
 .max-w-\\\\$var{max-width:var(--var);}
 .max-w-20{max-width:5rem;}
 .max-w-full{max-width:100%;}
 .max-w-lg{max-width:32rem;}
 .max-w-none{max-width:none;}
 .min-h-\\\\[1px\\\\]{min-height:1px;}
+.min-i-\\\\$var{min-inline-size:var(--var);}
+.min-i-20{min-inline-size:5rem;}
+.min-i-full{min-inline-size:100%;}
+.min-i-lg{min-inline-size:32rem;}
+.min-i-none{min-inline-size:none;}
+.min-k-\\\\[1px\\\\]{min-block-size:1px;}
 .min-w-\\\\$var{min-width:var(--var);}
 .min-w-20{min-width:5rem;}
 .min-w-full{min-width:100%;}
@@ -379,7 +419,9 @@ exports[`preset-mini > targets 1`] = `
 .w-21{width:5.25rem;}
 .w-auto{width:auto;}
 .w-lg{width:32rem;}
+.max-i-screen-lg{max-inline-size:1024px;}
 .max-w-screen-lg{max-width:1024px;}
+.min-i-screen-lg{min-inline-size:1024px;}
 .min-w-screen-lg{min-width:1024px;}
 .aspect-\\\\[auto_16\\\\/9\\\\],
 .aspect-ratio-\\\\[auto_16\\\\/9\\\\]{aspect-ratio:auto 16/9;}
@@ -445,6 +487,8 @@ exports[`preset-mini > targets 1`] = `
 .inset-\\\\[5px\\\\]{inset:5px;}
 .inset-0{inset:0rem;}
 .inset-5{inset:1.25rem;}
+.inset-i-5{inline-start:1.25rem;inline-end:1.25rem;}
+.inset-k-5{block-start:1.25rem;block-end:1.25rem;}
 .inset-x-5{left:1.25rem;right:1.25rem;}
 .inset-y-5{top:1.25rem;bottom:1.25rem;}
 .top-\\\\$top-height{top:var(--top-height);}

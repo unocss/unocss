@@ -111,6 +111,9 @@ export const presetWindiTargets: string[] = [
   'divide-y-4',
   'divide-x-4',
   'divide-x-reverse',
+  'divide-k-4',
+  'divide-i-4',
+  'divide-i-reverse',
   'divide-green-500',
   'divide-opacity-50',
   'divide-dashed',
@@ -192,6 +195,9 @@ export const presetWindiTargets: string[] = [
   'scroll-pl-10px',
   'scroll-pt-2',
   'scroll-pt2',
+  'scroll-ps-10px',
+  'scroll-pp-2',
+  'scroll-pp2',
 
   // shadow, spacing
   'mix-blend-normal',
@@ -200,6 +206,10 @@ export const presetWindiTargets: string[] = [
   'space-y-4',
   'space-x-reverse',
   'space-x-$space',
+  'space-i-2',
+  'space-k-4',
+  'space-i-reverse',
+  'space-i-$space',
 
   // static
   'capitalize',
