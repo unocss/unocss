@@ -8,7 +8,7 @@ export const placeholderModifier: VariantFunction = (input: string, { theme }) =
     const [, pre = '', p, body] = m
     if (hasColorValue(body, theme) || hasOpacityValue(body)) {
       return {
-        matcher: `${pre}${p}$-placeholder-${body}`,
+        matcher: `${pre}${p}$ placeholder-${body}`,
       }
     }
   }

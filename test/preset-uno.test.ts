@@ -13,7 +13,6 @@ const targets = [
   'placeholder-inherit',
   'placeholder-opacity-10',
   'placeholder-op90',
-  '$-placeholder-red-200',
 
   // mini + wind - placeholder
   'focus:placeholder-red-300',
@@ -63,6 +62,9 @@ const nonTargets = [
 
   // mini - typography
   'tab-',
+
+  // wind - placeholder
+  '$-placeholder-red-200',
 ]
 
 const uno = createGenerator({
