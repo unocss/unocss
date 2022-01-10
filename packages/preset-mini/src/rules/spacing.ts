@@ -3,12 +3,12 @@ import { directionSize } from '../utils'
 
 export const paddings: Rule[] = [
   [/^pa?()-?(-?.+)$/, directionSize('padding')],
-  [/^p-?([xy])-?(-?.+)$/, directionSize('padding')],
-  [/^p-?([rltbse])-?(-?.+)$/, directionSize('padding')],
+  [/^p-?([xyik])-?(-?.+)$/, directionSize('padding')],
+  [/^p-?([rltbsepq])-?(-?.+)$/, directionSize('padding')],
 ]
 
 export const margins: Rule[] = [
   [/^ma?()-?(-?.+)$/, directionSize('margin')],
-  [/^m-?([xy])-?(-?.+)$/, directionSize('margin')],
-  [/^m-?([rltbse])-?(-?.+)$/, directionSize('margin')],
+  [/^m-?([xyik])-?(-?.+)$/, directionSize('margin')],
+  [/^m-?([rltbsepq])-?(-?.+)$/, directionSize('margin')],
 ]

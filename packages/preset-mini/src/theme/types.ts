@@ -12,6 +12,12 @@ export interface Theme {
   maxHeight?: Record<string, string>
   minWidth?: Record<string, string>
   minHeight?: Record<string, string>
+  inlineSize?: Record<string, string>
+  blockSize?: Record<string, string>
+  maxInlineSize?: Record<string, string>
+  maxBlockSize?: Record<string, string>
+  minInlineSize?: Record<string, string>
+  minBlockSize?: Record<string, string>
   borderRadius?: Record<string, string>
   breakpoints?: Record<string, string>
   colors?: Record<string, string | Record<string, string>>

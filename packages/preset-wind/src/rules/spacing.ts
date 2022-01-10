@@ -2,7 +2,7 @@ import type { Rule } from '@unocss/core'
 import { directionSize } from '@unocss/preset-mini/utils'
 
 export const spaces: Rule[] = [
-  [/^space-?([xy])-?(-?.+)$/, (match) => {
+  [/^space-?([xyik])-?(-?.+)$/, (match) => {
     const [, direction] = match
 
     const results = directionSize('margin')(match)?.map((item) => {
@@ -20,5 +20,5 @@ export const spaces: Rule[] = [
     }
   }],
 
-  [/^space-?([xy])-reverse$/, ([, d]) => ({ [`--un-space-${d}-reverse`]: 1 })],
+  [/^space-?([xyik])-reverse$/, ([, d]) => ({ [`--un-space-${d}-reverse`]: 1 })],
 ]

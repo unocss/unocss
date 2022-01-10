@@ -5,29 +5,29 @@ import { cornerMap, directionMap, handler as h, parseColor } from '../utils'
 export const borders: Rule[] = [
   // compound
   [/^(?:border|b)()(?:-(.+))?$/, handlerBorder],
-  [/^(?:border|b)-([xy])(?:-(.+))?$/, handlerBorder],
-  [/^(?:border|b)-([rltbse])(?:-(.+))?$/, handlerBorder],
+  [/^(?:border|b)-([xyik])(?:-(.+))?$/, handlerBorder],
+  [/^(?:border|b)-([rltbsepq])(?:-(.+))?$/, handlerBorder],
 
   // size
   [/^(?:border|b)-()size-(.+)$/, handlerBorderSize],
-  [/^(?:border|b)-([xy])-size-(.+)$/, handlerBorderSize],
-  [/^(?:border|b)-([rltbse])-size-(.+)$/, handlerBorderSize],
+  [/^(?:border|b)-([xyik])-size-(.+)$/, handlerBorderSize],
+  [/^(?:border|b)-([rltbsepq])-size-(.+)$/, handlerBorderSize],
 
   // colors
   [/^(?:border|b)-()(?:color-)?(.+)$/, handlerBorderColor],
-  [/^(?:border|b)-([xy])-(?:color-)?(.+)$/, handlerBorderColor],
-  [/^(?:border|b)-([rltbse])-(?:color-)?(.+)$/, handlerBorderColor],
+  [/^(?:border|b)-([xyik])-(?:color-)?(.+)$/, handlerBorderColor],
+  [/^(?:border|b)-([rltbsepq])-(?:color-)?(.+)$/, handlerBorderColor],
 
   // opacity
   [/^(?:border|b)-()op(?:acity)?-?(.+)$/, handlerBorderOpacity],
-  [/^(?:border|b)-([xy])-op(?:acity)?-?(.+)$/, handlerBorderOpacity],
-  [/^(?:border|b)-([rltbse])-op(?:acity)?-?(.+)$/, handlerBorderOpacity],
+  [/^(?:border|b)-([xyik])-op(?:acity)?-?(.+)$/, handlerBorderOpacity],
+  [/^(?:border|b)-([rltbsepq])-op(?:acity)?-?(.+)$/, handlerBorderOpacity],
 
   // radius
   [/^(?:border-)?(?:rounded|rd)()(?:-(.+))?$/, handlerRounded],
-  [/^(?:border-)?(?:rounded|rd)-([xy])(?:-(.+))?$/, handlerRounded],
-  [/^(?:border-)?(?:rounded|rd)-([rltb])(?:-(.+))?$/, handlerRounded],
-  [/^(?:border-)?(?:rounded|rd)-([rltb]{2})(?:-(.+))?$/, handlerRounded],
+  [/^(?:border-)?(?:rounded|rd)-([xyik])(?:-(.+))?$/, handlerRounded],
+  [/^(?:border-)?(?:rounded|rd)-([rltbsepq])(?:-(.+))?$/, handlerRounded],
+  [/^(?:border-)?(?:rounded|rd)-([rltbsepq]{2})(?:-(.+))?$/, handlerRounded],
 
   // style
   ['border-solid', { 'border-style': 'solid' }],
