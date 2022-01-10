@@ -5,29 +5,29 @@ import { cornerMap, directionMap, handler as h, parseColor } from '../utils'
 export const borders: Rule[] = [
   // compound
   [/^(?:border|b)()(?:-(.+))?$/, handlerBorder],
-  [/^(?:border|b)-([xyik])(?:-(.+))?$/, handlerBorder],
-  [/^(?:border|b)-([rltbsepq])(?:-(.+))?$/, handlerBorder],
+  [/^(?:border|b)-([xyno])(?:-(.+))?$/, handlerBorder],
+  [/^(?:border|b)-([rltbsekd])(?:-(.+))?$/, handlerBorder],
 
   // size
   [/^(?:border|b)-()size-(.+)$/, handlerBorderSize],
-  [/^(?:border|b)-([xyik])-size-(.+)$/, handlerBorderSize],
-  [/^(?:border|b)-([rltbsepq])-size-(.+)$/, handlerBorderSize],
+  [/^(?:border|b)-([xyno])-size-(.+)$/, handlerBorderSize],
+  [/^(?:border|b)-([rltbsekd])-size-(.+)$/, handlerBorderSize],
 
   // colors
   [/^(?:border|b)-()(?:color-)?(.+)$/, handlerBorderColor],
-  [/^(?:border|b)-([xyik])-(?:color-)?(.+)$/, handlerBorderColor],
-  [/^(?:border|b)-([rltbsepq])-(?:color-)?(.+)$/, handlerBorderColor],
+  [/^(?:border|b)-([xyno])-(?:color-)?(.+)$/, handlerBorderColor],
+  [/^(?:border|b)-([rltbsekd])-(?:color-)?(.+)$/, handlerBorderColor],
 
   // opacity
   [/^(?:border|b)-()op(?:acity)?-?(.+)$/, handlerBorderOpacity],
-  [/^(?:border|b)-([xyik])-op(?:acity)?-?(.+)$/, handlerBorderOpacity],
-  [/^(?:border|b)-([rltbsepq])-op(?:acity)?-?(.+)$/, handlerBorderOpacity],
+  [/^(?:border|b)-([xyno])-op(?:acity)?-?(.+)$/, handlerBorderOpacity],
+  [/^(?:border|b)-([rltbsekd])-op(?:acity)?-?(.+)$/, handlerBorderOpacity],
 
   // radius
   [/^(?:border-)?(?:rounded|rd)()(?:-(.+))?$/, handlerRounded],
-  [/^(?:border-)?(?:rounded|rd)-([xyik])(?:-(.+))?$/, handlerRounded],
-  [/^(?:border-)?(?:rounded|rd)-([rltbsepq])(?:-(.+))?$/, handlerRounded],
-  [/^(?:border-)?(?:rounded|rd)-([rltbsepq]{2})(?:-(.+))?$/, handlerRounded],
+  [/^(?:border-)?(?:rounded|rd)-([xyno])(?:-(.+))?$/, handlerRounded],
+  [/^(?:border-)?(?:rounded|rd)-([rltbsekd])(?:-(.+))?$/, handlerRounded],
+  [/^(?:border-)?(?:rounded|rd)-([rltbsekd]{2})(?:-(.+))?$/, handlerRounded],
 
   // style
   ['border-solid', { 'border-style': 'solid' }],

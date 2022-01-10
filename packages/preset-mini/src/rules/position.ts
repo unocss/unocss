@@ -97,7 +97,7 @@ function handleInsetValues([, d, v]: string[]): CSSEntries | undefined {
 
 export const insets: Rule[] = [
   [/^(?:position-|pos-)?inset-(.+)$/, ([, v]) => ({ inset: handleInsetValue(v) })],
-  [/^(?:position-|pos-)?inset-([xyik])-(.+)$/, handleInsetValues],
+  [/^(?:position-|pos-)?inset-([xyno])-(.+)$/, handleInsetValues],
   [/^(?:position-|pos-)?(top|left|right|bottom)-(.+)$/, ([, d, v]) => ({ [d]: handleInsetValue(v) })],
 ]
 

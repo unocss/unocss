@@ -3,9 +3,9 @@ import { colorResolver, directionMap, handler as h } from '@unocss/preset-mini/u
 
 export const divides: Rule[] = [
   // divides
-  [/^divide-?([xyik])$/, handlerDivide],
-  [/^divide-?([xyik])-?(-?.+)$/, handlerDivide],
-  [/^divide-?([xyik])-reverse$/, ([, d]) => ({ [`--un-divide-${d}-reverse`]: 1 })],
+  [/^divide-?([xyno])$/, handlerDivide],
+  [/^divide-?([xyno])-?(-?.+)$/, handlerDivide],
+  [/^divide-?([xyno])-reverse$/, ([, d]) => ({ [`--un-divide-${d}-reverse`]: 1 })],
 
   // color & opacity
   [/^divide-(.+)$/, colorResolver('border-color', 'divide')],

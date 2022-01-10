@@ -29,11 +29,11 @@ export const scrolls: Rule[] = [
 
   // scroll margin
   [/^scroll-ma?()-?(-?.+)$/, directionSize('scroll-margin')],
-  [/^scroll-m-?([xyik])-?(-?.+)$/, directionSize('scroll-margin')],
-  [/^scroll-m-?([rltbsepq])-?(-?.+)$/, directionSize('scroll-margin')],
+  [/^scroll-m-?([xyno])-?(-?.+)$/, directionSize('scroll-margin')],
+  [/^scroll-m-?([rltbsekd])-?(-?.+)$/, directionSize('scroll-margin')],
 
   // scroll padding
   [/^scroll-pa?()-?(-?.+)$/, directionSize('scroll-padding')],
-  [/^scroll-p-?([xyik])-?(-?.+)$/, directionSize('scroll-padding')],
-  [/^scroll-p-?([rltbsepq])-?(-?.+)$/, directionSize('scroll-padding')],
+  [/^scroll-p-?([xyno])-?(-?.+)$/, directionSize('scroll-padding')],
+  [/^scroll-p-?([rltbsekd])-?(-?.+)$/, directionSize('scroll-padding')],
 ]
