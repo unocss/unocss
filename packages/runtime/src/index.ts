@@ -63,18 +63,22 @@ export default function init(options: RuntimeOptions = {}) {
     return
   }
 
+  const defaultOptions = options.defaults || {}
+  let postprocess = defaultOptions.postprocess
+  if (!postprocess)
+    postprocess = []
+  if (!Array.isArray(postprocess))
+    postprocess = [postprocess]
+  postprocess.unshift(autoPrefixer())
+  defaultOptions.postprocess = postprocess
+
   Object.assign(options, window.__unocss?.runtime)
-  const userOptions = Object.assign({
-    postprocess: [
-      autoPrefixer(),
-    ],
-  }, window.__unocss || {})
 
   let el: HTMLStyleElement | undefined
   let paused = false
   let inspector: RuntimeInspectorCallback | undefined
 
-  const uno = createGenerator(userOptions, options.defaults)
+  const uno = createGenerator(window.__unocss || {}, defaultOptions)
   const tokens = new Set<string>()
 
   let _timer: number | undefined
@@ -165,8 +169,8 @@ function autoPrefixer(): Postprocessor {
   const prefixes = ['Webkit', 'Moz', 'ms']
   const prefixCache: Record<string, string> = {}
   const elementStyle = document.createElement('div').style
-
   const camelize = (str: string) => str.replace(/-(\w)/g, (_, c) => c ? c.toUpperCase() : '')
+  const hyphenate = (str: string) => str.replace(/\B([A-Z])/g, '-$1').toLowerCase()
 
   function autoPrefix(rawName: string): string {
     const cached = prefixCache[rawName]
@@ -174,12 +178,12 @@ function autoPrefixer(): Postprocessor {
       return cached
     let name = camelize(rawName)
     if (name !== 'filter' && name in elementStyle)
-      return (prefixCache[rawName] = name)
+      return (prefixCache[rawName] = hyphenate(name))
     name = capitalize(name)
     for (let i = 0; i < prefixes.length; i++) {
       const prefixed = `${prefixes[i]}${name}`
       if (prefixed in elementStyle)
-        return (prefixCache[rawName] = prefixed)
+        return (prefixCache[rawName] = `-${hyphenate(prefixed)}`)
     }
     return rawName
   }
