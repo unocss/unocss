@@ -14,6 +14,16 @@ export const directionMap: Record<string, string[]> = {
   '': [''],
 }
 
+export const insetMap: Record<string, string[]> = {
+  ...directionMap,
+  s: ['-inset-inline-start'],
+  e: ['-inset-inline-end'],
+  k: ['-inset-block-start'],
+  d: ['-inset-block-end'],
+  n: ['-inset-inline-start', '-inset-inline-end'],
+  o: ['-inset-block-start', '-inset-block-end'],
+}
+
 export const cornerMap: Record<string, string[]> = {
   't': ['-top-left', '-top-right'],
   'r': ['-top-right', '-bottom-right'],

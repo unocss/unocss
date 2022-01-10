@@ -485,8 +485,8 @@ exports[`preset-mini > targets 1`] = `
 .inset-\\\\[5px\\\\]{inset:5px;}
 .inset-0{inset:0rem;}
 .inset-5{inset:1.25rem;}
-.inset-n-5{inline-start:1.25rem;inline-end:1.25rem;}
-.inset-o-5{block-start:1.25rem;block-end:1.25rem;}
+.inset-n-5{inset-inline-start:1.25rem;inset-inline-end:1.25rem;}
+.inset-o-5{inset-block-start:1.25rem;inset-block-end:1.25rem;}
 .inset-x-5{left:1.25rem;right:1.25rem;}
 .inset-y-5{top:1.25rem;bottom:1.25rem;}
 .top-\\\\$top-height{top:var(--top-height);}
