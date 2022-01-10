@@ -32,8 +32,8 @@ function getSizeValue(minmax: string, hw: string, theme: Theme, prop: string) {
 }
 
 export const sizes: Rule<Theme>[] = [
-  [/^(?:(min-|max-))?([whno])-(.+)$/, ([, m, w, s], { theme }) => ({ [getPropName(m, w)]: getSizeValue(m, w, theme, s) })],
-  [/^(?:(min-|max-))?([w])-screen-(.+)$/, ([, m, w, s], { theme }) => ({ [getPropName(m, w)]: theme.breakpoints?.[s] })],
+  [/^(min-|max-)?([whno])-(.+)$/, ([, m, w, s], { theme }) => ({ [getPropName(m, w)]: getSizeValue(m, w, theme, s) })],
+  [/^(min-|max-)?(w)-screen-(.+)$/, ([, m, w, s], { theme }) => ({ [getPropName(m, w)]: theme.breakpoints?.[s] })],
 ]
 
 function getAspectRatio(prop: string) {
