@@ -13,6 +13,7 @@ const targets = [
   'placeholder-inherit',
   'placeholder-opacity-10',
   'placeholder-op90',
+  '$-placeholder-red-200',
 
   // mini + wind - placeholder
   'focus:placeholder-red-300',
