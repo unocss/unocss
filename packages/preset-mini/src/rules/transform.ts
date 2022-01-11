@@ -81,7 +81,8 @@ export const transforms: Rule[] = [
   // modifiers
   [/^translate-()(.+)$/, handleTranslate],
   [/^translate-([xyz])-(.+)$/, handleTranslate],
-  [/^rotate-(.+)$/, handleRotate],
+  [/^rotate-()(.+)$/, handleRotate],
+  [/^rotate(-[xyz])-(.+)$/, handleRotate],
   [/^skew-()(.+)$/, handleSkew],
   [/^skew-([xy])-(.+)$/, handleSkew],
   [/^scale-()(.+)$/, handleScale],
@@ -127,14 +128,14 @@ function handleScale([, d, b]: string[]): CSSValues | undefined {
   }
 }
 
-function handleRotate([, b]: string[]): CSSValues | undefined {
+function handleRotate([, d, b]: string[]): CSSValues | undefined {
   const v = h.bracket.degree(b)
   if (v != null) {
     return [
       transformBase,
       {
-        '--un-rotate': v,
-        'transform': 'var(--un-transform)',
+        [`--un-rotate${d || ''}`]: v,
+        transform: 'var(--un-transform)',
       },
     ]
   }
