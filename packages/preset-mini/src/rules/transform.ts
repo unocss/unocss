@@ -3,15 +3,36 @@ import { CONTROL_SHORTCUT_NO_MERGE } from '@unocss/core'
 import { handler as h, positionMap, xyzMap } from '../utils'
 
 const transformGpu = {
-  '--un-transform': 'rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translate3d(var(--un-translate-x), var(--un-translate-y), var(--un-translate-z))',
+  '--un-transform': [
+    'rotate(var(--un-rotate))',
+    'scaleX(var(--un-scale-x))',
+    'scaleY(var(--un-scale-y))',
+    'scaleZ(var(--un-scale-z))',
+    'skewX(var(--un-skew-x))',
+    'skewY(var(--un-skew-y))',
+    'translate3d(var(--un-translate-x), var(--un-translate-y), var(--un-translate-z))',
+  ].join(' '),
 }
 
 const transformCpu = {
-  '--un-transform': 'rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z))',
+  '--un-transform': [
+    'rotate(var(--un-rotate))',
+    'scaleX(var(--un-scale-x))',
+    'scaleY(var(--un-scale-y))',
+    'scaleZ(var(--un-scale-z))',
+    'skewX(var(--un-skew-x))',
+    'skewY(var(--un-skew-y))',
+    'translateX(var(--un-translate-x))',
+    'translateY(var(--un-translate-y))',
+    'translateZ(var(--un-translate-z))',
+  ].join(' '),
 }
 
 const transformBase = {
   '--un-rotate': 0,
+  '--un-rotate-x': 0,
+  '--un-rotate-y': 0,
+  '--un-rotate-z': 0,
   '--un-scale-x': 1,
   '--un-scale-y': 1,
   '--un-scale-z': 1,
