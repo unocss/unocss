@@ -1,6 +1,6 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { handler as h, parseColor } from '../utils'
+import { parseColor } from '../utils'
 import { varEmpty } from './static'
 
 const shadowColorResolver = (body: string, theme: Theme) => {
@@ -9,23 +9,15 @@ const shadowColorResolver = (body: string, theme: Theme) => {
   if (!data)
     return
 
-  const { alpha, opacity, color, rgba } = data
+  const { color, rgba } = data
 
   if (!color)
     return
 
   if (rgba) {
-    if (alpha != null) {
-      return {
-        '--un-shadow-opacity': rgba[3],
-        '--un-shadow-color': rgba.slice(0, 3).join(','),
-      }
-    }
-    else {
-      return {
-        '--un-shadow-opacity': (opacity && h.cssvar(opacity)) ?? 1,
-        '--un-shadow-color': rgba.join(','),
-      }
+    // shadow opacity ignored
+    return {
+      '--un-shadow-color': `${rgba.slice(0, 3).join(',')}`,
     }
   }
   else {
@@ -48,6 +40,5 @@ export const boxShadows: Rule<Theme>[] = [
     }
   }],
   [/^shadow-(.+)$/, ([, d], { theme }) => shadowColorResolver(d, theme)],
-  [/^shadow-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-shadow-opacity': h.bracket.percent.cssvar(opacity) })],
   ['shadow-inset', { '--un-shadow-inset': 'inset' }],
 ]
