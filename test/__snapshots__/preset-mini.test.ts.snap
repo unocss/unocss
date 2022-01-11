@@ -272,7 +272,7 @@ exports[`preset-mini > targets 1`] = `
 .shadow-none,
 .shadow-xl{--un-ring-offset-shadow:0 0 #0000;--un-ring-shadow:0 0 #0000;--un-shadow-inset:var(--un-empty,/*!*/ /*!*/);--un-shadow:0 0 #0000;--un-shadow-colored:0 0 #0000;}
 .shadow{--un-shadow:var(--un-shadow-inset) 0 1px 3px 0 rgba(0,0,0,0.1),var(--un-shadow-inset) 0 1px 2px -1px rgba(0,0,0,0.1);--un-shadow-colored:var(--un-shadow-inset) 0 1px 3px 0 var(--un-shadow-color),var(--un-shadow-inset) 0 1px 2px -1px var(--un-shadow-color);box-shadow:var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow);}
-.shadow-none{--un-shadow:var(--un-shadow-inset) 0 0 #0000;--un-shadow-colored:var(--un-shadow-inset) 0 0 var(--un-shadow-color);box-shadow:var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow);}
+.shadow-none{--un-shadow:0 0 #0000;--un-shadow-colored:0 0 var(--un-shadow-color);box-shadow:var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow);}
 .shadow-xl{--un-shadow:var(--un-shadow-inset) 0 20px 25px -5px rgba(0,0,0,0.1),var(--un-shadow-inset) 0 8px 10px -6px rgba(0,0,0,0.1);--un-shadow-colored:var(--un-shadow-inset) 0 20px 25px -5px var(--un-shadow-color),var(--un-shadow-inset) 0 8px 10px -6px var(--un-shadow-color);box-shadow:var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow);}
 .shadow-current{--un-shadow-color:currentColor;--un-shadow:var(--un-shadow-colored);}
 .shadow-green-500{--un-shadow-opacity:1;--un-shadow-color:rgba(34,197,94,var(--un-shadow-opacity));--un-shadow:var(--un-shadow-colored);}
