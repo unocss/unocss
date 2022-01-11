@@ -1,7 +1,8 @@
-import type { CSSObject, Rule } from '@unocss/core'
+import type { Rule } from '@unocss/core'
 import { toArray } from '@unocss/core'
 import type { Theme } from '../theme'
 import { colorResolver, handler as h } from '../utils'
+import { colorableShadows } from './shadow'
 
 const weightMap: Record<string, string> = {
   thin: '100',
@@ -78,11 +79,8 @@ export const textShadows: Rule<Theme>[] = [
   [/^text-shadow(?:-(.+))?$/, ([, s], { theme }) => {
     const v = theme.textShadow?.[s || 'DEFAULT']
     if (v != null) {
-      const shadow = toArray(v)
-      const colored = shadow.map(s => s.replace(/\s\S+$/, ' var(--un-text-shadow-color)'))
       return {
-        '--un-text-shadow': shadow.join(','),
-        '--un-text-shadow-colored': colored.join(','),
+        '--un-text-shadow': colorableShadows(v, '--un-text-shadow-color').join(','),
         'text-shadow': 'var(--un-text-shadow)',
       }
     }
@@ -90,14 +88,6 @@ export const textShadows: Rule<Theme>[] = [
   }],
 
   // colors
-  [/^text-shadow-color-(.+)$/, (m, ctx) => {
-    const color = colorResolver('--un-text-shadow-color', 'text-shadow')(m, ctx) as CSSObject | undefined
-    if (color) {
-      return {
-        ...color,
-        '--un-text-shadow': 'var(--un-text-shadow-colored)',
-      }
-    }
-  }],
+  [/^text-shadow-color-(.+)$/, colorResolver('--un-text-shadow-color', 'text-shadow')],
   [/^text-shadow-color-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-shadow-opacity': h.bracket.percent(opacity) })],
 ]
