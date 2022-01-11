@@ -64,7 +64,7 @@ export default function init(options: RuntimeOptions = {}) {
 
   Object.assign(options, window.__unocss?.runtime)
 
-  let el: HTMLStyleElement | undefined
+  let styleElement: HTMLStyleElement | undefined
   let paused = false
   let inspector: RuntimeInspectorCallback | undefined
 
@@ -80,11 +80,11 @@ export default function init(options: RuntimeOptions = {}) {
 
   async function updateStyle() {
     const result = await uno.generate(tokens)
-    if (!el) {
-      el = document.createElement('style')
-      document.head.appendChild(el)
+    if (!styleElement) {
+      styleElement = document.createElement('style')
+      document.documentElement.prepend(styleElement)
     }
-    el.innerHTML = result.css
+    styleElement.innerHTML = result.css
   }
 
   async function extract(str: string) {
@@ -103,7 +103,7 @@ export default function init(options: RuntimeOptions = {}) {
       return
     mutations.forEach((mutation) => {
       const target = mutation.target as Element
-      if (target === el)
+      if (target === styleElement)
         return
       if (inspector && !inspector(target))
         return
