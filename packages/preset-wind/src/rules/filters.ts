@@ -1,7 +1,7 @@
-import type { CSSValues, Rule, RuleContext } from '@unocss/core'
+import type { CSSObject, CSSValues, Rule, RuleContext } from '@unocss/core'
 import { CONTROL_SHORTCUT_NO_MERGE, toArray } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
-import { handler as h } from '@unocss/preset-mini/utils'
+import { colorResolver, handler as h } from '@unocss/preset-mini/utils'
 import { varEmpty } from '@unocss/preset-mini/rules'
 
 const filterBase = {
@@ -9,6 +9,7 @@ const filterBase = {
   '--un-brightness': varEmpty,
   '--un-contrast': varEmpty,
   '--un-drop-shadow': varEmpty,
+  '--un-drop-shadow-colored': varEmpty,
   '--un-grayscale': varEmpty,
   '--un-hue-rotate': varEmpty,
   '--un-invert': varEmpty,
@@ -68,21 +69,52 @@ const toFilter = (varName: string, resolver: (str: string, theme: Theme) => stri
     }
   }
 
+const dropShadowResolver = ([, s]: string[], { theme }: RuleContext<Theme>) => {
+  let v = theme.dropShadow?.[s || 'DEFAULT']
+  if (v != null) {
+    const shadow = toArray(v)
+    const colored = shadow.map(s => s.replace(/\s\S+$/, ' var(--un-drop-shadow-color)'))
+    return [
+      filterBase,
+      {
+        '--un-drop-shadow': `drop-shadow(${shadow.join(') drop-shadow(')})`,
+        '--un-drop-shadow-colored': `drop-shadow(${colored.join(') drop-shadow(')})`,
+        'filter': 'var(--un-filter)',
+      },
+    ]
+  }
+
+  v = h.bracket(s)
+  if (v != null) {
+    return [
+      filterBase,
+      {
+        '--un-drop-shadow': `drop-shadow(${v})`,
+        'filter': 'var(--un-filter)',
+      },
+    ]
+  }
+}
+
 export const filters: Rule<Theme>[] = [
   // filters
   [/^(backdrop-)?blur(?:-(.+))?$/, toFilter('blur', (s, theme) => theme.blur?.[s || 'DEFAULT'] || h.bracket.px(s))],
   [/^(backdrop-)?brightness-(.+)$/, toFilter('brightness', s => h.bracket.percent(s))],
   [/^(backdrop-)?contrast-(.+)$/, toFilter('contrast', s => h.bracket.percent(s))],
-  // drop-shadow only on filter
-  [/^()?drop-shadow(?:-(.+))?$/, toFilter('drop-shadow', (s, theme) => {
-    let v = theme.dropShadow?.[s || 'DEFAULT']
-    if (v != null)
-      return toArray(v).map(v => `drop-shadow(${v})`).join(' ')
 
-    v = h.bracket(s)
-    if (v != null)
-      return `drop-shadow(${v})`
-  })],
+  // drop-shadow only on filter
+  [/^drop-shadow(?:-(.+))?$/, dropShadowResolver],
+  [/^drop-shadow-color-(.+)$/, (m, ctx) => {
+    const color = colorResolver('--un-drop-shadow-color', 'drop-shadow')(m, ctx) as CSSObject | undefined
+    if (color) {
+      return {
+        ...color,
+        '--un-drop-shadow': 'var(--un-drop-shadow-colored)',
+      }
+    }
+  }],
+  [/^drop-shadow-color-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-drop-shadow-opacity': h.bracket.percent.cssvar(opacity) })],
+
   [/^(backdrop-)?grayscale(?:-(.+))?$/, toFilter('grayscale', percentWithDefault)],
   [/^(backdrop-)?hue-rotate-(.+)$/, toFilter('hue-rotate', s => h.bracket.degree(s))],
   [/^(backdrop-)?invert(?:-(.+))?$/, toFilter('invert', percentWithDefault)],
