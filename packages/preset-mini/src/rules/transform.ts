@@ -4,27 +4,33 @@ import { handler as h, positionMap, xyzMap } from '../utils'
 
 const transformGpu = {
   '--un-transform': [
+    'translate3d(var(--un-translate-x), var(--un-translate-y), var(--un-translate-z))',
     'rotate(var(--un-rotate))',
+    'rotateX(var(--un-rotate-x))',
+    'rotateY(var(--un-rotate-y))',
+    'rotateZ(var(--un-rotate-z))',
+    'skewX(var(--un-skew-x))',
+    'skewY(var(--un-skew-y))',
     'scaleX(var(--un-scale-x))',
     'scaleY(var(--un-scale-y))',
     'scaleZ(var(--un-scale-z))',
-    'skewX(var(--un-skew-x))',
-    'skewY(var(--un-skew-y))',
-    'translate3d(var(--un-translate-x), var(--un-translate-y), var(--un-translate-z))',
   ].join(' '),
 }
 
 const transformCpu = {
   '--un-transform': [
-    'rotate(var(--un-rotate))',
-    'scaleX(var(--un-scale-x))',
-    'scaleY(var(--un-scale-y))',
-    'scaleZ(var(--un-scale-z))',
-    'skewX(var(--un-skew-x))',
-    'skewY(var(--un-skew-y))',
     'translateX(var(--un-translate-x))',
     'translateY(var(--un-translate-y))',
     'translateZ(var(--un-translate-z))',
+    'rotate(var(--un-rotate))',
+    'rotateX(var(--un-rotate-x))',
+    'rotateY(var(--un-rotate-y))',
+    'rotateZ(var(--un-rotate-z))',
+    'skewX(var(--un-skew-x))',
+    'skewY(var(--un-skew-y))',
+    'scaleX(var(--un-scale-x))',
+    'scaleY(var(--un-scale-y))',
+    'scaleZ(var(--un-scale-z))',
   ].join(' '),
 }
 
