@@ -3,15 +3,42 @@ import { CONTROL_SHORTCUT_NO_MERGE } from '@unocss/core'
 import { handler as h, positionMap, xyzMap } from '../utils'
 
 const transformGpu = {
-  '--un-transform': 'rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translate3d(var(--un-translate-x), var(--un-translate-y), var(--un-translate-z))',
+  '--un-transform': [
+    'translate3d(var(--un-translate-x), var(--un-translate-y), var(--un-translate-z))',
+    'rotate(var(--un-rotate))',
+    'rotateX(var(--un-rotate-x))',
+    'rotateY(var(--un-rotate-y))',
+    'rotateZ(var(--un-rotate-z))',
+    'skewX(var(--un-skew-x))',
+    'skewY(var(--un-skew-y))',
+    'scaleX(var(--un-scale-x))',
+    'scaleY(var(--un-scale-y))',
+    'scaleZ(var(--un-scale-z))',
+  ].join(' '),
 }
 
 const transformCpu = {
-  '--un-transform': 'rotate(var(--un-rotate)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z))',
+  '--un-transform': [
+    'translateX(var(--un-translate-x))',
+    'translateY(var(--un-translate-y))',
+    'translateZ(var(--un-translate-z))',
+    'rotate(var(--un-rotate))',
+    'rotateX(var(--un-rotate-x))',
+    'rotateY(var(--un-rotate-y))',
+    'rotateZ(var(--un-rotate-z))',
+    'skewX(var(--un-skew-x))',
+    'skewY(var(--un-skew-y))',
+    'scaleX(var(--un-scale-x))',
+    'scaleY(var(--un-scale-y))',
+    'scaleZ(var(--un-scale-z))',
+  ].join(' '),
 }
 
 const transformBase = {
   '--un-rotate': 0,
+  '--un-rotate-x': 0,
+  '--un-rotate-y': 0,
+  '--un-rotate-z': 0,
   '--un-scale-x': 1,
   '--un-scale-y': 1,
   '--un-scale-z': 1,
@@ -54,7 +81,8 @@ export const transforms: Rule[] = [
   // modifiers
   [/^translate-()(.+)$/, handleTranslate],
   [/^translate-([xyz])-(.+)$/, handleTranslate],
-  [/^rotate-(.+)$/, handleRotate],
+  [/^rotate-()(.+)$/, handleRotate],
+  [/^rotate(-[xyz])-(.+)$/, handleRotate],
   [/^skew-()(.+)$/, handleSkew],
   [/^skew-([xy])-(.+)$/, handleSkew],
   [/^scale-()(.+)$/, handleScale],
@@ -100,14 +128,14 @@ function handleScale([, d, b]: string[]): CSSValues | undefined {
   }
 }
 
-function handleRotate([, b]: string[]): CSSValues | undefined {
+function handleRotate([, d, b]: string[]): CSSValues | undefined {
   const v = h.bracket.degree(b)
   if (v != null) {
     return [
       transformBase,
       {
-        '--un-rotate': v,
-        'transform': 'var(--un-transform)',
+        [`--un-rotate${d || ''}`]: v,
+        transform: 'var(--un-transform)',
       },
     ]
   }
