@@ -20,7 +20,7 @@ export interface Theme {
   lineHeight?: Record<string, string>
   letterSpacing?: Record<string, string>
   wordSpacing?: Record<string, string>
-  boxShadow?: Record<string, string>
+  boxShadow?: Record<string, string | string[]>
   textIndent?: Record<string, string>
   textShadow?: Record<string, string | string[]>
   textStrokeWidth?: Record<string, string>
