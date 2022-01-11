@@ -1,4 +1,4 @@
-import type { Rule } from '@unocss/core'
+import type { CSSObject, Rule } from '@unocss/core'
 import { toArray } from '@unocss/core'
 import type { Theme } from '../theme'
 import { colorResolver, handler as h } from '../utils'
@@ -75,5 +75,29 @@ export const textStrokes: Rule<Theme>[] = [
 ]
 
 export const textShadows: Rule<Theme>[] = [
-  [/^text-shadow(?:-(.+))?$/, ([, s], { theme }) => ({ 'text-shadow': theme.textShadow?.[s || 'DEFAULT'] || h.bracket.cssvar(s) })],
+  [/^text-shadow(?:-(.+))?$/, ([, s], { theme }) => {
+    const v = theme.textShadow?.[s || 'DEFAULT']
+    if (v != null) {
+      const shadow = toArray(v)
+      const colored = shadow.map(s => s.replace(/\s\S+$/, ' var(--un-text-shadow-color)'))
+      return {
+        '--un-text-shadow': shadow.join(','),
+        '--un-text-shadow-colored': colored.join(','),
+        'text-shadow': 'var(--un-text-shadow)',
+      }
+    }
+    return { 'text-shadow': h.bracket.cssvar(s) }
+  }],
+
+  // colors
+  [/^text-shadow-color-(.+)$/, (m, ctx) => {
+    const color = colorResolver('--un-text-shadow-color', 'text-shadow')(m, ctx) as CSSObject | undefined
+    if (color) {
+      return {
+        ...color,
+        '--un-text-shadow': 'var(--un-text-shadow-colored)',
+      }
+    }
+  }],
+  [/^text-shadow-color-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-shadow-opacity': h.bracket.percent(opacity) })],
 ]

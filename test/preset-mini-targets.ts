@@ -498,6 +498,8 @@ export const presetMiniTargets: string[] = [
   'text-shadow-lg',
   'text-shadow-none',
   'text-shadow-$var',
+  'text-shadow-color-red-300',
+  'text-shadow-color-op-30',
 
   // variables
   'bg-$test-variable',
