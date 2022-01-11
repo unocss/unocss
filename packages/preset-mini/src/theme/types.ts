@@ -22,7 +22,7 @@ export interface Theme {
   wordSpacing?: Record<string, string>
   boxShadow?: Record<string, string>
   textIndent?: Record<string, string>
-  textShadow?: Record<string, string>
+  textShadow?: Record<string, string | string[]>
   textStrokeWidth?: Record<string, string>
   // filters
   blur?: Record<string, string>
