@@ -13,8 +13,8 @@ function mockElementWithStyle() {
       },
       getPropertyValue(key: string) {
         return store[key]
-      }
-    }
+      },
+    },
   }
 }
 
@@ -23,7 +23,7 @@ const uno = createGenerator({
     presetUno(),
   ],
   postprocess: [
-    autoPrefixer(mockElementWithStyle().style)
+    autoPrefixer(mockElementWithStyle().style),
   ],
 })
 
