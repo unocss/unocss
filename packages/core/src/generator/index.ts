@@ -180,18 +180,18 @@ export class UnoGenerator {
           const sorted = items
             .filter(i => (i[4]?.layer || 'default') === layer)
             .sort((a, b) => a[0] - b[0] || a[1]?.localeCompare(b[1] || '') || 0)
-            .map(a => [a[1] ? applyScope(a[1], scope) : a[1], a[2]])
-            .map(a => [a[0] == null ? a[0] : [a[0]], a[1]]) as [string[] | undefined, string][]
+            .map(a => [a[1] ? applyScope(a[1], scope) : a[1], a[2], !!a[4]?.noMerge])
+            .map(a => [a[0] == null ? a[0] : [a[0]], a[1], a[2]]) as [string[] | undefined, string, boolean][]
           if (!sorted.length)
             return undefined
           const rules = sorted
             .reverse()
-            .map(([selector, body], idx) => {
+            .map(([selector, body, noMerge], idx) => {
               if (selector && this.config.mergeSelectors) {
                 // search for rules that has exact same body, and merge them
                 for (let i = idx + 1; i < size; i++) {
                   const current = sorted[i]
-                  if (current && current[0] && current[1] === body) {
+                  if (!noMerge && current && current[0] && current[1] === body) {
                     current[0].push(...selector)
                     return null
                   }

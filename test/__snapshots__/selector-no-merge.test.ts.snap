@@ -1,0 +1,14 @@
+// Vitest Snapshot v1
+
+exports[`selector > rules split selector 1`] = `
+"/* layer: default */
+.to-merge,
+.merge-candidate{merged:1;}
+.not-merged{merged:1;}"
+`;
+
+exports[`variant > variant split selector 1`] = `
+"/* layer: default */
+.moz\\\\:no-merge::non-breaking{merged:1;}
+.webkit\\\\:no-merge::breaking{merged:1;}"
+`;

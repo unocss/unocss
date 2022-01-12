@@ -107,6 +107,11 @@ export interface RuleMeta {
    */
   layer?: string
   /**
+   * Option to not merge this selector even if the body are the same.
+   * @default false
+   */
+  noMerge?: boolean
+  /**
    * Internal rules will only be matched for shortcuts but not the user code.
    * @default false
    */
