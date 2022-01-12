@@ -62,6 +62,9 @@ const nonTargets = [
 
   // mini - typography
   'tab-',
+
+  // wind - placeholder
+  '$-placeholder-red-200',
 ]
 
 const uno = createGenerator({
