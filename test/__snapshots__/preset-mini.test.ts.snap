@@ -105,6 +105,12 @@ exports[`preset-mini > targets 1`] = `
 .border-x{border-left-width:1px;border-right-width:1px;border-style:solid;}
 .border-b{border-bottom-width:1px;border-style:solid;}
 .border-t-2{border-top-width:2px;border-style:solid;}
+.border-size-2{border-width:2px;}
+.border-width-3{border-width:3px;}
+.border-x-size-2{border-left-width:2px;border-right-width:2px;}
+.border-x-width-3{border-left-width:3px;border-right-width:3px;}
+.border-t-size-2{border-top-width:2px;}
+.border-t-width-3{border-top-width:3px;}
 .border-\\\\[\\\\#124\\\\]{--un-border-opacity:1;border-color:rgba(17,34,68,var(--un-border-opacity));}
 .border-\\\\[2em\\\\]{border-color:2em;}
 .border-\\\\[calc\\\\(1em-1px\\\\)\\\\]{border-color:calc(1em - 1px);}
