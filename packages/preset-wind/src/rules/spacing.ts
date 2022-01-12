@@ -4,8 +4,8 @@ import { directionSize } from '@unocss/preset-mini/utils'
 export const spaces: Rule[] = [
   [/^space-?([xy])-?(-?.+)$/, handlerSpace],
   [/^space-?([xy])-reverse$/, ([, d]) => ({ [`--un-space-${d}-reverse`]: 1 })],
-  [/^space-?(block|inline)-(-?.+)$/, handlerSpace],
-  [/^space-?(block|inline)-reverse$/, ([, d]) => ({ [`--un-space-${d}-reverse`]: 1 })],
+  [/^space-(block|inline)-(-?.+)$/, handlerSpace],
+  [/^space-(block|inline)-reverse$/, ([, d]) => ({ [`--un-space-${d}-reverse`]: 1 })],
 ]
 
 function handlerSpace(match: string[]): CSSEntries | undefined {
