@@ -14,7 +14,7 @@ import { aspectRatio, sizes } from './size'
 import { margins, paddings } from './spacing'
 import { appearances, breaks, contents, cursors, displays, fontSmoothings, fontStyles, pointerEvents, resizes, textOverflows, textTransforms, userSelects, whitespaces } from './static'
 import { transforms } from './transform'
-import { cssVariables } from './variables'
+import { cssProperty, cssVariables } from './variables'
 import { questionMark } from './question-mark'
 import { textAligns, verticalAligns } from './align'
 import { appearance, outline, willChange } from './behaviors'
@@ -23,6 +23,7 @@ import { svgUtilities } from './svg'
 
 export const rules: Rule[] = [
   cssVariables,
+  cssProperty,
   paddings,
   margins,
   displays,

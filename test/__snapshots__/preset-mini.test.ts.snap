@@ -14,6 +14,8 @@ exports[`preset-mini > targets 1`] = `
 .items-\\\\$size{align-items:var(--size);}
 .object-\\\\$fit{object-fit:var(--fit);}
 .tab-\\\\$tabprop{tab-size:var(--tabprop);}
+.\\\\[a\\\\:b\\\\]{a:b;}
+.\\\\[margin\\\\:logical_1rem_2rem_3rem\\\\]{margin:logical 1rem 2rem 3rem;}
 .-p-px{padding:-1px;}
 .\\\\!p-5px{padding:5px !important;}
 .first\\\\:p-2:first-child,

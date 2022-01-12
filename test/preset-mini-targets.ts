@@ -519,6 +519,10 @@ export const presetMiniTargets: string[] = [
   'object-$fit',
   'tab-$tabprop',
 
+  // variables - property
+  '[a:b]',
+  '[margin:logical_1rem_2rem_3rem]',
+
   // dark/light
   'dark:not-odd:text-red',
   'dark:text-xl',

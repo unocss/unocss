@@ -1,4 +1,5 @@
 import type { Rule } from '@unocss/core'
+import { handler as h } from '../utils'
 
 const variablesAbbrMap: Record<string, string> = {
   'visible': 'visibility',
@@ -31,4 +32,8 @@ export const cssVariables: Rule[] = [
     if (prop)
       return { [prop]: `var(--${varname})` }
   }],
+]
+
+export const cssProperty: Rule[] = [
+  [/^\[(.+):(.+)\]$/, ([, prop, value]) => ({ [prop]: h.bracket(`[${value}]`) })],
 ]
