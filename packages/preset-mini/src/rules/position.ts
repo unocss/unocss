@@ -1,5 +1,5 @@
 import type { CSSEntries, Rule } from '@unocss/core'
-import { directionMap, handler as h } from '../utils'
+import { handler as h, insetMap } from '../utils'
 
 export const positions: Rule[] = [
   [/^(?:position-|pos-)?(relative|absolute|fixed|sticky)$/, ([, v]) => ({ position: v })],
@@ -86,18 +86,20 @@ export const placements: Rule[] = [
 ]
 
 function handleInsetValue(v: string): string | number | undefined {
-  return { auto: 'auto', full: '100%' }[v] ?? h.bracket.fraction.cssvar.auto.rem(v)
+  return h.bracket.fraction.cssvar.auto.rem(v)
 }
 
 function handleInsetValues([, d, v]: string[]): CSSEntries | undefined {
   const r = handleInsetValue(v)
-  if (r != null && d in directionMap)
-    return directionMap[d].map(i => [i.slice(1), r])
+  if (r != null && d in insetMap)
+    return insetMap[d].map(i => [i.slice(1), r])
 }
 
 export const insets: Rule[] = [
   [/^(?:position-|pos-)?inset-(.+)$/, ([, v]) => ({ inset: handleInsetValue(v) })],
   [/^(?:position-|pos-)?inset-([xy])-(.+)$/, handleInsetValues],
+  [/^(?:position-|pos-)?inset-(block|inline)-(.+)$/, handleInsetValues],
+  [/^(?:position-|pos-)?inset-([bi][se])-(.+)$/, handleInsetValues],
   [/^(?:position-|pos-)?(top|left|right|bottom)-(.+)$/, ([, d, v]) => ({ [d]: handleInsetValue(v) })],
 ]
 
