@@ -1,0 +1,11 @@
+// Vitest Snapshot v1
+
+exports[`runtime auto prefix > css variable 1`] = `
+"/* layer: default */
+.c-op-100{--un-text-opacity:1;}"
+`;
+
+exports[`runtime auto prefix > vendor 1`] = `
+"/* layer: default */
+.perspect-1px{-webkit-perspective:1px;}"
+`;
