@@ -187,11 +187,11 @@ export class UnoGenerator {
           const rules = sorted
             .reverse()
             .map(([selector, body, noMerge], idx) => {
-              if (selector && this.config.mergeSelectors) {
+              if (selector && noMerge && this.config.mergeSelectors) {
                 // search for rules that has exact same body, and merge them
                 for (let i = idx + 1; i < size; i++) {
                   const current = sorted[i]
-                  if (!noMerge && current && current[0] && current[1] === body) {
+                  if (current && current[0] && current[1] === body) {
                     current[0].push(...selector)
                     return null
                   }
