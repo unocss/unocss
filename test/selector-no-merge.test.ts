@@ -7,7 +7,7 @@ describe('selector', () => {
     rules: [
       [/^to-merge$/, () => [{ merged: 1 }]],
       [/^merge-candidate$/, () => ({ merged: 1 })],
-      [/^not-merged$/, () => ({ merged: 1 }), { splitSelector: true }],
+      [/^not-merged$/, () => ({ merged: 1 }), { noMerge: true }],
     ],
   })
 
@@ -24,7 +24,7 @@ describe('variant', () => {
       variantMatcher('webkit', s => `${s}::breaking`),
     ],
     rules: [
-      [/^no-merge$/, () => ({ merged: 1 }), { splitSelector: true }],
+      [/^no-merge$/, () => ({ merged: 1 }), { noMerge: true }],
     ],
   })
 

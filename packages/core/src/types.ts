@@ -110,7 +110,7 @@ export interface RuleMeta {
    * Option to not merge this selector even if the body are the same.
    * @default false
    */
-  splitSelector?: boolean
+  noMerge?: boolean
   /**
    * Internal rules will only be matched for shortcuts but not the user code.
    * @default false
