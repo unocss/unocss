@@ -1,53 +1,47 @@
-import type { Rule } from '@unocss/core'
+import type { CSSObject, Rule } from '@unocss/core'
+import { CONTROL_SHORTCUT_NO_MERGE, toArray } from '@unocss/core'
 import type { Theme } from '../theme'
-import { handler as h, parseColor } from '../utils'
+import { colorResolver, handler as h } from '../utils'
 import { varEmpty } from './static'
 
-const shadowColorResolver = (body: string, theme: Theme) => {
-  const data = parseColor(body, theme)
-
-  if (!data)
-    return
-
-  const { alpha, opacity, color, rgba } = data
-
-  if (!color)
-    return
-
-  if (rgba) {
-    if (alpha != null) {
-      return {
-        '--un-shadow-opacity': rgba[3],
-        '--un-shadow-color': rgba.slice(0, 3).join(','),
-      }
-    }
-    else {
-      return {
-        '--un-shadow-opacity': (opacity && h.cssvar(opacity)) ?? 1,
-        '--un-shadow-color': rgba.join(','),
-      }
-    }
-  }
-  else {
-    return {
-      '--un-shadow-color': color,
-    }
-  }
+export const shadowBase = {
+  [CONTROL_SHORTCUT_NO_MERGE]: '',
+  '--un-ring-offset-shadow': '0 0 #0000',
+  '--un-ring-shadow': '0 0 #0000',
+  '--un-shadow-inset': varEmpty,
+  '--un-shadow': '0 0 #0000',
+  '--un-shadow-colored': '0 0 #0000',
 }
 
 export const boxShadows: Rule<Theme>[] = [
   [/^shadow(?:-(.+))?$/, ([, d], { theme }) => {
-    const value = theme.boxShadow?.[d || 'DEFAULT']
-    if (value) {
+    const v = theme.boxShadow?.[d || 'DEFAULT']
+    if (v) {
+      const shadow = toArray(v)
+      const colored = shadow.map(s => s.replace(/\s\S+$/, ' var(--un-shadow-color)'))
+      return [
+        shadowBase,
+        {
+          '--un-shadow': shadow.join(','),
+          '--un-shadow-colored': colored.join(','),
+          'box-shadow': 'var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow)',
+        },
+      ]
+    }
+  }],
+
+  // color
+  [/^shadow-(.+)$/, (m, ctx) => {
+    const color = colorResolver('--un-shadow-color', 'shadow')(m, ctx) as CSSObject | undefined
+    if (color) {
       return {
-        '--un-shadow-inset': varEmpty,
-        '--un-shadow-color': '0,0,0',
-        '--un-shadow': value,
-        'box-shadow': 'var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow)',
+        ...color,
+        '--un-shadow': 'var(--un-shadow-colored)',
       }
     }
   }],
-  [/^shadow-(.+)$/, ([, d], { theme }) => shadowColorResolver(d, theme)],
   [/^shadow-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-shadow-opacity': h.bracket.percent.cssvar(opacity) })],
+
+  // inset
   ['shadow-inset', { '--un-shadow-inset': 'inset' }],
 ]
