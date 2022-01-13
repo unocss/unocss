@@ -60,18 +60,18 @@ export const backgroundStyles: Rule[] = [
   [/^bg-gradient-to-([rltb]{1,2})$/, ([, d]) => {
     if (d in positionMap) {
       return {
-        '--un-gradient-shapes': `to ${positionMap[d]}`,
-        '--un-gradient': 'var(--un-gradient-shapes), var(--un-gradient-stops)',
+        '--un-gradient-shape': `to ${positionMap[d]}`,
+        '--un-gradient': 'var(--un-gradient-shape), var(--un-gradient-stops)',
         'background-image': 'linear-gradient(var(--un-gradient))',
       }
     }
   }],
-  [/^(?:bg-gradient-)?shapes-(.+)$/, ([, d]) => {
+  [/^(?:bg-gradient-)?shape-(.+)$/, ([, d]) => {
     const v = d in positionMap ? `to ${positionMap[d]}` : h.bracket(d)
     if (v != null) {
       return {
-        '--un-gradient-shapes': v,
-        '--un-gradient': 'var(--un-gradient-shapes), var(--un-gradient-stops)',
+        '--un-gradient-shape': v,
+        '--un-gradient': 'var(--un-gradient-shape), var(--un-gradient-stops)',
       }
     }
   }],
