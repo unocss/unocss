@@ -1,0 +1,31 @@
+// Vitest Snapshot v1
+
+exports[`runtime auto prefixer > using autoprfixer 1`] = `
+"/* layer: default */
+.\\\\[--vars\\\\:value\\\\]{--vars:value;}
+.\\\\[-vars\\\\:value\\\\],
+.\\\\[vars\\\\:value\\\\]{-webkit-vars:value;}
+.\\\\[filter\\\\:none\\\\]{-webkit-filter:none;}
+.\\\\[hyphens\\\\:none\\\\]{-ms-hyphens:none;}
+.\\\\[non-hyphens\\\\:none\\\\]{non-hyphens:none;}
+.\\\\[perspective\\\\:0\\\\]{-webkit-perspective:0;}
+.perspect-1px{-webkit-perspective:1px;}
+.hyphens-auto{-webkit-hyphens:auto;-ms-hyphens:auto;}
+.filter{--un-blur:var(--un-empty,/*!*/ /*!*/);--un-brightness:var(--un-empty,/*!*/ /*!*/);--un-contrast:var(--un-empty,/*!*/ /*!*/);--un-drop-shadow:var(--un-empty,/*!*/ /*!*/);--un-drop-shadow-colored:var(--un-empty,/*!*/ /*!*/);--un-grayscale:var(--un-empty,/*!*/ /*!*/);--un-hue-rotate:var(--un-empty,/*!*/ /*!*/);--un-invert:var(--un-empty,/*!*/ /*!*/);--un-saturate:var(--un-empty,/*!*/ /*!*/);--un-sepia:var(--un-empty,/*!*/ /*!*/);--un-filter:var(--un-blur) var(--un-brightness) var(--un-contrast) var(--un-drop-shadow) var(--un-grayscale) var(--un-hue-rotate) var(--un-invert) var(--un-saturate) var(--un-sepia);}
+.filter{-webkit-filter:var(--un-filter);}"
+`;
+
+exports[`runtime auto prefixer > without autoprfixer 1`] = `
+"/* layer: default */
+.\\\\[--vars\\\\:value\\\\]{--vars:value;}
+.\\\\[-vars\\\\:value\\\\]{-vars:value;}
+.\\\\[filter\\\\:none\\\\]{filter:none;}
+.\\\\[hyphens\\\\:none\\\\]{hyphens:none;}
+.\\\\[non-hyphens\\\\:none\\\\]{non-hyphens:none;}
+.\\\\[perspective\\\\:0\\\\]{perspective:0;}
+.\\\\[vars\\\\:value\\\\]{vars:value;}
+.perspect-1px{-webkit-perspective:1px;perspective:1px;}
+.hyphens-auto{-webkit-hyphens:auto;-ms-hyphens:auto;hyphens:auto;}
+.filter{--un-blur:var(--un-empty,/*!*/ /*!*/);--un-brightness:var(--un-empty,/*!*/ /*!*/);--un-contrast:var(--un-empty,/*!*/ /*!*/);--un-drop-shadow:var(--un-empty,/*!*/ /*!*/);--un-drop-shadow-colored:var(--un-empty,/*!*/ /*!*/);--un-grayscale:var(--un-empty,/*!*/ /*!*/);--un-hue-rotate:var(--un-empty,/*!*/ /*!*/);--un-invert:var(--un-empty,/*!*/ /*!*/);--un-saturate:var(--un-empty,/*!*/ /*!*/);--un-sepia:var(--un-empty,/*!*/ /*!*/);--un-filter:var(--un-blur) var(--un-brightness) var(--un-contrast) var(--un-drop-shadow) var(--un-grayscale) var(--un-hue-rotate) var(--un-invert) var(--un-saturate) var(--un-sepia);}
+.filter{filter:var(--un-filter);}"
+`;
