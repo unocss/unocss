@@ -43,6 +43,8 @@ export const backgroundStyles: Rule[] = [
   // TODO: bg-[url] { background-image: x }
 
   // gradients
+  [/^bg-gradient-(.+)$/, ([, d]) => ({ '--un-gradient': h.bracket(d) })],
+  [/^(?:bg-gradient-)?stops-(\[.+\])$/, ([, s]) => ({ '--un-gradient-stops': h.bracket(s) })],
   [/^(?:bg-gradient-)?from-(.+)$/, bgGradientColorResolver('from')],
   [/^(?:bg-gradient-)?to-(.+)$/, bgGradientColorResolver('to')],
   [/^(?:bg-gradient-)?via-(.+)$/, bgGradientColorResolver('via')],
@@ -51,10 +53,27 @@ export const backgroundStyles: Rule[] = [
   [/^(?:bg-gradient-)?via-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-via-opacity': h.bracket.percent(opacity) })],
 
   // images
+  [/^bg-gradient-((?:repeating-)?(?:linear|radial|conic))$/, ([, s]) => ({
+    'background-image': `${s}-gradient(var(--un-gradient, var(--un-gradient-stops, rgba(255, 255, 255, 0))))`,
+  })],
   // ignore any center position
   [/^bg-gradient-to-([rltb]{1,2})$/, ([, d]) => {
-    if (d in positionMap)
-      return { 'background-image': `linear-gradient(to ${positionMap[d]}, var(--un-gradient-stops))` }
+    if (d in positionMap) {
+      return {
+        '--un-gradient-shape': `to ${positionMap[d]}`,
+        '--un-gradient': 'var(--un-gradient-shape), var(--un-gradient-stops)',
+        'background-image': 'linear-gradient(var(--un-gradient))',
+      }
+    }
+  }],
+  [/^(?:bg-gradient-)?shape-(.+)$/, ([, d]) => {
+    const v = d in positionMap ? `to ${positionMap[d]}` : h.bracket(d)
+    if (v != null) {
+      return {
+        '--un-gradient-shape': v,
+        '--un-gradient': 'var(--un-gradient-shape), var(--un-gradient-stops)',
+      }
+    }
   }],
   ['bg-none', { 'background-image': 'none' }],
 
