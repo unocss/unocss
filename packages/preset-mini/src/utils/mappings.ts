@@ -18,6 +18,8 @@ export const directionMap: Record<string, string[]> = {
 
 export const insetMap: Record<string, string[]> = {
   ...directionMap,
+  s: ['-inset-inline-start'],
+  e: ['-inset-inline-end'],
   bs: ['-inset-block-start'],
   be: ['-inset-block-end'],
   is: ['-inset-inline-start'],
