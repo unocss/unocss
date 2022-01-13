@@ -171,8 +171,8 @@ exports[`preset-wind > targets 1`] = `
 .via-green-500\\\\/30{--un-gradient-stops:var(--un-gradient-from), rgba(34,197,94,0.3), var(--un-gradient-to, rgba(255, 255, 255, 0));}
 .bg-gradient-via-opacity-40{--un-via-opacity:0.4;}
 .via-opacity-30{--un-via-opacity:0.3;}
-.bg-gradient-to-t{background-image:linear-gradient(to top, var(--un-gradient-stops));}
-.bg-gradient-to-tl{background-image:linear-gradient(to top left, var(--un-gradient-stops));}
+.bg-gradient-to-t{--un-gradient-shapes:to top;--un-gradient:var(--un-gradient-shapes), var(--un-gradient-stops);background-image:linear-gradient(var(--un-gradient));}
+.bg-gradient-to-tl{--un-gradient-shapes:to top left;--un-gradient:var(--un-gradient-shapes), var(--un-gradient-stops);background-image:linear-gradient(var(--un-gradient));}
 .bg-none{background-image:none;}
 .box-decoration-slice{box-decoration-break:slice;}
 .bg-auto{background-size:auto;}
