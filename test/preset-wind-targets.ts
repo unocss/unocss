@@ -138,6 +138,10 @@ export const presetWindiTargets: string[] = [
   // filters
   'filter',
   'filter-none',
+  'filter-blur',
+  'filter-blur-md',
+  'filter-blur-4',
+  'filter-blur-none',
   'blur',
   'blur-md',
   'blur-4',

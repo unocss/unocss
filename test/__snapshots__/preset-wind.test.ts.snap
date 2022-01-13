@@ -256,6 +256,9 @@ exports[`preset-wind > targets 1`] = `
 .blur,
 .blur-4,
 .blur-md,
+.filter-blur,
+.filter-blur-4,
+.filter-blur-md,
 .brightness-0,
 .brightness-60,
 .contrast-125,
@@ -275,9 +278,12 @@ exports[`preset-wind > targets 1`] = `
 .sepia,
 .sepia-80,
 .filter{--un-blur:var(--un-empty,/*!*/ /*!*/);--un-brightness:var(--un-empty,/*!*/ /*!*/);--un-contrast:var(--un-empty,/*!*/ /*!*/);--un-drop-shadow:var(--un-empty,/*!*/ /*!*/);--un-drop-shadow-colored:var(--un-empty,/*!*/ /*!*/);--un-grayscale:var(--un-empty,/*!*/ /*!*/);--un-hue-rotate:var(--un-empty,/*!*/ /*!*/);--un-invert:var(--un-empty,/*!*/ /*!*/);--un-saturate:var(--un-empty,/*!*/ /*!*/);--un-sepia:var(--un-empty,/*!*/ /*!*/);--un-filter:var(--un-blur) var(--un-brightness) var(--un-contrast) var(--un-drop-shadow) var(--un-grayscale) var(--un-hue-rotate) var(--un-invert) var(--un-saturate) var(--un-sepia);}
-.blur{--un-blur:blur(8px);filter:var(--un-filter);}
-.blur-4{--un-blur:blur(4px);filter:var(--un-filter);}
-.blur-md{--un-blur:blur(12px);filter:var(--un-filter);}
+.blur,
+.filter-blur{--un-blur:blur(8px);filter:var(--un-filter);}
+.blur-4,
+.filter-blur-4{--un-blur:blur(4px);filter:var(--un-filter);}
+.blur-md,
+.filter-blur-md{--un-blur:blur(12px);filter:var(--un-filter);}
 .backdrop-brightness-0{--un-backdrop-brightness:brightness(0);-webkit-backdrop-filter:var(--un-backdrop-filter);backdrop-filter:var(--un-backdrop-filter);}
 .backdrop-brightness-60{--un-backdrop-brightness:brightness(0.6);-webkit-backdrop-filter:var(--un-backdrop-filter);backdrop-filter:var(--un-backdrop-filter);}
 .brightness-0{--un-brightness:brightness(0);filter:var(--un-filter);}
@@ -317,7 +323,8 @@ exports[`preset-wind > targets 1`] = `
 .backdrop-filter{-webkit-backdrop-filter:var(--un-backdrop-filter);backdrop-filter:var(--un-backdrop-filter);}
 .filter-none{filter:none;}
 .backdrop-filter-none{-webkit-backdrop-filter:none;backdrop-filter:none;}
-.blur-none{filter:blur(0);}
+.blur-none,
+.filter-blur-none{filter:blur(0);}
 .drop-shadow-none{filter:drop-shadow(0);}
 .backdrop-blur-none{-webkit-backdrop-filter:blur(0);backdrop-filter:blur(0);}
 .placeholder-inherit::placeholder{color:inherit;}

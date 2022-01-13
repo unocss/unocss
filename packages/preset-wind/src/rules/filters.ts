@@ -98,13 +98,13 @@ const dropShadowResolver = ([, s]: string[], { theme }: RuleContext<Theme>) => {
 
 export const filters: Rule<Theme>[] = [
   // filters
-  [/^(backdrop-)?blur(?:-(.+))?$/, toFilter('blur', (s, theme) => theme.blur?.[s || 'DEFAULT'] || h.bracket.px(s))],
-  [/^(backdrop-)?brightness-(.+)$/, toFilter('brightness', s => h.bracket.percent(s))],
-  [/^(backdrop-)?contrast-(.+)$/, toFilter('contrast', s => h.bracket.percent(s))],
+  [/^(?:(backdrop-)|filter-)?blur(?:-(.+))?$/, toFilter('blur', (s, theme) => theme.blur?.[s || 'DEFAULT'] || h.bracket.px(s))],
+  [/^(?:(backdrop-)|filter-)?brightness-(.+)$/, toFilter('brightness', s => h.bracket.percent(s))],
+  [/^(?:(backdrop-)|filter-)?contrast-(.+)$/, toFilter('contrast', s => h.bracket.percent(s))],
 
   // drop-shadow only on filter
-  [/^drop-shadow(?:-(.+))?$/, dropShadowResolver],
-  [/^drop-shadow-color-(.+)$/, (m, ctx) => {
+  [/^(?:filter-)?drop-shadow(?:-(.+))?$/, dropShadowResolver],
+  [/^(?:filter-)?drop-shadow-color-(.+)$/, (m, ctx) => {
     const color = colorResolver('--un-drop-shadow-color', 'drop-shadow')(m, ctx) as CSSObject | undefined
     if (color) {
       return {
@@ -113,15 +113,15 @@ export const filters: Rule<Theme>[] = [
       }
     }
   }],
-  [/^drop-shadow-color-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-drop-shadow-opacity': h.bracket.percent.cssvar(opacity) })],
+  [/^(?:filter-)?drop-shadow-color-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-drop-shadow-opacity': h.bracket.percent.cssvar(opacity) })],
 
-  [/^(backdrop-)?grayscale(?:-(.+))?$/, toFilter('grayscale', percentWithDefault)],
-  [/^(backdrop-)?hue-rotate-(.+)$/, toFilter('hue-rotate', s => h.bracket.degree(s))],
-  [/^(backdrop-)?invert(?:-(.+))?$/, toFilter('invert', percentWithDefault)],
+  [/^(?:(backdrop-)|filter-)?grayscale(?:-(.+))?$/, toFilter('grayscale', percentWithDefault)],
+  [/^(?:(backdrop-)|filter-)?hue-rotate-(.+)$/, toFilter('hue-rotate', s => h.bracket.degree(s))],
+  [/^(?:(backdrop-)|filter-)?invert(?:-(.+))?$/, toFilter('invert', percentWithDefault)],
   // opacity only on backdrop-filter
   [/^(backdrop-)opacity-(.+)$/, toFilter('opacity', s => h.bracket.percent(s))],
-  [/^(backdrop-)?saturate-(.+)$/, toFilter('saturate', s => h.bracket.percent(s))],
-  [/^(backdrop-)?sepia(?:-(.+))?$/, toFilter('sepia', percentWithDefault)],
+  [/^(?:(backdrop-)|filter-)?saturate-(.+)$/, toFilter('saturate', s => h.bracket.percent(s))],
+  [/^(?:(backdrop-)|filter-)?sepia(?:-(.+))?$/, toFilter('sepia', percentWithDefault)],
 
   // base
   [/^filter$/, () => [
@@ -142,7 +142,7 @@ export const filters: Rule<Theme>[] = [
     '-webkit-backdrop-filter': 'none',
     'backdrop-filter': 'none',
   }],
-  [/^(blur|brightness|contrast|drop-shadow|grayscale|hue-rotate|invert|saturate|sepia)-none$/, ([, s]) => ({ filter: `${s}(0)` })],
+  [/^(?:filter-)?(blur|brightness|contrast|drop-shadow|grayscale|hue-rotate|invert|saturate|sepia)-none$/, ([, s]) => ({ filter: `${s}(0)` })],
   [/^backdrop-(blur|brightness|contrast|grayscale|hue-rotate|invert|opacity|saturate|sepia)-none$/, ([, s]) => ({
     '-webkit-backdrop-filter': `${s}(0)`,
     'backdrop-filter': `${s}(0)`,
