@@ -10,6 +10,8 @@ export function SvelteScopedPlugin({ uno, ready }: UnocssPluginContext): Plugin 
     const { css } = await uno.generate(code)
     if (!css)
       return null
+    if (code.match(/<style[^>]*>[\s\S]*?<\/style\s*>/))
+      return code.replace(/(<style[^>]*>)/, `$1${css}`)
     return `${code}\n<style>${css}</style>`
   }
 
