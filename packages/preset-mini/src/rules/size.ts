@@ -1,17 +1,22 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { capitalize, handler as h } from '../utils'
+import { handler as h } from '../utils'
 
-function getPropName(minmax: string, hw: string) {
-  return `${minmax ? `${minmax}-` : ''}${hw === 'h' ? 'height' : 'width'}`
+const sizeMapping: Record<string, string> = {
+  h: 'height',
+  w: 'width',
+  inline: 'inline-size',
+  block: 'block-size',
 }
 
-type SizeProps = 'width' | 'height' | 'maxWidth' | 'maxHeight' | 'minWidth' | 'minHeight'
+function getPropName(minmax: string, hw: string) {
+  return `${minmax || ''}${sizeMapping[hw]}`
+}
+
+type SizeProps = 'width' | 'height' | 'maxWidth' | 'maxHeight' | 'minWidth' | 'minHeight' | 'inlineSize' | 'blockSize' | 'maxInlineSize' | 'maxBlockSize' | 'minInlineSize' | 'minBlockSize'
 
 function getSizeValue(minmax: string, hw: string, theme: Theme, prop: string) {
-  let str: SizeProps = `${hw === 'h' ? 'height' : 'width'}`
-  if (minmax)
-    str = `${minmax as 'min' | 'max'}${capitalize(str)}`
+  const str = getPropName(minmax, hw).replace(/-(\w)/g, (_, p) => p.toUpperCase()) as SizeProps
   const v = theme[str]?.[prop]
   if (v != null)
     return v
@@ -27,8 +32,9 @@ function getSizeValue(minmax: string, hw: string, theme: Theme, prop: string) {
 }
 
 export const sizes: Rule<Theme>[] = [
-  [/^(?:(min|max)-)?(w|h)-(.+)$/, ([, m, w, s], { theme }) => ({ [getPropName(m, w)]: getSizeValue(m, w, theme, s) })],
-  [/^(?:(min|max)-)?(w)-screen-(.+)$/, ([, m, w, s], { theme }) => ({ [getPropName(m, w)]: theme.breakpoints?.[s] })],
+  [/^(min-|max-)?([wh])-(.+)$/, ([, m, w, s], { theme }) => ({ [getPropName(m, w)]: getSizeValue(m, w, theme, s) })],
+  [/^(min-|max-)?(block|inline)-(.+)$/, ([, m, w, s], { theme }) => ({ [getPropName(m, w)]: getSizeValue(m, w, theme, s) })],
+  [/^(min-|max-)?(w)-screen-(.+)$/, ([, m, w, s], { theme }) => ({ [getPropName(m, w)]: theme.breakpoints?.[s] })],
 ]
 
 function getAspectRatio(prop: string) {

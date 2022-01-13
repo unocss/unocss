@@ -6,6 +6,9 @@ export const divides: Rule[] = [
   [/^divide-?([xy])$/, handlerDivide],
   [/^divide-?([xy])-?(-?.+)$/, handlerDivide],
   [/^divide-?([xy])-reverse$/, ([, d]) => ({ [`--un-divide-${d}-reverse`]: 1 })],
+  [/^divide-(block|inline)$/, handlerDivide],
+  [/^divide-(block|inline)-(-?.+)$/, handlerDivide],
+  [/^divide-(block|inline)-reverse$/, ([, d]) => ({ [`--un-divide-${d}-reverse`]: 1 })],
 
   // color & opacity
   [/^divide-(.+)$/, colorResolver('border-color', 'divide')],
