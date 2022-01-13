@@ -1,8 +1,6 @@
-import type { CSSEntries, VariantFunction, VariantHandler, VariantObject } from '@unocss/core'
+import type { VariantFunction, VariantHandler, VariantObject } from '@unocss/core'
 import { escapeRegExp, toArray } from '@unocss/core'
 import type { PresetMiniOptions } from '..'
-
-export const CONTROL_BYPASS_PSEUDO_CLASS = '$$no-pseudo'
 
 const PseudoClasses: Record<string, string | undefined> = Object.fromEntries([
   // location
@@ -78,10 +76,6 @@ const PseudoElementsRE = new RegExp(`^(${PseudoElementsStr})[:-]`)
 const PseudoClassesRE = new RegExp(`^(${PseudoClassesStr})[:-]`)
 const PseudoClassFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesStr})[:-]`)
 
-function shouldAdd(entires: CSSEntries) {
-  return !entires.find(i => i[0] === CONTROL_BYPASS_PSEUDO_CLASS) || undefined
-}
-
 const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: string) => {
   const re = new RegExp(`^${tag}-((?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesStr}))[:-]`)
   const rawRe = new RegExp(`^${escapeRegExp(parent)}:`)
@@ -93,11 +87,9 @@ const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: strin
         pseudo = `:${match[2]}(${pseudo})`
       return {
         matcher: input.slice(match[1].length + tag.length + 2),
-        selector: (s, body) => {
-          return shouldAdd(body) && rawRe.test(s)
-            ? s.replace(rawRe, `${parent}${pseudo}:`)
-            : `${parent}${pseudo}${combinator}${s}`
-        },
+        selector: s => rawRe.test(s)
+          ? s.replace(rawRe, `${parent}${pseudo}:`)
+          : `${parent}${pseudo}${combinator}${s}`,
       }
     }
   }
@@ -121,7 +113,7 @@ export const variantPseudoClasses: VariantObject = {
       const pseudo = PseudoClasses[match[1]] || `:${match[1]}`
       return {
         matcher: input.slice(match[1].length + 1),
-        selector: (s, body) => shouldAdd(body) && `${s}${pseudo}`,
+        selector: s => `${s}${pseudo}`,
       }
     }
   },
@@ -136,7 +128,7 @@ export const variantPseudoClassFunctions: VariantObject = {
       const pseudo = PseudoClasses[match[2]] || `:${match[2]}`
       return {
         matcher: input.slice(match[1].length + match[2].length + 2),
-        selector: (s, body) => shouldAdd(body) && `${s}:${fn}(${pseudo})`,
+        selector: s => `${s}:${fn}(${pseudo})`,
       }
     }
   },
@@ -165,9 +157,7 @@ export const partClasses: VariantObject = {
       const part = `part(${match[2]})`
       return {
         matcher: input.slice(match[1].length),
-        selector: (s, body) => {
-          return shouldAdd(body) && `${s}::${part}`
-        },
+        selector: s => `${s}::${part}`,
       }
     }
   },
