@@ -1,11 +1,9 @@
 /* @export-submodules */
 export * from './breakpoints'
 export * from './combinators'
+export * from './media'
 export * from './dark'
-export * from './directions'
 export * from './default'
+export * from './directions'
 export * from './misc'
-export * from './motions'
-export * from './orientations'
-export * from './prints'
 export * from './pseudo'
