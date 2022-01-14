@@ -4,10 +4,6 @@ import type { Theme } from '../theme'
 import { handler as h } from './handlers'
 import { directionMap } from './mappings'
 
-export function capitalize<T extends string>(str: T) {
-  return str.charAt(0).toUpperCase() + str.slice(1) as Capitalize<T>
-}
-
 /**
  * Provide {@link DynamicMatcher} function returning spacing definition. See spacing rules.
  *
