@@ -41,7 +41,7 @@
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "unplugin": "^0.3.0",
-    "webpack-sources": "^3.2.2"
+    "webpack-sources": "^3.2.3"
   },
   "peerDependencies": {
     "webpack": "^4 || ^5"
@@ -49,6 +49,6 @@
   "devDependencies": {
     "@types/webpack": "^5.28.0",
     "@types/webpack-sources": "^3.2.0",
-    "webpack": "^5.65.0"
+    "webpack": "^5.66.0"
   }
 }

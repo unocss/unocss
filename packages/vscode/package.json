@@ -39,7 +39,7 @@
   "devDependencies": {
     "@types/vscode": "^1.62.0",
     "prettier": "^2.5.1",
-    "tsup": "^5.11.10"
+    "tsup": "^5.11.11"
   },
   "engines": {
     "vscode": "^1.62.0"

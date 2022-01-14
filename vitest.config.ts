@@ -19,6 +19,9 @@ export const alias: AliasOptions = {
 }
 
 export default defineConfig({
+  optimizeDeps: {
+    entries: [],
+  },
   resolve: {
     alias,
   },

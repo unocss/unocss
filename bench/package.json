@@ -5,14 +5,14 @@
   "devDependencies": {
     "@unocss/vite": "workspace:*",
     "@vitejs/plugin-vue": "^2.0.1",
-    "autoprefixer": "^10.4.1",
+    "autoprefixer": "^10.4.2",
     "fs-extra": "^10.0.0",
     "local-pkg": "^0.4.1",
     "postcss": "^8.4.5",
-    "tailwindcss": "^3.0.11",
+    "tailwindcss": "^3.0.13",
     "unocss": "workspace:*",
-    "vite": "^2.7.10",
-    "vite-plugin-windicss": "^1.6.1",
+    "vite": "^2.7.12",
+    "vite-plugin-windicss": "^1.6.2",
     "vue": "^3.2.26",
     "windicss": "^3.4.2"
   }
