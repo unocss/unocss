@@ -13,7 +13,6 @@ export const presetWindiTargets: string[] = [
   'animate-duration-100.30',
   'animate-duration-100.32',
   'animate-delay--1.37',
-  'animate-speed-$speed',
   'animate-name-move',
   'animate-play-paused',
   'animate-normal',

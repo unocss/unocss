@@ -2,28 +2,18 @@ import type { Rule } from '@unocss/core'
 import { handler as h } from '../utils'
 
 const variablesAbbrMap: Record<string, string> = {
-  'visible': 'visibility',
-  'select': 'user-select',
-  'vertical': 'vertical-align',
   'backface': 'backface-visibility',
-  'whitespace': 'white-space',
   'break': 'word-break',
   'case': 'text-transform',
-  'origin': 'transform-origin',
-  'bg-opacity': 'background-opacity',
-  'tab': 'tab-size',
-  'underline': 'text-decoration-thickness',
-  'underline-offset': 'text-underline-offset',
-  'grid-cols': 'grid-template-columns',
-  'grid-rows': 'grid-template-rows',
-  'auto-flow': 'grid-auto-flow',
-  'row-start': 'grid-row-start',
-  'row-end': 'grid-row-end',
-  'justify': 'justify-content',
   'content': 'align-content',
   'items': 'align-items',
-  'self': 'align-self',
+  'justify': 'justify-content',
   'object': 'object-fit',
+  'select': 'user-select',
+  'self': 'align-self',
+  'vertical': 'vertical-align',
+  'visible': 'visibility',
+  'whitespace': 'white-space',
 }
 
 export const cssVariables: Rule[] = [
