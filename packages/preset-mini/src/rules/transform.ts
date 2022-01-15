@@ -53,8 +53,7 @@ const transformBase = {
 
 export const transforms: Rule[] = [
   // origins
-  // skip 1 & 2 letters shortcut
-  [/^origin-([-\w]{3,})$/, ([, s]) => ({ 'transform-origin': positionMap[s] })],
+  [/^origin-(.+)$/, ([, s]) => ({ 'transform-origin': positionMap[s] ?? h.bracket.cssvar(s) })],
 
   // perspectives
   [/^perspect-(.+)$/, ([, s]) => {

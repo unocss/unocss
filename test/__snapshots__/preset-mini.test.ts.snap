@@ -10,10 +10,7 @@ exports[`preset-mini > custom var prefix 1`] = `
 
 exports[`preset-mini > targets 1`] = `
 "/* layer: default */
-.grid-cols-\\\\$1{grid-template-columns:var(--1);}
 .items-\\\\$size{align-items:var(--size);}
-.object-\\\\$fit{object-fit:var(--fit);}
-.tab-\\\\$tabprop{tab-size:var(--tabprop);}
 .\\\\[a\\\\:b\\\\]{a:b;}
 .\\\\[margin\\\\:logical_1rem_2rem_3rem\\\\]{margin:logical 1rem 2rem 3rem;}
 .-p-px{padding:-1px;}
@@ -188,6 +185,7 @@ exports[`preset-mini > targets 1`] = `
 .word-spacing-2{word-spacing:0.5rem;}
 .word-spacing-wide{word-spacing:0.025em;}
 .tab{-moz-tab-size:4;-o-tab-size:4;tab-size:4;}
+.tab-\\\\$tabprop{-moz-tab-size:var(--tabprop);-o-tab-size:var(--tabprop);tab-size:var(--tabprop);}
 .tab-6{-moz-tab-size:6;-o-tab-size:6;tab-size:6;}
 .tab-inherit{-moz-tab-size:inherit;-o-tab-size:inherit;tab-size:inherit;}
 .indent{text-indent:1.5rem;}
@@ -351,6 +349,7 @@ exports[`preset-mini > targets 1`] = `
 .auto-flow-col-dense{grid-auto-flow:column dense;}
 .grid-cols-\\\\[1fr_2fr_100px_min-content\\\\]{grid-template-columns:1fr 2fr 100px min-content;}
 .grid-cols-\\\\[repeat\\\\(3\\\\2c auto\\\\)\\\\]{grid-template-columns:repeat(3,auto);}
+.grid-cols-\\\\$1{grid-template-columns:var(--1);}
 .grid-rows-\\\\[1fr_2fr_100px_min-content\\\\]{grid-template-rows:1fr 2fr 100px min-content;}
 .grid-cols-minmax-1rem{grid-template-columns:repeat(auto-fill,minmax(1rem,1fr));}
 .grid-rows-minmax-100px{grid-template-rows:repeat(auto-fill,minmax(100px,1fr));}
