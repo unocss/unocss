@@ -15,7 +15,7 @@ const variablesAbbrMap: Record<string, string> = {
 }
 
 export const cssVariables: Rule[] = [
-  [/^([^$]+)\$(.+)$/, ([, name, varname]) => {
+  [/^([^$]+)(?<=-)\$(.+)$/, ([, name, varname]) => {
     const prop = variablesAbbrMap[name.slice(0, -1)]
     if (prop)
       return { [prop]: `var(--${varname})` }
