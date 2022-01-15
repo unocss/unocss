@@ -426,6 +426,7 @@ export const presetMiniTargets: string[] = [
   'contents',
   'backface-hidden',
   'cursor-pointer',
+  'cursor-[url(prefix_cursor.cur)_2_2,pointer]',
   'pointer-events-none',
   'pointer-events-auto',
   'resize',
