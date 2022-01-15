@@ -29,11 +29,11 @@ export const transitions: Rule[] = [
   }],
 
   // timings
-  [/^(?:transition-)?delay-(.+)(?:s|ms)?$/, ([, d]) => ({ 'transition-delay': h.bracket.time(d) })],
-  [/^(?:transition-)?duration-(.+)(?:s|ms)?$/, ([, d]) => ({ 'transition-duration': h.bracket.time(d) })],
+  [/^(?:transition-)?duration-(.+)$/, ([, d]) => ({ 'transition-duration': h.bracket.cssvar.time(d) })],
+  [/^(?:transition-)?delay-(.+)$/, ([, d]) => ({ 'transition-delay': h.bracket.cssvar.time(d) })],
 
   // timing functions
-  [/^ease-(.+)$/, ([, d]) => ({ 'transition-timing-function': h.bracket(d) })],
+  [/^ease-(.+)$/, ([, d]) => ({ 'transition-timing-function': h.bracket.cssvar(d) })],
   ['ease', { 'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)' }],
   ['ease-linear', { 'transition-timing-function': 'linear' }],
   ['ease-in', { 'transition-timing-function': 'cubic-bezier(0.4, 0, 1, 1)' }],

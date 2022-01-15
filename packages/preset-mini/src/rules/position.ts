@@ -30,7 +30,7 @@ export const justifies: Rule[] = [
 ]
 
 export const orders: Rule[] = [
-  [/^order-(.+)$/, ([, v]) => ({ order: h.bracket.number(v) })],
+  [/^order-(.+)$/, ([, v]) => ({ order: h.bracket.cssvar.number(v) })],
   ['order-first', { order: '-9999' }],
   ['order-last', { order: '9999' }],
   ['order-none', { order: '0' }],
@@ -86,7 +86,7 @@ export const placements: Rule[] = [
 ]
 
 function handleInsetValue(v: string): string | number | undefined {
-  return h.bracket.fraction.cssvar.auto.rem(v)
+  return h.bracket.cssvar.auto.fraction.rem(v)
 }
 
 function handleInsetValues([, d, v]: string[]): CSSEntries | undefined {
@@ -118,8 +118,8 @@ export const floats: Rule[] = [
 ]
 
 export const zIndexes: Rule[] = [
+  [/^z-(.+)$/, ([, v]) => ({ 'z-index': h.bracket.cssvar.number(v) })],
   ['z-auto', { 'z-index': 'auto' }],
-  [/^z-([^-]+)$/, ([, v]) => ({ 'z-index': h.number(v) })],
 ]
 
 export const boxSizing: Rule[] = [

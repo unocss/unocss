@@ -21,8 +21,8 @@ export const animations: Rule<Theme>[] = [
   }],
 
   // timings
-  [/^animate-(?:duration-)?(.+)$/, ([, d]) => ({ 'animation-duration': h.bracket.time(d) })],
-  [/^animate-delay-(.+)$/, ([, d]) => ({ 'animation-delay': h.bracket.time(d) })],
+  [/^animate-(?:duration-)?(.+)$/, ([, d]) => ({ 'animation-duration': h.bracket.cssvar.time(d) })],
+  [/^animate-delay-(.+)$/, ([, d]) => ({ 'animation-delay': h.bracket.cssvar.time(d) })],
 
   // fill mode
   [/^animate-(?:fill-)?mode-(forwards|backwards|both|inherit|initial|revert|unset)$/, ([, d]) => ({ 'animation-fill-mode': d })],
@@ -35,7 +35,7 @@ export const animations: Rule<Theme>[] = [
   ['animate-direction-normal', { 'animation-direction': 'normal' }],
 
   // others
-  [/^animate-(?:iteration-)?count-(.+)$/, ([, d]) => ({ 'animation-iteration-count': h.bracket(d) ?? d.replace(/\-/g, ',') })],
+  [/^animate-(?:iteration-)?count-(.+)$/, ([, d]) => ({ 'animation-iteration-count': h.bracket.cssvar(d) ?? d.replace(/\-/g, ',') })],
   [/^animate-name-(.+)/, ([, d]) => ({ 'animation-name': d })],
   [/^animate-play(?:-state)?-(paused|running|inherit|initial|revert|unset)$/, ([, d]) => ({ 'animation-play-state': d })],
   ['animate-none', { animation: 'none' }],

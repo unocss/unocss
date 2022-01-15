@@ -279,6 +279,24 @@ export const presetWindiTargets: string[] = [
 
   // variables
   'bg-blend-$data',
+  'animate-duration-$variable',
+  'animate-delay-$variable',
+  'animate-iteration-count-$variable',
+  'divide-$variable',
+  'divide-x-$variable',
+  'divide-inline-$variable',
+  'blur-$variable',
+  'brightness-$variable',
+  'contrast-$variable',
+  'drop-shadow-$variable',
+  'grayscale-$variable',
+  'hue-rotate-$variable',
+  'invert-$variable',
+  'saturate-$variable',
+  'sepia-$variable',
+  'backdrop-opacity-$variable',
+  'bg-image-$variable',
+  'object-position-$variable',
 
   // variants - dark/light
   '.dark:text-xl',

@@ -11,8 +11,8 @@ export const svgUtilities: Rule[] = [
   [/^stroke-(?:width-|size-)?(.+)$/, ([, s]) => ({ 'stroke-width': h.bracket.fraction.px.number(s) })],
 
   // stroke dash
-  [/^stroke-dash-(.+)$/, ([, s]) => ({ 'stroke-dasharray': h.bracket.number(s) })],
-  [/^stroke-offset-(.+)$/, ([, s]) => ({ 'stroke-dashoffset': h.bracket.px.numberWithUnit(s) })],
+  [/^stroke-dash-(.+)$/, ([, s]) => ({ 'stroke-dasharray': h.bracket.cssvar.number(s) })],
+  [/^stroke-offset-(.+)$/, ([, s]) => ({ 'stroke-dashoffset': h.bracket.cssvar.px.numberWithUnit(s) })],
 
   // stroke colors
   [/^stroke-(.+)$/, colorResolver('stroke', 'stroke')],

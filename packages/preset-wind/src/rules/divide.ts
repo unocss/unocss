@@ -23,7 +23,7 @@ export const divides: Rule[] = [
 ]
 
 function handlerDivide([, d, s = '1']: string[]): CSSEntries | undefined {
-  const v = h.bracket.px(s)
+  const v = h.bracket.cssvar.px(s)
   if (v != null) {
     const results = directionMap[d].map((item): [string, string] => {
       const key = `border${item}-width`
