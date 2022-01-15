@@ -473,6 +473,8 @@ exports[`preset-mini > targets 1`] = `
 .aspect-ratio-3\\\\/2{aspect-ratio:3/2;}
 .aspect-ratio-square{aspect-ratio:1/1;}
 .aspect-ratio-video{aspect-ratio:16/9;}
+.cursor-\\\\[url\\\\(cursor_2\\\\.png\\\\)_2_2\\\\2c _pointer\\\\]{cursor:url(cursor\\\\_2.png) 2 2, pointer;}
+.cursor-\\\\$pointer-var{cursor:var(--pointer-var);}
 .cursor-pointer{cursor:pointer;}
 .backface-hidden{backface-visibility:hidden;}
 .pointer-events-auto{pointer-events:auto;}

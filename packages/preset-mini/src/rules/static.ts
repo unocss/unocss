@@ -1,4 +1,5 @@
 import type { Rule } from '@unocss/core'
+import { handler as h } from '../utils'
 
 export const varEmpty = 'var(--un-empty,/*!*/ /*!*/)'
 
@@ -21,7 +22,7 @@ export const appearances: Rule[] = [
 ]
 
 export const cursors: Rule[] = [
-  [/^cursor-(.+)$/, ([, c]) => ({ cursor: c })],
+  [/^cursor-(.+)$/, ([, c]) => ({ cursor: h.bracket.cssvar(c) || c })],
 ]
 
 export const pointerEvents: Rule[] = [
