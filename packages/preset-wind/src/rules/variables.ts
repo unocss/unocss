@@ -9,6 +9,7 @@ const variablesAbbrMap: Record<string, string> = {
   'bg-repeat': 'background-repeat',
   'bg-size': 'background-size',
   'mix-blend': 'mix-blend-mode',
+  'object': 'object-fit',
   'write': 'writing-mode',
   'write-orient': 'text-orientation',
 }

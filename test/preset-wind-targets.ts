@@ -278,6 +278,7 @@ export const presetWindiTargets: string[] = [
 
   // variables
   'bg-blend-$data',
+  'object-$fit',
 
   // variants - dark/light
   '.dark:text-xl',

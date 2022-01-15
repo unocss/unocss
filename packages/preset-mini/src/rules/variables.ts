@@ -8,7 +8,6 @@ const variablesAbbrMap: Record<string, string> = {
   content: 'align-content',
   items: 'align-items',
   justify: 'justify-content',
-  object: 'object-fit',
   select: 'user-select',
   self: 'align-self',
   vertical: 'vertical-align',

@@ -11,7 +11,6 @@ exports[`preset-mini > custom var prefix 1`] = `
 exports[`preset-mini > targets 1`] = `
 "/* layer: default */
 .items-\\\\$size{align-items:var(--size);}
-.object-\\\\$fit{object-fit:var(--fit);}
 .\\\\[a\\\\:b\\\\]{a:b;}
 .\\\\[margin\\\\:logical_1rem_2rem_3rem\\\\]{margin:logical 1rem 2rem 3rem;}
 .-p-px{padding:-1px;}
