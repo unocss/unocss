@@ -1,4 +1,4 @@
-import { CONTROL_SHORTCUT_NO_MERGE, createGenerator } from '@unocss/core'
+import { createGenerator } from '@unocss/core'
 import { variantMatcher } from '@unocss/preset-mini/utils'
 import { describe, expect, test } from 'vitest'
 
