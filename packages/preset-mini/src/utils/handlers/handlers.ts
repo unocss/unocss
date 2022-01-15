@@ -93,7 +93,8 @@ export function bracket(str: string) {
   if (str && str[0] === '[' && str[str.length - 1] === ']') {
     return str
       .slice(1, -1)
-      .replace(/_/g, ' ')
+      .replace(/(url\(.*?\))/g, v => v.replace(/_/g, '\\_'))
+      .replace(/(?<!\\)_/g, ' ')
       .replace(/calc\((.*)/g, (v) => {
         return v.replace(/(-?\d*\.?\d(?!\b-.+[,)](?![^+\-/*])\D)(?:%|[a-z]+)?|\))([+\-/*])/g, '$1 $2 ')
       })
