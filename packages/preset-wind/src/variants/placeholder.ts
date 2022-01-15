@@ -25,6 +25,6 @@ function hasColorValue(body: string, theme: Theme) {
 function hasOpacityValue(body: string) {
   const match = body.match(/^op(?:acity)?-?(.+)$/)
   if (match && match[1] != null)
-    return h.bracket.percent.cssvar(match[1]) != null
+    return h.bracket.percent(match[1]) != null
   return false
 }

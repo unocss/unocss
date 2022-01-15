@@ -13,7 +13,7 @@ export const opacity: Rule[] = [
  */
 export const textColors: Rule[] = [
   [/^(?:text|color|c)-(.+)$/, colorResolver('color', 'text')],
-  [/^(?:text|color|c)-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-opacity': h.bracket.percent.cssvar(opacity) })],
+  [/^(?:text|color|c)-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-opacity': h.bracket.percent(opacity) })],
 ]
 
 export const bgColors: Rule[] = [
