@@ -14,10 +14,10 @@ const variablesAbbrMap: Record<string, string> = {
   'animate-speed': 'animation-speed',
 }
 
-export const cssVariables: Rule[] = [[
-  /^(.+)-\$(.+)$/, ([, name, varname]) => {
-    const prop = variablesAbbrMap[name]
+export const cssVariables: Rule[] = [
+  [/^([^$]+)\$(.+)$/, ([, name, varname]) => {
+    const prop = variablesAbbrMap[name.slice(0, -1)]
     if (prop)
       return { [prop]: `var(--${varname})` }
-  },
-]]
+  }],
+]
