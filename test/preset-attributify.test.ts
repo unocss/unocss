@@ -6,6 +6,9 @@ import { describe, expect, test } from 'vitest'
 describe('attributify', () => {
   const fixture1 = `
 <button
+  sm="[color:red]"
+  md="[--var:var(--another)]"
+  lg="bg-blue-600"
   class="absolute fixed"
   bg="blue-400 hover:blue-500 dark:!blue-500 dark:hover:blue-600"
   text="sm white"
