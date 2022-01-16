@@ -187,11 +187,11 @@ export class UnoGenerator {
           const rules = sorted
             .reverse()
             .map(([selector, body, noMerge], idx) => {
-              if (selector && this.config.mergeSelectors) {
+              if (!noMerge && selector && this.config.mergeSelectors) {
                 // search for rules that has exact same body, and merge them
                 for (let i = idx + 1; i < size; i++) {
                   const current = sorted[i]
-                  if (!noMerge && current && current[0] && current[1] === body) {
+                  if (current && !current[2] && current[0] && current[1] === body) {
                     current[0].push(...selector)
                     return null
                   }
@@ -414,7 +414,7 @@ export class UnoGenerator {
     expanded: string[],
     meta: RuleMeta = { layer: this.config.shortcutsLayer },
   ): Promise<StringifiedUtil[] | undefined> {
-    const selectorMap = new TwoKeyMap<string, string | undefined, [CSSEntries[], number]>()
+    const selectorMap = new TwoKeyMap<string, string | undefined, [[CSSEntries, boolean][], number]>()
 
     const parsed = (
       await Promise.all(uniq(expanded)
@@ -437,22 +437,31 @@ export class UnoGenerator {
 
       // find existing selector/mediaQuery pair and merge
       const mapItem = selectorMap.getFallback(selector, parent, [[], item[0]])
-      // append entries
-      mapItem[0].push(entries)
+      // add entries
+      mapItem[0].push([entries, !!item[3]?.noMerge])
     }
 
     return selectorMap
       .map(([e, index], selector, mediaQuery) => {
-        const split = e.filter(entries => entries.some(entry => entry[0] === CONTROL_SHORTCUT_NO_MERGE))
-        const rest = e.filter(entries => entries.every(entry => entry[0] !== CONTROL_SHORTCUT_NO_MERGE))
-        return [...split, rest.flat(1)].map((entries): StringifiedUtil | undefined => {
+        const stringify = (noMerge: boolean) => (entries: CSSEntries): StringifiedUtil | undefined => {
           const body = entriesToCss(entries)
           if (body)
-            return [index, selector, body, mediaQuery, meta]
+            return [index, selector, body, mediaQuery, { ...meta, noMerge }]
           return undefined
+        }
+
+        const merges = [
+          [e.filter(([, noMerge]) => noMerge).map(([entries]) => entries), true],
+          [e.filter(([, noMerge]) => !noMerge).map(([entries]) => entries), false],
+        ] as [CSSEntries[], boolean][]
+
+        return merges.map(([e, noMerge]) => {
+          const splits = e.filter(entries => entries.some(entry => entry[0] === CONTROL_SHORTCUT_NO_MERGE))
+          const rests = e.filter(entries => entries.every(entry => entry[0] !== CONTROL_SHORTCUT_NO_MERGE))
+          return [...splits.map(stringify(noMerge)), ...[rests.flat(1)].map(stringify(noMerge))]
         })
       })
-      .flat(1)
+      .flat(2)
       .filter(Boolean) as StringifiedUtil[]
   }
 

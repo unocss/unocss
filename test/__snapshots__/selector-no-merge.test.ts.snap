@@ -7,8 +7,26 @@ exports[`selector > rules split selector 1`] = `
 .not-merged{merged:1;}"
 `;
 
+exports[`variant > variant shortcuts early 1`] = `
+"/* layer: shortcuts */
+.m2-no-merge::non-breaking{merged:1;}
+.m2-no-merge{merged:1;}"
+`;
+
+exports[`variant > variant shortcuts late 1`] = `
+"/* layer: shortcuts */
+.m3-no-merge-ordered{late:2;}
+.m3-no-merge-ordered::non-breaking{late:2;}"
+`;
+
 exports[`variant > variant split selector 1`] = `
 "/* layer: default */
 .moz\\\\:no-merge::non-breaking{merged:1;}
 .webkit\\\\:no-merge::breaking{merged:1;}"
+`;
+
+exports[`variant > variant split shortcuts 1`] = `
+"/* layer: shortcuts */
+.m1-no-merge::breaking{merged:1;}
+.m1-no-merge::non-breaking{merged:1;}"
 `;
