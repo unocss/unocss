@@ -82,7 +82,6 @@ export const transforms: Rule[] = [
   [/^translate-([xyz])-(.+)$/, handleTranslate],
   [/^rotate-()(.+)$/, handleRotate],
   [/^rotate(-[xyz])-(.+)$/, handleRotate],
-  [/^skew-()(.+)$/, handleSkew],
   [/^skew-([xy])-(.+)$/, handleSkew],
   [/^scale-()(.+)$/, handleScale],
   [/^scale-([xyz])-(.+)$/, handleScale],
