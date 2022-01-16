@@ -619,8 +619,11 @@ exports[`preset-mini > targets 1`] = `
 .skew-x-10\\\\.11deg,
 .skew-x-10deg,
 .skew-y-\\\\[var\\\\(--skew-y\\\\)\\\\],
+.skew-y-0\\\\.5turn,
 .skew-y-10,
 .skew-y-10deg,
+.skew-y-2grad,
+.skew-y-3\\\\.14rad,
 .active\\\\:scale-4:active,
 .scale-\\\\$variable,
 .scale-x-\\\\$variable,
@@ -653,8 +656,11 @@ exports[`preset-mini > targets 1`] = `
 .skew-x-10\\\\.10deg{--un-skew-x:10.1deg;transform:var(--un-transform);}
 .skew-x-10\\\\.11deg{--un-skew-x:10.11deg;transform:var(--un-transform);}
 .skew-y-\\\\[var\\\\(--skew-y\\\\)\\\\]{--un-skew-y:var(--skew-y);transform:var(--un-transform);}
+.skew-y-0\\\\.5turn{--un-skew-y:0.5turn;transform:var(--un-transform);}
 .skew-y-10,
 .skew-y-10deg{--un-skew-y:10deg;transform:var(--un-transform);}
+.skew-y-2grad{--un-skew-y:2grad;transform:var(--un-transform);}
+.skew-y-3\\\\.14rad{--un-skew-y:3.14rad;transform:var(--un-transform);}
 .active\\\\:scale-4:active{--un-scale-x:0.04;--un-scale-y:0.04;transform:var(--un-transform);}
 .scale-\\\\$variable{--un-scale-x:var(--variable);--un-scale-y:var(--variable);transform:var(--un-transform);}
 .scale-x-\\\\$variable{--un-scale-x:var(--variable);transform:var(--un-transform);}

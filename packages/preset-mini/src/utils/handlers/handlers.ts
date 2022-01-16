@@ -117,7 +117,7 @@ export function time(str: string) {
 }
 
 export function degree(str: string) {
-  const match = str.match(/^(-?[0-9.]+)(deg)?$/i)
+  const match = str.match(/^(-?[0-9.]+)(deg|rad|grad|turn)?$/i)
   if (!match)
     return
   const [, n, unit] = match
