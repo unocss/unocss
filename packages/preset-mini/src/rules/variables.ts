@@ -24,6 +24,13 @@ const variablesAbbrMap: Record<string, string> = {
   'items': 'align-items',
   'self': 'align-self',
   'object': 'object-fit',
+  'flex': 'flex',
+  'fw': 'font-weight',
+  'leading': 'line-height',
+  'lh': 'line-height',
+  'tracking': 'letter-spacing',
+  'word-spacing': 'word-spacing',
+  'ws': 'white-space',
 }
 
 export const cssVariables: Rule[] = [

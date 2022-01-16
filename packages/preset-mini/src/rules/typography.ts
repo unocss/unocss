@@ -34,7 +34,7 @@ export const fonts: Rule<Theme>[] = [
 
     return { 'font-size': h.bracket.auto.rem(s) }
   }],
-  [/^text-size-(.+)$/, ([, s]) => ({ 'font-size': h.bracket.auto.rem(s) })],
+  [/^text-size-(.+)$/, ([, s]) => ({ 'font-size': h.bracket.cssvar.auto.rem(s) })],
 
   // weights
   [/^(?:font|fw)-?([^-]+)$/, ([, s]) => ({ 'font-weight': weightMap[s] || h.number(s) })],
@@ -63,7 +63,7 @@ export const tabSizes: Rule<Theme>[] = [
 ]
 
 export const textIndents: Rule<Theme>[] = [
-  [/^indent(?:-(.+))?$/, ([, s], { theme }) => ({ 'text-indent': theme.textIndent?.[s || 'DEFAULT'] || h.bracket.cssvar.fraction.auto.rem(s) })],
+  [/^indent(?:-(.+))?$/, ([, s], { theme }) => ({ 'text-indent': theme.textIndent?.[s || 'DEFAULT'] || h.bracket.cssvar.auto.fraction.rem(s) })],
 ]
 
 export const textStrokes: Rule<Theme>[] = [

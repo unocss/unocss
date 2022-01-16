@@ -16,7 +16,7 @@ const autoDirection = (selector: string, theme: Theme) => {
     case 'fr': return 'minmax(0,1fr)'
   }
 
-  return h.bracket.auto.rem(selector)
+  return h.bracket.cssvar.auto.rem(selector)
 }
 
 export const grids: Rule[] = [
@@ -24,8 +24,8 @@ export const grids: Rule[] = [
   ['grid', { display: 'grid' }],
   ['inline-grid', { display: 'inline-grid' }],
 
-  // bracket/auto
-  [/^(?:grid-)?(row|col)-(.+)$/, ([, c, v]) => ({ [`grid-${rowCol(c)}`]: h.bracket.auto(v) })],
+  // global
+  [/^(?:grid-)?(row|col)-(.+)$/, ([, c, v]) => ({ [`grid-${rowCol(c)}`]: h.bracket.cssvar.auto(v) })],
 
   // span
   [/^(?:grid-)?(row|col)-span-(.+)$/, ([, c, s]) => {
@@ -41,7 +41,7 @@ export const grids: Rule[] = [
   [/^(?:grid-)?(row|col)-end-([\w.-]+)$/, ([, c, v]) => ({ [`grid-${rowCol(c)}-end`]: v })],
 
   // auto flows
-  [/^(?:grid-)?auto-(rows|cols)-([\w.-]+)$/, ([, c, v], { theme }) => ({ [`grid-auto-${rowCol(c)}`]: autoDirection(v, theme) })],
+  [/^(?:grid-)?auto-(rows|cols)-(.+)$/, ([, c, v], { theme }) => ({ [`grid-auto-${rowCol(c)}`]: autoDirection(v, theme) })],
 
   // grid-auto-flow, auto-flow: uno
   // grid-flow: wind

@@ -12,6 +12,8 @@ const variablesAbbrMap: Record<string, string> = {
   'bg-size': 'background-size',
   'mix-blend': 'mix-blend-mode',
   'animate-speed': 'animation-speed',
+  'bg-image': 'background-image',
+  'object-position': 'object-position',
 }
 
 export const cssVariables: Rule[] = [[

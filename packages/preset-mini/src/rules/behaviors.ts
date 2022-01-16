@@ -3,13 +3,13 @@ import { colorResolver, handler as h } from '../utils'
 
 export const outline: Rule[] = [
   // size
-  [/^outline-(?:width-|size-)?(.+)$/, ([, d]) => ({ 'outline-width': h.bracket.fraction.auto.rem(d) })],
+  [/^outline-(?:width-|size-)?(.+)$/, ([, d]) => ({ 'outline-width': h.bracket.cssvar.auto.fraction.rem(d) })],
 
   // color
   [/^outline-(?:color-)?(.+)$/, colorResolver('outline-color', 'outline-color')],
 
   // offset
-  [/^outline-offset-(.+)$/, ([, d]) => ({ 'outline-offset': h.bracket.fraction.auto.rem(d) })],
+  [/^outline-offset-(.+)$/, ([, d]) => ({ 'outline-offset': h.bracket.cssvar.auto.fraction.rem(d) })],
 
   // style
   ['outline', { 'outline-style': 'solid' }],

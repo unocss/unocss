@@ -33,7 +33,7 @@ const backdropFilterBase = {
 }
 
 const percentWithDefault = (str?: string) => {
-  let v = h.bracket(str || '')
+  let v = h.bracket.cssvar(str || '')
   if (v != null)
     return v
 
@@ -81,7 +81,7 @@ const dropShadowResolver = ([, s]: string[], { theme }: RuleContext<Theme>) => {
     ]
   }
 
-  v = h.bracket(s)
+  v = h.bracket.cssvar(s)
   if (v != null) {
     return [
       filterBase,
@@ -95,19 +95,19 @@ const dropShadowResolver = ([, s]: string[], { theme }: RuleContext<Theme>) => {
 
 export const filters: Rule<Theme>[] = [
   // filters
-  [/^(?:(backdrop-)|filter-)?blur(?:-(.+))?$/, toFilter('blur', (s, theme) => theme.blur?.[s || 'DEFAULT'] || h.bracket.px(s))],
-  [/^(?:(backdrop-)|filter-)?brightness-(.+)$/, toFilter('brightness', s => h.bracket.percent(s))],
-  [/^(?:(backdrop-)|filter-)?contrast-(.+)$/, toFilter('contrast', s => h.bracket.percent(s))],
+  [/^(?:(backdrop-)|filter-)?blur(?:-(.+))?$/, toFilter('blur', (s, theme) => theme.blur?.[s || 'DEFAULT'] || h.bracket.cssvar.px(s))],
+  [/^(?:(backdrop-)|filter-)?brightness-(.+)$/, toFilter('brightness', s => h.bracket.cssvar.percent(s))],
+  [/^(?:(backdrop-)|filter-)?contrast-(.+)$/, toFilter('contrast', s => h.bracket.cssvar.percent(s))],
   // drop-shadow only on filter
   [/^(?:filter-)?drop-shadow(?:-(.+))?$/, dropShadowResolver],
   [/^(?:filter-)?drop-shadow-color-(.+)$/, colorResolver('--un-drop-shadow-color', 'drop-shadow')],
   [/^(?:filter-)?drop-shadow-color-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-drop-shadow-opacity': h.bracket.percent.cssvar(opacity) })],
   [/^(?:(backdrop-)|filter-)?grayscale(?:-(.+))?$/, toFilter('grayscale', percentWithDefault)],
-  [/^(?:(backdrop-)|filter-)?hue-rotate-(.+)$/, toFilter('hue-rotate', s => h.bracket.degree(s))],
+  [/^(?:(backdrop-)|filter-)?hue-rotate-(.+)$/, toFilter('hue-rotate', s => h.bracket.cssvar.degree(s))],
   [/^(?:(backdrop-)|filter-)?invert(?:-(.+))?$/, toFilter('invert', percentWithDefault)],
   // opacity only on backdrop-filter
-  [/^(backdrop-)opacity-(.+)$/, toFilter('opacity', s => h.bracket.percent(s))],
-  [/^(?:(backdrop-)|filter-)?saturate-(.+)$/, toFilter('saturate', s => h.bracket.percent(s))],
+  [/^(backdrop-)opacity-(.+)$/, toFilter('opacity', s => h.bracket.cssvar.percent(s))],
+  [/^(?:(backdrop-)|filter-)?saturate-(.+)$/, toFilter('saturate', s => h.bracket.cssvar.percent(s))],
   [/^(?:(backdrop-)|filter-)?sepia(?:-(.+))?$/, toFilter('sepia', percentWithDefault)],
 
   // base

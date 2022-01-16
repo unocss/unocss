@@ -30,7 +30,7 @@ export const rings: Rule<Theme>[] = [
 
   // offset size
   ['ring-offset', { '--un-ring-offset-width': '1px' }],
-  [/^ring-offset-(.+)$/, ([, d]) => ({ '--un-ring-offset-width': h.px(d || '1') })],
+  [/^ring-offset-(?:width-|size-)?(.+)$/, ([, d]) => ({ '--un-ring-offset-width': h.bracket.cssvar.px(d) })],
 
   // colors
   [/^ring-(.+)$/, colorResolver('--un-ring-color', 'ring')],

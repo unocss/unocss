@@ -8,7 +8,7 @@ const directions: Record<string, string> = {
 }
 
 const handleGap = ([, d = '', s]: string[]) => {
-  const v = h.bracket.auto.rem(s)
+  const v = h.bracket.cssvar.auto.rem(s)
   if (v != null) {
     return {
       [`grid-${directions[d]}gap`]: v,

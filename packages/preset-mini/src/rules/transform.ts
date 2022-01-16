@@ -58,7 +58,7 @@ export const transforms: Rule[] = [
 
   // perspectives
   [/^perspect-(.+)$/, ([, s]) => {
-    const v = h.px.numberWithUnit(s)
+    const v = h.bracket.cssvar.px.numberWithUnit(s)
     if (v != null) {
       return {
         '-webkit-perspective': v,
@@ -69,7 +69,7 @@ export const transforms: Rule[] = [
 
   // skip 1 & 2 letters shortcut
   [/^perspect-origin-(.+)$/, ([, s]) => {
-    const v = h.bracket(s) ?? (s.length >= 3 ? positionMap[s] : undefined)
+    const v = h.bracket.cssvar(s) ?? (s.length >= 3 ? positionMap[s] : undefined)
     if (v != null) {
       return {
         '-webkit-perspective-origin': v,
@@ -103,7 +103,7 @@ export const transforms: Rule[] = [
 ]
 
 function handleTranslate([, d, b]: string[]): CSSValues | undefined {
-  const v = h.bracket.fraction.auto.rem(b)
+  const v = h.bracket.cssvar.fraction.rem(b)
   if (v != null) {
     return [
       transformBase,
@@ -116,7 +116,7 @@ function handleTranslate([, d, b]: string[]): CSSValues | undefined {
 }
 
 function handleScale([, d, b]: string[]): CSSValues | undefined {
-  const v = h.bracket.fraction.percent(b)
+  const v = h.bracket.cssvar.fraction.percent(b)
   if (v != null) {
     return [
       transformBase,
@@ -129,7 +129,7 @@ function handleScale([, d, b]: string[]): CSSValues | undefined {
 }
 
 function handleRotate([, d, b]: string[]): CSSValues | undefined {
-  const v = h.bracket.degree(b)
+  const v = h.bracket.cssvar.degree(b)
   if (v != null) {
     return [
       transformBase,
@@ -142,7 +142,7 @@ function handleRotate([, d, b]: string[]): CSSValues | undefined {
 }
 
 function handleSkew([, d, b]: string[]): CSSValues | undefined {
-  const v = h.bracket.degree(b)
+  const v = h.bracket.cssvar.degree(b)
   if (v != null) {
     return [
       transformBase,

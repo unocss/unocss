@@ -12,7 +12,7 @@ import { directionMap } from './mappings'
  * @see {@link directionMap}
  */
 export const directionSize = (propertyPrefix: string): DynamicMatcher => ([_, direction, size]: string[]): CSSEntries | undefined => {
-  const v = h.bracket.auto.rem.fraction.cssvar(size)
+  const v = h.bracket.cssvar.auto.fraction.rem(size)
   if (v !== undefined)
     return directionMap[direction].map(i => [`${propertyPrefix}${i}`, v])
 }

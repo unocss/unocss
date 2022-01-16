@@ -19,7 +19,7 @@ export const flex: Rule[] = [
   [/^(?:flex-)?shrink-0$/, () => ({ 'flex-shrink': 0 })],
   [/^(?:flex-)?grow$/, () => ({ 'flex-grow': 1 })],
   [/^(?:flex-)?grow-0$/, () => ({ 'flex-grow': 0 })],
-  [/^(?:flex-)?basis-(.+)$/, ([, d]) => ({ 'flex-basis': h.bracket.fraction.auto.rem(d) })],
+  [/^(?:flex-)?basis-(.+)$/, ([, d]) => ({ 'flex-basis': h.bracket.cssvar.auto.fraction.rem(d) })],
 
   // directions
   ['flex-row', { 'flex-direction': 'row' }],
