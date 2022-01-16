@@ -50,8 +50,8 @@ export const fonts: Rule<Theme>[] = [
 ]
 
 export const tabSizes: Rule<Theme>[] = [
-  [/^tab(?:-([^-]+))?$/, ([, s]) => {
-    const v = h.bracket.global.number(s || '4')
+  [/^tab(?:-(.+))?$/, ([, s]) => {
+    const v = h.bracket.cssvar.global.number(s || '4')
     if (v != null) {
       return {
         '-moz-tab-size': v,

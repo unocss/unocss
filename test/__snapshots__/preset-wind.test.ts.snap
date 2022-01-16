@@ -29,9 +29,9 @@ exports[`preset-wind > containers 1`] = `
 
 exports[`preset-wind > targets 1`] = `
 "/* layer: default */
-.animate-speed-\\\\$speed{animation-speed:var(--speed);}
 .bg-blend-\\\\$data{background-blend-mode:var(--data);}
 .bg-image-\\\\$variable{background-image:var(--variable);}
+.object-\\\\$fit{object-fit:var(--fit);}
 .object-position-\\\\$variable{object-position:var(--variable);}
 .not-sr-only{position:static;width:auto;height:auto;padding:0;margin:0;overflow:visible;clip:auto;white-space:normal;}
 .line-clamp-100{overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:100;line-clamp:100;}

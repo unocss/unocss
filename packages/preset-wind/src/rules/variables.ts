@@ -1,19 +1,19 @@
 import type { Rule } from '@unocss/core'
 
 const variablesAbbrMap: Record<string, string> = {
-  'write': 'writing-mode',
-  'write-orient': 'text-orientation',
   'bg-blend': 'background-blend-mode',
   'bg-clip': '-webkit-background-clip',
   'bg-gradient': 'linear-gradient',
-  'bg-origin-border': 'background-origin',
+  'bg-image': 'background-image',
+  'bg-origin': 'background-origin',
   'bg-position': 'background-position',
   'bg-repeat': 'background-repeat',
   'bg-size': 'background-size',
   'mix-blend': 'mix-blend-mode',
-  'animate-speed': 'animation-speed',
-  'bg-image': 'background-image',
+  'object': 'object-fit',
   'object-position': 'object-position',
+  'write': 'writing-mode',
+  'write-orient': 'text-orientation',
 }
 
 export const cssVariables: Rule[] = [[

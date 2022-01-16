@@ -567,7 +567,6 @@ export const presetMiniTargets: string[] = [
   'border-x-$color',
   'color-$red',
   'items-$size',
-  'object-$fit',
   'tab-$tabprop',
   'outline-$variable',
   'outline-width-$variable',

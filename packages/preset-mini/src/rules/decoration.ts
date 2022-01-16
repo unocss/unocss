@@ -9,7 +9,7 @@ export const textDecorations: Rule[] = [
   ['decoration-line-through', { 'text-decoration-line': 'line-through' }],
 
   // size
-  [/^(?:underline|decoration)-(?:size-)?(.+)$/, ([, s]) => ({ 'text-decoration-thickness': h.bracket.px(s) })],
+  [/^(?:underline|decoration)-(?:size-)?(.+)$/, ([, s]) => ({ 'text-decoration-thickness': h.bracket.cssvar.px(s) })],
   [/^(?:underline|decoration)-(auto|from-font)$/, ([, s]) => ({ 'text-decoration-thickness': s })],
 
   // colors
@@ -25,7 +25,7 @@ export const textDecorations: Rule[] = [
   [/^(?:underline|decoration)-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-line-opacity': h.bracket.percent(opacity) })],
 
   // offset
-  [/^underline-offset-(.+)$/, ([, s]) => ({ 'text-underline-offset': h.auto.bracket.px(s) })],
+  [/^underline-offset-(.+)$/, ([, s]) => ({ 'text-underline-offset': h.auto.bracket.cssvar.px(s) })],
 
   // style
   [/^(?:underline|decoration)-(solid|double|dotted|dashed|wavy|inherit|initial|revert|unset)$/, ([, d]) => ({ 'text-decoration-style': d })],

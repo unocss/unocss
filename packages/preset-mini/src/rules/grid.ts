@@ -37,18 +37,19 @@ export const grids: Rule[] = [
   }],
 
   // starts & ends
-  [/^(?:grid-)?(row|col)-start-([\w.-]+)$/, ([, c, v]) => ({ [`grid-${rowCol(c)}-start`]: v })],
-  [/^(?:grid-)?(row|col)-end-([\w.-]+)$/, ([, c, v]) => ({ [`grid-${rowCol(c)}-end`]: v })],
+  [/^(?:grid-)?(row|col)-start-(.+)$/, ([, c, v]) => ({ [`grid-${rowCol(c)}-start`]: h.bracket.cssvar(v) ?? v })],
+  [/^(?:grid-)?(row|col)-end-(.+)$/, ([, c, v]) => ({ [`grid-${rowCol(c)}-end`]: h.bracket.cssvar(v) ?? v })],
 
   // auto flows
   [/^(?:grid-)?auto-(rows|cols)-(.+)$/, ([, c, v], { theme }) => ({ [`grid-auto-${rowCol(c)}`]: autoDirection(v, theme) })],
 
   // grid-auto-flow, auto-flow: uno
   // grid-flow: wind
+  [/^(?:grid-auto-flow|auto-flow|grid-flow)-(.+)$/, ([, v]) => ({ 'grid-auto-flow': h.bracket.cssvar(v) })],
   [/^(?:grid-auto-flow|auto-flow|grid-flow)-((?:row|col)(?:-dense)?)$/, ([, v]) => ({ 'grid-auto-flow': rowCol(v).replace('-', ' ') })],
 
   // templates
-  [/^grid-(rows|cols)-(\[.+\])$/, ([, c, v]) => ({ [`grid-template-${rowCol(c)}`]: h.bracket(v) })],
+  [/^grid-(rows|cols)-(.+)$/, ([, c, v]) => ({ [`grid-template-${rowCol(c)}`]: h.bracket.cssvar(v) })],
   [/^grid-(rows|cols)-minmax-([\w.-]+)$/, ([, c, d]) => ({ [`grid-template-${rowCol(c)}`]: `repeat(auto-fill,minmax(${d},1fr))` })],
   [/^grid-(rows|cols)-(\d+)$/, ([, c, d]) => ({ [`grid-template-${rowCol(c)}`]: `repeat(${d},minmax(0,1fr))` })],
 
