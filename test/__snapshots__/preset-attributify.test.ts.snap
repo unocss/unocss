@@ -2,6 +2,9 @@
 
 exports[`attributify > extractor1 1`] = `
 Set {
+  "[sm~=\\"[color:red]\\"]",
+  "[md~=\\"[--var:var(--another)]\\"]",
+  "[lg~=\\"bg-blue-600\\"]",
   "absolute",
   "fixed",
   "[bg~=\\"blue-400\\"]",
@@ -141,7 +144,16 @@ exports[`attributify > fixture1 1`] = `
 [font~=\\"mono\\"]{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\\"Liberation Mono\\",\\"Courier New\\",monospace;}
 [font~=\\"sans\\"]{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\\"Segoe UI\\",Roboto,\\"Helvetica Neue\\",Arial,\\"Noto Sans\\",sans-serif,\\"Apple Color Emoji\\",\\"Segoe UI Emoji\\",\\"Segoe UI Symbol\\",\\"Noto Color Emoji\\";}
 [text~=\\"sm\\"]{font-size:0.875rem;line-height:1.25rem;}
-[text~=\\"white\\"]{--un-text-opacity:1;color:rgba(255,255,255,var(--un-text-opacity));}"
+[text~=\\"white\\"]{--un-text-opacity:1;color:rgba(255,255,255,var(--un-text-opacity));}
+@media (min-width: 640px){
+[sm~=\\"\\\\[color\\\\:red\\\\]\\"]{color:red;}
+}
+@media (min-width: 768px){
+[md~=\\"\\\\[--var\\\\:var\\\\(--another\\\\)\\\\]\\"]{--var:var(--another);}
+}
+@media (min-width: 1024px){
+[lg~=\\"bg-blue-600\\"]{--un-bg-opacity:1;background-color:rgba(37,99,235,var(--un-bg-opacity));}
+}"
 `;
 
 exports[`attributify > fixture2 1`] = `
@@ -204,6 +216,9 @@ exports[`attributify > fixture2 1`] = `
 
 exports[`attributify > variant 1`] = `
 [
+  "sm-[color:red]",
+  "md-[--var:var(--another)]",
+  "lg-bg-blue-600",
   undefined,
   undefined,
   "bg-blue-400",
