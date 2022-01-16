@@ -95,6 +95,7 @@ declare global {
   const useCounter: typeof import('@vueuse/core')['useCounter']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVar: typeof import('@vueuse/core')['useCssVar']
+  const useCssVars: typeof import('vue')['useCssVars']
   const useCycleList: typeof import('@vueuse/core')['useCycleList']
   const useDark: typeof import('@vueuse/core')['useDark']
   const useDebounce: typeof import('@vueuse/core')['useDebounce']

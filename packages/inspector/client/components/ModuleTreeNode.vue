@@ -29,7 +29,7 @@ const route = useRoute()
       v-for="i of node.items"
       :key="i.full"
       ml4
-      truncate
+      ws-nowrap
     >
       <RouterLink
         block

@@ -130,6 +130,7 @@ onMounted(() => {
         flex-auto
         mode="htmlmixed"
         border="l gray-400/20"
+        class="scrolls"
         :matched="output?.matched || new Set()"
       />
     </Pane>
@@ -152,6 +153,7 @@ onMounted(() => {
         flex-auto
         mode="css"
         border="l gray-400/20"
+        class="scrolls"
         :read-only="true"
       />
     </Pane>
@@ -165,7 +167,7 @@ onMounted(() => {
           />
         </template>
       </TitleBar>
-      <CodeMirror v-model="customConfigRaw" flex-auto mode="javascript" border="l gray-400/20" />
+      <CodeMirror v-model="customConfigRaw" flex-auto mode="javascript" border="l gray-400/20" class="scrolls" />
       <div
         v-if="customConfigError"
         absolute
