@@ -22,6 +22,9 @@ exports[`preset-mini > targets 1`] = `
 .word-spacing-\\\\$variable{word-spacing:var(--variable);}
 .ws-\\\\$variable{white-space:var(--variable);}
 .\\\\[a\\\\:b\\\\]{a:b;}
+.\\\\[background-image\\\\:url\\\\(star_transparent\\\\.gif\\\\)\\\\2c _url\\\\(cat_front\\\\.png\\\\)\\\\]{background-image:url(star\\\\_transparent.gif), url(cat\\\\_front.png);}
+.\\\\[content\\\\:attr\\\\(attr_content\\\\)\\\\]{content:attr(attr content);}
+.\\\\[content\\\\:attr\\\\(attr\\\\\\\\_content\\\\)\\\\]{content:attr(attr\\\\_content);}
 .\\\\[margin\\\\:logical_1rem_2rem_3rem\\\\]{margin:logical 1rem 2rem 3rem;}
 .-p-px{padding:-1px;}
 .\\\\!p-5px{padding:5px !important;}

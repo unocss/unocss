@@ -618,6 +618,9 @@ export const presetMiniTargets: string[] = [
   // variables - property
   '[a:b]',
   '[margin:logical_1rem_2rem_3rem]',
+  '[content:attr(attr_content)]',
+  '[content:attr(attr\\_content)]',
+  '[background-image:url(star_transparent.gif),_url(cat_front.png)]',
 
   // dark/light
   'dark:not-odd:text-red',
