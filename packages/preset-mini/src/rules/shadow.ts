@@ -40,7 +40,7 @@ export const boxShadows: Rule<Theme>[] = [
 
   // color
   [/^shadow-(.+)$/, colorResolver('--un-shadow-color', 'shadow')],
-  [/^shadow-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-shadow-opacity': h.bracket.percent.cssvar(opacity) })],
+  [/^shadow-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-shadow-opacity': h.bracket.percent(opacity) })],
 
   // inset
   ['shadow-inset', { '--un-shadow-inset': 'inset' }],
