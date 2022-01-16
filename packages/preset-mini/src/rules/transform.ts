@@ -81,7 +81,7 @@ export const transforms: Rule[] = [
   [/^translate-()(.+)$/, handleTranslate],
   [/^translate-([xyz])-(.+)$/, handleTranslate],
   [/^rotate-()(.+)$/, handleRotate],
-  [/^rotate(-[xyz])-(.+)$/, handleRotate],
+  [/^rotate-([xyz])-(.+)$/, handleRotate],
   [/^skew-([xy])-(.+)$/, handleSkew],
   [/^scale-()(.+)$/, handleScale],
   [/^scale-([xyz])-(.+)$/, handleScale],
@@ -126,16 +126,31 @@ function handleScale([, d, b]: string[]): CSSValues | undefined {
   }
 }
 
-function handleRotate([, d, b]: string[]): CSSValues | undefined {
+function handleRotate([, d = '', b]: string[]): CSSValues | undefined {
   const v = h.bracket.cssvar.degree(b)
   if (v != null) {
-    return [
-      transformBase,
-      {
-        [`--un-rotate${d || ''}`]: v,
-        transform: 'var(--un-transform)',
-      },
-    ]
+    if (d) {
+      return [
+        transformBase,
+        {
+          '--un-rotate': 0,
+          [`--un-rotate-${d}`]: v,
+          'transform': 'var(--un-transform)',
+        },
+      ]
+    }
+    else {
+      return [
+        transformBase,
+        {
+          '--un-rotate-x': 0,
+          '--un-rotate-y': 0,
+          '--un-rotate-z': 0,
+          '--un-rotate': v,
+          'transform': 'var(--un-transform)',
+        },
+      ]
+    }
   }
 }
 
