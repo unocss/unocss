@@ -126,7 +126,7 @@ function handleScale([, d, b]: string[]): CSSValues | undefined {
   }
 }
 
-function handleRotate([, d, b]: string[]): CSSValues | undefined {
+function handleRotate([, d = '', b]: string[]): CSSValues | undefined {
   const v = h.bracket.cssvar.degree(b)
   if (v != null) {
     if (d) {
