@@ -102,8 +102,8 @@ onMounted(async() => {
   --cm-regex: #ab5e3f;
   --cm-json-property: #698c96;
   /* scrollbars colors */
-  --uni-ttc-c-thumb: #ddd;
-  --uni-ttc-c-track: white;
+  --cm-ttc-c-thumb: #eee;
+  --cm-ttc-c-track: white;
 }
 
 html.dark {
@@ -132,8 +132,8 @@ html.dark {
   --cm-line-highlight-background: #444444;
   --cm-selection-background: #44444450;
   /* scrollbars colors */
-  --uni-ttc-c-thumb: #666;
-  --uni-ttc-c-track: black;
+  --cm-ttc-c-thumb: #222;
+  --cm-ttc-c-track: #111;
 }
 
 .highlighted {
@@ -149,7 +149,7 @@ html.dark {
   overflow: auto !important;
   height: calc(100vh - 2px) !important;
   scrollbar-width: thin;
-  scrollbar-color: var(--uni-ttc-c-thumb) var(--uni-ttc-c-track);
+  scrollbar-color: var(--cm-ttc-c-thumb) var(--cm-ttc-c-track);
 }
 .scrolls-sidebar {
   height: calc(100vh - 25px - 1.5rem - 65px - 1rem - 2px) !important;
@@ -168,17 +168,17 @@ html.dark {
 }
 .CodeMirror-scroll::-webkit-scrollbar-track,
 .scrolls::-webkit-scrollbar-track {
-  background: var(--uni-ttc-c-track);
+  background: var(--cm-ttc-c-track);
 }
 .CodeMirror-scroll::-webkit-scrollbar-thumb,
 .scrolls::-webkit-scrollbar-thumb {
-  background-color: var(--uni-ttc-c-thumb);
+  background-color: var(--cm-ttc-c-thumb);
   border-radius: 3px;
-  border: 2px solid var(--uni-ttc-c-thumb);
+  border: 2px solid var(--cm-ttc-c-thumb);
 }
 .CodeMirror-scroll::-webkit-scrollbar-corner,
 .scrolls::-webkit-scrollbar-corner {
-  background-color: var(--uni-ttc-c-track);
+  background-color: var(--cm-ttc-c-track);
 }
 .CodeMirror {
   overflow: unset !important;
