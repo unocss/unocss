@@ -5,8 +5,8 @@ export const presetWindiTargets: string[] = [
   'animate-none',
   'animate-pulse',
   'animate-pulse-alt',
-  'animate-300',
-  'animate-100s',
+  'animate-duration-100ms',
+  'animate-duration-100s',
   'animate-duration-100',
   'animate-duration-100.00',
   'animate-duration-100.02',
@@ -24,6 +24,13 @@ export const presetWindiTargets: string[] = [
   'animate-iteration-count-2',
   'animate-iteration-count-2-4-infinity',
   'animate-iteration-count-[2,4,infinity]',
+  'animate-duration-$variable',
+  'animate-delay-$variable',
+  'animate-iteration-count-$variable',
+  'animate-ease-$variable',
+  'animate-ease-[steps(4,_jump-start)]',
+  'animate-$variable',
+  'animate-[4s_linear_0s_infinite_alternate_move\\_eye]',
 
   // background
   'bg-auto',
@@ -278,9 +285,6 @@ export const presetWindiTargets: string[] = [
 
   // variables
   'bg-blend-$data',
-  'animate-duration-$variable',
-  'animate-delay-$variable',
-  'animate-iteration-count-$variable',
   'divide-$variable',
   'divide-x-$variable',
   'divide-inline-$variable',

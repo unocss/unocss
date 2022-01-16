@@ -18,11 +18,13 @@ export const animations: Rule<Theme>[] = [
       return `@keyframes ${name}${kf}\n${constructCSS(
         Object.assign({ animation: `${name} ${duration} ${timing} infinite` }, props))}`
     }
+    return { animate: h.bracket.cssvar(name) }
   }],
 
   // timings
-  [/^animate-(?:duration-)?(.+)$/, ([, d]) => ({ 'animation-duration': h.bracket.cssvar.time(d) })],
+  [/^animate-duration-(.+)$/, ([, d]) => ({ 'animation-duration': h.bracket.cssvar.time(d) })],
   [/^animate-delay-(.+)$/, ([, d]) => ({ 'animation-delay': h.bracket.cssvar.time(d) })],
+  [/^animate-ease-(.+)$/, ([, d]) => ({ 'animation-timing-function': h.bracket.cssvar(d) })],
 
   // fill mode
   [/^animate-(?:fill-)?mode-(forwards|backwards|both|inherit|initial|revert|unset)$/, ([, d]) => ({ 'animation-fill-mode': d })],
