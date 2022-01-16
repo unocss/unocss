@@ -37,6 +37,6 @@ export const animations: Rule<Theme>[] = [
   // others
   [/^animate-(?:iteration-)?count-(.+)$/, ([, d]) => ({ 'animation-iteration-count': h.bracket.cssvar(d) ?? d.replace(/\-/g, ',') })],
   [/^animate-name-(.+)/, ([, d]) => ({ 'animation-name': d })],
-  [/^animate-play(?:-state)?-(paused|running|inherit|initial|revert|unset)$/, ([, d]) => ({ 'animation-play-state': d })],
+  [/^animate-play-(?:state-)?(paused|running|inherit|initial|revert|unset)$/, ([, d]) => ({ 'animation-play-state': d })],
   ['animate-none', { animation: 'none' }],
 ]

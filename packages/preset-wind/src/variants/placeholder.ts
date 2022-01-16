@@ -3,7 +3,7 @@ import type { Theme } from '@unocss/preset-mini'
 import { handler as h, parseColor } from '@unocss/preset-mini/utils'
 
 export const placeholderModifier: VariantFunction = (input: string, { theme }) => {
-  const m = input.match(/^(.*)\b(placeholder-)(.+?)$/)
+  const m = input.match(/^(.*)\b(placeholder-)(.+)$/)
   if (m) {
     const [, pre = '', p, body] = m
     if (hasColorValue(body, theme) || hasOpacityValue(body)) {
