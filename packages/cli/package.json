@@ -44,7 +44,7 @@
     "chokidar": "^3.5.2",
     "colorette": "^2.0.16",
     "consola": "^2.15.3",
-    "fast-glob": "^3.2.10",
+    "fast-glob": "^3.2.11",
     "pathe": "^0.2.0"
   }
 }
