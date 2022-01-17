@@ -40,13 +40,13 @@ export const fonts: Rule<Theme>[] = [
   [/^(?:font|fw)-?([^-]+)$/, ([, s]) => ({ 'font-weight': weightMap[s] || h.number(s) })],
 
   // leadings
-  [/^(?:leading|lh)-([^-]+)$/, ([, s], { theme }) => ({ 'line-height': theme.lineHeight?.[s] || h.bracket.rem(s) })],
+  [/^(?:leading|lh)-(.+)$/, ([, s], { theme }) => ({ 'line-height': theme.lineHeight?.[s] || h.bracket.cssvar.rem(s) })],
 
   // tracking
-  [/^tracking-([^-]+)$/, ([, s], { theme }) => ({ 'letter-spacing': theme.letterSpacing?.[s] || h.bracket.rem(s) })],
+  [/^tracking-(.+)$/, ([, s], { theme }) => ({ 'letter-spacing': theme.letterSpacing?.[s] || h.bracket.cssvar.rem(s) })],
 
   // word-spacing
-  [/^word-spacing-([^-]+)$/, ([, s], { theme }) => ({ 'word-spacing': theme.wordSpacing?.[s] || h.bracket.rem(s) })],
+  [/^word-spacing-(.+)$/, ([, s], { theme }) => ({ 'word-spacing': theme.wordSpacing?.[s] || h.bracket.cssvar.rem(s) })],
 ]
 
 export const tabSizes: Rule<Theme>[] = [
