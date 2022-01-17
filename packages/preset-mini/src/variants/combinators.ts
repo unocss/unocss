@@ -7,5 +7,5 @@ export const variantCombinators: Variant[] = [
   variantMatcher('next', input => `${input}+*`),
   variantMatcher('sibling', input => `${input}+*`),
   variantMatcher('siblings', input => `${input}~*`),
-  variantMatcher('svg', input => `${input} svg *`),
+  variantMatcher('svg', input => `${input} svg`),
 ]

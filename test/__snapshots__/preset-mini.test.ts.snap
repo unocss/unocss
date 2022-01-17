@@ -96,6 +96,7 @@ exports[`preset-mini > targets 1`] = `
 .fill-\\\\[1rem\\\\]{fill:1rem;}
 .fill-current{fill:currentColor;}
 .fill-green-400{--un-fill-opacity:1;fill:rgba(74,222,128,var(--un-fill-opacity));}
+.svg\\\\:fill-red svg{--un-fill-opacity:1;fill:rgba(248,113,113,var(--un-fill-opacity));}
 .fill-opacity-80{--un-fill-opacity:0.8;}
 .fill-none{fill:none;}
 .stroke-size-\\\\[1rem\\\\]{stroke-width:1rem;}
