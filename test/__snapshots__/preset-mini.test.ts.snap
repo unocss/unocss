@@ -25,6 +25,8 @@ exports[`preset-mini > targets 1`] = `
 .\\\\[margin\\\\:logical_1rem_2rem_3rem\\\\]{margin:logical 1rem 2rem 3rem;}
 .-p-px{padding:-1px;}
 .\\\\!p-5px{padding:5px !important;}
+.children\\\\:p-6>*,
+.childs\\\\:p-6>*{padding:1.5rem;}
 .first\\\\:p-2:first-child,
 .has-hover\\\\:p-2:has(:hover),
 .p-2,
@@ -49,7 +51,6 @@ exports[`preset-mini > targets 1`] = `
 .pis-10px{padding-inline-start:10px;}
 .-m-auto,
 .all\\\\:m-auto *,
-.children\\\\:m-auto>*,
 .m-auto{margin:auto;}
 .\\\\!m-\\\\$c-m{margin:var(--c-m) !important;}
 .m-\\\\[3em\\\\]{margin:3em;}
@@ -60,6 +61,7 @@ exports[`preset-mini > targets 1`] = `
 .mt-\\\\[-10\\\\.2\\\\%\\\\]{margin-top:-10.2%;}
 .mt-\\\\$height{margin-top:var(--height);}
 .next\\\\:mt-0+*{margin-top:0rem;}
+.siblings\\\\:ms-4~*{margin-inline-start:1rem;}
 .m-block-auto{margin-block-start:auto;margin-block-end:auto;}
 .mbs-\\\\[-10\\\\.2\\\\%\\\\]{margin-block-start:-10.2%;}
 .mbs-\\\\$height{margin-block-start:var(--height);}
@@ -124,6 +126,7 @@ exports[`preset-mini > targets 1`] = `
 .border-x{border-left-width:1px;border-right-width:1px;border-style:solid;}
 .border-b{border-bottom-width:1px;border-style:solid;}
 .border-t-2{border-top-width:2px;border-style:solid;}
+.sibling\\\\:b-s-4+*{border-inline-start-width:4px;border-style:solid;}
 .border-inline{border-inline-start-width:1px;border-inline-end-width:1px;border-style:solid;}
 .border-be{border-block-end-width:1px;border-style:solid;}
 .border-bs-2{border-block-start-width:2px;border-style:solid;}

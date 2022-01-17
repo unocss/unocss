@@ -4,6 +4,7 @@ import { variantMatcher } from '../utils'
 export const variantCombinators: Variant[] = [
   variantMatcher('all', input => `${input} *`),
   variantMatcher('children', input => `${input}>*`),
+  variantMatcher('childs', input => `${input}>*`),
   variantMatcher('next', input => `${input}+*`),
   variantMatcher('sibling', input => `${input}+*`),
   variantMatcher('siblings', input => `${input}~*`),

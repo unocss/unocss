@@ -650,11 +650,9 @@ export const presetMiniTargets: string[] = [
   '-mb-px',
   '-p-px',
   '-z-1',
-  'all:m-auto',
   'at-2xl:m2',
   'at-lg:m2',
   'at-sm:m1',
-  'children:m-auto',
   'disabled:op50',
   'first:p-2',
   'group-focus:p-4',
@@ -666,12 +664,19 @@ export const presetMiniTargets: string[] = [
   'lt-sm:m1',
   'md:!hidden',
   'md:m-1',
-  'next:mt-0',
   'not-hover:p-3',
   'peer-checked:bg-blue-500',
   'peer-not-placeholder-shown:text-2xl',
   'sm:m-1',
   'sm:m1',
+
+  // variants combinators
+  'all:m-auto',
+  'children:p-6',
+  'childs:p-6',
+  'next:mt-0',
+  'sibling:b-s-4',
+  'siblings:ms-4',
 
   // variants motion
   'motion-reduce:hover:translate-0',
