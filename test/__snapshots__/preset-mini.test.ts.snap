@@ -194,8 +194,13 @@ exports[`preset-mini > targets 1`] = `
 .text-base{font-size:1rem;line-height:1.5rem;}
 .text-lg{font-size:1.125rem;line-height:1.75rem;}
 .text-size-\\\\$variable{font-size:var(--variable);}
-.font-thin{font-weight:100;}
+.font-050,
+.font-50,
+.fw-050,
+.fw-50{font-weight:50;}
+.font-900,
 .fw-900{font-weight:900;}
+.font-thin{font-weight:100;}
 .leading-2{line-height:0.5rem;}
 .lh-\\\\[1\\\\.5\\\\]{line-height:1.5;}
 .tracking-\\\\[2\\\\/5\\\\]{letter-spacing:2/5;}
