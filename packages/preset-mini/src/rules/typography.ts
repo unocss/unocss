@@ -32,21 +32,21 @@ export const fonts: Rule<Theme>[] = [
       }
     }
 
-    return { 'font-size': h.bracket.auto.rem(s) }
+    return { 'font-size': h.bracket.rem(s) }
   }],
-  [/^text-size-(.+)$/, ([, s]) => ({ 'font-size': h.bracket.cssvar.auto.rem(s) })],
+  [/^text-size-(.+)$/, ([, s]) => ({ 'font-size': h.bracket.cssvar.rem(s) })],
 
   // weights
   [/^(?:font|fw)-?([^-]+)$/, ([, s]) => ({ 'font-weight': weightMap[s] || h.number(s) })],
 
   // leadings
-  [/^(?:leading|lh)-([^-]+)$/, ([, s], { theme }) => ({ 'line-height': theme.lineHeight?.[s] || h.bracket.auto.rem(s) })],
+  [/^(?:leading|lh)-([^-]+)$/, ([, s], { theme }) => ({ 'line-height': theme.lineHeight?.[s] || h.bracket.rem(s) })],
 
   // tracking
-  [/^tracking-([^-]+)$/, ([, s], { theme }) => ({ 'letter-spacing': theme.letterSpacing?.[s] || h.bracket.auto.rem(s) })],
+  [/^tracking-([^-]+)$/, ([, s], { theme }) => ({ 'letter-spacing': theme.letterSpacing?.[s] || h.bracket.rem(s) })],
 
   // word-spacing
-  [/^word-spacing-([^-]+)$/, ([, s], { theme }) => ({ 'word-spacing': theme.wordSpacing?.[s] || h.bracket.auto.rem(s) })],
+  [/^word-spacing-([^-]+)$/, ([, s], { theme }) => ({ 'word-spacing': theme.wordSpacing?.[s] || h.bracket.rem(s) })],
 ]
 
 export const tabSizes: Rule<Theme>[] = [
@@ -63,7 +63,7 @@ export const tabSizes: Rule<Theme>[] = [
 ]
 
 export const textIndents: Rule<Theme>[] = [
-  [/^indent(?:-(.+))?$/, ([, s], { theme }) => ({ 'text-indent': theme.textIndent?.[s || 'DEFAULT'] || h.bracket.cssvar.auto.fraction.rem(s) })],
+  [/^indent(?:-(.+))?$/, ([, s], { theme }) => ({ 'text-indent': theme.textIndent?.[s || 'DEFAULT'] || h.bracket.cssvar.fraction.rem(s) })],
 ]
 
 export const textStrokes: Rule<Theme>[] = [

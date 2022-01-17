@@ -123,7 +123,7 @@ function handlerBorderOpacity([, a = '', opacity]: string[]): CSSEntries | undef
 }
 
 function handlerRounded([, a = '', s = 'DEFAULT']: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
-  const v = theme.borderRadius?.[s] || h.bracket.cssvar.auto.fraction.rem(s)
+  const v = theme.borderRadius?.[s] || h.bracket.cssvar.fraction.rem(s)
   if (a in cornerMap && v != null)
     return cornerMap[a].map(i => [`border${i}-radius`, v])
 }
