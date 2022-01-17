@@ -122,12 +122,12 @@ exports[`preset-wind > targets 1`] = `
 .list-disc{list-style-type:disc;}
 .list-outside{list-style-position:outside;}
 .list-none{list-style-type:none;}
-.columns-\\\\[3_auto\\\\]{column:3 auto;}
-.columns-\\\\[auto_13em\\\\]{column:auto 13em;}
-.columns-\\\\[auto_auto\\\\]{column:auto auto;}
-.columns-3{column:3;}
-.columns-5em{column:5em;}
-.columns-auto{column:auto;}
+.columns-\\\\[3_auto\\\\]{columns:3 auto;}
+.columns-\\\\[auto_13em\\\\]{columns:auto 13em;}
+.columns-\\\\[auto_auto\\\\]{columns:auto auto;}
+.columns-3{columns:3;}
+.columns-5em{columns:5em;}
+.columns-auto{columns:auto;}
 .break-before-avoid-page{break-before:avoid-page;}
 .break-inside-avoid-column{break-inside:avoid-column;}
 .break-after-column{break-after:column;}

@@ -2,7 +2,7 @@ import type { Rule } from '@unocss/core'
 import { handler as h } from '@unocss/preset-mini/utils'
 
 export const columns: Rule[] = [
-  [/^columns-(.+)$/, ([, v]) => ({ column: h.bracket.global.number.auto.numberWithUnit(v) })],
+  [/^columns-(.+)$/, ([, v]) => ({ columns: h.bracket.global.number.auto.numberWithUnit(v) })],
 
   // break before
   ['break-before-auto', { 'break-before': 'auto' }],
