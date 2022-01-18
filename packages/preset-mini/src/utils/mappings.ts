@@ -12,6 +12,8 @@ export const directionMap: Record<string, string[]> = {
   'be': ['-block-end'],
   'is': ['-inline-start'],
   'ie': ['-inline-end'],
+  'lb': ['-block-start', '-block-end'],
+  'li': ['-inline-start', '-inline-end'],
   'block': ['-block-start', '-block-end'],
   'inline': ['-inline-start', '-inline-end'],
 }
@@ -24,8 +26,8 @@ export const insetMap: Record<string, string[]> = {
   be: ['-inset-block-end'],
   is: ['-inset-inline-start'],
   ie: ['-inset-inline-end'],
-  block: ['-inset-block-start', '-inset-block-end'],
-  inline: ['-inset-inline-start', '-inset-inline-end'],
+  lb: ['-inset-block-start', '-inset-block-end'],
+  li: ['-inset-inline-start', '-inset-inline-end'],
 }
 
 export const cornerMap: Record<string, string[]> = {
@@ -46,14 +48,10 @@ export const cornerMap: Record<string, string[]> = {
   'be': ['-end-start', '-end-end'],
   'is': ['-end-start', '-start-start'],
   'ie': ['-start-end', '-end-end'],
-  'bs-is': ['-start-start'],
-  'is-bs': ['-start-start'],
-  'bs-ie': ['-start-end'],
-  'ie-bs': ['-start-end'],
-  'be-is': ['-end-start'],
-  'is-be': ['-end-start'],
-  'be-ie': ['-end-end'],
-  'ie-be': ['-end-end'],
+  'ss': ['-start-start'],
+  'se': ['-start-end'],
+  'es': ['-end-start'],
+  'ee': ['-end-end'],
 }
 
 export const xyzMap: Record<string, string[]> = {

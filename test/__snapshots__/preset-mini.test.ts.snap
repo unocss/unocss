@@ -60,7 +60,7 @@ exports[`preset-mini > targets 1`] = `
 .mt-\\\\[-10\\\\.2\\\\%\\\\]{margin-top:-10.2%;}
 .mt-\\\\$height{margin-top:var(--height);}
 .next\\\\:mt-0+*{margin-top:0rem;}
-.m-block-auto{margin-block-start:auto;margin-block-end:auto;}
+.m-lb-auto{margin-block-start:auto;margin-block-end:auto;}
 .mbs-\\\\[-10\\\\.2\\\\%\\\\]{margin-block-start:-10.2%;}
 .mbs-\\\\$height{margin-block-start:var(--height);}
 .contents{display:contents;}
@@ -125,7 +125,7 @@ exports[`preset-mini > targets 1`] = `
 .border-x{border-left-width:1px;border-right-width:1px;border-style:solid;}
 .border-b{border-bottom-width:1px;border-style:solid;}
 .border-t-2{border-top-width:2px;border-style:solid;}
-.border-inline{border-inline-start-width:1px;border-inline-end-width:1px;border-style:solid;}
+.border-li{border-inline-start-width:1px;border-inline-end-width:1px;border-style:solid;}
 .border-be{border-block-end-width:1px;border-style:solid;}
 .border-bs-2{border-block-start-width:2px;border-style:solid;}
 .border-size-\\\\$variable,
@@ -137,7 +137,7 @@ exports[`preset-mini > targets 1`] = `
 .border-s-width-\\\\$variable{border-inline-start-width:var(--variable);}
 .border-t-size-2{border-top-width:2px;}
 .border-t-width-3{border-top-width:3px;}
-.b-block-size-\\\\$variable{border-block-start-width:var(--variable);border-block-end-width:var(--variable);}
+.b-lb-size-\\\\$variable{border-block-start-width:var(--variable);border-block-end-width:var(--variable);}
 .border-\\\\[\\\\#124\\\\]{--un-border-opacity:1;border-color:rgba(17,34,68,var(--un-border-opacity));}
 .border-\\\\[2em\\\\]{border-color:2em;}
 .border-\\\\[calc\\\\(1em-1px\\\\)\\\\]{border-color:calc(1em - 1px);}
@@ -176,8 +176,8 @@ exports[`preset-mini > targets 1`] = `
 .rounded-rb-1\\\\/2{border-bottom-right-radius:50%;}
 .rounded-tr{border-top-right-radius:0.25rem;}
 .rounded-bs-sm{border-start-start-radius:0.125rem;border-start-end-radius:0.125rem;}
-.rounded-bs-ie{border-start-end-radius:0.25rem;}
-.rounded-ie-be-1\\\\/2{border-end-end-radius:50%;}
+.rounded-ee-1\\\\/2{border-end-end-radius:50%;}
+.rounded-se{border-start-end-radius:0.25rem;}
 .border-double{border-style:double;}
 .border-none{border-style:none;}
 .content-empty,
@@ -551,9 +551,9 @@ exports[`preset-mini > targets 1`] = `
 .inset-ie-5{inset-inline-end:1.25rem;}
 .inset-s-\\\\$variable{inset-inline-start:var(--variable);}
 .inset-t-5{top:1.25rem;}
-.inset-block-5{inset-block-start:1.25rem;inset-block-end:1.25rem;}
-.inset-inline-\\\\$variable{inset-inline-start:var(--variable);inset-inline-end:var(--variable);}
-.inset-inline-5{inset-inline-start:1.25rem;inset-inline-end:1.25rem;}
+.inset-lb-5{inset-block-start:1.25rem;inset-block-end:1.25rem;}
+.inset-li-\\\\$variable{inset-inline-start:var(--variable);inset-inline-end:var(--variable);}
+.inset-li-5{inset-inline-start:1.25rem;inset-inline-end:1.25rem;}
 .inset-bs-5{inset-block-start:1.25rem;}
 .top-\\\\$top-height{top:var(--top-height);}
 .top-0{top:0rem;}
