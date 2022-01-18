@@ -5,8 +5,8 @@ import { handler as h } from '../utils'
 const sizeMapping: Record<string, string> = {
   h: 'height',
   w: 'width',
-  inline: 'inline-size',
-  block: 'block-size',
+  bs: 'block-size',
+  is: 'inline-size',
 }
 
 function getPropName(minmax: string, hw: string) {
@@ -33,7 +33,7 @@ function getSizeValue(minmax: string, hw: string, theme: Theme, prop: string) {
 
 export const sizes: Rule<Theme>[] = [
   [/^(min-|max-)?([wh])-(.+)$/, ([, m, w, s], { theme }) => ({ [getPropName(m, w)]: getSizeValue(m, w, theme, s) })],
-  [/^(min-|max-)?(block|inline)-(.+)$/, ([, m, w, s], { theme }) => ({ [getPropName(m, w)]: getSizeValue(m, w, theme, s) })],
+  [/^(min-|max-)?(bs|is)-(.+)$/, ([, m, w, s], { theme }) => ({ [getPropName(m, w)]: getSizeValue(m, w, theme, s) })],
   [/^(min-|max-)?(w)-screen-(.+)$/, ([, m, w, s], { theme }) => ({ [getPropName(m, w)]: theme.breakpoints?.[s] })],
 ]
 
