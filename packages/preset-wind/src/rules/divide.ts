@@ -1,14 +1,15 @@
 import type { CSSEntries, Rule } from '@unocss/core'
-import { colorResolver, directionMap, handler as h } from '@unocss/preset-mini/utils'
+import { colorResolver, handler as h } from '@unocss/preset-mini/utils'
+import { blockMap } from '../utils'
 
 export const divides: Rule[] = [
   // divides
   [/^divide-?([xy])$/, handlerDivide],
   [/^divide-?([xy])-?(-?.+)$/, handlerDivide],
   [/^divide-?([xy])-reverse$/, ([, d]) => ({ [`--un-divide-${d}-reverse`]: 1 })],
-  [/^divide-(block|inline)$/, handlerDivide],
-  [/^divide-(block|inline)-(-?.+)$/, handlerDivide],
-  [/^divide-(block|inline)-reverse$/, ([, d]) => ({ [`--un-divide-${d}-reverse`]: 1 })],
+  [/^divide-?([bi])$/, handlerDivide],
+  [/^divide-?([bi])-?(-?.+)$/, handlerDivide],
+  [/^divide-?([bi])-reverse$/, ([, d]) => ({ [`--un-divide-${d}-reverse`]: 1 })],
 
   // color & opacity
   [/^divide-(.+)$/, colorResolver('border-color', 'divide')],
@@ -25,7 +26,7 @@ export const divides: Rule[] = [
 function handlerDivide([, d, s = '1']: string[]): CSSEntries | undefined {
   const v = h.bracket.cssvar.px(s)
   if (v != null) {
-    const results = directionMap[d].map((item): [string, string] => {
+    const results = blockMap[d].map((item): [string, string] => {
       const key = `border${item}-width`
       const value = item.endsWith('right') || item.endsWith('bottom')
         ? `calc(${v} * var(--un-divide-${d}-reverse))`
