@@ -94,7 +94,7 @@ export function bracket(str: string) {
     return str
       .slice(1, -1)
       .replace(/(url\(.*?\))/g, v => v.replace(/_/g, '\\_'))
-      .replace(/(?<!\\)_/g, ' ')
+      .replace(/([^\\])_/g, '$1 ')
       .replace(/calc\((.*)/g, (v) => {
         return v.replace(/(-?\d*\.?\d(?!\b-.+[,)](?![^+\-/*])\D)(?:%|[a-z]+)?|\))([+\-/*])/g, '$1 $2 ')
       })
