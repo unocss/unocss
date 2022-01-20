@@ -28,6 +28,13 @@ declare global {
       uno: UnoGenerator
 
       /**
+       * Run extractor on specified tokens
+       *
+       * @returns {Promise<void>}
+       */
+      extract: (tokens: string | string[]) => Promise<void>
+
+      /**
        * Rerun extractor on the whole <body>, regardless of paused status or inspection limitation.
        *
        * @returns {Promise<void>}
@@ -155,6 +162,12 @@ export default function init(options: RuntimeOptions = {}) {
   window.__unocss_runtime = window.__unocss_runtime = {
     version: uno.version,
     uno,
+    async extract(userTokens) {
+      if (typeof userTokens === 'string')
+        return await extract(userTokens)
+      userTokens.forEach(t => tokens.add(t))
+      await updateStyle()
+    },
     extractAll,
     inspect(callback) {
       inspector = callback
