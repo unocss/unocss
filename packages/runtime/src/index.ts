@@ -96,11 +96,11 @@ export default function init(options: RuntimeOptions = {}) {
   const tokens = new Set<string>()
 
   let _timer: number | undefined
-  function scheduleUpdate() {
+  const scheduleUpdate = () => new Promise((resolve) => {
     if (_timer != null)
       clearTimeout(_timer)
-    _timer = setTimeout(updateStyle, 0) as any
-  }
+    _timer = setTimeout(() => updateStyle().then(resolve), 0) as any
+  })
 
   async function updateStyle() {
     const result = await uno.generate(tokens)
@@ -113,7 +113,7 @@ export default function init(options: RuntimeOptions = {}) {
 
   async function extract(str: string) {
     await uno.applyExtractors(str, undefined, tokens)
-    scheduleUpdate()
+    await scheduleUpdate()
   }
 
   async function extractAll() {
