@@ -486,6 +486,8 @@ export const presetMiniTargets: string[] = [
   'rotate-[var(--spin)]',
   'rotate-x-1deg',
   'rotate-y-1',
+  'transform-rotate-y-1',
+  'transform-rotate-z-[var(--spin)]',
   'rotate-z-[var(--spin)]',
   'skew-x-10',
   'skew-x-10deg',

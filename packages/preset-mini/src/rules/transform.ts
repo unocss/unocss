@@ -53,10 +53,10 @@ const transformBase = {
 
 export const transforms: Rule[] = [
   // origins
-  [/^origin-(.+)$/, ([, s]) => ({ 'transform-origin': positionMap[s] ?? h.bracket.cssvar(s) })],
+  [/^(?:transform-)?origin-(.+)$/, ([, s]) => ({ 'transform-origin': positionMap[s] ?? h.bracket.cssvar(s) })],
 
   // perspectives
-  [/^perspect-(.+)$/, ([, s]) => {
+  [/^(?:transform-)?perspect(?:ive)?-(.+)$/, ([, s]) => {
     const v = h.bracket.cssvar.px.numberWithUnit(s)
     if (v != null) {
       return {
@@ -67,7 +67,7 @@ export const transforms: Rule[] = [
   }],
 
   // skip 1 & 2 letters shortcut
-  [/^perspect-origin-(.+)$/, ([, s]) => {
+  [/^(?:transform-)?perspect(?:ive)?-origin-(.+)$/, ([, s]) => {
     const v = h.bracket.cssvar(s) ?? (s.length >= 3 ? positionMap[s] : undefined)
     if (v != null) {
       return {
@@ -78,17 +78,17 @@ export const transforms: Rule[] = [
   }],
 
   // modifiers
-  [/^translate-()(.+)$/, handleTranslate],
-  [/^translate-([xyz])-(.+)$/, handleTranslate],
-  [/^rotate-()(.+)$/, handleRotate],
-  [/^rotate-([xyz])-(.+)$/, handleRotate],
-  [/^skew-([xy])-(.+)$/, handleSkew],
-  [/^scale-()(.+)$/, handleScale],
-  [/^scale-([xyz])-(.+)$/, handleScale],
+  [/^(?:transform-)?translate-()(.+)$/, handleTranslate],
+  [/^(?:transform-)?translate-([xyz])-(.+)$/, handleTranslate],
+  [/^(?:transform-)?rotate-()(.+)$/, handleRotate],
+  [/^(?:transform-)?rotate-([xyz])-(.+)$/, handleRotate],
+  [/^(?:transform-)?skew-([xy])-(.+)$/, handleSkew],
+  [/^(?:transform-)?scale-()(.+)$/, handleScale],
+  [/^(?:transform-)?scale-([xyz])-(.+)$/, handleScale],
 
   // style
-  ['preserve-3d', { 'transform-style': 'preserve-3d' }],
-  ['preserve-flat', { 'transform-style': 'flat' }],
+  [/^(?:transform-)?preserve-3d$/, () => ({ 'transform-style': 'preserve-3d' })],
+  [/^(?:transform-)?preserve-flat$/, () => ({ 'transform-style': 'flat' })],
 
   // base
   [/^transform$/, () => [

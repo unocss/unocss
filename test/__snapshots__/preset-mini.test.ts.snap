@@ -619,6 +619,8 @@ exports[`preset-mini > targets 1`] = `
 .rotate-x-1deg,
 .rotate-y-1,
 .rotate-z-\\\\[var\\\\(--spin\\\\)\\\\],
+.transform-rotate-y-1,
+.transform-rotate-z-\\\\[var\\\\(--spin\\\\)\\\\],
 .skew-x-\\\\[var\\\\(--skew-x\\\\)\\\\],
 .skew-x-\\\\$variable,
 .skew-x-10,
@@ -654,8 +656,10 @@ exports[`preset-mini > targets 1`] = `
 .rotate-1deg{--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-rotate:1deg;transform:var(--un-transform);}
 .rotate-x-\\\\$variable{--un-rotate:0;--un-rotate-x:var(--variable);transform:var(--un-transform);}
 .rotate-x-1deg{--un-rotate:0;--un-rotate-x:1deg;transform:var(--un-transform);}
-.rotate-y-1{--un-rotate:0;--un-rotate-y:1deg;transform:var(--un-transform);}
-.rotate-z-\\\\[var\\\\(--spin\\\\)\\\\]{--un-rotate:0;--un-rotate-z:var(--spin);transform:var(--un-transform);}
+.rotate-y-1,
+.transform-rotate-y-1{--un-rotate:0;--un-rotate-y:1deg;transform:var(--un-transform);}
+.rotate-z-\\\\[var\\\\(--spin\\\\)\\\\],
+.transform-rotate-z-\\\\[var\\\\(--spin\\\\)\\\\]{--un-rotate:0;--un-rotate-z:var(--spin);transform:var(--un-transform);}
 .skew-x-\\\\[var\\\\(--skew-x\\\\)\\\\]{--un-skew-x:var(--skew-x);transform:var(--un-transform);}
 .skew-x-\\\\$variable{--un-skew-x:var(--variable);transform:var(--un-transform);}
 .skew-x-10,
