@@ -512,12 +512,12 @@ exports[`preset-mini > targets 1`] = `
 .of-y-visible{overflow-y:visible;}
 .overflow-x-scroll{overflow-x:scroll;}
 .overflow-y-clip{overflow-y:clip;}
-.outline-110{outline-width:27.5rem;}
+.outline-110{outline-width:110px;}
 .outline-size-\\\\[var\\\\(--width\\\\)\\\\]{outline-width:var(--width);}
 .outline-size-\\\\$variable,
 .outline-width-\\\\$variable{outline-width:var(--variable);}
 .outline-size-4,
-.outline-width-4{outline-width:1rem;}
+.outline-width-4{outline-width:4px;}
 .outline-width-10px{outline-width:10px;}
 .outline-\\\\[var\\\\(--red\\\\)\\\\]{outline-color:var(--red);}
 .outline-\\\\$variable{outline-color:var(--variable);}
@@ -527,7 +527,7 @@ exports[`preset-mini > targets 1`] = `
 .outline-gray-400{--un-outline-color-opacity:1;outline-color:rgba(156,163,175,var(--un-outline-color-opacity));}
 .outline-offset-\\\\[var\\\\(--offset\\\\)\\\\]{outline-offset:var(--offset);}
 .outline-offset-\\\\$variable{outline-offset:var(--variable);}
-.outline-offset-4{outline-offset:1rem;}
+.outline-offset-4{outline-offset:4px;}
 .outline,
 .outline-solid{outline-style:solid;}
 .outline-hidden{outline-style:hidden;}
