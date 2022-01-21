@@ -8,7 +8,7 @@ export const svgUtilities: Rule[] = [
   ['fill-none', { fill: 'none' }],
 
   // stroke size
-  [/^stroke-(?:width-|size-)?(.+)$/, ([, s]) => ({ 'stroke-width': h.bracket.fraction.px.number(s) })],
+  [/^stroke-(?:width-|size-)?(.+)$/, ([, s]) => ({ 'stroke-width': h.bracket.cssvar.fraction.px.number(s) })],
 
   // stroke dash
   [/^stroke-dash-(.+)$/, ([, s]) => ({ 'stroke-dasharray': h.bracket.cssvar.number(s) })],
