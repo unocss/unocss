@@ -171,6 +171,9 @@ export const presetMiniTargets: string[] = [
   // color - ring
   'ring-red2',
   'ring-red2/5',
+  'ring-px',
+  'ring-width-px',
+  'ring-size-px',
   'ring-op-5',
   'ring-offset-red2',
   'ring-offset-red2/5',

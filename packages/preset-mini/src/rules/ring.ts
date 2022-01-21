@@ -5,11 +5,12 @@ import { shadowBase } from './shadow'
 import { varEmpty } from './static'
 
 const ringBase = {
+  ...shadowBase,
   '--un-ring-inset': varEmpty,
   '--un-ring-offset-width': '0px',
   '--un-ring-offset-color': '#fff',
+  '--un-ring-width': '0px',
   '--un-ring-color': 'rgba(147,197,253,0.5)',
-  ...shadowBase,
 }
 
 export const rings: Rule<Theme>[] = [
@@ -20,13 +21,15 @@ export const rings: Rule<Theme>[] = [
       return [
         ringBase,
         {
+          '--un-ring-width': value,
           '--un-ring-offset-shadow': 'var(--un-ring-inset) 0 0 0 var(--un-ring-offset-width) var(--un-ring-offset-color)',
-          '--un-ring-shadow': `var(--un-ring-inset) 0 0 0 calc(${value} + var(--un-ring-offset-width)) var(--un-ring-color)`,
+          '--un-ring-shadow': 'var(--un-ring-inset) 0 0 0 calc(var(--un-ring-width) + var(--un-ring-offset-width)) var(--un-ring-color)',
           'box-shadow': 'var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow, 0 0 #0000)',
         },
       ]
     }
   }],
+  [/^ring-(?:width-|size-)(.+)$/, ([, d]) => ({ '--un-ring-width': h.bracket.cssvar.px(d) })],
 
   // offset size
   ['ring-offset', { '--un-ring-offset-width': '1px' }],
