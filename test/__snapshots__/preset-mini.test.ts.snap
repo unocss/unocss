@@ -13,10 +13,6 @@ exports[`preset-mini > targets 1`] = `
 .flex-\\\\$variable{flex:var(--variable);}
 .fw-\\\\$variable{font-weight:var(--variable);}
 .items-\\\\$size{align-items:var(--size);}
-.leading-\\\\$variable,
-.lh-\\\\$variable{line-height:var(--variable);}
-.tracking-\\\\$variable{letter-spacing:var(--variable);}
-.word-spacing-\\\\$variable{word-spacing:var(--variable);}
 .ws-\\\\$variable{white-space:var(--variable);}
 .\\\\[a\\\\:b\\\\]{a:b;}
 .\\\\[background-image\\\\:url\\\\(star_transparent\\\\.gif\\\\)\\\\2c _url\\\\(cat_front\\\\.png\\\\)\\\\]{background-image:url(star\\\\_transparent.gif), url(cat\\\\_front.png);}
@@ -206,10 +202,14 @@ exports[`preset-mini > targets 1`] = `
 .font-900,
 .fw-900{font-weight:900;}
 .font-thin{font-weight:100;}
+.leading-\\\\$variable,
+.lh-\\\\$variable{line-height:var(--variable);}
 .leading-2{line-height:0.5rem;}
 .lh-\\\\[1\\\\.5\\\\]{line-height:1.5;}
 .tracking-\\\\[2\\\\/5\\\\]{letter-spacing:2/5;}
+.tracking-\\\\$variable{letter-spacing:var(--variable);}
 .tracking-wide{letter-spacing:0.025em;}
+.word-spacing-\\\\$variable{word-spacing:var(--variable);}
 .word-spacing-1{word-spacing:0.25rem;}
 .word-spacing-2{word-spacing:0.5rem;}
 .word-spacing-wide{word-spacing:0.025em;}
