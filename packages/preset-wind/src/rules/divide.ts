@@ -33,7 +33,11 @@ function handlerDivide([, d, s = '1']: string[]): CSSEntries | undefined {
       return [key, value]
     })
 
-    if (results)
-      return [[`--un-divide-${d}-reverse`, 0], ...results]
+    if (results) {
+      return [
+        [`--un-divide-${d}-reverse`, 0],
+        ...results,
+      ]
+    }
   }
 }
