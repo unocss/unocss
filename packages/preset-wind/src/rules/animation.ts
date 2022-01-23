@@ -29,11 +29,11 @@ export const animations: Rule<Theme>[] = [
 
   // fill mode
   [/^animate-(?:fill-|mode-|fill-mode-)?(forwards|backwards|both|inherit|initial|revert|unset)$/, ([, d]) => ({ 'animation-fill-mode': d })],
-  [/^animate-(?:fill-|mode-|fill-mode-)none$/, ([, d]) => ({ 'animation-fill-mode': 'none' })],
+  [/^animate-(?:fill-|mode-|fill-mode-)none$/, () => ({ 'animation-fill-mode': 'none' })],
 
   // direction
   [/^animate-(?:direction-)?(reverse|alternate|alternate-reverse|inherit|initial|revert|unset)$/, ([, d]) => ({ 'animation-direction': d })],
-  [/^animate-(?:direction-)?normal$/, ([, d]) => ({ 'animation-direction': 'normal' })],
+  [/^animate-(?:direction-)?normal$/, () => ({ 'animation-direction': 'normal' })],
 
   // others
   [/^animate-(?:iteration-|count-|iteration-count-)(.+)$/, ([, d]) => ({ 'animation-iteration-count': h.bracket.cssvar(d) ?? d.replace(/\-/g, ',') })],
