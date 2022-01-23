@@ -31,12 +31,13 @@ export function parseCssColor(color = '') {
   if (colorValue == null)
     return
 
-  const { type, components, alpha } = colorValue
+  const { type: casedType, components, alpha } = colorValue
+  const type = casedType.toLowerCase()
 
   if (['rgba', 'hsla'].includes(type) && alpha === undefined)
     return
 
-  if (['rgb', 'hsl', 'hwb', 'lab', 'lch'].includes(type) && components.length !== 3)
+  if (['rgb', 'hsl', 'hwb', 'lab', 'lch', 'oklab', 'oklch'].includes(type) && components.length !== 3)
     return
 
   return [type, ...components, alpha].filter(x => x !== undefined)
@@ -85,6 +86,7 @@ function cssColorKeyword(str: string): CSSColorValue | undefined {
     transparent: [0, 0, 0, 0],
     white: [255, 255, 255, 1],
   }[str]
+
   if (color != null) {
     return {
       type: 'rgb',
@@ -95,11 +97,14 @@ function cssColorKeyword(str: string): CSSColorValue | undefined {
 }
 
 function getComponent(separator: string, str: string) {
+  const component = str.trim()
+  if (component === '')
+    return
+
   const l = str.length
   let parenthesis = 0
   for (let i = 0; i < l; i++) {
-    const chr = str[i]
-    switch (chr) {
+    switch (str[i]) {
       case '(':
         if (parenthesis++ < 0)
           return
@@ -112,6 +117,10 @@ function getComponent(separator: string, str: string) {
 
       case separator:
         if (parenthesis === 0) {
+          const component = str.slice(0, i).trim()
+          if (component === '')
+            return
+
           return [
             str.slice(0, i).trim(),
             str.slice(i + 1).trim(),
@@ -127,7 +136,7 @@ function getComponent(separator: string, str: string) {
 }
 
 function parseCssCommaColorFunction(color: string): CSSColorValue | undefined {
-  const match = color.match(/^(rgb|rgba|hsl|hsla)\((.+)\)$/)
+  const match = color.match(/^(rgb|rgba|hsl|hsla)\((.+)\)$/i)
   if (!match)
     return
 
@@ -154,7 +163,7 @@ function parseCssCommaColorFunction(color: string): CSSColorValue | undefined {
 }
 
 function parseCssSpaceColorFunction(color: string): CSSColorValue | undefined {
-  const match = color.match(/^(rgb|rgba|hsl|hsla|hwb|lab|lch)\((.+)\)$/)
+  const match = color.match(/^(rgb|rgba|hsl|hsla|hwb|lab|lch|oklab|oklch)\((.+)\)$/i)
   if (!match)
     return
 
@@ -198,7 +207,7 @@ function parseCssSpaceColorValues(componentString: string) {
     cs = rest
   }
 
-  const totalComponents = components.length
+  let totalComponents = components.length
 
   // (fn 1 2 3 / 4)
   if (components[totalComponents - 2] === '/') {
@@ -208,42 +217,33 @@ function parseCssSpaceColorValues(componentString: string) {
     }
   }
 
-  // (fn 1 2 3/ 4)
-  if (components[totalComponents - 2].endsWith('/')) {
-    components[totalComponents - 2] = components[totalComponents - 2].replace(/\/$/, '')
-    return {
-      components: components.slice(0, totalComponents - 1),
-      alpha: components[totalComponents - 1],
-    }
-  }
-
-  // (fn 1 2 3 /4)
-  if (components[totalComponents - 1].startsWith('/')) {
-    return {
-      components: components.slice(0, totalComponents - 1),
-      alpha: components[totalComponents - 1].replace(/\//, ''),
-    }
+  // (fn 1 2 3/ 4) or (fn 1 2 3 /4)
+  if (components[totalComponents - 2].endsWith('/') || components[totalComponents - 1].startsWith('/')) {
+    const removed = components.splice(totalComponents - 2)
+    components.push(removed.join(' '))
+    --totalComponents
   }
 
   // maybe (fn 1 2 3/4)
   cs = components[totalComponents - 1]
-  const maybeWithAlpha = []
-  for (let c = 2; c > 0 && cs !== ''; --c) {
+  const withAlpha = []
+  while (cs !== '') {
     const cc = getComponent('/', cs)
     if (!cc)
       return
     const [component, rest] = cc
-    maybeWithAlpha.push(component)
+    withAlpha.push(component)
     cs = rest
   }
 
   // without alpha
-  if (cs !== '')
+  if (withAlpha.length === 1 || withAlpha[withAlpha.length - 1] === '')
     return { components }
 
-  components[totalComponents - 1] = maybeWithAlpha[0]
+  const alpha = withAlpha.pop()
+  components[totalComponents - 1] = withAlpha.join('/')
   return {
     components,
-    alpha: maybeWithAlpha[1],
+    alpha,
   }
 }
