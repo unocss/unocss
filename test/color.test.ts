@@ -1,4 +1,4 @@
-import { hex2rgba } from '@unocss/core'
+import { hex2rgba, parseCssColor } from '@unocss/core'
 import { describe, expect, it } from 'vitest'
 
 describe('color utils', () => {
@@ -13,5 +13,26 @@ describe('color utils', () => {
     expect(hex2rgba('95723489')).eql([149, 114, 52, 0.54])
     expect(hex2rgba('#12')).eql(undefined)
     expect(hex2rgba('#12123')).eql(undefined)
+
+    expect(parseCssColor('transparent')).eql(['rgba', 0, 0, 0, 0])
+    expect(parseCssColor('transparent')).eql(['rgba', 0, 0, 0, 0])
+
+    expect(parseCssColor('rgb(0,1,2)')).eql(['rgb', '0', '1', '2'])
+    expect(parseCssColor('rgba(0,1,2,3)')).eql(['rgba', '0', '1', '2', '3'])
+    expect(parseCssColor('rgba(0,(1),2,3)')).eql(['rgba', '0', '(1)', '2', '3'])
+    expect(parseCssColor('rgba(0,1,2)')).eql(undefined)
+    expect(parseCssColor('rgba(0,1,2,3,4)')).eql(undefined)
+    expect(parseCssColor('rgba(0,)1(,2,3)')).eql(undefined)
+
+    expect(parseCssColor('rgba(0 1 2 / 3)')).eql(['rgba', '0', '1', '2', '3'])
+    expect(parseCssColor('rgba(0 1 2/ 3)')).eql(['rgba', '0', '1', '2', '3'])
+    expect(parseCssColor('rgba(0 1 2 /3)')).eql(['rgba', '0', '1', '2', '3'])
+    expect(parseCssColor('rgba(0 1 2/3)')).eql(['rgba', '0', '1', '2', '3'])
+    expect(parseCssColor('rgba(0 1 2)')).eql(undefined)
+    expect(parseCssColor('rgba(0 1 2 3)')).eql(undefined)
+    expect(parseCssColor('rgba(0 1 2 3 4)')).eql(undefined)
+
+    expect(parseCssColor('color(rgba 0 1 2)')).eql(undefined)
+    expect(parseCssColor('color(rgba 0 1 2 / 3)')).eql(['rgba', '0', '1', '2', '3'])
   })
 })
