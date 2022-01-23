@@ -27,18 +27,7 @@ export function hex2rgba(hex = ''): RGBAColorValue | undefined {
 }
 
 export function parseCssColor(color = '') {
-  if (!color)
-    return
-
-  const hex = hex2rgba(color)
-  if (hex != null)
-    return hex.length === 3 ? ['rgb', ...hex] : ['rgba', ...hex]
-
-  const builtIn = cssColor(color)
-  if (builtIn != null)
-    return builtIn
-
-  const colorValue = parseColorFunction(color)
+  const colorValue = parseColors(color)
   if (colorValue == null)
     return
 
@@ -53,13 +42,19 @@ export function parseCssColor(color = '') {
   return [type, ...components, alpha].filter(x => x !== undefined)
 }
 
-function cssColor(str: string) {
-  if (str === 'transparent')
-    return ['rgba', 0, 0, 0, 0]
-}
+function parseColors(str: string) {
+  if (!str)
+    return
 
-function parseColorFunction(str: string) {
-  let color = parseCssCommaColorFunction(str)
+  let color = parseHexColor(str)
+  if (color != null)
+    return color
+
+  color = cssColorKeyword(str)
+  if (color != null)
+    return color
+
+  color = parseCssCommaColorFunction(str)
   if (color != null)
     return color
 
@@ -70,6 +65,32 @@ function parseColorFunction(str: string) {
   color = parseCssColorFunction(str)
   if (color != null)
     return color
+}
+
+function parseHexColor(str: string): CSSColorValue | undefined {
+  const hex = hex2rgba(str)
+  if (hex != null) {
+    return {
+      type: 'rgb',
+      components: hex.slice(0, 3),
+      alpha: hex[3],
+    }
+  }
+}
+
+function cssColorKeyword(str: string): CSSColorValue | undefined {
+  const color = {
+    transparent: [0, 0, 0, 0],
+    black: [0, 0, 0, 1],
+    white: [255, 255, 255, 1],
+  }[str]
+  if (color != null) {
+    return {
+      type: 'rgb',
+      components: color.slice(0, 3),
+      alpha: color[3],
+    }
+  }
 }
 
 function getComponent(separator: string, str: string) {
