@@ -80,8 +80,9 @@ function parseHexColor(str: string): CSSColorValue | undefined {
 
 function cssColorKeyword(str: string): CSSColorValue | undefined {
   const color = {
-    transparent: [0, 0, 0, 0],
     black: [0, 0, 0, 1],
+    rebeccapurple: [102, 51, 153, 1],
+    transparent: [0, 0, 0, 0],
     white: [255, 255, 255, 1],
   }[str]
   if (color != null) {
@@ -207,20 +208,20 @@ function parseCssSpaceColorValues(componentString: string) {
     }
   }
 
-  // (fn 1 2 3 /4)
-  if (components[totalComponents - 1].startsWith('/')) {
-    return {
-      components: components.slice(0, totalComponents - 1),
-      alpha: components[totalComponents - 1].replace(/\//, ''),
-    }
-  }
-
   // (fn 1 2 3/ 4)
   if (components[totalComponents - 2].endsWith('/')) {
     components[totalComponents - 2] = components[totalComponents - 2].replace(/\/$/, '')
     return {
       components: components.slice(0, totalComponents - 1),
       alpha: components[totalComponents - 1],
+    }
+  }
+
+  // (fn 1 2 3 /4)
+  if (components[totalComponents - 1].startsWith('/')) {
+    return {
+      components: components.slice(0, totalComponents - 1),
+      alpha: components[totalComponents - 1].replace(/\//, ''),
     }
   }
 
@@ -236,8 +237,9 @@ function parseCssSpaceColorValues(componentString: string) {
     cs = rest
   }
 
+  // without alpha
   if (cs !== '')
-    return
+    return { components }
 
   components[totalComponents - 1] = maybeWithAlpha[0]
   return {
