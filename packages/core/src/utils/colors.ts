@@ -44,7 +44,7 @@ function parseHexColor(str: string): CSSColorValue | undefined {
   }
 }
 
-export function parseCssColor(str = '') {
+export function parseCssColor(str = ''): CSSColorValue | undefined {
   const color = parseColor(str)
   if (color == null)
     return
@@ -58,7 +58,7 @@ export function parseCssColor(str = '') {
   if (['rgb', 'hsl', 'hwb', 'lab', 'lch', 'oklab', 'oklch'].includes(type) && components.length !== 3)
     return
 
-  return [type, ...components, alpha].filter(x => x !== undefined)
+  return { type, components, alpha }
 }
 
 function parseColor(str: string) {
