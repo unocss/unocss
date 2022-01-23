@@ -1,5 +1,7 @@
 import type { CSSColorValue, RGBAColorValue } from '../types'
 
+/* eslint-disable no-case-declarations */
+
 export function hex2rgba(hex = ''): RGBAColorValue | undefined {
   const color = parseHexColor(hex)
   if (color != null) {
@@ -109,8 +111,7 @@ function getComponent(separator: string, str: string) {
   for (let i = 0; i < l; i++) {
     switch (str[i]) {
       case '(':
-        if (parenthesis++ < 0)
-          return
+        parenthesis++
         break
 
       case ')':
