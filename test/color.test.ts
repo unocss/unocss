@@ -39,5 +39,11 @@ describe('color utils', () => {
     expect(parseCssColor('color(fancy 0 1 2 3 4 5 /6)')).eql(['fancy', '0', '1', '2', '3', '4', '5', '6'])
     expect(parseCssColor('color(fancy 0 1 2 3 4 5/ 6)')).eql(['fancy', '0', '1', '2', '3', '4', '5', '6'])
     expect(parseCssColor('color(fancy 0 1 2 3 4 5/6)')).eql(['fancy', '0', '1', '2', '3', '4', '5', '6'])
+
+    expect(parseCssColor('color(lite 0)')).eql(['lite', '0'])
+    expect(parseCssColor('color(lite 0 / 1)')).eql(['lite', '0', '1'])
+    expect(parseCssColor('color(lite 0 /1)')).eql(['lite', '0', '1'])
+    expect(parseCssColor('color(lite 0/ 1)')).eql(['lite', '0', '1'])
+    expect(parseCssColor('color(lite 0/1)')).eql(['lite', '0', '1'])
   })
 })
