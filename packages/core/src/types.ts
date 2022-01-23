@@ -13,6 +13,11 @@ export type RequiredByKey<T, K extends keyof T = keyof T> = FlatObjectTuple<Requ
 
 export type CSSObject = Record<string, string | number | undefined>
 export type CSSEntries = [string, string | number | undefined][]
+export interface CSSColorValue {
+  type: string
+  components: (string | number)[]
+  alpha: string | number | undefined
+}
 
 export type RGBAColorValue = [number, number, number, number] | [number, number, number]
 export interface ParsedColorValue {

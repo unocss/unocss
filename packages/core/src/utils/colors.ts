@@ -1,10 +1,4 @@
-import type { RGBAColorValue } from '../types'
-
-type CSSColor = {
-  type: string
-  components: string[]
-  alpha: string | undefined
-}
+import type { CSSColorValue, RGBAColorValue } from '../types'
 
 /* eslint-disable no-case-declarations */
 const hexRE = /^#?([\da-f]+)$/i
@@ -44,14 +38,7 @@ export function parseCssColor(color = '') {
   if (builtIn != null)
     return builtIn
 
-  let colorValue = parseCssCommaColorFunction(color)
-  if (colorValue == null) {
-    colorValue = parseCssSpaceColorFunction(color)
-    if (colorValue == null) {
-      colorValue = parseCssColorFunction(color)
-    }
-  }
-
+  const colorValue = parseColorFunction(color)
   if (colorValue == null)
     return
 
@@ -71,8 +58,22 @@ function cssColor(str: string) {
     return ['rgba', 0, 0, 0, 0]
 }
 
+function parseColorFunction(str: string) {
+  let color = parseCssCommaColorFunction(str)
+  if (color != null)
+    return color
+
+  color = parseCssSpaceColorFunction(str)
+  if (color != null)
+    return color
+
+  color = parseCssColorFunction(str)
+  if (color != null)
+    return color
+}
+
 function getComponent(separator: string, str: string) {
-  let l = str.length
+  const l = str.length
   let parenthesis = 0
   for (let i = 0; i < l; i++) {
     const chr = str[i]
@@ -103,21 +104,22 @@ function getComponent(separator: string, str: string) {
   ]
 }
 
-function parseCssCommaColorFunction(color: string): CSSColor | undefined {
+function parseCssCommaColorFunction(color: string): CSSColorValue | undefined {
   const match = color.match(/^(rgb|rgba|hsl|hsla)\((.+)\)$/)
   if (!match)
     return
 
-  let [, type, componentString] = match
+  const [, type, componentString] = match
   const components = []
+  let cs = componentString
   // With min 3 (rgb) and max 4 (rgba), try to get 5 components
-  for (let c = 5; c > 0 && componentString !== ''; --c) {
-    const componentValue = getComponent(',', componentString)
+  for (let c = 5; c > 0 && cs !== ''; --c) {
+    const componentValue = getComponent(',', cs)
     if (!componentValue)
       return
     const [component, rest] = componentValue
     components.push(component)
-    componentString = rest
+    cs = rest
   }
 
   if ([3, 4].includes(components.length)) {
@@ -129,7 +131,7 @@ function parseCssCommaColorFunction(color: string): CSSColor | undefined {
   }
 }
 
-function parseCssSpaceColorFunction(color: string): CSSColor | undefined {
+function parseCssSpaceColorFunction(color: string): CSSColorValue | undefined {
   const match = color.match(/^(rgb|rgba|hsl|hsla|hwb|lab|lch)\((.+)\)$/)
   if (!match)
     return
@@ -146,7 +148,7 @@ function parseCssSpaceColorFunction(color: string): CSSColor | undefined {
   }
 }
 
-function parseCssColorFunction(color: string): CSSColor | undefined {
+function parseCssColorFunction(color: string): CSSColorValue | undefined {
   const match = color.match(/^color\((.+)\)$/)
   if (!match)
     return
@@ -212,6 +214,9 @@ function parseCssSpaceColorValues(componentString: string) {
     maybeWithAlpha.push(component)
     cs = rest
   }
+
+  if (cs !== '')
+    return
 
   components[totalComponents - 1] = maybeWithAlpha[0]
   return {
