@@ -1,5 +1,11 @@
 import type { RGBAColorValue } from '../types'
 
+type CSSColor = {
+  type: string
+  components: string[]
+  alpha: string | undefined
+}
+
 /* eslint-disable no-case-declarations */
 const hexRE = /^#?([\da-f]+)$/i
 
@@ -38,14 +44,29 @@ export function parseCssColor(color = '') {
   if (builtIn != null)
     return builtIn
 
-  const scf = cssSpaceColorFunction(color)
-  if (scf != null)
-    return scf
+  let colorValue = parseCssCommaColorFunction(color)
+  if (colorValue == null) {
+    colorValue = parseCssSpaceColorFunction(color)
+    if (colorValue == null) {
+      colorValue = parseCssColorFunction(color)
+    }
+  }
 
-  return cssCommaColorFunction(color)
+  if (colorValue == null)
+    return
+
+  const { type, components, alpha } = colorValue
+
+  if (['rgba', 'hsla'].includes(type) && alpha === undefined)
+    return
+
+  if (['rgb', 'hsl', 'hwb', 'lab', 'lch'].includes(type) && components.length !== 3)
+    return
+
+  return [type, ...components, alpha].filter(x => x !== undefined)
 }
 
-function cssColor(str) {
+function cssColor(str: string) {
   if (str === 'transparent')
     return ['rgba', 0, 0, 0, 0]
 }
@@ -82,66 +103,69 @@ function getComponent(separator: string, str: string) {
   ]
 }
 
-function cssCommaColorFunction(color: string) {
-  const parsed = parseCssCommaColorFunction(color)
-  if (!parsed)
-    return
-
-  const [fn, ...components] = parsed
-  if (['rgba', 'hsla'].includes(fn) && components.length !== 4)
-    return
-
-  return parsed
-}
-
-function parseCssCommaColorFunction(color: string) {
+function parseCssCommaColorFunction(color: string): CSSColor | undefined {
   const match = color.match(/^(rgb|rgba|hsl|hsla)\((.+)\)$/)
   if (!match)
     return
-  const [, fn, componentString] = match
 
-  let cs = componentString
+  let [, type, componentString] = match
   const components = []
   // With min 3 (rgb) and max 4 (rgba), try to get 5 components
-  for (let c = 5; c > 0 && cs !== ''; --c) {
-    const cc = getComponent(',', cs)
-    if (!cc)
+  for (let c = 5; c > 0 && componentString !== ''; --c) {
+    const componentValue = getComponent(',', componentString)
+    if (!componentValue)
       return
-    const [component, rest] = cc
+    const [component, rest] = componentValue
     components.push(component)
-    cs = rest
+    componentString = rest
   }
 
-  if ([3, 4].includes(components.length))
-    return [fn, ...components]
+  if ([3, 4].includes(components.length)) {
+    return {
+      type,
+      components: components.slice(0, 3),
+      alpha: components[3],
+    }
+  }
 }
 
-function cssSpaceColorFunction(color: string) {
-  const parsed = parseCssSpaceColorFunction(color)
-  if (!parsed)
-    return
-
-  const [fn, ...components] = parsed
-  if (['rgba', 'hsla'].includes(fn) && components.length !== 4)
-    return
-
-  return parsed
-}
-
-function parseCssSpaceColorFunction(color: string) {
-  const match = color.match(/^(color|rgb|rgba|hsl|hsla|hwb|lab|lch)\((.+)\)$/)
+function parseCssSpaceColorFunction(color: string): CSSColor | undefined {
+  const match = color.match(/^(rgb|rgba|hsl|hsla|hwb|lab|lch)\((.+)\)$/)
   if (!match)
     return
 
-  let [, fn, componentString] = match
-  if (fn !== 'color') {
-    componentString = `${fn} ${componentString}`
+  const [, fn, componentString] = match
+  const parsed = parseCssSpaceColorValues(`${fn} ${componentString}`)
+  if (parsed) {
+    const { alpha, components: [type, ...components] } = parsed
+    return {
+      type,
+      components,
+      alpha,
+    }
   }
+}
 
+function parseCssColorFunction(color: string): CSSColor | undefined {
+  const match = color.match(/^color\((.+)\)$/)
+  if (!match)
+    return
+
+  const parsed = parseCssSpaceColorValues(match[1])
+  if (parsed) {
+    const { alpha, components: [type, ...components] } = parsed
+    return {
+      type,
+      components,
+      alpha,
+    }
+  }
+}
+
+function parseCssSpaceColorValues(componentString: string) {
   let cs = componentString
   const components = []
-  // With min 4 (fn c1 c2 c3)/(fn c1 c2 c3/a) and max 6 (fn c1 c2 c3 / a), try to get 7 components
-  for (let c = 7; c > 0 && cs !== ''; --c) {
+  while (cs !== '') {
     const cc = getComponent(' ', cs)
     if (!cc)
       return
@@ -150,37 +174,48 @@ function parseCssSpaceColorFunction(color: string) {
     cs = rest
   }
 
-  // component with alpha
-  if (components.length === 6 && components[4] === '/')
-    return [...components.slice(0, 4), components[5]]
+  const totalComponents = components.length
 
-  // maybe rgba(1 2 3/4)
-  if (components.length === 4) {
-    cs = components[3]
-    const maybeWithAlpha = []
-    for (let c = 2; c > 0 && cs !== ''; --c) {
-      const cc = getComponent('/', cs)
-      if (!cc)
-        return
-      const [component, rest] = cc
-      maybeWithAlpha.push(component)
-      cs = rest
+  // (fn 1 2 3 / 4)
+  if (components[totalComponents - 2] === '/') {
+    return {
+      components: components.slice(0, totalComponents - 2),
+      alpha: components[totalComponents - 1],
     }
-    return [...components.slice(0, 3), ...maybeWithAlpha]
   }
 
-  if (components.length !== 5)
-    return
-
-  // rgba(1 2 3 /4)
-  if (components[4].startsWith('/')) {
-    components[4] = components[4].replace(/\//, '')
-    return components
+  // (fn 1 2 3 /4)
+  if (components[totalComponents - 1].startsWith('/')) {
+    return {
+      components: components.slice(0, totalComponents - 1),
+      alpha: components[totalComponents - 1].replace(/\//, ''),
+    }
   }
 
-  // rgba(1 2 3/ 4)
-  if (components[3].endsWith('/')) {
-    components[3] = components[3].replace(/\/$/, '')
-    return components
+  // (fn 1 2 3/ 4)
+  if (components[totalComponents - 2].endsWith('/')) {
+    components[totalComponents - 2] = components[totalComponents - 2].replace(/\/$/, '')
+    return {
+      components: components.slice(0, totalComponents - 1),
+      alpha: components[totalComponents - 1],
+    }
+  }
+
+  // maybe (fn 1 2 3/4)
+  cs = components[totalComponents - 1]
+  const maybeWithAlpha = []
+  for (let c = 2; c > 0 && cs !== ''; --c) {
+    const cc = getComponent('/', cs)
+    if (!cc)
+      return
+    const [component, rest] = cc
+    maybeWithAlpha.push(component)
+    cs = rest
+  }
+
+  components[totalComponents - 1] = maybeWithAlpha[0]
+  return {
+    components,
+    alpha: maybeWithAlpha[1],
   }
 }

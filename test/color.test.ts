@@ -34,5 +34,10 @@ describe('color utils', () => {
 
     expect(parseCssColor('color(rgba 0 1 2)')).eql(undefined)
     expect(parseCssColor('color(rgba 0 1 2 / 3)')).eql(['rgba', '0', '1', '2', '3'])
+
+    expect(parseCssColor('color(fancy 0 1 2 3 4 5 / 6)')).eql(['fancy', '0', '1', '2', '3', '4', '5', '6'])
+    expect(parseCssColor('color(fancy 0 1 2 3 4 5 /6)')).eql(['fancy', '0', '1', '2', '3', '4', '5', '6'])
+    expect(parseCssColor('color(fancy 0 1 2 3 4 5/ 6)')).eql(['fancy', '0', '1', '2', '3', '4', '5', '6'])
+    expect(parseCssColor('color(fancy 0 1 2 3 4 5/6)')).eql(['fancy', '0', '1', '2', '3', '4', '5', '6'])
   })
 })
