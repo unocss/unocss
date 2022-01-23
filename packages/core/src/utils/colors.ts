@@ -1,11 +1,17 @@
 import type { CSSColorValue, RGBAColorValue } from '../types'
 
-/* eslint-disable no-case-declarations */
-const hexRE = /^#?([\da-f]+)$/i
-
 export function hex2rgba(hex = ''): RGBAColorValue | undefined {
-  const [, body] = hex.match(hexRE) || []
+  const color = parseHexColor(hex)
+  if (color != null) {
+    const { components, alpha } = color
+    if (alpha === undefined)
+      return components as [number, number, number]
+    return [...components, alpha] as [number, number, number, number]
+  }
+}
 
+function parseHexColor(str: string): CSSColorValue | undefined {
+  const [, body] = str.match(/^#?([\da-f]+)$/i) || []
   if (!body)
     return
 
@@ -13,25 +19,35 @@ export function hex2rgba(hex = ''): RGBAColorValue | undefined {
     case 3:
     case 4:
       const digits = Array.from(body, s => Number.parseInt(s, 16)).map(n => (n << 4) | n)
-      if (body.length === 3)
-        return digits as [number, number, number]
-      digits[3] = Math.round(digits[3] / 255 * 100) / 100
-      return digits as [number, number, number, number]
+      return {
+        type: 'rgb',
+        components: digits.slice(0, 3),
+        alpha: body.length === 3
+          ? undefined
+          : Math.round(digits[3] / 255 * 100) / 100,
+      }
+
     case 6:
     case 8:
       const value = Number.parseInt(body, 16)
-      if (body.length === 6)
-        return [(value >> 16) & 0xFF, (value >> 8) & 0xFF, value & 0xFF]
-      return [(value >> 24) & 0xFF, (value >> 16) & 0xFF, (value >> 8) & 0xFF, Math.round((value & 0xFF) / 255 * 100) / 100]
+      return {
+        type: 'rgb',
+        components: body.length === 6
+          ? [(value >> 16) & 0xFF, (value >> 8) & 0xFF, value & 0xFF]
+          : [(value >> 24) & 0xFF, (value >> 16) & 0xFF, (value >> 8) & 0xFF],
+        alpha: body.length === 6
+          ? undefined
+          : Math.round((value & 0xFF) / 255 * 100) / 100,
+      }
   }
 }
 
-export function parseCssColor(color = '') {
-  const colorValue = parseColors(color)
-  if (colorValue == null)
+export function parseCssColor(str = '') {
+  const color = parseColor(str)
+  if (color == null)
     return
 
-  const { type: casedType, components, alpha } = colorValue
+  const { type: casedType, components, alpha } = color
   const type = casedType.toLowerCase()
 
   if (['rgba', 'hsla'].includes(type) && alpha === undefined)
@@ -43,7 +59,7 @@ export function parseCssColor(color = '') {
   return [type, ...components, alpha].filter(x => x !== undefined)
 }
 
-function parseColors(str: string) {
+function parseColor(str: string) {
   if (!str)
     return
 
@@ -66,17 +82,6 @@ function parseColors(str: string) {
   color = parseCssColorFunction(str)
   if (color != null)
     return color
-}
-
-function parseHexColor(str: string): CSSColorValue | undefined {
-  const hex = hex2rgba(str)
-  if (hex != null) {
-    return {
-      type: 'rgb',
-      components: hex.slice(0, 3),
-      alpha: hex[3],
-    }
-  }
 }
 
 function cssColorKeyword(str: string): CSSColorValue | undefined {
