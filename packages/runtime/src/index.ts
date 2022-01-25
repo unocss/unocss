@@ -13,9 +13,9 @@ export interface RuntimeOptions {
    */
   autoPrefix?: boolean
   /**
-   * Callback to modify default settings
+   * Callback to modify config
    */
-  configResolved?: (defaults: UserConfigDefaults) => void
+  configResolved?: (config: UserConfig, defaults: UserConfigDefaults) => void
 }
 
 export type RuntimeInspectorCallback = (element: Element) => boolean
@@ -73,32 +73,33 @@ declare global {
   }
 }
 
-export default function init(options: RuntimeOptions = {}) {
+export default function init(inlineConfig: RuntimeOptions = {}) {
   if (typeof window == 'undefined') {
     console.warn('@unocss/runtime been used in non-browser environment, skipped.')
     return
   }
 
-  const defaultOptions = options.defaults || {}
-  if (options.autoPrefix) {
-    let postprocess = defaultOptions.postprocess
+  const defaultConfig = inlineConfig.defaults || {}
+  if (inlineConfig.autoPrefix) {
+    let postprocess = defaultConfig.postprocess
     if (!postprocess)
       postprocess = []
     if (!Array.isArray(postprocess))
       postprocess = [postprocess]
     postprocess.unshift(autoPrefixer(document.createElement('div').style))
-    defaultOptions.postprocess = postprocess
+    defaultConfig.postprocess = postprocess
   }
 
+  const config = window.__unocss || {}
   const runtime = window.__unocss?.runtime
-  Object.assign(defaultOptions, runtime)
-  runtime?.configResolved?.(defaultOptions)
+  Object.assign(defaultConfig, runtime)
+  runtime?.configResolved?.(config, defaultConfig)
 
   let styleElement: HTMLStyleElement | undefined
   let paused = false
   let inspector: RuntimeInspectorCallback | undefined
 
-  const uno = createGenerator(window.__unocss || {}, defaultOptions)
+  const uno = createGenerator(config, defaultConfig)
   const tokens = new Set<string>()
 
   let _timer: number | undefined
