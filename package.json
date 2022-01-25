@@ -61,6 +61,7 @@
     "lz-string": "^1.4.4",
     "prettier": "^2.5.1",
     "rollup": "^2.64.0",
+    "semver": "^7.3.5",
     "splitpanes": "^3.0.6",
     "terser": "^5.10.0",
     "tsup": "^5.11.11",
