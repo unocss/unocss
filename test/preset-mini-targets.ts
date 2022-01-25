@@ -538,10 +538,11 @@ export const presetMiniTargets: string[] = [
   'property-margin,padding',
   'property-padding,margin',
   'duration-111',
-  'ease-out',
 
   // transition - timings
   'ease-linear',
+  'ease-out',
+  'transition-ease-in',
 
   // typography
   'font-mono',
@@ -634,6 +635,10 @@ export const presetMiniTargets: string[] = [
   'tracking-$variable',
   'word-spacing-$variable',
   'ws-$variable',
+
+  // variables - escaping
+  // eslint-disable-next-line no-template-curly-in-string
+  'ws-${row.span}/24',
 
   // variables - property
   '[a:b]',
