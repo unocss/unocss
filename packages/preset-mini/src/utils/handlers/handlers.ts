@@ -1,3 +1,5 @@
+import { escapeSelector } from '@unocss/core'
+
 // Not all, but covers most high frequency attributes
 const cssProps = [
   // basic props
@@ -103,7 +105,7 @@ export function bracket(str: string) {
 
 export function cssvar(str: string) {
   if (str.startsWith('$'))
-    return `var(--${str.slice(1)})`
+    return `var(--${escapeSelector(str.slice(1))})`
 }
 
 export function time(str: string) {

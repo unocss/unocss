@@ -19,10 +19,10 @@ const variablesAbbrMap: Record<string, string> = {
 }
 
 export const cssVariables: Rule[] = [
-  [/^(.+?)-\$(.+)$/, ([, name, varname]) => {
+  [/^(.+?)-(\$.+)$/, ([, name, varname]) => {
     const prop = variablesAbbrMap[name]
     if (prop)
-      return { [prop]: `var(--${varname})` }
+      return { [prop]: h.cssvar(varname) }
   }],
 ]
 
