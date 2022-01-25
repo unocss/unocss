@@ -31,6 +31,14 @@ const nonTargets = [
   'rotate-[3]deg',
   'list-none-inside',
 
+  // mini - color utility
+  'color-gray-100-prefix/10',
+  'color-gray-400-prefix',
+  'color-blue-gray-400-prefix',
+  'color-true-gray-400-prefix',
+  'color-gray-400-500',
+  'color-true-gray-400-500',
+
   // mini - behaviors
   'will-change-all',
   'will-change-none',
