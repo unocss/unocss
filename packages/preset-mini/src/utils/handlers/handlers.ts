@@ -104,7 +104,7 @@ export function bracket(str: string) {
 }
 
 export function cssvar(str: string) {
-  if (str.startsWith('$'))
+  if (str.match(/^\$\S/))
     return `var(--${escapeSelector(str.slice(1))})`
 }
 
