@@ -15,7 +15,7 @@ export interface RuntimeOptions {
   /**
    * Callback to modify default settings
    */
-  prepareDefaults?: (defaults: UserConfigDefaults) => void
+  configResolved?: (defaults: UserConfigDefaults) => void
 }
 
 export type RuntimeInspectorCallback = (element: Element) => boolean
@@ -92,7 +92,7 @@ export default function init(options: RuntimeOptions = {}) {
 
   const runtime = window.__unocss?.runtime
   Object.assign(defaultOptions, runtime)
-  runtime?.prepareDefaults?.(defaultOptions)
+  runtime?.configResolved?.(defaultOptions)
 
   let styleElement: HTMLStyleElement | undefined
   let paused = false
