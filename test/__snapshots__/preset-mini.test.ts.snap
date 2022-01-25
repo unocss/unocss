@@ -13,6 +13,7 @@ exports[`preset-mini > targets 1`] = `
 .flex-\\\\$variable{flex:var(--variable);}
 .fw-\\\\$variable{font-weight:var(--variable);}
 .items-\\\\$size{align-items:var(--size);}
+.ws-\\\\$\\\\{row\\\\.span\\\\}\\\\/24{white-space:var(--\\\\{row\\\\.span\\\\}\\\\/24);}
 .ws-\\\\$variable{white-space:var(--variable);}
 .\\\\[a\\\\:b\\\\]{a:b;}
 .\\\\[background-image\\\\:url\\\\(star_transparent\\\\.gif\\\\)\\\\2c _url\\\\(cat_front\\\\.png\\\\)\\\\]{background-image:url(star\\\\_transparent.gif), url(cat\\\\_front.png);}
