@@ -13,6 +13,7 @@ exports[`preset-mini > targets 1`] = `
 .flex-\\\\$variable{flex:var(--variable);}
 .fw-\\\\$variable{font-weight:var(--variable);}
 .items-\\\\$size{align-items:var(--size);}
+.ws-\\\\$\\\\{row\\\\.span\\\\}\\\\/24{white-space:var(--\\\\{row\\\\.span\\\\}\\\\/24);}
 .ws-\\\\$variable{white-space:var(--variable);}
 .\\\\[a\\\\:b\\\\]{a:b;}
 .\\\\[background-image\\\\:url\\\\(star_transparent\\\\.gif\\\\)\\\\2c _url\\\\(cat_front\\\\.png\\\\)\\\\]{background-image:url(star\\\\_transparent.gif), url(cat\\\\_front.png);}
@@ -392,7 +393,7 @@ exports[`preset-mini > targets 1`] = `
 .auto-flow-col-dense{grid-auto-flow:column dense;}
 .grid-cols-\\\\[1fr_2fr_100px_min-content\\\\]{grid-template-columns:1fr 2fr 100px min-content;}
 .grid-cols-\\\\[repeat\\\\(3\\\\2c auto\\\\)\\\\]{grid-template-columns:repeat(3,auto);}
-.grid-cols-\\\\$1{grid-template-columns:var(--1);}
+.grid-cols-\\\\$1{grid-template-columns:var(--\\\\31 );}
 .grid-rows-\\\\[1fr_2fr_100px_min-content\\\\]{grid-template-rows:1fr 2fr 100px min-content;}
 .grid-cols-minmax-1rem{grid-template-columns:repeat(auto-fill,minmax(1rem,1fr));}
 .grid-rows-minmax-100px{grid-template-rows:repeat(auto-fill,minmax(100px,1fr));}

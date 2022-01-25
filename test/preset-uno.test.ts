@@ -63,6 +63,10 @@ const nonTargets = [
   // mini - typography
   'tab-',
 
+  // mini - variable
+  'tab-$',
+  'ws-$',
+
   // wind - placeholder
   '$-placeholder-red-200',
 ]
