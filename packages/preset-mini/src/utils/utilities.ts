@@ -73,7 +73,7 @@ export const parseColor = (body: string, theme: Theme): ParsedColorValue | undef
     }
     else {
       colorData = getThemeColor(theme, colors)
-      if (!colorData) {
+      if (!colorData && colors.length <= 2) {
         [, no = no] = colors
         colorData = getThemeColor(theme, [name])
       }
