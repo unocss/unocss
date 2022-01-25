@@ -19,8 +19,8 @@
     "@unocss/preset-attributify": "link:../../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../../packages/presets-icons",
     "cross-env": "^7.0.3",
-    "typescript": "^4.5.4",
+    "typescript": "^4.5.5",
     "unocss": "link:../../../packages/unocss",
-    "vite": "^2.7.12"
+    "vite": "^2.7.13"
   }
 }

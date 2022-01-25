@@ -41,7 +41,7 @@
     "@unocss/core": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
     "cac": "^6.7.12",
-    "chokidar": "^3.5.2",
+    "chokidar": "^3.5.3",
     "colorette": "^2.0.16",
     "consola": "^2.15.3",
     "fast-glob": "^3.2.11",

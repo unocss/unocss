@@ -10,16 +10,16 @@
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.0.4",
-    "@sveltejs/vite-plugin-svelte": "^1.0.0-next.34",
+    "@sveltejs/vite-plugin-svelte": "^1.0.0-next.35",
     "@tsconfig/svelte": "^3.0.0",
     "@unocss/core": "link:../../../packages/core",
     "@unocss/preset-icons": "link:../../../packages/presets-icons",
     "svelte": "^3.46.2",
     "svelte-check": "^2.3.0",
-    "svelte-preprocess": "^4.10.1",
+    "svelte-preprocess": "^4.10.2",
     "tslib": "^2.3.1",
-    "typescript": "^4.5.4",
+    "typescript": "^4.5.5",
     "unocss": "link:../../../packages/unocss",
-    "vite": "^2.7.12"
+    "vite": "^2.7.13"
   }
 }
