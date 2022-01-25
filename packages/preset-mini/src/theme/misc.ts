@@ -29,3 +29,11 @@ export const boxShadow = {
   'inner': 'inset 0 2px 4px 0 rgba(0,0,0,0.05)',
   'none': '0 0 #0000',
 }
+
+export const easing = {
+  'DEFAULT': 'cubic-bezier(0.4, 0, 0.2, 1)',
+  'linear': 'linear',
+  'in': 'cubic-bezier(0.4, 0, 1, 1)',
+  'out': 'cubic-bezier(0, 0, 0.2, 1)',
+  'in-out': 'cubic-bezier(0.4, 0, 0.2, 1)',
+}

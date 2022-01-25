@@ -538,10 +538,11 @@ export const presetMiniTargets: string[] = [
   'property-margin,padding',
   'property-padding,margin',
   'duration-111',
-  'ease-out',
 
   // transition - timings
   'ease-linear',
+  'ease-out',
+  'transition-ease-in',
 
   // typography
   'font-mono',

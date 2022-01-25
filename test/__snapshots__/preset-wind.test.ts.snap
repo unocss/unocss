@@ -57,6 +57,10 @@ exports[`preset-wind > targets 1`] = `
 @keyframes pulse-alt{from{transform:scale3d(1,1,1)}50%{transform:scale3d(1.05,1.05,1.05)}to{transform:scale3d(1,1,1)}}
 .keyframes-pulse-alt{animation:pulse-alt;}
 @keyframes pulse{0%, 100% {opacity:1} 50% {opacity:.5}}
+.animate-keyframes-pulse{animation:pulse;}
+@keyframes pulse-alt{from{transform:scale3d(1,1,1)}50%{transform:scale3d(1.05,1.05,1.05)}to{transform:scale3d(1,1,1)}}
+.animate-keyframes-pulse-alt{animation:pulse-alt;}
+@keyframes pulse{0%, 100% {opacity:1} 50% {opacity:.5}}
 .animate-pulse{animation:pulse 2s cubic-bezier(0.4,0,.6,1) infinite;}
 @keyframes pulse-alt{from{transform:scale3d(1,1,1)}50%{transform:scale3d(1.05,1.05,1.05)}to{transform:scale3d(1,1,1)}}
 .animate-pulse-alt{animation:pulse-alt 1s ease-in-out infinite;}
@@ -66,6 +70,7 @@ exports[`preset-wind > targets 1`] = `
 .\\\\!animate-ping{animation:ping 1s cubic-bezier(0,0,.2,1) infinite !important;}
 @keyframes bounce{0%, 100% {transform:translateY(-25%);animation-timing-function:cubic-bezier(0.8,0,1,1)} 50% {transform:translateY(0);animation-timing-function:cubic-bezier(0,0,0.2,1)}}
 .hover\\\\:animate-bounce:hover{animation:bounce 1s linear infinite;}
+.animate-name-move{animation-name:move;}
 .animate-duration-\\\\$variable{animation-duration:var(--variable);}
 .animate-duration-100,
 .animate-duration-100\\\\.00,
@@ -76,20 +81,26 @@ exports[`preset-wind > targets 1`] = `
 .animate-duration-100s{animation-duration:100s;}
 .animate-delay--1\\\\.37{animation-delay:-1.37ms;}
 .animate-delay-\\\\$variable{animation-delay:var(--variable);}
+.animate-ease{animation-timing-function:cubic-bezier(0.4, 0, 0.2, 1);}
 .animate-ease-\\\\[steps\\\\(4\\\\2c _jump-start\\\\)\\\\]{animation-timing-function:steps(4, jump-start);}
 .animate-ease-\\\\$variable{animation-timing-function:var(--variable);}
+.animate-ease-linear{animation-timing-function:linear;}
+.animate-fill-backwards{animation-fill-mode:backwards;}
 .animate-fill-mode-both{animation-fill-mode:both;}
 .animate-mode-none{animation-fill-mode:none;}
 .animate-direction-alternate-reverse{animation-direction:alternate-reverse;}
+.animate-reverse{animation-direction:reverse;}
 .animate-normal{animation-direction:normal;}
 .animate-count-2\\\\.4{animation-iteration-count:2.4;}
-.animate-iteration-count-\\\\[2\\\\2c 4\\\\2c infinity\\\\],
-.animate-iteration-count-2-4-infinity{animation-iteration-count:2,4,infinity;}
-.animate-iteration-count-\\\\$variable{animation-iteration-count:var(--variable);}
-.animate-iteration-count-2{animation-iteration-count:2;}
-.animate-name-move{animation-name:move;}
+.animate-iteration-2{animation-iteration-count:2;}
+.animate-iteration-count-\\\\[2\\\\2c 4\\\\2c infinity\\\\]{animation-iteration-count:count,[2,4,infinity];}
+.animate-iteration-count-\\\\$variable{animation-iteration-count:count,$variable;}
+.animate-iteration-count-2{animation-iteration-count:count,2;}
+.animate-iteration-count-2-4-infinity{animation-iteration-count:count,2,4,infinity;}
+.animate-paused,
 .animate-play-paused{animation-play-state:paused;}
-.animate-play-state-running{animation-play-state:running;}
+.animate-play-state-running,
+.animate-state-running{animation-play-state:running;}
 .animate-none{animation:none;}
 .touch-pan-left,
 .touch-pan-y,
