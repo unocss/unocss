@@ -19,12 +19,12 @@ export interface RuntimeOptions {
   /**
    * Callback when the runtime is ready. Returning false will prevent default extraction
    */
-  ready?: (runtime: RuntimeObject) => false | any
+  ready?: (runtime: RuntimeContext) => false | any
 }
 
 export type RuntimeInspectorCallback = (element: Element) => boolean
 
-export interface RuntimeObject {
+export interface RuntimeContext {
   /**
    * The UnoCSS instance.
    *
