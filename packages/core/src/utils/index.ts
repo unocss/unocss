@@ -1,7 +1,6 @@
 export * from './escape'
 export * from './object'
 export * from './basic'
-export * from './colors'
 export * from './helpers'
 export * from './map'
 export * from './layer'

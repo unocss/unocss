@@ -1,6 +1,6 @@
 import type { CSSEntries, CSSObject, DynamicMatcher, ParsedColorValue, RuleContext } from '@unocss/core'
-import { hex2rgba } from '@unocss/core'
 import type { Theme } from '../theme'
+import { hex2rgba } from './colors'
 import { handler as h } from './handlers'
 import { directionMap } from './mappings'
 

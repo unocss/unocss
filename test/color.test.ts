@@ -1,4 +1,4 @@
-import { hex2rgba } from '@unocss/core'
+import { hex2rgba, parseCssColor } from '@unocss/preset-mini/utils'
 import { describe, expect, it } from 'vitest'
 
 describe('color utils', () => {
@@ -13,5 +13,45 @@ describe('color utils', () => {
     expect(hex2rgba('95723489')).eql([149, 114, 52, 0.54])
     expect(hex2rgba('#12')).eql(undefined)
     expect(hex2rgba('#12123')).eql(undefined)
+
+    expect(parseCssColor('transparent')).eql({ type: 'rgb', components: [0, 0, 0], alpha: 0 })
+
+    expect(parseCssColor('rgb(0,1,2)')).eql({ type: 'rgb', components: ['0', '1', '2'], alpha: undefined })
+    expect(parseCssColor('rgba(0,1,2,3)')).eql({ type: 'rgba', components: ['0', '1', '2'], alpha: '3' })
+    expect(parseCssColor('rgba(0,(1),2,3)')).eql({ type: 'rgba', components: ['0', '(1)', '2'], alpha: '3' })
+    expect(parseCssColor('rgba(0,1,2)')).eql(undefined)
+    expect(parseCssColor('rgba(0,1,2,3,4)')).eql(undefined)
+    expect(parseCssColor('rgba(0,)1(,2,3)')).eql(undefined)
+
+    expect(parseCssColor('rgba(0 1 2 / 3)')).eql({ type: 'rgba', components: ['0', '1', '2'], alpha: '3' })
+    expect(parseCssColor('rgba(0 1 2/ 3)')).eql({ type: 'rgba', components: ['0', '1', '2'], alpha: '3' })
+    expect(parseCssColor('rgba(0 1 2 /3)')).eql({ type: 'rgba', components: ['0', '1', '2'], alpha: '3' })
+    expect(parseCssColor('rgba(0 1 2/3)')).eql({ type: 'rgba', components: ['0', '1', '2'], alpha: '3' })
+    expect(parseCssColor('rgba(0 1 2//3)')).eql(undefined)
+    expect(parseCssColor('rgba(0 1 2)')).eql(undefined)
+    expect(parseCssColor('rgba(0 1 2 3)')).eql(undefined)
+    expect(parseCssColor('rgba(0 1 2 3 4)')).eql(undefined)
+
+    expect(parseCssColor('color(rgba 0 1 2)')).eql(undefined)
+    expect(parseCssColor('color(rgba 0 1 2 / 3)')).eql({ type: 'rgba', components: ['0', '1', '2'], alpha: '3' })
+
+    expect(parseCssColor('color(fancy 0 1 2 3 4 5 / 6)')).eql({ type: 'fancy', components: ['0', '1', '2', '3', '4', '5'], alpha: '6' })
+    expect(parseCssColor('color(fancy 0 1 2 3 4 5 /6)')).eql({ type: 'fancy', components: ['0', '1', '2', '3', '4', '5'], alpha: '6' })
+    expect(parseCssColor('color(fancy 0 1 2 3 4 5/ 6)')).eql({ type: 'fancy', components: ['0', '1', '2', '3', '4', '5'], alpha: '6' })
+    expect(parseCssColor('color(fancy 0 1 2 3 4 5/6)')).eql({ type: 'fancy', components: ['0', '1', '2', '3', '4', '5'], alpha: '6' })
+    expect(parseCssColor('color(fancy 0 1 2 3 4 5//6)')).eql(undefined)
+
+    expect(parseCssColor('color(lite 0)')).eql({ type: 'lite', components: ['0'], alpha: undefined })
+    expect(parseCssColor('color(lite 0 / 1)')).eql({ type: 'lite', components: ['0'], alpha: '1' })
+    expect(parseCssColor('color(lite 0 /1)')).eql({ type: 'lite', components: ['0'], alpha: '1' })
+    expect(parseCssColor('color(lite 0/ 1)')).eql({ type: 'lite', components: ['0'], alpha: '1' })
+    expect(parseCssColor('color(lite 0/1)')).eql({ type: 'lite', components: ['0'], alpha: '1' })
+    expect(parseCssColor('color(lite 0//1)')).eql(undefined)
+
+    expect(parseCssColor('color(vary calc(0.1 / 5) calc(0.2 / 5) / calc(0.3 / 5))')).eql({ type: 'vary', components: ['calc(0.1 / 5)', 'calc(0.2 / 5)'], alpha: 'calc(0.3 / 5)' })
+    expect(parseCssColor('color(vary calc(0.1 / 5) calc(0.2 / 5) /calc(0.3 / 5))')).eql({ type: 'vary', components: ['calc(0.1 / 5)', 'calc(0.2 / 5)'], alpha: 'calc(0.3 / 5)' })
+    expect(parseCssColor('color(vary calc(0.1 / 5) calc(0.2 / 5)/ calc(0.3 / 5))')).eql({ type: 'vary', components: ['calc(0.1 / 5)', 'calc(0.2 / 5)'], alpha: 'calc(0.3 / 5)' })
+    expect(parseCssColor('color(vary calc(0.1 / 5) calc(0.2 / 5)/calc(0.3 / 5))')).eql({ type: 'vary', components: ['calc(0.1 / 5)', 'calc(0.2 / 5)'], alpha: 'calc(0.3 / 5)' })
+    expect(parseCssColor('color(vary calc(0.1 / 5) calc(0.2 / 5)//calc(0.3 / 5))')).eql(undefined)
   })
 })
