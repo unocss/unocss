@@ -1,4 +1,4 @@
-import type { CSSColorValue, RGBAColorValue } from '../types'
+import type { CSSColorValue, RGBAColorValue } from '@unocss/core'
 
 /* eslint-disable no-case-declarations */
 
