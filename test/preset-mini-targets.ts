@@ -672,9 +672,6 @@ export const presetMiniTargets: string[] = [
   '-p-px',
   '-z-1',
   'all:m-auto',
-  'at-2xl:m2',
-  'at-lg:m2',
-  'at-sm:m1',
   'children:m-auto',
   'disabled:op50',
   'first:p-2',
@@ -683,16 +680,22 @@ export const presetMiniTargets: string[] = [
   'hover:!p-1',
   'hover:not-first:checked:bg-red/10',
   'hover:p-5',
-  'lt-lg:m2',
-  'lt-sm:m1',
-  'md:!hidden',
-  'md:m-1',
   'next:mt-0',
   'not-hover:p-3',
   'peer-checked:bg-blue-500',
   'peer-not-placeholder-shown:text-2xl',
+
+  // variants breakpoints
+  'at-2xl:m2',
+  'at-lg:m2',
+  'at-sm:m1',
+  'lt-lg:m2',
+  'lt-sm:m1',
+  'md:!hidden',
+  'md:m-1',
   'sm:m-1',
   'sm:m1',
+  '-md:px-4',
 
   // variants combinators
   'svg:fill-red',
@@ -741,4 +744,8 @@ export const presetMiniTargets: string[] = [
   'focus-within:where-first:checked:bg-gray/20',
   'group-has-placeholder-shown:text-4xl',
   'focus-within:has-first:checked:bg-gray/20',
+
+  // variants - combined
+  '--md:px-4',
+  '-md:-px-4',
 ]

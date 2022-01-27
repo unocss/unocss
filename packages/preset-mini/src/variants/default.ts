@@ -10,12 +10,12 @@ import { variantMotions, variantOrientations, variantPrint } from './media'
 import { partClasses, variantPseudoClassFunctions, variantPseudoClasses, variantPseudoElements, variantTaggedPseudoClasses } from './pseudo'
 
 export const variants = (options: PresetMiniOptions): Variant<Theme>[] => [
-  variantNegative,
-  variantImportant,
   variantPrint,
   ...variantOrientations,
   ...variantMotions,
   variantBreakpoints,
+  variantNegative,
+  variantImportant,
   ...variantCombinators,
   variantPseudoClasses,
   variantPseudoClassFunctions,

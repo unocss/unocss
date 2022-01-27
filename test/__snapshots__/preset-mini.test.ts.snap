@@ -739,6 +739,9 @@ exports[`preset-mini > targets 1`] = `
 .at-sm\\\\:m1{margin:0.25rem;}
 }
 @media (min-width: 768px){
+.--md\\\\:px-4,
+.-md\\\\:-px-4{padding-left:-1rem;padding-right:-1rem;}
+.-md\\\\:px-4{padding-left:1rem;padding-right:1rem;}
 .md\\\\:m-1{margin:0.25rem;}
 .md\\\\:\\\\!hidden{display:none !important;}
 }
