@@ -14,8 +14,6 @@ describe('color utils', () => {
     expect(hex2rgba('#12')).eql(undefined)
     expect(hex2rgba('#12123')).eql(undefined)
 
-    expect(parseCssColor('transparent')).eql({ type: 'rgb', components: [0, 0, 0], alpha: 0 })
-
     expect(parseCssColor('rgb(0,1,2)')).eql({ type: 'rgb', components: ['0', '1', '2'], alpha: undefined })
     expect(parseCssColor('rgba(0,1,2,3)')).eql({ type: 'rgba', components: ['0', '1', '2'], alpha: '3' })
     expect(parseCssColor('rgba(0,(1),2,3)')).eql({ type: 'rgba', components: ['0', '(1)', '2'], alpha: '3' })

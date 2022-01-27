@@ -107,7 +107,6 @@ function parseHexColor(str: string): CSSColorValue | undefined {
 function cssColorKeyword(str: string): CSSColorValue | undefined {
   const color = {
     rebeccapurple: [102, 51, 153, 1],
-    transparent: [0, 0, 0, 0],
   }[str]
 
   if (color != null) {
