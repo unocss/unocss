@@ -25,7 +25,7 @@ export const variantBreakpoints: Variant<Theme> = (matcher, { theme }) => {
 
     let direction = 'min'
     let order = 1000 // parseInt(size)
-    if (pre.startsWith('lt-')) {
+    if (pre.startsWith('lt-') || pre.startsWith('-')) {
       direction = 'max'
       order -= (idx + 1)
     }
