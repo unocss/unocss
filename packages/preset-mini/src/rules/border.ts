@@ -1,6 +1,6 @@
 import type { CSSEntries, CSSObject, DynamicMatcher, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { cornerMap, directionMap, handler as h, parseColor } from '../utils'
+import { colorToString, cornerMap, directionMap, handler as h, parseColor } from '../utils'
 
 export const borders: Rule[] = [
   // compound
@@ -57,36 +57,31 @@ const borderColorResolver = (direction: string): DynamicMatcher => ([, body]: st
   if (!data)
     return
 
-  const { alpha, opacity, color, rgba } = data
+  const { alpha, color, cssColor } = data
 
-  if (!color)
-    return
-
-  if (rgba) {
+  if (cssColor) {
     if (alpha != null) {
       return {
-        [`border${direction}-color`]: `rgba(${rgba.join(',')})`,
+        [`border${direction}-color`]: colorToString(cssColor, alpha),
+      }
+    }
+    if (direction === '') {
+      return {
+        '--un-border-opacity': cssColor.alpha ?? 1,
+        [`border${direction}-color`]: colorToString(cssColor, `var(--un-border${direction}-opacity)`),
       }
     }
     else {
-      if (direction === '') {
-        return {
-          '--un-border-opacity': (opacity && h.cssvar(opacity)) ?? 1,
-          [`border${direction}-color`]: `rgba(${rgba.join(',')},var(--un-border${direction}-opacity))`,
-        }
-      }
-      else {
-        return {
-          '--un-border-opacity': (opacity && h.cssvar(opacity)) ?? 1,
-          [`--un-border${direction}-opacity`]: 'var(--un-border-opacity)',
-          [`border${direction}-color`]: `rgba(${rgba.join(',')},var(--un-border${direction}-opacity))`,
-        }
+      return {
+        '--un-border-opacity': cssColor.alpha ?? 1,
+        [`--un-border${direction}-opacity`]: 'var(--un-border-opacity)',
+        [`border${direction}-color`]: colorToString(cssColor, `var(--un-border${direction}-opacity)`),
       }
     }
   }
-  else {
+  else if (color) {
     return {
-      [`border${direction}-color`]: color.replace('%alpha', `${alpha || 1}`),
+      [`border${direction}-color`]: color.replace('%alpha', `${alpha ?? 1}`),
     }
   }
 }

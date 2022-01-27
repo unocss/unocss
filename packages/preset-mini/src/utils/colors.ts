@@ -2,6 +2,8 @@ import type { CSSColorValue, RGBAColorValue } from '@unocss/core'
 
 /* eslint-disable no-case-declarations */
 
+const cssColorFunctions = ['hsl', 'hsla', 'hwb', 'lab', 'lch', 'oklab', 'oklch', 'rgb', 'rgba']
+
 export function hex2rgba(hex = ''): RGBAColorValue | undefined {
   const color = parseHexColor(hex)
   if (color != null) {
@@ -10,6 +12,64 @@ export function hex2rgba(hex = ''): RGBAColorValue | undefined {
       return components as [number, number, number]
     return [...components, alpha] as [number, number, number, number]
   }
+}
+
+export function parseCssColor(str = ''): CSSColorValue | undefined {
+  const color = parseColor(str)
+  if (color == null)
+    return
+
+  const { type: casedType, components, alpha } = color
+  const type = casedType.toLowerCase()
+
+  if (['rgba', 'hsla'].includes(type) && alpha === undefined)
+    return
+
+  if (cssColorFunctions.includes(type) && components.length !== 3)
+    return
+
+  return { type, components, alpha }
+}
+
+export function colorToString(color: CSSColorValue, alphaOverride?: string | number) {
+  const { components } = color
+  let { alpha, type } = color
+  alpha = alphaOverride ?? alpha
+  type = type.toLowerCase()
+
+  // Comma separated functions
+  if (['hsla', 'hsl', 'rgba', 'rgb'].includes(type))
+    return `${type.replace('a', '')}a(${components.join(',')}${alpha == null ? '' : `,${alpha}`})`
+
+  alpha = alpha == null ? '' : ` / ${alpha}`
+  if (cssColorFunctions.includes(type))
+    return `${type}(${components.join(' ')}${alpha})`
+  return `color(${type} ${components.join(' ')}${alpha})`
+}
+
+function parseColor(str: string) {
+  if (!str)
+    return
+
+  let color = parseHexColor(str)
+  if (color != null)
+    return color
+
+  color = cssColorKeyword(str)
+  if (color != null)
+    return color
+
+  color = parseCssCommaColorFunction(str)
+  if (color != null)
+    return color
+
+  color = parseCssSpaceColorFunction(str)
+  if (color != null)
+    return color
+
+  color = parseCssColorFunction(str)
+  if (color != null)
+    return color
 }
 
 function parseHexColor(str: string): CSSColorValue | undefined {
@@ -42,48 +102,6 @@ function parseHexColor(str: string): CSSColorValue | undefined {
           : Math.round((value & 0xFF) / 255 * 100) / 100,
       }
   }
-}
-
-export function parseCssColor(str = ''): CSSColorValue | undefined {
-  const color = parseColor(str)
-  if (color == null)
-    return
-
-  const { type: casedType, components, alpha } = color
-  const type = casedType.toLowerCase()
-
-  if (['rgba', 'hsla'].includes(type) && alpha === undefined)
-    return
-
-  if (['rgb', 'hsl', 'hwb', 'lab', 'lch', 'oklab', 'oklch'].includes(type) && components.length !== 3)
-    return
-
-  return { type, components, alpha }
-}
-
-function parseColor(str: string) {
-  if (!str)
-    return
-
-  let color = parseHexColor(str)
-  if (color != null)
-    return color
-
-  color = cssColorKeyword(str)
-  if (color != null)
-    return color
-
-  color = parseCssCommaColorFunction(str)
-  if (color != null)
-    return color
-
-  color = parseCssSpaceColorFunction(str)
-  if (color != null)
-    return color
-
-  color = parseCssColorFunction(str)
-  if (color != null)
-    return color
 }
 
 function cssColorKeyword(str: string): CSSColorValue | undefined {
@@ -166,8 +184,9 @@ function parseCssCommaColorFunction(color: string): CSSColorValue | undefined {
   }
 }
 
+const cssColorFunctionsRe = new RegExp(`^(${cssColorFunctions.join('|')})\\((.+)\\)$`, 'i')
 function parseCssSpaceColorFunction(color: string): CSSColorValue | undefined {
-  const match = color.match(/^(rgb|rgba|hsl|hsla|hwb|lab|lch|oklab|oklch)\((.+)\)$/i)
+  const match = color.match(cssColorFunctionsRe)
   if (!match)
     return
 

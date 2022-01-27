@@ -6,6 +6,8 @@ const targets = [
   // custom colors
   'text-custom-a',
   'bg-custom-b',
+  'border-custom-b',
+  'border-custom-b/0',
   'border-custom-b/10',
 
   // wind - placeholder

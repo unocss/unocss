@@ -1,7 +1,7 @@
 import type { Rule } from '@unocss/core'
 import { CONTROL_SHORTCUT_NO_MERGE, toArray } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorResolver, handler as h } from '../utils'
+import { colorResolver, colorToString, handler as h, parseCssColor } from '../utils'
 import { varEmpty } from './static'
 
 export const shadowBase = {
@@ -16,10 +16,13 @@ export const colorableShadows = (shadows: string | string[], colorVar: string) =
   const colored = []
   shadows = toArray(shadows)
   for (let i = 0; i < shadows.length; i++) {
-    const [size, color] = shadows[i].split(/\s(\S+)$/)
+    const [size, color] = shadows[i].split(/\s+(\S+)$/)
     if (color.split('(').length !== color.split(')').length)
       return shadows
-    colored.push(`${size} var(${colorVar}, ${color})`)
+    const cssColor = parseCssColor(color)
+    if (cssColor == null)
+      return shadows
+    colored.push(`${size} var(${colorVar}, ${colorToString(cssColor)})`)
   }
   return colored
 }

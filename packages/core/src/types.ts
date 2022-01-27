@@ -38,13 +38,13 @@ export interface ParsedColorValue {
    */
   no: string
   /**
-   * {@link RGBAColorValue}
+   * {@link CSSColorValue}
    */
-  rgba?: RGBAColorValue
+  cssColor: CSSColorValue | undefined
   /**
-   * Parsed rgba's alpha value.
+   * Parsed alpha value from opacity
    */
-  alpha?: number | string
+  alpha: string | number | undefined
 }
 
 export type PresetOptions = Record<string, any>
