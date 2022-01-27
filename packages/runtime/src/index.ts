@@ -102,10 +102,16 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   const tokens = new Set<string>()
 
   let _timer: number | undefined
+  let _resolvers: Function[] = []
   const scheduleUpdate = () => new Promise((resolve) => {
+    _resolvers.push(resolve)
     if (_timer != null)
       clearTimeout(_timer)
-    _timer = setTimeout(() => updateStyle().then(resolve), 0) as any
+    _timer = setTimeout(() => updateStyle().then(() => {
+      const resolvers = _resolvers
+      _resolvers = []
+      resolvers.forEach(r => r())
+    }), 0) as any
   })
 
   async function updateStyle() {
