@@ -79,8 +79,10 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
     return
   }
 
-  const defaultConfig = inlineConfig.defaults || {}
-  if (inlineConfig.autoPrefix) {
+  const config = window.__unocss || {}
+  const runtime = config?.runtime
+  const defaultConfig = Object.assign(inlineConfig.defaults || {}, runtime)
+  if (runtime?.autoPrefix) {
     let postprocess = defaultConfig.postprocess
     if (!postprocess)
       postprocess = []
@@ -90,9 +92,6 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
     defaultConfig.postprocess = postprocess
   }
 
-  const config = window.__unocss || {}
-  const runtime = window.__unocss?.runtime
-  Object.assign(defaultConfig, runtime)
   runtime?.configResolved?.(config, defaultConfig)
 
   let styleElement: HTMLStyleElement | undefined
