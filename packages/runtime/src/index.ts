@@ -75,7 +75,7 @@ export interface RuntimeContext {
 declare global {
   interface Window {
     __unocss?: UserConfig & { runtime?: RuntimeOptions }
-    __unocss_runtime?: RuntimeObject
+    __unocss_runtime?: RuntimeContext
   }
 }
 
