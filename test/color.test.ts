@@ -1,4 +1,4 @@
-import { hex2rgba, parseCssColor } from '@unocss/core'
+import { hex2rgba, parseCssColor } from '@unocss/preset-mini/utils'
 import { describe, expect, it } from 'vitest'
 
 describe('color utils', () => {
