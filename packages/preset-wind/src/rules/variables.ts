@@ -1,4 +1,5 @@
 import type { Rule } from '@unocss/core'
+import { handler as h } from '@unocss/preset-mini/utils'
 
 const variablesAbbrMap: Record<string, string> = {
   'bg-blend': 'background-blend-mode',
@@ -17,9 +18,9 @@ const variablesAbbrMap: Record<string, string> = {
 }
 
 export const cssVariables: Rule[] = [
-  [/^(.+?)-\$(.+)$/, ([, name, varname]) => {
+  [/^(.+?)-(\$.+)$/, ([, name, varname]) => {
     const prop = variablesAbbrMap[name]
     if (prop)
-      return { [prop]: `var(--${varname})` }
+      return { [prop]: h.cssvar(varname) }
   }],
 ]

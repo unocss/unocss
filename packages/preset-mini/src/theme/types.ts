@@ -33,6 +33,8 @@ export interface Theme {
   // filters
   blur?: Record<string, string>
   dropShadow?: Record<string, string | string[]>
+  // transitions
+  easing?: Record<string, string>
   // animation
   animation?: ThemeAnimation
 }
