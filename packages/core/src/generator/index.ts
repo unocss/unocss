@@ -44,6 +44,63 @@ export class UnoGenerator {
     return set
   }
 
+  async parseToken(raw: string) {
+    if (this.blocked.has(raw))
+      return
+
+    // use caches if possible
+    if (this._cache.has(raw))
+      return this._cache.get(raw)
+
+    let current = raw
+    for (const p of this.config.preprocess)
+      current = p(raw)!
+
+    if (this.isBlocked(current)) {
+      this.blocked.add(raw)
+      this._cache.set(raw, null)
+      return
+    }
+
+    const applied = this.matchVariants(raw, current)
+
+    if (!applied || this.isBlocked(applied[1])) {
+      this.blocked.add(raw)
+      this._cache.set(raw, null)
+      return
+    }
+
+    const context: RuleContext = {
+      rawSelector: raw,
+      currentSelector: applied[1],
+      theme: this.config.theme,
+      generator: this,
+      variantHandlers: applied[2],
+      constructCSS: (...args) => this.constructCustomCSS(context, ...args),
+    }
+
+    // expand shortcuts
+    const expanded = this.expandShortcut(applied[1], context)
+    if (expanded) {
+      const utils = await this.stringifyShortcuts(applied, context, expanded[0], expanded[1])
+      if (utils?.length) {
+        this._cache.set(raw, utils)
+        return utils
+      }
+    }
+    // no shortcut
+    else {
+      const utils = (await this.parseUtil(applied, context))?.map(i => this.stringifyUtil(i)).filter(notNull)
+      if (utils?.length) {
+        this._cache.set(raw, utils)
+        return utils
+      }
+    }
+
+    // set null cache for unmatched result
+    this._cache.set(raw, null)
+  }
+
   async generate(
     input: string | Set<string>,
     {
@@ -67,8 +124,14 @@ export class UnoGenerator {
     const matched = new Set<string>()
     const sheet = new Map<string, StringifiedUtil[]>()
 
-    const hit = (raw: string, payload: StringifiedUtil[]) => {
-      this._cache.set(raw, payload)
+    await Promise.all(Array.from(tokens).map(async(raw) => {
+      if (matched.has(raw))
+        return
+
+      const payload = await this.parseToken(raw)
+      if (payload == null)
+        return
+
       matched.add(raw)
 
       for (const item of payload) {
@@ -79,62 +142,6 @@ export class UnoGenerator {
         if (item[4]?.layer)
           layerSet.add(item[4].layer)
       }
-    }
-
-    const block = (raw: string) => {
-      this.blocked.add(raw)
-      this._cache.set(raw, null)
-    }
-
-    await Promise.all(Array.from(tokens).map(async(raw) => {
-      if (matched.has(raw) || this.blocked.has(raw))
-        return
-
-      // use caches if possible
-      if (this._cache.has(raw)) {
-        const r = this._cache.get(raw)
-        if (r)
-          hit(raw, r)
-        return
-      }
-
-      let current = raw
-      for (const p of this.config.preprocess)
-        current = p(raw)!
-
-      if (this.isBlocked(current))
-        return block(current)
-
-      const applied = this.matchVariants(raw, current)
-
-      if (!applied || this.isBlocked(applied[1]))
-        return block(raw)
-
-      const context: RuleContext = {
-        rawSelector: raw,
-        currentSelector: applied[1],
-        theme: this.config.theme,
-        generator: this,
-        variantHandlers: applied[2],
-        constructCSS: (...args) => this.constructCustomCSS(context, ...args),
-      }
-
-      // expand shortcuts
-      const expanded = this.expandShortcut(applied[1], context)
-      if (expanded) {
-        const utils = await this.stringifyShortcuts(applied, context, expanded[0], expanded[1])
-        if (utils?.length)
-          return hit(raw, utils)
-      }
-      // no shortcut
-      else {
-        const utils = (await this.parseUtil(applied, context))?.map(i => this.stringifyUtil(i)).filter(notNull)
-        if (utils?.length)
-          return hit(raw, utils)
-      }
-
-      // set null cache for unmatched result
-      this._cache.set(raw, null)
     }))
 
     if (preflights) {
