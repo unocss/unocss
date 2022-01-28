@@ -1,7 +1,7 @@
 import type { Rule } from '@unocss/core'
 import { CONTROL_SHORTCUT_NO_MERGE } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorableShadows, colorResolver, handler as h } from '../utils'
+import { colorResolver, colorableShadows, handler as h } from '../utils'
 import { varEmpty } from './static'
 
 export const shadowBase = {
