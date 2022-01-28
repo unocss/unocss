@@ -212,8 +212,8 @@ function parseCssSpaceColorValues(componentString: string) {
 }
 
 function getComponent(str: string, separator: string) {
-  const component = str.trim()
-  if (component === '')
+  str = str.trim()
+  if (str === '')
     return
 
   const l = str.length
@@ -236,7 +236,7 @@ function getComponent(str: string, separator: string) {
             return
 
           return [
-            str.slice(0, i).trim(),
+            component,
             str.slice(i + 1).trim(),
           ]
         }
@@ -244,7 +244,7 @@ function getComponent(str: string, separator: string) {
   }
 
   return [
-    str.trim(),
+    str,
     '',
   ]
 }
