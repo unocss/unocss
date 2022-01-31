@@ -15,7 +15,6 @@ export const variantImportant: Variant = {
       }
     }
   },
-
 }
 
 export const variantNegative: Variant = {
@@ -34,5 +33,4 @@ export const variantNegative: Variant = {
       }
     }
   },
-
 }

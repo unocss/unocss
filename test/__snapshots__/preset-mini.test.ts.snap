@@ -20,6 +20,13 @@ exports[`preset-mini > targets 1`] = `
 .\\\\[content\\\\:attr\\\\(attr_content\\\\)\\\\]{content:attr(attr content);}
 .\\\\[content\\\\:attr\\\\(attr\\\\\\\\_content\\\\)\\\\]{content:attr(attr\\\\_content);}
 .\\\\[margin\\\\:logical_1rem_2rem_3rem\\\\]{margin:logical 1rem 2rem 3rem;}
+.class-\\\\[target-name\\\\]-\\\\[combinator\\\\:test-1\\\\] .target-name{combinator:test-1;}
+.class-all-\\\\[target\\\\]-\\\\[combinator\\\\:test-2\\\\] .target,
+.class-children-\\\\[target\\\\]-\\\\[combinator\\\\:test-2\\\\]>.target,
+.class-next-\\\\[target\\\\]-\\\\[combinator\\\\:test-2\\\\]+.target{combinator:test-2;}
+.scope .class-group-\\\\[scope\\\\]-\\\\[combinator\\\\:test-3\\\\],
+.scope+.class-previous-\\\\[scope\\\\]-\\\\[combinator\\\\:test-3\\\\],
+.scope>.class-parent-\\\\[scope\\\\]-\\\\[combinator\\\\:test-3\\\\]{combinator:test-3;}
 .-p-px{padding:-1px;}
 .\\\\!p-5px{padding:5px !important;}
 .first\\\\:p-2:first-child,

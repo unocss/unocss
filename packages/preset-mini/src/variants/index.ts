@@ -1,5 +1,6 @@
 /* @export-submodules */
 export * from './breakpoints'
+export * from './classes'
 export * from './combinators'
 export * from './media'
 export * from './dark'
