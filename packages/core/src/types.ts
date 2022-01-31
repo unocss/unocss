@@ -168,6 +168,10 @@ export interface VariantHandler {
    * Variant ordering.
    */
   order?: number
+  /**
+   * Override layer to the output css.
+   */
+  layer?: string | undefined
 }
 
 export type VariantFunction<Theme extends {} = {}> = (matcher: string, context: Readonly<VariantContext<Theme>>) => string | VariantHandler | undefined
@@ -397,6 +401,7 @@ export interface UtilObject {
   selector: string
   entries: CSSEntries
   parent: string | undefined
+  layer: string | undefined
 }
 
 export interface GenerateOptions {

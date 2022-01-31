@@ -290,6 +290,7 @@ export class UnoGenerator {
       selector: handlers.reduce((p, v) => v.selector?.(p, entries) || p, toEscapedSelector(raw)),
       entries,
       parent: handlers.reduce((p: string | undefined, v) => Array.isArray(v.parent) ? v.parent[0] : v.parent || p, undefined),
+      layer: handlers.reduce((p: string | undefined, v) => v.layer || p, undefined),
     }
 
     for (const p of this.config.postprocess)
@@ -360,13 +361,14 @@ export class UnoGenerator {
     if (isRawUtil(parsed))
       return [parsed[0], undefined, parsed[1], undefined, parsed[2]]
 
-    const { selector, entries, parent } = this.applyVariants(parsed)
+    const { selector, entries, parent, layer: variantLayer } = this.applyVariants(parsed)
     const body = entriesToCss(entries)
 
     if (!body)
       return
 
-    return [parsed[0], selector, body, parent, parsed[3]]
+    const { layer: metaLayer, ...meta } = parsed[3] ?? {}
+    return [parsed[0], selector, body, parent, { ...meta, layer: variantLayer ?? metaLayer }]
   }
 
   expandShortcut(processed: string, context: RuleContext, depth = 3): [string[], RuleMeta | undefined] | undefined {
