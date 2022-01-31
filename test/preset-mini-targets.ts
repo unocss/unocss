@@ -653,24 +653,11 @@ export const presetMiniTargets: string[] = [
   'light:text-sm',
 
   // variants
-  '-rotate-2',
-  '-translate-full',
-  '-translate-x-full',
-  '-translate-y-1/2',
   'active:scale-4',
   'hover:translate-x-3',
   'peer-checked:translate-x-[var(--reveal)]',
 
-  '-rotate-2',
-  'active:scale-4',
   '!hover:px-10',
-  '!m-$c-m',
-  '!p-5px',
-  '-gap-y-5',
-  '-m-auto',
-  '-mb-px',
-  '-p-px',
-  '-z-1',
   'all:m-auto',
   'at-2xl:m2',
   'at-lg:m2',
@@ -696,6 +683,21 @@ export const presetMiniTargets: string[] = [
 
   // variants combinators
   'svg:fill-red',
+
+  // variants misc
+  '-rotate-2',
+  '-translate-full',
+  '-translate-x-full',
+  '-translate-y-1/2',
+  '!m-$c-m',
+  '!p-5px',
+  '-gap-y-5',
+  '-m-auto',
+  '-mb-px',
+  '-p-px',
+  '-z-1',
+  'scope-class-[class-name]-c-red-600',
+  'scope-class-[class\\_name]-c-red-600',
 
   // variants motion
   'motion-reduce:hover:translate-0',

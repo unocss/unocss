@@ -305,6 +305,8 @@ exports[`preset-mini > targets 1`] = `
 .text-red100{--un-text-opacity:1;color:rgba(254,226,226,var(--un-text-opacity));}
 .placeholder-shown-color-transparent:placeholder-shown,
 .placeholder\\\\:color-transparent::placeholder{color:transparent;}
+.scope-class-\\\\[class-name\\\\]-c-red-600 .class-name,
+.scope-class-\\\\[class\\\\\\\\_name\\\\]-c-red-600 .class\\\\_name{--un-text-opacity:1;color:rgba(220,38,38,var(--un-text-opacity));}
 .selection\\\\:color-\\\\[var\\\\(--select-color\\\\)\\\\]::selection{color:var(--select-color);}
 .text-\\\\[\\\\#124\\\\]{--un-text-opacity:1;color:rgba(17,34,68,var(--un-text-opacity));}
 .text-\\\\[2em\\\\]{color:2em;}

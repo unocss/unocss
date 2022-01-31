@@ -1,4 +1,5 @@
 import type { Variant } from '@unocss/core'
+import { handler as h } from '../utils'
 
 export const variantImportant: Variant = {
   match(matcher) {
@@ -15,7 +16,6 @@ export const variantImportant: Variant = {
       }
     }
   },
-
 }
 
 export const variantNegative: Variant = {
@@ -34,5 +34,16 @@ export const variantNegative: Variant = {
       }
     }
   },
+}
 
+export const variantScope: Variant = {
+  match(matcher) {
+    const match = matcher.match(/^scope-class-(\[.+?\])[:-]/)
+    if (match) {
+      return {
+        matcher: matcher.slice(13 + match[1].length),
+        selector: s => `${s} .${h.bracket(match[1])}`,
+      }
+    }
+  },
 }
