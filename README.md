@@ -449,7 +449,10 @@ UnoCSS also supports the theming system that you might be familiar with in Tailw
 ```ts
 theme: {
   colors: {
-    'very-cool': '#0000ff',
+    'veryCool': '#0000ff', // class="text-very-cool"
+    'brand': {
+      'primary': '#1f6ae3', //class="bg-brand-primary"
+    }
   },
   breakpoints: {
     xs: '320px',
