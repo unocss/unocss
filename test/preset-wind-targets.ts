@@ -315,6 +315,12 @@ export const presetWindiTargets: string[] = [
   '.dark:text-xl',
   '@dark:text-xl',
 
+  // variants - mix
+  'mix-tint-50-c-red-400',
+  'mix-shade-50-c-red-400',
+  'mix-shift-50-c-red-600',
+  'mix-shift--50-c-red-600',
+
   // variants - placeholder
   'placeholder-red-400',
   'placeholder-inherit',
