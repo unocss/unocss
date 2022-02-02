@@ -678,7 +678,6 @@ export const presetMiniTargets: string[] = [
   'children:m-auto',
   'disabled:op50',
   'first:p-2',
-  'group-focus:p-4',
   'group-hover:group-focus:text-center',
   'hover:!p-1',
   'hover:not-first:checked:bg-red/10',
@@ -689,7 +688,6 @@ export const presetMiniTargets: string[] = [
   'md:m-1',
   'next:mt-0',
   'not-hover:p-3',
-  'peer-checked:bg-blue-500',
   'peer-not-placeholder-shown:text-2xl',
   'sm:m-1',
   'sm:m1',
@@ -741,4 +739,9 @@ export const presetMiniTargets: string[] = [
   'focus-within:where-first:checked:bg-gray/20',
   'group-has-placeholder-shown:text-4xl',
   'focus-within:has-first:checked:bg-gray/20',
+
+  // variants - tagged
+  'group-focus:p-4',
+  'peer-checked:bg-blue-500',
+  'parent-hover:text-center',
 ]

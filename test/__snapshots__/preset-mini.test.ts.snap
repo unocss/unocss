@@ -249,7 +249,8 @@ exports[`preset-mini > targets 1`] = `
 .text-shadow-color-op-30{--un-text-shadow-opacity:0.3;}
 .case-upper{text-transform:uppercase;}
 .case-normal{text-transform:none;}
-.group:focus:hover .group-hover\\\\:group-focus\\\\:text-center{text-align:center;}
+.group:focus:hover .group-hover\\\\:group-focus\\\\:text-center,
+.parent:hover>.parent-hover\\\\:text-center{text-align:center;}
 .text-left,
 [dir=\\"ltr\\"] .ltr\\\\:text-left{text-align:left;}
 [dir=\\"rtl\\"] .rtl\\\\:text-right{text-align:right;}
