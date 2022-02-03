@@ -185,6 +185,7 @@ export const presetMiniTargets: string[] = [
   'decoration-purple/50',
   'decoration-5',
   'decoration-offset-0.6rem',
+  'decoration-underline',
   'underline',
   'underline-dashed',
   'underline-red-500',
