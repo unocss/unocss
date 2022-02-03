@@ -16,60 +16,66 @@ export interface RuntimeOptions {
    * Callback to modify config
    */
   configResolved?: (config: UserConfig, defaults: UserConfigDefaults) => void
+  /**
+   * Callback when the runtime is ready. Returning false will prevent default extraction
+   */
+  ready?: (runtime: RuntimeContext) => false | any
 }
 
 export type RuntimeInspectorCallback = (element: Element) => boolean
 
+export interface RuntimeContext {
+  /**
+   * The UnoCSS instance.
+   *
+   * @type {UnoGenerator}
+   */
+  uno: UnoGenerator
+
+  /**
+   * Run extractor on specified tokens
+   *
+   * @returns {Promise<void>}
+   */
+  extract: (tokens: string | string[]) => Promise<void>
+
+  /**
+   * Rerun extractor on the whole <body>, regardless of paused status or inspection limitation.
+   *
+   * @returns {Promise<void>}
+   */
+  extractAll: () => Promise<void>
+
+  /**
+   * Set/unset inspection callback to allow/ignore element to be extracted.
+   *
+   * @param {RuntimeInspectorCallback} [callback] - Callback to determine whether the element will be extracted.
+   *
+   * @returns {void}
+   */
+  inspect: (callback?: RuntimeInspectorCallback) => void
+
+  /**
+   * Pause/resume/toggle the runtime.
+   *
+   * @param {boolean} [state] - False or True respectively pause or resume the runtime. Undefined parameter toggles the pause/resume state.
+   *
+   * @returns {void}
+   */
+  toggleObserver: (state?: boolean) => void
+
+  /**
+   * The UnoCSS version.
+   *
+   * @type {string}
+   */
+  version: string
+}
+
 declare global {
   interface Window {
     __unocss?: UserConfig & { runtime?: RuntimeOptions }
-    __unocss_runtime?: {
-      /**
-       * The UnoCSS instance.
-       *
-       * @type {UnoGenerator}
-       */
-      uno: UnoGenerator
-
-      /**
-       * Run extractor on specified tokens
-       *
-       * @returns {Promise<void>}
-       */
-      extract: (tokens: string | string[]) => Promise<void>
-
-      /**
-       * Rerun extractor on the whole <body>, regardless of paused status or inspection limitation.
-       *
-       * @returns {Promise<void>}
-       */
-      extractAll: () => Promise<void>
-
-      /**
-       * Set/unset inspection callback to allow/ignore element to be extracted.
-       *
-       * @param {RuntimeInspectorCallback} [callback] - Callback to determine whether the element will be extracted.
-       *
-       * @returns {void}
-       */
-      inspect: (callback?: RuntimeInspectorCallback) => void
-
-      /**
-       * Pause/resume/toggle the runtime.
-       *
-       * @param {boolean} [state] - False or True respectively pause or resume the runtime. Undefined parameter toggles the pause/resume state.
-       *
-       * @returns {void}
-       */
-      toggleObserver: (state?: boolean) => void
-
-      /**
-       * The UnoCSS version.
-       *
-       * @type {string}
-       */
-      version: string
-    }
+    __unocss_runtime?: RuntimeContext
   }
 }
 
@@ -95,7 +101,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   runtime?.configResolved?.(config, defaultConfig)
 
   let styleElement: HTMLStyleElement | undefined
-  let paused = false
+  let paused = true
   let inspector: RuntimeInspectorCallback | undefined
 
   const uno = createGenerator(config, defaultConfig)
@@ -171,7 +177,13 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
     observe()
   }
 
-  window.__unocss_runtime = window.__unocss_runtime = {
+  function ready() {
+    execute()
+    window.addEventListener('load', execute)
+    window.addEventListener('DOMContentLoaded', execute)
+  }
+
+  const unoCssRuntime = window.__unocss_runtime = window.__unocss_runtime = {
     version: uno.version,
     uno,
     async extract(userTokens) {
@@ -189,10 +201,13 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
         paused = !paused
       else
         paused = !!set
+      if (!observing && !paused)
+        ready()
     },
   }
 
-  execute()
-  window.addEventListener('load', execute)
-  window.addEventListener('DOMContentLoaded', execute)
+  if (runtime?.ready?.(unoCssRuntime) !== false) {
+    paused = false
+    ready()
+  }
 }
