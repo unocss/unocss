@@ -678,13 +678,14 @@ export const presetMiniTargets: string[] = [
   'sm:m1',
 
   // variants class
-  'class-[target-name]-[combinator:test-1]',
-  'class-all-[target]-[combinator:test-2]',
-  'class-children-[target]-[combinator:test-2]',
-  'class-next-[target]-[combinator:test-2]',
-  'class-group-[scope]-[combinator:test-3]',
-  'class-parent-[scope]-[combinator:test-3]',
-  'class-previous-[scope]-[combinator:test-3]',
+  'scope-[.target-name]-[combinator:test-1]',
+  'scope-all-[.target]-[combinator:test-2]',
+  'scope-children-[.target]-[combinator:test-2]',
+  'scope-next-[.target]-[combinator:test-2]',
+  'scope-group-[.scope]-[combinator:test-3]',
+  'scope-parent-[.scope]-[combinator:test-3]',
+  'scope-previous-[.scope]-[combinator:test-3]',
+  'scope-sibling-[div:hover]-[combinator:test-4]',
 
   // variants combinators
   'all:m-auto',
