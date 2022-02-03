@@ -695,6 +695,10 @@ export const presetMiniTargets: string[] = [
   // variants combinators
   'svg:fill-red',
 
+  // variants layer
+  'layer-1:translate-0',
+  'layer-unocss:block',
+
   // variants motion
   'motion-reduce:hover:translate-0',
   'motion-safe:transition',

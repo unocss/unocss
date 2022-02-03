@@ -9,7 +9,10 @@ exports[`preset-mini > custom var prefix 1`] = `
 `;
 
 exports[`preset-mini > targets 1`] = `
-"/* layer: default */
+"/* layer: 1 */
+.layer-1\\\\:translate-0{--un-rotate:0;--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;--un-transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
+.layer-1\\\\:translate-0{--un-translate-x:0rem;--un-translate-y:0rem;transform:var(--un-transform);}
+/* layer: default */
 .flex-\\\\$variable{flex:var(--variable);}
 .fw-\\\\$variable{font-weight:var(--variable);}
 .items-\\\\$size{align-items:var(--size);}
@@ -748,5 +751,7 @@ exports[`preset-mini > targets 1`] = `
 }
 @media (min-width: 1536px){
 .at-2xl\\\\:m2{margin:0.5rem;}
-}"
+}
+/* layer: unocss */
+.layer-unocss\\\\:block{display:block;}"
 `;

@@ -5,11 +5,12 @@ import { variantBreakpoints } from './breakpoints'
 import { variantCombinators } from './combinators'
 import { variantColorsMediaOrClass } from './dark'
 import { variantLanguageDirections } from './directions'
-import { variantImportant, variantNegative } from './misc'
+import { variantImportant, variantLayer, variantNegative } from './misc'
 import { variantMotions, variantOrientations, variantPrint } from './media'
 import { partClasses, variantPseudoClassFunctions, variantPseudoClasses, variantPseudoElements, variantTaggedPseudoClasses } from './pseudo'
 
 export const variants = (options: PresetMiniOptions): Variant<Theme>[] => [
+  variantLayer,
   variantNegative,
   variantImportant,
   variantPrint,
