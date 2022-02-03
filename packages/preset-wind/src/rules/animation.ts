@@ -18,7 +18,7 @@ export const animations: Rule<Theme>[] = [
       return `@keyframes ${name}${kf}\n${constructCSS(
         Object.assign({ animation: `${name} ${duration} ${timing} infinite` }, props))}`
     }
-    return { animate: h.bracket.cssvar(name) }
+    return { animation: h.bracket.cssvar(name) }
   }],
   [/^animate-name-(.+)/, ([, d]) => ({ 'animation-name': h.bracket.cssvar(d) ?? d })],
 
