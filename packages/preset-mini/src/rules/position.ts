@@ -118,8 +118,7 @@ export const floats: Rule[] = [
 ]
 
 export const zIndexes: Rule[] = [
-  [/^z-(.+)$/, ([, v]) => ({ 'z-index': h.bracket.cssvar.number(v) })],
-  ['z-auto', { 'z-index': 'auto' }],
+  [/^z-(.+)$/, ([, v]) => ({ 'z-index': h.bracket.cssvar.auto.number(v) })],
 ]
 
 export const boxSizing: Rule[] = [

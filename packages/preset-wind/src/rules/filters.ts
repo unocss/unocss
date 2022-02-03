@@ -44,8 +44,8 @@ const percentWithDefault = (str?: string) => {
 
 const toFilter = (varName: string, resolver: (str: string, theme: Theme) => string | undefined) =>
   ([, b, s]: string[], { theme }: RuleContext<Theme>): CSSValues | undefined => {
-    const value = resolver(s, theme)
-    if (value != null && value !== '') {
+    const value = resolver(s, theme) ?? (s === 'none' ? '0' : '')
+    if (value !== '') {
       if (b) {
         return [
           backdropFilterBase,
@@ -129,9 +129,4 @@ export const filters: Rule<Theme>[] = [
     '-webkit-backdrop-filter': 'none',
     'backdrop-filter': 'none',
   }],
-  [/^(?:filter-)?(blur|brightness|contrast|drop-shadow|grayscale|hue-rotate|invert|saturate|sepia)-none$/, ([, s]) => ({ filter: `${s}(0)` })],
-  [/^backdrop-(blur|brightness|contrast|grayscale|hue-rotate|invert|opacity|saturate|sepia)-none$/, ([, s]) => ({
-    '-webkit-backdrop-filter': `${s}(0)`,
-    'backdrop-filter': `${s}(0)`,
-  })],
 ]

@@ -28,12 +28,10 @@ export const animations: Rule<Theme>[] = [
   [/^animate-ease(?:-(.+))?$/, ([, d], { theme }) => ({ 'animation-timing-function': theme.easing?.[d || 'DEFAULT'] ?? h.bracket.cssvar(d) })],
 
   // fill mode
-  [/^animate-(?:fill-|mode-|fill-mode-)?(forwards|backwards|both|inherit|initial|revert|unset)$/, ([, d]) => ({ 'animation-fill-mode': d })],
-  [/^animate-(?:fill-|mode-|fill-mode-)none$/, () => ({ 'animation-fill-mode': 'none' })],
+  [/^animate-(?:fill-|mode-|fill-mode-)?(none|forwards|backwards|both|inherit|initial|revert|unset)$/, ([, d]) => ({ 'animation-fill-mode': d })],
 
   // direction
-  [/^animate-(?:direction-)?(reverse|alternate|alternate-reverse|inherit|initial|revert|unset)$/, ([, d]) => ({ 'animation-direction': d })],
-  [/^animate-(?:direction-)?normal$/, () => ({ 'animation-direction': 'normal' })],
+  [/^animate-(?:direction-)?(normal|reverse|alternate|alternate-reverse|inherit|initial|revert|unset)$/, ([, d]) => ({ 'animation-direction': d })],
 
   // others
   [/^animate-(?:iteration-|count-|iteration-count-)(.+)$/, ([, d]) => ({ 'animation-iteration-count': h.bracket.cssvar(d) ?? d.replace(/\-/g, ',') })],
