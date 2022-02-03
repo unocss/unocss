@@ -1,6 +1,6 @@
 {
   "name": "@unocss/scope",
-  "version": "0.22.6",
+  "version": "0.22.7",
   "module": "./index.mjs",
   "main": "./index.cjs",
   "types": "./index.d.ts",
