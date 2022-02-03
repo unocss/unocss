@@ -18,12 +18,12 @@ export const variants = (options: PresetMiniOptions): Variant<Theme>[] => [
   ...variantMotions,
   variantBreakpoints,
   ...variantCombinators,
+  ...variantClasses,
   variantPseudoClasses,
   variantPseudoClassFunctions,
   ...variantTaggedPseudoClasses(options),
   variantPseudoElements,
   partClasses,
-  ...variantClasses,
   ...variantColorsMediaOrClass(options),
   ...variantLanguageDirections,
 ]
