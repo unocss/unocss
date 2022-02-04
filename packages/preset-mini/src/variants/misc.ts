@@ -1,5 +1,17 @@
 import type { Variant } from '@unocss/core'
 
+export const variantLayer: Variant = {
+  match(matcher) {
+    const match = matcher.match(/layer-([\d\w]+)[:-]/)
+    if (match) {
+      return {
+        matcher: matcher.slice(match[0].length),
+        layer: match[1],
+      }
+    }
+  },
+}
+
 export const variantImportant: Variant = {
   match(matcher) {
     if (matcher.startsWith('!')) {
