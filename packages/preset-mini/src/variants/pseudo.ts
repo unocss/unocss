@@ -151,6 +151,10 @@ export const variantTaggedPseudoClasses = (options: PresetMiniOptions = {}): Var
       match: taggedPseudoClassMatcher('parent', attributify ? '[parent=""]' : '.parent', '>'),
       multiPass: true,
     },
+    {
+      match: taggedPseudoClassMatcher('previous', attributify ? '[previous=""]' : '.previous', '+'),
+      multiPass: true,
+    },
   ]
 }
 
