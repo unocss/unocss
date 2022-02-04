@@ -14,12 +14,6 @@ const scopeMatcher = (name: string, template: string) => {
 }
 
 export const variantScopes: Variant[] = [
-  scopeMatcher('scope', '&&-s &&-c'),
-  scopeMatcher('scope-all', '&&-s &&-c'),
-  scopeMatcher('scope-children', '&&-s>&&-c'),
-  scopeMatcher('scope-next', '&&-s+&&-c'),
-  scopeMatcher('scope-sibling', '&&-s+&&-c'),
-  scopeMatcher('scope-siblings', '&&-s~&&-c'),
   scopeMatcher('scope-group', '&&-c &&-s'),
   scopeMatcher('scope-parent', '&&-c>&&-s'),
   scopeMatcher('scope-previous', '&&-c+&&-s'),
