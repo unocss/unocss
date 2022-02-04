@@ -8,7 +8,6 @@ import { variantLanguageDirections } from './directions'
 import { variantImportant, variantNegative } from './misc'
 import { variantMotions, variantOrientations, variantPrint } from './media'
 import { partClasses, variantPseudoClassFunctions, variantPseudoClasses, variantPseudoElements, variantTaggedPseudoClasses } from './pseudo'
-import { variantScopes } from './scopes'
 
 export const variants = (options: PresetMiniOptions): Variant<Theme>[] => [
   variantNegative,
@@ -17,7 +16,6 @@ export const variants = (options: PresetMiniOptions): Variant<Theme>[] => [
   ...variantOrientations,
   ...variantMotions,
   variantBreakpoints,
-  ...variantScopes,
   ...variantCombinators,
   variantPseudoClasses,
   variantPseudoClassFunctions,
