@@ -1,8 +1,10 @@
 import type { Variant, VariantHandler } from '@unocss/core'
 import { variantMatcher } from '../utils'
 
-const scopeMatcher = (name: string, template: string) => {
-  const re = new RegExp(`^${name}(?:-\\[(.+?)\\])?[:-]`)
+const scopeMatcher = (strict: boolean, name: string, template: string) => {
+  const re = strict
+    ? new RegExp(`^${name}(?:-\\[(.+?)\\])[:-]`)
+    : new RegExp(`^${name}(?:-\\[(.+?)\\])?[:-]`)
   return (matcher: string): VariantHandler | undefined => {
     const match = matcher.match(re)
     if (match) {
@@ -15,10 +17,14 @@ const scopeMatcher = (name: string, template: string) => {
 }
 
 export const variantCombinators: Variant[] = [
-  scopeMatcher('all', '&&-s &&-c'),
-  scopeMatcher('children', '&&-s>&&-c'),
-  scopeMatcher('next', '&&-s+&&-c'),
-  scopeMatcher('sibling', '&&-s+&&-c'),
-  scopeMatcher('siblings', '&&-s~&&-c'),
+  scopeMatcher(false, 'all', '&&-s &&-c'),
+  scopeMatcher(false, 'children', '&&-s>&&-c'),
+  scopeMatcher(false, 'next', '&&-s+&&-c'),
+  scopeMatcher(false, 'sibling', '&&-s+&&-c'),
+  scopeMatcher(false, 'siblings', '&&-s~&&-c'),
+  scopeMatcher(true, 'group', '&&-c &&-s'),
+  scopeMatcher(true, 'parent', '&&-c>&&-s'),
+  scopeMatcher(true, 'previous', '&&-c+&&-s'),
+  scopeMatcher(true, 'peer', '&&-c~&&-s'),
   variantMatcher('svg', input => `${input} svg`),
 ]

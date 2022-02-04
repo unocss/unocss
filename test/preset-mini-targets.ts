@@ -681,10 +681,11 @@ export const presetMiniTargets: string[] = [
   'all-[.target]-[combinator:test-2]',
   'children-[.target]-[combinator:test-2]',
   'next-[.target]-[combinator:test-2]',
-  'scope-group-[.scope]-[combinator:test-3]',
-  'scope-parent-[.scope]-[combinator:test-3]',
-  'scope-previous-[.scope]-[combinator:test-3]',
+  'group-[.scope]-[combinator:test-3]',
+  'parent-[.scope]-[combinator:test-3]',
+  'previous-[.scope]-[combinator:test-3]',
   'sibling-[div:hover]-[combinator:test-4]',
+  'group-[div:hover]-[combinator:test-4]',
 
   // variants combinators
   'all:m-auto',
