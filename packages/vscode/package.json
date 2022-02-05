@@ -1,7 +1,7 @@
 {
   "name": "unocss",
   "displayName": "UnoCSS",
-  "version": "0.22.7",
+  "version": "0.22.8",
   "private": true,
   "description": "UnoCSS for VS Code",
   "categories": [

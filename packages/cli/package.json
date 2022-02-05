@@ -1,6 +1,6 @@
 {
   "name": "@unocss/cli",
-  "version": "0.22.7",
+  "version": "0.22.8",
   "description": "CLI for UnoCSS",
   "keywords": [],
   "homepage": "https://github.com/antfu/unocss/tree/main/packages/cli#readme",
