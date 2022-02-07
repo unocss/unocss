@@ -31,6 +31,7 @@ export default defineConfig({
                 items: [
                     { text: 'vite', link: '/plugins/vite' },
                     { text: 'webpack', link: '/plugins/webpack' },
+                    { text: 'nuxt', link: '/plugins/nuxt' },
                 ]
             },
             {
