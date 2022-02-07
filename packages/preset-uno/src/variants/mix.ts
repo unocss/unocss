@@ -49,6 +49,11 @@ const shade = (color: string | CSSColorValue, weight: string | number) => mixCol
 const shift = (color: string | CSSColorValue, weight: string | number) => parseInt(`${weight}`, 10) > 0 ? shade(color, weight) : tint(color, `-${weight}`)
 const fns: Record<string, (color: string | CSSColorValue, weight: string | number) => CSSColorValue | undefined> = { tint, shade, shift }
 
+/**
+ * Shade the color if the weight is positive, tint the color otherwise.
+ * Shading mixes the color with black, Tinting mixes the color with white.
+ * @see {@link mixColor}
+ */
 export const variantColorMix: Variant = (matcher) => {
   const m = matcher.match(/^mix-(tint|shade|shift)-(-?\d{1,3})[-:]/)
   if (m) {
