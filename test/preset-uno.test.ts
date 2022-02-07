@@ -3,6 +3,12 @@ import presetUno from '@unocss/preset-uno'
 import { expect, test } from 'vitest'
 
 const targets = [
+  // variants - mix
+  'mix-tint-50-c-red-400',
+  'mix-shade-50-c-red-400',
+  'mix-shift-50-c-red-600',
+  'mix-shift--50-c-red-600',
+
   // custom colors
   'text-custom-a',
   'bg-custom-b',
