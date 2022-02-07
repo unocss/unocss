@@ -16,6 +16,7 @@ export const alias: AliasOptions = {
   '@unocss/preset-web-fonts': r('./packages/preset-web-fonts/src/'),
   '@unocss/preset-attributify': r('./packages/preset-attributify/src/'),
   '@unocss/preset-icons': r('./packages/preset-icons/src/'),
+  '@unocss/preset-typography': r('./packages/preset-typography/src/'),
 }
 
 export default defineConfig({
