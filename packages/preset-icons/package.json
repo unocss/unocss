@@ -1,6 +1,6 @@
 {
   "name": "@unocss/preset-icons",
-  "version": "0.22.7",
+  "version": "0.22.8",
   "description": "Pure CSS Icons for UnoCSS",
   "keywords": [
     "unocss",
@@ -46,7 +46,7 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@iconify/utils": "^1.0.21",
+    "@iconify/utils": "^1.0.23",
     "@unocss/core": "workspace:*",
     "local-pkg": "^0.4.1"
   },

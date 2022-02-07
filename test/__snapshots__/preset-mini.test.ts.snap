@@ -91,6 +91,7 @@ exports[`preset-mini > targets 1`] = `
 .hover\\\\:not-first\\\\:checked\\\\:bg-red\\\\/10:hover:not(:first-child):checked{background-color:rgba(248,113,113,0.1);}
 .marker\\\\:bg-violet-200::marker{--un-bg-opacity:1;background-color:rgba(221,214,254,var(--un-bg-opacity));}
 .peer:checked~.peer-checked\\\\:bg-blue-500{--un-bg-opacity:1;background-color:rgba(59,130,246,var(--un-bg-opacity));}
+.previous:checked+.previous-checked\\\\:bg-red-500{--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));}
 .bg-opacity-45{--un-bg-opacity:0.45;}
 .fill-\\\\[\\\\#123\\\\]{--un-fill-opacity:1;fill:rgba(17,34,51,var(--un-fill-opacity));}
 .fill-\\\\[1rem\\\\]{fill:1rem;}
@@ -225,6 +226,7 @@ exports[`preset-mini > targets 1`] = `
 .indent-1\\\\/2{text-indent:50%;}
 .indent-lg{text-indent:2rem;}
 .text-clip{text-overflow:clip;}
+.decoration-underline,
 .underline{text-decoration-line:underline;}
 .decoration-5,
 .underline-5{text-decoration-thickness:5px;}
@@ -600,10 +602,10 @@ exports[`preset-mini > targets 1`] = `
 .property-all,
 .transition-property-all{transition-property:all;}
 .property-margin\\\\2c padding{transition-property:margin,padding;}
+.property-none{transition-property:none;}
 .property-padding\\\\2c margin{transition-property:padding,margin;}
 .property-unset{transition-property:unset;}
 .transition-property-width{transition-property:width;}
-.property-none{transition-property:none;}
 .transition-none{transition:none;}
 .origin-top-left{transform-origin:top left;}
 .perspect-\\\\$variable{-webkit-perspective:var(--variable);perspective:var(--variable);}

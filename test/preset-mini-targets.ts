@@ -185,6 +185,7 @@ export const presetMiniTargets: string[] = [
   'decoration-purple/50',
   'decoration-5',
   'decoration-offset-0.6rem',
+  'decoration-underline',
   'underline',
   'underline-dashed',
   'underline-red-500',
@@ -748,4 +749,5 @@ export const presetMiniTargets: string[] = [
   'group-focus:p-4',
   'peer-checked:bg-blue-500',
   'parent-hover:text-center',
+  'previous-checked:bg-red-500',
 ]
