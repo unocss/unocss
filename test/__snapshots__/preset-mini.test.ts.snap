@@ -601,10 +601,10 @@ exports[`preset-mini > targets 1`] = `
 .property-all,
 .transition-property-all{transition-property:all;}
 .property-margin\\\\2c padding{transition-property:margin,padding;}
+.property-none{transition-property:none;}
 .property-padding\\\\2c margin{transition-property:padding,margin;}
 .property-unset{transition-property:unset;}
 .transition-property-width{transition-property:width;}
-.property-none{transition-property:none;}
 .transition-none{transition:none;}
 .origin-top-left{transform-origin:top left;}
 .perspect-\\\\$variable{-webkit-perspective:var(--variable);perspective:var(--variable);}

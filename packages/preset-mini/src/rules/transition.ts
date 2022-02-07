@@ -5,6 +5,7 @@ import { handler as h } from '../utils'
 const transitionPropertyGroup: Record<string, string> = {
   all: 'all',
   colors: ['color', 'background-color', 'border-color', 'text-decoration-color', 'fill', 'stroke'].join(','),
+  none: 'none',
   opacity: 'opacity',
   shadow: 'box-shadow',
   transform: 'transform',
@@ -37,8 +38,6 @@ export const transitions: Rule<Theme>[] = [
   // props
   [/^(?:transition-)?property-(.+)$/, ([, v]) => ({ 'transition-property': h.global(v) || transitionProperty(v) })],
 
-  // nones
-  ['transition-property-none', { 'transition-property': 'none' }],
-  ['property-none', { 'transition-property': 'none' }],
+  // none
   ['transition-none', { transition: 'none' }],
 ]
