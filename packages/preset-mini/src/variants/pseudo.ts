@@ -86,7 +86,7 @@ const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: strin
       if (match[2])
         pseudo = `:${match[2]}(${pseudo})`
       return {
-        matcher: input.slice(match[1].length + tag.length + 2),
+        matcher: input.slice(match[0].length),
         selector: s => rawRe.test(s)
           ? s.replace(rawRe, `${parent}${pseudo}:`)
           : `${parent}${pseudo}${combinator}${s}`,
@@ -100,7 +100,7 @@ export const variantPseudoElements: VariantFunction = (input: string) => {
   if (match) {
     const pseudo = PseudoElements[match[1]] || `::${match[1]}`
     return {
-      matcher: input.slice(match[1].length + 1),
+      matcher: input.slice(match[0].length),
       selector: s => `${s}${pseudo}`,
     }
   }
@@ -112,7 +112,7 @@ export const variantPseudoClasses: VariantObject = {
     if (match) {
       const pseudo = PseudoClasses[match[1]] || `:${match[1]}`
       return {
-        matcher: input.slice(match[1].length + 1),
+        matcher: input.slice(match[0].length),
         selector: s => `${s}${pseudo}`,
       }
     }
@@ -127,7 +127,7 @@ export const variantPseudoClassFunctions: VariantObject = {
       const fn = match[1]
       const pseudo = PseudoClasses[match[2]] || `:${match[2]}`
       return {
-        matcher: input.slice(match[1].length + match[2].length + 2),
+        matcher: input.slice(match[0].length),
         selector: s => `${s}:${fn}(${pseudo})`,
       }
     }
