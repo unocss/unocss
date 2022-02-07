@@ -1,0 +1,14 @@
+{
+  "name": "docs",
+  "description": "uncss docs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vitepress --port 3333 --open",
+    "build": "vitepress build",
+    "serve": "vitepress serve"
+  },
+  "devDependencies": {
+    "unocss": "workspace:^0.23.0",
+    "vitepress": "^0.21.6"
+  }
+}
