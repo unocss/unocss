@@ -1,6 +1,7 @@
 import type { CSSEntries, CSSObject, DynamicMatcher, ParsedColorValue, RuleContext } from '@unocss/core'
+import { toArray } from '@unocss/core'
 import type { Theme } from '../theme'
-import { hex2rgba } from './colors'
+import { colorToString, getComponents, parseCssColor } from './colors'
 import { handler as h } from './handlers'
 import { directionMap } from './mappings'
 
@@ -85,33 +86,13 @@ export const parseColor = (body: string, theme: Theme): ParsedColorValue | undef
       color = colorData[no]
   }
 
-  const rgba = hex2rgba(color)
-
-  const alpha = opacity
-    ? opacity[0] === '['
-      ? h.bracket.percent(opacity)!
-      : (parseFloat(opacity) / 100)
-    : rgba?.[3]
-
-  const hasAlpha = alpha != null && !Number.isNaN(alpha)
-  if (rgba) {
-    if (hasAlpha) {
-      rgba[3] = typeof alpha === 'string' && !alpha.includes('%')
-        ? parseFloat(alpha)
-        : alpha as number
-    }
-    else {
-      rgba.splice(3)
-    }
-  }
-
   return {
     opacity,
     name,
     no,
     color,
-    rgba,
-    alpha: hasAlpha ? alpha : undefined,
+    cssColor: parseCssColor(color),
+    alpha: h.bracket.cssvar.percent(opacity ?? ''),
   }
 }
 
@@ -126,15 +107,15 @@ export const parseColor = (body: string, theme: Theme): ParsedColorValue | undef
  *
  * @example Resolving 'red-100' from theme:
  * colorResolver('background-color', 'background')('', 'red-100')
- * return { '--un-background-opacity': '1', 'background-color': 'rgba(254,226,226,var(--un-bg-opacity))' }
+ * return { '--un-background-opacity': '1', 'background-color': 'rgb(254,226,226,var(--un-bg-opacity))' }
  *
  * @example Resolving 'red-100/20' from theme:
  * colorResolver('background-color', 'background')('', 'red-100/20')
- * return { 'background-color': 'rgba(204,251,241,0.22)' }
+ * return { 'background-color': 'rgb(204,251,241,0.22)' }
  *
  * @example Resolving 'hex-124':
  * colorResolver('color', 'text')('', 'hex-124')
- * return { '--un-text-opacity': '1', 'color': 'rgba(17,34,68,var(--un-text-opacity))' }
+ * return { '--un-text-opacity': '1', 'color': 'rgb(17,34,68,var(--un-text-opacity))' }
  *
  * @param {string} property - Property for the css value to be created.
  * @param {string} varName - Base name for the opacity variable.
@@ -146,27 +127,40 @@ export const colorResolver = (property: string, varName: string): DynamicMatcher
   if (!data)
     return
 
-  const { alpha, opacity, color, rgba } = data
+  const { alpha, color, cssColor } = data
 
-  if (!color)
-    return
-
-  if (rgba) {
+  if (cssColor) {
     if (alpha != null) {
       return {
-        [property]: `rgba(${rgba.join(',')})`,
+        [property]: colorToString(cssColor, alpha),
       }
     }
     else {
       return {
-        [`--un-${varName}-opacity`]: (opacity && h.cssvar(opacity)) ?? 1,
-        [property]: `rgba(${rgba.join(',')},var(--un-${varName}-opacity))`,
+        [`--un-${varName}-opacity`]: cssColor.alpha ?? 1,
+        [property]: colorToString(cssColor, `var(--un-${varName}-opacity)`),
       }
     }
   }
-  else {
+  else if (color) {
     return {
-      [property]: color.replace('%alpha', `${alpha || 1}`),
+      [property]: color.replace('%alpha', `${alpha ?? 1}`),
     }
   }
+}
+
+export const colorableShadows = (shadows: string | string[], colorVar: string) => {
+  const colored = []
+  shadows = toArray(shadows)
+  for (let i = 0; i < shadows.length; i++) {
+    const components = getComponents(shadows[i])
+    if (!components)
+      return shadows
+    const [maybeColor, ...size] = components.reverse()
+    const color = parseCssColor(maybeColor)
+    if (color == null)
+      return shadows
+    colored.push(`${size.reverse().join(' ')} var(${colorVar}, ${colorToString(color)})`)
+  }
+  return colored
 }

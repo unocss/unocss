@@ -2,6 +2,8 @@ import type { CSSColorValue, RGBAColorValue } from '@unocss/core'
 
 /* eslint-disable no-case-declarations */
 
+const cssColorFunctions = ['hsl', 'hsla', 'hwb', 'lab', 'lch', 'oklab', 'oklch', 'rgb', 'rgba']
+
 export function hex2rgba(hex = ''): RGBAColorValue | undefined {
   const color = parseHexColor(hex)
   if (color != null) {
@@ -10,6 +12,67 @@ export function hex2rgba(hex = ''): RGBAColorValue | undefined {
       return components as [number, number, number]
     return [...components, alpha] as [number, number, number, number]
   }
+}
+
+export function parseCssColor(str = ''): CSSColorValue | undefined {
+  const color = parseColor(str)
+  if (color == null)
+    return
+
+  const { type: casedType, components, alpha } = color
+  const type = casedType.toLowerCase()
+
+  if (components.length === 0)
+    return
+
+  if (['rgba', 'hsla'].includes(type) && alpha === undefined)
+    return
+
+  if (cssColorFunctions.includes(type) && components.length !== 3)
+    return
+
+  return { type, components, alpha }
+}
+
+export function colorToString(color: CSSColorValue, alphaOverride?: string | number) {
+  const { components } = color
+  let { alpha, type } = color
+  alpha = alphaOverride ?? alpha
+  type = type.toLowerCase()
+
+  // Comma separated functions
+  if (['hsla', 'hsl', 'rgba', 'rgb'].includes(type))
+    return `${type.replace('a', '')}a(${components.join(',')}${alpha == null ? '' : `,${alpha}`})`
+
+  alpha = alpha == null ? '' : ` / ${alpha}`
+  if (cssColorFunctions.includes(type))
+    return `${type}(${components.join(' ')}${alpha})`
+  return `color(${type} ${components.join(' ')}${alpha})`
+}
+
+function parseColor(str: string) {
+  if (!str)
+    return
+
+  let color = parseHexColor(str)
+  if (color != null)
+    return color
+
+  color = cssColorKeyword(str)
+  if (color != null)
+    return color
+
+  color = parseCssCommaColorFunction(str)
+  if (color != null)
+    return color
+
+  color = parseCssSpaceColorFunction(str)
+  if (color != null)
+    return color
+
+  color = parseCssColorFunction(str)
+  if (color != null)
+    return color
 }
 
 function parseHexColor(str: string): CSSColorValue | undefined {
@@ -44,52 +107,9 @@ function parseHexColor(str: string): CSSColorValue | undefined {
   }
 }
 
-export function parseCssColor(str = ''): CSSColorValue | undefined {
-  const color = parseColor(str)
-  if (color == null)
-    return
-
-  const { type: casedType, components, alpha } = color
-  const type = casedType.toLowerCase()
-
-  if (['rgba', 'hsla'].includes(type) && alpha === undefined)
-    return
-
-  if (['rgb', 'hsl', 'hwb', 'lab', 'lch', 'oklab', 'oklch'].includes(type) && components.length !== 3)
-    return
-
-  return { type, components, alpha }
-}
-
-function parseColor(str: string) {
-  if (!str)
-    return
-
-  let color = parseHexColor(str)
-  if (color != null)
-    return color
-
-  color = cssColorKeyword(str)
-  if (color != null)
-    return color
-
-  color = parseCssCommaColorFunction(str)
-  if (color != null)
-    return color
-
-  color = parseCssSpaceColorFunction(str)
-  if (color != null)
-    return color
-
-  color = parseCssColorFunction(str)
-  if (color != null)
-    return color
-}
-
 function cssColorKeyword(str: string): CSSColorValue | undefined {
   const color = {
     rebeccapurple: [102, 51, 153, 1],
-    transparent: [0, 0, 0, 0],
   }[str]
 
   if (color != null) {
@@ -101,63 +121,15 @@ function cssColorKeyword(str: string): CSSColorValue | undefined {
   }
 }
 
-function getComponent(separator: string, str: string) {
-  const component = str.trim()
-  if (component === '')
-    return
-
-  const l = str.length
-  let parenthesis = 0
-  for (let i = 0; i < l; i++) {
-    switch (str[i]) {
-      case '(':
-        parenthesis++
-        break
-
-      case ')':
-        if (--parenthesis < 0)
-          return
-        break
-
-      case separator:
-        if (parenthesis === 0) {
-          const component = str.slice(0, i).trim()
-          if (component === '')
-            return
-
-          return [
-            str.slice(0, i).trim(),
-            str.slice(i + 1).trim(),
-          ]
-        }
-    }
-  }
-
-  return [
-    str.trim(),
-    '',
-  ]
-}
-
 function parseCssCommaColorFunction(color: string): CSSColorValue | undefined {
   const match = color.match(/^(rgb|rgba|hsl|hsla)\((.+)\)$/i)
   if (!match)
     return
 
   const [, type, componentString] = match
-  const components = []
-  let cs = componentString
   // With min 3 (rgb) and max 4 (rgba), try to get 5 components
-  for (let c = 5; c > 0 && cs !== ''; --c) {
-    const componentValue = getComponent(',', cs)
-    if (!componentValue)
-      return
-    const [component, rest] = componentValue
-    components.push(component)
-    cs = rest
-  }
-
-  if ([3, 4].includes(components.length)) {
+  const components = getComponents(componentString, ',', 5)
+  if (components && [3, 4].includes(components.length)) {
     return {
       type,
       components: components.slice(0, 3),
@@ -166,8 +138,9 @@ function parseCssCommaColorFunction(color: string): CSSColorValue | undefined {
   }
 }
 
+const cssColorFunctionsRe = new RegExp(`^(${cssColorFunctions.join('|')})\\((.+)\\)$`, 'i')
 function parseCssSpaceColorFunction(color: string): CSSColorValue | undefined {
-  const match = color.match(/^(rgb|rgba|hsl|hsla|hwb|lab|lch|oklab|oklch)\((.+)\)$/i)
+  const match = color.match(cssColorFunctionsRe)
   if (!match)
     return
 
@@ -200,16 +173,9 @@ function parseCssColorFunction(color: string): CSSColorValue | undefined {
 }
 
 function parseCssSpaceColorValues(componentString: string) {
-  let cs = componentString
-  const components = []
-  while (cs !== '') {
-    const cc = getComponent(' ', cs)
-    if (!cc)
-      return
-    const [component, rest] = cc
-    components.push(component)
-    cs = rest
-  }
+  const components = getComponents(componentString)
+  if (!components)
+    return
 
   let totalComponents = components.length
 
@@ -222,23 +188,16 @@ function parseCssSpaceColorValues(componentString: string) {
   }
 
   // (fn 1 2 3/ 4) or (fn 1 2 3 /4)
-  if (components[totalComponents - 2].endsWith('/') || components[totalComponents - 1].startsWith('/')) {
+  if (components[totalComponents - 2] != null && (components[totalComponents - 2].endsWith('/') || components[totalComponents - 1].startsWith('/'))) {
     const removed = components.splice(totalComponents - 2)
     components.push(removed.join(' '))
     --totalComponents
   }
 
   // maybe (fn 1 2 3/4)
-  cs = components[totalComponents - 1]
-  const withAlpha = []
-  while (cs !== '') {
-    const cc = getComponent('/', cs)
-    if (!cc)
-      return
-    const [component, rest] = cc
-    withAlpha.push(component)
-    cs = rest
-  }
+  const withAlpha = getComponents(components[totalComponents - 1], '/', 3)
+  if (!withAlpha)
+    return
 
   // without alpha
   if (withAlpha.length === 1 || withAlpha[withAlpha.length - 1] === '')
@@ -250,4 +209,63 @@ function parseCssSpaceColorValues(componentString: string) {
     components,
     alpha,
   }
+}
+
+function getComponent(str: string, separator: string) {
+  str = str.trim()
+  if (str === '')
+    return
+
+  const l = str.length
+  let parenthesis = 0
+  for (let i = 0; i < l; i++) {
+    switch (str[i]) {
+      case '(':
+        parenthesis++
+        break
+
+      case ')':
+        if (--parenthesis < 0)
+          return
+        break
+
+      case separator:
+        if (parenthesis === 0) {
+          const component = str.slice(0, i).trim()
+          if (component === '')
+            return
+
+          return [
+            component,
+            str.slice(i + 1).trim(),
+          ]
+        }
+    }
+  }
+
+  return [
+    str,
+    '',
+  ]
+}
+
+export function getComponents(str: string, separator?: string, limit?: number) {
+  separator = separator ?? ' '
+  if (separator.length !== 1)
+    return
+  limit = limit ?? 10
+  const components = []
+  let i = 0
+  while (str !== '') {
+    if (++i > limit)
+      return
+    const componentPair = getComponent(str, separator)
+    if (!componentPair)
+      return
+    const [component, rest] = componentPair
+    components.push(component)
+    str = rest
+  }
+  if (components.length > 0)
+    return components
 }

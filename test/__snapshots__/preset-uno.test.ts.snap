@@ -2,6 +2,8 @@
 
 exports[`targets 1`] = `
 "/* layer: default */
+.border-custom-b{border-color:rgba(var(--custom), 1);}
+.border-custom-b\\\\/0{border-color:rgba(var(--custom), 0);}
 .border-custom-b\\\\/10{border-color:rgba(var(--custom), 0.1);}
 .bg-custom-b{background-color:rgba(var(--custom), 1);}
 .text-custom-a{color:var(--custom);}

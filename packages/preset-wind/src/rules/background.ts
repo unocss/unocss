@@ -1,5 +1,5 @@
 import type { Rule, RuleContext } from '@unocss/core'
-import { handler as h, parseColor, positionMap } from '@unocss/preset-mini/utils'
+import { colorToString, handler as h, parseColor, positionMap } from '@unocss/preset-mini/utils'
 import type { Theme } from '@unocss/preset-mini'
 
 const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
@@ -9,17 +9,17 @@ const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
     if (!data)
       return
 
-    const { alpha, color, rgba } = data
+    const { alpha, color, cssColor } = data
 
     if (!color)
       return
 
     let colorString = color
-    if (rgba) {
+    if (cssColor) {
       if (alpha != null)
-        colorString = `rgba(${rgba.join(',')})`
+        colorString = colorToString(cssColor, alpha)
       else
-        colorString = `rgba(${rgba.join(',')}, var(--un-${mode}-opacity, 1))`
+        colorString = colorToString(cssColor, `var(--un-${mode}-opacity, ${cssColor.alpha ?? 1})`)
     }
 
     switch (mode) {
