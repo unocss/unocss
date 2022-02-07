@@ -225,6 +225,7 @@ exports[`preset-mini > targets 1`] = `
 .indent-1\\\\/2{text-indent:50%;}
 .indent-lg{text-indent:2rem;}
 .text-clip{text-overflow:clip;}
+.decoration-underline,
 .underline{text-decoration-line:underline;}
 .decoration-5,
 .underline-5{text-decoration-thickness:5px;}
