@@ -654,29 +654,13 @@ export const presetMiniTargets: string[] = [
   'light:text-sm',
 
   // variants
-  '-rotate-2',
-  '-translate-full',
-  '-translate-x-full',
-  '-translate-y-1/2',
   'active:scale-4',
   'hover:translate-x-3',
   'peer-checked:translate-x-[var(--reveal)]',
-
-  '-rotate-2',
-  'active:scale-4',
   '!hover:px-10',
-  '!m-$c-m',
-  '!p-5px',
-  '-gap-y-5',
-  '-m-auto',
-  '-mb-px',
-  '-p-px',
-  '-z-1',
-  'all:m-auto',
   'at-2xl:m2',
   'at-lg:m2',
   'at-sm:m1',
-  'children:m-auto',
   'disabled:op50',
   'first:p-2',
   'group-hover:group-focus:text-center',
@@ -687,18 +671,43 @@ export const presetMiniTargets: string[] = [
   'lt-sm:m1',
   'md:!hidden',
   'md:m-1',
-  'next:mt-0',
   'not-hover:p-3',
   'peer-not-placeholder-shown:text-2xl',
   'sm:m-1',
   'sm:m1',
 
+  // variants class
+  'all-[.target]-[combinator:test-2]',
+  'children-[.target]-[combinator:test-2]',
+  'next-[.target]-[combinator:test-2]',
+  'group-[.scope]-[combinator:test-3]',
+  'parent-[.scope]-[combinator:test-3]',
+  'previous-[.scope]-[combinator:test-3]',
+  'sibling-[div:hover]-[combinator:test-4]',
+  'group-[div:hover]-[combinator:test-4]',
+
   // variants combinators
+  'all:m-auto',
+  'children:m-auto',
+  'next:mt-0',
   'svg:fill-red',
 
   // variants layer
   'layer-1:translate-0',
   'layer-unocss:block',
+
+  // variants misc
+  '-rotate-2',
+  '-translate-full',
+  '-translate-x-full',
+  '-translate-y-1/2',
+  '!m-$c-m',
+  '!p-5px',
+  '-gap-y-5',
+  '-m-auto',
+  '-mb-px',
+  '-p-px',
+  '-z-1',
 
   // variants motion
   'motion-reduce:hover:translate-0',
