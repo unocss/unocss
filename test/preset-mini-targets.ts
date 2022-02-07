@@ -749,4 +749,5 @@ export const presetMiniTargets: string[] = [
   'group-focus:p-4',
   'peer-checked:bg-blue-500',
   'parent-hover:text-center',
+  'previous-checked:bg-red-500',
 ]

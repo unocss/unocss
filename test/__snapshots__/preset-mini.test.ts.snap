@@ -91,6 +91,7 @@ exports[`preset-mini > targets 1`] = `
 .hover\\\\:not-first\\\\:checked\\\\:bg-red\\\\/10:hover:not(:first-child):checked{background-color:rgba(248,113,113,0.1);}
 .marker\\\\:bg-violet-200::marker{--un-bg-opacity:1;background-color:rgba(221,214,254,var(--un-bg-opacity));}
 .peer:checked~.peer-checked\\\\:bg-blue-500{--un-bg-opacity:1;background-color:rgba(59,130,246,var(--un-bg-opacity));}
+.previous:checked+.previous-checked\\\\:bg-red-500{--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));}
 .bg-opacity-45{--un-bg-opacity:0.45;}
 .fill-\\\\[\\\\#123\\\\]{--un-fill-opacity:1;fill:rgba(17,34,51,var(--un-fill-opacity));}
 .fill-\\\\[1rem\\\\]{fill:1rem;}
