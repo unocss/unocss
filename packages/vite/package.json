@@ -7,13 +7,13 @@
     "vite",
     "vite-plugin"
   ],
-  "homepage": "https://github.com/antfu/unocss/tree/main/packages/vite#readme",
+  "homepage": "https://github.com/unocss/unocss/tree/main/packages/vite#readme",
   "bugs": {
-    "url": "https://github.com/antfu/unocss/issues"
+    "url": "https://github.com/unocss/unocss/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/antfu/unocss.git",
+    "url": "git+https://github.com/unocss/unocss.git",
     "directory": "packages/vite"
   },
   "funding": "https://github.com/sponsors/antfu",

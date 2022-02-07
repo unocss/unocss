@@ -1,6 +1,6 @@
 # @unocss/preset-mini
 
-The minimal preset for [UnoCSS](https://github.com/antfu/unocss).
+The minimal preset for [UnoCSS](https://github.com/unocss/unocss).
 
 ## Installation
 

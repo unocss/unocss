@@ -2,7 +2,7 @@
 
 The Vite plugin for UnoCSS. Ships with the `unocss` package.
 
-> This plugin does not come with any default presets. You are building a meta framework on top of UnoCSS, see [this file](https://github.com/antfu/unocss/blob/main/packages/unocss/src/vite.ts) for an example to bind the default presets.
+> This plugin does not come with any default presets. You are building a meta framework on top of UnoCSS, see [this file](https://github.com/unocss/unocss/blob/main/packages/unocss/src/vite.ts) for an example to bind the default presets.
 
 ## Installation
 
@@ -121,7 +121,7 @@ export default {
 }
 ```
 
-You have a `React` example project on [test/fixtures/vite-react](https://github.com/antfu/unocss/tree/main/test/fixtures/vite-react) directory  using both plugins, check the scripts on `package.json` and its Vite configuration file.
+You have a `React` example project on [test/fixtures/vite-react](https://github.com/unocss/unocss/tree/main/test/fixtures/vite-react) directory  using both plugins, check the scripts on `package.json` and its Vite configuration file.
 
 ### Preact
 
@@ -178,7 +178,7 @@ export default {
 }
 ```
 
-You have a `Preact` example project on [test/fixtures/vite-preact](https://github.com/antfu/unocss/tree/main/test/fixtures/vite-preact) directory  using both plugins, check the scripts on `package.json` and its Vite configuration file.
+You have a `Preact` example project on [test/fixtures/vite-preact](https://github.com/unocss/unocss/tree/main/test/fixtures/vite-preact) directory  using both plugins, check the scripts on `package.json` and its Vite configuration file.
 
 ### Svelte
 
@@ -205,7 +205,7 @@ export default {
 }
 ```
 
-You have a `Vite + Svelte` example project on [test/fixtures/vite-svelte](https://github.com/antfu/unocss/tree/main/test/fixtures/vite-svelte) directory.
+You have a `Vite + Svelte` example project on [test/fixtures/vite-svelte](https://github.com/unocss/unocss/tree/main/test/fixtures/vite-svelte) directory.
 
 ###  Sveltekit
 
@@ -241,7 +241,7 @@ const config = {
 }  
 ```
 
-You have a `SvelteKit` example project on [test/fixtures/sveltekit](https://github.com/antfu/unocss/tree/main/test/fixtures/sveltekit) directory.
+You have a `SvelteKit` example project on [test/fixtures/sveltekit](https://github.com/unocss/unocss/tree/main/test/fixtures/sveltekit) directory.
 
 ### Web Components
 
@@ -290,7 +290,7 @@ export class MyElement extends LitElement {
 }
 ```
 
-You have a `Web Components` example project on [test/fixtures/vite-lit](https://github.com/antfu/unocss/tree/main/test/fixtures/vite-lit) directory.
+You have a `Web Components` example project on [test/fixtures/vite-lit](https://github.com/unocss/unocss/tree/main/test/fixtures/vite-lit) directory.
 
 #### `::part` built-in support
 
@@ -362,7 +362,7 @@ export default {
 }
 ```
 
-You have a `Vite + Solid` example project on [test/fixtures/vite-solid](https://github.com/antfu/unocss/tree/main/test/fixtures/vite-solid) directory.
+You have a `Vite + Solid` example project on [test/fixtures/vite-solid](https://github.com/unocss/unocss/tree/main/test/fixtures/vite-solid) directory.
 
 ### Elm
 
@@ -384,7 +384,7 @@ export default defineConfig({
 })
 ```
 
-You have a `Vite + Elm` example project on [test/fixtures/vite-elm](https://github.com/antfu/unocss/tree/main/test/fixtures/vite-elm) directory.
+You have a `Vite + Elm` example project on [test/fixtures/vite-elm](https://github.com/unocss/unocss/tree/main/test/fixtures/vite-elm) directory.
 
 ## License
 

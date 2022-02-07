@@ -1,7 +1,7 @@
 <br>
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/antfu/unocss/main/playground/public/icon-gray.svg" style="width:100px;" />
+<img src="https://raw.githubusercontent.com/unocss/unocss/main/playground/public/icon-gray.svg" style="width:100px;" />
 </p>
 
 <h1 align="center">UnoCSS</h1>
@@ -29,10 +29,10 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 - No parsing, no AST, no scanning, it's **INSTANT** (200x faster than Windi CSS or Tailwind JIT)
 - ~3.5kb min+gzip - zero deps and browser friendly.
 - [Shortcuts](#shortcuts) - aliasing utilities, dynamically.
-- [Attributify Mode](https://github.com/antfu/unocss/tree/main/packages/preset-attributify/) - group utilities in attributes
-- [Pure CSS Icons](https://github.com/antfu/unocss/tree/main/packages/preset-icons/) - use any icon as a single class.
+- [Attributify Mode](https://github.com/unocss/unocss/tree/main/packages/preset-attributify/) - group utilities in attributes
+- [Pure CSS Icons](https://github.com/unocss/unocss/tree/main/packages/preset-icons/) - use any icon as a single class.
 - [Inspector](#inspector) - inspect and debug interatively.
-- [CSS-in-JS Runtime version](https://github.com/antfu/unocss/tree/main/packages/runtime)
+- [CSS-in-JS Runtime version](https://github.com/unocss/unocss/tree/main/packages/runtime)
 - [CSS Scoping](#css-scoping)
 - [VS Code extension](https://marketplace.visualstudio.com/items?itemName=antfu.unocss)
 - Code-splitting for CSS - ships minimal CSS for MPA.
@@ -89,9 +89,9 @@ import 'uno.css'
 
 That's it, have fun.
 
-See [all packages](https://github.com/antfu/unocss/tree/main/packages).
+See [all packages](https://github.com/unocss/unocss/tree/main/packages).
 
-Refer to the full documentation on [Vite](https://github.com/antfu/unocss/blob/main/packages/vite/README.md):
+Refer to the full documentation on [Vite](https://github.com/unocss/unocss/blob/main/packages/vite/README.md):
 - modes: `global`, `dist-chunk`, `per-module`, `vue-scoped`, `svelte-scoped`, and `shadow-dom`.
 - frameworks: `React`, `Preact`, `Svelte`, `SvelteKit`, `Web Components`, `Solid` and `Elm`.
 
@@ -111,13 +111,13 @@ export default {
 }
 ```
 
-Refer to the full documentation on https://github.com/antfu/unocss/tree/main/packages/nuxt
+Refer to the full documentation on https://github.com/unocss/unocss/tree/main/packages/nuxt
 
 ## Configurations
 
 UnoCSS is an atomic-CSS engine instead of a framework. Everything is designed with flexibility and performance in mind. In UnoCSS, there are no core utilities; all functionalities are provided via presets.
 
-By default, UnoCSS applies [the default preset](https://github.com/antfu/unocss/tree/main/packages/preset-uno). Which provides a common superset of the popular utilities-first framework, including Tailwind CSS, Windi CSS, Bootstrap, Tachyons, etc.
+By default, UnoCSS applies [the default preset](https://github.com/unocss/unocss/tree/main/packages/preset-uno). Which provides a common superset of the popular utilities-first framework, including Tailwind CSS, Windi CSS, Bootstrap, Tachyons, etc.
 
 For example, both `ml-3` (Tailwind), `ms-2` (Bootstrap), `ma4` (Tachyons), `mt-10px` (Windi CSS) are valid.
 
@@ -128,7 +128,7 @@ For example, both `ml-3` (Tailwind), `ms-2` (Bootstrap), `ma4` (Tachyons), `mt-1
 .mt-10px { margin-top: 10px; }
 ```
 
-[Learn more about the default preset](https://github.com/antfu/unocss/tree/main/packages/preset-uno).
+[Learn more about the default preset](https://github.com/unocss/unocss/tree/main/packages/preset-uno).
 
 ### Presets
 
@@ -136,12 +136,12 @@ Presets are the heart of UnoCSS that lets you make your own custom framework in 
 
 ###### Official Presets
 
-- [@unocss/preset-uno](https://github.com/antfu/unocss/tree/main/packages/preset-uno) - The default preset (right now it's equivalent to `@unocss/preset-wind`).
-- [@unocss/preset-mini](https://github.com/antfu/unocss/tree/main/packages/preset-mini) - The minimal but essential rules and variants.
-- [@unocss/preset-wind](https://github.com/antfu/unocss/tree/main/packages/preset-wind) - Tailwind / Windi CSS compact preset.
-- [@unocss/preset-attributify](https://github.com/antfu/unocss/tree/main/packages/preset-attributify) - Provides [Attributify Mode](https://github.com/antfu/unocss/tree/main/packages/preset-attributify#attributify-mode) to other presets and rules.
-- [@unocss/preset-icons](https://github.com/antfu/unocss/tree/main/packages/preset-icons) - Use any icon as a class utility.
-- [@unocss/preset-web-fonts](https://github.com/antfu/unocss/tree/main/packages/preset-web-fonts) - Web fonts at ease.
+- [@unocss/preset-uno](https://github.com/unocss/unocss/tree/main/packages/preset-uno) - The default preset (right now it's equivalent to `@unocss/preset-wind`).
+- [@unocss/preset-mini](https://github.com/unocss/unocss/tree/main/packages/preset-mini) - The minimal but essential rules and variants.
+- [@unocss/preset-wind](https://github.com/unocss/unocss/tree/main/packages/preset-wind) - Tailwind / Windi CSS compact preset.
+- [@unocss/preset-attributify](https://github.com/unocss/unocss/tree/main/packages/preset-attributify) - Provides [Attributify Mode](https://github.com/unocss/unocss/tree/main/packages/preset-attributify#attributify-mode) to other presets and rules.
+- [@unocss/preset-icons](https://github.com/unocss/unocss/tree/main/packages/preset-icons) - Use any icon as a class utility.
+- [@unocss/preset-web-fonts](https://github.com/unocss/unocss/tree/main/packages/preset-web-fonts) - Web fonts at ease.
 
 ###### Community Presets
 
@@ -395,7 +395,7 @@ import '@unocss/reset/eric-meyer.css'
 import '@unocss/reset/tailwind.css'
 ```
 
-Learn more at [@unocss/reset](https://github.com/antfu/unocss/tree/main/packages/reset).
+Learn more at [@unocss/reset](https://github.com/unocss/unocss/tree/main/packages/reset).
 
 ### Custom Variants
 
@@ -440,7 +440,7 @@ As a result, the following CSS will be generated:
 
 With this, we could have `m-2` applied only when users hover over the element.
 
-The variant system is very powerful and can't be covered fully in this guide, you can check [the default preset's implementation](https://github.com/antfu/unocss/tree/main/packages/preset-mini/src/variants) to see more advanced usages.
+The variant system is very powerful and can't be covered fully in this guide, you can check [the default preset's implementation](https://github.com/unocss/unocss/tree/main/packages/preset-mini/src/variants) to see more advanced usages.
 
 ### Extend Theme
 
@@ -541,13 +541,13 @@ By default UnoCSS will scan for components files like: `.jsx`, `.tsx`, `.vue`, `
 
 ### Inspector
 
-From v0.7.0, our Vite plugin now ships with a dev inspector ([@unocss/inspector](https://github.com/antfu/unocss/tree/main/packages/inspector)) for you to view, play and analyse your custom rules and setup. Visit `http://localhost:3000/__unocss` in your Vite dev server to see it.
+From v0.7.0, our Vite plugin now ships with a dev inspector ([@unocss/inspector](https://github.com/unocss/unocss/tree/main/packages/inspector)) for you to view, play and analyse your custom rules and setup. Visit `http://localhost:3000/__unocss` in your Vite dev server to see it.
 
 <img src="https://user-images.githubusercontent.com/11247099/140885990-1827f5ce-f12a-4ed4-9d63-e5145a65fb4a.png">
 
 ### Runtime (CSS-in-JS)
 
-See [@unocss/runtime](https://github.com/antfu/unocss/tree/main/packages/runtime)
+See [@unocss/runtime](https://github.com/unocss/unocss/tree/main/packages/runtime)
 
 ### CSS Scoping
 

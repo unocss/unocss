@@ -11,7 +11,7 @@ export const defaultHTML = `
       <a
         i-carbon-logo-github
         text-inherit
-        href="https://github.com/antfu/unocss"
+        href="https://github.com/unocss/unocss"
         target="_blank"
       ></a>
     </div>

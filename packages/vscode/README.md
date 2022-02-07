@@ -1,7 +1,7 @@
 <br>
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/antfu/unocss/main/packages/vscode/res/logo.png" style="width:100px;" />
+<img src="https://raw.githubusercontent.com/unocss/unocss/main/packages/vscode/res/logo.png" style="width:100px;" />
 </p>
 
 <h1 align="center">UnoCSS for VS Code</h1>

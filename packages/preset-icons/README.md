@@ -1,6 +1,6 @@
 # @unocss/preset-icons
 
-Use **any** icons with **Pure CSS** for [UnoCSS](https://github.com/antfu/unocss).
+Use **any** icons with **Pure CSS** for [UnoCSS](https://github.com/unocss/unocss).
 
 <blockquote>
 <p>💡 Recommend reading - <br><a href="https://antfu.me/posts/icons-in-pure-css"><strong>Icons in Pure CSS</strong></a><br></p>
@@ -57,7 +57,7 @@ npm i -D @iconify/json
 
 ## Configuration
 
-Refer to the [type definition](https://github.com/antfu/unocss/blob/main/packages/preset-icons/src/types.ts#L4) for all configurations avaliable.
+Refer to the [type definition](https://github.com/unocss/unocss/blob/main/packages/preset-icons/src/types.ts#L4) for all configurations avaliable.
 
 ### Extra Properties
 

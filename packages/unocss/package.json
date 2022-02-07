@@ -10,13 +10,13 @@
     "tailwind",
     "windicss"
   ],
-  "homepage": "https://github.com/antfu/unocss#readme",
+  "homepage": "https://github.com/unocss/unocss#readme",
   "bugs": {
-    "url": "https://github.com/antfu/unocss/issues"
+    "url": "https://github.com/unocss/unocss/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/antfu/unocss.git"
+    "url": "git+https://github.com/unocss/unocss.git"
   },
   "funding": "https://github.com/sponsors/antfu",
   "license": "MIT",

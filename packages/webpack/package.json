@@ -6,13 +6,13 @@
     "unocss",
     "webpack-plugin"
   ],
-  "homepage": "https://github.com/antfu/unocss/tree/main/packages/webpack#readme",
+  "homepage": "https://github.com/unocss/unocss/tree/main/packages/webpack#readme",
   "bugs": {
-    "url": "https://github.com/antfu/unocss/issues"
+    "url": "https://github.com/unocss/unocss/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/antfu/unocss.git",
+    "url": "git+https://github.com/unocss/unocss.git",
     "directory": "packages/webpack"
   },
   "funding": "https://github.com/sponsors/antfu",

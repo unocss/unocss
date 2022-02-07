@@ -113,7 +113,7 @@ onMounted(() => {
           text-xl
           op75
           hover:op100
-          href="https://github.com/antfu/unocss"
+          href="https://github.com/unocss/unocss"
           target="_blank"
         />
         <button

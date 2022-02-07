@@ -1,6 +1,6 @@
 # @unocss/preset-web-fonts
 
-Web fonts support for [UnoCSS](https://github.com/antfu/unocss).
+Web fonts support for [UnoCSS](https://github.com/unocss/unocss).
 
 ## Install
 
@@ -75,7 +75,7 @@ PR welcome to add more providers 🙌
 
 ## Configuration
 
-Refer to the [type definition](https://github.com/antfu/unocss/blob/main/packages/preset-web-fonts/src/types.ts#L4) for all configurations avaliable.
+Refer to the [type definition](https://github.com/unocss/unocss/blob/main/packages/preset-web-fonts/src/types.ts#L4) for all configurations avaliable.
 
 ## License
 

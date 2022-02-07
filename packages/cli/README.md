@@ -82,7 +82,7 @@ export default defineConfig({
 })
 ```
 
-For a list of options, head over to the [UnoCSS configurations](https://github.com/antfu/unocss#configurations) docs.
+For a list of options, head over to the [UnoCSS configurations](https://github.com/unocss/unocss#configurations) docs.
 
 ## CLI Options
 

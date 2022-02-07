@@ -1,6 +1,6 @@
 # @unocss/core
 
-The core engine of [UnoCSS](https://github.com/antfu/unocss) without any presets. It can be used as the engine of your own atomic CSS framework.
+The core engine of [UnoCSS](https://github.com/unocss/unocss) without any presets. It can be used as the engine of your own atomic CSS framework.
 
 ## Usage
 

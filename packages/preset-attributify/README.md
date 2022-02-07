@@ -1,6 +1,6 @@
 # @unocss/preset-attributify
 
-Attributify Mode for [UnoCSS](https://github.com/antfu/unocss).
+Attributify Mode for [UnoCSS](https://github.com/unocss/unocss).
 
 ## Installation
 
