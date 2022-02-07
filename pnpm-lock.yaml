@@ -177,10 +177,10 @@ importers:
   packages/config:
     specifiers:
       '@unocss/core': workspace:*
-      unconfig: ^0.3.0
+      unconfig: ^0.3.1
     dependencies:
       '@unocss/core': link:../core
-      unconfig: 0.3.0_@vitest+ui@0.2.7
+      unconfig: 0.3.1_@vitest+ui@0.2.7
 
   packages/core:
     specifiers: {}
@@ -4979,8 +4979,8 @@ packages:
       - supports-color
     dev: true
 
-  /unconfig/0.3.0_@vitest+ui@0.2.7:
-    resolution: {integrity: sha512-jxjwP601pc9VU7Qgf11i4aCW/tJGYIRILu1ieUcMCLNBZkUYTF5t5F9HfAdwZyuRZqzJ8r78iHYPIkhUM/dgkQ==}
+  /unconfig/0.3.1_@vitest+ui@0.2.7:
+    resolution: {integrity: sha512-aXy9NkXWcwMgzkiLBoKJP1frd1/h0z/uPgwpISre2RYG5pN4yaRFNGhcbpT6/RYziXOYVT+SeJt2tggm/eLhOg==}
     dependencies:
       '@antfu/utils': 0.5.0
       defu: 5.0.1
