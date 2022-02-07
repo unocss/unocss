@@ -4,12 +4,12 @@ import { parseCssColor } from '@unocss/preset-mini/utils'
 const mixComponent = (v1: string | number, v2: string | number, w: string | number) => `calc(${v2} + (${v1} - ${v2}) * ${w} / 100)`
 
 /**
- * Returns RGB color that's a mixture of color1 and color2. Support RGB color values.
+ * Returns RGB color from a mixture of color1 and color2. Support RGB color values.
  * https://sass-lang.com/documentation/modules/color#mix
  *
  * @param {string | CSSColorValue} color1
  * @param {string | CSSColorValue} color2
- * @param {string | number} weight - How many of color2 will be used to mix into color1. Value of 0 will resulting in color1, value of 100 color2.
+ * @param {string | number} weight - How many of color2 will be used to mix into color1. Value of 0 will resulting in color2, value of 100 color1.
  * @return {CSSColorValue | undefined}
  */
 const mixColor = (color1: string | CSSColorValue, color2: string | CSSColorValue, weight: string | number): CSSColorValue | undefined => {
