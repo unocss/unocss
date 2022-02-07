@@ -27,11 +27,11 @@ export default defineConfig({
         nav: [
             { text: 'Guide', link: '/guide/' },
             {
-                text: 'Plugins',
+                text: 'Integrations',
                 items: [
-                    { text: 'vite', link: '/plugins/vite' },
-                    { text: 'webpack', link: '/plugins/webpack' },
-                    { text: 'nuxt', link: '/plugins/nuxt' },
+                    { text: 'vite', link: '/intergrations/vite' },
+                    { text: 'webpack', link: '/intergrations/webpack' },
+                    { text: 'nuxt', link: '/intergrations/nuxt' },
                 ]
             },
             {
@@ -47,6 +47,7 @@ export default defineConfig({
             },
             { text: 'Config', link: '/config/' },
             { text: 'Examples', link: 'https://github.com/unocss/unocss/tree/main/test/fixtures' },
+            { text: "Play", link: "https://unocss.antfu.me/" },
             {
                 text: `v${version}`,
                 items: [
