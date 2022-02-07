@@ -64,8 +64,8 @@ exports[`preset-wind > targets 1`] = `
 .animate-pulse{animation:pulse 2s cubic-bezier(0.4,0,.6,1) infinite;}
 @keyframes pulse-alt{from{transform:scale3d(1,1,1)}50%{transform:scale3d(1.05,1.05,1.05)}to{transform:scale3d(1,1,1)}}
 .animate-pulse-alt{animation:pulse-alt 1s ease-in-out infinite;}
-.animate-\\\\[4s_linear_0s_infinite_alternate_move\\\\\\\\_eye\\\\]{animate:4s linear 0s infinite alternate move\\\\_eye;}
-.animate-\\\\$variable{animate:var(--variable);}
+.animate-\\\\[4s_linear_0s_infinite_alternate_move\\\\\\\\_eye\\\\]{animation:4s linear 0s infinite alternate move\\\\_eye;}
+.animate-\\\\$variable{animation:var(--variable);}
 @keyframes ping{0%{transform:scale(1);opacity:1}75%,100%{transform:scale(2);opacity:0}}
 .\\\\!animate-ping{animation:ping 1s cubic-bezier(0,0,.2,1) infinite !important;}
 @keyframes bounce{0%, 100% {transform:translateY(-25%);animation-timing-function:cubic-bezier(0.8,0,1,1)} 50% {transform:translateY(0);animation-timing-function:cubic-bezier(0,0,0.2,1)}}
