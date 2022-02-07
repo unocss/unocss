@@ -33,6 +33,17 @@ export default defineConfig({
                     { text: 'webpack', link: '/plugins/webpack' },
                 ]
             },
+            {
+                text: "Presets",
+                items: [
+                    { text: 'windcss', link: '/presets/wind' },
+                    { text: 'preset-web-fonts', link: '/presets/preset-web-fonts' },
+                    { text: 'uno', link: '/presets/uno' },
+                    { text: 'min', link: '/presets/mini' },
+                    { text: "icons", link: "/presets/icons" },
+                    { text: "attributify", link: "/presets/attributify" },
+                ]
+            },
             { text: 'Config', link: '/config/' },
             { text: 'Examples', link: 'https://github.com/unocss/unocss/tree/main/test/fixtures' },
             {
