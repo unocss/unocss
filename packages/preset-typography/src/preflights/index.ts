@@ -34,7 +34,8 @@ function getCSS(
     // multi selectors, single utility
     if (pseudoCSSMatchArray.length) {
       css += pseudoCSSMatchArray.join(',')
-    } else {
+    }
+    else {
       // directly from css declaration
       css += `${selectorProse} :where(${selector}):not(.not-${className})`
     }
