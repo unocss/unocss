@@ -1,0 +1,41 @@
+{
+  "name": "@unocss/preset-typography",
+  "version": "0.23.0",
+  "description": "Typography preset for UnoCSS",
+  "keywords": [
+    "unocss",
+    "unocss-preset"
+  ],
+  "homepage": "https://github.com/unocss/unocss/tree/main/packages/preset-typography#readme",
+  "bugs": {
+    "url": "https://github.com/unocss/unocss/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unocss/unocss.git",
+    "directory": "packages/preset-typography"
+  },
+  "license": "MIT",
+  "sideEffects": false,
+  "author": "Jeff Yang",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub"
+  },
+  "dependencies": {
+    "@unocss/core": "workspace:*"
+  }
+}
