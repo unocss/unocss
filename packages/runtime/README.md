@@ -85,4 +85,4 @@ initUnocssRuntime({ /* options */ })
 
 ## License
 
-[MIT](./LICENSE) License © 2021 [Anthony Fu](https://github.com/antfu)
+MIT License © 2021 [Anthony Fu](https://github.com/antfu)
