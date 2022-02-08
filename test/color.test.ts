@@ -1,4 +1,4 @@
-import { colorToString, hex2rgba, parseCssColor } from '@unocss/preset-mini/utils'
+import { colorToString, colorableShadows, hex2rgba, parseCssColor } from '@unocss/preset-mini/utils'
 import { describe, expect, it } from 'vitest'
 
 describe('color utils', () => {
@@ -89,5 +89,28 @@ describe('color utils', () => {
     expect(fn('color(vary calc(0.1 / 5) calc(0.2 / 5) /calc(0.3 / 5))')).eql('color(vary calc(0.1 / 5) calc(0.2 / 5) / calc(0.3 / 5))')
     expect(fn('color(vary calc(0.1 / 5) calc(0.2 / 5)/ calc(0.3 / 5))')).eql('color(vary calc(0.1 / 5) calc(0.2 / 5) / calc(0.3 / 5))')
     expect(fn('color(vary calc(0.1 / 5) calc(0.2 / 5)/calc(0.3 / 5))')).eql('color(vary calc(0.1 / 5) calc(0.2 / 5) / calc(0.3 / 5))')
+  })
+
+  it('parses shadow color values', () => {
+    // default 'none'
+    expect(colorableShadows('0 0 #0000', '--v')).eql(['0 0 var(--v, rgba(0,0,0,0))'])
+
+    // with spaces
+    expect(colorableShadows('0 1px 3px 0 rgba(0, 0, 0, 0.2)', '--v')).eql(['0 1px 3px 0 var(--v, rgba(0,0,0,0.2))'])
+
+    // full box-shadow
+    expect(colorableShadows('var(--un-shadow-inset) 0 1px 3px 0 #0000', '--v')).eql(['var(--un-shadow-inset) 0 1px 3px 0 var(--v, rgba(0,0,0,0))'])
+
+    // no color
+    expect(colorableShadows('0', '--v')).eql(['0'])
+    expect(colorableShadows('1px 2px', '--v')).eql(['1px 2px'])
+
+    // text shadow alternative syntax (color first, unsupported/not parsed)
+    expect(colorableShadows('#0000 0 0', '--v')).eql(['#0000 0 0'])
+
+    // component length
+    expect(colorableShadows('1px #200', '--v')).eql(['1px #200'])
+    expect(colorableShadows('inset 2px 3px 4px 5px #600', '--v')).eql(['inset 2px 3px 4px 5px var(--v, rgba(102,0,0))'])
+    expect(colorableShadows('inset 2px 3px 4px 5px 6px #700', '--v')).eql(['inset 2px 3px 4px 5px 6px #700'])
   })
 })
