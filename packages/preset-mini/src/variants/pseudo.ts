@@ -76,6 +76,11 @@ const PseudoElementsRE = new RegExp(`^(${PseudoElementsStr})[:-]`)
 const PseudoClassesRE = new RegExp(`^(${PseudoClassesStr})[:-]`)
 const PseudoClassFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesStr})[:-]`)
 
+const sortValue = (pseudo: string) => {
+  if (pseudo === 'active')
+    return 1
+}
+
 const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: string) => {
   const re = new RegExp(`^${tag}-((?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesStr}))[:-]`)
   const rawRe = new RegExp(`^${escapeRegExp(parent)}:`)
@@ -90,6 +95,7 @@ const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: strin
         selector: s => rawRe.test(s)
           ? s.replace(rawRe, `${parent}${pseudo}:`)
           : `${parent}${pseudo}${combinator}${s}`,
+        sort: sortValue(match[3]),
       }
     }
   }
@@ -114,6 +120,7 @@ export const variantPseudoClasses: VariantObject = {
       return {
         matcher: input.slice(match[0].length),
         selector: s => `${s}${pseudo}`,
+        sort: sortValue(match[1]),
       }
     }
   },

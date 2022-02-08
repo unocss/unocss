@@ -655,6 +655,7 @@ export const presetMiniTargets: string[] = [
 
   // variants
   'active:scale-4',
+  'hover:scale-4',
   'hover:translate-x-3',
   'peer-checked:translate-x-[var(--reveal)]',
   '!hover:px-10',
