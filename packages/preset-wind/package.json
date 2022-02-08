@@ -1,6 +1,6 @@
 {
   "name": "@unocss/preset-wind",
-  "version": "0.24.0",
+  "version": "0.24.1",
   "description": "Tailwind / Windi CSS compact preset for UnoCSS",
   "keywords": [
     "unocss",
