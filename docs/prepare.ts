@@ -9,6 +9,7 @@ copyFileSync('../packages/preset-icons/README.md', 'presets/icons.md')
 copyFileSync('../packages/preset-mini/README.md', 'presets/mini.md')
 copyFileSync('../packages/preset-attributify/README.md', 'presets/attributify.md')
 copyFileSync('../packages/preset-web-fonts/README.md', 'presets/web-fonts.md')
+copyFileSync('../packages/preset-typography/README.md', 'presets/typography.md')
 
 copyFileSync('../packages/vite/README.md', 'integrations/vite.md')
 copyFileSync('../packages/webpack/README.md', 'integrations/webpack.md')

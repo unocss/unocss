@@ -41,6 +41,7 @@ export default defineConfig({
           { text: 'Wind', link: '/presets/wind' },
           { text: 'Icons', link: '/presets/icons' },
           { text: 'Attributify', link: '/presets/attributify' },
+          { text: 'Typography', link: '/presets/typography' },
           { text: 'Web Fonts', link: '/presets/web-fonts' },
         ],
       },
@@ -50,11 +51,11 @@ export default defineConfig({
         text: `v${version}`,
         items: [
           {
-            text: 'Release Notes ',
+            text: 'Release Notes',
             link: 'https://github.com/unocss/unocss/releases',
           },
           {
-            text: 'Contributing ',
+            text: 'Contributing',
             link: 'https://github.com/unocss/unocss/blob/main/CONTRIBUTING.md',
           },
         ],
