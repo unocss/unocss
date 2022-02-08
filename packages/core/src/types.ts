@@ -117,6 +117,10 @@ export interface RuleMeta {
    */
   noMerge?: boolean
   /**
+   * Fine tune sort
+   */
+  sort?: number
+  /**
    * Internal rules will only be matched for shortcuts but not the user code.
    * @default false
    */
@@ -165,9 +169,13 @@ export interface VariantHandler {
    */
   parent?: string | [string, number] | undefined
   /**
-   * Variant ordering.
+   * Order in which the variant is applied to selector.
    */
   order?: number
+  /**
+   * Order in which the variant is sorted within single rule.
+   */
+  sort?: number
   /**
    * Override layer to the output css.
    */
@@ -402,6 +410,7 @@ export interface UtilObject {
   entries: CSSEntries
   parent: string | undefined
   layer: string | undefined
+  sort: number | undefined
 }
 
 export interface GenerateOptions {
