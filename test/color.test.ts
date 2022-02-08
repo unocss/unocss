@@ -1,4 +1,4 @@
-import { colorableShadows, colorToString, hex2rgba, parseCssColor } from '@unocss/preset-mini/utils'
+import { colorToString, colorableShadows, hex2rgba, parseCssColor } from '@unocss/preset-mini/utils'
 import { describe, expect, it } from 'vitest'
 
 describe('color utils', () => {
