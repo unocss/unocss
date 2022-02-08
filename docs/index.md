@@ -1,10 +1,30 @@
 ---
-home: true 
+home: true
 sidebar: false
-title: The instant on-demand Atomic CSS engine.
+title: UnoCSS - The instant on-demand Atomic CSS engine.
+heroImage: /favicon.svg
+actionText: Get Started
+actionLink: /guide/
+
+altActionText: Learn More
+altActionLink: /guide/why
+
+features:
+  - title: 💡 Instant Server Start
+    details: On demand file serving over native ESM, no bundling required!
+  - title: ⚡️ Lightning Fast HMR
+    details: Hot Module Replacement (HMR) that stays fast regardless of app size.
+  - title: 🛠️ Rich Features
+    details: Out-of-the-box support for TypeScript, JSX, CSS and more.
+  - title: 📦 Optimized Build
+    details: Pre-configured Rollup build with multi-page and library mode support.
+  - title: 🔩 Universal Plugins
+    details: Rollup-superset plugin interface shared between dev and build.
+  - title: 🔑 Fully Typed APIs
+    details: Flexible programmatic APIs with full TypeScript typing.
+
+footer: MIT Licensed | Copyright © 2019-present Evan You & Vite Contributors
 ---
-
-
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/unocss/unocss/main/playground/public/icon-gray.svg" style="width:100px;" />
@@ -44,11 +64,8 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 - Code-splitting for CSS - ships minimal CSS for MPA.
 - Library friendly - ships atomic styles with your component libraries and safely scoped.
 
-
-
-
-
 ## Sponsors
+
 <p align="center">
   <a href="https://cdn.jsdelivr.net/gh/antfu/static/sponsors.svg">
     <img src='https://cdn.jsdelivr.net/gh/antfu/static/sponsors.svg'/>

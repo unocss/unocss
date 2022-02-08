@@ -1,6 +1,8 @@
 :root {
-  --c-brand: #ca931c;
-  --c-accent: #729B1B;
+  --c-text-light: #939393;
+  --c-brand: #ff718b;
+  --c-brand-light: #ff718b;
+  --c-accent: #90C321;
   --font-family-base: "Readex Pro", ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont, sans-serif;
   --bg-gradient: 255,255,255;
 }
@@ -9,9 +11,6 @@
   :root {
     --c-bg: rgb(20,20,20) !important;
     --c-text: rgb(255,255,255,87%) !important;
-    --c-text-light: #fdd888 !important;
-    --c-brand: #fdd888 !important;
-    --c-accent: #90C321 !important;
     --bg-gradient: 20,20,20 !important;
     --code-inline-bg-color: #282c34aa !important;
   }
@@ -23,43 +22,6 @@
     border-top: 1px solid var(--code-inline-bg-color) !important;
   }
 }
-
-main.home ul > li {
-  opacity: 0.8;
-  transition: .1s ease;
-}
-main.home ul > li:hover {
-  opacity: 1;
-}
-
-main.home {
-  position: relative;
-  overflow-x: hidden;
-}
-
-main.home::before {
-  content: '';
-  inset: 0;
-  position: absolute;
-  z-index: -1;
-  background-repeat: repeat;
-  background-size: 50%;
-}
-
-@media screen and (max-width: 768px) {
-  main.home {
-    background-size: 100%;
-  }
-}
-
-main.home {
-  background:
-    radial-gradient(ellipse, rgba(var(--bg-gradient),1) 50%, rgba(var(--bg-gradient),0.4) 120%),
-    radial-gradient(ellipse at top, rgba(var(--bg-gradient),0.8) 20%, rgba(var(--bg-gradient),0) 100%),
-    radial-gradient(ellipse at left, rgba(var(--bg-gradient),0.6) 20%, rgba(var(--bg-gradient),0) 100%),
-    radial-gradient(ellipse at right, rgba(var(--bg-gradient),0.6) 20%, rgba(var(--bg-gradient),0) 100%);
-}
-
 
 .custom-block.tip {
   background-color: rgba(255, 229, 100, 0.1)
@@ -79,11 +41,6 @@ main.home {
 }
 
 /* Overrides */
-
-.home-content {
-  max-width: 1800px !important;
-}
-
 .custom-block.tip {
   border-color: var(--c-accent) !important;
   background-color: #90C32130 !important;
