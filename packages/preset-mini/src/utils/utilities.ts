@@ -154,13 +154,13 @@ export const colorableShadows = (shadows: string | string[], colorVar: string) =
   shadows = toArray(shadows)
   for (let i = 0; i < shadows.length; i++) {
     const components = getComponents(shadows[i])
-    if (!components || components.length < 2 || components.length > 6)
+    if (!components)
       return shadows
-    const maybeColor = components.pop()
+    const [maybeColor, ...size] = components.reverse()
     const color = parseCssColor(maybeColor)
     if (color == null)
       return shadows
-    colored.push(`${components.join(' ')} var(${colorVar}, ${colorToString(color)})`)
+    colored.push(`${size.reverse().join(' ')} var(${colorVar}, ${colorToString(color)})`)
   }
   return colored
 }
