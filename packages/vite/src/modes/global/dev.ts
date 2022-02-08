@@ -1,9 +1,9 @@
 import type { Plugin, ViteDevServer, ResolvedConfig as ViteResolvedConfig } from 'vite'
 import type { UnocssPluginContext } from '../../../../plugins-common'
 import { LAYER_MARK_ALL, getPath, resolveId } from '../../../../plugins-common'
-import { READY_CALLBACK_DEFAULT } from './shared'
 
-const WARN_TIMEOUT = 2000
+const WARN_TIMEOUT = 3000
+const WS_EVENT_PREFIX = 'custom:unocss:'
 
 export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter }: UnocssPluginContext): Plugin[] {
   const servers: ViteDevServer[] = []
@@ -79,22 +79,17 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
       configResolved,
       async configureServer(_server) {
         servers.push(_server)
-        _server.middlewares.use(async(req, res, next) => {
-          let url = req.url
-          if (url && base.length > 0 && url.startsWith(base))
-            url = url.slice(base.length)
 
-          setWarnTimer()
-          if (url?.startsWith(READY_CALLBACK_DEFAULT)) {
-            const servedTime = +url.slice(READY_CALLBACK_DEFAULT.length + 1)
+        setWarnTimer()
+        _server.ws.on('connection', (ws) => {
+          ws.on('message', (msg) => {
+            const message = String(msg)
+            if (!message.startsWith(WS_EVENT_PREFIX))
+              return
+            const servedTime = +message.slice(WS_EVENT_PREFIX.length)
             if (servedTime < lastUpdate)
               invalidate(0)
-            res.statusCode = 200
-            res.end()
-          }
-          else {
-            return next()
-          }
+          })
         })
       },
       transform(code, id) {
@@ -137,8 +132,14 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
       },
       enforce: 'post',
       transform(code, id) {
-        if (entries.has(getPath(id)) && code.includes('import.meta.hot'))
-          return `${code}\nawait fetch("${base}${READY_CALLBACK_DEFAULT}/${lastServed}")`
+        // inject @vite/client to expose ws send function
+        if (id.includes('@vite/client') || id.includes('vite/dist/client/client.mjs'))
+          return code.replace('return hot', 'hot.send = (data) => socket.send(data);return hot;')
+        // inject css modules to send callback on css load
+        if (entries.has(getPath(id)) && code.includes('import.meta.hot')) {
+          const snippet = `\nif (import.meta.hot) { import.meta.hot.send('${WS_EVENT_PREFIX}${lastServed}') }`
+          return code + snippet
+        }
       },
     },
   ]
