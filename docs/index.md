@@ -23,7 +23,7 @@ features:
   - title: 🚚 Runtime Version
     details: CSS-in-JS runtime with one line of CDN.
 
-footer: MIT Licensed | Copyright © 2019-present Evan You & Vite Contributors
+footer: MIT Licensed | Copyright © 2021-present Anthony Fu & UnoCSS Contributors
 ---
 
 ## Sponsors
