@@ -51,8 +51,8 @@ jobs:
         env:
           VSCE_TOKEN: ${{secrets.VSCE_TOKEN}}
 
-      - name: Publish to OVSX
-        run: ovsx publish -p ${{secrets.OVSX_TOKEN}}
-        working-directory: ./packages/vscode
-        env:
-          OVSX_TOKEN: ${{secrets.OVSX_TOKEN}}
+      # - name: Publish to OVSX
+      #   run: ovsx publish -p ${{secrets.OVSX_TOKEN}}
+      #   working-directory: ./packages/vscode
+      #   env:
+      #     OVSX_TOKEN: ${{secrets.OVSX_TOKEN}}
