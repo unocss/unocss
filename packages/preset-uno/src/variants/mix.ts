@@ -46,7 +46,11 @@ const shade = (color: string | CSSColorValue, weight: string | number) => mixCol
 /**
  * Mix color with black or white, according to weight. @see {@link mixColor}
  */
-const shift = (color: string | CSSColorValue, weight: string | number) => parseInt(`${weight}`, 10) > 0 ? shade(color, weight) : tint(color, `-${weight}`)
+const shift = (color: string | CSSColorValue, weight: string | number) => {
+  const num = parseFloat(`${weight}`)
+  if (!Number.isNaN(num))
+    return num > 0 ? shade(color, weight) : tint(color, -num)
+}
 
 const fns: Record<string, (color: string | CSSColorValue, weight: string | number) => CSSColorValue | undefined> = { tint, shade, shift }
 
