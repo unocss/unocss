@@ -346,7 +346,7 @@ exports[`preset-wind > targets 1`] = `
 .drop-shadow{--un-drop-shadow:drop-shadow(0 1px 2px var(--un-drop-shadow-color, rgba(0,0,0,0.1))) drop-shadow(0 1px 1px var(--un-drop-shadow-color, rgba(0,0,0,0.06)));filter:var(--un-filter);}
 .drop-shadow-\\\\[0_4px_3px_\\\\#000\\\\]{--un-drop-shadow:drop-shadow(0 4px 3px #000);filter:var(--un-filter);}
 .drop-shadow-\\\\$variable{--un-drop-shadow:drop-shadow(var(--variable));filter:var(--un-filter);}
-.drop-shadow-none{--un-drop-shadow:drop-shadow(0 0 var(--un-drop-shadow-color, #0000));filter:var(--un-filter);}
+.drop-shadow-none{--un-drop-shadow:drop-shadow(0 0 var(--un-drop-shadow-color, rgba(0,0,0,0)));filter:var(--un-filter);}
 .drop-shadow-sm{--un-drop-shadow:drop-shadow(0 1px 1px var(--un-drop-shadow-color, rgba(0,0,0,0.05)));filter:var(--un-filter);}
 .drop-shadow-color-red-300{--un-drop-shadow-opacity:1;--un-drop-shadow-color:rgba(252,165,165,var(--un-drop-shadow-opacity));}
 .drop-shadow-color-op-30{--un-drop-shadow-opacity:0.3;}
