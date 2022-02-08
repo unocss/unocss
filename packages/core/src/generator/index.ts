@@ -186,7 +186,7 @@ export class UnoGenerator {
           const size = items.length
           const sorted = items
             .filter(i => (i[4]?.layer || 'default') === layer)
-            .sort((a, b) => a[0] - b[0] || a[1]?.localeCompare(b[1] || '') || 0)
+            .sort((a, b) => a[0] - b[0] || (a[4]?.sort || 0) - (b[4]?.sort || 0) || a[1]?.localeCompare(b[1] || '') || 0)
             .map(a => [a[1] ? applyScope(a[1], scope) : a[1], a[2], !!a[4]?.noMerge])
             .map(a => [a[0] == null ? a[0] : [a[0]], a[1], a[2]]) as [string[] | undefined, string, boolean][]
           if (!sorted.length)
@@ -298,6 +298,7 @@ export class UnoGenerator {
       entries,
       parent: handlers.reduce((p: string | undefined, v) => Array.isArray(v.parent) ? v.parent[0] : v.parent || p, undefined),
       layer: handlers.reduce((p: string | undefined, v) => v.layer || p, undefined),
+      sort: handlers.reduce((p: number | undefined, v) => v.sort || p, undefined),
     }
 
     for (const p of this.config.postprocess)
@@ -368,14 +369,19 @@ export class UnoGenerator {
     if (isRawUtil(parsed))
       return [parsed[0], undefined, parsed[1], undefined, parsed[2]]
 
-    const { selector, entries, parent, layer: variantLayer } = this.applyVariants(parsed)
+    const { selector, entries, parent, layer: variantLayer, sort: variantSort } = this.applyVariants(parsed)
     const body = entriesToCss(entries)
 
     if (!body)
       return
 
-    const { layer: metaLayer, ...meta } = parsed[3] ?? {}
-    return [parsed[0], selector, body, parent, { ...meta, layer: variantLayer ?? metaLayer }]
+    const { layer: metaLayer, sort: metaSort, ...meta } = parsed[3] ?? {}
+    const ruleMeta = {
+      ...meta,
+      layer: variantLayer ?? metaLayer,
+      sort: variantSort ?? metaSort,
+    }
+    return [parsed[0], selector, body, parent, ruleMeta]
   }
 
   expandShortcut(processed: string, context: RuleContext, depth = 3): [string[], RuleMeta | undefined] | undefined {
