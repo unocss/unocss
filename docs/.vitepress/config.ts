@@ -27,10 +27,10 @@ export default defineConfig({
       {
         text: 'Integrations',
         items: [
-          { text: 'Vite', link: '/intergrations/vite' },
-          { text: 'Nuxt', link: '/intergrations/nuxt' },
-          { text: 'Webpack', link: '/intergrations/webpack' },
-          { text: 'Runtime', link: '/intergrations/runtime' },
+          { text: 'Vite', link: '/integrations/vite' },
+          { text: 'Nuxt', link: '/integrations/nuxt' },
+          { text: 'Webpack', link: '/integrations/webpack' },
+          { text: 'Runtime', link: '/integrations/runtime' },
         ],
       },
       {

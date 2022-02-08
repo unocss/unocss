@@ -2,8 +2,8 @@
   "name": "@unocss/docs",
   "private": true,
   "scripts": {
-    "dev": "vitepress --port 3333 --open",
-    "build": "vitepress build",
+    "dev": "esno prepare.ts && vitepress --port 3333 --open",
+    "build": "esno prepare.ts && vitepress build",
     "serve": "vitepress serve"
   },
   "devDependencies": {
