@@ -1,5 +1,4 @@
 import type { Variant, VariantHandler } from '@unocss/core'
-import { variantMatcher } from '../utils'
 
 const scopeMatcher = (strict: boolean, name: string, template: string) => {
   const re = strict
@@ -26,5 +25,4 @@ export const variantCombinators: Variant[] = [
   scopeMatcher(true, 'parent', '&&-c>&&-s'),
   scopeMatcher(true, 'previous', '&&-c+&&-s'),
   scopeMatcher(true, 'peer', '&&-c~&&-s'),
-  variantMatcher('svg', input => `${input} svg`),
 ]
