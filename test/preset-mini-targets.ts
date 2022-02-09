@@ -686,6 +686,7 @@ export const presetMiniTargets: string[] = [
   'previous-[.scope]-[combinator:test-3]',
   'sibling-[div:hover]-[combinator:test-4]',
   'group-[div:hover]-[combinator:test-4]',
+  'all-[svg]:fill-red',
 
   // variants combinators
   'all:m-auto',
