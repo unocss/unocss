@@ -1,6 +1,6 @@
 import { colors } from './colors'
 import { fontFamily, fontSize, letterSpacing, lineHeight, textIndent, textShadow, textStrokeWidth, wordSpacing } from './font'
-import { borderRadius, boxShadow, breakpoints, easing } from './misc'
+import { borderRadius, boxShadow, breakpoints, easing, verticalBreakpoints } from './misc'
 import { blur, dropShadow } from './filters'
 import { height, maxHeight, maxWidth, width } from './size'
 import type { Theme } from './types'
@@ -24,6 +24,7 @@ export const theme: Theme = {
   fontFamily,
   fontSize,
   breakpoints,
+  verticalBreakpoints,
   borderRadius,
   lineHeight,
   letterSpacing,

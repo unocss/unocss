@@ -345,6 +345,8 @@ export const presetMiniTargets: string[] = [
   'w-21',
   'w-1/4',
   'w-lg',
+  'h-screen-sm',
+  'h-screen-lg',
   'max-h-[1px]',
   'max-w-none',
   'max-w-20',

@@ -494,6 +494,8 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .min-inline-full{min-inline-size:100%;}
 .min-inline-lg{min-inline-size:32rem;}
 .min-inline-none{min-inline-size:none;}
+.h-screen-lg{height:1024px;}
+.h-screen-sm{height:640px;}
 .max-w-screen-lg{max-width:1024px;}
 .min-w-screen-lg{min-width:1024px;}
 .aspect-\\\\[auto_16\\\\/9\\\\],
