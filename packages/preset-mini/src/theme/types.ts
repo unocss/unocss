@@ -20,6 +20,7 @@ export interface Theme {
   minBlockSize?: Record<string, string>
   borderRadius?: Record<string, string>
   breakpoints?: Record<string, string>
+  verticalBreakpoints?: Record<string, string>
   colors?: Record<string, string | Record<string, string>>
   fontFamily?: Record<string, string>
   fontSize?: Record<string, [string, string]>

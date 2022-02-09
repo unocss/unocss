@@ -7,6 +7,8 @@ export const breakpoints = {
   '2xl': '1536px',
 }
 
+export const verticalBreakpoints = { ...breakpoints }
+
 export const borderRadius = {
   'DEFAULT': '0.25rem',
   'none': '0px',
