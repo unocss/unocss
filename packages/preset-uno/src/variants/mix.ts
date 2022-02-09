@@ -1,5 +1,5 @@
 import type { CSSColorValue, Variant } from '@unocss/core'
-import { parseCssColor } from '@unocss/preset-mini/utils'
+import { colorToString, parseCssColor } from '@unocss/preset-mini/utils'
 
 const mixComponent = (v1: string | number, v2: string | number, w: string | number) => `calc(${v2} + (${v1} - ${v2}) * ${w} / 100)`
 
@@ -46,7 +46,12 @@ const shade = (color: string | CSSColorValue, weight: string | number) => mixCol
 /**
  * Mix color with black or white, according to weight. @see {@link mixColor}
  */
-const shift = (color: string | CSSColorValue, weight: string | number) => parseInt(`${weight}`, 10) > 0 ? shade(color, weight) : tint(color, `-${weight}`)
+const shift = (color: string | CSSColorValue, weight: string | number) => {
+  const num = parseFloat(`${weight}`)
+  if (!Number.isNaN(num))
+    return num > 0 ? shade(color, weight) : tint(color, -num)
+}
+
 const fns: Record<string, (color: string | CSSColorValue, weight: string | number) => CSSColorValue | undefined> = { tint, shade, shift }
 
 /**
@@ -65,10 +70,8 @@ export const variantColorMix: Variant = (matcher) => {
             const color = parseCssColor(`${v[1]}`)
             if (color) {
               const mixed = fns[m[1]](color, m[2])
-              if (mixed) {
-                const { alpha, components } = mixed
-                v[1] = `rgb(${components.join(',')},${alpha})`
-              }
+              if (mixed)
+                v[1] = colorToString(mixed)
             }
           }
         })
