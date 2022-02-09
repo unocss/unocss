@@ -236,6 +236,7 @@ exports[`preset-wind > targets 1`] = `
 .bg-no-repeat{background-repeat:no-repeat;}
 .bg-repeat-space{background-position:space;}
 .bg-origin-border{background-origin:border-box;}
+.svg\\\\:fill-red svg{--un-fill-opacity:1;fill:rgba(248,113,113,var(--un-fill-opacity));}
 .object-none{object-fit:none;}
 .object-cb,
 .object-center-bottom{object-position:center bottom;}

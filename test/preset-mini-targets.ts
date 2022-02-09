@@ -691,7 +691,6 @@ export const presetMiniTargets: string[] = [
   'all:m-auto',
   'children:m-auto',
   'next:mt-0',
-  'svg:fill-red',
 
   // variants layer
   'layer-1:translate-0',

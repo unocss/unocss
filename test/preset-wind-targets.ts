@@ -315,6 +315,9 @@ export const presetWindiTargets: string[] = [
   '.dark:text-xl',
   '@dark:text-xl',
 
+  // variants combinators
+  'svg:fill-red',
+
   // variants - placeholder
   'placeholder-red-400',
   'placeholder-inherit',
