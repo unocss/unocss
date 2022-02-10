@@ -1,4 +1,4 @@
-import type { UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
+import type { Preset, UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
 import { autoPrefixer } from './utils'
 
@@ -20,6 +20,10 @@ export interface RuntimeOptions {
    * Callback when the runtime is ready. Returning false will prevent default extraction
    */
   ready?: (runtime: RuntimeContext) => false | any
+  /**
+   * Registered built-in presets
+   */
+  availablePresets?: Record<string, Preset>
 }
 
 export type RuntimeInspectorCallback = (element: Element) => boolean
@@ -87,7 +91,11 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
 
   const config = window.__unocss || {}
   const runtime = config?.runtime
-  const defaultConfig = Object.assign(inlineConfig.defaults || {}, runtime)
+  const defaultConfig = Object.assign(
+    { availablePresets: inlineConfig.availablePresets },
+    inlineConfig.defaults || {},
+    runtime,
+  )
   if (runtime?.autoPrefix) {
     let postprocess = defaultConfig.postprocess
     if (!postprocess)
