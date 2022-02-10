@@ -51,6 +51,20 @@ const testConfigs = [
       },
     },
   },
+
+  // black
+  {
+    name: 'prose-black',
+    input: 'prose-black',
+    typographyOptions: {},
+  },
+
+  // other color
+  {
+    name: 'prose-missing-color',
+    input: 'prose-missing-color',
+    typographyOptions: {},
+  },
 ]
 
 describe('typography', () => {
