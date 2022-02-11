@@ -2,7 +2,7 @@ import type { Variant } from '@unocss/core'
 
 export const variantLayer: Variant = {
   match(matcher) {
-    const match = matcher.match(/layer-([\d\w]+)[:-]/)
+    const match = matcher.match(/^layer-([\d\w]+)[:-]/)
     if (match) {
       return {
         matcher: matcher.slice(match[0].length),
