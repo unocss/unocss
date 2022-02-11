@@ -1,4 +1,5 @@
-import type { CSSObject, Preset } from '@unocss/core'
+import type { CSSObject, Preset, RuleContext } from '@unocss/core'
+import type { Theme } from '@unocss/preset-mini'
 import { getPreflights } from './preflights'
 
 /**
@@ -49,9 +50,7 @@ export function presetTypography(options?: TypographyOptions): Preset {
   let selectorProse = ''
   const className = options?.className || 'prose'
   const classNameRE = new RegExp(`^${className}$`)
-  const colorsRE = new RegExp(
-    `^${className}-(rose|pink|fuchsia|purple|violet|indigo|blue|sky|cyan|teal|emerald|green|lime|yellow|amber|orange|red|gray|slate|zinc|neutral|stone)$`,
-  )
+  const colorsRE = new RegExp(`^${className}-([-\\w]+)$`)
   const invertRE = new RegExp(`^${className}-invert$`)
   const cssExtend = options?.cssExtend
 
@@ -65,52 +64,39 @@ export function presetTypography(options?: TypographyOptions): Preset {
         (_, { rawSelector }) => {
           hasProseClass = true
           selectorProse = rawSelector
-          return { 'color': 'var(--uno-prose-body)', 'max-width': '65ch' }
+          return { 'color': 'var(--un-prose-body)', 'max-width': '65ch' }
         },
         { layer: 'typography' },
       ],
       [
         colorsRE,
-        ([, color], { theme }) => {
+        ([, color], { theme }: RuleContext<Theme>) => {
+          const baseColor = theme.colors?.[color]
+          if (baseColor == null)
+            return
+
+          const colorObject = typeof baseColor === 'object' ? baseColor : {}
           return {
-            // @ts-expect-error colors exist
-            '--uno-prose-body': theme.colors[color][700],
-            // @ts-expect-error colors exist
-            '--uno-prose-headings': theme.colors[color][900],
-            // @ts-expect-error colors exist
-            '--uno-prose-links': theme.colors[color][900],
-            // @ts-expect-error colors exist
-            '--uno-prose-lists': theme.colors[color][400],
-            // @ts-expect-error colors exist
-            '--uno-prose-hr': theme.colors[color][200],
-            // @ts-expect-error colors exist
-            '--uno-prose-captions': theme.colors[color][500],
-            // @ts-expect-error colors exist
-            '--uno-prose-code': theme.colors[color][900],
-            // @ts-expect-error colors exist
-            '--uno-prose-borders': theme.colors[color][200],
-            // @ts-expect-error colors exist
-            '--uno-prose-bg-soft': theme.colors[color][100],
+            '--un-prose-body': colorObject[700] ?? baseColor,
+            '--un-prose-headings': colorObject[900] ?? baseColor,
+            '--un-prose-links': colorObject[900] ?? baseColor,
+            '--un-prose-lists': colorObject[400] ?? baseColor,
+            '--un-prose-hr': colorObject[200] ?? baseColor,
+            '--un-prose-captions': colorObject[500] ?? baseColor,
+            '--un-prose-code': colorObject[900] ?? baseColor,
+            '--un-prose-borders': colorObject[200] ?? baseColor,
+            '--un-prose-bg-soft': colorObject[100] ?? baseColor,
 
             // invert colors (dark mode)
-            // @ts-expect-error colors exist
-            '--uno-prose-invert-body': theme.colors[color][200],
-            // @ts-expect-error colors exist
-            '--uno-prose-invert-headings': theme.colors[color][100],
-            // @ts-expect-error colors exist
-            '--uno-prose-invert-links': theme.colors[color][100],
-            // @ts-expect-error colors exist
-            '--uno-prose-invert-lists': theme.colors[color][500],
-            // @ts-expect-error colors exist
-            '--uno-prose-invert-hr': theme.colors[color][700],
-            // @ts-expect-error colors exist
-            '--uno-prose-invert-captions': theme.colors[color][400],
-            // @ts-expect-error colors exist
-            '--uno-prose-invert-code': theme.colors[color][100],
-            // @ts-expect-error colors exist
-            '--uno-prose-invert-borders': theme.colors[color][700],
-            // @ts-expect-error colors exist
-            '--uno-prose-invert-bg-soft': theme.colors[color][800],
+            '--un-prose-invert-body': colorObject[200] ?? baseColor,
+            '--un-prose-invert-headings': colorObject[100] ?? baseColor,
+            '--un-prose-invert-links': colorObject[100] ?? baseColor,
+            '--un-prose-invert-lists': colorObject[500] ?? baseColor,
+            '--un-prose-invert-hr': colorObject[700] ?? baseColor,
+            '--un-prose-invert-captions': colorObject[400] ?? baseColor,
+            '--un-prose-invert-code': colorObject[100] ?? baseColor,
+            '--un-prose-invert-borders': colorObject[700] ?? baseColor,
+            '--un-prose-invert-bg-soft': colorObject[800] ?? baseColor,
           }
         },
         { layer: 'typography' },
@@ -119,15 +105,15 @@ export function presetTypography(options?: TypographyOptions): Preset {
         invertRE,
         () => {
           return {
-            '--uno-prose-body': 'var(--uno-prose-invert-body)',
-            '--uno-prose-headings': 'var(--uno-prose-invert-headings)',
-            '--uno-prose-links': 'var(--uno-prose-invert-links)',
-            '--uno-prose-lists': 'var(--uno-prose-invert-lists)',
-            '--uno-prose-hr': 'var(--uno-prose-invert-hr)',
-            '--uno-prose-captions': 'var(--uno-prose-invert-captions)',
-            '--uno-prose-code': 'var(--uno-prose-invert-code)',
-            '--uno-prose-borders': 'var(--uno-prose-invert-borders)',
-            '--uno-prose-bg-soft': 'var(--uno-prose-invert-bg-soft)',
+            '--un-prose-body': 'var(--un-prose-invert-body)',
+            '--un-prose-headings': 'var(--un-prose-invert-headings)',
+            '--un-prose-links': 'var(--un-prose-invert-links)',
+            '--un-prose-lists': 'var(--un-prose-invert-lists)',
+            '--un-prose-hr': 'var(--un-prose-invert-hr)',
+            '--un-prose-captions': 'var(--un-prose-invert-captions)',
+            '--un-prose-code': 'var(--un-prose-invert-code)',
+            '--un-prose-borders': 'var(--un-prose-invert-borders)',
+            '--un-prose-bg-soft': 'var(--un-prose-invert-bg-soft)',
           }
         },
         { layer: 'typography' },

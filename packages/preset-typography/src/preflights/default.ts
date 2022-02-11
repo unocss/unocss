@@ -1,16 +1,16 @@
 export const DEFAULT = {
   'h1,h2,h3,h4,h5,h6': {
-    'color': 'var(--uno-prose-headings)',
+    'color': 'var(--un-prose-headings)',
     'font-weight': '600',
     'line-height': 1.25,
   },
   'a': {
-    'color': 'var(--uno-prose-links)',
+    'color': 'var(--un-prose-links)',
     'text-decoration': 'underline',
     'font-weight': '500',
   },
   'a code': {
-    color: 'var(--uno-prose-links)',
+    color: 'var(--un-prose-links)',
   },
   'p,ul,ol,pre': {
     'margin': '1em 0',
@@ -20,7 +20,7 @@ export const DEFAULT = {
     'margin': '1em 0',
     'padding-left': '1em',
     'font-style': 'italic',
-    'border-left': '.25em solid var(--uno-prose-borders)',
+    'border-left': '.25em solid var(--un-prose-borders)',
   },
   // taking 16px as a base, we scale h1, h2, h3, and h4 like
   // 16 (base) > 18 (h4) > 22 (h3) > 28 (h2) > 36 (h1)
@@ -47,11 +47,11 @@ export const DEFAULT = {
     margin: '1em 0',
   },
   'figcaption': {
-    'color': 'var(--uno-prose-captions)',
+    'color': 'var(--un-prose-captions)',
     'font-size': '.875em',
   },
   'code': {
-    'color': 'var(--uno-prose-code)',
+    'color': 'var(--un-prose-code)',
     'font-size': '.875em',
     'font-weight': 600,
     'font-family':
@@ -88,11 +88,11 @@ export const DEFAULT = {
     'list-style-type': 'disc',
   },
   'ol > li::marker,ul > li::marker,summary::marker': {
-    color: 'var(--uno-prose-lists)',
+    color: 'var(--un-prose-lists)',
   },
   'hr': {
     margin: '2em 0',
-    border: '1px solid var(--uno-prose-hr)',
+    border: '1px solid var(--un-prose-hr)',
   },
   'table': {
     'display': 'block',
@@ -101,17 +101,17 @@ export const DEFAULT = {
     'overflow-x': 'auto',
   },
   'tr:nth-child(2n)': {
-    background: 'var(--uno-prose-bg-soft)',
+    background: 'var(--un-prose-bg-soft)',
   },
   'td,th': {
-    border: '1px solid var(--uno-prose-borders)',
+    border: '1px solid var(--un-prose-borders)',
     padding: '.625em 1em',
   },
   'abbr': {
     cursor: 'help',
   },
   'kbd': {
-    'color': 'var(--uno-prose-code)',
+    'color': 'var(--un-prose-code)',
     'border': '1px solid',
     'padding': '.25rem .5rem',
     'font-size': '.875em',
@@ -120,7 +120,7 @@ export const DEFAULT = {
   'details': {
     margin: '1em 0',
     padding: '1.25rem 1.5rem',
-    background: 'var(--uno-prose-bg-soft)',
+    background: 'var(--un-prose-bg-soft)',
   },
   'summary': {
     'cursor': 'pointer',
