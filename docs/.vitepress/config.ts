@@ -63,7 +63,6 @@ export default defineConfig({
     ],
     sidebar: {
       '/config': 'auto',
-      '/api': 'auto',
     },
   },
 })
