@@ -1,10 +1,9 @@
 <h1> Configuring unocss </h1>
 
-
-
-UnoCSS is an atomic-CSS engine instead of a framework. Everything is designed with flexibility and performance in mind. In UnoCSS, there are no core utilities; all functionalities are provided via presets.
-
 By default, UnoCSS applies [the default preset](https://github.com/unocss/unocss/tree/main/packages/preset-uno). Which provides a common superset of the popular utilities-first framework, including Tailwind CSS, Windi CSS, Bootstrap, Tachyons, etc.
+
+
+## Presets
 
 For example, both `ml-3` (Tailwind), `ms-2` (Bootstrap), `ma4` (Tachyons), `mt-10px` (Windi CSS) are valid.
 
@@ -18,24 +17,6 @@ For example, both `ml-3` (Tailwind), `ms-2` (Bootstrap), `ma4` (Tachyons), `mt-1
 [Learn more about the default preset](https://github.com/unocss/unocss/tree/main/packages/preset-uno).
 
 
-## Configurations
-
-UnoCSS is an atomic-CSS engine instead of a framework. Everything is designed with flexibility and performance in mind. In UnoCSS, there are no core utilities; all functionalities are provided via presets.
-
-By default, UnoCSS applies [the default preset](https://github.com/unocss/unocss/tree/main/packages/preset-uno). Which provides a common superset of the popular utilities-first framework, including Tailwind CSS, Windi CSS, Bootstrap, Tachyons, etc.
-
-For example, both `ml-3` (Tailwind), `ms-2` (Bootstrap), `ma4` (Tachyons), `mt-10px` (Windi CSS) are valid.
-
-```css
-.ma4 { margin: 1rem; }
-.ml-3 { margin-left: 0.75rem; }
-.ms-2 { margin-inline-start: 0.5rem; }
-.mt-10px { margin-top: 10px; }
-```
-
-[Learn more about the default preset](https://github.com/unocss/unocss/tree/main/packages/preset-uno).
-
-### Presets
 
 Presets are the heart of UnoCSS that lets you make your own custom framework in minutes.
 
