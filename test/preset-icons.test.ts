@@ -31,7 +31,7 @@ describe('preset-icons', () => {
     expect(layers).toEqual(['icons', 'default'])
     expect(css).toMatchSnapshot()
   })
-  test('xlink is present', async() => {
+  test('xlink xml namespace is present', async() => {
     const { css, layers } = await uno.generate(fixture3)
     expect(layers).toEqual(['icons', 'default'])
     expect(css).toContain('xmlns:xlink=\'http://www.w3.org/1999/xlink\'')
