@@ -17,7 +17,7 @@ export const variantPrint: VariantFunction = variantParentMatcher('print', '@med
 export const variantCustomMedia: VariantFunction = (matcher, { theme }: VariantContext<Theme>) => {
   const match = matcher.match(/^media-([_\d\w]+(?:,[_\d\w]+)*)[:-]/)
   if (match) {
-    const media = match[1].split(',').map(m => theme.media?.[m] ?? `--${m}`).join(' and ')
+    const media = match[1].split(',').map(m => theme.media?.[m] ?? `--${m}`).join(') or (')
     return {
       matcher: matcher.slice(match[0].length),
       parent: `@media (${media})`,
