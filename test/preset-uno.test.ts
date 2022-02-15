@@ -22,6 +22,10 @@ const targets = [
   'placeholder-opacity-10',
   'placeholder-op90',
 
+  // wind - variants custom media (themed)
+  'media-opacity_not_ok:opacity-0',
+  'media-touch:p-4',
+
   // mini + wind - placeholder
   'focus:placeholder-red-300',
   'hover:placeholder-op90',
