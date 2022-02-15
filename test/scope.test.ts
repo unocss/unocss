@@ -14,6 +14,7 @@ export const fixture = new Set([
   'sm:text-red-100',
   'sm:text-red-200/10',
   'md:!hidden',
+  'scope-variant:c-red',
 ])
 
 const uno = createGenerator({
