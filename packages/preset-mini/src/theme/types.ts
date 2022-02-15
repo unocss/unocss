@@ -36,6 +36,8 @@ export interface Theme {
   dropShadow?: Record<string, string | string[]>
   // transitions
   easing?: Record<string, string>
+  // media queries
+  media?: Record<string, string>
   // animation
   animation?: ThemeAnimation
 }
