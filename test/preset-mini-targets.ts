@@ -697,7 +697,7 @@ export const presetMiniTargets: string[] = [
 
   // variants layer
   'layer-1:translate-0',
-  'layer-unocss:block',
+  'layer-uno_css:block',
 
   // variants misc
   '-rotate-2',
