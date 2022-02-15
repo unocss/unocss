@@ -31,6 +31,14 @@ const targets = [
   'hover:placeholder-op90',
 ]
 
+const targets2 = [
+  // mini - variants selector
+  'selector-[section]:c-gray-400',
+  'selector-[.cls.multi]:c-gray-400',
+  'md:selector-[aside]:shadow-xl',
+  'dark:selector-[.body_main]:bg-white',
+]
+
 const nonTargets = [
   '--p-2',
   'before:before:m2',
@@ -118,6 +126,15 @@ test('targets', async() => {
       unmatched.push(i)
   }
   expect(unmatched).toEqual([])
+  expect(css).toMatchSnapshot()
+  expect(css).toEqual(css2)
+})
+
+test('targets', async() => {
+  const code = targets2.join(' ')
+  const { css } = await uno.generate(code)
+  const { css: css2 } = await uno.generate(code)
+
   expect(css).toMatchSnapshot()
   expect(css).toEqual(css2)
 })
