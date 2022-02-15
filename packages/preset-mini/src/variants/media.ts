@@ -15,12 +15,12 @@ export const variantOrientations: VariantFunction[] = [
 export const variantPrint: VariantFunction = variantParentMatcher('print', '@media print')
 
 export const variantCustomMedia: VariantFunction = (matcher, { theme }: VariantContext<Theme>) => {
-  const match = matcher.match(/^media-([_\d\w]+(?:,[_\d\w]+)*)[:-]/)
+  const match = matcher.match(/^media-([_\d\w]+)[:-]/)
   if (match) {
-    const media = match[1].split(',').map(m => theme.media?.[m] ?? `--${m}`).join(') or (')
+    const media = theme.media?.[match[1]] ?? `(--${match[1]})`
     return {
       matcher: matcher.slice(match[0].length),
-      parent: `@media (${media})`,
+      parent: `@media ${media}`,
     }
   }
 }
