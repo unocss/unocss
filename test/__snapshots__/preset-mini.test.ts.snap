@@ -724,6 +724,9 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .will-change-scroll{will-change:scroll-position;}
 .will-change-transform{will-change:transform;}
 .will-change-unset{will-change:unset;}
+@media (--cssvar){
+.media-cssvar\\\\:block{display:block;}
+}
 @media (orientation: landscape){
 .landscape\\\\:hidden{display:none;}
 }
