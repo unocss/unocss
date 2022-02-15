@@ -11,10 +11,6 @@ export type { ThemeAnimation, Theme }
 
 export interface PresetMiniOptions extends PresetOptions {
   /**
-   * @default 'class'
-   */
-  dark?: 'class' | 'media'
-  /**
    * @default false
    */
   attributifyPseudo?: Boolean
@@ -25,7 +21,6 @@ export interface PresetMiniOptions extends PresetOptions {
 }
 
 export const presetMini = (options: PresetMiniOptions = {}): Preset<Theme> => {
-  options.dark = options.dark ?? 'class'
   options.attributifyPseudo = options.attributifyPseudo ?? false
 
   return {
