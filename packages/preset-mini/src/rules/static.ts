@@ -50,6 +50,7 @@ export const whitespaces: Rule[] = [
 ]
 
 export const contents: Rule[] = [
+  [/^content-\[(.+)\]$/, ([, v]) => ({ content: `"${v}"` })],
   ['content-empty', { content: '""' }],
   ['content-none', { content: '""' }],
 ]
