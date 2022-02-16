@@ -429,7 +429,7 @@ export class UnoGenerator {
     expanded: string[],
     meta: RuleMeta = { layer: this.config.shortcutsLayer },
   ): Promise<StringifiedUtil[] | undefined> {
-    const selectorMap = new TwoKeyMap<string, string | undefined, [[CSSEntries, boolean][], number]>()
+    const selectorMap = new TwoKeyMap<string, string | undefined, [[CSSEntries, boolean, number][], number]>()
 
     const parsed = (
       await Promise.all(uniq(expanded)
@@ -448,33 +448,36 @@ export class UnoGenerator {
     for (const item of parsed) {
       if (isRawUtil(item))
         continue
-      const { selector, entries, parent } = this.applyVariants(item, [...item[4], ...parentVariants], raw)
+      const { selector, entries, parent, sort } = this.applyVariants(item, [...item[4], ...parentVariants], raw)
 
       // find existing selector/mediaQuery pair and merge
       const mapItem = selectorMap.getFallback(selector, parent, [[], item[0]])
       // add entries
-      mapItem[0].push([entries, !!item[3]?.noMerge])
+      mapItem[0].push([entries, !!item[3]?.noMerge, sort ?? 0])
     }
 
     return selectorMap
       .map(([e, index], selector, mediaQuery) => {
-        const stringify = (noMerge: boolean) => (entries: CSSEntries): StringifiedUtil | undefined => {
-          const body = entriesToCss(entries)
-          if (body)
-            return [index, selector, body, mediaQuery, { ...meta, noMerge }]
-          return undefined
+        const stringify = (flatten: boolean, noMerge: boolean, entrySortPair: [CSSEntries, number][]): (StringifiedUtil | undefined)[] => {
+          const maxSort = Math.max(...entrySortPair.map(e => e[1]))
+          const entriesList = entrySortPair.map(e => e[0])
+          return (flatten ? [entriesList.flat(1)] : entriesList).map((entries: CSSEntries): StringifiedUtil | undefined => {
+            const body = entriesToCss(entries)
+            if (body)
+              return [index, selector, body, mediaQuery, { ...meta, noMerge, sort: maxSort }]
+            return undefined
+          })
         }
 
         const merges = [
-          [e.filter(([, noMerge]) => noMerge).map(([entries]) => entries), true],
-          [e.filter(([, noMerge]) => !noMerge).map(([entries]) => entries), false],
-        ] as [CSSEntries[], boolean][]
+          [e.filter(([, noMerge]) => noMerge).map(([entries,, sort]) => [entries, sort]), true],
+          [e.filter(([, noMerge]) => !noMerge).map(([entries,, sort]) => [entries, sort]), false],
+        ] as [[CSSEntries, number][], boolean][]
 
-        return merges.map(([e, noMerge]) => {
-          const splits = e.filter(entries => entries.some(entry => entry[0] === CONTROL_SHORTCUT_NO_MERGE))
-          const rests = e.filter(entries => entries.every(entry => entry[0] !== CONTROL_SHORTCUT_NO_MERGE))
-          return [...splits.map(stringify(noMerge)), ...[rests.flat(1)].map(stringify(noMerge))]
-        })
+        return merges.map(([e, noMerge]) => [
+          ...stringify(false, noMerge, e.filter(([entries]) => entries.some(entry => entry[0] === CONTROL_SHORTCUT_NO_MERGE))),
+          ...stringify(true, noMerge, e.filter(([entries]) => entries.every(entry => entry[0] !== CONTROL_SHORTCUT_NO_MERGE))),
+        ])
       })
       .flat(2)
       .filter(Boolean) as StringifiedUtil[]

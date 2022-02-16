@@ -79,3 +79,41 @@ exports[`shortcuts > static 1`] = `
 .sh3{margin:0.5rem;}
 }"
 `;
+
+exports[`shortcuts > variant order 1`] = `
+"/* layer: shortcuts */
+.shortcut-hover-active-1:focus,
+.shortcut-hover-active-1:hover,
+.shortcut-hover-active-1:active{--un-bg-opacity:1;background-color:rgba(134,239,172,var(--un-bg-opacity));}"
+`;
+
+exports[`shortcuts > variant order 2`] = `
+"/* layer: shortcuts */
+.shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgba(252,165,165,var(--un-bg-opacity));}
+.shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgba(253,224,71,var(--un-bg-opacity));}
+.shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgba(147,197,253,var(--un-bg-opacity));}"
+`;
+
+exports[`shortcuts > variant order 3`] = `
+"/* layer: shortcuts */
+.layer-shortcuts\\\\:bg-red-300,
+.shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgba(252,165,165,var(--un-bg-opacity));}
+.shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgba(253,224,71,var(--un-bg-opacity));}
+.shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgba(147,197,253,var(--un-bg-opacity));}"
+`;
+
+exports[`shortcuts > variant order 4`] = `
+"/* layer: shortcuts */
+.layer-shortcuts\\\\:bg-yellow-300,
+.shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgba(253,224,71,var(--un-bg-opacity));}
+.shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgba(252,165,165,var(--un-bg-opacity));}
+.shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgba(147,197,253,var(--un-bg-opacity));}"
+`;
+
+exports[`shortcuts > variant order 5`] = `
+"/* layer: shortcuts */
+.layer-shortcuts\\\\:bg-blue-300,
+.shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgba(147,197,253,var(--un-bg-opacity));}
+.shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgba(252,165,165,var(--un-bg-opacity));}
+.shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgba(253,224,71,var(--un-bg-opacity));}"
+`;
