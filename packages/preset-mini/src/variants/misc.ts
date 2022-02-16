@@ -12,6 +12,18 @@ export const variantLayer: Variant = {
   },
 }
 
+export const variantScope: Variant = {
+  match(matcher) {
+    const match = matcher.match(/^scope-([_\d\w]+)[:-]/)
+    if (match) {
+      return {
+        matcher: matcher.slice(match[0].length),
+        selector: s => `.${match[1]} $$ ${s}`,
+      }
+    }
+  },
+}
+
 export const variantImportant: Variant = {
   match(matcher) {
     if (matcher.startsWith('!')) {

@@ -759,6 +759,10 @@ export const presetMiniTargets: string[] = [
   'group-has-placeholder-shown:text-4xl',
   'focus-within:has-first:checked:bg-gray/20',
 
+  // variants scope
+  'scope-scope_class:translate-0',
+  'scope-unocss:block',
+
   // variants - tagged
   'group-focus:p-4',
   'peer-checked:bg-blue-500',
