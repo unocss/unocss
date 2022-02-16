@@ -41,6 +41,7 @@ Set {
   "[translate-y-=\\"\\"]",
   "[%=\\"\\"]",
   "[rotate-30=\\"\\"]",
+  "[after~=\\"content-[unocss]\\"]",
   "[rotate-60=\\"\\"]",
   "[ma=\\"\\"]",
   "[m~=\\"1\\"]",
@@ -106,6 +107,7 @@ Set {
   "[peer-focus~=\\"scale-75\\"]",
   "[peer-focus~=\\"origin-top-left\\"]",
   "[peer-focus~=\\"text-green-500\\"]",
+  "[after~=\\"content-[!]\\"]",
 }
 `;
 
@@ -150,6 +152,7 @@ exports[`attributify > fixture1 1`] = `
 [font~=\\"sans\\"]{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\\"Segoe UI\\",Roboto,\\"Helvetica Neue\\",Arial,\\"Noto Sans\\",sans-serif,\\"Apple Color Emoji\\",\\"Segoe UI Emoji\\",\\"Segoe UI Symbol\\",\\"Noto Color Emoji\\";}
 [text~=\\"sm\\"]{font-size:0.875rem;line-height:1.25rem;}
 [text~=\\"white\\"]{--un-text-opacity:1;color:rgba(255,255,255,var(--un-text-opacity));}
+[after~=\\"content-\\\\[unocss\\\\]\\"]::after{content:\\"unocss\\";}
 @media (min-width: 640px){
 [sm~=\\"\\\\[color\\\\:red\\\\]\\"]{color:red;}
 }
@@ -214,6 +217,7 @@ exports[`attributify > fixture2 1`] = `
 [op-20=\\"\\"]{opacity:0.2;}
 [all\\\\:transition-400=\\"\\"] *{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:400ms;}
 [transition~=\\"\\\\32 00\\"]{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:200ms;}
+[after~=\\"content-\\\\[\\\\!\\\\]\\"]::after{content:\\"!\\";}
 @media (min-width: 640px){
 [sm~=\\"bg-blue-600\\"]{--un-bg-opacity:1;background-color:rgba(37,99,235,var(--un-bg-opacity));}
 }"
@@ -260,6 +264,7 @@ exports[`attributify > variant 1`] = `
   "translate-y-",
   "%",
   "rotate-30",
+  "after-content-[unocss]",
   "rotate-60",
   "ma",
   "m-1",

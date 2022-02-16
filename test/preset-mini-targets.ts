@@ -445,6 +445,7 @@ export const presetMiniTargets: string[] = [
   'ws-nowrap',
   'content-empty',
   'content-none',
+  'content-[unocss]',
   'break-normal',
   'break-words',
   'text-clip',
@@ -726,6 +727,7 @@ export const presetMiniTargets: string[] = [
 
   // variants - pseudo elements
   'before:translate-y-full',
+  'after:content-[unocss]',
   'placeholder-opacity-60',
   'placeholder-color-opacity-60',
   'placeholder-color-red-1',

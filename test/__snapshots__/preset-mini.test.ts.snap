@@ -194,6 +194,8 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .rounded-ie-be-1\\\\/2{border-end-end-radius:50%;}
 .border-double{border-style:double;}
 .border-none{border-style:none;}
+.after\\\\:content-\\\\[unocss\\\\]::after,
+.content-\\\\[unocss\\\\]{content:\\"unocss\\";}
 .content-empty,
 .content-none{content:\\"\\";}
 .font-mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\\"Liberation Mono\\",\\"Courier New\\",monospace;}
