@@ -768,6 +768,6 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 @media (min-width: 1536px){
 .at-2xl\\\\:m2{margin:0.5rem;}
 }
-/* layer: unocss */
-.layer-unocss\\\\:block{display:block;}"
+/* layer: uno_css */
+.layer-uno_css\\\\:block{display:block;}"
 `;
