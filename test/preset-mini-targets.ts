@@ -713,6 +713,9 @@ export const presetMiniTargets: string[] = [
   '-p-px',
   '-z-1',
 
+  // variants media
+  'media-cssvar:block',
+
   // variants motion
   'motion-reduce:hover:translate-0',
   'motion-safe:transition',

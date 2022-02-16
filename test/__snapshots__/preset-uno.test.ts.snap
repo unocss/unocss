@@ -16,5 +16,11 @@ exports[`targets 1`] = `
 .placeholder-red-400::placeholder{--un-placeholder-opacity:1;color:rgba(248,113,113,var(--un-placeholder-opacity));}
 .hover\\\\:placeholder-op90:hover::placeholder,
 .placeholder-op90::placeholder{--un-placeholder-opacity:0.9;}
-.placeholder-opacity-10::placeholder{--un-placeholder-opacity:0.1;}"
+.placeholder-opacity-10::placeholder{--un-placeholder-opacity:0.1;}
+@media (hover: none) and (pointer: coarse){
+.media-touch\\\\:p-4{padding:1rem;}
+}
+@media (prefers-reduced-transparency: reduce){
+.media-opacity_not_ok\\\\:opacity-0{opacity:0;}
+}"
 `;
