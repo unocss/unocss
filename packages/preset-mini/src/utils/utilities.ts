@@ -42,7 +42,16 @@ const getThemeColor = (theme: Theme, colors: string[]) =>
  * @return {ParsedColorValue|undefined}  {@link ParsedColorValue} object if string is parseable.
  */
 export const parseColor = (body: string, theme: Theme): ParsedColorValue | undefined => {
-  const [main, opacity] = body.split(/(?:\/|:)/)
+  const split = body.split(/(?:\/|:)/)
+  let main, opacity
+  if (split[0] === '[color') {
+    main = split.slice(0, 2).join(':')
+    opacity = split[2]
+  }
+  else {
+    [main, opacity] = split
+  }
+
   const colors = main
     .replace(/([a-z])([0-9])/g, '$1-$2')
     .split(/-/g)
@@ -52,7 +61,7 @@ export const parseColor = (body: string, theme: Theme): ParsedColorValue | undef
     return
 
   let color: string | undefined
-  const bracket = h.bracket(main)
+  const bracket = h.bracketOfColor(main)
   const bracketOrMain = bracket || main
 
   if (bracketOrMain.startsWith('#'))

@@ -206,8 +206,11 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .peer:is(:placeholder-shown)~.peer-is-placeholder-shown\\\\:text-3xl,
 .peer:not(:placeholder-shown)~.peer-not-placeholder-shown\\\\:text-3xl{font-size:1.875rem;line-height:2.25rem;}
 .peer:not(:placeholder-shown)~.peer-not-placeholder-shown\\\\:text-2xl{font-size:1.5rem;line-height:2rem;}
+.text-\\\\[length\\\\:2em\\\\],
 .text-2em,
 .text-size-\\\\[2em\\\\]{font-size:2em;}
+.text-\\\\[length\\\\:calc\\\\(1em-1px\\\\)\\\\]{font-size:calc(1em - 1px);}
+.text-\\\\[length\\\\:var\\\\(--size\\\\)\\\\]{font-size:var(--size);}
 .text-base{font-size:1rem;line-height:1.5rem;}
 .text-lg{font-size:1.125rem;line-height:1.75rem;}
 .text-size-\\\\$variable{font-size:var(--variable);}
@@ -326,6 +329,8 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .text-\\\\[\\\\#124\\\\]{--un-text-opacity:1;color:rgba(17,34,68,var(--un-text-opacity));}
 .text-\\\\[2em\\\\]{color:2em;}
 .text-\\\\[calc\\\\(1em-1px\\\\)\\\\]{color:calc(1em - 1px);}
+.text-\\\\[color\\\\:var\\\\(--color-x\\\\)\\\\]\\\\:\\\\[trick\\\\]{color:var(--color-x);}
+.text-\\\\[color\\\\:var\\\\(--color\\\\)\\\\],
 .text-\\\\[var\\\\(--color\\\\)\\\\]{color:var(--color);}
 .text-\\\\$variable{color:var(--variable);}
 .text-black\\\\/10{color:rgba(0,0,0,0.1);}
