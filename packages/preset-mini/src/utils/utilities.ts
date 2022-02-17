@@ -56,9 +56,9 @@ export const parseColor = (body: string, theme: Theme): ParsedColorValue | undef
   const bracketOrMain = bracket || main
 
   if (bracketOrMain.startsWith('#'))
-    color = bracketOrMain.slice(1)
+    color = bracketOrMain
   else if (bracketOrMain.startsWith('hex-'))
-    color = bracketOrMain.slice(4)
+    color = `#${bracketOrMain.slice(4)}`
   else if (main.startsWith('$'))
     color = h.cssvar(main)
 
