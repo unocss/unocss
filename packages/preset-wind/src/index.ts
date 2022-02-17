@@ -11,14 +11,7 @@ export type { Theme } from '@unocss/preset-mini'
 
 export { rules, shortcuts, theme, variants }
 
-interface DarkOption {
-  /**
-   * @default 'class'
-   */
-  dark?: 'class' | 'media'
-}
-
-export interface UnoOptions extends DarkOption, PresetMiniOptions { }
+export interface UnoOptions extends PresetMiniOptions { }
 
 export const presetWind = (options: UnoOptions = {}): Preset<Theme> => {
   options.dark = options.dark ?? 'class'

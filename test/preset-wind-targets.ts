@@ -312,24 +312,13 @@ export const presetWindiTargets: string[] = [
   'object-$fit',
 
   // variants - dark/light
-  'dark:not-odd:text-red',
-  'dark:text-xl',
-  'light:text-sm',
   '.dark:text-xl',
   '@dark:text-xl',
 
   // variants combinators
   'svg:fill-red',
 
-  // variants motion
-  'motion-reduce:hover:translate-0',
-  'motion-safe:transition',
-
-  // variants orientations
-  'portrait:hidden',
-  'landscape:hidden',
-
-  // variants placeholder
+  // variants - placeholder
   'placeholder-red-400',
   'placeholder-inherit',
 

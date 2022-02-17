@@ -3,9 +3,10 @@ import type { PresetMiniOptions } from '..'
 import type { Theme } from '../theme'
 import { variantBreakpoints } from './breakpoints'
 import { variantCombinators } from './combinators'
+import { variantColorsMediaOrClass } from './dark'
 import { variantLanguageDirections } from './directions'
 import { variantImportant, variantLayer, variantNegative, variantScope } from './misc'
-import { variantCustomMedia, variantPrint } from './media'
+import { variantCustomMedia, variantMotions, variantOrientations, variantPrint } from './media'
 import { partClasses, variantPseudoClassFunctions, variantPseudoClasses, variantPseudoElements, variantTaggedPseudoClasses } from './pseudo'
 
 export const variants = (options: PresetMiniOptions): Variant<Theme>[] => [
@@ -14,6 +15,8 @@ export const variants = (options: PresetMiniOptions): Variant<Theme>[] => [
   variantImportant,
   variantPrint,
   variantCustomMedia,
+  ...variantOrientations,
+  ...variantMotions,
   variantBreakpoints,
   ...variantCombinators,
   variantPseudoClasses,
@@ -21,6 +24,7 @@ export const variants = (options: PresetMiniOptions): Variant<Theme>[] => [
   ...variantTaggedPseudoClasses(options),
   variantPseudoElements,
   partClasses,
+  ...variantColorsMediaOrClass(options),
   ...variantLanguageDirections,
   variantScope,
 ]
