@@ -318,7 +318,15 @@ export const presetWindiTargets: string[] = [
   // variants combinators
   'svg:fill-red',
 
-  // variants - placeholder
+  // variants motion
+  'motion-reduce:hover:translate-0',
+  'motion-safe:transition',
+
+  // variants orientations
+  'portrait:hidden',
+  'landscape:hidden',
+
+  // variants placeholder
   'placeholder-red-400',
   'placeholder-inherit',
 

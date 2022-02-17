@@ -651,11 +651,6 @@ export const presetMiniTargets: string[] = [
   '[content:attr(attr\\_content)]',
   '[background-image:url(star_transparent.gif),_url(cat_front.png)]',
 
-  // dark/light
-  'dark:not-odd:text-red',
-  'dark:text-xl',
-  'light:text-sm',
-
   // variants
   'active:scale-4',
   'hover:scale-4',
@@ -696,6 +691,11 @@ export const presetMiniTargets: string[] = [
   'children:m-auto',
   'next:mt-0',
 
+  // variant dark/light
+  'dark:not-odd:text-red',
+  'dark:text-xl',
+  'light:text-sm',
+
   // variants layer
   'layer-1:translate-0',
   'layer-uno_css:block',
@@ -715,14 +715,6 @@ export const presetMiniTargets: string[] = [
 
   // variants media
   'media-cssvar:block',
-
-  // variants motion
-  'motion-reduce:hover:translate-0',
-  'motion-safe:transition',
-
-  // variants orientations
-  'portrait:hidden',
-  'landscape:hidden',
 
   // variants prints
   'print:block',
