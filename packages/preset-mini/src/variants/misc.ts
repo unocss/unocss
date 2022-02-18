@@ -1,5 +1,17 @@
 import type { Variant } from '@unocss/core'
 
+export const variantSelector: Variant = {
+  match(matcher) {
+    const match = matcher.match(/^selector-\[(.+?)\][:-]/)
+    if (match) {
+      return {
+        matcher: matcher.slice(match[0].length),
+        selector: () => match[1],
+      }
+    }
+  },
+}
+
 export const variantLayer: Variant = {
   match(matcher) {
     const match = matcher.match(/^layer-([_\d\w]+)[:-]/)
