@@ -76,7 +76,7 @@ function parseColor(str: string) {
 }
 
 function parseHexColor(str: string): CSSColorValue | undefined {
-  const [, body] = str.match(/^#?([\da-f]+)$/i) || []
+  const [, body] = str.match(/^#([\da-f]+)$/i) || []
   if (!body)
     return
 
