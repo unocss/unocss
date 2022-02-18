@@ -44,11 +44,13 @@
     "@unocss/core": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
     "@unocss/preset-icons": "workspace:*",
+    "@unocss/preset-typography": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
     "@unocss/preset-web-fonts": "workspace:*",
     "@unocss/reset": "workspace:*",
     "@unocss/vite": "workspace:*",
-    "@unocss/webpack": "workspace:*"
+    "@unocss/webpack": "workspace:*",
+    "unocss": "workspace:*"
   },
   "devDependencies": {
     "@nuxt/schema": "npm:@nuxt/schema-edge@latest"

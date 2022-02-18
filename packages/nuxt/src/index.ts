@@ -8,12 +8,14 @@ import presetUno from '@unocss/preset-uno'
 import presetAttributify from '@unocss/preset-attributify'
 import presetIcons from '@unocss/preset-icons'
 import presetWebFonts from '@unocss/preset-web-fonts'
+import presetTypography from '@unocss/preset-typography'
 
 import type { PresetUnoOptions } from '@unocss/preset-uno'
 import type { AttributifyOptions } from '@unocss/preset-attributify'
 import type { IconsOptions } from '@unocss/preset-icons'
 import type { UserConfig } from '@unocss/core'
 import type { WebFontsOptions } from '@unocss/preset-web-fonts'
+import type { TypographyOptions } from '@unocss/preset-typography'
 
 const dir = dirname(fileURLToPath(import.meta.url))
 
@@ -67,6 +69,13 @@ export interface UnocssNuxtOptions extends UserConfig {
    * @default false
    */
   webFonts?: boolean | WebFontsOptions
+
+  /**
+   * Enable typography preset and the options of it
+   * Only works when `presets` is not specified
+   * @default false
+   */
+  typography?: boolean | TypographyOptions
 }
 
 export default defineNuxtModule<UnocssNuxtOptions>({
@@ -97,6 +106,8 @@ export default defineNuxtModule<UnocssNuxtOptions>({
         options.presets.push(presetIcons(typeof options.icons === 'boolean' ? {} : options.icons))
       if (options.webFonts)
         options.presets.push(presetWebFonts(typeof options.webFonts === 'boolean' ? {} : options.webFonts))
+      if (options.typography)
+        options.presets.push(presetTypography(typeof options.typography === 'boolean' ? {} : options.typography))
     }
 
     if (options.autoImport) {

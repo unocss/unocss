@@ -28,6 +28,41 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
+    "./preset-attributify": {
+      "require": "./dist/preset-attributify.cjs",
+      "import": "./dist/preset-attributify.mjs",
+      "types": "./dist/preset-attributify.d.ts"
+    },
+    "./preset-icons": {
+      "require": "./dist/preset-icons.cjs",
+      "import": "./dist/preset-icons.mjs",
+      "types": "./dist/preset-icons.d.ts"
+    },
+    "./preset-mini": {
+      "require": "./dist/preset-mini.cjs",
+      "import": "./dist/preset-mini.mjs",
+      "types": "./dist/preset-mini.d.ts"
+    },
+    "./preset-typography": {
+      "require": "./dist/preset-typography.cjs",
+      "import": "./dist/preset-typography.mjs",
+      "types": "./dist/preset-typography.d.ts"
+    },
+    "./preset-uno": {
+      "require": "./dist/preset-uno.cjs",
+      "import": "./dist/preset-uno.mjs",
+      "types": "./dist/preset-uno.d.ts"
+    },
+    "./preset-web-fonts": {
+      "require": "./dist/preset-web-fonts.cjs",
+      "import": "./dist/preset-web-fonts.mjs",
+      "types": "./dist/preset-web-fonts.d.ts"
+    },
+    "./preset-wind": {
+      "require": "./dist/preset-wind.cjs",
+      "import": "./dist/preset-wind.mjs",
+      "types": "./dist/preset-wind.d.ts"
+    },
     "./vite": {
       "require": "./dist/vite.cjs",
       "import": "./dist/vite.mjs",
@@ -46,13 +81,16 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@unocss/core": "workspace:*",
     "@unocss/cli": "workspace:*",
-    "@unocss/reset": "workspace:*",
-    "@unocss/preset-icons": "workspace:*",
+    "@unocss/core": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
+    "@unocss/preset-icons": "workspace:*",
+    "@unocss/preset-mini": "workspace:*",
+    "@unocss/preset-typography": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
     "@unocss/preset-web-fonts": "workspace:*",
+    "@unocss/preset-wind": "workspace:*",
+    "@unocss/reset": "workspace:*",
     "@unocss/vite": "workspace:*"
   },
   "engines": {

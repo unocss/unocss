@@ -11,7 +11,7 @@
 | [@unocss/preset-attributify](./preset-attributify) | Enables Attributify Mode for other rules | ✅ |
 | [@unocss/preset-icons](./preset-icons) | Pure CSS Icons solution powered by Iconify | ✅ |
 | [@unocss/preset-web-fonts](./preset-web-fonts) | Web fonts (Google Fonts, etc.) support | ✅ |
-| [@unocss/preset-typography](./preset-typography) | The typography preset | No |
+| [@unocss/preset-typography](./preset-typography) | The typography preset | ✅ |
 | [@unocss/config](./config) | Configuration file loader | ✅ |
 | [@unocss/reset](./reset) | Collection of common CSS resets | ✅ |
 | [@unocss/vite](./vite) | The Vite plugins | ✅ |
