@@ -130,3 +130,5 @@ export function presetTypography(options?: TypographyOptions): Preset {
     ],
   }
 }
+
+export default presetTypography
