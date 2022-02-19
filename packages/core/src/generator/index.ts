@@ -44,6 +44,18 @@ export class UnoGenerator {
     return set
   }
 
+  makeContext(raw: string, applied: VariantMatchedResult) {
+    const context: RuleContext = {
+      rawSelector: raw,
+      currentSelector: applied[1],
+      theme: this.config.theme,
+      generator: this,
+      variantHandlers: applied[2],
+      constructCSS: (...args) => this.constructCustomCSS(context, ...args),
+    }
+    return context
+  }
+
   async parseToken(raw: string) {
     if (this.blocked.has(raw))
       return
@@ -70,14 +82,7 @@ export class UnoGenerator {
       return
     }
 
-    const context: RuleContext = {
-      rawSelector: raw,
-      currentSelector: applied[1],
-      theme: this.config.theme,
-      generator: this,
-      variantHandlers: applied[2],
-      constructCSS: (...args) => this.constructCustomCSS(context, ...args),
-    }
+    const context = this.makeContext(raw, applied)
 
     // expand shortcuts
     const expanded = this.expandShortcut(applied[1], context)

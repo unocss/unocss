@@ -10,6 +10,7 @@ import { SvelteScopedPlugin } from './modes/svelte-scoped'
 import { ShadowDomModuleModePlugin } from './modes/shadow-dom'
 import { ConfigHMRPlugin } from './config-hmr'
 import type { VitePluginConfig } from './types'
+import { transformCSSPlugin } from './transform/css'
 
 export * from './types'
 export * from './modes/chunk-build'
@@ -31,6 +32,7 @@ export default function UnocssPlugin(
   const ctx = createContext<VitePluginConfig>(configOrPath, defaults)
   const inlineConfig = (configOrPath && typeof configOrPath !== 'string') ? configOrPath : {}
   const mode = inlineConfig.mode ?? 'global'
+  const transformCSS = inlineConfig.transformCSS ?? false
 
   const plugins = [
     ConfigHMRPlugin(ctx),
@@ -62,6 +64,15 @@ export default function UnocssPlugin(
   }
   else {
     throw new Error(`[unocss] unknown mode "${mode}"`)
+  }
+
+  // CSS transform
+  if (transformCSS) {
+    const cssPlugin = transformCSSPlugin(ctx)
+    if (typeof transformCSS === 'string')
+      cssPlugin.enforce = transformCSS
+
+    plugins.push(cssPlugin)
   }
 
   return plugins.filter(Boolean) as Plugin[]

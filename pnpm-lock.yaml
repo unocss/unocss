@@ -15,6 +15,8 @@ importers:
       '@iconify-json/twemoji': ^1.0.2
       '@iconify-json/uim': ^1.0.2
       '@types/codemirror': ^5.60.5
+      '@types/css-tree': ^1.0.7
+      '@types/csso': ^5.0.0
       '@types/fs-extra': ^9.0.13
       '@types/lz-string': ^1.3.34
       '@types/node': ^17.0.15
@@ -22,6 +24,7 @@ importers:
       '@unocss/cli': workspace:*
       '@unocss/config': workspace:*
       '@unocss/core': workspace:*
+      '@unocss/css-transform': workspace:*
       '@unocss/extractor-pug': workspace:*
       '@unocss/preset-attributify': workspace:*
       '@unocss/preset-icons': workspace:*
@@ -76,6 +79,8 @@ importers:
       '@iconify-json/twemoji': 1.0.2
       '@iconify-json/uim': 1.0.2
       '@types/codemirror': 5.60.5
+      '@types/css-tree': 1.0.7
+      '@types/csso': 5.0.0
       '@types/fs-extra': 9.0.13
       '@types/lz-string': 1.3.34
       '@types/node': 17.0.15
@@ -83,6 +88,7 @@ importers:
       '@unocss/cli': link:packages/cli
       '@unocss/config': link:packages/config
       '@unocss/core': link:packages/core
+      '@unocss/css-transform': link:packages/css-transform
       '@unocss/extractor-pug': link:packages/extractor-pug
       '@unocss/preset-attributify': link:packages/preset-attributify
       '@unocss/preset-icons': link:packages/preset-icons
@@ -195,6 +201,15 @@ importers:
   packages/core:
     specifiers: {}
 
+  packages/css-transform:
+    specifiers:
+      '@unocss/core': workspace:*
+      css-tree: ^2.0.4
+    dependencies:
+      css-tree: 2.0.4
+    devDependencies:
+      '@unocss/core': link:../core
+
   packages/extractor-pug:
     specifiers:
       '@types/pug': ^2.0.6
@@ -228,7 +243,7 @@ importers:
       '@unocss/webpack': workspace:*
       unocss: workspace:*
     dependencies:
-      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27418641.56aabd6
+      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27420403.16e2a54
       '@unocss/core': link:../core
       '@unocss/preset-attributify': link:../preset-attributify
       '@unocss/preset-icons': link:../preset-icons
@@ -240,7 +255,7 @@ importers:
       '@unocss/webpack': link:../webpack
       unocss: link:../unocss
     devDependencies:
-      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27418641.56aabd6
+      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27420403.16e2a54
 
   packages/plugins-common:
     specifiers:
@@ -824,17 +839,17 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
 
-  /@nuxt/kit-edge/3.0.0-27418641.56aabd6:
-    resolution: {integrity: sha512-Y5rE5DFMUkUEheQlls+cbDSR3Yq5ZXrRv3mBvF5hJlz0FSYXgAAFKRnKObulfBac0UO7Oq5ojMZfHe+QZGrL2g==}
+  /@nuxt/kit-edge/3.0.0-27420403.16e2a54:
+    resolution: {integrity: sha512-W7/2Hd+lbJfDOK7qTOLSu1VFjpZlC/VsfE/wLbbX3BG2UTn3DsGQe3ksqdmGWn9o2XEWJ9snNMroXJPNrqEUkg==}
     engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0}
     dependencies:
-      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27418641.56aabd6
+      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27420403.16e2a54
       c12: 0.1.3
       consola: 2.15.3
       defu: 5.0.1
       globby: 13.1.1
       hash-sum: 2.0.0
-      jiti: 1.12.15
+      jiti: 1.13.0
       knitwork: 0.1.0
       lodash.template: 4.5.0
       mlly: 0.4.3
@@ -846,14 +861,14 @@ packages:
       untyped: 0.3.0
     dev: false
 
-  /@nuxt/schema-edge/3.0.0-27418641.56aabd6:
-    resolution: {integrity: sha512-gx3uTYGfvLGvDM4xUWDtaWUJ3D/0CYkhkqy+/BUYjPe549O7gnxnUa7Xu0QYEPEfwebCrhbPBf7+Pk4WdJ7ttA==}
+  /@nuxt/schema-edge/3.0.0-27420403.16e2a54:
+    resolution: {integrity: sha512-CDITD834JnlVHj72z6eGyU/Ezr1h52fv+xk3jybfgo0td38ANqT+vWKlLyBJf089Sd2pAP+SIWCIpfwjoknMKw==}
     engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0}
     dependencies:
       c12: 0.1.3
       create-require: 1.1.1
       defu: 5.0.1
-      jiti: 1.12.15
+      jiti: 1.13.0
       pathe: 0.2.0
       scule: 0.2.1
       std-env: 3.0.1
@@ -953,6 +968,16 @@ packages:
     resolution: {integrity: sha512-TiECZmm8St5YxjFUp64LK0c8WU5bxMDt9YaAek1UqUb9swrSCoJhh92fWu1p3mTEqlHjhB5sY7OFBhWroJXZVg==}
     dependencies:
       '@types/tern': 0.23.4
+    dev: true
+
+  /@types/css-tree/1.0.7:
+    resolution: {integrity: sha512-Pz+DfVODpQTAV6PwPBK6kzyy7+f6EyPbr1+mYkc1YolJfl2NAJ4wbg0TC/AJPBsqn9jWfyiO19A/sgpvFLfqnw==}
+    dev: true
+
+  /@types/csso/5.0.0:
+    resolution: {integrity: sha512-EMrCTGpXRUsbFfZBzn2jcW6Sqg8kxWXkJcpvAGYSEzFqAJ2THDJSwiMeS2fPUw+0p6RQNT/n8F/skEc9hUBc0g==}
+    dependencies:
+      '@types/css-tree': 1.0.7
     dev: true
 
   /@types/eslint-scope/3.7.1:
@@ -1745,7 +1770,7 @@ packages:
       defu: 5.0.1
       dotenv: 14.3.2
       gittar: 0.1.1
-      jiti: 1.12.15
+      jiti: 1.13.0
       mlly: 0.4.3
       pathe: 0.2.0
       rc9: 1.2.0
@@ -1946,6 +1971,14 @@ packages:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
+
+  /css-tree/2.0.4:
+    resolution: {integrity: sha512-b4IS9ZUMtGBiNjzYbcj9JhYbyei99R3ai2CSxlu8GQDnoPA/P+NU85hAm0eKDc/Zp660rpK6tFJQ2OSdacMHVg==}
+    engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0, npm: '>=7.0.0'}
+    dependencies:
+      mdn-data: 2.0.23
+      source-map-js: 1.0.2
+    dev: false
 
   /cssesc/3.0.0:
     resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==}
@@ -3655,6 +3688,10 @@ packages:
     hasBin: true
     dev: true
 
+  /jiti/1.13.0:
+    resolution: {integrity: sha512-/n9mNxZj/HDSrincJ6RP+L+yXbpnB8FybySBa+IjIaoH9FIxBbrbRT5XUbe8R7zuVM2AQqNMNDDqz0bzx3znOQ==}
+    hasBin: true
+
   /joycon/3.1.1:
     resolution: {integrity: sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==}
     engines: {node: '>=10'}
@@ -3864,6 +3901,10 @@ packages:
     dependencies:
       sourcemap-codec: 1.4.8
     dev: true
+
+  /mdn-data/2.0.23:
+    resolution: {integrity: sha512-IonVb7pfla2U4zW8rc7XGrtgq11BvYeCxWN8HS+KFBnLDE7XDK9AAMVhRuG6fj9BBsjc69Fqsp6WEActEdNTDQ==}
+    dev: false
 
   /merge-stream/2.0.0:
     resolution: {integrity: sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==}
@@ -5110,6 +5151,7 @@ packages:
 
   /ufo/0.7.9:
     resolution: {integrity: sha512-6t9LrLk3FhqTS+GW3IqlITtfRB5JAVr5MMNjpBECfK827W+Vh5Ilw/LhTcHWrt6b3hkeBvcbjx4Ti7QVFzmcww==}
+    deprecated: 'security: please use latest version'
 
   /unbox-primitive/1.0.1:
     resolution: {integrity: sha512-tZU/3NqK3dA5gpE1KtyiJUrEB0lxnGkMFHptJ7q6ewdZ8s12QrODwNbhIJStmJkd1QDXa1NRA8aF2A1zk/Ypyw==}

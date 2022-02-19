@@ -21,4 +21,11 @@ export interface VitePluginConfig<Theme extends {} = {}> extends UserConfig<Them
    * @default 'global'
    */
   mode?: 'global' | 'per-module' | 'vue-scoped' | 'svelte-scoped' | 'dist-chunk' | 'shadow-dom'
+  /**
+   * Transform CSS for `@apply` directive
+   *
+   * @experimental
+   * @default false
+   */
+  transformCSS?: boolean | 'pre' | 'post'
 }

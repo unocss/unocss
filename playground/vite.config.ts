@@ -12,7 +12,9 @@ export default defineConfig({
   },
   plugins: [
     Vue(),
-    Unocss(),
+    Unocss({
+      transformCSS: true,
+    }),
     Inspect(),
     Components({
       dirs: [
