@@ -372,6 +372,7 @@ importers:
       '@rollup/pluginutils': ^4.1.2
       '@unocss/config': workspace:*
       '@unocss/core': workspace:*
+      '@unocss/css-transform': workspace:*
       '@unocss/inspector': workspace:*
       '@unocss/scope': workspace:*
       vite: ^2.7.13
@@ -379,6 +380,7 @@ importers:
       '@rollup/pluginutils': 4.1.2
       '@unocss/config': link:../config
       '@unocss/core': link:../core
+      '@unocss/css-transform': link:../css-transform
       '@unocss/inspector': link:../inspector
       '@unocss/scope': link:../scope
     devDependencies:
