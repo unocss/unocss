@@ -19,81 +19,87 @@ export async function transformCSS(css: string, uno: UnoGenerator, filename?: st
   const stack: Promise<void>[] = []
 
   const processNode = async(node: CssNode, item: ListItem<CssNode>, list: List<CssNode>) => {
-    if (node.type === 'Rule') {
-      await Promise.all(
-        node.block.children.map(async(childNode, childItem) => {
-          if (childNode.type === 'Atrule' && childNode.prelude?.type) {
-            const raw = '-'
+    if (node.type !== 'Rule')
+      return
 
-            const context = uno.makeContext(raw, [raw, raw, []])
-            // console.log(context)
+    await Promise.all(
+      node.block.children.map(async(childNode, childItem) => {
+        if (!(childNode.type === 'Atrule' && childNode.name === 'apply' && childNode.prelude))
+          return
 
-            let classNames: string[] = []
+        const raw = '-'
+        const context = uno.makeContext(raw, [raw, raw, []])
 
-            if (childNode.prelude.type === 'AtrulePrelude') {
-              classNames = childNode.prelude.children
-                .map(node => node.type === 'Identifier' ? node.name : null)
-                .filter(notNull).toArray()
-            }
+        let classNames: string[] = []
 
-            if (childNode.prelude.type === 'Raw')
-              classNames = childNode.prelude.value.split(/\s+/g)
+        if (childNode.prelude.type === 'AtrulePrelude') {
+          classNames = childNode.prelude.children
+            .map(node => node.type === 'Identifier' ? node.name : null)
+            .filter(notNull).toArray()
+        }
 
-            // expand shortcuts
-            const expanded = classNames.map((i) => {
-              return uno.expandShortcut(i, context) || ([[i], undefined] as [string[], RuleMeta | undefined])
-            }).filter(notNull)
+        if (childNode.prelude.type === 'Raw')
+          classNames = childNode.prelude.value.split(/\s+/g)
 
-            if (expanded.length) {
-              const parentSelector = generate(node.prelude)
+        // expand shortcuts
+        const expanded = classNames.map((i) => {
+          return uno.expandShortcut(i, context) || ([[i], undefined] as [string[], RuleMeta | undefined])
+        }).filter(notNull)
 
-              const utils = (await Promise.all(expanded.map(async i => await uno.stringifyShortcuts([raw, raw, []], context, i[0], i[1])))).filter(notNull).flat().sort((a, b) => a[0] - b[0])
+        if (!expanded.length)
+          return
 
-              for (const i of utils) {
-                if (i[3]) {
-                  const newNodeCss = `${i[3]}{${parentSelector}{${i[2]}}}`
-                  const insertNodeAst = parse(newNodeCss) as StyleSheet
+        const parentSelector = generate(node.prelude)
 
-                  list.insertList(insertNodeAst.children, item)
-                }
-                else if (i[1] && i[1] !== '.\\-') {
-                  const pseudoClassSelectors = (
-                    parse(i[1], {
-                      context: 'selector',
-                    }) as Selector)
-                    .children
-                    .filter(i => i.type === 'PseudoClassSelector')
+        const utils = (
+          await Promise.all(
+            expanded.map(async i => await uno.stringifyShortcuts([raw, raw, []], context, i[0], i[1])),
+          ))
+          .filter(notNull).flat()
+          .sort((a, b) => a[0] - b[0])
 
-                  const parentSelectorAst = clone(node.prelude) as SelectorList
+        for (const i of utils) {
+          if (i[3]) {
+            const newNodeCss = `${i[3]}{${parentSelector}{${i[2]}}}`
+            const insertNodeAst = parse(newNodeCss) as StyleSheet
 
-                  parentSelectorAst.children.forEach((i) => {
-                    if (i.type === 'Selector')
-                      i.children.appendList(pseudoClassSelectors)
-                  })
-
-                  const newNodeCss = `${generate(parentSelectorAst)}{${i[2]}}`
-                  const insertNodeAst = parse(newNodeCss) as StyleSheet
-
-                  list.insertList(insertNodeAst.children, item)
-                }
-                else {
-                  const rules = new List<string>()
-                    .fromArray(i[2]
-                      .replace(/;$/, '')
-                      .split(';'),
-                    ).map(i => parse(i, {
-                      context: 'declaration',
-                    }))
-
-                  node.block.children.insertList(rules, childItem)
-                }
-              }
-            }
-            node.block.children.remove(childItem)
+            list.insertList(insertNodeAst.children, item)
           }
-        }).toArray(),
-      )
-    }
+          else if (i[1] && i[1] !== '.\\-') {
+            const pseudoClassSelectors = (
+              parse(i[1], {
+                context: 'selector',
+              }) as Selector)
+              .children
+              .filter(i => i.type === 'PseudoClassSelector')
+
+            const parentSelectorAst = clone(node.prelude) as SelectorList
+
+            parentSelectorAst.children.forEach((i) => {
+              if (i.type === 'Selector')
+                i.children.appendList(pseudoClassSelectors)
+            })
+
+            const newNodeCss = `${generate(parentSelectorAst)}{${i[2]}}`
+            const insertNodeAst = parse(newNodeCss) as StyleSheet
+
+            list.insertList(insertNodeAst.children, item)
+          }
+          else {
+            const rules = new List<string>()
+              .fromArray(i[2]
+                .replace(/;$/, '')
+                .split(';'),
+              ).map(i => parse(i, {
+                context: 'declaration',
+              }))
+
+            node.block.children.insertList(rules, childItem)
+          }
+        }
+        node.block.children.remove(childItem)
+      }).toArray(),
+    )
   }
 
   walk(ast, (...args) => stack.push(processNode(...args)))
