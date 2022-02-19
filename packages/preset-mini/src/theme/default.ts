@@ -1,6 +1,6 @@
 import { colors } from './colors'
 import { fontFamily, fontSize, letterSpacing, lineHeight, textIndent, textShadow, textStrokeWidth, wordSpacing } from './font'
-import { borderRadius, boxShadow, breakpoints, easing, verticalBreakpoints } from './misc'
+import { borderRadius, boxShadow, breakpoints, duration, easing, lineWidth, ringWidth, spacing, verticalBreakpoints } from './misc'
 import { blur, dropShadow } from './filters'
 import { height, maxHeight, maxWidth, width } from './size'
 import type { Theme } from './types'
@@ -37,10 +37,14 @@ export const theme: Theme = {
   blur,
   dropShadow,
   easing,
+  lineWidth,
+  spacing,
+  duration,
   gridAutoColumn,
   gridAutoRow,
   gridColumn,
   gridRow,
   gridTemplateColumn,
   gridTemplateRow,
+  ringWidth,
 }

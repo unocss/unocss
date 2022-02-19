@@ -1,4 +1,5 @@
-import type { CSSEntries, Rule } from '@unocss/core'
+import type { CSSEntries, Rule, RuleContext } from '@unocss/core'
+import type { Theme } from '@unocss/preset-mini'
 import { colorResolver, directionMap, handler as h } from '@unocss/preset-mini/utils'
 
 export const divides: Rule[] = [
@@ -22,8 +23,8 @@ export const divides: Rule[] = [
   ['divide-none', { 'border-style': 'none' }],
 ]
 
-function handlerDivide([, d, s = '1']: string[]): CSSEntries | undefined {
-  const v = h.bracket.cssvar.px(s)
+function handlerDivide([, d, s]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
+  const v = theme.lineWidth?.[s || 'DEFAULT'] ?? h.bracket.cssvar.px(s || '1')
   if (v != null) {
     const results = directionMap[d].map((item): [string, string] => {
       const key = `border${item}-width`

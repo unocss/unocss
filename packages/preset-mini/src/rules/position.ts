@@ -1,4 +1,5 @@
-import type { CSSEntries, Rule } from '@unocss/core'
+import type { CSSEntries, Rule, RuleContext } from '@unocss/core'
+import type { Theme } from '../theme'
 import { handler as h, insetMap } from '../utils'
 
 export const positions: Rule[] = [
@@ -85,23 +86,23 @@ export const placements: Rule[] = [
   ['place-self-stretch', { 'place-self': 'stretch' }],
 ]
 
-function handleInsetValue(v: string): string | number | undefined {
-  return h.bracket.cssvar.auto.fraction.rem(v)
+function handleInsetValue(v: string, { theme }: RuleContext<Theme>): string | number | undefined {
+  return theme.spacing?.[v] ?? h.bracket.cssvar.auto.fraction.rem(v)
 }
 
-function handleInsetValues([, d, v]: string[]): CSSEntries | undefined {
-  const r = handleInsetValue(v)
+function handleInsetValues([, d, v]: string[], ctx: RuleContext): CSSEntries | undefined {
+  const r = handleInsetValue(v, ctx)
   if (r != null && d in insetMap)
     return insetMap[d].map(i => [i.slice(1), r])
 }
 
 export const insets: Rule[] = [
-  [/^(?:position-|pos-)?inset-(.+)$/, ([, v]) => ({ inset: handleInsetValue(v) })],
+  [/^(?:position-|pos-)?inset-(.+)$/, ([, v], ctx) => ({ inset: handleInsetValue(v, ctx) })],
   [/^(?:position-|pos-)?inset-([xy])-(.+)$/, handleInsetValues],
   [/^(?:position-|pos-)?inset-([rltbse])-(.+)$/, handleInsetValues],
   [/^(?:position-|pos-)?inset-(block|inline)-(.+)$/, handleInsetValues],
   [/^(?:position-|pos-)?inset-([bi][se])-(.+)$/, handleInsetValues],
-  [/^(?:position-|pos-)?(top|left|right|bottom)-(.+)$/, ([, d, v]) => ({ [d]: handleInsetValue(v) })],
+  [/^(?:position-|pos-)?(top|left|right|bottom)-(.+)$/, ([, d, v], ctx) => ({ [d]: handleInsetValue(v, ctx) })],
 ]
 
 export const floats: Rule[] = [

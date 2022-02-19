@@ -152,6 +152,8 @@ export const presetWindiTargets: string[] = [
   'divide-transparent',
   'divide-current',
   'divide-none',
+  'divide-x-none',
+  'divide-inline-none',
 
   // filters
   'filter',
@@ -239,12 +241,14 @@ export const presetWindiTargets: string[] = [
   // shadow, spacing
   'mix-blend-normal',
   'mix-blend-hard-light',
+  'space-y-none',
   'space-x-2',
   'space-y-4',
   'space-x-reverse',
   'space-x-$space',
   'space-inline-2',
   'space-block-4',
+  'space-block-none',
   'space-inline-reverse',
   'space-inline-$space',
 

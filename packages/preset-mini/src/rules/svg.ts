@@ -1,18 +1,19 @@
 import type { Rule } from '@unocss/core'
+import type { Theme } from '../theme'
 import { colorResolver, handler as h } from '../utils'
 
-export const svgUtilities: Rule[] = [
+export const svgUtilities: Rule<Theme>[] = [
   // fills
   [/^fill-(.+)$/, colorResolver('fill', 'fill')],
   [/^fill-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-fill-opacity': h.bracket.percent(opacity) })],
   ['fill-none', { fill: 'none' }],
 
   // stroke size
-  [/^stroke-(?:width-|size-)?(.+)$/, ([, s]) => ({ 'stroke-width': h.bracket.cssvar.fraction.px.number(s) })],
+  [/^stroke-(?:width-|size-)?(.+)$/, ([, s], { theme }) => ({ 'stroke-width': theme.lineWidth?.[s] ?? h.bracket.cssvar.fraction.px.number(s) })],
 
   // stroke dash
   [/^stroke-dash-(.+)$/, ([, s]) => ({ 'stroke-dasharray': h.bracket.cssvar.number(s) })],
-  [/^stroke-offset-(.+)$/, ([, s]) => ({ 'stroke-dashoffset': h.bracket.cssvar.px.numberWithUnit(s) })],
+  [/^stroke-offset-(.+)$/, ([, s], { theme }) => ({ 'stroke-dashoffset': theme.lineWidth?.[s] ?? h.bracket.cssvar.px.numberWithUnit(s) })],
 
   // stroke colors
   [/^stroke-(.+)$/, colorResolver('stroke', 'stroke')],

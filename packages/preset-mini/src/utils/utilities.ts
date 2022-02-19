@@ -12,8 +12,8 @@ import { directionMap } from './mappings'
  * @return {@link DynamicMatcher} object.
  * @see {@link directionMap}
  */
-export const directionSize = (propertyPrefix: string) => ([_, direction, size]: string[]): CSSEntries | undefined => {
-  const v = h.bracket.cssvar.auto.fraction.rem(size)
+export const directionSize = (propertyPrefix: string) => ([_, direction, size]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined => {
+  const v = theme.spacing?.[size || 'DEFAULT'] ?? h.bracket.cssvar.auto.fraction.rem(size)
   if (v != null)
     return directionMap[direction].map(i => [`${propertyPrefix}${i}`, v])
 }

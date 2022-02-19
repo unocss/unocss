@@ -1,15 +1,16 @@
 import type { Rule } from '@unocss/core'
+import type { Theme } from '../theme'
 import { colorResolver, handler as h } from '../utils'
 
-export const outline: Rule[] = [
+export const outline: Rule<Theme>[] = [
   // size
-  [/^outline-(?:width-|size-)?(.+)$/, ([, d]) => ({ 'outline-width': h.bracket.cssvar.px(d) })],
+  [/^outline-(?:width-|size-)?(.+)$/, ([, d], { theme }) => ({ 'outline-width': theme.lineWidth?.[d] ?? h.bracket.cssvar.px(d) })],
 
   // color
   [/^outline-(?:color-)?(.+)$/, colorResolver('outline-color', 'outline-color')],
 
   // offset
-  [/^outline-offset-(.+)$/, ([, d]) => ({ 'outline-offset': h.bracket.cssvar.px(d) })],
+  [/^outline-offset-(.+)$/, ([, d], { theme }) => ({ 'outline-offset': theme.lineWidth?.[d] ?? h.bracket.cssvar.px(d) })],
 
   // style
   ['outline', { 'outline-style': 'solid' }],

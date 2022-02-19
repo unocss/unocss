@@ -23,8 +23,8 @@ export const animations: Rule<Theme>[] = [
   [/^animate-name-(.+)/, ([, d]) => ({ 'animation-name': h.bracket.cssvar(d) ?? d })],
 
   // timings
-  [/^animate-duration-(.+)$/, ([, d]) => ({ 'animation-duration': h.bracket.cssvar.time(d) })],
-  [/^animate-delay-(.+)$/, ([, d]) => ({ 'animation-delay': h.bracket.cssvar.time(d) })],
+  [/^animate-duration-(.+)$/, ([, d], { theme }) => ({ 'animation-duration': theme.duration?.[d || 'DEFAULT'] ?? h.bracket.cssvar.time(d) })],
+  [/^animate-delay-(.+)$/, ([, d], { theme }) => ({ 'animation-delay': theme.duration?.[d || 'DEFAULT'] ?? h.bracket.cssvar.time(d) })],
   [/^animate-ease(?:-(.+))?$/, ([, d], { theme }) => ({ 'animation-timing-function': theme.easing?.[d || 'DEFAULT'] ?? h.bracket.cssvar(d) })],
 
   // fill mode

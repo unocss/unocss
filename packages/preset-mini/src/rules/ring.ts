@@ -6,8 +6,8 @@ import { varEmpty } from './static'
 
 export const rings: Rule<Theme>[] = [
   // size
-  [/^ring(?:-(.+))?$/, ([, d]) => {
-    const value = h.px(d || '1')
+  [/^ring(?:-(.+))?$/, ([, d], { theme }) => {
+    const value = theme.ringWidth?.[d || 'DEFAULT'] ?? h.px(d || '1')
     if (value) {
       return [
         {
@@ -27,11 +27,11 @@ export const rings: Rule<Theme>[] = [
       ]
     }
   }],
-  [/^ring-(?:width-|size-)(.+)$/, ([, d]) => ({ '--un-ring-width': h.bracket.cssvar.px(d) })],
+  [/^ring-(?:width-|size-)(.+)$/, ([, d], { theme }) => ({ '--un-ring-width': theme.lineWidth?.[d] ?? h.bracket.cssvar.px(d) })],
 
   // offset size
   ['ring-offset', { '--un-ring-offset-width': '1px' }],
-  [/^ring-offset-(?:width-|size-)?(.+)$/, ([, d]) => ({ '--un-ring-offset-width': h.bracket.cssvar.px(d) })],
+  [/^ring-offset-(?:width-|size-)?(.+)$/, ([, d], { theme }) => ({ '--un-ring-offset-width': theme.lineWidth?.[d] ?? h.bracket.cssvar.px(d) })],
 
   // colors
   [/^ring-(.+)$/, colorResolver('--un-ring-color', 'ring')],
