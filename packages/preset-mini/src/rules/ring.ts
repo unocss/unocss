@@ -16,7 +16,7 @@ const ringBase = {
 export const rings: Rule<Theme>[] = [
   // size
   [/^ring(?:-(.+))?$/, ([, d]) => {
-    const value = h.px(d || '1')
+    const value = h.px(d || '3')
     if (value) {
       return [
         ringBase,
