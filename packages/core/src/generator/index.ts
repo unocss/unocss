@@ -247,6 +247,12 @@ export class UnoGenerator {
     }
   }
 
+  async regenerate(userConfig: UserConfig, options?: GenerateOptions, defaults?: UserConfigDefaults) {
+    const lastCache = new Set(this._cache.keys())
+    this.setConfig(userConfig, defaults ?? this.defaults)
+    return this.generate(lastCache, options)
+  }
+
   matchVariants(raw: string, current?: string): VariantMatchedResult {
     // process variants
     const usedVariants = new Set<Variant>()
