@@ -69,15 +69,16 @@ export async function transformCSS(css: string, uno: UnoGenerator, filename?: st
           }, [] as Writeable<StringifiedUtil>[])
 
         for (const i of utils) {
-          if (i[3]) {
-            const newNodeCss = `${i[3]}{${parentSelector}{${i[2]}}}`
+          const [, selector, body, parent] = i
+          if (parent) {
+            const newNodeCss = `${parent}{${parentSelector}{${body}}}`
             const insertNodeAst = parse(newNodeCss) as StyleSheet
 
             list.insertList(insertNodeAst.children, item)
           }
-          else if (i[1] && i[1] !== '.\\-') {
+          else if (selector && selector !== '.\\-') {
             const pseudoClassSelectors = (
-              parse(i[1], {
+              parse(selector, {
                 context: 'selector',
               }) as Selector)
               .children
@@ -90,14 +91,14 @@ export async function transformCSS(css: string, uno: UnoGenerator, filename?: st
                 i.children.appendList(pseudoClassSelectors)
             })
 
-            const newNodeCss = `${generate(parentSelectorAst)}{${i[2]}}`
+            const newNodeCss = `${generate(parentSelectorAst)}{${body}}`
             const insertNodeAst = parse(newNodeCss) as StyleSheet
 
             list.insertList(insertNodeAst.children, item)
           }
           else {
             const rules = new List<string>()
-              .fromArray(i[2]
+              .fromArray(body
                 .replace(/;$/, '')
                 .split(';'),
               ).map(i => parse(i, {
