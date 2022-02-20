@@ -60,7 +60,7 @@ export async function transformCSS(css: string, uno: UnoGenerator, filename?: st
           .filter(notNull).flat()
           .sort((a, b) => a[0] - b[0])
           .reduce((acc, item) => {
-            const target = acc.find(i => i[1] === item[1])
+            const target = acc.find(i => i[1] === item[1] && i[3] === item[3])
             if (target)
               target[2] += item[2]
             else
@@ -115,8 +115,6 @@ export async function transformCSS(css: string, uno: UnoGenerator, filename?: st
   walk(ast, (...args) => stack.push(processNode(...args)))
 
   await Promise.all(stack)
-
-  // @todo merge rules with same media query
 
   return generate(ast)
 }

@@ -31,7 +31,7 @@ describe('css-transform', () => {
       uno,
     )
     expect(result)
-      .toMatchInlineSnapshot('".btn{margin:0.25rem;margin:0.5rem;margin:0.75rem}"')
+      .toMatchInlineSnapshot('"@media (min-width:768px){.btn{margin:0.5rem}}@media (min-width:1024px){.btn{margin:0.75rem}}.btn{margin:0.25rem}"')
   })
 
   test('pseudo-classes', async() => {
