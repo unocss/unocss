@@ -55,7 +55,7 @@ export async function transformCSS(css: string, uno: UnoGenerator, filename?: st
 
         const utils = (
           await Promise.all(
-            expanded.map(async i => await uno.stringifyShortcuts([raw, raw, []], context, i[0], i[1])),
+            expanded.map(i => uno.stringifyShortcuts([raw, raw, []], context, i[0], i[1])),
           ))
           .filter(notNull).flat()
           .sort((a, b) => a[0] - b[0])
