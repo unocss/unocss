@@ -1,7 +1,9 @@
 import { notNull } from '@unocss/core'
-import type { RuleMeta, UnoGenerator } from '@unocss/core'
+import type { RuleMeta, StringifiedUtil, UnoGenerator } from '@unocss/core'
 import type { CssNode, ListItem, Selector, SelectorList, StyleSheet } from 'css-tree'
 import { List, clone, generate, parse, walk } from 'css-tree'
+
+type Writeable<T> = { -readonly [P in keyof T]: T[P] }
 
 export async function transformCSS(css: string, uno: UnoGenerator, filename?: string) {
   if (!css.includes('@apply'))
@@ -57,6 +59,14 @@ export async function transformCSS(css: string, uno: UnoGenerator, filename?: st
           ))
           .filter(notNull).flat()
           .sort((a, b) => a[0] - b[0])
+          .reduce((acc, item) => {
+            const target = acc.find(i => i[1] === item[1])
+            if (target)
+              target[2] += item[2]
+            else
+              acc.push(item as Writeable<StringifiedUtil>)
+            return acc
+          }, [] as Writeable<StringifiedUtil>[])
 
         for (const i of utils) {
           if (i[3]) {
@@ -106,7 +116,7 @@ export async function transformCSS(css: string, uno: UnoGenerator, filename?: st
 
   await Promise.all(stack)
 
-  // @todo merge rules with same selectors
+  // @todo merge rules with same media query
 
   return generate(ast)
 }
