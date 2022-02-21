@@ -10,6 +10,7 @@ import { SvelteScopedPlugin } from './modes/svelte-scoped'
 import { ShadowDomModuleModePlugin } from './modes/shadow-dom'
 import { ConfigHMRPlugin } from './config-hmr'
 import type { VitePluginConfig } from './types'
+import { initTransformerPlugins } from './transformers'
 
 export * from './types'
 export * from './modes/chunk-build'
@@ -33,6 +34,7 @@ export default function UnocssPlugin(
   const mode = inlineConfig.mode ?? 'global'
 
   const plugins = [
+    ...initTransformerPlugins(ctx),
     ConfigHMRPlugin(ctx),
   ]
 

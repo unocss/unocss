@@ -1,0 +1,47 @@
+{
+  "name": "@unocss/transformer-variant-group",
+  "version": "0.25.1",
+  "description": "Variant group transformer for UnoCSS",
+  "keywords": [
+    "unocss",
+    "unocss-transformer"
+  ],
+  "homepage": "https://github.com/unocss/unocss/tree/main/packages/transformer-variant-group#readme",
+  "bugs": {
+    "url": "https://github.com/unocss/unocss/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unocss/unocss.git",
+    "directory": "packages/transformer-variant-group"
+  },
+  "funding": "https://github.com/sponsors/antfu",
+  "license": "MIT",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub"
+  },
+  "peerDependencies": {
+    "@unocss/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@unocss/core": "workspace:*"
+  },
+  "dependencies": {
+    "magic-string": "^0.25.7"
+  }
+}
