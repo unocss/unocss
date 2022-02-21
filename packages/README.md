@@ -1,11 +1,11 @@
 # UnoCSS Packages
 
-| Package | Description | Included in `unocss` | Enabled by default |
+| Package | Description | Included in `unocss` | Enabled |
 | ------- | ----------- | -------------------- | ------------------ |
-| [unocss](./unocss) | The default package that contains common presets and plugins | - | - |
-| [@unocss/core](./core) | The core library without any preset | ✅ | - |
+| [unocss](./unocss) | The default package with common presets and plugins | - | - |
+| [@unocss/core](./core) | The core library without preset | ✅ | - |
 | [@unocss/cli](./cli) | Command line interface for UnoCSS | ✅ | - |
-| [@unocss/preset-uno](./preset-uno) | The default preset, a superset of common Atomic CSS frameworks | ✅ | ✅ |
+| [@unocss/preset-uno](./preset-uno) | The default preset | ✅ | ✅ |
 | [@unocss/preset-mini](./preset-mini) | The minimal but essential rules and variants | ✅ | ✅ |
 | [@unocss/preset-wind](./preset-wind) | Tailwind / Windi CSS compact preset | ✅ | ✅ |
 | [@unocss/preset-attributify](./preset-attributify) | Enables Attributify Mode for other rules | ✅ | No |

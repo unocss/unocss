@@ -117,10 +117,6 @@ html.dark {
   line-height: 1.25;
   outline: 2px solid transparent;
   outline-offset: 2px;
-  --un-ring-offset-shadow: 0 0 #0000;
-  --un-ring-shadow: 0 0 #0000;
-  --un-shadow-inset: var(--un-empty, /*!*/ /*!*/);
-  --un-shadow: 0 0 #0000;
   --un-ring-inset: var(--un-empty, /*!*/ /*!*/);
   --un-ring-offset-width: 0px;
   --un-ring-offset-color: #fff;
@@ -223,10 +219,6 @@ html.dark {
   padding-top: 2rem;
 }
 input:focus {
-  --un-ring-offset-shadow: 0 0 #0000;
-  --un-ring-shadow: 0 0 #0000;
-  --un-shadow-inset: var(--un-empty, /*!*/ /*!*/);
-  --un-shadow: 0 0 #0000;
   --un-ring-inset: var(--un-empty, /*!*/ /*!*/);
   --un-ring-offset-width: 0px;
   --un-ring-offset-color: #fff;
@@ -259,10 +251,6 @@ input {
 .btn:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
-  --un-ring-offset-shadow: 0 0 #0000;
-  --un-ring-shadow: 0 0 #0000;
-  --un-shadow-inset: var(--un-empty, /*!*/ /*!*/);
-  --un-shadow: 0 0 #0000;
   --un-ring-inset: var(--un-empty, /*!*/ /*!*/);
   --un-ring-offset-width: 0px;
   --un-ring-offset-color: #fff;
