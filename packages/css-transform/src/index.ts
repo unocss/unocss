@@ -81,7 +81,7 @@ export async function transformCSS(css: string, uno: UnoGenerator, filename?: st
 
             parentSelectorAst.children.forEach((i) => {
               if (i.type === 'Selector')
-                i.children.appendList(pseudoClassSelectors)
+                i.children.appendList(pseudoClassSelectors.copy())
             })
 
             const newNodeCss = `${generate(parentSelectorAst)}{${body}}`

@@ -52,6 +52,24 @@ describe('css-transform', () => {
       .toMatchInlineSnapshot('"input:focus{border-width:1px;border-style:solid}input{padding-left:0.75rem;padding-right:0.75rem}"')
   })
 
+  test('multiple selector', async() => {
+    const result = await transformCSS(
+      '.btn,.box { @apply px-3 focus:border; }',
+      uno,
+    )
+    expect(result)
+      .toMatchInlineSnapshot('".btn:focus,.box:focus{border-width:1px;border-style:solid}.btn,.box{padding-left:0.75rem;padding-right:0.75rem}"')
+  })
+
+  test('two class selector', async() => {
+    const result = await transformCSS(
+      '.btn.box { @apply px-3 focus:border; }',
+      uno,
+    )
+    expect(result)
+      .toMatchInlineSnapshot('".btn.box:focus{border-width:1px;border-style:solid}.btn.box{padding-left:0.75rem;padding-right:0.75rem}"')
+  })
+
   test('multiple apply', async() => {
     const result = await transformCSS(
       '.btn { @apply p-3; @apply bg-white; @apply hover:bg-blue-500; @apply hover:border }',
