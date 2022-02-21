@@ -34,6 +34,15 @@ describe('css-transform', () => {
       .toMatchInlineSnapshot('"@media (min-width:768px){.btn{margin:0.5rem}}@media (min-width:1024px){.btn{margin:0.75rem}}.btn{margin:0.25rem}"')
   })
 
+  test('variant group', async() => {
+    const result = await transformCSS(
+      '.btn { @apply grid-(cols-2 rows-4) hover:(border bg-white) }',
+      uno,
+    )
+    expect(result)
+      .toMatchInlineSnapshot('".btn:hover{border-width:1px;border-style:solid;--un-bg-opacity:1;background-color:rgba(255,255,255,var(--un-bg-opacity))}.btn{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(4,minmax(0,1fr))}"')
+  })
+
   test('pseudo-classes', async() => {
     const result = await transformCSS(
       '.btn { @apply p-3 hover:bg-white focus:border }',

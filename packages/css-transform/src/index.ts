@@ -1,4 +1,4 @@
-import { notNull } from '@unocss/core'
+import { expandVariantGroup, notNull } from '@unocss/core'
 import type { StringifiedUtil, UnoGenerator } from '@unocss/core'
 import type { CssNode, ListItem, Selector, SelectorList, StyleSheet } from 'css-tree'
 import { List, clone, generate, parse, walk } from 'css-tree'
@@ -29,16 +29,10 @@ export async function transformCSS(css: string, uno: UnoGenerator, filename?: st
         if (!(childNode.type === 'Atrule' && childNode.name === 'apply' && childNode.prelude))
           return
 
-        let classNames: string[] = []
+        if (childNode.prelude.type !== 'Raw')
+          return
 
-        if (childNode.prelude.type === 'AtrulePrelude') {
-          classNames = childNode.prelude.children
-            .map(node => node.type === 'Identifier' ? node.name : null)
-            .filter(notNull).toArray()
-        }
-        else if (childNode.prelude.type === 'Raw') {
-          classNames = childNode.prelude.value.split(/\s+/g)
-        }
+        const classNames = expandVariantGroup(childNode.prelude.value).split(/\s+/g)
 
         const utils = (
           await Promise.all(
