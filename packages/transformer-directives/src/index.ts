@@ -5,18 +5,18 @@ import { List, clone, generate, parse, walk } from 'css-tree'
 
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
 
-export default function transformerCSSDirective(): SourceCodeTransformer {
+export default function transformerDirectives(): SourceCodeTransformer {
   return {
     name: 'css-directive',
     enforce: 'pre',
     idFilter: id => id.endsWith('.css'),
     transform: (code, id, ctx) => {
-      return transformCSSDirective(code, ctx.uno, id)
+      return transformDirectives(code, ctx.uno, id)
     },
   }
 }
 
-export async function transformCSSDirective(css: string, uno: UnoGenerator, filename?: string) {
+export async function transformDirectives(css: string, uno: UnoGenerator, filename?: string) {
   if (!css.includes('@apply'))
     return css
 

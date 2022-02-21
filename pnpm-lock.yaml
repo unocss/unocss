@@ -33,7 +33,7 @@ importers:
       '@unocss/preset-web-fonts': workspace:*
       '@unocss/preset-wind': workspace:*
       '@unocss/reset': workspace:*
-      '@unocss/transformer-css-directive': workspace:*
+      '@unocss/transformer-directives': workspace:*
       '@unocss/transformer-variant-group': workspace:*
       '@unocss/vite': workspace:*
       '@unocss/webpack': workspace:*
@@ -98,7 +98,7 @@ importers:
       '@unocss/preset-web-fonts': link:packages/preset-web-fonts
       '@unocss/preset-wind': link:packages/preset-wind
       '@unocss/reset': link:packages/reset
-      '@unocss/transformer-css-directive': link:packages/transformer-css-directive
+      '@unocss/transformer-directives': link:packages/transformer-directives
       '@unocss/transformer-variant-group': link:packages/transformer-variant-group
       '@unocss/vite': link:packages/vite
       '@unocss/webpack': link:packages/webpack
@@ -336,7 +336,7 @@ importers:
   packages/scope:
     specifiers: {}
 
-  packages/transformer-css-directive:
+  packages/transformer-directives:
     specifiers:
       '@unocss/core': workspace:*
       css-tree: ^2.0.4
@@ -366,6 +366,8 @@ importers:
       '@unocss/preset-web-fonts': workspace:*
       '@unocss/preset-wind': workspace:*
       '@unocss/reset': workspace:*
+      '@unocss/transformer-directives': workspace:*
+      '@unocss/transformer-variant-group': workspace:*
       '@unocss/vite': workspace:*
     dependencies:
       '@unocss/cli': link:../cli
@@ -378,6 +380,8 @@ importers:
       '@unocss/preset-web-fonts': link:../preset-web-fonts
       '@unocss/preset-wind': link:../preset-wind
       '@unocss/reset': link:../reset
+      '@unocss/transformer-directives': link:../transformer-directives
+      '@unocss/transformer-variant-group': link:../transformer-variant-group
       '@unocss/vite': link:../vite
 
   packages/vite:
@@ -387,7 +391,7 @@ importers:
       '@unocss/core': workspace:*
       '@unocss/inspector': workspace:*
       '@unocss/scope': workspace:*
-      '@unocss/transformer-css-directive': workspace:*
+      '@unocss/transformer-directives': workspace:*
       vite: ^2.7.13
     dependencies:
       '@rollup/pluginutils': 4.1.2
@@ -395,7 +399,7 @@ importers:
       '@unocss/core': link:../core
       '@unocss/inspector': link:../inspector
       '@unocss/scope': link:../scope
-      '@unocss/transformer-css-directive': link:../transformer-css-directive
+      '@unocss/transformer-directives': link:../transformer-directives
     devDependencies:
       vite: 2.7.13
 

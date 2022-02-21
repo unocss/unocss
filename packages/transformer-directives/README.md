@@ -1,16 +1,16 @@
-# @unocss/transformer-css-directive
+# @unocss/transformer-directives
 
 UnoCSS transformer for `@apply` directive
 
 ## Install
 
 ```bash
-npm i -D @unocss/transformer-css-directive
+npm i -D @unocss/transformer-directives
 ```
 
 ```ts
 import Unocss from 'unocss/vite'
-import transformerDirective from '@unocss/transformer-css-directive'
+import transformerDirective from '@unocss/transformer-directives'
 
 Unocss({
   transformers: [

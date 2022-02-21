@@ -1,12 +1,12 @@
 import { readFile } from 'fs/promises'
 import { describe, expect, test } from 'vitest'
-import { transformCSSDirective } from '@unocss/transformer-css-directive'
+import { transformDirectives } from '@unocss/transformer-directives'
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
 
-describe('transformer-css-directive', () => {
+describe('transformer-directives', () => {
   const uno = createGenerator({
     presets: [
       presetUno({
@@ -19,7 +19,7 @@ describe('transformer-css-directive', () => {
   })
 
   async function transform(code: string) {
-    const result = await transformCSSDirective(code, uno)
+    const result = await transformDirectives(code, uno)
     if (result == null)
       return null
     return prettier.format(result, {

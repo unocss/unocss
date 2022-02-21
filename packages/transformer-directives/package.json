@@ -1,12 +1,12 @@
 {
-  "name": "@unocss/transformer-css-directive",
+  "name": "@unocss/transformer-directives",
   "version": "0.25.0",
   "description": "UnoCSS transformer for `@apply` directive",
   "keywords": [
     "unocss",
     "unocss-transformer"
   ],
-  "homepage": "https://github.com/antfu/unocss/tree/main/packages/transformer-css-directive#readme",
+  "homepage": "https://github.com/antfu/unocss/tree/main/packages/transformer-directives#readme",
   "bugs": {
     "url": "https://github.com/antfu/unocss/issues"
   },
@@ -14,7 +14,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/antfu/unocss.git",
-    "directory": "packages/transformer-css-directive"
+    "directory": "packages/transformer-directives"
   },
   "funding": "https://github.com/sponsors/antfu",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",

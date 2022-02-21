@@ -1,7 +1,7 @@
 import { defineConfig, presetAttributify, presetUno } from 'unocss'
 import presetIcons from '@unocss/preset-icons'
 import transformerVariantGroup from '@unocss/transformer-variant-group'
-import transformerCSSDirective from '@unocss/transformer-css-directive'
+import transformerDirectives from '@unocss/transformer-directives'
 
 export function createConfig({ strict = true, dev = true } = {}) {
   return defineConfig({
@@ -29,7 +29,7 @@ export function createConfig({ strict = true, dev = true } = {}) {
     ],
     transformers: [
       transformerVariantGroup(),
-      transformerCSSDirective(),
+      transformerDirectives(),
     ],
   })
 }

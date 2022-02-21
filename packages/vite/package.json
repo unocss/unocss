@@ -41,7 +41,7 @@
     "@rollup/pluginutils": "^4.1.2",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
-    "@unocss/transformer-css-directive": "workspace:*",
+    "@unocss/transformer-directives": "workspace:*",
     "@unocss/inspector": "workspace:*",
     "@unocss/scope": "workspace:*"
   },

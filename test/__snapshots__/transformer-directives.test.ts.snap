@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`transformer-css-directive > css file 1`] = `
+exports[`transformer-directives > css file 1`] = `
 ":root {
   --header-height: 4.5rem;
 }

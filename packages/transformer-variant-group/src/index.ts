@@ -7,12 +7,12 @@ export default function transformerVariantGroup(): SourceCodeTransformer {
     name: 'variant-group',
     enforce: 'pre',
     async transform(code) {
-      return transformGroups(code)
+      return transformVariantGroups(code)
     },
   }
 }
 
-export function transformGroups(code: string, sourcemap = true) {
+export function transformVariantGroups(code: string, sourcemap = true) {
   const s = new MagicString(code)
   let hasReplaced = false
   let match
