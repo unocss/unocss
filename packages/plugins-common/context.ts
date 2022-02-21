@@ -1,25 +1,10 @@
 import { createFilter } from '@rollup/pluginutils'
-import type { LoadConfigResult, LoadConfigSource } from '@unocss/config'
+import type { LoadConfigSource } from '@unocss/config'
 import { createConfigLoader } from '@unocss/config'
-import type { UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
+import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { BetterMap, createGenerator } from '@unocss/core'
 import { CSS_PLACEHOLDER, INCLUDE_COMMENT } from './constants'
 import { defaultExclude, defaultInclude } from './defaults'
-
-export interface UnocssPluginContext<Config extends UserConfig = UserConfig> {
-  ready: Promise<LoadConfigResult<Config>>
-  uno: UnoGenerator
-  tokens: Set<string>
-  modules: BetterMap<string, string>
-  filter: (code: string, id: string) => boolean
-  extract: (code: string, id?: string) => Promise<void>
-
-  reloadConfig: () => Promise<LoadConfigResult<Config>>
-  getConfig: () => Promise<Config>
-
-  invalidate: () => void
-  onInvalidate: (fn: () => void) => void
-}
 
 export function createContext<Config extends UserConfig = UserConfig>(
   configOrPath?: Config | string,

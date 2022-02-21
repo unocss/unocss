@@ -1,5 +1,5 @@
 import type { Plugin, ViteDevServer, ResolvedConfig as ViteResolvedConfig } from 'vite'
-import type { UnocssPluginContext } from '../../../../plugins-common'
+import type { UnocssPluginContext } from '@unocss/core'
 import { LAYER_MARK_ALL, getPath, resolveId } from '../../../../plugins-common'
 
 const WARN_TIMEOUT = 3000

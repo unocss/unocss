@@ -1,4 +1,6 @@
+import type { LoadConfigResult } from 'unconfig'
 import type { UnoGenerator } from './generator'
+import type { BetterMap } from './utils'
 
 /* eslint-disable no-use-before-define */
 export type Awaitable<T> = T | Promise<T>
@@ -71,6 +73,10 @@ export interface RuleContext<Theme extends {} = {}> {
    * Matched variants handlers for this rule.
    */
   variantHandlers: VariantHandler[]
+  /**
+   * The result of variant matching.
+   */
+  variantMatch: VariantMatchedResult
   /**
    * Constrcut a custom CSS rule.
    * Variants and selector escaping will be handled automatically.
@@ -326,6 +332,21 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
   envMode?: 'dev' | 'build'
 }
 
+export interface UnocssPluginContext<Config extends UserConfig = UserConfig> {
+  ready: Promise<LoadConfigResult<Config>>
+  uno: UnoGenerator
+  tokens: Set<string>
+  modules: BetterMap<string, string>
+  filter: (code: string, id: string) => boolean
+  extract: (code: string, id?: string) => Promise<void>
+
+  reloadConfig: () => Promise<LoadConfigResult<Config>>
+  getConfig: () => Promise<Config>
+
+  invalidate: () => void
+  onInvalidate: (fn: () => void) => void
+}
+
 export interface SourceMap {
   file?: string
   mappings?: string
@@ -356,7 +377,7 @@ export interface SourceCodeTransformer {
   /**
    * The transform function
    */
-  transform: (code: string, id: string) => Awaitable<string | TransformResult | null | undefined>
+  transform: (code: string, id: string, ctx: UnocssPluginContext) => Awaitable<string | TransformResult | null | undefined>
 }
 
 /**

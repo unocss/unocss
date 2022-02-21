@@ -1,6 +1,6 @@
 import type { TransformPluginContext } from 'rollup'
 import type { Plugin } from 'vite'
-import type { UnocssPluginContext } from '../../plugins-common'
+import type { UnocssPluginContext } from '@unocss/core'
 
 export function initTransformerPlugins(ctx: UnocssPluginContext): Plugin[] {
   async function applyTransformers(c: TransformPluginContext, _code: string, id: string, enforce?: 'pre' | 'post') {
@@ -17,7 +17,7 @@ export function initTransformerPlugins(ctx: UnocssPluginContext): Plugin[] {
       else if (!ctx.filter(code, id)) {
         continue
       }
-      const result = (await t.transform(code, id))
+      const result = (await t.transform(code, id, ctx))
       if (result == null)
         continue
       if (typeof result === 'string') {

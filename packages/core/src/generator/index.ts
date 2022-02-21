@@ -44,32 +44,7 @@ export class UnoGenerator {
     return set
   }
 
-  async parseToken(raw: string) {
-    if (this.blocked.has(raw))
-      return
-
-    // use caches if possible
-    if (this._cache.has(raw))
-      return this._cache.get(raw)
-
-    let current = raw
-    for (const p of this.config.preprocess)
-      current = p(raw)!
-
-    if (this.isBlocked(current)) {
-      this.blocked.add(raw)
-      this._cache.set(raw, null)
-      return
-    }
-
-    const applied = this.matchVariants(raw, current)
-
-    if (!applied || this.isBlocked(applied[1])) {
-      this.blocked.add(raw)
-      this._cache.set(raw, null)
-      return
-    }
-
+  makeContext(raw: string, applied: VariantMatchedResult) {
     const context: RuleContext = {
       rawSelector: raw,
       currentSelector: applied[1],
@@ -77,28 +52,65 @@ export class UnoGenerator {
       generator: this,
       variantHandlers: applied[2],
       constructCSS: (...args) => this.constructCustomCSS(context, ...args),
+      variantMatch: applied,
+    }
+    return context
+  }
+
+  async parseToken(raw: string, alias?: string) {
+    if (this.blocked.has(raw))
+      return
+
+    const cacheKey = `${raw}${alias ? ` ${alias}` : ''}`
+
+    // use caches if possible
+    const cached = this._cache.get(cacheKey)
+    if (cached)
+      return cached
+
+    let current = raw
+    for (const p of this.config.preprocess)
+      current = p(raw)!
+
+    if (this.isBlocked(current)) {
+      this.blocked.add(raw)
+      this._cache.set(cacheKey, null)
+      return
     }
 
+    const applied = this.matchVariants(raw, current)
+
+    if (!applied || this.isBlocked(applied[1])) {
+      this.blocked.add(raw)
+      this._cache.set(cacheKey, null)
+      return
+    }
+
+    const context = this.makeContext(
+      raw,
+      [alias || applied[0], applied[1], applied[2]],
+    )
+
     // expand shortcuts
-    const expanded = this.expandShortcut(applied[1], context)
+    const expanded = this.expandShortcut(context.currentSelector, context)
     if (expanded) {
-      const utils = await this.stringifyShortcuts(applied, context, expanded[0], expanded[1])
+      const utils = await this.stringifyShortcuts(context.variantMatch, context, expanded[0], expanded[1])
       if (utils?.length) {
-        this._cache.set(raw, utils)
+        this._cache.set(cacheKey, utils)
         return utils
       }
     }
     // no shortcut
     else {
-      const utils = (await this.parseUtil(applied, context))?.map(i => this.stringifyUtil(i)).filter(notNull)
+      const utils = (await this.parseUtil(context.variantMatch, context))?.map(i => this.stringifyUtil(i)).filter(notNull)
       if (utils?.length) {
-        this._cache.set(raw, utils)
+        this._cache.set(cacheKey, utils)
         return utils
       }
     }
 
     // set null cache for unmatched result
-    this._cache.set(raw, null)
+    this._cache.set(cacheKey, null)
   }
 
   async generate(

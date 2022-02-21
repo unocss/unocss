@@ -1,6 +1,6 @@
 import type { Plugin } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
-import type { UnocssPluginContext } from '../../../plugins-common'
+import type { UnocssPluginContext } from '@unocss/core'
 import { defaultExclude } from '../../../plugins-common'
 
 export function VueScopedPlugin({ uno, ready }: UnocssPluginContext): Plugin {

@@ -15,9 +15,11 @@ importers:
       '@iconify-json/twemoji': ^1.0.2
       '@iconify-json/uim': ^1.0.2
       '@types/codemirror': ^5.60.5
+      '@types/css-tree': ^1.0.7
       '@types/fs-extra': ^9.0.13
       '@types/lz-string': ^1.3.34
       '@types/node': ^17.0.15
+      '@types/prettier': ^2.4.4
       '@types/ws': ^8.2.2
       '@unocss/cli': workspace:*
       '@unocss/config': workspace:*
@@ -31,6 +33,7 @@ importers:
       '@unocss/preset-web-fonts': workspace:*
       '@unocss/preset-wind': workspace:*
       '@unocss/reset': workspace:*
+      '@unocss/transformer-css-directive': workspace:*
       '@unocss/transformer-variant-group': workspace:*
       '@unocss/vite': workspace:*
       '@unocss/webpack': workspace:*
@@ -77,9 +80,11 @@ importers:
       '@iconify-json/twemoji': 1.0.2
       '@iconify-json/uim': 1.0.2
       '@types/codemirror': 5.60.5
+      '@types/css-tree': 1.0.7
       '@types/fs-extra': 9.0.13
       '@types/lz-string': 1.3.34
       '@types/node': 17.0.15
+      '@types/prettier': 2.4.4
       '@types/ws': 8.2.2
       '@unocss/cli': link:packages/cli
       '@unocss/config': link:packages/config
@@ -93,6 +98,7 @@ importers:
       '@unocss/preset-web-fonts': link:packages/preset-web-fonts
       '@unocss/preset-wind': link:packages/preset-wind
       '@unocss/reset': link:packages/reset
+      '@unocss/transformer-css-directive': link:packages/transformer-css-directive
       '@unocss/transformer-variant-group': link:packages/transformer-variant-group
       '@unocss/vite': link:packages/vite
       '@unocss/webpack': link:packages/webpack
@@ -330,6 +336,15 @@ importers:
   packages/scope:
     specifiers: {}
 
+  packages/transformer-css-directive:
+    specifiers:
+      '@unocss/core': workspace:*
+      css-tree: ^2.0.4
+    dependencies:
+      css-tree: 2.0.4
+    devDependencies:
+      '@unocss/core': link:../core
+
   packages/transformer-variant-group:
     specifiers:
       '@unocss/core': workspace:*
@@ -372,6 +387,7 @@ importers:
       '@unocss/core': workspace:*
       '@unocss/inspector': workspace:*
       '@unocss/scope': workspace:*
+      '@unocss/transformer-css-directive': workspace:*
       vite: ^2.7.13
     dependencies:
       '@rollup/pluginutils': 4.1.2
@@ -379,6 +395,7 @@ importers:
       '@unocss/core': link:../core
       '@unocss/inspector': link:../inspector
       '@unocss/scope': link:../scope
+      '@unocss/transformer-css-directive': link:../transformer-css-directive
     devDependencies:
       vite: 2.7.13
 
@@ -966,6 +983,10 @@ packages:
       '@types/tern': 0.23.4
     dev: true
 
+  /@types/css-tree/1.0.7:
+    resolution: {integrity: sha512-Pz+DfVODpQTAV6PwPBK6kzyy7+f6EyPbr1+mYkc1YolJfl2NAJ4wbg0TC/AJPBsqn9jWfyiO19A/sgpvFLfqnw==}
+    dev: true
+
   /@types/eslint-scope/3.7.1:
     resolution: {integrity: sha512-SCFeogqiptms4Fg29WpOTk5nHIzfpKCemSN63ksBQYKTcXoJEmJagV+DhVmbapZzY4/5YaOV1nZwrsU79fFm1g==}
     dependencies:
@@ -1020,6 +1041,10 @@ packages:
 
   /@types/parse-json/4.0.0:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
+    dev: true
+
+  /@types/prettier/2.4.4:
+    resolution: {integrity: sha512-ReVR2rLTV1kvtlWFyuot+d1pkpG2Fw/XKE3PDAdj57rbM97ttSp9JZ2UsP+2EHTylra9cUf6JA7tGwW1INzUrA==}
     dev: true
 
   /@types/pug/2.0.6:
@@ -1957,6 +1982,14 @@ packages:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
+
+  /css-tree/2.0.4:
+    resolution: {integrity: sha512-b4IS9ZUMtGBiNjzYbcj9JhYbyei99R3ai2CSxlu8GQDnoPA/P+NU85hAm0eKDc/Zp660rpK6tFJQ2OSdacMHVg==}
+    engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0, npm: '>=7.0.0'}
+    dependencies:
+      mdn-data: 2.0.23
+      source-map-js: 1.0.2
+    dev: false
 
   /cssesc/3.0.0:
     resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==}
@@ -3879,6 +3912,10 @@ packages:
     dependencies:
       sourcemap-codec: 1.4.8
 
+  /mdn-data/2.0.23:
+    resolution: {integrity: sha512-IonVb7pfla2U4zW8rc7XGrtgq11BvYeCxWN8HS+KFBnLDE7XDK9AAMVhRuG6fj9BBsjc69Fqsp6WEActEdNTDQ==}
+    dev: false
+
   /merge-stream/2.0.0:
     resolution: {integrity: sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==}
 
@@ -5123,6 +5160,7 @@ packages:
 
   /ufo/0.7.9:
     resolution: {integrity: sha512-6t9LrLk3FhqTS+GW3IqlITtfRB5JAVr5MMNjpBECfK827W+Vh5Ilw/LhTcHWrt6b3hkeBvcbjx4Ti7QVFzmcww==}
+    deprecated: 'security: please use latest version'
 
   /unbox-primitive/1.0.1:
     resolution: {integrity: sha512-tZU/3NqK3dA5gpE1KtyiJUrEB0lxnGkMFHptJ7q6ewdZ8s12QrODwNbhIJStmJkd1QDXa1NRA8aF2A1zk/Ypyw==}

@@ -35,6 +35,7 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 - [CSS-in-JS Runtime version](https://github.com/unocss/unocss/tree/main/packages/runtime)
 - [CSS Scoping](#css-scoping)
 - [VS Code extension](https://marketplace.visualstudio.com/items?itemName=antfu.unocss)
+- [Variant Groups](https://github.com/unocss/unocss/tree/main/packages/transformer-variant-group) & [CSS Directives](https://github.com/unocss/unocss/tree/main/packages/transformer-css-directive)
 - Code-splitting for CSS - ships minimal CSS for MPA.
 - Library friendly - ships atomic styles with your component libraries and safely scoped.
 
@@ -54,7 +55,7 @@ tailwindcss  v3.0.0-alpha.1    1290.96 ms / delta.   1282.66 ms (x243.05)
 
 UnoCSS is designed **NOT** to be/have:
 
-- A CSS preprocessor (e.g. `@apply`) - but you can use [shortcuts](#shortcuts).
+- ~~A CSS preprocessor (e.g. `@apply`)~~ - Yes, you can now: [CSS Directives](https://github.com/unocss/unocss/tree/main/packages/transformer-css-directive)
 - Tailwind's plugin system - but you can write custom rules in seconds and share them as presets!
 
 ###### Disclaimer

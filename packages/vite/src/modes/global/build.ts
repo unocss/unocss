@@ -1,6 +1,6 @@
 import type { Plugin } from 'vite'
+import type { UnocssPluginContext } from '@unocss/core'
 import { getHash, getPath } from '../../../../plugins-common/utils'
-import type { UnocssPluginContext } from '../../../../plugins-common/context'
 import {
   HASH_PLACEHOLDER_RE,
   LAYER_MARK_ALL,

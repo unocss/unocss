@@ -1,3 +1,4 @@
+
 import { defineBuildConfig } from 'unbuild'
 
 export default defineBuildConfig({
@@ -7,7 +8,7 @@ export default defineBuildConfig({
   clean: true,
   declaration: true,
   externals: [
-    'unconfig',
+    '@unocss/core',
   ],
   rollup: {
     emitCJS: true,

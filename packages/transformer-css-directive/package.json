@@ -1,0 +1,47 @@
+{
+  "name": "@unocss/transformer-css-directive",
+  "version": "0.25.0",
+  "description": "UnoCSS transformer for `@apply` directive",
+  "keywords": [
+    "unocss",
+    "unocss-transformer"
+  ],
+  "homepage": "https://github.com/antfu/unocss/tree/main/packages/transformer-css-directive#readme",
+  "bugs": {
+    "url": "https://github.com/antfu/unocss/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antfu/unocss.git",
+    "directory": "packages/transformer-css-directive"
+  },
+  "funding": "https://github.com/sponsors/antfu",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub"
+  },
+  "peerDependencies": {
+    "@unocss/core": "workspace:*"
+  },
+  "dependencies": {
+    "css-tree": "^2.0.4"
+  },
+  "devDependencies": {
+    "@unocss/core": "workspace:*"
+  }
+}
