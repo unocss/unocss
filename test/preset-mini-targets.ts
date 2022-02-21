@@ -152,6 +152,11 @@ export const presetMiniTargets: string[] = [
   'text-[#124]',
   'text-[2em]',
   'text-[calc(1em-1px)]',
+  'text-[length:var(--size)]',
+  'text-[length:2em]',
+  'text-[length:calc(1em-1px)]',
+  'text-[color:var(--color)]',
+  'text-[color:var(--color-x)]:[trick]',
 
   // color - bg
   'bg-[#153]/10',
