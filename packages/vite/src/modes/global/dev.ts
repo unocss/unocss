@@ -57,6 +57,8 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
   function setWarnTimer() {
     if (!resolved && !resolvedWarnTimer) {
       resolvedWarnTimer = setTimeout(() => {
+        if (process.env.TEST || process.env.NODE_ENV === 'test')
+          return
         if (!resolved) {
           const msg = '[unocss] entry module not found, have you add `import \'uno.css\'` in your main entry?'
           console.warn(msg)
