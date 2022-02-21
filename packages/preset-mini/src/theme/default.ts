@@ -4,6 +4,7 @@ import { borderRadius, boxShadow, breakpoints, easing, verticalBreakpoints } fro
 import { blur, dropShadow } from './filters'
 import { height, maxHeight, maxWidth, width } from './size'
 import type { Theme } from './types'
+import { gridAutoColumn, gridAutoRow, gridColumn, gridRow, gridTemplateColumn, gridTemplateRow } from './grid'
 
 export * from './colors'
 
@@ -36,4 +37,10 @@ export const theme: Theme = {
   blur,
   dropShadow,
   easing,
+  gridAutoColumn,
+  gridAutoRow,
+  gridColumn,
+  gridRow,
+  gridTemplateColumn,
+  gridTemplateRow,
 }
