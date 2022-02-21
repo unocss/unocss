@@ -25,6 +25,7 @@
       "@unocss/preset-icons": ["./packages/preset-icons/src/index.ts"],
       "@unocss/preset-attributify": ["./packages/preset-attributify/src/index.ts"],
       "@unocss/transformer-variant-group": ["./packages/transformer-variant-group/src/index.ts"],
+      "@unocss/transformer-css-directive": ["./packages/transformer-css-directive/src/index.ts"],
     }
   },
   "exclude": [

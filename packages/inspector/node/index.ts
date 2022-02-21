@@ -2,7 +2,7 @@ import { dirname, resolve } from 'path'
 import { fileURLToPath } from 'url'
 import sirv from 'sirv'
 import type { Plugin, ViteDevServer } from 'vite'
-import type { UnocssPluginContext } from '@unocss/vite'
+import type { UnocssPluginContext } from '@unocss/core'
 import gzipSize from 'gzip-size'
 import type { ModuleInfo, ProjectInfo } from '../types'
 

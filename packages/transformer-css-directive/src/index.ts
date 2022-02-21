@@ -1,11 +1,22 @@
 import { expandVariantGroup, notNull } from '@unocss/core'
-import type { StringifiedUtil, UnoGenerator } from '@unocss/core'
+import type { SourceCodeTransformer, StringifiedUtil, UnoGenerator } from '@unocss/core'
 import type { CssNode, ListItem, Selector, SelectorList, StyleSheet } from 'css-tree'
 import { List, clone, generate, parse, walk } from 'css-tree'
 
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
 
-export async function transformCSS(css: string, uno: UnoGenerator, filename?: string) {
+export default function transformerCSSDirective(): SourceCodeTransformer {
+  return {
+    name: 'css-directive',
+    enforce: 'pre',
+    idFilter: id => id.endsWith('.css'),
+    transform: (code, id, ctx) => {
+      return transformCSSDirective(code, ctx.uno, id)
+    },
+  }
+}
+
+export async function transformCSSDirective(css: string, uno: UnoGenerator, filename?: string) {
   if (!css.includes('@apply'))
     return css
 

@@ -23,7 +23,6 @@ importers:
       '@unocss/cli': workspace:*
       '@unocss/config': workspace:*
       '@unocss/core': workspace:*
-      '@unocss/css-transform': workspace:*
       '@unocss/extractor-pug': workspace:*
       '@unocss/preset-attributify': workspace:*
       '@unocss/preset-icons': workspace:*
@@ -33,6 +32,7 @@ importers:
       '@unocss/preset-web-fonts': workspace:*
       '@unocss/preset-wind': workspace:*
       '@unocss/reset': workspace:*
+      '@unocss/transformer-css-directive': workspace:*
       '@unocss/transformer-variant-group': workspace:*
       '@unocss/vite': workspace:*
       '@unocss/webpack': workspace:*
@@ -87,7 +87,6 @@ importers:
       '@unocss/cli': link:packages/cli
       '@unocss/config': link:packages/config
       '@unocss/core': link:packages/core
-      '@unocss/css-transform': link:packages/css-transform
       '@unocss/extractor-pug': link:packages/extractor-pug
       '@unocss/preset-attributify': link:packages/preset-attributify
       '@unocss/preset-icons': link:packages/preset-icons
@@ -97,6 +96,7 @@ importers:
       '@unocss/preset-web-fonts': link:packages/preset-web-fonts
       '@unocss/preset-wind': link:packages/preset-wind
       '@unocss/reset': link:packages/reset
+      '@unocss/transformer-css-directive': link:packages/transformer-css-directive
       '@unocss/transformer-variant-group': link:packages/transformer-variant-group
       '@unocss/vite': link:packages/vite
       '@unocss/webpack': link:packages/webpack
@@ -200,15 +200,6 @@ importers:
 
   packages/core:
     specifiers: {}
-
-  packages/css-transform:
-    specifiers:
-      '@unocss/core': workspace:*
-      css-tree: ^2.0.4
-    dependencies:
-      css-tree: 2.0.4
-    devDependencies:
-      '@unocss/core': link:../core
 
   packages/extractor-pug:
     specifiers:
@@ -343,6 +334,15 @@ importers:
   packages/scope:
     specifiers: {}
 
+  packages/transformer-css-directive:
+    specifiers:
+      '@unocss/core': workspace:*
+      css-tree: ^2.0.4
+    dependencies:
+      css-tree: 2.0.4
+    devDependencies:
+      '@unocss/core': link:../core
+
   packages/transformer-variant-group:
     specifiers:
       '@unocss/core': workspace:*
@@ -383,17 +383,17 @@ importers:
       '@rollup/pluginutils': ^4.1.2
       '@unocss/config': workspace:*
       '@unocss/core': workspace:*
-      '@unocss/css-transform': workspace:*
       '@unocss/inspector': workspace:*
       '@unocss/scope': workspace:*
+      '@unocss/transformer-css-directive': workspace:*
       vite: ^2.7.13
     dependencies:
       '@rollup/pluginutils': 4.1.2
       '@unocss/config': link:../config
       '@unocss/core': link:../core
-      '@unocss/css-transform': link:../css-transform
       '@unocss/inspector': link:../inspector
       '@unocss/scope': link:../scope
+      '@unocss/transformer-css-directive': link:../transformer-css-directive
     devDependencies:
       vite: 2.7.13
 

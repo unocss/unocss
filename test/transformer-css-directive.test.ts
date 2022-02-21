@@ -1,10 +1,10 @@
 import { readFile } from 'fs/promises'
 import { describe, expect, test } from 'vitest'
-import { transformCSS } from '@unocss/css-transform'
+import { transformCSSDirective as transformCSS } from '@unocss/transformer-css-directive'
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 
-describe('css-transform', () => {
+describe('transformer-css-directive', () => {
   const uno = createGenerator({
     presets: [
       presetUno({
