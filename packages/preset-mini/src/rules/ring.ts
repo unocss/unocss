@@ -1,17 +1,8 @@
 import type { Rule } from '@unocss/core'
+import { CONTROL_SHORTCUT_NO_MERGE } from '@unocss/core'
 import type { Theme } from '../theme'
 import { colorResolver, handler as h } from '../utils'
-import { shadowBase } from './shadow'
 import { varEmpty } from './static'
-
-const ringBase = {
-  ...shadowBase,
-  '--un-ring-inset': varEmpty,
-  '--un-ring-offset-width': '0px',
-  '--un-ring-offset-color': '#fff',
-  '--un-ring-width': '0px',
-  '--un-ring-color': 'rgba(147,197,253,0.5)',
-}
 
 export const rings: Rule<Theme>[] = [
   // size
@@ -19,7 +10,14 @@ export const rings: Rule<Theme>[] = [
     const value = h.px(d || '1')
     if (value) {
       return [
-        ringBase,
+        {
+          [CONTROL_SHORTCUT_NO_MERGE]: '',
+          '--un-ring-inset': varEmpty,
+          '--un-ring-offset-width': '0px',
+          '--un-ring-offset-color': '#fff',
+          '--un-ring-width': '0px',
+          '--un-ring-color': 'rgba(147,197,253,0.5)',
+        },
         {
           '--un-ring-width': value,
           '--un-ring-offset-shadow': 'var(--un-ring-inset) 0 0 0 var(--un-ring-offset-width) var(--un-ring-offset-color)',
