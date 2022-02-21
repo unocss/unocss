@@ -52,11 +52,12 @@ export class UnoGenerator {
       generator: this,
       variantHandlers: applied[2],
       constructCSS: (...args) => this.constructCustomCSS(context, ...args),
+      variantMatch: applied,
     }
     return context
   }
 
-  async parseToken(raw: string) {
+  async parseToken(raw: string, alias?: string) {
     if (this.blocked.has(raw))
       return
 
@@ -82,12 +83,15 @@ export class UnoGenerator {
       return
     }
 
-    const context = this.makeContext(raw, applied)
+    const context = this.makeContext(
+      raw,
+      [alias || applied[0], applied[1], applied[2]],
+    )
 
     // expand shortcuts
-    const expanded = this.expandShortcut(applied[1], context)
+    const expanded = this.expandShortcut(context.currentSelector, context)
     if (expanded) {
-      const utils = await this.stringifyShortcuts(applied, context, expanded[0], expanded[1])
+      const utils = await this.stringifyShortcuts(context.variantMatch, context, expanded[0], expanded[1])
       if (utils?.length) {
         this._cache.set(raw, utils)
         return utils
@@ -95,7 +99,7 @@ export class UnoGenerator {
     }
     // no shortcut
     else {
-      const utils = (await this.parseUtil(applied, context))?.map(i => this.stringifyUtil(i)).filter(notNull)
+      const utils = (await this.parseUtil(context.variantMatch, context))?.map(i => this.stringifyUtil(i)).filter(notNull)
       if (utils?.length) {
         this._cache.set(raw, utils)
         return utils

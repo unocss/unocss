@@ -29,9 +29,6 @@ export async function transformCSS(css: string, uno: UnoGenerator, filename?: st
         if (!(childNode.type === 'Atrule' && childNode.name === 'apply' && childNode.prelude))
           return
 
-        const raw = '-'
-        const context = uno.makeContext(raw, [raw, raw, []])
-
         let classNames: string[] = []
 
         if (childNode.prelude.type === 'AtrulePrelude') {
@@ -39,23 +36,13 @@ export async function transformCSS(css: string, uno: UnoGenerator, filename?: st
             .map(node => node.type === 'Identifier' ? node.name : null)
             .filter(notNull).toArray()
         }
-
-        if (childNode.prelude.type === 'Raw')
+        else if (childNode.prelude.type === 'Raw') {
           classNames = childNode.prelude.value.split(/\s+/g)
-
-        // expand shortcuts
-        const expanded = classNames.map((i) => {
-          return uno.expandShortcut(i, context) || ([[i], undefined] as [string[], RuleMeta | undefined])
-        }).filter(notNull)
-
-        if (!expanded.length)
-          return
-
-        const parentSelector = generate(node.prelude)
+        }
 
         const utils = (
           await Promise.all(
-            expanded.map(i => uno.stringifyShortcuts([raw, raw, []], context, i[0], i[1])),
+            classNames.map(i => uno.parseToken(i, '-'))
           ))
           .filter(notNull).flat()
           .sort((a, b) => a[0] - b[0])
@@ -67,6 +54,11 @@ export async function transformCSS(css: string, uno: UnoGenerator, filename?: st
               acc.push(item as Writeable<StringifiedUtil>)
             return acc
           }, [] as Writeable<StringifiedUtil>[])
+
+        if (!utils.length)
+          return
+
+        const parentSelector = generate(node.prelude)
 
         for (const i of utils) {
           const [, selector, body, parent] = i
