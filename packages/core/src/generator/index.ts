@@ -61,9 +61,12 @@ export class UnoGenerator {
     if (this.blocked.has(raw))
       return
 
+    const cacheKey = `${raw}${alias ? ` ${alias}` : ''}`
+
     // use caches if possible
-    if (this._cache.has(raw))
-      return this._cache.get(raw)
+    const cached = this._cache.get(cacheKey)
+    if (cached)
+      return cached
 
     let current = raw
     for (const p of this.config.preprocess)
@@ -71,7 +74,7 @@ export class UnoGenerator {
 
     if (this.isBlocked(current)) {
       this.blocked.add(raw)
-      this._cache.set(raw, null)
+      this._cache.set(cacheKey, null)
       return
     }
 
@@ -79,7 +82,7 @@ export class UnoGenerator {
 
     if (!applied || this.isBlocked(applied[1])) {
       this.blocked.add(raw)
-      this._cache.set(raw, null)
+      this._cache.set(cacheKey, null)
       return
     }
 
@@ -93,7 +96,7 @@ export class UnoGenerator {
     if (expanded) {
       const utils = await this.stringifyShortcuts(context.variantMatch, context, expanded[0], expanded[1])
       if (utils?.length) {
-        this._cache.set(raw, utils)
+        this._cache.set(cacheKey, utils)
         return utils
       }
     }
@@ -101,13 +104,13 @@ export class UnoGenerator {
     else {
       const utils = (await this.parseUtil(context.variantMatch, context))?.map(i => this.stringifyUtil(i)).filter(notNull)
       if (utils?.length) {
-        this._cache.set(raw, utils)
+        this._cache.set(cacheKey, utils)
         return utils
       }
     }
 
     // set null cache for unmatched result
-    this._cache.set(raw, null)
+    this._cache.set(cacheKey, null)
   }
 
   async generate(
