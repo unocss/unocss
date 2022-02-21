@@ -25,4 +25,4 @@ Currently only `@apply` is supported.
 
 ## License
 
-MIT License © 2021-PRESENT [Anthony Fu](https://github.com/antfu)
+MIT License © 2022 [hannoeru](https://github.com/hannoeru)

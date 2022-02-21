@@ -1,6 +1,6 @@
 # @unocss/preset-typography
 
-> Typography Preset for UnoCSS
+Typography Preset for UnoCSS
 
 ## Installation
 

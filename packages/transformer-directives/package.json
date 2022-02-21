@@ -16,8 +16,7 @@
     "url": "git+https://github.com/antfu/unocss.git",
     "directory": "packages/transformer-directives"
   },
-  "funding": "https://github.com/sponsors/antfu",
-  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "author": "hannoeru <me@hanlee.co>",
   "sideEffects": false,
   "files": [
     "dist"
