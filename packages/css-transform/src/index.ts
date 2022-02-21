@@ -1,5 +1,5 @@
 import { notNull } from '@unocss/core'
-import type { RuleMeta, StringifiedUtil, UnoGenerator } from '@unocss/core'
+import type { StringifiedUtil, UnoGenerator } from '@unocss/core'
 import type { CssNode, ListItem, Selector, SelectorList, StyleSheet } from 'css-tree'
 import { List, clone, generate, parse, walk } from 'css-tree'
 
@@ -42,7 +42,7 @@ export async function transformCSS(css: string, uno: UnoGenerator, filename?: st
 
         const utils = (
           await Promise.all(
-            classNames.map(i => uno.parseToken(i, '-'))
+            classNames.map(i => uno.parseToken(i, '-')),
           ))
           .filter(notNull).flat()
           .sort((a, b) => a[0] - b[0])
@@ -51,7 +51,8 @@ export async function transformCSS(css: string, uno: UnoGenerator, filename?: st
             if (target)
               target[2] += item[2]
             else
-              acc.push(item as Writeable<StringifiedUtil>)
+              // use spread operator to prevent reassign to uno internal cache
+              acc.push([...item] as Writeable<StringifiedUtil>)
             return acc
           }, [] as Writeable<StringifiedUtil>[])
 
