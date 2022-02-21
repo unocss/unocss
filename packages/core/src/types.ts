@@ -72,6 +72,10 @@ export interface RuleContext<Theme extends {} = {}> {
    */
   variantHandlers: VariantHandler[]
   /**
+   * The result of variant matching.
+   */
+  variantMatch: VariantMatchedResult
+  /**
    * Constrcut a custom CSS rule.
    * Variants and selector escaping will be handled automatically.
    */

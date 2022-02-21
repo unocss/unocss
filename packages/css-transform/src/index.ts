@@ -1,5 +1,5 @@
 import { notNull } from '@unocss/core'
-import type { RuleMeta, StringifiedUtil, UnoGenerator } from '@unocss/core'
+import type { StringifiedUtil, UnoGenerator } from '@unocss/core'
 import type { CssNode, ListItem, Selector, SelectorList, StyleSheet } from 'css-tree'
 import { List, clone, generate, parse, walk } from 'css-tree'
 
@@ -29,9 +29,6 @@ export async function transformCSS(css: string, uno: UnoGenerator, filename?: st
         if (!(childNode.type === 'Atrule' && childNode.name === 'apply' && childNode.prelude))
           return
 
-        const raw = '-'
-        const context = uno.makeContext(raw, [raw, raw, []])
-
         let classNames: string[] = []
 
         if (childNode.prelude.type === 'AtrulePrelude') {
@@ -39,23 +36,13 @@ export async function transformCSS(css: string, uno: UnoGenerator, filename?: st
             .map(node => node.type === 'Identifier' ? node.name : null)
             .filter(notNull).toArray()
         }
-
-        if (childNode.prelude.type === 'Raw')
+        else if (childNode.prelude.type === 'Raw') {
           classNames = childNode.prelude.value.split(/\s+/g)
-
-        // expand shortcuts
-        const expanded = classNames.map((i) => {
-          return uno.expandShortcut(i, context) || ([[i], undefined] as [string[], RuleMeta | undefined])
-        }).filter(notNull)
-
-        if (!expanded.length)
-          return
-
-        const parentSelector = generate(node.prelude)
+        }
 
         const utils = (
           await Promise.all(
-            expanded.map(i => uno.stringifyShortcuts([raw, raw, []], context, i[0], i[1])),
+            classNames.map(i => uno.parseToken(i, '-')),
           ))
           .filter(notNull).flat()
           .sort((a, b) => a[0] - b[0])
@@ -64,9 +51,15 @@ export async function transformCSS(css: string, uno: UnoGenerator, filename?: st
             if (target)
               target[2] += item[2]
             else
-              acc.push(item as Writeable<StringifiedUtil>)
+              // use spread operator to prevent reassign to uno internal cache
+              acc.push([...item] as Writeable<StringifiedUtil>)
             return acc
           }, [] as Writeable<StringifiedUtil>[])
+
+        if (!utils.length)
+          return
+
+        const parentSelector = generate(node.prelude)
 
         for (const i of utils) {
           const [, selector, body, parent] = i
