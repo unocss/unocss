@@ -330,6 +330,39 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
   envMode?: 'dev' | 'build'
 }
 
+export interface SourceMap {
+  file?: string
+  mappings?: string
+  names?: string[]
+  sources?: string[]
+  sourcesContent?: string[]
+  version?: number
+}
+
+export interface TransformResult {
+  code: string
+  map?: SourceMap | null
+  etag?: string
+  deps?: string[]
+  dynamicDeps?: string[]
+}
+
+export interface SourceCodeTransformer {
+  name: string
+  /**
+   * The order of transformer
+   */
+  enforce?: 'pre' | 'post'
+  /**
+   * Custom id filter, if not provided, the extraction filter will be applied
+   */
+  idFilter?: (id: string) => boolean
+  /**
+   * The transform function
+   */
+  transform: (code: string, id: string) => Awaitable<string | TransformResult | null | undefined>
+}
+
 /**
  * For other modules to aggregate the options
  */
@@ -355,6 +388,13 @@ export interface PluginOptions {
    * Patterns that filter the files NOT being extracted.
    */
   exclude?: FilterPattern
+
+  /**
+   * Custom transformers to the source code
+   *
+   * Currently only supported in Vite
+   */
+  transformers?: SourceCodeTransformer[]
 }
 
 export interface UserConfig<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions, PluginOptions {}

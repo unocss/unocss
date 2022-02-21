@@ -92,16 +92,37 @@ export function fraction(str: string) {
     return `${round(num * 100)}%`
 }
 
-export function bracket(str: string) {
-  if (str && str[0] === '[' && str[str.length - 1] === ']') {
-    return str
-      .slice(1, -1)
-      .replace(/(url\(.*?\))/g, v => v.replace(/_/g, '\\_'))
-      .replace(/([^\\])_/g, '$1 ')
-      .replace(/calc\((.*)/g, (v) => {
-        return v.replace(/(-?\d*\.?\d(?!\b-.+[,)](?![^+\-/*])\D)(?:%|[a-z]+)?|\))([+\-/*])/g, '$1 $2 ')
-      })
+function bracketWithType(str: string, type?: string) {
+  if (str && str.startsWith('[') && str.endsWith(']')) {
+    let base: string | undefined
+
+    const match = str.match(/^\[(color|length):/i)
+    if (!match)
+      base = str.slice(1, -1)
+    else if (type && match[1] === type)
+      base = str.slice(match[0].length, -1)
+
+    if (base !== undefined) {
+      return base
+        .replace(/(url\(.*?\))/g, v => v.replace(/_/g, '\\_'))
+        .replace(/([^\\])_/g, '$1 ')
+        .replace(/calc\((.*)/g, (v) => {
+          return v.replace(/(-?\d*\.?\d(?!\b-.+[,)](?![^+\-/*])\D)(?:%|[a-z]+)?|\))([+\-/*])/g, '$1 $2 ')
+        })
+    }
   }
+}
+
+export function bracket(str: string) {
+  return bracketWithType(str)
+}
+
+export function bracketOfColor(str: string) {
+  return bracketWithType(str, 'color')
+}
+
+export function bracketOfLength(str: string) {
+  return bracketWithType(str, 'length')
 }
 
 export function cssvar(str: string) {

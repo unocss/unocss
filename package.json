@@ -1,6 +1,6 @@
 {
   "name": "@unocss/monorepo",
-  "version": "0.25.0",
+  "version": "0.25.1",
   "private": true,
   "scripts": {
     "bench": "npm -C bench run bench",
@@ -50,6 +50,7 @@
     "@unocss/reset": "workspace:*",
     "@unocss/vite": "workspace:*",
     "@unocss/webpack": "workspace:*",
+    "@unocss/transformer-variant-group": "workspace:*",
     "@vitejs/plugin-vue": "^2.1.0",
     "@vitest/ui": "^0.2.7",
     "@vueuse/core": "^7.5.5",

@@ -1,16 +1,19 @@
 {
-  "name": "@unocss/config",
+  "name": "@unocss/transformer-variant-group",
   "version": "0.25.1",
-  "description": "Config loader for UnoCSS",
-  "keywords": [],
-  "homepage": "https://github.com/unocss/unocss/tree/main/packages/config#readme",
+  "description": "Variant group transformer for UnoCSS",
+  "keywords": [
+    "unocss",
+    "unocss-transformer"
+  ],
+  "homepage": "https://github.com/unocss/unocss/tree/main/packages/transformer-variant-group#readme",
   "bugs": {
     "url": "https://github.com/unocss/unocss/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/unocss/unocss.git",
-    "directory": "packages/config"
+    "directory": "packages/transformer-variant-group"
   },
   "funding": "https://github.com/sponsors/antfu",
   "license": "MIT",
@@ -22,9 +25,9 @@
       "import": "./dist/index.mjs"
     }
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
@@ -32,11 +35,13 @@
     "build": "unbuild",
     "stub": "unbuild --stub"
   },
-  "engines": {
-    "node": ">=14"
+  "peerDependencies": {
+    "@unocss/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@unocss/core": "workspace:*"
   },
   "dependencies": {
-    "@unocss/core": "workspace:*",
-    "unconfig": "^0.3.1"
+    "magic-string": "^0.25.7"
   }
 }

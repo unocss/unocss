@@ -12,11 +12,12 @@
 | [@unocss/preset-icons](./preset-icons) | Pure CSS Icons solution powered by Iconify | ✅ |
 | [@unocss/preset-web-fonts](./preset-web-fonts) | Web fonts (Google Fonts, etc.) support | ✅ |
 | [@unocss/preset-typography](./preset-typography) | The typography preset | ✅ |
+| [@unocss/transformer-variant-group](./transformer-variant-group) | Transformer for Windi CSS's variant group feature | No |
+| [@unocss/extractor-pug](./extractor-pug) | Extractor for Pug | No |
 | [@unocss/config](./config) | Configuration file loader | ✅ |
 | [@unocss/reset](./reset) | Collection of common CSS resets | ✅ |
 | [@unocss/vite](./vite) | The Vite plugins | ✅ |
 | [@unocss/webpack](./webpack) | The Webpack plugin | No |
 | [@unocss/nuxt](./nuxt) | The Nuxt Module | No |
 | [@unocss/runtime](./runtime) | CSS-in-JS Runtime for UnoCSS | No |
-| [@unocss/extractor-pug](./extractor-pug) | Extractor for Pug | No |
 | [VS Code Extension](./vscode) | UnoCSS for VS Code | - |

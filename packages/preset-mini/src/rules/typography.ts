@@ -31,7 +31,7 @@ export const fonts: Rule<Theme>[] = [
       }
     }
 
-    return { 'font-size': h.bracket.rem(s) }
+    return { 'font-size': h.bracketOfLength.rem(s) }
   }],
   [/^text-size-(.+)$/, ([, s]) => ({ 'font-size': h.bracket.cssvar.rem(s) })],
 

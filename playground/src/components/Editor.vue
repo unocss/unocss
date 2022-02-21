@@ -129,8 +129,7 @@ onMounted(() => {
         v-model="inputHTML"
         flex-auto
         mode="htmlmixed"
-        border="l gray-400/20"
-        class="scrolls"
+        class="scrolls border-(l gray-400/20)"
         :matched="output?.matched || new Set()"
       />
     </Pane>

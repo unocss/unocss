@@ -11,6 +11,7 @@ import { ShadowDomModuleModePlugin } from './modes/shadow-dom'
 import { ConfigHMRPlugin } from './config-hmr'
 import type { VitePluginConfig } from './types'
 import { transformCSSPlugin } from './transform/css'
+import { initTransformerPlugins } from './transformers'
 
 export * from './types'
 export * from './modes/chunk-build'
@@ -35,6 +36,7 @@ export default function UnocssPlugin(
   const transformCSS = inlineConfig.transformCSS ?? false
 
   const plugins = [
+    ...initTransformerPlugins(ctx),
     ConfigHMRPlugin(ctx),
   ]
 

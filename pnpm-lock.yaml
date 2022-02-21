@@ -33,6 +33,7 @@ importers:
       '@unocss/preset-web-fonts': workspace:*
       '@unocss/preset-wind': workspace:*
       '@unocss/reset': workspace:*
+      '@unocss/transformer-variant-group': workspace:*
       '@unocss/vite': workspace:*
       '@unocss/webpack': workspace:*
       '@vitejs/plugin-vue': ^2.1.0
@@ -96,6 +97,7 @@ importers:
       '@unocss/preset-web-fonts': link:packages/preset-web-fonts
       '@unocss/preset-wind': link:packages/preset-wind
       '@unocss/reset': link:packages/reset
+      '@unocss/transformer-variant-group': link:packages/transformer-variant-group
       '@unocss/vite': link:packages/vite
       '@unocss/webpack': link:packages/webpack
       '@vitejs/plugin-vue': 2.1.0_vite@2.7.13+vue@3.2.29
@@ -340,6 +342,15 @@ importers:
 
   packages/scope:
     specifiers: {}
+
+  packages/transformer-variant-group:
+    specifiers:
+      '@unocss/core': workspace:*
+      magic-string: ^0.25.7
+    dependencies:
+      magic-string: 0.25.7
+    devDependencies:
+      '@unocss/core': link:../core
 
   packages/unocss:
     specifiers:
@@ -3894,7 +3905,6 @@ packages:
     resolution: {integrity: sha512-4CrMT5DOHTDk4HYDlzmwu4FVCcIYI8gauveasrdCu2IKIFOJ3f0v/8MDGJCDL9oD2ppz/Av1b0Nj345H9M+XIA==}
     dependencies:
       sourcemap-codec: 1.4.8
-    dev: true
 
   /mdn-data/2.0.23:
     resolution: {integrity: sha512-IonVb7pfla2U4zW8rc7XGrtgq11BvYeCxWN8HS+KFBnLDE7XDK9AAMVhRuG6fj9BBsjc69Fqsp6WEActEdNTDQ==}
@@ -4759,7 +4769,6 @@ packages:
 
   /sourcemap-codec/1.4.8:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
-    dev: true
 
   /spdx-correct/3.1.1:
     resolution: {integrity: sha512-cOYcUWwhCuHCXi49RhFRCyJEK3iPj1Ziz9DpViV3tbZOwXD49QzIN3MpOLJNxh2qwq2lJJZaKMVw9qNi4jTC0w==}

@@ -40,4 +40,11 @@ export interface Theme {
   media?: Record<string, string>
   // animation
   animation?: ThemeAnimation
+  // grids
+  gridAutoColumn?: Record<string, string>
+  gridAutoRow?: Record<string, string>
+  gridColumn?: Record<string, string>
+  gridRow?: Record<string, string>
+  gridTemplateColumn?: Record<string, string>
+  gridTemplateRow?: Record<string, string>
 }
