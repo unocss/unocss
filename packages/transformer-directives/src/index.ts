@@ -2,6 +2,7 @@ import { expandVariantGroup, notNull } from '@unocss/core'
 import type { SourceCodeTransformer, StringifiedUtil, UnoGenerator } from '@unocss/core'
 import type { CssNode, ListItem, Selector, SelectorList, StyleSheet } from 'css-tree'
 import { List, clone, generate, parse, walk } from 'css-tree'
+import { regexCssId } from '../../plugins-common'
 
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
 
@@ -9,7 +10,7 @@ export default function transformerDirectives(): SourceCodeTransformer {
   return {
     name: 'css-directive',
     enforce: 'pre',
-    idFilter: id => id.endsWith('.css'),
+    idFilter: id => !!id.match(regexCssId),
     transform: (code, id, ctx) => {
       return transformDirectives(code, ctx.uno, id)
     },
