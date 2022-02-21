@@ -8,6 +8,7 @@ export { default as presetWebFonts } from '@unocss/preset-web-fonts'
 export { default as presetTypography } from '@unocss/preset-typography'
 export { default as presetMini } from '@unocss/preset-mini'
 export { default as transformerDirectives } from '@unocss/transformer-directives'
+export { default as transformerVariantGroup } from '@unocss/transformer-variant-group'
 
 export function defineConfig<Theme extends {}>(config: UserConfig<Theme>) {
   return config
