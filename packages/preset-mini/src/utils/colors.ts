@@ -8,7 +8,7 @@ export function hex2rgba(hex = ''): RGBAColorValue | undefined {
   const color = parseHexColor(hex)
   if (color != null) {
     const { components, alpha } = color
-    if (alpha === undefined)
+    if (alpha == null)
       return components as [number, number, number]
     return [...components, alpha] as [number, number, number, number]
   }
@@ -25,7 +25,7 @@ export function parseCssColor(str = ''): CSSColorValue | undefined {
   if (components.length === 0)
     return
 
-  if (['rgba', 'hsla'].includes(type) && alpha === undefined)
+  if (['rgba', 'hsla'].includes(type) && alpha == null)
     return
 
   if (cssColorFunctions.includes(type) && components.length !== 3)

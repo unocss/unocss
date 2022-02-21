@@ -1,12 +1,11 @@
 import type { VariantFunction } from '@unocss/core'
-import type { Theme } from '@unocss/preset-mini'
-import { handler as h, parseColor } from '@unocss/preset-mini/utils'
+import { handler as h, hasParseableColor } from '@unocss/preset-mini/utils'
 
 export const placeholderModifier: VariantFunction = (input: string, { theme }) => {
   const m = input.match(/^(.*)\b(placeholder-)(.+)$/)
   if (m) {
     const [, pre = '', p, body] = m
-    if (hasColorValue(body, theme) || hasOpacityValue(body)) {
+    if (hasParseableColor(body, theme) || hasOpacityValue(body)) {
       return {
         // Append `placeholder-$ ` (with space!) to the rule to be matched.
         // The `placeholder-` is added for placeholder variant processing, and
@@ -16,10 +15,6 @@ export const placeholderModifier: VariantFunction = (input: string, { theme }) =
       }
     }
   }
-}
-
-function hasColorValue(body: string, theme: Theme) {
-  return !!parseColor(body, theme)?.color
 }
 
 function hasOpacityValue(body: string) {

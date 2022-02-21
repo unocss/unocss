@@ -1,4 +1,4 @@
-import type { CSSEntries, CSSObject, DynamicMatcher, ParsedColorValue, RuleContext } from '@unocss/core'
+import type { CSSEntries, CSSObject, ParsedColorValue, RuleContext } from '@unocss/core'
 import { toArray } from '@unocss/core'
 import type { Theme } from '../theme'
 import { colorToString, getComponents, parseCssColor } from './colors'
@@ -9,12 +9,12 @@ import { directionMap } from './mappings'
  * Provide {@link DynamicMatcher} function returning spacing definition. See spacing rules.
  *
  * @param {string} propertyPrefix - Property for the css value to be created. Postfix will be appended according to direction matched.
- * @return {DynamicMatcher}  {@link DynamicMatcher}
+ * @return {@link DynamicMatcher} object.
  * @see {@link directionMap}
  */
-export const directionSize = (propertyPrefix: string): DynamicMatcher => ([_, direction, size]: string[]): CSSEntries | undefined => {
+export const directionSize = (propertyPrefix: string) => ([_, direction, size]: string[]): CSSEntries | undefined => {
   const v = h.bracket.cssvar.auto.fraction.rem(size)
-  if (v !== undefined)
+  if (v != null)
     return directionMap[direction].map(i => [`${propertyPrefix}${i}`, v])
 }
 
@@ -27,14 +27,13 @@ const getThemeColor = (theme: Theme, colors: string[]) =>
   ]
 
 /**
- * Parse color string into rgba (if possible) with opacity. Color value will be matched to theme object before converting to rgb value.
+ * Parse color string into {@link ParsedColorValue} (if possible). Color value will first be matched to theme object before parsing.
+ * See also color.tests.ts for more examples.
  *
  * @example Parseable strings:
  * 'red' // From theme, if 'red' is available
  * 'red-100' // From theme, plus scale
  * 'red-100/20' // From theme, plus scale/opacity
- * '#f12' // Hex color
- * 'hex-f12' // Alternative hex color
  * '[rgb(100,2,3)]/[var(--op)]' // Bracket with rgb color and bracket with opacity
  *
  * @param {string} body - Color string to be parsed.
@@ -116,21 +115,21 @@ export const parseColor = (body: string, theme: Theme): ParsedColorValue | undef
  *
  * @example Resolving 'red-100' from theme:
  * colorResolver('background-color', 'background')('', 'red-100')
- * return { '--un-background-opacity': '1', 'background-color': 'rgb(254,226,226,var(--un-bg-opacity))' }
+ * return { '--un-background-opacity': '1', 'background-color': 'rgba(254,226,226,var(--un-bg-opacity))' }
  *
  * @example Resolving 'red-100/20' from theme:
  * colorResolver('background-color', 'background')('', 'red-100/20')
- * return { 'background-color': 'rgb(204,251,241,0.22)' }
+ * return { 'background-color': 'rgba(204,251,241,0.22)' }
  *
  * @example Resolving 'hex-124':
  * colorResolver('color', 'text')('', 'hex-124')
- * return { '--un-text-opacity': '1', 'color': 'rgb(17,34,68,var(--un-text-opacity))' }
+ * return { '--un-text-opacity': '1', 'color': 'rgba(17,34,68,var(--un-text-opacity))' }
  *
  * @param {string} property - Property for the css value to be created.
  * @param {string} varName - Base name for the opacity variable.
- * @return {DynamicMatcher}  {@link DynamicMatcher} object.
+ * @return {@link DynamicMatcher} object.
  */
-export const colorResolver = (property: string, varName: string): DynamicMatcher => ([, body]: string[], { theme }: RuleContext<Theme>): CSSObject | undefined => {
+export const colorResolver = (property: string, varName: string) => ([, body]: string[], { theme }: RuleContext<Theme>): CSSObject | undefined => {
   const data = parseColor(body, theme)
 
   if (!data)
@@ -172,4 +171,8 @@ export const colorableShadows = (shadows: string | string[], colorVar: string) =
     colored.push(`${components.join(' ')} var(${colorVar}, ${colorToString(color)})`)
   }
   return colored
+}
+
+export const hasParseableColor = (color: string | undefined, theme: Theme) => {
+  return color != null && !!parseColor(color, theme)?.color
 }

@@ -1,6 +1,6 @@
-import type { CSSEntries, CSSObject, DynamicMatcher, Rule, RuleContext } from '@unocss/core'
+import type { CSSEntries, CSSObject, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorToString, cornerMap, directionMap, handler as h, parseColor } from '../utils'
+import { colorToString, cornerMap, directionMap, handler as h, hasParseableColor, parseColor } from '../utils'
 
 export const borders: Rule[] = [
   // compound
@@ -47,11 +47,7 @@ export const borders: Rule[] = [
   ['border-none', { 'border-style': 'none' }],
 ]
 
-const borderHasColor = (color: string, { theme }: RuleContext<Theme>) => {
-  return color !== undefined && !!parseColor(color, theme)?.color
-}
-
-const borderColorResolver = (direction: string): DynamicMatcher => ([, body]: string[], { theme }: RuleContext<Theme>): CSSObject | undefined => {
+const borderColorResolver = (direction: string) => ([, body]: string[], theme: Theme): CSSObject | undefined => {
   const data = parseColor(body, theme)
 
   if (!data)
@@ -73,6 +69,7 @@ const borderColorResolver = (direction: string): DynamicMatcher => ([, body]: st
     }
     else {
       return {
+        // Separate this return since if `direction` is an empty string, the first key will be overwritten by the second.
         '--un-border-opacity': cssColor.alpha ?? 1,
         [`--un-border${direction}-opacity`]: 'var(--un-border-opacity)',
         [`border${direction}-color`]: colorToString(cssColor, `var(--un-border${direction}-opacity)`),
@@ -102,11 +99,11 @@ function handlerBorderSize([, a = '', b = '1']: string[]): CSSEntries | undefine
     return directionMap[a].map(i => [`border${i}-width`, v])
 }
 
-function handlerBorderColor([, a = '', c]: string[], ctx: RuleContext): CSSObject | undefined {
-  if (a in directionMap && borderHasColor(c, ctx)) {
+function handlerBorderColor([, a = '', c]: string[], { theme }: RuleContext<Theme>): CSSObject | undefined {
+  if (a in directionMap && hasParseableColor(c, theme)) {
     return Object.assign(
       {},
-      ...directionMap[a].map(i => borderColorResolver(i)(['', c], ctx)),
+      ...directionMap[a].map(i => borderColorResolver(i)(['', c], theme)),
     )
   }
 }
