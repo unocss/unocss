@@ -326,6 +326,28 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
   envMode?: 'dev' | 'build'
 }
 
+export interface SourceMap {
+  file: string
+  mappings: string
+  names: string[]
+  sources: string[]
+  sourcesContent: string[]
+  version: number
+}
+
+export interface TransformResult {
+  code: string
+  map: SourceMap | null
+  etag?: string
+  deps?: string[]
+  dynamicDeps?: string[]
+}
+
+export interface SourceCodeTransformer {
+  enforce?: 'pre' | 'post'
+  transform: (code: string, id: string) => Awaitable<string | TransformResult | null | undefined>
+}
+
 /**
  * For other modules to aggregate the options
  */
@@ -351,6 +373,11 @@ export interface PluginOptions {
    * Patterns that filter the files NOT being extracted.
    */
   exclude?: FilterPattern
+
+  /**
+   * Custom transformers to the source code
+   */
+  transformers?: SourceCodeTransformer[]
 }
 
 export interface UserConfig<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions, PluginOptions {}
