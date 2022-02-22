@@ -120,7 +120,8 @@ exports[`preset-wind > targets 1`] = `
 .snap-align-none{scroll-snap-align:none;}
 .snap-always{scroll-snap-stop:always;}
 .scroll-m-\\\\[3em\\\\]{scroll-margin:3em;}
-.scroll-m-0{scroll-margin:0rem;}
+.scroll-m-0,
+.scroll-m-none{scroll-margin:0rem;}
 .scroll-m-1\\\\/2{scroll-margin:50%;}
 .scroll-m-auto{scroll-margin:auto;}
 .-scroll-mb-px{scroll-margin-bottom:-1px;}
@@ -131,6 +132,7 @@ exports[`preset-wind > targets 1`] = `
 .scroll-pt-2,
 .scroll-pt2{scroll-padding-top:0.5rem;}
 .scroll-pl-10px{scroll-padding-left:10px;}
+.scroll-p-inline-none{scroll-padding-inline-start:0rem;scroll-padding-inline-end:0rem;}
 .scroll-pbs-2,
 .scroll-pbs2{scroll-padding-block-start:0.5rem;}
 .scroll-pis-10px{scroll-padding-inline-start:10px;}

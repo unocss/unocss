@@ -228,6 +228,7 @@ export const presetWindiTargets: string[] = [
   'scroll-m-0',
   'scroll-m-1/2',
   'scroll-m-auto',
+  'scroll-m-none',
   'scroll-p-2',
   'scroll-p-t-2',
   'scroll-p2',
@@ -237,6 +238,7 @@ export const presetWindiTargets: string[] = [
   'scroll-pis-10px',
   'scroll-pbs-2',
   'scroll-pbs2',
+  'scroll-p-inline-none',
 
   // shadow, spacing
   'mix-blend-normal',

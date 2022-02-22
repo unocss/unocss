@@ -44,6 +44,7 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .is-hover\\\\:p-4px:is(:hover),
 .not-hover\\\\:p-4px:not(:hover){padding:4px;}
 .not-hover\\\\:p-3:not(:hover){padding:0.75rem;}
+.p-none{padding:0rem;}
 .\\\\!hover\\\\:px-10:hover{padding-left:2.5rem !important;padding-right:2.5rem !important;}
 .p-t-2,
 .pt-2,
@@ -53,6 +54,7 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .p-bs-2,
 .pbs-2,
 .pbs2{padding-block-start:0.5rem;}
+.p-ie-none{padding-inline-end:0rem;}
 .pbs-\\\\$title2{padding-block-start:var(--title2);}
 .pis-10px{padding-inline-start:10px;}
 .-m-auto,
@@ -61,7 +63,8 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .m-auto{margin:auto;}
 .\\\\!m-\\\\$c-m{margin:var(--c-m) !important;}
 .m-\\\\[3em\\\\]{margin:3em;}
-.m-0{margin:0rem;}
+.m-0,
+.m-none{margin:0rem;}
 .m-1\\\\/2{margin:50%;}
 .my-auto{margin-top:auto;margin-bottom:auto;}
 .-mb-px{margin-bottom:-1px;}
@@ -69,6 +72,7 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .mt-\\\\$height{margin-top:var(--height);}
 .next\\\\:mt-0+*{margin-top:0rem;}
 .m-block-auto{margin-block-start:auto;margin-block-end:auto;}
+.m-inline-none{margin-inline-start:0rem;margin-inline-end:0rem;}
 .mbs-\\\\[-10\\\\.2\\\\%\\\\]{margin-block-start:-10.2%;}
 .mbs-\\\\$height{margin-block-start:var(--height);}
 .unocss .scope-unocss\\\\:block{display:block;}

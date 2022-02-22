@@ -422,6 +422,7 @@ export const presetMiniTargets: string[] = [
   'aspect-[auto_16/9]',
 
   // spacing
+  'p-none',
   'p-2',
   'p-t-2',
   'p2',
@@ -436,8 +437,10 @@ export const presetMiniTargets: string[] = [
   'mt-[-10.2%]',
   'mt-$height',
   'my-auto',
+  'm-none',
 
   // spacing - logical
+  'p-ie-none',
   'p-bs-2',
   'pis-10px',
   'pbs-2',
@@ -446,6 +449,7 @@ export const presetMiniTargets: string[] = [
   'mbs-[-10.2%]',
   'mbs-$height',
   'm-block-auto',
+  'm-inline-none',
 
   // static
   'contents',
