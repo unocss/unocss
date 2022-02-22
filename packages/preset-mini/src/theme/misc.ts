@@ -9,6 +9,10 @@ export const breakpoints = {
 
 export const verticalBreakpoints = { ...breakpoints }
 
+export const opacity = {
+  DEFAULT: '1',
+}
+
 export const lineWidth = {
   DEFAULT: '1px',
   none: '0px',

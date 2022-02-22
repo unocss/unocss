@@ -19,7 +19,7 @@ export const textDecorations: Rule<Theme>[] = [
       }
     }
   }],
-  [/^(?:underline|decoration)-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-line-opacity': h.bracket.percent(opacity) })],
+  [/^(?:underline|decoration)-op(?:acity)?-?(.+)$/, ([, opacity], { theme }) => ({ '--un-line-opacity': theme.opacity?.[opacity] ?? h.bracket.percent(opacity) })],
 
   // offset
   [/^(?:underline|decoration)-offset-(.+)$/, ([, s], { theme }) => ({ 'text-underline-offset': theme.lineWidth?.[s] ?? h.auto.bracket.cssvar.px(s) })],

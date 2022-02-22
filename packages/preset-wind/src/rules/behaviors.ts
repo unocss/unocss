@@ -1,4 +1,5 @@
 import type { Rule } from '@unocss/core'
+import type { Theme } from '@unocss/preset-mini'
 import { colorResolver, handler as h } from '@unocss/preset-mini/utils'
 
 export const listStyle: Rule[] = [
@@ -20,14 +21,14 @@ export const listStyle: Rule[] = [
   ['list-none', { 'list-style-type': 'none' }],
 ]
 
-export const accents: Rule[] = [
+export const accents: Rule<Theme>[] = [
   [/^accent-(.+)$/, colorResolver('accent-color', 'accent')],
-  [/^accent-op(?:acity)?-?(.+)$/, ([, d]) => ({ '--un-accent-opacity': h.bracket.percent(d) })],
+  [/^accent-op(?:acity)?-?(.+)$/, ([, d], { theme }) => ({ '--un-accent-opacity': theme.opacity?.[d] ?? h.bracket.percent(d) })],
 ]
 
-export const carets: Rule[] = [
+export const carets: Rule<Theme>[] = [
   [/^caret-(.+)$/, colorResolver('caret-color', 'caret')],
-  [/^caret-op(?:acity)?-?(.+)$/, ([, d]) => ({ '--un-caret-opacity': h.bracket.percent(d) })],
+  [/^caret-op(?:acity)?-?(.+)$/, ([, d], { theme }) => ({ '--un-caret-opacity': theme.opacity?.[d] ?? h.bracket.percent(d) })],
 ]
 
 export const imageRenderings: Rule[] = [

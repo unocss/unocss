@@ -76,7 +76,7 @@ export const textStrokes: Rule<Theme>[] = [
 
   // colors
   [/^text-stroke-(.+)$/, colorResolver('-webkit-text-stroke-color', 'text-stroke')],
-  [/^text-stroke-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-stroke-opacity': h.bracket.percent(opacity) })],
+  [/^text-stroke-op(?:acity)?-?(.+)$/, ([, opacity], { theme }) => ({ '--un-text-stroke-opacity': theme.opacity?.[opacity] ?? h.bracket.percent(opacity) })],
 ]
 
 export const textShadows: Rule<Theme>[] = [
@@ -93,5 +93,5 @@ export const textShadows: Rule<Theme>[] = [
 
   // colors
   [/^text-shadow-color-(.+)$/, colorResolver('--un-text-shadow-color', 'text-shadow')],
-  [/^text-shadow-color-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-shadow-opacity': h.bracket.percent(opacity) })],
+  [/^text-shadow-color-op(?:acity)?-?(.+)$/, ([, opacity], { theme }) => ({ '--un-text-shadow-opacity': theme.opacity?.[opacity] ?? h.bracket.percent(opacity) })],
 ]

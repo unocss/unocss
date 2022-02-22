@@ -5,7 +5,7 @@ import { colorResolver, handler as h } from '../utils'
 export const svgUtilities: Rule<Theme>[] = [
   // fills
   [/^fill-(.+)$/, colorResolver('fill', 'fill')],
-  [/^fill-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-fill-opacity': h.bracket.percent(opacity) })],
+  [/^fill-op(?:acity)?-?(.+)$/, ([, opacity], { theme }) => ({ '--un-fill-opacity': theme.opacity?.[opacity] ?? h.bracket.percent(opacity) })],
   ['fill-none', { fill: 'none' }],
 
   // stroke size
@@ -17,7 +17,7 @@ export const svgUtilities: Rule<Theme>[] = [
 
   // stroke colors
   [/^stroke-(.+)$/, colorResolver('stroke', 'stroke')],
-  [/^stroke-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-stroke-opacity': h.bracket.percent(opacity) })],
+  [/^stroke-op(?:acity)?-?(.+)$/, ([, opacity], { theme }) => ({ '--un-stroke-opacity': theme.opacity?.[opacity] ?? h.bracket.percent(opacity) })],
 
   // line cap
   ['stroke-cap-square', { 'stroke-linecap': 'square' }],

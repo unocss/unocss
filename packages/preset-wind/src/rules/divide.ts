@@ -13,7 +13,7 @@ export const divides: Rule[] = [
 
   // color & opacity
   [/^divide-(.+)$/, colorResolver('border-color', 'divide')],
-  [/^divide-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-divide-opacity': h.bracket.percent(opacity) })],
+  [/^divide-op(?:acity)?-?(.+)$/, ([, opacity], { theme }: RuleContext<Theme>) => ({ '--un-divide-opacity': theme.opacity?.[opacity] ?? h.bracket.percent(opacity) })],
 
   // styles
   ['divide-solid', { 'border-style': 'solid' }],

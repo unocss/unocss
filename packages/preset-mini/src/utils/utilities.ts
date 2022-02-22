@@ -94,6 +94,8 @@ export const parseColor = (body: string, theme: Theme): ParsedColorValue | undef
       color = colorData[no]
   }
 
+  opacity = theme.opacity?.[opacity || 'DEFAULT'] ?? opacity
+
   return {
     opacity,
     name,
