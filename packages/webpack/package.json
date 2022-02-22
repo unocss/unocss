@@ -1,6 +1,6 @@
 {
   "name": "@unocss/webpack",
-  "version": "0.26.1",
+  "version": "0.26.2",
   "description": "The Webpack plugin for UnoCSS",
   "keywords": [
     "unocss",
