@@ -8,6 +8,6 @@
   },
   "devDependencies": {
     "unocss": "workspace:*",
-    "vitepress": "^0.21.6"
+    "vitepress": "^0.22.3"
   }
 }

@@ -47,6 +47,6 @@
   },
   "dependencies": {
     "@unocss/core": "workspace:*",
-    "axios": "^0.25.0"
+    "axios": "^0.26.0"
   }
 }

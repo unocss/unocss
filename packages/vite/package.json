@@ -41,11 +41,11 @@
     "@rollup/pluginutils": "^4.1.2",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
-    "@unocss/transformer-directives": "workspace:*",
     "@unocss/inspector": "workspace:*",
-    "@unocss/scope": "workspace:*"
+    "@unocss/scope": "workspace:*",
+    "@unocss/transformer-directives": "workspace:*"
   },
   "devDependencies": {
-    "vite": "^2.7.13"
+    "vite": "^2.8.4"
   }
 }
