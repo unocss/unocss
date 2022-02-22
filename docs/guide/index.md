@@ -51,10 +51,6 @@ UnoCSS is designed **NOT** to be/have:
 - A CSS preprocessor (e.g. `@apply`) - but you can use [shortcuts](#shortcuts).
 - Tailwind's plugin system - but you can write custom rules in seconds and share them as presets!
 
-###### Disclaimer
-
-> 🧪 This package is trying to explore the possibilities of what an atomic CSS framework can be. **Not production-ready**, yet. Expect breaking changes and overhaul redesigns.
-
 ## Installation
 
 ### Vite

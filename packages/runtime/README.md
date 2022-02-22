@@ -1,6 +1,6 @@
 # @unocss/runtime
 
-**Expiremental** CSS-in-JS runtime of UnoCSS.
+CSS-in-JS runtime of UnoCSS.
 
 ## CDN Usage
 
