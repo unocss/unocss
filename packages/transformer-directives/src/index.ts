@@ -1,4 +1,4 @@
-import { expandVariantGroup, notNull } from '@unocss/core'
+import { expandVariantGroup, notNull, regexScopePlaceholder } from '@unocss/core'
 import type { SourceCodeTransformer, StringifiedUtil, UnoGenerator } from '@unocss/core'
 import type { CssNode, ListItem, Selector, SelectorList, StyleSheet } from 'css-tree'
 import { List, clone, generate, parse, walk } from 'css-tree'
@@ -68,29 +68,32 @@ export async function transformDirectives(css: string, uno: UnoGenerator, filena
         const parentSelector = generate(node.prelude)
 
         for (const i of utils) {
-          const [, selector, body, parent] = i
+          const [, _selector, body, parent] = i
+          const selector = _selector?.replace(regexScopePlaceholder, ' ') || _selector
+
           if (parent) {
             const newNodeCss = `${parent}{${parentSelector}{${body}}}`
             const insertNodeAst = parse(newNodeCss) as StyleSheet
-
             list.insertList(insertNodeAst.children, item)
           }
           else if (selector && selector !== '.\\-') {
-            const pseudoClassSelectors = (
-              parse(selector, {
-                context: 'selector',
-              }) as Selector)
-              .children
-              .filter(i => i.type === 'PseudoClassSelector')
+            const selectorAST = parse(selector, {
+              context: 'selector',
+            }) as Selector
+            // console.log({ selectorAST: selectorAST.children.toArray() })
 
-            const parentSelectorAst = clone(node.prelude) as SelectorList
+            const prelude = clone(node.prelude) as SelectorList
 
-            parentSelectorAst.children.forEach((i) => {
-              if (i.type === 'Selector')
-                i.children.appendList(pseudoClassSelectors.copy())
+            prelude.children.forEach((child) => {
+              const parentSelectorAst = clone(selectorAST) as Selector
+              parentSelectorAst.children.forEach((i) => {
+                if (i.type === 'ClassSelector' && i.name === '\\-')
+                  Object.assign(i, clone(child))
+              })
+              Object.assign(child, parentSelectorAst)
             })
 
-            const newNodeCss = `${generate(parentSelectorAst)}{${body}}`
+            const newNodeCss = `${generate(prelude)}{${body}}`
             const insertNodeAst = parse(newNodeCss) as StyleSheet
 
             list.insertList(insertNodeAst.children, item)

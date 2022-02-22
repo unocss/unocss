@@ -504,12 +504,12 @@ export function createGenerator(config?: UserConfig, defaults?: UserConfigDefaul
   return new UnoGenerator(config, defaults)
 }
 
-const reScopePlaceholder = / \$\$ /
-export const hasScopePlaceholder = (css: string) => css.match(reScopePlaceholder)
+export const regexScopePlaceholder = / \$\$ /
+export const hasScopePlaceholder = (css: string) => css.match(regexScopePlaceholder)
 
 function applyScope(css: string, scope?: string) {
   if (hasScopePlaceholder(css))
-    return css.replace(reScopePlaceholder, scope ? ` ${scope} ` : ' ')
+    return css.replace(regexScopePlaceholder, scope ? ` ${scope} ` : ' ')
   else
     return scope ? `${scope} ${css}` : css
 }

@@ -1,6 +1,7 @@
 import { readFile } from 'fs/promises'
 import { describe, expect, test } from 'vitest'
 import { transformDirectives } from '@unocss/transformer-directives'
+import type { UnoGenerator } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import prettier from 'prettier/standalone'
@@ -18,8 +19,8 @@ describe('transformer-directives', () => {
     },
   })
 
-  async function transform(code: string) {
-    const result = await transformDirectives(code, uno)
+  async function transform(code: string, _uno: UnoGenerator = uno) {
+    const result = await transformDirectives(code, _uno)
     if (result == null)
       return null
     return prettier.format(result, {
@@ -186,6 +187,37 @@ describe('transformer-directives', () => {
         }
         .btn {
           padding: 0.75rem;
+          --un-bg-opacity: 1;
+          background-color: rgba(255, 255, 255, var(--un-bg-opacity));
+        }
+        "
+      `)
+  })
+
+  test('dark class', async() => {
+    const uno = createGenerator({
+      presets: [
+        presetUno({
+          dark: 'class',
+        }),
+      ],
+      shortcuts: {
+        btn: 'px-2 py-3 md:px-4 bg-blue-500 text-white rounded',
+      },
+    })
+    const result = await transform(
+      `.btn { 
+        @apply bg-white dark:bg-black;
+      }`,
+      uno,
+    )
+    expect(result)
+      .toMatchInlineSnapshot(`
+        ".dark .btn {
+          --un-bg-opacity: 1;
+          background-color: rgba(0, 0, 0, var(--un-bg-opacity));
+        }
+        .btn {
           --un-bg-opacity: 1;
           background-color: rgba(255, 255, 255, var(--un-bg-opacity));
         }
