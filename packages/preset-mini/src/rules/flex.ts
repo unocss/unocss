@@ -1,7 +1,8 @@
 import type { Rule } from '@unocss/core'
+import type { Theme } from '../theme'
 import { handler as h } from '../utils'
 
-export const flex: Rule[] = [
+export const flex: Rule<Theme>[] = [
   // display
   ['flex', { display: 'flex' }],
   ['inline-flex', { display: 'inline-flex' }],
@@ -19,7 +20,7 @@ export const flex: Rule[] = [
   [/^(?:flex-)?shrink-0$/, () => ({ 'flex-shrink': 0 })],
   [/^(?:flex-)?grow$/, () => ({ 'flex-grow': 1 })],
   [/^(?:flex-)?grow-0$/, () => ({ 'flex-grow': 0 })],
-  [/^(?:flex-)?basis-(.+)$/, ([, d]) => ({ 'flex-basis': h.bracket.cssvar.auto.fraction.rem(d) })],
+  [/^(?:flex-)?basis-(.+)$/, ([, d], { theme }) => ({ 'flex-basis': theme.spacing?.[d] ?? h.bracket.cssvar.auto.fraction.rem(d) })],
 
   // directions
   ['flex-row', { 'flex-direction': 'row' }],

@@ -152,6 +152,8 @@ export const presetWindiTargets: string[] = [
   'divide-transparent',
   'divide-current',
   'divide-none',
+  'divide-x-none',
+  'divide-inline-none',
 
   // filters
   'filter',
@@ -226,6 +228,7 @@ export const presetWindiTargets: string[] = [
   'scroll-m-0',
   'scroll-m-1/2',
   'scroll-m-auto',
+  'scroll-m-none',
   'scroll-p-2',
   'scroll-p-t-2',
   'scroll-p2',
@@ -235,16 +238,19 @@ export const presetWindiTargets: string[] = [
   'scroll-pis-10px',
   'scroll-pbs-2',
   'scroll-pbs2',
+  'scroll-p-inline-none',
 
   // shadow, spacing
   'mix-blend-normal',
   'mix-blend-hard-light',
+  'space-y-none',
   'space-x-2',
   'space-y-4',
   'space-x-reverse',
   'space-x-$space',
   'space-inline-2',
   'space-block-4',
+  'space-block-none',
   'space-inline-reverse',
   'space-inline-$space',
 

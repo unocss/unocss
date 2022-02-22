@@ -83,8 +83,8 @@ const borderColorResolver = (direction: string) => ([, body]: string[], theme: T
   }
 }
 
-function handlerBorder(m: string[]): CSSEntries | undefined {
-  const borderSizes = handlerBorderSize(m)
+function handlerBorder(m: string[], ctx: RuleContext): CSSEntries | undefined {
+  const borderSizes = handlerBorderSize(m, ctx)
   if (borderSizes) {
     return [
       ...borderSizes,
@@ -93,8 +93,8 @@ function handlerBorder(m: string[]): CSSEntries | undefined {
   }
 }
 
-function handlerBorderSize([, a = '', b = '1']: string[]): CSSEntries | undefined {
-  const v = h.bracket.cssvar.px(b)
+function handlerBorderSize([, a = '', b]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
+  const v = theme.lineWidth?.[b || 'DEFAULT'] ?? h.bracket.cssvar.px(b || '1')
   if (a in directionMap && v != null)
     return directionMap[a].map(i => [`border${i}-width`, v])
 }
@@ -114,8 +114,8 @@ function handlerBorderOpacity([, a = '', opacity]: string[]): CSSEntries | undef
     return directionMap[a].map(i => [`--un-border${i}-opacity`, v])
 }
 
-function handlerRounded([, a = '', s = 'DEFAULT']: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
-  const v = theme.borderRadius?.[s] || h.bracket.cssvar.fraction.rem(s)
+function handlerRounded([, a = '', s]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
+  const v = theme.borderRadius?.[s || 'DEFAULT'] || h.bracket.cssvar.fraction.rem(s || '1')
   if (a in cornerMap && v != null)
     return cornerMap[a].map(i => [`border${i}-radius`, v])
 }

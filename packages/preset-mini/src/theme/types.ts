@@ -31,6 +31,10 @@ export interface Theme {
   textIndent?: Record<string, string>
   textShadow?: Record<string, string | string[]>
   textStrokeWidth?: Record<string, string>
+  ringWidth?: Record<string, string>
+  lineWidth?: Record<string, string>
+  spacing?: Record<string, string>
+  duration?: Record<string, string>
   // filters
   blur?: Record<string, string>
   dropShadow?: Record<string, string | string[]>

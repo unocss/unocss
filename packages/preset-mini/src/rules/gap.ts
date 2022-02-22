@@ -1,4 +1,5 @@
-import type { Rule } from '@unocss/core'
+import type { Rule, RuleContext } from '@unocss/core'
+import type { Theme } from '../theme'
 import { handler as h } from '../utils'
 
 const directions: Record<string, string> = {
@@ -7,8 +8,8 @@ const directions: Record<string, string> = {
   'y': 'row-',
 }
 
-const handleGap = ([, d = '', s]: string[]) => {
-  const v = h.bracket.cssvar.rem(s)
+const handleGap = ([, d = '', s]: string[], { theme }: RuleContext<Theme>) => {
+  const v = theme.spacing?.[s] ?? h.bracket.cssvar.rem(s)
   if (v != null) {
     return {
       [`grid-${directions[d]}gap`]: v,
@@ -18,6 +19,6 @@ const handleGap = ([, d = '', s]: string[]) => {
 }
 
 export const gaps: Rule[] = [
-  [/^(?:flex-|grid-)?gap-()([^-]+)$/, handleGap],
-  [/^(?:flex-|grid-)?gap-([xy])-([^-]+)$/, handleGap],
+  [/^(?:flex-|grid-)?gap-()(.+)$/, handleGap],
+  [/^(?:flex-|grid-)?gap-([xy])-(.+)$/, handleGap],
 ]

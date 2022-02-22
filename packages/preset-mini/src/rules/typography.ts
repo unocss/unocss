@@ -33,7 +33,12 @@ export const fonts: Rule<Theme>[] = [
 
     return { 'font-size': h.bracketOfLength.rem(s) }
   }],
-  [/^text-size-(.+)$/, ([, s]) => ({ 'font-size': h.bracket.cssvar.rem(s) })],
+  [/^text-size-(.+)$/, ([, s], { theme }) => {
+    const themed = toArray(theme.fontSize?.[s])
+    const size = themed?.[0] ?? h.bracket.cssvar.rem(s)
+    if (size != null)
+      return { 'font-size': size }
+  }],
 
   // weights
   [/^(?:font|fw)-?([^-]+)$/, ([, s]) => ({ 'font-weight': weightMap[s] || h.number(s) })],

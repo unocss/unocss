@@ -17,22 +17,23 @@ const transitionProperty = (prop: string): string | undefined => {
 
 export const transitions: Rule<Theme>[] = [
   // transition
-  [/^transition(?:-([a-z-]+(?:,[a-z-]+)*))?(?:-(\d+))?$/, ([, prop, duration = '150']) => {
+  [/^transition(?:-([a-z-]+(?:,[a-z-]+)*))?(?:-(\d+))?$/, ([, prop, d], { theme }) => {
     const p = prop != null
       ? transitionProperty(prop)
       : [transitionPropertyGroup.colors, 'opacity', 'box-shadow', 'transform', 'filter', 'backdrop-filter'].join(',')
     if (p) {
+      const duration = theme.duration?.[d || 'DEFAULT'] ?? h.time(d || '150')
       return {
         'transition-property': p,
         'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)',
-        'transition-duration': `${duration}ms`,
+        'transition-duration': duration,
       }
     }
   }],
 
   // timings
-  [/^(?:transition-)?duration-(.+)$/, ([, d]) => ({ 'transition-duration': h.bracket.cssvar.time(d) })],
-  [/^(?:transition-)?delay-(.+)$/, ([, d]) => ({ 'transition-delay': h.bracket.cssvar.time(d) })],
+  [/^(?:transition-)?duration-(.+)$/, ([, d], { theme }) => ({ 'transition-duration': theme.duration?.[d || 'DEFAULT'] ?? h.bracket.cssvar.time(d) })],
+  [/^(?:transition-)?delay-(.+)$/, ([, d], { theme }) => ({ 'transition-delay': theme.duration?.[d || 'DEFAULT'] ?? h.bracket.cssvar.time(d) })],
   [/^(?:transition-)?ease(?:-(.+))?$/, ([, d], { theme }) => ({ 'transition-timing-function': theme.easing?.[d || 'DEFAULT'] ?? h.bracket.cssvar(d) })],
 
   // props

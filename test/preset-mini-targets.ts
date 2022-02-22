@@ -10,12 +10,14 @@ export const presetMiniTargets: string[] = [
   // behaviors
   'outline-none',
   'outline',
+  'outline-size-none',
   'outline-hidden',
   'outline-gray',
   'outline-gray-400',
   'outline-size-4',
   'outline-width-4',
   'outline-offset-4',
+  'outline-offset-none',
   'outline-unset',
   'outline-solid',
   'outline-color-red-1',
@@ -23,7 +25,6 @@ export const presetMiniTargets: string[] = [
   'outline-inset',
   'outline-110',
   'outline-blue-2',
-  'outline-none',
   'outline-[var(--red)]',
   'outline-size-[var(--width)]',
   'outline-offset-[var(--offset)]',
@@ -41,6 +42,7 @@ export const presetMiniTargets: string[] = [
   'border',
   'border-double',
   'border-none',
+  'border-size-none',
   'border-4',
   'border-b',
   'border-x',
@@ -65,6 +67,7 @@ export const presetMiniTargets: string[] = [
   'rounded-bs-sm',
   'rounded-bs-ie',
   'rounded',
+  'rounded-none',
   'border-rounded',
 
   // border - color
@@ -186,10 +189,12 @@ export const presetMiniTargets: string[] = [
 
   // decoration
   'decoration-none',
+  'decoration-size-none',
   'decoration-transparent',
   'decoration-purple/50',
   'decoration-5',
   'decoration-offset-0.6rem',
+  'decoration-offset-none',
   'decoration-underline',
   'underline',
   'underline-dashed',
@@ -223,6 +228,8 @@ export const presetMiniTargets: string[] = [
   'grow',
   'grow-0',
   'basis-auto',
+  'basis-none',
+  'gap-none',
   'gap-4',
   'gap-x-1',
   'flex-gap-y-1',
@@ -280,6 +287,7 @@ export const presetMiniTargets: string[] = [
   // position - insets
   'top-0',
   'top-$top-height',
+  'inset-none',
   'inset-x-5',
   'inset-y-5',
   'inset-t-5',
@@ -292,6 +300,8 @@ export const presetMiniTargets: string[] = [
   'inset-[5px]',
   'inset-inline-5',
   'inset-block-5',
+
+  // position - others
   'float-left',
   'float-none',
   'clear-both',
@@ -306,7 +316,9 @@ export const presetMiniTargets: string[] = [
   // ring, shadow
   'ring',
   'ring-10',
+  'ring-none',
   'ring-offset',
+  'ring-offset-none',
   'ring-offset-4',
   'ring-offset-green5',
   'ring-inset',
@@ -345,6 +357,7 @@ export const presetMiniTargets: string[] = [
   'h-6/7',
   'h-8/7',
   'h-lg',
+  'w-none',
   'w-auto',
   'w-1',
   'w-21',
@@ -409,6 +422,7 @@ export const presetMiniTargets: string[] = [
   'aspect-[auto_16/9]',
 
   // spacing
+  'p-none',
   'p-2',
   'p-t-2',
   'p2',
@@ -423,8 +437,10 @@ export const presetMiniTargets: string[] = [
   'mt-[-10.2%]',
   'mt-$height',
   'my-auto',
+  'm-none',
 
   // spacing - logical
+  'p-ie-none',
   'p-bs-2',
   'pis-10px',
   'pbs-2',
@@ -433,6 +449,7 @@ export const presetMiniTargets: string[] = [
   'mbs-[-10.2%]',
   'mbs-$height',
   'm-block-auto',
+  'm-inline-none',
 
   // static
   'contents',
@@ -472,6 +489,7 @@ export const presetMiniTargets: string[] = [
   'stroke-opacity-80',
   'stroke-[#123]',
   'stroke-[1rem]',
+  'stroke-size-none',
   'stroke-size-1',
   'stroke-size-1px',
   'stroke-size-[1rem]',
@@ -485,6 +503,7 @@ export const presetMiniTargets: string[] = [
   'stroke-offset-1',
   'stroke-offset-1px',
   'stroke-offset-[1rem]',
+  'stroke-offset-none',
   'stroke-cap-round',
   'stroke-cap-auto',
   'stroke-join-clip',
@@ -495,6 +514,7 @@ export const presetMiniTargets: string[] = [
   'transform-gpu',
   'transform-cpu',
   'transform-none',
+  'translate-none',
   'translate-y-1/4',
   'translate-y-px',
   'translate-full',

@@ -120,7 +120,8 @@ exports[`preset-wind > targets 1`] = `
 .snap-align-none{scroll-snap-align:none;}
 .snap-always{scroll-snap-stop:always;}
 .scroll-m-\\\\[3em\\\\]{scroll-margin:3em;}
-.scroll-m-0{scroll-margin:0rem;}
+.scroll-m-0,
+.scroll-m-none{scroll-margin:0rem;}
 .scroll-m-1\\\\/2{scroll-margin:50%;}
 .scroll-m-auto{scroll-margin:auto;}
 .-scroll-mb-px{scroll-margin-bottom:-1px;}
@@ -131,6 +132,7 @@ exports[`preset-wind > targets 1`] = `
 .scroll-pt-2,
 .scroll-pt2{scroll-padding-top:0.5rem;}
 .scroll-pl-10px{scroll-padding-left:10px;}
+.scroll-p-inline-none{scroll-padding-inline-start:0rem;scroll-padding-inline-end:0rem;}
 .scroll-pbs-2,
 .scroll-pbs2{scroll-padding-block-start:0.5rem;}
 .scroll-pis-10px{scroll-padding-inline-start:10px;}
@@ -150,18 +152,22 @@ exports[`preset-wind > targets 1`] = `
 .space-x-\\\\$space>:not([hidden])~:not([hidden]){--un-space-x-reverse:0;margin-left:calc(var(--space) * calc(1 - var(--un-space-x-reverse)));margin-right:calc(var(--space) * var(--un-space-x-reverse));}
 .space-x-2>:not([hidden])~:not([hidden]){--un-space-x-reverse:0;margin-left:calc(0.5rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(0.5rem * var(--un-space-x-reverse));}
 .space-y-4>:not([hidden])~:not([hidden]){--un-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--un-space-y-reverse)));margin-bottom:calc(1rem * var(--un-space-y-reverse));}
+.space-y-none>:not([hidden])~:not([hidden]){--un-space-y-reverse:0;margin-top:calc(0rem * calc(1 - var(--un-space-y-reverse)));margin-bottom:calc(0rem * var(--un-space-y-reverse));}
 .space-x-reverse>:not([hidden])~:not([hidden]){--un-space-x-reverse:1;}
 .space-block-4{--un-space-block-reverse:0;margin-block-start:calc(1rem * calc(1 - var(--un-space-block-reverse)));margin-block-end:calc(1rem * calc(1 - var(--un-space-block-reverse)));}
+.space-block-none{--un-space-block-reverse:0;margin-block-start:calc(0rem * calc(1 - var(--un-space-block-reverse)));margin-block-end:calc(0rem * calc(1 - var(--un-space-block-reverse)));}
 .space-inline-\\\\$space{--un-space-inline-reverse:0;margin-inline-start:calc(var(--space) * calc(1 - var(--un-space-inline-reverse)));margin-inline-end:calc(var(--space) * calc(1 - var(--un-space-inline-reverse)));}
 .space-inline-2{--un-space-inline-reverse:0;margin-inline-start:calc(0.5rem * calc(1 - var(--un-space-inline-reverse)));margin-inline-end:calc(0.5rem * calc(1 - var(--un-space-inline-reverse)));}
 .space-inline-reverse{--un-space-inline-reverse:1;}
 .divide-x-\\\\$variable>:not([hidden])~:not([hidden]){--un-divide-x-reverse:0;border-left-width:calc(var(--variable) * calc(1 - var(--un-divide-x-reverse)));border-right-width:calc(var(--variable) * var(--un-divide-x-reverse));}
 .divide-x-4>:not([hidden])~:not([hidden]){--un-divide-x-reverse:0;border-left-width:calc(4px * calc(1 - var(--un-divide-x-reverse)));border-right-width:calc(4px * var(--un-divide-x-reverse));}
+.divide-x-none>:not([hidden])~:not([hidden]){--un-divide-x-reverse:0;border-left-width:calc(0px * calc(1 - var(--un-divide-x-reverse)));border-right-width:calc(0px * var(--un-divide-x-reverse));}
 .divide-y-4>:not([hidden])~:not([hidden]){--un-divide-y-reverse:0;border-top-width:calc(4px * calc(1 - var(--un-divide-y-reverse)));border-bottom-width:calc(4px * var(--un-divide-y-reverse));}
 .divide-x-reverse>:not([hidden])~:not([hidden]){--un-divide-x-reverse:1;}
 .divide-block-4>:not([hidden])~:not([hidden]){--un-divide-block-reverse:0;border-block-start-width:calc(4px * calc(1 - var(--un-divide-block-reverse)));border-block-end-width:calc(4px * calc(1 - var(--un-divide-block-reverse)));}
 .divide-inline-\\\\$variable>:not([hidden])~:not([hidden]){--un-divide-inline-reverse:0;border-inline-start-width:calc(var(--variable) * calc(1 - var(--un-divide-inline-reverse)));border-inline-end-width:calc(var(--variable) * calc(1 - var(--un-divide-inline-reverse)));}
 .divide-inline-4>:not([hidden])~:not([hidden]){--un-divide-inline-reverse:0;border-inline-start-width:calc(4px * calc(1 - var(--un-divide-inline-reverse)));border-inline-end-width:calc(4px * calc(1 - var(--un-divide-inline-reverse)));}
+.divide-inline-none>:not([hidden])~:not([hidden]){--un-divide-inline-reverse:0;border-inline-start-width:calc(0px * calc(1 - var(--un-divide-inline-reverse)));border-inline-end-width:calc(0px * calc(1 - var(--un-divide-inline-reverse)));}
 .divide-inline-reverse>:not([hidden])~:not([hidden]){--un-divide-inline-reverse:1;}
 .divide-\\\\$variable>:not([hidden])~:not([hidden]){border-color:var(--variable);}
 .divide-current>:not([hidden])~:not([hidden]){border-color:currentColor;}

@@ -1,5 +1,6 @@
-import type { CSSValues, Rule } from '@unocss/core'
+import type { CSSValues, Rule, RuleContext } from '@unocss/core'
 import { CONTROL_SHORTCUT_NO_MERGE } from '@unocss/core'
+import type { Theme } from '../theme'
 import { handler as h, positionMap, xyzMap } from '../utils'
 
 const transformGpu = {
@@ -100,8 +101,8 @@ export const transforms: Rule[] = [
   ['transform-none', { transform: 'none' }],
 ]
 
-function handleTranslate([, d, b]: string[]): CSSValues | undefined {
-  const v = h.bracket.cssvar.fraction.rem(b)
+function handleTranslate([, d, b]: string[], { theme }: RuleContext<Theme>): CSSValues | undefined {
+  const v = theme.spacing?.[b] ?? h.bracket.cssvar.fraction.rem(b)
   if (v != null) {
     return [
       transformBase,
