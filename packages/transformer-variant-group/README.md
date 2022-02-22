@@ -28,7 +28,7 @@ Unocss({
 Will be transformed to:
 
 ```html
-<div class="hover:bg-gray-400 hover-font-medium font-light font-mono"/>
+<div class="hover:bg-gray-400 hover:font-medium font-light font-mono"/>
 ``` 
 
 ## License
