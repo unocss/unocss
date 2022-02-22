@@ -4,6 +4,9 @@ import { describe, expect, test } from 'vitest'
 import { presetWindTargets } from './preset-wind-targets'
 
 export const localTargets: string[] = [
+  // ring, shadow
+  'ring',
+
   // static
   'content-unocss',
   'content-attr(dashed-attr)',

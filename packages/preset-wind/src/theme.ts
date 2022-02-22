@@ -3,6 +3,9 @@ import { theme as miniTheme } from '@unocss/preset-mini/theme'
 
 export const theme: Theme = {
   ...miniTheme,
+  ringWidth: {
+    DEFAULT: '3px',
+  },
   animation: {
     keyframes: {
       'pulse': '{0%, 100% {opacity:1} 50% {opacity:.5}}',

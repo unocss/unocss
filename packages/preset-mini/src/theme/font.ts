@@ -66,7 +66,7 @@ export const textIndent: Theme['textIndent'] = {
 
 export const textStrokeWidth: Theme['textStrokeWidth'] = {
   DEFAULT: '1.5rem',
-  none: '0',
+  none: '0rem',
   sm: 'thin',
   md: 'medium',
   lg: 'thick',
