@@ -391,6 +391,12 @@ exports[`preset-wind > targets 1`] = `
 .backdrop-filter{-webkit-backdrop-filter:var(--un-backdrop-filter);backdrop-filter:var(--un-backdrop-filter);}
 .filter-none{filter:none;}
 .backdrop-filter-none{-webkit-backdrop-filter:none;backdrop-filter:none;}
+.content-\\\\[attr\\\\(underlined_attr\\\\)\\\\]{content:attr(underlined attr);}
+.content-\\\\[unocss\\\\]{content:unocss;}
+.content-\\\\$unocss-var{content:var(--unocss-var);}
+.content-attr_underline{content:\\"attr_underline\\";}
+.content-attr\\\\(dashed-attr\\\\){content:\\"attr(dashed-attr)\\";}
+.content-unocss{content:\\"unocss\\";}
 .placeholder-inherit::placeholder{color:inherit;}
 .placeholder-red-400::placeholder{--un-placeholder-opacity:1;color:rgba(248,113,113,var(--un-placeholder-opacity));}
 @media (orientation: landscape){

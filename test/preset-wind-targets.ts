@@ -1,4 +1,4 @@
-export const presetWindiTargets: string[] = [
+export const presetWindTargets: string[] = [
   // animation
   'keyframes-pulse',
   'keyframes-pulse-alt',
