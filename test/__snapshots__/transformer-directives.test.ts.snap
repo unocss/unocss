@@ -224,7 +224,7 @@ input:focus {
   --un-ring-offset-color: #fff;
   --un-ring-width: 0px;
   --un-ring-color: rgba(147, 197, 253, 0.5);
-  --un-ring-width: 3px;
+  --un-ring-width: 1px;
   --un-ring-offset-shadow: var(--un-ring-inset) 0 0 0
     var(--un-ring-offset-width) var(--un-ring-offset-color);
   --un-ring-shadow: var(--un-ring-inset) 0 0 0
@@ -256,7 +256,7 @@ input {
   --un-ring-offset-color: #fff;
   --un-ring-width: 0px;
   --un-ring-color: rgba(147, 197, 253, 0.5);
-  --un-ring-width: 3px;
+  --un-ring-width: 1px;
   --un-ring-offset-shadow: var(--un-ring-inset) 0 0 0
     var(--un-ring-offset-width) var(--un-ring-offset-color);
   --un-ring-shadow: var(--un-ring-inset) 0 0 0
