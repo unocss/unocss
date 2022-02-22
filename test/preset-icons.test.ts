@@ -10,9 +10,6 @@ describe('preset-icons', () => {
   const fixture2 = `
 <button class="i-carbon-sun?bg dark:i-carbon-moon?bg" />
 `
-  const fixture3 = `
-<button class="i-logos-amex" />
-`
 
   const uno = createGenerator({
     presets: [
