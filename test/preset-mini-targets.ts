@@ -468,6 +468,7 @@ export const presetMiniTargets: string[] = [
   'content-empty',
   'content-none',
   'content-[unocss]',
+  'content-[attr(dashed-attr)]',
   'break-normal',
   'break-words',
   'text-clip',

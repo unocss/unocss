@@ -1,7 +1,17 @@
 import { createGenerator, escapeSelector } from '@unocss/core'
 import presetWind from '@unocss/preset-wind'
 import { describe, expect, test } from 'vitest'
-import { presetWindiTargets } from './preset-wind-targets'
+import { presetWindTargets } from './preset-wind-targets'
+
+export const localTargets: string[] = [
+  // static
+  'content-unocss',
+  'content-attr(dashed-attr)',
+  'content-attr_underline',
+  'content-[unocss]',
+  'content-[attr(underlined_attr)]',
+  'content-$unocss-var',
+]
 
 const uno = createGenerator({
   presets: [
@@ -21,12 +31,13 @@ const uno = createGenerator({
 
 describe('preset-wind', () => {
   test('targets', async() => {
-    const code = presetWindiTargets.join(' ')
+    const targets = [...localTargets, ...presetWindTargets]
+    const code = targets.join(' ')
     const { css } = await uno.generate(code)
     const { css: css2 } = await uno.generate(code)
 
     const unmatched = []
-    for (const i of presetWindiTargets) {
+    for (const i of targets) {
       if (!css.includes(escapeSelector(i)))
         unmatched.push(i)
     }
