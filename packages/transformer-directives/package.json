@@ -34,13 +34,8 @@
     "build": "unbuild",
     "stub": "unbuild --stub"
   },
-  "peerDependencies": {
-    "@unocss/core": "workspace:*"
-  },
   "dependencies": {
+    "@unocss/core": "workspace:*",
     "css-tree": "^2.0.4"
-  },
-  "devDependencies": {
-    "@unocss/core": "workspace:*"
   }
 }
