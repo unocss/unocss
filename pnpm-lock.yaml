@@ -341,18 +341,16 @@ importers:
       '@unocss/core': workspace:*
       css-tree: ^2.0.4
     dependencies:
-      css-tree: 2.0.4
-    devDependencies:
       '@unocss/core': link:../core
+      css-tree: 2.0.4
 
   packages/transformer-variant-group:
     specifiers:
       '@unocss/core': workspace:*
       magic-string: ^0.25.7
     dependencies:
-      magic-string: 0.25.7
-    devDependencies:
       '@unocss/core': link:../core
+      magic-string: 0.25.7
 
   packages/unocss:
     specifiers:
