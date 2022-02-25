@@ -21,7 +21,24 @@ Unocss({
 
 ## Usage
 
-Currently only `@apply` is supported.
+```css
+.custom-div {
+  @apply text-center my-0 font-medium;
+}
+```
+
+Will be transformed to:
+
+```css
+.custom-div {
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+  text-align: center;
+  font-weight: 500;
+}
+```
+
+> Currently only `@apply` is supported.
 
 ## License
 
