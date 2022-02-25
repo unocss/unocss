@@ -31,13 +31,11 @@ Will be transformed to:
 
 ```css
 .myDiv {
- text-align: center;
- padding: 1em;
- margin-top: 0rem;
- margin-bottom: 0rem;
- font-weight: 500;
-   }
-
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+  text-align: center;
+  font-weight: 500;
+}
 ``` 
 
 Currently only `@apply` is supported.
