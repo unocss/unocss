@@ -16,7 +16,7 @@ export function hex2rgba(hex = ''): RGBAColorValue | undefined {
 
 export function parseCssColor(str = ''): CSSColorValue | undefined {
   const color = parseColor(str)
-  if (color == null)
+  if (color == null || color === false)
     return
 
   const { type: casedType, components, alpha } = color
@@ -28,7 +28,7 @@ export function parseCssColor(str = ''): CSSColorValue | undefined {
   if (['rgba', 'hsla'].includes(type) && alpha == null)
     return
 
-  if (cssColorFunctions.includes(type) && components.length !== 3)
+  if (cssColorFunctions.includes(type) && ![1, 3].includes(components.length))
     return
 
   return { type, components, alpha }
@@ -54,7 +54,7 @@ function parseColor(str: string) {
   if (!str)
     return
 
-  let color = parseHexColor(str)
+  let color: CSSColorValue | false | undefined = parseHexColor(str)
   if (color != null)
     return color
 
@@ -121,7 +121,7 @@ function cssColorKeyword(str: string): CSSColorValue | undefined {
   }
 }
 
-function parseCssCommaColorFunction(color: string): CSSColorValue | undefined {
+function parseCssCommaColorFunction(color: string): CSSColorValue | false | undefined {
   const match = color.match(/^(rgb|rgba|hsl|hsla)\((.+)\)$/i)
   if (!match)
     return
@@ -129,11 +129,16 @@ function parseCssCommaColorFunction(color: string): CSSColorValue | undefined {
   const [, type, componentString] = match
   // With min 3 (rgb) and max 4 (rgba), try to get 5 components
   const components = getComponents(componentString, ',', 5)
-  if (components && [3, 4].includes(components.length)) {
-    return {
-      type,
-      components: components.slice(0, 3),
-      alpha: components[3],
+  if (components) {
+    if ([3, 4].includes(components.length)) {
+      return {
+        type,
+        components: components.slice(0, 3),
+        alpha: components[3],
+      }
+    }
+    else if (components.length !== 1) {
+      return false
     }
   }
 }

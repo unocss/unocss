@@ -12,6 +12,9 @@ const targets = [
   // custom colors
   'text-custom-a',
   'bg-custom-b',
+  'bg-info',
+  'bg-info/10',
+  'bg-info/[10%]',
   'border-custom-b',
   'border-custom-b/0',
   'border-custom-b/10',
@@ -111,6 +114,7 @@ const uno = createGenerator({
         a: 'var(--custom)',
         b: 'rgba(var(--custom), %alpha)',
       },
+      info: 'hsl(200.1, 100%, 54.3%)',
     },
   },
 })

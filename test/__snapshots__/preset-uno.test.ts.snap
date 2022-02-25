@@ -6,6 +6,9 @@ exports[`targets 1`] = `
 .border-custom-b\\\\/0{border-color:rgba(var(--custom), 0);}
 .border-custom-b\\\\/10{border-color:rgba(var(--custom), 0.1);}
 .bg-custom-b{background-color:rgba(var(--custom), 1);}
+.bg-info{--un-bg-opacity:1;background-color:hsla(200.1,100%,54.3%,var(--un-bg-opacity));}
+.bg-info\\\\/\\\\[10\\\\%\\\\]{background-color:hsla(200.1,100%,54.3%,10%);}
+.bg-info\\\\/10{background-color:hsla(200.1,100%,54.3%,0.1);}
 .mix-shade-50-c-red-400{--un-text-opacity:1;color:rgba(calc(248 + (0 - 248) * 50 / 100),calc(113 + (0 - 113) * 50 / 100),calc(113 + (0 - 113) * 50 / 100),calc(var(--un-text-opacity) + (1 - var(--un-text-opacity)) * 50 / 100));}
 .mix-shift--50-c-red-600{--un-text-opacity:1;color:rgba(calc(220 + (255 - 220) * 50 / 100),calc(38 + (255 - 38) * 50 / 100),calc(38 + (255 - 38) * 50 / 100),calc(var(--un-text-opacity) + (1 - var(--un-text-opacity)) * 50 / 100));}
 .mix-shift-50-c-red-600{--un-text-opacity:1;color:rgba(calc(220 + (0 - 220) * 50 / 100),calc(38 + (0 - 38) * 50 / 100),calc(38 + (0 - 38) * 50 / 100),calc(var(--un-text-opacity) + (1 - var(--un-text-opacity)) * 50 / 100));}
