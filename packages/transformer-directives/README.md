@@ -31,11 +31,11 @@ Will be transformed to:
 
 ```css
 .myDiv {
-  text-align: center;
-  padding: 1em;
-  margin-top: 0rem;
-  margin-bottom: 0rem;
-  font-weight: 500;
+ text-align: center;
+ padding: 1em;
+ margin-top: 0rem;
+ margin-bottom: 0rem;
+ font-weight: 500;
    }
 
 ``` 
