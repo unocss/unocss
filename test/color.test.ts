@@ -1,5 +1,5 @@
-import type { RuleContext } from 'unocss'
-import { createGenerator } from 'unocss'
+import type { RuleContext } from '@unocss/core'
+import { createGenerator } from '@unocss/core'
 import { colorResolver, colorToString, colorableShadows, hex2rgba, parseCssColor } from '@unocss/preset-mini/utils'
 import { describe, expect, it } from 'vitest'
 

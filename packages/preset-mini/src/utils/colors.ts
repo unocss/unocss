@@ -16,7 +16,7 @@ export function hex2rgba(hex = ''): RGBAColorValue | undefined {
 
 export function parseCssColor(str = ''): CSSColorValue | undefined {
   const color = parseColor(str)
-  if (color == null || color == false)
+  if (color == null || color === false)
     return
 
   const { type: casedType, components, alpha } = color

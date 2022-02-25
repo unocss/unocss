@@ -114,7 +114,7 @@ const uno = createGenerator({
         a: 'var(--custom)',
         b: 'rgba(var(--custom), %alpha)',
       },
-      info: "hsl(200.1, 100%, 54.3%)",
+      info: 'hsl(200.1, 100%, 54.3%)',
     },
   },
 })
