@@ -23,8 +23,8 @@ Unocss({
 
 ```css
 .myDiv {
-    @apply text-center my-0 font-medium;
-   }
+  @apply text-center my-0 font-medium;
+}
 ```
 
 Will be transformed to:
