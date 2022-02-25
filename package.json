@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "bench": "npm -C bench run bench",
-    "build": "esno scripts/copy-files.ts && pnpm -r --filter !playground run build && pnpm -r run build-post",
+    "build": "rimraf packages/*/dist && esno scripts/copy-files.ts && pnpm -r --filter !playground run build && pnpm -r run build-post",
     "dev": "nr stub",
     "docs": "npm -C docs run dev",
     "docs:build": "npm -C docs run build",
