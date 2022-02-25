@@ -40,10 +40,6 @@ Will be transformed to:
 
 ``` 
 
-## License
-
-MIT License © 2021-PRESENT [Anthony Fu](https://github.com/antfu)
-
 Currently only `@apply` is supported.
 
 ## License
