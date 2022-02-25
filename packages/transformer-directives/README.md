@@ -22,7 +22,7 @@ Unocss({
 ## Usage
 
 ```css
-.myDiv {
+.custom-div {
   @apply text-center my-0 font-medium;
 }
 ```
@@ -30,15 +30,15 @@ Unocss({
 Will be transformed to:
 
 ```css
-.myDiv {
+.custom-div {
   margin-top: 0rem;
   margin-bottom: 0rem;
   text-align: center;
   font-weight: 500;
 }
-``` 
+```
 
-Currently only `@apply` is supported.
+> Currently only `@apply` is supported.
 
 ## License
 
