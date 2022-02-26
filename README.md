@@ -11,7 +11,10 @@ The instant on-demand Atomic CSS engine.
 </p>
 
 <p align="center">
-<a href="https://www.npmjs.com/package/unocss"><img src="https://img.shields.io/npm/v/unocss?color=c95f8b&amp;label=" alt="NPM version"></a></p>
+<a href="https://www.npmjs.com/package/unocss"><img src="https://img.shields.io/npm/v/unocss?color=%230273b3" alt="NPM version"></a>
+<a href="https://www.npmjs.com/package/unocss"><img src="https://img.shields.io/npm/dm/unocss" alt="NPM downloads"></a>
+<a href="https://www.npmjs.com/package/unocss"><img src="https://img.shields.io/npm/l/unocss" alt="Licence"></a>
+</p>
 
 <blockquote align="center">
 <p>💡 I highly recommend reading this blog post - <br><a href="https://antfu.me/posts/reimagine-atomic-css"><strong>Reimagine Atomic CSS</strong></a><br>for the story behind</p>
