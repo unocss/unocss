@@ -10,15 +10,19 @@
   "bugs": {
     "url": "https://github.com/unocss/unocss/issues"
   },
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/unocss/unocss.git",
     "directory": "packages/preset-uno"
   },
   "funding": "https://github.com/sponsors/antfu",
-  "license": "MIT",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "sideEffects": false,
+  "files": [
+    "dist",
+    "*.css"
+  ],
   "exports": {
     ".": {
       "require": "./dist/index.cjs",
@@ -45,17 +49,13 @@
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "*.css"
-  ],
   "scripts": {
     "build": "unbuild",
     "stub": "unbuild --stub"
   },
   "dependencies": {
     "@unocss/core": "workspace:*",
-    "@unocss/preset-wind": "workspace:*",
-    "@unocss/preset-mini": "workspace:*"
+    "@unocss/preset-mini": "workspace:*",
+    "@unocss/preset-wind": "workspace:*"
   }
 }

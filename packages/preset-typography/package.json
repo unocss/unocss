@@ -10,14 +10,17 @@
   "bugs": {
     "url": "https://github.com/unocss/unocss/issues"
   },
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/unocss/unocss.git",
     "directory": "packages/preset-typography"
   },
-  "license": "MIT",
   "sideEffects": false,
   "author": "Jeff Yang",
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": {
       "require": "./dist/index.cjs",
@@ -28,9 +31,6 @@
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "build": "unbuild",
     "stub": "unbuild --stub"

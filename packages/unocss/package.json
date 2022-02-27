@@ -14,14 +14,18 @@
   "bugs": {
     "url": "https://github.com/unocss/unocss/issues"
   },
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/unocss/unocss.git"
   },
   "funding": "https://github.com/sponsors/antfu",
-  "license": "MIT",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "sideEffects": false,
+  "files": [
+    "dist",
+    "*.d.ts"
+  ],
   "exports": {
     ".": {
       "require": "./dist/index.cjs",
@@ -72,10 +76,6 @@
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "index.d.ts",
-  "files": [
-    "dist",
-    "*.d.ts"
-  ],
   "scripts": {
     "build": "unbuild",
     "stub": "unbuild --stub"
@@ -91,9 +91,9 @@
     "@unocss/preset-web-fonts": "workspace:*",
     "@unocss/preset-wind": "workspace:*",
     "@unocss/reset": "workspace:*",
-    "@unocss/vite": "workspace:*",
     "@unocss/transformer-directives": "workspace:*",
-    "@unocss/transformer-variant-group": "workspace:*"
+    "@unocss/transformer-variant-group": "workspace:*",
+    "@unocss/vite": "workspace:*"
   },
   "engines": {
     "node": ">=14"
