@@ -139,7 +139,7 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
           return code.replace('return hot', 'hot.send = (data) => socket.send(data);return hot;')
         // inject css modules to send callback on css load
         if (entries.has(getPath(id)) && code.includes('import.meta.hot')) {
-          const snippet = `\nif (import.meta.hot) { try { import.meta.hot.send('${WS_EVENT_PREFIX}${lastServed}') } catch {} }`
+          const snippet = `\nif (import.meta.hot) { try { import.meta.hot.send('${WS_EVENT_PREFIX}${lastServed}') } catch (e) { console.warn('[unocss-hmr]', e) } }`
           return code + snippet
         }
       },
