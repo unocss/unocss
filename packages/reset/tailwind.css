@@ -360,3 +360,7 @@ Ensure the default browser behavior of the `hidden` attribute.
 [hidden] {
   display: none;
 }
+
+.dark {
+  color-schema: dark;
+}
