@@ -4,7 +4,7 @@ Typography Preset for UnoCSS
 
 ## Installation
 
-```sh
+```bash
 pnpm add @unocss/preset-typography -D
 ```
 
