@@ -7,12 +7,12 @@
   "categories": [
     "Other"
   ],
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/unocss/unocss",
     "directory": "packages/vscode"
   },
-  "license": "MIT",
   "publisher": "antfu",
   "main": "./dist/index.js",
   "preview": true,

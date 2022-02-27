@@ -10,15 +10,18 @@
   "bugs": {
     "url": "https://github.com/unocss/unocss/issues"
   },
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/unocss/unocss.git",
     "directory": "packages/webpack"
   },
   "funding": "https://github.com/sponsors/antfu",
-  "license": "MIT",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "sideEffects": false,
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": {
       "require": "./dist/index.cjs",
@@ -29,12 +32,12 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "build": "unbuild",
     "stub": "unbuild --stub"
+  },
+  "peerDependencies": {
+    "webpack": "^4 || ^5"
   },
   "dependencies": {
     "@rollup/pluginutils": "^4.1.2",
@@ -42,9 +45,6 @@
     "@unocss/core": "workspace:*",
     "unplugin": "^0.3.2",
     "webpack-sources": "^3.2.3"
-  },
-  "peerDependencies": {
-    "webpack": "^4 || ^5"
   },
   "devDependencies": {
     "@types/webpack": "^5.28.0",

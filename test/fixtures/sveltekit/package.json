@@ -1,5 +1,6 @@
 {
   "name": "unocss-sveltekit",
+  "type": "module",
   "scripts": {
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",
@@ -21,6 +22,5 @@
     "tslib": "^2.3.1",
     "typescript": "^4.5.5",
     "unocss": "link:../../../packages/unocss"
-  },
-  "type": "module"
+  }
 }

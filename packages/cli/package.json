@@ -7,28 +7,28 @@
   "bugs": {
     "url": "https://github.com/unocss/unocss/issues"
   },
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/unocss/unocss.git",
     "directory": "packages/cli"
   },
   "funding": "https://github.com/sponsors/antfu",
-  "license": "MIT",
   "author": {
     "name": "Johann Schopplich",
     "email": "pkg@johannschopplich.com",
     "url": "https://johannschopplich.com"
   },
+  "files": [
+    "bin",
+    "dist"
+  ],
   "exports": "./dist/index.cjs",
   "main": "./dist/index.cjs",
   "bin": {
     "unocss": "./bin/unocss.cjs"
   },
   "types": "./dist/index.d.ts",
-  "files": [
-    "bin",
-    "dist"
-  ],
   "scripts": {
     "build": "unbuild",
     "stub": "unbuild --stub"

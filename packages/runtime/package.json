@@ -10,14 +10,18 @@
   "bugs": {
     "url": "https://github.com/unocss/unocss/issues"
   },
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/unocss/unocss.git",
     "directory": "packages/runtime"
   },
   "funding": "https://github.com/sponsors/antfu",
-  "license": "MIT",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "files": [
+    "*.global.js",
+    "dist"
+  ],
   "exports": {
     ".": {
       "require": "./dist/index.js",
@@ -26,13 +30,9 @@
   },
   "main": "./dist/index.js",
   "jsdelivr": "./uno.global.js",
-  "unpkg": "./uno.global.js",
   "module": "./dist/index.mjs",
+  "unpkg": "./uno.global.js",
   "types": "./dist/index.d.ts",
-  "files": [
-    "*.global.js",
-    "dist"
-  ],
   "scripts": {
     "build": "pnpm run build:node && pnpm run build:cdn",
     "build:cdn": "tsup src/cdn/*.ts --format iife --minify --out-dir .",

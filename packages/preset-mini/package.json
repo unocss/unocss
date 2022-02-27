@@ -10,15 +10,20 @@
   "bugs": {
     "url": "https://github.com/unocss/unocss/issues"
   },
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/unocss/unocss.git",
     "directory": "packages/preset-mini"
   },
   "funding": "https://github.com/sponsors/antfu",
-  "license": "MIT",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "sideEffects": false,
+  "files": [
+    "dist",
+    "*.d.ts",
+    "*.css"
+  ],
   "exports": {
     ".": {
       "require": "./dist/index.cjs",
@@ -55,11 +60,6 @@
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "*.d.ts",
-    "*.css"
-  ],
   "scripts": {
     "build": "unbuild",
     "stub": "unbuild --stub"
