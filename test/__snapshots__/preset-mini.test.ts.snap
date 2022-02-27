@@ -439,6 +439,7 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .gap-\\\\$variable{grid-gap:var(--variable);gap:var(--variable);}
 .gap-4{grid-gap:1rem;gap:1rem;}
 .gap-none{grid-gap:0rem;gap:0rem;}
+.gap2{grid-gap:0.5rem;gap:0.5rem;}
 .-gap-y-5{grid-row-gap:-1.25rem;row-gap:-1.25rem;}
 .flex-gap-y-1,
 .grid-gap-y-1{grid-row-gap:0.25rem;row-gap:0.25rem;}
@@ -451,7 +452,8 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .h-\\\\[calc\\\\(1000px-4rem\\\\)\\\\]{height:calc(1000px - 4rem);}
 .h-\\\\$var{height:var(--var);}
 .h-1{height:0.25rem;}
-.h-1\\\\.000\\\\%{height:1%;}
+.h-1\\\\.000\\\\%,
+.h1\\\\/100{height:1%;}
 .h-1\\\\.001\\\\%{height:1.001%;}
 .h-1\\\\.010\\\\%{height:1.01%;}
 .h-1\\\\.100\\\\%{height:1.1%;}
@@ -474,6 +476,7 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .h-8\\\\/7{height:114.2857142857%;}
 .h-auto{height:auto;}
 .h-lg{height:32rem;}
+.h20{height:5rem;}
 .max-h-\\\\[1px\\\\]{max-height:1px;}
 .max-w-\\\\$var{max-width:var(--var);}
 .max-w-20{max-width:5rem;}
@@ -614,9 +617,10 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .float-none{float:none;}
 .clear-both{clear:both;}
 .clear-none{clear:none;}
+.z0,
+.z-0{z-index:0;}
 .-z-1{z-index:-1;}
 .z-\\\\$variable{z-index:var(--variable);}
-.z-0{z-index:0;}
 .z-1{z-index:1;}
 .z-100{z-index:100;}
 .z-auto{z-index:auto;}
