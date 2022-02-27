@@ -21,6 +21,7 @@
       "@unocss/preset-mini/variants": ["./packages/preset-mini/src/variants.ts"],
       "@unocss/preset-mini/utils": ["./packages/preset-mini/src/utils.ts"],
       "@unocss/preset-web-fonts": ["./packages/preset-web-fonts/src/index.ts"],
+      "@unocss/preset-wind": ["./packages/preset-wind/src/index.ts"],
       "@unocss/preset-uno": ["./packages/preset-uno/src/index.ts"],
       "@unocss/preset-icons": ["./packages/preset-icons/src/index.ts"],
       "@unocss/preset-attributify": ["./packages/preset-attributify/src/index.ts"],
