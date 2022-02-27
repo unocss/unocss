@@ -37,7 +37,7 @@ export function initTransformerPlugins(ctx: UnocssPluginContext): Plugin[] {
 
   return [
     {
-      name: 'unocss:transformers:deafult',
+      name: 'unocss:transformers:default',
       transform(code, id) {
         return applyTransformers(this, code, id)
       },
