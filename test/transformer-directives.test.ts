@@ -6,6 +6,7 @@ import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
+import MagicString from 'magic-string'
 
 describe('transformer-directives', () => {
   const uno = createGenerator({
@@ -20,10 +21,9 @@ describe('transformer-directives', () => {
   })
 
   async function transform(code: string, _uno: UnoGenerator = uno) {
-    const result = await transformDirectives(code, _uno)
-    if (result == null)
-      return null
-    return prettier.format(result, {
+    const s = new MagicString(code)
+    await transformDirectives(s, _uno)
+    return prettier.format(s.toString(), {
       parser: 'css',
       plugins: [parserCSS],
     })
@@ -168,7 +168,7 @@ describe('transformer-directives', () => {
 
   test('multiple apply', async() => {
     const result = await transform(
-      `.btn { 
+      `.btn {
         @apply p-3;
         @apply bg-white;
         @apply hover:bg-blue-500;
@@ -206,7 +206,7 @@ describe('transformer-directives', () => {
       },
     })
     const result = await transform(
-      `.btn { 
+      `.btn {
         @apply bg-white dark:bg-black;
       }`,
       uno,

@@ -1,7 +1,8 @@
 import { expandVariantGroup, notNull, regexScopePlaceholder } from '@unocss/core'
 import type { SourceCodeTransformer, StringifiedUtil, UnoGenerator } from '@unocss/core'
-import type { CssNode, ListItem, Selector, SelectorList, StyleSheet } from 'css-tree'
-import { List, clone, generate, parse, walk } from 'css-tree'
+import type { CssNode, List, ListItem, Selector, SelectorList } from 'css-tree'
+import { clone, generate, parse, walk } from 'css-tree'
+import type MagicString from 'magic-string'
 import { regexCssId } from '../../plugins-common/defaults'
 
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
@@ -17,27 +18,27 @@ export default function transformerDirectives(): SourceCodeTransformer {
   }
 }
 
-export async function transformDirectives(css: string, uno: UnoGenerator, filename?: string) {
-  if (!css.includes('@apply'))
-    return css
+export async function transformDirectives(code: MagicString, uno: UnoGenerator, filename?: string) {
+  if (!code.original.includes('@apply'))
+    return
 
-  const ast = parse(css, {
+  const ast = parse(code.original, {
     parseAtrulePrelude: false,
     positions: true,
     filename,
   })
 
   if (ast.type !== 'StyleSheet')
-    return css
+    return
 
   const stack: Promise<void>[] = []
 
-  const processNode = async(node: CssNode, item: ListItem<CssNode>, list: List<CssNode>) => {
+  const processNode = async(node: CssNode, _item: ListItem<CssNode>, _list: List<CssNode>) => {
     if (node.type !== 'Rule')
       return
 
     await Promise.all(
-      node.block.children.map(async(childNode, childItem) => {
+      node.block.children.map(async(childNode, _childItem) => {
         if (!(childNode.type === 'Atrule' && childNode.name === 'apply' && childNode.prelude))
           return
 
@@ -73,14 +74,12 @@ export async function transformDirectives(css: string, uno: UnoGenerator, filena
 
           if (parent) {
             const newNodeCss = `${parent}{${parentSelector}{${body}}}`
-            const insertNodeAst = parse(newNodeCss) as StyleSheet
-            list.insertList(insertNodeAst.children, item)
+            code.appendLeft(node.loc!.start.offset, newNodeCss)
           }
           else if (selector && selector !== '.\\-') {
             const selectorAST = parse(selector, {
               context: 'selector',
             }) as Selector
-            // console.log({ selectorAST: selectorAST.children.toArray() })
 
             const prelude = clone(node.prelude) as SelectorList
 
@@ -94,9 +93,8 @@ export async function transformDirectives(css: string, uno: UnoGenerator, filena
             })
 
             const newNodeCss = `${generate(prelude)}{${body}}`
-            const insertNodeAst = parse(newNodeCss) as StyleSheet
 
-            list.insertList(insertNodeAst.children, item)
+            code.appendLeft(node.loc!.start.offset, newNodeCss)
           }
           else if (node.block.children.toArray().length === 1) {
             const newNodeCss = `${parentSelector}{${body}}`
@@ -104,18 +102,10 @@ export async function transformDirectives(css: string, uno: UnoGenerator, filena
             list.insertList(insertNodeAst.children, item)
           }
           else {
-            const rules = new List<string>()
-              .fromArray(body
-                .replace(/;$/, '')
-                .split(';'),
-              ).map(i => parse(i, {
-                context: 'declaration',
-              }))
-
-            node.block.children.insertList(rules, childItem)
+            code.appendRight(childNode.loc!.end.offset, body)
           }
         }
-        node.block.children.remove(childItem)
+        code.remove(childNode.loc!.start.offset, childNode.loc!.end.offset)
       }).toArray(),
     )
   }

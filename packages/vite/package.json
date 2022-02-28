@@ -43,7 +43,8 @@
     "@unocss/core": "workspace:*",
     "@unocss/inspector": "workspace:*",
     "@unocss/scope": "workspace:*",
-    "@unocss/transformer-directives": "workspace:*"
+    "@unocss/transformer-directives": "workspace:*",
+    "magic-string": "^0.25.7"
   },
   "devDependencies": {
     "vite": "^2.8.4"
