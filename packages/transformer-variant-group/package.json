@@ -1,6 +1,6 @@
 {
   "name": "@unocss/transformer-variant-group",
-  "version": "0.26.4",
+  "version": "0.27.0",
   "description": "Variant group transformer for UnoCSS",
   "keywords": [
     "unocss",
@@ -36,7 +36,9 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@unocss/core": "workspace:*",
-    "magic-string": "^0.25.7"
+    "@unocss/core": "workspace:*"
+  },
+  "devDependencies": {
+    "magic-string-extra": "^0.1.2"
   }
 }

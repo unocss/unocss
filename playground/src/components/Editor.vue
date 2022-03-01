@@ -110,18 +110,14 @@ onMounted(() => {
         </div>
         <a
           i-carbon-logo-github
-          text-xl
-          op75
-          hover:op100
+          class="icon-btn"
           href="https://github.com/unocss/unocss"
           target="_blank"
         />
         <button
           i-carbon-sun
           dark-i-carbon-moon
-          text-xl
-          op75
-          hover:op100
+          class="icon-btn"
           @click="isDark = !isDark"
         />
       </TitleBar>
@@ -186,5 +182,8 @@ onMounted(() => {
 <style>
 .splitpanes.loading .splitpanes__pane {
   transition: none !important;
+}
+.icon-btn {
+  @apply text-xl op75 hover:op100;
 }
 </style>

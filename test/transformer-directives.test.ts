@@ -6,6 +6,7 @@ import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
+import MagicString from 'magic-string-extra'
 
 describe('transformer-directives', () => {
   const uno = createGenerator({
@@ -20,10 +21,9 @@ describe('transformer-directives', () => {
   })
 
   async function transform(code: string, _uno: UnoGenerator = uno) {
-    const result = await transformDirectives(code, _uno)
-    if (result == null)
-      return null
-    return prettier.format(result, {
+    const s = new MagicString(code)
+    await transformDirectives(s, _uno)
+    return prettier.format(s.toString(), {
       parser: 'css',
       plugins: [parserCSS],
     })
@@ -52,7 +52,10 @@ describe('transformer-directives', () => {
     )
     expect(result)
       .toMatchInlineSnapshot(`
-        "@media (min-width: 768px) {
+        ".btn {
+          margin: 0.25rem;
+        }
+        @media (min-width: 768px) {
           .btn {
             margin: 0.5rem;
           }
@@ -61,9 +64,6 @@ describe('transformer-directives', () => {
           .btn {
             margin: 0.75rem;
           }
-        }
-        .btn {
-          margin: 0.25rem;
         }
         "
       `)
@@ -75,15 +75,15 @@ describe('transformer-directives', () => {
     )
     expect(result)
       .toMatchInlineSnapshot(`
-        ".btn:hover {
+        ".btn {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          grid-template-rows: repeat(4, minmax(0, 1fr));
+        }
+        .btn:hover {
           border-width: 1px;
           border-style: solid;
           --un-bg-opacity: 1;
           background-color: rgba(255, 255, 255, var(--un-bg-opacity));
-        }
-        .btn {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          grid-template-rows: repeat(4, minmax(0, 1fr));
         }
         "
       `)
@@ -168,7 +168,7 @@ describe('transformer-directives', () => {
 
   test('multiple apply', async() => {
     const result = await transform(
-      `.btn { 
+      `.btn {
         @apply p-3;
         @apply bg-white;
         @apply hover:bg-blue-500;
@@ -206,20 +206,20 @@ describe('transformer-directives', () => {
       },
     })
     const result = await transform(
-      `.btn { 
+      `.btn {
         @apply bg-white dark:bg-black;
       }`,
       uno,
     )
     expect(result)
       .toMatchInlineSnapshot(`
-        ".dark .btn {
-          --un-bg-opacity: 1;
-          background-color: rgba(0, 0, 0, var(--un-bg-opacity));
-        }
-        .btn {
+        ".btn {
           --un-bg-opacity: 1;
           background-color: rgba(255, 255, 255, var(--un-bg-opacity));
+        }
+        .dark .btn {
+          --un-bg-opacity: 1;
+          background-color: rgba(0, 0, 0, var(--un-bg-opacity));
         }
         "
       `)

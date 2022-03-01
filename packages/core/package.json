@@ -1,6 +1,6 @@
 {
   "name": "@unocss/core",
-  "version": "0.26.4",
+  "version": "0.27.0",
   "description": "The instant on-demand Atomic CSS engine.",
   "keywords": [
     "unocss",
@@ -39,5 +39,9 @@
   "scripts": {
     "build": "unbuild",
     "stub": "unbuild --stub"
+  },
+  "devDependencies": {
+    "magic-string-extra": "^0.1.2",
+    "unconfig": "^0.3.1"
   }
 }

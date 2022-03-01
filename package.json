@@ -1,6 +1,6 @@
 {
   "name": "@unocss/monorepo",
-  "version": "0.26.4",
+  "version": "0.27.0",
   "private": true,
   "scripts": {
     "bench": "npm -C bench run bench",
@@ -66,6 +66,7 @@
     "fs-extra": "^10.0.0",
     "gzip-size": "^6.0.0",
     "lz-string": "^1.4.4",
+    "magic-string-extra": "^0.1.2",
     "prettier": "^2.5.1",
     "rollup": "^2.68.0",
     "semver": "^7.3.5",

@@ -113,7 +113,6 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     if (options.autoImport) {
       addPluginTemplate({
         filename: 'unocss.mjs',
-        src: '',
         getContents: () => {
           const lines = [
             'import \'uno.css\'',

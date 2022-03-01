@@ -4,32 +4,39 @@ exports[`transformer-directives > css file 1`] = `
 ":root {
   --header-height: 4.5rem;
 }
+
 html {
   --un-bg-opacity: 1;
   background-color: rgba(242, 242, 242, var(--un-bg-opacity));
   --un-text-opacity: 1;
   color: rgba(64, 64, 64, var(--un-text-opacity));
 }
+
 html.dark {
   --un-bg-opacity: 1;
   background-color: rgba(24, 24, 24, var(--un-bg-opacity));
   --un-text-opacity: 1;
   color: rgba(243, 244, 246, var(--un-text-opacity));
 }
+
 #nprogress {
   pointer-events: none;
 }
+
 #nprogress .bar {
   --un-bg-opacity: 1;
   background-color: rgba(168, 85, 247, var(--un-bg-opacity));
   --un-bg-opacity: 0.75;
+
   position: fixed;
   z-index: 1031;
   top: 0;
   left: 0;
+
   width: 100%;
   height: 2px;
 }
+
 .hover-transform:hover {
   --un-rotate: 0;
   --un-rotate-x: 0;
@@ -80,6 +87,7 @@ html.dark {
   transition-duration: 300ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 .basic-transition {
   transition-property: color, background-color, border-color,
     text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter,
@@ -89,18 +97,11 @@ html.dark {
   transition-duration: 300ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 .cursor-pen {
   cursor: url(https://api.iconify.design/mdi:lead-pencil.svg) 2 18, auto;
 }
-@media (prefers-color-scheme: dark) {
-  .select-dark {
-    --un-bg-opacity: 1;
-    background-color: rgba(31, 41, 55, var(--un-bg-opacity));
-  }
-}
-.select-dark:focus {
-  --un-ring-opacity: 1;
-}
+
 .select-dark {
   display: block;
   width: 100%;
@@ -134,9 +135,16 @@ html.dark {
   --un-ring-color: rgba(31, 41, 55, var(--un-ring-opacity));
   --un-ring-opacity: 0.75;
 }
-.icon-btn:hover {
-  opacity: 1;
+@media (prefers-color-scheme: dark) {
+  .select-dark {
+    --un-bg-opacity: 1;
+    background-color: rgba(31, 41, 55, var(--un-bg-opacity));
+  }
 }
+.select-dark:focus {
+  --un-ring-opacity: 1;
+}
+
 .icon-btn {
   display: inline-block;
   cursor: pointer;
@@ -152,12 +160,10 @@ html.dark {
   transition-duration: 200ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
-@media (prefers-color-scheme: dark) {
-  .d-header {
-    --un-bg-opacity: 1;
-    background-color: rgba(45, 45, 45, var(--un-bg-opacity));
-  }
+.icon-btn:hover {
+  opacity: 1;
 }
+
 .d-header {
   position: sticky;
   top: 0rem;
@@ -203,13 +209,13 @@ html.dark {
   -webkit-backdrop-filter: var(--un-backdrop-filter);
   backdrop-filter: var(--un-backdrop-filter);
 }
-@media (min-width: 1024px) {
-  .d-container {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-    padding-top: 3rem;
+@media (prefers-color-scheme: dark) {
+  .d-header {
+    --un-bg-opacity: 1;
+    background-color: rgba(45, 45, 45, var(--un-bg-opacity));
   }
 }
+
 .d-container {
   margin-left: auto;
   margin-right: auto;
@@ -217,6 +223,25 @@ html.dark {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   padding-top: 2rem;
+}
+@media (min-width: 1024px) {
+  .d-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 3rem;
+  }
+}
+
+input {
+  border-radius: 0.25rem;
+  --un-bg-opacity: 1;
+  background-color: rgba(50, 50, 50, var(--un-bg-opacity));
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
 }
 input:focus {
   --un-ring-inset: var(--un-empty, /*!*/ /*!*/);
@@ -233,20 +258,24 @@ input:focus {
   box-shadow: var(--un-ring-offset-shadow), var(--un-ring-shadow),
     var(--un-shadow, 0 0 #0000);
 }
-input {
-  border-radius: 0.25rem;
-  --un-bg-opacity: 1;
-  background-color: rgba(50, 50, 50, var(--un-bg-opacity));
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-}
+
 .btn:disabled {
   cursor: not-allowed;
   opacity: 0.6;
+}
+.btn {
+  border-radius: 0.25rem;
+  --un-bg-opacity: 1;
+  background-color: rgba(60, 60, 60, var(--un-bg-opacity));
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  text-align: center;
+  font-weight: 500;
+  text-transform: uppercase;
+  --un-text-opacity: 1;
+  color: rgba(255, 255, 255, var(--un-text-opacity));
 }
 .btn:focus {
   outline: 2px solid transparent;
@@ -264,20 +293,6 @@ input {
     var(--un-ring-color);
   box-shadow: var(--un-ring-offset-shadow), var(--un-ring-shadow),
     var(--un-shadow, 0 0 #0000);
-}
-.btn {
-  border-radius: 0.25rem;
-  --un-bg-opacity: 1;
-  background-color: rgba(60, 60, 60, var(--un-bg-opacity));
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  text-align: center;
-  font-weight: 500;
-  text-transform: uppercase;
-  --un-text-opacity: 1;
-  color: rgba(255, 255, 255, var(--un-text-opacity));
 }
 "
 `;
