@@ -39,5 +39,9 @@
   "scripts": {
     "build": "unbuild",
     "stub": "unbuild --stub"
+  },
+  "devDependencies": {
+    "magic-string": "^0.25.7",
+    "unconfig": "^0.3.1"
   }
 }

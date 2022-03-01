@@ -4,3 +4,4 @@ coverage
 .output
 .nuxt
 !.vitepress
+__snapshots__

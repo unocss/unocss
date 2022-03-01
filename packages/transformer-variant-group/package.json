@@ -36,7 +36,9 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@unocss/core": "workspace:*",
+    "@unocss/core": "workspace:*"
+  },
+  "devDependencies": {
     "magic-string": "^0.25.7"
   }
 }

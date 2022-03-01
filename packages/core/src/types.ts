@@ -1,4 +1,5 @@
 import type { LoadConfigResult } from 'unconfig'
+import type MagicString from 'magic-string'
 import type { UnoGenerator } from './generator'
 import type { BetterMap } from './utils'
 
@@ -377,7 +378,7 @@ export interface SourceCodeTransformer {
   /**
    * The transform function
    */
-  transform: (code: string, id: string, ctx: UnocssPluginContext) => Awaitable<string | TransformResult | null | undefined>
+  transform: (code: MagicString, id: string, ctx: UnocssPluginContext) => Awaitable<void>
 }
 
 /**
