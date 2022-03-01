@@ -51,7 +51,7 @@ importers:
       fs-extra: ^10.0.0
       gzip-size: ^6.0.0
       lz-string: ^1.4.4
-      magic-string: ^0.25.7
+      magic-string-extra: ^0.1.2
       prettier: ^2.5.1
       rollup: ^2.68.0
       semver: ^7.3.5
@@ -117,7 +117,7 @@ importers:
       fs-extra: 10.0.0
       gzip-size: 6.0.0
       lz-string: 1.4.4
-      magic-string: 0.25.7
+      magic-string-extra: 0.1.2
       prettier: 2.5.1
       rollup: 2.68.0
       semver: 7.3.5
@@ -204,10 +204,10 @@ importers:
 
   packages/core:
     specifiers:
-      magic-string: ^0.25.7
+      magic-string-extra: ^0.1.2
       unconfig: ^0.3.1
     devDependencies:
-      magic-string: 0.25.7
+      magic-string-extra: 0.1.2
       unconfig: 0.3.1_@vitest+ui@0.5.1
 
   packages/extractor-pug:
@@ -243,7 +243,7 @@ importers:
       '@unocss/webpack': workspace:*
       unocss: workspace:*
     dependencies:
-      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27430570.4cfad4d
+      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27434755.39f7eb2
       '@unocss/core': link:../core
       '@unocss/preset-attributify': link:../preset-attributify
       '@unocss/preset-icons': link:../preset-icons
@@ -255,7 +255,7 @@ importers:
       '@unocss/webpack': link:../webpack
       unocss: link:../unocss
     devDependencies:
-      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27430570.4cfad4d
+      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27434755.39f7eb2
 
   packages/plugins-common:
     specifiers:
@@ -347,21 +347,21 @@ importers:
     specifiers:
       '@unocss/core': workspace:*
       css-tree: ^2.0.4
-      magic-string: ^0.25.7
+      magic-string-extra: ^0.1.2
     dependencies:
       '@unocss/core': link:../core
       css-tree: 2.0.4
     devDependencies:
-      magic-string: 0.25.7
+      magic-string-extra: 0.1.2
 
   packages/transformer-variant-group:
     specifiers:
       '@unocss/core': workspace:*
-      magic-string: ^0.25.7
+      magic-string-extra: ^0.1.2
     dependencies:
       '@unocss/core': link:../core
     devDependencies:
-      magic-string: 0.25.7
+      magic-string-extra: 0.1.2
 
   packages/unocss:
     specifiers:
@@ -401,7 +401,7 @@ importers:
       '@unocss/inspector': workspace:*
       '@unocss/scope': workspace:*
       '@unocss/transformer-directives': workspace:*
-      magic-string: ^0.25.7
+      magic-string-extra: ^0.1.2
       vite: ^2.8.4
     dependencies:
       '@rollup/pluginutils': 4.1.2
@@ -410,7 +410,7 @@ importers:
       '@unocss/inspector': link:../inspector
       '@unocss/scope': link:../scope
       '@unocss/transformer-directives': link:../transformer-directives
-      magic-string: 0.25.7
+      magic-string-extra: 0.1.2
     devDependencies:
       vite: 2.8.4
 
@@ -866,16 +866,17 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
 
-  /@nuxt/kit-edge/3.0.0-27430570.4cfad4d:
-    resolution: {integrity: sha512-hFhkr1mxHxiFc1DHT+yO63AkgzHfwXVmjmL7KPkUg1JTZKf4HxcUnQQxtK2+tYeAH4snMoN2VdFRpRBrBD74iQ==}
+  /@nuxt/kit-edge/3.0.0-27434755.39f7eb2:
+    resolution: {integrity: sha512-i7ubhi461PaEqmYf3ohwyLa2Y+dFr0xhLmAofn4TK1HuS11z+1Wy3VBKBYJiOd7fPe0y09E3jzRuKfRTOdd7Fg==}
     engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0}
     dependencies:
-      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27430570.4cfad4d
+      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27434755.39f7eb2
       c12: 0.1.3
       consola: 2.15.3
       defu: 5.0.1
       globby: 13.1.1
       hash-sum: 2.0.0
+      ignore: 5.2.0
       jiti: 1.13.0
       knitwork: 0.1.0
       lodash.template: 4.5.0
@@ -888,8 +889,8 @@ packages:
       untyped: 0.3.0
     dev: false
 
-  /@nuxt/schema-edge/3.0.0-27430570.4cfad4d:
-    resolution: {integrity: sha512-9K886GLJsY+yALEQfkTwTjGOeHWsM/qXfxV+8cTVtEWSbuF7zB/ADiDF9Gx/h4gYx6gLOwThkgQpSojRmKAIGQ==}
+  /@nuxt/schema-edge/3.0.0-27434755.39f7eb2:
+    resolution: {integrity: sha512-eXd3hQy291ljDKHV0SYt7Vq4SSam13qO7J+64/hZw2yBGzTZF47u90F9W9Os7itDbTVwq4F1gGVgU6ejKi6Flw==}
     engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0}
     dependencies:
       c12: 0.1.3
@@ -900,7 +901,7 @@ packages:
       postcss-import-resolver: 2.0.0
       scule: 0.2.1
       std-env: 3.0.1
-      ufo: 0.7.10
+      ufo: 0.7.11
 
   /@polka/url/1.0.0-next.21:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
@@ -3794,6 +3795,11 @@ packages:
     hasBin: true
     dev: true
 
+  /magic-string-extra/0.1.2:
+    resolution: {integrity: sha512-0mEfrnh9PLC2HqAfWOtOjVw1zAHVzP/MdVi9WP39I1DkFN/5JHefTp5wI4X1G9WZ24htHEHYpnrfUzGl1J1eeg==}
+    dependencies:
+      magic-string: 0.25.7
+
   /magic-string/0.25.7:
     resolution: {integrity: sha512-4CrMT5DOHTDk4HYDlzmwu4FVCcIYI8gauveasrdCu2IKIFOJ3f0v/8MDGJCDL9oD2ppz/Av1b0Nj345H9M+XIA==}
     dependencies:
@@ -5073,6 +5079,10 @@ packages:
 
   /ufo/0.7.10:
     resolution: {integrity: sha512-YTnDRlE1cIofRqOFN8ioAbz9qenDvkgVMSn0cnxvIDjM9sfEOMKB0ybMr+otSlCXMfQ/X35haYRoI7Nua82RrA==}
+    dev: true
+
+  /ufo/0.7.11:
+    resolution: {integrity: sha512-IT3q0lPvtkqQ8toHQN/BkOi4VIqoqheqM1FnkNWT9y0G8B3xJhwnoKBu5OHx8zHDOvveQzfKuFowJ0VSARiIDg==}
 
   /unbox-primitive/1.0.1:
     resolution: {integrity: sha512-tZU/3NqK3dA5gpE1KtyiJUrEB0lxnGkMFHptJ7q6ewdZ8s12QrODwNbhIJStmJkd1QDXa1NRA8aF2A1zk/Ypyw==}

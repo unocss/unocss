@@ -1,5 +1,5 @@
 import type { LoadConfigResult } from 'unconfig'
-import type MagicString from 'magic-string'
+import type MagicString from 'magic-string-extra'
 import type { UnoGenerator } from './generator'
 import type { BetterMap } from './utils'
 

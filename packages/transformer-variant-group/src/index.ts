@@ -1,6 +1,6 @@
 import type { SourceCodeTransformer } from '@unocss/core'
 import { regexClassGroup } from '@unocss/core'
-import type MagicString from 'magic-string'
+import type MagicString from 'magic-string-extra'
 
 export default function transformerVariantGroup(): SourceCodeTransformer {
   return {

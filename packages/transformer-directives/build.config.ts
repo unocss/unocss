@@ -8,7 +8,7 @@ export default defineBuildConfig({
   clean: true,
   declaration: true,
   externals: [
-    'magic-string',
+    'magic-string-extra',
   ],
   rollup: {
     emitCJS: true,

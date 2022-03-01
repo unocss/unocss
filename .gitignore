@@ -1,8 +1,9 @@
 .cache
 .DS_Store
-.idea/
+.idea
 .nuxt
 .output
+.temp
 *.local
 *.log
 *.vsix
@@ -10,11 +11,11 @@ bench/source/gen*.js
 coverage
 dist
 dist-ssr
+dist-ssr/
+elm-stuff/
 node_modules
 packages/runtime/*.global.js
 packages/unocss/README.md
 packages/vscode/LICENSE
 result.json
 test/fixtures/**/pnpm-lock.yaml
-elm-stuff/
-dist-ssr/
