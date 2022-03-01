@@ -4,32 +4,39 @@ exports[`transformer-directives > css file 1`] = `
 ":root {
   --header-height: 4.5rem;
 }
+
 html {
   --un-bg-opacity: 1;
   background-color: rgba(242, 242, 242, var(--un-bg-opacity));
   --un-text-opacity: 1;
   color: rgba(64, 64, 64, var(--un-text-opacity));
 }
+
 html.dark {
   --un-bg-opacity: 1;
   background-color: rgba(24, 24, 24, var(--un-bg-opacity));
   --un-text-opacity: 1;
   color: rgba(243, 244, 246, var(--un-text-opacity));
 }
+
 #nprogress {
   pointer-events: none;
 }
+
 #nprogress .bar {
   --un-bg-opacity: 1;
   background-color: rgba(168, 85, 247, var(--un-bg-opacity));
   --un-bg-opacity: 0.75;
+
   position: fixed;
   z-index: 1031;
   top: 0;
   left: 0;
+
   width: 100%;
   height: 2px;
 }
+
 .hover-transform:hover {
   --un-rotate: 0;
   --un-rotate-x: 0;
@@ -80,6 +87,7 @@ html.dark {
   transition-duration: 300ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 .basic-transition {
   transition-property: color, background-color, border-color,
     text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter,
@@ -89,9 +97,11 @@ html.dark {
   transition-duration: 300ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 .cursor-pen {
   cursor: url(https://api.iconify.design/mdi:lead-pencil.svg) 2 18, auto;
 }
+
 .select-dark {
   display: block;
   width: 100%;
@@ -134,6 +144,7 @@ html.dark {
 .select-dark:focus {
   --un-ring-opacity: 1;
 }
+
 .icon-btn {
   display: inline-block;
   cursor: pointer;
@@ -152,6 +163,7 @@ html.dark {
 .icon-btn:hover {
   opacity: 1;
 }
+
 .d-header {
   position: sticky;
   top: 0rem;
@@ -203,6 +215,7 @@ html.dark {
     background-color: rgba(45, 45, 45, var(--un-bg-opacity));
   }
 }
+
 .d-container {
   margin-left: auto;
   margin-right: auto;
@@ -218,6 +231,7 @@ html.dark {
     padding-top: 3rem;
   }
 }
+
 input {
   border-radius: 0.25rem;
   --un-bg-opacity: 1;
@@ -244,6 +258,7 @@ input:focus {
   box-shadow: var(--un-ring-offset-shadow), var(--un-ring-shadow),
     var(--un-shadow, 0 0 #0000);
 }
+
 .btn:disabled {
   cursor: not-allowed;
   opacity: 0.6;

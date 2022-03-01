@@ -93,13 +93,12 @@ export async function transformDirectives(code: MagicString, uno: UnoGenerator, 
             })
 
             const newNodeCss = `${generate(prelude)}{${body}}`
-
             code.appendLeft(node.loc!.start.offset, newNodeCss)
           }
           else if (node.block.children.toArray().length === 1) {
             const newNodeCss = `${parentSelector}{${body}}`
-            const insertNodeAst = parse(newNodeCss) as StyleSheet
-            list.insertList(insertNodeAst.children, item)
+            code.appendLeft(node.loc!.start.offset, newNodeCss)
+            code.remove(node.loc!.start.offset, node.loc!.end.offset)
           }
           else {
             code.appendRight(childNode.loc!.end.offset, body)
@@ -113,12 +112,6 @@ export async function transformDirectives(code: MagicString, uno: UnoGenerator, 
   walk(ast, (...args) => stack.push(processNode(...args)))
 
   await Promise.all(stack)
-
-  ast.children = ast.children.filter((cssNode) => {
-    if ('block' in cssNode)
-      return (cssNode.block?.children.toArray().length ?? 1) !== 0
-    return true
-  })
 
   return generate(ast)
 }
