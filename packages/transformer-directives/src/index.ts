@@ -98,6 +98,11 @@ export async function transformDirectives(css: string, uno: UnoGenerator, filena
 
             list.insertList(insertNodeAst.children, item)
           }
+          else if (node.block.children.toArray().length === 1) {
+            const newNodeCss = `${parentSelector}{${body}}`
+            const insertNodeAst = parse(newNodeCss) as StyleSheet
+            list.insertList(insertNodeAst.children, item)
+          }
           else {
             const rules = new List<string>()
               .fromArray(body
@@ -118,6 +123,12 @@ export async function transformDirectives(css: string, uno: UnoGenerator, filena
   walk(ast, (...args) => stack.push(processNode(...args)))
 
   await Promise.all(stack)
+
+  ast.children = ast.children.filter((cssNode) => {
+    if ('block' in cssNode)
+      return (cssNode.block?.children.toArray().length ?? 1) !== 0
+    return true
+  })
 
   return generate(ast)
 }

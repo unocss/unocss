@@ -18,12 +18,12 @@ html.dark {
   @apply bg-purple-500 bg-opacity-75;
 
   position: fixed;
-  z-index: 1031;
+  @apply z-1031;
   top: 0;
   left: 0;
 
   width: 100%;
-  height: 2px;
+  @apply h-[2px];
 }
 
 .hover-transform {
