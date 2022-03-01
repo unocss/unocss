@@ -112,6 +112,4 @@ export async function transformDirectives(code: MagicString, uno: UnoGenerator, 
   walk(ast, (...args) => stack.push(processNode(...args)))
 
   await Promise.all(stack)
-
-  return generate(ast)
 }
