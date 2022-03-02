@@ -48,21 +48,32 @@ describe('transformer-directives', () => {
 
   test('breakpoint', async() => {
     const result = await transform(
-      '.btn { @apply m-1 md:m-2 lg:m-3; }',
+      '.grid { @apply grid grid-cols-2 xl:grid-cols-10 sm:grid-cols-7 md:grid-cols-3 lg:grid-cols-4 }',
     )
     expect(result)
       .toMatchInlineSnapshot(`
-        ".btn {
-          margin: 0.25rem;
+        ".grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        @media (min-width: 640px) {
+          .grid {
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+          }
         }
         @media (min-width: 768px) {
-          .btn {
-            margin: 0.5rem;
+          .grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
           }
         }
         @media (min-width: 1024px) {
-          .btn {
-            margin: 0.75rem;
+          .grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+          }
+        }
+        @media (min-width: 1280px) {
+          .grid {
+            grid-template-columns: repeat(10, minmax(0, 1fr));
           }
         }
         "
@@ -95,16 +106,16 @@ describe('transformer-directives', () => {
     )
     expect(result)
       .toMatchInlineSnapshot(`
-        ".btn:focus {
+        ".btn {
+          padding: 0.75rem;
+        }
+        .btn:focus {
           border-width: 1px;
           border-style: solid;
         }
         .btn:hover {
           --un-bg-opacity: 1;
           background-color: rgba(255, 255, 255, var(--un-bg-opacity));
-        }
-        .btn {
-          padding: 0.75rem;
         }
         "
       `)
@@ -116,13 +127,13 @@ describe('transformer-directives', () => {
     )
     expect(result)
       .toMatchInlineSnapshot(`
-        "input:focus {
-          border-width: 1px;
-          border-style: solid;
-        }
-        input {
+        "input {
           padding-left: 0.75rem;
           padding-right: 0.75rem;
+        }
+        input:focus {
+          border-width: 1px;
+          border-style: solid;
         }
         "
       `)
@@ -134,15 +145,15 @@ describe('transformer-directives', () => {
     )
     expect(result)
       .toMatchInlineSnapshot(`
-        ".btn:focus,
-        .box:focus {
-          border-width: 1px;
-          border-style: solid;
-        }
-        .btn,
+        ".btn,
         .box {
           padding-left: 0.75rem;
           padding-right: 0.75rem;
+        }
+        .btn:focus,
+        .box:focus {
+          border-width: 1px;
+          border-style: solid;
         }
         "
       `)
@@ -154,13 +165,13 @@ describe('transformer-directives', () => {
     )
     expect(result)
       .toMatchInlineSnapshot(`
-        ".btn.box:focus {
-          border-width: 1px;
-          border-style: solid;
-        }
-        .btn.box {
+        ".btn.box {
           padding-left: 0.75rem;
           padding-right: 0.75rem;
+        }
+        .btn.box:focus {
+          border-width: 1px;
+          border-style: solid;
         }
         "
       `)
@@ -177,18 +188,18 @@ describe('transformer-directives', () => {
     )
     expect(result)
       .toMatchInlineSnapshot(`
-        ".btn:hover {
+        ".btn {
+          padding: 0.75rem;
+          --un-bg-opacity: 1;
+          background-color: rgba(255, 255, 255, var(--un-bg-opacity));
+        }
+        .btn:hover {
           border-width: 1px;
           border-style: solid;
         }
         .btn:hover {
           --un-bg-opacity: 1;
           background-color: rgba(59, 130, 246, var(--un-bg-opacity));
-        }
-        .btn {
-          padding: 0.75rem;
-          --un-bg-opacity: 1;
-          background-color: rgba(255, 255, 255, var(--un-bg-opacity));
         }
         "
       `)

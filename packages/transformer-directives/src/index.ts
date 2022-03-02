@@ -53,6 +53,7 @@ export async function transformDirectives(code: MagicString, uno: UnoGenerator, 
           ))
           .filter(notNull).flat()
           .sort((a, b) => a[0] - b[0])
+          .sort((a, b) => (a[3] ? uno.parentOrders.get(a[3]) ?? 0 : 0) - (b[3] ? uno.parentOrders.get(b[3]) ?? 0 : 0))
           .reduce((acc, item) => {
             const target = acc.find(i => i[1] === item[1] && i[3] === item[3])
             if (target)
@@ -74,7 +75,7 @@ export async function transformDirectives(code: MagicString, uno: UnoGenerator, 
 
           if (parent) {
             const newNodeCss = `${parent}{${parentSelector}{${body}}}`
-            code.appendLeft(node.loc!.start.offset, newNodeCss)
+            code.appendLeft(node.loc!.end.offset, newNodeCss)
           }
           else if (selector && selector !== '.\\-') {
             const selectorAST = parse(selector, {
@@ -93,12 +94,7 @@ export async function transformDirectives(code: MagicString, uno: UnoGenerator, 
             })
 
             const newNodeCss = `${generate(prelude)}{${body}}`
-            code.appendLeft(node.loc!.start.offset, newNodeCss)
-          }
-          else if (node.block.children.toArray().length === 1) {
-            const newNodeCss = `${parentSelector}{${body}}`
-            code.appendLeft(node.loc!.start.offset, newNodeCss)
-            code.remove(node.loc!.start.offset, node.loc!.end.offset)
+            code.appendLeft(node.loc!.end.offset, newNodeCss)
           }
           else {
             code.appendRight(childNode.loc!.end.offset, body)
