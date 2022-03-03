@@ -51,7 +51,7 @@ importers:
       fs-extra: ^10.0.1
       gzip-size: ^6.0.0
       lz-string: ^1.4.4
-      magic-string: ^0.26.0
+      magic-string: ^0.26.1
       prettier: ^2.5.1
       rollup: ^2.69.0
       semver: ^7.3.5
@@ -117,7 +117,7 @@ importers:
       fs-extra: 10.0.1
       gzip-size: 6.0.0
       lz-string: 1.4.4
-      magic-string: 0.26.0
+      magic-string: 0.26.1
       prettier: 2.5.1
       rollup: 2.69.0
       semver: 7.3.5
@@ -204,10 +204,10 @@ importers:
 
   packages/core:
     specifiers:
-      magic-string: ^0.26.0
+      magic-string: ^0.26.1
       unconfig: ^0.3.1
     devDependencies:
-      magic-string: 0.26.0
+      magic-string: 0.26.1
       unconfig: 0.3.1_@vitest+ui@0.5.9
 
   packages/extractor-pug:
@@ -347,21 +347,21 @@ importers:
     specifiers:
       '@unocss/core': workspace:*
       css-tree: ^2.1.0
-      magic-string: ^0.26.0
+      magic-string: ^0.26.1
     dependencies:
       '@unocss/core': link:../core
       css-tree: 2.1.0
     devDependencies:
-      magic-string: 0.26.0
+      magic-string: 0.26.1
 
   packages/transformer-variant-group:
     specifiers:
       '@unocss/core': workspace:*
-      magic-string: ^0.26.0
+      magic-string: ^0.26.1
     dependencies:
       '@unocss/core': link:../core
     devDependencies:
-      magic-string: 0.26.0
+      magic-string: 0.26.1
 
   packages/unocss:
     specifiers:
@@ -401,7 +401,7 @@ importers:
       '@unocss/inspector': workspace:*
       '@unocss/scope': workspace:*
       '@unocss/transformer-directives': workspace:*
-      magic-string: ^0.26.0
+      magic-string: ^0.26.1
       vite: ^2.8.6
     dependencies:
       '@rollup/pluginutils': 4.1.2
@@ -410,7 +410,7 @@ importers:
       '@unocss/inspector': link:../inspector
       '@unocss/scope': link:../scope
       '@unocss/transformer-directives': link:../transformer-directives
-      magic-string: 0.26.0
+      magic-string: 0.26.1
     devDependencies:
       vite: 2.8.6
 
@@ -3812,8 +3812,8 @@ packages:
       sourcemap-codec: 1.4.8
     dev: true
 
-  /magic-string/0.26.0:
-    resolution: {integrity: sha512-TK1tGYBWlWzWabm3Lr3w1nb2GcN5ShN23jRIAsHOdc00ZffX90QPwQOALki3F+EnI40BoiZwlb4K2jMM5z3Xpg==}
+  /magic-string/0.26.1:
+    resolution: {integrity: sha512-ndThHmvgtieXe8J/VGPjG+Apu7v7ItcD5mhEIvOscWjPF/ccOiLxHaSuCAS2G+3x4GKsAbT8u7zdyamupui8Tg==}
     engines: {node: '>=12'}
     dependencies:
       sourcemap-codec: 1.4.8

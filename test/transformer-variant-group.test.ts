@@ -1,11 +1,11 @@
 import { describe, expect, test } from 'vitest'
-import { transformVariantGroups } from '@unocss/transformer-variant-group'
+import { expandVariantGroup } from '@unocss/core'
 import MagicString from 'magic-string'
 
 describe('transformer-variant-group', () => {
   async function transform(code: string) {
     const s = new MagicString(code)
-    transformVariantGroups(s)
+    expandVariantGroup(s)
     return s.toString()
   }
 

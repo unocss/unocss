@@ -66,7 +66,7 @@
     "fs-extra": "^10.0.1",
     "gzip-size": "^6.0.0",
     "lz-string": "^1.4.4",
-    "magic-string": "^0.26.0",
+    "magic-string": "^0.26.1",
     "prettier": "^2.5.1",
     "rollup": "^2.69.0",
     "semver": "^7.3.5",

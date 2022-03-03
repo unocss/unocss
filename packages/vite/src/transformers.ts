@@ -19,7 +19,13 @@ export function initTransformerPlugins(ctx: UnocssPluginContext): Plugin[] {
       }
       await t.transform(s, id, ctx)
     }
-    return s.toRollupResult(true, { hires: true })
+
+    if (s.hasChanged()) {
+      return {
+        code: s.toString(),
+        map: s.generateMap({ hires: true, source: id }),
+      }
+    }
   }
 
   return [
