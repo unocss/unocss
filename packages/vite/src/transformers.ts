@@ -1,6 +1,6 @@
 import type { Plugin } from 'vite'
 import type { UnocssPluginContext } from '@unocss/core'
-import MagicString from 'magic-string-extra'
+import MagicString from 'magic-string'
 
 export function initTransformerPlugins(ctx: UnocssPluginContext): Plugin[] {
   async function applyTransformers(code: string, id: string, enforce?: 'pre' | 'post') {

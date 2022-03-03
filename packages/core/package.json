@@ -41,7 +41,7 @@
     "stub": "unbuild --stub"
   },
   "devDependencies": {
-    "magic-string-extra": "^0.1.2",
+    "magic-string": "^0.26.0",
     "unconfig": "^0.3.1"
   }
 }

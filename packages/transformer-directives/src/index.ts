@@ -2,7 +2,7 @@ import { expandVariantGroup, notNull, regexScopePlaceholder } from '@unocss/core
 import type { SourceCodeTransformer, StringifiedUtil, UnoGenerator } from '@unocss/core'
 import type { CssNode, List, ListItem, Selector, SelectorList } from 'css-tree'
 import { clone, generate, parse, walk } from 'css-tree'
-import type MagicString from 'magic-string-extra'
+import type MagicString from 'magic-string'
 import { regexCssId } from '../../plugins-common/defaults'
 
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }

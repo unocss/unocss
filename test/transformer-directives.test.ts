@@ -6,7 +6,7 @@ import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
-import MagicString from 'magic-string-extra'
+import MagicString from 'magic-string'
 
 describe('transformer-directives', () => {
   const uno = createGenerator({
