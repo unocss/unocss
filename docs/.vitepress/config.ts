@@ -25,6 +25,14 @@ export default defineConfig({
     nav: [
       { text: 'Guide', link: '/guide/' },
       {
+        text: 'Utilities',
+        items: [
+          { text: 'Layout', link: '/utilities/layout' },
+          { text: 'Typography', link: '/utilities/typography' },
+          { text: 'Boarders', link: '/utilities/boarders' },
+        ],
+      },
+      {
         text: 'Integrations',
         items: [
           { text: 'Vite', link: '/integrations/vite' },
