@@ -27,9 +27,11 @@ export default defineConfig({
       {
         text: 'Utilities',
         items: [
+          { text: 'Variants', link: '/utilities/variants/' },
+          { text: 'Colors', link: '/utilities/colors/' },
           { text: 'Layout', link: '/utilities/layout' },
           { text: 'Typography', link: '/utilities/typography' },
-          { text: 'Boarders', link: '/utilities/boarders' },
+          { text: 'Borders', link: '/utilities/boarders' },
         ],
       },
       {
