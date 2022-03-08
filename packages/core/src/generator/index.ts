@@ -1,4 +1,4 @@
-import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, RawUtil, ResolvedConfig, RuleContext, RuleMeta, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantMatchedResult } from '../types'
+import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, RawUtil, ResolvedConfig, RuleContext, RuleMeta, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
 import { CONTROL_SHORTCUT_NO_MERGE, TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, normalizeCSSEntries, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
@@ -171,13 +171,18 @@ export class UnoGenerator {
 
     let preflightsMap: Record<string, string> = {}
     if (preflights) {
+      const preflightContext: PreflightContext = {
+        generator: this,
+        theme: this.config.theme,
+      }
+
       preflightsMap = Object.fromEntries(
         await Promise.all(layers.map(
           async(layer) => {
             const preflights = await Promise.all(
               this.config.preflights
                 .filter(i => (i.layer || 'default') === layer)
-                .map(async i => await i.getCSS()),
+                .map(async i => await i.getCSS(preflightContext)),
             )
             const css = preflights
               .filter(Boolean)
