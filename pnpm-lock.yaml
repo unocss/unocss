@@ -52,6 +52,7 @@ importers:
       gzip-size: ^6.0.0
       lz-string: ^1.4.4
       magic-string: ^0.26.1
+      pnpm: ^6.32.3
       prettier: ^2.5.1
       rollup: ^2.70.0
       semver: ^7.3.5
@@ -118,6 +119,7 @@ importers:
       gzip-size: 6.0.0
       lz-string: 1.4.4
       magic-string: 0.26.1
+      pnpm: 6.32.3
       prettier: 2.5.1
       rollup: 2.70.0
       semver: 7.3.5
@@ -4509,6 +4511,12 @@ packages:
   /pluralize/8.0.0:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
     engines: {node: '>=4'}
+    dev: true
+
+  /pnpm/6.32.3:
+    resolution: {integrity: sha512-lMQgROSwiUA+kt+suAPinjNwqevS1Iz0rppWNZ3jHhzeP07RFRQ+Ksai2OlAnM+YjlbHT9niQ4ICBVSqcdQ04w==}
+    engines: {node: '>=12.17'}
+    hasBin: true
     dev: true
 
   /postcss-import-resolver/2.0.0:

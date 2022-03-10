@@ -2,6 +2,7 @@
   "name": "@unocss/monorepo",
   "version": "0.27.6",
   "private": true,
+  "packageManager": "pnpm@6.32.3",
   "scripts": {
     "bench": "npm -C bench run bench",
     "build": "rimraf packages/*/dist && esno scripts/copy-files.ts && pnpm -r --filter !playground run build && pnpm -r run build-post",
@@ -67,6 +68,7 @@
     "gzip-size": "^6.0.0",
     "lz-string": "^1.4.4",
     "magic-string": "^0.26.1",
+    "pnpm": "^6.32.3",
     "prettier": "^2.5.1",
     "rollup": "^2.70.0",
     "semver": "^7.3.5",
