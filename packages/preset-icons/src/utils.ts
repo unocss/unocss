@@ -1,4 +1,5 @@
 export const isNode = typeof process < 'u' && typeof process.stdout < 'u'
+export const isVSCode = isNode && !!process.env.VSCODE_CWD
 
 // https://bl.ocks.org/jennyknuth/222825e315d45a738ed9d6e04c7a88d0
 export function encodeSvg(svg: string) {

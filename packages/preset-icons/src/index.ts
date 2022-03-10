@@ -3,7 +3,7 @@ import { warnOnce } from '@unocss/core'
 import { iconToSVG } from '@iconify/utils/lib/svg/build'
 import { defaults as DefaultIconCustomizations } from '@iconify/utils/lib/customisations'
 import { getIconData } from '@iconify/utils/lib/icon-set/get-icon'
-import { encodeSvg, isNode } from './utils'
+import { encodeSvg, isNode, isVSCode } from './utils'
 import type { IconsOptions } from './types'
 
 const COLLECTION_NAME_PARTS_MAX = 3
@@ -36,7 +36,7 @@ async function searchForIcon(
   let iconSet = collections[collection]
   if (typeof iconSet === 'function')
     iconSet = await iconSet()
-  if (!iconSet && isNode) {
+  if (!iconSet && isNode && !isVSCode) {
     try {
       const loadCollectionFromFS = await importFsModule().then(i => i?.loadCollectionFromFS)
       if (loadCollectionFromFS)
