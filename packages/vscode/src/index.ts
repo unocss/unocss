@@ -74,26 +74,31 @@ export async function activate() {
 
       const result = await uno.generate(code, { id, preflights: false, minify: true })
 
-      const ranges: DecorationOptions[] = await Promise.all(
-        getMatchedPositions(code, Array.from(result.matched))
-          .map(async(i): Promise<DecorationOptions> => {
-            const css = (await uno.generate(new Set([i[2]]), { preflights: false })).css
-            // skip very long css
-            if (css.length > 400)
-              return undefined!
-            return {
-              range: new Range(doc.positionAt(i[0]), doc.positionAt(i[1])),
-              get hoverMessage() {
-                const prettified = prettier.format(css, {
-                  parser: 'css',
-                  plugins: [parserCSS],
-                })
-                return new MarkdownString(`\`\`\`css\n${prettified}\n\`\`\``)
-              },
-            }
-          })
-          .filter(Boolean),
-      )
+      const ranges: DecorationOptions[] = (
+        await Promise.all(
+          getMatchedPositions(code, Array.from(result.matched))
+            .map(async(i): Promise<DecorationOptions> => {
+              try {
+                const css = (await uno.generate(new Set([i[2]]), { preflights: false })).css
+                return {
+                  range: new Range(doc.positionAt(i[0]), doc.positionAt(i[1])),
+                  get hoverMessage() {
+                    const prettified = prettier.format(css, {
+                      parser: 'css',
+                      plugins: [parserCSS],
+                    })
+                    return new MarkdownString(`\`\`\`css\n${prettified}\n\`\`\``)
+                  },
+                }
+              }
+              catch (e) {
+                log.appendLine(`Failed to parse ${i[2]}`)
+                log.appendLine(String(e))
+                return undefined!
+              }
+            }),
+        )
+      ).filter(Boolean)
 
       editor.setDecorations(UnderlineDecoration, ranges)
       status.text = `UnoCSS: ${result.matched.size}`
