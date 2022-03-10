@@ -84,6 +84,9 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
 
         setWarnTimer()
         _server.ws.on('connection', (ws) => {
+          ws.on('open', () => {
+            invalidate()
+          })
           ws.on('message', (msg) => {
             const message = String(msg)
             if (!message.startsWith(WS_EVENT_PREFIX))
@@ -93,10 +96,6 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
               invalidate(0)
           })
         })
-      },
-      buildStart() {
-        // force invalidate
-        setTimeout(() => invalidate(), 500)
       },
       transform(code, id) {
         if (filter(code, id))
