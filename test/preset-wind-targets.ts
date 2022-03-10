@@ -275,6 +275,10 @@ export const presetWindTargets: string[] = [
   // tables
   'border-collapse',
   'border-separate',
+  'border-spacing-0',
+  'border-spacing-none',
+  'border-spacing-[3px]',
+  'border-spacing-$var',
   'caption-top',
   'caption-bottom',
   'inline-table',

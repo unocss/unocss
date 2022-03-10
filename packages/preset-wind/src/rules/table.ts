@@ -1,6 +1,8 @@
 import type { Rule } from '@unocss/core'
+import type { Theme } from '@unocss/preset-mini'
+import { handler as h } from '@unocss/preset-mini/utils'
 
-export const tables: Rule[] = [
+export const tables: Rule<Theme>[] = [
   // displays
   ['inline-table', { display: 'inline-table' }],
   ['table', { display: 'table' }],
@@ -16,6 +18,7 @@ export const tables: Rule[] = [
   // layouts
   ['border-collapse', { 'border-collapse': 'collapse' }],
   ['border-separate', { 'border-collapse': 'separate' }],
+  [/^border-spacing-(.+)$/, ([, d], { theme }) => ({ 'border-spacing': theme.spacing?.[d] ?? h.bracket.cssvar.auto.fraction.rem(d) })],
   ['caption-top', { 'caption-side': 'top' }],
   ['caption-bottom', { 'caption-side': 'bottom' }],
   ['table-auto', { 'table-layout': 'auto' }],
