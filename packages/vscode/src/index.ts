@@ -78,6 +78,9 @@ export async function activate() {
         getMatchedPositions(code, Array.from(result.matched))
           .map(async(i): Promise<DecorationOptions> => {
             const css = (await uno.generate(new Set([i[2]]), { preflights: false })).css
+            // skip very long css
+            if (css.length > 400)
+              return undefined!
             return {
               range: new Range(doc.positionAt(i[0]), doc.positionAt(i[1])),
               get hoverMessage() {
@@ -88,7 +91,8 @@ export async function activate() {
                 return new MarkdownString(`\`\`\`css\n${prettified}\n\`\`\``)
               },
             }
-          }),
+          })
+          .filter(Boolean),
       )
 
       editor.setDecorations(UnderlineDecoration, ranges)

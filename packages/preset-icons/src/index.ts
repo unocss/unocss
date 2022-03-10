@@ -37,9 +37,12 @@ async function searchForIcon(
   if (typeof iconSet === 'function')
     iconSet = await iconSet()
   if (!iconSet && isNode) {
-    const loadCollectionFromFS = await importFsModule().then(i => i?.loadCollectionFromFS)
-    if (loadCollectionFromFS)
-      iconSet = await loadCollectionFromFS(collection)
+    try {
+      const loadCollectionFromFS = await importFsModule().then(i => i?.loadCollectionFromFS)
+      if (loadCollectionFromFS)
+        iconSet = await loadCollectionFromFS(collection)
+    }
+    catch {}
   }
   if (!iconSet)
     return

@@ -17,7 +17,7 @@
   "main": "./dist/index.js",
   "preview": true,
   "scripts": {
-    "build": "tsup src/index.ts --external vscode",
+    "build": "tsup",
     "dev": "nr build --watch src",
     "vscode:prepublish": "npm run build"
   },
@@ -36,10 +36,14 @@
     "workspaceContains:unocss.config.*",
     "workspaceContains:package.json"
   ],
+  "dependencies": {
+    "jiti": "^1.13.0"
+  },
   "devDependencies": {
     "@types/vscode": "^1.62.0",
     "prettier": "^2.5.1",
-    "tsup": "^5.11.13"
+    "tsup": "^5.12.0",
+    "unconfig": "^0.3.1"
   },
   "engines": {
     "vscode": "^1.62.0"
