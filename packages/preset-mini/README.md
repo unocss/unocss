@@ -13,8 +13,8 @@ import presetMini from '@unocss/preset-mini'
 
 Unocss({
   presets: [
-    presetMini()
-  ]
+    presetMini(),
+  ],
 })
 ```
 

@@ -23,13 +23,13 @@ jobs:
         with:
           node-version: v16
           registry-url: https://registry.npmjs.org/
-          cache: "pnpm"
+          cache: pnpm
 
       - run: npx conventional-github-releaser -p angular
         continue-on-error: true
         env:
           CONVENTIONAL_GITHUB_RELEASER_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      
+
       - name: Install Dependencies
         run: pnpm install
 

@@ -1,7 +1,3 @@
-dist
-node_modules
-coverage
-.output
-.nuxt
-!.vitepress
-__snapshots__
+*.global.js
+README.md
+docs/config/index.md

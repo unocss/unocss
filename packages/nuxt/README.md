@@ -22,8 +22,8 @@ npm i -D @unocss/nuxt
 
 export default {
   buildModules: [
-    '@unocss/nuxt'
-  ]
+    '@unocss/nuxt',
+  ],
 }
 ```
 
@@ -36,7 +36,7 @@ In the Nuxt module, we also provided some shortcuts for official presets:
 
 export default {
   buildModules: [
-    '@unocss/nuxt'
+    '@unocss/nuxt',
   ],
   unocss: {
     // presets
@@ -47,7 +47,7 @@ export default {
     // core options
     shortcuts: [],
     rules: [],
-  }
+  },
 }
 ```
 

@@ -27,16 +27,16 @@ Unocss({
           {
             name: 'Lato',
             weights: ['400', '700'],
-            italic: true
+            italic: true,
           },
           {
             name: 'sans-serif',
-            provider: 'none'
-          }
-        ]
+            provider: 'none',
+          },
+        ],
       },
-    })
-  ]
+    }),
+  ],
 })
 ```
 

@@ -13,28 +13,28 @@
     "url": "https://github.com/unocss/unocss/issues"
   },
   "license": "MIT",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/unocss/unocss.git",
     "directory": "packages/nuxt"
   },
   "funding": "https://github.com/sponsors/antfu",
-  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
-  "sideEffects": false,
-  "files": [
-    "dist",
-    "index.cjs",
-    "runtime"
-  ],
+  "main": "./index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "require": "./index.cjs",
       "import": "./dist/index.mjs"
     }
   },
-  "main": "./index.cjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "index.cjs",
+    "runtime"
+  ],
+  "sideEffects": false,
   "scripts": {
     "build": "unbuild",
     "stub": "unbuild --stub"

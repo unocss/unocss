@@ -19,7 +19,7 @@
     "test:update": "vitest -u"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.18.7",
+    "@antfu/eslint-config": "^0.18.8",
     "@antfu/ni": "^0.13.2",
     "@iconify-json/carbon": "^1.1.1",
     "@iconify-json/logos": "^1.1.3",

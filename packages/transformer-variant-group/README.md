@@ -15,7 +15,7 @@ import transformerVariantGroup from '@unocss/transformer-variant-group'
 Unocss({
   transformers: [
     transformerVariantGroup(),
-  ]
+  ],
 })
 ```
 

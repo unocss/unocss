@@ -8,18 +8,18 @@
     "url": "https://github.com/unocss/unocss/issues"
   },
   "license": "MIT",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/unocss/unocss.git"
   },
   "funding": "https://github.com/sponsors/antfu",
-  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
-  "files": [
-    "**/*.css"
-  ],
   "exports": {
     "./*": "./*"
   },
+  "files": [
+    "**/*.css"
+  ],
   "scripts": {
     "build": "esno scripts/copy.ts"
   },

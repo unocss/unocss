@@ -11,25 +11,25 @@
     "url": "https://github.com/antfu/unocss/issues"
   },
   "license": "MIT",
+  "author": "hannoeru <me@hanlee.co>",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/antfu/unocss.git",
     "directory": "packages/transformer-directives"
   },
-  "author": "hannoeru <me@hanlee.co>",
-  "sideEffects": false,
-  "files": [
-    "dist"
-  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "require": "./dist/index.cjs",
       "import": "./dist/index.mjs"
     }
   },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
   "scripts": {
     "build": "unbuild",
     "stub": "unbuild --stub"

@@ -12,7 +12,7 @@ pnpm add @unocss/preset-typography -D
 
 ```js
 // unocss.config.js
-import { presetAttributify, presetUno, defineConfig } from 'unocss'
+import { defineConfig, presetAttributify, presetUno } from 'unocss'
 import { presetTypography } from '@unocss/preset-typography'
 
 export default defineConfig({
@@ -172,7 +172,7 @@ export interface TypographyOptions {
 
 ```ts
 // unocss.config.ts
-import { presetAttributify, presetUno, defineConfig } from 'unocss'
+import { defineConfig, presetAttributify, presetUno } from 'unocss'
 import { presetTypography } from '@unocss/preset-typography'
 
 export default defineConfig({
@@ -184,7 +184,7 @@ export default defineConfig({
       // cssExtend is an object with CSS selector as key and
       // CSS declaration block as value like writing normal CSS.
       cssExtend: {
-        code: {
+        'code': {
           color: '#8b5cf6',
         },
         'a:hover': {

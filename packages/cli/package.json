@@ -8,27 +8,27 @@
     "url": "https://github.com/unocss/unocss/issues"
   },
   "license": "MIT",
+  "author": {
+    "name": "Johann Schopplich",
+    "email": "pkg@johannschopplich.com",
+    "url": "https://johannschopplich.com"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/unocss/unocss.git",
     "directory": "packages/cli"
   },
   "funding": "https://github.com/sponsors/antfu",
-  "author": {
-    "name": "Johann Schopplich",
-    "email": "pkg@johannschopplich.com",
-    "url": "https://johannschopplich.com"
-  },
+  "main": "./dist/index.cjs",
+  "types": "./dist/index.d.ts",
+  "exports": "./dist/index.cjs",
   "files": [
     "bin",
     "dist"
   ],
-  "exports": "./dist/index.cjs",
-  "main": "./dist/index.cjs",
   "bin": {
     "unocss": "./bin/unocss.cjs"
   },
-  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "unbuild",
     "stub": "unbuild --stub"

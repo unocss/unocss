@@ -15,7 +15,7 @@ import transformerDirective from '@unocss/transformer-directives'
 Unocss({
   transformers: [
     transformerDirective(),
-  ]
+  ],
 })
 ```
 
