@@ -97,6 +97,9 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
           })
         })
       },
+      async buildStart() {
+        await uno.generate('', { preflights: true })
+      },
       transform(code, id) {
         if (filter(code, id))
           extract(code, id)
