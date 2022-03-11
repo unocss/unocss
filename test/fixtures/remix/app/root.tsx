@@ -1,31 +1,28 @@
-import reset from '@unocss/reset/tailwind.css';
-import type { LinksFunction, MetaFunction } from "remix";
+import reset from '@unocss/reset/tailwind.css'
+import type { LinksFunction, MetaFunction } from 'remix'
 import {
   Links, LiveReload,
   Meta,
   Outlet,
   Scripts,
-  ScrollRestoration
-} from "remix";
-import unocss from "~/uno.css";
-
-
-
+  ScrollRestoration,
+} from 'remix'
+import unocss from '~/uno.css'
 
 export const meta: MetaFunction = () => {
-  return { title: "unocss remix" };
+  return { title: 'unocss remix' }
 }
 
 export const links: LinksFunction = () => {
   return [
     {
-      rel: "stylesheet",
-      href: unocss
+      rel: 'stylesheet',
+      href: unocss,
     },
     {
-      rel: "stylesheet",
-      href: reset
-    }
+      rel: 'stylesheet',
+      href: reset,
+    },
   ]
 }
 
@@ -42,8 +39,8 @@ export default function App() {
         <Outlet />
         <ScrollRestoration />
         <Scripts />
-        {process.env.NODE_ENV === "development" && <LiveReload />}
+        {process.env.NODE_ENV === 'development' && <LiveReload />}
       </body>
     </html>
-  );
+  )
 }
