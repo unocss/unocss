@@ -236,6 +236,40 @@ describe('transformer-directives', () => {
       `)
   })
 
+  test('nested class', async() => {
+    const result = await transform(
+      `nav {
+        ul {
+          li {
+            @apply border;
+          }
+        }
+        a {
+          @apply px-2 hover:underline;
+        }
+      }`,
+    )
+    expect(result)
+      .toMatchInlineSnapshot(`
+        "nav {
+          ul {
+            li {
+              border-width: 1px;
+              border-style: solid;
+            }
+          }
+          a {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+          }
+          a:hover {
+            text-decoration-line: underline;
+          }
+        }
+        "
+      `)
+  })
+
   test('css file', async() => {
     const css = await readFile('./test/assets/apply.css', 'utf8')
     const result = await transform(css)
