@@ -18,7 +18,7 @@ const weightMap: Record<string, string> = {
 
 export const fonts: Rule<Theme>[] = [
   // family
-  [/^font-(\w+)$/, ([, d], { theme }) => ({ 'font-family': theme.fontFamily?.[d] })],
+  [/^font-(\w+)$/, ([, d], { theme }) => ({ 'font-family': theme.fontFamily?.[d] || h.global(d) })],
 
   // size
   [/^text-(.+)$/, ([, s = 'base'], { theme }) => {
@@ -41,16 +41,16 @@ export const fonts: Rule<Theme>[] = [
   }],
 
   // weights
-  [/^(?:font|fw)-?([^-]+)$/, ([, s]) => ({ 'font-weight': weightMap[s] || h.number(s) })],
+  [/^(?:font|fw)-?([^-]+)$/, ([, s]) => ({ 'font-weight': weightMap[s] || h.global.number(s) })],
 
   // leadings
-  [/^(?:leading|lh)-(.+)$/, ([, s], { theme }) => ({ 'line-height': theme.lineHeight?.[s] || h.bracket.cssvar.rem(s) })],
+  [/^(?:leading|lh)-(.+)$/, ([, s], { theme }) => ({ 'line-height': theme.lineHeight?.[s] || h.bracket.cssvar.global.rem(s) })],
 
   // tracking
-  [/^tracking-(.+)$/, ([, s], { theme }) => ({ 'letter-spacing': theme.letterSpacing?.[s] || h.bracket.cssvar.rem(s) })],
+  [/^tracking-(.+)$/, ([, s], { theme }) => ({ 'letter-spacing': theme.letterSpacing?.[s] || h.bracket.cssvar.global.rem(s) })],
 
   // word-spacing
-  [/^word-spacing-(.+)$/, ([, s], { theme }) => ({ 'word-spacing': theme.wordSpacing?.[s] || h.bracket.cssvar.rem(s) })],
+  [/^word-spacing-(.+)$/, ([, s], { theme }) => ({ 'word-spacing': theme.wordSpacing?.[s] || h.bracket.cssvar.global.rem(s) })],
 ]
 
 export const tabSizes: Rule<Theme>[] = [
@@ -67,7 +67,7 @@ export const tabSizes: Rule<Theme>[] = [
 ]
 
 export const textIndents: Rule<Theme>[] = [
-  [/^indent(?:-(.+))?$/, ([, s], { theme }) => ({ 'text-indent': theme.textIndent?.[s || 'DEFAULT'] || h.bracket.cssvar.fraction.rem(s) })],
+  [/^indent(?:-(.+))?$/, ([, s], { theme }) => ({ 'text-indent': theme.textIndent?.[s || 'DEFAULT'] || h.bracket.cssvar.global.fraction.rem(s) })],
 ]
 
 export const textStrokes: Rule<Theme>[] = [
