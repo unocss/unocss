@@ -245,7 +245,7 @@ importers:
       '@unocss/webpack': workspace:*
       unocss: workspace:*
     dependencies:
-      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27447229.20f3171
+      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27449808.ac40c97_rollup@2.70.0+vite@2.8.6
       '@unocss/core': link:../core
       '@unocss/preset-attributify': link:../preset-attributify
       '@unocss/preset-icons': link:../preset-icons
@@ -257,7 +257,7 @@ importers:
       '@unocss/webpack': link:../webpack
       unocss: link:../unocss
     devDependencies:
-      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27447229.20f3171
+      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27449808.ac40c97_rollup@2.70.0+vite@2.8.6
 
   packages/plugins-common:
     specifiers:
@@ -875,11 +875,11 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
 
-  /@nuxt/kit-edge/3.0.0-27447229.20f3171:
-    resolution: {integrity: sha512-2lKe28iTTrjhbPSmUmL1sMPZlDR8zaR+y7/fBS8zPDuTldm4XEWs9tn9FWXzie3gVamfhi+UCNGIbYgrQwvxIg==}
+  /@nuxt/kit-edge/3.0.0-27449808.ac40c97_rollup@2.70.0+vite@2.8.6:
+    resolution: {integrity: sha512-5Na5VeAWR3eJgPW8s9YHp4a98wN9o2Lty2FPCM2UV33QYFg9AiSYUVC7HB5mg4jpACuhN2XRAX7ijcO932UbCw==}
     engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0}
     dependencies:
-      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27447229.20f3171
+      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27449808.ac40c97_rollup@2.70.0+vite@2.8.6
       c12: 0.1.4
       consola: 2.15.3
       defu: 5.0.1
@@ -895,11 +895,17 @@ packages:
       scule: 0.2.1
       semver: 7.3.5
       unctx: 1.0.2
+      unimport: 0.0.8_rollup@2.70.0+vite@2.8.6
       untyped: 0.4.2
+    transitivePeerDependencies:
+      - esbuild
+      - rollup
+      - vite
+      - webpack
     dev: false
 
-  /@nuxt/schema-edge/3.0.0-27447229.20f3171:
-    resolution: {integrity: sha512-mQppNNWCmdqM0YD2J0JQw3MIFte0wU/gdan4hHdvU5ib2q0WR3+A6Z/wP8Aip7e4cS/84hsQXpgYgV3k3TY+Dw==}
+  /@nuxt/schema-edge/3.0.0-27449808.ac40c97_rollup@2.70.0+vite@2.8.6:
+    resolution: {integrity: sha512-bnaU+hsUav5cJkraUb9o8cyqe3xPOYExx21d/6RTedh1Ny9U/V9zRrQ4JoDkad0bG1OJBgkBXWNYzCQinD+dOw==}
     engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0}
     dependencies:
       c12: 0.1.4
@@ -911,6 +917,12 @@ packages:
       scule: 0.2.1
       std-env: 3.0.1
       ufo: 0.7.11
+      unimport: 0.0.5_rollup@2.70.0+vite@2.8.6
+    transitivePeerDependencies:
+      - esbuild
+      - rollup
+      - vite
+      - webpack
 
   /@polka/url/1.0.0-next.21:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
@@ -2890,6 +2902,10 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
     dev: true
+
+  /escape-string-regexp/5.0.0:
+    resolution: {integrity: sha512-/veY75JbMK4j1yjvuUxuVsiS/hr/4iHs9FTT6cgTexxdE0Ly/glccBAkloH/DofkjRbZU3bnoj38mOmhkZ0lHw==}
+    engines: {node: '>=12'}
 
   /eslint-config-standard/17.0.0-1_4ef2f4f4771997ec726ac5d259d18bf3:
     resolution: {integrity: sha512-aqRG58dqoBNfOLN+PsitasxmW+W9Os4oQrx081B16T4E4WogsSbpUL6hnKSnyv35sSRYA2XjBtKMOrUboL6jgw==}
@@ -5480,6 +5496,37 @@ packages:
     resolution: {integrity: sha512-qxRfnQZWJqkg180JeOCJEvtjj5/7wnWVqkNHln8muY5/z8kMWBFqikFBPwIPCQrZJ+jtaSWkVHJkuHUAXls6zw==}
     dev: false
 
+  /unimport/0.0.5_rollup@2.70.0+vite@2.8.6:
+    resolution: {integrity: sha512-SkRhNpvXU5FiNvRQzpEm7GtF7dXD8000VkakMOOCWvWSShIXg6jC+EY1DWb3lC/qtFQTz6hiHrNWnz3k6IJlYw==}
+    dependencies:
+      '@rollup/pluginutils': 4.2.0
+      escape-string-regexp: 5.0.0
+      local-pkg: 0.4.1
+      magic-string: 0.26.1
+      mlly: 0.4.3
+      unplugin: 0.3.3_rollup@2.70.0+vite@2.8.6
+    transitivePeerDependencies:
+      - esbuild
+      - rollup
+      - vite
+      - webpack
+
+  /unimport/0.0.8_rollup@2.70.0+vite@2.8.6:
+    resolution: {integrity: sha512-WrDlMDCq1s5Nh7wBE5C/WRtnPeFwv0A0iiSjljlsoYwXLMkWDIveRWUhXWE/JYMYwy2KCHbahkGKDYBhFrM8fg==}
+    dependencies:
+      '@rollup/pluginutils': 4.2.0
+      escape-string-regexp: 5.0.0
+      local-pkg: 0.4.1
+      magic-string: 0.26.1
+      mlly: 0.4.3
+      unplugin: 0.3.3_rollup@2.70.0+vite@2.8.6
+    transitivePeerDependencies:
+      - esbuild
+      - rollup
+      - vite
+      - webpack
+    dev: false
+
   /unist-util-stringify-position/2.0.3:
     resolution: {integrity: sha512-3faScn5I+hy9VleOq/qNbAd6pAx7iH5jYBMS9I1HgQVijz/4mv5Bvw5iw1sC/90CODiKo81G/ps8AJrISn687g==}
     dependencies:
@@ -5588,7 +5635,6 @@ packages:
       rollup: 2.70.0
       vite: 2.8.6
       webpack-virtual-modules: 0.4.3
-    dev: true
 
   /unplugin/0.4.0_03288d982730321210b6eedb5467d075:
     resolution: {integrity: sha512-4ScITEmzlz1iZW3tkz+3L1V5k/xMQ6kjgm4lEXKxH0ozd8/OUWfiSA7RMRyrawsvq/t50JIzPpp1UyuSL/AXkA==}
