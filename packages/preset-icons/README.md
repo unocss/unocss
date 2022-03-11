@@ -41,9 +41,9 @@ import presetIcons from '@unocss/preset-icons'
 
 Unocss({
   presets: [
-    presetIcons({ /* options */ })
+    presetIcons({ /* options */ }),
     // ...other presets
-  ]
+  ],
 })
 ```
 
@@ -69,7 +69,7 @@ presetIcons({
     'display': 'inline-block',
     'vertical-align': 'middle',
     // ...
-  }
+  },
 })
 ```
 

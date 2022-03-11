@@ -13,8 +13,8 @@ import presetWind from '@unocss/preset-wind'
 
 Unocss({
   presets: [
-    presetWind()
-  ]
+    presetWind(),
+  ],
 })
 ```
 

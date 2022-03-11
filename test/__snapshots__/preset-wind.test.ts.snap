@@ -47,6 +47,10 @@ exports[`preset-wind > targets 1`] = `
 .table-row-group{display:table-row-group;}
 .border-collapse{border-collapse:collapse;}
 .border-separate{border-collapse:separate;}
+.border-spacing-\\\\[3px\\\\]{border-spacing:3px;}
+.border-spacing-\\\\$var{border-spacing:var(--var);}
+.border-spacing-0,
+.border-spacing-none{border-spacing:0rem;}
 .caption-top{caption-side:top;}
 .caption-bottom{caption-side:bottom;}
 .table-auto{table-layout:auto;}

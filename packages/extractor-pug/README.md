@@ -16,7 +16,7 @@ Unocss({
   extractors: [
     extractorPug(),
     extractorSplit,
-  ]
+  ],
 })
 ```
 

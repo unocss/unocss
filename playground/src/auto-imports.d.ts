@@ -56,6 +56,8 @@ declare global {
   const reactify: typeof import('@vueuse/core')['reactify']
   const reactifyObject: typeof import('@vueuse/core')['reactifyObject']
   const reactive: typeof import('vue')['reactive']
+  const reactiveComputed: typeof import('@vueuse/core')['reactiveComputed']
+  const reactiveOmit: typeof import('@vueuse/core')['reactiveOmit']
   const reactivePick: typeof import('@vueuse/core')['reactivePick']
   const readonly: typeof import('vue')['readonly']
   const ref: typeof import('vue')['ref']

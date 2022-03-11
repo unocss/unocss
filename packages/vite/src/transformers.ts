@@ -1,6 +1,6 @@
 import type { Plugin } from 'vite'
 import type { UnocssPluginContext } from '@unocss/core'
-import MagicString from 'magic-string-extra'
+import MagicString from 'magic-string'
 
 export function initTransformerPlugins(ctx: UnocssPluginContext): Plugin[] {
   async function applyTransformers(code: string, id: string, enforce?: 'pre' | 'post') {
@@ -19,9 +19,12 @@ export function initTransformerPlugins(ctx: UnocssPluginContext): Plugin[] {
       }
       await t.transform(s, id, ctx)
     }
-    return {
-      code: s.toString(),
-      map: s.generateMap({ hires: true }),
+
+    if (s.hasChanged()) {
+      return {
+        code: s.toString(),
+        map: s.generateMap({ hires: true, source: id }),
+      }
     }
   }
 

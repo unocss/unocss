@@ -13,9 +13,9 @@ import presetAttributify from '@unocss/preset-attributify'
 
 Unocss({
   presets: [
-    presetAttributify({ /* options */ })
+    presetAttributify({ /* options */ }),
     // ...other presets
-  ]
+  ],
 })
 ```
 

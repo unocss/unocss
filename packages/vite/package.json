@@ -1,6 +1,6 @@
 {
   "name": "@unocss/vite",
-  "version": "0.27.0",
+  "version": "0.27.6",
   "description": "The Vite plugin for UnoCSS",
   "keywords": [
     "unocss",
@@ -12,17 +12,16 @@
     "url": "https://github.com/unocss/unocss/issues"
   },
   "license": "MIT",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/unocss/unocss.git",
     "directory": "packages/vite"
   },
   "funding": "https://github.com/sponsors/antfu",
-  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
-  "sideEffects": false,
-  "files": [
-    "dist"
-  ],
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "require": "./dist/index.cjs",
@@ -30,23 +29,24 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
   "scripts": {
     "build": "unbuild",
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@rollup/pluginutils": "^4.1.2",
+    "@rollup/pluginutils": "^4.2.0",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/inspector": "workspace:*",
     "@unocss/scope": "workspace:*",
     "@unocss/transformer-directives": "workspace:*",
-    "magic-string-extra": "^0.1.2"
+    "magic-string": "^0.26.1"
   },
   "devDependencies": {
-    "vite": "^2.8.4"
+    "vite": "^2.8.6"
   }
 }

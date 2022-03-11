@@ -16,8 +16,8 @@ import Unocss from 'unocss/vite'
 
 export default {
   plugins: [
-    Unocss({ /* options */ })
-  ]
+    Unocss({ /* options */ }),
+  ],
 }
 ```
 
@@ -81,7 +81,7 @@ export default {
     Unocss({
       /* options */
     }),
-  ]
+  ],
 }
 ```
 
@@ -98,7 +98,7 @@ export default {
     Unocss({
       /* options */
     }),
-  ]
+  ],
 }
 ```
 
@@ -116,8 +116,8 @@ export default {
     Unocss({
       /* options */
     }),
-    react()
-  ]
+    react(),
+  ],
 }
 ```
 
@@ -138,7 +138,7 @@ export default {
     Unocss({
       /* options */
     }),
-  ]
+  ],
 }
 ```
 
@@ -155,7 +155,7 @@ export default {
     Unocss({
       /* options */
     }),
-  ]
+  ],
 }
 ```
 
@@ -173,8 +173,8 @@ export default {
     Unocss({
       /* options */
     }),
-    preact()
-  ]
+    preact(),
+  ],
 }
 ```
 
@@ -200,8 +200,8 @@ export default {
       extractors: [extractorSvelte],
       /* more options */
     }),
-    svelte()
-  ]
+    svelte(),
+  ],
 }
 ```
 
@@ -224,9 +224,7 @@ const config = {
   // Consult https://github.com/sveltejs/svelte-preprocess
   // for more information about preprocessors
   preprocess: preprocess(),
-
   kit: {
-
     // hydrate the <div id="svelte"> element in src/app.html
     target: '#svelte',
     vite: {
@@ -234,11 +232,11 @@ const config = {
         UnoCss({
           extractors: [extractorSvelte],
           /* more options */
-        })
-      ]
-    }
-  }
-}  
+        }),
+      ],
+    },
+  },
+}
 ```
 
 You have a `SvelteKit` example project on [test/fixtures/sveltekit](https://github.com/unocss/unocss/tree/main/test/fixtures/sveltekit) directory.
@@ -259,7 +257,7 @@ export default {
       mode: 'shadow-dom',
       /* more options */
     }),
-  ]
+  ],
 }
 ```
 
@@ -314,7 +312,7 @@ export default {
       ],
       /* more options */
     }),
-  ]
+  ],
 }
 ```
 
@@ -358,7 +356,7 @@ export default {
     Unocss({
       /* options */
     }),
-  ]
+  ],
 }
 ```
 
@@ -379,8 +377,8 @@ export default defineConfig({
     elmPlugin(),
     Unocss({
       /* options */
-    })
-  ]
+    }),
+  ],
 })
 ```
 

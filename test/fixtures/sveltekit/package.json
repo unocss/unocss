@@ -11,16 +11,16 @@
     "lint": "eslint --ignore-path .gitignore ."
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.1",
+    "@iconify-json/logos": "^1.1.3",
     "@sveltejs/adapter-static": "next",
     "@sveltejs/kit": "next",
     "@unocss/core": "link:../../../packages/core",
     "@unocss/preset-icons": "link:../../../packages/presets-icons",
     "svelte": "^3.46.4",
     "svelte-check": "^2.4.5",
-    "svelte-preprocess": "^4.10.3",
+    "svelte-preprocess": "^4.10.4",
     "tslib": "^2.3.1",
-    "typescript": "^4.5.5",
+    "typescript": "^4.6.2",
     "unocss": "link:../../../packages/unocss"
   }
 }

@@ -1,5 +1,5 @@
 import type { LoadConfigResult } from 'unconfig'
-import type MagicString from 'magic-string-extra'
+import type MagicString from 'magic-string'
 import type { UnoGenerator } from './generator'
 import type { BetterMap } from './utils'
 
@@ -106,6 +106,17 @@ export interface ExtractorContext {
   id?: string
 }
 
+export interface PreflightContext<Theme extends {} = {}> {
+  /**
+   * UnoCSS generator instance
+   */
+  generator: UnoGenerator
+  /**
+   * The theme object
+   */
+  theme: Theme
+}
+
 export interface Extractor {
   name: string
   extract(ctx: ExtractorContext): Awaitable<Set<string> | undefined>
@@ -152,7 +163,7 @@ export type Shortcut<Theme extends {} = {}> = StaticShortcut | DynamicShortcut<T
 export type FilterPattern = ReadonlyArray<string | RegExp> | string | RegExp | null
 
 export interface Preflight {
-  getCSS: () => Promise<string | undefined> | string | undefined
+  getCSS: (context: PreflightContext) => Promise<string | undefined> | string | undefined
   layer?: string
 }
 

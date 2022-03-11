@@ -72,8 +72,8 @@ import Unocss from 'unocss/vite'
 
 export default {
   plugins: [
-    Unocss({ /* options */ })
-  ]
+    Unocss({ /* options */ }),
+  ],
 }
 ```
 
@@ -103,8 +103,8 @@ npm i -D @unocss/nuxt
 
 export default {
   buildModules: [
-    '@unocss/nuxt'
-  ]
+    '@unocss/nuxt',
+  ],
 }
 ```
 
@@ -153,7 +153,7 @@ To set presets to your project:
 ```ts
 // vite.config.ts
 import Unocss from 'unocss/vite'
-import { presetUno, presetAttributify } from 'unocss'
+import { presetAttributify, presetUno } from 'unocss'
 
 export default {
   plugins: [
@@ -162,9 +162,9 @@ export default {
         presetAttributify({ /* preset options */}),
         presetUno(),
         // ...custom presets
-      ]
-    })
-  ]
+      ],
+    }),
+  ],
 }
 ```
 
@@ -182,9 +182,9 @@ export default {
       presets: [], // disable default preset
       rules: [
         // your custom rules
-      ]
-    })
-  ]
+      ],
+    }),
+  ],
 }
 ```
 
@@ -196,7 +196,7 @@ Writing custom rules for UnoCSS is super easy. For example:
 
 ```ts
 rules: [
-  ['m-1', { margin: '0.25rem' }]
+  ['m-1', { margin: '0.25rem' }],
 ]
 ```
 
@@ -213,7 +213,7 @@ To make it smarter, change the matcher to a RegExp and the body to a function:
 ```ts
 rules: [
   [/^m-(\d+)$/, ([, d]) => ({ margin: `${d / 4}rem` })],
-  [/^p-(\d+)$/, (match) => ({ padding: `${match[1] / 4}rem` })],
+  [/^p-(\d+)$/, match => ({ padding: `${match[1] / 4}rem` })],
 ]
 ```
 
@@ -284,8 +284,8 @@ Unocss({
   }
 }
 `
-    }]
-  ]
+    }],
+  ],
 })
 ```
 
@@ -319,7 +319,7 @@ Similar to [Rules](#custom-rules), a dynamic shortcut is the combination of a ma
 shortcuts: [
   // you could still have object style
   {
-    'btn': 'py-2 px-4 font-semibold rounded-lg shadow-md',
+    btn: 'py-2 px-4 font-semibold rounded-lg shadow-md',
   },
   // dynamic shortcuts
   [/^btn-(.*)$/, ([, c]) => `bg-${c}-400 text-${c}-100 py-2 px-4 rounded-lg`],
@@ -465,7 +465,7 @@ rules: [
   [/^text-(.*)$/, ([, c], { theme }) => {
     if (theme.colors[c])
       return { color: theme.colors[c] }
-  }]
+  }],
 ]
 ```
 
@@ -479,7 +479,7 @@ Unlike Tailwind, which offers fixed 3 layers (`base`, `components`, `utilities`)
 rules: [
   [/^m-(\d)$/, ([, d]) => ({ margin: `${d / 4}rem` }), { layer: 'utilities' }],
   // when you omit the layer, it will be `default`
-  ['btn', { padding: '4px' }]
+  ['btn', { padding: '4px' }],
 ]
 ```
 
