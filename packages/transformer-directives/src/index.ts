@@ -18,15 +18,17 @@ export default function transformerDirectives(): SourceCodeTransformer {
   }
 }
 
-export async function transformDirectives(code: MagicString, uno: UnoGenerator, filename?: string) {
+export async function transformDirectives(code: MagicString, uno: UnoGenerator, filename?: string, originalCode?: string, offset?: number) {
   if (!code.original.includes('@apply'))
     return
 
-  const ast = parse(code.original, {
+  const ast = parse(originalCode || code.original, {
     parseAtrulePrelude: false,
     positions: true,
     filename,
   })
+
+  const calcOffset = (pos: number) => offset ? pos + offset : pos
 
   if (ast.type !== 'StyleSheet')
     return
@@ -39,6 +41,9 @@ export async function transformDirectives(code: MagicString, uno: UnoGenerator, 
 
     await Promise.all(
       node.block.children.map(async(childNode, _childItem) => {
+        if (childNode.type === 'Raw')
+          return transformDirectives(code, uno, filename, childNode.value, calcOffset(childNode.loc!.start.offset))
+
         if (!(childNode.type === 'Atrule' && childNode.name === 'apply' && childNode.prelude))
           return
 
@@ -75,7 +80,7 @@ export async function transformDirectives(code: MagicString, uno: UnoGenerator, 
 
           if (parent) {
             const newNodeCss = `${parent}{${parentSelector}{${body}}}`
-            code.appendLeft(node.loc!.end.offset, newNodeCss)
+            code.appendLeft(calcOffset(node.loc!.end.offset), newNodeCss)
           }
           else if (selector && selector !== '.\\-') {
             const selectorAST = parse(selector, {
@@ -94,13 +99,16 @@ export async function transformDirectives(code: MagicString, uno: UnoGenerator, 
             })
 
             const newNodeCss = `${generate(prelude)}{${body}}`
-            code.appendLeft(node.loc!.end.offset, newNodeCss)
+            code.appendLeft(calcOffset(node.loc!.end.offset), newNodeCss)
           }
           else {
-            code.appendRight(childNode.loc!.end.offset, body)
+            code.appendRight(calcOffset(childNode.loc!.end.offset), body)
           }
         }
-        code.remove(childNode.loc!.start.offset, childNode.loc!.end.offset)
+        code.remove(
+          calcOffset(childNode.loc!.start.offset),
+          calcOffset(childNode.loc!.end.offset),
+        )
       }).toArray(),
     )
   }
