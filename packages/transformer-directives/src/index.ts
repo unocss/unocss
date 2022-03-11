@@ -7,10 +7,14 @@ import { regexCssId } from '../../plugins-common/defaults'
 
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
 
-export default function transformerDirectives(): SourceCodeTransformer {
+interface TransformerDirectivesOptions {
+  enforce?: SourceCodeTransformer['enforce']
+}
+
+export default function transformerDirectives(options?: TransformerDirectivesOptions): SourceCodeTransformer {
   return {
     name: 'css-directive',
-    enforce: 'pre',
+    enforce: options?.enforce,
     idFilter: id => !!id.match(regexCssId),
     transform: (code, id, ctx) => {
       return transformDirectives(code, ctx.uno, id)
