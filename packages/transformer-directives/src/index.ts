@@ -41,10 +41,8 @@ export async function transformDirectives(code: MagicString, uno: UnoGenerator, 
 
     await Promise.all(
       node.block.children.map(async(childNode, _childItem) => {
-        if (childNode.type === 'Raw') {
-          console.log(childNode.value);
+        if (childNode.type === 'Raw')
           return transformDirectives(code, uno, filename, childNode.value, calcOffset(childNode.loc!.start.offset))
-        }
 
         if (!(childNode.type === 'Atrule' && childNode.name === 'apply' && childNode.prelude))
           return
