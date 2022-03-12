@@ -23,7 +23,7 @@ export async function generate(options: ResolvedCliOptions) {
 
   const dir = dirname(outFile)
   if (!existsSync(dir))
-    await fs.mkdir(dirname(outFile), { recursive: true })
+    await fs.mkdir(dir, { recursive: true })
   await fs.writeFile(outFile, css, 'utf-8')
 
   if (!options.watch) {
