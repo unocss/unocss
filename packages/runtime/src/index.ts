@@ -105,7 +105,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   let inspector: RuntimeInspectorCallback | undefined
 
   const uno = createGenerator(config, defaultConfig)
-  const tokens = new Set<string>()
+  let tokens = new Set<string>()
 
   let _timer: number | undefined
   let _resolvers: Function[] = []
@@ -127,11 +127,14 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
       document.documentElement.prepend(styleElement)
     }
     styleElement.innerHTML = result.css
+    tokens = result.matched
   }
 
   async function extract(str: string) {
+    const tokenSize = tokens.size
     await uno.applyExtractors(str, undefined, tokens)
-    await scheduleUpdate()
+    if (tokenSize !== tokens.size)
+      await scheduleUpdate()
   }
 
   async function extractAll() {
@@ -187,10 +190,11 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
     version: uno.version,
     uno,
     async extract(userTokens) {
-      if (typeof userTokens === 'string')
-        return await extract(userTokens)
-      userTokens.forEach(t => tokens.add(t))
-      await updateStyle()
+      if (typeof userTokens !== 'string') {
+        userTokens.forEach(t => tokens.add(t))
+        userTokens = ''
+      }
+      await extract(userTokens)
     },
     extractAll,
     inspect(callback) {
