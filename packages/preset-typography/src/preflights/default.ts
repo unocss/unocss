@@ -84,7 +84,7 @@ export const DEFAULT = {
   'ol,ul': {
     'padding-left': '1.25em',
   },
-  ol: {
+  'ol': {
     'list-style-type': 'decimal',
   },
   'ol[type="A"]': {
