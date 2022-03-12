@@ -1,5 +1,5 @@
-import { readFile, writeFile } from 'fs/promises'
-import { basename, relative, resolve } from 'pathe'
+import { readFile, writeFile, mkdir } from 'fs/promises'
+import { basename, relative, resolve, dirname } from 'pathe'
 import fg from 'fast-glob'
 import consola from 'consola'
 import { cyan, dim, green } from 'colorette'
@@ -21,6 +21,7 @@ export async function generate(options: ResolvedCliOptions) {
   const outFile = options.outFile ?? resolve(process.cwd(), 'uno.css')
   const { css, matched } = await uno.generate([...fileCache].join('\n'))
 
+  await mkdir(dirname(outFile), { recursive: true })
   await writeFile(outFile, css, 'utf-8')
 
   if (!options.watch) {
