@@ -1,5 +1,5 @@
-import { readFile, writeFile } from 'fs/promises'
-import { basename, relative, resolve } from 'pathe'
+import { existsSync, promises as fs } from 'fs'
+import { basename, dirname, relative, resolve } from 'pathe'
 import fg from 'fast-glob'
 import consola from 'consola'
 import { cyan, dim, green } from 'colorette'
@@ -21,7 +21,10 @@ export async function generate(options: ResolvedCliOptions) {
   const outFile = options.outFile ?? resolve(process.cwd(), 'uno.css')
   const { css, matched } = await uno.generate([...fileCache].join('\n'))
 
-  await writeFile(outFile, css, 'utf-8')
+  const dir = dirname(outFile)
+  if (!existsSync(dir))
+    await fs.mkdir(dir, { recursive: true })
+  await fs.writeFile(outFile, css, 'utf-8')
 
   if (!options.watch) {
     consola.success(
@@ -55,7 +58,7 @@ export async function build(_options: CliOptions) {
   const files = await fg(options.patterns)
   await Promise.all(
     files.map(async(file) => {
-      fileCache.set(file, await readFile(file, 'utf8'))
+      fileCache.set(file, await fs.readFile(file, 'utf8'))
     }),
   )
 
@@ -104,7 +107,7 @@ export async function build(_options: CliOptions) {
           if (type.startsWith('unlink'))
             fileCache.delete(file)
           else
-            fileCache.set(file, await readFile(file, 'utf8'))
+            fileCache.set(file, await fs.readFile(file, 'utf8'))
         }
 
         debouncedBuild()
