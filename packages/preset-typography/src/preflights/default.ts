@@ -84,6 +84,36 @@ export const DEFAULT = {
   'ol,ul': {
     'padding-left': '1.25em',
   },
+  'ol': {
+    'list-style-type': 'decimal',
+  },
+  'ol[type="A"]': {
+    'list-style-type': 'upper-alpha',
+  },
+  'ol[type="a"]': {
+    'list-style-type': 'lower-alpha',
+  },
+  'ol[type="A" s]': {
+    'list-style-type': 'upper-alpha',
+  },
+  'ol[type="a" s]': {
+    'list-style-type': 'lower-alpha',
+  },
+  'ol[type="I"]': {
+    'list-style-type': 'upper-roman',
+  },
+  'ol[type="i"]': {
+    'list-style-type': 'lower-roman',
+  },
+  'ol[type="I" s]': {
+    'list-style-type': 'upper-roman',
+  },
+  'ol[type="i" s]': {
+    'list-style-type': 'lower-roman',
+  },
+  'ol[type="1"]': {
+    'list-style-type': 'decimal',
+  },
   'ul': {
     'list-style-type': 'disc',
   },
