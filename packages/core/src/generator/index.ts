@@ -64,9 +64,8 @@ export class UnoGenerator {
     const cacheKey = `${raw}${alias ? ` ${alias}` : ''}`
 
     // use caches if possible
-    const cached = this._cache.get(cacheKey)
-    if (cached)
-      return cached
+    if (this._cache.has(cacheKey))
+      return this._cache.get(cacheKey)
 
     let current = raw
     for (const p of this.config.preprocess)
