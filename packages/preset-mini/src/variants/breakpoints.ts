@@ -3,6 +3,13 @@ import type { Theme } from '../theme'
 
 const regexCache: Record<string, RegExp> = {}
 
+const calcMaxWidthBySize = (size: string) => {
+  const value = size.match(/^-?[0-9]+\.?[0-9]*/)?.[0] || ''
+  const unit = size.slice(value.length)
+  const maxWidth = (parseFloat(value) - 0.1)
+  return Number.isNaN(maxWidth) ? size : `${maxWidth}${unit}`
+}
+
 export const variantBreakpoints: Variant<Theme> = (matcher, { theme }) => {
   const variantEntries: Array<[string, string, number]>
       = Object.entries(theme.breakpoints || {}).map(([point, size], idx) => [point, size, idx])
@@ -23,27 +30,32 @@ export const variantBreakpoints: Variant<Theme> = (matcher, { theme }) => {
     if (m === 'container')
       continue
 
-    let direction = 'min'
-    let order = 1000 // parseInt(size)
-    if (pre.startsWith('lt-')) {
-      direction = 'max'
-      order -= (idx + 1)
-    }
-    else {
-      order += (idx + 1)
-    }
+    const isLtPrefix = pre.startsWith('lt-')
+    const isAtPrefix = pre.startsWith('at-')
 
-    // support for windicss @<breakpoint> => last breakpoint will not have the upper bound
-    if (pre.startsWith('at-') && idx < variantEntries.length - 1) {
+    let order = 1000 // parseInt(size)
+
+    if (isLtPrefix) {
+      order -= (idx + 1)
       return {
         matcher: m,
-        parent: [`@media (min-width: ${size}) and (max-width: ${variantEntries[idx + 1][1]})`, order],
+        parent: [`@media (max-width: ${calcMaxWidthBySize(size)})`, order],
+      }
+    }
+
+    order += (idx + 1)
+
+    // support for windicss @<breakpoint> => last breakpoint will not have the upper bound
+    if (isAtPrefix && idx < variantEntries.length - 1) {
+      return {
+        matcher: m,
+        parent: [`@media (min-width: ${size}) and (max-width: ${calcMaxWidthBySize(variantEntries[idx + 1][1])})`, order],
       }
     }
 
     return {
       matcher: m,
-      parent: [`@media (${direction}-width: ${size})`, order],
+      parent: [`@media (min-width: ${size})`, order],
     }
   }
 }
