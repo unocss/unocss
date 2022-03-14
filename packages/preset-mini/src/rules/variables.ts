@@ -6,7 +6,6 @@ const variablesAbbrMap: Record<string, string> = {
   break: 'word-break',
   case: 'text-transform',
   content: 'align-content',
-  flex: 'flex',
   fw: 'font-weight',
   items: 'align-items',
   justify: 'justify-content',
