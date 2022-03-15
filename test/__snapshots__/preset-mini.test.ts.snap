@@ -774,24 +774,24 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .print\\\\:block{display:block;}
 .print\\\\:link\\\\:\\\\!underline:link{text-decoration-line:underline !important;}
 }
-@media (max-width: 1024px){
+@media (max-width: 1023.9px){
 .lt-lg\\\\:m2{margin:0.5rem;}
 }
-@media (max-width: 640px){
+@media (max-width: 639.9px){
 .lt-sm\\\\:m1{margin:0.25rem;}
 }
 @media (min-width: 640px){
 .sm\\\\:m-1,
 .sm\\\\:m1{margin:0.25rem;}
 }
-@media (min-width: 640px) and (max-width: 768px){
+@media (min-width: 640px) and (max-width: 767.9px){
 .at-sm\\\\:m1{margin:0.25rem;}
 }
 @media (min-width: 768px){
 .md\\\\:m-1{margin:0.25rem;}
 .md\\\\:\\\\!hidden{display:none !important;}
 }
-@media (min-width: 1024px) and (max-width: 1280px){
+@media (min-width: 1024px) and (max-width: 1279.9px){
 .at-lg\\\\:m2{margin:0.5rem;}
 }
 @media (min-width: 1536px){
