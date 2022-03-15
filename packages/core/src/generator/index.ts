@@ -1,4 +1,4 @@
-import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, RawUtil, ResolvedConfig, RuleContext, RuleMeta, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantMatchedResult } from '../types'
+import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, RawUtil, ResolvedConfig, RuleContext, RuleMeta, StringifiedUtil, SuggestionContext, SuggestionMatcher, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
 import { CONTROL_SHORTCUT_NO_MERGE, TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, normalizeCSSEntries, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
@@ -6,6 +6,7 @@ import { version } from '../../package.json'
 export class UnoGenerator {
   public version = version
   private _cache = new Map<string, StringifiedUtil[] | null>()
+  private _suggestCache = new Map<string, string[]>()
   public config: ResolvedConfig
   public blocked = new Set<string>()
   public parentOrders = new Map<string, number>()
@@ -27,6 +28,7 @@ export class UnoGenerator {
     this.blocked.clear()
     this.parentOrders.clear()
     this._cache.clear()
+    this._suggestCache.clear()
   }
 
   async applyExtractors(code: string, id?: string, set = new Set<string>()) {
@@ -356,12 +358,14 @@ export class UnoGenerator {
       if (!rule)
         continue
 
+      const meta = typeof rule[2] === 'function' ? rule[3] : rule[2]
+
       // ignore internal rules
-      if (rule[2]?.internal && !internal)
+      if (meta?.internal && !internal)
         continue
 
       // dynamic rules
-      const [matcher, handler, meta] = rule
+      const [matcher, handler] = rule
       const match = processed.match(matcher)
       if (!match)
         continue
@@ -497,6 +501,69 @@ export class UnoGenerator {
       })
       .flat(2)
       .filter(Boolean) as StringifiedUtil[]
+  }
+
+  async suggest(input: string, internal = false): Promise<string[] | undefined> {
+    // cache
+    const cache = this._suggestCache.get(input)
+    if (cache)
+      return cache
+
+    const suggestions = new Set<string>()
+
+    // TODO suggest variants
+
+    // static rules
+    const staticSuggestions = Object.keys(this.config.rulesStaticMap).filter(i => i.startsWith(input))
+    for (const i of staticSuggestions)
+      suggestions.add(i)
+
+    // dynamic rules
+    const { rulesDynamic, rulesSize } = this.config
+    const suggestionContext: SuggestionContext = {
+      theme: this.config.theme,
+      generator: this,
+    }
+
+    // collect all matchers
+    const matchers = new Set<SuggestionMatcher>()
+    // match rules, from last to first
+    for (let i = rulesSize; i >= 0; i--) {
+      const rule = rulesDynamic[i]
+
+      // static rules are omitted as undefined
+      if (!rule)
+        continue
+
+      // ignore rules that doesn't have a suggestionMatcher
+      const suggestionMatcher = typeof rule[2] === 'function' ? rule[2] : undefined
+      if (!suggestionMatcher)
+        continue
+
+      // ignore internal rules
+      const meta = typeof rule[2] === 'function' ? rule[3] : rule[2]
+      if (meta?.internal && !internal)
+        continue
+
+      matchers.add(suggestionMatcher)
+    }
+    // get suggestions
+    for (const matcher of matchers) {
+      const suggested = await matcher(input, suggestionContext)
+      if (suggested) {
+        for (const s of suggested)
+          suggestions.add(s)
+      }
+    }
+
+    const res = Array.from(suggestions).filter(i => i.startsWith(input))
+      // sort by dash count, lower first
+      .sort((a, b) => (a.match(/-/g) || []).length - (b.match(/-/g) || []).length
+        || (a.match(/-./g) || []).length - (b.match(/-./g) || []).length)
+
+    this._suggestCache.set(input, res)
+
+    return res
   }
 
   isBlocked(raw: string) {

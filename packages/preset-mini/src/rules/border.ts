@@ -1,42 +1,42 @@
-import type { CSSEntries, CSSObject, Rule, RuleContext } from '@unocss/core'
+import type { CSSEntries, CSSObject, Rule, RuleContext, SuggestionContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorToString, cornerMap, directionMap, handler as h, hasParseableColor, parseColor } from '../utils'
+import { MiniSuggestionBuilder, colorToString, cornerMap, directionMap, handler as h, hasParseableColor, parseColor } from '../utils'
 
 export const borders: Rule[] = [
   // compound
-  [/^(?:border|b)()(?:-(.+))?$/, handlerBorder],
-  [/^(?:border|b)-([xy])(?:-(.+))?$/, handlerBorder],
-  [/^(?:border|b)-([rltbse])(?:-(.+))?$/, handlerBorder],
-  [/^(?:border|b)-(block|inline)(?:-(.+))?$/, handlerBorder],
-  [/^(?:border|b)-([bi][se])(?:-(.+))?$/, handlerBorder],
+  [/^(?:border|b)()(?:-(.+))?$/, handlerBorder, suggestBorder],
+  [/^(?:border|b)-([xy])(?:-(.+))?$/, handlerBorder, suggestBorder],
+  [/^(?:border|b)-([rltbse])(?:-(.+))?$/, handlerBorder, suggestBorder],
+  [/^(?:border|b)-(block|inline)(?:-(.+))?$/, handlerBorder, suggestBorder],
+  [/^(?:border|b)-([bi][se])(?:-(.+))?$/, handlerBorder, suggestBorder],
 
   // size
-  [/^(?:border|b)-()(?:width|size)-(.+)$/, handlerBorderSize],
-  [/^(?:border|b)-([xy])-(?:width|size)-(.+)$/, handlerBorderSize],
-  [/^(?:border|b)-([rltbse])-(?:width|size)-(.+)$/, handlerBorderSize],
-  [/^(?:border|b)-(block|inline)-(?:width|size)-(.+)$/, handlerBorderSize],
-  [/^(?:border|b)-([bi][se])-(?:width|size)-(.+)$/, handlerBorderSize],
+  [/^(?:border|b)-()(?:width|size)-(.+)$/, handlerBorderSize, suggestBorder],
+  [/^(?:border|b)-([xy])-(?:width|size)-(.+)$/, handlerBorderSize, suggestBorder],
+  [/^(?:border|b)-([rltbse])-(?:width|size)-(.+)$/, handlerBorderSize, suggestBorder],
+  [/^(?:border|b)-(block|inline)-(?:width|size)-(.+)$/, handlerBorderSize, suggestBorder],
+  [/^(?:border|b)-([bi][se])-(?:width|size)-(.+)$/, handlerBorderSize, suggestBorder],
 
   // colors
-  [/^(?:border|b)-()(?:color-)?(.+)$/, handlerBorderColor],
-  [/^(?:border|b)-([xy])-(?:color-)?(.+)$/, handlerBorderColor],
-  [/^(?:border|b)-([rltbse])-(?:color-)?(.+)$/, handlerBorderColor],
-  [/^(?:border|b)-(block|inline)-(?:color-)?(.+)$/, handlerBorderColor],
-  [/^(?:border|b)-([bi][se])-(?:color-)?(.+)$/, handlerBorderColor],
+  [/^(?:border|b)-()(?:color-)?(.+)$/, handlerBorderColor, suggestBorder],
+  [/^(?:border|b)-([xy])-(?:color-)?(.+)$/, handlerBorderColor, suggestBorder],
+  [/^(?:border|b)-([rltbse])-(?:color-)?(.+)$/, handlerBorderColor, suggestBorder],
+  [/^(?:border|b)-(block|inline)-(?:color-)?(.+)$/, handlerBorderColor, suggestBorder],
+  [/^(?:border|b)-([bi][se])-(?:color-)?(.+)$/, handlerBorderColor, suggestBorder],
 
   // opacity
-  [/^(?:border|b)-()op(?:acity)?-?(.+)$/, handlerBorderOpacity],
-  [/^(?:border|b)-([xy])-op(?:acity)?-?(.+)$/, handlerBorderOpacity],
-  [/^(?:border|b)-([rltbse])-op(?:acity)?-?(.+)$/, handlerBorderOpacity],
-  [/^(?:border|b)-(block|inline)-op(?:acity)?-?(.+)$/, handlerBorderOpacity],
-  [/^(?:border|b)-([bi][se])-op(?:acity)?-?(.+)$/, handlerBorderOpacity],
+  [/^(?:border|b)-()op(?:acity)?-?(.+)$/, handlerBorderOpacity, suggestBorder],
+  [/^(?:border|b)-([xy])-op(?:acity)?-?(.+)$/, handlerBorderOpacity, suggestBorder],
+  [/^(?:border|b)-([rltbse])-op(?:acity)?-?(.+)$/, handlerBorderOpacity, suggestBorder],
+  [/^(?:border|b)-(block|inline)-op(?:acity)?-?(.+)$/, handlerBorderOpacity, suggestBorder],
+  [/^(?:border|b)-([bi][se])-op(?:acity)?-?(.+)$/, handlerBorderOpacity, suggestBorder],
 
   // radius
-  [/^(?:border-)?(?:rounded|rd)()(?:-(.+))?$/, handlerRounded],
-  [/^(?:border-)?(?:rounded|rd)-([rltb])(?:-(.+))?$/, handlerRounded],
-  [/^(?:border-)?(?:rounded|rd)-([rltb]{2})(?:-(.+))?$/, handlerRounded],
-  [/^(?:border-)?(?:rounded|rd)-([bi][se])(?:-(.+))?$/, handlerRounded],
-  [/^(?:border-)?(?:rounded|rd)-([bi][se]-[bi][se])(?:-(.+))?$/, handlerRounded],
+  [/^(?:border-)?(?:rounded|rd)()(?:-(.+))?$/, handlerRounded, suggestBorder],
+  [/^(?:border-)?(?:rounded|rd)-([rltb])(?:-(.+))?$/, handlerRounded, suggestBorder],
+  [/^(?:border-)?(?:rounded|rd)-([rltb]{2})(?:-(.+))?$/, handlerRounded, suggestBorder],
+  [/^(?:border-)?(?:rounded|rd)-([bi][se])(?:-(.+))?$/, handlerRounded, suggestBorder],
+  [/^(?:border-)?(?:rounded|rd)-([bi][se]-[bi][se])(?:-(.+))?$/, handlerRounded, suggestBorder],
 
   // style
   ['border-solid', { 'border-style': 'solid' }],
@@ -118,4 +118,26 @@ function handlerRounded([, a = '', s]: string[], { theme }: RuleContext<Theme>):
   const v = theme.borderRadius?.[s || 'DEFAULT'] || h.bracket.cssvar.fraction.rem(s || '1')
   if (a in cornerMap && v != null)
     return cornerMap[a].map(i => [`border${i}-radius`, v])
+}
+
+function suggestBorder(i: string, ctx: SuggestionContext<Theme>): string[] | undefined {
+  return new MiniSuggestionBuilder(i, ctx)
+    .withOptions(['border', 'b'], true)
+    .withEither([
+      b => b
+        .withMaybeOptions(Object.keys(directionMap).filter(Boolean), true)
+        .withEither([
+          b => b.withMaybeOptions([], ['width', 'size'])
+            .withOptions(Array.from(new Set([
+              ...Object.keys(ctx.theme.lineWidth || {}).filter(i => i !== 'DEFAULT'),
+              '0', '2', '4', '8',
+            ]))),
+          b => b.withMaybeOptions([], ['color']).withColor(),
+          b => b.withOptions([], ['op', 'opacity']),
+        ]),
+      b => b.withOptions([], ['rounded', 'rd'])
+        .withMaybeOptions(Object.keys(cornerMap).filter(Boolean), true)
+        .withOptions(Object.keys(ctx.theme.borderRadius || {}).filter(i => i !== 'DEFAULT')),
+    ])
+    .collect()
 }

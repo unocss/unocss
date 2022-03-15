@@ -85,6 +85,17 @@ export interface RuleContext<Theme extends {} = {}> {
   constructCSS: (body: CSSEntries | CSSObject, overrideSelector?: string) => string
 }
 
+export interface SuggestionContext<Theme extends {} = {}> {
+  /**
+   * UnoCSS generator instance
+   */
+  generator: UnoGenerator
+  /**
+   * The theme object
+   */
+  theme: Theme
+}
+
 export interface VariantContext<Theme extends {} = {}> {
   /**
    * Unprocessed selector from user input.
@@ -148,7 +159,12 @@ export interface RuleMeta {
 export type CSSValues = CSSObject | CSSEntries | (CSSObject | CSSEntries)[]
 
 export type DynamicMatcher<Theme extends {} = {}> = ((match: RegExpMatchArray, context: Readonly<RuleContext<Theme>>) => Awaitable<CSSValues | string | undefined>)
-export type DynamicRule<Theme extends {} = {}> = [RegExp, DynamicMatcher<Theme>] | [RegExp, DynamicMatcher<Theme>, RuleMeta]
+export type SuggestionMatcher<Theme extends {} = {}> = ((match: string, context: Readonly<SuggestionContext<Theme>>) => Awaitable<string[] | undefined>)
+export type DynamicRule<Theme extends {} = {}> =
+  | [RegExp, DynamicMatcher<Theme>]
+  | [RegExp, DynamicMatcher<Theme>, SuggestionMatcher<Theme>]
+  | [RegExp, DynamicMatcher<Theme>, RuleMeta]
+  | [RegExp, DynamicMatcher<Theme>, SuggestionMatcher<Theme>, RuleMeta]
 export type StaticRule = [string, CSSObject | CSSEntries] | [string, CSSObject | CSSEntries, RuleMeta]
 export type Rule<Theme extends {} = {}> = DynamicRule<Theme> | StaticRule
 

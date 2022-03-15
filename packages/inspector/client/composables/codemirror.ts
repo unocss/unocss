@@ -7,7 +7,9 @@ import 'codemirror/mode/xml/xml'
 import 'codemirror/mode/htmlmixed/htmlmixed'
 import 'codemirror/mode/jsx/jsx'
 import 'codemirror/addon/display/placeholder'
+import 'codemirror/addon/hint/show-hint'
 import 'codemirror/lib/codemirror.css'
+import 'codemirror/addon/hint/show-hint.css'
 import 'codemirror-theme-vars/base.css'
 
 export function useCodeMirror(

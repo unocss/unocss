@@ -1,6 +1,9 @@
+/// <reference types="codemirror/addon/hint/show-hint" />
+import type { HintFunction } from 'codemirror'
 import type { GenerateResult, UserConfig } from 'unocss'
 import { createGenerator } from 'unocss'
 import * as __unocss from 'unocss'
+import CodeMirror from 'codemirror'
 import { customConfigRaw, inputHTML } from './url'
 import { defaultConfig } from './config'
 
@@ -68,4 +71,23 @@ watch(defaultConfig, () => {
 export async function generate() {
   output.value = await uno.generate(inputHTML.value)
   init.value = true
+}
+
+export const getHint: HintFunction = async(cm) => {
+  const cursor = cm.getCursor()
+  const line = cm.getLine(cursor.line)
+  let start = cursor.ch
+  let end = cursor.ch
+  while (start && /[^\s"']/.test(line.charAt(start - 1))) --start
+  while (end < line.length && /[^\s"']/.test(line.charAt(end))) ++end
+  const util = line.slice(start, end)
+
+  const suggestions = await uno.suggest(util)
+
+  if (!suggestions?.length) return
+  return {
+    list: suggestions,
+    from: CodeMirror.Pos(cursor.line, start),
+    to: CodeMirror.Pos(cursor.line, end),
+  }
 }
