@@ -1,3 +1,4 @@
 *.global.js
 README.md
 docs/config/index.md
+build

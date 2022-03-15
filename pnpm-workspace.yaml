@@ -3,5 +3,4 @@ packages:
   - 'packages/*'
   - bench
   - docs
-  - '!packages/vscode'
   - '!**/test/**'

@@ -128,7 +128,7 @@ importers:
       tsup: 5.12.0_typescript@4.6.2
       typescript: 4.6.2
       unbuild: 0.7.0
-      unocss: link:packages/unocss
+      unocss: link:packages/vscode
       unplugin-auto-import: 0.6.1_9fa4833935cded96b2239f10b50e50e1
       unplugin-vue-components: 0.17.21_b92d6fb20f37814195eca07baa4c1fc8
       vite: 2.8.6
@@ -160,7 +160,7 @@ importers:
       local-pkg: 0.4.1
       postcss: 8.4.8
       tailwindcss: 3.0.23_autoprefixer@10.4.2
-      unocss: link:../packages/unocss
+      unocss: link:../packages/vscode
       vite: 2.8.6
       vite-plugin-windicss: 1.8.3_vite@2.8.6
       vue: 3.2.31
@@ -171,7 +171,7 @@ importers:
       unocss: workspace:*
       vitepress: ^0.22.3
     devDependencies:
-      unocss: link:../packages/unocss
+      unocss: link:../packages/vscode
       vitepress: 0.22.3
 
   packages/cli:
@@ -245,7 +245,7 @@ importers:
       '@unocss/webpack': workspace:*
       unocss: workspace:*
     dependencies:
-      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27449808.ac40c97_rollup@2.70.0+vite@2.8.6
+      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27455730.3e0a3ed_rollup@2.70.0+vite@2.8.6
       '@unocss/core': link:../core
       '@unocss/preset-attributify': link:../preset-attributify
       '@unocss/preset-icons': link:../preset-icons
@@ -255,9 +255,9 @@ importers:
       '@unocss/reset': link:../reset
       '@unocss/vite': link:../vite
       '@unocss/webpack': link:../webpack
-      unocss: link:../unocss
+      unocss: link:../vscode
     devDependencies:
-      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27449808.ac40c97_rollup@2.70.0+vite@2.8.6
+      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27455730.3e0a3ed_rollup@2.70.0+vite@2.8.6
 
   packages/plugins-common:
     specifiers:
@@ -415,6 +415,20 @@ importers:
       magic-string: 0.26.1
     devDependencies:
       vite: 2.8.6
+
+  packages/vscode:
+    specifiers:
+      '@types/vscode': ^1.62.0
+      jiti: ^1.13.0
+      prettier: ^2.5.1
+      tsup: ^5.12.0
+      unconfig: ^0.3.1
+    devDependencies:
+      '@types/vscode': 1.65.0
+      jiti: 1.13.0
+      prettier: 2.5.1
+      tsup: 5.12.0_typescript@4.6.2
+      unconfig: 0.3.1_@vitest+ui@0.6.0
 
   packages/webpack:
     specifiers:
@@ -875,11 +889,11 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
 
-  /@nuxt/kit-edge/3.0.0-27449808.ac40c97_rollup@2.70.0+vite@2.8.6:
-    resolution: {integrity: sha512-5Na5VeAWR3eJgPW8s9YHp4a98wN9o2Lty2FPCM2UV33QYFg9AiSYUVC7HB5mg4jpACuhN2XRAX7ijcO932UbCw==}
+  /@nuxt/kit-edge/3.0.0-27455730.3e0a3ed_rollup@2.70.0+vite@2.8.6:
+    resolution: {integrity: sha512-0MLHDPllJrcK/GwRa91J9K/ONxIwLJDKfZlJQBtHYovIV996Hals8iiWquKTIsB0XUDGs0j1mRFGDIf530mRXQ==}
     engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0}
     dependencies:
-      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27449808.ac40c97_rollup@2.70.0+vite@2.8.6
+      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27455730.3e0a3ed_rollup@2.70.0+vite@2.8.6
       c12: 0.1.4
       consola: 2.15.3
       defu: 5.0.1
@@ -895,7 +909,7 @@ packages:
       scule: 0.2.1
       semver: 7.3.5
       unctx: 1.0.2
-      unimport: 0.0.8_rollup@2.70.0+vite@2.8.6
+      unimport: 0.1.0_rollup@2.70.0+vite@2.8.6
       untyped: 0.4.2
     transitivePeerDependencies:
       - esbuild
@@ -904,8 +918,8 @@ packages:
       - webpack
     dev: false
 
-  /@nuxt/schema-edge/3.0.0-27449808.ac40c97_rollup@2.70.0+vite@2.8.6:
-    resolution: {integrity: sha512-bnaU+hsUav5cJkraUb9o8cyqe3xPOYExx21d/6RTedh1Ny9U/V9zRrQ4JoDkad0bG1OJBgkBXWNYzCQinD+dOw==}
+  /@nuxt/schema-edge/3.0.0-27455730.3e0a3ed_rollup@2.70.0+vite@2.8.6:
+    resolution: {integrity: sha512-x1cCJtYoir03/dcHHOyQOVJv871gSF3CtJguEB0+OyQQ8cbyakjHgM40yN4h9Sl6g0th96CDlz2UBYe8K+trDg==}
     engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0}
     dependencies:
       c12: 0.1.4
@@ -917,7 +931,7 @@ packages:
       scule: 0.2.1
       std-env: 3.0.1
       ufo: 0.7.11
-      unimport: 0.0.5_rollup@2.70.0+vite@2.8.6
+      unimport: 0.1.0_rollup@2.70.0+vite@2.8.6
     transitivePeerDependencies:
       - esbuild
       - rollup
@@ -1127,6 +1141,10 @@ packages:
 
   /@types/unist/2.0.6:
     resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
+    dev: true
+
+  /@types/vscode/1.65.0:
+    resolution: {integrity: sha512-wQhExnh2nEzpjDMSKhUvnNmz3ucpd3E+R7wJkOhBNK3No6fG3VUdmVmMOKD0A8NDZDDDiQcLNxe3oGmX5SjJ5w==}
     dev: true
 
   /@types/webpack-sources/3.2.0:
@@ -3520,7 +3538,6 @@ packages:
       ignore: 5.2.0
       merge2: 1.4.1
       slash: 4.0.0
-    dev: false
 
   /graceful-fs/4.2.9:
     resolution: {integrity: sha512-NtNxqUcXgpW2iMrfqSfR73Glt39K+BLwWsPs94yR63v45T0Wbej7eRmL5cWfwEgqXnmjQp3zaJTshdRW/qC2ZQ==}
@@ -5035,7 +5052,6 @@ packages:
   /slash/4.0.0:
     resolution: {integrity: sha512-3dOsAHXXUkQTpOYcoAxLIorMTp4gIQr5IW3iVb7A7lFIp0VHhnynm9izx6TssdrIcVIESAlVjtnO2K8bg+Coew==}
     engines: {node: '>=12'}
-    dev: false
 
   /source-map-js/1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
@@ -5496,36 +5512,23 @@ packages:
     resolution: {integrity: sha512-qxRfnQZWJqkg180JeOCJEvtjj5/7wnWVqkNHln8muY5/z8kMWBFqikFBPwIPCQrZJ+jtaSWkVHJkuHUAXls6zw==}
     dev: false
 
-  /unimport/0.0.5_rollup@2.70.0+vite@2.8.6:
-    resolution: {integrity: sha512-SkRhNpvXU5FiNvRQzpEm7GtF7dXD8000VkakMOOCWvWSShIXg6jC+EY1DWb3lC/qtFQTz6hiHrNWnz3k6IJlYw==}
+  /unimport/0.1.0_rollup@2.70.0+vite@2.8.6:
+    resolution: {integrity: sha512-GqMgP1Mj8YYD+9I3MK/Ca/oeoCS0HdmCc/O1IW0si85RgXgPKYIoK84XbMVwOl9Qv/XGfZa/F5JagTWGtMOXCw==}
     dependencies:
       '@rollup/pluginutils': 4.2.0
       escape-string-regexp: 5.0.0
+      globby: 13.1.1
       local-pkg: 0.4.1
       magic-string: 0.26.1
       mlly: 0.4.3
+      pathe: 0.2.0
+      scule: 0.2.1
       unplugin: 0.3.3_rollup@2.70.0+vite@2.8.6
     transitivePeerDependencies:
       - esbuild
       - rollup
       - vite
       - webpack
-
-  /unimport/0.0.8_rollup@2.70.0+vite@2.8.6:
-    resolution: {integrity: sha512-WrDlMDCq1s5Nh7wBE5C/WRtnPeFwv0A0iiSjljlsoYwXLMkWDIveRWUhXWE/JYMYwy2KCHbahkGKDYBhFrM8fg==}
-    dependencies:
-      '@rollup/pluginutils': 4.2.0
-      escape-string-regexp: 5.0.0
-      local-pkg: 0.4.1
-      magic-string: 0.26.1
-      mlly: 0.4.3
-      unplugin: 0.3.3_rollup@2.70.0+vite@2.8.6
-    transitivePeerDependencies:
-      - esbuild
-      - rollup
-      - vite
-      - webpack
-    dev: false
 
   /unist-util-stringify-position/2.0.3:
     resolution: {integrity: sha512-3faScn5I+hy9VleOq/qNbAd6pAx7iH5jYBMS9I1HgQVijz/4mv5Bvw5iw1sC/90CODiKo81G/ps8AJrISn687g==}

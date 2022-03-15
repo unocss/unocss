@@ -44,13 +44,13 @@ jobs:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
       - name: Publish to VSCE
-        run: vsce publish -p ${{secrets.VSCE_TOKEN}}
+        run: vsce publish --no-dependencies -p ${{secrets.VSCE_TOKEN}}
         working-directory: ./packages/vscode
         env:
           VSCE_TOKEN: ${{secrets.VSCE_TOKEN}}
 
       # - name: Publish to OVSX
-      #   run: ovsx publish -p ${{secrets.OVSX_TOKEN}}
+      #   run: ovsx publish --no-dependencies -p ${{secrets.OVSX_TOKEN}}
       #   working-directory: ./packages/vscode
       #   env:
       #     OVSX_TOKEN: ${{secrets.OVSX_TOKEN}}
