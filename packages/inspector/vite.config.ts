@@ -3,8 +3,8 @@ import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
-import Unocss from 'unocss/vite'
 import Pages from 'vite-plugin-pages'
+import Unocss from '../unocss/src/vite'
 
 export default defineConfig(({ command }) => ({
   resolve: {
