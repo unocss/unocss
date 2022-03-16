@@ -4,22 +4,47 @@ const shorthands = {
   '#num': `(${[0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 24, 36].join('|')})`,
 }
 
-export function parseAutocomplete(template: string): ParsedAutocompleteTemplate {
+export function parseAutocomplete(template: string, theme: any = {}): ParsedAutocompleteTemplate {
   const parts: AutocompleteTemplatePart[] = []
 
   template = Object.entries(shorthands)
     .reduce((a, b) => template.replace(b[0], b[1]), template)
 
+  function handleNonGroup(str: string) {
+    let lastIndex = 0
+    Array.from(str.matchAll(/\$(\w+)/g))
+      .forEach((m) => {
+        const key = m[1]
+        const index = m.index!
+        if (lastIndex !== index) {
+          parts.push({
+            type: 'static',
+            value: template.slice(lastIndex, index),
+          })
+        }
+        if (key in theme) {
+          parts.push({
+            type: 'group',
+            values: Object.keys(theme[key]),
+          })
+        }
+        lastIndex = index + m[0].length
+      })
+
+    if (lastIndex !== template.length) {
+      parts.push({
+        type: 'static',
+        value: template.slice(lastIndex),
+      })
+    }
+  }
+
   let lastIndex = 0
   Array.from(template.matchAll(/\((.*?)\)/g))
     .forEach((m) => {
       const index = m.index!
-      if (lastIndex !== index) {
-        parts.push({
-          type: 'static',
-          value: template.slice(lastIndex, index),
-        })
-      }
+      if (lastIndex !== index)
+        handleNonGroup(template.slice(lastIndex, index))
       parts.push({
         type: 'group',
         values: m[1].split('|').sort((a, b) => b.length - a.length),
@@ -27,12 +52,8 @@ export function parseAutocomplete(template: string): ParsedAutocompleteTemplate 
       lastIndex = index + m[0].length
     })
 
-  if (lastIndex !== template.length) {
-    parts.push({
-      type: 'static',
-      value: template.slice(lastIndex),
-    })
-  }
+  if (lastIndex !== template.length)
+    handleNonGroup(template.slice(lastIndex))
 
   function suggest(input: string, listAll = false) {
     let rest = input

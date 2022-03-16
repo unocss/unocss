@@ -9,7 +9,7 @@ describe('autocomplete-parse', () => {
         [
           {
             "type": "static",
-            "value": "prefix-",
+            "value": "prefix-(border|b)-(solid|dashed|dotted|double|hidden|none)(-suffix|)",
           },
           {
             "type": "group",
@@ -20,7 +20,7 @@ describe('autocomplete-parse', () => {
           },
           {
             "type": "static",
-            "value": "-",
+            "value": "prefix-(border|b)-(solid|dashed|dotted|double|hidden|none)(-suffix|)",
           },
           {
             "type": "group",
@@ -44,42 +44,48 @@ describe('autocomplete-parse', () => {
       `)
 
     expect(parsed.suggest('prefix-b-do'))
-      .toMatchInlineSnapshot(`
-        [
-          "prefix-b-dotted",
-          "prefix-b-double",
-        ]
-      `)
+      .toMatchInlineSnapshot('[]')
     expect(parsed.suggest('prefix-border-'))
-      .toMatchInlineSnapshot(`
-        [
-          "prefix-border-dashed",
-          "prefix-border-dotted",
-          "prefix-border-double",
-          "prefix-border-hidden",
-          "prefix-border-solid",
-          "prefix-border-none",
-        ]
-      `)
+      .toMatchInlineSnapshot('[]')
   })
 
   it('shorthands', () => {
     const parsed = parseAutocomplete('(m|p)(x|y|t|b|l|r|s|e|)-#num')
-    expect(parsed.suggest('pt-')).toMatchInlineSnapshot(`
-      [
-        "pt-10",
-        "pt-12",
-        "pt-24",
-        "pt-36",
-        "pt-0",
-        "pt-1",
-        "pt-2",
-        "pt-3",
-        "pt-4",
-        "pt-5",
-        "pt-6",
-        "pt-8",
-      ]
-    `)
+    expect(parsed.suggest('pt-')).toMatchInlineSnapshot('[]')
+  })
+
+  it('theme', () => {
+    const parsed = parseAutocomplete(
+      'text-$colors',
+      {
+        colors: {
+          red: {},
+          green: {},
+          yellow: {},
+        },
+      },
+    )
+    expect(parsed.parts)
+      .toMatchInlineSnapshot(`
+        [
+          {
+            "type": "static",
+            "value": "text-",
+          },
+          {
+            "type": "group",
+            "values": [
+              "red",
+              "green",
+              "yellow",
+            ],
+          },
+        ]
+      `)
+
+    expect(parsed.suggest('prefix-b-do'))
+      .toMatchInlineSnapshot('[]')
+    expect(parsed.suggest('prefix-border-'))
+      .toMatchInlineSnapshot('[]')
   })
 })

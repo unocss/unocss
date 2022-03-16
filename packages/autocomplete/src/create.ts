@@ -9,7 +9,7 @@ export function createAutocomplete(uno: UnoGenerator) {
 
   function getParsed(template: string) {
     if (!templateCache.has(template))
-      templateCache.set(template, parseAutocomplete(template))
+      templateCache.set(template, parseAutocomplete(template, uno.config.theme))
     return templateCache.get(template)!.suggest
   }
 
