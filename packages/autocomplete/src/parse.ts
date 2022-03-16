@@ -12,9 +12,10 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
 
   function handleNonGroup(str: string) {
     let lastIndex = 0
-    Array.from(str.matchAll(/\$(\w+)/g))
+    Array.from(str.matchAll(/\$(\w+)(:[\w:]+)?/g))
       .forEach((m) => {
         const key = m[1]
+        // const attrs = m[2]?.split(':').filter(Boolean) || []
         const index = m.index!
         if (lastIndex !== index) {
           parts.push({
@@ -24,8 +25,8 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
         }
         if (key in theme) {
           parts.push({
-            type: 'group',
-            values: Object.keys(theme[key]),
+            type: 'deepgroup',
+            value: theme[key],
           })
         }
         lastIndex = index + m[0].length
@@ -59,10 +60,10 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
     let rest = input
     let matched = ''
     let combinations: string[] = []
+    const tempParts = [...parts]
 
-    let idx = 0
-    for (idx = 0; idx < parts.length; idx++) {
-      const part = parts[idx]
+    while (tempParts.length) {
+      const part = tempParts.shift()!
       if (part.type === 'static') {
         if (!rest.startsWith(part.value))
           break
@@ -80,6 +81,27 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
           break
         }
       }
+      else if (part.type === 'deepgroup') {
+        const fullMatched = Object.keys(part.value).find(i => i && rest.startsWith(i))
+        if (fullMatched != null) {
+          matched += fullMatched
+          rest = rest.slice(fullMatched.length)
+          const sub = part.value[fullMatched]
+          if (typeof sub === 'object' && sub !== null) {
+            tempParts.unshift({
+              type: 'static',
+              value: '-',
+            }, {
+              type: 'deepgroup',
+              value: sub as Record<string, unknown>,
+            })
+          }
+        }
+        else {
+          combinations = Object.keys(part.value).filter(i => i.startsWith(rest))
+          break
+        }
+      }
     }
 
     if (!matched)
@@ -88,13 +110,29 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
     if (combinations.length === 0)
       combinations.push('')
 
-    if (listAll && idx + 1 < parts.length) {
-      const rest = parts.slice(idx + 1)
-      for (const part of rest) {
-        if (part.type === 'static')
+    if (listAll && tempParts.length) {
+      for (const part of tempParts) {
+        if (part.type === 'static') {
           combinations = combinations.map(i => i + part.value)
-        else if (part.type === 'group')
+        }
+        else if (part.type === 'group') {
           combinations = part.values.flatMap(i => combinations.map(r => r + i))
+        }
+        else if (part.type === 'deepgroup') {
+          const resolve = (sub: Record<string, unknown>): string[] => {
+            const res = []
+            for (const key in sub) {
+              const value = sub[key]
+              if (value === null || value === undefined) continue
+              if (typeof value === 'object')
+                res.push(...resolve(value as Record<string, unknown>).map(r => `${key}-${r}`))
+              else
+                res.push(key)
+            }
+            return res
+          }
+          combinations = combinations.flatMap(i => resolve(part.value).map(r => i + r))
+        }
       }
     }
 
