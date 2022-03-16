@@ -21,7 +21,7 @@ export function createAutocomplete(uno: UnoGenerator) {
     if (input.length < 2)
       return []
     if (cache.has(input))
-      return cache.get(input)
+      return cache.get(input)!
     const result = await Promise.all([
       suggestSelf(input),
       suggestStatic(input),
