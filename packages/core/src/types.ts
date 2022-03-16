@@ -129,15 +129,23 @@ export interface RuleMeta {
    * @default 'default'
    */
   layer?: string
+
   /**
    * Option to not merge this selector even if the body are the same.
    * @default false
    */
   noMerge?: boolean
+
   /**
    * Fine tune sort
    */
   sort?: number
+
+  /**
+   * Templates to provide autocomplete suggestions
+   */
+  autocomplete?: AutoCompleteTemplate | AutoCompleteTemplate[]
+
   /**
    * Internal rules will only be matched for shortcuts but not the user code.
    * @default false

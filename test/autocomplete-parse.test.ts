@@ -64,7 +64,7 @@ describe('autocomplete-parse', () => {
   })
 
   it('shorthands', () => {
-    const parsed = parseAutocomplete('(m|p)(x|y|t|b|l|r|s|e|)-#num')
+    const parsed = parseAutocomplete('(m|p)<directions>-<num>')
     expect(parsed.suggest('pt-')).toMatchInlineSnapshot(`
       [
         "pt-10",

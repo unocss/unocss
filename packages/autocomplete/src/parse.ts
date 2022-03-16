@@ -1,7 +1,9 @@
 import type { AutocompleteTemplatePart, ParsedAutocompleteTemplate } from './types'
 
-const shorthands = {
-  '#num': `(${[0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 24, 36].join('|')})`,
+const shorthands: Record<string, string> = {
+  num: `(${[0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 24, 36].join('|')})`,
+  precent: `(${[0, 25, 50, 45, 100].join('|')})`,
+  directions: '(x|y|t|b|l|r|s|e)',
 }
 
 function handleRegexMatch(
@@ -27,8 +29,18 @@ function handleRegexMatch(
 export function parseAutocomplete(template: string, theme: any = {}): ParsedAutocompleteTemplate {
   const parts: AutocompleteTemplatePart[] = []
 
-  template = Object.entries(shorthands)
-    .reduce((a, b) => template.replace(b[0], b[1]), template)
+  template = template.replace(/<(\w+)>/g, (_, key) => {
+    if (!shorthands[key])
+      throw new Error(`Unknown template shorthand: ${key}`)
+    return shorthands[key]
+  })
+
+  handleGroups(template)
+
+  return {
+    parts,
+    suggest,
+  }
 
   function handleNonGroup(input: string) {
     handleRegexMatch(
@@ -69,8 +81,6 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
       },
     )
   }
-
-  handleGroups(template)
 
   function suggest(input: string) {
     let rest = input
@@ -157,10 +167,5 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
 
     return combinations.map(i => matched + i)
       .filter(i => i.length >= input.length)
-  }
-
-  return {
-    parts,
-    suggest,
   }
 }
