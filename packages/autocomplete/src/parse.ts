@@ -33,15 +33,17 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
   function handleNonGroup(input: string) {
     handleRegexMatch(
       input,
-      /\$(\w+)/g,
+      /\$([\w\|]+)/g,
       (m) => {
-        const key = m[1]
-        if (key in theme) {
-          parts.push({
-            type: 'deepgroup',
-            value: theme[key],
-          })
-        }
+        const keys = m[1].split('|')
+        parts.push({
+          type: 'theme',
+          objects: keys.map((i) => {
+            if (!i)
+              throw new Error(`Invalid theme key ${i}`)
+            return theme[i]
+          }),
+        })
       },
       (str) => {
         parts.push({
@@ -70,7 +72,7 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
 
   handleGroups(template)
 
-  function suggest(input: string, listAll = false) {
+  function suggest(input: string) {
     let rest = input
     let matched = ''
     let combinations: string[] = []
@@ -95,24 +97,27 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
           break
         }
       }
-      else if (part.type === 'deepgroup') {
-        const fullMatched = Object.keys(part.value).find(i => i && rest.startsWith(i))
+      else if (part.type === 'theme') {
+        const keys = part.objects.flatMap(i => Object.keys(i))
+        const fullMatched = keys.find(i => i && rest.startsWith(i))
         if (fullMatched != null) {
           matched += fullMatched
           rest = rest.slice(fullMatched.length)
-          const sub = part.value[fullMatched]
-          if (typeof sub === 'object' && sub !== null) {
+          const subObjects = part.objects.map(i => i[fullMatched])
+            .filter((i): i is Record<string, unknown> => !!i && typeof i === 'object')
+
+          if (subObjects.length) {
             tempParts.unshift({
               type: 'static',
               value: '-',
             }, {
-              type: 'deepgroup',
-              value: sub as Record<string, unknown>,
+              type: 'theme',
+              objects: subObjects,
             })
           }
         }
         else {
-          combinations = Object.keys(part.value).filter(i => i.startsWith(rest))
+          combinations = keys.filter(i => i.startsWith(rest))
           break
         }
       }
@@ -124,31 +129,31 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
     if (combinations.length === 0)
       combinations.push('')
 
-    if (listAll && tempParts.length) {
-      for (const part of tempParts) {
-        if (part.type === 'static') {
-          combinations = combinations.map(i => i + part.value)
-        }
-        else if (part.type === 'group') {
-          combinations = part.values.flatMap(i => combinations.map(r => r + i))
-        }
-        else if (part.type === 'deepgroup') {
-          const resolve = (sub: Record<string, unknown>): string[] => {
-            const res = []
-            for (const key in sub) {
-              const value = sub[key]
-              if (value === null || value === undefined) continue
-              if (typeof value === 'object')
-                res.push(...resolve(value as Record<string, unknown>).map(r => `${key}-${r}`))
-              else
-                res.push(key)
-            }
-            return res
-          }
-          combinations = combinations.flatMap(i => resolve(part.value).map(r => i + r))
-        }
-      }
-    }
+    // if (listAll && tempParts.length) {
+    //   for (const part of tempParts) {
+    //     if (part.type === 'static') {
+    //       combinations = combinations.map(i => i + part.value)
+    //     }
+    //     else if (part.type === 'group') {
+    //       combinations = part.values.flatMap(i => combinations.map(r => r + i))
+    //     }
+    //     else if (part.type === 'theme') {
+    //       const resolve = (sub: Record<string, unknown>): string[] => {
+    //         const res = []
+    //         for (const key in sub) {
+    //           const value = sub[key]
+    //           if (value === null || value === undefined) continue
+    //           if (typeof value === 'object')
+    //             res.push(...resolve(value as Record<string, unknown>).map(r => `${key}-${r}`))
+    //           else
+    //             res.push(key)
+    //         }
+    //         return res
+    //       }
+    //       combinations = combinations.flatMap(i => resolve(part.value).map(r => i + r))
+    //     }
+    //   }
+    // }
 
     return combinations.map(i => matched + i)
       .filter(i => i.length >= input.length)

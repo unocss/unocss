@@ -1,4 +1,4 @@
-export type AutocompleteTemplatePart = AutocompleteTemplateStatic | AutocompleteTemplateGroup | AutocompleteTemplateDeepGroup
+export type AutocompleteTemplatePart = AutocompleteTemplateStatic | AutocompleteTemplateGroup | AutocompleteTemplateTheme
 
 export interface AutocompleteTemplateStatic {
   type: 'static'
@@ -10,9 +10,9 @@ export interface AutocompleteTemplateGroup {
   values: string[]
 }
 
-export interface AutocompleteTemplateDeepGroup {
-  type: 'deepgroup'
-  value: Record<string, unknown>
+export interface AutocompleteTemplateTheme {
+  type: 'theme'
+  objects: Record<string, unknown>[]
 }
 
 export interface ParsedAutocompleteTemplate {

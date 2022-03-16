@@ -120,5 +120,8 @@ describe('autocomplete', () => {
           "text-red-DEFAULT",
         ]
       `)
+
+    expect((await ac.suggest('font')))
+      .toMatchInlineSnapshot('[]')
   })
 })
