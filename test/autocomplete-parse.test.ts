@@ -120,7 +120,7 @@ describe('autocomplete-parse', () => {
 
   it('var attr deep', () => {
     const parsed = parseAutocomplete(
-      'text-$colors:deep',
+      'text-$colors',
       {
         colors: {
           red: {
