@@ -102,12 +102,12 @@ describe('autocomplete-parse', () => {
             "value": "text-",
           },
           {
-            "type": "group",
-            "values": [
-              "red",
-              "green",
-              "yellow",
-            ],
+            "type": "deepgroup",
+            "value": {
+              "green": {},
+              "red": {},
+              "yellow": {},
+            },
           },
         ]
       `)
@@ -116,5 +116,41 @@ describe('autocomplete-parse', () => {
       .toMatchInlineSnapshot('[]')
     expect(parsed.suggest('prefix-border-'))
       .toMatchInlineSnapshot('[]')
+  })
+
+  it('var attr deep', () => {
+    const parsed = parseAutocomplete(
+      'text-$colors',
+      {
+        colors: {
+          red: {
+            100: 'red',
+            200: 'darkred',
+          },
+          green: 'green',
+          yellow: 'yellow',
+        },
+      },
+    )
+    expect(parsed.parts)
+      .toMatchInlineSnapshot(`
+        [
+          {
+            "type": "static",
+            "value": "text-",
+          },
+          {
+            "type": "deepgroup",
+            "value": {
+              "green": "green",
+              "red": {
+                "100": "red",
+                "200": "darkred",
+              },
+              "yellow": "yellow",
+            },
+          },
+        ]
+      `)
   })
 })
