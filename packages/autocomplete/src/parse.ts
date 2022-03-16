@@ -89,8 +89,8 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
           const sub = part.value[fullMatched]
           if (typeof sub === 'object' && sub !== null) {
             tempParts.unshift({
-              type: 'group',
-              values: ['-'],
+              type: 'static',
+              value: '-',
             }, {
               type: 'deepgroup',
               value: sub as Record<string, unknown>,
