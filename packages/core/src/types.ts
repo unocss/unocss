@@ -291,7 +291,14 @@ export interface ConfigBase<Theme extends {} = {}> {
    * Custom functions to extend the theme object
    */
   extendTheme?: Arrayable<ThemeExtender<Theme>>
+
+  /**
+   * Custom function for auto complete
+   */
+  autocomplete?: AutoCompleteFunction[]
 }
+
+export type AutoCompleteFunction = (input: string) => Awaitable<string[]>
 
 export interface Preset<Theme extends {} = {}> extends ConfigBase<Theme> {
   name: string
