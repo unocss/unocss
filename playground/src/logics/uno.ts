@@ -1,6 +1,10 @@
+/// <reference types="codemirror/addon/hint/show-hint" />
 import type { GenerateResult, UserConfig } from 'unocss'
 import { createGenerator } from 'unocss'
 import * as __unocss from 'unocss'
+import type { Hints } from 'codemirror'
+import { createAutocomplete } from '@unocss/autocomplete'
+import CodeMirror from 'codemirror'
 import { customConfigRaw, inputHTML } from './url'
 import { defaultConfig } from './config'
 
@@ -60,12 +64,37 @@ export async function evaluateConfig() {
   }
 }
 
+let autocomplete = createAutocomplete(uno)
+
 watch(defaultConfig, () => {
   uno.setConfig(customConfig, defaultConfig.value)
   generate()
+  autocomplete = createAutocomplete(uno)
 })
 
 export async function generate() {
   output.value = await uno.generate(inputHTML.value)
   init.value = true
+}
+
+export async function getHint(cm: CodeMirror.Editor): Promise<Hints | undefined> {
+  const cursor = cm.getCursor()
+  const line = cm.getLine(cursor.line)
+  let start = cursor.ch
+  let end = cursor.ch
+  while (start && /[^\s"']/.test(line.charAt(start - 1))) --start
+  while (end < line.length && /[^\s"']/.test(line.charAt(end))) ++end
+
+  const input = line.slice(start, end)
+
+  const suggestions = await autocomplete.suggest(input)
+
+  if (!suggestions?.length)
+    return
+
+  return {
+    list: suggestions,
+    from: CodeMirror.Pos(cursor.line, start),
+    to: CodeMirror.Pos(cursor.line, end),
+  }
 }

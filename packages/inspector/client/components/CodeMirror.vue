@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { AsyncHintFunction, HintFunction, HintFunctionResolver } from 'codemirror'
 import { getMatchedPositions } from '../composables/pos'
 import { useCodeMirror } from '../composables/codemirror'
 
@@ -8,6 +9,7 @@ const props = defineProps<{
   mode?: string
   readOnly?: boolean
   matched?: Set<string> | string[]
+  getHint?: HintFunction | AsyncHintFunction | HintFunctionResolver
 }>()
 
 const modeMap: Record<string, any> = {
@@ -31,6 +33,20 @@ onMounted(async() => {
   const cm = useCodeMirror(el, input, {
     ...props,
     mode: modeMap[props.mode || ''] || props.mode,
+    ...props.getHint
+      ? {
+        extraKeys: {
+          'Ctrl-Space': 'autocomplete',
+          'Ctrl-.': 'autocomplete',
+          'Cmd-Space': 'autocomplete',
+          'Cmd-.': 'autocomplete',
+          'Tab': 'autocomplete',
+        },
+        hintOptions: {
+          hint: props.getHint,
+        },
+      }
+      : {},
   })
   cm.setSize('100%', '100%')
   setTimeout(() => cm.refresh(), 100)

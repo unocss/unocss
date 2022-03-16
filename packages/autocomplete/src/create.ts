@@ -18,7 +18,8 @@ export function createAutocomplete(uno: UnoGenerator) {
       suggestSelf(input),
       suggestStatic(input),
       ...suggestFromPreset(input),
-    ]).then(i => uniq(i.flat()).sort())
+    ])
+      .then(i => uniq(i.flat()).sort().filter(Boolean)) as string[]
   }
 
   async function suggestSelf(input: string) {
