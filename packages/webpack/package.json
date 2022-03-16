@@ -43,7 +43,7 @@
     "@rollup/pluginutils": "^4.2.0",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
-    "unplugin": "^0.4.0",
+    "unplugin": "^0.5.2",
     "webpack-sources": "^3.2.3"
   },
   "devDependencies": {
