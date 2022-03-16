@@ -1,7 +1,14 @@
 import type { AutocompleteTemplatePart, ParsedAutocompleteTemplate } from './types'
 
+const shorthands = {
+  '#num': `(${[0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 24, 36].join('|')})`,
+}
+
 export function parseAutocomplete(template: string): ParsedAutocompleteTemplate {
   const parts: AutocompleteTemplatePart[] = []
+
+  template = Object.entries(shorthands)
+    .reduce((a, b) => template.replace(b[0], b[1]), template)
 
   let lastIndex = 0
   Array.from(template.matchAll(/\((.*?)\)/g))
@@ -27,7 +34,7 @@ export function parseAutocomplete(template: string): ParsedAutocompleteTemplate 
     })
   }
 
-  function suggest(input: string) {
+  function suggest(input: string, listAll = false) {
     let rest = input
     let matched = ''
     let combinations: string[] = []
@@ -42,8 +49,8 @@ export function parseAutocomplete(template: string): ParsedAutocompleteTemplate 
         rest = rest.slice(part.value.length)
       }
       else if (part.type === 'group') {
-        const fullMatched = part.values.find(i => rest.startsWith(i))
-        if (fullMatched) {
+        const fullMatched = part.values.find(i => i && rest.startsWith(i))
+        if (fullMatched != null) {
           matched += fullMatched
           rest = rest.slice(fullMatched.length)
         }
@@ -60,7 +67,7 @@ export function parseAutocomplete(template: string): ParsedAutocompleteTemplate 
     if (combinations.length === 0)
       combinations.push('')
 
-    if (idx + 1 < parts.length) {
+    if (listAll && idx + 1 < parts.length) {
       const rest = parts.slice(idx + 1)
       for (const part of rest) {
         if (part.type === 'static')
@@ -71,6 +78,7 @@ export function parseAutocomplete(template: string): ParsedAutocompleteTemplate 
     }
 
     return combinations.map(i => matched + i)
+      .filter(i => i.length >= input.length)
   }
 
   return {
