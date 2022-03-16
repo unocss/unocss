@@ -174,6 +174,12 @@ importers:
       unocss: link:../packages/unocss
       vitepress: 0.22.3
 
+  packages/autocomplete:
+    specifiers:
+      '@unocss/core': workspace:*
+    devDependencies:
+      '@unocss/core': link:../core
+
   packages/cli:
     specifiers:
       '@unocss/config': workspace:*
@@ -245,7 +251,7 @@ importers:
       '@unocss/webpack': workspace:*
       unocss: workspace:*
     dependencies:
-      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27455730.3e0a3ed_rollup@2.70.1+vite@2.8.6
+      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27457159.ff88d91_rollup@2.70.1+vite@2.8.6
       '@unocss/core': link:../core
       '@unocss/preset-attributify': link:../preset-attributify
       '@unocss/preset-icons': link:../preset-icons
@@ -257,7 +263,7 @@ importers:
       '@unocss/webpack': link:../webpack
       unocss: link:../unocss
     devDependencies:
-      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27455730.3e0a3ed_rollup@2.70.1+vite@2.8.6
+      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27457159.ff88d91_rollup@2.70.1+vite@2.8.6
 
   packages/plugins-common:
     specifiers:
@@ -1039,11 +1045,11 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
 
-  /@nuxt/kit-edge/3.0.0-27455730.3e0a3ed_rollup@2.70.1+vite@2.8.6:
-    resolution: {integrity: sha512-0MLHDPllJrcK/GwRa91J9K/ONxIwLJDKfZlJQBtHYovIV996Hals8iiWquKTIsB0XUDGs0j1mRFGDIf530mRXQ==}
+  /@nuxt/kit-edge/3.0.0-27457159.ff88d91_rollup@2.70.1+vite@2.8.6:
+    resolution: {integrity: sha512-mhaVF9OOg76QXlttWGnSoK5KdvhN3knrBbMdLR239S32z2zs7ia9TSW+8iovvXF55BvLYex+NVi9qhIZT8gh4Q==}
     engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0}
     dependencies:
-      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27455730.3e0a3ed_rollup@2.70.1+vite@2.8.6
+      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27457159.ff88d91_rollup@2.70.1+vite@2.8.6
       c12: 0.1.4
       consola: 2.15.3
       defu: 5.0.1
@@ -1069,8 +1075,8 @@ packages:
       - webpack
     dev: false
 
-  /@nuxt/schema-edge/3.0.0-27455730.3e0a3ed_rollup@2.70.1+vite@2.8.6:
-    resolution: {integrity: sha512-x1cCJtYoir03/dcHHOyQOVJv871gSF3CtJguEB0+OyQQ8cbyakjHgM40yN4h9Sl6g0th96CDlz2UBYe8K+trDg==}
+  /@nuxt/schema-edge/3.0.0-27457159.ff88d91_rollup@2.70.1+vite@2.8.6:
+    resolution: {integrity: sha512-JBSBKG2lJbRly546yWxfREeUwhVfU7seIWLGo29d985nmMdS9PGS048E/boOcXZvd70QgreZoCBiKAmdGKSDYQ==}
     engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0}
     dependencies:
       c12: 0.1.4
@@ -1081,7 +1087,7 @@ packages:
       postcss-import-resolver: 2.0.0
       scule: 0.2.1
       std-env: 3.0.1
-      ufo: 0.7.11
+      ufo: 0.8.1
       unimport: 0.1.0_rollup@2.70.1+vite@2.8.6
     transitivePeerDependencies:
       - esbuild
@@ -5301,6 +5307,10 @@ packages:
 
   /ufo/0.7.11:
     resolution: {integrity: sha512-IT3q0lPvtkqQ8toHQN/BkOi4VIqoqheqM1FnkNWT9y0G8B3xJhwnoKBu5OHx8zHDOvveQzfKuFowJ0VSARiIDg==}
+    dev: true
+
+  /ufo/0.8.1:
+    resolution: {integrity: sha512-1hqVxwcvBvzwwMRjR8pQEJ0CYOCGo49VF11caCe1hxKGiMGpL5ge/JiRX8ttf+YoIMomoEAim2SbD4jQ4tKbXw==}
 
   /unbox-primitive/1.0.1:
     resolution: {integrity: sha512-tZU/3NqK3dA5gpE1KtyiJUrEB0lxnGkMFHptJ7q6ewdZ8s12QrODwNbhIJStmJkd1QDXa1NRA8aF2A1zk/Ypyw==}
