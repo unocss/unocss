@@ -31,10 +31,10 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
         lastIndex = index + m[0].length
       })
 
-    if (lastIndex !== template.length) {
+    if (lastIndex !== str.length) {
       parts.push({
         type: 'static',
-        value: template.slice(lastIndex),
+        value: str.slice(lastIndex),
       })
     }
   }

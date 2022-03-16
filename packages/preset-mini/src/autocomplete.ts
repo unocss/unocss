@@ -2,5 +2,9 @@
 import type { AutoCompleteTemplate } from '@unocss/core'
 
 export const autocomplete: AutoCompleteTemplate[] = [
-  '(border|b)-(rounded-|rd-)(1|2|3|4|5)',
+  '(border|b)-(rounded-|rd-)#num',
+  '(border|b)-$colors',
+  '(m|p)(x|y|t|b|l|r|s|e|)-#num',
+  'text-$colors',
+  'text-$fontSize',
 ]

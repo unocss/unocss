@@ -9,7 +9,7 @@ describe('autocomplete-parse', () => {
         [
           {
             "type": "static",
-            "value": "prefix-(border|b)-(solid|dashed|dotted|double|hidden|none)(-suffix|)",
+            "value": "prefix-",
           },
           {
             "type": "group",
@@ -20,7 +20,7 @@ describe('autocomplete-parse', () => {
           },
           {
             "type": "static",
-            "value": "prefix-(border|b)-(solid|dashed|dotted|double|hidden|none)(-suffix|)",
+            "value": "-",
           },
           {
             "type": "group",
@@ -44,14 +44,43 @@ describe('autocomplete-parse', () => {
       `)
 
     expect(parsed.suggest('prefix-b-do'))
-      .toMatchInlineSnapshot('[]')
+      .toMatchInlineSnapshot(`
+        [
+          "prefix-b-dotted",
+          "prefix-b-double",
+        ]
+      `)
     expect(parsed.suggest('prefix-border-'))
-      .toMatchInlineSnapshot('[]')
+      .toMatchInlineSnapshot(`
+        [
+          "prefix-border-dashed",
+          "prefix-border-dotted",
+          "prefix-border-double",
+          "prefix-border-hidden",
+          "prefix-border-solid",
+          "prefix-border-none",
+        ]
+      `)
   })
 
   it('shorthands', () => {
     const parsed = parseAutocomplete('(m|p)(x|y|t|b|l|r|s|e|)-#num')
-    expect(parsed.suggest('pt-')).toMatchInlineSnapshot('[]')
+    expect(parsed.suggest('pt-')).toMatchInlineSnapshot(`
+      [
+        "pt-10",
+        "pt-12",
+        "pt-24",
+        "pt-36",
+        "pt-0",
+        "pt-1",
+        "pt-2",
+        "pt-3",
+        "pt-4",
+        "pt-5",
+        "pt-6",
+        "pt-8",
+      ]
+    `)
   })
 
   it('theme', () => {

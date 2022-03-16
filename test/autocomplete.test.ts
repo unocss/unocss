@@ -50,6 +50,44 @@ describe('autocomplete', () => {
       .toMatchInlineSnapshot(`
         [
           "border-r",
+          "border-rd-",
+          "border-rounded-",
+        ]
+      `)
+
+    expect((await ac.suggest('mx-')))
+      .toMatchInlineSnapshot(`
+        [
+          "mx-0",
+          "mx-1",
+          "mx-10",
+          "mx-12",
+          "mx-2",
+          "mx-24",
+          "mx-3",
+          "mx-36",
+          "mx-4",
+          "mx-5",
+          "mx-6",
+          "mx-8",
+        ]
+      `)
+
+    expect((await ac.suggest('border-r')))
+      .toMatchInlineSnapshot(`
+        [
+          "border-r",
+          "border-rd-",
+          "border-rounded-",
+        ]
+      `)
+
+    expect((await ac.suggest('text-r')))
+      .toMatchInlineSnapshot(`
+        [
+          "text-red",
+          "text-right",
+          "text-rose",
         ]
       `)
   })
