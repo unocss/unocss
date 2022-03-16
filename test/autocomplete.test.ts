@@ -51,6 +51,8 @@ describe('autocomplete', () => {
         [
           "border-r",
           "border-rd-",
+          "border-red",
+          "border-rose",
           "border-rounded-",
         ]
       `)
@@ -78,6 +80,8 @@ describe('autocomplete', () => {
         [
           "border-r",
           "border-rd-",
+          "border-red",
+          "border-rose",
           "border-rounded-",
         ]
       `)
