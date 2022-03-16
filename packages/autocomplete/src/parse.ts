@@ -51,7 +51,7 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
         parts.push({
           type: 'theme',
           objects: keys.map((i) => {
-            if (!i)
+            if (!i || !theme[i])
               throw new Error(`Invalid theme key ${i}`)
             return theme[i]
           }),

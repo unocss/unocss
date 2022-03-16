@@ -1,6 +1,6 @@
 # @unocss/autocomplete
 
-Auto complete utils for UnoCSS.
+Autocomplete utils for UnoCSS.
 
 > WIP
 

@@ -1,7 +1,7 @@
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import { describe, expect, it } from 'vitest'
-import { createAutocomplete } from '@unocss/autocomplete'
+import { createAutocomplete, parseAutocomplete } from '@unocss/autocomplete'
 
 const uno = createGenerator({
   presets: [
@@ -13,7 +13,12 @@ const ac = createAutocomplete(uno)
 
 describe('autocomplete', () => {
   it('should resolve autocomplete config', () => {
-    expect(uno.config.autocomplete?.length).toBeGreaterThan(0)
+    expect(ac.templates.length).toBeGreaterThan(0)
+
+    ac.templates.forEach((i) => {
+      if (typeof i === 'string')
+        parseAutocomplete(i, uno.config.theme)
+    })
   })
 
   it('should work', async() => {
