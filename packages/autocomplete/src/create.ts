@@ -18,6 +18,9 @@ export function createAutocomplete(uno: UnoGenerator) {
   }
 
   async function suggest(input: string) {
+    if (input.length < 2)
+      return []
+
     return await Promise.all([
       suggestSelf(input),
       suggestStatic(input),
@@ -45,5 +48,6 @@ export function createAutocomplete(uno: UnoGenerator) {
 
   return {
     suggest,
+    templates,
   }
 }
