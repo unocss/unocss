@@ -178,8 +178,13 @@ importers:
 
   packages/autocomplete:
     specifiers:
+      '@types/lru-cache': ^7.4.0
       '@unocss/core': workspace:*
+      lru-cache: ^7.5.1
+    dependencies:
+      lru-cache: 7.5.1
     devDependencies:
+      '@types/lru-cache': 7.4.0
       '@unocss/core': link:../core
 
   packages/cli:
@@ -1231,6 +1236,10 @@ packages:
 
   /@types/json5/0.0.29:
     resolution: {integrity: sha1-7ihweulOEdK4J7y+UnC86n8+ce4=}
+    dev: true
+
+  /@types/lru-cache/7.4.0:
+    resolution: {integrity: sha512-jZ/Tb2/3vXw4VYd9AImFC/n6XT3WywZNAxwY8Ox9eM87M9ta9G7KzCx4aKo2Zllvr02k40eY328cjOO3WuK5Kw==}
     dev: true
 
   /@types/lz-string/1.3.34:
@@ -4005,6 +4014,11 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yallist: 4.0.0
+
+  /lru-cache/7.5.1:
+    resolution: {integrity: sha512-q1TS8IqKvcg3aScamKCHpepSrHF537Ww7nHahBOxhDu9D2YoBXAsj/7uFdZFj1xJr9LmyeJ62AdyofCHafUbIA==}
+    engines: {node: '>=12'}
+    dev: false
 
   /lz-string/1.4.4:
     resolution: {integrity: sha1-wNjq82BZ9wV5bh40SBHPTEmNOiY=}
