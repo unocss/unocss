@@ -85,42 +85,7 @@ describe('autocomplete-parse', () => {
 
   it('theme', () => {
     const parsed = parseAutocomplete(
-      'text-$colors',
-      {
-        colors: {
-          red: {},
-          green: {},
-          yellow: {},
-        },
-      },
-    )
-    expect(parsed.parts)
-      .toMatchInlineSnapshot(`
-        [
-          {
-            "type": "static",
-            "value": "text-",
-          },
-          {
-            "type": "deepgroup",
-            "value": {
-              "green": {},
-              "red": {},
-              "yellow": {},
-            },
-          },
-        ]
-      `)
-
-    expect(parsed.suggest('prefix-b-do'))
-      .toMatchInlineSnapshot('[]')
-    expect(parsed.suggest('prefix-border-'))
-      .toMatchInlineSnapshot('[]')
-  })
-
-  it('var attr deep', () => {
-    const parsed = parseAutocomplete(
-      'text-$colors',
+      'text-$colors|fontSize',
       {
         colors: {
           red: {
@@ -129,6 +94,16 @@ describe('autocomplete-parse', () => {
           },
           green: 'green',
           yellow: 'yellow',
+          magenta: {
+            100: 'magenta',
+            200: 'darkmagenta',
+          },
+        },
+        fontSize: {
+          sm: '0.5em',
+          md: '1em',
+          lg: '1.5em',
+          xl: '2em',
         },
       },
     )
@@ -140,16 +115,36 @@ describe('autocomplete-parse', () => {
             "value": "text-",
           },
           {
-            "type": "deepgroup",
-            "value": {
-              "green": "green",
-              "red": {
-                "100": "red",
-                "200": "darkred",
+            "objects": [
+              {
+                "green": "green",
+                "magenta": {
+                  "100": "magenta",
+                  "200": "darkmagenta",
+                },
+                "red": {
+                  "100": "red",
+                  "200": "darkred",
+                },
+                "yellow": "yellow",
               },
-              "yellow": "yellow",
-            },
+              {
+                "lg": "1.5em",
+                "md": "1em",
+                "sm": "0.5em",
+                "xl": "2em",
+              },
+            ],
+            "type": "theme",
           },
+        ]
+      `)
+
+    expect(parsed.suggest('text-m'))
+      .toMatchInlineSnapshot(`
+        [
+          "text-magenta",
+          "text-md",
         ]
       `)
   })
