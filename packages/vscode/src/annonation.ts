@@ -54,7 +54,7 @@ export async function registerAnnonations(
           getMatchedPositions(code, Array.from(result.matched))
             .map(async(i): Promise<DecorationOptions> => {
               try {
-                const css = (await uno.generate(new Set([i[2]]), { preflights: false })).css
+                const css = (await uno.generate(new Set([i[2]]), { preflights: false, safelist: false })).css
                 return {
                   range: new Range(doc.positionAt(i[0]), doc.positionAt(i[1])),
                   get hoverMessage() {
