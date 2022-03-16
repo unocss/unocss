@@ -21,6 +21,7 @@ importers:
       '@types/node': ^17.0.21
       '@types/prettier': ^2.4.4
       '@types/ws': ^8.5.2
+      '@unocss/autocomplete': workspace:*
       '@unocss/cli': workspace:*
       '@unocss/config': workspace:*
       '@unocss/core': workspace:*
@@ -88,6 +89,7 @@ importers:
       '@types/node': 17.0.21
       '@types/prettier': 2.4.4
       '@types/ws': 8.5.3
+      '@unocss/autocomplete': link:packages/autocomplete
       '@unocss/cli': link:packages/cli
       '@unocss/config': link:packages/config
       '@unocss/core': link:packages/core
@@ -251,7 +253,7 @@ importers:
       '@unocss/webpack': workspace:*
       unocss: workspace:*
     dependencies:
-      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27457159.ff88d91_rollup@2.70.1+vite@2.8.6
+      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27457442.1230490_rollup@2.70.1+vite@2.8.6
       '@unocss/core': link:../core
       '@unocss/preset-attributify': link:../preset-attributify
       '@unocss/preset-icons': link:../preset-icons
@@ -263,7 +265,7 @@ importers:
       '@unocss/webpack': link:../webpack
       unocss: link:../unocss
     devDependencies:
-      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27457159.ff88d91_rollup@2.70.1+vite@2.8.6
+      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27457442.1230490_rollup@2.70.1+vite@2.8.6
 
   packages/plugins-common:
     specifiers:
@@ -1045,11 +1047,11 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
 
-  /@nuxt/kit-edge/3.0.0-27457159.ff88d91_rollup@2.70.1+vite@2.8.6:
-    resolution: {integrity: sha512-mhaVF9OOg76QXlttWGnSoK5KdvhN3knrBbMdLR239S32z2zs7ia9TSW+8iovvXF55BvLYex+NVi9qhIZT8gh4Q==}
+  /@nuxt/kit-edge/3.0.0-27457442.1230490_rollup@2.70.1+vite@2.8.6:
+    resolution: {integrity: sha512-+tApYpyZMP1H4xKP/Q/GkT2GddoUUzmZgiq0kPORPxecL5b5SRwRO6edSJ4E0zt6IEnnZjcMH9ag3AXgPgbsqA==}
     engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0}
     dependencies:
-      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27457159.ff88d91_rollup@2.70.1+vite@2.8.6
+      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27457442.1230490_rollup@2.70.1+vite@2.8.6
       c12: 0.1.4
       consola: 2.15.3
       defu: 5.0.1
@@ -1075,8 +1077,8 @@ packages:
       - webpack
     dev: false
 
-  /@nuxt/schema-edge/3.0.0-27457159.ff88d91_rollup@2.70.1+vite@2.8.6:
-    resolution: {integrity: sha512-JBSBKG2lJbRly546yWxfREeUwhVfU7seIWLGo29d985nmMdS9PGS048E/boOcXZvd70QgreZoCBiKAmdGKSDYQ==}
+  /@nuxt/schema-edge/3.0.0-27457442.1230490_rollup@2.70.1+vite@2.8.6:
+    resolution: {integrity: sha512-PaSagpC35ZStc786/rKAH6wud0bsQvJf0jJMvAvwqHQdWqQiBu91t1DZK3avzkBXjrYRBtHs9SOCsNsmZc9RYQ==}
     engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0}
     dependencies:
       c12: 0.1.4

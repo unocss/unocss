@@ -41,6 +41,7 @@
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/extractor-pug": "workspace:*",
+    "@unocss/autocomplete": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
     "@unocss/preset-icons": "workspace:*",
     "@unocss/preset-mini": "workspace:*",

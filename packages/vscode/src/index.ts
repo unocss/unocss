@@ -1,11 +1,13 @@
 import { relative } from 'path'
+import type { ExtensionContext } from 'vscode'
 import { StatusBarAlignment, window, workspace } from 'vscode'
 import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
 import { createContext } from '../../plugins-common/context'
 import { log } from './log'
 import { registerAnnonations } from './annonation'
+import { registerAutoComplete } from './autocomplete'
 
-export async function activate() {
+export async function activate(ext: ExtensionContext) {
   const cwd = workspace.workspaceFolders?.[0].uri.fsPath
   if (!cwd)
     return
@@ -37,6 +39,7 @@ export async function activate() {
   const status = window.createStatusBarItem(StatusBarAlignment.Right, 200)
   status.text = 'UnoCSS'
 
+  registerAutoComplete(context, ext)
   registerAnnonations(cwd, context, status)
 }
 
