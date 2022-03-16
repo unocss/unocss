@@ -1,0 +1,41 @@
+{
+  "name": "@unocss/autocomplete",
+  "version": "0.28.2",
+  "description": "Auto complete utils for UnoCSS",
+  "keywords": [
+    "unocss",
+    "autocomplete"
+  ],
+  "homepage": "https://github.com/unocss/unocss/tree/main/packages/autocomplete#readme",
+  "bugs": {
+    "url": "https://github.com/unocss/unocss/issues"
+  },
+  "license": "MIT",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unocss/unocss.git",
+    "directory": "packages/autocomplete"
+  },
+  "funding": "https://github.com/sponsors/antfu",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub"
+  },
+  "devDependencies": {
+    "@unocss/core": "workspace:*"
+  }
+}
