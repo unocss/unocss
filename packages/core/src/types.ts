@@ -295,9 +295,10 @@ export interface ConfigBase<Theme extends {} = {}> {
   /**
    * Custom function for auto complete
    */
-  autocomplete?: AutoCompleteFunction[]
+  autocomplete?: (AutoCompleteFunction | AutoCompleteTemplate)[]
 }
 
+export type AutoCompleteTemplate = string
 export type AutoCompleteFunction = (input: string) => Awaitable<string[]>
 
 export interface Preset<Theme extends {} = {}> extends ConfigBase<Theme> {

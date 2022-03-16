@@ -29,36 +29,37 @@ describe('autocomplete', () => {
       .toMatchInlineSnapshot(`
         [
           "flex",
-          "flex-inline",
           "flex-1",
           "flex-auto",
-          "flex-initial",
-          "flex-none",
-          "flex-row",
-          "flex-row-reverse",
           "flex-col",
           "flex-col-reverse",
+          "flex-initial",
+          "flex-inline",
+          "flex-none",
+          "flex-nowrap",
+          "flex-row",
+          "flex-row-reverse",
           "flex-wrap",
           "flex-wrap-reverse",
-          "flex-nowrap",
-          "inject-fle",
         ]
       `)
   })
 
   it('should provide dynamic autocomplete', async() => {
-    expect((await ac.suggest('border-')))
+    expect((await ac.suggest('border-r')))
       .toMatchInlineSnapshot(`
         [
-          "border-collapse",
-          "border-separate",
-          "border-solid",
-          "border-dashed",
-          "border-dotted",
-          "border-double",
-          "border-hidden",
-          "border-none",
-          "inject-border-",
+          "border-r",
+          "border-rd-1",
+          "border-rd-2",
+          "border-rd-3",
+          "border-rd-4",
+          "border-rd-5",
+          "border-rounded-1",
+          "border-rounded-2",
+          "border-rounded-3",
+          "border-rounded-4",
+          "border-rounded-5",
         ]
       `)
   })
