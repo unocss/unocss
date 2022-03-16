@@ -50,8 +50,6 @@ describe('autocomplete', () => {
       .toMatchInlineSnapshot(`
         [
           "border-r",
-          "border-rd-",
-          "border-rounded-",
         ]
       `)
   })
