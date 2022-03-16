@@ -12,12 +12,16 @@ const uno = createGenerator({
 const ac = createAutocomplete(uno)
 
 describe('autocomplete', () => {
+  it('should resolve autocomplete config', () => {
+    expect(uno.config.autocomplete?.length).toBeGreaterThan(0)
+  })
+
   it('should work', async() => {
     expect((await ac.suggest('m-1'))[0])
       .toMatchInlineSnapshot('"m-1"')
 
     expect((await ac.suggest('invalid'))[0])
-      .toBeUndefined()
+      .not.toBe('invalid')
   })
 
   it('should provide static autocomplete', async() => {
@@ -37,6 +41,7 @@ describe('autocomplete', () => {
           "flex-wrap",
           "flex-wrap-reverse",
           "flex-nowrap",
+          "inject-fle",
         ]
       `)
   })
@@ -53,6 +58,7 @@ describe('autocomplete', () => {
           "border-double",
           "border-hidden",
           "border-none",
+          "inject-border-",
         ]
       `)
   })

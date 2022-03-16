@@ -8,6 +8,7 @@ export function createAutocomplete(uno: UnoGenerator) {
       suggestSelf(input),
       suggestStatic(input),
       suggestDynamic(input),
+      ...uno.config.autocomplete?.map(fn => fn(input)) || [],
     ]).then(i => i.flat())
   }
 

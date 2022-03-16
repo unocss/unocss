@@ -3,9 +3,11 @@ import { rules } from './rules'
 import type { Theme, ThemeAnimation } from './theme'
 import { theme } from './theme'
 import { variants } from './variants'
+import { autocomplete } from './autocomplete'
 
 export { theme, colors } from './theme'
 export { parseColor } from './utils'
+export { autocomplete } from './autocomplete'
 
 export type { ThemeAnimation, Theme }
 
@@ -34,6 +36,7 @@ export const presetMini = (options: PresetMiniOptions = {}): Preset<Theme> => {
     rules,
     variants: variants(options),
     options,
+    autocomplete,
     postprocess: options.variablePrefix && options.variablePrefix !== 'un-'
       ? VarPrefixPostprocessor(options.variablePrefix)
       : undefined,
