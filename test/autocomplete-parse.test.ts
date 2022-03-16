@@ -102,12 +102,12 @@ describe('autocomplete-parse', () => {
             "value": "text-",
           },
           {
-            "type": "group",
-            "values": [
-              "red",
-              "green",
-              "yellow",
-            ],
+            "type": "deepgroup",
+            "value": {
+              "green": {},
+              "red": {},
+              "yellow": {},
+            },
           },
         ]
       `)
@@ -141,7 +141,7 @@ describe('autocomplete-parse', () => {
           },
           {
             "type": "deepgroup",
-            "values": {
+            "value": {
               "green": "green",
               "red": {
                 "100": "red",
