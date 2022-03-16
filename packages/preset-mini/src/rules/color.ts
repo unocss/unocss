@@ -12,8 +12,8 @@ export const opacity: Rule[] = [
  * @example c-red color-red5 text-red-300
  */
 export const textColors: Rule[] = [
-  [/^(?:text|color|c)-(.+)$/, colorResolver('color', 'text')],
-  [/^(?:text|color|c)-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-opacity': h.bracket.percent(opacity) })],
+  [/^(?:text|color|c)-(.+)$/, colorResolver('color', 'text'), { autocomplete: '(text|color|c)-$color' }],
+  [/^(?:text|color|c)-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-opacity': h.bracket.percent(opacity) }), { autocomplete: '(text|color|c)-(op|opacity)-<precent>' }],
 ]
 
 export const bgColors: Rule[] = [
