@@ -4,57 +4,71 @@ const shorthands = {
   '#num': `(${[0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 24, 36].join('|')})`,
 }
 
+function handleRegexMatch(
+  str: string,
+  regex: RegExp,
+  onMatched: (match: RegExpMatchArray) => void,
+  onNotMatched: (str: string, start: number, end: number) => void,
+) {
+  let lastIndex = 0
+  Array.from(str.matchAll(regex))
+    .forEach((m) => {
+      const index = m.index!
+      if (lastIndex !== index)
+        onNotMatched(str.slice(lastIndex, index), lastIndex, index)
+      onMatched(m)
+      lastIndex = index + m[0].length
+    })
+
+  if (lastIndex !== str.length)
+    onNotMatched(str.slice(lastIndex), lastIndex, str.length)
+}
+
 export function parseAutocomplete(template: string, theme: any = {}): ParsedAutocompleteTemplate {
   const parts: AutocompleteTemplatePart[] = []
 
   template = Object.entries(shorthands)
     .reduce((a, b) => template.replace(b[0], b[1]), template)
 
-  function handleNonGroup(str: string) {
-    let lastIndex = 0
-    Array.from(str.matchAll(/\$(\w+)(:[\w:]+)?/g))
-      .forEach((m) => {
+  function handleNonGroup(input: string) {
+    handleRegexMatch(
+      input,
+      /\$(\w+)/g,
+      (m) => {
         const key = m[1]
-        // const attrs = m[2]?.split(':').filter(Boolean) || []
-        const index = m.index!
-        if (lastIndex !== index) {
-          parts.push({
-            type: 'static',
-            value: template.slice(lastIndex, index),
-          })
-        }
         if (key in theme) {
           parts.push({
             type: 'deepgroup',
             value: theme[key],
           })
         }
-        lastIndex = index + m[0].length
-      })
-
-    if (lastIndex !== str.length) {
-      parts.push({
-        type: 'static',
-        value: str.slice(lastIndex),
-      })
-    }
+      },
+      (str) => {
+        parts.push({
+          type: 'static',
+          value: str,
+        })
+      },
+    )
   }
 
-  let lastIndex = 0
-  Array.from(template.matchAll(/\((.*?)\)/g))
-    .forEach((m) => {
-      const index = m.index!
-      if (lastIndex !== index)
-        handleNonGroup(template.slice(lastIndex, index))
-      parts.push({
-        type: 'group',
-        values: m[1].split('|').sort((a, b) => b.length - a.length),
-      })
-      lastIndex = index + m[0].length
-    })
+  function handleGroups(input: string) {
+    handleRegexMatch(
+      input,
+      /\((.*?)\)/g,
+      (m) => {
+        parts.push({
+          type: 'group',
+          values: m[1].split('|').sort((a, b) => b.length - a.length),
+        })
+      },
+      (str) => {
+        handleNonGroup(str)
+      },
+    )
+  }
 
-  if (lastIndex !== template.length)
-    handleNonGroup(template.slice(lastIndex))
+  handleGroups(template)
 
   function suggest(input: string, listAll = false) {
     let rest = input
