@@ -1,15 +1,15 @@
-import type { UnoGenerator } from '@unocss/core'
+import type { AutoCompleteFunction, AutoCompleteTemplate, UnoGenerator } from '@unocss/core'
 import { toArray, uniq } from '@unocss/core'
+import LRU from 'lru-cache'
 import { parseAutocomplete } from './parse'
 import type { ParsedAutocompleteTemplate } from './types'
 
 export function createAutocomplete(uno: UnoGenerator) {
-  const staticUtils = Object.keys(uno.config.rulesStaticMap)
   const templateCache = new Map<string, ParsedAutocompleteTemplate>()
-  const templates = [
-    ...uno.config.autocomplete || [],
-    ...uno.config.rulesDynamic.flatMap(i => toArray(i?.[2]?.autocomplete || [])),
-  ]
+  const cache = new LRU<string, string[]>({ max: 1000 })
+
+  let staticUtils: string[] = []
+  let templates: (AutoCompleteTemplate | AutoCompleteFunction)[] = []
 
   function getParsed(template: string) {
     if (!templateCache.has(template))
@@ -20,13 +20,16 @@ export function createAutocomplete(uno: UnoGenerator) {
   async function suggest(input: string) {
     if (input.length < 2)
       return []
-
-    return await Promise.all([
+    if (cache.has(input))
+      return cache.get(input)
+    const result = await Promise.all([
       suggestSelf(input),
       suggestStatic(input),
       ...suggestFromPreset(input),
     ])
       .then(i => uniq(i.flat()).sort().filter(Boolean)) as string[]
+    cache.set(input, result)
+    return result
   }
 
   async function suggestSelf(input: string) {
@@ -46,8 +49,22 @@ export function createAutocomplete(uno: UnoGenerator) {
     ) || []
   }
 
+  function reset() {
+    templateCache.clear()
+    cache.clear()
+    staticUtils = Object.keys(uno.config.rulesStaticMap)
+    templates = [
+      ...uno.config.autocomplete || [],
+      ...uno.config.rulesDynamic.flatMap(i => toArray(i?.[2]?.autocomplete || [])),
+    ]
+  }
+
+  reset()
+
   return {
     suggest,
     templates,
+    cache,
+    reset,
   }
 }
