@@ -18,21 +18,29 @@ const weightMap: Record<string, string> = {
 
 export const fonts: Rule<Theme>[] = [
   // family
-  [/^font-(\w+)$/, ([, d], { theme }) => ({ 'font-family': theme.fontFamily?.[d] || h.global(d) })],
+  [
+    /^font-(\w+)$/,
+    ([, d], { theme }) => ({ 'font-family': theme.fontFamily?.[d] || h.global(d) }),
+    { autocomplete: 'font-$fontFamily' },
+  ],
 
   // size
-  [/^text-(.+)$/, ([, s = 'base'], { theme }) => {
-    const themed = toArray(theme.fontSize?.[s])
-    if (themed?.[0]) {
-      const [size, height = '1'] = themed
-      return {
-        'font-size': size,
-        'line-height': height,
+  [
+    /^text-(.+)$/,
+    ([, s = 'base'], { theme }) => {
+      const themed = toArray(theme.fontSize?.[s])
+      if (themed?.[0]) {
+        const [size, height = '1'] = themed
+        return {
+          'font-size': size,
+          'line-height': height,
+        }
       }
-    }
 
-    return { 'font-size': h.bracketOfLength.rem(s) }
-  }],
+      return { 'font-size': h.bracketOfLength.rem(s) }
+    },
+    { autocomplete: 'text-$fontSize' },
+  ],
   [/^text-size-(.+)$/, ([, s], { theme }) => {
     const themed = toArray(theme.fontSize?.[s])
     const size = themed?.[0] ?? h.bracket.cssvar.rem(s)
@@ -41,16 +49,32 @@ export const fonts: Rule<Theme>[] = [
   }],
 
   // weights
-  [/^(?:font|fw)-?([^-]+)$/, ([, s]) => ({ 'font-weight': weightMap[s] || h.global.number(s) })],
+  [
+    /^(?:font|fw)-?([^-]+)$/,
+    ([, s]) => ({ 'font-weight': weightMap[s] || h.global.number(s) }),
+    { autocomplete: 'font-(100|200|300|400|500|600|700)' },
+  ],
 
   // leadings
-  [/^(?:leading|lh)-(.+)$/, ([, s], { theme }) => ({ 'line-height': theme.lineHeight?.[s] || h.bracket.cssvar.global.rem(s) })],
+  [
+    /^(?:leading|lh)-(.+)$/,
+    ([, s], { theme }) => ({ 'line-height': theme.lineHeight?.[s] || h.bracket.cssvar.global.rem(s) }),
+    { autocomplete: '(leading|lh)-$lineHeight' },
+  ],
 
   // tracking
-  [/^tracking-(.+)$/, ([, s], { theme }) => ({ 'letter-spacing': theme.letterSpacing?.[s] || h.bracket.cssvar.global.rem(s) })],
+  [
+    /^tracking-(.+)$/,
+    ([, s], { theme }) => ({ 'letter-spacing': theme.letterSpacing?.[s] || h.bracket.cssvar.global.rem(s) }),
+    { autocomplete: 'tracking-$letterSpacing' },
+  ],
 
   // word-spacing
-  [/^word-spacing-(.+)$/, ([, s], { theme }) => ({ 'word-spacing': theme.wordSpacing?.[s] || h.bracket.cssvar.global.rem(s) })],
+  [
+    /^word-spacing-(.+)$/,
+    ([, s], { theme }) => ({ 'word-spacing': theme.wordSpacing?.[s] || h.bracket.cssvar.global.rem(s) }),
+    { autocomplete: 'word-spacing-$wordSpacing' },
+  ],
 ]
 
 export const tabSizes: Rule<Theme>[] = [
