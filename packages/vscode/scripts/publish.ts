@@ -17,8 +17,8 @@ async function publish() {
   try {
     console.log('\nPublish to VSCE...\n')
     await execa('npx', ['vsce', 'publish', '--no-dependencies', '-p', process.env.VSCE_TOKEN!], { cwd: root, stdio: 'inherit' })
-    console.log('\nPublish to OVSE...\n')
-    await execa('npx', ['ovsx', 'publish', '--no-dependencies', '-p', process.env.OVSX_TOKEN!], { cwd: root, stdio: 'inherit' })
+    // console.log('\nPublish to OVSE...\n')
+    // await execa('npx', ['ovsx', 'publish', '--no-dependencies', '-p', process.env.OVSX_TOKEN!], { cwd: root, stdio: 'inherit' })
   }
   finally {
     await fs.writeFile(pkgPath, rawJSON, 'utf-8')
