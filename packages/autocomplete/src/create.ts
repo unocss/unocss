@@ -1,11 +1,15 @@
 import type { UnoGenerator } from '@unocss/core'
-import { uniq } from '@unocss/core'
+import { toArray, uniq } from '@unocss/core'
 import { parseAutocomplete } from './parse'
 import type { ParsedAutocompleteTemplate } from './types'
 
 export function createAutocomplete(uno: UnoGenerator) {
   const staticUtils = Object.keys(uno.config.rulesStaticMap)
   const templateCache = new Map<string, ParsedAutocompleteTemplate>()
+  const templates = [
+    ...uno.config.autocomplete || [],
+    ...uno.config.rulesDynamic.flatMap(i => toArray(i?.[2]?.autocomplete || [])),
+  ]
 
   function getParsed(template: string) {
     if (!templateCache.has(template))
@@ -32,7 +36,7 @@ export function createAutocomplete(uno: UnoGenerator) {
   }
 
   function suggestFromPreset(input: string) {
-    return uno.config.autocomplete?.map(fn =>
+    return templates.map(fn =>
       typeof fn === 'function'
         ? fn(input)
         : getParsed(fn)(input),

@@ -2,7 +2,7 @@ import type { Rule } from '@unocss/core'
 import { directionSize } from '../utils'
 
 export const paddings: Rule[] = [
-  [/^pa?()-?(-?.+)$/, directionSize('padding')],
+  [/^pa?()-?(-?.+)$/, directionSize('padding'), { autocomplete: '(m|p)<directions>-<num>' }],
   [/^p-?([xy])-?(-?.+)$/, directionSize('padding')],
   [/^p-?([rltbse])-?(-?.+)$/, directionSize('padding')],
   [/^p-(block|inline)-(-?.+)$/, directionSize('padding')],

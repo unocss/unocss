@@ -4,39 +4,39 @@ import { colorToString, cornerMap, directionMap, handler as h, hasParseableColor
 
 export const borders: Rule[] = [
   // compound
-  [/^(?:border|b)()(?:-(.+))?$/, handlerBorder],
+  [/^(?:border|b)()(?:-(.+))?$/, handlerBorder, { autocomplete: '(border|b)-<directions>' }],
   [/^(?:border|b)-([xy])(?:-(.+))?$/, handlerBorder],
   [/^(?:border|b)-([rltbse])(?:-(.+))?$/, handlerBorder],
   [/^(?:border|b)-(block|inline)(?:-(.+))?$/, handlerBorder],
   [/^(?:border|b)-([bi][se])(?:-(.+))?$/, handlerBorder],
 
   // size
-  [/^(?:border|b)-()(?:width|size)-(.+)$/, handlerBorderSize],
+  [/^(?:border|b)-()(?:width|size)-(.+)$/, handlerBorderSize, { autocomplete: '(border|b)-<num>' }],
   [/^(?:border|b)-([xy])-(?:width|size)-(.+)$/, handlerBorderSize],
   [/^(?:border|b)-([rltbse])-(?:width|size)-(.+)$/, handlerBorderSize],
   [/^(?:border|b)-(block|inline)-(?:width|size)-(.+)$/, handlerBorderSize],
   [/^(?:border|b)-([bi][se])-(?:width|size)-(.+)$/, handlerBorderSize],
 
   // colors
-  [/^(?:border|b)-()(?:color-)?(.+)$/, handlerBorderColor],
+  [/^(?:border|b)-()(?:color-)?(.+)$/, handlerBorderColor, { autocomplete: '(border|b)-$colors' }],
   [/^(?:border|b)-([xy])-(?:color-)?(.+)$/, handlerBorderColor],
   [/^(?:border|b)-([rltbse])-(?:color-)?(.+)$/, handlerBorderColor],
   [/^(?:border|b)-(block|inline)-(?:color-)?(.+)$/, handlerBorderColor],
   [/^(?:border|b)-([bi][se])-(?:color-)?(.+)$/, handlerBorderColor],
 
   // opacity
-  [/^(?:border|b)-()op(?:acity)?-?(.+)$/, handlerBorderOpacity],
+  [/^(?:border|b)-()op(?:acity)?-?(.+)$/, handlerBorderOpacity, { autocomplete: '(border|b)-(op|opacity)-<precent>' }],
   [/^(?:border|b)-([xy])-op(?:acity)?-?(.+)$/, handlerBorderOpacity],
   [/^(?:border|b)-([rltbse])-op(?:acity)?-?(.+)$/, handlerBorderOpacity],
   [/^(?:border|b)-(block|inline)-op(?:acity)?-?(.+)$/, handlerBorderOpacity],
   [/^(?:border|b)-([bi][se])-op(?:acity)?-?(.+)$/, handlerBorderOpacity],
 
   // radius
-  [/^(?:border-)?(?:rounded|rd)()(?:-(.+))?$/, handlerRounded],
-  [/^(?:border-)?(?:rounded|rd)-([rltb])(?:-(.+))?$/, handlerRounded],
-  [/^(?:border-)?(?:rounded|rd)-([rltb]{2})(?:-(.+))?$/, handlerRounded],
-  [/^(?:border-)?(?:rounded|rd)-([bi][se])(?:-(.+))?$/, handlerRounded],
-  [/^(?:border-)?(?:rounded|rd)-([bi][se]-[bi][se])(?:-(.+))?$/, handlerRounded],
+  [/^(?:border-|b-)?(?:rounded|rd)()(?:-(.+))?$/, handlerRounded, { autocomplete: ['(border|b)-(rounded-|rd-)<num>', '(rounded-|rd-)<num>'] }],
+  [/^(?:border-|b-)?(?:rounded|rd)-([rltb])(?:-(.+))?$/, handlerRounded],
+  [/^(?:border-|b-)?(?:rounded|rd)-([rltb]{2})(?:-(.+))?$/, handlerRounded],
+  [/^(?:border-|b-)?(?:rounded|rd)-([bi][se])(?:-(.+))?$/, handlerRounded],
+  [/^(?:border-|b-)?(?:rounded|rd)-([bi][se]-[bi][se])(?:-(.+))?$/, handlerRounded],
 
   // style
   ['border-solid', { 'border-style': 'solid' }],
