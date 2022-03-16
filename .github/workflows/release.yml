@@ -31,10 +31,6 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
-      - name: Instal VS Code Extension Dependencies
-        run: yarn install && npm i -g vsce ovsx
-        working-directory: ./packages/vscode
-
       - name: PNPM build
         run: pnpm run build
 
