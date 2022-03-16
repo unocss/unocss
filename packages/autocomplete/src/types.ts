@@ -10,11 +10,9 @@ export interface AutocompleteTemplateGroup {
   values: string[]
 }
 
-export interface ACTDeepGroupMember { [k: string]: ACTDeepGroupMember | string }
-
 export interface AutocompleteTemplateDeepGroup {
   type: 'deepgroup'
-  value: ACTDeepGroupMember
+  value: Record<string, unknown>
 }
 
 export interface ParsedAutocompleteTemplate {

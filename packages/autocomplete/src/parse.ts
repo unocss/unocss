@@ -1,4 +1,4 @@
-import type { ACTDeepGroupMember, AutocompleteTemplatePart, ParsedAutocompleteTemplate } from './types'
+import type { AutocompleteTemplatePart, ParsedAutocompleteTemplate } from './types'
 
 const shorthands = {
   '#num': `(${[0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 24, 36].join('|')})`,
@@ -15,7 +15,7 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
     Array.from(str.matchAll(/\$(\w+)(:[\w:]+)?/g))
       .forEach((m) => {
         const key = m[1]
-        const attrs = m[2]?.split(':').filter(Boolean) || []
+        // const attrs = m[2]?.split(':').filter(Boolean) || []
         const index = m.index!
         if (lastIndex !== index) {
           parts.push({
@@ -24,18 +24,10 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
           })
         }
         if (key in theme) {
-          if (attrs.includes('deep')) {
-            parts.push({
-              type: 'deepgroup',
-              value: theme[key],
-            })
-          }
-          else {
-            parts.push({
-              type: 'group',
-              values: Object.keys(theme[key]),
-            })
-          }
+          parts.push({
+            type: 'deepgroup',
+            value: theme[key],
+          })
         }
         lastIndex = index + m[0].length
       })
@@ -95,13 +87,13 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
           matched += fullMatched
           rest = rest.slice(fullMatched.length)
           const sub = part.value[fullMatched]
-          if (typeof sub === 'object') {
+          if (typeof sub === 'object' && sub !== null) {
             tempParts.unshift({
               type: 'group',
               values: ['-'],
             }, {
               type: 'deepgroup',
-              value: sub,
+              value: sub as Record<string, unknown>,
             })
           }
         }
@@ -127,13 +119,15 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
           combinations = part.values.flatMap(i => combinations.map(r => r + i))
         }
         else if (part.type === 'deepgroup') {
-          const resolve = (sub: ACTDeepGroupMember): string[] => {
+          const resolve = (sub: Record<string, unknown>): string[] => {
             const res = []
             for (const key in sub) {
               const value = sub[key]
-              if (typeof value === 'string')
+              if (value === null || value === undefined) continue
+              if (typeof value === 'object')
+                res.push(...resolve(value as Record<string, unknown>).map(r => `${key}-${r}`))
+              else
                 res.push(key)
-              else res.push(...resolve(value).map(r => `${key}-${r}`))
             }
             return res
           }
