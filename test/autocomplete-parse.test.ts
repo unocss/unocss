@@ -117,4 +117,40 @@ describe('autocomplete-parse', () => {
     expect(parsed.suggest('prefix-border-'))
       .toMatchInlineSnapshot('[]')
   })
+
+  it('var attr deep', () => {
+    const parsed = parseAutocomplete(
+      'text-$colors:deep',
+      {
+        colors: {
+          red: {
+            100: 'red',
+            200: 'darkred',
+          },
+          green: 'green',
+          yellow: 'yellow',
+        },
+      },
+    )
+    expect(parsed.parts)
+      .toMatchInlineSnapshot(`
+        [
+          {
+            "type": "static",
+            "value": "text-",
+          },
+          {
+            "type": "deepgroup",
+            "values": {
+              "green": "green",
+              "red": {
+                "100": "red",
+                "200": "darkred",
+              },
+              "yellow": "yellow",
+            },
+          },
+        ]
+      `)
+  })
 })

@@ -90,5 +90,31 @@ describe('autocomplete', () => {
           "text-rose",
         ]
       `)
+
+    expect((await ac.suggest('text-red-')))
+      .toMatchInlineSnapshot(`
+        [
+          "text-red-1",
+          "text-red-100",
+          "text-red-2",
+          "text-red-200",
+          "text-red-3",
+          "text-red-300",
+          "text-red-4",
+          "text-red-400",
+          "text-red-5",
+          "text-red-50",
+          "text-red-500",
+          "text-red-6",
+          "text-red-600",
+          "text-red-7",
+          "text-red-700",
+          "text-red-8",
+          "text-red-800",
+          "text-red-9",
+          "text-red-900",
+          "text-red-DEFAULT",
+        ]
+      `)
   })
 })

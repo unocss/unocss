@@ -1,4 +1,4 @@
-export type AutocompleteTemplatePart = AutocompleteTemplateStatic | AutocompleteTemplateGroup
+export type AutocompleteTemplatePart = AutocompleteTemplateStatic | AutocompleteTemplateGroup | AutocompleteTemplateDeepGroup
 
 export interface AutocompleteTemplateStatic {
   type: 'static'
@@ -8,6 +8,13 @@ export interface AutocompleteTemplateStatic {
 export interface AutocompleteTemplateGroup {
   type: 'group'
   values: string[]
+}
+
+export interface ACTDeepGroupMember { [k: string]: ACTDeepGroupMember | string }
+
+export interface AutocompleteTemplateDeepGroup {
+  type: 'deepgroup'
+  value: ACTDeepGroupMember
 }
 
 export interface ParsedAutocompleteTemplate {
