@@ -1,5 +1,4 @@
 .github/**
 .vscode/**
 .vscode-test/**
-node_modules
-!node_modules/jiti
+scripts/**

@@ -43,14 +43,9 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
-      - name: Publish to VSCE
-        run: vsce publish --no-dependencies -p ${{secrets.VSCE_TOKEN}}
+      - name: Publish to VSCE & OVSX
+        run: npm run publish
         working-directory: ./packages/vscode
         env:
           VSCE_TOKEN: ${{secrets.VSCE_TOKEN}}
-
-      # - name: Publish to OVSX
-      #   run: ovsx publish --no-dependencies -p ${{secrets.OVSX_TOKEN}}
-      #   working-directory: ./packages/vscode
-      #   env:
-      #     OVSX_TOKEN: ${{secrets.OVSX_TOKEN}}
+          OVSX_TOKEN: ${{secrets.OVSX_TOKEN}}

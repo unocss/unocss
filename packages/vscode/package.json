@@ -1,5 +1,5 @@
 {
-  "name": "unocss",
+  "name": "@unocss/vscode",
   "displayName": "UnoCSS",
   "version": "0.28.1",
   "private": true,
@@ -19,7 +19,7 @@
   "scripts": {
     "build": "tsup",
     "dev": "nr build --watch src",
-    "vscode:prepublish": "npm run build"
+    "publish": "esno ./scripts/publish.ts"
   },
   "contributes": {
     "commands": [],
