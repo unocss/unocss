@@ -286,15 +286,13 @@ export class UnoGenerator {
           continue
         if (typeof handler === 'string')
           handler = { matcher: handler }
-        if (handler) {
-          processed = handler.matcher
-          if (Array.isArray(handler.parent))
-            this.parentOrders.set(handler.parent[0], handler.parent[1])
-          handlers.push(handler)
-          usedVariants.add(v)
-          applied = true
-          break
-        }
+        processed = handler.matcher
+        if (Array.isArray(handler.parent))
+          this.parentOrders.set(handler.parent[0], handler.parent[1])
+        handlers.push(handler)
+        usedVariants.add(v)
+        applied = true
+        break
       }
       if (!applied)
         break
