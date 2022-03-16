@@ -49,6 +49,14 @@ onMounted(async() => {
       : {},
   })
   cm.setSize('100%', '100%')
+
+  if (props.getHint) {
+    cm.on('keyup', (editor, event) => {
+      if (event.key.match(/^[\w:-]$/))
+        editor.execCommand('autocomplete')
+    })
+  }
+
   setTimeout(() => cm.refresh(), 100)
   const decorations: CodeMirror.TextMarker<CodeMirror.MarkerRange>[] = []
 
@@ -98,6 +106,7 @@ onMounted(async() => {
 }
 
 :root {
+  --cm-font-family: 'Fira Code', monospace;
   --cm-foreground: #393a3480;
   --cm-background: #fdfdfd;
   --cm-comment: #a0ada0;
