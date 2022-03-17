@@ -11,7 +11,7 @@ export function createAutocomplete(uno: UnoGenerator) {
   let staticUtils: string[] = []
   let templates: (AutoCompleteTemplate | AutoCompleteFunction)[] = []
 
-  function getParsed(template: string) {
+  function getSuggest(template: string) {
     if (!templateCache.has(template))
       templateCache.set(template, parseAutocomplete(template, uno.config.theme))
     return templateCache.get(template)!.suggest
@@ -45,7 +45,7 @@ export function createAutocomplete(uno: UnoGenerator) {
     return templates.map(fn =>
       typeof fn === 'function'
         ? fn(input)
-        : getParsed(fn)(input),
+        : getSuggest(fn)(input),
     ) || []
   }
 
