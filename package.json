@@ -55,7 +55,7 @@
     "@unocss/vite": "workspace:*",
     "@unocss/webpack": "workspace:*",
     "@vitejs/plugin-vue": "^2.2.4",
-    "@vitest/ui": "^0.6.3",
+    "@vitest/ui": "^0.7.0",
     "@vueuse/core": "^8.1.1",
     "brotli-size": "^4.0.0",
     "bumpp": "^7.1.1",
@@ -84,7 +84,7 @@
     "vite": "^2.8.6",
     "vite-plugin-inspect": "^0.4.3",
     "vite-plugin-pages": "^0.22.0",
-    "vitest": "^0.6.3",
+    "vitest": "^0.7.0",
     "vue": "^3.2.31",
     "vue-router": "^4.0.14"
   }
