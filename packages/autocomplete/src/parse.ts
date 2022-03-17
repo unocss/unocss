@@ -92,8 +92,15 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
     while (tempParts.length) {
       const part = tempParts.shift()!
       if (part.type === 'static') {
-        if (!rest.startsWith(part.value))
+        if (combinations.length)
+          combinations = combinations.map(i => i + part.value)
+        if (part.value.startsWith(rest) && part.value !== rest && !combinations.length) {
+          combinations = [part.value]
           break
+        }
+        else if (!rest.startsWith(part.value)) {
+          break
+        }
         matched += part.value
         rest = rest.slice(part.value.length)
       }
@@ -105,7 +112,8 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
         }
         else {
           combinations = part.values.filter(i => i.startsWith(rest))
-          break
+          if (tempParts[0]?.type !== 'static')
+            break
         }
       }
       else if (part.type === 'theme') {
@@ -130,13 +138,11 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
         }
         else {
           combinations = keys.filter(i => i.startsWith(rest))
-          break
+          if (tempParts[0]?.type !== 'static')
+            break
         }
       }
     }
-
-    if (!matched)
-      return []
 
     if (combinations.length === 0)
       combinations.push('')

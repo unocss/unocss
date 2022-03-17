@@ -1,8 +1,8 @@
-import type { VariantContext, VariantFunction } from '@unocss/core'
+import type { Variant, VariantContext, VariantFunction } from '@unocss/core'
 import type { Theme } from '../theme'
 import { variantParentMatcher } from '../utils'
 
-export const variantPrint: VariantFunction = variantParentMatcher('print', '@media print')
+export const variantPrint: Variant = variantParentMatcher('print', '@media print')
 
 export const variantCustomMedia: VariantFunction = (matcher, { theme }: VariantContext<Theme>) => {
   const match = matcher.match(/^media-([_\d\w]+)[:-]/)
