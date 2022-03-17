@@ -26,7 +26,12 @@
     "configuration": {
       "type": "object",
       "title": "UnoCSS",
-      "properties": {}
+      "properties": {
+        "unocss.root": {
+          "type": "string",
+          "description": "Project root that contains the UnoCSS configuration file"
+        }
+      }
     }
   },
   "activationEvents": [

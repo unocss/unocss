@@ -3,14 +3,18 @@ import type { ExtensionContext } from 'vscode'
 import { StatusBarAlignment, window, workspace } from 'vscode'
 import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
 import { createContext } from '../../plugins-common/context'
+import { version } from '../package.json'
 import { log } from './log'
 import { registerAnnonations } from './annonation'
 import { registerAutoComplete } from './autocomplete'
 
 export async function activate(ext: ExtensionContext) {
-  const cwd = workspace.workspaceFolders?.[0].uri.fsPath
+  const config = workspace.getConfiguration('unocss')
+  const cwd = config.get<string>('root') || workspace.workspaceFolders?.[0].uri.fsPath
   if (!cwd)
     return
+
+  log.appendLine(`UnoCSS for VS Code  v${version}`)
 
   const context = createContext(cwd, {}, [
     sourcePluginFactory({
@@ -27,10 +31,19 @@ export async function activate(ext: ExtensionContext) {
     }),
   ])
 
-  const { sources } = await context.ready
+  let sources: string[] = []
+  try {
+    sources = (await context.ready).sources
+  }
+  catch (e) {
+    log.appendLine(`[error] ${String(e)}`)
+    log.appendLine('[error] Failed to start extension, exiting')
+    return
+  }
 
   if (!sources.length) {
-    log.appendLine('No config files found, disabled')
+    log.appendLine('[warn] No config files found, disabled')
+    log.appendLine('[warn] Make sure you have `unocss.config.js` in your workspace root, or change `unocss.root` in your workspace settings')
     return
   }
 
