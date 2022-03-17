@@ -9,7 +9,7 @@ export function createAutocomplete(uno: UnoGenerator) {
   const cache = new LRU<string, string[]>({ max: 1000 })
 
   let staticUtils: string[] = []
-  let templates: (AutoCompleteTemplate | AutoCompleteFunction)[] = []
+  const templates: (AutoCompleteTemplate | AutoCompleteFunction)[] = []
 
   reset()
 
@@ -33,7 +33,7 @@ export function createAutocomplete(uno: UnoGenerator) {
       return cache.get(input)!
 
     // match and ignore existing variants
-    const [, processed, , usedVariants] = uno.matchVariants(input)
+    const [, processed, , variants] = uno.matchVariants(input)
     const idx = input.search(processed)
     // This input contains variants that modifies the processed part,
     // autocomplete will need to reverse it which is not possible
@@ -46,9 +46,12 @@ export function createAutocomplete(uno: UnoGenerator) {
         suggestSelf(processed),
         suggestStatic(processed),
         ...suggestFromPreset(processed),
-        ...suggestVariant(processed, usedVariants),
+        ...suggestVariant(processed, variants),
       ]),
-    ).map(i => variantPrefix + i + variantPostfix)
+      variantPrefix,
+      variantPostfix,
+    )
+
     cache.set(input, result)
     return result
   }
@@ -71,25 +74,28 @@ export function createAutocomplete(uno: UnoGenerator) {
   }
 
   function suggestVariant(input: string, used: Set<Variant>) {
-    return uno.config.variants.filter(i => i.multiPass || !used.has(i)).flatMap(v =>
-      v.autocomplete?.map(fn =>
+    return uno.config.variants
+      .filter(v => v.autocomplete && (v.multiPass || !used.has(v)))
+      .flatMap(v => toArray(v.autocomplete || []))
+      .map(fn =>
         typeof fn === 'function'
           ? fn(input)
           : getParsed(fn)(input),
-      ) || [])
+      )
   }
 
   function reset() {
     templateCache.clear()
     cache.clear()
     staticUtils = Object.keys(uno.config.rulesStaticMap)
-    templates = [
+    templates.length = 0
+    templates.push(
       ...uno.config.autocomplete || [],
       ...uno.config.rulesDynamic.flatMap(i => toArray(i?.[2]?.autocomplete || [])),
-    ]
+    )
   }
 
-  function processSuggestions(suggestions: (string[] | undefined)[]) {
+  function processSuggestions(suggestions: (string[] | undefined)[], prefix = '', suffix = '') {
     return uniq(suggestions.flat())
       .filter((i): i is string => !!(i && !i.match(/-$/)))
       .sort((a, b) => {
@@ -99,5 +105,6 @@ export function createAutocomplete(uno: UnoGenerator) {
           return numA - numB
         return a.localeCompare(b)
       })
+      .map(i => prefix + i + suffix)
   }
 }

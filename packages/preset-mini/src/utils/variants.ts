@@ -13,7 +13,7 @@ export const variantMatcher = (name: string, selector?: (input: string) => strin
         }
       }
     },
-    autocomplete: [`${name}:`],
+    autocomplete: `${name}:`,
   }
 }
 
@@ -29,6 +29,6 @@ export const variantParentMatcher = (name: string, parent: string): VariantObjec
         }
       }
     },
-    autocomplete: [`${name}:`],
+    autocomplete: `${name}:`,
   }
 }

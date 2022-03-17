@@ -60,5 +60,5 @@ export const variantBreakpoints: Variant<Theme> = {
       }
     }
   },
-  autocomplete: ['(at-|lt-|)$breakpoints:'],
+  autocomplete: '(at-|lt-|)$breakpoints:',
 }

@@ -112,7 +112,7 @@ export const variantPseudoElements: VariantObject = {
       }
     }
   },
-  autocomplete: [`(${PseudoElementsStr}):`],
+  autocomplete: `(${PseudoElementsStr}):`,
 }
 
 export const variantPseudoClasses: VariantObject = {
@@ -128,7 +128,7 @@ export const variantPseudoClasses: VariantObject = {
     }
   },
   multiPass: true,
-  autocomplete: [`(${PseudoClassesStr}):`],
+  autocomplete: `(${PseudoClassesStr}):`,
 }
 
 export const variantPseudoClassFunctions: VariantObject = {
@@ -144,7 +144,7 @@ export const variantPseudoClassFunctions: VariantObject = {
     }
   },
   multiPass: true,
-  autocomplete: [`(${PseudoClassFunctionsStr})-(${PseudoClassesStr}):`],
+  autocomplete: `(${PseudoClassFunctionsStr})-(${PseudoClassesStr}):`,
 }
 
 export const variantTaggedPseudoClasses = (options: PresetMiniOptions = {}): VariantObject[] => {
