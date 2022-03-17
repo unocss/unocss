@@ -4,21 +4,21 @@ import { colorToString, cornerMap, directionMap, handler as h, hasParseableColor
 
 export const borders: Rule[] = [
   // compound
-  [/^(?:border|b)()(?:-(.+))?$/, handlerBorder, { autocomplete: ['(border|b)-<directions>-<num>', '(border|b)-<directions>-$colors'] }],
+  [/^(?:border|b)()(?:-(.+))?$/, handlerBorder, { autocomplete: '(border|b)-<directions>' }],
   [/^(?:border|b)-([xy])(?:-(.+))?$/, handlerBorder],
   [/^(?:border|b)-([rltbse])(?:-(.+))?$/, handlerBorder],
   [/^(?:border|b)-(block|inline)(?:-(.+))?$/, handlerBorder],
   [/^(?:border|b)-([bi][se])(?:-(.+))?$/, handlerBorder],
 
   // size
-  [/^(?:border|b)-()(?:width|size)-(.+)$/, handlerBorderSize, { autocomplete: '(border|b)-<num>' }],
+  [/^(?:border|b)-()(?:width|size)-(.+)$/, handlerBorderSize, { autocomplete: ['(border|b)-<num>', '(border|b)-<directions>-<num>'] }],
   [/^(?:border|b)-([xy])-(?:width|size)-(.+)$/, handlerBorderSize],
   [/^(?:border|b)-([rltbse])-(?:width|size)-(.+)$/, handlerBorderSize],
   [/^(?:border|b)-(block|inline)-(?:width|size)-(.+)$/, handlerBorderSize],
   [/^(?:border|b)-([bi][se])-(?:width|size)-(.+)$/, handlerBorderSize],
 
   // colors
-  [/^(?:border|b)-()(?:color-)?(.+)$/, handlerBorderColor, { autocomplete: '(border|b)-$colors' }],
+  [/^(?:border|b)-()(?:color-)?(.+)$/, handlerBorderColor, { autocomplete: ['(border|b)-$colors', '(border|b)-<directions>-$colors'] }],
   [/^(?:border|b)-([xy])-(?:color-)?(.+)$/, handlerBorderColor],
   [/^(?:border|b)-([rltbse])-(?:color-)?(.+)$/, handlerBorderColor],
   [/^(?:border|b)-(block|inline)-(?:color-)?(.+)$/, handlerBorderColor],

@@ -49,9 +49,18 @@ describe('autocomplete', () => {
         'mx-',
         'text-r',
         'text-red-',
+        'bg-',
+        'bg-r',
+        'v-',
+        'align-',
+        'outline-',
+        'outline-offset-',
       ]),
     ).toMatchInlineSnapshot(`
       {
+        "align-": "align-base align-baseline align-bottom align-btm align-mid align-middle align-sub align-super align-text-bottom align-text-top",
+        "bg-": "bg-amber bg-auto bg-black bg-blend-color bg-blend-color-burn bg-blend-color-dodge bg-blend-darken bg-blend-difference bg-blend-exclusion bg-blend-hard-light",
+        "bg-r": "bg-red bg-repeat bg-repeat-round bg-repeat-space bg-repeat-x bg-repeat-y bg-rose",
         "border": "border border-collapse border-dashed border-dotted border-double border-hidden border-none border-separate border-solid",
         "border-r": "border-r border-red border-rose",
         "fle": "flex flex-1 flex-auto flex-col flex-col-reverse flex-initial flex-inline flex-none flex-nowrap flex-row",
@@ -59,119 +68,16 @@ describe('autocomplete', () => {
         "leading-": "leading-loose leading-none leading-normal leading-relaxed leading-snug leading-tight",
         "m-": "m-0 m-1 m-2 m-3 m-4 m-5 m-6 m-8 m-10 m-12",
         "mx-": "mx-0 mx-1 mx-2 mx-3 mx-4 mx-5 mx-6 mx-8 mx-10 mx-12",
+        "outline-": "outline-amber outline-auto outline-black outline-blue outline-bluegray outline-blueGray outline-coolgray outline-coolGray outline-current outline-cyan",
+        "outline-offset-": "outline-offset-0 outline-offset-1 outline-offset-2 outline-offset-3 outline-offset-4 outline-offset-5 outline-offset-6 outline-offset-8 outline-offset-10 outline-offset-12",
         "text-r": "text-red text-right text-rose",
         "text-red-": "text-red-1 text-red-2 text-red-3 text-red-4 text-red-5 text-red-6 text-red-7 text-red-8 text-red-9 text-red-50",
+        "v-": "v-base v-baseline v-bottom v-btm v-mid v-middle v-sub v-super v-text-bottom v-text-top",
       }
     `)
   })
 
-  it('should provide dynamic autocomplete', async() => {
-    expect((await ac.suggest('border-r')))
-      .toMatchInlineSnapshot(`
-        [
-          "border-r",
-          "border-rd-",
-          "border-red",
-          "border-rose",
-          "border-rounded-",
-        ]
-      `)
-
-    expect((await ac.suggest('b-x-')))
-      .toMatchInlineSnapshot(`
-        [
-          "b-x-0",
-          "b-x-1",
-          "b-x-10",
-          "b-x-12",
-          "b-x-2",
-          "b-x-24",
-          "b-x-3",
-          "b-x-36",
-          "b-x-4",
-          "b-x-5",
-          "b-x-6",
-          "b-x-8",
-          "b-x-amber",
-          "b-x-black",
-          "b-x-blue",
-          "b-x-blueGray",
-          "b-x-bluegray",
-          "b-x-coolGray",
-          "b-x-coolgray",
-          "b-x-current",
-          "b-x-cyan",
-          "b-x-dark",
-          "b-x-emerald",
-          "b-x-fuchsia",
-          "b-x-gray",
-          "b-x-green",
-          "b-x-indigo",
-          "b-x-inherit",
-          "b-x-light",
-          "b-x-lightBlue",
-          "b-x-lightblue",
-          "b-x-lime",
-          "b-x-neutral",
-          "b-x-orange",
-          "b-x-pink",
-          "b-x-purple",
-          "b-x-red",
-          "b-x-rose",
-          "b-x-sky",
-          "b-x-slate",
-          "b-x-stone",
-          "b-x-teal",
-          "b-x-transparent",
-          "b-x-trueGray",
-          "b-x-truegray",
-          "b-x-violet",
-          "b-x-warmGray",
-          "b-x-warmgray",
-          "b-x-white",
-          "b-x-yellow",
-          "b-x-zinc",
-        ]
-      `)
-
-    expect((await ac.suggest('mx-')))
-      .toMatchInlineSnapshot(`
-        [
-          "mx-0",
-          "mx-1",
-          "mx-10",
-          "mx-12",
-          "mx-2",
-          "mx-24",
-          "mx-3",
-          "mx-36",
-          "mx-4",
-          "mx-5",
-          "mx-6",
-          "mx-8",
-        ]
-      `)
-
-    expect((await ac.suggest('border-r')))
-      .toMatchInlineSnapshot(`
-        [
-          "border-r",
-          "border-rd-",
-          "border-red",
-          "border-rose",
-          "border-rounded-",
-        ]
-      `)
-
-    expect((await ac.suggest('text-r')))
-      .toMatchInlineSnapshot(`
-        [
-          "text-red",
-          "text-right",
-          "text-rose",
-        ]
-      `)
-
+  it('should provide skip DEFAULT', async() => {
     expect((await ac.suggest('text-red-')))
       .toMatchInlineSnapshot(`
         [
@@ -196,116 +102,5 @@ describe('autocomplete', () => {
           "text-red-900",
         ]
       `)
-
-    expect((await ac.suggest('bg-o')))
-      .toMatchInlineSnapshot(`
-        [
-          "bg-op",
-          "bg-opacity",
-          "bg-orange",
-          "bg-origin-border",
-          "bg-origin-content",
-          "bg-origin-padding",
-        ]
-      `)
-
-    expect((await ac.suggest('bg-op-')))
-      .toMatchInlineSnapshot(`
-        [
-          "bg-op-0",
-          "bg-op-10",
-          "bg-op-100",
-          "bg-op-20",
-          "bg-op-30",
-          "bg-op-40",
-          "bg-op-50",
-          "bg-op-60",
-          "bg-op-70",
-          "bg-op-80",
-          "bg-op-90",
-        ]
-      `)
-
-    expect((await ac.suggest('v-')))
-      .toMatchInlineSnapshot(`
-        [
-          "v-base",
-          "v-baseline",
-          "v-bottom",
-          "v-btm",
-          "v-mid",
-          "v-middle",
-          "v-sub",
-          "v-super",
-          "v-text-bottom",
-          "v-text-top",
-          "v-top",
-        ]
-      `)
-
-    expect((await ac.suggest('outline-')))
-      .toMatchInlineSnapshot(`
-        [
-          "outline-amber",
-          "outline-auto",
-          "outline-black",
-          "outline-blue",
-          "outline-blueGray",
-          "outline-bluegray",
-          "outline-coolGray",
-          "outline-coolgray",
-          "outline-current",
-          "outline-cyan",
-          "outline-dark",
-          "outline-dashed",
-          "outline-dotted",
-          "outline-double",
-          "outline-emerald",
-          "outline-fuchsia",
-          "outline-gray",
-          "outline-green",
-          "outline-groove",
-          "outline-hidden",
-          "outline-indigo",
-          "outline-inherit",
-          "outline-initial",
-          "outline-inset",
-          "outline-light",
-          "outline-lightBlue",
-          "outline-lightblue",
-          "outline-lime",
-          "outline-neutral",
-          "outline-none",
-          "outline-offset",
-          "outline-orange",
-          "outline-outset",
-          "outline-pink",
-          "outline-purple",
-          "outline-red",
-          "outline-revert",
-          "outline-ridge",
-          "outline-rose",
-          "outline-size",
-          "outline-sky",
-          "outline-slate",
-          "outline-solid",
-          "outline-stone",
-          "outline-teal",
-          "outline-transparent",
-          "outline-trueGray",
-          "outline-truegray",
-          "outline-unset",
-          "outline-violet",
-          "outline-warmGray",
-          "outline-warmgray",
-          "outline-white",
-          "outline-width",
-          "outline-yellow",
-          "outline-zinc",
-        ]
-      `)
-
-    expect((await ac.suggest('font')))
-      .toMatchInlineSnapshot('[]')
   })
 })
