@@ -57,10 +57,10 @@ describe('autocomplete', () => {
         "fle": "flex flex-1 flex-auto flex-col flex-col-reverse flex-initial flex-inline flex-none flex-nowrap flex-row",
         "font-": "font-100 font-200 font-300 font-400 font-500 font-600 font-700 font-mono font-sans font-serif",
         "leading-": "leading-loose leading-none leading-normal leading-relaxed leading-snug leading-tight",
-        "m-": "m-0 m-1 m-10 m-12 m-2 m-24 m-3 m-36 m-4 m-5",
-        "mx-": "mx-0 mx-1 mx-10 mx-12 mx-2 mx-24 mx-3 mx-36 mx-4 mx-5",
+        "m-": "m-0 m-1 m-2 m-3 m-4 m-5 m-6 m-8 m-10 m-12",
+        "mx-": "mx-0 mx-1 mx-2 mx-3 mx-4 mx-5 mx-6 mx-8 mx-10 mx-12",
         "text-r": "text-red text-right text-rose",
-        "text-red-": "text-red-1 text-red-100 text-red-2 text-red-200 text-red-3 text-red-300 text-red-4 text-red-400 text-red-5 text-red-50",
+        "text-red-": "text-red-1 text-red-2 text-red-3 text-red-4 text-red-5 text-red-6 text-red-7 text-red-8 text-red-9 text-red-50",
       }
     `)
   })
@@ -70,23 +70,23 @@ describe('autocomplete', () => {
       .toMatchInlineSnapshot(`
         [
           "text-red-1",
-          "text-red-100",
           "text-red-2",
-          "text-red-200",
           "text-red-3",
-          "text-red-300",
           "text-red-4",
-          "text-red-400",
           "text-red-5",
-          "text-red-50",
-          "text-red-500",
           "text-red-6",
-          "text-red-600",
           "text-red-7",
-          "text-red-700",
           "text-red-8",
-          "text-red-800",
           "text-red-9",
+          "text-red-50",
+          "text-red-100",
+          "text-red-200",
+          "text-red-300",
+          "text-red-400",
+          "text-red-500",
+          "text-red-600",
+          "text-red-700",
+          "text-red-800",
           "text-red-900",
         ]
       `)

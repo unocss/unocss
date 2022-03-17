@@ -11,6 +11,15 @@ export function createAutocomplete(uno: UnoGenerator) {
   let staticUtils: string[] = []
   let templates: (AutoCompleteTemplate | AutoCompleteFunction)[] = []
 
+  reset()
+
+  return {
+    suggest,
+    templates,
+    cache,
+    reset,
+  }
+
   function getParsed(template: string) {
     if (!templateCache.has(template))
       templateCache.set(template, parseAutocomplete(template, uno.config.theme))
@@ -22,13 +31,13 @@ export function createAutocomplete(uno: UnoGenerator) {
       return []
     if (cache.has(input))
       return cache.get(input)!
-    const result = uniq((await Promise.all([
-      suggestSelf(input),
-      suggestStatic(input),
-      ...suggestFromPreset(input),
-    ])).flat())
-      .sort()
-      .filter(i => i && !i.match(/[:-]$/)) as string[]
+    const result = processSuggestions(
+      await Promise.all([
+        suggestSelf(input),
+        suggestStatic(input),
+        ...suggestFromPreset(input),
+      ]),
+    )
     cache.set(input, result)
     return result
   }
@@ -60,12 +69,15 @@ export function createAutocomplete(uno: UnoGenerator) {
     ]
   }
 
-  reset()
-
-  return {
-    suggest,
-    templates,
-    cache,
-    reset,
+  function processSuggestions(suggestions: (string[] | undefined)[]) {
+    return uniq(suggestions.flat())
+      .filter((i): i is string => !!(i && !i.match(/[:-]$/)))
+      .sort((a, b) => {
+        const numA = +(a.match(/\d+$/)?.[0] || NaN)
+        const numB = +(b.match(/\d+$/)?.[0] || NaN)
+        if (!Number.isNaN(numA) && !Number.isNaN(numB))
+          return numA - numB
+        return a.localeCompare(b)
+      })
   }
 }
