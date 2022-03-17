@@ -35,7 +35,7 @@ export const rings: Rule<Theme>[] = [
 
   // colors
   [/^ring-(.+)$/, colorResolver('--un-ring-color', 'ring'), { autocomplete: 'ring-$colors' }],
-  [/^ring-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-ring-opacity': h.bracket.percent(opacity) }), { autocomplete: 'ring-(op|opacity)-<precent>' }],
+  [/^ring-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-ring-opacity': h.bracket.percent(opacity) }), { autocomplete: 'ring-(op|opacity)-<percent>' }],
 
   // offset color
   [/^ring-offset-(.+)$/, colorResolver('--un-ring-offset-color', 'ring-offset')],

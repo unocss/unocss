@@ -11,21 +11,21 @@ export const borders: Rule[] = [
   [/^(?:border|b)-([bi][se])(?:-(.+))?$/, handlerBorder],
 
   // size
-  [/^(?:border|b)-()(?:width|size)-(.+)$/, handlerBorderSize, { autocomplete: '(border|b)-<num>' }],
+  [/^(?:border|b)-()(?:width|size)-(.+)$/, handlerBorderSize, { autocomplete: ['(border|b)-<num>', '(border|b)-<directions>-<num>'] }],
   [/^(?:border|b)-([xy])-(?:width|size)-(.+)$/, handlerBorderSize],
   [/^(?:border|b)-([rltbse])-(?:width|size)-(.+)$/, handlerBorderSize],
   [/^(?:border|b)-(block|inline)-(?:width|size)-(.+)$/, handlerBorderSize],
   [/^(?:border|b)-([bi][se])-(?:width|size)-(.+)$/, handlerBorderSize],
 
   // colors
-  [/^(?:border|b)-()(?:color-)?(.+)$/, handlerBorderColor, { autocomplete: '(border|b)-$colors' }],
+  [/^(?:border|b)-()(?:color-)?(.+)$/, handlerBorderColor, { autocomplete: ['(border|b)-$colors', '(border|b)-<directions>-$colors'] }],
   [/^(?:border|b)-([xy])-(?:color-)?(.+)$/, handlerBorderColor],
   [/^(?:border|b)-([rltbse])-(?:color-)?(.+)$/, handlerBorderColor],
   [/^(?:border|b)-(block|inline)-(?:color-)?(.+)$/, handlerBorderColor],
   [/^(?:border|b)-([bi][se])-(?:color-)?(.+)$/, handlerBorderColor],
 
   // opacity
-  [/^(?:border|b)-()op(?:acity)?-?(.+)$/, handlerBorderOpacity, { autocomplete: '(border|b)-(op|opacity)-<precent>' }],
+  [/^(?:border|b)-()op(?:acity)?-?(.+)$/, handlerBorderOpacity, { autocomplete: '(border|b)-(op|opacity)-<percent>' }],
   [/^(?:border|b)-([xy])-op(?:acity)?-?(.+)$/, handlerBorderOpacity],
   [/^(?:border|b)-([rltbse])-op(?:acity)?-?(.+)$/, handlerBorderOpacity],
   [/^(?:border|b)-(block|inline)-op(?:acity)?-?(.+)$/, handlerBorderOpacity],

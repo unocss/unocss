@@ -33,7 +33,7 @@ rules: [
 The template uses a simle DSL to specify the autocomplete suggestions. The syntax is:
 
 - `(...|...)`: logic OR groups. `|` as the separator. Will be used as suggestions when the some of the groups match.
-- `<...>`: built-in short hands. currently supports `<num>`, `<precent>` and `<directions>`
+- `<...>`: built-in short hands. currently supports `<num>`, `<percent>` and `<directions>`
 - `$...`: theme infering. for example, `$colors` will list all the properties of the `colors` object of the theme.
 
 For examples:
