@@ -4,7 +4,7 @@ import { colorToString, cornerMap, directionMap, handler as h, hasParseableColor
 
 export const borders: Rule[] = [
   // compound
-  [/^(?:border|b)()(?:-(.+))?$/, handlerBorder, { autocomplete: '(border|b)-<directions>' }],
+  [/^(?:border|b)()(?:-(.+))?$/, handlerBorder, { autocomplete: ['(border|b)-<directions>-<num>', '(border|b)-<directions>-$colors'] }],
   [/^(?:border|b)-([xy])(?:-(.+))?$/, handlerBorder],
   [/^(?:border|b)-([rltbse])(?:-(.+))?$/, handlerBorder],
   [/^(?:border|b)-(block|inline)(?:-(.+))?$/, handlerBorder],
@@ -25,7 +25,7 @@ export const borders: Rule[] = [
   [/^(?:border|b)-([bi][se])-(?:color-)?(.+)$/, handlerBorderColor],
 
   // opacity
-  [/^(?:border|b)-()op(?:acity)?-?(.+)$/, handlerBorderOpacity, { autocomplete: '(border|b)-(op|opacity)-<precent>' }],
+  [/^(?:border|b)-()op(?:acity)?-?(.+)$/, handlerBorderOpacity, { autocomplete: '(border|b)-(op|opacity)-<percent>' }],
   [/^(?:border|b)-([xy])-op(?:acity)?-?(.+)$/, handlerBorderOpacity],
   [/^(?:border|b)-([rltbse])-op(?:acity)?-?(.+)$/, handlerBorderOpacity],
   [/^(?:border|b)-(block|inline)-op(?:acity)?-?(.+)$/, handlerBorderOpacity],

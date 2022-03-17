@@ -4,17 +4,17 @@ import { colorResolver, handler as h } from '../utils'
 
 export const outline: Rule<Theme>[] = [
   // size
-  [/^outline-(?:width-|size-)?(.+)$/, ([, d], { theme }) => ({ 'outline-width': theme.lineWidth?.[d] ?? h.bracket.cssvar.px(d) })],
+  [/^outline-(?:width-|size-)?(.+)$/, ([, d], { theme }) => ({ 'outline-width': theme.lineWidth?.[d] ?? h.bracket.cssvar.px(d) }), { autocomplete: 'outline-(width|size)-<num>' }],
 
   // color
-  [/^outline-(?:color-)?(.+)$/, colorResolver('outline-color', 'outline-color')],
+  [/^outline-(?:color-)?(.+)$/, colorResolver('outline-color', 'outline-color'), { autocomplete: 'outline-$colors' }],
 
   // offset
-  [/^outline-offset-(.+)$/, ([, d], { theme }) => ({ 'outline-offset': theme.lineWidth?.[d] ?? h.bracket.cssvar.px(d) })],
+  [/^outline-offset-(.+)$/, ([, d], { theme }) => ({ 'outline-offset': theme.lineWidth?.[d] ?? h.bracket.cssvar.px(d) }), { autocomplete: 'outline-(offset)-<num>' }],
 
   // style
   ['outline', { 'outline-style': 'solid' }],
-  [/^outline-(auto|dashed|dotted|double|hidden|solid|groove|ridge|inset|outset|inherit|initial|revert|unset)$/, ([, c]) => ({ 'outline-style': c })],
+  [/^outline-(auto|dashed|dotted|double|hidden|solid|groove|ridge|inset|outset|inherit|initial|revert|unset)$/, ([, c]) => ({ 'outline-style': c }), { autocomplete: 'outline-(auto|dashed|dotted|double|hidden|solid|groove|ridge|inset|outset|inherit|initial|revert|unset)' }],
   ['outline-none', { 'outline': '2px solid transparent', 'outline-offset': '2px' }],
 ]
 

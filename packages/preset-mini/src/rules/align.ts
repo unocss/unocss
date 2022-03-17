@@ -7,7 +7,7 @@ const verticalAlignAlias: Record<string, string> = {
 }
 
 export const verticalAligns: Rule[] = [
-  [/^(?:vertical|align|v)-(baseline|top|middle|bottom|text-top|text-bottom|sub|super|mid|base|btm)$/, ([, v]) => ({ 'vertical-align': verticalAlignAlias[v] || v })],
+  [/^(?:vertical|align|v)-(baseline|top|middle|bottom|text-top|text-bottom|sub|super|mid|base|btm)$/, ([, v]) => ({ 'vertical-align': verticalAlignAlias[v] || v }), { autocomplete: '(vertical|align|v)-(baseline|top|middle|bottom|text-top|text-bottom|sub|super|mid|base|btm)' }],
 ]
 
 export const textAligns: Rule[] = [

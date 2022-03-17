@@ -2,7 +2,7 @@ import type { AutocompleteTemplatePart, ParsedAutocompleteTemplate } from './typ
 
 const shorthands: Record<string, string> = {
   num: `(${[0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 24, 36].join('|')})`,
-  precent: `(${[0, 25, 45, 50, 100].join('|')})`,
+  percent: `(${Array.from({ length: 11 }, (_, i) => i * 10).join('|')})`,
   directions: '(x|y|t|b|l|r|s|e)',
 }
 
