@@ -5,14 +5,20 @@ import { CompletionItem, CompletionItemKind, Position, Range, languages } from '
 import { INCLUDE_COMMENT_IDE } from '../../plugins-common/constants'
 
 const languageIds = [
-  'javascript',
-  'typescript',
-  'javascriptreact',
-  'typescriptreact',
+  'erb',
+  'haml',
+  'hbs',
   'html',
-  'vue',
-  'svelte',
+  'javascript',
+  'javascriptreact',
   'markdown',
+  'ejs',
+  'php',
+  'svelte',
+  'typescript',
+  'typescriptreact',
+  'vue-html',
+  'vue',
 ]
 const delimiters = ['-', ':']
 
