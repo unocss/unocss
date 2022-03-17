@@ -11,5 +11,8 @@ describe('searchUsageBoundary', () => {
 
     expect(searchUsageBoundary('<div p-1 p-2>', 10).content)
       .toMatchInlineSnapshot('"p-2"')
+
+    expect(searchUsageBoundary('<div class="dark:(p-1)>', 21).content)
+      .toMatchInlineSnapshot('"p-1"')
   })
 })

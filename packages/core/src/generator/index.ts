@@ -87,7 +87,7 @@ export class UnoGenerator {
 
     const context = this.makeContext(
       raw,
-      [alias || applied[0], applied[1], applied[2]],
+      [alias || applied[0], applied[1], applied[2], applied[3]],
     )
 
     // expand shortcuts
@@ -301,7 +301,7 @@ export class UnoGenerator {
         throw new Error(`Too many variants applied to "${raw}"`)
     }
 
-    return [raw, processed, handlers]
+    return [raw, processed, handlers, usedVariants]
   }
 
   applyVariants(parsed: ParsedUtil, variantHandlers = parsed[4], raw = parsed[1]): UtilObject {

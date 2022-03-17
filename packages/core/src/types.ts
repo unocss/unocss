@@ -222,6 +222,11 @@ export interface VariantObject<Theme extends {} = {}> {
    * @default false
    */
   multiPass?: boolean
+
+  /**
+   * Custom function for auto complete
+   */
+  autocomplete?: (AutoCompleteFunction | AutoCompleteTemplate)[]
 }
 
 export type Variant<Theme extends {} = {}> = VariantFunction<Theme> | VariantObject<Theme>
@@ -470,6 +475,7 @@ export type VariantMatchedResult = readonly [
   raw: string,
   current: string,
   variants: VariantHandler[],
+  usedVariants: Set<Variant>,
 ]
 
 export type ParsedUtil = readonly [

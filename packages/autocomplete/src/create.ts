@@ -1,4 +1,4 @@
-import type { AutoCompleteFunction, AutoCompleteTemplate, UnoGenerator } from '@unocss/core'
+import type { AutoCompleteFunction, AutoCompleteTemplate, UnoGenerator, Variant } from '@unocss/core'
 import { toArray, uniq } from '@unocss/core'
 import LRU from 'lru-cache'
 import { parseAutocomplete } from './parse'
@@ -31,13 +31,24 @@ export function createAutocomplete(uno: UnoGenerator) {
       return []
     if (cache.has(input))
       return cache.get(input)!
+
+    // match and ignore existing variants
+    const [, processed, , usedVariants] = uno.matchVariants(input)
+    const idx = input.search(processed)
+    // This input contains variants that modifies the processed part,
+    // autocomplete will need to reverse it which is not possible
+    if (idx === -1) return []
+    const variantPrefix = input.slice(0, idx)
+    const variantPostfix = input.slice(idx + input.length)
+
     const result = processSuggestions(
       await Promise.all([
-        suggestSelf(input),
-        suggestStatic(input),
-        ...suggestFromPreset(input),
+        suggestSelf(processed),
+        suggestStatic(processed),
+        ...suggestFromPreset(processed),
+        ...suggestVariant(processed, usedVariants),
       ]),
-    )
+    ).map(i => variantPrefix + i + variantPostfix)
     cache.set(input, result)
     return result
   }
@@ -59,6 +70,15 @@ export function createAutocomplete(uno: UnoGenerator) {
     ) || []
   }
 
+  function suggestVariant(input: string, used: Set<Variant>) {
+    return uno.config.variants.filter(i => i.multiPass || !used.has(i)).flatMap(v =>
+      v.autocomplete?.map(fn =>
+        typeof fn === 'function'
+          ? fn(input)
+          : getParsed(fn)(input),
+      ) || [])
+  }
+
   function reset() {
     templateCache.clear()
     cache.clear()
@@ -71,7 +91,7 @@ export function createAutocomplete(uno: UnoGenerator) {
 
   function processSuggestions(suggestions: (string[] | undefined)[]) {
     return uniq(suggestions.flat())
-      .filter((i): i is string => !!(i && !i.match(/[:-]$/)))
+      .filter((i): i is string => !!(i && !i.match(/-$/)))
       .sort((a, b) => {
         const numA = +(a.match(/\d+$/)?.[0] || NaN)
         const numB = +(b.match(/\d+$/)?.[0] || NaN)
