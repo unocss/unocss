@@ -6,7 +6,6 @@ export default defineConfig({
   ],
   external: [
     'vscode',
-    'jiti',
   ],
   format: [
     'cjs',

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { AsyncHintFunction, HintFunction, HintFunctionResolver } from 'codemirror'
 import { getMatchedPositions } from '../composables/pos'
 import { useCodeMirror } from '../composables/codemirror'
 
@@ -8,6 +9,7 @@ const props = defineProps<{
   mode?: string
   readOnly?: boolean
   matched?: Set<string> | string[]
+  getHint?: HintFunction | AsyncHintFunction | HintFunctionResolver
 }>()
 
 const modeMap: Record<string, any> = {
@@ -31,8 +33,30 @@ onMounted(async() => {
   const cm = useCodeMirror(el, input, {
     ...props,
     mode: modeMap[props.mode || ''] || props.mode,
+    ...props.getHint
+      ? {
+        extraKeys: {
+          'Ctrl-Space': 'autocomplete',
+          'Ctrl-.': 'autocomplete',
+          'Cmd-Space': 'autocomplete',
+          'Cmd-.': 'autocomplete',
+          'Tab': 'autocomplete',
+        },
+        hintOptions: {
+          hint: props.getHint,
+        },
+      }
+      : {},
   })
   cm.setSize('100%', '100%')
+
+  if (props.getHint) {
+    cm.on('keyup', (editor, event) => {
+      if (event.key.match(/^[\w:-]$/))
+        editor.execCommand('autocomplete')
+    })
+  }
+
   setTimeout(() => cm.refresh(), 100)
   const decorations: CodeMirror.TextMarker<CodeMirror.MarkerRange>[] = []
 
@@ -82,6 +106,7 @@ onMounted(async() => {
 }
 
 :root {
+  --cm-font-family: 'Fira Code', monospace;
   --cm-foreground: #393a3480;
   --cm-background: #fdfdfd;
   --cm-comment: #a0ada0;

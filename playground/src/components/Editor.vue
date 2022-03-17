@@ -4,7 +4,7 @@ import parserCSS from 'prettier/parser-postcss'
 // @ts-expect-error missing types
 import { Pane, Splitpanes } from 'splitpanes'
 import { isDark } from '../logics/dark'
-import { customConfigError, customConfigRaw, inputHTML, output } from '../logics/uno'
+import { customConfigError, customConfigRaw, getHint, inputHTML, output } from '../logics/uno'
 import { defaultConfigRaw, defaultHTML } from '../defaults'
 import { options } from '../logics/url'
 import { version } from '../../../package.json'
@@ -127,6 +127,7 @@ onMounted(() => {
         mode="htmlmixed"
         class="scrolls border-(l gray-400/20)"
         :matched="output?.matched || new Set()"
+        :get-hint="getHint"
       />
     </Pane>
     <Pane :min-size="titleHeightPercent" :size="panelSizes[1]" flex flex-col>

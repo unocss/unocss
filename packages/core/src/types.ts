@@ -129,15 +129,23 @@ export interface RuleMeta {
    * @default 'default'
    */
   layer?: string
+
   /**
    * Option to not merge this selector even if the body are the same.
    * @default false
    */
   noMerge?: boolean
+
   /**
    * Fine tune sort
    */
   sort?: number
+
+  /**
+   * Templates to provide autocomplete suggestions
+   */
+  autocomplete?: AutoCompleteTemplate | AutoCompleteTemplate[]
+
   /**
    * Internal rules will only be matched for shortcuts but not the user code.
    * @default false
@@ -291,7 +299,15 @@ export interface ConfigBase<Theme extends {} = {}> {
    * Custom functions to extend the theme object
    */
   extendTheme?: Arrayable<ThemeExtender<Theme>>
+
+  /**
+   * Custom function for auto complete
+   */
+  autocomplete?: (AutoCompleteFunction | AutoCompleteTemplate)[]
 }
+
+export type AutoCompleteTemplate = string
+export type AutoCompleteFunction = (input: string) => Awaitable<string[]>
 
 export interface Preset<Theme extends {} = {}> extends ConfigBase<Theme> {
   name: string

@@ -1,6 +1,6 @@
 {
   "name": "@unocss/monorepo",
-  "version": "0.28.2",
+  "version": "0.29.2",
   "private": true,
   "packageManager": "pnpm@6.32.3",
   "scripts": {
@@ -16,7 +16,7 @@
     "release": "bumpp package.json packages/*/package.json --commit --push --tag",
     "size": "esmo scripts/size.ts",
     "stub": "pnpm -r --parallel run stub",
-    "test": "vitest test",
+    "test": "vitest",
     "test:update": "vitest -u"
   },
   "devDependencies": {
@@ -37,6 +37,7 @@
     "@types/node": "^17.0.21",
     "@types/prettier": "^2.4.4",
     "@types/ws": "^8.5.3",
+    "@unocss/autocomplete": "workspace:*",
     "@unocss/cli": "workspace:*",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
@@ -54,8 +55,8 @@
     "@unocss/vite": "workspace:*",
     "@unocss/webpack": "workspace:*",
     "@vitejs/plugin-vue": "^2.2.4",
-    "@vitest/ui": "^0.6.3",
-    "@vueuse/core": "^7.7.1",
+    "@vitest/ui": "^0.7.0",
+    "@vueuse/core": "^8.1.1",
     "brotli-size": "^4.0.0",
     "bumpp": "^7.1.1",
     "codemirror": "^5.65.2",
@@ -68,6 +69,7 @@
     "gzip-size": "^6.0.0",
     "lz-string": "^1.4.4",
     "magic-string": "^0.26.1",
+    "msw": "^0.39.2",
     "pnpm": "^6.32.3",
     "prettier": "^2.6.0",
     "rollup": "^2.70.1",
@@ -79,11 +81,11 @@
     "unbuild": "^0.7.0",
     "unocss": "workspace:*",
     "unplugin-auto-import": "^0.6.6",
-    "unplugin-vue-components": "^0.17.21",
+    "unplugin-vue-components": "^0.18.0",
     "vite": "^2.8.6",
     "vite-plugin-inspect": "^0.4.3",
-    "vite-plugin-pages": "^0.21.4",
-    "vitest": "^0.6.3",
+    "vite-plugin-pages": "^0.22.0",
+    "vitest": "^0.7.0",
     "vue": "^3.2.31",
     "vue-router": "^4.0.14"
   }

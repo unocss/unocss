@@ -81,3 +81,19 @@
   height: 100%;
 }
 
+.CodeMirror-hints {
+  font-family: var(--cm-font-family) !important;
+  background: var(--cm-background) !important;
+  color: var(--cm-foreground) !important;
+  font-size: 0.8em !important;
+  border: 1px solid #8885 !important;
+}
+
+.CodeMirror-hints, .CodeMirror-hint {
+  color: var(--cm-foreground) !important;
+}
+
+li.CodeMirror-hint-active {
+  background: #489371 !important;
+  color: white !important;
+}

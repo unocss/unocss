@@ -7,8 +7,10 @@ import 'codemirror/mode/xml/xml'
 import 'codemirror/mode/htmlmixed/htmlmixed'
 import 'codemirror/mode/jsx/jsx'
 import 'codemirror/addon/display/placeholder'
+import 'codemirror/addon/hint/show-hint'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror-theme-vars/base.css'
+import 'codemirror/addon/hint/show-hint.css'
 
 export function useCodeMirror(
   textarea: Ref<HTMLTextAreaElement | null | undefined>,
