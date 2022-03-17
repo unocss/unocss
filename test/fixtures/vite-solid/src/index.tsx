@@ -1,7 +1,7 @@
 import { render } from 'solid-js/web'
 
 import './index.css'
-import 'uno.css'
+import 'virtual:uno.css'
 
 import App from './App'
 

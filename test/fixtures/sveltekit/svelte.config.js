@@ -14,14 +14,12 @@ const config = {
   kit: {
     adapter: adapter(),
 
-    // hydrate the <div id="svelte"> element in src/app.html
-    target: '#svelte',
     vite: {
       plugins: [
         UnoCss({
           extractors: [extractorSvelte],
           shortcuts: [
-            { logo: 'i-logos-svelte-icon w-6em h-6em transform transition-800 hover:rotate-180' },
+            { logo: 'i-logos:svelte-icon w-6em h-6em transform transition-800 hover:rotate-180' },
             { foo: 'bg-yellow-400' },
             { bar: 'bg-green-400' },
           ],

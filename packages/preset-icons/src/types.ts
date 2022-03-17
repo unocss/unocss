@@ -1,3 +1,4 @@
+import type { CustomIconLoader, IconCustomizations, InlineCollection } from '@iconify/utils/lib/loader/types'
 import type { Awaitable } from '@unocss/core'
 import type { IconifyJSON } from '@iconify/types'
 
@@ -41,11 +42,36 @@ export interface IconsOptions {
    * In Node.js environment, the preset will search for the installed iconify dataset automatically.
    * When using in the browser, this options is provided to provide dataset with custom loading mechanism.
    */
-  collections?: Record<string, IconifyJSON | undefined | (() => Awaitable<IconifyJSON | undefined>)>
+  collections?: Record<string, (() => Awaitable<IconifyJSON>) | undefined | CustomIconLoader | InlineCollection>
   /**
    * Rule layer
    *
    * @default 'icons'
    */
   layer?: string
+  /**
+   * Style apply to icons by default
+   *
+   * @default ''
+   */
+  defaultStyle?: string
+
+  /**
+   * Class names apply to icons by default
+   *
+   * @default ''
+   */
+  defaultClass?: string
+  /**
+   * Custom icon customizer.
+   */
+  customizations?: Omit<IconCustomizations, 'additionalProps'>
+  /**
+   * Auto install icon sources package when the usages is detected
+   *
+   * **WARNING**: only on `node` environment, on `browser` this option will be ignored.
+   *
+   * @default false
+   */
+  autoInstall?: boolean
 }

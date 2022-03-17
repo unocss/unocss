@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
-import 'uno.css'
+import 'virtual:uno.css'
 import App from './App'
 
 ReactDOM.render(

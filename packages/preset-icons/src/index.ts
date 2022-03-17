@@ -1,8 +1,10 @@
 import type { Preset } from '@unocss/core'
 import { warnOnce } from '@unocss/core'
-import { iconToSVG } from '@iconify/utils/lib/svg/build'
-import { defaults as DefaultIconCustomizations } from '@iconify/utils/lib/customisations'
-import { getIconData } from '@iconify/utils/lib/icon-set/get-icon'
+import type {
+  IconifyLoaderOptions,
+  UniversalIconLoader,
+} from '@iconify/utils/lib/loader/types'
+import { loadIcon } from '@iconify/utils'
 import { encodeSvg, isNode, isVSCode } from './utils'
 import type { IconsOptions } from './types'
 
@@ -10,54 +12,23 @@ const COLLECTION_NAME_PARTS_MAX = 3
 
 export { IconsOptions }
 
-async function importFsModule(): Promise<typeof import('./fs') | undefined> {
-  try {
-    return await import('./fs')
-  }
-  catch {
+async function lookupIconLoader(): Promise<UniversalIconLoader> {
+  let useIconLoader: UniversalIconLoader | undefined
+  if (isNode && !isVSCode) {
     try {
-      // cjs environments
-      return require('./fs.cjs')
+      useIconLoader = await import('@iconify/utils/lib/loader/node-loader').then(i => i?.loadNodeIcon)
     }
     catch {
-      return undefined
+      try {
+        useIconLoader = require('@iconify/utils/lib/loader/node-loader.cjs')
+      }
+      catch {
+        useIconLoader = loadIcon
+      }
     }
   }
-}
 
-async function searchForIcon(
-  collection: string,
-  id: string,
-  collections: Required<IconsOptions>['collections'],
-  scale: number,
-) {
-  if (!collection || !id)
-    return
-  let iconSet = collections[collection]
-  if (typeof iconSet === 'function')
-    iconSet = await iconSet()
-  if (!iconSet && isNode && !isVSCode) {
-    try {
-      const loadCollectionFromFS = await importFsModule().then(i => i?.loadCollectionFromFS)
-      if (loadCollectionFromFS)
-        iconSet = await loadCollectionFromFS(collection)
-    }
-    catch {}
-  }
-  if (!iconSet)
-    return
-
-  const iconData = getIconData(iconSet, id, true)
-  if (iconData) {
-    const { attributes, body } = iconToSVG(iconData, {
-      ...DefaultIconCustomizations,
-      height: `${scale}em`,
-      width: `${scale}em`,
-    })
-    return body.includes('xlink:')
-      ? `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ${Object.entries(attributes).map(i => `${i[0]}="${i[1]}"`).join(' ')}>${body}</svg>`
-      : `<svg ${Object.entries(attributes).map(i => `${i[0]}="${i[1]}"`).join(' ')}>${body}</svg>`
-  }
+  return useIconLoader ?? loadIcon
 }
 
 export const preset = (options: IconsOptions = {}): Preset => {
@@ -66,8 +37,10 @@ export const preset = (options: IconsOptions = {}): Preset => {
     mode = 'auto',
     prefix = 'i-',
     warn = false,
-    collections = {},
+    collections: customCollections,
     extraProperties = {},
+    customizations = {},
+    autoInstall = false,
     layer = 'icons',
   } = options
   return {
@@ -84,16 +57,30 @@ export const preset = (options: IconsOptions = {}): Preset => {
         let name = ''
         let svg: string | undefined
 
+        const iconLoader = await lookupIconLoader()
+        const iconifyLoaderOptions: IconifyLoaderOptions = {
+          addXmlNs: true,
+          scale,
+          customCollections,
+          autoInstall,
+          warn: warn ? full : undefined,
+          customizations: {
+            ...customizations,
+            additionalProps: { ...extraProperties },
+          },
+          usedProps: {},
+        }
+
         if (body.includes(':')) {
           [collection, name] = body.split(':')
-          svg = await searchForIcon(collection, name, collections, scale)
+          svg = await iconLoader(collection, name, iconifyLoaderOptions)
         }
         else {
           const parts = body.split(/-/g)
           for (let i = COLLECTION_NAME_PARTS_MAX; i >= 1; i--) {
             collection = parts.slice(0, i).join('-')
             name = parts.slice(i).join('-')
-            svg = await searchForIcon(collection, name, collections, scale)
+            svg = await iconLoader(collection, name, iconifyLoaderOptions)
             if (svg)
               break
           }
@@ -122,7 +109,7 @@ export const preset = (options: IconsOptions = {}): Preset => {
             'background-color': 'currentColor',
             'height': `${scale}em`,
             'width': `${scale}em`,
-            ...extraProperties,
+            ...iconifyLoaderOptions.usedProps!,
           }
         }
         else {
@@ -132,7 +119,7 @@ export const preset = (options: IconsOptions = {}): Preset => {
             'background-color': 'transparent',
             'height': `${scale}em`,
             'width': `${scale}em`,
-            ...extraProperties,
+            ...iconifyLoaderOptions.usedProps!,
           }
         }
       },

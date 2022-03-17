@@ -15,6 +15,20 @@ export function createConfig({ strict = true, dev = true } = {}) {
     presets: [
       presetAttributify({ strict }),
       presetIcons({
+        customizations: {
+          transform(icon) {
+            return icon.replace(
+              '<svg ',
+              '<svg width="1em" height="1em" ',
+            )
+          },
+          iconCustomizer(collection, icon, props) {
+            if (collection === 'carbon' && icon === 'logo-github') {
+              props.width = '2em'
+              props.height = '2em'
+            }
+          },
+        },
         collections: {
           carbon: () => import('@iconify-json/carbon/icons.json').then(i => i.default as any),
           mdi: () => import('@iconify-json/mdi/icons.json').then(i => i.default as any),
