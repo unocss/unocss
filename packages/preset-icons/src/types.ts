@@ -50,19 +50,6 @@ export interface IconsOptions {
    */
   layer?: string
   /**
-   * Style apply to icons by default
-   *
-   * @default ''
-   */
-  defaultStyle?: string
-
-  /**
-   * Class names apply to icons by default
-   *
-   * @default ''
-   */
-  defaultClass?: string
-  /**
    * Custom icon customizer.
    */
   customizations?: Omit<IconCustomizations, 'additionalProps'>
