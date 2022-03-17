@@ -1,8 +1,9 @@
 import type { UnocssPluginContext } from '@unocss/core'
 import { createAutocomplete, searchUsageBoundary } from '@unocss/autocomplete'
 import type { CompletionItemProvider, ExtensionContext, TextDocument } from 'vscode'
-import { CompletionItem, CompletionItemKind, Position, Range, languages } from 'vscode'
-import { INCLUDE_COMMENT_IDE } from '../../plugins-common/constants'
+import { CompletionItem, CompletionItemKind, MarkdownString, Position, Range, languages } from 'vscode'
+import { getPrettiedMarkdown } from './utils'
+import { log } from './log'
 
 const languageIds = [
   'erb',
@@ -30,29 +31,41 @@ export async function registerAutoComplete(
 
   const autoComplete = createAutocomplete(uno)
 
+  async function getMarkdown(util: string) {
+    return new MarkdownString(await getPrettiedMarkdown(uno, util))
+  }
+
   const provider: CompletionItemProvider = {
     async provideCompletionItems(doc: TextDocument, position: Position) {
       const code = doc.getText()
       const id = doc.uri.fsPath
 
-      if (!code || (!code.includes(INCLUDE_COMMENT_IDE) && !filter(code, id)))
+      if (!code || !filter(code, id))
         return null
 
-      const line = doc.getText(new Range(new Position(position.line, 0), new Position(position.line, position.character)))
+      const line = doc.getText(new Range(new Position(position.line, 0), new Position(position.line, Infinity)))
       const { content: input } = searchUsageBoundary(line, position.character)
 
-      const suggestions = await autoComplete.suggest(input)
+      try {
+        const suggestions = await autoComplete.suggest(input)
 
-      if (!suggestions.length)
-        return
+        log.appendLine(`[autocomplete] ${id} | ${input} | ${suggestions.slice(0, 10).join(', ')}`)
 
-      return suggestions.map(i => new CompletionItem(i, CompletionItemKind.Text))
+        if (!suggestions.length)
+          return
+
+        return suggestions.map(i => new CompletionItem(i, CompletionItemKind.EnumMember))
+      }
+      catch (e) {
+        log.appendLine(`[error] ${String(e)}`)
+        return null
+      }
     },
 
     async resolveCompletionItem(item: CompletionItem) {
       return {
         ...item,
-        // documentation: await getCollectionMarkdown(ctx, item.label as string),
+        documentation: await getMarkdown(item.label as string),
       }
     },
   }

@@ -1,3 +1,6 @@
+import type { UnoGenerator } from '@unocss/core'
+import prettier from 'prettier/standalone'
+import parserCSS from 'prettier/parser-postcss'
 
 export function throttle<T extends((...args: any) => any)>(func: T, timeFrame: number): T {
   let lastTime = 0
@@ -13,4 +16,21 @@ export function throttle<T extends((...args: any) => any)>(func: T, timeFrame: n
       timer = setTimeout(func, timeFrame)
     }
   } as T
+}
+
+export async function getPrettiedCSS(uno: UnoGenerator, util: string) {
+  const result = (await uno.generate(new Set([util]), { preflights: false, safelist: false }))
+  const prettified = prettier.format(result.css, {
+    parser: 'css',
+    plugins: [parserCSS],
+  })
+
+  return {
+    ...result,
+    prettified,
+  }
+}
+
+export async function getPrettiedMarkdown(uno: UnoGenerator, util: string) {
+  return `\`\`\`css\n${(await getPrettiedCSS(uno, util)).prettified}\n\`\`\``
 }
