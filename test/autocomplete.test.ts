@@ -50,7 +50,7 @@ describe('autocomplete', () => {
     ).toMatchInlineSnapshot(`
       {
         "border": "border border-collapse border-dashed border-dotted border-double border-hidden border-none border-separate border-solid",
-        "border-r": "border-r border-rd- border-red border-rose border-rounded-",
+        "border-r": "border-r border-red border-rose",
         "fle": "flex flex-1 flex-auto flex-col flex-col-reverse flex-initial flex-inline flex-none flex-nowrap flex-row",
         "font-": "font-100 font-200 font-300 font-400 font-500 font-600 font-700 font-mono font-sans font-serif",
         "mx-": "mx-0 mx-1 mx-10 mx-12 mx-2 mx-24 mx-3 mx-36 mx-4 mx-5",

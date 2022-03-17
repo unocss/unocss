@@ -22,12 +22,13 @@ export function createAutocomplete(uno: UnoGenerator) {
       return []
     if (cache.has(input))
       return cache.get(input)!
-    const result = await Promise.all([
+    const result = uniq((await Promise.all([
       suggestSelf(input),
       suggestStatic(input),
       ...suggestFromPreset(input),
-    ])
-      .then(i => uniq(i.flat()).sort().filter(Boolean)) as string[]
+    ])).flat())
+      .sort()
+      .filter(i => i && !i.match(/[:-]$/)) as string[]
     cache.set(input, result)
     return result
   }

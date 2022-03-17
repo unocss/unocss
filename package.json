@@ -69,6 +69,7 @@
     "gzip-size": "^6.0.0",
     "lz-string": "^1.4.4",
     "magic-string": "^0.26.1",
+    "msw": "^0.39.2",
     "pnpm": "^6.32.3",
     "prettier": "^2.6.0",
     "rollup": "^2.70.1",
