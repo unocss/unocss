@@ -41,6 +41,9 @@ export function createAutocomplete(uno: UnoGenerator) {
     const variantPrefix = input.slice(0, idx)
     const variantPostfix = input.slice(idx + input.length)
 
+    if (processed.length < 2)
+      return []
+
     const result = processSuggestions(
       await Promise.all([
         suggestSelf(processed),
