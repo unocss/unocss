@@ -1,10 +1,12 @@
 import type { AutocompleteTemplatePart, ParsedAutocompleteTemplate } from './types'
 
-const shorthands: Record<string, string> = {
+export const shorthands: Record<string, string> = {
   num: `(${[0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 24, 36].join('|')})`,
   precent: `(${[0, 25, 50, 45, 100].join('|')})`,
   directions: '(x|y|t|b|l|r|s|e)',
 }
+
+export const ignoredThemeKeys = ['DEFAULT']
 
 function handleRegexMatch(
   str: string,
@@ -109,6 +111,7 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
       }
       else if (part.type === 'theme') {
         const keys = part.objects.flatMap(i => Object.keys(i))
+          .filter(i => i && !ignoredThemeKeys.includes(i) && i[0] !== '_')
         const fullMatched = keys.find(i => i && rest.startsWith(i))
         if (fullMatched != null) {
           matched += fullMatched
