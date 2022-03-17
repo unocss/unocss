@@ -2,7 +2,7 @@ import type { AutocompleteTemplatePart, ParsedAutocompleteTemplate } from './typ
 
 const shorthands: Record<string, string> = {
   num: `(${[0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 24, 36].join('|')})`,
-  precent: `(${[0, 25, 50, 45, 100].join('|')})`,
+  precent: `(${[0, 25, 45, 50, 100].join('|')})`,
   directions: '(x|y|t|b|l|r|s|e)',
 }
 
@@ -47,10 +47,9 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
       input,
       /\$([\w\|]+)/g,
       (m) => {
-        const keys = m[1].split('|')
         parts.push({
           type: 'theme',
-          objects: keys.map((i) => {
+          objects: m[1].split('|').map((i) => {
             if (!i || !theme[i])
               throw new Error(`Invalid theme key ${i}`)
             return theme[i]
