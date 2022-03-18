@@ -309,10 +309,44 @@ export interface ConfigBase<Theme extends {} = {}> {
    * Custom function for auto complete
    */
   autocomplete?: (AutoCompleteFunction | AutoCompleteTemplate)[]
+
+  /**
+   * Custom extractors for auto complete
+   */
+  autocompleteExtractors?: AutoCompleteExtractor[]
 }
 
 export type AutoCompleteTemplate = string
 export type AutoCompleteFunction = (input: string) => Awaitable<string[]>
+
+export interface AutoCompleteExtractorContext {
+  input: string
+  cursor: number
+}
+
+export interface AutoCompleteExtractorResult {
+  /**
+   * The extracted string
+   */
+  extracted: string
+  /**
+   * The function to convert the selected suggestion back
+   */
+  reverse: (replacement: string) => {
+    range: [number, number]
+    str: string
+  }
+  /**
+   * The function to format suggestions
+   */
+  transformSuggestions?: (suggestions: string[]) => string[]
+}
+
+export interface AutoCompleteExtractor {
+  name: string
+  extract: (context: AutoCompleteExtractorContext) => Awaitable<AutoCompleteExtractorResult | null>
+  order?: number
+}
 
 export interface Preset<Theme extends {} = {}> extends ConfigBase<Theme> {
   name: string

@@ -1,6 +1,6 @@
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
-import presetAttributify, { variantAttributify } from '@unocss/preset-attributify'
+import presetAttributify, { autocompleteExtractorAttributify, variantAttributify } from '@unocss/preset-attributify'
 import { describe, expect, test } from 'vitest'
 
 describe('attributify', () => {
@@ -109,5 +109,41 @@ describe('attributify', () => {
   test('fixture2', async() => {
     const { css } = await uno.generate(fixture2)
     expect(css).toMatchSnapshot()
+  })
+
+  test('autocomplete extractor', async() => {
+    const textString = '<div bg="red-400"></div><div border="b blue-500" flex="row gap- justify-center'
+    //                                                                                /\ cursor here
+
+    const res = await autocompleteExtractorAttributify.extract({
+      input: textString,
+      cursor: 63,
+    })
+
+    expect(res).not.toBeNull()
+
+    expect(res!.extracted).toMatchInlineSnapshot('"flex-gap-"')
+    expect(res!.transformSuggestions([`${res!.extracted}1`, `${res!.extracted}2`]))
+      .toMatchInlineSnapshot(`
+        [
+          "gap-1",
+          "gap-2",
+        ]
+      `)
+
+    const reversed = res!.reverse(`${res!.extracted}1`)
+    expect(reversed).toMatchInlineSnapshot(`
+      {
+        "range": [
+          59,
+          63,
+        ],
+        "str": "gap-1",
+      }
+    `)
+    const pre = textString.slice(0, reversed.range[0])
+    const post = textString.slice(reversed.range[1])
+    expect(pre + reversed.str + post)
+      .toMatchInlineSnapshot('"<div bg=\\"red-400\\"></div><div border=\\"b blue-500\\" flex=\\"row gap-1 justify-center"')
   })
 })
