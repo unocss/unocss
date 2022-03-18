@@ -16,9 +16,6 @@ export function createConfig({ strict = true, dev = true } = {}) {
       presetAttributify({ strict }),
       presetIcons({
         collections: {
-          custom: {
-            circle: '<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><circle cx="60" cy="60" r="50"></circle></svg>',
-          },
           carbon: () => import('@iconify-json/carbon/icons.json').then(i => i.default as any),
           mdi: () => import('@iconify-json/mdi/icons.json').then(i => i.default as any),
           logos: () => import('@iconify-json/logos/icons.json').then(i => i.default as any),
