@@ -130,7 +130,7 @@ In `Node.js` the preset will search for the installed iconify dataset automatica
 
 You can also provide your own custom collections using also [CustomIconLoader](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/types.ts#L12) or [InlineCollection](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/types.ts#L61).
 
-Additionally, you can also use [FileSystemIconLoader](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/loaders.ts#L9) to load your custom icons from your file system:
+Additionally, you can also use [FileSystemIconLoader](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/loaders.ts#L9) to load your custom icons from your file system. You will need to install `@iconify/utils` package as `dev dependency`.
 ```ts
 // vite.config.ts
 import { promises as fs } from 'fs'

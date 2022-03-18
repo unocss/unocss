@@ -4,6 +4,7 @@ import UnoCss from 'unocss/vite'
 import { extractorSvelte } from '@unocss/core'
 import presetIcons from '@unocss/preset-icons'
 import presetUno from '@unocss/preset-uno'
+import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -26,6 +27,15 @@ const config = {
           presets: [
             presetUno(),
             presetIcons({
+              collections: {
+                custom: {
+                  circle: '<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><circle cx="60" cy="60" r="50"></circle></svg>',
+                },
+                customfsl: FileSystemIconLoader(
+                  './icons',
+                  svg => svg.replace('<svg ', '<svg fill="currentColor" '),
+                ),
+              },
               extraProperties: {
                 'display': 'inline-block',
                 'vertical-align': 'middle',

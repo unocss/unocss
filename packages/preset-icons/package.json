@@ -41,7 +41,7 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@iconify/utils": "^1.0.25",
+    "@iconify/utils": "^1.0.26",
     "@unocss/core": "workspace:*"
   },
   "devDependencies": {

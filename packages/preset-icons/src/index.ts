@@ -5,7 +5,8 @@ import type {
   UniversalIconLoader,
 } from '@iconify/utils/lib/loader/types'
 import { loadIcon } from '@iconify/utils'
-import { encodeSvg, isNode, isVSCode } from './utils'
+import { encodeSvgForCss } from '@iconify/utils/lib/svg/encode-svg-for-css'
+import { isNode, isVSCode } from './utils'
 import type { IconsOptions } from './types'
 
 const COLLECTION_NAME_PARTS_MAX = 3
@@ -96,7 +97,8 @@ export const preset = (options: IconsOptions = {}): Preset => {
         if (_mode === 'auto')
           _mode = svg.includes('currentColor') ? 'mask' : 'background-img'
 
-        const url = `url("data:image/svg+xml;utf8,${encodeSvg(svg)}")`
+        // todo: remove trim once landed https://github.com/iconify/iconify/issues/125
+        const url = `url("data:image/svg+xml;utf8,${encodeSvgForCss(svg.trim())}")`
 
         if (_mode === 'mask') {
           // Thanks to https://codepen.io/noahblon/post/coloring-svgs-in-css-background-images
