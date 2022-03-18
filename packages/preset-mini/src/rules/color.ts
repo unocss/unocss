@@ -17,6 +17,12 @@ export const textColors: Rule[] = [
 ]
 
 export const bgColors: Rule[] = [
-  [/^bg-(.+)$/, colorResolver('background-color', 'bg'), { autocomplete: 'bg-$colors' }],
+  [/^bg-(.+)$/, (match, ctx) => {
+    const [, d] = match
+    if (/^\[length:/.test(d) && h.bracketOfLength(d) != null)
+      return { 'background-size': h.bracketOfLength(d)!.split(' ').map(e => h.fraction.auto.px.cssvar(e)).join(' ') }
+    else if (/^\[url\(.*\)\]$/.test(d)) return { '--un-url': `${h.bracket(d)}`, 'background-image': 'var(--un-url)' }
+    else return colorResolver('background-color', 'bg')(match, ctx)
+  }, { autocomplete: 'bg-$colors' }],
   [/^bg-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-bg-opacity': h.bracket.percent(opacity) }), { autocomplete: 'bg-(op|opacity)-<percent>' }],
 ]

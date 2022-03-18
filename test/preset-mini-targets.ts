@@ -176,6 +176,13 @@ export const presetMiniTargets: string[] = [
   'bg-hex-452233/40',
   'bg-opacity-45',
 
+  // bg styles
+  'bg-[length:100_200]',
+  'bg-[length:auto_1/2]',
+  'bg-[length:full_10rem]',
+  'bg-[url(star_transparent.gif)]',
+  'bg-[url(star_transparent.gif),_url(cat_front.png)]',
+
   // color - ring
   'ring-red2',
   'ring-red2/5',
