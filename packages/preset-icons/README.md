@@ -170,7 +170,7 @@ UnoCss({
 
 You can customize all icons using `customizations` configuration option. 
 
-Available customizations functions are:
+Available customizations functions:
 - `transform`: transform raw `svg`, will be only applied when using `custom` icon collection (`iconify` collections excluded).
 - `customize`: change default icon customizations values.
 - `iconCustomizer`: change default icon customizations values.
