@@ -40,7 +40,9 @@ const AsyncFunction = Object.getPrototypeOf(async() => {}).constructor
 export async function evaluateConfig() {
   customConfigError.value = undefined
   const code = customConfigRaw.value
-    .replace(/import\s*(.*?)\s*from\s*(['"])([\w-]+)\2/g, 'const $1 = await __require("$3");')
+    .replace(/import\s*(.*?)\s*from\s*(['"])unocss\2/g, 'const $1 = await __require("unocss");')
+    .replace(/import\s*(\{.*?\})\s*from\s*(['"])([\w-@/]+)\2/g, 'const $1 = await import("https://cdn.skypack.dev/$3");')
+    .replace(/import\s*(.*?)\s*from\s*(['"])([\w-@/]+)\2/g, 'const $1 = (await import("https://cdn.skypack.dev/$3")).default;')
     .replace(/export default /, 'return ')
 
   const __require = (name: string): any => {
