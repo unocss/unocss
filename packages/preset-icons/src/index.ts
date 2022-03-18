@@ -109,8 +109,6 @@ export const preset = (options: IconsOptions = {}): Preset => {
             '-webkit-mask': 'var(--un-icon) no-repeat',
             '-webkit-mask-size': '100% 100%',
             'background-color': 'currentColor',
-            'height': `${scale}em`,
-            'width': `${scale}em`,
             ...iconifyLoaderOptions.usedProps!,
           }
         }
@@ -119,8 +117,6 @@ export const preset = (options: IconsOptions = {}): Preset => {
             'background': `${url} no-repeat`,
             'background-size': '100% 100%',
             'background-color': 'transparent',
-            'height': `${scale}em`,
-            'width': `${scale}em`,
             ...iconifyLoaderOptions.usedProps!,
           }
         }
