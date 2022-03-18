@@ -1,43 +1,39 @@
 import type { AutoCompleteExtractor } from '@unocss/core'
 
-const elementRE = /(.*?<\w[\w:\.$-]*\s)((?:'[\s\S]*?'|"[\s\S]*?"|`[\s\S]*?`|\{[\s\S]*?\}|[^>]*?)*)/
-const valuedAttributeRE = /(.*?)([?]|(?!\d|-{2}|-\d)[a-zA-Z0-9\u00A0-\uFFFF-_:%-]+)(?:=("[^"]*|'[^']*))?/
+const elementRE = /(<\w[\w:\.$-]*\s)((?:'[\s\S]*?'|"[\s\S]*?"|`[\s\S]*?`|\{[\s\S]*?\}|[^>]*?)*)/g
+const valuedAttributeRE = /([?]|(?!\d|-{2}|-\d)[a-zA-Z0-9\u00A0-\uFFFF-_:%-]+)(?:=("[^"]*|'[^']*))?/g
 const splitterRE = /[\s'"`;]+/
 
 export const autocompleteExtractorAttributify: AutoCompleteExtractor = {
   name: 'attributify',
   extract: ({ input, cursor }) => {
-    let currentPos = 0
-
-    let matchElement = elementRE.exec(input)
+    const matchedElements = input.matchAll(elementRE)
     let attrs: string | undefined
-    while (matchElement) {
-      const [matched, prefix, content] = matchElement
-      currentPos += matchElement.index + prefix.length
+    let elPos = 0
+    for (const match of matchedElements) {
+      const [, prefix, content] = match
+      const currentPos = match.index! + prefix.length
       if (cursor > currentPos && cursor <= currentPos + content.length) {
+        elPos = currentPos
         attrs = content
         break
       }
-      currentPos += matched.length - prefix.length
-      matchElement = elementRE.exec(input.slice(currentPos))
     }
     if (!attrs) return null
-    const elPos = currentPos
 
-    let matchAttribute = valuedAttributeRE.exec(attrs)
+    const matchedAttributes = attrs.matchAll(valuedAttributeRE)
+    let attrsPos = 0
     let attrName: string | undefined
     let attrValues: string | undefined
-    while (matchAttribute) {
-      const [matched, prefix, name, rawValues] = matchAttribute
-      currentPos += matchAttribute.index + prefix.length
-      const len = matched.length - prefix.length
-      if (cursor > currentPos && cursor <= currentPos + len) {
+    for (const match of matchedAttributes) {
+      const [matched, name, rawValues] = match
+      const currentPos = elPos + match.index!
+      if (cursor > currentPos && cursor <= currentPos + matched.length) {
+        attrsPos = currentPos
         attrName = name
         attrValues = rawValues?.slice(1)
         break
       }
-      currentPos += len
-      matchAttribute = valuedAttributeRE.exec(attrs.slice(currentPos - elPos))
     }
     if (!attrName) return null
 
@@ -47,30 +43,30 @@ export const autocompleteExtractorAttributify: AutoCompleteExtractor = {
         extracted: attrName,
         reverse(replacement) {
           return {
-            range: [currentPos, cursor],
+            range: [attrsPos, cursor],
             str: replacement,
           }
         },
       }
     }
 
-    currentPos += attrName.length + 2
-    const attrPos = currentPos
+    const attrValuePos = attrsPos + attrName.length + 2
 
     let matchSplit = splitterRE.exec(attrValues)
+    let currentPos = 0
     let value: string | undefined
     while (matchSplit) {
       const [matched] = matchSplit
-      const startPos = currentPos - attrPos
-      if (cursor > currentPos && cursor <= currentPos + matchSplit.index) {
-        value = attrValues.slice(startPos, startPos + matchSplit.index)
+      if (cursor > attrValuePos + currentPos
+        && cursor <= attrValuePos + currentPos + matchSplit.index) {
+        value = attrValues.slice(currentPos, currentPos + matchSplit.index)
         break
       }
       currentPos += matchSplit.index + matched.length
-      matchSplit = splitterRE.exec(attrValues.slice(currentPos - attrPos))
+      matchSplit = splitterRE.exec(attrValues.slice(currentPos))
     }
     if (value === undefined)
-      value = attrValues.slice(currentPos - attrPos)
+      value = attrValues.slice(currentPos)
 
     return {
       extracted: `${attrName}-${value}`,
@@ -81,7 +77,7 @@ export const autocompleteExtractorAttributify: AutoCompleteExtractor = {
       },
       reverse(replacement) {
         return {
-          range: [currentPos, cursor],
+          range: [currentPos + attrValuePos, cursor],
           str: replacement.slice(attrName!.length + 1),
         }
       },

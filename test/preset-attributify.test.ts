@@ -123,7 +123,7 @@ describe('attributify', () => {
     expect(res).not.toBeNull()
 
     expect(res!.extracted).toMatchInlineSnapshot('"flex-gap-"')
-    expect(res!.transformSuggestions([`${res!.extracted}1`, `${res!.extracted}2`]))
+    expect(res!.transformSuggestions!([`${res!.extracted}1`, `${res!.extracted}2`]))
       .toMatchInlineSnapshot(`
         [
           "gap-1",
