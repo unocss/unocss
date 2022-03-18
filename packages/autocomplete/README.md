@@ -56,6 +56,18 @@ For examples:
 - **Input**: `text-r`
 - **Suggestions**: `text-red`, `text-rose` ...
 
+###### Example 4
+
+For multiple templates
+
+- **Template**: `['(border|b)-<num>', '(border|b)-<directions>-<num>']`
+
+- **Input**: `b-`
+- **Suggestions**: `b-x`, `b-y`, `b-1`, `b-2` ...
+
+- **Input**: `b-x-`
+- **Suggestions**: `b-x-1`, `b-x-2` ...
+
 ## License
 
 MIT License © 2021-PRESENT [Anthony Fu](https://github.com/antfu)

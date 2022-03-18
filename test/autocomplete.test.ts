@@ -62,7 +62,7 @@ describe('autocomplete', () => {
         "bg-": "bg-amber bg-auto bg-black bg-blend-color bg-blend-color-burn bg-blend-color-dodge bg-blend-darken bg-blend-difference bg-blend-exclusion bg-blend-hard-light",
         "bg-r": "bg-red bg-repeat bg-repeat-round bg-repeat-space bg-repeat-x bg-repeat-y bg-rose",
         "border": "border border-collapse border-dashed border-dotted border-double border-hidden border-none border-separate border-solid",
-        "border-r": "border-r border-red border-rose",
+        "border-r": "border-r border-rd border-red border-rose border-rounded",
         "fle": "flex flex-1 flex-auto flex-col flex-col-reverse flex-initial flex-inline flex-none flex-nowrap flex-row",
         "font-": "font-100 font-200 font-300 font-400 font-500 font-600 font-700 font-mono font-sans font-serif",
         "leading-": "leading-loose leading-none leading-normal leading-relaxed leading-snug leading-tight",
@@ -102,5 +102,43 @@ describe('autocomplete', () => {
           "text-red-900",
         ]
       `)
+  })
+
+  it('should provide variants', async() => {
+    expect(await ac.suggest('lt-'))
+      .toMatchInlineSnapshot(`
+        [
+          "lt-2xl:",
+          "lt-lg:",
+          "lt-md:",
+          "lt-sm:",
+          "lt-xl:",
+        ]
+      `)
+  })
+
+  it('should accept variants', async() => {
+    expect(await ac.suggest('dark:md:m-'))
+      .toMatchInlineSnapshot(`
+        [
+          "dark:md:m-0",
+          "dark:md:m-1",
+          "dark:md:m-2",
+          "dark:md:m-3",
+          "dark:md:m-4",
+          "dark:md:m-5",
+          "dark:md:m-6",
+          "dark:md:m-8",
+          "dark:md:m-10",
+          "dark:md:m-12",
+          "dark:md:m-24",
+          "dark:md:m-36",
+        ]
+      `)
+  })
+
+  it('should skip single-pass variants', async() => {
+    expect(await ac.suggest('dark:dar')).not.toContain('dark:')
+    expect(await ac.suggest('active:fir')).toContain('active:first:')
   })
 })

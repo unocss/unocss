@@ -87,7 +87,7 @@ export class UnoGenerator {
 
     const context = this.makeContext(
       raw,
-      [alias || applied[0], applied[1], applied[2]],
+      [alias || applied[0], applied[1], applied[2], applied[3]],
     )
 
     // expand shortcuts
@@ -265,7 +265,7 @@ export class UnoGenerator {
 
   matchVariants(raw: string, current?: string): VariantMatchedResult {
     // process variants
-    const usedVariants = new Set<Variant>()
+    const variants = new Set<Variant>()
     const handlers: VariantHandler[] = []
     let processed = current || raw
     let applied = false
@@ -279,7 +279,7 @@ export class UnoGenerator {
     while (true) {
       applied = false
       for (const v of this.config.variants) {
-        if (!v.multiPass && usedVariants.has(v))
+        if (!v.multiPass && variants.has(v))
           continue
         let handler = v.match(processed, context)
         if (!handler)
@@ -290,7 +290,7 @@ export class UnoGenerator {
         if (Array.isArray(handler.parent))
           this.parentOrders.set(handler.parent[0], handler.parent[1])
         handlers.push(handler)
-        usedVariants.add(v)
+        variants.add(v)
         applied = true
         break
       }
@@ -301,7 +301,7 @@ export class UnoGenerator {
         throw new Error(`Too many variants applied to "${raw}"`)
     }
 
-    return [raw, processed, handlers]
+    return [raw, processed, handlers, variants]
   }
 
   applyVariants(parsed: ParsedUtil, variantHandlers = parsed[4], raw = parsed[1]): UtilObject {

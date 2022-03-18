@@ -144,7 +144,7 @@ export interface RuleMeta {
   /**
    * Templates to provide autocomplete suggestions
    */
-  autocomplete?: AutoCompleteTemplate | AutoCompleteTemplate[]
+  autocomplete?: Arrayable<AutoCompleteTemplate>
 
   /**
    * Internal rules will only be matched for shortcuts but not the user code.
@@ -222,6 +222,11 @@ export interface VariantObject<Theme extends {} = {}> {
    * @default false
    */
   multiPass?: boolean
+
+  /**
+   * Custom function for auto complete
+   */
+  autocomplete?: Arrayable<AutoCompleteFunction | AutoCompleteTemplate>
 }
 
 export type Variant<Theme extends {} = {}> = VariantFunction<Theme> | VariantObject<Theme>
@@ -469,7 +474,8 @@ export interface GenerateResult {
 export type VariantMatchedResult = readonly [
   raw: string,
   current: string,
-  variants: VariantHandler[],
+  variantHandlers: VariantHandler[],
+  variants: Set<Variant>,
 ]
 
 export type ParsedUtil = readonly [
@@ -477,7 +483,7 @@ export type ParsedUtil = readonly [
   raw: string,
   entries: CSSEntries,
   meta: RuleMeta | undefined,
-  variants: VariantHandler[],
+  variantHandlers: VariantHandler[],
 ]
 
 export type RawUtil = readonly [
