@@ -95,7 +95,7 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
       }
     }
 
-    return code.replace(CSS_PLACEHOLDER, css || '')
+    return code.replace(CSS_PLACEHOLDER, css?.replace(/\\/g, '\\\\') ?? '')
   }
 
   return {
