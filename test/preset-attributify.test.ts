@@ -112,22 +112,19 @@ describe('attributify', () => {
   })
 
   test('autocomplete extractor', async() => {
-    const textString = '<div bg="red-400"></div><div border="b blue-500" flex="row gap- justify-center'
-    //                                                                                /\ cursor here
-
     const res = await autocompleteExtractorAttributify.extract({
-      input: textString,
-      cursor: 63,
+      input: fixture2,
+      cursor: 828,
     })
 
     expect(res).not.toBeNull()
 
-    expect(res!.extracted).toMatchInlineSnapshot('"flex-gap-"')
+    expect(res!.extracted).toMatchInlineSnapshot('"peer-not-placeholder-shown--translate-y-4"')
     expect(res!.transformSuggestions!([`${res!.extracted}1`, `${res!.extracted}2`]))
       .toMatchInlineSnapshot(`
         [
-          "gap-1",
-          "gap-2",
+          "-translate-y-41",
+          "-translate-y-42",
         ]
       `)
 
@@ -135,15 +132,16 @@ describe('attributify', () => {
     expect(reversed).toMatchInlineSnapshot(`
       {
         "range": [
-          59,
-          63,
+          815,
+          829,
         ],
-        "str": "gap-1",
+        "str": "-translate-y-41",
       }
     `)
-    const pre = textString.slice(0, reversed.range[0])
-    const post = textString.slice(reversed.range[1])
-    expect(pre + reversed.str + post)
-      .toMatchInlineSnapshot('"<div bg=\\"red-400\\"></div><div border=\\"b blue-500\\" flex=\\"row gap-1 justify-center"')
+
+    expect(fixture2.slice(reversed.range[0], reversed.range[1]))
+      .toMatchInlineSnapshot('"-translate-y-4"')
+    expect(fixture2.slice(0, reversed.range[0]) + reversed.str + fixture2.slice(reversed.range[1]))
+      .toMatchSnapshot()
   })
 })

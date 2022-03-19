@@ -43,7 +43,7 @@ export const autocompleteExtractorAttributify: AutoCompleteExtractor = {
         extracted: attrName,
         reverse(replacement) {
           return {
-            range: [attrsPos, cursor],
+            range: [attrsPos, attrsPos + attrName!.length],
             str: replacement,
           }
         },
@@ -77,7 +77,7 @@ export const autocompleteExtractorAttributify: AutoCompleteExtractor = {
       },
       reverse(replacement) {
         return {
-          range: [currentPos + attrValuePos, cursor],
+          range: [currentPos + attrValuePos, currentPos + attrValuePos + value!.length],
           str: replacement.slice(attrName!.length + 1),
         }
       },
