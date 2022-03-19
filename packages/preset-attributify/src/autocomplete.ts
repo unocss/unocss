@@ -1,13 +1,13 @@
 import type { AutoCompleteExtractor } from '@unocss/core'
 
-const elementRE = /(<\w[\w:\.$-]*\s)((?:'[\s\S]*?'|"[\s\S]*?"|`[\s\S]*?`|\{[\s\S]*?\}|[^>]*?)*)/g
+const elementRE = /(<\w[\w:\.$-]*\s)((?:'[^>]*?'|"[^>]*?"|`[^>]*?`|\{[^>]*?\}|[^>]*?)*)/g
 const valuedAttributeRE = /([?]|(?!\d|-{2}|-\d)[a-zA-Z0-9\u00A0-\uFFFF-_:%-]+)(?:=("[^"]*|'[^']*))?/g
-const splitterRE = /[\s'"`;]+/
+const splitterRE = /[\s'"`;>]+/
 
 export const autocompleteExtractorAttributify: AutoCompleteExtractor = {
   name: 'attributify',
-  extract: ({ input, cursor }) => {
-    const matchedElements = input.matchAll(elementRE)
+  extract: ({ content, cursor }) => {
+    const matchedElements = content.matchAll(elementRE)
     let attrs: string | undefined
     let elPos = 0
     for (const match of matchedElements) {
@@ -41,10 +41,11 @@ export const autocompleteExtractorAttributify: AutoCompleteExtractor = {
     if (attrValues === undefined) {
       return {
         extracted: attrName,
-        reverse(replacement) {
+        resolveReplacement(suggestion) {
           return {
-            range: [attrsPos, attrsPos + attrName!.length],
-            str: replacement,
+            start: attrsPos,
+            end: attrsPos + attrName!.length,
+            replacement: suggestion,
           }
         },
       }
@@ -75,10 +76,11 @@ export const autocompleteExtractorAttributify: AutoCompleteExtractor = {
           .filter(v => v.startsWith(`${attrName}-`))
           .map(v => v.slice(attrName!.length + 1))
       },
-      reverse(replacement) {
+      resolveReplacement(suggestion) {
         return {
-          range: [currentPos + attrValuePos, currentPos + attrValuePos + value!.length],
-          str: replacement.slice(attrName!.length + 1),
+          start: currentPos + attrValuePos,
+          end: currentPos + attrValuePos + value!.length,
+          replacement: suggestion.slice(attrName!.length + 1),
         }
       },
     }

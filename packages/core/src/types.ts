@@ -320,8 +320,33 @@ export type AutoCompleteTemplate = string
 export type AutoCompleteFunction = (input: string) => Awaitable<string[]>
 
 export interface AutoCompleteExtractorContext {
-  input: string
+  content: string
   cursor: number
+}
+
+export interface Replacement {
+  /**
+   * The range of the original text
+   */
+  start: number
+  end: number
+  /**
+   * The text used to replace
+   */
+  replacement: string
+}
+
+export interface SuggestResult {
+  /**
+   * The generated suggestions
+   * [original, formatted]
+   */
+  suggestions: [string, string][]
+  /**
+   * The function to convert the selected suggestion back
+   * Needs to pass the original one
+   */
+  resolveReplacement: (suggestion: string) => Replacement
 }
 
 export interface AutoCompleteExtractorResult {
@@ -332,10 +357,7 @@ export interface AutoCompleteExtractorResult {
   /**
    * The function to convert the selected suggestion back
    */
-  reverse: (replacement: string) => {
-    range: [number, number]
-    str: string
-  }
+  resolveReplacement: (suggestion: string) => Replacement
   /**
    * The function to format suggestions
    */

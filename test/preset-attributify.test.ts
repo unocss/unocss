@@ -113,7 +113,7 @@ describe('attributify', () => {
 
   test('autocomplete extractor', async() => {
     const res = await autocompleteExtractorAttributify.extract({
-      input: fixture2,
+      content: fixture2,
       cursor: 828,
     })
 
@@ -128,20 +128,18 @@ describe('attributify', () => {
         ]
       `)
 
-    const reversed = res!.reverse(`${res!.extracted}1`)
+    const reversed = res!.resolveReplacement(`${res!.extracted}1`)
     expect(reversed).toMatchInlineSnapshot(`
       {
-        "range": [
-          815,
-          829,
-        ],
-        "str": "-translate-y-41",
+        "end": 829,
+        "replacement": "-translate-y-41",
+        "start": 815,
       }
     `)
 
-    expect(fixture2.slice(reversed.range[0], reversed.range[1]))
+    expect(fixture2.slice(reversed.start, reversed.end))
       .toMatchInlineSnapshot('"-translate-y-4"')
-    expect(fixture2.slice(0, reversed.range[0]) + reversed.str + fixture2.slice(reversed.range[1]))
+    expect(fixture2.slice(0, reversed.start) + reversed.replacement + fixture2.slice(reversed.end))
       .toMatchSnapshot()
   })
 })
