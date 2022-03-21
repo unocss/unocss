@@ -1,7 +1,7 @@
 import type { UnocssPluginContext } from '@unocss/core'
 import { createAutocomplete } from '@unocss/autocomplete'
 import type { CompletionItemProvider, ExtensionContext, Position, TextDocument } from 'vscode'
-import { CompletionItem, CompletionItemKind, MarkdownString, Range, languages } from 'vscode'
+import { CompletionItem, CompletionItemKind, CompletionList, MarkdownString, Range, languages } from 'vscode'
 import { getPrettiedMarkdown } from './utils'
 import { log } from './log'
 
@@ -51,13 +51,13 @@ export async function registerAutoComplete(
         if (!result.suggestions.length)
           return
 
-        return result.suggestions.map(([value, label]) => {
+        return new CompletionList(result.suggestions.map(([value, label]) => {
           const resolved = result.resolveReplacement(value)
           const item = new CompletionItem(label, CompletionItemKind.EnumMember)
           item.insertText = resolved.replacement
           item.range = new Range(doc.positionAt(resolved.start), doc.positionAt(resolved.end))
           return item
-        })
+        }), true)
       }
       catch (e) {
         log.appendLine(`[error] ${String(e)}`)
