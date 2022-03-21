@@ -29,7 +29,11 @@ const config = {
             presetIcons({
               collections: {
                 custom: {
-                  circle: '<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><circle cx="60" cy="60" r="50"></circle></svg>',
+                  // do not remove LF: testing trimCustomSvg on universal icon loader
+                  circle: `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+<circle cx="60" cy="60" r="50"/>
+</svg>
+`,
                 },
                 customfsl: FileSystemIconLoader(
                   './icons',

@@ -68,6 +68,7 @@ export const preset = (options: IconsOptions = {}): Preset => {
           customizations: {
             ...customizations,
             additionalProps: { ...extraProperties },
+            trimCustomSvg: true,
           },
           usedProps: {},
         }
@@ -97,8 +98,7 @@ export const preset = (options: IconsOptions = {}): Preset => {
         if (_mode === 'auto')
           _mode = svg.includes('currentColor') ? 'mask' : 'background-img'
 
-        // todo: remove trim once landed https://github.com/iconify/iconify/issues/125
-        const url = `url("data:image/svg+xml;utf8,${encodeSvgForCss(svg.trim())}")`
+        const url = `url("data:image/svg+xml;utf8,${encodeSvgForCss(svg)}")`
 
         if (_mode === 'mask') {
           // Thanks to https://codepen.io/noahblon/post/coloring-svgs-in-css-background-images

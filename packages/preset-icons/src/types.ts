@@ -50,9 +50,9 @@ export interface IconsOptions {
    */
   layer?: string
   /**
-   * Custom icon customizer.
+   * Custom icon customizations.
    */
-  customizations?: Omit<IconCustomizations, 'additionalProps'>
+  customizations?: Omit<IconCustomizations, 'additionalProps' | 'trimCustomSvg'>
   /**
    * Auto install icon sources package when the usages is detected
    *
