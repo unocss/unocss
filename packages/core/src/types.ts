@@ -339,12 +339,13 @@ export interface Replacement {
 export interface SuggestResult {
   /**
    * The generated suggestions
-   * [original, formatted]
+   *
+   * `[original, formatted]`
    */
   suggestions: [string, string][]
   /**
-   * The function to convert the selected suggestion back
-   * Needs to pass the original one
+   * The function to convert the selected suggestion back.
+   * Needs to pass in the original one.
    */
   resolveReplacement: (suggestion: string) => Replacement
 }

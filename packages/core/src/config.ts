@@ -61,7 +61,7 @@ export function resolveConfig(
     config.theme || {},
   ].reduce((a, p) => mergeDeep(a, p), {}))
 
-    ; (mergePresets('extendTheme') as ThemeExtender<any>[]).forEach(extendTheme => extendTheme(theme))
+  ;(mergePresets('extendTheme') as ThemeExtender<any>[]).forEach(extendTheme => extendTheme(theme))
 
   const autocompleteExtractors = mergePresets('autocompleteExtractors')
   autocompleteExtractors.sort((a, b) => (a.order || 0) - (b.order || 0))

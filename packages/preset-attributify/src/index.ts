@@ -23,6 +23,9 @@ const preset = (options: AttributifyOptions = {}): Preset => {
   const extractors = [
     extractorAttributify(options),
   ]
+  const autocompleteExtractors = [
+    autocompleteExtractorAttributify,
+  ]
 
   if (!options.strict)
     extractors.unshift(extractorSplit)
@@ -32,7 +35,7 @@ const preset = (options: AttributifyOptions = {}): Preset => {
     variants,
     extractors,
     options,
-    autocompleteExtractors: [autocompleteExtractorAttributify],
+    autocompleteExtractors,
   }
 }
 
