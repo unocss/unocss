@@ -1,4 +1,5 @@
 import type { AutoCompleteExtractor } from '@unocss/core'
+import { variantsRE } from './variant'
 
 const elementRE = /(<\w[\w:\.$-]*\s)((?:'[^>]*?'|"[^>]*?"|`[^>]*?`|\{[^>]*?\}|[^>]*?)*)/g
 const valuedAttributeRE = /([?]|(?!\d|-{2}|-\d)[a-zA-Z0-9\u00A0-\uFFFF-_:%-]+)(?:=("[^"]*|'[^']*))?/g
@@ -69,18 +70,20 @@ export const autocompleteExtractorAttributify: AutoCompleteExtractor = {
     if (value === undefined)
       value = attrValues.slice(currentPos)
 
+    const [, variants = '', body] = value.match(variantsRE) || []
+
     return {
-      extracted: `${attrName}-${value}`,
+      extracted: `${variants}${attrName}-${body}`,
       transformSuggestions(suggestions) {
         return suggestions
-          .filter(v => v.startsWith(`${attrName}-`))
-          .map(v => v.slice(attrName!.length + 1))
+          .filter(v => v.startsWith(`${variants}${attrName}-`))
+          .map(v => variants + v.slice(variants.length + attrName!.length + 1))
       },
       resolveReplacement(suggestion) {
         return {
           start: currentPos + attrValuePos,
           end: currentPos + attrValuePos + value!.length,
-          replacement: suggestion.slice(attrName!.length + 1),
+          replacement: variants + suggestion.slice(variants.length + attrName!.length + 1),
         }
       },
     }

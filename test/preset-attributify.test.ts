@@ -113,33 +113,33 @@ describe('attributify', () => {
 
   test('autocomplete extractor', async() => {
     const res = await autocompleteExtractorAttributify.extract({
-      content: fixture2,
-      cursor: 828,
+      content: fixture1,
+      cursor: 187,
     })
 
     expect(res).not.toBeNull()
 
-    expect(res!.extracted).toMatchInlineSnapshot('"peer-not-placeholder-shown--translate-y-4"')
+    expect(res!.extracted).toMatchInlineSnapshot('"dark:!bg-blue-500"')
     expect(res!.transformSuggestions!([`${res!.extracted}1`, `${res!.extracted}2`]))
       .toMatchInlineSnapshot(`
         [
-          "-translate-y-41",
-          "-translate-y-42",
+          "dark:!blue-5001",
+          "dark:!blue-5002",
         ]
       `)
 
     const reversed = res!.resolveReplacement(`${res!.extracted}1`)
     expect(reversed).toMatchInlineSnapshot(`
       {
-        "end": 829,
-        "replacement": "-translate-y-41",
-        "start": 815,
+        "end": 189,
+        "replacement": "dark:!blue-5001",
+        "start": 175,
       }
     `)
 
-    expect(fixture2.slice(reversed.start, reversed.end))
-      .toMatchInlineSnapshot('"-translate-y-4"')
-    expect(fixture2.slice(0, reversed.start) + reversed.replacement + fixture2.slice(reversed.end))
+    expect(fixture1.slice(reversed.start, reversed.end))
+      .toMatchInlineSnapshot('"dark:!blue-500"')
+    expect(fixture1.slice(0, reversed.start) + reversed.replacement + fixture1.slice(reversed.end))
       .toMatchSnapshot()
   })
 })
