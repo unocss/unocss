@@ -121,6 +121,24 @@ describe('transformer-directives', () => {
       `)
   })
 
+  test('multiple pseudo-classes', async() => {
+    const result = await transform(
+      '.btn { @apply sm:hover:bg-white }',
+    )
+    expect(result)
+      .toMatchInlineSnapshot(`
+        ".btn {
+        }
+        @media (min-width: 640px) {
+          .btn:hover {
+            --un-bg-opacity: 1;
+            background-color: rgba(255, 255, 255, var(--un-bg-opacity));
+          }
+        }
+        "
+      `)
+  })
+
   test('element selector', async() => {
     const result = await transform(
       'input { @apply px-3 focus:border; }',

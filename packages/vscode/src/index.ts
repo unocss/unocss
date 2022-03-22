@@ -1,4 +1,4 @@
-import { relative } from 'path'
+import { relative, resolve } from 'path'
 import type { ExtensionContext } from 'vscode'
 import { StatusBarAlignment, window, workspace } from 'vscode'
 import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
@@ -9,12 +9,15 @@ import { registerAnnonations } from './annonation'
 import { registerAutoComplete } from './autocomplete'
 
 export async function activate(ext: ExtensionContext) {
-  const config = workspace.getConfiguration('unocss')
-  const cwd = config.get<string>('root') || workspace.workspaceFolders?.[0].uri.fsPath
-  if (!cwd)
+  const projectPath = workspace.workspaceFolders?.[0].uri.fsPath
+  if (!projectPath)
     return
 
-  log.appendLine(`UnoCSS for VS Code  v${version}`)
+  const config = workspace.getConfiguration('unocss')
+  const root = config.get<string>('root')
+  const cwd = root ? resolve(projectPath, root) : projectPath
+
+  log.appendLine(`UnoCSS for VS Code  v${version} ${process.cwd()}`)
 
   const context = createContext(cwd, {}, [
     sourcePluginFactory({

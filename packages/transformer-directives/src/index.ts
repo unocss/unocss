@@ -76,34 +76,35 @@ export async function transformDirectives(code: MagicString, uno: UnoGenerator, 
         if (!utils.length)
           return
 
-        const parentSelector = generate(node.prelude)
-
         for (const i of utils) {
           const [, _selector, body, parent] = i
           const selector = _selector?.replace(regexScopePlaceholder, ' ') || _selector
 
-          if (parent) {
-            const newNodeCss = `${parent}{${parentSelector}{${body}}}`
-            code.appendLeft(calcOffset(node.loc!.end.offset), newNodeCss)
-          }
-          else if (selector && selector !== '.\\-') {
-            const selectorAST = parse(selector, {
-              context: 'selector',
-            }) as Selector
+          if (parent || (selector && selector !== '.\\-')) {
+            let newSelector = generate(node.prelude)
+            if (selector && selector !== '.\\-') {
+              const selectorAST = parse(selector, {
+                context: 'selector',
+              }) as Selector
 
-            const prelude = clone(node.prelude) as SelectorList
+              const prelude = clone(node.prelude) as SelectorList
 
-            prelude.children.forEach((child) => {
-              const parentSelectorAst = clone(selectorAST) as Selector
-              parentSelectorAst.children.forEach((i) => {
-                if (i.type === 'ClassSelector' && i.name === '\\-')
-                  Object.assign(i, clone(child))
+              prelude.children.forEach((child) => {
+                const parentSelectorAst = clone(selectorAST) as Selector
+                parentSelectorAst.children.forEach((i) => {
+                  if (i.type === 'ClassSelector' && i.name === '\\-')
+                    Object.assign(i, clone(child))
+                })
+                Object.assign(child, parentSelectorAst)
               })
-              Object.assign(child, parentSelectorAst)
-            })
+              newSelector = generate(prelude)
+            }
 
-            const newNodeCss = `${generate(prelude)}{${body}}`
-            code.appendLeft(calcOffset(node.loc!.end.offset), newNodeCss)
+            let css = `${newSelector}{${body}}`
+            if (parent)
+              css = `${parent}{${css}}`
+
+            code.appendLeft(calcOffset(node.loc!.end.offset), css)
           }
           else {
             code.appendRight(calcOffset(childNode.loc!.end.offset), body)
