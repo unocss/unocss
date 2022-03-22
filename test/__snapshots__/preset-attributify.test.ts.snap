@@ -17,6 +17,7 @@ Set {
   "[text~=\\"white\\"]",
   "[flex~=\\"~\\"]",
   "[flex~=\\"col\\"]",
+  "[flex~=\\"!~\\"]",
   "[p~=\\"t-2\\"]",
   "[pt~=\\"2\\"]",
   "[border~=\\"rounded-xl\\"]",
@@ -125,6 +126,7 @@ exports[`attributify > fixture1 1`] = `
 [ma=\\"\\"],
 [un-children~=\\"m-auto\\"]>*{margin:auto;}
 [inline-block=\\"\\"]{display:inline-block;}
+[flex~=\\"\\\\!\\\\~\\"]{display:flex !important;}
 [flex~=\\"\\\\~\\"]{display:flex;}
 [flex~=\\"col\\"]{flex-direction:column;}
 [translate-x-100\\\\%=\\"\\"],
@@ -242,6 +244,7 @@ exports[`attributify > variant 1`] = `
   "text-white",
   "flex",
   "flex-col",
+  "!flex",
   "p-t-2",
   "pt-2",
   "border-rounded-xl",
