@@ -35,7 +35,9 @@ const preset = (options: AttributifyOptions = {}): Preset => {
     variants,
     extractors,
     options,
-    autocompleteExtractors,
+    autocomplete: {
+      extractors: autocompleteExtractors,
+    },
   }
 }
 

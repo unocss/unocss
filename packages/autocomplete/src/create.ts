@@ -84,8 +84,8 @@ export function createAutocomplete(uno: UnoGenerator) {
   }
 
   async function searchUsageByExtractor(content: string, cursor: number): Promise<AutoCompleteExtractorResult | null> {
-    if (!uno.config.autocompleteExtractors?.length) return null
-    for (const extractor of uno.config.autocompleteExtractors) {
+    if (!uno.config.autocomplete.extractors.length) return null
+    for (const extractor of uno.config.autocomplete.extractors) {
       const res = await extractor.extract({ content, cursor })
       if (res) return res
     }
@@ -126,7 +126,7 @@ export function createAutocomplete(uno: UnoGenerator) {
     staticUtils = Object.keys(uno.config.rulesStaticMap)
     templates.length = 0
     templates.push(
-      ...uno.config.autocomplete || [],
+      ...uno.config.autocomplete.templates || [],
       ...uno.config.rulesDynamic.flatMap(i => toArray(i?.[2]?.autocomplete || [])),
     )
   }

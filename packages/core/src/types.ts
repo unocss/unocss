@@ -306,14 +306,19 @@ export interface ConfigBase<Theme extends {} = {}> {
   extendTheme?: Arrayable<ThemeExtender<Theme>>
 
   /**
-   * Custom function for auto complete
+   * Addtional options for auto complete
    */
-  autocomplete?: (AutoCompleteFunction | AutoCompleteTemplate)[]
-
-  /**
-   * Custom extractors for auto complete
-   */
-  autocompleteExtractors?: AutoCompleteExtractor[]
+  autocomplete?: {
+    /**
+     * Custom functions / templates to provide autocomplete suggestions
+     */
+    templates?: Arrayable<AutoCompleteFunction | AutoCompleteTemplate>
+    /**
+     * Custom extractors to pickup possible classes and
+     * transform class-name style suggestions to the correct format
+     */
+    extractors?: Arrayable<AutoCompleteExtractor>
+  }
 }
 
 export type AutoCompleteTemplate = string
@@ -509,7 +514,7 @@ export interface UserConfigDefaults<Theme extends {} = {}> extends ConfigBase<Th
 
 export interface ResolvedConfig extends Omit<
 RequiredByKey<UserConfig, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>,
-'rules' | 'shortcuts'
+'rules' | 'shortcuts' | 'autocomplete'
 > {
   shortcuts: Shortcut[]
   variants: VariantObject[]
@@ -518,6 +523,10 @@ RequiredByKey<UserConfig, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'l
   rulesSize: number
   rulesDynamic: (DynamicRule|undefined)[]
   rulesStaticMap: Record<string, [number, CSSObject | CSSEntries, RuleMeta | undefined] | undefined>
+  autocomplete: {
+    templates: (AutoCompleteFunction | AutoCompleteTemplate)[]
+    extractors: AutoCompleteExtractor[]
+  }
 }
 
 export interface GenerateResult {
