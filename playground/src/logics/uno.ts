@@ -5,6 +5,8 @@ import * as __unocss from 'unocss'
 import type { Hints } from 'codemirror'
 import { createAutocomplete, searchUsageBoundary } from '@unocss/autocomplete'
 import CodeMirror from 'codemirror'
+import MagicString from 'magic-string'
+import type { UnocssPluginContext } from '@unocss/core'
 import { customConfigRaw, inputHTML } from './url'
 import { defaultConfig } from './config'
 
@@ -74,8 +76,32 @@ watch(defaultConfig, () => {
   autocomplete = createAutocomplete(uno)
 })
 
+export async function applyTransformers(code: MagicString, id: string, enforce?: 'pre' | 'post') {
+  let { transformers } = uno.config
+  transformers = (transformers ?? []).filter(i => i.enforce === enforce)
+
+  if (!transformers.length)
+    return
+
+  const fakePluginContext = { uno } as UnocssPluginContext
+  for (const { idFilter, transform } of transformers) {
+    if (idFilter && !idFilter(id))
+      continue
+    await transform(code, id, fakePluginContext)
+  }
+}
+
+export const transformedHTML = computedAsync(async() => {
+  const id = 'input.html'
+  const input = new MagicString(inputHTML.value)
+  applyTransformers(input, id, 'pre')
+  applyTransformers(input, id)
+  applyTransformers(input, id, 'post')
+  return input.toString()
+})
+
 export async function generate() {
-  output.value = await uno.generate(inputHTML.value)
+  output.value = await uno.generate(transformedHTML.value)
   init.value = true
 }
 
