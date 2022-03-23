@@ -252,7 +252,7 @@ When you really need some advanced rules that can't be covered by the combinatio
 By returning a `string` from the dynamic rule's body function, it will be directly passed to the generated CSS. That also means you would need to take care of things like CSS escaping, variants applying, CSS constructing, and so on.
 
 ```ts
-import Unocss, { escape as e } from 'unocss'
+import Unocss, { escapeSelector as e } from 'unocss'
 
 Unocss({
   rules: [
