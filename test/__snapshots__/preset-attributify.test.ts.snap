@@ -15,7 +15,8 @@ Set {
   "[bg~=\\"dark:hover:blue-600\\"]",
   "[text~=\\"sm\\"]",
   "[text~=\\"white\\"]",
-  "[flex~=\\"~\\"]",
+  "[!leading-4=\\"\\"]",
+  "[flex~=\\"!~\\"]",
   "[flex~=\\"col\\"]",
   "[p~=\\"t-2\\"]",
   "[pt~=\\"2\\"]",
@@ -125,7 +126,7 @@ exports[`attributify > fixture1 1`] = `
 [ma=\\"\\"],
 [un-children~=\\"m-auto\\"]>*{margin:auto;}
 [inline-block=\\"\\"]{display:inline-block;}
-[flex~=\\"\\\\~\\"]{display:flex;}
+[flex~=\\"\\\\!\\\\~\\"]{display:flex !important;}
 [flex~=\\"col\\"]{flex-direction:column;}
 [translate-x-100\\\\%=\\"\\"],
 [rotate-30=\\"\\"],
@@ -152,6 +153,7 @@ exports[`attributify > fixture1 1`] = `
 [font~=\\"mono\\"]{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\\"Liberation Mono\\",\\"Courier New\\",monospace;}
 [font~=\\"sans\\"]{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\\"Segoe UI\\",Roboto,\\"Helvetica Neue\\",Arial,\\"Noto Sans\\",sans-serif,\\"Apple Color Emoji\\",\\"Segoe UI Emoji\\",\\"Segoe UI Symbol\\",\\"Noto Color Emoji\\";}
 [text~=\\"sm\\"]{font-size:0.875rem;line-height:1.25rem;}
+[\\\\!leading-4=\\"\\"]{line-height:1rem !important;}
 [text~=\\"white\\"]{--un-text-opacity:1;color:rgba(255,255,255,var(--un-text-opacity));}
 [after~=\\"content-unocss\\"]::after{content:\\"unocss\\";}
 @media (min-width: 640px){
@@ -240,7 +242,8 @@ exports[`attributify > variant 1`] = `
   "dark:hover:bg-blue-600",
   "text-sm",
   "text-white",
-  "flex",
+  "!leading-4",
+  "!flex",
   "flex-col",
   "p-t-2",
   "pt-2",
