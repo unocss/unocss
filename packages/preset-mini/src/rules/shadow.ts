@@ -20,11 +20,11 @@ export const boxShadows: Rule<Theme>[] = [
         },
       ]
     }
-  }],
+  }, { autocomplete: 'shadow-$boxShadow' }],
 
   // color
-  [/^shadow-(.+)$/, colorResolver('--un-shadow-color', 'shadow')],
-  [/^shadow-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-shadow-opacity': h.bracket.percent(opacity) })],
+  [/^shadow-(.+)$/, colorResolver('--un-shadow-color', 'shadow'), { autocomplete: 'shadow-$colors' }],
+  [/^shadow-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-shadow-opacity': h.bracket.percent(opacity) }), { autocomplete: 'shadow-(op|opacity)-<percent>' }],
 
   // inset
   ['shadow-inset', { '--un-shadow-inset': 'inset' }],

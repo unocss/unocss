@@ -46,13 +46,13 @@ export const fonts: Rule<Theme>[] = [
     const size = themed?.[0] ?? h.bracket.cssvar.rem(s)
     if (size != null)
       return { 'font-size': size }
-  }],
+  }, { autocomplete: 'text-size-$fontSize' }],
 
   // weights
   [
     /^(?:font|fw)-?([^-]+)$/,
     ([, s]) => ({ 'font-weight': weightMap[s] || h.global.number(s) }),
-    { autocomplete: 'font-(100|200|300|400|500|600|700)' },
+    { autocomplete: `(font|fw)-(100|200|300|400|500|600|700|800|900|${Object.keys(weightMap).join('|')})` },
   ],
 
   // leadings
@@ -91,16 +91,16 @@ export const tabSizes: Rule<Theme>[] = [
 ]
 
 export const textIndents: Rule<Theme>[] = [
-  [/^indent(?:-(.+))?$/, ([, s], { theme }) => ({ 'text-indent': theme.textIndent?.[s || 'DEFAULT'] || h.bracket.cssvar.global.fraction.rem(s) })],
+  [/^indent(?:-(.+))?$/, ([, s], { theme }) => ({ 'text-indent': theme.textIndent?.[s || 'DEFAULT'] || h.bracket.cssvar.global.fraction.rem(s) }), { autocomplete: 'indent-$textIndent' }],
 ]
 
 export const textStrokes: Rule<Theme>[] = [
   // widths
-  [/^text-stroke(?:-(.+))?$/, ([, s], { theme }) => ({ '-webkit-text-stroke-width': theme.textStrokeWidth?.[s || 'DEFAULT'] || h.bracket.cssvar.px(s) })],
+  [/^text-stroke(?:-(.+))?$/, ([, s], { theme }) => ({ '-webkit-text-stroke-width': theme.textStrokeWidth?.[s || 'DEFAULT'] || h.bracket.cssvar.px(s) }), { autocomplete: 'text-stroke-$textStrokeWidth' }],
 
   // colors
-  [/^text-stroke-(.+)$/, colorResolver('-webkit-text-stroke-color', 'text-stroke')],
-  [/^text-stroke-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-stroke-opacity': h.bracket.percent(opacity) })],
+  [/^text-stroke-(.+)$/, colorResolver('-webkit-text-stroke-color', 'text-stroke'), { autocomplete: 'text-stroke-$colors' }],
+  [/^text-stroke-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-stroke-opacity': h.bracket.percent(opacity) }), { autocomplete: 'text-stroke-(op|opacity)-<percent>' }],
 ]
 
 export const textShadows: Rule<Theme>[] = [
@@ -113,9 +113,9 @@ export const textShadows: Rule<Theme>[] = [
       }
     }
     return { 'text-shadow': h.bracket.cssvar(s) }
-  }],
+  }, { autocomplete: 'text-shadow-$textShadow' }],
 
   // colors
-  [/^text-shadow-color-(.+)$/, colorResolver('--un-text-shadow-color', 'text-shadow')],
-  [/^text-shadow-color-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-shadow-opacity': h.bracket.percent(opacity) })],
+  [/^text-shadow-color-(.+)$/, colorResolver('--un-text-shadow-color', 'text-shadow'), { autocomplete: 'text-shadow-color-$colors' }],
+  [/^text-shadow-color-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-shadow-opacity': h.bracket.percent(opacity) }), { autocomplete: 'text-shadow-color-(op|opacity)-<percent>' }],
 ]

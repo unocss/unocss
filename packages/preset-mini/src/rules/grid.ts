@@ -36,7 +36,7 @@ export const grids: Rule<Theme>[] = [
     const v = h.bracket.number(s)
     if (v != null)
       return { [`grid-${rowCol(c)}`]: `span ${v}/span ${v}` }
-  }],
+  }, { autocomplete: ['grid-(row|col)-span-<num>', '(row|col)-span-<num>'] }],
 
   // starts & ends
   [/^(?:grid-)?(row|col)-start-(.+)$/, ([, c, v]) => ({ [`grid-${rowCol(c)}-start`]: h.bracket.cssvar(v) ?? v })],

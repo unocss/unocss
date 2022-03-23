@@ -19,6 +19,6 @@ const handleGap = ([, d = '', s]: string[], { theme }: RuleContext<Theme>) => {
 }
 
 export const gaps: Rule[] = [
-  [/^(?:flex-|grid-)?gap-?()(.+)$/, handleGap, { autocomplete: 'gap-<num>' }],
-  [/^(?:flex-|grid-)?gap-([xy])-?(.+)$/, handleGap, { autocomplete: 'gap-(x|y)-<num>' }],
+  [/^(?:flex-|grid-)?gap-?()(.+)$/, handleGap, { autocomplete: ['gap-$spacing', 'gap-<num>'] }],
+  [/^(?:flex-|grid-)?gap-([xy])-?(.+)$/, handleGap, { autocomplete: ['gap-(x|y)-$spacing', 'gap-(x|y)-<num>'] }],
 ]
