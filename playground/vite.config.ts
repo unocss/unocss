@@ -36,8 +36,8 @@ export default defineConfig({
         'fs',
       ],
       input: [
-        'index.html',
-        '__play.html',
+        './index.html',
+        './__play.html',
       ],
     },
   },

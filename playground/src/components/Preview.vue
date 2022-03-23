@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { isDark } from '../logics/dark'
-import { init, inputHTML, output } from '../logics/uno'
+import { init, output, transformedHTML } from '../logics/uno'
 
 const iframe = ref<HTMLIFrameElement>()
 
 const iframeData = reactive({
   source: 'unocss-playground',
   css: computed(() => output.value?.css || ''),
-  html: inputHTML,
+  html: transformedHTML,
   dark: isDark,
 })
 
