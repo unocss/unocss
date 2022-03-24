@@ -77,6 +77,8 @@ export const textTransforms: Rule[] = [
 export const fontStyles: Rule[] = [
   ['italic', { 'font-style': 'italic' }],
   ['not-italic', { 'font-style': 'normal' }],
+  ['font-italic', { 'font-style': 'italic' }],
+  ['font-not-italic', { 'font-style': 'normal' }],
 ]
 
 export const fontSmoothings: Rule[] = [

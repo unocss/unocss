@@ -230,11 +230,13 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .fw-900{font-weight:900;}
 .font-inherit{font-weight:inherit;}
 .font-thin{font-weight:100;}
+.font-leading-2,
+.leading-2{line-height:0.5rem;}
 .leading-\\\\$variable,
 .lh-\\\\$variable{line-height:var(--variable);}
-.leading-2{line-height:0.5rem;}
 .leading-inherit{line-height:inherit;}
 .lh-\\\\[1\\\\.5\\\\]{line-height:1.5;}
+.font-tracking-1em{letter-spacing:1em;}
 .tracking-\\\\[2\\\\/5\\\\]{letter-spacing:2/5;}
 .tracking-\\\\$variable{letter-spacing:var(--variable);}
 .tracking-inherit{letter-spacing:inherit;}
@@ -355,7 +357,8 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .text-rose{--un-text-opacity:1;color:rgba(251,113,133,var(--un-text-opacity));}
 .placeholder-color-opacity-60::placeholder{--un-text-opacity:0.6;}
 .text-opacity-\\\\[13\\\\.3333333\\\\%\\\\]{--un-text-opacity:13.3333333%;}
-.italic{font-style:italic;}
+.italic,
+.font-italic{font-style:italic;}
 .antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-smoothing:grayscale;}
 .shadow,
 .shadow-none,

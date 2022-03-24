@@ -57,21 +57,21 @@ export const fonts: Rule<Theme>[] = [
 
   // leadings
   [
-    /^(?:leading|lh)-(.+)$/,
+    /^(?:font-)?(?:leading|lh)-(.+)$/,
     ([, s], { theme }) => ({ 'line-height': theme.lineHeight?.[s] || h.bracket.cssvar.global.rem(s) }),
     { autocomplete: '(leading|lh)-$lineHeight' },
   ],
 
   // tracking
   [
-    /^tracking-(.+)$/,
+    /^(?:font-)?tracking-(.+)$/,
     ([, s], { theme }) => ({ 'letter-spacing': theme.letterSpacing?.[s] || h.bracket.cssvar.global.rem(s) }),
     { autocomplete: 'tracking-$letterSpacing' },
   ],
 
   // word-spacing
   [
-    /^word-spacing-(.+)$/,
+    /^(?:font-)?word-spacing-(.+)$/,
     ([, s], { theme }) => ({ 'word-spacing': theme.wordSpacing?.[s] || h.bracket.cssvar.global.rem(s) }),
     { autocomplete: 'word-spacing-$wordSpacing' },
   ],
