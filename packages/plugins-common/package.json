@@ -1,6 +1,6 @@
 {
   "name": "@unocss/plugins-common",
-  "version": "0.30.0",
+  "version": "0.30.1",
   "private": true,
   "dependencies": {
     "@unocss/core": "workspace:*",
