@@ -15,8 +15,6 @@ const modules: any = {
   unocss: __unocss,
 }
 
-let customConfig: UserConfig = {}
-
 export const init = ref(false)
 export const customConfigError = ref<Error>()
 
@@ -24,17 +22,8 @@ export const uno = createGenerator({}, defaultConfig.value)
 export const options = useStorage('unocss-options', {})
 export const output = shallowRef<GenerateResult>()
 
-debouncedWatch(
-  customConfigRaw,
-  evaluateConfig,
-  { debounce: 300, immediate: true },
-)
-
-watch(
-  inputHTML,
-  generate,
-  { immediate: true },
-)
+let customConfig: UserConfig = {}
+let autocomplete = createAutocomplete(uno)
 
 const AsyncFunction = Object.getPrototypeOf(async() => {}).constructor
 
@@ -67,12 +56,13 @@ export async function evaluateConfig() {
   }
 }
 
-let autocomplete = createAutocomplete(uno)
-
-watch(defaultConfig, () => {
-  uno.setConfig(customConfig, defaultConfig.value)
-  generate()
-  autocomplete = createAutocomplete(uno)
+export const transformedHTML = computedAsync(async() => {
+  const id = 'input.html'
+  const input = new MagicString(inputHTML.value)
+  applyTransformers(input, id, 'pre')
+  applyTransformers(input, id)
+  applyTransformers(input, id, 'post')
+  return input.toString()
 })
 
 export async function applyTransformers(code: MagicString, id: string, enforce?: 'pre' | 'post') {
@@ -90,17 +80,8 @@ export async function applyTransformers(code: MagicString, id: string, enforce?:
   }
 }
 
-export const transformedHTML = computedAsync(async() => {
-  const id = 'input.html'
-  const input = new MagicString(inputHTML.value)
-  applyTransformers(input, id, 'pre')
-  applyTransformers(input, id)
-  applyTransformers(input, id, 'post')
-  return input.toString()
-})
-
 export async function generate() {
-  output.value = await uno.generate(transformedHTML.value)
+  output.value = await uno.generate(transformedHTML.value || '')
   init.value = true
 }
 
@@ -126,3 +107,21 @@ export async function getHint(cm: Editor): Promise<Hints | undefined> {
     }),
   }
 }
+
+debouncedWatch(
+  customConfigRaw,
+  evaluateConfig,
+  { debounce: 300, immediate: true },
+)
+
+watch(
+  inputHTML,
+  generate,
+  { immediate: true },
+)
+
+watch(defaultConfig, () => {
+  uno.setConfig(customConfig, defaultConfig.value)
+  generate()
+  autocomplete = createAutocomplete(uno)
+})

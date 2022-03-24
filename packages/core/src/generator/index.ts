@@ -113,7 +113,7 @@ export class UnoGenerator {
   }
 
   async generate(
-    input: string | Set<string>,
+    input: string | Set<string> = '',
     {
       id,
       scope,
