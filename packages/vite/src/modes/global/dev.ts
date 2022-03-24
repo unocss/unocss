@@ -2,7 +2,7 @@ import type { Plugin, ViteDevServer, ResolvedConfig as ViteResolvedConfig } from
 import type { UnocssPluginContext } from '@unocss/core'
 import { LAYER_MARK_ALL, getPath, resolveId } from '../../../../plugins-common'
 
-const WARN_TIMEOUT = 10000
+const WARN_TIMEOUT = 20000
 const WS_EVENT_PREFIX = 'custom:unocss:'
 
 export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter }: UnocssPluginContext): Plugin[] {
@@ -82,7 +82,6 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
       async configureServer(_server) {
         servers.push(_server)
 
-        setWarnTimer()
         _server.ws.on('connection', (ws) => {
           ws.on('open', () => {
             invalidate()
@@ -108,6 +107,7 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
       transformIndexHtml: {
         enforce: 'pre',
         transform(code, { filename }) {
+          setWarnTimer()
           extract(code, filename)
         },
       },
