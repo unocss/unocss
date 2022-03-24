@@ -45,6 +45,6 @@
     "@unocss/core": "workspace:*"
   },
   "devDependencies": {
-    "@iconify/types": "^1.0.13"
+    "@iconify/types": "^1.1.0"
   }
 }
