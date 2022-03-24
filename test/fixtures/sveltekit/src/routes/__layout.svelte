@@ -21,6 +21,12 @@
 
 	<h1 class="animate-bounce color-#ff3e00 uppercase font-size-4rem fw-100 line-height-1.1 my-2rem mx-auto max-width-14rem sm:max-width-auto">SvelteKit!</h1>
 
+	<section>
+		<h2>Custom Icons</h2>
+		<span class="i-custom-circle"></span>
+		<span class="i-customfsl-circle color-#ff3e00"></span>
+	</section>
+
 	<br/>
 
 	<div class:bg-red-400={red}>BG Color should change</div>

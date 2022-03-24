@@ -29,11 +29,6 @@
       "require": "./dist/index.cjs",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
-    },
-    "./fs": {
-      "require": "./dist/fs.cjs",
-      "import": "./dist/fs.mjs",
-      "types": "./dist/fs.d.ts"
     }
   },
   "files": [
@@ -46,11 +41,10 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@iconify/utils": "^1.0.24",
-    "@unocss/core": "workspace:*",
-    "local-pkg": "^0.4.1"
+    "@iconify/utils": "^1.0.30",
+    "@unocss/core": "workspace:*"
   },
   "devDependencies": {
-    "@iconify/types": "^1.0.12"
+    "@iconify/types": "^1.0.13"
   }
 }

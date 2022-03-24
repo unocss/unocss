@@ -68,6 +68,8 @@ Some UI/App frameworks have some caveats that must be fixed to make it work, if 
 
 ### React
 
+**WARNING**: You should import the `uno.css` virtual module using `import 'virtual:uno.css'` instead `import 'uno.css'`. When you start the dev server first time, you'll need to update some style module to get it working (we're trying to fix it).
+
 If you're using `@vitejs/plugin-react`:
 
 ```ts
@@ -225,9 +227,7 @@ const config = {
   // for more information about preprocessors
   preprocess: preprocess(),
   kit: {
-    // hydrate the <div id="svelte"> element in src/app.html
-    target: '#svelte',
-    vite: {
+     vite: {
       plugins: [
         UnoCss({
           extractors: [extractorSvelte],
@@ -344,6 +344,8 @@ template.innerHTML = `
 ```
 
 ### Solid
+
+**WARNING**: You should import the `uno.css` virtual module using `import 'virtual:uno.css'` instead `import 'uno.css'`. When you start the dev server first time, you'll need to update some style module to get it working (we're trying to fix it).
 
 ```ts
 // vite.config.js
