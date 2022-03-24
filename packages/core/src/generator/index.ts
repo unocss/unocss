@@ -347,7 +347,7 @@ export class UnoGenerator {
     const { rulesDynamic, rulesSize } = this.config
 
     // match rules, from last to first
-    for (let i = rulesSize; i >= 0; i--) {
+    for (let i = rulesSize - 1; i >= 0; i--) {
       const rule = rulesDynamic[i]
 
       // static rules are omitted as undefined

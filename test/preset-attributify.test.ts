@@ -13,7 +13,8 @@ describe('attributify', () => {
   class="absolute fixed"
   bg="blue-400 hover:blue-500 dark:!blue-500 dark:hover:blue-600"
   text="sm white"
-  flex="~ col"
+  !leading-4
+  flex="!~ col"
   p="t-2"
   pt="2"
   border="rounded-xl"

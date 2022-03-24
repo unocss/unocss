@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.1.3",
+    "@iconify/utils": "^1.0.30",
     "@sveltejs/adapter-static": "next",
     "@sveltejs/kit": "next",
     "@unocss/core": "link:../../../packages/core",

@@ -1,6 +1,6 @@
 {
   "name": "@unocss/autocomplete",
-  "version": "0.29.5",
+  "version": "0.29.6",
   "description": "Autocomplete utils for UnoCSS",
   "keywords": [
     "unocss",
@@ -36,10 +36,10 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "lru-cache": "^7.5.1"
+    "lru-cache": "^7.7.1"
   },
   "devDependencies": {
-    "@types/lru-cache": "^7.4.0",
+    "@types/lru-cache": "^7.5.0",
     "@unocss/core": "workspace:*"
   }
 }

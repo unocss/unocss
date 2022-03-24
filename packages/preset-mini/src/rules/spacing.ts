@@ -5,8 +5,8 @@ export const paddings: Rule[] = [
   [/^pa?()-?(-?.+)$/, directionSize('padding'), { autocomplete: ['(m|p)<num>', '(m|p)-<num>'] }],
   [/^p-?([xy])-?(-?.+)$/, directionSize('padding')],
   [/^p-?([rltbse])-?(-?.+)$/, directionSize('padding'), { autocomplete: '(m|p)<directions>-<num>' }],
-  [/^p-(block|inline)-(-?.+)$/, directionSize('padding')],
-  [/^p-?([bi][se])-?(-?.+)$/, directionSize('padding')],
+  [/^p-(block|inline)-(-?.+)$/, directionSize('padding'), { autocomplete: '(m|p)-(block|inline)-<num>' }],
+  [/^p-?([bi][se])-?(-?.+)$/, directionSize('padding'), { autocomplete: '(m|p)-(bs|be|is|ie)-<num>' }],
 ]
 
 export const margins: Rule[] = [

@@ -54,7 +54,7 @@ const transformBase = {
 
 export const transforms: Rule[] = [
   // origins
-  [/^(?:transform-)?origin-(.+)$/, ([, s]) => ({ 'transform-origin': positionMap[s] ?? h.bracket.cssvar(s) })],
+  [/^(?:transform-)?origin-(.+)$/, ([, s]) => ({ 'transform-origin': positionMap[s] ?? h.bracket.cssvar(s) }), { autocomplete: [`transform-origin-(${Object.keys(positionMap).join('|')})`, `origin-(${Object.keys(positionMap).join('|')})`] }],
 
   // perspectives
   [/^(?:transform-)?perspect(?:ive)?-(.+)$/, ([, s]) => {
