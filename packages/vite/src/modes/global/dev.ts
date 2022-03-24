@@ -141,8 +141,19 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
       enforce: 'post',
       transform(code, id) {
         // inject @vite/client to expose ws send function
-        if (id.includes('@vite/client') || id.includes('vite/dist/client/client.mjs'))
-          return code.replace('return hot', 'hot.send = (data) => socket.send(data);return hot;')
+        if (id.includes('@vite/client') || id.includes('vite/dist/client/client.mjs')) {
+          return code
+            .replace(
+              'return hot',
+              [
+                'let __buffer = []',
+                'function sendBuffer() { if(socket.readyState !== 1) return; __buffer.forEach(msg => socket.send(msg)); __buffer = [] }',
+                'socket.addEventListener("open", () => sendBuffer())',
+                'hot.send = (data) => {__buffer.push(data);sendBuffer()}',
+                'return hot',
+              ].join(';'),
+            )
+        }
         // inject css modules to send callback on css load
         if (entries.has(getPath(id)) && code.includes('import.meta.hot')) {
           const snippet = `\nif (import.meta.hot) { try { import.meta.hot.send('${WS_EVENT_PREFIX}${lastServed}') } catch (e) { console.warn('[unocss-hmr]', e) } }`
