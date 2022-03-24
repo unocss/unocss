@@ -2,9 +2,11 @@ import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import { describe, expect, it } from 'vitest'
 import { createAutocomplete, parseAutocomplete } from '@unocss/autocomplete'
+import presetAttributify from '@unocss/preset-attributify'
 
 const uno = createGenerator({
   presets: [
+    presetAttributify(),
     presetUno(),
   ],
 })
@@ -17,6 +19,12 @@ async function enumerateSuggestions(inputs: string[]) {
     (await ac.suggest(input)).slice(0, 10).join(' '),
   ])))
 }
+
+const fixture = `
+<div bg="blue-500">
+  <div border="~ b-
+</div>
+`
 
 describe('autocomplete', () => {
   it('should resolve autocomplete config', () => {
@@ -155,5 +163,30 @@ describe('autocomplete', () => {
   it('should skip single-pass variants', async() => {
     expect(await ac.suggest('dark:dar')).not.toContain('dark:')
     expect(await ac.suggest('active:fir')).toContain('active:first:')
+  })
+
+  it('should support extractors', async() => {
+    const res = await ac.suggestInFile(fixture, 40)
+
+    expect(res.suggestions.every(i => i[0].startsWith('border-'))).toBeTruthy()
+    expect(res.suggestions.some(i => i[1].startsWith('border-'))).toBeFalsy()
+
+    const replacement = res.resolveReplacement(res.suggestions[0][0])
+    expect(replacement).toMatchInlineSnapshot(`
+      {
+        "end": 40,
+        "replacement": "b-0",
+        "start": 38,
+      }
+    `)
+
+    expect(fixture.slice(0, replacement.start) + replacement.replacement + fixture.slice(replacement.end))
+      .toMatchInlineSnapshot(`
+      "
+      <div bg=\\"blue-500\\">
+        <div border=\\"~ b-0
+      </div>
+      "
+    `)
   })
 })

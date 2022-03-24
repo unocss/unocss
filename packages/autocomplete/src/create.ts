@@ -1,8 +1,9 @@
-import type { AutoCompleteFunction, AutoCompleteTemplate, UnoGenerator, Variant } from '@unocss/core'
+import type { AutoCompleteExtractorResult, AutoCompleteFunction, AutoCompleteTemplate, SuggestResult, UnoGenerator, Variant } from '@unocss/core'
 import { toArray, uniq } from '@unocss/core'
 import LRU from 'lru-cache'
 import { parseAutocomplete } from './parse'
 import type { ParsedAutocompleteTemplate } from './types'
+import { searchUsageBoundary } from './utils'
 
 export function createAutocomplete(uno: UnoGenerator) {
   const templateCache = new Map<string, ParsedAutocompleteTemplate>()
@@ -15,6 +16,7 @@ export function createAutocomplete(uno: UnoGenerator) {
 
   return {
     suggest,
+    suggestInFile,
     templates,
     cache,
     reset,
@@ -34,12 +36,12 @@ export function createAutocomplete(uno: UnoGenerator) {
 
     // match and ignore existing variants
     const [, processed, , variants] = uno.matchVariants(input)
-    const idx = input.search(processed)
+    const idx = processed ? input.search(processed) : input.length
     // This input contains variants that modifies the processed part,
     // autocomplete will need to reverse it which is not possible
     if (idx === -1) return []
     const variantPrefix = input.slice(0, idx)
-    const variantPostfix = input.slice(idx + input.length)
+    const variantSuffix = input.slice(idx + input.length)
 
     const result = processSuggestions(
       await Promise.all([
@@ -49,11 +51,45 @@ export function createAutocomplete(uno: UnoGenerator) {
         ...suggestVariant(processed, variants),
       ]),
       variantPrefix,
-      variantPostfix,
+      variantSuffix,
     )
 
     cache.set(input, result)
     return result
+  }
+
+  async function suggestInFile(content: string, cursor: number): Promise<SuggestResult> {
+    // try resolve by extractors
+    const byExtractor = await searchUsageByExtractor(content, cursor)
+    if (byExtractor) {
+      const suggestions = await suggest(byExtractor.extracted)
+      const formatted = byExtractor.transformSuggestions ? byExtractor.transformSuggestions(suggestions) : suggestions
+      return {
+        suggestions: suggestions.map((v, i) => [v, formatted[i]] as [string, string]),
+        resolveReplacement: byExtractor.resolveReplacement,
+      }
+    }
+
+    // regular resolve
+    const regular = searchUsageBoundary(content, cursor)
+    const suggestions = await suggest(regular.content)
+    return {
+      suggestions: suggestions.map(v => [v, v] as [string, string]),
+      resolveReplacement: suggestion => ({
+        start: regular.start,
+        end: regular.end,
+        replacement: suggestion,
+      }),
+    }
+  }
+
+  async function searchUsageByExtractor(content: string, cursor: number): Promise<AutoCompleteExtractorResult | null> {
+    if (!uno.config.autocomplete.extractors.length) return null
+    for (const extractor of uno.config.autocomplete.extractors) {
+      const res = await extractor.extract({ content, cursor })
+      if (res) return res
+    }
+    return null
   }
 
   async function suggestSelf(input: string) {
@@ -90,7 +126,7 @@ export function createAutocomplete(uno: UnoGenerator) {
     staticUtils = Object.keys(uno.config.rulesStaticMap)
     templates.length = 0
     templates.push(
-      ...uno.config.autocomplete || [],
+      ...uno.config.autocomplete.templates || [],
       ...uno.config.rulesDynamic.flatMap(i => toArray(i?.[2]?.autocomplete || [])),
     )
   }

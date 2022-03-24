@@ -2,9 +2,8 @@
 import type { GenerateResult, UserConfig } from 'unocss'
 import { createGenerator } from 'unocss'
 import * as __unocss from 'unocss'
-import type { Hints } from 'codemirror'
-import { createAutocomplete, searchUsageBoundary } from '@unocss/autocomplete'
-import CodeMirror from 'codemirror'
+import type { Editor, Hints } from 'codemirror'
+import { createAutocomplete } from '@unocss/autocomplete'
 import MagicString from 'magic-string'
 import type { UnocssPluginContext } from '@unocss/core'
 import { customConfigRaw, inputHTML } from './url'
@@ -105,19 +104,25 @@ export async function generate() {
   init.value = true
 }
 
-export async function getHint(cm: CodeMirror.Editor): Promise<Hints | undefined> {
-  const cursor = cm.getCursor()
-  const line = cm.getLine(cursor.line)
-  const { content: input, start, end } = searchUsageBoundary(line, cursor.ch)
+export async function getHint(cm: Editor): Promise<Hints | undefined> {
+  const cursor = cm.indexFromPos(cm.getCursor())
 
-  const suggestions = await autocomplete.suggest(input)
+  const result = await autocomplete.suggestInFile(cm.getDoc().getValue(), cursor)
 
-  if (!suggestions?.length)
+  if (!result.suggestions?.length)
     return
 
   return {
-    list: suggestions,
-    from: CodeMirror.Pos(cursor.line, start),
-    to: CodeMirror.Pos(cursor.line, end),
+    from: cm.posFromIndex(cursor),
+    to: cm.posFromIndex(cursor),
+    list: result.suggestions.map(([value, label]) => {
+      const resolved = result.resolveReplacement(value)
+      return ({
+        text: resolved.replacement,
+        displayText: label,
+        from: cm.posFromIndex(resolved.start),
+        to: cm.posFromIndex(resolved.end),
+      })
+    }),
   }
 }

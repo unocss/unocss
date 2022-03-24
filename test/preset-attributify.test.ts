@@ -1,6 +1,6 @@
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
-import presetAttributify, { variantAttributify } from '@unocss/preset-attributify'
+import presetAttributify, { autocompleteExtractorAttributify, variantAttributify } from '@unocss/preset-attributify'
 import { describe, expect, test } from 'vitest'
 
 describe('attributify', () => {
@@ -110,5 +110,37 @@ describe('attributify', () => {
   test('fixture2', async() => {
     const { css } = await uno.generate(fixture2)
     expect(css).toMatchSnapshot()
+  })
+
+  test('autocomplete extractor', async() => {
+    const res = await autocompleteExtractorAttributify.extract({
+      content: fixture1,
+      cursor: 187,
+    })
+
+    expect(res).not.toBeNull()
+
+    expect(res!.extracted).toMatchInlineSnapshot('"dark:!bg-blue-500"')
+    expect(res!.transformSuggestions!([`${res!.extracted}1`, `${res!.extracted}2`]))
+      .toMatchInlineSnapshot(`
+        [
+          "dark:!blue-5001",
+          "dark:!blue-5002",
+        ]
+      `)
+
+    const reversed = res!.resolveReplacement(`${res!.extracted}1`)
+    expect(reversed).toMatchInlineSnapshot(`
+      {
+        "end": 189,
+        "replacement": "dark:!blue-5001",
+        "start": 175,
+      }
+    `)
+
+    expect(fixture1.slice(reversed.start, reversed.end))
+      .toMatchInlineSnapshot('"dark:!blue-500"')
+    expect(fixture1.slice(0, reversed.start) + reversed.replacement + fixture1.slice(reversed.end))
+      .toMatchSnapshot()
   })
 })

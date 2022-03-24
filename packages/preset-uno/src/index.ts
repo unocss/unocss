@@ -1,6 +1,6 @@
 import type { Preset } from '@unocss/core'
 import type { PresetMiniOptions, Theme } from '@unocss/preset-mini'
-import { autocomplete, rules, shortcuts, theme, variants } from '@unocss/preset-wind'
+import { rules, shortcuts, theme, variants } from '@unocss/preset-wind'
 import { variantColorMix } from './variants/mix'
 
 export type { Theme }
@@ -21,7 +21,6 @@ export const presetUno = (options: PresetUnoOptions = {}): Preset<Theme> => {
       variantColorMix,
     ],
     options,
-    autocomplete,
   }
 }
 
