@@ -40,7 +40,11 @@ const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
   }
 
 export const backgroundStyles: Rule[] = [
-  // TODO: bg-[url] { background-image: x }
+  [/^bg-(.*)$/, ([, d]) => {
+    if (/^\[url\((.+)\)\]$/.test(d)) return { '--un-url': `${h.bracket(d)}`, 'background-image': 'var(--un-url)' }
+    else if (/^\[length:(.+)\]$/.test(d) && h.bracketOfLength(d) != null)
+      return { 'background-size': h.bracketOfLength(d)!.split(' ').map(e => h.fraction.auto.px.cssvar(e)).join(' ') }
+  }],
 
   // gradients
   [/^bg-gradient-(.+)$/, ([, d]) => ({ '--un-gradient': h.bracket(d) })],
@@ -79,8 +83,6 @@ export const backgroundStyles: Rule[] = [
 
   ['box-decoration-slice', { 'box-decoration-break': 'slice' }],
   ['box-decoration-clone', { 'box-decoration-break': 'clone' }],
-
-  // TODO: bg-[number] { background-size: x }
 
   // size
   ['bg-auto', { 'background-size': 'auto' }],
