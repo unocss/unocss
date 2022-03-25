@@ -12,7 +12,7 @@ export const listStyle: Rule[] = [
     }
 
     return { 'list-style-type': style }
-  }],
+  }, { autocomplete: ['list-(disc|circle|square|decimal|zero-decimal|greek|roman|upper-roman|alpha|upper-alpha)', 'list-(disc|circle|square|decimal|zero-decimal|greek|roman|upper-roman|alpha|upper-alpha)-(outside|inside)'] }],
 
   // styles
   ['list-outside', { 'list-style-position': 'outside' }],

@@ -47,14 +47,16 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
   function handleNonGroup(input: string) {
     handleRegexMatch(
       input,
-      /\$([\w\|]+)/g,
+      /\$([\w\.\|]+)/g,
       (m) => {
         parts.push({
           type: 'theme',
           objects: m[1].split('|').map((i) => {
-            if (!i || !theme[i])
-              throw new Error(`Invalid theme key ${i}`)
-            return theme[i]
+            return i.split('.').reduce((v, k) => {
+              if (!k || !v[k])
+                throw new Error(`Invalid theme key ${k}`)
+              return v[k]
+            }, theme)
           }),
         })
       },
