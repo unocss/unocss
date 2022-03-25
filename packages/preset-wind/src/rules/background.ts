@@ -41,9 +41,9 @@ const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
 
 export const backgroundStyles: Rule[] = [
   [/^bg-(.*)$/, ([, d]) => {
-    if (/^\[length:(.+)\]$/.test(d) && h.bracketOfLength(d) != null)
+    if (/^\[url\((.+)\)\]$/.test(d)) return { '--un-url': `${h.bracket(d)}`, 'background-image': 'var(--un-url)' }
+    else if (/^\[length:(.+)\]$/.test(d) && h.bracketOfLength(d) != null)
       return { 'background-size': h.bracketOfLength(d)!.split(' ').map(e => h.fraction.auto.px.cssvar(e)).join(' ') }
-    else if (/^\[url\((.+)\)\]$/.test(d)) return { '--un-url': `${h.bracket.cssvar(d)}`, 'background-image': 'var(--un-url)' }
   }],
 
   // gradients
