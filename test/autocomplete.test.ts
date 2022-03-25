@@ -71,6 +71,7 @@ describe('autocomplete', () => {
         'origin-',
         'transition-',
         'font-',
+        'keyframes-',
       ]),
     ).toMatchInlineSnapshot(`
       {
@@ -82,6 +83,7 @@ describe('autocomplete', () => {
         "fill-": "fill-amber fill-black fill-blue fill-bluegray fill-blueGray fill-coolgray fill-coolGray fill-current fill-cyan fill-dark",
         "fle": "flex flex-1 flex-auto flex-col flex-col-reverse flex-initial flex-inline flex-none flex-nowrap flex-row",
         "font-": "font-100 font-200 font-300 font-400 font-500 font-600 font-700 font-800 font-900 font-black",
+        "keyframes-": "keyframes-back-in-down keyframes-back-in-left keyframes-back-in-right keyframes-back-in-up keyframes-back-out-down keyframes-back-out-left keyframes-back-out-right keyframes-back-out-up keyframes-bounce keyframes-bounce-alt",
         "leading-": "leading-loose leading-none leading-normal leading-relaxed leading-snug leading-tight",
         "m-": "m-0 m-1 m-2 m-3 m-4 m-5 m-6 m-8 m-10 m-12",
         "max-w-": "max-w-2xl max-w-3xl max-w-4xl max-w-5xl max-w-6xl max-w-7xl max-w-auto max-w-lg max-w-md max-w-none",
