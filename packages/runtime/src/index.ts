@@ -150,13 +150,24 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
       const target = mutation.target as Element
       if (target === styleElement)
         return
-      if (inspector && !inspector(target))
-        return
-      const attrs = Array.from(target.attributes)
-        .map(i => i.value ? `${i.name}="${i.value}"` : i.name)
-        .join(' ')
-      const tag = `<${target.tagName.toLowerCase()} ${attrs}>`
-      extract(tag)
+      if (mutation.type === 'childList') {
+        mutation.addedNodes.forEach((node) => {
+          if (!(node instanceof Element))
+            return
+          if (inspector && !inspector(node))
+            return
+          extract(node.outerHTML)
+        })
+      }
+      else {
+        if (inspector && !inspector(target))
+          return
+        const attrs = Array.from(target.attributes)
+          .map(i => i.value ? `${i.name}="${i.value}"` : i.name)
+          .join(' ')
+        const tag = `<${target.tagName.toLowerCase()} ${attrs}>`
+        extract(tag)
+      }
     })
   })
 
