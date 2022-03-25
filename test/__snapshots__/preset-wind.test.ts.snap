@@ -185,6 +185,9 @@ exports[`preset-wind > targets 1`] = `
 .overscroll-none{overscroll-behavior:none;}
 .overscroll-x-auto{overscroll-behavior-x:auto;}
 .scroll-auto{scroll-behavior:auto;}
+.bg-\\\\[length\\\\:10_20rem\\\\]{background-size:10px 20rem;}
+.bg-\\\\[url\\\\(uno\\\\.png\\\\)\\\\2c url\\\\(css\\\\.png\\\\)\\\\]{--un-url:url(uno.png),url(css.png);background-image:var(--un-url);}
+.bg-\\\\[url\\\\(unocss\\\\.png\\\\)\\\\]{--un-url:url(unocss.png);background-image:var(--un-url);}
 .bg-gradient-\\\\[70deg\\\\2c blue\\\\2c pink\\\\]{--un-gradient:70deg,blue,pink;}
 .bg-gradient-stops-\\\\[blue\\\\2c pink\\\\],
 .stops-\\\\[blue\\\\2c pink\\\\]{--un-gradient-stops:blue,pink;}

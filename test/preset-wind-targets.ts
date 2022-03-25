@@ -60,6 +60,9 @@ export const presetWindTargets: string[] = [
   'bg-repeat-space',
   'bg-right-bottom',
   'bg-scroll',
+  'bg-[url(unocss.png)]',
+  'bg-[url(uno.png),url(css.png)]',
+  'bg-[length:10_20rem]',
 
   // bg gradient
   'from-current',
