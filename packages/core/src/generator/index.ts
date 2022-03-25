@@ -517,7 +517,7 @@ function applyScope(css: string, scope?: string) {
 }
 
 const attributifyRe = /^\[(.+?)(~?=)"(.*)"\]$/
-function toEscapedSelector(raw: string) {
+export function toEscapedSelector(raw: string) {
   if (attributifyRe.test(raw))
     return raw.replace(attributifyRe, (_, n, s, i) => `[${e(n)}${s}"${e(i)}"]`)
   return `.${e(raw)}`

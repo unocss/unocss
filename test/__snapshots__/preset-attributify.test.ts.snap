@@ -37,6 +37,46 @@ exports[`attributify > autocomplete extractor 5`] = `
 "
 `;
 
+exports[`attributify > compatible with full controlled rules 1`] = `
+"/* layer: default */
+
+  [custom~=\\"\\\\31 \\"] {
+    font-size: 1px;
+  }
+  /* you can have multiple rules */
+  [custom~=\\"\\\\31 \\"]::after {
+    content: 'after';
+  }
+  .foo > [custom~=\\"\\\\31 \\"] {
+    color: red;
+  }
+  /* or media queries */
+  @media (min-width: 680px) {
+    [custom~=\\"\\\\31 \\"] {
+      font-size: 16px;
+    }
+  }
+  
+
+  .custom-2 {
+    font-size: 2px;
+  }
+  /* you can have multiple rules */
+  .custom-2::after {
+    content: 'after';
+  }
+  .foo > .custom-2 {
+    color: red;
+  }
+  /* or media queries */
+  @media (min-width: 680px) {
+    .custom-2 {
+      font-size: 16px;
+    }
+  }
+  "
+`;
+
 exports[`attributify > extractor1 1`] = `
 Set {
   "[layer-base~=\\"c-white/10\\"]",

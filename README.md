@@ -252,7 +252,7 @@ When you really need some advanced rules that can't be covered by the combinatio
 By returning a `string` from the dynamic rule's body function, it will be directly passed to the generated CSS. That also means you would need to take care of things like CSS escaping, variants applying, CSS constructing, and so on.
 
 ```ts
-import Unocss, { escapeSelector as e } from 'unocss'
+import Unocss, { toEscapedSelector as e } from 'unocss'
 
 Unocss({
   rules: [
@@ -264,22 +264,22 @@ Unocss({
       // if you want, you can disable the variants for this rule
       if (variantHandlers.length)
         return
-
+      const selector = e(rawSelector)
       // return a string instead of an object
       return `
-.${e(rawSelector)} {
+${selector} {
   font-size: ${theme.fontSize.sm};
 }
 /* you can have multiple rules */
-.${e(rawSelector)}::after {
+${selector}::after {
   content: 'after';
 }
-.foo > .${e(rawSelector)} {
+.foo > ${selector} {
   color: red;
 }
 /* or media queries */
 @media (min-width: ${theme.breakpoints.sm}) {
-  .${e(rawSelector)} {
+  ${selector} {
     font-size: ${theme.fontSize.sm};
   }
 }
