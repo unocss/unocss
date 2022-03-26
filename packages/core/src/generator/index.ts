@@ -379,7 +379,6 @@ export class UnoGenerator {
   stringifyUtil(parsed?: ParsedUtil | RawUtil): StringifiedUtil | undefined {
     if (!parsed)
       return
-
     if (isRawUtil(parsed))
       return [parsed[0], undefined, parsed[1], undefined, parsed[2]]
 
@@ -444,7 +443,6 @@ export class UnoGenerator {
     meta: RuleMeta = { layer: this.config.shortcutsLayer },
   ): Promise<StringifiedUtil[] | undefined> {
     const selectorMap = new TwoKeyMap<string, string | undefined, [[CSSEntries, boolean, number][], number]>()
-
     const parsed = (
       await Promise.all(uniq(expanded)
         .map(async(i) => {
@@ -458,10 +456,12 @@ export class UnoGenerator {
       .sort((a, b) => a[0] - b[0])
 
     const [raw, , parentVariants] = parent
-
+    const rawStringfieldUtil: StringifiedUtil[] = []
     for (const item of parsed) {
-      if (isRawUtil(item))
+      if (isRawUtil(item)) {
+        rawStringfieldUtil.push([item[0], undefined, item[1], undefined, item[2]])
         continue
+      }
       const { selector, entries, parent, sort } = this.applyVariants(item, [...item[4], ...parentVariants], raw)
 
       // find existing selector/mediaQuery pair and merge
@@ -469,8 +469,7 @@ export class UnoGenerator {
       // add entries
       mapItem[0].push([entries, !!item[3]?.noMerge, sort ?? 0])
     }
-
-    return selectorMap
+    return rawStringfieldUtil.concat(selectorMap
       .map(([e, index], selector, mediaQuery) => {
         const stringify = (flatten: boolean, noMerge: boolean, entrySortPair: [CSSEntries, number][]): (StringifiedUtil | undefined)[] => {
           const maxSort = Math.max(...entrySortPair.map(e => e[1]))
@@ -494,7 +493,7 @@ export class UnoGenerator {
         ])
       })
       .flat(2)
-      .filter(Boolean) as StringifiedUtil[]
+      .filter(Boolean) as StringifiedUtil[])
   }
 
   isBlocked(raw: string) {

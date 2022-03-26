@@ -22,6 +22,7 @@ describe('shortcuts', () => {
       ['transform-duplicated', 'translate-x-1 translate-y-2 scale-4 hover:scale-2 active:scale-x-4'],
       ['shortcut-hover-active-1', 'focus:bg-green-300 hover:bg-green-300 active:bg-green-300'],
       ['shortcut-hover-active-2', 'focus:bg-red-300 hover:bg-yellow-300 active:bg-blue-300'],
+      ['loading', 'animate-spin duration-1000'],
     ],
     presets: [
       presetUno(),
@@ -91,6 +92,11 @@ describe('shortcuts', () => {
 
   test('variant order', async() => {
     const { css } = await uno.generate('shortcut-hover-active-2 layer-shortcuts:bg-blue-300')
+    expect(css).toMatchSnapshot()
+  })
+
+  test('animate', async() => {
+    const { css } = await uno.generate('loading')
     expect(css).toMatchSnapshot()
   })
 })
