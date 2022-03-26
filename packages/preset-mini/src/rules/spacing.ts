@@ -3,6 +3,7 @@ import { directionSize } from '../utils'
 
 export const paddings: Rule[] = [
   [/^pa?()-?(-?.*)$/, directionSize('padding'), { autocomplete: ['(m|p)<num>', '(m|p)-<num>'] }],
+  [/^p?()-?(-?.+)$/, utilities.directionSize("padding")],
   [/^p-?([xy])-?(-?.*)$/, directionSize('padding')],
   [/^p-?([rltbse])-?(-?.*)$/, directionSize('padding'), { autocomplete: '(m|p)<directions>-<num>' }],
   [/^p-(block|inline)-(-?.*)$/, directionSize('padding'), { autocomplete: '(m|p)-(block|inline)-<num>' }],
@@ -11,6 +12,7 @@ export const paddings: Rule[] = [
 
 export const margins: Rule[] = [
   [/^ma?()-?(-?.*)$/, directionSize('margin')],
+  [/^m()-?(-?.+)$/, directionSize('margin')],
   [/^m-?([xy])-?(-?.*)$/, directionSize('margin')],
   [/^m-?([rltbse])-?(-?.*)$/, directionSize('margin')],
   [/^m-(block|inline)-(-?.*)$/, directionSize('margin')],
