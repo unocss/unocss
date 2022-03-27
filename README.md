@@ -42,13 +42,13 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 ###### Benchmark
 
 ```
-11/5/2021, 4:26:57 AM
+3/26/2022, 11:41:26 PM
 1656 utilities | x50 runs (min build time)
 
-none                              8.30 ms / delta.      0.00 ms 
-unocss       v0.4.15             13.58 ms / delta.      5.28 ms (x1.00)
-windicss     v3.2.1             989.57 ms / delta.    981.27 ms (x185.94)
-tailwindcss  v3.0.0-alpha.1    1290.96 ms / delta.   1282.66 ms (x243.05)
+none                             12.42 ms / delta.      0.00 ms
+unocss       v0.30.6             20.98 ms / delta.      8.57 ms (x1.00)
+tailwindcss  v3.0.23           1621.38 ms / delta.   1608.96 ms (x187.79)
+windicss     v3.5.1            1855.86 ms / delta.   1843.45 ms (x215.16)
 ```
 
 ###### Non-goal
@@ -532,7 +532,7 @@ preprocess(matcher) {
 
 ### Scanning
 
-By default UnoCSS will scan for components files like: `.jsx`, `.tsx`, `.vue`, `.md`, `.html`, `.svelte`, `.astro`. 
+By default UnoCSS will scan for components files like: `.jsx`, `.tsx`, `.vue`, `.md`, `.html`, `.svelte`, `.astro`.
 
 `.js` and `.ts` files are not included by default. You can add `@unocss-include` anywhere in the file that you want UnoCSS to scan at per-file bias, or include `*.js` or `*.ts` in the configuration to make all js/ts files as scan targets.
 
