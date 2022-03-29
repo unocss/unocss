@@ -436,6 +436,7 @@ export const presetMiniTargets: string[] = [
   'pt-2',
   'pt2',
   'pt-$title2',
+  'pa',
   'm-[3em]',
   'm-0',
   'm-1/2',
@@ -457,6 +458,20 @@ export const presetMiniTargets: string[] = [
   'm-block-auto',
   'm-inline-none',
 
+  // spacing - default
+  'p',
+  'pb',
+  'px',
+  'p-x',
+  'pxy',
+  'p-xy',
+  'pis',
+  'p-is',
+  'm-block',
+  'mbs',
+  'mxy',
+  'm-xy',
+  
   // static
   'contents',
   'backface-hidden',

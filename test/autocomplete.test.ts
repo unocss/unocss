@@ -158,6 +158,7 @@ describe('autocomplete', () => {
           "dark:md:m-12",
           "dark:md:m-24",
           "dark:md:m-36",
+          "dark:md:m-xy",
         ]
       `)
   })
