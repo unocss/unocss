@@ -1,5 +1,13 @@
 // Vitest Snapshot v1
 
+exports[`shortcuts > animate 1`] = `
+"/* layer: shortcuts */
+.loading{transition-duration:1000ms;}
+/* layer: default */
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.loading{animation:spin 1s linear infinite;}"
+`;
+
 exports[`shortcuts > dynamic 1`] = `
 "/* layer: shortcuts */
 .button-1{padding-left:0.75rem;padding-right:0.75rem;padding-top:0.5rem;padding-bottom:0.5rem;}
