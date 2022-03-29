@@ -20,7 +20,7 @@ export const fonts: Rule<Theme>[] = [
   // family
   [
     /^font-(.+)$/,
-    ([, d], { theme }) => ({ 'font-family': theme.fontFamily?.[d] || h.global.bracket(d) }),
+    ([, d], { theme }) => ({ 'font-family': theme.fontFamily?.[d] || h.bracket.cssvar.global(d) }),
     { autocomplete: 'font-$fontFamily' },
   ],
 
