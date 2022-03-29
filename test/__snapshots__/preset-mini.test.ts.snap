@@ -37,23 +37,31 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .p-2,
 .p2,
 .where-hover\\\\:p-2:where(:hover){padding:0.5rem;}
-.group:focus .group-focus\\\\:p-4{padding:1rem;}
+.group:focus .group-focus\\\\:p-4,
+.p-xy,
+.pxy{padding:1rem;}
 .hover\\\\:\\\\!p-1:hover{padding:0.25rem !important;}
 .hover\\\\:p-5:hover{padding:1.25rem;}
 .is-hover\\\\:p-4px:is(:hover),
 .not-hover\\\\:p-4px:not(:hover){padding:4px;}
 .not-hover\\\\:p-3:not(:hover){padding:0.75rem;}
 .p-none{padding:0rem;}
+.pa{padding:auto;}
 .\\\\!hover\\\\:px-10:hover{padding-left:2.5rem !important;padding-right:2.5rem !important;}
+.p-x,
+.px{padding-left:1rem;padding-right:1rem;}
 .p-t-2,
 .pt-2,
 .pt2{padding-top:0.5rem;}
+.pb{padding-bottom:1rem;}
 .pl-10px{padding-left:10px;}
 .pt-\\\\$title2{padding-top:var(--title2);}
 .p-bs-2,
 .pbs-2,
 .pbs2{padding-block-start:0.5rem;}
 .p-ie-none{padding-inline-end:0rem;}
+.p-is,
+.pis{padding-inline-start:1rem;}
 .pbs-\\\\$title2{padding-block-start:var(--title2);}
 .pis-10px{padding-inline-start:10px;}
 .-m-auto,
@@ -65,13 +73,17 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .m-0,
 .m-none{margin:0rem;}
 .m-1\\\\/2{margin:50%;}
+.m-xy,
+.mxy{margin:1rem;}
 .my-auto{margin-top:auto;margin-bottom:auto;}
 .-mb-px{margin-bottom:-1px;}
 .mt-\\\\[-10\\\\.2\\\\%\\\\]{margin-top:-10.2%;}
 .mt-\\\\$height{margin-top:var(--height);}
 .next\\\\:mt-0+*{margin-top:0rem;}
+.m-block{margin-block-start:1rem;margin-block-end:1rem;}
 .m-block-auto{margin-block-start:auto;margin-block-end:auto;}
 .m-inline-none{margin-inline-start:0rem;margin-inline-end:0rem;}
+.mbs{margin-block-start:1rem;}
 .mbs-\\\\[-10\\\\.2\\\\%\\\\]{margin-block-start:-10.2%;}
 .mbs-\\\\$height{margin-block-start:var(--height);}
 .unocss .scope-unocss\\\\:block{display:block;}
