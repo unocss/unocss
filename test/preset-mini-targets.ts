@@ -471,7 +471,7 @@ export const presetMiniTargets: string[] = [
   'mbs',
   'mxy',
   'm-xy',
-  
+
   // static
   'contents',
   'backface-hidden',
