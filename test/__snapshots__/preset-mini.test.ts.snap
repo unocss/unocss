@@ -207,6 +207,8 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .content-\\\\[attr\\\\(dashed-attr\\\\)\\\\]{content:\\"attr(dashed-attr)\\";}
 .content-empty,
 .content-none{content:\\"\\";}
+.font-\\\\[system-ui\\\\]{font-family:system-ui;}
+.font-\\\\$font-name{font-family:var(--font-name);}
 .font-mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\\"Liberation Mono\\",\\"Courier New\\",monospace;}
 .group:has(:placeholder-shown) .group-has-placeholder-shown\\\\:text-4xl,
 .group:where(:placeholder-shown) .group-where-placeholder-shown\\\\:text-4xl,

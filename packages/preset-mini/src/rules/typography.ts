@@ -19,8 +19,8 @@ const weightMap: Record<string, string> = {
 export const fonts: Rule<Theme>[] = [
   // family
   [
-    /^font-(\w+)$/,
-    ([, d], { theme }) => ({ 'font-family': theme.fontFamily?.[d] || h.global(d) }),
+    /^font-(.+)$/,
+    ([, d], { theme }) => ({ 'font-family': theme.fontFamily?.[d] || h.bracket.cssvar.global(d) }),
     { autocomplete: 'font-$fontFamily' },
   ],
 
