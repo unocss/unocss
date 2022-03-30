@@ -197,6 +197,25 @@ UnoCss({
 })
 ```
 
+From version `0.30.8` the `transform` provides the `collection` and `icon` names:
+```ts
+UnoCss({
+  presets: [
+    presetIcons({
+      customizations: {
+        transform(svg, collection, icon) {
+          // do not apply fill to this icons on this collection
+          if (collection === 'custom' && icon === 'my-icon')
+            return svg
+          
+          return svg.replace(/^<svg /, '<svg fill="currentColor" ')  
+        }
+      }
+    })
+  ]
+})
+```
+
 ### Global Icon Customization
 
 When loading any icon you can customize common properties to all of them, for example configuring the same size:
