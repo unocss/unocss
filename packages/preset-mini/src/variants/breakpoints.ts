@@ -1,4 +1,5 @@
 import type { Variant } from '@unocss/core'
+import { resolveBreakpoints } from '../utils'
 import type { Theme } from '../theme'
 
 const regexCache: Record<string, RegExp> = {}
@@ -11,10 +12,9 @@ const calcMaxWidthBySize = (size: string) => {
 }
 
 export const variantBreakpoints: Variant<Theme> = {
-  match(matcher, { generator }) {
-    const bp = generator.resolveBreakpoints() ?? {}
+  match(matcher, context) {
     const variantEntries: Array<[string, string, number]>
-    = Object.entries(bp).map(([point, size], idx) => [point, size, idx])
+    = Object.entries(resolveBreakpoints(context) ?? {}).map(([point, size], idx) => [point, size, idx])
     for (const [point, size, idx] of variantEntries) {
       if (!regexCache[point])
         regexCache[point] = new RegExp(`^((?:[al]t-)?${point}[:-])`)
