@@ -47,8 +47,8 @@ export const sizes: Rule<Theme>[] = [
       ],
     },
   ],
-  [/^(min-|max-)?(h)-screen-(.+)$/, ([, m, w, s], { theme }) => ({ [getPropName(m, w)]: theme.verticalBreakpoints?.[s] }), { autocomplete: ['h-screen-$verticalBreakpoints', '(min|max)-h-screen-$verticalBreakpoints'] }],
-  [/^(min-|max-)?(w)-screen-(.+)$/, ([, m, w, s], { theme }) => ({ [getPropName(m, w)]: theme.breakpoints?.[s] }), { autocomplete: ['w-screen-$breakpoints', '(min|max)-w-screen-$breakpoints'] }],
+  [/^(min-|max-)?(h)-screen-(.+)$/, ([, m, w, s], { generator }) => ({ [getPropName(m, w)]: generator.resolveVerticalBreakpoints()?.[s] }), { autocomplete: ['h-screen-$verticalBreakpoints', '(min|max)-h-screen-$verticalBreakpoints'] }],
+  [/^(min-|max-)?(w)-screen-(.+)$/, ([, m, w, s], { generator }) => ({ [getPropName(m, w)]: generator.resolveBreakpoints()?.[s] }), { autocomplete: ['w-screen-$breakpoints', '(min|max)-w-screen-$breakpoints'] }],
 ]
 
 function getAspectRatio(prop: string) {

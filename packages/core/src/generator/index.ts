@@ -17,6 +17,28 @@ export class UnoGenerator {
     this.config = resolveConfig(userConfig, defaults)
   }
 
+  resolveBreakpoints() {
+    let breakpoints: Record<string, string> | undefined
+    if (this.userConfig && this.userConfig.theme)
+      breakpoints = (this.userConfig.theme as any).breakpoints
+
+    if (!breakpoints && this.config.theme)
+      breakpoints = (this.config.theme as any).breakpoints
+
+    return breakpoints
+  }
+
+  resolveVerticalBreakpoints() {
+    let verticalBreakpoints: Record<string, string> | undefined
+    if (this.userConfig && this.userConfig.theme)
+      verticalBreakpoints = (this.userConfig.theme as any).verticalBreakpoints
+
+    if (!verticalBreakpoints && this.config.theme)
+      verticalBreakpoints = (this.config.theme as any).verticalBreakpoints
+
+    return verticalBreakpoints
+  }
+
   setConfig(userConfig?: UserConfig, defaults?: UserConfigDefaults) {
     if (!userConfig)
       return

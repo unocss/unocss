@@ -24,8 +24,8 @@ export const container: Rule<Theme>[] = [
 ]
 
 export const containerShortcuts: Shortcut<Theme>[] = [
-  [/^(?:(\w+)[:-])?container$/, ([, bp], { theme }) => {
-    let points = Object.keys(theme.breakpoints || {})
+  [/^(?:(\w+)[:-])?container$/, ([, bp], { generator }) => {
+    let points = Object.keys(generator.resolveBreakpoints() ?? {})
     if (bp) {
       if (!points.includes(bp))
         return

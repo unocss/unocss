@@ -11,9 +11,10 @@ const calcMaxWidthBySize = (size: string) => {
 }
 
 export const variantBreakpoints: Variant<Theme> = {
-  match(matcher, { theme }) {
+  match(matcher, { generator }) {
+    const bp = generator.resolveBreakpoints() ?? {}
     const variantEntries: Array<[string, string, number]>
-    = Object.entries(theme.breakpoints || {}).map(([point, size], idx) => [point, size, idx])
+    = Object.entries(bp).map(([point, size], idx) => [point, size, idx])
     for (const [point, size, idx] of variantEntries) {
       if (!regexCache[point])
         regexCache[point] = new RegExp(`^((?:[al]t-)?${point}[:-])`)
