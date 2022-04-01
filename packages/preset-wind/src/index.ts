@@ -11,9 +11,9 @@ export type { Theme } from '@unocss/preset-mini'
 
 export { rules, shortcuts, theme, variants }
 
-export interface UnoOptions extends PresetMiniOptions { }
+export interface PresetWindOptions extends PresetMiniOptions { }
 
-export const presetWind = (options: UnoOptions = {}): Preset<Theme> => {
+export const presetWind = (options: PresetWindOptions = {}): Preset<Theme> => {
   options.dark = options.dark ?? 'class'
   options.attributifyPseudo = options.attributifyPseudo ?? false
 
