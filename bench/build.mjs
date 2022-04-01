@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import { performance } from 'perf_hooks'
 import { join } from 'path'
 import fs from 'fs-extra'
 import { build } from 'vite'

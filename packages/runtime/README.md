@@ -83,6 +83,24 @@ import initUnocssRuntime from '@unocss/runtime'
 initUnocssRuntime({ /* options */ })
 ```
 
+## Preventing flash of unstyled content
+
+Since UnoCSS runs after the DOM is present, there can be a "flash of unstyled content" which may leads the user to see the page as unstyled.
+
+Use `un-cloak` attribute with CSS rules such as `[un-cloak] { display: none }` to hide the unstyled element until UnoCSS applies the styles for it.
+
+```css
+[un-cloak] {
+  display: none;
+}
+```
+
+```html
+<div class="text-blue-500" un-cloak>
+  This text will only be visible in blue color.
+</div>
+```
+
 ## License
 
 MIT License © 2021 [Anthony Fu](https://github.com/antfu)

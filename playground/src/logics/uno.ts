@@ -59,9 +59,9 @@ export async function evaluateConfig() {
 export const transformedHTML = computedAsync(async() => {
   const id = 'input.html'
   const input = new MagicString(inputHTML.value)
-  applyTransformers(input, id, 'pre')
-  applyTransformers(input, id)
-  applyTransformers(input, id, 'post')
+  await applyTransformers(input, id, 'pre')
+  await applyTransformers(input, id)
+  await applyTransformers(input, id, 'post')
   return input.toString()
 })
 
@@ -115,7 +115,7 @@ debouncedWatch(
 )
 
 watch(
-  inputHTML,
+  transformedHTML,
   generate,
   { immediate: true },
 )

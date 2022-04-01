@@ -104,7 +104,7 @@ presetIcons({
 })
 ```
 
-You can also provide your own custom collections using [CustomIconLoader](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/types.ts#L12) or [InlineCollection](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/types.ts#L61), for example using `InlineCollection`:
+You can also provide your own custom collections using [CustomIconLoader](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/types.ts#L17) or [InlineCollection](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/types.ts#L80), for example using `InlineCollection`:
 ```ts
 UnoCss({
   presets: [
@@ -128,9 +128,9 @@ and then, you can use it on your html: `<span class="i-custom:circle"></span>`
 
 In `Node.js` the preset will search for the installed iconify dataset automatically and so you don't need to register the `iconify` collections.
 
-You can also provide your own custom collections using also [CustomIconLoader](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/types.ts#L12) or [InlineCollection](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/types.ts#L61).
+You can also provide your own custom collections using also [CustomIconLoader](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/types.ts#L17) or [InlineCollection](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/types.ts#L80).
 
-Additionally, you can also use [FileSystemIconLoader](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/loaders.ts#L9) to load your custom icons from your file system. You will need to install `@iconify/utils` package as `dev dependency`.
+Additionally, you can also use [FileSystemIconLoader](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/node-loaders.ts#L9) to load your custom icons from your file system. You will need to install `@iconify/utils` package as `dev dependency`.
 ```ts
 // vite.config.ts
 import { promises as fs } from 'fs'
@@ -189,6 +189,25 @@ UnoCss({
     presetIcons({
       customizations: {
         transform(svg) {
+          return svg.replace(/^<svg /, '<svg fill="currentColor" ')  
+        }
+      }
+    })
+  ]
+})
+```
+
+From version `0.30.8` the `transform` provides the `collection` and `icon` names:
+```ts
+UnoCss({
+  presets: [
+    presetIcons({
+      customizations: {
+        transform(svg, collection, icon) {
+          // do not apply fill to this icons on this collection
+          if (collection === 'custom' && icon === 'my-icon')
+            return svg
+          
           return svg.replace(/^<svg /, '<svg fill="currentColor" ')  
         }
       }

@@ -7,7 +7,7 @@ export const animations: Rule<Theme>[] = [
     const kf = theme.animation?.keyframes?.[name]
     if (kf)
       return `@keyframes ${name}${kf}\n${constructCSS({ animation: `${name}` })}`
-  }],
+  }, { autocomplete: ['animate-keyframes-$animation.keyframes', 'keyframes-$animation.keyframes'] }],
 
   [/^animate-(.+)$/, ([, name], { theme, constructCSS }) => {
     const kf = theme.animation?.keyframes?.[name]
