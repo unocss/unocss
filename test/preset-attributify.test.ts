@@ -1,4 +1,4 @@
-import { createGenerator } from '@unocss/core'
+import { createGenerator, toEscapedSelector as e } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import presetAttributify, { autocompleteExtractorAttributify, variantAttributify } from '@unocss/preset-attributify'
 import { describe, expect, test } from 'vitest'
@@ -72,10 +72,39 @@ describe('attributify', () => {
 </template>
 `
 
+  const fixture3 = `
+<div custom="1" class="custom-2">
+<div>
+`
+
   const uno = createGenerator({
     presets: [
       presetAttributify({ strict: true }),
       presetUno({ attributifyPseudo: true }),
+    ],
+    rules: [
+      [/^custom-(\d+)$/, ([_, value], { rawSelector }) => {
+        // return a string instead of an object
+        const selector = e(rawSelector)
+        return `
+  ${selector} {
+    font-size: ${value}px;
+  }
+  /* you can have multiple rules */
+  ${selector}::after {
+    content: 'after';
+  }
+  .foo > ${selector} {
+    color: red;
+  }
+  /* or media queries */
+  @media (min-width: 680px) {
+    ${selector} {
+      font-size: 16px;
+    }
+  }
+  `
+      }],
     ],
   })
 
@@ -142,5 +171,10 @@ describe('attributify', () => {
       .toMatchInlineSnapshot('"dark:!blue-500"')
     expect(fixture1.slice(0, reversed.start) + reversed.replacement + fixture1.slice(reversed.end))
       .toMatchSnapshot()
+  })
+
+  test('compatible with full controlled rules', async() => {
+    const { css } = await uno.generate(fixture3)
+    expect(css).toMatchSnapshot()
   })
 })

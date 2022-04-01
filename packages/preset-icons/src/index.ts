@@ -64,7 +64,8 @@ export const preset = (options: IconsOptions = {}): Preset => {
           scale,
           customCollections,
           autoInstall,
-          warn: warn ? full : undefined,
+          // avoid warn from @iconify/loader: we'll warn below if not found
+          warn: undefined,
           customizations: {
             ...customizations,
             additionalProps: { ...extraProperties },
