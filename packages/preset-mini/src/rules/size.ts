@@ -1,6 +1,6 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { handler as h } from '../utils'
+import { handler as h, resolveBreakpoints, resolveVerticalBreakpoints } from '../utils'
 
 const sizeMapping: Record<string, string> = {
   h: 'height',
@@ -47,8 +47,8 @@ export const sizes: Rule<Theme>[] = [
       ],
     },
   ],
-  [/^(min-|max-)?(h)-screen-(.+)$/, ([, m, w, s], { theme }) => ({ [getPropName(m, w)]: theme.verticalBreakpoints?.[s] }), { autocomplete: ['h-screen-$verticalBreakpoints', '(min|max)-h-screen-$verticalBreakpoints'] }],
-  [/^(min-|max-)?(w)-screen-(.+)$/, ([, m, w, s], { theme }) => ({ [getPropName(m, w)]: theme.breakpoints?.[s] }), { autocomplete: ['w-screen-$breakpoints', '(min|max)-w-screen-$breakpoints'] }],
+  [/^(min-|max-)?(h)-screen-(.+)$/, ([, m, w, s], context) => ({ [getPropName(m, w)]: resolveVerticalBreakpoints(context)?.[s] }), { autocomplete: ['h-screen-$verticalBreakpoints', '(min|max)-h-screen-$verticalBreakpoints'] }],
+  [/^(min-|max-)?(w)-screen-(.+)$/, ([, m, w, s], context) => ({ [getPropName(m, w)]: resolveBreakpoints(context)?.[s] }), { autocomplete: ['w-screen-$breakpoints', '(min|max)-w-screen-$breakpoints'] }],
 ]
 
 function getAspectRatio(prop: string) {
