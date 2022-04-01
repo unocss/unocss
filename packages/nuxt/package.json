@@ -46,6 +46,7 @@
     "@unocss/preset-icons": "workspace:*",
     "@unocss/preset-typography": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
+    "@unocss/preset-wind": "workspace:*",
     "@unocss/preset-web-fonts": "workspace:*",
     "@unocss/reset": "workspace:*",
     "@unocss/vite": "workspace:*",
