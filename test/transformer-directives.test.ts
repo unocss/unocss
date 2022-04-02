@@ -294,4 +294,65 @@ describe('transformer-directives', () => {
 
     expect(result).toMatchSnapshot()
   })
+
+  test('custom breakpoints', async() => {
+    const customUno = createGenerator({
+      presets: [
+        presetUno(),
+      ],
+      theme: {
+        breakpoints: {
+          'xs': '320px',
+          'sm': '640px',
+          'md': '768px',
+          'lg': '1024px',
+          'xl': '1280px',
+          '2xl': '1536px',
+          'xxl': '1536px',
+        },
+      },
+    })
+    const result = await transform(
+      '.grid { @apply grid grid-cols-2 xs:grid-cols-1 xxl:grid-cols-15 xl:grid-cols-10 sm:grid-cols-7 md:grid-cols-3 lg:grid-cols-4 }',
+      customUno,
+    )
+    expect(result)
+      .toMatchInlineSnapshot(`
+        ".grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        @media (min-width: 320px) {
+          .grid {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+          }
+        }
+        @media (min-width: 640px) {
+          .grid {
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+          }
+        }
+        @media (min-width: 768px) {
+          .grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+          }
+        }
+        @media (min-width: 1024px) {
+          .grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+          }
+        }
+        @media (min-width: 1280px) {
+          .grid {
+            grid-template-columns: repeat(10, minmax(0, 1fr));
+          }
+        }
+        @media (min-width: 1536px) {
+          .grid {
+            grid-template-columns: repeat(15, minmax(0, 1fr));
+          }
+        }
+        "
+      `)
+  })
 })

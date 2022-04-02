@@ -9,6 +9,7 @@ import presetAttributify from '@unocss/preset-attributify'
 import presetIcons from '@unocss/preset-icons'
 import presetWebFonts from '@unocss/preset-web-fonts'
 import presetTypography from '@unocss/preset-typography'
+import presetWind from '@unocss/preset-wind'
 
 import type { PresetUnoOptions } from '@unocss/preset-uno'
 import type { AttributifyOptions } from '@unocss/preset-attributify'
@@ -16,6 +17,7 @@ import type { IconsOptions } from '@unocss/preset-icons'
 import type { UserConfig } from '@unocss/core'
 import type { WebFontsOptions } from '@unocss/preset-web-fonts'
 import type { TypographyOptions } from '@unocss/preset-typography'
+import type { PresetWindOptions } from '@unocss/preset-wind'
 
 const dir = dirname(fileURLToPath(import.meta.url))
 
@@ -76,6 +78,13 @@ export interface UnocssNuxtOptions extends UserConfig {
    * @default false
    */
   typography?: boolean | TypographyOptions
+
+  /**
+   * Enable the wind preset
+   * Only works when `presets` is not specified
+   * @default false
+   */
+  wind?: boolean | PresetWindOptions
 }
 
 export default defineNuxtModule<UnocssNuxtOptions>({
@@ -93,6 +102,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     attributify: false,
     webFonts: false,
     icons: false,
+    wind: false,
   },
   setup(options) {
     // preset shortcuts
@@ -100,6 +110,8 @@ export default defineNuxtModule<UnocssNuxtOptions>({
       options.presets = []
       if (options.uno)
         options.presets.push(presetUno(typeof options.uno === 'boolean' ? {} : options.uno))
+      if (options.wind)
+        options.presets.push(presetWind(typeof options.wind === 'boolean' ? {} : options.wind))
       if (options.attributify)
         options.presets.push(presetAttributify(typeof options.attributify === 'boolean' ? {} : options.attributify))
       if (options.icons)
