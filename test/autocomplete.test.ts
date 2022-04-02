@@ -78,7 +78,7 @@ describe('autocomplete', () => {
         "align-": "align-base align-baseline align-bottom align-btm align-mid align-middle align-sub align-super align-text-bottom align-text-top",
         "bg-": "bg-amber bg-auto bg-black bg-blend-color bg-blend-color-burn bg-blend-color-dodge bg-blend-darken bg-blend-difference bg-blend-exclusion bg-blend-hard-light",
         "bg-r": "bg-red bg-repeat bg-repeat-round bg-repeat-space bg-repeat-x bg-repeat-y bg-rose",
-        "border": "border border-collapse border-dashed border-dotted border-double border-hidden border-none border-separate border-solid",
+        "border": "border border-collapse border-dashed border-dotted border-double border-hidden border-none border-separate border-solid border-spacing",
         "border-r": "border-r border-rd border-red border-rose border-rounded",
         "fill-": "fill-amber fill-black fill-blue fill-bluegray fill-blueGray fill-coolgray fill-coolGray fill-current fill-cyan fill-dark",
         "fle": "flex flex-1 flex-auto flex-col flex-col-reverse flex-initial flex-inline flex-none flex-nowrap flex-row",

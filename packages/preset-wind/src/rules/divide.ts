@@ -4,7 +4,7 @@ import { colorResolver, directionMap, handler as h } from '@unocss/preset-mini/u
 
 export const divides: Rule[] = [
   // divides
-  [/^divide-?([xy])$/, handlerDivide],
+  [/^divide-?([xy])$/, handlerDivide, { autocomplete: ['divide-(x|y|block|inline)', 'divide-(x|y|block|inline)-reverse', 'divide-(x|y|block|inline)-$lineWidth'] }],
   [/^divide-?([xy])-?(-?.+)$/, handlerDivide],
   [/^divide-?([xy])-reverse$/, ([, d]) => ({ [`--un-divide-${d}-reverse`]: 1 })],
   [/^divide-(block|inline)$/, handlerDivide],
@@ -12,8 +12,8 @@ export const divides: Rule[] = [
   [/^divide-(block|inline)-reverse$/, ([, d]) => ({ [`--un-divide-${d}-reverse`]: 1 })],
 
   // color & opacity
-  [/^divide-(.+)$/, colorResolver('border-color', 'divide')],
-  [/^divide-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-divide-opacity': h.bracket.percent(opacity) })],
+  [/^divide-(.+)$/, colorResolver('border-color', 'divide'), { autocomplete: 'divide-$colors' }],
+  [/^divide-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-divide-opacity': h.bracket.percent(opacity) }), { autocomplete: ['divide-(op|opacity)', 'divide-(op|opacity)-<percent>'] }],
 
   // styles
   ['divide-solid', { 'border-style': 'solid' }],

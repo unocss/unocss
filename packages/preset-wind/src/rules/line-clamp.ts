@@ -7,7 +7,7 @@ export const lineClamps: Rule[] = [
     '-webkit-box-orient': 'vertical',
     '-webkit-line-clamp': v,
     'line-clamp': v,
-  })],
+  }), { autocomplete: ['line-clamp', 'line-clamp-<num>'] }],
   ['line-clamp-none', {
     '-webkit-line-clamp': 'unset',
     'line-clamp': 'unset',
