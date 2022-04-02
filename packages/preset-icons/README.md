@@ -272,6 +272,14 @@ UnoCss({
 })    
 ```
 
+### Advanced Custom Icon Set Cleanup 
+
+When using this preset with your custom icons, consider using a cleanup process similar to that done by [Iconify](https://iconify.design/) for any icons sets. All the tools you need are available in [Iconify Tools](https://docs.iconify.design/tools/tools2/).
+
+You can check this repo, using this preset on a `Vue 3` project: https://github.com/iconify/tools/tree/main/%40iconify-demo/unocss.
+
+Read [Cleaning up icons](https://docs.iconify.design/articles/cleaning-up-icons/) article from [Iconify](https://iconify.design/) for more details.
+
 ## Credits
 
 This preset is inspired from [this issue](https://github.com/antfu/unplugin-icons/issues/88) created by [@husayt](https://github.com/husayt). Based on the work of [this PR](https://github.com/antfu/unplugin-icons/pull/90) by [@userquin](https://github.com/userquin).
