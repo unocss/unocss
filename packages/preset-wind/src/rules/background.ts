@@ -47,7 +47,9 @@ export const backgroundStyles: Rule[] = [
   }],
 
   // gradients
-  [/^bg-gradient-(.+)$/, ([, d]) => ({ '--un-gradient': h.bracket(d) })],
+  [/^bg-gradient-(.+)$/, ([, d]) => ({ '--un-gradient': h.bracket(d) }), {
+    autocomplete: ['bg-gradient', 'bg-gradient-(from|to|via)', 'bg-gradient-(from|to|via)-$colors', 'bg-gradient-(from|to|via)-(op|opacity)', 'bg-gradient-(from|to|via)-(op|opacity)-<percent>'],
+  }],
   [/^(?:bg-gradient-)?stops-(\[.+\])$/, ([, s]) => ({ '--un-gradient-stops': h.bracket(s) })],
   [/^(?:bg-gradient-)?from-(.+)$/, bgGradientColorResolver('from')],
   [/^(?:bg-gradient-)?to-(.+)$/, bgGradientColorResolver('to')],
@@ -59,7 +61,7 @@ export const backgroundStyles: Rule[] = [
   // images
   [/^bg-gradient-((?:repeating-)?(?:linear|radial|conic))$/, ([, s]) => ({
     'background-image': `${s}-gradient(var(--un-gradient, var(--un-gradient-stops, rgba(255, 255, 255, 0))))`,
-  })],
+  }), { autocomplete: ['bg-gradient-repeating', 'bg-gradient-(linear|radial|conic)', 'bg-gradient-repeating-(linear|radial|conic)'] }],
   // ignore any center position
   [/^bg-gradient-to-([rltb]{1,2})$/, ([, d]) => {
     if (d in positionMap) {
@@ -69,7 +71,7 @@ export const backgroundStyles: Rule[] = [
         'background-image': 'linear-gradient(var(--un-gradient))',
       }
     }
-  }],
+  }, { autocomplete: `bg-gradient-to-(${Object.keys(positionMap).filter(k => k.length <= 2 && Array.from(k).every(c => 'rltb'.includes(c))).join('|')})` }],
   [/^(?:bg-gradient-)?shape-(.+)$/, ([, d]) => {
     const v = d in positionMap ? `to ${positionMap[d]}` : h.bracket(d)
     if (v != null) {
@@ -78,7 +80,7 @@ export const backgroundStyles: Rule[] = [
         '--un-gradient': 'var(--un-gradient-shape), var(--un-gradient-stops)',
       }
     }
-  }],
+  }, { autocomplete: ['bg-gradient-shape', `bg-gradient-shape-(${Object.keys(positionMap).join('|')})`, `shape-(${Object.keys(positionMap).join('|')})`] }],
   ['bg-none', { 'background-image': 'none' }],
 
   ['box-decoration-slice', { 'box-decoration-break': 'slice' }],

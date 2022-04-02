@@ -12,7 +12,7 @@ export const scrolls: Rule[] = [
     {
       'scroll-snap-type': `${d} var(--un-scroll-snap-strictness)`,
     },
-  ]],
+  ], { autocomplete: 'snap-(x|y|both)' }],
   ['snap-mandatory', { '--un-scroll-snap-strictness': 'mandatory' }],
   ['snap-proximity', { '--un-scroll-snap-strictness': 'proximity' }],
   ['snap-none', { 'scroll-snap-type': 'none' }],
@@ -28,7 +28,14 @@ export const scrolls: Rule[] = [
   ['snap-always', { 'scroll-snap-stop': 'always' }],
 
   // scroll margin
-  [/^scroll-ma?()-?(-?.+)$/, directionSize('scroll-margin')],
+  [/^scroll-ma?()-?(-?.+)$/, directionSize('scroll-margin'), {
+    autocomplete: [
+      'scroll-(m|p|ma|pa|block|inline)',
+      'scroll-(m|p|ma|pa|block|inline)-$spacing',
+      'scroll-(m|p|ma|pa|block|inline)-(x|y|r|l|t|b|bs|be|is|ie)',
+      'scroll-(m|p|ma|pa|block|inline)-(x|y|r|l|t|b|bs|be|is|ie)-$spacing',
+    ],
+  }],
   [/^scroll-m-?([xy])-?(-?.+)$/, directionSize('scroll-margin')],
   [/^scroll-m-?([rltb])-?(-?.+)$/, directionSize('scroll-margin')],
   [/^scroll-m-(block|inline)-(-?.+)$/, directionSize('scroll-margin')],
