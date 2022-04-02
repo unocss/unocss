@@ -39,7 +39,8 @@ export function createAutocomplete(uno: UnoGenerator) {
     const idx = processed ? input.search(processed) : input.length
     // This input contains variants that modifies the processed part,
     // autocomplete will need to reverse it which is not possible
-    if (idx === -1) return []
+    if (idx === -1)
+      return []
     const variantPrefix = input.slice(0, idx)
     const variantSuffix = input.slice(idx + input.length)
 
@@ -84,10 +85,12 @@ export function createAutocomplete(uno: UnoGenerator) {
   }
 
   async function searchUsageByExtractor(content: string, cursor: number): Promise<AutoCompleteExtractorResult | null> {
-    if (!uno.config.autocomplete.extractors.length) return null
+    if (!uno.config.autocomplete.extractors.length)
+      return null
     for (const extractor of uno.config.autocomplete.extractors) {
       const res = await extractor.extract({ content, cursor })
-      if (res) return res
+      if (res)
+        return res
     }
     return null
   }

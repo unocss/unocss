@@ -15,7 +15,8 @@ export function debouncePromise<T extends unknown[]>(
       }
     }
     else {
-      if (timeout) clearTimeout(timeout)
+      if (timeout)
+        clearTimeout(timeout)
 
       timeout = setTimeout(() => {
         timeout = undefined
@@ -23,7 +24,8 @@ export function debouncePromise<T extends unknown[]>(
           .catch(onError)
           .finally(() => {
             promiseInFly = undefined
-            if (callbackPending) callbackPending()
+            if (callbackPending)
+              callbackPending()
           })
       }, delay)
     }

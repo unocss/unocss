@@ -20,7 +20,8 @@ export const autocompleteExtractorAttributify: AutoCompleteExtractor = {
         break
       }
     }
-    if (!attrs) return null
+    if (!attrs)
+      return null
 
     const matchedAttributes = attrs.matchAll(valuedAttributeRE)
     let attrsPos = 0
@@ -36,9 +37,11 @@ export const autocompleteExtractorAttributify: AutoCompleteExtractor = {
         break
       }
     }
-    if (!attrName) return null
+    if (!attrName)
+      return null
 
-    if (attrName === 'class' || attrName === 'className') return null
+    if (attrName === 'class' || attrName === 'className')
+      return null
     if (attrValues === undefined) {
       return {
         extracted: attrName,

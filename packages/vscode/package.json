@@ -45,7 +45,7 @@
     "@types/vscode": "^1.62.0",
     "jiti": "^1.13.0",
     "prettier": "^2.6.1",
-    "tsup": "^5.12.2",
+    "tsup": "^5.12.3",
     "unconfig": "^0.3.2"
   },
   "engines": {

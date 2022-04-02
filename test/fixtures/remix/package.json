@@ -27,7 +27,7 @@
     "@unocss/preset-attributify": "link:../../../packages/preset-attributify",
     "@unocss/preset-uno": "link:../../packages/preset-uno",
     "@unocss/preset-web-fonts": "link:../../../packages/preset-web-fonts",
-    "concurrently": "^7.0.0",
+    "concurrently": "^7.1.0",
     "typescript": "^4.6.3",
     "unocss": "link:../../../packages/unocss"
   },

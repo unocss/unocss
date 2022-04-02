@@ -85,7 +85,8 @@ export function percent(str: string) {
 }
 
 export function fraction(str: string) {
-  if (str === 'full') return '100%'
+  if (str === 'full')
+    return '100%'
   const [left, right] = str.split('/')
   const num = parseFloat(left) / parseFloat(right)
   if (!Number.isNaN(num))

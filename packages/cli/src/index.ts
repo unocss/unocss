@@ -74,7 +74,8 @@ export async function build(_options: CliOptions) {
   )
 
   const startWatcher = async() => {
-    if (!options.watch) return
+    if (!options.watch)
+      return
 
     const { watch } = await import('chokidar')
     const { patterns } = options
