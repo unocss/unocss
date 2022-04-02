@@ -79,7 +79,7 @@ onMounted(async() => {
   watch(() => [props.modelValue, props.matched], async() => {
     clearTimeout(timer)
     if (props.matched)
-      timer = setTimeout(highlight, 100)
+      timer = setTimeout(highlight, 200)
   }, { immediate: true })
 })
 </script>
