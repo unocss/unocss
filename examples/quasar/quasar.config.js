@@ -1,17 +1,11 @@
-/* eslint-env node */
-
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
-
 const UnoCSS = require('unocss/vite').default
 const { presetAttributify, presetUno } = require('unocss')
 const { configure } = require('quasar/wrappers')
 
 module.exports = configure(() => {
   return {
-    css: [
-      'app.css',
-    ],
     build: {
       target: {
         browser: ['es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1'],
