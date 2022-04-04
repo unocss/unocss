@@ -15,13 +15,13 @@
     "@iconify/utils": "^1.0.32",
     "@sveltejs/adapter-static": "next",
     "@sveltejs/kit": "next",
-    "@unocss/core": "link:../../../packages/core",
-    "@unocss/preset-icons": "link:../../../packages/presets-icons",
+    "@unocss/core": "link:../../packages/core",
+    "@unocss/preset-icons": "link:../../packages/presets-icons",
     "svelte": "^3.46.6",
     "svelte-check": "^2.4.6",
     "svelte-preprocess": "^4.10.4",
     "tslib": "^2.3.1",
     "typescript": "^4.6.3",
-    "unocss": "link:../../../packages/unocss"
+    "unocss": "link:../../packages/unocss"
   }
 }

@@ -8,10 +8,10 @@
   "devDependencies": {
     "@iconify-json/carbon": "^1.1.2",
     "@nuxt/bridge-edge": "latest",
-    "@unocss/core": "link:../../../packages/core",
-    "@unocss/nuxt": "link:../../../packages/nuxt",
-    "@unocss/reset": "link:../../../packages/reset",
+    "@unocss/core": "link:../../packages/core",
+    "@unocss/nuxt": "link:../../packages/nuxt",
+    "@unocss/reset": "link:../../packages/reset",
     "nuxt-edge": "latest",
-    "unocss": "link:../../../packages/unocss"
+    "unocss": "link:../../packages/unocss"
   }
 }

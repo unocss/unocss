@@ -4,3 +4,4 @@ packages:
   - bench
   - docs
   - '!**/test/**'
+  - '!examples/**'

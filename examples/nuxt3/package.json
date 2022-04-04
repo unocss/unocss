@@ -7,10 +7,10 @@
   },
   "devDependencies": {
     "@iconify-json/carbon": "^1.1.2",
-    "@unocss/core": "link:../../../packages/core",
-    "@unocss/nuxt": "link:../../../packages/nuxt",
-    "@unocss/reset": "link:../../../packages/reset",
+    "@unocss/core": "link:../../packages/core",
+    "@unocss/nuxt": "link:../../packages/nuxt",
+    "@unocss/reset": "link:../../packages/reset",
     "nuxt3": "latest",
-    "unocss": "link:../../../packages/unocss"
+    "unocss": "link:../../packages/unocss"
   }
 }

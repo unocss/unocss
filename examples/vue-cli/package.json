@@ -10,7 +10,7 @@
     "vue": "^3.2.31"
   },
   "devDependencies": {
-    "@unocss/webpack": "link:../../../packages/webpack",
+    "@unocss/webpack": "link:../../packages/webpack",
     "@vue/cli-plugin-babel": "~5.0.4",
     "@vue/cli-service": "~5.0.4"
   }

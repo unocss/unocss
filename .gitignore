@@ -18,4 +18,4 @@ packages/runtime/*.global.js
 packages/unocss/README.md
 packages/vscode/LICENSE
 result.json
-test/fixtures/**/pnpm-lock.yaml
+examples/**/pnpm-lock.yaml
