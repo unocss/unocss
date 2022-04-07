@@ -13,7 +13,11 @@ describe('variant-group', () => {
     expect(expandVariantGroup('b:c:d:(!a z)')).toEqual('!b:c:d:a b:c:d:z')
   })
 
-  test('dash seperator', async() => {
+  test('dash separator', async() => {
     expect(expandVariantGroup('a-(b c) c-(a:b d)')).toEqual('a-b a-c c-a:b c-d')
+  })
+
+  test('tilde symbol', () => {
+    expect(expandVariantGroup('a-(~ b c)')).toEqual('a a-b a-c')
   })
 })
