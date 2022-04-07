@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "preact": "^10.7.0"
+    "preact": "^10.7.1"
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.1.3",
