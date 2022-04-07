@@ -23,21 +23,21 @@ The instant on-demand Atomic CSS engine.
 
 ## Features
 
-Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcss.com/), [Twind](https://github.com/tw-in-js/twind) but:
+Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcss.com/), and [Twind](https://github.com/tw-in-js/twind), but:
 
 - [Fully customizable](#configurations) - no core utilities, all functionalities are provided via presets.
-- No parsing, no AST, no scanning, it's **INSTANT** (200x faster than Windi CSS or Tailwind JIT)
+- No parsing, no AST, no scanning, it's **INSTANT** (200x faster than Windi CSS or Tailwind JIT).
 - ~3.5kb min+gzip - zero deps and browser friendly.
 - [Shortcuts](#shortcuts) - aliasing utilities, dynamically.
-- [Attributify Mode](https://github.com/unocss/unocss/tree/main/packages/preset-attributify/) - group utilities in attributes
+- [Attributify Mode](https://github.com/unocss/unocss/tree/main/packages/preset-attributify/) - group utilities in attributes.
 - [Pure CSS Icons](https://github.com/unocss/unocss/tree/main/packages/preset-icons/) - use any icon as a single class.
-- [Inspector](#inspector) - inspect and debug interatively.
+- [Inspector](#inspector) - inspect and debug interactively.
 - [CSS-in-JS Runtime version](https://github.com/unocss/unocss/tree/main/packages/runtime)
 - [CSS Scoping](#css-scoping)
 - [VS Code extension](https://marketplace.visualstudio.com/items?itemName=antfu.unocss)
 - [Variant Groups](https://github.com/unocss/unocss/tree/main/packages/transformer-variant-group) & [CSS Directives](https://github.com/unocss/unocss/tree/main/packages/transformer-directives)
 - Code-splitting for CSS - ships minimal CSS for MPA.
-- Library friendly - ships atomic styles with your component libraries and safely scoped.
+- Library friendly - ships atomic styles with your component libraries, and safely scoped.
 
 ###### Benchmark
 
@@ -112,11 +112,11 @@ Refer to the full documentation on https://github.com/unocss/unocss/tree/main/pa
 
 ## Configurations
 
-UnoCSS is an atomic-CSS engine instead of a framework. Everything is designed with flexibility and performance in mind. In UnoCSS, there are no core utilities; all functionalities are provided via presets.
+UnoCSS is an atomic-CSS engine instead of a framework. Everything is designed with flexibility and performance in mind. There are no core utilities in UnoCSS, all functionalities are provided via presets.
 
-By default, UnoCSS applies [the default preset](https://github.com/unocss/unocss/tree/main/packages/preset-uno). Which provides a common superset of the popular utilities-first framework, including Tailwind CSS, Windi CSS, Bootstrap, Tachyons, etc.
+By default, UnoCSS applies [the default preset](https://github.com/unocss/unocss/tree/main/packages/preset-uno), which provides a common superset of the popular utilities-first frameworks Tailwind CSS, Windi CSS, Bootstrap, Tachyons, etc.
 
-For example, both `ml-3` (Tailwind), `ms-2` (Bootstrap), `ma4` (Tachyons), `mt-10px` (Windi CSS) are valid.
+For example: `ml-3` (Tailwind), `ms-2` (Bootstrap), `ma4` (Tachyons), and `mt-10px` (Windi CSS) are all valid.
 
 ```css
 .ma4 { margin: 1rem; }
@@ -125,11 +125,11 @@ For example, both `ml-3` (Tailwind), `ms-2` (Bootstrap), `ma4` (Tachyons), `mt-1
 .mt-10px { margin-top: 10px; }
 ```
 
-[Learn more about the default preset](https://github.com/unocss/unocss/tree/main/packages/preset-uno).
+Learn more about [the default preset](https://github.com/unocss/unocss/tree/main/packages/preset-uno).
 
 ### Presets
 
-Presets are the heart of UnoCSS that lets you make your own custom framework in minutes.
+Presets are the heart of UnoCSS. They let you make your own custom framework in minutes.
 
 ###### Official Presets
 
@@ -139,15 +139,15 @@ Presets are the heart of UnoCSS that lets you make your own custom framework in 
 - [@unocss/preset-attributify](https://github.com/unocss/unocss/tree/main/packages/preset-attributify) - Provides [Attributify Mode](https://github.com/unocss/unocss/tree/main/packages/preset-attributify#attributify-mode) to other presets and rules.
 - [@unocss/preset-icons](https://github.com/unocss/unocss/tree/main/packages/preset-icons) - Use any icon as a class utility.
 - [@unocss/preset-web-fonts](https://github.com/unocss/unocss/tree/main/packages/preset-web-fonts) - Web fonts at ease.
-- [@unocss/preset-typography](https://github.com/unocss/unocss/tree/main/packages/preset-typography) - The typography preset
+- [@unocss/preset-typography](https://github.com/unocss/unocss/tree/main/packages/preset-typography) - The typography preset.
 
 ###### Community Presets
 
-- [unocss-preset-scalpel](https://github.com/macheteHot/unocss-preset-scalpel) - Scalpel Preset by [@macheteHot](https://github.com/macheteHot/)
-- [unocss-preset-chroma](https://github.com/chu121su12/unocss-preset-chroma) - Gradient Preset by [@chu121su12](https://github.com/chu121su12)
-- [unocss-preset-scrollbar](https://github.com/action-hong/unocss-preset-scrollbar) - Scrollbar Preset by [@action-hong](https://github.com/action-hong)
+- [unocss-preset-scalpel](https://github.com/macheteHot/unocss-preset-scalpel) - Scalpel Preset by [@macheteHot](https://github.com/macheteHot/).
+- [unocss-preset-chroma](https://github.com/chu121su12/unocss-preset-chroma) - Gradient Preset by [@chu121su12](https://github.com/chu121su12).
+- [unocss-preset-scrollbar](https://github.com/action-hong/unocss-preset-scrollbar) - Scrollbar Preset by [@action-hong](https://github.com/action-hong).
 
-### Use Presets
+### Using Presets
 
 To set presets to your project:
 
@@ -244,11 +244,11 @@ Congratulations! Now you got your own powerful atomic CSS utilities, enjoy!
 ###### Full Controlled Rules
 
 <details>
-<summary>This is an advance feature, you don't need it in most of the cases.</summary>
+<summary>This is an advanced feature, you don't need it in most of the cases.</summary>
 
 <br>
 
-When you really need some advanced rules that can't be covered by the combination of [Dynamic Rules](#dynamic-rules) and [Variants](#custom-variants), you also provide a way to give you full controls of generating the CSS.
+When you really need some advanced rules that can't be covered by the combination of [Dynamic Rules](#dynamic-rules) and [Variants](#custom-variants), we also provide a way to give you full control to generate the CSS.
 
 By returning a `string` from the dynamic rule's body function, it will be directly passed to the generated CSS. That also means you would need to take care of things like CSS escaping, variants applying, CSS constructing, and so on.
 
@@ -296,11 +296,11 @@ You might need to read some code to take the full power of it.
 
 ### Ordering
 
-UnoCSS keeps the order of the rules you defined to the generated CSS. Later ones come with higher priority.
+UnoCSS respects the order of the rules you defined in the generated CSS. Latter ones come with higher priority.
 
 ### Shortcuts
 
-UnoCSS provides the shortcuts functionality that is similar to [Windi CSS's](https://windicss.org/features/shortcuts.html)
+The shortcuts functionality that UnoCSS provides is similar to [Windi CSS's](https://windicss.org/features/shortcuts.html) one
 
 ```ts
 shortcuts: {
@@ -397,7 +397,7 @@ Learn more at [@unocss/reset](https://github.com/unocss/unocss/tree/main/package
 
 ### Custom Variants
 
-[Variants](https://windicss.org/utilities/variants.html#variants) allows you to apply some variations to your existing rules. For example, to implement the `hover:` variant from Tailwind:
+[Variants](https://windicss.org/utilities/general/variants.html) allows you to apply some variations to your existing rules. For example, to implement the `hover:` variant from Tailwind:
 
 ```ts
 variants: [
@@ -417,7 +417,7 @@ rules: [
 ]
 ```
 
-- `match` controls when the variant is enabled. If the return value is a string, it will be used as the selector for matching the rules.
+- `matcher` controls when the variant is enabled. If the return value is a string, it will be used as the selector for matching the rules.
 - `selector` provides the availability of customizing the generated CSS selector.
 
 Let's have a tour of what happened when matching for `hover:m-2`:
@@ -426,7 +426,7 @@ Let's have a tour of what happened when matching for `hover:m-2`:
 - `hover:m-2` send to all variants for matching
 - `hover:m-2` is matched by our variant and returns `m-2`
 - the result `m-2` will be used for the next round of variants matching
-- if no more variant is matched, `m-2` will then goes to match the rules
+- if no other variant is matched, `m-2` will then goes to match the rules
 - our first rule get matched and generates `.m-2 { margin: 0.5rem; }`
 - finally, we apply our variants transformation to the generated CSS. In this case, we prepended `:hover` to the `selector` hook
 
@@ -472,9 +472,9 @@ rules: [
 
 ### Layers
 
-The orders of CSS will affect their priorities. While we will [retain the order of rules](#ordering), sometimes you may want to group some utilities to have more explicit control of their orders.
+The order of CSS will affect their priorities. While we will [retain the order of rules](#ordering), sometimes you may want to group some utilities to have more explicit control of their order.
 
-Unlike Tailwind, which offers fixed 3 layers (`base`, `components`, `utilities`), UnoCSS allows you to define your own layers as you want. To set the layer, you can pass the metadata as the third item of your rules:
+Unlike Tailwind, which offers 3 fixed layers (`base`, `components`, `utilities`), UnoCSS allows you to define the layers as you want. To set the layer, you can pass the metadata as the third item of your rules:
 
 ```ts
 rules: [
@@ -484,7 +484,7 @@ rules: [
 ]
 ```
 
-This will make it generates:
+This will generate:
 
 ```css
 /* layer: default */
@@ -535,7 +535,7 @@ preprocess(matcher) {
 
 By default UnoCSS will scan for components files like: `.jsx`, `.tsx`, `.vue`, `.md`, `.html`, `.svelte`, `.astro`.
 
-`.js` and `.ts` files are not included by default. You can add `@unocss-include` anywhere in the file that you want UnoCSS to scan at per-file bias, or include `*.js` or `*.ts` in the configuration to make all js/ts files as scan targets.
+`.js` and `.ts` files are not included by default. You can add `@unocss-include`, per-file basis, anywhere in the file that you want UnoCSS to scan, or add `*.js` or `*.ts` in the configuration to include all js/ts files as scan targets.
 
 ### Inspector
 
@@ -549,7 +549,7 @@ See [@unocss/runtime](https://github.com/unocss/unocss/tree/main/packages/runtim
 
 ### CSS Scoping
 
-> 🚧 This part is still under experiment. You might want to read the code to see how it works currently.
+> 🚧 This part is still experimental. You might want to read the code to see how it works currently.
 
 <!-- ## Make a Custom Preset
 
