@@ -4,7 +4,7 @@ import parserCSS from 'prettier/parser-postcss'
 // @ts-expect-error missing types
 import { Pane, Splitpanes } from 'splitpanes'
 import { isDark } from '../logics/dark'
-import { customConfigError, customConfigRaw, getHint, inputHTML, output } from '../logics/uno'
+import { customConfigError, customConfigRaw, getHint, inputHTML, output, transformedHTML } from '../logics/uno'
 import { defaultConfigRaw, defaultHTML } from '../defaults'
 import { options } from '../logics/url'
 import { version } from '../../../package.json'
@@ -104,6 +104,10 @@ onMounted(() => {
           <input v-model="options.strict" type="checkbox">
           Strict
         </label>
+        <label>
+          <input v-model="options.transform" type="checkbox">
+          Transform
+        </label>
         <div flex-auto />
         <div text-sm op50>
           v{{ version }}
@@ -122,12 +126,14 @@ onMounted(() => {
         />
       </TitleBar>
       <CodeMirror
-        v-model="inputHTML"
         flex-auto
         mode="htmlmixed"
         class="scrolls border-(l gray-400/20)"
         :matched="output?.matched || new Set()"
         :get-hint="getHint"
+        :read-only="options.transform"
+        :model-value="options.transform ? transformedHTML : inputHTML"
+        @update:model-value="inputHTML = $event"
       />
     </Pane>
     <Pane :min-size="titleHeightPercent" :size="panelSizes[1]" flex flex-col>
