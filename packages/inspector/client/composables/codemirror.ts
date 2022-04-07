@@ -11,18 +11,26 @@ import 'codemirror/addon/hint/show-hint'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror-theme-vars/base.css'
 import 'codemirror/addon/hint/show-hint.css'
+import type { MaybeRef } from '@vueuse/core'
 
 export function useCodeMirror(
   textarea: Ref<HTMLTextAreaElement | null | undefined>,
   input: Ref<string> | WritableComputedRef<string>,
-  options: CodeMirror.EditorConfiguration = {},
+  options: MaybeRef<CodeMirror.EditorConfiguration> = {},
 ) {
   const cm = CodeMirror.fromTextArea(
     textarea.value!,
     {
       theme: 'vars',
-      ...options,
+      ...unref(options),
     },
+  )
+
+  watch(
+    options,
+    options => Object
+      .entries(options)
+      .forEach(([key, option]) => cm.setOption(key as keyof CodeMirror.EditorConfiguration, option)),
   )
 
   let skip = false
