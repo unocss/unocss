@@ -16,6 +16,7 @@ function include<T>(set: Set<T>, v: T[] | Set<T>) {
     set.add(i)
 }
 
+// eslint-disable-next-line no-console
 console.log(
   '%c[unocss] devtools support enabled %c\nread more at https://windicss.org',
   'background:#0ea5e9; color:white; padding: 1px 4px; border-radius: 3px;',
