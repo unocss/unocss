@@ -1,6 +1,6 @@
 {
   "name": "@unocss/preset-uno",
-  "version": "0.30.13",
+  "version": "0.31.0",
   "description": "The default preset for UnoCSS",
   "keywords": [
     "unocss",
