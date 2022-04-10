@@ -4,6 +4,7 @@ import { StatusBarAlignment, window, workspace } from 'vscode'
 import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
 import { createContext } from '../../plugins-common/context'
 import { version } from '../package.json'
+import { resolveOptions as resolveNuxtOptions } from '../../nuxt/src/options'
 import { log } from './log'
 import { registerAnnonations } from './annonation'
 import { registerAutoComplete } from './autocomplete'
@@ -19,20 +20,28 @@ export async function activate(ext: ExtensionContext) {
 
   log.appendLine(`UnoCSS for VS Code  v${version} ${process.cwd()}`)
 
-  const context = createContext(cwd, {}, [
-    sourcePluginFactory({
-      files: [
-        'vite.config',
-        'svelte.config',
-        'astro.config',
-      ],
-      targetModule: 'unocss/vite',
-    }),
-    sourceObjectFields({
-      files: 'nuxt.config',
-      fields: 'unocss',
-    }),
-  ])
+  const context = createContext(
+    cwd, {},
+    [
+      sourcePluginFactory({
+        files: [
+          'vite.config',
+          'svelte.config',
+          'astro.config',
+        ],
+        targetModule: 'unocss/vite',
+      }),
+      sourceObjectFields({
+        files: 'nuxt.config',
+        fields: 'unocss',
+      }),
+    ],
+    (result) => {
+      if (result.sources.some(s => s.includes('nuxt.config')))
+        resolveNuxtOptions(result.config)
+    },
+
+  )
 
   let sources: string[] = []
   try {

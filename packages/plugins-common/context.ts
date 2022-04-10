@@ -1,9 +1,8 @@
 import { createFilter } from '@rollup/pluginutils'
-import type { LoadConfigSource } from '@unocss/config'
+import type { LoadConfigResult, LoadConfigSource } from '@unocss/config'
 import { createConfigLoader } from '@unocss/config'
 import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { BetterMap, createGenerator } from '@unocss/core'
-import { resolveOptions as resolveNuxtOptions } from '../nuxt/src/options'
 import { CSS_PLACEHOLDER, INCLUDE_COMMENT } from './constants'
 import { defaultExclude, defaultInclude } from './defaults'
 
@@ -11,6 +10,7 @@ export function createContext<Config extends UserConfig = UserConfig>(
   configOrPath?: Config | string,
   defaults: UserConfigDefaults = {},
   extraConfigSources: LoadConfigSource[] = [],
+  resolveConfigResult: (config: LoadConfigResult<Config>) => void = () => {},
 ): UnocssPluginContext<Config> {
   const loadConfig = createConfigLoader(configOrPath, extraConfigSources)
 
@@ -27,9 +27,7 @@ export function createContext<Config extends UserConfig = UserConfig>(
 
   async function reloadConfig() {
     const result = await loadConfig()
-
-    if (result.sources.some(i => i.includes('nuxt.config')))
-      resolveNuxtOptions(result.config)
+    resolveConfigResult(result)
 
     rawConfig = result.config
     uno.setConfig(rawConfig)
