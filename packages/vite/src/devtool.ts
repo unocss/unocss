@@ -60,7 +60,7 @@ export function createDevtoolsPlugin(ctx: UnocssPluginContext): Plugin[] {
       const mod = server.moduleGraph.getModuleById(DEVTOOLS_CSS_PATH)
       if (!mod)
         return
-      server!.moduleGraph.invalidateModule(mod)
+      server.moduleGraph.invalidateModule(mod)
       server.ws.send({
         type: 'update',
         updates: [{
@@ -114,7 +114,6 @@ export function createDevtoolsPlugin(ctx: UnocssPluginContext): Plugin[] {
                 })
                 if (changed)
                   updateDevtoolClass()
-                changed = true
             }
             res.statusCode = 200
           }
