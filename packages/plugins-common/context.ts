@@ -3,6 +3,7 @@ import type { LoadConfigSource } from '@unocss/config'
 import { createConfigLoader } from '@unocss/config'
 import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { BetterMap, createGenerator } from '@unocss/core'
+import { resolveOptions as resolveNuxtOptions } from '../nuxt/src/options'
 import { CSS_PLACEHOLDER, INCLUDE_COMMENT } from './constants'
 import { defaultExclude, defaultInclude } from './defaults'
 
@@ -26,6 +27,9 @@ export function createContext<Config extends UserConfig = UserConfig>(
 
   async function reloadConfig() {
     const result = await loadConfig()
+
+    if (result.sources.some(i => i.includes('nuxt.config')))
+      resolveNuxtOptions(result.config)
 
     rawConfig = result.config
     uno.setConfig(rawConfig)
