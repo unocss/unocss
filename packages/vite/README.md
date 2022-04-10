@@ -386,6 +386,26 @@ export default defineConfig({
 
 You have a `Vite + Elm` example project on [examples/vite-elm](https://github.com/unocss/unocss/tree/main/examples/vite-elm) directory.
 
+
+
+## "Design in DevTools"
+
+Because of limitation of "on-demand" where the DevTools don't know those you haven't used in your source code yet. So if you want to try how things work by directly changing the classes in DevTools, just add the following lines to your main entry.
+
+```ts
+import 'uno.css'
+import 'virtual:unocss-devtools'
+```
+
+It will be enabled automatically for you, have fun!
+
+It also support static class name auto-completion in DevTools.
+
+`virtual:unocss-devtools` will be an empty bundle in production.
+
+> ⚠️ Please use it with caution, under the hood we use [`MutationObserver`](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) to detect the class changes. Which means not only your manual changes but also the changes made by your scripts will be detected and included in the stylesheet. This could cause some misalignment between dev and the production build when you add dynamic classes based on some logic in script tags. We recommended adding your dynamic parts to the [safelist](https://github.com/unocss/unocss/issues/511) or setup UI regression tests for your production build if possible.
+
+
 ## License
 
 MIT License © 2021-PRESENT [Anthony Fu](https://github.com/antfu)
