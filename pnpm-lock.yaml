@@ -436,12 +436,14 @@ importers:
   packages/vscode:
     specifiers:
       '@types/vscode': ^1.62.0
+      '@unocss/nuxt': workspace:*
       jiti: ^1.13.0
       prettier: ^2.6.2
       tsup: ^5.12.4
       unconfig: ^0.3.2
     devDependencies:
       '@types/vscode': 1.65.0
+      '@unocss/nuxt': link:../nuxt
       jiti: 1.13.0
       prettier: 2.6.2
       tsup: 5.12.4_typescript@4.6.3

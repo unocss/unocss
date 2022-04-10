@@ -35,18 +35,19 @@
     }
   },
   "activationEvents": [
-    "workspaceContains:vite.config.*",
-    "workspaceContains:nuxt.config.*",
-    "workspaceContains:uno.config.*",
-    "workspaceContains:unocss.config.*",
-    "workspaceContains:package.json"
+    "workspaceContains:**/vite.config.*",
+    "workspaceContains:**/nuxt.config.*",
+    "workspaceContains:**/uno.config.*",
+    "workspaceContains:**/unocss.config.*",
+    "workspaceContains:**/package.json"
   ],
   "devDependencies": {
     "@types/vscode": "^1.62.0",
     "jiti": "^1.13.0",
     "prettier": "^2.6.2",
     "tsup": "^5.12.4",
-    "unconfig": "^0.3.2"
+    "unconfig": "^0.3.2",
+    "@unocss/nuxt": "workspace:*"
   },
   "engines": {
     "vscode": "^1.62.0"
