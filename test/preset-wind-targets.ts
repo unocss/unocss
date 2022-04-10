@@ -351,3 +351,8 @@ export const presetWindTargets: string[] = [
   '-scroll-p-px',
   '-space-x-4',
 ]
+
+export const presetWindNonTargets: string[] = [
+  '[outline~="active\:none"]',
+  '[i~="dark\:carbon-moon"]',
+]

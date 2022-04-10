@@ -1,7 +1,7 @@
 import { createGenerator, escapeSelector } from '@unocss/core'
 import presetWind from '@unocss/preset-wind'
 import { describe, expect, test } from 'vitest'
-import { presetWindTargets } from './preset-wind-targets'
+import { presetWindNonTargets, presetWindTargets } from './preset-wind-targets'
 
 export const localTargets: string[] = [
   // static
@@ -44,6 +44,12 @@ describe('preset-wind', () => {
     expect(unmatched).toEqual([])
     expect(css).toMatchSnapshot()
     expect(css).toEqual(css2)
+  })
+
+  test('non-targets', async() => {
+    const { matched } = await uno.generate(new Set(presetWindNonTargets))
+
+    expect([...matched]).toEqual([])
   })
 
   test('containers', async() => {
