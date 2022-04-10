@@ -42,6 +42,9 @@
     "build": "unbuild",
     "stub": "unbuild --stub"
   },
+  "peerDependencies": {
+    "vite": "^2.9.0"
+  },
   "dependencies": {
     "@rollup/pluginutils": "^4.2.0",
     "@unocss/config": "workspace:*",

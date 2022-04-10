@@ -3,7 +3,7 @@ import type { UnocssPluginContext } from '@unocss/core'
 import { LAYER_MARK_ALL, getPath, resolveId } from '../../../../plugins-common'
 
 const WARN_TIMEOUT = 20000
-const WS_EVENT_PREFIX = 'custom:unocss:'
+const WS_EVENT_PREFIX = 'unocss:hmr'
 
 export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter }: UnocssPluginContext): Plugin[] {
   const servers: ViteDevServer[] = []
@@ -82,18 +82,9 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
       async configureServer(_server) {
         servers.push(_server)
 
-        _server.ws.on('connection', (ws) => {
-          ws.on('open', () => {
-            invalidate()
-          })
-          ws.on('message', (msg) => {
-            const message = String(msg)
-            if (!message.startsWith(WS_EVENT_PREFIX))
-              return
-            const servedTime = +message.slice(WS_EVENT_PREFIX.length)
-            if (servedTime < lastUpdate)
-              invalidate(0)
-          })
+        _server.ws.on(WS_EVENT_PREFIX, (servedTime: number) => {
+          if (servedTime < lastUpdate)
+            invalidate(0)
         })
       },
       async buildStart() {
@@ -140,23 +131,9 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
       },
       enforce: 'post',
       transform(code, id) {
-        // inject @vite/client to expose ws send function
-        if (id.includes('@vite/client') || id.includes('vite/dist/client/client.mjs')) {
-          return code
-            .replace(
-              'return hot',
-              [
-                'let __buffer = []',
-                'function unoSendBuffer() { if(socket.readyState !== 1) return; __buffer.forEach(msg => socket.send(msg)); __buffer = [] }',
-                'socket.addEventListener("open", () => unoSendBuffer())',
-                'hot.unoSend = (data) => {__buffer.push(data);unoSendBuffer()}',
-                'return hot',
-              ].join(';'),
-            )
-        }
         // inject css modules to send callback on css load
         if (entries.has(getPath(id)) && code.includes('import.meta.hot')) {
-          const snippet = `\nif (import.meta.hot) { try { import.meta.hot.unoSend('${WS_EVENT_PREFIX}${lastServed}') } catch (e) { console.warn('[unocss-hmr]', e) } }`
+          const snippet = `\nif (import.meta.hot) { try { import.meta.hot.send('${WS_EVENT_PREFIX}', ${lastServed}) } catch (e) { console.warn('[unocss-hmr]', e) } }`
           return code + snippet
         }
       },
