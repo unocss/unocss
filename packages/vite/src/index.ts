@@ -11,6 +11,7 @@ import { ShadowDomModuleModePlugin } from './modes/shadow-dom'
 import { ConfigHMRPlugin } from './config-hmr'
 import type { VitePluginConfig } from './types'
 import { initTransformerPlugins } from './transformers'
+import { createDevtoolsPlugin } from './devtool'
 
 export * from './types'
 export * from './modes/chunk-build'
@@ -33,6 +34,7 @@ export default function UnocssPlugin(
 
   const plugins = [
     ...initTransformerPlugins(ctx),
+    ...createDevtoolsPlugin(ctx),
     ConfigHMRPlugin(ctx),
   ]
 
