@@ -57,10 +57,6 @@ export function getPreflights(
   className: string,
   cssExtend?: object | undefined,
 ): string {
-  // attribute selector
-  if (!selectorProse.startsWith('['))
-    selectorProse = `.${selectorProse}`
-
   if (cssExtend)
     return getCSS(selectorProse, className, mergeDeep(DEFAULT, cssExtend))
 

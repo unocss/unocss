@@ -1,5 +1,6 @@
 import type { CSSObject, Preset, RuleContext } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
+import { toEscapedSelector } from '@unocss/core'
 import { getPreflights } from './preflights'
 
 /**
@@ -30,8 +31,7 @@ export interface TypographyOptions {
  *
  * ```js
  * // unocss.config.js
- * import { presetAttributify, presetUno, defineConfig } from 'unocss'
- * import { presetTypography } from '@unocss/preset-typography'
+ * import { presetAttributify, presetUno, defineConfig, presetTypography } from 'unocss'
  *
  * export default defineConfig({
  *   presets: [
@@ -63,7 +63,7 @@ export function presetTypography(options?: TypographyOptions): Preset {
         classNameRE,
         (_, { rawSelector }) => {
           hasProseClass = true
-          selectorProse = rawSelector
+          selectorProse = toEscapedSelector(rawSelector)
           return { 'color': 'var(--un-prose-body)', 'max-width': '65ch' }
         },
         { layer: 'typography' },
