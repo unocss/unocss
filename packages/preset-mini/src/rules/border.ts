@@ -1,5 +1,6 @@
 import type { CSSEntries, CSSObject, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
+import { borderStyles } from '../utils'
 import { colorToString, cornerMap, directionMap, handler as h, hasParseableColor, parseColor } from '../utils'
 
 export const borders: Rule[] = [
@@ -39,12 +40,8 @@ export const borders: Rule[] = [
   [/^(?:border-|b-)?(?:rounded|rd)-([bi][se]-[bi][se])(?:-(.+))?$/, handlerRounded],
 
   // style
-  ['border-solid', { 'border-style': 'solid' }],
-  ['border-dashed', { 'border-style': 'dashed' }],
-  ['border-dotted', { 'border-style': 'dotted' }],
-  ['border-double', { 'border-style': 'double' }],
-  ['border-hidden', { 'border-style': 'hidden' }],
-  ['border-none', { 'border-style': 'none' }],
+  [/^(?:border|b)-?(.+)$/, handlerBorderStyle, { autocomplete: [`(border|b)-(${borderStyles.join('|')})`, `(border|b)-<directions>-(${borderStyles.join('|')})`] }],
+  [/^(?:border|b)-([rltbsexy])-?(.+)$/, handlerBorderStyle],
 ]
 
 const borderColorResolver = (direction: string) => ([, body]: string[], theme: Theme): CSSObject | undefined => {
@@ -118,4 +115,13 @@ function handlerRounded([, a = '', s]: string[], { theme }: RuleContext<Theme>):
   const v = theme.borderRadius?.[s || 'DEFAULT'] || h.bracket.cssvar.fraction.rem(s || '1')
   if (a in cornerMap && v != null)
     return cornerMap[a].map(i => [`border${i}-radius`, v])
+}
+
+function handlerBorderStyle([, a = '', s]: string[]): CSSEntries | undefined {
+  if (!s && borderStyles.includes(a)) {
+    return [[`border-style`, a]]
+  }
+  if (a in directionMap && borderStyles.includes(s)) {
+    return directionMap[a].map(i => [`border${i}-style`, s])
+  }
 }

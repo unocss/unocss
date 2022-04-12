@@ -198,3 +198,6 @@ export const resolveVerticalBreakpoints = ({ theme, generator }: Readonly<Varian
 
   return verticalBreakpoints
 }
+
+
+export const borderStyles = ['solid', 'dashed', 'dotted', 'double', 'hidden', 'none', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit', 'revert', 'unset']
