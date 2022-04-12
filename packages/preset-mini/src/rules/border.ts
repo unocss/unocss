@@ -1,6 +1,8 @@
 import type { CSSEntries, CSSObject, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { borderStyles, colorToString, cornerMap, directionMap, handler as h, hasParseableColor, parseColor } from '../utils'
+import { colorToString, cornerMap, directionMap, handler as h, hasParseableColor, parseColor } from '../utils'
+
+const borderStyles = ['solid', 'dashed', 'dotted', 'double', 'hidden', 'none', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit', 'revert', 'unset']
 
 export const borders: Rule[] = [
   // compound
@@ -39,8 +41,8 @@ export const borders: Rule[] = [
   [/^(?:border-|b-)?(?:rounded|rd)-([bi][se]-[bi][se])(?:-(.+))?$/, handlerRounded],
 
   // style
-  [/^(?:border|b)-?(.+)$/, handlerBorderStyle, { autocomplete: [`(border|b)-(${borderStyles.join('|')})`, `(border|b)-<directions>-(${borderStyles.join('|')})`] }],
-  [/^(?:border|b)-([rltbsexy])-?(.+)$/, handlerBorderStyle],
+  [/^(?:border-|b-)(?:style-)?()(.+)$/, handlerBorderStyle, { autocomplete: ['(border|b)-style', `(border|b)-(${borderStyles.join('|')})`, '(border|b)-(r|l|t|b|x|y)-style', `(border|b)-(r|l|t|b|x|y)-(${borderStyles.join('|')})`, `(border|b)-(r|l|t|b|x|y)-style-(${borderStyles.join('|')})`, `(border|b)-style-(${borderStyles.join('|')})`] }],
+  [/^(?:border-|b-)([rltbsexy])-(?:style-)?(.+)$/, handlerBorderStyle],
 ]
 
 const borderColorResolver = (direction: string) => ([, body]: string[], theme: Theme): CSSObject | undefined => {
@@ -81,10 +83,11 @@ const borderColorResolver = (direction: string) => ([, body]: string[], theme: T
 
 function handlerBorder(m: string[], ctx: RuleContext): CSSEntries | undefined {
   const borderSizes = handlerBorderSize(m, ctx)
-  if (borderSizes) {
+  const borderStyle = handlerBorderStyle(['', m[1], 'solid'])
+  if (borderSizes && borderStyle) {
     return [
       ...borderSizes,
-      ['border-style', 'solid'],
+      ...borderStyle,
     ]
   }
 }
@@ -117,9 +120,10 @@ function handlerRounded([, a = '', s]: string[], { theme }: RuleContext<Theme>):
 }
 
 function handlerBorderStyle([, a = '', s]: string[]): CSSEntries | undefined {
-  if (!s && borderStyles.includes(a))
-    return [['border-style', a]]
-
-  if (a in directionMap && borderStyles.includes(s))
-    return directionMap[a].map(i => [`border${i}-style`, s])
+  if (borderStyles.includes(s)) {
+    if (a in directionMap)
+      return directionMap[a].map(i => [`border${i}-style`, s])
+    else
+      return [['border-style', s]]
+  }
 }

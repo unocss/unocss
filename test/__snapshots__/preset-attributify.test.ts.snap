@@ -14,7 +14,7 @@ exports[`attributify > autocomplete extractor 5`] = `
   flex=\\"!~ col\\"
   p=\\"t-2\\"
   pt=\\"2\\"
-  border=\\"rounded-xl\\"
+  border=\\"rounded-xl x-1 x-style-dashed\\"
   :font=\\"foo > bar ? 'mono' : 'sans'\\"
   v-bind:p=\\"y-2 x-4\\"
   border=\\"2 rounded blue-200\\"
@@ -98,6 +98,8 @@ Set {
   "[p~=\\"t-2\\"]",
   "[pt~=\\"2\\"]",
   "[border~=\\"rounded-xl\\"]",
+  "[border~=\\"x-1\\"]",
+  "[border~=\\"x-style-dashed\\"]",
   "[font~=\\"foo\\"]",
   "[font~=\\">\\"]",
   "[font~=\\"bar\\"]",
@@ -214,10 +216,12 @@ exports[`attributify > fixture1 1`] = `
 [rotate-60=\\"\\"]{--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-rotate:60deg;transform:var(--un-transform);}
 [transform=\\"\\"]{transform:var(--un-transform);}
 [border~=\\"\\\\32 \\"]{border-width:2px;border-style:solid;}
+[border~=\\"x-1\\"]{border-left-width:1px;border-right-width:1px;border-left-style:solid;border-right-style:solid;}
 [border~=\\"blue-200\\"]{--un-border-opacity:1;border-color:rgba(191,219,254,var(--un-border-opacity));}
 [border~=\\"rounded-xl\\"]{border-radius:0.75rem;}
 [border~=\\"rounded\\"]{border-radius:0.25rem;}
 [rounded-sm=\\"\\"]{border-radius:0.125rem;}
+[border~=\\"x-style-dashed\\"]{border-left-style:dashed;border-right-style:dashed;}
 .dark [bg~=\\"dark\\\\:\\\\!blue-500\\"]{--un-bg-opacity:1 !important;background-color:rgba(59,130,246,var(--un-bg-opacity)) !important;}
 .dark [bg~=\\"dark\\\\:hover\\\\:blue-600\\"]:hover{--un-bg-opacity:1;background-color:rgba(37,99,235,var(--un-bg-opacity));}
 [bg~=\\"blue-400\\"]{--un-bg-opacity:1;background-color:rgba(96,165,250,var(--un-bg-opacity));}
@@ -325,6 +329,8 @@ exports[`attributify > variant 1`] = `
   "p-t-2",
   "pt-2",
   "border-rounded-xl",
+  "border-x-1",
+  "border-x-style-dashed",
   "font-foo",
   "font->",
   "font-bar",
