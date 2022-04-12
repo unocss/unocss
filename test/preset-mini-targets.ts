@@ -75,7 +75,7 @@ export const presetMiniTargets: string[] = [
   'border-double',
   'border-hidden',
   'border-none',
-  
+
   'b-rounded',
   'b-dashed',
   'b-solid',
@@ -83,7 +83,7 @@ export const presetMiniTargets: string[] = [
   'b-double',
   'b-hidden',
   'b-none',
-  
+
   'border-l-dashed',
   'border-t-dashed',
   'border-b-dashed',

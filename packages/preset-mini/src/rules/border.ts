@@ -1,7 +1,6 @@
 import type { CSSEntries, CSSObject, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { borderStyles } from '../utils'
-import { colorToString, cornerMap, directionMap, handler as h, hasParseableColor, parseColor } from '../utils'
+import { borderStyles, colorToString, cornerMap, directionMap, handler as h, hasParseableColor, parseColor } from '../utils'
 
 export const borders: Rule[] = [
   // compound
@@ -118,10 +117,9 @@ function handlerRounded([, a = '', s]: string[], { theme }: RuleContext<Theme>):
 }
 
 function handlerBorderStyle([, a = '', s]: string[]): CSSEntries | undefined {
-  if (!s && borderStyles.includes(a)) {
-    return [[`border-style`, a]]
-  }
-  if (a in directionMap && borderStyles.includes(s)) {
+  if (!s && borderStyles.includes(a))
+    return [['border-style', a]]
+
+  if (a in directionMap && borderStyles.includes(s))
     return directionMap[a].map(i => [`border${i}-style`, s])
-  }
 }
