@@ -69,6 +69,10 @@ export const presetMiniTargets: string[] = [
   'rounded',
   'rounded-none',
   'border-rounded',
+  'b-solid',
+  'b-style-solid',
+  'b-l-solid',
+  'b-x-solid',
 
   // border - color
   'border-[#124]',
