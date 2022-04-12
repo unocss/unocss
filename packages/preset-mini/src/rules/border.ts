@@ -2,6 +2,8 @@ import type { CSSEntries, CSSObject, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { colorToString, cornerMap, directionMap, handler as h, hasParseableColor, parseColor } from '../utils'
 
+const borderStyles = ['solid', 'dashed', 'dotted', 'double', 'hidden', 'none', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit', 'revert', 'unset']
+
 export const borders: Rule[] = [
   // compound
   [/^(?:border|b)()(?:-(.+))?$/, handlerBorder, { autocomplete: '(border|b)-<directions>' }],
@@ -39,12 +41,8 @@ export const borders: Rule[] = [
   [/^(?:border-|b-)?(?:rounded|rd)-([bi][se]-[bi][se])(?:-(.+))?$/, handlerRounded],
 
   // style
-  ['border-solid', { 'border-style': 'solid' }],
-  ['border-dashed', { 'border-style': 'dashed' }],
-  ['border-dotted', { 'border-style': 'dotted' }],
-  ['border-double', { 'border-style': 'double' }],
-  ['border-hidden', { 'border-style': 'hidden' }],
-  ['border-none', { 'border-style': 'none' }],
+  [/^(?:border-|b-)(?:style-)?()(.+)$/, handlerBorderStyle, { autocomplete: ['(border|b)-style', `(border|b)-(${borderStyles.join('|')})`, '(border|b)-<directions>-style', `(border|b)-<directions>-(${borderStyles.join('|')})`, `(border|b)-<directions>-style-(${borderStyles.join('|')})`, `(border|b)-style-(${borderStyles.join('|')})`] }],
+  [/^(?:border-|b-)([rltbsexy])-(?:style-)?(.+)$/, handlerBorderStyle],
 ]
 
 const borderColorResolver = (direction: string) => ([, body]: string[], theme: Theme): CSSObject | undefined => {
@@ -85,10 +83,11 @@ const borderColorResolver = (direction: string) => ([, body]: string[], theme: T
 
 function handlerBorder(m: string[], ctx: RuleContext): CSSEntries | undefined {
   const borderSizes = handlerBorderSize(m, ctx)
-  if (borderSizes) {
+  const borderStyle = handlerBorderStyle(['', m[1], 'solid'])
+  if (borderSizes && borderStyle) {
     return [
       ...borderSizes,
-      ['border-style', 'solid'],
+      ...borderStyle,
     ]
   }
 }
@@ -118,4 +117,13 @@ function handlerRounded([, a = '', s]: string[], { theme }: RuleContext<Theme>):
   const v = theme.borderRadius?.[s || 'DEFAULT'] || h.bracket.cssvar.fraction.rem(s || '1')
   if (a in cornerMap && v != null)
     return cornerMap[a].map(i => [`border${i}-radius`, v])
+}
+
+function handlerBorderStyle([, a = '', s]: string[]): CSSEntries | undefined {
+  if (borderStyles.includes(s)) {
+    if (a in directionMap)
+      return directionMap[a].map(i => [`border${i}-style`, s])
+    else
+      return [['border-style', s]]
+  }
 }
