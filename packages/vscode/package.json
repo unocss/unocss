@@ -46,8 +46,8 @@
     "@unocss/nuxt": "workspace:*",
     "jiti": "^1.13.0",
     "prettier": "^2.6.2",
-    "tsup": "^5.12.4",
-    "unconfig": "^0.3.2"
+    "tsup": "^5.12.5",
+    "unconfig": "^0.3.3"
   },
   "engines": {
     "vscode": "^1.62.0"

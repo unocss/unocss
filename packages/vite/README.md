@@ -297,7 +297,7 @@ export class MyElement extends LitElement {
     :host {...}
     @unocss-placeholder
   `
-  ...
+  // ...
 }
 ```
 
