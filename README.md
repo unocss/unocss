@@ -108,7 +108,7 @@ export default {
 }
 ```
 
-Refer to the full documentation on [Nuxt](https://github.com/unocss/unocss/tree/main/packages/nuxt)
+Refer to the full documentation on [@unocss/nuxt](https://github.com/unocss/unocss/tree/main/packages/nuxt)
 
 ## Configurations
 
