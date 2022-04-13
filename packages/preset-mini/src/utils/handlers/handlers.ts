@@ -157,10 +157,6 @@ export function global(str: string) {
 }
 
 export function properties(str: string) {
-  for (const prop of str.split(',')) {
-    if (!cssProps.includes(prop))
-      return
-  }
-
-  return str
+  if (str.split(',').every(prop => cssProps.includes(prop)))
+    return str
 }
