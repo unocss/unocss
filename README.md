@@ -90,7 +90,7 @@ See [all packages](https://github.com/unocss/unocss/tree/main/packages).
 
 Refer to the full documentation on [Vite](https://github.com/unocss/unocss/blob/main/packages/vite/README.md):
 - modes: `global`, `dist-chunk`, `per-module`, `vue-scoped`, `svelte-scoped`, and `shadow-dom`.
-- frameworks: `React`, `Preact`, `Svelte`, `SvelteKit`, `Web Components`, `Solid` and `Elm`.
+- frameworks: `React`, `Preact`, `Svelte`, `SvelteKit`, `Web Components`, `Solid`, and `Elm`.
 
 ### Nuxt
 
