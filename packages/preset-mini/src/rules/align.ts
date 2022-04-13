@@ -1,18 +1,21 @@
 import type { Rule } from '@unocss/core'
 
 const verticalAlignAlias: Record<string, string> = {
-  mid: 'middle',
-  base: 'baseline',
-  btm: 'bottom',
+  'mid': 'middle',
+  'base': 'baseline',
+  'btm': 'bottom',
+  'baseline': 'baseline',
+  'top': 'top',
+  'middle': 'middle',
+  'bottom': 'bottom',
+  'text-top': 'text-top',
+  'text-bottom': 'text-bottom',
+  'sub': 'sub',
+  'super': 'super',
 }
 
 export const verticalAligns: Rule[] = [
-  [/^(?:vertical|align|v)-(baseline|top|middle|bottom|text-top|text-bottom|sub|super|mid|base|btm)$/, ([, v]) => ({ 'vertical-align': verticalAlignAlias[v] || v }), { autocomplete: '(vertical|align|v)-(baseline|top|middle|bottom|text-top|text-bottom|sub|super|mid|base|btm)' }],
+  [/^(?:vertical|align|v)-(.+)$/, ([, v]) => ({ 'vertical-align': verticalAlignAlias[v] }), { autocomplete: `(vertical|align|v)-(${Object.keys(verticalAlignAlias).join('|')})` }],
 ]
 
-export const textAligns: Rule[] = [
-  ['text-center', { 'text-align': 'center' }],
-  ['text-left', { 'text-align': 'left' }],
-  ['text-right', { 'text-align': 'right' }],
-  ['text-justify', { 'text-align': 'justify' }],
-]
+export const textAligns: Rule[] = ['center', 'left', 'right', 'justify', 'start', 'end', 'inherit', 'initial', 'unset', 'revert'].map(v => [`text-${v}`, { 'text-align': v }])

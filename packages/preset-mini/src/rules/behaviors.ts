@@ -14,8 +14,8 @@ export const outline: Rule<Theme>[] = [
 
   // style
   ['outline', { 'outline-style': 'solid' }],
-  [/^outline-(auto|dashed|dotted|double|hidden|solid|groove|ridge|inset|outset|inherit|initial|revert|unset)$/, ([, c]) => ({ 'outline-style': c }), { autocomplete: 'outline-(auto|dashed|dotted|double|hidden|solid|groove|ridge|inset|outset|inherit|initial|revert|unset)' }],
   ['outline-none', { 'outline': '2px solid transparent', 'outline-offset': '2px' }],
+  ...['auto', 'dashed', 'dotted', 'double', 'hidden', 'solid', 'groove', 'ridge', 'inset', 'outset', 'inherit', 'initial', 'revert', 'unset'].map(v => [`outline-${v}`, { 'outline-style': v }] as Rule<Theme>),
 ]
 
 export const appearance: Rule[] = [

@@ -41,8 +41,8 @@ export const borders: Rule[] = [
   [/^(?:border-|b-)?(?:rounded|rd)-([bi][se]-[bi][se])(?:-(.+))?$/, handlerRounded],
 
   // style
-  [/^(?:border-|b-)(?:style-)?()(.+)$/, handlerBorderStyle, { autocomplete: ['(border|b)-style', `(border|b)-(${borderStyles.join('|')})`, '(border|b)-<directions>-style', `(border|b)-<directions>-(${borderStyles.join('|')})`, `(border|b)-<directions>-style-(${borderStyles.join('|')})`, `(border|b)-style-(${borderStyles.join('|')})`] }],
-  [/^(?:border-|b-)([rltbsexy])-(?:style-)?(.+)$/, handlerBorderStyle],
+  [/^(?:border|b)-(?:style-)?()(.+)$/, handlerBorderStyle, { autocomplete: ['(border|b)-style', `(border|b)-(${borderStyles.join('|')})`, '(border|b)-<directions>-style', `(border|b)-<directions>-(${borderStyles.join('|')})`, `(border|b)-<directions>-style-(${borderStyles.join('|')})`, `(border|b)-style-(${borderStyles.join('|')})`] }],
+  [/^(?:border|b)-([rltbsexy])-(?:style-)?(.+)$/, handlerBorderStyle],
 ]
 
 const borderColorResolver = (direction: string) => ([, body]: string[], theme: Theme): CSSObject | undefined => {
