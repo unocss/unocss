@@ -16,7 +16,7 @@
     "@unocss/preset-uno": "link:../../packages/presets-uno",
     "elm-tooling": "^1.7.0",
     "unocss": "link:../../packages/unocss",
-    "vite": "^2.9.1",
-    "vite-plugin-elm": "^2.6.0"
+    "vite": "^2.9.4",
+    "vite-plugin-elm": "^2.6.1"
   }
 }
