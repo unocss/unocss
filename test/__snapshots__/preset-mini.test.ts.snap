@@ -618,10 +618,10 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .outline-offset-none{outline-offset:0px;}
 .outline,
 .outline-solid{outline-style:solid;}
+.outline-none{outline:2px solid transparent;outline-offset:2px;}
 .outline-hidden{outline-style:hidden;}
 .outline-inset{outline-style:inset;}
 .outline-unset{outline-style:unset;}
-.outline-none{outline:2px solid transparent;outline-offset:2px;}
 .appearance-none{appearance:none;-webkit-appearance:none;}
 .order-\\\\$variable{order:var(--variable);}
 .order-first{order:-9999;}

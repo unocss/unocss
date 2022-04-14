@@ -117,7 +117,7 @@ describe('autocomplete', () => {
         "scroll-m-": "scroll-m-2xl scroll-m-3xl scroll-m-4xl scroll-m-5xl scroll-m-6xl scroll-m-7xl scroll-m-8xl scroll-m-9xl scroll-m-b scroll-m-be",
         "shadow-": "shadow-2xl shadow-amber shadow-black shadow-blue shadow-bluegray shadow-blueGray shadow-coolgray shadow-coolGray shadow-current shadow-cyan",
         "space-": "space-block space-block-reverse space-inline space-inline-reverse space-x space-x-reverse space-y space-y-reverse",
-        "text-r": "text-red text-right text-rose",
+        "text-r": "text-red text-revert text-right text-rose",
         "text-red-": "text-red-1 text-red-2 text-red-3 text-red-4 text-red-5 text-red-6 text-red-7 text-red-8 text-red-9 text-red-50",
         "touch-": "touch-auto touch-manipulation touch-none touch-pan touch-pinch touch-pinch-zoom",
         "transition-": "transition-all transition-colors transition-none transition-opacity transition-shadow transition-transform",
