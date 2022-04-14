@@ -2,7 +2,6 @@ import type { Rule } from '@unocss/core'
 import { transitions } from './transition'
 import { borders } from './border'
 import { bgColors, opacity, textColors } from './color'
-import { clipPaths, clips } from './clip'
 import { flex } from './flex'
 import { fonts, tabSizes, textIndents, textShadows, textStrokes } from './typography'
 import { gaps } from './gap'
@@ -23,8 +22,6 @@ import { textDecorations } from './decoration'
 import { svgUtilities } from './svg'
 
 export const rules: Rule[] = [
-  clips,
-  clipPaths,
   cssVariables,
   cssProperty,
   paddings,
