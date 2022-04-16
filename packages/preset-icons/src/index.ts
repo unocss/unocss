@@ -52,8 +52,8 @@ export const preset = (options: IconsOptions = {}): Preset => {
       icons: -10,
     },
     rules: [[
-      new RegExp(`^${prefix}([a-z0-9:-]+)(?:\\?(mask|bg))?$`),
-      async([full, body, _mode]) => {
+      new RegExp(`^${prefix}([a-z0-9:-]+)(?:\\?(mask|bg|auto))?$`),
+      async([full, body, _mode = mode]) => {
         let collection = ''
         let name = ''
         let svg: string | undefined
@@ -95,11 +95,10 @@ export const preset = (options: IconsOptions = {}): Preset => {
           return
         }
 
-        _mode = _mode || mode
-        if (_mode === 'auto')
-          _mode = svg.includes('currentColor') ? 'mask' : 'background-img'
-
         const url = `url("data:image/svg+xml;utf8,${encodeSvgForCss(svg)}")`
+
+        if (_mode === 'auto')
+          _mode = svg.includes('currentColor') ? 'mask' : 'bg'
 
         if (_mode === 'mask') {
           // Thanks to https://codepen.io/noahblon/post/coloring-svgs-in-css-background-images

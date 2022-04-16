@@ -10,6 +10,9 @@ describe('preset-icons', () => {
   const fixture2 = `
 <button class="i-carbon-sun?bg dark:i-carbon-moon?bg" />
 `
+  const fixture3 = `
+<button class="i-carbon-sun?bg dark:i-carbon-moon?auto" />
+`
 
   const uno = createGenerator({
     presets: [
@@ -25,6 +28,11 @@ describe('preset-icons', () => {
   })
   test('fixture2', async() => {
     const { css, layers } = await uno.generate(fixture2)
+    expect(layers).toEqual(['icons', 'default'])
+    expect(css).toMatchSnapshot()
+  })
+  test('fixture3', async() => {
+    const { css, layers } = await uno.generate(fixture3)
     expect(layers).toEqual(['icons', 'default'])
     expect(css).toMatchSnapshot()
   })
