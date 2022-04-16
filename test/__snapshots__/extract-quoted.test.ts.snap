@@ -1,0 +1,86 @@
+// Vitest Snapshot v1
+
+exports[`extractString > should extract static template only 1`] = `
+[
+  {
+    "quote": "'",
+    "range": [
+      66,
+      69,
+    ],
+    "value": "foo",
+  },
+  {
+    "quote": "\\"",
+    "range": [
+      75,
+      78,
+    ],
+    "value": "bar",
+  },
+  {
+    "quote": "\`",
+    "range": [
+      84,
+      87,
+    ],
+    "value": "baz",
+  },
+  {
+    "quote": "'",
+    "range": [
+      93,
+      106,
+    ],
+    "value": "foo\\\\'bar\\\\\\"baz",
+  },
+  {
+    "quote": "\`",
+    "range": [
+      112,
+      115,
+    ],
+    "value": "foo",
+  },
+  {
+    "quote": "\`",
+    "range": [
+      137,
+      140,
+    ],
+    "value": "foo",
+  },
+  {
+    "quote": "\`",
+    "range": [
+      148,
+      151,
+    ],
+    "value": "baz",
+  },
+  {
+    "quote": "\`",
+    "range": [
+      160,
+      168,
+    ],
+    "value": "ham eggs",
+  },
+  {
+    "quote": "\`",
+    "range": [
+      174,
+      177,
+    ],
+    "value": "foo",
+  },
+  {
+    "quote": "\`",
+    "range": [
+      213,
+      216,
+    ],
+    "value": "bar",
+  },
+]
+`;
