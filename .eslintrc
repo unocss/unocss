@@ -27,6 +27,20 @@
         "@typescript-eslint/no-unused-vars": "off",
         "@typescript-eslint/no-var-requires": "off"
       }
+    },
+    {
+      "files": [
+        "**/*.tsx"
+      ],
+      "rules": {
+        "@typescript-eslint/indent": [
+          "error", 2, {
+            "ignoredNodes": [
+              "JSXAttribute"
+            ]
+          }
+        ]
+      }
     }
   ]
 }
