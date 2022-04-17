@@ -9,6 +9,7 @@ export * from './autocomplete'
 export * from './extractor'
 export * from './variant'
 export * from './types'
+export * from './jsx'
 
 const preset = (options: AttributifyOptions = {}): Preset => {
   options.strict = options.strict ?? false
