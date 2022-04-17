@@ -24,7 +24,7 @@
     "@unocss/preset-icons": "link:../../packages/presets-icons",
     "typescript": "^4.6.3",
     "unocss": "link:../../packages/unocss",
-    "vite": "^2.9.4",
-    "vite-plugin-inspect": "^0.4.3"
+    "vite": "^2.9.5",
+    "vite-plugin-inspect": "^0.5.0"
   }
 }
