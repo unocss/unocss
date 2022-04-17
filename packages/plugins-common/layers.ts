@@ -9,13 +9,13 @@ export function resolveId(id: string) {
     if (match) {
       return match[1]
         ? {
-          id: `/__uno_${match[1]}.css`,
-          layer: match[1],
-        }
+            id: `/__uno_${match[1]}.css`,
+            layer: match[1],
+          }
         : {
-          id: '/__uno.css',
-          layer: LAYER_MARK_ALL,
-        }
+            id: '/__uno.css',
+            layer: LAYER_MARK_ALL,
+          }
     }
   }
 }

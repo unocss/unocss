@@ -58,10 +58,10 @@ export function extractQuoted(
   const addResult = (start: number, end: number) => result.push(
     details
       ? {
-        value: str.slice(start, end),
-        range: [start, end],
-        quote,
-      }
+          value: str.slice(start, end),
+          range: [start, end],
+          quote,
+        }
       : str.slice(start, end),
   )
 

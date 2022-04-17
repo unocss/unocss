@@ -34,20 +34,20 @@ export function createConfigLoader<U extends UserConfig>(configOrPath: string | 
   const loader = createLoader<U>({
     sources: isFile
       ? [
-        {
-          files: resolved,
-          extensions: [],
-        },
-      ]
+          {
+            files: resolved,
+            extensions: [],
+          },
+        ]
       : [
-        {
-          files: [
-            'unocss.config',
-            'uno.config',
-          ],
-        },
-        ...extraConfigSources,
-      ],
+          {
+            files: [
+              'unocss.config',
+              'uno.config',
+            ],
+          },
+          ...extraConfigSources,
+        ],
     cwd,
     defaults: inlineConfig,
   })

@@ -1,7 +1,7 @@
 import { createGenerator, escapeSelector } from '@unocss/core'
 import presetWind from '@unocss/preset-wind'
 import { describe, expect, test } from 'vitest'
-import { presetWindNonTargets, presetWindTargets } from './preset-wind-targets'
+import { presetWindNonTargets, presetWindTargets } from './assets/preset-wind-targets'
 
 export const localTargets: string[] = [
   // static

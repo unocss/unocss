@@ -32,12 +32,12 @@ const input = useVModel(props, 'modelValue', emit, { passive: true })
 const mode = computed(() => modeMap[props.mode || ''] || props.mode)
 const extraKeys = computed(() => (props.getHint
   ? {
-    'Ctrl-Space': 'autocomplete',
-    'Ctrl-.': 'autocomplete',
-    'Cmd-Space': 'autocomplete',
-    'Cmd-.': 'autocomplete',
-    'Tab': 'autocomplete',
-  }
+      'Ctrl-Space': 'autocomplete',
+      'Ctrl-.': 'autocomplete',
+      'Cmd-Space': 'autocomplete',
+      'Cmd-.': 'autocomplete',
+      'Tab': 'autocomplete',
+    }
   : {}) as CodeMirror.KeyMap)
 const hintOptions = computed(() => props.getHint ? { hint: props.getHint } : {})
 
