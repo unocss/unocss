@@ -52,6 +52,7 @@ export const variantImportant: Variant = {
       }
     }
   },
+  autocomplete: '(important)',
 }
 
 export const variantNegative: Variant = {
