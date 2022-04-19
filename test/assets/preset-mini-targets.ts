@@ -753,6 +753,8 @@ export const presetMiniTargets: string[] = [
   'peer-not-placeholder-shown:text-2xl',
   'sm:m-1',
   'sm:m1',
+  'important:p-3',
+  'sm:important:p-3',
 
   // variants class
   'all-[.target]-[combinator:test-2]',

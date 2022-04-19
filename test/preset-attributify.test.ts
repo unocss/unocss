@@ -11,6 +11,7 @@ describe('attributify', () => {
   md="[--var:var(--another)]"
   lg="bg-blue-600"
   class="absolute fixed"
+  important="text-red bg-red"
   bg="blue-400 hover:blue-500 dark:!blue-500 dark:hover:blue-600"
   text="sm white"
   !leading-4
@@ -149,12 +150,12 @@ describe('attributify', () => {
 
     expect(res).not.toBeNull()
 
-    expect(res!.extracted).toMatchInlineSnapshot('"dark:!bg-blue-500"')
+    expect(res!.extracted).toMatchInlineSnapshot('"bg-blue-400"')
     expect(res!.transformSuggestions!([`${res!.extracted}1`, `${res!.extracted}2`]))
       .toMatchInlineSnapshot(`
         [
-          "dark:!blue-5001",
-          "dark:!blue-5002",
+          "blue-4001",
+          "blue-4002",
         ]
       `)
 
@@ -162,13 +163,13 @@ describe('attributify', () => {
     expect(reversed).toMatchInlineSnapshot(`
       {
         "end": 189,
-        "replacement": "dark:!blue-5001",
-        "start": 175,
+        "replacement": "blue-4001",
+        "start": 181,
       }
     `)
 
     expect(fixture1.slice(reversed.start, reversed.end))
-      .toMatchInlineSnapshot('"dark:!blue-500"')
+      .toMatchInlineSnapshot('"blue-400"')
     expect(fixture1.slice(0, reversed.start) + reversed.replacement + fixture1.slice(reversed.end))
       .toMatchSnapshot()
   })
