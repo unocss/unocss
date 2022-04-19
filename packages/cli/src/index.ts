@@ -3,12 +3,12 @@ import { basename, dirname, relative, resolve } from 'pathe'
 import fg from 'fast-glob'
 import consola from 'consola'
 import { cyan, dim, green } from 'colorette'
+import { debounce } from 'perfect-debounce'
 import { createGenerator, toArray } from '@unocss/core'
 import type { UnoGenerator } from '@unocss/core'
 import { createConfigLoader } from '@unocss/config'
 import { version } from '../package.json'
 import { PrettyError, handleError } from './errors'
-import { debouncePromise } from './utils'
 import { defaultConfig } from './config'
 import type { CliOptions, ResolvedCliOptions } from './types'
 
@@ -65,12 +65,11 @@ export async function build(_options: CliOptions) {
   consola.log(green(`${name} v${version}`))
   consola.start(`UnoCSS ${options.watch ? 'in watch mode...' : 'for production...'}`)
 
-  const debouncedBuild = debouncePromise(
+  const debouncedBuild = debounce(
     async() => {
-      generate(options)
+      generate(options).catch(handleError)
     },
     100,
-    handleError,
   )
 
   const startWatcher = async() => {

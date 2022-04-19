@@ -206,6 +206,7 @@ importers:
       consola: ^2.15.3
       fast-glob: ^3.2.11
       pathe: ^0.2.0
+      perfect-debounce: ^0.1.3
     dependencies:
       '@unocss/config': link:../config
       '@unocss/core': link:../core
@@ -216,6 +217,7 @@ importers:
       consola: 2.15.3
       fast-glob: 3.2.11
       pathe: 0.2.0
+      perfect-debounce: 0.1.3
 
   packages/config:
     specifiers:
@@ -5153,6 +5155,10 @@ packages:
   /pathval/1.1.1:
     resolution: {integrity: sha512-Dp6zGqpTdETdR63lehJYPeIOqpiNBNtc7BpWSLrOje7UaIsE5aY92r/AunQA7rsXvet3lrJ3JnZX29UPTKXyKQ==}
     dev: true
+
+  /perfect-debounce/0.1.3:
+    resolution: {integrity: sha512-NOT9AcKiDGpnV/HBhI22Str++XWcErO/bALvHCuhv33owZW/CjH8KAFLZDCmu3727sihe0wTxpDhyGc6M8qacQ==}
+    dev: false
 
   /picocolors/1.0.0:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
