@@ -19,15 +19,21 @@
     "directory": "packages/cli"
   },
   "funding": "https://github.com/sponsors/antfu",
-  "main": "./dist/index.cjs",
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "exports": "./dist/index.cjs",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "files": [
     "bin",
     "dist"
   ],
   "bin": {
-    "unocss": "./bin/unocss.cjs"
+    "unocss": "./bin/unocss.mjs"
   },
   "scripts": {
     "build": "unbuild",
