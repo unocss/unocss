@@ -10,7 +10,7 @@
     "test": "elm-test-rs"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.4",
+    "@iconify-json/logos": "^1.1.5",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-icons": "link:../../packages/presets-icons",
     "@unocss/preset-uno": "link:../../packages/presets-uno",

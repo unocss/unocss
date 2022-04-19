@@ -7,11 +7,11 @@ importers:
       '@antfu/eslint-config': ^0.20.6
       '@antfu/ni': ^0.14.0
       '@iconify-json/carbon': ^1.1.3
-      '@iconify-json/logos': ^1.1.4
+      '@iconify-json/logos': ^1.1.5
       '@iconify-json/mdi': ^1.1.9
       '@iconify-json/ph': ^1.1.1
       '@iconify-json/ri': ^1.1.1
-      '@iconify-json/tabler': ^1.1.9
+      '@iconify-json/tabler': ^1.1.10
       '@iconify-json/twemoji': ^1.1.3
       '@iconify-json/uim': ^1.1.1
       '@types/codemirror': ^5.60.5
@@ -19,7 +19,7 @@ importers:
       '@types/css-tree': ^1.0.7
       '@types/fs-extra': ^9.0.13
       '@types/lz-string': ^1.3.34
-      '@types/node': ^17.0.24
+      '@types/node': ^17.0.25
       '@types/prettier': ^2.6.0
       '@types/react': ^18.0.5
       '@types/ws': ^8.5.3
@@ -71,7 +71,7 @@ importers:
       unplugin-vue-components: ^0.19.3
       vite: ^2.9.5
       vite-plugin-inspect: ^0.5.0
-      vite-plugin-pages: ^0.22.0
+      vite-plugin-pages: ^0.23.0
       vitest: ^0.9.3
       vue: ^3.2.33
       vue-router: ^4.0.14
@@ -79,11 +79,11 @@ importers:
       '@antfu/eslint-config': 0.20.6_eslint@8.13.0+typescript@4.6.3
       '@antfu/ni': 0.14.0
       '@iconify-json/carbon': 1.1.3
-      '@iconify-json/logos': 1.1.4
+      '@iconify-json/logos': 1.1.5
       '@iconify-json/mdi': 1.1.9
       '@iconify-json/ph': 1.1.1
       '@iconify-json/ri': 1.1.1
-      '@iconify-json/tabler': 1.1.9
+      '@iconify-json/tabler': 1.1.10
       '@iconify-json/twemoji': 1.1.3
       '@iconify-json/uim': 1.1.1
       '@types/codemirror': 5.60.5
@@ -91,7 +91,7 @@ importers:
       '@types/css-tree': 1.0.7
       '@types/fs-extra': 9.0.13
       '@types/lz-string': 1.3.34
-      '@types/node': 17.0.24
+      '@types/node': 17.0.25
       '@types/prettier': 2.6.0
       '@types/react': 18.0.5
       '@types/ws': 8.5.3
@@ -143,7 +143,7 @@ importers:
       unplugin-vue-components: 0.19.3_c6dd246e44f6b00279edbaed253bbc84
       vite: 2.9.5
       vite-plugin-inspect: 0.5.0_vite@2.9.5
-      vite-plugin-pages: 0.22.0_vite@2.9.5
+      vite-plugin-pages: 0.23.0_vite@2.9.5
       vitest: 0.9.3_@vitest+ui@0.9.3
       vue: 3.2.33
       vue-router: 4.0.14_vue@3.2.33
@@ -267,7 +267,7 @@ importers:
       '@unocss/webpack': workspace:*
       unocss: workspace:*
     dependencies:
-      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27501460.04a72f8_rollup@2.70.2+vite@2.9.5
+      '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27505965.7a316c2_rollup@2.70.2+vite@2.9.5
       '@unocss/core': link:../core
       '@unocss/preset-attributify': link:../preset-attributify
       '@unocss/preset-icons': link:../preset-icons
@@ -280,7 +280,7 @@ importers:
       '@unocss/webpack': link:../webpack
       unocss: link:../unocss
     devDependencies:
-      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27501460.04a72f8_rollup@2.70.2+vite@2.9.5
+      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27505965.7a316c2_rollup@2.70.2+vite@2.9.5
 
   packages/plugins-common:
     specifiers:
@@ -956,8 +956,8 @@ packages:
       '@iconify/types': 1.1.0
     dev: true
 
-  /@iconify-json/logos/1.1.4:
-    resolution: {integrity: sha512-D639AO9SO7+yDloCh5u1v+cbrzE4FIC/CbOb4++O3IfqF+OgeyrZf2w7AC+aFw/OWTdd/JMSzDNWC2/6HugL9g==}
+  /@iconify-json/logos/1.1.5:
+    resolution: {integrity: sha512-PVBTp7fZ7zNBDdCCqN9IqJt78jO4f8agtiNVwxWfflmEGi3+Fu95Jre0CYAPDalyy862r46DXg8AiCoNENQ3SQ==}
     dependencies:
       '@iconify/types': 1.1.0
     dev: true
@@ -980,8 +980,8 @@ packages:
       '@iconify/types': 1.1.0
     dev: true
 
-  /@iconify-json/tabler/1.1.9:
-    resolution: {integrity: sha512-xx6k62Bl1bfFzOhXTT7XdxwCWma5gmkZ/e2nJeVSl5lUt6nyAtsJLMUzu/uL0klWP+wrUMrQMXAYax8UOjwV/Q==}
+  /@iconify-json/tabler/1.1.10:
+    resolution: {integrity: sha512-WEmwu147K+HMtmXH64FOvLT3PaCc6IfPjR5CX2GwI2U3YJTVh4atgLNT/Y65A/SAiSwYINUSksh4Msy844136g==}
     dependencies:
       '@iconify/types': 1.1.0
     dev: true
@@ -1077,11 +1077,11 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
 
-  /@nuxt/kit-edge/3.0.0-27501460.04a72f8_rollup@2.70.2+vite@2.9.5:
-    resolution: {integrity: sha512-B7jujSfjPVnnkqGtkiZfCeGJsnDBn5yIjkz+Rw1fuT0ZzUVI4u+yYlYuRXp9chv+QodPt4dOQgljMlc0YuzHEw==}
+  /@nuxt/kit-edge/3.0.0-27505965.7a316c2_rollup@2.70.2+vite@2.9.5:
+    resolution: {integrity: sha512-pfOELGJucKH0pQbH+pRZ5GG4kkqC1JZyNiXX0BmBDs6mhcUwL5t2bgJjj0spSkXp/W5H9OEclsgJzqhGE6QbUw==}
     engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0}
     dependencies:
-      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27501460.04a72f8_rollup@2.70.2+vite@2.9.5
+      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-27505965.7a316c2_rollup@2.70.2+vite@2.9.5
       c12: 0.2.5
       consola: 2.15.3
       defu: 6.0.0
@@ -1107,8 +1107,8 @@ packages:
       - webpack
     dev: false
 
-  /@nuxt/schema-edge/3.0.0-27501460.04a72f8_rollup@2.70.2+vite@2.9.5:
-    resolution: {integrity: sha512-9jK5mLo2KRh4K8NSz6/bptSav63kAI57B9mZsB1qug4O4dSHTJDeP5T6eHzM9K5gKUsUDlmvniW+RSvbY2dsDg==}
+  /@nuxt/schema-edge/3.0.0-27505965.7a316c2_rollup@2.70.2+vite@2.9.5:
+    resolution: {integrity: sha512-mH86OtULXlrcjTNpiylAvKaAqFa3p2vTUZwqBEmb+7KTegH4eTGDelkc//i8B9eZ5oPY0MsoPkG5dqPkpDcNVg==}
     engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0}
     dependencies:
       c12: 0.2.5
@@ -1232,7 +1232,7 @@ packages:
   /@types/connect/3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
-      '@types/node': 17.0.24
+      '@types/node': 17.0.25
     dev: true
 
   /@types/cookie/0.4.1:
@@ -1241,6 +1241,12 @@ packages:
 
   /@types/css-tree/1.0.7:
     resolution: {integrity: sha512-Pz+DfVODpQTAV6PwPBK6kzyy7+f6EyPbr1+mYkc1YolJfl2NAJ4wbg0TC/AJPBsqn9jWfyiO19A/sgpvFLfqnw==}
+    dev: true
+
+  /@types/debug/4.1.7:
+    resolution: {integrity: sha512-9AonUzyTjXXhEOa0DnqpzZi6VHlqKMswga9EXjpXnnqxwLtdvPPtlO8evrI5D9S6asFRCQ6v+wpiUKbw+vKqyg==}
+    dependencies:
+      '@types/ms': 0.7.31
     dev: true
 
   /@types/eslint-scope/3.7.3:
@@ -1268,7 +1274,7 @@ packages:
   /@types/fs-extra/9.0.13:
     resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
     dependencies:
-      '@types/node': 17.0.24
+      '@types/node': 17.0.25
     dev: true
 
   /@types/js-levenshtein/1.1.1:
@@ -1301,6 +1307,10 @@ packages:
       '@types/unist': 2.0.6
     dev: true
 
+  /@types/ms/0.7.31:
+    resolution: {integrity: sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==}
+    dev: true
+
   /@types/node/17.0.21:
     resolution: {integrity: sha512-DBZCJbhII3r90XbQxI8Y9IjjiiOGlZ0Hr32omXIZvwwZ7p4DMMXGrKXVyPfuoBOri9XNtL0UK69jYIBIsRX3QQ==}
     dev: true
@@ -1309,8 +1319,8 @@ packages:
     resolution: {integrity: sha512-UxDxWn7dl97rKVeVS61vErvw086aCYhDLyvRQZ5Rk65rZKepaFdm53GeqXaKBuOhED4e9uWq34IC3TdSdJJ2Gw==}
     dev: true
 
-  /@types/node/17.0.24:
-    resolution: {integrity: sha512-aveCYRQbgTH9Pssp1voEP7HiuWlD2jW2BO56w+bVrJn04i61yh6mRfoKO6hEYQD9vF+W8Chkwc6j1M36uPkx4g==}
+  /@types/node/17.0.25:
+    resolution: {integrity: sha512-wANk6fBrUwdpY4isjWrKTufkrXdu1D2YHCot2fD/DfWxF5sMrVSA+KN7ydckvaTCh0HiqX9IVl0L5/ZoXg5M7w==}
     dev: true
 
   /@types/normalize-package-data/2.4.1:
@@ -1340,7 +1350,7 @@ packages:
   /@types/resolve/1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
     dependencies:
-      '@types/node': 17.0.24
+      '@types/node': 17.0.25
     dev: true
 
   /@types/scheduler/0.16.2:
@@ -1350,7 +1360,7 @@ packages:
   /@types/set-cookie-parser/2.4.2:
     resolution: {integrity: sha512-fBZgytwhYAUkj/jC/FAV4RQ5EerRup1YQsXQCh8rZfiHkc4UahC192oH0smGwsXol3cL3A5oETuAHeQHmhXM4w==}
     dependencies:
-      '@types/node': 17.0.24
+      '@types/node': 17.0.25
     dev: true
 
   /@types/source-list-map/0.1.2:
@@ -1395,7 +1405,7 @@ packages:
   /@types/ws/8.5.3:
     resolution: {integrity: sha512-6YOoWjruKj1uLf3INHH7D3qTXwFfEsg1kf3c0uDdSBJwfa/llkwIjrAGV7j7mVgGNbzTQ3HiHKKDXl6bJPD97w==}
     dependencies:
-      '@types/node': 17.0.24
+      '@types/node': 17.0.25
     dev: true
 
   /@typescript-eslint/eslint-plugin/5.19.0_f34adc8488d2e4f014fe61432d70cbf2:
@@ -6413,15 +6423,16 @@ packages:
       - supports-color
     dev: true
 
-  /vite-plugin-pages/0.22.0_vite@2.9.5:
-    resolution: {integrity: sha512-OeCtSKoQNjrjtlNgkF4JTU0UdiZsa0cSQJKFyRoUz5KMbGoXR8O29BB2fZx9tMSBPyQJgGvIpzdoofLDaRNcQQ==}
+  /vite-plugin-pages/0.23.0_vite@2.9.5:
+    resolution: {integrity: sha512-KEfW6WBfACCjMXoQY0mLEzfifwCTq6FlvvtXs2XSEe9Pd4QadZTNzHOPKHDsKpVXysRzbYxE8/c/Ao9+nXsQ7w==}
     peerDependencies:
-      '@vue/compiler-sfc': '>=3'
-      vite: '>=2'
+      '@vue/compiler-sfc': ^3.0.0
+      vite: ^2.0.0
     peerDependenciesMeta:
       '@vue/compiler-sfc':
         optional: true
     dependencies:
+      '@types/debug': 4.1.7
       debug: 4.3.4
       deep-equal: 2.0.5
       fast-glob: 3.2.11

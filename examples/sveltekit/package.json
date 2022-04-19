@@ -11,7 +11,7 @@
     "lint": "eslint --ignore-path .gitignore ."
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.4",
+    "@iconify-json/logos": "^1.1.5",
     "@iconify/utils": "^1.0.32",
     "@sveltejs/adapter-static": "next",
     "@sveltejs/kit": "next",
