@@ -38,9 +38,10 @@ export const variantScope: Variant = {
 
 export const variantImportant: Variant = {
   match(matcher) {
-    if (matcher.startsWith('!')) {
+    const match = matcher.match(/^(important[:-]|!)/)
+    if (match) {
       return {
-        matcher: matcher.slice(1),
+        matcher: matcher.slice(match[0].length),
         body: (body) => {
           body.forEach((v) => {
             if (v[1])

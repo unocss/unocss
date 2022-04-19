@@ -42,6 +42,7 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .pxy{padding:1rem;}
 .hover\\\\:\\\\!p-1:hover{padding:0.25rem !important;}
 .hover\\\\:p-5:hover{padding:1.25rem;}
+.important\\\\:p-3{padding:0.75rem !important;}
 .is-hover\\\\:p-4px:is(:hover),
 .not-hover\\\\:p-4px:not(:hover){padding:4px;}
 .not-hover\\\\:p-3:not(:hover){padding:0.75rem;}
@@ -817,6 +818,7 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .lt-sm\\\\:m1{margin:0.25rem;}
 }
 @media (min-width: 640px){
+.sm\\\\:important\\\\:p-3{padding:0.75rem !important;}
 .sm\\\\:m-1,
 .sm\\\\:m1{margin:0.25rem;}
 }
