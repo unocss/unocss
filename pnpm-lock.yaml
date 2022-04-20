@@ -256,7 +256,7 @@ importers:
   packages/nuxt:
     specifiers:
       '@nuxt/kit': ^3.0.0-rc.0
-      '@nuxt/schema': npm:@nuxt/schema-edge@latest
+      '@nuxt/schema': ^3.0.0-rc.0
       '@unocss/core': workspace:*
       '@unocss/preset-attributify': workspace:*
       '@unocss/preset-icons': workspace:*
@@ -282,7 +282,7 @@ importers:
       '@unocss/webpack': link:../webpack
       unocss: link:../unocss
     devDependencies:
-      '@nuxt/schema': /@nuxt/schema-edge/3.0.0-rc.0-27507640.7b091ab_rollup@2.70.2+vite@2.9.5
+      '@nuxt/schema': 3.0.0-rc.0_rollup@2.70.2+vite@2.9.5
 
   packages/plugins-common:
     specifiers:
@@ -1109,27 +1109,6 @@ packages:
       - webpack
     dev: false
 
-  /@nuxt/schema-edge/3.0.0-rc.0-27507640.7b091ab_rollup@2.70.2+vite@2.9.5:
-    resolution: {integrity: sha512-58a4JI0FN/hBsTdjUGs7ortjlEwdXNDDHH/R/cyFTaOfbiwSkaY9STflqcaikrkpU5eWy8LxLWJ7Mta5PMAvMQ==}
-    engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0 || ^18.0.0}
-    dependencies:
-      c12: 0.2.5
-      create-require: 1.1.1
-      defu: 6.0.0
-      jiti: 1.13.0
-      pathe: 0.2.0
-      postcss-import-resolver: 2.0.0
-      scule: 0.2.1
-      std-env: 3.1.1
-      ufo: 0.8.3
-      unimport: 0.1.6_rollup@2.70.2+vite@2.9.5
-    transitivePeerDependencies:
-      - esbuild
-      - rollup
-      - vite
-      - webpack
-    dev: true
-
   /@nuxt/schema/3.0.0-rc.0_rollup@2.70.2+vite@2.9.5:
     resolution: {integrity: sha512-SXNqzxKnXqna+WHVuo8d2QeHi6a//3r/v3bj4yOtidju2yQy1yoXEq1oGrzD5e/sbP81XmRZTi9YBwMeVN2/WQ==}
     engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0 || ^18.0.0}
@@ -1149,7 +1128,6 @@ packages:
       - rollup
       - vite
       - webpack
-    dev: false
 
   /@open-draft/until/1.0.3:
     resolution: {integrity: sha512-Aq58f5HiWdyDlFffbbSjAlv596h/cOnt2DO1w3DOC7OJ5EHs0hd/nycJfiu9RJbT6Yk6F1knnRRXNSpxoIVZ9Q==}

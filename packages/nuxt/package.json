@@ -54,6 +54,6 @@
     "unocss": "workspace:*"
   },
   "devDependencies": {
-    "@nuxt/schema": "npm:@nuxt/schema-edge@latest"
+    "@nuxt/schema": "^3.0.0-rc.0"
   }
 }
