@@ -80,7 +80,7 @@ By default, this preset will choose the rendering modes automatically for each i
 - `?bg` for `background-img` - renders the icon as a background image
 - `?mask` for `mask` - renders the icon as a mask image
 
-for example, `vscode-icons:file-type-light-db`, an icon with colors that will be rendered as a background image. Use `vscode-icons:file-type-light-db?bg` to render it as a mask image and bypass it's colors.
+For example, `vscode-icons:file-type-light-db`, an icon with colors that will be rendered as a background image. Use `vscode-icons:file-type-light-db?bg` to render it as a mask image and bypass it's colors.
 
 ## Configuring collections and icons resolvers
 
@@ -122,7 +122,7 @@ UnoCss({
 })
 ```
 
-and then, you can use it on your html: `<span class="i-custom:circle"></span>`
+And then, you can use it on your html: `<span class="i-custom:circle"></span>`
 
 ### Node.js
 
