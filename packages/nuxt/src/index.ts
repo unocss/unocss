@@ -6,6 +6,8 @@ import VitePlugin from '@unocss/vite'
 import { resolveOptions } from './options'
 import type { UnocssNuxtOptions } from './types'
 
+export { UnocssNuxtOptions }
+
 const dir = dirname(fileURLToPath(import.meta.url))
 
 export default defineNuxtModule<UnocssNuxtOptions>({
