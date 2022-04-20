@@ -54,7 +54,7 @@ export interface IconsOptions {
   /**
    * Custom icon customizations.
    */
-  customizations?: Omit<IconCustomizations, 'additionalProps' | 'trimCustomSvg'>
+  customizations?: Omit<IconCustomizations, 'additionalProps' | 'trimCustomSvg' | 'iconCustomizer'>
   /**
    * Auto install icon sources package when the usages is detected
    *

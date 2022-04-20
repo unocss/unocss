@@ -35,7 +35,7 @@ describe('preset-icons', () => {
     expect(css).toMatchSnapshot()
   })
 
-  test('icon unit fixtures', async() => {
+  test('iconCustomizer', async() => {
     const { css, layers } = await unoWithUnit.generate(fixtures.join(' '))
     expect(layers).toEqual(['icons', 'default'])
     expect(css).toMatchSnapshot()
