@@ -20,8 +20,10 @@ describe('preset-icons', () => {
   const unoWithUnit = createGenerator({
     presets: [
       presetIcons({
-        unit: 'rem',
-        scale: 1.5,
+        iconCustomizer: (collection, icon, props) => {
+          props.width = '2rem'
+          props.height = '2rem'
+        },
       }),
       presetUno(),
     ],
