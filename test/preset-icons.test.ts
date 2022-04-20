@@ -17,8 +17,24 @@ describe('preset-icons', () => {
     ],
   })
 
+  const unoWithUnit = createGenerator({
+    presets: [
+      presetIcons({
+        unit: 'rem',
+        scale: 1.5,
+      }),
+      presetUno(),
+    ],
+  })
+
   test('fixtures', async() => {
     const { css, layers } = await uno.generate(fixtures.join(' '))
+    expect(layers).toEqual(['icons', 'default'])
+    expect(css).toMatchSnapshot()
+  })
+
+  test('icon unit fixtures', async() => {
+    const { css, layers } = await unoWithUnit.generate(fixtures.join(' '))
     expect(layers).toEqual(['icons', 'default'])
     expect(css).toMatchSnapshot()
   })

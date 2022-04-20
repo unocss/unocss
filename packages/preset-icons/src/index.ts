@@ -43,6 +43,7 @@ export const preset = (options: IconsOptions = {}): Preset => {
     customizations = {},
     autoInstall = false,
     layer = 'icons',
+    unit,
   } = options
   return {
     name: '@unocss/preset-icons',
@@ -93,6 +94,11 @@ export const preset = (options: IconsOptions = {}): Preset => {
           if (warn)
             warnOnce(`failed to load icon "${full}"`)
           return
+        }
+
+        if (unit) {
+          for (const prop in iconifyLoaderOptions.usedProps)
+            iconifyLoaderOptions.usedProps[prop] = iconifyLoaderOptions.usedProps[prop].replace(/(px|pt|pc|rem|em|vh|vw|in|cm|mm|ex|ch|vmin|vmax|rpx)/g, unit)
         }
 
         const url = `url("data:image/svg+xml;utf8,${encodeSvgForCss(svg)}")`
