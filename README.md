@@ -294,37 +294,6 @@ You might need to read some code to take the full power of it.
 
 </details>
 
-### Safelist
-
-Sometimes you'll have to use dynamic concatenations:
-
-```html
-<div class="p-${size}"></div>
-```
-
-For that, you can simply configure the `safelist` option.
-
-```ts
-safelist: 'p-1 p-2 p-3 p-4'.split(' ')
-```
-
-the corresponding CSS will be always generated:
-
-```css
-.p-1 { padding: 0.25rem; }
-.p-2 { padding: 0.5rem; }
-.p-3 { padding: 0.75rem; }
-.p-4 { padding: 1rem; }
-```
-
-Or more flexible:
-
-```ts
-safelist: [
-  ...Array.from({ length: 4 }, (_, i) => `p-${i + 1}`),
-]
-```
-
 ### Ordering
 
 UnoCSS respects the order of the rules you defined in the generated CSS. Latter ones come with higher priority.
@@ -567,6 +536,37 @@ preprocess(matcher) {
 By default UnoCSS will scan for components files like: `.jsx`, `.tsx`, `.vue`, `.md`, `.html`, `.svelte`, `.astro`.
 
 `.js` and `.ts` files are not included by default. You can add `@unocss-include`, per-file basis, anywhere in the file that you want UnoCSS to scan, or add `*.js` or `*.ts` in the configuration to include all js/ts files as scan targets.
+
+### Safelist
+
+Sometimes you'll have to use dynamic concatenations:
+
+```html
+<div class="p-${size}"></div>
+```
+
+For that, you can simply configure the `safelist` option.
+
+```ts
+safelist: 'p-1 p-2 p-3 p-4'.split(' ')
+```
+
+the corresponding CSS will be always generated:
+
+```css
+.p-1 { padding: 0.25rem; }
+.p-2 { padding: 0.5rem; }
+.p-3 { padding: 0.75rem; }
+.p-4 { padding: 1rem; }
+```
+
+Or more flexible:
+
+```ts
+safelist: [
+  ...Array.from({ length: 4 }, (_, i) => `p-${i + 1}`),
+]
+```
 
 ### Inspector
 
