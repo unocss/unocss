@@ -1,6 +1,6 @@
 {
   "name": "@unocss/preset-web-fonts",
-  "version": "0.31.9",
+  "version": "0.31.10",
   "description": "Web Fonts support for Uno CSS",
   "keywords": [
     "unocss",
