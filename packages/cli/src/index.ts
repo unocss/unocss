@@ -6,7 +6,7 @@ import { cyan, dim, green } from 'colorette'
 import { debounce } from 'perfect-debounce'
 import { createGenerator, toArray } from '@unocss/core'
 import type { UnoGenerator } from '@unocss/core'
-import { createConfigLoader } from '@unocss/config'
+import { loadConfig } from '@unocss/config'
 import { version } from '../package.json'
 import { PrettyError, handleError } from './errors'
 import { defaultConfig } from './config'
@@ -47,7 +47,6 @@ export async function resolveOptions(options: CliOptions) {
 
 export async function build(_options: CliOptions) {
   const options = await resolveOptions(_options)
-  const loadConfig = createConfigLoader(process.cwd())
   const { config, sources: configSources } = await loadConfig()
 
   uno = createGenerator(

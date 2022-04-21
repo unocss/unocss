@@ -1,6 +1,6 @@
 import { createFilter } from '@rollup/pluginutils'
 import type { LoadConfigResult, LoadConfigSource } from '@unocss/config'
-import { createConfigLoader } from '@unocss/config'
+import { loadConfig } from '@unocss/config'
 import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { BetterMap, createGenerator } from '@unocss/core'
 import { CSS_PLACEHOLDER, INCLUDE_COMMENT } from './constants'
@@ -13,8 +13,6 @@ export function createContext<Config extends UserConfig = UserConfig>(
   resolveConfigResult: (config: LoadConfigResult<Config>) => void = () => {},
 ): UnocssPluginContext<Config> {
   let root = process.cwd()
-  const loadConfig = createConfigLoader(configOrPath || root, extraConfigSources)
-
   let rawConfig = {} as Config
   const uno = createGenerator(rawConfig, defaults)
   let rollupFilter = createFilter(defaultInclude, defaultExclude)
@@ -27,7 +25,7 @@ export function createContext<Config extends UserConfig = UserConfig>(
   let ready = reloadConfig()
 
   async function reloadConfig() {
-    const result = await loadConfig(configOrPath || root)
+    const result = await loadConfig(root, configOrPath, extraConfigSources)
     resolveConfigResult(result)
 
     rawConfig = result.config
