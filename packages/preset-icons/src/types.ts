@@ -2,8 +2,6 @@ import type { CustomIconLoader, IconCustomizations, InlineCollection } from '@ic
 import type { Awaitable } from '@unocss/core'
 import type { IconifyJSON } from '@iconify/types'
 
-export type IconCustomizer = (collection: string, icon: string, props: Record<string, string>) => Awaitable<void>
-
 export interface IconsOptions {
   /**
    * Scale related to the current font size (1em).
