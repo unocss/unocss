@@ -20,9 +20,15 @@ describe('preset-icons', () => {
   const unoWithUnit = createGenerator({
     presets: [
       presetIcons({
-        iconCustomizer: (collection, icon, props) => {
-          props.width = '2rem'
-          props.height = '2rem'
+        unit: 'rem',
+        scale: 2,
+        customizations: {
+          iconCustomizer(collection, icon, props) {
+            if (collection === 'carbon' && icon === 'sun') {
+              props.width = '1em'
+              props.height = '1em'
+            }
+          },
         },
       }),
       presetUno(),
@@ -35,7 +41,7 @@ describe('preset-icons', () => {
     expect(css).toMatchSnapshot()
   })
 
-  test('iconCustomizer', async() => {
+  test('icon unit fixtures', async() => {
     const { css, layers } = await unoWithUnit.generate(fixtures.join(' '))
     expect(layers).toEqual(['icons', 'default'])
     expect(css).toMatchSnapshot()

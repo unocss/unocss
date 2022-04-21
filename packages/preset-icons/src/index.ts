@@ -43,7 +43,7 @@ export const preset = (options: IconsOptions = {}): Preset => {
     customizations = {},
     autoInstall = false,
     layer = 'icons',
-    iconCustomizer: providedIconCustomizer,
+    unit,
   } = options
   return {
     name: '@unocss/preset-icons',
@@ -72,7 +72,14 @@ export const preset = (options: IconsOptions = {}): Preset => {
             additionalProps: { ...extraProperties },
             trimCustomSvg: true,
             async iconCustomizer(collection, icon, props) {
-              await providedIconCustomizer?.(collection, icon, props)
+              await customizations.iconCustomizer?.(collection, icon, props)
+              if (unit) {
+                if (props.width !== undefined && props.width !== null)
+                  props.width = `${scale}${unit}`
+
+                if (props.height !== undefined && props.height !== null)
+                  props.height = `${scale}${unit}`
+              }
             },
           },
           usedProps: {},
