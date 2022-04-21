@@ -70,6 +70,7 @@
     "fast-glob": "^3.2.11",
     "fs-extra": "^10.1.0",
     "gzip-size": "^6.0.0",
+    "lint-staged": "^12.4.0",
     "lz-string": "^1.4.4",
     "magic-string": "^0.26.1",
     "msw": "^0.39.2",
@@ -78,6 +79,7 @@
     "react": "^18.0.0",
     "rollup": "^2.70.2",
     "semver": "^7.3.7",
+    "simple-git-hooks": "^2.7.0",
     "splitpanes": "^3.1.1",
     "terser": "^5.12.1",
     "tsup": "^5.12.5",
@@ -92,5 +94,13 @@
     "vitest": "^0.9.3",
     "vue": "^3.2.33",
     "vue-router": "^4.0.14"
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx,vue,md}": [
+      "eslint --fix"
+    ]
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
   }
 }
