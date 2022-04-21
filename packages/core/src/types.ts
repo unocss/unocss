@@ -306,7 +306,7 @@ export interface ConfigBase<Theme extends {} = {}> {
   extendTheme?: Arrayable<ThemeExtender<Theme>>
 
   /**
-   * Addtional options for auto complete
+   * Additional options for auto complete
    */
   autocomplete?: {
     /**
@@ -440,6 +440,9 @@ export interface UnocssPluginContext<Config extends UserConfig = UserConfig> {
 
   invalidate: () => void
   onInvalidate: (fn: () => void) => void
+
+  root: string
+  updateRoot: (root: string) => Promise<LoadConfigResult<Config>>
 }
 
 export interface SourceMap {

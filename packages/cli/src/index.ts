@@ -47,7 +47,7 @@ export async function resolveOptions(options: CliOptions) {
 
 export async function build(_options: CliOptions) {
   const options = await resolveOptions(_options)
-  const loadConfig = createConfigLoader()
+  const loadConfig = createConfigLoader(process.cwd())
   const { config, sources: configSources } = await loadConfig()
 
   uno = createGenerator(

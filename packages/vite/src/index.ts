@@ -33,9 +33,9 @@ export default function UnocssPlugin(
   const mode = inlineConfig.mode ?? 'global'
 
   const plugins = [
+    ConfigHMRPlugin(ctx),
     ...initTransformerPlugins(ctx),
     ...createDevtoolsPlugin(ctx),
-    ConfigHMRPlugin(ctx),
   ]
 
   if (inlineConfig.inspector !== false)

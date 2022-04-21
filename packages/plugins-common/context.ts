@@ -12,7 +12,8 @@ export function createContext<Config extends UserConfig = UserConfig>(
   extraConfigSources: LoadConfigSource[] = [],
   resolveConfigResult: (config: LoadConfigResult<Config>) => void = () => {},
 ): UnocssPluginContext<Config> {
-  const loadConfig = createConfigLoader(configOrPath, extraConfigSources)
+  let root = process.cwd()
+  const loadConfig = createConfigLoader(configOrPath || root, extraConfigSources)
 
   let rawConfig = {} as Config
   const uno = createGenerator(rawConfig, defaults)
@@ -23,10 +24,10 @@ export function createContext<Config extends UserConfig = UserConfig>(
   const modules = new BetterMap<string, string>()
   const tokens = new Set<string>()
 
-  const ready = reloadConfig()
+  let ready = reloadConfig()
 
   async function reloadConfig() {
-    const result = await loadConfig()
+    const result = await loadConfig(configOrPath || root)
     resolveConfigResult(result)
 
     rawConfig = result.config
@@ -41,6 +42,14 @@ export function createContext<Config extends UserConfig = UserConfig>(
     invalidate()
 
     return result
+  }
+
+  async function updateRoot(newRoot: string) {
+    if (newRoot !== root) {
+      root = newRoot
+      ready = reloadConfig()
+    }
+    return await ready
   }
 
   function invalidate() {
@@ -66,7 +75,9 @@ export function createContext<Config extends UserConfig = UserConfig>(
   }
 
   return {
-    ready,
+    get ready() {
+      return ready
+    },
     tokens,
     modules,
     invalidate,
@@ -78,5 +89,7 @@ export function createContext<Config extends UserConfig = UserConfig>(
     uno,
     extract,
     getConfig,
+    root,
+    updateRoot,
   }
 }
