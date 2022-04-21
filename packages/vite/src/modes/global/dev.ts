@@ -1,6 +1,6 @@
 import type { Plugin, ViteDevServer, ResolvedConfig as ViteResolvedConfig } from 'vite'
 import type { UnocssPluginContext } from '@unocss/core'
-import { LAYER_MARK_ALL, getPath, resolveId } from '../../../../plugins-common'
+import { LAYER_MARK_ALL, getPath, regexCssId, resolveId } from '../../../../plugins-common'
 
 const WARN_TIMEOUT = 20000
 const WS_EVENT_PREFIX = 'unocss:hmr'
@@ -11,6 +11,7 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
 
   const tasks: Promise<any>[] = []
   const entries = new Map<string, string>()
+  const cssModules = new Set<string>()
 
   let invalidateTimer: any
   let lastUpdate = Date.now()
@@ -27,8 +28,12 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
   }
 
   function invalidate(timer = 10) {
+    const ids = [
+      ...entries.keys(),
+      ...cssModules.keys(),
+    ]
     for (const server of servers) {
-      for (const id of entries.keys()) {
+      for (const id of ids) {
         const mod = server.moduleGraph.getModuleById(id)
         if (!mod)
           continue
@@ -41,10 +46,14 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
 
   function sendUpdate() {
     lastUpdate = Date.now()
+    const ids = [
+      ...entries.keys(),
+      ...cssModules.keys(),
+    ]
     for (const server of servers) {
       server.ws.send({
         type: 'update',
-        updates: Array.from(entries.keys()).map(i => ({
+        updates: Array.from(ids).map(i => ({
           acceptedPath: i,
           path: i,
           timestamp: lastUpdate,
@@ -109,6 +118,8 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
           entries.set(entry.id, entry.layer)
           return entry.id
         }
+        if (id.match(regexCssId))
+          cssModules.add(id)
       },
       async load(id) {
         const layer = entries.get(getPath(id))
