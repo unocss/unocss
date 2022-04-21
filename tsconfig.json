@@ -9,6 +9,8 @@
     "strictNullChecks": true,
     "resolveJsonModule": true,
     "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "jsx": "preserve",
     "paths": {
       "unocss": ["./packages/unocss/src/index.ts"],
       "unocss/vite": ["./packages/unocss/src/vite.ts"],
@@ -33,6 +35,10 @@
   },
   "exclude": [
     "**/dist/**",
-    "**/node_modules/**"
+    "**/node_modules/**",
+    "**/client/**",
+    "**/playground/**",
+    "**/examples/**",
+    "**/test/dts/**"
   ]
 }

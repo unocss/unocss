@@ -16,6 +16,7 @@
     "release": "bumpp package.json packages/*/package.json --commit --push --tag",
     "size": "esmo scripts/size.ts",
     "stub": "pnpm -r --parallel run stub",
+    "typecheck": "tsc --noEmit",
     "test": "vitest",
     "test:update": "vitest -u"
   },

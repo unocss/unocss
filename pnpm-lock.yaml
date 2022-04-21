@@ -75,6 +75,7 @@ importers:
       vitest: ^0.9.3
       vue: ^3.2.33
       vue-router: ^4.0.14
+      vue-tsc: ^0.34.8
     devDependencies:
       '@antfu/eslint-config': 0.20.6_eslint@8.13.0+typescript@4.6.3
       '@antfu/ni': 0.14.0
@@ -147,6 +148,7 @@ importers:
       vitest: 0.9.3_@vitest+ui@0.9.3
       vue: 3.2.33
       vue-router: 4.0.14_vue@3.2.33
+      vue-tsc: 0.34.8_typescript@4.6.3
 
   bench:
     specifiers:
@@ -1562,6 +1564,36 @@ packages:
     resolution: {integrity: sha512-tnf/qFWSnoj8+DVaO9MJIu7uuRyFx7L4dgSwm+PzKUjavUILSVQjzrLfZOO9+KbKf4e4wcTcxkoYK0mG1MAXgA==}
     dependencies:
       sirv: 2.0.2
+    dev: true
+
+  /@volar/code-gen/0.34.8:
+    resolution: {integrity: sha512-BTH6704XbsppOMyAAZzuV8Y9ENe5CzAkkaUBOFJGzYA4M8XOpQGC0A8I31aUc+XGS23DCATgkar8V/HeHEC6JQ==}
+    dependencies:
+      '@volar/source-map': 0.34.8
+    dev: true
+
+  /@volar/source-map/0.34.8:
+    resolution: {integrity: sha512-PPCcf72A4a3DCqTCHf2MM6IVtHswGl5nkdS9VkeFQfau6OHt1byDCgoo9E9O41N90MmUAdAQAdiYbc2MHRWPIg==}
+    dev: true
+
+  /@volar/vue-code-gen/0.34.8:
+    resolution: {integrity: sha512-vfRVlC/H24EZ0pNzOUawBJJ1XbZwos2HDhRgONN0R0+aiRtFUWFcFq+yRztWEEhYCLJNaU3+ZlXK5UOKqCf0zQ==}
+    dependencies:
+      '@volar/code-gen': 0.34.8
+      '@volar/source-map': 0.34.8
+      '@vue/compiler-core': 3.2.33
+      '@vue/compiler-dom': 3.2.33
+      '@vue/shared': 3.2.33
+    dev: true
+
+  /@volar/vue-typescript/0.34.8:
+    resolution: {integrity: sha512-TmdqxlnCt0j4cUMxnwJH/CX4Tb/87mCkhxsCeaD44m9U4MC9vMVaev6JOW72Jpu00FmSmPOREX5nYfQbA3ycSw==}
+    dependencies:
+      '@volar/code-gen': 0.34.8
+      '@volar/source-map': 0.34.8
+      '@volar/vue-code-gen': 0.34.8
+      '@vue/compiler-sfc': 3.2.33
+      '@vue/reactivity': 3.2.33
     dev: true
 
   /@vue/compiler-core/3.2.31:
@@ -6612,6 +6644,16 @@ packages:
     dependencies:
       '@vue/devtools-api': 6.1.4
       vue: 3.2.33
+    dev: true
+
+  /vue-tsc/0.34.8_typescript@4.6.3:
+    resolution: {integrity: sha512-RvuFwiuj2lfSnTGHhLy6xLspNA7VOU3low+Ckvbl3utw6A6ELmXDUuuo8VAzNm7HuJe3M64lAxxWdOOG3vqMVw==}
+    hasBin: true
+    peerDependencies:
+      typescript: '*'
+    dependencies:
+      '@volar/vue-typescript': 0.34.8
+      typescript: 4.6.3
     dev: true
 
   /vue/3.2.31:
