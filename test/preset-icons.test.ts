@@ -29,8 +29,9 @@ describe('preset-icons', () => {
               props.height = '1em'
             }
             else {
-              props.width = '3px'
-              props.height = '3px'
+              // No w/h props
+              delete props.width
+              delete props.height
             }
           },
         },
