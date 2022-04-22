@@ -74,11 +74,8 @@ export const preset = (options: IconsOptions = {}): Preset => {
             async iconCustomizer(collection, icon, props) {
               await customizations.iconCustomizer?.(collection, icon, props)
               if (unit) {
-                if (props.width !== undefined && props.width !== null)
-                  props.width = `${scale}${unit}`
-
-                if (props.height !== undefined && props.height !== null)
-                  props.height = `${scale}${unit}`
+                props.width = `${scale}${unit}`
+                props.height = `${scale}${unit}`
               }
             },
           },

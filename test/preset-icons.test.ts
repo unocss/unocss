@@ -28,6 +28,10 @@ describe('preset-icons', () => {
               props.width = '1em'
               props.height = '1em'
             }
+            else {
+              props.width = '3px'
+              props.height = '3px'
+            }
           },
         },
       }),
