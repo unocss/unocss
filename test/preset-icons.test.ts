@@ -24,7 +24,7 @@ describe('preset-icons', () => {
         scale: 2,
         customizations: {
           iconCustomizer(collection, icon, props) {
-            if (collection === 'carbon' && icon === 'sun') {
+            if (!(collection === 'carbon' && icon === 'sun')) {
               props.width = '1em'
               props.height = '1em'
             }
