@@ -63,6 +63,8 @@ export interface IconsOptions {
   autoInstall?: boolean
   /**
    * Custom icon unit.
+   *
+   * @default `em`
    */
   unit?: string
 }
