@@ -26,6 +26,7 @@ export async function loadConfig<U extends UserConfig>(
   }
 
   const resolved = resolve(configOrPath)
+  cwd = resolved
 
   let isFile = false
   if (fs.existsSync(resolved) && fs.statSync(resolved).isFile()) {
