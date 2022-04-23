@@ -40,8 +40,9 @@ export async function activate(ext: ExtensionContext) {
       if (result.sources.some(s => s.includes('nuxt.config')))
         resolveNuxtOptions(result.config)
     },
-
   )
+
+  context.updateRoot(cwd)
 
   let sources: string[] = []
   try {
