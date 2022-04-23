@@ -17,8 +17,32 @@ describe('preset-icons', () => {
     ],
   })
 
+  const unoWithUnit = createGenerator({
+    presets: [
+      presetIcons({
+        unit: 'rem',
+        scale: 2,
+        customizations: {
+          iconCustomizer(collection, icon, props) {
+            if (!(collection === 'carbon' && icon === 'sun')) {
+              props.width = '1em'
+              props.height = '1em'
+            }
+          },
+        },
+      }),
+      presetUno(),
+    ],
+  })
+
   test('fixtures', async() => {
     const { css, layers } = await uno.generate(fixtures.join(' '))
+    expect(layers).toEqual(['icons', 'default'])
+    expect(css).toMatchSnapshot()
+  })
+
+  test('icon unit fixtures', async() => {
+    const { css, layers } = await unoWithUnit.generate(fixtures.join(' '))
     expect(layers).toEqual(['icons', 'default'])
     expect(css).toMatchSnapshot()
   })
