@@ -66,4 +66,4 @@ export type AttributifyNames<Prefix extends string = ''> =
   | `${Prefix}${VariantNames}`
   | `${Prefix}${VariantNames}:${UtilityNames}`
 
-export interface AttributifyAttributes extends Partial<Record<AttributifyNames, string>> {}
+export interface AttributifyAttributes extends Partial<Record<AttributifyNames, string | boolean>> {}
