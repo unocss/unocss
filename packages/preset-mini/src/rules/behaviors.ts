@@ -14,8 +14,8 @@ export const outline: Rule<Theme>[] = [
 
   // style
   ['outline', { 'outline-style': 'solid' }],
-  ['outline-none', { 'outline': '2px solid transparent', 'outline-offset': '2px' }],
   ...['auto', 'dashed', 'dotted', 'double', 'hidden', 'solid', 'groove', 'ridge', 'inset', 'outset', 'inherit', 'initial', 'revert', 'unset'].map(v => [`outline-${v}`, { 'outline-style': v }] as Rule<Theme>),
+  ['outline-none', { 'outline': '2px solid transparent', 'outline-offset': '2px' }],
 ]
 
 export const appearance: Rule[] = [
