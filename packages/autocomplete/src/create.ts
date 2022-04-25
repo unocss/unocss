@@ -20,6 +20,26 @@ export function createAutocomplete(uno: UnoGenerator) {
     templates,
     cache,
     reset,
+    /**
+     * Enumerate possible suggestions from 'aa' - 'zz'
+     */
+    enumerate,
+  }
+
+  async function enumerate() {
+    const matched = new Set<string>()
+    const a2z = 'abcdefghijklmnopqrstuvwxyz'
+
+    const p = []
+    for (const a of a2z) {
+      for (const b of a2z) {
+        p.push(suggest(`${a}${b}`)
+          .then(i => i.forEach(j => matched.add(j))),
+        )
+      }
+    }
+    await Promise.all(p)
+    return matched
   }
 
   function getParsed(template: string) {
