@@ -1,6 +1,6 @@
 {
   "name": "@unocss/transformer-variant-group",
-  "version": "0.31.13",
+  "version": "0.31.14",
   "description": "Variant group transformer for UnoCSS",
   "keywords": [
     "unocss",
