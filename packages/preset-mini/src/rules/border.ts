@@ -42,7 +42,10 @@ export const borders: Rule[] = [
 
   // style
   [/^(?:border|b)-(?:style-)?()(.+)$/, handlerBorderStyle, { autocomplete: ['(border|b)-style', `(border|b)-(${borderStyles.join('|')})`, '(border|b)-<directions>-style', `(border|b)-<directions>-(${borderStyles.join('|')})`, `(border|b)-<directions>-style-(${borderStyles.join('|')})`, `(border|b)-style-(${borderStyles.join('|')})`] }],
-  [/^(?:border|b)-([rltbsexy])-(?:style-)?(.+)$/, handlerBorderStyle],
+  [/^(?:border|b)-([xy])-(?:style-)?(.+)$/, handlerBorderStyle],
+  [/^(?:border|b)-([rltbse])-(?:style-)?(.+)$/, handlerBorderStyle],
+  [/^(?:border|b)-(block|inline)-(?:style-)?(.+)$/, handlerBorderStyle],
+  [/^(?:border|b)-([bi][se])-(?:style-)?(.+)$/, handlerBorderStyle],
 ]
 
 const borderColorResolver = (direction: string) => ([, body]: string[], theme: Theme): CSSObject | undefined => {
@@ -120,10 +123,6 @@ function handlerRounded([, a = '', s]: string[], { theme }: RuleContext<Theme>):
 }
 
 function handlerBorderStyle([, a = '', s]: string[]): CSSEntries | undefined {
-  if (borderStyles.includes(s)) {
-    if (a in directionMap)
-      return directionMap[a].map(i => [`border${i}-style`, s])
-    else
-      return [['border-style', s]]
-  }
+  if (borderStyles.includes(s) && a in directionMap)
+    return directionMap[a].map(i => [`border${i}-style`, s])
 }
