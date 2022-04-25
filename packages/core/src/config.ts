@@ -63,6 +63,12 @@ export function resolveConfig(
 
   ;(mergePresets('extendTheme') as ThemeExtender<any>[]).forEach(extendTheme => extendTheme(theme))
 
+  const autocomplete = {
+    templates: uniq(sortedPresets.map(p => toArray(p.autocomplete?.templates)).flat()),
+    extractors: sortedPresets.map(p => toArray(p.autocomplete?.extractors)).flat()
+      .sort((a, b) => (a.order || 0) - (b.order || 0)),
+  }
+
   return {
     mergeSelectors: true,
     warn: true,
@@ -81,6 +87,7 @@ export function resolveConfig(
     preprocess: mergePresets('preprocess') as Preprocessor[],
     postprocess: mergePresets('postprocess') as Postprocessor[],
     preflights: mergePresets('preflights'),
+    autocomplete,
     variants: mergePresets('variants').map(normalizeVariant),
     shortcuts: resolveShortcuts(mergePresets('shortcuts')),
     extractors,

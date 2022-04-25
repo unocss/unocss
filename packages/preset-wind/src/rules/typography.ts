@@ -21,13 +21,13 @@ const toEntries = (entry: any) => [
 ]
 
 export const fontVariantNumeric: Rule[] = [
-  [/^ordinal$/, () => toEntries({ '--un-ordinal': 'ordinal' })],
-  [/^slashed-zero$/, () => toEntries({ '--un-slashed-zero': 'slashed-zero' })],
-  [/^lining-nums$/, () => toEntries({ '--un-numeric-figure': 'lining-nums' })],
-  [/^oldstyle-nums$/, () => toEntries({ '--un-numeric-figure': 'oldstyle-nums' })],
-  [/^proportional-nums$/, () => toEntries({ '--un-numeric-spacing': 'proportional-nums' })],
-  [/^tabular-nums$/, () => toEntries({ '--un-numeric-spacing': 'tabular-nums' })],
-  [/^diagonal-fractions$/, () => toEntries({ '--un-numeric-fraction': 'diagonal-fractions' })],
-  [/^stacked-fractions$/, () => toEntries({ '--un-numeric-fraction': 'stacked-fractions' })],
+  [/^ordinal$/, () => toEntries({ '--un-ordinal': 'ordinal' }), { autocomplete: 'ordinal' }],
+  [/^slashed-zero$/, () => toEntries({ '--un-slashed-zero': 'slashed-zero' }), { autocomplete: 'slashed-zero' }],
+  [/^lining-nums$/, () => toEntries({ '--un-numeric-figure': 'lining-nums' }), { autocomplete: 'lining-nums' }],
+  [/^oldstyle-nums$/, () => toEntries({ '--un-numeric-figure': 'oldstyle-nums' }), { autocomplete: 'oldstyle-nums' }],
+  [/^proportional-nums$/, () => toEntries({ '--un-numeric-spacing': 'proportional-nums' }), { autocomplete: 'proportional-nums' }],
+  [/^tabular-nums$/, () => toEntries({ '--un-numeric-spacing': 'tabular-nums' }), { autocomplete: 'tabular-nums' }],
+  [/^diagonal-fractions$/, () => toEntries({ '--un-numeric-fraction': 'diagonal-fractions' }), { autocomplete: 'diagonal-fractions' }],
+  [/^stacked-fractions$/, () => toEntries({ '--un-numeric-fraction': 'stacked-fractions' }), { autocomplete: 'stacked-fractions' }],
   ['normal-nums', { 'font-variant-numeric': 'normal' }],
 ]

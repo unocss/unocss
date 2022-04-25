@@ -1,12 +1,15 @@
 import type { Preset } from '@unocss/core'
 import { extractorSplit } from '@unocss/core'
+import { autocompleteExtractorAttributify } from './autocomplete'
 import { extractorAttributify } from './extractor'
 import type { AttributifyOptions } from './types'
 import { variantAttributify } from './variant'
 
+export * from './autocomplete'
 export * from './extractor'
 export * from './variant'
 export * from './types'
+export * from './jsx'
 
 const preset = (options: AttributifyOptions = {}): Preset => {
   options.strict = options.strict ?? false
@@ -21,6 +24,9 @@ const preset = (options: AttributifyOptions = {}): Preset => {
   const extractors = [
     extractorAttributify(options),
   ]
+  const autocompleteExtractors = [
+    autocompleteExtractorAttributify,
+  ]
 
   if (!options.strict)
     extractors.unshift(extractorSplit)
@@ -30,6 +36,9 @@ const preset = (options: AttributifyOptions = {}): Preset => {
     variants,
     extractors,
     options,
+    autocomplete: {
+      extractors: autocompleteExtractors,
+    },
   }
 }
 

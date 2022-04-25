@@ -1,6 +1,7 @@
 import type { Rule, Shortcut } from '@unocss/core'
 import { toArray } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
+import { resolveBreakpoints } from '@unocss/preset-mini/utils'
 
 const queryMatcher = /@media \(min-width: (.+)\)/
 
@@ -24,8 +25,8 @@ export const container: Rule<Theme>[] = [
 ]
 
 export const containerShortcuts: Shortcut<Theme>[] = [
-  [/^(?:(\w+)[:-])?container$/, ([, bp], { theme }) => {
-    let points = Object.keys(theme.breakpoints || {})
+  [/^(?:(\w+)[:-])?container$/, ([, bp], context) => {
+    let points = Object.keys(resolveBreakpoints(context) ?? {})
     if (bp) {
       if (!points.includes(bp))
         return

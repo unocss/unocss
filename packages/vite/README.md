@@ -16,8 +16,8 @@ import Unocss from 'unocss/vite'
 
 export default {
   plugins: [
-    Unocss({ /* options */ })
-  ]
+    Unocss({ /* options */ }),
+  ],
 }
 ```
 
@@ -40,21 +40,13 @@ This mode enables a set of Vite plugins for `build` and for `dev` with `HMR` sup
 
 The generated `css` will be a global stylesheet injected on the `index.html`.
 
-### vue-scoped (WIP)
+### vue-scoped
 
 This mode will inject generated CSS to Vue SFC's `<style scoped>` for isolation.
 
-### svelte-scoped (WIP)
+### svelte-scoped
 
 This mode will inject generated CSS to Svelte's `<style>` for isolation.
-
-### per-module (WIP)
-
-This mode will generate a CSS sheet for each module, can be scoped.
-
-### dist-chunk (WIP)
-
-This mode will generate a CSS sheet for each code chunk on build, great for MPA.
 
 ### shadow-dom
 
@@ -62,11 +54,34 @@ Since `Web Components` uses `Shadow DOM`, there is no way to style content direc
 
 To inline the generated css, you only need to configure the plugin mode to `shadow-dom` and include `@unocss-placeholder` magic placeholder on each web component style css block.
 
+### per-module (Experimental)
+
+This mode will generate a CSS sheet for each module, can be scoped.
+
+### dist-chunk (Experimental)
+
+This mode will generate a CSS sheet for each code chunk on build, great for MPA.
+
+## "Design in DevTools"
+
+Because of limitation of "on-demand" where the DevTools don't know those you haven't used in your source code yet. So if you want to try how things work by directly changing the classes in DevTools, just add the following lines to your main entry.
+
+```ts
+import 'uno.css'
+import 'virtual:unocss-devtools'
+```
+
+> ⚠️ Please use it with caution, under the hood we use [`MutationObserver`](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) to detect the class changes. Which means not only your manual changes but also the changes made by your scripts will be detected and included in the stylesheet. This could cause some misalignment between dev and the production build when you add dynamic classes based on some logic in script tags. We recommended adding your dynamic parts to the [safelist](https://github.com/unocss/unocss/issues/511) or setup UI regression tests for your production build if possible.
+
+`virtual:unocss-devtools` will be an empty bundle in production.
+
 ## Frameworks
 
 Some UI/App frameworks have some caveats that must be fixed to make it work, if you're using one of the following frameworks, just apply the suggestions.
 
 ### React
+
+**WARNING**: You should import the `uno.css` virtual module using `import 'virtual:uno.css'` instead `import 'uno.css'`. When you start the dev server first time, you'll need to update some style module to get it working (we're trying to fix it).
 
 If you're using `@vitejs/plugin-react`:
 
@@ -81,7 +96,7 @@ export default {
     Unocss({
       /* options */
     }),
-  ]
+  ],
 }
 ```
 
@@ -98,7 +113,7 @@ export default {
     Unocss({
       /* options */
     }),
-  ]
+  ],
 }
 ```
 
@@ -116,12 +131,12 @@ export default {
     Unocss({
       /* options */
     }),
-    react()
-  ]
+    react(),
+  ],
 }
 ```
 
-You have a `React` example project on [test/fixtures/vite-react](https://github.com/unocss/unocss/tree/main/test/fixtures/vite-react) directory  using both plugins, check the scripts on `package.json` and its Vite configuration file.
+You have a `React` example project on [examples/vite-react](https://github.com/unocss/unocss/tree/main/examples/vite-react) directory  using both plugins, check the scripts on `package.json` and its Vite configuration file.
 
 ### Preact
 
@@ -138,7 +153,7 @@ export default {
     Unocss({
       /* options */
     }),
-  ]
+  ],
 }
 ```
 
@@ -155,7 +170,7 @@ export default {
     Unocss({
       /* options */
     }),
-  ]
+  ],
 }
 ```
 
@@ -173,12 +188,12 @@ export default {
     Unocss({
       /* options */
     }),
-    preact()
-  ]
+    preact(),
+  ],
 }
 ```
 
-You have a `Preact` example project on [test/fixtures/vite-preact](https://github.com/unocss/unocss/tree/main/test/fixtures/vite-preact) directory  using both plugins, check the scripts on `package.json` and its Vite configuration file.
+You have a `Preact` example project on [examples/vite-preact](https://github.com/unocss/unocss/tree/main/examples/vite-preact) directory  using both plugins, check the scripts on `package.json` and its Vite configuration file.
 
 ### Svelte
 
@@ -200,12 +215,12 @@ export default {
       extractors: [extractorSvelte],
       /* more options */
     }),
-    svelte()
-  ]
+    svelte(),
+  ],
 }
 ```
 
-You have a `Vite + Svelte` example project on [test/fixtures/vite-svelte](https://github.com/unocss/unocss/tree/main/test/fixtures/vite-svelte) directory.
+You have a `Vite + Svelte` example project on [examples/vite-svelte](https://github.com/unocss/unocss/tree/main/examples/vite-svelte) directory.
 
 ###  Sveltekit
 
@@ -224,24 +239,20 @@ const config = {
   // Consult https://github.com/sveltejs/svelte-preprocess
   // for more information about preprocessors
   preprocess: preprocess(),
-
   kit: {
-
-    // hydrate the <div id="svelte"> element in src/app.html
-    target: '#svelte',
-    vite: {
+     vite: {
       plugins: [
         UnoCss({
           extractors: [extractorSvelte],
           /* more options */
-        })
-      ]
-    }
-  }
-}  
+        }),
+      ],
+    },
+  },
+}
 ```
 
-You have a `SvelteKit` example project on [test/fixtures/sveltekit](https://github.com/unocss/unocss/tree/main/test/fixtures/sveltekit) directory.
+You have a `SvelteKit` example project on [examples/sveltekit](https://github.com/unocss/unocss/tree/main/examples/sveltekit) directory.
 
 ### Web Components
 
@@ -259,7 +270,7 @@ export default {
       mode: 'shadow-dom',
       /* more options */
     }),
-  ]
+  ],
 }
 ```
 
@@ -286,11 +297,11 @@ export class MyElement extends LitElement {
     :host {...}
     @unocss-placeholder
   `
-  ...
+  // ...
 }
 ```
 
-You have a `Web Components` example project on [test/fixtures/vite-lit](https://github.com/unocss/unocss/tree/main/test/fixtures/vite-lit) directory.
+You have a `Web Components` example project on [examples/vite-lit](https://github.com/unocss/unocss/tree/main/examples/vite-lit) directory.
 
 #### `::part` built-in support
 
@@ -314,7 +325,7 @@ export default {
       ],
       /* more options */
     }),
-  ]
+  ],
 }
 ```
 
@@ -347,6 +358,8 @@ template.innerHTML = `
 
 ### Solid
 
+**WARNING**: You should import the `uno.css` virtual module using `import 'virtual:uno.css'` instead `import 'uno.css'`. When you start the dev server first time, you'll need to update some style module to get it working (we're trying to fix it).
+
 ```ts
 // vite.config.js
 import solidPlugin from 'vite-plugin-solid'
@@ -358,11 +371,11 @@ export default {
     Unocss({
       /* options */
     }),
-  ]
+  ],
 }
 ```
 
-You have a `Vite + Solid` example project on [test/fixtures/vite-solid](https://github.com/unocss/unocss/tree/main/test/fixtures/vite-solid) directory.
+You have a `Vite + Solid` example project on [examples/vite-solid](https://github.com/unocss/unocss/tree/main/examples/vite-solid) directory.
 
 ### Elm
 
@@ -379,12 +392,12 @@ export default defineConfig({
     elmPlugin(),
     Unocss({
       /* options */
-    })
-  ]
+    }),
+  ],
 })
 ```
 
-You have a `Vite + Elm` example project on [test/fixtures/vite-elm](https://github.com/unocss/unocss/tree/main/test/fixtures/vite-elm) directory.
+You have a `Vite + Elm` example project on [examples/vite-elm](https://github.com/unocss/unocss/tree/main/examples/vite-elm) directory.
 
 ## License
 

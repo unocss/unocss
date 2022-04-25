@@ -1,136 +1,72 @@
-import { relative } from 'path'
-import type { DecorationOptions } from 'vscode'
-import { DecorationRangeBehavior, MarkdownString, Range, StatusBarAlignment, window, workspace } from 'vscode'
-import prettier from 'prettier/standalone'
-import parserCSS from 'prettier/parser-postcss'
+import { relative, resolve } from 'path'
+import type { ExtensionContext } from 'vscode'
+import { StatusBarAlignment, window, workspace } from 'vscode'
 import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
-import { getMatchedPositions } from '../../inspector/client/composables/pos'
-import { INCLUDE_COMMENT_IDE, createContext } from '../../plugins-common'
+import { createContext } from '../../plugins-common/context'
+import { version } from '../package.json'
+import { resolveOptions as resolveNuxtOptions } from '../../nuxt/src/options'
+import { log } from './log'
+import { registerAnnonations } from './annonation'
+import { registerAutoComplete } from './autocomplete'
 
-export async function activate() {
-  const cwd = workspace.workspaceFolders?.[0].uri.fsPath
-  if (!cwd)
+export async function activate(ext: ExtensionContext) {
+  const projectPath = workspace.workspaceFolders?.[0].uri.fsPath
+  if (!projectPath)
     return
 
-  const log = window.createOutputChannel('UnoCSS')
+  const config = workspace.getConfiguration('unocss')
+  const root = config.get<string>('root')
+  const cwd = root ? resolve(projectPath, root) : projectPath
 
-  const context = createContext(cwd, {}, [
-    sourcePluginFactory({
-      files: [
-        'vite.config',
-        'svelte.config',
-        'astro.config',
-      ],
-      targetModule: 'unocss/vite',
-    }),
-    sourceObjectFields({
-      files: 'nuxt.config',
-      fields: 'unocss',
-    }),
-  ])
+  log.appendLine(`UnoCSS for VS Code  v${version} ${process.cwd()}`)
 
-  const { sources } = await context.ready
+  const context = createContext(
+    cwd, {},
+    [
+      sourcePluginFactory({
+        files: [
+          'vite.config',
+          'svelte.config',
+          'astro.config',
+        ],
+        targetModule: 'unocss/vite',
+      }),
+      sourceObjectFields({
+        files: 'nuxt.config',
+        fields: 'unocss',
+      }),
+    ],
+    (result) => {
+      if (result.sources.some(s => s.includes('nuxt.config')))
+        resolveNuxtOptions(result.config)
+    },
+  )
+
+  context.updateRoot(cwd)
+
+  let sources: string[] = []
+  try {
+    sources = (await context.ready).sources
+  }
+  catch (e) {
+    log.appendLine(`[error] ${String(e)}`)
+    log.appendLine('[error] Failed to start extension, exiting')
+    return
+  }
 
   if (!sources.length) {
-    log.appendLine('No config files found, disabled')
+    log.appendLine('[warn] No config files found, disabled')
+    log.appendLine('[warn] Make sure you have `unocss.config.js` in your workspace root, or change `unocss.root` in your workspace settings')
     return
   }
 
   log.appendLine(`Configuration loaded from\n${sources.map(s => ` - ${relative(cwd, s)}`).join('\n')}`)
 
-  const { uno, filter } = context
   const status = window.createStatusBarItem(StatusBarAlignment.Right, 200)
   status.text = 'UnoCSS'
 
-  workspace.onDidSaveTextDocument(async(doc) => {
-    if (sources.includes(doc.uri.fsPath)) {
-      try {
-        await context.reloadConfig()
-        log.appendLine(`Config reloaded by ${relative(cwd, doc.uri.fsPath)}`)
-      }
-      catch (e) {
-        log.appendLine('Error on loading config')
-        log.appendLine(String(e))
-      }
-    }
-  })
-
-  const UnderlineDecoration = window.createTextEditorDecorationType({
-    textDecoration: 'none; border-bottom: 1px dashed currentColor',
-    rangeBehavior: DecorationRangeBehavior.ClosedClosed,
-  })
-
-  async function updateAnnotation(editor = window.activeTextEditor) {
-    try {
-      const doc = editor?.document
-      if (!doc)
-        return reset()
-
-      const code = doc.getText()
-      const id = doc.uri.fsPath
-
-      if (!code || (!code.includes(INCLUDE_COMMENT_IDE) && !filter(code, id)))
-        return reset()
-
-      const result = await uno.generate(code, { id, preflights: false, minify: true })
-
-      const ranges: DecorationOptions[] = await Promise.all(
-        getMatchedPositions(code, Array.from(result.matched))
-          .map(async(i): Promise<DecorationOptions> => {
-            const css = (await uno.generate(new Set([i[2]]), { preflights: false })).css
-            return {
-              range: new Range(doc.positionAt(i[0]), doc.positionAt(i[1])),
-              get hoverMessage() {
-                const prettified = prettier.format(css, {
-                  parser: 'css',
-                  plugins: [parserCSS],
-                })
-                return new MarkdownString(`\`\`\`css\n${prettified}\n\`\`\``)
-              },
-            }
-          }),
-      )
-
-      editor.setDecorations(UnderlineDecoration, ranges)
-      status.text = `UnoCSS: ${result.matched.size}`
-      status.tooltip = new MarkdownString(`${result.matched.size} utilities used in this file`)
-      status.show()
-
-      function reset() {
-        editor?.setDecorations(UnderlineDecoration, [])
-        status.hide()
-      }
-    }
-    catch (e) {
-      log.appendLine('Error on annotation')
-      log.appendLine(String(e))
-    }
-  }
-
-  const throttledUpdateAnnotation = throttle(updateAnnotation, 200)
-
-  window.onDidChangeActiveTextEditor(updateAnnotation)
-  workspace.onDidChangeTextDocument((e) => {
-    if (e.document === window.activeTextEditor?.document)
-      throttledUpdateAnnotation()
-  })
-  await updateAnnotation()
+  registerAutoComplete(context, ext)
+  registerAnnonations(cwd, context, status)
 }
 
 export function deactivate() {}
-
-function throttle<T extends((...args: any) => any)>(func: T, timeFrame: number): T {
-  let lastTime = 0
-  let timer: any
-  return function() {
-    const now = Date.now()
-    clearTimeout(timer)
-    if (now - lastTime >= timeFrame) {
-      lastTime = now
-      return func()
-    }
-    else {
-      timer = setTimeout(func, timeFrame)
-    }
-  } as T
-}

@@ -1,0 +1,6 @@
+.env
+/.cache
+/build
+/public/build
+app/uno.css
+node_modules

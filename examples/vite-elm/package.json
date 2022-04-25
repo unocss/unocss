@@ -1,0 +1,22 @@
+{
+  "name": "vite-elm",
+  "version": "0.0.0",
+  "scripts": {
+    "postinstall": "elm-tooling install",
+    "dev": "vite",
+    "prebuild": "elm-tooling install",
+    "build": "vite build",
+    "serve": "vite preview",
+    "test": "elm-test-rs"
+  },
+  "devDependencies": {
+    "@iconify-json/logos": "^1.1.5",
+    "@unocss/core": "link:../../packages/core",
+    "@unocss/preset-icons": "link:../../packages/presets-icons",
+    "@unocss/preset-uno": "link:../../packages/presets-uno",
+    "elm-tooling": "^1.8.0",
+    "unocss": "link:../../packages/unocss",
+    "vite": "^2.9.5",
+    "vite-plugin-elm": "^2.6.1"
+  }
+}

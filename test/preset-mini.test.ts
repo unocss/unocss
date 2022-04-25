@@ -1,8 +1,8 @@
 import { createGenerator, escapeSelector } from '@unocss/core'
 import presetMini from '@unocss/preset-mini'
 import { describe, expect, test } from 'vitest'
-import { presetMiniTargets } from './preset-mini-targets'
-import { presetWindTargets } from './preset-wind-targets'
+import { presetMiniTargets } from './assets/preset-mini-targets'
+import { presetWindTargets } from './assets/preset-wind-targets'
 
 const uno = createGenerator({
   presets: [

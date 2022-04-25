@@ -17,7 +17,7 @@ export const touchActions: Rule[] = [
       '--un-pan-x': `pan-${d}`,
       'touch-action': 'var(--un-touch-action)',
     },
-  ]],
+  ], { autocomplete: ['touch-pan', 'touch-pan-(x|left|right|y|up|down)'] }],
   [/^touch-pan-(y|up|down)$/, ([, d]) => [
     touchActionBase,
     {
@@ -31,7 +31,7 @@ export const touchActions: Rule[] = [
       '--un-pinch-zoom': 'pinch-zoom',
       'touch-action': 'var(--un-touch-action)',
     },
-  ]],
+  ], { autocomplete: ['touch-pinch', 'touch-pinch-zoom'] }],
   ['touch-auto', { 'touch-action': 'auto' }],
   ['touch-manipulation', { 'touch-action': 'manipulation' }],
   ['touch-none', { 'touch-action': 'none' }],

@@ -5,8 +5,6 @@ import { blur, dropShadow } from './filters'
 import { height, maxHeight, maxWidth, width } from './size'
 import type { Theme } from './types'
 
-export * from './colors'
-
 export const theme: Theme = {
   width,
   height,

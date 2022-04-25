@@ -1,4 +1,4 @@
-import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, RawUtil, ResolvedConfig, RuleContext, RuleMeta, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantMatchedResult } from '../types'
+import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, RawUtil, ResolvedConfig, RuleContext, RuleMeta, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
 import { CONTROL_SHORTCUT_NO_MERGE, TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, normalizeCSSEntries, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
@@ -64,9 +64,8 @@ export class UnoGenerator {
     const cacheKey = `${raw}${alias ? ` ${alias}` : ''}`
 
     // use caches if possible
-    const cached = this._cache.get(cacheKey)
-    if (cached)
-      return cached
+    if (this._cache.has(cacheKey))
+      return this._cache.get(cacheKey)
 
     let current = raw
     for (const p of this.config.preprocess)
@@ -88,7 +87,7 @@ export class UnoGenerator {
 
     const context = this.makeContext(
       raw,
-      [alias || applied[0], applied[1], applied[2]],
+      [alias || applied[0], applied[1], applied[2], applied[3]],
     )
 
     // expand shortcuts
@@ -114,7 +113,7 @@ export class UnoGenerator {
   }
 
   async generate(
-    input: string | Set<string>,
+    input: string | Set<string> = '',
     {
       id,
       scope,
@@ -171,13 +170,18 @@ export class UnoGenerator {
 
     let preflightsMap: Record<string, string> = {}
     if (preflights) {
+      const preflightContext: PreflightContext = {
+        generator: this,
+        theme: this.config.theme,
+      }
+
       preflightsMap = Object.fromEntries(
         await Promise.all(layers.map(
           async(layer) => {
             const preflights = await Promise.all(
               this.config.preflights
                 .filter(i => (i.layer || 'default') === layer)
-                .map(async i => await i.getCSS()),
+                .map(async i => await i.getCSS(preflightContext)),
             )
             const css = preflights
               .filter(Boolean)
@@ -261,7 +265,7 @@ export class UnoGenerator {
 
   matchVariants(raw: string, current?: string): VariantMatchedResult {
     // process variants
-    const usedVariants = new Set<Variant>()
+    const variants = new Set<Variant>()
     const handlers: VariantHandler[] = []
     let processed = current || raw
     let applied = false
@@ -275,22 +279,20 @@ export class UnoGenerator {
     while (true) {
       applied = false
       for (const v of this.config.variants) {
-        if (!v.multiPass && usedVariants.has(v))
+        if (!v.multiPass && variants.has(v))
           continue
         let handler = v.match(processed, context)
         if (!handler)
           continue
         if (typeof handler === 'string')
           handler = { matcher: handler }
-        if (handler) {
-          processed = handler.matcher
-          if (Array.isArray(handler.parent))
-            this.parentOrders.set(handler.parent[0], handler.parent[1])
-          handlers.push(handler)
-          usedVariants.add(v)
-          applied = true
-          break
-        }
+        processed = handler.matcher
+        if (Array.isArray(handler.parent))
+          this.parentOrders.set(handler.parent[0], handler.parent[1])
+        handlers.push(handler)
+        variants.add(v)
+        applied = true
+        break
       }
       if (!applied)
         break
@@ -299,7 +301,7 @@ export class UnoGenerator {
         throw new Error(`Too many variants applied to "${raw}"`)
     }
 
-    return [raw, processed, handlers]
+    return [raw, processed, handlers, variants]
   }
 
   applyVariants(parsed: ParsedUtil, variantHandlers = parsed[4], raw = parsed[1]): UtilObject {
@@ -345,7 +347,7 @@ export class UnoGenerator {
     const { rulesDynamic, rulesSize } = this.config
 
     // match rules, from last to first
-    for (let i = rulesSize; i >= 0; i--) {
+    for (let i = rulesSize - 1; i >= 0; i--) {
       const rule = rulesDynamic[i]
 
       // static rules are omitted as undefined
@@ -377,7 +379,6 @@ export class UnoGenerator {
   stringifyUtil(parsed?: ParsedUtil | RawUtil): StringifiedUtil | undefined {
     if (!parsed)
       return
-
     if (isRawUtil(parsed))
       return [parsed[0], undefined, parsed[1], undefined, parsed[2]]
 
@@ -442,7 +443,6 @@ export class UnoGenerator {
     meta: RuleMeta = { layer: this.config.shortcutsLayer },
   ): Promise<StringifiedUtil[] | undefined> {
     const selectorMap = new TwoKeyMap<string, string | undefined, [[CSSEntries, boolean, number][], number]>()
-
     const parsed = (
       await Promise.all(uniq(expanded)
         .map(async(i) => {
@@ -456,10 +456,12 @@ export class UnoGenerator {
       .sort((a, b) => a[0] - b[0])
 
     const [raw, , parentVariants] = parent
-
+    const rawStringfieldUtil: StringifiedUtil[] = []
     for (const item of parsed) {
-      if (isRawUtil(item))
+      if (isRawUtil(item)) {
+        rawStringfieldUtil.push([item[0], undefined, item[1], undefined, item[2]])
         continue
+      }
       const { selector, entries, parent, sort } = this.applyVariants(item, [...item[4], ...parentVariants], raw)
 
       // find existing selector/mediaQuery pair and merge
@@ -467,8 +469,7 @@ export class UnoGenerator {
       // add entries
       mapItem[0].push([entries, !!item[3]?.noMerge, sort ?? 0])
     }
-
-    return selectorMap
+    return rawStringfieldUtil.concat(selectorMap
       .map(([e, index], selector, mediaQuery) => {
         const stringify = (flatten: boolean, noMerge: boolean, entrySortPair: [CSSEntries, number][]): (StringifiedUtil | undefined)[] => {
           const maxSort = Math.max(...entrySortPair.map(e => e[1]))
@@ -492,7 +493,7 @@ export class UnoGenerator {
         ])
       })
       .flat(2)
-      .filter(Boolean) as StringifiedUtil[]
+      .filter(Boolean) as StringifiedUtil[])
   }
 
   isBlocked(raw: string) {
@@ -515,7 +516,7 @@ function applyScope(css: string, scope?: string) {
 }
 
 const attributifyRe = /^\[(.+?)(~?=)"(.*)"\]$/
-function toEscapedSelector(raw: string) {
+export function toEscapedSelector(raw: string) {
   if (attributifyRe.test(raw))
     return raw.replace(attributifyRe, (_, n, s, i) => `[${e(n)}${s}"${e(i)}"]`)
   return `.${e(raw)}`

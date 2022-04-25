@@ -9,6 +9,7 @@ export const alias: AliasOptions = {
   '@unocss/core': r('./packages/core/src/'),
   '@unocss/vite': r('./packages/vite/src/'),
   '@unocss/cli': r('./packages/cli/src/'),
+  '@unocss/autocomplete': r('./packages/autocomplete/src'),
   '@unocss/inspector': r('./packages/inspector/node/'),
   '@unocss/preset-mini': r('./packages/preset-mini/src/'),
   '@unocss/preset-wind': r('./packages/preset-wind/src/'),
@@ -30,5 +31,6 @@ export default defineConfig({
   },
   test: {
     isolate: false,
+    setupFiles: ['./test/setup.ts'],
   },
 })

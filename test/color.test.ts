@@ -137,7 +137,7 @@ describe('color utils', () => {
       currentSelector: '',
       generator: createGenerator(),
       variantHandlers: [],
-      variantMatch: ['', '', []],
+      variantMatch: ['', '', [], new Set()],
       constructCSS: () => '',
     }
 

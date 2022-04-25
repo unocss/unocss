@@ -85,7 +85,8 @@ export function percent(str: string) {
 }
 
 export function fraction(str: string) {
-  if (str === 'full') return '100%'
+  if (str === 'full')
+    return '100%'
   const [left, right] = str.split('/')
   const num = parseFloat(left) / parseFloat(right)
   if (!Number.isNaN(num))
@@ -156,10 +157,6 @@ export function global(str: string) {
 }
 
 export function properties(str: string) {
-  for (const prop of str.split(',')) {
-    if (!cssProps.includes(prop))
-      return
-  }
-
-  return str
+  if (str.split(',').every(prop => cssProps.includes(prop)))
+    return str
 }

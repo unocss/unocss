@@ -105,7 +105,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   let inspector: RuntimeInspectorCallback | undefined
 
   const uno = createGenerator(config, defaultConfig)
-  const tokens = new Set<string>()
+  let tokens = new Set<string>()
 
   let _timer: number | undefined
   let _resolvers: Function[] = []
@@ -120,6 +120,17 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
     }), 0) as any
   })
 
+  function removeCloak(node: Node = document.body) {
+    if (node.nodeType !== 1)
+      return
+    const el = node as Element
+    if (el.hasAttribute('un-cloak'))
+      el.removeAttribute('un-cloak')
+    el.querySelectorAll('[un-cloak]').forEach((n) => {
+      n.removeAttribute('un-cloak')
+    })
+  }
+
   async function updateStyle() {
     const result = await uno.generate(tokens)
     if (!styleElement) {
@@ -127,39 +138,63 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
       document.documentElement.prepend(styleElement)
     }
     styleElement.innerHTML = result.css
+    tokens = result.matched
   }
 
   async function extract(str: string) {
+    const tokenSize = tokens.size
     await uno.applyExtractors(str, undefined, tokens)
-    await scheduleUpdate()
+    if (tokenSize !== tokens.size)
+      await scheduleUpdate()
   }
 
   async function extractAll() {
     const html = document.body && document.body.outerHTML
-    if (html)
+    if (html) {
       await extract(html)
+      removeCloak()
+    }
   }
 
   const mutationObserver = new MutationObserver((mutations) => {
     if (paused)
       return
-    mutations.forEach((mutation) => {
+    mutations.forEach(async(mutation) => {
+      if (mutation.target.nodeType !== 1)
+        return
       const target = mutation.target as Element
       if (target === styleElement)
         return
-      if (inspector && !inspector(target))
-        return
-      const attrs = Array.from(target.attributes)
-        .map(i => i.value ? `${i.name}="${i.value}"` : i.name)
-        .join(' ')
-      const tag = `<${target.tagName.toLowerCase()} ${attrs}>`
-      extract(tag)
+      if (mutation.type === 'childList') {
+        mutation.addedNodes.forEach(async(node) => {
+          if (node.nodeType !== 1)
+            return
+          const el = node as Element
+          if (inspector && !inspector(el))
+            return
+          await extract(el.outerHTML)
+          removeCloak(el)
+        })
+      }
+      else {
+        if (inspector && !inspector(target))
+          return
+        if (mutation.attributeName !== 'un-cloak') {
+          const attrs = Array.from(target.attributes)
+            .map(i => i.value ? `${i.name}="${i.value}"` : i.name)
+            .join(' ')
+          const tag = `<${target.tagName.toLowerCase()} ${attrs}>`
+          await extract(tag)
+        }
+        if (target.hasAttribute('un-cloak'))
+          target.removeAttribute('un-cloak')
+      }
     })
   })
 
   let observing = false
   function observe() {
-    if (!observing)
+    if (observing)
       return
     const target = document.documentElement || document.body
     if (!target)
@@ -178,19 +213,21 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   }
 
   function ready() {
-    execute()
-    window.addEventListener('load', execute)
-    window.addEventListener('DOMContentLoaded', execute)
+    if (document.readyState === 'loading')
+      window.addEventListener('DOMContentLoaded', execute)
+    else
+      execute()
   }
 
   const unoCssRuntime = window.__unocss_runtime = window.__unocss_runtime = {
     version: uno.version,
     uno,
     async extract(userTokens) {
-      if (typeof userTokens === 'string')
-        return await extract(userTokens)
-      userTokens.forEach(t => tokens.add(t))
-      await updateStyle()
+      if (typeof userTokens !== 'string') {
+        userTokens.forEach(t => tokens.add(t))
+        userTokens = ''
+      }
+      await extract(userTokens)
     },
     extractAll,
     inspect(callback) {

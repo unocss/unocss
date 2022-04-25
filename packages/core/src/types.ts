@@ -106,6 +106,17 @@ export interface ExtractorContext {
   id?: string
 }
 
+export interface PreflightContext<Theme extends {} = {}> {
+  /**
+   * UnoCSS generator instance
+   */
+  generator: UnoGenerator
+  /**
+   * The theme object
+   */
+  theme: Theme
+}
+
 export interface Extractor {
   name: string
   extract(ctx: ExtractorContext): Awaitable<Set<string> | undefined>
@@ -118,15 +129,23 @@ export interface RuleMeta {
    * @default 'default'
    */
   layer?: string
+
   /**
    * Option to not merge this selector even if the body are the same.
    * @default false
    */
   noMerge?: boolean
+
   /**
    * Fine tune sort
    */
   sort?: number
+
+  /**
+   * Templates to provide autocomplete suggestions
+   */
+  autocomplete?: Arrayable<AutoCompleteTemplate>
+
   /**
    * Internal rules will only be matched for shortcuts but not the user code.
    * @default false
@@ -152,7 +171,7 @@ export type Shortcut<Theme extends {} = {}> = StaticShortcut | DynamicShortcut<T
 export type FilterPattern = ReadonlyArray<string | RegExp> | string | RegExp | null
 
 export interface Preflight {
-  getCSS: () => Promise<string | undefined> | string | undefined
+  getCSS: (context: PreflightContext) => Promise<string | undefined> | string | undefined
   layer?: string
 }
 
@@ -203,6 +222,11 @@ export interface VariantObject<Theme extends {} = {}> {
    * @default false
    */
   multiPass?: boolean
+
+  /**
+   * Custom function for auto complete
+   */
+  autocomplete?: Arrayable<AutoCompleteFunction | AutoCompleteTemplate>
 }
 
 export type Variant<Theme extends {} = {}> = VariantFunction<Theme> | VariantObject<Theme>
@@ -280,6 +304,76 @@ export interface ConfigBase<Theme extends {} = {}> {
    * Custom functions to extend the theme object
    */
   extendTheme?: Arrayable<ThemeExtender<Theme>>
+
+  /**
+   * Additional options for auto complete
+   */
+  autocomplete?: {
+    /**
+     * Custom functions / templates to provide autocomplete suggestions
+     */
+    templates?: Arrayable<AutoCompleteFunction | AutoCompleteTemplate>
+    /**
+     * Custom extractors to pickup possible classes and
+     * transform class-name style suggestions to the correct format
+     */
+    extractors?: Arrayable<AutoCompleteExtractor>
+  }
+}
+
+export type AutoCompleteTemplate = string
+export type AutoCompleteFunction = (input: string) => Awaitable<string[]>
+
+export interface AutoCompleteExtractorContext {
+  content: string
+  cursor: number
+}
+
+export interface Replacement {
+  /**
+   * The range of the original text
+   */
+  start: number
+  end: number
+  /**
+   * The text used to replace
+   */
+  replacement: string
+}
+
+export interface SuggestResult {
+  /**
+   * The generated suggestions
+   *
+   * `[original, formatted]`
+   */
+  suggestions: [string, string][]
+  /**
+   * The function to convert the selected suggestion back.
+   * Needs to pass in the original one.
+   */
+  resolveReplacement: (suggestion: string) => Replacement
+}
+
+export interface AutoCompleteExtractorResult {
+  /**
+   * The extracted string
+   */
+  extracted: string
+  /**
+   * The function to convert the selected suggestion back
+   */
+  resolveReplacement: (suggestion: string) => Replacement
+  /**
+   * The function to format suggestions
+   */
+  transformSuggestions?: (suggestions: string[]) => string[]
+}
+
+export interface AutoCompleteExtractor {
+  name: string
+  extract: (context: AutoCompleteExtractorContext) => Awaitable<AutoCompleteExtractorResult | null>
+  order?: number
 }
 
 export interface Preset<Theme extends {} = {}> extends ConfigBase<Theme> {
@@ -346,6 +440,9 @@ export interface UnocssPluginContext<Config extends UserConfig = UserConfig> {
 
   invalidate: () => void
   onInvalidate: (fn: () => void) => void
+
+  root: string
+  updateRoot: (root: string) => Promise<LoadConfigResult<Config>>
 }
 
 export interface SourceMap {
@@ -420,7 +517,7 @@ export interface UserConfigDefaults<Theme extends {} = {}> extends ConfigBase<Th
 
 export interface ResolvedConfig extends Omit<
 RequiredByKey<UserConfig, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>,
-'rules' | 'shortcuts'
+'rules' | 'shortcuts' | 'autocomplete'
 > {
   shortcuts: Shortcut[]
   variants: VariantObject[]
@@ -429,6 +526,10 @@ RequiredByKey<UserConfig, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'l
   rulesSize: number
   rulesDynamic: (DynamicRule|undefined)[]
   rulesStaticMap: Record<string, [number, CSSObject | CSSEntries, RuleMeta | undefined] | undefined>
+  autocomplete: {
+    templates: (AutoCompleteFunction | AutoCompleteTemplate)[]
+    extractors: AutoCompleteExtractor[]
+  }
 }
 
 export interface GenerateResult {
@@ -442,7 +543,8 @@ export interface GenerateResult {
 export type VariantMatchedResult = readonly [
   raw: string,
   current: string,
-  variants: VariantHandler[],
+  variantHandlers: VariantHandler[],
+  variants: Set<Variant>,
 ]
 
 export type ParsedUtil = readonly [
@@ -450,7 +552,7 @@ export type ParsedUtil = readonly [
   raw: string,
   entries: CSSEntries,
   meta: RuleMeta | undefined,
-  variants: VariantHandler[],
+  variantHandlers: VariantHandler[],
 ]
 
 export type RawUtil = readonly [

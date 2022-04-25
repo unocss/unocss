@@ -18,8 +18,8 @@ const UnoCSS = require('@unocss/webpack').default
 
 module.exports = {
   plugins: [
-    UnoCSS({ /* options */ })
-  ]
+    UnoCSS({ /* options */ }),
+  ],
 }
 ```
 

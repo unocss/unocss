@@ -7,10 +7,14 @@ import { regexCssId } from '../../plugins-common/defaults'
 
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
 
-export default function transformerDirectives(): SourceCodeTransformer {
+interface TransformerDirectivesOptions {
+  enforce?: SourceCodeTransformer['enforce']
+}
+
+export default function transformerDirectives(options?: TransformerDirectivesOptions): SourceCodeTransformer {
   return {
     name: 'css-directive',
-    enforce: 'pre',
+    enforce: options?.enforce,
     idFilter: id => !!id.match(regexCssId),
     transform: (code, id, ctx) => {
       return transformDirectives(code, ctx.uno, id)
@@ -18,15 +22,17 @@ export default function transformerDirectives(): SourceCodeTransformer {
   }
 }
 
-export async function transformDirectives(code: MagicString, uno: UnoGenerator, filename?: string) {
+export async function transformDirectives(code: MagicString, uno: UnoGenerator, filename?: string, originalCode?: string, offset?: number) {
   if (!code.original.includes('@apply'))
     return
 
-  const ast = parse(code.original, {
+  const ast = parse(originalCode || code.original, {
     parseAtrulePrelude: false,
     positions: true,
     filename,
   })
+
+  const calcOffset = (pos: number) => offset ? pos + offset : pos
 
   if (ast.type !== 'StyleSheet')
     return
@@ -39,6 +45,9 @@ export async function transformDirectives(code: MagicString, uno: UnoGenerator, 
 
     await Promise.all(
       node.block.children.map(async(childNode, _childItem) => {
+        if (childNode.type === 'Raw')
+          return transformDirectives(code, uno, filename, childNode.value, calcOffset(childNode.loc!.start.offset))
+
         if (!(childNode.type === 'Atrule' && childNode.name === 'apply' && childNode.prelude))
           return
 
@@ -67,40 +76,44 @@ export async function transformDirectives(code: MagicString, uno: UnoGenerator, 
         if (!utils.length)
           return
 
-        const parentSelector = generate(node.prelude)
-
         for (const i of utils) {
           const [, _selector, body, parent] = i
           const selector = _selector?.replace(regexScopePlaceholder, ' ') || _selector
 
-          if (parent) {
-            const newNodeCss = `${parent}{${parentSelector}{${body}}}`
-            code.appendLeft(node.loc!.end.offset, newNodeCss)
-          }
-          else if (selector && selector !== '.\\-') {
-            const selectorAST = parse(selector, {
-              context: 'selector',
-            }) as Selector
+          if (parent || (selector && selector !== '.\\-')) {
+            let newSelector = generate(node.prelude)
+            if (selector && selector !== '.\\-') {
+              const selectorAST = parse(selector, {
+                context: 'selector',
+              }) as Selector
 
-            const prelude = clone(node.prelude) as SelectorList
+              const prelude = clone(node.prelude) as SelectorList
 
-            prelude.children.forEach((child) => {
-              const parentSelectorAst = clone(selectorAST) as Selector
-              parentSelectorAst.children.forEach((i) => {
-                if (i.type === 'ClassSelector' && i.name === '\\-')
-                  Object.assign(i, clone(child))
+              prelude.children.forEach((child) => {
+                const parentSelectorAst = clone(selectorAST) as Selector
+                parentSelectorAst.children.forEach((i) => {
+                  if (i.type === 'ClassSelector' && i.name === '\\-')
+                    Object.assign(i, clone(child))
+                })
+                Object.assign(child, parentSelectorAst)
               })
-              Object.assign(child, parentSelectorAst)
-            })
+              newSelector = generate(prelude)
+            }
 
-            const newNodeCss = `${generate(prelude)}{${body}}`
-            code.appendLeft(node.loc!.end.offset, newNodeCss)
+            let css = `${newSelector}{${body}}`
+            if (parent)
+              css = `${parent}{${css}}`
+
+            code.appendLeft(calcOffset(node.loc!.end.offset), css)
           }
           else {
-            code.appendRight(childNode.loc!.end.offset, body)
+            code.appendRight(calcOffset(childNode.loc!.end.offset), body)
           }
         }
-        code.remove(childNode.loc!.start.offset, childNode.loc!.end.offset)
+        code.remove(
+          calcOffset(childNode.loc!.start.offset),
+          calcOffset(childNode.loc!.end.offset),
+        )
       }).toArray(),
     )
   }

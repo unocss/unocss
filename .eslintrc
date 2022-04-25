@@ -1,21 +1,31 @@
 {
   "extends": ["@antfu"],
   "rules": {
-    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "no-restricted-imports": [
       "error",
       {
         "paths": ["unocss"]
       }
-    ]
+    ],
+    "yml/no-empty-document": "off"
   },
   "overrides": [
     {
-      "files": [
-        "playground/**/*.*"
-      ],
+      "files": ["playground/**/*.*"],
       "rules": {
         "no-restricted-imports": "off"
+      }
+    },
+    {
+      "files": [
+        "**/*.md/*.*"
+      ],
+      "rules": {
+        "no-restricted-imports": "off",
+        "no-restricted-syntax": "off",
+        "no-labels": "off",
+        "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/no-var-requires": "off"
       }
     }
   ]

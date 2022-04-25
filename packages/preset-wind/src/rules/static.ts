@@ -94,7 +94,7 @@ export const objectPositions: Rule[] = [
   ['object-none', { 'object-fit': 'none' }],
 
   // object position
-  [/^object-([-\w]+)$/, ([, s]) => ({ 'object-position': positionMap[s] })],
+  [/^object-([-\w]+)$/, ([, s]) => ({ 'object-position': positionMap[s] }), { autocomplete: `object-(${Object.keys(positionMap).join('|')})` }],
 ]
 
 export const backgroundBlendModes: Rule[] = [

@@ -46,7 +46,7 @@ export const userSelects: Rule[] = [
 ]
 
 export const whitespaces: Rule[] = [
-  [/^(?:whitespace|ws)-(normal|nowrap|pre|pre-line|pre-wrap)$/, ([, v]) => ({ 'white-space': v })],
+  [/^(?:whitespace|ws)-(normal|nowrap|pre|pre-line|pre-wrap)$/, ([, v]) => ({ 'white-space': v }), { autocomplete: '(whitespace|ws)-(normal|nowrap|pre|pre-line|pre-wrap)' }],
 ]
 
 export const contents: Rule[] = [
@@ -77,6 +77,8 @@ export const textTransforms: Rule[] = [
 export const fontStyles: Rule[] = [
   ['italic', { 'font-style': 'italic' }],
   ['not-italic', { 'font-style': 'normal' }],
+  ['font-italic', { 'font-style': 'italic' }],
+  ['font-not-italic', { 'font-style': 'normal' }],
 ]
 
 export const fontSmoothings: Rule[] = [

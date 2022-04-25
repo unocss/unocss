@@ -1,9 +1,9 @@
 import type { Plugin, ViteDevServer, ResolvedConfig as ViteResolvedConfig } from 'vite'
 import type { UnocssPluginContext } from '@unocss/core'
-import { LAYER_MARK_ALL, getPath, resolveId } from '../../../../plugins-common'
+import { LAYER_MARK_ALL, getPath, regexCssId, resolveId } from '../../../../plugins-common'
 
-const WARN_TIMEOUT = 3000
-const WS_EVENT_PREFIX = 'custom:unocss:'
+const WARN_TIMEOUT = 20000
+const WS_EVENT_PREFIX = 'unocss:hmr'
 
 export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter }: UnocssPluginContext): Plugin[] {
   const servers: ViteDevServer[] = []
@@ -11,6 +11,7 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
 
   const tasks: Promise<any>[] = []
   const entries = new Map<string, string>()
+  const cssModules = new Set<string>()
 
   let invalidateTimer: any
   let lastUpdate = Date.now()
@@ -27,8 +28,12 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
   }
 
   function invalidate(timer = 10) {
+    const ids = [
+      ...entries.keys(),
+      ...cssModules.keys(),
+    ]
     for (const server of servers) {
-      for (const id of entries.keys()) {
+      for (const id of ids) {
         const mod = server.moduleGraph.getModuleById(id)
         if (!mod)
           continue
@@ -41,10 +46,14 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
 
   function sendUpdate() {
     lastUpdate = Date.now()
+    const ids = [
+      ...entries.keys(),
+      ...cssModules.keys(),
+    ]
     for (const server of servers) {
       server.ws.send({
         type: 'update',
-        updates: Array.from(entries.keys()).map(i => ({
+        updates: Array.from(ids).map(i => ({
           acceptedPath: i,
           path: i,
           timestamp: lastUpdate,
@@ -82,17 +91,13 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
       async configureServer(_server) {
         servers.push(_server)
 
-        setWarnTimer()
-        _server.ws.on('connection', (ws) => {
-          ws.on('message', (msg) => {
-            const message = String(msg)
-            if (!message.startsWith(WS_EVENT_PREFIX))
-              return
-            const servedTime = +message.slice(WS_EVENT_PREFIX.length)
-            if (servedTime < lastUpdate)
-              invalidate(0)
-          })
+        _server.ws.on(WS_EVENT_PREFIX, (servedTime: number) => {
+          if (servedTime < lastUpdate)
+            invalidate(0)
         })
+      },
+      async buildStart() {
+        await uno.generate('', { preflights: true })
       },
       transform(code, id) {
         if (filter(code, id))
@@ -102,6 +107,7 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
       transformIndexHtml: {
         enforce: 'pre',
         transform(code, { filename }) {
+          setWarnTimer()
           extract(code, filename)
         },
       },
@@ -112,6 +118,8 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
           entries.set(entry.id, entry.layer)
           return entry.id
         }
+        if (id.match(regexCssId))
+          cssModules.add(id)
       },
       async load(id) {
         const layer = entries.get(getPath(id))
@@ -134,12 +142,9 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
       },
       enforce: 'post',
       transform(code, id) {
-        // inject @vite/client to expose ws send function
-        if (id.includes('@vite/client') || id.includes('vite/dist/client/client.mjs'))
-          return code.replace('return hot', 'hot.send = (data) => socket.send(data);return hot;')
         // inject css modules to send callback on css load
         if (entries.has(getPath(id)) && code.includes('import.meta.hot')) {
-          const snippet = `\nif (import.meta.hot) { try { import.meta.hot.send('${WS_EVENT_PREFIX}${lastServed}') } catch (e) { console.warn('[unocss-hmr]', e) } }`
+          const snippet = `\nif (import.meta.hot) { try { import.meta.hot.send('${WS_EVENT_PREFIX}', ${lastServed}) } catch (e) { console.warn('[unocss-hmr]', e) } }`
           return code + snippet
         }
       },

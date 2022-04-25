@@ -29,15 +29,25 @@ export default defineConfig({
       dts: 'src/auto-imports.d.ts',
     }),
   ],
+  optimizeDeps: {
+    exclude: [
+      '@iconify/utils/lib/loader/fs',
+      '@iconify/utils/lib/loader/install-pkg',
+      '@iconify/utils/lib/loader/node-loader',
+      '@iconify/utils/lib/loader/node-loaders',
+    ],
+  },
   build: {
     rollupOptions: {
       external: [
-        'local-pkg',
-        'fs',
+        '@iconify/utils/lib/loader/fs',
+        '@iconify/utils/lib/loader/install-pkg',
+        '@iconify/utils/lib/loader/node-loader',
+        '@iconify/utils/lib/loader/node-loaders',
       ],
       input: [
-        'index.html',
-        '__play.html',
+        './index.html',
+        './__play.html',
       ],
     },
   },

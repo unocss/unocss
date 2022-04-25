@@ -5,8 +5,8 @@ export function ConfigHMRPlugin(ctx: UnocssPluginContext): Plugin | undefined {
   const { ready, uno } = ctx
   return {
     name: 'unocss:config',
-    async configResolved() {
-      await ready
+    async configResolved(config) {
+      await ctx.updateRoot(config.root)
     },
     async configureServer(server) {
       uno.config.envMode = 'dev'

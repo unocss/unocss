@@ -9,12 +9,15 @@
     "strictNullChecks": true,
     "resolveJsonModule": true,
     "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "jsx": "preserve",
     "paths": {
       "unocss": ["./packages/unocss/src/index.ts"],
       "unocss/vite": ["./packages/unocss/src/vite.ts"],
       "@unocss/core": ["./packages/core/src/index.ts"],
       "@unocss/vite": ["./packages/vite/src/index.ts"],
       "@unocss/config": ["./packages/config/src/index.ts"],
+      "@unocss/autocomplete": ["./packages/autocomplete/src/index.ts"],
       "@unocss/inspector": ["./packages/inspector/node/index.ts"],
       "@unocss/preset-mini": ["./packages/preset-mini/src/index.ts"],
       "@unocss/preset-mini/rules": ["./packages/preset-mini/src/rules.ts"],
@@ -25,12 +28,17 @@
       "@unocss/preset-uno": ["./packages/preset-uno/src/index.ts"],
       "@unocss/preset-icons": ["./packages/preset-icons/src/index.ts"],
       "@unocss/preset-attributify": ["./packages/preset-attributify/src/index.ts"],
+      "@unocss/preset-typography": ["./packages/preset-typography/src/index.ts"],
       "@unocss/transformer-variant-group": ["./packages/transformer-variant-group/src/index.ts"],
       "@unocss/transformer-directives": ["./packages/transformer-directives/src/index.ts"],
     }
   },
   "exclude": [
     "**/dist/**",
-    "**/node_modules/**"
+    "**/node_modules/**",
+    "**/client/**",
+    "**/playground/**",
+    "**/examples/**",
+    "**/test/dts/**"
   ]
 }

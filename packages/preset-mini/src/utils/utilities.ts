@@ -1,4 +1,4 @@
-import type { CSSEntries, CSSObject, ParsedColorValue, RuleContext } from '@unocss/core'
+import type { CSSEntries, CSSObject, ParsedColorValue, RuleContext, VariantContext } from '@unocss/core'
 import { toArray } from '@unocss/core'
 import type { Theme } from '../theme'
 import { colorToString, getComponents, parseCssColor } from './colors'
@@ -115,7 +115,7 @@ export const parseColor = (body: string, theme: Theme): ParsedColorValue | undef
  *
  * @example Resolving 'red-100' from theme:
  * colorResolver('background-color', 'background')('', 'red-100')
- * return { '--un-background-opacity': '1', 'background-color': 'rgba(254,226,226,var(--un-bg-opacity))' }
+ * return { '--un-background-opacity': '1', 'background-color': 'rgba(254,226,226,var(--un-background-opacity))' }
  *
  * @example Resolving 'red-100/20' from theme:
  * colorResolver('background-color', 'background')('', 'red-100/20')
@@ -175,4 +175,26 @@ export const colorableShadows = (shadows: string | string[], colorVar: string) =
 
 export const hasParseableColor = (color: string | undefined, theme: Theme) => {
   return color != null && !!parseColor(color, theme)?.color
+}
+
+export const resolveBreakpoints = ({ theme, generator }: Readonly<VariantContext<Theme>>) => {
+  let breakpoints: Record<string, string> | undefined
+  if (generator.userConfig && generator.userConfig.theme)
+    breakpoints = (generator.userConfig.theme as any).breakpoints
+
+  if (!breakpoints)
+    breakpoints = theme.breakpoints
+
+  return breakpoints
+}
+
+export const resolveVerticalBreakpoints = ({ theme, generator }: Readonly<VariantContext<Theme>>) => {
+  let verticalBreakpoints: Record<string, string> | undefined
+  if (generator.userConfig && generator.userConfig.theme)
+    verticalBreakpoints = (generator.userConfig.theme as any).verticalBreakpoints
+
+  if (!verticalBreakpoints)
+    verticalBreakpoints = theme.verticalBreakpoints
+
+  return verticalBreakpoints
 }

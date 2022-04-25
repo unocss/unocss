@@ -1,6 +1,6 @@
 # @unocss/preset-wind
 
-Tailwind / Windi CSS compact preset for UnoCSS, [UnoCSS](https://github.com/unocss/unocss).
+Tailwind / Windi CSS compact preset for [UnoCSS](https://github.com/unocss/unocss).
 
 ## Installation
 
@@ -13,8 +13,8 @@ import presetWind from '@unocss/preset-wind'
 
 Unocss({
   presets: [
-    presetWind()
-  ]
+    presetWind(),
+  ],
 })
 ```
 

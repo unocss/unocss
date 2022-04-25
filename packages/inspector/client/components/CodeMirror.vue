@@ -1,13 +1,15 @@
 <script setup lang="ts">
+import type { AsyncHintFunction, HintFunction, HintFunctionResolver } from 'codemirror'
 import { getMatchedPositions } from '../composables/pos'
 import { useCodeMirror } from '../composables/codemirror'
 
-const emit = defineEmits<{ (input: any): void }>()
+const emit = defineEmits<{ (e: 'update:modelValue', payload: string): void }>()
 const props = defineProps<{
   modelValue: string
   mode?: string
   readOnly?: boolean
   matched?: Set<string> | string[]
+  getHint?: HintFunction | AsyncHintFunction | HintFunctionResolver
 }>()
 
 const modeMap: Record<string, any> = {
@@ -27,12 +29,34 @@ const modeMap: Record<string, any> = {
 const el = ref<HTMLTextAreaElement>()
 const input = useVModel(props, 'modelValue', emit, { passive: true })
 
+const mode = computed(() => modeMap[props.mode || ''] || props.mode)
+const extraKeys = computed(() => (props.getHint
+  ? {
+      'Ctrl-Space': 'autocomplete',
+      'Ctrl-.': 'autocomplete',
+      'Cmd-Space': 'autocomplete',
+      'Cmd-.': 'autocomplete',
+      'Tab': 'autocomplete',
+    }
+  : {}) as CodeMirror.KeyMap)
+const hintOptions = computed(() => props.getHint ? { hint: props.getHint } : {})
+
 onMounted(async() => {
-  const cm = useCodeMirror(el, input, {
-    ...props,
-    mode: modeMap[props.mode || ''] || props.mode,
-  })
+  const cm = useCodeMirror(el, input, reactive({
+    ...toRefs(props),
+    mode,
+    hintOptions,
+    extraKeys,
+  }))
   cm.setSize('100%', '100%')
+
+  if (props.getHint) {
+    cm.on('keyup', (editor, event) => {
+      if (event.key.match(/^[\w:-]$/))
+        editor.execCommand('autocomplete')
+    })
+  }
+
   setTimeout(() => cm.refresh(), 100)
   const decorations: CodeMirror.TextMarker<CodeMirror.MarkerRange>[] = []
 
@@ -55,7 +79,7 @@ onMounted(async() => {
   watch(() => [props.modelValue, props.matched], async() => {
     clearTimeout(timer)
     if (props.matched)
-      timer = setTimeout(highlight, 100)
+      timer = setTimeout(highlight, 200)
   }, { immediate: true })
 })
 </script>
@@ -82,6 +106,7 @@ onMounted(async() => {
 }
 
 :root {
+  --cm-font-family: 'Fira Code', monospace;
   --cm-foreground: #393a3480;
   --cm-background: #fdfdfd;
   --cm-comment: #a0ada0;

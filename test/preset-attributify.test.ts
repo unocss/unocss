@@ -1,6 +1,6 @@
-import { createGenerator } from '@unocss/core'
+import { createGenerator, toEscapedSelector as e } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
-import presetAttributify, { variantAttributify } from '@unocss/preset-attributify'
+import presetAttributify, { autocompleteExtractorAttributify, variantAttributify } from '@unocss/preset-attributify'
 import { describe, expect, test } from 'vitest'
 
 describe('attributify', () => {
@@ -11,12 +11,14 @@ describe('attributify', () => {
   md="[--var:var(--another)]"
   lg="bg-blue-600"
   class="absolute fixed"
+  important="text-red bg-red"
   bg="blue-400 hover:blue-500 dark:!blue-500 dark:hover:blue-600"
   text="sm white"
-  flex="~ col"
+  !leading-4
+  flex="!~ col"
   p="t-2"
   pt="2"
-  border="rounded-xl"
+  border="rounded-xl x-1 x-style-dashed"
   :font="foo > bar ? 'mono' : 'sans'"
   v-bind:p="y-2 x-4"
   border="2 rounded blue-200"
@@ -71,10 +73,39 @@ describe('attributify', () => {
 </template>
 `
 
+  const fixture3 = `
+<div custom="1" class="custom-2">
+<div>
+`
+
   const uno = createGenerator({
     presets: [
       presetAttributify({ strict: true }),
       presetUno({ attributifyPseudo: true }),
+    ],
+    rules: [
+      [/^custom-(\d+)$/, ([_, value], { rawSelector }) => {
+        // return a string instead of an object
+        const selector = e(rawSelector)
+        return `
+  ${selector} {
+    font-size: ${value}px;
+  }
+  /* you can have multiple rules */
+  ${selector}::after {
+    content: 'after';
+  }
+  .foo > ${selector} {
+    color: red;
+  }
+  /* or media queries */
+  @media (min-width: 680px) {
+    ${selector} {
+      font-size: 16px;
+    }
+  }
+  `
+      }],
     ],
   })
 
@@ -108,6 +139,43 @@ describe('attributify', () => {
 
   test('fixture2', async() => {
     const { css } = await uno.generate(fixture2)
+    expect(css).toMatchSnapshot()
+  })
+
+  test('autocomplete extractor', async() => {
+    const res = await autocompleteExtractorAttributify.extract({
+      content: fixture1,
+      cursor: 187,
+    })
+
+    expect(res).not.toBeNull()
+
+    expect(res!.extracted).toMatchInlineSnapshot('"bg-blue-400"')
+    expect(res!.transformSuggestions!([`${res!.extracted}1`, `${res!.extracted}2`]))
+      .toMatchInlineSnapshot(`
+        [
+          "blue-4001",
+          "blue-4002",
+        ]
+      `)
+
+    const reversed = res!.resolveReplacement(`${res!.extracted}1`)
+    expect(reversed).toMatchInlineSnapshot(`
+      {
+        "end": 189,
+        "replacement": "blue-4001",
+        "start": 181,
+      }
+    `)
+
+    expect(fixture1.slice(reversed.start, reversed.end))
+      .toMatchInlineSnapshot('"blue-400"')
+    expect(fixture1.slice(0, reversed.start) + reversed.replacement + fixture1.slice(reversed.end))
+      .toMatchSnapshot()
+  })
+
+  test('compatible with full controlled rules', async() => {
+    const { css } = await uno.generate(fixture3)
     expect(css).toMatchSnapshot()
   })
 })

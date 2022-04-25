@@ -1,6 +1,6 @@
 {
   "name": "@unocss/vite",
-  "version": "0.27.2",
+  "version": "0.31.15",
   "description": "The Vite plugin for UnoCSS",
   "keywords": [
     "unocss",
@@ -12,33 +12,41 @@
     "url": "https://github.com/unocss/unocss/issues"
   },
   "license": "MIT",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/unocss/unocss.git",
     "directory": "packages/vite"
   },
   "funding": "https://github.com/sponsors/antfu",
-  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
-  "sideEffects": false,
-  "files": [
-    "dist"
-  ],
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "require": "./dist/index.cjs",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
+    },
+    "./client": {
+      "import": "./dist/client.mjs",
+      "require": "./dist/client.js",
+      "types": "./dist/client.d.ts"
     }
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
   "scripts": {
     "build": "unbuild",
     "stub": "unbuild --stub"
   },
+  "peerDependencies": {
+    "vite": "^2.9.0"
+  },
   "dependencies": {
-    "@rollup/pluginutils": "^4.1.2",
+    "@rollup/pluginutils": "^4.2.1",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/inspector": "workspace:*",
@@ -47,6 +55,6 @@
     "magic-string": "^0.26.1"
   },
   "devDependencies": {
-    "vite": "^2.8.6"
+    "vite": "^2.9.5"
   }
 }

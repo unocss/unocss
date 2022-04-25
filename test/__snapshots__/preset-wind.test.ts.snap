@@ -47,6 +47,10 @@ exports[`preset-wind > targets 1`] = `
 .table-row-group{display:table-row-group;}
 .border-collapse{border-collapse:collapse;}
 .border-separate{border-collapse:separate;}
+.border-spacing-\\\\[3px\\\\]{border-spacing:3px;}
+.border-spacing-\\\\$var{border-spacing:var(--var);}
+.border-spacing-0,
+.border-spacing-none{border-spacing:0rem;}
 .caption-top{caption-side:top;}
 .caption-bottom{caption-side:bottom;}
 .table-auto{table-layout:auto;}
@@ -181,6 +185,7 @@ exports[`preset-wind > targets 1`] = `
 .overscroll-none{overscroll-behavior:none;}
 .overscroll-x-auto{overscroll-behavior-x:auto;}
 .scroll-auto{scroll-behavior:auto;}
+.bg-\\\\[length\\\\:10_20rem\\\\]{background-size:10px 20rem;}
 .bg-gradient-\\\\[70deg\\\\2c blue\\\\2c pink\\\\]{--un-gradient:70deg,blue,pink;}
 .bg-gradient-stops-\\\\[blue\\\\2c pink\\\\],
 .stops-\\\\[blue\\\\2c pink\\\\]{--un-gradient-stops:blue,pink;}

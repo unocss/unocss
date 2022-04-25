@@ -36,9 +36,9 @@ describe('order', () => {
       variants: [
         variantMatcher('light', input => `.light $$ ${input}`),
         variantMatcher('group', input => `.group ${input}`),
-        (v) => {
-          const match = variantMatcher('dark', input => `.dark $$ ${input}`)(v)
-          if (match) {
+        (v, ctx) => {
+          const match = variantMatcher('dark', input => `.dark $$ ${input}`).match(v, ctx)
+          if (typeof match === 'object') {
             return {
               ...match,
               order: 1,

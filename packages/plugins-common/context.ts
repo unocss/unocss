@@ -1,6 +1,6 @@
 import { createFilter } from '@rollup/pluginutils'
-import type { LoadConfigSource } from '@unocss/config'
-import { createConfigLoader } from '@unocss/config'
+import type { LoadConfigResult, LoadConfigSource } from '@unocss/config'
+import { loadConfig } from '@unocss/config'
 import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { BetterMap, createGenerator } from '@unocss/core'
 import { CSS_PLACEHOLDER, INCLUDE_COMMENT } from './constants'
@@ -10,9 +10,9 @@ export function createContext<Config extends UserConfig = UserConfig>(
   configOrPath?: Config | string,
   defaults: UserConfigDefaults = {},
   extraConfigSources: LoadConfigSource[] = [],
+  resolveConfigResult: (config: LoadConfigResult<Config>) => void = () => {},
 ): UnocssPluginContext<Config> {
-  const loadConfig = createConfigLoader(configOrPath, extraConfigSources)
-
+  let root = process.cwd()
   let rawConfig = {} as Config
   const uno = createGenerator(rawConfig, defaults)
   let rollupFilter = createFilter(defaultInclude, defaultExclude)
@@ -22,10 +22,11 @@ export function createContext<Config extends UserConfig = UserConfig>(
   const modules = new BetterMap<string, string>()
   const tokens = new Set<string>()
 
-  const ready = reloadConfig()
+  let ready = reloadConfig()
 
   async function reloadConfig() {
-    const result = await loadConfig()
+    const result = await loadConfig(root, configOrPath, extraConfigSources)
+    resolveConfigResult(result)
 
     rawConfig = result.config
     uno.setConfig(rawConfig)
@@ -39,6 +40,14 @@ export function createContext<Config extends UserConfig = UserConfig>(
     invalidate()
 
     return result
+  }
+
+  async function updateRoot(newRoot: string) {
+    if (newRoot !== root) {
+      root = newRoot
+      ready = reloadConfig()
+    }
+    return await ready
   }
 
   function invalidate() {
@@ -64,7 +73,9 @@ export function createContext<Config extends UserConfig = UserConfig>(
   }
 
   return {
-    ready,
+    get ready() {
+      return ready
+    },
     tokens,
     modules,
     invalidate,
@@ -76,5 +87,7 @@ export function createContext<Config extends UserConfig = UserConfig>(
     uno,
     extract,
     getConfig,
+    root,
+    updateRoot,
   }
 }

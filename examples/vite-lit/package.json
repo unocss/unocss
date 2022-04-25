@@ -1,0 +1,30 @@
+{
+  "name": "unocss-lit-ts",
+  "version": "0.0.0",
+  "main": "dist/my-element.es.js",
+  "types": "types/my-element.d.ts",
+  "exports": {
+    ".": "./dist/my-element.es.js"
+  },
+  "files": [
+    "dist",
+    "types"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build"
+  },
+  "dependencies": {
+    "lit": "^2.2.2"
+  },
+  "devDependencies": {
+    "@iconify-json/logos": "^1.1.5",
+    "@unocss/core": "link:../../packages/core",
+    "@unocss/preset-attributify": "link:../../packages/preset-attributify",
+    "@unocss/preset-icons": "link:../../packages/presets-icons",
+    "typescript": "^4.6.3",
+    "unocss": "link:../../packages/unocss",
+    "vite": "^2.9.5",
+    "vite-plugin-inspect": "^0.5.0"
+  }
+}

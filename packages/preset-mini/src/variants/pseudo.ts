@@ -1,4 +1,4 @@
-import type { VariantFunction, VariantHandler, VariantObject } from '@unocss/core'
+import type { VariantHandler, VariantObject } from '@unocss/core'
 import { escapeRegExp, toArray } from '@unocss/core'
 import type { PresetMiniOptions } from '..'
 
@@ -101,15 +101,18 @@ const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: strin
   }
 }
 
-export const variantPseudoElements: VariantFunction = (input: string) => {
-  const match = input.match(PseudoElementsRE)
-  if (match) {
-    const pseudo = PseudoElements[match[1]] || `::${match[1]}`
-    return {
-      matcher: input.slice(match[0].length),
-      selector: s => `${s}${pseudo}`,
+export const variantPseudoElements: VariantObject = {
+  match: (input: string) => {
+    const match = input.match(PseudoElementsRE)
+    if (match) {
+      const pseudo = PseudoElements[match[1]] || `::${match[1]}`
+      return {
+        matcher: input.slice(match[0].length),
+        selector: s => `${s}${pseudo}`,
+      }
     }
-  }
+  },
+  autocomplete: `(${PseudoElementsStr}):`,
 }
 
 export const variantPseudoClasses: VariantObject = {
@@ -125,6 +128,7 @@ export const variantPseudoClasses: VariantObject = {
     }
   },
   multiPass: true,
+  autocomplete: `(${PseudoClassesStr}):`,
 }
 
 export const variantPseudoClassFunctions: VariantObject = {
@@ -140,6 +144,7 @@ export const variantPseudoClassFunctions: VariantObject = {
     }
   },
   multiPass: true,
+  autocomplete: `(${PseudoClassFunctionsStr})-(${PseudoClassesStr}):`,
 }
 
 export const variantTaggedPseudoClasses = (options: PresetMiniOptions = {}): VariantObject[] => {

@@ -65,8 +65,8 @@ import Unocss from 'unocss/vite'
 
 export default {
   plugins: [
-    Unocss({ /* options */ })
-  ]
+    Unocss({ /* options */ }),
+  ],
 }
 ```
 
@@ -96,8 +96,8 @@ npm i -D @unocss/nuxt
 
 export default {
   buildModules: [
-    '@unocss/nuxt'
-  ]
+    '@unocss/nuxt',
+  ],
 }
 ```
 

@@ -121,6 +121,24 @@ describe('transformer-directives', () => {
       `)
   })
 
+  test('multiple pseudo-classes', async() => {
+    const result = await transform(
+      '.btn { @apply sm:hover:bg-white }',
+    )
+    expect(result)
+      .toMatchInlineSnapshot(`
+        ".btn {
+        }
+        @media (min-width: 640px) {
+          .btn:hover {
+            --un-bg-opacity: 1;
+            background-color: rgba(255, 255, 255, var(--un-bg-opacity));
+          }
+        }
+        "
+      `)
+  })
+
   test('element selector', async() => {
     const result = await transform(
       'input { @apply px-3 focus:border; }',
@@ -236,10 +254,105 @@ describe('transformer-directives', () => {
       `)
   })
 
+  test('nested class', async() => {
+    const result = await transform(
+      `nav {
+        ul {
+          li {
+            @apply border;
+          }
+        }
+        a {
+          @apply px-2 hover:underline;
+        }
+      }`,
+    )
+    expect(result)
+      .toMatchInlineSnapshot(`
+        "nav {
+          ul {
+            li {
+              border-width: 1px;
+              border-style: solid;
+            }
+          }
+          a {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+          }
+          a:hover {
+            text-decoration-line: underline;
+          }
+        }
+        "
+      `)
+  })
+
   test('css file', async() => {
     const css = await readFile('./test/assets/apply.css', 'utf8')
     const result = await transform(css)
 
     expect(result).toMatchSnapshot()
+  })
+
+  test('custom breakpoints', async() => {
+    const customUno = createGenerator({
+      presets: [
+        presetUno(),
+      ],
+      theme: {
+        breakpoints: {
+          'xs': '320px',
+          'sm': '640px',
+          'md': '768px',
+          'lg': '1024px',
+          'xl': '1280px',
+          '2xl': '1536px',
+          'xxl': '1536px',
+        },
+      },
+    })
+    const result = await transform(
+      '.grid { @apply grid grid-cols-2 xs:grid-cols-1 xxl:grid-cols-15 xl:grid-cols-10 sm:grid-cols-7 md:grid-cols-3 lg:grid-cols-4 }',
+      customUno,
+    )
+    expect(result)
+      .toMatchInlineSnapshot(`
+        ".grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        @media (min-width: 320px) {
+          .grid {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+          }
+        }
+        @media (min-width: 640px) {
+          .grid {
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+          }
+        }
+        @media (min-width: 768px) {
+          .grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+          }
+        }
+        @media (min-width: 1024px) {
+          .grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+          }
+        }
+        @media (min-width: 1280px) {
+          .grid {
+            grid-template-columns: repeat(10, minmax(0, 1fr));
+          }
+        }
+        @media (min-width: 1536px) {
+          .grid {
+            grid-template-columns: repeat(15, minmax(0, 1fr));
+          }
+        }
+        "
+      `)
   })
 })

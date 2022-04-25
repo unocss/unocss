@@ -34,6 +34,10 @@ export function initTransformerPlugins(ctx: UnocssPluginContext): Plugin[] {
       transform(code, id) {
         return applyTransformers(code, id)
       },
+      transformIndexHtml(code) {
+        return applyTransformers(code, 'index.html')
+          .then(t => t?.code)
+      },
     },
     {
       name: 'unocss:transformers:pre',
@@ -41,12 +45,20 @@ export function initTransformerPlugins(ctx: UnocssPluginContext): Plugin[] {
       transform(code, id) {
         return applyTransformers(code, id, 'pre')
       },
+      transformIndexHtml(code) {
+        return applyTransformers(code, 'index.html', 'pre')
+          .then(t => t?.code)
+      },
     },
     {
       name: 'unocss:transformers:post',
       enforce: 'post',
       transform(code, id) {
         return applyTransformers(code, id, 'post')
+      },
+      transformIndexHtml(code) {
+        applyTransformers(code, 'index.html', 'post')
+          .then(t => t?.code)
       },
     },
   ]

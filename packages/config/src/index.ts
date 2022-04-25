@@ -6,16 +6,19 @@ import { createConfigLoader as createLoader } from 'unconfig'
 
 export type { LoadConfigResult, LoadConfigSource }
 
-export function createConfigLoader<U extends UserConfig>(configOrPath: string | U = process.cwd(), extraConfigSources: LoadConfigSource[] = []): () => Promise<LoadConfigResult<U>> {
+export async function loadConfig<U extends UserConfig>(
+  cwd = process.cwd(),
+  configOrPath: string | U = cwd,
+  extraConfigSources: LoadConfigSource[] = [],
+): Promise<LoadConfigResult<U>> {
   let inlineConfig = {} as U
-
   if (typeof configOrPath !== 'string') {
     inlineConfig = configOrPath
     if (inlineConfig.configFile === false) {
-      return async() => ({
+      return {
         config: inlineConfig as U,
         sources: [],
-      })
+      }
     }
     else {
       configOrPath = inlineConfig.configFile || process.cwd()
@@ -23,7 +26,6 @@ export function createConfigLoader<U extends UserConfig>(configOrPath: string | 
   }
 
   const resolved = resolve(configOrPath)
-  let cwd = resolved
 
   let isFile = false
   if (fs.existsSync(resolved) && fs.statSync(resolved).isFile()) {
@@ -34,37 +36,32 @@ export function createConfigLoader<U extends UserConfig>(configOrPath: string | 
   const loader = createLoader<U>({
     sources: isFile
       ? [
-        {
-          files: resolved,
-          extensions: [],
-        },
-      ]
+          {
+            files: resolved,
+            extensions: [],
+          },
+        ]
       : [
-        {
-          files: [
-            'unocss.config',
-            'uno.config',
-          ],
-        },
-        ...extraConfigSources,
-      ],
+          {
+            files: [
+              'unocss.config',
+              'uno.config',
+            ],
+          },
+          ...extraConfigSources,
+        ],
     cwd,
     defaults: inlineConfig,
   })
 
-  return async() => {
-    const result = await loader.load()
-    result.config = result.config || inlineConfig
-    if (result.config.configDeps) {
-      result.sources = [
-        ...result.sources,
-        ...result.config.configDeps.map(i => resolve(cwd, i)),
-      ]
-    }
-    return result
+  const result = await loader.load()
+  result.config = result.config || inlineConfig
+  if (result.config.configDeps) {
+    result.sources = [
+      ...result.sources,
+      ...result.config.configDeps.map(i => resolve(cwd, i)),
+    ]
   }
-}
 
-export function loadConfig<U extends UserConfig>(dirOrPath: string | U) {
-  return createConfigLoader<U>(dirOrPath)()
+  return result
 }

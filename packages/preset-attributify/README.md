@@ -13,9 +13,9 @@ import presetAttributify from '@unocss/preset-attributify'
 
 Unocss({
   presets: [
-    presetAttributify({ /* options */ })
+    presetAttributify({ /* options */ }),
     // ...other presets
-  ]
+  ],
 })
 ```
 
@@ -61,6 +61,54 @@ now can be
 
 ```html
 <div m-2 rounded text-teal-400 />
+```
+
+## TypeScript Support (JSX/TSX)
+
+Create `shims.d.ts` with the following content:
+
+> By default, the type includes common attributes from `@unocss/preset-uno`. If you need custom attributes, refer to the [type source](https://github.com/antfu/unocss/blob/main/packages/preset-attributify/src/jsx.ts) to implement your own type.
+
+### React
+
+```ts
+import { AttributifyAttributes } from '@unocss/preset-attributify'
+
+declare module 'react' {
+  interface HTMLAttributes<T> extends AttributifyAttributes {}
+}
+```
+
+### Vue 3
+
+```ts
+import { AttributifyAttributes } from '@unocss/preset-attributify'
+
+declare module '@vue/runtime-dom' {
+  interface HTMLAttributes extends AttributifyAttributes {}
+}
+```
+
+### SolidJS
+
+```ts
+import { AttributifyAttributes } from '@unocss/preset-attributify'
+
+declare module "solid-js" {
+  namespace JSX {
+    interface HTMLAttributes<T> extends AttributifyAttributes {}
+  }
+}
+```
+
+### Attributify with Prefix
+
+```ts
+import { AttributifyNames } from '@unocss/preset-attributify'
+
+type Prefix = 'uno:' // change it to your prefix
+
+interface HTMLAttributes extends Partial<Record<AttributifyNames<Prefix>, string>> {}
 ```
 
 ## Credits

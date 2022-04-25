@@ -1,6 +1,6 @@
 {
   "name": "@unocss/cli",
-  "version": "0.27.2",
+  "version": "0.31.15",
   "description": "CLI for UnoCSS",
   "keywords": [],
   "homepage": "https://github.com/unocss/unocss/tree/main/packages/cli#readme",
@@ -8,27 +8,33 @@
     "url": "https://github.com/unocss/unocss/issues"
   },
   "license": "MIT",
+  "author": {
+    "name": "Johann Schopplich",
+    "email": "pkg@johannschopplich.com",
+    "url": "https://johannschopplich.com"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/unocss/unocss.git",
     "directory": "packages/cli"
   },
   "funding": "https://github.com/sponsors/antfu",
-  "author": {
-    "name": "Johann Schopplich",
-    "email": "pkg@johannschopplich.com",
-    "url": "https://johannschopplich.com"
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
   },
   "files": [
     "bin",
     "dist"
   ],
-  "exports": "./dist/index.cjs",
-  "main": "./dist/index.cjs",
   "bin": {
-    "unocss": "./bin/unocss.cjs"
+    "unocss": "./bin/unocss.mjs"
   },
-  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "unbuild",
     "stub": "unbuild --stub"
@@ -45,6 +51,7 @@
     "colorette": "^2.0.16",
     "consola": "^2.15.3",
     "fast-glob": "^3.2.11",
-    "pathe": "^0.2.0"
+    "pathe": "^0.2.0",
+    "perfect-debounce": "^0.1.3"
   }
 }

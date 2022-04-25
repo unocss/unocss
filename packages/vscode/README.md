@@ -20,6 +20,16 @@
 - Loading configs from `uno.config.js`, `vite.config.js` or `nuxt.config.js`
 - Count of matched utilities
 
+## Config
+
+By default the extension will search for the config files under project root. When there is no config found, the extension will be disabled. To work with monorepo, you need to change the `unocss.root` option in your `setting.json` to the directory that contains the config file.
+
+```javascript
+{
+  "unocss.root": "packages/client"
+}
+```
+
 ## License
 
 MIT License © 2021-PRESENT [Anthony Fu](https://github.com/antfu)

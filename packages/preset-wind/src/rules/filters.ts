@@ -95,20 +95,38 @@ const dropShadowResolver = ([, s]: string[], { theme }: RuleContext<Theme>) => {
 
 export const filters: Rule<Theme>[] = [
   // filters
-  [/^(?:(backdrop-)|filter-)?blur(?:-(.+))?$/, toFilter('blur', (s, theme) => theme.blur?.[s || 'DEFAULT'] || h.bracket.cssvar.px(s))],
-  [/^(?:(backdrop-)|filter-)?brightness-(.+)$/, toFilter('brightness', s => h.bracket.cssvar.percent(s))],
-  [/^(?:(backdrop-)|filter-)?contrast-(.+)$/, toFilter('contrast', s => h.bracket.cssvar.percent(s))],
+  [/^(?:(backdrop-)|filter-)?blur(?:-(.+))?$/, toFilter('blur', (s, theme) => theme.blur?.[s || 'DEFAULT'] || h.bracket.cssvar.px(s)), { autocomplete: ['(backdrop|filter)-blur-$blur', 'blur-$blur'] }],
+  [/^(?:(backdrop-)|filter-)?brightness-(.+)$/, toFilter('brightness', s => h.bracket.cssvar.percent(s)), { autocomplete: ['(backdrop|filter)-brightness-<percent>', 'brightness-<percent>'] }],
+  [/^(?:(backdrop-)|filter-)?contrast-(.+)$/, toFilter('contrast', s => h.bracket.cssvar.percent(s)), { autocomplete: ['(backdrop|filter)-contrast-<percent>', 'contrast-<percent>'] }],
   // drop-shadow only on filter
-  [/^(?:filter-)?drop-shadow(?:-(.+))?$/, dropShadowResolver],
+  [/^(?:filter-)?drop-shadow(?:-(.+))?$/, dropShadowResolver, {
+    autocomplete: [
+      'filter-drop', 'filter-drop-shadow', 'filter-drop-shadow-color', 'drop-shadow', 'drop-shadow-color',
+      'filter-drop-shadow-$dropShadow', 'drop-shadow-$dropShadow',
+      'filter-drop-shadow-color-$colors', 'drop-shadow-color-$colors',
+      'filter-drop-shadow-color-(op|opacity)', 'drop-shadow-color-(op|opacity)',
+      'filter-drop-shadow-color-(op|opacity)-<percent>', 'drop-shadow-color-(op|opacity)-<percent>',
+    ],
+  }],
   [/^(?:filter-)?drop-shadow-color-(.+)$/, colorResolver('--un-drop-shadow-color', 'drop-shadow')],
   [/^(?:filter-)?drop-shadow-color-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-drop-shadow-opacity': h.bracket.percent(opacity) })],
-  [/^(?:(backdrop-)|filter-)?grayscale(?:-(.+))?$/, toFilter('grayscale', percentWithDefault)],
+  [/^(?:(backdrop-)|filter-)?grayscale(?:-(.+))?$/, toFilter('grayscale', percentWithDefault), {
+    autocomplete: ['(backdrop|filter)-grayscale', '(backdrop|filter)-grayscale-<percent>', 'grayscale-<percent>'],
+  }],
   [/^(?:(backdrop-)|filter-)?hue-rotate-(.+)$/, toFilter('hue-rotate', s => h.bracket.cssvar.degree(s))],
-  [/^(?:(backdrop-)|filter-)?invert(?:-(.+))?$/, toFilter('invert', percentWithDefault)],
+  [/^(?:(backdrop-)|filter-)?invert(?:-(.+))?$/, toFilter('invert', percentWithDefault), {
+    autocomplete: ['(backdrop|filter)-invert', '(backdrop|filter)-invert-<percent>', 'invert-<percent>'],
+  }],
   // opacity only on backdrop-filter
-  [/^(backdrop-)opacity-(.+)$/, toFilter('opacity', s => h.bracket.cssvar.percent(s))],
-  [/^(?:(backdrop-)|filter-)?saturate-(.+)$/, toFilter('saturate', s => h.bracket.cssvar.percent(s))],
-  [/^(?:(backdrop-)|filter-)?sepia(?:-(.+))?$/, toFilter('sepia', percentWithDefault)],
+  [/^(backdrop-)op(?:acity)-(.+)$/, toFilter('opacity', s => h.bracket.cssvar.percent(s)), {
+    autocomplete: ['backdrop-(op|opacity)', 'backdrop-(op|opacity)-<percent>'],
+  }],
+  [/^(?:(backdrop-)|filter-)?saturate-(.+)$/, toFilter('saturate', s => h.bracket.cssvar.percent(s)), {
+    autocomplete: ['(backdrop|filter)-saturate', '(backdrop|filter)-saturate-<percent>', 'saturate-<percent>'],
+  }],
+  [/^(?:(backdrop-)|filter-)?sepia(?:-(.+))?$/, toFilter('sepia', percentWithDefault), {
+    autocomplete: ['(backdrop|filter)-sepia', '(backdrop|filter)-sepia-<percent>', 'sepia-<percent>'],
+  }],
 
   // base
   [/^filter$/, () => [
@@ -121,7 +139,7 @@ export const filters: Rule<Theme>[] = [
       '-webkit-backdrop-filter': 'var(--un-backdrop-filter)',
       'backdrop-filter': 'var(--un-backdrop-filter)',
     },
-  ]],
+  ], { autocomplete: 'backdrop-filter' }],
 
   // nones
   ['filter-none', { filter: 'none' }],
