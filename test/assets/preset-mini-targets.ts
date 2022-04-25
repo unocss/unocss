@@ -92,6 +92,8 @@ export const presetMiniTargets: string[] = [
   'border-e-dashed',
   'border-x-dashed',
   'border-y-unset',
+  'border-is-style-double',
+  'border-block-style-double',
 
   // border - color
   'border-[#124]',
