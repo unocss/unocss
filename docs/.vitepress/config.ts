@@ -6,15 +6,50 @@ export default defineConfig({
   description: 'The instant on-demand atomic CSS engine.',
   head: [
     ['meta', { property: 'og:title', content: 'UnoCSS' }],
-    ['meta', { property: 'og:description', content: 'The instant on-demand atomic CSS engine' }],
-    ['meta', { property: 'og:url', content: 'https://github.com/unocss/unocss' }],
-    ['meta', { property: 'og:image', content: 'https://repository-images.githubusercontent.com/412152628/30d80147-4535-4ff1-9837-b9015eecbb07' }],
+    [
+      'meta',
+      {
+        property: 'og:description',
+        content: 'The instant on-demand atomic CSS engine',
+      },
+    ],
+    [
+      'meta',
+      { property: 'og:url', content: 'https://github.com/unocss/unocss' },
+    ],
+    [
+      'meta',
+      {
+        property: 'og:image',
+        content:
+          'https://repository-images.githubusercontent.com/412152628/30d80147-4535-4ff1-9837-b9015eecbb07',
+      },
+    ],
     ['meta', { name: 'twitter:title', content: 'UnoCSS' }],
-    ['meta', { name: 'twitter:description', content: 'The instant on-demand atomic CSS engine' }],
-    ['meta', { name: 'twitter:image', content: 'https://repository-images.githubusercontent.com/412152628/30d80147-4535-4ff1-9837-b9015eecbb07' }],
+    [
+      'meta',
+      {
+        name: 'twitter:description',
+        content: 'The instant on-demand atomic CSS engine',
+      },
+    ],
+    [
+      'meta',
+      {
+        name: 'twitter:image',
+        content:
+          'https://repository-images.githubusercontent.com/412152628/30d80147-4535-4ff1-9837-b9015eecbb07',
+      },
+    ],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
     ['link', { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' }],
-    ['link', { href: 'https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;400;600&display=swap', rel: 'stylesheet' }],
+    [
+      'link',
+      {
+        href: 'https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;400;600&display=swap',
+        rel: 'stylesheet',
+      },
+    ],
   ],
   themeConfig: {
     logo: '/logo.png',
@@ -41,6 +76,7 @@ export default defineConfig({
           { text: 'Nuxt', link: '/integrations/nuxt' },
           { text: 'Webpack', link: '/integrations/webpack' },
           { text: 'Runtime', link: '/integrations/runtime' },
+          { text: 'Cli', link: '/integrations/cli' },
         ],
       },
       {
