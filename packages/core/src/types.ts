@@ -83,6 +83,18 @@ export interface RuleContext<Theme extends {} = {}> {
    * Variants and selector escaping will be handled automatically.
    */
   constructCSS: (body: CSSEntries | CSSObject, overrideSelector?: string) => string
+  /**
+   * Available only when `details` option is enabled.
+   */
+  rules?: Rule[]
+  /**
+   * Available only when `details` option is enabled.
+   */
+  shortcuts?: Shortcut[]
+  /**
+   * Available only when `details` option is enabled.
+   */
+  variants?: Variant[]
 }
 
 export interface VariantContext<Theme extends {} = {}> {
@@ -319,6 +331,17 @@ export interface ConfigBase<Theme extends {} = {}> {
      */
     extractors?: Arrayable<AutoCompleteExtractor>
   }
+
+  /**
+   * Expose internal details for debugging / inspecting
+   *
+   * Added `rules`, `shortcuts`, `variants` to the context and expose the context object in `StringifiedUtil`
+   *
+   * You don't usually need to set this.
+   *
+   * @default false
+   */
+  details?: boolean
 }
 
 export type AutoCompleteTemplate = string
@@ -525,7 +548,7 @@ RequiredByKey<UserConfig, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'l
   postprocess: Postprocessor[]
   rulesSize: number
   rulesDynamic: (DynamicRule|undefined)[]
-  rulesStaticMap: Record<string, [number, CSSObject | CSSEntries, RuleMeta | undefined] | undefined>
+  rulesStaticMap: Record<string, [number, CSSObject | CSSEntries, RuleMeta | undefined, Rule] | undefined>
   autocomplete: {
     templates: (AutoCompleteFunction | AutoCompleteTemplate)[]
     extractors: AutoCompleteExtractor[]
@@ -567,6 +590,7 @@ export type StringifiedUtil = readonly [
   body: string,
   parent: string | undefined,
   meta: RuleMeta | undefined,
+  context: RuleContext | undefined,
 ]
 
 export interface UtilObject {

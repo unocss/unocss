@@ -49,7 +49,7 @@ export function resolveConfig(
 
   rules.forEach((rule, i) => {
     if (isStaticRule(rule)) {
-      rulesStaticMap[rule[0]] = [i, rule[1], rule[2]]
+      rulesStaticMap[rule[0]] = [i, rule[1], rule[2], rule]
       // delete static rules so we can't skip them in matching
       // but keep the order
       delete rules[i]

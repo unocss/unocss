@@ -25,3 +25,5 @@ export function isRawUtil(util: ParsedUtil | RawUtil | StringifiedUtil): util is
 export function notNull<T>(value: T | null | undefined): value is T {
   return value != null
 }
+
+export function noop() {}

@@ -1,6 +1,6 @@
-import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, RawUtil, ResolvedConfig, RuleContext, RuleMeta, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantMatchedResult } from '../types'
+import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, Shortcut, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
-import { CONTROL_SHORTCUT_NO_MERGE, TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, normalizeCSSEntries, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
+import { CONTROL_SHORTCUT_NO_MERGE, TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, noop, normalizeCSSEntries, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
 
 export class UnoGenerator {
@@ -90,6 +90,9 @@ export class UnoGenerator {
       [alias || applied[0], applied[1], applied[2], applied[3]],
     )
 
+    if (this.config.details)
+      context.variants = [...applied[3]]
+
     // expand shortcuts
     const expanded = this.expandShortcut(context.currentSelector, context)
     if (expanded) {
@@ -101,7 +104,7 @@ export class UnoGenerator {
     }
     // no shortcut
     else {
-      const utils = (await this.parseUtil(context.variantMatch, context))?.map(i => this.stringifyUtil(i)).filter(notNull)
+      const utils = (await this.parseUtil(context.variantMatch, context))?.map(i => this.stringifyUtil(i, context)).filter(notNull)
       if (utils?.length) {
         this._cache.set(cacheKey, utils)
         return utils
@@ -335,11 +338,20 @@ export class UnoGenerator {
       ? this.matchVariants(input)
       : input
 
+    const recordRule = this.config.details
+      ? (r: Rule) => {
+          context.rules = context.rules ?? []
+          context.rules.push(r)
+        }
+      : noop
+
     // use map to for static rules
     const staticMatch = this.config.rulesStaticMap[processed]
     if (staticMatch) {
-      if (staticMatch[1] && (internal || !staticMatch[2]?.internal))
+      if (staticMatch[1] && (internal || !staticMatch[2]?.internal)) {
+        recordRule(staticMatch[3])
         return [[staticMatch[0], raw, normalizeCSSEntries(staticMatch[1]), staticMatch[2], variantHandlers]]
+      }
     }
 
     context.variantHandlers = variantHandlers
@@ -368,6 +380,8 @@ export class UnoGenerator {
       if (!result)
         continue
 
+      recordRule(rule)
+
       if (typeof result === 'string')
         return [[i, result, meta]]
       const entries = normalizeCSSValues(result).filter(i => i.length)
@@ -376,11 +390,11 @@ export class UnoGenerator {
     }
   }
 
-  stringifyUtil(parsed?: ParsedUtil | RawUtil): StringifiedUtil | undefined {
+  stringifyUtil(parsed?: ParsedUtil | RawUtil, context?: RuleContext): StringifiedUtil | undefined {
     if (!parsed)
       return
     if (isRawUtil(parsed))
-      return [parsed[0], undefined, parsed[1], undefined, parsed[2]]
+      return [parsed[0], undefined, parsed[1], undefined, parsed[2], this.config.details ? context : undefined]
 
     const { selector, entries, parent, layer: variantLayer, sort: variantSort } = this.applyVariants(parsed)
     const body = entriesToCss(entries)
@@ -394,12 +408,19 @@ export class UnoGenerator {
       layer: variantLayer ?? metaLayer,
       sort: variantSort ?? metaSort,
     }
-    return [parsed[0], selector, body, parent, ruleMeta]
+    return [parsed[0], selector, body, parent, ruleMeta, this.config.details ? context : undefined]
   }
 
   expandShortcut(processed: string, context: RuleContext, depth = 3): [string[], RuleMeta | undefined] | undefined {
     if (depth === 0)
       return
+
+    const recordShortcut = this.config.details
+      ? (s: Shortcut) => {
+          context.shortcuts = context.shortcuts ?? []
+          context.shortcuts.push(s)
+        }
+      : noop
 
     let meta: RuleMeta | undefined
     let result: string | string[] | undefined
@@ -408,6 +429,7 @@ export class UnoGenerator {
         if (s[0] === processed) {
           meta = meta || s[2]
           result = s[1]
+          recordShortcut(s)
           break
         }
       }
@@ -417,6 +439,7 @@ export class UnoGenerator {
           result = s[1](match, context)
         if (result) {
           meta = meta || s[2]
+          recordShortcut(s)
           break
         }
       }
@@ -459,7 +482,7 @@ export class UnoGenerator {
     const rawStringfieldUtil: StringifiedUtil[] = []
     for (const item of parsed) {
       if (isRawUtil(item)) {
-        rawStringfieldUtil.push([item[0], undefined, item[1], undefined, item[2]])
+        rawStringfieldUtil.push([item[0], undefined, item[1], undefined, item[2], context])
         continue
       }
       const { selector, entries, parent, sort } = this.applyVariants(item, [...item[4], ...parentVariants], raw)
@@ -477,7 +500,7 @@ export class UnoGenerator {
           return (flatten ? [entriesList.flat(1)] : entriesList).map((entries: CSSEntries): StringifiedUtil | undefined => {
             const body = entriesToCss(entries)
             if (body)
-              return [index, selector, body, mediaQuery, { ...meta, noMerge, sort: maxSort }]
+              return [index, selector, body, mediaQuery, { ...meta, noMerge, sort: maxSort }, context]
             return undefined
           })
         }
