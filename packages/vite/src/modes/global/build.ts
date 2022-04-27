@@ -14,7 +14,7 @@ import {
 export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, filter, getConfig }: UnocssPluginContext<VitePluginConfig>): Plugin[] {
   const vfsLayerMap = new Map<string, string>()
   let tasks: Promise<any>[] = []
-  let postPlugin: Plugin | undefined
+  let cssPostPlugin: Plugin | undefined
   let cssPlugin: Plugin | undefined
 
   async function transformCSS(css: string, id: string) {
@@ -65,14 +65,14 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, fi
           return getLayerPlaceholder(layer)
       },
       async configResolved(config) {
-        postPlugin = config.plugins.find(i => i.name === 'vite:css-post')
+        cssPostPlugin = config.plugins.find(i => i.name === 'vite:css-post')
         cssPlugin = config.plugins.find(i => i.name === 'vite:css')
         await ready
       },
       // we inject a hash to chunk before the dist hash calculation to make sure
       // the hash is different when unocss changes
       async renderChunk(_, chunk) {
-        if (!postPlugin)
+        if (!cssPostPlugin)
           return null
 
         const chunks = Object.keys(chunk.modules).filter(i => modules.has(i))
@@ -93,7 +93,7 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, fi
 
         const hash = getHash(css)
         // @ts-expect-error no this context
-        await postPlugin.transform(getHashPlaceholder(hash), fakeCssId)
+        await cssPostPlugin.transform(getHashPlaceholder(hash), fakeCssId)
         chunk.modules[fakeCssId] = {
           code: null,
           originalLength: 0,
