@@ -31,7 +31,7 @@ export interface VitePluginConfig<Theme extends {} = {}> extends UserConfig<Them
   /**
    *
    * make the generate css processed by postcss(https://vitejs.dev/guide/features.html#postcss)
-   * @default false
+   * @default true
    */
-  usePostcss?: boolean
+  postcss?: boolean
 }

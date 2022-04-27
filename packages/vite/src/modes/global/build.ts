@@ -18,7 +18,10 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, fi
   let cssPlugin: Plugin | undefined
 
   async function transformCSS(css: string, id: string) {
-    if (!cssPlugin || !(await getConfig()).usePostcss)
+    const {
+      postcss = true,
+    } = await getConfig()
+    if (!cssPlugin || !postcss)
       return css
     // @ts-expect-error no this context
     const result = await cssPlugin.transform(css, id)
