@@ -1,5 +1,6 @@
 import type { Plugin } from 'vite'
 import type { UnocssPluginContext } from '@unocss/core'
+import type { VitePluginConfig } from '../../types'
 import { getHash, getPath } from '../../../../plugins-common/utils'
 import {
   HASH_PLACEHOLDER_RE,
@@ -10,10 +11,29 @@ import {
   resolveId,
 } from '../../../../plugins-common'
 
-export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, filter }: UnocssPluginContext): Plugin[] {
+export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, filter, getConfig }: UnocssPluginContext<VitePluginConfig>): Plugin[] {
   const vfsLayerMap = new Map<string, string>()
   let tasks: Promise<any>[] = []
+  let cssPostPlugin: Plugin | undefined
   let cssPlugin: Plugin | undefined
+
+  async function transformCSS(css: string, id: string) {
+    const {
+      postcss = true,
+    } = await getConfig()
+    if (!cssPlugin || !postcss)
+      return css
+    // @ts-expect-error no this context
+    const result = await cssPlugin.transform(css, id)
+    if (!result)
+      return css
+    if (typeof result === 'string')
+      css = result
+    else if (result.code)
+      css = result.code
+    css = css.replace(/[\n\r]/g, '')
+    return css
+  }
 
   return [
     {
@@ -48,13 +68,14 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, fi
           return getLayerPlaceholder(layer)
       },
       async configResolved(config) {
-        cssPlugin = config.plugins.find(i => i.name === 'vite:css-post')
+        cssPostPlugin = config.plugins.find(i => i.name === 'vite:css-post')
+        cssPlugin = config.plugins.find(i => i.name === 'vite:css')
         await ready
       },
       // we inject a hash to chunk before the dist hash calculation to make sure
       // the hash is different when unocss changes
       async renderChunk(_, chunk) {
-        if (!cssPlugin)
+        if (!cssPostPlugin)
           return null
 
         const chunks = Object.keys(chunk.modules).filter(i => modules.has(i))
@@ -64,15 +85,18 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, fi
 
         const tokens = new Set<string>()
         await Promise.all(chunks.map(c => uno.applyExtractors(modules.get(c) || '', c, tokens)))
-        const { css } = await uno.generate(tokens, { minify: true })
+        let { css } = await uno.generate(tokens, { minify: true })
         if (!css)
           return null
-        const hash = getHash(css)
 
         // fool the css plugin to generate the css in corresponding chunk
         const fakeCssId = `${chunk.fileName}-unocss-hash.css`
+
+        css = await transformCSS(css, fakeCssId)
+
+        const hash = getHash(css)
         // @ts-expect-error no this context
-        await cssPlugin.transform(getHashPlaceholder(hash), fakeCssId)
+        await cssPostPlugin.transform(getHashPlaceholder(hash), fakeCssId)
         chunk.modules[fakeCssId] = {
           code: null,
           originalLength: 0,
@@ -106,7 +130,7 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, fi
         for (const file of cssFiles) {
           const chunk = bundle[file]
           if (chunk.type === 'asset' && typeof chunk.source === 'string') {
-            chunk.source = chunk.source
+            const css = chunk.source
               .replace(HASH_PLACEHOLDER_RE, '')
               .replace(LAYER_PLACEHOLDER_RE, (_, __, layer) => {
                 replaced = true
@@ -114,6 +138,7 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, fi
                   ? result.getLayers(undefined, Array.from(vfsLayerMap.values()))
                   : result.getLayer(layer) || ''
               })
+            chunk.source = await transformCSS(css, `${chunk.fileName}.css`)
           }
         }
 
