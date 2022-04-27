@@ -65,11 +65,10 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .pis{padding-inline-start:1rem;}
 .pbs-\\\\$title2{padding-block-start:var(--title2);}
 .pis-10px{padding-inline-start:10px;}
-.-m-auto,
+.\\\\!m-\\\\$c-m{margin:var(--c-m) !important;}
 .all\\\\:m-auto *,
 .children\\\\:m-auto>*,
 .m-auto{margin:auto;}
-.\\\\!m-\\\\$c-m{margin:var(--c-m) !important;}
 .m-\\\\[3em\\\\]{margin:3em;}
 .m-0,
 .m-none{margin:0rem;}

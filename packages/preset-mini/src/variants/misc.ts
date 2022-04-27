@@ -55,20 +55,28 @@ export const variantImportant: Variant = {
   autocomplete: '(important)',
 }
 
+const numberRE = /[0-9.]+(?:[a-z]+|%)?/
 export const variantNegative: Variant = {
   match(matcher) {
-    if (matcher.startsWith('-')) {
-      return {
-        matcher: matcher.slice(1),
-        body: (body) => {
-          body.forEach((v) => {
-            if (v[0].startsWith('--un-scale') || v[1]?.toString() === '0')
-              return
-            v[1] = v[1]?.toString().replace(/[0-9.]+(?:[a-z]+|%)?/, i => `-${i}`)
-          })
+    if (!matcher.startsWith('-') || !matcher.match(/\d|-px|-full/))
+      return
+
+    return {
+      matcher: matcher.slice(1),
+      body: (body) => {
+        let changed = false
+        body.forEach((v) => {
+          const value = v[1]?.toString()
+          if (!value || v[0].startsWith('--un-scale') || value === '0')
+            return
+          if (numberRE.test(value)) {
+            v[1] = value.replace(numberRE, i => `-${i}`)
+            changed = true
+          }
+        })
+        if (changed)
           return body
-        },
-      }
+      },
     }
   },
 }

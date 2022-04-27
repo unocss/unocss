@@ -791,7 +791,6 @@ export const presetMiniTargets: string[] = [
   '!m-$c-m',
   '!p-5px',
   '-gap-y-5',
-  '-m-auto',
   '-mb-px',
   '-p-px',
   '-z-1',
