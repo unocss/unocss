@@ -28,17 +28,19 @@ export function createAutocomplete(uno: UnoGenerator) {
 
   async function enumerate() {
     const matched = new Set<string>()
-    const a2z = 'abcdefghijklmnopqrstuvwxyz'
+    const a2z = Array.from('abcdefghijklmnopqrstuvwxyz')
+    const a2zd = [...a2z, '-']
 
-    const p = []
-    for (const a of a2z) {
-      for (const b of a2z) {
-        p.push(suggest(`${a}${b}`)
-          .then(i => i.forEach(j => matched.add(j))),
-        )
-      }
-    }
-    await Promise.all(p)
+    const keys = a2z.flatMap(i => [
+      i,
+      ...a2zd.map(j => `${i}${j}`),
+    ])
+
+    await Promise.all(keys.map(key =>
+      suggest(key)
+        .then(i => i.forEach(j => matched.add(j))),
+    ))
+
     return matched
   }
 
