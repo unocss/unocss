@@ -10,12 +10,9 @@
 bench/source/gen*.js
 coverage
 dist
-dist-ssr
-dist-ssr/
-elm-stuff/
+examples/**/pnpm-lock.yaml
 node_modules
 packages/runtime/*.global.js
 packages/unocss/README.md
 packages/vscode/LICENSE
 result.json
-examples/**/pnpm-lock.yaml

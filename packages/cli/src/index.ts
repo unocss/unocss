@@ -56,7 +56,7 @@ export async function build(_options: CliOptions) {
 
   const files = await fg(options.patterns)
   await Promise.all(
-    files.map(async(file) => {
+    files.map(async (file) => {
       fileCache.set(file, await fs.readFile(file, 'utf8'))
     }),
   )
@@ -65,13 +65,13 @@ export async function build(_options: CliOptions) {
   consola.start(`UnoCSS ${options.watch ? 'in watch mode...' : 'for production...'}`)
 
   const debouncedBuild = debounce(
-    async() => {
+    async () => {
       generate(options).catch(handleError)
     },
     100,
   )
 
-  const startWatcher = async() => {
+  const startWatcher = async () => {
     if (!options.watch)
       return
 
@@ -95,7 +95,7 @@ export async function build(_options: CliOptions) {
     if (configSources.length) {
       watcher.add(configSources)
 
-      watcher.on('all', async(type, file) => {
+      watcher.on('all', async (type, file) => {
         if (configSources.includes(file)) {
           uno.setConfig((await loadConfig()).config)
           consola.info(`${cyan(basename(file))} changed, setting new config`)

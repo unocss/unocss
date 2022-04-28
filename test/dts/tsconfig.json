@@ -6,6 +6,6 @@
     "moduleResolution": "node",
     "paths": {
       "@unocss/preset-attributify": ["../../packages/preset-attributify/src/index.ts"]
-    },
+    }
   }
 }

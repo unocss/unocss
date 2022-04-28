@@ -55,6 +55,6 @@
     "magic-string": "^0.26.1"
   },
   "devDependencies": {
-    "vite": "^2.9.5"
+    "vite": "^2.9.6"
   }
 }

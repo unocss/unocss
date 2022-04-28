@@ -11,7 +11,7 @@ describe('transformer-variant-group', () => {
     return s.toString()
   }
 
-  test('basic', async() => {
+  test('basic', async () => {
     const cases = [
       'bg-white font-light sm:hover:(bg-gray-100 font-medium)',
       'lt-sm:hover:(p-1 p-2)',
@@ -32,9 +32,9 @@ describe('transformer-variant-group', () => {
     }
   })
 
-  test('vue file', async() => {
+  test('vue file', async () => {
     const transformer = transformerVariantGroup()
-    const transform = async(code: string) => {
+    const transform = async (code: string) => {
       const s = new MagicString(code)
       await transformer.transform(s, '', {} as any)
       return s.toString()

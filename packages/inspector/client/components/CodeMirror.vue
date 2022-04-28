@@ -41,7 +41,7 @@ const extraKeys = computed(() => (props.getHint
   : {}) as CodeMirror.KeyMap)
 const hintOptions = computed(() => props.getHint ? { hint: props.getHint } : {})
 
-onMounted(async() => {
+onMounted(async () => {
   const cm = useCodeMirror(el, input, reactive({
     ...toRefs(props),
     mode,
@@ -76,7 +76,7 @@ onMounted(async() => {
   }
 
   let timer: any = 0
-  watch(() => [props.modelValue, props.matched], async() => {
+  watch(() => [props.modelValue, props.matched], async () => {
     clearTimeout(timer)
     if (props.matched)
       timer = setTimeout(highlight, 200)

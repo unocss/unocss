@@ -3,7 +3,7 @@ import presetUno from '@unocss/preset-uno'
 import { describe, expect, test } from 'vitest'
 
 describe('safelist', () => {
-  test('basic', async() => {
+  test('basic', async () => {
     const uno = createGenerator({
       presets: [
         presetUno(),

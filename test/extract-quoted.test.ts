@@ -2,7 +2,7 @@ import { readFile } from 'fs/promises'
 import { extractQuoted } from '@unocss/core'
 import { describe, expect, test } from 'vitest'
 
-describe('extractString', async() => {
+describe('extractString', async () => {
   const code = await readFile('./test/assets/extract-quoted.ts', 'utf-8')
 
   test('works', () => {

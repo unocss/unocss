@@ -31,7 +31,7 @@ export function VueScopedPlugin({ uno, ready }: UnocssPluginContext): Plugin {
     handleHotUpdate(ctx) {
       const read = ctx.read
       if (filter(ctx.file)) {
-        ctx.read = async() => {
+        ctx.read = async () => {
           const code = await read()
           return await transformSFC(code) || code
         }

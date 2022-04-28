@@ -21,7 +21,7 @@ const uno = createGenerator({
 })
 
 describe('preset-mini', () => {
-  test('targets', async() => {
+  test('targets', async () => {
     const code = presetMiniTargets.join(' ')
     const { css } = await uno.generate(code)
     const { css: css2 } = await uno.generate(code)
@@ -36,7 +36,7 @@ describe('preset-mini', () => {
     expect(css).toEqual(css2)
   })
 
-  test('utils from preset-wind should be non-targets', async() => {
+  test('utils from preset-wind should be non-targets', async () => {
     const code = presetWindTargets.join(' ')
     const { css, matched } = await uno.generate(code)
 
@@ -44,7 +44,7 @@ describe('preset-mini', () => {
     expect(css).toBe('')
   })
 
-  test('custom var prefix', async() => {
+  test('custom var prefix', async () => {
     const uno = createGenerator({
       presets: [
         presetMini({

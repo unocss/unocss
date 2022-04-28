@@ -69,7 +69,7 @@ const testConfigs = [
 
 describe('typography', () => {
   for (const tc of testConfigs) {
-    test(tc.name, async() => {
+    test(tc.name, async () => {
       const generator = createGenerator({
         presets: [
           presetAttributify(),

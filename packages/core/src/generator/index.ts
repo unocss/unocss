@@ -138,7 +138,7 @@ export class UnoGenerator {
     const matched = new Set<string>()
     const sheet = new Map<string, StringifiedUtil[]>()
 
-    await Promise.all(Array.from(tokens).map(async(raw) => {
+    await Promise.all(Array.from(tokens).map(async (raw) => {
       if (matched.has(raw))
         return
 
@@ -180,7 +180,7 @@ export class UnoGenerator {
 
       preflightsMap = Object.fromEntries(
         await Promise.all(layers.map(
-          async(layer) => {
+          async (layer) => {
             const preflights = await Promise.all(
               this.config.preflights
                 .filter(i => (i.layer || 'default') === layer)
@@ -468,7 +468,7 @@ export class UnoGenerator {
     const selectorMap = new TwoKeyMap<string, string | undefined, [[CSSEntries, boolean, number][], number]>()
     const parsed = (
       await Promise.all(uniq(expanded)
-        .map(async(i) => {
+        .map(async (i) => {
           const result = await this.parseUtil(i, context, true)
           if (!result)
             warnOnce(`unmatched utility "${i}" in shortcut "${parent[1]}"`)

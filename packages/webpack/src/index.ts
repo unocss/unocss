@@ -58,7 +58,7 @@ export default function WebpackPlugin(
       webpack(compiler) {
         // replace the placeholders
         compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation) => {
-          compilation.hooks.optimizeAssets.tapPromise(PLUGIN_NAME, async() => {
+          compilation.hooks.optimizeAssets.tapPromise(PLUGIN_NAME, async () => {
             const files = Object.keys(compilation.assets)
 
             await Promise.all(tasks)

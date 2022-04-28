@@ -4,10 +4,15 @@
   NODE_OPTIONS = "--max_old_space_size=4096"
 
 [build]
-  publish = "playground/dist"
-  command = "npx pnpm i --store=node_modules/.pnpm-store && npx pnpm run play:build"
+  publish = "interactive/.output"
+  command = "npx pnpm i --store=node_modules/.pnpm-store && npx pnpm run docs:build"
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
+  from = "/play/*"
+  to = "/play/index.html"
   status = 200
+
+[[redirects]]
+  from = "https://unocss.antfu.me/:slug"
+  to = "https://uno.antfu.me/play/:slug"
+  status = 302

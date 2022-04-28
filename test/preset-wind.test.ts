@@ -30,7 +30,7 @@ const uno = createGenerator({
 })
 
 describe('preset-wind', () => {
-  test('targets', async() => {
+  test('targets', async () => {
     const targets = [...localTargets, ...presetWindTargets]
     const code = targets.join(' ')
     const { css } = await uno.generate(code)
@@ -46,13 +46,13 @@ describe('preset-wind', () => {
     expect(css).toEqual(css2)
   })
 
-  test('non-targets', async() => {
+  test('non-targets', async () => {
     const { matched } = await uno.generate(new Set(presetWindNonTargets))
 
     expect([...matched]).toEqual([])
   })
 
-  test('containers', async() => {
+  test('containers', async () => {
     const targets = [
       'container',
       'md:container',

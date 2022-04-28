@@ -25,7 +25,7 @@ watch([iframeData, iframe], send, { deep: true })
     h-full
     w-full
     :class="{ dark: isDark }"
-    src="/__play.html"
+    src="/play/__play.html"
     @load="send"
   />
 </template>

@@ -15,7 +15,7 @@ export async function registerAnnonations(
   const { sources } = await context.ready
   const { uno, filter } = context
 
-  workspace.onDidSaveTextDocument(async(doc) => {
+  workspace.onDidSaveTextDocument(async (doc) => {
     if (sources.includes(doc.uri.fsPath)) {
       try {
         await context.reloadConfig()
@@ -50,7 +50,7 @@ export async function registerAnnonations(
       const ranges: DecorationOptions[] = (
         await Promise.all(
           getMatchedPositions(code, Array.from(result.matched))
-            .map(async(i): Promise<DecorationOptions> => {
+            .map(async (i): Promise<DecorationOptions> => {
               try {
                 const md = await getPrettiedMarkdown(uno, i[2])
                 return {

@@ -3,7 +3,7 @@ import { describe, expect, test } from 'vitest'
 import { variantMatcher } from '@unocss/preset-mini/utils'
 
 describe('order', () => {
-  test('static', async() => {
+  test('static', async () => {
     const uno = createGenerator({
       rules: [
         ['foo', { name: 'bar1' }],
@@ -15,7 +15,7 @@ describe('order', () => {
     expect(css).toContain('bar2')
   })
 
-  test('dynamic', async() => {
+  test('dynamic', async () => {
     const uno = createGenerator({
       rules: [
         [/^foo$/, () => ({ name: 'bar1' })],
@@ -27,7 +27,7 @@ describe('order', () => {
     expect(css).toContain('bar2')
   })
 
-  test('variant ordering', async() => {
+  test('variant ordering', async () => {
     const uno = createGenerator({
       rules: [
         [/^foo-.$/, ([m]) => ({ name: m })],
@@ -59,7 +59,7 @@ describe('order', () => {
     expect(css).toEqual(css2)
   })
 
-  test('variant sorting', async() => {
+  test('variant sorting', async () => {
     const uno = createGenerator({
       rules: [
         [/^foo-.$/, ([m]) => ({ foo: m })],

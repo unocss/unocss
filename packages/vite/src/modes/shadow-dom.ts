@@ -43,7 +43,7 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
       },
     }
   }
-  const transformWebComponent = async(code: string) => {
+  const transformWebComponent = async (code: string) => {
     if (!code.match(CSS_PLACEHOLDER))
       return code
 
@@ -106,7 +106,7 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
     },
     handleHotUpdate(ctx) {
       const read = ctx.read
-      ctx.read = async() => {
+      ctx.read = async () => {
         const code = await read()
         return await transformWebComponent(code)
       }

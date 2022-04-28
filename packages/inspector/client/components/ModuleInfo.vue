@@ -14,7 +14,7 @@ function openEditor() {
 }
 
 const { extractors } = attributifyPreset({ strict: true })
-const unmatchedClasses = asyncComputed(async() => {
+const unmatchedClasses = asyncComputed(async () => {
   const set = new Set<string>()
   if (extractors) {
     const context = { code: mod.value?.code || '' } as any

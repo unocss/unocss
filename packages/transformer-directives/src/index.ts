@@ -39,12 +39,12 @@ export async function transformDirectives(code: MagicString, uno: UnoGenerator, 
 
   const stack: Promise<void>[] = []
 
-  const processNode = async(node: CssNode, _item: ListItem<CssNode>, _list: List<CssNode>) => {
+  const processNode = async (node: CssNode, _item: ListItem<CssNode>, _list: List<CssNode>) => {
     if (node.type !== 'Rule')
       return
 
     await Promise.all(
-      node.block.children.map(async(childNode, _childItem) => {
+      node.block.children.map(async (childNode, _childItem) => {
         if (childNode.type === 'Raw')
           return transformDirectives(code, uno, filename, childNode.value, calcOffset(childNode.loc!.start.offset))
 

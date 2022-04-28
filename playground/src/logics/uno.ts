@@ -25,7 +25,7 @@ export const output = shallowRef<GenerateResult>()
 let customConfig: UserConfig = {}
 let autocomplete = createAutocomplete(uno)
 
-const AsyncFunction = Object.getPrototypeOf(async() => {}).constructor
+const AsyncFunction = Object.getPrototypeOf(async () => {}).constructor
 
 export async function evaluateConfig() {
   customConfigError.value = undefined
@@ -56,7 +56,7 @@ export async function evaluateConfig() {
   }
 }
 
-export const transformedHTML = computedAsync(async() => {
+export const transformedHTML = computedAsync(async () => {
   const id = 'input.html'
   const input = new MagicString(inputHTML.value)
   await applyTransformers(input, id, 'pre')

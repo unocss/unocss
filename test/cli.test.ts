@@ -6,16 +6,16 @@ import execa from 'execa'
 export const cacheDir = resolve('.cache')
 export const cli = resolve(__dirname, '../packages/cli/src/cli.ts')
 
-beforeAll(async() => {
+beforeAll(async () => {
   await fs.remove(cacheDir)
 })
 
-afterAll(async() => {
+afterAll(async () => {
   await fs.remove(cacheDir)
 })
 
 describe('cli', () => {
-  it('builds uno.css', async() => {
+  it('builds uno.css', async () => {
     const { output } = await runCli({
       'views/index.html': '<div class="p-4 max-w-screen-md"></div>',
     })
@@ -23,7 +23,7 @@ describe('cli', () => {
     expect(output).toMatchSnapshot()
   })
 
-  it('supports unocss.config.js', async() => {
+  it('supports unocss.config.js', async () => {
     const { output } = await runCli({
       'views/index.html': '<div class="box"></div>',
       'unocss.config.js': `

@@ -118,7 +118,7 @@ const uno = createGenerator({
   },
 })
 
-test('targets', async() => {
+test('targets', async () => {
   const code = targets.join(' ')
   const { css } = await uno.generate(code)
   const { css: css2 } = await uno.generate(code)
@@ -133,7 +133,7 @@ test('targets', async() => {
   expect(css).toEqual(css2)
 })
 
-test('targets', async() => {
+test('targets', async () => {
   const code = targets2.join(' ')
   const { css } = await uno.generate(code)
   const { css: css2 } = await uno.generate(code)
@@ -142,7 +142,7 @@ test('targets', async() => {
   expect(css).toEqual(css2)
 })
 
-test('non-targets', async() => {
+test('non-targets', async () => {
   const code = nonTargets.join(' ')
   const { css, matched } = await uno.generate(code)
 
