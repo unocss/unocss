@@ -16,6 +16,7 @@ export default defineNuxtConfig({
   modules: [
     '@vueuse/nuxt',
     '@unocss/nuxt',
+    '~/modules/log',
   ],
   ssr: false,
   experimental: {
@@ -27,9 +28,6 @@ export default defineNuxtConfig({
   },
   unocss: {
     preflight: true,
-  },
-  nitro: {
-    preset: 'netlify-edge',
   },
   vite: {
     // @ts-expect-error any
