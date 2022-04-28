@@ -1,8 +1,12 @@
 import type { VariantHandler, VariantObject } from '@unocss/core'
-import { escapeRegExp, toArray } from '@unocss/core'
+import { escapeRegExp } from '@unocss/core'
 import type { PresetMiniOptions } from '..'
 
-const PseudoClasses: Record<string, string | undefined> = Object.fromEntries([
+const PseudoClasses: Record<string, string> = Object.fromEntries([
+  // pseudo elements part 1
+  ['first-letter', '::first'],
+  ['first-line', '::first'],
+
   // location
   'any-link',
   'link',
@@ -47,18 +51,15 @@ const PseudoClasses: Record<string, string | undefined> = Object.fromEntries([
   ['last', ':last-child'],
   'only-child',
   'only-of-type',
-].map(toArray))
 
-const PseudoElements: Record<string, string | undefined> = Object.fromEntries([
-  'placeholder',
-  'before',
-  'after',
-  'first-letter',
-  'first-line',
-  'selection',
-  'marker',
+  // pseudo elements part 2
+  ['placeholder', '::placeholder'],
+  ['before', '::before'],
+  ['after', '::after'],
+  ['selection', '::selection'],
+  ['marker', '::marker'],
   ['file', '::file-selector-button'],
-].map(toArray))
+].map(key => typeof key === 'string' ? [key, `:${key}`] : key))
 
 const PseudoClassFunctions = [
   'not',
@@ -67,14 +68,8 @@ const PseudoClassFunctions = [
   'has',
 ]
 
-const PseudoElementsStr = Object.keys(PseudoElements).join('|')
-const PseudoClassesStr = Object.keys(PseudoClasses).join('|')
+const PseudoClassesStr = Object.entries(PseudoClasses).filter(([, pseudo]) => !pseudo.startsWith('::')).map(([key]) => key).join('|')
 const PseudoClassFunctionsStr = PseudoClassFunctions.join('|')
-
-const PartClassesRE = /(part-\[(.+)]:)(.+)/
-const PseudoElementsRE = new RegExp(`^(${PseudoElementsStr})[:-]`)
-const PseudoClassesRE = new RegExp(`^(${PseudoClassesStr})[:-]`)
-const PseudoClassFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesStr})[:-]`)
 
 const sortValue = (pseudo: string) => {
   if (pseudo === 'active')
@@ -101,23 +96,11 @@ const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: strin
   }
 }
 
-export const variantPseudoElements: VariantObject = {
+const PseudoClassesAndElementsStr = Object.entries(PseudoClasses).map(([key]) => key).join('|')
+const PseudoClassesAndElementsRE = new RegExp(`^(${PseudoClassesAndElementsStr})[:-]`)
+export const variantPseudoClassesAndElements: VariantObject = {
   match: (input: string) => {
-    const match = input.match(PseudoElementsRE)
-    if (match) {
-      const pseudo = PseudoElements[match[1]] || `::${match[1]}`
-      return {
-        matcher: input.slice(match[0].length),
-        selector: s => `${s}${pseudo}`,
-      }
-    }
-  },
-  autocomplete: `(${PseudoElementsStr}):`,
-}
-
-export const variantPseudoClasses: VariantObject = {
-  match: (input: string) => {
-    const match = input.match(PseudoClassesRE)
+    const match = input.match(PseudoClassesAndElementsRE)
     if (match) {
       const pseudo = PseudoClasses[match[1]] || `:${match[1]}`
       return {
@@ -128,9 +111,10 @@ export const variantPseudoClasses: VariantObject = {
     }
   },
   multiPass: true,
-  autocomplete: `(${PseudoClassesStr}):`,
+  autocomplete: `(${PseudoClassesAndElementsStr}):`,
 }
 
+const PseudoClassFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesStr})[:-]`)
 export const variantPseudoClassFunctions: VariantObject = {
   match: (input: string) => {
     const match = input.match(PseudoClassFunctionsRE)
@@ -170,6 +154,7 @@ export const variantTaggedPseudoClasses = (options: PresetMiniOptions = {}): Var
   ]
 }
 
+const PartClassesRE = /(part-\[(.+)]:)(.+)/
 export const partClasses: VariantObject = {
   match: (input: string) => {
     const match = input.match(PartClassesRE)

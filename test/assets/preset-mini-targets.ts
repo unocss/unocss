@@ -744,6 +744,8 @@ export const presetMiniTargets: string[] = [
   'at-sm:m1',
   'disabled:op50',
   'first:p-2',
+  'first-line:bg-green-400',
+  'first-letter:bg-green-400',
   'group-hover:group-focus:text-center',
   'hover:!p-1',
   'hover:not-first:checked:bg-red/10',

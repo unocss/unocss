@@ -44,7 +44,6 @@ const targets2 = [
 
 const nonTargets = [
   '--p-2',
-  'before:before:m2',
   'hi',
   'row-{row.id}',
   'tabs',
