@@ -2,8 +2,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "nuxi build",
-    "dev": "nuxi dev",
+    "build": "nuxi build .",
+    "dev": "nuxi dev .",
     "start": "node .output/server/index.mjs",
     "prepare": "esmo scripts/prepare.ts",
     "fetch": "esmo scripts/fetch.ts"
@@ -27,7 +27,7 @@
     "fs-extra": "^10.1.0",
     "fuse.js": "^6.5.3",
     "markdown-it-link-attributes": "^4.0.0",
-    "nuxt": "npm:nuxt3@latest",
+    "nuxt": "^3.0.0-rc.1",
     "p-limit": "^4.0.0",
     "prettier": "^2.6.2",
     "shiki": "^0.10.1",
