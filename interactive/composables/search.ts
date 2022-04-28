@@ -64,20 +64,30 @@ export async function search(input: string) {
   if (input.match(/^rand(om)?:/))
     return sampleArray(fuseCollection, RESULT_AMOUNT)
 
-  const extact = await generateFor(input)
-  await Promise.all([
-    ...await ac.suggest(input),
-    ...await ac.suggest(`${input}-`),
-  ].map(i => generateFor(i)))
+  const parts = input.split(/\s/g).filter(notNull)
+  const extact = await generateForMultiple(parts)
+  await suggestMultiple([
+    ...parts,
+    ...parts.map(i => `${i}-`),
+  ]).then(r => generateForMultiple(r))
 
-  const searchResult = fuse.search(input, { limit: RESULT_AMOUNT })
+  const searchResult = parts.flatMap(i => fuse.search(i, { limit: RESULT_AMOUNT }))
     .filter(i => i.score! <= 0.5)
+    .sort((a, b) => a.score! - b.score!)
     .map(i => i.item)
 
   return uniq([
-    extact,
+    ...extact,
     ...searchResult,
   ].filter(notNull))
+}
+
+async function suggestMultiple(str: string[]) {
+  return uniq((await Promise.all(str.map(i => ac.suggest(i)))).flat())
+}
+
+async function generateForMultiple(str: string[]) {
+  return uniq(await Promise.all(str.map(i => generateFor(i)))).filter(notNull)
 }
 
 async function prepareFuse() {
