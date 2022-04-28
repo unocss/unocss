@@ -3,7 +3,6 @@ import {
   defineConfig,
   presetAttributify,
   presetIcons,
-  presetTypography,
   presetUno,
   presetWebFonts,
   transformerDirectives,
@@ -12,7 +11,6 @@ import {
 
 export const defaultConfig = defineConfig<{}>({
   details: true,
-
   presets: [
     presetAttributify(),
     presetIcons({
@@ -28,7 +26,6 @@ export const defaultConfig = defineConfig<{}>({
       },
     }),
     presetUno(),
-    presetTypography(),
   ],
   transformers: [
     transformerVariantGroup(),
@@ -42,8 +39,8 @@ export default defineConfig<{}>({
     ...defaultConfig.presets as any,
     presetWebFonts({
       fonts: {
-        sans: 'PT Sans',
-        mono: 'PT Mono',
+        sans: 'Inter',
+        mono: 'IBM Plex Mono',
       },
     }),
   ],

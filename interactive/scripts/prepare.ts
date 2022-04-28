@@ -7,6 +7,7 @@ copySync('node_modules/shiki/', 'public/shiki/', {
 })
 
 copySync('node_modules/theme-vitesse/themes', 'public/shiki/themes')
+copySync('node_modules/theme-vitesse/themes', 'node_modules/shiki/themes', { overwrite: true })
 
 ensureDirSync('guides/vendor/')
 

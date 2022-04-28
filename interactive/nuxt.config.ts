@@ -1,6 +1,7 @@
 import { defineNuxtConfig } from 'nuxt'
 import Markdown from 'vite-plugin-md'
 import LinkAttributes from 'markdown-it-link-attributes'
+import Shiki from 'markdown-it-shiki'
 import { alias } from '../vitest.config'
 
 const externals = [
@@ -25,6 +26,11 @@ export default defineNuxtConfig({
   unocss: {
     preflight: true,
   },
+  postcss: {
+    plugins: {
+      'postcss-nested': {},
+    },
+  },
   vite: {
     // @ts-expect-error any
     vue: {
@@ -47,6 +53,12 @@ export default defineNuxtConfig({
             attrs: {
               target: '_blank',
               rel: 'noopener',
+            },
+          })
+          md.use(Shiki, {
+            theme: {
+              dark: 'vitesse-dark',
+              light: 'vitesse-light',
             },
           })
         },

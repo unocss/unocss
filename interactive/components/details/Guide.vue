@@ -10,7 +10,7 @@ const component = await item.component().then(i => i.default)
 
 <template>
   <DetailsBase :title="item.title">
-    <div class="prose max-w-full mt2 text-left">
+    <div class="markdown-body max-w-full mt2 text-left">
       <component :is="component" />
     </div>
   </DetailsBase>

@@ -16,6 +16,8 @@ useHead({
 </template>
 
 <style>
+@import './markdown.css';
+
 html, body , #__nuxt {
   height: 100vh;
   margin: 0;
@@ -29,20 +31,12 @@ html.dark {
   color-scheme: dark;
 }
 
-.prose a {
-  text-decoration: none !important;
-  opacity: 0.8;
+html.dark .shiki-light {
+  display: none;
 }
-.prose a:hover {
-  opacity: 1;
-  text-decoration: underline !important;
-  text-decoration-style: dashed !important;
-  text-decoration-thickness: 1px !important;
-  text-underline-offset: 2px;
-  @apply text-teal;
-}
-.prose th {
-  font-weight: bold !important;
+
+html:not(.dark) .shiki-dark {
+  display: none;
 }
 
 div {
