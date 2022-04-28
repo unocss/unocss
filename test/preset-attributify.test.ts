@@ -126,7 +126,7 @@ describe('attributify', () => {
 
     expect(Array.from(await uno.applyExtractors(fixture1) || [])
       .map((i) => {
-        const r = variant(i, {} as any)
+        const r = variant.match(i, {} as any)
         return typeof r === 'string' ? r : r ? r.matcher : r
       }))
       .toMatchSnapshot()

@@ -1,10 +1,10 @@
-import type { Variant } from '@unocss/core'
+import type { VariantObject } from '@unocss/core'
 import { isAttributifySelector } from '@unocss/core'
 import type { AttributifyOptions } from '../types'
 
 export const variantsRE = /^(?!\[(?:[^:]+):(?:.+)\]$)((?:.+:)?!?)?(.*)$/
 
-export const variantAttributify = (options: AttributifyOptions = {}): Variant => {
+export const variantAttributify = (options: AttributifyOptions = {}): VariantObject => {
   const prefix = options.prefix ?? 'un-'
   const prefixedOnly = options.prefixedOnly ?? false
 

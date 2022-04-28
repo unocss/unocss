@@ -20,7 +20,7 @@ import { isCompact, toggleCompact, uno } from '~/composables/state'
     <div flex-auto />
     <div row gap4 text="lg gray4" items-center>
       <button :class="isCompact ? 'i-carbon-list': 'i-carbon-list-boxes'" @click="toggleCompact()" />
-      <a i-carbon-logo-github href="https://github.com/antfu/vitesse-nuxt3" target="_blank" />
+      <a i-carbon-logo-github href="https://github.com/unocss/unocss" target="_blank" />
       <DarkToggle />
     </div>
   </div>
