@@ -513,6 +513,7 @@ export const presetMiniTargets: string[] = [
   'ws-nowrap',
   'content-empty',
   'content-none',
+  'content-unocss',
   'content-[unocss]',
   'content-[attr(dashed-attr)]',
   'break-normal',
