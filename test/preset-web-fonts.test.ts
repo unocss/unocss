@@ -32,7 +32,7 @@ const classes = new Set([
   'font-lato',
 ])
 
-test('web-fonts (inline: false)', async() => {
+test('web-fonts (inline: false)', async () => {
   const uno = createGenerator({
     presets: [
       presetMini(),
@@ -47,7 +47,7 @@ test('web-fonts (inline: false)', async() => {
   expect(css).toMatchSnapshot()
 })
 
-test('web-fonts (inline: true)', async() => {
+test('web-fonts (inline: true)', async () => {
   const uno = createGenerator({
     presets: [
       presetMini(),

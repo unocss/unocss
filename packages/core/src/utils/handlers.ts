@@ -8,7 +8,7 @@ export type ValueHandler<K extends string> = { [S in K]: ValueHandler<K> } & {
 }
 
 export function createValueHandler<K extends string>(handlers: Record<K, ValueHandlerCallback>): ValueHandler<K> {
-  const handler = function(
+  const handler = function (
     this: ValueHandler<K>,
     str: string,
   ): string | number | undefined {

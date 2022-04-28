@@ -29,7 +29,7 @@ describe('transformer-directives', () => {
     })
   }
 
-  test('basic', async() => {
+  test('basic', async () => {
     const result = await transform(
       '.btn { @apply rounded text-lg font-mono; }',
     )
@@ -46,7 +46,7 @@ describe('transformer-directives', () => {
       `)
   })
 
-  test('breakpoint', async() => {
+  test('breakpoint', async () => {
     const result = await transform(
       '.grid { @apply grid grid-cols-2 xl:grid-cols-10 sm:grid-cols-7 md:grid-cols-3 lg:grid-cols-4 }',
     )
@@ -80,7 +80,7 @@ describe('transformer-directives', () => {
       `)
   })
 
-  test('variant group', async() => {
+  test('variant group', async () => {
     const result = await transform(
       '.btn { @apply grid-(cols-2 rows-4) hover:(border bg-white) }',
     )
@@ -100,7 +100,7 @@ describe('transformer-directives', () => {
       `)
   })
 
-  test('pseudo-classes', async() => {
+  test('pseudo-classes', async () => {
     const result = await transform(
       '.btn { @apply p-3 hover:bg-white focus:border }',
     )
@@ -121,7 +121,7 @@ describe('transformer-directives', () => {
       `)
   })
 
-  test('multiple pseudo-classes', async() => {
+  test('multiple pseudo-classes', async () => {
     const result = await transform(
       '.btn { @apply sm:hover:bg-white }',
     )
@@ -139,7 +139,7 @@ describe('transformer-directives', () => {
       `)
   })
 
-  test('element selector', async() => {
+  test('element selector', async () => {
     const result = await transform(
       'input { @apply px-3 focus:border; }',
     )
@@ -157,7 +157,7 @@ describe('transformer-directives', () => {
       `)
   })
 
-  test('multiple selector', async() => {
+  test('multiple selector', async () => {
     const result = await transform(
       '.btn,.box { @apply px-3 focus:border; }',
     )
@@ -177,7 +177,7 @@ describe('transformer-directives', () => {
       `)
   })
 
-  test('two class selector', async() => {
+  test('two class selector', async () => {
     const result = await transform(
       '.btn.box { @apply px-3 focus:border; }',
     )
@@ -195,7 +195,7 @@ describe('transformer-directives', () => {
       `)
   })
 
-  test('multiple apply', async() => {
+  test('multiple apply', async () => {
     const result = await transform(
       `.btn {
         @apply p-3;
@@ -223,7 +223,7 @@ describe('transformer-directives', () => {
       `)
   })
 
-  test('dark class', async() => {
+  test('dark class', async () => {
     const uno = createGenerator({
       presets: [
         presetUno({
@@ -254,7 +254,7 @@ describe('transformer-directives', () => {
       `)
   })
 
-  test('nested class', async() => {
+  test('nested class', async () => {
     const result = await transform(
       `nav {
         ul {
@@ -288,14 +288,14 @@ describe('transformer-directives', () => {
       `)
   })
 
-  test('css file', async() => {
+  test('css file', async () => {
     const css = await readFile('./test/assets/apply.css', 'utf8')
     const result = await transform(css)
 
     expect(result).toMatchSnapshot()
   })
 
-  test('custom breakpoints', async() => {
+  test('custom breakpoints', async () => {
     const customUno = createGenerator({
       presets: [
         presetUno(),

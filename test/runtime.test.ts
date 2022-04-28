@@ -36,7 +36,7 @@ const targets = [
 ].join(' ')
 
 describe('runtime auto prefixer', () => {
-  test('without autoprfixer', async() => {
+  test('without autoprfixer', async () => {
     const uno = createGenerator({
       presets: [
         presetUno(),
@@ -47,7 +47,7 @@ describe('runtime auto prefixer', () => {
     expect(css).toMatchSnapshot()
   })
 
-  test('using autoprfixer', async() => {
+  test('using autoprfixer', async () => {
     const uno = createGenerator({
       presets: [
         presetUno(),

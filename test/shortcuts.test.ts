@@ -41,22 +41,22 @@ describe('shortcuts', () => {
     ],
   })
 
-  test('static', async() => {
+  test('static', async () => {
     const { css } = await uno.generate('sh1 sh2 focus:sh2 sh3')
     expect(css).toMatchSnapshot()
   })
 
-  test('nesting static', async() => {
+  test('nesting static', async () => {
     const { css } = await uno.generate('btn1 btn btn2')
     expect(css).toMatchSnapshot()
   })
 
-  test('dynamic', async() => {
+  test('dynamic', async () => {
     const { css } = await uno.generate('button-1 button-2')
     expect(css).toMatchSnapshot()
   })
 
-  test('merge transform-duplicated', async() => {
+  test('merge transform-duplicated', async () => {
     const { css } = await uno.generate('transform-duplicated')
     const prettified = prettier.format(css, {
       parser: 'css',
@@ -65,37 +65,37 @@ describe('shortcuts', () => {
     expect(prettified).toMatchSnapshot()
   })
 
-  test('no-merge', async() => {
+  test('no-merge', async () => {
     const { css } = await uno.generate('with-no-merge merge-candidate')
     expect(css).toMatchSnapshot()
   })
 
-  test('variant order', async() => {
+  test('variant order', async () => {
     const { css } = await uno.generate('shortcut-hover-active-1')
     expect(css).toMatchSnapshot()
   })
 
-  test('variant order', async() => {
+  test('variant order', async () => {
     const { css } = await uno.generate('shortcut-hover-active-2')
     expect(css).toMatchSnapshot()
   })
 
-  test('variant order', async() => {
+  test('variant order', async () => {
     const { css } = await uno.generate('shortcut-hover-active-2 layer-shortcuts:bg-red-300')
     expect(css).toMatchSnapshot()
   })
 
-  test('variant order', async() => {
+  test('variant order', async () => {
     const { css } = await uno.generate('shortcut-hover-active-2 layer-shortcuts:bg-yellow-300')
     expect(css).toMatchSnapshot()
   })
 
-  test('variant order', async() => {
+  test('variant order', async () => {
     const { css } = await uno.generate('shortcut-hover-active-2 layer-shortcuts:bg-blue-300')
     expect(css).toMatchSnapshot()
   })
 
-  test('animate', async() => {
+  test('animate', async () => {
     const { css } = await uno.generate('loading')
     expect(css).toMatchSnapshot()
   })

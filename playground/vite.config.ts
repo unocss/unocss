@@ -7,6 +7,7 @@ import Unocss from '@unocss/vite'
 import { alias } from '../vitest.config'
 
 export default defineConfig({
+  base: '/play/',
   resolve: {
     alias,
   },
@@ -38,6 +39,7 @@ export default defineConfig({
     ],
   },
   build: {
+    outDir: '../interactive/public/play',
     rollupOptions: {
       external: [
         '@iconify/utils/lib/loader/fs',

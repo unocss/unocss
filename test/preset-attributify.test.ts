@@ -109,15 +109,15 @@ describe('attributify', () => {
     ],
   })
 
-  test('extractor1', async() => {
+  test('extractor1', async () => {
     expect(await uno.applyExtractors(fixture1)).toMatchSnapshot()
   })
 
-  test('extractor2', async() => {
+  test('extractor2', async () => {
     expect(await uno.applyExtractors(fixture2)).toMatchSnapshot()
   })
 
-  test('variant', async() => {
+  test('variant', async () => {
     const variant = variantAttributify({
       prefix: 'un-',
       prefixedOnly: false,
@@ -132,17 +132,17 @@ describe('attributify', () => {
       .toMatchSnapshot()
   })
 
-  test('fixture1', async() => {
+  test('fixture1', async () => {
     const { css } = await uno.generate(fixture1)
     expect(css).toMatchSnapshot()
   })
 
-  test('fixture2', async() => {
+  test('fixture2', async () => {
     const { css } = await uno.generate(fixture2)
     expect(css).toMatchSnapshot()
   })
 
-  test('autocomplete extractor', async() => {
+  test('autocomplete extractor', async () => {
     const res = await autocompleteExtractorAttributify.extract({
       content: fixture1,
       cursor: 187,
@@ -174,7 +174,7 @@ describe('attributify', () => {
       .toMatchSnapshot()
   })
 
-  test('compatible with full controlled rules', async() => {
+  test('compatible with full controlled rules', async () => {
     const { css } = await uno.generate(fixture3)
     expect(css).toMatchSnapshot()
   })

@@ -3,7 +3,7 @@ import presetUno from '@unocss/preset-uno'
 import presetIcons from '@unocss/preset-icons'
 import { expect, test } from 'vitest'
 
-test('prefix', async() => {
+test('prefix', async () => {
   const positive = [
     'uno:pl-10px',
     'uno:hover:p-4',
@@ -39,7 +39,7 @@ test('prefix', async() => {
   expect(css).toMatchSnapshot()
 })
 
-test('tailwind prefix', async() => {
+test('tailwind prefix', async () => {
   const positive = [
     'uno:pl-10px',
     'hover:uno:p-4',

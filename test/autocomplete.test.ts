@@ -36,7 +36,7 @@ describe('autocomplete', () => {
     })
   })
 
-  it('should work', async() => {
+  it('should work', async () => {
     expect((await ac.suggest('m-1'))[0])
       .toMatchInlineSnapshot('"m-1"')
 
@@ -44,7 +44,7 @@ describe('autocomplete', () => {
       .not.toBe('invalid')
   })
 
-  it('should provide autocomplete', async() => {
+  it('should provide autocomplete', async () => {
     expect(
       await enumerateSuggestions([
         // sort this list in alphabetical order
@@ -128,7 +128,7 @@ describe('autocomplete', () => {
     `)
   })
 
-  it('should provide skip DEFAULT', async() => {
+  it('should provide skip DEFAULT', async () => {
     expect((await ac.suggest('text-red-')))
       .toMatchInlineSnapshot(`
         [
@@ -155,7 +155,7 @@ describe('autocomplete', () => {
       `)
   })
 
-  it('should provide variants', async() => {
+  it('should provide variants', async () => {
     expect(await ac.suggest('lt-'))
       .toMatchInlineSnapshot(`
         [
@@ -168,7 +168,7 @@ describe('autocomplete', () => {
       `)
   })
 
-  it('should accept variants', async() => {
+  it('should accept variants', async () => {
     expect(await ac.suggest('dark:md:m-'))
       .toMatchInlineSnapshot(`
         [
@@ -189,12 +189,12 @@ describe('autocomplete', () => {
       `)
   })
 
-  it('should skip single-pass variants', async() => {
+  it('should skip single-pass variants', async () => {
     expect(await ac.suggest('dark:dar')).not.toContain('dark:')
     expect(await ac.suggest('active:fir')).toContain('active:first:')
   })
 
-  it('should support extractors', async() => {
+  it('should support extractors', async () => {
     const res = await ac.suggestInFile(fixture, 40)
 
     expect(res.suggestions.every(i => i[0].startsWith('border-'))).toBeTruthy()
@@ -219,7 +219,7 @@ describe('autocomplete', () => {
     `)
   })
 
-  it('should escape regex', async() => {
+  it('should escape regex', async () => {
     expect((await ac.suggest('m-['))[0])
       .toMatchInlineSnapshot('undefined')
   })

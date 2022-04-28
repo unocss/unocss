@@ -2,7 +2,7 @@ import { createGenerator } from '@unocss/core'
 import { describe, expect, test } from 'vitest'
 
 describe('layers', () => {
-  test('static', async() => {
+  test('static', async () => {
     const uno = createGenerator({
       rules: [
         ['a', { name: 'bar1' }, { layer: 'a' }],

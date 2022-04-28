@@ -19,7 +19,7 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
       dev: true,
     }))
 
-    server.middlewares.use('/__unocss_api', async(req, res, next) => {
+    server.middlewares.use('/__unocss_api', async (req, res, next) => {
       if (!req.url)
         return next()
       if (req.url === '/') {

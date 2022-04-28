@@ -17,7 +17,7 @@ export function ConfigHMRPlugin(ctx: UnocssPluginContext): Plugin | undefined {
         return
 
       server.watcher.add(sources)
-      server.watcher.on('change', async(p) => {
+      server.watcher.on('change', async (p) => {
         if (!sources.includes(p))
           return
 

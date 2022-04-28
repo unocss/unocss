@@ -21,11 +21,11 @@ describe('emojis', () => {
     ],
   })
 
-  test('extractor1', async() => {
+  test('extractor1', async () => {
     expect(await uno.applyExtractors(fixture1)).toMatchSnapshot()
   })
 
-  test('fixture1', async() => {
+  test('fixture1', async () => {
     const { css } = await uno.generate(fixture1)
     expect(css).toMatchSnapshot()
   })

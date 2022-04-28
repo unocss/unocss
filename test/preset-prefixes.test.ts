@@ -9,7 +9,7 @@ const targets = [
   '[uno-sm~="bg-blue-400"]',
 ]
 
-test('options properties does not override each other', async() => {
+test('options properties does not override each other', async () => {
   const uno1 = createGenerator({
     presets: [
       presetAttributify({ prefix: 'uno-' }),

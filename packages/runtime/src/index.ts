@@ -159,14 +159,14 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   const mutationObserver = new MutationObserver((mutations) => {
     if (paused)
       return
-    mutations.forEach(async(mutation) => {
+    mutations.forEach(async (mutation) => {
       if (mutation.target.nodeType !== 1)
         return
       const target = mutation.target as Element
       if (target === styleElement)
         return
       if (mutation.type === 'childList') {
-        mutation.addedNodes.forEach(async(node) => {
+        mutation.addedNodes.forEach(async (node) => {
           if (node.nodeType !== 1)
             return
           const el = node as Element

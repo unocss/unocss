@@ -133,7 +133,7 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, fi
             const css = chunk.source
               .replace(HASH_PLACEHOLDER_RE, '')
 
-            chunk.source = await replaceAsync(css, LAYER_PLACEHOLDER_RE, async(_, __, layer) => {
+            chunk.source = await replaceAsync(css, LAYER_PLACEHOLDER_RE, async (_, __, layer) => {
               replaced = true
               return await transformCSS(layer === LAYER_MARK_ALL
                 ? result.getLayers(undefined, Array.from(vfsLayerMap.values()))

@@ -224,6 +224,10 @@ export type VariantFunction<Theme extends {} = {}> = (matcher: string, context: 
 
 export interface VariantObject<Theme extends {} = {}> {
   /**
+   * The name of the variant.
+   */
+  name?: string
+  /**
    * The entry function to match and rewrite the selector for futher processing.
    */
   match: VariantFunction<Theme>

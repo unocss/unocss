@@ -17,7 +17,7 @@ async function main(options: CliOptions = {}) {
       default: process.cwd(),
     })
     .option('-w, --watch', 'Watch for file changes')
-    .action(async(patterns: Array<string>, flags) => {
+    .action(async (patterns: Array<string>, flags) => {
       Object.assign(options, {
         ...flags,
       })

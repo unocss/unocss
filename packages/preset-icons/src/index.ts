@@ -54,7 +54,7 @@ export const preset = (options: IconsOptions = {}): Preset => {
     },
     rules: [[
       new RegExp(`^${prefix}([a-z0-9:-]+)(?:\\?(mask|bg|auto))?$`),
-      async([full, body, _mode = mode]) => {
+      async ([full, body, _mode = mode]) => {
         let collection = ''
         let name = ''
         let svg: string | undefined

@@ -1,0 +1,8 @@
+node_modules
+*.log
+dist
+.output
+.nuxt
+.env
+public/shiki
+public/play
