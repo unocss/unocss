@@ -113,10 +113,18 @@ onMounted(() => {
           v{{ version }}
         </div>
         <a
+          i-carbon-document-attachment
+          class="icon-btn"
+          href="https://uno.antfu.me"
+          target="_blank"
+          title="Interactive Docs"
+        />
+        <a
           i-carbon-logo-github
           class="icon-btn"
           href="https://github.com/unocss/unocss"
           target="_blank"
+          title="GitHub"
         />
         <button
           i-carbon-sun
