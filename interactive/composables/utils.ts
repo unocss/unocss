@@ -50,3 +50,17 @@ export function getItemId(item: ResultItem) {
     return `${item.type}:${item.title}`
   return item.class
 }
+
+export function getSameRules(item: RuleItem) {
+  if (!item.context?.rules?.length)
+    return []
+  const raw = toRaw(item)
+  return [...matchedMap.values()].filter((i) => {
+    if (raw === toRaw(i))
+      return false
+    if (i.context?.rules?.length !== item.context?.rules?.length)
+      return false
+    return i.context?.rules?.every((j, k) => j === item.context?.rules?.[k])
+  })
+    .sort((a, b) => a.class.localeCompare(b.class))
+}

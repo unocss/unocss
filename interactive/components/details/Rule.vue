@@ -45,6 +45,8 @@ const guides = $computed(() => {
   return items
 })
 
+const sameRules = $computed(() => getSameRules(item))
+
 function getRegex101Link(regex: RegExp, text: string) {
   return `https://regex101.com/?regex=${encodeURIComponent(regex.source)}&flag=${encodeURIComponent(regex.flags)}&testString=${encodeURIComponent(text)}`
 }
@@ -203,6 +205,19 @@ function getCsGitHubLink(key: RegExp | string, repo = 'unocss/unocss') {
         </div>
         <div border="~ base">
           <template v-for="a,idx of alias" :key="a.class">
+            <div v-if="idx" divider />
+            <RouterLink :to="{ query: { s: a.class } }">
+              <ResultItem :item="a" :compact="true" />
+            </RouterLink>
+          </template>
+        </div>
+      </div>
+      <div v-if="sameRules.length">
+        <div op30 mb1>
+          Same Rule
+        </div>
+        <div border="~ base">
+          <template v-for="a,idx of sameRules" :key="a.class">
             <div v-if="idx" divider />
             <RouterLink :to="{ query: { s: a.class } }">
               <ResultItem :item="a" :compact="true" />
