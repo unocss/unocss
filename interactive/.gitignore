@@ -6,3 +6,4 @@ dist
 .env
 public/shiki
 public/play
+.netlify

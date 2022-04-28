@@ -9,7 +9,6 @@
 
 [functions]
   node_bundler = "esbuild"
-  external_node_modules = ["ufo", "h3", "ohmyfetch", "scule"]
 
 [[redirects]]
   from = "/play/*"
