@@ -76,7 +76,7 @@
   font-weight: 600;
   padding-bottom: .3em;
   font-size: 1.7em;
-  border-bottom: 1px solid #8882;
+  @apply border-b border-base;
 }
 
 .markdown-body mark {
@@ -127,11 +127,10 @@
   box-sizing: content-box;
   overflow: hidden;
   background: transparent;
-  border-bottom: 1px solid #8883;
+  @apply border-b border-base bg-gray:10;
   height: .25em;
   padding: 0;
   margin: 24px 0;
-  background-color: #30363d;
   border: 0;
 }
 
@@ -239,8 +238,7 @@
   color: #c9d1d9;
   vertical-align: middle;
   background-color: #161b22;
-  border: solid 1px rgba(110,118,129,0.4);
-  border-bottom-color: rgba(110,118,129,0.4);
+  @apply border border-base
   border-radius: 6px;
   box-shadow: inset 0 -1px 0 rgba(110,118,129,0.4);
 }
@@ -261,7 +259,7 @@
   font-weight: 600;
   padding-bottom: .3em;
   font-size: 1.5em;
-  border-bottom: 1px solid #8883;
+  @apply border-b border-base
 }
 
 .markdown-body h3 {
@@ -665,20 +663,19 @@
 .markdown-body table th,
 .markdown-body table td {
   padding: 6px 13px;
-  border: 1px solid #8885;
+  @apply border border-base;
 }
 
 .markdown-body table tr {
-  background-color: #8881;
-  border-top: 1px solid #8885;
+  @apply border-t border-base;
 }
 
 .markdown-body table tr:nth-child(2n) {
-  background-color: #88888805;
+  background-color: rgba(156,163,175,0.02);
 }
 
-.markdown-body table img {
-  background-color: transparent;
+.markdown-body img {
+  background: transparent;
 }
 
 .markdown-body img[align=right] {
@@ -874,7 +871,7 @@
 .markdown-body .footnotes {
   font-size: 12px;
   color: #8b949e;
-  border-top: 1px solid #30363d;
+  @apply border-t border-base;
 }
 
 .markdown-body .footnotes ol {
@@ -936,4 +933,8 @@
 
 .markdown-body ::-webkit-calendar-picker-indicator {
   filter: invert(50%);
+}
+
+.markdown-body s {
+  opacity: 0.6;
 }
