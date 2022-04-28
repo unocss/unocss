@@ -1,7 +1,7 @@
 import type { Plugin } from 'vite'
 import type { UnocssPluginContext } from '@unocss/core'
 import type { VitePluginConfig } from '../../types'
-import { getHash, getPath } from '../../../../plugins-common/utils'
+import { getHash, getPath, replaceAsync } from '../../../../plugins-common/utils'
 import {
   HASH_PLACEHOLDER_RE,
   LAYER_MARK_ALL,
@@ -132,13 +132,13 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, fi
           if (chunk.type === 'asset' && typeof chunk.source === 'string') {
             const css = chunk.source
               .replace(HASH_PLACEHOLDER_RE, '')
-              .replace(LAYER_PLACEHOLDER_RE, (_, __, layer) => {
-                replaced = true
-                return layer === LAYER_MARK_ALL
-                  ? result.getLayers(undefined, Array.from(vfsLayerMap.values()))
-                  : result.getLayer(layer) || ''
-              })
-            chunk.source = await transformCSS(css, `${chunk.fileName}.css`)
+
+            chunk.source = await replaceAsync(css, LAYER_PLACEHOLDER_RE, async(_, __, layer) => {
+              replaced = true
+              return await transformCSS(layer === LAYER_MARK_ALL
+                ? result.getLayers(undefined, Array.from(vfsLayerMap.values()))
+                : result.getLayer(layer) || '', `${chunk.fileName}.css`)
+            })
           }
         }
 
