@@ -2,7 +2,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "nuxi build .",
+    "build": "nuxi generate .",
     "dev": "nuxi dev .",
     "start": "node .output/server/index.mjs",
     "prepare": "esmo scripts/prepare.ts",
