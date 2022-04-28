@@ -47,9 +47,8 @@ const preset = (options: WebFontsOptions = {}): Preset<any> => {
     if (inlineImports) {
       if (!importCache[url]) {
         try {
-          const { default: axios } = await import('axios')
-          const { data } = await axios.get(url, { headers: {} })
-          importCache[url] = data
+          const { $fetch } = await import('ohmyfetch')
+          importCache[url] = await $fetch(url, { headers: {} })
         }
         catch (e) {
           console.error('Failed to fetch web fonts')
