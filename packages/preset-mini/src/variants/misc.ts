@@ -1,6 +1,7 @@
 import type { Variant } from '@unocss/core'
 
 export const variantSelector: Variant = {
+  name: 'selector',
   match(matcher) {
     const match = matcher.match(/^selector-\[(.+?)\][:-]/)
     if (match) {
@@ -13,6 +14,7 @@ export const variantSelector: Variant = {
 }
 
 export const variantLayer: Variant = {
+  name: 'layer',
   match(matcher) {
     const match = matcher.match(/^layer-([_\d\w]+)[:-]/)
     if (match) {
@@ -25,6 +27,7 @@ export const variantLayer: Variant = {
 }
 
 export const variantScope: Variant = {
+  name: 'scope',
   match(matcher) {
     const match = matcher.match(/^scope-([_\d\w]+)[:-]/)
     if (match) {
@@ -37,6 +40,7 @@ export const variantScope: Variant = {
 }
 
 export const variantImportant: Variant = {
+  name: 'important',
   match(matcher) {
     const match = matcher.match(/^(important[:-]|!)/)
     if (match) {
@@ -57,6 +61,7 @@ export const variantImportant: Variant = {
 
 const numberRE = /[0-9.]+(?:[a-z]+|%)?/
 export const variantNegative: Variant = {
+  name: 'negative',
   match(matcher) {
     if (!matcher.startsWith('-') || !matcher.match(/\d|-px|-full/))
       return

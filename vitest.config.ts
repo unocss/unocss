@@ -1,10 +1,9 @@
 import { resolve } from 'path'
-import type { AliasOptions } from 'vite'
 import { defineConfig } from 'vite'
 
 const r = (p: string) => resolve(__dirname, p)
 
-export const alias: AliasOptions = {
+export const alias: Record<string, string> = {
   'unocss': r('./packages/unocss/src/'),
   '@unocss/core': r('./packages/core/src/'),
   '@unocss/vite': r('./packages/vite/src/'),

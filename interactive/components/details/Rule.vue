@@ -24,7 +24,6 @@ const variantSteps = $computed(() => {
   if (variants) {
     variants.forEach((v, i) => {
       steps.push({
-        // @ts-expect-error anyway
         name: item.context?.variants?.[i]?.name,
         result: v.matcher,
       })
@@ -86,11 +85,11 @@ function getCsGitHubLink(key: RegExp | string, repo = 'unocss/unocss') {
             <div v-if="idx" divider />
             <div v-if="idx" divider />
             <div px4 py2>
-              <div v-if="!idx" mra mya badge-sm-teal>
-                input
+              <div v-if="!idx" mra mya badge-xs-gray>
+                {input}
               </div>
-              <div v-else-if="s.name" mra mya badge-sm-pink>
-                {{ s.name }}
+              <div v-else mra mya badge-xs-pink :class="s.name ? '' : 'op50'">
+                {{ s.name || 'anonymous' }}
               </div>
             </div>
             <div px4 py2 font-mono op60>
