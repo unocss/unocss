@@ -28,31 +28,13 @@ jobs:
       - name: Lint
         run: nr lint
 
-  typecheck:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-
-      - name: Setup
-        run: npm i -g @antfu/ni
-
-      - name: Install
-        run: nci
-
-      - name: Typecheck
-        run: nr typecheck
-
   test:
     runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
         node: [14.x, 16.x]
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest]
       fail-fast: false
 
     steps:
@@ -73,3 +55,6 @@ jobs:
 
       - name: Test
         run: nr test
+
+      - name: Typecheck
+        run: nr typecheck
