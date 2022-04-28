@@ -9,12 +9,13 @@ const { copyFile, copy, writeFileSync } = fs
 
 await fs.ensureDir('guides/vendor/')
 
+await copy('node_modules/shiki/', 'public/shiki/', {
+  filter: src => src === 'node_modules/shiki/' || src.includes('languages') || src.includes('dist'),
+})
+await copy('node_modules/theme-vitesse/themes', 'public/shiki/themes')
+await copy('node_modules/theme-vitesse/themes', 'node_modules/shiki/themes', { overwrite: true })
+
 await Promise.all([
-  copy('node_modules/shiki/', 'public/shiki/', {
-    filter: src => src === 'node_modules/shiki/' || src.includes('languages') || src.includes('dist'),
-  }),
-  copy('node_modules/theme-vitesse/themes', 'public/shiki/themes'),
-  copy('node_modules/theme-vitesse/themes', 'node_modules/shiki/themes', { overwrite: true }),
 
   copyFile('../README.md', 'guides/vendor/intro.md'),
   copyFile('../packages/preset-uno/README.md', 'guides/vendor/preset-uno.md'),
