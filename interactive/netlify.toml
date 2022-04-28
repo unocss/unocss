@@ -16,6 +16,6 @@
   status = 200
 
 [[redirects]]
-  from = "https://unocss.antfu.me/:slug"
-  to = "https://uno.antfu.me/play/:slug"
+  from = "https://unocss.antfu.me/*"
+  to = "https://uno.antfu.me/play/:splat"
   status = 302
