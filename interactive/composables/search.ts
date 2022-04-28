@@ -2,9 +2,10 @@ import { notNull, uniq } from '@unocss/core'
 import Fuse from 'fuse.js'
 import { mdnIndex } from '~/data/mdn-index'
 import type { ResultItem } from '~/types'
-import { guideIndex } from '~~/data/guides'
+import { guideIndex } from '~/data/guides'
 
-const RESULT_AMOUNT = 20
+const RESULT_AMOUNT = 50
+const az09 = Array.from('abcdefghijklmnopqrstuvwxyz01234567890')
 
 export const fuseCollection: ResultItem[] = [
   ...guideIndex,
@@ -69,12 +70,14 @@ export async function search(input: string) {
   await suggestMultiple([
     ...parts,
     ...parts.map(i => `${i}-`),
+    ...parts.flatMap(i => az09.map(a => `${i}-${a}`)),
   ]).then(r => generateForMultiple(r))
 
-  const searchResult = parts.flatMap(i => fuse.search(i, { limit: RESULT_AMOUNT }))
+  const searchResult = parts.flatMap(i => fuse.search(i, { limit: RESULT_AMOUNT * 2 }))
     .filter(i => i.score! <= 0.5)
     .sort((a, b) => a.score! - b.score!)
     .map(i => i.item)
+    .slice(0, RESULT_AMOUNT)
 
   return uniq([
     ...extact,
