@@ -18,7 +18,10 @@ The instant on-demand Atomic CSS engine.
 </blockquote>
 
 <br>
-<p align="center"><a href="https://unocss.antfu.me/">🤹‍♂️ Online Playground</a></p>
+<p align="center">
+<a href="https://uno.antfu.me/">🧑‍💻 Interactive Docs <sup>Beta</sup></a> |
+<a href="https://uno.antfu.me/play/">🤹‍♂️ Playground</a>
+</p>
 <br>
 
 ## Features
