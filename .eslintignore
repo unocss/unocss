@@ -1,4 +1,5 @@
 *.global.js
 build
 node_modules
-interactive/guides/vendor/
+interactive/guides/vendor/*.md
+interactive/data/guides.ts
