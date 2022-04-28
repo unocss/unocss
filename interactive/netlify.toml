@@ -4,7 +4,7 @@
   NODE_OPTIONS = "--max_old_space_size=4096"
 
 [build]
-  publish = ".output/public"
+  publish = "dist"
   command = "cd .. && npx pnpm i --store=./node_modules/.pnpm-store && pnpm run deploy && cd interactive"
 
 [functions]
