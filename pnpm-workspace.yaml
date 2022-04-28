@@ -3,6 +3,5 @@ packages:
   - interactive
   - 'packages/*'
   - bench
-  - docs
   - '!**/test/**'
   - '!examples/**'

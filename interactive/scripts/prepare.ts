@@ -16,7 +16,6 @@ await copy('node_modules/theme-vitesse/themes', 'public/shiki/themes')
 await copy('node_modules/theme-vitesse/themes', 'node_modules/shiki/themes', { overwrite: true })
 
 await Promise.all([
-
   copyFile('../README.md', 'guides/vendor/intro.md'),
   copyFile('../packages/preset-uno/README.md', 'guides/vendor/preset-uno.md'),
   copyFile('../packages/preset-wind/README.md', 'guides/vendor/preset-wind.md'),
