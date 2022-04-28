@@ -4,6 +4,7 @@ import { escapeRegExp } from '@unocss/core'
 export const variantMatcher = (name: string, selector?: (input: string) => string | undefined): VariantObject => {
   const re = new RegExp(`^${escapeRegExp(name)}[:-]`)
   return {
+    name,
     match: (input: string): VariantHandler | undefined => {
       const match = input.match(re)
       if (match) {
@@ -20,6 +21,7 @@ export const variantMatcher = (name: string, selector?: (input: string) => strin
 export const variantParentMatcher = (name: string, parent: string): VariantObject => {
   const re = new RegExp(`^${escapeRegExp(name)}[:-]`)
   return {
+    name,
     match: (input: string): VariantHandler | undefined => {
       const match = input.match(re)
       if (match) {

@@ -1,6 +1,7 @@
 import { defineNuxtConfig } from 'nuxt'
 import Markdown from 'vite-plugin-md'
 import LinkAttributes from 'markdown-it-link-attributes'
+import { alias } from '../vitest.config'
 
 const externals = [
   'local-pkg',
@@ -11,6 +12,7 @@ const externals = [
 ]
 
 export default defineNuxtConfig({
+  alias,
   modules: [
     '@vueuse/nuxt',
     '@unocss/nuxt',

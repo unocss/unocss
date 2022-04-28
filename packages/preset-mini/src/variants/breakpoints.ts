@@ -12,6 +12,7 @@ const calcMaxWidthBySize = (size: string) => {
 }
 
 export const variantBreakpoints: Variant<Theme> = {
+  name: 'breakpoints',
   match(matcher, context) {
     const variantEntries: Array<[string, string, number]>
     = Object.entries(resolveBreakpoints(context) ?? {}).map(([point, size], idx) => [point, size, idx])
