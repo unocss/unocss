@@ -28,7 +28,9 @@ export default defineNuxtConfig({
   unocss: {
     preflight: true,
   },
-  pages: true,
+  nitro: {
+    preset: 'netlify-edge',
+  },
   vite: {
     // @ts-expect-error any
     vue: {
