@@ -39,6 +39,7 @@
     "**/client/**",
     "**/playground/**",
     "**/examples/**",
+    "**/interactive/**",
     "**/test/dts/**"
   ]
 }

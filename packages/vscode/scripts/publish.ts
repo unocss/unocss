@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { dirname, join } from 'path'
 import fs from 'fs-extra'
-import execa from 'execa'
+import { execa } from 'execa'
 
 const root = dirname(__dirname)
 
