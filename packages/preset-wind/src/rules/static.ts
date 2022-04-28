@@ -2,7 +2,7 @@ import type { Rule } from '@unocss/core'
 import { positionMap } from '@unocss/preset-mini/utils'
 
 export const textTransforms: Rule[] = [
-  // tailwind compact
+  // tailwind compat
   ['uppercase', { 'text-transform': 'uppercase' }],
   ['lowercase', { 'text-transform': 'lowercase' }],
   ['capitalize', { 'text-transform': 'capitalize' }],
