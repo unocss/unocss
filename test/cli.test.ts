@@ -1,7 +1,7 @@
 import { resolve } from 'path'
 import fs from 'fs-extra'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-import execa from 'execa'
+import { execa } from 'execa'
 
 export const cacheDir = resolve('.cache')
 export const cli = resolve(__dirname, '../packages/cli/src/cli.ts')
