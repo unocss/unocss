@@ -8,6 +8,7 @@ import {
   borders,
   boxShadows,
   boxSizing,
+  contents,
   cssProperty,
   cursors,
   displays,
@@ -56,7 +57,7 @@ import { container } from './container'
 import { backgroundStyles } from './background'
 import { filters } from './filters'
 import { spaces } from './spacing'
-import { backgroundBlendModes, contents, hyphens, isolations, mixBlendModes, objectPositions, screenReadersAccess, textTransforms, writingModes, writingOrientations } from './static'
+import { backgroundBlendModes, hyphens, isolations, mixBlendModes, objectPositions, screenReadersAccess, textTransforms, writingModes, writingOrientations } from './static'
 import { tables } from './table'
 import { accents, carets, imageRenderings, listStyle, overscrolls, scrollBehaviors } from './behaviors'
 import { animations } from './animation'

@@ -1,5 +1,5 @@
 import type { Rule } from '@unocss/core'
-import { handler as h, positionMap } from '@unocss/preset-mini/utils'
+import { positionMap } from '@unocss/preset-mini/utils'
 
 export const textTransforms: Rule[] = [
   // tailwind compact
@@ -66,17 +66,6 @@ export const screenReadersAccess: Rule[] = [
       'white-space': 'normal',
     },
   ],
-]
-
-export const contents: Rule[] = [
-  [/^content-(.+)$/, ([, v]) => {
-    const c = h.bracket.cssvar(v)
-    if (c != null)
-      return { content: c }
-    return { content: `"${v}"` }
-  }],
-  ['content-empty', { content: '""' }],
-  ['content-none', { content: '""' }],
 ]
 
 export const isolations: Rule[] = [
