@@ -28,6 +28,7 @@ export default defineNuxtConfig({
   unocss: {
     preflight: true,
   },
+  pages: true,
   vite: {
     // @ts-expect-error any
     vue: {
