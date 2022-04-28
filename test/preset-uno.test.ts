@@ -19,6 +19,10 @@ const targets = [
   'border-custom-b/0',
   'border-custom-b/10',
 
+  // mini - case
+  'case-upper', // !
+  'case-normal', // !
+
   // wind - placeholder
   'placeholder-red-400',
   'placeholder-inherit',
