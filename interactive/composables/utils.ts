@@ -18,7 +18,8 @@ export function extractColors(css: string) {
 export function getFeatureUsage(css: string) {
   const props = uniq([...css.matchAll(/^\s+(\w[\w-]+)\:/mg)].map(i => i[1]))
   const functions = uniq([...css.matchAll(/\b(\w+)\(/mg)].map(i => `${i[1]}()`))
-  return [...props, ...functions]
+  const pseudo = uniq([...css.matchAll(/\:([\w-]+)/mg)].map(i => `:${i[1]}`))
+  return [...props, ...functions, ...pseudo]
     .filter(i => mdnIndex.find(s => s.title === i))
 }
 
