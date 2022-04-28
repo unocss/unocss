@@ -16,15 +16,11 @@ export default defineNuxtConfig({
   modules: [
     '@vueuse/nuxt',
     '@unocss/nuxt',
-    '~/modules/log',
   ],
   ssr: false,
   experimental: {
     reactivityTransform: true,
     viteNode: true,
-  },
-  vueuse: {
-    ssrHandlers: true,
   },
   unocss: {
     preflight: true,
