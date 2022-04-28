@@ -4,14 +4,14 @@ import LinkAttributes from 'markdown-it-link-attributes'
 import { getHighlighter } from 'shiki'
 
 export default defineNuxtModule({
-  setup(_, nuxt) {
+  async setup(_, nuxt) {
+    const highlighter = await getHighlighter({
+      themes: [
+        'vitesse-dark',
+        'vitesse-light',
+      ],
+    })
     nuxt.hook('vite:extendConfig', async (config) => {
-      const highlighter = await getHighlighter({
-        themes: [
-          'vitesse-dark',
-          'vitesse-light',
-        ],
-      })
       config.plugins.push(
         Markdown({
           markdownItSetup(md) {

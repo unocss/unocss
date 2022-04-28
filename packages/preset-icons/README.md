@@ -90,23 +90,21 @@ You can provide collections via `@iconify-json/[the-collection-you-want]`, `@ico
 
 To load `iconify` collections you should use `@iconify-json/[the-collection-you-want]` and not `@iconify/json` since the `json` file is huge.
 You will need to provide the `iconify` collections using `dynamic imports`, for example, on playground you have these collections:
+
 ```ts
 presetIcons({
   collections: {
     carbon: () => import('@iconify-json/carbon/icons.json').then(i => i.default as any),
     mdi: () => import('@iconify-json/mdi/icons.json').then(i => i.default as any),
     logos: () => import('@iconify-json/logos/icons.json').then(i => i.default as any),
-    twemoji: () => import('@iconify-json/twemoji/icons.json').then(i => i.default as any),
-    ri: () => import('@iconify-json/ri/icons.json').then(i => i.default as any),
-    tabler: () => import('@iconify-json/tabler/icons.json').then(i => i.default as any),
-    uim: () => import('@iconify-json/uim/icons.json').then(i => i.default as any)
   }
 })
 ```
 
 You can also provide your own custom collections using [CustomIconLoader](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/types.ts#L17) or [InlineCollection](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/types.ts#L80), for example using `InlineCollection`:
+
 ```ts
-UnoCss({
+UnoCSS({
   presets: [
     presetIcons({
       collections: {
@@ -131,13 +129,14 @@ In `Node.js` the preset will search for the installed iconify dataset automatica
 You can also provide your own custom collections using also [CustomIconLoader](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/types.ts#L17) or [InlineCollection](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/types.ts#L80).
 
 Additionally, you can also use [FileSystemIconLoader](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/node-loaders.ts#L9) to load your custom icons from your file system. You will need to install `@iconify/utils` package as `dev dependency`.
+
 ```ts
 // vite.config.ts
 import { promises as fs } from 'fs'
 // loader helpers
 import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
 
-UnoCss({
+UnoCSS({
   presets: [
     presetIcons({
       collections: {
@@ -158,7 +157,7 @@ UnoCss({
         // you can also provide a transform callback to change each icon (optional)
         'my-yet-other-icons': FileSystemIconLoader(
           './assets/icons',
-          svg => svg.replace(/^<svg /, '<svg fill="currentColor" ')
+          svg => svg.replace(/#fff/, 'currentColor')
         )
       }
     })
@@ -168,14 +167,16 @@ UnoCss({
 
 ## Icon Customizations
 
-You can customize all icons using `customizations` configuration option. 
+You can customize all icons using `customizations` configuration option.
 
 Available customizations functions:
+
 - `transform`: transform raw `svg`, will be only applied when using `custom` icon collection (`iconify` collections excluded).
 - `customize`: change default icon customizations values.
 - `iconCustomizer`: change default icon customizations values.
 
 For each loaded icon, the customizations will be applied in this order:
+
 - apply `transform` to raw `svg`, if provided and using custom icon collection
 - apply `customize` with default customizations, if provided
 - apply `iconCustomizer` with `customize` customizations, if provided
@@ -183,13 +184,14 @@ For each loaded icon, the customizations will be applied in this order:
 ### Global Custom Icon Transformation
 
 When loading your custom icons, you can transform them, for example adding `fill` attribute with `currentColor`:
+
 ```ts
-UnoCss({
+UnoCSS({
   presets: [
     presetIcons({
       customizations: {
         transform(svg) {
-          return svg.replace(/^<svg /, '<svg fill="currentColor" ')
+          return svg.replace(/#fff/, 'currentColor')
         }
       }
     })
@@ -198,8 +200,9 @@ UnoCss({
 ```
 
 From version `0.30.8` the `transform` provides the `collection` and `icon` names:
+
 ```ts
-UnoCss({
+UnoCSS({
   presets: [
     presetIcons({
       customizations: {
@@ -207,8 +210,7 @@ UnoCss({
           // do not apply fill to this icons on this collection
           if (collection === 'custom' && icon === 'my-icon')
             return svg
-
-          return svg.replace(/^<svg /, '<svg fill="currentColor" ')
+          return svg.replace(/#fff/, 'currentColor')
         }
       }
     })
@@ -219,8 +221,9 @@ UnoCss({
 ### Global Icon Customization
 
 When loading any icon you can customize common properties to all of them, for example configuring the same size:
+
 ```ts
-UnoCss({
+UnoCSS({
   presets: [
     presetIcons({
       customizations: {
@@ -244,8 +247,9 @@ The `iconCustomizer` will take precedence over configuration.
 The `iconCustomizer` will be applied to any collection, that is, for each icon from `custom` loader, `inlined` on `custom collections` or from `@iconify`.
 
 For example, you can configure `iconCustomizer` to change all icons for a collection or individual icons on a collection:
+
 ```ts
-UnoCss({
+UnoCSS({
   presets: [
     presetIcons({
       customizations: {
@@ -272,7 +276,7 @@ UnoCss({
 })
 ```
 
-### Advanced Custom Icon Set Cleanup 
+### Advanced Custom Icon Set Cleanup
 
 When using this preset with your custom icons, consider using a cleanup process similar to that done by [Iconify](https://iconify.design/) for any icons sets. All the tools you need are available in [Iconify Tools](https://docs.iconify.design/tools/tools2/).
 

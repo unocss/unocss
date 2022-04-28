@@ -19,7 +19,6 @@ copyFileSync('../packages/preset-attributify/README.md', 'guides/vendor/preset-a
 copyFileSync('../packages/preset-web-fonts/README.md', 'guides/vendor/preset-web-fonts.md')
 copyFileSync('../packages/preset-typography/README.md', 'guides/vendor/preset-typography.md')
 
-copyFileSync('../README.md', 'guides/vendor/intro.md')
 copyFileSync('../packages/cli/README.md', 'guides/vendor/cli.md')
 copyFileSync('../packages/vite/README.md', 'guides/vendor/vite.md')
 copyFileSync('../packages/webpack/README.md', 'guides/vendor/webpack.md')
