@@ -112,7 +112,7 @@ describe('autocomplete', () => {
         "origin-": "origin-b origin-bc origin-bl origin-bottom origin-bottom-center origin-bottom-left origin-bottom-right origin-br origin-c origin-cb",
         "outline-": "outline-amber outline-auto outline-black outline-blue outline-bluegray outline-blueGray outline-coolgray outline-coolGray outline-current outline-cyan",
         "outline-offset-": "outline-offset-0 outline-offset-1 outline-offset-2 outline-offset-3 outline-offset-4 outline-offset-5 outline-offset-6 outline-offset-8 outline-offset-10 outline-offset-12",
-        "placeholder-": "placeholder-.dark: placeholder-.light: placeholder-@dark: placeholder-@light: placeholder-active: placeholder-animate-delay placeholder-animate-direction placeholder-animate-duration placeholder-animate-none placeholder-antialiased",
+        "placeholder-": "placeholder-.dark: placeholder-.light: placeholder-@dark: placeholder-@light: placeholder-active: placeholder-after: placeholder-animate-delay placeholder-animate-direction placeholder-animate-duration placeholder-animate-none",
         "scroll-": "scroll-auto scroll-block scroll-inline scroll-m scroll-ma scroll-p scroll-pa scroll-smooth",
         "scroll-m-": "scroll-m-2xl scroll-m-3xl scroll-m-4xl scroll-m-5xl scroll-m-6xl scroll-m-7xl scroll-m-8xl scroll-m-9xl scroll-m-b scroll-m-be",
         "shadow-": "shadow-2xl shadow-amber shadow-black shadow-blue shadow-bluegray shadow-blueGray shadow-coolgray shadow-coolGray shadow-current shadow-cyan",

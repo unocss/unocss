@@ -7,7 +7,7 @@ import { variantColorsMediaOrClass } from './dark'
 import { variantLanguageDirections } from './directions'
 import { variantImportant, variantLayer, variantNegative, variantScope, variantSelector } from './misc'
 import { variantCustomMedia, variantPrint } from './media'
-import { partClasses, variantPseudoClassFunctions, variantPseudoClasses, variantPseudoElements, variantTaggedPseudoClasses } from './pseudo'
+import { partClasses, variantPseudoClassFunctions, variantPseudoClassesAndElements, variantTaggedPseudoClasses } from './pseudo'
 
 export const variants = (options: PresetMiniOptions): Variant<Theme>[] => [
   variantSelector,
@@ -18,10 +18,11 @@ export const variants = (options: PresetMiniOptions): Variant<Theme>[] => [
   variantCustomMedia,
   variantBreakpoints,
   ...variantCombinators,
-  variantPseudoClasses,
+
+  variantPseudoClassesAndElements,
   variantPseudoClassFunctions,
   ...variantTaggedPseudoClasses(options),
-  variantPseudoElements,
+
   partClasses,
   ...variantColorsMediaOrClass(options),
   ...variantLanguageDirections,
