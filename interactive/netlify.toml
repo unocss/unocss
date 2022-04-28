@@ -19,3 +19,4 @@
   from = "https://unocss.antfu.me/*"
   to = "https://uno.antfu.me/play/:splat"
   status = 302
+  force = true
