@@ -791,6 +791,7 @@ export const presetMiniTargets: string[] = [
   '-translate-full',
   '-translate-x-full',
   '-translate-y-1/2',
+  '-scale-x-full',
   '!m-$c-m',
   '!p-5px',
   '-gap-y-5',

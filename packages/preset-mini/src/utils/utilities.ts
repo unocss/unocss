@@ -5,6 +5,8 @@ import { colorToString, getComponents, parseCssColor } from './colors'
 import { handler as h } from './handlers'
 import { directionMap } from './mappings'
 
+export const CONTROL_MINI_NO_NEGATIVE = '$$mini-no-negative'
+
 /**
  * Provide {@link DynamicMatcher} function returning spacing definition. See spacing rules.
  *
