@@ -28,6 +28,10 @@ export const fuse = new Fuse<ResultItem>(
         name: 'title',
         weight: 0.3,
       },
+      {
+        name: 'keywords',
+        weight: 0.3,
+      },
     ],
     isCaseSensitive: false,
     ignoreLocation: true,
@@ -73,10 +77,13 @@ export async function search(input: string) {
     ...parts.flatMap(i => az09.map(a => `${i}-${a}`)),
   ]).then(r => generateForMultiple(r))
 
-  const searchResult = parts.flatMap(i => fuse.search(i, { limit: RESULT_AMOUNT * 2 }))
+  const searchResult = uniq([
+    ...fuse.search(input, { limit: RESULT_AMOUNT * 2 }),
+    ...parts.flatMap(i => fuse.search(i, { limit: RESULT_AMOUNT * 2 })),
+  ]
     .filter(i => i.score! <= 0.5)
     .sort((a, b) => a.score! - b.score!)
-    .map(i => i.item)
+    .map(i => i.item))
     .slice(0, RESULT_AMOUNT)
 
   return uniq([

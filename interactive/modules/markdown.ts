@@ -14,7 +14,6 @@ export default defineNuxtModule({
     nuxt.hook('vite:extendConfig', async (config) => {
       config.plugins.push(
         Markdown({
-          include: [/md\.vue$/],
           markdownItSetup(md) {
             md.use(LinkAttributes, {
               matcher: (link: string) => /^https?:\/\//.test(link),
