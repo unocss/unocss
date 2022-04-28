@@ -1,5 +1,6 @@
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
+import type { Rule, Variant } from '@unocss/core'
 import type { RuleItem } from '~/types'
 
 export async function enumerateAutocomplete() {
@@ -78,9 +79,16 @@ export function generateFor(input: string) {
   return _generatePromiseMap.get(input)
 }
 
-export function getPresetName(item: RuleItem) {
-  const rules = item.context?.rules
-  if (!rules?.length)
+export function getPresetFromRule(rule?: Rule) {
+  if (!rule)
     return
-  return uno.config.presets?.flat().find(i => i.rules?.find(i => rules.includes(i)))?.name
+  const r = toRaw(rule)
+  return uno.config.presets?.flat().find(i => i.rules?.find(i => i === r))
+}
+
+export function getPresetFromVariant(variant?: Variant) {
+  if (!variant)
+    return
+  const v = toRaw(variant)
+  return uno.config.presets?.flat().find(i => i.variants?.find(i => i === v))
 }

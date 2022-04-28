@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import type { Variant } from '@unocss/core'
 import type { GuideItem, RuleItem } from '~/types'
 import { highlightCSS, highlightJS } from '~/composables/shiki'
-import { getPresetName } from '~/composables/uno'
+import { getPresetFromRule, getPresetFromVariant } from '~/composables/uno'
 import { getItemId } from '~/composables/utils'
 import { guideColors } from '~/data/guides'
 
@@ -11,21 +12,26 @@ const { item } = defineProps<{
 
 const docs = $computed(() => getDocs(item))
 const alias = $computed(() => findAlias(item))
-const presetName = $computed(() => getPresetName(item))
 const variantSteps = $computed(() => {
   const steps: {
+    variant?: Variant
     name?: string
     result: string
-  }[] = [{
-    name: '',
+  }[] = []
+  const first = item.context?.variants?.[0]
+  steps.push({
+    variant: first,
+    name: first?.name,
     result: item.class,
-  }]
-  const variants = item.context?.variantHandlers
-  if (variants) {
-    variants.forEach((v, i) => {
+  })
+  const handlers = item.context?.variantHandlers
+  if (handlers) {
+    handlers.forEach((h, i) => {
+      const v = item.context?.variants?.[i + 1]
       steps.push({
-        name: item.context?.variants?.[i]?.name,
-        result: v.matcher,
+        variant: v,
+        name: v?.name,
+        result: h.matcher,
       })
     })
   }
@@ -68,14 +74,6 @@ function getCsGitHubLink(key: RegExp | string, repo = 'unocss/unocss') {
           </template>
         </div>
       </div>
-      <div v-if="presetName">
-        <div op30 mb1>
-          Preset
-        </div>
-        <div border="~ base" of-auto>
-          <a px4 py2 :href="`https://npmjs.com/package/${presetName}`" target="_blank" op50 hover:op100>{{ presetName }}</a>
-        </div>
-      </div>
       <div v-if="variantSteps.length > 1">
         <div op30 mb1>
           Variants
@@ -85,11 +83,18 @@ function getCsGitHubLink(key: RegExp | string, repo = 'unocss/unocss') {
             <div v-if="idx" divider />
             <div v-if="idx" divider />
             <div px4 py2>
-              <div v-if="!idx" mra mya badge-xs-gray>
-                {input}
-              </div>
-              <div v-else mra mya badge-xs-pink :class="s.name ? '' : 'op50'">
-                {{ s.name || 'anonymous' }}
+              <div
+                v-if="idx < variantSteps.length - 1"
+                :class="s.name ? '' : 'op50'" row text-sm gap1
+                mra mya
+              >
+                <PresetLabel
+                  op50 hover:op100
+                  :preset="getPresetFromVariant(s.variant)"
+                  fallback="(inline)"
+                />
+                <span op30>></span>
+                {{ s.name || '(anonymous)' }}
               </div>
             </div>
             <div px4 py2 font-mono op60>
@@ -106,21 +111,22 @@ function getCsGitHubLink(key: RegExp | string, repo = 'unocss/unocss') {
           <template v-for="r,idx of item.context.rules" :key="idx">
             <div v-if="idx" divider />
             <div row flex-wrap gap2 px4 py2 items-center>
-              <template v-if="typeof r[0] === 'string'">
-                <code text-hex-AB5E3F dark:text-hex-C4704F>"{{ r[0] }}"</code>
-                <div badge-xs-teal>
-                  static
+              <div gap1>
+                <PresetLabel text-sm op30 hover:op100 :preset="getPresetFromRule(r)" />
+                <div v-if="typeof r[0] === 'string'" row gap2>
+                  <code text-hex-AB5E3F dark:text-hex-C4704F>"{{ r[0] }}"</code>
+                  <div badge-xs-teal mya>
+                    static
+                  </div>
                 </div>
-                <div flex-auto />
-                <a text-sm link :href="getCsGitHubLink(r[0])" target="_blank">GitHub</a>
-              </template>
-              <template v-else>
-                <code v-html="highlightJS(String(r[0]))" />
-                <div flex-auto />
+                <code v-else v-html="highlightJS(String(r[0]))" />
+              </div>
+              <div flex-auto />
+              <template v-if="typeof r[0] !== 'string'">
                 <a text-sm link :href="getRegex101Link(r[0], item.class)" target="_blank">Regex101</a>
                 <a text-sm link :href="getRegexperLink(r[0])" target="_blank">Regexper</a>
-                <a text-sm link :href="getCsGitHubLink(r[0])" target="_blank">GitHub</a>
               </template>
+              <a text-sm link :href="getCsGitHubLink(r[0])" target="_blank">GitHub</a>
             </div>
           </template>
         </div>

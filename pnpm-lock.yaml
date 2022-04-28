@@ -213,6 +213,7 @@ importers:
       prettier: ^2.6.2
       shiki: ^0.10.1
       theme-vitesse: ^0.4.9
+      unimport: 0.1.8
       vite-plugin-md: ^0.13.0
     devDependencies:
       '@antfu/utils': 0.5.1
@@ -238,6 +239,7 @@ importers:
       prettier: 2.6.2
       shiki: 0.10.1
       theme-vitesse: 0.4.9
+      unimport: 0.1.8_rollup@2.70.2+vite@2.9.6
       vite-plugin-md: 0.13.0_vite@2.9.6
 
   packages/autocomplete:
@@ -1292,7 +1294,7 @@ packages:
       scule: 0.2.1
       semver: 7.3.7
       unctx: 1.1.4_26a1c8fc07f2a269dc073f12ba1e135c
-      unimport: 0.1.7_26a1c8fc07f2a269dc073f12ba1e135c
+      unimport: 0.1.8_26a1c8fc07f2a269dc073f12ba1e135c
       untyped: 0.4.4
     transitivePeerDependencies:
       - esbuild
@@ -1322,7 +1324,7 @@ packages:
       scule: 0.2.1
       semver: 7.3.7
       unctx: 1.1.4_rollup@2.70.2+vite@2.9.6
-      unimport: 0.1.7_rollup@2.70.2+vite@2.9.6
+      unimport: 0.1.8_rollup@2.70.2+vite@2.9.6
       untyped: 0.4.4
     transitivePeerDependencies:
       - esbuild
@@ -1344,7 +1346,7 @@ packages:
       scule: 0.2.1
       std-env: 3.1.1
       ufo: 0.8.3
-      unimport: 0.1.7_26a1c8fc07f2a269dc073f12ba1e135c
+      unimport: 0.1.8_26a1c8fc07f2a269dc073f12ba1e135c
     transitivePeerDependencies:
       - esbuild
       - rollup
@@ -1365,7 +1367,7 @@ packages:
       scule: 0.2.1
       std-env: 3.1.1
       ufo: 0.8.3
-      unimport: 0.1.7_rollup@2.70.2+vite@2.9.6
+      unimport: 0.1.8_rollup@2.70.2+vite@2.9.6
     transitivePeerDependencies:
       - esbuild
       - rollup
@@ -6201,7 +6203,7 @@ packages:
       table: 6.8.0
       ufo: 0.8.3
       unenv: 0.4.6
-      unimport: 0.1.7_26a1c8fc07f2a269dc073f12ba1e135c
+      unimport: 0.1.8_26a1c8fc07f2a269dc073f12ba1e135c
       unstorage: 0.3.3
       util: 0.12.4
     transitivePeerDependencies:
@@ -6413,7 +6415,7 @@ packages:
       ufo: 0.8.3
       unctx: 1.1.4_rollup@2.70.2+vite@2.9.6
       unenv: 0.4.6
-      unimport: 0.1.7_rollup@2.70.2+vite@2.9.6
+      unimport: 0.1.8_rollup@2.70.2+vite@2.9.6
       unplugin: 0.6.2_rollup@2.70.2+vite@2.9.6
       untyped: 0.4.4
       vue: 3.2.33
@@ -8621,8 +8623,8 @@ packages:
       util: 0.12.4
     dev: true
 
-  /unimport/0.1.7_26a1c8fc07f2a269dc073f12ba1e135c:
-    resolution: {integrity: sha512-MzKi/WVU5bvk+dM/4lAFna6eoz//r3ptmLQDTKLDke/BADSkh7pQKblo4iq55vX/js4n+9+0lsWpTytawm2vXA==}
+  /unimport/0.1.8_26a1c8fc07f2a269dc073f12ba1e135c:
+    resolution: {integrity: sha512-Eynu+yyVVZ76te5DbE3744z1YjqoES+muNlNP03kVURHC/S2IR65mjzdmT6wpWvU78q488dK0fQ+tUK9UEndZA==}
     dependencies:
       '@rollup/pluginutils': 4.2.1
       escape-string-regexp: 5.0.0
@@ -8640,8 +8642,8 @@ packages:
       - webpack
     dev: true
 
-  /unimport/0.1.7_rollup@2.70.2+vite@2.9.6:
-    resolution: {integrity: sha512-MzKi/WVU5bvk+dM/4lAFna6eoz//r3ptmLQDTKLDke/BADSkh7pQKblo4iq55vX/js4n+9+0lsWpTytawm2vXA==}
+  /unimport/0.1.8_rollup@2.70.2+vite@2.9.6:
+    resolution: {integrity: sha512-Eynu+yyVVZ76te5DbE3744z1YjqoES+muNlNP03kVURHC/S2IR65mjzdmT6wpWvU78q488dK0fQ+tUK9UEndZA==}
     dependencies:
       '@rollup/pluginutils': 4.2.1
       escape-string-regexp: 5.0.0
