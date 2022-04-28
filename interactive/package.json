@@ -1,4 +1,5 @@
 {
+  "name": "interactive",
   "type": "module",
   "private": true,
   "scripts": {

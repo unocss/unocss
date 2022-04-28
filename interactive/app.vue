@@ -1,4 +1,6 @@
 <script setup>
+import './markdown.css'
+
 useHead({
   title: 'UnoCSS Interactive Docs',
   link: [
@@ -15,8 +17,6 @@ useHead({
 </template>
 
 <style>
-@import './markdown.css';
-
 html, body , #__nuxt {
   height: 100vh;
   margin: 0;
