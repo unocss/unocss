@@ -1,6 +1,6 @@
 <template>
   <div px5 py15 gap4 c-gray5>
-    <svg w-25 h-25 mxa mb4 viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+    <svg w-25 h-25 mxa mb4 mt-10 viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M117.722 167.444C117.722 139.83 140.108 117.444 167.722 117.444V117.444C195.336 117.444 217.722 139.83 217.722 167.444V167.444C217.722 195.058 195.336 217.444 167.722 217.444V217.444C140.108 217.444 117.722 195.058 117.722 167.444V167.444Z"
         fill="#666" fill-opacity="60"
@@ -46,6 +46,17 @@
       <RouterLink :to="{query: {s: 'random:'}}" badge-lg-emerald>
         random:
       </RouterLink>
+    </div>
+    <div mt-30 />
+    <div text-opacity-50 text-gray text-sm>
+      <div divider w-30 ma my5 />
+      <div row gap1 justify-center>
+        Built with <a href="https://v3.nuxtjs.org/" target="_blank" text-gray text-opacity-100>Nuxt 3</a> ·
+        Deploys on <a href="https://www.netlify.com/" target="_blank" text-gray text-opacity-100>Netlify</a>
+      </div>
+      <div>
+        MIT Licensed | Copyright © 2021-PRESENT Anthony Fu and UnoCSS contributors
+      </div>
     </div>
   </div>
 </template>
