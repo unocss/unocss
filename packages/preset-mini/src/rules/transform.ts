@@ -1,7 +1,7 @@
 import type { CSSValues, Rule, RuleContext } from '@unocss/core'
 import { CONTROL_SHORTCUT_NO_MERGE } from '@unocss/core'
 import type { Theme } from '../theme'
-import { handler as h, positionMap, xyzMap } from '../utils'
+import { CONTROL_MINI_NO_NEGATIVE, handler as h, positionMap, xyzMap } from '../utils'
 
 const transformGpu = {
   '--un-transform': [
@@ -50,6 +50,7 @@ const transformBase = {
   '--un-translate-z': 0,
   ...transformCpu,
   [CONTROL_SHORTCUT_NO_MERGE]: '',
+  [CONTROL_MINI_NO_NEGATIVE]: '',
 }
 
 export const transforms: Rule[] = [

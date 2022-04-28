@@ -1,4 +1,5 @@
 import type { Variant } from '@unocss/core'
+import { CONTROL_MINI_NO_NEGATIVE } from '../utils'
 
 export const variantSelector: Variant = {
   name: 'selector',
@@ -69,10 +70,12 @@ export const variantNegative: Variant = {
     return {
       matcher: matcher.slice(1),
       body: (body) => {
+        if (body.find(v => v[0] === CONTROL_MINI_NO_NEGATIVE))
+          return
         let changed = false
         body.forEach((v) => {
           const value = v[1]?.toString()
-          if (!value || v[0].startsWith('--un-scale') || value === '0')
+          if (!value || value === '0')
             return
           if (numberRE.test(value)) {
             v[1] = value.replace(numberRE, i => `-${i}`)
