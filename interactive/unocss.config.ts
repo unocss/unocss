@@ -28,12 +28,6 @@ export const defaultConfig = defineConfig<{}>({
       },
     }),
     presetUno(),
-    presetWebFonts({
-      fonts: {
-        sans: 'PT Sans',
-        mono: 'PT Mono',
-      },
-    }),
     presetTypography(),
   ],
   transformers: [
@@ -42,8 +36,17 @@ export const defaultConfig = defineConfig<{}>({
   ],
 })
 
-export default defineConfig({
+export default defineConfig<{}>({
   ...defaultConfig,
+  presets: [
+    ...defaultConfig.presets as any,
+    presetWebFonts({
+      fonts: {
+        sans: 'PT Sans',
+        mono: 'PT Mono',
+      },
+    }),
+  ],
   shortcuts: [
     {
       'border-base': 'border-gray-500:10',

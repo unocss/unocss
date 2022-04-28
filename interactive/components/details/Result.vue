@@ -9,7 +9,7 @@ defineProps<{
 <template>
   <div py8 px8 of-auto h-full>
     <Suspense>
-      <DetailsGuide v-if="item.type === 'guide'" :item="item" />
+      <DetailsGuide v-if="item.type === 'guide'" :key="item.title" :item="item" />
       <DetailsDoc v-else-if="'url' in item" :item="item" />
       <DetailsRule v-else :item="item" />
       <template #fallback>

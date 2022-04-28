@@ -7,3 +7,4 @@ dist
 public/shiki
 public/play
 .netlify
+guides/vendor

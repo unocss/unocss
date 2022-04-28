@@ -1,7 +1,7 @@
 import type { GuideItem } from '~/types'
 
-export const guideIndex = Object.entries(import.meta.glob('../guides/*.{md,vue}')).map((i): GuideItem => {
-  const title = i[0].split('/').pop()!.replace(/\.\w+$/, '')
+export const guideIndex = Object.entries(import.meta.glob('../guides/**/*.{md,vue}')).map((i): GuideItem => {
+  const title = i[0].split('/').pop()!.replace(/\.\w+$/, '').replace(/-/g, ' ')
   return {
     type: 'guide',
     title: title[0].toUpperCase() + title.slice(1),
