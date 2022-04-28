@@ -208,7 +208,6 @@ importers:
       fs-extra: ^10.1.0
       fuse.js: ^6.5.3
       markdown-it-link-attributes: ^4.0.0
-      markdown-it-shiki: ^0.4.0
       nuxt: ^3.0.0-rc.1
       p-limit: ^4.0.0
       postcss-nested: ^5.0.6
@@ -236,7 +235,6 @@ importers:
       fs-extra: 10.1.0
       fuse.js: 6.5.3
       markdown-it-link-attributes: 4.0.0
-      markdown-it-shiki: 0.4.0
       nuxt: 3.0.0-rc.1_rollup@2.70.2+vite@2.9.6
       p-limit: 4.0.0
       postcss-nested: 5.0.6
@@ -5842,16 +5840,6 @@ packages:
     resolution: {integrity: sha512-ssjxSLlLfQBkX6BvAx1rCPrx7ZoK91llQQvS3P7KXvlbnVD34OUkfXwWecN7su/7mrI/HOW0RI5szdJOIqYC3w==}
     dev: true
 
-  /markdown-it-shiki/0.4.0:
-    resolution: {integrity: sha512-AvCqhnDdskhU6KGZzqm5BXbjwcC7PIk9wRfdxzZITM4nNBBB1tvC+G+4NN5oQleVwPFcBHmxxTKSONcWwoZvfQ==}
-    dependencies:
-      debug: 4.3.4
-      shiki: 0.10.1
-      synckit: 0.6.2
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
   /markdown-it/13.0.0:
     resolution: {integrity: sha512-WArlIpVFvVwb8t3wgJuOsbMLhNWlzuQM7H2qXmuUEnBtXRqKjLjwFUMbZOyJgHygVZSjvcLR4EcXcRilqMavrA==}
     hasBin: true
@@ -8217,13 +8205,6 @@ packages:
       csso: 4.2.0
       picocolors: 1.0.0
       stable: 0.1.8
-    dev: true
-
-  /synckit/0.6.2:
-    resolution: {integrity: sha512-Vhf+bUa//YSTYKseDiiEuQmhGCoIF3CVBhunm3r/DQnYiGT4JssmnKQc44BIyOZRK2pKjXXAgbhfmbeoC9CJpA==}
-    engines: {node: '>=12.20'}
-    dependencies:
-      tslib: 2.4.0
     dev: true
 
   /table/6.8.0:

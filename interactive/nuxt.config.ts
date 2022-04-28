@@ -1,7 +1,5 @@
 import { defineNuxtConfig } from 'nuxt'
-import Markdown from 'vite-plugin-md'
-import LinkAttributes from 'markdown-it-link-attributes'
-import Shiki from 'markdown-it-shiki'
+
 import { alias } from '../vitest.config'
 
 const externals = [
@@ -12,11 +10,13 @@ const externals = [
   '@iconify/utils/lib/loader/node-loaders',
 ]
 
+// @ts-expect-error ignore
 export default defineNuxtConfig({
   alias,
   modules: [
     '@vueuse/nuxt',
     '@unocss/nuxt',
+    '~/modules/markdown',
   ],
   ssr: false,
   experimental: {
@@ -45,24 +45,5 @@ export default defineNuxtConfig({
       },
       target: 'esnext',
     },
-    plugins: [
-      Markdown({
-        markdownItSetup(md) {
-          md.use(LinkAttributes, {
-            matcher: (link: string) => /^https?:\/\//.test(link),
-            attrs: {
-              target: '_blank',
-              rel: 'noopener',
-            },
-          })
-          md.use(Shiki, {
-            theme: {
-              dark: 'vitesse-dark',
-              light: 'vitesse-light',
-            },
-          })
-        },
-      }),
-    ],
   },
 })

@@ -27,7 +27,6 @@
     "fs-extra": "^10.1.0",
     "fuse.js": "^6.5.3",
     "markdown-it-link-attributes": "^4.0.0",
-    "markdown-it-shiki": "^0.4.0",
     "nuxt": "^3.0.0-rc.1",
     "p-limit": "^4.0.0",
     "postcss-nested": "^5.0.6",
