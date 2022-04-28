@@ -40,6 +40,7 @@ export default defineConfig({
   },
   build: {
     outDir: '../interactive/public/play',
+    emptyOutDir: true,
     rollupOptions: {
       external: [
         '@iconify/utils/lib/loader/fs',
