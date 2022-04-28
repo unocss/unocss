@@ -21,7 +21,10 @@ export interface RuleItem {
 
 export interface GuideItem {
   type: 'guide'
+  name: string
   title: string
+  summary?: string
+  keywords?: string[]
   component: () => Promise<{ default: Component }>
 }
 

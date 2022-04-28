@@ -6,10 +6,14 @@ const { item } = defineProps<{
 }>()
 
 let component = $shallowRef<any>()
-watch(item, async () => {
-  component = undefined
-  component = await item.component().then(i => i.default)
-}, { immediate: true })
+watch(
+  () => item,
+  async () => {
+    component = undefined
+    component = await item.component().then(i => i.default)
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
