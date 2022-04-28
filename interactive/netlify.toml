@@ -6,6 +6,9 @@
 [build]
   command = "npx pnpm i --store=../node_modules/.pnpm-store && cd .. && pnpm run deploy"
 
+[functions]
+  node_bundler = "esbuild"
+
 [[redirects]]
   from = "/play/*"
   to = "/play/index.html"
