@@ -63,6 +63,7 @@ export const rules: Rule[] = [
   overflows,
   outline,
   appearance,
+  positions,
   orders,
   justifies,
   alignments,

@@ -20,8 +20,6 @@ exports[`targets 1`] = `
 .hover\\\\:placeholder-op90:hover::placeholder,
 .placeholder-op90::placeholder{--un-placeholder-opacity:0.9;}
 .placeholder-opacity-10::placeholder{--un-placeholder-opacity:0.1;}
-.case-upper{text-transform:uppercase;}
-.case-normal{text-transform:none;}
 @media (hover: none) and (pointer: coarse){
 .media-touch\\\\:p-4{padding:1rem;}
 }
