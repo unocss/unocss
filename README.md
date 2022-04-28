@@ -305,6 +305,8 @@ UnoCSS respects the order of the rules you defined in the generated CSS. Latter 
 
 The shortcuts functionality that UnoCSS provides is similar to [Windi CSS's](https://windicss.org/features/shortcuts.html) one
 
+<!--eslint-skip-->
+
 ```ts
 shortcuts: {
   // shortcuts to multiple utilities
@@ -402,6 +404,8 @@ Learn more at [@unocss/reset](https://github.com/unocss/unocss/tree/main/package
 
 [Variants](https://windicss.org/utilities/general/variants.html) allows you to apply some variations to your existing rules. For example, to implement the `hover:` variant from Tailwind:
 
+<!--eslint-skip-->
+
 ```ts
 variants: [
   // hover:
@@ -446,6 +450,8 @@ The variant system is very powerful and can't be covered fully in this guide, yo
 ### Extend Theme
 
 UnoCSS also supports the theming system that you might be familiar with in Tailwind / Windi. At the user level, you can specify the `theme` property in your config and it will be deep merged to the default theme.
+
+<!--eslint-skip-->
 
 ```ts
 theme: {
@@ -498,6 +504,8 @@ This will generate:
 
 You can control the order of layers by:
 
+<!--eslint-skip-->
+
 ```ts
 layers: {
   components: -1,
@@ -525,6 +533,8 @@ import 'uno:utilities.css'
 ### Utilities Preprocess & Prefixing
 
 UnoCSS also provides the ability to preprocess and transform extracted utilities before processing to the matcher. For example, the following example allows you to add a global prefix to all utilities:
+
+<!--eslint-skip-->
 
 ```ts
 preprocess(matcher) {

@@ -72,7 +72,7 @@ Create `shims.d.ts` with the following content:
 ### React
 
 ```ts
-import { AttributifyAttributes } from '@unocss/preset-attributify'
+import type { AttributifyAttributes } from '@unocss/preset-attributify'
 
 declare module 'react' {
   interface HTMLAttributes<T> extends AttributifyAttributes {}
@@ -82,7 +82,7 @@ declare module 'react' {
 ### Vue 3
 
 ```ts
-import { AttributifyAttributes } from '@unocss/preset-attributify'
+import type { AttributifyAttributes } from '@unocss/preset-attributify'
 
 declare module '@vue/runtime-dom' {
   interface HTMLAttributes extends AttributifyAttributes {}
@@ -92,9 +92,9 @@ declare module '@vue/runtime-dom' {
 ### SolidJS
 
 ```ts
-import { AttributifyAttributes } from '@unocss/preset-attributify'
+import type { AttributifyAttributes } from '@unocss/preset-attributify'
 
-declare module "solid-js" {
+declare module 'solid-js' {
   namespace JSX {
     interface HTMLAttributes<T> extends AttributifyAttributes {}
   }
@@ -104,7 +104,7 @@ declare module "solid-js" {
 ### Attributify with Prefix
 
 ```ts
-import { AttributifyNames } from '@unocss/preset-attributify'
+import type { AttributifyNames } from '@unocss/preset-attributify'
 
 type Prefix = 'uno:' // change it to your prefix
 

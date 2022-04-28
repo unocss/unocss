@@ -240,7 +240,7 @@ const config = {
   // for more information about preprocessors
   preprocess: preprocess(),
   kit: {
-     vite: {
+    vite: {
       plugins: [
         UnoCss({
           extractors: [extractorSvelte],

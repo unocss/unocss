@@ -138,19 +138,19 @@ import { promises as fs } from 'fs'
 import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
 
 UnoCss({
-  presets: [  
+  presets: [
     presetIcons({
       collections: {
         // key as the collection name
         'my-icons': {
-          'account': '<svg><!-- ... --></svg>',
+          account: '<svg><!-- ... --></svg>',
           // load your custom icon lazily
-          'settings': () => fs.readFile('./path/to/my-icon.svg', 'utf-8'),
+          settings: () => fs.readFile('./path/to/my-icon.svg', 'utf-8'),
           /* ... */
         },
         'my-other-icons': async (iconName) => {
           // your custom loader here. Do whatever you want.
-          // for example, fetch from a remote server: 
+          // for example, fetch from a remote server:
           return await fetch(`https://example.com/icons/${iconName}.svg`).then(res => res.text())
         },
         // a helper to load icons from the file system
@@ -189,7 +189,7 @@ UnoCss({
     presetIcons({
       customizations: {
         transform(svg) {
-          return svg.replace(/^<svg /, '<svg fill="currentColor" ')  
+          return svg.replace(/^<svg /, '<svg fill="currentColor" ')
         }
       }
     })
@@ -207,8 +207,8 @@ UnoCss({
           // do not apply fill to this icons on this collection
           if (collection === 'custom' && icon === 'my-icon')
             return svg
-          
-          return svg.replace(/^<svg /, '<svg fill="currentColor" ')  
+
+          return svg.replace(/^<svg /, '<svg fill="currentColor" ')
         }
       }
     })
@@ -250,7 +250,7 @@ UnoCss({
     presetIcons({
       customizations: {
         iconCustomizer(collection, icon, props) {
-          // customize all icons in this collection  
+          // customize all icons in this collection
           if (collection === 'my-other-icons') {
             props.width = '4em'
             props.height = '4em'
@@ -260,7 +260,7 @@ UnoCss({
             props.width = '6em'
             props.height = '6em'
           }
-          // customize this @iconify icon in this collection  
+          // customize this @iconify icon in this collection
           if (collection === 'mdi' && icon === 'account') {
             props.width = '2em'
             props.height = '2em'
@@ -269,7 +269,7 @@ UnoCss({
       }
     })
   ]
-})    
+})
 ```
 
 ### Advanced Custom Icon Set Cleanup 

@@ -1,5 +1,5 @@
 *.global.js
-README.md
 docs/config/index.md
 build
 node_modules
+interactive/guides/vendor/
