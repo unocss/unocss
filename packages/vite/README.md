@@ -201,7 +201,7 @@ You must add the plugin before `@sveltejs/vite-plugin-svelte`.
 
 To support `class:foo` and `class:foo={bar}` add the plugin and configure `extractorSvelte` on `extractors` option.
 
-You can use simple rules with `class:`, for example `class:bg-red-500={foo}` or using `shorcuts` to include multiples rules, see `src/App.svelte` on linked example project bellow.
+You can use simple rules with `class:`, for example `class:bg-red-500={foo}` or using `shorcuts` to include multiples rules, see `src/App.svelte` on linked example project below.
 
 ```ts
 // vite.config.js
@@ -226,7 +226,7 @@ You have a `Vite + Svelte` example project on [examples/vite-svelte](https://git
 
 To support `class:foo` and `class:foo={bar}` add the plugin and configure `extractorSvelte` on `extractors` option.
 
-You can use simple rules with `class:`, for example `class:bg-red-500={foo}` or using `shorcuts` to include multiples rules, see `src/routes/__layout.svelte` on linked example project bellow.
+You can use simple rules with `class:`, for example `class:bg-red-500={foo}` or using `shorcuts` to include multiples rules, see `src/routes/__layout.svelte` on linked example project below.
 
 ```ts
 // svelte.config.js
@@ -305,7 +305,7 @@ You have a `Web Components` example project on [examples/vite-lit](https://githu
 
 #### `::part` built-in support
 
-You can use `::part` since the plugin supports it via `shortcuts` and using `part-[<part-name>]:<rule|shortcut>` rule from `preset-mini`, for example using it with simple rules like `part-[<part-name>]:bg-green-500` or using some `shortcut`: check `src/my-element.ts` on linked example project bellow.
+You can use `::part` since the plugin supports it via `shortcuts` and using `part-[<part-name>]:<rule|shortcut>` rule from `preset-mini`, for example using it with simple rules like `part-[<part-name>]:bg-green-500` or using some `shortcut`: check `src/my-element.ts` on linked example project below.
 
 The `part-[<part-name>]:<rule|shortcut>` will work only with this plugin using the `shadow-dom` mode.
 
