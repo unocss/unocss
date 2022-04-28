@@ -15,10 +15,10 @@
       />
     </svg>
     <p>
-      Welcome to UnoCSS' <b c-black dark:c-white>Interactive</b> docs! (WIP)
+      Welcome to UnoCSS <b c-black dark:c-white>Interactive</b> docs! <sup>Beta</sup>
     </p>
     <p>
-      Type anything to search for atomic utils, CSS properties, and evaluate the expressions.
+      Type anything to search for atomic utils, CSS properties, guides, or evaluate the expressions!
     </p>
 
     <div divider w-30 ma my5 />
@@ -40,10 +40,13 @@
       <RouterLink :to="{query: {s: 'colors'}}" badge-lg-lime>
         colors
       </RouterLink>
-      <RouterLink :to="{query: {s: 'i-carbon-car'}}" badge-lg-green>
+      <RouterLink :to="{query: {s: 'guide:'}}" badge-lg-green>
+        guide:
+      </RouterLink>
+      <RouterLink :to="{query: {s: 'i-carbon-car'}}" badge-lg-emerald>
         i-carbon-car
       </RouterLink>
-      <RouterLink :to="{query: {s: 'random:'}}" badge-lg-emerald>
+      <RouterLink :to="{query: {s: 'random:'}}" badge-lg-teal>
         random:
       </RouterLink>
     </div>
