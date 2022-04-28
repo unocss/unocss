@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "build": "nuxi build",
+    "deploy": "cd .. && npm run play:build && cd interactive && npm run build",
     "dev": "nuxi dev",
     "start": "node .output/server/index.mjs",
     "prepare": "esmo scripts/prepare.ts",
