@@ -71,6 +71,7 @@ export async function search(input: string) {
 
   const parts = input.split(/\s/g).filter(notNull)
   const extact = await generateForMultiple(parts)
+
   await suggestMultiple([
     ...parts,
     ...parts.map(i => `${i}-`),

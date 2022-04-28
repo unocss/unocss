@@ -41,6 +41,12 @@ export function createAutocomplete(uno: UnoGenerator) {
         .then(i => i.forEach(j => matched.add(j))),
     ))
 
+    await Promise.all([...matched]
+      .filter(i => i.match(/^\w+$/) && i.length > 3)
+      .map(i => suggest(`${i}-`)
+        .then(i => i.forEach(j => matched.add(j)))),
+    )
+
     return matched
   }
 
