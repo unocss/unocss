@@ -1,5 +1,5 @@
 import type { AutoCompleteExtractorResult, AutoCompleteFunction, AutoCompleteTemplate, SuggestResult, UnoGenerator, Variant } from '@unocss/core'
-import { toArray, uniq } from '@unocss/core'
+import { escapeRegExp, toArray, uniq } from '@unocss/core'
 import LRU from 'lru-cache'
 import { parseAutocomplete } from './parse'
 import type { ParsedAutocompleteTemplate } from './types'
@@ -58,7 +58,7 @@ export function createAutocomplete(uno: UnoGenerator) {
 
     // match and ignore existing variants
     const [, processed, , variants] = uno.matchVariants(input)
-    const idx = processed ? input.search(processed) : input.length
+    const idx = processed ? input.search(escapeRegExp(processed)) : input.length
     // This input contains variants that modifies the processed part,
     // autocomplete will need to reverse it which is not possible
     if (idx === -1)

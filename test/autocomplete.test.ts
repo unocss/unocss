@@ -218,4 +218,9 @@ describe('autocomplete', () => {
       "
     `)
   })
+
+  it('should escape regex', async() => {
+    expect((await ac.suggest('m-['))[0])
+      .toMatchInlineSnapshot('undefined')
+  })
 })
