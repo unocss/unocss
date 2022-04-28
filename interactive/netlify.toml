@@ -5,7 +5,7 @@
 
 [build]
   publish = ".output/public"
-  command = "npx pnpm i --store=../node_modules/.pnpm-store && cd .. && pnpm run deploy"
+  command = "cd .. && npx pnpm i --store=./node_modules/.pnpm-store && pnpm run deploy && cd interactive"
 
 [functions]
   node_bundler = "esbuild"
