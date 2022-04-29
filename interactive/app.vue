@@ -8,7 +8,7 @@ useHead({
   ],
   meta: [{
     name: 'description',
-    content: 'Interactive documentation for UnoCSS',
+    content: 'UnoCSS Interactive Docs',
   }],
   link: [
     { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
