@@ -29,8 +29,10 @@ useEventListener('keydown', (e) => {
   else if (e.key === 'Escape') {
     clear()
   }
-  if (e.metaKey || e.ctrlKey || e.altKey || e.shiftKey)
+
+  if (e.metaKey || e.ctrlKey || e.altKey || e.shiftKey || e.key === 'Tab')
     return
+
   inputEl?.focus()
 })
 
