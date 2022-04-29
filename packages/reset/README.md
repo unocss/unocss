@@ -22,4 +22,10 @@ import '@unocss/reset/eric-meyer.css'
 
 // preflights from tailwind
 import '@unocss/reset/tailwind.css'
+
+// opinionated reset by Anthony Fu
+// https://github.com/unocss/unocss/blob/main/packages/reset/antfu.md
+import '@unocss/reset/antfu.css'
 ```
+
+
