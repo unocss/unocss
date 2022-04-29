@@ -1,5 +1,7 @@
 <script setup>
+import '@unocss/reset/antfu.css'
 import './markdown.css'
+import 'uno.css'
 
 useHead({
   title: 'UnoCSS Interactive Docs',
@@ -19,38 +21,15 @@ useHead({
 <style>
 html, body , #__nuxt {
   height: 100vh;
-  margin: 0;
-  padding: 0;
-  scrollbar-gutter: stable;
 }
-
 html.dark {
   background: #121212;
   color: white;
-  color-scheme: dark;
 }
-
 html.dark .shiki-light {
   display: none;
 }
-
 html:not(.dark) .shiki-dark {
   display: none;
-}
-
-div {
-  display: flex;
-  flex-direction: column;
-}
-div[row=""] {
-  display: flex;
-  flex-direction: row;
-}
-
-html.dark ::-moz-selection  {
-  background: #444;
-}
-html.dark ::selection {
-  background: #444;
 }
 </style>

@@ -25,4 +25,5 @@ html {
 
 - `<div>` is now **default to `display: flex`** and `flex-direction: column`
 - `<div row>` for `flex-direction: row`
+- `<div block>` original `display: block`
 

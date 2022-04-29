@@ -23,9 +23,6 @@ export default defineNuxtConfig({
     reactivityTransform: true,
     viteNode: true,
   },
-  unocss: {
-    preflight: true,
-  },
   postcss: {
     plugins: {
       'postcss-nested': {},
