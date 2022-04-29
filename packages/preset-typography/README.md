@@ -206,6 +206,6 @@ export default defineConfig({
 
 ## License
 
-MIT &copy; 2021-Present Anthony Fu
+MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)
 
-MIT &copy; 2021-Present Jeff Yang
+MIT License &copy; 2021-PRESENT [Jeff Yang](https://github.com/ydcjeff)
