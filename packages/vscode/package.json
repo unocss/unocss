@@ -39,8 +39,9 @@
     "workspaceContains:**/nuxt.config.*",
     "workspaceContains:**/uno.config.*",
     "workspaceContains:**/unocss.config.*",
-    "workspaceContains:**/aleph.config.*",
-    "workspaceContains:**/package.json"
+    "workspaceContains:**/server.{js,mjs,jsx,ts,tsx}",
+    "workspaceContains:**/package.json",
+    "workspaceContains:**/deno.{json,jsonc}"
   ],
   "devDependencies": {
     "@types/vscode": "^1.62.0",

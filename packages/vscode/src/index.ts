@@ -37,7 +37,13 @@ export async function activate(ext: ExtensionContext) {
       }),
       sourceObjectFields({
         files: 'aleph.config',
-        fields: 'atomicCSS',
+        extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
+        fields: 'serve/config/unocss',
+      }),
+      sourceObjectFields({
+        files: 'deno',
+        extensions: ['json', 'jsonc'],
+        fields: 'serve/config/unocss',
       }),
     ],
     (result) => {
