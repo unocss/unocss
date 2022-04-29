@@ -1,22 +1,29 @@
 <script setup lang="ts">
 import type { ResultItem } from '~/types'
 
-const { compact = undefined } = defineProps<{
+const { compact = undefined, active } = defineProps<{
   item: ResultItem
   active?: boolean
   compact?: boolean | undefined
 }>()
 
+const el = $ref<HTMLDivElement>()
 const compactMode = $computed(() => compact ?? isCompact.value)
 const badgeStyle = $computed(() => {
   if (compactMode)
     return 'w-5 h-5 text-sm'
   return ''
 })
+
+watchEffect(() => {
+  if (active)
+    el?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+})
 </script>
 
 <template>
   <div
+    ref="el"
     border="l-4 transparent" row gap3
     text-left items-center py2 px3
     cursor-pointer select-none
