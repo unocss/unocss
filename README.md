@@ -54,13 +54,6 @@ tailwindcss  v3.0.23           1621.38 ms / delta.   1608.96 ms (x187.79)
 windicss     v3.5.1            1855.86 ms / delta.   1843.45 ms (x215.16)
 ```
 
-###### Non-goal
-
-UnoCSS is designed **NOT** to be/have:
-
-- ~~A CSS preprocessor (e.g. `@apply`)~~ - Yes, you can now: [CSS Directives](https://github.com/unocss/unocss/tree/main/packages/transformer-directives)
-- Tailwind's plugin system - but you can write custom rules in seconds and share them as presets!
-
 ## Installation
 
 ### Vite
@@ -89,11 +82,9 @@ import 'uno.css'
 
 That's it, have fun.
 
-See [all packages](https://github.com/unocss/unocss/tree/main/packages).
+Learn more at [@unocss/vite](https://github.com/unocss/unocss/blob/main/packages/vite).
 
-Refer to the full documentation on [@unocss/vite](https://github.com/unocss/unocss/blob/main/packages/vite):
-- modes: `global`, `dist-chunk`, `per-module`, `vue-scoped`, `svelte-scoped`, and `shadow-dom`.
-- frameworks: `React`, `Preact`, `Svelte`, `SvelteKit`, `Web Components`, `Solid`, and `Elm`.
+See [all packages](https://github.com/unocss/unocss/tree/main/packages).
 
 ### Nuxt
 
@@ -105,13 +96,13 @@ npm i -D @unocss/nuxt
 // nuxt.config.js
 
 export default {
-  buildModules: [
+  modules: [
     '@unocss/nuxt',
   ],
 }
 ```
 
-Refer to the full documentation on [@unocss/nuxt](https://github.com/unocss/unocss/tree/main/packages/nuxt)
+Learn more at [@unocss/nuxt](https://github.com/unocss/unocss/tree/main/packages/nuxt)
 
 ## Configurations
 
