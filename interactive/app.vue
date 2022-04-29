@@ -13,7 +13,7 @@ useHead({
 </script>
 
 <template>
-  <main class="pt2 text-center font-sans" w-screen h-screen of-hidden relative>
+  <main class="pt2 text-center font-sans" w-full h-screen of-hidden relative>
     <NuxtPage />
   </main>
 </template>
