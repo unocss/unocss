@@ -70,4 +70,4 @@ transformerDirective({
 
 ## License
 
-MIT &copy; 2022-PRESENT [hannoeru](https://github.com/hannoeru)
+MIT License &copy; 2022-PRESENT [hannoeru](https://github.com/hannoeru)
