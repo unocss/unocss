@@ -42,7 +42,7 @@ export interface AttributifyOptions extends PresetOptions {
    * This option exists for supporting frameworks that encodes non-valued attributes as `true`.
    * Enabling this option will break rules that ends with `true`.
    *
-   * @default true
+   * @default false
    */
   trueToNonValued?: boolean
 }

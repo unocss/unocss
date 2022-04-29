@@ -14,7 +14,7 @@ const valuedAttributeRE = /([?]|(?!\d|-{2}|-\d)[a-zA-Z0-9\u00A0-\uFFFF-_:!%-]+)(
 export const extractorAttributify = (options?: AttributifyOptions): Extractor => {
   const ignoreAttributes = options?.ignoreAttributes ?? []
   const nonValuedAttribute = options?.nonValuedAttribute ?? true
-  const trueToNonValued = options?.trueToNonValued ?? true
+  const trueToNonValued = options?.trueToNonValued ?? false
 
   return {
     name: 'attributify',
