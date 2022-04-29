@@ -1,9 +1,10 @@
 /* eslint-disable no-console */
-import { dirname, join } from 'path'
+import { join, resolve } from 'path'
+import { fileURLToPath } from 'url'
 import fs from 'fs-extra'
 import { execa } from 'execa'
 
-const root = dirname(__dirname)
+const root = resolve(fileURLToPath(import.meta.url), '../..')
 
 async function publish() {
   const pkgPath = join(root, 'package.json')
