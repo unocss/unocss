@@ -39,6 +39,7 @@
     "workspaceContains:**/nuxt.config.*",
     "workspaceContains:**/uno.config.*",
     "workspaceContains:**/unocss.config.*",
+    "workspaceContains:**/aleph.config.*",
     "workspaceContains:**/package.json"
   ],
   "devDependencies": {

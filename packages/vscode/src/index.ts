@@ -35,6 +35,10 @@ export async function activate(ext: ExtensionContext) {
         files: 'nuxt.config',
         fields: 'unocss',
       }),
+      sourceObjectFields({
+        files: 'aleph.config',
+        fields: 'atomicCSS',
+      }),
     ],
     (result) => {
       if (result.sources.some(s => s.includes('nuxt.config')))
