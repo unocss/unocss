@@ -63,6 +63,14 @@ function selectItem(item: ResultItem) {
 const vFocus = {
   mounted: (el: HTMLElement) => el.focus(),
 }
+debouncedWatch(isSearching, (oldS, newS) => {
+  if (!oldS && newS) {
+    inputEl?.focus()
+    nextTick().then(() => {
+      inputEl?.setSelectionRange(-1, -1)
+    })
+  }
+}, { immediate: true, debounce: 256 })
 </script>
 
 <template>
