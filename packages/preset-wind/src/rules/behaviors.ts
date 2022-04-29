@@ -1,19 +1,32 @@
 import type { Rule } from '@unocss/core'
 import { colorResolver, handler as h } from '@unocss/preset-mini/utils'
 
+const listStyles: Record<string, string> = {
+  'disc': 'disc',
+  'circle': 'circle',
+  'square': 'square',
+  'decimal': 'decimal',
+  'zero-decimal': 'decimal-leading-zero',
+  'greek': 'lower-greek',
+  'roman': 'lower-roman',
+  'upper-roman': 'upper-roman',
+  'alpha': 'lower-alpha',
+  'upper-alpha': 'upper-alpha',
+  'latin': 'lower-latin',
+  'upper-latin': 'upper-latin',
+}
+
 export const listStyle: Rule[] = [
   // base
-  [/^list-(disc|circle|square|decimal|zero-decimal|greek|roman|upper-roman|alpha|upper-alpha)(?:-(outside|inside))?$/, ([, style, position]) => {
+  [/^list-(.+)(?:-(outside|inside))?$/, ([, style, position]) => {
     if (position != null) {
       return {
         'list-style-position': position,
-        'list-style-type': style,
+        'list-style-type': listStyles[style],
       }
     }
-
-    return { 'list-style-type': style }
-  }, { autocomplete: ['list-(disc|circle|square|decimal|zero-decimal|greek|roman|upper-roman|alpha|upper-alpha)', 'list-(disc|circle|square|decimal|zero-decimal|greek|roman|upper-roman|alpha|upper-alpha)-(outside|inside)'] }],
-
+    return { 'list-style-type': listStyles[style] }
+  }, { autocomplete: [`list-(${Object.keys(listStyles).join('|')})`, `list-(${Object.keys(listStyles).join('|')})-(outside|inside)`] }],
   // styles
   ['list-outside', { 'list-style-position': 'outside' }],
   ['list-inside', { 'list-style-position': 'inside' }],
