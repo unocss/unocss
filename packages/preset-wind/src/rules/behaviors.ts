@@ -1,7 +1,7 @@
 import type { Rule } from '@unocss/core'
 import { colorResolver, handler as h } from '@unocss/preset-mini/utils'
 
-const listStyles = {
+const listStyles: Record<string, string> = {
   'disc': 'disc',
   'circle': 'circle',
   'square': 'square',
