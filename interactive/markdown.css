@@ -244,7 +244,7 @@
   font-weight: 600;
   padding-bottom: .3em;
   font-size: 1.5em;
-  @apply border-b border-base
+  @apply border-b border-base;
 }
 
 .markdown-body h3 {
@@ -265,7 +265,7 @@
 .markdown-body h6 {
   font-weight: 600;
   font-size: .85em;
-  color: #8b949e;
+  opacity: 0.6;
 }
 
 .markdown-body p {
