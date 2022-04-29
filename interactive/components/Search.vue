@@ -69,7 +69,7 @@ function selectItem(item: ResultItem) {
         v-model="input"
         placeholder="Type to explore..."
         type="text"
-        autocomplete="false"
+        autocomplete="off"
         w="full" p="x6 y4"
         border-none bg-transparent
         text-2xl font-200
