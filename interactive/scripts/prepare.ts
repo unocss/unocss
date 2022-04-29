@@ -1,4 +1,4 @@
-import { basename, parse } from 'path'
+import { basename, dirname, parse } from 'path'
 import fs from 'fs-extra'
 import fg from 'fast-glob'
 import YAML from 'js-yaml'
@@ -17,19 +17,13 @@ await copy('node_modules/theme-vitesse/themes', 'node_modules/shiki/themes', { o
 
 await Promise.all([
   copyFile('../README.md', 'guides/vendor/intro.md'),
-  copyFile('../packages/preset-uno/README.md', 'guides/vendor/preset-uno.md'),
-  copyFile('../packages/preset-wind/README.md', 'guides/vendor/preset-wind.md'),
-  copyFile('../packages/preset-icons/README.md', 'guides/vendor/preset-icons.md'),
-  copyFile('../packages/preset-mini/README.md', 'guides/vendor/preset-mini.md'),
-  copyFile('../packages/preset-attributify/README.md', 'guides/vendor/preset-attributify.md'),
-  copyFile('../packages/preset-web-fonts/README.md', 'guides/vendor/preset-web-fonts.md'),
-  copyFile('../packages/preset-typography/README.md', 'guides/vendor/preset-typography.md'),
-  copyFile('../packages/cli/README.md', 'guides/vendor/cli.md'),
-  copyFile('../packages/vite/README.md', 'guides/vendor/vite.md'),
-  copyFile('../packages/webpack/README.md', 'guides/vendor/webpack.md'),
-  copyFile('../packages/runtime/README.md', 'guides/vendor/runtime.md'),
-  copyFile('../packages/nuxt/README.md', 'guides/vendor/nuxt.md'),
-  copyFile('../packages/vscode/README.md', 'guides/vendor/vscode.md'),
+  ...fg.sync('../packages/*/README.md')
+    .map(async (src) => {
+      const name = basename(dirname(src))
+      if (['unocss', 'scope', 'plugins-common'].includes(name))
+        return
+      copyFile(src, `guides/vendor/${name}.md`)
+    }),
 ])
 
 const code = genArrayFromRaw(

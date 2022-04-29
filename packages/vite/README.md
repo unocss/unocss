@@ -28,11 +28,33 @@ Add `uno.css` to your main entry:
 import 'uno.css'
 ```
 
+### Presetless usage
+
+```bash
+npm i -D @unocss/vite
+```
+
+```ts
+// vite.config.ts
+import Unocss from '@unocss/vite'
+
+export default {
+  plugins: [
+    Unocss({
+      presets: [
+        /* no presets by default */
+      ],
+      /* options */
+    }),
+  ],
+}
+```
+
 ## Modes
 
 The Vite plugin comes with a set of modes that enable different behaviors.
 
-### global (default)
+###### `global` (default)
 
 This is the default mode for the plugin: in this mode you need to add the import of `uno.css` on your entry point.
 
@@ -40,25 +62,25 @@ This mode enables a set of Vite plugins for `build` and for `dev` with `HMR` sup
 
 The generated `css` will be a global stylesheet injected on the `index.html`.
 
-### vue-scoped
+###### `vue-scoped`
 
 This mode will inject generated CSS to Vue SFC's `<style scoped>` for isolation.
 
-### svelte-scoped
+###### `svelte-scoped`
 
 This mode will inject generated CSS to Svelte's `<style>` for isolation.
 
-### shadow-dom
+###### `shadow-dom`
 
 Since `Web Components` uses `Shadow DOM`, there is no way to style content directly from a global stylesheet (unless you use `custom css vars`, those will penetrate the `Shadow DOM`), you need to inline the generated css by the plugin into the `Shadow DOM` style.
 
 To inline the generated css, you only need to configure the plugin mode to `shadow-dom` and include `@unocss-placeholder` magic placeholder on each web component style css block.
 
-### per-module (Experimental)
+###### `per-module` (Experimental)
 
 This mode will generate a CSS sheet for each module, can be scoped.
 
-### dist-chunk (Experimental)
+###### `dist-chunk` (Experimental)
 
 This mode will generate a CSS sheet for each code chunk on build, great for MPA.
 
