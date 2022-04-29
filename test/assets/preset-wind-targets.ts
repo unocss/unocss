@@ -112,6 +112,8 @@ export const presetWindTargets: string[] = [
   // behaviors
   'list-none',
   'list-disc',
+  'list-alpha',
+  'list-greek',
   'list-outside',
   'box-decoration-slice',
   'accent-op-90',

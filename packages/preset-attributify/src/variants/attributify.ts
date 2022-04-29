@@ -7,6 +7,7 @@ export const variantsRE = /^(?!\[(?:[^:]+):(?:.+)\]$)((?:.+:)?!?)?(.*)$/
 export const variantAttributify = (options: AttributifyOptions = {}): VariantObject => {
   const prefix = options.prefix ?? 'un-'
   const prefixedOnly = options.prefixedOnly ?? false
+  const trueToNonValued = options.trueToNonValued ?? false
 
   return {
     name: 'attributify',
@@ -23,7 +24,7 @@ export const variantAttributify = (options: AttributifyOptions = {}): VariantObj
 
       const content = match[2]
       const [, variants = '', body = content] = content.match(variantsRE) || []
-      if (body === '~' || !body)
+      if (body === '~' || (trueToNonValued && body === 'true') || !body)
         return `${variants}${name}`
       else
         return `${variants}${name}-${body}`

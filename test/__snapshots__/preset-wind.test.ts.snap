@@ -140,7 +140,9 @@ exports[`preset-wind > targets 1`] = `
 .scroll-pbs-2,
 .scroll-pbs2{scroll-padding-block-start:0.5rem;}
 .scroll-pis-10px{scroll-padding-inline-start:10px;}
+.list-alpha{list-style-type:lower-alpha;}
 .list-disc{list-style-type:disc;}
+.list-greek{list-style-type:lower-greek;}
 .list-outside{list-style-position:outside;}
 .list-none{list-style-type:none;}
 .columns-\\\\[3_auto\\\\]{columns:3 auto;}

@@ -7,23 +7,39 @@ import { regexCssId } from '../../plugins-common/defaults'
 
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
 
-interface TransformerDirectivesOptions {
+export interface TransformerDirectivesOptions {
   enforce?: SourceCodeTransformer['enforce']
+  /**
+   * Treat CSS variables as directives for CSS syntax compatible.
+   *
+   * Pass `false` to disable, or a string to use as a prefix.
+   *
+   * @default '--at-'
+   */
+  varStyle?: false | string
 }
 
-export default function transformerDirectives(options?: TransformerDirectivesOptions): SourceCodeTransformer {
+export default function transformerDirectives(options: TransformerDirectivesOptions = {}): SourceCodeTransformer {
   return {
     name: 'css-directive',
     enforce: options?.enforce,
     idFilter: id => !!id.match(regexCssId),
     transform: (code, id, ctx) => {
-      return transformDirectives(code, ctx.uno, id)
+      return transformDirectives(code, ctx.uno, options, id)
     },
   }
 }
 
-export async function transformDirectives(code: MagicString, uno: UnoGenerator, filename?: string, originalCode?: string, offset?: number) {
-  if (!code.original.includes('@apply'))
+export async function transformDirectives(
+  code: MagicString,
+  uno: UnoGenerator,
+  options: TransformerDirectivesOptions,
+  filename?: string,
+  originalCode?: string,
+  offset?: number,
+) {
+  const { varStyle = '--at-' } = options
+  if (!code.original.includes('@apply') && (varStyle === false || !code.original.includes(varStyle)))
     return
 
   const ast = parse(originalCode || code.original, {
@@ -46,16 +62,23 @@ export async function transformDirectives(code: MagicString, uno: UnoGenerator, 
     await Promise.all(
       node.block.children.map(async (childNode, _childItem) => {
         if (childNode.type === 'Raw')
-          return transformDirectives(code, uno, filename, childNode.value, calcOffset(childNode.loc!.start.offset))
+          return transformDirectives(code, uno, options, filename, childNode.value, calcOffset(childNode.loc!.start.offset))
 
-        if (!(childNode.type === 'Atrule' && childNode.name === 'apply' && childNode.prelude))
+        let body: string | undefined
+        if (childNode.type === 'Atrule' && childNode.name === 'apply' && childNode.prelude && childNode.prelude.type === 'Raw') {
+          body = childNode.prelude.value.trim()
+        }
+        else if (varStyle !== false && childNode.type === 'Declaration' && childNode.property === `${varStyle}apply` && childNode.value.type === 'Raw') {
+          body = childNode.value.value.trim()
+          // remove quotes
+          if (body.match(/^(['"]).*\1$/))
+            body = body.slice(1, -1)
+        }
+
+        if (!body)
           return
 
-        if (childNode.prelude.type !== 'Raw')
-          return
-
-        const classNames = expandVariantGroup(childNode.prelude.value).split(/\s+/g)
-
+        const classNames = expandVariantGroup(body).split(/\s+/g)
         const utils = (
           await Promise.all(
             classNames.map(i => uno.parseToken(i, '-')),

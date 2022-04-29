@@ -178,4 +178,18 @@ describe('attributify', () => {
     const { css } = await uno.generate(fixture3)
     expect(css).toMatchSnapshot()
   })
+
+  test('with trueToNonValued', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetAttributify({ trueToNonValued: true }),
+        presetUno(),
+      ],
+    })
+    const { css } = await uno.generate(`
+      <div flex="true"></div>
+      <div grid="~ cols-2"></div>
+    `)
+    expect(css).toMatchSnapshot()
+  })
 })

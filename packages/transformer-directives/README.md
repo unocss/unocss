@@ -40,6 +40,34 @@ Will be transformed to:
 
 > Currently only `@apply` is supported.
 
+### CSS Variable Style
+
+To be compatible with vanilla CSS, you can use CSS Variables to replace the `@apply` directive.
+
+```css
+.custom-div {
+  --at-apply: text-center my-0 font-medium;
+}
+```
+
+To use rules with `:`, you will need to quote the value
+
+```css
+.custom-div {
+  --at-apply: "hover:text-red";
+}
+```
+
+This feature is enabled by default (with prefix `--at-`), can you configure it or disable it via:
+
+```js
+transformerDirective({
+  varStyle: '--my-at-',
+  // or disable with:
+  // varStyle: false
+})
+```
+
 ## License
 
 MIT License © 2022 [hannoeru](https://github.com/hannoeru)
