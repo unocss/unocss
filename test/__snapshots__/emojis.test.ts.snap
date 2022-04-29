@@ -3,11 +3,9 @@
 exports[`emojis > extractor1 1`] = `
 Set {
   "[🦉=\\"\\"]",
-  "[🦉=\\"true\\"]",
   "🦉",
   "[🦉~=\\"1\\"]",
   "[🥝-2=\\"\\"]",
-  "[🥝-2=\\"true\\"]",
   "[type~=\\"button\\"]",
 }
 `;
@@ -15,6 +13,5 @@ Set {
 exports[`emojis > fixture1 1`] = `
 "/* layer: default */
 .🦉,
-[🦉=\\"\\"],
-[🦉=\\"true\\"]{color:red;}"
+[🦉=\\"\\"]{color:red;}"
 `;
