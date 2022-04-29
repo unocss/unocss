@@ -22,7 +22,7 @@ describe('transformer-directives', () => {
 
   async function transform(code: string, _uno: UnoGenerator = uno) {
     const s = new MagicString(code)
-    await transformDirectives(s, _uno)
+    await transformDirectives(s, _uno, {})
     return prettier.format(s.toString(), {
       parser: 'css',
       plugins: [parserCSS],
@@ -350,6 +350,46 @@ describe('transformer-directives', () => {
         @media (min-width: 1536px) {
           .grid {
             grid-template-columns: repeat(15, minmax(0, 1fr));
+          }
+        }
+        "
+      `)
+  })
+
+  test.only('var style class', async () => {
+    const result = await transform(
+      `nav {
+        --at-apply: border;
+
+        ul {
+          li {
+            --at-apply: border;
+          }
+        }
+        a {
+          --at-apply: px-2;
+          --at-apply: "hover:underline";
+        }
+      }`,
+    )
+    expect(result)
+      .toMatchInlineSnapshot(`
+        "nav {
+          border-width: 1px;
+          border-style: solid;
+        
+          ul {
+            li {
+              border-width: 1px;
+              border-style: solid;
+            }
+          }
+          a {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+          }
+          a:hover {
+            text-decoration-line: underline;
           }
         }
         "
