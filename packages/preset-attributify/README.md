@@ -117,4 +117,4 @@ Initial idea by [@Tahul](https://github.com/Tahul) and [@antfu](https://github.c
 
 ## License
 
-MIT License © 2021-PRESENT [Anthony Fu](https://github.com/antfu)
+MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)

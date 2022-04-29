@@ -423,4 +423,4 @@ You have a `Vite + Elm` example project on [examples/vite-elm](https://github.co
 
 ## License
 
-MIT License © 2021-PRESENT [Anthony Fu](https://github.com/antfu)
+MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)

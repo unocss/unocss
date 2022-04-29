@@ -70,4 +70,4 @@ For multiple templates
 
 ## License
 
-MIT License © 2021-PRESENT [Anthony Fu](https://github.com/antfu)
+MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)

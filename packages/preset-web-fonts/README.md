@@ -79,4 +79,4 @@ Refer to the [type definition](https://github.com/unocss/unocss/blob/main/packag
 
 ## License
 
-MIT License © 2022-PRESENT [Anthony Fu](https://github.com/antfu)
+MIT License &copy; 2022-PRESENT [Anthony Fu](https://github.com/antfu)
