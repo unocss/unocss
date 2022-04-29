@@ -36,6 +36,7 @@ useEventListener('keydown', (e) => {
 
 function clear() {
   router.push({ query: { s: '' } })
+  nextTick().then(() => inputEl?.focus())
 }
 
 function openItem(item: ResultItem) {
@@ -58,6 +59,9 @@ function selectItem(item: ResultItem) {
     openItem(item)
   }
 }
+const vFocus = {
+  mounted: (el: HTMLElement) => el.focus(),
+}
 </script>
 
 <template>
@@ -67,20 +71,23 @@ function selectItem(item: ResultItem) {
       <input
         ref="inputEl"
         v-model="input"
+        v-focus
+        aria-label="Type to explore"
         placeholder="Type to explore..."
         type="text"
-        autocomplete="off"
-        w="full" p="x6 y4"
-        border-none bg-transparent
-        text-2xl font-200
+        autocomplete="off" w="full"
+        p="x6 y4" border-none
+        bg-transparent text-2xl
+        font-200
         outline="none active:none"
       >
       <button
         v-if="input"
         absolute flex right-2 w-10 top-2 bottom-2 text-xl op30 hover:op90
+        aria-label="Clear search"
         @click="clear()"
       >
-        <div i-carbon-close ma />
+        <span i-carbon-close ma block aria-hidden="true" />
       </button>
     </div>
     <div v-if="searchResult.length || isSearching" border="l b r base" mx2 of-auto>
@@ -95,7 +102,7 @@ function selectItem(item: ResultItem) {
         </ItemBase>
         <div divider />
       </template>
-      <template v-for="i, idx of searchResult" :key="idx">
+      <template v-for="(i, idx) of searchResult" :key="idx">
         <ResultItem
           :item="i"
           :active="selectIndex === idx"
@@ -110,8 +117,8 @@ function selectItem(item: ResultItem) {
         No result found
       </div>
       <div row justify-center>
-        <button btn @click="input = ''">
-          Clear
+        <button btn @click="clear()">
+          Clear search
         </button>
       </div>
     </div>

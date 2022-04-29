@@ -5,7 +5,7 @@ function toggleDark() {
 </script>
 
 <template>
-  <button class="!outline-none" @click="toggleDark">
-    <div class="dark:i-carbon-moon i-carbon-sun" />
+  <button class="!outline-none" :aria-label="isDark ? 'Switch to light theme' : 'Switch to dark theme'" @click="toggleDark">
+    <span class="dark:i-carbon-moon i-carbon-sun block" aria-hidden="true" />
   </button>
 </template>

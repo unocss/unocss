@@ -5,6 +5,13 @@ import 'uno.css'
 
 useHead({
   title: 'UnoCSS Interactive Docs',
+  htmlAttrs: [
+    { lang: 'en-US' },
+  ],
+  meta: [{
+    name: 'description',
+    content: 'UnoCSS Interactive Docs',
+  }],
   link: [
     { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
     { rel: 'search', type: 'application/opensearchdescription+xml', href: '/search.xml', title: 'UnoCSS' },
