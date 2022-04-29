@@ -22,7 +22,7 @@ export const variantAttributify = (options: AttributifyOptions = {}): VariantObj
         return
 
       const content = match[2]
-      const [, variants = '', body = content] = content.match(variantsRE) || []
+      const [, variants = '', body = content] = content?.match(variantsRE) || []
       if (body === '~' || !body)
         return `${variants}${name}`
       else

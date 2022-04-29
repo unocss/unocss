@@ -33,7 +33,7 @@ export const extractorAttributify = (options?: AttributifyOptions): Extractor =>
 
           if (!content) {
             if (isValidSelector(name) && nonValuedAttribute !== false)
-              return [`[${name}=""]`]
+              return [`[${name}=""]`, `[${name}]`]
             return []
           }
 
