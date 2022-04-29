@@ -30,10 +30,9 @@ useEventListener('keydown', (e) => {
     clear()
   }
 
-  if (e.metaKey || e.ctrlKey || e.altKey || e.shiftKey || e.key === 'Tab')
-    return
-
-  inputEl?.focus()
+  // allow typing from everywhere to search
+  if (e.key.match(/^[\w:-]$/) && !e.metaKey && !e.ctrlKey && !e.altKey && !e.shiftKey)
+    inputEl?.focus()
 })
 
 function clear() {
