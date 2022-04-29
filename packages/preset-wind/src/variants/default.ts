@@ -6,6 +6,7 @@ import { variantColorsScheme } from './dark'
 import { variantMotions, variantOrientations } from './media'
 import { variantSpaceAndDivide } from './misc'
 import { placeholderModifier } from './placeholder'
+import { variantNotSupport, variantSupport } from './support'
 
 export const variants = (options: PresetWindOptions): Variant<Theme>[] => [
   placeholderModifier,
@@ -15,4 +16,6 @@ export const variants = (options: PresetWindOptions): Variant<Theme>[] => [
   ...variantMotions,
   ...variantCombinators,
   ...variantColorsScheme,
+  ...variantSupport,
+  ...variantNotSupport,
 ]
