@@ -367,3 +367,12 @@ exports[`attributify > variant 1`] = `
   "m-3",
 ]
 `;
+
+exports[`attributify > with trueToNonValued 1`] = `
+"/* layer: default */
+.grid,
+[grid~=\\"\\\\~\\"]{display:grid;}
+[grid~=\\"cols-2\\"]{grid-template-columns:repeat(2,minmax(0,1fr));}
+.flex,
+[flex~=\\"true\\"]{display:flex;}"
+`;

@@ -356,7 +356,7 @@ describe('transformer-directives', () => {
       `)
   })
 
-  test.only('var style class', async () => {
+  test('var style class', async () => {
     const result = await transform(
       `nav {
         --at-apply: border;
