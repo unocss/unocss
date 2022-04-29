@@ -1,7 +1,8 @@
 import type { Plugin } from 'vite'
 import type { UnocssPluginContext } from '@unocss/core'
 import type { VitePluginConfig } from '../../types'
-import { getHash, getPath, replaceAsync } from '../../../../plugins-common/utils'
+import { getHash } from '../../../../plugins-common/hash'
+import { getPath, replaceAsync } from '../../../../plugins-common/utils'
 import {
   HASH_PLACEHOLDER_RE,
   LAYER_MARK_ALL,
