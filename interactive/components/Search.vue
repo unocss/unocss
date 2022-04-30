@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { onBeforeRouteUpdate } from 'vue-router'
 import type { ResultItem } from '~/types'
 import { input, isSearching, searchResult, selectIndex } from '~/composables/state'
 
@@ -63,6 +64,12 @@ function selectItem(item: ResultItem) {
 const vFocus = {
   mounted: (el: HTMLElement) => el.focus(),
 }
+
+onBeforeRouteUpdate(() => {
+  nextTick().then(() => {
+    inputEl?.focus()
+  })
+})
 </script>
 
 <template>
