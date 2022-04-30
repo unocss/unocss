@@ -290,4 +290,4 @@ This preset is inspired from [this issue](https://github.com/antfu/unplugin-icon
 
 ## License
 
-MIT License © 2021-PRESENT [Anthony Fu](https://github.com/antfu)
+MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)

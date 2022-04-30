@@ -98,6 +98,6 @@ Indicates if the files found by the glob pattern should be watched.
 
 ## License
 
-MIT License © 2021-PRESENT [Anthony Fu](https://github.com/antfu)
+MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)
 
-MIT License © 2021-PRESENT [Johann Schopplich](https://github.com/johannschopplich)
+MIT License &copy; 2021-PRESENT [Johann Schopplich](https://github.com/johannschopplich)

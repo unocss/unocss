@@ -103,4 +103,4 @@ Use `un-cloak` attribute with CSS rules such as `[un-cloak] { display: none }` t
 
 ## License
 
-MIT License © 2021-PRESENT [Anthony Fu](https://github.com/antfu)
+MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)

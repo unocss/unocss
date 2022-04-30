@@ -24,4 +24,4 @@ Visit `http://localhost:3000/__unocss` in your Vite dev server to see the inspec
 
 ## License
 
-MIT License © 2021-PRESENT [Anthony Fu](https://github.com/antfu)
+MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)
