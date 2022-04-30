@@ -36,7 +36,6 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 - [Pure CSS Icons](https://github.com/unocss/unocss/tree/main/packages/preset-icons/) - use any icon as a single class.
 - [Inspector](#inspector) - inspect and debug interactively.
 - [CSS-in-JS Runtime version](https://github.com/unocss/unocss/tree/main/packages/runtime)
-- [CSS Scoping](#css-scoping)
 - [VS Code extension](https://marketplace.visualstudio.com/items?itemName=antfu.unocss)
 - [Variant Groups](https://github.com/unocss/unocss/tree/main/packages/transformer-variant-group) & [CSS Directives](https://github.com/unocss/unocss/tree/main/packages/transformer-directives)
 - Code-splitting for CSS - ships minimal CSS for MPA.
@@ -582,23 +581,6 @@ From v0.7.0, our Vite plugin now ships with a dev inspector ([@unocss/inspector]
 
 See [@unocss/runtime](https://github.com/unocss/unocss/tree/main/packages/runtime)
 
-### CSS Scoping
-
-> 🚧 This part is still experimental. You might want to read the code to see how it works currently.
-
-<!-- ## Make a Custom Preset
-
-// TODO:
-
-### Extractors
-
-// TODO:
-
-### Publish
-
-// TODO: -->
-
-
 ## Acknowledgement
 
 > in alphabet order
@@ -619,10 +601,6 @@ See [@unocss/runtime](https://github.com/unocss/unocss/tree/main/packages/runtim
     <img src='https://cdn.jsdelivr.net/gh/antfu/static/sponsors.svg'/>
   </a>
 </p>
-
-## Project Activity
-
-![Alt](https://repobeats.axiom.co/api/embed/00d8bcc7f3651c0f0cccf9228f5776fb111ab478.svg "Repobeats analytics image")
 
 ## License
 
