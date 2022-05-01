@@ -551,7 +551,7 @@ RequiredByKey<UserConfig, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'l
   preprocess: Preprocessor[]
   postprocess: Postprocessor[]
   rulesSize: number
-  rulesDynamic: (DynamicRule|undefined)[]
+  rulesDynamic: (DynamicRule | undefined)[]
   rulesStaticMap: Record<string, [number, CSSObject | CSSEntries, RuleMeta | undefined, Rule] | undefined>
   autocomplete: {
     templates: (AutoCompleteFunction | AutoCompleteTemplate)[]

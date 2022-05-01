@@ -1,4 +1,4 @@
-/* eslint-disable quotes */
+/* eslint-disable @typescript-eslint/quotes */
 export default [
   '',
   "",

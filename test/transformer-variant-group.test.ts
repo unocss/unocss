@@ -45,7 +45,7 @@ describe('transformer-variant-group', () => {
       "<script setup lang=\\"ts\\">
       const a = 1
       const b = 2
-      // eslint-disable-next-line space-infix-ops
+      // eslint-disable-next-line @typescript-eslint/space-infix-ops
       const c = a-(b -a -b)
       </script>
       
