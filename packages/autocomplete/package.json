@@ -36,7 +36,7 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "lru-cache": "^7.8.1"
+    "lru-cache": "^7.9.0"
   },
   "devDependencies": {
     "@types/lru-cache": "^7.6.1",

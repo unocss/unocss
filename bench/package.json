@@ -8,7 +8,7 @@
     "autoprefixer": "^10.4.5",
     "fs-extra": "^10.1.0",
     "local-pkg": "^0.4.1",
-    "postcss": "^8.4.12",
+    "postcss": "^8.4.13",
     "tailwindcss": "^3.0.24",
     "unocss": "workspace:*",
     "vite": "^2.9.6",

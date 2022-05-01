@@ -22,13 +22,13 @@
   "devDependencies": {
     "@remix-run/dev": "^1.4.3",
     "@types/react": "^18.0.8",
-    "@types/react-dom": "^18.0.2",
+    "@types/react-dom": "^18.0.3",
     "@unocss/cli": "link:../../packages/cli",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-uno": "link:../../packages/preset-uno",
     "@unocss/preset-web-fonts": "link:../../packages/preset-web-fonts",
     "concurrently": "^7.1.0",
-    "typescript": "^4.6.3",
+    "typescript": "^4.6.4",
     "unocss": "link:../../packages/unocss"
   },
   "engines": {
