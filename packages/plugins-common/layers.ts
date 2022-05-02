@@ -20,6 +20,8 @@ export function resolveId(id: string) {
   }
 }
 
+export const RESOLVED_ID_RE = /\/__uno(_.*?)?\.css$/
+
 export const LAYER_PLACEHOLDER_RE = /(\\?")?#--unocss--\s*{\s*layer\s*:\s*(.+?);?\s*}/g
 export function getLayerPlaceholder(layer: string) {
   return `#--unocss--{layer:${layer}}`

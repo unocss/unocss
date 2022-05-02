@@ -7,6 +7,7 @@ import {
   HASH_PLACEHOLDER_RE,
   LAYER_MARK_ALL,
   LAYER_PLACEHOLDER_RE,
+  RESOLVED_ID_RE,
   getHashPlaceholder,
   getLayerPlaceholder,
   resolveId,
@@ -80,24 +81,26 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, fi
           return null
 
         const chunks = Object.keys(chunk.modules).filter(i => modules.has(i))
-
         if (!chunks.length)
           return null
 
+        const fakeCssId = `${chunk.fileName}-unocss-hash.css`
         const tokens = new Set<string>()
         await Promise.all(chunks.map(c => uno.applyExtractors(modules.get(c) || '', c, tokens)))
         let { css } = await uno.generate(tokens, { minify: true })
         if (!css)
           return null
 
-        // fool the css plugin to generate the css in corresponding chunk
-        const fakeCssId = `${chunk.fileName}-unocss-hash.css`
+        // skip hash generation on non-entry chunk
+        if (!Object.keys(chunk.modules).some(i => i.match(RESOLVED_ID_RE)))
+          return null
 
         css = await transformCSS(css, fakeCssId)
 
         const hash = getHash(css)
         // @ts-expect-error no this context
         await cssPostPlugin.transform(getHashPlaceholder(hash), fakeCssId)
+        // fool the css plugin to generate the css in corresponding chunk
         chunk.modules[fakeCssId] = {
           code: null,
           originalLength: 0,
