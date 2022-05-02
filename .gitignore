@@ -16,3 +16,7 @@ packages/runtime/*.global.js
 packages/unocss/README.md
 packages/vscode/LICENSE
 result.json
+interactive/guides/vendor/*.md
+interactive/data/guides.ts
+interactive/public/play
+interactive/public/shiki
