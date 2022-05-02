@@ -1,6 +1,6 @@
 {
   "name": "@unocss/transformer-directives",
-  "version": "0.32.8",
+  "version": "0.32.9",
   "description": "UnoCSS transformer for `@apply` directive",
   "keywords": [
     "unocss",
