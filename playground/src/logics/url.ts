@@ -12,7 +12,7 @@ export const options = ref<{ strict?: boolean; transform?: boolean }>(JSON.parse
 throttledWatch(
   [customConfigRaw, inputHTML, options],
   () => {
-    const url = new URL('/', window.location.origin)
+    const url = new URL('/play', window.location.origin)
     url.searchParams.set('html', encode(inputHTML.value))
     url.searchParams.set('config', encode(customConfigRaw.value))
     url.searchParams.set('options', encode(JSON.stringify(options.value)))
