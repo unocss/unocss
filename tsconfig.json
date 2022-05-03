@@ -12,6 +12,7 @@
     "skipLibCheck": true,
     "jsx": "preserve",
     "types": [
+      "node",
       "vite/client"
     ],
     "paths": {
