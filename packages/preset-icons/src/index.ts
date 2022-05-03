@@ -36,7 +36,6 @@ export const preset = (options: IconsOptions = {}): Preset => {
     autoInstall,
     // avoid warn from @iconify/loader: we'll warn below if not found
     warn: undefined,
-    usedProps: {},
     customizations: {
       ...customizations,
       additionalProps: { ...extraProperties },
@@ -87,16 +86,17 @@ export const preset = (options: IconsOptions = {}): Preset => {
 
         iconLoader = iconLoader || await lookupIconLoader()
 
+        const usedProps = {}
         if (body.includes(':')) {
           [collection, name] = body.split(':')
-          svg = await iconLoader(collection, name, loaderOptions)
+          svg = await iconLoader(collection, name, { ...loaderOptions, usedProps })
         }
         else {
           const parts = body.split(/-/g)
           for (let i = COLLECTION_NAME_PARTS_MAX; i >= 1; i--) {
             collection = parts.slice(0, i).join('-')
             name = parts.slice(i).join('-')
-            svg = await iconLoader(collection, name, loaderOptions)
+            svg = await iconLoader(collection, name, { ...loaderOptions, usedProps })
             if (svg)
               break
           }
@@ -122,7 +122,7 @@ export const preset = (options: IconsOptions = {}): Preset => {
             '-webkit-mask': 'var(--un-icon) no-repeat',
             '-webkit-mask-size': '100% 100%',
             'background-color': 'currentColor',
-            ...loaderOptions.usedProps!,
+            ...usedProps,
           }
         }
         else {
@@ -130,7 +130,7 @@ export const preset = (options: IconsOptions = {}): Preset => {
             'background': `${url} no-repeat`,
             'background-size': '100% 100%',
             'background-color': 'transparent',
-            ...loaderOptions.usedProps!,
+            ...usedProps,
           }
         }
       },
