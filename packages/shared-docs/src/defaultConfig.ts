@@ -17,15 +17,7 @@ export default defineConfig({
     presetAttributify(),
     presetIcons({
       scale: 1.2,
-      collections: {
-        carbon: () => import('@iconify-json/carbon/icons.json').then(i => i.default),
-        mdi: () => import('@iconify-json/mdi/icons.json').then(i => i.default),
-        logos: () => import('@iconify-json/logos/icons.json').then(i => i.default),
-        twemoji: () => import('@iconify-json/twemoji/icons.json').then(i => i.default),
-        ri: () => import('@iconify-json/ri/icons.json').then(i => i.default),
-        tabler: () => import('@iconify-json/tabler/icons.json').then(i => i.default),
-        uim: () => import('@iconify-json/uim/icons.json').then(i => i.default),
-      },
+      cdn: 'https://esm.sh/'
     }),
   ]
 })

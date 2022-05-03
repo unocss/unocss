@@ -357,11 +357,13 @@ importers:
       '@iconify/types': ^1.1.0
       '@iconify/utils': ^1.0.32
       '@unocss/core': workspace:*
+      ohmyfetch: ^0.4.16
     dependencies:
       '@iconify/utils': 1.0.32
       '@unocss/core': link:../core
     devDependencies:
       '@iconify/types': 1.1.0
+      ohmyfetch: 0.4.16
 
   packages/preset-mini:
     specifiers:
@@ -6193,7 +6195,6 @@ packages:
       data-uri-to-buffer: 4.0.0
       fetch-blob: 3.1.5
       formdata-polyfill: 4.0.10
-    dev: false
 
   /node-forge/1.3.1:
     resolution: {integrity: sha512-dPEtOeMvF9VMcYV/1Wb8CPoVAXtp6MKMlcbAt4ddqmGqUJ6fQZFXkNZNkNlfevtNkGtaSoXf/vNNNSvgrdXwtA==}
@@ -6480,7 +6481,6 @@ packages:
       node-fetch: 3.2.4
       ufo: 0.8.3
       undici: 5.0.0
-    dev: false
 
   /on-finished/2.3.0:
     resolution: {integrity: sha1-IPEzZIGwg811M3mSoWlxqi2QaUc=}
@@ -8630,7 +8630,6 @@ packages:
   /undici/5.0.0:
     resolution: {integrity: sha512-VhUpiZ3No1DOPPQVQnsDZyfcbTTcHdcgWej1PdFnSvOeJmOVDgiOHkunJmBLfmjt4CqgPQddPVjSWW0dsTs5Yg==}
     engines: {node: '>=12.18'}
-    dev: false
 
   /unenv/0.4.6:
     resolution: {integrity: sha512-zu6y8SGki8o+7lTAXkvk6Xm9iHjvBxyIxhF7DP94KzSEhkkCtD7/Mbpx/qaM4nRIEnVuIzhYwauP2DWecictmQ==}

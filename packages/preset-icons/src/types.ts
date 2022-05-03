@@ -67,4 +67,13 @@ export interface IconsOptions {
    * @default `em`
    */
   unit?: string
+
+  /**
+   * Load icons from CDN. Should starts with `https://` and ends with `/`
+   *
+   * Recommends:
+   * - https://esm.sh/
+   * - https://cdn.skypack.dev/
+   */
+  cdn?: string
 }

@@ -89,17 +89,32 @@ You can provide collections via `@iconify-json/[the-collection-you-want]`, `@ico
 ### Browser
 
 To load `iconify` collections you should use `@iconify-json/[the-collection-you-want]` and not `@iconify/json` since the `json` file is huge.
-You will need to provide the `iconify` collections using `dynamic imports`, for example, on playground you have these collections:
+
+#### Bundler
+
+When using bundlers, you can provide the collections using `dynamic imports` so they will be bundler as async chunk and loaded on demand.
 
 ```ts
 presetIcons({
   collections: {
-    carbon: () => import('@iconify-json/carbon/icons.json').then(i => i.default as any),
-    mdi: () => import('@iconify-json/mdi/icons.json').then(i => i.default as any),
-    logos: () => import('@iconify-json/logos/icons.json').then(i => i.default as any),
+    carbon: () => import('@iconify-json/carbon/icons.json').then(i => i.default),
+    mdi: () => import('@iconify-json/mdi/icons.json').then(i => i.default),
+    logos: () => import('@iconify-json/logos/icons.json').then(i => i.default),
   }
 })
 ```
+
+#### CDN
+
+Or if you prefer to fetch them from CDN, you can specify the `cdn` option since `v0.32.10`. We recommend [esm.sh](https://esm.sh/) as the CDN provider.
+
+```ts
+presetIcons({
+  cdn: 'https://esm.sh/'
+})
+```
+
+#### Customization
 
 You can also provide your own custom collections using [CustomIconLoader](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/types.ts#L17) or [InlineCollection](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/types.ts#L86), for example using `InlineCollection`:
 

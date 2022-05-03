@@ -8,24 +8,11 @@ import { loadIcon } from '@iconify/utils'
 import { encodeSvgForCss } from '@iconify/utils/lib/svg/encode-svg-for-css'
 import { isNode, isVSCode } from './utils'
 import type { IconsOptions } from './types'
+import { createCDNLoader } from './cdn'
 
 const COLLECTION_NAME_PARTS_MAX = 3
 
 export { IconsOptions }
-
-async function lookupIconLoader(): Promise<UniversalIconLoader> {
-  if (isNode && !isVSCode) {
-    try {
-      return await import('@iconify/utils/lib/loader/node-loader').then(i => i?.loadNodeIcon)
-    }
-    catch {}
-    try {
-      return require('@iconify/utils/lib/loader/node-loader.cjs')
-    }
-    catch {}
-  }
-  return loadIcon
-}
 
 export const preset = (options: IconsOptions = {}): Preset => {
   const {
@@ -39,6 +26,7 @@ export const preset = (options: IconsOptions = {}): Preset => {
     autoInstall = false,
     layer = 'icons',
     unit,
+    cdn,
   } = options
 
   const loaderOptions: IconifyLoaderOptions = {
@@ -63,6 +51,22 @@ export const preset = (options: IconsOptions = {}): Preset => {
         }
       },
     },
+  }
+
+  async function lookupIconLoader(): Promise<UniversalIconLoader> {
+    if (cdn)
+      return createCDNLoader(cdn)
+    if (isNode && !isVSCode) {
+      try {
+        return await import('@iconify/utils/lib/loader/node-loader').then(i => i?.loadNodeIcon)
+      }
+      catch {}
+      try {
+        return require('@iconify/utils/lib/loader/node-loader.cjs')
+      }
+      catch {}
+    }
+    return loadIcon
   }
 
   let iconLoader: UniversalIconLoader
