@@ -1,22 +1,14 @@
-import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Pages from 'vite-plugin-pages'
 import Unocss from '../unocss/src/vite'
+import { alias } from '../../alias'
 
 export default defineConfig(({ command }) => ({
   resolve: {
-    alias: {
-      'unocss': resolve('../unocss/src/index.ts'),
-      '@unocss/core': resolve('../core/src/index.ts'),
-      '@unocss/vite': resolve('../vite/src/index.ts'),
-      '@unocss/inspector': resolve('../inspector/node/index.ts'),
-      '@unocss/preset-uno': resolve('../preset-uno/src/index.ts'),
-      '@unocss/preset-attributify': resolve('../preset-attributify/src/index.ts'),
-      '@unocss/preset-icons': resolve('../preset-icons/src/index.ts'),
-    },
+    alias,
   },
   base: command === 'build' ? '/__unocss/' : '/',
   plugins: [

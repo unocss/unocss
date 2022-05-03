@@ -1,6 +1,6 @@
 import type { Plugin, ViteDevServer, ResolvedConfig as ViteResolvedConfig } from 'vite'
 import type { UnocssPluginContext } from '@unocss/core'
-import { LAYER_MARK_ALL, getPath, resolveId } from '../../../../shared-integration'
+import { LAYER_MARK_ALL, getPath, resolveId } from '../../integration'
 
 const WARN_TIMEOUT = 20000
 const WS_EVENT_PREFIX = 'unocss:hmr'

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { AsyncHintFunction, HintFunction, HintFunctionResolver } from 'codemirror'
-import { getMatchedPositions } from '../../../shared-integration/utils'
+import { getMatchedPositions } from '@unocss/shared-common'
 import { useCodeMirror } from '../composables/codemirror'
 
 const props = defineProps<{

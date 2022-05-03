@@ -1,9 +1,8 @@
-import { expandVariantGroup, notNull, regexScopePlaceholder } from '@unocss/core'
+import { cssIdRE, expandVariantGroup, notNull, regexScopePlaceholder } from '@unocss/core'
 import type { SourceCodeTransformer, StringifiedUtil, UnoGenerator } from '@unocss/core'
 import type { CssNode, List, ListItem, Selector, SelectorList } from 'css-tree'
 import { clone, generate, parse, walk } from 'css-tree'
 import type MagicString from 'magic-string'
-import { regexCssId } from '../../shared-integration/defaults'
 
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
 
@@ -23,7 +22,7 @@ export default function transformerDirectives(options: TransformerDirectivesOpti
   return {
     name: 'css-directive',
     enforce: options?.enforce,
-    idFilter: id => !!id.match(regexCssId),
+    idFilter: id => !!id.match(cssIdRE),
     transform: (code, id, ctx) => {
       return transformDirectives(code, ctx.uno, options, id)
     },

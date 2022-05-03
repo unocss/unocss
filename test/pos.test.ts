@@ -2,7 +2,7 @@ import { expect, it } from 'vitest'
 import presetAttributify from '@unocss/preset-attributify'
 import presetUno from '@unocss/preset-uno'
 import { createGenerator } from '@unocss/core'
-import { getMatchedPositions } from '../packages/shared-integration'
+import { getMatchedPositions } from '@unocss/shared-common'
 
 it('getMatchedPositions', async () => {
   const uno = createGenerator({

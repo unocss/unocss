@@ -1,8 +1,4 @@
-import { escapeRegExp as e, isAttributifySelector } from '@unocss/core'
-
-export function getPath(id: string) {
-  return id.replace(/\?.*$/, '')
-}
+import { e, isAttributifySelector } from '@unocss/core'
 
 // https://github.com/dsblv/string-replace-async/blob/main/index.js
 export function replaceAsync(string: string, searchValue: RegExp, replacer: (...args: string[]) => Promise<string>) {

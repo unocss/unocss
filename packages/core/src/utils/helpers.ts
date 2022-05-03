@@ -1,6 +1,7 @@
 import type { ParsedUtil, RawUtil, StringifiedUtil, Variant, VariantObject } from '../types'
 
 export const attributifyRE = /^\[(.+?)~?="(.*)"\]$/
+export const cssIdRE = /\.(css|postcss|sass|scss|less|stylus|styl)$/
 export const validateFilterRE = /(?!\d|-{2}|-\d)[a-zA-Z0-9\u00A0-\uFFFF-_:%-?]/
 export const CONTROL_SHORTCUT_NO_MERGE = '$$shortcut-no-merge'
 

@@ -1,6 +1,6 @@
 import type { Plugin } from 'vite'
 import type { UnocssPluginContext } from '@unocss/core'
-import { CSS_PLACEHOLDER } from '../../../shared-integration'
+import { CSS_PLACEHOLDER } from '../integration'
 
 export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin {
   const partExtractorRegex = /^part-\[(.+)]:/

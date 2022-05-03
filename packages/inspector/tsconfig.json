@@ -2,15 +2,15 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "target": "esnext",
-    "useDefineForClassFields": true,
     "module": "esnext",
+    "lib": ["esnext", "dom"],
     "moduleResolution": "node",
     "strict": true,
-    "jsx": "preserve",
     "sourceMap": true,
+    "useDefineForClassFields": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "lib": ["esnext", "dom"],
+    "jsx": "preserve",
     "types": [
       "vite/client",
       "vite-plugin-pages/client"

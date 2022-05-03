@@ -196,7 +196,7 @@ importers:
       '@types/prettier': ^2.6.0
       '@unocss/autocomplete': workspace:*
       '@unocss/nuxt': workspace:*
-      '@unocss/shared-playground': workspace:*
+      '@unocss/shared-docs': workspace:*
       '@vueuse/nuxt': ^8.3.1
       esmo: ^0.14.1
       fs-extra: ^10.1.0
@@ -227,7 +227,7 @@ importers:
       '@types/prettier': 2.6.0
       '@unocss/autocomplete': link:../packages/autocomplete
       '@unocss/nuxt': link:../packages/nuxt
-      '@unocss/shared-playground': link:../packages/shared-playground
+      '@unocss/shared-docs': link:../packages/shared-docs
       '@vueuse/nuxt': 8.3.1
       esmo: 0.14.1
       fs-extra: 10.1.0
@@ -420,15 +420,13 @@ importers:
   packages/scope:
     specifiers: {}
 
-  packages/shared-integration:
+  packages/shared-common:
     specifiers:
       '@unocss/core': workspace:*
-      '@unocss/scope': workspace:*
     dependencies:
       '@unocss/core': link:../core
-      '@unocss/scope': link:../scope
 
-  packages/shared-playground:
+  packages/shared-docs:
     specifiers:
       '@types/prettier': ^2.6.0
       '@unocss/autocomplete': workspace:^0.32.9
@@ -444,6 +442,14 @@ importers:
       prettier: 2.6.2
     devDependencies:
       '@types/prettier': 2.6.0
+
+  packages/shared-integration:
+    specifiers:
+      '@unocss/core': workspace:*
+      '@unocss/scope': workspace:*
+    dependencies:
+      '@unocss/core': link:../core
+      '@unocss/scope': link:../scope
 
   packages/transformer-directives:
     specifiers:
@@ -502,6 +508,7 @@ importers:
       '@unocss/core': workspace:*
       '@unocss/inspector': workspace:*
       '@unocss/scope': workspace:*
+      '@unocss/shared-integration': workspace:*
       '@unocss/transformer-directives': workspace:*
       magic-string: ^0.26.1
       vite: ^2.9.6
@@ -514,6 +521,7 @@ importers:
       '@unocss/transformer-directives': link:../transformer-directives
       magic-string: 0.26.1
     devDependencies:
+      '@unocss/shared-integration': link:../shared-integration
       vite: 2.9.6
 
   packages/vscode:

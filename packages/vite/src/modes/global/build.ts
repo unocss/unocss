@@ -1,17 +1,16 @@
 import type { Plugin } from 'vite'
 import type { UnocssPluginContext } from '@unocss/core'
-import type { VitePluginConfig } from '../../types'
-import { getHash } from '../../../../shared-integration/hash'
-import { getPath, replaceAsync } from '../../../../shared-integration/utils'
 import {
-  HASH_PLACEHOLDER_RE,
-  LAYER_MARK_ALL,
-  LAYER_PLACEHOLDER_RE,
+  HASH_PLACEHOLDER_RE, LAYER_MARK_ALL, LAYER_PLACEHOLDER_RE,
   RESOLVED_ID_RE,
+  getHash,
   getHashPlaceholder,
   getLayerPlaceholder,
+  getPath,
+  replaceAsync,
   resolveId,
-} from '../../../../shared-integration'
+} from '../../integration'
+import type { VitePluginConfig } from '../../types'
 
 export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, filter, getConfig }: UnocssPluginContext<VitePluginConfig>): Plugin[] {
   const vfsLayerMap = new Map<string, string>()
