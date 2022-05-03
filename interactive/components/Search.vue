@@ -158,7 +158,7 @@ function selectItem(item: ResultItem) {
       <div divider />
     </template>
   </div>
-  <Info v-else-if="!input" />
+  <Intro v-else-if="!input" />
   <div v-else p10>
     <div op40 italic mb5>
       No result found

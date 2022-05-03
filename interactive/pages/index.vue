@@ -21,11 +21,11 @@ const modal = $computed<boolean>({
       <Search v-else />
     </div>
     <template v-if="lg">
-      <DetailsResult v-if="searchResult[selectIndex]" :item="searchResult[selectIndex]" />
+      <DetailsResult :item="searchResult[selectIndex]" />
     </template>
     <template v-else>
       <Modal v-model="modal">
-        <DetailsResult v-if="searchResult[selectIndex]" :item="searchResult[selectIndex]" />
+        <DetailsResult :item="searchResult[selectIndex]" />
       </Modal>
     </template>
   </div>

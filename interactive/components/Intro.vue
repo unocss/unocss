@@ -1,5 +1,5 @@
 <template>
-  <div px5 py12 gap4 c-gray5 h-full of-auto>
+  <div px5 py12 gap4 c-truegray5 h-full of-auto>
     <svg w-25 h-25 mxa mb4 mt8 flex-none viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M117.722 167.444C117.722 139.83 140.108 117.444 167.722 117.444V117.444C195.336 117.444 217.722 139.83 217.722 167.444V167.444C217.722 195.058 195.336 217.444 167.722 217.444V217.444C140.108 217.444 117.722 195.058 117.722 167.444V167.444Z"

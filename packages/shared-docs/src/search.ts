@@ -260,9 +260,15 @@ export function createSearch(
     fuse.setCollection(fuseCollection)
   }
 
+  function getSearchCount() {
+    return fuseCollection.length
+  }
+
   return {
+    uno,
     reset,
     search,
+    fuse,
     generateFor,
     getPresetOfRule,
     getPresetOfVariant,
@@ -270,5 +276,6 @@ export function createSearch(
     getAliasOf,
     getItemId,
     getSameRules,
+    getSearchCount,
   }
 }
