@@ -42,6 +42,7 @@
   },
   "devDependencies": {
     "magic-string": "^0.26.1",
+    "nanoevents": "^6.0.2",
     "unconfig": "^0.3.3"
   }
 }

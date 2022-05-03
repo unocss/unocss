@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { isCompact, toggleCompact, uno } from '~/composables/state'
+import { currentTab, isCompact, toggleCompact, uno } from '~/composables/state'
 </script>
 
 <template>
@@ -19,11 +19,25 @@ import { isCompact, toggleCompact, uno } from '~/composables/state'
     </div>
     <div flex-auto />
     <div row gap4 text="lg gray4" items-center>
-      <button
-        :class="isCompact ? 'i-carbon-list' : 'i-carbon-list-boxes'"
-        :aria-label="isCompact ? 'Show results entries dense' : 'Show results entries normal'"
-        @click="toggleCompact()"
-      />
+      <template v-if="currentTab === 'search'">
+        <button
+          class="i-carbon-settings-adjust"
+          title="Config"
+          @click="currentTab = 'config'"
+        />
+        <button
+          :class="isCompact ? 'i-carbon-list' : 'i-carbon-list-boxes'"
+          :aria-label="isCompact ? 'Show results entries dense' : 'Show results entries normal'"
+          @click="toggleCompact()"
+        />
+      </template>
+      <template v-else>
+        <button
+          class="i-carbon-close"
+          title="Cancel config changes"
+          @click="currentTab = 'search'"
+        />
+      </template>
       <a i-carbon-logo-github href="https://github.com/unocss/unocss" target="_blank" aria-label="GitHub" />
       <DarkToggle />
     </div>

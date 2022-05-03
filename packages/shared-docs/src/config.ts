@@ -1,5 +1,6 @@
 /* eslint-disable no-restricted-imports */
 import * as __unocss from 'unocss'
+import type { UserConfig } from '@unocss/core'
 
 const AsyncFunction = Object.getPrototypeOf(async () => {}).constructor
 
@@ -12,16 +13,17 @@ export function clearModuleCache() {
   modulesCache.set('unocss', __unocss)
 }
 
-export async function evaluateUserConfig(configStr: string) {
+export async function evaluateUserConfig<U = UserConfig>(configStr: string): Promise<U | undefined> {
   const code = configStr
     .replace(/import\s*(.*?)\s*from\s*(['"])unocss\2/g, 'const $1 = await __import("unocss");')
-    .replace(/import\s*(\{.*?\})\s*from\s*(['"])([\w-@/]+)\2/g, `const $1 = await __import("${CDN_BASE}$3");`)
-    .replace(/import\s*(.*?)\s*from\s*(['"])([\w-@/]+)\2/g, `const $1 = (await __import("${CDN_BASE}/$3")).default;`)
+    .replace(/import\s*(\{[\s\S]*?\})\s*from\s*(['"])([\w-@/]+)\2/g, 'const $1 = await __import("$3");')
+    .replace(/import\s*(.*?)\s*from\s*(['"])([\w-@/]+)\2/g, 'const $1 = (await __import("$3")).default;')
     .replace(/export default /, 'return ')
+    .replace(/\bimport\s*\(/, '__import(')
 
   const __import = (name: string): any => {
     if (!modulesCache.has(name))
-      modulesCache.set(name, import(/* @vite-ignore */ name))
+      modulesCache.set(name, import(/* @vite-ignore */ `${CDN_BASE}${name}`))
     return modulesCache.get(name)
   }
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { breakpoints, isModalOpen, searchResult, selectIndex } from '~/composables/state'
+import { breakpoints, currentTab, isModalOpen, searchResult, selectIndex } from '~/composables/state'
 
 const lg = breakpoints.lg
 
@@ -15,7 +15,11 @@ const modal = $computed<boolean>({
 
 <template>
   <div grid="~ lg:cols-2 gap2" px8 h-full of-hidden>
-    <Search />
+    <div h-full grid="~ rows-[min-content_min-content_1fr]" of-hidden>
+      <TheNav />
+      <Config v-if="currentTab === 'config'" />
+      <Search v-else />
+    </div>
     <template v-if="lg">
       <DetailsResult v-if="searchResult[selectIndex]" :item="searchResult[selectIndex]" />
     </template>

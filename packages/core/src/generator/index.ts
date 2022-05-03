@@ -1,3 +1,4 @@
+import { createNanoEvents } from 'nanoevents'
 import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, Shortcut, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
 import { CONTROL_SHORTCUT_NO_MERGE, TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, noop, normalizeCSSEntries, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
@@ -9,12 +10,16 @@ export class UnoGenerator {
   public config: ResolvedConfig
   public blocked = new Set<string>()
   public parentOrders = new Map<string, number>()
+  public events = createNanoEvents<{
+    config: (config: ResolvedConfig) => void
+  }>()
 
   constructor(
     public userConfig: UserConfig = {},
     public defaults: UserConfigDefaults = {},
   ) {
     this.config = resolveConfig(userConfig, defaults)
+    this.events.emit('config', this.config)
   }
 
   setConfig(userConfig?: UserConfig, defaults?: UserConfigDefaults) {
@@ -23,10 +28,11 @@ export class UnoGenerator {
     if (defaults)
       this.defaults = defaults
     this.userConfig = userConfig
-    this.config = resolveConfig(userConfig, this.defaults)
     this.blocked.clear()
     this.parentOrders.clear()
     this._cache.clear()
+    this.config = resolveConfig(userConfig, this.defaults)
+    this.events.emit('config', this.config)
   }
 
   async applyExtractors(code: string, id?: string, set = new Set<string>()) {

@@ -58,6 +58,8 @@ export function createSearch(
 
   const az09 = Array.from('abcdefghijklmnopqrstuvwxyz01234567890')
 
+  uno.events.on('config', reset)
+
   let _fusePrepare: Promise<void> | undefined
   async function search(input: string) {
     _fusePrepare = _fusePrepare || prepareFuse()
@@ -248,7 +250,7 @@ export function createSearch(
       .sort((a, b) => a.class.localeCompare(b.class))
   }
 
-  function clear() {
+  function reset() {
     matchedMap.clear()
     featuresMap.clear()
     ac.reset()
@@ -257,8 +259,9 @@ export function createSearch(
   }
 
   return {
-    clear,
+    reset,
     search,
+    generateFor,
     getPresetOfRule,
     getPresetOfVariant,
     getUtilsOfFeature,

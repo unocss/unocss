@@ -3,14 +3,48 @@ import { onBeforeRouteUpdate } from 'vue-router'
 import type { ResultItem } from '~/types'
 import { input, isSearching, searchResult, selectIndex } from '~/composables/state'
 
+const route = useRoute()
 const router = useRouter()
 const inputEl = $ref<HTMLInputElement>()
-
-initSearch()
-
-function moveIndex(delta: number) {
-  selectIndex.value = (selectIndex.value + delta + searchResult.value.length) % searchResult.value.length
+const vFocus = {
+  mounted: (el: HTMLElement) => el.focus(),
 }
+
+watch(
+  () => route.query.s,
+  async () => {
+    input.value = String(route.query.s || '')
+    await excuteSearch()
+  },
+  { immediate: true },
+)
+
+async function excuteSearch() {
+  isSearching.value = true
+  try {
+    searchResult.value = await searcher.search(input.value)
+  }
+  catch (e) {
+    console.error(e)
+  }
+  isSearching.value = false
+
+  selectIndex.value = 0
+  isModalOpen.value = false
+
+  await router.replace({
+    path: '/',
+    query: {
+      s: input.value,
+    },
+  })
+}
+
+throttledWatch(
+  input,
+  excuteSearch,
+  { throttle: 100, immediate: true },
+)
 
 useEventListener('keydown', (e) => {
   if (e.key === 'ArrowDown') {
@@ -35,6 +69,16 @@ useEventListener('keydown', (e) => {
   if (e.key.match(/^[\w:-]$/) && !e.metaKey && !e.ctrlKey && !e.altKey && !e.shiftKey)
     inputEl?.focus()
 })
+
+onBeforeRouteUpdate(() => {
+  nextTick().then(() => {
+    inputEl?.focus()
+  })
+})
+
+function moveIndex(delta: number) {
+  selectIndex.value = (selectIndex.value + delta + searchResult.value.length) % searchResult.value.length
+}
 
 function clear() {
   router.push({ query: { s: '' } })
@@ -61,74 +105,62 @@ function selectItem(item: ResultItem) {
     openItem(item)
   }
 }
-const vFocus = {
-  mounted: (el: HTMLElement) => el.focus(),
-}
-
-onBeforeRouteUpdate(() => {
-  nextTick().then(() => {
-    inputEl?.focus()
-  })
-})
 </script>
 
 <template>
-  <div h-full grid="~ rows-[min-content_min-content_1fr]" of-hidden>
-    <TheNav />
-    <div relative border="~ rounded base" shadow>
-      <input
-        ref="inputEl"
-        v-model="input"
-        v-focus
-        aria-label="Type to explore"
-        placeholder="Type to explore..."
-        type="text"
-        autocomplete="off" w="full"
-        p="x6 y4" border-none
-        bg-transparent text-2xl
-        font-200
-        outline="none active:none"
-      >
-      <button
-        v-if="input"
-        absolute flex right-2 w-10 top-2 bottom-2 text-xl op30 hover:op90
-        aria-label="Clear search"
-        @click="clear()"
-      >
-        <span i-carbon-close ma block aria-hidden="true" />
+  <div relative border="~ rounded base" shadow>
+    <input
+      ref="inputEl"
+      v-model="input"
+      v-focus
+      aria-label="Type to explore"
+      placeholder="Type to explore..."
+      type="text"
+      autocomplete="off" w="full"
+      p="x6 y4" border-none
+      bg-transparent text-2xl
+      font-200
+      outline="none active:none"
+    >
+    <button
+      v-if="input"
+      absolute flex right-2 w-10 top-2 bottom-2 text-xl op30 hover:op90
+      aria-label="Clear search"
+      @click="clear()"
+    >
+      <span i-carbon-close ma block aria-hidden="true" />
+    </button>
+  </div>
+  <div v-if="searchResult.length || isSearching" border="l b r base" mx2 of-auto>
+    <template v-if="isSearching">
+      <ItemBase>
+        <template #badge>
+          <div i-carbon-circle-dash w-5 h-5 animate-spin ma />
+        </template>
+        <template #title>
+          Searching...
+        </template>
+      </ItemBase>
+      <div divider />
+    </template>
+    <template v-for="(i, idx) of searchResult" :key="idx">
+      <ResultItem
+        :item="i"
+        :active="selectIndex === idx"
+        @click="selectItem(i)"
+      />
+      <div divider />
+    </template>
+  </div>
+  <Info v-else-if="!input" />
+  <div v-else p10>
+    <div op40 italic mb5>
+      No result found
+    </div>
+    <div row justify-center>
+      <button btn @click="clear()">
+        Clear search
       </button>
-    </div>
-    <div v-if="searchResult.length || isSearching" border="l b r base" mx2 of-auto>
-      <template v-if="isSearching">
-        <ItemBase>
-          <template #badge>
-            <div i-carbon-circle-dash w-5 h-5 animate-spin ma />
-          </template>
-          <template #title>
-            Searching...
-          </template>
-        </ItemBase>
-        <div divider />
-      </template>
-      <template v-for="(i, idx) of searchResult" :key="idx">
-        <ResultItem
-          :item="i"
-          :active="selectIndex === idx"
-          @click="selectItem(i)"
-        />
-        <div divider />
-      </template>
-    </div>
-    <Info v-else-if="!input" />
-    <div v-else p10>
-      <div op40 italic mb5>
-        No result found
-      </div>
-      <div row justify-center>
-        <button btn @click="clear()">
-          Clear search
-        </button>
-      </div>
     </div>
   </div>
 </template>
