@@ -1,7 +1,7 @@
 import type { UserConfig } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
 import { breakpointsTailwind } from '@vueuse/core'
-import { createSearch } from '@unocss/shared-docs'
+import { createSearch, evaluateUserConfig } from '@unocss/shared-docs'
 // @ts-expect-error anyway
 import defaultConfigStr from '../../packages/shared-docs/src/defaultConfig.ts?raw'
 import type { ResultItem } from '~/types'
@@ -30,4 +30,24 @@ export const isDesktop = breakpoints.lg
 export const isMobile = logicNot(isDesktop)
 
 export const userConfigRaw = useStorage('unocss-docs-config', '')
+export const userConfigLoading = ref(true)
 export const userConfig = ref<UserConfig | undefined>()
+
+async function load() {
+  userConfigLoading.value = true
+  try {
+    userConfig.value = await evaluateUserConfig(userConfigRaw.value || defaultConfigStr)
+  }
+  catch (e) {
+    console.error(e)
+  }
+  finally {
+    userConfigLoading.value = false
+  }
+}
+
+watch(userConfig, () => {
+  uno.setConfig(userConfig.value || {}, defaultConfig)
+})
+
+load()

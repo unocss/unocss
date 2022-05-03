@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onBeforeRouteUpdate } from 'vue-router'
 import type { ResultItem } from '~/types'
-import { input, isSearching, searchResult, selectIndex } from '~/composables/state'
+import { input, isSearching, searchResult, selectIndex, userConfigLoading } from '~/composables/state'
 
 const route = useRoute()
 const router = useRouter()
@@ -108,8 +108,15 @@ function selectItem(item: ResultItem) {
 </script>
 
 <template>
-  <div relative border="~ rounded base" shadow>
+  <div relative border="~ rounded base" shadow font-200 text-2xl>
+    <div v-if="userConfigLoading" p="x6 y4" gap2 row items-center animate-pulse>
+      <div i-carbon-circle-dash w-7 h-7 animate-spin />
+      <div op50>
+        loading config...
+      </div>
+    </div>
     <input
+      v-else
       ref="inputEl"
       v-model="input"
       v-focus
@@ -117,9 +124,8 @@ function selectItem(item: ResultItem) {
       placeholder="Type to explore..."
       type="text"
       autocomplete="off" w="full"
-      p="x6 y4" border-none
-      bg-transparent text-2xl
-      font-200
+      p="x6 y4"
+      bg-transparent border-none
       outline="none active:none"
     >
     <button

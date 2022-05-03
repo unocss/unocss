@@ -4,7 +4,7 @@ import type { UserConfig } from '@unocss/core'
 
 const AsyncFunction = Object.getPrototypeOf(async () => {}).constructor
 
-const CDN_BASE = 'https://cdn.skypack.dev/'
+const CDN_BASE = 'https://esm.sh/'
 const modulesCache = new Map<string, Promise<unknown> | unknown>()
 modulesCache.set('unocss', __unocss)
 
@@ -21,9 +21,17 @@ export async function evaluateUserConfig<U = UserConfig>(configStr: string): Pro
     .replace(/export default /, 'return ')
     .replace(/\bimport\s*\(/, '__import(')
 
+  // bypass vite interop
+  // eslint-disable-next-line no-new-func
+  const _import = new Function('name', 'args', 'return import(name, args)')
   const __import = (name: string): any => {
-    if (!modulesCache.has(name))
-      modulesCache.set(name, import(/* @vite-ignore */ `${CDN_BASE}${name}`))
+    if (!modulesCache.has(name)) {
+      modulesCache.set(name,
+        name.endsWith('.json')
+          ? _import(CDN_BASE + name, { assert: { type: 'json' } })
+          : _import(CDN_BASE + name),
+      )
+    }
     return modulesCache.get(name)
   }
 

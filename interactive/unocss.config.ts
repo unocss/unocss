@@ -12,20 +12,8 @@ import {
 export const defaultConfig = defineConfig<{}>({
   details: true,
   presets: [
-    presetAttributify(),
-    presetIcons({
-      scale: 1.2,
-      collections: {
-        carbon: () => import('@iconify-json/carbon/icons.json').then(i => i.default as any),
-        mdi: () => import('@iconify-json/mdi/icons.json').then(i => i.default as any),
-        logos: () => import('@iconify-json/logos/icons.json').then(i => i.default as any),
-        twemoji: () => import('@iconify-json/twemoji/icons.json').then(i => i.default as any),
-        ri: () => import('@iconify-json/ri/icons.json').then(i => i.default as any),
-        tabler: () => import('@iconify-json/tabler/icons.json').then(i => i.default as any),
-        uim: () => import('@iconify-json/uim/icons.json').then(i => i.default as any),
-      },
-    }),
     presetUno(),
+    presetAttributify(),
   ],
 })
 
@@ -33,6 +21,9 @@ export default defineConfig<{}>({
   ...defaultConfig,
   presets: [
     ...defaultConfig.presets as any,
+    presetIcons({
+      scale: 1.2,
+    }),
     presetWebFonts({
       fonts: {
         sans: 'Inter',
