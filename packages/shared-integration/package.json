@@ -1,5 +1,5 @@
 {
-  "name": "@unocss/plugins-common",
+  "name": "@unocss/shared-integration",
   "version": "0.32.9",
   "private": true,
   "dependencies": {

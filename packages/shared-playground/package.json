@@ -1,0 +1,8 @@
+{
+  "name": "@unocss/shared-playground",
+  "version": "0.32.9",
+  "private": true,
+  "dependencies": {
+    "@unocss/core": "workspace:*"
+  }
+}

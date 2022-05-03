@@ -23,7 +23,7 @@ await Promise.all([
   ...fg.sync('../packages/*/README.md')
     .map(async (src) => {
       const name = basename(dirname(src))
-      if (['unocss', 'scope', 'plugins-common'].includes(name))
+      if (['unocss', 'scope', 'shared-integration'].includes(name))
         return
       copyFile(src, `guides/vendor/${name}.md`)
     }),

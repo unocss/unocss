@@ -1,7 +1,7 @@
 import type { Plugin } from 'vite'
 import type { UserConfigDefaults } from '@unocss/core'
 import UnocssInspector from '@unocss/inspector'
-import { createContext } from '../../plugins-common'
+import { createContext } from '../../shared-integration'
 import { ChunkModeBuildPlugin } from './modes/chunk-build'
 import { GlobalModeDevPlugin, GlobalModePlugin } from './modes/global'
 import { PerModuleModePlugin } from './modes/per-module'

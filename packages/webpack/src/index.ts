@@ -2,8 +2,8 @@ import type { UserConfig, UserConfigDefaults } from '@unocss/core'
 import type { ResolvedUnpluginOptions, UnpluginOptions } from 'unplugin'
 import { createUnplugin } from 'unplugin'
 import WebpackSources from 'webpack-sources'
-import { getPath } from '../../plugins-common/utils'
-import { LAYER_MARK_ALL, LAYER_PLACEHOLDER_RE, createContext, getLayerPlaceholder, resolveId } from '../../plugins-common'
+import { getPath } from '../../shared-integration/utils'
+import { LAYER_MARK_ALL, LAYER_PLACEHOLDER_RE, createContext, getLayerPlaceholder, resolveId } from '../../shared-integration'
 
 export interface WebpackPluginOptions<Theme extends {} = {}> extends UserConfig<Theme> {}
 
