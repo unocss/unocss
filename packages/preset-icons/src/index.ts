@@ -45,6 +45,33 @@ export const preset = (options: IconsOptions = {}): Preset => {
     layer = 'icons',
     unit,
   } = options
+
+  const loaderOptions: IconifyLoaderOptions = {
+    addXmlNs: true,
+    scale,
+    customCollections,
+    autoInstall,
+    // avoid warn from @iconify/loader: we'll warn below if not found
+    warn: undefined,
+    usedProps: {},
+    customizations: {
+      ...customizations,
+      additionalProps: { ...extraProperties },
+      trimCustomSvg: true,
+      async iconCustomizer(collection, icon, props) {
+        await customizations.iconCustomizer?.(collection, icon, props)
+        if (unit) {
+          if (!props.width)
+            props.width = `${scale}${unit}`
+          if (!props.height)
+            props.height = `${scale}${unit}`
+        }
+      },
+    },
+  }
+
+  let iconLoader: UniversalIconLoader
+
   return {
     name: '@unocss/preset-icons',
     enforce: 'pre',
@@ -59,41 +86,18 @@ export const preset = (options: IconsOptions = {}): Preset => {
         let name = ''
         let svg: string | undefined
 
-        const iconLoader = await lookupIconLoader()
-        const iconifyLoaderOptions: IconifyLoaderOptions = {
-          addXmlNs: true,
-          scale,
-          customCollections,
-          autoInstall,
-          // avoid warn from @iconify/loader: we'll warn below if not found
-          warn: undefined,
-          customizations: {
-            ...customizations,
-            additionalProps: { ...extraProperties },
-            trimCustomSvg: true,
-            async iconCustomizer(collection, icon, props) {
-              await customizations.iconCustomizer?.(collection, icon, props)
-              if (unit) {
-                if (!props.width)
-                  props.width = `${scale}${unit}`
-                if (!props.height)
-                  props.height = `${scale}${unit}`
-              }
-            },
-          },
-          usedProps: {},
-        }
+        iconLoader = iconLoader || await lookupIconLoader()
 
         if (body.includes(':')) {
           [collection, name] = body.split(':')
-          svg = await iconLoader(collection, name, iconifyLoaderOptions)
+          svg = await iconLoader(collection, name, loaderOptions)
         }
         else {
           const parts = body.split(/-/g)
           for (let i = COLLECTION_NAME_PARTS_MAX; i >= 1; i--) {
             collection = parts.slice(0, i).join('-')
             name = parts.slice(i).join('-')
-            svg = await iconLoader(collection, name, iconifyLoaderOptions)
+            svg = await iconLoader(collection, name, loaderOptions)
             if (svg)
               break
           }
@@ -119,7 +123,7 @@ export const preset = (options: IconsOptions = {}): Preset => {
             '-webkit-mask': 'var(--un-icon) no-repeat',
             '-webkit-mask-size': '100% 100%',
             'background-color': 'currentColor',
-            ...iconifyLoaderOptions.usedProps!,
+            ...loaderOptions.usedProps!,
           }
         }
         else {
@@ -127,7 +131,7 @@ export const preset = (options: IconsOptions = {}): Preset => {
             'background': `${url} no-repeat`,
             'background-size': '100% 100%',
             'background-color': 'transparent',
-            ...iconifyLoaderOptions.usedProps!,
+            ...loaderOptions.usedProps!,
           }
         }
       },
