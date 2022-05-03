@@ -24,6 +24,7 @@
     "@types/prettier": "^2.6.0",
     "@unocss/autocomplete": "workspace:*",
     "@unocss/nuxt": "workspace:*",
+    "@unocss/shared-docs": "workspace:*",
     "@vueuse/nuxt": "^8.3.1",
     "esmo": "^0.14.1",
     "fs-extra": "^10.1.0",
@@ -38,7 +39,6 @@
     "shiki": "^0.10.1",
     "theme-vitesse": "^0.4.9",
     "unimport": "0.1.8",
-    "vite-plugin-md": "^0.13.0",
-    "@unocss/shared-docs": "workspace:*"
+    "vite-plugin-md": "^0.13.0"
   }
 }
