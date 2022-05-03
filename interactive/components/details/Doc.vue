@@ -11,7 +11,7 @@ const caniuseItem = $computed<DocItem>(() => ({
   url: `https://caniuse.com/?search=${encodeURIComponent(item.title)}`,
 }))
 
-const relatives = $computed(() => getUtilsOfFeature(item.title))
+const relatives = $computed(() => searcher.getUtilsOfFeature(item.title))
 </script>
 
 <template>

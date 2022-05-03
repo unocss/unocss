@@ -14,7 +14,7 @@ export function initSearch() {
   async function excuteSearch() {
     isSearching.value = true
     try {
-      searchResult.value = await search(input.value)
+      searchResult.value = await searcher.search(input.value)
     }
     catch (e) {
       console.error(e)

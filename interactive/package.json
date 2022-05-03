@@ -38,6 +38,7 @@
     "shiki": "^0.10.1",
     "theme-vitesse": "^0.4.9",
     "unimport": "0.1.8",
-    "vite-plugin-md": "^0.13.0"
+    "vite-plugin-md": "^0.13.0",
+    "@unocss/shared-docs": "workspace:*"
   }
 }

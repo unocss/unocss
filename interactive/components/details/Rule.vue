@@ -2,8 +2,7 @@
 import type { Variant } from '@unocss/core'
 import type { GuideItem, RuleItem } from '~/types'
 import { highlightCSS, highlightJS } from '~/composables/shiki'
-import { getPresetFromRule, getPresetFromVariant } from '~/composables/uno'
-import { getItemId } from '~/composables/utils'
+import { searcher } from '~/composables/state'
 import { guideColors } from '~/data/guides'
 
 const { item } = defineProps<{
@@ -11,7 +10,7 @@ const { item } = defineProps<{
 }>()
 
 const docs = $computed(() => getDocs(item))
-const alias = $computed(() => findAlias(item))
+const alias = $computed(() => searcher.getAliasOf(item))
 const variantSteps = $computed(() => {
   const steps: {
     variant?: Variant
@@ -45,7 +44,7 @@ const guides = $computed(() => {
   return items
 })
 
-const sameRules = $computed(() => getSameRules(item))
+const sameRules = $computed(() => searcher.getSameRules(item))
 
 function getRegex101Link(regex: RegExp, text: string) {
   return `https://regex101.com/?regex=${encodeURIComponent(regex.source)}&flag=${encodeURIComponent(regex.flags)}&testString=${encodeURIComponent(text)}`
@@ -92,7 +91,7 @@ function getCsGitHubLink(key: RegExp | string, repo = 'unocss/unocss') {
               >
                 <PresetLabel
                   op50 hover:op100
-                  :preset="getPresetFromVariant(s.variant)"
+                  :preset="searcher.getPresetOfVariant(s.variant)"
                   fallback="(inline)"
                 />
                 <span op30>></span>
@@ -114,7 +113,7 @@ function getCsGitHubLink(key: RegExp | string, repo = 'unocss/unocss') {
             <div v-if="idx" divider />
             <div row flex-wrap gap2 px4 py2 items-center>
               <div gap1>
-                <PresetLabel text-sm op30 hover:op100 :preset="getPresetFromRule(r)" />
+                <PresetLabel text-sm op30 hover:op100 :preset="searcher.getPresetOfRule(r)" />
                 <div v-if="typeof r[0] === 'string'" row gap2>
                   <code text-hex-AB5E3F dark:text-hex-C4704F>"{{ r[0] }}"</code>
                   <div badge-xs-teal mya>
@@ -174,7 +173,7 @@ function getCsGitHubLink(key: RegExp | string, repo = 'unocss/unocss') {
         <div border="~ base">
           <template v-for="g, idx of guides" :key="g.title">
             <div v-if="idx" divider />
-            <RouterLink :to="{ query: { s: getItemId(g) } }">
+            <RouterLink :to="{ query: { s: searcher.getItemId(g) } }">
               <ResultItem :item="g" />
             </RouterLink>
           </template>

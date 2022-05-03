@@ -15,7 +15,7 @@ export const alias: Record<string, string> = {
   '@unocss/preset-web-fonts': r('./packages/preset-web-fonts/src/'),
   '@unocss/preset-wind': r('./packages/preset-wind/src/'),
   '@unocss/shared-integration': r('./packages/shared-integration/'),
-  '@unocss/shared-playground': r('./packages/shared-playground/src/'),
+  '@unocss/shared-docs': r('./packages/shared-docs/src/'),
   '@unocss/transformer-directives': r('./packages/transformer-directives/src/'),
   '@unocss/transformer-variant-group': r('./packages/transformer-variant-group/src/'),
   '@unocss/vite': r('./packages/vite/src/'),

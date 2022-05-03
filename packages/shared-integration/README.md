@@ -1,3 +1,3 @@
 # @unocss/shared-integration
 
-Private local package for common logics between plugins.
+Internal package for common logics of bundler integrations.

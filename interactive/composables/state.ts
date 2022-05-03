@@ -1,7 +1,9 @@
 import { createGenerator } from '@unocss/core'
-import { createAutocomplete } from '@unocss/autocomplete'
 import { breakpointsTailwind } from '@vueuse/core'
-import type { ResultItem, RuleItem } from '~/types'
+import { createSearch } from '@unocss/shared-docs'
+import type { ResultItem } from '~/types'
+import { mdnIndex as docs } from '~/data/mdn-index'
+import { guideIndex as guides } from '~/data/guides'
 
 import { defaultConfig } from '~/unocss.config'
 
@@ -9,10 +11,7 @@ export const isCompact = useStorage('uno-interact-compact', false)
 export const toggleCompact = useToggle(isCompact)
 
 export const uno = createGenerator({}, defaultConfig)
-export const ac = createAutocomplete(uno)
-
-export const matchedMap = reactive(new Map<string, RuleItem>())
-export const featuresMap = reactive(new Map<string, Set<RuleItem>>())
+export const searcher = createSearch({ uno, docs, guides })
 
 export const input = ref('')
 export const selectIndex = ref(0)

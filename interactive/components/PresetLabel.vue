@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Preset } from '@unocss/core'
+
 defineProps<{
   preset?: Preset | undefined
   fallback?: string
