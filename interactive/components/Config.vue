@@ -47,8 +47,10 @@ function cancel() {
 function save() {
   if (!isValid)
     return
-  userConfigRaw.value = raw
-  userConfig.value = config
+  if (isChanged) {
+    userConfigRaw.value = raw
+    userConfig.value = config
+  }
   currentTab.value = 'search'
 }
 </script>
@@ -107,7 +109,7 @@ function save() {
           :class="isValid ? '' : 'pointer-events-none'"
           @click="save()"
         >
-          Save{{ isChanged ? '*' : '' }}
+          {{ isChanged ? 'Save' : 'OK' }}
         </button>
         <button btn saturate-0 @click="cancel()">
           Cancel

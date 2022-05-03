@@ -177,6 +177,7 @@ export function createSearch(
       colors: extractColors(css),
       features,
       layers: generate.layers.filter(i => i !== 'default'),
+      urls: getUrls(css),
     })
 
     const item = matchedMap.get(input)!
@@ -203,14 +204,14 @@ export function createSearch(
     if (!rule)
       return
     const r = toRaw(rule)
-    return uno.config.presets?.flat().find(i => i.rules?.find(i => i === r))
+    return uno.config.presets?.flat().find(i => i.rules?.find(i => i === r || i === rule))
   }
 
   function getPresetOfVariant(variant?: Variant) {
     if (!variant)
       return
     const v = toRaw(variant)
-    return uno.config.presets?.flat().find(i => i.variants?.find(i => i === v))
+    return uno.config.presets?.flat().find(i => i.variants?.find(i => i === v || i === variant))
   }
 
   function getFeatureUsage(css: string) {
@@ -219,6 +220,12 @@ export function createSearch(
     const pseudo = uniq([...css.matchAll(/\:([\w-]+)/mg)].map(i => `:${i[1]}`))
     return [...props, ...functions, ...pseudo]
       .filter(i => docs.find(s => s.title === i))
+  }
+
+  function getUrls(css: string) {
+    return uniq([...css.matchAll(/\burl\(([^)]+)\)/mg)]
+      .map(i => i[1]))
+      .map(i => i.match(/^(['"]).*\1$/) ? i.slice(1, -1) : i)
   }
 
   function getUtilsOfFeature(name: string) {

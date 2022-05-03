@@ -36,6 +36,9 @@ const variantSteps = $computed(() => {
   }
   return steps
 })
+const imageUrls = $computed(() => {
+  return item.urls?.filter(i => i.startsWith('data:image') || i.match(/\.(png|jpg|jpeg|svg)$/ig))
+})
 
 const guides = $computed(() => {
   const items: GuideItem[] = []
@@ -148,6 +151,20 @@ function getCsGitHubLink(key: RegExp | string, repo = 'unocss/unocss') {
         </div>
         <div border="~ base" p4 relative of-hidden>
           <pre of-auto w-full v-html="highlightCSS(item.css)" />
+        </div>
+      </div>
+      <div v-if="imageUrls?.length">
+        <div op30 mb1>
+          Images
+        </div>
+        <div>
+          <div
+            v-for="c of imageUrls" :key="c" row
+            flex="wrap" gap-2
+            text-lg items-center
+          >
+            <img border="~ base" max-w-40 max-h-40 min-w-15 :src="c" p2>
+          </div>
         </div>
       </div>
       <div v-if="item.colors?.length">

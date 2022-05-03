@@ -17,6 +17,7 @@ export interface RuleItem {
   colors?: string[]
   features?: string[]
   layers?: string[]
+  urls?: string[]
 }
 
 export interface GuideItem {
