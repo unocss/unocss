@@ -34,9 +34,11 @@ async function excuteSearch() {
 
   await router.replace({
     path: '/',
-    query: {
-      s: input.value,
-    },
+    query: input.value
+      ? {
+          s: input.value,
+        }
+      : undefined,
   })
 }
 
@@ -81,7 +83,7 @@ function moveIndex(delta: number) {
 }
 
 function clear() {
-  router.push({ query: { s: '' } })
+  router.push('/')
   nextTick().then(() => inputEl?.focus())
 }
 
