@@ -4,7 +4,7 @@ import Inspect from 'vite-plugin-inspect'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Unocss from '@unocss/vite'
-import { alias } from '../vitest.config'
+import { alias } from '../alias'
 
 export default defineConfig({
   base: '/play/',

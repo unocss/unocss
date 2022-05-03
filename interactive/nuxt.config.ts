@@ -1,6 +1,6 @@
 import { defineNuxtConfig } from 'nuxt'
 
-import { alias } from '../vitest.config'
+import { alias } from '../alias'
 
 const externals = [
   'local-pkg',
