@@ -1,3 +1,6 @@
+// @ts-expect-error anyway
+import defaultConfigRaw from '../../packages/shared-docs/src/defaultConfig.ts?raw'
+
 export const defaultHTML = `
 <div h-full text-center flex select-none all:transition-400>
   <div ma>
@@ -22,15 +25,7 @@ export const defaultHTML = `
 </div>
 `.trim()
 
-export const defaultConfigRaw = `
-import { defineConfig } from 'unocss'
-
-export default defineConfig({
-  rules: [
-    ['custom-rule', { color: 'red' }]
-  ]
-})
-`.trim()
+export { defaultConfigRaw }
 
 export const defaultOptions = JSON.stringify({
   strict: true,

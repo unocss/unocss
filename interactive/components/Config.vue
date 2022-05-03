@@ -3,13 +3,13 @@ import { evaluateUserConfig } from '@unocss/shared-docs'
 import type { UserConfig } from '@unocss/core'
 import CodeMirror from '../../packages/inspector/client/components/CodeMirror.vue'
 
-let raw = $ref(userConfigRaw.value || defaultConfigStr)
+let raw = $ref(userConfigRaw.value || defaultConfigRaw)
 let config = $ref<UserConfig | undefined>()
 let error = $ref<Error | undefined>()
 let isLoading = $ref(true)
 const isValid = $computed(() => !isLoading && !error && !!config)
-const isChanged = $computed(() => raw !== (userConfigRaw.value || defaultConfigStr))
-const isDefault = $computed(() => !raw || raw === defaultConfigStr)
+const isChanged = $computed(() => raw !== (userConfigRaw.value || defaultConfigRaw))
+const isDefault = $computed(() => !raw || raw === defaultConfigRaw)
 
 watchDebounced(
   () => raw,
@@ -37,7 +37,7 @@ watchDebounced(
 searchResult.value = []
 
 function resetToDefault() {
-  raw = defaultConfigStr
+  raw = defaultConfigRaw
 }
 
 function cancel() {

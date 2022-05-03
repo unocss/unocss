@@ -11,6 +11,9 @@
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "jsx": "preserve",
+    "types": [
+      "vite/client"
+    ],
     "paths": {
       "@unocss/autocomplete": ["./packages/autocomplete/src/index.ts"],
       "@unocss/config": ["./packages/config/src/index.ts"],

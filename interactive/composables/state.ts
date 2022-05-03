@@ -3,14 +3,14 @@ import { createGenerator } from '@unocss/core'
 import { breakpointsTailwind } from '@vueuse/core'
 import { createSearch, evaluateUserConfig } from '@unocss/shared-docs'
 // @ts-expect-error anyway
-import defaultConfigStr from '../../packages/shared-docs/src/defaultConfig.ts?raw'
+import defaultConfigRaw from '../../packages/shared-docs/src/defaultConfig.ts?raw'
 import type { ResultItem } from '~/types'
 import { mdnIndex as docs } from '~/data/mdn-index'
 import { guideIndex as guides } from '~/data/guides'
 
 import { defaultConfig } from '~/unocss.config'
 
-export { defaultConfigStr }
+export { defaultConfigRaw }
 
 export const isCompact = useStorage('uno-interact-compact', false)
 export const toggleCompact = useToggle(isCompact)
@@ -36,7 +36,7 @@ export const userConfig = ref<UserConfig | undefined>()
 async function load() {
   userConfigLoading.value = true
   try {
-    userConfig.value = await evaluateUserConfig(userConfigRaw.value || defaultConfigStr)
+    userConfig.value = await evaluateUserConfig(userConfigRaw.value || defaultConfigRaw)
   }
   catch (e) {
     console.error(e)
