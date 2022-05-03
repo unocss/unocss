@@ -26,25 +26,25 @@
       Or try start with the following utils:
     </p>
     <div row flex-wrap gap-2 justify-center>
-      <RouterLink :to="{query: {s: 'border'}}" badge-lg-orange>
+      <RouterLink :to="{ query: { s: 'border' } }" badge-lg-orange>
         border
       </RouterLink>
-      <RouterLink :to="{query: {s: 'margin'}}" badge-lg-amber>
+      <RouterLink :to="{ query: { s: 'margin' } }" badge-lg-amber>
         margin
       </RouterLink>
-      <RouterLink :to="{query: {s: 'c-yellow'}}" badge-lg-yellow>
+      <RouterLink :to="{ query: { s: 'c-yellow' } }" badge-lg-yellow>
         c-yellow
       </RouterLink>
-      <RouterLink :to="{query: {s: 'colors'}}" badge-lg-lime>
+      <RouterLink :to="{ query: { s: 'colors' } }" badge-lg-lime>
         colors
       </RouterLink>
-      <RouterLink :to="{query: {s: 'guide:'}}" badge-lg-green>
+      <RouterLink :to="{ query: { s: 'guide:' } }" badge-lg-green>
         guide:
       </RouterLink>
-      <RouterLink :to="{query: {s: 'i-carbon-car'}}" badge-lg-emerald>
+      <RouterLink :to="{ query: { s: 'i-carbon-car' } }" badge-lg-emerald>
         i-carbon-car
       </RouterLink>
-      <RouterLink :to="{query: {s: 'random:'}}" badge-lg-teal>
+      <RouterLink :to="{ query: { s: 'random:' } }" badge-lg-teal>
         random:
       </RouterLink>
     </div>

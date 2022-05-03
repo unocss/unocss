@@ -90,7 +90,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Splitpanes ref="panel" :class="{loading}" horizontal h-screen @resize="handleResize">
+  <Splitpanes ref="panel" :class="{ loading }" horizontal h-screen @resize="handleResize">
     <Pane :min-size="titleHeightPercent" :size="panelSizes[0]" flex flex-col>
       <TitleBar title="HTML">
         <template #before>

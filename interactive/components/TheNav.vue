@@ -20,7 +20,7 @@ import { isCompact, toggleCompact, uno } from '~/composables/state'
     <div flex-auto />
     <div row gap4 text="lg gray4" items-center>
       <button
-        :class="isCompact ? 'i-carbon-list': 'i-carbon-list-boxes'"
+        :class="isCompact ? 'i-carbon-list' : 'i-carbon-list-boxes'"
         :aria-label="isCompact ? 'Show results entries dense' : 'Show results entries normal'"
         @click="toggleCompact()"
       />

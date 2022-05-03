@@ -68,7 +68,7 @@ watchEffect(() => {
         V
       </div>
       <div
-        v-else-if="item.context?.rules.every(i=>typeof i[0] === 'string')"
+        v-else-if="item.context?.rules.every(i => typeof i[0] === 'string')"
         badge-square-gray :class="badgeStyle" title="Static Rule"
       >
         T

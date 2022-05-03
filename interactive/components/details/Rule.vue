@@ -68,7 +68,7 @@ function getCsGitHubLink(key: RegExp | string, repo = 'unocss/unocss') {
           Shortcuts
         </div>
         <div border="~ base">
-          <template v-for="r,idx of item.context.shortcuts" :key="idx">
+          <template v-for="r, idx of item.context.shortcuts" :key="idx">
             <div v-if="idx" divider />
             <div row gap2 px4 py2 items-center font-mono op80>
               {{ r[0] }} -> {{ r[1] }}
@@ -81,7 +81,7 @@ function getCsGitHubLink(key: RegExp | string, repo = 'unocss/unocss') {
           Variants
         </div>
         <div border="~ base" of-auto grid="~ cols-[max-content_1fr]">
-          <template v-for="s,idx of variantSteps" :key="idx">
+          <template v-for="s, idx of variantSteps" :key="idx">
             <div v-if="idx" divider />
             <div v-if="idx" divider />
             <div px4 py2>
@@ -110,7 +110,7 @@ function getCsGitHubLink(key: RegExp | string, repo = 'unocss/unocss') {
           Rules
         </div>
         <div border="~ base" of-auto>
-          <template v-for="r,idx of item.context.rules" :key="idx">
+          <template v-for="r, idx of item.context.rules" :key="idx">
             <div v-if="idx" divider />
             <div row flex-wrap gap2 px4 py2 items-center>
               <div gap1>
@@ -172,7 +172,7 @@ function getCsGitHubLink(key: RegExp | string, repo = 'unocss/unocss') {
           Guides
         </div>
         <div border="~ base">
-          <template v-for="g,idx of guides" :key="g.title">
+          <template v-for="g, idx of guides" :key="g.title">
             <div v-if="idx" divider />
             <RouterLink :to="{ query: { s: getItemId(g) } }">
               <ResultItem :item="g" />
@@ -185,13 +185,13 @@ function getCsGitHubLink(key: RegExp | string, repo = 'unocss/unocss') {
           MDN Docs
         </div>
         <div border="~ base">
-          <template v-for="doc,idx of docs" :key="doc.url">
+          <template v-for="doc, idx of docs" :key="doc.url">
             <div v-if="idx" divider />
             <a :href="doc.url" target="_blank">
               <ResultItem :item="doc">
                 <RouterLink
                   title="Relatives"
-                  :to="{ query: { s: 'mdn:' + doc.title } }"
+                  :to="{ query: { s: `mdn:${doc.title}` } }"
                   i-carbon-list w-5 h-5 px4 op50 hover:op100
                 />
               </ResultItem>
@@ -204,7 +204,7 @@ function getCsGitHubLink(key: RegExp | string, repo = 'unocss/unocss') {
           Alias
         </div>
         <div border="~ base">
-          <template v-for="a,idx of alias" :key="a.class">
+          <template v-for="a, idx of alias" :key="a.class">
             <div v-if="idx" divider />
             <RouterLink :to="{ query: { s: a.class } }">
               <ResultItem :item="a" :compact="true" />
@@ -217,7 +217,7 @@ function getCsGitHubLink(key: RegExp | string, repo = 'unocss/unocss') {
           Same Rule
         </div>
         <div border="~ base">
-          <template v-for="a,idx of sameRules" :key="a.class">
+          <template v-for="a, idx of sameRules" :key="a.class">
             <div v-if="idx" divider />
             <RouterLink :to="{ query: { s: a.class } }">
               <ResultItem :item="a" :compact="true" />

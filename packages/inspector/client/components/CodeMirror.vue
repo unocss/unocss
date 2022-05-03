@@ -3,7 +3,6 @@ import type { AsyncHintFunction, HintFunction, HintFunctionResolver } from 'code
 import { getMatchedPositions } from '../../../plugins-common/utils'
 import { useCodeMirror } from '../composables/codemirror'
 
-const emit = defineEmits<{ (e: 'update:modelValue', payload: string): void }>()
 const props = defineProps<{
   modelValue: string
   mode?: string
@@ -12,6 +11,7 @@ const props = defineProps<{
   getHint?: HintFunction | AsyncHintFunction | HintFunctionResolver
 }>()
 
+const emit = defineEmits<{ (e: 'update:modelValue', payload: string): void }>()
 const modeMap: Record<string, any> = {
   html: 'htmlmixed',
   vue: 'htmlmixed',

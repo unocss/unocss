@@ -36,7 +36,7 @@ const relatives = $computed(() => getUtilsOfFeature(item.title))
           Relatives
         </div>
         <div border="~ base" flex="~ col">
-          <template v-for="a,idx of relatives" :key="a.class">
+          <template v-for="a, idx of relatives" :key="a.class">
             <div v-if="idx" divider />
             <RouterLink :to="{ query: { s: a.class } }">
               <ResultItem :item="a" />
