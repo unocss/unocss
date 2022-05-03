@@ -45,7 +45,7 @@ function openItem(item: ResultItem) {
   if (isMobile.value && !isModalOpen.value)
     isModalOpen.value = true
   else
-    input.value = getItemId(item)
+    input.value = searcher.getItemId(item)
 }
 
 function selectItem(item: ResultItem) {
