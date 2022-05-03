@@ -1,5 +1,7 @@
 # @unocss/transformer-directives
 
+<!-- @unocss-ignore -->
+
 UnoCSS transformer for `@apply` directive
 
 ## Install

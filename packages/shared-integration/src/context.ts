@@ -3,7 +3,7 @@ import type { LoadConfigResult, LoadConfigSource } from '@unocss/config'
 import { loadConfig } from '@unocss/config'
 import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { BetterMap, createGenerator } from '@unocss/core'
-import { CSS_PLACEHOLDER, INCLUDE_COMMENT } from './constants'
+import { CSS_PLACEHOLDER, IGNORE_COMMENT, INCLUDE_COMMENT } from './constants'
 import { defaultExclude, defaultInclude } from './defaults'
 
 export function createContext<Config extends UserConfig = UserConfig>(
@@ -64,6 +64,8 @@ export function createContext<Config extends UserConfig = UserConfig>(
   }
 
   const filter = (code: string, id: string) => {
+    if (code.includes(IGNORE_COMMENT))
+      return false
     return code.includes(INCLUDE_COMMENT) || code.includes(CSS_PLACEHOLDER) || rollupFilter(id)
   }
 

@@ -538,17 +538,17 @@ preprocess(matcher) {
 
 By default UnoCSS will scan for components files like: `.jsx`, `.tsx`, `.vue`, `.md`, `.html`, `.svelte`, `.astro`.
 
-`.js` and `.ts` files are not included by default. You can add `@unocss-include`, per-file basis, anywhere in the file that you want UnoCSS to scan, or add `*.js` or `*.ts` in the configuration to include all js/ts files as scan targets.
+`.js` and `.ts` files are **NOT included by default**. You can add `@unocss-include`, per-file basis, anywhere in the file that you want UnoCSS to scan, or add `*.js` or `*.ts` in the configuration to include all js/ts files as scan targets. Similarly, you can also add `@unocss-ignore` to bypass the scanning and transforming for a file.
 
 ### Safelist
 
-Sometimes you'll have to use dynamic concatenations:
+Sometimes you might want have to use dynamic concatenations like:
 
 ```html
 <div class="p-${size}"></div>
 ```
 
-For that, you can simply configure the `safelist` option.
+Due the fact that UnoCSS works in build time using static extracting, at the compile time we can't possibility know all the combination of the utilities. For that, you can configure the `safelist` option.
 
 ```ts
 safelist: 'p-1 p-2 p-3 p-4'.split(' ')
@@ -570,6 +570,8 @@ safelist: [
   ...Array.from({ length: 4 }, (_, i) => `p-${i + 1}`),
 ]
 ```
+
+If you are seaking for the true dynamic generation at the runtime, you may check the [@unocss/runtime](https://github.com/unocss/unocss/tree/main/packages/runtime) package.
 
 ### Inspector
 

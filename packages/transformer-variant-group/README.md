@@ -1,5 +1,7 @@
 # @unocss/transformer-variant-group
 
+<!-- @unocss-ignore -->
+
 Enables the [variant group feature of Windi CSS](https://windicss.org/features/variant-groups.html) for UnoCSS.
 
 ## Install
