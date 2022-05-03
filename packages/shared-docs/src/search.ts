@@ -22,7 +22,7 @@ export function createSearch(
   const matchedMap = reactive(new Map<string, RuleItem>())
   const featuresMap = reactive(new Map<string, Set<RuleItem>>())
 
-  const fuseCollection: ResultItem[] = [
+  let fuseCollection: ResultItem[] = [
     ...guides,
     ...docs,
   ]
@@ -256,6 +256,8 @@ export function createSearch(
     ac.reset()
     _fusePrepare = undefined
     _generatePromiseMap.clear()
+    fuseCollection = [...guides, ...docs]
+    fuse.setCollection(fuseCollection)
   }
 
   return {

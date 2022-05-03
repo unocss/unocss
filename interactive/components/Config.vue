@@ -3,11 +3,13 @@ import { evaluateUserConfig } from '@unocss/shared-docs'
 import type { UserConfig } from '@unocss/core'
 import CodeMirror from '../../packages/inspector/client/components/CodeMirror.vue'
 
-const raw = $ref(userConfigRaw.value || defaultConfigStr)
+let raw = $ref(userConfigRaw.value || defaultConfigStr)
 let config = $ref<UserConfig | undefined>()
 let error = $ref<Error | undefined>()
 let isLoading = $ref(true)
 const isValid = $computed(() => !isLoading && !error && !!config)
+const isChanged = $computed(() => raw !== (userConfigRaw.value || defaultConfigStr))
+const isDefault = $computed(() => !raw || raw === defaultConfigStr)
 
 watchDebounced(
   () => raw,
@@ -34,6 +36,10 @@ watchDebounced(
 
 searchResult.value = []
 
+function resetToDefault() {
+  raw = defaultConfigStr
+}
+
 function cancel() {
   currentTab.value = 'search'
 }
@@ -48,13 +54,21 @@ function save() {
 </script>
 
 <template>
-  <div text-left>
-    <div px4 py2 border="t l r base">
+  <div text-left row border="t l r base" items-center>
+    <div px4 py2 flex-auto>
       <div font-bold>
         Config
       </div>
       <div op50 text-sm>
         Paste or edit your custom config below
+      </div>
+    </div>
+    <div px4 py2 items-center>
+      <button v-if="!isDefault" text-sm btn saturate-0 @click="resetToDefault()">
+        Reset to default
+      </button>
+      <div v-else op50 text-sm>
+        (using default config)
       </div>
     </div>
   </div>
@@ -86,9 +100,14 @@ function save() {
         <div i-carbon-checkmark-outline w-5 h-5 />
         <div>{{ config?.presets?.length }} presets loaded</div>
       </div>
-      <div row gap-2 justify-center p3 border="b l r base" flex-none>
-        <button btn :disabled="!isValid" @click="save()">
-          Save
+      <div row gap-2 justify-center p3 border="b l r base" flex-none items-center>
+        <button
+          btn
+          :disabled="!isValid"
+          :class="isValid ? '' : 'pointer-events-none'"
+          @click="save()"
+        >
+          Save{{ isChanged ? '*' : '' }}
         </button>
         <button btn saturate-0 @click="cancel()">
           Cancel

@@ -35,8 +35,8 @@ export default defineConfig<{}>({
     {
       'border-base': 'border-gray-500:10',
       'bg-base': 'bg-white dark:bg-hex-121212',
-      'btn': 'px-4 py-1 inline-block bg-teal-600 text-white cursor-pointer hover:bg-teal-700 disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50',
-      'link': 'op50 hover:op100 hover:text-teal6',
+      'btn': 'px-4 py-1 inline-block bg-cyan6 hover:bg-cyan7 text-white cursor-pointer disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50',
+      'link': 'op50 hover:op100 hover:text-cyan6',
       'divider': 'border-b border-base',
     },
     [/^badge-xs-(.*)$/, ([, c]) => `badge-${c} text-xs px2 py0.5`],
