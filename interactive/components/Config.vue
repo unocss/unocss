@@ -3,7 +3,7 @@ import { evaluateUserConfig } from '@unocss/shared-docs'
 import type { UserConfig } from '@unocss/core'
 import CodeMirror from '../../packages/inspector/client/components/CodeMirror.vue'
 
-const raw = $ref(userConfigRaw.value)
+const raw = $ref(userConfigRaw.value || defaultConfigStr)
 let config = $ref<UserConfig | undefined>()
 let error = $ref<Error | undefined>()
 let isLoading = $ref(true)

@@ -14,22 +14,17 @@ const COLLECTION_NAME_PARTS_MAX = 3
 export { IconsOptions }
 
 async function lookupIconLoader(): Promise<UniversalIconLoader> {
-  let useIconLoader: UniversalIconLoader | undefined
   if (isNode && !isVSCode) {
     try {
-      useIconLoader = await import('@iconify/utils/lib/loader/node-loader').then(i => i?.loadNodeIcon)
+      return await import('@iconify/utils/lib/loader/node-loader').then(i => i?.loadNodeIcon)
     }
-    catch {
-      try {
-        useIconLoader = require('@iconify/utils/lib/loader/node-loader.cjs')
-      }
-      catch {
-        useIconLoader = loadIcon
-      }
+    catch {}
+    try {
+      return require('@iconify/utils/lib/loader/node-loader.cjs')
     }
+    catch {}
   }
-
-  return useIconLoader ?? loadIcon
+  return loadIcon
 }
 
 export const preset = (options: IconsOptions = {}): Preset => {

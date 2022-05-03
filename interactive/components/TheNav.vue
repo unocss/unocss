@@ -20,7 +20,9 @@ import { currentTab, isCompact, toggleCompact, uno } from '~/composables/state'
     <div flex-auto />
     <div row gap4 text="lg gray4" items-center>
       <template v-if="currentTab === 'search'">
+        <!-- TODO -->
         <button
+          v-if="false"
           class="i-carbon-settings-adjust"
           title="Config"
           @click="currentTab = 'config'"
