@@ -21,14 +21,14 @@ import { currentTab, isCompact, toggleCompact, uno } from '~/composables/state'
     <div row gap4 text="lg gray4" items-center>
       <template v-if="currentTab === 'search'">
         <button
-          class="i-carbon-settings-adjust"
-          title="Config"
-          @click="currentTab = 'config'"
-        />
-        <button
           :class="isCompact ? 'i-carbon-list' : 'i-carbon-list-boxes'"
           :aria-label="isCompact ? 'Show results entries dense' : 'Show results entries normal'"
           @click="toggleCompact()"
+        />
+        <button
+          class="i-carbon-settings"
+          title="Config"
+          @click="currentTab = 'config'"
         />
       </template>
       <template v-else>
