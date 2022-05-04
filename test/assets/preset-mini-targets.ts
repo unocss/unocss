@@ -522,6 +522,7 @@ export const presetMiniTargets: string[] = [
   'case-upper', // !
   'case-normal', // !
   'italic',
+  'oblique',
   'antialiased',
 
   // svg
@@ -634,11 +635,15 @@ export const presetMiniTargets: string[] = [
   'font-900',
   'font-050',
   'font-50',
+  'font-synthesis-weight',
+  'font-synthesis-small-caps',
+  'font-synthesis-small-caps',
   'font-inherit',
   'fw-900',
   'fw-050',
   'fw-50',
   'font-italic',
+  'font-oblique',
   'leading-2',
   'leading-inherit',
   'font-leading-2',
