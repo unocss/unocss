@@ -7,11 +7,13 @@ importers:
       '@antfu/eslint-config': ^0.23.0
       '@antfu/ni': ^0.16.2
       '@iconify-json/carbon': ^1.1.3
+      '@iconify-json/iconoir': ^1.1.5
       '@iconify-json/logos': ^1.1.5
       '@iconify-json/mdi': ^1.1.10
       '@iconify-json/ph': ^1.1.1
       '@iconify-json/ri': ^1.1.1
       '@iconify-json/tabler': ^1.1.12
+      '@iconify-json/teenyicons': ^1.1.1
       '@iconify-json/twemoji': ^1.1.3
       '@iconify-json/uim': ^1.1.1
       '@types/codemirror': ^5.60.5
@@ -81,11 +83,13 @@ importers:
       '@antfu/eslint-config': 0.23.0_t725usgvqspm5woeqpaxbfp2qu
       '@antfu/ni': 0.16.2
       '@iconify-json/carbon': 1.1.3
+      '@iconify-json/iconoir': 1.1.5
       '@iconify-json/logos': 1.1.5
       '@iconify-json/mdi': 1.1.10
       '@iconify-json/ph': 1.1.1
       '@iconify-json/ri': 1.1.1
       '@iconify-json/tabler': 1.1.12
+      '@iconify-json/teenyicons': 1.1.1
       '@iconify-json/twemoji': 1.1.3
       '@iconify-json/uim': 1.1.1
       '@types/codemirror': 5.60.5
@@ -183,13 +187,6 @@ importers:
   interactive:
     specifiers:
       '@antfu/utils': ^0.5.1
-      '@iconify-json/carbon': ^1.1.3
-      '@iconify-json/logos': ^1.1.5
-      '@iconify-json/mdi': ^1.1.10
-      '@iconify-json/ri': ^1.1.1
-      '@iconify-json/tabler': ^1.1.12
-      '@iconify-json/twemoji': ^1.1.3
-      '@iconify-json/uim': ^1.1.1
       '@types/fs-extra': ^9.0.13
       '@types/js-yaml': ^4.0.5
       '@types/markdown-it-link-attributes': ^3.0.1
@@ -214,13 +211,6 @@ importers:
       vite-plugin-md: ^0.13.0
     devDependencies:
       '@antfu/utils': 0.5.1
-      '@iconify-json/carbon': 1.1.3
-      '@iconify-json/logos': 1.1.5
-      '@iconify-json/mdi': 1.1.10
-      '@iconify-json/ri': 1.1.1
-      '@iconify-json/tabler': 1.1.12
-      '@iconify-json/twemoji': 1.1.3
-      '@iconify-json/uim': 1.1.1
       '@types/fs-extra': 9.0.13
       '@types/js-yaml': 4.0.5
       '@types/markdown-it-link-attributes': 3.0.1
@@ -1001,6 +991,12 @@ packages:
       '@iconify/types': 1.1.0
     dev: true
 
+  /@iconify-json/iconoir/1.1.5:
+    resolution: {integrity: sha512-QeSxKXbsEOE5cemoEsDxhWJMuvgUB+6+IwlsurChhfnuui4QCMTb2iIV6ZY7XMQFTJKCvkPcLYj/1QY109PG+w==}
+    dependencies:
+      '@iconify/types': 1.1.0
+    dev: true
+
   /@iconify-json/logos/1.1.5:
     resolution: {integrity: sha512-PVBTp7fZ7zNBDdCCqN9IqJt78jO4f8agtiNVwxWfflmEGi3+Fu95Jre0CYAPDalyy862r46DXg8AiCoNENQ3SQ==}
     dependencies:
@@ -1027,6 +1023,12 @@ packages:
 
   /@iconify-json/tabler/1.1.12:
     resolution: {integrity: sha512-GeQSGC4OTBuYEoRimpILypXR/kTA6CyXi8ArG2rFG6E8e4Hz+fOHAVmSXyChq2fQMPN2XmDEWFsFVh/QfmU3CA==}
+    dependencies:
+      '@iconify/types': 1.1.0
+    dev: true
+
+  /@iconify-json/teenyicons/1.1.1:
+    resolution: {integrity: sha512-3gJdTDGmWQAg90+aGhvJwsziZ+eK3iTVJ4r3AZCXlVer5Zc46aVWEpD0WEZfnbnb/A7lTKSjK+kZsn/aUPqkwA==}
     dependencies:
       '@iconify/types': 1.1.0
     dev: true
