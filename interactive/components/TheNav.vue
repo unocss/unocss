@@ -38,6 +38,9 @@ import { currentTab, isCompact, toggleCompact, uno } from '~/composables/state'
           @click="currentTab = 'search'"
         />
       </template>
+
+      <a i-carbon-play-outline aria-label="Playground" href="https://unocss.antfu.me/play/" target="_blank" />
+
       <a i-carbon-logo-github href="https://github.com/unocss/unocss" target="_blank" aria-label="GitHub" />
       <DarkToggle />
     </div>
