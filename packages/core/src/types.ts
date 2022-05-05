@@ -255,19 +255,19 @@ export interface ConfigBase<Theme extends {} = {}> {
   /**
    * Rules to generate CSS utilities
    */
-  rules?: Rule[]
+  rules?: Rule<Theme>[]
 
   /**
    * Variants that preprocess the selectors,
    * having the ability to rewrite the CSS object.
    */
-  variants?: Variant[]
+  variants?: Variant<Theme>[]
 
   /**
    * Similar to Windi CSS's shortcuts,
    * allows you have create new utilities by combining existing ones.
    */
-  shortcuts?: UserShortcuts
+  shortcuts?: UserShortcuts<Theme>
 
   /**
    * Rules to exclude the selectors for your design system (to narrow down the possibilities).
