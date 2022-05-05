@@ -1,5 +1,5 @@
 import { relative } from 'path'
-import type { DecorationOptions, StatusBarItem } from 'vscode'
+import type { DecorationOptions, ExtensionContext, StatusBarItem } from 'vscode'
 import { DecorationRangeBehavior, MarkdownString, Range, window, workspace } from 'vscode'
 import type { UnocssPluginContext } from '@unocss/core'
 import { INCLUDE_COMMENT_IDE, getMatchedPositions } from './integration'
@@ -10,9 +10,17 @@ export async function registerAnnonations(
   cwd: string,
   context: UnocssPluginContext,
   status: StatusBarItem,
+  ext: ExtensionContext,
 ) {
   const { sources } = await context.ready
   const { uno, filter } = context
+  let underline: boolean = workspace.getConfiguration().get('unocss.underline') ?? true
+  ext.subscriptions.push(workspace.onDidChangeConfiguration((event) => {
+    if (event.affectsConfiguration('unocss.underline')) {
+      underline = workspace.getConfiguration().get('unocss.underline') ?? true
+      updateAnnotation()
+    }
+  }))
 
   workspace.onDidSaveTextDocument(async (doc) => {
     if (sources.includes(doc.uri.fsPath)) {
@@ -29,6 +37,11 @@ export async function registerAnnonations(
 
   const UnderlineDecoration = window.createTextEditorDecorationType({
     textDecoration: 'none; border-bottom: 1px dashed currentColor',
+    rangeBehavior: DecorationRangeBehavior.ClosedClosed,
+  })
+
+  const NoneDecoration = window.createTextEditorDecorationType({
+    textDecoration: 'none',
     rangeBehavior: DecorationRangeBehavior.ClosedClosed,
   })
 
@@ -68,13 +81,22 @@ export async function registerAnnonations(
         )
       ).filter(Boolean)
 
-      editor.setDecorations(UnderlineDecoration, ranges)
+      if (underline) {
+        editor.setDecorations(NoneDecoration, [])
+        editor.setDecorations(UnderlineDecoration, ranges)
+      }
+      else {
+        editor.setDecorations(UnderlineDecoration, [])
+        editor.setDecorations(NoneDecoration, ranges)
+      }
+
       status.text = `UnoCSS: ${result.matched.size}`
       status.tooltip = new MarkdownString(`${result.matched.size} utilities used in this file`)
       status.show()
 
       function reset() {
         editor?.setDecorations(UnderlineDecoration, [])
+        editor?.setDecorations(NoneDecoration, [])
         status.hide()
       }
     }

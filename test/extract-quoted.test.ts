@@ -3,7 +3,9 @@ import { extractQuoted } from '@unocss/core'
 import { describe, expect, test } from 'vitest'
 
 describe('extractString', async () => {
-  const code = await readFile('./test/assets/extract-quoted.ts', 'utf-8')
+  const code = (await readFile('./test/assets/extract-quoted.ts', 'utf-8'))
+    .replace(/\r\n/g, '\n')
+    .trim()
 
   test('works', () => {
     const strings = extractQuoted(code)
