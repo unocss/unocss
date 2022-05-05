@@ -40,9 +40,9 @@ import { currentTab, isCompact, toggleCompact, uno } from '~/composables/state'
         />
       </template>
 
-      <a i-carbon-template aria-label="Playground" href="https://unocss.antfu.me/play/" title="Playground" target="_blank" />
+      <a i-carbon-template href="https://unocss.antfu.me/play/" rel="noopener noreferrer" title="Playground" target="_blank" aria-label="Playground" />
 
-      <a i-carbon-logo-github href="https://github.com/unocss/unocss" target="_blank" title="GitHub" aria-label="GitHub" />
+      <a i-carbon-logo-github href="https://github.com/unocss/unocss" rel="noopener noreferrer" title="GitHub" target="_blank" aria-label="GitHub" />
 
       <DarkToggle />
     </div>
