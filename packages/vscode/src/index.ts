@@ -30,6 +30,7 @@ export async function activate(ext: ExtensionContext) {
           'astro.config',
         ],
         targetModule: 'unocss/vite',
+        parameters: [{ command: 'serve', mode: 'development' }],
       }),
       sourceObjectFields({
         files: 'nuxt.config',

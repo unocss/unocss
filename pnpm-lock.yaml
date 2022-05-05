@@ -525,14 +525,14 @@ importers:
       jiti: ^1.13.0
       prettier: ^2.6.2
       tsup: ^5.12.6
-      unconfig: ^0.3.3
+      unconfig: ^0.3.4
     devDependencies:
       '@types/vscode': 1.66.0
       '@unocss/nuxt': link:../nuxt
       jiti: 1.13.0
       prettier: 2.6.2
       tsup: 5.12.6
-      unconfig: 0.3.3
+      unconfig: 0.3.4
 
   packages/webpack:
     specifiers:
@@ -8596,6 +8596,14 @@ packages:
       '@antfu/utils': 0.5.1
       defu: 6.0.0
       jiti: 1.13.0
+
+  /unconfig/0.3.4:
+    resolution: {integrity: sha512-cf39F1brwQuLSuMLTYXOdWJH0O1CJee6a4QW1nYtO7SoBUfVvQCvEel6ssTNXtPfi17kop1ADmVtmC49NlFkIQ==}
+    dependencies:
+      '@antfu/utils': 0.5.1
+      defu: 6.0.0
+      jiti: 1.13.0
+    dev: true
 
   /unctx/1.1.4:
     resolution: {integrity: sha512-fQMML+GjUpIjQa0HBrrJezo2dFpTAbQbU0/KFKw4T5wpc9deGjLHSYthdfNAo2xSWM34csI6arzedezQkqtfGw==}
