@@ -30,6 +30,11 @@
         "unocss.root": {
           "type": "string",
           "description": "Project root that contains the UnoCSS configuration file"
+        },
+        "unocss.underline": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable underline decoration for class names"
         }
       }
     }
