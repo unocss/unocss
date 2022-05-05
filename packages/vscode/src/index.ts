@@ -67,7 +67,7 @@ export async function activate(ext: ExtensionContext) {
   status.text = 'UnoCSS'
 
   registerAutoComplete(context, ext)
-  registerAnnonations(cwd, context, status)
+  registerAnnonations(cwd, context, status, ext)
 }
 
 export function deactivate() {}
