@@ -5,80 +5,80 @@ exports[`extractString > should extract static template only 1`] = `
   {
     "quote": "'",
     "range": [
-      90,
-      93,
+      85,
+      88,
     ],
     "value": "foo",
   },
   {
     "quote": "\\"",
     "range": [
-      100,
-      103,
+      94,
+      97,
     ],
     "value": "bar",
   },
   {
     "quote": "\`",
     "range": [
-      110,
-      113,
+      103,
+      106,
     ],
     "value": "baz",
   },
   {
     "quote": "'",
     "range": [
-      120,
-      133,
+      112,
+      125,
     ],
     "value": "foo\\\\'bar\\\\\\"baz",
   },
   {
     "quote": "\`",
     "range": [
-      140,
-      143,
+      131,
+      134,
     ],
     "value": "foo",
   },
   {
     "quote": "\`",
     "range": [
-      166,
-      169,
+      156,
+      159,
     ],
     "value": "foo",
   },
   {
     "quote": "\`",
     "range": [
-      177,
-      180,
+      167,
+      170,
     ],
     "value": "baz",
   },
   {
     "quote": "\`",
     "range": [
-      189,
-      197,
+      179,
+      187,
     ],
     "value": "ham eggs",
   },
   {
     "quote": "\`",
     "range": [
-      204,
-      207,
+      193,
+      196,
     ],
     "value": "foo",
   },
   {
     "quote": "\`",
     "range": [
-      243,
-      246,
+      232,
+      235,
     ],
     "value": "bar",
   },
