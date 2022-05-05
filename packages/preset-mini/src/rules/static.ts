@@ -82,6 +82,10 @@ export const fontStyles: Rule[] = [
   ['not-italic', { 'font-style': 'normal' }],
   ['font-italic', { 'font-style': 'italic' }],
   ['font-not-italic', { 'font-style': 'normal' }],
+  ['oblique', { 'font-style': 'oblique' }],
+  ['not-oblique', { 'font-style': 'normal' }],
+  ['font-oblique', { 'font-style': 'oblique' }],
+  ['font-not-oblique', { 'font-style': 'normal' }],
 ]
 
 export const fontSmoothings: Rule[] = [

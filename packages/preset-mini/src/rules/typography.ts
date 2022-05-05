@@ -62,6 +62,13 @@ export const fonts: Rule<Theme>[] = [
     { autocomplete: '(leading|lh)-$lineHeight' },
   ],
 
+  // synthesis
+  [
+    /^font-synthesis-(.+)$/,
+    ([, s]) => ({ 'font-synthesis': s }),
+    { autocomplete: 'font-synthesis-(none|weight|style|small-caps)' },
+  ],
+
   // tracking
   [
     /^(?:font-)?tracking-(.+)$/,
