@@ -23,6 +23,7 @@ import { currentTab, isCompact, toggleCompact, uno } from '~/composables/state'
         <button
           :class="isCompact ? 'i-carbon-list' : 'i-carbon-list-boxes'"
           :aria-label="isCompact ? 'Show results entries dense' : 'Show results entries normal'"
+          :title="isCompact ? 'Show results entries dense' : 'Show results entries normal'"
           @click="toggleCompact()"
         />
         <button
@@ -39,9 +40,9 @@ import { currentTab, isCompact, toggleCompact, uno } from '~/composables/state'
         />
       </template>
 
-      <a i-carbon-template aria-label="Playground" href="https://unocss.antfu.me/play/" target="_blank" />
+      <a i-carbon-template href="https://unocss.antfu.me/play/" rel="noopener noreferrer" title="Playground" target="_blank" aria-label="Playground" />
 
-      <a i-carbon-logo-github href="https://github.com/unocss/unocss" target="_blank" aria-label="GitHub" />
+      <a i-carbon-logo-github href="https://github.com/unocss/unocss" rel="noopener noreferrer" title="GitHub" target="_blank" aria-label="GitHub" />
 
       <DarkToggle />
     </div>
