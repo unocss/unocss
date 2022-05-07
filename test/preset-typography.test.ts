@@ -65,6 +65,17 @@ const testConfigs = [
     input: 'prose-missing-color',
     typographyOptions: {},
   },
+
+  // custom prefixed attribute test #795
+  {
+    name: 'prose-custom-prefix-attribute',
+    input: '<a u:prose class="prose"></a>',
+    typographyOptions: {},
+    attributifyOptions: {
+      prefix: 'u:',
+      strict: false,
+    },
+  },
 ]
 
 describe('typography', () => {
@@ -72,7 +83,7 @@ describe('typography', () => {
     test(tc.name, async () => {
       const generator = createGenerator({
         presets: [
-          presetAttributify(),
+          presetAttributify(tc.attributifyOptions),
           presetUno(),
           presetTypography(tc.typographyOptions),
         ],

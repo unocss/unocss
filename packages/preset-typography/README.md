@@ -12,8 +12,7 @@ pnpm add @unocss/preset-typography -D
 
 ```js
 // unocss.config.js
-import { defineConfig, presetAttributify, presetUno } from 'unocss'
-import { presetTypography } from '@unocss/preset-typography'
+import { defineConfig, presetAttributify, presetTypography, presetUno } from 'unocss'
 
 export default defineConfig({
   presets: [
