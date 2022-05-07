@@ -3,9 +3,12 @@ import type { ResolvedUnpluginOptions, UnpluginOptions } from 'unplugin'
 import { createUnplugin } from 'unplugin'
 import WebpackSources from 'webpack-sources'
 import {
+  HASH_PLACEHOLDER_RE,
   LAYER_MARK_ALL,
   LAYER_PLACEHOLDER_RE,
   createContext,
+  getHash,
+  getHashPlaceholder,
   getLayerPlaceholder,
   getPath,
   resolveId,
@@ -58,8 +61,9 @@ export default function WebpackPlugin(
       // serve the placeholders in virtual module
       load(id) {
         const layer = entries.get(getPath(id))
+        const hash = entries.get(`${id}_hash`)
         if (layer)
-          return getLayerPlaceholder(layer)
+          return (hash ? getHashPlaceholder(hash) : '') + getLayerPlaceholder(layer)
       },
       webpack(compiler) {
         // replace the placeholders
@@ -73,6 +77,7 @@ export default function WebpackPlugin(
             for (const file of files) {
               let code = compilation.assets[file].source().toString()
               let replaced = false
+              code = code.replace(HASH_PLACEHOLDER_RE, '')
               code = code.replace(LAYER_PLACEHOLDER_RE, (_, quote, layer) => {
                 replaced = true
                 const css = layer === LAYER_MARK_ALL
@@ -111,6 +116,9 @@ export default function WebpackPlugin(
           const code = layer === LAYER_MARK_ALL
             ? result.getLayers(undefined, Array.from(entries.values()))
             : result.getLayer(layer) || ''
+
+          const hash = getHash(code)
+          entries.set(`${path}_hash`, hash)
           plugin.__vfs.writeModule(id, code)
         })
     }
