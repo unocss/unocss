@@ -51,7 +51,7 @@
     "@unocss/nuxt": "workspace:*",
     "jiti": "^1.13.0",
     "prettier": "^2.6.2",
-    "tsup": "^5.12.6",
+    "tsup": "^5.12.7",
     "unconfig": "^0.3.4"
   },
   "engines": {

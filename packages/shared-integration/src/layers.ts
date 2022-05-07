@@ -27,7 +27,7 @@ export function getLayerPlaceholder(layer: string) {
   return `#--unocss--{layer:${layer}}`
 }
 
-export const HASH_PLACEHOLDER_RE = /#--unocss-hash--\s*{\s*content\s*:\s*"(.+?)";?\s*}/g
+export const HASH_PLACEHOLDER_RE = /#--unocss-hash--\s*{\s*content\s*:\s*\\*"(.+?)\\*";?\s*}/g
 export function getHashPlaceholder(hash: string) {
   return `#--unocss-hash--{content:"${hash}"}`
 }
