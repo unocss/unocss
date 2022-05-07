@@ -1,6 +1,6 @@
 {
   "name": "@unocss/inspector",
-  "version": "0.32.13",
+  "version": "0.33.0",
   "description": "The inspector UI for UnoCSS",
   "keywords": [
     "unocss",

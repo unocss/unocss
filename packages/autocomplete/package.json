@@ -1,6 +1,6 @@
 {
   "name": "@unocss/autocomplete",
-  "version": "0.32.13",
+  "version": "0.33.0",
   "description": "Autocomplete utils for UnoCSS",
   "keywords": [
     "unocss",

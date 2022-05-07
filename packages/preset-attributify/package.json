@@ -1,6 +1,6 @@
 {
   "name": "@unocss/preset-attributify",
-  "version": "0.32.13",
+  "version": "0.33.0",
   "description": "Attributify preset for UnoCSS",
   "keywords": [
     "unocss",
