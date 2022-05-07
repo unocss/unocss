@@ -21,6 +21,7 @@ watchDebounced(
       config = await evaluateUserConfig(raw)
     }
     catch (e) {
+      console.error(e)
       config = undefined
       error = e as Error
     }

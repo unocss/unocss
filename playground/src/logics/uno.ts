@@ -86,6 +86,7 @@ debouncedWatch(
       }
     }
     catch (e) {
+      console.error(e)
       customConfigError.value = e as Error
     }
   },

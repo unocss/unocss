@@ -128,7 +128,7 @@ function selectItem(item: ResultItem) {
       autocomplete="off" w="full"
       p="x6 y4"
       bg-transparent border-none
-      outline="none active:none"
+      class="!outline-none"
     >
     <button
       v-if="input"

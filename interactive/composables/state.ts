@@ -36,8 +36,7 @@ export const userConfig = ref<UserConfig | undefined>()
 async function load() {
   userConfigLoading.value = true
   try {
-    const jsonConfig = userConfigRaw.value || defaultConfigRaw
-    userConfig.value = await evaluateUserConfig(jsonConfig.replace(/\,(?=\s*?[\}\]])/, ''))
+    userConfig.value = await evaluateUserConfig(userConfigRaw.value || defaultConfigRaw)
   }
   catch (e) {
     console.error(e)
