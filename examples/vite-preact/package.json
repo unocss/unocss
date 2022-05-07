@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "preact": "^10.7.1"
+    "preact": "^10.7.2"
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.1.5",
@@ -21,6 +21,6 @@
     "cross-env": "^7.0.3",
     "typescript": "^4.6.4",
     "unocss": "link:../../packages/unocss",
-    "vite": "^2.9.6"
+    "vite": "^2.9.8"
   }
 }

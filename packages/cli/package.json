@@ -51,7 +51,7 @@
     "colorette": "^2.0.16",
     "consola": "^2.15.3",
     "fast-glob": "^3.2.11",
-    "pathe": "^0.2.0",
+    "pathe": "^0.3.0",
     "perfect-debounce": "^0.1.3"
   }
 }
