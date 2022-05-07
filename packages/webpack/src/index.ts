@@ -104,7 +104,7 @@ export default function WebpackPlugin(
       const result = await uno.generate(tokens)
       Array.from(plugin.__vfsModules)
         .forEach((id) => {
-          const path = id.slice(plugin.__virtualModulePrefix.length)
+          const path = id.slice(plugin.__virtualModulePrefix.length).replace(/\\/g, '/')
           const layer = entries.get(path)
           if (!layer)
             return
