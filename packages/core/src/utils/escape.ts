@@ -27,7 +27,7 @@ export function escapeSelector(str: string): string {
 
     // Comma
     if (codeUnit === 44) {
-      result += '\\2c '
+      result += '\\,'
       continue
     }
 

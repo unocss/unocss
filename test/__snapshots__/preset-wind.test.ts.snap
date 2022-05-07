@@ -86,7 +86,7 @@ exports[`preset-wind > targets 1`] = `
 .animate-delay--1\\\\.37{animation-delay:-1.37ms;}
 .animate-delay-\\\\$variable{animation-delay:var(--variable);}
 .animate-ease{animation-timing-function:cubic-bezier(0.4, 0, 0.2, 1);}
-.animate-ease-\\\\[steps\\\\(4\\\\2c _jump-start\\\\)\\\\]{animation-timing-function:steps(4, jump-start);}
+.animate-ease-\\\\[steps\\\\(4\\\\,_jump-start\\\\)\\\\]{animation-timing-function:steps(4, jump-start);}
 .animate-ease-\\\\$variable{animation-timing-function:var(--variable);}
 .animate-ease-linear{animation-timing-function:linear;}
 .animate-fill-backwards{animation-fill-mode:backwards;}
@@ -97,7 +97,7 @@ exports[`preset-wind > targets 1`] = `
 .animate-reverse{animation-direction:reverse;}
 .animate-count-2\\\\.4{animation-iteration-count:2.4;}
 .animate-iteration-2{animation-iteration-count:2;}
-.animate-iteration-count-\\\\[2\\\\2c 4\\\\2c infinity\\\\]{animation-iteration-count:count,[2,4,infinity];}
+.animate-iteration-count-\\\\[2\\\\,4\\\\,infinity\\\\]{animation-iteration-count:count,[2,4,infinity];}
 .animate-iteration-count-\\\\$variable{animation-iteration-count:count,$variable;}
 .animate-iteration-count-2{animation-iteration-count:count,2;}
 .animate-iteration-count-2-4-infinity{animation-iteration-count:count,2,4,infinity;}
@@ -188,9 +188,9 @@ exports[`preset-wind > targets 1`] = `
 .overscroll-x-auto{overscroll-behavior-x:auto;}
 .scroll-auto{scroll-behavior:auto;}
 .bg-\\\\[length\\\\:10_20rem\\\\]{background-size:10px 20rem;}
-.bg-gradient-\\\\[70deg\\\\2c blue\\\\2c pink\\\\]{--un-gradient:70deg,blue,pink;}
-.bg-gradient-stops-\\\\[blue\\\\2c pink\\\\],
-.stops-\\\\[blue\\\\2c pink\\\\]{--un-gradient-stops:blue,pink;}
+.bg-gradient-\\\\[70deg\\\\,blue\\\\,pink\\\\]{--un-gradient:70deg,blue,pink;}
+.bg-gradient-stops-\\\\[blue\\\\,pink\\\\],
+.stops-\\\\[blue\\\\,pink\\\\]{--un-gradient-stops:blue,pink;}
 .bg-gradient-from-current,
 .from-current{--un-gradient-from:currentColor;--un-gradient-stops:var(--un-gradient-from), var(--un-gradient-to, rgba(255, 255, 255, 0));}
 .bg-gradient-from-green-600{--un-gradient-from:rgba(22,163,74,var(--un-from-opacity, 1));--un-gradient-stops:var(--un-gradient-from), var(--un-gradient-to, rgba(255, 255, 255, 0));}
