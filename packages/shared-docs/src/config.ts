@@ -23,12 +23,12 @@ export async function evaluateUserConfig<U = UserConfig>(configStr: string): Pro
 
   // bypass vite interop
   // eslint-disable-next-line no-new-func
-  const _import = new Function('name', 'args', 'return import(name, args)')
+  const _import = new Function('a', 'return import(a);')
   const __import = (name: string): any => {
     if (!modulesCache.has(name)) {
       modulesCache.set(name,
         name.endsWith('.json')
-          ? _import(CDN_BASE + name, { assert: { type: 'json' } })
+          ? $fetch(CDN_BASE + name, { responseType: 'json' }).then(r => ({ default: r }))
           : _import(CDN_BASE + name),
       )
     }
