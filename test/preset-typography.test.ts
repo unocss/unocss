@@ -69,11 +69,11 @@ const testConfigs = [
   // custom prefixed attribute test #795
   {
     name: 'prose-custom-prefix-attribute',
-    input: '<a u:prose></a>',
+    input: '<a u:prose class="prose"></a>',
     typographyOptions: {},
     attributifyOptions: {
       prefix: 'u:',
-      strict: true,
+      strict: false,
     },
   },
 ]
