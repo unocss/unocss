@@ -18,7 +18,9 @@ export const toggleCompact = useToggle(isCompact)
 export const uno = createGenerator({}, defaultConfig)
 export const searcher = createSearch({ uno, docs, guides })
 
-export const input = ref('')
+const initParams = new URLSearchParams(location.search)
+
+export const input = ref(initParams.get('s')?.toString() || '')
 export const selectIndex = ref(0)
 export const isSearching = ref(false)
 export const isModalOpen = ref(true)

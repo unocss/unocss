@@ -16,7 +16,6 @@ watch(
     input.value = String(route.query.s || '')
     await excuteSearch()
   },
-  { immediate: true },
 )
 
 async function excuteSearch() {
