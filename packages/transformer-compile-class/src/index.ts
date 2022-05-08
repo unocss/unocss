@@ -4,7 +4,7 @@ import { escapeRegExp } from '@unocss/core'
 export interface CompileClassOptions {
   /**
    * Trigger string
-   * @default '::uno::'
+   * @default ':uno:'
    */
   trigger?: string
 
@@ -29,7 +29,7 @@ export interface CompileClassOptions {
 
 export default function transformerCompileClass(options: CompileClassOptions = {}): SourceCodeTransformer {
   const {
-    trigger = '::uno::',
+    trigger = ':uno:',
     classPrefix = 'uno-',
     hashFn = hash,
     keepUnknown = true,
@@ -55,11 +55,13 @@ export default function transformerCompileClass(options: CompileClassOptions = {
           replacements.push(...unknown)
           body = known.join(' ')
         }
-        const hash = hashFn(body)
-        const className = `${classPrefix}${hash}`
-        replacements.unshift(className)
+        if (body) {
+          const hash = hashFn(body)
+          const className = `${classPrefix}${hash}`
+          replacements.unshift(className)
+          uno.config.shortcuts.push([className, body])
+        }
         s.overwrite(start + 1, start + match[0].length - 1, replacements.join(' '))
-        uno.config.shortcuts.push([className, body])
       }
     },
   }

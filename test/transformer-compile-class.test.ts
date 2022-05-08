@@ -26,14 +26,16 @@ describe('transformer-compile-class', () => {
 
   test('basic', async () => {
     const result = await transform(`
-    <div class="::uno:: bg-red-500 text-xl font-bold border border-gray-200 dark:hover:bg-green-500 transform scale-5">
-    <div class="::uno:: text-sm font-bold hover:text-red foobar">
+    <div class=":uno: bg-red-500 text-xl font-bold border border-gray-200 dark:hover:bg-green-500 transform scale-5">
+    <div class=":uno: text-sm font-bold hover:text-red foobar">
+    <div class=":uno: foo bar">
     `)
     expect(result).toMatchInlineSnapshot(`
       {
         "code": "
           <div class=\\"uno-qe05lz\\">
           <div class=\\"uno-0qw2gr foobar\\">
+          <div class=\\"foo bar\\">
           ",
         "css": "/* layer: shortcuts */
       .uno-qe05lz{--un-rotate:0;--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;--un-transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}

@@ -23,10 +23,10 @@ Unocss({
 
 ## Usage
 
-At the begin of your class strings, add `::uno::` to mark it for compilation. For example:
+At the begin of your class strings, add `:uno:` to mark it for compilation. For example:
 
 ```html
-<div class="::uno:: text-sm font-bold hover:text-red">
+<div class=":uno: text-sm font-bold hover:text-red">
 ```
 
 Will be compiled to:
