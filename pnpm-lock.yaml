@@ -448,6 +448,15 @@ importers:
       '@unocss/core': link:../core
       '@unocss/scope': link:../scope
 
+  packages/transformer-compile-class:
+    specifiers:
+      '@unocss/core': workspace:*
+      magic-string: ^0.26.1
+    dependencies:
+      '@unocss/core': link:../core
+    devDependencies:
+      magic-string: 0.26.1
+
   packages/transformer-directives:
     specifiers:
       '@unocss/core': workspace:*

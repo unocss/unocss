@@ -2,14 +2,10 @@ import { resolve } from 'path'
 
 const r = (p: string) => resolve(__dirname, p)
 
-export const buildAlias: Record<string, string> = {
+export const alias: Record<string, string> = {
   '@unocss/shared-integration': r('./packages/shared-integration/src/'),
   '@unocss/shared-docs': r('./packages/shared-docs/src/'),
   '@unocss/shared-common': r('./packages/shared-common/src/'),
-}
-
-export const alias: Record<string, string> = {
-  ...buildAlias,
   '@unocss/autocomplete': r('./packages/autocomplete/src'),
   '@unocss/cli': r('./packages/cli/src/'),
   '@unocss/core': r('./packages/core/src/'),
@@ -23,6 +19,7 @@ export const alias: Record<string, string> = {
   '@unocss/preset-wind': r('./packages/preset-wind/src/'),
   '@unocss/transformer-directives': r('./packages/transformer-directives/src/'),
   '@unocss/transformer-variant-group': r('./packages/transformer-variant-group/src/'),
+  '@unocss/transformer-compile-class': r('./packages/transformer-compile-class/src/'),
   '@unocss/vite': r('./packages/vite/src/'),
   'unocss': r('./packages/unocss/src/'),
 }
