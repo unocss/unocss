@@ -14,6 +14,7 @@
 | [@unocss/preset-typography](./preset-typography) | The typography preset | ✅ | No |
 | [@unocss/transformer-variant-group](./transformer-variant-group) | Transformer for Windi CSS's variant group feature | ✅ | No |
 | [@unocss/transformer-directives](./transformer-directives) | Transformer for CSS directives like `@apply` | ✅ | No |
+| [@unocss/transformer-compile-class](./transformer-compile-class) | Compile group of classes into one class | ✅ | No |
 | [@unocss/extractor-pug](./extractor-pug) | Extractor for Pug | No | - |
 | [@unocss/autocomplete](./autocomplete) | Utils for autocomplete | No | - |
 | [@unocss/config](./config) | Configuration file loader | ✅ | - |

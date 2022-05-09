@@ -10,6 +10,7 @@ export { default as presetMini } from '@unocss/preset-mini'
 export { default as presetWind } from '@unocss/preset-wind'
 export { default as transformerDirectives } from '@unocss/transformer-directives'
 export { default as transformerVariantGroup } from '@unocss/transformer-variant-group'
+export { default as transformerCompileClass } from '@unocss/transformer-compile-class'
 
 export function defineConfig<Theme extends {}>(config: UserConfig<Theme>) {
   return config

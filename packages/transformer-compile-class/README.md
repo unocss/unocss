@@ -11,10 +11,11 @@ npm i -D @unocss/transformer-compile-class
 ```
 
 ```ts
-import Unocss from 'unocss/vite'
+// uno.config.js
+import { defineConfig } from 'unocss'
 import transformerCompileClass from '@unocss/transformer-compile-class'
 
-Unocss({
+export default defineConfig({
   transformers: [
     transformerCompileClass(),
   ],
@@ -26,16 +27,23 @@ Unocss({
 At the begin of your class strings, add `:uno:` to mark it for compilation. For example:
 
 ```html
-<div class=":uno: text-sm font-bold hover:text-red">
+<div class=":uno: text-center sm:text-left">
+  <div class=":uno: text-sm font-bold hover:text-red"/>
+</div>
 ```
 
 Will be compiled to:
 
 ```html
-<div class="uno-0qw2gr">
+<div class="uno-qlmcrp">
+  <div class="uno-0qw2gr"/>
+</div>
 ```
 
 ```css
+.uno-qlmcrp {
+  text-align: center;
+}
 .uno-0qw2gr {
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -43,7 +51,12 @@ Will be compiled to:
 }
 .uno-0qw2gr:hover {
   --un-text-opacity: 1;
-  color: rgba(248,113,113,var(--un-text-opacity));
+  color: rgba(248, 113, 113, var(--un-text-opacity));
+}
+@media (min-width: 640px) {
+  .uno-qlmcrp {
+    text-align: left;
+  }
 }
 ```
 
