@@ -91,9 +91,9 @@
     "@unocss/preset-web-fonts": "workspace:*",
     "@unocss/preset-wind": "workspace:*",
     "@unocss/reset": "workspace:*",
+    "@unocss/transformer-compile-class": "workspace:*",
     "@unocss/transformer-directives": "workspace:*",
     "@unocss/transformer-variant-group": "workspace:*",
-    "@unocss/transformer-compile-class": "workspace:*",
     "@unocss/vite": "workspace:*"
   },
   "engines": {
