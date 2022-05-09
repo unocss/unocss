@@ -30,16 +30,17 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 
 - [Fully customizable](#configurations) - no core utilities, all functionalities are provided via presets.
 - No parsing, no AST, no scanning, it's **INSTANT** (200x faster than Windi CSS or Tailwind JIT).
-- ~3.5kb min+gzip - zero deps and browser friendly.
+- ~5kb min+gzip - zero deps and browser friendly.
 - [Shortcuts](#shortcuts) - aliasing utilities, dynamically.
-- [Attributify Mode](https://github.com/unocss/unocss/tree/main/packages/preset-attributify/) - group utilities in attributes.
+- [Attributify mode](https://github.com/unocss/unocss/tree/main/packages/preset-attributify/) - group utilities in attributes.
 - [Pure CSS Icons](https://github.com/unocss/unocss/tree/main/packages/preset-icons/) - use any icon as a single class.
+- [Variant Groups](https://github.com/unocss/unocss/tree/main/packages/transformer-variant-group) - Shorthand for group utils with common prefixes.
+- [CSS Directives](https://github.com/unocss/unocss/tree/main/packages/transformer-directives) - Reuse utils in CSS with `@apply` directive.
+- [Compilation mode](https://github.com/unocss/unocss/tree/main/packages/transformer-compile-class/) - synthesizes multiple classes into one at build time.
 - [Inspector](#inspector) - inspect and debug interactively.
 - [CSS-in-JS Runtime version](https://github.com/unocss/unocss/tree/main/packages/runtime)
 - [VS Code extension](https://marketplace.visualstudio.com/items?itemName=antfu.unocss)
-- [Variant Groups](https://github.com/unocss/unocss/tree/main/packages/transformer-variant-group) & [CSS Directives](https://github.com/unocss/unocss/tree/main/packages/transformer-directives)
 - Code-splitting for CSS - ships minimal CSS for MPA.
-- Library friendly - ships atomic styles with your component libraries, and safely scoped.
 
 ###### Benchmark
 
