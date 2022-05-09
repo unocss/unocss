@@ -11,10 +11,12 @@ npm i -D @unocss/transformer-variant-group
 ```
 
 ```ts
-import Unocss from 'unocss/vite'
+// uno.config.js
+import { defineConfig } from 'unocss'
 import transformerVariantGroup from '@unocss/transformer-variant-group'
 
-Unocss({
+export default defineConfig({
+  // ...
   transformers: [
     transformerVariantGroup(),
   ],

@@ -16,6 +16,7 @@ import { defineConfig } from 'unocss'
 import transformerCompileClass from '@unocss/transformer-compile-class'
 
 export default defineConfig({
+  // ...
   transformers: [
     transformerCompileClass(),
   ],
@@ -24,7 +25,7 @@ export default defineConfig({
 
 ## Usage
 
-At the begin of your class strings, add `:uno:` to mark it for compilation. For example:
+At the begin of your class strings, **add `:uno:` at the begin of the strings** to mark them for compilation. For example:
 
 ```html
 <div class=":uno: text-center sm:text-left">
@@ -59,6 +60,10 @@ Will be compiled to:
   }
 }
 ```
+
+## Options
+
+You can config the trigger string and prefix for compile class with the options. Refers to [the types](https://github.com/antfu/unocss/blob/main/packages/transformer-compile-class/src/index.ts#L4) for details.
 
 ## License
 
