@@ -448,6 +448,15 @@ importers:
       '@unocss/core': link:../core
       '@unocss/scope': link:../scope
 
+  packages/transformer-compile-class:
+    specifiers:
+      '@unocss/core': workspace:*
+      magic-string: ^0.26.1
+    dependencies:
+      '@unocss/core': link:../core
+    devDependencies:
+      magic-string: 0.26.1
+
   packages/transformer-directives:
     specifiers:
       '@unocss/core': workspace:*
@@ -480,6 +489,7 @@ importers:
       '@unocss/preset-web-fonts': workspace:*
       '@unocss/preset-wind': workspace:*
       '@unocss/reset': workspace:*
+      '@unocss/transformer-compile-class': workspace:*
       '@unocss/transformer-directives': workspace:*
       '@unocss/transformer-variant-group': workspace:*
       '@unocss/vite': workspace:*
@@ -494,6 +504,7 @@ importers:
       '@unocss/preset-web-fonts': link:../preset-web-fonts
       '@unocss/preset-wind': link:../preset-wind
       '@unocss/reset': link:../reset
+      '@unocss/transformer-compile-class': link:../transformer-compile-class
       '@unocss/transformer-directives': link:../transformer-directives
       '@unocss/transformer-variant-group': link:../transformer-variant-group
       '@unocss/vite': link:../vite

@@ -1,6 +1,11 @@
-import { defineConfig, presetAttributify, presetUno } from 'unocss'
-import transformerVariantGroup from '@unocss/transformer-variant-group'
-import transformerDirectives from '@unocss/transformer-directives'
+import {
+  defineConfig,
+  presetAttributify,
+  presetUno,
+  transformerCompileClass,
+  transformerDirectives,
+  transformerVariantGroup,
+} from 'unocss'
 
 export function createConfig({ strict = true, dev = true } = {}) {
   return defineConfig({
@@ -18,6 +23,7 @@ export function createConfig({ strict = true, dev = true } = {}) {
     transformers: [
       transformerVariantGroup(),
       transformerDirectives(),
+      transformerCompileClass(),
     ],
   })
 }

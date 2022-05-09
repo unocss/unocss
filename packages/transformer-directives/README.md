@@ -11,10 +11,12 @@ npm i -D @unocss/transformer-directives
 ```
 
 ```ts
-import Unocss from 'unocss/vite'
+// uno.config.js
+import { defineConfig } from 'unocss'
 import transformerDirective from '@unocss/transformer-directives'
 
-Unocss({
+export default defineConfig({
+  // ...
   transformers: [
     transformerDirective(),
   ],
