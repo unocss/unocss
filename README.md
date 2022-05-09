@@ -34,11 +34,11 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 - [Shortcuts](#shortcuts) - aliasing utilities, dynamically.
 - [Attributify mode](https://github.com/unocss/unocss/tree/main/packages/preset-attributify/) - group utilities in attributes.
 - [Pure CSS Icons](https://github.com/unocss/unocss/tree/main/packages/preset-icons/) - use any icon as a single class.
-- [Variant Groups](https://github.com/unocss/unocss/tree/main/packages/transformer-variant-group) - Shorthand for group utils with common prefixes.
-- [CSS Directives](https://github.com/unocss/unocss/tree/main/packages/transformer-directives) - Reuse utils in CSS with `@apply` directive.
+- [Variant Groups](https://github.com/unocss/unocss/tree/main/packages/transformer-variant-group) - shorthand for group utils with common prefixes.
+- [CSS Directives](https://github.com/unocss/unocss/tree/main/packages/transformer-directives) - reuse utils in CSS with `@apply` directive.
 - [Compilation mode](https://github.com/unocss/unocss/tree/main/packages/transformer-compile-class/) - synthesizes multiple classes into one at build time.
 - [Inspector](#inspector) - inspect and debug interactively.
-- [CSS-in-JS Runtime version](https://github.com/unocss/unocss/tree/main/packages/runtime)
+- [CSS-in-JS Runtime build](https://github.com/unocss/unocss/tree/main/packages/runtime) - use UnoCSS with one line of CDN import.
 - [VS Code extension](https://marketplace.visualstudio.com/items?itemName=antfu.unocss)
 - Code-splitting for CSS - ships minimal CSS for MPA.
 
