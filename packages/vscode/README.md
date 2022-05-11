@@ -17,7 +17,7 @@
 ## Features
 
 - Decoration and tooltip for matched utilities
-- Loading configs from `uno.config.js`, `vite.config.js` or `nuxt.config.js`
+- Loading configs from `uno.config.js`, `vite.config.js`, `svelte.config.js`, `astro.config.js`, `iles.config.js` or `nuxt.config.js`
 - Count of matched utilities
 
 ## Config

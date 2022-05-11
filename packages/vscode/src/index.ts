@@ -28,6 +28,7 @@ export async function activate(ext: ExtensionContext) {
           'vite.config',
           'svelte.config',
           'astro.config',
+          'iles.config',
         ],
         targetModule: 'unocss/vite',
         parameters: [{ command: 'serve', mode: 'development' }],
