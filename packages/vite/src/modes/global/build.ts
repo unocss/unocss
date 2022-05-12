@@ -43,7 +43,6 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, fi
       enforce: 'pre',
       buildStart() {
         tasks = []
-        vfsLayerMap.clear()
       },
       transform(code, id) {
         if (filter(code, id))

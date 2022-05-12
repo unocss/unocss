@@ -1,0 +1,26 @@
+{
+  "name": "vite-watch-mode",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0"
+  },
+  "devDependencies": {
+    "@iconify-json/logos": "^1.1.5",
+    "@types/react": "^18.0.9",
+    "@types/react-dom": "^18.0.3",
+    "@unocss/core": "link:../../packages/core",
+    "@unocss/preset-attributify": "link:../../packages/preset-attributify",
+    "@unocss/preset-icons": "link:../../packages/presets-icons",
+    "@vitejs/plugin-react": "^1.3.2",
+    "cross-env": "^7.0.3",
+    "typescript": "^4.6.4",
+    "unocss": "link:../../packages/unocss",
+    "vite": "^2.9.8"
+  }
+}
