@@ -9,7 +9,7 @@ export function App() {
       <div className="h-100% bg-#673ab8 c-#fff font-size-1.5em text-center">
         <header className="bg-#673ab8 min-h-100vh flex flex-col items-center justify-center color-white">
           <div className="logo" />
-          <h1 className="mt-2em animate-bounce-alt animate-2s">Hello Vite + Preact!</h1>
+          <h1 className="mt-2em animate-bounce-alt animate-duration-2s">Hello Vite + Preact!</h1>
           <p>
             <button
               className="bg-blue-400 hover:bg-blue-500 text-sm text-white font-mono font-light py-2 px-4 rounded border-2 border-blue-200 dark:bg-blue-500 dark:hover:bg-blue-600"
