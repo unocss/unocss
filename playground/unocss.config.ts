@@ -1,6 +1,7 @@
 import {
   defineConfig,
   presetAttributify,
+  presetIcons,
   presetUno,
   transformerCompileClass,
   transformerDirectives,
@@ -19,6 +20,9 @@ export function createConfig({ strict = true, dev = true } = {}) {
     presets: [
       presetAttributify({ strict }),
       presetUno(),
+      presetIcons({
+        scale: 1.2,
+      }),
     ],
     transformers: [
       transformerVariantGroup(),
