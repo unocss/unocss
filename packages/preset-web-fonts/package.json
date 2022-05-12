@@ -47,6 +47,6 @@
   },
   "dependencies": {
     "@unocss/core": "workspace:*",
-    "ohmyfetch": "^0.4.16"
+    "ohmyfetch": "^0.4.17"
   }
 }
