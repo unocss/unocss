@@ -19,7 +19,7 @@
   "scripts": {
     "build": "tsup",
     "dev": "nr build --watch src",
-    "publish": "esmo ./scripts/publish.ts"
+    "publish": "esno ./scripts/publish.ts"
   },
   "contributes": {
     "commands": [],

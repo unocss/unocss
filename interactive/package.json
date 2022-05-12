@@ -6,8 +6,8 @@
     "build": "nuxi generate .",
     "dev": "nr prepare && nuxi dev .",
     "start": "node .output/server/index.mjs",
-    "prepare": "esmo scripts/prepare.ts",
-    "fetch": "esmo scripts/fetch.ts"
+    "prepare": "esno scripts/prepare.ts",
+    "fetch": "esno scripts/fetch.ts"
   },
   "devDependencies": {
     "@antfu/utils": "^0.5.2",
@@ -19,7 +19,7 @@
     "@unocss/nuxt": "workspace:*",
     "@unocss/shared-docs": "workspace:*",
     "@vueuse/nuxt": "^8.4.2",
-    "esmo": "^0.15.0",
+    "esno": "^0.15.0",
     "fs-extra": "^10.1.0",
     "fuse.js": "^6.6.2",
     "js-yaml": "^4.1.0",
