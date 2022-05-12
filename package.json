@@ -2,7 +2,7 @@
   "name": "@unocss/monorepo",
   "version": "0.33.2",
   "private": true,
-  "packageManager": "pnpm@7.0.0",
+  "packageManager": "pnpm@7.0.1",
   "scripts": {
     "bench": "npm -C bench run bench",
     "build": "rimraf packages/*/dist && esno scripts/copy-files.ts && pnpm -r --filter !playground --filter !interactive run build && pnpm -r run build-post",
