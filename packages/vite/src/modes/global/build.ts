@@ -119,8 +119,11 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, fi
       enforce: 'post',
       // rewrite the css placeholders
       async generateBundle(_, bundle) {
-        if (!vfsLayerMap.size)
+        if (!vfsLayerMap.size) {
+          const msg = '[unocss] entry module not found, have you add `import \'uno.css\'` in your main entry?'
+          this.warn(msg)
           return
+        }
 
         const files = Object.keys(bundle)
         const cssFiles = files
