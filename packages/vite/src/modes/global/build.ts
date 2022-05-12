@@ -119,6 +119,9 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, fi
       enforce: 'post',
       // rewrite the css placeholders
       async generateBundle(_, bundle) {
+        if (!vfsLayerMap.size)
+          return
+
         const files = Object.keys(bundle)
         const cssFiles = files
           .filter(i => i.endsWith('.css'))
