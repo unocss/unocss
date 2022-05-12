@@ -46,7 +46,7 @@ export const userSelects: Rule[] = [
 ]
 
 export const whitespaces: Rule[] = [
-  [/^(?:whitespace|ws)-(normal|nowrap|pre|pre-line|pre-wrap)$/, ([, v]) => ({ 'white-space': v }), { autocomplete: '(whitespace|ws)-(normal|nowrap|pre|pre-line|pre-wrap)' }],
+  [/^(?:whitespace|ws)-(normal|nowrap|pre|pre-line|pre-wrap|break-spaces)$/, ([, v]) => ({ 'white-space': v }), { autocomplete: '(whitespace|ws)-(normal|nowrap|pre|pre-line|pre-wrap|break-spaces)' }],
 ]
 
 export const contents: Rule[] = [
