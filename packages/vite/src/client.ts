@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
-/// <reference path="../node_modules/vite/client.d.ts" />
+/// <reference types="vite/client" />
+/// <reference lib="dom" />
 
 function post(data: any) {
   return fetch('__POST_PATH__', {
