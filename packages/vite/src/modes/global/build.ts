@@ -14,6 +14,7 @@ import type { VitePluginConfig } from '../../types'
 
 export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, filter, getConfig }: UnocssPluginContext<VitePluginConfig>): Plugin[] {
   const vfsLayerMap = new Map<string, string>()
+  const layerImporterMap = new Map<string, string>()
   let tasks: Promise<any>[] = []
   let cssPostPlugin: Plugin | undefined
   let cssPlugin: Plugin | undefined
@@ -55,10 +56,12 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, fi
           tasks.push(extract(code, filename))
         },
       },
-      resolveId(id) {
+      resolveId(id, importer) {
         const entry = resolveId(id)
         if (entry) {
           vfsLayerMap.set(entry.id, entry.layer)
+          if (importer)
+            layerImporterMap.set(importer, entry.id)
           return entry.id
         }
       },
@@ -66,6 +69,16 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, fi
         const layer = vfsLayerMap.get(getPath(id))
         if (layer)
           return getLayerPlaceholder(layer)
+      },
+      moduleParsed({ id, importedIds }) {
+        if (!layerImporterMap.has(id))
+          return
+
+        const layerKey = layerImporterMap.get(id)!
+        if (!importedIds.includes(layerKey!)) {
+          layerImporterMap.delete(id)
+          vfsLayerMap.delete(layerKey)
+        }
       },
       async configResolved(config) {
         cssPostPlugin = config.plugins.find(i => i.name === 'vite:css-post')
@@ -118,18 +131,18 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, fi
       enforce: 'post',
       // rewrite the css placeholders
       async generateBundle(_, bundle) {
-        if (!vfsLayerMap.size) {
-          const msg = '[unocss] entry module not found, have you add `import \'uno.css\'` in your main entry?'
-          this.warn(msg)
-          return
-        }
-
         const files = Object.keys(bundle)
         const cssFiles = files
           .filter(i => i.endsWith('.css'))
 
         if (!cssFiles.length)
           return
+
+        if (!vfsLayerMap.size) {
+          const msg = '[unocss] entry module not found, have you add `import \'uno.css\'` in your main entry?'
+          this.warn(msg)
+          return
+        }
 
         await Promise.all(tasks)
         const result = await uno.generate(tokens, { minify: true })
