@@ -62,7 +62,7 @@ importers:
       lz-string: ^1.4.4
       magic-string: ^0.26.2
       msw: ^0.39.2
-      nuxt-tsconfig-stub: ^0.0.0
+      nuxt-tsconfig-stub: ^0.0.2
       pnpm: ^7.0.1
       prettier: ^2.6.2
       react: ^18.1.0
@@ -139,7 +139,7 @@ importers:
       lz-string: 1.4.4
       magic-string: 0.26.2
       msw: 0.39.2
-      nuxt-tsconfig-stub: 0.0.0
+      nuxt-tsconfig-stub: 0.0.2
       pnpm: 7.0.1
       prettier: 2.6.2
       react: 18.1.0
@@ -6399,8 +6399,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /nuxt-tsconfig-stub/0.0.0:
-    resolution: {integrity: sha512-vo8RMK9zR4H2dGaz1O9p3IkXg+q+MYAgGiWrVBX82vUElWLuXaMV3eQR1dJMFs98dkQuvnwicSh5+M0jpBD1mA==}
+  /nuxt-tsconfig-stub/0.0.2:
+    resolution: {integrity: sha512-5HC34SQqC0yB1mL+vy6K8UoUk+sGq/J0/2qd0yWMN1JXuXfpzmXEimX7Dh4m6v1l8WJ/zSM2MkU6XJvb6sZpSg==}
     requiresBuild: true
     dependencies:
       fast-glob: 3.2.11

@@ -6,7 +6,7 @@
     "build": "nuxi generate .",
     "dev": "nr prepare && nuxi dev .",
     "start": "node .output/server/index.mjs",
-    "prepare": "esno scripts/prepare.ts",
+    "postinstall": "esno scripts/prepare.ts",
     "fetch": "esno scripts/fetch.ts"
   },
   "devDependencies": {
