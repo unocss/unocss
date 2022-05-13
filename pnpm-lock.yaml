@@ -538,6 +538,7 @@ importers:
     specifiers:
       '@types/vscode': ^1.62.0
       '@unocss/nuxt': workspace:*
+      esno: ^0.15.0
       jiti: ^1.13.0
       prettier: ^2.6.2
       tsup: ^5.12.7
@@ -545,6 +546,7 @@ importers:
     devDependencies:
       '@types/vscode': 1.66.0
       '@unocss/nuxt': link:../nuxt
+      esno: 0.15.0
       jiti: 1.13.0
       prettier: 2.6.2
       tsup: 5.12.7
