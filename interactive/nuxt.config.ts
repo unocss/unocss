@@ -28,6 +28,16 @@ export default defineNuxtConfig({
       'postcss-nested': {},
     },
   },
+  components: {
+    transform: {
+      include: [/\.vue$/, /\.md$/],
+    },
+  },
+  autoImports: {
+    transform: {
+      include: [/\.vue$/, /\.md$/],
+    },
+  },
   vite: {
     // @ts-expect-error any
     vue: {

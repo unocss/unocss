@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "nuxi generate .",
-    "dev": "nr prepare && nuxi dev .",
+    "dev": "nuxi dev .",
     "start": "node .output/server/index.mjs",
     "postinstall": "esno scripts/prepare.ts",
     "fetch": "esno scripts/fetch.ts"
