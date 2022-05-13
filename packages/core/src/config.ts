@@ -30,7 +30,7 @@ export function resolveConfig(
 
   const layers = Object.assign(defaultLayers, ...rawPresets.map(i => i.layers), userConfig.layers)
 
-  function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme'>(key: T): Required<UserConfig>[T] {
+  function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist'>(key: T): Required<UserConfig>[T] {
     return uniq([
       ...sortedPresets.flatMap(p => toArray(p[key] || []) as any[]),
       ...toArray(config[key] || []) as any[],
@@ -73,7 +73,7 @@ export function resolveConfig(
     mergeSelectors: true,
     warn: true,
     blocklist: [],
-    safelist: [],
+    safelist: mergePresets('safelist'),
     sortLayers: layers => layers,
     ...config,
     presets: sortedPresets,
