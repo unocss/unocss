@@ -73,7 +73,6 @@ export function resolveConfig(
     mergeSelectors: true,
     warn: true,
     blocklist: [],
-    safelist: mergePresets('safelist'),
     sortLayers: layers => layers,
     ...config,
     presets: sortedPresets,
@@ -91,5 +90,6 @@ export function resolveConfig(
     variants: mergePresets('variants').map(normalizeVariant),
     shortcuts: resolveShortcuts(mergePresets('shortcuts')),
     extractors,
+    safelist: mergePresets('safelist'),
   }
 }
