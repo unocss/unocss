@@ -9,7 +9,7 @@ import Msg exposing (Msg(..))
 helloWorld : Int -> Html Msg
 helloWorld model =
     div []
-        [ h1 [ class "mt-2em animate-bounce-alt animate-2s"] [ text "Hello, Vite + Elm!"]
+        [ h1 [ class "mt-2em animate-bounce-alt animate-duration-2s"] [ text "Hello, Vite + Elm!"]
         , p []
             [ a [ href "https://vitejs.dev/guide/features.html", class "c-#60b5cc"] [ text "Vite Documentation" ]
             , text " | "
