@@ -6,7 +6,7 @@ import { BetterMap, createGenerator } from '@unocss/core'
 import { CSS_PLACEHOLDER, IGNORE_COMMENT, INCLUDE_COMMENT } from './constants'
 import { defaultExclude, defaultInclude } from './defaults'
 
-export function createContext<Config extends UserConfig = UserConfig>(
+export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
   configOrPath?: Config | string,
   defaults: UserConfigDefaults = {},
   extraConfigSources: LoadConfigSource[] = [],

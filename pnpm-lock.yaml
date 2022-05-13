@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 overrides:
+  vite: 2.9.9
   '@nuxt/kit-edge': npm:@nuxt/kit@latest
 
 importers:
@@ -77,7 +78,7 @@ importers:
       unocss: workspace:*
       unplugin-auto-import: ^0.7.1
       unplugin-vue-components: ^0.19.5
-      vite: ^2.9.9
+      vite: 2.9.9
       vite-plugin-inspect: ^0.5.0
       vite-plugin-pages: ^0.23.0
       vitest: ^0.12.4
@@ -171,7 +172,7 @@ importers:
       postcss: ^8.4.13
       tailwindcss: ^3.0.24
       unocss: workspace:*
-      vite: ^2.9.9
+      vite: 2.9.9
       vite-plugin-windicss: ^1.8.4
       vue: ^3.2.33
       windicss: ^3.5.3
@@ -521,7 +522,7 @@ importers:
       '@unocss/shared-integration': workspace:*
       '@unocss/transformer-directives': workspace:*
       magic-string: ^0.26.2
-      vite: ^2.9.9
+      vite: 2.9.9
     dependencies:
       '@rollup/pluginutils': 4.2.1
       '@unocss/config': link:../config
