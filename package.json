@@ -107,7 +107,6 @@
   },
   "pnpm": {
     "overrides": {
-      "vite": "3.0.0-alpha.0",
       "@nuxt/kit-edge": "npm:@nuxt/kit@latest"
     }
   }
