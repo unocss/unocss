@@ -108,6 +108,10 @@ onMounted(() => {
           <input v-model="options.transform" type="checkbox">
           Transform
         </label>
+        <label>
+          <input v-model="options.responsive" type="checkbox">
+          Responsive
+        </label>
         <div flex-auto />
         <div text-sm op50>
           v{{ version }}
