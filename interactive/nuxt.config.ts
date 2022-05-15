@@ -10,7 +10,6 @@ const externals = [
   '@iconify/utils/lib/loader/node-loaders',
 ]
 
-// @ts-expect-error ignore
 export default defineNuxtConfig({
   alias,
   modules: [
@@ -29,6 +28,9 @@ export default defineNuxtConfig({
     },
   },
   components: {
+    dirs: [
+      './components',
+    ],
     transform: {
       include: [/\.vue$/, /\.md$/],
     },
