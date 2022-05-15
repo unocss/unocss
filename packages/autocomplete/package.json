@@ -39,7 +39,6 @@
     "lru-cache": "^7.10.1"
   },
   "devDependencies": {
-    "@types/lru-cache": "^7.6.1",
     "@unocss/core": "workspace:*"
   }
 }

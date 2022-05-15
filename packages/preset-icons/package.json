@@ -42,10 +42,10 @@
   },
   "dependencies": {
     "@iconify/utils": "^1.0.32",
-    "@unocss/core": "workspace:*"
+    "@unocss/core": "workspace:*",
+    "ohmyfetch": "^0.4.17"
   },
   "devDependencies": {
-    "@iconify/types": "^1.1.0",
-    "ohmyfetch": "^0.4.17"
+    "@iconify/types": "^1.1.0"
   }
 }

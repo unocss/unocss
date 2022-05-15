@@ -11,10 +11,6 @@
   },
   "devDependencies": {
     "@antfu/utils": "^0.5.2",
-    "@types/fs-extra": "^9.0.13",
-    "@types/js-yaml": "^4.0.5",
-    "@types/markdown-it-link-attributes": "^3.0.1",
-    "@types/prettier": "^2.6.0",
     "@unocss/autocomplete": "workspace:*",
     "@unocss/nuxt": "workspace:*",
     "@unocss/shared-docs": "workspace:*",

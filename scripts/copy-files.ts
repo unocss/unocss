@@ -1,5 +1,6 @@
 import { copyFileSync } from 'fs'
 import { resolve } from 'path'
+import { fileURLToPath } from 'url'
 
 // relative to scripts directory
 const destinations = [
@@ -7,6 +8,7 @@ const destinations = [
   ['../README.md', '../packages/unocss/README.md'],
 ]
 
+const __filename = fileURLToPath(import.meta.url)
 destinations.forEach(([src, dest]) => {
-  copyFileSync(resolve(__dirname, src), resolve(__dirname, dest))
+  copyFileSync(resolve(__filename, '..', src), resolve(__filename, '..', dest))
 })
