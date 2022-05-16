@@ -104,6 +104,42 @@ export default {
 
 Learn more at [@unocss/nuxt](https://github.com/unocss/unocss/tree/main/packages/nuxt)
 
+
+### Strapi Admin
+
+```bash
+yarn add -D @unocss/webpack
+```
+
+```js
+// admin/webpack.config.js
+const UnoCSS = require('@unocss/webpack').default
+
+module.exports = (config, webpack) => {
+  config.plugins.unshift(
+    UnoCSS({ 
+      include: [/admin\/src/],
+      /* other options */
+    })
+  )
+
+  return config;
+};
+```
+
+Add `uno.css` to your app config:
+
+```js
+// admin/app.js
+import 'uno.css' // load virtual uno.css file here
+
+export default {
+  // strapi admin config
+}
+```
+
+That's it, you can now use unocss in your react components.
+
 ## Configurations
 
 UnoCSS is an atomic-CSS engine instead of a framework. Everything is designed with flexibility and performance in mind. There are no core utilities in UnoCSS, all functionalities are provided via presets.
