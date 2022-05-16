@@ -12,6 +12,7 @@ importers:
       '@antfu/ni': ^0.16.2
       '@iconify-json/carbon': ^1.1.4
       '@iconify-json/iconoir': ^1.1.5
+      '@iconify-json/la': ^1.1.1
       '@iconify-json/logos': ^1.1.5
       '@iconify-json/mdi': ^1.1.12
       '@iconify-json/ph': ^1.1.1
@@ -91,6 +92,7 @@ importers:
       '@antfu/ni': 0.16.2
       '@iconify-json/carbon': 1.1.4
       '@iconify-json/iconoir': 1.1.5
+      '@iconify-json/la': 1.1.1
       '@iconify-json/logos': 1.1.5
       '@iconify-json/mdi': 1.1.12
       '@iconify-json/ph': 1.1.1
@@ -1035,6 +1037,12 @@ packages:
 
   /@iconify-json/iconoir/1.1.5:
     resolution: {integrity: sha512-QeSxKXbsEOE5cemoEsDxhWJMuvgUB+6+IwlsurChhfnuui4QCMTb2iIV6ZY7XMQFTJKCvkPcLYj/1QY109PG+w==}
+    dependencies:
+      '@iconify/types': 1.1.0
+    dev: true
+
+  /@iconify-json/la/1.1.1:
+    resolution: {integrity: sha512-SoE9MaJc6hK+BnwqRNgf8UvYjrLyJvCotp9vi+yEP0Cbuy3U20/Z6ETlaVrEHaQVN9CXfEmnA70feXL8306h5w==}
     dependencies:
       '@iconify/types': 1.1.0
     dev: true

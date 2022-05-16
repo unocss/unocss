@@ -5,9 +5,17 @@ const STORAGE_KEY = 'last-search'
 
 const params = new URLSearchParams(window.location.search || localStorage.getItem(STORAGE_KEY) || '')
 
+interface Options {
+  strict?: boolean
+  transform?: boolean
+  responsive?: boolean
+  width?: number
+  height?: number
+}
+
 export const customConfigRaw = ref(decode(params.get('config') || '') || defaultConfigRaw)
 export const inputHTML = ref(decode(params.get('html') || '') || defaultHTML)
-export const options = ref<{ strict?: boolean; transform?: boolean }>(JSON.parse(decode(params.get('options') || '') || defaultOptions))
+export const options = ref<Options>(JSON.parse(decode(params.get('options') || '') || defaultOptions))
 
 throttledWatch(
   [customConfigRaw, inputHTML, options],
