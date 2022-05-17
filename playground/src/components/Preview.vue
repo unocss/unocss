@@ -78,7 +78,7 @@ watch(isResponsive, (responsive) => {
 <template>
   <div
     ref="canvasRef"
-    class="h-screen overflow-hidden flex justify-center w-full bg-light-900 dark:bg-dark-900 relative"
+    class="h-full overflow-hidden flex justify-center w-full bg-light-900 dark:bg-dark-900 relative"
     :class="{ 'p-4': options.responsive, 'pointer-events-none': isResizing }"
   >
     <div v-if="options.responsive" class="absolute flex items-start" :style="`width:${frameWidth}px;height:${frameHeight}px`">
