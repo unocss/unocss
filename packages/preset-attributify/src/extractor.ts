@@ -19,6 +19,8 @@ export const extractorAttributify = (options?: AttributifyOptions): Extractor =>
   return {
     name: 'attributify',
     extract({ code }) {
+      if (!code.includes('>'))
+        return
       const result = Array.from(code.matchAll(elementRE))
         .flatMap(match => Array.from((match[1] || '').matchAll(valuedAttributeRE)))
         .flatMap(([, name, _, content]) => {

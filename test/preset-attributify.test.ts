@@ -192,4 +192,11 @@ describe('attributify', () => {
     `)
     expect(css).toMatchSnapshot()
   })
+
+  test('with incomplete element', async () => {
+    const start = Date.now()
+    await uno.generate('<div class="w-fullllllllllllll"')
+    const end = Date.now()
+    expect(end - start).toBeLessThan(100)
+  })
 })
