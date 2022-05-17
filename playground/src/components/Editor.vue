@@ -90,9 +90,9 @@ onMounted(() => {
 
 <template>
   <Splitpanes ref="panel" :class="{ loading }" horizontal @resize="handleResize">
-    <Pane :min-size="titleHeightPercent * 2" :size="panelSizes[0]" flex flex-col>
+    <Pane :min-size="titleHeightPercent * 2" :size="panelSizes[0]" flex flex-col min-h-68px>
       <div class="flex flex-wrap bg-$cm-background">
-        <div class="flex items-center w-full px-2 op-60" border="l t gray-400/20" :style="`min-height:${TITLE_HEIGHT * 2};height:${TITLE_HEIGHT}px`">
+        <div class="flex items-center w-full px-2 op-60" border="l t gray-400/20" :style="`height:${TITLE_HEIGHT}px`">
           <img src="/icon.svg" w-4 h-4 mr-2 alt="">
           <div hidden md:block>
             unocss
@@ -159,7 +159,7 @@ onMounted(() => {
         @update:model-value="inputHTML = $event"
       />
     </Pane>
-    <Pane :min-size="titleHeightPercent" :size="panelSizes[1]" flex flex-col :style="`min-height:${TITLE_HEIGHT * 2}`">
+    <Pane :min-size="titleHeightPercent" :size="panelSizes[1]" flex flex-col min-h-34px>
       <TitleBar title="Output CSS">
         <template #before>
           <div
@@ -182,7 +182,7 @@ onMounted(() => {
         :read-only="true"
       />
     </Pane>
-    <Pane :min-size="titleHeightPercent" :size="panelSizes[2]" flex flex-col relative :style="`min-height:${TITLE_HEIGHT * 2}`">
+    <Pane :min-size="titleHeightPercent" :size="panelSizes[2]" flex flex-col min-h-34px relative>
       <TitleBar title="Config">
         <template #before>
           <div
