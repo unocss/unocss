@@ -9,17 +9,16 @@ import { defaultConfigRaw, defaultHTML } from '../defaults'
 import { options } from '../logics/url'
 import { version } from '../../../package.json'
 
+const panel = ref()
 const loading = ref(true)
 const TITLE_HEIGHT = 34
-const { height: vh } = useWindowSize()
+const { height: vh } = useElementSize(panel)
 const titleHeightPercent = computed(() => TITLE_HEIGHT / vh.value * 100)
 
 if (!inputHTML.value)
   inputHTML.value = defaultHTML
 if (!customConfigRaw.value)
   customConfigRaw.value = defaultConfigRaw
-
-const panel = ref()
 
 const panelSizes = useStorage<number[]>('unocss-panel-sizes', [
   100 - titleHeightPercent.value * 2,
@@ -90,53 +89,65 @@ onMounted(() => {
 </script>
 
 <template>
-  <Splitpanes ref="panel" :class="{ loading }" horizontal h-screen @resize="handleResize">
-    <Pane :min-size="titleHeightPercent" :size="panelSizes[0]" flex flex-col>
-      <TitleBar title="HTML">
-        <template #before>
-          <div
-            class="i-carbon-chevron-right mr-1 transition-transform transform"
-            :class="isCollapsed(0) ? '' : 'rotate-90'"
-            @click="togglePanel(0)"
-          />
-        </template>
-        <label>
-          <input v-model="options.strict" type="checkbox">
-          Strict
-        </label>
-        <label>
-          <input v-model="options.transform" type="checkbox">
-          Transform
-        </label>
-        <label>
-          <input v-model="options.responsive" type="checkbox">
-          Responsive
-        </label>
-        <div flex-auto />
-        <div text-sm op50>
-          v{{ version }}
+  <Splitpanes ref="panel" :class="{ loading }" horizontal @resize="handleResize">
+    <Pane :min-size="titleHeightPercent * 2" :size="panelSizes[0]" flex flex-col min-h-68px>
+      <div class="flex flex-wrap bg-$cm-background">
+        <div class="flex items-center w-full px-2 op-60" border="l t gray-400/20" :style="`height:${TITLE_HEIGHT}px`">
+          <img src="/icon.svg" w-4 h-4 mr-2 alt="">
+          <div hidden md:block>
+            unocss
+          </div>
+          <div class="pl-1 ml-auto space-x-2 text-sm md:text-base flex flex-nowrap">
+            <label inline-flex items-center>
+              <input v-model="options.strict" type="checkbox" class="mr-1">
+              Strict
+            </label>
+            <label inline-flex items-center>
+              <input v-model="options.transform" type="checkbox" class="mr-1">
+              Transform
+            </label>
+            <label inline-flex items-center>
+              <input v-model="options.responsive" type="checkbox" class="mr-1">
+              Responsive
+            </label>
+          </div>
         </div>
-        <a
-          i-carbon-document-attachment
-          class="icon-btn"
-          href="https://uno.antfu.me"
-          target="_blank"
-          title="Interactive Docs"
-        />
-        <a
-          i-carbon-logo-github
-          class="icon-btn"
-          href="https://github.com/unocss/unocss"
-          target="_blank"
-          title="GitHub"
-        />
-        <button
-          i-carbon-sun
-          dark-i-carbon-moon
-          class="icon-btn"
-          @click="isDark = !isDark"
-        />
-      </TitleBar>
+        <TitleBar title="HTML" w-full>
+          <template #before>
+            <div
+              class="flex-shrink-0 i-carbon-chevron-right mr-1 transition-transform transform"
+              :class="isCollapsed(0) ? '' : 'rotate-90'"
+              @click="togglePanel(0)"
+            />
+          </template>
+          <div class="flex flex-row w-full space-x-1">
+            <div flex-auto />
+            <div text-sm op50>
+              v{{ version }}
+            </div>
+            <a
+              i-carbon-document-attachment
+              class="icon-btn"
+              href="https://uno.antfu.me"
+              target="_blank"
+              title="Interactive Docs"
+            />
+            <a
+              i-carbon-logo-github
+              class="icon-btn"
+              href="https://github.com/unocss/unocss"
+              target="_blank"
+              title="GitHub"
+            />
+            <button
+              i-carbon-sun
+              dark-i-carbon-moon
+              class="icon-btn"
+              @click="isDark = !isDark"
+            />
+          </div>
+        </TitleBar>
+      </div>
       <CodeMirror
         flex-auto
         mode="htmlmixed"
@@ -148,11 +159,11 @@ onMounted(() => {
         @update:model-value="inputHTML = $event"
       />
     </Pane>
-    <Pane :min-size="titleHeightPercent" :size="panelSizes[1]" flex flex-col>
+    <Pane :min-size="titleHeightPercent" :size="panelSizes[1]" flex flex-col min-h-34px>
       <TitleBar title="Output CSS">
         <template #before>
           <div
-            class="i-carbon-chevron-right mr-1 transition-transform transform"
+            class="flex-shrink-0 i-carbon-chevron-right mr-1 transition-transform transform"
             :class="isCollapsed(1) ? '' : 'rotate-90'"
             @click="togglePanel(1)"
           />
@@ -171,11 +182,11 @@ onMounted(() => {
         :read-only="true"
       />
     </Pane>
-    <Pane :min-size="titleHeightPercent" :size="panelSizes[2]" flex flex-col relative>
+    <Pane :min-size="titleHeightPercent" :size="panelSizes[2]" flex flex-col min-h-34px relative>
       <TitleBar title="Config">
         <template #before>
           <div
-            class="i-carbon-chevron-right mr-1 transition-transform transform"
+            class="flex-shrink-0 i-carbon-chevron-right mr-1 transition-transform transform"
             :class="isCollapsed(2) ? '' : 'rotate-90'"
             @click="togglePanel(2)"
           />

@@ -76,6 +76,9 @@
   margin-right: unset !important;
   padding-bottom: unset !important;
 }
+.CodeMirror-scrollbar-filler {
+  background: transparent !important;
+}
 .scrolls .CodeMirror .CodeMirror-scroll {
   width: 100%;
   height: 100%;
