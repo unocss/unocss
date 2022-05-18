@@ -12,7 +12,6 @@ declare module '@vue/runtime-core' {
     ModuleInfo: typeof import('./../../packages/inspector/client/components/ModuleInfo.vue')['default']
     ModuleTreeNode: typeof import('./../../packages/inspector/client/components/ModuleTreeNode.vue')['default']
     NarBar: typeof import('./../../packages/inspector/client/components/NarBar.vue')['default']
-    Options: typeof import('./components/Options.vue')['default']
     Overview: typeof import('./../../packages/inspector/client/components/Overview.vue')['default']
     Playground: typeof import('./components/Playground.vue')['default']
     Preview: typeof import('./components/Preview.vue')['default']
