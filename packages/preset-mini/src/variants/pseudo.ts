@@ -4,8 +4,8 @@ import type { PresetMiniOptions } from '..'
 
 const PseudoClasses: Record<string, string> = Object.fromEntries([
   // pseudo elements part 1
-  ['first-letter', '::first'],
-  ['first-line', '::first'],
+  ['first-letter', '::first-letter'],
+  ['first-line', '::first-line'],
 
   // location
   'any-link',

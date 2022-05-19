@@ -107,8 +107,8 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .bg-teal-400\\\\/\\\\[\\\\.55\\\\]{background-color:rgba(45,212,191,.55);}
 .bg-teal-500\\\\/\\\\[55\\\\%\\\\]{background-color:rgba(20,184,166,55%);}
 .file\\\\:bg-violet-50::file-selector-button{--un-bg-opacity:1;background-color:rgba(245,243,255,var(--un-bg-opacity));}
-.first-letter\\\\:bg-green-400::first,
-.first-line\\\\:bg-green-400::first{--un-bg-opacity:1;background-color:rgba(74,222,128,var(--un-bg-opacity));}
+.first-letter\\\\:bg-green-400::first-letter,
+.first-line\\\\:bg-green-400::first-line{--un-bg-opacity:1;background-color:rgba(74,222,128,var(--un-bg-opacity));}
 .focus-within\\\\:has-first\\\\:checked\\\\:bg-gray\\\\/20:focus-within:has(:first-child):checked,
 .focus-within\\\\:where-first\\\\:checked\\\\:bg-gray\\\\/20:focus-within:where(:first-child):checked{background-color:rgba(156,163,175,0.2);}
 .hover\\\\:file\\\\:bg-violet-100:hover::file-selector-button{--un-bg-opacity:1;background-color:rgba(237,233,254,var(--un-bg-opacity));}
