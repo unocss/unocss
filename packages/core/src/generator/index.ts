@@ -548,9 +548,8 @@ function applyScope(css: string, scope?: string) {
 export function movePseudoElementsEnd(selector: string) {
   const pseudoElements = selector.match(/::[\w-]+/g)
   if (pseudoElements) {
-    const pseudoElementsString = pseudoElements.join('')
     pseudoElements.forEach(e => (selector = selector.replace(e, '')))
-    selector += pseudoElementsString
+    selector += pseudoElements.join('')
   }
   return selector
 }
