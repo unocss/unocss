@@ -1,6 +1,7 @@
 import { createGenerator } from '@unocss/core'
 import { describe, expect, test } from 'vitest'
 import { variantMatcher } from '@unocss/preset-mini/utils'
+import presetMini from '@unocss/preset-mini'
 
 describe('order', () => {
   test('static', async () => {
@@ -57,6 +58,21 @@ describe('order', () => {
     const { css: css2 } = await uno.generate(code)
     expect(css).toMatchSnapshot()
     expect(css).toEqual(css2)
+  })
+
+  test('multiple variant sorting', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'dark:group-hover:group-focus-within:bg-blue-600',
+      'group-hover:group-focus-within:dark:bg-red-600',
+    ].join(' '))
+
+    expect(css).toMatchSnapshot()
   })
 
   test('variant sorting', async () => {

@@ -298,7 +298,7 @@ export class UnoGenerator {
         processed = handler.matcher
         if (Array.isArray(handler.parent))
           this.parentOrders.set(handler.parent[0], handler.parent[1])
-        handlers.push(handler)
+        handlers.unshift(handler)
         variants.add(v)
         applied = true
         break
@@ -317,7 +317,7 @@ export class UnoGenerator {
     const handlers = [...variantHandlers].sort((a, b) => (a.order || 0) - (b.order || 0))
     const entries = handlers.reduce((p, v) => v.body?.(p) || p, parsed[2])
     const obj: UtilObject = {
-      selector: handlers.reduce((p, v) => v.selector?.(p, entries) || p, toEscapedSelector(raw)),
+      selector: handlers.reduce((p, v) => v.selector?.(p, entries) || p, toEscapedSelector(raw)).replace(/(.*)(::.+?)(:.*)/, '$1$3$2'),
       entries,
       parent: handlers.reduce((p: string | undefined, v) => Array.isArray(v.parent) ? v.parent[0] : v.parent || p, undefined),
       layer: handlers.reduce((p: string | undefined, v) => v.layer || p, undefined),
