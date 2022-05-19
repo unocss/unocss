@@ -1,5 +1,7 @@
 // Vitest Snapshot v1
 
+exports[`order > movePseudoElementsEnd 1`] = `".marker\\\\:file\\\\:hover\\\\:selection\\\\:mb-4:hover::marker::file-selector-button::selection"`;
+
 exports[`order > multiple variant sorting 1`] = `
 "/* layer: default */
 .dark .group:hover:focus-within .dark\\\\:group-hover\\\\:group-focus-within\\\\:bg-blue-600{--un-bg-opacity:1;background-color:rgba(37,99,235,var(--un-bg-opacity));}

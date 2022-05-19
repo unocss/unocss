@@ -1,4 +1,4 @@
-import { createGenerator } from '@unocss/core'
+import { createGenerator, movePseudoElementsEnd } from '@unocss/core'
 import { describe, expect, test } from 'vitest'
 import { variantMatcher } from '@unocss/preset-mini/utils'
 import presetMini from '@unocss/preset-mini'
@@ -73,6 +73,11 @@ describe('order', () => {
     ].join(' '))
 
     expect(css).toMatchSnapshot()
+  })
+
+  test('movePseudoElementsEnd', () => {
+    expect(movePseudoElementsEnd('.marker\\:file\\:hover\\:selection\\:mb-4::marker::file-selector-button:hover::selection'))
+      .toMatchSnapshot()
   })
 
   test('variant sorting', async () => {
