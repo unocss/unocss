@@ -16,7 +16,7 @@ const testConfigs = [
   {
     name: 'prose-class-custom',
     input: 'custom text-base custom-teal dark:custom-invert',
-    typographyOptions: { className: 'custom' },
+    typographyOptions: { selectorName: 'custom' },
   },
 
   // prose attribute test
@@ -30,7 +30,7 @@ const testConfigs = [
   {
     name: 'prose-attribute-custom',
     input: '<main custom text-base custom-teal dark="custom-invert"></main>',
-    typographyOptions: { className: 'custom' },
+    typographyOptions: { selectorName: 'custom' },
   },
 
   // custom css test

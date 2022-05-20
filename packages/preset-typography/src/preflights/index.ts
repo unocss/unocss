@@ -2,8 +2,8 @@ import { mergeDeep } from '@unocss/core'
 import { DEFAULT } from './default'
 
 function getCSS(
-  selectorProse: string,
-  className: string,
+  escapedSelector: string,
+  selectorName: string,
   preflights: object,
 ): string {
   let css = ''
@@ -24,7 +24,7 @@ function getCSS(
         if (match) {
           const matchStr = match[0]
           s = s.replace(matchStr, '')
-          return `${selectorProse} :where(${s}):not(.not-${className})${matchStr}`
+          return `${escapedSelector} :where(${s}):not(.not-${selectorName})${matchStr}`
         }
         return null
       })
@@ -37,7 +37,7 @@ function getCSS(
     }
     else {
       // directly from css declaration
-      css += `${selectorProse} :where(${selector}):not(.not-${className})`
+      css += `${escapedSelector} :where(${selector}):not(.not-${selectorName})`
     }
 
     css += '{'
@@ -53,16 +53,16 @@ function getCSS(
 }
 
 export function getPreflights(
-  selectorProse: string,
-  className: string,
+  escapedSelector: string,
+  selectorName: string,
   cssExtend?: object | undefined,
 ): string {
   // attribute mode -> add class selector with `:is()` pseudo-class function
-  if (!selectorProse.startsWith('.'))
-    selectorProse = `:is(${selectorProse},.${className})`
+  if (!escapedSelector.startsWith('.'))
+    escapedSelector = `:is(${escapedSelector},.${selectorName})`
 
   if (cssExtend)
-    return getCSS(selectorProse, className, mergeDeep(DEFAULT, cssExtend))
+    return getCSS(escapedSelector, selectorName, mergeDeep(DEFAULT, cssExtend))
 
-  return getCSS(selectorProse, className, DEFAULT)
+  return getCSS(escapedSelector, selectorName, DEFAULT)
 }

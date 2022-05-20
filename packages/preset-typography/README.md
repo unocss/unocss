@@ -134,8 +134,8 @@ export default defineConfig({
 
 ## Configurations
 
-This preset has `className` and `cssExtend` configurations for users who like to
-override or extend.
+This preset has `selectorName` and `cssExtend` configurations for users who like
+to override or extend.
 
 The CSS declarations passed to `cssExtend` will
 
@@ -150,13 +150,13 @@ export interface TypographyOptions {
   /**
    * The class name to use the typographic utilities.
    * To undo the styles to the elements, use it like
-   * `not-${className}` which is by default `not-prose`.
+   * `not-${selectorName}` which is by default `not-prose`.
    *
    * Note: `not` utility is only available in class.
    *
    * @defaultValue `prose`
    */
-  className?: string
+  selectorName?: string
 
   /**
    * Extend or override CSS selectors with CSS declaration block.
@@ -179,7 +179,7 @@ export default defineConfig({
     presetAttributify(), // required if using attributify mode
     presetUno(), // required
     presetTypography({
-      className: 'markdown', // now use like `markdown markdown-gray`, `not-markdown`
+      selectorName: 'markdown', // now use like `markdown markdown-gray`, `not-markdown`
       // cssExtend is an object with CSS selector as key and
       // CSS declaration block as value like writing normal CSS.
       cssExtend: {
