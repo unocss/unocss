@@ -1,11 +1,19 @@
 // Vitest Snapshot v1
 
+exports[`order > movePseudoElementsEnd 1`] = `".marker\\\\:file\\\\:hover\\\\:selection\\\\:mb-4:hover::marker::file-selector-button::selection"`;
+
+exports[`order > multiple variant sorting 1`] = `
+"/* layer: default */
+.dark .group:hover:focus-within .dark\\\\:group-hover\\\\:group-focus-within\\\\:bg-blue-600{--un-bg-opacity:1;background-color:rgba(37,99,235,var(--un-bg-opacity));}
+.group:hover:focus-within .dark .group-hover\\\\:group-focus-within\\\\:dark\\\\:bg-red-600{--un-bg-opacity:1;background-color:rgba(220,38,38,var(--un-bg-opacity));}"
+`;
+
 exports[`order > variant ordering 1`] = `
 "/* layer: default */
 .dark .group .dark\\\\:group\\\\:foo-3{name:foo-3;}
 .dark .group .group\\\\:dark\\\\:foo-4{name:foo-4;}
-.group .light .light\\\\:group\\\\:foo-1{name:foo-1;}
-.light .group .group\\\\:light\\\\:foo-2{name:foo-2;}"
+.group .light .group\\\\:light\\\\:foo-2{name:foo-2;}
+.light .group .light\\\\:group\\\\:foo-1{name:foo-1;}"
 `;
 
 exports[`order > variant sorting 1`] = `

@@ -298,7 +298,7 @@ export class UnoGenerator {
         processed = handler.matcher
         if (Array.isArray(handler.parent))
           this.parentOrders.set(handler.parent[0], handler.parent[1])
-        handlers.push(handler)
+        handlers.unshift(handler)
         variants.add(v)
         applied = true
         break
@@ -316,8 +316,9 @@ export class UnoGenerator {
   applyVariants(parsed: ParsedUtil, variantHandlers = parsed[4], raw = parsed[1]): UtilObject {
     const handlers = [...variantHandlers].sort((a, b) => (a.order || 0) - (b.order || 0))
     const entries = handlers.reduce((p, v) => v.body?.(p) || p, parsed[2])
+    const selector = handlers.reduce((p, v) => v.selector?.(p, entries) || p, toEscapedSelector(raw))
     const obj: UtilObject = {
-      selector: handlers.reduce((p, v) => v.selector?.(p, entries) || p, toEscapedSelector(raw)),
+      selector: movePseudoElementsEnd(selector),
       entries,
       parent: handlers.reduce((p: string | undefined, v) => Array.isArray(v.parent) ? v.parent[0] : v.parent || p, undefined),
       layer: handlers.reduce((p: string | undefined, v) => v.layer || p, undefined),
@@ -542,6 +543,15 @@ function applyScope(css: string, scope?: string) {
     return css.replace(regexScopePlaceholder, scope ? ` ${scope} ` : ' ')
   else
     return scope ? `${scope} ${css}` : css
+}
+
+export function movePseudoElementsEnd(selector: string) {
+  const pseudoElements = selector.match(/::[\w-]+/g)
+  if (pseudoElements) {
+    pseudoElements.forEach(e => (selector = selector.replace(e, '')))
+    selector += pseudoElements.join('')
+  }
+  return selector
 }
 
 const attributifyRe = /^\[(.+?)(~?=)"(.*)"\]$/
