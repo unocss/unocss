@@ -298,7 +298,7 @@ export class UnoGenerator {
         processed = handler.matcher
         if (Array.isArray(handler.parent))
           this.parentOrders.set(handler.parent[0], handler.parent[1])
-        handlers.unshift(handler)
+        handlers.push(handler)
         variants.add(v)
         applied = true
         break
