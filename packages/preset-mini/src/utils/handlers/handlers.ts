@@ -97,7 +97,7 @@ function bracketWithType(str: string, type?: string) {
   if (str && str.startsWith('[') && str.endsWith(']')) {
     let base: string | undefined
 
-    const match = str.match(new RegExp(`^\\[\(${type}\):`, 'i'))
+    const match = str.match(/^\[(color|length|position):/i)
     if (!match)
       base = str.slice(1, -1)
     else if (type && match[1] === type)
