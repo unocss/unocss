@@ -105,6 +105,8 @@ export function presetTypography(options?: TypographyOptions): Preset {
             '--un-prose-invert-code': colorObject[100] ?? baseColor,
             '--un-prose-invert-borders': colorObject[700] ?? baseColor,
             '--un-prose-invert-bg-soft': colorObject[800] ?? baseColor,
+
+            '--un-prose-font-mono': theme.fontFamily?.mono,
           }
         },
         { layer: 'typography' },
