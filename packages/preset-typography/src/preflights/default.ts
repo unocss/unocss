@@ -54,8 +54,7 @@ export const DEFAULT = {
     'color': 'var(--un-prose-code)',
     'font-size': '.875em',
     'font-weight': 600,
-    'font-family':
-      'ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation-Mono,Courier-New,monospace',
+    'font-family': 'var(--un-prose-font-mono)',
   },
   ':not(pre) > code::before,:not(pre) > code::after': {
     content: '"`"',
