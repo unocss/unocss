@@ -97,7 +97,7 @@ function bracketWithType(str: string, type?: string) {
   if (str && str.startsWith('[') && str.endsWith(']')) {
     let base: string | undefined
 
-    const match = str.match(/^\[(color|length):/i)
+    const match = str.match(/^\[(color|length|position):/i)
     if (!match)
       base = str.slice(1, -1)
     else if (type && match[1] === type)
@@ -124,6 +124,10 @@ export function bracketOfColor(str: string) {
 
 export function bracketOfLength(str: string) {
   return bracketWithType(str, 'length')
+}
+
+export function bracketOfPosition(str: string) {
+  return bracketWithType(str, 'position')
 }
 
 export function cssvar(str: string) {
