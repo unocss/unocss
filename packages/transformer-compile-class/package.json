@@ -1,6 +1,6 @@
 {
   "name": "@unocss/transformer-compile-class",
-  "version": "0.34.0",
+  "version": "0.34.1",
   "description": "Compile group of classes into one class",
   "keywords": [
     "unocss",
