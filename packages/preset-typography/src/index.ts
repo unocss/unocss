@@ -8,15 +8,15 @@ import { getPreflights } from './preflights'
  */
 export interface TypographyOptions {
   /**
-   * The class name to use the typographic utilities.
+   * The selector name to use the typographic utilities.
    * To undo the styles to the elements, use it like
-   * `not-${className}` which is by default `not-prose`.
+   * `not-${selectorName}` which is by default `not-prose`.
    *
-   * Note: `not` utility is only available in class.
+   * Note: `not` utility is only available in class mode.
    *
    * @defaultValue `prose`
    */
-  className?: string
+  selectorName?: string
 
   /**
    * Extend or override CSS selectors with CSS declaration block.
@@ -24,6 +24,10 @@ export interface TypographyOptions {
    * @defaultValue undefined
    */
   cssExtend?: Record<string, CSSObject>
+  /**
+   * @deprecated use `selectorName` instead. It will be removed in 1.0.
+   */
+  className?: string
 }
 
 /**
@@ -46,12 +50,16 @@ export interface TypographyOptions {
  * @public
  */
 export function presetTypography(options?: TypographyOptions): Preset {
+  if (options?.className) {
+    console.warn('[unocss:preset-typography] "className" is deprecated. '
+    + 'Use "selectorName" instead.')
+  }
   let hasProseClass = false
-  let selectorProse = ''
-  const className = options?.className || 'prose'
-  const classNameRE = new RegExp(`^${className}$`)
-  const colorsRE = new RegExp(`^${className}-([-\\w]+)$`)
-  const invertRE = new RegExp(`^${className}-invert$`)
+  let escapedSelector = ''
+  const selectorName = options?.selectorName || options?.className || 'prose'
+  const selectorNameRE = new RegExp(`^${selectorName}$`)
+  const colorsRE = new RegExp(`^${selectorName}-([-\\w]+)$`)
+  const invertRE = new RegExp(`^${selectorName}-invert$`)
   const cssExtend = options?.cssExtend
 
   return {
@@ -60,10 +68,10 @@ export function presetTypography(options?: TypographyOptions): Preset {
     layers: { typography: -1 },
     rules: [
       [
-        classNameRE,
+        selectorNameRE,
         (_, { rawSelector }) => {
           hasProseClass = true
-          selectorProse = toEscapedSelector(rawSelector)
+          escapedSelector = toEscapedSelector(rawSelector)
           return { 'color': 'var(--un-prose-body)', 'max-width': '65ch' }
         },
         { layer: 'typography' },
@@ -124,7 +132,7 @@ export function presetTypography(options?: TypographyOptions): Preset {
         layer: 'typography',
         getCSS: () =>
           hasProseClass
-            ? getPreflights(selectorProse, className, cssExtend)
+            ? getPreflights(escapedSelector, selectorName, cssExtend)
             : undefined,
       },
     ],
