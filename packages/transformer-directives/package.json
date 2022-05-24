@@ -2,34 +2,34 @@
   "name": "@unocss/transformer-directives",
   "version": "0.34.1",
   "description": "UnoCSS transformer for `@apply` directive",
-  "keywords": [
-    "unocss",
-    "unocss-transformer"
-  ],
-  "homepage": "https://github.com/antfu/unocss/tree/main/packages/transformer-directives#readme",
-  "bugs": {
-    "url": "https://github.com/antfu/unocss/issues"
-  },
-  "license": "MIT",
   "author": "hannoeru <me@hanlee.co>",
+  "license": "MIT",
+  "homepage": "https://github.com/antfu/unocss/tree/main/packages/transformer-directives#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/antfu/unocss.git",
     "directory": "packages/transformer-directives"
   },
+  "bugs": {
+    "url": "https://github.com/antfu/unocss/issues"
+  },
+  "keywords": [
+    "unocss",
+    "unocss-transformer"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.mjs"
-    }
-  },
   "files": [
     "dist"
   ],
-  "sideEffects": false,
   "scripts": {
     "build": "unbuild",
     "stub": "unbuild --stub"

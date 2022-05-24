@@ -12,15 +12,15 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@quasar/extras": "^1.13.6",
+    "@quasar/extras": "^1.14.0",
     "quasar": "^2.6.0",
-    "vue": "^3.2.33",
+    "vue": "^3.2.36",
     "vue-router": "^4.0.15"
   },
   "devDependencies": {
-    "@quasar/app-vite": "^1.0.0-beta.14",
+    "@quasar/app-vite": "^1.0.1",
     "autoprefixer": "^10.4.7",
-    "typescript": "^4.6.4",
+    "typescript": "^4.7.2",
     "unocss": "link:../../packages/unocss"
   }
 }

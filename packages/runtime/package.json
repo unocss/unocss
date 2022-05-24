@@ -2,33 +2,33 @@
   "name": "@unocss/runtime",
   "version": "0.34.1",
   "description": "CSS-in-JS Runtime for UnoCSS",
-  "keywords": [
-    "unocss",
-    "css-in-js"
-  ],
-  "homepage": "https://github.com/unocss/unocss/tree/main/packages/runtime#readme",
-  "bugs": {
-    "url": "https://github.com/unocss/unocss/issues"
-  },
-  "license": "MIT",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/antfu",
+  "homepage": "https://github.com/unocss/unocss/tree/main/packages/runtime#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/unocss/unocss.git",
     "directory": "packages/runtime"
   },
-  "funding": "https://github.com/sponsors/antfu",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "unpkg": "./uno.global.js",
-  "jsdelivr": "./uno.global.js",
+  "bugs": {
+    "url": "https://github.com/unocss/unocss/issues"
+  },
+  "keywords": [
+    "unocss",
+    "css-in-js"
+  ],
   "exports": {
     ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
     }
   },
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "unpkg": "./uno.global.js",
+  "jsdelivr": "./uno.global.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "*.global.js",
     "dist"

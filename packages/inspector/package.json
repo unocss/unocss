@@ -2,36 +2,36 @@
   "name": "@unocss/inspector",
   "version": "0.34.1",
   "description": "The inspector UI for UnoCSS",
-  "keywords": [
-    "unocss",
-    "inspector",
-    "debugger"
-  ],
-  "homepage": "https://github.com/unocss/unocss/tree/main/packages/inspector#readme",
-  "bugs": {
-    "url": "https://github.com/unocss/unocss/issues"
-  },
-  "license": "MIT",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/antfu",
+  "homepage": "https://github.com/unocss/unocss/tree/main/packages/inspector#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/unocss/unocss.git",
     "directory": "packages/inspector"
   },
-  "funding": "https://github.com/sponsors/antfu",
+  "bugs": {
+    "url": "https://github.com/unocss/unocss/issues"
+  },
+  "keywords": [
+    "unocss",
+    "inspector",
+    "debugger"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.mjs"
-    }
-  },
   "files": [
     "dist"
   ],
-  "sideEffects": false,
   "scripts": {
     "build": "unbuild",
     "build-post": "vite build",

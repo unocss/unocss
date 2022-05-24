@@ -2,6 +2,18 @@
   "name": "@unocss/preset-icons",
   "version": "0.34.1",
   "description": "Pure CSS Icons for UnoCSS",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/antfu",
+  "homepage": "https://github.com/unocss/unocss/tree/main/packages/preset-icons#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unocss/unocss.git",
+    "directory": "packages/preset-icons"
+  },
+  "bugs": {
+    "url": "https://github.com/unocss/unocss/issues"
+  },
   "keywords": [
     "unocss",
     "unocss-preset",
@@ -9,33 +21,21 @@
     "css-icons",
     "iconify"
   ],
-  "homepage": "https://github.com/unocss/unocss/tree/main/packages/preset-icons#readme",
-  "bugs": {
-    "url": "https://github.com/unocss/unocss/issues"
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
   },
-  "license": "MIT",
-  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/unocss/unocss.git",
-    "directory": "packages/preset-icons"
-  },
-  "funding": "https://github.com/sponsors/antfu",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "exports": {
-    ".": {
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
-    }
-  },
   "files": [
     "dist",
     "*.css"
   ],
-  "sideEffects": false,
   "scripts": {
     "build": "unbuild",
     "stub": "unbuild --stub"
@@ -43,7 +43,7 @@
   "dependencies": {
     "@iconify/utils": "^1.0.32",
     "@unocss/core": "workspace:*",
-    "ohmyfetch": "^0.4.17"
+    "ohmyfetch": "^0.4.18"
   },
   "devDependencies": {
     "@iconify/types": "^1.1.0"

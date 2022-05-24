@@ -2,45 +2,45 @@
   "name": "@unocss/cli",
   "version": "0.34.1",
   "description": "CLI for UnoCSS",
-  "keywords": [],
-  "homepage": "https://github.com/unocss/unocss/tree/main/packages/cli#readme",
-  "bugs": {
-    "url": "https://github.com/unocss/unocss/issues"
-  },
-  "license": "MIT",
   "author": {
     "name": "Johann Schopplich",
     "email": "pkg@johannschopplich.com",
     "url": "https://johannschopplich.com"
   },
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/antfu",
+  "homepage": "https://github.com/unocss/unocss/tree/main/packages/cli#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/unocss/unocss.git",
     "directory": "packages/cli"
   },
-  "funding": "https://github.com/sponsors/antfu",
+  "bugs": {
+    "url": "https://github.com/unocss/unocss/issues"
+  },
+  "keywords": [],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs"
+    }
+  },
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
-    }
+  "bin": {
+    "unocss": "./bin/unocss.mjs"
   },
   "files": [
     "bin",
     "dist"
   ],
-  "bin": {
-    "unocss": "./bin/unocss.mjs"
+  "engines": {
+    "node": ">=14"
   },
   "scripts": {
     "build": "unbuild",
     "stub": "unbuild --stub"
-  },
-  "engines": {
-    "node": ">=14"
   },
   "dependencies": {
     "@unocss/config": "workspace:*",

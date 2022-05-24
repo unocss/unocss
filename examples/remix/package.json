@@ -4,6 +4,9 @@
   "description": "",
   "license": "",
   "sideEffects": false,
+  "engines": {
+    "node": ">=14"
+  },
   "scripts": {
     "dev": "concurrently \"unocss \"app/**/*.tsx\" --out-file=\"app/uno.css\" --watch\" \"remix dev\"",
     "build": "remix build",
@@ -12,26 +15,23 @@
     "start": "remix-serve build"
   },
   "dependencies": {
-    "@remix-run/react": "^1.4.3",
-    "@remix-run/serve": "^1.4.3",
+    "@remix-run/react": "^1.5.1",
+    "@remix-run/serve": "^1.5.1",
     "@unocss/reset": "link:../../packages/reset",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "remix": "^1.4.3"
+    "remix": "^1.5.1"
   },
   "devDependencies": {
-    "@remix-run/dev": "^1.4.3",
+    "@remix-run/dev": "^1.5.1",
     "@types/react": "^18.0.9",
-    "@types/react-dom": "^18.0.4",
+    "@types/react-dom": "^18.0.5",
     "@unocss/cli": "link:../../packages/cli",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-uno": "link:../../packages/preset-uno",
     "@unocss/preset-web-fonts": "link:../../packages/preset-web-fonts",
-    "concurrently": "^7.1.0",
-    "typescript": "^4.6.4",
+    "concurrently": "^7.2.1",
+    "typescript": "^4.7.2",
     "unocss": "link:../../packages/unocss"
-  },
-  "engines": {
-    "node": ">=14"
   }
 }

@@ -2,6 +2,17 @@
   "name": "unocss",
   "version": "0.34.1",
   "description": "The instant on-demand Atomic CSS engine.",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/antfu",
+  "homepage": "https://github.com/unocss/unocss#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unocss/unocss.git"
+  },
+  "bugs": {
+    "url": "https://github.com/unocss/unocss/issues"
+  },
   "keywords": [
     "unocss",
     "atomic-css",
@@ -10,72 +21,64 @@
     "tailwind",
     "windicss"
   ],
-  "homepage": "https://github.com/unocss/unocss#readme",
-  "bugs": {
-    "url": "https://github.com/unocss/unocss/issues"
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    },
+    "./preset-attributify": {
+      "types": "./dist/preset-attributify.d.ts",
+      "import": "./dist/preset-attributify.mjs",
+      "require": "./dist/preset-attributify.cjs"
+    },
+    "./preset-icons": {
+      "types": "./dist/preset-icons.d.ts",
+      "import": "./dist/preset-icons.mjs",
+      "require": "./dist/preset-icons.cjs"
+    },
+    "./preset-mini": {
+      "types": "./dist/preset-mini.d.ts",
+      "import": "./dist/preset-mini.mjs",
+      "require": "./dist/preset-mini.cjs"
+    },
+    "./preset-typography": {
+      "types": "./dist/preset-typography.d.ts",
+      "import": "./dist/preset-typography.mjs",
+      "require": "./dist/preset-typography.cjs"
+    },
+    "./preset-uno": {
+      "types": "./dist/preset-uno.d.ts",
+      "import": "./dist/preset-uno.mjs",
+      "require": "./dist/preset-uno.cjs"
+    },
+    "./preset-web-fonts": {
+      "types": "./dist/preset-web-fonts.d.ts",
+      "import": "./dist/preset-web-fonts.mjs",
+      "require": "./dist/preset-web-fonts.cjs"
+    },
+    "./preset-wind": {
+      "types": "./dist/preset-wind.d.ts",
+      "import": "./dist/preset-wind.mjs",
+      "require": "./dist/preset-wind.cjs"
+    },
+    "./vite": {
+      "types": "./dist/vite.d.ts",
+      "import": "./dist/vite.mjs",
+      "require": "./dist/vite.cjs"
+    }
   },
-  "license": "MIT",
-  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/unocss/unocss.git"
-  },
-  "funding": "https://github.com/sponsors/antfu",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "index.d.ts",
-  "exports": {
-    ".": {
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
-    },
-    "./preset-attributify": {
-      "require": "./dist/preset-attributify.cjs",
-      "import": "./dist/preset-attributify.mjs",
-      "types": "./dist/preset-attributify.d.ts"
-    },
-    "./preset-icons": {
-      "require": "./dist/preset-icons.cjs",
-      "import": "./dist/preset-icons.mjs",
-      "types": "./dist/preset-icons.d.ts"
-    },
-    "./preset-mini": {
-      "require": "./dist/preset-mini.cjs",
-      "import": "./dist/preset-mini.mjs",
-      "types": "./dist/preset-mini.d.ts"
-    },
-    "./preset-typography": {
-      "require": "./dist/preset-typography.cjs",
-      "import": "./dist/preset-typography.mjs",
-      "types": "./dist/preset-typography.d.ts"
-    },
-    "./preset-uno": {
-      "require": "./dist/preset-uno.cjs",
-      "import": "./dist/preset-uno.mjs",
-      "types": "./dist/preset-uno.d.ts"
-    },
-    "./preset-web-fonts": {
-      "require": "./dist/preset-web-fonts.cjs",
-      "import": "./dist/preset-web-fonts.mjs",
-      "types": "./dist/preset-web-fonts.d.ts"
-    },
-    "./preset-wind": {
-      "require": "./dist/preset-wind.cjs",
-      "import": "./dist/preset-wind.mjs",
-      "types": "./dist/preset-wind.d.ts"
-    },
-    "./vite": {
-      "require": "./dist/vite.cjs",
-      "import": "./dist/vite.mjs",
-      "types": "./dist/vite.d.ts"
-    }
-  },
   "files": [
     "dist",
     "*.d.ts"
   ],
-  "sideEffects": false,
+  "engines": {
+    "node": ">=14"
+  },
   "scripts": {
     "build": "unbuild",
     "stub": "unbuild --stub"
@@ -95,8 +98,5 @@
     "@unocss/transformer-directives": "workspace:*",
     "@unocss/transformer-variant-group": "workspace:*",
     "@unocss/vite": "workspace:*"
-  },
-  "engines": {
-    "node": ">=14"
   }
 }
