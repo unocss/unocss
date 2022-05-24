@@ -182,8 +182,8 @@ export type Shortcut<Theme extends {} = {}> = StaticShortcut | DynamicShortcut<T
 
 export type FilterPattern = ReadonlyArray<string | RegExp> | string | RegExp | null
 
-export interface Preflight {
-  getCSS: (context: PreflightContext) => Promise<string | undefined> | string | undefined
+export interface Preflight<Theme extends {} = {}> {
+  getCSS: (context: PreflightContext<Theme>) => Promise<string | undefined> | string | undefined
   layer?: string
 }
 
@@ -289,7 +289,7 @@ export interface ConfigBase<Theme extends {} = {}> {
   /**
    * Raw CSS injections.
    */
-  preflights?: Preflight[]
+  preflights?: Preflight<Theme>[]
 
   /**
    * Theme object for shared configuration between rules
