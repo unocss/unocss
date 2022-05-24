@@ -3,15 +3,15 @@ import fs from 'fs-extra'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { execa } from 'execa'
 
-export const cacheDir = resolve('.cache')
+export const tempDir = resolve('.temp')
 export const cli = resolve(__dirname, '../packages/cli/src/cli.ts')
 
 beforeAll(async () => {
-  await fs.remove(cacheDir)
+  await fs.remove(tempDir)
 })
 
 afterAll(async () => {
-  await fs.remove(cacheDir)
+  await fs.remove(tempDir)
 })
 
 describe('cli', () => {
@@ -27,19 +27,19 @@ describe('cli', () => {
     const { output } = await runCli({
       'views/index.html': '<div class="box"></div>',
       'unocss.config.js': `
-      import { defineConfig } from 'unocss'
-      export default defineConfig({
-        shortcuts: [{ box: 'max-w-7xl mx-auto bg-gray-100 rounded-md shadow-sm p-4' }]
-      })
-    `,
+import { defineConfig } from 'unocss'
+export default defineConfig({
+  shortcuts: [{ box: 'max-w-7xl mx-auto bg-gray-100 rounded-md shadow-sm p-4' }]
+})
+    `.trim(),
     })
 
     expect(output).toMatchSnapshot()
-  })
+  }, 30000)
 })
 
 async function runCli(files: Record<string, string>) {
-  const testDir = resolve(cacheDir, Date.now().toString())
+  const testDir = resolve(tempDir, Math.round(Math.random() * 100000).toString())
 
   await Promise.all(
     Object.entries(files).map(([path, content]) =>
@@ -49,7 +49,7 @@ async function runCli(files: Record<string, string>) {
 
   const { exitCode, stdout, stderr } = await execa('npx', ['esno', cli, 'views/**/*'], {
     cwd: testDir,
-    // stdio: 'inherit',
+    stdio: 'pipe',
   })
 
   const logs = stdout + stderr
