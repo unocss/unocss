@@ -2,7 +2,7 @@
 
 <!-- @unocss-ignore -->
 
-UnoCSS transformer for `@apply` directive
+UnoCSS transformer for `@apply` and `theme()` directive
 
 ## Install
 
@@ -25,6 +25,8 @@ export default defineConfig({
 
 ## Usage
 
+### `@apply`
+
 ```css
 .custom-div {
   @apply text-center my-0 font-medium;
@@ -44,7 +46,7 @@ Will be transformed to:
 
 > Currently only `@apply` is supported.
 
-### CSS Variable Style
+#### CSS Variable Style
 
 To be compatible with vanilla CSS, you can use CSS Variables to replace the `@apply` directive.
 
@@ -70,6 +72,24 @@ transformerDirective({
   // or disable with:
   // varStyle: false
 })
+```
+
+### `theme()`
+
+Use the `theme()` function to access your theme config values using dot notation.
+
+```css
+.btn-blue {
+  background-color: theme('colors.blue.500');
+}
+```
+
+Will be compiled to:
+
+```css
+.btn-blue {
+  background-color: #3b82f6;
+}
 ```
 
 ## License

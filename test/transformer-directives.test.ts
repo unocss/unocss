@@ -395,4 +395,62 @@ describe('transformer-directives', () => {
         "
       `)
   })
+
+  describe('theme()', () => {
+    test('basic', async () => {
+      const result = await transform(
+        `.btn { 
+          background-color: theme("colors.blue.500");
+          padding: theme("spacing.xs") theme("spacing.sm");
+        }
+        .btn-2 {
+          height: calc(100vh - theme('spacing.sm'));
+        }`,
+      )
+      expect(result)
+        .toMatchInlineSnapshot(`
+          ".btn {
+            background-color: #3b82f6;
+            padding: 0.75rem 0.875rem;
+          }
+          .btn-2 {
+            height: calc(100vh - 0.875rem);
+          }
+          "
+        `)
+    })
+
+    test('non-exist', async () => {
+      expect(async () => await transform(
+        `.btn { 
+        color: theme("color.none.500");
+        }`,
+      )).rejects
+        .toMatchInlineSnapshot('[Error: theme of "color.none.500" did not found]')
+
+      expect(async () => await transform(
+          `.btn { 
+          font-size: theme("size.lg");
+          }`,
+      )).rejects
+        .toMatchInlineSnapshot('[Error: theme of "size.lg" did not found]')
+    })
+
+    test('args', async () => {
+      expect(async () => await transform(
+        `.btn { 
+        color: theme();
+        }`,
+      )).rejects
+        .toMatchInlineSnapshot('[Error: theme() expect exact one argument, but got 0]')
+
+      // TODO: maybe support it in the future
+      expect(async () => await transform(
+          `.btn { 
+          color: theme('colors.blue.500', 'colors.blue.400');
+          }`,
+      )).rejects
+        .toMatchInlineSnapshot('[Error: theme() expect exact one argument, but got 2]')
+    })
+  })
 })
