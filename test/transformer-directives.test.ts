@@ -395,4 +395,31 @@ describe('transformer-directives', () => {
         "
       `)
   })
+
+  describe('theme', () => {
+    test('basic', async () => {
+      const result = await transform(
+      `.btn { 
+        background-color: theme("colors.blue.500");
+        padding: theme("spacing.xs", "spacing.sm");
+        margin: theme("spacing.xs", "spacing.sm", "spacing.xl", "spacing.lg");
+
+        color: theme("color.none.500");
+        font-size: theme("size.lg");
+      }`,
+      )
+      expect(result)
+        .toMatchInlineSnapshot(`
+        ".btn {
+          background-color: #3b82f6;
+          padding: 0.75rem 0.875rem;
+          margin: 0.75rem 0.875rem 1.25rem 1.125rem;
+
+          color: theme(\\"color.none.500\\");
+          font-size: theme(\\"size.lg\\");
+        }
+        "
+      `)
+    })
+  })
 })
