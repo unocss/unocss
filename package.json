@@ -78,6 +78,7 @@
     "lz-string": "^1.4.4",
     "magic-string": "^0.26.2",
     "msw": "^0.41.0",
+    "nuxt": "3.0.0-rc.3",
     "nuxt-tsconfig-stub": "^0.0.2",
     "pnpm": "^7.1.5",
     "prettier": "^2.6.2",

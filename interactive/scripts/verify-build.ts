@@ -20,5 +20,5 @@ if (files.length !== 1)
 const file = files[0]
 const content = await fs.readFile(file, 'utf8')
 
-if (content.includes('NuxtPage'))
-  throw new Error('<NuxtPage/> found in the entry file, the components are probably not registed correctly')
+if (!content.includes('vueApp.component("NuxtPage"'))
+  throw new Error('<NuxtPage/> is not registed, there is probably something wrong')
