@@ -35,7 +35,7 @@ export default defineConfig({
     })
 
     expect(output).toMatchSnapshot()
-  }, 30000)
+  })
 })
 
 async function runCli(files: Record<string, string>) {
@@ -49,7 +49,7 @@ async function runCli(files: Record<string, string>) {
 
   const { exitCode, stdout, stderr } = await execa('npx', ['esno', cli, 'views/**/*'], {
     cwd: testDir,
-    stdio: 'pipe',
+    // stdio: 'inherit',
   })
 
   const logs = stdout + stderr

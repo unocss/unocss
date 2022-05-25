@@ -1,8 +1,8 @@
 lockfileVersion: 5.4
 
 overrides:
-  vite: 2.9.9
   '@nuxt/kit-edge': npm:@nuxt/kit@latest
+  vite: 2.9.9
 
 importers:
 
@@ -8907,7 +8907,7 @@ packages:
       joycon: 3.1.1
       postcss-load-config: 3.1.4
       resolve-from: 5.0.0
-      rollup: 2.74.1
+      rollup: 2.73.0
       source-map: 0.8.0-beta.0
       sucrase: 3.21.0
       tree-kill: 1.2.2
@@ -9545,7 +9545,7 @@ packages:
       esbuild: 0.14.39
       postcss: 8.4.14
       resolve: 1.22.0
-      rollup: 2.74.1
+      rollup: 2.73.0
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
