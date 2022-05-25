@@ -4,7 +4,12 @@
     "strict": true,
     "strictNullChecks": true,
     "types": [
+      "node",
       "vite/client"
     ]
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }
