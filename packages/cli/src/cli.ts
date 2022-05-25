@@ -16,6 +16,7 @@ async function main(options: CliOptions = {}) {
     .option('-o, --out-file <file>', 'Output file', {
       default: process.cwd(),
     })
+    .option('-c, --config [file]', 'Config file')
     .option('-w, --watch', 'Watch for file changes')
     .action(async (patterns: Array<string>, flags) => {
       Object.assign(options, {

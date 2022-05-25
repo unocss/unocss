@@ -5,6 +5,7 @@ export interface CliOptions {
   patterns?: Array<string>
   outFile?: string
   watch?: boolean
+  config?: string
 }
 
 export type ResolvedCliOptions = MarkRequired<CliOptions, 'patterns'>

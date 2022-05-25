@@ -18,7 +18,7 @@
     "svelte-check": "^2.7.1",
     "svelte-preprocess": "^4.10.6",
     "tslib": "^2.4.0",
-    "typescript": "^4.6.4",
+    "typescript": "^4.7.2",
     "unocss": "link:../../packages/unocss",
     "vite": "^2.9.9"
   }

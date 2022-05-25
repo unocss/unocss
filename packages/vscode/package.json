@@ -1,26 +1,32 @@
 {
+  "publisher": "antfu",
   "name": "@unocss/vscode",
   "displayName": "UnoCSS",
   "version": "0.34.1",
   "private": true,
   "description": "UnoCSS for VS Code",
-  "categories": [
-    "Other"
-  ],
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/unocss/unocss",
     "directory": "packages/vscode"
   },
-  "publisher": "antfu",
+  "categories": [
+    "Other"
+  ],
   "main": "./dist/index.js",
   "preview": true,
-  "scripts": {
-    "build": "tsup",
-    "dev": "nr build --watch src",
-    "publish": "esno ./scripts/publish.ts"
+  "icon": "res/logo.png",
+  "engines": {
+    "vscode": "^1.62.0"
   },
+  "activationEvents": [
+    "workspaceContains:**/vite.config.*",
+    "workspaceContains:**/nuxt.config.*",
+    "workspaceContains:**/uno.config.*",
+    "workspaceContains:**/unocss.config.*",
+    "workspaceContains:**/package.json"
+  ],
   "contributes": {
     "commands": [],
     "configuration": {
@@ -39,24 +45,18 @@
       }
     }
   },
-  "activationEvents": [
-    "workspaceContains:**/vite.config.*",
-    "workspaceContains:**/nuxt.config.*",
-    "workspaceContains:**/uno.config.*",
-    "workspaceContains:**/unocss.config.*",
-    "workspaceContains:**/package.json"
-  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "nr build --watch src",
+    "publish": "esno ./scripts/publish.ts"
+  },
   "devDependencies": {
     "@types/vscode": "^1.62.0",
     "@unocss/nuxt": "workspace:*",
-    "esno": "^0.15.0",
+    "esno": "^0.16.3",
     "jiti": "^1.13.0",
     "prettier": "^2.6.2",
-    "tsup": "^5.12.7",
+    "tsup": "^5.12.8",
     "unconfig": "^0.3.4"
-  },
-  "engines": {
-    "vscode": "^1.62.0"
-  },
-  "icon": "res/logo.png"
+  }
 }

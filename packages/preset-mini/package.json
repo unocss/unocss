@@ -2,64 +2,64 @@
   "name": "@unocss/preset-mini",
   "version": "0.34.1",
   "description": "The minimal preset for UnoCSS",
-  "keywords": [
-    "unocss",
-    "unocss-preset"
-  ],
-  "homepage": "https://github.com/unocss/unocss/tree/main/packages/preset-mini#readme",
-  "bugs": {
-    "url": "https://github.com/unocss/unocss/issues"
-  },
-  "license": "MIT",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/antfu",
+  "homepage": "https://github.com/unocss/unocss/tree/main/packages/preset-mini#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/unocss/unocss.git",
     "directory": "packages/preset-mini"
   },
-  "funding": "https://github.com/sponsors/antfu",
-  "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "bugs": {
+    "url": "https://github.com/unocss/unocss/issues"
+  },
+  "keywords": [
+    "unocss",
+    "unocss-preset"
+  ],
+  "sideEffects": false,
   "exports": {
     ".": {
-      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs"
     },
     "./theme": {
-      "require": "./dist/theme.cjs",
+      "types": "./dist/theme.d.ts",
       "import": "./dist/theme.mjs",
-      "types": "./dist/theme.d.ts"
+      "require": "./dist/theme.cjs"
     },
     "./variants": {
-      "require": "./dist/variants.cjs",
+      "types": "./dist/variants.d.ts",
       "import": "./dist/variants.mjs",
-      "types": "./dist/variants.d.ts"
+      "require": "./dist/variants.cjs"
     },
     "./rules": {
-      "require": "./dist/rules.cjs",
+      "types": "./dist/rules.d.ts",
       "import": "./dist/rules.mjs",
-      "types": "./dist/rules.d.ts"
+      "require": "./dist/rules.cjs"
     },
     "./colors": {
-      "require": "./dist/colors.cjs",
+      "types": "./dist/colors.d.ts",
       "import": "./dist/colors.mjs",
-      "types": "./dist/colors.d.ts"
+      "require": "./dist/colors.cjs"
     },
     "./utils": {
-      "require": "./dist/utils.cjs",
+      "types": "./dist/utils.d.ts",
       "import": "./dist/utils.mjs",
-      "types": "./dist/utils.d.ts"
+      "require": "./dist/utils.cjs"
     },
     "./*": "./*"
   },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist",
     "*.d.ts",
     "*.css"
   ],
-  "sideEffects": false,
   "scripts": {
     "build": "unbuild",
     "stub": "unbuild --stub"

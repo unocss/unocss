@@ -8,7 +8,7 @@ const destinations = [
   ['../README.md', '../packages/unocss/README.md'],
 ]
 
-const __filename = fileURLToPath(import.meta.url)
+const _filename = import.meta.url ? fileURLToPath(import.meta.url) : __filename
 destinations.forEach(([src, dest]) => {
-  copyFileSync(resolve(__filename, '..', src), resolve(__filename, '..', dest))
+  copyFileSync(resolve(__filename, '..', src), resolve(_filename, '..', dest))
 })

@@ -444,7 +444,7 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
   /**
    * Presets
    */
-  presets?: (Preset | Preset[])[]
+  presets?: (Preset<Theme> | Preset<Theme>[])[]
 
   /**
    * Environment mode
