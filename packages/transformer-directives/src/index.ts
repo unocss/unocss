@@ -16,6 +16,13 @@ export interface TransformerDirectivesOptions {
    * @default '--at-'
    */
   varStyle?: false | string
+
+  /**
+   * Throw an error if utils or themes are not found.
+   *
+   * @default true
+   */
+  throwOnMissing?: boolean
 }
 
 export default function transformerDirectives(options: TransformerDirectivesOptions = {}): SourceCodeTransformer {
@@ -37,13 +44,15 @@ export async function transformDirectives(
   originalCode?: string,
   offset?: number,
 ) {
-  const { varStyle = '--at-' } = options
+  const {
+    varStyle = '--at-',
+    throwOnMissing = true,
+  } = options
 
   const isApply = code.original.includes('@apply') || (varStyle !== false && code.original.includes(varStyle))
+  const hasThemeFn = /theme\([^)]*?\)/.test(code.original)
 
-  const isTheme = /theme\([^)]*\)/.test(code.original)
-
-  if (!isApply && !isTheme)
+  if (!isApply && !hasThemeFn)
     return
 
   const ast = parse(originalCode || code.original, {
@@ -133,11 +142,14 @@ export async function transformDirectives(
     )
   }
 
-  const handleTheme = (node: CssNode) => {
+  const handleThemeFn = (node: CssNode) => {
     if (node.type === 'Function' && node.name === 'theme' && node.children) {
       const children = node.children.toArray().filter(n => n.type === 'String')
-      if (!children.length)
-        return
+
+      // TODO: to discuss how we handle multiple theme params
+      // https://github.com/unocss/unocss/pull/1005#issuecomment-1136757201
+      if (children.length !== 1)
+        throw new Error(`theme() expect exact one argument, but got ${children.length}`)
 
       const matchedThemes = children.map((childNode) => {
         if (childNode.type !== 'String')
@@ -156,8 +168,12 @@ export async function transformDirectives(
           return true
         })
 
-        return typeof value === 'string' ? value : null
-      }).filter(Boolean)
+        if (typeof value === 'string')
+          return value
+        if (throwOnMissing)
+          throw new Error(`theme of "${childNode.value}" did not found`)
+        return null
+      })
 
       if (matchedThemes.length !== children.length)
         return
@@ -165,17 +181,18 @@ export async function transformDirectives(
       code.overwrite(
         calcOffset(node.loc!.start.offset),
         calcOffset(node.loc!.end.offset),
-        matchedThemes.join(' '))
+        matchedThemes.join(' '),
+      )
     }
   }
 
   const stack: Promise<void>[] = []
 
   const processNode = async (node: CssNode, _item: ListItem<CssNode>, _list: List<CssNode>) => {
-    if (isTheme)
-      await handleTheme(node)
-
-    if (isApply && node.type === 'Rule') {
+    if (hasThemeFn) {
+      handleThemeFn(node)
+    }
+    else if (isApply && node.type === 'Rule') {
       await Promise.all(
         node.block.children.map(async (childNode, _childItem) => {
           if (childNode.type === 'Raw')
