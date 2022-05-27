@@ -1,7 +1,7 @@
 import type { Extractor } from '@unocss/core'
 
 export const MARKER = '__TAGIFY__'
-export const htmlTagRE = /<([\w\d-]+)/g
+export const htmlTagRE = /<([\w\d-:]+)/g
 
 export const extractorTagify = (): Extractor => {
   return {
