@@ -7,8 +7,10 @@ export * from './extractor'
 export * from './types'
 export * from './variant'
 
-export default (options?: TagifyOptions): Preset => ({
+const preset = (options?: TagifyOptions): Preset => ({
   name: '@unocss/preset-tagify',
   variants: [variantTagify(options)],
   extractors: [extractorTagify()],
 })
+
+export default preset

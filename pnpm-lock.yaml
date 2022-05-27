@@ -366,7 +366,10 @@ importers:
       '@unocss/core': link:../core
 
   packages/preset-tagify:
-    specifiers: {}
+    specifiers:
+      '@unocss/core': workspace:*
+    dependencies:
+      '@unocss/core': link:../core
 
   packages/preset-typography:
     specifiers:
