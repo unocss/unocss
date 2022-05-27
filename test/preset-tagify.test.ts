@@ -44,6 +44,7 @@ describe('tagify', () => {
         <m-1> margin </m-1>
         <custom-rule> bg-pink </custom-rule>
         <btn> shortcut </btn>
+        <hover:color-red> variant </hover:color-red>
       </flex>
     `
 
@@ -54,6 +55,7 @@ describe('tagify', () => {
       btn:hover{--un-bg-opacity:1;background-color:rgba(15,118,110,var(--un-bg-opacity));}
       /* layer: default */
       m-1{margin:0.25rem;}
+      hover\\\\:color-red:hover,
       text-red{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
       flex{display:flex;}
       custom-rule{background-color:pink;}"
