@@ -112,10 +112,10 @@ export const backgroundStyles: Rule[] = [
   // repeats
   ['bg-repeat', { 'background-repeat': 'repeat' }],
   ['bg-no-repeat', { 'background-repeat': 'no-repeat' }],
-  ['bg-repeat-x', { 'background-position': 'repeat-x' }],
-  ['bg-repeat-y', { 'background-position': 'repeat-y' }],
-  ['bg-repeat-round', { 'background-position': 'round' }],
-  ['bg-repeat-space', { 'background-position': 'space' }],
+  ['bg-repeat-x', { 'background-repeat': 'repeat-x' }],
+  ['bg-repeat-y', { 'background-repeat': 'repeat-y' }],
+  ['bg-repeat-round', { 'background-repeat': 'round' }],
+  ['bg-repeat-space', { 'background-repeat': 'space' }],
 
   // origins
   ['bg-origin-border', { 'background-origin': 'border-box' }],
