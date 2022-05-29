@@ -7,7 +7,7 @@ import { searchUsageBoundary } from './utils'
 
 export function createAutocomplete(uno: UnoGenerator) {
   const templateCache = new Map<string, ParsedAutocompleteTemplate>()
-  const cache = new LRU<string, string[]>({ max: 1000 })
+  const cache = new LRU<string, string[]>({ max: 5000 })
 
   let staticUtils: string[] = []
   const templates: (AutoCompleteTemplate | AutoCompleteFunction)[] = []
@@ -64,11 +64,11 @@ export function createAutocomplete(uno: UnoGenerator) {
 
     // match and ignore existing variants
     const [, processed, , variants] = uno.matchVariants(input)
-    const idx = processed ? input.search(escapeRegExp(processed)) : input.length
+    let idx = processed ? input.search(escapeRegExp(processed)) : input.length
     // This input contains variants that modifies the processed part,
     // autocomplete will need to reverse it which is not possible
     if (idx === -1)
-      return []
+      idx = 0
     const variantPrefix = input.slice(0, idx)
     const variantSuffix = input.slice(idx + input.length)
 
@@ -76,6 +76,7 @@ export function createAutocomplete(uno: UnoGenerator) {
       await Promise.all([
         suggestSelf(processed),
         suggestStatic(processed),
+        suggestUnoCache(processed),
         ...suggestFromPreset(processed),
         ...suggestVariant(processed, variants),
       ]),
@@ -132,6 +133,12 @@ export function createAutocomplete(uno: UnoGenerator) {
     return staticUtils.filter(i => i.startsWith(input))
   }
 
+  async function suggestUnoCache(input: string) {
+    // @ts-expect-error private
+    const keys = Array.from(uno._cache.entries())
+    return keys.filter(i => i[1] && i[0].startsWith(input)).map(i => i[0])
+  }
+
   function suggestFromPreset(input: string) {
     return templates.map(fn =>
       typeof fn === 'function'
@@ -154,7 +161,10 @@ export function createAutocomplete(uno: UnoGenerator) {
   function reset() {
     templateCache.clear()
     cache.clear()
-    staticUtils = Object.keys(uno.config.rulesStaticMap)
+    staticUtils = [
+      ...Object.keys(uno.config.rulesStaticMap),
+      ...uno.config.shortcuts.filter(i => typeof i[0] === 'string').map(i => i[0] as string),
+    ]
     templates.length = 0
     templates.push(
       ...uno.config.autocomplete.templates || [],
