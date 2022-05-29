@@ -9,6 +9,7 @@
 | [@unocss/preset-mini](./preset-mini) | The minimal but essential rules and variants | ✅ | ✅ |
 | [@unocss/preset-wind](./preset-wind) | Tailwind / Windi CSS compact preset | ✅ | ✅ |
 | [@unocss/preset-attributify](./preset-attributify) | Enables Attributify Mode for other rules | ✅ | No |
+| [@unocss/preset-tagify](./preset-tagify) | Enables Tagify Mode for other rules | ✅ | No |
 | [@unocss/preset-icons](./preset-icons) | Pure CSS Icons solution powered by Iconify | ✅ | No |
 | [@unocss/preset-web-fonts](./preset-web-fonts) | Web fonts (Google Fonts, etc.) support | ✅ | No |
 | [@unocss/preset-typography](./preset-typography) | The typography preset | ✅ | No |

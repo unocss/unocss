@@ -44,6 +44,7 @@
     "@unocss/core": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
     "@unocss/preset-icons": "workspace:*",
+    "@unocss/preset-tagify": "workspace:*",
     "@unocss/preset-typography": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
     "@unocss/preset-web-fonts": "workspace:*",

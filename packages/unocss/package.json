@@ -33,6 +33,11 @@
       "import": "./dist/preset-attributify.mjs",
       "require": "./dist/preset-attributify.cjs"
     },
+    "./preset-tagify": {
+      "types": "./dist/preset-tagify.d.ts",
+      "import": "./dist/preset-tagify.mjs",
+      "require": "./dist/preset-tagify.cjs"
+    },
     "./preset-icons": {
       "types": "./dist/preset-icons.d.ts",
       "import": "./dist/preset-icons.mjs",
@@ -89,6 +94,7 @@
     "@unocss/preset-attributify": "workspace:*",
     "@unocss/preset-icons": "workspace:*",
     "@unocss/preset-mini": "workspace:*",
+    "@unocss/preset-tagify": "workspace:*",
     "@unocss/preset-typography": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
     "@unocss/preset-web-fonts": "workspace:*",
