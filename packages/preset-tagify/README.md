@@ -34,7 +34,7 @@ With tagify mode, you can embed CSS styles into HTML tags:
 ```html
 <text-red> red text </text-red>
 <flex> flexbox </flex>
-I'm feeling <i-line-md-emoji-grin> </i-line-md-emoji-grin> today!
+I'm feeling <i-line-md-emoji-grin /> today!
 ```
 
 The HTML above works exactly as you would expect.
