@@ -48,7 +48,7 @@ export const grids: Rule<Theme>[] = [
   // grid-auto-flow, auto-flow: uno
   // grid-flow: wind
   [/^(?:grid-auto-flow|auto-flow|grid-flow)-(.+)$/, ([, v]) => ({ 'grid-auto-flow': h.bracket.cssvar(v) })],
-  [/^(?:grid-auto-flow|auto-flow|grid-flow)-((?:row|col)(?:-dense)?)$/, ([, v]) => ({ 'grid-auto-flow': rowCol(v).replace('-', ' ') })],
+  [/^(?:grid-auto-flow|auto-flow|grid-flow)-(row|col|dense|row-dense|col-dense)$/, ([, v]) => ({ 'grid-auto-flow': rowCol(v).replace('-', ' ') })],
 
   // templates
   [/^grid-(rows|cols)-(.+)$/, ([, c, v], { theme }) => ({

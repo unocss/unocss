@@ -121,5 +121,6 @@ export const mixBlendModes: Rule[] = [
   ['mix-blend-saturation', { 'mix-blend-mode': 'saturation' }],
   ['mix-blend-color', { 'mix-blend-mode': 'color' }],
   ['mix-blend-luminosity', { 'mix-blend-mode': 'luminosity' }],
+  ['mix-blend-plus-lighter', { 'mix-blend-mode': 'plus-lighter' }],
   ['mix-blend-normal', { 'mix-blend-mode': 'normal' }],
 ]
