@@ -25,13 +25,13 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
     },
     "./fs": {
       "types": "./dist/fs.d.ts",
-      "import": "./dist/fs.mjs",
-      "require": "./dist/fs.cjs"
+      "require": "./dist/fs.cjs",
+      "import": "./dist/fs.mjs"
     }
   },
   "main": "dist/index.cjs",

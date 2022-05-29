@@ -3,8 +3,8 @@
   "version": "0.35.1",
   "exports": {
     ".": {
-      "import": "./index.mjs",
-      "require": "./index.cjs"
+      "require": "./index.cjs",
+      "import": "./index.mjs"
     }
   },
   "main": "./index.cjs",
