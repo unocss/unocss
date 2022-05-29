@@ -7,7 +7,8 @@
 | [@unocss/preset-uno](https://github.com/unocss/unocss/tree/main/packages/preset-uno) | The default preset |
 | [@unocss/preset-mini](https://github.com/unocss/unocss/tree/main/packages/preset-mini) | The minimal but essential rules and variants |
 | [@unocss/preset-wind](https://github.com/unocss/unocss/tree/main/packages/preset-wind) | Tailwind / Windi CSS compact preset |
-| [@unocss/preset-attributify](https://github.com/unocss/unocss/tree/main/packages/preset-attributify) | Enables Attributify Mode for other rules | 
+| [@unocss/preset-attributify](https://github.com/unocss/unocss/tree/main/packages/preset-attributify) | Enables Attributify Mode for other rules |
+| [@unocss/preset-tagify](https://github.com/unocss/unocss/tree/main/packages/preset-tagify) | Enables Tagify Mode for other rules |
 | [@unocss/preset-icons](https://github.com/unocss/unocss/tree/main/packages/preset-icons) | Pure CSS Icons solution powered by Iconify | 
 | [@unocss/preset-web-fonts](https://github.com/unocss/unocss/tree/main/packages/preset-web-fonts) | Web fonts (Google Fonts, etc.) support | 
 | [@unocss/preset-typography](https://github.com/unocss/unocss/tree/main/packages/preset-typography) | The typography preset | 
