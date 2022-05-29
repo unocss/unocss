@@ -1,8 +1,8 @@
 import type { CSSEntries, CSSObject, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorToString, cornerMap, directionMap, handler as h, hasParseableColor, parseColor } from '../utils'
+import { colorToString, cornerMap, directionMap, globalKeywords, handler as h, hasParseableColor, parseColor } from '../utils'
 
-const borderStyles = ['solid', 'dashed', 'dotted', 'double', 'hidden', 'none', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit', 'revert', 'unset']
+const borderStyles = ['solid', 'dashed', 'dotted', 'double', 'hidden', 'none', 'groove', 'ridge', 'inset', 'outset', ...globalKeywords]
 
 export const borders: Rule[] = [
   // compound

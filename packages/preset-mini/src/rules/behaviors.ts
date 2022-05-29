@@ -1,6 +1,6 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorResolver, handler as h } from '../utils'
+import { colorResolver, globalKeywords, handler as h } from '../utils'
 
 export const outline: Rule<Theme>[] = [
   // size
@@ -14,7 +14,7 @@ export const outline: Rule<Theme>[] = [
 
   // style
   ['outline', { 'outline-style': 'solid' }],
-  ...['auto', 'dashed', 'dotted', 'double', 'hidden', 'solid', 'groove', 'ridge', 'inset', 'outset', 'inherit', 'initial', 'revert', 'unset'].map(v => [`outline-${v}`, { 'outline-style': v }] as Rule<Theme>),
+  ...['auto', 'dashed', 'dotted', 'double', 'hidden', 'solid', 'groove', 'ridge', 'inset', 'outset', ...globalKeywords].map(v => [`outline-${v}`, { 'outline-style': v }] as Rule<Theme>),
   ['outline-none', { 'outline': '2px solid transparent', 'outline-offset': '2px' }],
 ]
 

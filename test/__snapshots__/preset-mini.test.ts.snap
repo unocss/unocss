@@ -228,6 +228,7 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .b-solid,
 .border-solid{border-style:solid;}
 .border-x-dashed{border-left-style:dashed;border-right-style:dashed;}
+.border-y-revert-layer{border-top-style:revert-layer;border-bottom-style:revert-layer;}
 .border-y-unset{border-top-style:unset;border-bottom-style:unset;}
 .border-b-dashed{border-bottom-style:dashed;}
 .border-e-dashed{border-inline-end-style:dashed;}
@@ -293,6 +294,7 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .indent{text-indent:1.5rem;}
 .indent-1\\\\/2{text-indent:50%;}
 .indent-lg{text-indent:2rem;}
+.indent-revert-layer{text-indent:revert-layer;}
 .indent-unset{text-indent:unset;}
 .text-clip{text-overflow:clip;}
 .decoration-underline,
@@ -632,6 +634,7 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .outline-solid{outline-style:solid;}
 .outline-hidden{outline-style:hidden;}
 .outline-inset{outline-style:inset;}
+.outline-revert-layer{outline-style:revert-layer;}
 .outline-unset{outline-style:unset;}
 .outline-none{outline:2px solid transparent;outline-offset:2px;}
 .appearance-none{appearance:none;-webkit-appearance:none;}

@@ -19,6 +19,7 @@ export const presetMiniTargets: string[] = [
   'outline-offset-4',
   'outline-offset-none',
   'outline-unset',
+  'outline-revert-layer',
   'outline-solid',
   'outline-color-red-1',
   'outline-width-10px',
@@ -92,6 +93,7 @@ export const presetMiniTargets: string[] = [
   'border-e-dashed',
   'border-x-dashed',
   'border-y-unset',
+  'border-y-revert-layer',
   'border-is-style-double',
   'border-block-style-double',
 
@@ -665,6 +667,7 @@ export const presetMiniTargets: string[] = [
   'indent-1/2',
   'indent-lg',
   'indent-unset',
+  'indent-revert-layer',
   'text-stroke-6',
   'text-stroke-sm',
   'text-stroke-blue-500',
