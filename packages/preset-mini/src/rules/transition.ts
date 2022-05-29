@@ -42,10 +42,7 @@ export const transitions: Rule<Theme>[] = [
 
   // props
   [/^(?:transition-)?property-(.+)$/, ([, v]) => ({ 'transition-property': h.global(v) || transitionProperty(v) }),
-    { autocomplete: [`transition-property-(${[
-      ...globalKeywords,
-      ...Object.keys(transitionPropertyGroup),
-    ].join('|')})`] }],
+    { autocomplete: [`transition-property-(${[...globalKeywords, ...Object.keys(transitionPropertyGroup)].join('|')})`] }],
 
   // none
   ['transition-none', { transition: 'none' }],
