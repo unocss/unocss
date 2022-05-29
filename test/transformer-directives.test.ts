@@ -439,30 +439,20 @@ describe('transformer-directives', () => {
     test('args', async () => {
       expect(async () => await transform(
         `.btn { 
-        color: theme();
+          color: theme();
         }`,
       )).rejects
         .toMatchInlineSnapshot('[Error: theme() expect exact one argument, but got 0]')
-
-      // TODO: maybe support it in the future
-      expect(async () => await transform(
-          `.btn { 
-          color: theme('colors.blue.500', 'colors.blue.400');
-          }`,
-      )).rejects
-        .toMatchInlineSnapshot('[Error: theme() expect exact one argument, but got 2]')
     })
 
     test('with @apply', async () => {
-      expect(await transform(
-        `
-            div {
-              @apply flex h-full w-full justify-center items-center;
+      expect(await transform(`
+        div {
+          @apply flex h-full w-full justify-center items-center;
 
-              --my-color: theme('colors.red.500');
-              color: var(--my-color);
-            }
-        `,
+          --my-color: theme('colors.red.500');
+          color: var(--my-color);
+        }`,
       )).toMatchInlineSnapshot(`
         "div {
           height: 100%;
@@ -471,7 +461,7 @@ describe('transformer-directives', () => {
           align-items: center;
           justify-content: center;
 
-          --my-color: theme(\\"colors.red.500\\");
+          --my-color: #ef4444;
           color: var(--my-color);
         }
         "

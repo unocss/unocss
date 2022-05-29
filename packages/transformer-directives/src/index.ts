@@ -1,6 +1,6 @@
 import { cssIdRE, expandVariantGroup, notNull, regexScopePlaceholder } from '@unocss/core'
 import type { SourceCodeTransformer, StringifiedUtil, UnoGenerator } from '@unocss/core'
-import type { CssNode, List, ListItem, Rule, Selector, SelectorList } from 'css-tree'
+import type { CssNode, Declaration, List, ListItem, Rule, Selector, SelectorList } from 'css-tree'
 import { clone, generate, parse, walk } from 'css-tree'
 import type MagicString from 'magic-string'
 
@@ -36,6 +36,8 @@ export default function transformerDirectives(options: TransformerDirectivesOpti
   }
 }
 
+const themeFnRE = /theme\((.*?)\)/g
+
 export async function transformDirectives(
   code: MagicString,
   uno: UnoGenerator,
@@ -50,7 +52,7 @@ export async function transformDirectives(
   } = options
 
   const isApply = code.original.includes('@apply') || (varStyle !== false && code.original.includes(varStyle))
-  const hasThemeFn = /theme\([^)]*?\)/.test(code.original)
+  const hasThemeFn = code.original.match(themeFnRE)
 
   if (!isApply && !hasThemeFn)
     return
@@ -142,54 +144,50 @@ export async function transformDirectives(
     )
   }
 
-  const handleThemeFn = (node: CssNode) => {
-    if (node.type === 'Function' && node.name === 'theme' && node.children) {
-      const children = node.children.toArray().filter(n => n.type === 'String')
+  const handleThemeFn = (node: Declaration) => {
+    const value = node.value
+    const offset = value.loc!.start.offset
+    const str = code.original.slice(offset, value.loc!.end.offset)
+    const matches = Array.from(str.matchAll(themeFnRE))
 
-      // TODO: to discuss how we handle multiple theme params
-      // https://github.com/unocss/unocss/pull/1005#issuecomment-1136757201
-      if (children.length !== 1)
-        throw new Error(`theme() expect exact one argument, but got ${children.length}`)
+    if (!matches.length)
+      return
 
-      const matchedThemes = children.map((childNode) => {
-        if (childNode.type !== 'String')
-          return null
+    for (const match of matches) {
+      const rawArg = match[1].trim()
+      if (!rawArg)
+        throw new Error('theme() expect exact one argument, but got 0')
 
-        const keys = childNode.value.split('.')
+      let value: any = uno.config.theme
+      const keys = rawArg.slice(1, -1).split('.')
 
-        let value: any = uno.config.theme
-
-        keys.every((key) => {
-          if (!Reflect.has(value, key)) {
-            value = null
-            return false
-          }
+      keys.every((key) => {
+        if (value[key] != null)
           value = value[key]
-          return true
-        })
-
-        if (typeof value === 'string')
-          return value
-        if (throwOnMissing)
-          throw new Error(`theme of "${childNode.value}" did not found`)
-        return null
+        else if (value[+key] != null)
+          value = value[+key]
+        else
+          return false
+        return true
       })
 
-      if (matchedThemes.length !== children.length)
-        return
-
-      code.overwrite(
-        calcOffset(node.loc!.start.offset),
-        calcOffset(node.loc!.end.offset),
-        matchedThemes.join(' '),
-      )
+      if (typeof value === 'string') {
+        code.overwrite(
+          offset + match.index!,
+          offset + match.index! + match[0].length,
+          value,
+        )
+      }
+      else if (throwOnMissing) {
+        throw new Error(`theme of "${rawArg.slice(1, -1)}" did not found`)
+      }
     }
   }
 
   const stack: Promise<void>[] = []
 
   const processNode = async (node: CssNode, _item: ListItem<CssNode>, _list: List<CssNode>) => {
-    if (hasThemeFn)
+    if (hasThemeFn && node.type === 'Declaration')
       handleThemeFn(node)
 
     if (isApply && node.type === 'Rule') {
@@ -197,7 +195,6 @@ export async function transformDirectives(
         node.block.children.map(async (childNode, _childItem) => {
           if (childNode.type === 'Raw')
             return transformDirectives(code, uno, options, filename, childNode.value, calcOffset(childNode.loc!.start.offset))
-
           await handleApply(node, childNode)
         }).toArray(),
       )
