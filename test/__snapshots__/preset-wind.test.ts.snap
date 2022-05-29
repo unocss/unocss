@@ -195,6 +195,8 @@ exports[`preset-wind > targets 1`] = `
 .bg-\\\\[length\\\\:10_20rem\\\\]{background-size:10px 20rem;}
 .bg-\\\\[position\\\\:1\\\\/2_20rem\\\\]{background-position:50% 20rem;}
 .bg-\\\\[position\\\\:10_20rem\\\\]{background-position:10px 20rem;}
+.bg-\\\\[position\\\\:bottom_left_10\\\\%\\\\]{background-position:bottom left 10%;}
+.bg-\\\\[position\\\\:top_right_1\\\\/3\\\\]{background-position:top right 33.3333333333%;}
 .bg-gradient-\\\\[70deg\\\\,blue\\\\,pink\\\\]{--un-gradient:70deg,blue,pink;}
 .bg-gradient-stops-\\\\[blue\\\\,pink\\\\],
 .stops-\\\\[blue\\\\,pink\\\\]{--un-gradient-stops:blue,pink;}

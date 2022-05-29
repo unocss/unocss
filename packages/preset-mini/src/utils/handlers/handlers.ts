@@ -93,11 +93,12 @@ export function fraction(str: string) {
     return `${round(num * 100)}%`
 }
 
+const bracketTypeRe = /^\[(color|length|position):/i
 function bracketWithType(str: string, type?: string) {
   if (str && str.startsWith('[') && str.endsWith(']')) {
     let base: string | undefined
 
-    const match = str.match(/^\[(color|length|position):/i)
+    const match = str.match(bracketTypeRe)
     if (!match)
       base = str.slice(1, -1)
     else if (type && match[1] === type)
@@ -162,5 +163,10 @@ export function global(str: string) {
 
 export function properties(str: string) {
   if (str.split(',').every(prop => cssProps.includes(prop)))
+    return str
+}
+
+export function position(str: string) {
+  if (['top', 'left', 'right', 'bottom', 'center'].includes(str))
     return str
 }

@@ -64,6 +64,8 @@ export const presetWindTargets: string[] = [
   'bg-[length:1/2_20rem]',
   'bg-[position:10_20rem]',
   'bg-[position:1/2_20rem]',
+  'bg-[position:bottom_left_10%]',
+  'bg-[position:top_right_1/3]',
 
   // bg gradient
   'from-current',
