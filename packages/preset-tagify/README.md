@@ -1,6 +1,6 @@
 # @unocss/preset-tagify
 
-Taggify Mode for [UnoCSS](https://github.com/unocss/unocss).
+Tagify Mode for [UnoCSS](https://github.com/unocss/unocss).
 
 ## Installation
 
@@ -73,4 +73,5 @@ presetTagify({
 
 ## License
 
-MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)
+MIT License &copy; 2022-PRESENT [Jeff Zou](https://github.com/zojize)
+MIT License &copy; 2022-PRESENT [Anthony Fu](https://github.com/antfu)
