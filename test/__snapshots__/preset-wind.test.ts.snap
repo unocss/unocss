@@ -279,6 +279,7 @@ exports[`preset-wind > targets 1`] = `
 .bg-blend-luminosity{background-blend-mode:luminosity;}
 .bg-blend-normal{background-blend-mode:normal;}
 .mix-blend-hard-light{mix-blend-mode:hard-light;}
+.mix-blend-plus-lighter{mix-blend-mode:plus-lighter;}
 .mix-blend-normal{mix-blend-mode:normal;}
 .image-render-pixel{-ms-interpolation-mode:nearest-neighbor;image-rendering:-webkit-optimize-contrast;image-rendering:-moz-crisp-edges;image-rendering:-o-pixelated;image-rendering:pixelated;}
 .backdrop-blur,

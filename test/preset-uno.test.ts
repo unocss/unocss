@@ -99,6 +99,9 @@ const nonTargets = [
 
   // wind - placeholder
   '$-placeholder-red-200',
+
+  // wind - bg-blend
+  'bg-blend-plus-lighter', // only added in mix-blend
 ]
 
 const uno = createGenerator({

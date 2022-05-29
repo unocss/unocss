@@ -249,6 +249,7 @@ export const presetWindTargets: string[] = [
   // shadow, spacing
   'mix-blend-normal',
   'mix-blend-hard-light',
+  'mix-blend-plus-lighter',
   'space-y-none',
   'space-x-2',
   'space-y-4',

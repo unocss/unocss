@@ -478,7 +478,9 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .auto-rows-min{grid-auto-rows:min-content;}
 .grid-auto-cols-\\\\$variable{grid-auto-columns:var(--variable);}
 .grid-auto-rows-\\\\$variable{grid-auto-rows:var(--variable);}
-.auto-flow-col-dense{grid-auto-flow:column dense;}
+.auto-flow-col-dense,
+.grid-flow-col-dense{grid-auto-flow:column dense;}
+.grid-flow-dense{grid-auto-flow:dense;}
 .grid-cols-\\\\[1fr_2fr_100px_min-content\\\\]{grid-template-columns:1fr 2fr 100px min-content;}
 .grid-cols-\\\\[repeat\\\\(3\\\\,auto\\\\)\\\\]{grid-template-columns:repeat(3,auto);}
 .grid-cols-\\\\$1{grid-template-columns:var(--\\\\31 );}

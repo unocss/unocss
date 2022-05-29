@@ -285,6 +285,8 @@ export const presetMiniTargets: string[] = [
   'auto-flow-col-dense',
   'grid-cols-minmax-1rem',
   'grid-rows-minmax-100px',
+  'grid-flow-dense',
+  'grid-flow-col-dense',
 
   // layout
   'of-y-visible',
