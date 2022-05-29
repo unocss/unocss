@@ -9,6 +9,10 @@ export * from './types'
 export * from './variant'
 
 const preset = (options: TagifyOptions = {}): Preset => {
+  const {
+    defaultExtractor = true,
+  } = options
+
   const variants = [
     variantTagify(options),
   ]
@@ -16,7 +20,8 @@ const preset = (options: TagifyOptions = {}): Preset => {
     extractorTagify(),
   ]
 
-  extractors.push(extractorSplit)
+  if (defaultExtractor)
+    extractors.push(extractorSplit)
 
   return {
     name: '@unocss/preset-tagify',

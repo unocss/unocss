@@ -10,4 +10,10 @@ export interface TagifyOptions {
   extraProperties?:
   | Record<string, string>
   | ((matched: string) => Partial<Record<string, string>>)
+
+  /**
+   * Enable default extractor
+   * @default true
+   */
+  defaultExtractor?: boolean
 }
