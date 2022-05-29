@@ -459,8 +459,7 @@ describe('transformer-directives', () => {
             div {
               @apply flex h-full w-full justify-center items-center;
 
-              --my-color: theme('colors.red.500');
-              color: var(--my-color);
+              color: theme('colors.red.500');
             }
         `,
       )).toMatchInlineSnapshot(`
@@ -471,8 +470,7 @@ describe('transformer-directives', () => {
           align-items: center;
           justify-content: center;
 
-          --my-color: theme(\\"colors.red.500\\");
-          color: var(--my-color);
+          color: #ef4444;
         }
         "
       `)
