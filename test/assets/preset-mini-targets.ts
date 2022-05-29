@@ -824,6 +824,7 @@ export const presetMiniTargets: string[] = [
   'marker:bg-violet-200',
   'file:bg-violet-50',
   'hover:file:bg-violet-100',
+  'backdrop:shadow-green',
 
   // variants - pseudo classes
   'rtl:text-right',

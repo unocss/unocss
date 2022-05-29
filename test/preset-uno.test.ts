@@ -97,6 +97,9 @@ const nonTargets = [
   'tab-$',
   'ws-$',
 
+  // mini - pseudo colon only
+  'backdrop-shadow-green',
+
   // wind - placeholder
   '$-placeholder-red-200',
 
