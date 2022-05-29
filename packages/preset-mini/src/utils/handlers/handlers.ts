@@ -1,4 +1,5 @@
 import { escapeSelector } from '@unocss/core'
+import { globalKeywords } from '../mappings'
 
 // Not all, but covers most high frequency attributes
 const cssProps = [
@@ -157,7 +158,7 @@ export function degree(str: string) {
 }
 
 export function global(str: string) {
-  if (['inherit', 'initial', 'revert', 'unset'].includes(str))
+  if (globalKeywords.includes(str))
     return str
 }
 
