@@ -28,7 +28,11 @@ exports[`preset-wind > containers 1`] = `
 `;
 
 exports[`preset-wind > targets 1`] = `
-"/* layer: default */
+"/* layer: _pre */
+@media (prefers-contrast: less){
+.layer-_pre\\\\:contrast-less\\\\:bg-gray-3{--un-bg-opacity:1;background-color:rgba(209,213,219,var(--un-bg-opacity));}
+}
+/* layer: default */
 .bg-blend-\\\\$data{background-blend-mode:var(--data);}
 .bg-image-\\\\$variable{background-image:var(--variable);}
 .object-\\\\$fit{object-fit:var(--fit);}
@@ -418,6 +422,9 @@ exports[`preset-wind > targets 1`] = `
 }
 @media (prefers-color-scheme: dark){
 .\\\\@dark\\\\:text-xl{font-size:1.25rem;line-height:1.75rem;}
+}
+@media (prefers-contrast: more){
+.contrast-more\\\\:bg-black{--un-bg-opacity:1;background-color:rgba(0,0,0,var(--un-bg-opacity));}
 }
 @media (prefers-reduced-motion: no-preference){
 .motion-safe\\\\:transition{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms;}

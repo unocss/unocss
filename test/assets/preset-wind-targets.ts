@@ -335,11 +335,11 @@ export const presetWindTargets: string[] = [
   // variants combinators
   'svg:fill-red',
 
-  // variants motion
+  // variants media: contrasts, motions, orientations
+  'contrast-more:bg-black',
+  'layer-_pre:contrast-less:bg-gray-3',
   'motion-reduce:hover:translate-0',
   'motion-safe:transition',
-
-  // variants orientations
   'portrait:hidden',
   'landscape:hidden',
 
