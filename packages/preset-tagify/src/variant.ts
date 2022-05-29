@@ -2,7 +2,7 @@ import type { VariantHandler, VariantObject } from '@unocss/core'
 import type { TagifyOptions } from './types'
 import { MARKER } from './extractor'
 
-export const variantTagify = (options: TagifyOptions = {}): VariantObject => {
+export const variantTagify = (options: TagifyOptions): VariantObject => {
   const prefix = `${MARKER}${options.prefix ?? ''}`
 
   return {

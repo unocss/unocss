@@ -10,8 +10,8 @@ describe('tagify', () => {
 
     const code = `
       <foo>
-          <bar> spam </bar>
-          <baz eggs />
+        <bar>spam</bar>
+        <baz eggs />
       </foo>
     `
 
@@ -41,8 +41,9 @@ describe('tagify', () => {
     const code = `
       <flex>
         <text-red> red text </text-red>
+        <text-green5:10 />
         <m-1> margin </m-1>
-        <custom-rule> bg-pink </custom-rule>
+        <custom-rule class="p2"> custom </custom-rule>
         <btn> shortcut </btn>
         <hover:color-red> variant </hover:color-red>
       </flex>
@@ -54,9 +55,11 @@ describe('tagify', () => {
       btn:disabled{opacity:0.5;--un-bg-opacity:1;background-color:rgba(75,85,99,var(--un-bg-opacity));cursor:default;}
       btn:hover{--un-bg-opacity:1;background-color:rgba(15,118,110,var(--un-bg-opacity));}
       /* layer: default */
+      .p2{padding:0.5rem;}
       m-1{margin:0.25rem;}
       hover\\\\:color-red:hover,
       text-red{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
+      text-green5\\\\:10{color:rgba(34,197,94,0.1);}
       flex{display:flex;}
       custom-rule{background-color:pink;}"
     `)
