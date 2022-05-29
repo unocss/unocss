@@ -15,6 +15,7 @@ describe('autocomplete', () => {
         'foo': 'text-red',
         'foo-bar': 'text-red',
       },
+      [/^bg-mode-(.+)$/, ([, mode]) => `bg-blend-${mode}`, { autocomplete: ['bg-mode-(color|normal)'] }],
     ],
   })
 
@@ -159,6 +160,16 @@ describe('autocomplete', () => {
         [
           "foo",
           "foo-bar",
+        ]
+      `)
+  })
+
+  it('should suggest shortcuts with autocomplete key', async () => {
+    expect(await ac.suggest('bg-mode-'))
+      .toMatchInlineSnapshot(`
+        [
+          "bg-mode-color",
+          "bg-mode-normal",
         ]
       `)
   })
