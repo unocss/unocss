@@ -189,23 +189,9 @@ html.dark {
     var(--un-backdrop-hue-rotate) var(--un-backdrop-invert)
     var(--un-backdrop-opacity) var(--un-backdrop-saturate)
     var(--un-backdrop-sepia);
-  --un-backdrop-blur: blur(16px);
   -webkit-backdrop-filter: var(--un-backdrop-filter);
   backdrop-filter: var(--un-backdrop-filter);
-  --un-backdrop-blur: var(--un-empty, /*!*/ /*!*/);
-  --un-backdrop-brightness: var(--un-empty, /*!*/ /*!*/);
-  --un-backdrop-contrast: var(--un-empty, /*!*/ /*!*/);
-  --un-backdrop-grayscale: var(--un-empty, /*!*/ /*!*/);
-  --un-backdrop-hue-rotate: var(--un-empty, /*!*/ /*!*/);
-  --un-backdrop-invert: var(--un-empty, /*!*/ /*!*/);
-  --un-backdrop-opacity: var(--un-empty, /*!*/ /*!*/);
-  --un-backdrop-saturate: var(--un-empty, /*!*/ /*!*/);
-  --un-backdrop-sepia: var(--un-empty, /*!*/ /*!*/);
-  --un-backdrop-filter: var(--un-backdrop-blur) var(--un-backdrop-brightness)
-    var(--un-backdrop-contrast) var(--un-backdrop-grayscale)
-    var(--un-backdrop-hue-rotate) var(--un-backdrop-invert)
-    var(--un-backdrop-opacity) var(--un-backdrop-saturate)
-    var(--un-backdrop-sepia);
+  --un-backdrop-blur: blur(16px);
   -webkit-backdrop-filter: var(--un-backdrop-filter);
   backdrop-filter: var(--un-backdrop-filter);
 }

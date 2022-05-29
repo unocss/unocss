@@ -48,7 +48,6 @@ const toFilter = (varName: string, resolver: (str: string, theme: Theme) => stri
     if (value !== '') {
       if (b) {
         return [
-          backdropFilterBase,
           {
             [`--un-${b}${varName}`]: `${varName}(${value})`,
             '-webkit-backdrop-filter': 'var(--un-backdrop-filter)',
@@ -58,7 +57,6 @@ const toFilter = (varName: string, resolver: (str: string, theme: Theme) => stri
       }
       else {
         return [
-          filterBase,
           {
             [`--un-${varName}`]: `${varName}(${value})`,
             filter: 'var(--un-filter)',
@@ -73,7 +71,6 @@ const dropShadowResolver = ([, s]: string[], { theme }: RuleContext<Theme>) => {
   if (v != null) {
     const shadows = colorableShadows(v, '--un-drop-shadow-color')
     return [
-      filterBase,
       {
         '--un-drop-shadow': `drop-shadow(${shadows.join(') drop-shadow(')})`,
         'filter': 'var(--un-filter)',
@@ -84,7 +81,6 @@ const dropShadowResolver = ([, s]: string[], { theme }: RuleContext<Theme>) => {
   v = h.bracket.cssvar(s)
   if (v != null) {
     return [
-      filterBase,
       {
         '--un-drop-shadow': `drop-shadow(${v})`,
         'filter': 'var(--un-filter)',
@@ -94,6 +90,19 @@ const dropShadowResolver = ([, s]: string[], { theme }: RuleContext<Theme>) => {
 }
 
 export const filters: Rule<Theme>[] = [
+  // base
+  [/^filter$/, () => [
+    filterBase,
+    { filter: 'var(--un-filter)' },
+  ]],
+  [/^backdrop-filter$/, () => [
+    backdropFilterBase,
+    {
+      '-webkit-backdrop-filter': 'var(--un-backdrop-filter)',
+      'backdrop-filter': 'var(--un-backdrop-filter)',
+    },
+  ], { autocomplete: 'backdrop-filter' }],
+
   // filters
   [/^(?:(backdrop-)|filter-)?blur(?:-(.+))?$/, toFilter('blur', (s, theme) => theme.blur?.[s || 'DEFAULT'] || h.bracket.cssvar.px(s)), { autocomplete: ['(backdrop|filter)-blur-$blur', 'blur-$blur'] }],
   [/^(?:(backdrop-)|filter-)?brightness-(.+)$/, toFilter('brightness', s => h.bracket.cssvar.percent(s)), { autocomplete: ['(backdrop|filter)-brightness-<percent>', 'brightness-<percent>'] }],
@@ -127,19 +136,6 @@ export const filters: Rule<Theme>[] = [
   [/^(?:(backdrop-)|filter-)?sepia(?:-(.+))?$/, toFilter('sepia', percentWithDefault), {
     autocomplete: ['(backdrop|filter)-sepia', '(backdrop|filter)-sepia-<percent>', 'sepia-<percent>'],
   }],
-
-  // base
-  [/^filter$/, () => [
-    filterBase,
-    { filter: 'var(--un-filter)' },
-  ]],
-  [/^backdrop-filter$/, () => [
-    backdropFilterBase,
-    {
-      '-webkit-backdrop-filter': 'var(--un-backdrop-filter)',
-      'backdrop-filter': 'var(--un-backdrop-filter)',
-    },
-  ], { autocomplete: 'backdrop-filter' }],
 
   // nones
   ['filter-none', { filter: 'none' }],
