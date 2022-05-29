@@ -23,8 +23,7 @@ describe('cli', () => {
     expect(output).toMatchSnapshot()
   })
 
-  // FIXME: fails
-  it.skip('supports unocss.config.js', async () => {
+  it('supports unocss.config.js', async () => {
     const { output } = await runCli({
       'views/index.html': '<div class="box"></div>',
       'unocss.config.js': `

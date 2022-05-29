@@ -25,53 +25,53 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
     },
     "./preset-attributify": {
       "types": "./dist/preset-attributify.d.ts",
-      "import": "./dist/preset-attributify.mjs",
-      "require": "./dist/preset-attributify.cjs"
+      "require": "./dist/preset-attributify.cjs",
+      "import": "./dist/preset-attributify.mjs"
     },
     "./preset-tagify": {
       "types": "./dist/preset-tagify.d.ts",
-      "import": "./dist/preset-tagify.mjs",
-      "require": "./dist/preset-tagify.cjs"
+      "require": "./dist/preset-tagify.cjs",
+      "import": "./dist/preset-tagify.mjs"
     },
     "./preset-icons": {
       "types": "./dist/preset-icons.d.ts",
-      "import": "./dist/preset-icons.mjs",
-      "require": "./dist/preset-icons.cjs"
+      "require": "./dist/preset-icons.cjs",
+      "import": "./dist/preset-icons.mjs"
     },
     "./preset-mini": {
       "types": "./dist/preset-mini.d.ts",
-      "import": "./dist/preset-mini.mjs",
-      "require": "./dist/preset-mini.cjs"
+      "require": "./dist/preset-mini.cjs",
+      "import": "./dist/preset-mini.mjs"
     },
     "./preset-typography": {
       "types": "./dist/preset-typography.d.ts",
-      "import": "./dist/preset-typography.mjs",
-      "require": "./dist/preset-typography.cjs"
+      "require": "./dist/preset-typography.cjs",
+      "import": "./dist/preset-typography.mjs"
     },
     "./preset-uno": {
       "types": "./dist/preset-uno.d.ts",
-      "import": "./dist/preset-uno.mjs",
-      "require": "./dist/preset-uno.cjs"
+      "require": "./dist/preset-uno.cjs",
+      "import": "./dist/preset-uno.mjs"
     },
     "./preset-web-fonts": {
       "types": "./dist/preset-web-fonts.d.ts",
-      "import": "./dist/preset-web-fonts.mjs",
-      "require": "./dist/preset-web-fonts.cjs"
+      "require": "./dist/preset-web-fonts.cjs",
+      "import": "./dist/preset-web-fonts.mjs"
     },
     "./preset-wind": {
       "types": "./dist/preset-wind.d.ts",
-      "import": "./dist/preset-wind.mjs",
-      "require": "./dist/preset-wind.cjs"
+      "require": "./dist/preset-wind.cjs",
+      "import": "./dist/preset-wind.mjs"
     },
     "./vite": {
       "types": "./dist/vite.d.ts",
-      "import": "./dist/vite.mjs",
-      "require": "./dist/vite.cjs"
+      "require": "./dist/vite.cjs",
+      "import": "./dist/vite.mjs"
     }
   },
   "main": "dist/index.cjs",
