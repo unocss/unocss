@@ -3,6 +3,7 @@ import type { TagifyOptions } from './types'
 import { MARKER } from './extractor'
 
 export const variantTagify = (options: TagifyOptions): VariantObject => {
+  const { extraProperties } = options
   const prefix = `${MARKER}${options.prefix ?? ''}`
 
   return {
@@ -11,17 +12,15 @@ export const variantTagify = (options: TagifyOptions): VariantObject => {
       if (!input.startsWith(prefix))
         return
 
-      const { extraProperties } = options
-
+      const matcher = input.slice(prefix.length)
       const handler: VariantHandler = {
-        matcher: input.slice(prefix.length),
+        matcher,
         selector: i => i.slice(MARKER.length + 1),
       }
 
       if (extraProperties) {
-        const matched = input.slice(prefix.length)
         if (typeof extraProperties === 'function')
-          handler.body = entries => [...entries, ...Object.entries(extraProperties(matched) ?? {})]
+          handler.body = entries => [...entries, ...Object.entries(extraProperties(matcher) ?? {})]
         else
           handler.body = entries => [...entries, ...Object.entries(extraProperties)]
       }

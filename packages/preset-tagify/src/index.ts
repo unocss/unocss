@@ -17,7 +17,7 @@ const preset = (options: TagifyOptions = {}): Preset => {
     variantTagify(options),
   ]
   const extractors = [
-    extractorTagify(),
+    extractorTagify(options),
   ]
 
   if (defaultExtractor)

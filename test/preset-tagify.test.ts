@@ -6,7 +6,7 @@ import presetMini from '@unocss/preset-mini'
 
 describe('tagify', () => {
   test('extractor', async () => {
-    const extractor = extractorTagify()
+    const extractor = extractorTagify({})
 
     const code = `
       <foo>
