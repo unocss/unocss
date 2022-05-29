@@ -189,10 +189,10 @@ export async function transformDirectives(
   const stack: Promise<void>[] = []
 
   const processNode = async (node: CssNode, _item: ListItem<CssNode>, _list: List<CssNode>) => {
-    if (hasThemeFn) {
+    if (hasThemeFn)
       handleThemeFn(node)
-    }
-    else if (isApply && node.type === 'Rule') {
+
+    if (isApply && node.type === 'Rule') {
       await Promise.all(
         node.block.children.map(async (childNode, _childItem) => {
           if (childNode.type === 'Raw')

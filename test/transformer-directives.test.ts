@@ -452,5 +452,30 @@ describe('transformer-directives', () => {
       )).rejects
         .toMatchInlineSnapshot('[Error: theme() expect exact one argument, but got 2]')
     })
+
+    test('with @apply', async () => {
+      expect(await transform(
+        `
+            div {
+              @apply flex h-full w-full justify-center items-center;
+
+              --my-color: theme('colors.red.500');
+              color: var(--my-color);
+            }
+        `,
+      )).toMatchInlineSnapshot(`
+        "div {
+          height: 100%;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          --my-color: theme(\\"colors.red.500\\");
+          color: var(--my-color);
+        }
+        "
+      `)
+    })
   })
 })
