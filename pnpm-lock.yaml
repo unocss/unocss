@@ -40,6 +40,7 @@ importers:
       '@unocss/preset-attributify': workspace:*
       '@unocss/preset-icons': workspace:*
       '@unocss/preset-mini': workspace:*
+      '@unocss/preset-tagify': workspace:*
       '@unocss/preset-typography': workspace:*
       '@unocss/preset-uno': workspace:*
       '@unocss/preset-web-fonts': workspace:*
@@ -121,6 +122,7 @@ importers:
       '@unocss/preset-attributify': link:packages/preset-attributify
       '@unocss/preset-icons': link:packages/preset-icons
       '@unocss/preset-mini': link:packages/preset-mini
+      '@unocss/preset-tagify': link:packages/preset-tagify
       '@unocss/preset-typography': link:packages/preset-typography
       '@unocss/preset-uno': link:packages/preset-uno
       '@unocss/preset-web-fonts': link:packages/preset-web-fonts
@@ -314,6 +316,7 @@ importers:
       '@unocss/core': workspace:*
       '@unocss/preset-attributify': workspace:*
       '@unocss/preset-icons': workspace:*
+      '@unocss/preset-tagify': workspace:*
       '@unocss/preset-typography': workspace:*
       '@unocss/preset-uno': workspace:*
       '@unocss/preset-web-fonts': workspace:*
@@ -327,6 +330,7 @@ importers:
       '@unocss/core': link:../core
       '@unocss/preset-attributify': link:../preset-attributify
       '@unocss/preset-icons': link:../preset-icons
+      '@unocss/preset-tagify': link:../preset-tagify
       '@unocss/preset-typography': link:../preset-typography
       '@unocss/preset-uno': link:../preset-uno
       '@unocss/preset-web-fonts': link:../preset-web-fonts
@@ -358,6 +362,12 @@ importers:
       '@iconify/types': 1.1.0
 
   packages/preset-mini:
+    specifiers:
+      '@unocss/core': workspace:*
+    dependencies:
+      '@unocss/core': link:../core
+
+  packages/preset-tagify:
     specifiers:
       '@unocss/core': workspace:*
     dependencies:
@@ -480,6 +490,7 @@ importers:
       '@unocss/preset-attributify': workspace:*
       '@unocss/preset-icons': workspace:*
       '@unocss/preset-mini': workspace:*
+      '@unocss/preset-tagify': workspace:*
       '@unocss/preset-typography': workspace:*
       '@unocss/preset-uno': workspace:*
       '@unocss/preset-web-fonts': workspace:*
@@ -495,6 +506,7 @@ importers:
       '@unocss/preset-attributify': link:../preset-attributify
       '@unocss/preset-icons': link:../preset-icons
       '@unocss/preset-mini': link:../preset-mini
+      '@unocss/preset-tagify': link:../preset-tagify
       '@unocss/preset-typography': link:../preset-typography
       '@unocss/preset-uno': link:../preset-uno
       '@unocss/preset-web-fonts': link:../preset-web-fonts

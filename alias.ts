@@ -13,6 +13,7 @@ export const alias: Record<string, string> = {
   '@unocss/preset-attributify': r('./packages/preset-attributify/src/'),
   '@unocss/preset-icons': r('./packages/preset-icons/src/'),
   '@unocss/preset-mini': r('./packages/preset-mini/src/'),
+  '@unocss/preset-tagify': r('./packages/preset-tagify/src/'),
   '@unocss/preset-typography': r('./packages/preset-typography/src/'),
   '@unocss/preset-uno': r('./packages/preset-uno/src/'),
   '@unocss/preset-web-fonts': r('./packages/preset-web-fonts/src/'),

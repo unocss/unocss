@@ -4,6 +4,7 @@ import type { AttributifyOptions } from '@unocss/preset-attributify'
 import type { IconsOptions } from '@unocss/preset-icons'
 import type { WebFontsOptions } from '@unocss/preset-web-fonts'
 import type { TypographyOptions } from '@unocss/preset-typography'
+import type { TagifyOptions } from '@unocss/preset-tagify'
 import type { PresetWindOptions } from '@unocss/preset-wind'
 
 export interface UnocssNuxtOptions extends UserConfig {
@@ -42,6 +43,13 @@ export interface UnocssNuxtOptions extends UserConfig {
    * @default false
    */
   attributify?: boolean | AttributifyOptions
+
+  /**
+   * Enable tagify mode and the options of it
+   * Only works when `presets` is not specified
+   * @default false
+   */
+  tagify?: boolean | TagifyOptions
 
   /**
    * Enable icons preset and the options of it

@@ -3,6 +3,7 @@ import presetAttributify from '@unocss/preset-attributify'
 import presetIcons from '@unocss/preset-icons'
 import presetWebFonts from '@unocss/preset-web-fonts'
 import presetTypography from '@unocss/preset-typography'
+import presetTagify from '@unocss/preset-tagify'
 import presetWind from '@unocss/preset-wind'
 import type { UnocssNuxtOptions } from './types'
 
@@ -12,6 +13,7 @@ export function resolveOptions(options: UnocssNuxtOptions) {
     const presetMap = {
       uno: presetUno,
       attributify: presetAttributify,
+      tagify: presetTagify,
       icons: presetIcons,
       webFonts: presetWebFonts,
       typography: presetTypography,

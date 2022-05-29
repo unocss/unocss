@@ -23,6 +23,7 @@
       "@unocss/preset-attributify": ["./packages/preset-attributify/src/index.ts"],
       "@unocss/preset-icons": ["./packages/preset-icons/src/index.ts"],
       "@unocss/preset-mini": ["./packages/preset-mini/src/index.ts"],
+      "@unocss/preset-tagify": ["./packages/preset-tagify/src/index.ts"],
       "@unocss/preset-mini/rules": ["./packages/preset-mini/src/rules.ts"],
       "@unocss/preset-mini/utils": ["./packages/preset-mini/src/utils.ts"],
       "@unocss/preset-mini/variants": ["./packages/preset-mini/src/variants.ts"],
