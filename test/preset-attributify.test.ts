@@ -6,7 +6,7 @@ import { describe, expect, test } from 'vitest'
 describe('attributify', () => {
   const fixture1 = `
 <button
-  layer-base="c-white/10 hover:c-black/20"
+  uno-layer-base="c-white/10 hover:c-black/20"
   sm="[color:red]"
   md="[--var:var(--another)]"
   lg="bg-blue-600"
@@ -162,9 +162,9 @@ describe('attributify', () => {
     const reversed = res!.resolveReplacement(`${res!.extracted}1`)
     expect(reversed).toMatchInlineSnapshot(`
       {
-        "end": 189,
+        "end": 193,
         "replacement": "blue-4001",
-        "start": 181,
+        "start": 185,
       }
     `)
 

@@ -30,7 +30,7 @@ exports[`preset-wind > containers 1`] = `
 exports[`preset-wind > targets 1`] = `
 "/* layer: _pre */
 @media (prefers-contrast: less){
-.layer-_pre\\\\:contrast-less\\\\:bg-gray-3{--un-bg-opacity:1;background-color:rgba(209,213,219,var(--un-bg-opacity));}
+.uno-layer-_pre\\\\:contrast-less\\\\:bg-gray-3{--un-bg-opacity:1;background-color:rgba(209,213,219,var(--un-bg-opacity));}
 }
 /* layer: default */
 .bg-blend-\\\\$data{background-blend-mode:var(--data);}

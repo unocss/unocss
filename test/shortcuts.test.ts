@@ -81,17 +81,17 @@ describe('shortcuts', () => {
   })
 
   test('variant order', async () => {
-    const { css } = await uno.generate('shortcut-hover-active-2 layer-shortcuts:bg-red-300')
+    const { css } = await uno.generate('shortcut-hover-active-2 uno-layer-shortcuts:bg-red-300')
     expect(css).toMatchSnapshot()
   })
 
   test('variant order', async () => {
-    const { css } = await uno.generate('shortcut-hover-active-2 layer-shortcuts:bg-yellow-300')
+    const { css } = await uno.generate('shortcut-hover-active-2 uno-layer-shortcuts:bg-yellow-300')
     expect(css).toMatchSnapshot()
   })
 
   test('variant order', async () => {
-    const { css } = await uno.generate('shortcut-hover-active-2 layer-shortcuts:bg-blue-300')
+    const { css } = await uno.generate('shortcut-hover-active-2 uno-layer-shortcuts:bg-blue-300')
     expect(css).toMatchSnapshot()
   })
 
