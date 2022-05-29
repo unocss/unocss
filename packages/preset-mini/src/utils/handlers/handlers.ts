@@ -93,7 +93,7 @@ export function fraction(str: string) {
     return `${round(num * 100)}%`
 }
 
-const bracketTypeRe = new RegExp('^\\[(color|length|position):', 'i')
+const bracketTypeRe = /^\[(color|length|position):/i
 function bracketWithType(str: string, type?: string) {
   if (str && str.startsWith('[') && str.endsWith(']')) {
     let base: string | undefined
