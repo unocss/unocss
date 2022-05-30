@@ -1,41 +1,37 @@
 import type { CSSValues, Rule, RuleContext } from '@unocss/core'
-import { CONTROL_SHORTCUT_NO_MERGE } from '@unocss/core'
 import type { Theme } from '../theme'
-import { CONTROL_MINI_NO_NEGATIVE, handler as h, positionMap, xyzMap } from '../utils'
+import { handler as h, positionMap, xyzMap } from '../utils'
 
-const transformGpu = {
-  '--un-transform': [
-    'translate3d(var(--un-translate-x), var(--un-translate-y), var(--un-translate-z))',
-    'rotate(var(--un-rotate))',
-    'rotateX(var(--un-rotate-x))',
-    'rotateY(var(--un-rotate-y))',
-    'rotateZ(var(--un-rotate-z))',
-    'skewX(var(--un-skew-x))',
-    'skewY(var(--un-skew-y))',
-    'scaleX(var(--un-scale-x))',
-    'scaleY(var(--un-scale-y))',
-    'scaleZ(var(--un-scale-z))',
-  ].join(' '),
-}
+const transformCpu = [
+  'translateX(var(--un-translate-x))',
+  'translateY(var(--un-translate-y))',
+  'translateZ(var(--un-translate-z))',
+  'rotate(var(--un-rotate))',
+  'rotateX(var(--un-rotate-x))',
+  'rotateY(var(--un-rotate-y))',
+  'rotateZ(var(--un-rotate-z))',
+  'skewX(var(--un-skew-x))',
+  'skewY(var(--un-skew-y))',
+  'scaleX(var(--un-scale-x))',
+  'scaleY(var(--un-scale-y))',
+  'scaleZ(var(--un-scale-z))',
+].join(' ')
 
-const transformCpu = {
-  '--un-transform': [
-    'translateX(var(--un-translate-x))',
-    'translateY(var(--un-translate-y))',
-    'translateZ(var(--un-translate-z))',
-    'rotate(var(--un-rotate))',
-    'rotateX(var(--un-rotate-x))',
-    'rotateY(var(--un-rotate-y))',
-    'rotateZ(var(--un-rotate-z))',
-    'skewX(var(--un-skew-x))',
-    'skewY(var(--un-skew-y))',
-    'scaleX(var(--un-scale-x))',
-    'scaleY(var(--un-scale-y))',
-    'scaleZ(var(--un-scale-z))',
-  ].join(' '),
-}
+const transformGpu = [
+  'translate3d(var(--un-translate-x), var(--un-translate-y), var(--un-translate-z))',
+  'rotate(var(--un-rotate))',
+  'rotateX(var(--un-rotate-x))',
+  'rotateY(var(--un-rotate-y))',
+  'rotateZ(var(--un-rotate-z))',
+  'skewX(var(--un-skew-x))',
+  'skewY(var(--un-skew-y))',
+  'scaleX(var(--un-scale-x))',
+  'scaleY(var(--un-scale-y))',
+  'scaleZ(var(--un-scale-z))',
+].join(' ')
 
-const transformBase = {
+export const transformBase = {
+  // transform
   '--un-rotate': 0,
   '--un-rotate-x': 0,
   '--un-rotate-y': 0,
@@ -48,9 +44,7 @@ const transformBase = {
   '--un-translate-x': 0,
   '--un-translate-y': 0,
   '--un-translate-z': 0,
-  ...transformCpu,
-  [CONTROL_SHORTCUT_NO_MERGE]: '',
-  [CONTROL_MINI_NO_NEGATIVE]: '',
+  '--un-transform': transformCpu,
 }
 
 export const transforms: Rule[] = [
@@ -93,12 +87,9 @@ export const transforms: Rule[] = [
   [/^(?:transform-)?preserve-flat$/, () => ({ 'transform-style': 'flat' })],
 
   // base
-  [/^transform$/, () => [
-    transformBase,
-    { transform: 'var(--un-transform)' },
-  ]],
-  ['transform-gpu', transformGpu],
-  ['transform-cpu', transformCpu],
+  ['transform', { transform: 'var(--un-transform)' }],
+  ['transform-cpu', { transform: 'var(--un-transform)' }],
+  ['transform-gpu', { transform: transformGpu }],
   ['transform-none', { transform: 'none' }],
 ]
 
@@ -106,11 +97,8 @@ function handleTranslate([, d, b]: string[], { theme }: RuleContext<Theme>): CSS
   const v = theme.spacing?.[b] ?? h.bracket.cssvar.fraction.rem(b)
   if (v != null) {
     return [
-      transformBase,
-      [
-        ...xyzMap[d].map((i): [string, string] => [`--un-translate${i}`, v]),
-        ['transform', 'var(--un-transform)'],
-      ],
+      ...xyzMap[d].map((i): [string, string] => [`--un-translate${i}`, v]),
+      ['transform', 'var(--un-transform)'],
     ]
   }
 }
@@ -119,11 +107,8 @@ function handleScale([, d, b]: string[]): CSSValues | undefined {
   const v = h.bracket.cssvar.fraction.percent(b)
   if (v != null) {
     return [
-      transformBase,
-      [
-        ...xyzMap[d].map((i): [string, string] => [`--un-scale${i}`, v]),
-        ['transform', 'var(--un-transform)'],
-      ],
+      ...xyzMap[d].map((i): [string, string] => [`--un-scale${i}`, v]),
+      ['transform', 'var(--un-transform)'],
     ]
   }
 }
@@ -132,26 +117,20 @@ function handleRotate([, d = '', b]: string[]): CSSValues | undefined {
   const v = h.bracket.cssvar.degree(b)
   if (v != null) {
     if (d) {
-      return [
-        transformBase,
-        {
-          '--un-rotate': 0,
-          [`--un-rotate-${d}`]: v,
-          'transform': 'var(--un-transform)',
-        },
-      ]
+      return {
+        '--un-rotate': 0,
+        [`--un-rotate-${d}`]: v,
+        'transform': 'var(--un-transform)',
+      }
     }
     else {
-      return [
-        transformBase,
-        {
-          '--un-rotate-x': 0,
-          '--un-rotate-y': 0,
-          '--un-rotate-z': 0,
-          '--un-rotate': v,
-          'transform': 'var(--un-transform)',
-        },
-      ]
+      return {
+        '--un-rotate-x': 0,
+        '--un-rotate-y': 0,
+        '--un-rotate-z': 0,
+        '--un-rotate': v,
+        'transform': 'var(--un-transform)',
+      }
     }
   }
 }
@@ -159,12 +138,9 @@ function handleRotate([, d = '', b]: string[]): CSSValues | undefined {
 function handleSkew([, d, b]: string[]): CSSValues | undefined {
   const v = h.bracket.cssvar.degree(b)
   if (v != null) {
-    return [
-      transformBase,
-      {
-        [`--un-skew-${d}`]: v,
-        transform: 'var(--un-transform)',
-      },
-    ]
+    return {
+      [`--un-skew-${d}`]: v,
+      transform: 'var(--un-transform)',
+    }
   }
 }

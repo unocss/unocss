@@ -1,10 +1,9 @@
 import type { CSSValues, Rule, RuleContext } from '@unocss/core'
-import { CONTROL_SHORTCUT_NO_MERGE } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
 import { colorResolver, colorableShadows, handler as h } from '@unocss/preset-mini/utils'
 import { varEmpty } from '@unocss/preset-mini/rules'
 
-const filterBase = {
+export const filterBase = {
   '--un-blur': varEmpty,
   '--un-brightness': varEmpty,
   '--un-contrast': varEmpty,
@@ -15,10 +14,9 @@ const filterBase = {
   '--un-saturate': varEmpty,
   '--un-sepia': varEmpty,
   '--un-filter': 'var(--un-blur) var(--un-brightness) var(--un-contrast) var(--un-drop-shadow) var(--un-grayscale) var(--un-hue-rotate) var(--un-invert) var(--un-saturate) var(--un-sepia)',
-  [CONTROL_SHORTCUT_NO_MERGE]: '',
 }
 
-const backdropFilterBase = {
+export const backdropFilterBase = {
   '--un-backdrop-blur': varEmpty,
   '--un-backdrop-brightness': varEmpty,
   '--un-backdrop-contrast': varEmpty,
@@ -29,7 +27,6 @@ const backdropFilterBase = {
   '--un-backdrop-saturate': varEmpty,
   '--un-backdrop-sepia': varEmpty,
   '--un-backdrop-filter': 'var(--un-backdrop-blur) var(--un-backdrop-brightness) var(--un-backdrop-contrast) var(--un-backdrop-grayscale) var(--un-backdrop-hue-rotate) var(--un-backdrop-invert) var(--un-backdrop-opacity) var(--un-backdrop-saturate) var(--un-backdrop-sepia)',
-  [CONTROL_SHORTCUT_NO_MERGE]: '',
 }
 
 const percentWithDefault = (str?: string) => {
@@ -47,23 +44,17 @@ const toFilter = (varName: string, resolver: (str: string, theme: Theme) => stri
     const value = resolver(s, theme) ?? (s === 'none' ? '0' : '')
     if (value !== '') {
       if (b) {
-        return [
-          backdropFilterBase,
-          {
-            [`--un-${b}${varName}`]: `${varName}(${value})`,
-            '-webkit-backdrop-filter': 'var(--un-backdrop-filter)',
-            'backdrop-filter': 'var(--un-backdrop-filter)',
-          },
-        ]
+        return {
+          [`--un-${b}${varName}`]: `${varName}(${value})`,
+          '-webkit-backdrop-filter': 'var(--un-backdrop-filter)',
+          'backdrop-filter': 'var(--un-backdrop-filter)',
+        }
       }
       else {
-        return [
-          filterBase,
-          {
-            [`--un-${varName}`]: `${varName}(${value})`,
-            filter: 'var(--un-filter)',
-          },
-        ]
+        return {
+          [`--un-${varName}`]: `${varName}(${value})`,
+          filter: 'var(--un-filter)',
+        }
       }
     }
   }
@@ -72,24 +63,18 @@ const dropShadowResolver = ([, s]: string[], { theme }: RuleContext<Theme>) => {
   let v = theme.dropShadow?.[s || 'DEFAULT']
   if (v != null) {
     const shadows = colorableShadows(v, '--un-drop-shadow-color')
-    return [
-      filterBase,
-      {
-        '--un-drop-shadow': `drop-shadow(${shadows.join(') drop-shadow(')})`,
-        'filter': 'var(--un-filter)',
-      },
-    ]
+    return {
+      '--un-drop-shadow': `drop-shadow(${shadows.join(') drop-shadow(')})`,
+      'filter': 'var(--un-filter)',
+    }
   }
 
   v = h.bracket.cssvar(s)
   if (v != null) {
-    return [
-      filterBase,
-      {
-        '--un-drop-shadow': `drop-shadow(${v})`,
-        'filter': 'var(--un-filter)',
-      },
-    ]
+    return {
+      '--un-drop-shadow': `drop-shadow(${v})`,
+      'filter': 'var(--un-filter)',
+    }
   }
 }
 
@@ -110,36 +95,20 @@ export const filters: Rule<Theme>[] = [
   }],
   [/^(?:filter-)?drop-shadow-color-(.+)$/, colorResolver('--un-drop-shadow-color', 'drop-shadow')],
   [/^(?:filter-)?drop-shadow-color-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-drop-shadow-opacity': h.bracket.percent(opacity) })],
-  [/^(?:(backdrop-)|filter-)?grayscale(?:-(.+))?$/, toFilter('grayscale', percentWithDefault), {
-    autocomplete: ['(backdrop|filter)-grayscale', '(backdrop|filter)-grayscale-<percent>', 'grayscale-<percent>'],
-  }],
+  [/^(?:(backdrop-)|filter-)?grayscale(?:-(.+))?$/, toFilter('grayscale', percentWithDefault), { autocomplete: ['(backdrop|filter)-grayscale', '(backdrop|filter)-grayscale-<percent>', 'grayscale-<percent>'] }],
   [/^(?:(backdrop-)|filter-)?hue-rotate-(.+)$/, toFilter('hue-rotate', s => h.bracket.cssvar.degree(s))],
-  [/^(?:(backdrop-)|filter-)?invert(?:-(.+))?$/, toFilter('invert', percentWithDefault), {
-    autocomplete: ['(backdrop|filter)-invert', '(backdrop|filter)-invert-<percent>', 'invert-<percent>'],
-  }],
+  [/^(?:(backdrop-)|filter-)?invert(?:-(.+))?$/, toFilter('invert', percentWithDefault), { autocomplete: ['(backdrop|filter)-invert', '(backdrop|filter)-invert-<percent>', 'invert-<percent>'] }],
   // opacity only on backdrop-filter
-  [/^(backdrop-)op(?:acity)-(.+)$/, toFilter('opacity', s => h.bracket.cssvar.percent(s)), {
-    autocomplete: ['backdrop-(op|opacity)', 'backdrop-(op|opacity)-<percent>'],
-  }],
-  [/^(?:(backdrop-)|filter-)?saturate-(.+)$/, toFilter('saturate', s => h.bracket.cssvar.percent(s)), {
-    autocomplete: ['(backdrop|filter)-saturate', '(backdrop|filter)-saturate-<percent>', 'saturate-<percent>'],
-  }],
-  [/^(?:(backdrop-)|filter-)?sepia(?:-(.+))?$/, toFilter('sepia', percentWithDefault), {
-    autocomplete: ['(backdrop|filter)-sepia', '(backdrop|filter)-sepia-<percent>', 'sepia-<percent>'],
-  }],
+  [/^(backdrop-)op(?:acity)-(.+)$/, toFilter('opacity', s => h.bracket.cssvar.percent(s)), { autocomplete: ['backdrop-(op|opacity)', 'backdrop-(op|opacity)-<percent>'] }],
+  [/^(?:(backdrop-)|filter-)?saturate-(.+)$/, toFilter('saturate', s => h.bracket.cssvar.percent(s)), { autocomplete: ['(backdrop|filter)-saturate', '(backdrop|filter)-saturate-<percent>', 'saturate-<percent>'] }],
+  [/^(?:(backdrop-)|filter-)?sepia(?:-(.+))?$/, toFilter('sepia', percentWithDefault), { autocomplete: ['(backdrop|filter)-sepia', '(backdrop|filter)-sepia-<percent>', 'sepia-<percent>'] }],
 
   // base
-  [/^filter$/, () => [
-    filterBase,
-    { filter: 'var(--un-filter)' },
-  ]],
-  [/^backdrop-filter$/, () => [
-    backdropFilterBase,
-    {
-      '-webkit-backdrop-filter': 'var(--un-backdrop-filter)',
-      'backdrop-filter': 'var(--un-backdrop-filter)',
-    },
-  ], { autocomplete: 'backdrop-filter' }],
+  ['filter', { filter: 'var(--un-filter)' }],
+  ['backdrop-filter', {
+    '-webkit-backdrop-filter': 'var(--un-backdrop-filter)',
+    'backdrop-filter': 'var(--un-backdrop-filter)',
+  }],
 
   // nones
   ['filter-none', { filter: 'none' }],

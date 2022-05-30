@@ -11,6 +11,7 @@ export function resolveShortcuts(shortcuts: UserShortcuts): Shortcut[] {
 }
 
 const defaultLayers = {
+  preflights: -100,
   shortcuts: -1,
   default: 0,
 }

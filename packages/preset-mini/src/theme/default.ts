@@ -4,6 +4,7 @@ import { borderRadius, boxShadow, breakpoints, duration, easing, lineWidth, ring
 import { blur, dropShadow } from './filters'
 import { height, maxHeight, maxWidth, width } from './size'
 import type { Theme } from './types'
+import { preflightBase } from './preflight'
 
 export const theme: Theme = {
   width,
@@ -38,4 +39,5 @@ export const theme: Theme = {
   spacing,
   duration,
   ringWidth,
+  preflightBase,
 }
