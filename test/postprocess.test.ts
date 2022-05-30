@@ -34,7 +34,7 @@ test('postprocess', async () => {
       },
     ],
   })
-  const { css, matched } = await uno.generate(new Set([...positive]))
+  const { css, matched } = await uno.generate(new Set([...positive]), { preflights: false })
   expect(matched).eql(new Set(positive))
   expect(css).toMatchSnapshot()
 })
