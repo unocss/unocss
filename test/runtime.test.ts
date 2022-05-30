@@ -1,5 +1,6 @@
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
+import presetTagify from '@unocss/preset-tagify'
 import { describe, expect, test } from 'vitest'
 import { autoPrefixer } from '../packages/runtime/src/utils'
 
@@ -58,6 +59,28 @@ describe('runtime auto prefixer', () => {
     })
 
     const { css } = await uno.generate(targets)
+    expect(css).toMatchSnapshot()
+  })
+
+  test('runtime tagify', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetUno(),
+        presetTagify(),
+      ],
+    })
+
+    const { css } = await uno.generate(`
+      <flex>
+        <text-red> red text </text-red>
+        <text-green5:10 />
+        <m-1 class="p2"> margin </m-1>
+        <btn> shortcut </btn>
+        <hover:color-red> variant </hover:color-red>
+        <scale-2> zoom </scale-2>
+        <shadow-xl> modal </shadow-xl>
+      </flex>
+    `)
     expect(css).toMatchSnapshot()
   })
 })
