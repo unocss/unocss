@@ -15,8 +15,8 @@ export const boxShadows: Rule<Theme>[] = [
     const v = theme.boxShadow?.[d || 'DEFAULT']
     if (v) {
       return {
-          '--un-shadow': colorableShadows(v, '--un-shadow-color').join(','),
-          'box-shadow': 'var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow)',
+        '--un-shadow': colorableShadows(v, '--un-shadow-color').join(','),
+        'box-shadow': 'var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow)',
       }
     }
   }, { autocomplete: 'shadow-$boxShadow' }],
