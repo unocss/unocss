@@ -24,6 +24,6 @@ const uno = createGenerator({
 })
 
 test('scope', async () => {
-  const { css } = await uno.generate(fixture, { scope: '.foo-scope' })
+  const { css } = await uno.generate(fixture, { scope: '.foo-scope', preflights: false })
   expect(css).toMatchSnapshot()
 })
