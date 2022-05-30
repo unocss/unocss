@@ -31,6 +31,7 @@
       "@unocss/preset-uno": ["./packages/preset-uno/src/index.ts"],
       "@unocss/preset-web-fonts": ["./packages/preset-web-fonts/src/index.ts"],
       "@unocss/preset-wind": ["./packages/preset-wind/src/index.ts"],
+      "@unocss/preset-rem-to-px": ["./packages/preset-rem-to-px/src/index.ts"],
       "@unocss/shared-integration": ["./packages/shared-integration/src/index.ts"],
       "@unocss/shared-docs": ["./packages/shared-docs/src/index.ts"],
       "@unocss/shared-common": ["./packages/shared-common/src/index.ts"],

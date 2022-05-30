@@ -18,6 +18,7 @@ export const alias: Record<string, string> = {
   '@unocss/preset-uno': r('./packages/preset-uno/src/'),
   '@unocss/preset-web-fonts': r('./packages/preset-web-fonts/src/'),
   '@unocss/preset-wind': r('./packages/preset-wind/src/'),
+  '@unocss/preset-rem-to-px': r('./packages/preset-rem-to-px/src/'),
   '@unocss/transformer-directives': r('./packages/transformer-directives/src/'),
   '@unocss/transformer-variant-group': r('./packages/transformer-variant-group/src/'),
   '@unocss/transformer-compile-class': r('./packages/transformer-compile-class/src/'),
