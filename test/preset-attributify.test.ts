@@ -133,12 +133,12 @@ describe('attributify', () => {
   })
 
   test('fixture1', async () => {
-    const { css } = await uno.generate(fixture1)
+    const { css } = await uno.generate(fixture1, { preflights: false })
     expect(css).toMatchSnapshot()
   })
 
   test('fixture2', async () => {
-    const { css } = await uno.generate(fixture2)
+    const { css } = await uno.generate(fixture2, { preflights: false })
     expect(css).toMatchSnapshot()
   })
 
@@ -175,7 +175,7 @@ describe('attributify', () => {
   })
 
   test('compatible with full controlled rules', async () => {
-    const { css } = await uno.generate(fixture3)
+    const { css } = await uno.generate(fixture3, { preflights: false })
     expect(css).toMatchSnapshot()
   })
 
@@ -189,7 +189,7 @@ describe('attributify', () => {
     const { css } = await uno.generate(`
       <div flex="true"></div>
       <div grid="~ cols-2"></div>
-    `)
+    `, { preflights: false })
     expect(css).toMatchSnapshot()
   })
 

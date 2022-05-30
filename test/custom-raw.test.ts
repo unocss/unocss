@@ -30,7 +30,7 @@ describe('custom-raw', () => {
         [/^m-(\d+)$/, ([, d]) => ({ margin: `${d}px` })],
       ],
     })
-    const { css } = await uno.generate('m-1 m-hi-anthony m-hi-hi before')
+    const { css } = await uno.generate('m-1 m-hi-anthony m-hi-hi before', { preflights: false })
     expect(css).toMatchSnapshot('')
   })
 })

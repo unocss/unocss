@@ -34,7 +34,7 @@ test('prefix', async () => {
       btn1: 'ml-10 btn',
     },
   })
-  const { css, matched } = await uno.generate(new Set([...positive, ...negative]))
+  const { css, matched } = await uno.generate(new Set([...positive, ...negative]), { preflights: false })
   expect(matched).eql(new Set(positive))
   expect(css).toMatchSnapshot()
 })
@@ -69,7 +69,7 @@ test('tailwind prefix', async () => {
       btn1: 'ml-10 btn',
     },
   })
-  const { css, matched } = await uno.generate(new Set([...positive, ...negative]))
+  const { css, matched } = await uno.generate(new Set([...positive, ...negative]), { preflights: false })
   expect(matched).eql(new Set(positive))
   expect(css).toMatchSnapshot()
 })

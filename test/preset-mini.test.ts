@@ -57,7 +57,7 @@ describe('preset-mini', () => {
       'text-opacity-50',
       'text-red',
       'scale-100',
-    ].join(' '))
+    ].join(' '), { preflights: false })
 
     expect(css).toMatchSnapshot()
   })

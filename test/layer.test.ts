@@ -16,7 +16,7 @@ describe('layers', () => {
       ],
       presets: [],
     })
-    const { css } = await uno.generate('a b abc abcd d4 c5')
+    const { css } = await uno.generate('a b abc abcd d4 c5', { preflights: false })
     expect(css).toMatchSnapshot()
   })
 })

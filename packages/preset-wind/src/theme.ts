@@ -1,7 +1,7 @@
 import type { Theme } from '@unocss/preset-mini'
-import { transformBase } from '@unocss/preset-mini/rules'
+import { boxShadowsBase, ringBase, transformBase } from '@unocss/preset-mini/rules'
 import { theme as miniTheme } from '@unocss/preset-mini/theme'
-import { backdropFilterBase, filterBase } from './rules'
+import { backdropFilterBase, filterBase, fontVariantNumericBase, scrollSnapTypeBase, touchActionBase } from './rules'
 
 export const theme: Theme = {
   ...miniTheme,
@@ -176,6 +176,11 @@ export const theme: Theme = {
   },
   preflightBase: {
     ...transformBase,
+    ...touchActionBase,
+    ...scrollSnapTypeBase,
+    ...fontVariantNumericBase,
+    ...boxShadowsBase,
+    ...ringBase,
     ...filterBase,
     ...backdropFilterBase,
   },

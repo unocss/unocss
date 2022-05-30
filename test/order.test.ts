@@ -12,7 +12,7 @@ describe('order', () => {
       ],
       presets: [],
     })
-    const { css } = await uno.generate('foo')
+    const { css } = await uno.generate('foo', { preflights: false })
     expect(css).toContain('bar2')
   })
 
@@ -24,7 +24,7 @@ describe('order', () => {
       ],
       presets: [],
     })
-    const { css } = await uno.generate('foo')
+    const { css } = await uno.generate('foo', { preflights: false })
     expect(css).toContain('bar2')
   })
 
@@ -54,8 +54,8 @@ describe('order', () => {
       'dark:group:foo-3',
       'group:dark:foo-4',
     ].join(' ')
-    const { css } = await uno.generate(code)
-    const { css: css2 } = await uno.generate(code)
+    const { css } = await uno.generate(code, { preflights: false })
+    const { css: css2 } = await uno.generate(code, { preflights: false })
     expect(css).toMatchSnapshot()
     expect(css).toEqual(css2)
   })
@@ -70,7 +70,7 @@ describe('order', () => {
     const { css } = await uno.generate([
       'dark:group-hover:group-focus-within:bg-blue-600',
       'group-hover:group-focus-within:dark:bg-red-600',
-    ].join(' '))
+    ].join(' '), { preflights: false })
 
     expect(css).toMatchSnapshot()
   })
@@ -108,8 +108,8 @@ describe('order', () => {
       'pre:foo-1',
       'zzz:foo-1',
     ].join(' ')
-    const { css } = await uno.generate(code)
-    const { css: css2 } = await uno.generate(code)
+    const { css } = await uno.generate(code, { preflights: false })
+    const { css: css2 } = await uno.generate(code, { preflights: false })
     expect(css).toMatchSnapshot()
     expect(css).toEqual(css2)
   })

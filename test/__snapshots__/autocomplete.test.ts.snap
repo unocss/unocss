@@ -51,7 +51,7 @@ exports[`autocomplete > should provide autocomplete 1`] = `
   "space-": "space-block space-block-reverse space-inline space-inline-reverse space-x space-x-reverse space-y space-y-reverse",
   "text-r": "text-red text-revert text-revert-layer text-right text-rose",
   "text-red-": "text-red-1 text-red-2 text-red-3 text-red-4 text-red-5 text-red-6 text-red-7 text-red-8 text-red-9 text-red-50",
-  "touch-": "touch-auto touch-manipulation touch-none touch-pan touch-pinch touch-pinch-zoom",
+  "touch-": "touch-auto touch-manipulation touch-none touch-pan touch-pinch-zoom",
   "transition-": "transition-all transition-colors transition-none transition-opacity transition-shadow transition-transform",
   "v-": "v-base v-baseline v-bottom v-btm v-mid v-middle v-sub v-super v-text-bottom v-text-top",
   "w-": "w-2xl w-3xl w-4xl w-5xl w-6xl w-7xl w-auto w-lg w-md w-none",

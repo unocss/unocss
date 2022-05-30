@@ -1,18 +1,18 @@
 import type { Rule } from '@unocss/core'
-import { CONTROL_SHORTCUT_NO_MERGE } from '@unocss/core'
 import { directionSize } from '@unocss/preset-mini/utils'
+
+export const scrollSnapTypeBase = {
+  '--un-scroll-snap-strictness': 'proximity',
+}
 
 export const scrolls: Rule[] = [
   // snap type
-  [/^snap-(x|y|both)$/, ([, d]) => [
-    {
-      '--un-scroll-snap-strictness': 'proximity',
-      [CONTROL_SHORTCUT_NO_MERGE]: '',
-    },
-    {
-      'scroll-snap-type': `${d} var(--un-scroll-snap-strictness)`,
-    },
-  ], { autocomplete: 'snap-(x|y|both)' }],
+  [/^snap-(x|y)$/, ([, d]) => ({
+    'scroll-snap-type': `${d} var(--un-scroll-snap-strictness)`,
+  }), { autocomplete: 'snap-(x|y|both)' }],
+  [/^snap-both$/, () => ({
+    'scroll-snap-type': 'both var(--un-scroll-snap-strictness)',
+  })],
   ['snap-mandatory', { '--un-scroll-snap-strictness': 'mandatory' }],
   ['snap-proximity', { '--un-scroll-snap-strictness': 'proximity' }],
   ['snap-none', { 'scroll-snap-type': 'none' }],

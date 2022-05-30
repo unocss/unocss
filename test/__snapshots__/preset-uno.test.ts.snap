@@ -36,7 +36,6 @@ section{--un-text-opacity:1;color:rgba(156,163,175,var(--un-text-opacity));}
 .body_main{--un-bg-opacity:1;background-color:rgba(255,255,255,var(--un-bg-opacity));}
 }
 @media (min-width: 768px){
-aside{--un-shadow-inset:var(--un-empty,/*!*/ /*!*/);--un-shadow:0 0 #0000;}
 aside{--un-shadow:var(--un-shadow-inset) 0 20px 25px -5px var(--un-shadow-color, rgba(0,0,0,0.1)),var(--un-shadow-inset) 0 8px 10px -6px var(--un-shadow-color, rgba(0,0,0,0.1));box-shadow:var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow);}
 }"
 `;

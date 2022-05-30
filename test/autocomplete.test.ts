@@ -195,7 +195,7 @@ describe('use uno cache', () => {
     expect(await ac.suggest('btn'))
       .toMatchInlineSnapshot('[]')
 
-    await uno.generate('btn-red btn-green m-100')
+    await uno.generate('btn-red btn-green m-100', { preflights: false })
     ac.reset()
 
     expect(await ac.suggest('btn'))
