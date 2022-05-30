@@ -793,8 +793,10 @@ export const presetMiniTargets: string[] = [
   'light:text-sm',
 
   // variants layer
-  'layer-1:translate-0',
-  'layer-uno_css:block',
+  'uno-layer-1:translate-0',
+  'uno-layer-uno_css:block',
+  'layer-base:translate-0',
+  'layer-utility:block',
 
   // variants misc
   '-rotate-2',

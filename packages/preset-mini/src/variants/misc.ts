@@ -14,10 +14,23 @@ export const variantSelector: Variant = {
   },
 }
 
-export const variantLayer: Variant = {
+export const variantCssLayer: Variant = {
   name: 'layer',
   match(matcher) {
     const match = matcher.match(/^layer-([_\d\w]+)[:-]/)
+    if (match) {
+      return {
+        matcher: matcher.slice(match[0].length),
+        parent: `@layer ${match[1]}`,
+      }
+    }
+  },
+}
+
+export const variantInternalLayer: Variant = {
+  name: 'uno-layer',
+  match(matcher) {
+    const match = matcher.match(/^uno-layer-([_\d\w]+)[:-]/)
     if (match) {
       return {
         matcher: matcher.slice(match[0].length),

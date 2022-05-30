@@ -3,7 +3,7 @@
 exports[`attributify > autocomplete extractor 5`] = `
 "
 <button
-  layer-base=\\"c-white/10 hover:c-black/20\\"
+  uno-layer-base=\\"c-white/10 hover:c-black/20\\"
   sm=\\"[color:red]\\"
   md=\\"[--var:var(--another)]\\"
   lg=\\"bg-blue-600\\"
@@ -82,8 +82,8 @@ exports[`attributify > compatible with full controlled rules 1`] = `
 
 exports[`attributify > extractor1 1`] = `
 Set {
-  "[layer-base~=\\"c-white/10\\"]",
-  "[layer-base~=\\"hover:c-black/20\\"]",
+  "[uno-layer-base~=\\"c-white/10\\"]",
+  "[uno-layer-base~=\\"hover:c-black/20\\"]",
   "[sm~=\\"[color:red]\\"]",
   "[md~=\\"[--var:var(--another)]\\"]",
   "[lg~=\\"bg-blue-600\\"]",
@@ -201,8 +201,8 @@ exports[`attributify > fixture1 1`] = `
 "/* layer: preflights */
 *,::before,::after{--un-rotate:0;--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;--un-transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));--un-blur:var(--un-empty,/*!*/ /*!*/);--un-brightness:var(--un-empty,/*!*/ /*!*/);--un-contrast:var(--un-empty,/*!*/ /*!*/);--un-drop-shadow:var(--un-empty,/*!*/ /*!*/);--un-grayscale:var(--un-empty,/*!*/ /*!*/);--un-hue-rotate:var(--un-empty,/*!*/ /*!*/);--un-invert:var(--un-empty,/*!*/ /*!*/);--un-saturate:var(--un-empty,/*!*/ /*!*/);--un-sepia:var(--un-empty,/*!*/ /*!*/);--un-filter:var(--un-blur) var(--un-brightness) var(--un-contrast) var(--un-drop-shadow) var(--un-grayscale) var(--un-hue-rotate) var(--un-invert) var(--un-saturate) var(--un-sepia);--un-backdrop-blur:var(--un-empty,/*!*/ /*!*/);--un-backdrop-brightness:var(--un-empty,/*!*/ /*!*/);--un-backdrop-contrast:var(--un-empty,/*!*/ /*!*/);--un-backdrop-grayscale:var(--un-empty,/*!*/ /*!*/);--un-backdrop-hue-rotate:var(--un-empty,/*!*/ /*!*/);--un-backdrop-invert:var(--un-empty,/*!*/ /*!*/);--un-backdrop-opacity:var(--un-empty,/*!*/ /*!*/);--un-backdrop-saturate:var(--un-empty,/*!*/ /*!*/);--un-backdrop-sepia:var(--un-empty,/*!*/ /*!*/);--un-backdrop-filter:var(--un-backdrop-blur) var(--un-backdrop-brightness) var(--un-backdrop-contrast) var(--un-backdrop-grayscale) var(--un-backdrop-hue-rotate) var(--un-backdrop-invert) var(--un-backdrop-opacity) var(--un-backdrop-saturate) var(--un-backdrop-sepia);}
 /* layer: base */
-[layer-base~=\\"c-white\\\\/10\\"]{color:rgba(255,255,255,0.1);}
-[layer-base~=\\"hover\\\\:c-black\\\\/20\\"]:hover{color:rgba(0,0,0,0.2);}
+[uno-layer-base~=\\"c-white\\\\/10\\"]{color:rgba(255,255,255,0.1);}
+[uno-layer-base~=\\"hover\\\\:c-black\\\\/20\\"]:hover{color:rgba(0,0,0,0.2);}
 /* layer: default */
 .absolute{position:absolute;}
 .fixed{position:fixed;}
@@ -313,8 +313,8 @@ exports[`attributify > fixture2 1`] = `
 
 exports[`attributify > variant 1`] = `
 [
-  "layer-base-c-white/10",
-  "hover:layer-base-c-black/20",
+  "uno-layer-base-c-white/10",
+  "hover:uno-layer-base-c-black/20",
   "sm-[color:red]",
   "md-[--var:var(--another)]",
   "lg-bg-blue-600",

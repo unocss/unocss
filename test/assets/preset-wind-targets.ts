@@ -339,7 +339,7 @@ export const presetWindTargets: string[] = [
 
   // variants media: contrasts, motions, orientations
   'contrast-more:bg-black',
-  'layer-_pre:contrast-less:bg-gray-3',
+  'uno-layer-_pre:contrast-less:bg-gray-3',
   'motion-reduce:hover:translate-0',
   'motion-safe:transition',
   'portrait:hidden',
