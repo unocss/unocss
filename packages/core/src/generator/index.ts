@@ -1,7 +1,7 @@
 import { createNanoEvents } from '../utils/events'
 import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, Shortcut, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
-import { CONTROL_SHORTCUT_NO_MERGE, TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, noop, normalizeCSSEntries, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
+import { TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, noop, normalizeCSSEntries, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
 
 export class UnoGenerator {
@@ -501,28 +501,20 @@ export class UnoGenerator {
     }
     return rawStringfieldUtil.concat(selectorMap
       .map(([e, index], selector, mediaQuery) => {
-        const stringify = (flatten: boolean, noMerge: boolean, entrySortPair: [CSSEntries, number][]): (StringifiedUtil | undefined)[] => {
-          const maxSort = Math.max(...entrySortPair.map(e => e[1]))
-          const entriesList = entrySortPair.map(e => e[0])
-          return (flatten ? [entriesList.flat(1)] : entriesList).map((entries: CSSEntries): StringifiedUtil | undefined => {
-            const body = entriesToCss(entries)
-            if (body)
-              return [index, selector, body, mediaQuery, { ...meta, noMerge, sort: maxSort }, context]
-            return undefined
-          })
-        }
-
         const merges = [
           [e.filter(([, noMerge]) => noMerge).map(([entries,, sort]) => [entries, sort]), true],
           [e.filter(([, noMerge]) => !noMerge).map(([entries,, sort]) => [entries, sort]), false],
         ] as [[CSSEntries, number][], boolean][]
 
-        return merges.map(([e, noMerge]) => [
-          ...stringify(false, noMerge, e.filter(([entries]) => entries.some(entry => entry[0] === CONTROL_SHORTCUT_NO_MERGE))),
-          ...stringify(true, noMerge, e.filter(([entries]) => entries.every(entry => entry[0] !== CONTROL_SHORTCUT_NO_MERGE))),
-        ])
+        return merges.map(([entrySortPair, noMerge]) => {
+          const body = entriesToCss(entrySortPair.map(e => e[0]).flat(1))
+          if (body) {
+            const maxSort = Math.max(...entrySortPair.map(e => e[1]))
+            return [index, selector, body, mediaQuery, { ...meta, noMerge, sort: maxSort }, context] as StringifiedUtil
+          }
+        })
       })
-      .flat(2)
+      .flat(1)
       .filter(Boolean) as StringifiedUtil[])
   }
 
