@@ -86,6 +86,7 @@ const nonTargets = [
   'property-background-color,colour-300',
   'property-colour-background-color-300',
   'transition-unset',
+  'transition-revert-layer',
   'transition-colour',
   'transition-background-color,colour-300',
   'transition-colour,background-color-300',
@@ -126,8 +127,8 @@ const uno = createGenerator({
 
 test('targets', async () => {
   const code = targets.join(' ')
-  const { css } = await uno.generate(code)
-  const { css: css2 } = await uno.generate(code)
+  const { css } = await uno.generate(code, { preflights: false })
+  const { css: css2 } = await uno.generate(code, { preflights: false })
 
   const unmatched = []
   for (const i of targets) {
@@ -141,8 +142,8 @@ test('targets', async () => {
 
 test('targets', async () => {
   const code = targets2.join(' ')
-  const { css } = await uno.generate(code)
-  const { css: css2 } = await uno.generate(code)
+  const { css } = await uno.generate(code, { preflights: false })
+  const { css: css2 } = await uno.generate(code, { preflights: false })
 
   expect(css).toMatchSnapshot()
   expect(css).toEqual(css2)
@@ -150,7 +151,7 @@ test('targets', async () => {
 
 test('non-targets', async () => {
   const code = nonTargets.join(' ')
-  const { css, matched } = await uno.generate(code)
+  const { css, matched } = await uno.generate(code, { preflights: false })
 
   expect(Array.from(matched)).toEqual([])
   expect(css).toBe('')

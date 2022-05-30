@@ -1,6 +1,6 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { handler as h } from '../utils'
+import { globalKeywords, handler as h } from '../utils'
 
 const transitionPropertyGroup: Record<string, string> = {
   all: 'all',
@@ -42,7 +42,7 @@ export const transitions: Rule<Theme>[] = [
 
   // props
   [/^(?:transition-)?property-(.+)$/, ([, v]) => ({ 'transition-property': h.global(v) || transitionProperty(v) }),
-    { autocomplete: [`transition-property-(${['inherit', 'initial', 'revert', 'unset', ...Object.keys(transitionPropertyGroup)].join('|')})`] }],
+    { autocomplete: [`transition-property-(${[...globalKeywords, ...Object.keys(transitionPropertyGroup)].join('|')})`] }],
 
   // none
   ['transition-none', { transition: 'none' }],

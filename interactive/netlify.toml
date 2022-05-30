@@ -6,6 +6,7 @@
 [build]
   publish = "dist"
   command = "cd .. && npx pnpm i --store=./node_modules/.pnpm-store && pnpm run deploy && cd interactive"
+  ignore = "git diff --quiet HEAD^ HEAD . ../packages"
 
 [functions]
   node_bundler = "esbuild"

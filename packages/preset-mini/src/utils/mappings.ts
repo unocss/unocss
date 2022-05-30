@@ -97,3 +97,11 @@ export const positionMap: Record<string, string> = Object.assign(
   // [{ t: 'top' }, { tc: 'top center' }, ...]
   ...basePositionMap.map(p => ({ [p.replace(/\b(\w)\w+/g, '$1').replace(/ /, '')]: p })),
 )
+
+export const globalKeywords = [
+  'inherit',
+  'initial',
+  'revert',
+  'revert-layer',
+  'unset',
+]

@@ -38,7 +38,7 @@ describe('preset-mini', () => {
 
   test('utils from preset-wind should be non-targets', async () => {
     const code = presetWindTargets.join(' ')
-    const { css, matched } = await uno.generate(code)
+    const { css, matched } = await uno.generate(code, { preflights: false })
 
     expect(Array.from(matched)).toEqual([])
     expect(css).toBe('')

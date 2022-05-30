@@ -1,6 +1,8 @@
 import type { CSSObject, Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorResolver, handler as h } from '../utils'
+import { colorResolver, globalKeywords, handler as h } from '../utils'
+
+const decorationStyles = ['solid', 'double', 'dotted', 'dashed', 'wavy', ...globalKeywords]
 
 export const textDecorations: Rule<Theme>[] = [
   [/^(?:decoration-)?(underline|overline|line-through)$/, ([, s]) => ({ 'text-decoration-line': s }), { autocomplete: 'decoration-(underline|overline|line-through)' }],
@@ -25,7 +27,8 @@ export const textDecorations: Rule<Theme>[] = [
   [/^(?:underline|decoration)-offset-(.+)$/, ([, s], { theme }) => ({ 'text-underline-offset': theme.lineWidth?.[s] ?? h.auto.bracket.cssvar.px(s) }), { autocomplete: '(underline|decoration)-(offset)-<num>' }],
 
   // style
-  [/^(?:underline|decoration)-(solid|double|dotted|dashed|wavy|inherit|initial|revert|unset)$/, ([, d]) => ({ 'text-decoration-style': d }), { autocomplete: '(underline|decoration)-(solid|double|dotted|dashed|wavy|inherit|initial|revert|unset)' }],
+  ...decorationStyles.map(v => [`underline-${v}`, { 'text-decoration-style': v }] as Rule<Theme>),
+  ...decorationStyles.map(v => [`decoration-${v}`, { 'text-decoration-style': v }] as Rule<Theme>),
   ['no-underline', { 'text-decoration': 'none' }],
   ['decoration-none', { 'text-decoration': 'none' }],
 ]
