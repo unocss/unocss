@@ -13,6 +13,7 @@
 | [@unocss/preset-icons](./preset-icons) | Pure CSS Icons solution powered by Iconify | ✅ | No |
 | [@unocss/preset-web-fonts](./preset-web-fonts) | Web fonts (Google Fonts, etc.) support | ✅ | No |
 | [@unocss/preset-typography](./preset-typography) | The typography preset | ✅ | No |
+| [@unocss/preset-rem-to-px](./preset-rem-to-px) | Coverts rem to px for utils | No | No |
 | [@unocss/transformer-variant-group](./transformer-variant-group) | Transformer for Windi CSS's variant group feature | ✅ | No |
 | [@unocss/transformer-directives](./transformer-directives) | Transformer for CSS directives like `@apply` | ✅ | No |
 | [@unocss/transformer-compile-class](./transformer-compile-class) | Compile group of classes into one class | ✅ | No |
