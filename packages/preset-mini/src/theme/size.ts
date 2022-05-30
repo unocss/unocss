@@ -11,6 +11,10 @@ export const baseSize = {
   '6xl': '72rem',
   '7xl': '80rem',
   'prose': '65ch',
+  'safe-t': 'env(safe-area-inset-top)',
+  'safe-r': 'env(safe-area-inset-right)',
+  'safe-b': 'env(safe-area-inset-bottom)',
+  'safe-l': 'env(safe-area-inset-left)',
 }
 
 export const width = {
