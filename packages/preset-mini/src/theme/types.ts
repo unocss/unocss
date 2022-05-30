@@ -51,4 +51,7 @@ export interface Theme {
   gridRow?: Record<string, string>
   gridTemplateColumn?: Record<string, string>
   gridTemplateRow?: Record<string, string>
+  // vars
+  /** Used to generate CSS variables placeholder in preflight */
+  cssVarBase?: Record<string, string | number>
 }

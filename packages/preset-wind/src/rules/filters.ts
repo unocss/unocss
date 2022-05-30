@@ -14,7 +14,6 @@ const filterBase = {
   '--un-invert': varEmpty,
   '--un-saturate': varEmpty,
   '--un-sepia': varEmpty,
-  '--un-filter': 'var(--un-blur) var(--un-brightness) var(--un-contrast) var(--un-drop-shadow) var(--un-grayscale) var(--un-hue-rotate) var(--un-invert) var(--un-saturate) var(--un-sepia)',
   [CONTROL_SHORTCUT_NO_MERGE]: '',
 }
 

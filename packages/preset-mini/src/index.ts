@@ -1,9 +1,11 @@
 import type { Postprocessor, Preset, PresetOptions } from '@unocss/core'
+import { preflights } from './preflights'
 import { rules } from './rules'
 import type { Theme, ThemeAnimation } from './theme'
 import { theme } from './theme'
 import { variants } from './variants'
 
+export { preflights } from './preflights'
 export { theme, colors } from './theme'
 export { parseColor } from './utils'
 
@@ -37,6 +39,7 @@ export const presetMini = (options: PresetMiniOptions = {}): Preset<Theme> => {
     postprocess: options.variablePrefix && options.variablePrefix !== 'un-'
       ? VarPrefixPostprocessor(options.variablePrefix)
       : undefined,
+    preflights,
   }
 }
 
