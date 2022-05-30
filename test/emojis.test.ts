@@ -26,7 +26,7 @@ describe('emojis', () => {
   })
 
   test('fixture1', async () => {
-    const { css } = await uno.generate(fixture1)
+    const { css } = await uno.generate(fixture1, { preflights: false })
     expect(css).toMatchSnapshot()
   })
 })

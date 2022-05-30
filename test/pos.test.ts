@@ -13,7 +13,7 @@ it('getMatchedPositions', async () => {
   })
 
   async function match(code: string) {
-    const result = await uno.generate(code)
+    const result = await uno.generate(code, { preflights: false })
     return getMatchedPositions(code, [...result.matched])
   }
 

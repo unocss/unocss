@@ -18,7 +18,7 @@ test('options properties does not override each other', async () => {
     ],
   })
 
-  const { css: css1 } = await uno1.generate(new Set(targets))
+  const { css: css1 } = await uno1.generate(new Set(targets), { preflights: false })
   expect(css1).toMatchSnapshot()
 
   const uno2 = createGenerator({
@@ -29,6 +29,6 @@ test('options properties does not override each other', async () => {
     ],
   })
 
-  const { css: css2 } = await uno2.generate(new Set(targets))
+  const { css: css2 } = await uno2.generate(new Set(targets), { preflights: false })
   expect(css2).toMatchSnapshot()
 })
