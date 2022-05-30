@@ -19,13 +19,13 @@ describe('blocklist', () => {
         presetUno(),
       ],
     })
-    const { css: css1 } = await uno.generate('block text-red-200 hover:block', { minify: true })
-    const { css: css2 } = await dos.generate('block text-red-200 hover:block', { minify: true })
+    const { css: css1 } = await uno.generate('block text-red-200 hover:block', { minify: true, preflights: false })
+    const { css: css2 } = await dos.generate('block text-red-200 hover:block', { minify: true, preflights: false })
     expect(css1).contain('.block')
     expect(css1).contain('.text-red-200')
     expect(css2).eq('')
 
-    const { css: css3 } = await dos.generate('block text-red-200 hover:block', { minify: true })
+    const { css: css3 } = await dos.generate('block text-red-200 hover:block', { minify: true, preflights: false })
     expect(css3).eq('')
   })
 })

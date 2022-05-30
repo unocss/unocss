@@ -30,7 +30,7 @@ const transformGpu = [
   'scaleZ(var(--un-scale-z))',
 ].join(' ')
 
-export const varBaseTransform = {
+export const transformBase = {
   // transform
   '--un-rotate': 0,
   '--un-rotate-x': 0,

@@ -4,10 +4,10 @@ import type { Theme } from './theme'
 
 export const preflights: Preflight[] = [
   {
-    layer: '_preflight',
+    layer: 'preflights',
     getCSS(ctx: PreflightContext<Theme>) {
-      if (ctx.theme.cssVarBase)
-        return `*,::before,::after{${entriesToCss(Object.entries(ctx.theme.cssVarBase))}}`
+      if (ctx.theme.preflightBase)
+        return `*,::before,::after{${entriesToCss(Object.entries(ctx.theme.preflightBase))}}`
     },
   },
 ]

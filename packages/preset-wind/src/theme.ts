@@ -1,5 +1,7 @@
 import type { Theme } from '@unocss/preset-mini'
+import { transformBase } from '@unocss/preset-mini/rules'
 import { theme as miniTheme } from '@unocss/preset-mini/theme'
+import { backdropFilterBase, filterBase } from './rules'
 
 export const theme: Theme = {
   ...miniTheme,
@@ -171,5 +173,10 @@ export const theme: Theme = {
     pointer: '(hover) and (pointer: coarse)',
     mouse: '(hover) and (pointer: fine)',
     hd_color: '(dynamic-range: high)',
+  },
+  preflightBase: {
+    ...transformBase,
+    ...filterBase,
+    ...backdropFilterBase,
   },
 }

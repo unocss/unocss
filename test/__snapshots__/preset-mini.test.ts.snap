@@ -1,16 +1,18 @@
 // Vitest Snapshot v1
 
 exports[`preset-mini > custom var prefix 1`] = `
-"/* layer: default */
+"/* layer: preflights */
+*,::before,::after{--un-rotate:0;--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;--un-transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
+/* layer: default */
 .text-red{--hi-text-opacity:1;color:rgba(248,113,113,var(--hi-text-opacity));}
 .text-opacity-50{--hi-text-opacity:0.5;}
-.scale-100{--hi-rotate:0;--hi-rotate-x:0;--hi-rotate-y:0;--hi-rotate-z:0;--hi-scale-x:1;--hi-scale-y:1;--hi-scale-z:1;--hi-skew-x:0;--hi-skew-y:0;--hi-translate-x:0;--hi-translate-y:0;--hi-translate-z:0;--hi-transform:translateX(var(--hi-translate-x)) translateY(var(--hi-translate-y)) translateZ(var(--hi-translate-z)) rotate(var(--hi-rotate)) rotateX(var(--hi-rotate-x)) rotateY(var(--hi-rotate-y)) rotateZ(var(--hi-rotate-z)) skewX(var(--hi-skew-x)) skewY(var(--hi-skew-y)) scaleX(var(--hi-scale-x)) scaleY(var(--hi-scale-y)) scaleZ(var(--hi-scale-z));}
 .scale-100{--hi-scale-x:1;--hi-scale-y:1;transform:var(--hi-transform);}"
 `;
 
 exports[`preset-mini > targets 1`] = `
-"/* layer: 1 */
-.layer-1\\\\:translate-0{--un-rotate:0;--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;--un-transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
+"/* layer: preflights */
+*,::before,::after{--un-rotate:0;--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;--un-transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
+/* layer: 1 */
 .layer-1\\\\:translate-0{--un-translate-x:0rem;--un-translate-y:0rem;transform:var(--un-transform);}
 /* layer: default */
 .fw-\\\\$variable{font-weight:var(--variable);}
@@ -715,49 +717,6 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .perspect-origin-\\\\$variable{-webkit-perspective-origin:var(--variable);perspective-origin:var(--variable);}
 .perspect-origin-center{-webkit-perspective-origin:center;perspective-origin:center;}
 .perspect-origin-top-right{-webkit-perspective-origin:top right;perspective-origin:top right;}
-.-translate-full,
-.scope_class .scope-scope_class\\\\:translate-0,
-.translate-full,
-.translate-none,
-.-translate-x-full,
-.-translate-y-1\\\\/2,
-.before\\\\:translate-y-full::before,
-.hover\\\\:translate-x-3:hover,
-.peer:checked~.peer-checked\\\\:translate-x-\\\\[var\\\\(--reveal\\\\)\\\\],
-.translate-x-\\\\$variable,
-.translate-x-full,
-.translate-y-1\\\\/4,
-.translate-y-px,
-.-rotate-2,
-.rotate-\\\\[var\\\\(--spin\\\\)\\\\],
-.rotate-\\\\$variable,
-.rotate-1deg,
-.rotate-x-\\\\$variable,
-.rotate-x-1deg,
-.rotate-y-1,
-.rotate-z-\\\\[var\\\\(--spin\\\\)\\\\],
-.transform-rotate-y-1,
-.transform-rotate-z-\\\\[var\\\\(--spin\\\\)\\\\],
-.skew-x-\\\\[var\\\\(--skew-x\\\\)\\\\],
-.skew-x-\\\\$variable,
-.skew-x-10,
-.skew-x-10\\\\.00deg,
-.skew-x-10\\\\.01deg,
-.skew-x-10\\\\.10deg,
-.skew-x-10\\\\.11deg,
-.skew-x-10deg,
-.skew-y-\\\\[var\\\\(--skew-y\\\\)\\\\],
-.skew-y-0\\\\.5turn,
-.skew-y-10,
-.skew-y-10deg,
-.skew-y-2grad,
-.skew-y-3\\\\.14rad,
-.hover\\\\:scale-4:hover,
-.scale-\\\\$variable,
-.active\\\\:scale-4:active,
-.-scale-x-full,
-.scale-x-\\\\$variable,
-.transform{--un-rotate:0;--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;--un-transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .-translate-full{--un-translate-x:-100%;--un-translate-y:-100%;transform:var(--un-transform);}
 .scope_class .scope-scope_class\\\\:translate-0,
 .translate-none{--un-translate-x:0rem;--un-translate-y:0rem;transform:var(--un-transform);}
@@ -802,9 +761,9 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .scale-x-\\\\$variable{--un-scale-x:var(--variable);transform:var(--un-transform);}
 .preserve-3d{transform-style:preserve-3d;}
 .preserve-flat{transform-style:flat;}
-.transform{transform:var(--un-transform);}
-.transform-gpu{--un-transform:translate3d(var(--un-translate-x), var(--un-translate-y), var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
-.transform-cpu{--un-transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
+.transform,
+.transform-cpu{transform:var(--un-transform);}
+.transform-gpu{transform:translate3d(var(--un-translate-x), var(--un-translate-y), var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .transform-none{transform:none;}
 .will-change-auto{will-change:auto;}
 .will-change-contents{will-change:contents;}
