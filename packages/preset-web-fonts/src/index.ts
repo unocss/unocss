@@ -66,9 +66,7 @@ const preset = (options: WebFontsOptions = {}): Preset<any> => {
 
   const preset: Preset<any> = {
     name: '@unocss/preset-web-fonts',
-    layers: {
-      [layerName]: -20,
-    },
+    layers: { [layerName]: -40 },
     preflights: [
       {
         async getCSS() {
