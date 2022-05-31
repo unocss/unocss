@@ -103,10 +103,10 @@ export const backgroundStyles: Rule[] = [
   ['bg-scroll', { 'background-attachment': 'scroll' }],
 
   // clips
-  ['bg-clip-border', { '-webkit-background-clip': 'border-box', 'background-attachment': 'border-box' }],
-  ['bg-clip-content', { '-webkit-background-clip': 'content-box', 'background-attachment': 'content-box' }],
-  ['bg-clip-padding', { '-webkit-background-clip': 'padding-box', 'background-attachment': 'padding-box' }],
-  ['bg-clip-text', { '-webkit-background-clip': 'text', 'background-attachment': 'text' }],
+  ['bg-clip-border', { '-webkit-background-clip': 'border-box', 'background-clip': 'border-box' }],
+  ['bg-clip-content', { '-webkit-background-clip': 'content-box', 'background-clip': 'content-box' }],
+  ['bg-clip-padding', { '-webkit-background-clip': 'padding-box', 'background-clip': 'padding-box' }],
+  ['bg-clip-text', { '-webkit-background-clip': 'text', 'background-clip': 'text' }],
 
   // positions
   // skip 1 & 2 letters shortcut
