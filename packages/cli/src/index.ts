@@ -92,26 +92,25 @@ export async function build(_options: CliOptions) {
       ignored,
     })
 
-    if (configSources.length) {
+    if (configSources.length)
       watcher.add(configSources)
 
-      watcher.on('all', async (type, file) => {
-        if (configSources.includes(file)) {
-          uno.setConfig((await loadConfig()).config)
-          consola.info(`${cyan(basename(file))} changed, setting new config`)
-        }
-        else {
-          consola.log(`${green(type)} ${dim(file)}`)
+    watcher.on('all', async (type, file) => {
+      if (configSources.includes(file)) {
+        uno.setConfig((await loadConfig()).config)
+        consola.info(`${cyan(basename(file))} changed, setting new config`)
+      }
+      else {
+        consola.log(`${green(type)} ${dim(file)}`)
 
-          if (type.startsWith('unlink'))
-            fileCache.delete(file)
-          else
-            fileCache.set(file, await fs.readFile(file, 'utf8'))
-        }
+        if (type.startsWith('unlink'))
+          fileCache.delete(file)
+        else
+          fileCache.set(file, await fs.readFile(file, 'utf8'))
+      }
 
-        debouncedBuild()
-      })
-    }
+      debouncedBuild()
+    })
   }
 
   await generate(options)
