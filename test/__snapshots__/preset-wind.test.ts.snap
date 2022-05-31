@@ -252,8 +252,8 @@ exports[`preset-wind > targets 1`] = `
 .bg-fixed{background-attachment:fixed;}
 .bg-local{background-attachment:local;}
 .bg-scroll{background-attachment:scroll;}
-.bg-clip-border{-webkit-background-clip:border-box;background-attachment:border-box;}
-.bg-clip-text{-webkit-background-clip:text;background-attachment:text;}
+.bg-clip-border{-webkit-background-clip:border-box;background-clip:border-box;}
+.bg-clip-text{-webkit-background-clip:text;background-clip:text;}
 .bg-bottom{background-position:bottom;}
 .bg-right-bottom{background-position:right bottom;}
 .bg-no-repeat{background-repeat:no-repeat;}
