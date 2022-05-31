@@ -508,10 +508,10 @@ export class UnoGenerator {
 
         return merges.map(([entrySortPair, noMerge]) => {
           const body = entriesToCss(entrySortPair.map(e => e[0]).flat(1))
-          if (body) {
-            const maxSort = Math.max(...entrySortPair.map(e => e[1]))
-            return [index, selector, body, mediaQuery, { ...meta, noMerge, sort: maxSort }, context] as StringifiedUtil
-          }
+          if (!body)
+            return undefined
+          const maxSort = Math.max(...entrySortPair.map(e => e[1]))
+          return [index, selector, body, mediaQuery, { ...meta, noMerge, sort: maxSort }, context] as StringifiedUtil
         })
       })
       .flat(1)
