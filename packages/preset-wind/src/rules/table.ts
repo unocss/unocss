@@ -2,6 +2,11 @@ import type { Rule } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
 import { handler as h } from '@unocss/preset-mini/utils'
 
+export const borderSpacingBase = {
+  '--un-border-spacing-x': 0,
+  '--un-border-spacing-y': 0,
+}
+
 export const tables: Rule<Theme>[] = [
   // displays
   ['inline-table', { display: 'inline-table' }],
@@ -18,7 +23,28 @@ export const tables: Rule<Theme>[] = [
   // layouts
   ['border-collapse', { 'border-collapse': 'collapse' }],
   ['border-separate', { 'border-collapse': 'separate' }],
-  [/^border-spacing-(.+)$/, ([, d], { theme }) => ({ 'border-spacing': theme.spacing?.[d] ?? h.bracket.cssvar.auto.fraction.rem(d) }), { autocomplete: ['border-spacing', 'border-spacing-$spacing'] }],
+
+  [/^border-spacing-(.+)$/, ([, s], { theme }) => {
+    const v = theme.spacing?.[s] ?? h.bracket.cssvar.global.auto.fraction.rem(s)
+    if (v != null) {
+      return {
+        '--un-border-spacing-x': v,
+        '--un-border-spacing-y': v,
+        'border-spacing': 'var(--un-border-spacing-x) var(--un-border-spacing-y)',
+      }
+    }
+  }, { autocomplete: ['border-spacing', 'border-spacing-$spacing'] }],
+
+  [/^border-spacing-([xy])-(.+)$/, ([, d, s], { theme }) => {
+    const v = theme.spacing?.[s] ?? h.bracket.cssvar.global.auto.fraction.rem(s)
+    if (v != null) {
+      return {
+        [`--un-border-spacing-${d}`]: v,
+        'border-spacing': 'var(--un-border-spacing-x) var(--un-border-spacing-y)',
+      }
+    }
+  }, { autocomplete: ['border-spacing-(x|y)', 'border-spacing-(x|y)-$spacing'] }],
+
   ['caption-top', { 'caption-side': 'top' }],
   ['caption-bottom', { 'caption-side': 'bottom' }],
   ['table-auto', { 'table-layout': 'auto' }],

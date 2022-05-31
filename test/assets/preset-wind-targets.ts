@@ -288,6 +288,8 @@ export const presetWindTargets: string[] = [
   'border-spacing-none',
   'border-spacing-[3px]',
   'border-spacing-$var',
+  'border-spacing-x-[3px]',
+  'border-spacing-y-$var',
   'caption-top',
   'caption-bottom',
   'inline-table',
