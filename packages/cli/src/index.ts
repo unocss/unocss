@@ -17,8 +17,10 @@ let uno: UnoGenerator
 
 const fileCache = new Map<string, string>()
 
+const getAbsolutePath = (file: string) => resolve(process.cwd(), file)
+
 export async function generate(options: ResolvedCliOptions) {
-  const outFile = options.outFile ?? resolve(process.cwd(), 'uno.css')
+  const outFile = options.outFile ?? getAbsolutePath('uno.css')
   const { css, matched } = await uno.generate([...fileCache].join('\n'))
 
   const dir = dirname(outFile)
@@ -57,7 +59,8 @@ export async function build(_options: CliOptions) {
   const files = await fg(options.patterns)
   await Promise.all(
     files.map(async (file) => {
-      fileCache.set(file, await fs.readFile(file, 'utf8'))
+      const absolutePath = getAbsolutePath(file)
+      fileCache.set(absolutePath, await fs.readFile(absolutePath, 'utf8'))
     }),
   )
 
@@ -103,10 +106,11 @@ export async function build(_options: CliOptions) {
       else {
         consola.log(`${green(type)} ${dim(file)}`)
 
+        const absolutePath = getAbsolutePath(file)
         if (type.startsWith('unlink'))
-          fileCache.delete(file)
+          fileCache.delete(absolutePath)
         else
-          fileCache.set(file, await fs.readFile(file, 'utf8'))
+          fileCache.set(absolutePath, await fs.readFile(absolutePath, 'utf8'))
       }
 
       debouncedBuild()
