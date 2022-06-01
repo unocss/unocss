@@ -7,7 +7,7 @@ export const htmlTagRE = /<([\w\d-:]+)/g
 export const extractorTagify = (options: TagifyOptions): Extractor => {
   const {
     prefix = '',
-    excludedTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
+    excludedTags = ['b', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'table']
   } = options
 
   return {
