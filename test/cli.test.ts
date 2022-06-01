@@ -7,9 +7,10 @@ export const tempDir = resolve('.temp')
 export const cli = resolve(__dirname, '../packages/cli/src/cli.ts')
 
 function createWaiting() {
-  let $resolve: any = null
-  let $reject: any = null
-  const waiting = new Promise((resolve, reject) => {
+  const loop = () => { }
+  let $resolve = loop
+  let $reject = loop
+  const waiting = new Promise<void>((resolve, reject) => {
     $resolve = resolve
     $reject = reject
   })
@@ -61,7 +62,7 @@ describe('cli', () => {
     })
     await waiting
     await fs.writeFile(absolutePathOfFile, changedContent)
-    await sleep(777)
+    await sleep(2022)
     subProcess.cancel()
     const output = await readUnocssFile(testDir)
     expect(output).toMatchSnapshot()
