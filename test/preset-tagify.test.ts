@@ -40,6 +40,7 @@ describe('tagify', () => {
 
     const code = `
       <flex>
+        <h1 class="h2"> excluded heading </h1>
         <text-red> red text </text-red>
         <text-green5:10 />
         <m-1> margin </m-1>
@@ -61,6 +62,7 @@ describe('tagify', () => {
       text-red{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
       text-green5\\\\:10{color:rgba(34,197,94,0.1);}
       flex{display:flex;}
+      .h2{height:0.5rem;}
       custom-rule{background-color:pink;}"
     `)
   })
