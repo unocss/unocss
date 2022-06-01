@@ -10,7 +10,7 @@ export interface TagifyOptions {
    */
   excludedTags: string[]
 
-   /**
+  /**
    * Extra CSS properties to apply to matched rules
    */
   extraProperties?:
