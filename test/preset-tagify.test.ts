@@ -67,6 +67,33 @@ describe('tagify', () => {
     `)
   })
 
+  test('exclude tags', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+        presetTagify({
+          excludedTags: [
+            /h[1-5]/,
+            'table',
+          ]
+        }),
+      ],
+    })
+
+    const code = `
+      <table />
+      <h1> excluded heading </h1>
+      <h6> tagified heading </h6>
+      <b> bordered </b>
+    `
+
+    expect((await uno.generate(code, { preflights: false })).css).toMatchInlineSnapshot(`
+      "/* layer: default */
+      b{border-width:1px;border-style:solid;}
+      h6{height:1.5rem;}"
+    `)
+  })
+
   test('extraProperties', async () => {
     const uno = createGenerator({
       presets: [

@@ -15,7 +15,21 @@ export const extractorTagify = (options: TagifyOptions): Extractor => {
     extract({ code }) {
       return new Set(
         Array.from(code.matchAll(htmlTagRE))
-          .filter(({ 1: match }) => match.startsWith(prefix) && !excludedTags.includes(match))
+          .filter(({ 1: match }) => {
+            for (const exclude of excludedTags) {
+              if (typeof exclude === 'string') {
+                if (match === exclude)
+                  return false
+              }
+              else {
+                if (exclude.test(match))
+                  return false
+              }
+            }
+
+            return true
+          })
+          .filter(({ 1: match }) => match.startsWith(prefix))
           .map(([, matched]) => `${MARKER}${matched}`),
       )
     },
