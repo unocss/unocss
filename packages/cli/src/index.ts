@@ -82,13 +82,6 @@ export async function build(_options: CliOptions) {
     const { patterns } = options
     const ignored = ['**/{.git,node_modules}/**']
 
-    consola.info(
-      `Watching for changes in ${
-        toArray(patterns)
-          .map(i => cyan(i))
-          .join(', ')}`,
-    )
-
     const watcher = watch(patterns, {
       ignoreInitial: true,
       ignorePermissionErrors: true,
@@ -115,6 +108,13 @@ export async function build(_options: CliOptions) {
 
       debouncedBuild()
     })
+
+    consola.info(
+      `Watching for changes in ${
+        toArray(patterns)
+          .map(i => cyan(i))
+          .join(', ')}`,
+    )
   }
 
   await generate(options)

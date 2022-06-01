@@ -61,8 +61,9 @@ describe('cli', () => {
         $resolve()
     })
     await waiting
+    await sleep()
     await fs.writeFile(absolutePathOfFile, changedContent)
-    await sleep(3022)
+    await sleep(666)
     subProcess.cancel()
     const output = await readUnocssFile(testDir)
     expect(output).toContain('.bg-red')
