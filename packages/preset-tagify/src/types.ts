@@ -5,6 +5,12 @@ export interface TagifyOptions {
   prefix?: string
 
   /**
+   * Tags excluded from processing.
+   * @default ['b', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'table']
+   */
+  excludedTags?: (string | RegExp)[]
+
+  /**
    * Extra CSS properties to apply to matched rules
    */
   extraProperties?:
