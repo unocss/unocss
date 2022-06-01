@@ -26,13 +26,11 @@ export async function generate(options: ResolvedCliOptions) {
     await fs.mkdir(dir, { recursive: true })
   await fs.writeFile(outFile, css, 'utf-8')
 
-  if (!options.watch) {
-    consola.success(
-      `${[...matched].length} utilities generated to ${cyan(
-        relative(process.cwd(), outFile),
-      )}\n`,
-    )
-  }
+  consola.success(
+    `${[...matched].length} utilities generated to ${cyan(
+      relative(process.cwd(), outFile),
+    )}\n`,
+  )
 }
 
 export async function resolveOptions(options: CliOptions) {
