@@ -73,9 +73,9 @@ describe('tagify', () => {
         presetMini(),
         presetTagify({
           excludedTags: [
-            /h[1-5]/,
+            /^h[1-5]$/,
             'table',
-          ]
+          ],
         }),
       ],
     })

@@ -7,7 +7,7 @@ export const htmlTagRE = /<([\w\d-:]+)/g
 export const extractorTagify = (options: TagifyOptions): Extractor => {
   const {
     prefix = '',
-    excludedTags = ['b', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'table'],
+    excludedTags = ['b', /^h\d+$/, 'table'],
   } = options
 
   return {
@@ -26,10 +26,8 @@ export const extractorTagify = (options: TagifyOptions): Extractor => {
                   return false
               }
             }
-
-            return true
+            return match.startsWith(prefix)
           })
-          .filter(({ 1: match }) => match.startsWith(prefix))
           .map(([, matched]) => `${MARKER}${matched}`),
       )
     },
