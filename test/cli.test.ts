@@ -6,29 +6,6 @@ import { execa } from 'execa'
 export const tempDir = resolve('.temp')
 export const cli = resolve(__dirname, '../packages/cli/src/cli.ts')
 
-function createWaiting() {
-  const loop = () => { }
-  let $resolve = loop
-  let $reject = loop
-  const waiting = new Promise<void>((resolve, reject) => {
-    $resolve = resolve
-    $reject = reject
-  })
-  return {
-    waiting,
-    $resolve,
-    $reject,
-  }
-}
-
-function sleep(time = 300) {
-  return new Promise<void>((resolve) => {
-    setTimeout(() => {
-      resolve()
-    }, time)
-  })
-}
-
 beforeAll(async () => {
   await fs.remove(tempDir)
 })
@@ -61,11 +38,16 @@ describe('cli', () => {
         $resolve()
     })
     await waiting
+    await sleep()
     await fs.writeFile(absolutePathOfFile, changedContent)
-    await sleep(2022)
+    // polling until update
+    for (let i = 20; i >= 0; i--) {
+      await sleep(50)
+      const output = await readUnocssFile(testDir)
+      if (i === 0 || output.includes('.bg-red'))
+        expect(output).toContain('.bg-red')
+    }
     subProcess.cancel()
-    const output = await readUnocssFile(testDir)
-    expect(output).toMatchSnapshot()
   })
 
   it('supports unocss.config.js', async () => {
@@ -83,11 +65,36 @@ export default defineConfig({
   })
 })
 
+// ----- Utils -----
+
+function createWaiting() {
+  const loop = () => { }
+  let $resolve = loop
+  let $reject = loop
+  const waiting = new Promise<void>((resolve, reject) => {
+    $resolve = resolve
+    $reject = reject
+  })
+  return {
+    waiting,
+    $resolve,
+    $reject,
+  }
+}
+
+function sleep(time = 300) {
+  return new Promise<void>((resolve) => {
+    setTimeout(() => {
+      resolve()
+    }, time)
+  })
+}
+
 function getTestDir() {
   return resolve(tempDir, Math.round(Math.random() * 100000).toString())
 }
 
-function initalOutputFiles(testDir: string, files: Record<string, string>) {
+function initOutputFiles(testDir: string, files: Record<string, string>) {
   return Promise.all(
     Object.entries(files).map(([path, content]) =>
       fs.outputFile(resolve(testDir, path), content, 'utf8'),
@@ -109,7 +116,7 @@ function readUnocssFile(testDir: string) {
 async function runCli(files: Record<string, string>) {
   const testDir = getTestDir()
 
-  await initalOutputFiles(testDir, files)
+  await initOutputFiles(testDir, files)
 
   const { exitCode, stdout, stderr } = await runAsyncChildProcess(testDir, 'views/**/*')
 
