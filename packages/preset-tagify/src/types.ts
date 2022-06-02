@@ -6,7 +6,7 @@ export interface TagifyOptions {
 
   /**
    * Tags excluded from processing.
-   * @default ['b', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'table']
+   * @default ['b', /^h\d+$/, 'table']
    */
   excludedTags?: (string | RegExp)[]
 
