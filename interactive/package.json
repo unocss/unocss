@@ -3,11 +3,11 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "nuxi generate . && esno scripts/verify-build.ts",
+    "build": "nuxi generate . && tsx scripts/verify-build.ts",
     "dev": "nuxi dev .",
     "start": "node .output/server/index.mjs",
-    "postinstall": "esno scripts/prepare.ts",
-    "fetch": "esno scripts/fetch.ts"
+    "postinstall": "tsx scripts/prepare.ts",
+    "fetch": "tsx scripts/fetch.ts"
   },
   "devDependencies": {
     "@antfu/utils": "^0.5.2",
@@ -15,7 +15,6 @@
     "@unocss/nuxt": "workspace:*",
     "@unocss/shared-docs": "workspace:*",
     "@vueuse/nuxt": "^8.5.0",
-    "esno": "^0.16.3",
     "fs-extra": "^10.1.0",
     "fuse.js": "^6.6.2",
     "js-yaml": "^4.1.0",
@@ -27,6 +26,7 @@
     "prettier": "^2.6.2",
     "shiki": "^0.10.1",
     "theme-vitesse": "^0.4.10",
+    "tsx": "^3.4.2",
     "unimport": "0.2.3",
     "vite-plugin-md": "^0.13.1"
   }

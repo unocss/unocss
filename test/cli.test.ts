@@ -103,7 +103,7 @@ function initOutputFiles(testDir: string, files: Record<string, string>) {
 }
 
 function runAsyncChildProcess(cwd: string, ...args: string[]) {
-  return execa('npx', ['esno', cli, ...args], {
+  return execa('npx', ['tsx', cli, ...args], {
     cwd,
     // stdio: 'inherit',
   })
