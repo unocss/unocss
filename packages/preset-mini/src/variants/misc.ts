@@ -77,7 +77,7 @@ const numberRE = /[0-9.]+(?:[a-z]+|%)?/
 export const variantNegative: Variant = {
   name: 'negative',
   match(matcher) {
-    if (!matcher.startsWith('-') || !matcher.match(/\d|-px|-full/))
+    if (!matcher.startsWith('-'))
       return
 
     return {

@@ -365,5 +365,4 @@ export const presetWindTargets: string[] = [
 export const presetWindNonTargets: string[] = [
   '[outline~="active\:none"]',
   '[i~="dark\:carbon-moon"]',
-  '-border-solid',
 ]
