@@ -3,7 +3,6 @@ import type MagicString from 'magic-string'
 import type { UnoGenerator } from './generator'
 import type { BetterMap } from './utils'
 
-/* eslint-disable no-use-before-define */
 export type Awaitable<T> = T | Promise<T>
 export type Arrayable<T> = T | T[]
 export type ArgumentType<T> = T extends ((...args: infer A) => any) ? A : never

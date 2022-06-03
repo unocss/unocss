@@ -2,7 +2,6 @@
 
 type EventsMap = Record<string, any>
 
-// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 interface DefaultEvents extends EventsMap {
   [event: string]: (...args: any) => void
 }

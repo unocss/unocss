@@ -35,7 +35,6 @@ export async function evaluateUserConfig<U = UserConfig>(configStr: string): Pro
     return modulesCache.get(name)
   }
 
-  // eslint-disable-next-line no-new-func
   const fn = new AsyncFunction('__import', code)
   const result = await fn(__import)
 
