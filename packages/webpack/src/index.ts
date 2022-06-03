@@ -7,6 +7,7 @@ import {
   LAYER_MARK_ALL,
   LAYER_PLACEHOLDER_RE,
   createContext,
+  defaultUnocssConfig,
   getHash,
   getHashPlaceholder,
   getLayerPlaceholder,
@@ -14,7 +15,7 @@ import {
   resolveId,
 } from '../../shared-integration/src'
 
-export interface WebpackPluginOptions<Theme extends {} = {}> extends UserConfig<Theme> {}
+export interface WebpackPluginOptions<Theme extends {} = {}> extends UserConfig<Theme> { }
 
 const PLUGIN_NAME = 'unocss:webpack'
 const UPDATE_DEBOUNCE = 10
@@ -25,7 +26,7 @@ export function defineConfig<Theme extends {}>(config: WebpackPluginOptions<Them
 
 export default function WebpackPlugin(
   configOrPath?: WebpackPluginOptions | string,
-  defaults?: UserConfigDefaults,
+  defaults: UserConfigDefaults = defaultUnocssConfig,
 ) {
   return createUnplugin(() => {
     const context = createContext(configOrPath, defaults)

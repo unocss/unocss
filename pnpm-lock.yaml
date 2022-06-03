@@ -455,9 +455,11 @@ importers:
   packages/shared-integration:
     specifiers:
       '@unocss/core': workspace:*
+      '@unocss/preset-uno': workspace:*
       '@unocss/scope': workspace:*
     dependencies:
       '@unocss/core': link:../core
+      '@unocss/preset-uno': link:../preset-uno
       '@unocss/scope': link:../scope
 
   packages/transformer-compile-class:
@@ -571,6 +573,7 @@ importers:
       '@types/webpack-sources': ^3.2.0
       '@unocss/config': workspace:*
       '@unocss/core': workspace:*
+      '@unocss/preset-uno': workspace:*
       unplugin: ^0.6.3
       webpack: ^5.72.1
       webpack-sources: ^3.2.3
@@ -578,6 +581,7 @@ importers:
       '@rollup/pluginutils': 4.2.1
       '@unocss/config': link:../config
       '@unocss/core': link:../core
+      '@unocss/preset-uno': link:../preset-uno
       unplugin: 0.6.3_webpack@5.72.1
       webpack-sources: 3.2.3
     devDependencies:

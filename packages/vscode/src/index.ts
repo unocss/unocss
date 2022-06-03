@@ -4,7 +4,7 @@ import { StatusBarAlignment, window, workspace } from 'vscode'
 import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
 import { version } from '../package.json'
 import { resolveOptions as resolveNuxtOptions } from '../../nuxt/src/options'
-import { createContext } from './integration'
+import { createContext, defaultUnocssConfig } from './integration'
 import { log } from './log'
 import { registerAnnonations } from './annonation'
 import { registerAutoComplete } from './autocomplete'
@@ -21,7 +21,7 @@ export async function activate(ext: ExtensionContext) {
   log.appendLine(`UnoCSS for VS Code  v${version} ${process.cwd()}`)
 
   const context = createContext(
-    cwd, {},
+    cwd, defaultUnocssConfig,
     [
       sourcePluginFactory({
         files: [
@@ -71,4 +71,4 @@ export async function activate(ext: ExtensionContext) {
   registerAnnonations(cwd, context, status, ext)
 }
 
-export function deactivate() {}
+export function deactivate() { }

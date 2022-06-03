@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@unocss/core": "workspace:*",
+    "@unocss/preset-uno": "workspace:*",
     "@unocss/scope": "workspace:*"
   }
 }
