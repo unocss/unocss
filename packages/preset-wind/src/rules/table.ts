@@ -6,6 +6,7 @@ export const borderSpacingBase = {
   '--un-border-spacing-x': 0,
   '--un-border-spacing-y': 0,
 }
+const borderSpacingProperty = 'var(--un-border-spacing-x) var(--un-border-spacing-y)'
 
 export const tables: Rule<Theme>[] = [
   // displays
@@ -30,7 +31,7 @@ export const tables: Rule<Theme>[] = [
       return {
         '--un-border-spacing-x': v,
         '--un-border-spacing-y': v,
-        'border-spacing': 'var(--un-border-spacing-x) var(--un-border-spacing-y)',
+        'border-spacing': borderSpacingProperty,
       }
     }
   }, { autocomplete: ['border-spacing', 'border-spacing-$spacing'] }],
@@ -40,7 +41,7 @@ export const tables: Rule<Theme>[] = [
     if (v != null) {
       return {
         [`--un-border-spacing-${d}`]: v,
-        'border-spacing': 'var(--un-border-spacing-x) var(--un-border-spacing-y)',
+        'border-spacing': borderSpacingProperty,
       }
     }
   }, { autocomplete: ['border-spacing-(x|y)', 'border-spacing-(x|y)-$spacing'] }],

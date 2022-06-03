@@ -38,7 +38,12 @@ html.dark {
 }
 
 .hover-transform {
-  transform: var(--un-transform);
+  transform: translateX(var(--un-translate-x)) translateY(var(--un-translate-y))
+    translateZ(var(--un-translate-z)) rotate(var(--un-rotate))
+    rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y))
+    rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y))
+    scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y))
+    scaleZ(var(--un-scale-z));
   transition-property: color, background-color, border-color,
     text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter,
     backdrop-filter;
@@ -49,7 +54,12 @@ html.dark {
 }
 .hover-transform:hover {
   --un-translate-y: -1px;
-  transform: var(--un-transform);
+  transform: translateX(var(--un-translate-x)) translateY(var(--un-translate-y))
+    translateZ(var(--un-translate-z)) rotate(var(--un-rotate))
+    rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y))
+    rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y))
+    scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y))
+    scaleZ(var(--un-scale-z));
 }
 
 .basic-transition {
@@ -135,10 +145,26 @@ html.dark {
   --un-text-opacity: 1;
   color: rgba(255, 255, 255, var(--un-text-opacity));
   --un-backdrop-blur: blur(16px);
-  -webkit-backdrop-filter: var(--un-backdrop-filter);
-  backdrop-filter: var(--un-backdrop-filter);
-  -webkit-backdrop-filter: var(--un-backdrop-filter);
-  backdrop-filter: var(--un-backdrop-filter);
+  -webkit-backdrop-filter: var(--un-backdrop-blur) var(--un-backdrop-brightness)
+    var(--un-backdrop-contrast) var(--un-backdrop-grayscale)
+    var(--un-backdrop-hue-rotate) var(--un-backdrop-invert)
+    var(--un-backdrop-opacity) var(--un-backdrop-saturate)
+    var(--un-backdrop-sepia);
+  backdrop-filter: var(--un-backdrop-blur) var(--un-backdrop-brightness)
+    var(--un-backdrop-contrast) var(--un-backdrop-grayscale)
+    var(--un-backdrop-hue-rotate) var(--un-backdrop-invert)
+    var(--un-backdrop-opacity) var(--un-backdrop-saturate)
+    var(--un-backdrop-sepia);
+  -webkit-backdrop-filter: var(--un-backdrop-blur) var(--un-backdrop-brightness)
+    var(--un-backdrop-contrast) var(--un-backdrop-grayscale)
+    var(--un-backdrop-hue-rotate) var(--un-backdrop-invert)
+    var(--un-backdrop-opacity) var(--un-backdrop-saturate)
+    var(--un-backdrop-sepia);
+  backdrop-filter: var(--un-backdrop-blur) var(--un-backdrop-brightness)
+    var(--un-backdrop-contrast) var(--un-backdrop-grayscale)
+    var(--un-backdrop-hue-rotate) var(--un-backdrop-invert)
+    var(--un-backdrop-opacity) var(--un-backdrop-saturate)
+    var(--un-backdrop-sepia);
 }
 @media (prefers-color-scheme: dark) {
   .d-header {

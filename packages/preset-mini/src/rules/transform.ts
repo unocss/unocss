@@ -44,7 +44,6 @@ export const transformBase = {
   '--un-translate-x': 0,
   '--un-translate-y': 0,
   '--un-translate-z': 0,
-  '--un-transform': transformCpu,
 }
 
 export const transforms: Rule[] = [
@@ -87,8 +86,8 @@ export const transforms: Rule[] = [
   [/^(?:transform-)?preserve-flat$/, () => ({ 'transform-style': 'flat' })],
 
   // base
-  ['transform', { transform: 'var(--un-transform)' }],
-  ['transform-cpu', { transform: 'var(--un-transform)' }],
+  ['transform', { transform: transformCpu }],
+  ['transform-cpu', { transform: transformCpu }],
   ['transform-gpu', { transform: transformGpu }],
   ['transform-none', { transform: 'none' }],
 ]
@@ -98,7 +97,7 @@ function handleTranslate([, d, b]: string[], { theme }: RuleContext<Theme>): CSS
   if (v != null) {
     return [
       ...xyzMap[d].map((i): [string, string] => [`--un-translate${i}`, v]),
-      ['transform', 'var(--un-transform)'],
+      ['transform', transformCpu],
     ]
   }
 }
@@ -108,7 +107,7 @@ function handleScale([, d, b]: string[]): CSSValues | undefined {
   if (v != null) {
     return [
       ...xyzMap[d].map((i): [string, string] => [`--un-scale${i}`, v]),
-      ['transform', 'var(--un-transform)'],
+      ['transform', transformCpu],
     ]
   }
 }
@@ -120,7 +119,7 @@ function handleRotate([, d = '', b]: string[]): CSSValues | undefined {
       return {
         '--un-rotate': 0,
         [`--un-rotate-${d}`]: v,
-        'transform': 'var(--un-transform)',
+        'transform': transformCpu,
       }
     }
     else {
@@ -129,7 +128,7 @@ function handleRotate([, d = '', b]: string[]): CSSValues | undefined {
         '--un-rotate-y': 0,
         '--un-rotate-z': 0,
         '--un-rotate': v,
-        'transform': 'var(--un-transform)',
+        'transform': transformCpu,
       }
     }
   }
@@ -140,7 +139,7 @@ function handleSkew([, d, b]: string[]): CSSValues | undefined {
   if (v != null) {
     return {
       [`--un-skew-${d}`]: v,
-      transform: 'var(--un-transform)',
+      transform: transformCpu,
     }
   }
 }

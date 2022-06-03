@@ -7,12 +7,10 @@ export const fontVariantNumericBase = {
   '--un-numeric-figure': varEmpty,
   '--un-numeric-spacing': varEmpty,
   '--un-numeric-fraction': varEmpty,
-  '--un-font-variant-numeric': 'var(--un-ordinal) var(--un-slashed-zero) var(--un-numeric-figure) var(--un-numeric-spacing) var(--un-numeric-fraction)',
 }
-
 const toEntries = (entry: any) => ({
   ...entry,
-  'font-variant-numeric': 'var(--un-font-variant-numeric)',
+  'font-variant-numeric': 'var(--un-ordinal) var(--un-slashed-zero) var(--un-numeric-figure) var(--un-numeric-spacing) var(--un-numeric-fraction)',
 })
 
 export const fontVariantNumeric: Rule[] = [
