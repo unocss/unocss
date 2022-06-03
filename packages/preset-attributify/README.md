@@ -69,6 +69,25 @@ Create `shims.d.ts` with the following content:
 
 > By default, the type includes common attributes from `@unocss/preset-uno`. If you need custom attributes, refer to the [type source](https://github.com/antfu/unocss/blob/main/packages/preset-attributify/src/jsx.ts) to implement your own type.
 
+### Vue
+
+Since Volar 0.36, [it's now strict to unknown attributes](https://github.com/johnsoncodehk/volar/issues/1077#issuecomment-1145361472). To opt-out, you can add the following file to your project:
+
+```ts
+// html.d.ts
+declare module '@vue/runtime-dom' {
+  interface HTMLAttributes {
+    [key: string]: any
+  }
+}
+declare module '@vue/runtime-core' {
+  interface AllowedComponentProps {
+    [key: string]: any
+  }
+}
+export {}
+```
+
 ### React
 
 ```ts
