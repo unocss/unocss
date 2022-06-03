@@ -500,6 +500,7 @@ export const presetMiniTargets: string[] = [
   'mbs',
   'mxy',
   'm-xy',
+  '-m-lg',
 
   // static
   'contents',
@@ -862,4 +863,11 @@ export const presetMiniTargets: string[] = [
   'peer-checked:bg-blue-500',
   'parent-hover:text-center',
   'previous-checked:bg-red-500',
+]
+
+export const presetMiniStrayTargets: string[] = [
+  // variants - negative
+  '-border-solid',
+  '-color-blue-400',
+  '-decoration-none',
 ]
