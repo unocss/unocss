@@ -2,6 +2,7 @@ import { relative, resolve } from 'path'
 import type { ExtensionContext } from 'vscode'
 import { StatusBarAlignment, window, workspace } from 'vscode'
 import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
+import presetUno from '@unocss/preset-uno'
 import { version } from '../package.json'
 import { resolveOptions as resolveNuxtOptions } from '../../nuxt/src/options'
 import { createContext } from './integration'
@@ -21,7 +22,12 @@ export async function activate(ext: ExtensionContext) {
   log.appendLine(`UnoCSS for VS Code  v${version} ${process.cwd()}`)
 
   const context = createContext(
-    cwd, {},
+    cwd,
+    {
+      presets: [
+        presetUno(),
+      ],
+    },
     [
       sourcePluginFactory({
         files: [
