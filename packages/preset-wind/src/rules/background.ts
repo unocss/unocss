@@ -1,6 +1,24 @@
-import type { Rule, RuleContext } from '@unocss/core'
+import type { CSSColorValue, Rule, RuleContext } from '@unocss/core'
 import { colorOpacityToString, colorToString, handler as h, parseColor, positionMap } from '@unocss/preset-mini/utils'
 import type { Theme } from '@unocss/preset-mini'
+
+const bgGradientToValue = (cssColor: CSSColorValue | undefined) => {
+  if (cssColor)
+    return colorToString(cssColor, 0)
+
+  return 'rgba(255,255,255,0)'
+}
+
+const bgGradientColorValue = (mode: string, cssColor: CSSColorValue | undefined, color: string, alpha: any) => {
+  if (cssColor) {
+    if (alpha != null)
+      return colorToString(cssColor, alpha)
+    else
+      return colorToString(cssColor, `var(--un-${mode}-opacity, ${colorOpacityToString(cssColor)})`)
+  }
+
+  return colorToString(color, alpha)
+}
 
 const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
   ([, body]: string[], { theme }: RuleContext<Theme>) => {
@@ -14,23 +32,19 @@ const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
     if (!color)
       return
 
-    let colorString = color
-    if (cssColor) {
-      if (alpha != null)
-        colorString = colorToString(cssColor, alpha)
-      else
-        colorString = colorToString(cssColor, `var(--un-${mode}-opacity, ${colorOpacityToString(cssColor)})`)
-    }
+    const colorString = bgGradientColorValue(mode, cssColor, color, alpha)
 
     switch (mode) {
       case 'from':
         return {
           '--un-gradient-from': colorString,
-          '--un-gradient-stops': 'var(--un-gradient-from), var(--un-gradient-to, rgba(255, 255, 255, 0))',
+          '--un-gradient-to': bgGradientToValue(cssColor),
+          '--un-gradient-stops': 'var(--un-gradient-from), var(--un-gradient-to)',
         }
       case 'via':
         return {
-          '--un-gradient-stops': `var(--un-gradient-from), ${colorString}, var(--un-gradient-to, rgba(255, 255, 255, 0))`,
+          '--un-gradient-to': bgGradientToValue(cssColor),
+          '--un-gradient-stops': `var(--un-gradient-from), ${colorString}, var(--un-gradient-to)`,
         }
       case 'to':
         return {
