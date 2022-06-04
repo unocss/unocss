@@ -23,8 +23,8 @@ export function defineConfig<Theme extends {}>(config: WebpackPluginOptions<Them
   return config
 }
 
-export default function WebpackPlugin(
-  configOrPath?: WebpackPluginOptions | string,
+export default function WebpackPlugin<Theme extends {}>(
+  configOrPath?: WebpackPluginOptions<Theme> | string,
   defaults?: UserConfigDefaults,
 ) {
   return createUnplugin(() => {

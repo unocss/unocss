@@ -9,12 +9,12 @@ Currently, this plugin only supports [the `global` mode](https://github.com/unoc
 ## Installation
 
 ```bash
-npm i -D @unocss/webpack
+npm i -D unocss @unocss/webpack
 ```
 
 ```ts
 // webpack.config.js
-const UnoCSS = require('@unocss/webpack').default
+const UnoCSS = require('unocss/webpack').default
 
 module.exports = {
   plugins: [

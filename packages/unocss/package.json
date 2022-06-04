@@ -72,6 +72,11 @@
       "types": "./dist/vite.d.ts",
       "require": "./dist/vite.cjs",
       "import": "./dist/vite.mjs"
+    },
+    "./webpack": {
+      "types": "./dist/webpack.d.ts",
+      "require": "./dist/webpack.cjs",
+      "import": "./dist/webpack.mjs"
     }
   },
   "main": "dist/index.cjs",
@@ -87,6 +92,14 @@
   "scripts": {
     "build": "unbuild",
     "stub": "unbuild --stub"
+  },
+  "peerDependencies": {
+    "@unocss/webpack": "workspace:*"
+  },
+  "peerDependenciesMeta": {
+    "@unocss/webpack": {
+      "optional": true
+    }
   },
   "dependencies": {
     "@unocss/cli": "workspace:*",

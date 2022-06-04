@@ -4,6 +4,7 @@ export default defineBuildConfig({
   entries: [
     'src/index',
     'src/vite',
+    'src/webpack',
     'src/preset-uno',
     'src/preset-icons',
     'src/preset-attributify',
