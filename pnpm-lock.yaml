@@ -506,6 +506,7 @@ importers:
       '@unocss/transformer-directives': workspace:*
       '@unocss/transformer-variant-group': workspace:*
       '@unocss/vite': workspace:*
+      '@unocss/webpack': workspace:*
     dependencies:
       '@unocss/cli': link:../cli
       '@unocss/core': link:../core
@@ -522,6 +523,8 @@ importers:
       '@unocss/transformer-directives': link:../transformer-directives
       '@unocss/transformer-variant-group': link:../transformer-variant-group
       '@unocss/vite': link:../vite
+    devDependencies:
+      '@unocss/webpack': link:../webpack
 
   packages/vite:
     specifiers:

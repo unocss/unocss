@@ -117,5 +117,8 @@
     "@unocss/transformer-directives": "workspace:*",
     "@unocss/transformer-variant-group": "workspace:*",
     "@unocss/vite": "workspace:*"
+  },
+  "devDependencies": {
+    "@unocss/webpack": "workspace:*"
   }
 }
