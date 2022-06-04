@@ -65,7 +65,7 @@ const borderColorResolver = (direction: string) => ([, body]: string[], theme: T
     if (direction === '') {
       return {
         '--un-border-opacity': colorOpacityToString(cssColor),
-        'border-color': colorToString(cssColor, `var(--un-border-opacity)`),
+        'border-color': colorToString(cssColor, 'var(--un-border-opacity)'),
       }
     }
     else {
