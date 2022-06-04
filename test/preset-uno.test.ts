@@ -18,6 +18,15 @@ const targets = [
   'border-custom-b',
   'border-custom-b/0',
   'border-custom-b/10',
+  'bg-custom-c',
+  'bg-custom-c/10',
+  'bg-custom-d',
+  'bg-custom-d/20',
+  'bg-custom-e',
+  'bg-custom-e/30',
+  'bg-custom-f',
+  'bg-custom-f/30',
+  'bg-custom-f/[var(--f-op)]',
 
   // wind - placeholder
   'placeholder-red-400',
@@ -119,6 +128,10 @@ const uno = createGenerator({
       custom: {
         a: 'var(--custom)',
         b: 'rgba(var(--custom), %alpha)',
+        c: 'rgba(var(--custom-c) / %alpha)',
+        d: 'hsl(var(--custom-d), %alpha)',
+        e: 'hsl(var(--custom-e) / %alpha)',
+        f: 'lch(var(--custom-f) / %alpha)',
       },
       info: 'hsl(200.1, 100%, 54.3%)',
     },

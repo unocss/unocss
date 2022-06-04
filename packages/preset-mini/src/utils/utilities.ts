@@ -1,7 +1,7 @@
 import type { CSSEntries, CSSObject, ParsedColorValue, RuleContext, VariantContext } from '@unocss/core'
 import { toArray } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorToString, getComponents, parseCssColor } from './colors'
+import { colorOpacityToString, colorToString, getComponents, parseCssColor } from './colors'
 import { handler as h } from './handlers'
 import { directionMap } from './mappings'
 
@@ -147,14 +147,14 @@ export const colorResolver = (property: string, varName: string) => ([, body]: s
     }
     else {
       return {
-        [`--un-${varName}-opacity`]: cssColor.alpha ?? 1,
+        [`--un-${varName}-opacity`]: colorOpacityToString(cssColor),
         [property]: colorToString(cssColor, `var(--un-${varName}-opacity)`),
       }
     }
   }
   else if (color) {
     return {
-      [property]: color.replace('%alpha', `${alpha ?? 1}`),
+      [property]: colorToString(color, alpha),
     }
   }
 }

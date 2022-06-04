@@ -1,6 +1,6 @@
 import type { CSSEntries, CSSObject, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorToString, cornerMap, directionMap, globalKeywords, handler as h, hasParseableColor, parseColor } from '../utils'
+import { colorOpacityToString, colorToString, cornerMap, directionMap, globalKeywords, handler as h, hasParseableColor, parseColor } from '../utils'
 
 const borderStyles = ['solid', 'dashed', 'dotted', 'double', 'hidden', 'none', 'groove', 'ridge', 'inset', 'outset', ...globalKeywords]
 
@@ -64,14 +64,14 @@ const borderColorResolver = (direction: string) => ([, body]: string[], theme: T
     }
     if (direction === '') {
       return {
-        '--un-border-opacity': cssColor.alpha ?? 1,
-        [`border${direction}-color`]: colorToString(cssColor, `var(--un-border${direction}-opacity)`),
+        '--un-border-opacity': colorOpacityToString(cssColor),
+        'border-color': colorToString(cssColor, 'var(--un-border-opacity)'),
       }
     }
     else {
       return {
         // Separate this return since if `direction` is an empty string, the first key will be overwritten by the second.
-        '--un-border-opacity': cssColor.alpha ?? 1,
+        '--un-border-opacity': colorOpacityToString(cssColor),
         [`--un-border${direction}-opacity`]: 'var(--un-border-opacity)',
         [`border${direction}-color`]: colorToString(cssColor, `var(--un-border${direction}-opacity)`),
       }
@@ -79,7 +79,7 @@ const borderColorResolver = (direction: string) => ([, body]: string[], theme: T
   }
   else if (color) {
     return {
-      [`border${direction}-color`]: color.replace('%alpha', `${alpha ?? 1}`),
+      [`border${direction}-color`]: colorToString(color, alpha),
     }
   }
 }

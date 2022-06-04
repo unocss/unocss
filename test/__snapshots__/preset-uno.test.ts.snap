@@ -6,6 +6,15 @@ exports[`targets 1`] = `
 .border-custom-b\\\\/0{border-color:rgba(var(--custom), 0);}
 .border-custom-b\\\\/10{border-color:rgba(var(--custom), 0.1);}
 .bg-custom-b{background-color:rgba(var(--custom), 1);}
+.bg-custom-c{--un-bg-opacity:1;background-color:rgba(var(--custom-c),var(--un-bg-opacity));}
+.bg-custom-c\\\\/10{background-color:rgba(var(--custom-c),0.1);}
+.bg-custom-d{background-color:hsl(var(--custom-d), 1);}
+.bg-custom-d\\\\/20{background-color:hsl(var(--custom-d), 0.2);}
+.bg-custom-e{--un-bg-opacity:1;background-color:hsla(var(--custom-e),var(--un-bg-opacity));}
+.bg-custom-e\\\\/30{background-color:hsla(var(--custom-e),0.3);}
+.bg-custom-f{--un-bg-opacity:1;background-color:lch(var(--custom-f) / var(--un-bg-opacity));}
+.bg-custom-f\\\\/\\\\[var\\\\(--f-op\\\\)\\\\]{background-color:lch(var(--custom-f) / var(--f-op));}
+.bg-custom-f\\\\/30{background-color:lch(var(--custom-f) / 0.3);}
 .bg-info{--un-bg-opacity:1;background-color:hsla(200.1,100%,54.3%,var(--un-bg-opacity));}
 .bg-info\\\\/\\\\[10\\\\%\\\\]{background-color:hsla(200.1,100%,54.3%,10%);}
 .bg-info\\\\/10{background-color:hsla(200.1,100%,54.3%,0.1);}

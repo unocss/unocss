@@ -1,5 +1,5 @@
 import type { Rule, RuleContext } from '@unocss/core'
-import { colorToString, handler as h, parseColor, positionMap } from '@unocss/preset-mini/utils'
+import { colorOpacityToString, colorToString, handler as h, parseColor, positionMap } from '@unocss/preset-mini/utils'
 import type { Theme } from '@unocss/preset-mini'
 
 const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
@@ -19,7 +19,7 @@ const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
       if (alpha != null)
         colorString = colorToString(cssColor, alpha)
       else
-        colorString = colorToString(cssColor, `var(--un-${mode}-opacity, ${cssColor.alpha ?? 1})`)
+        colorString = colorToString(cssColor, `var(--un-${mode}-opacity, ${colorOpacityToString(cssColor)})`)
     }
 
     switch (mode) {
