@@ -14,5 +14,5 @@ export default function UnocssWebpackPlugin<Theme extends {}>(
         presetUno(),
       ],
     },
-  )
+  ) as any
 }

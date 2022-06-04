@@ -18,6 +18,8 @@ export default defineBuildConfig({
   declaration: true,
   externals: [
     'vite',
+    'webpack',
+    '@unocss/webpack',
   ],
   rollup: {
     emitCJS: true,
