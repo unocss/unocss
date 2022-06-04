@@ -2,6 +2,13 @@ import type { CSSColorValue, Rule, RuleContext } from '@unocss/core'
 import { colorOpacityToString, colorToString, handler as h, parseColor, positionMap } from '@unocss/preset-mini/utils'
 import type { Theme } from '@unocss/preset-mini'
 
+const bgGradientToValue = (cssColor: CSSColorValue | undefined) => {
+  if (cssColor)
+    return colorToString(cssColor, 0)
+
+  return 'rgba(255,255,255,0)'
+}
+
 const bgGradientColorValue = (mode: string, cssColor: CSSColorValue | undefined, color: string, alpha: any) => {
   if (cssColor) {
     if (alpha != null)
@@ -31,12 +38,12 @@ const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
       case 'from':
         return {
           '--un-gradient-from': colorString,
-          '--un-gradient-to': bgGradientColorValue(mode, cssColor, color, 0),
+          '--un-gradient-to': bgGradientToValue(cssColor),
           '--un-gradient-stops': 'var(--un-gradient-from), var(--un-gradient-to)',
         }
       case 'via':
         return {
-          '--un-gradient-to': bgGradientColorValue(mode, cssColor, color, 0),
+          '--un-gradient-to': bgGradientToValue(cssColor),
           '--un-gradient-stops': `var(--un-gradient-from), ${colorString}, var(--un-gradient-to)`,
         }
       case 'to':
