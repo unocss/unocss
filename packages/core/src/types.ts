@@ -545,6 +545,7 @@ export interface ResolvedConfig extends Omit<
 RequiredByKey<UserConfig, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>,
 'rules' | 'shortcuts' | 'autocomplete'
 > {
+  presets: Preset[]
   shortcuts: Shortcut[]
   variants: VariantObject[]
   preprocess: Preprocessor[]

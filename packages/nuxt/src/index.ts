@@ -55,12 +55,12 @@ export default defineNuxtModule<UnocssNuxtOptions>({
 
     extendViteConfig((config) => {
       config.plugins = config.plugins || []
-      config.plugins.unshift(...VitePlugin(options))
+      config.plugins.unshift(...VitePlugin({}, options))
     })
 
     extendWebpackConfig((config) => {
       config.plugins = config.plugins || []
-      config.plugins.unshift(WebpackPlugin(options))
+      config.plugins.unshift(WebpackPlugin({}, options))
     })
   },
 })

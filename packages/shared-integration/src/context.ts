@@ -39,6 +39,17 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     await Promise.all(modules.map((code, id) => uno.applyExtractors(code, id, tokens)))
     invalidate()
 
+    // check preset duplication
+    const presets = new Set<string>()
+    uno.config.presets.forEach((i) => {
+      if (!i.name)
+        return
+      if (presets.has(i.name))
+        console.warn(`[unocss] duplication of preset ${i.name} found, there might be something wrong with your config.`)
+      else
+        presets.add(i.name)
+    })
+
     return result
   }
 
