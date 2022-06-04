@@ -26,11 +26,13 @@ const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
       case 'from':
         return {
           '--un-gradient-from': colorString,
-          '--un-gradient-stops': 'var(--un-gradient-from), var(--un-gradient-to, rgba(255, 255, 255, 0))',
+          '--un-gradient-to': 'rgba(255, 255, 255, 0)',
+          '--un-gradient-stops': 'var(--un-gradient-from), var(--un-gradient-to)',
         }
       case 'via':
         return {
-          '--un-gradient-stops': `var(--un-gradient-from), ${colorString}, var(--un-gradient-to, rgba(255, 255, 255, 0))`,
+          '--un-gradient-to': 'rgba(255, 255, 255, 0)',
+          '--un-gradient-stops': `var(--un-gradient-from), ${colorString}, var(--un-gradient-to)`,
         }
       case 'to':
         return {
