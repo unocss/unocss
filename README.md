@@ -519,7 +519,7 @@ Layering also can be set on each preflight:
 preflights: [
   {
     layer: 'my-layer',
-    getCss: () => fetch('my-style.css'),
+    getCss: async () => (await fetch('my-style.css')).text(),
   },
 ]
 ```
