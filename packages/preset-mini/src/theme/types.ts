@@ -3,6 +3,7 @@ export interface ThemeAnimation {
   durations?: Record<string, string>
   timingFns?: Record<string, string>
   properties?: Record<string, object>
+  counts?: Record<string, string | number>
 }
 
 export interface Theme {
