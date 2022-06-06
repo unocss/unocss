@@ -2,7 +2,7 @@ import type { UnocssPluginContext } from '@unocss/core'
 import { createAutocomplete } from '@unocss/autocomplete'
 import type { CompletionItemProvider, ExtensionContext, Position, TextDocument } from 'vscode'
 import { CompletionItem, CompletionItemKind, CompletionList, MarkdownString, Range, languages } from 'vscode'
-import { getPrettiedMarkdown } from './utils'
+import { getPrettiedMarkdown, isCssId } from './utils'
 import { log } from './log'
 
 const languageIds = [
@@ -10,6 +10,7 @@ const languageIds = [
   'haml',
   'hbs',
   'html',
+  'css',
   'javascript',
   'javascriptreact',
   'markdown',
@@ -40,7 +41,7 @@ export async function registerAutoComplete(
       const code = doc.getText()
       const id = doc.uri.fsPath
 
-      if (!code || !filter(code, id))
+      if (!code || (!isCssId(id) && !filter(code, id)))
         return null
 
       try {

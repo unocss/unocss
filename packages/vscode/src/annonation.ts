@@ -4,7 +4,7 @@ import { DecorationRangeBehavior, MarkdownString, Range, window, workspace } fro
 import type { UnocssPluginContext } from '@unocss/core'
 import { INCLUDE_COMMENT_IDE, getMatchedPositions } from './integration'
 import { log } from './log'
-import { getPrettiedMarkdown, throttle } from './utils'
+import { getPrettiedMarkdown, isCssId, throttle } from './utils'
 
 export async function registerAnnonations(
   cwd: string,
@@ -54,7 +54,7 @@ export async function registerAnnonations(
       const code = doc.getText()
       const id = doc.uri.fsPath
 
-      if (!code || (!code.includes(INCLUDE_COMMENT_IDE) && !filter(code, id)))
+      if (!code || (!code.includes(INCLUDE_COMMENT_IDE) && !isCssId(id) && !filter(code, id)))
         return reset()
 
       const result = await uno.generate(code, { id, preflights: false, minify: true })
