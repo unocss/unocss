@@ -391,6 +391,26 @@ import '@unocss/reset/tailwind.css'
 
 Learn more at [@unocss/reset](https://github.com/unocss/unocss/tree/main/packages/reset).
 
+### Preflight
+
+You can inject raw css as preflights from the configuration. The resolved `theme` is available to customize the css.
+
+<!--eslint-skip-->
+
+```ts
+preflights: [
+  {
+    getCss: ({ theme }) => `
+      * {
+        color: ${theme.colors.gray?.[700] ?? '#333'}
+        padding: 0;
+        margin: 0;
+      }
+    `
+  }
+]
+```
+
 ### Custom Variants
 
 [Variants](https://windicss.org/utilities/general/variants.html) allows you to apply some variations to your existing rules. For example, to implement the `hover:` variant from Tailwind:
@@ -491,6 +511,17 @@ This will generate:
 .btn { padding: 4px; }
 /* layer: utilities */
 .m-2 { margin: 0.5rem; }
+```
+
+Layering also can be set on each preflight:
+
+```ts
+preflights: [
+  {
+    layer: 'my-layer',
+    getCss: async () => (await fetch('my-style.css')).text(),
+  },
+]
 ```
 
 You can control the order of layers by:
