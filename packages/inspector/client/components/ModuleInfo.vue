@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import attributifyPreset from '@unocss/preset-attributify'
-import prettier from 'prettier/standalone'
-import parserCSS from 'prettier/parser-postcss'
 import { Pane, Splitpanes } from 'splitpanes'
 import { fetchModule } from '../composables/fetch'
 import { useScrollStyle } from '../composables/useScrollStyle'
+import { useCSSPrettify } from '../composables/cssPrettify'
 
 const props = defineProps<{ id: string }>()
 const { data: mod } = fetchModule(toRef(props, 'id'))
@@ -32,20 +31,7 @@ const unmatchedClasses = asyncComputed(async () => {
 })
 
 const isPrettify = ref(false)
-const formatted = computed(() => {
-  if (!isPrettify.value)
-    return mod.value?.css || ''
-  try {
-    return prettier.format(mod.value?.css || '', {
-      parser: 'css',
-      plugins: [parserCSS],
-    })
-  }
-  catch (e: any) {
-    console.error(e)
-    return `/* Error on prettifying: ${e.message} */\n${mod.value?.css || ''}`
-  }
-})
+const formatted = useCSSPrettify(mod, isPrettify)
 </script>
 
 <template>
