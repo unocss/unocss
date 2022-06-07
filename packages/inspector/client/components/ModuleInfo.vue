@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import attributifyPreset from '@unocss/preset-attributify'
+import prettier from 'prettier/standalone'
+import parserCSS from 'prettier/parser-postcss'
 import { fetchModule } from '../composables/fetch'
 import { useScrollStyle } from '../composables/useScrollStyle'
 
@@ -26,6 +28,22 @@ const unmatchedClasses = asyncComputed(async () => {
   return Array.from(set)
     .filter(i => !i.startsWith('['))
     .filter(i => !mod.value?.matched.includes(i))
+})
+
+const isPrettify = ref(false)
+const formatted = computed(() => {
+  if (!isPrettify.value)
+    return mod.value?.css || ''
+  try {
+    return prettier.format(mod.value?.css || '', {
+      parser: 'css',
+      plugins: [parserCSS],
+    })
+  }
+  catch (e: any) {
+    console.error(e)
+    return `/* Error on prettifying: ${e.message} */\n${mod.value?.css || ''}`
+  }
 })
 </script>
 
@@ -72,15 +90,23 @@ const unmatchedClasses = asyncComputed(async () => {
         class="scrolls module-scrolls"
         :style="style"
       />
-      <CodeMirror
-        h-full
-        b="l main"
-        :model-value="mod.css"
-        :read-only="true"
-        mode="css"
-        class="scrolls module-scrolls"
-        :style="style"
-      />
+      <div>
+        <TitleBar title="Output CSS">
+          <label>
+            <input v-model="isPrettify" type="checkbox">
+            Prettify
+          </label>
+        </TitleBar>
+        <CodeMirror
+          h-full
+          b="l main"
+          :model-value="formatted"
+          :read-only="true"
+          mode="css"
+          class="scrolls module-scrolls"
+          :style="style"
+        />
+      </div>
     </div>
   </div>
 </template>
