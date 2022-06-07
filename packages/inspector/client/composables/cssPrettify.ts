@@ -6,16 +6,16 @@ import { computed, unref } from 'vue'
 export function useCSSPrettify(mod: MaybeRef<any>, toggle: MaybeRef<boolean>) {
   return computed(() => {
     if (!unref(toggle))
-      return mod.value?.css || '/* empty */'
+      return unref(mod)?.css || '/* empty */'
     try {
-      return prettier.format(mod.value?.css || '', {
+      return prettier.format(unref(mod)?.css || '', {
         parser: 'css',
         plugins: [parserCSS],
       })
     }
     catch (e: any) {
       console.error(e)
-      return `/* Error on prettifying: ${e.message} */\n${mod.value?.css || ''}`
+      return `/* Error on prettifying: ${e.message} */\n${unref(mod)?.css || ''}`
     }
   })
 }
