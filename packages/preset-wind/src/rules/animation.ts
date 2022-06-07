@@ -15,8 +15,9 @@ export const animations: Rule<Theme>[] = [
       const duration = theme.animation?.durations?.[name] ?? '1s'
       const timing = theme.animation?.timingFns?.[name] ?? 'linear'
       const props = theme.animation?.properties?.[name]
+      const count = theme.animation?.counts?.[name] ?? 1
       return `@keyframes ${name}${kf}\n${constructCSS(
-        Object.assign({ animation: `${name} ${duration} ${timing} infinite` }, props))}`
+        Object.assign({ animation: `${name} ${duration} ${timing} ${count}` }, props))}`
     }
     return { animation: h.bracket.cssvar(name) }
   }, { autocomplete: 'animate-$animation.keyframes' }],

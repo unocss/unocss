@@ -154,6 +154,14 @@ export const theme: Theme = {
       'zoom-out-right': { 'transform-origin': 'right center' },
       'zoom-out-up': { 'transform-origin': 'center bottom' },
     },
+    counts: {
+      'spin': 'infinite',
+      'ping': 'infinite',
+      'pulse': 'infinite',
+      'pulse-alt': 'infinite',
+      'bounce': 'infinite',
+      'bounce-alt': 'infinite',
+    },
   },
   media: {
     portrait: '(orientation: portrait)',
