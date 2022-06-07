@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import prettier from 'prettier/standalone'
+import parserCSS from 'prettier/parser-postcss'
 import { info, overview, overviewFetch } from '../composables/fetch'
 import { useScrollStyle } from '../composables/useScrollStyle'
 
@@ -6,6 +8,22 @@ const status = ref(null)
 const style = useScrollStyle(status, 'overview-scrolls')
 
 overviewFetch.execute()
+
+const isPrettify = ref(false)
+const formatted = computed(() => {
+  if (!isPrettify.value)
+    return overview.value?.css || '/* empty */'
+  try {
+    return prettier.format(overview.value?.css || '', {
+      parser: 'css',
+      plugins: [parserCSS],
+    })
+  }
+  catch (e: any) {
+    console.error(e)
+    return `/* Error on prettifying: ${e.message} */\n${overview.value?.css || ''}`
+  }
+})
 </script>
 
 <template>
@@ -82,9 +100,15 @@ overviewFetch.execute()
           </div>
         </div>
       </div>
+      <TitleBar title="Output CSS">
+        <label>
+          <input v-model="isPrettify" type="checkbox">
+          Prettify
+        </label>
+      </TitleBar>
     </StatusBar>
     <CodeMirror
-      :model-value="overview?.css || '/* empty */'"
+      :model-value="formatted"
       :read-only="true"
       mode="css"
       class="scrolls overview-scrolls"

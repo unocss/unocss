@@ -2,6 +2,7 @@
 import attributifyPreset from '@unocss/preset-attributify'
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
+import { Pane, Splitpanes } from 'splitpanes'
 import { fetchModule } from '../composables/fetch'
 import { useScrollStyle } from '../composables/useScrollStyle'
 
@@ -80,33 +81,39 @@ const formatted = computed(() => {
         </code>
       </div>
     </StatusBar>
-    <div h-full of-hidden grid grid-cols-2>
-      <CodeMirror
-        h-full
-        :model-value="mod.code"
-        :read-only="true"
-        :mode="mode"
-        :matched="mod.matched"
-        class="scrolls module-scrolls"
-        :style="style"
-      />
-      <div>
-        <TitleBar title="Output CSS">
-          <label>
-            <input v-model="isPrettify" type="checkbox">
-            Prettify
-          </label>
-        </TitleBar>
-        <CodeMirror
-          h-full
-          b="l main"
-          :model-value="formatted"
-          :read-only="true"
-          mode="css"
-          class="scrolls module-scrolls"
-          :style="style"
-        />
-      </div>
+    <div h-full of-hidden>
+      <Splitpanes>
+        <Pane size="50">
+          <CodeMirror
+            h-full
+            :model-value="mod.code"
+            :read-only="true"
+            :mode="mode"
+            :matched="mod.matched"
+            class="scrolls module-scrolls"
+            :style="style"
+          />
+        </Pane>
+        <Pane size="50">
+          <div>
+            <TitleBar title="Output CSS">
+              <label>
+                <input v-model="isPrettify" type="checkbox">
+                Prettify
+              </label>
+            </TitleBar>
+            <CodeMirror
+              h-full
+              b="l main"
+              :model-value="formatted"
+              :read-only="true"
+              mode="css"
+              class="scrolls module-scrolls"
+              :style="style"
+            />
+          </div>
+        </Pane>
+      </Splitpanes>
     </div>
   </div>
 </template>
