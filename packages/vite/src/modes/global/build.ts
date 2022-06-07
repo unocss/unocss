@@ -16,6 +16,8 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, fi
   const vfsLayerMap = new Map<string, string>()
   const layerImporterMap = new Map<string, string>()
   let tasks: Promise<any>[] = []
+
+  // use maps to differentiate multiple build. using outDir as key
   const cssPostPlugins = new Map<string | undefined, Plugin | undefined>()
   const cssPlugins = new Map<string | undefined, Plugin | undefined>()
 
@@ -87,8 +89,8 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, fi
       },
       // we inject a hash to chunk before the dist hash calculation to make sure
       // the hash is different when unocss changes
-      async renderChunk(_, chunk, opt) {
-        if (!cssPostPlugins.get(opt.dir))
+      async renderChunk(_, chunk, options) {
+        if (!cssPostPlugins.get(options.dir))
           return null
 
         const chunks = Object.keys(chunk.modules).filter(i => modules.has(i))
@@ -106,11 +108,11 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, fi
         if (!Object.keys(chunk.modules).some(i => i.match(RESOLVED_ID_RE)))
           return null
 
-        css = await transformCSS(css, fakeCssId, opt.dir)
+        css = await transformCSS(css, fakeCssId, options.dir)
 
         const hash = getHash(css)
         // @ts-expect-error no this context
-        await cssPostPlugins.get(opt.dir).transform(getHashPlaceholder(hash), fakeCssId)
+        await cssPostPlugins.get(options.dir).transform(getHashPlaceholder(hash), fakeCssId)
         // fool the css plugin to generate the css in corresponding chunk
         chunk.modules[fakeCssId] = {
           code: null,
@@ -130,7 +132,7 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, fi
       },
       enforce: 'post',
       // rewrite the css placeholders
-      async generateBundle(opts, bundle) {
+      async generateBundle(options, bundle) {
         const files = Object.keys(bundle)
         const cssFiles = files
           .filter(i => i.endsWith('.css'))
@@ -158,8 +160,7 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, fi
               replaced = true
               return await transformCSS(layer === LAYER_MARK_ALL
                 ? result.getLayers(undefined, Array.from(vfsLayerMap.values()))
-                : result.getLayer(layer) || '', `${chunk.fileName}.css`,
-                opts.dir)
+                : result.getLayer(layer) || '', `${chunk.fileName}.css`, options.dir)
             })
           }
         }
