@@ -11,5 +11,8 @@ describe('searchUsageBoundary', () => {
 
     expect(searchUsageBoundary('<div p-1 p-2>', 10).content)
       .toMatchInlineSnapshot('"p-2"')
+
+    expect(searchUsageBoundary('.a{ @apply p-2; }', 14).content)
+      .toMatchInlineSnapshot('"p-2"')
   })
 })
