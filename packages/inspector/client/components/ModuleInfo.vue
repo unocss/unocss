@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import attributifyPreset from '@unocss/preset-attributify'
+import { Pane, Splitpanes } from 'splitpanes'
 import { fetchModule } from '../composables/fetch'
 import { useScrollStyle } from '../composables/useScrollStyle'
+import { useCSSPrettify } from '../composables/cssPrettify'
 
 const props = defineProps<{ id: string }>()
 const { data: mod } = fetchModule(toRef(props, 'id'))
@@ -27,6 +29,9 @@ const unmatchedClasses = asyncComputed(async () => {
     .filter(i => !i.startsWith('['))
     .filter(i => !mod.value?.matched.includes(i))
 })
+
+const isPrettify = ref(false)
+const formatted = useCSSPrettify(mod, isPrettify)
 </script>
 
 <template>
@@ -62,25 +67,39 @@ const unmatchedClasses = asyncComputed(async () => {
         </code>
       </div>
     </StatusBar>
-    <div h-full of-hidden grid grid-cols-2>
-      <CodeMirror
-        h-full
-        :model-value="mod.code"
-        :read-only="true"
-        :mode="mode"
-        :matched="mod.matched"
-        class="scrolls module-scrolls"
-        :style="style"
-      />
-      <CodeMirror
-        h-full
-        b="l main"
-        :model-value="mod.css"
-        :read-only="true"
-        mode="css"
-        class="scrolls module-scrolls"
-        :style="style"
-      />
+    <div h-full of-hidden>
+      <Splitpanes>
+        <Pane size="50">
+          <CodeMirror
+            h-full
+            :model-value="mod.code"
+            :read-only="true"
+            :mode="mode"
+            :matched="mod.matched"
+            class="scrolls module-scrolls"
+            :style="style"
+          />
+        </Pane>
+        <Pane size="50">
+          <div>
+            <TitleBar border="l b gray-400/20" title="Output CSS">
+              <label>
+                <input v-model="isPrettify" type="checkbox">
+                Prettify
+              </label>
+            </TitleBar>
+            <CodeMirror
+              h-full
+              b="l main"
+              :model-value="formatted"
+              :read-only="true"
+              mode="css"
+              class="scrolls module-scrolls"
+              :style="style"
+            />
+          </div>
+        </Pane>
+      </Splitpanes>
     </div>
   </div>
 </template>

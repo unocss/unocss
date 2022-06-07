@@ -4,16 +4,16 @@ import { Pane, Splitpanes } from 'splitpanes'
 </script>
 
 <template>
-  <div h-screen w-screen overflow="hidden">
+  <div h-screen w-screen of-hidden>
     <Splitpanes>
       <Pane size="20" :push-other-panes="false">
         <Sidebar />
-      </pane>
+      </Pane>
       <Pane size="80">
         <div h-full of-hidden>
           <RouterView />
         </div>
-      </pane>
+      </Pane>
     </Splitpanes>
   </div>
 </template>

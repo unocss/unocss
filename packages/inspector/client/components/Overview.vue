@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { info, overview, overviewFetch } from '../composables/fetch'
 import { useScrollStyle } from '../composables/useScrollStyle'
+import { useCSSPrettify } from '../composables/cssPrettify'
 
 const status = ref(null)
 const style = useScrollStyle(status, 'overview-scrolls')
 
 overviewFetch.execute()
+
+const isPrettify = ref(false)
+const formatted = useCSSPrettify(overview, isPrettify)
 </script>
 
 <template>
@@ -82,9 +86,15 @@ overviewFetch.execute()
           </div>
         </div>
       </div>
+      <TitleBar border="t gray-400/20" title="Output CSS">
+        <label>
+          <input v-model="isPrettify" type="checkbox">
+          Prettify
+        </label>
+      </TitleBar>
     </StatusBar>
     <CodeMirror
-      :model-value="overview?.css || '/* empty */'"
+      :model-value="formatted"
       :read-only="true"
       mode="css"
       class="scrolls overview-scrolls"

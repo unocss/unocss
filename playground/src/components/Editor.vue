@@ -120,7 +120,7 @@ onMounted(() => {
               @click="togglePanel(0)"
             />
           </template>
-          <div class="flex flex-row w-full space-x-1">
+          <div class="flex flex-row w-full space-x-2">
             <div flex-auto />
             <div text-sm op50>
               v{{ version }}
