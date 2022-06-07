@@ -96,7 +96,7 @@ const formatted = computed(() => {
         </Pane>
         <Pane size="50">
           <div>
-            <TitleBar title="Output CSS">
+            <TitleBar border="l b gray-400/20" title="Output CSS">
               <label>
                 <input v-model="isPrettify" type="checkbox">
                 Prettify

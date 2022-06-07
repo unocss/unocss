@@ -10,7 +10,9 @@ import { Pane, Splitpanes } from 'splitpanes'
         <Sidebar />
       </Pane>
       <Pane size="80">
-        <RouterView />
+        <div h-full of-hidden>
+          <RouterView />
+        </div>
       </Pane>
     </Splitpanes>
   </div>

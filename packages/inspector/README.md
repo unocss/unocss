@@ -18,7 +18,7 @@ Visit `http://localhost:3000/__unocss` in your Vite dev server to see the inspec
 - [x] Auto reload on file changes (reuse Vite's hmr if possible)
 - [ ] Config view
 - [ ] Edit files directly
-- [ ] CSS Prettify
+- [x] CSS Prettify
 
 > 🙌 Contribution welcome!
 
