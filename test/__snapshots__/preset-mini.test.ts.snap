@@ -551,6 +551,7 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .w-\\\\[calc\\\\(calc\\\\(100px\\\\*10\\\\)-4rem\\\\)\\\\]{width:calc(calc(100px * 10) - 4rem);}
 .w-1{width:0.25rem;}
 .w-1\\\\/4{width:25%;}
+.w-1cqw{width:1cqw;}
 .w-21{width:5.25rem;}
 .w-auto{width:auto;}
 .w-lg{width:32rem;}
