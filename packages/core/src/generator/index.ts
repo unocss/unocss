@@ -143,8 +143,9 @@ export class UnoGenerator {
     const layerSet = new Set<string>(['default'])
     const matched = new Set<string>()
     const sheet = new Map<string, StringifiedUtil[]>()
+    let preflightsMap: Record<string, string> = {}
 
-    await Promise.all(Array.from(tokens).map(async (raw) => {
+    const tokenPromises = Array.from(tokens).map(async (raw) => {
       if (matched.has(raw))
         return
 
@@ -156,36 +157,34 @@ export class UnoGenerator {
 
       for (const item of payload) {
         const parent = item[3] || ''
+        const layer = item[4]?.layer
         if (!sheet.has(parent))
           sheet.set(parent, [])
         sheet.get(parent)!.push(item)
-        if (item[4]?.layer)
-          layerSet.add(item[4].layer)
+        if (layer)
+          layerSet.add(layer)
       }
-    }))
+    })
 
-    if (preflights) {
-      this.config.preflights.forEach((i) => {
-        if (i.layer)
-          layerSet.add(i.layer)
-      })
-    }
+    const preflightPromise = (async () => {
+      if (!preflights)
+        return
 
-    const layerCache: Record<string, string> = {}
-    const layers = this.config.sortLayers(Array
-      .from(layerSet)
-      .sort((a, b) => ((this.config.layers[a] ?? 0) - (this.config.layers[b] ?? 0)) || a.localeCompare(b)),
-    )
-
-    let preflightsMap: Record<string, string> = {}
-    if (preflights) {
       const preflightContext: PreflightContext = {
         generator: this,
         theme: this.config.theme,
       }
 
+      const preflightLayerSet = new Set<string>(['default'])
+      this.config.preflights.forEach(({ layer }) => {
+        if (layer) {
+          layerSet.add(layer)
+          preflightLayerSet.add(layer)
+        }
+      })
+
       preflightsMap = Object.fromEntries(
-        await Promise.all(layers.map(
+        await Promise.all(Array.from(preflightLayerSet).map(
           async (layer) => {
             const preflights = await Promise.all(
               this.config.preflights
@@ -199,8 +198,19 @@ export class UnoGenerator {
           },
         )),
       )
-    }
+    })()
 
+    await Promise.all([
+      ...tokenPromises,
+      preflightPromise,
+    ])
+
+    const layers = this.config.sortLayers(Array
+      .from(layerSet)
+      .sort((a, b) => ((this.config.layers[a] ?? 0) - (this.config.layers[b] ?? 0)) || a.localeCompare(b)),
+    )
+
+    const layerCache: Record<string, string> = {}
     const getLayer = (layer: string) => {
       if (layerCache[layer])
         return layerCache[layer]
