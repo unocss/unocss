@@ -166,7 +166,7 @@ export class UnoGenerator {
       }
     })
 
-    const preflightResolution = async () => {
+    const preflightPromise = (async () => {
       if (!preflights)
         return
 
@@ -198,11 +198,11 @@ export class UnoGenerator {
           },
         )),
       )
-    }
+    })()
 
     await Promise.all([
       ...tokenPromises,
-      preflightResolution(),
+      preflightPromise,
     ])
 
     const layers = this.config.sortLayers(Array
