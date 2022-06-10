@@ -1,5 +1,5 @@
 import type { Rule } from '@unocss/core'
-import { positionMap } from '@unocss/preset-mini/utils'
+import { handler as h, positionMap } from '@unocss/preset-mini/utils'
 
 export const textTransforms: Rule[] = [
   // tailwind compat
@@ -83,7 +83,13 @@ export const objectPositions: Rule[] = [
   ['object-none', { 'object-fit': 'none' }],
 
   // object position
-  [/^object-([-\w]+)$/, ([, s]) => ({ 'object-position': positionMap[s] }), { autocomplete: `object-(${Object.keys(positionMap).join('|')})` }],
+  [/^object-(.+)$/, ([, d]) => {
+    if (positionMap[d])
+      return { 'object-position': positionMap[d] }
+    if (h.bracketOfPosition(d) != null)
+      return { 'object-position': h.bracketOfPosition(d)!.split(' ').map(e => h.position.fraction.auto.px.cssvar(e)).join(' ') }
+  }, { autocomplete: `object-(${Object.keys(positionMap).join('|')})` }],
+
 ]
 
 export const backgroundBlendModes: Rule[] = [
