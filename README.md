@@ -400,7 +400,7 @@ You can inject raw css as preflights from the configuration. The resolved `theme
 ```ts
 preflights: [
   {
-    getCss: ({ theme }) => `
+    getCSS: ({ theme }) => `
       * {
         color: ${theme.colors.gray?.[700] ?? '#333'}
         padding: 0;
