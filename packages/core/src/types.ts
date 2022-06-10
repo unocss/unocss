@@ -456,7 +456,9 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
 export interface UnocssPluginContext<Config extends UserConfig = UserConfig> {
   ready: Promise<LoadConfigResult<Config>>
   uno: UnoGenerator
+  /** All tokens scanned */
   tokens: Set<string>
+  /** Map for all module's raw content */
   modules: BetterMap<string, string>
   filter: (code: string, id: string) => boolean
   extract: (code: string, id?: string) => Promise<void>
