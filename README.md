@@ -400,7 +400,7 @@ You can inject raw css as preflights from the configuration. The resolved `theme
 ```ts
 preflights: [
   {
-    getCss: ({ theme }) => `
+    getCSS: ({ theme }) => `
       * {
         color: ${theme.colors.gray?.[700] ?? '#333'}
         padding: 0;
@@ -519,7 +519,7 @@ Layering also can be set on each preflight:
 preflights: [
   {
     layer: 'my-layer',
-    getCss: async () => (await fetch('my-style.css')).text(),
+    getCSS: async () => (await fetch('my-style.css')).text(),
   },
 ]
 ```
