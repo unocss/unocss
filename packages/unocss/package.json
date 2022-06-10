@@ -10,6 +10,9 @@
     "type": "git",
     "url": "git+https://github.com/unocss/unocss.git"
   },
+  "sponsor": {
+    "url": "https://github.com/sponsors/antfu"
+  },
   "bugs": {
     "url": "https://github.com/unocss/unocss/issues"
   },
