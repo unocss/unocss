@@ -1,8 +1,11 @@
 import type { CSSColorValue, RGBAColorValue } from '@unocss/core'
+import { escapeRegExp } from '@unocss/core'
 
 /* eslint-disable no-case-declarations */
 
 const cssColorFunctions = ['hsl', 'hsla', 'hwb', 'lab', 'lch', 'oklab', 'oklch', 'rgb', 'rgba']
+const alphaPlaceholders = ['%alpha', '<alpha-value>']
+const alphaPlaceholdersRE = new RegExp(alphaPlaceholders.map(v => escapeRegExp(v)).join('|'))
 
 export function hex2rgba(hex = ''): RGBAColorValue | undefined {
   const color = parseHexColor(hex)
@@ -36,12 +39,12 @@ export function parseCssColor(str = ''): CSSColorValue | undefined {
 
 export function colorOpacityToString(color: CSSColorValue) {
   const alpha = color.alpha ?? 1
-  return alpha === '%alpha' ? 1 : alpha
+  return typeof alpha === 'string' && alphaPlaceholders.includes(alpha) ? 1 : alpha
 }
 
 export function colorToString(color: CSSColorValue | string, alphaOverride?: string | number) {
   if (typeof color === 'string')
-    return color.replace('%alpha', `${alphaOverride ?? 1}`)
+    return color.replace(alphaPlaceholdersRE, `${alphaOverride ?? 1}`)
 
   const { components } = color
   let { alpha, type } = color
