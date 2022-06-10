@@ -280,6 +280,7 @@ export const presetWindTargets: string[] = [
   'object-cb',
   'object-center-top',
   'object-center-bottom',
+  'object-[center_25%]',
 
   // tables
   'border-collapse',
