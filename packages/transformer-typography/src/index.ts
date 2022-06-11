@@ -1,6 +1,9 @@
 import type { SourceCodeTransformer, StringifiedUtil } from '@unocss/core'
 import { escapeRegExp } from '@unocss/core'
 
+// TODO(equt) This does compile in TS, but somehow the rollup TS plugin cannot handle it.
+// export type Tokens = string | Tokens[]
+
 // e.g., `text-sm`, `w-4`, or `md:dark:bg-dark-100`
 export type Tokens = string | string[]
 
