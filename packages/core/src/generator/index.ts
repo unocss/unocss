@@ -221,7 +221,7 @@ export class UnoGenerator {
           const size = items.length
           const sorted: PreparedRule[] = items
             .filter(i => (i[4]?.layer || 'default') === layer)
-            .sort((a, b) => a[0] - b[0] || a[1]?.localeCompare(b[1] || '') || a[2]?.localeCompare(b[2] || '') || 0)
+            .sort((a, b) => a[0] - b[0] || (a[4]?.sort || 0) - (b[4]?.sort || 0) || a[1]?.localeCompare(b[1] || '') || a[2]?.localeCompare(b[2] || '') || 0)
             .map(([, selector, body,, meta]) => {
               const scopedSelector = selector ? applyScope(selector, scope) : selector
               return [

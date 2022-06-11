@@ -2,8 +2,8 @@
 
 exports[`selector > rules split selector 1`] = `
 "/* layer: default */
-.to-merge,
-.merge-candidate{merged:1;}
+.merge-candidate,
+.to-merge{merged:1;}
 .not-merged{merged:1;}"
 `;
 
