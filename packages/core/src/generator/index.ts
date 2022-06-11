@@ -247,11 +247,13 @@ export class UnoGenerator {
                 }
               }
 
-              const selectors = [...new Set((selectorSortPair ?? [])
-                .sort((a, b) => a[1] - b[1] || a[0]?.localeCompare(b[0] || '') || 0)
-                .map(pair => pair[0])
-                .filter(Boolean),
-              )]
+              const selectors = selectorSortPair
+                ? [...new Set(selectorSortPair
+                    .sort((a, b) => a[1] - b[1] || a[0]?.localeCompare(b[0] || '') || 0)
+                    .map(pair => pair[0])
+                    .filter(Boolean),
+                  )]
+                : []
 
               return selectors.length
                 ? `${selectors.join(`,${nl}`)}{${body}}`
