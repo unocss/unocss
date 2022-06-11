@@ -1,16 +1,18 @@
-import type { CSSEntries, CSSObject, CSSValues, DeepPartial, Rule, Shortcut, StaticRule, StaticShortcut } from '../types'
+import type { CSSEntries, CSSObject, CSSValue, DeepPartial, Rule, Shortcut, StaticRule, StaticShortcut } from '../types'
 
-export function normalizeCSSEntries(obj: CSSEntries | CSSObject): CSSEntries {
+export function normalizeCSSEntries(obj: string | CSSEntries | CSSObject): string | CSSEntries {
+  if (typeof obj === 'string')
+    return obj
   return (!Array.isArray(obj) ? Object.entries(obj) : obj).filter(i => i[1] != null)
 }
 
-export function normalizeCSSValues(obj: CSSValues): CSSEntries[] {
+export function normalizeCSSValues(obj: CSSValue | string | (CSSValue | string)[]): (string | CSSEntries)[] {
   if (Array.isArray(obj)) {
     // @ts-expect-error type cast
     if (obj.find(i => !Array.isArray(i) || Array.isArray(i[0])))
-      return (obj as any).map((i: any) => normalizeCSSEntries(i))
+      return (obj as (string | CSSValue)[]).map(i => normalizeCSSEntries(i))
     else
-      return [obj as any]
+      return [obj as CSSEntries]
   }
   else {
     return [normalizeCSSEntries(obj)]

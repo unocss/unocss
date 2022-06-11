@@ -164,9 +164,10 @@ export interface RuleMeta {
   internal?: boolean
 }
 
-export type CSSValues = CSSObject | CSSEntries | (CSSObject | CSSEntries)[]
+export type CSSValue = CSSObject | CSSEntries
+export type CSSValues = CSSValue | CSSValue[]
 
-export type DynamicMatcher<Theme extends {} = {}> = ((match: RegExpMatchArray, context: Readonly<RuleContext<Theme>>) => Awaitable<CSSValues | string | undefined>)
+export type DynamicMatcher<Theme extends {} = {}> = ((match: RegExpMatchArray, context: Readonly<RuleContext<Theme>>) => Awaitable<CSSValue | string | (CSSValue | string)[] | undefined>)
 export type DynamicRule<Theme extends {} = {}> = [RegExp, DynamicMatcher<Theme>] | [RegExp, DynamicMatcher<Theme>, RuleMeta]
 export type StaticRule = [string, CSSObject | CSSEntries] | [string, CSSObject | CSSEntries, RuleMeta]
 export type Rule<Theme extends {} = {}> = DynamicRule<Theme> | StaticRule
@@ -597,6 +598,12 @@ export type StringifiedUtil = readonly [
   parent: string | undefined,
   meta: RuleMeta | undefined,
   context: RuleContext | undefined,
+]
+
+export type PreparedRule = readonly [
+  selector: [string, number][],
+  body: string,
+  noMerge: boolean,
 ]
 
 export interface UtilObject {
