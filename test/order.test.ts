@@ -114,18 +114,24 @@ describe('order', () => {
     expect(css).toEqual(css2)
   })
 
-  test('fully controlled rules sorted by body', async () => {
+  test('fully controlled rules merged and sorted by body', async () => {
     const uno = createGenerator({
       rules: [
         ['uno', { '--var': 'uno' }],
         [/^foo-(.+)$/, ([, match]) => {
           return `/* sort: ${match} */ .foo{--foo:0}`
         }],
+        [/^bar-(.+)$/, ([, match]) => {
+          return [
+            `/* sort: ${match} */ .foo{--foo:0}`,
+            { '--bar': match },
+          ]
+        }],
         ['css', { '--var': 'css' }],
       ],
       presets: [],
     })
-    const code = 'foo-uno uno css foo-css'
+    const code = 'foo-uno uno css bar-uno bar-css foo-css'
     const { css } = await uno.generate(code, { preflights: false })
     const { css: css2 } = await uno.generate(code, { preflights: false })
     expect(css).toMatchSnapshot()
