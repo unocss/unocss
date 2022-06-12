@@ -1,5 +1,15 @@
 // Vitest Snapshot v1
 
+exports[`order > fully controlled rules merged and sorted by body 1`] = `
+"/* layer: default */
+.uno{--var:uno;}
+/* sort: css */ .foo{--foo:0}
+/* sort: uno */ .foo{--foo:0}
+.bar-css{--bar:css;}
+.bar-uno{--bar:uno;}
+.css{--var:css;}"
+`;
+
 exports[`order > movePseudoElementsEnd 1`] = `".marker\\\\:file\\\\:hover\\\\:selection\\\\:mb-4:hover::marker::file-selector-button::selection"`;
 
 exports[`order > multiple variant sorting 1`] = `

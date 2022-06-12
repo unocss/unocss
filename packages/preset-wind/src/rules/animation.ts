@@ -3,21 +3,30 @@ import { handler as h } from '@unocss/preset-mini/utils'
 import type { Theme } from '@unocss/preset-mini'
 
 export const animations: Rule<Theme>[] = [
-  [/^(?:animate-)?keyframes-(.+)$/, ([, name], { theme, constructCSS }) => {
+  [/^(?:animate-)?keyframes-(.+)$/, ([, name], { theme }) => {
     const kf = theme.animation?.keyframes?.[name]
-    if (kf)
-      return `@keyframes ${name}${kf}\n${constructCSS({ animation: `${name}` })}`
+    if (kf) {
+      return [
+        `@keyframes ${name}${kf}`,
+        { animation: name },
+      ]
+    }
   }, { autocomplete: ['animate-keyframes-$animation.keyframes', 'keyframes-$animation.keyframes'] }],
 
-  [/^animate-(.+)$/, ([, name], { theme, constructCSS }) => {
+  [/^animate-(.+)$/, ([, name], { theme }) => {
     const kf = theme.animation?.keyframes?.[name]
     if (kf) {
       const duration = theme.animation?.durations?.[name] ?? '1s'
       const timing = theme.animation?.timingFns?.[name] ?? 'linear'
-      const props = theme.animation?.properties?.[name]
       const count = theme.animation?.counts?.[name] ?? 1
-      return `@keyframes ${name}${kf}\n${constructCSS(
-        Object.assign({ animation: `${name} ${duration} ${timing} ${count}` }, props))}`
+      const props = theme.animation?.properties?.[name]
+      return [
+        `@keyframes ${name}${kf}`,
+        {
+          animation: `${name} ${duration} ${timing} ${count}`,
+          ...props,
+        },
+      ]
     }
     return { animation: h.bracket.cssvar(name) }
   }, { autocomplete: 'animate-$animation.keyframes' }],

@@ -1,5 +1,5 @@
 import { createNanoEvents } from '../utils/events'
-import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, Shortcut, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantMatchedResult } from '../types'
+import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, Shortcut, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
 import { CONTROL_SHORTCUT_NO_MERGE, TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, noop, normalizeCSSEntries, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
@@ -219,28 +219,44 @@ export class UnoGenerator {
         .sort((a, b) => ((this.parentOrders.get(a[0]) ?? 0) - (this.parentOrders.get(b[0]) ?? 0)) || a[0]?.localeCompare(b[0] || '') || 0)
         .map(([parent, items]) => {
           const size = items.length
-          const sorted = items
+          const sorted: PreparedRule[] = items
             .filter(i => (i[4]?.layer || 'default') === layer)
-            .sort((a, b) => a[0] - b[0] || (a[4]?.sort || 0) - (b[4]?.sort || 0) || a[1]?.localeCompare(b[1] || '') || 0)
-            .map(a => [a[1] ? applyScope(a[1], scope) : a[1], a[2], !!a[4]?.noMerge])
-            .map(a => [a[0] == null ? a[0] : [a[0]], a[1], a[2]]) as [string[] | undefined, string, boolean][]
+            .sort((a, b) => a[0] - b[0] || (a[4]?.sort || 0) - (b[4]?.sort || 0) || a[1]?.localeCompare(b[1] || '') || a[2]?.localeCompare(b[2] || '') || 0)
+            .map(([, selector, body,, meta]) => {
+              const scopedSelector = selector ? applyScope(selector, scope) : selector
+              return [
+                [[scopedSelector ?? '', meta?.sort ?? 0]],
+                body,
+                !!meta?.noMerge,
+              ]
+            })
           if (!sorted.length)
             return undefined
           const rules = sorted
             .reverse()
-            .map(([selector, body, noMerge], idx) => {
-              if (!noMerge && selector && this.config.mergeSelectors) {
+            .map(([selectorSortPair, body, noMerge], idx) => {
+              if (!noMerge && this.config.mergeSelectors) {
                 // search for rules that has exact same body, and merge them
                 for (let i = idx + 1; i < size; i++) {
                   const current = sorted[i]
-                  if (current && !current[2] && current[0] && current[1] === body) {
-                    current[0].push(...selector)
+                  if (current && !current[2] && ((selectorSortPair && current[0]) || (selectorSortPair == null && current[0] == null)) && current[1] === body) {
+                    if (selectorSortPair && current[0])
+                      current[0].push(...selectorSortPair)
                     return null
                   }
                 }
               }
-              return selector
-                ? `${[...new Set(selector)].join(`,${nl}`)}{${body}}`
+
+              const selectors = selectorSortPair
+                ? [...new Set(selectorSortPair
+                    .sort((a, b) => a[1] - b[1] || a[0]?.localeCompare(b[0] || '') || 0)
+                    .map(pair => pair[0])
+                    .filter(Boolean),
+                  )]
+                : []
+
+              return selectors.length
+                ? `${selectors.join(`,${nl}`)}{${body}}`
                 : body
             })
             .filter(Boolean)
@@ -341,16 +357,18 @@ export class UnoGenerator {
   }
 
   constructCustomCSS(context: Readonly<RuleContext>, body: CSSObject | CSSEntries, overrideSelector?: string) {
-    body = normalizeCSSEntries(body)
+    const normalizedBody = normalizeCSSEntries(body)
+    if (typeof normalizedBody === 'string')
+      return normalizedBody
 
-    const { selector, entries, parent } = this.applyVariants([0, overrideSelector || context.rawSelector, body, undefined, context.variantHandlers])
+    const { selector, entries, parent } = this.applyVariants([0, overrideSelector || context.rawSelector, normalizedBody, undefined, context.variantHandlers])
     const cssBody = `${selector}{${entriesToCss(entries)}}`
     if (parent)
       return `${parent}{${cssBody}}`
     return cssBody
   }
 
-  async parseUtil(input: string | VariantMatchedResult, context: RuleContext, internal = false): Promise<ParsedUtil[] | RawUtil[] | undefined> {
+  async parseUtil(input: string | VariantMatchedResult, context: RuleContext, internal = false): Promise<(ParsedUtil | RawUtil)[] | undefined> {
     const [raw, processed, variantHandlers] = typeof input === 'string'
       ? this.matchVariants(input)
       : input
@@ -367,7 +385,13 @@ export class UnoGenerator {
     if (staticMatch) {
       if (staticMatch[1] && (internal || !staticMatch[2]?.internal)) {
         recordRule(staticMatch[3])
-        return [[staticMatch[0], raw, normalizeCSSEntries(staticMatch[1]), staticMatch[2], variantHandlers]]
+        const index = staticMatch[0]
+        const entry = normalizeCSSEntries(staticMatch[1])
+        const meta = staticMatch[2]
+        if (typeof entry === 'string')
+          return [[index, entry, meta]]
+        else
+          return [[index, raw, entry, meta, variantHandlers]]
       }
     }
 
@@ -399,11 +423,15 @@ export class UnoGenerator {
 
       recordRule(rule)
 
-      if (typeof result === 'string')
-        return [[i, result, meta]]
       const entries = normalizeCSSValues(result).filter(i => i.length)
-      if (entries.length)
-        return entries.map(e => [i, raw, e, meta, variantHandlers])
+      if (entries.length) {
+        return entries.map((e) => {
+          if (typeof e === 'string')
+            return [i, e, meta]
+          else
+            return [i, raw, e, meta, variantHandlers]
+        })
+      }
     }
   }
 
