@@ -12,7 +12,7 @@ export class ContextLoader {
   public cwd: string
   public defaultContext: UnocssPluginContext<UserConfig<any>>
   public contexts = new Map<string, UnocssPluginContext<UserConfig<any>>>()
-  private fileToContextCache = new Map<string, UnocssPluginContext<UserConfig<any>>>()
+  private fileToContextCache = new Map<string, UnocssPluginContext<UserConfig<any>> | null>()
   public events = createNanoEvents<{
     contextLoaded: (context: UnocssPluginContext<UserConfig<any>>) => void
     contextReload: (context: UnocssPluginContext<UserConfig<any>>) => void
@@ -96,10 +96,17 @@ export class ContextLoader {
       for (const [path, ctx] of this.fileToContextCache) {
         if (ctx === context && !context.rollupFilter(path))
           this.fileToContextCache.delete(path)
+        if (!ctx)
+          this.fileToContextCache.delete(path)
       }
 
       this.events.emit('contextReload', context)
     })
+
+    for (const [path, ctx] of this.fileToContextCache) {
+      if (!ctx)
+        this.fileToContextCache.delete(path)
+    }
 
     this.events.emit('contextLoaded', context)
 
@@ -112,8 +119,10 @@ export class ContextLoader {
 
   async resolveContext(file: string) {
     const cached = this.fileToContextCache.get(file)
-    if (cached)
+    if (cached !== undefined)
       return cached
+
+    log.appendLine(`[info] Resolving config for ${file}`)
 
     // try finding an existing context that includes the file
     for (const [configDir, context] of this.contexts) {
@@ -135,5 +144,8 @@ export class ContextLoader {
       this.fileToContextCache.set(file, context)
       return context
     }
+
+    this.fileToContextCache.set(file, null)
+    return null
   }
 }
