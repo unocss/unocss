@@ -175,6 +175,8 @@ export const presetMiniTargets: string[] = [
   'text-red-100',
   'text-red-200/10',
   'text-red-300/20',
+  'text-red-300:20',
+  'text-red:20',
   'text-red100',
   'text-red2',
   'text-opacity-[13.3333333%]',

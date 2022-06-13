@@ -412,7 +412,9 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .text-\\\\$variable{color:var(--variable);}
 .text-black\\\\/10{color:rgba(0,0,0,0.1);}
 .text-red-200\\\\/10{color:rgba(254,202,202,0.1);}
+.text-red-300\\\\:20,
 .text-red-300\\\\/20{color:rgba(252,165,165,0.2);}
+.text-red\\\\:20{color:rgba(248,113,113,0.2);}
 .text-red2{--un-text-opacity:1;color:rgba(254,202,202,var(--un-text-opacity));}
 .text-rose{--un-text-opacity:1;color:rgba(251,113,133,var(--un-text-opacity));}
 .placeholder-color-opacity-60::placeholder{--un-text-opacity:0.6;}

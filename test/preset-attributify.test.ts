@@ -170,8 +170,6 @@ describe('attributify', () => {
 
     expect(fixture1.slice(reversed.start, reversed.end))
       .toMatchInlineSnapshot('"blue-400"')
-    expect(fixture1.slice(0, reversed.start) + reversed.replacement + fixture1.slice(reversed.end))
-      .toMatchSnapshot()
   })
 
   test('compatible with full controlled rules', async () => {
