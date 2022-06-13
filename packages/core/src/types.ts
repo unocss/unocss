@@ -462,10 +462,12 @@ export interface UnocssPluginContext<Config extends UserConfig = UserConfig> {
   /** Map for all module's raw content */
   modules: BetterMap<string, string>
   filter: (code: string, id: string) => boolean
+  rollupFilter: (id: unknown) => boolean
   extract: (code: string, id?: string) => Promise<void>
 
   reloadConfig: () => Promise<LoadConfigResult<Config>>
   getConfig: () => Promise<Config>
+  onReload: (fn: () => void) => void
 
   invalidate: () => void
   onInvalidate: (fn: () => void) => void
