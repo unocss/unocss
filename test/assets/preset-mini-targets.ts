@@ -880,11 +880,9 @@ export const presetMiniNonTargets = [
   'content-foo-bar',
   'content-[foo',
   'content-foo]',
-]
 
-export const presetMiniStrayTargets: string[] = [
   // variants - negative
   '-border-solid',
-  '-color-blue-400',
   '-decoration-none',
+  '-color-blue-400',
 ]

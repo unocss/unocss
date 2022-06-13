@@ -1,7 +1,7 @@
 import { createGenerator, escapeSelector } from '@unocss/core'
 import presetMini from '@unocss/preset-mini'
 import { describe, expect, test } from 'vitest'
-import { presetMiniNonTargets, presetMiniStrayTargets, presetMiniTargets } from './assets/preset-mini-targets'
+import { presetMiniNonTargets, presetMiniTargets } from './assets/preset-mini-targets'
 import { presetWindTargets } from './assets/preset-wind-targets'
 
 const uno = createGenerator({
@@ -62,25 +62,10 @@ describe('preset-mini', () => {
     expect(css).toMatchSnapshot()
   })
 
-  test('stray targets', async () => {
-    const code = presetMiniStrayTargets.join(' ')
-    const { css } = await uno.generate(code)
-    const { css: css2 } = await uno.generate(code)
-
-    const unmatched = []
-    for (const i of presetMiniStrayTargets) {
-      if (!css.includes(escapeSelector(i)))
-        unmatched.push(i)
-    }
-    expect(unmatched).toEqual([])
-    expect(css).toMatchSnapshot()
-    expect(css).toEqual(css2)
-  })
-
   test('none targets', async () => {
-    const { css, matched } = await uno.generate(new Set(presetMiniNonTargets))
+    const { css, matched } = await uno.generate(new Set(presetMiniNonTargets), { minify: true, preflights: false })
 
+    expect(css).toMatchInlineSnapshot('""')
     expect([...matched]).toEqual([])
-    expect(css).toMatchSnapshot()
   })
 })
