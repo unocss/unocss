@@ -21,10 +21,10 @@ jobs:
       - name: Setup
         run: npm i -g @antfu/ni pnpm
 
-      - run: npx conventional-github-releaser -p angular
+      - run: npx changelogithub
         continue-on-error: true
         env:
-          CONVENTIONAL_GITHUB_RELEASER_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
       - name: Install Dependencies
         run: nci
