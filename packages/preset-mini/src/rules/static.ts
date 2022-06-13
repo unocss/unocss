@@ -50,10 +50,8 @@ export const whitespaces: Rule[] = [
 ]
 
 export const contents: Rule[] = [
-  [/^content-(.+)$/, ([, v]) => {
-    const c = h.bracket.cssvar(v)
-    return { content: c == null ? `"${v}"` : c }
-  }],
+  [/^content-\[(.+)\]$/, ([, v]) => ({ content: `"${v}"` })],
+  [/^content-(\$.+)]$/, ([, v]) => ({ content: h.cssvar(v) })],
   ['content-empty', { content: '""' }],
   ['content-none', { content: '""' }],
 ]

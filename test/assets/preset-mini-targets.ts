@@ -310,7 +310,6 @@ export const presetMiniTargets: string[] = [
   'order-none',
   'content-start',
   'content-center',
-  'content-[!]',
   'items-end',
   'self-stretch',
   'place-content-stretch',
@@ -518,11 +517,7 @@ export const presetMiniTargets: string[] = [
   'select-none',
   'whitespace-pre-wrap',
   'ws-nowrap',
-  'content-empty',
-  'content-none',
-  'content-unocss',
-  'content-[unocss]',
-  'content-[attr(dashed-attr)]',
+
   'break-normal',
   'break-words',
   'text-clip',
@@ -531,6 +526,15 @@ export const presetMiniTargets: string[] = [
   'italic',
   'oblique',
   'antialiased',
+
+  // content
+  'content-empty',
+  'content-none',
+  'content-[!]',
+  'content-[unocss]',
+  'content-[attr(dashed-attr)]',
+  'content-[attr(underlined_attr)]',
+  'content-$unocss-var',
 
   // svg
   'fill-none',
@@ -866,6 +870,14 @@ export const presetMiniTargets: string[] = [
   'peer-checked:bg-blue-500',
   'parent-hover:text-center',
   'previous-checked:bg-red-500',
+]
+
+export const presetMiniNonTargets = [
+  // content requires bracket
+  'content-foo',
+  'content-foo-bar',
+  'content-[foo',
+  'content-foo]',
 ]
 
 export const presetMiniStrayTargets: string[] = [
