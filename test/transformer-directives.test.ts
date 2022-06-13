@@ -377,7 +377,7 @@ describe('transformer-directives', () => {
         "nav {
           border-width: 1px;
           border-style: solid;
-        
+
           ul {
             li {
               border-width: 1px;

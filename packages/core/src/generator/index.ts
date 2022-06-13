@@ -341,14 +341,26 @@ export class UnoGenerator {
 
   applyVariants(parsed: ParsedUtil, variantHandlers = parsed[4], raw = parsed[1]): UtilObject {
     const handlers = [...variantHandlers].sort((a, b) => (a.order || 0) - (b.order || 0))
-    const entries = handlers.reduce((p, v) => v.body?.(p) || p, parsed[2])
-    const selector = handlers.reduce((p, v) => v.selector?.(p, entries) || p, toEscapedSelector(raw))
+
+    let entries: CSSEntries = parsed[2]
+    let selector = toEscapedSelector(raw)
+    let parent: string | undefined
+    let layer: string | undefined
+    let sort: number | undefined
+    handlers.forEach((v) => {
+      entries = v.body?.(entries) || entries
+      selector = v.selector?.(selector, entries) || selector
+      parent = Array.isArray(v.parent) ? v.parent[0] : v.parent || parent
+      layer = v.layer || layer
+      sort = v.sort || sort
+    })
+
     const obj: UtilObject = {
       selector: movePseudoElementsEnd(selector),
       entries,
-      parent: handlers.reduce((p: string | undefined, v) => Array.isArray(v.parent) ? v.parent[0] : v.parent || p, undefined),
-      layer: handlers.reduce((p: string | undefined, v) => v.layer || p, undefined),
-      sort: handlers.reduce((p: number | undefined, v) => v.sort || p, undefined),
+      parent,
+      layer,
+      sort,
     }
 
     for (const p of this.config.postprocess)
