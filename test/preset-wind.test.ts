@@ -3,16 +3,6 @@ import presetWind from '@unocss/preset-wind'
 import { describe, expect, test } from 'vitest'
 import { presetWindNonTargets, presetWindTargets } from './assets/preset-wind-targets'
 
-export const localTargets: string[] = [
-  // static
-  'content-unocss',
-  'content-attr(dashed-attr)',
-  'content-attr_underline',
-  'content-[unocss]',
-  'content-[attr(underlined_attr)]',
-  'content-$unocss-var',
-]
-
 const uno = createGenerator({
   presets: [
     presetWind({
@@ -31,7 +21,7 @@ const uno = createGenerator({
 
 describe('preset-wind', () => {
   test('targets', async () => {
-    const targets = [...localTargets, ...presetWindTargets]
+    const targets = presetWindTargets
     const code = targets.join(' ')
     const { css } = await uno.generate(code)
     const { css: css2 } = await uno.generate(code)

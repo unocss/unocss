@@ -29,7 +29,7 @@ describe('attributify', () => {
   translate-x-100%
   translate-y-[10%]
   rotate-30
-  after="content-unocss"
+  after="content-[unocss]"
   rotate-60="" ma=""
   m='\`
   1 2
