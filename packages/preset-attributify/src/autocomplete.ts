@@ -40,7 +40,7 @@ export const autocompleteExtractorAttributify: AutoCompleteExtractor = {
     if (!attrName)
       return null
 
-    if (attrName === 'class' || attrName === 'className')
+    if (attrName === 'class' || attrName === 'className' || attrName === ':class')
       return null
     if (attrValues === undefined) {
       return {
