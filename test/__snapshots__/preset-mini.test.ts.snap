@@ -51,7 +51,8 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .pxy{padding:1rem;}
 .hover\\\\:\\\\!p-1:hover{padding:0.25rem !important;}
 .hover\\\\:p-5:hover{padding:1.25rem;}
-.important\\\\:p-3{padding:0.75rem !important;}
+.important\\\\:p-3,
+.p3\\\\!{padding:0.75rem !important;}
 .is-hover\\\\:p-4px:is(:hover),
 .not-hover\\\\:p-4px:not(:hover){padding:4px;}
 .not-hover\\\\:p-3:not(:hover){padding:0.75rem;}
@@ -250,6 +251,7 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .border-is-style-double{border-inline-start-style:double;}
 .after\\\\:content-\\\\[unocss\\\\]::after,
 .content-\\\\[unocss\\\\]{content:unocss;}
+.content-\\\\[\\\\!\\\\]{content:!;}
 .content-\\\\[attr\\\\(dashed-attr\\\\)\\\\]{content:attr(dashed-attr);}
 .content-unocss{content:\\"unocss\\";}
 .content-empty,

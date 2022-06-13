@@ -299,7 +299,6 @@ exports[`attributify > fixture2 1`] = `
 [all\\\\:transition-400=\\"\\"] *{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:400ms;}
 [transition~=\\"\\\\32 00\\"]{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:200ms;}
 [after~=\\"content-\\\\[\\\\!\\\\]\\"]::after{content:!;}
-[before~=\\"content-\\\\!\\"]::before{content:\\"!\\";}
 @media (min-width: 640px){
 [sm~=\\"bg-blue-600\\"]{--un-bg-opacity:1;background-color:rgba(37,99,235,var(--un-bg-opacity));}
 }"

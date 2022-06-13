@@ -310,6 +310,7 @@ export const presetMiniTargets: string[] = [
   'order-none',
   'content-start',
   'content-center',
+  'content-[!]',
   'items-end',
   'self-stretch',
   'place-content-stretch',
@@ -772,6 +773,7 @@ export const presetMiniTargets: string[] = [
   'sm:m1',
   'important:p-3',
   'sm:important:p-3',
+  'p3!',
 
   // variants class
   'all-[.target]-[combinator:test-2]',
