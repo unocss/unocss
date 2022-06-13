@@ -47,7 +47,27 @@ With attributify mode, you can separate utilities into attributes:
 
 For example, `text-sm text-white` could be grouped into `text="sm white"` without duplicating the same prefix.
 
-###### Valueless Attributify
+### Prefix Self-referencing
+
+For utilities like `flex`, `grid`, `border`, that have the utilities same as the prefix, a special `~` value is provided.
+
+For example:
+
+```html
+<button class="border border-red">
+  Button
+</button>
+```
+
+Can be written as
+
+```html
+<button border="~ red">
+  Button
+</button>
+```
+
+### Valueless Attributify
 
 In addition to Windi CSS's Attributify Mode, this presets also supports valueless attributes.
 
