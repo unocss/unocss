@@ -170,4 +170,30 @@ export class ContextLoader {
     this.fileContextCache.set(file, null)
     return null
   }
+
+  async resolveCloestContext(file: string) {
+    const cached = this.fileContextCache.get(file)
+    if (cached)
+      return cached
+
+    for (const [configDir, context] of this.contexts) {
+      if (!isSubdir(configDir, file))
+        continue
+
+      if (!context.rollupFilter(file))
+        continue
+
+      this.fileContextCache.set(file, context)
+      return context
+    }
+
+    for (const [configDir, context] of this.contexts) {
+      if (isSubdir(configDir, file)) {
+        this.fileContextCache.set(file, context)
+        return context
+      }
+    }
+
+    return this.defaultContext
+  }
 }
