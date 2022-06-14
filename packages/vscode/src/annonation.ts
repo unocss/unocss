@@ -59,9 +59,9 @@ export async function registerAnnonations(
       if (!code)
         return reset()
 
-      let ctx = await contextLoader.resolveContext(id)
+      let ctx = await contextLoader.resolveContext(code, id)
       if (!ctx && (code.includes(INCLUDE_COMMENT_IDE) || isCssId(id)))
-        ctx = await contextLoader.resolveCloestContext(id)
+        ctx = await contextLoader.resolveCloestContext(code, id)
       else if (!ctx?.filter(code, id))
         return null
 

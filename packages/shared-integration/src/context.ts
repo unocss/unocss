@@ -102,7 +102,6 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
       invalidations.push(fn)
     },
     filter,
-    rollupFilter,
     reloadConfig,
     onReload(fn: () => void) {
       reloadListeners.push(fn)

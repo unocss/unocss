@@ -103,9 +103,7 @@ export class ContextLoader {
 
     context.onReload(() => {
       for (const [path, ctx] of this.fileContextCache) {
-        if (ctx === context && !context.rollupFilter(path))
-          this.fileContextCache.delete(path)
-        if (!ctx)
+        if (ctx === context || !ctx)
           this.fileContextCache.delete(path)
       }
 
@@ -127,7 +125,7 @@ export class ContextLoader {
     return context
   }
 
-  async resolveContext(file: string) {
+  async resolveContext(code: string, file: string) {
     const cached = this.fileContextCache.get(file)
     if (cached !== undefined)
       return cached
@@ -139,7 +137,7 @@ export class ContextLoader {
       if (!isSubdir(configDir, file))
         continue
 
-      if (!context.rollupFilter(file))
+      if (!context.filter(code, file))
         continue
 
       this.fileContextCache.set(file, context)
@@ -160,7 +158,7 @@ export class ContextLoader {
       const context = await this.loadConfigInDirectory(dir)
       this.configExistsCache.set(dir, !!context)
 
-      if (context?.rollupFilter(file)) {
+      if (context?.filter(code, file)) {
         this.fileContextCache.set(file, context)
         return context
       }
@@ -172,7 +170,7 @@ export class ContextLoader {
     return null
   }
 
-  async resolveCloestContext(file: string) {
+  async resolveCloestContext(code: string, file: string) {
     const cached = this.fileContextCache.get(file)
     if (cached)
       return cached
@@ -181,7 +179,7 @@ export class ContextLoader {
       if (!isSubdir(configDir, file))
         continue
 
-      if (!context.rollupFilter(file))
+      if (!context.filter(code, file))
         continue
 
       this.fileContextCache.set(file, context)
