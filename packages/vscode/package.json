@@ -28,7 +28,13 @@
     "workspaceContains:**/package.json"
   ],
   "contributes": {
-    "commands": [],
+    "commands": [
+      {
+        "command": "unocss.reload",
+        "title": "Reload UnoCSS",
+        "category": "UnoCSS"
+      }
+    ],
     "configuration": {
       "type": "object",
       "title": "UnoCSS",

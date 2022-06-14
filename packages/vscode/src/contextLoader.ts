@@ -11,11 +11,13 @@ import { log } from './log'
 
 export class ContextLoader {
   public cwd: string
+  public ready: Promise<void>
   public defaultContext: UnocssPluginContext<UserConfig<any>>
   public contexts = new Map<string, UnocssPluginContext<UserConfig<any>>>()
   private fileContextCache = new Map<string, UnocssPluginContext<UserConfig<any>> | null>()
   private configExistsCache = new Map<string, boolean>()
   public events = createNanoEvents<{
+    reload: () => void
     contextLoaded: (context: UnocssPluginContext<UserConfig<any>>) => void
     contextReload: (context: UnocssPluginContext<UserConfig<any>>) => void
     contextUnload: (context: UnocssPluginContext<UserConfig<any>>) => void
@@ -28,6 +30,23 @@ export class ContextLoader {
         presetUno(),
       ],
     })
+
+    this.ready = this.reload()
+  }
+
+  async reload() {
+    this.ready = this._reload()
+    await this.ready
+    this.events.emit('reload')
+  }
+
+  private async _reload() {
+    for (const dir of this.contexts.keys())
+      this.unloadContext(dir)
+    this.fileContextCache.clear()
+    this.configExistsCache.clear()
+
+    await this.loadConfigInDirectory(this.cwd)
   }
 
   async unloadContext(configDir: string) {

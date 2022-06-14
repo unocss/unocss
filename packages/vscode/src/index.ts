@@ -1,6 +1,6 @@
 import path from 'path'
 import type { ExtensionContext } from 'vscode'
-import { StatusBarAlignment, window, workspace } from 'vscode'
+import { StatusBarAlignment, commands, window, workspace } from 'vscode'
 import { version } from '../package.json'
 import { log } from './log'
 import { registerAnnonations } from './annonation'
@@ -19,13 +19,18 @@ export async function activate(ext: ExtensionContext) {
   log.appendLine(`UnoCSS for VS Code  v${version} ${process.cwd()}`)
 
   const contextLoader = new ContextLoader(cwd)
-  await contextLoader.loadConfigInDirectory(cwd)
+  await contextLoader.ready
 
   const status = window.createStatusBarItem(StatusBarAlignment.Right, 200)
   status.text = 'UnoCSS'
 
   registerAutoComplete(contextLoader, ext)
   registerAnnonations(cwd, contextLoader, status, ext)
+
+  ext.subscriptions.push(commands.registerCommand('unocss.reload', async () => {
+    await contextLoader.reload()
+    log.appendLine('[info] UnoCSS reloaded.')
+  }))
 }
 
 export function deactivate() {}

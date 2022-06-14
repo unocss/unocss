@@ -121,6 +121,9 @@ export async function registerAnnonations(
     if (e.document === window.activeTextEditor?.document)
       throttledUpdateAnnotation()
   })
+  contextLoader.events.on('reload', async () => {
+    await updateAnnotation()
+  })
 
   await updateAnnotation()
 }
