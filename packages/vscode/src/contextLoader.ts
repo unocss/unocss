@@ -1,3 +1,4 @@
+import { readdir } from 'fs/promises'
 import path from 'path'
 import type { UnocssPluginContext, UserConfig } from '@unocss/core'
 import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
@@ -12,7 +13,8 @@ export class ContextLoader {
   public cwd: string
   public defaultContext: UnocssPluginContext<UserConfig<any>>
   public contexts = new Map<string, UnocssPluginContext<UserConfig<any>>>()
-  private fileToContextCache = new Map<string, UnocssPluginContext<UserConfig<any>> | null>()
+  private fileContextCache = new Map<string, UnocssPluginContext<UserConfig<any>> | null>()
+  private configExistsCache = new Map<string, boolean>()
   public events = createNanoEvents<{
     contextLoaded: (context: UnocssPluginContext<UserConfig<any>>) => void
     contextReload: (context: UnocssPluginContext<UserConfig<any>>) => void
@@ -35,12 +37,17 @@ export class ContextLoader {
 
     this.contexts.delete(configDir)
 
-    for (const [path, ctx] of this.fileToContextCache) {
+    for (const [path, ctx] of this.fileContextCache) {
       if (ctx === context)
-        this.fileToContextCache.delete(path)
+        this.fileContextCache.delete(path)
     }
 
     this.events.emit('contextUnload', context)
+  }
+
+  async configExists(dir: string) {
+    const files = await readdir(dir)
+    return files.some(f => /^(vite|svelte|astro|iles|nuxt|unocss|uno)\.config/.test(f))
   }
 
   async loadConfigInDirectory(dir: string) {
@@ -92,20 +99,22 @@ export class ContextLoader {
     if (this.contexts.has(baseDir))
       return this.contexts.get(baseDir)!
 
+    this.configExistsCache.set(baseDir, true)
+
     context.onReload(() => {
-      for (const [path, ctx] of this.fileToContextCache) {
+      for (const [path, ctx] of this.fileContextCache) {
         if (ctx === context && !context.rollupFilter(path))
-          this.fileToContextCache.delete(path)
+          this.fileContextCache.delete(path)
         if (!ctx)
-          this.fileToContextCache.delete(path)
+          this.fileContextCache.delete(path)
       }
 
       this.events.emit('contextReload', context)
     })
 
-    for (const [path, ctx] of this.fileToContextCache) {
+    for (const [path, ctx] of this.fileContextCache) {
       if (!ctx)
-        this.fileToContextCache.delete(path)
+        this.fileContextCache.delete(path)
     }
 
     this.events.emit('contextLoaded', context)
@@ -118,7 +127,7 @@ export class ContextLoader {
   }
 
   async resolveContext(file: string) {
-    const cached = this.fileToContextCache.get(file)
+    const cached = this.fileContextCache.get(file)
     if (cached !== undefined)
       return cached
 
@@ -132,20 +141,33 @@ export class ContextLoader {
       if (!context.rollupFilter(file))
         continue
 
-      this.fileToContextCache.set(file, context)
+      this.fileContextCache.set(file, context)
       return context
     }
 
     // try finding a config from disk
-    const dir = path.dirname(file)
-    const context = await this.loadConfigInDirectory(dir)
+    let dir = path.dirname(file)
+    while (isSubdir(this.cwd, dir)) {
+      if (this.configExistsCache.get(dir) === false)
+        continue
 
-    if (context?.rollupFilter(file)) {
-      this.fileToContextCache.set(file, context)
-      return context
+      if (!this.configExists(dir)) {
+        this.configExistsCache.set(dir, false)
+        continue
+      }
+
+      const context = await this.loadConfigInDirectory(dir)
+      this.configExistsCache.set(dir, !!context)
+
+      if (context?.rollupFilter(file)) {
+        this.fileContextCache.set(file, context)
+        return context
+      }
+
+      dir = path.dirname(dir)
     }
 
-    this.fileToContextCache.set(file, null)
+    this.fileContextCache.set(file, null)
     return null
   }
 }
