@@ -32,6 +32,9 @@ export class ContextLoader {
     })
 
     this.ready = this.reload()
+      .then(async () => {
+        await this.defaultContext.ready
+      })
   }
 
   async reload() {
