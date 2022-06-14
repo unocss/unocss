@@ -109,6 +109,7 @@ export class ContextLoader {
           this.fileContextCache.delete(path)
       }
 
+      this.configExistsCache.clear()
       this.events.emit('contextReload', context)
     })
 
