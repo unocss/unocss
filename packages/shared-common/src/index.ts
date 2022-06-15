@@ -44,7 +44,7 @@ export function getMatchedPositions(code: string, matched: string[]) {
 
   // hightlight for plain classes
   let start = 0
-  code.split(/[\s"';<>]/g).forEach((i) => {
+  code.split(/[\s"'`;<>]/g).forEach((i) => {
     const end = start + i.length
     if (plain.has(i))
       result.push([start, end, i])
