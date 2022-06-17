@@ -1,40 +1,40 @@
 # Getting Started with unocss and Nextjs
 
-## Setup
+## Configuration 
 
- 1. Installing the dependencies:
+#### 1. Installing the dependencies:
 
 ```bash
-npm i -D concurrently unocss @unocss/webpack
+npm i -D unocss @unocss/webpack
 #or
-pnpm add -D concurrently unocss @unocss/webpack
+pnpm add -D unocss @unocss/webpack
 #or
-yarn add -D concurrently unocss @unocss/webpack
+yarn add -D unocss @unocss/webpack
 ```
 
 <br>
- 2. Add `unocss.config.ts|js` in the root of your nextjs project
+
+#### 2. Add `unocss.config.js` in the root of your nextjs project
 
  ```bash
-#project root
-
- ├── next.config.js
-├── next-env.d.ts
-├── node_modules
-├── package.json
-├── pages
-├── public
-├── README.md
-├── shims.d.ts
-├── styles
-├── tsconfig.json
-└── unocss.config.ts
+├── root
+  ├── next.config.js
+  ├── next-env.d.ts
+  ├── node_modules
+  ├── package.json
+  ├── pages
+  ├── public
+  ├── README.md
+  ├── shims.d.ts
+  ├── styles
+  ├── tsconfig.json
+  └── unocss.config.ts
  ```
 
  ```ts
 // unocss.config.ts
 
-import { defineConfig, presetAttributify, presetIcons, presetUno, presetWebFonts } from 'unocss'
+const { defineConfig, presetAttributify, presetIcons, presetUno, presetWebFonts } = require('unocss')
 
 export default defineConfig({
    presets: [
@@ -54,10 +54,58 @@ export default defineConfig({
 })
  ```
 
-<br>
- 3. import `../styles/uno.css` in `_app.tsx`
+#### 3. Add unocss as plugin to webpack through your `next.config.js`
 
- ```tsx
+```js
+// next.config.js
+
+const UnoCSS = require('@unocss/webpack').default
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  webpack: (config) => {
+    config.plugins.push(
+      UnoCSS(),
+
+    )
+    return config
+  },
+}
+
+module.exports = nextConfig
+```
+It is also possible to configure unocss purely in `next.config.js`: 
+```js
+// next.config.js
+// ...
+    config.plugins.push(
+      UnoCSS({
+        presets: [
+          presetAttributify(),
+          presetWebFonts({
+            provider: 'google',
+            fonts: {
+              sans: 'Roboto',
+            },
+          }),
+          presetUno(),
+        ],
+        shortcuts: [
+          ['btn', 'px-4 py-1 rounded inline-block bg-teal-600 text-white cursor-pointer hover:bg-teal-700 disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50'],
+        ],
+      }),
+
+    )
+    return config
+// ...
+```
+
+<br>
+
+#### 4. import `uno.css` in `_app.tsx`
+
+ ```ts
  // _app.tsx
 
 import '../styles/uno.css'
@@ -71,26 +119,12 @@ function MyApp({ Component, pageProps }: AppProps) {
 export default MyApp
  ```
 
-<br>
-4. edit scripts in `package.json`
-
-```json
-{
-  "scripts": {
-    "dev": "concurrently \"unocss \"pages/**/*.tsx\" --out-file=\"styles/uno.css\" --watch\" \"next dev\"",
-    "build": "unocss pages/**/*.tsx --out-file=styles/uno.css && next build",
-    "start": "next start",
-    "lint": "next lint",
-    "css": "unocss pages/**/*.tsx --out-file=styles/uno.css"
-  }
-}
-```
 
 ## Usage 
 
 Style your components with unocss!
 
-```tsx
+```ts
 /* index.tsx */
 
 const Home: NextPage = () => {
@@ -105,18 +139,20 @@ const Home: NextPage = () => {
   )
 }
 ```
+<br>
 
-## Multiple directories
-For usage in multiple directories E.g. `pages/` and `components/` add both to your scripts in `packages.json` for unocss to watch.
+## Troubleshooting
 
-```json
-{
-  "scripts": {
-    "dev": "concurrently \"unocss \"pages/**/*.tsx\" \"components/**/*.tsx\" --out-file=\"styles/uno.css\" --watch\" \"next dev\""
-  }
-}
+#### Error concerning virtual module
+```bash
+Error: ENOENT: no such file or directory, open '.../_virtual_/__uno.css'
 ```
+try deleting the `.next` directory and restart the dev server.
 
+#### Other
+- you might need to bump your target up to at least `es2015` in your `tsconfig.json` to build your project
+- files with `.js` extension are not supported by default. Change your file extensions to `.jsx` or try to 
+include js files in your config with `include: /\.js$/`
 ## Unocss presets used in this example
 See following links for specifics. 
 
