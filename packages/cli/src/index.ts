@@ -102,7 +102,13 @@ export async function build(_options: CliOptions) {
 
   async function generate(options: ResolvedCliOptions) {
     const outFile = resolve(options.cwd || process.cwd(), options.outFile ?? 'uno.css')
-    const { css, matched } = await uno.generate([...fileCache].join('\n'))
+    const { css, matched } = await uno.generate(
+      [...fileCache].join('\n'),
+      {
+        preflights: options.preflights,
+        minify: options.minify,
+      },
+    )
 
     const dir = dirname(outFile)
     if (!existsSync(dir))

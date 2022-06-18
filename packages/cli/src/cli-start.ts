@@ -15,6 +15,8 @@ export async function startCli(cwd = process.cwd(), argv = process.argv, options
     })
     .option('-c, --config [file]', 'Config file')
     .option('-w, --watch', 'Watch for file changes')
+    .option('--preflights', 'Enable preflights', { default: true })
+    .option('-m, --minify', 'Minify generated CSS', { default: false })
     .action(async (patterns: Array<string>, flags) => {
       Object.assign(options, {
         cwd,

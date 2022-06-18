@@ -84,7 +84,7 @@ function initOutputFiles(testDir: string, files: Record<string, string>) {
 }
 
 function runAsyncChildProcess(cwd: string, ...args: string[]) {
-  return startCli(cwd, ['', '', ...args])
+  return startCli(cwd, ['', '', ...args, '--no-preflights'])
 }
 
 function readUnocssFile(testDir: string) {

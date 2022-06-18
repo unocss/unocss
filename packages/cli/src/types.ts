@@ -7,6 +7,10 @@ export interface CliOptions {
   outFile?: string
   watch?: boolean
   config?: string
+
+  // genreate options
+  preflights?: boolean
+  minify?: boolean
 }
 
 export type ResolvedCliOptions = MarkRequired<CliOptions, 'patterns'>
