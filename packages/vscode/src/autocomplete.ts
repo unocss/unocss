@@ -72,7 +72,7 @@ export async function registerAutoComplete(
 
       let ctx = await contextLoader.resolveContext(code, id)
       if (!ctx && isCssId(id))
-        ctx = await contextLoader.resolveCloestContext(code, id)
+        ctx = await contextLoader.resolveClosestContext(code, id)
       else if (!ctx?.filter(code, id))
         return null
 

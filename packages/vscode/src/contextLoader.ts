@@ -1,6 +1,8 @@
 import { readdir } from 'fs/promises'
 import path from 'path'
+import fs from 'fs'
 import type { UnocssPluginContext, UserConfig } from '@unocss/core'
+import { notNull } from '@unocss/core'
 import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
 import presetUno from '@unocss/preset-uno'
 import { resolveOptions as resolveNuxtOptions } from '../../nuxt/src/options'
@@ -13,7 +15,8 @@ export class ContextLoader {
   public cwd: string
   public ready: Promise<void>
   public defaultContext: UnocssPluginContext<UserConfig<any>>
-  public contexts = new Map<string, UnocssPluginContext<UserConfig<any>>>()
+  public contextsMap = new Map<string, UnocssPluginContext<UserConfig<any>> | null>()
+
   private fileContextCache = new Map<string, UnocssPluginContext<UserConfig<any>> | null>()
   private configExistsCache = new Map<string, boolean>()
   public events = createNanoEvents<{
@@ -37,6 +40,10 @@ export class ContextLoader {
       })
   }
 
+  get contexts() {
+    return Array.from(new Set(this.contextsMap.values())).filter(notNull)
+  }
+
   async reload() {
     this.ready = this._reload()
     await this.ready
@@ -44,20 +51,20 @@ export class ContextLoader {
   }
 
   private async _reload() {
-    for (const dir of this.contexts.keys())
+    for (const dir of this.contextsMap.keys())
       this.unloadContext(dir)
     this.fileContextCache.clear()
     this.configExistsCache.clear()
 
-    await this.loadConfigInDirectory(this.cwd)
+    await this.loadContextInDirectory(this.cwd)
   }
 
   async unloadContext(configDir: string) {
-    const context = this.contexts.get(configDir)
+    const context = this.contextsMap.get(configDir)
     if (!context)
       return
 
-    this.contexts.delete(configDir)
+    this.contextsMap.delete(configDir)
 
     for (const [path, ctx] of this.fileContextCache) {
       if (ctx === context)
@@ -68,94 +75,106 @@ export class ContextLoader {
   }
 
   async configExists(dir: string) {
-    const files = await readdir(dir)
-    return files.some(f => /^(vite|svelte|astro|iles|nuxt|unocss|uno)\.config/.test(f))
+    if (!this.configExistsCache.has(dir)) {
+      const files = await readdir(dir)
+      this.configExistsCache.set(dir, files.some(f => /^(vite|svelte|astro|iles|nuxt|unocss|uno)\.config/.test(f)))
+    }
+    return this.configExistsCache.has(dir)!
   }
 
-  async loadConfigInDirectory(dir: string) {
-    const cached = this.contexts.get(dir)
-    if (cached)
+  async loadContextInDirectory(dir: string) {
+    const cached = this.contextsMap.get(dir)
+    if (cached !== undefined)
       return cached
 
-    const context = createContext(
-      dir,
-      undefined,
-      [
-        sourcePluginFactory({
-          files: [
-            'vite.config',
-            'svelte.config',
-            'astro.config',
-            'iles.config',
-          ],
-          targetModule: 'unocss/vite',
-          parameters: [{ command: 'serve', mode: 'development' }],
-        }),
-        sourceObjectFields({
-          files: 'nuxt.config',
-          fields: 'unocss',
-        }),
-      ],
-      (result) => {
-        if (result.sources.some(s => s.includes('nuxt.config')))
-          resolveNuxtOptions(result.config)
-      },
-    )
+    const load = async () => {
+      log.appendLine(`[info] Resolving config for ${dir}`)
+      const context = createContext(
+        dir,
+        undefined,
+        [
+          sourcePluginFactory({
+            files: [
+              'vite.config',
+              'svelte.config',
+              'astro.config',
+              'iles.config',
+            ],
+            targetModule: 'unocss/vite',
+            parameters: [{ command: 'serve', mode: 'development' }],
+          }),
+          sourceObjectFields({
+            files: 'nuxt.config',
+            fields: 'unocss',
+          }),
+        ],
+        (result) => {
+          if (result.sources.some(s => s.includes('nuxt.config')))
+            resolveNuxtOptions(result.config)
+        },
+      )
 
-    context.updateRoot(dir)
+      context.updateRoot(dir)
+      let sources = []
+      try {
+        sources = (await context.ready).sources
+      }
+      catch (e) {
+        log.appendLine(`[error] ${String(e)}`)
+        log.appendLine(`[error] Error occurred while loading config. Config directory: ${dir}`)
+        return null
+      }
 
-    let sources = []
-    try {
-      sources = (await context.ready).sources
-    }
-    catch (e) {
-      log.appendLine(`[error] ${String(e)}`)
-      log.appendLine(`[error] Error occurred while loading config. Config directory: ${dir}`)
-      return null
-    }
+      if (!sources.length)
+        return null
 
-    if (!sources.length)
-      return null
+      const baseDir = path.dirname(sources[0])
+      if (baseDir !== dir) {
+        // exists on upper level, skip
+        this.contextsMap.set(dir, null)
+        return null
+      }
 
-    const baseDir = path.dirname(sources[0])
-    if (this.contexts.has(baseDir))
-      return this.contexts.get(baseDir)!
+      context.onReload(() => {
+        for (const [path, ctx] of this.fileContextCache) {
+          if (ctx === context || !ctx)
+            this.fileContextCache.delete(path)
+        }
+        this.configExistsCache.clear()
+        this.events.emit('contextReload', context)
+      })
 
-    this.configExistsCache.set(baseDir, true)
-
-    context.onReload(() => {
       for (const [path, ctx] of this.fileContextCache) {
-        if (ctx === context || !ctx)
+        if (!ctx)
           this.fileContextCache.delete(path)
       }
 
-      this.configExistsCache.clear()
-      this.events.emit('contextReload', context)
-    })
+      this.events.emit('contextLoaded', context)
 
-    for (const [path, ctx] of this.fileContextCache) {
-      if (!ctx)
-        this.fileContextCache.delete(path)
+      log.appendLine(`[info] New configuration loaded from\n  ${sources.map(s => `  - ${s}`).join('\n')}`)
+
+      return context
     }
 
-    this.events.emit('contextLoaded', context)
-
-    log.appendLine(`[info] New configuration loaded from\n  ${sources.map(s => `  - ${s}`).join('\n')}`)
-
-    this.contexts.set(baseDir, context)
-
+    const context = await load()
+    if (!this.contextsMap.has(dir))
+      this.contextsMap.set(dir, context)
     return context
   }
 
   async resolveContext(code: string, file: string) {
+    if (file.match(/[\/](node_modules|dist|\.temp|\.cache)[\/]/g))
+      return
+
     const cached = this.fileContextCache.get(file)
     if (cached !== undefined)
       return cached
 
-    log.appendLine(`[info] Resolving config for ${file}`)
-
     // try finding an existing context that includes the file
-    for (const [configDir, context] of this.contexts) {
+    for (const [configDir, context] of this.contextsMap) {
+      if (!context)
+        continue
+
       if (!isSubdir(configDir, file))
         continue
 
@@ -167,37 +186,38 @@ export class ContextLoader {
     }
 
     // try finding a config from disk
-    let dir = path.dirname(file)
-    while (isSubdir(this.cwd, dir)) {
-      if (this.configExistsCache.get(dir) === false)
-        continue
+    if (fs.existsSync(file)) {
+      let dir = path.dirname(file)
+      while (isSubdir(this.cwd, dir)) {
+        if (!await this.configExists(dir))
+          continue
 
-      if (!this.configExists(dir)) {
-        this.configExistsCache.set(dir, false)
-        continue
+        const context = await this.loadContextInDirectory(dir)
+        if (context?.filter(code, file)) {
+          this.fileContextCache.set(file, context)
+          return context
+        }
+
+        const newDir = path.dirname(dir)
+        if (newDir === dir)
+          break
+        dir = newDir
       }
-
-      const context = await this.loadConfigInDirectory(dir)
-      this.configExistsCache.set(dir, !!context)
-
-      if (context?.filter(code, file)) {
-        this.fileContextCache.set(file, context)
-        return context
-      }
-
-      dir = path.dirname(dir)
     }
 
     this.fileContextCache.set(file, null)
     return null
   }
 
-  async resolveCloestContext(code: string, file: string) {
+  async resolveClosestContext(code: string, file: string) {
     const cached = this.fileContextCache.get(file)
     if (cached)
       return cached
 
-    for (const [configDir, context] of this.contexts) {
+    for (const [configDir, context] of this.contextsMap) {
+      if (!context)
+        continue
+
       if (!isSubdir(configDir, file))
         continue
 
@@ -208,7 +228,10 @@ export class ContextLoader {
       return context
     }
 
-    for (const [configDir, context] of this.contexts) {
+    for (const [configDir, context] of this.contextsMap) {
+      if (!context)
+        continue
+
       if (isSubdir(configDir, file)) {
         this.fileContextCache.set(file, context)
         return context

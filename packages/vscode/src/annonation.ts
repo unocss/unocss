@@ -24,8 +24,8 @@ export async function registerAnnonations(
     const id = doc.uri.fsPath
     const dir = path.dirname(id)
 
-    if (contextLoader.contexts.has(dir)) {
-      const ctx = contextLoader.contexts.get(dir)!
+    if (contextLoader.contextsMap.has(dir)) {
+      const ctx = contextLoader.contextsMap.get(dir)!
       try {
         await ctx.reloadConfig()
         log.appendLine(`Config reloaded by ${path.relative(cwd, doc.uri.fsPath)}`)
@@ -61,7 +61,7 @@ export async function registerAnnonations(
 
       let ctx = await contextLoader.resolveContext(code, id)
       if (!ctx && (code.includes(INCLUDE_COMMENT_IDE) || isCssId(id)))
-        ctx = await contextLoader.resolveCloestContext(code, id)
+        ctx = await contextLoader.resolveClosestContext(code, id)
       else if (!ctx?.filter(code, id))
         return null
 

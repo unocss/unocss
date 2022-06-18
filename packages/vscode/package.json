@@ -1,6 +1,6 @@
 {
   "publisher": "antfu",
-  "name": "@unocss/vscode",
+  "name": "unocss",
   "displayName": "UnoCSS",
   "version": "0.39.1",
   "private": true,
@@ -53,7 +53,7 @@
   },
   "scripts": {
     "build": "tsup",
-    "dev": "nr build --watch src",
+    "dev": "tsup --watch src",
     "publish": "esno ./scripts/publish.ts"
   },
   "devDependencies": {
