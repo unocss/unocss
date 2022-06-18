@@ -2,10 +2,10 @@ import type { AutoCompleteExtractorResult, AutoCompleteFunction, AutoCompleteTem
 import { escapeRegExp, toArray, uniq } from '@unocss/core'
 import LRU from 'lru-cache'
 import { parseAutocomplete } from './parse'
-import type { ParsedAutocompleteTemplate } from './types'
+import type { ParsedAutocompleteTemplate, UnocssAutocomplete } from './types'
 import { searchUsageBoundary } from './utils'
 
-export function createAutocomplete(uno: UnoGenerator) {
+export function createAutocomplete(uno: UnoGenerator): UnocssAutocomplete {
   const templateCache = new Map<string, ParsedAutocompleteTemplate>()
   const cache = new LRU<string, string[]>({ max: 5000 })
 

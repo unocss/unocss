@@ -1,19 +1,17 @@
-import { relative } from 'path'
+import path from 'path'
 import type { DecorationOptions, ExtensionContext, StatusBarItem } from 'vscode'
 import { DecorationRangeBehavior, MarkdownString, Range, window, workspace } from 'vscode'
-import type { UnocssPluginContext } from '@unocss/core'
 import { INCLUDE_COMMENT_IDE, getMatchedPositions } from './integration'
 import { log } from './log'
 import { getPrettiedMarkdown, isCssId, throttle } from './utils'
+import type { ContextLoader } from './contextLoader'
 
 export async function registerAnnonations(
   cwd: string,
-  context: UnocssPluginContext,
+  contextLoader: ContextLoader,
   status: StatusBarItem,
   ext: ExtensionContext,
 ) {
-  const { sources } = await context.ready
-  const { uno, filter } = context
   let underline: boolean = workspace.getConfiguration().get('unocss.underline') ?? true
   ext.subscriptions.push(workspace.onDidChangeConfiguration((event) => {
     if (event.affectsConfiguration('unocss.underline')) {
@@ -23,10 +21,14 @@ export async function registerAnnonations(
   }))
 
   workspace.onDidSaveTextDocument(async (doc) => {
-    if (sources.includes(doc.uri.fsPath)) {
+    const id = doc.uri.fsPath
+    const dir = path.dirname(id)
+
+    if (contextLoader.contexts.has(dir)) {
+      const ctx = contextLoader.contexts.get(dir)!
       try {
-        await context.reloadConfig()
-        log.appendLine(`Config reloaded by ${relative(cwd, doc.uri.fsPath)}`)
+        await ctx.reloadConfig()
+        log.appendLine(`Config reloaded by ${path.relative(cwd, doc.uri.fsPath)}`)
       }
       catch (e) {
         log.appendLine('Error on loading config')
@@ -54,17 +56,23 @@ export async function registerAnnonations(
       const code = doc.getText()
       const id = doc.uri.fsPath
 
-      if (!code || (!code.includes(INCLUDE_COMMENT_IDE) && !isCssId(id) && !filter(code, id)))
+      if (!code)
         return reset()
 
-      const result = await uno.generate(code, { id, preflights: false, minify: true })
+      let ctx = await contextLoader.resolveContext(code, id)
+      if (!ctx && (code.includes(INCLUDE_COMMENT_IDE) || isCssId(id)))
+        ctx = await contextLoader.resolveCloestContext(code, id)
+      else if (!ctx?.filter(code, id))
+        return null
+
+      const result = await ctx.uno.generate(code, { id, preflights: false, minify: true })
 
       const ranges: DecorationOptions[] = (
         await Promise.all(
           getMatchedPositions(code, Array.from(result.matched))
             .map(async (i): Promise<DecorationOptions> => {
               try {
-                const md = await getPrettiedMarkdown(uno, i[2])
+                const md = await getPrettiedMarkdown(ctx!.uno, i[2])
                 return {
                   range: new Range(doc.positionAt(i[0]), doc.positionAt(i[1])),
                   get hoverMessage() {
@@ -112,6 +120,9 @@ export async function registerAnnonations(
   workspace.onDidChangeTextDocument((e) => {
     if (e.document === window.activeTextEditor?.document)
       throttledUpdateAnnotation()
+  })
+  contextLoader.events.on('reload', async () => {
+    await updateAnnotation()
   })
 
   await updateAnnotation()

@@ -466,6 +466,7 @@ export interface UnocssPluginContext<Config extends UserConfig = UserConfig> {
 
   reloadConfig: () => Promise<LoadConfigResult<Config>>
   getConfig: () => Promise<Config>
+  onReload: (fn: () => void) => void
 
   invalidate: () => void
   onInvalidate: (fn: () => void) => void
