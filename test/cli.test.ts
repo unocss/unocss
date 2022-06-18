@@ -1,7 +1,7 @@
 import { resolve } from 'path'
 import fs from 'fs-extra'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-import { execa } from 'execa'
+import { startCli } from '../packages/cli/src/cli-start'
 
 export const tempDir = resolve('.temp')
 export const cli = resolve(__dirname, '../packages/cli/src/cli.ts')
@@ -23,33 +23,6 @@ describe('cli', () => {
     expect(output).toMatchSnapshot()
   })
 
-  it('uno.css exclude initialized class after changing file', async () => {
-    const fileName = 'views/index.html'
-    const initializedContent = '<div class="bg-blue"></div>'
-    const changedContent = '<div class="bg-red"></div>'
-    const testDir = getTestDir()
-    const absolutePathOfFile = resolve(testDir, fileName)
-    await fs.outputFile(absolutePathOfFile, initializedContent)
-    const subProcess = runAsyncChildProcess(testDir, './views/**/*', '-w')
-    const { stdout } = subProcess
-    const { waiting, $resolve } = createWaiting()
-    stdout!.on('data', (data) => {
-      if (data.toString().includes('[info] Watching for changes'))
-        $resolve()
-    })
-    await waiting
-    await sleep()
-    await fs.writeFile(absolutePathOfFile, changedContent)
-    // polling until update
-    for (let i = 20; i >= 0; i--) {
-      await sleep(50)
-      const output = await readUnocssFile(testDir)
-      if (i === 0 || output.includes('.bg-red'))
-        expect(output).toContain('.bg-red')
-    }
-    subProcess.cancel()
-  })
-
   it('supports unocss.config.js', async () => {
     const { output } = await runCli({
       'views/index.html': '<div class="box"></div>',
@@ -63,25 +36,33 @@ export default defineConfig({
 
     expect(output).toMatchSnapshot()
   })
+
+  it('uno.css exclude initialized class after changing file', async () => {
+    const fileName = 'views/index.html'
+    const initializedContent = '<div class="bg-blue"></div>'
+    const changedContent = '<div class="bg-red"></div>'
+    const testDir = getTestDir()
+    const absolutePathOfFile = resolve(testDir, fileName)
+    await fs.outputFile(absolutePathOfFile, initializedContent)
+    runAsyncChildProcess(testDir, './views/**/*', '-w')
+    const outputPath = resolve(testDir, 'uno.css')
+    for (let i = 50; i >= 0; i--) {
+      await sleep(50)
+      if (fs.existsSync(outputPath))
+        break
+    }
+    await fs.writeFile(absolutePathOfFile, changedContent)
+    // polling until update
+    for (let i = 50; i >= 0; i--) {
+      await sleep(50)
+      const output = await readUnocssFile(testDir)
+      if (i === 0 || output.includes('.bg-red'))
+        expect(output).toContain('.bg-red')
+    }
+  })
 })
 
 // ----- Utils -----
-
-function createWaiting() {
-  const loop = () => { }
-  let $resolve = loop
-  let $reject = loop
-  const waiting = new Promise<void>((resolve, reject) => {
-    $resolve = resolve
-    $reject = reject
-  })
-  return {
-    waiting,
-    $resolve,
-    $reject,
-  }
-}
-
 function sleep(time = 300) {
   return new Promise<void>((resolve) => {
     setTimeout(() => {
@@ -103,10 +84,7 @@ function initOutputFiles(testDir: string, files: Record<string, string>) {
 }
 
 function runAsyncChildProcess(cwd: string, ...args: string[]) {
-  return execa('npx', ['esno', cli, ...args], {
-    cwd,
-    // stdio: 'inherit',
-  })
+  return startCli(cwd, ['', '', ...args])
 }
 
 function readUnocssFile(testDir: string) {
@@ -117,17 +95,11 @@ async function runCli(files: Record<string, string>) {
   const testDir = getTestDir()
 
   await initOutputFiles(testDir, files)
-
-  const { exitCode, stdout, stderr } = await runAsyncChildProcess(testDir, 'views/**/*')
-
-  const logs = stdout + stderr
-  if (exitCode !== 0)
-    throw new Error(logs)
+  await runAsyncChildProcess(testDir, 'views/**/*')
 
   const output = await readUnocssFile(testDir)
 
   return {
     output,
-    logs,
   }
 }

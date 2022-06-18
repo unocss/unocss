@@ -5,7 +5,6 @@ import consola from 'consola'
 import { cyan, dim, green } from 'colorette'
 import { debounce } from 'perfect-debounce'
 import { createGenerator, toArray } from '@unocss/core'
-import type { UnoGenerator } from '@unocss/core'
 import { loadConfig } from '@unocss/config'
 import { version } from '../package.json'
 import { PrettyError, handleError } from './errors'
@@ -13,29 +12,6 @@ import { defaultConfig } from './config'
 import type { CliOptions, ResolvedCliOptions } from './types'
 
 const name = 'unocss'
-let uno: UnoGenerator
-
-const fileCache = new Map<string, string>()
-
-const getAbsolutePath = (file: string) => resolve(process.cwd(), file)
-
-export async function generate(options: ResolvedCliOptions) {
-  const outFile = options.outFile ?? getAbsolutePath('uno.css')
-  const { css, matched } = await uno.generate([...fileCache].join('\n'))
-
-  const dir = dirname(outFile)
-  if (!existsSync(dir))
-    await fs.mkdir(dir, { recursive: true })
-  await fs.writeFile(outFile, css, 'utf-8')
-
-  if (!options.watch) {
-    consola.success(
-      `${[...matched].length} utilities generated to ${cyan(
-        relative(process.cwd(), outFile),
-      )}\n`,
-    )
-  }
-}
 
 export async function resolveOptions(options: CliOptions) {
   if (!options.patterns?.length) {
@@ -48,19 +24,21 @@ export async function resolveOptions(options: CliOptions) {
 }
 
 export async function build(_options: CliOptions) {
-  const options = await resolveOptions(_options)
-  const { config, sources: configSources } = await loadConfig(process.cwd(), options.config)
+  const fileCache = new Map<string, string>()
 
-  uno = createGenerator(
+  const cwd = _options.cwd || process.cwd()
+  const options = await resolveOptions(_options)
+  const { config, sources: configSources } = await loadConfig(cwd, options.config)
+
+  const uno = createGenerator(
     config,
     defaultConfig,
   )
 
-  const files = await fg(options.patterns)
+  const files = await fg(options.patterns, { cwd, absolute: true })
   await Promise.all(
     files.map(async (file) => {
-      const absolutePath = getAbsolutePath(file)
-      fileCache.set(absolutePath, await fs.readFile(absolutePath, 'utf8'))
+      fileCache.set(file, await fs.readFile(file, 'utf8'))
     }),
   )
 
@@ -86,6 +64,7 @@ export async function build(_options: CliOptions) {
       ignoreInitial: true,
       ignorePermissionErrors: true,
       ignored,
+      cwd,
     })
 
     if (configSources.length)
@@ -99,7 +78,7 @@ export async function build(_options: CliOptions) {
       else {
         consola.log(`${green(type)} ${dim(file)}`)
 
-        const absolutePath = getAbsolutePath(file)
+        const absolutePath = resolve(cwd, file)
         if (type.startsWith('unlink'))
           fileCache.delete(absolutePath)
         else
@@ -120,4 +99,22 @@ export async function build(_options: CliOptions) {
   await generate(options)
 
   startWatcher()
+
+  async function generate(options: ResolvedCliOptions) {
+    const outFile = resolve(options.cwd || process.cwd(), options.outFile ?? 'uno.css')
+    const { css, matched } = await uno.generate([...fileCache].join('\n'))
+
+    const dir = dirname(outFile)
+    if (!existsSync(dir))
+      await fs.mkdir(dir, { recursive: true })
+    await fs.writeFile(outFile, css, 'utf-8')
+
+    if (!options.watch) {
+      consola.success(
+      `${[...matched].length} utilities generated to ${cyan(
+        relative(process.cwd(), outFile),
+      )}\n`,
+      )
+    }
+  }
 }

@@ -162,7 +162,7 @@ importers:
       tsup: 6.1.2_typescript@4.7.4
       typescript: 4.7.4
       unbuild: 0.7.4
-      unocss: link:packages/vscode
+      unocss: link:packages/unocss
       unplugin-auto-import: 0.8.8_jstnr3n6glzylrrm7j2wif3spq
       unplugin-vue-components: 0.19.6_hvpqbrwl6nbvljlgnqlmhfy5pu
       vite: 2.9.9
@@ -194,7 +194,7 @@ importers:
       local-pkg: 0.4.1
       postcss: 8.4.14
       tailwindcss: 3.0.24
-      unocss: link:../packages/vscode
+      unocss: link:../packages/unocss
       vite: 2.9.9
       vite-plugin-windicss: 1.8.4_vite@2.9.9
       vue: 3.2.36
@@ -338,7 +338,7 @@ importers:
       '@unocss/reset': link:../reset
       '@unocss/vite': link:../vite
       '@unocss/webpack': link:../webpack
-      unocss: link:../vscode
+      unocss: link:../unocss
     devDependencies:
       '@nuxt/schema': 3.0.0-rc.3
 
@@ -1322,17 +1322,17 @@ packages:
     resolution: {integrity: sha512-S2x0zdLYLZ4/2lMnS6emSmFPJszPJf70Y4/8gpmkPb4TArEjPNaOTCIz7tKpj/Upo71fv7cfuwYw/X0F2UAntg==}
     engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0 || ^18.0.0}
     dependencies:
-      '@nuxt/schema': 3.0.0-rc.4_rollup@2.75.6+vite@2.9.9
+      '@nuxt/schema': 3.0.0-rc.3_rollup@2.75.6+vite@2.9.9
       c12: 0.2.7
       consola: 2.15.3
       defu: 6.0.0
-      globby: 13.1.2
+      globby: 13.1.1
       hash-sum: 2.0.0
       ignore: 5.2.0
       jiti: 1.13.0
-      knitwork: 0.1.2
+      knitwork: 0.1.1
       lodash.template: 4.5.0
-      mlly: 0.5.3
+      mlly: 0.5.2
       pathe: 0.2.0
       pkg-types: 0.3.2
       scule: 0.2.1
@@ -1487,6 +1487,27 @@ packages:
       - vite
       - webpack
 
+  /@nuxt/schema/3.0.0-rc.3_rollup@2.75.6+vite@2.9.9:
+    resolution: {integrity: sha512-vICmOpIk8SjVVUN+MadAMMF/MEXqPgY3jquSjSkmWdydtMOBoxrBpl+5nkpJCtsCq5KJAK8WI+9SCNIkEASCgw==}
+    engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0 || ^18.0.0}
+    dependencies:
+      c12: 0.2.7
+      create-require: 1.1.1
+      defu: 6.0.0
+      jiti: 1.13.0
+      pathe: 0.3.0
+      postcss-import-resolver: 2.0.0
+      scule: 0.2.1
+      std-env: 3.1.1
+      ufo: 0.8.4
+      unimport: 0.1.9_rollup@2.75.6+vite@2.9.9
+    transitivePeerDependencies:
+      - esbuild
+      - rollup
+      - vite
+      - webpack
+    dev: true
+
   /@nuxt/schema/3.0.0-rc.3_vmgv3jqceeji2auh6qcrxzlgbq:
     resolution: {integrity: sha512-vICmOpIk8SjVVUN+MadAMMF/MEXqPgY3jquSjSkmWdydtMOBoxrBpl+5nkpJCtsCq5KJAK8WI+9SCNIkEASCgw==}
     engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0 || ^18.0.0}
@@ -1588,7 +1609,7 @@ packages:
     dependencies:
       '@nuxt/kit': 3.0.0-rc.1_rollup@2.75.6+vite@2.9.9
       chalk: 5.0.1
-      ci-info: 3.3.2
+      ci-info: 3.3.1
       consola: 2.15.3
       create-require: 1.1.1
       defu: 6.0.0
@@ -1601,7 +1622,7 @@ packages:
       jiti: 1.13.0
       mri: 1.2.0
       nanoid: 3.3.4
-      node-fetch: 3.2.6
+      node-fetch: 3.2.4
       ohmyfetch: 0.4.18
       parse-git-config: 3.0.0
       rc9: 1.2.2
@@ -1776,7 +1797,7 @@ packages:
       glob: 7.2.3
       is-reference: 1.2.1
       magic-string: 0.25.9
-      resolve: 1.22.1
+      resolve: 1.22.0
       rollup: 2.75.6
     dev: true
 
@@ -1831,7 +1852,7 @@ packages:
       deepmerge: 4.2.2
       is-builtin-module: 3.1.0
       is-module: 1.0.0
-      resolve: 1.22.0
+      resolve: 1.22.1
       rollup: 2.74.1
     dev: true
 
@@ -7302,15 +7323,6 @@ packages:
       formdata-polyfill: 4.0.10
     dev: true
 
-  /node-fetch/3.2.6:
-    resolution: {integrity: sha512-LAy/HZnLADOVkVPubaxHDft29booGglPFDr2Hw0J1AercRh01UiVFm++KMDnJeH9sHgNB4hsXPii7Sgym/sTbw==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    dependencies:
-      data-uri-to-buffer: 4.0.0
-      fetch-blob: 3.1.5
-      formdata-polyfill: 4.0.10
-    dev: true
-
   /node-forge/1.3.1:
     resolution: {integrity: sha512-dPEtOeMvF9VMcYV/1Wb8CPoVAXtp6MKMlcbAt4ddqmGqUJ6fQZFXkNZNkNlfevtNkGtaSoXf/vNNNSvgrdXwtA==}
     engines: {node: '>= 6.13.0'}
@@ -8894,7 +8906,7 @@ packages:
       jest-worker: 26.6.2
       rollup: 2.75.6
       serialize-javascript: 4.0.0
-      terser: 5.14.1
+      terser: 5.13.1
     dev: true
 
   /rollup-plugin-visualizer/5.6.0_rollup@2.74.1:
@@ -8921,7 +8933,7 @@ packages:
       nanoid: 3.3.4
       open: 8.4.0
       rollup: 2.75.6
-      source-map: 0.7.4
+      source-map: 0.7.3
       yargs: 17.5.1
     dev: true
 
@@ -10007,10 +10019,10 @@ packages:
     dependencies:
       '@rollup/pluginutils': 4.2.1
       escape-string-regexp: 5.0.0
-      globby: 13.1.2
+      globby: 13.1.1
       local-pkg: 0.4.1
       magic-string: 0.26.2
-      mlly: 0.5.3
+      mlly: 0.5.2
       pathe: 0.3.0
       scule: 0.2.1
       unplugin: 0.6.3_rollup@2.75.6+vite@2.9.9
