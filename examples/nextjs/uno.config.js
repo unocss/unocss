@@ -1,8 +1,9 @@
-const { defineConfig, presetAttributify, presetUno, presetWebFonts } = require('unocss')
+const { defineConfig, presetAttributify, presetUno, presetWebFonts, presetIcons } = require('unocss')
 
 module.exports = defineConfig({
   presets: [
     presetAttributify(),
+    presetIcons(),
     presetWebFonts({
       provider: 'google',
       fonts: {
