@@ -11,7 +11,10 @@
   },
   "overrides": [
     {
-      "files": ["playground/**/*.*"],
+      "files": [
+        "playground/**/*.*",
+        "examples/**/*.*"
+      ],
       "rules": {
         "no-restricted-imports": "off"
       }
