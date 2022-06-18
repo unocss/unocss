@@ -54,7 +54,7 @@ importers:
       '@vitest/ui': ^0.15.1
       '@vueuse/core': ^8.7.3
       brotli-size: ^4.0.0
-      bumpp: ^8.2.0
+      bumpp: ^8.2.1
       codemirror: ^5.65.5
       codemirror-theme-vars: ^0.1.1
       eslint: ^8.18.0
@@ -136,7 +136,7 @@ importers:
       '@vitest/ui': 0.15.1
       '@vueuse/core': 8.7.3_vue@3.2.37
       brotli-size: 4.0.0
-      bumpp: 8.2.0
+      bumpp: 8.2.1
       codemirror: 5.65.5
       codemirror-theme-vars: 0.1.1
       eslint: 8.18.0
@@ -3228,8 +3228,8 @@ packages:
       semver: 7.3.7
     dev: true
 
-  /bumpp/8.2.0:
-    resolution: {integrity: sha512-DhFa4DSREOwnHJQyQ+Qhj9pUJAIZKMEtuHN7BuQij4CoxSBc6n4bBZnlvFWuLXNMr0aCtsMXnkQWC/7GyGypYw==}
+  /bumpp/8.2.1:
+    resolution: {integrity: sha512-4tHKsWC2mqHQvdjZ4AXgVhS2xMsz8qQ4zYt87vGRXW5tqAjrYa/UJqy7s/dGYI2OIe9ghBdiFhKpyKEX9SXffg==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
