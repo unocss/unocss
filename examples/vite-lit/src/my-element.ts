@@ -46,6 +46,12 @@ export class MyElement extends LitElement {
       <br />
       ${this.span ? html` <div class="bg-red-400">BG Color should change</div>` : html` <div>BG Color should change</div>`}
       <br />
+      <br />
+      <button class="shadow-2xl bg-white p-4 rounded-lg border-none" part="button">
+        prefligths: shadow-2xl
+      </button>
+      <br />
+      <br />
       <button class="bg-red-100" @click=${this._onClick} part="button">
         Click Count: ${this.count}
       </button>
