@@ -2,6 +2,7 @@
   "exclude": [
     "find-up",
     "gzip-size",
-    "@types/vscode"
+    "@types/vscode",
+    "codemirror"
   ]
 }

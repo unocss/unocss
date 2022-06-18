@@ -6,7 +6,6 @@ const nextConfig = {
   webpack: (config) => {
     config.plugins.push(
       UnoCSS(),
-
     )
     return config
   },

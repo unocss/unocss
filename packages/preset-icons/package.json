@@ -1,6 +1,6 @@
 {
   "name": "@unocss/preset-icons",
-  "version": "0.39.0",
+  "version": "0.39.2",
   "description": "Pure CSS Icons for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -41,7 +41,7 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@iconify/utils": "^1.0.32",
+    "@iconify/utils": "^1.0.33",
     "@unocss/core": "workspace:*",
     "ohmyfetch": "^0.4.18"
   },

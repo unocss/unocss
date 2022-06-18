@@ -1,3 +1,4 @@
+import path from 'path'
 import type { UnoGenerator } from '@unocss/core'
 import { cssIdRE } from '@unocss/core'
 import prettier from 'prettier/standalone'
@@ -38,4 +39,9 @@ export async function getPrettiedMarkdown(uno: UnoGenerator, util: string) {
 
 export function isCssId(id: string) {
   return cssIdRE.test(id)
+}
+
+export function isSubdir(parent: string, child: string) {
+  const relative = path.relative(parent, child)
+  return relative && !relative.startsWith('..') && !path.isAbsolute(relative)
 }

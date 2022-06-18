@@ -1,6 +1,6 @@
-const { defineConfig, presetAttributify, presetUno, presetWebFonts, presetIcons } = require('unocss')
+import { defineConfig, presetAttributify, presetIcons, presetUno, presetWebFonts } from 'unocss'
 
-module.exports = defineConfig({
+export default defineConfig({
   presets: [
     presetAttributify(),
     presetIcons(),

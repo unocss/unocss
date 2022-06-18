@@ -2,7 +2,7 @@
   "publisher": "antfu",
   "name": "@unocss/vscode",
   "displayName": "UnoCSS",
-  "version": "0.39.0",
+  "version": "0.39.2",
   "private": true,
   "description": "UnoCSS for VS Code",
   "license": "MIT",
@@ -28,7 +28,13 @@
     "workspaceContains:**/package.json"
   ],
   "contributes": {
-    "commands": [],
+    "commands": [
+      {
+        "command": "unocss.reload",
+        "title": "Reload UnoCSS",
+        "category": "UnoCSS"
+      }
+    ],
     "configuration": {
       "type": "object",
       "title": "UnoCSS",
@@ -47,7 +53,7 @@
   },
   "scripts": {
     "build": "tsup",
-    "dev": "nr build --watch src",
+    "dev": "tsup --watch src",
     "publish": "esno ./scripts/publish.ts"
   },
   "devDependencies": {

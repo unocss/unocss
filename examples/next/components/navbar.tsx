@@ -1,4 +1,5 @@
 import Link from 'next/link'
+
 function Navbar() {
   return (
     <nav className="px-10 bg-teal-700">

@@ -12,6 +12,7 @@ import {
   getLayerPlaceholder,
   getPath,
   resolveId,
+  resolveLayer,
 } from '../../shared-integration/src'
 
 export interface WebpackPluginOptions<Theme extends {} = {}> extends UserConfig<Theme> {}
@@ -38,7 +39,8 @@ export default function WebpackPlugin<Theme extends {}>(
     })
 
     const tasks: Promise<any>[] = []
-    const entries = new Map<string, string>()
+    const entries = new Set<string>()
+    const hashs = new Map<string, string>()
 
     const plugin = <UnpluginOptions>{
       name: 'unocss:webpack',
@@ -53,15 +55,19 @@ export default function WebpackPlugin<Theme extends {}>(
       resolveId(id) {
         const entry = resolveId(id)
         if (entry) {
-          entries.set(entry.id, entry.layer)
-          entries.set(id, entry.layer)
-          return entry.id
+          entries.add(entry)
+          return entry
         }
       },
       // serve the placeholders in virtual module
       load(id) {
-        const layer = entries.get(getPath(id))
-        const hash = entries.get(`${id}_hash`)
+        let layer = resolveLayer(getPath(id))
+        if (!layer) {
+          const entry = resolveId(id)
+          if (entry)
+            layer = resolveLayer(entry)
+        }
+        const hash = hashs.get(id)
         if (layer)
           return (hash ? getHashPlaceholder(hash) : '') + getLayerPlaceholder(layer)
       },
@@ -81,7 +87,8 @@ export default function WebpackPlugin<Theme extends {}>(
               code = code.replace(LAYER_PLACEHOLDER_RE, (_, quote, layer) => {
                 replaced = true
                 const css = layer === LAYER_MARK_ALL
-                  ? result.getLayers(undefined, Array.from(entries.values()))
+                  ? result.getLayers(undefined, Array.from(entries)
+                    .map(i => resolveLayer(i)).filter((i): i is string => !!i))
                   : result.getLayer(layer) || ''
 
                 if (!quote)
@@ -110,15 +117,16 @@ export default function WebpackPlugin<Theme extends {}>(
       Array.from(plugin.__vfsModules)
         .forEach((id) => {
           const path = id.slice(plugin.__virtualModulePrefix.length).replace(/\\/g, '/')
-          const layer = entries.get(path)
+          const layer = resolveLayer(path)
           if (!layer)
             return
           const code = layer === LAYER_MARK_ALL
-            ? result.getLayers(undefined, Array.from(entries.values()))
+            ? result.getLayers(undefined, Array.from(entries)
+              .map(i => resolveLayer(i)).filter((i): i is string => !!i))
             : result.getLayer(layer) || ''
 
           const hash = getHash(code)
-          entries.set(`${path}_hash`, hash)
+          hashs.set(path, hash)
           plugin.__vfs.writeModule(id, code)
         })
     }

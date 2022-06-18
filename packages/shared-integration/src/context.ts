@@ -18,6 +18,7 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
   let rollupFilter = createFilter(defaultInclude, defaultExclude)
 
   const invalidations: Array<() => void> = []
+  const reloadListeners: Array<() => void> = []
 
   const modules = new BetterMap<string, string>()
   const tokens = new Set<string>()
@@ -38,6 +39,7 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     tokens.clear()
     await Promise.all(modules.map((code, id) => uno.applyExtractors(code, id, tokens)))
     invalidate()
+    dispatchReload()
 
     // check preset duplication
     const presets = new Set<string>()
@@ -63,6 +65,10 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
 
   function invalidate() {
     invalidations.forEach(cb => cb())
+  }
+
+  function dispatchReload() {
+    reloadListeners.forEach(cb => cb())
   }
 
   async function extract(code: string, id?: string) {
@@ -97,6 +103,9 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     },
     filter,
     reloadConfig,
+    onReload(fn: () => void) {
+      reloadListeners.push(fn)
+    },
     uno,
     extract,
     getConfig,
