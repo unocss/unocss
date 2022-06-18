@@ -1,6 +1,6 @@
 import type { Plugin, ViteDevServer, ResolvedConfig as ViteResolvedConfig } from 'vite'
 import type { UnocssPluginContext } from '@unocss/core'
-import { LAYER_MARK_ALL, getPath, resolveId } from '../../integration'
+import { LAYER_MARK_ALL, getPath, resolveId, resolveLayer } from '../../integration'
 
 const WARN_TIMEOUT = 20000
 const WS_EVENT_PREFIX = 'unocss:hmr'
@@ -10,7 +10,7 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
   let base = ''
 
   const tasks: Promise<any>[] = []
-  const entries = new Map<string, string>()
+  const entries = new Set<string>()
 
   let invalidateTimer: any
   let lastUpdate = Date.now()
@@ -28,7 +28,7 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
 
   function invalidate(timer = 10) {
     for (const server of servers) {
-      for (const id of entries.keys()) {
+      for (const id of entries) {
         const mod = server.moduleGraph.getModuleById(id)
         if (!mod)
           continue
@@ -44,7 +44,7 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
     for (const server of servers) {
       server.ws.send({
         type: 'update',
-        updates: Array.from(entries.keys()).map(i => ({
+        updates: Array.from(entries).map(i => ({
           acceptedPath: i,
           path: i,
           timestamp: lastUpdate,
@@ -106,12 +106,12 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
         const entry = resolveId(id)
         if (entry) {
           resolved = true
-          entries.set(entry.id, entry.layer)
-          return entry.id
+          entries.add(entry)
+          return entry
         }
       },
       async load(id) {
-        const layer = entries.get(getPath(id))
+        const layer = resolveLayer(getPath(id))
         if (!layer)
           return null
 
@@ -119,7 +119,8 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
         const result = await uno.generate(tokens)
         lastServed = Date.now()
         return layer === LAYER_MARK_ALL
-          ? result.getLayers(undefined, Array.from(entries.values()))
+          ? result.getLayers(undefined, Array.from(entries)
+            .map(i => resolveLayer(i)).filter((i): i is string => !!i))
           : result.getLayer(layer)
       },
     },

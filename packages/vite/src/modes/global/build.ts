@@ -10,11 +10,12 @@ import {
   getPath,
   replaceAsync,
   resolveId,
+  resolveLayer,
 } from '../../integration'
 import type { VitePluginConfig } from '../../types'
 
 export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, getConfig }: UnocssPluginContext<VitePluginConfig>): Plugin[] {
-  const vfsLayerMap = new Map<string, string>()
+  const vfsLayers = new Set<string>()
   const layerImporterMap = new Map<string, string>()
   let tasks: Promise<any>[] = []
 
@@ -75,14 +76,17 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
       resolveId(id, importer) {
         const entry = resolveId(id)
         if (entry) {
-          vfsLayerMap.set(entry.id, entry.layer)
-          if (importer)
-            layerImporterMap.set(importer, entry.id)
-          return entry.id
+          const layer = resolveLayer(entry)
+          if (layer) {
+            vfsLayers.add(layer)
+            if (importer)
+              layerImporterMap.set(importer, entry)
+          }
+          return entry
         }
       },
       load(id) {
-        const layer = vfsLayerMap.get(getPath(id))
+        const layer = resolveLayer(getPath(id))
         if (layer)
           return getLayerPlaceholder(layer)
       },
@@ -91,9 +95,9 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
           return
 
         const layerKey = layerImporterMap.get(id)!
-        if (!importedIds.includes(layerKey!)) {
+        if (!importedIds.includes(layerKey)) {
           layerImporterMap.delete(id)
-          vfsLayerMap.delete(layerKey)
+          vfsLayers.delete(resolveLayer(layerKey)!)
         }
       },
       async configResolved(config) {
@@ -149,7 +153,7 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
         if (!cssFiles.length)
           return
 
-        if (!vfsLayerMap.size) {
+        if (!vfsLayers.size) {
           const msg = '[unocss] entry module not found, have you add `import \'uno.css\'` in your main entry?'
           this.warn(msg)
           return
@@ -167,7 +171,7 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
             chunk.source = await replaceAsync(css, LAYER_PLACEHOLDER_RE, async (_, __, layer) => {
               replaced = true
               return await applyCssTransform(layer === LAYER_MARK_ALL
-                ? result.getLayers(undefined, Array.from(vfsLayerMap.values()))
+                ? result.getLayers(undefined, Array.from(vfsLayers))
                 : result.getLayer(layer) || '', `${chunk.fileName}.css`, options.dir)
             })
           }

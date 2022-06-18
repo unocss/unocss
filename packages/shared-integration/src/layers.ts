@@ -8,19 +8,19 @@ export function resolveId(id: string) {
     const match = id.match(alias)
     if (match) {
       return match[1]
-        ? {
-            id: `/__uno_${match[1]}.css`,
-            layer: match[1],
-          }
-        : {
-            id: '/__uno.css',
-            layer: LAYER_MARK_ALL,
-          }
+        ? `/__uno_${match[1]}.css`
+        : '/__uno.css'
     }
   }
 }
 
-export const RESOLVED_ID_RE = /\/__uno(_.*?)?\.css$/
+export const RESOLVED_ID_RE = /\/__uno(?:(_.*?))?\.css$/
+
+export function resolveLayer(id: string) {
+  const match = id.match(RESOLVED_ID_RE)
+  if (match)
+    return match[1] || LAYER_MARK_ALL
+}
 
 export const LAYER_PLACEHOLDER_RE = /(\\?")?#--unocss--\s*{\s*layer\s*:\s*(.+?);?\s*}/g
 export function getLayerPlaceholder(layer: string) {
