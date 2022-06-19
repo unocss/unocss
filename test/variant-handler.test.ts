@@ -14,7 +14,7 @@ describe('variants', () => {
             if (match) {
               return {
                 matcher: input.slice(match[0].length),
-                handler: (input, next) => next({
+                handle: (input, next) => next({
                   selector: '.selector',
                   entries: input.entries.map((entry) => {
                     entry[1] += ' !important'
@@ -46,12 +46,12 @@ describe('variants', () => {
       variants: [
         {
           multiPass: true,
-          match: (input: string) => {
+          match(input: string) {
             const match = input.match(/^(first|second|third):/)
             if (match) {
               return {
                 matcher: input.slice(match[0].length),
-                handler: (input, next) => next({
+                handle: (input, next) => next({
                   ...input,
                   selector: `${input.selector} > :${match[1]}`,
                 }),
@@ -61,12 +61,12 @@ describe('variants', () => {
         },
         {
           multiPass: true,
-          match: (input: string) => {
+          match(input: string) {
             const match = input.match(/^(one|two|three):/)
             if (match) {
               return {
                 matcher: input.slice(match[0].length),
-                handler: (input, next) => {
+                handle: (input, next) => {
                   const result = next(input)
                   return {
                     ...result,

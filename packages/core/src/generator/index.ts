@@ -338,24 +338,19 @@ export class UnoGenerator {
   }
 
   applyVariants(parsed: ParsedUtil, variantHandlers = parsed[4], raw = parsed[1]): UtilObject {
-    const defaultHandler = (input: VariantHandlerContext, next: (input: VariantHandlerContext) => VariantHandlerContext) => next(input)
     const handler = [...variantHandlers]
       .sort((a, b) => (a.order || 0) - (b.order || 0))
       .reverse()
       .reduce(
         (previous, v) =>
-          // (input: VariantHandlerContext) =>
-          //   (v.handler ?? defaultHandler)(input, previous),
           (input: VariantHandlerContext) => {
             const entries = v.body?.(input.entries) || input.entries
-            const parents: [string | undefined, number | undefined] = v.parent
-              ? (Array.isArray(v.parent) ? v.parent : [v.parent ?? '', undefined])
-              : [input.parent, input.parentOrder]
-            return (v.handler ?? defaultHandler)({
+            const parents: [string | undefined, number | undefined] = Array.isArray(v.parent) ? v.parent : [v.parent, undefined]
+            return (v.handle ?? defaultVariantHandler)({
               entries,
               selector: v.selector?.(input.selector, entries) || input.selector,
-              parent: parents[0],
-              parentOrder: parents[1],
+              parent: parents[0] || input.parent,
+              parentOrder: parents[1] || input.parentOrder,
               layer: v.layer || input.layer,
               sort: v.sort || input.sort,
             }, previous)
@@ -626,4 +621,8 @@ export function toEscapedSelector(raw: string) {
   if (attributifyRe.test(raw))
     return raw.replace(attributifyRe, (_, n, s, i) => `[${e(n)}${s}"${e(i)}"]`)
   return `.${e(raw)}`
+}
+
+function defaultVariantHandler(input: VariantHandlerContext, next: (input: VariantHandlerContext) => VariantHandlerContext) {
+  return next(input)
 }
