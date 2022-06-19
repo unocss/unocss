@@ -79,7 +79,7 @@ export class ContextLoader {
       const files = await readdir(dir)
       this.configExistsCache.set(dir, files.some(f => /^(vite|svelte|astro|iles|nuxt|unocss|uno)\.config/.test(f)))
     }
-    return this.configExistsCache.has(dir)!
+    return this.configExistsCache.get(dir)!
   }
 
   async loadContextInDirectory(dir: string) {
@@ -189,13 +189,12 @@ export class ContextLoader {
     if (fs.existsSync(file)) {
       let dir = path.dirname(file)
       while (isSubdir(this.cwd, dir)) {
-        if (!await this.configExists(dir))
-          continue
-
-        const context = await this.loadContextInDirectory(dir)
-        if (context?.filter(code, file)) {
-          this.fileContextCache.set(file, context)
-          return context
+        if (await this.configExists(dir)) {
+          const context = await this.loadContextInDirectory(dir)
+          if (context?.filter(code, file)) {
+            this.fileContextCache.set(file, context)
+            return context
+          }
         }
 
         const newDir = path.dirname(dir)
