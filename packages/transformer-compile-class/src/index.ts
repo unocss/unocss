@@ -25,6 +25,11 @@ export interface CompileClassOptions {
    * @default true
    */
   keepUnknown?: boolean
+
+  /**
+   * The layer name of generated rules
+   */
+  layer?: string
 }
 
 export default function transformerCompileClass(options: CompileClassOptions = {}): SourceCodeTransformer {
@@ -59,7 +64,7 @@ export default function transformerCompileClass(options: CompileClassOptions = {
           const hash = hashFn(body)
           const className = `${classPrefix}${hash}`
           replacements.unshift(className)
-          uno.config.shortcuts.push([className, body])
+          uno.config.shortcuts.push([className, body, { layer: options.layer }])
         }
         s.overwrite(start + 1, start + match[0].length - 1, replacements.join(' '))
       }
