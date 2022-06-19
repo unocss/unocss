@@ -95,7 +95,7 @@
     "unocss": "workspace:*",
     "unplugin-auto-import": "^0.8.8",
     "unplugin-vue-components": "^0.19.6",
-    "vite": "2.9.9",
+    "vite": "2.9.12",
     "vite-plugin-inspect": "^0.5.0",
     "vite-plugin-pages": "^0.24.2",
     "vitest": "^0.15.1",

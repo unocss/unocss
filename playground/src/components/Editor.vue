@@ -28,10 +28,9 @@ if (!inputHTML.value)
 if (!customConfigRaw.value)
   customConfigRaw.value = defaultConfigRaw
 
-const panelSizes = useStorage<number[]>(
+const panelSizes = useLocalStorage<number[]>(
   'unocss-panel-sizes',
   getInitialPanelSizes(titleHeightPercent.value),
-  localStorage,
   { listenToStorageChanges: false },
 )
 

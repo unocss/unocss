@@ -1,5 +1,5 @@
 import { defineNuxtModule } from '@nuxt/kit'
-import Markdown from 'vite-plugin-md'
+import Markdown from 'vite-plugin-vue-markdown'
 import LinkAttributes from 'markdown-it-link-attributes'
 import { getHighlighter } from 'shiki'
 

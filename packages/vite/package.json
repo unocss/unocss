@@ -56,6 +56,6 @@
   },
   "devDependencies": {
     "@unocss/shared-integration": "workspace:*",
-    "vite": "^2.9.9"
+    "vite": "^2.9.12"
   }
 }

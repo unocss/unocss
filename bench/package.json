@@ -9,11 +9,11 @@
     "fs-extra": "^10.1.0",
     "local-pkg": "^0.4.1",
     "postcss": "^8.4.14",
-    "tailwindcss": "^3.0.24",
+    "tailwindcss": "^3.1.3",
     "unocss": "workspace:*",
-    "vite": "^2.9.9",
+    "vite": "^2.9.12",
     "vite-plugin-windicss": "^1.8.4",
-    "vue": "^3.2.36",
+    "vue": "^3.2.37",
     "windicss": "^3.5.4"
   }
 }

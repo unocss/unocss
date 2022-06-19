@@ -6,12 +6,12 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "core-js": "^3.22.7",
-    "vue": "^3.2.36"
+    "core-js": "^3.23.1",
+    "vue": "^3.2.37"
   },
   "devDependencies": {
     "@unocss/webpack": "link:../../packages/webpack",
-    "@vue/cli-plugin-babel": "~5.0.4",
-    "@vue/cli-service": "~5.0.4"
+    "@vue/cli-plugin-babel": "~5.0.6",
+    "@vue/cli-service": "~5.0.6"
   }
 }

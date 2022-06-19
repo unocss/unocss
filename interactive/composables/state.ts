@@ -2,7 +2,6 @@ import type { UserConfig } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
 import { breakpointsTailwind } from '@vueuse/core'
 import { createSearch, evaluateUserConfig } from '@unocss/shared-docs'
-// @ts-expect-error anyway
 import defaultConfigRaw from '../../packages/shared-docs/src/defaultConfig.ts?raw'
 import type { ResultItem } from '~/types'
 import { mdnIndex as docs } from '~/data/mdn-index'
@@ -12,7 +11,7 @@ import { defaultConfig } from '~/unocss.config'
 
 export { defaultConfigRaw }
 
-export const isCompact = useStorage('uno-interact-compact', false)
+export const isCompact = useLocalStorage('uno-interact-compact', false)
 export const toggleCompact = useToggle(isCompact)
 
 export const uno = createGenerator({}, defaultConfig)
@@ -31,7 +30,7 @@ export const breakpoints = useBreakpoints(breakpointsTailwind)
 export const isDesktop = breakpoints.lg
 export const isMobile = logicNot(isDesktop)
 
-export const userConfigRaw = useStorage('unocss-docs-config', '')
+export const userConfigRaw = useLocalStorage('unocss-docs-config', '')
 export const userConfigLoading = ref(true)
 export const userConfig = ref<UserConfig | undefined>()
 

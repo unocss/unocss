@@ -5,7 +5,7 @@ import { useScrollStyle } from '../composables/useScrollStyle'
 const status = ref(null)
 const style = useScrollStyle(status, 'rpel-scrolls')
 
-const input = useStorage(
+const input = useLocalStorage(
   'unocss:inspector:repl',
   '<div class="text-sm hover:text-red">\nHello World\n</div>',
 )
