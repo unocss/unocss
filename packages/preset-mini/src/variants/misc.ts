@@ -7,7 +7,10 @@ export const variantSelector: Variant = {
     if (match) {
       return {
         matcher: matcher.slice(match[0].length),
-        selector: () => match[1],
+        handler: (input, next) => next({
+          ...input,
+          selector: match[1],
+        }),
       }
     }
   },
@@ -20,7 +23,10 @@ export const variantCssLayer: Variant = {
     if (match) {
       return {
         matcher: matcher.slice(match[0].length),
-        parent: `@layer ${match[1]}`,
+        handler: (input, next) => next({
+          ...input,
+          parent: `@layer ${match[1]}`,
+        }),
       }
     }
   },
@@ -33,7 +39,10 @@ export const variantInternalLayer: Variant = {
     if (match) {
       return {
         matcher: matcher.slice(match[0].length),
-        layer: match[1],
+        handler: (input, next) => next({
+          ...input,
+          layer: match[1],
+        }),
       }
     }
   },
@@ -46,7 +55,10 @@ export const variantScope: Variant = {
     if (match) {
       return {
         matcher: matcher.slice(match[0].length),
-        selector: s => `.${match[1]} $$ ${s}`,
+        handler: (input, next) => next({
+          ...input,
+          selector: `.${match[1]} $$ ${input.selector}`,
+        }),
       }
     }
   },

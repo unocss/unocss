@@ -12,7 +12,10 @@ export const variantCustomMedia: VariantObject = {
       const media = theme.media?.[match[1]] ?? `(--${match[1]})`
       return {
         matcher: matcher.slice(match[0].length),
-        parent: `@media ${media}`,
+        handler: (input, next) => next({
+          ...input,
+          parent: `@media ${media}`,
+        }),
       }
     }
   },

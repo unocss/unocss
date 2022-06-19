@@ -42,7 +42,11 @@ export const variantBreakpoints: Variant<Theme> = {
         order -= (idx + 1)
         return {
           matcher: m,
-          parent: [`@media (max-width: ${calcMaxWidthBySize(size)})`, order],
+          handler: (input, next) => next({
+            ...input,
+            parent: `@media (max-width: ${calcMaxWidthBySize(size)})`,
+            parentOrder: order,
+          }),
         }
       }
 
@@ -52,13 +56,21 @@ export const variantBreakpoints: Variant<Theme> = {
       if (isAtPrefix && idx < variantEntries.length - 1) {
         return {
           matcher: m,
-          parent: [`@media (min-width: ${size}) and (max-width: ${calcMaxWidthBySize(variantEntries[idx + 1][1])})`, order],
+          handler: (input, next) => next({
+            ...input,
+            parent: `@media (min-width: ${size}) and (max-width: ${calcMaxWidthBySize(variantEntries[idx + 1][1])})`,
+            parentOrder: order,
+          }),
         }
       }
 
       return {
         matcher: m,
-        parent: [`@media (min-width: ${size})`, order],
+        handler: (input, next) => next({
+          ...input,
+          parent: `@media (min-width: ${size})`,
+          parentOrder: order,
+        }),
       }
     }
   },
