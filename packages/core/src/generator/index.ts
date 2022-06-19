@@ -344,8 +344,22 @@ export class UnoGenerator {
       .reverse()
       .reduce(
         (previous, v) =>
-          (input: VariantHandlerContext) =>
-            (v.handler ?? defaultHandler)(input, previous),
+          // (input: VariantHandlerContext) =>
+          //   (v.handler ?? defaultHandler)(input, previous),
+          (input: VariantHandlerContext) => {
+            const entries = v.body?.(input.entries) || input.entries
+            const parents: [string | undefined, number | undefined] = v.parent
+              ? (Array.isArray(v.parent) ? v.parent : [v.parent ?? '', undefined])
+              : [input.parent, input.parentOrder]
+            return (v.handler ?? defaultHandler)({
+              entries,
+              selector: v.selector?.(input.selector, entries) || input.selector,
+              parent: parents[0],
+              parentOrder: parents[1],
+              layer: v.layer || input.layer,
+              sort: v.sort || input.sort,
+            }, previous)
+          },
         (input: VariantHandlerContext) => input,
       )
 

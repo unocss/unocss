@@ -211,36 +211,36 @@ export interface VariantHandler {
    * Order in which the variant is applied to selector.
    */
   order?: number
-  // /**
-  //  * @deprecated use `handler` instead. It will be removed in 1.0.
-  //  *
-  //  * Rewrite the output selector. Often be used to append pesudo classes or parents.
-  //  */
-  // selector?: (input: string, body: CSSEntries) => string | undefined
-  // /**
-  //  * @deprecated use `handler` instead. It will be removed in 1.0.
-  //  *
-  //  * Rewrite the output css body. The input come in [key,value][] pairs.
-  //  */
-  // body?: (body: CSSEntries) => CSSEntries | undefined
-  // /**
-  //  * @deprecated use `handler` instead. It will be removed in 1.0.
-  //  *
-  //  * Provide a parent selector(e.g. media query) to the output css.
-  //  */
-  // parent?: string | [string, number] | undefined
-  // /**
-  //  * @deprecated use `handler` instead. It will be removed in 1.0.
-  //  *
-  //  * Order in which the variant is sorted within single rule.
-  //  */
-  // sort?: number
-  // /**
-  //  * @deprecated use `handler` instead. It will be removed in 1.0.
-  //  *
-  //  * Override layer to the output css.
-  //  */
-  // layer?: string | undefined
+  /**
+   * @deprecated use `handler` instead. It will be removed in 1.0.
+   *
+   * Rewrite the output selector. Often be used to append pesudo classes or parents.
+   */
+  selector?: (input: string, body: CSSEntries) => string | undefined
+  /**
+   * @deprecated use `handler` instead. It will be removed in 1.0.
+   *
+   * Rewrite the output css body. The input come in [key,value][] pairs.
+   */
+  body?: (body: CSSEntries) => CSSEntries | undefined
+  /**
+   * @deprecated use `handler` instead. It will be removed in 1.0.
+   *
+   * Provide a parent selector(e.g. media query) to the output css.
+   */
+  parent?: string | [string, number] | undefined
+  /**
+   * @deprecated use `handler` instead. It will be removed in 1.0.
+   *
+   * Order in which the variant is sorted within single rule.
+   */
+  sort?: number
+  /**
+   * @deprecated use `handler` instead. It will be removed in 1.0.
+   *
+   * Override layer to the output css.
+   */
+  layer?: string | undefined
 }
 
 export type VariantFunction<Theme extends {} = {}> = (matcher: string, context: Readonly<VariantContext<Theme>>) => string | VariantHandler | undefined
