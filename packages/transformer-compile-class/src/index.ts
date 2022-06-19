@@ -64,7 +64,10 @@ export default function transformerCompileClass(options: CompileClassOptions = {
           const hash = hashFn(body)
           const className = `${classPrefix}${hash}`
           replacements.unshift(className)
-          uno.config.shortcuts.push([className, body, { layer: options.layer }])
+          if (options.layer)
+            uno.config.shortcuts.push([className, body, { layer: options.layer }])
+          else
+            uno.config.shortcuts.push([className, body])
         }
         s.overwrite(start + 1, start + match[0].length - 1, replacements.join(' '))
       }
