@@ -15,16 +15,25 @@ const TITLE_HEIGHT = 34
 const { height: vh } = useElementSize(panel)
 const titleHeightPercent = computed(() => TITLE_HEIGHT / vh.value * 100)
 
+const getInitialPanelSizes = (percent: number): number[] => {
+  return [
+    100 - percent * 2,
+    percent,
+    percent,
+  ]
+}
+
 if (!inputHTML.value)
   inputHTML.value = defaultHTML
 if (!customConfigRaw.value)
   customConfigRaw.value = defaultConfigRaw
 
-const panelSizes = useStorage<number[]>('unocss-panel-sizes', [
-  100 - titleHeightPercent.value * 2,
-  titleHeightPercent.value,
-  titleHeightPercent.value,
-], localStorage, { listenToStorageChanges: false })
+const panelSizes = useStorage<number[]>(
+  'unocss-panel-sizes',
+  getInitialPanelSizes(titleHeightPercent.value),
+  localStorage,
+  { listenToStorageChanges: false },
+)
 
 function handleResize(event: ({ size: number })[]) {
   panelSizes.value = event.map(({ size }) => size)
@@ -79,6 +88,13 @@ const formatted = computed(() => {
     return `/* Error on prettifying: ${e.message} */\n${output.value?.css || ''}`
   }
 })
+
+watch(
+  titleHeightPercent,
+  (value: number) => {
+    panelSizes.value = getInitialPanelSizes(value)
+  },
+)
 
 onMounted(() => {
   // prevent init transition
