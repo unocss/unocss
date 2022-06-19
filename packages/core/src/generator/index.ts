@@ -340,28 +340,35 @@ export class UnoGenerator {
   }
 
   applyVariants(parsed: ParsedUtil, variantHandlers = parsed[4], raw = parsed[1]): UtilObject {
-    const handlers = [...variantHandlers].sort((a, b) => (a.order || 0) - (b.order || 0))
+    const defaultHandler = (input: UtilObject, next: (input: UtilObject) => UtilObject) => next(input)
+    const handler = [...variantHandlers]
+      .sort((a, b) => (a.order || 0) - (b.order || 0))
+      .reverse()
+      .reduce(
+        (previous, v) => {
+          return (input: UtilObject) => {
+            const entries = v.body?.(input.entries) || input.entries
+            return (v.handler ?? defaultHandler)({
+              entries,
+              selector: v.selector?.(input.selector, entries) || input.selector,
+              parent: (Array.isArray(v.parent) ? v.parent[0] : v.parent) || input.parent,
+              layer: v.layer || input.layer,
+              sort: v.sort || input.sort,
+            }, previous)
+          }
+        },
+        (input: UtilObject) => input,
+      )
 
-    let entries: CSSEntries = parsed[2]
-    let selector = toEscapedSelector(raw)
-    let parent: string | undefined
-    let layer: string | undefined
-    let sort: number | undefined
-    handlers.forEach((v) => {
-      entries = v.body?.(entries) || entries
-      selector = v.selector?.(selector, entries) || selector
-      parent = Array.isArray(v.parent) ? v.parent[0] : v.parent || parent
-      layer = v.layer || layer
-      sort = v.sort || sort
+    const obj = handler({
+      entries: parsed[2],
+      selector: toEscapedSelector(raw),
+      parent: undefined,
+      layer: undefined,
+      sort: undefined,
     })
 
-    const obj: UtilObject = {
-      selector: movePseudoElementsEnd(selector),
-      entries,
-      parent,
-      layer,
-      sort,
-    }
+    obj.selector = movePseudoElementsEnd(obj.selector)
 
     for (const p of this.config.postprocess)
       p(obj)
