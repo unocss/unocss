@@ -1,7 +1,7 @@
 import { readdir } from 'fs/promises'
 import path from 'path'
 import fs from 'fs'
-import type { UnocssPluginContext, UserConfig } from '@unocss/core'
+import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { notNull } from '@unocss/core'
 import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
 import presetUno from '@unocss/preset-uno'
@@ -19,6 +19,10 @@ export class ContextLoader {
 
   private fileContextCache = new Map<string, UnocssPluginContext<UserConfig<any>> | null>()
   private configExistsCache = new Map<string, boolean>()
+  private defaultUnocssConfig: UserConfigDefaults = {
+    presets: [presetUno()],
+  }
+
   public events = createNanoEvents<{
     reload: () => void
     contextLoaded: (context: UnocssPluginContext<UserConfig<any>>) => void
@@ -28,11 +32,7 @@ export class ContextLoader {
 
   constructor(cwd: string) {
     this.cwd = cwd
-    this.defaultContext = createContext({
-      presets: [
-        presetUno(),
-      ],
-    })
+    this.defaultContext = createContext(this.defaultUnocssConfig)
 
     this.ready = this.reload()
       .then(async () => {
@@ -91,7 +91,7 @@ export class ContextLoader {
       log.appendLine(`[info] Resolving config for ${dir}`)
       const context = createContext(
         dir,
-        undefined,
+        this.defaultUnocssConfig,
         [
           sourcePluginFactory({
             files: [
