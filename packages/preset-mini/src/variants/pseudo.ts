@@ -95,13 +95,10 @@ const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: strin
           pseudo = `:${match[2]}(${pseudo})`
         return {
           matcher: input.slice(match[0].length),
-          handler: (input, next) => next({
-            ...input,
-            selector: rawRe.test(input.selector)
-              ? input.selector.replace(rawRe, `${parent}${pseudo}:`)
-              : `${parent}${pseudo}${combinator}${input.selector}`,
-            sort: sortValue(match[3]),
-          }),
+          selector: s => rawRe.test(s)
+            ? s.replace(rawRe, `${parent}${pseudo}:`)
+            : `${parent}${pseudo}${combinator}${s}`,
+          sort: sortValue(match[3]),
         }
       }
     },
@@ -120,11 +117,8 @@ export const variantPseudoClassesAndElements: VariantObject = {
       const pseudo = PseudoClasses[match[1]] || PseudoClassesColon[match[1]] || `:${match[1]}`
       return {
         matcher: input.slice(match[0].length),
-        handler: (input, next) => next({
-          ...input,
-          selector: `${input.selector}${pseudo}`,
-          sort: sortValue(match[1]),
-        }),
+        selector: s => `${s}${pseudo}`,
+        sort: sortValue(match[1]),
       }
     }
   },
@@ -142,10 +136,7 @@ export const variantPseudoClassFunctions: VariantObject = {
       const pseudo = PseudoClasses[match[2]] || PseudoClassesColon[match[2]] || `:${match[2]}`
       return {
         matcher: input.slice(match[0].length),
-        handler: (input, next) => next({
-          ...input,
-          selector: `${input.selector}:${fn}(${pseudo})`,
-        }),
+        selector: s => `${s}:${fn}(${pseudo})`,
       }
     }
   },
@@ -184,10 +175,7 @@ export const partClasses: VariantObject = {
       const part = `part(${match[2]})`
       return {
         matcher: input.slice(match[1].length),
-        handler: (input, next) => next({
-          ...input,
-          selector: `${input.selector}::${part}`,
-        }),
+        selector: s => `${s}::${part}`,
       }
     }
   },

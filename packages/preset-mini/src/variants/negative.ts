@@ -15,31 +15,24 @@ export const variantNegative: Variant = {
 
     return {
       matcher: matcher.slice(1),
-      handler: (input, next) => {
-        const body = ((body) => {
-          if (body.find(v => v[0] === CONTROL_MINI_NO_NEGATIVE))
+      body: (body) => {
+        if (body.find(v => v[0] === CONTROL_MINI_NO_NEGATIVE))
+          return
+        let changed = false
+        body.forEach((v) => {
+          const value = v[1]?.toString()
+          if (!value || value === '0')
             return
-          let changed = false
-          body.forEach((v) => {
-            const value = v[1]?.toString()
-            if (!value || value === '0')
-              return
-            if (ignoreProps.some(i => v[0].match(i)))
-              return
-            if (numberRE.test(value)) {
-              v[1] = value.replace(numberRE, i => `-${i}`)
-              changed = true
-            }
-          })
-          if (changed)
-            return body
-          return []
-        })(input.entries)
-
-        return next({
-          ...input,
-          entries: body ?? input.entries,
+          if (ignoreProps.some(i => v[0].match(i)))
+            return
+          if (numberRE.test(value)) {
+            v[1] = value.replace(numberRE, i => `-${i}`)
+            changed = true
+          }
         })
+        if (changed)
+          return body
+        return []
       },
     }
   },

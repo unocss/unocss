@@ -4,10 +4,9 @@ export const variantSpaceAndDivide: Variant = (matcher) => {
   if (/^space-?([xy])-?(-?.+)$/.test(matcher) || /^divide-/.test(matcher)) {
     return {
       matcher,
-      handler: (input, next) => next({
-        ...input,
-        selector: `${input.selector}>:not([hidden])~:not([hidden])`,
-      }),
+      selector: (input) => {
+        return `${input}>:not([hidden])~:not([hidden])`
+      },
     }
   }
 }

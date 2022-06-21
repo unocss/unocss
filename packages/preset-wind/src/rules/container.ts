@@ -1,4 +1,5 @@
-import type { Rule, Shortcut, VariantHandlerContext } from '@unocss/core'
+import type { Rule, Shortcut } from '@unocss/core'
+import { toArray } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
 import { resolveBreakpoints } from '@unocss/preset-mini/utils'
 
@@ -10,7 +11,7 @@ export const container: Rule<Theme>[] = [
     (m, { variantHandlers }) => {
       let width = '100%'
       for (const v of variantHandlers) {
-        const query = v.handler?.({} as VariantHandlerContext, x => x).parent
+        const query = toArray(v.parent || [])[0]
         if (typeof query === 'string') {
           const match = query.match(queryMatcher)?.[1]
           if (match)

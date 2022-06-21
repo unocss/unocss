@@ -92,14 +92,11 @@ describe('order', () => {
           if (m) {
             return {
               matcher: input.slice(m[0].length),
-              handler: (input, next) => next({
-                ...input,
-                selector: `${m[1]} ${input.selector}`,
-                sort: {
-                  pre: -1,
-                  post: 1,
-                }[m[1]],
-              }),
+              selector: s => `${m[1]} ${s}`,
+              sort: {
+                pre: -1,
+                post: 1,
+              }[m[1]],
             }
           }
         },

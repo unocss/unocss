@@ -1,4 +1,4 @@
-import type { VariantObject } from '@unocss/core'
+import type { VariantHandler, VariantObject } from '@unocss/core'
 import type { TagifyOptions } from './types'
 import { MARKER } from './extractor'
 
@@ -13,23 +13,19 @@ export const variantTagify = (options: TagifyOptions): VariantObject => {
         return
 
       const matcher = input.slice(prefix.length)
-
-      return {
+      const handler: VariantHandler = {
         matcher,
-        handler: (input, next) => {
-          if (extraProperties) {
-            if (typeof extraProperties === 'function')
-              input.entries.push(...Object.entries(extraProperties(matcher) ?? {}))
-            else
-              input.entries.push(...Object.entries(extraProperties))
-          }
-
-          return next({
-            ...input,
-            selector: input.selector.slice(MARKER.length + 1),
-          })
-        },
+        selector: i => i.slice(MARKER.length + 1),
       }
+
+      if (extraProperties) {
+        if (typeof extraProperties === 'function')
+          handler.body = entries => [...entries, ...Object.entries(extraProperties(matcher) ?? {})]
+        else
+          handler.body = entries => [...entries, ...Object.entries(extraProperties)]
+      }
+
+      return handler
     },
   }
 }

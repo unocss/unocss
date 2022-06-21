@@ -11,10 +11,7 @@ const scopeMatcher = (strict: boolean, name: string, template: string): VariantO
       if (match) {
         return {
           matcher: matcher.slice(match[0].length),
-          handler: (input, next) => next({
-            ...input,
-            selector: template.replace('&&-s', input.selector).replace('&&-c', match[1] ?? '*'),
-          }),
+          selector: s => template.replace('&&-s', s).replace('&&-c', match[1] ?? '*'),
         }
       }
     },

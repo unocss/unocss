@@ -64,8 +64,8 @@ export const variantColorMix: Variant = (matcher) => {
   if (m) {
     return {
       matcher: matcher.slice(m[0].length),
-      handler: (input, next) => {
-        input.entries.forEach((v) => {
+      body: (body) => {
+        body.forEach((v) => {
           if (v[1]) {
             const color = parseCssColor(`${v[1]}`)
             if (color) {
@@ -75,7 +75,7 @@ export const variantColorMix: Variant = (matcher) => {
             }
           }
         })
-        return next(input)
+        return body
       },
     }
   }

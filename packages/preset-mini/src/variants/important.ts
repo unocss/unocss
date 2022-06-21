@@ -14,12 +14,12 @@ export const variantImportant: Variant = {
     if (base) {
       return {
         matcher: base,
-        handler: (input, next) => {
-          input.entries.forEach((v) => {
+        body: (body) => {
+          body.forEach((v) => {
             if (v[1])
               v[1] += ' !important'
           })
-          return next(input)
+          return body
         },
       }
     }
