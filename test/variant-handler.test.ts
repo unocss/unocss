@@ -9,7 +9,7 @@ describe('variants', () => {
       ],
       variants: [
         {
-          match: (input: string) => {
+          match(input) {
             const match = input.match(/^var:/)
             if (match) {
               return {
@@ -46,7 +46,7 @@ describe('variants', () => {
       variants: [
         {
           multiPass: true,
-          match(input: string) {
+          match(input) {
             const match = input.match(/^(first|second|third):/)
             if (match) {
               return {
@@ -61,7 +61,7 @@ describe('variants', () => {
         },
         {
           multiPass: true,
-          match(input: string) {
+          match(input) {
             const match = input.match(/^(one|two|three):/)
             if (match) {
               return {
