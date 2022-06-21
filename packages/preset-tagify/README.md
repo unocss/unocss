@@ -9,7 +9,7 @@ npm i -D @unocss/preset-tagify
 ```
 
 ```ts
-import preseTagify from '@unocss/preset-tagify'
+import presetTagify from '@unocss/preset-tagify'
 
 Unocss({
   presets: [
