@@ -6,7 +6,7 @@ import { log } from './log'
 import { getPrettiedMarkdown, isCssId, throttle } from './utils'
 import type { ContextLoader } from './contextLoader'
 
-export async function registerAnnonations(
+export async function registerAnnotations(
   cwd: string,
   contextLoader: ContextLoader,
   status: StatusBarItem,

@@ -3,7 +3,7 @@ import type { ExtensionContext } from 'vscode'
 import { StatusBarAlignment, commands, window, workspace } from 'vscode'
 import { version } from '../package.json'
 import { log } from './log'
-import { registerAnnonations } from './annonation'
+import { registerAnnotations } from './annotation'
 import { registerAutoComplete } from './autocomplete'
 import { ContextLoader } from './contextLoader'
 
@@ -25,7 +25,7 @@ export async function activate(ext: ExtensionContext) {
   status.text = 'UnoCSS'
 
   registerAutoComplete(contextLoader, ext)
-  registerAnnonations(cwd, contextLoader, status, ext)
+  registerAnnotations(cwd, contextLoader, status, ext)
 
   ext.subscriptions.push(commands.registerCommand('unocss.reload', async () => {
     await contextLoader.reload()
