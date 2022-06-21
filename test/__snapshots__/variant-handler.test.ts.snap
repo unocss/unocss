@@ -1,0 +1,17 @@
+// Vitest Snapshot v1
+
+exports[`variants > variant can stack 1`] = `
+"/* layer: default */
+.first\\\\:second\\\\:third\\\\:foo > :third > :second > :first,
+.first\\\\:three\\\\:two\\\\:foo > :first + :three + :two,
+.one\\\\:two\\\\:three\\\\:foo + :one + :two + :three{name:bar;}"
+`;
+
+exports[`variants > variant context is propagated 1`] = `
+"/* layer: default */
+.foo{name:bar;}
+/* layer: variant */
+@supports{
+.selector{name:bar !important;}
+}"
+`;

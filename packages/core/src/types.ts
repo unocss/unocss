@@ -190,11 +190,29 @@ export interface Preflight<Theme extends {} = {}> {
 export type BlocklistRule = string | RegExp
 
 export interface VariantHandlerContext {
+  /**
+   * Rewrite the output selector. Often be used to append pesudo classes or parents.
+   */
   selector: string
+  /**
+   * Rewrite the output css body. The input come in [key,value][] pairs.
+   */
   entries: CSSEntries
+  /**
+   * Provide a parent selector(e.g. media query) to the output css.
+   */
   parent?: string
+  /**
+   * Provide order to the `parent` parent selector within layer.
+   */
   parentOrder?: number
+  /**
+   * Override layer to the output css.
+   */
   layer?: string
+  /**
+   * Order in which the variant is sorted within single rule.
+   */
   sort?: number
 }
 
