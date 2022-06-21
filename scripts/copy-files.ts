@@ -10,5 +10,5 @@ const destinations = [
 
 const _filename = import.meta.url ? fileURLToPath(import.meta.url) : __filename
 destinations.forEach(([src, dest]) => {
-  copyFileSync(resolve(__filename, '..', src), resolve(_filename, '..', dest))
+  copyFileSync(resolve(_filename, '..', src), resolve(_filename, '..', dest))
 })
