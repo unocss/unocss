@@ -8,7 +8,7 @@ import presetUno from '@unocss/preset-uno'
 import { resolveOptions as resolveNuxtOptions } from '../../nuxt/src/options'
 import { createNanoEvents } from '../../core/src/utils/events'
 import { createContext } from './integration'
-import { isSubdir } from './utils'
+import { isCssId, isSubdir } from './utils'
 import { log } from './log'
 
 export class ContextLoader {
@@ -178,7 +178,7 @@ export class ContextLoader {
       if (!isSubdir(configDir, file))
         continue
 
-      if (!context.filter(code, file))
+      if (!context.filter(code, file) && !isCssId(file))
         continue
 
       this.fileContextCache.set(file, context)
@@ -191,7 +191,7 @@ export class ContextLoader {
       while (isSubdir(this.cwd, dir)) {
         if (await this.configExists(dir)) {
           const context = await this.loadContextInDirectory(dir)
-          if (context?.filter(code, file)) {
+          if (context?.filter(code, file) || isCssId(file)) {
             this.fileContextCache.set(file, context)
             return context
           }
@@ -220,7 +220,7 @@ export class ContextLoader {
       if (!isSubdir(configDir, file))
         continue
 
-      if (!context.filter(code, file))
+      if (!context.filter(code, file) && !isCssId(file))
         continue
 
       this.fileContextCache.set(file, context)
