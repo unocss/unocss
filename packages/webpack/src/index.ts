@@ -2,6 +2,7 @@ import type { UserConfig, UserConfigDefaults } from '@unocss/core'
 import type { ResolvedUnpluginOptions, UnpluginOptions } from 'unplugin'
 import { createUnplugin } from 'unplugin'
 import WebpackSources from 'webpack-sources'
+import MagicString from 'magic-string'
 import {
   HASH_PLACEHOLDER_RE,
   LAYER_MARK_ALL,
@@ -29,7 +30,7 @@ export default function WebpackPlugin<Theme extends {}>(
   defaults?: UserConfigDefaults,
 ) {
   return createUnplugin(() => {
-    const context = createContext(configOrPath, defaults)
+    const context = createContext<WebpackPluginOptions>(configOrPath as any, defaults)
     const { uno, tokens, filter, extract, onInvalidate } = context
 
     let timer: any
@@ -48,9 +49,13 @@ export default function WebpackPlugin<Theme extends {}>(
       transformInclude(id) {
         return filter('', id)
       },
-      transform(code, id) {
-        tasks.push(extract(code, id))
-        return null
+      async transform(code, id) {
+        const result = await transform(code, id)
+        if (result === null)
+          tasks.push(extract(code, id))
+        else
+          tasks.push(extract(result.code, id))
+        return result
       },
       resolveId(id) {
         const entry = resolveId(id)
@@ -109,6 +114,29 @@ export default function WebpackPlugin<Theme extends {}>(
       },
     } as Required<ResolvedUnpluginOptions>
 
+    async function transform(code: string, id: string) {
+      const transformers = (context.uno.config.transformers || []).filter(i => i.enforce === plugin.enforce)
+      if (!transformers.length)
+        return null
+      const s = new MagicString(code)
+      for (const t of transformers) {
+        if (t.idFilter) {
+          if (!t.idFilter(id))
+            continue
+        }
+        else if (!context.filter(code, id)) {
+          continue
+        }
+        await t.transform(s, id, context)
+      }
+      if (s.hasChanged()) {
+        return {
+          code: s.toString(),
+          map: s.generateMap({ hires: true, source: id }),
+        }
+      }
+      return null
+    }
     async function updateModules() {
       if (!plugin.__vfsModules)
         return
