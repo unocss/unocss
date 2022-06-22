@@ -536,8 +536,6 @@ export interface PluginOptions {
 
   /**
    * Custom transformers to the source code
-   *
-   * Currently only supported in Vite
    */
   transformers?: SourceCodeTransformer[]
 }
