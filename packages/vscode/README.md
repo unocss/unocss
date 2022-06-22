@@ -22,7 +22,7 @@
 
 ## Config
 
-By default the extension will search for the config files under project root. When there is no config found, the extension will be disabled. To work with monorepo, you need to change the `unocss.root` option in your `setting.json` to the directory that contains the config file.
+By default the extension will search for the config files under project root. When there is no config found, the extension will be disabled. To work with monorepo, you need to change the `unocss.root` option in your `settings.json` to the directory that contains the config file.
 
 ```javascript
 {
