@@ -55,8 +55,13 @@ export default function WebpackPlugin<Theme extends {}>(
       resolveId(id) {
         const entry = resolveId(id)
         if (entry) {
+          let query = ''
+          const queryIndex = id.indexOf('?')
+          if (queryIndex >= 0)
+            query = id.slice(queryIndex)
           entries.add(entry)
-          return entry
+          // preserve the input query
+          return entry + query
         }
       },
       // serve the placeholders in virtual module
