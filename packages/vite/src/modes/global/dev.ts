@@ -9,7 +9,6 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
   const servers: ViteDevServer[] = []
   let base = ''
 
-  const tasks: Promise<any>[] = []
   const entries = new Set<string>()
 
   let invalidateTimer: any
@@ -115,7 +114,6 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
         if (!layer)
           return null
 
-        await Promise.all(tasks)
         const result = await uno.generate(tokens)
         lastServed = Date.now()
         return layer === LAYER_MARK_ALL
