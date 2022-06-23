@@ -1,6 +1,6 @@
 # @unocss/autocomplete
 
-Autocomplete utils for UnoCSS. This is embedded in [the playground](https://unocss.antfu.me/) and [the VS Code extension](https://github.com/unocss/unocss/tree/main/packages/vscode).
+Autocomplete utils for UnoCSS. This is embedded in [the playground](https://uno.antfu.me/play/) and [the VS Code extension](https://github.com/unocss/unocss/tree/main/packages/vscode).
 
 ## Syntax
 
