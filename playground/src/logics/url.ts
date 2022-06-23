@@ -15,7 +15,7 @@ interface Options {
 
 export const customConfigRaw = ref(decode(params.get('config') || '') || defaultConfigRaw)
 export const inputHTML = ref(decode(params.get('html') || '') || defaultHTML)
-export const options = ref<Options>(JSON.parse(decode(params.get('options') || '') || defaultOptions))
+export const options = useLocalStorage<Options>('unocss-options', JSON.parse(decode(params.get('options') || '') || defaultOptions))
 
 throttledWatch(
   [customConfigRaw, inputHTML, options],

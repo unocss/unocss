@@ -15,7 +15,6 @@ export const init = ref(false)
 export const customConfigError = ref<Error>()
 
 export const uno = createGenerator({}, defaultConfig.value)
-export const options = useLocalStorage('unocss-options', {})
 export const output = shallowRef<GenerateResult>()
 
 let customConfig: UserConfig = {}
