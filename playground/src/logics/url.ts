@@ -6,7 +6,6 @@ const STORAGE_KEY = 'last-search'
 const params = new URLSearchParams(window.location.search || localStorage.getItem(STORAGE_KEY) || '')
 
 interface Options {
-  strict?: boolean
   transform?: boolean
   responsive?: boolean
   width?: number
@@ -16,15 +15,6 @@ interface Options {
 export const customConfigRaw = ref(decode(params.get('config') || '') || defaultConfigRaw)
 export const inputHTML = ref(decode(params.get('html') || '') || defaultHTML)
 export const options = ref<Options>(JSON.parse(decode(params.get('options') || '') || defaultOptions))
-
-watch(() => options.value.strict, (strict) => {
-  const result = customConfigRaw.value.match(/presetAttributify\((.*)\)/)
-  if (result) {
-    const option = JSON.parse((result[1] && result[1].replace(/(\w+)(\s*:\s*)/g, '"$1"$2')) || '{}')
-    option.strict = strict
-    customConfigRaw.value = `${customConfigRaw.value.substring(0, result.index)}presetAttributify(${JSON.stringify(option).replace(/"(\w+)"(\s*:\s*)/g, '$1$2')})${customConfigRaw.value.substring(result.index! + result[0].length)}`
-  }
-})
 
 throttledWatch(
   [customConfigRaw, inputHTML, options],
