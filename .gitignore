@@ -20,3 +20,4 @@ interactive/guides/vendor/*.md
 interactive/data/guides.ts
 interactive/public/play
 interactive/public/shiki
+.svelte-kit
