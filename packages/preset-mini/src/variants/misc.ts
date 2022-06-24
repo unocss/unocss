@@ -1,4 +1,5 @@
 import type { Variant } from '@unocss/core'
+import { handler as h } from '../utils'
 
 export const variantSelector: Variant = {
   name: 'selector',
@@ -52,3 +53,25 @@ export const variantScope: Variant = {
   },
 }
 
+export const variantVariables: Variant = {
+  name: 'variables',
+  match(matcher) {
+    const match = matcher.match(/^(\[[^\]]+\]):/)
+    if (match) {
+      const variant = h.bracket(match[1]) ?? ''
+      const updates = variant.startsWith('@')
+        ? {
+            parent: variant,
+          }
+        : {
+            selector: (s: string) => variant.replace(/&/g, s),
+          }
+
+      return {
+        matcher: matcher.slice(match[0].length),
+        ...updates,
+      }
+    }
+  },
+  multiPass: true,
+}

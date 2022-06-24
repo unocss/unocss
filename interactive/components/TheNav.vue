@@ -40,7 +40,7 @@ import { currentTab, isCompact, toggleCompact, uno } from '~/composables/state'
         />
       </template>
 
-      <a i-carbon-template href="https://unocss.antfu.me/play/" rel="noopener noreferrer" title="Playground" target="_blank" aria-label="Playground" />
+      <a i-carbon-template href="https://uno.antfu.me/play/" rel="noopener noreferrer" title="Playground" target="_blank" aria-label="Playground" />
 
       <a i-carbon-logo-github href="https://github.com/unocss/unocss" rel="noopener noreferrer" title="GitHub" target="_blank" aria-label="GitHub" />
 
