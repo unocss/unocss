@@ -468,4 +468,17 @@ describe('transformer-directives', () => {
       `)
     })
   })
+
+  test('escape backslash', async () => {
+    const result = await transform(
+      '.btn { @apply border-r-\$theme-color }',
+    )
+    expect(result)
+      .toMatchInlineSnapshot(`
+        ".btn {
+          border-right-color: var(--theme-color);
+        }
+        "
+      `)
+  })
 })

@@ -83,7 +83,10 @@ export async function transformDirectives(
     if (!body)
       return
 
-    const classNames = expandVariantGroup(body).split(/\s+/g)
+    const classNames = expandVariantGroup(body)
+      .split(/\s+/g)
+      .map(className => className.trim().replace(/\\/, ''))
+
     const utils = (
       await Promise.all(
         classNames.map(i => uno.parseToken(i, '-')),
