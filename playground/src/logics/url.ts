@@ -6,7 +6,6 @@ const STORAGE_KEY = 'last-search'
 const params = new URLSearchParams(window.location.search || localStorage.getItem(STORAGE_KEY) || '')
 
 interface Options {
-  strict?: boolean
   transform?: boolean
   responsive?: boolean
   width?: number
