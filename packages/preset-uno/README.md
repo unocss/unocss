@@ -33,7 +33,7 @@ For example, both `ml-3` (Tailwind), `ms-2` (Bootstrap), `ma4` (Tachyons), `mt-1
 .mt-10px { margin-top: 10px; }
 ```
 
-For more details about the default preset, you can check out our [playground](https://unocss.antfu.me/) and try out. Meanwhile, you can also check out [the implementations](https://github.com/unocss/unocss/tree/main/packages).
+For more details about the default preset, you can check out our [playground](https://uno.antfu.me/play/) and try out. Meanwhile, you can also check out [the implementations](https://github.com/unocss/unocss/tree/main/packages).
 
 ## License
 
