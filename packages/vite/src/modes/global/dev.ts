@@ -92,14 +92,14 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
       },
       transform(code, id) {
         if (filter(code, id))
-          extract(code, id)
+          tasks.push(extract(code, id))
         return null
       },
       transformIndexHtml: {
         enforce: 'pre',
         transform(code, { filename }) {
           setWarnTimer()
-          extract(code, filename)
+          tasks.push(extract(code, filename))
         },
       },
       resolveId(id) {

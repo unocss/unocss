@@ -1,5 +1,5 @@
 import { createNanoEvents } from '../utils/events'
-import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, Shortcut, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantMatchedResult } from '../types'
+import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, Shortcut, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
 import { CONTROL_SHORTCUT_NO_MERGE, TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, noop, normalizeCSSEntries, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
@@ -322,8 +322,6 @@ export class UnoGenerator {
         if (typeof handler === 'string')
           handler = { matcher: handler }
         processed = handler.matcher
-        if (Array.isArray(handler.parent))
-          this.parentOrders.set(handler.parent[0], handler.parent[1])
         handlers.unshift(handler)
         variants.add(v)
         applied = true
@@ -340,27 +338,41 @@ export class UnoGenerator {
   }
 
   applyVariants(parsed: ParsedUtil, variantHandlers = parsed[4], raw = parsed[1]): UtilObject {
-    const handlers = [...variantHandlers].sort((a, b) => (a.order || 0) - (b.order || 0))
+    const handler = [...variantHandlers]
+      .sort((a, b) => (a.order || 0) - (b.order || 0))
+      .reverse()
+      .reduce(
+        (previous, v) =>
+          (input: VariantHandlerContext) => {
+            const entries = v.body?.(input.entries) || input.entries
+            const parents: [string | undefined, number | undefined] = Array.isArray(v.parent) ? v.parent : [v.parent, undefined]
+            return (v.handle ?? defaultVariantHandler)({
+              entries,
+              selector: v.selector?.(input.selector, entries) || input.selector,
+              parent: parents[0] || input.parent,
+              parentOrder: parents[1] || input.parentOrder,
+              layer: v.layer || input.layer,
+              sort: v.sort || input.sort,
+            }, previous)
+          },
+        (input: VariantHandlerContext) => input,
+      )
 
-    let entries: CSSEntries = parsed[2]
-    let selector = toEscapedSelector(raw)
-    let parent: string | undefined
-    let layer: string | undefined
-    let sort: number | undefined
-    handlers.forEach((v) => {
-      entries = v.body?.(entries) || entries
-      selector = v.selector?.(selector, entries) || selector
-      parent = Array.isArray(v.parent) ? v.parent[0] : v.parent || parent
-      layer = v.layer || layer
-      sort = v.sort || sort
+    const variantContextResult = handler({
+      entries: parsed[2],
+      selector: toEscapedSelector(raw),
     })
+
+    const { parent, parentOrder, selector } = variantContextResult
+    if (parent != null && parentOrder != null)
+      this.parentOrders.set(parent, parentOrder)
 
     const obj: UtilObject = {
       selector: movePseudoElementsEnd(selector),
-      entries,
+      entries: variantContextResult.entries,
       parent,
-      layer,
-      sort,
+      layer: variantContextResult.layer,
+      sort: variantContextResult.sort,
     }
 
     for (const p of this.config.postprocess)
@@ -550,14 +562,14 @@ export class UnoGenerator {
       mapItem[0].push([entries, !!item[3]?.noMerge, sort ?? 0])
     }
     return rawStringfieldUtil.concat(selectorMap
-      .map(([e, index], selector, mediaQuery) => {
+      .map(([e, index], selector, joinedParents) => {
         const stringify = (flatten: boolean, noMerge: boolean, entrySortPair: [CSSEntries, number][]): (StringifiedUtil | undefined)[] => {
           const maxSort = Math.max(...entrySortPair.map(e => e[1]))
           const entriesList = entrySortPair.map(e => e[0])
           return (flatten ? [entriesList.flat(1)] : entriesList).map((entries: CSSEntries): StringifiedUtil | undefined => {
             const body = entriesToCss(entries)
             if (body)
-              return [index, selector, body, mediaQuery, { ...meta, noMerge, sort: maxSort }, context]
+              return [index, selector, body, joinedParents, { ...meta, noMerge, sort: maxSort }, context]
             return undefined
           })
         }
@@ -609,4 +621,8 @@ export function toEscapedSelector(raw: string) {
   if (attributifyRe.test(raw))
     return raw.replace(attributifyRe, (_, n, s, i) => `[${e(n)}${s}"${e(i)}"]`)
   return `.${e(raw)}`
+}
+
+function defaultVariantHandler(input: VariantHandlerContext, next: (input: VariantHandlerContext) => VariantHandlerContext) {
+  return next(input)
 }
