@@ -72,11 +72,11 @@ export const backgroundStyles: Rule[] = [
   }],
   [/^(?:bg-gradient-)?stops-(\[.+\])$/, ([, s]) => ({ '--un-gradient-stops': h.bracket(s) })],
   [/^(?:bg-gradient-)?from-(.+)$/, bgGradientColorResolver('from')],
-  [/^(?:bg-gradient-)?to-(.+)$/, bgGradientColorResolver('to')],
   [/^(?:bg-gradient-)?via-(.+)$/, bgGradientColorResolver('via')],
+  [/^(?:bg-gradient-)?to-(.+)$/, bgGradientColorResolver('to')],
   [/^(?:bg-gradient-)?from-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-from-opacity': h.bracket.percent(opacity) })],
-  [/^(?:bg-gradient-)?to-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-to-opacity': h.bracket.percent(opacity) })],
   [/^(?:bg-gradient-)?via-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-via-opacity': h.bracket.percent(opacity) })],
+  [/^(?:bg-gradient-)?to-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-to-opacity': h.bracket.percent(opacity) })],
 
   // images
   [/^bg-gradient-((?:repeating-)?(?:linear|radial|conic))$/, ([, s]) => ({
