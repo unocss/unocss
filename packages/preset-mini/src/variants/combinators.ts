@@ -15,6 +15,7 @@ const scopeMatcher = (strict: boolean, name: string, template: string): VariantO
         }
       }
     },
+    multiPass: true,
   }
 }
 
