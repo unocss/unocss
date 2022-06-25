@@ -30,7 +30,10 @@ export const variantParentMatcher = (name: string, parent: string): VariantObjec
       if (match) {
         return {
           matcher: input.slice(match[0].length),
-          parent,
+          handle: (input, next) => next({
+            ...input,
+            parent: `${input.parent ? `${input.parent} $$ ` : ''}${parent}`,
+          }),
         }
       }
     },

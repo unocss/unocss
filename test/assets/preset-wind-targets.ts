@@ -361,6 +361,9 @@ export const presetWindTargets: string[] = [
   '-scroll-mb-px',
   '-scroll-p-px',
   '-space-x-4',
+
+  // variants - multiple parents
+  '@dark:contrast-more:p-10',
 ]
 
 export const presetWindNonTargets: string[] = [
