@@ -56,7 +56,7 @@ export const variantScope: Variant = {
 export const variantVariables: Variant = {
   name: 'variables',
   match(matcher) {
-    const match = matcher.match(/^(\[[^\]]+\]):/)
+    const match = matcher.match(/^(\[.+?\]):/)
     if (match) {
       const variant = h.bracket(match[1]) ?? ''
       const updates = variant.startsWith('@')

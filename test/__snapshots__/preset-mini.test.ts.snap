@@ -71,6 +71,8 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .\\\\!m-\\\\$c-m{margin:var(--c-m) !important;}
 .\\\\[\\\\&_\\\\&\\\\]\\\\:m-13 .\\\\[\\\\&_\\\\&\\\\]\\\\:m-13{margin:3.25rem;}
 .\\\\[\\\\&\\\\:nth-child\\\\(2\\\\)\\\\]\\\\:m-10:nth-child(2){margin:2.5rem;}
+.\\\\[\\\\&\\\\[open\\\\]\\\\]\\\\:m-14[open]{margin:3.5rem;}
+.\\\\[\\\\&\\\\[readonly\\\\]\\\\[disabled\\\\]\\\\]\\\\:m-15[readonly][disabled]{margin:3.75rem;}
 .\\\\[\\\\&\\\\>\\\\*\\\\]\\\\:m-11>*{margin:2.75rem;}
 .all\\\\:m-auto *,
 .children\\\\:m-auto>*,
