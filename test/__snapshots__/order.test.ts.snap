@@ -14,8 +14,8 @@ exports[`order > movePseudoElementsEnd 1`] = `".marker\\\\:file\\\\:hover\\\\:se
 
 exports[`order > multiple variant sorting 1`] = `
 "/* layer: default */
-.dark .group:hover:focus-within .group-hover\\\\:group-focus-within\\\\:dark\\\\:bg-red-600{--un-bg-opacity:1;background-color:rgba(220,38,38,var(--un-bg-opacity));}
-.group:hover:focus-within .dark .dark\\\\:group-hover\\\\:group-focus-within\\\\:bg-blue-600{--un-bg-opacity:1;background-color:rgba(37,99,235,var(--un-bg-opacity));}"
+.dark .group:hover:focus-within .dark\\\\:group-hover\\\\:group-focus-within\\\\:bg-blue-600{--un-bg-opacity:1;background-color:rgba(37,99,235,var(--un-bg-opacity));}
+.group:hover:focus-within .dark .group-hover\\\\:group-focus-within\\\\:dark\\\\:bg-red-600{--un-bg-opacity:1;background-color:rgba(220,38,38,var(--un-bg-opacity));}"
 `;
 
 exports[`order > variant ordering 1`] = `
