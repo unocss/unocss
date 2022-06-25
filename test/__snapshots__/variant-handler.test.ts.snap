@@ -1,0 +1,25 @@
+// Vitest Snapshot v1
+
+exports[`variants > selector section is merged in order 1`] = `
+"/* layer: default */
+.prefix .pre\\\\:back\\\\:foo::pseudo,
+.prefix .replaced,
+.prefix .replaced::pseudo,
+.replaced::pseudo{name:bar;}"
+`;
+
+exports[`variants > variant can stack 1`] = `
+"/* layer: default */
+.append-one\\\\:append-two\\\\:append-three\\\\:foo > :append-one > :append-two > :append-three,
+.append-one\\\\:prepend-three\\\\:prepend-two\\\\:foo > :append-one + :prepend-two + :prepend-three,
+.prepend-one\\\\:prepend-two\\\\:prepend-three\\\\:foo + :prepend-three + :prepend-two + :prepend-one{name:bar;}"
+`;
+
+exports[`variants > variant context is propagated 1`] = `
+"/* layer: default */
+.foo{name:bar;}
+/* layer: variant */
+@supports{
+:prefix > .selector::pseudo{name:bar !important;}
+}"
+`;

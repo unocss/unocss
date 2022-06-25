@@ -52,7 +52,7 @@ module.exports = nextConfig
 ```tsx
 // _app.tsx
 import '@unocss/reset/tailwind.css'
-import '../styles/uno.css'
+import 'uno.css'
 
 import type { AppProps } from 'next/app'
 

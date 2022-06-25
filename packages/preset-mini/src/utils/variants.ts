@@ -1,7 +1,7 @@
-import type { VariantHandler, VariantObject } from '@unocss/core'
+import type { VariantHandler, VariantHandlerContext, VariantObject } from '@unocss/core'
 import { escapeRegExp } from '@unocss/core'
 
-export const variantMatcher = (name: string, selector?: (input: string) => string | undefined): VariantObject => {
+export const variantMatcher = (name: string, handler: (input: VariantHandlerContext) => Record<string, any>): VariantObject => {
   const re = new RegExp(`^${escapeRegExp(name)}[:-]`)
   return {
     name,
@@ -10,7 +10,10 @@ export const variantMatcher = (name: string, selector?: (input: string) => strin
       if (match) {
         return {
           matcher: input.slice(match[0].length),
-          selector,
+          handle: (input, next) => next({
+            ...input,
+            ...handler(input),
+          }),
         }
       }
     },

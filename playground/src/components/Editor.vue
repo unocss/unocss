@@ -114,10 +114,6 @@ onMounted(() => {
           </div>
           <div class="pl-1 ml-auto space-x-2 text-sm md:text-base flex flex-nowrap">
             <label inline-flex items-center>
-              <input v-model="options.strict" type="checkbox" class="mr-1">
-              Strict
-            </label>
-            <label inline-flex items-center>
               <input v-model="options.transform" type="checkbox" class="mr-1">
               Transform
             </label>

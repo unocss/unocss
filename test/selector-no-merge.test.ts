@@ -25,8 +25,8 @@ describe('variant', () => {
       [/^m3-(.+)$/, ([, s]) => `moz:${s} merge-candidate-early`],
     ],
     variants: [
-      variantMatcher('moz', s => `${s}::non-breaking`),
-      variantMatcher('webkit', s => `${s}::breaking`),
+      variantMatcher('moz', s => ({ pseudo: `${s.pseudo}::non-breaking` })),
+      variantMatcher('webkit', s => ({ pseudo: `${s.pseudo}::breaking` })),
     ],
     rules: [
       [/^no-merge$/, () => ({ merged: 1 }), { noMerge: true }],
