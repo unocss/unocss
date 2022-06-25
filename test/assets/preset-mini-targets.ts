@@ -883,9 +883,11 @@ export const presetMiniTargets: string[] = [
   '[@supports(display:grid)]:bg-red/33',
   '[@supports(display:grid)]:[*+&]:bg-red/34',
 
-  // variants - tagged & pseudo
+  // variants - combinators + pseudo
   'checked:next:text-slate-100',
   'next:checked:text-slate-200',
+  'checked:next:hover:text-slate-500',
+  'next:checked:children:text-slate-600',
 
   // variants - multiple parents
   'sm:lt-lg:p-10',
