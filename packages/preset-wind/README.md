@@ -2,6 +2,9 @@
 
 Tailwind / Windi CSS compact preset for [UnoCSS](https://github.com/unocss/unocss).
 
+> This preset inherits
+> - [@unocss/preset-mini](https://github.com/antfu/unocss/tree/main/packages/preset-mini)
+
 ## Installation
 
 ```bash
