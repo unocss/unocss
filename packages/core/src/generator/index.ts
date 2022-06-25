@@ -324,7 +324,7 @@ export class UnoGenerator {
         if (typeof handler === 'string')
           handler = { matcher: handler }
         processed = handler.matcher
-        handlers.push(handler)
+        handlers.unshift(handler)
         variants.add(v)
         applied = true
         break
