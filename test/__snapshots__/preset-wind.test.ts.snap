@@ -360,6 +360,9 @@ exports[`preset-wind > targets 1`] = `
 @media (prefers-contrast: more){
 .contrast-more\\\\:bg-black{--un-bg-opacity:1;background-color:rgba(0,0,0,var(--un-bg-opacity));}
 }
+@media (prefers-contrast: more){@media (prefers-color-scheme: dark){
+.\\\\@dark\\\\:contrast-more\\\\:p-10{padding:2.5rem;}
+}}
 @media (prefers-reduced-motion: no-preference){
 .motion-safe\\\\:transition{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms;}
 }
