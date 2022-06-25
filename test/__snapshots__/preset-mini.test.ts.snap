@@ -805,6 +805,9 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 @media (max-width: 1023.9px){
 .lt-lg\\\\:m2{margin:0.5rem;}
 }
+@media (min-width: 640px){@media (max-width: 1023.9px){
+.sm\\\\:lt-lg\\\\:p-10{padding:2.5rem;}
+}}
 @media (max-width: 639.9px){
 .lt-sm\\\\:m1{margin:0.25rem;}
 }

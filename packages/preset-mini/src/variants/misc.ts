@@ -21,7 +21,10 @@ export const variantCssLayer: Variant = {
     if (match) {
       return {
         matcher: matcher.slice(match[0].length),
-        parent: `@layer ${match[1]}`,
+        handle: (input, next) => next({
+          ...input,
+          parent: `${input.parent ? `${input.parent} $$ ` : ''}@layer ${match[1]}`,
+        }),
       }
     }
   },
@@ -59,17 +62,21 @@ export const variantVariables: Variant = {
     const match = matcher.match(/^(\[.+?\]):/)
     if (match) {
       const variant = h.bracket(match[1]) ?? ''
-      const updates = variant.startsWith('@')
-        ? {
-            parent: variant,
-          }
-        : {
-            selector: (s: string) => variant.replace(/&/g, s),
-          }
-
       return {
         matcher: matcher.slice(match[0].length),
-        ...updates,
+        handle(input, next) {
+          const updates = variant.startsWith('@')
+            ? {
+                parent: `${input.parent ? `${input.parent} $$ ` : ''}${variant}`,
+              }
+            : {
+                selector: variant.replace(/&/g, input.selector),
+              }
+          return next({
+            ...input,
+            ...updates,
+          })
+        },
       }
     }
   },

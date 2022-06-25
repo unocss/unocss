@@ -886,6 +886,9 @@ export const presetMiniTargets: string[] = [
   // variants - tagged & pseudo
   'checked:next:text-slate-100',
   'next:checked:text-slate-200',
+
+  // variants - multiple parents
+  'sm:lt-lg:p-10',
 ]
 
 export const presetMiniNonTargets = [

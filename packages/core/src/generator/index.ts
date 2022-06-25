@@ -263,9 +263,11 @@ export class UnoGenerator {
             .reverse()
             .join(nl)
 
-          return parent
-            ? `${parent}{${nl}${rules}${nl}}`
-            : rules
+          if (!parent)
+            return rules
+
+          const parents = parent.split(' $$ ')
+          return `${parents.join('{')}{${nl}${rules}${nl}}${parents.map(_ => '').join('}')}`
         })
         .filter(Boolean)
         .join(nl)
