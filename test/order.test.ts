@@ -35,10 +35,42 @@ describe('order', () => {
       ],
       presets: [],
       variants: [
-        variantMatcher('light', input => `.light $$ ${input}`),
-        variantMatcher('group', input => `.group ${input}`),
+        variantMatcher('light', input => ({ prefix: `${input.prefix}.light $$ ` })),
+        variantMatcher('group', input => ({ prefix: `${input.prefix}.group ` })),
         (v, ctx) => {
-          const match = variantMatcher('dark', input => `.dark $$ ${input}`).match(v, ctx)
+          const match = variantMatcher('dark', input => ({ prefix: `${input.prefix}.dark $$ ` })).match(v, ctx)
+          if (typeof match === 'object') {
+            return {
+              ...match,
+              order: 1,
+            }
+          }
+        },
+      ],
+    })
+    const code = [
+      'light:group:foo-1',
+      'group:light:foo-2',
+      'dark:group:foo-3',
+      'group:dark:foo-4',
+    ].join(' ')
+    const { css } = await uno.generate(code, { preflights: false })
+    const { css: css2 } = await uno.generate(code, { preflights: false })
+    expect(css).toMatchSnapshot()
+    expect(css).toEqual(css2)
+  })
+
+  test('variant ordering reversed', async () => {
+    const uno = createGenerator({
+      rules: [
+        [/^foo-.$/, ([m]) => ({ name: m })],
+      ],
+      presets: [],
+      variants: [
+        variantMatcher('light', input => ({ prefix: `.light $$ ${input.prefix}` })),
+        variantMatcher('group', input => ({ prefix: `.group ${input.prefix}` })),
+        (v, ctx) => {
+          const match = variantMatcher('dark', input => ({ prefix: `.dark $$ ${input.prefix}` })).match(v, ctx)
           if (typeof match === 'object') {
             return {
               ...match,

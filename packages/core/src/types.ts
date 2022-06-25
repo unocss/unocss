@@ -191,9 +191,17 @@ export type BlocklistRule = string | RegExp
 
 export interface VariantHandlerContext {
   /**
-   * Rewrite the output selector. Often be used to append pesudo classes or parents.
+   * Rewrite the output selector. Often be used to append parents.
+   */
+  prefix: string
+  /**
+   * Rewrite the output selector. Often be used to append pesudo classes.
    */
   selector: string
+  /**
+   * Rewrite the output selector. Often be used to append pesudo elements.
+   */
+  pseudo: string
   /**
    * Rewrite the output css body. The input come in [key,value][] pairs.
    */
