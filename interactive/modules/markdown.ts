@@ -1,4 +1,5 @@
 import { defineNuxtModule } from '@nuxt/kit'
+import type { Plugin } from 'vite'
 import Markdown from 'vite-plugin-vue-markdown'
 import LinkAttributes from 'markdown-it-link-attributes'
 import { getHighlighter } from 'shiki'
@@ -11,7 +12,7 @@ export default defineNuxtModule({
         'vitesse-light',
       ],
     })
-    nuxt.hook('vite:extendConfig', async (config) => {
+    nuxt.hook('vite:extendConfig', async (config: { plugins: Plugin[] }) => {
       config.plugins.push(
         Markdown({
           markdownItSetup(md) {
