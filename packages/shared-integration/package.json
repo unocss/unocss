@@ -1,6 +1,6 @@
 {
   "name": "@unocss/shared-integration",
-  "version": "0.40.0",
+  "version": "0.41.0",
   "private": true,
   "dependencies": {
     "@unocss/core": "workspace:*",
