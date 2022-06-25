@@ -99,7 +99,7 @@ const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: strin
             ...input,
             prefix: rawRe.test(input.prefix)
               ? input.prefix.replace(rawRe, `${parent}${pseudo}:`)
-              : `${input.prefix}${parent}${pseudo}${combinator}`,
+              : `${parent}${pseudo}${combinator}${input.prefix}`,
             sort: sortValue(match[3]),
           }),
         }
