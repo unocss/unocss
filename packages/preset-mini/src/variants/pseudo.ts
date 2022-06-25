@@ -82,7 +82,7 @@ const sortValue = (pseudo: string) => {
 }
 
 const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: string): VariantObject => {
-  const rawRe = new RegExp(`^${escapeRegExp(parent)}:`)
+  const rawRe = new RegExp(`${escapeRegExp(parent)}:`)
   const pseudoRE = new RegExp(`^${tag}-((?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesStr}))[:-]`)
   const pseudoColonRE = new RegExp(`^${tag}-((?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesColonStr}))[:]`)
   return {
@@ -95,10 +95,13 @@ const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: strin
           pseudo = `:${match[2]}(${pseudo})`
         return {
           matcher: input.slice(match[0].length),
-          selector: s => rawRe.test(s)
-            ? s.replace(rawRe, `${parent}${pseudo}:`)
-            : `${parent}${pseudo}${combinator}${s}`,
-          sort: sortValue(match[3]),
+          handle: (input, next) => next({
+            ...input,
+            prefix: rawRe.test(input.prefix)
+              ? input.prefix.replace(rawRe, `${parent}${pseudo}:`)
+              : `${input.prefix}${parent}${pseudo}${combinator}`,
+            sort: sortValue(match[3]),
+          }),
         }
       }
     },
@@ -117,8 +120,21 @@ export const variantPseudoClassesAndElements: VariantObject = {
       const pseudo = PseudoClasses[match[1]] || PseudoClassesColon[match[1]] || `:${match[1]}`
       return {
         matcher: input.slice(match[0].length),
-        selector: s => `${s}${pseudo}`,
-        sort: sortValue(match[1]),
+        handle: (input, next) => {
+          const selectors = pseudo.startsWith('::')
+            ? {
+                pseudo: `${input.pseudo}${pseudo}`,
+              }
+            : {
+                selector: `${input.selector}${pseudo}`,
+              }
+
+          return next({
+            ...input,
+            ...selectors,
+            sort: sortValue(match[1]),
+          })
+        },
       }
     }
   },

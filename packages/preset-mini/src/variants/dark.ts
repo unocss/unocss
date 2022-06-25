@@ -5,8 +5,8 @@ import { variantMatcher, variantParentMatcher } from '../utils'
 export const variantColorsMediaOrClass = (options: PresetMiniOptions = {}): Variant[] => {
   if (options?.dark === 'class') {
     return [
-      variantMatcher('dark', input => `.dark $$ ${input}`),
-      variantMatcher('light', input => `.light $$ ${input}`),
+      variantMatcher('dark', input => ({ prefix: `${input.prefix}.dark $$ ` })),
+      variantMatcher('light', input => ({ prefix: `${input.prefix}.light $$ ` })),
     ]
   }
 

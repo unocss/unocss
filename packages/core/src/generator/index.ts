@@ -322,7 +322,7 @@ export class UnoGenerator {
         if (typeof handler === 'string')
           handler = { matcher: handler }
         processed = handler.matcher
-        handlers.unshift(handler)
+        handlers.push(handler)
         variants.add(v)
         applied = true
         break
@@ -347,6 +347,7 @@ export class UnoGenerator {
             const entries = v.body?.(input.entries) || input.entries
             const parents: [string | undefined, number | undefined] = Array.isArray(v.parent) ? v.parent : [v.parent, undefined]
             return (v.handle ?? defaultVariantHandler)({
+              ...input,
               entries,
               selector: v.selector?.(input.selector, entries) || input.selector,
               parent: parents[0] || input.parent,
@@ -359,16 +360,22 @@ export class UnoGenerator {
       )
 
     const variantContextResult = handler({
-      entries: parsed[2],
+      prefix: '',
       selector: toEscapedSelector(raw),
+      pseudo: '',
+      entries: parsed[2],
     })
 
-    const { parent, parentOrder, selector } = variantContextResult
+    const { parent, parentOrder } = variantContextResult
     if (parent != null && parentOrder != null)
       this.parentOrders.set(parent, parentOrder)
 
     const obj: UtilObject = {
-      selector: movePseudoElementsEnd(selector),
+      selector: movePseudoElementsEnd([
+        variantContextResult.prefix,
+        variantContextResult.selector,
+        variantContextResult.pseudo,
+      ].join('')),
       entries: variantContextResult.entries,
       parent,
       layer: variantContextResult.layer,
