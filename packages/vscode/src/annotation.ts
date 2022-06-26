@@ -53,9 +53,11 @@ export async function registerAnnotations(
       if (!doc)
         return reset()
 
-      const code = doc.getText()
       const id = doc.uri.fsPath
+      if (!id.startsWith(cwd))
+        return reset()
 
+      const code = doc.getText()
       if (!code)
         return reset()
 
