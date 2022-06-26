@@ -1,5 +1,5 @@
 import type { Rule } from '@unocss/core'
-import { handler as h } from '../utils'
+import { globalKeywords, handler as h, makeGlobalStaticRules } from '../utils'
 
 export const varEmpty = 'var(--un-empty,/*!*/ /*!*/)'
 
@@ -12,7 +12,7 @@ export const displays: Rule[] = [
   ['flow-root', { display: 'flow-root' }],
   ['list-item', { display: 'list-item' }],
   ['hidden', { display: 'none' }],
-  [/^display-(.+)$/, ([, c]) => ({ display: h.bracket.cssvar(c) || c })],
+  [/^display-(.+)$/, ([, c]) => ({ display: h.bracket.cssvar.global(c) || c })],
 ]
 
 export const appearances: Rule[] = [
@@ -20,15 +20,17 @@ export const appearances: Rule[] = [
   ['invisible', { visibility: 'hidden' }],
   ['backface-visible', { 'backface-visibility': 'visible' }],
   ['backface-hidden', { 'backface-visibility': 'hidden' }],
+  ...makeGlobalStaticRules('backface', 'backface-visibility'),
 ]
 
 export const cursors: Rule[] = [
-  [/^cursor-(.+)$/, ([, c]) => ({ cursor: h.bracket.cssvar(c) || c })],
+  [/^cursor-(.+)$/, ([, c]) => ({ cursor: h.bracket.cssvar.global(c) || c })],
 ]
 
 export const pointerEvents: Rule[] = [
   ['pointer-events-auto', { 'pointer-events': 'auto' }],
   ['pointer-events-none', { 'pointer-events': 'none' }],
+  ...makeGlobalStaticRules('pointer-events'),
 ]
 
 export const resizes: Rule[] = [
@@ -36,6 +38,7 @@ export const resizes: Rule[] = [
   ['resize-y', { resize: 'vertical' }],
   ['resize', { resize: 'both' }],
   ['resize-none', { resize: 'none' }],
+  ...makeGlobalStaticRules('resize'),
 ]
 
 export const userSelects: Rule[] = [
@@ -43,10 +46,15 @@ export const userSelects: Rule[] = [
   ['select-all', { 'user-select': 'all' }],
   ['select-text', { 'user-select': 'text' }],
   ['select-none', { 'user-select': 'none' }],
+  ...makeGlobalStaticRules('select', 'user-select'),
 ]
 
 export const whitespaces: Rule[] = [
-  [/^(?:whitespace|ws)-(normal|nowrap|pre|pre-line|pre-wrap|break-spaces)$/, ([, v]) => ({ 'white-space': v }), { autocomplete: '(whitespace|ws)-(normal|nowrap|pre|pre-line|pre-wrap|break-spaces)' }],
+  [
+    /^(?:whitespace-|ws-)([-\w]+)$/,
+    ([, v]) => ['normal', 'nowrap', 'pre', 'pre-line', 'pre-wrap', 'break-spaces', ...globalKeywords].includes(v) ? { 'white-space': v } : undefined,
+    { autocomplete: '(whitespace|ws)-(normal|nowrap|pre|pre-line|pre-wrap|break-spaces)' },
+  ],
 ]
 
 export const contents: Rule[] = [
@@ -73,6 +81,7 @@ export const textTransforms: Rule[] = [
   ['case-lower', { 'text-transform': 'lowercase' }],
   ['case-capital', { 'text-transform': 'capitalize' }],
   ['case-normal', { 'text-transform': 'none' }],
+  ...makeGlobalStaticRules('case', 'text-transform'),
 ]
 
 export const fontStyles: Rule[] = [

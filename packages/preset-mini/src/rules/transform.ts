@@ -1,6 +1,6 @@
 import type { CSSValues, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { handler as h, positionMap, xyzMap } from '../utils'
+import { handler as h, makeGlobalStaticRules, positionMap, xyzMap } from '../utils'
 
 const transformCpu = [
   'translateX(var(--un-translate-x))',
@@ -90,6 +90,7 @@ export const transforms: Rule[] = [
   ['transform-cpu', { transform: transformCpu }],
   ['transform-gpu', { transform: transformGpu }],
   ['transform-none', { transform: 'none' }],
+  ...makeGlobalStaticRules('transform'),
 ]
 
 function handleTranslate([, d, b]: string[], { theme }: RuleContext<Theme>): CSSValues | undefined {

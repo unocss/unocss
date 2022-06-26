@@ -94,8 +94,6 @@ const nonTargets = [
   'property-colour',
   'property-background-color,colour-300',
   'property-colour-background-color-300',
-  'transition-unset',
-  'transition-revert-layer',
   'transition-colour',
   'transition-background-color,colour-300',
   'transition-colour,background-color-300',

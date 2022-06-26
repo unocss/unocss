@@ -1,5 +1,5 @@
 import type { Rule } from '@unocss/core'
-import { handler as h, positionMap } from '@unocss/preset-mini/utils'
+import { globalKeywords, handler as h, makeGlobalStaticRules, positionMap } from '@unocss/preset-mini/utils'
 
 export const textTransforms: Rule[] = [
   // tailwind compat
@@ -10,33 +10,25 @@ export const textTransforms: Rule[] = [
 ]
 
 export const hyphens: Rule[] = [
-  ['hyphens-manual', {
-    '-webkit-hyphens': 'manual',
-    '-ms-hyphens': 'manual',
-    'hyphens': 'manual',
-  }],
-  ['hyphens-auto', {
-    '-webkit-hyphens': 'auto',
-    '-ms-hyphens': 'auto',
-    'hyphens': 'auto',
-  }],
-  ['hyphens-none', {
-    '-webkit-hyphens': 'none',
-    '-ms-hyphens': 'none',
-    'hyphens': 'none',
-  }],
+  ...['manual', 'auto', 'none', ...globalKeywords].map(keyword => [`hyphens-${keyword}`, {
+    '-webkit-hyphens': keyword,
+    '-ms-hyphens': keyword,
+    'hyphens': keyword,
+  }] as Rule),
 ]
 
 export const writingModes: Rule[] = [
   ['write-vertical-right', { 'writing-mode': 'vertical-rl' }],
   ['write-vertical-left', { 'writing-mode': 'vertical-lr' }],
   ['write-normal', { 'writing-mode': 'horizontal-tb' }],
+  ...makeGlobalStaticRules('write', 'writing-mode'),
 ]
 
 export const writingOrientations: Rule[] = [
   ['write-orient-mixed', { 'text-orientation': 'mixed' }],
   ['write-orient-sideways', { 'text-orientation': 'sideways' }],
   ['write-orient-upright', { 'text-orientation': 'upright' }],
+  ...makeGlobalStaticRules('write-orient', 'text-orientation'),
 ]
 
 export const screenReadersAccess: Rule[] = [
@@ -109,6 +101,7 @@ export const backgroundBlendModes: Rule[] = [
   ['bg-blend-color', { 'background-blend-mode': 'color' }],
   ['bg-blend-luminosity', { 'background-blend-mode': 'luminosity' }],
   ['bg-blend-normal', { 'background-blend-mode': 'normal' }],
+  ...makeGlobalStaticRules('bg-blend', 'background-blend'),
 ]
 
 export const mixBlendModes: Rule[] = [
@@ -129,4 +122,5 @@ export const mixBlendModes: Rule[] = [
   ['mix-blend-luminosity', { 'mix-blend-mode': 'luminosity' }],
   ['mix-blend-plus-lighter', { 'mix-blend-mode': 'plus-lighter' }],
   ['mix-blend-normal', { 'mix-blend-mode': 'normal' }],
+  ...makeGlobalStaticRules('mix-blend'),
 ]
