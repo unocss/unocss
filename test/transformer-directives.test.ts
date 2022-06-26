@@ -408,16 +408,7 @@ describe('transformer-directives', () => {
         }`,
       )
       expect(result)
-        .toMatchInlineSnapshot(`
-          ".btn {
-            background-color: #3b82f6;
-            padding: 0.75rem 0.875rem;
-          }
-          .btn-2 {
-            height: calc(100vh - 0.875rem);
-          }
-          "
-        `)
+        .toMatchInlineSnapshot('[Error: theme of "color.none.500" did not found]')
     })
 
     test('non-exist', async () => {
@@ -426,14 +417,14 @@ describe('transformer-directives', () => {
         color: theme("color.none.500");
         }`,
       )).rejects
-        .toMatchInlineSnapshot('[Error: theme of "color.none.500" did not found]')
+        .toMatchInlineSnapshot('[Error: theme of "size.lg" did not found]')
 
       expect(async () => await transform(
           `.btn { 
           font-size: theme("size.lg");
           }`,
       )).rejects
-        .toMatchInlineSnapshot('[Error: theme of "size.lg" did not found]')
+        .toMatchInlineSnapshot('[Error: theme() expect exact one argument, but got 0]')
     })
 
     test('args', async () => {
@@ -442,7 +433,19 @@ describe('transformer-directives', () => {
           color: theme();
         }`,
       )).rejects
-        .toMatchInlineSnapshot('[Error: theme() expect exact one argument, but got 0]')
+        .toMatchInlineSnapshot(`
+        "div {
+          height: 100%;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          --my-color: #ef4444;
+          color: var(--my-color);
+        }
+        "
+      `)
     })
 
     test('with @apply', async () => {
@@ -454,15 +457,10 @@ describe('transformer-directives', () => {
           color: var(--my-color);
         }`,
       )).toMatchInlineSnapshot(`
-        "div {
-          height: 100%;
-          width: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-          --my-color: #ef4444;
-          color: var(--my-color);
+        ".btn {
+          --un-border-opacity: 1;
+          --un-border-right-opacity: var(--un-border-opacity);
+          border-right-color: rgba(var(--theme-color), var(--un-border-right-opacity));
         }
         "
       `)

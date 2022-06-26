@@ -84,6 +84,10 @@ function parseColor(str: string) {
   color = parseCssColorFunction(str)
   if (color != null)
     return color
+
+  color = parseCssCustomPropertyColorFunction(str)
+  if (color != null)
+    return color
 }
 
 function parseHexColor(str: string): CSSColorValue | undefined {
@@ -128,6 +132,16 @@ function cssColorKeyword(str: string): CSSColorValue | undefined {
       type: 'rgb',
       components: color.slice(0, 3),
       alpha: color[3],
+    }
+  }
+}
+
+function parseCssCustomPropertyColorFunction(str: string): CSSColorValue | undefined {
+  if (str.startsWith('var(')) {
+    return {
+      type: 'rgb',
+      components: [str],
+      alpha: undefined,
     }
   }
 }

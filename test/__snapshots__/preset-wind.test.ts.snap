@@ -176,7 +176,7 @@ exports[`preset-wind > targets 1`] = `
 .divide-inline-4>:not([hidden])~:not([hidden]){--un-divide-inline-reverse:0;border-inline-start-width:calc(4px * calc(1 - var(--un-divide-inline-reverse)));border-inline-end-width:calc(4px * calc(1 - var(--un-divide-inline-reverse)));}
 .divide-inline-none>:not([hidden])~:not([hidden]){--un-divide-inline-reverse:0;border-inline-start-width:calc(0px * calc(1 - var(--un-divide-inline-reverse)));border-inline-end-width:calc(0px * calc(1 - var(--un-divide-inline-reverse)));}
 .divide-inline-reverse>:not([hidden])~:not([hidden]){--un-divide-inline-reverse:1;}
-.divide-\\\\$variable>:not([hidden])~:not([hidden]){border-color:var(--variable);}
+.divide-\\\\$variable>:not([hidden])~:not([hidden]){--un-divide-opacity:1;border-color:rgba(var(--variable),var(--un-divide-opacity));}
 .divide-current>:not([hidden])~:not([hidden]){border-color:currentColor;}
 .divide-green-500>:not([hidden])~:not([hidden]){--un-divide-opacity:1;border-color:rgba(34,197,94,var(--un-divide-opacity));}
 .divide-transparent>:not([hidden])~:not([hidden]){border-color:transparent;}
@@ -203,7 +203,7 @@ exports[`preset-wind > targets 1`] = `
 .bg-gradient-from-green-600\\\\/60{--un-gradient-from:rgba(22,163,74,0.6);--un-gradient-to:rgba(22,163,74,0);--un-gradient-stops:var(--un-gradient-from), var(--un-gradient-to);}
 .bg-gradient-from-transparent,
 .from-transparent{--un-gradient-from:transparent;--un-gradient-to:rgba(255,255,255,0);--un-gradient-stops:var(--un-gradient-from), var(--un-gradient-to);}
-.from-\\\\$bg-from{--un-gradient-from:var(--bg-from);--un-gradient-to:rgba(255,255,255,0);--un-gradient-stops:var(--un-gradient-from), var(--un-gradient-to);}
+.from-\\\\$bg-from{--un-gradient-from:rgba(var(--bg-from),var(--un-from-opacity, 1));--un-gradient-to:rgba(var(--bg-from),0);--un-gradient-stops:var(--un-gradient-from), var(--un-gradient-to);}
 .from-green-500{--un-gradient-from:rgba(34,197,94,var(--un-from-opacity, 1));--un-gradient-to:rgba(34,197,94,0);--un-gradient-stops:var(--un-gradient-from), var(--un-gradient-to);}
 .from-green-500\\\\/50{--un-gradient-from:rgba(34,197,94,0.5);--un-gradient-to:rgba(34,197,94,0);--un-gradient-stops:var(--un-gradient-from), var(--un-gradient-to);}
 .bg-gradient-via-current,
@@ -212,7 +212,7 @@ exports[`preset-wind > targets 1`] = `
 .bg-gradient-via-green-600\\\\/40{--un-gradient-to:rgba(22,163,74,0);--un-gradient-stops:var(--un-gradient-from), rgba(22,163,74,0.4), var(--un-gradient-to);}
 .bg-gradient-via-transparent,
 .via-transparent{--un-gradient-to:rgba(255,255,255,0);--un-gradient-stops:var(--un-gradient-from), transparent, var(--un-gradient-to);}
-.via-\\\\$bg-via{--un-gradient-to:rgba(255,255,255,0);--un-gradient-stops:var(--un-gradient-from), var(--bg-via), var(--un-gradient-to);}
+.via-\\\\$bg-via{--un-gradient-to:rgba(var(--bg-via),0);--un-gradient-stops:var(--un-gradient-from), rgba(var(--bg-via),var(--un-via-opacity, 1)), var(--un-gradient-to);}
 .via-green-500{--un-gradient-to:rgba(34,197,94,0);--un-gradient-stops:var(--un-gradient-from), rgba(34,197,94,var(--un-via-opacity, 1)), var(--un-gradient-to);}
 .via-green-500\\\\/30{--un-gradient-to:rgba(34,197,94,0);--un-gradient-stops:var(--un-gradient-from), rgba(34,197,94,0.3), var(--un-gradient-to);}
 .bg-gradient-to-current,
@@ -221,7 +221,7 @@ exports[`preset-wind > targets 1`] = `
 .bg-gradient-to-green-600\\\\/60{--un-gradient-to:rgba(22,163,74,0.6);}
 .bg-gradient-to-transparent,
 .to-transparent{--un-gradient-to:transparent;}
-.to-\\\\$bg-to{--un-gradient-to:var(--bg-to);}
+.to-\\\\$bg-to{--un-gradient-to:rgba(var(--bg-to),var(--un-to-opacity, 1));}
 .to-green-500{--un-gradient-to:rgba(34,197,94,var(--un-to-opacity, 1));}
 .to-green-500\\\\/50{--un-gradient-to:rgba(34,197,94,0.5);}
 .bg-gradient-via-opacity-40{--un-via-opacity:0.4;}

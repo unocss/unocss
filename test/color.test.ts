@@ -131,6 +131,7 @@ describe('color utils', () => {
           info: 'hsl(200.1,100%,54.3%)',
           warning: 'hsl(42.4 100% 50%)',
           danger: 'hsl(var(--danger))',
+          custom: 'var(--custom)',
         },
       },
       rawSelector: '',
@@ -168,6 +169,11 @@ describe('color utils', () => {
 
     expect(fn('danger/$o3')).eql({
       prop: 'hsla(var(--danger),var(--o3))',
+    })
+
+    expect(fn('custom')).eql({
+      '--un-v-opacity': 1,
+      'prop': 'rgba(var(--custom),var(--un-v-opacity))',
     })
   })
 })
