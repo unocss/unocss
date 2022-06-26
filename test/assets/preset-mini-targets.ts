@@ -721,6 +721,8 @@ export const presetMiniTargets: string[] = [
   'font-50',
   'font-synthesis-weight',
   'font-synthesis-small-caps',
+  'font-synthesis-[weight_style]',
+  'font-synthesis-$synth',
   'font-synthesis-inherit',
   'font-inherit',
   'fw-900',

@@ -18,20 +18,23 @@ const listStyles: Record<string, string> = {
 
 export const listStyle: Rule[] = [
   // base
-  [/^list-(.+)(?:-(outside|inside))?$/, ([, style, position]) => {
-    if (position != null) {
-      return {
-        'list-style-position': position,
-        'list-style-type': listStyles[style],
+  [/^list-(.+?)(?:-(outside|inside))?$/, ([, alias, position]) => {
+    const style = listStyles[alias]
+    if (style) {
+      if (position) {
+        return {
+          'list-style-position': position,
+          'list-style-type': style,
+        }
       }
+      return { 'list-style-type': style }
     }
-    return { 'list-style-type': listStyles[style] }
   }, { autocomplete: [`list-(${Object.keys(listStyles).join('|')})`, `list-(${Object.keys(listStyles).join('|')})-(outside|inside)`] }],
   // styles
   ['list-outside', { 'list-style-position': 'outside' }],
   ['list-inside', { 'list-style-position': 'inside' }],
   ['list-none', { 'list-style-type': 'none' }],
-  ...makeGlobalStaticRules('list', 'list-style'),
+  ...makeGlobalStaticRules('list', 'list-style-type'),
 ]
 
 export const accents: Rule[] = [

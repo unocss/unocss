@@ -63,11 +63,11 @@ export const fonts: Rule<Theme>[] = [
   ],
 
   // synthesis
-  [
-    /^font-synthesis-(.+)$/,
-    ([, s]) => ({ 'font-synthesis': s }),
-    { autocomplete: 'font-synthesis-(none|weight|style|small-caps)' },
-  ],
+  ['font-synthesis-weight', { 'font-synthesis': 'weight' }],
+  ['font-synthesis-style', { 'font-synthesis': 'style' }],
+  ['font-synthesis-small-caps', { 'font-synthesis': 'small-caps' }],
+  ['font-synthesis-none', { 'font-synthesis': 'none' }],
+  [/^font-synthesis-(.+)$/, ([, s]) => ({ 'font-synthesis': h.bracket.cssvar.global(s) })],
 
   // tracking
   [
