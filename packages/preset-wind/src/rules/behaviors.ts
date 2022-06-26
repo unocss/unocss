@@ -1,5 +1,5 @@
 import type { Rule } from '@unocss/core'
-import { colorResolver, handler as h } from '@unocss/preset-mini/utils'
+import { colorResolver, globalKeywords, handler as h, makeGlobalStaticRules } from '@unocss/preset-mini/utils'
 
 const listStyles: Record<string, string> = {
   'disc': 'disc',
@@ -31,6 +31,7 @@ export const listStyle: Rule[] = [
   ['list-outside', { 'list-style-position': 'outside' }],
   ['list-inside', { 'list-style-position': 'inside' }],
   ['list-none', { 'list-style-type': 'none' }],
+  ...makeGlobalStaticRules('list', 'list-style'),
 ]
 
 export const accents: Rule[] = [
@@ -56,18 +57,12 @@ export const imageRenderings: Rule[] = [
 ]
 
 export const overscrolls: Rule[] = [
-  ['overscroll-auto', { 'overscroll-behavior': 'auto' }],
-  ['overscroll-contain', { 'overscroll-behavior': 'contain' }],
-  ['overscroll-none', { 'overscroll-behavior': 'none' }],
-  ['overscroll-x-auto', { 'overscroll-behavior-x': 'auto' }],
-  ['overscroll-x-contain', { 'overscroll-behavior-x': 'contain' }],
-  ['overscroll-x-none', { 'overscroll-behavior-x': 'none' }],
-  ['overscroll-y-auto', { 'overscroll-behavior-y': 'auto' }],
-  ['overscroll-y-contain', { 'overscroll-behavior-y': 'contain' }],
-  ['overscroll-y-none', { 'overscroll-behavior-y': 'none' }],
+  [/^overscroll-([-\w]+)$/, ([, s]) => ['auto', 'contain', 'none', ...globalKeywords].includes(s) ? { 'overscroll-behavior': s } : undefined],
+  [/^overscroll-([xy])-([-\w]+)$/, ([, d, s]) => ['auto', 'contain', 'none', ...globalKeywords].includes(s) ? { [`overscroll-behavior-${d}`]: s } : undefined],
 ]
 
 export const scrollBehaviors: Rule[] = [
   ['scroll-auto', { 'scroll-behavior': 'auto' }],
   ['scroll-smooth', { 'scroll-behavior': 'smooth' }],
+  ...makeGlobalStaticRules('scroll', 'scroll-behavior'),
 ]
