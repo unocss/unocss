@@ -1,5 +1,5 @@
 import type { Rule } from '@unocss/core'
-import { colorResolver, globalKeywords, handler as h, makeGlobalStaticRules } from '@unocss/preset-mini/utils'
+import { colorResolver, handler as h, makeGlobalStaticRules } from '@unocss/preset-mini/utils'
 
 const listStyles: Record<string, string> = {
   'disc': 'disc',
