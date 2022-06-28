@@ -7,7 +7,7 @@ const queryMatcher = /@media \(min-width: (.+)\)/
 export const container: Rule<Theme>[] = [
   [
     /^__container$/,
-    (m, { variantHandlers }) => {
+    (m, { theme, variantHandlers }) => {
       let width = '100%'
       for (const v of variantHandlers) {
         const query = v.handle?.({} as VariantHandlerContext, x => x)?.parent
@@ -15,6 +15,13 @@ export const container: Rule<Theme>[] = [
           const match = query.match(queryMatcher)?.[1]
           if (match)
             width = match
+        }
+      }
+      if (theme.container?.center) {
+        return {
+          'max-width': width,
+          'margin-left': 'auto',
+          'margin-right': 'auto',
         }
       }
       return { 'max-width': width }
