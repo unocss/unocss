@@ -19,12 +19,17 @@ export async function activate(ext: ExtensionContext) {
   log.appendLine(`UnoCSS for VS Code  v${version} ${process.cwd()}`)
 
   const contextLoader = new ContextLoader(cwd)
+
+  const hasConfig = await contextLoader.loadContextInDirectory(cwd)
+  if (!hasConfig)
+    return
+
   await contextLoader.ready
 
   const status = window.createStatusBarItem(StatusBarAlignment.Right, 200)
   status.text = 'UnoCSS'
 
-  registerAutoComplete(contextLoader, ext)
+  registerAutoComplete(cwd, contextLoader, ext)
   registerAnnotations(cwd, contextLoader, status, ext)
 
   ext.subscriptions.push(commands.registerCommand('unocss.reload', async () => {

@@ -36,6 +36,7 @@ class UnoCompletionItem extends CompletionItem {
 }
 
 export async function registerAutoComplete(
+  cwd: string,
   contextLoader: ContextLoader,
   ext: ExtensionContext,
 ) {
@@ -64,9 +65,11 @@ export async function registerAutoComplete(
 
   const provider: CompletionItemProvider<UnoCompletionItem> = {
     async provideCompletionItems(doc, position) {
-      const code = doc.getText()
       const id = doc.uri.fsPath
+      if (!id.startsWith(cwd))
+        return null
 
+      const code = doc.getText()
       if (!code)
         return null
 
