@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { info, overview, overviewFetch } from '../composables/fetch'
 import { useScrollStyle } from '../composables/useScrollStyle'
-import { useCSSPrettify } from '../composables/cssPrettify'
+import { useCSSPrettify } from '../composables/usePrettify'
 
 const status = ref(null)
 const style = useScrollStyle(status, 'overview-scrolls')
@@ -9,7 +9,7 @@ const style = useScrollStyle(status, 'overview-scrolls')
 overviewFetch.execute()
 
 const isPrettify = ref(false)
-const formatted = useCSSPrettify(overview, isPrettify)
+const formatted = useCSSPrettify(computed(() => overview.value?.css), isPrettify)
 </script>
 
 <template>

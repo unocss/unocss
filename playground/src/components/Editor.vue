@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import prettier from 'prettier/standalone'
-import parserCSS from 'prettier/parser-postcss'
 // @ts-expect-error missing types
 import { Pane, Splitpanes } from 'splitpanes'
 import { isDark } from '../logics/dark'
@@ -8,6 +6,7 @@ import { customConfigError, customConfigRaw, getHint, inputHTML, output, transfo
 import { defaultConfigRaw, defaultHTML } from '../defaults'
 import { options } from '../logics/url'
 import { version } from '../../../package.json'
+import { useCSSPrettify, useHTMLPrettify, useJSPrettify } from '../../../packages/inspector/client/composables/usePrettify'
 
 const panel = ref()
 const loading = ref(true)
@@ -72,21 +71,14 @@ function normalizePanels() {
   })
 }
 
-const isPrettify = ref(false)
-const formatted = computed(() => {
-  if (!isPrettify.value)
-    return output.value?.css || ''
-  try {
-    return prettier.format(output.value?.css || '', {
-      parser: 'css',
-      plugins: [parserCSS],
-    })
-  }
-  catch (e: any) {
-    console.error(e)
-    return `/* Error on prettifying: ${e.message} */\n${output.value?.css || ''}`
-  }
-})
+const isHtmlPrettify = ref(false)
+const htmlFormatted = useHTMLPrettify(options.value.transform ? transformedHTML : inputHTML, isHtmlPrettify)
+
+const isCSSPrettify = ref(false)
+const cssFormatted = useCSSPrettify(computed(() => output.value?.css), isCSSPrettify)
+
+const isJsPrettify = ref(false)
+const jsFormatted = useJSPrettify(customConfigRaw, isJsPrettify)
 
 watch(
   titleHeightPercent,
@@ -123,7 +115,7 @@ onMounted(() => {
             </label>
           </div>
         </div>
-        <TitleBar title="HTML" w-full>
+        <TitleBar title="HTML" w-full relative>
           <template #before>
             <div
               class="flex-shrink-0 i-carbon-chevron-right mr-1 transition-transform transform"
@@ -131,7 +123,11 @@ onMounted(() => {
               @click="togglePanel(0)"
             />
           </template>
-          <div class="flex flex-row w-full space-x-2">
+          <label cursor-pointer>
+            <input v-model="isHtmlPrettify" type="checkbox">
+            Prettify
+          </label>
+          <div class="absolute right-2 top-1/2 -translate-y-1/2 flex flex-row space-x-2">
             <div flex-auto />
             <div text-sm op50>
               v{{ version }}
@@ -166,7 +162,7 @@ onMounted(() => {
         :matched="output?.matched || new Set()"
         :get-hint="getHint"
         :read-only="options.transform"
-        :model-value="options.transform ? transformedHTML : inputHTML"
+        :model-value="htmlFormatted"
         @update:model-value="inputHTML = $event"
       />
     </Pane>
@@ -179,13 +175,13 @@ onMounted(() => {
             @click="togglePanel(1)"
           />
         </template>
-        <label>
-          <input v-model="isPrettify" type="checkbox">
+        <label cursor-pointer>
+          <input v-model="isCSSPrettify" type="checkbox">
           Prettify
         </label>
       </TitleBar>
       <CodeMirror
-        v-model="formatted"
+        v-model="cssFormatted"
         flex-auto
         mode="css"
         border="l gray-400/20"
@@ -202,8 +198,12 @@ onMounted(() => {
             @click="togglePanel(2)"
           />
         </template>
+        <label cursor-pointer>
+          <input v-model="isJsPrettify" type="checkbox">
+          Prettify
+        </label>
       </TitleBar>
-      <CodeMirror v-model="customConfigRaw" flex-auto mode="javascript" border="l gray-400/20" class="scrolls" />
+      <CodeMirror v-model="jsFormatted" flex-auto mode="javascript" border="l gray-400/20" class="scrolls" />
       <div
         v-if="customConfigError"
         absolute

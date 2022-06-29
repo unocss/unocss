@@ -3,7 +3,7 @@ import attributifyPreset from '@unocss/preset-attributify'
 import { Pane, Splitpanes } from 'splitpanes'
 import { fetchModule } from '../composables/fetch'
 import { useScrollStyle } from '../composables/useScrollStyle'
-import { useCSSPrettify } from '../composables/cssPrettify'
+import { useCSSPrettify } from '../composables/usePrettify'
 
 const props = defineProps<{ id: string }>()
 const { data: mod } = fetchModule(toRef(props, 'id'))
@@ -31,7 +31,7 @@ const unmatchedClasses = asyncComputed(async () => {
 })
 
 const isPrettify = ref(false)
-const formatted = useCSSPrettify(mod, isPrettify)
+const formatted = useCSSPrettify(computed(() => mod.value?.css), isPrettify)
 </script>
 
 <template>
