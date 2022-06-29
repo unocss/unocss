@@ -1,12 +1,9 @@
 import path from 'path'
 import type { DecorationOptions, ExtensionContext, StatusBarItem } from 'vscode'
 import { DecorationRangeBehavior, MarkdownString, Range, window, workspace } from 'vscode'
-import { parseColor } from '@unocss/preset-mini'
-import type { Theme } from '@unocss/preset-mini'
-import { hex2rgba } from '@unocss/preset-mini/utils'
 import { INCLUDE_COMMENT_IDE, getMatchedPositions } from './integration'
 import { log } from './log'
-import { getPrettiedMarkdown, isCssId, throttle } from './utils'
+import { getColorsMap, getPrettiedMarkdown, isCssId, throttle } from './utils'
 import type { ContextLoader } from './contextLoader'
 
 export async function registerAnnotations(
@@ -90,40 +87,17 @@ export async function registerAnnotations(
 
       const result = await ctx.uno.generate(code, { id, preflights: false, minify: true })
 
-      const theme = ctx.uno.config.theme as Theme
-
-      const attributifyRE = /(?<=^\[.+~?=").*(?="\]$)/
-      const colorsMap = new Map<string, string>()
-
-      for (const i of result.matched) {
-        const matchedAttr = i.match(attributifyRE)
-        const body = matchedAttr ? matchedAttr[0].split(':').at(-1) ?? '' : i // remove prefix e.g. `dark:` `hover:`
-
-        // remove color body's prefix e.g. `bg-` `border-` `text-`
-        for (const part of body.split(/\d|-/)) {
-          if (theme.colors?.[part]) {
-            const subStart = body.indexOf(part)
-            const parsedResult = parseColor(body.substring(subStart), theme)
-
-            if (parsedResult?.color) {
-              const rgbaValue = hex2rgba(parsedResult.color)
-              colorsMap.set(i.replace('~', ''), rgbaValue ? `rgba(${rgbaValue.join(',')},${parsedResult.alpha ?? 1})` : '')
-            }
-          }
-        }
-      }
-
+      const colorsMap = getColorsMap(ctx.uno, result)
       const colorRanges: DecorationOptions[] = []
-
-      const positionCache = new Map<string, string>()
+      const _colorPositionsCache = new Map<string, string>() // cache for avoid duplicated color ranges
 
       const ranges: DecorationOptions[] = (
         await Promise.all(
           getMatchedPositions(code, Array.from(result.matched))
             .map(async (i): Promise<DecorationOptions> => {
               // side-effect: update colorRanges
-              if (colorsMap.has(i[2]) && !positionCache.has(`${i[0]}:${i[1]}`)) {
-                positionCache.set(`${i[0]}:${i[1]}`, i[2])
+              if (colorsMap.has(i[2]) && !_colorPositionsCache.has(`${i[0]}:${i[1]}`)) {
+                _colorPositionsCache.set(`${i[0]}:${i[1]}`, i[2])
                 colorRanges.push({
                   range: new Range(doc.positionAt(i[0]), doc.positionAt(i[1])),
                   renderOptions: { before: { backgroundColor: colorsMap.get(i[2]) } },
@@ -148,6 +122,7 @@ export async function registerAnnotations(
         )
       ).filter(Boolean)
 
+      _colorPositionsCache.clear()
       editor.setDecorations(colorDecoration, colorRanges)
 
       if (underline) {

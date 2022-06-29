@@ -1,8 +1,10 @@
 import path from 'path'
-import type { UnoGenerator } from '@unocss/core'
+import type { GenerateResult, UnoGenerator } from '@unocss/core'
 import { cssIdRE } from '@unocss/core'
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
+import type { Theme } from '@unocss/preset-mini'
+import { parseColor } from '@unocss/preset-mini'
 
 export function throttle<T extends ((...args: any) => any)>(func: T, timeFrame: number): T {
   let lastTime = 0
@@ -35,6 +37,31 @@ export async function getPrettiedCSS(uno: UnoGenerator, util: string) {
 
 export async function getPrettiedMarkdown(uno: UnoGenerator, util: string) {
   return `\`\`\`css\n${(await getPrettiedCSS(uno, util)).prettified}\n\`\`\``
+}
+
+const matchedAttributifyRE = /(?<=^\[.+~?=").*(?="\]$)/
+export function getColorsMap(uno: UnoGenerator, result: GenerateResult) {
+  const theme = uno.config.theme as Theme
+  const colorNames = Object.keys(theme.colors ?? {}).map(colorName => colorName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase())
+  const colorsMap = new Map<string, string>()
+
+  for (const i of result.matched) {
+    const matchedAttr = i.match(matchedAttributifyRE)
+    const body = matchedAttr ? matchedAttr[0].split(':').at(-1) ?? '' : i // remove prefix e.g. `dark:` `hover:`
+
+    for (const colorName of colorNames) {
+      const nameIndex = body.indexOf(colorName)
+      if (nameIndex > -1) {
+        const parsedResult = parseColor(body.substring(nameIndex), theme)
+        if (parsedResult?.color)
+          colorsMap.set(i.replace('~', ''), parsedResult.color)
+
+        break
+      }
+    }
+  }
+
+  return colorsMap
 }
 
 export function isCssId(id: string) {
