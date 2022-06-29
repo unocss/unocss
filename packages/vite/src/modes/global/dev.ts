@@ -1,31 +1,23 @@
 import type { Plugin, Update, ViteDevServer, ResolvedConfig as ViteResolvedConfig } from 'vite'
 import type { UnocssPluginContext } from '@unocss/core'
-import { cssIdRE } from '@unocss/core'
-import { LAYER_MARK_ALL, RESOLVED_ID_RE, getPath, resolveId, resolveLayer } from '../../integration'
+import { notNull } from '@unocss/core'
+import { LAYER_MARK_ALL, getPath, resolveId, resolveLayer } from '../../integration'
 
 const WARN_TIMEOUT = 20000
 const WS_EVENT_PREFIX = 'unocss:hmr'
 
-export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter }: UnocssPluginContext): Plugin[] {
+export function GlobalModeDevPlugin({ uno, tokens, affectedModules, onInvalidate, extract, filter }: UnocssPluginContext): Plugin[] {
   const servers: ViteDevServer[] = []
   let base = ''
 
   const tasks: Promise<any>[] = []
   const entries = new Set<string>()
-  const cssModules = new Set<string>()
 
   let invalidateTimer: any
   let lastUpdate = Date.now()
   let lastServed = 0
   let resolved = false
   let resolvedWarnTimer: any
-
-  function getCssLikeFiles() {
-    return [
-      ...entries.keys(),
-      ...cssModules.keys(),
-    ]
-  }
 
   function configResolved(config: ViteResolvedConfig) {
     base = config.base || ''
@@ -35,8 +27,7 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
       base = base.slice(0, base.length - 1)
   }
 
-  function invalidate(timer = 10) {
-    const ids = getCssLikeFiles()
+  function invalidate(timer = 10, ids: Set<string> = entries) {
     for (const server of servers) {
       for (const id of ids) {
         const mod = server.moduleGraph.getModuleById(id)
@@ -46,30 +37,27 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
       }
     }
     clearTimeout(invalidateTimer)
-    invalidateTimer = setTimeout(sendUpdate, timer)
+    invalidateTimer = setTimeout(() => sendUpdate(ids), timer)
   }
 
-  function sendUpdate() {
+  function sendUpdate(ids: Set<string>) {
     lastUpdate = Date.now()
-    const ids = getCssLikeFiles()
     for (const server of servers) {
       server.ws.send({
         type: 'update',
-        updates: Array.from(ids).reduce((prev: Update[], id) => {
-          const mod = server.moduleGraph.getModuleById(id)
-          if (mod) {
-            const { url: assetPath } = mod
-            prev.push(
-              {
-                acceptedPath: assetPath,
-                path: assetPath,
-                timestamp: lastUpdate,
-                type: 'js-update',
-              },
-            )
-          }
-          return prev
-        }, []),
+        updates: Array.from(ids)
+          .map((id) => {
+            const mod = server.moduleGraph.getModuleById(id)
+            if (!mod)
+              return null
+            return <Update>{
+              acceptedPath: mod.url,
+              path: mod.url,
+              timestamp: lastUpdate,
+              type: 'js-update',
+            }
+          })
+          .filter(notNull),
       })
     }
   }
@@ -91,7 +79,9 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
     }
   }
 
-  onInvalidate(invalidate)
+  onInvalidate(() => {
+    invalidate(0, new Set([...entries, ...affectedModules]))
+  })
 
   return [
     {
@@ -131,9 +121,6 @@ export function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter
         }
       },
       async load(id) {
-        if (!RESOLVED_ID_RE.test(id) && cssIdRE.test(id))
-          cssModules.add(id)
-
         const layer = resolveLayer(getPath(id))
         if (!layer)
           return null
