@@ -50,7 +50,7 @@
         },
         "unocss.colorPreview": {
           "type": "boolean",
-          "default": false,
+          "default": true,
           "description": "Enable/disable color preview decorations"
         }
       }

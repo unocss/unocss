@@ -13,14 +13,14 @@ export async function registerAnnotations(
   ext: ExtensionContext,
 ) {
   let underline: boolean = workspace.getConfiguration().get('unocss.underline') ?? true
-  let colorPreview: boolean = workspace.getConfiguration().get('unocss.colorPreview') ?? false
+  let colorPreview: boolean = workspace.getConfiguration().get('unocss.colorPreview') ?? true
   ext.subscriptions.push(workspace.onDidChangeConfiguration((event) => {
     if (event.affectsConfiguration('unocss.underline')) {
       underline = workspace.getConfiguration().get('unocss.underline') ?? true
       updateAnnotation()
     }
     if (event.affectsConfiguration('unocss.colorPreview')) {
-      colorPreview = workspace.getConfiguration().get('unocss.colorPreview') ?? false
+      colorPreview = workspace.getConfiguration().get('unocss.colorPreview') ?? true
       updateAnnotation()
     }
   }))
