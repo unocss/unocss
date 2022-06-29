@@ -13,9 +13,14 @@ export async function registerAnnotations(
   ext: ExtensionContext,
 ) {
   let underline: boolean = workspace.getConfiguration().get('unocss.underline') ?? true
+  let colorPreview: boolean = workspace.getConfiguration().get('unocss.colorPreview') ?? false
   ext.subscriptions.push(workspace.onDidChangeConfiguration((event) => {
     if (event.affectsConfiguration('unocss.underline')) {
       underline = workspace.getConfiguration().get('unocss.underline') ?? true
+      updateAnnotation()
+    }
+    if (event.affectsConfiguration('unocss.colorPreview')) {
+      colorPreview = workspace.getConfiguration().get('unocss.colorPreview') ?? false
       updateAnnotation()
     }
   }))
@@ -96,7 +101,7 @@ export async function registerAnnotations(
           getMatchedPositions(code, Array.from(result.matched))
             .map(async (i): Promise<DecorationOptions> => {
               // side-effect: update colorRanges
-              if (colorsMap.has(i[2]) && !_colorPositionsCache.has(`${i[0]}:${i[1]}`)) {
+              if (colorPreview && colorsMap.has(i[2]) && !_colorPositionsCache.has(`${i[0]}:${i[1]}`)) {
                 _colorPositionsCache.set(`${i[0]}:${i[1]}`, i[2])
                 colorRanges.push({
                   range: new Range(doc.positionAt(i[0]), doc.positionAt(i[1])),
