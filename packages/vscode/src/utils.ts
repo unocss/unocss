@@ -53,8 +53,10 @@ export function getColorsMap(uno: UnoGenerator, result: GenerateResult) {
       const nameIndex = body.indexOf(colorName)
       if (nameIndex > -1) {
         const parsedResult = parseColor(body.substring(nameIndex), theme)
-        if (parsedResult?.color)
-          colorsMap.set(i.replace('~', ''), parsedResult.color)
+        if (parsedResult?.cssColor) {
+          const { alpha: cssAlpha, components } = parsedResult.cssColor
+          colorsMap.set(i.replace('~', ''), `rgba(${components.join(',')},${parsedResult.alpha ?? cssAlpha ?? 1})`)
+        }
 
         break
       }
