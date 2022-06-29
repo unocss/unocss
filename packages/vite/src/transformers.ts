@@ -24,6 +24,7 @@ export function initTransformerPlugins(ctx: UnocssPluginContext): Plugin[] {
     }
 
     if (s.hasChanged()) {
+      ctx.affectedModules.add(id)
       return {
         code: s.toString(),
         map: s.generateMap({ hires: true, source: id }),
