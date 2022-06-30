@@ -1,6 +1,6 @@
 import type { CSSValues, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
-import { colorResolver, colorableShadows, handler as h } from '@unocss/preset-mini/utils'
+import { colorResolver, colorableShadows, globalKeywords, handler as h } from '@unocss/preset-mini/utils'
 import { varEmpty } from '@unocss/preset-mini/rules'
 
 export const filterBase = {
@@ -116,4 +116,10 @@ export const filters: Rule<Theme>[] = [
     '-webkit-backdrop-filter': 'none',
     'backdrop-filter': 'none',
   }],
+
+  ...globalKeywords.map(keyword => [`filter-${keyword}`, { filter: keyword }] as Rule),
+  ...globalKeywords.map(keyword => [`backdrop-filter-${keyword}`, {
+    '-webkit-backdrop-filter': keyword,
+    'backdrop-filter': keyword,
+  }] as Rule),
 ]

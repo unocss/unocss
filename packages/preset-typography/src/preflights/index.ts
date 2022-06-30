@@ -11,6 +11,7 @@ function getCSS(
   for (const selector in preflights) {
     // @ts-expect-error preflights do not have definitive keys
     const cssDeclarationBlock = preflights[selector]
+    const notProse = `.not-${selectorName},.not-${selectorName} *`
 
     // since pseudo class & elements can't be matched
     // within single :where(), they are splitted and rejoined.
@@ -24,7 +25,7 @@ function getCSS(
         if (match) {
           const matchStr = match[0]
           s = s.replace(matchStr, '')
-          return `${escapedSelector} :where(${s}):not(.not-${selectorName})${matchStr}`
+          return `${escapedSelector} :where(${s}):not(${notProse})${matchStr}`
         }
         return null
       })
@@ -37,7 +38,7 @@ function getCSS(
     }
     else {
       // directly from css declaration
-      css += `${escapedSelector} :where(${selector}):not(.not-${selectorName})`
+      css += `${escapedSelector} :where(${selector}):not(${notProse})`
     }
 
     css += '{'

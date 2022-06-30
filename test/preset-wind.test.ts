@@ -56,4 +56,27 @@ describe('preset-wind', () => {
     expect(matched).toEqual(new Set(targets))
     expect(css).toMatchSnapshot()
   })
+
+  test('centered containers', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetWind(),
+      ],
+      theme: {
+        container: {
+          center: true,
+        },
+      },
+    })
+
+    const targets = [
+      'container',
+      'md:container',
+      'lg:container',
+    ]
+    const { css, matched } = await uno.generate(new Set(targets), { preflights: false })
+
+    expect(matched).toEqual(new Set(targets))
+    expect(css).toMatchSnapshot()
+  })
 })

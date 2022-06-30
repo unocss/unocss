@@ -500,6 +500,9 @@ export interface UnocssPluginContext<Config extends UserConfig = UserConfig> {
   tokens: Set<string>
   /** Map for all module's raw content */
   modules: BetterMap<string, string>
+  /** Module IDs that been affected by UnoCSS */
+  affectedModules: Set<string>
+
   filter: (code: string, id: string) => boolean
   extract: (code: string, id?: string) => Promise<void>
 

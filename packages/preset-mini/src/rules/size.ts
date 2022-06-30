@@ -28,7 +28,7 @@ function getSizeValue(minmax: string, hw: string, theme: Theme, prop: string) {
       return `${prop}-content`
   }
 
-  return h.bracket.cssvar.auto.fraction.rem(prop)
+  return h.bracket.cssvar.global.auto.fraction.rem(prop)
 }
 
 export const sizes: Rule<Theme>[] = [
@@ -60,7 +60,7 @@ function getAspectRatio(prop: string) {
     case 'video': return '16/9'
   }
 
-  return h.bracket.cssvar.auto.number(prop)
+  return h.bracket.cssvar.global.auto.number(prop)
 }
 
 export const aspectRatio: Rule[] = [

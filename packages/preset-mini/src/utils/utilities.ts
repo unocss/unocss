@@ -1,9 +1,9 @@
-import type { CSSEntries, CSSObject, ParsedColorValue, RuleContext, VariantContext } from '@unocss/core'
+import type { CSSEntries, CSSObject, ParsedColorValue, Rule, RuleContext, VariantContext } from '@unocss/core'
 import { toArray } from '@unocss/core'
 import type { Theme } from '../theme'
 import { colorOpacityToString, colorToString, getComponents, parseCssColor } from './colors'
 import { handler as h } from './handlers'
-import { directionMap } from './mappings'
+import { directionMap, globalKeywords } from './mappings'
 
 export const CONTROL_MINI_NO_NEGATIVE = '$$mini-no-negative'
 
@@ -15,7 +15,7 @@ export const CONTROL_MINI_NO_NEGATIVE = '$$mini-no-negative'
  * @see {@link directionMap}
  */
 export const directionSize = (propertyPrefix: string) => ([_, direction, size]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined => {
-  const v = theme.spacing?.[size || 'DEFAULT'] ?? h.bracket.cssvar.auto.fraction.rem(size)
+  const v = theme.spacing?.[size || 'DEFAULT'] ?? h.bracket.cssvar.global.auto.fraction.rem(size)
   if (v != null)
     return directionMap[direction].map(i => [`${propertyPrefix}${i}`, v])
 }
@@ -200,3 +200,8 @@ export const resolveVerticalBreakpoints = ({ theme, generator }: Readonly<Varian
 
   return verticalBreakpoints
 }
+
+export const makeGlobalStaticRules = (prefix: string, property?: string) => {
+  return globalKeywords.map(keyword => [`${prefix}-${keyword}`, { [property ?? prefix]: keyword }] as Rule)
+}
+
