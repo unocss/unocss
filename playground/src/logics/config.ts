@@ -1,4 +1,24 @@
-import type { UserConfig } from 'unocss'
-import { createConfig } from '../../unocss.config.client'
+import {
+  defineConfig,
+  presetAttributify,
+  presetIcons,
+  presetUno,
+} from 'unocss'
 
-export const defaultConfig = computed(() => createConfig({ dev: true }) as UserConfig<any>)
+export const defaultConfig = defineConfig({
+  envMode: 'dev',
+  rules: [
+    ['custom-rule', { color: 'red' }],
+  ],
+  shortcuts: {
+    'custom-shortcut': 'text-lg text-orange hover:text-teal',
+  },
+  presets: [
+    presetUno(),
+    presetAttributify(),
+    presetIcons({
+      scale: 1.2,
+      cdn: 'https://esm.sh/',
+    }),
+  ],
+})
