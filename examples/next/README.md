@@ -85,6 +85,27 @@ const Home: NextPage = () => {
 
 <br>
 
+## Hot Module Reload 
+To support HMR you have to opt-out of webpacks caching.
+
+```diff
+// next.config.js
+
+const nextConfig = {
+  reactStrictMode: true,
+  webpack: (config) => {
++   config.cache = false
+    config.plugins.push(
+      UnoCSS({
+        //...
+      })
+    )
+    return config
+  }
+}
+```
+<br>
+
 ## Troubleshooting
 
 #### Error concerning virtual module
