@@ -33,10 +33,13 @@
   @apply h-full -right-10px;
 }
 
+.splitpanes--horizontal > .splitpanes__splitter {
+  min-height: 0px;
+}
+
 .splitpanes--horizontal > .splitpanes__splitter:before {
   /* fix vertical scrollbar */
-  /* top: -10px; */
-  @apply w-full -bottom-10px;
+  @apply w-full -bottom-6px -top-6px;
 }
 
 .CodeMirror-scroll::-webkit-scrollbar,
