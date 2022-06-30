@@ -175,12 +175,10 @@ export class UnoGenerator {
         theme: this.config.theme,
       }
 
-      const preflightLayerSet = new Set<string>(['preflights'])
-      this.config.preflights.forEach(({ layer }) => {
-        if (layer) {
-          layerSet.add(layer)
-          preflightLayerSet.add(layer)
-        }
+      const preflightLayerSet = new Set<string>([])
+      this.config.preflights.forEach(({ layer = 'preflights' }) => {
+        layerSet.add(layer)
+        preflightLayerSet.add(layer)
       })
 
       preflightsMap = Object.fromEntries(

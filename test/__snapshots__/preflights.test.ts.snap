@@ -1,8 +1,8 @@
 // Vitest Snapshot v1
 
 exports[`preflights > basic 1`] = `
-"/* layer: default */
+"/* layer: preflights */
 .default-preflight {}
-/* layer: preflight */
+/* layer: custom */
 .hello { text: red }"
 `;
