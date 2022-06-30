@@ -1,24 +1,4 @@
-import {
-  defineConfig,
-  presetAttributify,
-  presetIcons,
-  presetUno,
-} from 'unocss'
+import { evaluateUserConfig } from '@unocss/shared-docs'
+import { defaultConfigRaw } from '../defaults'
 
-export const defaultConfig = defineConfig({
-  envMode: 'dev',
-  rules: [
-    ['custom-rule', { color: 'red' }],
-  ],
-  shortcuts: {
-    'custom-shortcut': 'text-lg text-orange hover:text-teal',
-  },
-  presets: [
-    presetUno(),
-    presetAttributify(),
-    presetIcons({
-      scale: 1.2,
-      cdn: 'https://esm.sh/',
-    }),
-  ],
-})
+export const defaultConfig = await evaluateUserConfig(defaultConfigRaw)
