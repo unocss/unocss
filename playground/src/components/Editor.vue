@@ -10,7 +10,7 @@ import { useCSSPrettify, useHTMLPrettify, useJSPrettify } from '../../../package
 
 const panel = ref()
 const loading = ref(true)
-const TITLE_HEIGHT = 34
+const TITLE_HEIGHT = 30
 const { height: vh } = useElementSize(panel)
 const titleHeightPercent = computed(() => TITLE_HEIGHT / vh.value * 100)
 
@@ -97,67 +97,73 @@ onMounted(() => {
 
 <template>
   <Splitpanes ref="panel" :class="{ loading }" horizontal @resize="handleResize">
-    <Pane :min-size="titleHeightPercent * 2" :size="panelSizes[0]" flex flex-col min-h-68px>
+    <Pane :min-size="titleHeightPercent * 2" :size="panelSizes[0]" flex flex-col min-h-65px>
       <div class="flex flex-wrap bg-$cm-background">
-        <div class="flex items-center w-full px-2 op-60" border="l t gray-400/20" :style="`height:${TITLE_HEIGHT}px`">
+        <div
+          class="flex items-center px-2 op-60 bg-gray/10"
+          border="l t gray-400/20" h-36px w-full
+        >
           <div flex items-center gap-2>
-            <img src="/icon.svg" w-4 h-4alt="">
-            <div hidden md:block>
-              unocss
+            <img src="/icon-gray.svg" w-4 h-4alt="">
+            <div text-sm>
+              UnoCSS Playground
             </div>
-            <div text-sm op50>
+            <div text-xs op50>
               v{{ version }}
             </div>
           </div>
 
           <div class="pl-1 ml-auto space-x-2 text-sm md:text-base flex items-center flex-nowrap">
-            <button
-              i-mdi-responsive
-              class="icon-btn"
-              title="Responsive"
-              @click="options.responsive = !options.responsive"
-            />
             <a
-              i-carbon-document-attachment
-              class="icon-btn"
+              i-ri-search-line icon-btn
               href="https://uno.antfu.me"
               target="_blank"
               title="Interactive Docs"
             />
             <a
-              i-carbon-logo-github
-              class="icon-btn"
+              i-ri-github-line icon-btn
               href="https://github.com/unocss/unocss"
               target="_blank"
               title="GitHub"
             />
             <button
-              i-carbon-sun
-              dark-i-carbon-moon
-              class="icon-btn"
+              i-ri-device-line
+              icon-btn
+              title="Responsive"
+              @click="options.responsive = !options.responsive"
+            />
+            <button
+              i-ri-sun-line
+              dark:i-ri-moon-line
+              icon-btn
+              title="Toggle Color Mode"
               @click="isDark = !isDark"
             />
           </div>
         </div>
-        <TitleBar title="HTML" w-full relative>
+        <TitleBar
+          title="HTML" w-full relative
+          @title-click="togglePanel(0)"
+        >
           <template #before>
             <div
-              class="flex-shrink-0 i-carbon-chevron-right mr-1 transition-transform transform"
+              class="flex-shrink-0 i-ri-arrow-right-s-line mr-1 transition-transform transform"
               :class="isCollapsed(0) ? '' : 'rotate-90'"
-              @click="togglePanel(0)"
             />
           </template>
           <div
-            class="flex justify-end items-center w-full space-x-2"
+            flex justify-end items-center w-full gap2
+            transition duration-400
+            :class="isCollapsed(0) ? 'op0' : ''"
             un-children="inline-flex items-center cursor-pointer gap-1"
           >
             <label>
               <input v-model="options.transform" type="checkbox">
-              Transform
+              <span text-sm>Transform</span>
             </label>
+            <div w-1px h-28px my--1 bg-gray:20 />
             <button
-              i-carbon-data-format
-              class="icon-btn"
+              i-ri-mist-line icon-btn
               title="Format"
               @click="formatHTML"
             />
@@ -175,50 +181,26 @@ onMounted(() => {
         @update:model-value="inputHTML = $event"
       />
     </Pane>
-    <Pane :min-size="titleHeightPercent" :size="panelSizes[1]" flex flex-col min-h-34px>
-      <TitleBar title="Output CSS">
+    <Pane :min-size="titleHeightPercent" :size="panelSizes[1]" flex flex-col min-h-28px relative>
+      <TitleBar
+        title="Config"
+        @title-click="togglePanel(1)"
+      >
         <template #before>
           <div
-            class="flex-shrink-0 i-carbon-chevron-right mr-1 transition-transform transform"
+            class="flex-shrink-0 i-ri-arrow-right-s-line mr-1 transition-transform transform"
             :class="isCollapsed(1) ? '' : 'rotate-90'"
-            @click="togglePanel(1)"
           />
         </template>
         <div
-          class="flex justify-end items-center w-full space-x-2"
-          un-children="inline-flex items-center cursor-pointer gap-1"
+          flex flex-1 justify-end items-center w-full gap2
+          transition duration-400
+          :class="isCollapsed(1) ? 'op0' : ''"
+          un-children="inline-flex items-center cursor-pointer gap1"
         >
-          <label>
-            <input v-model="isCSSPrettify" type="checkbox">
-            Prettify
-          </label>
-        </div>
-      </TitleBar>
-      <CodeMirror
-        :model-value="cssFormatted"
-        flex-auto
-        mode="css"
-        border="l gray-400/20"
-        class="scrolls"
-        :read-only="true"
-      />
-    </Pane>
-    <Pane :min-size="titleHeightPercent" :size="panelSizes[2]" flex flex-col min-h-34px relative>
-      <TitleBar title="Config">
-        <template #before>
-          <div
-            class="flex-shrink-0 i-carbon-chevron-right mr-1 transition-transform transform"
-            :class="isCollapsed(2) ? '' : 'rotate-90'"
-            @click="togglePanel(2)"
-          />
-        </template>
-        <div
-          class="flex justify-end items-center w-full space-x-2"
-          un-children="inline-flex items-center cursor-pointer gap-1"
-        >
+          <div w-1px h-28px my--1 bg-gray:20 />
           <button
-            i-carbon-data-format
-            class="icon-btn"
+            i-ri-mist-line icon-btn
             title="Format"
             @click="formatConfig"
           />
@@ -244,6 +226,38 @@ onMounted(() => {
         {{ customConfigError.toString() }}
       </div>
     </Pane>
+    <Pane :min-size="titleHeightPercent" :size="panelSizes[2]" flex flex-col min-h-28px>
+      <TitleBar
+        title="Output CSS"
+        @title-click="togglePanel(2)"
+      >
+        <template #before>
+          <div
+            class="flex-shrink-0 i-ri-arrow-right-s-line mr-1 transition-transform transform"
+            :class="isCollapsed(2) ? '' : 'rotate-90'"
+          />
+        </template>
+        <div
+          flex justify-end items-center w-full gap2
+          transition duration-400
+          :class="isCollapsed(2) ? 'op0' : ''"
+          un-children="inline-flex items-center cursor-pointer gap1"
+        >
+          <label>
+            <input v-model="isCSSPrettify" type="checkbox">
+            <span text-sm>Prettify</span>
+          </label>
+        </div>
+      </TitleBar>
+      <CodeMirror
+        :model-value="cssFormatted"
+        flex-auto
+        mode="css"
+        border="l gray-400/20"
+        class="scrolls"
+        :read-only="true"
+      />
+    </Pane>
   </Splitpanes>
 </template>
 
@@ -251,7 +265,7 @@ onMounted(() => {
 .splitpanes.loading .splitpanes__pane {
   transition: none !important;
 }
-.icon-btn {
-  @apply text-xl op75 hover:op100;
+[icon-btn=""] {
+  --at-apply: text-xl op75 hover:op100;
 }
 </style>
