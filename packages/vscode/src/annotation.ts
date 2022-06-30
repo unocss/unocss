@@ -66,7 +66,7 @@ export async function registerAnnotations(
         ctx = await contextLoader.resolveClosestContext(code, id)
 
       if (!ctx.filter(code, id) && !code.includes(INCLUDE_COMMENT_IDE) && !isCssId(id))
-        return null
+        return reset()
 
       const result = await ctx.uno.generate(code, { id, preflights: false, minify: true })
 
