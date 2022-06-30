@@ -1,6 +1,6 @@
 {
   "publisher": "antfu",
-  "name": "@unocss/vscode",
+  "name": "@vscode/unocss",
   "displayName": "UnoCSS",
   "version": "0.41.2",
   "private": true,
@@ -47,6 +47,11 @@
           "type": "boolean",
           "default": true,
           "description": "Enable/disable underline decoration for class names"
+        },
+        "unocss.colorPreview": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable color preview decorations"
         }
       }
     }

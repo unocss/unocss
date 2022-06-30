@@ -1,8 +1,11 @@
 import path from 'path'
-import type { UnoGenerator } from '@unocss/core'
+import type { GenerateResult, UnoGenerator } from '@unocss/core'
 import { cssIdRE } from '@unocss/core'
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
+import type { Theme } from '@unocss/preset-mini'
+import { parseColor } from '@unocss/preset-mini'
+import { colorToString } from '@unocss/preset-mini/utils'
 
 export function throttle<T extends ((...args: any) => any)>(func: T, timeFrame: number): T {
   let lastTime = 0
@@ -35,6 +38,45 @@ export async function getPrettiedCSS(uno: UnoGenerator, util: string) {
 
 export async function getPrettiedMarkdown(uno: UnoGenerator, util: string) {
   return `\`\`\`css\n${(await getPrettiedCSS(uno, util)).prettified}\n\`\`\``
+}
+
+const matchedAttributifyRE = /(?<=^\[.+~?=").*(?="\]$)/
+const _colorsMapCache = new Map<string, string>()
+export function getColorsMap(uno: UnoGenerator, result: GenerateResult) {
+  const theme = uno.config.theme as Theme
+  const themeColorNames = Object.keys(theme.colors ?? {})
+  const colorNames = themeColorNames.concat(themeColorNames.map(colorName => colorName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()))
+  const colorsMap = new Map<string, string>()
+
+  for (const i of result.matched) {
+    const _i = i.replace('~="', '="')
+    if (_colorsMapCache.get(_i)) {
+      colorsMap.set(_i, _colorsMapCache.get(_i)!)
+      continue
+    }
+
+    const matchedAttr = i.match(matchedAttributifyRE)
+    const body = matchedAttr ? matchedAttr[0].split(':').at(-1) ?? '' : i // remove prefix e.g. `dark:` `hover:`
+
+    for (const colorName of colorNames) {
+      const nameIndex = body.indexOf(colorName)
+      if (nameIndex > -1) {
+        const parsedResult = parseColor(body.substring(nameIndex), theme)
+        if (parsedResult?.cssColor) {
+          const color = colorToString(parsedResult.cssColor, parsedResult.alpha)
+          colorsMap.set(_i, color)
+          _colorsMapCache.set(_i, color)
+        }
+
+        break
+      }
+    }
+  }
+
+  if (_colorsMapCache.size > 5000)
+    _colorsMapCache.clear()
+
+  return colorsMap
 }
 
 export function isCssId(id: string) {
