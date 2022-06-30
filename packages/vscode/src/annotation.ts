@@ -3,7 +3,7 @@ import type { DecorationOptions, ExtensionContext, StatusBarItem } from 'vscode'
 import { DecorationRangeBehavior, MarkdownString, Range, window, workspace } from 'vscode'
 import { INCLUDE_COMMENT_IDE, getMatchedPositions } from './integration'
 import { log } from './log'
-import { getColorsMap, getPrettiedMarkdown, isCssId, throttle } from './utils'
+import { getColorsMap, getPrettiedMarkdown, isCssId, isSubdir, throttle } from './utils'
 import type { ContextLoader } from './contextLoader'
 
 export async function registerAnnotations(
@@ -78,17 +78,20 @@ export async function registerAnnotations(
       if (!doc)
         return reset()
 
-      const code = doc.getText()
       const id = doc.uri.fsPath
+      if (!isSubdir(cwd, id))
+        return reset()
 
+      const code = doc.getText()
       if (!code)
         return reset()
 
       let ctx = await contextLoader.resolveContext(code, id)
       if (!ctx)
         ctx = await contextLoader.resolveClosestContext(code, id)
-      else if (!ctx.filter(code, id) && !code.includes(INCLUDE_COMMENT_IDE) && !isCssId(id))
-        return null
+
+      if (!ctx.filter(code, id) && !code.includes(INCLUDE_COMMENT_IDE) && !isCssId(id))
+        return reset()
 
       const result = await ctx.uno.generate(code, { id, preflights: false, minify: true })
 
