@@ -18,6 +18,11 @@ const uno = createGenerator({
       },
     },
   },
+  shortcuts: {
+    primary: 'text-orange-800 bg-white',
+    accent: 'text-cyan-800 bg-black',
+    btn: 'primary hover:(accent underline)',
+  },
 })
 
 describe('preset-mini', () => {

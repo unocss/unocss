@@ -962,6 +962,9 @@ export const presetMiniTargets: string[] = [
 
   // variants - multiple parents
   'sm:lt-lg:p-10',
+
+  // shortcuts
+  'btn',
 ]
 
 export const presetMiniNonTargets = [

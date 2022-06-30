@@ -531,7 +531,7 @@ export class UnoGenerator {
         ? this.matchVariants(processed)
         : processed
       if (raw !== rematchedProcess) {
-        const expanded = this.expandShortcut(rematchedProcess, context)
+        const expanded = this.expandShortcut(rematchedProcess, context, depth - 1)
         if (expanded) {
           expanded[0].forEach((item, index) => {
             expanded[0][index] = raw.replace(rematchedProcess, item)
