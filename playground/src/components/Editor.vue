@@ -170,7 +170,7 @@ onMounted(() => {
         :get-hint="getHint"
         :read-only="options.transform"
         :model-value="htmlFormatted"
-        @update:model-value="inputHTML = $event; isHtmlPrettify = false"
+        @update:model-value="isHtmlPrettify = false; inputHTML = $event"
       />
     </Pane>
     <Pane :min-size="titleHeightPercent" :size="panelSizes[1]" flex flex-col min-h-34px>
@@ -226,7 +226,7 @@ onMounted(() => {
         border="l gray-400/20"
         class="scrolls"
         :model-value="jsFormatted"
-        @update:model-value="customConfigRaw = $event; isJsPrettify = false"
+        @update:model-value="isJsPrettify = false; customConfigRaw = $event"
       />
       <div
         v-if="customConfigError"
