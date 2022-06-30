@@ -175,12 +175,10 @@ export class UnoGenerator {
         theme: this.config.theme,
       }
 
-      const preflightLayerSet = new Set<string>(['default'])
-      this.config.preflights.forEach(({ layer }) => {
-        if (layer) {
-          layerSet.add(layer)
-          preflightLayerSet.add(layer)
-        }
+      const preflightLayerSet = new Set<string>([])
+      this.config.preflights.forEach(({ layer = 'preflights' }) => {
+        layerSet.add(layer)
+        preflightLayerSet.add(layer)
       })
 
       preflightsMap = Object.fromEntries(
@@ -188,7 +186,7 @@ export class UnoGenerator {
           async (layer) => {
             const preflights = await Promise.all(
               this.config.preflights
-                .filter(i => (i.layer || 'default') === layer)
+                .filter(i => (i.layer || 'preflights') === layer)
                 .map(async i => await i.getCSS(preflightContext)),
             )
             const css = preflights

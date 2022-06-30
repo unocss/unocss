@@ -14,7 +14,7 @@ export { customConfigRaw, inputHTML } from './url'
 export const init = ref(false)
 export const customConfigError = ref<Error>()
 
-export const uno = createGenerator({}, defaultConfig.value)
+export const uno = createGenerator({}, defaultConfig)
 export const output = shallowRef<GenerateResult>()
 
 let customConfig: UserConfig = {}
@@ -80,8 +80,9 @@ debouncedWatch(
       const result = await evaluateUserConfig(customConfigRaw.value)
       if (result) {
         customConfig = result
-        uno.setConfig(customConfig, defaultConfig.value)
+        uno.setConfig(customConfig, defaultConfig)
         generate()
+        autocomplete = createAutocomplete(uno)
       }
     }
     catch (e) {
@@ -97,9 +98,3 @@ watch(
   generate,
   { immediate: true },
 )
-
-watch(defaultConfig, () => {
-  uno.setConfig(customConfig, defaultConfig.value)
-  generate()
-  autocomplete = createAutocomplete(uno)
-})

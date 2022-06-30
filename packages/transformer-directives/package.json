@@ -1,6 +1,6 @@
 {
   "name": "@unocss/transformer-directives",
-  "version": "0.41.2",
+  "version": "0.42.0",
   "description": "UnoCSS transformer for `@apply` directive",
   "author": "hannoeru <me@hanlee.co>",
   "license": "MIT",

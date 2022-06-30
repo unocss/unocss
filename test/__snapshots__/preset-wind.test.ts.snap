@@ -71,7 +71,8 @@ exports[`preset-wind > targets 1`] = `
 .not-sr-only{position:static;width:auto;height:auto;padding:0;margin:0;overflow:visible;clip:auto;white-space:normal;}
 .line-clamp-100{overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:100;line-clamp:100;}
 .line-clamp-7{overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:7;line-clamp:7;}
-.line-clamp-none{-webkit-line-clamp:unset;line-clamp:unset;}
+.line-clamp-none{-webkit-line-clamp:none;line-clamp:none;}
+.line-clamp-unset{-webkit-line-clamp:unset;line-clamp:unset;}
 .isolate{isolation:isolate;}
 .isolate-auto,
 .isolation-auto{isolation:auto;}
@@ -139,6 +140,8 @@ exports[`preset-wind > targets 1`] = `
 .animate-play-state-running,
 .animate-state-running{animation-play-state:running;}
 .animate-none{animation:none;}
+.animate-inherit{animation:inherit;}
+.animate-unset{animation:unset;}
 .touch-pan-left{--un-pan-x:pan-left;touch-action:var(--un-pan-x) var(--un-pan-y) var(--un-pinch-zoom);}
 .touch-pan-y{--un-pan-y:pan-y;touch-action:var(--un-pan-x) var(--un-pan-y) var(--un-pinch-zoom);}
 .touch-pinch-zoom{--un-pinch-zoom:pinch-zoom;touch-action:var(--un-pan-x) var(--un-pan-y) var(--un-pinch-zoom);}
@@ -170,11 +173,13 @@ exports[`preset-wind > targets 1`] = `
 .scroll-pbs2{scroll-padding-block-start:0.5rem;}
 .scroll-pis-10px{scroll-padding-inline-start:10px;}
 .list-alpha{list-style-type:lower-alpha;}
+.list-alpha-inside{list-style-position:inside;list-style-type:lower-alpha;}
 .list-disc{list-style-type:disc;}
+.list-disc-outside{list-style-position:outside;list-style-type:disc;}
 .list-greek{list-style-type:lower-greek;}
 .list-outside{list-style-position:outside;}
 .list-none{list-style-type:none;}
-.list-inherit{list-style:inherit;}
+.list-inherit{list-style-type:inherit;}
 .columns-\\\\[3_auto\\\\]{columns:3 auto;}
 .columns-\\\\[auto_13em\\\\]{columns:auto 13em;}
 .columns-\\\\[auto_auto\\\\]{columns:auto auto;}
@@ -217,6 +222,7 @@ exports[`preset-wind > targets 1`] = `
 .divide-dashed>:not([hidden])~:not([hidden]){border-style:dashed;}
 .divide-dotted>:not([hidden])~:not([hidden]){border-style:dotted;}
 .divide-none>:not([hidden])~:not([hidden]){border-style:none;}
+.divide-ridge>:not([hidden])~:not([hidden]){border-style:ridge;}
 .overscroll-contain{overscroll-behavior:contain;}
 .overscroll-none{overscroll-behavior:none;}
 .overscroll-revert-layer{overscroll-behavior:revert-layer;}

@@ -9,7 +9,7 @@ describe('preflights', () => {
           getCSS() {
             return '.hello { text: red }'
           },
-          layer: 'preflight',
+          layer: 'custom',
         },
         {
           getCSS() { return undefined },

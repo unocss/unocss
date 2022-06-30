@@ -82,7 +82,7 @@ const sortValue = (pseudo: string) => {
 }
 
 const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: string): VariantObject => {
-  const rawRe = new RegExp(`${escapeRegExp(parent)}:`)
+  const rawRe = new RegExp(`^(${escapeRegExp(parent)}:)(\\S+)${escapeRegExp(combinator)}\\1`)
   const pseudoRE = new RegExp(`^${tag}-((?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesStr}))[:-]`)
   const pseudoColonRE = new RegExp(`^${tag}-((?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesColonStr}))[:]`)
   return {
@@ -97,14 +97,13 @@ const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: strin
           matcher: input.slice(match[0].length),
           handle: (input, next) => next({
             ...input,
-            prefix: rawRe.test(input.prefix)
-              ? input.prefix.replace(rawRe, `${parent}${pseudo}:`)
-              : `${parent}${pseudo}${combinator}${input.prefix}`,
+            prefix: `${parent}${pseudo}${combinator}${input.prefix}`.replace(rawRe, '$1$2:'),
             sort: sortValue(match[3]),
           }),
         }
       }
     },
+    multiPass: true,
   }
 }
 
@@ -164,22 +163,10 @@ export const variantTaggedPseudoClasses = (options: PresetMiniOptions = {}): Var
   const attributify = !!options?.attributifyPseudo
 
   return [
-    {
-      ...taggedPseudoClassMatcher('group', attributify ? '[group=""]' : '.group', ' '),
-      multiPass: true,
-    },
-    {
-      ...taggedPseudoClassMatcher('peer', attributify ? '[peer=""]' : '.peer', '~'),
-      multiPass: true,
-    },
-    {
-      ...taggedPseudoClassMatcher('parent', attributify ? '[parent=""]' : '.parent', '>'),
-      multiPass: true,
-    },
-    {
-      ...taggedPseudoClassMatcher('previous', attributify ? '[previous=""]' : '.previous', '+'),
-      multiPass: true,
-    },
+    taggedPseudoClassMatcher('group', attributify ? '[group=""]' : '.group', ' '),
+    taggedPseudoClassMatcher('peer', attributify ? '[peer=""]' : '.peer', '~'),
+    taggedPseudoClassMatcher('parent', attributify ? '[parent=""]' : '.parent', '>'),
+    taggedPseudoClassMatcher('previous', attributify ? '[previous=""]' : '.previous', '+'),
   ]
 }
 

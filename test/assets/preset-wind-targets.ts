@@ -40,6 +40,8 @@ export const presetWindTargets: string[] = [
   'animate-ease-[steps(4,_jump-start)]',
   'animate-$variable',
   'animate-[4s_linear_0s_infinite_alternate_move\\_eye]',
+  'animate-inherit',
+  'animate-unset',
 
   // background
   'bg-auto',
@@ -124,6 +126,8 @@ export const presetWindTargets: string[] = [
   'list-alpha',
   'list-greek',
   'list-outside',
+  'list-disc-outside',
+  'list-alpha-inside',
   'list-inherit',
   'box-decoration-slice',
   'box-decoration-initial',
@@ -170,6 +174,7 @@ export const presetWindTargets: string[] = [
   'divide-opacity-50',
   'divide-dashed',
   'divide-dotted',
+  'divide-ridge',
   'divide-transparent',
   'divide-current',
   'divide-none',
@@ -238,6 +243,7 @@ export const presetWindTargets: string[] = [
   'line-clamp-7',
   'line-clamp-100',
   'line-clamp-none',
+  'line-clamp-unset',
 
   // scrolls
   'snap-y',
