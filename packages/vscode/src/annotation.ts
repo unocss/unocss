@@ -54,20 +54,20 @@ export async function registerAnnotations(
 
   const colorDecoration = window.createTextEditorDecorationType({
     before: {
-      width: '0.8em',
-      height: '0.8em',
+      width: '0.9em',
+      height: '0.9em',
       contentText: ' ',
-      border: '0.1em solid',
-      margin: '0.1em 0.2em 0',
+      border: '1px solid',
+      margin: 'auto 0.2em auto 0;vertical-align: middle;border-radius:50%;',
     },
     dark: {
       before: {
-        borderColor: '#eeeeee',
+        borderColor: '#eeeeee50',
       },
     },
     light: {
       before: {
-        borderColor: '#000000',
+        borderColor: '#00000050',
       },
     },
   })
