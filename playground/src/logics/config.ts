@@ -1,4 +1,4 @@
-import type { UserConfig } from 'unocss'
-import { createConfig } from '../../unocss.config.client'
+import { evaluateUserConfig } from '@unocss/shared-docs'
+import { defaultConfigRaw } from '../defaults'
 
-export const defaultConfig = computed(() => createConfig({ dev: true }) as UserConfig<any>)
+export const defaultConfig = await evaluateUserConfig(defaultConfigRaw)
