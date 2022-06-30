@@ -26,7 +26,7 @@ export const appearances: Rule[] = [
 ]
 
 export const cursors: Rule[] = [
-  [/^cursor-(.+)$/, ([, c]) => ({ cursor: h.bracket.cssvar.global(c) || c })],
+  [/^cursor-(.+)$/, ([, c]) => ({ cursor: h.bracket.cssvar.global(c) })],
   ...cursorValues.map((v): Rule => [`cursor-${v}`, { cursor: v }]),
 ]
 
