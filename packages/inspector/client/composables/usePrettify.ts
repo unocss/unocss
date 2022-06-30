@@ -30,15 +30,15 @@ export function usePrettify(content: MaybeRef<string | undefined>, toggle: Maybe
   })
 }
 
-export function useCSSPrettify(content: MaybeRef<string | undefined>, toggle: MaybeRef<boolean>) {
+export function useCSSPrettify(content: MaybeRef<string | undefined>, toggle: MaybeRef<boolean> = true) {
   return usePrettify(content, toggle, 'css')
 }
 
-export function useHTMLPrettify(content: MaybeRef<string | undefined>, toggle: MaybeRef<boolean>) {
+export function useHTMLPrettify(content: MaybeRef<string | undefined>, toggle: MaybeRef<boolean> = true) {
   return usePrettify(content, toggle, 'html')
 }
 
-export function useJSPrettify(content: MaybeRef<string | undefined>, toggle: MaybeRef<boolean>) {
+export function useJSPrettify(content: MaybeRef<string | undefined>, toggle: MaybeRef<boolean> = true) {
   return usePrettify(content, toggle, 'babel')
 }
 

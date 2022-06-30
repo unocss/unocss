@@ -71,14 +71,14 @@ function normalizePanels() {
   })
 }
 
-const isHtmlPrettify = ref(false)
-const htmlFormatted = useHTMLPrettify(options.value.transform ? transformedHTML : inputHTML, isHtmlPrettify)
-
+const formatHTML = () => {
+  inputHTML.value = useHTMLPrettify(options.value.transform ? transformedHTML : inputHTML).value
+}
+const formatConfig = () => {
+  customConfigRaw.value = useJSPrettify(customConfigRaw).value
+}
 const isCSSPrettify = ref(false)
 const cssFormatted = useCSSPrettify(computed(() => output.value?.css), isCSSPrettify)
-
-const isJsPrettify = ref(false)
-const jsFormatted = useJSPrettify(customConfigRaw, isJsPrettify)
 
 watch(
   titleHeightPercent,
@@ -155,10 +155,12 @@ onMounted(() => {
               <input v-model="options.transform" type="checkbox">
               Transform
             </label>
-            <label>
-              <input v-model="isHtmlPrettify" type="checkbox">
-              Prettify
-            </label>
+            <button
+              i-carbon-data-format
+              class="icon-btn"
+              title="Format"
+              @click="formatHTML"
+            />
           </div>
         </TitleBar>
       </div>
@@ -169,8 +171,8 @@ onMounted(() => {
         :matched="output?.matched || new Set()"
         :get-hint="getHint"
         :read-only="options.transform"
-        :model-value="htmlFormatted"
-        @update:model-value="isHtmlPrettify = false; inputHTML = $event"
+        :model-value="options.transform ? transformedHTML : inputHTML"
+        @update:model-value="inputHTML = $event"
       />
     </Pane>
     <Pane :min-size="titleHeightPercent" :size="panelSizes[1]" flex flex-col min-h-34px>
@@ -214,19 +216,20 @@ onMounted(() => {
           class="flex justify-end items-center w-full space-x-2"
           un-children="inline-flex items-center cursor-pointer gap-1"
         >
-          <label>
-            <input v-model="isJsPrettify" type="checkbox">
-            Prettify
-          </label>
+          <button
+            i-carbon-data-format
+            class="icon-btn"
+            title="Format"
+            @click="formatConfig"
+          />
         </div>
       </TitleBar>
       <CodeMirror
+        v-model="customConfigRaw"
         flex-auto
         mode="javascript"
         border="l gray-400/20"
         class="scrolls"
-        :model-value="jsFormatted"
-        @update:model-value="isJsPrettify = false; customConfigRaw = $event"
       />
       <div
         v-if="customConfigError"
