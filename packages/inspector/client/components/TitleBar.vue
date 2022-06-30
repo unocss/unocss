@@ -2,6 +2,10 @@
 defineProps<{
   title: string
 }>()
+
+const emit = defineEmits<{
+  (n: 'titleClick', e: any): void
+}>()
 </script>
 
 <template>
@@ -16,7 +20,7 @@ defineProps<{
     flex
     all:my-auto
   >
-    <div flex @click="e => $emit('titleClick', e)">
+    <div flex @click="e => emit('titleClick', e)">
       <slot name="before" />
       <div mr-2 op-60>
         {{ title }}
