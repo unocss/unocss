@@ -300,9 +300,11 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .lh-\\\\$variable{line-height:var(--variable);}
 .leading-inherit{line-height:inherit;}
 .lh-\\\\[1\\\\.5\\\\]{line-height:1.5;}
-.font-synthesis-inherit{font-synthesis:inherit;}
-.font-synthesis-small-caps{font-synthesis:small-caps;}
 .font-synthesis-weight{font-synthesis:weight;}
+.font-synthesis-small-caps{font-synthesis:small-caps;}
+.font-synthesis-\\\\[weight_style\\\\]{font-synthesis:weight style;}
+.font-synthesis-\\\\$synth{font-synthesis:var(--synth);}
+.font-synthesis-inherit{font-synthesis:inherit;}
 .font-tracking-1em{letter-spacing:1em;}
 .tracking-\\\\[2\\\\/5\\\\]{letter-spacing:2/5;}
 .tracking-\\\\$variable{letter-spacing:var(--variable);}

@@ -1,5 +1,6 @@
 import type { CSSEntries, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
+import { borderStyles } from '@unocss/preset-mini/rules'
 import { colorResolver, directionMap, handler as h } from '@unocss/preset-mini/utils'
 
 export const divides: Rule[] = [
@@ -16,11 +17,7 @@ export const divides: Rule[] = [
   [/^divide-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-divide-opacity': h.bracket.percent(opacity) }), { autocomplete: ['divide-(op|opacity)', 'divide-(op|opacity)-<percent>'] }],
 
   // styles
-  ['divide-solid', { 'border-style': 'solid' }],
-  ['divide-dashed', { 'border-style': 'dashed' }],
-  ['divide-dotted', { 'border-style': 'dotted' }],
-  ['divide-double', { 'border-style': 'double' }],
-  ['divide-none', { 'border-style': 'none' }],
+  ...borderStyles.map(style => [`divide-${style}`, { 'border-style': style }] as Rule),
 ]
 
 function handlerDivide([, d, s]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
