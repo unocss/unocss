@@ -100,38 +100,23 @@ onMounted(() => {
     <Pane :min-size="titleHeightPercent * 2" :size="panelSizes[0]" flex flex-col min-h-68px>
       <div class="flex flex-wrap bg-$cm-background">
         <div class="flex items-center w-full px-2 op-60" border="l t gray-400/20" :style="`height:${TITLE_HEIGHT}px`">
-          <img src="/icon.svg" w-4 h-4 mr-2 alt="">
-          <div hidden md:block>
-            unocss
-          </div>
-          <div class="pl-1 ml-auto space-x-2 text-sm md:text-base flex flex-nowrap">
-            <label inline-flex items-center>
-              <input v-model="options.transform" type="checkbox" class="mr-1">
-              Transform
-            </label>
-            <label inline-flex items-center>
-              <input v-model="options.responsive" type="checkbox" class="mr-1">
-              Responsive
-            </label>
-          </div>
-        </div>
-        <TitleBar title="HTML" w-full relative>
-          <template #before>
-            <div
-              class="flex-shrink-0 i-carbon-chevron-right mr-1 transition-transform transform"
-              :class="isCollapsed(0) ? '' : 'rotate-90'"
-              @click="togglePanel(0)"
-            />
-          </template>
-          <label cursor-pointer>
-            <input v-model="isHtmlPrettify" type="checkbox">
-            Prettify
-          </label>
-          <div class="absolute right-2 top-1/2 -translate-y-1/2 flex flex-row space-x-2">
-            <div flex-auto />
+          <div flex items-center gap-2>
+            <img src="/icon.svg" w-4 h-4alt="">
+            <div hidden md:block>
+              unocss
+            </div>
             <div text-sm op50>
               v{{ version }}
             </div>
+          </div>
+
+          <div class="pl-1 ml-auto space-x-2 text-sm md:text-base flex items-center flex-nowrap">
+            <button
+              i-mdi-responsive
+              class="icon-btn"
+              title="Responsive"
+              @click="options.responsive = !options.responsive"
+            />
             <a
               i-carbon-document-attachment
               class="icon-btn"
@@ -153,6 +138,28 @@ onMounted(() => {
               @click="isDark = !isDark"
             />
           </div>
+        </div>
+        <TitleBar title="HTML" w-full relative>
+          <template #before>
+            <div
+              class="flex-shrink-0 i-carbon-chevron-right mr-1 transition-transform transform"
+              :class="isCollapsed(0) ? '' : 'rotate-90'"
+              @click="togglePanel(0)"
+            />
+          </template>
+          <div
+            class="flex justify-end items-center w-full space-x-2"
+            un-children="inline-flex items-center cursor-pointer gap-1"
+          >
+            <label>
+              <input v-model="options.transform" type="checkbox">
+              Transform
+            </label>
+            <label>
+              <input v-model="isHtmlPrettify" type="checkbox">
+              Prettify
+            </label>
+          </div>
         </TitleBar>
       </div>
       <CodeMirror
@@ -163,7 +170,7 @@ onMounted(() => {
         :get-hint="getHint"
         :read-only="options.transform"
         :model-value="htmlFormatted"
-        @update:model-value="inputHTML = $event"
+        @update:model-value="inputHTML = $event; isHtmlPrettify = false"
       />
     </Pane>
     <Pane :min-size="titleHeightPercent" :size="panelSizes[1]" flex flex-col min-h-34px>
@@ -175,13 +182,18 @@ onMounted(() => {
             @click="togglePanel(1)"
           />
         </template>
-        <label cursor-pointer>
-          <input v-model="isCSSPrettify" type="checkbox">
-          Prettify
-        </label>
+        <div
+          class="flex justify-end items-center w-full space-x-2"
+          un-children="inline-flex items-center cursor-pointer gap-1"
+        >
+          <label>
+            <input v-model="isCSSPrettify" type="checkbox">
+            Prettify
+          </label>
+        </div>
       </TitleBar>
       <CodeMirror
-        v-model="cssFormatted"
+        :model-value="cssFormatted"
         flex-auto
         mode="css"
         border="l gray-400/20"
@@ -198,12 +210,24 @@ onMounted(() => {
             @click="togglePanel(2)"
           />
         </template>
-        <label cursor-pointer>
-          <input v-model="isJsPrettify" type="checkbox">
-          Prettify
-        </label>
+        <div
+          class="flex justify-end items-center w-full space-x-2"
+          un-children="inline-flex items-center cursor-pointer gap-1"
+        >
+          <label>
+            <input v-model="isJsPrettify" type="checkbox">
+            Prettify
+          </label>
+        </div>
       </TitleBar>
-      <CodeMirror v-model="jsFormatted" flex-auto mode="javascript" border="l gray-400/20" class="scrolls" />
+      <CodeMirror
+        flex-auto
+        mode="javascript"
+        border="l gray-400/20"
+        class="scrolls"
+        :model-value="jsFormatted"
+        @update:model-value="customConfigRaw = $event; isJsPrettify = false"
+      />
       <div
         v-if="customConfigError"
         absolute
