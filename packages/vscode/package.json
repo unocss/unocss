@@ -39,6 +39,11 @@
       "type": "object",
       "title": "UnoCSS",
       "properties": {
+        "unocss.disable": {
+          "type": "boolean",
+          "default": false,
+          "description": "Disable the UnoCSS extension"
+        },
         "unocss.root": {
           "type": "string",
           "description": "Project root that contains the UnoCSS configuration file"

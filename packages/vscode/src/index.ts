@@ -13,6 +13,10 @@ export async function activate(ext: ExtensionContext) {
     return
 
   const config = workspace.getConfiguration('unocss')
+  const disabled = config.get<boolean>('disable', false)
+  if (disabled)
+    return
+
   const root = config.get<string>('root')
   const cwd = root ? path.resolve(projectPath, root) : projectPath
 
