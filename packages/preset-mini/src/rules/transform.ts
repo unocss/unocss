@@ -2,6 +2,12 @@ import type { CSSValues, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { handler as h, makeGlobalStaticRules, positionMap, xyzMap } from '../utils'
 
+const transformValues = [
+  'translate',
+  'rotate',
+  'scale',
+]
+
 const transformCpu = [
   'translateX(var(--un-translate-x))',
   'translateY(var(--un-translate-y))',
@@ -77,9 +83,9 @@ export const transforms: Rule[] = [
   [/^(?:transform-)?translate-([xyz])-(.+)$/, handleTranslate],
   [/^(?:transform-)?rotate-()(.+)$/, handleRotate],
   [/^(?:transform-)?rotate-([xyz])-(.+)$/, handleRotate],
-  [/^(?:transform-)?skew-([xy])-(.+)$/, handleSkew],
+  [/^(?:transform-)?skew-([xy])-(.+)$/, handleSkew, { autocomplete: ['transform-skew-(x|y)-<percent>'] }],
   [/^(?:transform-)?scale-()(.+)$/, handleScale],
-  [/^(?:transform-)?scale-([xyz])-(.+)$/, handleScale],
+  [/^(?:transform-)?scale-([xyz])-(.+)$/, handleScale, { autocomplete: [`transform-(${transformValues.join('|')})-<percent>`, `transform-(${transformValues.join('|')})-(x|y|z)-<percent>`] }],
 
   // style
   [/^(?:transform-)?preserve-3d$/, () => ({ 'transform-style': 'preserve-3d' })],
