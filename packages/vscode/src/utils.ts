@@ -40,12 +40,26 @@ export async function getPrettiedMarkdown(uno: UnoGenerator, util: string) {
   return `\`\`\`css\n${(await getPrettiedCSS(uno, util)).prettified}\n\`\`\``
 }
 
+export function body2ColorValue(body: string, theme: Theme) {
+  const themeColorNames = Object.keys(theme.colors ?? {})
+  const colorNames = themeColorNames.concat(themeColorNames.map(colorName => colorName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()))
+
+  for (const colorName of colorNames) {
+    const nameIndex = body.indexOf(colorName)
+    if (nameIndex > -1) {
+      const parsedResult = parseColor(body.substring(nameIndex), theme)
+      if (parsedResult?.cssColor)
+        return parsedResult
+    }
+  }
+
+  return null
+}
+
 const matchedAttributifyRE = /(?<=^\[.+~?=").*(?="\]$)/
 const _colorsMapCache = new Map<string, string>()
 export function getColorsMap(uno: UnoGenerator, result: GenerateResult) {
   const theme = uno.config.theme as Theme
-  const themeColorNames = Object.keys(theme.colors ?? {})
-  const colorNames = themeColorNames.concat(themeColorNames.map(colorName => colorName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()))
   const colorsMap = new Map<string, string>()
 
   for (const i of result.matched) {
@@ -56,20 +70,13 @@ export function getColorsMap(uno: UnoGenerator, result: GenerateResult) {
     }
 
     const matchedAttr = i.match(matchedAttributifyRE)
-    const body = matchedAttr ? matchedAttr[0].split(':').at(-1) ?? '' : i // remove prefix e.g. `dark:` `hover:`
+    const body = matchedAttr?.[0] ?? i // remove prefix e.g. `dark:` `hover:`
 
-    for (const colorName of colorNames) {
-      const nameIndex = body.indexOf(colorName)
-      if (nameIndex > -1) {
-        const parsedResult = parseColor(body.substring(nameIndex), theme)
-        if (parsedResult?.cssColor) {
-          const color = colorToString(parsedResult.cssColor, parsedResult.alpha)
-          colorsMap.set(_i, color)
-          _colorsMapCache.set(_i, color)
-        }
-
-        break
-      }
+    const colorValue = body2ColorValue(body, theme)
+    if (colorValue) {
+      const colorString = colorToString(colorValue.cssColor!, colorValue.alpha)
+      colorsMap.set(_i, colorString)
+      _colorsMapCache.set(_i, colorString)
     }
   }
 
