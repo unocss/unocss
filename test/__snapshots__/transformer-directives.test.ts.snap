@@ -99,7 +99,7 @@ html.dark {
     calc(var(--un-ring-width) + var(--un-ring-offset-width))
     var(--un-ring-color);
   box-shadow: var(--un-ring-offset-shadow), var(--un-ring-shadow),
-    var(--un-shadow, 0 0 #0000);
+    var(--un-shadow);
   --un-ring-opacity: 1;
   --un-ring-color: rgba(31, 41, 55, var(--un-ring-opacity));
   --un-ring-opacity: 0.75;
@@ -208,7 +208,7 @@ input:focus {
     calc(var(--un-ring-width) + var(--un-ring-offset-width))
     var(--un-ring-color);
   box-shadow: var(--un-ring-offset-shadow), var(--un-ring-shadow),
-    var(--un-shadow, 0 0 #0000);
+    var(--un-shadow);
 }
 
 .btn {
@@ -239,7 +239,7 @@ input:focus {
     calc(var(--un-ring-width) + var(--un-ring-offset-width))
     var(--un-ring-color);
   box-shadow: var(--un-ring-offset-shadow), var(--un-ring-shadow),
-    var(--un-shadow, 0 0 #0000);
+    var(--un-shadow);
 }
 "
 `;

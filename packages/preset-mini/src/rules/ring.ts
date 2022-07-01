@@ -8,7 +8,7 @@ export const ringBase = {
   '--un-ring-offset-width': '0px',
   '--un-ring-offset-color': '#fff',
   '--un-ring-width': '0px',
-  '--un-ring-color': 'rgba(147,197,253,0.5)',
+  '--un-ring-color': '#93c5fd80',
   '--un-shadow': '0 0 #0000',
 }
 
@@ -21,7 +21,7 @@ export const rings: Rule<Theme>[] = [
         '--un-ring-width': value,
         '--un-ring-offset-shadow': 'var(--un-ring-inset) 0 0 0 var(--un-ring-offset-width) var(--un-ring-offset-color)',
         '--un-ring-shadow': 'var(--un-ring-inset) 0 0 0 calc(var(--un-ring-width) + var(--un-ring-offset-width)) var(--un-ring-color)',
-        'box-shadow': 'var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow, 0 0 #0000)',
+        'box-shadow': 'var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow)',
       }
     }
   }, { autocomplete: 'ring-$ringWidth' }],

@@ -9,6 +9,7 @@ export const alias: Record<string, string> = {
   '@unocss/autocomplete': r('./packages/autocomplete/src'),
   '@unocss/cli': r('./packages/cli/src/'),
   '@unocss/core': r('./packages/core/src/'),
+  '@unocss/config': r('./packages/config/src/'),
   '@unocss/inspector': r('./packages/inspector/node/'),
   '@unocss/preset-attributify': r('./packages/preset-attributify/src/'),
   '@unocss/preset-icons': r('./packages/preset-icons/src/'),
