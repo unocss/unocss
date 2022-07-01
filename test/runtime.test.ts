@@ -80,7 +80,7 @@ describe('runtime auto prefixer', () => {
         <scale-2> zoom </scale-2>
         <shadow-xl> modal </shadow-xl>
       </flex>
-    `)
+    `, { preflights: false })
     expect(css).toMatchSnapshot()
   })
 })
