@@ -21,6 +21,7 @@ exports[`autocomplete > should accept variants 1`] = `
 exports[`autocomplete > should provide autocomplete 1`] = `
 {
   "align-": "align-base align-baseline align-bottom align-btm align-inherit align-initial align-mid align-middle align-revert align-revert-layer",
+  "aspect-": "aspect-ratio aspect-square aspect-video",
   "bg-": "bg-amber bg-auto bg-black bg-blend-color bg-blend-color-burn bg-blend-color-dodge bg-blend-darken bg-blend-difference bg-blend-exclusion bg-blend-hard-light",
   "bg-gradient-": "bg-gradient-conic bg-gradient-from bg-gradient-linear bg-gradient-radial bg-gradient-repeating bg-gradient-shape bg-gradient-to bg-gradient-via",
   "bg-r": "bg-red bg-repeat bg-repeat-inherit bg-repeat-initial bg-repeat-revert bg-repeat-revert-layer bg-repeat-round bg-repeat-space bg-repeat-unset bg-repeat-x",

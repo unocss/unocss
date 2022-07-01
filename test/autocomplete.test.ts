@@ -56,6 +56,7 @@ describe('autocomplete', () => {
       await enumerateSuggestions([
         // sort this list in alphabetical order
         'align-',
+        'aspect-',
         'bg-',
         'bg-gradient-',
         'bg-r',
