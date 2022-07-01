@@ -20,7 +20,7 @@ describe('shortcuts', () => {
       {
         primary: 'text-orange-800 bg-white',
         accent: 'text-cyan-800 bg-black',
-        btnhover: 'primary hover:(accent underline)',
+        btn3: 'primary hover:(accent underline) focus:border',
       },
       [/^button-(\d)$/, ([, d]) => [`px${(+d) * 3}`, `py${(+d) * 2}`]],
       ['bad-one', 'p2 unmatched'],
@@ -47,22 +47,22 @@ describe('shortcuts', () => {
   })
 
   test('static', async () => {
-    const { css } = await uno.generate('sh1 sh2 focus:sh2 sh3')
+    const { css } = await uno.generate('sh1 sh2 focus:sh2 sh3', { preflights: false })
     expect(css).toMatchSnapshot()
   })
 
   test('nesting static', async () => {
-    const { css } = await uno.generate('btn1 btn btn2')
+    const { css } = await uno.generate('btn1 btn btn2', { preflights: false })
     expect(css).toMatchSnapshot()
   })
 
   test('dynamic', async () => {
-    const { css } = await uno.generate('button-1 button-2')
+    const { css } = await uno.generate('button-1 button-2', { preflights: false })
     expect(css).toMatchSnapshot()
   })
 
   test('merge transform-duplicated', async () => {
-    const { css } = await uno.generate('transform-duplicated')
+    const { css } = await uno.generate('transform-duplicated', { preflights: false })
     const prettified = prettier.format(css, {
       parser: 'css',
       plugins: [parserCSS],
@@ -71,42 +71,42 @@ describe('shortcuts', () => {
   })
 
   test('no-merge', async () => {
-    const { css } = await uno.generate('with-no-merge merge-candidate')
+    const { css } = await uno.generate('with-no-merge merge-candidate', { preflights: false })
     expect(css).toMatchSnapshot()
   })
 
   test('variant order', async () => {
-    const { css } = await uno.generate('shortcut-hover-active-1')
+    const { css } = await uno.generate('shortcut-hover-active-1', { preflights: false })
     expect(css).toMatchSnapshot()
   })
 
   test('variant order', async () => {
-    const { css } = await uno.generate('shortcut-hover-active-2')
+    const { css } = await uno.generate('shortcut-hover-active-2', { preflights: false })
     expect(css).toMatchSnapshot()
   })
 
   test('variant order', async () => {
-    const { css } = await uno.generate('shortcut-hover-active-2 uno-layer-shortcuts:bg-red-300')
+    const { css } = await uno.generate('shortcut-hover-active-2 uno-layer-shortcuts:bg-red-300', { preflights: false })
     expect(css).toMatchSnapshot()
   })
 
   test('variant order', async () => {
-    const { css } = await uno.generate('shortcut-hover-active-2 uno-layer-shortcuts:bg-yellow-300')
+    const { css } = await uno.generate('shortcut-hover-active-2 uno-layer-shortcuts:bg-yellow-300', { preflights: false })
     expect(css).toMatchSnapshot()
   })
 
   test('variant order', async () => {
-    const { css } = await uno.generate('shortcut-hover-active-2 uno-layer-shortcuts:bg-blue-300')
+    const { css } = await uno.generate('shortcut-hover-active-2 uno-layer-shortcuts:bg-blue-300', { preflights: false })
     expect(css).toMatchSnapshot()
   })
 
   test('animate', async () => {
-    const { css } = await uno.generate('loading')
+    const { css } = await uno.generate('loading', { preflights: false })
     expect(css).toMatchSnapshot()
   })
 
   test('shortcut of nested pseudo', async () => {
-    const { css } = await uno.generate('btnhover focus:btnhover hover:btnhover focus:hover:btnhover')
+    const { css } = await uno.generate('btn3 focus:btn3 hover:btn3 focus:hover:btn3', { preflights: false })
     expect(css).toMatchSnapshot()
   })
 })
