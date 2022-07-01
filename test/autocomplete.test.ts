@@ -103,6 +103,7 @@ describe('autocomplete', () => {
         'grid-flow-',
         'auto-flow-',
         'grid-auto-rows-',
+        'v-',
         'w-',
         'z-',
       ]),
