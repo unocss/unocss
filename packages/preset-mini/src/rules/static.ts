@@ -3,7 +3,7 @@ import { globalKeywords, handler as h, makeGlobalStaticRules } from '../utils'
 
 const cursorValues = ['auto', 'default', 'none', 'context-menu', 'help', 'pointer', 'progress', 'wait', 'cell', 'crosshair', 'text', 'vertical-text', 'alias', 'copy', 'move', 'no-drop', 'not-allowed', 'grab', 'grabbing', 'all-scroll', 'col-resize', 'row-resize', 'n-resize', 'e-resize', 's-resize', 'w-resize', 'ne-resize', 'nw-resize', 'se-resize', 'sw-resize', 'ew-resize', 'ns-resize', 'nesw-resize', 'nwse-resize', 'zoom-in', 'zoom-out']
 
-export const varEmpty = 'var(--un-empty,/*!*/ /*!*/)'
+export const varEmpty = ' '
 
 // display table included on table.ts
 export const displays: Rule[] = [
