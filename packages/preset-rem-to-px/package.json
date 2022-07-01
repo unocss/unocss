@@ -1,6 +1,6 @@
 {
   "name": "@unocss/preset-rem-to-px",
-  "version": "0.42.0",
+  "version": "0.42.1",
   "description": "Convert all rem to px in utils",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
