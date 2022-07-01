@@ -524,8 +524,22 @@ export class UnoGenerator {
     if (typeof result === 'string')
       result = expandVariantGroup(result).split(/\s+/g)
 
-    if (!result)
+    if (!result) {
+      // expand shortcuts with variants
+      const [raw, rematchedProcess] = typeof processed === 'string'
+        ? this.matchVariants(processed)
+        : processed
+      if (raw !== rematchedProcess) {
+        const expanded = this.expandShortcut(rematchedProcess, context, depth - 1)
+        if (expanded) {
+          expanded[0].forEach((item, index) => {
+            expanded[0][index] = raw.replace(rematchedProcess, item)
+          })
+          return expanded
+        }
+      }
       return
+    }
 
     return [
       result
