@@ -527,6 +527,7 @@ export class UnoGenerator {
       result = expandVariantGroup(result).split(/\s+/g)
 
     if (!result) {
+      // expand shortcuts with variants
       const [raw, rematchedProcess] = typeof processed === 'string'
         ? this.matchVariants(processed)
         : processed

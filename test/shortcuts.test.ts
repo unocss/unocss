@@ -17,6 +17,11 @@ describe('shortcuts', () => {
         btn1: 'ml-10 btn',
         btn2: 'sh1 btn1',
       },
+      {
+        primary: 'text-orange-800 bg-white',
+        accent: 'text-cyan-800 bg-black',
+        btnhover: 'primary hover:(accent underline)',
+      },
       [/^button-(\d)$/, ([, d]) => [`px${(+d) * 3}`, `py${(+d) * 2}`]],
       ['bad-one', 'p2 unmatched'],
       ['transform-duplicated', 'translate-x-1 translate-y-2 scale-4 hover:scale-2 active:scale-x-4'],
@@ -97,6 +102,11 @@ describe('shortcuts', () => {
 
   test('animate', async () => {
     const { css } = await uno.generate('loading')
+    expect(css).toMatchSnapshot()
+  })
+
+  test('shortcut of nested pseudo', async () => {
+    const { css } = await uno.generate('btnhover focus:btnhover hover:btnhover focus:hover:btnhover')
     expect(css).toMatchSnapshot()
   })
 })
