@@ -14,10 +14,13 @@ export function resolveShortcuts(shortcuts: UserShortcuts): Shortcut[] {
 export function resolvePreset(preset: Preset): Preset {
   if (preset.prefix) {
     preset.rules?.forEach((i) => {
-      if (i[2] && i[2].prefix == null)
-        i[2].prefix = preset.prefix
-      else
+      if (i[2]) {
+        if (i[2].prefix == null)
+          i[2].prefix = preset.prefix
+      }
+      else {
         i[2] = { prefix: preset.prefix }
+      }
     })
   }
   return preset
