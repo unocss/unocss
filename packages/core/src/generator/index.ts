@@ -123,7 +123,7 @@ export class UnoGenerator {
   }
 
   async generate(
-    input: string | Set<string> = '',
+    input: string | Set<string> | string[],
     {
       id,
       scope,
@@ -132,9 +132,11 @@ export class UnoGenerator {
       minify = false,
     }: GenerateOptions = {},
   ): Promise<GenerateResult> {
-    const tokens = typeof input === 'string'
+    const tokens: Readonly<Set<string>> = typeof input === 'string'
       ? await this.applyExtractors(input, id)
-      : input
+      : Array.isArray(input)
+        ? new Set(input)
+        : input
 
     if (safelist)
       this.config.safelist.forEach(s => tokens.add(s))
@@ -247,11 +249,11 @@ export class UnoGenerator {
               }
 
               const selectors = selectorSortPair
-                ? [...new Set(selectorSortPair
-                    .sort((a, b) => a[1] - b[1] || a[0]?.localeCompare(b[0] || '') || 0)
-                    .map(pair => pair[0])
-                    .filter(Boolean),
-                  )]
+                ? uniq(selectorSortPair
+                  .sort((a, b) => a[1] - b[1] || a[0]?.localeCompare(b[0] || '') || 0)
+                  .map(pair => pair[0])
+                  .filter(Boolean),
+                )
                 : []
 
               return selectors.length
@@ -338,7 +340,7 @@ export class UnoGenerator {
     return [raw, processed, handlers, variants]
   }
 
-  applyVariants(parsed: ParsedUtil, variantHandlers = parsed[4], raw = parsed[1]): UtilObject {
+  private applyVariants(parsed: ParsedUtil, variantHandlers = parsed[4], raw = parsed[1]): UtilObject {
     const handler = [...variantHandlers]
       .sort((a, b) => (a.order || 0) - (b.order || 0))
       .reverse()
