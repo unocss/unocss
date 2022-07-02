@@ -205,7 +205,6 @@ export const makeGlobalStaticRules = (prefix: string, property?: string) => {
   return globalKeywords.map(keyword => [`${prefix}-${keyword}`, { [property ?? prefix]: keyword }] as Rule)
 }
 
-
 export function getComponent(str: string, open: string, close: string, separator: string) {
   if (str === '')
     return

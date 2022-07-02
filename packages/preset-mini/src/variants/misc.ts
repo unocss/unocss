@@ -1,6 +1,5 @@
 import type { Variant } from '@unocss/core'
-import { getComponent } from '../utils'
-import { handler as h } from '../utils'
+import { getComponent, handler as h } from '../utils'
 
 export const variantSelector: Variant = {
   name: 'selector',
