@@ -96,7 +96,7 @@ presetMini({
 })
 ```
 
-It is worth noting that in addition to `breakpoint` option. UnoCSS gives `breakpoint` control to the user, you need to fully customize the `breakpoint` option that you want to use. For example:
+One exception is that UnoCSS gives full control of `breakpoints` to users. When a custom `breakpoints` is provided, the default will be overridden instead of merging. For example:
 
 ```ts
 presetMini({
