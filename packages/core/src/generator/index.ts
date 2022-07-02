@@ -488,7 +488,7 @@ export class UnoGenerator {
     return [parsed[0], selector, body, parent, ruleMeta, this.config.details ? context : undefined]
   }
 
-  expandShortcut(processed: string, context: RuleContext, depth = 3): [string[], RuleMeta | undefined] | undefined {
+  expandShortcut(input: string, context: RuleContext, depth = 5): [string[], RuleMeta | undefined] | undefined {
     if (depth === 0)
       return
 
@@ -503,7 +503,7 @@ export class UnoGenerator {
     let result: string | string[] | undefined
     for (const s of this.config.shortcuts) {
       if (isStaticShortcut(s)) {
-        if (s[0] === processed) {
+        if (s[0] === input) {
           meta = meta || s[2]
           result = s[1]
           recordShortcut(s)
@@ -511,7 +511,7 @@ export class UnoGenerator {
         }
       }
       else {
-        const match = processed.match(s[0])
+        const match = input.match(s[0])
         if (match)
           result = s[1](match, context)
         if (result) {
@@ -522,30 +522,29 @@ export class UnoGenerator {
       }
     }
 
+    // expand nested shotcuts
     if (typeof result === 'string')
       result = expandVariantGroup(result).split(/\s+/g)
 
+    // expand nested shortcuts with variants
     if (!result) {
-      // expand shortcuts with variants
-      const [raw, rematchedProcess] = typeof processed === 'string'
-        ? this.matchVariants(processed)
-        : processed
-      if (raw !== rematchedProcess) {
-        const expanded = this.expandShortcut(rematchedProcess, context, depth - 1)
-        if (expanded) {
-          expanded[0].forEach((item, index) => {
-            expanded[0][index] = raw.replace(rematchedProcess, item)
-          })
-          return expanded
-        }
+      const [raw, inputWithoutVariant] = typeof input === 'string'
+        ? this.matchVariants(input)
+        : input
+      if (raw !== inputWithoutVariant) {
+        const expanded = this.expandShortcut(inputWithoutVariant, context, depth - 1)
+        if (expanded)
+          result = expanded[0].map(item => raw.replace(inputWithoutVariant, item))
       }
-      return
     }
+
+    if (!result)
+      return
 
     return [
       result
         .flatMap(r => this.expandShortcut(r, context, depth - 1)?.[0] || [r])
-        .filter(r => r !== ''),
+        .filter(Boolean),
       meta,
     ]
   }
