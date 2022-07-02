@@ -45,7 +45,7 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 ###### Benchmark
 
 ```
-2022/7/2 20:38:12
+2022/7/2 08:38:12 PM
 1656 utilities | x50 runs (min build time)
 
 none                              5.87 ms / delta.      0.00 ms 
