@@ -445,7 +445,10 @@ export class UnoGenerator {
 
       // dynamic rules
       const [matcher, handler, meta] = rule
-      const match = processed.match(matcher)
+      if (meta?.prefix && !processed.startsWith(meta.prefix))
+        continue
+      const unprefixed = meta?.prefix ? processed.slice(meta.prefix.length) : processed
+      const match = unprefixed.match(matcher)
       if (!match)
         continue
 

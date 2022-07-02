@@ -23,6 +23,7 @@ export const presetUno = (options: PresetUnoOptions = {}): Preset<Theme> => {
     ],
     options,
     preflights,
+    prefix: options.prefix,
   }
 }
 

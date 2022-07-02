@@ -158,6 +158,11 @@ export interface RuleMeta {
   autocomplete?: Arrayable<AutoCompleteTemplate>
 
   /**
+   * Matching prefix before this util
+   */
+  prefix?: string
+
+  /**
    * Internal rules will only be matched for shortcuts but not the user code.
    * @default false
    */
@@ -449,6 +454,10 @@ export interface Preset<Theme extends {} = {}> extends ConfigBase<Theme> {
    * Preset options for other tools like IDE to consume
    */
   options?: PresetOptions
+  /**
+   * Apply prefix to all utilities
+   */
+  prefix?: string
 }
 
 export interface GeneratorOptions {

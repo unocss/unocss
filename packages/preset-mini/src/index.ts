@@ -24,6 +24,12 @@ export interface PresetMiniOptions extends PresetOptions {
    * @default 'un-'
    */
   variablePrefix?: string
+  /**
+   * Utils prefix
+   *
+   * @default undefined
+   */
+  prefix?: string
 }
 
 export const presetMini = (options: PresetMiniOptions = {}): Preset<Theme> => {
@@ -40,6 +46,7 @@ export const presetMini = (options: PresetMiniOptions = {}): Preset<Theme> => {
       ? VarPrefixPostprocessor(options.variablePrefix)
       : undefined,
     preflights,
+    prefix: options.prefix,
   }
 }
 

@@ -26,6 +26,7 @@ export const presetWind = (options: PresetWindOptions = {}): Preset<Theme> => {
     variants: variants(options),
     options,
     preflights,
+    prefix: options.prefix,
   }
 }
 

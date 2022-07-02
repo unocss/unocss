@@ -1,4 +1,4 @@
-import type { Postprocessor, Preprocessor, ResolvedConfig, Shortcut, ThemeExtender, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
+import type { Postprocessor, Preprocessor, Preset, ResolvedConfig, Shortcut, ThemeExtender, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
 import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq } from './utils'
 import { extractorSplit } from './extractors'
 import { DEAFULT_LAYERS } from './constants'
@@ -11,12 +11,24 @@ export function resolveShortcuts(shortcuts: UserShortcuts): Shortcut[] {
   })
 }
 
+export function resolvePreset(preset: Preset): Preset {
+  if (preset.prefix) {
+    preset.rules?.forEach((i) => {
+      if (i[2])
+        i[2].prefix ||= preset.prefix
+      else
+        i[2] = { prefix: preset.prefix }
+    })
+  }
+  return preset
+}
+
 export function resolveConfig(
   userConfig: UserConfig = {},
   defaults: UserConfigDefaults = {},
 ): ResolvedConfig {
   const config = Object.assign({}, defaults, userConfig) as UserConfigDefaults
-  const rawPresets = (config.presets || []).flatMap(toArray)
+  const rawPresets = (config.presets || []).flatMap(toArray).map(resolvePreset)
 
   const sortedPresets = [
     ...rawPresets.filter(p => p.enforce === 'pre'),
@@ -45,7 +57,8 @@ export function resolveConfig(
 
   rules.forEach((rule, i) => {
     if (isStaticRule(rule)) {
-      rulesStaticMap[rule[0]] = [i, rule[1], rule[2], rule]
+      const prefix = rule[2]?.prefix || ''
+      rulesStaticMap[prefix + rule[0]] = [i, rule[1], rule[2], rule]
       // delete static rules so we can't skip them in matching
       // but keep the order
       delete rules[i]
