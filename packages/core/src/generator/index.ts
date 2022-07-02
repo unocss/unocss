@@ -509,8 +509,9 @@ export class UnoGenerator {
     let meta: RuleMeta | undefined
     let result: string | string[] | undefined
     for (const s of this.config.shortcuts) {
+      const unprefixed = s[2]?.prefix ? input.slice(s[2].prefix.length) : input
       if (isStaticShortcut(s)) {
-        if (s[0] === input) {
+        if (s[0] === unprefixed) {
           meta = meta || s[2]
           result = s[1]
           recordShortcut(s)
@@ -518,7 +519,7 @@ export class UnoGenerator {
         }
       }
       else {
-        const match = input.match(s[0])
+        const match = unprefixed.match(s[0])
         if (match)
           result = s[1](match, context)
         if (result) {

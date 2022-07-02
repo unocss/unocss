@@ -455,9 +455,13 @@ export interface Preset<Theme extends {} = {}> extends ConfigBase<Theme> {
    */
   options?: PresetOptions
   /**
-   * Apply prefix to all utilities
+   * Apply prefix to all utilities and shortcuts
    */
   prefix?: string
+  /**
+   * Apply layer to all utilities and shortcuts
+   */
+  layer?: string
 }
 
 export interface GeneratorOptions {

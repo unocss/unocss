@@ -11,15 +11,21 @@ describe('prefix', () => {
       rules: [
         ['bar', { color: 'bar' }, { prefix: 'bar-' }],
       ],
+      shortcuts: [
+        ['shortcut', 'bar-bar', { prefix: 'bar-' }],
+      ],
     })
 
     const { css, matched } = await uno.generate(new Set([
       'text-red',
-      'foo-text-red',
       'hover:p4',
-      'hover:foo-p4',
       'bar',
+      'shortcut',
+      // expected
+      'foo-text-red',
+      'hover:foo-p4',
       'bar-bar',
+      'bar-shortcut',
     ]), { preflights: false })
 
     expect(matched).toMatchInlineSnapshot(`
@@ -27,6 +33,7 @@ describe('prefix', () => {
         "bar-bar",
         "foo-text-red",
         "hover:foo-p4",
+        "bar-shortcut",
       }
     `)
 

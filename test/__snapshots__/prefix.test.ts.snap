@@ -4,5 +4,6 @@ exports[`prefix > preset prefix 2`] = `
 "/* layer: default */
 .hover\\\\:foo-p4:hover{padding:1rem;}
 .foo-text-red{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
-.bar-bar{color:bar;}"
+.bar-bar,
+.bar-shortcut{color:bar;}"
 `;

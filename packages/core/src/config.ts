@@ -1,4 +1,4 @@
-import type { Postprocessor, Preprocessor, Preset, ResolvedConfig, Shortcut, ThemeExtender, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
+import type { Postprocessor, Preprocessor, Preset, ResolvedConfig, Rule, Shortcut, ThemeExtender, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
 import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq } from './utils'
 import { extractorSplit } from './extractors'
 import { DEAFULT_LAYERS } from './constants'
@@ -12,17 +12,25 @@ export function resolveShortcuts(shortcuts: UserShortcuts): Shortcut[] {
 }
 
 export function resolvePreset(preset: Preset): Preset {
-  if (preset.prefix) {
-    preset.rules?.forEach((i) => {
-      if (i[2]) {
-        if (i[2].prefix == null)
-          i[2].prefix = preset.prefix
-      }
-      else {
-        i[2] = { prefix: preset.prefix }
-      }
-    })
+  const shortcuts = preset.shortcuts
+    ? resolveShortcuts(preset.shortcuts)
+    : undefined
+  preset.shortcuts = shortcuts as any
+
+  if (preset.prefix || preset.layer) {
+    const apply = (i: Rule | Shortcut) => {
+      if (!i[2])
+        i[2] = {}
+      const meta = i[2]
+      if (meta.prefix == null && preset.prefix)
+        meta.prefix = preset.prefix
+      if (meta.layer == null && preset.layer)
+        meta.prefix = preset.layer
+    }
+    shortcuts?.forEach(apply)
+    preset.rules?.forEach(apply)
   }
+
   return preset
 }
 
