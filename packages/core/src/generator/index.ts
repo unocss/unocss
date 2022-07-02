@@ -3,6 +3,7 @@ import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, Generate
 import { resolveConfig } from '../config'
 import { CONTROL_SHORTCUT_NO_MERGE, TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, noop, normalizeCSSEntries, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
+import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from '../constants'
 
 export class UnoGenerator {
   public version = version
@@ -140,7 +141,7 @@ export class UnoGenerator {
 
     const nl = minify ? '' : '\n'
 
-    const layerSet = new Set<string>(['default'])
+    const layerSet = new Set<string>([LAYER_DEFAULT])
     const matched = new Set<string>()
     const sheet = new Map<string, StringifiedUtil[]>()
     let preflightsMap: Record<string, string> = {}
@@ -176,7 +177,7 @@ export class UnoGenerator {
       }
 
       const preflightLayerSet = new Set<string>([])
-      this.config.preflights.forEach(({ layer = 'preflights' }) => {
+      this.config.preflights.forEach(({ layer = LAYER_PREFLIGHTS }) => {
         layerSet.add(layer)
         preflightLayerSet.add(layer)
       })
@@ -186,7 +187,7 @@ export class UnoGenerator {
           async (layer) => {
             const preflights = await Promise.all(
               this.config.preflights
-                .filter(i => (i.layer || 'preflights') === layer)
+                .filter(i => (i.layer || LAYER_PREFLIGHTS) === layer)
                 .map(async i => await i.getCSS(preflightContext)),
             )
             const css = preflights
@@ -218,7 +219,7 @@ export class UnoGenerator {
         .map(([parent, items]) => {
           const size = items.length
           const sorted: PreparedRule[] = items
-            .filter(i => (i[4]?.layer || 'default') === layer)
+            .filter(i => (i[4]?.layer || LAYER_DEFAULT) === layer)
             .sort((a, b) => a[0] - b[0] || (a[4]?.sort || 0) - (b[4]?.sort || 0) || a[1]?.localeCompare(b[1] || '') || a[2]?.localeCompare(b[2] || '') || 0)
             .map(([, selector, body,, meta]) => {
               const scopedSelector = selector ? applyScope(selector, scope) : selector

@@ -1,6 +1,7 @@
 import type { Postprocessor, Preprocessor, ResolvedConfig, Shortcut, ThemeExtender, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
 import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq } from './utils'
 import { extractorSplit } from './extractors'
+import { DEAFULT_LAYERS } from './constants'
 
 export function resolveShortcuts(shortcuts: UserShortcuts): Shortcut[] {
   return toArray(shortcuts).flatMap((s) => {
@@ -8,12 +9,6 @@ export function resolveShortcuts(shortcuts: UserShortcuts): Shortcut[] {
       return [s]
     return Object.entries(s)
   })
-}
-
-const defaultLayers = {
-  preflights: -100,
-  shortcuts: -10,
-  default: 0,
 }
 
 export function resolveConfig(
@@ -29,7 +24,7 @@ export function resolveConfig(
     ...rawPresets.filter(p => p.enforce === 'post'),
   ]
 
-  const layers = Object.assign(defaultLayers, ...rawPresets.map(i => i.layers), userConfig.layers)
+  const layers = Object.assign(DEAFULT_LAYERS, ...rawPresets.map(i => i.layers), userConfig.layers)
 
   function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist'>(key: T): Required<UserConfig>[T] {
     return uniq([
