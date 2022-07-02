@@ -83,7 +83,7 @@ will generate:
 ```
 
 ### Theme
-你可以完全自定义你的主题配置，UnoCSS 最终会深度合并用户配置和默认配置。
+You can fully customize your theme configuration, and UnoCSS will eventually deeply merge user configuration and default configuration.
 
 ```ts
 presetMini({
@@ -96,7 +96,7 @@ presetMini({
 })
 ```
 
-值得注意的是，断点属性除外。UnoCSS 将断点控制权交给用户，你需要完全自定义你想使用断点属性。例如：
+Notably, unless `breakpoint` properties. UnoCSS gives `breakpoint` control to the user, you need to fully customize the `breakpoint` properties that you want to use. For example:
 
 ```ts
 presetMini({
@@ -109,7 +109,10 @@ presetMini({
   },
 })
 ```
-现在，你只可以使用 `sm:` 和 `md:` 断点变体。
+
+Right now, you can only use the `sm:` and `md:` breakpoint variants.
+
+`verticalBreakpoints` is same as `breakpoints` but for vertical layout.
 
 ## License
 
