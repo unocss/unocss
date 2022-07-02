@@ -82,6 +82,35 @@ will generate:
 }
 ```
 
+### Theme
+你可以完全自定义你的主题配置，UnoCSS 最终会深度合并用户配置和默认配置。
+
+```ts
+presetMini({
+  theme: {
+    // ...
+    colors: {
+      primary: '#ff0000',
+    },
+  },
+})
+```
+
+值得注意的是，断点属性除外。UnoCSS 将断点控制权交给用户，你需要完全自定义你想使用断点属性。例如：
+
+```ts
+presetMini({
+  theme: {
+    // ...
+    breakpoints: {
+      sm: '320px',
+      md: '768px',
+    },
+  },
+})
+```
+现在，你只可以使用 `sm:` 和 `md:` 断点变体。
+
 ## License
 
 MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)
