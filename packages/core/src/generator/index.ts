@@ -124,14 +124,16 @@ export class UnoGenerator {
 
   async generate(
     input: string | Set<string> | string[],
-    {
+    options: GenerateOptions = {},
+  ): Promise<GenerateResult> {
+    const {
       id,
       scope,
       preflights = true,
       safelist = true,
       minify = false,
-    }: GenerateOptions = {},
-  ): Promise<GenerateResult> {
+    } = options
+
     const tokens: Readonly<Set<string>> = typeof input === 'string'
       ? await this.applyExtractors(input, id)
       : Array.isArray(input)
@@ -279,9 +281,8 @@ export class UnoGenerator {
           .join(nl)
       }
 
-      return layerCache[layer] = !minify && css
-        ? `/* layer: ${layer} */${nl}${css}`
-        : css
+      const layerMark = minify ? '' : `/* layer: ${layer} */${nl}`
+      return layerCache[layer] = css ? layerMark + css : ''
     }
 
     const getLayers = (includes = layers, excludes?: string[]) => {
@@ -295,9 +296,9 @@ export class UnoGenerator {
     return {
       get css() { return getLayers() },
       layers,
+      matched,
       getLayers,
       getLayer,
-      matched,
     }
   }
 
@@ -387,6 +388,7 @@ export class UnoGenerator {
 
     for (const p of this.config.postprocess)
       p(obj)
+
     return obj
   }
 
