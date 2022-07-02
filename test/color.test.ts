@@ -32,6 +32,7 @@ describe('color utils', () => {
     expect(parseCssColor('rgba(0 1 2 /3)')).eql({ type: 'rgba', components: ['0', '1', '2'], alpha: '3' })
     expect(parseCssColor('rgba(0 1 2/3)')).eql({ type: 'rgba', components: ['0', '1', '2'], alpha: '3' })
     expect(parseCssColor('rgba(0 1 2//3)')).eql(undefined)
+    expect(parseCssColor('rgba(0 1 2/ /3)')).eql(undefined)
     expect(parseCssColor('rgb(0)')).eql({ type: 'rgb', components: ['0'], alpha: undefined })
     expect(parseCssColor('rgba(0 / 1)')).eql({ type: 'rgba', components: ['0'], alpha: '1' })
     expect(parseCssColor('rgba(0 1)')).eql(undefined)
