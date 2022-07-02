@@ -1,4 +1,5 @@
 import type { Variant } from '@unocss/core'
+import { getComponent } from '../utils'
 import { handler as h } from '../utils'
 
 export const variantSelector: Variant = {
@@ -59,24 +60,26 @@ export const variantScope: Variant = {
 export const variantVariables: Variant = {
   name: 'variables',
   match(matcher) {
-    const match = matcher.match(/^(\[.+?\]):/)
-    if (match) {
-      const variant = h.bracket(match[1]) ?? ''
-      return {
-        matcher: matcher.slice(match[0].length),
-        handle(input, next) {
-          const updates = variant.startsWith('@')
-            ? {
-                parent: `${input.parent ? `${input.parent} $$ ` : ''}${variant}`,
-              }
-            : {
-                selector: variant.replace(/&/g, input.selector),
-              }
-          return next({
-            ...input,
-            ...updates,
-          })
-        },
+    if (matcher.startsWith('[')) {
+      const [match, rest] = getComponent(matcher, '[', ']', ':') ?? []
+      if (match && rest && rest !== '') {
+        const variant = h.bracket(match) ?? ''
+        return {
+          matcher: rest,
+          handle(input, next) {
+            const updates = variant.startsWith('@')
+              ? {
+                  parent: `${input.parent ? `${input.parent} $$ ` : ''}${variant}`,
+                }
+              : {
+                  selector: variant.replace(/&/g, input.selector),
+                }
+            return next({
+              ...input,
+              ...updates,
+            })
+          },
+        }
       }
     }
   },

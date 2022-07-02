@@ -953,6 +953,8 @@ export const presetMiniTargets: string[] = [
   '[&_&]:m-13',
   '[&[open]]:m-14',
   '[&[readonly][disabled]]:m-15',
+  '[&[open]:readonly]:m-16',
+  '[*[open]:readonly_&]:[&[open]:disabled]:m-17',
   '[@supports(display:grid)]:bg-red/33',
   '[@supports(display:grid)]:[*+&]:bg-red/34',
 
