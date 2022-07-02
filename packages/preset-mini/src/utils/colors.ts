@@ -1,5 +1,6 @@
 import type { CSSColorValue, RGBAColorValue } from '@unocss/core'
 import { escapeRegExp } from '@unocss/core'
+import { getComponents } from './utilities'
 
 /* eslint-disable no-case-declarations */
 
@@ -34,7 +35,11 @@ export function parseCssColor(str = ''): CSSColorValue | undefined {
   if (cssColorFunctions.includes(type) && ![1, 3].includes(components.length))
     return
 
-  return { type, components, alpha }
+  return {
+    type,
+    components: components.map(c => typeof c === 'string' ? c.trim() : c),
+    alpha: typeof alpha === 'string' ? alpha.trim() : alpha,
+  }
 }
 
 export function colorOpacityToString(color: CSSColorValue) {
@@ -189,7 +194,7 @@ function parseCssColorFunction(color: string): CSSColorValue | undefined {
 }
 
 function parseCssSpaceColorValues(componentString: string) {
-  const components = getComponents(componentString)
+  const components = getComponents(componentString, ' ')
   if (!components)
     return
 
@@ -211,7 +216,7 @@ function parseCssSpaceColorValues(componentString: string) {
   }
 
   // maybe (fn 1 2 3/4)
-  const withAlpha = getComponents(components[totalComponents - 1], '/', 3)
+  const withAlpha = getComponents(components[totalComponents - 1], '/', 2)
   if (!withAlpha)
     return
 
@@ -225,63 +230,4 @@ function parseCssSpaceColorValues(componentString: string) {
     components,
     alpha,
   }
-}
-
-function getComponent(str: string, separator: string) {
-  str = str.trim()
-  if (str === '')
-    return
-
-  const l = str.length
-  let parenthesis = 0
-  for (let i = 0; i < l; i++) {
-    switch (str[i]) {
-      case '(':
-        parenthesis++
-        break
-
-      case ')':
-        if (--parenthesis < 0)
-          return
-        break
-
-      case separator:
-        if (parenthesis === 0) {
-          const component = str.slice(0, i).trim()
-          if (component === '')
-            return
-
-          return [
-            component,
-            str.slice(i + 1).trim(),
-          ]
-        }
-    }
-  }
-
-  return [
-    str,
-    '',
-  ]
-}
-
-export function getComponents(str: string, separator?: string, limit?: number) {
-  separator = separator ?? ' '
-  if (separator.length !== 1)
-    return
-  limit = limit ?? 10
-  const components = []
-  let i = 0
-  while (str !== '') {
-    if (++i > limit)
-      return
-    const componentPair = getComponent(str, separator)
-    if (!componentPair)
-      return
-    const [component, rest] = componentPair
-    components.push(component)
-    str = rest
-  }
-  if (components.length > 0)
-    return components
 }
