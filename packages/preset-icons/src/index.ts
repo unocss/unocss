@@ -76,7 +76,7 @@ export const preset = (options: IconsOptions = {}): Preset => {
     options,
     layers: { icons: -30 },
     rules: [[
-      new RegExp(`^${prefix}([a-z0-9:-]+)(?:\\?(mask|bg|auto))?$`),
+      /^([a-z0-9:-]+)(?:\?(mask|bg|auto))?$/,
       async ([full, body, _mode = mode]) => {
         let collection = ''
         let name = ''
@@ -132,7 +132,7 @@ export const preset = (options: IconsOptions = {}): Preset => {
           }
         }
       },
-      { layer },
+      { layer, prefix },
     ]],
   }
 }
