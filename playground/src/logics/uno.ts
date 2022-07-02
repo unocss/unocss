@@ -16,6 +16,7 @@ export const customConfigError = ref<Error>()
 
 export const uno = createGenerator({}, defaultConfig.value)
 export const output = shallowRef<GenerateResult>()
+export const showPreflights = ref(false)
 
 let customConfig: UserConfig = {}
 let autocomplete = createAutocomplete(uno)

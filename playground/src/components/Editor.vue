@@ -2,7 +2,7 @@
 // @ts-expect-error missing types
 import { Pane, Splitpanes } from 'splitpanes'
 import { isDark } from '../logics/dark'
-import { customConfigError, customConfigRaw, getHint, inputHTML, output, transformedHTML } from '../logics/uno'
+import { customConfigError, customConfigRaw, getHint, inputHTML, output, showPreflights, transformedHTML } from '../logics/uno'
 import { defaultConfigRaw, defaultHTML } from '../defaults'
 import { options } from '../logics/url'
 import { version } from '../../../package.json'
@@ -78,7 +78,14 @@ const formatConfig = () => {
   customConfigRaw.value = useJSPrettify(customConfigRaw).value
 }
 const isCSSPrettify = ref(false)
-const cssFormatted = useCSSPrettify(computed(() => output.value?.css), isCSSPrettify)
+const cssFormatted = useCSSPrettify(
+  computed(() => output.value?.getLayers(undefined,
+    showPreflights.value
+      ? undefined
+      : ['preflights'],
+  )),
+  isCSSPrettify,
+)
 
 watch(
   titleHeightPercent,
@@ -243,6 +250,10 @@ onMounted(() => {
           :class="isCollapsed(2) ? 'op0' : ''"
           un-children="inline-flex items-center cursor-pointer gap1"
         >
+          <label>
+            <input v-model="showPreflights" type="checkbox">
+            <span text-sm>Preflights</span>
+          </label>
           <label>
             <input v-model="isCSSPrettify" type="checkbox">
             <span text-sm>Prettify</span>
