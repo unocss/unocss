@@ -1,7 +1,8 @@
 import type { CSSEntries, CSSObject, CSSValue, DeepPartial, Rule, Shortcut, StaticRule, StaticShortcut } from '../types'
+import { isString } from './basic'
 
 export function normalizeCSSEntries(obj: string | CSSEntries | CSSObject): string | CSSEntries {
-  if (typeof obj === 'string')
+  if (isString(obj))
     return obj
   return (!Array.isArray(obj) ? Object.entries(obj) : obj).filter(i => i[1] != null)
 }
@@ -101,9 +102,9 @@ export function clone<T>(val: T): T {
 }
 
 export function isStaticRule(rule: Rule): rule is StaticRule {
-  return typeof rule[0] === 'string'
+  return isString(rule[0])
 }
 
 export function isStaticShortcut(sc: Shortcut): sc is StaticShortcut {
-  return typeof sc[0] === 'string'
+  return isString(sc[0])
 }

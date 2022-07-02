@@ -1,7 +1,7 @@
 import { createNanoEvents } from '../utils/events'
-import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, Shortcut, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
+import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
-import { CONTROL_SHORTCUT_NO_MERGE, TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, noop, normalizeCSSEntries, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
+import { CONTROL_SHORTCUT_NO_MERGE, TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
 import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from '../constants'
 
@@ -134,7 +134,7 @@ export class UnoGenerator {
       minify = false,
     } = options
 
-    const tokens: Readonly<Set<string>> = typeof input === 'string'
+    const tokens: Readonly<Set<string>> = isString(input)
       ? await this.applyExtractors(input, id)
       : Array.isArray(input)
         ? new Set(input)
@@ -323,7 +323,7 @@ export class UnoGenerator {
         let handler = v.match(processed, context)
         if (!handler)
           continue
-        if (typeof handler === 'string')
+        if (isString(handler))
           handler = { matcher: handler }
         processed = handler.matcher
         handlers.unshift(handler)
@@ -394,7 +394,7 @@ export class UnoGenerator {
 
   constructCustomCSS(context: Readonly<RuleContext>, body: CSSObject | CSSEntries, overrideSelector?: string) {
     const normalizedBody = normalizeCSSEntries(body)
-    if (typeof normalizedBody === 'string')
+    if (isString(normalizedBody))
       return normalizedBody
 
     const { selector, entries, parent } = this.applyVariants([0, overrideSelector || context.rawSelector, normalizedBody, undefined, context.variantHandlers])
@@ -405,7 +405,7 @@ export class UnoGenerator {
   }
 
   async parseUtil(input: string | VariantMatchedResult, context: RuleContext, internal = false): Promise<(ParsedUtil | RawUtil)[] | undefined> {
-    const [raw, processed, variantHandlers] = typeof input === 'string'
+    const [raw, processed, variantHandlers] = isString(input)
       ? this.matchVariants(input)
       : input
 
@@ -424,7 +424,7 @@ export class UnoGenerator {
         const index = staticMatch[0]
         const entry = normalizeCSSEntries(staticMatch[1])
         const meta = staticMatch[2]
-        if (typeof entry === 'string')
+        if (isString(entry))
           return [[index, entry, meta]]
         else
           return [[index, raw, entry, meta, variantHandlers]]
@@ -465,7 +465,7 @@ export class UnoGenerator {
       const entries = normalizeCSSValues(result).filter(i => i.length)
       if (entries.length) {
         return entries.map((e) => {
-          if (typeof e === 'string')
+          if (isString(e))
             return [i, e, meta]
           else
             return [i, raw, e, meta, variantHandlers]
@@ -495,7 +495,7 @@ export class UnoGenerator {
     return [parsed[0], selector, body, parent, ruleMeta, this.config.details ? context : undefined]
   }
 
-  expandShortcut(input: string, context: RuleContext, depth = 5): [string[], RuleMeta | undefined] | undefined {
+  expandShortcut(input: string, context: RuleContext, depth = 5): [ShortcutValue[], RuleMeta | undefined] | undefined {
     if (depth === 0)
       return
 
@@ -507,7 +507,7 @@ export class UnoGenerator {
       : noop
 
     let meta: RuleMeta | undefined
-    let result: string | string[] | undefined
+    let result: string | ShortcutValue[] | undefined
     for (const s of this.config.shortcuts) {
       const unprefixed = s[2]?.prefix ? input.slice(s[2].prefix.length) : input
       if (isStaticShortcut(s)) {
@@ -531,18 +531,18 @@ export class UnoGenerator {
     }
 
     // expand nested shotcuts
-    if (typeof result === 'string')
+    if (isString(result))
       result = expandVariantGroup(result).split(/\s+/g)
 
     // expand nested shortcuts with variants
     if (!result) {
-      const [raw, inputWithoutVariant] = typeof input === 'string'
+      const [raw, inputWithoutVariant] = isString(input)
         ? this.matchVariants(input)
         : input
       if (raw !== inputWithoutVariant) {
         const expanded = this.expandShortcut(inputWithoutVariant, context, depth - 1)
         if (expanded)
-          result = expanded[0].map(item => raw.replace(inputWithoutVariant, item))
+          result = expanded[0].map(item => isString(item) ? raw.replace(inputWithoutVariant, item) : item)
       }
     }
 
@@ -551,7 +551,7 @@ export class UnoGenerator {
 
     return [
       result
-        .flatMap(r => this.expandShortcut(r, context, depth - 1)?.[0] || [r])
+        .flatMap(r => (isString(r) ? this.expandShortcut(r, context, depth - 1)?.[0] : undefined) || [r])
         .filter(Boolean),
       meta,
     ]
@@ -560,17 +560,22 @@ export class UnoGenerator {
   async stringifyShortcuts(
     parent: VariantMatchedResult,
     context: RuleContext,
-    expanded: string[],
+    expanded: ShortcutValue[],
     meta: RuleMeta = { layer: this.config.shortcutsLayer },
   ): Promise<StringifiedUtil[] | undefined> {
     const selectorMap = new TwoKeyMap<string, string | undefined, [[CSSEntries, boolean, number][], number]>()
     const parsed = (
       await Promise.all(uniq(expanded)
         .map(async (i) => {
-          const result = await this.parseUtil(i, context, true)
+          const result = isString(i)
+            // rule
+            ? await this.parseUtil(i, context, true) as ParsedUtil[]
+            // inline CSS value in shortcut
+            : [[Infinity, '{inline}', normalizeCSSEntries(i), undefined, []] as ParsedUtil]
+
           if (!result)
             warnOnce(`unmatched utility "${i}" in shortcut "${parent[1]}"`)
-          return (result || []) as ParsedUtil[]
+          return result || []
         })))
       .flat(1)
       .filter(Boolean)
@@ -618,7 +623,7 @@ export class UnoGenerator {
   }
 
   isBlocked(raw: string) {
-    return !raw || this.config.blocklist.some(e => typeof e === 'string' ? e === raw : e.test(raw))
+    return !raw || this.config.blocklist.some(e => isString(e) ? e === raw : e.test(raw))
   }
 }
 

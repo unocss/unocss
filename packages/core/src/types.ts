@@ -177,13 +177,14 @@ export type DynamicRule<Theme extends {} = {}> = [RegExp, DynamicMatcher<Theme>]
 export type StaticRule = [string, CSSObject | CSSEntries] | [string, CSSObject | CSSEntries, RuleMeta]
 export type Rule<Theme extends {} = {}> = DynamicRule<Theme> | StaticRule
 
-export type DynamicShortcutMatcher<Theme extends {} = {}> = ((match: RegExpMatchArray, context: Readonly<RuleContext<Theme>>) => (string | string [] | undefined))
+export type DynamicShortcutMatcher<Theme extends {} = {}> = ((match: RegExpMatchArray, context: Readonly<RuleContext<Theme>>) => (string | ShortcutValue[] | undefined))
 
-export type StaticShortcut = [string, string | string[]] | [string, string | string[], RuleMeta]
-export type StaticShortcutMap = Record<string, string | string[]>
+export type StaticShortcut = [string, string | ShortcutValue[]] | [string, string | ShortcutValue[], RuleMeta]
+export type StaticShortcutMap = Record<string, string | ShortcutValue[]>
 export type DynamicShortcut<Theme extends {} = {}> = [RegExp, DynamicShortcutMatcher<Theme>] | [RegExp, DynamicShortcutMatcher<Theme>, RuleMeta]
 export type UserShortcuts<Theme extends {} = {}> = StaticShortcutMap | (StaticShortcut | DynamicShortcut<Theme> | StaticShortcutMap)[]
 export type Shortcut<Theme extends {} = {}> = StaticShortcut | DynamicShortcut<Theme>
+export type ShortcutValue = string | CSSValue
 
 export type FilterPattern = ReadonlyArray<string | RegExp> | string | RegExp | null
 

@@ -28,6 +28,8 @@ describe('shortcuts', () => {
       ['shortcut-hover-active-1', 'focus:bg-green-300 hover:bg-green-300 active:bg-green-300'],
       ['shortcut-hover-active-2', 'focus:bg-red-300 hover:bg-yellow-300 active:bg-blue-300'],
       ['loading', 'animate-spin duration-1000'],
+      ['shortcut-inline-body', ['p2', { margin: '3px' }]],
+      [/^shortcut-inline-dynamic-(\d)$/, ([,d]) => [`p${d}`, { margin: `${d}px` }]],
     ],
     presets: [
       presetUno(),
@@ -107,6 +109,16 @@ describe('shortcuts', () => {
 
   test('shortcut of nested pseudo', async () => {
     const { css } = await uno.generate('btn3 focus:btn3 hover:btn3 focus:hover:btn3', { preflights: false })
+    expect(css).toMatchSnapshot()
+  })
+
+  test('shortcut with inline body', async () => {
+    const { css } = await uno.generate(`
+      shortcut-inline-body
+      hover:shortcut-inline-body
+      shortcut-inline-dynamic-1
+      shortcut-inline-dynamic-2
+    `, { preflights: false })
     expect(css).toMatchSnapshot()
   })
 })

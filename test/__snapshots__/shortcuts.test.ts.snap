@@ -82,6 +82,14 @@ exports[`shortcuts > shortcut of nested pseudo 1`] = `
 .hover\\\\:btn3:hover:hover{--un-bg-opacity:1;background-color:rgba(0,0,0,var(--un-bg-opacity));--un-text-opacity:1;color:rgba(21,94,117,var(--un-text-opacity));text-decoration-line:underline;}"
 `;
 
+exports[`shortcuts > shortcut with inline body 1`] = `
+"/* layer: shortcuts */
+.hover\\\\:shortcut-inline-body:hover,
+.shortcut-inline-body{padding:0.5rem;margin:3px;}
+.shortcut-inline-dynamic-1{padding:0.25rem;margin:1px;}
+.shortcut-inline-dynamic-2{padding:0.5rem;margin:2px;}"
+`;
+
 exports[`shortcuts > static 1`] = `
 "/* layer: shortcuts */
 .sh1{margin:0.75rem;padding-left:0.5rem;padding-right:0.5rem;padding-top:0.75rem;padding-bottom:0.75rem;}
