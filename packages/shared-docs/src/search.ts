@@ -1,16 +1,16 @@
 import type { Rule, UnoGenerator, Variant } from '@unocss/core'
 import { notNull, uniq } from '@unocss/core'
+import { watchAtMost } from '@vueuse/core'
 import Fuse from 'fuse.js'
 import { createAutocomplete } from '@unocss/autocomplete'
-import { reactive, toRaw } from '@vue/reactivity'
-import prettier from 'prettier/standalone'
-import parserCSS from 'prettier/parser-postcss'
+import type { Ref } from 'vue'
+import { computed, reactive, toRaw } from 'vue'
 import type { DocItem, GuideItem, ResultItem, RuleItem } from './types'
-import { extractColors, sampleArray } from './utils'
+import { extractColors, formatCSS, sampleArray } from './utils'
 
 export interface SearchState {
   uno: UnoGenerator
-  docs: DocItem[]
+  docs: Ref<DocItem[]>
   guides: GuideItem[]
   limit?: number
 }
@@ -22,10 +22,7 @@ export function createSearch(
   const matchedMap = reactive(new Map<string, RuleItem>())
   const featuresMap = reactive(new Map<string, Set<RuleItem>>())
 
-  let fuseCollection: ResultItem[] = [
-    ...guides,
-    ...docs,
-  ]
+  let fuseCollection: ResultItem[] = []
 
   const fuse = new Fuse<ResultItem>(
     fuseCollection,
@@ -53,7 +50,7 @@ export function createSearch(
       includeScore: true,
     },
   )
-  const docsFuse = new Fuse<ResultItem>(docs, { keys: ['title', 'summary'], isCaseSensitive: false })
+  const docsFuse = computed(() => new Fuse<ResultItem>(docs.value, { keys: ['title', 'summary'], isCaseSensitive: false }))
   const guideFuse = new Fuse<ResultItem>(guides, { keys: ['title'], isCaseSensitive: false })
 
   const az09 = Array.from('abcdefghijklmnopqrstuvwxyz01234567890')
@@ -71,8 +68,8 @@ export function createSearch(
     if (input.match(/^(mdn|doc):/)) {
       input = input.slice(4).trim()
       if (!input)
-        return docs.slice(0, limit)
-      return docsFuse.search(input, { limit }).map(i => i.item)
+        return docs.value.slice(0, limit)
+      return docsFuse.value.search(input, { limit }).map(i => i.item)
     }
 
     // guide
@@ -155,15 +152,7 @@ export function createSearch(
     const last = token[token.length - 1]!
 
     const generate = await uno.generate(new Set([input]), { preflights: false, minify: true })
-
-    const css = prettier.format(
-      generate.css,
-      {
-        parser: 'css',
-        plugins: [parserCSS],
-        printWidth: Infinity,
-      },
-    )
+    const css = await formatCSS(generate.css)
 
     // props
     const features = getFeatureUsage(css)
@@ -219,7 +208,7 @@ export function createSearch(
     const functions = uniq([...css.matchAll(/\b(\w+)\(/mg)].map(i => `${i[1]}()`))
     const pseudo = uniq([...css.matchAll(/\:([\w-]+)/mg)].map(i => `:${i[1]}`))
     return [...props, ...functions, ...pseudo]
-      .filter(i => docs.find(s => s.title === i))
+      .filter(i => docs.value.find(s => s.title === i))
   }
 
   function getUrls(css: string) {
@@ -263,13 +252,23 @@ export function createSearch(
     ac.reset()
     _fusePrepare = undefined
     _generatePromiseMap.clear()
-    fuseCollection = [...guides, ...docs]
+    fuseCollection = [...guides, ...docs.value]
     fuse.setCollection(fuseCollection)
   }
 
   function getSearchCount() {
     return fuseCollection.length
   }
+
+  // docs is lazy loaded
+  watchAtMost(
+    () => docs.value,
+    () => {
+      fuseCollection = [...guides, ...docs.value]
+      fuse.setCollection(fuseCollection)
+    },
+    { count: 1 },
+  )
 
   return {
     uno,

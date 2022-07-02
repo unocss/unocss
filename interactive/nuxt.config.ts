@@ -41,6 +41,7 @@ export default defineNuxtConfig({
     },
   },
   vite: {
+    logLevel: 'info',
     // @ts-expect-error any
     vue: {
       include: [/\.vue$/, /\.md$/],

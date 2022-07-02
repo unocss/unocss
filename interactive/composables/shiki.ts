@@ -1,21 +1,21 @@
 import type { Highlighter, Lang } from 'shiki'
-import { getHighlighter, setCDN } from 'shiki'
-
-setCDN('/shiki/')
 
 export const shiki = ref<Highlighter>()
 
-getHighlighter({
-  themes: [
-    'vitesse-dark',
-    'vitesse-light',
-  ],
-  langs: [
-    'css',
-    'javascript',
-  ],
-})
-  .then(i => shiki.value = i)
+import('shiki')
+  .then(async (r) => {
+    r.setCDN('/shiki/')
+    shiki.value = await r.getHighlighter({
+      themes: [
+        'vitesse-dark',
+        'vitesse-light',
+      ],
+      langs: [
+        'css',
+        'javascript',
+      ],
+    })
+  })
 
 export function highlight(code: string, lang: Lang) {
   if (!shiki.value)
