@@ -22,9 +22,15 @@ let customConfig: UserConfig = {}
 let autocomplete = createAutocomplete(uno)
 
 const reGenerate = () => {
-  uno.setConfig(customConfig, defaultConfig.value)
-  generate()
-  autocomplete = createAutocomplete(uno)
+  // Make it force refresh
+  const lastInput = inputHTML.value
+  inputHTML.value = ''
+  nextTick(() => {
+    inputHTML.value = lastInput
+    uno.setConfig(customConfig, defaultConfig.value)
+    generate()
+    autocomplete = createAutocomplete(uno)
+  })
 }
 
 export const transformedHTML = computedAsync(async () => {
