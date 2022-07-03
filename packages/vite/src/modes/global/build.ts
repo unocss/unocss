@@ -149,8 +149,8 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
         const files = Object.keys(bundle)
         const cssFiles = files
           .filter(i => i.endsWith('.css'))
-
-        if (!cssFiles.length)
+        const jsFiles = files.filter(i => i.endsWith('.js'))
+        if (!(cssFiles.length | jsFiles.length))
           return
 
         if (!vfsLayers.size) {
@@ -173,6 +173,18 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
               return await applyCssTransform(layer === LAYER_MARK_ALL
                 ? result.getLayers(undefined, Array.from(vfsLayers))
                 : result.getLayer(layer) || '', `${chunk.fileName}.css`, options.dir)
+            })
+          }
+        }
+
+        for (const file of jsFiles) {
+          const chunk = bundle[file]
+          if (chunk.type === 'chunk' && typeof chunk.code === 'string') {
+            const js = chunk.code
+              .replace(HASH_PLACEHOLDER_RE, '')
+            chunk.code = await replaceAsync(js, LAYER_PLACEHOLDER_RE, async (_, __, layer) => {
+              replaced = true
+              return layer === LAYER_MARK_ALL ? result.getLayers(undefined, Array.from(vfsLayers)) : result.getLayer(layer) || ''
             })
           }
         }
