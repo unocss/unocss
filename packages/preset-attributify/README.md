@@ -83,6 +83,38 @@ now can be
 <div m-2 rounded text-teal-400 />
 ```
 
+### Properties Conflicts
+
+If the name of the attributes mode ever conflicts with the elements' or components' properties, you can add `un-` prefix to be specific to UnoCSS's attributify mode.
+
+For example:
+
+```html
+<a text="red">This conflicts with links' `text` prop</a>
+<!-- to -->
+<a un-text="red">Text color to red</a>
+```
+
+Prefix is optional by default, if you want to enforce the usage of prefix, set
+
+```ts
+presetAttributify({
+  prefix: 'un-',
+  prefixedOnly: true, // <--
+})
+```
+
+You can also disable the scanning for certain attributes by:
+
+```ts
+presetAttributify({
+  ignoreAttributes: [
+    'text'
+    // ...
+  ]
+})
+```
+
 ## TypeScript Support (JSX/TSX)
 
 Create `shims.d.ts` with the following content:
