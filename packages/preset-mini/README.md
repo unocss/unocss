@@ -88,15 +88,17 @@ You can fully customize your theme property in your config, and UnoCSS will even
 <!--eslint-skip-->
 
 ```ts
-theme: {
-  // ...
-  colors: {
-    'veryCool': '#0000ff', // class="text-very-cool"
-    'brand': {
-      'primary': 'hsla(var(--hue, 217), 78%, 51%)', //class="bg-brand-primary"
-    }
-  },
-}
+presetMini({
+  theme: {
+    // ...
+    colors: {
+      'veryCool': '#0000ff', // class="text-very-cool"
+      'brand': {
+        'primary': 'hsla(var(--hue, 217), 78%, 51%)', //class="bg-brand-primary"
+      }
+    },
+  }
+})
 ```
 
 To consume the theme in rules:
@@ -118,7 +120,7 @@ presetMini({
     // ...
     breakpoints: {
       sm: '320px',
-      md: '768px',
+      md: '640px',
     },
   },
 })

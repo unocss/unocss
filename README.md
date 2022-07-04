@@ -491,16 +491,16 @@ rules: [
 
 One exception is that UnoCSS gives full control of `breakpoints` to users. When a custom `breakpoints` is provided, the default will be overridden instead of merging. For example:
 
+<!--eslint-skip-->
+
 ```ts
-presetMini({
-  theme: {
-    // ...
-    breakpoints: {
-      sm: '320px',
-      md: '768px',
-    },
+theme: {
+  // ...
+  breakpoints: {
+    sm: '320px',
+    md: '640px',
   },
-})
+}
 ```
 
 Right now, you can only use the `sm:` and `md:` breakpoint variants.
