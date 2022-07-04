@@ -468,16 +468,13 @@ UnoCSS also supports the theming system that you might be familiar with in Tailw
 
 ```ts
 theme: {
+  // ...
   colors: {
     'veryCool': '#0000ff', // class="text-very-cool"
     'brand': {
       'primary': 'hsla(var(--hue, 217), 78%, 51%)', //class="bg-brand-primary"
     }
   },
-  breakpoints: {
-    xs: '320px',
-    sm: '640px',
-  }
 }
 ```
 
@@ -491,6 +488,24 @@ rules: [
   }],
 ]
 ```
+
+One exception is that UnoCSS gives full control of `breakpoints` to users. When a custom `breakpoints` is provided, the default will be overridden instead of merging. For example:
+
+<!--eslint-skip-->
+
+```ts
+theme: {
+  // ...
+  breakpoints: {
+    sm: '320px',
+    md: '640px',
+  },
+}
+```
+
+Right now, you can only use the `sm:` and `md:` breakpoint variants.
+
+`verticalBreakpoints` is same as `breakpoints` but for vertical layout.
 
 ### Layers
 
