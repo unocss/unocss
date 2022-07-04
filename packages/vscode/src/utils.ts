@@ -70,13 +70,16 @@ export function getColorsMap(uno: UnoGenerator, result: GenerateResult) {
     }
 
     const matchedAttr = i.match(matchedAttributifyRE)
-    const body = matchedAttr?.[0] ?? i // remove prefix e.g. `dark:` `hover:`
+    const body = (matchedAttr ? matchedAttr[0] : i)
+      .split(':').at(-1) ?? '' // remove prefix e.g. `dark:` `hover:`
 
-    const colorValue = body2ColorValue(body, theme)
-    if (colorValue) {
-      const colorString = colorToString(colorValue.cssColor!, colorValue.alpha)
-      colorsMap.set(_i, colorString)
-      _colorsMapCache.set(_i, colorString)
+    if (body) {
+      const colorValue = body2ColorValue(body, theme)
+      if (colorValue) {
+        const colorString = colorToString(colorValue.cssColor!, colorValue.alpha)
+        colorsMap.set(_i, colorString)
+        _colorsMapCache.set(_i, colorString)
+      }
     }
   }
 
