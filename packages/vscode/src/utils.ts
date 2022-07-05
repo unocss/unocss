@@ -46,6 +46,7 @@ export function body2ColorValue(body: string, theme: Theme) {
 
   for (const colorName of colorNames) {
     const nameIndex = body.indexOf(colorName)
+
     if (nameIndex > -1) {
       const parsedResult = parseColor(body.substring(nameIndex), theme)
       if (parsedResult?.cssColor)
@@ -56,27 +57,34 @@ export function body2ColorValue(body: string, theme: Theme) {
   return null
 }
 
-const matchedAttributifyRE = /(?<=^\[.+~?=").*(?="\]$)/
+const matchedAttributifyRE = /(?<=^\[.+~=").*(?="\]$)/
+const matchedValuelessAttributifyRE = /(?<=^\[).+(?==""\]$)/
 const _colorsMapCache = new Map<string, string>()
 export function getColorsMap(uno: UnoGenerator, result: GenerateResult) {
   const theme = uno.config.theme as Theme
   const colorsMap = new Map<string, string>()
 
   for (const i of result.matched) {
-    const _i = i.replace('~="', '="')
-    if (_colorsMapCache.get(_i)) {
-      colorsMap.set(_i, _colorsMapCache.get(_i)!)
+    const matchedValueless = i.match(matchedValuelessAttributifyRE)?.[0]
+    const colorKey = matchedValueless ?? i.replace('~="', '="')
+
+    const cachedColor = _colorsMapCache.get(colorKey)
+    if (cachedColor) {
+      colorsMap.set(colorKey, cachedColor)
       continue
     }
 
-    const matchedAttr = i.match(matchedAttributifyRE)
-    const body = matchedAttr?.[0] ?? i // remove prefix e.g. `dark:` `hover:`
+    const matchedAttr = i.match(matchedAttributifyRE)?.[0] ?? matchedValueless
+    const body = (matchedAttr ?? i)
+      .split(':').slice(-1)[0] ?? '' // remove prefix e.g. `dark:` `hover:`
 
-    const colorValue = body2ColorValue(body, theme)
-    if (colorValue) {
-      const colorString = colorToString(colorValue.cssColor!, colorValue.alpha)
-      colorsMap.set(_i, colorString)
-      _colorsMapCache.set(_i, colorString)
+    if (body) {
+      const colorValue = body2ColorValue(body, theme)
+      if (colorValue) {
+        const colorString = colorToString(colorValue.cssColor!, colorValue.alpha)
+        colorsMap.set(colorKey, colorString)
+        _colorsMapCache.set(colorKey, colorString)
+      }
     }
   }
 
