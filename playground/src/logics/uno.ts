@@ -20,6 +20,7 @@ export const showPreflights = ref(false)
 
 let customConfig: UserConfig = {}
 let autocomplete = createAutocomplete(uno)
+let initial = true
 
 const reGenerate = () => {
   uno.setConfig(customConfig, defaultConfig.value)
@@ -27,14 +28,16 @@ const reGenerate = () => {
   autocomplete = createAutocomplete(uno)
 }
 
-export const transformedHTML = computedAsync(async () => {
+const getTransformedHTML = async () => {
   const id = 'input.html'
   const input = new MagicString(inputHTML.value)
   await applyTransformers(input, id, 'pre')
   await applyTransformers(input, id)
   await applyTransformers(input, id, 'post')
   return input.toString()
-})
+}
+
+export const transformedHTML = computedAsync(async () => await getTransformedHTML())
 
 export async function applyTransformers(code: MagicString, id: string, enforce?: 'pre' | 'post') {
   let { transformers } = uno.config
@@ -88,6 +91,12 @@ debouncedWatch(
       if (result) {
         customConfig = result
         reGenerate()
+        if (initial) {
+          const { transformers = [] } = uno.config
+          if (transformers.length)
+            transformedHTML.value = await getTransformedHTML()
+          initial = false
+        }
       }
     }
     catch (e) {
