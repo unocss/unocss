@@ -76,7 +76,7 @@ export function getColorsMap(uno: UnoGenerator, result: GenerateResult) {
 
     const matchedAttr = i.match(matchedAttributifyRE)?.[0] ?? matchedValueless
     const body = (matchedAttr ?? i)
-      .split(':').at(-1) ?? '' // remove prefix e.g. `dark:` `hover:`
+      .split(':').slice(-1)[0] ?? '' // remove prefix e.g. `dark:` `hover:`
 
     if (body) {
       const colorValue = body2ColorValue(body, theme)
