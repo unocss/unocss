@@ -122,7 +122,7 @@ function handlerRounded([, a = '', s]: string[], { theme }: RuleContext<Theme>):
     return cornerMap[a].map(i => [`border${i}-radius`, v])
 }
 
-function handlerBorderStyle([, a = '', s]: string[]): CSSEntries | undefined {
+export function handlerBorderStyle([, a = '', s]: string[]): CSSEntries | undefined {
   if (borderStyles.includes(s) && a in directionMap)
     return directionMap[a].map(i => [`border${i}-style`, s])
 }
