@@ -24,11 +24,11 @@ export async function activate(ext: ExtensionContext) {
 
   const contextLoader = new ContextLoader(cwd)
 
+  await contextLoader.ready
+
   const hasConfig = await contextLoader.loadContextInDirectory(cwd)
   if (!hasConfig)
     return
-
-  await contextLoader.ready
 
   const status = window.createStatusBarItem(StatusBarAlignment.Right, 200)
   status.text = 'UnoCSS'
