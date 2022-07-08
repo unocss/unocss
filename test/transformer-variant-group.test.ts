@@ -1,5 +1,4 @@
 import { readFile } from 'fs/promises'
-import transformerVariantGroup from '@unocss/transformer-variant-group'
 import { describe, expect, test } from 'vitest'
 import { expandVariantGroup } from '@unocss/core'
 import MagicString from 'magic-string'
@@ -33,12 +32,6 @@ describe('transformer-variant-group', () => {
   })
 
   test('vue file', async () => {
-    const transformer = transformerVariantGroup()
-    const transform = async (code: string) => {
-      const s = new MagicString(code)
-      await transformer.transform(s, '', {} as any)
-      return s.toString()
-    }
     const file = await readFile('./test/assets/variant-group.vue', 'utf-8')
     const result = await transform(file)
     expect(result).toMatchInlineSnapshot(`
@@ -46,9 +39,9 @@ describe('transformer-variant-group', () => {
       const a = 1
       const b = 2
       // eslint-disable-next-line @typescript-eslint/space-infix-ops
-      const c = a-(b -a -b)
+      const c = a-b a--a a--b
       </script>
-      
+
       <template>
         <div class=\\"bg-white font-light sm:hover:bg-gray-100 sm:hover:font-medium\\" />
         <div class=\\"lt-sm:hover:p-1 lt-sm:hover:p-2\\" />

@@ -7,9 +7,10 @@ export function expandVariantGroup(str: MagicString): MagicString
 export function expandVariantGroup(str: string | MagicString) {
   regexClassGroup.lastIndex = 0
   let hasChanged = false
+  let content = str.toString()
   do {
-    const before = str.toString()
-    str = str.replace(
+    const before = content
+    content = content.replace(
       regexClassGroup,
       (_, pre, sep, body: string) => {
         return body
@@ -18,8 +19,11 @@ export function expandVariantGroup(str: string | MagicString) {
           .join(' ')
       },
     )
-    hasChanged = str.toString() !== before
+    hasChanged = content !== before
   } while (hasChanged)
 
-  return str
+  if (typeof str === 'string')
+    return content
+  else
+    return str.overwrite(0, str.length(), content)
 }
