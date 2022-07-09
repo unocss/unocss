@@ -8,6 +8,7 @@ import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
 /** @type {import('vite').UserConfig} */
 const config = {
   plugins: [
+    sveltekit(),
     UnoCss({
       extractors: [extractorSvelte],
       shortcuts: [
@@ -38,7 +39,6 @@ const config = {
         }),
       ],
     }),
-    sveltekit(),
   ],
 }
 
