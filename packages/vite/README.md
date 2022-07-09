@@ -251,26 +251,20 @@ To support `class:foo` and `class:foo={bar}` add the plugin and configure `extra
 You can use simple rules with `class:`, for example `class:bg-red-500={foo}` or using `shorcuts` to include multiples rules, see `src/routes/__layout.svelte` on linked example project below.
 
 ```ts
-// svelte.config.js
-import preprocess from 'svelte-preprocess'
+// vite.config.js
+import { sveltekit } from '@sveltejs/kit/vite'
 import UnoCss from 'unocss/vite'
 import { extractorSvelte } from '@unocss/core'
 
-/** @type {import('@sveltejs/kit').Config} */
+/** @type {import('vite').UserConfig} */
 const config = {
-  // Consult https://github.com/sveltejs/svelte-preprocess
-  // for more information about preprocessors
-  preprocess: preprocess(),
-  kit: {
-    vite: {
-      plugins: [
-        UnoCss({
-          extractors: [extractorSvelte],
-          /* more options */
-        }),
-      ],
-    },
-  },
+  plugins: [
+    sveltekit(),
+    UnoCss({
+      extractors: [extractorSvelte],
+      /* more options */
+    }),
+  ],
 }
 ```
 
