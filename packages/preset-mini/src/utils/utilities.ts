@@ -23,10 +23,27 @@ export const directionSize = (propertyPrefix: string) => ([_, direction, size]: 
 /**
  * Obtain color from theme by camel-casing colors.
  */
-const getThemeColor = (theme: Theme, colors: string[]) =>
-  theme.colors?.[
-    colors.join('-').replace(/(-[a-z])/g, n => n.slice(1).toUpperCase())
-  ]
+const getThemeColor = (theme: Theme, colors: string[]) => {
+  let obj: Theme['colors'] | string = theme.colors
+  let index = -1
+
+  for (const c of colors) {
+    index += 1
+    if (obj && typeof obj !== 'string') {
+      const camel = colors.slice(index).join('-').replace(/(-[a-z])/g, n => n.slice(1).toUpperCase())
+      if (obj[camel])
+        return obj[camel]
+
+      if (obj[c]) {
+        obj = obj[c]
+        continue
+      }
+    }
+    return undefined
+  }
+
+  return obj
+}
 
 /**
  * Parse color string into {@link ParsedColorValue} (if possible). Color value will first be matched to theme object before parsing.
@@ -81,6 +98,10 @@ export const parseColor = (body: string, theme: Theme): ParsedColorValue | undef
     if (scale.match(/^\d+$/)) {
       no = scale
       colorData = getThemeColor(theme, colors.slice(0, -1))
+      if (!colorData || typeof colorData === 'string')
+        color = undefined
+      else
+        color = colorData[no] as string
     }
     else {
       colorData = getThemeColor(theme, colors)
@@ -88,12 +109,11 @@ export const parseColor = (body: string, theme: Theme): ParsedColorValue | undef
         [, no = no] = colors
         colorData = getThemeColor(theme, [name])
       }
+      if (typeof colorData === 'string')
+        color = colorData
+      else if (no && colorData)
+        color = colorData[no] as string
     }
-
-    if (typeof colorData === 'string')
-      color = colorData
-    else if (no && colorData)
-      color = colorData[no]
   }
 
   return {
