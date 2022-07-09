@@ -196,6 +196,7 @@ export const presetMiniTargets: string[] = [
   'text-[var(--color)]',
   'text-[#124]',
   'text-[2em]',
+  'text-[100px]',
   'text-[calc(1em-1px)]',
   'text-[length:var(--size)]',
   'text-[length:2em]',

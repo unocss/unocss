@@ -22,9 +22,9 @@ const cssProps = [
   'border-radius',
 ]
 
-const numberWithUnitRE = /^(-?[0-9.]+)(px|pt|pc|rem|em|%|vh|vw|in|cm|mm|ex|ch|vmin|vmax|cqw|cqh|cqi|cqb|cqmin|cqmax|rpx)?$/i
-const numberRE = /^(-?[0-9.]+)$/i
-const unitOnlyRE = /^(px)$/i
+export const numberWithUnitRE = /^(-?[0-9.]+)(px|pt|pc|rem|em|%|vh|vw|in|cm|mm|ex|ch|vmin|vmax|cqw|cqh|cqi|cqb|cqmin|cqmax|rpx)?$/i
+export const numberRE = /^(-?[0-9.]+)$/i
+export const unitOnlyRE = /^(px)$/i
 
 function round(n: number) {
   return n.toFixed(10).replace(/\.0+$/, '').replace(/(\.\d+?)0+$/, '$1')
