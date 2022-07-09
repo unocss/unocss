@@ -1,4 +1,4 @@
-import type { CSSEntries, CSSObject, ParsedColorValue, Rule, RuleContext, VariantContext } from '@unocss/core'
+import type { CSSEntries, CSSObject, DynamicMatcher, ParsedColorValue, Rule, RuleContext, VariantContext } from '@unocss/core'
 import { toArray } from '@unocss/core'
 import type { Theme } from '../theme'
 import { colorOpacityToString, colorToString, parseCssColor } from './colors'
@@ -11,22 +11,40 @@ export const CONTROL_MINI_NO_NEGATIVE = '$$mini-no-negative'
  * Provide {@link DynamicMatcher} function returning spacing definition. See spacing rules.
  *
  * @param {string} propertyPrefix - Property for the css value to be created. Postfix will be appended according to direction matched.
- * @return {@link DynamicMatcher} object.
  * @see {@link directionMap}
  */
-export const directionSize = (propertyPrefix: string) => ([_, direction, size]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined => {
-  const v = theme.spacing?.[size || 'DEFAULT'] ?? h.bracket.cssvar.global.auto.fraction.rem(size)
-  if (v != null)
-    return directionMap[direction].map(i => [`${propertyPrefix}${i}`, v])
+export function directionSize(propertyPrefix: string): DynamicMatcher {
+  return ([_, direction, size]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined => {
+    const v = theme.spacing?.[size || 'DEFAULT'] ?? h.bracket.cssvar.global.auto.fraction.rem(size)
+    if (v != null)
+      return directionMap[direction].map(i => [`${propertyPrefix}${i}`, v])
+  }
 }
 
 /**
  * Obtain color from theme by camel-casing colors.
  */
-const getThemeColor = (theme: Theme, colors: string[]) =>
-  theme.colors?.[
-    colors.join('-').replace(/(-[a-z])/g, n => n.slice(1).toUpperCase())
-  ]
+function getThemeColor(theme: Theme, colors: string[]) {
+  let obj: Theme['colors'] | string = theme.colors
+  let index = -1
+
+  for (const c of colors) {
+    index += 1
+    if (obj && typeof obj !== 'string') {
+      const camel = colors.slice(index).join('-').replace(/(-[a-z])/g, n => n.slice(1).toUpperCase())
+      if (obj[camel])
+        return obj[camel]
+
+      if (obj[c]) {
+        obj = obj[c]
+        continue
+      }
+    }
+    return undefined
+  }
+
+  return obj
+}
 
 /**
  * Parse color string into {@link ParsedColorValue} (if possible). Color value will first be matched to theme object before parsing.
@@ -42,7 +60,7 @@ const getThemeColor = (theme: Theme, colors: string[]) =>
  * @param {Theme} theme - {@link Theme} object.
  * @return {ParsedColorValue|undefined}  {@link ParsedColorValue} object if string is parseable.
  */
-export const parseColor = (body: string, theme: Theme): ParsedColorValue | undefined => {
+export function parseColor(body: string, theme: Theme): ParsedColorValue | undefined {
   const split = body.split(/(?:\/|:)/)
   let main, opacity
   if (split[0] === '[color') {
@@ -81,6 +99,10 @@ export const parseColor = (body: string, theme: Theme): ParsedColorValue | undef
     if (scale.match(/^\d+$/)) {
       no = scale
       colorData = getThemeColor(theme, colors.slice(0, -1))
+      if (!colorData || typeof colorData === 'string')
+        color = undefined
+      else
+        color = colorData[no] as string
     }
     else {
       colorData = getThemeColor(theme, colors)
@@ -88,12 +110,11 @@ export const parseColor = (body: string, theme: Theme): ParsedColorValue | undef
         [, no = no] = colors
         colorData = getThemeColor(theme, [name])
       }
+      if (typeof colorData === 'string')
+        color = colorData
+      else if (no && colorData)
+        color = colorData[no] as string
     }
-
-    if (typeof colorData === 'string')
-      color = colorData
-    else if (no && colorData)
-      color = colorData[no]
   }
 
   return {
@@ -131,35 +152,35 @@ export const parseColor = (body: string, theme: Theme): ParsedColorValue | undef
  * @param {string} varName - Base name for the opacity variable.
  * @return {@link DynamicMatcher} object.
  */
-export const colorResolver = (property: string, varName: string) => ([, body]: string[], { theme }: RuleContext<Theme>): CSSObject | undefined => {
-  const data = parseColor(body, theme)
+export function colorResolver(property: string, varName: string, shouldPass?: (css: CSSObject) => boolean): DynamicMatcher {
+  return ([, body]: string[], { theme }: RuleContext<Theme>): CSSObject | undefined => {
+    const data = parseColor(body, theme)
 
-  if (!data)
-    return
+    if (!data)
+      return
 
-  const { alpha, color, cssColor } = data
+    const { alpha, color, cssColor } = data
 
-  if (cssColor) {
-    if (alpha != null) {
-      return {
-        [property]: colorToString(cssColor, alpha),
+    const css: CSSObject = {}
+    if (cssColor) {
+      if (alpha != null) {
+        css[property] = colorToString(cssColor, alpha)
+      }
+      else {
+        css[`--un-${varName}-opacity`] = colorOpacityToString(cssColor)
+        css[property] = colorToString(cssColor, `var(--un-${varName}-opacity)`)
       }
     }
-    else {
-      return {
-        [`--un-${varName}-opacity`]: colorOpacityToString(cssColor),
-        [property]: colorToString(cssColor, `var(--un-${varName}-opacity)`),
-      }
+    else if (color) {
+      css[property] = colorToString(color, alpha)
     }
-  }
-  else if (color) {
-    return {
-      [property]: colorToString(color, alpha),
-    }
+
+    if (shouldPass?.(css) !== false)
+      return css
   }
 }
 
-export const colorableShadows = (shadows: string | string[], colorVar: string) => {
+export function colorableShadows(shadows: string | string[], colorVar: string) {
   const colored = []
   shadows = toArray(shadows)
   for (let i = 0; i < shadows.length; i++) {
@@ -175,11 +196,11 @@ export const colorableShadows = (shadows: string | string[], colorVar: string) =
   return colored
 }
 
-export const hasParseableColor = (color: string | undefined, theme: Theme) => {
+export function hasParseableColor(color: string | undefined, theme: Theme) {
   return color != null && !!parseColor(color, theme)?.color
 }
 
-export const resolveBreakpoints = ({ theme, generator }: Readonly<VariantContext<Theme>>) => {
+export function resolveBreakpoints({ theme, generator }: Readonly<VariantContext<Theme>>) {
   let breakpoints: Record<string, string> | undefined
   if (generator.userConfig && generator.userConfig.theme)
     breakpoints = (generator.userConfig.theme as any).breakpoints
@@ -190,7 +211,7 @@ export const resolveBreakpoints = ({ theme, generator }: Readonly<VariantContext
   return breakpoints
 }
 
-export const resolveVerticalBreakpoints = ({ theme, generator }: Readonly<VariantContext<Theme>>) => {
+export function resolveVerticalBreakpoints({ theme, generator }: Readonly<VariantContext<Theme>>) {
   let verticalBreakpoints: Record<string, string> | undefined
   if (generator.userConfig && generator.userConfig.theme)
     verticalBreakpoints = (generator.userConfig.theme as any).verticalBreakpoints
@@ -201,7 +222,7 @@ export const resolveVerticalBreakpoints = ({ theme, generator }: Readonly<Varian
   return verticalBreakpoints
 }
 
-export const makeGlobalStaticRules = (prefix: string, property?: string) => {
+export function makeGlobalStaticRules(prefix: string, property?: string) {
   return globalKeywords.map(keyword => [`${prefix}-${keyword}`, { [property ?? prefix]: keyword }] as Rule)
 }
 
