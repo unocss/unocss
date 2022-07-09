@@ -1,6 +1,6 @@
 import type { Rule } from '@unocss/core'
 import { colorResolver, handler as h } from '../utils'
-import { numberWithUnitRE } from '../utils/handlers/handlers'
+import { numberWithUnitRE } from '../utils/handlers/regex'
 
 /**
  * @example op10 op-30 opacity-100
