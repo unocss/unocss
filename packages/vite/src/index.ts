@@ -42,7 +42,7 @@ export default function UnocssPlugin<Theme extends {}>(
     plugins.push(UnocssInspector(ctx))
 
   if (mode === 'per-module') {
-    plugins.push(PerModuleModePlugin(ctx))
+    plugins.push(...PerModuleModePlugin(ctx))
   }
   else if (mode === 'vue-scoped') {
     plugins.push(VueScopedPlugin(ctx))
