@@ -23,6 +23,9 @@ import '@unocss/reset/eric-meyer.css'
 // preflights from tailwind
 import '@unocss/reset/tailwind.css'
 
+// preflights from tailwind, use by web components
+import '@unocss/reset/tailwind.ce.css'
+
 // opinionated reset by Anthony Fu
 // https://github.com/unocss/unocss/blob/main/packages/reset/antfu.md
 import '@unocss/reset/antfu.css'
