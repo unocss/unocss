@@ -187,6 +187,8 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
                 ? result.getLayers(undefined, Array.from(vfsLayers))
                 : result.getLayer(layer) || ''
               return css
+                .replace(/\n/g, '')
+                .replace(/(?<!\\)(['"])/g, '\\$1')
             })
           }
         }
