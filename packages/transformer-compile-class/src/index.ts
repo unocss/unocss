@@ -1,5 +1,5 @@
 import type { SourceCodeTransformer } from '@unocss/core'
-import { escapeRegExp } from '@unocss/core'
+import { escapeRegExp, expandVariantGroup } from '@unocss/core'
 
 export interface CompileClassOptions {
   /**
@@ -43,14 +43,14 @@ export default function transformerCompileClass(options: CompileClassOptions = {
 
   return {
     name: 'compile-class',
-    enforce: 'pre',
+    enforce: 'post',
     async transform(s, _, { uno }) {
       const matches = [...s.original.matchAll(regex)]
       if (!matches.length)
         return
 
       for (const match of matches) {
-        let body = match[2].trim()
+        let body = expandVariantGroup(match[2].trim())
         const start = match.index!
         const replacements = []
         if (keepUnknown) {

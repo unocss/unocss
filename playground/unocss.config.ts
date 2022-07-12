@@ -21,8 +21,8 @@ export default defineConfig({
     presetIcons(),
   ],
   transformers: [
+    transformerCompileClass(),
     transformerVariantGroup(),
     transformerDirectives(),
-    transformerCompileClass(),
   ],
 })
