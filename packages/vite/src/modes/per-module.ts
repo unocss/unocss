@@ -5,7 +5,7 @@ import { getHash } from '../integration'
 const VIRTUAL_PREFIX = '/@unocss/'
 const SCOPE_IMPORT_RE = / from (['"])(@unocss\/scope)\1/
 
-export function PerModuleModePlugin({ uno, filter }: UnocssPluginContext): Plugin {
+export function PerModuleModePlugin({ uno, filter }: UnocssPluginContext): Plugin[] {
   const moduleMap = new Map<string, [string, string]>()
   let server: ViteDevServer | undefined
 
@@ -28,49 +28,75 @@ export function PerModuleModePlugin({ uno, filter }: UnocssPluginContext): Plugi
     })
   }
 
-  return {
-    name: 'unocss:module-scope',
-    enforce: 'post',
-    configureServer(_server) {
-      server = _server
+  return [
+    {
+      name: 'unocss:module-scope:pre',
+      enforce: 'pre',
+      async transform(code, id) {
+        if (!filter(code, id))
+          return
+
+        const hash = getHash(id)
+
+        const { css } = await uno.generate(code, {
+          id,
+          preflights: true,
+        })
+        if (!css)
+          return null
+
+        moduleMap.set(hash, [id, css])
+        invalidate(hash)
+
+        return {
+          code: `import "${VIRTUAL_PREFIX}${hash}.css";${code}`,
+          map: null,
+        }
+      },
     },
-    async transform(code, id) {
-      if (!filter(code, id))
-        return
+    {
+      name: 'unocss:module-scope',
+      enforce: 'post',
+      configureServer(_server) {
+        server = _server
+      },
+      async transform(code, id) {
+        if (!filter(code, id))
+          return
 
-      const hash = getHash(id)
-      const hasScope = code.match(SCOPE_IMPORT_RE)
+        const hash = getHash(id)
+        const hasScope = code.match(SCOPE_IMPORT_RE)
 
-      const { css } = await uno.generate(code, { id, scope: hasScope ? `.${hash}` : undefined, preflights: false })
-      if (!css && !hasScope)
-        return null
+        const { css } = await uno.generate(code, { id, scope: hasScope ? `.${hash}` : undefined, preflights: false })
+        if (!css && !hasScope)
+          return null
 
-      if (hasScope)
-        code = code.replace(SCOPE_IMPORT_RE, ` from 'data:text/javascript;base64,${Buffer.from(`export default () => "${hash}"`).toString('base64')}'`)
+        if (hasScope)
+          code = code.replace(SCOPE_IMPORT_RE, ` from 'data:text/javascript;base64,${Buffer.from(`export default () => "${hash}"`).toString('base64')}'`)
 
-      moduleMap.set(hash, [id, css])
-      invalidate(hash)
+        moduleMap.set(hash, [id, css])
+        invalidate(hash)
 
-      return {
-        code: `import "${VIRTUAL_PREFIX}${hash}.css";${code}`,
-        map: null,
-      }
-    },
-    resolveId(id) {
-      return id.startsWith(VIRTUAL_PREFIX) ? id : null
-    },
-    load(id) {
-      if (!id.startsWith(VIRTUAL_PREFIX))
-        return null
+        return {
+          code: `import "${VIRTUAL_PREFIX}${hash}.css";${code}`,
+          map: null,
+        }
+      },
+      resolveId(id) {
+        return id.startsWith(VIRTUAL_PREFIX) ? id : null
+      },
+      load(id) {
+        if (!id.startsWith(VIRTUAL_PREFIX))
+          return null
 
-      const hash = id.slice(VIRTUAL_PREFIX.length, -'.css'.length)
+        const hash = id.slice(VIRTUAL_PREFIX.length, -'.css'.length)
 
-      const [source, css] = moduleMap.get(hash) || []
+        const [source, css] = moduleMap.get(hash) || []
 
-      if (source)
-        this.addWatchFile(source)
+        if (source)
+          this.addWatchFile(source)
 
-      return `\n/* unocss ${source} */\n${css}`
-    },
-  }
+        return `\n/* unocss ${source} */\n${css}`
+      },
+    }]
 }
