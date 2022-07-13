@@ -31,10 +31,10 @@ describe('preset-mini', () => {
     const uno = createGenerator({
       presets: [
         presetMini({
-          dark: ['class', {
+          dark: {
             dark: '[data-mode="dark"]',
             light: '[data-mode="light"]',
-          }],
+          },
         }),
       ],
     })
