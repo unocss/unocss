@@ -390,6 +390,10 @@ export const presetWindTargets: string[] = [
 
   // variants - multiple parents
   '@dark:contrast-more:p-10',
+
+  // combinator
+  'next:space-y-2',
+  'children:space-y-2',
 ]
 
 export const presetWindNonTargets: string[] = [
