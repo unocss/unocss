@@ -11,7 +11,7 @@ export { parseColor } from './utils'
 
 export type { ThemeAnimation, Theme }
 
-type DarkModeSelectors = ['class', {
+interface DarkModeSelectors {
   /**
    * @default '.light'
    */
@@ -21,7 +21,7 @@ type DarkModeSelectors = ['class', {
    * @default '.dark'
    */
   dark?: string
-}]
+}
 
 export interface PresetMiniOptions extends PresetOptions {
   /**
