@@ -11,13 +11,17 @@ export { parseColor } from './utils'
 
 export type { ThemeAnimation, Theme }
 
-interface DarkModeSelectors {
+export interface DarkModeSelectors {
   /**
+   * Selector for light variant.
+   *
    * @default '.light'
    */
   light?: string
 
   /**
+   * Selector for dark variant.
+   *
    * @default '.dark'
    */
   dark?: string
@@ -25,14 +29,20 @@ interface DarkModeSelectors {
 
 export interface PresetMiniOptions extends PresetOptions {
   /**
+   * Dark mode options
+   *
    * @default 'class'
    */
   dark?: 'class' | 'media' | DarkModeSelectors
   /**
+   * Generate pesudo selector as `[group=""]` instead of `.group`
+   *
    * @default false
    */
   attributifyPseudo?: Boolean
   /**
+   * Prefix for CSS variables.
+   *
    * @default 'un-'
    */
   variablePrefix?: string
