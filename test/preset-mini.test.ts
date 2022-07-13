@@ -27,6 +27,32 @@ const uno = createGenerator({
 })
 
 describe('preset-mini', () => {
+  test('dark customizing selector', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini({
+          dark: {
+            dark: '[data-mode="dark"]',
+            light: '[data-mode="light"]',
+          },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'dark:bg-white',
+      'dark:text-lg',
+      'dark:hover:rounded',
+      'light:bg-black',
+      'light:text-sm',
+      'light:disabled:w-full',
+    ].join(' '), {
+      preflights: false,
+    })
+
+    expect(css).toMatchSnapshot()
+  })
+
   test('targets', async () => {
     const code = presetMiniTargets.join(' ')
     const { css } = await uno.generate(code)
