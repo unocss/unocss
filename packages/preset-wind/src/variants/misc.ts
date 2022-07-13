@@ -5,7 +5,7 @@ export const variantSpaceAndDivide: Variant = (matcher) => {
     return {
       matcher,
       selector: (input) => {
-        return `${input}>:not([hidden])~:not([hidden])`
+        return `${input}>:not([hidden])`
       },
     }
   }
