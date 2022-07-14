@@ -46,6 +46,7 @@
     "vite": "^2.9.0 || ^3.0.0-0"
   },
   "dependencies": {
+    "@ampproject/remapping": "^2.2.0",
     "@rollup/pluginutils": "^4.2.1",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",

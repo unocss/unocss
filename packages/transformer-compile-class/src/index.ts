@@ -43,8 +43,8 @@ export default function transformerCompileClass(options: CompileClassOptions = {
 
   return {
     name: 'compile-class',
-    enforce: 'post',
-    async transform(s, _, { uno }) {
+    enforce: 'pre',
+    async transform(s, _, { uno, tokens }) {
       const matches = [...s.original.matchAll(regex)]
       if (!matches.length)
         return
@@ -68,6 +68,7 @@ export default function transformerCompileClass(options: CompileClassOptions = {
             uno.config.shortcuts.push([className, body, { layer: options.layer }])
           else
             uno.config.shortcuts.push([className, body])
+          tokens.add(className)
         }
         s.overwrite(start + 1, start + match[0].length - 1, replacements.join(' '))
       }

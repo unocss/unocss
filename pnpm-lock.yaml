@@ -526,6 +526,7 @@ importers:
 
   packages/vite:
     specifiers:
+      '@ampproject/remapping': ^2.2.0
       '@rollup/pluginutils': ^4.2.1
       '@unocss/config': workspace:*
       '@unocss/core': workspace:*
@@ -536,6 +537,7 @@ importers:
       magic-string: ^0.26.2
       vite: 2.9.12
     dependencies:
+      '@ampproject/remapping': 2.2.0
       '@rollup/pluginutils': 4.2.1
       '@unocss/config': link:../config
       '@unocss/core': link:../core

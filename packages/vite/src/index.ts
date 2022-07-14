@@ -10,7 +10,7 @@ import { SvelteScopedPlugin } from './modes/svelte-scoped'
 import { ShadowDomModuleModePlugin } from './modes/shadow-dom'
 import { ConfigHMRPlugin } from './config-hmr'
 import type { VitePluginConfig } from './types'
-import { initTransformerPlugins } from './transformers'
+import { createTransformerPlugins } from './transformers'
 import { createDevtoolsPlugin } from './devtool'
 
 export * from './types'
@@ -34,7 +34,7 @@ export default function UnocssPlugin<Theme extends {}>(
 
   const plugins = [
     ConfigHMRPlugin(ctx),
-    ...initTransformerPlugins(ctx),
+    ...createTransformerPlugins(ctx),
     ...createDevtoolsPlugin(ctx),
   ]
 

@@ -1,17 +1,22 @@
 import type { Plugin } from 'vite'
 import type { UnocssPluginContext } from '@unocss/core'
 import MagicString from 'magic-string'
+import type { EncodedSourceMap } from '@ampproject/remapping'
+import remapping from '@ampproject/remapping'
+import type { SourceMap } from 'rollup'
 import { IGNORE_COMMENT } from './integration'
 
-export function initTransformerPlugins(ctx: UnocssPluginContext): Plugin[] {
-  async function applyTransformers(code: string, id: string, enforce?: 'pre' | 'post') {
-    if (code.includes(IGNORE_COMMENT))
+export function createTransformerPlugins(ctx: UnocssPluginContext): Plugin[] {
+  async function applyTransformers(original: string, id: string, enforce?: 'pre' | 'post') {
+    if (original.includes(IGNORE_COMMENT))
       return
     const transformers = (ctx.uno.config.transformers || []).filter(i => i.enforce === enforce)
     if (!transformers.length)
       return
 
-    const s = new MagicString(code)
+    let code = original
+    let s = new MagicString(code)
+    const maps: EncodedSourceMap[] = []
     for (const t of transformers) {
       if (t.idFilter) {
         if (!t.idFilter(id))
@@ -21,13 +26,18 @@ export function initTransformerPlugins(ctx: UnocssPluginContext): Plugin[] {
         continue
       }
       await t.transform(s, id, ctx)
+      if (s.hasChanged()) {
+        code = s.toString()
+        maps.push(s.generateMap({ hires: true, source: id }) as EncodedSourceMap)
+        s = new MagicString(code)
+      }
     }
 
-    if (s.hasChanged()) {
+    if (code !== original) {
       ctx.affectedModules.add(id)
       return {
-        code: s.toString(),
-        map: s.generateMap({ hires: true, source: id }),
+        code,
+        map: remapping(maps, () => null) as SourceMap,
       }
     }
   }
