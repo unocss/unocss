@@ -1,7 +1,7 @@
 import type { Preset } from '@unocss/core'
 import { extractorSplit } from '@unocss/core'
 import { autocompleteExtractorAttributify } from './autocomplete'
-import { extractorAttributify } from './extractor'
+import { defaultIgnoreAttributes, extractorAttributify } from './extractor'
 import type { AttributifyOptions } from './types'
 import { variantAttributify } from './variant'
 
@@ -16,7 +16,7 @@ const preset = (options: AttributifyOptions = {}): Preset => {
   options.prefix = options.prefix ?? 'un-'
   options.prefixedOnly = options.prefixedOnly ?? false
   options.nonValuedAttribute = options.nonValuedAttribute ?? true
-  options.ignoreAttributes = options.ignoreAttributes ?? []
+  options.ignoreAttributes = options.ignoreAttributes ?? defaultIgnoreAttributes
 
   const variants = [
     variantAttributify(options),

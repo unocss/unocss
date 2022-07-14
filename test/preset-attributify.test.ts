@@ -61,7 +61,7 @@ describe('attributify', () => {
   </div>
   <div flex>
     <div ma inline-flex relative h-14>
-      <input type="text" m-0 pt-4 px-4 text-true-gray-800 peer placeholder>
+      <input type="text" m-0 pt-4 px-4 text-true-gray-800 peer placeholder="unocss" un-placeholder="text-red">
       <label absolute leading-1rem left-4 pointer-events-none text-gray-7 top="1/3" transition="200 linear"
         peer-not-placeholder-shown="-translate-y-4 scale-75 origin-top-left text-green-500"
         peer-focus="-translate-y-4 scale-75 origin-top-left text-green-500"
