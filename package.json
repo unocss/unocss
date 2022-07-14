@@ -5,7 +5,7 @@
   "packageManager": "pnpm@7.3.0",
   "scripts": {
     "bench": "npm -C bench run bench",
-    "build": "rimraf packages/*/dist && esno scripts/copy-files.ts && pnpm -r --filter !playground --filter !interactive run build && pnpm -r run build-post",
+    "build": "rimraf packages/*/dist && esno scripts/copy-files.ts && pnpm -r --filter=./packages/* run build && pnpm -r run build-post",
     "dev": "nr stub",
     "deploy": "nr stub && npm -C playground run build && npm -C interactive run build",
     "interactive": "npm -C interactive run dev",
@@ -14,7 +14,7 @@
     "play": "npm -C playground run dev",
     "release": "bumpp package.json packages/**/package.json",
     "size": "esno scripts/size.ts",
-    "stub": "pnpm -r --parallel run stub",
+    "stub": "pnpm -r --filter=./packages/* --parallel run stub",
     "typecheck": "tsc --noEmit",
     "test": "vitest",
     "test:update": "vitest -u"

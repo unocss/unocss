@@ -577,6 +577,7 @@ importers:
       '@types/webpack-sources': ^3.2.0
       '@unocss/config': workspace:*
       '@unocss/core': workspace:*
+      magic-string: ^0.26.2
       unplugin: ^0.7.0
       webpack: ^5.73.0
       webpack-sources: ^3.2.3
@@ -585,6 +586,7 @@ importers:
       '@rollup/pluginutils': 4.2.1
       '@unocss/config': link:../config
       '@unocss/core': link:../core
+      magic-string: 0.26.2
       unplugin: 0.7.0_webpack@5.73.0
       webpack-sources: 3.2.3
     devDependencies:
