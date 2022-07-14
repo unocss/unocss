@@ -1,0 +1,8 @@
+.foo {
+  @apply flex;
+  @apply gap-1;
+}
+
+.bar {
+  --at-apply: gap-2;
+}
