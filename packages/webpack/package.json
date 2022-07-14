@@ -40,9 +40,11 @@
     "webpack": "^4 || ^5"
   },
   "dependencies": {
+    "@ampproject/remapping": "^2.2.0",
     "@rollup/pluginutils": "^4.2.1",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
+    "magic-string": "^0.26.2",
     "unplugin": "^0.7.0",
     "webpack-sources": "^3.2.3"
   },

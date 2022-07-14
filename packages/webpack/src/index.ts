@@ -2,18 +2,11 @@ import type { UserConfig, UserConfigDefaults } from '@unocss/core'
 import type { ResolvedUnpluginOptions, UnpluginOptions } from 'unplugin'
 import { createUnplugin } from 'unplugin'
 import WebpackSources from 'webpack-sources'
-import {
-  HASH_PLACEHOLDER_RE,
-  LAYER_MARK_ALL,
-  LAYER_PLACEHOLDER_RE,
-  createContext,
-  getHash,
-  getHashPlaceholder,
-  getLayerPlaceholder,
-  getPath,
-  resolveId,
-  resolveLayer,
-} from '../../shared-integration/src'
+import { createContext } from '../../shared-integration/src/context'
+import { getHash } from '../../shared-integration/src/hash'
+import { HASH_PLACEHOLDER_RE, LAYER_MARK_ALL, LAYER_PLACEHOLDER_RE, getHashPlaceholder, getLayerPlaceholder, resolveId, resolveLayer } from '../../shared-integration/src/layers'
+import { applyTransformers } from '../../shared-integration/src/transformers'
+import { getPath } from '../../shared-integration/src/utils'
 
 export interface WebpackPluginOptions<Theme extends {} = {}> extends UserConfig<Theme> {}
 
@@ -29,8 +22,8 @@ export default function WebpackPlugin<Theme extends {}>(
   defaults?: UserConfigDefaults,
 ) {
   return createUnplugin(() => {
-    const context = createContext(configOrPath, defaults)
-    const { uno, tokens, filter, extract, onInvalidate } = context
+    const ctx = createContext<WebpackPluginOptions>(configOrPath as any, defaults)
+    const { uno, tokens, filter, extract, onInvalidate } = ctx
 
     let timer: any
     onInvalidate(() => {
@@ -38,9 +31,19 @@ export default function WebpackPlugin<Theme extends {}>(
       timer = setTimeout(updateModules, UPDATE_DEBOUNCE)
     })
 
+    const nonPreTransformers = ctx.uno.config.transformers?.filter(i => i.enforce !== 'pre')
+    if (nonPreTransformers?.length) {
+      console.warn(
+        // eslint-disable-next-line prefer-template
+        '[unocss] webpack integration only supports "pre" enforce transformers currently.'
+        + 'the following transformers will be ignored\n'
+        + nonPreTransformers.map(i => ` - ${i.name}`).join('\n'),
+      )
+    }
+
     const tasks: Promise<any>[] = []
     const entries = new Set<string>()
-    const hashs = new Map<string, string>()
+    const hashes = new Map<string, string>()
 
     const plugin = <UnpluginOptions>{
       name: 'unocss:webpack',
@@ -48,9 +51,13 @@ export default function WebpackPlugin<Theme extends {}>(
       transformInclude(id) {
         return filter('', id)
       },
-      transform(code, id) {
-        tasks.push(extract(code, id))
-        return null
+      async transform(code, id) {
+        const result = await applyTransformers(ctx, code, id, 'pre')
+        if (result == null)
+          tasks.push(extract(code, id))
+        else
+          tasks.push(extract(result.code, id))
+        return result
       },
       resolveId(id) {
         const entry = resolveId(id)
@@ -72,7 +79,7 @@ export default function WebpackPlugin<Theme extends {}>(
           if (entry)
             layer = resolveLayer(entry)
         }
-        const hash = hashs.get(id)
+        const hash = hashes.get(id)
         if (layer)
           return (hash ? getHashPlaceholder(hash) : '') + getLayerPlaceholder(layer)
       },
@@ -131,7 +138,7 @@ export default function WebpackPlugin<Theme extends {}>(
             : result.getLayer(layer) || ''
 
           const hash = getHash(code)
-          hashs.set(path, hash)
+          hashes.set(path, hash)
           plugin.__vfs.writeModule(id, code)
         })
     }
