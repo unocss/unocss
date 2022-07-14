@@ -548,12 +548,14 @@ export interface TransformResult {
   dynamicDeps?: string[]
 }
 
+export type SourceCodeTransformerEnforce = 'pre' | 'post' | 'default'
+
 export interface SourceCodeTransformer {
   name: string
   /**
    * The order of transformer
    */
-  enforce?: 'pre' | 'post'
+  enforce?: SourceCodeTransformerEnforce
   /**
    * Custom id filter, if not provided, the extraction filter will be applied
    */
