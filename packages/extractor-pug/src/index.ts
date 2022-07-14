@@ -1,6 +1,6 @@
 import type { Extractor } from '@unocss/core'
 
-const regexVueTemplate = /<template.*?lang=['"]pug['"][^>]*?>\n([\s\S]*?\n)<\/template>/gm
+const regexVueTemplate = /<template.*?lang=['"]pug['"][^>]*?>\s*([\s\S]*?\s*)<\/template>/gm
 
 export default function extractorPug(): Extractor {
   async function compile(code: string, id: string) {

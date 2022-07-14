@@ -20,7 +20,8 @@ watch(
 )
 
 async function excuteSearch() {
-  isSearching.value = true
+  if (input.value)
+    isSearching.value = true
   try {
     searchResult.value = await searcher.search(input.value)
   }

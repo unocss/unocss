@@ -10,3 +10,7 @@ export function mergeSet<T>(target: Set<T>, append: Set<T>): Set<T> {
   append.forEach(i => target.add(i))
   return target
 }
+
+export function isString(s: any): s is string {
+  return typeof s === 'string'
+}

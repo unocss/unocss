@@ -158,6 +158,11 @@ export interface RuleMeta {
   autocomplete?: Arrayable<AutoCompleteTemplate>
 
   /**
+   * Matching prefix before this util
+   */
+  prefix?: string
+
+  /**
    * Internal rules will only be matched for shortcuts but not the user code.
    * @default false
    */
@@ -172,13 +177,14 @@ export type DynamicRule<Theme extends {} = {}> = [RegExp, DynamicMatcher<Theme>]
 export type StaticRule = [string, CSSObject | CSSEntries] | [string, CSSObject | CSSEntries, RuleMeta]
 export type Rule<Theme extends {} = {}> = DynamicRule<Theme> | StaticRule
 
-export type DynamicShortcutMatcher<Theme extends {} = {}> = ((match: RegExpMatchArray, context: Readonly<RuleContext<Theme>>) => (string | string [] | undefined))
+export type DynamicShortcutMatcher<Theme extends {} = {}> = ((match: RegExpMatchArray, context: Readonly<RuleContext<Theme>>) => (string | ShortcutValue[] | undefined))
 
-export type StaticShortcut = [string, string | string[]] | [string, string | string[], RuleMeta]
-export type StaticShortcutMap = Record<string, string | string[]>
+export type StaticShortcut = [string, string | ShortcutValue[]] | [string, string | ShortcutValue[], RuleMeta]
+export type StaticShortcutMap = Record<string, string | ShortcutValue[]>
 export type DynamicShortcut<Theme extends {} = {}> = [RegExp, DynamicShortcutMatcher<Theme>] | [RegExp, DynamicShortcutMatcher<Theme>, RuleMeta]
 export type UserShortcuts<Theme extends {} = {}> = StaticShortcutMap | (StaticShortcut | DynamicShortcut<Theme> | StaticShortcutMap)[]
 export type Shortcut<Theme extends {} = {}> = StaticShortcut | DynamicShortcut<Theme>
+export type ShortcutValue = string | CSSValue
 
 export type FilterPattern = ReadonlyArray<string | RegExp> | string | RegExp | null
 
@@ -449,6 +455,14 @@ export interface Preset<Theme extends {} = {}> extends ConfigBase<Theme> {
    * Preset options for other tools like IDE to consume
    */
   options?: PresetOptions
+  /**
+   * Apply prefix to all utilities and shortcuts
+   */
+  prefix?: string
+  /**
+   * Apply layer to all utilities and shortcuts
+   */
+  layer?: string
 }
 
 export interface GeneratorOptions {
@@ -500,6 +514,9 @@ export interface UnocssPluginContext<Config extends UserConfig = UserConfig> {
   tokens: Set<string>
   /** Map for all module's raw content */
   modules: BetterMap<string, string>
+  /** Module IDs that been affected by UnoCSS */
+  affectedModules: Set<string>
+
   filter: (code: string, id: string) => boolean
   extract: (code: string, id?: string) => Promise<void>
 
@@ -531,12 +548,14 @@ export interface TransformResult {
   dynamicDeps?: string[]
 }
 
+export type SourceCodeTransformerEnforce = 'pre' | 'post' | 'default'
+
 export interface SourceCodeTransformer {
   name: string
   /**
    * The order of transformer
    */
-  enforce?: 'pre' | 'post'
+  enforce?: SourceCodeTransformerEnforce
   /**
    * Custom id filter, if not provided, the extraction filter will be applied
    */

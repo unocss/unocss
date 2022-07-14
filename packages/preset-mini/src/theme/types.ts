@@ -52,6 +52,10 @@ export interface Theme {
   gridRow?: Record<string, string>
   gridTemplateColumn?: Record<string, string>
   gridTemplateRow?: Record<string, string>
+  // container
+  container?: {
+    center?: boolean
+  }
   // vars
   /** Used to generate CSS variables placeholder in preflight */
   preflightBase?: Record<string, string | number>

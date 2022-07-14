@@ -1,4 +1,5 @@
 import type { UserConfig } from '@unocss/core'
+import type { Theme as PresetUnoTheme } from '@unocss/preset-uno'
 
 export * from '@unocss/core'
 export { default as presetUno } from '@unocss/preset-uno'
@@ -13,6 +14,6 @@ export { default as transformerDirectives } from '@unocss/transformer-directives
 export { default as transformerVariantGroup } from '@unocss/transformer-variant-group'
 export { default as transformerCompileClass } from '@unocss/transformer-compile-class'
 
-export function defineConfig<Theme extends {}>(config: UserConfig<Theme>) {
+export function defineConfig<Theme extends {} = PresetUnoTheme>(config: UserConfig<Theme>) {
   return config
 }

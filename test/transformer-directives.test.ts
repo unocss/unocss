@@ -481,4 +481,21 @@ describe('transformer-directives', () => {
         "
       `)
   })
+
+  test('@apply with colon', async () => {
+    const result = await transform(
+      '.btn { @apply: rounded text-lg font-mono }',
+    )
+    expect(result)
+      .toMatchInlineSnapshot(`
+        ".btn {
+          border-radius: 0.25rem;
+          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+            \\"Liberation Mono\\", \\"Courier New\\", monospace;
+          font-size: 1.125rem;
+          line-height: 1.75rem;
+        }
+        "
+      `)
+  })
 })

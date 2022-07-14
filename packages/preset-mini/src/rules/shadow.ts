@@ -4,10 +4,10 @@ import { colorResolver, colorableShadows, handler as h } from '../utils'
 import { varEmpty } from './static'
 
 export const boxShadowsBase = {
-  '--un-ring-offset-shadow': '0 0 #0000',
-  '--un-ring-shadow': '0 0 #0000',
+  '--un-ring-offset-shadow': '0 0 rgba(0,0,0,0)',
+  '--un-ring-shadow': '0 0 rgba(0,0,0,0)',
   '--un-shadow-inset': varEmpty,
-  '--un-shadow': '0 0 #0000',
+  '--un-shadow': '0 0 rgba(0,0,0,0)',
 }
 
 export const boxShadows: Rule<Theme>[] = [
@@ -16,7 +16,7 @@ export const boxShadows: Rule<Theme>[] = [
     if (v) {
       return {
         '--un-shadow': colorableShadows(v, '--un-shadow-color').join(','),
-        'box-shadow': 'var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow)',
+        'box-shadow': 'var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow)',
       }
     }
   }, { autocomplete: 'shadow-$boxShadow' }],

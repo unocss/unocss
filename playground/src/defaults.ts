@@ -1,4 +1,3 @@
-// @ts-expect-error anyway
 import defaultConfigRaw from '../../packages/shared-docs/src/defaultConfig.ts?raw'
 
 export const defaultHTML = `
@@ -27,6 +26,4 @@ export const defaultHTML = `
 
 export { defaultConfigRaw }
 
-export const defaultOptions = JSON.stringify({
-  strict: true,
-})
+export const defaultOptions = '{}'

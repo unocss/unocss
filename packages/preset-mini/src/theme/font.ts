@@ -74,7 +74,7 @@ export const textStrokeWidth: Theme['textStrokeWidth'] = {
 
 export const textShadow: Theme['textShadow'] = {
   DEFAULT: ['0 0 1px rgba(0,0,0,0.2)', '0 0 1px rgba(1,0,5,0.1)'],
-  none: '0 0 #0000',
+  none: '0 0 rgba(0,0,0,0)',
   sm: '1px 1px 3px rgba(36,37,47,0.25)',
   md: ['0 1px 2px rgba(30,29,39,0.19)', '1px 2px 4px rgba(54,64,147,0.18)'],
   lg: ['3px 3px 6px rgba(0,0,0,0.26)', '0 0 5px rgba(15,3,86,0.22)'],

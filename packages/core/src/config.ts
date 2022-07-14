@@ -1,6 +1,7 @@
-import type { Postprocessor, Preprocessor, ResolvedConfig, Shortcut, ThemeExtender, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
+import type { Postprocessor, Preprocessor, Preset, ResolvedConfig, Rule, Shortcut, ThemeExtender, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
 import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq } from './utils'
 import { extractorSplit } from './extractors'
+import { DEAFULT_LAYERS } from './constants'
 
 export function resolveShortcuts(shortcuts: UserShortcuts): Shortcut[] {
   return toArray(shortcuts).flatMap((s) => {
@@ -10,10 +11,27 @@ export function resolveShortcuts(shortcuts: UserShortcuts): Shortcut[] {
   })
 }
 
-const defaultLayers = {
-  preflights: -100,
-  shortcuts: -10,
-  default: 0,
+export function resolvePreset(preset: Preset): Preset {
+  const shortcuts = preset.shortcuts
+    ? resolveShortcuts(preset.shortcuts)
+    : undefined
+  preset.shortcuts = shortcuts as any
+
+  if (preset.prefix || preset.layer) {
+    const apply = (i: Rule | Shortcut) => {
+      if (!i[2])
+        i[2] = {}
+      const meta = i[2]
+      if (meta.prefix == null && preset.prefix)
+        meta.prefix = preset.prefix
+      if (meta.layer == null && preset.layer)
+        meta.prefix = preset.layer
+    }
+    shortcuts?.forEach(apply)
+    preset.rules?.forEach(apply)
+  }
+
+  return preset
 }
 
 export function resolveConfig(
@@ -21,7 +39,7 @@ export function resolveConfig(
   defaults: UserConfigDefaults = {},
 ): ResolvedConfig {
   const config = Object.assign({}, defaults, userConfig) as UserConfigDefaults
-  const rawPresets = (config.presets || []).flatMap(toArray)
+  const rawPresets = (config.presets || []).flatMap(toArray).map(resolvePreset)
 
   const sortedPresets = [
     ...rawPresets.filter(p => p.enforce === 'pre'),
@@ -29,7 +47,7 @@ export function resolveConfig(
     ...rawPresets.filter(p => p.enforce === 'post'),
   ]
 
-  const layers = Object.assign(defaultLayers, ...rawPresets.map(i => i.layers), userConfig.layers)
+  const layers = Object.assign(DEAFULT_LAYERS, ...rawPresets.map(i => i.layers), userConfig.layers)
 
   function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist'>(key: T): Required<UserConfig>[T] {
     return uniq([
@@ -50,7 +68,8 @@ export function resolveConfig(
 
   rules.forEach((rule, i) => {
     if (isStaticRule(rule)) {
-      rulesStaticMap[rule[0]] = [i, rule[1], rule[2], rule]
+      const prefix = rule[2]?.prefix || ''
+      rulesStaticMap[prefix + rule[0]] = [i, rule[1], rule[2], rule]
       // delete static rules so we can't skip them in matching
       // but keep the order
       delete rules[i]

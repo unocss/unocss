@@ -3,7 +3,7 @@ import { createAutocomplete } from '@unocss/autocomplete'
 import type { CompletionItemProvider, ExtensionContext } from 'vscode'
 import { CompletionItem, CompletionItemKind, CompletionList, MarkdownString, Range, languages } from 'vscode'
 import type { UnoGenerator, UnocssPluginContext } from '@unocss/core'
-import { getPrettiedMarkdown, isCssId } from './utils'
+import { body2ColorValue, getPrettiedCSS, getPrettiedMarkdown, isCssId, isSubdir } from './utils'
 import { log } from './log'
 import type { ContextLoader } from './contextLoader'
 
@@ -36,6 +36,7 @@ class UnoCompletionItem extends CompletionItem {
 }
 
 export async function registerAutoComplete(
+  cwd: string,
   contextLoader: ContextLoader,
   ext: ExtensionContext,
 ) {
@@ -64,16 +65,19 @@ export async function registerAutoComplete(
 
   const provider: CompletionItemProvider<UnoCompletionItem> = {
     async provideCompletionItems(doc, position) {
-      const code = doc.getText()
       const id = doc.uri.fsPath
+      if (!isSubdir(cwd, id))
+        return null
 
+      const code = doc.getText()
       if (!code)
         return null
 
       let ctx = await contextLoader.resolveContext(code, id)
       if (!ctx)
         ctx = await contextLoader.resolveClosestContext(code, id)
-      else if (!ctx.filter(code, id) && !isCssId(id))
+
+      if (!ctx.filter(code, id) && !isCssId(id))
         return null
 
       try {
@@ -86,11 +90,21 @@ export async function registerAutoComplete(
         if (!result.suggestions.length)
           return
 
+        const theme = ctx?.uno.config.theme
         return new CompletionList(result.suggestions.map(([value, label]) => {
+          const colorValue = theme ? body2ColorValue(value, theme) : null
+          const itemKind = colorValue?.color ? CompletionItemKind.Color : CompletionItemKind.EnumMember
+
           const resolved = result.resolveReplacement(value)
-          const item = new UnoCompletionItem(label, CompletionItemKind.EnumMember, ctx!.uno)
+          const item = new UnoCompletionItem(label, itemKind, ctx!.uno)
           item.insertText = resolved.replacement
           item.range = new Range(doc.positionAt(resolved.start), doc.positionAt(resolved.end))
+
+          if (colorValue?.color) {
+            item.documentation = colorValue?.color
+            item.sortText = /-\d$/.test(label) ? '1' : '2' // reorder color completions
+          }
+
           return item
         }), true)
       }
@@ -101,10 +115,11 @@ export async function registerAutoComplete(
     },
 
     async resolveCompletionItem(item) {
-      return {
-        ...item,
-        documentation: await getMarkdown(item.uno, item.label as string),
-      }
+      if (item.kind === CompletionItemKind.Color)
+        item.detail = await (await getPrettiedCSS(item.uno, item.label as string)).prettified
+      else
+        item.documentation = await getMarkdown(item.uno, item.label as string)
+      return item
     },
   }
 

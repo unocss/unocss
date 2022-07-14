@@ -82,6 +82,54 @@ will generate:
 }
 ```
 
+### Theme
+You can fully customize your theme property in your config, and UnoCSS will eventually deeply merge it to the default theme.
+
+<!--eslint-skip-->
+
+```ts
+presetMini({
+  theme: {
+    // ...
+    colors: {
+      'veryCool': '#0000ff', // class="text-very-cool"
+      'brand': {
+        'primary': 'hsla(var(--hue, 217), 78%, 51%)', //class="bg-brand-primary"
+      }
+    },
+  }
+})
+```
+
+To consume the theme in rules:
+
+```ts
+rules: [
+  [/^text-(.*)$/, ([, c], { theme }) => {
+    if (theme.colors[c])
+      return { color: theme.colors[c] }
+  }],
+]
+```
+
+One exception is that UnoCSS gives full control of `breakpoints` to users. When a custom `breakpoints` is provided, the default will be overridden instead of merging. For example:
+
+```ts
+presetMini({
+  theme: {
+    // ...
+    breakpoints: {
+      sm: '320px',
+      md: '640px',
+    },
+  },
+})
+```
+
+Right now, you can only use the `sm:` and `md:` breakpoint variants.
+
+`verticalBreakpoints` is same as `breakpoints` but for vertical layout.
+
 ## License
 
 MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)

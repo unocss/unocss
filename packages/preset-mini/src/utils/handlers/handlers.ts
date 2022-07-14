@@ -1,5 +1,6 @@
 import { escapeSelector } from '@unocss/core'
 import { globalKeywords } from '../mappings'
+import { numberRE, numberWithUnitRE, unitOnlyRE } from './regex'
 
 // Not all, but covers most high frequency attributes
 const cssProps = [
@@ -21,10 +22,6 @@ const cssProps = [
   'stroke', 'filter', 'backdrop-filter', 'fill', 'mask', 'mask-size', 'mask-border', 'clip-path', 'clip',
   'border-radius',
 ]
-
-const numberWithUnitRE = /^(-?[0-9.]+)(px|pt|pc|rem|em|%|vh|vw|in|cm|mm|ex|ch|vmin|vmax|cqw|cqh|cqi|cqb|cqmin|cqmax|rpx)?$/i
-const numberRE = /^(-?[0-9.]+)$/i
-const unitOnlyRE = /^(px)$/i
 
 function round(n: number) {
   return n.toFixed(10).replace(/\.0+$/, '').replace(/(\.\d+?)0+$/, '$1')
@@ -109,7 +106,7 @@ function bracketWithType(str: string, type?: string) {
       return base
         .replace(/(url\(.*?\))/g, v => v.replace(/_/g, '\\_'))
         .replace(/([^\\])_/g, '$1 ')
-        .replace(/calc\((.*)/g, (v) => {
+        .replace(/(?:calc|clamp|max|min)\((.*)/g, (v) => {
           return v.replace(/(-?\d*\.?\d(?!\b-.+[,)](?![^+\-/*])\D)(?:%|[a-z]+)?|\))([+\-/*])/g, '$1 $2 ')
         })
     }

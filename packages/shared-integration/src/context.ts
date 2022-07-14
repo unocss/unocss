@@ -22,6 +22,7 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
 
   const modules = new BetterMap<string, string>()
   const tokens = new Set<string>()
+  const affectedModules = new Set<string>()
 
   let ready = reloadConfig()
 
@@ -97,6 +98,7 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     },
     tokens,
     modules,
+    affectedModules,
     invalidate,
     onInvalidate(fn: () => void) {
       invalidations.push(fn)

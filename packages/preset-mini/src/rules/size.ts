@@ -28,27 +28,30 @@ function getSizeValue(minmax: string, hw: string, theme: Theme, prop: string) {
       return `${prop}-content`
   }
 
-  return h.bracket.cssvar.auto.fraction.rem(prop)
+  return h.bracket.cssvar.global.auto.fraction.rem(prop)
 }
 
 export const sizes: Rule<Theme>[] = [
-  [/^(min-|max-)?([wh])-?(.+)$/, ([, m, w, s], { theme }) => ({ [getPropName(m, w)]: getSizeValue(m, w, theme, s) }),
-    {
-      autocomplete: [
-        '(w|h)-$width|height|maxWidth|maxHeight|minWidth|minHeight|inlineSize|blockSize|maxInlineSize|maxBlockSize|minInlineSize|minBlockSize',
-        '(max|min)-(w|h)-$width|height|maxWidth|maxHeight|minWidth|minHeight|inlineSize|blockSize|maxInlineSize|maxBlockSize|minInlineSize|minBlockSize',
-      ],
-    }],
-  [/^(min-|max-)?(block|inline)-(.+)$/, ([, m, w, s], { theme }) => ({ [getPropName(m, w)]: getSizeValue(m, w, theme, s) }),
-    {
-      autocomplete: [
-        '(w|h)-(block|inline)-$width|height|maxWidth|maxHeight|minWidth|minHeight|inlineSize|blockSize|maxInlineSize|maxBlockSize|minInlineSize|minBlockSize',
-        '(max|min)-(w|h)-(block|inline)-$width|height|maxWidth|maxHeight|minWidth|minHeight|inlineSize|blockSize|maxInlineSize|maxBlockSize|minInlineSize|minBlockSize',
-      ],
-    },
-  ],
-  [/^(min-|max-)?(h)-screen-(.+)$/, ([, m, w, s], context) => ({ [getPropName(m, w)]: resolveVerticalBreakpoints(context)?.[s] }), { autocomplete: ['h-screen-$verticalBreakpoints', '(min|max)-h-screen-$verticalBreakpoints'] }],
-  [/^(min-|max-)?(w)-screen-(.+)$/, ([, m, w, s], context) => ({ [getPropName(m, w)]: resolveBreakpoints(context)?.[s] }), { autocomplete: ['w-screen-$breakpoints', '(min|max)-w-screen-$breakpoints'] }],
+  [/^(min-|max-)?([wh])-?(.+)$/, ([, m, w, s], { theme }) => ({ [getPropName(m, w)]: getSizeValue(m, w, theme, s) })],
+  [/^(min-|max-)?(block|inline)-(.+)$/, ([, m, w, s], { theme }) => ({ [getPropName(m, w)]: getSizeValue(m, w, theme, s) }), {
+    autocomplete: [
+      '(w|h)-$width|height|maxWidth|maxHeight|minWidth|minHeight|inlineSize|blockSize|maxInlineSize|maxBlockSize|minInlineSize|minBlockSize',
+      '(block|inline)-$width|height|maxWidth|maxHeight|minWidth|minHeight|inlineSize|blockSize|maxInlineSize|maxBlockSize|minInlineSize|minBlockSize',
+      '(max|min)-(w|h|block|inline)',
+      '(max|min)-(w|h|block|inline)-$width|height|maxWidth|maxHeight|minWidth|minHeight|inlineSize|blockSize|maxInlineSize|maxBlockSize|minInlineSize|minBlockSize',
+    ],
+  }],
+  [/^(min-|max-)?(h)-screen-(.+)$/, ([, m, w, s], context) => ({ [getPropName(m, w)]: resolveVerticalBreakpoints(context)?.[s] })],
+  [/^(min-|max-)?(w)-screen-(.+)$/, ([, m, w, s], context) => ({ [getPropName(m, w)]: resolveBreakpoints(context)?.[s] }), {
+    autocomplete: [
+      '(w|h)-screen',
+      '(min|max)-(w|h)-screen',
+      'h-screen-$verticalBreakpoints',
+      '(min|max)-h-screen-$verticalBreakpoints',
+      'w-screen-$breakpoints',
+      '(min|max)-w-screen-$breakpoints',
+    ],
+  }],
 ]
 
 function getAspectRatio(prop: string) {
@@ -60,9 +63,9 @@ function getAspectRatio(prop: string) {
     case 'video': return '16/9'
   }
 
-  return h.bracket.cssvar.auto.number(prop)
+  return h.bracket.cssvar.global.auto.number(prop)
 }
 
 export const aspectRatio: Rule[] = [
-  [/^aspect-(?:ratio-)?(.+)$/, ([, d]: string[]) => ({ 'aspect-ratio': getAspectRatio(d) }), { autocomplete: ['aspect-(square|video)', 'aspect-ratio-(square|video)'] }],
+  [/^aspect-(?:ratio-)?(.+)$/, ([, d]: string[]) => ({ 'aspect-ratio': getAspectRatio(d) }), { autocomplete: ['aspect-(square|video|ratio)', 'aspect-ratio-(square|video)'] }],
 ]

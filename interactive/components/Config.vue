@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { evaluateUserConfig } from '@unocss/shared-docs'
 import type { UserConfig } from '@unocss/core'
-import CodeMirror from '../../packages/inspector/client/components/CodeMirror.vue'
+
+const CodeMirror = defineAsyncComponent(() => import('../../packages/inspector/client/components/CodeMirror.vue'))
 
 let raw = $ref(userConfigRaw.value || defaultConfigRaw)
 let config = $ref<UserConfig | undefined>()
@@ -68,7 +69,14 @@ function save() {
     </div>
   </div>
   <div text-left of-hidden grid="~ rows-[1fr_max-content]" pb5>
-    <CodeMirror v-model="raw" mode="ts" h-auto font-mono border="~ base" pl2 w-full of-auto />
+    <Suspense>
+      <CodeMirror v-model="raw" mode="ts" h-auto font-mono border="~ base" pl2 w-full of-auto />
+      <template #fallback>
+        <div border="~ base" pl2 w-full flex text-center justify-center italtic op50>
+          loading...
+        </div>
+      </template>
+    </Suspense>
     <div flex-none w-full of-hidden>
       <div
         v-if="isLoading"

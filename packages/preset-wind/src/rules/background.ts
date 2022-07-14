@@ -1,5 +1,5 @@
 import type { CSSColorValue, Rule, RuleContext } from '@unocss/core'
-import { colorOpacityToString, colorToString, handler as h, parseColor, positionMap } from '@unocss/preset-mini/utils'
+import { colorOpacityToString, colorToString, globalKeywords, handler as h, makeGlobalStaticRules, parseColor, positionMap } from '@unocss/preset-mini/utils'
 import type { Theme } from '@unocss/preset-mini'
 
 const bgGradientToValue = (cssColor: CSSColorValue | undefined) => {
@@ -105,6 +105,7 @@ export const backgroundStyles: Rule[] = [
 
   ['box-decoration-slice', { 'box-decoration-break': 'slice' }],
   ['box-decoration-clone', { 'box-decoration-break': 'clone' }],
+  ...makeGlobalStaticRules('box-decoration', 'box-decoration-break'),
 
   // size
   ['bg-auto', { 'background-size': 'auto' }],
@@ -121,6 +122,10 @@ export const backgroundStyles: Rule[] = [
   ['bg-clip-content', { '-webkit-background-clip': 'content-box', 'background-clip': 'content-box' }],
   ['bg-clip-padding', { '-webkit-background-clip': 'padding-box', 'background-clip': 'padding-box' }],
   ['bg-clip-text', { '-webkit-background-clip': 'text', 'background-clip': 'text' }],
+  ...globalKeywords.map(keyword => [`bg-clip-${keyword}`, {
+    '-webkit-background-clip': keyword,
+    'background-clip': keyword,
+  }] as Rule),
 
   // positions
   // skip 1 & 2 letters shortcut
@@ -133,9 +138,11 @@ export const backgroundStyles: Rule[] = [
   ['bg-repeat-y', { 'background-repeat': 'repeat-y' }],
   ['bg-repeat-round', { 'background-repeat': 'round' }],
   ['bg-repeat-space', { 'background-repeat': 'space' }],
+  ...makeGlobalStaticRules('bg-repeat', 'background-repeat'),
 
   // origins
   ['bg-origin-border', { 'background-origin': 'border-box' }],
   ['bg-origin-padding', { 'background-origin': 'padding-box' }],
   ['bg-origin-content', { 'background-origin': 'content-box' }],
+  ...makeGlobalStaticRules('bg-origin', 'background-origin'),
 ]

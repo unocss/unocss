@@ -102,6 +102,8 @@ describe('order', () => {
     const { css } = await uno.generate([
       'dark:group-hover:group-focus-within:bg-blue-600',
       'group-hover:group-focus-within:dark:bg-red-600',
+      'parent-hover:light:parent-focus-within:bg-green-600',
+      'parent-hover:light:group-focus-within:bg-yellow-600',
     ].join(' '), { preflights: false })
 
     expect(css).toMatchSnapshot()

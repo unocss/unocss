@@ -40,15 +40,19 @@ export const presetWindTargets: string[] = [
   'animate-ease-[steps(4,_jump-start)]',
   'animate-$variable',
   'animate-[4s_linear_0s_infinite_alternate_move\\_eye]',
+  'animate-inherit',
+  'animate-unset',
 
   // background
   'bg-auto',
   'bg-blend-normal',
   'bg-blend-color-burn',
   'bg-blend-luminosity',
+  'bg-blend-unset',
   'bg-bottom',
   'bg-clip-border',
   'bg-clip-text',
+  'bg-clip-unset',
   'bg-cover',
   'bg-fixed',
   'bg-gradient-to-t',
@@ -57,7 +61,9 @@ export const presetWindTargets: string[] = [
   'bg-no-repeat',
   'bg-none',
   'bg-origin-border',
+  'bg-origin-initial',
   'bg-repeat-space',
+  'bg-repeat-revert',
   'bg-right-bottom',
   'bg-scroll',
   'bg-[length:10_20rem]',
@@ -120,16 +126,23 @@ export const presetWindTargets: string[] = [
   'list-alpha',
   'list-greek',
   'list-outside',
+  'list-disc-outside',
+  'list-alpha-inside',
+  'list-inherit',
   'box-decoration-slice',
+  'box-decoration-initial',
   'accent-op-90',
   'accent-red',
   'caret-op-90',
   'caret-red',
   'image-render-pixel',
   'overscroll-x-auto',
+  'overscroll-y-unset',
   'overscroll-contain',
   'overscroll-none',
+  'overscroll-revert-layer',
   'scroll-auto',
+  'scroll-unset',
 
   // columns
   'columns-3',
@@ -138,9 +151,13 @@ export const presetWindTargets: string[] = [
   'columns-[3_auto]',
   'columns-[auto_13em]',
   'columns-[auto_auto]',
+  'columns-unset',
   'break-before-avoid-page',
   'break-inside-avoid-column',
   'break-after-column',
+  'break-before-initial',
+  'break-inside-revert',
+  'break-after-unset',
 
   // container
   //
@@ -157,6 +174,7 @@ export const presetWindTargets: string[] = [
   'divide-opacity-50',
   'divide-dashed',
   'divide-dotted',
+  'divide-ridge',
   'divide-transparent',
   'divide-current',
   'divide-none',
@@ -170,6 +188,7 @@ export const presetWindTargets: string[] = [
   'filter-blur-md',
   'filter-blur-4',
   'filter-blur-none',
+  'filter-unset',
   'blur',
   'blur-md',
   'blur-4',
@@ -198,6 +217,7 @@ export const presetWindTargets: string[] = [
   // filters - backdrop
   'backdrop-filter',
   'backdrop-filter-none',
+  'backdrop-filter-revert',
   'backdrop-blur',
   'backdrop-blur-md',
   'backdrop-blur-4',
@@ -223,6 +243,7 @@ export const presetWindTargets: string[] = [
   'line-clamp-7',
   'line-clamp-100',
   'line-clamp-none',
+  'line-clamp-unset',
 
   // scrolls
   'snap-y',
@@ -252,6 +273,7 @@ export const presetWindTargets: string[] = [
   'mix-blend-normal',
   'mix-blend-hard-light',
   'mix-blend-plus-lighter',
+  'mix-blend-revert',
   'space-y-none',
   'space-x-2',
   'space-y-4',
@@ -268,8 +290,11 @@ export const presetWindTargets: string[] = [
   'normal-case',
   'hyphens-none',
   'hyphens-auto',
+  'hyphens-unset',
   'write-normal',
   'write-orient-sideways',
+  'write-unset',
+  'write-orient-revert',
   'not-sr-only',
   'isolate',
   'isolate-auto',
@@ -308,6 +333,7 @@ export const presetWindTargets: string[] = [
   'touch-pinch-zoom',
   'touch-manipulation',
   'touch-none',
+  'touch-initial',
 
   // typography
   'lining-nums',
@@ -361,6 +387,9 @@ export const presetWindTargets: string[] = [
   '-scroll-mb-px',
   '-scroll-p-px',
   '-space-x-4',
+
+  // variants - multiple parents
+  '@dark:contrast-more:p-10',
 ]
 
 export const presetWindNonTargets: string[] = [

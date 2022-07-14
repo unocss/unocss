@@ -16,11 +16,43 @@ const uno = createGenerator({
         a: 'var(--custom)',
         b: 'rgba(var(--custom), %alpha)',
       },
+      a: {
+        b: {
+          c: '#514543',
+        },
+        camelCase: '#234',
+      },
     },
   },
 })
 
 describe('preset-mini', () => {
+  test('dark customizing selector', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini({
+          dark: {
+            dark: '[data-mode="dark"]',
+            light: '[data-mode="light"]',
+          },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'dark:bg-white',
+      'dark:text-lg',
+      'dark:hover:rounded',
+      'light:bg-black',
+      'light:text-sm',
+      'light:disabled:w-full',
+    ].join(' '), {
+      preflights: false,
+    })
+
+    expect(css).toMatchSnapshot()
+  })
+
   test('targets', async () => {
     const code = presetMiniTargets.join(' ')
     const { css } = await uno.generate(code)
@@ -60,6 +92,17 @@ describe('preset-mini', () => {
     ].join(' '), { preflights: false })
 
     expect(css).toMatchSnapshot()
+  })
+
+  test('nested theme colors', async () => {
+    const { css, matched } = await uno.generate([
+      'text-a-b-c',
+      'text-a-camel-case',
+      'bg-a-b-c',
+    ], { preflights: false })
+
+    expect(css).toMatchSnapshot('')
+    expect(matched.size).toBe(3)
   })
 
   test('none targets', async () => {

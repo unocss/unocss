@@ -43,7 +43,7 @@ export const fonts: Rule<Theme>[] = [
   ],
   [/^text-size-(.+)$/, ([, s], { theme }) => {
     const themed = toArray(theme.fontSize?.[s])
-    const size = themed?.[0] ?? h.bracket.cssvar.rem(s)
+    const size = themed?.[0] ?? h.bracket.cssvar.global.rem(s)
     if (size != null)
       return { 'font-size': size }
   }, { autocomplete: 'text-size-$fontSize' }],
@@ -63,11 +63,11 @@ export const fonts: Rule<Theme>[] = [
   ],
 
   // synthesis
-  [
-    /^font-synthesis-(.+)$/,
-    ([, s]) => ({ 'font-synthesis': s }),
-    { autocomplete: 'font-synthesis-(none|weight|style|small-caps)' },
-  ],
+  ['font-synthesis-weight', { 'font-synthesis': 'weight' }],
+  ['font-synthesis-style', { 'font-synthesis': 'style' }],
+  ['font-synthesis-small-caps', { 'font-synthesis': 'small-caps' }],
+  ['font-synthesis-none', { 'font-synthesis': 'none' }],
+  [/^font-synthesis-(.+)$/, ([, s]) => ({ 'font-synthesis': h.bracket.cssvar.global(s) })],
 
   // tracking
   [
@@ -119,7 +119,7 @@ export const textShadows: Rule<Theme>[] = [
         'text-shadow': 'var(--un-text-shadow)',
       }
     }
-    return { 'text-shadow': h.bracket.cssvar(s) }
+    return { 'text-shadow': h.bracket.cssvar.global(s) }
   }, { autocomplete: 'text-shadow-$textShadow' }],
 
   // colors

@@ -1,5 +1,5 @@
 import type { Rule } from '@unocss/core'
-import { colorResolver, handler as h } from '@unocss/preset-mini/utils'
+import { colorResolver, handler as h, makeGlobalStaticRules } from '@unocss/preset-mini/utils'
 
 const listStyles: Record<string, string> = {
   'disc': 'disc',
@@ -18,19 +18,23 @@ const listStyles: Record<string, string> = {
 
 export const listStyle: Rule[] = [
   // base
-  [/^list-(.+)(?:-(outside|inside))?$/, ([, style, position]) => {
-    if (position != null) {
-      return {
-        'list-style-position': position,
-        'list-style-type': listStyles[style],
+  [/^list-(.+?)(?:-(outside|inside))?$/, ([, alias, position]) => {
+    const style = listStyles[alias]
+    if (style) {
+      if (position) {
+        return {
+          'list-style-position': position,
+          'list-style-type': style,
+        }
       }
+      return { 'list-style-type': style }
     }
-    return { 'list-style-type': listStyles[style] }
   }, { autocomplete: [`list-(${Object.keys(listStyles).join('|')})`, `list-(${Object.keys(listStyles).join('|')})-(outside|inside)`] }],
   // styles
   ['list-outside', { 'list-style-position': 'outside' }],
   ['list-inside', { 'list-style-position': 'inside' }],
   ['list-none', { 'list-style-type': 'none' }],
+  ...makeGlobalStaticRules('list', 'list-style-type'),
 ]
 
 export const accents: Rule[] = [
@@ -59,15 +63,19 @@ export const overscrolls: Rule[] = [
   ['overscroll-auto', { 'overscroll-behavior': 'auto' }],
   ['overscroll-contain', { 'overscroll-behavior': 'contain' }],
   ['overscroll-none', { 'overscroll-behavior': 'none' }],
+  ...makeGlobalStaticRules('overscroll', 'overscroll-behavior'),
   ['overscroll-x-auto', { 'overscroll-behavior-x': 'auto' }],
   ['overscroll-x-contain', { 'overscroll-behavior-x': 'contain' }],
   ['overscroll-x-none', { 'overscroll-behavior-x': 'none' }],
+  ...makeGlobalStaticRules('overscroll-x', 'overscroll-behavior-x'),
   ['overscroll-y-auto', { 'overscroll-behavior-y': 'auto' }],
   ['overscroll-y-contain', { 'overscroll-behavior-y': 'contain' }],
   ['overscroll-y-none', { 'overscroll-behavior-y': 'none' }],
+  ...makeGlobalStaticRules('overscroll-y', 'overscroll-behavior-y'),
 ]
 
 export const scrollBehaviors: Rule[] = [
   ['scroll-auto', { 'scroll-behavior': 'auto' }],
   ['scroll-smooth', { 'scroll-behavior': 'smooth' }],
+  ...makeGlobalStaticRules('scroll', 'scroll-behavior'),
 ]

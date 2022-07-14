@@ -1,8 +1,12 @@
 import type { DocItem } from '../types'
-import index from './mdn-index.json'
 
-export const mdnIndex = (index as DocItem[])
-  .map((i) => {
-    i.type = 'mdn'
-    return i
+export const mdnIndex = ref<DocItem[]>([])
+
+import('./mdn-index.json')
+  .then((r) => {
+    mdnIndex.value = (r.default as DocItem[])
+      .map((i) => {
+        i.type = 'mdn'
+        return i
+      })
   })

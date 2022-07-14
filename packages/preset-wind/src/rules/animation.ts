@@ -1,5 +1,5 @@
 import type { Rule } from '@unocss/core'
-import { handler as h } from '@unocss/preset-mini/utils'
+import { globalKeywords, handler as h, makeGlobalStaticRules } from '@unocss/preset-mini/utils'
 import type { Theme } from '@unocss/preset-mini'
 
 export const animations: Rule<Theme>[] = [
@@ -38,7 +38,8 @@ export const animations: Rule<Theme>[] = [
   [/^animate-ease(?:-(.+))?$/, ([, d], { theme }) => ({ 'animation-timing-function': theme.easing?.[d || 'DEFAULT'] ?? h.bracket.cssvar(d) }), { autocomplete: 'animate-delay-$easing' }],
 
   // fill mode
-  [/^animate-(?:fill-|mode-|fill-mode-)?(none|forwards|backwards|both|inherit|initial|revert|revert-layer|unset)$/, ([, d]) => ({ 'animation-fill-mode': d }),
+  [/^animate-(fill-mode-|fill-|mode-)?(.+)$/,
+    ([, t, d]) => ['none', 'forwards', 'backwards', 'both', ...[t ? globalKeywords : []]].includes(d) ? { 'animation-fill-mode': d } : undefined,
     {
       autocomplete: [
         'animate-(fill|mode|fill-mode)',
@@ -49,7 +50,8 @@ export const animations: Rule<Theme>[] = [
   ],
 
   // direction
-  [/^animate-(?:direction-)?(normal|reverse|alternate|alternate-reverse|inherit|initial|revert|revert-layer|unset)$/, ([, d]) => ({ 'animation-direction': d }),
+  [/^animate-(direction-)?(.+)$/,
+    ([, t, d]) => ['normal', 'reverse', 'alternate', 'alternate-reverse', ...[t ? globalKeywords : []]].includes(d) ? { 'animation-direction': d } : undefined,
     {
       autocomplete: [
         'animate-direction',
@@ -61,7 +63,8 @@ export const animations: Rule<Theme>[] = [
 
   // others
   [/^animate-(?:iteration-|count-|iteration-count-)(.+)$/, ([, d]) => ({ 'animation-iteration-count': h.bracket.cssvar(d) ?? d.replace(/\-/g, ',') }), { autocomplete: ['animate-(iteration|count|iteration-count)', 'animate-(iteration|count|iteration-count)-<num>'] }],
-  [/^animate-(?:play-|state-|play-state-)?(paused|running|inherit|initial|revert|revert-layer|unset)$/, ([, d]) => ({ 'animation-play-state': d }),
+  [/^animate-(play-state-|play-|state-)?(.+)$/,
+    ([, t, d]) => ['paused', 'running', ...[t ? globalKeywords : []]].includes(d) ? { 'animation-play-state': d } : undefined,
     {
       autocomplete: [
         'animate-(play|state|play-state)',
@@ -70,4 +73,5 @@ export const animations: Rule<Theme>[] = [
       ],
     }],
   ['animate-none', { animation: 'none' }],
+  ...makeGlobalStaticRules('animate', 'animation'),
 ]

@@ -1,8 +1,9 @@
 import { createNanoEvents } from '../utils/events'
-import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, Shortcut, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
+import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
-import { CONTROL_SHORTCUT_NO_MERGE, TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, noop, normalizeCSSEntries, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
+import { CONTROL_SHORTCUT_NO_MERGE, TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
+import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from '../constants'
 
 export class UnoGenerator {
   public version = version
@@ -122,25 +123,29 @@ export class UnoGenerator {
   }
 
   async generate(
-    input: string | Set<string> = '',
-    {
+    input: string | Set<string> | string[],
+    options: GenerateOptions = {},
+  ): Promise<GenerateResult> {
+    const {
       id,
       scope,
       preflights = true,
       safelist = true,
       minify = false,
-    }: GenerateOptions = {},
-  ): Promise<GenerateResult> {
-    const tokens = typeof input === 'string'
+    } = options
+
+    const tokens: Readonly<Set<string>> = isString(input)
       ? await this.applyExtractors(input, id)
-      : input
+      : Array.isArray(input)
+        ? new Set(input)
+        : input
 
     if (safelist)
       this.config.safelist.forEach(s => tokens.add(s))
 
     const nl = minify ? '' : '\n'
 
-    const layerSet = new Set<string>(['default'])
+    const layerSet = new Set<string>([LAYER_DEFAULT])
     const matched = new Set<string>()
     const sheet = new Map<string, StringifiedUtil[]>()
     let preflightsMap: Record<string, string> = {}
@@ -175,12 +180,10 @@ export class UnoGenerator {
         theme: this.config.theme,
       }
 
-      const preflightLayerSet = new Set<string>(['default'])
-      this.config.preflights.forEach(({ layer }) => {
-        if (layer) {
-          layerSet.add(layer)
-          preflightLayerSet.add(layer)
-        }
+      const preflightLayerSet = new Set<string>([])
+      this.config.preflights.forEach(({ layer = LAYER_PREFLIGHTS }) => {
+        layerSet.add(layer)
+        preflightLayerSet.add(layer)
       })
 
       preflightsMap = Object.fromEntries(
@@ -188,7 +191,7 @@ export class UnoGenerator {
           async (layer) => {
             const preflights = await Promise.all(
               this.config.preflights
-                .filter(i => (i.layer || 'default') === layer)
+                .filter(i => (i.layer || LAYER_PREFLIGHTS) === layer)
                 .map(async i => await i.getCSS(preflightContext)),
             )
             const css = preflights
@@ -220,7 +223,7 @@ export class UnoGenerator {
         .map(([parent, items]) => {
           const size = items.length
           const sorted: PreparedRule[] = items
-            .filter(i => (i[4]?.layer || 'default') === layer)
+            .filter(i => (i[4]?.layer || LAYER_DEFAULT) === layer)
             .sort((a, b) => a[0] - b[0] || (a[4]?.sort || 0) - (b[4]?.sort || 0) || a[1]?.localeCompare(b[1] || '') || a[2]?.localeCompare(b[2] || '') || 0)
             .map(([, selector, body,, meta]) => {
               const scopedSelector = selector ? applyScope(selector, scope) : selector
@@ -248,11 +251,11 @@ export class UnoGenerator {
               }
 
               const selectors = selectorSortPair
-                ? [...new Set(selectorSortPair
-                    .sort((a, b) => a[1] - b[1] || a[0]?.localeCompare(b[0] || '') || 0)
-                    .map(pair => pair[0])
-                    .filter(Boolean),
-                  )]
+                ? uniq(selectorSortPair
+                  .sort((a, b) => a[1] - b[1] || a[0]?.localeCompare(b[0] || '') || 0)
+                  .map(pair => pair[0])
+                  .filter(Boolean),
+                )
                 : []
 
               return selectors.length
@@ -263,9 +266,11 @@ export class UnoGenerator {
             .reverse()
             .join(nl)
 
-          return parent
-            ? `${parent}{${nl}${rules}${nl}}`
-            : rules
+          if (!parent)
+            return rules
+
+          const parents = parent.split(' $$ ')
+          return `${parents.join('{')}{${nl}${rules}${nl}}${parents.map(_ => '').join('}')}`
         })
         .filter(Boolean)
         .join(nl)
@@ -276,9 +281,8 @@ export class UnoGenerator {
           .join(nl)
       }
 
-      return layerCache[layer] = !minify && css
-        ? `/* layer: ${layer} */${nl}${css}`
-        : css
+      const layerMark = minify ? '' : `/* layer: ${layer} */${nl}`
+      return layerCache[layer] = css ? layerMark + css : ''
     }
 
     const getLayers = (includes = layers, excludes?: string[]) => {
@@ -292,9 +296,9 @@ export class UnoGenerator {
     return {
       get css() { return getLayers() },
       layers,
+      matched,
       getLayers,
       getLayer,
-      matched,
     }
   }
 
@@ -319,10 +323,10 @@ export class UnoGenerator {
         let handler = v.match(processed, context)
         if (!handler)
           continue
-        if (typeof handler === 'string')
+        if (isString(handler))
           handler = { matcher: handler }
         processed = handler.matcher
-        handlers.push(handler)
+        handlers.unshift(handler)
         variants.add(v)
         applied = true
         break
@@ -337,7 +341,7 @@ export class UnoGenerator {
     return [raw, processed, handlers, variants]
   }
 
-  applyVariants(parsed: ParsedUtil, variantHandlers = parsed[4], raw = parsed[1]): UtilObject {
+  private applyVariants(parsed: ParsedUtil, variantHandlers = parsed[4], raw = parsed[1]): UtilObject {
     const handler = [...variantHandlers]
       .sort((a, b) => (a.order || 0) - (b.order || 0))
       .reverse()
@@ -384,12 +388,13 @@ export class UnoGenerator {
 
     for (const p of this.config.postprocess)
       p(obj)
+
     return obj
   }
 
   constructCustomCSS(context: Readonly<RuleContext>, body: CSSObject | CSSEntries, overrideSelector?: string) {
     const normalizedBody = normalizeCSSEntries(body)
-    if (typeof normalizedBody === 'string')
+    if (isString(normalizedBody))
       return normalizedBody
 
     const { selector, entries, parent } = this.applyVariants([0, overrideSelector || context.rawSelector, normalizedBody, undefined, context.variantHandlers])
@@ -400,7 +405,7 @@ export class UnoGenerator {
   }
 
   async parseUtil(input: string | VariantMatchedResult, context: RuleContext, internal = false): Promise<(ParsedUtil | RawUtil)[] | undefined> {
-    const [raw, processed, variantHandlers] = typeof input === 'string'
+    const [raw, processed, variantHandlers] = isString(input)
       ? this.matchVariants(input)
       : input
 
@@ -419,7 +424,7 @@ export class UnoGenerator {
         const index = staticMatch[0]
         const entry = normalizeCSSEntries(staticMatch[1])
         const meta = staticMatch[2]
-        if (typeof entry === 'string')
+        if (isString(entry))
           return [[index, entry, meta]]
         else
           return [[index, raw, entry, meta, variantHandlers]]
@@ -444,7 +449,10 @@ export class UnoGenerator {
 
       // dynamic rules
       const [matcher, handler, meta] = rule
-      const match = processed.match(matcher)
+      if (meta?.prefix && !processed.startsWith(meta.prefix))
+        continue
+      const unprefixed = meta?.prefix ? processed.slice(meta.prefix.length) : processed
+      const match = unprefixed.match(matcher)
       if (!match)
         continue
 
@@ -457,7 +465,7 @@ export class UnoGenerator {
       const entries = normalizeCSSValues(result).filter(i => i.length)
       if (entries.length) {
         return entries.map((e) => {
-          if (typeof e === 'string')
+          if (isString(e))
             return [i, e, meta]
           else
             return [i, raw, e, meta, variantHandlers]
@@ -487,7 +495,7 @@ export class UnoGenerator {
     return [parsed[0], selector, body, parent, ruleMeta, this.config.details ? context : undefined]
   }
 
-  expandShortcut(processed: string, context: RuleContext, depth = 3): [string[], RuleMeta | undefined] | undefined {
+  expandShortcut(input: string, context: RuleContext, depth = 5): [ShortcutValue[], RuleMeta | undefined] | undefined {
     if (depth === 0)
       return
 
@@ -499,10 +507,11 @@ export class UnoGenerator {
       : noop
 
     let meta: RuleMeta | undefined
-    let result: string | string[] | undefined
+    let result: string | ShortcutValue[] | undefined
     for (const s of this.config.shortcuts) {
+      const unprefixed = s[2]?.prefix ? input.slice(s[2].prefix.length) : input
       if (isStaticShortcut(s)) {
-        if (s[0] === processed) {
+        if (s[0] === unprefixed) {
           meta = meta || s[2]
           result = s[1]
           recordShortcut(s)
@@ -510,7 +519,7 @@ export class UnoGenerator {
         }
       }
       else {
-        const match = processed.match(s[0])
+        const match = unprefixed.match(s[0])
         if (match)
           result = s[1](match, context)
         if (result) {
@@ -521,16 +530,29 @@ export class UnoGenerator {
       }
     }
 
-    if (typeof result === 'string')
+    // expand nested shotcuts
+    if (isString(result))
       result = expandVariantGroup(result).split(/\s+/g)
+
+    // expand nested shortcuts with variants
+    if (!result) {
+      const [raw, inputWithoutVariant] = isString(input)
+        ? this.matchVariants(input)
+        : input
+      if (raw !== inputWithoutVariant) {
+        const expanded = this.expandShortcut(inputWithoutVariant, context, depth - 1)
+        if (expanded)
+          result = expanded[0].map(item => isString(item) ? raw.replace(inputWithoutVariant, item) : item)
+      }
+    }
 
     if (!result)
       return
 
     return [
       result
-        .flatMap(r => this.expandShortcut(r, context, depth - 1)?.[0] || [r])
-        .filter(r => r !== ''),
+        .flatMap(r => (isString(r) ? this.expandShortcut(r, context, depth - 1)?.[0] : undefined) || [r])
+        .filter(Boolean),
       meta,
     ]
   }
@@ -538,17 +560,22 @@ export class UnoGenerator {
   async stringifyShortcuts(
     parent: VariantMatchedResult,
     context: RuleContext,
-    expanded: string[],
+    expanded: ShortcutValue[],
     meta: RuleMeta = { layer: this.config.shortcutsLayer },
   ): Promise<StringifiedUtil[] | undefined> {
     const selectorMap = new TwoKeyMap<string, string | undefined, [[CSSEntries, boolean, number][], number]>()
     const parsed = (
       await Promise.all(uniq(expanded)
         .map(async (i) => {
-          const result = await this.parseUtil(i, context, true)
+          const result = isString(i)
+            // rule
+            ? await this.parseUtil(i, context, true) as ParsedUtil[]
+            // inline CSS value in shortcut
+            : [[Infinity, '{inline}', normalizeCSSEntries(i), undefined, []] as ParsedUtil]
+
           if (!result)
             warnOnce(`unmatched utility "${i}" in shortcut "${parent[1]}"`)
-          return (result || []) as ParsedUtil[]
+          return result || []
         })))
       .flat(1)
       .filter(Boolean)
@@ -596,7 +623,7 @@ export class UnoGenerator {
   }
 
   isBlocked(raw: string) {
-    return !raw || this.config.blocklist.some(e => typeof e === 'string' ? e === raw : e.test(raw))
+    return !raw || this.config.blocklist.some(e => isString(e) ? e === raw : e.test(raw))
   }
 }
 

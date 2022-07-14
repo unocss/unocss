@@ -45,13 +45,13 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 ###### Benchmark
 
 ```
-3/26/2022, 11:41:26 PM
+2022/7/2 08:38:12 PM
 1656 utilities | x50 runs (min build time)
 
-none                             12.42 ms / delta.      0.00 ms
-unocss       v0.30.6             20.98 ms / delta.      8.57 ms (x1.00)
-tailwindcss  v3.0.23           1621.38 ms / delta.   1608.96 ms (x187.79)
-windicss     v3.5.1            1855.86 ms / delta.   1843.45 ms (x215.16)
+none                              5.87 ms / delta.      0.00 ms 
+unocss       v0.43.0              9.17 ms / delta.      3.30 ms (x1.00)
+tailwindcss  v3.1.4             497.24 ms / delta.    491.37 ms (x148.70)
+windicss     v3.5.5             869.47 ms / delta.    863.60 ms (x261.35)
 ```
 
 ## Installation
@@ -468,16 +468,13 @@ UnoCSS also supports the theming system that you might be familiar with in Tailw
 
 ```ts
 theme: {
+  // ...
   colors: {
     'veryCool': '#0000ff', // class="text-very-cool"
     'brand': {
-      'primary': '#1f6ae3', //class="bg-brand-primary"
+      'primary': 'hsla(var(--hue, 217), 78%, 51%)', //class="bg-brand-primary"
     }
   },
-  breakpoints: {
-    xs: '320px',
-    sm: '640px',
-  }
 }
 ```
 
@@ -491,6 +488,24 @@ rules: [
   }],
 ]
 ```
+
+One exception is that UnoCSS gives full control of `breakpoints` to users. When a custom `breakpoints` is provided, the default will be overridden instead of merging. For example:
+
+<!--eslint-skip-->
+
+```ts
+theme: {
+  // ...
+  breakpoints: {
+    sm: '320px',
+    md: '640px',
+  },
+}
+```
+
+Right now, you can only use the `sm:` and `md:` breakpoint variants.
+
+`verticalBreakpoints` is same as `breakpoints` but for vertical layout.
 
 ### Layers
 
@@ -579,7 +594,7 @@ By default UnoCSS will scan for components files like: `.jsx`, `.tsx`, `.vue`, `
 Sometimes you might want have to use dynamic concatenations like:
 
 ```html
-<div class="p-${size}"></div>
+<div class="p-${size}"></div> <!-- this won't work! -->
 ```
 
 Due the fact that UnoCSS works in build time using static extracting, at the compile time we can't possibility know all the combination of the utilities. For that, you can configure the `safelist` option.
