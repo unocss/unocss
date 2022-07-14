@@ -135,7 +135,7 @@ Set {
   "[pt-4=\\"\\"]",
   "[px-4=\\"\\"]",
   "[text-true-gray-800=\\"\\"]",
-  "[placeholder=\\"\\"]",
+  "[un-placeholder~=\\"text-red\\"]",
   "[absolute=\\"\\"]",
   "[leading-1rem=\\"\\"]",
   "[left-4=\\"\\"]",
@@ -256,6 +256,7 @@ exports[`attributify > fixture2 1`] = `
 [peer=\\"\\"]:not(:placeholder-shown)~[peer-not-placeholder-shown~=\\"text-green-500\\"]{--un-text-opacity:1;color:rgba(34,197,94,var(--un-text-opacity));}
 [text-gray-7=\\"\\"]{--un-text-opacity:1;color:rgba(55,65,81,var(--un-text-opacity));}
 [text-true-gray-800=\\"\\"]{--un-text-opacity:1;color:rgba(38,38,38,var(--un-text-opacity));}
+[un-placeholder~=\\"text-red\\"]::placeholder{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
 [group=\\"\\"]:hover [group-hover~=\\"op-50\\"]{opacity:0.5;}
 [op-20=\\"\\"]{opacity:0.2;}
 [all\\\\:transition-400=\\"\\"] *{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:400ms;}
