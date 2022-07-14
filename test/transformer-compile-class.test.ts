@@ -15,7 +15,7 @@ describe('transformer-compile-class', () => {
 
   async function transform(code: string, _uno: UnoGenerator = uno) {
     const s = new MagicString(code)
-    await transformer.transform(s, 'foo.js', { uno: _uno } as any)
+    await transformer.transform(s, 'foo.js', { uno: _uno, tokens: new Set() } as any)
     const result = s.toString()
     const { css } = await uno.generate(result, { preflights: false })
     return {
