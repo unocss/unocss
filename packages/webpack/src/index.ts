@@ -1,20 +1,12 @@
 import type { UserConfig, UserConfigDefaults } from '@unocss/core'
+import { getHash } from '@unocss/shared-integration'
 import type { ResolvedUnpluginOptions, UnpluginOptions } from 'unplugin'
 import { createUnplugin } from 'unplugin'
 import WebpackSources from 'webpack-sources'
-import MagicString from 'magic-string'
-import {
-  HASH_PLACEHOLDER_RE,
-  LAYER_MARK_ALL,
-  LAYER_PLACEHOLDER_RE,
-  createContext,
-  getHash,
-  getHashPlaceholder,
-  getLayerPlaceholder,
-  getPath,
-  resolveId,
-  resolveLayer,
-} from '../../shared-integration/src'
+import { createContext } from '../../shared-integration/src/context'
+import { HASH_PLACEHOLDER_RE, LAYER_MARK_ALL, LAYER_PLACEHOLDER_RE, getHashPlaceholder, getLayerPlaceholder, resolveId, resolveLayer } from '../../shared-integration/src/layers'
+import { applyTransformers } from '../../shared-integration/src/transformers'
+import { getPath } from '../../shared-integration/src/utils'
 
 export interface WebpackPluginOptions<Theme extends {} = {}> extends UserConfig<Theme> {}
 
@@ -30,8 +22,8 @@ export default function WebpackPlugin<Theme extends {}>(
   defaults?: UserConfigDefaults,
 ) {
   return createUnplugin(() => {
-    const context = createContext<WebpackPluginOptions>(configOrPath as any, defaults)
-    const { uno, tokens, filter, extract, onInvalidate } = context
+    const ctx = createContext<WebpackPluginOptions>(configOrPath as any, defaults)
+    const { uno, tokens, filter, extract, onInvalidate } = ctx
 
     let timer: any
     onInvalidate(() => {
@@ -39,9 +31,19 @@ export default function WebpackPlugin<Theme extends {}>(
       timer = setTimeout(updateModules, UPDATE_DEBOUNCE)
     })
 
+    const nonPreTransformers = ctx.uno.config.transformers?.filter(i => i.enforce !== 'pre')
+    if (nonPreTransformers?.length) {
+      console.warn(
+        // eslint-disable-next-line prefer-template
+        '[unocss] webpack integration only supports "pre" enforce transformers currently.'
+        + 'the following transformers will be ignored\n'
+        + nonPreTransformers.map(i => ` - ${i.name}`).join('\n'),
+      )
+    }
+
     const tasks: Promise<any>[] = []
     const entries = new Set<string>()
-    const hashs = new Map<string, string>()
+    const hashes = new Map<string, string>()
 
     const plugin = <UnpluginOptions>{
       name: 'unocss:webpack',
@@ -50,8 +52,8 @@ export default function WebpackPlugin<Theme extends {}>(
         return filter('', id)
       },
       async transform(code, id) {
-        const result = await transform(code, id)
-        if (result === null)
+        const result = await applyTransformers(ctx, code, id, 'pre')
+        if (result == null)
           tasks.push(extract(code, id))
         else
           tasks.push(extract(result.code, id))
@@ -77,7 +79,7 @@ export default function WebpackPlugin<Theme extends {}>(
           if (entry)
             layer = resolveLayer(entry)
         }
-        const hash = hashs.get(id)
+        const hash = hashes.get(id)
         if (layer)
           return (hash ? getHashPlaceholder(hash) : '') + getLayerPlaceholder(layer)
       },
@@ -119,29 +121,6 @@ export default function WebpackPlugin<Theme extends {}>(
       },
     } as Required<ResolvedUnpluginOptions>
 
-    async function transform(code: string, id: string) {
-      const transformers = (context.uno.config.transformers || []).filter(i => i.enforce === plugin.enforce)
-      if (!transformers.length)
-        return null
-      const s = new MagicString(code)
-      for (const t of transformers) {
-        if (t.idFilter) {
-          if (!t.idFilter(id))
-            continue
-        }
-        else if (!context.filter(code, id)) {
-          continue
-        }
-        await t.transform(s, id, context)
-      }
-      if (s.hasChanged()) {
-        return {
-          code: s.toString(),
-          map: s.generateMap({ hires: true, source: id }),
-        }
-      }
-      return null
-    }
     async function updateModules() {
       if (!plugin.__vfsModules)
         return
@@ -159,7 +138,7 @@ export default function WebpackPlugin<Theme extends {}>(
             : result.getLayer(layer) || ''
 
           const hash = getHash(code)
-          hashs.set(path, hash)
+          hashes.set(path, hash)
           plugin.__vfs.writeModule(id, code)
         })
     }
