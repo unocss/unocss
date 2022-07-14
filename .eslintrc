@@ -13,7 +13,8 @@
     {
       "files": [
         "playground/**/*.*",
-        "examples/**/*.*"
+        "examples/**/*.*",
+        "test/fixtures/**/*.*"
       ],
       "rules": {
         "no-restricted-imports": "off"

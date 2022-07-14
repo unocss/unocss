@@ -1,7 +1,7 @@
 packages:
+  - bench
   - playground
   - interactive
   - 'packages/*'
-  - bench
-  - '!**/test/**'
+  - 'test/fixtures/*'
   - '!examples/**'
