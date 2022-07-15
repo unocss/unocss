@@ -1,6 +1,6 @@
 import { dirname, resolve } from 'path'
 import { fileURLToPath } from 'url'
-import { addComponentsDir, addPluginTemplate, defineNuxtModule, extendViteConfig, extendWebpackConfig } from '@nuxt/kit'
+import { addComponentsDir, addPluginTemplate, defineNuxtModule, extendWebpackConfig } from '@nuxt/kit'
 import WebpackPlugin from '@unocss/webpack'
 import VitePlugin from '@unocss/vite'
 import { resolveOptions } from './options'
@@ -27,7 +27,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     icons: false,
     wind: false,
   },
-  setup(options) {
+  setup(options, nuxt) {
     // preset shortcuts
     resolveOptions(options)
 
@@ -53,7 +53,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
       })
     }
 
-    extendViteConfig((config) => {
+    nuxt.hook('vite:extend', ({ config }) => {
       config.plugins = config.plugins || []
       config.plugins.unshift(...VitePlugin({}, options))
     })
