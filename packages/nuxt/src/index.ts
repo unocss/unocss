@@ -37,7 +37,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
         getContents: () => {
           const lines = [
             'import \'uno.css\'',
-            'export default () => {};',
+            'export default defineNuxtPlugin(() => {})',
           ]
           if (options.preflight)
             lines.unshift('import \'@unocss/reset/tailwind.css\'')
