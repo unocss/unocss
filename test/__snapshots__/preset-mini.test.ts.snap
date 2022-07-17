@@ -504,10 +504,14 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .shrink{flex-shrink:1;}
 .flex-shrink-0,
 .shrink-0{flex-shrink:0;}
+.shrink-\\\\$variable{flex-shrink:var(--variable);}
+.shrink-10{flex-shrink:10;}
 .flex-grow,
 .grow{flex-grow:1;}
 .flex-grow-0,
 .grow-0{flex-grow:0;}
+.grow-\\\\$variable{flex-grow:var(--variable);}
+.grow-10{flex-grow:10;}
 .basis-auto{flex-basis:auto;}
 .basis-none,
 .flex-basis-0{flex-basis:0rem;}

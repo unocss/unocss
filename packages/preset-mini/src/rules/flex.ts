@@ -16,11 +16,9 @@ export const flex: Rule<Theme>[] = [
   ['flex-none', { flex: 'none' }],
 
   // shrink/grow/basis
-  [/^(?:flex-)?shrink$/, () => ({ 'flex-shrink': 1 })],
-  [/^(?:flex-)?shrink-0$/, () => ({ 'flex-shrink': 0 })],
-  [/^(?:flex-)?grow$/, () => ({ 'flex-grow': 1 })],
-  [/^(?:flex-)?grow-0$/, () => ({ 'flex-grow': 0 })],
-  [/^(?:flex-)?basis-(.+)$/, ([, d], { theme }) => ({ 'flex-basis': theme.spacing?.[d] ?? h.bracket.cssvar.auto.fraction.rem(d) })],
+  [/^(?:flex-)?shrink(?:-(.*))?$/, ([, d = '']) => ({ 'flex-shrink': h.bracket.cssvar.number(d) ?? 1 }), { autocomplete: ['flex-shrink-<num>', 'shrink-<num>'] }],
+  [/^(?:flex-)?grow(?:-(.*))?$/, ([, d = '']) => ({ 'flex-grow': h.bracket.cssvar.number(d) ?? 1 }), { autocomplete: ['flex-grow-<num>', 'grow-<num>'] }],
+  [/^(?:flex-)?basis-(.+)$/, ([, d], { theme }) => ({ 'flex-basis': theme.spacing?.[d] ?? h.bracket.cssvar.auto.fraction.rem(d) }), { autocomplete: ['flex-basis-$spacing', 'basis-$spacing'] }],
 
   // directions
   ['flex-row', { 'flex-direction': 'row' }],
