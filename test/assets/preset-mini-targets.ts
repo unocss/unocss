@@ -688,6 +688,7 @@ export const presetMiniTargets: string[] = [
   'transition-duration-300',
   'transition-property-width',
   'transition-property-all',
+  'transition-property-[border]',
   'transition-200',
   'transition-opacity-200',
   'transition-color,background-color-200',
