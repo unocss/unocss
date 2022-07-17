@@ -16,8 +16,8 @@ export const flex: Rule<Theme>[] = [
   ['flex-none', { flex: 'none' }],
 
   // shrink/grow/basis
-  [/^(?:flex-)?shrink(?:-(.*))?$/, ([, d]) => ({ 'flex-shrink': h.bracket.number(d) ?? 1 }), { autocomplete: ['flex-shrink-<num>', 'shrink-<num>'] }],
-  [/^(?:flex-)?grow(?:-(.*))?$/, ([, d]) => ({ 'flex-grow': h.bracket.number(d) ?? 1 }), { autocomplete: ['flex-grow-<num>', 'grow-<num>'] }],
+  [/^(?:flex-)?shrink(?:-(.*))?$/, ([, d = '']) => ({ 'flex-shrink': h.bracket.cssvar.number(d) ?? 1 }), { autocomplete: ['flex-shrink-<num>', 'shrink-<num>'] }],
+  [/^(?:flex-)?grow(?:-(.*))?$/, ([, d = '']) => ({ 'flex-grow': h.bracket.cssvar.number(d) ?? 1 }), { autocomplete: ['flex-grow-<num>', 'grow-<num>'] }],
   [/^(?:flex-)?basis-(.+)$/, ([, d], { theme }) => ({ 'flex-basis': theme.spacing?.[d] ?? h.bracket.cssvar.auto.fraction.rem(d) }), { autocomplete: ['flex-basis-$spacing', 'basis-$spacing'] }],
 
   // directions
