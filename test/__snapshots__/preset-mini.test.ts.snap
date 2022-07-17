@@ -808,6 +808,7 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .property-none{transition-property:none;}
 .property-padding\\\\,margin{transition-property:padding,margin;}
 .property-unset{transition-property:unset;}
+.transition-property-\\\\[border\\\\]{transition-property:border;}
 .transition-property-width{transition-property:width;}
 .transition-none{transition:none;}
 .transition-revert-layer{transition:revert-layer;}
