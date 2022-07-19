@@ -102,14 +102,29 @@ function bracketWithType(str: string, type?: string) {
     else if (type && match[1] === type)
       base = str.slice(match[0].length, -1)
 
-    if (base !== undefined) {
-      return base
-        .replace(/(url\(.*?\))/g, v => v.replace(/_/g, '\\_'))
-        .replace(/([^\\])_/g, '$1 ')
-        .replace(/(?:calc|clamp|max|min)\((.*)/g, (v) => {
-          return v.replace(/(-?\d*\.?\d(?!\b-.+[,)](?![^+\-/*])\D)(?:%|[a-z]+)?|\))([+\-/*])/g, '$1 $2 ')
-        })
+    if (!base)
+      return
+
+    let curly = 0
+    for (const i of base) {
+      if (i === '[') {
+        curly += 1
+      }
+      else if (i === ']') {
+        curly -= 1
+        if (curly < 0)
+          return
+      }
     }
+    if (curly)
+      return
+
+    return base
+      .replace(/(url\(.*?\))/g, v => v.replace(/_/g, '\\_'))
+      .replace(/([^\\])_/g, '$1 ')
+      .replace(/(?:calc|clamp|max|min)\((.*)/g, (v) => {
+        return v.replace(/(-?\d*\.?\d(?!\b-.+[,)](?![^+\-/*])\D)(?:%|[a-z]+)?|\))([+\-/*])/g, '$1 $2 ')
+      })
   }
 }
 

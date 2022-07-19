@@ -12,4 +12,12 @@ describe('value handler', () => {
     expect(h.bracket('[calc(1/2)]')).eql('calc(1 / 2)')
     expect(h.bracket('[calc(1*2)]')).eql('calc(1 * 2)')
   })
+
+  it('bracket curly', () => {
+    expect(h.bracket('[foo][bar]')).eql(undefined)
+    expect(h.bracket('[[]]')).eql('[]')
+    expect(h.bracket('[]]')).eql(undefined)
+    expect(h.bracket('[]][[]]]]')).eql(undefined)
+    expect(h.bracket('[[][[[]]]]')).eql('[][[[]]]')
+  })
 })
