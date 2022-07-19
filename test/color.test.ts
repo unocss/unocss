@@ -170,5 +170,21 @@ describe('color utils', () => {
     expect(fn('danger/$o3')).eql({
       prop: 'hsla(var(--danger),var(--o3))',
     })
+
+    expect(fn('hex-fff')).eql({
+      '--un-v-opacity': 1,
+      'prop': 'rgba(255,255,255,var(--un-v-opacity))',
+    })
+
+    expect(fn('hex-fff/10')).eql({
+      prop: 'rgba(255,255,255,0.1)',
+    })
+
+    expect(fn('$abc')).eql({
+      prop: 'var(--abc)',
+    })
+
+    // invalid
+    expect(fn('hex-invalid')).eql({})
   })
 })

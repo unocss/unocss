@@ -83,9 +83,9 @@ export function parseColor(body: string, theme: Theme): ParsedColorValue | undef
   const bracket = h.bracketOfColor(main)
   const bracketOrMain = bracket || main
 
-  if (bracketOrMain.startsWith('#'))
+  if (bracketOrMain.match(/^#[\da-fA-F]+/g))
     color = bracketOrMain
-  else if (bracketOrMain.startsWith('hex-'))
+  else if (bracketOrMain.match(/^hex-[\da-fA-F]+/g))
     color = `#${bracketOrMain.slice(4)}`
   else if (main.startsWith('$'))
     color = h.cssvar(main)
