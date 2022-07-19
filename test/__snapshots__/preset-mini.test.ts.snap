@@ -17,6 +17,14 @@ exports[`preset-mini > dark customizing selector 1`] = `
 [data-mode=\\"light\\"] .light\\\\:disabled\\\\:w-full:disabled{width:100%;}"
 `;
 
+exports[`preset-mini > fontSize theme 1`] = `
+"/* layer: default */
+.text-lg{font-size:3rem;line-height:1.5em;}
+.text-medium{font-size:2rem;line-height:1.5em;}
+.text-small{font-size:1rem;line-height:1;}
+.text-xs{font-size:2rem;line-height:1;}"
+`;
+
 exports[`preset-mini > nested theme colors 1`] = `
 "/* layer: default */
 .bg-a-b-c{--un-bg-opacity:1;background-color:rgba(81,69,67,var(--un-bg-opacity));}

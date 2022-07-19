@@ -79,7 +79,7 @@ export function resolveConfig(
   const theme = clone([
     ...sortedPresets.map(p => p.theme || {}),
     config.theme || {},
-  ].reduce((a, p) => mergeDeep(a, p), {}))
+  ].reduce((a, p) => mergeDeep(a, p, 1), {}))
 
   ;(mergePresets('extendTheme') as ThemeExtender<any>[]).forEach(extendTheme => extendTheme(theme))
 

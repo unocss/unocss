@@ -111,4 +111,31 @@ describe('preset-mini', () => {
     expect(css).toMatchInlineSnapshot('""')
     expect([...matched]).toEqual([])
   })
+
+  test('fontSize theme', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+      theme: {
+        fontSize: {
+          small: '1rem',
+          medium: ['2rem', '1.5em'],
+          xs: '2rem',
+          lg: ['3rem', '1.5em'],
+        },
+      },
+    })
+
+    const { css } = await uno.generate([
+      'text-small',
+      'text-medium',
+      'text-xs',
+      'text-lg',
+    ].join(' '), { preflights: false })
+
+    // @ts-expect-error types
+    expect(uno.config.theme.fontSize.lg).toEqual(['3rem', '1.5em'])
+    expect(css).toMatchSnapshot()
+  })
 })
