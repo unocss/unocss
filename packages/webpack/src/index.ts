@@ -49,7 +49,7 @@ export default function WebpackPlugin<Theme extends {}>(
       name: 'unocss:webpack',
       enforce: 'pre',
       transformInclude(id) {
-        return filter('', id)
+        return filter('', id) && !id.match(/\.html$/)
       },
       async transform(code, id) {
         const result = await applyTransformers(ctx, code, id, 'pre')
