@@ -17,10 +17,17 @@ const transitionProperty = (prop: string): string | undefined => {
 
 export const transitions: Rule<Theme>[] = [
   // transition
-  [/^transition(?:-([a-z-]+(?:,[a-z-]+)*))?(?:-(\d+))?$/, ([, prop, d], { theme }) => {
-    const p = prop != null
-      ? transitionProperty(prop)
-      : [transitionPropertyGroup.colors, 'opacity', 'box-shadow', 'transform', 'filter', 'backdrop-filter'].join(',')
+  [/^transition(?:-([^\d]+))?(?:-(\d+))?$/, ([, prop, d], { theme }) => {
+    let p = [transitionPropertyGroup.colors, 'opacity', 'box-shadow', 'transform', 'filter', 'backdrop-filter'].join(',')
+    if (prop != null) {
+      if (!prop.startsWith('[') || !prop.endsWith(']'))
+        prop = `[${prop}]`
+
+      const props = h.bracket.cssvar(prop)
+      if (props != null)
+        p = transitionProperty(props.replaceAll(' ', ','))!
+    }
+
     if (p) {
       const duration = theme.duration?.[d || 'DEFAULT'] ?? h.time(d || '150')
       return {

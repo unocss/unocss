@@ -97,6 +97,9 @@ const nonTargets = [
   'transition-colour',
   'transition-background-color,colour-300',
   'transition-colour,background-color-300',
+  'transition-[colour]',
+  'transition-[background-color,colour]-300',
+  'transition-[background-color_colour]-300',
 
   // mini - typography
   'tab-',
