@@ -79,8 +79,35 @@ npm i @unocss/runtime
 
 ```ts
 import initUnocssRuntime from '@unocss/runtime'
+import presetAttributify from '@unocss/preset-attributify'
+import presetMini from '@unocss/preset-mini'
 
-initUnocssRuntime({ /* options */ })
+const unocssConfig: RuntimeOptions = {. // https://github.com/unocss/unocss/blob/main/packages/runtime/src/index.ts#L5
+        defaults: { // this is important (and different to the example above that assigns to window.__unocss
+            // rules: [
+            //     // custom rules... don't pass an empty array
+            // ],
+            presets: [
+                presetMini(),
+                presetAttributify({ 
+                    /* options  https://github.com/unocss/unocss/tree/main/packages/preset-attributify */ 
+                    prefix: 'un-',
+                }),
+            ],
+            // ...
+        }
+    }
+    initUnocssRuntime(unocssConfig)
+```
+
+## reset via parcel
+
+```ts
+import tailwindCSSreset from 'blob-url:./tailwind.min.css' // [needs parcel config]([url](https://parceljs.org/features/bundle-inlining/#inlining-as-a-blob-url))
+
+const injectTailwindCSSreset = () => {
+    document.head.innerHTML += `<link rel="stylesheet" href="${tailwindCSSreset}" type="text/css"/>`;
+}
 ```
 
 ## Preventing flash of unstyled content
