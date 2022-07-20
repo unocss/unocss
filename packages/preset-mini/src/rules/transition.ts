@@ -23,7 +23,7 @@ export const transitions: Rule<Theme>[] = [
       if (!prop.startsWith('[') || !prop.endsWith(']'))
         prop = `[${prop}]`
 
-      const props = h.bracket.cssvar(prop)
+      const props = h.bracket(prop)
       if (props != null)
         p = transitionProperty(props.replaceAll(' ', ','))!
     }
