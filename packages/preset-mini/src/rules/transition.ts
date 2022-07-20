@@ -18,14 +18,17 @@ const transitionProperty = (prop: string): string | undefined => {
 export const transitions: Rule<Theme>[] = [
   // transition
   [/^transition(?:-([^\d]+))?(?:-(\d+))?$/, ([, prop, d], { theme }) => {
-    let p = [transitionPropertyGroup.colors, 'opacity', 'box-shadow', 'transform', 'filter', 'backdrop-filter'].join(',')
+    let p: string | undefined = [transitionPropertyGroup.colors, 'opacity', 'box-shadow', 'transform', 'filter', 'backdrop-filter'].join(',')
     if (prop != null) {
-      if (!prop.startsWith('[') || !prop.endsWith(']'))
-        prop = `[${prop}]`
+      if (h.cssvar(prop) != null) { p = h.cssvar(prop) }
+      else {
+        if (!prop.startsWith('[') || !prop.endsWith(']'))
+          prop = `[${prop}]`
 
-      const props = h.bracket(prop)
-      if (props != null)
-        p = transitionProperty(props.replaceAll(' ', ','))!
+        const props = h.bracket(prop)
+        if (props != null)
+          p = transitionProperty(props.replace(/\s/g, ','))
+      }
     }
 
     if (p) {

@@ -792,6 +792,7 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .transition-\\\\[color_background-color\\\\]-200,
 .transition-\\\\[color\\\\,background-color\\\\]-200,
 .transition-color\\\\,background-color-200{transition-property:color,background-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:200ms;}
+.transition-\\\\$variant-300{transition-property:var(--variant);transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:300ms;}
 .transition-200{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:200ms;}
 .transition-opacity-200{transition-property:opacity;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:200ms;}
 .duration-111{transition-duration:111ms;}
