@@ -11,7 +11,7 @@ exports[`transformer-variant-group > basic > "dark:lg:(p-1 p-2)" 1`] = `"dark:lg
 exports[`transformer-variant-group > basic > "hover:(
 !m-2 
 p-2
-)" 1`] = `"hover: !hover:m-2 hover: hover:p-2 hover:"`;
+)" 1`] = `"!hover:m-2 hover:p-2"`;
 
 exports[`transformer-variant-group > basic > "hover:(!m-2 p-2)" 1`] = `"!hover:m-2 hover:p-2"`;
 

@@ -17,6 +17,7 @@ export function expandVariantGroup(str: string | MagicString, seperators: ('-' |
           return from
         return body
           .split(/\s/g)
+          .filter(Boolean)
           .map(i => i === '~' ? pre : i.replace(/^(!?)(.*)/, `$1${pre}${sep}$2`))
           .join(' ')
       },

@@ -24,4 +24,8 @@ describe('variant-group', () => {
   test('nested', () => {
     expect(expandVariantGroup('a-(b c-(d e f))')).toEqual('a-b a-c-d a-c-e a-c-f')
   })
+
+  test('spaces', () => {
+    expect(expandVariantGroup('a-( ~ b c )')).toEqual('a a-b a-c')
+  })
 })
