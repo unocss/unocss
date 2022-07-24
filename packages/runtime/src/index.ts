@@ -1,6 +1,6 @@
 import type { UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
-import { autoPrefixer } from './utils'
+import { autoPrefixer, decodeHtml } from './utils'
 
 export interface RuntimeOptions {
   /**
@@ -42,9 +42,11 @@ export interface RuntimeContext {
   /**
    * Rerun extractor on the whole <body>, regardless of paused status or inspection limitation.
    *
+   * @param {boolean} [decode] - Decode the html before extraction.
+   *
    * @returns {Promise<void>}
    */
-  extractAll: () => Promise<void>
+  extractAll: (decode?: boolean) => Promise<void>
 
   /**
    * Set/unset inspection callback to allow/ignore element to be extracted.
@@ -148,12 +150,13 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
       await scheduleUpdate()
   }
 
-  async function extractAll() {
+  async function extractAll(decode?: boolean) {
     const html = document.body && document.body.outerHTML
     if (html) {
-      await extract(html)
-      removeCloak()
+      await extract(decode ? decodeHtml(html) : html)
+      return true
     }
+    return false
   }
 
   const mutationObserver = new MutationObserver((mutations) => {
@@ -207,8 +210,13 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
     observing = true
   }
 
-  function execute() {
-    extractAll()
+  async function execute() {
+    const [result1, result2] = await Promise.all([
+      extractAll(false),
+      extractAll(true),
+    ])
+    if (result1 || result2)
+      removeCloak()
     observe()
   }
 
@@ -229,7 +237,10 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
       }
       await extract(userTokens)
     },
-    extractAll,
+    async extractAll(decode) {
+      if (await extractAll(decode))
+        removeCloak()
+    },
     inspect(callback) {
       inspector = callback
     },
