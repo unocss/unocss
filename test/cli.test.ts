@@ -53,11 +53,13 @@ export default defineConfig({
     }
     await fs.writeFile(absolutePathOfFile, changedContent)
     // polling until update
-    for (let i = 50; i >= 0; i--) {
-      await sleep(50)
+    for (let i = 100; i >= 0; i--) {
+      await sleep(100)
       const output = await readUnocssFile(testDir)
-      if (i === 0 || output.includes('.bg-red'))
+      if (i === 0 || output.includes('.bg-red')) {
         expect(output).toContain('.bg-red')
+        break
+      }
     }
   })
 })
