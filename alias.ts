@@ -6,7 +6,7 @@ export const alias: Record<string, string> = {
   '@unocss/shared-integration': r('./packages/shared-integration/src/'),
   '@unocss/shared-docs': r('./packages/shared-docs/src/'),
   '@unocss/shared-common': r('./packages/shared-common/src/'),
-  '@unocss/autocomplete': r('./packages/autocomplete/src'),
+  '@unocss/autocomplete': r('./packages/autocomplete/src/'),
   '@unocss/cli': r('./packages/cli/src/'),
   '@unocss/core': r('./packages/core/src/'),
   '@unocss/config': r('./packages/config/src/'),

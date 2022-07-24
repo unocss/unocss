@@ -95,6 +95,8 @@ To load `iconify` collections you should use `@iconify-json/[the-collection-you-
 When using bundlers, you can provide the collections using `dynamic imports` so they will be bundler as async chunk and loaded on demand.
 
 ```ts
+import presetIcons from '@unocss/preset-icons/browser'
+
 presetIcons({
   collections: {
     carbon: () => import('@iconify-json/carbon/icons.json').then(i => i.default),
@@ -109,6 +111,8 @@ presetIcons({
 Or if you prefer to fetch them from CDN, you can specify the `cdn` option since `v0.32.10`. We recommend [esm.sh](https://esm.sh/) as the CDN provider.
 
 ```ts
+import presetIcons from '@unocss/preset-icons/browser'
+
 presetIcons({
   cdn: 'https://esm.sh/'
 })
