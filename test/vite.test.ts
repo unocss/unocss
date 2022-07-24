@@ -7,7 +7,7 @@ import fg from 'fast-glob'
 describe('vite', () => {
   it('build', async () => {
     const root = resolve(__dirname, 'fixtures/vite')
-    fs.emptyDir(join(root, 'dist'))
+    await fs.emptyDir(join(root, 'dist'))
     await build({
       root,
       logLevel: 'warn',
