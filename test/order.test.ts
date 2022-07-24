@@ -110,7 +110,7 @@ describe('order', () => {
   })
 
   test('movePseudoElementsEnd', () => {
-    expect(movePseudoElementsEnd('.marker\\:file\\:hover\\:selection\\:mb-4::marker::file-selector-button:hover::selection'))
+    expect(movePseudoElementsEnd('.part-\\[hello-2\\]\\:marker\\:file\\:hover\\:selection\\:mb-4::part(hello-2)::marker::file-selector-button:hover::selection'))
       .toMatchSnapshot()
   })
 

@@ -10,7 +10,7 @@ exports[`order > fully controlled rules merged and sorted by body 1`] = `
 .css{--var:css;}"
 `;
 
-exports[`order > movePseudoElementsEnd 1`] = `".marker\\\\:file\\\\:hover\\\\:selection\\\\:mb-4:hover::marker::file-selector-button::selection"`;
+exports[`order > movePseudoElementsEnd 1`] = `".part-\\\\[hello-2\\\\]\\\\:marker\\\\:file\\\\:hover\\\\:selection\\\\:mb-4:hover::part(hello-2)::marker::file-selector-button::selection"`;
 
 exports[`order > multiple variant sorting 1`] = `
 "/* layer: default */
