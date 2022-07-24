@@ -143,6 +143,7 @@ Presets are the heart of UnoCSS. They let you make your own custom framework in 
 - [unocss-preset-chroma](https://github.com/chu121su12/unocss-preset-chroma) - Gradient Preset by [@chu121su12](https://github.com/chu121su12).
 - [unocss-preset-scrollbar](https://github.com/action-hong/unocss-preset-scrollbar) - Scrollbar Preset by [@action-hong](https://github.com/action-hong).
 - [unocss-preset-uni](https://github.com/zguolee/unocss-preset-uni) - UniApp Preset by [@zguolee](https://github.com/zguolee).
+- [unocss-preset-weapp](https://github.com/MellowCo/unocss-preset-weapp) - Wechat MiniProgram Preset for [UniApp](https://uniapp.dcloud.io) and [Taro](https://taro-docs.jd.com/taro/docs) by [@MellowCo](https://github.com/MellowCo).
 
 ### Using Presets
 
