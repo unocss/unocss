@@ -20,19 +20,16 @@ jobs:
 
       - run: corepack enable
 
-      - name: Setup
-        run: npm i -g @antfu/ni pnpm
-
       - run: npx changelogithub
         continue-on-error: true
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
       - name: Install Dependencies
-        run: nci
+        run: pnpm i
 
       - name: PNPM build
-        run: nr build
+        run: pnpm run build
 
       - name: Publish to NPM
         run: pnpm -r publish --access public --no-git-checks
