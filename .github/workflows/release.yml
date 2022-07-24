@@ -18,6 +18,8 @@ jobs:
           node-version: 16.x
           registry-url: 'https://registry.npmjs.org'
 
+      - run: corepack enable
+
       - name: Setup
         run: npm i -g @antfu/ni pnpm
 

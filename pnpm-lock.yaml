@@ -159,7 +159,7 @@ importers:
       simple-git-hooks: 2.8.0
       splitpanes: 3.1.1
       terser: 5.14.1
-      tsup: 6.1.2_typescript@4.7.4
+      tsup: 6.1.2_m3gf5jmpd2aiwepqhoxxcqgnwi
       typescript: 4.7.4
       unbuild: 0.7.4
       unocss: link:packages/unocss
@@ -8193,7 +8193,7 @@ packages:
       - ts-node
     dev: true
 
-  /tsup/6.1.2_typescript@4.7.4:
+  /tsup/6.1.2_m3gf5jmpd2aiwepqhoxxcqgnwi:
     resolution: {integrity: sha512-Hw4hKDHaAQkm2eVavlArEOrAPA93bziRDamdfwaNs0vXQdUUFfItvUWY0L/F6oQQMVh6GvjQq1+HpDXw8UKtPA==}
     engines: {node: '>=14'}
     hasBin: true
@@ -8217,7 +8217,8 @@ packages:
       execa: 5.1.1
       globby: 11.1.0
       joycon: 3.1.1
-      postcss-load-config: 3.1.4
+      postcss: 8.4.14
+      postcss-load-config: 3.1.4_postcss@8.4.14
       resolve-from: 5.0.0
       rollup: 2.75.7
       source-map: 0.8.0-beta.0
