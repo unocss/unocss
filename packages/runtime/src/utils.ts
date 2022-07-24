@@ -1,4 +1,5 @@
 import type { Postprocessor } from '@unocss/core'
+import he from 'he'
 
 const camelize = (str: string) => str.replace(/-(\w)/g, (_, c) => c ? c.toUpperCase() : '')
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
@@ -28,4 +29,8 @@ export function autoPrefixer(style: CSSStyleDeclaration): Postprocessor {
     if (!e[0].startsWith('--'))
       e[0] = autoPrefix(e[0])
   })
+}
+
+export function decodeHtml(html: string): string {
+  return he.decode(html)
 }

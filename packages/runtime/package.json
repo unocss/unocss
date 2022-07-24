@@ -41,8 +41,10 @@
     "dev": "nr watch & live-server --open=/play"
   },
   "dependencies": {
+    "@types/he": "^1.1.2",
     "@unocss/core": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
-    "@unocss/preset-uno": "workspace:*"
+    "@unocss/preset-uno": "workspace:*",
+    "he": "^1.2.0"
   }
 }
