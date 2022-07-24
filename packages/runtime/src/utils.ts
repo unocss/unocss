@@ -29,3 +29,13 @@ export function autoPrefixer(style: CSSStyleDeclaration): Postprocessor {
       e[0] = autoPrefix(e[0])
   })
 }
+
+let textareaDecoder: HTMLTextAreaElement
+export function decodeHtml(html: string): string {
+  if (!textareaDecoder)
+    textareaDecoder = document.createElement('textarea')
+  textareaDecoder.innerHTML = html
+  html = textareaDecoder.value
+  textareaDecoder.innerHTML = ''
+  return html
+}
