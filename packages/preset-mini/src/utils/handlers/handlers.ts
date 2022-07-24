@@ -1,5 +1,6 @@
 import { escapeSelector } from '@unocss/core'
 import { globalKeywords } from '../mappings'
+import { getComponent } from '../utilities'
 import { numberRE, numberWithUnitRE, unitOnlyRE } from './regex'
 
 // Not all, but covers most high frequency attributes
@@ -94,29 +95,19 @@ export function fraction(str: string) {
 const bracketTypeRe = /^\[(color|length|position):/i
 function bracketWithType(str: string, type?: string) {
   if (str && str.startsWith('[') && str.endsWith(']')) {
-    let base: string | undefined
+    const [m, rest] = getComponent(str, '[', ']', '') ?? []
+    if (m == null || rest !== '')
+      return
 
+    let base: string | undefined
     const match = str.match(bracketTypeRe)
+
     if (!match)
       base = str.slice(1, -1)
     else if (type && match[1] === type)
       base = str.slice(match[0].length, -1)
 
-    if (!base)
-      return
-
-    let curly = 0
-    for (const i of base) {
-      if (i === '[') {
-        curly += 1
-      }
-      else if (i === ']') {
-        curly -= 1
-        if (curly < 0)
-          return
-      }
-    }
-    if (curly)
+    if (base == null)
       return
 
     return base

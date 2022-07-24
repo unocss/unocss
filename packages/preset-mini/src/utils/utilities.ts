@@ -235,6 +235,8 @@ export function getComponent(str: string, open: string, close: string, separator
   for (let i = 0; i < l; i++) {
     switch (str[i]) {
       case open:
+        if (parenthesis === 0 && i && str[i - 1] === close)
+          return
         parenthesis++
         break
 
