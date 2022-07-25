@@ -1,7 +1,7 @@
 {
   "name": "@unocss/transformer-attributify-jsx",
   "version": "0.0.1",
-  "description": "Compile group of classes into one class",
+  "description": "Better JSX attribute handling for preset-attributify",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
   "funding": "https://github.com/sponsors/antfu",
