@@ -78,6 +78,39 @@ describe('attributify', () => {
 <div>
 `
 
+  // jsx
+  const fixture4 = `
+    <button
+  uno-layer-base={"c-white/10 hover:c-black/20"}
+  sm={"[color:red]"}
+  md={"[--var:var(--another)]"}
+  lg={"bg-blue-600"}
+  class={"absolute fixed"}
+  important={"text-red bg-red"}
+  bg={"blue-400 hover:blue-500 dark:!blue-500 dark:hover:blue-600"}
+  text={"sm white"}
+  flex="!~ col"
+  p="t-2"
+  pt="2"
+  border="rounded-xl x-1 x-style-dashed"
+  border="2 rounded blue-200"
+  un-children={"m-auto"}
+  pt2 rounded-sm
+  inline-block
+  transform
+  translate-x-100
+  rotate-30
+  after={"content-[unocss]"}
+  rotate-60="" ma=""
+  m='\`
+  1 2
+  3
+\`'
+>
+  Button
+</button>
+  `
+
   const uno = createGenerator({
     presets: [
       presetAttributify({ strict: true }),
@@ -117,6 +150,10 @@ describe('attributify', () => {
     expect(await uno.applyExtractors(fixture2)).toMatchSnapshot()
   })
 
+  test('extractor4', async () => {
+    expect(await uno.applyExtractors(fixture4)).toMatchSnapshot()
+  })
+
   test('variant', async () => {
     const variant = variantAttributify({
       prefix: 'un-',
@@ -142,25 +179,29 @@ describe('attributify', () => {
     expect(css).toMatchSnapshot()
   })
 
-  test('autocomplete extractor', async () => {
-    const res = await autocompleteExtractorAttributify.extract({
-      content: fixture1,
-      cursor: 187,
-    })
+  test('fixture4', async () => {
+    const { css } = await uno.generate(fixture4, { preflights: false })
+    expect(css).toMatchSnapshot()
 
-    expect(res).not.toBeNull()
+    test('autocomplete extractor', async () => {
+      const res = await autocompleteExtractorAttributify.extract({
+        content: fixture1,
+        cursor: 187,
+      })
 
-    expect(res!.extracted).toMatchInlineSnapshot('"bg-blue-400"')
-    expect(res!.transformSuggestions!([`${res!.extracted}1`, `${res!.extracted}2`]))
-      .toMatchInlineSnapshot(`
+      expect(res).not.toBeNull()
+
+      expect(res!.extracted).toMatchInlineSnapshot('"bg-blue-400"')
+      expect(res!.transformSuggestions!([`${res!.extracted}1`, `${res!.extracted}2`]))
+        .toMatchInlineSnapshot(`
         [
           "blue-4001",
           "blue-4002",
         ]
       `)
 
-    const reversed = res!.resolveReplacement(`${res!.extracted}1`)
-    expect(reversed).toMatchInlineSnapshot(`
+      const reversed = res!.resolveReplacement(`${res!.extracted}1`)
+      expect(reversed).toMatchInlineSnapshot(`
       {
         "end": 193,
         "replacement": "blue-4001",
@@ -168,30 +209,31 @@ describe('attributify', () => {
       }
     `)
 
-    expect(fixture1.slice(reversed.start, reversed.end))
-      .toMatchInlineSnapshot('"blue-400"')
-  })
-
-  test('compatible with full controlled rules', async () => {
-    const { css } = await uno.generate(fixture3, { preflights: false })
-    expect(css).toMatchSnapshot()
-  })
-
-  test('with trueToNonValued', async () => {
-    const uno = createGenerator({
-      presets: [
-        presetAttributify({ trueToNonValued: true }),
-        presetUno(),
-      ],
+      expect(fixture1.slice(reversed.start, reversed.end))
+        .toMatchInlineSnapshot('"blue-400"')
     })
-    const { css } = await uno.generate(`
+
+    test('compatible with full controlled rules', async () => {
+      const { css } = await uno.generate(fixture3, { preflights: false })
+      expect(css).toMatchSnapshot()
+    })
+
+    test('with trueToNonValued', async () => {
+      const uno = createGenerator({
+        presets: [
+          presetAttributify({ trueToNonValued: true }),
+          presetUno(),
+        ],
+      })
+      const { css } = await uno.generate(`
       <div flex="true"></div>
       <div grid="~ cols-2"></div>
     `, { preflights: false })
-    expect(css).toMatchSnapshot()
-  })
+      expect(css).toMatchSnapshot()
+    })
 
-  test('with incomplete element', async () => {
-    await uno.generate('<div class="w-fullllllllllllll"')
-  }, 20)
+    test('with incomplete element', async () => {
+      await uno.generate('<div class="w-fullllllllllllll"')
+    }, 20)
+  })
 })
