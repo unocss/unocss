@@ -19,13 +19,24 @@ import {presetAttributify} from "unocss/src";
 export default defineConfig({
   // ...
   transformers: [
-    transformerAttributifyJsx(),
+    transformerAttributifyJsx({
+      blocklist: ['text-red']
+    }),
   ],
   presets: [
     // ...
     presetAttributify()
   ]
 })
+```
+```ts
+export interface TransformerAttributifyJsxOptions {
+  /**
+   * the list of attributes to ignore
+   * @default []
+   */
+  blocklist?: (string | RegExp)[]
+}
 ```
 
 ## Notice
@@ -40,8 +51,13 @@ export default defineConfig({
 
 # Usage
 
+```js
+transformerAttributifyJsx({
+  blocklist: ['text-red', 'text-center']
+})
+```
 ```jsx
-<div text-5xl animate-bounce>
+<div flex text-red text-5xl animate-bounce>
   unocss
 </div>
 ```
@@ -49,7 +65,7 @@ export default defineConfig({
 Will be compiled to:
 
 ```html
-<div text-5xl="" animate-bounce="">
+<div flex text-red text-5xl="" animate-bounce="">
     unocss
 </div>
 ```
