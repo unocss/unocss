@@ -53,11 +53,11 @@ export interface TransformerAttributifyJsxOptions {
 
 ```js
 transformerAttributifyJsx({
-  blocklist: ['text-red', 'text-center']
+  blocklist: [/text-[a-zA-Z]*/, 'text-5xl']
 })
 ```
 ```jsx
-<div flex text-red text-5xl animate-bounce>
+<div text-red text-center text-5xl animate-bounce>
   unocss
 </div>
 ```
@@ -65,7 +65,7 @@ transformerAttributifyJsx({
 Will be compiled to:
 
 ```html
-<div flex text-red text-5xl="" animate-bounce="">
+<div text-red text-center text-5xl animate-bounce="">
     unocss
 </div>
 ```
