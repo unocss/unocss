@@ -69,7 +69,7 @@ importers:
       msw: ^0.44.2
       nuxt: 3.0.0-rc.6
       nuxt-tsconfig-stub: ^0.0.2
-      pnpm: ^7.6.0
+      pnpm: 7.5.0
       prettier: ^2.7.1
       react: ^18.2.0
       rollup: ^2.77.2
@@ -151,7 +151,7 @@ importers:
       msw: 0.44.2_typescript@4.7.4
       nuxt: 3.0.0-rc.6_ywias3t3eifawsazcjuxyevfii
       nuxt-tsconfig-stub: 0.0.2
-      pnpm: 7.6.0
+      pnpm: 7.5.0
       prettier: 2.7.1
       react: 18.2.0
       rollup: 2.77.2
@@ -6936,8 +6936,8 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /pnpm/7.6.0:
-    resolution: {integrity: sha512-pCFZ4OSM3M7JUHShnmk4Hlt9A8QDxLx+i+9kkK4g60YuYhhhD3oqBfWrHax0/XMDvr7GwK0fqFjA8iD8HlZ8Kw==}
+  /pnpm/7.5.0:
+    resolution: {integrity: sha512-sb9wJNyx/d8l3Gze2jI1y8BGNbb/ga+JT3SrGNiH+C5KbtZ4wmgePBWGjaiGugcpT9+vQ5MO//+QlVWhMCpedQ==}
     engines: {node: '>=14.6'}
     hasBin: true
     dev: true
