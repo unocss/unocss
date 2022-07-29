@@ -8,7 +8,7 @@ import transformerAttributifyJsx from '../packages/transformer-attributify-jsx/s
 
 describe('transformerAttributifyJs', () => {
   const originalCode = `
-    <div h-full text-center flex select-none>
+<div h-full text-center flex select-none>
   <div ma>
     <div text-5xl fw100 animate-bounce-alt animate-count-infinite animate-duration-1s>
       unocss
@@ -29,7 +29,8 @@ describe('transformerAttributifyJs', () => {
 <div absolute bottom-5 right-0 left-0 text-center op30 fw300>
   on-demand · instant · fully customizable
 </div>
-  `
+  `.trim()
+
   const uno = createGenerator({
     presets: [
       presetUno(),
@@ -42,8 +43,7 @@ describe('transformerAttributifyJs', () => {
     await transformerAttributifyJsx().transform(code, 'app.tsx', { uno, tokens: new Set() } as any)
 
     expect(code.toString()).toMatchInlineSnapshot(`
-      "
-          <div h-full=\\"\\" text-center=\\"\\" flex=\\"\\" select-none=\\"\\">
+      "<div h-full=\\"\\" text-center=\\"\\" flex=\\"\\" select-none=\\"\\">
         <div ma=\\"\\">
           <div text-5xl=\\"\\" fw100=\\"\\" animate-bounce-alt=\\"\\" animate-count-infinite=\\"\\" animate-duration-1s=\\"\\">
             unocss
@@ -63,8 +63,7 @@ describe('transformerAttributifyJs', () => {
       </div>
       <div absolute=\\"\\" bottom-5=\\"\\" right-0=\\"\\" left-0=\\"\\" text-center=\\"\\" op30=\\"\\" fw300=\\"\\">
         on-demand · instant · fully customizable
-      </div>
-        "
+      </div>"
     `)
   })
 
@@ -77,8 +76,7 @@ describe('transformerAttributifyJs', () => {
     }).transform(code, 'app.jsx', { uno, tokens: new Set() } as any)
 
     expect(code.toString()).toMatchInlineSnapshot(`
-      "
-          <div h-full=\\"\\" text-center=\\"\\" flex select-none=\\"\\">
+      "<div h-full=\\"\\" text-center=\\"\\" flex select-none=\\"\\">
         <div ma=\\"\\">
           <div text-5xl=\\"\\" fw100=\\"\\" animate-bounce-alt=\\"\\" animate-count-infinite=\\"\\" animate-duration-1s=\\"\\">
             unocss
@@ -98,8 +96,7 @@ describe('transformerAttributifyJs', () => {
       </div>
       <div absolute bottom-5=\\"\\" right-0=\\"\\" left-0=\\"\\" text-center=\\"\\" op30 fw300=\\"\\">
         on-demand · instant · fully customizable
-      </div>
-        "
+      </div>"
     `)
 
     const codeToString = code.toString()
