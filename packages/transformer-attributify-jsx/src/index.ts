@@ -1,7 +1,7 @@
 import type { SourceCodeTransformer } from '@unocss/core'
 import { toArray } from '@unocss/core'
 
-export type FilterPattern = ReadonlyArray<string | RegExp> | string | RegExp | null
+export type FilterPattern = Array<string | RegExp> | string | RegExp | null
 
 function createFilter(
   include: FilterPattern,
