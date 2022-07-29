@@ -3,6 +3,8 @@
 // Read more: https://github.com/vuejs/core/pull/3399
 import '@vue/runtime-core'
 
+export {}
+
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     CodeMirror: typeof import('./../../packages/inspector/client/components/CodeMirror.vue')['default']
@@ -23,5 +25,3 @@ declare module '@vue/runtime-core' {
     TitleBar: typeof import('./../../packages/inspector/client/components/TitleBar.vue')['default']
   }
 }
-
-export {}

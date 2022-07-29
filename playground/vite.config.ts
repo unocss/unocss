@@ -26,6 +26,7 @@ export default defineConfig({
       imports: [
         'vue',
         '@vueuse/core',
+        '@vueuse/math',
       ],
       dts: 'src/auto-imports.d.ts',
     }),
