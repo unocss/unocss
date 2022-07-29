@@ -44,7 +44,7 @@ export default defineConfig({
     const testDir = getTestDir()
     const absolutePathOfFile = resolve(testDir, fileName)
     await fs.outputFile(absolutePathOfFile, initializedContent)
-    runAsyncChildProcess(testDir, './views/**/*', '-w')
+    await runAsyncChildProcess(testDir, './views/**/*', '-w')
     const outputPath = resolve(testDir, 'uno.css')
     for (let i = 50; i >= 0; i--) {
       await sleep(50)

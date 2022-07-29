@@ -1,45 +1,5 @@
 // Vitest Snapshot v1
 
-exports[`attributify > compatible with full controlled rules 1`] = `
-"/* layer: default */
-
-  .custom-2 {
-    font-size: 2px;
-  }
-  /* you can have multiple rules */
-  .custom-2::after {
-    content: 'after';
-  }
-  .foo > .custom-2 {
-    color: red;
-  }
-  /* or media queries */
-  @media (min-width: 680px) {
-    .custom-2 {
-      font-size: 16px;
-    }
-  }
-  
-
-  [custom~=\\"\\\\31 \\"] {
-    font-size: 1px;
-  }
-  /* you can have multiple rules */
-  [custom~=\\"\\\\31 \\"]::after {
-    content: 'after';
-  }
-  .foo > [custom~=\\"\\\\31 \\"] {
-    color: red;
-  }
-  /* or media queries */
-  @media (min-width: 680px) {
-    [custom~=\\"\\\\31 \\"] {
-      font-size: 16px;
-    }
-  }
-  "
-`;
-
 exports[`attributify > extractor1 1`] = `
 Set {
   "[uno-layer-base~=\\"c-white/10\\"]",
@@ -157,6 +117,49 @@ Set {
 }
 `;
 
+exports[`attributify > extractor4 1`] = `
+Set {
+  "[uno-layer-base~=\\"c-white/10\\"]",
+  "[uno-layer-base~=\\"hover:c-black/20\\"]",
+  "[sm~=\\"[color:red]\\"]",
+  "[md~=\\"[--var:var(--another)]\\"]",
+  "[lg~=\\"bg-blue-600\\"]",
+  "absolute",
+  "fixed",
+  "[important~=\\"text-red\\"]",
+  "[important~=\\"bg-red\\"]",
+  "[bg~=\\"blue-400\\"]",
+  "[bg~=\\"hover:blue-500\\"]",
+  "[bg~=\\"dark:!blue-500\\"]",
+  "[bg~=\\"dark:hover:blue-600\\"]",
+  "[text~=\\"sm\\"]",
+  "[text~=\\"white\\"]",
+  "[flex~=\\"!~\\"]",
+  "[flex~=\\"col\\"]",
+  "[p~=\\"t-2\\"]",
+  "[pt~=\\"2\\"]",
+  "[border~=\\"rounded-xl\\"]",
+  "[border~=\\"x-1\\"]",
+  "[border~=\\"x-style-dashed\\"]",
+  "[border~=\\"2\\"]",
+  "[border~=\\"rounded\\"]",
+  "[border~=\\"blue-200\\"]",
+  "[un-children~=\\"m-auto\\"]",
+  "[pt2=\\"\\"]",
+  "[rounded-sm=\\"\\"]",
+  "[inline-block=\\"\\"]",
+  "[transform=\\"\\"]",
+  "[translate-x-100=\\"\\"]",
+  "[rotate-30=\\"\\"]",
+  "[after~=\\"content-[unocss]\\"]",
+  "[rotate-60=\\"\\"]",
+  "[ma=\\"\\"]",
+  "[m~=\\"1\\"]",
+  "[m~=\\"2\\"]",
+  "[m~=\\"3\\"]",
+}
+`;
+
 exports[`attributify > fixture1 1`] = `
 "/* layer: base */
 [uno-layer-base~=\\"c-white\\\\/10\\"]{color:rgba(255,255,255,0.1);}
@@ -267,6 +270,55 @@ exports[`attributify > fixture2 1`] = `
 }"
 `;
 
+exports[`attributify > fixture4 1`] = `
+"/* layer: base */
+[uno-layer-base~=\\"c-white\\\\/10\\"]{color:rgba(255,255,255,0.1);}
+[uno-layer-base~=\\"hover\\\\:c-black\\\\/20\\"]:hover{color:rgba(0,0,0,0.2);}
+/* layer: default */
+.absolute{position:absolute;}
+.fixed{position:fixed;}
+[m~=\\"\\\\31 \\"]{margin:0.25rem;}
+[m~=\\"\\\\32 \\"]{margin:0.5rem;}
+[m~=\\"\\\\33 \\"]{margin:0.75rem;}
+[ma=\\"\\"],
+[un-children~=\\"m-auto\\"]>*{margin:auto;}
+[inline-block=\\"\\"]{display:inline-block;}
+[flex~=\\"\\\\!\\\\~\\"]{display:flex !important;}
+[flex~=\\"col\\"]{flex-direction:column;}
+[translate-x-100=\\"\\"]{--un-translate-x:25rem;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
+[rotate-30=\\"\\"]{--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-rotate:30deg;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
+[rotate-60=\\"\\"]{--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-rotate:60deg;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
+[transform=\\"\\"]{transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
+[border~=\\"\\\\32 \\"]{border-width:2px;border-style:solid;}
+[border~=\\"x-1\\"]{border-left-width:1px;border-right-width:1px;border-left-style:solid;border-right-style:solid;}
+[border~=\\"blue-200\\"]{--un-border-opacity:1;border-color:rgba(191,219,254,var(--un-border-opacity));}
+[border~=\\"rounded-xl\\"]{border-radius:0.75rem;}
+[border~=\\"rounded\\"]{border-radius:0.25rem;}
+[rounded-sm=\\"\\"]{border-radius:0.125rem;}
+[border~=\\"x-style-dashed\\"]{border-left-style:dashed;border-right-style:dashed;}
+.dark [bg~=\\"dark\\\\:\\\\!blue-500\\"]{--un-bg-opacity:1 !important;background-color:rgba(59,130,246,var(--un-bg-opacity)) !important;}
+.dark [bg~=\\"dark\\\\:hover\\\\:blue-600\\"]:hover{--un-bg-opacity:1;background-color:rgba(37,99,235,var(--un-bg-opacity));}
+[bg~=\\"blue-400\\"]{--un-bg-opacity:1;background-color:rgba(96,165,250,var(--un-bg-opacity));}
+[bg~=\\"hover\\\\:blue-500\\"]:hover{--un-bg-opacity:1;background-color:rgba(59,130,246,var(--un-bg-opacity));}
+[important~=\\"bg-red\\"]{--un-bg-opacity:1 !important;background-color:rgba(248,113,113,var(--un-bg-opacity)) !important;}
+[p~=\\"t-2\\"],
+[pt~=\\"\\\\32 \\"],
+[pt2=\\"\\"]{padding-top:0.5rem;}
+[text~=\\"sm\\"]{font-size:0.875rem;line-height:1.25rem;}
+[important~=\\"text-red\\"]{--un-text-opacity:1 !important;color:rgba(248,113,113,var(--un-text-opacity)) !important;}
+[text~=\\"white\\"]{--un-text-opacity:1;color:rgba(255,255,255,var(--un-text-opacity));}
+[after~=\\"content-\\\\[unocss\\\\]\\"]::after{content:\\"unocss\\";}
+@media (min-width: 640px){
+[sm~=\\"\\\\[color\\\\:red\\\\]\\"]{color:red;}
+}
+@media (min-width: 768px){
+[md~=\\"\\\\[--var\\\\:var\\\\(--another\\\\)\\\\]\\"]{--var:var(--another);}
+}
+@media (min-width: 1024px){
+[lg~=\\"bg-blue-600\\"]{--un-bg-opacity:1;background-color:rgba(37,99,235,var(--un-bg-opacity));}
+}"
+`;
+
 exports[`attributify > variant 1`] = `
 [
   "uno-layer-base-c-white/10",
@@ -320,13 +372,4 @@ exports[`attributify > variant 1`] = `
   "m-2",
   "m-3",
 ]
-`;
-
-exports[`attributify > with trueToNonValued 1`] = `
-"/* layer: default */
-.grid,
-[grid~=\\"\\\\~\\"]{display:grid;}
-[grid~=\\"cols-2\\"]{grid-template-columns:repeat(2,minmax(0,1fr));}
-.flex,
-[flex~=\\"true\\"]{display:flex;}"
 `;

@@ -3,10 +3,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "nuxi generate . && esno scripts/verify-build.ts",
-    "dev": "nuxi dev .",
+    "build": "nuxi prepare && esno scripts/prepare.ts && nuxi generate . && esno scripts/verify-build.ts",
+    "dev": "nuxi prepare && esno scripts/prepare.ts && nuxi dev .",
     "start": "node .output/server/index.mjs",
-    "postinstall": "esno scripts/prepare.ts",
     "fetch": "esno scripts/fetch.ts"
   },
   "devDependencies": {
