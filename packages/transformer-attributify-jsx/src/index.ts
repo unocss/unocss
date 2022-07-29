@@ -1,4 +1,3 @@
-import { isRegExp } from 'util/types'
 import type { SourceCodeTransformer } from '@unocss/core'
 import { createFilter } from '@rollup/pluginutils'
 
@@ -35,7 +34,7 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
 
   const isBlocked = (matchedRule: string) => {
     for (const blockedRule of blocklist) {
-      if (isRegExp(blockedRule)) {
+      if (blockedRule instanceof RegExp) {
         if (blockedRule.test(matchedRule))
           return true
       }
