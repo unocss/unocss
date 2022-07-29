@@ -1,7 +1,7 @@
 import presetAttributify from '@unocss/preset-attributify'
 import presetUno from '@unocss/preset-uno'
 import type { VitePluginConfig } from '@unocss/vite'
-import presetIcons from '../preset-icons/src'
+import presetIcons from '@unocss/preset-icons'
 
 export function createConfig(): VitePluginConfig {
   return {

@@ -8,16 +8,16 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "solid-js": "^1.4.4"
+    "solid-js": "^1.4.8"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.5",
+    "@iconify-json/logos": "^1.1.13",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/presets-icons",
     "typescript": "^4.7.4",
     "unocss": "link:../../packages/unocss",
-    "vite": "^2.9.12",
-    "vite-plugin-solid": "^2.2.6"
+    "vite": "^3.0.4",
+    "vite-plugin-solid": "^2.3.0"
   }
 }
