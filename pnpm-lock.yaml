@@ -458,6 +458,17 @@ importers:
       '@unocss/core': link:../core
       '@unocss/scope': link:../scope
 
+  packages/transformer-attributify-jsx:
+    specifiers:
+      '@rollup/pluginutils': ^4.2.1
+      '@unocss/core': workspace:*
+      magic-string: ^0.26.2
+    dependencies:
+      '@unocss/core': link:../core
+    devDependencies:
+      '@rollup/pluginutils': 4.2.1
+      magic-string: 0.26.2
+
   packages/transformer-compile-class:
     specifiers:
       '@unocss/core': workspace:*
@@ -500,6 +511,7 @@ importers:
       '@unocss/preset-web-fonts': workspace:*
       '@unocss/preset-wind': workspace:*
       '@unocss/reset': workspace:*
+      '@unocss/transformer-attributify-jsx': workspace:*
       '@unocss/transformer-compile-class': workspace:*
       '@unocss/transformer-directives': workspace:*
       '@unocss/transformer-variant-group': workspace:*
@@ -517,6 +529,7 @@ importers:
       '@unocss/preset-web-fonts': link:../preset-web-fonts
       '@unocss/preset-wind': link:../preset-wind
       '@unocss/reset': link:../reset
+      '@unocss/transformer-attributify-jsx': link:../transformer-attributify-jsx
       '@unocss/transformer-compile-class': link:../transformer-compile-class
       '@unocss/transformer-directives': link:../transformer-directives
       '@unocss/transformer-variant-group': link:../transformer-variant-group

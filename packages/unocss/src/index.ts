@@ -13,6 +13,7 @@ export { default as presetWind } from '@unocss/preset-wind'
 export { default as transformerDirectives } from '@unocss/transformer-directives'
 export { default as transformerVariantGroup } from '@unocss/transformer-variant-group'
 export { default as transformerCompileClass } from '@unocss/transformer-compile-class'
+export { default as transformerAttributifyJsx } from '@unocss/transformer-attributify-jsx'
 
 export function defineConfig<Theme extends {} = PresetUnoTheme>(config: UserConfig<Theme>) {
   return config

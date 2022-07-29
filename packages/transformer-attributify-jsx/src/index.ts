@@ -1,7 +1,8 @@
 import { isRegExp } from 'util/types'
 import type { SourceCodeTransformer } from '@unocss/core'
-import type { FilterPattern } from '@rollup/pluginutils'
 import { createFilter } from '@rollup/pluginutils'
+
+export type FilterPattern = ReadonlyArray<string | RegExp> | string | RegExp | null
 
 export interface TransformerAttributifyJsxOptions {
   /**
