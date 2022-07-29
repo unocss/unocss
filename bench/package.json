@@ -4,16 +4,16 @@
   },
   "devDependencies": {
     "@unocss/vite": "workspace:*",
-    "@vitejs/plugin-vue": "^2.3.3",
+    "@vitejs/plugin-vue": "^3.0.1",
     "autoprefixer": "^10.4.7",
     "fs-extra": "^10.1.0",
-    "local-pkg": "^0.4.1",
+    "local-pkg": "^0.4.2",
     "postcss": "^8.4.14",
-    "tailwindcss": "^3.1.4",
+    "tailwindcss": "^3.1.6",
     "unocss": "workspace:*",
-    "vite": "^2.9.12",
-    "vite-plugin-windicss": "^1.8.4",
+    "vite": "^3.0.4",
+    "vite-plugin-windicss": "^1.8.7",
     "vue": "^3.2.37",
-    "windicss": "^3.5.5"
+    "windicss": "^3.5.6"
   }
 }

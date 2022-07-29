@@ -10,13 +10,13 @@
     "test": "elm-test-rs"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.5",
+    "@iconify-json/logos": "^1.1.13",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-icons": "link:../../packages/presets-icons",
     "@unocss/preset-uno": "link:../../packages/presets-uno",
     "elm-tooling": "^1.8.0",
     "unocss": "link:../../packages/unocss",
-    "vite": "^2.9.12",
+    "vite": "^3.0.4",
     "vite-plugin-elm": "^2.6.1"
   }
 }
