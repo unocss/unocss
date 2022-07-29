@@ -47,21 +47,18 @@ export function isObject(item: any): item is Record<string, any> {
   return (item && typeof item === 'object' && !Array.isArray(item))
 }
 
-export function mergeDeep<T>(original: T, patch: DeepPartial<T>, level = Infinity): T {
+export function mergeDeep<T>(original: T, patch: DeepPartial<T>): T {
   const o = original as any
   const p = patch as any
 
-  if (Array.isArray(o) && Array.isArray(p))
-    return [...o, ...p] as any
-
   if (Array.isArray(o))
-    return [...o] as any
+    return [...p] as any
 
   const output = { ...o }
   if (isObject(o) && isObject(p)) {
     Object.keys(p).forEach((key) => {
-      if (level > 0 && ((isObject(o[key]) && isObject(p[key])) || (Array.isArray(o[key]) && Array.isArray(p[key]))))
-        output[key] = mergeDeep(o[key], p[key], level - 1)
+      if (((isObject(o[key]) && isObject(p[key])) || (Array.isArray(o[key]) && Array.isArray(p[key]))))
+        output[key] = mergeDeep(o[key], p[key])
       else
         Object.assign(output, { [key]: p[key] })
     })
