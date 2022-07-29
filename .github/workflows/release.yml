@@ -12,13 +12,16 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+
       - name: Set node
         uses: actions/setup-node@v3
         with:
           node-version: 16.x
+          cache: pnpm
           registry-url: 'https://registry.npmjs.org'
-
-      - run: corepack enable
 
       - run: npx changelogithub
         continue-on-error: true
