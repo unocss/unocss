@@ -51,11 +51,8 @@ export function mergeDeep<T>(original: T, patch: DeepPartial<T>): T {
   const o = original as any
   const p = patch as any
 
-  if (Array.isArray(o) && Array.isArray(p))
-    return [...p] as any
-
   if (Array.isArray(o))
-    return [...o] as any
+    return [...p] as any
 
   const output = { ...o }
   if (isObject(o) && isObject(p)) {
