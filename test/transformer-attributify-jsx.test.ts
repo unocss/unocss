@@ -1,4 +1,3 @@
-import { isRegExp } from 'util/types'
 import MagicString from 'magic-string'
 import presetAttributify from '@unocss/preset-attributify'
 import presetUno from '@unocss/preset-uno'
@@ -101,7 +100,7 @@ describe('transformerAttributifyJs', () => {
 
     const codeToString = code.toString()
     blocklist.forEach((rule) => {
-      if (isRegExp(rule))
+      if (rule instanceof RegExp)
         expect(new RegExp(`${rule.source}=""`).test(codeToString)).not.true
       else
         expect(codeToString).not.toMatch(`${rule}=""`)
