@@ -1,4 +1,4 @@
-export function toArray<T>(value: T | T[] = []): T[] {
+export function toArray<T>(value: T | readonly T[] = []): T[] {
   return Array.isArray(value) ? value : [value]
 }
 

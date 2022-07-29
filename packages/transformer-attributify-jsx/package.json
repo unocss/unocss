@@ -39,7 +39,6 @@
     "@unocss/core": "workspace:*"
   },
   "devDependencies": {
-    "@rollup/pluginutils": "^4.2.1",
     "magic-string": "^0.26.2"
   }
 }

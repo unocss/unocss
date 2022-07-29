@@ -460,13 +460,11 @@ importers:
 
   packages/transformer-attributify-jsx:
     specifiers:
-      '@rollup/pluginutils': ^4.2.1
       '@unocss/core': workspace:*
       magic-string: ^0.26.2
     dependencies:
       '@unocss/core': link:../core
     devDependencies:
-      '@rollup/pluginutils': 4.2.1
       magic-string: 0.26.2
 
   packages/transformer-compile-class:

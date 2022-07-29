@@ -1,7 +1,20 @@
 import type { SourceCodeTransformer } from '@unocss/core'
-import { createFilter } from '@rollup/pluginutils'
+import { toArray } from '@unocss/core'
 
 export type FilterPattern = ReadonlyArray<string | RegExp> | string | RegExp | null
+
+function createFilter(
+  include: FilterPattern,
+  exclude: FilterPattern,
+): (id: string) => boolean {
+  const includePattern = toArray(include || [])
+  const excludePattern = toArray(exclude || [])
+  return (id: string) => {
+    if (excludePattern.some(p => id.match(p)))
+      return false
+    return includePattern.some(p => id.match(p))
+  }
+}
 
 export interface TransformerAttributifyJsxOptions {
   /**
