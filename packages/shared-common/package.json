@@ -1,6 +1,6 @@
 {
   "name": "@unocss/shared-common",
-  "version": "0.45.0",
+  "version": "0.45.1",
   "private": true,
   "dependencies": {
     "@unocss/core": "workspace:*"
