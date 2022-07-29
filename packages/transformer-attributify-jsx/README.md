@@ -2,7 +2,46 @@
 
 <!-- @unocss-ignore -->
 
-happy play with preset-attributify in jsx/tsx
+Support [valueless attributify](https://github.com/unocss/unocss/tree/main/packages/preset-attributify#valueless-attributify) in JSX/TSX.
+
+```jsx
+export function Component() {
+  return (
+    <div text-red text-center text-5xl animate-bounce>
+      unocss
+    </div>
+  )
+}
+```
+
+Will be transformed to:
+
+```jsx
+export function Component() {
+  return (
+    <div text-red="" text-center="" text-5xl="" animate-bounce="">
+      unocss
+    </div>
+  )
+}
+```
+
+<details>
+<summary>Without this transformer</summary>
+
+JSX by default will treat valueless attributes as boolean attributes.
+
+```jsx
+export function Component() {
+  return (
+    <div text-red={true} text-center={true} text-5xl={true} animate-bounce={true}>
+      unocss
+    </div>
+  )
+}
+```
+
+</details>
 
 ## Install
 
@@ -12,50 +51,54 @@ npm i -D @unocss/transformer-attributify-jsx
 
 ```ts
 // uno.config.js
-import {defineConfig} from 'unocss'
-import transformerAttributifyJsx from "@unocss/transformer-attributify-jsx"
-import {presetAttributify} from "unocss";
+import { defineConfig, presetAttributify } from 'unocss'
+import transformerAttributifyJsx from '@unocss/transformer-attributify-jsx'
 
 export default defineConfig({
   // ...
-  transformers: [
-    transformerAttributifyJsx({
-      blocklist: ['text-red']
-    }),
-  ],
   presets: [
     // ...
     presetAttributify()
-  ]
+  ],
+  transformers: [
+    transformerAttributifyJsx(), // <--
+  ],
 })
 ```
-```ts
-export interface TransformerAttributifyJsxOptions {
-  /**
-   * the list of attributes to ignore
-   * @default []
-   */
-  blocklist?: (string | RegExp)[]
-}
-```
 
-## Notice
+## Caveats
 
 > ⚠️ The rules are almost the same as those of `preset-attributify`, but there are several precautions
 
-```vue
-<div translate-x-100% /> // cannot end with `%`
-<div hover:text-2xl /> // cannot contain `:`
-<div translate-x-[100px] /> // cannot contain `[` or `]`
+```html
+<div translate-x-100% /> <!-- cannot end with `%` -->
+
+<div hover:text-2xl /> <!-- cannot contain `:` -->
+
+<div translate-x-[100px] /> <!-- cannot contain `[` or `]` -->
 ```
 
-# Usage
+Instead, you may want to use valued attributes instead:
+
+```html
+<div translate="x-100%" />
+
+<div hover="text-2xl" />
+
+<div translate="x-[100px]" />
+```
+
+## Blocklist
+
+This transformer will only transform attrubutes that are valid UnoCSS utilities.
+You can also `blocklist` bypass some attributes from been transformed.
 
 ```js
 transformerAttributifyJsx({
   blocklist: [/text-[a-zA-Z]*/, 'text-5xl']
 })
 ```
+
 ```jsx
 <div text-red text-center text-5xl animate-bounce>
   unocss
@@ -66,10 +109,10 @@ Will be compiled to:
 
 ```html
 <div text-red text-center text-5xl animate-bounce="">
-    unocss
+  unocss
 </div>
 ```
 
 ## License
 
-MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)
+MIT License &copy; 2022-PRESENT [Anthony Fu](https://github.com/antfu)
