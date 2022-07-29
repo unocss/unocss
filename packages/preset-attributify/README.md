@@ -71,7 +71,7 @@ Can be written as
 
 In addition to Windi CSS's Attributify Mode, this presets also supports valueless attributes.
 
-For example, 
+For example,
 
 ```html
 <div class="m-2 rounded text-teal-400" />
@@ -82,6 +82,8 @@ now can be
 ```html
 <div m-2 rounded text-teal-400 />
 ```
+
+> Note: If you are using JSX, `<div foo>` might be transformed to `<div foo={true}>` which will make the generate CSS from UnoCSS failed to match the attributes. To solve this, you might want to try [`transformer-attributify-jsx`](https://github.com/unocss/unocss/tree/main/packages/transformer-attributify-jsx) along with this preset.
 
 ### Properties Conflicts
 
