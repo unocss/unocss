@@ -1,4 +1,4 @@
-export type WebFontsProviders = 'google' | 'none'
+export type WebFontsProviders = 'google' | 'bunny' | 'none'
 
 export interface WebFontMeta {
   name: string
