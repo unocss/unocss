@@ -42,11 +42,9 @@ export interface RuntimeContext {
   /**
    * Rerun extractor on the whole <body>, regardless of paused status or inspection limitation.
    *
-   * @param {boolean} [decode] - Decode the html before extraction.
-   *
    * @returns {Promise<void>}
    */
-  extractAll: (decode?: boolean) => Promise<void>
+  extractAll: () => Promise<void>
 
   /**
    * Set/unset inspection callback to allow/ignore element to be extracted.
@@ -150,13 +148,12 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
       await scheduleUpdate()
   }
 
-  async function extractAll(decode?: boolean) {
+  async function extractAll() {
     const html = document.body && document.body.outerHTML
     if (html) {
-      await extract(decode ? decodeHtml(html) : html)
-      return true
+      await extract(`${html} ${decodeHtml(html)}`)
+      removeCloak()
     }
-    return false
   }
 
   const mutationObserver = new MutationObserver((mutations) => {
@@ -210,13 +207,8 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
     observing = true
   }
 
-  async function execute() {
-    const [result1, result2] = await Promise.all([
-      extractAll(false),
-      extractAll(true),
-    ])
-    if (result1 || result2)
-      removeCloak()
+  function execute() {
+    extractAll()
     observe()
   }
 
@@ -237,10 +229,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
       }
       await extract(userTokens)
     },
-    async extractAll(decode) {
-      if (await extractAll(decode))
-        removeCloak()
-    },
+    extractAll,
     inspect(callback) {
       inspector = callback
     },
