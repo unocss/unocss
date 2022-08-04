@@ -41,23 +41,21 @@ const preset = (options: WebFontsOptions = {}): Preset<any> => {
   )
   const fonts = Object.values(fontObject).flatMap(i => i)
 
-  const importCache: Record<string, string> = {}
+  const importCache: Record<string, Promise<string>> = {}
 
   async function importUrl(url: string) {
     if (inlineImports) {
       if (!importCache[url]) {
-        try {
-          const { $fetch } = await import('ohmyfetch')
-          importCache[url] = await $fetch(url, { headers: {} })
-        }
-        catch (e) {
-          console.error('Failed to fetch web fonts')
-          console.error(e)
-          if (typeof process !== 'undefined' && process.env.CI)
-            throw e
-        }
+        const { $fetch } = await import('ohmyfetch')
+        importCache[url] = $fetch(url, { headers: {}, retry: 3 })
+          .catch((e) => {
+            console.error('Failed to fetch web fonts')
+            console.error(e)
+            if (typeof process !== 'undefined' && process.env.CI)
+              throw e
+          })
       }
-      return importCache[url]
+      return await importCache[url]
     }
     else {
       return `@import url('${url}')`
