@@ -70,12 +70,13 @@ Currently supported Providers:
 
 - `none` - do nothing, treat the font as system font
 - `google` - [Google Fonts](https://fonts.google.com/)
+- `bunny` - [Privacy-Friendly Google Fonts](https://fonts.bunny.net/)
 
 PR welcome to add more providers 🙌
 
 ## Configuration
 
-Refer to the [type definition](https://github.com/unocss/unocss/blob/main/packages/preset-web-fonts/src/types.ts#L4) for all configurations avaliable.
+Refer to the [type definition](https://github.com/unocss/unocss/blob/main/packages/preset-web-fonts/src/types.ts#L4) for all configurations available.
 
 ## License
 
