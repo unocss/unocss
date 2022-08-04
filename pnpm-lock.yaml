@@ -591,7 +591,7 @@ importers:
       '@unocss/config': workspace:*
       '@unocss/core': workspace:*
       magic-string: ^0.26.2
-      unplugin: ^0.6.0
+      unplugin: ^0.8.1
       webpack: ^5.74.0
       webpack-sources: ^3.2.3
     dependencies:
@@ -600,7 +600,7 @@ importers:
       '@unocss/config': link:../config
       '@unocss/core': link:../core
       magic-string: 0.26.2
-      unplugin: 0.6.3_webpack@5.74.0
+      unplugin: 0.8.1_webpack@5.74.0
       webpack-sources: 3.2.3
     devDependencies:
       '@types/webpack': 5.28.0
@@ -9130,29 +9130,6 @@ packages:
       webpack-virtual-modules: 0.4.4
     dev: true
 
-  /unplugin/0.6.3_webpack@5.74.0:
-    resolution: {integrity: sha512-CoW88FQfCW/yabVc4bLrjikN9HC8dEvMU4O7B6K2jsYMPK0l6iAnd9dpJwqGcmXJKRCU9vwSsy653qg+RK0G6A==}
-    peerDependencies:
-      esbuild: '>=0.13'
-      rollup: ^2.50.0
-      vite: ^2.3.0
-      webpack: 4 || 5
-    peerDependenciesMeta:
-      esbuild:
-        optional: true
-      rollup:
-        optional: true
-      vite:
-        optional: true
-      webpack:
-        optional: true
-    dependencies:
-      chokidar: 3.5.3
-      webpack: 5.74.0
-      webpack-sources: 3.2.3
-      webpack-virtual-modules: 0.4.4
-    dev: false
-
   /unplugin/0.7.2:
     resolution: {integrity: sha512-m7thX4jP8l5sETpLdUASoDOGOcHaOVtgNyrYlToyQUvILUtEzEnngRBrHnAX3IKqooJVmXpoa/CwQ/QqzvGaHQ==}
     peerDependencies:
@@ -9303,6 +9280,30 @@ packages:
       webpack-sources: 3.2.3
       webpack-virtual-modules: 0.4.4
     dev: true
+
+  /unplugin/0.8.1_webpack@5.74.0:
+    resolution: {integrity: sha512-o7rUZoPLG1fH4LKinWgb77gDtTE6mw/iry0Pq0Z5UPvZ9+HZ1/4+7fic7t58s8/CGkPrDpGq+RltO+DmswcR4g==}
+    peerDependencies:
+      esbuild: '>=0.13'
+      rollup: ^2.50.0
+      vite: ^2.3.0 || ^3.0.0-0
+      webpack: 4 || 5
+    peerDependenciesMeta:
+      esbuild:
+        optional: true
+      rollup:
+        optional: true
+      vite:
+        optional: true
+      webpack:
+        optional: true
+    dependencies:
+      acorn: 8.8.0
+      chokidar: 3.5.3
+      webpack: 5.74.0
+      webpack-sources: 3.2.3
+      webpack-virtual-modules: 0.4.4
+    dev: false
 
   /unstorage/0.5.5:
     resolution: {integrity: sha512-hiaJUOCWrgBp8cc7bnVYe2vAMkd6gRJ3iRLFRZuwL7LjTnPJ3o/r5F55N4t7CdRq4WThTZCRNDKZ4qzZGF7TIA==}
