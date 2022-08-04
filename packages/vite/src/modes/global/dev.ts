@@ -97,8 +97,9 @@ export function GlobalModeDevPlugin({ uno, tokens, affectedModules, onInvalidate
             invalidate(0)
         })
       },
-      async buildStart() {
-        await uno.generate('', { preflights: true })
+      buildStart() {
+        // warm up for preflights
+        uno.generate('', { preflights: true })
       },
       transform(code, id) {
         if (filter(code, id))
@@ -144,8 +145,13 @@ export function GlobalModeDevPlugin({ uno, tokens, affectedModules, onInvalidate
       transform(code, id) {
         // inject css modules to send callback on css load
         if (entries.has(getPath(id)) && code.includes('import.meta.hot')) {
-          const snippet = `\nif (import.meta.hot) { try { import.meta.hot.send('${WS_EVENT_PREFIX}', ${lastServed}) } catch (e) { console.warn('[unocss-hmr]', e) } }`
-          return code + snippet
+          return `${code}
+if (import.meta.hot) {
+  try { await import.meta.hot.send('${WS_EVENT_PREFIX}', ${lastServed}); }
+  catch (e) { console.warn('[unocss-hmr]', e) }
+  if (!import.meta.url.includes('?'))
+    await new Promise(resolve => setTimeout(resolve, 100))
+}`
         }
       },
     },
