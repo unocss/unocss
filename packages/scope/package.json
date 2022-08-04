@@ -1,6 +1,6 @@
 {
   "name": "@unocss/scope",
-  "version": "0.45.3",
+  "version": "0.45.4",
   "exports": {
     ".": {
       "require": "./index.cjs",
