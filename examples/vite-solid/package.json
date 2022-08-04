@@ -11,7 +11,7 @@
     "solid-js": "^1.4.8"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.13",
+    "@iconify-json/logos": "^1.1.14",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/presets-icons",

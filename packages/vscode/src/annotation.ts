@@ -1,9 +1,9 @@
 import path from 'path'
 import type { DecorationOptions, ExtensionContext, StatusBarItem } from 'vscode'
 import { DecorationRangeBehavior, MarkdownString, Range, window, workspace } from 'vscode'
-import { INCLUDE_COMMENT_IDE, getMatchedPositions } from './integration'
+import { INCLUDE_COMMENT_IDE, getMatchedPositions, isCssId } from './integration'
 import { log } from './log'
-import { getColorsMap, getPrettiedMarkdown, isCssId, isSubdir, throttle } from './utils'
+import { getColorsMap, getPrettiedMarkdown, isSubdir, throttle } from './utils'
 import type { ContextLoader } from './contextLoader'
 
 export async function registerAnnotations(

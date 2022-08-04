@@ -3,9 +3,10 @@ import { createAutocomplete } from '@unocss/autocomplete'
 import type { CompletionItemProvider, ExtensionContext } from 'vscode'
 import { CompletionItem, CompletionItemKind, CompletionList, MarkdownString, Range, languages } from 'vscode'
 import type { UnoGenerator, UnocssPluginContext } from '@unocss/core'
-import { body2ColorValue, getPrettiedCSS, getPrettiedMarkdown, isCssId, isSubdir } from './utils'
+import { body2ColorValue, getPrettiedCSS, getPrettiedMarkdown, isSubdir } from './utils'
 import { log } from './log'
 import type { ContextLoader } from './contextLoader'
+import { isCssId } from './integration'
 
 const languageIds = [
   'erb',

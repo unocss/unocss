@@ -6,7 +6,7 @@ import { createContext } from '../../shared-integration/src/context'
 import { getHash } from '../../shared-integration/src/hash'
 import { HASH_PLACEHOLDER_RE, LAYER_MARK_ALL, LAYER_PLACEHOLDER_RE, getHashPlaceholder, getLayerPlaceholder, resolveId, resolveLayer } from '../../shared-integration/src/layers'
 import { applyTransformers } from '../../shared-integration/src/transformers'
-import { getPath } from '../../shared-integration/src/utils'
+import { getPath, isCssId } from '../../shared-integration/src/utils'
 
 export interface WebpackPluginOptions<Theme extends {} = {}> extends UserConfig<Theme> {}
 
@@ -53,6 +53,8 @@ export default function WebpackPlugin<Theme extends {}>(
       },
       async transform(code, id) {
         const result = await applyTransformers(ctx, code, id, 'pre')
+        if (isCssId(id))
+          return result
         if (result == null)
           tasks.push(extract(code, id))
         else
@@ -61,6 +63,8 @@ export default function WebpackPlugin<Theme extends {}>(
       },
       resolveId(id) {
         const entry = resolveId(id)
+        if (entry === id)
+          return
         if (entry) {
           let query = ''
           const queryIndex = id.indexOf('?')
@@ -121,11 +125,17 @@ export default function WebpackPlugin<Theme extends {}>(
       },
     } as Required<ResolvedUnpluginOptions>
 
+    let lastTokenSize = tokens.size
     async function updateModules() {
       if (!plugin.__vfsModules)
         return
 
+      await Promise.all(tasks)
       const result = await uno.generate(tokens)
+      if (lastTokenSize === tokens.size)
+        return
+
+      lastTokenSize = tokens.size
       Array.from(plugin.__vfsModules)
         .forEach((id) => {
           const path = id.slice(plugin.__virtualModulePrefix.length).replace(/\\/g, '/')

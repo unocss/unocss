@@ -1,6 +1,5 @@
 import path from 'path'
 import type { GenerateResult, UnoGenerator } from '@unocss/core'
-import { cssIdRE } from '@unocss/core'
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
 import type { Theme } from '@unocss/preset-mini'
@@ -92,10 +91,6 @@ export function getColorsMap(uno: UnoGenerator, result: GenerateResult) {
     _colorsMapCache.clear()
 
   return colorsMap
-}
-
-export function isCssId(id: string) {
-  return cssIdRE.test(id)
 }
 
 export function isSubdir(parent: string, child: string) {
