@@ -29,3 +29,10 @@ export function autoPrefixer(style: CSSStyleDeclaration): Postprocessor {
       e[0] = autoPrefix(e[0])
   })
 }
+
+export function decodeHtml(html: string): string {
+  return html
+    .replace(/&amp;/g, '&')
+    .replace(/&gt;/g, '>')
+    .replace(/&lt;/g, '<')
+}

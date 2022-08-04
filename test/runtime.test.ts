@@ -2,7 +2,7 @@ import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import presetTagify from '@unocss/preset-tagify'
 import { describe, expect, test } from 'vitest'
-import { autoPrefixer } from '../packages/runtime/src/utils'
+import { autoPrefixer, decodeHtml } from '../packages/runtime/src/utils'
 
 function mockElementWithStyle() {
   const store: any = {}
@@ -82,5 +82,20 @@ describe('runtime auto prefixer', () => {
       </flex>
     `, { preflights: false })
     expect(css).toMatchSnapshot()
+  })
+})
+
+describe('runtime decode html', () => {
+  test('decode function', async () => {
+    expect(decodeHtml('<tag class="[&_*]:text-red>"')).toMatchInlineSnapshot('"<tag class=\\"[&_*]:text-red>\\""')
+    expect(decodeHtml('<tag class="[&amp;_*]:text-red>"')).toMatchInlineSnapshot('"<tag class=\\"[&_*]:text-red>\\""')
+    expect(decodeHtml('<tag class="[&amp;>*]:text-red>"')).toMatchInlineSnapshot('"<tag class=\\"[&>*]:text-red>\\""')
+    expect(decodeHtml('<tag class="[&amp;&gt;*]:text-red>"')).toMatchInlineSnapshot('"<tag class=\\"[&>*]:text-red>\\""')
+    expect(decodeHtml('<tag class="[&<*]:text-red>"')).toMatchInlineSnapshot('"<tag class=\\"[&<*]:text-red>\\""')
+    expect(decodeHtml('<tag class="[&&lt;*]:text-red>"')).toMatchInlineSnapshot('"<tag class=\\"[&<*]:text-red>\\""')
+  })
+
+  test('not decoding all entities', async () => {
+    expect(decodeHtml('<tag class="[&_*]:content-[&nbsp;]>"')).toMatchInlineSnapshot('"<tag class=\\"[&_*]:content-[&nbsp;]>\\""')
   })
 })

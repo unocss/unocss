@@ -1,6 +1,6 @@
 import type { UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
-import { autoPrefixer } from './utils'
+import { autoPrefixer, decodeHtml } from './utils'
 
 export interface RuntimeOptions {
   /**
@@ -151,7 +151,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   async function extractAll() {
     const html = document.body && document.body.outerHTML
     if (html) {
-      await extract(html)
+      await extract(`${html} ${decodeHtml(html)}`)
       removeCloak()
     }
   }
