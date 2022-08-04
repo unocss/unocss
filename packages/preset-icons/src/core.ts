@@ -118,3 +118,13 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
     }
   }
 }
+
+export function combineLoaders(loaders: UniversalIconLoader[]) {
+  return <UniversalIconLoader>((...args) => {
+    for (const loader of loaders) {
+      const result = loader(...args)
+      if (result)
+        return result
+    }
+  })
+}
