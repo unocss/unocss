@@ -7,8 +7,8 @@ import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
 import presetUno from '@unocss/preset-uno'
 import { resolveOptions as resolveNuxtOptions } from '../../nuxt/src/options'
 import { createNanoEvents } from '../../core/src/utils/events'
-import { createContext } from './integration'
-import { isCssId, isSubdir } from './utils'
+import { createContext, isCssId } from './integration'
+import { isSubdir } from './utils'
 import { log } from './log'
 
 export class ContextLoader {

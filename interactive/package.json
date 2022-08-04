@@ -13,7 +13,7 @@
     "@unocss/autocomplete": "workspace:*",
     "@unocss/nuxt": "workspace:*",
     "@unocss/shared-docs": "workspace:*",
-    "@vueuse/nuxt": "^9.0.2",
+    "@vueuse/nuxt": "^9.1.0",
     "esno": "^0.16.3",
     "fs-extra": "^10.1.0",
     "fuse.js": "^6.6.2",
