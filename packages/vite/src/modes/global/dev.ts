@@ -16,6 +16,7 @@ export function GlobalModeDevPlugin({ uno, tokens, affectedModules, onInvalidate
 
   let invalidateTimer: any
   const lastServedHash = new Map<string, string>()
+  let lastServedTime = Date.now()
   let resolved = false
   let resolvedWarnTimer: any
 
@@ -55,7 +56,7 @@ export function GlobalModeDevPlugin({ uno, tokens, affectedModules, onInvalidate
             return <Update>{
               acceptedPath: mod.url,
               path: mod.url,
-              timestamp: Date.now(),
+              timestamp: lastServedTime,
               type: 'js-update',
             }
           })
@@ -137,6 +138,7 @@ export function GlobalModeDevPlugin({ uno, tokens, affectedModules, onInvalidate
           : result.getLayer(layer)
         const hash = getHash(css || '', HASH_LENGTH)
         lastServedHash.set(layer, hash)
+        lastServedTime = Date.now()
         // add hash to the chunk of CSS that it will send back to client to check if there is new CSS generated
         return `/*${hash}*/${css}`
       },
