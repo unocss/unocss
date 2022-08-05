@@ -1,23 +1,22 @@
 {
-  "name": "vite-template-solid",
-  "version": "0.0.0",
-  "license": "MIT",
+  "name": "vite-vue3",
+  "private": true,
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "preview": "vite preview"
   },
   "dependencies": {
-    "solid-js": "^1.4.8"
+    "vue": "^3.2.37"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.14",
+    "@vitejs/plugin-vue": "^3.0.0",
+    "typescript": "^4.6.4",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
-    "typescript": "^4.7.4",
     "unocss": "link:../../packages/unocss",
-    "vite": "^3.0.4",
-    "vite-plugin-solid": "^2.3.0"
+    "vite": "^3.0.0"
   }
 }

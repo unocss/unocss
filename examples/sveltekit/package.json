@@ -16,7 +16,7 @@
     "@sveltejs/adapter-static": "next",
     "@sveltejs/kit": "next",
     "@unocss/core": "link:../../packages/core",
-    "@unocss/preset-icons": "link:../../packages/presets-icons",
+    "@unocss/preset-icons": "link:../../packages/preset-icons",
     "svelte": "^3.49.0",
     "svelte-check": "^2.8.0",
     "svelte-preprocess": "^4.10.7",

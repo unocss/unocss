@@ -21,7 +21,7 @@
     "@iconify-json/logos": "^1.1.14",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
-    "@unocss/preset-icons": "link:../../packages/presets-icons",
+    "@unocss/preset-icons": "link:../../packages/preset-icons",
     "typescript": "^4.7.4",
     "unocss": "link:../../packages/unocss",
     "vite": "^3.0.4",
