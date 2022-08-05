@@ -1,7 +1,7 @@
 {
   "name": "vite-vue3",
-  "private": true,
   "type": "module",
+  "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -11,11 +11,11 @@
     "vue": "^3.2.37"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^3.0.0",
-    "typescript": "^4.6.4",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
+    "@vitejs/plugin-vue": "^3.0.0",
+    "typescript": "^4.6.4",
     "unocss": "link:../../packages/unocss",
     "vite": "^3.0.0"
   }
