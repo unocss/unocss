@@ -1,10 +1,11 @@
 import type { Plugin, Update, ViteDevServer, ResolvedConfig as ViteResolvedConfig } from 'vite'
 import type { UnocssPluginContext } from '@unocss/core'
 import { notNull } from '@unocss/core'
-import { LAYER_MARK_ALL, getPath, resolveId, resolveLayer } from '../../integration'
+import { LAYER_MARK_ALL, getHash, getPath, resolveId, resolveLayer } from '../../integration'
 
 const WARN_TIMEOUT = 20000
 const WS_EVENT_PREFIX = 'unocss:hmr'
+const HASH_LENGTH = 6
 
 export function GlobalModeDevPlugin({ uno, tokens, affectedModules, onInvalidate, extract, filter }: UnocssPluginContext): Plugin[] {
   const servers: ViteDevServer[] = []
@@ -14,8 +15,7 @@ export function GlobalModeDevPlugin({ uno, tokens, affectedModules, onInvalidate
   const entries = new Set<string>()
 
   let invalidateTimer: any
-  let lastUpdate = Date.now()
-  let lastServed = 0
+  const lastServedHash = new Map<string, string>()
   let resolved = false
   let resolvedWarnTimer: any
 
@@ -37,11 +37,13 @@ export function GlobalModeDevPlugin({ uno, tokens, affectedModules, onInvalidate
       }
     }
     clearTimeout(invalidateTimer)
-    invalidateTimer = setTimeout(() => sendUpdate(ids), timer)
+    invalidateTimer = setTimeout(() => {
+      lastServedHash.clear()
+      sendUpdate(ids)
+    }, timer)
   }
 
   function sendUpdate(ids: Set<string>) {
-    lastUpdate = Date.now()
     for (const server of servers) {
       server.ws.send({
         type: 'update',
@@ -53,7 +55,7 @@ export function GlobalModeDevPlugin({ uno, tokens, affectedModules, onInvalidate
             return <Update>{
               acceptedPath: mod.url,
               path: mod.url,
-              timestamp: lastUpdate,
+              timestamp: Date.now(),
               type: 'js-update',
             }
           })
@@ -80,7 +82,7 @@ export function GlobalModeDevPlugin({ uno, tokens, affectedModules, onInvalidate
   }
 
   onInvalidate(() => {
-    invalidate(0, new Set([...entries, ...affectedModules]))
+    invalidate(10, new Set([...entries, ...affectedModules]))
   })
 
   return [
@@ -92,9 +94,9 @@ export function GlobalModeDevPlugin({ uno, tokens, affectedModules, onInvalidate
       async configureServer(_server) {
         servers.push(_server)
 
-        _server.ws.on(WS_EVENT_PREFIX, (servedTime: number) => {
-          if (servedTime < lastUpdate)
-            invalidate(0)
+        _server.ws.on(WS_EVENT_PREFIX, ([layer, hash]: string[]) => {
+          if (lastServedHash.get(layer) !== hash)
+            invalidate(10)
         })
       },
       buildStart() {
@@ -128,11 +130,15 @@ export function GlobalModeDevPlugin({ uno, tokens, affectedModules, onInvalidate
 
         await Promise.all(tasks)
         const result = await uno.generate(tokens)
-        lastServed = Date.now()
-        return layer === LAYER_MARK_ALL
+
+        const css = layer === LAYER_MARK_ALL
           ? result.getLayers(undefined, Array.from(entries)
             .map(i => resolveLayer(i)).filter((i): i is string => !!i))
           : result.getLayer(layer)
+        const hash = getHash(css || '', HASH_LENGTH)
+        lastServedHash.set(layer, hash)
+        // add hash to the chunk of CSS that it will send back to client to check if there is new CSS generated
+        return `/*${hash}*/${css}`
       },
     },
     {
@@ -143,11 +149,13 @@ export function GlobalModeDevPlugin({ uno, tokens, affectedModules, onInvalidate
       },
       enforce: 'post',
       transform(code, id) {
+        const layer = resolveLayer(getPath(id))
+
         // inject css modules to send callback on css load
-        if (entries.has(getPath(id)) && code.includes('import.meta.hot')) {
+        if (layer && code.includes('import.meta.hot')) {
           return `${code}
 if (import.meta.hot) {
-  try { await import.meta.hot.send('${WS_EVENT_PREFIX}', ${lastServed}); }
+  try { await import.meta.hot.send('${WS_EVENT_PREFIX}', ['${layer}', __vite__css.slice(2,${2 + HASH_LENGTH})]); }
   catch (e) { console.warn('[unocss-hmr]', e) }
   if (!import.meta.url.includes('?'))
     await new Promise(resolve => setTimeout(resolve, 100))
