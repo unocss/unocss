@@ -587,7 +587,9 @@ preprocess(matcher) {
 
 ### Scanning
 
-By default UnoCSS will scan for components files like: `.jsx`, `.tsx`, `.vue`, `.md`, `.html`, `.svelte`, `.astro`.
+Please note that UnoCSS works **at build time**, meaning only statically presented utilities will be generated and shipped to your app. Utilities that used dynamically or fetched from external resources at runtime might not be appied.
+
+By default UnoCSS will extract the utilities usage from files in your build pipeline with extension `.jsx`, `.tsx`, `.vue`, `.md`, `.html`, `.svelte`, `.astro`. And then generate the CSS on demand.
 
 `.js` and `.ts` files are **NOT included by default**. You can add `@unocss-include`, per-file basis, anywhere in the file that you want UnoCSS to scan, or add `*.js` or `*.ts` in the configuration to include all js/ts files as scan targets. Similarly, you can also add `@unocss-ignore` to bypass the scanning and transforming for a file.
 
