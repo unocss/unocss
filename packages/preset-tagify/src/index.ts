@@ -8,7 +8,7 @@ export * from './extractor'
 export * from './types'
 export * from './variant'
 
-function tagifyPreset(options: TagifyOptions = {}): Preset {
+function tagifyPreset<T>(options: TagifyOptions = {}): Preset<T> {
   const {
     defaultExtractor = true,
   } = options
