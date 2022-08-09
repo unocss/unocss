@@ -13,13 +13,13 @@ export function isValidSelector(selector = ''): selector is string {
   return validateFilterRE.test(selector)
 }
 
-export function normalizeVariant(variant: Variant): VariantObject {
+export function normalizeVariant<T>(variant: Variant<T>): VariantObject<T> {
   return typeof variant === 'function'
     ? { match: variant }
     : variant
 }
 
-export function isRawUtil(util: ParsedUtil | RawUtil | StringifiedUtil): util is RawUtil {
+export function isRawUtil<T>(util: ParsedUtil | RawUtil | StringifiedUtil<T>): util is RawUtil {
   return util.length === 3
 }
 

@@ -98,10 +98,10 @@ export function clone<T>(val: T): T {
   return val
 }
 
-export function isStaticRule(rule: Rule): rule is StaticRule {
+export function isStaticRule<T>(rule: Rule<T>): rule is StaticRule {
   return isString(rule[0])
 }
 
-export function isStaticShortcut(sc: Shortcut): sc is StaticShortcut {
+export function isStaticShortcut<T>(sc: Shortcut<T>): sc is StaticShortcut {
   return isString(sc[0])
 }

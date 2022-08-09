@@ -3,7 +3,7 @@ import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq } from 
 import { extractorSplit } from './extractors'
 import { DEAFULT_LAYERS } from './constants'
 
-export function resolveShortcuts(shortcuts: UserShortcuts): Shortcut[] {
+export function resolveShortcuts<T>(shortcuts: UserShortcuts<T>): Shortcut<T>[] {
   return toArray(shortcuts).flatMap((s) => {
     if (Array.isArray(s))
       return [s]
@@ -11,14 +11,14 @@ export function resolveShortcuts(shortcuts: UserShortcuts): Shortcut[] {
   })
 }
 
-export function resolvePreset(preset: Preset): Preset {
+export function resolvePreset<T extends { shortcuts?: UserShortcuts<T> }>(preset: Preset<T>): Preset<T> {
   const shortcuts = preset.shortcuts
     ? resolveShortcuts(preset.shortcuts)
     : undefined
-  preset.shortcuts = shortcuts as any
+  preset.shortcuts = shortcuts
 
   if (preset.prefix || preset.layer) {
-    const apply = (i: Rule | Shortcut) => {
+    const apply = (i: Rule<T> | Shortcut<T>) => {
       if (!i[2])
         i[2] = {}
       const meta = i[2]
@@ -34,11 +34,11 @@ export function resolvePreset(preset: Preset): Preset {
   return preset
 }
 
-export function resolveConfig(
-  userConfig: UserConfig = {},
-  defaults: UserConfigDefaults = {},
-): ResolvedConfig {
-  const config = Object.assign({}, defaults, userConfig) as UserConfigDefaults
+export function resolveConfig<T>(
+  userConfig: UserConfig<T> = {},
+  defaults: UserConfigDefaults<T> = {},
+): ResolvedConfig<T> {
+  const config: UserConfigDefaults<T> = Object.assign({}, defaults, userConfig)
   const rawPresets = (config.presets || []).flatMap(toArray).map(resolvePreset)
 
   const sortedPresets = [
@@ -49,7 +49,7 @@ export function resolveConfig(
 
   const layers = Object.assign(DEAFULT_LAYERS, ...rawPresets.map(i => i.layers), userConfig.layers)
 
-  function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist'>(key: T): Required<UserConfig>[T] {
+  function mergePresets<Theme, T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist'>(key: T): Required<UserConfig<Theme>>[T] {
     return uniq([
       ...sortedPresets.flatMap(p => toArray(p[key] || []) as any[]),
       ...toArray(config[key] || []) as any[],
@@ -61,8 +61,8 @@ export function resolveConfig(
     extractors.push(extractorSplit)
   extractors.sort((a, b) => (a.order || 0) - (b.order || 0))
 
-  const rules = mergePresets('rules')
-  const rulesStaticMap: ResolvedConfig['rulesStaticMap'] = {}
+  const rules = mergePresets<T, 'rules'>('rules')
+  const rulesStaticMap: ResolvedConfig<T>['rulesStaticMap'] = {}
 
   const rulesSize = rules.length
 
@@ -76,10 +76,11 @@ export function resolveConfig(
     }
   })
 
-  const theme = clone([
-    ...sortedPresets.map(p => p.theme || {}),
-    config.theme || {},
-  ].reduce((a, p) => mergeDeep(a, p), {}))
+  // HACK What if theme is not an object?
+  const theme = clone<T>([
+    ...sortedPresets.map(p => p.theme || {} as T),
+    config.theme || {} as T,
+  ].reduce<T>((a, p) => mergeDeep<T>(a, p), {} as T))
 
   ;(mergePresets('extendTheme') as ThemeExtender<any>[]).forEach(extendTheme => extendTheme(theme))
 
@@ -101,14 +102,14 @@ export function resolveConfig(
     layers,
     theme,
     rulesSize,
-    rulesDynamic: rules as ResolvedConfig['rulesDynamic'],
+    rulesDynamic: rules as ResolvedConfig<T>['rulesDynamic'],
     rulesStaticMap,
     preprocess: mergePresets('preprocess') as Preprocessor[],
     postprocess: mergePresets('postprocess') as Postprocessor[],
-    preflights: mergePresets('preflights'),
+    preflights: mergePresets<T, 'preflights'>('preflights'),
     autocomplete,
-    variants: mergePresets('variants').map(normalizeVariant),
-    shortcuts: resolveShortcuts(mergePresets('shortcuts')),
+    variants: mergePresets<T, 'variants'>('variants').map(normalizeVariant),
+    shortcuts: resolveShortcuts(mergePresets<T, 'shortcuts'>('shortcuts')),
     extractors,
     safelist: mergePresets('safelist'),
   }

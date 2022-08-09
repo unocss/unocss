@@ -51,7 +51,7 @@ export interface ParsedColorValue {
 
 export type PresetOptions = Record<string, any>
 
-export interface RuleContext<Theme extends {} = {}> {
+export interface RuleContext<T extends {} = {}> {
   /**
    * Unprocessed selector from user input.
    * Useful for generating CSS rule.
@@ -64,11 +64,11 @@ export interface RuleContext<Theme extends {} = {}> {
   /**
    * UnoCSS generator instance
    */
-  generator: UnoGenerator
+  generator: UnoGenerator<T>
   /**
    * The theme object
    */
-  theme: Theme
+  theme: T
   /**
    * Matched variants handlers for this rule.
    */
@@ -76,7 +76,7 @@ export interface RuleContext<Theme extends {} = {}> {
   /**
    * The result of variant matching.
    */
-  variantMatch: VariantMatchedResult
+  variantMatch: VariantMatchedResult<T>
   /**
    * Constrcut a custom CSS rule.
    * Variants and selector escaping will be handled automatically.
@@ -85,18 +85,18 @@ export interface RuleContext<Theme extends {} = {}> {
   /**
    * Available only when `details` option is enabled.
    */
-  rules?: Rule[]
+  rules?: Rule<T>[]
   /**
    * Available only when `details` option is enabled.
    */
-  shortcuts?: Shortcut[]
+  shortcuts?: Shortcut<T>[]
   /**
    * Available only when `details` option is enabled.
    */
-  variants?: Variant[]
+  variants?: Variant<T>[]
 }
 
-export interface VariantContext<Theme extends {} = {}> {
+export interface VariantContext<T extends {} = {}> {
   /**
    * Unprocessed selector from user input.
    */
@@ -104,11 +104,11 @@ export interface VariantContext<Theme extends {} = {}> {
   /**
    * UnoCSS generator instance
    */
-  generator: UnoGenerator
+  generator: UnoGenerator<T>
   /**
    * The theme object
    */
-  theme: Theme
+  theme: T
 }
 
 export interface ExtractorContext {
@@ -117,15 +117,15 @@ export interface ExtractorContext {
   id?: string
 }
 
-export interface PreflightContext<Theme extends {} = {}> {
+export interface PreflightContext<T> {
   /**
    * UnoCSS generator instance
    */
-  generator: UnoGenerator
+  generator: UnoGenerator<T>
   /**
    * The theme object
    */
-  theme: Theme
+  theme: T
 }
 
 export interface Extractor {
@@ -290,29 +290,29 @@ export interface VariantObject<Theme extends {} = {}> {
   autocomplete?: Arrayable<AutoCompleteFunction | AutoCompleteTemplate>
 }
 
-export type Variant<Theme extends {} = {}> = VariantFunction<Theme> | VariantObject<Theme>
+export type Variant<T extends {} = {}> = VariantFunction<T> | VariantObject<T>
 
 export type Preprocessor = (matcher: string) => string | undefined
 export type Postprocessor = (util: UtilObject) => void
 export type ThemeExtender<T> = (theme: T) => void
 
-export interface ConfigBase<Theme extends {} = {}> {
+export interface ConfigBase<T extends {} = {}> {
   /**
    * Rules to generate CSS utilities
    */
-  rules?: Rule<Theme>[]
+  rules?: Rule<T>[]
 
   /**
    * Variants that preprocess the selectors,
    * having the ability to rewrite the CSS object.
    */
-  variants?: Variant<Theme>[]
+  variants?: Variant<T>[]
 
   /**
    * Similar to Windi CSS's shortcuts,
    * allows you have create new utilities by combining existing ones.
    */
-  shortcuts?: UserShortcuts<Theme>
+  shortcuts?: UserShortcuts<T>
 
   /**
    * Rules to exclude the selectors for your design system (to narrow down the possibilities).
@@ -334,12 +334,12 @@ export interface ConfigBase<Theme extends {} = {}> {
   /**
    * Raw CSS injections.
    */
-  preflights?: Preflight<Theme>[]
+  preflights?: Preflight<T>[]
 
   /**
    * Theme object for shared configuration between rules
    */
-  theme?: Theme
+  theme?: T
 
   /**
    * Layer orders. Default to 0.
@@ -364,7 +364,7 @@ export interface ConfigBase<Theme extends {} = {}> {
   /**
    * Custom functions to extend the theme object
    */
-  extendTheme?: Arrayable<ThemeExtender<Theme>>
+  extendTheme?: Arrayable<ThemeExtender<T>>
 
   /**
    * Additional options for auto complete
@@ -507,9 +507,9 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
   envMode?: 'dev' | 'build'
 }
 
-export interface UnocssPluginContext<Config extends UserConfig = UserConfig> {
+export interface UnocssPluginContext<T, Config extends UserConfig<T> = UserConfig<T>> {
   ready: Promise<LoadConfigResult<Config>>
-  uno: UnoGenerator
+  uno: UnoGenerator<T>
   /** All tokens scanned */
   tokens: Set<string>
   /** Map for all module's raw content */
@@ -550,7 +550,7 @@ export interface TransformResult {
 
 export type SourceCodeTransformerEnforce = 'pre' | 'post' | 'default'
 
-export interface SourceCodeTransformer {
+export interface SourceCodeTransformer<T> {
   name: string
   /**
    * The order of transformer
@@ -563,13 +563,13 @@ export interface SourceCodeTransformer {
   /**
    * The transform function
    */
-  transform: (code: MagicString, id: string, ctx: UnocssPluginContext) => Awaitable<void>
+  transform: (code: MagicString, id: string, ctx: UnocssPluginContext<T>) => Awaitable<void>
 }
 
 /**
  * For other modules to aggregate the options
  */
-export interface PluginOptions {
+export interface PluginOptions<T> {
   /**
    * Load from configs files
    *
@@ -595,24 +595,24 @@ export interface PluginOptions {
   /**
    * Custom transformers to the source code
    */
-  transformers?: SourceCodeTransformer[]
+  transformers?: SourceCodeTransformer<T>[]
 }
 
-export interface UserConfig<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions, PluginOptions {}
+export interface UserConfig<T> extends ConfigBase<T>, UserOnlyOptions<T>, GeneratorOptions, PluginOptions<T> {}
 export interface UserConfigDefaults<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme> {}
 
-export interface ResolvedConfig extends Omit<
-RequiredByKey<UserConfig, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>,
+export interface ResolvedConfig<T> extends Omit<
+RequiredByKey<UserConfig<T>, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>,
 'rules' | 'shortcuts' | 'autocomplete'
 > {
-  presets: Preset[]
-  shortcuts: Shortcut[]
-  variants: VariantObject[]
+  presets: Preset<T>[]
+  shortcuts: Shortcut<T>[]
+  variants: VariantObject<T>[]
   preprocess: Preprocessor[]
   postprocess: Postprocessor[]
   rulesSize: number
-  rulesDynamic: (DynamicRule | undefined)[]
-  rulesStaticMap: Record<string, [number, CSSObject | CSSEntries, RuleMeta | undefined, Rule] | undefined>
+  rulesDynamic: (DynamicRule<T> | undefined)[]
+  rulesStaticMap: Record<string, [number, CSSObject | CSSEntries, RuleMeta | undefined, Rule<T>] | undefined>
   autocomplete: {
     templates: (AutoCompleteFunction | AutoCompleteTemplate)[]
     extractors: AutoCompleteExtractor[]
@@ -627,11 +627,11 @@ export interface GenerateResult {
   matched: Set<string>
 }
 
-export type VariantMatchedResult = readonly [
+export type VariantMatchedResult<T> = readonly [
   raw: string,
   current: string,
   variantHandlers: VariantHandler[],
-  variants: Set<Variant>,
+  variants: Set<Variant<T>>,
 ]
 
 export type ParsedUtil = readonly [
@@ -648,13 +648,13 @@ export type RawUtil = readonly [
   meta: RuleMeta | undefined,
 ]
 
-export type StringifiedUtil = readonly [
+export type StringifiedUtil<T> = readonly [
   index: number,
   selector: string | undefined,
   body: string,
   parent: string | undefined,
   meta: RuleMeta | undefined,
-  context: RuleContext | undefined,
+  context: RuleContext<T> | undefined,
 ]
 
 export type PreparedRule = readonly [
