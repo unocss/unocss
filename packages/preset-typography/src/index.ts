@@ -49,7 +49,7 @@ export interface TypographyOptions {
  * @returns typography preset
  * @public
  */
-export function presetTypography(options?: TypographyOptions): Preset {
+export function presetTypography<T extends Theme>(options?: TypographyOptions): Preset<T> {
   if (options?.className) {
     console.warn('[unocss:preset-typography] "className" is deprecated. '
     + 'Use "selectorName" instead.')
@@ -78,7 +78,7 @@ export function presetTypography(options?: TypographyOptions): Preset {
       ],
       [
         colorsRE,
-        ([, color], { theme }: RuleContext<Theme>) => {
+        ([, color], { theme }: RuleContext<T>) => {
           const baseColor = theme.colors?.[color]
           if (baseColor == null)
             return
