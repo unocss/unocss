@@ -6,7 +6,7 @@ import { createConfigLoader as createLoader } from 'unconfig'
 
 export type { LoadConfigResult, LoadConfigSource }
 
-export async function loadConfig<U extends UserConfig>(
+export async function loadConfig<T, U extends UserConfig<T>>(
   cwd = process.cwd(),
   configOrPath: string | U = cwd,
   extraConfigSources: LoadConfigSource[] = [],
