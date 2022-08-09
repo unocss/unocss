@@ -12,7 +12,7 @@ const COLLECTION_NAME_PARTS_MAX = 3
 export { IconsOptions }
 
 export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => Promise<UniversalIconLoader>) {
-  return function presetIcons(options: IconsOptions = {}): Preset {
+  return function presetIcons<T>(options: IconsOptions = {}): Preset<T> {
     const {
       scale = 1,
       mode = 'auto',
