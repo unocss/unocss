@@ -4,7 +4,7 @@ import type { AttributifyOptions } from './types'
 
 export const variantsRE = /^(?!\[(?:[^:]+):(?:.+)\]$)((?:.+:)?!?)?(.*)$/
 
-export const variantAttributify = (options: AttributifyOptions = {}): VariantObject => {
+export const variantAttributify = <T>(options: AttributifyOptions = {}): VariantObject<T> => {
   const prefix = options.prefix ?? 'un-'
   const prefixedOnly = options.prefixedOnly ?? false
   const trueToNonValued = options.trueToNonValued ?? false

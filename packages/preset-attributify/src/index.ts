@@ -19,7 +19,7 @@ const preset = <T>(options: AttributifyOptions = {}): Preset<T> => {
   options.ignoreAttributes = options.ignoreAttributes ?? defaultIgnoreAttributes
 
   const variants = [
-    variantAttributify(options),
+    variantAttributify<T>(options),
   ]
   const extractors = [
     extractorAttributify(options),
