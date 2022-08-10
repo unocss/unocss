@@ -13,7 +13,7 @@ export function clearModuleCache() {
   modulesCache.set('unocss', __unocss)
 }
 
-export async function evaluateUserConfig<U = UserConfig>(configStr: string): Promise<U | undefined> {
+export async function evaluateUserConfig<T, U = UserConfig<T>>(configStr: string): Promise<U | undefined> {
   const code = configStr
     .replace(/import\s*(.*?)\s*from\s*(['"])unocss\2/g, 'const $1 = await __import("unocss");')
     .replace(/import\s*(\{[\s\S]*?\})\s*from\s*(['"])([\w-@/]+)\2/g, 'const $1 = await __import("$3");')

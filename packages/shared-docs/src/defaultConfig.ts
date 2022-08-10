@@ -1,3 +1,4 @@
+import type { Theme } from '@unocss/preset-mini'
 import {
   defineConfig,
   presetAttributify,
@@ -5,7 +6,7 @@ import {
   presetUno,
 } from 'unocss'
 
-export default defineConfig({
+export default defineConfig<Theme>({
   rules: [
     ['custom-rule', { color: 'red' }]
   ],

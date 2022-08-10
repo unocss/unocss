@@ -8,23 +8,23 @@ import { computed, reactive, toRaw } from 'vue'
 import type { DocItem, GuideItem, ResultItem, RuleItem } from './types'
 import { extractColors, formatCSS, sampleArray } from './utils'
 
-export interface SearchState {
-  uno: UnoGenerator
+export interface SearchState<T> {
+  uno: UnoGenerator<T>
   docs: Ref<DocItem[]>
   guides: GuideItem[]
   limit?: number
 }
 
-export function createSearch(
-  { uno, docs, guides, limit = 50 }: SearchState,
+export function createSearch<T>(
+  { uno, docs, guides, limit = 50 }: SearchState<T>,
 ) {
   const ac = createAutocomplete(uno)
-  const matchedMap = reactive(new Map<string, RuleItem>())
-  const featuresMap = reactive(new Map<string, Set<RuleItem>>())
+  const matchedMap = reactive(new Map<string, RuleItem<T>>())
+  const featuresMap = reactive(new Map<string, Set<RuleItem<T>>>())
 
-  let fuseCollection: ResultItem[] = []
+  let fuseCollection: ResultItem<T>[] = []
 
-  const fuse = new Fuse<ResultItem>(
+  const fuse = new Fuse<ResultItem<T>>(
     fuseCollection,
     {
       keys: [
@@ -50,8 +50,8 @@ export function createSearch(
       includeScore: true,
     },
   )
-  const docsFuse = computed(() => new Fuse<ResultItem>(docs.value, { keys: ['title', 'summary'], isCaseSensitive: false }))
-  const guideFuse = new Fuse<ResultItem>(guides, { keys: ['title'], isCaseSensitive: false })
+  const docsFuse = computed(() => new Fuse<ResultItem<T>>(docs.value, { keys: ['title', 'summary'], isCaseSensitive: false }))
+  const guideFuse = new Fuse<ResultItem<T>>(guides, { keys: ['title'], isCaseSensitive: false })
 
   const az09 = Array.from('abcdefghijklmnopqrstuvwxyz01234567890')
 
@@ -140,7 +140,7 @@ export function createSearch(
     return matched
   }
 
-  const _generatePromiseMap = new Map<string, Promise<RuleItem | undefined>>()
+  const _generatePromiseMap = new Map<string, Promise<RuleItem<T> | undefined>>()
   async function _generateFor(input: string) {
     if (matchedMap.has(input))
       return matchedMap.get(input)
@@ -189,14 +189,14 @@ export function createSearch(
     return _generatePromiseMap.get(input)
   }
 
-  function getPresetOfRule(rule?: Rule) {
+  function getPresetOfRule(rule?: Rule<T>) {
     if (!rule)
       return
     const r = toRaw(rule)
     return uno.config.presets?.flat().find(i => i.rules?.find(i => i === r || i === rule))
   }
 
-  function getPresetOfVariant(variant?: Variant) {
+  function getPresetOfVariant(variant?: Variant<T>) {
     if (!variant)
       return
     const v = toRaw(variant)
@@ -221,17 +221,17 @@ export function createSearch(
     return [...(featuresMap.get(name) || [])]
   }
 
-  function getAliasOf(item: RuleItem) {
+  function getAliasOf(item: RuleItem<T>) {
     return [...matchedMap.values()].filter(i => i.body === item.body && i.class !== item.class)
   }
 
-  function getItemId(item: ResultItem) {
+  function getItemId(item: ResultItem<T>) {
     if (item.type !== 'rule')
       return `${item.type}:${item.title}`
     return item.class
   }
 
-  function getSameRules(item: RuleItem) {
+  function getSameRules(item: RuleItem<T>) {
     if (!item.context?.rules?.length)
       return []
     const raw = toRaw(item)

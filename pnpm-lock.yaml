@@ -442,6 +442,7 @@ importers:
     specifiers:
       '@unocss/autocomplete': workspace:*
       '@unocss/core': workspace:*
+      '@unocss/preset-uno': workspace:^0.45.5
       '@vue/reactivity': ^3.2.37
       fuse.js: ^6.6.2
       prettier: ^2.7.1
@@ -451,6 +452,8 @@ importers:
       '@vue/reactivity': 3.2.37
       fuse.js: 6.6.2
       prettier: 2.7.1
+    devDependencies:
+      '@unocss/preset-uno': link:../preset-uno
 
   packages/shared-integration:
     specifiers:

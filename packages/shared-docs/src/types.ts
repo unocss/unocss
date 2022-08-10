@@ -8,12 +8,12 @@ export interface DocItem {
   summary?: string
 }
 
-export interface RuleItem {
+export interface RuleItem<T> {
   type: 'rule'
   class: string
   css?: string
   body?: string
-  context?: RuleContext
+  context?: RuleContext<T>
   colors?: string[]
   features?: string[]
   layers?: string[]
@@ -29,4 +29,4 @@ export interface GuideItem {
   component: () => Promise<{ default: Component }>
 }
 
-export type ResultItem = DocItem | RuleItem | GuideItem
+export type ResultItem<T> = DocItem | RuleItem<T> | GuideItem
