@@ -1,7 +1,7 @@
 import type { Plugin } from 'vite'
 import type { UnocssPluginContext } from '@unocss/core'
 
-export function ConfigHMRPlugin(ctx: UnocssPluginContext): Plugin | undefined {
+export function ConfigHMRPlugin<T>(ctx: UnocssPluginContext<T>): Plugin | undefined {
   const { ready, uno } = ctx
   return {
     name: 'unocss:config',

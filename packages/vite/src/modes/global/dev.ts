@@ -7,7 +7,7 @@ const WARN_TIMEOUT = 20000
 const WS_EVENT_PREFIX = 'unocss:hmr'
 const HASH_LENGTH = 6
 
-export function GlobalModeDevPlugin({ uno, tokens, affectedModules, onInvalidate, extract, filter }: UnocssPluginContext): Plugin[] {
+export function GlobalModeDevPlugin<T>({ uno, tokens, affectedModules, onInvalidate, extract, filter }: UnocssPluginContext<T>): Plugin[] {
   const servers: ViteDevServer[] = []
   let base = ''
 

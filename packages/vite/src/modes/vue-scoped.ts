@@ -3,7 +3,7 @@ import { createFilter } from '@rollup/pluginutils'
 import type { UnocssPluginContext } from '@unocss/core'
 import { defaultExclude } from '../integration'
 
-export function VueScopedPlugin({ uno, ready }: UnocssPluginContext): Plugin {
+export function VueScopedPlugin<T>({ uno, ready }: UnocssPluginContext<T>): Plugin {
   let filter = createFilter([/\.vue$/], defaultExclude)
 
   async function transformSFC(code: string) {

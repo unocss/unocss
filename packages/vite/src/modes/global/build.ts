@@ -14,7 +14,7 @@ import {
 } from '../../integration'
 import type { VitePluginConfig } from '../../types'
 
-export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, getConfig }: UnocssPluginContext<VitePluginConfig>): Plugin[] {
+export function GlobalModeBuildPlugin<T>({ uno, ready, extract, tokens, filter, getConfig }: UnocssPluginContext<T, VitePluginConfig<T>>): Plugin[] {
   const vfsLayers = new Set<string>()
   const layerImporterMap = new Map<string, string>()
   let tasks: Promise<any>[] = []

@@ -2,7 +2,7 @@ import type { Plugin } from 'vite'
 import type { UnocssPluginContext } from '@unocss/core'
 import { applyTransformers } from '../../shared-integration/src/transformers'
 
-export function createTransformerPlugins(ctx: UnocssPluginContext): Plugin[] {
+export function createTransformerPlugins<T>(ctx: UnocssPluginContext<T>): Plugin[] {
   const enforces = ['default', 'pre', 'post'] as const
   return enforces.map((enforce): Plugin => ({
     name: `unocss:transformers:${enforce}`,

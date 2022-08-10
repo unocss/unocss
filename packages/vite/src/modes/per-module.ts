@@ -5,7 +5,7 @@ import { getHash } from '../integration'
 const VIRTUAL_PREFIX = '/@unocss/'
 const SCOPE_IMPORT_RE = / from (['"])(@unocss\/scope)\1/
 
-export function PerModuleModePlugin({ uno, filter }: UnocssPluginContext): Plugin[] {
+export function PerModuleModePlugin<T>({ uno, filter }: UnocssPluginContext<T>): Plugin[] {
   const moduleMap = new Map<string, [string, string]>()
   let server: ViteDevServer | undefined
 

@@ -2,7 +2,7 @@ import type { Plugin } from 'vite'
 import type { UnocssPluginContext } from '@unocss/core'
 import { CSS_PLACEHOLDER } from '../integration'
 
-export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin {
+export function ShadowDomModuleModePlugin<T>({ uno }: UnocssPluginContext<T>): Plugin {
   const partExtractorRegex = /^part-\[(.+)]:/
   const nameRegexp = /<([^\s^!>]+)\s*([^>]*)>/
   interface PartData {

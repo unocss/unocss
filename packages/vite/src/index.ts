@@ -24,11 +24,11 @@ export function defineConfig<Theme extends {}>(config: VitePluginConfig<Theme>) 
   return config
 }
 
-export default function UnocssPlugin<Theme extends {}>(
-  configOrPath?: VitePluginConfig<Theme> | string,
-  defaults: UserConfigDefaults = {},
+export default function UnocssPlugin<T>(
+  configOrPath?: VitePluginConfig<T> | string,
+  defaults: UserConfigDefaults<VitePluginConfig<T>> = {},
 ): Plugin[] {
-  const ctx = createContext<VitePluginConfig>(configOrPath as any, defaults)
+  const ctx = createContext<VitePluginConfig<T>>(configOrPath as any, defaults)
   const inlineConfig = (configOrPath && typeof configOrPath !== 'string') ? configOrPath : {}
   const mode = inlineConfig.mode ?? 'global'
 

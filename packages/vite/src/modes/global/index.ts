@@ -5,7 +5,7 @@ import { GlobalModeDevPlugin } from './dev'
 export * from './dev'
 export * from './build'
 
-export function GlobalModePlugin(ctx: UnocssPluginContext) {
+export function GlobalModePlugin<T>(ctx: UnocssPluginContext<T>) {
   return [
     ...GlobalModeBuildPlugin(ctx),
     ...GlobalModeDevPlugin(ctx),

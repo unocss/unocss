@@ -3,7 +3,7 @@ import { createFilter } from '@rollup/pluginutils'
 import type { UnocssPluginContext } from '@unocss/core'
 import { defaultExclude } from '../integration'
 
-export function SvelteScopedPlugin({ uno, ready }: UnocssPluginContext): Plugin {
+export function SvelteScopedPlugin<T>({ uno, ready }: UnocssPluginContext<T>): Plugin {
   let filter = createFilter([/\.svelte$/], defaultExclude)
 
   async function transformSFC(code: string) {

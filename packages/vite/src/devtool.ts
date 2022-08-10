@@ -39,7 +39,7 @@ function getBodyJson(req: IncomingMessage) {
   })
 }
 
-export function createDevtoolsPlugin(ctx: UnocssPluginContext): Plugin[] {
+export function createDevtoolsPlugin<T>(ctx: UnocssPluginContext<T>): Plugin[] {
   let config: ResolvedConfig
   let server: ViteDevServer | undefined
   let clientCode = ''
