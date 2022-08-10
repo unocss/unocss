@@ -6,8 +6,8 @@ import type MagicString from 'magic-string'
 
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
 
-export interface TransformerDirectivesOptions {
-  enforce?: SourceCodeTransformer['enforce']
+export interface TransformerDirectivesOptions<T> {
+  enforce?: SourceCodeTransformer<T>['enforce']
   /**
    * Treat CSS variables as directives for CSS syntax compatible.
    *
@@ -25,7 +25,7 @@ export interface TransformerDirectivesOptions {
   throwOnMissing?: boolean
 }
 
-export default function transformerDirectives(options: TransformerDirectivesOptions = {}): SourceCodeTransformer {
+export default function transformerDirectives<T>(options: TransformerDirectivesOptions<T> = {}): SourceCodeTransformer<T> {
   return {
     name: 'css-directive',
     enforce: options?.enforce,
@@ -38,10 +38,10 @@ export default function transformerDirectives(options: TransformerDirectivesOpti
 
 const themeFnRE = /theme\((.*?)\)/g
 
-export async function transformDirectives(
+export async function transformDirectives<T>(
   code: MagicString,
-  uno: UnoGenerator,
-  options: TransformerDirectivesOptions,
+  uno: UnoGenerator<T>,
+  options: TransformerDirectivesOptions<T>,
   filename?: string,
   originalCode?: string,
   offset?: number,
@@ -100,9 +100,9 @@ export async function transformDirectives(
           target[2] += item[2]
         else
         // use spread operator to prevent reassign to uno internal cache
-          acc.push([...item] as Writeable<StringifiedUtil>)
+          acc.push([...item] as Writeable<StringifiedUtil<T>>)
         return acc
-      }, [] as Writeable<StringifiedUtil>[])
+      }, [] as Writeable<StringifiedUtil<T>>[])
 
     if (!utils.length)
       return
