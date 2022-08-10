@@ -5,8 +5,8 @@ import type { Plugin } from 'vite'
 
 export * from '@unocss/vite'
 
-export default function UnocssVitePlugin<Theme extends {}>(
-  configOrPath?: VitePluginConfig<Theme> | string,
+export default function UnocssVitePlugin<T>(
+  configOrPath?: VitePluginConfig<T> | string,
 ): Plugin[] {
   return VitePlugin(
     configOrPath,
