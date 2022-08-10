@@ -19,7 +19,7 @@ export interface TransformerVariantGroupOptions {
   separators?: (':' | '-')[]
 }
 
-export default function transformerVariantGroup(options: TransformerVariantGroupOptions = {}): SourceCodeTransformer {
+export default function transformerVariantGroup<T>(options: TransformerVariantGroupOptions = {}): SourceCodeTransformer<T> {
   return {
     name: 'variant-group',
     enforce: 'pre',
