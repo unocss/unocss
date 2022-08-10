@@ -5,7 +5,7 @@ import { parseAutocomplete } from './parse'
 import type { ParsedAutocompleteTemplate, UnocssAutocomplete } from './types'
 import { searchUsageBoundary } from './utils'
 
-export function createAutocomplete(uno: UnoGenerator): UnocssAutocomplete {
+export function createAutocomplete<T>(uno: UnoGenerator<T>): UnocssAutocomplete {
   const templateCache = new Map<string, ParsedAutocompleteTemplate>()
   const cache = new LRU<string, string[]>({ max: 5000 })
 
@@ -147,9 +147,11 @@ export function createAutocomplete(uno: UnoGenerator): UnocssAutocomplete {
     ) || []
   }
 
-  function suggestVariant(input: string, used: Set<Variant>) {
+  function suggestVariant<T>(input: string, used: Set<Variant<T>>) {
     return uno.config.variants
-      .filter(v => v.autocomplete && (v.multiPass || !used.has(v)))
+      .filter(v =>
+        v.autocomplete && (v.multiPass || !used.has(v as unknown as Variant<T>)), // HACK
+      )
       .flatMap(v => toArray(v.autocomplete || []))
       .map(fn =>
         typeof fn === 'function'
