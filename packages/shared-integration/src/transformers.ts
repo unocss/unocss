@@ -5,8 +5,8 @@ import remapping from '@ampproject/remapping'
 import type { SourceMap } from 'rollup'
 import { IGNORE_COMMENT } from './constants'
 
-export async function applyTransformers(
-  ctx: UnocssPluginContext,
+export async function applyTransformers<T>(
+  ctx: UnocssPluginContext<T>,
   original: string,
   id: string,
   enforce: SourceCodeTransformerEnforce = 'default',

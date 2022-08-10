@@ -6,12 +6,12 @@ import { BetterMap, createGenerator } from '@unocss/core'
 import { CSS_PLACEHOLDER, IGNORE_COMMENT, INCLUDE_COMMENT } from './constants'
 import { defaultExclude, defaultInclude } from './defaults'
 
-export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
+export function createContext<T, Config extends UserConfig<T> = UserConfig<T>>(
   configOrPath?: Config | string,
-  defaults: UserConfigDefaults = {},
+  defaults: UserConfigDefaults<T> = {},
   extraConfigSources: LoadConfigSource[] = [],
   resolveConfigResult: (config: LoadConfigResult<Config>) => void = () => {},
-): UnocssPluginContext<Config> {
+): UnocssPluginContext<T> {
   let root = process.cwd()
   let rawConfig = {} as Config
   const uno = createGenerator(rawConfig, defaults)
@@ -27,7 +27,7 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
   let ready = reloadConfig()
 
   async function reloadConfig() {
-    const result = await loadConfig(root, configOrPath, extraConfigSources)
+    const result = await loadConfig<T, Config>(root, configOrPath, extraConfigSources)
     resolveConfigResult(result)
 
     rawConfig = result.config
