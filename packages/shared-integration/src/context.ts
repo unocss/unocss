@@ -11,7 +11,7 @@ export function createContext<T, Config extends UserConfig<T> = UserConfig<T>>(
   defaults: UserConfigDefaults<T> = {},
   extraConfigSources: LoadConfigSource[] = [],
   resolveConfigResult: (config: LoadConfigResult<Config>) => void = () => {},
-): UnocssPluginContext<T> {
+): UnocssPluginContext<T, Config> {
   let root = process.cwd()
   let rawConfig = {} as Config
   const uno = createGenerator(rawConfig, defaults)
