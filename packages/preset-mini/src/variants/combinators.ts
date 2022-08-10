@@ -1,6 +1,7 @@
 import type { Variant, VariantObject } from '@unocss/core'
+import type { Theme } from '../theme'
 
-const scopeMatcher = (strict: boolean, name: string, template: string): VariantObject => {
+const scopeMatcher = <T>(strict: boolean, name: string, template: string): VariantObject<T> => {
   const re = strict
     ? new RegExp(`^${name}(?:-\\[(.+?)\\])[:-]`)
     : new RegExp(`^${name}(?:-\\[(.+?)\\])?[:-]`)
@@ -19,7 +20,7 @@ const scopeMatcher = (strict: boolean, name: string, template: string): VariantO
   }
 }
 
-export const variantCombinators: Variant[] = [
+export const variantCombinators: Variant<Theme>[] = [
   scopeMatcher(false, 'all', '&&-s &&-c'),
   scopeMatcher(false, 'children', '&&-s>&&-c'),
   scopeMatcher(false, 'next', '&&-s+&&-c'),

@@ -1,4 +1,5 @@
 import type { Rule } from '@unocss/core'
+import type { Theme } from '../theme'
 import { handler as h } from '../utils'
 
 const variablesAbbrMap: Record<string, string> = {
@@ -17,7 +18,7 @@ const variablesAbbrMap: Record<string, string> = {
   ws: 'white-space',
 }
 
-export const cssVariables: Rule[] = [
+export const cssVariables: Rule<Theme>[] = [
   [/^(.+?)-(\$.+)$/, ([, name, varname]) => {
     const prop = variablesAbbrMap[name]
     if (prop)
@@ -25,6 +26,6 @@ export const cssVariables: Rule[] = [
   }],
 ]
 
-export const cssProperty: Rule[] = [
+export const cssProperty: Rule<Theme>[] = [
   [/^\[([\w_-]+):([^'"]+)\]$/, ([, prop, value]) => ({ [prop]: h.bracket(`[${value}]`) })],
 ]

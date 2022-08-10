@@ -66,6 +66,6 @@ function getAspectRatio(prop: string) {
   return h.bracket.cssvar.global.auto.number(prop)
 }
 
-export const aspectRatio: Rule[] = [
+export const aspectRatio: Rule<Theme>[] = [
   [/^aspect-(?:ratio-)?(.+)$/, ([, d]: string[]) => ({ 'aspect-ratio': getAspectRatio(d) }), { autocomplete: ['aspect-(square|video|ratio)', 'aspect-ratio-(square|video)'] }],
 ]

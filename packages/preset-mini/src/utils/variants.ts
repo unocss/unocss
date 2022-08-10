@@ -1,7 +1,7 @@
 import type { VariantHandler, VariantHandlerContext, VariantObject } from '@unocss/core'
 import { escapeRegExp } from '@unocss/core'
 
-export const variantMatcher = (name: string, handler: (input: VariantHandlerContext) => Record<string, any>): VariantObject => {
+export const variantMatcher = <T>(name: string, handler: (input: VariantHandlerContext) => Record<string, any>): VariantObject<T> => {
   const re = new RegExp(`^${escapeRegExp(name)}[:-]`)
   return {
     name,
@@ -21,7 +21,7 @@ export const variantMatcher = (name: string, handler: (input: VariantHandlerCont
   }
 }
 
-export const variantParentMatcher = (name: string, parent: string): VariantObject => {
+export const variantParentMatcher = <T>(name: string, parent: string): VariantObject<T> => {
   const re = new RegExp(`^${escapeRegExp(name)}[:-]`)
   return {
     name,

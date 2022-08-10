@@ -52,7 +52,7 @@ export const transformBase = {
   '--un-translate-z': 0,
 }
 
-export const transforms: Rule[] = [
+export const transforms: Rule<Theme>[] = [
   // origins
   [/^(?:transform-)?origin-(.+)$/, ([, s]) => ({ 'transform-origin': positionMap[s] ?? h.bracket.cssvar(s) }), { autocomplete: [`transform-origin-(${Object.keys(positionMap).join('|')})`, `origin-(${Object.keys(positionMap).join('|')})`] }],
 

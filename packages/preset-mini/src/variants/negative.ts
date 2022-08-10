@@ -1,4 +1,5 @@
 import type { Variant } from '@unocss/core'
+import type { Theme } from '../theme'
 import { CONTROL_MINI_NO_NEGATIVE } from '../utils'
 
 const numberRE = /[0-9.]+(?:[a-z]+|%)?/
@@ -7,7 +8,7 @@ const ignoreProps = [
   /opacity|color|flex/,
 ]
 
-export const variantNegative: Variant = {
+export const variantNegative: Variant<Theme> = {
   name: 'negative',
   match(matcher) {
     if (!matcher.startsWith('-'))

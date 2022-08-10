@@ -2,7 +2,7 @@ import type { Preflight, PreflightContext } from '@unocss/core'
 import { entriesToCss } from '@unocss/core'
 import type { Theme } from './theme'
 
-export const preflights: Preflight[] = [
+export const preflights: Preflight<Theme>[] = [
   {
     layer: 'preflights',
     getCSS(ctx: PreflightContext<Theme>) {

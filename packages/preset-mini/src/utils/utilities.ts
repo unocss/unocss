@@ -13,7 +13,7 @@ export const CONTROL_MINI_NO_NEGATIVE = '$$mini-no-negative'
  * @param {string} propertyPrefix - Property for the css value to be created. Postfix will be appended according to direction matched.
  * @see {@link directionMap}
  */
-export function directionSize(propertyPrefix: string): DynamicMatcher {
+export function directionSize(propertyPrefix: string): DynamicMatcher<Theme> {
   return ([_, direction, size]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined => {
     const v = theme.spacing?.[size || 'DEFAULT'] ?? h.bracket.cssvar.global.auto.fraction.rem(size)
     if (v != null)
@@ -152,7 +152,7 @@ export function parseColor(body: string, theme: Theme): ParsedColorValue | undef
  * @param {string} varName - Base name for the opacity variable.
  * @return {@link DynamicMatcher} object.
  */
-export function colorResolver(property: string, varName: string, shouldPass?: (css: CSSObject) => boolean): DynamicMatcher {
+export function colorResolver(property: string, varName: string, shouldPass?: (css: CSSObject) => boolean): DynamicMatcher<Theme> {
   return ([, body]: string[], { theme }: RuleContext<Theme>): CSSObject | undefined => {
     const data = parseColor(body, theme)
 
@@ -223,7 +223,7 @@ export function resolveVerticalBreakpoints({ theme, generator }: Readonly<Varian
 }
 
 export function makeGlobalStaticRules(prefix: string, property?: string) {
-  return globalKeywords.map(keyword => [`${prefix}-${keyword}`, { [property ?? prefix]: keyword }] as Rule)
+  return globalKeywords.map<Rule<Theme>>(keyword => [`${prefix}-${keyword}`, { [property ?? prefix]: keyword }])
 }
 
 export function getComponent(str: string, open: string, close: string, separator: string) {

@@ -1,4 +1,5 @@
 import type { Rule } from '@unocss/core'
+import type { Theme } from '../theme'
 import { globalKeywords } from '../utils/mappings'
 
 const verticalAlignAlias: Record<string, string> = {
@@ -16,8 +17,8 @@ const verticalAlignAlias: Record<string, string> = {
   ...Object.fromEntries(globalKeywords.map(x => [x, x])),
 }
 
-export const verticalAligns: Rule[] = [
+export const verticalAligns: Rule<Theme>[] = [
   [/^(?:vertical|align|v)-([-\w]+)$/, ([, v]) => ({ 'vertical-align': verticalAlignAlias[v] }), { autocomplete: `(vertical|align|v)-(${Object.keys(verticalAlignAlias).join('|')})` }],
 ]
 
-export const textAligns: Rule[] = ['center', 'left', 'right', 'justify', 'start', 'end', ...globalKeywords].map(v => [`text-${v}`, { 'text-align': v }])
+export const textAligns: Rule<Theme>[] = ['center', 'left', 'right', 'justify', 'start', 'end', ...globalKeywords].map(v => [`text-${v}`, { 'text-align': v }])

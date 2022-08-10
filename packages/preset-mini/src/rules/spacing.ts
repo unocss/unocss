@@ -1,7 +1,8 @@
 import type { Rule } from '@unocss/core'
+import type { Theme } from '../theme'
 import { directionSize } from '../utils'
 
-export const paddings: Rule[] = [
+export const paddings: Rule<Theme>[] = [
   [/^pa?()-?(-?.+)$/, directionSize('padding'), { autocomplete: ['(m|p)<num>', '(m|p)-<num>'] }],
   [/^p-?xy()()$/, directionSize('padding'), { autocomplete: '(m|p)-(xy)' }],
   [/^p-?([xy])(?:-?(-?.+))?$/, directionSize('padding')],
@@ -10,7 +11,7 @@ export const paddings: Rule[] = [
   [/^p-?([bi][se])(?:-?(-?.+))?$/, directionSize('padding'), { autocomplete: '(m|p)-(bs|be|is|ie)-<num>' }],
 ]
 
-export const margins: Rule[] = [
+export const margins: Rule<Theme>[] = [
   [/^ma?()-?(-?.+)$/, directionSize('margin')],
   [/^m-?xy()()$/, directionSize('margin')],
   [/^m-?([xy])(?:-?(-?.+))?$/, directionSize('margin')],

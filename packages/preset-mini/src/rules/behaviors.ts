@@ -18,7 +18,7 @@ export const outline: Rule<Theme>[] = [
   ['outline-none', { 'outline': '2px solid transparent', 'outline-offset': '2px' }],
 ]
 
-export const appearance: Rule[] = [
+export const appearance: Rule<Theme>[] = [
   ['appearance-none', {
     'appearance': 'none',
     '-webkit-appearance': 'none',
@@ -32,6 +32,6 @@ const willChangeProperty = (prop: string): string | undefined => {
   }[prop]
 }
 
-export const willChange: Rule[] = [
+export const willChange: Rule<Theme>[] = [
   [/^will-change-(.+)/, ([, p]) => ({ 'will-change': willChangeProperty(p) })],
 ]

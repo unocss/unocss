@@ -2,13 +2,13 @@ import type { CSSEntries, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { globalKeywords, handler as h, insetMap, makeGlobalStaticRules } from '../utils'
 
-export const positions: Rule[] = [
+export const positions: Rule<Theme>[] = [
   [/^(?:position-|pos-)?(relative|absolute|fixed|sticky)$/, ([, v]) => ({ position: v })],
   [/^(?:position-|pos-)([-\w]+)$/, ([, v]) => globalKeywords.includes(v) ? { position: v } : undefined],
   [/^(?:position-|pos-)?(static)$/, ([, v]) => ({ position: v })],
 ]
 
-export const justifies: Rule[] = [
+export const justifies: Rule<Theme>[] = [
   // contents
   ['justify-start', { 'justify-content': 'flex-start' }],
   ['justify-end', { 'justify-content': 'flex-end' }],
@@ -34,14 +34,14 @@ export const justifies: Rule[] = [
   ...makeGlobalStaticRules('justify-self'),
 ]
 
-export const orders: Rule[] = [
+export const orders: Rule<Theme>[] = [
   [/^order-(.+)$/, ([, v]) => ({ order: h.bracket.cssvar.number(v) })],
   ['order-first', { order: '-9999' }],
   ['order-last', { order: '9999' }],
   ['order-none', { order: '0' }],
 ]
 
-export const alignments: Rule[] = [
+export const alignments: Rule<Theme>[] = [
   // contents
   ['content-center', { 'align-content': 'center' }],
   ['content-start', { 'align-content': 'flex-start' }],
@@ -69,7 +69,7 @@ export const alignments: Rule[] = [
   ...makeGlobalStaticRules('self', 'align-self'),
 ]
 
-export const placements: Rule[] = [
+export const placements: Rule<Theme>[] = [
   // contents
   ['place-content-center', { 'place-content': 'center' }],
   ['place-content-start', { 'place-content': 'start' }],
@@ -100,13 +100,13 @@ function handleInsetValue(v: string, { theme }: RuleContext<Theme>): string | nu
   return theme.spacing?.[v] ?? h.bracket.cssvar.global.auto.fraction.rem(v)
 }
 
-function handleInsetValues([, d, v]: string[], ctx: RuleContext): CSSEntries | undefined {
+function handleInsetValues([, d, v]: string[], ctx: RuleContext<Theme>): CSSEntries | undefined {
   const r = handleInsetValue(v, ctx)
   if (r != null && d in insetMap)
     return insetMap[d].map(i => [i.slice(1), r])
 }
 
-export const insets: Rule[] = [
+export const insets: Rule<Theme>[] = [
   [/^(?:position-|pos-)?inset-(.+)$/, ([, v], ctx) => ({ inset: handleInsetValue(v, ctx) }),
     {
       autocomplete: [
@@ -124,7 +124,7 @@ export const insets: Rule[] = [
   [/^(?:position-|pos-)?(top|left|right|bottom)-(.+)$/, ([, d, v], ctx) => ({ [d]: handleInsetValue(v, ctx) })],
 ]
 
-export const floats: Rule[] = [
+export const floats: Rule<Theme>[] = [
   // floats
   ['float-left', { float: 'left' }],
   ['float-right', { float: 'right' }],
@@ -139,12 +139,12 @@ export const floats: Rule[] = [
   ...makeGlobalStaticRules('clear'),
 ]
 
-export const zIndexes: Rule[] = [
+export const zIndexes: Rule<Theme>[] = [
   [/^z([\d.]+)$/, ([, v]) => ({ 'z-index': h.number(v) })],
   [/^z-(.+)$/, ([, v]) => ({ 'z-index': h.bracket.cssvar.global.auto.number(v) }), { autocomplete: 'z-<num>' }],
 ]
 
-export const boxSizing: Rule[] = [
+export const boxSizing: Rule<Theme>[] = [
   ['box-border', { 'box-sizing': 'border-box' }],
   ['box-content', { 'box-sizing': 'content-box' }],
   ...makeGlobalStaticRules('box', 'box-sizing'),

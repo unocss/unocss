@@ -1,6 +1,7 @@
 import type { Variant } from '@unocss/core'
+import type { Theme } from '../theme'
 
-export const variantImportant: Variant = {
+export const variantImportant: Variant<Theme> = {
   name: 'important',
   match(matcher) {
     let base: string | undefined

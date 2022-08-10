@@ -1,5 +1,6 @@
 import type { VariantObject } from '@unocss/core'
 import { escapeRegExp } from '@unocss/core'
+import type { Theme } from '../theme'
 import type { PresetMiniOptions } from '..'
 
 const PseudoClasses: Record<string, string> = Object.fromEntries([
@@ -81,7 +82,7 @@ const sortValue = (pseudo: string) => {
     return 1
 }
 
-const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: string): VariantObject => {
+const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: string): VariantObject<Theme> => {
   const rawRe = new RegExp(`^(${escapeRegExp(parent)}:)(\\S+)${escapeRegExp(combinator)}\\1`)
   const pseudoRE = new RegExp(`^${tag}-((?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesStr}))[:-]`)
   const pseudoColonRE = new RegExp(`^${tag}-((?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesColonStr}))[:]`)
@@ -111,7 +112,7 @@ const PseudoClassesAndElementsStr = Object.entries(PseudoClasses).map(([key]) =>
 const PseudoClassesAndElementsColonStr = Object.entries(PseudoClassesColon).map(([key]) => key).join('|')
 const PseudoClassesAndElementsRE = new RegExp(`^(${PseudoClassesAndElementsStr})[:-]`)
 const PseudoClassesAndElementsColonRE = new RegExp(`^(${PseudoClassesAndElementsColonStr})[:]`)
-export const variantPseudoClassesAndElements: VariantObject = {
+export const variantPseudoClassesAndElements: VariantObject<Theme> = {
   name: 'pseudo',
   match: (input: string) => {
     const match = input.match(PseudoClassesAndElementsRE) || input.match(PseudoClassesAndElementsColonRE)
@@ -143,7 +144,7 @@ export const variantPseudoClassesAndElements: VariantObject = {
 
 const PseudoClassFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesStr})[:-]`)
 const PseudoClassColonFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesColonStr})[:]`)
-export const variantPseudoClassFunctions: VariantObject = {
+export const variantPseudoClassFunctions: VariantObject<Theme> = {
   match: (input: string) => {
     const match = input.match(PseudoClassFunctionsRE) || input.match(PseudoClassColonFunctionsRE)
     if (match) {
@@ -159,7 +160,7 @@ export const variantPseudoClassFunctions: VariantObject = {
   autocomplete: `(${PseudoClassFunctionsStr})-(${PseudoClassesStr}|${PseudoClassesColonStr}):`,
 }
 
-export const variantTaggedPseudoClasses = (options: PresetMiniOptions = {}): VariantObject[] => {
+export const variantTaggedPseudoClasses = (options: PresetMiniOptions = {}): VariantObject<Theme>[] => {
   const attributify = !!options?.attributifyPseudo
 
   return [
@@ -171,7 +172,7 @@ export const variantTaggedPseudoClasses = (options: PresetMiniOptions = {}): Var
 }
 
 const PartClassesRE = /(part-\[(.+)]:)(.+)/
-export const partClasses: VariantObject = {
+export const partClasses: VariantObject<Theme> = {
   match: (input: string) => {
     const match = input.match(PartClassesRE)
     if (match) {

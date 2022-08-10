@@ -1,4 +1,5 @@
 import type { Rule } from '@unocss/core'
+import type { Theme } from '../theme'
 import { globalKeywords, handler as h, makeGlobalStaticRules } from '../utils'
 
 const cursorValues = ['auto', 'default', 'none', 'context-menu', 'help', 'pointer', 'progress', 'wait', 'cell', 'crosshair', 'text', 'vertical-text', 'alias', 'copy', 'move', 'no-drop', 'not-allowed', 'grab', 'grabbing', 'all-scroll', 'col-resize', 'row-resize', 'n-resize', 'e-resize', 's-resize', 'w-resize', 'ne-resize', 'nw-resize', 'se-resize', 'sw-resize', 'ew-resize', 'ns-resize', 'nesw-resize', 'nwse-resize', 'zoom-in', 'zoom-out']
@@ -6,7 +7,7 @@ const cursorValues = ['auto', 'default', 'none', 'context-menu', 'help', 'pointe
 export const varEmpty = ' '
 
 // display table included on table.ts
-export const displays: Rule[] = [
+export const displays: Rule<Theme>[] = [
   ['inline', { display: 'inline' }],
   ['block', { display: 'block' }],
   ['inline-block', { display: 'inline-block' }],
@@ -17,7 +18,7 @@ export const displays: Rule[] = [
   [/^display-(.+)$/, ([, c]) => ({ display: h.bracket.cssvar.global(c) || c })],
 ]
 
-export const appearances: Rule[] = [
+export const appearances: Rule<Theme>[] = [
   ['visible', { visibility: 'visible' }],
   ['invisible', { visibility: 'hidden' }],
   ['backface-visible', { 'backface-visibility': 'visible' }],
@@ -25,18 +26,18 @@ export const appearances: Rule[] = [
   ...makeGlobalStaticRules('backface', 'backface-visibility'),
 ]
 
-export const cursors: Rule[] = [
+export const cursors: Rule<Theme>[] = [
   [/^cursor-(.+)$/, ([, c]) => ({ cursor: h.bracket.cssvar.global(c) })],
-  ...cursorValues.map((v): Rule => [`cursor-${v}`, { cursor: v }]),
+  ...cursorValues.map((v): Rule<Theme> => [`cursor-${v}`, { cursor: v }]),
 ]
 
-export const pointerEvents: Rule[] = [
+export const pointerEvents: Rule<Theme>[] = [
   ['pointer-events-auto', { 'pointer-events': 'auto' }],
   ['pointer-events-none', { 'pointer-events': 'none' }],
   ...makeGlobalStaticRules('pointer-events'),
 ]
 
-export const resizes: Rule[] = [
+export const resizes: Rule<Theme>[] = [
   ['resize-x', { resize: 'horizontal' }],
   ['resize-y', { resize: 'vertical' }],
   ['resize', { resize: 'both' }],
@@ -44,7 +45,7 @@ export const resizes: Rule[] = [
   ...makeGlobalStaticRules('resize'),
 ]
 
-export const userSelects: Rule[] = [
+export const userSelects: Rule<Theme>[] = [
   ['select-auto', { 'user-select': 'auto' }],
   ['select-all', { 'user-select': 'all' }],
   ['select-text', { 'user-select': 'text' }],
@@ -52,7 +53,7 @@ export const userSelects: Rule[] = [
   ...makeGlobalStaticRules('select', 'user-select'),
 ]
 
-export const whitespaces: Rule[] = [
+export const whitespaces: Rule<Theme>[] = [
   [
     /^(?:whitespace-|ws-)([-\w]+)$/,
     ([, v]) => ['normal', 'nowrap', 'pre', 'pre-line', 'pre-wrap', 'break-spaces', ...globalKeywords].includes(v) ? { 'white-space': v } : undefined,
@@ -60,7 +61,7 @@ export const whitespaces: Rule[] = [
   ],
 ]
 
-export const contentVisibility: Rule[] = [
+export const contentVisibility: Rule<Theme>[] = [
   [/^intrinsic-size-(.+)$/, ([, d]) => ({ 'contain-intrinsic-size': h.bracket.cssvar.global.fraction.rem(d) }), { autocomplete: 'intrinsic-size-<num>' }],
   ['content-visibility-visible', { 'content-visibility': 'visible' }],
   ['content-visibility-hidden', { 'content-visibility': 'hidden' }],
@@ -68,26 +69,26 @@ export const contentVisibility: Rule[] = [
   ...makeGlobalStaticRules('content-visibility'),
 ]
 
-export const contents: Rule[] = [
+export const contents: Rule<Theme>[] = [
   [/^content-\[(.+)\]$/, ([, v]) => ({ content: `"${v}"` })],
   [/^content-(\$.+)]$/, ([, v]) => ({ content: h.cssvar(v) })],
   ['content-empty', { content: '""' }],
   ['content-none', { content: '""' }],
 ]
 
-export const breaks: Rule[] = [
+export const breaks: Rule<Theme>[] = [
   ['break-normal', { 'overflow-wrap': 'normal', 'word-break': 'normal' }],
   ['break-words', { 'overflow-wrap': 'break-word' }],
   ['break-all', { 'word-break': 'break-all' }],
 ]
 
-export const textOverflows: Rule[] = [
+export const textOverflows: Rule<Theme>[] = [
   ['truncate', { 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }],
   ['text-ellipsis', { 'text-overflow': 'ellipsis' }],
   ['text-clip', { 'text-overflow': 'clip' }],
 ]
 
-export const textTransforms: Rule[] = [
+export const textTransforms: Rule<Theme>[] = [
   ['case-upper', { 'text-transform': 'uppercase' }],
   ['case-lower', { 'text-transform': 'lowercase' }],
   ['case-capital', { 'text-transform': 'capitalize' }],
@@ -95,7 +96,7 @@ export const textTransforms: Rule[] = [
   ...makeGlobalStaticRules('case', 'text-transform'),
 ]
 
-export const fontStyles: Rule[] = [
+export const fontStyles: Rule<Theme>[] = [
   ['italic', { 'font-style': 'italic' }],
   ['not-italic', { 'font-style': 'normal' }],
   ['font-italic', { 'font-style': 'italic' }],
@@ -106,7 +107,7 @@ export const fontStyles: Rule[] = [
   ['font-not-oblique', { 'font-style': 'normal' }],
 ]
 
-export const fontSmoothings: Rule[] = [
+export const fontSmoothings: Rule<Theme>[] = [
   ['antialiased', {
     '-webkit-font-smoothing': 'antialiased',
     '-moz-osx-font-smoothing': 'grayscale',

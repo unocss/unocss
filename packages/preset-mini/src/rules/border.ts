@@ -4,7 +4,7 @@ import { colorOpacityToString, colorToString, cornerMap, directionMap, globalKey
 
 export const borderStyles = ['solid', 'dashed', 'dotted', 'double', 'hidden', 'none', 'groove', 'ridge', 'inset', 'outset', ...globalKeywords]
 
-export const borders: Rule[] = [
+export const borders: Rule<Theme>[] = [
   // compound
   [/^(?:border|b)()(?:-(.+))?$/, handlerBorder, { autocomplete: '(border|b)-<directions>' }],
   [/^(?:border|b)-([xy])(?:-(.+))?$/, handlerBorder],
@@ -84,7 +84,7 @@ const borderColorResolver = (direction: string) => ([, body]: string[], theme: T
   }
 }
 
-function handlerBorder(m: string[], ctx: RuleContext): CSSEntries | undefined {
+function handlerBorder(m: string[], ctx: RuleContext<Theme>): CSSEntries | undefined {
   const borderSizes = handlerBorderSize(m, ctx)
   const borderStyle = handlerBorderStyle(['', m[1], 'solid'])
   if (borderSizes && borderStyle) {

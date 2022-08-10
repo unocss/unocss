@@ -1,7 +1,8 @@
 import type { Variant } from '@unocss/core'
+import type { Theme } from '../theme'
 import { getComponent, handler as h } from '../utils'
 
-export const variantSelector: Variant = {
+export const variantSelector: Variant<Theme> = {
   name: 'selector',
   match(matcher) {
     const match = matcher.match(/^selector-\[(.+?)\][:-]/)
@@ -14,7 +15,7 @@ export const variantSelector: Variant = {
   },
 }
 
-export const variantCssLayer: Variant = {
+export const variantCssLayer: Variant<Theme> = {
   name: 'layer',
   match(matcher) {
     const match = matcher.match(/^layer-([_\d\w]+)[:-]/)
@@ -30,7 +31,7 @@ export const variantCssLayer: Variant = {
   },
 }
 
-export const variantInternalLayer: Variant = {
+export const variantInternalLayer: Variant<Theme> = {
   name: 'uno-layer',
   match(matcher) {
     const match = matcher.match(/^uno-layer-([_\d\w]+)[:-]/)
@@ -43,7 +44,7 @@ export const variantInternalLayer: Variant = {
   },
 }
 
-export const variantScope: Variant = {
+export const variantScope: Variant<Theme> = {
   name: 'scope',
   match(matcher) {
     const match = matcher.match(/^scope-([_\d\w]+)[:-]/)
@@ -56,7 +57,7 @@ export const variantScope: Variant = {
   },
 }
 
-export const variantVariables: Variant = {
+export const variantVariables: Variant<Theme> = {
   name: 'variables',
   match(matcher) {
     if (!matcher.startsWith('['))
