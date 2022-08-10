@@ -32,7 +32,7 @@ export interface CompileClassOptions {
   layer?: string
 }
 
-export default function transformerCompileClass(options: CompileClassOptions = {}): SourceCodeTransformer {
+export default function transformerCompileClass<T>(options: CompileClassOptions = {}): SourceCodeTransformer<T> {
   const {
     trigger = ':uno:',
     classPrefix = 'uno-',
