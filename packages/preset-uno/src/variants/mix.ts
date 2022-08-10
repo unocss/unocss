@@ -1,4 +1,5 @@
 import type { CSSColorValue, Variant } from '@unocss/core'
+import type { Theme } from '@unocss/preset-mini'
 import { colorToString, parseCssColor } from '@unocss/preset-mini/utils'
 
 const mixComponent = (v1: string | number, v2: string | number, w: string | number) => `calc(${v2} + (${v1} - ${v2}) * ${w} / 100)`
@@ -59,7 +60,7 @@ const fns: Record<string, (color: string | CSSColorValue, weight: string | numbe
  * Shading mixes the color with black, Tinting mixes the color with white.
  * @see {@link mixColor}
  */
-export const variantColorMix: Variant = (matcher) => {
+export const variantColorMix: Variant<Theme> = (matcher) => {
   const m = matcher.match(/^mix-(tint|shade|shift)-(-?\d{1,3})[-:]/)
   if (m) {
     return {
