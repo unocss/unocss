@@ -5,7 +5,7 @@ import { onConfigChanged, onModuleUpdated } from './hmr'
 
 const API_ROOT = '/__unocss_api'
 
-export const infoFetch = useFetch(API_ROOT).json<ProjectInfo>()
+export const infoFetch = useFetch(API_ROOT).json<ProjectInfo<unknown>>()
 export const overviewFetch = useFetch(`${API_ROOT}/overview`, { immediate: false }).json<OverviewInfo>()
 
 export const info = infoFetch.data

@@ -23,7 +23,7 @@ export default function UnocssInspector<T>(ctx: UnocssPluginContext<T>): Plugin 
       if (!req.url)
         return next()
       if (req.url === '/') {
-        const info: ProjectInfo = {
+        const info: ProjectInfo<T> = {
           version: ctx.uno.version,
           // use the resolved config from the dev server
           root: server.config.root,

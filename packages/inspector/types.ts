@@ -1,10 +1,10 @@
 import type { GenerateResult, ResolvedConfig } from '@unocss/core'
 
-export interface ProjectInfo {
+export interface ProjectInfo<T> {
   version: string
   root: string
   modules: string[]
-  config: ResolvedConfig
+  config: ResolvedConfig<T>
   configSources?: string[]
 }
 
