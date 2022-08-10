@@ -2,11 +2,11 @@ import type { UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
 import { autoPrefixer, decodeHtml } from './utils'
 
-export interface RuntimeOptions {
+export interface RuntimeOptions<T> {
   /**
    * Default config of UnoCSS
    */
-  defaults?: UserConfigDefaults
+  defaults?: UserConfigDefaults<T>
   /**
    * Enable css property auto prefixer
    * @default false
@@ -15,22 +15,22 @@ export interface RuntimeOptions {
   /**
    * Callback to modify config
    */
-  configResolved?: (config: UserConfig, defaults: UserConfigDefaults) => void
+  configResolved?: (config: UserConfig<T>, defaults: UserConfigDefaults<T>) => void
   /**
    * Callback when the runtime is ready. Returning false will prevent default extraction
    */
-  ready?: (runtime: RuntimeContext) => false | any
+  ready?: (runtime: RuntimeContext<T>) => false | any
 }
 
 export type RuntimeInspectorCallback = (element: Element) => boolean
 
-export interface RuntimeContext {
+export interface RuntimeContext<T> {
   /**
    * The UnoCSS instance.
    *
    * @type {UnoGenerator}
    */
-  uno: UnoGenerator
+  uno: UnoGenerator<T>
 
   /**
    * Run extractor on specified tokens
@@ -74,12 +74,12 @@ export interface RuntimeContext {
 
 declare global {
   interface Window {
-    __unocss?: UserConfig & { runtime?: RuntimeOptions }
-    __unocss_runtime?: RuntimeContext
+    __unocss?: UserConfig<any> & { runtime?: RuntimeOptions<any> }
+    __unocss_runtime?: RuntimeContext<unknown>
   }
 }
 
-export default function init(inlineConfig: RuntimeOptions = {}) {
+export default function init<T>(inlineConfig: RuntimeOptions<T> = {}) {
   if (typeof window == 'undefined') {
     console.warn('@unocss/runtime been used in non-browser environment, skipped.')
     return
