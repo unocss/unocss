@@ -1,4 +1,5 @@
 import type { Rule } from '@unocss/core'
+import type { Theme } from '@unocss/preset-mini'
 import { handler as h } from '@unocss/preset-mini/utils'
 
 const variablesAbbrMap: Record<string, string> = {
@@ -17,7 +18,7 @@ const variablesAbbrMap: Record<string, string> = {
   'write-orient': 'text-orientation',
 }
 
-export const cssVariables: Rule[] = [
+export const cssVariables: Rule<Theme>[] = [
   [/^(.+?)-(\$.+)$/, ([, name, varname]) => {
     const prop = variablesAbbrMap[name]
     if (prop)

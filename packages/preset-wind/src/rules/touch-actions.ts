@@ -1,4 +1,5 @@
 import type { Rule } from '@unocss/core'
+import type { Theme } from '@unocss/preset-mini'
 import { varEmpty } from '@unocss/preset-mini/rules'
 import { makeGlobalStaticRules } from '@unocss/preset-mini/utils'
 
@@ -9,7 +10,7 @@ export const touchActionBase = {
 }
 const touchActionProperty = 'var(--un-pan-x) var(--un-pan-y) var(--un-pinch-zoom)'
 
-export const touchActions: Rule[] = [
+export const touchActions: Rule<Theme>[] = [
   [/^touch-pan-(x|left|right)$/, ([, d]) => ({
     '--un-pan-x': `pan-${d}`,
     'touch-action': touchActionProperty,

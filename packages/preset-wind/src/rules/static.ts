@@ -1,7 +1,8 @@
 import type { Rule } from '@unocss/core'
+import type { Theme } from '@unocss/preset-mini'
 import { globalKeywords, handler as h, makeGlobalStaticRules, positionMap } from '@unocss/preset-mini/utils'
 
-export const textTransforms: Rule[] = [
+export const textTransforms: Rule<Theme>[] = [
   // tailwind compat
   ['uppercase', { 'text-transform': 'uppercase' }],
   ['lowercase', { 'text-transform': 'lowercase' }],
@@ -9,29 +10,29 @@ export const textTransforms: Rule[] = [
   ['normal-case', { 'text-transform': 'none' }],
 ]
 
-export const hyphens: Rule[] = [
-  ...['manual', 'auto', 'none', ...globalKeywords].map(keyword => [`hyphens-${keyword}`, {
+export const hyphens: Rule<Theme>[] = [
+  ...['manual', 'auto', 'none', ...globalKeywords].map<Rule<Theme>>(keyword => [`hyphens-${keyword}`, {
     '-webkit-hyphens': keyword,
     '-ms-hyphens': keyword,
     'hyphens': keyword,
-  }] as Rule),
+  }]),
 ]
 
-export const writingModes: Rule[] = [
+export const writingModes: Rule<Theme>[] = [
   ['write-vertical-right', { 'writing-mode': 'vertical-rl' }],
   ['write-vertical-left', { 'writing-mode': 'vertical-lr' }],
   ['write-normal', { 'writing-mode': 'horizontal-tb' }],
   ...makeGlobalStaticRules('write', 'writing-mode'),
 ]
 
-export const writingOrientations: Rule[] = [
+export const writingOrientations: Rule<Theme>[] = [
   ['write-orient-mixed', { 'text-orientation': 'mixed' }],
   ['write-orient-sideways', { 'text-orientation': 'sideways' }],
   ['write-orient-upright', { 'text-orientation': 'upright' }],
   ...makeGlobalStaticRules('write-orient', 'text-orientation'),
 ]
 
-export const screenReadersAccess: Rule[] = [
+export const screenReadersAccess: Rule<Theme>[] = [
   [
     'sr-only', {
       'position': 'absolute',
@@ -60,13 +61,13 @@ export const screenReadersAccess: Rule[] = [
   ],
 ]
 
-export const isolations: Rule[] = [
+export const isolations: Rule<Theme>[] = [
   ['isolate', { isolation: 'isolate' }],
   ['isolate-auto', { isolation: 'auto' }],
   ['isolation-auto', { isolation: 'auto' }],
 ]
 
-export const objectPositions: Rule[] = [
+export const objectPositions: Rule<Theme>[] = [
   // object fit
   ['object-cover', { 'object-fit': 'cover' }],
   ['object-contain', { 'object-fit': 'contain' }],
@@ -84,7 +85,7 @@ export const objectPositions: Rule[] = [
 
 ]
 
-export const backgroundBlendModes: Rule[] = [
+export const backgroundBlendModes: Rule<Theme>[] = [
   ['bg-blend-multiply', { 'background-blend-mode': 'multiply' }],
   ['bg-blend-screen', { 'background-blend-mode': 'screen' }],
   ['bg-blend-overlay', { 'background-blend-mode': 'overlay' }],
@@ -104,7 +105,7 @@ export const backgroundBlendModes: Rule[] = [
   ...makeGlobalStaticRules('bg-blend', 'background-blend'),
 ]
 
-export const mixBlendModes: Rule[] = [
+export const mixBlendModes: Rule<Theme>[] = [
   ['mix-blend-multiply', { 'mix-blend-mode': 'multiply' }],
   ['mix-blend-screen', { 'mix-blend-mode': 'screen' }],
   ['mix-blend-overlay', { 'mix-blend-mode': 'overlay' }],

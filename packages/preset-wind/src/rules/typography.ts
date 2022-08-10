@@ -1,4 +1,5 @@
 import type { Rule } from '@unocss/core'
+import type { Theme } from '@unocss/preset-mini'
 import { varEmpty } from '@unocss/preset-mini/rules'
 
 export const fontVariantNumericBase = {
@@ -13,7 +14,7 @@ const toEntries = (entry: any) => ({
   'font-variant-numeric': 'var(--un-ordinal) var(--un-slashed-zero) var(--un-numeric-figure) var(--un-numeric-spacing) var(--un-numeric-fraction)',
 })
 
-export const fontVariantNumeric: Rule[] = [
+export const fontVariantNumeric: Rule<Theme>[] = [
   [/^ordinal$/, () => toEntries({ '--un-ordinal': 'ordinal' }), { autocomplete: 'ordinal' }],
   [/^slashed-zero$/, () => toEntries({ '--un-slashed-zero': 'slashed-zero' }), { autocomplete: 'slashed-zero' }],
   [/^lining-nums$/, () => toEntries({ '--un-numeric-figure': 'lining-nums' }), { autocomplete: 'lining-nums' }],

@@ -1,7 +1,8 @@
 import type { Variant } from '@unocss/core'
+import type { Theme } from '@unocss/preset-mini'
 import { variantMatcher, variantParentMatcher } from '@unocss/preset-mini/utils'
 
-export const variantColorsScheme: Variant[] = [
+export const variantColorsScheme: Variant<Theme>[] = [
   variantMatcher('.dark', input => ({ prefix: `.dark $$ ${input.prefix}` })),
   variantMatcher('.light', input => ({ prefix: `.light $$ ${input.prefix}` })),
   variantParentMatcher('@dark', '@media (prefers-color-scheme: dark)'),

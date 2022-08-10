@@ -56,7 +56,7 @@ const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
 const bgUrlRE = /^\[url\(.+\)\]$/
 const bgLengthRE = /^\[length:.+\]$/
 const bgPositionRE = /^\[position:.+\]$/
-export const backgroundStyles: Rule[] = [
+export const backgroundStyles: Rule<Theme>[] = [
   [/^bg-(.+)$/, ([, d]) => {
     if (bgUrlRE.test(d))
       return { '--un-url': h.bracket(d), 'background-image': 'var(--un-url)' }
@@ -122,10 +122,10 @@ export const backgroundStyles: Rule[] = [
   ['bg-clip-content', { '-webkit-background-clip': 'content-box', 'background-clip': 'content-box' }],
   ['bg-clip-padding', { '-webkit-background-clip': 'padding-box', 'background-clip': 'padding-box' }],
   ['bg-clip-text', { '-webkit-background-clip': 'text', 'background-clip': 'text' }],
-  ...globalKeywords.map(keyword => [`bg-clip-${keyword}`, {
+  ...globalKeywords.map<Rule<Theme>>(keyword => [`bg-clip-${keyword}`, {
     '-webkit-background-clip': keyword,
     'background-clip': keyword,
-  }] as Rule),
+  }]),
 
   // positions
   // skip 1 & 2 letters shortcut

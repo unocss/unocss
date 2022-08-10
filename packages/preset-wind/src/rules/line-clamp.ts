@@ -1,7 +1,8 @@
 import type { Rule } from '@unocss/core'
+import type { Theme } from '@unocss/preset-mini'
 import { globalKeywords } from '@unocss/preset-mini/utils'
 
-export const lineClamps: Rule[] = [
+export const lineClamps: Rule<Theme>[] = [
   [/^line-clamp-(\d+)$/, ([, v]) => ({
     'overflow': 'hidden',
     'display': '-webkit-box',
@@ -10,8 +11,8 @@ export const lineClamps: Rule[] = [
     'line-clamp': v,
   }), { autocomplete: ['line-clamp', 'line-clamp-<num>'] }],
 
-  ...['none', ...globalKeywords].map(keyword => [`line-clamp-${keyword}`, {
+  ...['none', ...globalKeywords].map<Rule<Theme>>(keyword => [`line-clamp-${keyword}`, {
     '-webkit-line-clamp': keyword,
     'line-clamp': keyword,
-  }] as Rule),
+  }]),
 ]

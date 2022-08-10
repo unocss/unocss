@@ -117,9 +117,9 @@ export const filters: Rule<Theme>[] = [
     'backdrop-filter': 'none',
   }],
 
-  ...globalKeywords.map(keyword => [`filter-${keyword}`, { filter: keyword }] as Rule),
-  ...globalKeywords.map(keyword => [`backdrop-filter-${keyword}`, {
+  ...globalKeywords.map<Rule<Theme>>(keyword => [`filter-${keyword}`, { filter: keyword }]),
+  ...globalKeywords.map<Rule<Theme>>(keyword => [`backdrop-filter-${keyword}`, {
     '-webkit-backdrop-filter': keyword,
     'backdrop-filter': keyword,
-  }] as Rule),
+  }]),
 ]

@@ -1,7 +1,8 @@
 import type { VariantFunction } from '@unocss/core'
+import type { Theme } from '@unocss/preset-mini'
 import { handler as h, hasParseableColor } from '@unocss/preset-mini/utils'
 
-export const placeholderModifier: VariantFunction = (input: string, { theme }) => {
+export const placeholderModifier: VariantFunction<Theme> = (input: string, { theme }) => {
   const m = input.match(/^(.*)\b(placeholder-)(.+)$/)
   if (m) {
     const [, pre = '', p, body] = m

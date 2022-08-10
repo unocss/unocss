@@ -1,7 +1,8 @@
 import type { Rule } from '@unocss/core'
+import type { Theme } from '@unocss/preset-mini'
 import { handler as h, makeGlobalStaticRules } from '@unocss/preset-mini/utils'
 
-export const columns: Rule[] = [
+export const columns: Rule<Theme>[] = [
   [/^columns-(.+)$/, ([, v]) => ({ columns: h.bracket.global.number.auto.numberWithUnit(v) }), { autocomplete: 'columns-<num>' }],
 
   // break before

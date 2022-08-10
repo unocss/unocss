@@ -1,4 +1,5 @@
 import type { Rule } from '@unocss/core'
+import type { Theme } from '@unocss/preset-mini'
 import { colorResolver, handler as h, makeGlobalStaticRules } from '@unocss/preset-mini/utils'
 
 const listStyles: Record<string, string> = {
@@ -16,7 +17,7 @@ const listStyles: Record<string, string> = {
   'upper-latin': 'upper-latin',
 }
 
-export const listStyle: Rule[] = [
+export const listStyle: Rule<Theme>[] = [
   // base
   [/^list-(.+?)(?:-(outside|inside))?$/, ([, alias, position]) => {
     const style = listStyles[alias]
@@ -37,17 +38,17 @@ export const listStyle: Rule[] = [
   ...makeGlobalStaticRules('list', 'list-style-type'),
 ]
 
-export const accents: Rule[] = [
+export const accents: Rule<Theme>[] = [
   [/^accent-(.+)$/, colorResolver('accent-color', 'accent'), { autocomplete: 'accent-$colors' }],
   [/^accent-op(?:acity)?-?(.+)$/, ([, d]) => ({ '--un-accent-opacity': h.bracket.percent(d) }), { autocomplete: ['accent-(op|opacity)', 'accent-(op|opacity)-<percent>'] }],
 ]
 
-export const carets: Rule[] = [
+export const carets: Rule<Theme>[] = [
   [/^caret-(.+)$/, colorResolver('caret-color', 'caret'), { autocomplete: 'caret-$colors' }],
   [/^caret-op(?:acity)?-?(.+)$/, ([, d]) => ({ '--un-caret-opacity': h.bracket.percent(d) }), { autocomplete: ['caret-(op|opacity)', 'caret-(op|opacity)-<percent>'] }],
 ]
 
-export const imageRenderings: Rule[] = [
+export const imageRenderings: Rule<Theme>[] = [
   ['image-render-auto', { 'image-rendering': 'auto' }],
   ['image-render-edge', { 'image-rendering': 'crisp-edges' }],
   ['image-render-pixel', [
@@ -59,7 +60,7 @@ export const imageRenderings: Rule[] = [
   ]],
 ]
 
-export const overscrolls: Rule[] = [
+export const overscrolls: Rule<Theme>[] = [
   ['overscroll-auto', { 'overscroll-behavior': 'auto' }],
   ['overscroll-contain', { 'overscroll-behavior': 'contain' }],
   ['overscroll-none', { 'overscroll-behavior': 'none' }],
@@ -74,7 +75,7 @@ export const overscrolls: Rule[] = [
   ...makeGlobalStaticRules('overscroll-y', 'overscroll-behavior-y'),
 ]
 
-export const scrollBehaviors: Rule[] = [
+export const scrollBehaviors: Rule<Theme>[] = [
   ['scroll-auto', { 'scroll-behavior': 'auto' }],
   ['scroll-smooth', { 'scroll-behavior': 'smooth' }],
   ...makeGlobalStaticRules('scroll', 'scroll-behavior'),

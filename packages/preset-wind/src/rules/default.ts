@@ -1,4 +1,5 @@
 import type { Rule } from '@unocss/core'
+import type { Theme } from '@unocss/preset-mini'
 import {
   alignments,
   appearance,
@@ -72,7 +73,7 @@ import { scrolls } from './scrolls'
 import { columns } from './columns'
 import { placeholders } from './placeholder'
 
-export const rules: Rule[] = [
+export const rules: Rule<Theme>[] = [
   miniCssVariables,
   cssVariables,
   cssProperty,

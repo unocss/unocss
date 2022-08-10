@@ -1,11 +1,12 @@
 import type { Rule } from '@unocss/core'
+import type { Theme } from '@unocss/preset-mini'
 import { directionSize } from '@unocss/preset-mini/utils'
 
 export const scrollSnapTypeBase = {
   '--un-scroll-snap-strictness': 'proximity',
 }
 
-export const scrolls: Rule[] = [
+export const scrolls: Rule<Theme>[] = [
   // snap type
   [/^snap-(x|y)$/, ([, d]) => ({
     'scroll-snap-type': `${d} var(--un-scroll-snap-strictness)`,
