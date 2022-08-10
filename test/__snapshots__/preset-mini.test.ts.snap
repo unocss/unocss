@@ -292,9 +292,10 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .intrinsic-size-200{contain-intrinsic-size:50rem;}
 .intrinsic-size-200px{contain-intrinsic-size:200px;}
 .intrinsic-size-unset{contain-intrinsic-size:unset;}
-.content-visible{content-visibility:visible;}
-.content-hidden{content-visibility:hidden;}
-.content-auto{content-visibility:auto;}
+.content-visibility-visible{content-visibility:visible;}
+.content-visibility-hidden{content-visibility:hidden;}
+.content-visibility-auto{content-visibility:auto;}
+.content-visibility-unset{content-visibility:unset;}
 .after\\\\:content-\\\\[unocss\\\\]::after,
 .content-\\\\[unocss\\\\]{content:\\"unocss\\";}
 .content-\\\\[\\\\!\\\\]{content:\\"!\\";}
@@ -754,7 +755,6 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .content-center{align-content:center;}
 .content-start{align-content:flex-start;}
 .content-inherit{align-content:inherit;}
-.content-unset{align-content:unset;}
 .items-end{align-items:flex-end;}
 .items-unset{align-items:unset;}
 .self-stretch{align-self:stretch;}

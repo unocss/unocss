@@ -612,10 +612,10 @@ export const presetMiniTargets: string[] = [
   'content-$unocss-var',
 
   // content visibility
-  'content-auto',
-  'content-visible',
-  'content-hidden',
-  'content-unset',
+  'content-visibility-auto',
+  'content-visibility-visible',
+  'content-visibility-hidden',
+  'content-visibility-unset',
   'intrinsic-size-200',
   'intrinsic-size-200px',
   'intrinsic-size-1/2',
