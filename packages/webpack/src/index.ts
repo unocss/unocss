@@ -8,7 +8,7 @@ import { HASH_PLACEHOLDER_RE, LAYER_MARK_ALL, LAYER_PLACEHOLDER_RE, getHashPlace
 import { applyTransformers } from '../../shared-integration/src/transformers'
 import { getPath, isCssId } from '../../shared-integration/src/utils'
 
-export interface WebpackPluginOptions<Theme extends {} = {}> extends UserConfig<Theme> {}
+export interface WebpackPluginOptions<T> extends UserConfig<T> {}
 
 const PLUGIN_NAME = 'unocss:webpack'
 const UPDATE_DEBOUNCE = 10
@@ -17,12 +17,12 @@ export function defineConfig<Theme extends {}>(config: WebpackPluginOptions<Them
   return config
 }
 
-export default function WebpackPlugin<Theme extends {}>(
-  configOrPath?: WebpackPluginOptions<Theme> | string,
-  defaults?: UserConfigDefaults,
+export default function WebpackPlugin<T>(
+  configOrPath?: WebpackPluginOptions<T> | string,
+  defaults?: UserConfigDefaults<T>,
 ) {
   return createUnplugin(() => {
-    const ctx = createContext<WebpackPluginOptions>(configOrPath as any, defaults)
+    const ctx = createContext<T, WebpackPluginOptions<T>>(configOrPath as any, defaults)
     const { uno, tokens, filter, extract, onInvalidate } = ctx
 
     let timer: any
