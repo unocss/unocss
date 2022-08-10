@@ -51,7 +51,7 @@ export interface ParsedColorValue {
 
 export type PresetOptions = Record<string, any>
 
-export interface RuleContext<T extends {} = {}> {
+export interface RuleContext<T> {
   /**
    * Unprocessed selector from user input.
    * Useful for generating CSS rule.
@@ -96,7 +96,7 @@ export interface RuleContext<T extends {} = {}> {
   variants?: Variant<T>[]
 }
 
-export interface VariantContext<T extends {} = {}> {
+export interface VariantContext<T> {
   /**
    * Unprocessed selector from user input.
    */
@@ -172,24 +172,24 @@ export interface RuleMeta {
 export type CSSValue = CSSObject | CSSEntries
 export type CSSValues = CSSValue | CSSValue[]
 
-export type DynamicMatcher<Theme extends {} = {}> = ((match: RegExpMatchArray, context: Readonly<RuleContext<Theme>>) => Awaitable<CSSValue | string | (CSSValue | string)[] | undefined>)
-export type DynamicRule<Theme extends {} = {}> = [RegExp, DynamicMatcher<Theme>] | [RegExp, DynamicMatcher<Theme>, RuleMeta]
+export type DynamicMatcher<T> = ((match: RegExpMatchArray, context: Readonly<RuleContext<T>>) => Awaitable<CSSValue | string | (CSSValue | string)[] | undefined>)
+export type DynamicRule<T> = [RegExp, DynamicMatcher<T>] | [RegExp, DynamicMatcher<T>, RuleMeta]
 export type StaticRule = [string, CSSObject | CSSEntries] | [string, CSSObject | CSSEntries, RuleMeta]
-export type Rule<Theme extends {} = {}> = DynamicRule<Theme> | StaticRule
+export type Rule<T> = DynamicRule<T> | StaticRule
 
-export type DynamicShortcutMatcher<Theme extends {} = {}> = ((match: RegExpMatchArray, context: Readonly<RuleContext<Theme>>) => (string | ShortcutValue[] | undefined))
+export type DynamicShortcutMatcher<T> = ((match: RegExpMatchArray, context: Readonly<RuleContext<T>>) => (string | ShortcutValue[] | undefined))
 
 export type StaticShortcut = [string, string | ShortcutValue[]] | [string, string | ShortcutValue[], RuleMeta]
 export type StaticShortcutMap = Record<string, string | ShortcutValue[]>
-export type DynamicShortcut<Theme extends {} = {}> = [RegExp, DynamicShortcutMatcher<Theme>] | [RegExp, DynamicShortcutMatcher<Theme>, RuleMeta]
-export type UserShortcuts<Theme extends {} = {}> = StaticShortcutMap | (StaticShortcut | DynamicShortcut<Theme> | StaticShortcutMap)[]
-export type Shortcut<Theme extends {} = {}> = StaticShortcut | DynamicShortcut<Theme>
+export type DynamicShortcut<T> = [RegExp, DynamicShortcutMatcher<T>] | [RegExp, DynamicShortcutMatcher<T>, RuleMeta]
+export type UserShortcuts<T> = StaticShortcutMap | (StaticShortcut | DynamicShortcut<T> | StaticShortcutMap)[]
+export type Shortcut<T> = StaticShortcut | DynamicShortcut<T>
 export type ShortcutValue = string | CSSValue
 
 export type FilterPattern = ReadonlyArray<string | RegExp> | string | RegExp | null
 
-export interface Preflight<Theme extends {} = {}> {
-  getCSS: (context: PreflightContext<Theme>) => Promise<string | undefined> | string | undefined
+export interface Preflight<T> {
+  getCSS: (context: PreflightContext<T>) => Promise<string | undefined> | string | undefined
   layer?: string
 }
 
@@ -265,9 +265,9 @@ export interface VariantHandler {
   layer?: string | undefined
 }
 
-export type VariantFunction<Theme extends {} = {}> = (matcher: string, context: Readonly<VariantContext<Theme>>) => string | VariantHandler | undefined
+export type VariantFunction<T> = (matcher: string, context: Readonly<VariantContext<T>>) => string | VariantHandler | undefined
 
-export interface VariantObject<Theme extends {} = {}> {
+export interface VariantObject<T> {
   /**
    * The name of the variant.
    */
@@ -275,7 +275,7 @@ export interface VariantObject<Theme extends {} = {}> {
   /**
    * The entry function to match and rewrite the selector for futher processing.
    */
-  match: VariantFunction<Theme>
+  match: VariantFunction<T>
 
   /**
    * Allows this variant to be used more than once in matching a single rule
@@ -290,13 +290,13 @@ export interface VariantObject<Theme extends {} = {}> {
   autocomplete?: Arrayable<AutoCompleteFunction | AutoCompleteTemplate>
 }
 
-export type Variant<T extends {} = {}> = VariantFunction<T> | VariantObject<T>
+export type Variant<T> = VariantFunction<T> | VariantObject<T>
 
 export type Preprocessor = (matcher: string) => string | undefined
 export type Postprocessor = (util: UtilObject) => void
 export type ThemeExtender<T> = (theme: T) => void
 
-export interface ConfigBase<T extends {} = {}> {
+export interface ConfigBase<T> {
   /**
    * Rules to generate CSS utilities
    */
@@ -448,7 +448,7 @@ export interface AutoCompleteExtractor {
   order?: number
 }
 
-export interface Preset<Theme extends {} = {}> extends ConfigBase<Theme> {
+export interface Preset<T> extends ConfigBase<T> {
   name: string
   enforce?: 'pre' | 'post'
   /**
@@ -481,11 +481,11 @@ export interface GeneratorOptions {
   warn?: boolean
 }
 
-export interface UserOnlyOptions<Theme extends {} = {}> {
+export interface UserOnlyOptions<T> {
   /**
    * The theme object, will be merged with the theme provides by presets
    */
-  theme?: Theme
+  theme?: T
 
   /**
    * Layout name of shortcuts
@@ -497,7 +497,7 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
   /**
    * Presets
    */
-  presets?: (Preset<Theme> | Preset<Theme>[])[]
+  presets?: (Preset<T> | Preset<T>[])[]
 
   /**
    * Environment mode
@@ -599,7 +599,7 @@ export interface PluginOptions<T> {
 }
 
 export interface UserConfig<T> extends ConfigBase<T>, UserOnlyOptions<T>, GeneratorOptions, PluginOptions<T> {}
-export interface UserConfigDefaults<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme> {}
+export interface UserConfigDefaults<T> extends ConfigBase<T>, UserOnlyOptions<T> {}
 
 export interface ResolvedConfig<T> extends Omit<
 RequiredByKey<UserConfig<T>, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>,
