@@ -29,7 +29,7 @@ export const variants = (options: PresetMiniOptions): Variant<Theme>[] => [
   ...variantTaggedPseudoClasses(options),
 
   partClasses,
-  ...variantColorsMediaOrClass(options),
+  ...variantColorsMediaOrClass<Theme>(options),
   ...variantLanguageDirections,
   variantScope,
 ]
