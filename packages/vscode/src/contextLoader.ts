@@ -4,6 +4,7 @@ import fs from 'fs'
 import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { notNull } from '@unocss/core'
 import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
+import type { Theme } from '@unocss/preset-uno'
 import presetUno from '@unocss/preset-uno'
 import { resolveOptions as resolveNuxtOptions } from '../../nuxt/src/options'
 import { createNanoEvents } from '../../core/src/utils/events'
@@ -14,25 +15,25 @@ import { log } from './log'
 export class ContextLoader {
   public cwd: string
   public ready: Promise<void>
-  public defaultContext: UnocssPluginContext<UserConfig<any>>
-  public contextsMap = new Map<string, UnocssPluginContext<UserConfig<any>> | null>()
+  public defaultContext: UnocssPluginContext<Theme, UserConfig<Theme>>
+  public contextsMap = new Map<string, UnocssPluginContext<Theme, UserConfig<Theme>> | null>()
 
-  private fileContextCache = new Map<string, UnocssPluginContext<UserConfig<any>> | null>()
+  private fileContextCache = new Map<string, UnocssPluginContext<Theme, UserConfig<Theme>> | null>()
   private configExistsCache = new Map<string, boolean>()
-  private defaultUnocssConfig: UserConfigDefaults = {
+  private defaultUnocssConfig: UserConfigDefaults<Theme> = {
     presets: [presetUno()],
   }
 
   public events = createNanoEvents<{
     reload: () => void
-    contextLoaded: (context: UnocssPluginContext<UserConfig<any>>) => void
-    contextReload: (context: UnocssPluginContext<UserConfig<any>>) => void
-    contextUnload: (context: UnocssPluginContext<UserConfig<any>>) => void
+    contextLoaded: (context: UnocssPluginContext<Theme>) => void
+    contextReload: (context: UnocssPluginContext<Theme>) => void
+    contextUnload: (context: UnocssPluginContext<Theme>) => void
   }>()
 
   constructor(cwd: string) {
     this.cwd = cwd
-    this.defaultContext = createContext(this.defaultUnocssConfig)
+    this.defaultContext = createContext<Theme, UserConfigDefaults<Theme>>(this.defaultUnocssConfig)
 
     this.ready = this.reload()
       .then(async () => {

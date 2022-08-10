@@ -1,5 +1,6 @@
 import type { UnocssAutocomplete } from '@unocss/autocomplete'
 import { createAutocomplete } from '@unocss/autocomplete'
+import type { Theme } from '@unocss/preset-uno'
 import type { CompletionItemProvider, ExtensionContext } from 'vscode'
 import { CompletionItem, CompletionItemKind, CompletionList, MarkdownString, Range, languages } from 'vscode'
 import type { UnoGenerator, UnocssPluginContext } from '@unocss/core'
@@ -27,10 +28,10 @@ const languageIds = [
 ]
 const delimiters = ['-', ':']
 
-class UnoCompletionItem extends CompletionItem {
-  uno: UnoGenerator
+class UnoCompletionItem<T> extends CompletionItem {
+  uno: UnoGenerator<T>
 
-  constructor(label: string, kind: CompletionItemKind, uno: UnoGenerator) {
+  constructor(label: string, kind: CompletionItemKind, uno: UnoGenerator<T>) {
     super(label, kind)
     this.uno = uno
   }
@@ -41,7 +42,7 @@ export async function registerAutoComplete(
   contextLoader: ContextLoader,
   ext: ExtensionContext,
 ) {
-  const autoCompletes = new Map<UnocssPluginContext, UnocssAutocomplete>()
+  const autoCompletes = new Map<UnocssPluginContext<Theme>, UnocssAutocomplete>()
   contextLoader.events.on('contextReload', (ctx) => {
     autoCompletes.delete(ctx)
   })
@@ -49,7 +50,7 @@ export async function registerAutoComplete(
     autoCompletes.delete(ctx)
   })
 
-  function getAutocomplete(ctx: UnocssPluginContext) {
+  function getAutocomplete(ctx: UnocssPluginContext<Theme>) {
     const cached = autoCompletes.get(ctx)
     if (cached)
       return cached
@@ -60,11 +61,11 @@ export async function registerAutoComplete(
     return autocomplete
   }
 
-  async function getMarkdown(uno: UnoGenerator, util: string) {
+  async function getMarkdown(uno: UnoGenerator<Theme>, util: string) {
     return new MarkdownString(await getPrettiedMarkdown(uno, util))
   }
 
-  const provider: CompletionItemProvider<UnoCompletionItem> = {
+  const provider: CompletionItemProvider<UnoCompletionItem<Theme>> = {
     async provideCompletionItems(doc, position) {
       const id = doc.uri.fsPath
       if (!isSubdir(cwd, id))

@@ -22,7 +22,7 @@ export function throttle<T extends ((...args: any) => any)>(func: T, timeFrame: 
   } as T
 }
 
-export async function getPrettiedCSS(uno: UnoGenerator, util: string) {
+export async function getPrettiedCSS<T>(uno: UnoGenerator<T>, util: string) {
   const result = (await uno.generate(new Set([util]), { preflights: false, safelist: false }))
   const prettified = prettier.format(result.css, {
     parser: 'css',
@@ -35,7 +35,7 @@ export async function getPrettiedCSS(uno: UnoGenerator, util: string) {
   }
 }
 
-export async function getPrettiedMarkdown(uno: UnoGenerator, util: string) {
+export async function getPrettiedMarkdown<T>(uno: UnoGenerator<T>, util: string) {
   return `\`\`\`css\n${(await getPrettiedCSS(uno, util)).prettified}\n\`\`\``
 }
 
@@ -59,7 +59,7 @@ export function body2ColorValue(body: string, theme: Theme) {
 const matchedAttributifyRE = /(?<=^\[.+~=").*(?="\]$)/
 const matchedValuelessAttributifyRE = /(?<=^\[).+(?==""\]$)/
 const _colorsMapCache = new Map<string, string>()
-export function getColorsMap(uno: UnoGenerator, result: GenerateResult) {
+export function getColorsMap<T>(uno: UnoGenerator<T>, result: GenerateResult) {
   const theme = uno.config.theme as Theme
   const colorsMap = new Map<string, string>()
 
