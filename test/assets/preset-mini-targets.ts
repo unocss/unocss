@@ -611,6 +611,16 @@ export const presetMiniTargets: string[] = [
   'content-[attr(underlined_attr)]',
   'content-$unocss-var',
 
+  // content visibility
+  'content-auto',
+  'content-visible',
+  'content-hidden',
+  'content-unset',
+  'intrinsic-size-200',
+  'intrinsic-size-200px',
+  'intrinsic-size-1/2',
+  'intrinsic-size-unset',
+
   // svg
   'fill-none',
   'fill-current',

@@ -8,6 +8,7 @@ import {
   borders,
   boxShadows,
   boxSizing,
+  contentVisibility,
   contents,
   cssProperty,
   cursors,
@@ -152,6 +153,7 @@ export const rules: Rule[] = [
   filters,
   transitions,
   willChange,
+  contentVisibility,
   contents,
   placeholders,
 
