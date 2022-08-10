@@ -1,5 +1,4 @@
 import type { CSSObject, Preset, RuleContext } from '@unocss/core'
-import type { Theme } from '@unocss/preset-mini'
 import { toEscapedSelector } from '@unocss/core'
 import { getPreflights } from './preflights'
 
@@ -29,6 +28,11 @@ export interface TypographyOptions {
    */
   className?: string
 }
+
+export type Theme = Readonly<{
+  colors?: Record<string, Record<string, string>>
+  fontFamily?: Record<string, string>
+}>
 
 /**
  * UnoCSS Preset for Typography
