@@ -4,7 +4,9 @@ import fg from 'fast-glob'
 import consola from 'consola'
 import { cyan, dim, green } from 'colorette'
 import { debounce } from 'perfect-debounce'
+import type { UserConfig } from '@unocss/core'
 import { createGenerator, toArray } from '@unocss/core'
+import type { Theme } from '@unocss/preset-uno'
 import { loadConfig } from '@unocss/config'
 import { version } from '../package.json'
 import { PrettyError, handleError } from './errors'
@@ -28,7 +30,7 @@ export async function build(_options: CliOptions) {
 
   const cwd = _options.cwd || process.cwd()
   const options = await resolveOptions(_options)
-  const { config, sources: configSources } = await loadConfig(cwd, options.config)
+  const { config, sources: configSources } = await loadConfig<Theme, UserConfig<Theme>>(cwd, options.config)
 
   const uno = createGenerator(
     config,
@@ -72,7 +74,7 @@ export async function build(_options: CliOptions) {
 
     watcher.on('all', async (type, file) => {
       if (configSources.includes(file)) {
-        uno.setConfig((await loadConfig()).config)
+        uno.setConfig((await loadConfig<Theme, UserConfig<Theme>>()).config)
         consola.info(`${cyan(basename(file))} changed, setting new config`)
       }
       else {
