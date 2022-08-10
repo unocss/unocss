@@ -14,7 +14,7 @@ function tagifyPreset<T>(options: TagifyOptions = {}): Preset<T> {
   } = options
 
   const variants = [
-    variantTagify(options),
+    variantTagify<T>(options),
   ]
   const extractors = [
     extractorTagify(options),
