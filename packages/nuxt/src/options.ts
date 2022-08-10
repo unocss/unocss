@@ -7,7 +7,7 @@ import presetTagify from '@unocss/preset-tagify'
 import presetWind from '@unocss/preset-wind'
 import type { UnocssNuxtOptions } from './types'
 
-export function resolveOptions(options: UnocssNuxtOptions) {
+export function resolveOptions<T>(options: UnocssNuxtOptions<T>) {
   if (options.presets == null) {
     options.presets = []
     const presetMap = {
@@ -20,9 +20,9 @@ export function resolveOptions(options: UnocssNuxtOptions) {
       wind: presetWind,
     }
     for (const [key, preset] of Object.entries(presetMap)) {
-      const option = options[key as keyof UnocssNuxtOptions]
+      const option = options[key as keyof UnocssNuxtOptions<T>]
       if (option)
-        options.presets.push(preset(typeof option === 'boolean' ? {} : option))
+        options.presets.push((preset as (options?: typeof option) => any)(typeof option === 'boolean' ? {} : option)) // HACK It's tedious to type them all
     }
   }
 }

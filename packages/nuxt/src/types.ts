@@ -7,7 +7,7 @@ import type { TypographyOptions } from '@unocss/preset-typography'
 import type { TagifyOptions } from '@unocss/preset-tagify'
 import type { PresetWindOptions } from '@unocss/preset-wind'
 
-export interface UnocssNuxtOptions extends UserConfig {
+export interface UnocssNuxtOptions<T> extends UserConfig<T> {
   /**
    * Injecting `uno.css` entry
    *

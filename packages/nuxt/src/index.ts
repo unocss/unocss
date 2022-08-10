@@ -10,7 +10,7 @@ export { UnocssNuxtOptions }
 
 const dir = dirname(fileURLToPath(import.meta.url))
 
-export default defineNuxtModule<UnocssNuxtOptions>({
+export default defineNuxtModule<UnocssNuxtOptions<any>>({
   meta: {
     name: 'unocss',
     configKey: 'unocss',
@@ -67,9 +67,9 @@ export default defineNuxtModule<UnocssNuxtOptions>({
 
 declare module '@nuxt/schema' {
   interface NuxtConfig {
-    unocss?: UnocssNuxtOptions
+    unocss?: UnocssNuxtOptions<any>
   }
   interface NuxtOptions {
-    unocss?: UnocssNuxtOptions
+    unocss?: UnocssNuxtOptions<any>
   }
 }
