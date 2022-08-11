@@ -1,5 +1,5 @@
 import { resolve } from 'path'
-import type { Plugin } from 'vite'
+import type { Plugin, ResolvedConfig } from 'vite'
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import {
   HASH_PLACEHOLDER_RE, LAYER_MARK_ALL, LAYER_PLACEHOLDER_RE,
@@ -18,6 +18,7 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
   const vfsLayers = new Set<string>()
   const layerImporterMap = new Map<string, string>()
   let tasks: Promise<any>[] = []
+  let viteConfig: ResolvedConfig
 
   // use maps to differentiate multiple build. using outDir as key
   const cssPostPlugins = new Map<string | undefined, Plugin | undefined>()
@@ -143,6 +144,9 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
       apply(options, { command }) {
         return command === 'build' && !options.build?.ssr
       },
+      configResolved(config) {
+        viteConfig = config
+      },
       enforce: 'post',
       // rewrite the css placeholders
       async generateBundle(options, bundle) {
@@ -190,8 +194,14 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
           }
         }
 
-        if (!replaced)
-          this.error(new Error('[unocss] does not found CSS placeholder in the generated chunks,\nthis is likely an internal bug of unocss vite plugin'))
+        if (!replaced) {
+          let msg = '[unocss] does not found CSS placeholder in the generated chunks'
+          if (viteConfig.build.lib && checkJs)
+            msg += '\nIt seems you are building in library mode, it\'s recommanded to set `build.cssCodeSplit` to true.\nSee https://github.com/vitejs/vite/issues/1579'
+          else
+            msg += '\nThis is likely an internal bug of unocss vite plugin'
+          this.error(new Error(msg))
+        }
       },
     },
   ]
