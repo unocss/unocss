@@ -60,6 +60,14 @@ export const whitespaces: Rule[] = [
   ],
 ]
 
+export const contentVisibility: Rule[] = [
+  [/^intrinsic-size-(.+)$/, ([, d]) => ({ 'contain-intrinsic-size': h.bracket.cssvar.global.fraction.rem(d) }), { autocomplete: 'intrinsic-size-<num>' }],
+  ['content-visibility-visible', { 'content-visibility': 'visible' }],
+  ['content-visibility-hidden', { 'content-visibility': 'hidden' }],
+  ['content-visibility-auto', { 'content-visibility': 'auto' }],
+  ...makeGlobalStaticRules('content-visibility'),
+]
+
 export const contents: Rule[] = [
   [/^content-\[(.+)\]$/, ([, v]) => ({ content: `"${v}"` })],
   [/^content-(\$.+)]$/, ([, v]) => ({ content: h.cssvar(v) })],

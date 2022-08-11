@@ -288,6 +288,14 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .border-block-style-double{border-block-start-style:double;border-block-end-style:double;}
 .border-ie-unset{border-inline-end-style:unset;}
 .border-is-style-double{border-inline-start-style:double;}
+.intrinsic-size-1\\\\/2{contain-intrinsic-size:50%;}
+.intrinsic-size-200{contain-intrinsic-size:50rem;}
+.intrinsic-size-200px{contain-intrinsic-size:200px;}
+.intrinsic-size-unset{contain-intrinsic-size:unset;}
+.content-visibility-visible{content-visibility:visible;}
+.content-visibility-hidden{content-visibility:hidden;}
+.content-visibility-auto{content-visibility:auto;}
+.content-visibility-unset{content-visibility:unset;}
 .after\\\\:content-\\\\[unocss\\\\]::after,
 .content-\\\\[unocss\\\\]{content:\\"unocss\\";}
 .content-\\\\[\\\\!\\\\]{content:\\"!\\";}
