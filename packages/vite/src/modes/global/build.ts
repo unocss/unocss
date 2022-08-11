@@ -1,5 +1,5 @@
 import { resolve } from 'path'
-import type { Plugin } from 'vite'
+import type { Plugin, ResolvedConfig } from 'vite'
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import {
   HASH_PLACEHOLDER_RE, LAYER_MARK_ALL, LAYER_PLACEHOLDER_RE,
@@ -18,6 +18,7 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
   const vfsLayers = new Set<string>()
   const layerImporterMap = new Map<string, string>()
   let tasks: Promise<any>[] = []
+  let viteConfig: ResolvedConfig
 
   // use maps to differentiate multiple build. using outDir as key
   const cssPostPlugins = new Map<string | undefined, Plugin | undefined>()
@@ -143,14 +144,17 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
       apply(options, { command }) {
         return command === 'build' && !options.build?.ssr
       },
+      configResolved(config) {
+        viteConfig = config
+      },
       enforce: 'post',
       // rewrite the css placeholders
       async generateBundle(options, bundle) {
-        const files = Object.entries(bundle)
-        const cssFiles = files.filter(i => i[0].endsWith('.css'))
-        const jsFiles = files.filter(i => i[0].endsWith('.js'))
+        const checkJs = ['umd', 'amd', 'iife'].includes(options.format)
+        const files = Object.keys(bundle)
+          .filter(i => i.endsWith('.css') || (checkJs && i.endsWith('.js')))
 
-        if (!cssFiles.length && !jsFiles.length)
+        if (!files.length)
           return
 
         if (!vfsLayers.size) {
@@ -162,23 +166,20 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
         const result = await generateAll()
         let replaced = false
 
-        for (const [, chunk] of cssFiles) {
+        for (const file of files) {
+          const chunk = bundle[file]
+
           if (chunk.type === 'asset' && typeof chunk.source === 'string') {
             const css = chunk.source
               .replace(HASH_PLACEHOLDER_RE, '')
             chunk.source = await replaceAsync(css, LAYER_PLACEHOLDER_RE, async (_, __, layer) => {
               replaced = true
-              const css = layer === LAYER_MARK_ALL
+              return await applyCssTransform(layer === LAYER_MARK_ALL
                 ? result.getLayers(undefined, Array.from(vfsLayers))
-                : result.getLayer(layer) || ''
-              return await applyCssTransform(css, `${chunk.fileName}.css`, options.dir)
+                : result.getLayer(layer) || '', `${chunk.fileName}.css`, options.dir)
             })
           }
-        }
-
-        // replace the hash in the js files (iife or umd bundle)
-        for (const [, chunk] of jsFiles) {
-          if (chunk.type === 'chunk' && typeof chunk.code === 'string') {
+          else if (chunk.type === 'chunk' && typeof chunk.code === 'string') {
             const js = chunk.code
               .replace(HASH_PLACEHOLDER_RE, '')
             chunk.code = await replaceAsync(js, LAYER_PLACEHOLDER_RE, async (_, __, layer) => {
@@ -193,8 +194,14 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
           }
         }
 
-        if (!replaced)
-          this.error(new Error('[unocss] does not found CSS placeholder in the generated chunks,\nthis is likely an internal bug of unocss vite plugin'))
+        if (!replaced) {
+          let msg = '[unocss] does not found CSS placeholder in the generated chunks'
+          if (viteConfig.build.lib && checkJs)
+            msg += '\nIt seems you are building in library mode, it\'s recommanded to set `build.cssCodeSplit` to true.\nSee https://github.com/vitejs/vite/issues/1579'
+          else
+            msg += '\nThis is likely an internal bug of unocss vite plugin'
+          this.error(new Error(msg))
+        }
       },
     },
   ]
