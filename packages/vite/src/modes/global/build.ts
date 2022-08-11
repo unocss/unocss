@@ -146,11 +146,11 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
       enforce: 'post',
       // rewrite the css placeholders
       async generateBundle(options, bundle) {
-        const files = Object.entries(bundle)
-        const cssFiles = files.filter(i => i[0].endsWith('.css'))
-        const jsFiles = files.filter(i => i[0].endsWith('.js'))
+        const checkJs = ['umd', 'amd', 'iife'].includes(options.format)
+        const files = Object.keys(bundle)
+          .filter(i => i.endsWith('.css') || (checkJs && i.endsWith('.js')))
 
-        if (!cssFiles.length && !jsFiles.length)
+        if (!files.length)
           return
 
         if (!vfsLayers.size) {
@@ -162,23 +162,20 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
         const result = await generateAll()
         let replaced = false
 
-        for (const [, chunk] of cssFiles) {
+        for (const file of files) {
+          const chunk = bundle[file]
+
           if (chunk.type === 'asset' && typeof chunk.source === 'string') {
             const css = chunk.source
               .replace(HASH_PLACEHOLDER_RE, '')
             chunk.source = await replaceAsync(css, LAYER_PLACEHOLDER_RE, async (_, __, layer) => {
               replaced = true
-              const css = layer === LAYER_MARK_ALL
+              return await applyCssTransform(layer === LAYER_MARK_ALL
                 ? result.getLayers(undefined, Array.from(vfsLayers))
-                : result.getLayer(layer) || ''
-              return await applyCssTransform(css, `${chunk.fileName}.css`, options.dir)
+                : result.getLayer(layer) || '', `${chunk.fileName}.css`, options.dir)
             })
           }
-        }
-
-        // replace the hash in the js files (iife or umd bundle)
-        for (const [, chunk] of jsFiles) {
-          if (chunk.type === 'chunk' && typeof chunk.code === 'string') {
+          else if (chunk.type === 'chunk' && typeof chunk.code === 'string') {
             const js = chunk.code
               .replace(HASH_PLACEHOLDER_RE, '')
             chunk.code = await replaceAsync(js, LAYER_PLACEHOLDER_RE, async (_, __, layer) => {
