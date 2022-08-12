@@ -7,6 +7,7 @@ const overflowValues = [
   'clip',
   'visible',
   'scroll',
+  'overlay',
   ...globalKeywords,
 ]
 
