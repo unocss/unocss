@@ -8,7 +8,7 @@ export interface PresetTheme {
 }
 
 export const presetTheme = (options: PresetTheme): Preset<Theme> => {
-  const { prefix = '--uno-preset-theme' } = options
+  const { prefix = '--un-preset-theme' } = options
   const { dark, light } = options.theme
   const themeValues = new Map<string, {
     light?: string
