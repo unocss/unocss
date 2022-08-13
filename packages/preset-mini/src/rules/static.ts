@@ -47,8 +47,8 @@ export const resizes: Rule[] = [
 export const userSelects: Rule[] = [
   ['select-auto', { 'user-select': 'auto' }],
   ['select-all', { 'user-select': 'all' }],
-  ['select-text', { 'user-select': 'text' }],
-  ['select-none', { 'user-select': 'none' }],
+  ['select-text', { 'user-select': 'text', '-webkit-user-select': 'text' }],
+  ['select-none', { 'user-select': 'none', '-webkit-user-select': 'none' }],
   ...makeGlobalStaticRules('select', 'user-select'),
 ]
 
