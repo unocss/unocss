@@ -379,6 +379,12 @@ importers:
     dependencies:
       '@unocss/core': link:../core
 
+  packages/preset-theme:
+    specifiers:
+      '@unocss/core': workspace:*
+    dependencies:
+      '@unocss/core': link:../core
+
   packages/preset-typography:
     specifiers:
       '@unocss/core': workspace:*
@@ -611,6 +617,9 @@ importers:
     specifiers: {}
 
   test/fixtures/vite:
+    specifiers: {}
+
+  test/fixtures/vite-lib:
     specifiers: {}
 
 packages:
