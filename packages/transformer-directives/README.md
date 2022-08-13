@@ -64,7 +64,7 @@ To use rules with `:`, you will need to quote the value
 }
 ```
 
-This feature is enabled by default (with prefix `--at-`), can you configure it or disable it via:
+This feature is enabled by default (with prefix `--at-`), you can configure it or disable it via:
 
 ```js
 transformerDirective({
