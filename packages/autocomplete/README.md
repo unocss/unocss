@@ -8,7 +8,7 @@ To add autocomplete support to your custom rules:
 
 ### Static Rules
 
-Static rules like this will just works without any configuration.
+Static rules like this will just work without any configuration.
 
 ```ts
 rules: [
@@ -30,7 +30,7 @@ rules: [
 ]
 ```
 
-The template uses a simle DSL to specify the autocomplete suggestions. The syntax is:
+The template uses a simple DSL to specify the autocomplete suggestions. The syntax is:
 
 - `(...|...)`: logic OR groups. `|` as the separator. Will be used as suggestions when the some of the groups match.
 - `<...>`: built-in short hands. currently supports `<num>`, `<percent>` and `<directions>`
