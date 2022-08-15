@@ -587,7 +587,7 @@ preprocess(matcher) {
 
 ### Scanning
 
-Please note that UnoCSS works **at build time**, meaning only statically presented utilities will be generated and shipped to your app. Utilities that used dynamically or fetched from external resources at runtime might not be appied.
+Please note that UnoCSS works **at build time**, meaning only statically presented utilities will be generated and shipped to your app. Utilities that used dynamically or fetched from external resources at runtime might not be applied.
 
 By default UnoCSS will extract the utilities usage from files in your build pipeline with extension `.jsx`, `.tsx`, `.vue`, `.md`, `.html`, `.svelte`, `.astro`. And then generate the CSS on demand.
 
