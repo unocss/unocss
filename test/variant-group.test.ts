@@ -28,4 +28,8 @@ describe('variant-group', () => {
   test('spaces', () => {
     expect(expandVariantGroup('a-( ~ b c )')).toEqual('a a-b a-c')
   })
+
+  test('square bracket', async () => {
+    expect(expandVariantGroup('b:[&:not(c)]:d:(!a z)')).toEqual('!b:[&:not(c)]:d:a b:[&:not(c)]:d:z')
+  })
 })
