@@ -55,4 +55,12 @@ describe('transformer-compile-class', () => {
       }
     `)
   })
+
+  test('different sequence of utility classes', async () => {
+    const order1 = await transform('<div class=":uno: flex bg-blue-400 my-awesome-class font-bold"></div>')
+    const order2 = await transform('<div class=":uno: my-awesome-class bg-blue-400  font-bold flex"></div>')
+
+    expect(order1.css).toBe(order2.css)
+    expect(order1.code).toBe(order2.code)
+  })
 })
