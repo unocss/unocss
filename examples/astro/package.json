@@ -9,10 +9,10 @@
     "astro": "astro"
   },
   "devDependencies": {
-    "astro": "^1.0.5",
-    "unocss": "link:../../packages/unocss",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
-    "@unocss/transformer-directives": "link:../../packages/transformer-directives"
+    "@unocss/transformer-directives": "link:../../packages/transformer-directives",
+    "astro": "^1.0.5",
+    "unocss": "link:../../packages/unocss"
   }
 }
