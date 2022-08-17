@@ -55,7 +55,7 @@ export default function WebpackPlugin<Theme extends {}>(
         const result = await applyTransformers(ctx, code, id, 'pre')
         if (isCssId(id))
           return result
-        if (result == null)
+        if (result == null || result === undefined)
           tasks.push(extract(code, id))
         else
           tasks.push(extract(result.code, id))
