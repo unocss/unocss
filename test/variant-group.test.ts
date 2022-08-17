@@ -32,4 +32,8 @@ describe('variant-group', () => {
   test('square bracket', async () => {
     expect(expandVariantGroup('b:[&:not(c)]:d:(!a z)')).toEqual('!b:[&:not(c)]:d:a b:[&:not(c)]:d:z')
   })
+
+  test('square bracket case2', async () => {
+    expect(expandVariantGroup('[&]:(a-b c-d)')).toEqual('[&]:a-b [&]:c-d')
+  })
 })
