@@ -830,10 +830,6 @@ export const presetMiniTargets: string[] = [
   'word-spacing-$variable',
   'ws-$variable',
 
-  // variables - escaping
-  // eslint-disable-next-line no-template-curly-in-string
-  'ws-${row.span}/24',
-
   // variables - property
   '[a:b]',
   '[margin:logical_1rem_2rem_3rem]',
