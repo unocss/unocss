@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@unocss/webpack": "link:../../packages/webpack",
-    "@vue/cli-plugin-babel": "~5.0.8",
-    "@vue/cli-service": "~5.0.8"
+    "@vue/cli-plugin-babel": "~4.5.15",
+    "@vue/cli-service": "~4.5.15"
   }
 }

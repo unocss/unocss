@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@unocss/core": "workspace:*",
-    "css-tree": "^2.1.0"
+    "css-tree": "^2.2.1"
   },
   "devDependencies": {
     "magic-string": "^0.26.2"
