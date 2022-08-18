@@ -28,7 +28,7 @@
     },
     "./client": {
       "types": "./dist/client.d.ts",
-      "require": "./dist/client.js",
+      "require": "./dist/client.cjs",
       "import": "./dist/client.mjs"
     }
   },

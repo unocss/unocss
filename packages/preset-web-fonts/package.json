@@ -27,11 +27,6 @@
       "types": "./dist/index.d.ts",
       "require": "./dist/index.cjs",
       "import": "./dist/index.mjs"
-    },
-    "./fs": {
-      "types": "./dist/fs.d.ts",
-      "require": "./dist/fs.cjs",
-      "import": "./dist/fs.mjs"
     }
   },
   "main": "dist/index.cjs",
