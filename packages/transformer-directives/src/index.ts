@@ -1,6 +1,6 @@
 import { cssIdRE, expandVariantGroup, notNull, regexScopePlaceholder } from '@unocss/core'
 import type { SourceCodeTransformer, StringifiedUtil, UnoGenerator } from '@unocss/core'
-import type { CssNode, Declaration, List, ListItem, Rule, Selector, SelectorList } from 'css-tree'
+import type { Atrule, CssNode, Declaration, List, ListItem, Rule, Selector, SelectorList } from 'css-tree'
 import { clone, generate, parse, walk } from 'css-tree'
 import type MagicString from 'magic-string'
 
@@ -37,6 +37,7 @@ export default function transformerDirectives(options: TransformerDirectivesOpti
 }
 
 const themeFnRE = /theme\((.*?)\)/g
+const screenRuleRE = /(@screen) (.+) /g
 
 export async function transformDirectives(
   code: MagicString,
@@ -52,9 +53,10 @@ export async function transformDirectives(
   } = options
 
   const isApply = code.original.includes('@apply') || (varStyle !== false && code.original.includes(varStyle))
+  const isScreen = code.original.includes('@screen')
   const hasThemeFn = code.original.match(themeFnRE)
 
-  if (!isApply && !hasThemeFn)
+  if (!isApply && !hasThemeFn && !isScreen)
     return
 
   const ast = parse(originalCode || code.original, {
@@ -187,9 +189,41 @@ export async function transformDirectives(
     }
   }
 
+  const handleScreen = (node: Atrule) => {
+    let breakpointName
+    if (node.name === 'screen' && node.prelude && node.prelude.type === 'Raw')
+      breakpointName = node.prelude.value.trim()
+
+    if (!breakpointName)
+      return
+
+    // @ts-expect-error breakpoints aren't always available
+    const breakpointPx = uno.config.theme.breakpoints ? uno.config.theme.breakpoints[breakpointName] : null
+    if (!breakpointPx)
+      throw new Error(`breakpoint ${breakpointName} not found`)
+
+    const offset = node.loc!.start.offset
+    const str = code.original.slice(offset, node.loc!.end.offset)
+    const matches = Array.from(str.matchAll(screenRuleRE))
+
+    if (!matches.length)
+      return
+
+    for (const match of matches) {
+      code.overwrite(
+        offset + match.index!,
+        offset + match.index! + match[0].length,
+        `@media (min-width: ${breakpointPx}) `,
+      )
+    }
+  }
+
   const stack: Promise<void>[] = []
 
   const processNode = async (node: CssNode, _item: ListItem<CssNode>, _list: List<CssNode>) => {
+    if (isScreen && node.type === 'Atrule')
+      handleScreen(node)
+
     if (hasThemeFn && node.type === 'Declaration')
       handleThemeFn(node)
 
