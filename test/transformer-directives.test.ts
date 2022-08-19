@@ -396,10 +396,102 @@ describe('transformer-directives', () => {
       `)
   })
 
+  test('basic', async () => {
+    const customUno = createGenerator({
+      presets: [
+        presetUno(),
+      ],
+      theme: {
+        breakpoints: {
+          xs: '320px',
+          sm: '640px',
+          md: '768px',
+          lg: '1024px',
+          xl: '1280px',
+          xxl: '1536px',
+        },
+      },
+    })
+    const result = await transform(
+        `.grid {
+        @apply grid grid-cols-2;
+      }
+      @screen xs {
+        .grid {
+          @apply grid-cols-1;
+        }
+      }
+      @screen sm {
+        .grid {
+          @apply grid-cols-3;
+        }
+      }
+      @screen md {
+        .grid {
+          @apply grid-cols-4;
+        }
+      }
+      @screen lg {
+        .grid {
+          @apply grid-cols-5;
+        }
+      }
+      @screen xl {
+        .grid {
+          @apply grid-cols-6;
+        }
+      }
+      @screen xxl {
+        .grid {
+          @apply grid-cols-7;
+        }
+      }`,
+        customUno,
+    )
+    expect(result)
+      .toMatchInlineSnapshot(`
+        ".grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        @media (min-width: 320px) {
+          .grid {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+          }
+        }
+        @media (min-width: 640px) {
+          .grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+          }
+        }
+        @media (min-width: 768px) {
+          .grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+          }
+        }
+        @media (min-width: 1024px) {
+          .grid {
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+          }
+        }
+        @media (min-width: 1280px) {
+          .grid {
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+          }
+        }
+        @media (min-width: 1536px) {
+          .grid {
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+          }
+        }
+        "
+      `)
+  })
+
   describe('theme()', () => {
     test('basic', async () => {
       const result = await transform(
-        `.btn { 
+        `.btn {
           background-color: theme("colors.blue.500");
           padding: theme("spacing.xs") theme("spacing.sm");
         }
@@ -422,14 +514,14 @@ describe('transformer-directives', () => {
 
     test('non-exist', async () => {
       expect(async () => await transform(
-        `.btn { 
+        `.btn {
         color: theme("color.none.500");
         }`,
       )).rejects
         .toMatchInlineSnapshot('[Error: theme of "color.none.500" did not found]')
 
       expect(async () => await transform(
-          `.btn { 
+          `.btn {
           font-size: theme("size.lg");
           }`,
       )).rejects
@@ -438,7 +530,7 @@ describe('transformer-directives', () => {
 
     test('args', async () => {
       expect(async () => await transform(
-        `.btn { 
+        `.btn {
           color: theme();
         }`,
       )).rejects
