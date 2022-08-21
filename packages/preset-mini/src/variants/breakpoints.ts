@@ -4,7 +4,7 @@ import type { Theme } from '../theme'
 
 const regexCache: Record<string, RegExp> = {}
 
-const calcMaxWidthBySize = (size: string) => {
+export const calcMaxWidthBySize = (size: string) => {
   const value = size.match(/^-?[0-9]+\.?[0-9]*/)?.[0] || ''
   const unit = size.slice(value.length)
   const maxWidth = (parseFloat(value) - 0.1)

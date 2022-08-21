@@ -3,6 +3,8 @@ import type { SourceCodeTransformer, StringifiedUtil, UnoGenerator } from '@unoc
 import type { Atrule, CssNode, Declaration, List, ListItem, Rule, Selector, SelectorList } from 'css-tree'
 import { clone, generate, parse, walk } from 'css-tree'
 import type MagicString from 'magic-string'
+import { calcMaxWidthBySize } from '@unocss/preset-mini/variants'
+import type { Theme } from '@unocss/preset-mini'
 
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
 
@@ -190,16 +192,44 @@ export async function transformDirectives(
   }
 
   const handleScreen = (node: Atrule) => {
-    let breakpointName
-    if (node.name === 'screen' && node.prelude && node.prelude.type === 'Raw')
+    let breakpointName = ''; let prefix
+    if (node.name === 'screen' && node.prelude?.type === 'Raw')
       breakpointName = node.prelude.value.trim()
 
     if (!breakpointName)
       return
 
-    // @ts-expect-error breakpoints aren't always available
-    const breakpointPx = uno.config.theme.breakpoints ? uno.config.theme.breakpoints[breakpointName] : null
-    if (!breakpointPx)
+    const match = breakpointName.match(/^(?:(lt|at)-)?(\w+)$/)
+    if (match) {
+      prefix = match[1]
+      breakpointName = match[2]
+    }
+
+    const resolveBreakpoints = () => {
+      let breakpoints: Record<string, string> | undefined
+      if (uno.userConfig && uno.userConfig.theme)
+        breakpoints = (uno.userConfig.theme as Theme).breakpoints
+
+      if (!breakpoints)
+        breakpoints = (uno.config.theme as Theme).breakpoints
+
+      return breakpoints
+    }
+    const variantEntries: Array<[string, string, number]> = Object.entries(resolveBreakpoints() ?? {}).map(([point, size], idx) => [point, size, idx])
+    const generateMediaQuery = (breakpointName: string, prefix?: string) => {
+      const [, size, idx] = variantEntries.find(i => i[0] === breakpointName)!
+      if (prefix) {
+        if (prefix === 'lt')
+          return `@media (max-width: ${calcMaxWidthBySize(size)})`
+        else if (prefix === 'at')
+          return `@media (min-width: ${size})${variantEntries[idx + 1] ? ` and (max-width: ${calcMaxWidthBySize(variantEntries[idx + 1][1])})` : ''}`
+
+        else throw new Error(`breakpoint variant not surpported: ${prefix}`)
+      }
+      return `@media (min-width: ${size})`
+    }
+
+    if (!variantEntries.find(i => i[0] === breakpointName))
       throw new Error(`breakpoint ${breakpointName} not found`)
 
     const offset = node.loc!.start.offset
@@ -213,7 +243,7 @@ export async function transformDirectives(
       code.overwrite(
         offset + match.index!,
         offset + match.index! + match[0].length,
-        `@media (min-width: ${breakpointPx}) `,
+        `${generateMediaQuery(breakpointName, prefix)} `,
       )
     }
   }
