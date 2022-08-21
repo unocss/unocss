@@ -1,8 +1,10 @@
 import { cssIdRE, expandVariantGroup, notNull, regexScopePlaceholder } from '@unocss/core'
 import type { SourceCodeTransformer, StringifiedUtil, UnoGenerator } from '@unocss/core'
-import type { CssNode, Declaration, List, ListItem, Rule, Selector, SelectorList } from 'css-tree'
+import type { Atrule, CssNode, Declaration, List, ListItem, Rule, Selector, SelectorList } from 'css-tree'
 import { clone, generate, parse, walk } from 'css-tree'
 import type MagicString from 'magic-string'
+import { calcMaxWidthBySize } from '@unocss/preset-mini/variants'
+import type { Theme } from '@unocss/preset-mini'
 
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
 
@@ -37,6 +39,7 @@ export default function transformerDirectives(options: TransformerDirectivesOpti
 }
 
 const themeFnRE = /theme\((.*?)\)/g
+const screenRuleRE = /(@screen) (.+) /g
 
 export async function transformDirectives(
   code: MagicString,
@@ -52,9 +55,10 @@ export async function transformDirectives(
   } = options
 
   const isApply = code.original.includes('@apply') || (varStyle !== false && code.original.includes(varStyle))
+  const isScreen = code.original.includes('@screen')
   const hasThemeFn = code.original.match(themeFnRE)
 
-  if (!isApply && !hasThemeFn)
+  if (!isApply && !hasThemeFn && !isScreen)
     return
 
   const ast = parse(originalCode || code.original, {
@@ -187,9 +191,69 @@ export async function transformDirectives(
     }
   }
 
+  const handleScreen = (node: Atrule) => {
+    let breakpointName = ''; let prefix
+    if (node.name === 'screen' && node.prelude?.type === 'Raw')
+      breakpointName = node.prelude.value.trim()
+
+    if (!breakpointName)
+      return
+
+    const match = breakpointName.match(/^(?:(lt|at)-)?(\w+)$/)
+    if (match) {
+      prefix = match[1]
+      breakpointName = match[2]
+    }
+
+    const resolveBreakpoints = () => {
+      let breakpoints: Record<string, string> | undefined
+      if (uno.userConfig && uno.userConfig.theme)
+        breakpoints = (uno.userConfig.theme as Theme).breakpoints
+
+      if (!breakpoints)
+        breakpoints = (uno.config.theme as Theme).breakpoints
+
+      return breakpoints
+    }
+    const variantEntries: Array<[string, string, number]> = Object.entries(resolveBreakpoints() ?? {}).map(([point, size], idx) => [point, size, idx])
+    const generateMediaQuery = (breakpointName: string, prefix?: string) => {
+      const [, size, idx] = variantEntries.find(i => i[0] === breakpointName)!
+      if (prefix) {
+        if (prefix === 'lt')
+          return `@media (max-width: ${calcMaxWidthBySize(size)})`
+        else if (prefix === 'at')
+          return `@media (min-width: ${size})${variantEntries[idx + 1] ? ` and (max-width: ${calcMaxWidthBySize(variantEntries[idx + 1][1])})` : ''}`
+
+        else throw new Error(`breakpoint variant not surpported: ${prefix}`)
+      }
+      return `@media (min-width: ${size})`
+    }
+
+    if (!variantEntries.find(i => i[0] === breakpointName))
+      throw new Error(`breakpoint ${breakpointName} not found`)
+
+    const offset = node.loc!.start.offset
+    const str = code.original.slice(offset, node.loc!.end.offset)
+    const matches = Array.from(str.matchAll(screenRuleRE))
+
+    if (!matches.length)
+      return
+
+    for (const match of matches) {
+      code.overwrite(
+        offset + match.index!,
+        offset + match.index! + match[0].length,
+        `${generateMediaQuery(breakpointName, prefix)} `,
+      )
+    }
+  }
+
   const stack: Promise<void>[] = []
 
   const processNode = async (node: CssNode, _item: ListItem<CssNode>, _list: List<CssNode>) => {
+    if (isScreen && node.type === 'Atrule')
+      handleScreen(node)
+
     if (hasThemeFn && node.type === 'Declaration')
       handleThemeFn(node)
 
