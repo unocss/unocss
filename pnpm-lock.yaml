@@ -591,7 +591,7 @@ importers:
       '@unocss/config': workspace:*
       '@unocss/core': workspace:*
       magic-string: ^0.26.2
-      unplugin: ^0.9.3
+      unplugin: ^0.9.4
       webpack: ^5.74.0
       webpack-sources: ^3.2.3
     dependencies:
@@ -600,7 +600,7 @@ importers:
       '@unocss/config': link:../config
       '@unocss/core': link:../core
       magic-string: 0.26.2
-      unplugin: 0.9.3_webpack@5.74.0
+      unplugin: 0.9.4_webpack@5.74.0
       webpack-sources: 3.2.3
     devDependencies:
       '@types/webpack': 5.28.0
@@ -9745,8 +9745,8 @@ packages:
       webpack-virtual-modules: 0.4.4
     dev: true
 
-  /unplugin/0.9.3_webpack@5.74.0:
-    resolution: {integrity: sha512-GWXxizZG+tobNs8fuGTCeilerkkfZTZax2iivuE4pxLaF9wTnPJHOq8tbLKDb5ohVb+2BXNjrU9xx59yWTUnuw==}
+  /unplugin/0.9.4_webpack@5.74.0:
+    resolution: {integrity: sha512-lUe769wSsZiltVA1Ns9ZRx3K1ri/4yzOrLLI/ebSAj2f0PsXqIJeHIXhkhiayEe1pv+mHuZYyBS3B2RXG2Q2EQ==}
     peerDependencies:
       esbuild: '>=0.13'
       rollup: ^2.50.0

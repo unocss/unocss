@@ -3,7 +3,6 @@ import type { SourceCodeTransformer, StringifiedUtil, UnoGenerator } from '@unoc
 import type { Atrule, CssNode, Declaration, List, ListItem, Rule, Selector, SelectorList } from 'css-tree'
 import { clone, generate, parse, walk } from 'css-tree'
 import type MagicString from 'magic-string'
-import { calcMaxWidthBySize } from '@unocss/preset-mini/variants'
 import type { Theme } from '@unocss/preset-mini'
 
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
@@ -271,4 +270,11 @@ export async function transformDirectives(
   walk(ast, (...args) => stack.push(processNode(...args)))
 
   await Promise.all(stack)
+}
+
+function calcMaxWidthBySize(size: string) {
+  const value = size.match(/^-?[0-9]+\.?[0-9]*/)?.[0] || ''
+  const unit = size.slice(value.length)
+  const maxWidth = (parseFloat(value) - 0.1)
+  return Number.isNaN(maxWidth) ? size : `${maxWidth}${unit}`
 }
