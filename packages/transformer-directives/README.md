@@ -133,6 +133,7 @@ Will be transformed to:
     @apply grid-cols-3;
   }
 }
+/* ... */
 ```
 
 Will be transformed to:
@@ -152,6 +153,7 @@ Will be transformed to:
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+/* ... */
 ```
 
 ##### `@screen at`
@@ -175,6 +177,7 @@ Will be transformed to:
     @apply grid-cols-4;
   }
 }
+/* ... */
 ```
 
 Will be transformed to:
@@ -199,6 +202,7 @@ Will be transformed to:
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
+/* ... */
 ```
 
 ### `theme()`
