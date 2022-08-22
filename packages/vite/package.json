@@ -1,6 +1,6 @@
 {
   "name": "@unocss/vite",
-  "version": "0.45.9",
+  "version": "0.45.10",
   "description": "The Vite plugin for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
