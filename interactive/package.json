@@ -3,7 +3,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "nuxi prepare && esno scripts/prepare.ts && nuxi generate . && esno scripts/verify-build.ts",
+    "build": "nuxi prepare && esno scripts/prepare.ts && nuxi generate .",
     "dev": "nuxi prepare && esno scripts/prepare.ts && nuxi dev .",
     "start": "node .output/server/index.mjs",
     "fetch": "esno scripts/fetch.ts"
