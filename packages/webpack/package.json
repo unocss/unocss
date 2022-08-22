@@ -1,6 +1,6 @@
 {
   "name": "@unocss/webpack",
-  "version": "0.45.6",
+  "version": "0.45.9",
   "description": "The Webpack plugin for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -45,7 +45,7 @@
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "magic-string": "^0.26.2",
-    "unplugin": "^0.8.1",
+    "unplugin": "^0.9.4",
     "webpack-sources": "^3.2.3"
   },
   "devDependencies": {

@@ -7,9 +7,9 @@ const colors = (uno.config.theme as any).colors || {}
 <template>
   <div ma>
     <p>
-      The default color pattale of <code>@unocss/preset-mini</code> are extended from
+      The default color palette of <code>@unocss/preset-mini</code> is extended from
       <a href="https://tailwindcss.com/docs/customizing-colors" target="_blank">Tailwind's</a>.
-      The following table are dynamically generated from the theme of the current configuration.
+      The following table is dynamically generated from the theme of the current configuration.
     </p>
     <div justify-center ma>
       <ColorsItem :item="colors" />

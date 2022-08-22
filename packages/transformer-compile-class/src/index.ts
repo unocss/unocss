@@ -61,6 +61,7 @@ export default function transformerCompileClass(options: CompileClassOptions = {
           body = known.join(' ')
         }
         if (body) {
+          body = body.split(/\s+/).sort().join(' ')
           const hash = hashFn(body)
           const className = `${classPrefix}${hash}`
           replacements.unshift(className)

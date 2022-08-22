@@ -1,6 +1,6 @@
 {
   "name": "@unocss/nuxt",
-  "version": "0.45.6",
+  "version": "0.45.9",
   "description": "Nuxt module for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -40,7 +40,7 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.0.0-rc.6",
+    "@nuxt/kit": "^3.0.0-rc.8",
     "@unocss/core": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
     "@unocss/preset-icons": "workspace:*",
@@ -55,6 +55,6 @@
     "unocss": "workspace:*"
   },
   "devDependencies": {
-    "@nuxt/schema": "^3.0.0-rc.6"
+    "@nuxt/schema": "^3.0.0-rc.8"
   }
 }

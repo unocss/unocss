@@ -15,11 +15,11 @@
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
     "svelte": "^3.49.0",
-    "svelte-check": "^2.8.0",
+    "svelte-check": "^2.8.1",
     "svelte-preprocess": "^4.10.7",
     "tslib": "^2.4.0",
     "typescript": "^4.7.4",
     "unocss": "link:../../packages/unocss",
-    "vite": "^3.0.4"
+    "vite": "^3.0.8"
   }
 }

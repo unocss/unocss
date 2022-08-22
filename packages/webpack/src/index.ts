@@ -75,14 +75,13 @@ export default function WebpackPlugin<Theme extends {}>(
           return entry + query
         }
       },
+      loadInclude(id) {
+        const layer = getLayer(id)
+        return !!layer
+      },
       // serve the placeholders in virtual module
       load(id) {
-        let layer = resolveLayer(getPath(id))
-        if (!layer) {
-          const entry = resolveId(id)
-          if (entry)
-            layer = resolveLayer(entry)
-        }
+        const layer = getLayer(id)
         const hash = hashes.get(id)
         if (layer)
           return (hash ? getHashPlaceholder(hash) : '') + getLayerPlaceholder(layer)
@@ -97,6 +96,10 @@ export default function WebpackPlugin<Theme extends {}>(
             const result = await uno.generate(tokens, { minify: true })
 
             for (const file of files) {
+              // https://github.com/unocss/unocss/pull/1428
+              if (file === '*')
+                return
+
               let code = compilation.assets[file].source().toString()
               let replaced = false
               code = code.replace(HASH_PLACEHOLDER_RE, '')
@@ -156,3 +159,13 @@ export default function WebpackPlugin<Theme extends {}>(
     return plugin
   }).webpack()
 }
+function getLayer(id: string) {
+  let layer = resolveLayer(getPath(id))
+  if (!layer) {
+    const entry = resolveId(id)
+    if (entry)
+      layer = resolveLayer(entry)
+  }
+  return layer
+}
+

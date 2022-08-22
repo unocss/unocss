@@ -1,1 +1,1 @@
-export * from './theme/colors'
+export * from './_theme/colors'

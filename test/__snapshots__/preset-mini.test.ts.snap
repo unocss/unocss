@@ -41,7 +41,6 @@ exports[`preset-mini > targets 1`] = `
 .content-\\\\$unocss-var{align-content:var(--unocss-var);}
 .fw-\\\\$variable{font-weight:var(--variable);}
 .items-\\\\$size{align-items:var(--size);}
-.ws-\\\\$\\\\{row\\\\.span\\\\}\\\\/24{white-space:var(--\\\\{row\\\\.span\\\\}\\\\/24);}
 .ws-\\\\$variable{white-space:var(--variable);}
 .\\\\[a\\\\:b\\\\]{a:b;}
 .\\\\[background-image\\\\:url\\\\(star_transparent\\\\.gif\\\\)\\\\,_url\\\\(cat_front\\\\.png\\\\)\\\\]{background-image:url(star\\\\_transparent.gif), url(cat\\\\_front.png);}

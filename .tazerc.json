@@ -3,6 +3,8 @@
     "find-up",
     "gzip-size",
     "@types/vscode",
-    "codemirror"
+    "codemirror",
+    "@vue/cli-plugin-babel",
+    "@vue/cli-service"
   ]
 }
