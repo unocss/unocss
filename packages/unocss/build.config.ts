@@ -19,6 +19,7 @@ export default defineBuildConfig({
   declaration: true,
   externals: [
     'vite',
+    'astro',
     'webpack',
     '@unocss/webpack',
   ],

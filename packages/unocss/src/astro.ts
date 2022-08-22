@@ -1,11 +1,12 @@
 import type { AstroIntegrationConfig } from '@unocss/astro'
-import AstroIntegration from '@unocss/astro'
+import AstroIntegrationPlugin from '@unocss/astro'
 import presetUno from '@unocss/preset-uno'
+import type { AstroIntegration } from 'astro'
 
 export default function UnocssAstroIntegration<Theme extends {}>(
   config?: AstroIntegrationConfig<Theme>,
-) {
-  return AstroIntegration(
+): AstroIntegration {
+  return AstroIntegrationPlugin(
     config,
     {
       presets: [
