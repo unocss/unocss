@@ -1,0 +1,16 @@
+{
+  "name": "unocss-astro",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "devDependencies": {
+    "@unocss/astro": "link:../../packages/astro",
+    "astro": "^1.0.5",
+    "unocss": "link:../../packages/unocss"
+  }
+}

@@ -25,5 +25,7 @@ export const alias: Record<string, string> = {
   '@unocss/transformer-compile-class': r('./packages/transformer-compile-class/src/'),
   '@unocss/transformer-attributify-jsx': r('./packages/transformer-attributify-jsx/src/'),
   '@unocss/vite': r('./packages/vite/src/'),
+  '@unocss/webpack': r('./packages/webpack/src/'),
+  '@unocss/astro': r('./packages/astro/src/'),
   'unocss': r('./packages/unocss/src/'),
 }

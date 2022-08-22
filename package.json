@@ -44,6 +44,7 @@
     "@types/prettier": "^2.7.0",
     "@types/react": "^18.0.17",
     "@types/ws": "^8.5.3",
+    "@unocss/astro": "workspace:*",
     "@unocss/autocomplete": "workspace:*",
     "@unocss/cli": "workspace:*",
     "@unocss/config": "workspace:*",
