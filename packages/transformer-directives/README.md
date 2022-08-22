@@ -2,7 +2,7 @@
 
 <!-- @unocss-ignore -->
 
-UnoCSS transformer for `@apply` and `theme()` directive
+UnoCSS transformer for `@apply`、`@screen` and `theme()` directive
 
 ## Install
 
@@ -44,8 +44,6 @@ Will be transformed to:
 }
 ```
 
-> Currently only `@apply` is supported.
-
 #### CSS Variable Style
 
 To be compatible with vanilla CSS, you can use CSS Variables to replace the `@apply` directive.
@@ -72,6 +70,139 @@ transformerDirective({
   // or disable with:
   // varStyle: false
 })
+```
+
+### `@screen`
+
+The `@screen` directive allows you to create media queries that reference your breakpoints by name comes from [`theme.breakpoints`](https://github.com/unocss/unocss/blob/main/README.md#extend-theme).
+
+```css
+.grid {
+  @apply grid grid-cols-2;
+}
+@screen xs {
+  .grid {
+    @apply grid-cols-1;
+  }
+}
+@screen sm {
+  .grid {
+    @apply grid-cols-3;
+  }
+}
+/* ... */
+...
+```
+
+Will be transformed to:
+
+```css
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (min-width: 320px) {
+  .grid {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+/* ... */
+```
+
+#### Breakpoint Variant Support
+`@screen` also supports `lt`、`at` variants
+
+##### `@screen lt`
+
+```css
+.grid {
+  @apply grid grid-cols-2;
+}
+@screen lt-xs {
+  .grid {
+    @apply grid-cols-1;
+  }
+}
+@screen lt-sm {
+  .grid {
+    @apply grid-cols-3;
+  }
+}
+/* ... */
+```
+
+Will be transformed to:
+
+```css
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (max-width: 319.9px) {
+  .grid {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+@media (max-width: 639.9px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+/* ... */
+```
+
+##### `@screen at`
+
+```css
+.grid {
+  @apply grid grid-cols-2;
+}
+@screen at-xs {
+  .grid {
+    @apply grid-cols-1;
+  }
+}
+@screen at-xl {
+  .grid {
+    @apply grid-cols-3;
+  }
+}
+@screen at-xxl {
+  .grid {
+    @apply grid-cols-4;
+  }
+}
+/* ... */
+```
+
+Will be transformed to:
+
+```css
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (min-width: 320px) and (max-width: 639.9px) {
+  .grid {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1280px) and (max-width: 1535.9px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1536px) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+/* ... */
 ```
 
 ### `theme()`
