@@ -5,6 +5,7 @@ export interface Props {
 
 const { title } = Astro.props as Props;
 ---
+
 <script>
 	import '@unocss/reset/tailwind.css'
 	import 'uno.css'
@@ -18,7 +19,7 @@ const { title } = Astro.props as Props;
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 	</head>
-	<body class="font-sans">
+	<body class="font-sans text-center">
 		<slot />
 	</body>
 </html>
