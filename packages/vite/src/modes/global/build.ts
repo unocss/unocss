@@ -141,9 +141,7 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
     },
     {
       name: 'unocss:global:build:generate',
-      apply(options, { command }) {
-        return command === 'build' && !options.build?.ssr
-      },
+      apply: 'build',
       configResolved(config) {
         viteConfig = config
       },
