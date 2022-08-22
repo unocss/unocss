@@ -71,14 +71,15 @@ export async function build(_options: CliOptions) {
       watcher.add(configSources)
 
     watcher.on('all', async (type, file) => {
-      if (configSources.includes(file)) {
+      const absolutePath = resolve(cwd, file)
+
+      if (configSources.includes(absolutePath)) {
         uno.setConfig((await loadConfig()).config)
         consola.info(`${cyan(basename(file))} changed, setting new config`)
       }
       else {
         consola.log(`${green(type)} ${dim(file)}`)
 
-        const absolutePath = resolve(cwd, file)
         if (type.startsWith('unlink'))
           fileCache.delete(absolutePath)
         else
