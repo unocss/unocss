@@ -1,1 +1,1 @@
-export * from './rules/index'
+export * from './_rules/index'
