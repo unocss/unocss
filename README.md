@@ -460,7 +460,7 @@ As a result, the following CSS will be generated:
 
 With this, we could have `m-2` applied only when users hover over the element.
 
-The variant system is very powerful and can't be covered fully in this guide, you can check [the default preset's implementation](https://github.com/unocss/unocss/tree/main/packages/preset-mini/src/variants) to see more advanced usages.
+The variant system is very powerful and can't be covered fully in this guide, you can check [the default preset's implementation](https://github.com/unocss/unocss/tree/main/packages/preset-mini/src/_variants) to see more advanced usages.
 
 ### Extend Theme
 
