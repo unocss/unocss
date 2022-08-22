@@ -2,9 +2,6 @@
 
 The Vite plugin for UnoCSS. Ships with the `unocss` package.
 
-> This plugin does not come with any default presets.
-> If you are building a meta framework on top of UnoCSS, see [this file](https://github.com/unocss/unocss/blob/main/packages/unocss/src/vite.ts) for an example to bind the default presets.
-
 ## Installation
 
 ```bash
@@ -30,6 +27,9 @@ import 'uno.css'
 ```
 
 ### Presetless usage
+
+> This plugin does not come with any default presets.
+> If you are building a meta framework on top of UnoCSS, see [this file](https://github.com/unocss/unocss/blob/main/packages/unocss/src/vite.ts) for an example to bind the default presets.
 
 ```bash
 npm i -D @unocss/vite

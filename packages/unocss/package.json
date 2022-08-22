@@ -76,6 +76,11 @@
       "require": "./dist/vite.cjs",
       "import": "./dist/vite.mjs"
     },
+    "./astro": {
+      "types": "./dist/astro.d.ts",
+      "require": "./dist/astro.cjs",
+      "import": "./dist/astro.mjs"
+    },
     "./webpack": {
       "types": "./dist/webpack.d.ts",
       "require": "./dist/webpack.cjs",
@@ -116,6 +121,7 @@
     "@unocss/preset-web-fonts": "workspace:*",
     "@unocss/preset-wind": "workspace:*",
     "@unocss/reset": "workspace:*",
+    "@unocss/astro": "workspace:*",
     "@unocss/transformer-attributify-jsx": "workspace:*",
     "@unocss/transformer-compile-class": "workspace:*",
     "@unocss/transformer-directives": "workspace:*",

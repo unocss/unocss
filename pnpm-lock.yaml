@@ -513,6 +513,7 @@ importers:
 
   packages/unocss:
     specifiers:
+      '@unocss/astro': workspace:*
       '@unocss/cli': workspace:*
       '@unocss/core': workspace:*
       '@unocss/preset-attributify': workspace:*
@@ -531,6 +532,7 @@ importers:
       '@unocss/vite': workspace:*
       '@unocss/webpack': workspace:*
     dependencies:
+      '@unocss/astro': link:../astro
       '@unocss/cli': link:../cli
       '@unocss/core': link:../core
       '@unocss/preset-attributify': link:../preset-attributify
