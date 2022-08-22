@@ -39,3 +39,14 @@ exports[`runtime auto prefixer > without autoprefixer 1`] = `
 .hyphens-auto{-webkit-hyphens:auto;-ms-hyphens:auto;hyphens:auto;}
 .filter{filter:var(--un-blur) var(--un-brightness) var(--un-contrast) var(--un-drop-shadow) var(--un-grayscale) var(--un-hue-rotate) var(--un-invert) var(--un-saturate) var(--un-sepia);}"
 `;
+
+exports[`runtime code split > html tag code split 1`] = `
+Set {
+  "m-1",
+  "m-2",
+  "m-3",
+  "p-1",
+  "m-4",
+  "p-2",
+}
+`;

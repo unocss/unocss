@@ -99,3 +99,26 @@ describe('runtime decode html', () => {
     expect(decodeHtml('<tag class="[&_*]:content-[&nbsp;]>"')).toMatchInlineSnapshot('"<tag class=\\"[&_*]:content-[&nbsp;]>\\""')
   })
 })
+
+describe('runtime code split', () => {
+  test('html tag code split', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetUno(),
+      ],
+    })
+    const { matched } = await uno.generate(`
+    <div m-1>
+      123
+    </div>
+    <div m-2/>
+    <div m-3 p-1>
+      223
+    </div>
+    <div m-4 p-2/>
+    `,
+    { preflights: false, minify: true },
+    )
+    expect(matched).toMatchSnapshot()
+  })
+})
