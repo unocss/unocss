@@ -19,7 +19,7 @@
     "astro",
     "astro-integration",
     "astro-component",
-    "css", 
+    "css",
     "ui"
   ],
   "sideEffects": false,
@@ -40,8 +40,8 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@unocss/vite": "workspace:*",
-    "@unocss/reset": "workspace:*"
+    "@unocss/reset": "workspace:*",
+    "@unocss/vite": "workspace:*"
   },
   "devDependencies": {
     "astro": "^1.0.6"
