@@ -24,6 +24,7 @@
 | [@unocss/reset](./reset) | Collection of common CSS resets | ✅ | No |
 | [@unocss/vite](./vite) | The Vite plugins | ✅ | - |
 | [@unocss/webpack](./webpack) | The Webpack plugin | No | - |
+| [@unocss/astro](./astro) | The Astro integration | No | - |
 | [@unocss/nuxt](./nuxt) | The Nuxt Module | No | - |
 | [@unocss/runtime](./runtime) | CSS-in-JS Runtime for UnoCSS | No | - |
 | [VS Code Extension](./vscode) | UnoCSS for VS Code | - | - |
