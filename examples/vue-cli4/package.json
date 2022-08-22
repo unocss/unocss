@@ -2,16 +2,16 @@
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "build": "vue-cli-service build"
   },
   "dependencies": {
-    "core-js": "^3.24.1",
-    "vue": "^3.2.37"
+    "vue": "^2.7.8"
   },
   "devDependencies": {
     "@unocss/webpack": "link:../../packages/webpack",
     "@vue/cli-plugin-babel": "~4.5.15",
-    "@vue/cli-service": "~4.5.15"
+    "@vue/cli-service": "~4.5.15",
+    "unocss": "^0.45.8",
+    "vue-template-compiler": "^2.7.8"
   }
 }
