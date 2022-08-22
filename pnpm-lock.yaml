@@ -246,10 +246,12 @@ importers:
 
   packages/astro:
     specifiers:
+      '@unocss/core': workspace:*
       '@unocss/reset': workspace:*
       '@unocss/vite': workspace:*
       astro: ^1.0.6
     dependencies:
+      '@unocss/core': link:../core
       '@unocss/reset': link:../reset
       '@unocss/vite': link:../vite
     devDependencies:

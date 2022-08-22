@@ -40,6 +40,7 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
+    "@unocss/core": "workspace:*",
     "@unocss/reset": "workspace:*",
     "@unocss/vite": "workspace:*"
   },

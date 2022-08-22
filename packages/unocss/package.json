@@ -110,6 +110,7 @@
     }
   },
   "dependencies": {
+    "@unocss/astro": "workspace:*",
     "@unocss/cli": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
@@ -121,7 +122,6 @@
     "@unocss/preset-web-fonts": "workspace:*",
     "@unocss/preset-wind": "workspace:*",
     "@unocss/reset": "workspace:*",
-    "@unocss/astro": "workspace:*",
     "@unocss/transformer-attributify-jsx": "workspace:*",
     "@unocss/transformer-compile-class": "workspace:*",
     "@unocss/transformer-directives": "workspace:*",
