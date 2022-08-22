@@ -7,7 +7,7 @@
     "bench": "npm -C bench run bench",
     "build": "rimraf packages/*/dist && esno scripts/copy-files.ts && pnpm -r --filter=./packages/* run build && pnpm -r run build-post",
     "dev": "nr stub",
-    "deploy": "nr stub && npm -C playground run build && npm -C interactive run build",
+    "deploy": "nr build && npm -C playground run build && npm -C interactive run build",
     "interactive": "npm -C interactive run dev",
     "lint": "eslint .",
     "lint:fix": "nr lint --fix",
