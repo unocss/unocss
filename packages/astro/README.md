@@ -1,6 +1,6 @@
 # @unocss/astro
 
-The UnoCSS integration for [Astro](https://astro.build/).
+The UnoCSS integration for [Astro](https://astro.build/). Check [the example](../../examples/astro/).
 
 ## Installation
 
