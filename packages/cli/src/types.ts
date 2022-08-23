@@ -8,7 +8,7 @@ export interface CliOptions {
   watch?: boolean
   config?: string
 
-  // genreate options
+  // generate options
   preflights?: boolean
   minify?: boolean
 }
