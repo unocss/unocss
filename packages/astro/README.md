@@ -10,7 +10,7 @@ npm i -D unocss
 
 ```ts
 // astro.config.ts
-import Unocss from 'unocss/astro'
+import Unocss from '@unocss/astro'
 
 export default {
   integrations: [
