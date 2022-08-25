@@ -4,7 +4,7 @@ import { createUnplugin } from 'unplugin'
 import WebpackSources from 'webpack-sources'
 import { createContext } from '../../shared-integration/src/context'
 import { getHash } from '../../shared-integration/src/hash'
-import { HASH_PLACEHOLDER_RE, LAYER_MARK_ALL, LAYER_PLACEHOLDER_RE, getHashPlaceholder, getLayerPlaceholder, resolveId, resolveLayer } from '../../shared-integration/src/layers'
+import { HASH_PLACEHOLDER_RE, LAYER_MARK_ALL, LAYER_PLACEHOLDER_RE, RESOLVED_ID_RE, getHashPlaceholder, getLayerPlaceholder, resolveId, resolveLayer } from '../../shared-integration/src/layers'
 import { applyTransformers } from '../../shared-integration/src/transformers'
 import { getPath, isCssId } from '../../shared-integration/src/utils'
 
@@ -49,7 +49,7 @@ export default function WebpackPlugin<Theme extends {}>(
       name: 'unocss:webpack',
       enforce: 'pre',
       transformInclude(id) {
-        return filter('', id) && !id.match(/\.html$/)
+        return filter('', id) && !id.match(/\.html$/) && !RESOLVED_ID_RE.test(id)
       },
       async transform(code, id) {
         const result = await applyTransformers(ctx, code, id, 'pre')

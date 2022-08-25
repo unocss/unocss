@@ -1,14 +1,9 @@
 const UnoCSS = require('@unocss/webpack').default
-const { transformerVariantGroup } = require('unocss')
 
 module.exports = {
   configureWebpack: {
     plugins: [
-      UnoCSS({
-        transformers: [
-          transformerVariantGroup(),
-        ],
-      }),
+      UnoCSS(),
     ],
   },
   chainWebpack(config) {
