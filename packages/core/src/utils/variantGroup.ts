@@ -2,9 +2,9 @@ import type MagicString from 'magic-string'
 
 export const regexClassGroup = /((?:[!\w+:_/-]|\[&?>?:?.*\])+?)([:-])\(((?:[~!\w\s:/\\,%#.$-]|\[.*?\])*?)\)/gm
 
-export function expandVariantGroup(str: string, seperators?: ('-' | ':')[]): string
-export function expandVariantGroup(str: MagicString, seperators?: ('-' | ':')[]): MagicString
-export function expandVariantGroup(str: string | MagicString, seperators: ('-' | ':')[] = ['-', ':']) {
+export function expandVariantGroup(str: string, seperators?: string[], depth?: number): string
+export function expandVariantGroup(str: MagicString, seperators?: string[], depth?: number): MagicString
+export function expandVariantGroup(str: string | MagicString, seperators = ['-', ':'], depth = 5) {
   regexClassGroup.lastIndex = 0
   let hasChanged = false
   let content = str.toString()
@@ -23,10 +23,15 @@ export function expandVariantGroup(str: string | MagicString, seperators: ('-' |
       },
     )
     hasChanged = content !== before
-  } while (hasChanged)
+    depth -= 1
+  } while (hasChanged && depth)
 
-  if (typeof str === 'string')
+  if (typeof str === 'string') {
     return content
-  else
-    return str.overwrite(0, str.length(), content)
+  }
+  else {
+    return str.length()
+      ? str.overwrite(0, str.length(), content)
+      : str
+  }
 }
