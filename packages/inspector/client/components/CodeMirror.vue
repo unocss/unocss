@@ -71,7 +71,7 @@ onMounted(async () => {
   function highlight() {
     // clear previous
     decorations.forEach(i => i.clear())
-    getMatchedPositions(props.modelValue, Array.from(props.matched || []))
+    getMatchedPositions(props.modelValue, Array.from(props.matched || []), true)
       .forEach(i => mark(i[0], i[1]))
   }
 
