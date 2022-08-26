@@ -63,8 +63,14 @@ export function getMatchedPositions(code: string, matched: string[], hasVariantG
         body.split(/([\s"'`;<>]|:\(|\)"|\)\s)/g).forEach((i) => {
           const end = start + i.length
           const full = pre + sep + i
-          if (plain.has(full))
-            result.push([start, end, full])
+          if (plain.has(full)) {
+            // find existing plain class match and replace it
+            const index = result.findIndex(([s, e]) => s === start && e === end)
+            if (index < 0)
+              result.push([start, end, full])
+            else
+              result[index][2] = full
+          }
           start = end
         })
       })
@@ -91,12 +97,14 @@ export function getMatchedPositions(code: string, matched: string[], hasVariantG
 
 export async function getMatchedPositionsFromCode(uno: UnoGenerator, code: string, id = '') {
   const s = new MagicString(code)
+  const tokens = new Set()
+  const ctx = { uno, tokens } as any
   for (const i of uno.config.transformers?.filter(i => i.enforce === 'pre') || [])
-    await i.transform(s, id, {} as any)
+    await i.transform(s, id, ctx)
   for (const i of uno.config.transformers?.filter(i => !i.enforce || i.enforce === 'default') || [])
-    await i.transform(s, id, {} as any)
+    await i.transform(s, id, ctx)
   for (const i of uno.config.transformers?.filter(i => i.enforce === 'post') || [])
-    await i.transform(s, id, {} as any)
+    await i.transform(s, id, ctx)
   const hasVariantGroup = !!uno.config.transformers?.find(i => i.name === 'variant-group')
   const result = await uno.generate(s.toString(), { preflights: false })
   return getMatchedPositions(code, [...result.matched], hasVariantGroup)

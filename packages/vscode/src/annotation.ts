@@ -1,7 +1,7 @@
 import path from 'path'
 import type { DecorationOptions, ExtensionContext, StatusBarItem } from 'vscode'
 import { DecorationRangeBehavior, MarkdownString, Range, window, workspace } from 'vscode'
-import { INCLUDE_COMMENT_IDE, getMatchedPositions, isCssId } from './integration'
+import { INCLUDE_COMMENT_IDE, getMatchedPositionsFromCode, isCssId } from './integration'
 import { log } from './log'
 import { getColorsMap, getPrettiedMarkdown, isSubdir, throttle } from './utils'
 import type { ContextLoader } from './contextLoader'
@@ -101,7 +101,7 @@ export async function registerAnnotations(
 
       const ranges: DecorationOptions[] = (
         await Promise.all(
-          getMatchedPositions(code, Array.from(result.matched))
+          (await getMatchedPositionsFromCode(ctx.uno, code))
             .map(async (i): Promise<DecorationOptions> => {
               // side-effect: update colorRanges
               if (colorPreview && colorsMap.has(i[2]) && !_colorPositionsCache.has(`${i[0]}:${i[1]}`)) {
