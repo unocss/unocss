@@ -1,14 +1,14 @@
 import { describe, expect, test } from 'vitest'
 import presetAttributify from '@unocss/preset-attributify'
 import presetUno from '@unocss/preset-uno'
-import { createGenerator, UnoGenerator } from '@unocss/core'
+import type { UnoGenerator } from '@unocss/core'
+import { createGenerator } from '@unocss/core'
 import { getMatchedPositions } from '@unocss/shared-common'
-import { transformerVariantGroup } from "unocss";
+import transformerVariantGroup from '@unocss/transformer-variant-group'
 
 describe('matched-positions', async () => {
   async function match(code: string, uno: UnoGenerator) {
     const result = await uno.generate(code, { preflights: false })
-    console.log(result);    
     return getMatchedPositions(code, [...result.matched])
   }
 
@@ -19,7 +19,7 @@ describe('matched-positions', async () => {
         presetUno({ attributifyPseudo: true }),
       ],
     })
-  
+
     expect(await match('<div border="b gray4"></div>', uno))
       .toMatchInlineSnapshot(`
         [
@@ -72,8 +72,8 @@ describe('matched-positions', async () => {
         presetUno(),
       ],
       transformers: [
-        transformerVariantGroup()
-      ]
+        transformerVariantGroup(),
+      ],
     })
 
     expect(await match('<div class="hover:(h-4 w-4 bg-green-300) disabled:opacity-50"></div>', uno))
