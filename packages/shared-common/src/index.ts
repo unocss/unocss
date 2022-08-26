@@ -1,4 +1,6 @@
-import { e, isAttributifySelector } from '@unocss/core'
+import type { UnoGenerator } from '@unocss/core'
+import { e, isAttributifySelector, regexClassGroup } from '@unocss/core'
+import MagicString from 'magic-string'
 
 // https://github.com/dsblv/string-replace-async/blob/main/index.js
 export function replaceAsync(string: string, searchValue: RegExp, replacer: (...args: string[]) => Promise<string>) {
@@ -26,7 +28,7 @@ export function replaceAsync(string: string, searchValue: RegExp, replacer: (...
   }
 }
 
-export function getMatchedPositions(code: string, matched: string[]) {
+export function getMatchedPositions(code: string, matched: string[], hasVariantGroup = false) {
   const result: [number, number, string][] = []
   const attributify: RegExpMatchArray[] = []
   const plain = new Set<string>()
@@ -51,6 +53,23 @@ export function getMatchedPositions(code: string, matched: string[]) {
     start = end
   })
 
+  // highlight for variant group
+  if (hasVariantGroup) {
+    Array.from(code.matchAll(regexClassGroup))
+      .forEach((match) => {
+        const [, pre, sep, body] = match
+        const index = match.index!
+        let start = index + pre.length + sep.length + 1
+        body.split(/([\s"'`;<>]|:\(|\)"|\)\s)/g).forEach((i) => {
+          const end = start + i.length
+          const full = pre + sep + i
+          if (plain.has(full))
+            result.push([start, end, full])
+          start = end
+        })
+      })
+  }
+
   // attributify values
   attributify.forEach(([, name, value]) => {
     const regex = new RegExp(`(${e(name)}=)(['"])[^\\2]*?${e(value)}[^\\2]*?\\2`, 'g')
@@ -67,5 +86,18 @@ export function getMatchedPositions(code: string, matched: string[]) {
       })
   })
 
-  return result
+  return result.sort((a, b) => a[0] - b[0])
+}
+
+export async function getMatchedPositionsFromCode(uno: UnoGenerator, code: string, id = '') {
+  const s = new MagicString(code)
+  for (const i of uno.config.transformers?.filter(i => i.enforce === 'pre') || [])
+    await i.transform(s, id, {} as any)
+  for (const i of uno.config.transformers?.filter(i => !i.enforce || i.enforce === 'default') || [])
+    await i.transform(s, id, {} as any)
+  for (const i of uno.config.transformers?.filter(i => i.enforce === 'post') || [])
+    await i.transform(s, id, {} as any)
+  const hasVariantGroup = !!uno.config.transformers?.find(i => i.name === 'variant-group')
+  const result = await uno.generate(s.toString(), { preflights: false })
+  return getMatchedPositions(code, [...result.matched], hasVariantGroup)
 }
