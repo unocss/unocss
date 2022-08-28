@@ -32,6 +32,9 @@ export async function loadConfig<U extends UserConfig>(
     isFile = true
     cwd = dirname(resolved)
   }
+  else {
+    cwd = resolved
+  }
 
   const loader = createLoader<U>({
     sources: isFile
