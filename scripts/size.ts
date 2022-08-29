@@ -32,7 +32,7 @@ for (const pkg of packages) {
   console.log(`brotli  ${(brotli(minified) / 1024).toFixed(2)} KiB`)
 }
 
-const globals = fg.sync('packages/runtime/*.global.js', { absolute: true })
+const globals = await fg('packages/runtime/*.global.js', { absolute: true })
 
 console.log()
 console.log('@unocss/runtime')
