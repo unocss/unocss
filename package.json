@@ -1,8 +1,8 @@
 {
   "name": "@unocss/monorepo",
+  "type": "module",
   "version": "0.45.13",
   "private": true,
-  "type": "module",
   "packageManager": "pnpm@7.5.0",
   "scripts": {
     "bench": "npm -C bench run bench",
