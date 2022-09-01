@@ -73,7 +73,7 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
 
       for (const item of Array.from(code.original.matchAll(elementRE))) {
         for (const attr of item[3].matchAll(attributeRE)) {
-          const matchedRule = attr[0]
+          const matchedRule = attr[0].replace(/\:/i, '-')
           if (matchedRule.includes('=') || isBlocked(matchedRule))
             continue
 
