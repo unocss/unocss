@@ -11,16 +11,12 @@ export class UnoGenerator {
   public config: ResolvedConfig
   public blocked = new Set<string>()
   public parentOrders = new Map<string, number>()
-  public events = createNanoEvents<{
-    config: (config: ResolvedConfig) => void
-  }>()
 
   constructor(
     public userConfig: UserConfig = {},
     public defaults: UserConfigDefaults = {},
   ) {
     this.config = resolveConfig(userConfig, defaults)
-    this.events.emit('config', this.config)
   }
 
   setConfig(userConfig?: UserConfig, defaults?: UserConfigDefaults) {
@@ -33,7 +29,6 @@ export class UnoGenerator {
     this.parentOrders.clear()
     this._cache.clear()
     this.config = resolveConfig(userConfig, this.defaults)
-    this.events.emit('config', this.config)
   }
 
   async applyExtractors(code: string, id?: string, set = new Set<string>()) {
