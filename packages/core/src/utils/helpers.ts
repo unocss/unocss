@@ -2,7 +2,7 @@ import type { ParsedUtil, RawUtil, StringifiedUtil, Variant, VariantObject } fro
 
 export const attributifyRE = /^\[(.+?)~?="(.*)"\]$/
 export const cssIdRE = /\.(css|postcss|sass|scss|less|stylus|styl)$/
-export const validateFilterRE = /[a-zA-Z\d\u00A0-\uFFFF-_:%-?]/
+export const validateFilterRE = /[\w\u00A0-\uFFFF-_:%-?]/
 export const CONTROL_SHORTCUT_NO_MERGE = '$$shortcut-no-merge'
 
 export function isAttributifySelector(selector: string) {
