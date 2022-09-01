@@ -8,7 +8,6 @@ import presetUno from '@unocss/preset-uno'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    React(),
     UnoCSS({
       shortcuts: [
         { logo: 'i-logos-react w-6em h-6em transform transition-800 hover:rotate-180' },
@@ -24,5 +23,6 @@ export default defineConfig({
         }),
       ],
     }),
+    React(),
   ],
 })
