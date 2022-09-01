@@ -10,8 +10,12 @@ export const colors: Theme['colors'] = {
   inherit: 'inherit',
   current: 'currentColor',
   transparent: 'transparent',
-  black: '#000',
-  white: '#fff',
+  black: {
+    DEFAULT: '#000',
+  },
+  white: {
+    DEFAULT: '#fff',
+  },
   rose: {
     50: '#fff1f2',
     100: '#ffe4e6',
