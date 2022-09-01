@@ -55,8 +55,6 @@ export function createSearch(
 
   const az09 = Array.from('abcdefghijklmnopqrstuvwxyz01234567890')
 
-  uno.events.on('config', reset)
-
   let _fusePrepare: Promise<void> | undefined
   async function search(input: string) {
     _fusePrepare = _fusePrepare || prepareFuse()
