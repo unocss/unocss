@@ -14,7 +14,7 @@ npm i -D unocss @unocss/webpack
 
 ```ts
 // webpack.config.js
-const UnoCSS = require('unocss/webpack').default
+const UnoCSS = require('@unocss/webpack').default
 
 module.exports = {
   plugins: [
