@@ -122,6 +122,7 @@ function bracketWithType(str: string, type?: string) {
     return base
       .replace(/(url\(.*?\))/g, v => v.replace(/_/g, '\\_'))
       .replace(/([^\\])_/g, '$1 ')
+      .replace(/\\_/g, '_')
       .replace(/(?:calc|clamp|max|min)\((.*)/g, (v) => {
         return v.replace(/(-?\d*\.?\d(?!\b-.+[,)](?![^+\-/*])\D)(?:%|[a-z]+)?|\))([+\-/*])/g, '$1 $2 ')
       })
