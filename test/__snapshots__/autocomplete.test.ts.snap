@@ -20,7 +20,7 @@ exports[`autocomplete > should accept variants 1`] = `
 
 exports[`autocomplete > should provide autocomplete 1`] = `
 {
-  "align-": "align-base align-baseline align-bottom align-btm align-inherit align-initial align-mid align-middle align-revert align-revert-layer",
+  "align-": "align-base align-baseline align-bottom align-btm align-end align-inherit align-initial align-mid align-middle align-revert",
   "aspect-": "aspect-ratio aspect-square aspect-video",
   "auto-flow-": "auto-flow-col auto-flow-col-dense auto-flow-dense auto-flow-row auto-flow-row-dense",
   "bg-": "bg-amber bg-auto bg-black bg-blend-color bg-blend-color-burn bg-blend-color-dodge bg-blend-darken bg-blend-difference bg-blend-exclusion bg-blend-hard-light",
@@ -68,7 +68,7 @@ exports[`autocomplete > should provide autocomplete 1`] = `
   "transform-skew-x-": "transform-skew-x-0 transform-skew-x-10 transform-skew-x-20 transform-skew-x-30 transform-skew-x-40 transform-skew-x-50 transform-skew-x-60 transform-skew-x-70 transform-skew-x-80 transform-skew-x-90",
   "transform-skew-y-": "transform-skew-y-0 transform-skew-y-10 transform-skew-y-20 transform-skew-y-30 transform-skew-y-40 transform-skew-y-50 transform-skew-y-60 transform-skew-y-70 transform-skew-y-80 transform-skew-y-90",
   "transition-": "transition-all transition-colors transition-inherit transition-initial transition-none transition-opacity transition-revert transition-revert-layer transition-shadow transition-transform",
-  "v-": "v-base v-baseline v-bottom v-btm v-inherit v-initial v-mid v-middle v-revert v-revert-layer",
+  "v-": "v-base v-baseline v-bottom v-btm v-end v-inherit v-initial v-mid v-middle v-revert",
   "w-": "w-2xl w-3xl w-4xl w-5xl w-6xl w-7xl w-auto w-lg w-md w-none",
   "z-": "z-0 z-1 z-2 z-3 z-4 z-5 z-6 z-8 z-10 z-12",
 }

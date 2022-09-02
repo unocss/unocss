@@ -689,9 +689,11 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .resize-none{resize:none;}
 .resize-inherit{resize:inherit;}
 .align-revert{vertical-align:revert;}
-.align-text-bottom{vertical-align:text-bottom;}
-.v-mid{vertical-align:middle;}
+.align-start,
 .v-top{vertical-align:top;}
+.align-text-bottom{vertical-align:text-bottom;}
+.v-end{vertical-align:bottom;}
+.v-mid{vertical-align:middle;}
 .v-unset{vertical-align:unset;}
 .vertical-baseline{vertical-align:baseline;}
 .vertical-inherit{vertical-align:inherit;}

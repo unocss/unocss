@@ -1,14 +1,16 @@
 export const presetMiniTargets: string[] = [
   // align
+  'text-left',
   'vertical-baseline',
   'vertical-super',
+  'vertical-inherit',
   'align-text-bottom',
+  'align-revert',
+  'align-start',
   'v-top',
   'v-mid',
-  'vertical-inherit',
-  'align-revert',
   'v-unset',
-  'text-left',
+  'v-end',
 
   // behaviors
   'outline-none',
