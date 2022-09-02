@@ -43,9 +43,9 @@ exports[`preset-mini > targets 1`] = `
 .items-\\\\$size{align-items:var(--size);}
 .ws-\\\\$variable{white-space:var(--variable);}
 .\\\\[a\\\\:b\\\\]{a:b;}
-.\\\\[background-image\\\\:url\\\\(star_transparent\\\\.gif\\\\)\\\\,_url\\\\(cat_front\\\\.png\\\\)\\\\]{background-image:url(star\\\\_transparent.gif), url(cat\\\\_front.png);}
+.\\\\[background-image\\\\:url\\\\(star_transparent\\\\.gif\\\\)\\\\,_url\\\\(cat_front\\\\.png\\\\)\\\\]{background-image:url(star_transparent.gif), url(cat_front.png);}
 .\\\\[content\\\\:attr\\\\(attr_content\\\\)\\\\]{content:attr(attr content);}
-.\\\\[content\\\\:attr\\\\(attr\\\\\\\\_content\\\\)\\\\]{content:attr(attr\\\\_content);}
+.\\\\[content\\\\:attr\\\\(attr\\\\\\\\_content\\\\)\\\\]{content:attr(attr_content);}
 .\\\\[margin\\\\:logical_1rem_2rem_3rem\\\\]{margin:logical 1rem 2rem 3rem;}
 .all-\\\\[\\\\.target\\\\]-\\\\[combinator\\\\:test-2\\\\] .target,
 .children-\\\\[\\\\.target\\\\]-\\\\[combinator\\\\:test-2\\\\]>.target,
@@ -675,7 +675,7 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .aspect-ratio-square{aspect-ratio:1/1;}
 .aspect-ratio-video{aspect-ratio:16/9;}
 .aspect-unset{aspect-ratio:unset;}
-.cursor-\\\\[url\\\\(cursor_2\\\\.png\\\\)_2_2\\\\,_pointer\\\\]{cursor:url(cursor\\\\_2.png) 2 2, pointer;}
+.cursor-\\\\[url\\\\(cursor_2\\\\.png\\\\)_2_2\\\\,_pointer\\\\]{cursor:url(cursor_2.png) 2 2, pointer;}
 .cursor-\\\\$pointer-var{cursor:var(--pointer-var);}
 .cursor-inherit{cursor:inherit;}
 .cursor-pointer{cursor:pointer;}
