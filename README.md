@@ -144,6 +144,9 @@ Presets are the heart of UnoCSS. They let you make your own custom framework in 
 - [unocss-preset-scrollbar](https://github.com/action-hong/unocss-preset-scrollbar) - Scrollbar Preset by [@action-hong](https://github.com/action-hong).
 - [unocss-preset-uni](https://github.com/zguolee/unocss-preset-uni) - UniApp Preset by [@zguolee](https://github.com/zguolee).
 - [unocss-preset-weapp](https://github.com/MellowCo/unocss-preset-weapp) - Wechat MiniProgram Preset for [UniApp](https://uniapp.dcloud.io) and [Taro](https://taro-docs.jd.com/taro/docs) by [@MellowCo](https://github.com/MellowCo).
+- [unocss-preset-heropatterns](https://github.com/Julien-R44/unocss-preset-heropatterns) - Preset that integrates [Hero Patterns](https://heropatterns.com/) by [@Julien-R44](https://github.com/Julien-R44).
+- [unocss-preset-flowbite](https://github.com/Julien-R44/unocss-preset-flowbite) - Port of of [Flowbite Tailwind plugin](https://github.com/themesberg/flowbite) for UnoCSS by [@Julien-R44](https://github.com/Julien-R44).
+- [unocss-preset-forms](https://github.com/Julien-R44/unocss-preset-forms) - Port of [@tailwindcss/forms](https://github.com/tailwindlabs/tailwindcss-forms) for UnoCSS by [@Julien-R44](https://github.com/Julien-R44).
 
 ### Using Presets
 
