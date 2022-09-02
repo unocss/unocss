@@ -167,18 +167,3 @@ test('non-targets', async () => {
   expect(Array.from(matched)).toEqual([])
   expect(css).toBe('')
 })
-
-test('alias start/end to top/bottom align', async () => {
-  const { css: css_1 } = await uno.generate('align-top', { preflights: false })
-  const { css: css1 } = await uno.generate('align-start', { preflights: false })
-  const { css: css_2 } = await uno.generate('align-bottom', { preflights: false })
-  const { css: css2 } = await uno.generate('align-end', { preflights: false })
-  const result1 = css_1.match(/\{[\s\S]*\}/)?.[0]
-  const result2 = css1.match(/\{[\s\S]*\}/)?.[0]
-  expect(result1).toEqual(result2)
-  const result3 = css_2.match(/\{[\s\S]*\}/)?.[0]
-  const result4 = css2.match(/\{[\s\S]*\}/)?.[0]
-  expect(result3).toEqual(result4)
-  expect(css1).toMatchSnapshot()
-  expect(css2).toMatchSnapshot()
-})
