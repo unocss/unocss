@@ -1,5 +1,15 @@
 // Vitest Snapshot v1
 
+exports[`alias start/end to top/bottom align 1`] = `
+"/* layer: default */
+.align-start{vertical-align:top;}"
+`;
+
+exports[`alias start/end to top/bottom align 2`] = `
+"/* layer: default */
+.align-end{vertical-align:bottom;}"
+`;
+
 exports[`targets 1`] = `
 "/* layer: default */
 .border-custom-b{border-color:rgba(var(--custom), 1);}
