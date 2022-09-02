@@ -228,6 +228,11 @@ export interface VariantHandlerContext {
    * Order in which the variant is sorted within single rule.
    */
   sort?: number
+  /**
+   * Option to not merge the resulting entries even if the body are the same.
+   * @default false
+   */
+  noMerge?: boolean
 }
 
 export interface VariantHandler {
@@ -655,6 +660,7 @@ export type StringifiedUtil = readonly [
   parent: string | undefined,
   meta: RuleMeta | undefined,
   context: RuleContext | undefined,
+  noMerge: boolean | undefined,
 ]
 
 export type PreparedRule = readonly [
@@ -669,6 +675,7 @@ export interface UtilObject {
   parent: string | undefined
   layer: string | undefined
   sort: number | undefined
+  noMerge: boolean | undefined
 }
 
 export interface GenerateOptions {

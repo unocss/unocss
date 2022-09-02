@@ -1,5 +1,12 @@
 // Vitest Snapshot v1
 
+exports[`variants > noMerge on variant 1`] = `
+"/* layer: default */
+.foo{name:bar;}
+.var-a\\\\:foo::a{name:bar;}
+.var-b\\\\:foo::b{name:bar;}"
+`;
+
 exports[`variants > selector section is merged in order 1`] = `
 "/* layer: default */
 .prefix .pre\\\\:back\\\\:foo::pseudo,
