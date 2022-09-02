@@ -589,12 +589,12 @@ export class UnoGenerator {
         rawStringfieldUtil.push([item[0], undefined, item[1], undefined, item[2], context, undefined])
         continue
       }
-      const { selector, entries, parent, sort } = this.applyVariants(item, [...item[4], ...parentVariants], raw)
+      const { selector, entries, parent, sort, noMerge } = this.applyVariants(item, [...item[4], ...parentVariants], raw)
 
       // find existing selector/mediaQuery pair and merge
       const mapItem = selectorMap.getFallback(selector, parent, [[], item[0]])
       // add entries
-      mapItem[0].push([entries, !!item[3]?.noMerge, sort ?? 0])
+      mapItem[0].push([entries, !!(noMerge ?? item[3]?.noMerge), sort ?? 0])
     }
     return rawStringfieldUtil.concat(selectorMap
       .map(([e, index], selector, joinedParents) => {

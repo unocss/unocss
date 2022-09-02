@@ -2,9 +2,17 @@
 
 exports[`variants > noMerge on variant 1`] = `
 "/* layer: default */
-.foo{name:bar;}
-.var-a\\\\:foo::a{name:bar;}
-.var-b\\\\:foo::b{name:bar;}"
+.foo,
+.var-a\\\\:foo::a,
+.var-b\\\\:foo::b{name:bar;}
+.var-c\\\\:foo::c{name:bar;}"
+`;
+
+exports[`variants > noMerge variant with shortcut 1`] = `
+"/* layer: shortcuts */
+.bar::a,
+.bar::b{name:bar;}
+.bar::c{name:bar;}"
 `;
 
 exports[`variants > selector section is merged in order 1`] = `
