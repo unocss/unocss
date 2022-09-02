@@ -73,8 +73,6 @@ export default defineConfig({
 ```html
 <div translate-x-100% /> <!-- cannot end with `%` -->
 
-<div hover:text-2xl /> <!-- cannot contain `:` -->
-
 <div translate-x-[100px] /> <!-- cannot contain `[` or `]` -->
 ```
 
@@ -82,8 +80,6 @@ Instead, you may want to use valued attributes instead:
 
 ```html
 <div translate="x-100%" />
-
-<div hover="text-2xl" />
 
 <div translate="x-[100px]" />
 ```
