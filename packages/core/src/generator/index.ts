@@ -225,12 +225,12 @@ export class UnoGenerator {
           const sorted: PreparedRule[] = items
             .filter(i => (i[4]?.layer || LAYER_DEFAULT) === layer)
             .sort((a, b) => a[0] - b[0] || (a[4]?.sort || 0) - (b[4]?.sort || 0) || a[1]?.localeCompare(b[1] || '') || a[2]?.localeCompare(b[2] || '') || 0)
-            .map(([, selector, body,, meta]) => {
+            .map(([, selector, body,, meta,, variantNoMerge]) => {
               const scopedSelector = selector ? applyScope(selector, scope) : selector
               return [
                 [[scopedSelector ?? '', meta?.sort ?? 0]],
                 body,
-                !!meta?.noMerge,
+                !!(variantNoMerge ?? meta?.noMerge),
               ]
             })
           if (!sorted.length)
@@ -384,6 +384,7 @@ export class UnoGenerator {
       parent,
       layer: variantContextResult.layer,
       sort: variantContextResult.sort,
+      noMerge: variantContextResult.noMerge,
     }
 
     for (const p of this.config.postprocess)
@@ -478,9 +479,9 @@ export class UnoGenerator {
     if (!parsed)
       return
     if (isRawUtil(parsed))
-      return [parsed[0], undefined, parsed[1], undefined, parsed[2], this.config.details ? context : undefined]
+      return [parsed[0], undefined, parsed[1], undefined, parsed[2], this.config.details ? context : undefined, undefined]
 
-    const { selector, entries, parent, layer: variantLayer, sort: variantSort } = this.applyVariants(parsed)
+    const { selector, entries, parent, layer: variantLayer, sort: variantSort, noMerge } = this.applyVariants(parsed)
     const body = entriesToCss(entries)
 
     if (!body)
@@ -492,7 +493,7 @@ export class UnoGenerator {
       layer: variantLayer ?? metaLayer,
       sort: variantSort ?? metaSort,
     }
-    return [parsed[0], selector, body, parent, ruleMeta, this.config.details ? context : undefined]
+    return [parsed[0], selector, body, parent, ruleMeta, this.config.details ? context : undefined, noMerge]
   }
 
   expandShortcut(input: string, context: RuleContext, depth = 5): [ShortcutValue[], RuleMeta | undefined] | undefined {
@@ -585,15 +586,15 @@ export class UnoGenerator {
     const rawStringfieldUtil: StringifiedUtil[] = []
     for (const item of parsed) {
       if (isRawUtil(item)) {
-        rawStringfieldUtil.push([item[0], undefined, item[1], undefined, item[2], context])
+        rawStringfieldUtil.push([item[0], undefined, item[1], undefined, item[2], context, undefined])
         continue
       }
-      const { selector, entries, parent, sort } = this.applyVariants(item, [...item[4], ...parentVariants], raw)
+      const { selector, entries, parent, sort, noMerge } = this.applyVariants(item, [...item[4], ...parentVariants], raw)
 
       // find existing selector/mediaQuery pair and merge
       const mapItem = selectorMap.getFallback(selector, parent, [[], item[0]])
       // add entries
-      mapItem[0].push([entries, !!item[3]?.noMerge, sort ?? 0])
+      mapItem[0].push([entries, !!(noMerge ?? item[3]?.noMerge), sort ?? 0])
     }
     return rawStringfieldUtil.concat(selectorMap
       .map(([e, index], selector, joinedParents) => {
@@ -603,7 +604,7 @@ export class UnoGenerator {
           return (flatten ? [entriesList.flat(1)] : entriesList).map((entries: CSSEntries): StringifiedUtil | undefined => {
             const body = entriesToCss(entries)
             if (body)
-              return [index, selector, body, joinedParents, { ...meta, noMerge, sort: maxSort }, context]
+              return [index, selector, body, joinedParents, { ...meta, noMerge, sort: maxSort }, context, undefined]
             return undefined
           })
         }

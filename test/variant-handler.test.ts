@@ -114,4 +114,72 @@ describe('variants', () => {
 
     expect(css).toMatchSnapshot()
   })
+
+  test('noMerge on variant', async () => {
+    const uno = createGenerator({
+      rules: [
+        ['foo', { name: 'bar' }],
+      ],
+      variants: [
+        {
+          match(input) {
+            const match = input.match(/^(var-([abc])):/)
+            if (match) {
+              return {
+                matcher: input.slice(match[0].length),
+                handle: (input, next) => next({
+                  ...input,
+                  pseudo: `${input.pseudo}::${match[2]}`,
+                  noMerge: match[2] === 'c',
+                }),
+              }
+            }
+          },
+        },
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'foo',
+      'var-a:foo',
+      'var-b:foo',
+      'var-c:foo',
+    ].join(' '), { preflights: false })
+
+    expect(css).toMatchSnapshot()
+  })
+
+  test('noMerge variant with shortcut', async () => {
+    const uno = createGenerator({
+      rules: [
+        ['foo', { name: 'bar' }],
+      ],
+      shortcuts: [
+        ['bar', 'var-a:foo var-b:foo var-c:foo'],
+      ],
+      variants: [
+        {
+          match(input) {
+            const match = input.match(/^(var-([abc])):/)
+            if (match) {
+              return {
+                matcher: input.slice(match[0].length),
+                handle: (input, next) => next({
+                  ...input,
+                  pseudo: `${input.pseudo}::${match[2]}`,
+                  noMerge: match[2] === 'c',
+                }),
+              }
+            }
+          },
+        },
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'bar',
+    ].join(' '), { preflights: false })
+
+    expect(css).toMatchSnapshot()
+  })
 })
