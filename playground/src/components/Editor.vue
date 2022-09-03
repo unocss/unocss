@@ -34,7 +34,8 @@ const panelSizes = useLocalStorage<number[]>(
 )
 
 function handleReset() {
-  if (confirm('Reset to default?')) {
+  // eslint-disable-next-line no-alert
+  if (confirm('Reset all settings? It can NOT be undone.')) {
     inputHTML.value = defaultHTML
     customConfigRaw.value = defaultConfigRaw
   }
@@ -140,17 +141,17 @@ onMounted(() => {
               target="_blank"
               title="Interactive Docs"
             />
-            <a
-              i-ri-github-line icon-btn
-              href="https://github.com/unocss/unocss"
-              target="_blank"
-              title="GitHub"
-            />
             <button
               i-ri-device-line
               icon-btn
               title="Responsive"
               @click="options.responsive = !options.responsive"
+            />
+            <a
+              i-ri-github-line icon-btn
+              href="https://github.com/unocss/unocss"
+              target="_blank"
+              title="GitHub"
             />
             <button
               i-ri-sun-line
