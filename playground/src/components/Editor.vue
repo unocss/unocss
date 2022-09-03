@@ -33,6 +33,11 @@ const panelSizes = useLocalStorage<number[]>(
   { listenToStorageChanges: false },
 )
 
+function handleReset() {
+  inputHTML.value = defaultHTML
+  customConfigRaw.value = defaultConfigRaw
+}
+
 function handleResize(event: ({ size: number })[]) {
   panelSizes.value = event.map(({ size }) => size)
 }
@@ -145,6 +150,12 @@ onMounted(() => {
               icon-btn
               title="Toggle Color Mode"
               @click="isDark = !isDark"
+            />
+            <button
+              i-carbon:reset
+              icon-btn
+              title="Reset To Default"
+              @click="handleReset"
             />
           </div>
         </div>
