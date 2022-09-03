@@ -33,6 +33,14 @@ const panelSizes = useLocalStorage<number[]>(
   { listenToStorageChanges: false },
 )
 
+function handleReset() {
+  // eslint-disable-next-line no-alert
+  if (confirm('Reset all settings? It can NOT be undone.')) {
+    inputHTML.value = defaultHTML
+    customConfigRaw.value = defaultConfigRaw
+  }
+}
+
 function handleResize(event: ({ size: number })[]) {
   panelSizes.value = event.map(({ size }) => size)
 }
@@ -121,23 +129,29 @@ onMounted(() => {
           </div>
 
           <div class="pl-1 ml-auto space-x-2 text-sm md:text-base flex items-center flex-nowrap">
+            <button
+              i-carbon-erase
+              icon-btn
+              title="Reset To Default"
+              @click="handleReset"
+            />
             <a
               i-ri-search-line icon-btn
               href="https://uno.antfu.me"
               target="_blank"
               title="Interactive Docs"
             />
-            <a
-              i-ri-github-line icon-btn
-              href="https://github.com/unocss/unocss"
-              target="_blank"
-              title="GitHub"
-            />
             <button
               i-ri-device-line
               icon-btn
               title="Responsive"
               @click="options.responsive = !options.responsive"
+            />
+            <a
+              i-ri-github-line icon-btn
+              href="https://github.com/unocss/unocss"
+              target="_blank"
+              title="GitHub"
             />
             <button
               i-ri-sun-line
