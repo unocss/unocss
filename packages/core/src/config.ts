@@ -66,15 +66,19 @@ export function resolveConfig(
 
   const rulesSize = rules.length
 
-  rules.forEach((rule, i) => {
-    if (isStaticRule(rule)) {
-      const prefix = rule[2]?.prefix || ''
-      rulesStaticMap[prefix + rule[0]] = [i, rule[1], rule[2], rule]
-      // delete static rules so we can't skip them in matching
-      // but keep the order
-      delete rules[i]
-    }
-  })
+  const rulesDynamic = rules
+    .map((rule, i) => {
+      if (isStaticRule(rule)) {
+        const prefix = rule[2]?.prefix || ''
+        rulesStaticMap[prefix + rule[0]] = [i, rule[1], rule[2], rule]
+        // delete static rules so we can't skip them in matching
+        // but keep the order
+        return undefined
+      }
+      return [i, ...rule]
+    })
+    .filter(Boolean)
+    .reverse() as ResolvedConfig['rulesDynamic']
 
   const theme = clone([
     ...sortedPresets.map(p => p.theme || {}),
@@ -101,7 +105,7 @@ export function resolveConfig(
     layers,
     theme,
     rulesSize,
-    rulesDynamic: rules as ResolvedConfig['rulesDynamic'],
+    rulesDynamic,
     rulesStaticMap,
     preprocess: mergePresets('preprocess') as Preprocessor[],
     postprocess: mergePresets('postprocess') as Postprocessor[],
