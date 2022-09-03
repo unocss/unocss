@@ -10,7 +10,7 @@ const input = useLocalStorage(
   '<div class="text-sm hover:text-red">\nHello World\n</div>',
 )
 
-const isSafelistIncluded = ref(false)
+const isSafelistIncluded = useStorage('unocss-inspector-safelist', false)
 const { data: result } = fetchRepl(input, isSafelistIncluded)
 </script>
 

@@ -65,7 +65,7 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
       if (req.url.startsWith('/repl')) {
         const query = new URLSearchParams(req.url.slice(5))
         const token = query.get('token') || ''
-        const includeSafelist = JSON.parse(query.get('include-safelist') ?? 'false')
+        const includeSafelist = JSON.parse(query.get('safelist') ?? 'false')
 
         const result = await ctx.uno.generate(token, { preflights: false, safelist: includeSafelist })
         const mod = {
