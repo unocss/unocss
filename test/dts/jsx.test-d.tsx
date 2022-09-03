@@ -8,6 +8,8 @@ function App() {
       <header className="m-4">
         <p>
           <button
+            ma flex absolute
+            op30 fw20 p1 m10px
             p="x-4 y-2"
             hover:p="0"
             hover="bg-teal-400 border-teal-400"
