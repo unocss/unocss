@@ -10,7 +10,8 @@ const input = useLocalStorage(
   '<div class="text-sm hover:text-red">\nHello World\n</div>',
 )
 
-const { data: result } = fetchRepl(input)
+const isSafelistIncluded = useStorage('unocss-inspector-safelist', false)
+const { data: result } = fetchRepl(input, isSafelistIncluded)
 </script>
 
 <template>
@@ -23,6 +24,12 @@ const { data: result } = fetchRepl(input)
         Edit your code below to test and play UnoCSS's matching and generating.
       </div>
     </StatusBar>
+    <TitleBar border="b gray-400/20" title="">
+      <label>
+        <input v-model="isSafelistIncluded" type="checkbox">
+        Include safelist
+      </label>
+    </TitleBar>
     <div h-full of-hidden grid grid-cols-2>
       <CodeMirror
         v-model="input"

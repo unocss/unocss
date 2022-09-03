@@ -32,9 +32,9 @@ export function fetchModule(id: string | Ref<string>) {
   return result
 }
 
-export function fetchRepl(input: Ref<string>) {
+export function fetchRepl(input: Ref<string>, includeSafelist: Ref<boolean>) {
   const debounced = useDebounce(input, 500)
-  return useFetch(computed(() => `${API_ROOT}/repl?token=${encodeURIComponent(debounced.value)}`), { refetch: true })
+  return useFetch(computed(() => `${API_ROOT}/repl?token=${encodeURIComponent(debounced.value)}&safelist=${includeSafelist.value}`), { refetch: true })
     .json<Result>()
 }
 
