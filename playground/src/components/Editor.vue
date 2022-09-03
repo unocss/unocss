@@ -34,8 +34,10 @@ const panelSizes = useLocalStorage<number[]>(
 )
 
 function handleReset() {
-  inputHTML.value = defaultHTML
-  customConfigRaw.value = defaultConfigRaw
+  if (confirm('Reset to default?')) {
+    inputHTML.value = defaultHTML
+    customConfigRaw.value = defaultConfigRaw
+  }
 }
 
 function handleResize(event: ({ size: number })[]) {
@@ -126,6 +128,12 @@ onMounted(() => {
           </div>
 
           <div class="pl-1 ml-auto space-x-2 text-sm md:text-base flex items-center flex-nowrap">
+            <button
+              i-carbon-erase
+              icon-btn
+              title="Reset To Default"
+              @click="handleReset"
+            />
             <a
               i-ri-search-line icon-btn
               href="https://uno.antfu.me"
@@ -150,12 +158,6 @@ onMounted(() => {
               icon-btn
               title="Toggle Color Mode"
               @click="isDark = !isDark"
-            />
-            <button
-              i-carbon:reset
-              icon-btn
-              title="Reset To Default"
-              @click="handleReset"
             />
           </div>
         </div>
