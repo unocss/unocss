@@ -14,7 +14,7 @@ export default defineNuxtConfig({
   alias,
   modules: [
     '@vueuse/nuxt',
-    '@unocss/nuxt',
+    '~/../packages/nuxt/src/index.ts',
     '~/modules/markdown',
   ],
   ssr: false,
@@ -42,7 +42,6 @@ export default defineNuxtConfig({
   },
   vite: {
     logLevel: 'info',
-    // @ts-expect-error any
     vue: {
       include: [/\.vue$/, /\.md$/],
     },

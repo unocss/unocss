@@ -12,7 +12,7 @@ export default defineNuxtModule({
       ],
     })
     nuxt.hook('vite:extendConfig', async (config) => {
-      config.plugins.push(
+      config.plugins!.push(
         Markdown({
           markdownItSetup(md) {
             md.use(LinkAttributes, {
