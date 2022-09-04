@@ -130,7 +130,7 @@ export interface PreflightContext<Theme extends {} = {}> {
 
 export interface Extractor {
   name: string
-  extract(ctx: ExtractorContext): Awaitable<Set<string> | undefined>
+  extract(ctx: ExtractorContext): Awaitable<Set<string> | string[] | undefined>
   order?: number
 }
 
@@ -616,7 +616,7 @@ RequiredByKey<UserConfig, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'l
   preprocess: Preprocessor[]
   postprocess: Postprocessor[]
   rulesSize: number
-  rulesDynamic: (DynamicRule | undefined)[]
+  rulesDynamic: [number, ...DynamicRule][]
   rulesStaticMap: Record<string, [number, CSSObject | CSSEntries, RuleMeta | undefined, Rule] | undefined>
   autocomplete: {
     templates: (AutoCompleteFunction | AutoCompleteTemplate)[]

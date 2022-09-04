@@ -29,8 +29,8 @@ The instant on-demand Atomic CSS engine.
 Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcss.com/), and [Twind](https://github.com/tw-in-js/twind), but:
 
 - [Fully customizable](#configurations) - no core utilities, all functionalities are provided via presets.
-- No parsing, no AST, no scanning, it's **INSTANT** (200x faster than Windi CSS or Tailwind JIT).
-- ~5kb min+gzip - zero deps and browser friendly.
+- No parsing, no AST, no scanning, it's **INSTANT** (5x faster than Windi CSS or Tailwind JIT).
+- ~6kb min+brotli - zero deps and browser friendly.
 - [Shortcuts](#shortcuts) - aliasing utilities, dynamically.
 - [Attributify mode](https://github.com/unocss/unocss/tree/main/packages/preset-attributify/) - group utilities in attributes.
 - [Pure CSS Icons](https://github.com/unocss/unocss/tree/main/packages/preset-icons/) - use any icon as a single class.
@@ -45,13 +45,13 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 ###### Benchmark
 
 ```
-2022/7/2 08:38:12 PM
-1656 utilities | x50 runs (min build time)
+2022/9/3 22:40:50
+1656 utilities | x200 runs (75% build time)
 
-none                              5.87 ms / delta.      0.00 ms 
-unocss       v0.43.0              9.17 ms / delta.      3.30 ms (x1.00)
-tailwindcss  v3.1.4             497.24 ms / delta.    491.37 ms (x148.70)
-windicss     v3.5.5             869.47 ms / delta.    863.60 ms (x261.35)
+none                             20.01 ms / delta.      0.00 ms 
+unocss       v0.45.14           199.76 ms / delta.    179.75 ms (x1.00)
+tailwindcss  v3.1.8             875.51 ms / delta.    855.50 ms (x4.76)
+windicss     v3.5.6            1342.37 ms / delta.   1322.36 ms (x7.36)
 ```
 
 ## Installation

@@ -17,7 +17,7 @@ function BuildTimePlugin(name) {
     buildStart() {
       start = performance.now()
     },
-    buildEnd() {
+    closeBundle() {
       result[name].time = performance.now() - start
     },
   }

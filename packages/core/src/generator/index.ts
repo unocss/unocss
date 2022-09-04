@@ -1,5 +1,5 @@
 import { createNanoEvents } from '../utils/events'
-import type { CSSEntries, CSSObject, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
+import type { CSSEntries, CSSObject, DynamicRule, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
 import { CONTROL_SHORTCUT_NO_MERGE, TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
@@ -45,7 +45,10 @@ export class UnoGenerator {
 
     for (const extractor of this.config.extractors) {
       const result = await extractor.extract(context)
-      result?.forEach(t => set.add(t))
+      if (result) {
+        for (const token of result)
+          set.add(token)
+      }
     }
 
     return set
@@ -410,18 +413,16 @@ export class UnoGenerator {
       ? this.matchVariants(input)
       : input
 
-    const recordRule = this.config.details
-      ? (r: Rule) => {
-          context.rules = context.rules ?? []
-          context.rules.push(r)
-        }
-      : noop
+    if (this.config.details)
+      context.rules = context.rules ?? []
 
     // use map to for static rules
     const staticMatch = this.config.rulesStaticMap[processed]
     if (staticMatch) {
       if (staticMatch[1] && (internal || !staticMatch[2]?.internal)) {
-        recordRule(staticMatch[3])
+        if (this.config.details)
+          context.rules!.push(staticMatch[3])
+
         const index = staticMatch[0]
         const entry = normalizeCSSEntries(staticMatch[1])
         const meta = staticMatch[2]
@@ -434,25 +435,24 @@ export class UnoGenerator {
 
     context.variantHandlers = variantHandlers
 
-    const { rulesDynamic, rulesSize } = this.config
+    const { rulesDynamic } = this.config
 
-    // match rules, from last to first
-    for (let i = rulesSize - 1; i >= 0; i--) {
-      const rule = rulesDynamic[i]
-
-      // static rules are omitted as undefined
-      if (!rule)
-        continue
-
+    // match rules
+    for (const [i, matcher, handler, meta] of rulesDynamic) {
       // ignore internal rules
-      if (rule[2]?.internal && !internal)
+      if (meta?.internal && !internal)
         continue
 
-      // dynamic rules
-      const [matcher, handler, meta] = rule
-      if (meta?.prefix && !processed.startsWith(meta.prefix))
-        continue
-      const unprefixed = meta?.prefix ? processed.slice(meta.prefix.length) : processed
+      // match prefix
+      let unprefixed = processed
+      if (meta?.prefix) {
+        if (!processed.startsWith(meta.prefix))
+          continue
+
+        unprefixed = processed.slice(meta.prefix.length)
+      }
+
+      // match rule
       const match = unprefixed.match(matcher)
       if (!match)
         continue
@@ -461,7 +461,8 @@ export class UnoGenerator {
       if (!result)
         continue
 
-      recordRule(rule)
+      if (this.config.details)
+        context.rules!.push([matcher, handler, meta] as DynamicRule)
 
       const entries = normalizeCSSValues(result).filter(i => i.length)
       if (entries.length) {
@@ -645,7 +646,8 @@ function applyScope(css: string, scope?: string) {
 export function movePseudoElementsEnd(selector: string) {
   const pseudoElements = selector.match(/::[\w-]+(\([\w-]+\))?/g)
   if (pseudoElements) {
-    pseudoElements.forEach(e => (selector = selector.replace(e, '')))
+    for (const e of pseudoElements)
+      selector = selector.replace(e, '')
     selector += pseudoElements.join('')
   }
   return selector

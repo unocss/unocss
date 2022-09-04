@@ -6,8 +6,8 @@ import { escapeSelector } from '@unocss/core'
 import { dir, getVersions, targets } from './meta.mjs'
 import { classes, writeMock } from './gen.mjs'
 
-const times = 50
-const metric = 'min' // 'average' or 'min'
+const times = 200
+const metric = '75%' // average / min / 50% / 75% / 95% / 99%
 const versions = await getVersions()
 await run()
 await report()
@@ -51,8 +51,20 @@ async function report() {
     return [target, result.filter(i => i.name === target).sort((a, b) => a.time - b.time)[0].time]
   })
 
+  const percentile = percent =>
+    targets.map((target) => {
+      const items = result.filter(i => i.name === target)
+      const sorted = items.sort((a, b) => a.time - b.time)
+      const index = Math.floor(sorted.length * percent)
+      return [target, sorted[index].time]
+    })
+  const fifty = percentile(0.5)
+  const seventyFive = percentile(0.75)
+  const ninetyFive = percentile(0.95)
+  const ninetyNine = percentile(0.99)
+
   // base on what you want to compare
-  const data = metric === 'min' ? minimum : average
+  const data = { average, 'min': minimum, '50%': fifty, '75%': seventyFive, '95%': ninetyFive, '99%': ninetyNine }[metric]
 
   const baseTime = data.find(i => i[0] === 'none')[1]
   const fastest = data.sort((a, b) => a[1] - b[1])[1][1]
@@ -95,6 +107,10 @@ async function report() {
     utilities: classes.length,
     minimum: Object.fromEntries(minimum),
     average: Object.fromEntries(average),
+    fifty: Object.fromEntries(fifty),
+    seventyFive: Object.fromEntries(seventyFive),
+    ninetyFive: Object.fromEntries(ninetyFive),
+    ninetyNine: Object.fromEntries(ninetyNine),
     delta: Object.fromEntries(delta),
     runs: result,
   }, { spaces: 2 })
