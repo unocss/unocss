@@ -94,10 +94,6 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     return rawConfig
   }
 
-  function isUnoConfig(fileName: string) {
-    return configFileList.includes(fileName)
-  }
-
   return {
     get ready() {
       return ready
@@ -119,6 +115,6 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     getConfig,
     root,
     updateRoot,
-    isUnoConfig,
+    configFileList,
   }
 }
