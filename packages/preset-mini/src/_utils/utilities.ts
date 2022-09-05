@@ -150,6 +150,7 @@ export function parseColor(body: string, theme: Theme): ParsedColorValue | undef
  *
  * @param {string} property - Property for the css value to be created.
  * @param {string} varName - Base name for the opacity variable.
+ * @param {function} [shouldPass] - Function to decide whether to pass the css.
  * @return {@link DynamicMatcher} object.
  */
 export function colorResolver(property: string, varName: string, shouldPass?: (css: CSSObject) => boolean): DynamicMatcher {
