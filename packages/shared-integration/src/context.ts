@@ -14,6 +14,7 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
 ): UnocssPluginContext<Config> {
   let root = process.cwd()
   let rawConfig = {} as Config
+  let configFileList: string[] = []
   const uno = createGenerator(rawConfig, defaults)
   let rollupFilter = createFilter(defaultInclude, defaultExclude)
 
@@ -31,6 +32,7 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     resolveConfigResult(result)
 
     rawConfig = result.config
+    configFileList = result.sources
     uno.setConfig(rawConfig)
     uno.config.envMode = 'dev'
     rollupFilter = createFilter(
@@ -92,6 +94,10 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     return rawConfig
   }
 
+  function isUnoConfig(fileName: string) {
+    return configFileList.includes(fileName)
+  }
+
   return {
     get ready() {
       return ready
@@ -113,5 +119,6 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     getConfig,
     root,
     updateRoot,
+    isUnoConfig,
   }
 }

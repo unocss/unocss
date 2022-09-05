@@ -28,9 +28,12 @@ export async function registerAnnotations(
   workspace.onDidSaveTextDocument(async (doc) => {
     const id = doc.uri.fsPath
     const dir = path.dirname(id)
+    const fileName = path.basename(id)
 
     if (contextLoader.contextsMap.has(dir)) {
       const ctx = contextLoader.contextsMap.get(dir)!
+      if (!ctx.isUnoConfig(fileName))
+        return
       try {
         await ctx.reloadConfig()
         log.appendLine(`Config reloaded by ${path.relative(cwd, doc.uri.fsPath)}`)

@@ -532,6 +532,8 @@ export interface UnocssPluginContext<Config extends UserConfig = UserConfig> {
   invalidate: () => void
   onInvalidate: (fn: () => void) => void
 
+  isUnoConfig: (fileName: string) => boolean
+
   root: string
   updateRoot: (root: string) => Promise<LoadConfigResult<Config>>
 }
