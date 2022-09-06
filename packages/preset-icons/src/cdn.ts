@@ -7,7 +7,9 @@ const myFetch = async function myFetch(url: string) {
   if (typeof window !== 'undefined' && window.fetch) {
     // browser
     const res = await window.fetch(url)
-    return await res.json()
+    if (res && res.ok)
+      return await res.json()
+    throw new Error(`unexpected/missing response from ${url}: ${res?.status ?? 'no response'}`)
   }
   else {
     // nodejs
