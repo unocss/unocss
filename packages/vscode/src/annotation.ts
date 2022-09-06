@@ -31,7 +31,7 @@ export async function registerAnnotations(
 
     if (contextLoader.contextsMap.has(dir)) {
       const ctx = contextLoader.contextsMap.get(dir)!
-      if (!ctx.configFileList.includes(id))
+      if (!ctx.getConfigFileList().includes(id))
         return
       try {
         await ctx.reloadConfig()

@@ -534,7 +534,7 @@ export interface UnocssPluginContext<Config extends UserConfig = UserConfig> {
 
   root: string
   updateRoot: (root: string) => Promise<LoadConfigResult<Config>>
-  configFileList: string[]
+  getConfigFileList: () => string[]
 }
 
 export interface SourceMap {

@@ -115,6 +115,6 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     getConfig,
     root,
     updateRoot,
-    configFileList,
+    getConfigFileList: () => configFileList,
   }
 }
