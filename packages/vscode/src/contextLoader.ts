@@ -158,6 +158,7 @@ export class ContextLoader {
       this.events.emit('contextLoaded', context)
 
       log.appendLine(`🛠 New configuration loaded from\n${sources.map(s => `  - ${s}`).join('\n')}`)
+      log.appendLine(`ℹ️ ${context.uno.config.presets.length} presets, ${context.uno.config.rulesSize} rules, ${context.uno.config.shortcuts.length} shortcuts, ${context.uno.config.variants.length} variants, ${context.uno.config.transformers?.length || 0} transformers loaded`)
 
       if (!sources.some(i => i.match(/\buno(css)?\.config\./)))
         log.appendLine('💡 To have the best IDE experience, it\'s recommanded to move UnoCSS configurations into a standalone `unocss.config.js` file at the root of your project.')
