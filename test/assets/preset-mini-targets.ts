@@ -411,6 +411,8 @@ export const presetMiniTargets: string[] = [
   'shadow-green-900/50',
   'shadow-op-50',
   'shadow-inset',
+  'shadow-[0px_4px_4px_0px_rgba(237,_0,_0,_1)]',
+  'shadow-$variable',
 
   // size
   'h-auto',
