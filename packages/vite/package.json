@@ -53,10 +53,10 @@
     "@unocss/inspector": "workspace:*",
     "@unocss/scope": "workspace:*",
     "@unocss/transformer-directives": "workspace:*",
-    "magic-string": "^0.26.2"
+    "magic-string": "^0.26.3"
   },
   "devDependencies": {
     "@unocss/shared-integration": "workspace:*",
-    "vite": "^3.0.8"
+    "vite": "^3.1.0"
   }
 }

@@ -13,19 +13,19 @@
     "@unocss/autocomplete": "workspace:*",
     "@unocss/nuxt": "workspace:*",
     "@unocss/shared-docs": "workspace:*",
-    "@vueuse/nuxt": "^9.1.0",
+    "@vueuse/nuxt": "^9.2.0",
     "esno": "^0.16.3",
     "fs-extra": "^10.1.0",
     "fuse.js": "^6.6.2",
     "js-yaml": "^4.1.0",
     "knitwork": "^0.1.2",
     "markdown-it-link-attributes": "^4.0.1",
-    "nuxt": "3.0.0-rc.8",
+    "nuxt": "3.0.0-rc.9",
     "p-limit": "^4.0.0",
     "postcss-nested": "^5.0.6",
     "prettier": "^2.7.1",
     "shiki": "^0.11.1",
-    "theme-vitesse": "^0.5.1",
+    "theme-vitesse": "^0.5.2",
     "vite-plugin-vue-markdown": "^0.21.1"
   }
 }
