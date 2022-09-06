@@ -9,7 +9,7 @@ let dynamicCollection: string[] | null = null
 async function getIconifyCollection() {
   const url = 'https://cdn.jsdelivr.net/gh/iconify/icon-sets/collections.json'
   const res = await $fetch(url)
-  return res ? Object.keys(await res) : null
+  return res ? Object.keys(res) : null
 }
 
 export function createCDNLoader(cdnBase: string): UniversalIconLoader {
