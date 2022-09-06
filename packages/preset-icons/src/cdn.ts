@@ -2,7 +2,19 @@ import type { IconifyJSON } from '@iconify/types'
 import { loadIcon } from '@iconify/utils/lib/loader/loader'
 import { searchForIcon } from '@iconify/utils/lib/loader/modern'
 import type { UniversalIconLoader } from '@iconify/utils/lib/loader/types'
-import { $fetch } from 'ohmyfetch'
+
+const myFetch = async function myFetch(url: string) {
+  if (typeof window !== 'undefined' && window.fetch) {
+    // browser
+    const res = await window.fetch(url)
+    return await res.json()
+  }
+  else {
+    // nodejs
+    const { $fetch } = await import('ohmyfetch')
+    return await $fetch(url)
+  }
+}
 
 // TODO: load dynamically from somewhere
 const supportedCollection = ['material-symbols', 'ic', 'mdi', 'ph', 'ri', 'carbon', 'bi', 'tabler', 'ion', 'uil', 'teenyicons', 'clarity', 'iconoir', 'majesticons', 'zondicons', 'ant-design', 'bx', 'bxs', 'gg', 'cil', 'lucide', 'pixelarticons', 'system-uicons', 'ci', 'akar-icons', 'typcn', 'radix-icons', 'ep', 'mdi-light', 'fe', 'eos-icons', 'line-md', 'charm', 'prime', 'heroicons-outline', 'heroicons-solid', 'uiw', 'uim', 'uit', 'uis', 'maki', 'gridicons', 'mi', 'quill', 'gala', 'fluent', 'icon-park-outline', 'icon-park', 'vscode-icons', 'jam', 'codicon', 'pepicons', 'bytesize', 'ei', 'fa6-solid', 'fa6-regular', 'octicon', 'ooui', 'nimbus', 'openmoji', 'twemoji', 'noto', 'noto-v1', 'emojione', 'emojione-monotone', 'emojione-v1', 'fxemoji', 'bxl', 'logos', 'simple-icons', 'cib', 'fa6-brands', 'arcticons', 'file-icons', 'brandico', 'entypo-social', 'cryptocurrency', 'flag', 'circle-flags', 'flagpack', 'cif', 'gis', 'map', 'geo', 'fad', 'academicons', 'wi', 'healthicons', 'medical-icon', 'la', 'eva', 'dashicons', 'flat-color-icons', 'entypo', 'foundation', 'raphael', 'icons8', 'iwwa', 'fa-solid', 'fa-regular', 'fa-brands', 'fa', 'fontisto', 'icomoon-free', 'ps', 'subway', 'oi', 'wpf', 'simple-line-icons', 'et', 'el', 'vaadin', 'grommet-icons', 'whh', 'si-glyph', 'zmdi', 'ls', 'bpmn', 'flat-ui', 'vs', 'topcoat', 'il', 'websymbol', 'fontelico', 'feather', 'mono-icons']
@@ -14,7 +26,7 @@ export function createCDNLoader(cdnBase: string): UniversalIconLoader {
     if (!supportedCollection.includes(name))
       return undefined
     if (!cache.has(name))
-      cache.set(name, $fetch(`${cdnBase}@iconify-json/${name}/icons.json`))
+      cache.set(name, myFetch(`${cdnBase}@iconify-json/${name}/icons.json`))
     return cache.get(name)!
   }
 
