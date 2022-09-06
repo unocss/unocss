@@ -97,10 +97,16 @@ export class ContextLoader {
             files: [
               'vite.config',
               'svelte.config',
-              'astro.config',
               'iles.config',
             ],
             targetModule: 'unocss/vite',
+            parameters: [{ command: 'serve', mode: 'development' }],
+          }),
+          sourcePluginFactory({
+            files: [
+              'astro.config',
+            ],
+            targetModule: 'unocss/astro',
             parameters: [{ command: 'serve', mode: 'development' }],
           }),
           sourceObjectFields({
