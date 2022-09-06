@@ -20,7 +20,6 @@ export default defineNuxtConfig({
   ssr: false,
   experimental: {
     reactivityTransform: true,
-    viteNode: true,
   },
   postcss: {
     plugins: {
@@ -35,7 +34,7 @@ export default defineNuxtConfig({
       include: [/\.vue$/, /\.md$/],
     },
   },
-  autoImports: {
+  imports: {
     transform: {
       include: [/\.vue$/, /\.md$/],
     },
