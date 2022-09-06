@@ -1,6 +1,6 @@
 import type { Rule } from '../types'
 
-export function withLayer<T>(layer: string, rules: Rule<T>[]) {
+export function withLayer<T extends {}>(layer: string, rules: Rule<T>[]) {
   rules.forEach((r) => {
     if (!r[2])
       r[2] = { layer }

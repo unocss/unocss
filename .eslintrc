@@ -7,7 +7,8 @@
         "paths": ["unocss"]
       }
     ],
-    "yml/no-empty-document": "off"
+    "yml/no-empty-document": "off",
+    "react/no-unknown-property": "off"
   },
   "overrides": [
     {
