@@ -37,6 +37,6 @@
   },
   "dependencies": {
     "@unocss/core": "workspace:*",
-    "unconfig": "^0.3.5"
+    "unconfig": "^0.3.6"
   }
 }

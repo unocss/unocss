@@ -88,7 +88,7 @@ export class ContextLoader {
       return cached
 
     const load = async () => {
-      log.appendLine(`[info] Resolving config for ${dir}`)
+      log.appendLine(`🛠 Resolving config for ${dir}`)
       const context = createContext(
         dir,
         this.defaultUnocssConfig,
@@ -107,7 +107,6 @@ export class ContextLoader {
               'astro.config',
             ],
             targetModule: 'unocss/astro',
-            parameters: [{ command: 'serve', mode: 'development' }],
           }),
           sourceObjectFields({
             files: 'nuxt.config',
@@ -126,8 +125,9 @@ export class ContextLoader {
         sources = (await context.ready).sources
       }
       catch (e) {
-        log.appendLine(`[error] ${String(e)}`)
-        log.appendLine(`[error] Error occurred while loading config. Config directory: ${dir}`)
+        log.appendLine(`⚠️ Error on loading config. Config directory: ${dir}`)
+        log.appendLine(String(e))
+        console.error(e)
         return null
       }
 
@@ -157,7 +157,10 @@ export class ContextLoader {
 
       this.events.emit('contextLoaded', context)
 
-      log.appendLine(`[info] New configuration loaded from\n  ${sources.map(s => `  - ${s}`).join('\n')}`)
+      log.appendLine(`🛠 New configuration loaded from\n${sources.map(s => `  - ${s}`).join('\n')}`)
+
+      if (!sources.some(i => i.match(/\buno(css)?\.config\./)))
+        log.appendLine('💡 To have the best IDE experience, it\'s recommanded to move UnoCSS configurations into a standalone `unocss.config.js` file at the root of your project.')
 
       return context
     }

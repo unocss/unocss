@@ -35,10 +35,10 @@ export async function registerAnnotations(
         return
       try {
         await ctx.reloadConfig()
-        log.appendLine(`Config reloaded by ${path.relative(cwd, doc.uri.fsPath)}`)
+        log.appendLine(`🛠 Config reloaded by ${path.relative(cwd, doc.uri.fsPath)}`)
       }
       catch (e) {
-        log.appendLine('Error on loading config')
+        log.appendLine('⚠️ Error on loading config')
         log.appendLine(String(e))
       }
     }
@@ -124,7 +124,7 @@ export async function registerAnnotations(
                 }
               }
               catch (e) {
-                log.appendLine(`Failed to parse ${i[2]}`)
+                log.appendLine(`⚠️ Failed to parse ${i[2]}`)
                 log.appendLine(String(e))
                 return undefined!
               }
@@ -156,7 +156,7 @@ export async function registerAnnotations(
       }
     }
     catch (e) {
-      log.appendLine('Error on annotation')
+      log.appendLine('⚠️ Error on annotation')
       log.appendLine(String(e))
     }
   }

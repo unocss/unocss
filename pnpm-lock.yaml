@@ -163,10 +163,10 @@ importers:
       simple-git-hooks: 2.8.0
       splitpanes: 3.1.1
       terser: 5.14.2
-      tsup: 6.2.2_72trlu77vwoamnsgxpuivbk5ba
+      tsup: 6.2.2_typescript@4.7.4
       typescript: 4.7.4
       unbuild: 0.8.9
-      unocss: link:packages/unocss
+      unocss: link:packages/vscode
       unplugin-auto-import: 0.11.2_su5dgnywlvgscvj44gdc2kap6a
       unplugin-vue-components: 0.22.4_kh4fnvm2fcyehmlskys2tp4cce
       vite: 3.0.9_terser@5.14.2
@@ -198,7 +198,7 @@ importers:
       local-pkg: 0.4.2
       postcss: 8.4.16
       tailwindcss: 3.1.8
-      unocss: link:../packages/unocss
+      unocss: link:../packages/vscode
       vite: 3.0.9
       vite-plugin-windicss: 1.8.7_vite@3.0.9
       vue: 3.2.37
@@ -293,18 +293,18 @@ importers:
   packages/config:
     specifiers:
       '@unocss/core': workspace:*
-      unconfig: ^0.3.5
+      unconfig: ^0.3.6
     dependencies:
       '@unocss/core': link:../core
-      unconfig: 0.3.5
+      unconfig: 0.3.6
 
   packages/core:
     specifiers:
       magic-string: ^0.26.2
-      unconfig: ^0.3.5
+      unconfig: ^0.3.6
     devDependencies:
       magic-string: 0.26.2
-      unconfig: 0.3.5
+      unconfig: 0.3.6
 
   packages/extractor-pug:
     specifiers:
@@ -353,7 +353,7 @@ importers:
       '@unocss/reset': link:../reset
       '@unocss/vite': link:../vite
       '@unocss/webpack': link:../webpack
-      unocss: link:../unocss
+      unocss: link:../vscode
     devDependencies:
       '@nuxt/schema': 3.0.0-rc.8
 
@@ -587,8 +587,8 @@ importers:
       esno: ^0.16.3
       jiti: ^1.14.0
       prettier: ^2.7.1
-      tsup: ^6.2.2
-      unconfig: ^0.3.5
+      tsup: ^6.2.3
+      unconfig: ^0.3.6
     devDependencies:
       '@types/vscode': 1.67.0
       '@unocss/nuxt': link:../nuxt
@@ -596,8 +596,8 @@ importers:
       esno: 0.16.3
       jiti: 1.14.0
       prettier: 2.7.1
-      tsup: 6.2.2
-      unconfig: 0.3.5
+      tsup: 6.2.3
+      unconfig: 0.3.6
 
   packages/webpack:
     specifiers:
@@ -3644,6 +3644,16 @@ packages:
       load-tsconfig: 0.2.3
     dev: true
 
+  /bundle-require/3.1.0_esbuild@0.15.5:
+    resolution: {integrity: sha512-IIXtAO7fKcwPHNPt9kY/WNVJqy7NDy6YqJvv6ENH0TOZoJ+yjpEsn1w40WKZbR2ibfu5g1rfgJTvmFHpm5aOMA==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    peerDependencies:
+      esbuild: '>=0.13'
+    dependencies:
+      esbuild: 0.15.5
+      load-tsconfig: 0.2.3
+    dev: true
+
   /c12/0.2.8:
     resolution: {integrity: sha512-JomSyVwGnqndRdVVW6SGnHUeHIfJFQNe/4zPFK6zLKPQm8US+hNr4kZP7xeNnzjn3jnQUsBbPdT85fm8K5Pr4A==}
     dependencies:
@@ -4292,6 +4302,7 @@ packages:
 
   /defu/6.0.0:
     resolution: {integrity: sha512-t2MZGLf1V2rV4VBZbWIaXKdX/mUcYW0n2znQZoADBkGGxYL8EWqCuCZBmJPJ/Yy9fofJkyuuSuo5GSwo0XdEgw==}
+    dev: true
 
   /defu/6.1.0:
     resolution: {integrity: sha512-pOFYRTIhoKujrmbTRhcW5lYQLBXw/dlTwfI8IguF1QCDJOcJzNH1w+YFjxqy6BAuJrClTy6MUE8q+oKJ2FLsIw==}
@@ -10460,7 +10471,7 @@ packages:
       esbuild: 0.14.51
     dev: true
 
-  /tsup/6.2.2:
+  /tsup/6.2.2_typescript@4.7.4:
     resolution: {integrity: sha512-vJ9IAdif4GKAz2XMZzjX1hNqhBezJWXjm0qeQEoI7y//a64cxgCF8178eTMV4jBu7YNKnfAPpPSuyXW4mN+9rA==}
     engines: {node: '>=14'}
     hasBin: true
@@ -10490,13 +10501,14 @@ packages:
       source-map: 0.8.0-beta.0
       sucrase: 3.21.1
       tree-kill: 1.2.2
+      typescript: 4.7.4
     transitivePeerDependencies:
       - supports-color
       - ts-node
     dev: true
 
-  /tsup/6.2.2_72trlu77vwoamnsgxpuivbk5ba:
-    resolution: {integrity: sha512-vJ9IAdif4GKAz2XMZzjX1hNqhBezJWXjm0qeQEoI7y//a64cxgCF8178eTMV4jBu7YNKnfAPpPSuyXW4mN+9rA==}
+  /tsup/6.2.3:
+    resolution: {integrity: sha512-J5Pu2Dx0E1wlpIEsVFv9ryzP1pZ1OYsJ2cBHZ7GrKteytNdzaSz5hmLX7/nAxtypq+jVkVvA79d7S83ETgHQ5w==}
     engines: {node: '>=14'}
     hasBin: true
     peerDependencies:
@@ -10511,7 +10523,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      bundle-require: 3.0.4_esbuild@0.15.5
+      bundle-require: 3.1.0_esbuild@0.15.5
       cac: 6.7.12
       chokidar: 3.5.3
       debug: 4.3.4
@@ -10519,14 +10531,12 @@ packages:
       execa: 5.1.1
       globby: 11.1.0
       joycon: 3.1.1
-      postcss: 8.4.16
-      postcss-load-config: 3.1.4_postcss@8.4.16
+      postcss-load-config: 3.1.4
       resolve-from: 5.0.0
-      rollup: 2.77.2
+      rollup: 2.78.1
       source-map: 0.8.0-beta.0
       sucrase: 3.21.1
       tree-kill: 1.2.2
-      typescript: 4.7.4
     transitivePeerDependencies:
       - supports-color
       - ts-node
@@ -10667,11 +10677,11 @@ packages:
       - supports-color
     dev: true
 
-  /unconfig/0.3.5:
-    resolution: {integrity: sha512-YMnPPUSfW0pT4Zzy4inM8tRHJZmhH+KcuFW/3qxkLKPhswEw18gQYe1jt57jY6ctFB0fnpiCpQ2Jtkbg4y/IPA==}
+  /unconfig/0.3.6:
+    resolution: {integrity: sha512-JWefWyjLrDAbzs30sFkzcE9YpvAhN9+UPMZBwnNUmaY9X7QhI+wCGP4hoEWfZDzvkP+WIaZDPcMUJjarpxFvKg==}
     dependencies:
       '@antfu/utils': 0.5.2
-      defu: 6.0.0
+      defu: 6.1.0
       jiti: 1.14.0
 
   /unctx/1.1.4_rollup@2.78.1+vite@3.0.9:
