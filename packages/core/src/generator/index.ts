@@ -532,7 +532,7 @@ export class UnoGenerator {
       }
     }
 
-    // expand nested shotcuts
+    // expand nested shortcuts
     if (isString(result))
       result = expandVariantGroup(result).split(/\s+/g)
 
