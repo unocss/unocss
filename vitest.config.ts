@@ -9,7 +9,6 @@ export default defineConfig({
     alias,
   },
   test: {
-    isolate: false,
     setupFiles: ['./test/setup.ts'],
   },
 })
