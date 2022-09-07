@@ -23,6 +23,7 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "require": "./index.cjs",
       "import": "./dist/index.mjs"
     }

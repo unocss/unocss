@@ -20,6 +20,7 @@
   ],
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     }

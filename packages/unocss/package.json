@@ -89,10 +89,9 @@
   },
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
-  "types": "index.d.ts",
+  "types": "dist/index.d.ts",
   "files": [
-    "dist",
-    "*.d.ts"
+    "dist"
   ],
   "engines": {
     "node": ">=14"
