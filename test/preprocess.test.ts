@@ -59,7 +59,7 @@ describe('preprocess', () => {
     ]
 
     const separator = '[:-]'
-    const prefixRE = /uno${separator}/
+    const prefixRE = new RegExp(`uno${separator}`)
     const uno = createGenerator({
       preprocess: m => prefixRE.test(m) ? m.replace(prefixRE, '') : '',
       presets: [
