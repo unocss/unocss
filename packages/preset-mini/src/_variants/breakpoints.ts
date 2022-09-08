@@ -1,9 +1,6 @@
 import type { Variant } from '@unocss/core'
-import type { PresetMiniOptions } from '..'
 import { resolveBreakpoints } from '../utils'
 import type { Theme } from '../theme'
-
-const regexCache: Record<string, RegExp> = {}
 
 export const calcMaxWidthBySize = (size: string) => {
   const value = size.match(/^-?[0-9]+\.?[0-9]*/)?.[0] || ''
@@ -12,7 +9,8 @@ export const calcMaxWidthBySize = (size: string) => {
   return Number.isNaN(maxWidth) ? size : `${maxWidth}${unit}`
 }
 
-export const variantBreakpoints = (options: PresetMiniOptions = {}): Variant<Theme> => {
+export const variantBreakpoints = (): Variant<Theme> => {
+  const regexCache: Record<string, RegExp> = {}
   return {
     name: 'breakpoints',
     match(matcher, context) {
@@ -20,7 +18,7 @@ export const variantBreakpoints = (options: PresetMiniOptions = {}): Variant<The
       = Object.entries(resolveBreakpoints(context) ?? {}).map(([point, size], idx) => [point, size, idx])
       for (const [point, size, idx] of variantEntries) {
         if (!regexCache[point])
-          regexCache[point] = new RegExp(`^((?:[al]t-)?${point}${options.separator})`)
+          regexCache[point] = new RegExp(`^((?:[al]t-)?${point}${context.generator.config.separator})`)
 
         const match = matcher.match(regexCache[point])
         if (!match)

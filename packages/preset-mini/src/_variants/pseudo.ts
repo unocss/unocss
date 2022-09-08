@@ -1,4 +1,4 @@
-import type { VariantObject } from '@unocss/core'
+import type { VariantContext, VariantObject } from '@unocss/core'
 import { escapeRegExp } from '@unocss/core'
 import type { PresetMiniOptions } from '..'
 
@@ -81,13 +81,16 @@ const sortValue = (pseudo: string) => {
     return 1
 }
 
-const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: string, options: PresetMiniOptions): VariantObject => {
+const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: string): VariantObject => {
   const rawRe = new RegExp(`^(${escapeRegExp(parent)}:)(\\S+)${escapeRegExp(combinator)}\\1`)
-  const pseudoRE = new RegExp(`^${tag}-((?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesStr}))${options.separator}`)
+  let pseudoRE: RegExp
   const pseudoColonRE = new RegExp(`^${tag}-((?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesColonStr}))[:]`)
   return {
     name: `pseudo:${tag}`,
-    match(input: string) {
+    match(input: string, ctx: VariantContext) {
+      if (!pseudoRE) {
+        pseudoRE = new RegExp(`^${tag}-((?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesStr}))${ctx.generator.config.separator}`)
+      }
       const match = input.match(pseudoRE) || input.match(pseudoColonRE)
       if (match) {
         let pseudo = PseudoClasses[match[3]] || PseudoClassesColon[match[3]] || `:${match[3]}`
@@ -107,14 +110,17 @@ const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: strin
   }
 }
 
-export const variantPseudoClassesAndElements = (options: PresetMiniOptions = {}): VariantObject => {
+export const variantPseudoClassesAndElements = (): VariantObject => {
   const PseudoClassesAndElementsStr = Object.entries(PseudoClasses).map(([key]) => key).join('|')
   const PseudoClassesAndElementsColonStr = Object.entries(PseudoClassesColon).map(([key]) => key).join('|')
-  const PseudoClassesAndElementsRE = new RegExp(`^(${PseudoClassesAndElementsStr})${options.separator}`)
   const PseudoClassesAndElementsColonRE = new RegExp(`^(${PseudoClassesAndElementsColonStr})[:]`)
+  let PseudoClassesAndElementsRE: RegExp
   return {
     name: 'pseudo',
-    match: (input: string) => {
+    match: (input: string, ctx: VariantContext) => {
+      if (!PseudoClassesAndElementsRE) {
+        PseudoClassesAndElementsRE = new RegExp(`^(${PseudoClassesAndElementsStr})${ctx.generator.config.separator}`)
+      }
       const match = input.match(PseudoClassesAndElementsRE) || input.match(PseudoClassesAndElementsColonRE)
       if (match) {
         const pseudo = PseudoClasses[match[1]] || PseudoClassesColon[match[1]] || `:${match[1]}`
@@ -143,11 +149,14 @@ export const variantPseudoClassesAndElements = (options: PresetMiniOptions = {})
   }
 }
 
-export const variantPseudoClassFunctions = (options: PresetMiniOptions = {}): VariantObject => {
-  const PseudoClassFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesStr})${separator}`)
+export const variantPseudoClassFunctions = (): VariantObject => {
   const PseudoClassColonFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesColonStr})[:]`)
+  let PseudoClassFunctionsRE: RegExp
   return {
-    match: (input: string) => {
+    match: (input: string, ctx: VariantContext) => {
+      if (!PseudoClassFunctionsRE) {
+        PseudoClassFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesStr})${ctx.generator.config.separator}`))
+      }
       const match = input.match(PseudoClassFunctionsRE) || input.match(PseudoClassColonFunctionsRE)
       if (match) {
         const fn = match[1]
@@ -167,10 +176,10 @@ export const variantTaggedPseudoClasses = (options: PresetMiniOptions = {}): Var
   const attributify = !!options?.attributifyPseudo
 
   return [
-    taggedPseudoClassMatcher('group', attributify ? '[group=""]' : '.group', ' ', options),
-    taggedPseudoClassMatcher('peer', attributify ? '[peer=""]' : '.peer', '~', options),
-    taggedPseudoClassMatcher('parent', attributify ? '[parent=""]' : '.parent', '>', options),
-    taggedPseudoClassMatcher('previous', attributify ? '[previous=""]' : '.previous', '+', options),
+    taggedPseudoClassMatcher('group', attributify ? '[group=""]' : '.group', ' '),
+    taggedPseudoClassMatcher('peer', attributify ? '[peer=""]' : '.peer', '~'),
+    taggedPseudoClassMatcher('parent', attributify ? '[parent=""]' : '.parent', '>'),
+    taggedPseudoClassMatcher('previous', attributify ? '[previous=""]' : '.previous', '+'),
   ]
 }
 

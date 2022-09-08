@@ -1,13 +1,15 @@
 import type { Variant } from '@unocss/core'
-import type { PresetMiniOptions, Theme } from '..'
 import { getComponent, handler as h } from '../utils'
 
-export const variantSelector = (options: PresetMiniOptions = {}): Variant => {
-  const selectorRE = new RegExp(`^selector-\[(.+?)\]${options.separator}`)
+export const variantSelector = (): Variant => {
+  let re: RegExp
   return {
     name: 'selector',
     match(matcher, ctx) {
-      const match = matcher.match(selectorRE)
+      if (!re) {
+        re = new RegExp(`^selector-\[(.+?)\]${ctx.generator.config.separator}`)
+      }
+      const match = matcher.match(re)
       if (match) {
         return {
           matcher: matcher.slice(match[0].length),
@@ -18,12 +20,15 @@ export const variantSelector = (options: PresetMiniOptions = {}): Variant => {
   }
 }
 
-export const variantCssLayer = (options: PresetMiniOptions = {}): Variant => {
-  const layerRE = new RegExp(`^layer-([_\d\w]+)${options.separator}`)
+export const variantCssLayer = (): Variant => {
+  let re: RegExp
   return {
     name: 'layer',
-    match(matcher) {
-      const match = matcher.match(layerRE)
+    match(matcher, ctx) {
+      if (!re) {
+        re = new RegExp(`^layer-([_\d\w]+)${ctx.generator.config.separator}`)
+      }
+      const match = matcher.match(re)
       if (match) {
         return {
           matcher: matcher.slice(match[0].length),
@@ -37,12 +42,15 @@ export const variantCssLayer = (options: PresetMiniOptions = {}): Variant => {
   }
 }
 
-export const variantInternalLayer = (options: PresetMiniOptions = {}): Variant => {
-  const internalRE = new RegExp(`^uno-layer-([_\d\w]+)${options.separator}`)
+export const variantInternalLayer = (): Variant => {
+  let re: RegExp
   return {
     name: 'uno-layer',
-    match(matcher) {
-      const match = matcher.match(internalRE)
+    match(matcher, ctx) {
+      if (!re) {
+        re = new RegExp(`^uno-layer-([_\d\w]+)${ctx.generator.config.separator}`)
+      }
+      const match = matcher.match(re)
       if (match) {
         return {
           matcher: matcher.slice(match[0].length),
@@ -53,12 +61,15 @@ export const variantInternalLayer = (options: PresetMiniOptions = {}): Variant =
   }
 }
 
-export const variantScope = (options: PresetMiniOptions = {}): Variant<Theme> => {
-  const scopeRE = new RegExp(`^scope-([_\d\w]+)${options.separator}`)
+export const variantScope = (): Variant => {
+  let re: RegExp
   return {
     name: 'scope',
-    match(matcher) {
-      const match = matcher.match(scopeRE)
+    match(matcher, ctx) {
+      if (!re) {
+        re = new RegExp(`^scope-([_\d\w]+)${ctx.generator.config.separator}`)
+      }
+      const match = matcher.match(re)
       if (match) {
         return {
           matcher: matcher.slice(match[0].length),

@@ -115,5 +115,6 @@ export function resolveConfig(
     shortcuts: resolveShortcuts(mergePresets('shortcuts')),
     extractors,
     safelist: mergePresets('safelist'),
+    separator: config.separator || '[:-]',
   }
 }
