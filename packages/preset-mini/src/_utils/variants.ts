@@ -6,9 +6,7 @@ export const variantMatcher = (name: string, handler: (input: VariantHandlerCont
   return {
     name,
     match: (input: string, ctx: VariantContext): VariantHandler | undefined => {
-      if (!re) {
-        re = new RegExp(`^${escapeRegExp(name)}${ctx.generator.config.separator}`)
-      }
+      re = re || new RegExp(`^${escapeRegExp(name)}${ctx.generator.config.separator}`)
       const match = input.match(re)
       if (match) {
         return {
@@ -29,9 +27,7 @@ export const variantParentMatcher = (name: string, parent: string): VariantObjec
   return {
     name,
     match: (input: string, ctx: VariantContext): VariantHandler | undefined => {
-      if (!re) {
-        re = new RegExp(`^${escapeRegExp(name)}${ctx.generator.config.separator}`)
-      }
+      re = re || new RegExp(`^${escapeRegExp(name)}${ctx.generator.config.separator}`)
       const match = input.match(re)
       if (match) {
         return {

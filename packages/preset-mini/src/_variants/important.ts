@@ -7,9 +7,7 @@ export const variantImportant = (): Variant => {
     match(matcher, ctx) {
       let base: string | undefined
 
-      if (!re) {
-        re = new RegExp(`^(important${ctx.generator.config.separator}|!)`)
-      }
+      re = re || new RegExp(`^(important${ctx.generator.config.separator}|!)`)
       const match = matcher.match(re)
       if (match)
         base = matcher.slice(match[0].length)

@@ -88,9 +88,7 @@ const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: strin
   return {
     name: `pseudo:${tag}`,
     match(input: string, ctx: VariantContext) {
-      if (!pseudoRE) {
-        pseudoRE = new RegExp(`^${tag}-((?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesStr}))${ctx.generator.config.separator}`)
-      }
+      pseudoRE = pseudoRE || new RegExp(`^${tag}-((?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesStr}))${ctx.generator.config.separator}`)
       const match = input.match(pseudoRE) || input.match(pseudoColonRE)
       if (match) {
         let pseudo = PseudoClasses[match[3]] || PseudoClassesColon[match[3]] || `:${match[3]}`
@@ -118,9 +116,7 @@ export const variantPseudoClassesAndElements = (): VariantObject => {
   return {
     name: 'pseudo',
     match: (input: string, ctx: VariantContext) => {
-      if (!pseudoClassesAndElementsRE) {
-        pseudoClassesAndElementsRE = new RegExp(`^(${pseudoClassesAndElementsStr})${ctx.generator.config.separator}`)
-      }
+      pseudoClassesAndElementsRE = pseudoClassesAndElementsRE || new RegExp(`^(${pseudoClassesAndElementsStr})${ctx.generator.config.separator}`)
       const match = input.match(pseudoClassesAndElementsRE) || input.match(pseudoClassesAndElementsColonRE)
       if (match) {
         const pseudo = PseudoClasses[match[1]] || PseudoClassesColon[match[1]] || `:${match[1]}`
@@ -154,9 +150,7 @@ export const variantPseudoClassFunctions = (): VariantObject => {
   let pseudoClassFunctionsRE: RegExp
   return {
     match: (input: string, ctx: VariantContext) => {
-      if (!pseudoClassFunctionsRE) {
-        pseudoClassFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesStr})${ctx.generator.config.separator}`)
-      }
+      pseudoClassFunctionsRE = pseudoClassFunctionsRE || new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesStr})${ctx.generator.config.separator}`)
       const match = input.match(pseudoClassFunctionsRE) || input.match(pseudoClassColonFunctionsRE)
       if (match) {
         const fn = match[1]

@@ -5,11 +5,9 @@ const scopeMatcher = (strict: boolean, name: string, template: string): VariantO
   return {
     name: `combinator:${name}`,
     match: (matcher: string, ctx: VariantContext) => {
-      if (!re) {
-        re = strict
-          ? new RegExp(`^${name}(?:-\\[(.+?)\\])${ctx.generator.config.separator}`)
-          : new RegExp(`^${name}(?:-\\[(.+?)\\])?${ctx.generator.config.separator}`)
-      }
+      re = re || strict
+        ? new RegExp(`^${name}(?:-\\[(.+?)\\])${ctx.generator.config.separator}`)
+        : new RegExp(`^${name}(?:-\\[(.+?)\\])?${ctx.generator.config.separator}`)
       const match = matcher.match(re)
       if (match) {
         return {
