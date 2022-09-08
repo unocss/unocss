@@ -630,6 +630,7 @@ RequiredByKey<UserConfig, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'l
     templates: (AutoCompleteFunction | AutoCompleteTemplate)[]
     extractors: AutoCompleteExtractor[]
   }
+  separator: string
 }
 
 export interface GenerateResult {
