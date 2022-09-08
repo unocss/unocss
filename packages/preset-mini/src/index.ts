@@ -52,11 +52,18 @@ export interface PresetMiniOptions extends PresetOptions {
    * @default undefined
    */
   prefix?: string
+  /**
+   * Variant separator (hover:, max-xs:, etc.)
+   *
+   * @default ':' or '-'
+   */
+  separator?: string
 }
 
 export const presetMini = (options: PresetMiniOptions = {}): Preset<Theme> => {
   options.dark = options.dark ?? 'class'
   options.attributifyPseudo = options.attributifyPseudo ?? false
+  options.separator = options.separator ?? '[:-]'
 
   return {
     name: '@unocss/preset-mini',
@@ -69,6 +76,7 @@ export const presetMini = (options: PresetMiniOptions = {}): Preset<Theme> => {
       : undefined,
     preflights,
     prefix: options.prefix,
+    separator: options.separator,
   }
 }
 

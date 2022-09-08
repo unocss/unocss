@@ -81,9 +81,9 @@ const sortValue = (pseudo: string) => {
     return 1
 }
 
-const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: string): VariantObject => {
+const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: string, options: PresetMiniOptions): VariantObject => {
   const rawRe = new RegExp(`^(${escapeRegExp(parent)}:)(\\S+)${escapeRegExp(combinator)}\\1`)
-  const pseudoRE = new RegExp(`^${tag}-((?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesStr}))[:-]`)
+  const pseudoRE = new RegExp(`^${tag}-((?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesStr}))${options.separator}`)
   const pseudoColonRE = new RegExp(`^${tag}-((?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesColonStr}))[:]`)
   return {
     name: `pseudo:${tag}`,
@@ -107,66 +107,70 @@ const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: strin
   }
 }
 
-const PseudoClassesAndElementsStr = Object.entries(PseudoClasses).map(([key]) => key).join('|')
-const PseudoClassesAndElementsColonStr = Object.entries(PseudoClassesColon).map(([key]) => key).join('|')
-const PseudoClassesAndElementsRE = new RegExp(`^(${PseudoClassesAndElementsStr})[:-]`)
-const PseudoClassesAndElementsColonRE = new RegExp(`^(${PseudoClassesAndElementsColonStr})[:]`)
-export const variantPseudoClassesAndElements: VariantObject = {
-  name: 'pseudo',
-  match: (input: string) => {
-    const match = input.match(PseudoClassesAndElementsRE) || input.match(PseudoClassesAndElementsColonRE)
-    if (match) {
-      const pseudo = PseudoClasses[match[1]] || PseudoClassesColon[match[1]] || `:${match[1]}`
-      return {
-        matcher: input.slice(match[0].length),
-        handle: (input, next) => {
-          const selectors = pseudo.startsWith('::')
-            ? {
-                pseudo: `${input.pseudo}${pseudo}`,
-              }
-            : {
-                selector: `${input.selector}${pseudo}`,
-              }
+export const variantPseudoClassesAndElements = (options: PresetMiniOptions = {}): VariantObject => {
+  const PseudoClassesAndElementsStr = Object.entries(PseudoClasses).map(([key]) => key).join('|')
+  const PseudoClassesAndElementsColonStr = Object.entries(PseudoClassesColon).map(([key]) => key).join('|')
+  const PseudoClassesAndElementsRE = new RegExp(`^(${PseudoClassesAndElementsStr})${options.separator}`)
+  const PseudoClassesAndElementsColonRE = new RegExp(`^(${PseudoClassesAndElementsColonStr})[:]`)
+  return {
+    name: 'pseudo',
+    match: (input: string) => {
+      const match = input.match(PseudoClassesAndElementsRE) || input.match(PseudoClassesAndElementsColonRE)
+      if (match) {
+        const pseudo = PseudoClasses[match[1]] || PseudoClassesColon[match[1]] || `:${match[1]}`
+        return {
+          matcher: input.slice(match[0].length),
+          handle: (input, next) => {
+            const selectors = pseudo.startsWith('::')
+              ? {
+                  pseudo: `${input.pseudo}${pseudo}`,
+                }
+              : {
+                  selector: `${input.selector}${pseudo}`,
+                }
 
-          return next({
-            ...input,
-            ...selectors,
-            sort: sortValue(match[1]),
-          })
-        },
+            return next({
+              ...input,
+              ...selectors,
+              sort: sortValue(match[1]),
+            })
+          },
+        }
       }
-    }
-  },
-  multiPass: true,
-  autocomplete: `(${PseudoClassesAndElementsStr}):`,
+    },
+    multiPass: true,
+    autocomplete: `(${PseudoClassesAndElementsStr}):`,
+  }
 }
 
-const PseudoClassFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesStr})[:-]`)
-const PseudoClassColonFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesColonStr})[:]`)
-export const variantPseudoClassFunctions: VariantObject = {
-  match: (input: string) => {
-    const match = input.match(PseudoClassFunctionsRE) || input.match(PseudoClassColonFunctionsRE)
-    if (match) {
-      const fn = match[1]
-      const pseudo = PseudoClasses[match[2]] || PseudoClassesColon[match[2]] || `:${match[2]}`
-      return {
-        matcher: input.slice(match[0].length),
-        selector: s => `${s}:${fn}(${pseudo})`,
+export const variantPseudoClassFunctions = (options: PresetMiniOptions = {}): VariantObject => {
+  const PseudoClassFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesStr})${separator}`)
+  const PseudoClassColonFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesColonStr})[:]`)
+  return {
+    match: (input: string) => {
+      const match = input.match(PseudoClassFunctionsRE) || input.match(PseudoClassColonFunctionsRE)
+      if (match) {
+        const fn = match[1]
+        const pseudo = PseudoClasses[match[2]] || PseudoClassesColon[match[2]] || `:${match[2]}`
+        return {
+          matcher: input.slice(match[0].length),
+          selector: s => `${s}:${fn}(${pseudo})`,
+        }
       }
-    }
-  },
-  multiPass: true,
-  autocomplete: `(${PseudoClassFunctionsStr})-(${PseudoClassesStr}|${PseudoClassesColonStr}):`,
+    },
+    multiPass: true,
+    autocomplete: `(${PseudoClassFunctionsStr})-(${PseudoClassesStr}|${PseudoClassesColonStr}):`,
+  }
 }
 
 export const variantTaggedPseudoClasses = (options: PresetMiniOptions = {}): VariantObject[] => {
   const attributify = !!options?.attributifyPseudo
 
   return [
-    taggedPseudoClassMatcher('group', attributify ? '[group=""]' : '.group', ' '),
-    taggedPseudoClassMatcher('peer', attributify ? '[peer=""]' : '.peer', '~'),
-    taggedPseudoClassMatcher('parent', attributify ? '[parent=""]' : '.parent', '>'),
-    taggedPseudoClassMatcher('previous', attributify ? '[previous=""]' : '.previous', '+'),
+    taggedPseudoClassMatcher('group', attributify ? '[group=""]' : '.group', ' ', options),
+    taggedPseudoClassMatcher('peer', attributify ? '[peer=""]' : '.peer', '~', options),
+    taggedPseudoClassMatcher('parent', attributify ? '[parent=""]' : '.parent', '>', options),
+    taggedPseudoClassMatcher('previous', attributify ? '[previous=""]' : '.previous', '+', options),
   ]
 }
 

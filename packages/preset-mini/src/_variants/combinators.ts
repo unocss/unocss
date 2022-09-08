@@ -1,9 +1,10 @@
 import type { Variant, VariantObject } from '@unocss/core'
+import type { PresetMiniOptions, Theme } from '..'
 
-const scopeMatcher = (strict: boolean, name: string, template: string): VariantObject => {
+const scopeMatcher = (strict: boolean, name: string, template: string, options: PresetMiniOptions): VariantObject => {
   const re = strict
-    ? new RegExp(`^${name}(?:-\\[(.+?)\\])[:-]`)
-    : new RegExp(`^${name}(?:-\\[(.+?)\\])?[:-]`)
+    ? new RegExp(`^${name}(?:-\\[(.+?)\\])${options.separator}`)
+    : new RegExp(`^${name}(?:-\\[(.+?)\\])?${options.separator}`)
   return {
     name: `combinator:${name}`,
     match: (matcher: string) => {
@@ -19,14 +20,16 @@ const scopeMatcher = (strict: boolean, name: string, template: string): VariantO
   }
 }
 
-export const variantCombinators: Variant[] = [
-  scopeMatcher(false, 'all', '&&-s &&-c'),
-  scopeMatcher(false, 'children', '&&-s>&&-c'),
-  scopeMatcher(false, 'next', '&&-s+&&-c'),
-  scopeMatcher(false, 'sibling', '&&-s+&&-c'),
-  scopeMatcher(false, 'siblings', '&&-s~&&-c'),
-  scopeMatcher(true, 'group', '&&-c &&-s'),
-  scopeMatcher(true, 'parent', '&&-c>&&-s'),
-  scopeMatcher(true, 'previous', '&&-c+&&-s'),
-  scopeMatcher(true, 'peer', '&&-c~&&-s'),
-]
+export const variantCombinators = (options: PresetMiniOptions = {}): Variant<Theme>[] => {
+  return [
+    scopeMatcher(false, 'all', '&&-s &&-c', options),
+    scopeMatcher(false, 'children', '&&-s>&&-c', options),
+    scopeMatcher(false, 'next', '&&-s+&&-c', options),
+    scopeMatcher(false, 'sibling', '&&-s+&&-c', options),
+    scopeMatcher(false, 'siblings', '&&-s~&&-c', options),
+    scopeMatcher(true, 'group', '&&-c &&-s', options),
+    scopeMatcher(true, 'parent', '&&-c>&&-s', options),
+    scopeMatcher(true, 'previous', '&&-c+&&-s', options),
+    scopeMatcher(true, 'peer', '&&-c~&&-s', options),
+  ]
+}

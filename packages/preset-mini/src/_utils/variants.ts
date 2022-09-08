@@ -1,8 +1,9 @@
 import type { VariantHandler, VariantHandlerContext, VariantObject } from '@unocss/core'
 import { escapeRegExp } from '@unocss/core'
+import type { PresetMiniOptions } from '..'
 
-export const variantMatcher = (name: string, handler: (input: VariantHandlerContext) => Record<string, any>): VariantObject => {
-  const re = new RegExp(`^${escapeRegExp(name)}[:-]`)
+export const variantMatcher = (name: string, handler: (input: VariantHandlerContext) => Record<string, any>, options: PresetMiniOptions = {}): VariantObject => {
+  const re = new RegExp(`^${escapeRegExp(name)}${options.separator}`)
   return {
     name,
     match: (input: string): VariantHandler | undefined => {
@@ -21,8 +22,8 @@ export const variantMatcher = (name: string, handler: (input: VariantHandlerCont
   }
 }
 
-export const variantParentMatcher = (name: string, parent: string): VariantObject => {
-  const re = new RegExp(`^${escapeRegExp(name)}[:-]`)
+export const variantParentMatcher = (name: string, parent: string, options: PresetMiniOptions = {}): VariantObject => {
+  const re = new RegExp(`^${escapeRegExp(name)}${options.separator}`)
   return {
     name,
     match: (input: string): VariantHandler | undefined => {

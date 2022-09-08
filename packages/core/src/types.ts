@@ -468,6 +468,12 @@ export interface Preset<Theme extends {} = {}> extends ConfigBase<Theme> {
    * Apply layer to all utilities and shortcuts
    */
   layer?: string
+  /**
+   * Variant separator (regex substring, eg. [:-] or _)
+   *
+   * @default '[:-]'
+   */
+  separator?: string
 }
 
 export interface GeneratorOptions {

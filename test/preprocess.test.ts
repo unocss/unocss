@@ -58,7 +58,8 @@ describe('preprocess', () => {
       'btn1',
     ]
 
-    const prefixRE = /uno[:-]/
+    const separator = '[:-]'
+    const prefixRE = /uno${separator}/
     const uno = createGenerator({
       preprocess: m => prefixRE.test(m) ? m.replace(prefixRE, '') : '',
       presets: [

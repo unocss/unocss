@@ -13,23 +13,23 @@ import { partClasses, variantPseudoClassFunctions, variantPseudoClassesAndElemen
 
 export const variants = (options: PresetMiniOptions): Variant<Theme>[] => [
   variantVariables,
-  variantCssLayer,
+  variantCssLayer(options),
 
-  variantSelector,
-  variantInternalLayer,
+  variantSelector(options),
+  variantInternalLayer(options),
   variantNegative,
-  variantImportant,
+  variantImportant(options),
   variantPrint,
-  variantCustomMedia,
-  variantBreakpoints,
-  ...variantCombinators,
+  variantCustomMedia(options),
+  variantBreakpoints(options),
+  ...variantCombinators(options),
 
-  variantPseudoClassesAndElements,
-  variantPseudoClassFunctions,
+  variantPseudoClassesAndElements(options),
+  variantPseudoClassFunctions(options),
   ...variantTaggedPseudoClasses(options),
 
   partClasses,
   ...variantColorsMediaOrClass(options),
   ...variantLanguageDirections,
-  variantScope,
+  variantScope(options),
 ]
