@@ -6,7 +6,7 @@ export const variantSelector = (): Variant => {
   return {
     name: 'selector',
     match(matcher, ctx) {
-      re = re || new RegExp(`^selector-\[(.+?)\]${ctx.generator.config.separator}`)
+      re = re || new RegExp(`^selector-\\[(.+?)\\]${ctx.generator.config.separator}`)
       const match = matcher.match(re)
       if (match) {
         return {
@@ -23,7 +23,7 @@ export const variantCssLayer = (): Variant => {
   return {
     name: 'layer',
     match(matcher, ctx) {
-      re = re || new RegExp(`^layer-([_\d\w]+)${ctx.generator.config.separator}`)
+      re = re || new RegExp(`^layer-([_\\d\\w]+)${ctx.generator.config.separator}`)
       const match = matcher.match(re)
       if (match) {
         return {
@@ -43,7 +43,7 @@ export const variantInternalLayer = (): Variant => {
   return {
     name: 'uno-layer',
     match(matcher, ctx) {
-      re = re || new RegExp(`^uno-layer-([_\d\w]+)${ctx.generator.config.separator}`)
+      re = re || new RegExp(`^uno-layer-([_\\d\\w]+)${ctx.generator.config.separator}`)
       const match = matcher.match(re)
       if (match) {
         return {
@@ -60,7 +60,7 @@ export const variantScope = (): Variant => {
   return {
     name: 'scope',
     match(matcher, ctx) {
-      re = re || new RegExp(`^scope-([_\d\w]+)${ctx.generator.config.separator}`)
+      re = re || new RegExp(`^scope-([_\\d\\w]+)${ctx.generator.config.separator}`)
       const match = matcher.match(re)
       if (match) {
         return {

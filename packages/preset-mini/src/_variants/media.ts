@@ -9,7 +9,7 @@ export const variantCustomMedia = (): VariantObject => {
   return {
     name: 'media',
     match(matcher, ctx: VariantContext<Theme>) {
-      re = re || new RegExp(`^media-([_\d\w]+)${ctx.generator.config.separator}`)
+      re = re || new RegExp(`^media-([_\\d\\w]+)${ctx.generator.config.separator}`)
       const match = matcher.match(re)
       if (match) {
         const media = ctx.theme.media?.[match[1]] ?? `(--${match[1]})`
