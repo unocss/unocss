@@ -29,7 +29,7 @@ const providers = {
 
 const preset = (options: WebFontsOptions = {}): Preset<any> => {
   const {
-    provider: defaultProvider = 'google',
+    provider: defaultProvider = 'bunny',
     extendTheme = true,
     inlineImports = true,
     themeKey = 'fontFamily',

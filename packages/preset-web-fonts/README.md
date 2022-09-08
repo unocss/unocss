@@ -16,7 +16,7 @@ Unocss({
   presets: [
     presetUno(),
     presetWebFonts({
-      provider: 'google', // default provider
+      provider: 'bunny', // default provider
       fonts: {
         // these will extend the default theme
         sans: 'Roboto',
@@ -43,7 +43,7 @@ Unocss({
 The following CSS will be generated
 
 ```css
-@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Fira+Code&family=Fira+Mono:wght@400;700&family=Lobster&family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.bunny.net/css?family=Roboto&family=Fira+Code&family=Fira+Mono:wght@400;700&family=Lobster&family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 /* layer: default */
 .font-lato {
