@@ -1,5 +1,6 @@
 import type MagicString from 'magic-string'
 
+// TODO dont hardcode [:-] here
 export const regexClassGroup = /((?:[!\w+:_/-]|\[&?>?:?.*\])+?)([:-])\(((?:[~!\w\s:/\\,%#.$-]|\[.*?\])*?)\)/gm
 
 export function expandVariantGroup(str: string, seperators?: string[], depth?: number): string
