@@ -147,6 +147,7 @@ Presets are the heart of UnoCSS. They let you make your own custom framework in 
 - [unocss-preset-heropatterns](https://github.com/Julien-R44/unocss-preset-heropatterns) - Preset that integrates [Hero Patterns](https://heropatterns.com/) by [@Julien-R44](https://github.com/Julien-R44).
 - [unocss-preset-flowbite](https://github.com/Julien-R44/unocss-preset-flowbite) - Port of of [Flowbite Tailwind plugin](https://github.com/themesberg/flowbite) for UnoCSS by [@Julien-R44](https://github.com/Julien-R44).
 - [unocss-preset-forms](https://github.com/Julien-R44/unocss-preset-forms) - Port of [@tailwindcss/forms](https://github.com/tailwindlabs/tailwindcss-forms) for UnoCSS by [@Julien-R44](https://github.com/Julien-R44).
+- [unocss-preset-extra](https://github.com/MoomFE/unocss-preset-extra) - [Animate.css](https://animate.style) Preset and some other rules by [@Zhang-Wei-666](https://github.com/Zhang-Wei-666)
 
 ### Using Presets
 
