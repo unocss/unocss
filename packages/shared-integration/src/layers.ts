@@ -5,8 +5,9 @@ export const LAYER_MARK_ALL = '__ALL__'
 
 const RESOLVED_ID_WITH_QUERY_RE = /\/__uno(?:(_.*?))?\.css(\?.*)?$/
 export function resolveId(id: string) {
-  if (id.match(RESOLVED_ID_WITH_QUERY_RE)) return id
-  
+  if (id.match(RESOLVED_ID_WITH_QUERY_RE))
+    return id
+
   for (const alias of VIRTUAL_ENTRY_ALIAS) {
     const match = id.match(alias)
     if (match) {
