@@ -10,7 +10,7 @@ const cssProps = [
   'zoom', 'text-shadow', 'transform', 'box-shadow',
 
   // positions
-  'backround-position', 'left', 'right', 'top', 'bottom', 'object-position',
+  'background-position', 'left', 'right', 'top', 'bottom', 'object-position',
 
   // sizes
   'max-height', 'min-height', 'max-width', 'min-width', 'height', 'width',

@@ -1,7 +1,7 @@
 import type { Rule } from '@unocss/core'
 
 /**
- * Used for debugging, only avaliable in development mode.
+ * Used for debugging, only available in development mode.
  *
  * @example `?` / `where`
  */

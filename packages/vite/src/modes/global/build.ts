@@ -195,7 +195,7 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
         if (!replaced) {
           let msg = '[unocss] does not found CSS placeholder in the generated chunks'
           if (viteConfig.build.lib && checkJs)
-            msg += '\nIt seems you are building in library mode, it\'s recommanded to set `build.cssCodeSplit` to true.\nSee https://github.com/vitejs/vite/issues/1579'
+            msg += '\nIt seems you are building in library mode, it\'s recommended to set `build.cssCodeSplit` to true.\nSee https://github.com/vitejs/vite/issues/1579'
           else
             msg += '\nThis is likely an internal bug of unocss vite plugin'
           this.error(new Error(msg))

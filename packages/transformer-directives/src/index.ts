@@ -223,7 +223,7 @@ export async function transformDirectives(
         else if (prefix === 'at')
           return `@media (min-width: ${size})${variantEntries[idx + 1] ? ` and (max-width: ${calcMaxWidthBySize(variantEntries[idx + 1][1])})` : ''}`
 
-        else throw new Error(`breakpoint variant not surpported: ${prefix}`)
+        else throw new Error(`breakpoint variant not supported: ${prefix}`)
       }
       return `@media (min-width: ${size})`
     }
