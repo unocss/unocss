@@ -1,6 +1,6 @@
 {
   "name": "@unocss/preset-web-fonts",
-  "version": "0.45.20",
+  "version": "0.45.21",
   "description": "Web Fonts support for Uno CSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
