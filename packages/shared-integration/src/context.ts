@@ -86,7 +86,7 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
   const filter = (code: string, id: string) => {
     if (code.includes(IGNORE_COMMENT))
       return false
-    return code.includes(INCLUDE_COMMENT) || code.includes(CSS_PLACEHOLDER) || rollupFilter(id)
+    return code.includes(INCLUDE_COMMENT) || code.includes(CSS_PLACEHOLDER) || rollupFilter(id.replace(/\?v=\w+$/, ''))
   }
 
   async function getConfig() {
