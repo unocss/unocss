@@ -73,7 +73,7 @@
     "bumpp": "^8.2.1",
     "codemirror": "^5.65.6",
     "codemirror-theme-vars": "^0.1.1",
-    "eslint": "^8.23.0",
+    "eslint": "8.22.0",
     "esno": "^0.16.3",
     "execa": "^6.1.0",
     "fast-glob": "^3.2.11",
