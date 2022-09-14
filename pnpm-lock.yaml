@@ -163,7 +163,7 @@ importers:
       simple-git-hooks: 2.8.0
       splitpanes: 3.1.1
       terser: 5.15.0
-      tsup: 6.2.3_lluugpswbu4parudwrjubsxgua
+      tsup: 6.2.3_typescript@4.8.2
       typescript: 4.8.2
       unbuild: 0.8.10
       unocss: link:packages/unocss
@@ -197,7 +197,7 @@ importers:
       fs-extra: 10.1.0
       local-pkg: 0.4.2
       postcss: 8.4.16
-      tailwindcss: 3.1.8
+      tailwindcss: 3.1.8_postcss@8.4.16
       unocss: link:../packages/unocss
       vite: 3.0.9
       vite-plugin-windicss: 1.8.7_vite@3.0.9
@@ -271,6 +271,7 @@ importers:
       '@unocss/config': workspace:*
       '@unocss/core': workspace:*
       '@unocss/preset-uno': workspace:*
+      '@unocss/shared-integration': workspace:*
       cac: ^6.7.14
       chokidar: ^3.5.3
       colorette: ^2.0.19
@@ -282,6 +283,7 @@ importers:
       '@unocss/config': link:../config
       '@unocss/core': link:../core
       '@unocss/preset-uno': link:../preset-uno
+      '@unocss/shared-integration': link:../shared-integration
       cac: 6.7.14
       chokidar: 3.5.3
       colorette: 2.0.19
@@ -9585,10 +9587,12 @@ packages:
       tslib: 2.4.0
     dev: true
 
-  /tailwindcss/3.1.8:
+  /tailwindcss/3.1.8_postcss@8.4.16:
     resolution: {integrity: sha512-YSneUCZSFDYMwk+TGq8qYFdCA3yfBRdBlS7txSq0LUmzyeqRe3a8fBQzbz9M3WS/iFT4BNf/nmw9mEzrnSaC0g==}
     engines: {node: '>=12.13.0'}
     hasBin: true
+    peerDependencies:
+      postcss: ^8.0.9
     dependencies:
       arg: 5.0.2
       chokidar: 3.5.3
@@ -9872,7 +9876,7 @@ packages:
       - ts-node
     dev: true
 
-  /tsup/6.2.3_lluugpswbu4parudwrjubsxgua:
+  /tsup/6.2.3_typescript@4.8.2:
     resolution: {integrity: sha512-J5Pu2Dx0E1wlpIEsVFv9ryzP1pZ1OYsJ2cBHZ7GrKteytNdzaSz5hmLX7/nAxtypq+jVkVvA79d7S83ETgHQ5w==}
     engines: {node: '>=14'}
     hasBin: true
@@ -9896,8 +9900,7 @@ packages:
       execa: 5.1.1
       globby: 11.1.0
       joycon: 3.1.1
-      postcss: 8.4.16
-      postcss-load-config: 3.1.4_postcss@8.4.16
+      postcss-load-config: 3.1.4
       resolve-from: 5.0.0
       rollup: 2.79.0
       source-map: 0.8.0-beta.0

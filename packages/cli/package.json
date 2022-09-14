@@ -46,6 +46,7 @@
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
+    "@unocss/shared-integration": "workspace:*",
     "cac": "^6.7.14",
     "chokidar": "^3.5.3",
     "colorette": "^2.0.19",

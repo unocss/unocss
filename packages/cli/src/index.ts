@@ -4,8 +4,10 @@ import fg from 'fast-glob'
 import consola from 'consola'
 import { cyan, dim, green } from 'colorette'
 import { debounce } from 'perfect-debounce'
-import { createGenerator, toArray } from '@unocss/core'
+import { toArray } from '@unocss/core'
 import { loadConfig } from '@unocss/config'
+import type { UserConfig } from '@unocss/core'
+import { applyTransformers, createContext } from '@unocss/shared-integration'
 import { version } from '../package.json'
 import { PrettyError, handleError } from './errors'
 import { defaultConfig } from './config'
@@ -30,10 +32,7 @@ export async function build(_options: CliOptions) {
   const options = await resolveOptions(_options)
   const { config, sources: configSources } = await loadConfig(cwd, options.config)
 
-  const uno = createGenerator(
-    config,
-    defaultConfig,
-  )
+  const ctx = createContext<UserConfig>(config, defaultConfig)
 
   const files = await fg(options.patterns, { cwd, absolute: true })
   await Promise.all(
@@ -74,7 +73,7 @@ export async function build(_options: CliOptions) {
       const absolutePath = resolve(cwd, file)
 
       if (configSources.includes(absolutePath)) {
-        uno.setConfig((await loadConfig()).config)
+        await ctx.reloadConfig()
         consola.info(`${cyan(basename(file))} changed, setting new config`)
       }
       else {
@@ -103,8 +102,16 @@ export async function build(_options: CliOptions) {
 
   async function generate(options: ResolvedCliOptions) {
     const outFile = resolve(options.cwd || process.cwd(), options.outFile ?? 'uno.css')
-    const { css, matched } = await uno.generate(
-      [...fileCache].join('\n'),
+
+    const transformsRes = await Promise.all(
+      Array.from(fileCache)
+        .map(([id, code]) => new Promise((resolve) => {
+          applyTransformers(ctx, code, id, 'pre')
+            .then(transformRes => resolve(transformRes?.code || code))
+        })))
+
+    const { css, matched } = await ctx.uno.generate(
+      [...transformsRes].join('\n'),
       {
         preflights: options.preflights,
         minify: options.minify,
