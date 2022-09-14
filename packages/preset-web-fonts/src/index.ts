@@ -98,10 +98,27 @@ const preset = (options: WebFontsOptions = {}): Preset<any> => {
           .map(([name, fonts]) => [name, fonts.map(f => providers[f.provider || defaultProvider].getFontName(f))]),
       )
       for (const key of Object.keys(obj)) {
-        if (typeof theme[themeKey][key] === 'string')
-          theme[themeKey][key] = obj[key].map(i => `${i},`).join('') + theme[themeKey][key]
-        else
-          theme[themeKey][key] = obj[key].join(',')
+        if (typeof theme[themeKey][key] === 'string') {
+          theme[themeKey][key]
+            = [
+              ...obj[key],
+              ...theme[themeKey][key].split(',').map((i: string) => i.trim()),
+            ].filter((element, index, array) => {
+              const hasBefore = (e: string) => {
+                const i = array.indexOf(e)
+                return i >= 0 && i < index
+              }
+
+              return !(
+                hasBefore(element)
+                || (/^('.+'|".+")$/.test(element) && hasBefore(element.slice(1, -1)))
+                || hasBefore(`'${element}'`)
+                || hasBefore(`"${element}"`)
+              )
+            })
+              .join(',')
+        }
+        else { theme[themeKey][key] = obj[key].join(',') }
       }
     }
   }
