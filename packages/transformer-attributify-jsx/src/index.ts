@@ -39,6 +39,7 @@ export interface TransformerAttributifyJsxOptions {
 
 const elementRE = /<!--[\s\S]*?-->|<(\/?)([a-zA-Z][-.:0-9_a-zA-Z]*)((?:\s+[^>]*?(?:(?:'[^']*')|(?:"[^"]*"))?)*)\s*(\/?)>/gs
 const attributeRE = /([a-zA-Z()#][\[?a-zA-Z0-9-_:()#%\]?]*)(?:\s*=\s*((?:'[^']*')|(?:"[^"]*")|\S+))?/g
+const classFilterRE = /(className|class)\s*=\s*\{[^\}]*\}/i
 
 export default function transformerAttributifyJsx(options: TransformerAttributifyJsxOptions = {}): SourceCodeTransformer {
   const {
@@ -72,7 +73,13 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
       const tasks: Promise<void>[] = []
 
       for (const item of Array.from(code.original.matchAll(elementRE))) {
-        for (const attr of item[3].matchAll(attributeRE)) {
+        // Get the length of the className part, and replace it with the equal length of empty string
+        const classNamePart = item[3].match(classFilterRE)
+        let attributifyPart = item[3]
+        if (classNamePart)
+          attributifyPart = item[3].replace(classFilterRE, ' '.repeat(classNamePart[0].length))
+
+        for (const attr of attributifyPart.matchAll(attributeRE)) {
           const matchedRule = attr[0].replace(/\:/i, '-')
           if (matchedRule.includes('=') || isBlocked(matchedRule))
             continue
