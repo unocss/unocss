@@ -411,7 +411,7 @@ preflights: [
   {
     getCSS: ({ theme }) => `
       * {
-        color: ${theme.colors.gray?.[700] ?? '#333'}
+        color: ${theme.colors.gray?.[700] ?? '#333'};
         padding: 0;
         margin: 0;
       }
