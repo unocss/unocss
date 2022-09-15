@@ -37,6 +37,32 @@ export default defineConfig({
     expect(output).toMatchSnapshot()
   })
 
+  it('supports variantGroup transformer', async () => {
+    const { output } = await runCli({
+      'views/index.html': '<div class="p-4 border-(solid red)"></div>',
+      'unocss.config.js': `
+import { defineConfig, transformerVariantGroup } from 'unocss'
+export default defineConfig({
+  transformers: [transformerVariantGroup()]
+})
+    `.trim(),
+    })
+    expect(output).toMatchSnapshot()
+  })
+
+  it('supports directives transformer', async () => {
+    const { output } = await runCli({
+      'views/index.css': '.btn-center{@apply text-center my-0 font-medium;}',
+      'unocss.config.js': `
+import { defineConfig, transformerDirectives } from 'unocss'
+export default defineConfig({
+  transformers: [transformerDirectives()]
+})
+    `.trim(),
+    })
+    expect(output).toMatchSnapshot()
+  })
+
   it('uno.css exclude initialized class after changing file', async () => {
     const fileName = 'views/index.html'
     const initializedContent = '<div class="bg-blue"></div>'
