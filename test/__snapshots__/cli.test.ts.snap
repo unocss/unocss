@@ -6,12 +6,9 @@ exports[`cli > builds uno.css 1`] = `
 .p-4{padding:1rem;}"
 `;
 
-exports[`cli > supports directives transformer 1`] = `
-"/* layer: default */
-.my-0{margin-top:0rem;margin-bottom:0rem;}
-.text-center{text-align:center;}
-.font-medium{font-weight:500;}"
-`;
+exports[`cli > supports directives transformer 1`] = `""`;
+
+exports[`cli > supports directives transformer 2`] = `".btn-center{margin-top:0rem;margin-bottom:0rem;text-align:center;font-weight:500;}"`;
 
 exports[`cli > supports unocss.config.js 1`] = `
 "/* layer: shortcuts */
@@ -24,3 +21,5 @@ exports[`cli > supports variantGroup transformer 1`] = `
 .border-solid{border-style:solid;}
 .p-4{padding:1rem;}"
 `;
+
+exports[`cli > supports variantGroup transformer 2`] = `"<div class=\\"p-4 border-solid border-red\\"></div>"`;

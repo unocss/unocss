@@ -6,7 +6,7 @@ import { cyan, dim, green } from 'colorette'
 import { debounce } from 'perfect-debounce'
 import { toArray } from '@unocss/core'
 import { loadConfig } from '@unocss/config'
-import type { UserConfig } from '@unocss/core'
+import type { SourceCodeTransformerEnforce, UserConfig } from '@unocss/core'
 import { version } from '../package.json'
 import { createContext } from '../../shared-integration/src/context'
 import { applyTransformers } from '../../shared-integration/src/transformers'
@@ -99,20 +99,38 @@ export async function build(_options: CliOptions) {
 
   await generate(options)
 
-  startWatcher()
+  await startWatcher()
+
+  function transformFiles(sources: { id: string; code: string; transformedCode?: string | undefined }[], enforce: SourceCodeTransformerEnforce = 'default') {
+    return Promise.all(
+      sources.map(({ id, code, transformedCode }) => new Promise<{ id: string; code: string; transformedCode: string | undefined }>((resolve) => {
+        applyTransformers(ctx, code, id, enforce)
+          .then((transformsRes) => {
+            resolve({ id, code, transformedCode: transformsRes?.code || transformedCode })
+          })
+      })))
+  }
 
   async function generate(options: ResolvedCliOptions) {
+    const sourceCache = Array.from(fileCache).map(([id, code]) => ({ id, code }))
+
     const outFile = resolve(options.cwd || process.cwd(), options.outFile ?? 'uno.css')
 
-    const transformsRes = await Promise.all(
-      Array.from(fileCache)
-        .map(([id, code]) => new Promise((resolve) => {
-          applyTransformers(ctx, code, id, 'pre')
-            .then(transformRes => resolve(transformRes?.code || code))
-        })))
+    const preTransform = await transformFiles(sourceCache, 'pre')
+    const defaultTransform = await transformFiles(preTransform)
+    const postTransform = await transformFiles(defaultTransform, 'post')
+
+    // update source file
+    await Promise.all(
+      postTransform.filter(({ transformedCode }) => !!transformedCode)
+        .map(({ transformedCode, id }) => new Promise<void>((resolve) => {
+          if (existsSync(id))
+            fs.writeFile(id, transformedCode as string, 'utf-8').then(resolve)
+        })),
+    )
 
     const { css, matched } = await ctx.uno.generate(
-      [...transformsRes].join('\n'),
+      [...postTransform.map(({ code, transformedCode }) => transformedCode ?? code)].join('\n'),
       {
         preflights: options.preflights,
         minify: options.minify,
