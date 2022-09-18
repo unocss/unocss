@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.45.21",
   "private": true,
-  "packageManager": "pnpm@7.5.0",
+  "packageManager": "pnpm@7.11.0",
   "scripts": {
     "bench": "npm -C bench run bench",
     "build": "rimraf packages/*/dist && esno scripts/copy-files.ts && pnpm -r --filter=./packages/* run build && pnpm -r run build-post",
@@ -71,7 +71,7 @@
     "@vueuse/math": "^9.2.0",
     "brotli-size": "^4.0.0",
     "bumpp": "^8.2.1",
-    "codemirror": "^5.65.6",
+    "codemirror": "^5.65.8",
     "codemirror-theme-vars": "^0.1.1",
     "eslint": "8.23.1",
     "esno": "^0.16.3",
@@ -103,7 +103,7 @@
     "vite-plugin-inspect": "^0.7.1",
     "vite-plugin-pages": "^0.26.0",
     "vitest": "^0.23.4",
-    "vue": "^3.2.38",
+    "vue": "^3.2.39",
     "vue-router": "^4.1.5"
   },
   "pnpm": {

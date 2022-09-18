@@ -130,7 +130,7 @@ onMounted(() => {
 
           <div class="pl-1 ml-auto space-x-2 text-sm md:text-base flex items-center flex-nowrap">
             <button
-              i-carbon-erase
+              i-ri-eraser-line
               icon-btn
               title="Reset To Default"
               @click="handleReset"

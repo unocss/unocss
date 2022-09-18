@@ -70,7 +70,7 @@
     "publish": "esno ./scripts/publish.ts"
   },
   "devDependencies": {
-    "@types/vscode": "^1.62.0",
+    "@types/vscode": "^1.71.0",
     "@unocss/nuxt": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
     "esno": "^0.16.3",

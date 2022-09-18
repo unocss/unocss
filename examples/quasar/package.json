@@ -14,7 +14,7 @@
   "dependencies": {
     "@quasar/extras": "^1.15.3",
     "quasar": "^2.6.0",
-    "vue": "^3.2.38",
+    "vue": "^3.2.39",
     "vue-router": "^4.1.5"
   },
   "devDependencies": {

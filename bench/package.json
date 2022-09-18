@@ -13,7 +13,7 @@
     "unocss": "workspace:*",
     "vite": "^3.1.2",
     "vite-plugin-windicss": "^1.8.8",
-    "vue": "^3.2.38",
+    "vue": "^3.2.39",
     "windicss": "^3.5.6"
   }
 }
