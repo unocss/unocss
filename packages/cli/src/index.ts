@@ -99,7 +99,7 @@ export async function build(_options: CliOptions) {
 
   await generate(options)
 
-  await startWatcher()
+  await startWatcher().catch(handleError)
 
   function transformFiles(sources: { id: string; code: string; transformedCode?: string | undefined }[], enforce: SourceCodeTransformerEnforce = 'default') {
     return Promise.all(
