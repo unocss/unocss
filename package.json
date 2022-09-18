@@ -109,7 +109,8 @@
   "pnpm": {
     "overrides": {
       "@nuxt/kit-edge": "npm:@nuxt/kit@latest",
-      "vite": "^3.1.2"
+      "vite": "^3.1.2",
+      "nuxt": "3.0.0-rc.9"
     }
   },
   "simple-git-hooks": {

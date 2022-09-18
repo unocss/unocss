@@ -23,6 +23,7 @@
     "p-limit": "^4.0.0",
     "postcss-nested": "^5.0.6",
     "prettier": "^2.7.1",
+    "nuxt": "3.0.0-rc.9",
     "shiki": "^0.11.1",
     "theme-vitesse": "^0.5.2",
     "vite-plugin-vue-markdown": "^0.22.1"
