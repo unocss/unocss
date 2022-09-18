@@ -81,6 +81,10 @@ Presets are the heart of UnoCSS. They let you make your own custom framework in 
 - [unocss-preset-extra](https://github.com/MoomFE/unocss-preset-extra) - [Animate.css](https://animate.style) Preset and some other rules by [@Zhang-Wei-666](https://github.com/Zhang-Wei-666).
 - [unocss-preset-daisy](https://github.com/kidonng/unocss-preset-daisy) - daisyUI Preset by [@kidonng](https://github.com/kidonng).
 
+###### Community Frameworks
+
+- [Anu](https://github.com/jd-solanki/anu) - DX focused utility based vue component library by [@jd-solanki](https://github.com/jd-solanki)
+
 ### Using Presets
 
 To set presets to your project:
