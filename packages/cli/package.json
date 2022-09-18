@@ -52,9 +52,9 @@
     "chokidar": "^3.5.3",
     "colorette": "^2.0.19",
     "consola": "^2.15.3",
-    "fast-glob": "^3.2.11",
+    "fast-glob": "^3.2.12",
     "magic-string": "^0.26.3",
-    "pathe": "^0.3.5",
+    "pathe": "^0.3.7",
     "perfect-debounce": "^0.1.3"
   }
 }

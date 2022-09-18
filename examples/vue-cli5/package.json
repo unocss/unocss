@@ -6,7 +6,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "core-js": "^3.25.0",
+    "core-js": "^3.25.1",
     "vue": "^2.7.10"
   },
   "devDependencies": {
