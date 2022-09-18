@@ -42,84 +42,15 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 - [VS Code extension](https://marketplace.visualstudio.com/items?itemName=antfu.unocss)
 - Code-splitting for CSS - ships minimal CSS for MPA.
 
-###### Benchmark
-
-```
-2022/9/3 22:40:50
-1656 utilities | x200 runs (75% build time)
-
-none                             20.01 ms / delta.      0.00 ms 
-unocss       v0.45.14           199.76 ms / delta.    179.75 ms (x1.00)
-tailwindcss  v3.1.8             875.51 ms / delta.    855.50 ms (x4.76)
-windicss     v3.5.6            1342.37 ms / delta.   1322.36 ms (x7.36)
-```
-
 ## Installation
 
-### Vite
-
-```bash
-npm i -D unocss
-```
-
-```ts
-// vite.config.ts
-import Unocss from 'unocss/vite'
-
-export default {
-  plugins: [
-    Unocss({ /* options */ }),
-  ],
-}
-```
-
-Add `uno.css` to your main entry:
-
-```ts
-// main.ts
-import 'uno.css'
-```
-
-That's it, have fun.
-
-Learn more at [@unocss/vite](https://github.com/unocss/unocss/blob/main/packages/vite).
-
-See [all packages](https://github.com/unocss/unocss/tree/main/packages).
-
-### Nuxt
-
-```bash
-npm i -D @unocss/nuxt
-```
-
-```ts
-// nuxt.config.js
-
-export default {
-  modules: [
-    '@unocss/nuxt',
-  ],
-}
-```
-
-Learn more at [@unocss/nuxt](https://github.com/unocss/unocss/tree/main/packages/nuxt)
+[Vite](https://github.com/unocss/unocss/blob/main/packages/vite) | [Nuxt](https://github.com/unocss/unocss/blob/main/packages/nuxt) | [Astro](https://github.com/unocss/unocss/blob/main/packages/astro) | [Webpack](https://github.com/unocss/unocss/blob/main/packages/webpack) | [CDN Runtime](https://github.com/unocss/unocss/blob/main/packages/runtime) | [CLI](https://github.com/unocss/unocss/blob/main/packages/cli) | [VS Code extension](https://github.com/unocss/unocss/blob/main/packages/vscode)
 
 ## Configurations
 
 UnoCSS is an atomic-CSS engine instead of a framework. Everything is designed with flexibility and performance in mind. There are no core utilities in UnoCSS, all functionalities are provided via presets.
 
 By default, UnoCSS applies [the default preset](https://github.com/unocss/unocss/tree/main/packages/preset-uno), which provides a common superset of the popular utilities-first frameworks Tailwind CSS, Windi CSS, Bootstrap, Tachyons, etc.
-
-For example: `ml-3` (Tailwind), `ms-2` (Bootstrap), `ma4` (Tachyons), and `mt-10px` (Windi CSS) are all valid.
-
-```css
-.ma4 { margin: 1rem; }
-.ml-3 { margin-left: 0.75rem; }
-.ms-2 { margin-inline-start: 0.5rem; }
-.mt-10px { margin-top: 10px; }
-```
-
-Learn more about [the default preset](https://github.com/unocss/unocss/tree/main/packages/preset-uno).
 
 ### Presets
 
