@@ -99,7 +99,7 @@ export async function build(_options: CliOptions) {
 
   await generate(options)
 
-  startWatcher()
+  startWatcher().catch(handleError)
 
   async function generate(options: ResolvedCliOptions) {
     const outFile = resolve(options.cwd || process.cwd(), options.outFile ?? 'uno.css')
