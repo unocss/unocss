@@ -1,5 +1,5 @@
 import type { Plugin } from 'vite'
-import type { UserConfigDefaults } from '@unocss/core'
+import type { UnocssPluginContext, UserConfigDefaults } from '@unocss/core'
 import UnocssInspector from '@unocss/inspector'
 import { createContext } from './integration'
 import { ChunkModeBuildPlugin } from './modes/chunk-build'
@@ -36,34 +36,40 @@ export default function UnocssPlugin<Theme extends {}>(
     ConfigHMRPlugin(ctx),
     ...createTransformerPlugins(ctx),
     ...createDevtoolsPlugin(ctx),
+    ...createExtraPlugins(ctx),
   ]
 
-  if (inlineConfig.inspector !== false)
-    plugins.push(UnocssInspector(ctx))
+  function createExtraPlugins(ctx: UnocssPluginContext) {
+    const extraPlugins: Plugin[] = []
+    if (inlineConfig.inspector !== false)
+      extraPlugins.push(UnocssInspector(ctx))
 
-  if (mode === 'per-module') {
-    plugins.push(...PerModuleModePlugin(ctx))
-  }
-  else if (mode === 'vue-scoped') {
-    plugins.push(VueScopedPlugin(ctx))
-  }
-  else if (mode === 'svelte-scoped') {
-    plugins.push(SvelteScopedPlugin(ctx))
-  }
-  else if (mode === 'shadow-dom') {
-    plugins.push(ShadowDomModuleModePlugin(ctx))
-  }
-  else if (mode === 'global') {
-    plugins.push(...GlobalModePlugin(ctx))
-  }
-  else if (mode === 'dist-chunk') {
-    plugins.push(
-      ChunkModeBuildPlugin(ctx),
-      ...GlobalModeDevPlugin(ctx),
-    )
-  }
-  else {
-    throw new Error(`[unocss] unknown mode "${mode}"`)
+    switch (mode) {
+      case 'per-module':
+        extraPlugins.push(...PerModuleModePlugin(ctx))
+        break
+      case 'vue-scoped':
+        extraPlugins.push(VueScopedPlugin(ctx))
+        break
+      case 'svelte-scoped':
+        extraPlugins.push(SvelteScopedPlugin(ctx))
+        break
+      case 'shadow-dom':
+        extraPlugins.push(ShadowDomModuleModePlugin(ctx))
+        break
+      case 'global':
+        extraPlugins.push(...GlobalModePlugin(ctx))
+        break
+      case 'dist-chunk':
+        extraPlugins.push(
+          ChunkModeBuildPlugin(ctx),
+          ...GlobalModeDevPlugin(ctx),
+        )
+        break
+      default :
+        throw new Error(`[unocss] unknown mode "${mode}"`)
+    }
+    return extraPlugins
   }
 
   return plugins.filter(Boolean) as Plugin[]
