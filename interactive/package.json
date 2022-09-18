@@ -20,7 +20,6 @@
     "js-yaml": "^4.1.0",
     "knitwork": "^0.1.2",
     "markdown-it-link-attributes": "^4.0.1",
-    "nuxt": "3.0.0-rc.10",
     "p-limit": "^4.0.0",
     "postcss-nested": "^5.0.6",
     "prettier": "^2.7.1",
