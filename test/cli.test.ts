@@ -37,6 +37,34 @@ export default defineConfig({
     expect(output).toMatchSnapshot()
   })
 
+  it('supports variantGroup transformer', async () => {
+    const { output, transform } = await runCli({
+      'views/index.html': '<div class="p-4 border-(solid red)"></div>',
+      'unocss.config.js': `
+import { defineConfig, transformerVariantGroup } from 'unocss'
+export default defineConfig({
+  transformers: [transformerVariantGroup()]
+})
+    `.trim(),
+    }, 'views/index.html')
+    expect(output).toMatchSnapshot()
+    expect(transform).toMatchSnapshot()
+  })
+
+  it('supports directives transformer', async () => {
+    const { output, transform } = await runCli({
+      'views/index.css': '.btn-center{@apply text-center my-0 font-medium;}',
+      'unocss.config.js': `
+import { defineConfig, transformerDirectives } from 'unocss'
+export default defineConfig({
+  transformers: [transformerDirectives()]
+})
+    `.trim(),
+    }, 'views/index.css')
+    expect(output).toMatchSnapshot()
+    expect(transform).toMatchSnapshot()
+  })
+
   it('uno.css exclude initialized class after changing file', async () => {
     const fileName = 'views/index.html'
     const initializedContent = '<div class="bg-blue"></div>'
@@ -55,7 +83,7 @@ export default defineConfig({
     // polling until update
     for (let i = 100; i >= 0; i--) {
       await sleep(100)
-      const output = await readUnocssFile(testDir)
+      const output = await readFile(testDir)
       if (i === 0 || output.includes('.bg-red')) {
         expect(output).toContain('.bg-red')
         break
@@ -89,17 +117,25 @@ function runAsyncChildProcess(cwd: string, ...args: string[]) {
   return startCli(cwd, ['', '', ...args, '--no-preflights'])
 }
 
-function readUnocssFile(testDir: string) {
-  return fs.readFile(resolve(testDir, 'uno.css'), 'utf8')
+function readFile(testDir: string, targetFile?: string) {
+  return fs.readFile(resolve(testDir, targetFile ?? 'uno.css'), 'utf8')
 }
 
-async function runCli(files: Record<string, string>) {
+async function runCli(files: Record<string, string>, transformFile?: string) {
   const testDir = getTestDir()
 
   await initOutputFiles(testDir, files)
   await runAsyncChildProcess(testDir, 'views/**/*')
 
-  const output = await readUnocssFile(testDir)
+  const output = await readFile(testDir)
+
+  if (transformFile) {
+    const transform = await readFile(testDir, transformFile)
+    return {
+      output,
+      transform,
+    }
+  }
 
   return {
     output,
