@@ -1,5 +1,5 @@
 import { createGenerator } from '@unocss/core'
-import { presetMini } from '@unocss/preset-mini'
+import presetMini from '@unocss/preset-mini'
 import presetUno from '@unocss/preset-uno'
 import presetWind from '@unocss/preset-wind'
 import { describe, expect, test } from 'vitest'
