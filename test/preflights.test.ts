@@ -1,5 +1,7 @@
 import { createGenerator } from '@unocss/core'
 import { presetMini } from '@unocss/preset-mini'
+import presetUno from '@unocss/preset-uno'
+import presetWind from '@unocss/preset-wind'
 import { describe, expect, test } from 'vitest'
 
 describe('preflights', () => {
@@ -31,10 +33,10 @@ describe('preflights', () => {
       presets: [presetMini({ preflight: false })],
     })
     const unoWind = createGenerator({
-      presets: [presetMini({ preflight: false })],
+      presets: [presetWind({ preflight: false })],
     })
     const unoUno = createGenerator({
-      presets: [presetMini({ preflight: false })],
+      presets: [presetUno({ preflight: false })],
     })
     const { css: cssMini } = await unoMini.generate('')
     const { css: cssWind } = await unoWind.generate('')
