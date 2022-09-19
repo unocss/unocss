@@ -29,20 +29,19 @@ describe('preflights', () => {
   })
 
   test('no preflights with preset', async () => {
-    const unoMini = createGenerator({
-      presets: [presetMini({ preflight: false })],
+    const cssArray = [presetMini, presetUno, presetWind].map(async (preset) => {
+      const uno = createGenerator({
+        presets: [preset({ preflight: false })],
+      })
+      const { css } = await uno.generate('')
+      return css
     })
-    const unoWind = createGenerator({
-      presets: [presetWind({ preflight: false })],
-    })
-    const unoUno = createGenerator({
-      presets: [presetUno({ preflight: false })],
-    })
-    const { css: cssMini } = await unoMini.generate('')
-    const { css: cssWind } = await unoWind.generate('')
-    const { css: cssUno } = await unoUno.generate('')
-    expect(cssMini).toMatchInlineSnapshot('""')
-    expect(cssWind).toMatchInlineSnapshot('""')
-    expect(cssUno).toMatchInlineSnapshot('""')
+    expect(await Promise.all(cssArray)).toMatchInlineSnapshot(`
+      [
+        "",
+        "",
+        "",
+      ]
+    `)
   })
 })
