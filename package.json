@@ -110,7 +110,8 @@
     "overrides": {
       "@nuxt/kit-edge": "npm:@nuxt/kit@latest",
       "vite": "^3.1.2",
-      "nuxt": "3.0.0-rc.9"
+      "nuxt": "3.0.0-rc.9",
+      "jiti": "1.16.0"
     }
   },
   "simple-git-hooks": {
