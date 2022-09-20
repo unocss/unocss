@@ -1,4 +1,7 @@
 import { createGenerator } from '@unocss/core'
+import presetMini from '@unocss/preset-mini'
+import presetUno from '@unocss/preset-uno'
+import presetWind from '@unocss/preset-wind'
 import { describe, expect, test } from 'vitest'
 
 describe('preflights', () => {
@@ -23,5 +26,22 @@ describe('preflights', () => {
     })
     const { css } = await uno.generate('')
     expect(css).toMatchSnapshot()
+  })
+
+  test('no preflights with preset', async () => {
+    const cssArray = [presetMini, presetUno, presetWind].map(async (preset) => {
+      const uno = createGenerator({
+        presets: [preset({ preflight: false })],
+      })
+      const { css } = await uno.generate('')
+      return css
+    })
+    expect(await Promise.all(cssArray)).toMatchInlineSnapshot(`
+      [
+        "",
+        "",
+        "",
+      ]
+    `)
   })
 })

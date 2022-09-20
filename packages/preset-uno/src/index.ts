@@ -11,6 +11,7 @@ export interface PresetUnoOptions extends PresetMiniOptions {}
 export const presetUno = (options: PresetUnoOptions = {}): Preset<Theme> => {
   options.dark = options.dark ?? 'class'
   options.attributifyPseudo = options.attributifyPseudo ?? false
+  options.preflight = options.preflight ?? true
 
   return {
     name: '@unocss/preset-uno',
@@ -22,7 +23,7 @@ export const presetUno = (options: PresetUnoOptions = {}): Preset<Theme> => {
       variantColorMix,
     ],
     options,
-    preflights,
+    preflights: options.preflight ? preflights : [],
     prefix: options.prefix,
   }
 }

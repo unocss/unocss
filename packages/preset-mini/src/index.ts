@@ -52,11 +52,18 @@ export interface PresetMiniOptions extends PresetOptions {
    * @default undefined
    */
   prefix?: string
+  /**
+   * Generate preflight
+   *
+   * @default true
+   */
+  preflight?: boolean
 }
 
 export const presetMini = (options: PresetMiniOptions = {}): Preset<Theme> => {
   options.dark = options.dark ?? 'class'
   options.attributifyPseudo = options.attributifyPseudo ?? false
+  options.preflight = options.preflight ?? true
 
   return {
     name: '@unocss/preset-mini',
@@ -67,7 +74,7 @@ export const presetMini = (options: PresetMiniOptions = {}): Preset<Theme> => {
     postprocess: options.variablePrefix && options.variablePrefix !== 'un-'
       ? VarPrefixPostprocessor(options.variablePrefix)
       : undefined,
-    preflights,
+    preflights: options.preflight ? preflights : [],
     prefix: options.prefix,
   }
 }
