@@ -42,7 +42,8 @@ describe.concurrent('fixtures', () => {
     expect(js).contains('uno-tacwqa')
   })
 
-  it('vite lib', async () => {
+  // FIXME: https://github.com/vitejs/vite/issues/10137
+  it.fails('vite lib', async () => {
     const root = resolve(__dirname, 'fixtures/vite-lib')
     await fs.emptyDir(join(root, 'dist'))
     await build({

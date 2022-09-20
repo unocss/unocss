@@ -125,7 +125,10 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
         css = await applyCssTransform(css, fakeCssId, options.dir)
 
         const hash = getHash(css)
-        await cssPost.transform!.call({} as any, getHashPlaceholder(hash), fakeCssId)
+        const transformHandler = 'handler' in cssPost.transform!
+          ? cssPost.transform.handler
+          : cssPost.transform!
+        await transformHandler.call({} as any, getHashPlaceholder(hash), fakeCssId)
 
         // fool the css plugin to generate the css in corresponding chunk
         chunk.modules[fakeCssId] = {
