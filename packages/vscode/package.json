@@ -18,7 +18,7 @@
   "preview": true,
   "icon": "res/logo.png",
   "engines": {
-    "vscode": "^1.62.0"
+    "vscode": "^1.71.0"
   },
   "activationEvents": [
     "workspaceContains:**/vite.config.*",
