@@ -321,7 +321,7 @@ export interface ConfigBase<Theme extends {} = {}> {
 
   /**
    * Rules to exclude the selectors for your design system (to narrow down the possibilities).
-   * Combining `warnExcluded` options it can also helps you identify wrong usages.
+   * Combining `warnExcluded` options it can also help you identify wrong usages.
    */
   blocklist?: BlocklistRule[]
 
@@ -362,7 +362,7 @@ export interface ConfigBase<Theme extends {} = {}> {
   preprocess?: Arrayable<Preprocessor>
 
   /**
-   * Process the generate utils object
+   * Postprocess the generate utils object
    */
   postprocess?: Arrayable<Postprocessor>
 
@@ -584,7 +584,7 @@ export interface PluginOptions {
   configFile?: string | false
 
   /**
-   * List of files that will also triggers config reloads
+   * List of files that will also trigger config reloads
    */
   configDeps?: string[]
 
