@@ -57,5 +57,10 @@
   },
   "devDependencies": {
     "@nuxt/schema": "^3.0.0-rc.10"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": ["vite", "webpack"]
+    }
   }
 }
