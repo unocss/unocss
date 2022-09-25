@@ -45,6 +45,7 @@
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "magic-string": "^0.26.3",
+    "pathe": "^0.3.7",
     "unplugin": "^0.9.5",
     "webpack-sources": "^3.2.3"
   },

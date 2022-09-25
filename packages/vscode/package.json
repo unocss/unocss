@@ -69,6 +69,9 @@
     "dev": "tsup --watch src",
     "publish": "esno ./scripts/publish.ts"
   },
+  "dependencies": {
+    "pathe": "^0.3.7"
+  },
   "devDependencies": {
     "@types/vscode": "^1.71.0",
     "@unocss/nuxt": "workspace:*",
