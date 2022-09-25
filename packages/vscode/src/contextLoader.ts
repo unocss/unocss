@@ -1,6 +1,6 @@
 import { readdir } from 'fs/promises'
-import path from 'pathe'
 import fs from 'fs'
+import path from 'pathe'
 import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { notNull } from '@unocss/core'
 import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
