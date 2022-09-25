@@ -90,6 +90,71 @@ export default defineConfig({
       }
     }
   })
+
+  it('supports unocss.config.js cliOptions', async () => {
+    const testDir = getTestDir()
+    const fileName1 = 'views/index1.html'
+    const fileName2 = 'views/index2.html'
+    const Content1 = '<div class="bg-blue"></div>'
+    const Content2 = '<div class="bg-red"></div>'
+    const absolutePathOfFile1 = resolve(testDir, fileName1)
+    const absolutePathOfFile2 = resolve(testDir, fileName2)
+    await fs.outputFile(absolutePathOfFile1, Content1)
+    await fs.outputFile(absolutePathOfFile2, Content2)
+    await fs.outputFile(resolve(testDir, 'unocss.config.js'), `
+ import { defineConfig, transformerVariantGroup } from 'unocss'
+export default defineConfig({
+   cliOptions:[
+    {
+      patterns:['views/index1.html'],
+      outFile:'./uno1.css',
+    },
+    {
+      patterns:['views/index2.html'],
+      outFile:'./test/uno2.css',
+    },
+  ],
+})
+  `)
+    await runAsyncChildProcess(testDir, '', '')
+    const outputFile1 = './uno1.css'
+    const outputFile2 = './test/uno2.css'
+    const outputPath1 = resolve(testDir, outputFile1)
+    const outputPath2 = resolve(testDir, outputFile2)
+    for (let i = 50; i >= 0; i--) {
+      await sleep(50)
+      if (fs.existsSync(outputPath1))
+        break
+    }
+    for (let i = 50; i >= 0; i--) {
+      await sleep(50)
+      if (fs.existsSync(outputPath2))
+        break
+    }
+    // polling until update
+    for (let i = 100; i >= 0; i--) {
+      await sleep(100)
+      const output1 = await readFile(testDir, outputFile1)
+      const output2 = await readFile(testDir, outputFile2)
+      if (i === 0 || output1.includes('.bg-blue')) {
+        expect(output1).toContain('.bg-blue')
+        break
+      }
+      if (i === 0 || output2.includes('.bg-red')) {
+        expect(output2).toContain('.bg-red')
+        break
+      }
+    }
+
+    for (let i = 100; i >= 0; i--) {
+      await sleep(100)
+      const output2 = await readFile(testDir, outputFile2)
+      if (i === 0 || output2.includes('.bg-red')) {
+        expect(output2).toContain('.bg-red')
+        break
+      }
+    }
+  })
 })
 
 // ----- Utils -----
