@@ -1,4 +1,4 @@
-import { dirname, resolve } from 'path'
+import { dirname, resolve } from 'pathe'
 import { fileURLToPath } from 'url'
 import { addComponentsDir, addPluginTemplate, defineNuxtModule, extendWebpackConfig } from '@nuxt/kit'
 import WebpackPlugin from '@unocss/webpack'

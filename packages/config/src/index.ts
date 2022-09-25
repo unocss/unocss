@@ -1,4 +1,4 @@
-import { dirname, resolve } from 'path'
+import { dirname, resolve } from 'pathe'
 import fs from 'fs'
 import type { UserConfig } from '@unocss/core'
 import type { LoadConfigResult, LoadConfigSource } from 'unconfig'

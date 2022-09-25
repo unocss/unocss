@@ -1,4 +1,4 @@
-import { resolve } from 'path'
+import { resolve } from 'pathe'
 import { defineConfig } from 'vite'
 import UnoCSS from '@unocss/vite'
 

@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'pathe'
 import type { ExtensionContext } from 'vscode'
 import { StatusBarAlignment, commands, window, workspace } from 'vscode'
 import { version } from '../package.json'

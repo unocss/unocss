@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { dirname, resolve } from 'path'
+import { dirname, resolve } from 'pathe'
 import { fileURLToPath } from 'url'
 import type { Plugin, ResolvedConfig, ViteDevServer } from 'vite'
 import type { IncomingMessage } from 'connect'
