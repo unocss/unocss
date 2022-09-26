@@ -1,3 +1,3 @@
 # @unocss/shared-docs
 
-Internal package for utils of docs and playground.
+Internal package for utils of interactive docs and playground.
