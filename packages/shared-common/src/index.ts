@@ -11,6 +11,7 @@ export function replaceAsync(string: string, searchValue: RegExp, replacer: (...
         values.push(replacer(...args))
         return ''
       })
+      replacer()
       return Promise.all(values).then((resolvedValues) => {
         return String.prototype.replace.call(string, searchValue, () => {
           return resolvedValues.shift() || ''
