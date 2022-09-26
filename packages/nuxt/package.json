@@ -53,7 +53,6 @@
     "@unocss/reset": "workspace:*",
     "@unocss/vite": "workspace:*",
     "@unocss/webpack": "workspace:*",
-    "pathe": "^0.3.7",
     "unocss": "workspace:*"
   },
   "devDependencies": {

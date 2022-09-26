@@ -1,4 +1,4 @@
-import { resolve } from 'pathe'
+import { resolve } from 'path'
 import type { ExtensionContext } from 'vscode'
 import { StatusBarAlignment, commands, window, workspace } from 'vscode'
 import { version } from '../package.json'

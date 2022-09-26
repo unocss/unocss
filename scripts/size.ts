@@ -1,5 +1,5 @@
 import fs from 'fs/promises'
-import { basename } from 'pathe'
+import { basename } from 'path'
 import { sync as brotli } from 'brotli-size'
 import { sync as gzip } from 'gzip-size'
 import { minify } from 'terser'

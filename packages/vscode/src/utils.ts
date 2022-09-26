@@ -1,4 +1,4 @@
-import { isAbsolute, relative } from 'pathe'
+import { isAbsolute, relative } from 'path'
 import type { GenerateResult, UnoGenerator } from '@unocss/core'
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'

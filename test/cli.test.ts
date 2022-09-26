@@ -1,4 +1,4 @@
-import { resolve } from 'pathe'
+import { resolve } from 'path'
 import fs from 'fs-extra'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { startCli } from '../packages/cli/src/cli-start'

@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { fileURLToPath } from 'url'
-import { dirname, join } from 'pathe'
+import { dirname, join } from 'path'
 import fs from 'fs-extra'
 import { execa } from 'execa'
 

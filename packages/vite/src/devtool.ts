@@ -1,6 +1,6 @@
 import fs from 'fs'
 import { fileURLToPath } from 'url'
-import { dirname, resolve } from 'pathe'
+import { dirname, resolve } from 'path'
 import type { Plugin, ResolvedConfig, ViteDevServer } from 'vite'
 import type { IncomingMessage } from 'connect'
 import type { UnocssPluginContext } from '@unocss/core'

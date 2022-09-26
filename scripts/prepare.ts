@@ -1,4 +1,4 @@
-import { basename, dirname, extname, relative } from 'pathe'
+import { basename, dirname, extname, relative } from 'path'
 import fg from 'fast-glob'
 import fs from 'fs-extra'
 

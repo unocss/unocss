@@ -1,4 +1,4 @@
-import { dirname, relative } from 'pathe'
+import { dirname, relative } from 'path'
 import type { DecorationOptions, ExtensionContext, StatusBarItem } from 'vscode'
 import { DecorationRangeBehavior, MarkdownString, Range, window, workspace } from 'vscode'
 import { INCLUDE_COMMENT_IDE, getMatchedPositionsFromCode, isCssId } from './integration'

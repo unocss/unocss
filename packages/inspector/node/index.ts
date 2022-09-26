@@ -1,5 +1,5 @@
 import { fileURLToPath } from 'url'
-import { dirname, resolve } from 'pathe'
+import { dirname, resolve } from 'path'
 import sirv from 'sirv'
 import type { Plugin, ViteDevServer } from 'vite'
 import type { UnocssPluginContext } from '@unocss/core'
