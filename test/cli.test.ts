@@ -16,7 +16,7 @@ afterAll(async () => {
 
 describe('cli', () => {
   it('builds uno.css', async () => {
-    const { output } = await runCli({
+    const {output} = await runCli({
       'views/index.html': '<div class="p-4 max-w-screen-md"></div>',
     })
 
@@ -24,7 +24,7 @@ describe('cli', () => {
   })
 
   it('supports unocss.config.js', async () => {
-    const { output } = await runCli({
+    const {output} = await runCli({
       'views/index.html': '<div class="box"></div>',
       'unocss.config.js': `
 import { defineConfig } from 'unocss'
@@ -38,7 +38,7 @@ export default defineConfig({
   })
 
   it('supports variantGroup transformer', async () => {
-    const { output, transform } = await runCli({
+    const {output, transform} = await runCli({
       'views/index.html': '<div class="p-4 border-(solid red)"></div>',
       'unocss.config.js': `
 import { defineConfig, transformerVariantGroup } from 'unocss'
@@ -52,7 +52,7 @@ export default defineConfig({
   })
 
   it('supports directives transformer', async () => {
-    const { output, transform } = await runCli({
+    const {output, transform} = await runCli({
       'views/index.css': '.btn-center{@apply text-center my-0 font-medium;}',
       'unocss.config.js': `
 import { defineConfig, transformerDirectives } from 'unocss'
@@ -91,7 +91,7 @@ export default defineConfig({
     }
   })
 
-  it('supports unocss.config.js cliOptions', async () => {
+  it('supports unocss.config.js cliOptions CliEntryItem array', async () => {
     const testDir = getTestDir()
     const fileName1 = 'views/index1.html'
     const fileName2 = 'views/index2.html'
@@ -102,20 +102,22 @@ export default defineConfig({
     await fs.outputFile(absolutePathOfFile1, Content1)
     await fs.outputFile(absolutePathOfFile2, Content2)
     await fs.outputFile(resolve(testDir, 'unocss.config.js'), `
- import { defineConfig, transformerVariantGroup } from 'unocss'
+ import { defineConfig } from 'unocss'
 export default defineConfig({
-   cliOptions:[
-    {
-      patterns:['views/index1.html'],
-      outFile:'./uno1.css',
-    },
-    {
-      patterns:['views/index2.html'],
-      outFile:'./test/uno2.css',
-    },
-  ],
+   cli:{
+    entry:[
+      {
+        patterns:['views/index1.html'],
+        outFile:'./uno1.css',
+      },
+      {
+        patterns:['views/index2.html'],
+        outFile:'./test/uno2.css',
+      },
+    ],
+  }
 })
-  `)
+  `.trim())
     await runAsyncChildProcess(testDir, '', '')
     const outputFile1 = './uno1.css'
     const outputFile2 = './test/uno2.css'
@@ -155,54 +157,89 @@ export default defineConfig({
       }
     }
   })
+
+  it('supports unocss.config.js cliOptions CliEntryItem Object', async () => {
+    const testDir = getTestDir()
+    const fileName1 = 'views/index1.html'
+    const Content1 = '<div class="bg-blue"></div>'
+    const absolutePathOfFile1 = resolve(testDir, fileName1)
+    await fs.outputFile(absolutePathOfFile1, Content1)
+    await fs.outputFile(resolve(testDir, 'unocss.config.js'), `
+ import { defineConfig, transformerVariantGroup } from 'unocss'
+export default defineConfig({
+    cli:{
+    entry:{
+      patterns: ['views/index1.html'],
+      outFile: 'uno1.css',
+    }
+  },
 })
-
-// ----- Utils -----
-function sleep(time = 300) {
-  return new Promise<void>((resolve) => {
-    setTimeout(() => {
-      resolve()
-    }, time)
+  `)
+    await runAsyncChildProcess(testDir, '', '')
+    const outputFile1 = './uno1.css'
+    const outputPath1 = resolve(testDir, outputFile1)
+    for (let i = 50; i >= 0; i--) {
+      await sleep(50)
+      if (fs.existsSync(outputPath1))
+        break
+    }
+    // polling until update
+    for (let i = 100; i >= 0; i--) {
+      await sleep(100)
+      const output1 = await readFile(testDir, outputFile1)
+      if (i === 0 || output1.includes('.bg-blue')) {
+        expect(output1).toContain('.bg-blue')
+        break
+      }
+    }
   })
-}
+})
+// ----- Utils -----
+  function sleep(time = 300) {
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        resolve()
+      }, time)
+    })
+  }
 
-function getTestDir() {
-  return resolve(tempDir, Math.round(Math.random() * 100000).toString())
-}
+  function getTestDir() {
+    return resolve(tempDir, Math.round(Math.random() * 100000).toString())
+  }
 
-function initOutputFiles(testDir: string, files: Record<string, string>) {
-  return Promise.all(
-    Object.entries(files).map(([path, content]) =>
-      fs.outputFile(resolve(testDir, path), content, 'utf8'),
-    ),
-  )
-}
+  function initOutputFiles(testDir: string, files: Record<string, string>) {
+    return Promise.all(
+      Object.entries(files).map(([path, content]) =>
+        fs.outputFile(resolve(testDir, path), content, 'utf8'),
+      ),
+    )
+  }
 
-function runAsyncChildProcess(cwd: string, ...args: string[]) {
-  return startCli(cwd, ['', '', ...args, '--no-preflights'])
-}
+  function runAsyncChildProcess(cwd: string, ...args: string[]) {
+    return startCli(cwd, ['', '', ...args, '--no-preflights'])
+  }
 
-function readFile(testDir: string, targetFile?: string) {
-  return fs.readFile(resolve(testDir, targetFile ?? 'uno.css'), 'utf8')
-}
+  function readFile(testDir: string, targetFile?: string) {
+    return fs.readFile(resolve(testDir, targetFile ?? 'uno.css'), 'utf8')
+  }
 
-async function runCli(files: Record<string, string>, transformFile?: string) {
-  const testDir = getTestDir()
+  async function runCli(files: Record<string, string>, transformFile?: string) {
+    const testDir = getTestDir()
 
-  await initOutputFiles(testDir, files)
-  await runAsyncChildProcess(testDir, 'views/**/*')
+    await initOutputFiles(testDir, files)
+    await runAsyncChildProcess(testDir, 'views/**/*')
 
-  const output = await readFile(testDir)
+    const output = await readFile(testDir)
 
-  if (transformFile) {
-    const transform = await readFile(testDir, transformFile)
+    if (transformFile) {
+      const transform = await readFile(testDir, transformFile)
+      return {
+        output,
+        transform,
+      }
+    }
+
     return {
       output,
-      transform,
     }
   }
-
-  return {
-    output,
-  }
-}
