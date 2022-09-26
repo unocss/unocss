@@ -16,7 +16,7 @@ afterAll(async () => {
 
 describe('cli', () => {
   it('builds uno.css', async () => {
-    const {output} = await runCli({
+    const { output } = await runCli({
       'views/index.html': '<div class="p-4 max-w-screen-md"></div>',
     })
 
@@ -24,7 +24,7 @@ describe('cli', () => {
   })
 
   it('supports unocss.config.js', async () => {
-    const {output} = await runCli({
+    const { output } = await runCli({
       'views/index.html': '<div class="box"></div>',
       'unocss.config.js': `
 import { defineConfig } from 'unocss'
@@ -38,7 +38,7 @@ export default defineConfig({
   })
 
   it('supports variantGroup transformer', async () => {
-    const {output, transform} = await runCli({
+    const { output, transform } = await runCli({
       'views/index.html': '<div class="p-4 border-(solid red)"></div>',
       'unocss.config.js': `
 import { defineConfig, transformerVariantGroup } from 'unocss'
@@ -52,7 +52,7 @@ export default defineConfig({
   })
 
   it('supports directives transformer', async () => {
-    const {output, transform} = await runCli({
+    const { output, transform } = await runCli({
       'views/index.css': '.btn-center{@apply text-center my-0 font-medium;}',
       'unocss.config.js': `
 import { defineConfig, transformerDirectives } from 'unocss'
@@ -195,51 +195,51 @@ export default defineConfig({
   })
 })
 // ----- Utils -----
-  function sleep(time = 300) {
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        resolve()
-      }, time)
-    })
-  }
+function sleep(time = 300) {
+  return new Promise<void>((resolve) => {
+    setTimeout(() => {
+      resolve()
+    }, time)
+  })
+}
 
-  function getTestDir() {
-    return resolve(tempDir, Math.round(Math.random() * 100000).toString())
-  }
+function getTestDir() {
+  return resolve(tempDir, Math.round(Math.random() * 100000).toString())
+}
 
-  function initOutputFiles(testDir: string, files: Record<string, string>) {
-    return Promise.all(
-      Object.entries(files).map(([path, content]) =>
-        fs.outputFile(resolve(testDir, path), content, 'utf8'),
-      ),
-    )
-  }
+function initOutputFiles(testDir: string, files: Record<string, string>) {
+  return Promise.all(
+    Object.entries(files).map(([path, content]) =>
+      fs.outputFile(resolve(testDir, path), content, 'utf8'),
+    ),
+  )
+}
 
-  function runAsyncChildProcess(cwd: string, ...args: string[]) {
-    return startCli(cwd, ['', '', ...args, '--no-preflights'])
-  }
+function runAsyncChildProcess(cwd: string, ...args: string[]) {
+  return startCli(cwd, ['', '', ...args, '--no-preflights'])
+}
 
-  function readFile(testDir: string, targetFile?: string) {
-    return fs.readFile(resolve(testDir, targetFile ?? 'uno.css'), 'utf8')
-  }
+function readFile(testDir: string, targetFile?: string) {
+  return fs.readFile(resolve(testDir, targetFile ?? 'uno.css'), 'utf8')
+}
 
-  async function runCli(files: Record<string, string>, transformFile?: string) {
-    const testDir = getTestDir()
+async function runCli(files: Record<string, string>, transformFile?: string) {
+  const testDir = getTestDir()
 
-    await initOutputFiles(testDir, files)
-    await runAsyncChildProcess(testDir, 'views/**/*')
+  await initOutputFiles(testDir, files)
+  await runAsyncChildProcess(testDir, 'views/**/*')
 
-    const output = await readFile(testDir)
+  const output = await readFile(testDir)
 
-    if (transformFile) {
-      const transform = await readFile(testDir, transformFile)
-      return {
-        output,
-        transform,
-      }
-    }
-
+  if (transformFile) {
+    const transform = await readFile(testDir, transformFile)
     return {
       output,
+      transform,
     }
   }
+
+  return {
+    output,
+  }
+}
