@@ -96,7 +96,7 @@ export function getMatchedPositions(code: string, matched: string[], hasVariantG
 }
 
 // remove css-directive transformer to get matched result from source code
-function checkTransformers(transformer: SourceCodeTransformer, enforce: SourceCodeTransformerEnforce = 'default') {
+function checkTransformers(transformer: SourceCodeTransformer, enforce?: SourceCodeTransformerEnforce) {
   return transformer.enforce === enforce && transformer.name !== 'css-directive'
 }
 
