@@ -6,7 +6,7 @@
   "packageManager": "pnpm@7.11.0",
   "scripts": {
     "bench": "npm -C bench run bench",
-    "build": "rimraf packages/*/dist && esno scripts/copy-files.ts && pnpm -r --filter=./packages/* run build && pnpm -r run build-post",
+    "build": "rimraf packages/*/dist && esno scripts/copy-files.ts && turbo run build --filter=./packages/* && turbo run build-post",
     "dev": "nr stub",
     "deploy": "nr build && npm -C playground run build && npm -C interactive run build",
     "interactive": "npm -C interactive run dev",
@@ -94,6 +94,7 @@
     "splitpanes": "^3.1.1",
     "terser": "^5.15.0",
     "tsup": "^6.2.3",
+    "turbo": "^1.5.3",
     "typescript": "^4.8.3",
     "unbuild": "^0.8.11",
     "unocss": "workspace:*",
