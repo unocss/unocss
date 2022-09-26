@@ -31,7 +31,7 @@ describe('generate-async', () => {
         [/^rule$/, () => new Promise(resolve => setTimeout(() => {
           order.push(1)
           resolve('/* rule */')
-        }, 1000))],
+        }, 20))],
       ],
       preflights: [
         {
