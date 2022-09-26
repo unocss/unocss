@@ -37,9 +37,9 @@ export function GlobalModeDevPlugin({ uno, tokens, affectedModules, onInvalidate
         server!.moduleGraph.invalidateModule(mod)
       }
     }
+    lastServedHash.clear()
     clearTimeout(invalidateTimer)
     invalidateTimer = setTimeout(() => {
-      lastServedHash.clear()
       sendUpdate(ids)
     }, timer)
   }
