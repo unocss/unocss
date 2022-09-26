@@ -1,6 +1,6 @@
 {
   "name": "@unocss/extractor-pug",
-  "version": "0.45.22",
+  "version": "0.45.23",
   "description": "UnoCSS extractor for Pug",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
