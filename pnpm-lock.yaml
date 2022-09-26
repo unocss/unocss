@@ -81,6 +81,7 @@ importers:
       splitpanes: ^3.1.1
       terser: ^5.15.0
       tsup: ^6.2.3
+      turbo: ^1.5.3
       typescript: ^4.8.3
       unbuild: ^0.8.11
       unocss: workspace:*
@@ -165,6 +166,7 @@ importers:
       splitpanes: 3.1.1
       terser: 5.15.0
       tsup: 6.2.3_typescript@4.8.3
+      turbo: 1.5.3
       typescript: 4.8.3
       unbuild: 0.8.11
       unocss: link:packages/unocss
@@ -10068,6 +10070,67 @@ packages:
       '@esbuild-kit/esm-loader': 2.4.2
     optionalDependencies:
       fsevents: 2.3.2
+    dev: true
+
+  /turbo-darwin-64/1.5.3:
+    resolution: {integrity: sha512-MBS8b/3DuMY6v3ljEX9qssHGQXnI4VDWLqvQ6FGfZFMp8lqa7mfoXv1U/MNR9OhSczaftsIS1e9mnD9m/qv7TQ==}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-darwin-arm64/1.5.3:
+    resolution: {integrity: sha512-XNSV6SaxS8dAvGx2BF3H7MsKZ4zchj2kP/eXTss/vUcSRsS+zx0urZcEgxeGUeMk7V7fJq/5Ow7thApNojpwpw==}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-linux-64/1.5.3:
+    resolution: {integrity: sha512-YhYu50CUvy5m80l6dEXEgC3CvjjTelQb14fknAzIXoKztbWhBZqUCucR6jLRZpKgODwP4Fo4LUzz478EMwqy/Q==}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-linux-arm64/1.5.3:
+    resolution: {integrity: sha512-JjJjxy0kkr/xAWAAE8t7UaTBc3GUc5Tz/Bupbve2VzG0w75md0LqXUV34WpyxMiNTNLmK8Dq7bIczG6OkJ29xQ==}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-windows-64/1.5.3:
+    resolution: {integrity: sha512-PS7+Isy7OX9xWWvtg2FKmh/eN4fTNR2r6RW5m+b+zR7t04QLWYOya1R8CeqgA6GyeFpn4KUxC+AeZ0wOi8RSPw==}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-windows-arm64/1.5.3:
+    resolution: {integrity: sha512-DQzjFbPRd/Db5kkJtCER5DNcbY4ez5Bh8usemNlPZQ7I/5XwEUl9Rn3ss2LJsiv/pR7PkY92TUvmyFtBnqao8Q==}
+    cpu: [arm64]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo/1.5.3:
+    resolution: {integrity: sha512-/94cswfhXr6wWD6CFyF7E8bjEdjar4O+gzCJ3d49X9t9u9aDYFoQH/TlYTSNbAwXYiGqzJoodhf3kXRyrAiqSg==}
+    hasBin: true
+    requiresBuild: true
+    optionalDependencies:
+      turbo-darwin-64: 1.5.3
+      turbo-darwin-arm64: 1.5.3
+      turbo-linux-64: 1.5.3
+      turbo-linux-arm64: 1.5.3
+      turbo-windows-64: 1.5.3
+      turbo-windows-arm64: 1.5.3
     dev: true
 
   /type-check/0.4.0:
