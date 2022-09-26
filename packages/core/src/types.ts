@@ -516,7 +516,9 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
  * For unocss-cli config
  */
 export interface CliOptions {
-  cliOptions?: CliOptionItem[]
+  cli?: {
+    entry?: CliEntryItem | CliEntryItem[]
+  }
 }
 
 export interface UnocssPluginContext<Config extends UserConfig = UserConfig> {
@@ -677,7 +679,7 @@ export type PreparedRule = readonly [
   noMerge: boolean,
 ]
 
-export interface CliOptionItem {
+export interface CliEntryItem {
   patterns: string[]
   outFile: string
 }
