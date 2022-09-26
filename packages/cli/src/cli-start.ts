@@ -1,5 +1,6 @@
 import { cac } from 'cac'
 import { loadConfig } from '@unocss/config'
+import { toArray } from '@unocss/core'
 import { version } from '../package.json'
 import type { CliOptions } from './types'
 import { build } from './index'
@@ -27,23 +28,14 @@ export async function startCli(cwd = process.cwd(), argv = process.argv, options
       if (patterns)
         options.patterns = patterns
       const { config } = await loadConfig(cwd, options.config)
-      if (config?.cli && Array.isArray(config.cli.entry) && config.cli.entry.length !== 0) {
-        const len = config.cli.entry.length
-        const cliEntryItems = config.cli.entry
-        for (let i = 0; i < len; i++) {
-          options.patterns = cliEntryItems[i].patterns
-          options.outFile = cliEntryItems[i].outFile
-          await build(options)
-        }
-      }
-      else if (config?.cli && !Array.isArray(config.cli.entry) && typeof config.cli.entry === 'object' && Object.keys(config.cli.entry).length !== 0) {
-        options.patterns = config.cli.entry?.patterns
-        options.outFile = config.cli.entry?.outFile
-        await build(options)
-      }
-      else {
-        await build(options)
-      }
+
+      const entries = toArray(config.cli?.entry || options)
+      await Promise.all(entries.map(entry =>
+        build({
+          ...options,
+          ...entry,
+        }),
+      ))
     })
 
   cli.help()
