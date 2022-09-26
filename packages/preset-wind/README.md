@@ -27,7 +27,7 @@ Unocss({
 
 - `<sm:p-1` -> `lt-sm:p-1`
 - `@lg:p-1` -> `at-lg:p-1`
-- `>xl:p-1` -> `gt-lg:p-1`
+- `>xl:p-1` -> `lg:p-1`
 
 to have more consistent naming.
 
