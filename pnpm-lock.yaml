@@ -611,8 +611,6 @@ importers:
       prettier: ^2.7.1
       tsup: ^6.2.3
       unconfig: ^0.3.6
-    dependencies:
-      pathe: 0.3.7
     devDependencies:
       '@types/vscode': 1.71.0
       '@unocss/nuxt': link:../nuxt
