@@ -27,12 +27,19 @@ export async function startCli(cwd = process.cwd(), argv = process.argv, options
       if (patterns)
         options.patterns = patterns
       const { config } = await loadConfig(cwd, options.config)
-      if (config?.cliOptions && config.cliOptions.length !== 0) {
-        for (let i = 0; i < config.cliOptions.length; i++) {
-          options.patterns = config.cliOptions[i].patterns
-          options.outFile = config.cliOptions[i].outFile
+      if (config?.cli && Array.isArray(config.cli.entry) && config.cli.entry.length !== 0) {
+        const len = config.cli.entry.length
+        const cliEntryItems = config.cli.entry
+        for (let i = 0; i < len; i++) {
+          options.patterns = cliEntryItems[i].patterns
+          options.outFile = cliEntryItems[i].outFile
           await build(options)
         }
+      }
+      else if (config?.cli && !Array.isArray(config.cli.entry) && typeof config.cli.entry === 'object' && Object.keys(config.cli.entry).length !== 0) {
+        options.patterns = config.cli.entry?.patterns
+        options.outFile = config.cli.entry?.outFile
+        await build(options)
       }
       else {
         await build(options)
