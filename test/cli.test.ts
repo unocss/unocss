@@ -93,70 +93,44 @@ export default defineConfig({
 
   it('supports unocss.config.js cli options', async () => {
     const testDir = getTestDir()
-
-    const fileName1 = 'views/index1.html'
-    const fileName2 = 'views/index2.html'
-    const Content1 = '<div class="bg-blue"></div>'
-    const Content2 = '<div class="bg-red"></div>'
-
-    await fs.outputFile(resolve(testDir, fileName1), Content1)
-    await fs.outputFile(resolve(testDir, fileName2), Content2)
-    await fs.outputFile(resolve(testDir, 'unocss.config.js'), `
+    const outFiles = ['./uno1.css', './test/uno2.css']
+    const files = [
+      {
+        path: 'views/index1.html',
+        content: '<div class="bg-blue"></div>',
+      },
+      {
+        path: 'views/index2.html',
+        content: '<div class="bg-red"></div>',
+      },
+      {
+        path: 'unocss.config.js',
+        content: `
 import { defineConfig } from 'unocss'
 export default defineConfig({
-   cli: {
+    cli: {
     entry: [
       {
         patterns: ['views/index1.html'],
-        outFile: './uno1.css',
+        outFile: '${outFiles[0]}',
       },
       {
         patterns: ['views/index2.html'],
-        outFile: './test/uno2.css',
+        outFile: '${outFiles[1]}',
       },
     ],
   }
 })
-  `.trim())
-
+          `.trim(),
+      },
+    ]
+    await Promise.all(files.map(({ path, content }) => fs.outputFile(resolve(testDir, path), content)))
     await runAsyncChildProcess(testDir, '', '')
-    const outputFile1 = './uno1.css'
-    const outputFile2 = './test/uno2.css'
-    const outputPath1 = resolve(testDir, outputFile1)
-    const outputPath2 = resolve(testDir, outputFile2)
-    for (let i = 50; i >= 0; i--) {
-      await sleep(50)
-      if (fs.existsSync(outputPath1))
-        break
-    }
-    for (let i = 50; i >= 0; i--) {
-      await sleep(50)
-      if (fs.existsSync(outputPath2))
-        break
-    }
-    // polling until update
-    for (let i = 100; i >= 0; i--) {
-      await sleep(100)
-      const output1 = await readFile(testDir, outputFile1)
-      const output2 = await readFile(testDir, outputFile2)
-      if (i === 0 || output1.includes('.bg-blue')) {
-        expect(output1).toContain('.bg-blue')
-        break
-      }
-      if (i === 0 || output2.includes('.bg-red')) {
-        expect(output2).toContain('.bg-red')
-        break
-      }
-    }
 
-    for (let i = 100; i >= 0; i--) {
-      await sleep(100)
-      const output2 = await readFile(testDir, outputFile2)
-      if (i === 0 || output2.includes('.bg-red')) {
-        expect(output2).toContain('.bg-red')
-        break
-      }
-    }
+    await sleep(500)
+    const [output1, output2] = await Promise.all(outFiles.map(async file => readFile(testDir, resolve(testDir, file))))
+    expect(output1).toContain('.bg-blue')
+    expect(output2).toContain('.bg-red')
   })
 })
 // ----- Utils -----
