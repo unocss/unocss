@@ -1,4 +1,4 @@
-import { resolve } from 'path'
+import { resolve } from 'pathe'
 
 const r = (p: string) => resolve(__dirname, p)
 

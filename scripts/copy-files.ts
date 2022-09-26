@@ -1,6 +1,6 @@
 import { copyFileSync } from 'fs'
-import { resolve } from 'path'
 import { fileURLToPath } from 'url'
+import { resolve } from 'pathe'
 
 // relative to scripts directory
 const destinations = [

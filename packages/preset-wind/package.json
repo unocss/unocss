@@ -40,6 +40,7 @@
   },
   "dependencies": {
     "@unocss/core": "workspace:*",
-    "@unocss/preset-mini": "workspace:*"
+    "@unocss/preset-mini": "workspace:*",
+    "pathe": "^0.3.7"
   }
 }

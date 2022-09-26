@@ -1,5 +1,5 @@
 import { existsSync, promises as fs } from 'fs'
-import { join } from 'path'
+import { join } from 'pathe'
 import { dir } from './meta.mjs'
 
 const sizes = [

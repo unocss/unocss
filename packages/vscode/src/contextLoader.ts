@@ -1,6 +1,6 @@
 import { readdir } from 'fs/promises'
-import path from 'path'
 import fs from 'fs'
+import { dirname } from 'pathe'
 import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { notNull } from '@unocss/core'
 import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
@@ -134,7 +134,7 @@ export class ContextLoader {
       if (!sources.length)
         return null
 
-      const baseDir = path.dirname(sources[0])
+      const baseDir = dirname(sources[0])
       if (baseDir !== dir) {
         // exists on upper level, skip
         this.contextsMap.set(dir, null)
@@ -197,7 +197,7 @@ export class ContextLoader {
 
     // try finding a config from disk
     if (fs.existsSync(file)) {
-      let dir = path.dirname(file)
+      let dir = dirname(file)
       while (isSubdir(this.cwd, dir)) {
         if (await this.configExists(dir)) {
           const context = await this.loadContextInDirectory(dir)
@@ -207,7 +207,7 @@ export class ContextLoader {
           }
         }
 
-        const newDir = path.dirname(dir)
+        const newDir = dirname(dir)
         if (newDir === dir)
           break
         dir = newDir

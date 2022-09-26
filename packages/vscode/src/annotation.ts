@@ -1,4 +1,4 @@
-import path from 'path'
+import { dirname, relative } from 'pathe'
 import type { DecorationOptions, ExtensionContext, StatusBarItem } from 'vscode'
 import { DecorationRangeBehavior, MarkdownString, Range, window, workspace } from 'vscode'
 import { INCLUDE_COMMENT_IDE, getMatchedPositionsFromCode, isCssId } from './integration'
@@ -27,7 +27,7 @@ export async function registerAnnotations(
 
   workspace.onDidSaveTextDocument(async (doc) => {
     const id = doc.uri.fsPath
-    const dir = path.dirname(id)
+    const dir = dirname(id)
 
     if (contextLoader.contextsMap.has(dir)) {
       const ctx = contextLoader.contextsMap.get(dir)!
@@ -35,7 +35,7 @@ export async function registerAnnotations(
         return
       try {
         await ctx.reloadConfig()
-        log.appendLine(`🛠 Config reloaded by ${path.relative(cwd, doc.uri.fsPath)}`)
+        log.appendLine(`🛠 Config reloaded by ${relative(cwd, doc.uri.fsPath)}`)
       }
       catch (e) {
         log.appendLine('⚠️ Error on loading config')

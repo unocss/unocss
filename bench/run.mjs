@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { execSync } from 'child_process'
-import { join } from 'path'
+import { join } from 'pathe'
 import fs from 'fs-extra'
 import { escapeSelector } from '@unocss/core'
 import { dir, getVersions, targets } from './meta.mjs'

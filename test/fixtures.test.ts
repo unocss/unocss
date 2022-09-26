@@ -1,4 +1,4 @@
-import { join, resolve } from 'path'
+import { join, resolve } from 'pathe'
 import { build } from 'vite'
 import { describe, expect, it } from 'vitest'
 import fs from 'fs-extra'

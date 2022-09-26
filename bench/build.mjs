@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { performance } from 'perf_hooks'
-import { join } from 'path'
+import { join } from 'pathe'
 import fs from 'fs-extra'
 import { build } from 'vite'
 import { dir, targets } from './meta.mjs'
