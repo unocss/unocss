@@ -1,4 +1,4 @@
-import type { UnoGenerator } from '@unocss/core'
+import type { SourceCodeTransformer, SourceCodeTransformerEnforce, UnoGenerator } from '@unocss/core'
 import { e, isAttributifySelector, regexClassGroup } from '@unocss/core'
 import MagicString from 'magic-string'
 
@@ -95,15 +95,20 @@ export function getMatchedPositions(code: string, matched: string[], hasVariantG
   return result.sort((a, b) => a[0] - b[0])
 }
 
+// remove css-directive transformer to get matched result from source code
+function checkTransformers(transformer: SourceCodeTransformer, enforce: SourceCodeTransformerEnforce = 'default') {
+  return transformer.enforce === enforce && transformer.name !== 'css-directive'
+}
+
 export async function getMatchedPositionsFromCode(uno: UnoGenerator, code: string, id = '') {
   const s = new MagicString(code)
   const tokens = new Set()
   const ctx = { uno, tokens } as any
-  for (const i of uno.config.transformers?.filter(i => i.enforce === 'pre') || [])
+  for (const i of uno.config.transformers?.filter(i => checkTransformers(i, 'pre')) || [])
     await i.transform(s, id, ctx)
-  for (const i of uno.config.transformers?.filter(i => !i.enforce || i.enforce === 'default') || [])
+  for (const i of uno.config.transformers?.filter(i => checkTransformers(i)) || [])
     await i.transform(s, id, ctx)
-  for (const i of uno.config.transformers?.filter(i => i.enforce === 'post') || [])
+  for (const i of uno.config.transformers?.filter(i => checkTransformers(i, 'post')) || [])
     await i.transform(s, id, ctx)
   const hasVariantGroup = !!uno.config.transformers?.find(i => i.name === 'variant-group')
   const result = await uno.generate(s.toString(), { preflights: false })
