@@ -96,8 +96,15 @@ export function GlobalModeDevPlugin({ uno, tokens, affectedModules, onInvalidate
         servers.push(_server)
 
         _server.ws.on(WS_EVENT_PREFIX, ([layer, hash]: string[]) => {
-          if (lastServedHash.get(layer) !== hash)
+          if (lastServedHash.get(layer) !== hash) {
             sendUpdate(entries)
+          }
+          else {
+            setTimeout(() => {
+              if (lastServedHash.get(layer) !== hash)
+                sendUpdate(entries)
+            }, 50)
+          }
         })
       },
       buildStart() {
