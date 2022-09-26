@@ -49,8 +49,6 @@ const guides = $computed(() => {
 
 const sameRules = $computed(() => searcher.getSameRules(item))
 
-const { copy } = useClipboard()
-
 function getRegex101Link(regex: RegExp, text: string) {
   return `https://regex101.com/?regex=${encodeURIComponent(regex.source)}&flag=${encodeURIComponent(regex.flags)}&testString=${encodeURIComponent(text)}`
 }
@@ -121,7 +119,6 @@ function getCsGitHubLink(key: RegExp | string, repo = 'unocss/unocss') {
                 <PresetLabel text-sm op30 hover:op100 :preset="searcher.getPresetOfRule(r)" />
                 <div v-if="typeof r[0] === 'string'" row gap2 items-center>
                   <code text-hex-AB5E3F dark:text-hex-C4704F>"{{ r[0] }}"</code>
-                  <button i-carbon-copy w-4 h-4 hover:op70 cursor-pointer title="copy" @click="copy(r[0] as string)" />
                   <div badge-xs-teal mya>
                     static
                   </div>
