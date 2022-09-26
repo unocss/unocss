@@ -512,6 +512,15 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
   envMode?: 'dev' | 'build'
 }
 
+/**
+ * For unocss-cli config
+ */
+export interface CliOptions {
+  cli?: {
+    entry?: CliEntryItem | CliEntryItem[]
+  }
+}
+
 export interface UnocssPluginContext<Config extends UserConfig = UserConfig> {
   ready: Promise<LoadConfigResult<Config>>
   uno: UnoGenerator
@@ -604,7 +613,7 @@ export interface PluginOptions {
   transformers?: SourceCodeTransformer[]
 }
 
-export interface UserConfig<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions, PluginOptions {}
+export interface UserConfig<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions, PluginOptions, CliOptions {}
 export interface UserConfigDefaults<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme> {}
 
 export interface ResolvedConfig extends Omit<
@@ -669,6 +678,11 @@ export type PreparedRule = readonly [
   body: string,
   noMerge: boolean,
 ]
+
+export interface CliEntryItem {
+  patterns: string[]
+  outFile: string
+}
 
 export interface UtilObject {
   selector: string
