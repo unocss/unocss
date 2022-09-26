@@ -5,6 +5,7 @@ import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocs
 import { notNull } from '@unocss/core'
 import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
 import presetUno from '@unocss/preset-uno'
+import { normalizePath } from 'vite'
 import { resolveOptions as resolveNuxtOptions } from '../../nuxt/src/options'
 import { createNanoEvents } from '../../core/src/utils/events'
 import { createContext, isCssId } from './integration'
@@ -83,7 +84,6 @@ export class ContextLoader {
   }
 
   async loadContextInDirectory(dir: string) {
-    const normalizedDir = normalizeWindowsPath(dir)
     const cached = this.contextsMap.get(dir)
     if (cached !== undefined)
       return cached
@@ -136,7 +136,7 @@ export class ContextLoader {
         return null
 
       const baseDir = dirname(sources[0])
-      if (baseDir !== normalizedDir) {
+      if (baseDir !== normalizePath(dir)) {
         // exists on upper level, skip
         this.contextsMap.set(dir, null)
         return null
@@ -250,12 +250,4 @@ export class ContextLoader {
 
     return this.defaultContext
   }
-}
-
-// Util to normalize windows paths to posix
-function normalizeWindowsPath(input = '') {
-  if (!input || !input.includes('\\'))
-    return input
-
-  return input.replace(/\\/g, '/')
 }
