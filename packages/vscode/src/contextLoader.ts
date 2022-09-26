@@ -5,6 +5,7 @@ import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocs
 import { notNull } from '@unocss/core'
 import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
 import presetUno from '@unocss/preset-uno'
+import { normalizePath } from 'vite'
 import { resolveOptions as resolveNuxtOptions } from '../../nuxt/src/options'
 import { createNanoEvents } from '../../core/src/utils/events'
 import { createContext, isCssId } from './integration'
@@ -135,7 +136,7 @@ export class ContextLoader {
         return null
 
       const baseDir = dirname(sources[0])
-      if (baseDir !== dir) {
+      if (baseDir !== normalizePath(dir)) {
         // exists on upper level, skip
         this.contextsMap.set(dir, null)
         return null
