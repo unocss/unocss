@@ -4,6 +4,7 @@ import presetUno from '@unocss/preset-uno'
 import { createGenerator } from '@unocss/core'
 import { getMatchedPositionsFromCode as match } from '@unocss/shared-common'
 import transformerVariantGroup from '@unocss/transformer-variant-group'
+import cssDirectives from '@unocss/transformer-directives'
 
 describe('matched-positions', async () => {
   test('attributify', async () => {
@@ -26,6 +27,36 @@ describe('matched-positions', async () => {
             15,
             20,
             "[border=\\"gray4\\"]",
+          ],
+        ]
+      `)
+  })
+
+  test('css-directive', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetUno(),
+      ],
+      transformers: [cssDirectives()],
+    })
+
+    expect(await match(uno, '.btn-center{@apply text-center my-0 font-medium;\n}'))
+      .toMatchInlineSnapshot(`
+        [
+          [
+            19,
+            30,
+            "text-center",
+          ],
+          [
+            31,
+            35,
+            "my-0",
+          ],
+          [
+            36,
+            47,
+            "font-medium",
           ],
         ]
       `)
