@@ -1,4 +1,4 @@
-import { resolve } from 'pathe'
+import path from 'path'
 import type { ExtensionContext } from 'vscode'
 import { StatusBarAlignment, commands, window, workspace } from 'vscode'
 import { version } from '../package.json'
@@ -24,7 +24,7 @@ export async function activate(ext: ExtensionContext) {
   }
 
   const root = config.get<string>('root')
-  const cwd = root ? resolve(projectPath, root) : projectPath
+  const cwd = root ? path.resolve(projectPath, root) : projectPath
 
   const contextLoader = new ContextLoader(cwd)
 

@@ -1,4 +1,4 @@
-import { isAbsolute, relative } from 'pathe'
+import path from 'path'
 import type { GenerateResult, UnoGenerator } from '@unocss/core'
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
@@ -94,6 +94,6 @@ export function getColorsMap(uno: UnoGenerator, result: GenerateResult) {
 }
 
 export function isSubdir(parent: string, child: string) {
-  const relativePath = relative(parent, child)
-  return relativePath && !relativePath.startsWith('..') && !isAbsolute(relativePath)
+  const relative = path.relative(parent, child)
+  return relative && !relative.startsWith('..') && !path.isAbsolute(relative)
 }
