@@ -56,7 +56,6 @@
   "dependencies": {
     "@unocss/core": "workspace:*",
     "@unocss/preset-mini": "workspace:*",
-    "@unocss/preset-wind": "workspace:*",
-    "pathe": "^0.3.7"
+    "@unocss/preset-wind": "workspace:*"
   }
 }
