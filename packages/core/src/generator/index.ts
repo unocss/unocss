@@ -95,30 +95,21 @@ export class UnoGenerator {
       return
     }
 
-    const context = this.makeContext(
-      raw,
-      [alias || applied[0], applied[1], applied[2], applied[3]],
-    )
+    const context = this.makeContext(raw, [alias || applied[0], applied[1], applied[2], applied[3]])
 
     if (this.config.details)
       context.variants = [...applied[3]]
 
     // expand shortcuts
     const expanded = this.expandShortcut(context.currentSelector, context)
-    if (expanded) {
-      const utils = await this.stringifyShortcuts(context.variantMatch, context, expanded[0], expanded[1])
-      if (utils?.length) {
-        this._cache.set(cacheKey, utils)
-        return utils
-      }
-    }
-    // no shortcut
-    else {
-      const utils = (await this.parseUtil(context.variantMatch, context))?.map(i => this.stringifyUtil(i, context)).filter(notNull)
-      if (utils?.length) {
-        this._cache.set(cacheKey, utils)
-        return utils
-      }
+    const utils = expanded
+      ? await this.stringifyShortcuts(context.variantMatch, context, expanded[0], expanded[1])
+      // no shortcuts
+      : (await this.parseUtil(context.variantMatch, context))?.map(i => this.stringifyUtil(i, context)).filter(notNull)
+
+    if (utils?.length) {
+      this._cache.set(cacheKey, utils)
+      return utils
     }
 
     // set null cache for unmatched result
@@ -538,9 +529,7 @@ export class UnoGenerator {
 
     // expand nested shortcuts with variants
     if (!result) {
-      const [raw, inputWithoutVariant] = isString(input)
-        ? this.matchVariants(input)
-        : input
+      const [raw, inputWithoutVariant] = isString(input) ? this.matchVariants(input) : input
       if (raw !== inputWithoutVariant) {
         const expanded = this.expandShortcut(inputWithoutVariant, context, depth - 1)
         if (expanded)
