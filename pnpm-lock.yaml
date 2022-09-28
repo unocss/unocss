@@ -198,7 +198,7 @@ importers:
       fs-extra: 10.1.0
       local-pkg: 0.4.2
       postcss: 8.4.16
-      tailwindcss: 3.1.8_postcss@8.4.16
+      tailwindcss: 3.1.8
       unocss: link:../packages/unocss
       vite: 3.1.2
       vite-plugin-windicss: 1.8.8_vite@3.1.2
@@ -300,11 +300,9 @@ importers:
   packages/config:
     specifiers:
       '@unocss/core': workspace:*
-      pathe: ^0.3.7
       unconfig: ^0.3.6
     dependencies:
       '@unocss/core': link:../core
-      pathe: 0.3.7
       unconfig: 0.3.6
 
   packages/core:
@@ -328,11 +326,9 @@ importers:
   packages/inspector:
     specifiers:
       gzip-size: ^6.0.0
-      pathe: ^0.3.7
       sirv: ^2.0.2
     dependencies:
       gzip-size: 6.0.0
-      pathe: 0.3.7
       sirv: 2.0.2
 
   packages/nuxt:
@@ -350,7 +346,6 @@ importers:
       '@unocss/reset': workspace:*
       '@unocss/vite': workspace:*
       '@unocss/webpack': workspace:*
-      pathe: ^0.3.7
       unocss: workspace:*
     dependencies:
       '@nuxt/kit': 3.0.0-rc.10
@@ -365,7 +360,6 @@ importers:
       '@unocss/reset': link:../reset
       '@unocss/vite': link:../vite
       '@unocss/webpack': link:../webpack
-      pathe: 0.3.7
       unocss: link:../unocss
     devDependencies:
       '@nuxt/schema': 3.0.0-rc.10
@@ -418,32 +412,26 @@ importers:
       '@unocss/core': workspace:*
       '@unocss/preset-mini': workspace:*
       '@unocss/preset-wind': workspace:*
-      pathe: ^0.3.7
     dependencies:
       '@unocss/core': link:../core
       '@unocss/preset-mini': link:../preset-mini
       '@unocss/preset-wind': link:../preset-wind
-      pathe: 0.3.7
 
   packages/preset-web-fonts:
     specifiers:
       '@unocss/core': workspace:*
       ohmyfetch: ^0.4.18
-      pathe: ^0.3.7
     dependencies:
       '@unocss/core': link:../core
       ohmyfetch: 0.4.18
-      pathe: 0.3.7
 
   packages/preset-wind:
     specifiers:
       '@unocss/core': workspace:*
       '@unocss/preset-mini': workspace:*
-      pathe: ^0.3.7
     dependencies:
       '@unocss/core': link:../core
       '@unocss/preset-mini': link:../preset-mini
-      pathe: 0.3.7
 
   packages/reset:
     specifiers:
@@ -584,7 +572,6 @@ importers:
       '@unocss/shared-integration': workspace:*
       '@unocss/transformer-directives': workspace:*
       magic-string: ^0.26.3
-      pathe: ^0.3.7
       vite: ^3.1.2
     dependencies:
       '@ampproject/remapping': 2.2.0
@@ -595,7 +582,6 @@ importers:
       '@unocss/scope': link:../scope
       '@unocss/transformer-directives': link:../transformer-directives
       magic-string: 0.26.3
-      pathe: 0.3.7
     devDependencies:
       '@unocss/shared-integration': link:../shared-integration
       vite: 3.1.2
@@ -607,7 +593,6 @@ importers:
       '@unocss/preset-uno': workspace:*
       esno: ^0.16.3
       jiti: ^1.15.0
-      pathe: ^0.3.7
       prettier: ^2.7.1
       tsup: ^6.2.3
       unconfig: ^0.3.6
@@ -617,7 +602,6 @@ importers:
       '@unocss/preset-uno': link:../preset-uno
       esno: 0.16.3
       jiti: 1.15.0
-      pathe: 0.3.7
       prettier: 2.7.1
       tsup: 6.2.3
       unconfig: 0.3.6
@@ -631,7 +615,6 @@ importers:
       '@unocss/config': workspace:*
       '@unocss/core': workspace:*
       magic-string: ^0.26.3
-      pathe: ^0.3.7
       unplugin: ^0.9.5
       webpack: ^5.74.0
       webpack-sources: ^3.2.3
@@ -641,7 +624,6 @@ importers:
       '@unocss/config': link:../config
       '@unocss/core': link:../core
       magic-string: 0.26.3
-      pathe: 0.3.7
       unplugin: 0.9.5_webpack@5.74.0
       webpack-sources: 3.2.3
     devDependencies:
@@ -9725,12 +9707,10 @@ packages:
       tslib: 2.4.0
     dev: true
 
-  /tailwindcss/3.1.8_postcss@8.4.16:
+  /tailwindcss/3.1.8:
     resolution: {integrity: sha512-YSneUCZSFDYMwk+TGq8qYFdCA3yfBRdBlS7txSq0LUmzyeqRe3a8fBQzbz9M3WS/iFT4BNf/nmw9mEzrnSaC0g==}
     engines: {node: '>=12.13.0'}
     hasBin: true
-    peerDependencies:
-      postcss: ^8.0.9
     dependencies:
       arg: 5.0.2
       chokidar: 3.5.3

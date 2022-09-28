@@ -1,5 +1,5 @@
 import { fileURLToPath } from 'url'
-import { dirname, resolve } from 'pathe'
+import { dirname, resolve } from 'path'
 import { getPackageInfo } from 'local-pkg'
 import fs from 'fs-extra'
 
