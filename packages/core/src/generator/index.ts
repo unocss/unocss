@@ -534,7 +534,7 @@ export class UnoGenerator {
 
     // expand nested shortcuts
     if (isString(result))
-      result = expandVariantGroup(result).split(/\s+/g)
+      result = expandVariantGroup(result.trim()).split(/\s+/g)
 
     // expand nested shortcuts with variants
     if (!result) {
