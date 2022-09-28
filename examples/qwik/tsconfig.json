@@ -1,9 +1,8 @@
 {
   "compilerOptions": {
-    "allowJs": true,
     "target": "ES2017",
     "module": "ES2020",
-    "lib": ["es2020", "DOM", "WebWorker"],
+    "lib": ["es2020", "DOM"],
     "jsx": "react-jsx",
     "jsxImportSource": "@builder.io/qwik",
     "strict": true,
@@ -11,12 +10,7 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "incremental": true,
-    "isolatedModules": true,
-    "types": ["node", "vite/client"],
-    "paths": {
-      "~/*": ["./src/*"]
-    }
+    "incremental": true
   },
-  "include": ["src"]
+  "include": ["./src"]
 }

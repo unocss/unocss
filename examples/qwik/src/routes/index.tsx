@@ -5,123 +5,51 @@ import { Link } from '@builder.io/qwik-city'
 export default component$(() => {
   return (
     <div>
-      <h1 className="text-red-500">
-        Welcome to Qwik <span class="lightning">⚡️</span> <br />
+      <h1 mb-1 className="text-red-500">
+        Welcome to Qwik <span hue-rotate-180>⚡️</span> <br />
         <span className="text-green-600">working with UNOCSS</span>
       </h1>
 
-      <ul>
-        <li>
-          Check out the <code>src/routes</code> directory to get started.
+      <ul className="list-square mt-2 mb-8 pl-6">
+        <li pt-1>
+          Check out the <code font-monospace>src/routes</code> directory to get started.
         </li>
-        <li>
+        <li pt-1>
           Add integrations with <code>npm run qwik add</code>.
         </li>
-        <li>
+        <li pt-1>
           More info about development in <code>README.md</code>
         </li>
       </ul>
 
       <h2>Commands</h2>
 
-      <table className="mb-5 commands">
+      <table mb-5>
         <tr>
-          <td className="p-1">
-            <code>npm run dev</code>
+          <td command-first>
+            <code className="code">npm run dev</code>
           </td>
           <td>Start the dev server and watch for changes.</td>
         </tr>
         <tr>
-          <td className="p-1">
-            <code>npm run preview</code>
+          <td command-first>
+            <code className="code">npm run preview</code>
           </td>
           <td>Production build and start preview server.</td>
         </tr>
         <tr>
-          <td className="p-1">
-            <code>npm run build</code>
+          <td command-first>
+            <code className="code">npm run build</code>
           </td>
           <td>Production build.</td>
         </tr>
         <tr>
-          <td className="p-1">
-            <code>npm run qwik add</code>
+          <td command-first>
+            <code className="code">npm run qwik add</code>
           </td>
           <td>Select an integration to add.</td>
         </tr>
       </table>
-
-      <h2>Add Integrations</h2>
-
-      <table class="commands">
-        <tr>
-          <td>
-            <code>npm run qwik add cloudflare-pages</code>
-          </td>
-          <td>
-            <a href="https://developers.cloudflare.com/pages" target="_blank" rel="noreferrer">
-              Cloudflare Pages Server
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <code>npm run qwik add express</code>
-          </td>
-          <td>
-            <a href="https://expressjs.com/" target="_blank" rel="noreferrer">
-              Nodejs Express Server
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <code>npm run qwik add netlify-edge</code>
-          </td>
-          <td>
-            <a href="https://docs.netlify.com/" target="_blank" rel="noreferrer">
-              Netlify Edge Functions
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <code>npm run qwik add static-node</code>
-          </td>
-          <td>
-            <a
-              href="https://qwik.builder.io/qwikcity/static-site-generation/overview/"
-              target="_blank" rel="noreferrer"
-            >
-              Static Site Generation (SSG)
-            </a>
-          </td>
-        </tr>
-      </table>
-
-      <h2>Community</h2>
-
-      <ul>
-        <li>
-          <span>Questions or just want to say hi? </span>
-          <a href="https://qwik.builder.io/chat" target="_blank" rel="noreferrer">
-            Chat on discord!
-          </a>
-        </li>
-        <li>
-          <span>Follow </span>
-          <a href="https://twitter.com/QwikDev" target="_blank" rel="noreferrer">
-            @QwikDev
-          </a>
-          <span> on Twitter</span>
-        </li>
-        <li>
-          <span>Open issues and contribute on </span>
-          <a href="https://github.com/BuilderIO/qwik" target="_blank" rel="noreferrer">
-            Github
-          </a>
-        </li>
-      </ul>
       <Link class="mindblow" href="/flower">
         Blow my mind 🤯
       </Link>

@@ -22,10 +22,12 @@ export default component$(() => {
 
   return (
     <>
+
       <input
+        className="w-100"
         type="range"
         value={state.number}
-        max={50}
+        max={33}
         onInput$={(ev) => {
           state.number = (ev.target as HTMLInputElement).valueAsNumber
         }}
@@ -34,19 +36,36 @@ export default component$(() => {
         style={{
           '--state': `${state.count * 0.1}`,
         }}
+
         class={{
-          host: true,
-          pride: loc.query.pride === 'true',
+          'h-[500px]': true,
+          'grid': true,
+          'w-full': true,
+          'items-center': true,
+          'justify-center': true,
+          'justify-items-center': true,
+          'host': true,
+          'pride': loc.query.pride === 'true',
         }}
       >
         {Array.from({ length: state.number }, (_, i) => (
           <div
             key={i}
             class={{
-              square: true,
-              odd: i % 2 === 0,
+              'b-1': true,
+              'border-width-2': true,
+
+              'bg-white': loc.query.pride !== 'true',
+              'box-border': true,
+              'square': true,
+              'odd': i % 2 === 0,
             }}
-            style={{ '--index': `${i + 1}` }}
+            style={{
+              'border-color': '#a97def',
+              '--index': `${i + 1}`,
+              'contain': 'strict',
+              'will-change': 'transform, border-color',
+            }}
           />
         )).reverse()}
       </div>

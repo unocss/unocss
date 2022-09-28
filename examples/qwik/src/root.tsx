@@ -5,6 +5,8 @@ import { RouterHead } from './components/router-head/router-head'
 import './global.css'
 import 'virtual:uno.css'
 
+import '@unocss/reset/tailwind.css'
+
 export default component$(() => {
   /**
    * The root of a QwikCity site always start with the <QwikCity> component,
