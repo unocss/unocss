@@ -2,7 +2,7 @@ import { defineBuildConfig } from 'unbuild'
 
 export default defineBuildConfig({
   entries: [
-    './node/index',
+    'node/index',
   ],
   clean: true,
   declaration: true,
@@ -14,4 +14,5 @@ export default defineBuildConfig({
   rollup: {
     emitCJS: true,
   },
+  failOnWarn: false
 })

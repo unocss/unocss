@@ -38,8 +38,8 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest]
         node: [14.x, 16.x]
+        os: [ubuntu-latest]
         include:
           - os: macos-latest
             node: 16.x
