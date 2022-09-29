@@ -1,5 +1,5 @@
 import type { Plugin, Update, ViteDevServer, ResolvedConfig as ViteResolvedConfig } from 'vite'
-import type { UnocssPluginContext } from '@unocss/core'
+import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import { notNull } from '@unocss/core'
 import { LAYER_MARK_ALL, getHash, getPath, resolveId, resolveLayer } from '../../integration'
 
@@ -130,7 +130,15 @@ export function GlobalModeDevPlugin({ uno, tokens, affectedModules, onInvalidate
           return null
 
         await Promise.all(tasks)
-        const result = await uno.generate(tokens)
+        let result: GenerateResult
+        let tokensSize = tokens.size
+        do {
+          result = await uno.generate(tokens)
+          // to capture new tokens created during generation
+          if (tokensSize === tokens.size)
+            break
+          tokensSize = tokens.size
+        } while (true)
 
         const css = layer === LAYER_MARK_ALL
           ? result.getLayers(undefined, Array.from(entries)

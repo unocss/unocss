@@ -117,7 +117,7 @@ function getCsGitHubLink(key: RegExp | string, repo = 'unocss/unocss') {
             <div row flex-wrap gap2 px4 py2 items-center>
               <div gap1>
                 <PresetLabel text-sm op30 hover:op100 :preset="searcher.getPresetOfRule(r)" />
-                <div v-if="typeof r[0] === 'string'" row gap2>
+                <div v-if="typeof r[0] === 'string'" row gap2 items-center>
                   <code text-hex-AB5E3F dark:text-hex-C4704F>"{{ r[0] }}"</code>
                   <div badge-xs-teal mya>
                     static
