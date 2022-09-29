@@ -140,7 +140,7 @@ onMounted(() => {
 
           <div class="pl-1 ml-auto space-x-2 text-sm md:text-base flex items-center flex-nowrap">
             <button
-              :class="copied ? 'i-carbon-checkmark-outline text-green op100' : 'i-carbon-share op50'"
+              :class="copied ? 'i-carbon-checkmark-outline text-green' : 'i-carbon-share'"
               icon-btn
               title="Share Link"
               @click="handleShare"
