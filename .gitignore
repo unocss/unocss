@@ -2,6 +2,7 @@
 .DS_Store
 .idea
 .nuxt
+.turbo
 .output
 .temp
 *.local
