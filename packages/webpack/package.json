@@ -1,6 +1,6 @@
 {
   "name": "@unocss/webpack",
-  "version": "0.45.25",
+  "version": "0.45.26",
   "description": "The Webpack plugin for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
