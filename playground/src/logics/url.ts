@@ -1,7 +1,7 @@
 import { decompressFromEncodedURIComponent as decode, compressToEncodedURIComponent as encode } from 'lz-string'
 import { defaultConfigRaw, defaultHTML, defaultOptions } from '../defaults'
 
-const STORAGE_KEY = 'last-search'
+export const STORAGE_KEY = 'last-search'
 
 const params = new URLSearchParams(window.location.search || localStorage.getItem(STORAGE_KEY) || '')
 
