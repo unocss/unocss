@@ -4,10 +4,11 @@ import { Pane, Splitpanes } from 'splitpanes'
 import { isDark } from '../logics/dark'
 import { customConfigError, customConfigRaw, getHint, inputHTML, output, showPreflights, transformedHTML } from '../logics/uno'
 import { defaultConfigRaw, defaultHTML } from '../defaults'
-import { options } from '../logics/url'
+import { STORAGE_KEY, options } from '../logics/url'
 import { version } from '../../../package.json'
 import { useCSSPrettify, useHTMLPrettify, useJSPrettify } from '../../../packages/inspector/client/composables/usePrettify'
 
+const { copy, copied } = useClipboard()
 const panel = ref()
 const loading = ref(true)
 const TITLE_HEIGHT = 30
@@ -32,6 +33,15 @@ const panelSizes = useLocalStorage<number[]>(
   getInitialPanelSizes(titleHeightPercent.value),
   { listenToStorageChanges: false },
 )
+
+function handleShare() {
+  const url = new URL(window.location.href)
+  const lastSearch = localStorage.getItem(STORAGE_KEY)
+  if (!url.search && lastSearch)
+    url.search = lastSearch
+
+  copy(url.toString())
+}
 
 function handleReset() {
   // eslint-disable-next-line no-alert
@@ -129,6 +139,12 @@ onMounted(() => {
           </div>
 
           <div class="pl-1 ml-auto space-x-2 text-sm md:text-base flex items-center flex-nowrap">
+            <button
+              :class="copied ? 'i-ri-checkbox-circle-line text-green' : 'i-ri-share-line'"
+              icon-btn
+              title="Share Link"
+              @click="handleShare"
+            />
             <button
               i-ri-eraser-line
               icon-btn
