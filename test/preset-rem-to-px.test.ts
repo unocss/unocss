@@ -24,7 +24,7 @@ describe('rem-to-px', () => {
       `)
   })
   
-    test('`!` prefix should works', async () => {
+    test('important prefix should works', async () => {
     expect((await uno.generate(
       new Set(['!m4', '!mx2', '!-p2', '!gap2']),
       { preflights: false })).css)
