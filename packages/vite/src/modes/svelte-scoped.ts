@@ -6,8 +6,8 @@ import { defaultExclude } from '../integration'
 export function SvelteScopedPlugin({ uno, ready }: UnocssPluginContext): Plugin {
   let filter = createFilter([/\.svelte$/], defaultExclude)
 
-  async function transformSFC(code: string) {
-    const { css } = await uno.generate(code)
+  async function transformSFC(code: string, id: string) {
+    const { css } = await uno.generate(code, { id })
     if (!css)
       return null
     if (code.match(/<style[^>]*>[\s\S]*?<\/style\s*>/))
@@ -28,14 +28,14 @@ export function SvelteScopedPlugin({ uno, ready }: UnocssPluginContext): Plugin 
     transform(code, id) {
       if (!filter(id))
         return
-      return transformSFC(code)
+      return transformSFC(code, id)
     },
     handleHotUpdate(ctx) {
       const read = ctx.read
       if (filter(ctx.file)) {
         ctx.read = async () => {
           const code = await read()
-          return await transformSFC(code) || code
+          return await transformSFC(code, ctx.file) || code
         }
       }
     },
