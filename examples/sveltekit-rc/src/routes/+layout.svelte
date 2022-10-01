@@ -1,4 +1,5 @@
 <script lang="ts">
+  import 'uno.css'
 	import { fade, fly } from 'svelte/transition'
 	let logo = false
 	let red = false

@@ -1,0 +1,29 @@
+{
+	"name": "unocss-sveltekit-rc",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+	},
+	"devDependencies": {
+		"@fontsource/fira-mono": "^4.5.0",
+		"@iconify-json/logos": "^1.1.16",
+    "@iconify/utils": "^2.0.0",
+		"@neoconfetti/svelte": "^1.0.0",
+		"@sveltejs/adapter-auto": "next",
+		"@sveltejs/kit": "next",
+		"@types/cookie": "^0.5.1",
+		"@unocss/core": "link:../../packages/core",
+    "@unocss/preset-icons": "link:../../packages/preset-icons",
+		"svelte": "^3.46.0",
+		"svelte-check": "^2.7.1",
+		"svelte-preprocess": "^4.10.6",
+		"tslib": "^2.3.1",
+		"typescript": "^4.7.4",
+		"unocss": "link:../../packages/unocss",
+		"vite": "^3.1.0"
+	},
+	"type": "module"
+}
