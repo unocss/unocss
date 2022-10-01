@@ -1,11 +1,6 @@
 {
-  "name": "qwik",
-  "version": "0.0.1",
+  "name": "unocss-qwik",
   "private": true,
-  "description": "A Qwik Project",
-  "engines": {
-    "node": ">=15.0.0"
-  },
   "scripts": {
     "build": "qwik build",
     "build.client": "vite build",
@@ -21,7 +16,7 @@
     "@builder.io/qwik": "0.9.0",
     "@builder.io/qwik-city": "0.0.111",
     "@types/node": "latest",
-    "@unocss/reset": "0.45.23",
+    "@unocss/reset": "link:../../packages/reset",
     "typescript": "^4.8.3",
     "unocss": "link:../../packages/unocss",
     "vite": "3.1.3"
