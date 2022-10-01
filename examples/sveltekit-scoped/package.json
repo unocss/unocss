@@ -13,6 +13,7 @@
 		"@sveltejs/kit": "next",
 		"@unocss/core": "link:../../packages/core",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
+		"@unocss/transformer-compile-class": "link:../../packages/transformer-compile-class",
 		"svelte": "^3.46.0",
 		"svelte-check": "^2.7.1",
 		"svelte-preprocess": "^4.10.6",
