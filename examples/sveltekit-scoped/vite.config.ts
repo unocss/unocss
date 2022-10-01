@@ -26,6 +26,7 @@ const config: UserConfig = {
 					},
 				}),
 			],
+			safelist: ['bg-orange-300'],
 		}),
 		sveltekit(),
 	],

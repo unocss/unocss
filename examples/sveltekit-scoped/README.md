@@ -7,4 +7,6 @@
 
 ## Notes
 
-- how to get rid of unocss root variables put in every component and where to place globally?
+- To use preflights add `<style uno:preflights global></style>` to your root `+layout.svelte`
+- To use safelist add `<style uno:safelist global></style>` to your root `+layout.svelte`
+- Or to use both, add `<style uno:preflights uno:safelist global></style>` to your root `+layout.svelte` as demoed in this example repo. If you only want them to apply to 1 component just add them to that component's `style` tag and don't add `global`.
