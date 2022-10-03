@@ -1,6 +1,9 @@
 import type { Plugin } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
 import type { UnocssPluginContext } from '@unocss/core'
+
+import MagicString from 'magic-string'
+import { expandVariantGroup } from '@unocss/core'
 import { defaultExclude } from '../integration'
 
 export function SvelteScopedCompiledPlugin(ctx: UnocssPluginContext): Plugin {
@@ -32,9 +35,6 @@ export function SvelteScopedCompiledPlugin(ctx: UnocssPluginContext): Plugin {
     },
   }
 }
-
-import MagicString from 'magic-string'
-import { expandVariantGroup } from '@unocss/core'
 // import type { EncodedSourceMap } from '@ampproject/remapping'
 
 export interface TransformSFCOptions {
@@ -60,17 +60,17 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
   const {
     hashFn = hash,
     classPrefix = 'uno-',
-    keepUnknown = true
-  } = options;
+    keepUnknown = true,
+  } = options
 
-  let styles = '';
+  let styles = ''
 
-  const preflights = code.includes('uno:preflights');
-  const safelist = code.includes('uno:safelist');
+  const preflights = code.includes('uno:preflights')
+  const safelist = code.includes('uno:safelist')
 
   if (preflights || safelist) {
     const { css } = await ctx.uno.generate('', { preflights, safelist })
-    styles = css;
+    styles = css
   }
 
   const matches = [...code.matchAll(/class="([\S\s]+?)"/g)]
@@ -78,14 +78,14 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
   // If desired can use /class:([\S]+?)[{>\s]/g if we make sure to keep variable and just change class name (turn class:text-sm into class:uno-1hashz={text-sm})
 
   if (matches.length || variableMatches.length) {
-    let originalShortcuts = ctx.uno.config.shortcuts;
-    let shortcuts = new Set(originalShortcuts);
-    let hashedClasses = new Set<string>();
-    let s = new MagicString(code)
+    const originalShortcuts = ctx.uno.config.shortcuts
+    const shortcuts = new Set(originalShortcuts)
+    const hashedClasses = new Set<string>()
+    const s = new MagicString(code)
 
     for (const match of matches) {
-      let body = expandVariantGroup(match[1].trim())
-      let classesArr = body.split(/\s+/);
+      const body = expandVariantGroup(match[1].trim())
+      let classesArr = body.split(/\s+/)
       const start = match.index!
       const replacements = []
 
@@ -93,7 +93,7 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
         const result = await Promise.all(classesArr.filter(Boolean).map(async i => [i, !!await ctx.uno.parseToken(i)] as const))
 
         const known = result.filter(([, matched]) => matched).map(([i]) => i)
-        classesArr = known;
+        classesArr = known
 
         const unknown = result.filter(([, matched]) => !matched).map(([i]) => i)
         replacements.push(...unknown)
@@ -105,7 +105,7 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
         const className = `${classPrefix}${hash}`
         replacements.unshift(className)
         shortcuts.add([className, classesArr])
-        hashedClasses.add(className);
+        hashedClasses.add(className)
         s.overwrite(start + 7, start + match[0].length - 1, replacements.join(' '))
 
         // TODO: add id to ctx.module and classesArr to ctx.tokens (tokens.add(___)) for the Inspector w/o making Uno try to place tokens in a non-existent uno.css global stylesheet
@@ -114,29 +114,29 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
 
     for (const match of variableMatches) {
       const _class = match[1]
-      const result = !!await ctx.uno.parseToken(_class);
-      if (!result) return
+      const result = !!await ctx.uno.parseToken(_class)
+      if (!result)
+        return
       const hash = hashFn(_class)
       const className = `${classPrefix}${hash}`
       shortcuts.add([className, _class])
-      hashedClasses.add(className);
+      hashedClasses.add(className)
       const start = match.index!
       s.overwrite(start + 6, match[1].length, className)
     }
 
     // from packages\shared-integration\src\transformers.ts
-    if (s.hasChanged()) {
+    if (s.hasChanged())
       code = s.toString()
       // TODO: how should the map be handled?
       // const map = s.generateMap({ hires: true, source: id }) as EncodedSourceMap
-    }
 
-    ctx.uno.config.shortcuts = Array.from(shortcuts);
+    ctx.uno.config.shortcuts = Array.from(shortcuts)
     console.log({ shortcutsSize: shortcuts.size })
-    const { css } = await ctx.uno.generate(hashedClasses, { preflights: false, safelist: false });
+    const { css } = await ctx.uno.generate(hashedClasses, { preflights: false, safelist: false })
 
-    styles += css;
-    ctx.uno.config.shortcuts = originalShortcuts;
+    styles += css
+    ctx.uno.config.shortcuts = originalShortcuts
   }
 
   if (!styles.length)

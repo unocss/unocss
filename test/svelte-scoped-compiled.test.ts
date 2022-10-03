@@ -53,13 +53,12 @@ describe('svelte-scoped-compiled', () => {
     `)
   })
 
-  
   test('different sequence of utility classes', async () => {
     const order1 = await transform('<div class="flex bg-blue-400 my-awesome-class font-bold"></div>')
     const order2 = await transform('<div class="my-awesome-class bg-blue-400  font-bold flex"></div>')
-    expect(order1).toBe(order2);
+    expect(order1).toBe(order2)
   })
-  
+
   test('class: syntax works', async () => {
     const result = await transform(`
     <div class="flex"/>
