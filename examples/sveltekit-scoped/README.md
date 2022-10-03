@@ -1,4 +1,4 @@
-# SvelteKit (release candidate) + UnoCss Vite Plugin (svelte-scoped mode)
+# SvelteKit + UnoCSS Vite Plugin (svelte-scoped mode)
 
 - Works with @sveltejs/kit@1.0.0-next.506 (release candidate) and @sveltejs/adapter-auto@1.0.0-next.80
 - Uses PresetUno and PresetIcons
