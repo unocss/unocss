@@ -7,8 +7,8 @@ export function SvelteScopedPlugin({ uno, ready }: UnocssPluginContext): Plugin 
   let filter = createFilter([/\.svelte$/], defaultExclude)
 
   async function transformSFC(code: string, id: string) {
-    const preflights = code.includes('uno:preflights');
-    const safelist = code.includes('uno:safelist');
+    const preflights = code.includes('uno:preflights')
+    const safelist = code.includes('uno:safelist')
 
     const { css } = await uno.generate(code, { id, preflights, safelist })
     if (!css)

@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite'
-import UnoCss from 'unocss/vite'
+import UnoCSS from 'unocss/vite'
 import presetIcons from '@unocss/preset-icons'
 import presetUno from '@unocss/preset-uno'
 import presetAttributify from '@unocss/preset-attributify'
@@ -17,7 +17,7 @@ export default defineConfig({
     },
   },
   plugins: [
-    UnoCss({
+    UnoCSS({
       mode: 'shadow-dom',
       shortcuts: [
         { logo: 'i-logos-webcomponents w-6em h-6em transform transition-800 hover:rotate-180' },

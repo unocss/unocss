@@ -254,13 +254,13 @@ You can use simple rules with `class:`, for example `class:bg-red-500={foo}` or 
 ```ts
 // vite.config.js
 import { sveltekit } from '@sveltejs/kit/vite'
-import UnoCss from 'unocss/vite'
+import UnoCSS from 'unocss/vite'
 import { extractorSvelte } from '@unocss/core'
 
 /** @type {import('vite').UserConfig} */
 const config = {
   plugins: [
-    UnoCss({
+    UnoCSS({
       extractors: [extractorSvelte],
       /* more options */
     }),
@@ -273,7 +273,7 @@ You have a `SvelteKit` example project on [examples/sveltekit](https://github.co
 
 ### Svelte/SvelteKit Scoped Mode
 
-Adding `mode: 'svelte-scoped'` to your UnoCss config options will place styles right inside of each component's style block instead of in a global `uno.css` file. Because there is no `import 'uno.css'` in your root `+layout.svelte` preflights and safelist classes have no where to be placed. Add the `uno:preflights` or `uno:safelist` attributes to the style block of any component where you want to place them. To use both globally, add the following to your root `+layout.svelte`: 
+Adding `mode: 'svelte-scoped'` to your UnoCSS config options will place styles right inside of each component's style block instead of in a global `uno.css` file. Because there is no `import 'uno.css'` in your root `+layout.svelte` preflights and safelist classes have no where to be placed. Add the `uno:preflights` or `uno:safelist` attributes to the style block of any component where you want to place them. To use both globally, add the following to your root `+layout.svelte`: 
 
 ```html
 <style uno:preflights uno:safelist global></style>
