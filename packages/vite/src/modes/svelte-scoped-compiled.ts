@@ -37,7 +37,32 @@ import MagicString from 'magic-string'
 import { expandVariantGroup } from '@unocss/core'
 // import type { EncodedSourceMap } from '@ampproject/remapping'
 
-export async function transformSFC(code: string, id: string, ctx: UnocssPluginContext, hashFn = hash, classPrefix = 'uno-', keepUnknown = true) {
+export interface TransformSFCOptions {
+  /**
+   * Prefix for compile class name
+   * @default 'uno-'
+   */
+  classPrefix?: string
+
+  /**
+   * Hash function
+   */
+  hashFn?: (str: string) => string
+
+  /**
+   * Leave unknown classes inside the string
+   *
+   * @default true
+   */
+  keepUnknown?: boolean
+}
+export async function transformSFC(code: string, id: string, ctx: UnocssPluginContext, options: TransformSFCOptions = {}) {
+  const {
+    hashFn = hash,
+    classPrefix = 'uno-',
+    keepUnknown = true
+  } = options;
+
   let styles = '';
 
   const preflights = code.includes('uno:preflights');
@@ -50,7 +75,7 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
 
   const matches = [
     ...code.matchAll(/class="([\S\s]+?)"/g),
-    ...code.matchAll(/class:([\S]+?){"/g),
+    // ...code.matchAll(/class:([\S]+?){"/g), // TODO: separate out as overwrite offset will be different and logic will be simpler
   ];
   // If desired can use /class:([\S]+?)[{>\s]/g if we make sure to keep variable and just change class name (turn class:text-sm into class:uno-1hashz={text-sm})
 
@@ -59,7 +84,8 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
     let s = new MagicString(code)
 
     for (const match of matches) {
-      let body = expandVariantGroup(match[2].trim())
+      // return matches;
+      let body = expandVariantGroup(match[1].trim())
       let classesArr = body.split(/\s+/);
       const start = match.index!
       const replacements = []
@@ -80,13 +106,16 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
         const className = `${classPrefix}${hash}`
         replacements.unshift(className)
 
+        // ctx.uno.config.shortcuts.push([className, classesArr])
         // TODO: do we need generate or can we use parseToken...?
-        const result = await ctx.uno.generate(classesArr);
+        const result = await ctx.uno.generate(classesArr, { preflights: false, safelist: false });
         styles += result.css;
-        console.log(result.matched); 
+        console.log(result.matched);
+        console.log(result.css);
         // TODO: styles += `:global(modified selector stemming from .${className}){${result.css}}`;
+        // possibly convert result.matched follow a period to className, then combine equivalent className instances within same @ levels?
 
-        s.overwrite(start + 1, start + match[0].length - 1, replacements.join(' '))
+        s.overwrite(start + 7, start + match[0].length - 1, replacements.join(' '))
 
         // TODO: add id to ctx.module and classesArr to ctx.tokens (tokens.add(___)) for the Inspector w/o making Uno try to place tokens in a non-existent uno.css global stylesheet
       }
