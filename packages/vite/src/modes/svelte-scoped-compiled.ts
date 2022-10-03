@@ -73,18 +73,17 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
     styles = css;
   }
 
-  const matches = [
-    ...code.matchAll(/class="([\S\s]+?)"/g),
-    // ...code.matchAll(/class:([\S]+?){"/g), // TODO: separate out as overwrite offset will be different and logic will be simpler
-  ];
+  const matches = [...code.matchAll(/class="([\S\s]+?)"/g)]
+  const variableMatches = [...code.matchAll(/class:([\S]+?)={/g)]
   // If desired can use /class:([\S]+?)[{>\s]/g if we make sure to keep variable and just change class name (turn class:text-sm into class:uno-1hashz={text-sm})
 
-
-  if (matches.length) {
+  if (matches.length || variableMatches.length) {
+    let originalShortcuts = ctx.uno.config.shortcuts;
+    let shortcuts = new Set(originalShortcuts);
+    let hashedClasses = new Set<string>();
     let s = new MagicString(code)
 
     for (const match of matches) {
-      // return matches;
       let body = expandVariantGroup(match[1].trim())
       let classesArr = body.split(/\s+/);
       const start = match.index!
@@ -105,20 +104,24 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
         const hash = hashFn(classesArr.join(' '))
         const className = `${classPrefix}${hash}`
         replacements.unshift(className)
-
-        // ctx.uno.config.shortcuts.push([className, classesArr])
-        // TODO: do we need generate or can we use parseToken...?
-        const result = await ctx.uno.generate(classesArr, { preflights: false, safelist: false });
-        styles += result.css;
-        console.log(result.matched);
-        console.log(result.css);
-        // TODO: styles += `:global(modified selector stemming from .${className}){${result.css}}`;
-        // possibly convert result.matched follow a period to className, then combine equivalent className instances within same @ levels?
-
+        shortcuts.add([className, classesArr])
+        hashedClasses.add(className);
         s.overwrite(start + 7, start + match[0].length - 1, replacements.join(' '))
 
         // TODO: add id to ctx.module and classesArr to ctx.tokens (tokens.add(___)) for the Inspector w/o making Uno try to place tokens in a non-existent uno.css global stylesheet
       }
+    }
+
+    for (const match of variableMatches) {
+      const _class = match[1]
+      const result = !!await ctx.uno.parseToken(_class);
+      if (!result) return
+      const hash = hashFn(_class)
+      const className = `${classPrefix}${hash}`
+      shortcuts.add([className, _class])
+      hashedClasses.add(className);
+      const start = match.index!
+      s.overwrite(start + 6, match[1].length, className)
     }
 
     // from packages\shared-integration\src\transformers.ts
@@ -127,6 +130,13 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
       // TODO: how should the map be handled?
       // const map = s.generateMap({ hires: true, source: id }) as EncodedSourceMap
     }
+
+    ctx.uno.config.shortcuts = Array.from(shortcuts);
+    console.log({ shortcutsSize: shortcuts.size })
+    const { css } = await ctx.uno.generate(hashedClasses, { preflights: false, safelist: false });
+
+    styles += css;
+    ctx.uno.config.shortcuts = originalShortcuts;
   }
 
   if (!styles.length)
