@@ -1,5 +1,5 @@
 {
-  "name": "unocss-sveltekit-rc",
+  "name": "unocss-sveltekit",
   "type": "module",
   "scripts": {
     "dev": "vite dev",
@@ -10,7 +10,6 @@
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.1.16",
-    "@iconify/utils": "^2.0.0",
     "@sveltejs/adapter-auto": "next",
     "@sveltejs/kit": "next",
     "@unocss/core": "link:../../packages/core",

@@ -1,22 +1,23 @@
 <script lang="ts">
+  import 'uno.css'
 	import { fade, fly } from 'svelte/transition'
-	let logo = false
+	let showLogo = false
 	let red = false
 	function toggleLogo() {
-		logo = !logo
+		showLogo = !showLogo
 	}
 	function toggleSpan() {
 		red = !red
 	}
-	$: button = logo ? 'Hide logo' : 'Show logo'
+	$: button = showLogo ? 'Hide logo' : 'Show logo'
 	$: span = red ? 'Normal' : 'Red'
 </script>
 
 <main class="text-center p-1em my-0 mx-auto">
 	<span class="logo"></span>
 
-	{#if logo}
-		<span class:logo={logo} in:fly="{{ y: 200, duration: 2000 }}" out:fade></span>
+	{#if showLogo}
+		<span class:logo={showLogo} in:fly="{{ y: 200, duration: 2000 }}" out:fade></span>
 	{/if}
 
 	<h1 class="animate-bounce color-#ff3e00 uppercase font-size-4rem fw-100 line-height-1.1 my-2rem mx-auto max-width-14rem sm:max-width-auto">SvelteKit!</h1>
@@ -29,7 +30,7 @@
 
 	<br/>
 
-	<div class:bg-red-400={red}>BG Color should change</div>
+	<div class:bg-red-400={red}>My BG Color should change</div>
 
 	<br/>
 
@@ -49,25 +50,4 @@
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
 		Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	}
-/*
-	main {
-		text-align: center;
-		padding: 1em;
-		margin: 0 auto;
-	}
-*/
-	/*h1 {*/
-	/*	color: #ff3e00;*/
-	/*	text-transform: uppercase;*/
-	/*	font-size: 4rem;*/
-	/*	font-weight: 100;*/
-	/*	line-height: 1.1;*/
-	/*	margin: 2rem auto;*/
-	/*	max-width: 14rem;*/
-	/*}*/
-	/*@media (min-width: 480px) {*/
-	/*	h1 {*/
-	/*		max-width: none;*/
-	/*	}*/
-	/*}*/
 </style>
