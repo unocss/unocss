@@ -79,7 +79,6 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
 
   if (matches.length || variableMatches.length) {
     const originalShortcuts = ctx.uno.config.shortcuts
-    // ctx.uno.config.shortcuts = []
     const shortcuts: Record<string, string[]> = {}
     const hashedClasses = new Set<string>()
     const s = new MagicString(code)
@@ -93,8 +92,7 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
       if (keepUnknown) {
         const result = await Promise.all(classesArr.filter(Boolean).map(async i => [i, !!await ctx.uno.parseToken(i)] as const))
 
-        const known = result.filter(([, matched]) => matched).map(([i]) => i)
-        classesArr = known
+        classesArr = result.filter(([, matched]) => matched).map(([i]) => i)
         if (!classesArr.length)
           continue
 
@@ -102,7 +100,8 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
         replacements.push(...unknown)
       }
 
-      if (classesArr) {
+      // Could be improved by not letting config set shortcuts be included in hashed class, would make for cleaner output but add complexity to the code
+      if (classesArr.length) {
         classesArr = classesArr.sort()
         const hash = hashFn(classesArr.join(' '))
         const className = `${classPrefix}${hash}`
@@ -135,7 +134,6 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
       // const map = s.generateMap({ hires: true, source: id }) as EncodedSourceMap
 
     ctx.uno.config.shortcuts = [...originalShortcuts, ...Object.entries(shortcuts)]
-    console.log({ shortcuts })
     const { css } = await ctx.uno.generate(hashedClasses, { preflights: false, safelist: false })
 
     styles += css

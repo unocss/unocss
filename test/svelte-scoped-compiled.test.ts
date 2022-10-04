@@ -11,7 +11,7 @@ describe('svelte-scoped-compiled', () => {
       presetUno(),
     ],
     shortcuts: [
-      { shortcut: 'hover:rotate-180' },
+      { shortcut: 'w-5' },
       // { logo: 'i-logos:svelte-icon w-6em h-6em transform transition-800 hover:rotate-180' },
     ],
   })
@@ -41,7 +41,7 @@ describe('svelte-scoped-compiled', () => {
         <div class=\\"uno-s9yxer\\"/>
       </div>
       <style>/* layer: shortcuts */
-      .uno-7unwxf:hover{--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-rotate:180deg;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
+      .uno-7unwxf{width:1.25rem;}
       .uno-pe1esh{--un-scale-x:0.05;--un-scale-y:0.05;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));border-width:1px;border-style:solid;--un-border-opacity:1;border-color:rgba(229,231,235,var(--un-border-opacity));--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));font-size:1.25rem;line-height:1.75rem;font-weight:700;}
       .dark .uno-pe1esh:hover{--un-bg-opacity:1;background-color:rgba(34,197,94,var(--un-bg-opacity));}
       .uno-cbgd7b{text-align:center;}
@@ -72,6 +72,6 @@ describe('svelte-scoped-compiled', () => {
     `)
   })
 
-  // Add more tests from PR and:
-  // add :global() around generated class names
+  // Add more tests to cover all use cases in https://github.com/unocss/unocss/issues/1676:
+  // add :global() around generated class names, make sure to grab everything including things like [dir="rtl"] and not just hashed class names beginning with a period
 })
