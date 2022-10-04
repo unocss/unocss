@@ -33,7 +33,7 @@ describe('svelte-scoped-compiled', () => {
     `.trim())
     expect(result).toMatchInlineSnapshot(`
       "<div class=\\"uno-pe1esh\\">
-      <div class=\\"uno-ztntfp foo bar\\">
+      <div class=\\"foo bar\\">
       <div class=\\"uno-7unwxf\\">
 
       <div class=\\"uno-cbgd7b foo\\">
@@ -74,6 +74,4 @@ describe('svelte-scoped-compiled', () => {
 
   // Add more tests from PR and:
   // add :global() around generated class names
-  // don't add bogus classname when it's all unknown classes
-  // get shortcuts working
 })

@@ -79,7 +79,8 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
 
   if (matches.length || variableMatches.length) {
     const originalShortcuts = ctx.uno.config.shortcuts
-    const shortcuts = new Set(originalShortcuts)
+    // ctx.uno.config.shortcuts = []
+    const shortcuts: Record<string, string[]> = {}
     const hashedClasses = new Set<string>()
     const s = new MagicString(code)
 
@@ -94,6 +95,8 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
 
         const known = result.filter(([, matched]) => matched).map(([i]) => i)
         classesArr = known
+        if (!classesArr.length)
+          continue
 
         const unknown = result.filter(([, matched]) => !matched).map(([i]) => i)
         replacements.push(...unknown)
@@ -104,7 +107,7 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
         const hash = hashFn(classesArr.join(' '))
         const className = `${classPrefix}${hash}`
         replacements.unshift(className)
-        shortcuts.add([className, classesArr])
+        shortcuts[className] = classesArr
         hashedClasses.add(className)
         s.overwrite(start + 7, start + match[0].length - 1, replacements.join(' '))
 
@@ -119,10 +122,10 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
         return
       const hash = hashFn(_class)
       const className = `${classPrefix}${hash}`
-      shortcuts.add([className, _class])
+      shortcuts[className] = [_class]
       hashedClasses.add(className)
-      const start = match.index!
-      s.overwrite(start + 6, match[1].length, className)
+      const start = match.index! + 'class:'.length
+      s.overwrite(start, start + match[1].length, className)
     }
 
     // from packages\shared-integration\src\transformers.ts
@@ -131,8 +134,8 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
       // TODO: how should the map be handled?
       // const map = s.generateMap({ hires: true, source: id }) as EncodedSourceMap
 
-    ctx.uno.config.shortcuts = Array.from(shortcuts)
-    console.log({ shortcutsSize: shortcuts.size })
+    ctx.uno.config.shortcuts = [...originalShortcuts, ...Object.entries(shortcuts)]
+    console.log({ shortcuts })
     const { css } = await ctx.uno.generate(hashedClasses, { preflights: false, safelist: false })
 
     styles += css
