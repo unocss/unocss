@@ -10,7 +10,7 @@
     "dev": "nr stub",
     "deploy": "nr build && npm -C playground run build && npm -C interactive run build",
     "interactive": "npm -C interactive run dev",
-    "lint": "eslint .",
+    "lint": "eslint --cache .",
     "lint:fix": "nr lint --fix",
     "play": "npm -C playground run dev",
     "release": "bumpp package.json packages/**/package.json",
@@ -118,7 +118,7 @@
   },
   "lint-staged": {
     "*.{js,ts,tsx,vue,md}": [
-      "eslint --fix"
+      "eslint --cache --fix"
     ]
   }
 }
