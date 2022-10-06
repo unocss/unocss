@@ -915,7 +915,7 @@ export const presetMiniTargets: string[] = [
   'supports-[(display:_grid)]:block',
 
   // variants media
-  'media-cssvar:block',
+  'media-[(--cssvar)]:block',
 
   // variants prints
   'print:block',
