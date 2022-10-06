@@ -191,7 +191,7 @@ exports[`preset-wind > targets 1`] = `
 .break-inside-revert{break-inside:revert;}
 .break-after-column{break-after:column;}
 .break-after-unset{break-after:unset;}
-.-space-x-4>:not([hidden])~:not([hidden]){--un-space-x-reverse:0;margin-left:calc(-1rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(-1rem * var(--un-space-x-reverse));}
+.-space-x-4>:not([hidden])~:not([hidden]){--un-space-x-reverse:0;margin-left:calc(calc(1rem * calc(1 - var(--un-space-x-reverse))) * -1);margin-right:calc(calc(1rem * var(--un-space-x-reverse)) * -1);}
 .space-x-\\\\$space>:not([hidden])~:not([hidden]){--un-space-x-reverse:0;margin-left:calc(var(--space) * calc(1 - var(--un-space-x-reverse)));margin-right:calc(var(--space) * var(--un-space-x-reverse));}
 .space-x-2>:not([hidden])~:not([hidden]){--un-space-x-reverse:0;margin-left:calc(0.5rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(0.5rem * var(--un-space-x-reverse));}
 .space-y-4>:not([hidden])~:not([hidden]){--un-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--un-space-y-reverse)));margin-bottom:calc(1rem * var(--un-space-y-reverse));}
