@@ -147,12 +147,12 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
   return `${code}\n<style>${styles}</style>`
 }
 
-const SELECTOR_REGEX = /([:[\.][\S\s]+?){[\S\s]+?}/g
+const SELECTOR_REGEX = /([:[\.][\S\s]+?)({[\S\s]+?})/g
 // Capture selector starting with either a colon as in ":not(...)", a right bracket as in [dir="rtl"] or a period as in normal selectors, followed by consuming just the next set of brackets with content (lazy)
 // setting uno.generate's minify option to true means we don't need to worry about avoiding getting tangled up in layer comments like /* layer: shortcuts */
 
 function wrapSelectorsWithGlobal(css: string) {
-  return css
+  return css.replace(SELECTOR_REGEX, ':global($1)$2')
 }
 
 // duplicated from @unocss/transformer-compile-class
