@@ -43,6 +43,8 @@ export interface Theme {
   easing?: Record<string, string>
   // media queries
   media?: Record<string, string>
+  // supports queries
+  supports?: Record<string, string>
   // animation
   animation?: ThemeAnimation
   // grids
