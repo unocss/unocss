@@ -40,6 +40,6 @@
     "css-tree": "^2.2.1"
   },
   "devDependencies": {
-    "magic-string": "^0.26.3"
+    "magic-string": "^0.26.6"
   }
 }

@@ -15,16 +15,16 @@
     "build": "tsc && vite build"
   },
   "dependencies": {
-    "lit": "^2.3.1"
+    "lit": "^2.4.0"
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.1.16",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
-    "typescript": "^4.8.3",
+    "typescript": "^4.8.4",
     "unocss": "link:../../packages/unocss",
-    "vite": "^3.1.2",
-    "vite-plugin-inspect": "^0.7.1"
+    "vite": "^3.1.4",
+    "vite-plugin-inspect": "^0.7.5"
   }
 }

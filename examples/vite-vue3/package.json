@@ -14,9 +14,9 @@
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
-    "@vitejs/plugin-vue": "^3.1.0",
-    "typescript": "^4.8.3",
+    "@vitejs/plugin-vue": "^3.1.2",
+    "typescript": "^4.8.4",
     "unocss": "link:../../packages/unocss",
-    "vite": "^3.1.2"
+    "vite": "^3.1.4"
   }
 }

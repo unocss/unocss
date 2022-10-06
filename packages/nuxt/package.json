@@ -41,7 +41,7 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.0.0-rc.10",
+    "@nuxt/kit": "^3.0.0-rc.11",
     "@unocss/core": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
     "@unocss/preset-icons": "workspace:*",
@@ -56,6 +56,6 @@
     "unocss": "workspace:*"
   },
   "devDependencies": {
-    "@nuxt/schema": "^3.0.0-rc.10"
+    "@nuxt/schema": "^3.0.0-rc.11"
   }
 }
