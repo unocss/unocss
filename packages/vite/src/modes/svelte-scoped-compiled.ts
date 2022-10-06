@@ -130,13 +130,13 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
     // from packages\shared-integration\src\transformers.ts
     if (s.hasChanged())
       code = s.toString()
-      // TODO: how should the map be handled?
-      // const map = s.generateMap({ hires: true, source: id }) as EncodedSourceMap
+    // TODO: how should the map be handled?
+    // const map = s.generateMap({ hires: true, source: id }) as EncodedSourceMap
 
     ctx.uno.config.shortcuts = [...originalShortcuts, ...Object.entries(shortcuts)]
-    const { css } = await ctx.uno.generate(hashedClasses, { preflights: false, safelist: false })
+    const { css } = await ctx.uno.generate(hashedClasses, { preflights: false, safelist: false, minify: true })
 
-    styles += css
+    styles += wrapSelectorsWithGlobal(css)
     ctx.uno.config.shortcuts = originalShortcuts
   }
 
@@ -145,6 +145,14 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
   if (code.match(/<style[^>]*>[\s\S]*?<\/style\s*>/))
     return code.replace(/(<style[^>]*>)/, `$1${styles}`)
   return `${code}\n<style>${styles}</style>`
+}
+
+const SELECTOR_REGEX = /([:[\.][\S\s]+?){[\S\s]+?}/g
+// Capture selector starting with either a colon as in ":not(...)", a right bracket as in [dir="rtl"] or a period as in normal selectors, followed by consuming just the next set of brackets with content (lazy)
+// setting uno.generate's minify option to true means we don't need to worry about avoiding getting tangled up in layer comments like /* layer: shortcuts */
+
+function wrapSelectorsWithGlobal(css: string) {
+  return css
 }
 
 // duplicated from @unocss/transformer-compile-class
