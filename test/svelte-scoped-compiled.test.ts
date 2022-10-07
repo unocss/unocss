@@ -89,12 +89,12 @@ describe('svelte-scoped-compiled', () => {
     `)
   })
 
-  test('animate-bounce ', async () => {
+  test('does not place global around animate-bounce keyframe digits', async () => {
     const result = await transform(`
     <div class="animate-bounce" />`.trim())
     expect(result).toMatchInlineSnapshot(`
       "<div class=\\"uno-6e6tnj\\" />
-      <style>:global(.uno-6e6tnj){animation:bounce 1s linear infinite;}@keyframes bounce{0%, 100% {transform:translateY(-25%);animation-timing-function:cubic-bezier(0:global(.8,0,1,1)} 50% ){transform:translateY(0);animation-timing-function:cubic-bezier(0,0,0.2,1)}}</style>"
+      <style>:global(.uno-6e6tnj){animation:bounce 1s linear infinite;}@keyframes bounce{0%, 100% {transform:translateY(-25%);animation-timing-function:cubic-bezier(0.8,0,1,1)} 50% {transform:translateY(0);animation-timing-function:cubic-bezier(0,0,0.2,1)}}</style>"
     `)
   })
 
