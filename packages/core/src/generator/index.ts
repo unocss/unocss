@@ -13,6 +13,10 @@ export class UnoGenerator {
   public parentOrders = new Map<string, number>()
   public events = createNanoEvents<{
     config: (config: ResolvedConfig) => void
+    extracted: (context: { tokens: Set<string> }) => void
+    tokens: (context: { tokens: Set<string> }) => void
+    preflights: (context: { preflights: Set<string> }) => void
+    generated: (context: { css: string }) => void
   }>()
 
   constructor(
@@ -137,6 +141,8 @@ export class UnoGenerator {
     if (safelist)
       this.config.safelist.forEach(s => tokens.add(s))
 
+    this.events.emit('extracted', { tokens })
+
     const nl = minify ? '' : '\n'
 
     const layerSet = new Set<string>([LAYER_DEFAULT])
@@ -144,63 +150,66 @@ export class UnoGenerator {
     const sheet = new Map<string, StringifiedUtil[]>()
     let preflightsMap: Record<string, string> = {}
 
-    const tokenPromises = Array.from(tokens).map(async (raw) => {
-      if (matched.has(raw))
-        return
+    const tokensPromise = (async () => {
+      await Promise.all(Array.from(tokens).map(async (raw) => {
+        if (matched.has(raw))
+          return
 
-      const payload = await this.parseToken(raw)
-      if (payload == null)
-        return
+        const payload = await this.parseToken(raw)
+        if (payload == null)
+          return
 
-      matched.add(raw)
+        matched.add(raw)
 
-      for (const item of payload) {
-        const parent = item[3] || ''
-        const layer = item[4]?.layer
-        if (!sheet.has(parent))
-          sheet.set(parent, [])
-        sheet.get(parent)!.push(item)
-        if (layer)
-          layerSet.add(layer)
-      }
-    })
+        for (const item of payload) {
+          const parent = item[3] || ''
+          const layer = item[4]?.layer
+          if (!sheet.has(parent))
+            sheet.set(parent, [])
+          sheet.get(parent)!.push(item)
+          if (layer)
+            layerSet.add(layer)
+        }
+      }))
 
-    const preflightPromise = (async () => {
-      if (!preflights)
-        return
-
-      const preflightContext: PreflightContext = {
-        generator: this,
-        theme: this.config.theme,
-      }
-
-      const preflightLayerSet = new Set<string>([])
-      this.config.preflights.forEach(({ layer = LAYER_PREFLIGHTS }) => {
-        layerSet.add(layer)
-        preflightLayerSet.add(layer)
-      })
-
-      preflightsMap = Object.fromEntries(
-        await Promise.all(Array.from(preflightLayerSet).map(
-          async (layer) => {
-            const preflights = await Promise.all(
-              this.config.preflights
-                .filter(i => (i.layer || LAYER_PREFLIGHTS) === layer)
-                .map(async i => await i.getCSS(preflightContext)),
-            )
-            const css = preflights
-              .filter(Boolean)
-              .join(nl)
-            return [layer, css]
-          },
-        )),
-      )
+      this.events.emit('tokens', { tokens: new Set(matched) })
     })()
 
-    await Promise.all([
-      ...tokenPromises,
-      preflightPromise,
-    ])
+    const preflightsPromise = (async () => {
+      const generatedPreflights = new Set<string>()
+
+      if (preflights) {
+        const preflightContext: PreflightContext = {
+          generator: this,
+          theme: this.config.theme,
+        }
+
+        const preflightLayerSet = new Set<string>([])
+        this.config.preflights.forEach(({ layer = LAYER_PREFLIGHTS }) => {
+          layerSet.add(layer)
+          preflightLayerSet.add(layer)
+        })
+
+        preflightsMap = Object.fromEntries(
+          await Promise.all(Array.from(preflightLayerSet).map(
+            async (layer) => {
+              const preflights = (await Promise.all(
+                this.config.preflights
+                  .filter(i => (i.layer || LAYER_PREFLIGHTS) === layer)
+                  .map(async i => await i.getCSS(preflightContext)),
+              )).filter(Boolean) as string[]
+
+              preflights.forEach(p => generatedPreflights.add(p))
+              return [layer, preflights.join(nl)]
+            },
+          )),
+        )
+      }
+
+      this.events.emit('preflights', { preflights: generatedPreflights })
+    })()
+
+    await Promise.all([tokensPromise, preflightsPromise])
 
     const layers = this.config.sortLayers(Array
       .from(layerSet)
@@ -286,6 +295,10 @@ export class UnoGenerator {
         .filter(Boolean)
         .join(nl)
     }
+
+    this.events.emit('generated', {
+      get css() { return getLayers() },
+    })
 
     return {
       get css() { return getLayers() },
