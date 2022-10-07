@@ -110,15 +110,15 @@ describe('svelte-scoped-compiled', () => {
     `)
   })
 
-  // test('add styles for classes found inside interpolation inside class string', async () => {
-  //   const result = await transform(`
-  //   <span class="font-bold {err ? 'text-red-600' : 'text-green-600'}">Hi</span>`.trim())
-  //   // this should probably be written as class:text-red-600={err} class:text-green-600={!err} but people commonly use this syntax and if we want this to be an easy migration from some other Tailwind based tool, we should support it.
-  //   expect(result).toMatchInlineSnapshot(`
-  //     "<span class=\\"uno-3ruxow {err ? 'text-red-600' : 'text-green-600'}\\">Hi</span>
-  //     <style>:global(.uno-3ruxow){font-weight:700;}</style>"
-  //   `)
-  // })
+  test('add styles for classes found inside interpolation inside class string', async () => {
+    const result = await transform(`
+    <span class="font-bold {err ? 'text-red-600' : 'text-green-600 font-semibold'} text-lg foo">Hi</span>`.trim())
+    // people should probably write this as `class:text-red-600={err} class:text-green-600={!err}` but people commonly use inline conditionals and we should support them if we want this to be an easy migration from other Tailwind based tools.
+    expect(result).toMatchInlineSnapshot(`
+      "<span class=\\"uno-k9a9lv {err ? 'text-red-600' : 'text-green-600 font-semibold'} foo\\">Hi</span>
+      <style>:global(.uno-k9a9lv){font-size:1.125rem;line-height:1.75rem;font-weight:700;}</style>"
+    `)
+  })
 
   test('no tokens found lets code pass through', async () => {
     const result = await transform(`

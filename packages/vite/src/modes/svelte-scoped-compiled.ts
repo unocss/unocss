@@ -46,19 +46,11 @@ export interface TransformSFCOptions {
    * Hash function
    */
   hashFn?: (str: string) => string
-
-  /**
-   * Leave unknown classes inside the string
-   *
-   * @default true
-   */
-  keepUnknown?: boolean
 }
 export async function transformSFC(code: string, id: string, uno: UnoGenerator, options: TransformSFCOptions = {}) {
   const {
     hashFn = hash,
     classPrefix = 'uno-',
-    keepUnknown = true,
   } = options
 
   let styles = ''
@@ -73,44 +65,45 @@ export async function transformSFC(code: string, id: string, uno: UnoGenerator, 
   }
 
   const matches = [...code.matchAll(/class=(["'\`])([\S\s]+?)\1/g)] // class="mb-1"
+  // console.log(matches)
   const classDirectives = [...code.matchAll(/class:([\S]+?)={/g)] // class:mb-1={foo}
   const classDirectivesShorthand = [...code.matchAll(/class:([^=>\s/]+)[{>\s/]/g)] // class:mb-1 (turns into class:uno-1hashz={mb-1}) if mb-1 is also a variable
 
   if (matches.length || classDirectives.length) {
     const originalShortcuts = uno.config.shortcuts
     const shortcuts: Record<string, string[]> = {}
-    const hashedClasses = new Set<string>()
+    const toGenerate = new Set<string>()
     const s = new MagicString(code)
 
     for (const match of matches) {
-      const body = expandVariantGroup(match[2].trim())
-      let classesArr = body.split(/\s+/)
+      const classes = expandVariantGroup(match[2].trim()).split(/\s+/)
+
+      const result = await Promise.all(classes.filter(Boolean).map(async i => [i, !!await uno.parseToken(i)] as const))
+
+      const known = result.filter(([, matched]) => matched).map(([i]) => i).sort()
+      if (!known.length)
+        continue
+
+      const unknown = result.filter(([, matched]) => !matched).map(([i]) => i)
+      const replacements = unknown
+
+      // Could be improved by not letting config-set shortcuts be included in hashed class, would make for cleaner output but add complexity to the code
+      const hash = hashFn(known.join(' '))
+      const className = `${classPrefix}${hash}`
+      replacements.unshift(className)
+      shortcuts[className] = known
+      toGenerate.add(className)
+
+      const updatedClassString = replacements.join(' ')
+
+      // TODO: to support styles found inside interpolation 'text-red-600 font-bold' surrounded by single quotes, we can take the replacements array at this point
+      // if unknown had length, we can run a regex at the end of this match on the matched string to check for styles inside interpolation
+
       const start = match.index!
-      const replacements = []
+      s.overwrite(start + 7, start + match[0].length - 1, updatedClassString)
 
-      if (keepUnknown) {
-        const result = await Promise.all(classesArr.filter(Boolean).map(async i => [i, !!await uno.parseToken(i)] as const))
 
-        classesArr = result.filter(([, matched]) => matched).map(([i]) => i)
-        if (!classesArr.length)
-          continue
-
-        const unknown = result.filter(([, matched]) => !matched).map(([i]) => i)
-        replacements.push(...unknown)
-      }
-
-      // Could be improved by not letting config set shortcuts be included in hashed class, would make for cleaner output but add complexity to the code
-      if (classesArr.length) {
-        classesArr = classesArr.sort()
-        const hash = hashFn(classesArr.join(' '))
-        const className = `${classPrefix}${hash}`
-        replacements.unshift(className)
-        shortcuts[className] = classesArr
-        hashedClasses.add(className)
-        s.overwrite(start + 7, start + match[0].length - 1, replacements.join(' '))
-
-        // TODO: return module id and found tokens from this function so ctx.module and ctx.tokens (tokens.add(___)) can be updated for the Inspector w/o making Uno, but do it in such a way that Uno doesn't try to place tokens in a non-existent uno.css global stylesheet
-      }
+      // TODO: return module id and found tokens from this function so ctx.module and ctx.tokens (tokens.add(___)) can be updated for the Inspector w/o making Uno, but do it in such a way that Uno doesn't try to place tokens in a non-existent uno.css global stylesheet
     }
 
     // TODO: bench this transform function, then combine the following two (maybe also above block) into a reusable function
@@ -122,7 +115,7 @@ export async function transformSFC(code: string, id: string, uno: UnoGenerator, 
       const hash = hashFn(_class)
       const className = `${classPrefix}${hash}`
       shortcuts[className] = [_class]
-      hashedClasses.add(className)
+      toGenerate.add(className)
       const start = match.index! + 'class:'.length
       s.overwrite(start, start + match[1].length, className)
     }
@@ -135,7 +128,7 @@ export async function transformSFC(code: string, id: string, uno: UnoGenerator, 
       const hash = hashFn(_class)
       const className = `${classPrefix}${hash}`
       shortcuts[className] = [_class]
-      hashedClasses.add(className)
+      toGenerate.add(className)
       const start = match.index! + 'class:'.length
       s.overwrite(start, start + match[1].length, `${className}={${_class}}`)
     }
@@ -148,7 +141,7 @@ export async function transformSFC(code: string, id: string, uno: UnoGenerator, 
     // const map = s.generateMap({ hires: true, source: id }) as EncodedSourceMap
 
     uno.config.shortcuts = [...originalShortcuts, ...Object.entries(shortcuts)]
-    const { css } = await uno.generate(hashedClasses, { preflights: false, safelist: false, minify: true })
+    const { css } = await uno.generate(toGenerate, { preflights: false, safelist: false, minify: true })
 
     styles += wrapSelectorsWithGlobal(css)
     uno.config.shortcuts = originalShortcuts
