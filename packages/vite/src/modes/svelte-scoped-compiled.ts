@@ -155,7 +155,7 @@ export async function transformSFC(code: string, id: string, uno: UnoGenerator, 
   }
 
   if (!styles.length)
-    return null
+    return code
   if (code.match(/<style[^>]*>[\s\S]*?<\/style\s*>/))
     return code.replace(/(<style[^>]*>)/, `$1${styles}`)
   return `${code}\n<style>${styles}</style>`
