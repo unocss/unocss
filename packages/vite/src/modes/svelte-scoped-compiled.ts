@@ -1,9 +1,7 @@
 import type { Plugin } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
-import type { UnocssPluginContext } from '@unocss/core'
-
+import { type UnocssPluginContext, expandVariantGroup } from '@unocss/core'
 import MagicString from 'magic-string'
-import { expandVariantGroup } from '@unocss/core'
 import { defaultExclude } from '../integration'
 
 export function SvelteScopedCompiledPlugin(ctx: UnocssPluginContext): Plugin {
@@ -35,11 +33,11 @@ export function SvelteScopedCompiledPlugin(ctx: UnocssPluginContext): Plugin {
     },
   }
 }
-// import type { EncodedSourceMap } from '@ampproject/remapping'
 
+// import type { EncodedSourceMap } from '@ampproject/remapping'
 export interface TransformSFCOptions {
   /**
-   * Prefix for compile class name
+   * Prefix for compiled class name
    * @default 'uno-'
    */
   classPrefix?: string
@@ -67,17 +65,18 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
 
   const preflights = code.includes('uno:preflights')
   const safelist = code.includes('uno:safelist')
+  // TODO: if <style> tag includes 'uno:preflights' and 'global' don't have uno.generate output root variables that it thinks are needed because preflights is set to false. If there is no easy to do this in UnoCSS then we could also have preflights set to true and just strip them out if a style tag includes 'uno:preflights' and 'global' but that feels inefficient - is it?
 
   if (preflights || safelist) {
     const { css } = await ctx.uno.generate('', { preflights, safelist })
     styles = css
   }
 
-  const matches = [...code.matchAll(/class="([\S\s]+?)"/g)]
-  const variableMatches = [...code.matchAll(/class:([\S]+?)={/g)]
-  // If desired can use /class:([\S]+?)[{>\s]/g if we make sure to keep variable and just change class name (turn class:text-sm into class:uno-1hashz={text-sm})
+  const matches = [...code.matchAll(/class="([\S\s]+?)"/g)] // class="mb-1"
+  const classDirectives = [...code.matchAll(/class:([\S]+?)={/g)] // class:mb-1={foo}
+  const classDirectivesShorthand = [...code.matchAll(/class:([^=>\s/]+)[{>\s/]/g)] // class:mb-1 (turns into class:uno-1hashz={mb-1}) if mb-1 is also a variable
 
-  if (matches.length || variableMatches.length) {
+  if (matches.length || classDirectives.length) {
     const originalShortcuts = ctx.uno.config.shortcuts
     const shortcuts: Record<string, string[]> = {}
     const hashedClasses = new Set<string>()
@@ -114,7 +113,7 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
       }
     }
 
-    for (const match of variableMatches) {
+    for (const match of classDirectives) {
       const _class = match[1]
       const result = !!await ctx.uno.parseToken(_class)
       if (!result)
@@ -125,6 +124,19 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
       hashedClasses.add(className)
       const start = match.index! + 'class:'.length
       s.overwrite(start, start + match[1].length, className)
+    }
+
+    for (const match of classDirectivesShorthand) {
+      const _class = match[1]
+      const result = !!await ctx.uno.parseToken(_class)
+      if (!result)
+        return
+      const hash = hashFn(_class)
+      const className = `${classPrefix}${hash}`
+      shortcuts[className] = [_class]
+      hashedClasses.add(className)
+      const start = match.index! + 'class:'.length
+      s.overwrite(start, start + match[1].length, `${className}={${_class}}`)
     }
 
     // from packages\shared-integration\src\transformers.ts

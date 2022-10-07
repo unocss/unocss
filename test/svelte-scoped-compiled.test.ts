@@ -59,14 +59,22 @@ describe('svelte-scoped-compiled', () => {
     expect(order1CSS).toBe(order2CSS)
   })
 
-  test('class: syntax works', async () => {
+  test('handles class directives, including shorthand syntax', async () => {
     const result = await transform(`
     <div class="flex"/>
     <div class:flex={bar} />
+    <div class:flex />
+    <div class:flex/>
+    <div class:flex>
+    <div class:flex class="bar" />
     `.trim())
     expect(result).toMatchInlineSnapshot(`
       "<div class=\\"uno-kagvzm\\"/>
           <div class:uno-kagvzm={bar} />
+          <div class:uno-kagvzm={flex} />
+          <div class:uno-kagvzm={flex}/>
+          <div class:uno-kagvzm={flex}>
+          <div class:uno-kagvzm={flex} class=\\"bar\\" />
       <style>:global(.uno-kagvzm){display:flex;}</style>"
     `)
   })
