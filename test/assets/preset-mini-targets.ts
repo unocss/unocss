@@ -911,6 +911,9 @@ export const presetMiniTargets: string[] = [
   '-p-px',
   '-z-1',
 
+  // variants supports
+  'supports-[(display:_grid)]:block',
+
   // variants media
   'media-cssvar:block',
 

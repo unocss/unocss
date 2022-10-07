@@ -182,6 +182,9 @@ export const theme: Theme = {
     mouse: '(hover) and (pointer: fine)',
     hd_color: '(dynamic-range: high)',
   },
+  supports: {
+    grid: '(display: grid)',
+  },
   preflightBase: {
     ...transformBase,
     ...touchActionBase,

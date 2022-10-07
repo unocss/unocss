@@ -9,6 +9,7 @@ import { variantCssLayer, variantInternalLayer, variantScope, variantSelector, v
 import { variantNegative } from './negative'
 import { variantImportant } from './important'
 import { variantCustomMedia, variantPrint } from './media'
+import { variantSupports } from './supports'
 import { partClasses, variantPseudoClassFunctions, variantPseudoClassesAndElements, variantTaggedPseudoClasses } from './pseudo'
 
 export const variants = (options: PresetMiniOptions): Variant<Theme>[] => [
@@ -19,6 +20,7 @@ export const variants = (options: PresetMiniOptions): Variant<Theme>[] => [
   variantInternalLayer,
   variantNegative,
   variantImportant,
+  variantSupports,
   variantPrint,
   variantCustomMedia,
   variantBreakpoints,

@@ -419,5 +419,8 @@ exports[`preset-wind > targets 1`] = `
 }
 @media (prefers-reduced-motion: reduce){
 .motion-reduce\\\\:hover\\\\:translate-0:hover{--un-translate-x:0rem;--un-translate-y:0rem;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
+}
+@supports (display: grid){
+.supports-grid\\\\:block{display:block;}
 }"
 `;

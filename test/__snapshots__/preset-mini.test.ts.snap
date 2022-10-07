@@ -918,6 +918,9 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .print\\\\:block{display:block;}
 .print\\\\:link\\\\:\\\\!underline:link{text-decoration-line:underline !important;}
 }
+@supports (display: grid){
+.supports-\\\\[\\\\(display\\\\:_grid\\\\)\\\\]\\\\:block{display:block;}
+}
 @supports(display:grid){
 .\\\\[\\\\@supports\\\\(display\\\\:grid\\\\)\\\\]\\\\:bg-red\\\\/33{background-color:rgba(248,113,113,0.33);}
 *+.\\\\[\\\\@supports\\\\(display\\\\:grid\\\\)\\\\]\\\\:\\\\[\\\\*\\\\+\\\\&\\\\]\\\\:bg-red\\\\/34{background-color:rgba(248,113,113,0.34);}
