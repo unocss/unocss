@@ -57,7 +57,7 @@ export async function transformSFC(code: string, id: string, uno: UnoGenerator, 
 
   const preflights = code.includes('uno:preflights')
   const safelist = code.includes('uno:safelist')
-  // TODO: if <style> tag includes 'uno:preflights' and 'global' don't have uno.generate output root variables that it thinks are needed because preflights is set to false. If there is no easy to do this in UnoCSS then we could also have preflights set to true and just strip them out if a style tag includes 'uno:preflights' and 'global' but that feels inefficient - is it?
+  // Could optimize: if <style> tag includes 'uno:preflights' and 'global' don't have uno.generate output root variables that it thinks are needed because preflights is set to false. If there is no easy to do this in UnoCSS then we could also have preflights set to true and just strip them out if a style tag includes 'uno:preflights' and 'global' but that feels inefficient - is it?
 
   if (preflights || safelist) {
     const { css } = await uno.generate('', { preflights, safelist })
@@ -65,9 +65,8 @@ export async function transformSFC(code: string, id: string, uno: UnoGenerator, 
   }
 
   const matches = [...code.matchAll(/class=(["'\`])([\S\s]+?)\1/g)] // class="mb-1"
-  // console.log(matches)
   const classDirectives = [...code.matchAll(/class:([\S]+?)={/g)] // class:mb-1={foo}
-  const classDirectivesShorthand = [...code.matchAll(/class:([^=>\s/]+)[{>\s/]/g)] // class:mb-1 (turns into class:uno-1hashz={mb-1}) if mb-1 is also a variable
+  const classDirectivesShorthand = [...code.matchAll(/class:([^=>\s/]+)[{>\s/]/g)] // class:mb-1 (compiled to class:uno-1hashz={mb-1})
 
   if (matches.length || classDirectives.length || classDirectivesShorthand.length) {
     const originalShortcuts = uno.config.shortcuts
@@ -109,7 +108,7 @@ export async function transformSFC(code: string, id: string, uno: UnoGenerator, 
       const unknown = result.filter(([, matched]) => !matched).map(([i]) => i)
       const replacements = unknown
 
-      // Could be improved by not letting config-set shortcuts be included in hashed class, would make for cleaner output but add complexity to the code
+      // Could optimize: not let config-set shortcuts be included in hashed class, would make for clearer output but add complexity to the code
       const hash = hashFn(known.join(' '))
       const className = `${classPrefix}${hash}`
       replacements.unshift(className)
@@ -171,12 +170,12 @@ export async function transformSFC(code: string, id: string, uno: UnoGenerator, 
   return `${code}\n<style>${styles}</style>`
 }
 
-const SELECTOR_REGEX = /(?<![\d(])([[\.][\S\s]+?)({[\S\s]+?})/g
 // First group: negative lookbehind to make sure not preceeded by a digit or open parenthesis as seen in `animate-bounce`
 // Second group captures selector starting with either a right bracket as in [dir="rtl"] or a period as in normal selectors, followed by consuming just the next set of brackets with content (lazy)
 // if needing to wrap a class starting with a colon as in ":not(...)" then need to avoid grabbing colons from media queries like `@media (min-width: 640px){.uno-28lpzl{margin-bottom:0.5rem;}}`
 // setting uno.generate's minify option to true means we don't need to worry about avoiding getting tangled up in layer comments like /* layer: shortcuts */
 // Third group captures styles
+const SELECTOR_REGEX = /(?<![\d(])([[\.][\S\s]+?)({[\S\s]+?})/g
 
 function wrapSelectorsWithGlobal(css: string) {
   return css.replace(SELECTOR_REGEX, ':global($1)$2')
