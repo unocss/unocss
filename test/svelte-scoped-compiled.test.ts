@@ -110,13 +110,13 @@ describe('svelte-scoped-compiled', () => {
     `)
   })
 
-  test('add styles for classes found inside interpolation inside class string', async () => {
+  test('handles classes in inline conditionals', async () => {
+    // people should probably write this as `class:text-red-600={err} class:text-green-600={!err} etc...` but people commonly use inline conditionals complex situations as demoed in this test and we should support them if we want this to be an easy migration from other Tailwind based tools.
     const result = await transform(`
-    <span class="font-bold {err ? 'text-red-600' : 'text-green-600 font-semibold'} text-lg foo">Hi</span>`.trim())
-    // people should probably write this as `class:text-red-600={err} class:text-green-600={!err}` but people commonly use inline conditionals and we should support them if we want this to be an easy migration from other Tailwind based tools.
+    <span class="font-bold {bar ? 'text-red-600' : 'text-(green-500 blue-400) font-semibold boo'} underline foo {baz ? 'italic ' : ''}">Hello</span>`.trim())
     expect(result).toMatchInlineSnapshot(`
-      "<span class=\\"uno-k9a9lv {err ? 'text-red-600' : 'text-green-600 font-semibold'} foo\\">Hi</span>
-      <style>:global(.uno-k9a9lv){font-size:1.125rem;line-height:1.75rem;font-weight:700;}</style>"
+      "<span class=\\"uno-q0wubg {bar ? 'uno-nlyu1f' : 'uno-d8wudg boo'} foo {baz ? 'uno-qw1oq5' : ''}\\">Hello</span>
+      <style>:global(.uno-d8wudg){font-weight:600;--un-text-opacity:1;color:rgba(96,165,250,var(--un-text-opacity));color:rgba(34,197,94,var(--un-text-opacity));}:global(.uno-q0wubg){font-weight:700;text-decoration-line:underline;}:global(.uno-qw1oq5){font-style:italic;}:global(.uno-nlyu1f){--un-text-opacity:1;color:rgba(220,38,38,var(--un-text-opacity));}</style>"
     `)
   })
 

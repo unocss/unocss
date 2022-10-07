@@ -69,14 +69,36 @@ export async function transformSFC(code: string, id: string, uno: UnoGenerator, 
   const classDirectives = [...code.matchAll(/class:([\S]+?)={/g)] // class:mb-1={foo}
   const classDirectivesShorthand = [...code.matchAll(/class:([^=>\s/]+)[{>\s/]/g)] // class:mb-1 (turns into class:uno-1hashz={mb-1}) if mb-1 is also a variable
 
-  if (matches.length || classDirectives.length) {
+  if (matches.length || classDirectives.length || classDirectivesShorthand.length) {
     const originalShortcuts = uno.config.shortcuts
     const shortcuts: Record<string, string[]> = {}
     const toGenerate = new Set<string>()
     const s = new MagicString(code)
 
     for (const match of matches) {
-      const classes = expandVariantGroup(match[2].trim()).split(/\s+/)
+      let body = expandVariantGroup(match[2].trim())
+
+      const inlineConditionals = [...body.matchAll(/'([\S\s]+?)'/g)]
+      for (const conditional of inlineConditionals) {
+        // TODO: extract into reuseable function
+        const classes = conditional[1].trim().split(/\s+/)
+        const result = await Promise.all(classes.filter(Boolean).map(async i => [i, !!await uno.parseToken(i)] as const))
+
+        const known = result.filter(([, matched]) => matched).map(([i]) => i).sort()
+        if (!known.length)
+          continue
+
+        const unknown = result.filter(([, matched]) => !matched).map(([i]) => i)
+        const replacements = unknown
+        const hash = hashFn(known.join(' '))
+        const className = `${classPrefix}${hash}`
+        replacements.unshift(className)
+        shortcuts[className] = known
+        toGenerate.add(className)
+        body = body.replace(conditional[0], `'${replacements.join(' ')}'`)
+      }
+
+      const classes = body.split(/\s+/)
 
       const result = await Promise.all(classes.filter(Boolean).map(async i => [i, !!await uno.parseToken(i)] as const))
 
@@ -96,17 +118,12 @@ export async function transformSFC(code: string, id: string, uno: UnoGenerator, 
 
       const updatedClassString = replacements.join(' ')
 
-      // TODO: to support styles found inside interpolation 'text-red-600 font-bold' surrounded by single quotes, we can take the replacements array at this point
-      // if unknown had length, we can run a regex at the end of this match on the matched string to check for styles inside interpolation
-
       const start = match.index!
       s.overwrite(start + 7, start + match[0].length - 1, updatedClassString)
-
 
       // TODO: return module id and found tokens from this function so ctx.module and ctx.tokens (tokens.add(___)) can be updated for the Inspector w/o making Uno, but do it in such a way that Uno doesn't try to place tokens in a non-existent uno.css global stylesheet
     }
 
-    // TODO: bench this transform function, then combine the following two (maybe also above block) into a reusable function
     for (const match of classDirectives) {
       const _class = match[1]
       const result = !!await uno.parseToken(_class)
@@ -137,7 +154,7 @@ export async function transformSFC(code: string, id: string, uno: UnoGenerator, 
     if (s.hasChanged())
       code = s.toString()
 
-    // TODO: properly create and return a source map
+    // TODO: return a source map
     // const map = s.generateMap({ hires: true, source: id }) as EncodedSourceMap
 
     uno.config.shortcuts = [...originalShortcuts, ...Object.entries(shortcuts)]
