@@ -1,14 +1,12 @@
 import { describe, expect, test } from 'vitest'
-import { createContext } from '@unocss/shared-integration'
-import type { VitePluginConfig } from '@unocss/vite'
+import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import presetIcons from '@unocss/preset-icons'
 
 import { transformSFC } from '../packages/vite/src/modes/svelte-scoped-compiled'
 
 describe('svelte-scoped-compiled', () => {
-  const ctx = createContext<VitePluginConfig>({
-    // mode: 'svelte-scoped-compiled', unnecessary for tests as not using the plugin pipeline
+  const uno = createGenerator({
     presets: [
       presetUno(),
       presetIcons({
@@ -26,10 +24,10 @@ describe('svelte-scoped-compiled', () => {
   })
 
   async function transform(code: string) {
-    return await transformSFC(code, 'Foo.svelte', ctx)
+    return await transformSFC(code, 'Foo.svelte', uno)
   }
 
-  test('basic', async () => {
+  test('general', async () => {
     const result = await transform(`
 <div class="bg-red-500 text-xl font-bold border border-gray-200 dark:hover:bg-green-500 transform scale-5">
 <div class="foo bar">
@@ -79,7 +77,7 @@ describe('svelte-scoped-compiled', () => {
     `)
   })
 
-  test('properly wraps rtl: with :global() wrapper', async () => {
+  test('wraps rtl: and space-x-1 with :global() wrapper', async () => {
     const result = await transform(`
     <div class="mb-1 text-sm rtl:right-0 space-x-1" />`.trim())
     expect(result).toMatchInlineSnapshot(`
@@ -97,7 +95,7 @@ describe('svelte-scoped-compiled', () => {
     `)
   })
 
-  test('does not place global around animate-bounce keyframe digits', async () => {
+  test('does not place :global() around animate-bounce keyframe digits', async () => {
     const result = await transform(`
     <div class="animate-bounce" />`.trim())
     expect(result).toMatchInlineSnapshot(`
@@ -106,7 +104,18 @@ describe('svelte-scoped-compiled', () => {
     `)
   })
 
-  test('icons', async () => {
+  test('@apply, --at-apply work', async () => {
+    const result = await transform(`
+    <slot />
+    <style global>
+      .foo {
+        --at-apply: sm:mb-1 hover:mb-2;
+      }
+    </style>`.trim())
+    expect(result).toMatchInlineSnapshot('null')
+  })
+
+  test('shortcut with icon', async () => {
     const result = await transform(`
     <span class="logo" />`.trim())
     expect(result).toMatchInlineSnapshot(`

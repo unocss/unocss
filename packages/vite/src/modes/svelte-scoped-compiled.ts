@@ -1,17 +1,17 @@
 import type { Plugin } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
-import { type UnocssPluginContext, expandVariantGroup } from '@unocss/core'
+import { type UnoGenerator, type UnocssPluginContext, expandVariantGroup } from '@unocss/core'
 import MagicString from 'magic-string'
 import { defaultExclude } from '../integration'
 
-export function SvelteScopedCompiledPlugin(ctx: UnocssPluginContext): Plugin {
+export function SvelteScopedCompiledPlugin({ ready, uno }: UnocssPluginContext): Plugin {
   let filter = createFilter([/\.svelte$/], defaultExclude)
 
   return {
     name: 'unocss:svelte-scoped-compiled',
     enforce: 'pre',
     async configResolved() {
-      const { config } = await ctx.ready
+      const { config } = await ready
       filter = createFilter(
         config.include || [/\.svelte$/],
         config.exclude || defaultExclude,
@@ -20,14 +20,14 @@ export function SvelteScopedCompiledPlugin(ctx: UnocssPluginContext): Plugin {
     transform(code, id) {
       if (!filter(id))
         return
-      return transformSFC(code, id, ctx)
+      return transformSFC(code, id, uno)
     },
-    handleHotUpdate(hmrCtx) {
-      const read = hmrCtx.read
-      if (filter(hmrCtx.file)) {
-        hmrCtx.read = async () => {
+    handleHotUpdate(ctx) {
+      const read = ctx.read
+      if (filter(ctx.file)) {
+        ctx.read = async () => {
           const code = await read()
-          return await transformSFC(code, hmrCtx.file, ctx) || code
+          return await transformSFC(code, ctx.file, uno) || code
         }
       }
     },
@@ -54,7 +54,7 @@ export interface TransformSFCOptions {
    */
   keepUnknown?: boolean
 }
-export async function transformSFC(code: string, id: string, ctx: UnocssPluginContext, options: TransformSFCOptions = {}) {
+export async function transformSFC(code: string, id: string, uno: UnoGenerator, options: TransformSFCOptions = {}) {
   const {
     hashFn = hash,
     classPrefix = 'uno-',
@@ -68,7 +68,7 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
   // TODO: if <style> tag includes 'uno:preflights' and 'global' don't have uno.generate output root variables that it thinks are needed because preflights is set to false. If there is no easy to do this in UnoCSS then we could also have preflights set to true and just strip them out if a style tag includes 'uno:preflights' and 'global' but that feels inefficient - is it?
 
   if (preflights || safelist) {
-    const { css } = await ctx.uno.generate('', { preflights, safelist })
+    const { css } = await uno.generate('', { preflights, safelist })
     styles = css
   }
 
@@ -77,7 +77,7 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
   const classDirectivesShorthand = [...code.matchAll(/class:([^=>\s/]+)[{>\s/]/g)] // class:mb-1 (turns into class:uno-1hashz={mb-1}) if mb-1 is also a variable
 
   if (matches.length || classDirectives.length) {
-    const originalShortcuts = ctx.uno.config.shortcuts
+    const originalShortcuts = uno.config.shortcuts
     const shortcuts: Record<string, string[]> = {}
     const hashedClasses = new Set<string>()
     const s = new MagicString(code)
@@ -89,7 +89,7 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
       const replacements = []
 
       if (keepUnknown) {
-        const result = await Promise.all(classesArr.filter(Boolean).map(async i => [i, !!await ctx.uno.parseToken(i)] as const))
+        const result = await Promise.all(classesArr.filter(Boolean).map(async i => [i, !!await uno.parseToken(i)] as const))
 
         classesArr = result.filter(([, matched]) => matched).map(([i]) => i)
         if (!classesArr.length)
@@ -115,7 +115,7 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
 
     for (const match of classDirectives) {
       const _class = match[1]
-      const result = !!await ctx.uno.parseToken(_class)
+      const result = !!await uno.parseToken(_class)
       if (!result)
         return
       const hash = hashFn(_class)
@@ -128,7 +128,7 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
 
     for (const match of classDirectivesShorthand) {
       const _class = match[1]
-      const result = !!await ctx.uno.parseToken(_class)
+      const result = !!await uno.parseToken(_class)
       if (!result)
         return
       const hash = hashFn(_class)
@@ -145,11 +145,11 @@ export async function transformSFC(code: string, id: string, ctx: UnocssPluginCo
     // TODO: how should the map be handled?
     // const map = s.generateMap({ hires: true, source: id }) as EncodedSourceMap
 
-    ctx.uno.config.shortcuts = [...originalShortcuts, ...Object.entries(shortcuts)]
-    const { css } = await ctx.uno.generate(hashedClasses, { preflights: false, safelist: false, minify: true })
+    uno.config.shortcuts = [...originalShortcuts, ...Object.entries(shortcuts)]
+    const { css } = await uno.generate(hashedClasses, { preflights: false, safelist: false, minify: true })
 
     styles += wrapSelectorsWithGlobal(css)
-    ctx.uno.config.shortcuts = originalShortcuts
+    uno.config.shortcuts = originalShortcuts
   }
 
   if (!styles.length)
