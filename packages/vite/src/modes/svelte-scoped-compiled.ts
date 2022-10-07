@@ -109,10 +109,11 @@ export async function transformSFC(code: string, id: string, uno: UnoGenerator, 
         hashedClasses.add(className)
         s.overwrite(start + 7, start + match[0].length - 1, replacements.join(' '))
 
-        // TODO: add id to ctx.module and classesArr to ctx.tokens (tokens.add(___)) for the Inspector w/o making Uno try to place tokens in a non-existent uno.css global stylesheet
+        // TODO: return module id and found tokens from this function so ctx.module and ctx.tokens (tokens.add(___)) can be updated for the Inspector w/o making Uno, but do it in such a way that Uno doesn't try to place tokens in a non-existent uno.css global stylesheet
       }
     }
 
+    // TODO: bench this transform function, then combine the following two (maybe also above block) into a reusable function
     for (const match of classDirectives) {
       const _class = match[1]
       const result = !!await uno.parseToken(_class)
@@ -142,7 +143,8 @@ export async function transformSFC(code: string, id: string, uno: UnoGenerator, 
     // from packages\shared-integration\src\transformers.ts
     if (s.hasChanged())
       code = s.toString()
-    // TODO: how should the map be handled?
+
+    // TODO: properly create and return a source map
     // const map = s.generateMap({ hires: true, source: id }) as EncodedSourceMap
 
     uno.config.shortcuts = [...originalShortcuts, ...Object.entries(shortcuts)]

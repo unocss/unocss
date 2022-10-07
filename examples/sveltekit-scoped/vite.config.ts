@@ -3,6 +3,7 @@ import { defineConfig } from 'vite'
 import UnoCSS from 'unocss/vite'
 import presetIcons from '@unocss/preset-icons'
 import presetUno from '@unocss/preset-uno'
+import transformerDirective from '@unocss/transformer-directives'
 
 export default defineConfig({
   plugins: [
@@ -10,6 +11,9 @@ export default defineConfig({
       mode: 'svelte-scoped-compiled',
       shortcuts: [
         { logo: 'i-logos:svelte-icon w-6em h-6em transform transition-800 hover:rotate-180' },
+      ],
+      transformers: [
+        transformerDirective(),
       ],
       presets: [
         presetUno(),

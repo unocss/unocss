@@ -1,19 +1,14 @@
 <script lang="ts">
   import { fade, fly } from "svelte/transition";
   import Counter from "./Counter.svelte";
+  import Number from "./Number.svelte";
+
   let logo = false;
   let red = false;
-  function toggleLogo() {
-    logo = !logo;
-  }
-  function toggleSpan() {
-    red = !red;
-  }
-  $: button = logo ? "Hide logo" : "Show logo";
-  $: span = red ? "Normal" : "Red";
+  let rtl = true;
 </script>
 
-<main class="text-center p-1em my-0 mx-auto">
+<main class="text-center p-1em my-2px mx-auto">
   <span class="logo" />
 
   {#if logo}
@@ -26,26 +21,52 @@
     SvelteKit!
   </h1>
 
+  <button class="bg-red-100" on:click={() => (logo = !logo)}
+    >{logo ? "Hide 2nd logo" : "Show 2nd logo"}</button
+  >
+
+  <br />
   <br />
 
   <div class:bg-red-400={red}>My BG Color should change</div>
+  <button on:click={() => (red = !red)}
+    >Change BG Color: {red ? "Normal" : "Red"}</button
+  >
 
   <br />
+  <br />
 
-  <button class="bg-red-100" on:click={toggleLogo}>{button}</button>
-  <button on:click={toggleSpan}>Change BG Color: {span}</button>
+  <div class="border border-gray-400 p-1" dir={rtl ? "rtl" : "ltr"}>
+    <div class="apply-spacing">
+      <div class="rtl:text-green-600">Green when RTL</div>
+      <Number class="text-blue-500 font-semibold" number={1} />
+      <Number number={2} />
+      <Number number={3} />
+    </div>
+  </div>
+  <button on:click={() => (rtl = !rtl)}
+    >Toggle direction: {rtl ? "Right-to-left" : "Left-to-right"}</button
+  >
 
   <br />
   <br />
 
   <Counter />
 
-  <div class="absolute mt-20px bottom-0">absolute</div>
+  <div class="corner">absolute</div>
 </main>
 
 <style>
   :root {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  }
+  
+  .apply-spacing {
+    --at-apply: flex space-x-1 md:space-x-4 rtl:space-x-reverse;
+  }
+  
+  .corner {
+    --at-apply: absolute flex bottom-2 sm:bottom-6 lg:bottom-10;
   }
 </style>
