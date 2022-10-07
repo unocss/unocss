@@ -1,7 +1,7 @@
 <script lang="ts">
   import { fade, fly } from "svelte/transition";
   import Counter from "./Counter.svelte";
-  import Number from "./Number.svelte";
+  import RightToLeftDependent from "./RightToLeftDependent.svelte";
 
   let logo = false;
   let red = false;
@@ -37,12 +37,7 @@
   <br />
 
   <div class="border border-gray-400 p-1" dir={rtl ? "rtl" : "ltr"}>
-    <div class="apply-spacing">
-      <div class="rtl:text-green-600">Green when RTL</div>
-      <Number class="text-blue-500 font-semibold" number={1} />
-      <Number number={2} />
-      <Number number={3} />
-    </div>
+    <RightToLeftDependent />
   </div>
   <button on:click={() => (rtl = !rtl)}
     >Toggle direction: {rtl ? "Right-to-left" : "Left-to-right"}</button
@@ -60,10 +55,6 @@
   :root {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  }
-  
-  .apply-spacing {
-    --at-apply: flex space-x-1 md:space-x-4 rtl:space-x-reverse;
   }
   
   .corner {
