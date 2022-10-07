@@ -72,7 +72,7 @@ export async function transformSFC(code: string, id: string, uno: UnoGenerator, 
     styles = css
   }
 
-  const matches = [...code.matchAll(/class="([\S\s]+?)"/g)] // class="mb-1"
+  const matches = [...code.matchAll(/class=(["'\`])([\S\s]+?)\1/g)] // class="mb-1"
   const classDirectives = [...code.matchAll(/class:([\S]+?)={/g)] // class:mb-1={foo}
   const classDirectivesShorthand = [...code.matchAll(/class:([^=>\s/]+)[{>\s/]/g)] // class:mb-1 (turns into class:uno-1hashz={mb-1}) if mb-1 is also a variable
 
@@ -83,7 +83,7 @@ export async function transformSFC(code: string, id: string, uno: UnoGenerator, 
     const s = new MagicString(code)
 
     for (const match of matches) {
-      const body = expandVariantGroup(match[1].trim())
+      const body = expandVariantGroup(match[2].trim())
       let classesArr = body.split(/\s+/)
       const start = match.index!
       const replacements = []
