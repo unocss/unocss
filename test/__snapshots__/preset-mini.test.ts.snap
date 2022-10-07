@@ -709,6 +709,7 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .ws-revert{white-space:revert;}
 .break-normal{overflow-wrap:normal;word-break:normal;}
 .break-words{overflow-wrap:break-word;}
+.break-keep{word-break:keep-all;}
 .overflow-auto{overflow:auto;}
 .overflow-inherit{overflow:inherit;}
 .of-x-unset{overflow-x:unset;}
