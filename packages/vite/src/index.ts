@@ -20,6 +20,7 @@ export * from './modes/global'
 export * from './modes/per-module'
 export * from './modes/vue-scoped'
 export * from './modes/svelte-scoped'
+export * from './modes/svelte-scoped-compiled'
 
 export function defineConfig<Theme extends {}>(config: VitePluginConfig<Theme>) {
   return config
