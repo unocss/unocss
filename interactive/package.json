@@ -22,7 +22,7 @@
     "markdown-it-link-attributes": "^4.0.1",
     "nuxt": "3.0.0-rc.11",
     "p-limit": "^4.0.0",
-    "postcss-nested": "^5.0.6",
+    "postcss-nested": "^6.0.0",
     "prettier": "^2.7.1",
     "shiki": "^0.11.1",
     "theme-vitesse": "^0.5.2",

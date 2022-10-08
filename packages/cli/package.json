@@ -54,7 +54,7 @@
     "consola": "^2.15.3",
     "fast-glob": "^3.2.12",
     "magic-string": "^0.26.6",
-    "pathe": "^0.3.8",
+    "pathe": "^0.3.9",
     "perfect-debounce": "^0.1.3"
   }
 }
