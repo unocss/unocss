@@ -27,7 +27,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     attributify: false,
     webFonts: false,
     icons: false,
-    inspector: false,
+    inspector: true,
     wind: false,
   },
   setup(options, nuxt) {

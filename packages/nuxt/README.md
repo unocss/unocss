@@ -42,7 +42,7 @@ export default {
     // presets
     uno: true, // enabled `@unocss/preset-uno`
     icons: true, // enabled `@unocss/preset-icons`
-    inspector: false, // disabled `@unocss/inspector`
+    inspector: true, // enabled `@unocss/inspector`
     attributify: true, // enabled `@unocss/preset-attributify`,
 
     // core options

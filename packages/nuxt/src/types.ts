@@ -60,7 +60,7 @@ export interface UnocssNuxtOptions extends UserConfig {
 
   /**
    * Enables `@unocss/inspector` integration
-   * @default false
+   * @default true
    */
   inspector?: boolean
 
