@@ -4,5 +4,5 @@ packages:
   - interactive
   - 'packages/*'
   - 'test/fixtures/*'
-  - 'examples/vue-cli4'
-  - 'examples/vue-cli5'
+  - examples/vue-cli4
+  - examples/vue-cli5
