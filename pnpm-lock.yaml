@@ -58,6 +58,7 @@ importers:
       '@vueuse/math': ^9.3.0
       brotli-size: ^4.0.0
       bumpp: ^8.2.1
+      chalk: ^5.1.0
       codemirror: ^5.65.9
       codemirror-theme-vars: ^0.1.1
       eslint: 8.25.0
@@ -82,6 +83,7 @@ importers:
       terser: ^5.15.1
       tsup: ^6.2.3
       typescript: ^4.8.4
+      ufo: ^0.8.5
       unbuild: ^0.8.11
       unocss: workspace:*
       unplugin-auto-import: ^0.11.2
@@ -142,6 +144,7 @@ importers:
       '@vueuse/math': 9.3.0_vue@3.2.40
       brotli-size: 4.0.0
       bumpp: 8.2.1
+      chalk: 5.1.0
       codemirror: 5.65.9
       codemirror-theme-vars: 0.1.1
       eslint: 8.25.0
@@ -164,8 +167,9 @@ importers:
       simple-git-hooks: 2.8.0
       splitpanes: 3.1.1
       terser: 5.15.1
-      tsup: 6.2.3_typescript@4.8.4
+      tsup: 6.2.3_64lehftmpdxmnkqestsyufiygi
       typescript: 4.8.4
+      ufo: 0.8.5
       unbuild: 0.8.11
       unocss: link:packages/unocss
       unplugin-auto-import: 0.11.2_@vueuse+core@9.3.0
@@ -2709,7 +2713,7 @@ packages:
     hasBin: true
     dependencies:
       '@nuxt/kit': 3.0.0-rc.11
-      chalk: 5.0.1
+      chalk: 5.1.0
       ci-info: 3.4.0
       consola: 2.15.3
       create-require: 1.1.1
@@ -3628,7 +3632,7 @@ packages:
       '@babel/plugin-syntax-import-meta': 7.10.4_@babel+core@7.19.1
       '@babel/plugin-transform-typescript': 7.19.1_@babel+core@7.19.1
       '@vue/babel-plugin-jsx': 1.1.1_@babel+core@7.19.1
-      vite: 3.1.6
+      vite: 3.1.6_terser@5.15.1
       vue: 3.2.39
     transitivePeerDependencies:
       - supports-color
@@ -3641,7 +3645,7 @@ packages:
       vite: ^3.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 3.1.6
+      vite: 3.1.6_terser@5.15.1
       vue: 3.2.39
     dev: true
 
@@ -6218,11 +6222,6 @@ packages:
     dependencies:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
-    dev: true
-
-  /chalk/5.0.1:
-    resolution: {integrity: sha512-Fo07WOYGqMfCWHOzSXOt2CxDbC6skS/jO9ynEcmpANMoPrD+W1r1K6Vx7iNm+AQmETU1Xr2t+n8nzkV9t6xh3w==}
-    engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
     dev: true
 
   /chalk/5.1.0:
@@ -10849,7 +10848,7 @@ packages:
     engines: {node: '>=12.0.0'}
     dependencies:
       ansi-escapes: 4.3.2
-      chalk: 4.1.1
+      chalk: 4.1.2
       cli-cursor: 3.1.0
       cli-width: 3.0.0
       external-editor: 3.1.0
@@ -10870,7 +10869,7 @@ packages:
     engines: {node: '>=12.0.0'}
     dependencies:
       ansi-escapes: 5.0.0
-      chalk: 5.0.1
+      chalk: 5.1.0
       cli-cursor: 4.0.0
       cli-width: 4.0.0
       external-editor: 3.1.0
@@ -13132,7 +13131,7 @@ packages:
       '@vercel/nft': 0.22.1
       archiver: 5.3.1
       c12: 0.2.13
-      chalk: 5.0.1
+      chalk: 5.1.0
       chokidar: 3.5.3
       consola: 2.15.3
       cookie-es: 0.5.0
@@ -17435,7 +17434,7 @@ packages:
       - ts-node
     dev: true
 
-  /tsup/6.2.3_typescript@4.8.4:
+  /tsup/6.2.3_64lehftmpdxmnkqestsyufiygi:
     resolution: {integrity: sha512-J5Pu2Dx0E1wlpIEsVFv9ryzP1pZ1OYsJ2cBHZ7GrKteytNdzaSz5hmLX7/nAxtypq+jVkVvA79d7S83ETgHQ5w==}
     engines: {node: '>=14'}
     hasBin: true
@@ -17459,7 +17458,8 @@ packages:
       execa: 5.1.1
       globby: 11.1.0
       joycon: 3.1.1
-      postcss-load-config: 3.1.4
+      postcss: 8.4.17
+      postcss-load-config: 3.1.4_postcss@8.4.17
       resolve-from: 5.0.0
       rollup: 2.79.0
       source-map: 0.8.0-beta.0
@@ -17940,7 +17940,7 @@ packages:
       chokidar: 3.5.3
       esbuild: 0.15.10
       rollup: 2.79.1
-      vite: 3.1.6
+      vite: 3.1.6_terser@5.15.1
       webpack-sources: 3.2.3
       webpack-virtual-modules: 0.4.5
     dev: true

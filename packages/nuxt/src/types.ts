@@ -59,6 +59,12 @@ export interface UnocssNuxtOptions extends UserConfig {
   icons?: boolean | IconsOptions
 
   /**
+   * Enables `@unocss/inspector` integration
+   * @default false
+   */
+  inspector?: boolean
+
+  /**
    * Enable web fonts preset and the options of it
    * Only works when `presets` is not specified
    * @default false

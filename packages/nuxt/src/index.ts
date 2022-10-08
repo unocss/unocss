@@ -6,6 +6,8 @@ import VitePlugin from '@unocss/vite'
 import { resolveOptions } from './options'
 import type { UnocssNuxtOptions } from './types'
 
+import { addInspector } from './inspector'
+
 export { UnocssNuxtOptions }
 
 const dir = dirname(fileURLToPath(import.meta.url))
@@ -25,6 +27,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     attributify: false,
     webFonts: false,
     icons: false,
+    inspector: false,
     wind: false,
   },
   setup(options, nuxt) {
@@ -52,6 +55,9 @@ export default defineNuxtModule<UnocssNuxtOptions>({
         watch: false,
       })
     }
+
+    if (options.inspector)
+      addInspector()
 
     nuxt.hook('vite:extend', ({ config }) => {
       config.plugins = config.plugins || []
