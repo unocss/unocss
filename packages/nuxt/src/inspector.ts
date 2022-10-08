@@ -16,7 +16,9 @@ export function addInspector() {
 
       const viewerUrl = `${withoutTrailingSlash(listener.url)}${inspectorRoute}`
 
-      logger.info(`UnoCSS inspector: ${(chalk as any).underline.yellow(withTrailingSlash(viewerUrl))}`)
+      logger.info(`UnoCSS inspector available at: ${
+        (chalk as any).underline.yellow(withTrailingSlash(viewerUrl))
+      }`)
     })
   }
 }
