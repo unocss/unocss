@@ -39,7 +39,7 @@ jobs:
     strategy:
       matrix:
         node: [14.x, 16.x]
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
       fail-fast: false
 
     steps:
