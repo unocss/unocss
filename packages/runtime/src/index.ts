@@ -103,7 +103,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   const userConfig = defaultWindow.__unocss || {}
   const runtimeOptions = Object.assign({}, inlineConfig, userConfig.runtime)
   const userConfigDefaults = runtimeOptions.defaults || {}
-  const cloakAttribute = userConfigDefaults.cloakAttribute ?? 'un-cloak'
+  const cloakAttribute = runtimeOptions.cloakAttribute ?? 'un-cloak'
   if (runtimeOptions.autoPrefix) {
     const postprocessors = userConfigDefaults.postprocess = toArray(userConfigDefaults.postprocess)
     postprocessors.unshift(autoPrefixer(defaultDocument.createElement('div').style))
