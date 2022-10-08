@@ -42,6 +42,6 @@
   },
   "devDependencies": {
     "magic-string": "^0.26.6",
-    "unconfig": "^0.3.6"
+    "unconfig": "^0.3.7"
   }
 }

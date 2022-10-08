@@ -300,18 +300,18 @@ importers:
   packages/config:
     specifiers:
       '@unocss/core': workspace:*
-      unconfig: ^0.3.6
+      unconfig: ^0.3.7
     dependencies:
       '@unocss/core': link:../core
-      unconfig: 0.3.6
+      unconfig: 0.3.7
 
   packages/core:
     specifiers:
       magic-string: ^0.26.6
-      unconfig: ^0.3.6
+      unconfig: ^0.3.7
     devDependencies:
       magic-string: 0.26.6
-      unconfig: 0.3.6
+      unconfig: 0.3.7
 
   packages/extractor-pug:
     specifiers:
@@ -595,7 +595,7 @@ importers:
       jiti: ^1.16.0
       prettier: ^2.7.1
       tsup: ^6.2.3
-      unconfig: ^0.3.6
+      unconfig: ^0.3.7
     devDependencies:
       '@types/vscode': 1.71.0
       '@unocss/nuxt': link:../nuxt
@@ -604,7 +604,7 @@ importers:
       jiti: 1.16.0
       prettier: 2.7.1
       tsup: 6.2.3
-      unconfig: 0.3.6
+      unconfig: 0.3.7
 
   packages/webpack:
     specifiers:
@@ -6565,6 +6565,7 @@ packages:
   /jiti/1.15.0:
     resolution: {integrity: sha512-cClBkETOCVIpPMjX3ULlivuBvmt8l2Xtz+SHrULO06OqdtV0QFR2cuhc4FJnXByjUUX4CY0pl1nph0aFh9D3yA==}
     hasBin: true
+    dev: true
 
   /jiti/1.16.0:
     resolution: {integrity: sha512-L3BJStEf5NAqNuzrpfbN71dp43mYIcBUlCRea/vdyv5dW/AYa1d4bpelko4SHdY3I6eN9Wzyasxirj1/vv5kmg==}
@@ -10458,12 +10459,12 @@ packages:
       - supports-color
     dev: true
 
-  /unconfig/0.3.6:
-    resolution: {integrity: sha512-JWefWyjLrDAbzs30sFkzcE9YpvAhN9+UPMZBwnNUmaY9X7QhI+wCGP4hoEWfZDzvkP+WIaZDPcMUJjarpxFvKg==}
+  /unconfig/0.3.7:
+    resolution: {integrity: sha512-1589b7oGa8ILBYpta7TndM5mLHLzHUqBfhszeZxuUBrjO/RoQ52VGVWsS3w0C0GLNxO9RPmqkf6BmIvBApaRdA==}
     dependencies:
       '@antfu/utils': 0.5.2
       defu: 6.1.0
-      jiti: 1.15.0
+      jiti: 1.16.0
 
   /unctx/2.0.2:
     resolution: {integrity: sha512-3lcXTlDoOaguRVC1GqG3mrawy17yoycSAQDDnUayQYZ17v9to+Gn6Zyssroc/GD2ppJ0wF5V8adOcKkrNKVWow==}
