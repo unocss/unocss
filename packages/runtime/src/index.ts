@@ -13,6 +13,11 @@ export interface RuntimeOptions {
    */
   autoPrefix?: boolean
   /**
+   * Attribute to use as cloaking
+   * @default 'un-cloak'
+   */
+  cloakAttribute?: string
+  /**
    * Callback to modify config
    */
   configResolved?: (config: UserConfig, defaults: UserConfigDefaults) => void
@@ -88,6 +93,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   const config = window.__unocss || {}
   const runtime = config?.runtime
   const defaultConfig = Object.assign(inlineConfig.defaults || {}, runtime)
+  const cloakAttribute = defaultConfig.cloakAttribute ?? 'un-cloak'
   if (runtime?.autoPrefix) {
     let postprocess = defaultConfig.postprocess
     if (!postprocess)
@@ -124,10 +130,10 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
     if (node.nodeType !== 1)
       return
     const el = node as Element
-    if (el.hasAttribute('un-cloak'))
-      el.removeAttribute('un-cloak')
-    el.querySelectorAll('[un-cloak]').forEach((n) => {
-      n.removeAttribute('un-cloak')
+    if (el.hasAttribute(cloakAttribute))
+      el.removeAttribute(cloakAttribute)
+    el.querySelectorAll(`[${cloakAttribute}]`).forEach((n) => {
+      n.removeAttribute(cloakAttribute)
     })
   }
 
@@ -179,15 +185,15 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
       else {
         if (inspector && !inspector(target))
           return
-        if (mutation.attributeName !== 'un-cloak') {
+        if (mutation.attributeName !== cloakAttribute) {
           const attrs = Array.from(target.attributes)
             .map(i => i.value ? `${i.name}="${i.value}"` : i.name)
             .join(' ')
           const tag = `<${target.tagName.toLowerCase()} ${attrs}>`
           await extract(tag)
         }
-        if (target.hasAttribute('un-cloak'))
-          target.removeAttribute('un-cloak')
+        if (target.hasAttribute(cloakAttribute))
+          target.removeAttribute(cloakAttribute)
       }
     })
   })
