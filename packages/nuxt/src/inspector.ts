@@ -1,7 +1,7 @@
 import { useLogger, useNuxt } from '@nuxt/kit'
-import pluginInspector from '@unocss/inspector'
 import { withTrailingSlash, withoutTrailingSlash } from 'ufo'
 import * as chalk from 'chalk'
+import pluginInspector from '../../inspector/node'
 
 export function addInspector() {
   const nuxt = useNuxt()
