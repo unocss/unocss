@@ -83,22 +83,22 @@ describe.concurrent('fixtures', () => {
   it('vue cli 4', async () => {
     const root = resolve(__dirname, '../examples/vue-cli4')
     await fs.emptyDir(join(root, 'dist'))
-    await execa('npm', ['run', 'build'], { stdio: 'inherit', cwd: root })
+    await execa('npm', ['run', 'build'], { stdio: 'ignore', cwd: root })
 
     const css = await getGlobContent(root, 'dist/**/*.css')
 
     expect(css).contains('.w-200px')
     expect(css).contains('[font~=mono]')
-  })
+  }, 60_000)
 
   it('vue cli 5', async () => {
     const root = resolve(__dirname, '../examples/vue-cli5')
     await fs.emptyDir(join(root, 'dist'))
-    await execa('npm', ['run', 'build'], { stdio: 'inherit', cwd: root })
+    await execa('npm', ['run', 'build'], { stdio: 'ignore', cwd: root })
 
     const css = await getGlobContent(root, 'dist/**/*.css')
 
     expect(css).contains('.w-200px')
     expect(css).contains('[font~=mono]')
-  })
+  }, 60_000)
 })
