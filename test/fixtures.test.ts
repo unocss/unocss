@@ -1,8 +1,15 @@
 import { join, resolve } from 'path'
+import { execa } from 'execa'
 import { build } from 'vite'
 import { describe, expect, it } from 'vitest'
 import fs from 'fs-extra'
 import fg from 'fast-glob'
+
+async function getGlobContent(cwd: string, glob: string) {
+  return await fg(glob, { cwd, absolute: true })
+    .then(r => Promise.all(r.map(f => fs.readFile(f, 'utf8'))))
+    .then(r => r.join('\n'))
+}
 
 describe.concurrent('fixtures', () => {
   it('vite client', async () => {
@@ -16,13 +23,8 @@ describe.concurrent('fixtures', () => {
       },
     })
 
-    const css = await fg('dist/**/*.css', { cwd: root, absolute: true })
-      .then(r => Promise.all(r.map(f => fs.readFile(f, 'utf8'))))
-      .then(r => r.join('\n'))
-
-    const js = await fg('dist/**/*.js', { cwd: root, absolute: true })
-      .then(r => Promise.all(r.map(f => fs.readFile(f, 'utf8'))))
-      .then(r => r.join('\n'))
+    const css = await getGlobContent(root, 'dist/**/*.css')
+    const js = await getGlobContent(root, 'dist/**/*.js')
 
     // basic
     expect(css).contains('.text-red')
@@ -76,5 +78,27 @@ describe.concurrent('fixtures', () => {
       // transformer-compile-class
       expect(code).contains('uno-tacwqa')
     }
+  })
+
+  it('vue cli 4', async () => {
+    const root = resolve(__dirname, '../examples/vue-cli4')
+    await fs.emptyDir(join(root, 'dist'))
+    await execa('npm', ['run', 'build'], { stdio: 'inherit', cwd: root })
+
+    const css = await getGlobContent(root, 'dist/**/*.css')
+
+    expect(css).contains('.w-200px')
+    expect(css).contains('[font~=mono]')
+  })
+
+  it('vue cli 5', async () => {
+    const root = resolve(__dirname, '../examples/vue-cli5')
+    await fs.emptyDir(join(root, 'dist'))
+    await execa('npm', ['run', 'build'], { stdio: 'inherit', cwd: root })
+
+    const css = await getGlobContent(root, 'dist/**/*.css')
+
+    expect(css).contains('.w-200px')
+    expect(css).contains('[font~=mono]')
   })
 })
