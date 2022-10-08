@@ -1,5 +1,6 @@
 import type { VariantHandler, VariantHandlerContext, VariantObject } from '@unocss/core'
 import { escapeRegExp } from '@unocss/core'
+import { getComponent } from '../utils'
 
 export const variantMatcher = (name: string, handler: (input: VariantHandlerContext) => Record<string, any>): VariantObject => {
   const re = new RegExp(`^${escapeRegExp(name)}[:-]`)
@@ -40,3 +41,14 @@ export const variantParentMatcher = (name: string, parent: string): VariantObjec
     autocomplete: `${name}:`,
   }
 }
+
+export const variantGetComponent = (name: string, matcher: string): string[] | undefined => {
+  if (matcher.startsWith(`${name}-`)) {
+    const body = matcher.substring(name.length + 1)
+
+    const [match, rest] = getComponent(body, '[', ']', [':', '-']) ?? []
+    if (match && rest && rest !== '')
+      return [match, rest]
+  }
+}
+

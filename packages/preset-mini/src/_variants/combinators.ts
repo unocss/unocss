@@ -1,32 +1,43 @@
-import type { Variant, VariantObject } from '@unocss/core'
+import type { Variant, VariantHandler, VariantObject } from '@unocss/core'
+import { getComponent, handler as h } from '../utils'
 
-const scopeMatcher = (strict: boolean, name: string, template: string): VariantObject => {
-  const re = strict
-    ? new RegExp(`^${name}(?:-\\[(.+?)\\])[:-]`)
-    : new RegExp(`^${name}(?:-\\[(.+?)\\])?[:-]`)
-  return {
-    name: `combinator:${name}`,
-    match: (matcher: string) => {
-      const match = matcher.match(re)
-      if (match) {
-        return {
-          matcher: matcher.slice(match[0].length),
-          selector: s => template.replace('&&-s', s).replace('&&-c', match[1] ?? '*'),
-        }
-      }
-    },
-    multiPass: true,
-  }
-}
+const scopeMatcher = (name: string, combinator: string): VariantObject => ({
+  name: `combinator:${name}`,
+  match: (matcher: string): VariantHandler | undefined => {
+    if (!matcher.startsWith(name))
+      return
+
+    let newMatcher = matcher.substring(name.length + 1)
+    const body = getComponent(newMatcher, '[', ']', [':', '-'])
+
+    if (!body)
+      return
+
+    const [match, rest] = body
+    let bracketValue = h.bracket(match) ?? ''
+
+    if (bracketValue === '') {
+      bracketValue = '*'
+    }
+    else {
+      if (matcher[name.length] !== '-')
+        return
+      if (rest !== '')
+        newMatcher = rest
+    }
+
+    return {
+      matcher: newMatcher,
+      selector: s => `${s}${combinator}${bracketValue}`,
+    }
+  },
+  multiPass: true,
+})
 
 export const variantCombinators: Variant[] = [
-  scopeMatcher(false, 'all', '&&-s &&-c'),
-  scopeMatcher(false, 'children', '&&-s>&&-c'),
-  scopeMatcher(false, 'next', '&&-s+&&-c'),
-  scopeMatcher(false, 'sibling', '&&-s+&&-c'),
-  scopeMatcher(false, 'siblings', '&&-s~&&-c'),
-  scopeMatcher(true, 'group', '&&-c &&-s'),
-  scopeMatcher(true, 'parent', '&&-c>&&-s'),
-  scopeMatcher(true, 'previous', '&&-c+&&-s'),
-  scopeMatcher(true, 'peer', '&&-c~&&-s'),
+  scopeMatcher('all', ' '),
+  scopeMatcher('children', '>'),
+  scopeMatcher('next', '+'),
+  scopeMatcher('sibling', '+'),
+  scopeMatcher('siblings', '~'),
 ]
