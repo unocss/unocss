@@ -1,16 +1,12 @@
 import { useLogger, useNuxt } from '@nuxt/kit'
 import { withTrailingSlash, withoutTrailingSlash } from 'ufo'
 import * as chalk from 'chalk'
-import pluginInspector from '../../inspector/node'
 
 export function addInspector() {
   const nuxt = useNuxt()
-  const inspectorRoute = '/_unocss'
+  const inspectorRoute = '/__unocss'
 
   if (nuxt.options.dev && nuxt.options.builder === '@nuxt/vite-builder') {
-    nuxt.options.vite.plugins = nuxt.options.vite.plugins || []
-    nuxt.options.vite.plugins.push(pluginInspector({} as never))
-
     nuxt.hook('listen', (_, listener) => {
       const logger = useLogger()
 

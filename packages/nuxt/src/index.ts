@@ -61,7 +61,9 @@ export default defineNuxtModule<UnocssNuxtOptions>({
 
     nuxt.hook('vite:extend', ({ config }) => {
       config.plugins = config.plugins || []
-      config.plugins.unshift(...VitePlugin({}, options))
+      config.plugins.unshift(...VitePlugin({
+        inspector: options.inspector,
+      }, options))
     })
 
     extendWebpackConfig((config) => {
