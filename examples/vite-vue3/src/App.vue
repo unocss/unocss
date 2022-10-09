@@ -5,6 +5,6 @@
       Hello UnoCSS + Vue
     </div>
     <div i-custom-icon />
-    <div i-custom-icon-formatted /> <!-- \n has been replaced by empty string -->
+    <div i-custom-multi-line-attr />
   </div>
 </template>
