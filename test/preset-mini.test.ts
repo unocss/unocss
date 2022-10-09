@@ -138,4 +138,18 @@ describe('preset-mini', () => {
     expect(uno.config.theme.fontSize.lg).toEqual(['3rem', '1.5em'])
     expect(css).toMatchSnapshot()
   })
+
+  test('content-raw-[foo]', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ]
+    })
+
+    const { css,matched } = await uno.generate([
+      'content-raw-[foo]',
+      'content-raw-[bar]',
+    ].join(' '), { preflights: false })
+    expect(css).toMatchSnapshot()
+  })
 })
