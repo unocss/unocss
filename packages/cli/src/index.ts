@@ -32,10 +32,9 @@ export async function build(_options: CliOptions) {
   const options = await resolveOptions(_options)
 
   const ctx = createContext<UserConfig>(options.config, defaultConfig)
-  await ctx.ready
+  await ctx.updateRoot(cwd)
 
   const configSources = ctx.getConfigFileList()
-
   const files = await fg(options.patterns, { cwd, absolute: true })
   await Promise.all(
     files.map(async (file) => {
