@@ -1,5 +1,21 @@
 import { defineBuildConfig } from 'unbuild'
 
+const externals = [
+  'ms',
+  'jiti',
+  'unconfig',
+  '@unocss/config',
+  '@unocss/core',
+  'magic-string',
+  '@iconify/types',
+  '@iconify/utils',
+  '@iconify/utils/lib',
+  '@iconify/utils/lib/loader/fs',
+  '@iconify/utils/lib/loader/install-pkg',
+  '@iconify/utils/lib/loader/node-loader',
+  '@iconify/utils/lib/loader/node-loaders',
+]
+
 export default defineBuildConfig({
   entries: [
     'src/index',
@@ -8,16 +24,10 @@ export default defineBuildConfig({
   ],
   clean: true,
   declaration: true,
-  externals: [
-    'ms',
-    '@iconify/types',
-    '@iconify/utils/lib/loader/fs',
-    '@iconify/utils/lib/loader/install-pkg',
-    '@iconify/utils/lib/loader/node-loader',
-    '@iconify/utils/lib/loader/node-loaders',
-  ],
+  externals,
   rollup: {
     emitCJS: true,
+    inlineDependencies: true,
   },
   hooks: {
     'rollup:options': function (ctx, options) {

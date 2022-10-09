@@ -1,6 +1,6 @@
 {
   "name": "@unocss/core",
-  "version": "0.45.22",
+  "version": "0.45.28",
   "description": "The instant on-demand Atomic CSS engine.",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -41,7 +41,7 @@
     "stub": "unbuild --stub"
   },
   "devDependencies": {
-    "magic-string": "^0.26.3",
-    "unconfig": "^0.3.6"
+    "magic-string": "^0.26.6",
+    "unconfig": "^0.3.7"
   }
 }

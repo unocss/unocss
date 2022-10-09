@@ -390,7 +390,7 @@ Let's have a tour of what happened when matching for `hover:m-2`:
 - the result `m-2` will be used for the next round of variants matching
 - if no other variant is matched, `m-2` will then goes to match the rules
 - our first rule get matched and generates `.m-2 { margin: 0.5rem; }`
-- finally, we apply our variants transformation to the generated CSS. In this case, we prepended `:hover` to the `selector` hook
+- finally, we apply our variants' transformation to the generated CSS. In this case, we prepended `:hover` to the `selector` hook
 
 As a result, the following CSS will be generated:
 
@@ -404,7 +404,7 @@ The variant system is very powerful and can't be covered fully in this guide, yo
 
 ### Extend Theme
 
-UnoCSS also supports the theming system that you might be familiar with in Tailwind / Windi. At the user level, you can specify the `theme` property in your config and it will be deep merged to the default theme.
+UnoCSS also supports the theming system that you might be familiar with in Tailwind / Windi. At the user level, you can specify the `theme` property in your config, and it will be deep merged to the default theme.
 
 <!--eslint-skip-->
 
@@ -529,7 +529,7 @@ preprocess(matcher) {
 
 Please note that UnoCSS works **at build time**, meaning only statically presented utilities will be generated and shipped to your app. Utilities that used dynamically or fetched from external resources at runtime might not be applied.
 
-By default UnoCSS will extract the utilities usage from files in your build pipeline with extension `.jsx`, `.tsx`, `.vue`, `.md`, `.html`, `.svelte`, `.astro`. And then generate the CSS on demand.
+By default, UnoCSS will extract the utilities usage from files in your build pipeline with extension `.jsx`, `.tsx`, `.vue`, `.md`, `.html`, `.svelte`, `.astro`. And then generate the CSS on demand.
 
 `.js` and `.ts` files are **NOT included by default**. You can add `@unocss-include`, per-file basis, anywhere in the file that you want UnoCSS to scan, or add `*.js` or `*.ts` in the configuration to include all js/ts files as scan targets. Similarly, you can also add `@unocss-ignore` to bypass the scanning and transforming for a file.
 
@@ -547,7 +547,7 @@ Due the fact that UnoCSS works in build time using static extracting, at the com
 safelist: 'p-1 p-2 p-3 p-4'.split(' ')
 ```
 
-the corresponding CSS will be always generated:
+the corresponding CSS will always be generated:
 
 ```css
 .p-1 { padding: 0.25rem; }

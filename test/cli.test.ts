@@ -90,8 +90,49 @@ export default defineConfig({
       }
     }
   })
-})
 
+  it('supports unocss.config.js cli options', async () => {
+    const testDir = getTestDir()
+    const outFiles = ['./uno1.css', './test/uno2.css']
+    const files = [
+      {
+        path: 'views/index1.html',
+        content: '<div class="bg-blue"></div>',
+      },
+      {
+        path: 'views/index2.html',
+        content: '<div class="bg-red"></div>',
+      },
+      {
+        path: 'unocss.config.js',
+        content: `
+import { defineConfig } from 'unocss'
+export default defineConfig({
+    cli: {
+    entry: [
+      {
+        patterns: ['views/index1.html'],
+        outFile: '${outFiles[0]}',
+      },
+      {
+        patterns: ['views/index2.html'],
+        outFile: '${outFiles[1]}',
+      },
+    ],
+  }
+})
+          `.trim(),
+      },
+    ]
+    await Promise.all(files.map(({ path, content }) => fs.outputFile(resolve(testDir, path), content)))
+    await runAsyncChildProcess(testDir, '', '')
+
+    await sleep(500)
+    const [output1, output2] = await Promise.all(outFiles.map(async file => readFile(testDir, resolve(testDir, file))))
+    expect(output1).toContain('.bg-blue')
+    expect(output2).toContain('.bg-red')
+  })
+})
 // ----- Utils -----
 function sleep(time = 300) {
   return new Promise<void>((resolve) => {

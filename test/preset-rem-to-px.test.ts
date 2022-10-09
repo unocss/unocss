@@ -23,4 +23,17 @@ describe('rem-to-px', () => {
         .gap2{grid-gap:8px;gap:8px;}"
       `)
   })
+
+  test('important prefix should works', async () => {
+    expect((await uno.generate(
+      new Set(['!m4', '!mx2', '!-p2', '!gap2']),
+      { preflights: false })).css)
+      .toMatchInlineSnapshot(`
+        "/* layer: default */
+        .\\\\!-p2{padding:-8px !important;}
+        .\\\\!m4{margin:16px !important;}
+        .\\\\!mx2{margin-left:8px !important;margin-right:8px !important;}
+        .\\\\!gap2{grid-gap:8px !important;gap:8px !important;}"
+      `)
+  })
 })

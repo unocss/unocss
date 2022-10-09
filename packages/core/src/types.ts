@@ -321,7 +321,7 @@ export interface ConfigBase<Theme extends {} = {}> {
 
   /**
    * Rules to exclude the selectors for your design system (to narrow down the possibilities).
-   * Combining `warnExcluded` options it can also helps you identify wrong usages.
+   * Combining `warnExcluded` options it can also help you identify wrong usages.
    */
   blocklist?: BlocklistRule[]
 
@@ -362,7 +362,7 @@ export interface ConfigBase<Theme extends {} = {}> {
   preprocess?: Arrayable<Preprocessor>
 
   /**
-   * Process the generate utils object
+   * Postprocess the generate utils object
    */
   postprocess?: Arrayable<Postprocessor>
 
@@ -512,6 +512,15 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
   envMode?: 'dev' | 'build'
 }
 
+/**
+ * For unocss-cli config
+ */
+export interface CliOptions {
+  cli?: {
+    entry?: CliEntryItem | CliEntryItem[]
+  }
+}
+
 export interface UnocssPluginContext<Config extends UserConfig = UserConfig> {
   ready: Promise<LoadConfigResult<Config>>
   uno: UnoGenerator
@@ -584,7 +593,7 @@ export interface PluginOptions {
   configFile?: string | false
 
   /**
-   * List of files that will also triggers config reloads
+   * List of files that will also trigger config reloads
    */
   configDeps?: string[]
 
@@ -604,7 +613,7 @@ export interface PluginOptions {
   transformers?: SourceCodeTransformer[]
 }
 
-export interface UserConfig<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions, PluginOptions {}
+export interface UserConfig<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions, PluginOptions, CliOptions {}
 export interface UserConfigDefaults<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme> {}
 
 export interface ResolvedConfig extends Omit<
@@ -669,6 +678,11 @@ export type PreparedRule = readonly [
   body: string,
   noMerge: boolean,
 ]
+
+export interface CliEntryItem {
+  patterns: string[]
+  outFile: string
+}
 
 export interface UtilObject {
   selector: string

@@ -1,11 +1,11 @@
 {
   "name": "@unocss/shared-docs",
-  "version": "0.45.22",
+  "version": "0.45.28",
   "private": true,
   "dependencies": {
     "@unocss/autocomplete": "workspace:*",
     "@unocss/core": "workspace:*",
-    "@vue/reactivity": "^3.2.39",
+    "@vue/reactivity": "^3.2.40",
     "fuse.js": "^6.6.2",
     "prettier": "^2.7.1"
   }

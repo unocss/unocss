@@ -249,27 +249,40 @@ You have a `Vite + Svelte` example project on [examples/vite-svelte](https://git
 
 To support `class:foo` and `class:foo={bar}` add the plugin and configure `extractorSvelte` on `extractors` option.
 
-You can use simple rules with `class:`, for example `class:bg-red-500={foo}` or using `shorcuts` to include multiples rules, see `src/routes/__layout.svelte` on linked example project below.
+You can use simple rules with `class:`, for example `class:bg-red-500={foo}` or using `shortcuts` to include multiples rules, see `src/routes/+layout.svelte` on linked example project below.
 
 ```ts
 // vite.config.js
 import { sveltekit } from '@sveltejs/kit/vite'
-import UnoCss from 'unocss/vite'
+import UnoCSS from 'unocss/vite'
 import { extractorSvelte } from '@unocss/core'
 
 /** @type {import('vite').UserConfig} */
 const config = {
   plugins: [
-    sveltekit(),
-    UnoCss({
+    UnoCSS({
       extractors: [extractorSvelte],
       /* more options */
     }),
+    sveltekit(),
   ],
 }
 ```
 
 You have a `SvelteKit` example project on [examples/sveltekit](https://github.com/unocss/unocss/tree/main/examples/sveltekit) directory.
+
+### Svelte/SvelteKit Scoped Mode
+
+Adding `mode: 'svelte-scoped'` to your UnoCSS config options will place styles right inside of each component's style block instead of in a global `uno.css` file. Because there is no `import 'uno.css'` in your root `+layout.svelte` preflights and safelist classes have no where to be placed. Add the `uno:preflights` or `uno:safelist` attributes to the style block of any component where you want to place them. To use both globally, add the following to your root `+layout.svelte`: 
+
+```html
+<style uno:preflights uno:safelist global></style>
+```
+
+Alternatively, if you only want them to apply to a specific component just add them to that component's `style` tag and don't add the `global` attribute.
+
+You have a `SvelteKit scoped` example project on [examples/sveltekit-scoped](https://github.com/unocss/unocss/tree/main/examples/sveltekit-scoped) directory.
+
 
 ### Web Components
 
