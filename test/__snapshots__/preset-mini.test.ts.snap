@@ -1,5 +1,11 @@
 // Vitest Snapshot v1
 
+exports[`preset-mini > content-raw-[foo] 1`] = `
+"/* layer: default */
+.content-raw-\\\\[bar\\\\]{content:\\"bar\\";}
+.content-raw-\\\\[foo\\\\]{content:\\"foo\\";}"
+`;
+
 exports[`preset-mini > custom var prefix 1`] = `
 "/* layer: default */
 .text-red{--hi-text-opacity:1;color:rgba(248,113,113,var(--hi-text-opacity));}
