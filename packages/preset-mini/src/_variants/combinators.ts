@@ -25,8 +25,4 @@ export const variantCombinators: Variant[] = [
   scopeMatcher(false, 'next', '&&-s+&&-c'),
   scopeMatcher(false, 'sibling', '&&-s+&&-c'),
   scopeMatcher(false, 'siblings', '&&-s~&&-c'),
-  scopeMatcher(true, 'group', '&&-c &&-s'),
-  scopeMatcher(true, 'parent', '&&-c>&&-s'),
-  scopeMatcher(true, 'previous', '&&-c+&&-s'),
-  scopeMatcher(true, 'peer', '&&-c~&&-s'),
 ]

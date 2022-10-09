@@ -50,11 +50,7 @@ exports[`preset-mini > targets 1`] = `
 .all-\\\\[\\\\.target\\\\]-\\\\[combinator\\\\:test-2\\\\] .target,
 .children-\\\\[\\\\.target\\\\]-\\\\[combinator\\\\:test-2\\\\]>.target,
 .next-\\\\[\\\\.target\\\\]-\\\\[combinator\\\\:test-2\\\\]+.target{combinator:test-2;}
-.scope .group-\\\\[\\\\.scope\\\\]-\\\\[combinator\\\\:test-3\\\\],
-.scope+.previous-\\\\[\\\\.scope\\\\]-\\\\[combinator\\\\:test-3\\\\],
-.scope>.parent-\\\\[\\\\.scope\\\\]-\\\\[combinator\\\\:test-3\\\\]{combinator:test-3;}
-.sibling-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]+div:hover,
-div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combinator:test-4;}
+.sibling-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]+div:hover{combinator:test-4;}
 .-p-px{padding:-1px;}
 .\\\\!p-5px{padding:5px !important;}
 .first\\\\:p-2:first-child,
@@ -161,7 +157,7 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .hover\\\\:not-first\\\\:checked\\\\:bg-red\\\\/10:checked:not(:first-child):hover{background-color:rgba(248,113,113,0.1);}
 .marker\\\\:bg-violet-200::marker{--un-bg-opacity:1;background-color:rgba(221,214,254,var(--un-bg-opacity));}
 .peer:checked~.peer-checked\\\\:bg-blue-500{--un-bg-opacity:1;background-color:rgba(59,130,246,var(--un-bg-opacity));}
-.previous:checked+.previous-checked\\\\:bg-red-500{--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));}
+.previous\\\\<label\\\\>:checked+.previous\\\\<label\\\\>-checked\\\\:bg-red-500{--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));}
 .bg-opacity-45{--un-bg-opacity:0.45;}
 .all-\\\\[svg\\\\]\\\\:fill-red svg{--un-fill-opacity:1;fill:rgba(248,113,113,var(--un-fill-opacity));}
 .fill-\\\\[\\\\#123\\\\]{--un-fill-opacity:1;fill:rgba(17,34,51,var(--un-fill-opacity));}
@@ -322,6 +318,8 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .text-lg{font-size:1.125rem;line-height:1.75rem;}
 .text-size-\\\\$variable{font-size:var(--variable);}
 .text-size-unset{font-size:unset;}
+.as-parent .group .group-\\\\[\\\\.as-parent_\\\\&\\\\]\\\\:font-13{font-weight:13;}
+.as-parent .group\\\\<label\\\\> .group\\\\<label\\\\>-\\\\[\\\\.as-parent_\\\\&\\\\]\\\\:font-18{font-weight:18;}
 .font-050,
 .font-50,
 .fw-050,
@@ -330,6 +328,12 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .fw-900{font-weight:900;}
 .font-inherit{font-weight:inherit;}
 .font-thin{font-weight:100;}
+.group:hover .group-\\\\[\\\\:hover\\\\]\\\\:font-11{font-weight:11;}
+.group.not-parent .group-\\\\[\\\\.not-parent\\\\]\\\\:font-14{font-weight:14;}
+.group[data-attr] .group-\\\\[\\\\[data-attr\\\\]\\\\]\\\\:font-12{font-weight:12;}
+.group\\\\<label\\\\>:hover .group\\\\<label\\\\>-\\\\[\\\\:hover\\\\]\\\\:font-16{font-weight:16;}
+.group\\\\<label\\\\>.not-parent .group\\\\<label\\\\>-\\\\[\\\\.not-parent\\\\]\\\\:font-19{font-weight:19;}
+.group\\\\<label\\\\>[data-attr] .group\\\\<label\\\\>-\\\\[\\\\[data-attr\\\\]\\\\]\\\\:font-17{font-weight:17;}
 .font-leading-2,
 .leading-2{line-height:0.5rem;}
 .leading-\\\\$variable,

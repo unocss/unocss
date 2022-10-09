@@ -875,11 +875,7 @@ export const presetMiniTargets: string[] = [
   'all-[.target]-[combinator:test-2]',
   'children-[.target]-[combinator:test-2]',
   'next-[.target]-[combinator:test-2]',
-  'group-[.scope]-[combinator:test-3]',
-  'parent-[.scope]-[combinator:test-3]',
-  'previous-[.scope]-[combinator:test-3]',
   'sibling-[div:hover]-[combinator:test-4]',
-  'group-[div:hover]-[combinator:test-4]',
   'all-[svg]:fill-red',
 
   // variants combinators
@@ -964,7 +960,15 @@ export const presetMiniTargets: string[] = [
   'group-focus:p-4',
   'peer-checked:bg-blue-500',
   'parent-hover:text-center',
-  'previous-checked:bg-red-500',
+  'previous<label>-checked:bg-red-500',
+  'group-[:hover]:font-11',
+  'group-[[data-attr]]:font-12',
+  'group-[.as-parent_&]:font-13',
+  'group-[.not-parent]:font-14',
+  'group<label>-[:hover]:font-16',
+  'group<label>-[[data-attr]]:font-17',
+  'group<label>-[.as-parent_&]:font-18',
+  'group<label>-[.not-parent]:font-19',
 
   // variants - variables
   '[&:nth-child(2)]:m-10',

@@ -1,6 +1,7 @@
 import type { VariantObject } from '@unocss/core'
-import { escapeRegExp } from '@unocss/core'
+import { escapeRegExp, escapeSelector } from '@unocss/core'
 import type { PresetMiniOptions } from '..'
+import { getComponent, handler as h } from '../_utils'
 
 const PseudoClasses: Record<string, string> = Object.fromEntries([
   // pseudo elements part 1
@@ -82,23 +83,54 @@ const sortValue = (pseudo: string) => {
 }
 
 const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: string): VariantObject => {
-  const rawRe = new RegExp(`^(${escapeRegExp(parent)}:)(\\S+)${escapeRegExp(combinator)}\\1`)
-  const pseudoRE = new RegExp(`^${tag}-((?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesStr}))[:-]`)
-  const pseudoColonRE = new RegExp(`^${tag}-((?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesColonStr}))[:]`)
+  const rawRe = new RegExp(`^(${escapeRegExp(parent)}(?:<[^>]+>)?:)(\\S+)${escapeRegExp(combinator)}\\1`)
+  const maybeWithBracketRE = new RegExp(`^${tag}(?:<[^>]+>)?-\\[`)
+  const pseudoRE = new RegExp(`^${tag}(<[^>]+>)?-(?:(?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesStr}))[:-]`)
+  const pseudoColonRE = new RegExp(`^${tag}(<[^>]+>)?-(?:(?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesColonStr}))[:]`)
   return {
     name: `pseudo:${tag}`,
     match(input: string) {
-      const match = input.match(pseudoRE) || input.match(pseudoColonRE)
-      if (match) {
-        let pseudo = PseudoClasses[match[3]] || PseudoClassesColon[match[3]] || `:${match[3]}`
-        if (match[2])
-          pseudo = `:${match[2]}(${pseudo})`
+      if (!input.startsWith(tag))
+        return
+
+      if (input.match(maybeWithBracketRE)) {
+        let newMatcher = input.substring(tag.length)
+        const [label, afterLabel] = getComponent(newMatcher, '<', '>', '-') ?? ['', newMatcher.slice(1)]
+        const body = getComponent(afterLabel, '[', ']', [':', '-'])
+
+        if (!body)
+          return
+
+        const [match, rest] = body
+        const bracketValue = h.bracket(match)
+
+        if (bracketValue == null)
+          return
+
+        let prefix = `${parent}${escapeSelector(label)}`
+        prefix = bracketValue.includes('&') ? bracketValue.replace(/&/g, prefix) : `${prefix}${bracketValue}`
+
         return {
-          matcher: input.slice(match[0].length),
+          matcher: input.slice(input.length - rest.length),
           handle: (input, next) => next({
             ...input,
-            prefix: `${parent}${pseudo}${combinator}${input.prefix}`.replace(rawRe, '$1$2:'),
-            sort: sortValue(match[3]),
+            prefix: `${prefix}${combinator}${input.prefix}`.replace(rawRe, '$1$2:'),
+          }),
+        }
+      }
+
+      const match = input.match(pseudoRE) || input.match(pseudoColonRE)
+      if (match) {
+        const [original, label = '', fn, pseudoKey] = match
+        let pseudo = PseudoClasses[pseudoKey] || PseudoClassesColon[pseudoKey] || `:${pseudoKey}`
+        if (fn)
+          pseudo = `:${fn}(${pseudo})`
+        return {
+          matcher: input.slice(original.length),
+          handle: (input, next) => next({
+            ...input,
+            prefix: `${parent}${escapeSelector(label)}${pseudo}${combinator}${input.prefix}`.replace(rawRe, '$1$2:'),
+            sort: sortValue(pseudoKey),
           }),
         }
       }
