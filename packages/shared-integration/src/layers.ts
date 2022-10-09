@@ -3,7 +3,9 @@ export const VIRTUAL_ENTRY_ALIAS = [
 ]
 export const LAYER_MARK_ALL = '__ALL__'
 
-const RESOLVED_ID_WITH_QUERY_RE = /\/__uno(?:(_.*?))?\.css(\?.*)?$/
+export const RESOLVED_ID_WITH_QUERY_RE = /[\/\\]__uno(?:(_.*?))?\.css(\?.*)?$/
+export const RESOLVED_ID_RE = /[\/\\]__uno(?:(_.*?))?\.css$/
+
 export function resolveId(id: string) {
   if (id.match(RESOLVED_ID_WITH_QUERY_RE))
     return id
@@ -17,8 +19,6 @@ export function resolveId(id: string) {
     }
   }
 }
-
-export const RESOLVED_ID_RE = /\/__uno(?:(_.*?))?\.css$/
 
 export function resolveLayer(id: string) {
   const match = id.match(RESOLVED_ID_RE)
