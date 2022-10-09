@@ -130,8 +130,8 @@ function bracketWithType(str: string, requiredType?: string) {
       case 'string': return base
         .replace(/(^|[^\\])_/g, '$1 ')
         .replace(/\\_/g, '_')
-        .replace(/'/g, "\'")
-        .replace(/^(.+)$/, "'$1'")
+        .replace(/(['\\])/g, '\\$1')
+        .replace(/^(.+)$/, '\'$1\'')
     }
 
     return base

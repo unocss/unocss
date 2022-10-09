@@ -40,8 +40,8 @@ describe('value handler', () => {
   })
 
   it('bracket string-type', () => {
-    expect(h.bracket('[string:a_b]')).eql("'a b'")
-    expect(h.bracket('[string:a\\_b]')).eql("'a_b'")
-    expect(h.bracket('[string:with-\'-and-"]')).eql("'with-\'-and-\"'")
+    expect(h.bracket('[string:a_b]')).eql('\'a b\'')
+    expect(h.bracket('[string:a\\_b]')).eql('\'a_b\'')
+    expect(h.bracket('[string:with-\\,-\'-and-"]')).eql('\'with-\\\\,-\\\'-and-"\'')
   })
 })
