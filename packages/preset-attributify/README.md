@@ -119,6 +119,8 @@ presetAttributify({
 
 ## TypeScript Support (JSX/TSX)
 
+⚠️ Use with caution, those codes may cause your editor's TS language service to slow down.
+
 Create `shims.d.ts` with the following content:
 
 > By default, the type includes common attributes from `@unocss/preset-uno`. If you need custom attributes, refer to the [type source](https://github.com/antfu/unocss/blob/main/packages/preset-attributify/src/jsx.ts) to implement your own type.
