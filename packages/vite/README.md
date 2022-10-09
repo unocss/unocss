@@ -273,7 +273,11 @@ You have a `SvelteKit` example project on [examples/sveltekit](https://github.co
 
 ### Svelte/SvelteKit Scoped Mode
 
-Adding `mode: 'svelte-scoped'` to your UnoCSS config options will place styles right inside of each component's style block instead of in a global `uno.css` file. Because there is no `import 'uno.css'` in your root `+layout.svelte` preflights and safelist classes have no where to be placed. Add the `uno:preflights` or `uno:safelist` attributes to the style block of any component where you want to place them. To use both globally, add the following to your root `+layout.svelte`: 
+Adding `mode: 'svelte-scoped'` to your UnoCSS config options will place styles right inside of each component's style block instead of in a global `uno.css` file. Due to automatic class name compilation, classes that dependent on attributes in parent components (like `dir="rtl"` or `.dark`) will just work. Also, you can pass class to children components as long as you pass them using a prop named `class`, e.g. `class="text-lg bg-red-100"`. 
+
+Support for `class:foo` and `class:foo={bar}` is already included. There is no need to add the `extractorSvelte` when using `svelte-scoped` mode.
+
+Because there is no `import 'uno.css'` in your root `+layout.svelte` preflights and safelist classes have no where to be placed. Add the `uno:preflights` or `uno:safelist` attributes to the style block of any component where you want to place them. To use both globally, add the following to your root `+layout.svelte`: 
 
 ```html
 <style uno:preflights uno:safelist global></style>
@@ -282,7 +286,6 @@ Adding `mode: 'svelte-scoped'` to your UnoCSS config options will place styles r
 Alternatively, if you only want them to apply to a specific component just add them to that component's `style` tag and don't add the `global` attribute.
 
 You have a `SvelteKit scoped` example project on [examples/sveltekit-scoped](https://github.com/unocss/unocss/tree/main/examples/sveltekit-scoped) directory.
-
 
 ### Web Components
 
