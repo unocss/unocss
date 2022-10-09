@@ -16,12 +16,11 @@ export interface VitePluginConfig<Theme extends {} = {}> extends UserConfig<Them
    * - `per-module` - generate a CSS sheet for each module, can be scoped
    * - `vue-scoped` - inject generated CSS to Vue SFC's `<style scoped>` for isolation
    * - `svelte-scoped` - inject generated CSS to Svelte's `<style>` for isolation
-   * - `svelte-scoped-compiled` - inject generated CSS to Svelte's `<style>` for isolation using compiled class names
    * - `shadow-dom` - inject generated CSS to `Shadow DOM` css style block for each web component
    *
    * @default 'global'
    */
-  mode?: 'global' | 'per-module' | 'vue-scoped' | 'svelte-scoped' | 'svelte-scoped-compiled' | 'dist-chunk' | 'shadow-dom'
+  mode?: 'global' | 'per-module' | 'vue-scoped' | 'svelte-scoped' | 'dist-chunk' | 'shadow-dom'
   /**
    * Transform CSS for `@apply` directive
    *

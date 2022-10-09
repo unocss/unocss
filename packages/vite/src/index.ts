@@ -7,7 +7,6 @@ import { GlobalModeDevPlugin, GlobalModePlugin } from './modes/global'
 import { PerModuleModePlugin } from './modes/per-module'
 import { VueScopedPlugin } from './modes/vue-scoped'
 import { SvelteScopedPlugin } from './modes/svelte-scoped'
-import { SvelteScopedCompiledPlugin } from './modes/svelte-scoped-compiled'
 import { ShadowDomModuleModePlugin } from './modes/shadow-dom'
 import { ConfigHMRPlugin } from './config-hmr'
 import type { VitePluginConfig } from './types'
@@ -20,7 +19,6 @@ export * from './modes/global'
 export * from './modes/per-module'
 export * from './modes/vue-scoped'
 export * from './modes/svelte-scoped'
-export * from './modes/svelte-scoped-compiled'
 
 export function defineConfig<Theme extends {}>(config: VitePluginConfig<Theme>) {
   return config
@@ -51,9 +49,6 @@ export default function UnocssPlugin<Theme extends {}>(
   }
   else if (mode === 'svelte-scoped') {
     plugins.push(SvelteScopedPlugin(ctx))
-  }
-  else if (mode === 'svelte-scoped-compiled') {
-    plugins.push(SvelteScopedCompiledPlugin(ctx))
   }
   else if (mode === 'shadow-dom') {
     plugins.push(ShadowDomModuleModePlugin(ctx))

@@ -2,13 +2,13 @@ import type { Plugin } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
 import { type UnoGenerator, type UnocssPluginContext, expandVariantGroup } from '@unocss/core'
 import MagicString from 'magic-string'
-import { defaultExclude } from '../integration'
+import { defaultExclude } from '../../integration'
 
-export function SvelteScopedCompiledPlugin({ ready, uno }: UnocssPluginContext): Plugin {
+export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin {
   let filter = createFilter([/\.svelte$/], defaultExclude)
 
   return {
-    name: 'unocss:svelte-scoped-compiled',
+    name: 'unocss:svelte-scoped',
     enforce: 'pre',
     async configResolved() {
       const { config } = await ready

@@ -3,9 +3,9 @@ import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import presetIcons from '@unocss/preset-icons'
 
-import { transformSFC } from '../packages/vite/src/modes/svelte-scoped-compiled'
+import { transformSFC } from '../packages/vite/src/modes/svelte-scoped'
 
-describe('svelte-scoped-compiled', () => {
+describe('svelte-scoped', () => {
   const uno = createGenerator({
     presets: [
       presetUno(),

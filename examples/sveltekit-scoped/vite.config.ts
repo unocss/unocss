@@ -8,7 +8,7 @@ import transformerDirective from '@unocss/transformer-directives'
 export default defineConfig({
   plugins: [
     UnoCSS({
-      mode: 'svelte-scoped-compiled',
+      mode: 'svelte-scoped',
       shortcuts: [
         { logo: 'i-logos:svelte-icon w-6em h-6em transform transition-800 hover:rotate-180' },
       ],
