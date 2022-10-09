@@ -399,6 +399,10 @@ exports[`preset-wind > targets 1`] = `
 .backdrop-filter-revert{-webkit-backdrop-filter:revert;backdrop-filter:revert;}
 .placeholder-inherit::placeholder{color:inherit;}
 .placeholder-red-400::placeholder{--un-placeholder-opacity:1;color:rgba(248,113,113,var(--un-placeholder-opacity));}
+@media (hover: hover) and (pointer: fine){
+.\\\\@hover-text-red:hover{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
+[open] .\\\\@hover\\\\:\\\\[\\\\[open\\\\]_\\\\&\\\\]\\\\:text-blue:hover{--un-text-opacity:1;color:rgba(96,165,250,var(--un-text-opacity));}
+}
 @media (orientation: landscape){
 .landscape\\\\:hidden{display:none;}
 }
