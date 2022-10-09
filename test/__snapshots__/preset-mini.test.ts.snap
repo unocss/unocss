@@ -2,8 +2,8 @@
 
 exports[`preset-mini > content-raw-[foo] 1`] = `
 "/* layer: default */
-.content-raw-\\\\[bar\\\\]{content:\\"bar\\";}
-.content-raw-\\\\[foo\\\\]{content:\\"foo\\";}"
+.content-raw-\\\\[bar\\\\]{content:bar;}
+.content-raw-\\\\[foo\\\\]{content:foo;}"
 `;
 
 exports[`preset-mini > custom var prefix 1`] = `
