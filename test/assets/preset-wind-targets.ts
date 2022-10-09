@@ -366,6 +366,9 @@ export const presetWindTargets: string[] = [
   // variants combinators
   'svg:fill-red',
 
+  // variants supports: grid
+  'supports-grid:block',
+
   // variants media: contrasts, motions, orientations
   'contrast-more:bg-black',
   'uno-layer-_pre:contrast-less:bg-gray-3',

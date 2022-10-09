@@ -13,4 +13,7 @@ module.exports = {
       cache: false,
     })
   },
+  css: {
+    extract: true,
+  },
 }
