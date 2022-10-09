@@ -44,7 +44,13 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 
 ## Installation
 
-[Vite](https://github.com/unocss/unocss/blob/main/packages/vite) | [Nuxt](https://github.com/unocss/unocss/blob/main/packages/nuxt) | [Astro](https://github.com/unocss/unocss/blob/main/packages/astro) | [Webpack](https://github.com/unocss/unocss/blob/main/packages/webpack) | [CDN Runtime](https://github.com/unocss/unocss/blob/main/packages/runtime) | [CLI](https://github.com/unocss/unocss/blob/main/packages/cli) | [VS Code extension](https://github.com/unocss/unocss/blob/main/packages/vscode)
+- [Vite](https://github.com/unocss/unocss/blob/main/packages/vite)
+- [Nuxt](https://github.com/unocss/unocss/blob/main/packages/nuxt)
+- [Astro](https://github.com/unocss/unocss/blob/main/packages/astro)
+- [Webpack](https://github.com/unocss/unocss/blob/main/packages/webpack)
+- [CDN Runtime](https://github.com/unocss/unocss/blob/main/packages/runtime)
+- [CLI](https://github.com/unocss/unocss/blob/main/packages/cli)
+- [VS Code extension](https://github.com/unocss/unocss/blob/main/packages/vscode)
 
 ## Configurations
 
@@ -73,7 +79,7 @@ Presets are the heart of UnoCSS. They let you make your own custom framework in 
 - [unocss-preset-scalpel](https://github.com/macheteHot/unocss-preset-scalpel) - Scalpel Preset by [@macheteHot](https://github.com/macheteHot/).
 - [unocss-preset-chroma](https://github.com/chu121su12/unocss-preset-chroma) - Gradient Preset by [@chu121su12](https://github.com/chu121su12).
 - [unocss-preset-scrollbar](https://github.com/action-hong/unocss-preset-scrollbar) - Scrollbar Preset by [@action-hong](https://github.com/action-hong).
-- [unocss-applet](https://github.com/unocss-applet/unocss-applet) - Using UnoCSS in applet(for UniApp and Taro) to be compatible with unsupported syntax by [@zguolee](https://github.com/zguolee).
+- [unocss-applet](https://github.com/unocss-applet/unocss-applet) - Using UnoCSS in applet (UniApp / Taro) by [@zguolee](https://github.com/zguolee).
 - [unocss-preset-weapp](https://github.com/MellowCo/unocss-preset-weapp) - Wechat MiniProgram Preset for [UniApp](https://uniapp.dcloud.io) and [Taro](https://taro-docs.jd.com/taro/docs) by [@MellowCo](https://github.com/MellowCo).
 - [unocss-preset-heropatterns](https://github.com/Julien-R44/unocss-preset-heropatterns) - Preset that integrates [Hero Patterns](https://heropatterns.com/) by [@Julien-R44](https://github.com/Julien-R44).
 - [unocss-preset-flowbite](https://github.com/Julien-R44/unocss-preset-flowbite) - Port of of [Flowbite Tailwind plugin](https://github.com/themesberg/flowbite) for UnoCSS by [@Julien-R44](https://github.com/Julien-R44).
