@@ -1,9 +1,13 @@
+import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import UnoCSS from 'unocss/vite'
 import presetAttributify from '@unocss/preset-attributify'
 import presetIcons from '@unocss/preset-icons'
 import presetUno from '@unocss/preset-uno'
+import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
+
+const iconDirectory = resolve(__dirname, 'icons')
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -20,6 +24,9 @@ export default defineConfig({
           extraProperties: {
             'display': 'inline-block',
             'vertical-align': 'middle',
+          },
+          collections: {
+            custom: FileSystemIconLoader(iconDirectory),
           },
         }),
       ],

@@ -405,11 +405,11 @@ importers:
   packages/preset-icons:
     specifiers:
       '@iconify/types': ^2.0.0
-      '@iconify/utils': ^2.0.0
+      '@iconify/utils': ^2.0.1
       '@unocss/core': workspace:*
       ohmyfetch: ^0.4.19
     dependencies:
-      '@iconify/utils': 2.0.0
+      '@iconify/utils': 2.0.1
       '@unocss/core': link:../core
       ohmyfetch: 0.4.19
     devDependencies:
@@ -2467,8 +2467,8 @@ packages:
   /@iconify/types/2.0.0:
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
 
-  /@iconify/utils/2.0.0:
-    resolution: {integrity: sha512-thvwZ6m3frWJiOYwRdHPSPGC25rmyvDl0vXdQ8ocRJZx31m8Pn4y7V1mTc5UReR6MiAj+hrV2UPZQjx7zI960g==}
+  /@iconify/utils/2.0.1:
+    resolution: {integrity: sha512-t8IyICk25wgZL4YKn/2kYfjG5MGA6EWZlaUJZ1OEIku4V+kX9V900T5E4HIqS3hLyD6/RJET0zY4vxO9pHLHHw==}
     dependencies:
       '@antfu/install-pkg': 0.1.0
       '@antfu/utils': 0.5.2
