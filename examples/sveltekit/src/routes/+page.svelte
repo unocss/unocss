@@ -1,7 +1,6 @@
 <script lang="ts">
-  import 'uno.css'
-	import Counter from '$lib/components/Counter.svelte'
-	import Go from '$lib/components/Go.svelte'
+	import Counter from './Counter.svelte'
+	import Go from './Go.svelte'
 </script>
 
 <Counter /><br/>

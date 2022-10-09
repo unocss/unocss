@@ -2,6 +2,7 @@
 export * from './breakpoints'
 export * from './combinators'
 export * from './media'
+export * from './supports'
 export * from './dark'
 export * from './default'
 export * from './directions'

@@ -24,6 +24,10 @@ const languageIds = [
   'typescriptreact',
   'vue-html',
   'vue',
+  'sass',
+  'scss',
+  'less',
+  'stylus',
 ]
 const delimiters = ['-', ':']
 

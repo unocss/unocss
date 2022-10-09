@@ -36,4 +36,15 @@ describe('variant-group', () => {
   test('square bracket case2', async () => {
     expect(expandVariantGroup('[&]:(a-b c-d)')).toEqual('[&]:a-b [&]:c-d')
   })
+
+  test('expand with space', async () => {
+    const shortcut = '  a:(b:(c-d d-c)) '
+    expect(expandVariantGroup(shortcut)).toEqual('  a:b:c-d a:b:d-c ')
+    expect(expandVariantGroup(shortcut.trim()).split(/\s+/g)).toMatchInlineSnapshot(`
+      [
+        "a:b:c-d",
+        "a:b:d-c",
+      ]
+    `)
+  })
 })

@@ -709,6 +709,7 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .ws-revert{white-space:revert;}
 .break-normal{overflow-wrap:normal;word-break:normal;}
 .break-words{overflow-wrap:break-word;}
+.break-keep{word-break:keep-all;}
 .overflow-auto{overflow:auto;}
 .overflow-inherit{overflow:inherit;}
 .of-x-unset{overflow-x:unset;}
@@ -916,6 +917,9 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 @media print{
 .print\\\\:block{display:block;}
 .print\\\\:link\\\\:\\\\!underline:link{text-decoration-line:underline !important;}
+}
+@supports (display: grid){
+.supports-\\\\[\\\\(display\\\\:_grid\\\\)\\\\]\\\\:block{display:block;}
 }
 @supports(display:grid){
 .\\\\[\\\\@supports\\\\(display\\\\:grid\\\\)\\\\]\\\\:bg-red\\\\/33{background-color:rgba(248,113,113,0.33);}

@@ -1,9 +1,9 @@
-<script>
+<script lang="ts">
 	import { goto } from "$app/navigation"
 
 	let name = ''
 
-	let input
+	let input: HTMLInputElement;
 
 	function go() {
 		if (name) {
