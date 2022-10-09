@@ -612,8 +612,8 @@ export const presetMiniTargets: string[] = [
   'content-none',
   'content-[!]',
   'content-[unocss]',
-  'content-[attr(dashed-attr)]',
-  'content-[attr(underlined_attr)]',
+  'content-raw-[attr(dashed-attr)]',
+  'content-raw-[attr(underlined_attr)]',
   'content-$unocss-var',
 
   // content visibility
