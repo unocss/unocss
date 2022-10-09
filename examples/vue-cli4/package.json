@@ -11,7 +11,7 @@
     "@unocss/webpack": "link:../../packages/webpack",
     "@vue/cli-plugin-babel": "~4.5.15",
     "@vue/cli-service": "~4.5.15",
-    "unocss": "^0.45.26",
+    "unocss": "link:../../packages/unocss",
     "vue-template-compiler": "^2.7.10"
   }
 }
