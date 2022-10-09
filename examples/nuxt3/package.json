@@ -6,11 +6,11 @@
     "start": "node .output/server/index.mjs"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "^1.1.7",
+    "@iconify-json/carbon": "^1.1.8",
     "@unocss/core": "link:../../packages/core",
     "@unocss/nuxt": "link:../../packages/nuxt",
     "@unocss/reset": "link:../../packages/reset",
-    "nuxt": "^3.0.0-rc.9",
+    "nuxt": "^3.0.0-rc.11",
     "unocss": "link:../../packages/unocss"
   }
 }
