@@ -91,16 +91,21 @@ export function fraction(str: string) {
     return `${round(num * 100)}%`
 }
 
-const bracketTypeRe = /^\[(color|length|position):/i
-function bracketWithType(str: string, type?: string) {
+const bracketTypeRe = /^\[(color|length|position|raw|string):/i
+function bracketWithType(str: string, requiredType?: string) {
   if (str && str.startsWith('[') && str.endsWith(']')) {
     let base: string | undefined
+    let hintedType: string | undefined
 
     const match = str.match(bracketTypeRe)
-    if (!match)
+    if (!match) {
       base = str.slice(1, -1)
-    else if (type && match[1] === type)
+    }
+    else {
+      if (!requiredType)
+        hintedType = match[1]
       base = str.slice(match[0].length, -1)
+    }
 
     if (!base)
       return
@@ -119,9 +124,19 @@ function bracketWithType(str: string, type?: string) {
     if (curly)
       return
 
+    switch (hintedType) {
+      case 'raw': return base
+
+      case 'string': return base
+        .replace(/(^|[^\\])_/g, '$1 ')
+        .replace(/\\_/g, '_')
+        .replace(/(['\\])/g, '\\$1')
+        .replace(/^(.+)$/, '\'$1\'')
+    }
+
     return base
       .replace(/(url\(.*?\))/g, v => v.replace(/_/g, '\\_'))
-      .replace(/([^\\])_/g, '$1 ')
+      .replace(/(^|[^\\])_/g, '$1 ')
       .replace(/\\_/g, '_')
       .replace(/(?:calc|clamp|max|min)\((.*)/g, (v) => {
         return v.replace(/(-?\d*\.?\d(?!\b-.+[,)](?![^+\-/*])\D)(?:%|[a-z]+)?|\))([+\-/*])/g, '$1 $2 ')
