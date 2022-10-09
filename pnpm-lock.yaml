@@ -198,7 +198,7 @@ importers:
       fs-extra: 10.1.0
       local-pkg: 0.4.2
       postcss: 8.4.17
-      tailwindcss: 3.1.8
+      tailwindcss: 3.1.8_postcss@8.4.17
       unocss: link:../packages/unocss
       vite: 3.1.6
       vite-plugin-windicss: 1.8.8_vite@3.1.6
@@ -210,7 +210,7 @@ importers:
       '@unocss/webpack': link:../../packages/webpack
       '@vue/cli-plugin-babel': ~4.5.15
       '@vue/cli-service': ~4.5.15
-      unocss: ^0.45.26
+      unocss: link:../../packages/unocss
       vue: ^2.7.10
       vue-template-compiler: ^2.7.10
     dependencies:
@@ -234,7 +234,7 @@ importers:
       vue: 2.7.10
     devDependencies:
       '@unocss/webpack': link:../../packages/webpack
-      '@vue/cli-plugin-babel': 5.0.8_jyrkubdqmlmdepg4r32ybbpaum
+      '@vue/cli-plugin-babel': 5.0.8_jjknw65vsw2gxyyiy56n2znoue
       '@vue/cli-service': 5.0.8_@babel+core@7.19.3
 
   interactive:
@@ -3729,9 +3729,11 @@ packages:
       svg-tags: 1.0.0
     dev: true
 
-  /@vue/babel-preset-app/4.5.19_vue@2.7.10:
+  /@vue/babel-preset-app/4.5.19_evokb6ymhfz6q5ka6mvuawyv6u:
     resolution: {integrity: sha512-VCNRiAt2P/bLo09rYt3DLe6xXUMlhJwrvU18Ddd/lYJgC7s8+wvhgYs+MTx4OiAXdu58drGwSBO9SPx7C6J82Q==}
     peerDependencies:
+      '@babel/core': '*'
+      core-js: ^3
       vue: ^2 || ^3.0.0-0
     peerDependenciesMeta:
       core-js:
@@ -3752,7 +3754,6 @@ packages:
       '@vue/babel-plugin-jsx': 1.1.1_@babel+core@7.19.3
       '@vue/babel-preset-jsx': 1.4.0_evokb6ymhfz6q5ka6mvuawyv6u
       babel-plugin-dynamic-import-node: 2.3.3
-      core-js: 3.25.5
       core-js-compat: 3.25.4
       semver: 6.3.0
       vue: 2.7.10
@@ -3760,9 +3761,11 @@ packages:
       - supports-color
     dev: true
 
-  /@vue/babel-preset-app/5.0.8_vue@2.7.10:
+  /@vue/babel-preset-app/5.0.8_bdssuweioarxt4popacujawa3a:
     resolution: {integrity: sha512-yl+5qhpjd8e1G4cMXfORkkBlvtPCIgmRf3IYCWYDKIQ7m+PPa5iTm4feiNmCMD6yGqQWMhhK/7M3oWGL9boKwg==}
     peerDependencies:
+      '@babel/core': '*'
+      core-js: ^3
       vue: ^2 || ^3.2.13
     peerDependenciesMeta:
       core-js:
@@ -3887,7 +3890,7 @@ packages:
       '@vue/cli-service': ^3.0.0 || ^4.0.0-0
     dependencies:
       '@babel/core': 7.19.3
-      '@vue/babel-preset-app': 4.5.19_vue@2.7.10
+      '@vue/babel-preset-app': 4.5.19_evokb6ymhfz6q5ka6mvuawyv6u
       '@vue/cli-service': 4.5.19_42puyn3dcxirnpdjnosl7pbb6a
       '@vue/cli-shared-utils': 4.5.19
       babel-loader: 8.2.5_jeg5564y5etyvi3ajplf6yhqg4
@@ -3895,19 +3898,20 @@ packages:
       thread-loader: 2.1.3_webpack@4.46.0
       webpack: 4.46.0
     transitivePeerDependencies:
+      - core-js
       - supports-color
       - vue
       - webpack-cli
       - webpack-command
     dev: true
 
-  /@vue/cli-plugin-babel/5.0.8_jyrkubdqmlmdepg4r32ybbpaum:
+  /@vue/cli-plugin-babel/5.0.8_jjknw65vsw2gxyyiy56n2znoue:
     resolution: {integrity: sha512-a4qqkml3FAJ3auqB2kN2EMPocb/iu0ykeELwed+9B1c1nQ1HKgslKMHMPavYx3Cd/QAx2mBD4hwKBqZXEI/CsQ==}
     peerDependencies:
       '@vue/cli-service': ^3.0.0 || ^4.0.0 || ^5.0.0-0
     dependencies:
       '@babel/core': 7.19.3
-      '@vue/babel-preset-app': 5.0.8_vue@2.7.10
+      '@vue/babel-preset-app': 5.0.8_bdssuweioarxt4popacujawa3a
       '@vue/cli-service': 5.0.8_@babel+core@7.19.3
       '@vue/cli-shared-utils': 5.0.8
       babel-loader: 8.2.5_wfdvla2jorjoj23kkavho2upde
@@ -3915,6 +3919,7 @@ packages:
       webpack: 5.74.0
     transitivePeerDependencies:
       - '@swc/core'
+      - core-js
       - encoding
       - esbuild
       - supports-color
@@ -5015,8 +5020,10 @@ packages:
       ajv: 6.12.6
     dev: true
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.11.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -16049,7 +16056,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
     dev: true
 
@@ -17009,10 +17016,12 @@ packages:
       tslib: 2.4.0
     dev: true
 
-  /tailwindcss/3.1.8:
+  /tailwindcss/3.1.8_postcss@8.4.17:
     resolution: {integrity: sha512-YSneUCZSFDYMwk+TGq8qYFdCA3yfBRdBlS7txSq0LUmzyeqRe3a8fBQzbz9M3WS/iFT4BNf/nmw9mEzrnSaC0g==}
     engines: {node: '>=12.13.0'}
     hasBin: true
+    peerDependencies:
+      postcss: ^8.0.9
     dependencies:
       arg: 5.0.2
       chokidar: 3.5.3
