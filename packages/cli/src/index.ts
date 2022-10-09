@@ -5,6 +5,7 @@ import consola from 'consola'
 import { cyan, dim, green } from 'colorette'
 import { debounce } from 'perfect-debounce'
 import { toArray } from '@unocss/core'
+import { loadConfig } from '@unocss/config'
 import type { SourceCodeTransformerEnforce, UserConfig } from '@unocss/core'
 import { version } from '../package.json'
 import { createContext } from '../../shared-integration/src/context'
@@ -30,11 +31,9 @@ export async function build(_options: CliOptions) {
 
   const cwd = _options.cwd || process.cwd()
   const options = await resolveOptions(_options)
+  const { config, sources: configSources } = await loadConfig(cwd, options.config)
 
-  const ctx = createContext<UserConfig>(options.config, defaultConfig)
-  await ctx.ready
-
-  const configSources = ctx.getConfigFileList()
+  const ctx = createContext<UserConfig>(config, defaultConfig)
 
   const files = await fg(options.patterns, { cwd, absolute: true })
   await Promise.all(
@@ -145,9 +144,9 @@ export async function build(_options: CliOptions) {
 
     if (!options.watch) {
       consola.success(
-        `${[...matched].length} utilities generated to ${cyan(
-          relative(process.cwd(), outFile),
-        )}\n`,
+      `${[...matched].length} utilities generated to ${cyan(
+        relative(process.cwd(), outFile),
+      )}\n`,
       )
     }
   }
