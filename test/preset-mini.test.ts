@@ -143,10 +143,10 @@ describe('preset-mini', () => {
     const uno = createGenerator({
       presets: [
         presetMini(),
-      ]
+      ],
     })
 
-    const { css,matched } = await uno.generate([
+    const { css, matched } = await uno.generate([
       'content-raw-[foo]',
       'content-raw-[bar]',
     ].join(' '), { preflights: false })
