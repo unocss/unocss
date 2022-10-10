@@ -22,6 +22,7 @@ importers:
       '@iconify-json/teenyicons': ^1.1.3
       '@iconify-json/twemoji': ^1.1.5
       '@iconify-json/uim': ^1.1.2
+      '@iconify/json': ^2.1.119
       '@types/codemirror': ^5.60.5
       '@types/connect': ^3.4.35
       '@types/css-tree': ^1.0.7
@@ -106,6 +107,7 @@ importers:
       '@iconify-json/teenyicons': 1.1.3
       '@iconify-json/twemoji': 1.1.5
       '@iconify-json/uim': 1.1.2
+      '@iconify/json': 2.1.119
       '@types/codemirror': 5.60.5
       '@types/connect': 3.4.35
       '@types/css-tree': 1.0.7
@@ -164,7 +166,7 @@ importers:
       simple-git-hooks: 2.8.0
       splitpanes: 3.1.1
       terser: 5.15.1
-      tsup: 6.2.3_typescript@4.8.4
+      tsup: 6.2.3_64lehftmpdxmnkqestsyufiygi
       typescript: 4.8.4
       unbuild: 0.8.11
       unocss: link:packages/unocss
@@ -2464,6 +2466,13 @@ packages:
       '@iconify/types': 2.0.0
     dev: true
 
+  /@iconify/json/2.1.119:
+    resolution: {integrity: sha512-cWQ1c7mEizqyvL5+IhQLtW59tqaIy8TFSOtVn7fun2IDhtrLxkNcyaJe9rkzIC3KF8/HYADIraSHb+M81y2YqQ==}
+    dependencies:
+      '@iconify/types': 2.0.0
+      pathe: 0.3.9
+    dev: true
+
   /@iconify/types/2.0.0:
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
 
@@ -3628,7 +3637,7 @@ packages:
       '@babel/plugin-syntax-import-meta': 7.10.4_@babel+core@7.19.1
       '@babel/plugin-transform-typescript': 7.19.1_@babel+core@7.19.1
       '@vue/babel-plugin-jsx': 1.1.1_@babel+core@7.19.1
-      vite: 3.1.6
+      vite: 3.1.6_terser@5.15.1
       vue: 3.2.39
     transitivePeerDependencies:
       - supports-color
@@ -3641,7 +3650,7 @@ packages:
       vite: ^3.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 3.1.6
+      vite: 3.1.6_terser@5.15.1
       vue: 3.2.39
     dev: true
 
@@ -12933,7 +12942,7 @@ packages:
     resolution: {integrity: sha512-DgRgNUSX9NIxxCxygX4Xeg9C7GX7OUx1wuQ8cXx9o9LE0e9wrH+OZ9fcnrlEedsC/rtqry3ZhUddC759XD/L0w==}
     dependencies:
       acorn: 8.8.0
-      pathe: 0.3.7
+      pathe: 0.3.9
       pkg-types: 0.3.5
       ufo: 0.8.5
     dev: true
@@ -17444,7 +17453,7 @@ packages:
       - ts-node
     dev: true
 
-  /tsup/6.2.3_typescript@4.8.4:
+  /tsup/6.2.3_64lehftmpdxmnkqestsyufiygi:
     resolution: {integrity: sha512-J5Pu2Dx0E1wlpIEsVFv9ryzP1pZ1OYsJ2cBHZ7GrKteytNdzaSz5hmLX7/nAxtypq+jVkVvA79d7S83ETgHQ5w==}
     engines: {node: '>=14'}
     hasBin: true
@@ -17468,7 +17477,8 @@ packages:
       execa: 5.1.1
       globby: 11.1.0
       joycon: 3.1.1
-      postcss-load-config: 3.1.4
+      postcss: 8.4.17
+      postcss-load-config: 3.1.4_postcss@8.4.17
       resolve-from: 5.0.0
       rollup: 2.79.0
       source-map: 0.8.0-beta.0
@@ -17949,7 +17959,7 @@ packages:
       chokidar: 3.5.3
       esbuild: 0.15.10
       rollup: 2.79.1
-      vite: 3.1.6
+      vite: 3.1.6_terser@5.15.1
       webpack-sources: 3.2.3
       webpack-virtual-modules: 0.4.5
     dev: true
