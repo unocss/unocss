@@ -65,7 +65,7 @@ export const variantScope: Variant = {
       if (scope) {
         return {
           matcher: rest,
-          selector: s => `.${scope} $$ ${s}`,
+          selector: s => `${scope} $$ ${s}`,
         }
       }
     }

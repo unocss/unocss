@@ -959,8 +959,9 @@ export const presetMiniTargets: string[] = [
   'focus-within:has-first:checked:bg-gray/20',
 
   // variants scope
-  'scope-[scope\\_class]:translate-0',
+  'scope-[.scope\\_class]:translate-0',
   'scope-[unocss]:block',
+  'scope-[[data-any]]:inline',
 
   // variants - tagged
   'group-focus:p-4',
