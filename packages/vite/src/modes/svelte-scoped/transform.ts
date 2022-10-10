@@ -1,6 +1,5 @@
 import MagicString from 'magic-string'
 import { type UnoGenerator, expandVariantGroup } from '@unocss/core'
-import type { SourceMap } from 'rollup'
 import { wrapSelectorsWithGlobal } from './wrap-global'
 import { hash } from './hash'
 
@@ -141,6 +140,18 @@ export async function transformSvelteSFC(code: string, id: string, uno: UnoGener
     code: `${code}\n<style>${styles}</style>`,
     map,
   }
+}
+
+// Should be able to import SourceMap from '@unocss/core' but this causes a type error in packages\vite\src\modes\svelte-scoped\index.ts that I don't understand. The only difference is that `toString()` and `toUrl()` are missing on that type.
+interface SourceMap {
+  file: string
+  mappings: string
+  names: string[]
+  sources: string[]
+  sourcesContent: string[]
+  version: number
+  toString(): string
+  toUrl(): string
 }
 
 // Possible Optimizations
