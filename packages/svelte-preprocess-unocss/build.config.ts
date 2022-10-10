@@ -6,7 +6,11 @@ export default defineBuildConfig({
   ],
   clean: true,
   declaration: true,
+  externals: [
+    'svelte',
+  ],
   rollup: {
+    inlineDependencies: true,
     emitCJS: true,
   },
 })

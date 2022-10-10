@@ -1,18 +1,18 @@
-import type { UserConfigDefaults, UserConfig } from '@unocss/core'
-import { transformSvelteSFC } from '@unocss/vite';
+import type { UserConfig, UserConfigDefaults } from '@unocss/core'
+import { transformSvelteSFC } from '@unocss/vite'
 import type { PreprocessorGroup } from 'svelte/types/compiler/preprocess'
-import { createContext } from '../../shared-integration/src/context'
 import MagicString from 'magic-string'
-import type { EncodedSourceMap } from '@ampproject/remapping'
-import remapping from '@ampproject/remapping'
 import type { SourceMap } from 'rollup'
+import remapping from '@ampproject/remapping'
+import type { EncodedSourceMap } from '@ampproject/remapping'
+import { createContext } from '../../shared-integration/src/context'
 
 export default function SveltePreprocessUnocss(
   configOrPath?: UserConfig | string,
   defaults: UserConfigDefaults = {},
 ): PreprocessorGroup {
   const ctx = createContext<UserConfig>(configOrPath as any, defaults)
-  console.log('inited ctx');
+  // console.log('inited ctx')
   return {
     markup: async ({ content, filename }) => {
       let code = content
@@ -33,16 +33,13 @@ export default function SveltePreprocessUnocss(
       const result = await transformSvelteSFC(code, filename || '', ctx.uno)
       if (result) {
         code = result.code
-        maps.push(result.map as EncodedSourceMap);
+        maps.push(result.map as EncodedSourceMap)
       }
 
       return {
         code,
         map: remapping(maps, () => null) as SourceMap,
       }
-    }
+    },
   }
 }
-
-// TODO:
-// test

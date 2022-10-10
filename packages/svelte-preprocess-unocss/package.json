@@ -1,6 +1,6 @@
 {
   "name": "@unocss/svelte-preprocess-unocss",
-  "version": "0.45.26",
+  "version": "0.45.29",
   "description": "Run Unocss in svelte-scoped mode via a svelte-preprocessor for use in component libraries",
   "author": "Jacob Bowdoin",
   "license": "MIT",
@@ -40,7 +40,10 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@unocss/core": "workspace:*"
+    "@ampproject/remapping": "^2.2.0",
+    "@unocss/core": "workspace:*",
+    "@unocss/vite": "workspace:*",
+    "magic-string": "^0.26.6"
   },
   "devDependencies": {
     "svelte": "^3.50.1"

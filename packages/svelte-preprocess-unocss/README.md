@@ -20,4 +20,4 @@ npm i -D @unocss/svelte-preprocess-unocss
 
 ## License
 
-MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)
+MIT License &copy; 2022-PRESENT [jacob-8](https://github.com/jacob-8)
