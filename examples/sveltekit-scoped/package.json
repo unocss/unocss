@@ -14,7 +14,6 @@
     "@sveltejs/kit": "next",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
-    "@unocss/transformer-directives": "^0.45.26",
     "svelte": "^3.50.1",
     "svelte-check": "^2.9.1",
     "svelte-preprocess": "^4.10.7",

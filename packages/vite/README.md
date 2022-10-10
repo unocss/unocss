@@ -285,6 +285,23 @@ Because there is no `import 'uno.css'` in your root `+layout.svelte` preflights 
 
 Alternatively, if you only want them to apply to a specific component just add them to that component's `style` tag and don't add the `global` attribute.
 
+```ts
+// vite.config.js
+import { sveltekit } from '@sveltejs/kit/vite'
+import UnoCSS from 'unocss/vite'
+
+/** @type {import('vite').UserConfig} */
+const config = {
+  plugins: [
+    UnoCSS({
+      mode: 'svelte-scoped',
+      /* options */
+    }),
+    sveltekit(),
+  ],
+}
+```
+
 You have a `SvelteKit scoped` example project on [examples/sveltekit-scoped](https://github.com/unocss/unocss/tree/main/examples/sveltekit-scoped) directory.
 
 ### Web Components
