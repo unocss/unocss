@@ -1,0 +1,48 @@
+{
+  "name": "@unocss/svelte-preprocess-unocss",
+  "version": "0.45.26",
+  "description": "Run Unocss in svelte-scoped mode via a svelte-preprocessor for use in component libraries",
+  "author": "Jacob Bowdoin",
+  "license": "MIT",
+  "homepage": "https://github.com/unocss/unocss/tree/main/packages/svelte-proprocess-unocss#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unocss/unocss.git",
+    "directory": "packages/svelte-proprocess-unocss"
+  },
+  "bugs": {
+    "url": "https://github.com/unocss/unocss/issues"
+  },
+  "keywords": [
+    "unocss",
+    "svelte",
+    "sveltekit",
+    "svelte-preprocess",
+    "svelte-package",
+    "scoped-styles"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub"
+  },
+  "dependencies": {
+    "@unocss/core": "workspace:*"
+  },
+  "devDependencies": {
+    "svelte": "^3.50.1"
+  }
+}

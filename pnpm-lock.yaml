@@ -164,7 +164,7 @@ importers:
       simple-git-hooks: 2.8.0
       splitpanes: 3.1.1
       terser: 5.15.1
-      tsup: 6.2.3_typescript@4.8.4
+      tsup: 6.2.3_64lehftmpdxmnkqestsyufiygi
       typescript: 4.8.4
       unbuild: 0.8.11
       unocss: link:packages/unocss
@@ -513,6 +513,15 @@ importers:
     dependencies:
       '@unocss/core': link:../core
       '@unocss/scope': link:../scope
+
+  packages/svelte-preprocess-unocss:
+    specifiers:
+      '@unocss/core': workspace:*
+      svelte: ^3.50.1
+    dependencies:
+      '@unocss/core': link:../core
+    devDependencies:
+      svelte: 3.50.1
 
   packages/transformer-attributify-jsx:
     specifiers:
@@ -10877,7 +10886,7 @@ packages:
     engines: {node: '>=12.0.0'}
     dependencies:
       ansi-escapes: 5.0.0
-      chalk: 5.0.1
+      chalk: 5.1.0
       cli-cursor: 4.0.0
       cli-width: 4.0.0
       external-editor: 3.1.0
@@ -13052,6 +13061,7 @@ packages:
 
   /nan/2.16.0:
     resolution: {integrity: sha512-UdAqHyFngu7TfQKsCBgAA6pWDkT8MAO7d0jyOecVhN5354xbLqdn8mV9Tat9gepAupm0bt2DbeaSC8vS52MuFA==}
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -16969,6 +16979,11 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
+  /svelte/3.50.1:
+    resolution: {integrity: sha512-bS4odcsdj5D5jEg6riZuMg5NKelzPtmsCbD9RG+8umU03TeNkdWnP6pqbCm0s8UQNBkqk29w/Bdubn3C+HWSwA==}
+    engines: {node: '>= 8'}
+    dev: true
+
   /svg-tags/1.0.0:
     resolution: {integrity: sha512-ovssysQTa+luh7A5Weu3Rta6FJlFBBbInjOh722LIt6klpU2/HtdUbszju/G4devcvk8PGt7FCLv5wftu3THUA==}
     dev: true
@@ -17444,7 +17459,7 @@ packages:
       - ts-node
     dev: true
 
-  /tsup/6.2.3_typescript@4.8.4:
+  /tsup/6.2.3_64lehftmpdxmnkqestsyufiygi:
     resolution: {integrity: sha512-J5Pu2Dx0E1wlpIEsVFv9ryzP1pZ1OYsJ2cBHZ7GrKteytNdzaSz5hmLX7/nAxtypq+jVkVvA79d7S83ETgHQ5w==}
     engines: {node: '>=14'}
     hasBin: true
@@ -17468,7 +17483,8 @@ packages:
       execa: 5.1.1
       globby: 11.1.0
       joycon: 3.1.1
-      postcss-load-config: 3.1.4
+      postcss: 8.4.17
+      postcss-load-config: 3.1.4_postcss@8.4.17
       resolve-from: 5.0.0
       rollup: 2.79.0
       source-map: 0.8.0-beta.0
