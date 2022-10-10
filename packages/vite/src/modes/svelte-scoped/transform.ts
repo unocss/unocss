@@ -1,6 +1,5 @@
 import MagicString from 'magic-string'
-import { type UnoGenerator, expandVariantGroup } from '@unocss/core'
-import type { SourceMap } from 'rollup'
+import { type SourceMap, type UnoGenerator, expandVariantGroup } from '@unocss/core'
 import { wrapSelectorsWithGlobal } from './wrap-global'
 import { hash } from './hash'
 
