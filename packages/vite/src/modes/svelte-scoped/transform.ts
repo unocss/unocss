@@ -1,8 +1,8 @@
 import MagicString from 'magic-string'
 import { type UnoGenerator, expandVariantGroup } from '@unocss/core'
+import type { SourceMap } from 'rollup'
 import { wrapSelectorsWithGlobal } from './wrap-global'
 import { hash } from './hash'
-import type { SourceMap } from 'rollup'
 
 const classesRE = /class=(["'\`])([\S\s]+?)\1/g // class="mb-1"
 const classesDirectivesRE = /class:([\S]+?)={/g // class:mb-1={foo}
@@ -22,7 +22,7 @@ export interface TransformSFCOptions {
   hashFn?: (str: string) => string
 }
 
-export async function transformSvelteSFC(code: string, id: string, uno: UnoGenerator, options: TransformSFCOptions = {}): Promise<{ code: string, map?: SourceMap } | undefined> {
+export async function transformSvelteSFC(code: string, id: string, uno: UnoGenerator, options: TransformSFCOptions = {}): Promise<{ code: string; map?: SourceMap } | undefined> {
   const {
     hashFn = hash,
     classPrefix = 'uno-',
@@ -46,12 +46,14 @@ export async function transformSvelteSFC(code: string, id: string, uno: UnoGener
 
   if (!classes.length && !classDirectives.length && !classDirectivesShorthand.length) {
     if (preflights || safelist) {
-      if (alreadyHasStyles)
+      if (alreadyHasStyles) {
         return {
           code: code.replace(/(<style[^>]*>)/, `$1${styles}`),
         }
+      }
       return { code: `${code}\n<style>${styles}</style>` }
-    } else {
+    }
+    else {
       return
     }
   }
@@ -126,16 +128,18 @@ export async function transformSvelteSFC(code: string, id: string, uno: UnoGener
   if (s.hasChanged()) {
     code = s.toString()
     map = s.generateMap({ hires: true, source: id })
-  } else return
+  }
+  else { return }
 
-  if (alreadyHasStyles)
+  if (alreadyHasStyles) {
     return {
       code: code.replace(/(<style[^>]*>)/, `$1${styles}`),
-      map
+      map,
     }
+  }
   return {
     code: `${code}\n<style>${styles}</style>`,
-    map
+    map,
   }
 }
 
