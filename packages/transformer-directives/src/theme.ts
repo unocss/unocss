@@ -3,11 +3,16 @@ import type { Declaration } from 'css-tree'
 import type MagicString from 'magic-string'
 import type { TransformerDirectivesOptions } from '.'
 
+interface ThemeContext {
+  code: MagicString
+  node: Declaration
+  uno: UnoGenerator
+}
+
 export const themeFnRE = /theme\((.*?)\)/g
 
-export function handleThemeFn(options: TransformerDirectivesOptions, ctx: { code: MagicString; node: Declaration; uno: UnoGenerator }) {
+export function handleThemeFn(options: TransformerDirectivesOptions, { code, node, uno }: ThemeContext) {
   const { throwOnMissing = true } = options
-  const { code, node, uno } = ctx
 
   const value = node.value
   const offset = value.loc!.start.offset

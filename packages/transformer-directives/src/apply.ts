@@ -7,9 +7,16 @@ import type { TransformerDirectivesOptions } from '.'
 
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
 
-export async function handleApply(options: TransformerDirectivesOptions, ctx: { offset?: number; code: MagicString; node: Rule; childNode: CssNode; uno: UnoGenerator }) {
+interface ApplyContext {
+  offset?: number
+  code: MagicString
+  uno: UnoGenerator
+  childNode: CssNode
+  node: Rule
+}
+
+export async function handleApply(options: TransformerDirectivesOptions, { offset, code, node, childNode, uno }: ApplyContext) {
   const { varStyle = '--at-' } = options
-  const { code, node, childNode, uno, offset } = ctx
   const calcOffset = (pos: number) => offset ? pos + offset : pos
 
   let body: string | undefined

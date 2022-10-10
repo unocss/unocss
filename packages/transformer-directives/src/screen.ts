@@ -4,18 +4,15 @@ import type { Atrule } from 'css-tree'
 import type MagicString from 'magic-string'
 import type { TransformerDirectivesOptions } from '.'
 
-function calcMaxWidthBySize(size: string) {
-  const value = size.match(/^-?[0-9]+\.?[0-9]*/)?.[0] || ''
-  const unit = size.slice(value.length)
-  const maxWidth = (parseFloat(value) - 0.1)
-  return Number.isNaN(maxWidth) ? size : `${maxWidth}${unit}`
+interface ScreenContext {
+  code: MagicString
+  node: Atrule
+  uno: UnoGenerator
 }
 
 const screenRuleRE = /(@screen) (.+) /g
 
-export function handleScreen(options: TransformerDirectivesOptions, ctx: { code: MagicString; node: Atrule; uno: UnoGenerator }) {
-  const { uno, code, node } = ctx
-
+export function handleScreen(options: TransformerDirectivesOptions, { code, node, uno }: ScreenContext) {
   let breakpointName = ''; let prefix
   if (node.name === 'screen' && node.prelude?.type === 'Raw')
     breakpointName = node.prelude.value.trim()
@@ -70,4 +67,11 @@ export function handleScreen(options: TransformerDirectivesOptions, ctx: { code:
       `${generateMediaQuery(breakpointName, prefix)} `,
     )
   }
+}
+
+function calcMaxWidthBySize(size: string) {
+  const value = size.match(/^-?[0-9]+\.?[0-9]*/)?.[0] || ''
+  const unit = size.slice(value.length)
+  const maxWidth = (parseFloat(value) - 0.1)
+  return Number.isNaN(maxWidth) ? size : `${maxWidth}${unit}`
 }
