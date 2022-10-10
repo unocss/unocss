@@ -1,5 +1,5 @@
 import type { VariantObject } from '@unocss/core'
-import { escapeRegExp, escapeSelector } from '@unocss/core'
+import { escapeRegExp, escapeSelector, warnOnce } from '@unocss/core'
 import type { PresetMiniOptions } from '..'
 import { getComponent, handler as h } from '../_utils'
 
@@ -107,6 +107,9 @@ const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: strin
         if (bracketValue == null)
           return
 
+        if (label)
+          warnOnce('The labeled pseudo is experimental and may be changed in breaking ways at any time.')
+
         let prefix = `${parent}${escapeSelector(label)}`
         prefix = bracketValue.includes('&') ? bracketValue.replace(/&/g, prefix) : `${prefix}${bracketValue}`
 
@@ -122,6 +125,8 @@ const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: strin
       const match = input.match(pseudoRE) || input.match(pseudoColonRE)
       if (match) {
         const [original, label = '', fn, pseudoKey] = match
+        if (label)
+          warnOnce('The labeled pseudo is experimental and may be changed in breaking ways at any time.')
         let pseudo = PseudoClasses[pseudoKey] || PseudoClassesColon[pseudoKey] || `:${pseudoKey}`
         if (fn)
           pseudo = `:${fn}(${pseudo})`
