@@ -391,6 +391,10 @@ export const presetWindTargets: string[] = [
   '-scroll-p-px',
   '-space-x-4',
 
+  // variants experimental
+  '@hover-text-red',
+  '@hover:[[open]_&]:text-blue',
+
   // variants - multiple parents
   '@dark:contrast-more:p-10',
 ]
