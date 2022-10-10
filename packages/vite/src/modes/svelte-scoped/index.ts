@@ -2,7 +2,7 @@ import type { Plugin } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
 import type { UnocssPluginContext } from '@unocss/core'
 import { defaultExclude } from '../../integration'
-import { transformSFC } from './transform'
+import { transformSvelteSFC } from './transform'
 
 export * from './transform'
 
@@ -22,14 +22,14 @@ export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin 
     transform(code, id) {
       if (!filter(id))
         return
-      return transformSFC(code, id, uno)
+      return transformSvelteSFC(code, id, uno)
     },
     handleHotUpdate(ctx) {
       const read = ctx.read
       if (filter(ctx.file)) {
         ctx.read = async () => {
           const code = await read()
-          return await transformSFC(code, ctx.file, uno) || code
+          return (await transformSvelteSFC(code, ctx.file, uno))?.code || code
         }
       }
     },

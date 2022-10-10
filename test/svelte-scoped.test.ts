@@ -3,7 +3,7 @@ import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import presetIcons from '@unocss/preset-icons'
 
-import { transformSFC } from '../packages/vite/src/modes/svelte-scoped'
+import { transformSvelteSFC } from '../packages/vite/src/modes/svelte-scoped'
 
 describe('svelte-scoped', () => {
   const uno = createGenerator({
@@ -24,7 +24,7 @@ describe('svelte-scoped', () => {
   })
 
   async function transform(code: string) {
-    return await transformSFC(code, 'Foo.svelte', uno)
+    return (await transformSvelteSFC(code, 'Foo.svelte', uno))?.code
   }
 
   test('simple', async () => {
@@ -120,7 +120,7 @@ describe('svelte-scoped', () => {
     `)
   })
 
-  test('no tokens found lets code pass through', async () => {
+  test('no tokens found returns undefined', async () => {
     const result = await transform(`
     <div class="foo" />
     <style global>
@@ -128,14 +128,7 @@ describe('svelte-scoped', () => {
         color: red;
       }
     </style>`.trim())
-    expect(result).toMatchInlineSnapshot(`
-      "<div class=\\"foo\\" />
-          <style global>
-            .foo {
-              color: red;
-            }
-          </style>"
-    `)
+    expect(result).toMatchInlineSnapshot('undefined')
   })
 
   test('everything', async () => {
