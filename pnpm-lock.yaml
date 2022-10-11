@@ -48,7 +48,6 @@ importers:
       '@unocss/preset-web-fonts': workspace:*
       '@unocss/preset-wind': workspace:*
       '@unocss/reset': workspace:*
-      '@unocss/shared-integration': workspace:*
       '@unocss/transformer-directives': workspace:*
       '@unocss/transformer-variant-group': workspace:*
       '@unocss/vite': workspace:*
@@ -133,7 +132,6 @@ importers:
       '@unocss/preset-web-fonts': link:packages/preset-web-fonts
       '@unocss/preset-wind': link:packages/preset-wind
       '@unocss/reset': link:packages/reset
-      '@unocss/shared-integration': link:packages/shared-integration
       '@unocss/transformer-directives': link:packages/transformer-directives
       '@unocss/transformer-variant-group': link:packages/transformer-variant-group
       '@unocss/vite': link:packages/vite

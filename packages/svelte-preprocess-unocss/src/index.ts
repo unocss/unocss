@@ -6,7 +6,7 @@ import MagicString from 'magic-string'
 // import type { SourceMap } from 'rollup'
 // import remapping from '@ampproject/remapping'
 // import type { EncodedSourceMap } from '@ampproject/remapping'
-import { createContext } from '@unocss/shared-integration'
+import { createContext } from '../../shared-integration/src/context'
 
 export default function SveltePreprocessUnocss(
   configOrPath?: UserConfig | string,
