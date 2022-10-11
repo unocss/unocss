@@ -25,6 +25,7 @@ export const alias: Record<string, string> = {
   '@unocss/shared-common': r('./packages/shared-common/src/'),
   '@unocss/shared-docs': r('./packages/shared-docs/src/'),
   '@unocss/shared-integration': r('./packages/shared-integration/src/'),
+  '@unocss/svelte-preprocess-unocss': r('./packages/svelte-preprocess-unocss/src/'),
   '@unocss/transformer-attributify-jsx': r('./packages/transformer-attributify-jsx/src/'),
   '@unocss/transformer-compile-class': r('./packages/transformer-compile-class/src/'),
   '@unocss/transformer-directives': r('./packages/transformer-directives/src/'),

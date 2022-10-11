@@ -13,8 +13,30 @@ npm i -D @unocss/svelte-preprocess-unocss
 
 ```js
 // svelte.config.js
+import adapter from '@sveltejs/adapter-auto'
+import preprocess from 'svelte-preprocess'
+import UnoCSS from '@unocss/svelte-preprocess-unocss'
+import presetUno from '@unocss/preset-uno'
 
-...
+/** @type {import('@sveltejs/kit').Config} */
+const config = {
+  preprocess: [
+    preprocess(),
+    UnoCSS({
+      presets: [
+        presetUno(),
+      ],
+      // add options,
+    }),
+  ],
+
+  kit: {
+    adapter: adapter(),
+  },
+}
+
+export default config
+
 ```
 
 

@@ -27,4 +27,5 @@
 | [@unocss/webpack](./webpack) | The Webpack plugin | No | - |
 | [@unocss/nuxt](./nuxt) | The Nuxt Module | No | - |
 | [@unocss/runtime](./runtime) | CSS-in-JS Runtime for UnoCSS | No | - |
+| [@unocss/svelte-preprocess-unocss](./svelte-preprocess-unocss) | Svelte Preprocessor for UnoCSS in component libraries | No | - |
 | [VS Code Extension](./vscode) | UnoCSS for VS Code | - | - |

@@ -1,5 +1,5 @@
 {
-  "name": "unocss-sveltekit-rc",
+  "name": "unocss-sveltekit",
   "type": "module",
   "scripts": {
     "dev": "vite dev",
