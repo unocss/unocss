@@ -10,6 +10,9 @@ export default defineBuildConfig({
     'svelte',
   ],
   rollup: {
+    dts: {
+      respectExternal: true,
+    },
     inlineDependencies: true,
     emitCJS: true,
   },
