@@ -516,10 +516,16 @@ importers:
 
   packages/svelte-preprocess-unocss:
     specifiers:
+      '@ampproject/remapping': ^2.2.0
       '@unocss/core': workspace:*
+      '@unocss/vite': workspace:*
+      magic-string: ^0.26.6
       svelte: ^3.50.1
     dependencies:
+      '@ampproject/remapping': 2.2.0
       '@unocss/core': link:../core
+      '@unocss/vite': link:../vite
+      magic-string: 0.26.6
     devDependencies:
       svelte: 3.50.1
 
@@ -4894,7 +4900,7 @@ packages:
       '@windicss/config': 1.8.8
       debug: 4.3.4
       fast-glob: 3.2.12
-      magic-string: 0.26.3
+      magic-string: 0.26.6
       micromatch: 4.0.5
       windicss: 3.5.6
     transitivePeerDependencies:
@@ -10865,7 +10871,7 @@ packages:
     engines: {node: '>=12.0.0'}
     dependencies:
       ansi-escapes: 4.3.2
-      chalk: 4.1.1
+      chalk: 4.1.2
       cli-cursor: 3.1.0
       cli-width: 3.0.0
       external-editor: 3.1.0
@@ -12091,13 +12097,6 @@ packages:
 
   /magic-string/0.25.9:
     resolution: {integrity: sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ==}
-    dependencies:
-      sourcemap-codec: 1.4.8
-    dev: true
-
-  /magic-string/0.26.3:
-    resolution: {integrity: sha512-u1Po0NDyFcwdg2nzHT88wSK0+Rih0N1M+Ph1Sp08k8yvFFU3KR72wryS7e1qMPJypt99WB7fIFVCA92mQrMjrg==}
-    engines: {node: '>=12'}
     dependencies:
       sourcemap-codec: 1.4.8
     dev: true
@@ -17733,7 +17732,7 @@ packages:
       escape-string-regexp: 5.0.0
       fast-glob: 3.2.12
       local-pkg: 0.4.2
-      magic-string: 0.26.3
+      magic-string: 0.26.6
       mlly: 0.5.14
       pathe: 0.3.7
       scule: 0.3.2
@@ -17753,7 +17752,7 @@ packages:
       escape-string-regexp: 5.0.0
       fast-glob: 3.2.12
       local-pkg: 0.4.2
-      magic-string: 0.26.3
+      magic-string: 0.26.6
       mlly: 0.5.14
       pathe: 0.3.7
       scule: 0.3.2
