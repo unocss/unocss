@@ -20,8 +20,13 @@ module.exports = {
   plugins: [
     UnoCSS({ /* options */ }),
   ],
+  optimization: {
+    realContentHash: true,
+  },
 }
 ```
+
+> If you are using webpack@4.x, the `optimization.realContentHash` configuration is not supported, And you should remove it. Be aware of this [known issue](https://github.com/unocss/unocss/issues/1728) with bundle and [webpack#9520](https://github.com/webpack/webpack/issues/9520#issuecomment-749534245).
 
 Add `uno.css` to your main entry:
 
