@@ -1,4 +1,18 @@
-// placed blank file here to make the latest UnoCSS VSCode extension work (v.0.45.26)
+// Regardless of whether config is placed here or inlined in svelte.config.js, the unocss.config.ts file required to make the UnoCSS VSCode extension work (v.0.45.26)
+import { defineConfig, presetIcons, presetUno, transformerDirectives } from 'unocss'
 
-// import { presetIcons, presetUno, extractorSvelte } from 'unocss'
-// import { defineConfig } from 'unocss/vite'
+export default defineConfig({
+  presets: [
+    presetUno(),
+    presetIcons({
+      prefix: 'i-',
+      extraProperties: {
+        'display': 'inline-block',
+        'vertical-align': 'middle',
+      },
+    }),
+  ],
+  transformers: [
+    transformerDirectives(),
+  ],
+})
