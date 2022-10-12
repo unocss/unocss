@@ -1,4 +1,5 @@
-import type { UserConfig, UserConfigDefaults } from '@unocss/core'
+import { type UnoGenerator, type UnocssPluginContext, type UserConfig, type UserConfigDefaults, createGenerator } from '@unocss/core'
+import { loadConfig } from '@unocss/config'
 import { transformSvelteSFC } from '@unocss/vite'
 import presetUno from '@unocss/preset-uno'
 import type { PreprocessorGroup } from 'svelte/types/compiler/preprocess'
@@ -6,7 +7,6 @@ import MagicString from 'magic-string'
 // import type { SourceMap } from 'rollup'
 // import remapping from '@ampproject/remapping'
 // import type { EncodedSourceMap } from '@ampproject/remapping'
-import { createContext } from '../../shared-integration/src/context'
 
 export default function SveltePreprocessUnocss(
   configOrPath?: UserConfig | string,
@@ -16,16 +16,22 @@ export default function SveltePreprocessUnocss(
     ],
   },
 ): PreprocessorGroup {
-  const ctx = createContext<UserConfig>(configOrPath as any, defaults)
+  let uno: UnoGenerator
   return {
     markup: async ({ content, filename }) => {
+      if (!uno) {
+        const { config } = await loadConfig(process.cwd(), configOrPath)
+        uno = createGenerator(config, defaults)
+      }
+
       let code = content
       // const maps: EncodedSourceMap[] = []
 
-      const transformers = (ctx.uno.config.transformers || [])
+      const transformers = (uno.config.transformers || [])
 
       for (const t of transformers) {
         let s = new MagicString(content)
+        const ctx = { uno } as UnocssPluginContext
         await t.transform(s, filename || '', ctx)
         if (s.hasChanged()) {
           code = s.toString()
@@ -34,7 +40,7 @@ export default function SveltePreprocessUnocss(
         }
       }
 
-      const result = await transformSvelteSFC(code, filename || '', ctx.uno)
+      const result = await transformSvelteSFC(code, filename || '', uno)
 
       if (result?.code)
         code = result.code

@@ -7,17 +7,13 @@ export default defineBuildConfig({
   clean: true,
   declaration: true,
   externals: [
+    'svelte',
     '@unocss/config',
     '@unocss/core',
     '@unocss/preset-uno',
-    '@unocss/vite',
-    '@rollup/pluginutils',
-    'jiti',
-    'magic-string',
-    'svelte',
-    'unconfig',
   ],
   rollup: {
+    inlineDependencies: true,
     emitCJS: true,
   },
 })
