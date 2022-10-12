@@ -17,10 +17,8 @@ export default function SveltePreprocessUnocss(
   let uno: UnoGenerator
   return {
     markup: async ({ content, filename }) => {
-      if (!uno) {
-        const { config } = await loadConfig(process.cwd(), configOrPath)
-        uno = createGenerator(config, defaults)
-      }
+      if (!uno)
+        uno = await init(configOrPath, defaults)
 
       let code = content
 
@@ -42,10 +40,8 @@ export default function SveltePreprocessUnocss(
       }
     },
     style: async ({ content }) => {
-      if (!uno) {
-        const { config } = await loadConfig(process.cwd(), configOrPath)
-        uno = createGenerator(config, defaults)
-      }
+      if (!uno)
+        uno = await init(configOrPath, defaults)
 
       const s = new MagicString(content)
       await transformDirectives(s, uno, {
@@ -55,4 +51,9 @@ export default function SveltePreprocessUnocss(
         return { code: s.toString() }
     },
   }
+}
+
+async function init(configOrPath?: UserConfig | string, defaults?: UserConfigDefaults) {
+  const { config } = await loadConfig(process.cwd(), configOrPath)
+  return createGenerator(config, defaults)
 }
