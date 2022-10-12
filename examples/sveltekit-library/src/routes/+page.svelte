@@ -10,8 +10,12 @@
       class="{bounce
         ? 'animate-bounce-alt'
         : ''} animate-count-infinite animate-duration-1s"
-    /> SvelteKit + svelte-preprocess-unocss Component Library example
+    /> SvelteKit + svelte-preprocess-unocss
   </h1>
+
+  <p class="mb-3">
+    Use this anytime you want Svelte + UnoCSS where Vite is not involved. The primary situation being when you want to build a component library with styles processed by `svelte-package`. But other situations exist, like Routify.
+  </p>
 
   <Button onclick={() => (bounce = !bounce)}>{bounce ? 'Stop' : 'Start'} Bouncing</Button>
 

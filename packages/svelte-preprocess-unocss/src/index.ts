@@ -1,12 +1,10 @@
-import { type UnoGenerator, type UnocssPluginContext, type UserConfig, type UserConfigDefaults, createGenerator } from '@unocss/core'
+import { type UnoGenerator, type UserConfig, type UserConfigDefaults, createGenerator } from '@unocss/core'
 import { loadConfig } from '@unocss/config'
 import { transformSvelteSFC } from '@unocss/vite'
 import presetUno from '@unocss/preset-uno'
 import type { PreprocessorGroup } from 'svelte/types/compiler/preprocess'
 import MagicString from 'magic-string'
-// import type { SourceMap } from 'rollup'
-// import remapping from '@ampproject/remapping'
-// import type { EncodedSourceMap } from '@ampproject/remapping'
+import { transformDirectives } from '@unocss/transformer-directives'
 
 export default function SveltePreprocessUnocss(
   configOrPath?: UserConfig | string,
@@ -25,20 +23,6 @@ export default function SveltePreprocessUnocss(
       }
 
       let code = content
-      // const maps: EncodedSourceMap[] = []
-
-      const transformers = (uno.config.transformers || [])
-
-      for (const t of transformers) {
-        let s = new MagicString(content)
-        const ctx = { uno } as UnocssPluginContext
-        await t.transform(s, filename || '', ctx)
-        if (s.hasChanged()) {
-          code = s.toString()
-          // maps.push(s.generateMap({ hires: true, source: filename }) as EncodedSourceMap)
-          s = new MagicString(code)
-        }
-      }
 
       const result = await transformSvelteSFC(code, filename || '', uno)
 
@@ -48,7 +32,7 @@ export default function SveltePreprocessUnocss(
       if (result?.map) {
         return {
           code,
-          // map: result.map,
+          map: result.map,
         }
       }
       else {
@@ -56,9 +40,19 @@ export default function SveltePreprocessUnocss(
           code,
         }
       }
+    },
+    style: async ({ content }) => {
+      if (!uno) {
+        const { config } = await loadConfig(process.cwd(), configOrPath)
+        uno = createGenerator(config, defaults)
+      }
 
-      // maps.push(result.map as EncodedSourceMap)
-      // map: remapping(maps, () => null) as SourceMap,
+      const s = new MagicString(content)
+      await transformDirectives(s, uno, {
+        varStyle: '--at-',
+      })
+      if (s.hasChanged())
+        return { code: s.toString() }
     },
   }
 }

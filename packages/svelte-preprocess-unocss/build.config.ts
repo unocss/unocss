@@ -8,12 +8,12 @@ export default defineBuildConfig({
   declaration: true,
   externals: [
     'svelte',
-    '@unocss/config',
     '@unocss/core',
+    '@unocss/config',
     '@unocss/preset-uno',
+    '@unocss/transformer-directives',
   ],
   rollup: {
-    inlineDependencies: true,
     emitCJS: true,
   },
 })
