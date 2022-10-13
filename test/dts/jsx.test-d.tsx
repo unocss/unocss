@@ -10,6 +10,7 @@ function App() {
           <button
             ma flex absolute
             op30 fw20 p1 m10px
+            items="center"
             p="x-4 y-2"
             hover:p="0"
             hover="bg-teal-400 border-teal-400"
