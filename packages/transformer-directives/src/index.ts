@@ -24,12 +24,19 @@ export interface TransformerDirectivesOptions {
    * @default true
    */
   throwOnMissing?: boolean
+  /**
+   * Overwrite code with offset
+   *
+   * @default 0
+   */
+  offset?: number
 }
 
 export interface TransformerDirectivesContext {
   code: MagicString
   node: Atrule | Declaration | Rule
   uno: UnoGenerator
+  childNode?: CssNode
 }
 
 export default function transformerDirectives(options: TransformerDirectivesOptions = {}): SourceCodeTransformer {
@@ -49,7 +56,6 @@ export async function transformDirectives(
   options: TransformerDirectivesOptions,
   filename?: string,
   originalCode?: string,
-  offset?: number,
 ) {
   const { varStyle = '--at-' } = options
 
@@ -69,8 +75,6 @@ export async function transformDirectives(
   if (ast.type !== 'StyleSheet')
     return
 
-  const calcOffset = (pos: number) => offset ? pos + offset : pos
-
   const stack: Promise<void>[] = []
 
   const processNode = async (node: CssNode, _item: ListItem<CssNode>, _list: List<CssNode>) => {
@@ -80,15 +84,8 @@ export async function transformDirectives(
     if (hasThemeFn && node.type === 'Declaration')
       handleThemeFn(options, { uno, code, node })
 
-    if (isApply && node.type === 'Rule') {
-      await Promise.all(
-        node.block.children.map(async (childNode) => {
-          if (childNode.type === 'Raw')
-            return transformDirectives(code, uno, options, filename, childNode.value, calcOffset(childNode.loc!.start.offset))
-          await handleApply(options, { uno, code, node, childNode, offset })
-        }).toArray(),
-      )
-    }
+    if (isApply && node.type === 'Rule')
+      await handleApply(options, { uno, code, node }, filename)
   }
 
   walk(ast, (...args) => stack.push(processNode(...args)))

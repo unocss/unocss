@@ -1,26 +1,36 @@
 import type { StringifiedUtil } from '@unocss/core'
 import { expandVariantGroup, notNull, regexScopePlaceholder } from '@unocss/core'
-import type { CssNode, Rule, Selector, SelectorList } from 'css-tree'
+import type { Rule, Selector, SelectorList } from 'css-tree'
 import { clone, generate, parse } from 'css-tree'
 import type { TransformerDirectivesContext, TransformerDirectivesOptions } from '.'
+import { transformDirectives } from '.'
 
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
 
-interface ApplyContext extends TransformerDirectivesContext {
-  offset?: number
-  childNode: CssNode
+export async function handleApply(options: TransformerDirectivesOptions, { code, node, uno }: TransformerDirectivesContext, filename?: string) {
+  const { offset } = options
+  const calcOffset = (pos: number) => offset ? pos + offset : pos
+  node = node as Rule
+
+  await Promise.all(
+    node.block.children.map(async (childNode) => {
+      if (childNode.type === 'Raw')
+        return transformDirectives(code, uno, { ...options, offset: calcOffset(childNode.loc!.start.offset) }, filename, childNode.value)
+      await parseApply(options, { uno, code, node, childNode })
+    }).toArray(),
+  )
 }
 
-export async function handleApply(options: TransformerDirectivesOptions, { offset, code, node, childNode, uno }: ApplyContext) {
-  const { varStyle = '--at-' } = options
+export async function parseApply(options: TransformerDirectivesOptions, { code, node, childNode, uno }: TransformerDirectivesContext) {
+  const { varStyle = '--at-', offset } = options
   const calcOffset = (pos: number) => offset ? pos + offset : pos
   node = node as Rule
 
   let body: string | undefined
-  if (childNode.type === 'Atrule' && childNode.name === 'apply' && childNode.prelude && childNode.prelude.type === 'Raw') {
+  if (childNode!.type === 'Atrule' && childNode.name === 'apply' && childNode.prelude && childNode.prelude.type === 'Raw') {
     body = childNode.prelude.value.trim()
   }
-  else if (varStyle !== false && childNode.type === 'Declaration' && childNode.property === `${varStyle}apply` && childNode.value.type === 'Raw') {
+  else if (varStyle !== false && childNode!.type === 'Declaration' && childNode.property === `${varStyle}apply` && childNode.value.type === 'Raw') {
     body = childNode.value.value.trim()
     // remove quotes
     if (body.match(/^(['"]).*\1$/))
@@ -85,11 +95,11 @@ export async function handleApply(options: TransformerDirectivesOptions, { offse
       code.appendLeft(calcOffset(node.loc!.end.offset), css)
     }
     else {
-      code.appendRight(calcOffset(childNode.loc!.end.offset), body)
+      code.appendRight(calcOffset(childNode!.loc!.end.offset), body)
     }
   }
   code.remove(
-    calcOffset(childNode.loc!.start.offset),
-    calcOffset(childNode.loc!.end.offset),
+    calcOffset(childNode!.loc!.start.offset),
+    calcOffset(childNode!.loc!.end.offset),
   )
 }
