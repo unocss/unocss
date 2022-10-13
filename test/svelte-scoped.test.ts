@@ -32,8 +32,8 @@ describe('svelte-scoped', () => {
     <div class="bg-red-500" />
     `.trim())
     expect(result).toMatchInlineSnapshot(`
-      "<div class=\\"uno-rs78p2\\" />
-      <style>:global(.uno-rs78p2){--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));}</style>"
+      "<div class=\\"uno-orrz3z\\" />
+      <style>:global(.uno-orrz3z){--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));}</style>"
     `)
   })
 
@@ -41,8 +41,8 @@ describe('svelte-scoped', () => {
     const result = await transform(`
     <div class="mb-1 text-sm rtl:right-0 space-x-1" />`.trim())
     expect(result).toMatchInlineSnapshot(`
-      "<div class=\\"uno-05wrs8\\" />
-      <style>:global([dir=\\"rtl\\"] .uno-05wrs8){right:0rem;}:global(.uno-05wrs8){margin-bottom:0.25rem;font-size:0.875rem;line-height:1.25rem;}:global(.uno-05wrs8>:not([hidden])~:not([hidden])){--un-space-x-reverse:0;margin-left:calc(0.25rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(0.25rem * var(--un-space-x-reverse));}</style>"
+      "<div class=\\"uno-795nkx\\" />
+      <style>:global([dir=\\"rtl\\"] .uno-795nkx){right:0rem;}:global(.uno-795nkx){margin-bottom:0.25rem;font-size:0.875rem;line-height:1.25rem;}:global(.uno-795nkx>:not([hidden])~:not([hidden])){--un-space-x-reverse:0;margin-left:calc(0.25rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(0.25rem * var(--un-space-x-reverse));}</style>"
     `)
   })
 
@@ -56,13 +56,13 @@ describe('svelte-scoped', () => {
     <div class:flex class="bar" />
     `.trim())
     expect(result).toMatchInlineSnapshot(`
-      "<div class=\\"uno-kagvzm\\"/>
-          <div class:uno-kagvzm={bar} />
-          <div class:uno-kagvzm={flex} />
-          <div class:uno-kagvzm={flex}/>
-          <div class:uno-kagvzm={flex}>
-          <div class:uno-kagvzm={flex} class=\\"bar\\" />
-      <style>:global(.uno-kagvzm){display:flex;}</style>"
+      "<div class=\\"uno-oo7fkj\\"/>
+          <div class:uno-oo7fkj={bar} />
+          <div class:uno-oo7fkj={flex} />
+          <div class:uno-oo7fkj={flex}/>
+          <div class:uno-oo7fkj={flex}>
+          <div class:uno-oo7fkj={flex} class=\\"bar\\" />
+      <style>:global(.uno-oo7fkj){display:flex;}</style>"
     `)
   })
 
@@ -76,8 +76,8 @@ describe('svelte-scoped', () => {
     const result = await transform(`
     <div class="dark:hover:sm:space-x-1" />`.trim())
     expect(result).toMatchInlineSnapshot(`
-      "<div class=\\"uno-xutpqi\\" />
-      <style>@media (min-width: 640px){:global(.dark .uno-xutpqi>:not([hidden])~:not([hidden]):hover){--un-space-x-reverse:0;margin-left:calc(0.25rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(0.25rem * var(--un-space-x-reverse));}}</style>"
+      "<div class=\\"uno-1eyzu3\\" />
+      <style>@media (min-width: 640px){:global(.dark .uno-1eyzu3>:not([hidden])~:not([hidden]):hover){--un-space-x-reverse:0;margin-left:calc(0.25rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(0.25rem * var(--un-space-x-reverse));}}</style>"
     `)
   })
 
@@ -85,8 +85,8 @@ describe('svelte-scoped', () => {
     const result = await transform(`
     <div class="animate-bounce" />`.trim())
     expect(result).toMatchInlineSnapshot(`
-      "<div class=\\"uno-6e6tnj\\" />
-      <style>:global(.uno-6e6tnj){animation:bounce 1s linear infinite;}@keyframes bounce{0%, 100% {transform:translateY(-25%);animation-timing-function:cubic-bezier(0.8,0,1,1)} 50% {transform:translateY(0);animation-timing-function:cubic-bezier(0,0,0.2,1)}}</style>"
+      "<div class=\\"uno-swfyci\\" />
+      <style>:global(.uno-swfyci){animation:bounce 1s linear infinite;}@keyframes bounce{0%, 100% {transform:translateY(-25%);animation-timing-function:cubic-bezier(0.8,0,1,1)} 50% {transform:translateY(0);animation-timing-function:cubic-bezier(0,0,0.2,1)}}</style>"
     `)
   })
 
@@ -99,14 +99,14 @@ describe('svelte-scoped', () => {
   test('handles backticks and single quotes', async () => {
     const backticks = await transform('<span class=`font-bold` />')
     expect(backticks).toMatchInlineSnapshot(`
-      "<span class=\`uno-3ruxow\` />
-      <style>:global(.uno-3ruxow){font-weight:700;}</style>"
+      "<span class=\`uno-k2ufqh\` />
+      <style>:global(.uno-k2ufqh){font-weight:700;}</style>"
     `)
     const singleQuotes = await transform(`
     <span class='font-bold' />`.trim())
     expect(singleQuotes).toMatchInlineSnapshot(`
-      "<span class='uno-3ruxow' />
-      <style>:global(.uno-3ruxow){font-weight:700;}</style>"
+      "<span class='uno-k2ufqh' />
+      <style>:global(.uno-k2ufqh){font-weight:700;}</style>"
     `)
   })
 
@@ -115,8 +115,8 @@ describe('svelte-scoped', () => {
     const result = await transform(`
     <span class="font-bold {bar ? 'text-red-600' : 'text-(green-500 blue-400) font-semibold boo'} underline foo {baz ? 'italic ' : ''}">Hello</span>`.trim())
     expect(result).toMatchInlineSnapshot(`
-      "<span class=\\"uno-q0wubg {bar ? 'uno-nlyu1f' : 'uno-d8wudg boo'} foo {baz ? 'uno-qw1oq5' : ''}\\">Hello</span>
-      <style>:global(.uno-d8wudg){font-weight:600;--un-text-opacity:1;color:rgba(96,165,250,var(--un-text-opacity));color:rgba(34,197,94,var(--un-text-opacity));}:global(.uno-q0wubg){font-weight:700;text-decoration-line:underline;}:global(.uno-qw1oq5){font-style:italic;}:global(.uno-nlyu1f){--un-text-opacity:1;color:rgba(220,38,38,var(--un-text-opacity));}</style>"
+      "<span class=\\"uno-r4l94t {bar ? 'uno-ffvc5a' : 'uno-24bnl1 boo'} foo {baz ? 'uno-br1nw8' : ''}\\">Hello</span>
+      <style>:global(.uno-24bnl1){font-weight:600;--un-text-opacity:1;color:rgba(96,165,250,var(--un-text-opacity));color:rgba(34,197,94,var(--un-text-opacity));}:global(.uno-r4l94t){font-weight:700;text-decoration-line:underline;}:global(.uno-br1nw8){font-style:italic;}:global(.uno-ffvc5a){--un-text-opacity:1;color:rgba(220,38,38,var(--un-text-opacity));}</style>"
     `)
   })
 
@@ -143,5 +143,15 @@ describe('svelte-scoped', () => {
 </div>
     `.trim())
     expect(result).toMatchSnapshot()
+  })
+
+  // BUG: When this plugin is run on a component library first, and then in a project second, make sure to use different hashing prefixes because when `uno.parseToken()` checks a previously hashed class like `.uno-ssrvwc` it will add it to uno's cache of non-matches, then when `uno.generate()` runs it will not output the result of that shortcut. I don't the proper solution to this and I don't think clear uno's cache is right. To see this bug run:
+  test.skip('BUG: when a hashed style already exists (from an imported component library that was already processed), and style is found again it will not be output', async () => {
+    const result = await transform(`
+    <div class="uno-ssrvwc hidden" />`.trim())
+    expect(result).toMatchInlineSnapshot(`
+      "<div class=\\"uno-ssrvwc uno-ssrvwc\\" />
+      <style></style>"
+    `)
   })
 })

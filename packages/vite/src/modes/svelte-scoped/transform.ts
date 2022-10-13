@@ -63,7 +63,7 @@ export async function transformSvelteSFC(code: string, id: string, uno: UnoGener
   const s = new MagicString(code)
 
   function queueCompiledClass(tokens: string[]) {
-    const hash = hashFn(tokens.join(' '))
+    const hash = hashFn(tokens.join(' ') + id)
     const className = `${classPrefix}${hash}`
     shortcuts[className] = tokens
     toGenerate.add(className)
