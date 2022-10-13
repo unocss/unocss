@@ -1,11 +1,15 @@
 import type { StringifiedUtil } from '@unocss/core'
 import { expandVariantGroup, notNull, regexScopePlaceholder } from '@unocss/core'
-import type { Rule, Selector, SelectorList } from 'css-tree'
+import type { CssNode, Rule, Selector, SelectorList } from 'css-tree'
 import { clone, generate, parse } from 'css-tree'
 import type { TransformerDirectivesContext, TransformerDirectivesOptions } from '.'
 import { transformDirectives } from '.'
 
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
+
+interface ApplyContext extends TransformerDirectivesContext {
+  childNode: CssNode
+}
 
 export async function handleApply(options: TransformerDirectivesOptions, { code, node, uno }: TransformerDirectivesContext, filename?: string) {
   const { offset } = options
@@ -21,7 +25,7 @@ export async function handleApply(options: TransformerDirectivesOptions, { code,
   )
 }
 
-export async function parseApply(options: TransformerDirectivesOptions, { code, node, childNode, uno }: TransformerDirectivesContext) {
+export async function parseApply(options: TransformerDirectivesOptions, { code, node, childNode, uno }: ApplyContext) {
   const { varStyle = '--at-', offset } = options
   const calcOffset = (pos: number) => offset ? pos + offset : pos
   node = node as Rule

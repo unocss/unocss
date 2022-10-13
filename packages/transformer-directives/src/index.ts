@@ -36,7 +36,6 @@ export interface TransformerDirectivesContext {
   code: MagicString
   node: Atrule | Declaration | Rule
   uno: UnoGenerator
-  childNode?: CssNode
 }
 
 export default function transformerDirectives(options: TransformerDirectivesOptions = {}): SourceCodeTransformer {
