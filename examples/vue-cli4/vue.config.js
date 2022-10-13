@@ -13,4 +13,9 @@ module.exports = {
       cache: false,
     })
   },
+  css: {
+    extract: {
+      filename: '[name].[hash:9].css',
+    },
+  },
 }

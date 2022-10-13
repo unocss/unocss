@@ -20,13 +20,20 @@ module.exports = {
   plugins: [
     UnoCSS({ /* options */ }),
   ],
+  // for Webpack 4
+  css: {
+    extract: {
+      filename: '[name].[hash:9].css',
+    },
+  },
+  // for Webpack 5
   optimization: {
     realContentHash: true,
   },
 }
 ```
 
-> If you are using webpack@4.x, the `optimization.realContentHash` configuration is not supported, And you should remove it. Be aware of this [known issue](https://github.com/unocss/unocss/issues/1728) with bundle and [webpack#9520](https://github.com/webpack/webpack/issues/9520#issuecomment-749534245).
+> If you are using webpack@4.x, the `optimization.realContentHash` configuration is not supported, And you should use `css.extract.filename` to customize css filename(We use first 9 letter of hashcode instead of contenthash as example). Be aware of this [known issue](https://github.com/unocss/unocss/issues/1728) with bundle and [webpack#9520](https://github.com/webpack/webpack/issues/9520#issuecomment-749534245).
 
 Add `uno.css` to your main entry:
 
