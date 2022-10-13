@@ -4,13 +4,24 @@ import { type UnoGenerator, type UserConfig, type UserConfigDefaults, createGene
 import { loadConfig } from '@unocss/config'
 import presetUno from '@unocss/preset-uno'
 import { transformDirectives } from '@unocss/transformer-directives'
-import { type TransformSFCOptions, transformSvelteSFC } from '../../../packages/vite/src/modes/svelte-scoped' // set to @unocss/vite once #1692 (https://github.com/unocss/unocss/pull/1692) is merged and new release published
+import { transformSvelteSFC } from '../../../packages/vite/src/modes/svelte-scoped' // set to @unocss/vite once #1692 (https://github.com/unocss/unocss/pull/1692) is merged and new release published
 
-export interface SveltePreprocessUnocssOptions extends TransformSFCOptions {
+// unbuild throws an odd error unknown when trying to extend TransformSFCOptions here so I'm duplicating it's options
+export interface SveltePreprocessUnocssOptions {
   /**
-   * Run @unocss/transformer-directives on style blocks
-   * @default true
+ * Prefix for compiled class name
+ * @default 'uno-'
+ */
+  classPrefix?: string
+
+  /**
+   * Hash function
    */
+  hashFn?: (str: string) => string
+  /**
+* Run @unocss/transformer-directives on style blocks
+* @default true
+*/
   transformDirectives?: boolean
 }
 
