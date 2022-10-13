@@ -4,25 +4,35 @@ import { type UnoGenerator, type UserConfig, type UserConfigDefaults, createGene
 import { loadConfig } from '@unocss/config'
 import presetUno from '@unocss/preset-uno'
 import { transformDirectives } from '@unocss/transformer-directives'
-import { transformSvelteSFC } from '../../../packages/vite/src/modes/svelte-scoped' // put back to @unocss/vite once #1692 (https://github.com/unocss/unocss/pull/1692) is merged and new release published
+import { type TransformSFCOptions, transformSvelteSFC } from '../../../packages/vite/src/modes/svelte-scoped' // set to @unocss/vite once #1692 (https://github.com/unocss/unocss/pull/1692) is merged and new release published
 
-export default function SveltePreprocessUnocss(
-  configOrPath?: UserConfig | string,
-  defaults: UserConfigDefaults = {
-    presets: [
-      presetUno(),
-    ],
-  },
-): PreprocessorGroup {
+export interface SveltePreprocessUnocssOptions extends TransformSFCOptions {
+  /**
+   * Run @unocss/transformer-directives on style blocks
+   * @default true
+   */
+  transformDirectives?: boolean
+}
+
+export default function SveltePreprocessUnocss({
+  configOrPath,
+  options = {},
+}: {
+  configOrPath?: UserConfig | string
+  options: SveltePreprocessUnocssOptions
+}): PreprocessorGroup {
+  if (!options.transformDirectives)
+    options.transformDirectives = true
+
   let uno: UnoGenerator
   return {
     markup: async ({ content, filename }) => {
       if (!uno)
-        uno = await init(configOrPath, defaults)
+        uno = await init(configOrPath)
 
       let code = content
 
-      const result = await transformSvelteSFC(code, filename || '', uno)
+      const result = await transformSvelteSFC(code, filename || '', uno, options)
 
       if (result?.code)
         code = result.code
@@ -40,20 +50,27 @@ export default function SveltePreprocessUnocss(
       }
     },
     style: async ({ content }) => {
-      if (!uno)
-        uno = await init(configOrPath, defaults)
+      if (options.transformDirectives) {
+        if (!uno)
+          uno = await init(configOrPath)
 
-      const s = new MagicString(content)
-      await transformDirectives(s, uno, {
-        varStyle: '--at-',
-      })
-      if (s.hasChanged())
-        return { code: s.toString() }
+        const s = new MagicString(content)
+        await transformDirectives(s, uno, {
+          varStyle: '--at-',
+        })
+        if (s.hasChanged())
+          return { code: s.toString() }
+      }
     },
   }
 }
 
-async function init(configOrPath?: UserConfig | string, defaults?: UserConfigDefaults) {
+async function init(configOrPath?: UserConfig | string) {
+  const defaults: UserConfigDefaults = {
+    presets: [
+      presetUno(),
+    ],
+  }
   const { config } = await loadConfig(process.cwd(), configOrPath)
   return createGenerator(config, defaults)
 }

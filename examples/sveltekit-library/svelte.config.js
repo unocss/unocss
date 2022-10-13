@@ -6,7 +6,7 @@ import UnoCSS from '@unocss/svelte-preprocess-unocss'
 const config = {
   preprocess: [
     preprocess(),
-    UnoCSS(),
+    UnoCSS({ options: { classPrefix: 'spu-' } }),
   ],
 
   kit: {

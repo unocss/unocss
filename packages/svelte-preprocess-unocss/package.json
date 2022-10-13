@@ -1,7 +1,7 @@
 {
   "name": "temp-s-p-u",
-  "version": "0.0.4",
-  "description": "TEMP until merged: Run Unocss in svelte-scoped mode via a svelte-preprocessor for use in component libraries",
+  "version": "0.0.5",
+  "description": "TEMP until merged, set name to @unocss/svelte-preprocess-unocss and description to: Run Unocss in svelte-scoped mode via a svelte-preprocessor for use in component libraries",
   "author": "Jacob Bowdoin",
   "license": "MIT",
   "homepage": "https://github.com/jacob-8/unocss/blob/7c7e60b6095aa09deaef4bf35d121eeda133a4cd/packages/svelte-preprocess-unocss/README.md",
