@@ -32,16 +32,15 @@ describe('value handler', () => {
     expect(h.bracket('[var(--A\\_B)]')).eql('var(--A_B)')
   })
 
-  it('bracket raw-type', () => {
-    expect(h.bracket('[raw:a b]')).eql('a b')
-    expect(h.bracket('[raw:a_b]')).eql('a_b')
-    expect(h.bracket('[raw:a\\_b]')).eql('a\\_b')
-    expect(h.bracket('[raw:attr("data-label") ":" attr("data-value")]')).eql('attr("data-label") ":" attr("data-value")')
+  it('bracket string-type', () => {
+    expect(h.bracket('[string:a_b]')).eql('a b')
+    expect(h.bracket('[string:a\\_b]')).eql('a\_b')
+    expect(h.bracket('[string:attr(data-label)_":_"]')).eql('attr(data-label) ": "')
   })
 
-  it('bracket string-type', () => {
-    expect(h.bracket('[string:a_b]')).eql('\'a b\'')
-    expect(h.bracket('[string:a\\_b]')).eql('\'a_b\'')
-    expect(h.bracket('[string:with-\\,-\'-and-"]')).eql('\'with-\\\\,-\\\'-and-"\'')
+  it('bracket quoted-type', () => {
+    expect(h.bracket('[quoted:a_b]')).eql('"a b"')
+    expect(h.bracket('[quoted:a\\_b]')).eql('"a_b"')
+    expect(h.bracket('[quoted:\'with-\\,-\'-and-"]')).toMatchInlineSnapshot('"\\"\'with-\\\\\\\\,-\'-and-\\\\\\"\\""')
   })
 })
