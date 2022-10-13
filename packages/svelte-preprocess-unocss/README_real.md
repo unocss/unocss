@@ -1,15 +1,13 @@
-# temp-s-p-u
-
-## NOTE: This is a temporary package for testing until merged into UnoCSS. Don't expect it to be maintained! If you find this and want update, please watch the Svelte portions of the [UnoCSS docs](https://github.com/unocss/unocss).
-
+# @unocss/svelte-preprocess-unocss
 
 Run UnoCSS in `svelte-scoped` mode as a svelte preprocessor instead of as a Vite plugin (the normal method) to enable styles preprocessing in pipelines that don't use Vite, such as `svelte-package`.
 
 ## Installation
 
 ```
-npm i -D temp-s-p-u
+npm i -D @unocss/svelte-preprocess-unocss
 ```
+
 
 ## Configuration
 
@@ -18,12 +16,18 @@ npm i -D temp-s-p-u
 import adapter from '@sveltejs/adapter-auto'
 import preprocess from 'svelte-preprocess'
 import UnoCSS from '@unocss/svelte-preprocess-unocss'
+import presetUno from '@unocss/preset-uno'
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
   preprocess: [
     preprocess(),
-    UnoCSS(),
+    UnoCSS({
+      presets: [
+        presetUno(),
+      ],
+      // add options,
+    }),
   ],
 
   kit: {
@@ -32,6 +36,7 @@ const config = {
 }
 
 export default config
+
 ```
 
 

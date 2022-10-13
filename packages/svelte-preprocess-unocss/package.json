@@ -1,26 +1,18 @@
 {
-  "name": "@unocss/svelte-preprocess-unocss",
-  "version": "0.45.29",
-  "description": "Run Unocss in svelte-scoped mode via a svelte-preprocessor for use in component libraries",
+  "name": "temp-s-p-u",
+  "version": "0.0.4",
+  "description": "TEMP until merged: Run Unocss in svelte-scoped mode via a svelte-preprocessor for use in component libraries",
   "author": "Jacob Bowdoin",
   "license": "MIT",
-  "homepage": "https://github.com/unocss/unocss/tree/main/packages/svelte-proprocess-unocss#readme",
+  "homepage": "https://github.com/jacob-8/unocss/blob/7c7e60b6095aa09deaef4bf35d121eeda133a4cd/packages/svelte-preprocess-unocss/README.md",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/unocss/unocss.git",
+    "url": "git+https://github.com/jacob-8/unocss.git",
     "directory": "packages/svelte-proprocess-unocss"
   },
   "bugs": {
-    "url": "https://github.com/unocss/unocss/issues"
+    "url": "https://github.com/jacob-8/unocss/issues"
   },
-  "keywords": [
-    "unocss",
-    "svelte",
-    "sveltekit",
-    "svelte-preprocess",
-    "svelte-package",
-    "scoped-styles"
-  ],
   "sideEffects": false,
   "exports": {
     ".": {
@@ -40,9 +32,11 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@ampproject/remapping": "^2.2.0",
-    "@unocss/core": "workspace:*",
-    "@unocss/vite": "workspace:*",
+    "@unocss/config": "0.45.29",
+    "@unocss/core": "0.45.29",
+    "@unocss/preset-uno": "0.45.29",
+    "@unocss/transformer-directives": "0.45.29",
+    "@unocss/vite": "0.45.29",
     "magic-string": "^0.26.6"
   },
   "devDependencies": {

@@ -1,10 +1,10 @@
-import { type UnoGenerator, type UserConfig, type UserConfigDefaults, createGenerator } from '@unocss/core'
-import { loadConfig } from '@unocss/config'
-import { transformSvelteSFC } from '@unocss/vite'
-import presetUno from '@unocss/preset-uno'
 import type { PreprocessorGroup } from 'svelte/types/compiler/preprocess'
 import MagicString from 'magic-string'
+import { type UnoGenerator, type UserConfig, type UserConfigDefaults, createGenerator } from '@unocss/core'
+import { loadConfig } from '@unocss/config'
+import presetUno from '@unocss/preset-uno'
 import { transformDirectives } from '@unocss/transformer-directives'
+import { transformSvelteSFC } from '../../../packages/vite/src/modes/svelte-scoped' // put back to @unocss/vite once #1692 (https://github.com/unocss/unocss/pull/1692) is merged and new release published
 
 export default function SveltePreprocessUnocss(
   configOrPath?: UserConfig | string,
