@@ -1,19 +1,12 @@
-import type { UnoGenerator } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
 import type { Atrule } from 'css-tree'
-import type MagicString from 'magic-string'
-import type { TransformerDirectivesOptions } from '.'
-
-interface ScreenContext {
-  code: MagicString
-  node: Atrule
-  uno: UnoGenerator
-}
+import type { TransformerDirectivesContext, TransformerDirectivesOptions } from '.'
 
 const screenRuleRE = /(@screen) (.+) /g
 
-export function handleScreen(options: TransformerDirectivesOptions, { code, node, uno }: ScreenContext) {
+export function handleScreen(options: TransformerDirectivesOptions, { code, node, uno }: TransformerDirectivesContext) {
   let breakpointName = ''; let prefix
+  node = node as Atrule
   if (node.name === 'screen' && node.prelude?.type === 'Raw')
     breakpointName = node.prelude.value.trim()
 

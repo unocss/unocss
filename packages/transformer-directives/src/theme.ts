@@ -1,20 +1,12 @@
-import type { UnoGenerator } from '@unocss/core'
 import type { Declaration } from 'css-tree'
-import type MagicString from 'magic-string'
-import type { TransformerDirectivesOptions } from '.'
-
-interface ThemeContext {
-  code: MagicString
-  node: Declaration
-  uno: UnoGenerator
-}
+import type { TransformerDirectivesContext, TransformerDirectivesOptions } from '.'
 
 export const themeFnRE = /theme\((.*?)\)/g
 
-export function handleThemeFn(options: TransformerDirectivesOptions, { code, node, uno }: ThemeContext) {
+export function handleThemeFn(options: TransformerDirectivesOptions, { code, node, uno }: TransformerDirectivesContext) {
   const { throwOnMissing = true } = options
 
-  const value = node.value
+  const value = (node as Declaration).value
   const offset = value.loc!.start.offset
   const str = code.original.slice(offset, value.loc!.end.offset)
   const matches = Array.from(str.matchAll(themeFnRE))

@@ -1,6 +1,6 @@
 import { cssIdRE } from '@unocss/core'
 import type { SourceCodeTransformer, UnoGenerator } from '@unocss/core'
-import type { CssNode, List, ListItem } from 'css-tree'
+import type { Atrule, CssNode, Declaration, List, ListItem, Rule } from 'css-tree'
 import { parse, walk } from 'css-tree'
 import type MagicString from 'magic-string'
 import { handleThemeFn, themeFnRE } from './theme'
@@ -24,6 +24,12 @@ export interface TransformerDirectivesOptions {
    * @default true
    */
   throwOnMissing?: boolean
+}
+
+export interface TransformerDirectivesContext {
+  code: MagicString
+  node: Atrule | Declaration | Rule
+  uno: UnoGenerator
 }
 
 export default function transformerDirectives(options: TransformerDirectivesOptions = {}): SourceCodeTransformer {
@@ -76,7 +82,7 @@ export async function transformDirectives(
 
     if (isApply && node.type === 'Rule') {
       await Promise.all(
-        node.block.children.map(async (childNode, _childItem) => {
+        node.block.children.map(async (childNode) => {
           if (childNode.type === 'Raw')
             return transformDirectives(code, uno, options, filename, childNode.value, calcOffset(childNode.loc!.start.offset))
           await handleApply(options, { uno, code, node, childNode, offset })

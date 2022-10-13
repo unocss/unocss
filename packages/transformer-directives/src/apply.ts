@@ -1,23 +1,20 @@
-import type { StringifiedUtil, UnoGenerator } from '@unocss/core'
+import type { StringifiedUtil } from '@unocss/core'
 import { expandVariantGroup, notNull, regexScopePlaceholder } from '@unocss/core'
 import type { CssNode, Rule, Selector, SelectorList } from 'css-tree'
-import type MagicString from 'magic-string'
 import { clone, generate, parse } from 'css-tree'
-import type { TransformerDirectivesOptions } from '.'
+import type { TransformerDirectivesContext, TransformerDirectivesOptions } from '.'
 
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
 
-interface ApplyContext {
+interface ApplyContext extends TransformerDirectivesContext {
   offset?: number
-  code: MagicString
-  uno: UnoGenerator
   childNode: CssNode
-  node: Rule
 }
 
 export async function handleApply(options: TransformerDirectivesOptions, { offset, code, node, childNode, uno }: ApplyContext) {
   const { varStyle = '--at-' } = options
   const calcOffset = (pos: number) => offset ? pos + offset : pos
+  node = node as Rule
 
   let body: string | undefined
   if (childNode.type === 'Atrule' && childNode.name === 'apply' && childNode.prelude && childNode.prelude.type === 'Raw') {
