@@ -91,7 +91,6 @@ export type PseudoPrefix =
 /** Some words can be used to separate utilities, such as font="mono light", text="sm white" */
 export type SeparateEnabled =
   | 'align'
-  | 'items'
   | 'animate'
   | 'backdrop'
   | 'bg'
@@ -111,6 +110,7 @@ export type SeparateEnabled =
   | 'grid'
   | 'h'
   | 'icon'
+  | 'items'
   | 'justify'
   | 'list'
   | 'm'
