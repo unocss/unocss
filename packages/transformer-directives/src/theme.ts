@@ -1,9 +1,9 @@
 import type { Declaration } from 'css-tree'
-import type { TransformerDirectivesContext, TransformerDirectivesOptions } from '.'
+import type { TransformerDirectivesContext } from '.'
 
 export const themeFnRE = /theme\((.*?)\)/g
 
-export function handleThemeFn(options: TransformerDirectivesOptions, { code, node, uno }: TransformerDirectivesContext) {
+export function handleThemeFn({ code, node, uno, options }: TransformerDirectivesContext) {
   const { throwOnMissing = true } = options
 
   const value = (node as Declaration).value

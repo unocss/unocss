@@ -1,10 +1,10 @@
 import type { Theme } from '@unocss/preset-mini'
 import type { Atrule } from 'css-tree'
-import type { TransformerDirectivesContext, TransformerDirectivesOptions } from '.'
+import type { TransformerDirectivesContext } from '.'
 
 const screenRuleRE = /(@screen) (.+) /g
 
-export function handleScreen(options: TransformerDirectivesOptions, { code, node, uno }: TransformerDirectivesContext) {
+export function handleScreen({ code, node, uno }: TransformerDirectivesContext) {
   let breakpointName = ''; let prefix
   node = node as Atrule
   if (node.name === 'screen' && node.prelude?.type === 'Raw')

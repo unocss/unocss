@@ -24,18 +24,16 @@ export interface TransformerDirectivesOptions {
    * @default true
    */
   throwOnMissing?: boolean
-  /**
-   * Overwrite code with offset
-   *
-   * @default 0
-   */
-  offset?: number
 }
 
 export interface TransformerDirectivesContext {
   code: MagicString
-  node: Atrule | Declaration | Rule
   uno: UnoGenerator
+  options: TransformerDirectivesOptions
+  node: Atrule | Declaration | Rule
+  childNode?: CssNode
+  offset?: number
+  filename?: string
 }
 
 export default function transformerDirectives(options: TransformerDirectivesOptions = {}): SourceCodeTransformer {
@@ -55,6 +53,7 @@ export async function transformDirectives(
   options: TransformerDirectivesOptions,
   filename?: string,
   originalCode?: string,
+  offset?: number,
 ) {
   const { varStyle = '--at-' } = options
 
@@ -78,13 +77,13 @@ export async function transformDirectives(
 
   const processNode = async (node: CssNode, _item: ListItem<CssNode>, _list: List<CssNode>) => {
     if (isScreen && node.type === 'Atrule')
-      handleScreen(options, { uno, code, node })
+      handleScreen({ options, uno, code, node })
 
     if (hasThemeFn && node.type === 'Declaration')
-      handleThemeFn(options, { uno, code, node })
+      handleThemeFn({ options, uno, code, node })
 
     if (isApply && node.type === 'Rule')
-      await handleApply(options, { uno, code, node }, filename)
+      await handleApply({ options, uno, code, node, filename, offset })
   }
 
   walk(ast, (...args) => stack.push(processNode(...args)))

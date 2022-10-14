@@ -1,32 +1,27 @@
 import type { StringifiedUtil } from '@unocss/core'
 import { expandVariantGroup, notNull, regexScopePlaceholder } from '@unocss/core'
-import type { CssNode, Rule, Selector, SelectorList } from 'css-tree'
+import type { Rule, Selector, SelectorList } from 'css-tree'
 import { clone, generate, parse } from 'css-tree'
-import type { TransformerDirectivesContext, TransformerDirectivesOptions } from '.'
+import type { TransformerDirectivesContext } from '.'
 import { transformDirectives } from '.'
 
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
 
-interface ApplyContext extends TransformerDirectivesContext {
-  childNode: CssNode
-}
-
-export async function handleApply(options: TransformerDirectivesOptions, { code, node, uno }: TransformerDirectivesContext, filename?: string) {
-  const { offset } = options
+export async function handleApply({ code, node, uno, options, filename, offset }: TransformerDirectivesContext) {
   const calcOffset = (pos: number) => offset ? pos + offset : pos
   node = node as Rule
 
   await Promise.all(
     node.block.children.map(async (childNode) => {
       if (childNode.type === 'Raw')
-        return transformDirectives(code, uno, { ...options, offset: calcOffset(childNode.loc!.start.offset) }, filename, childNode.value)
-      await parseApply(options, { uno, code, node, childNode })
+        return transformDirectives(code, uno, options, filename, childNode.value, calcOffset(childNode.loc!.start.offset))
+      await parseApply({ options, uno, code, node, childNode, offset })
     }).toArray(),
   )
 }
 
-export async function parseApply(options: TransformerDirectivesOptions, { code, node, childNode, uno }: ApplyContext) {
-  const { varStyle = '--at-', offset } = options
+export async function parseApply({ code, node, childNode, uno, options, offset }: TransformerDirectivesContext) {
+  const { varStyle = '--at-' } = options
   const calcOffset = (pos: number) => offset ? pos + offset : pos
   node = node as Rule
 
