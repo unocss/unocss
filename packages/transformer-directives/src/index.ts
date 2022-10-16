@@ -30,7 +30,6 @@ export interface TransformerDirectivesContext {
   code: MagicString
   uno: UnoGenerator
   options: TransformerDirectivesOptions
-  childNode?: CssNode
   offset?: number
   filename?: string
 }

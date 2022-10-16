@@ -1,6 +1,6 @@
 import type { StringifiedUtil } from '@unocss/core'
 import { expandVariantGroup, notNull, regexScopePlaceholder } from '@unocss/core'
-import type { Rule, Selector, SelectorList } from 'css-tree'
+import type { CssNode, Rule, Selector, SelectorList } from 'css-tree'
 import { clone, generate, parse } from 'css-tree'
 import type { TransformerDirectivesContext } from '.'
 import { transformDirectives } from '.'
@@ -15,18 +15,17 @@ export async function handleApply(ctx: TransformerDirectivesContext, node: Rule)
     node.block.children.map(async (childNode) => {
       if (childNode.type === 'Raw')
         return transformDirectives(code, uno, options, filename, childNode.value, calcOffset(childNode.loc!.start.offset))
-      await parseApply(ctx, node)
+      await parseApply(ctx, node, childNode)
     }).toArray(),
   )
 }
 
-export async function parseApply({ code, childNode, uno, options, offset }: TransformerDirectivesContext, node: Rule) {
+export async function parseApply({ code, uno, options, offset }: TransformerDirectivesContext, node: Rule, childNode: CssNode) {
   const { varStyle = '--at-' } = options
   const calcOffset = (pos: number) => offset ? pos + offset : pos
-  node = node as Rule
 
   let body: string | undefined
-  if (childNode!.type === 'Atrule' && childNode.name === 'apply' && childNode.prelude && childNode.prelude.type === 'Raw') {
+  if (childNode.type === 'Atrule' && childNode.name === 'apply' && childNode.prelude && childNode.prelude.type === 'Raw') {
     body = childNode.prelude.value.trim()
   }
   else if (varStyle !== false && childNode!.type === 'Declaration' && childNode.property === `${varStyle}apply` && childNode.value.type === 'Raw') {
