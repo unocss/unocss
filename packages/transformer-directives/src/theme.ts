@@ -3,12 +3,11 @@ import type { TransformerDirectivesContext } from '.'
 
 export const themeFnRE = /theme\((.*?)\)/g
 
-export function handleThemeFn({ code, node, uno, options }: TransformerDirectivesContext) {
+export function handleThemeFn({ code, uno, options }: TransformerDirectivesContext, node: Declaration) {
   const { throwOnMissing = true } = options
 
-  const value = (node as Declaration).value
-  const offset = value.loc!.start.offset
-  const str = code.original.slice(offset, value.loc!.end.offset)
+  const offset = node.value.loc!.start.offset
+  const str = code.original.slice(offset, node.value.loc!.end.offset)
   const matches = Array.from(str.matchAll(themeFnRE))
 
   if (!matches.length)

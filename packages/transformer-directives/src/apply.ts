@@ -7,20 +7,20 @@ import { transformDirectives } from '.'
 
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
 
-export async function handleApply({ code, node, uno, options, filename, offset }: TransformerDirectivesContext) {
+export async function handleApply(ctx: TransformerDirectivesContext, node: Rule) {
+  const { code, uno, options, filename, offset } = ctx
   const calcOffset = (pos: number) => offset ? pos + offset : pos
-  node = node as Rule
 
   await Promise.all(
     node.block.children.map(async (childNode) => {
       if (childNode.type === 'Raw')
         return transformDirectives(code, uno, options, filename, childNode.value, calcOffset(childNode.loc!.start.offset))
-      await parseApply({ options, uno, code, node, childNode, offset })
+      await parseApply(ctx, node)
     }).toArray(),
   )
 }
 
-export async function parseApply({ code, node, childNode, uno, options, offset }: TransformerDirectivesContext) {
+export async function parseApply({ code, childNode, uno, options, offset }: TransformerDirectivesContext, node: Rule) {
   const { varStyle = '--at-' } = options
   const calcOffset = (pos: number) => offset ? pos + offset : pos
   node = node as Rule

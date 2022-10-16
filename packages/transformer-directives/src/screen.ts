@@ -4,9 +4,10 @@ import type { TransformerDirectivesContext } from '.'
 
 const screenRuleRE = /(@screen) (.+) /g
 
-export function handleScreen({ code, node, uno }: TransformerDirectivesContext) {
-  let breakpointName = ''; let prefix
-  node = node as Atrule
+export function handleScreen({ code, uno }: TransformerDirectivesContext, node: Atrule) {
+  let breakpointName = ''
+  let prefix = ''
+
   if (node.name === 'screen' && node.prelude?.type === 'Raw')
     breakpointName = node.prelude.value.trim()
 

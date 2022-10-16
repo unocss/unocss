@@ -1,6 +1,6 @@
 import { cssIdRE } from '@unocss/core'
 import type { SourceCodeTransformer, UnoGenerator } from '@unocss/core'
-import type { Atrule, CssNode, Declaration, List, ListItem, Rule } from 'css-tree'
+import type { CssNode, List, ListItem } from 'css-tree'
 import { parse, walk } from 'css-tree'
 import type MagicString from 'magic-string'
 import { handleThemeFn, themeFnRE } from './theme'
@@ -30,7 +30,6 @@ export interface TransformerDirectivesContext {
   code: MagicString
   uno: UnoGenerator
   options: TransformerDirectivesOptions
-  node: Atrule | Declaration | Rule
   childNode?: CssNode
   offset?: number
   filename?: string
@@ -76,14 +75,16 @@ export async function transformDirectives(
   const stack: Promise<void>[] = []
 
   const processNode = async (node: CssNode, _item: ListItem<CssNode>, _list: List<CssNode>) => {
+    const ctx: TransformerDirectivesContext = { options, uno, code, filename, offset }
+
     if (isScreen && node.type === 'Atrule')
-      handleScreen({ options, uno, code, node })
+      handleScreen(ctx, node)
 
     if (hasThemeFn && node.type === 'Declaration')
-      handleThemeFn({ options, uno, code, node })
+      handleThemeFn(ctx, node)
 
     if (isApply && node.type === 'Rule')
-      await handleApply({ options, uno, code, node, filename, offset })
+      await handleApply(ctx, node)
   }
 
   walk(ast, (...args) => stack.push(processNode(...args)))
