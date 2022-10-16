@@ -57,7 +57,6 @@ const preset = (options: WebFontsOptions = {}): Preset<any> => {
       if (!importCache[url]) {
         const { $fetch } = await import('ohmyfetch')
         importCache[url] = $fetch(url, { headers: {}, retry: 3 })
-          // .then(css => convertToLocalFontFace(css))
           .catch((e) => {
             console.error('Failed to fetch web fonts')
             console.error(e)
