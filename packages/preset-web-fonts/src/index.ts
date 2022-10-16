@@ -21,6 +21,15 @@ export function normalizedFontMeta(meta: WebFontMeta | string, defaultProvider: 
   }
 }
 
+function convertToLocalFontFace(css: string) {
+  return css.replace(/@font-face\s*{[^}]*}/g, (match) => {
+    const fontFamily = match.match(/font-family:\s*['"]([^'"]+)['"]/)?.[1]
+    if (!fontFamily)
+      return match
+    return match.replace(/src:\s*url\(([^)]+)\)/, `src: local('${fontFamily}'), url($1)`)
+  })
+}
+
 const providers = {
   google: GoogleFontsProvider,
   bunny: BunnyFontsProvider,
@@ -48,6 +57,7 @@ const preset = (options: WebFontsOptions = {}): Preset<any> => {
       if (!importCache[url]) {
         const { $fetch } = await import('ohmyfetch')
         importCache[url] = $fetch(url, { headers: {}, retry: 3 })
+          // .then(css => convertToLocalFontFace(css))
           .catch((e) => {
             console.error('Failed to fetch web fonts')
             console.error(e)
@@ -77,7 +87,7 @@ const preset = (options: WebFontsOptions = {}): Preset<any> => {
             if (provider.getImportUrl) {
               const url = provider.getImportUrl(fontsForProvider)
               if (url)
-                preflights.push(await importUrl(url))
+                preflights.push(convertToLocalFontFace((await importUrl(url))))
             }
 
             preflights.push(provider.getPreflight?.(fontsForProvider))
