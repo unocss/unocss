@@ -23,10 +23,10 @@ export function normalizedFontMeta(meta: WebFontMeta | string, defaultProvider: 
 
 function convertToLocalFontFace(css: string) {
   return css.replace(/@font-face\s*{[^}]*}/g, (match) => {
-    const fontFamily = match.match(/font-family:\s*['"]([^'"]+)['"]/)?.[1]
+    const fontFamily = match.match(/font-family:\s*(['"]?[^'"]+['"]?)/)?.[1]
     if (!fontFamily)
       return match
-    return match.replace(/src:\s*url\(([^)]+)\)/, `src: local('${fontFamily}'), url($1)`)
+    return match.replace(/src:\s*url\(([^)]+)\)/, `src: local(${fontFamily}), url($1)`)
   })
 }
 
