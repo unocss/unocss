@@ -47,4 +47,15 @@ describe('variant-group', () => {
       ]
     `)
   })
+
+  test('expand with underscore', () => {
+    const shortcut = 'children-[.a-drawer]-(bg-red_text-white)'
+    expect(expandVariantGroup(shortcut)).toEqual('children-[.a-drawer]-bg-red children-[.a-drawer]-text-white')
+    expect(expandVariantGroup(shortcut.trim()).split(/\s+/g)).toMatchInlineSnapshot(`
+      [
+        "children-[.a-drawer]-bg-red",
+        "children-[.a-drawer]-text-white",
+      ]
+    `)
+  })
 })
