@@ -134,7 +134,6 @@ export const rules: Rule[] = [
   textColors,
   textDecorations,
   fontSmoothings,
-  // TODO placeholders,
   tabSizes,
   textStrokes,
   textShadows,
