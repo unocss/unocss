@@ -86,6 +86,7 @@ Presets are the heart of UnoCSS. They let you make your own custom framework in 
 - [unocss-preset-forms](https://github.com/Julien-R44/unocss-preset-forms) - Port of [@tailwindcss/forms](https://github.com/tailwindlabs/tailwindcss-forms) for UnoCSS by [@Julien-R44](https://github.com/Julien-R44).
 - [unocss-preset-extra](https://github.com/MoomFE/unocss-preset-extra) - [Animate.css](https://animate.style) Preset and some other rules by [@Zhang-Wei-666](https://github.com/Zhang-Wei-666).
 - [unocss-preset-daisy](https://github.com/kidonng/unocss-preset-daisy) - daisyUI Preset by [@kidonng](https://github.com/kidonng).
+- [unocss-preset-primitives](https://github.com/zirbest/unocss-preset-primitives) - Like [headlessui-tailwindcss](https://github.com/tailwindlabs/headlessui/tree/main/packages/%40headlessui-tailwindcss) , radix-ui , custom for UnoCSS By [@zirbest](https://github.com/zirbest).
 
 ###### Community Frameworks
 
