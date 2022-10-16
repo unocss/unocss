@@ -98,7 +98,7 @@ export class ContextLoader {
               'vite.config',
               'svelte.config',
               'iles.config',
-              'electron.vite.config'
+              'electron.vite.config',
             ],
             targetModule: 'unocss/vite',
             parameters: [{ command: 'serve', mode: 'development' }],
