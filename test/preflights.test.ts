@@ -44,4 +44,17 @@ describe('preflights', () => {
       ]
     `)
   })
+
+  test('preflight root can be customized', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+      theme: {
+        preflightRoot: ':root',
+      },
+    })
+    const { css } = await uno.generate('')
+    expect(css).toMatchSnapshot()
+  })
 })

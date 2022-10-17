@@ -60,5 +60,6 @@ export interface Theme {
   }
   // vars
   /** Used to generate CSS variables placeholder in preflight */
+  preflightRoot?: string
   preflightBase?: Record<string, string | number>
 }

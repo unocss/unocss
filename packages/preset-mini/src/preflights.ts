@@ -8,7 +8,8 @@ export const preflights: Preflight[] = [
     getCSS(ctx: PreflightContext<Theme>) {
       if (ctx.theme.preflightBase) {
         const css = entriesToCss(Object.entries(ctx.theme.preflightBase))
-        return `*,::before,::after{${css}}::backdrop{${css}}`
+        const root = ctx.theme.preflightRoot ?? ''
+        return `${root === '' ? '*' : root},${root}::before,${root}::after{${css}}${root}::backdrop{${css}}`
       }
     },
   },
