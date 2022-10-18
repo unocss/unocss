@@ -1,4 +1,4 @@
-import type { UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
+import type { GenerateResult, UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
 import { autoPrefixer, decodeHtml } from './utils'
 
@@ -70,6 +70,13 @@ export interface RuntimeContext {
   toggleObserver: (state?: boolean) => void
 
   /**
+   * Manually run the update cycle.
+   *
+   * @returns {GenerateResult & { styleElement: HTMLStyleElement}}
+   */
+  update: () => Promise<GenerateResult & { styleElement: HTMLStyleElement }>
+
+  /**
    * The UnoCSS version.
    *
    * @type {string}
@@ -137,14 +144,23 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
     })
   }
 
-  async function updateStyle() {
-    const result = await uno.generate(tokens)
+  function getStyleElement() {
     if (!styleElement) {
       styleElement = document.createElement('style')
       document.documentElement.prepend(styleElement)
     }
+    return styleElement
+  }
+
+  async function updateStyle() {
+    const result = await uno.generate(tokens)
+    const styleElement = getStyleElement()
     styleElement.innerHTML = result.css
     tokens = result.matched
+    return {
+      ...result,
+      styleElement,
+    }
   }
 
   async function extract(str: string) {
@@ -247,6 +263,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
       if (!observing && !paused)
         ready()
     },
+    update: updateStyle,
   }
 
   if (runtime?.ready?.(unoCssRuntime) !== false) {
