@@ -81,7 +81,7 @@ export async function transformSvelteSFC(code: string, id: string, uno: UnoGener
     }
     else {
       return tokens.map((token) => {
-        const className = `${token}-${idHash}`
+        const className = `_${idHash}_${token}` // certain classes (!mt-1, md:mt-1, space-x-1) break when coming at the beginning of a shortcut
         shortcuts[className] = [token]
         toGenerate.add(className)
         return className

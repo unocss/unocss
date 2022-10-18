@@ -34,8 +34,8 @@ describe('svelte-scoped', () => {
       <style>:global(.uno-orrz3z){--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));}</style>"
     `)
     expect(await transform(code, { combine: false })).toMatchInlineSnapshot(`
-      "<div class=\\"bg-red-500-7dkb0w\\" />
-      <style>:global(.bg-red-500-7dkb0w){--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));}</style>"
+      "<div class=\\"_7dkb0w_bg-red-500\\" />
+      <style>:global(._7dkb0w_bg-red-500){--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));}</style>"
     `)
   })
 
@@ -46,8 +46,8 @@ describe('svelte-scoped', () => {
       <style>:global([dir=\\"rtl\\"] .uno-795nkx){right:0rem;}:global(.uno-795nkx){margin-bottom:0.25rem;font-size:0.875rem;line-height:1.25rem;}:global(.uno-795nkx>:not([hidden])~:not([hidden])){--un-space-x-reverse:0;margin-left:calc(0.25rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(0.25rem * var(--un-space-x-reverse));}</style>"
     `)
     expect(await transform(code, { combine: false })).toMatchInlineSnapshot(`
-      "<div class=\\"mb-1-7dkb0w rtl:right-0-7dkb0w space-x-1-7dkb0w text-sm-7dkb0w\\" />
-      <style>:global(.mb-1-7dkb0w){margin-bottom:0.25rem;}:global(.space-x-1-7dkb0w>:not([hidden])~:not([hidden])>:not([hidden])~:not([hidden])){--un-space-x-reverse:0;margin-left:calc(0.25rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(0.25rem * var(--un-space-x-reverse));}:global(.text-sm-7dkb0w){font-size:0.875rem;line-height:1.25rem;}</style>"
+      "<div class=\\"_7dkb0w_mb-1 _7dkb0w_rtl:right-0 _7dkb0w_space-x-1 _7dkb0w_text-sm\\" />
+      <style>:global([dir=\\"rtl\\"] ._7dkb0w_rtl\\\\:right-0){right:0rem;}:global(._7dkb0w_mb-1){margin-bottom:0.25rem;}:global(._7dkb0w_space-x-1>:not([hidden])~:not([hidden])){--un-space-x-reverse:0;margin-left:calc(0.25rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(0.25rem * var(--un-space-x-reverse));}:global(._7dkb0w_text-sm){font-size:0.875rem;line-height:1.25rem;}</style>"
     `)
   })
 
@@ -134,6 +134,18 @@ describe('svelte-scoped', () => {
       }
     </style>`.trim())
     expect(result).toMatchInlineSnapshot('undefined')
+  })
+
+  test('dev, only hash but not combine mode, handles classes that fail when coming at the beginning of a shortcut name', async () => {
+    const code = '<div class="mb-1 !mt-2 md:mr-3 space-x-1" />'
+    expect(await transform(code)).toMatchInlineSnapshot(`
+      "<div class=\\"uno-8mjgqp\\" />
+      <style>:global(.uno-8mjgqp){margin-top:0.5rem !important;margin-bottom:0.25rem;}:global(.uno-8mjgqp>:not([hidden])~:not([hidden])){--un-space-x-reverse:0;margin-left:calc(0.25rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(0.25rem * var(--un-space-x-reverse));}@media (min-width: 768px){:global(.uno-8mjgqp){margin-right:0.75rem;}}</style>"
+    `)
+    expect(await transform(code, { combine: false })).toMatchInlineSnapshot(`
+      "<div class=\\"_7dkb0w_!mt-2 _7dkb0w_mb-1 _7dkb0w_md:mr-3 _7dkb0w_space-x-1\\" />
+      <style>:global(._7dkb0w_\\\\!mt-2){margin-top:0.5rem !important;}:global(._7dkb0w_mb-1){margin-bottom:0.25rem;}:global(._7dkb0w_space-x-1>:not([hidden])~:not([hidden])){--un-space-x-reverse:0;margin-left:calc(0.25rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(0.25rem * var(--un-space-x-reverse));}@media (min-width: 768px){:global(._7dkb0w_md\\\\:mr-3){margin-right:0.75rem;}}</style>"
+    `)
   })
 
   test('everything', async () => {
