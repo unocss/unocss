@@ -14,7 +14,11 @@ export interface TransformSFCOptions {
    * @default 'uno-'
    */
   classPrefix?: string
-
+  /**
+   * Add hash and combine recognized tokens (optimal for production); set false in dev mode for easy dev tools toggling to allow for design adjustments in the browser
+   * @default true
+   */
+  combine?: boolean
   /**
    * Hash function
    */
@@ -23,8 +27,9 @@ export interface TransformSFCOptions {
 
 export async function transformSvelteSFC(code: string, id: string, uno: UnoGenerator, options: TransformSFCOptions = {}): Promise<{ code: string; map?: SourceMap } | undefined> {
   const {
-    hashFn = hash,
     classPrefix = 'uno-',
+    combine = true,
+    hashFn = hash,
   } = options
 
   let styles = ''
@@ -62,12 +67,26 @@ export async function transformSvelteSFC(code: string, id: string, uno: UnoGener
   const toGenerate = new Set<string>()
   const s = new MagicString(code)
 
-  function queueCompiledClass(tokens: string[]) {
-    const hash = hashFn(tokens.join(' ') + id)
-    const className = `${classPrefix}${hash}`
-    shortcuts[className] = tokens
-    toGenerate.add(className)
-    return className
+  let idHash: string
+  if (!combine)
+    idHash = hashFn(id)
+
+  function queueCompiledClass(tokens: string[]): string {
+    if (combine) {
+      const hash = hashFn(tokens.join(' ') + id)
+      const className = `${classPrefix}${hash}`
+      shortcuts[className] = tokens
+      toGenerate.add(className)
+      return className
+    }
+    else {
+      return tokens.map((token) => {
+        const className = `${token}-${idHash}`
+        shortcuts[className] = [token]
+        toGenerate.add(className)
+        return className
+      }).join(' ')
+    }
   }
 
   async function sortKnownAndUnknownClasses(str: string) {
