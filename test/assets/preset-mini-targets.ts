@@ -870,6 +870,9 @@ export const presetMiniTargets: string[] = [
   'important:p-3',
   'sm:important:p-3',
   'p3!',
+  '-mt-safe',
+  '-!mb-safe',
+  '!-ms-safe',
 
   // variants class
   'all-[.target]-[combinator:test-2]',
