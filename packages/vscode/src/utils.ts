@@ -102,7 +102,6 @@ export function isSubdir(parent: string, child: string) {
 }
 
 async function isColorUtility(uno: UnoGenerator, utilName: string) {
-  const css = (await getPrettiedCSS(uno, utilName)).css
-
+  const { css } = await uno.generate(utilName, { preflights: false, safelist: false })
   return css.includes('color')
 }
