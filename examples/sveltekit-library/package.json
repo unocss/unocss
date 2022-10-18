@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "vite dev",
-    "build": "svelte-kit sync && svelte-package",
+    "build": "cross-env NODE_ENV=production svelte-kit sync && svelte-package",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
   },
@@ -14,6 +14,7 @@
     "@sveltejs/kit": "next",
     "@sveltejs/package": "next",
     "@unocss/svelte-preprocess-unocss": "link:../../packages/svelte-preprocess-unocss",
+    "cross-env": "^7.0.3",
     "svelte": "^3.44.0",
     "svelte-check": "^2.7.1",
     "svelte-preprocess": "^4.10.6",
