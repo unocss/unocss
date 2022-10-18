@@ -1,5 +1,5 @@
 import type { Preflight, PreflightContext } from '@unocss/core'
-import { entriesToCss } from '@unocss/core'
+import { entriesToCss, toArray } from '@unocss/core'
 import type { Theme } from './theme'
 
 export const preflights: Preflight[] = [
@@ -8,8 +8,11 @@ export const preflights: Preflight[] = [
     getCSS(ctx: PreflightContext<Theme>) {
       if (ctx.theme.preflightBase) {
         const css = entriesToCss(Object.entries(ctx.theme.preflightBase))
-        const root = ctx.theme.preflightRoot ?? ''
-        return `${root === '' ? '*' : root},${root}::before,${root}::after{${css}}${root}::backdrop{${css}}`
+        let roots = toArray(ctx.theme.preflightRoot)
+        if (!roots.length)
+          roots = ['*,::before,::after', '::backdrop']
+
+        return roots.map(root => `${root}{${css}}`).join('')
       }
     },
   },
