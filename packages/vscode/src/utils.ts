@@ -64,7 +64,7 @@ export async function getColorsMap(uno: UnoGenerator, result: GenerateResult) {
   const colorsMap = new Map<string, string>()
 
   for (const i of result.matched) {
-    if (await isColorUtility(uno, i))
+    if (!(await isColorUtility(uno, i)))
       continue
 
     const matchedValueless = i.match(matchedValuelessAttributifyRE)?.[0]
