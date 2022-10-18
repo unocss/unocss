@@ -47,16 +47,16 @@
   },
   "dependencies": {
     "@ampproject/remapping": "^2.2.0",
-    "@rollup/pluginutils": "^4.2.1",
+    "@rollup/pluginutils": "^5.0.1",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/inspector": "workspace:*",
     "@unocss/scope": "workspace:*",
     "@unocss/transformer-directives": "workspace:*",
-    "magic-string": "^0.26.6"
+    "magic-string": "^0.26.7"
   },
   "devDependencies": {
     "@unocss/shared-integration": "workspace:*",
-    "vite": "^3.1.6"
+    "vite": "^3.1.8"
   }
 }

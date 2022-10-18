@@ -53,7 +53,7 @@
   "dependencies": {
     "@iconify/utils": "^2.0.1",
     "@unocss/core": "workspace:*",
-    "ohmyfetch": "^0.4.19"
+    "ohmyfetch": "^0.4.20"
   },
   "devDependencies": {
     "@iconify/types": "^2.0.0"

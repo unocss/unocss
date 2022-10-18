@@ -5,7 +5,9 @@
     "@types/vscode",
     "codemirror",
     "@vue/cli-plugin-babel",
-    "@vue/cli-service"
+    "@vue/cli-service",
+    "rollup",
+    "unbuild"
   ],
   "packageMode": {
     "vue": "minor"

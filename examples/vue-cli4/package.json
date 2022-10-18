@@ -5,13 +5,13 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "vue": "^2.7.10"
+    "vue": "^2.7.13"
   },
   "devDependencies": {
     "@unocss/webpack": "link:../../packages/webpack",
     "@vue/cli-plugin-babel": "~4.5.15",
     "@vue/cli-service": "~4.5.15",
     "unocss": "link:../../packages/unocss",
-    "vue-template-compiler": "^2.7.10"
+    "vue-template-compiler": "^2.7.13"
   }
 }
