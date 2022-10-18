@@ -59,12 +59,12 @@ export function body2ColorValue(body: string, theme: Theme) {
 const matchedAttributifyRE = /(?<=^\[.+~=").*(?="\]$)/
 const matchedValuelessAttributifyRE = /(?<=^\[).+(?==""\]$)/
 const _colorsMapCache = new Map<string, string>()
-export function getColorsMap(uno: UnoGenerator, result: GenerateResult) {
+export async function getColorsMap(uno: UnoGenerator, result: GenerateResult) {
   const theme = uno.config.theme as Theme
   const colorsMap = new Map<string, string>()
 
   for (const i of result.matched) {
-    if (!getCssForUtility(result.css, i).includes('color'))
+    if (await isColorUtility(uno, i))
       continue
 
     const matchedValueless = i.match(matchedValuelessAttributifyRE)?.[0]
@@ -101,9 +101,8 @@ export function isSubdir(parent: string, child: string) {
   return relative && !relative.startsWith('..') && !path.isAbsolute(relative)
 }
 
-function getCssForUtility(css: string, utilName: string) {
-  const cssRegex = new RegExp(`\.${utilName}{([^}]+)}`)
-  const utilCss = css.match(cssRegex)
+async function isColorUtility(uno: UnoGenerator, utilName: string) {
+  const css = (await getPrettiedCSS(uno, utilName)).css
 
-  return utilCss ? utilCss[1] : ''
+  return css.includes('color')
 }

@@ -97,7 +97,7 @@ export async function registerAnnotations(
 
       const result = await ctx.uno.generate(code, { id, preflights: false, minify: true })
 
-      const colorsMap = getColorsMap(ctx.uno, result)
+      const colorsMap = await getColorsMap(ctx.uno, result)
       const colorRanges: DecorationOptions[] = []
       const _colorPositionsCache = new Map<string, string>() // cache for avoid duplicated color ranges
 
