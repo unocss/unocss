@@ -23,26 +23,31 @@ describe('svelte-scoped', () => {
     ],
   })
 
-  async function transform(code: string) {
-    return (await transformSvelteSFC(code, 'Foo.svelte', uno))?.code
+  async function transform(code: string, { combine } = { combine: true }) {
+    return (await transformSvelteSFC(code, 'Foo.svelte', uno, { combine }))?.code
   }
 
   test('simple', async () => {
-    const result = await transform(`
-    <div class="bg-red-500" />
-    `.trim())
-    expect(result).toMatchInlineSnapshot(`
+    const code = '<div class="bg-red-500" />'
+    expect(await transform(code)).toMatchInlineSnapshot(`
       "<div class=\\"uno-orrz3z\\" />
       <style>:global(.uno-orrz3z){--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));}</style>"
+    `)
+    expect(await transform(code, { combine: false })).toMatchInlineSnapshot(`
+      "<div class=\\"_7dkb0w_bg-red-500\\" />
+      <style>:global(._7dkb0w_bg-red-500){--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));}</style>"
     `)
   })
 
   test('wraps parent and child dependent classes like rtl: and space-x-1 with :global() wrapper', async () => {
-    const result = await transform(`
-    <div class="mb-1 text-sm rtl:right-0 space-x-1" />`.trim())
-    expect(result).toMatchInlineSnapshot(`
+    const code = '<div class="mb-1 text-sm rtl:right-0 space-x-1" />'
+    expect(await transform(code)).toMatchInlineSnapshot(`
       "<div class=\\"uno-795nkx\\" />
       <style>:global([dir=\\"rtl\\"] .uno-795nkx){right:0rem;}:global(.uno-795nkx){margin-bottom:0.25rem;font-size:0.875rem;line-height:1.25rem;}:global(.uno-795nkx>:not([hidden])~:not([hidden])){--un-space-x-reverse:0;margin-left:calc(0.25rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(0.25rem * var(--un-space-x-reverse));}</style>"
+    `)
+    expect(await transform(code, { combine: false })).toMatchInlineSnapshot(`
+      "<div class=\\"_7dkb0w_mb-1 _7dkb0w_rtl:right-0 _7dkb0w_space-x-1 _7dkb0w_text-sm\\" />
+      <style>:global([dir=\\"rtl\\"] ._7dkb0w_rtl\\\\:right-0){right:0rem;}:global(._7dkb0w_mb-1){margin-bottom:0.25rem;}:global(._7dkb0w_space-x-1>:not([hidden])~:not([hidden])){--un-space-x-reverse:0;margin-left:calc(0.25rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(0.25rem * var(--un-space-x-reverse));}:global(._7dkb0w_text-sm){font-size:0.875rem;line-height:1.25rem;}</style>"
     `)
   })
 
@@ -131,8 +136,20 @@ describe('svelte-scoped', () => {
     expect(result).toMatchInlineSnapshot('undefined')
   })
 
+  test('dev, only hash but not combine mode, handles classes that fail when coming at the beginning of a shortcut name', async () => {
+    const code = '<div class="mb-1 !mt-2 md:mr-3 space-x-1" />'
+    expect(await transform(code)).toMatchInlineSnapshot(`
+      "<div class=\\"uno-8mjgqp\\" />
+      <style>:global(.uno-8mjgqp){margin-top:0.5rem !important;margin-bottom:0.25rem;}:global(.uno-8mjgqp>:not([hidden])~:not([hidden])){--un-space-x-reverse:0;margin-left:calc(0.25rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(0.25rem * var(--un-space-x-reverse));}@media (min-width: 768px){:global(.uno-8mjgqp){margin-right:0.75rem;}}</style>"
+    `)
+    expect(await transform(code, { combine: false })).toMatchInlineSnapshot(`
+      "<div class=\\"_7dkb0w_!mt-2 _7dkb0w_mb-1 _7dkb0w_md:mr-3 _7dkb0w_space-x-1\\" />
+      <style>:global(._7dkb0w_\\\\!mt-2){margin-top:0.5rem !important;}:global(._7dkb0w_mb-1){margin-bottom:0.25rem;}:global(._7dkb0w_space-x-1>:not([hidden])~:not([hidden])){--un-space-x-reverse:0;margin-left:calc(0.25rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(0.25rem * var(--un-space-x-reverse));}@media (min-width: 768px){:global(._7dkb0w_md\\\\:mr-3){margin-right:0.75rem;}}</style>"
+    `)
+  })
+
   test('everything', async () => {
-    const result = await transform(`
+    const code = `
 <div class="bg-red-500 sm:text-xl dark:hover:bg-green-500 transform scale-5" />
 <div class:logo class="foo bar" />
 <div class:text-orange-400={foo} class="shortcut" />
@@ -141,11 +158,12 @@ describe('svelte-scoped', () => {
   <div class="text-sm hover:text-red" />
   <Button class="hover:text-red text-sm" />
 </div>
-    `.trim())
-    expect(result).toMatchSnapshot()
+    `.trim()
+    expect(await transform(code)).toMatchSnapshot()
+    expect(await transform(code, { combine: false })).toMatchSnapshot()
   })
 
-  // BUG: When this plugin is run on a component library first, and then in a project second, make sure to use different hashing prefixes because when `uno.parseToken()` checks a previously hashed class like `.uno-ssrvwc` it will add it to uno's cache of non-matches, then when `uno.generate()` runs it will not output the result of that shortcut. I don't the proper solution to this and I don't think clear uno's cache is right. To see this bug run:
+  // BUG: When this plugin is run on a component library first, and then in a project second, make sure to use different hashing prefixes because when `uno.parseToken()` checks a previously hashed class like `.uno-ssrvwc` it will add it to uno's cache of non-matches, then when `uno.generate()` runs it will not output the result of that shortcut. I don't know the proper solution to this and I don't think clearing uno's cache of non-matches is right. To see this bug run the following test:
   test.skip('BUG: when a hashed style already exists (from an imported component library that was already processed), and style is found again it will not be output', async () => {
     const result = await transform(`
     <div class="uno-ssrvwc hidden" />`.trim())
