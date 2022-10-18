@@ -64,6 +64,9 @@ export function getColorsMap(uno: UnoGenerator, result: GenerateResult) {
   const colorsMap = new Map<string, string>()
 
   for (const i of result.matched) {
+    if (!getCssForUtility(result.css, i).includes('color'))
+      continue
+
     const matchedValueless = i.match(matchedValuelessAttributifyRE)?.[0]
     const colorKey = matchedValueless ?? i.replace('~="', '="')
 
@@ -96,4 +99,11 @@ export function getColorsMap(uno: UnoGenerator, result: GenerateResult) {
 export function isSubdir(parent: string, child: string) {
   const relative = path.relative(parent, child)
   return relative && !relative.startsWith('..') && !path.isAbsolute(relative)
+}
+
+function getCssForUtility(css: string, utilName: string) {
+  const cssRegex = new RegExp(`\.${utilName}{([^}]+)}`)
+  const utilCss = css.match(cssRegex)
+
+  return utilCss ? utilCss[1] : ''
 }
