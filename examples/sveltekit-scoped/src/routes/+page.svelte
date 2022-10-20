@@ -1,6 +1,7 @@
 <script lang="ts">
   import { fade, fly } from "svelte/transition";
   import Counter from "./Counter.svelte";
+  import Prose from "./Prose.svelte";
   import RightToLeftDependent from "./RightToLeftDependent.svelte";
 
   let logo = false;
@@ -8,38 +9,34 @@
   let rtl = true;
 </script>
 
-<main class="text-center p-1em my-2px mx-auto">
-  <span class="logo" />
+<main class="p-1em my-2px mx-auto">
+  <div class="text-center mb-6">
+    <span class="logo" />
 
-  {#if logo}
-    <span class:logo in:fly={{ y: 200, duration: 2000 }} out:fade />
-  {/if}
+    {#if logo}
+      <span class:logo in:fly={{ y: 200, duration: 2000 }} out:fade />
+    {/if}
 
-  <h1
-    class="animate-bounce color-#ff3e00 uppercase font-size-4rem fw-100 line-height-1.1 my-2rem mx-auto max-width-14rem sm:max-width-auto"
-  >
-    SvelteKit!
-  </h1>
+    <h1
+      class="animate-bounce color-#ff3e00 uppercase text-5xl fw-100 my-2rem mx-auto"
+    >
+      SvelteKit!
+    </h1>
 
-  <button class="bg-red-100" on:click={() => (logo = !logo)}
-    >{logo ? "Hide 2nd logo" : "Show 2nd logo"}</button
-  >
+    <button class="bg-red-100 hover:bg-red-200 p-3 rounded border mb-4" on:click={() => (logo = !logo)}
+      >{logo ? "Hide 2nd logo" : "Show 2nd logo"}</button
+    >
 
-  <br />
-  <br />
+    <div class:bg-red-400={red}>My BG Color should change</div>
+    <button class="p-3 rounded border bg-gray-100 hover:bg-gray-200" on:click={() => (red = !red)}
+      >Change BG Color: {red ? "Normal" : "Red"}</button
+    >
+  </div>
 
-  <div class:bg-red-400={red}>My BG Color should change</div>
-  <button on:click={() => (red = !red)}
-    >Change BG Color: {red ? "Normal" : "Red"}</button
-  >
-
-  <br />
-  <br />
-
-  <div class="border border-gray-400 p-1" dir={rtl ? "rtl" : "ltr"}>
+  <div class="border border-gray-400 p-1 mb-1" dir={rtl ? "rtl" : "ltr"}>
     <RightToLeftDependent />
   </div>
-  <button on:click={() => (rtl = !rtl)}
+  <button class="p-3 rounded border bg-gray-100 hover:bg-gray-200" on:click={() => (rtl = !rtl)}
     >Toggle direction: {rtl ? "Right-to-left" : "Left-to-right"}</button
   >
 
@@ -47,6 +44,8 @@
   <br />
 
   <Counter />
+
+  <Prose />
 
   <div class="corner">absolute</div>
 </main>
