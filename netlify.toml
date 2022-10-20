@@ -5,7 +5,7 @@
 
 [build]
   publish = "dist"
-  command = "pnpm run deploy"
+  command = "pnpm -w run deploy"
 
 [functions]
   node_bundler = "esbuild"
