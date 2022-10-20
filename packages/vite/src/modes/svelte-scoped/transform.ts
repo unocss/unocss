@@ -81,7 +81,7 @@ export async function transformSvelteSFC(code: string, id: string, uno: UnoGener
     }
     else {
       return tokens.map((token) => {
-        const className = `_${idHash}_${token}` // certain classes (!mt-1, md:mt-1, space-x-1) break when coming at the beginning of a shortcut
+        const className = `_${token}_${idHash}` // certain classes (!mt-1, md:mt-1, space-x-1) break when coming at the beginning of a shortcut
         shortcuts[className] = [token]
         toGenerate.add(className)
         return className
@@ -91,8 +91,11 @@ export async function transformSvelteSFC(code: string, id: string, uno: UnoGener
 
   async function sortKnownAndUnknownClasses(str: string) {
     const classArr = str.split(/\s+/)
-    const result = await Promise.all(classArr.filter(Boolean).map(async i => [i, !!await uno.parseToken(i)] as const))
-    const known = result.filter(([, matched]) => matched).map(([i]) => i).sort()
+    const result = await Promise.all(classArr.filter(Boolean).map(async t => [t, !!await uno.parseToken(t)] as const))
+    const known = result
+      .filter(([, matched]) => matched)
+      .map(([t]) => t)
+      .sort()
     if (!known.length)
       return null
     const replacements = result.filter(([, matched]) => !matched).map(([i]) => i) // unknown
