@@ -39,6 +39,23 @@ describe('svelte-scoped', () => {
     `)
   })
 
+  test('does not change shortcut names', async () => {
+    const code = `
+    <div class="shortcut mb-1 foo" />
+    <div class:shortcut />
+    `.trim()
+    expect(await transform(code)).toMatchInlineSnapshot(`
+      "<div class=\\"uno-2se4c1 shortcut foo\\" />
+          <div class:shortcut={shortcut} />
+      <style>:global(.uno-2se4c1){margin-bottom:0.25rem;}:global(.shortcut){width:1.25rem;}</style>"
+    `)
+    expect(await transform(code, { combine: false })).toMatchInlineSnapshot(`
+      "<div class=\\"_mb-1_7dkb0w shortcut foo\\" />
+          <div class:shortcut={shortcut} />
+      <style>:global(._mb-1_7dkb0w){margin-bottom:0.25rem;}:global(.shortcut){width:1.25rem;}</style>"
+    `)
+  })
+
   test('wraps parent and child dependent classes like rtl: and space-x-1 with :global() wrapper', async () => {
     const code = '<div class="mb-1 text-sm rtl:right-0 space-x-1" />'
     expect(await transform(code)).toMatchInlineSnapshot(`
