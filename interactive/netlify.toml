@@ -1,10 +1,11 @@
 [build.environment]
+  NETLIFY_USE_PNPM = true
   NODE_VERSION = "16"
   NODE_OPTIONS = "--max_old_space_size=4096"
 
 [build]
   publish = "dist"
-  command = "pnpm run deploy && cd interactive"
+  command = "cd .. && pnpm run deploy && cd interactive"
   ignore = "git diff --quiet HEAD^ HEAD . ../packages"
 
 [functions]
