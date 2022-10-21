@@ -66,6 +66,7 @@ export const presetWindTargets: string[] = [
   'bg-repeat-revert',
   'bg-right-bottom',
   'bg-scroll',
+  'bg-[url(https://test.unocss.png)]',
   'bg-[length:10_20rem]',
   'bg-[length:1/2_20rem]',
   'bg-[position:10_20rem]',
