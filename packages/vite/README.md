@@ -273,7 +273,7 @@ You have a `SvelteKit` example project on [examples/sveltekit](https://github.co
 
 ### Svelte/SvelteKit Scoped Mode
 
-Adding `mode: 'svelte-scoped'` to your UnoCSS config options will place styles right inside of each component's style block instead of in a global `uno.css` file. Due to automatic class name compilation, classes that dependent on attributes in parent components (like `dir="rtl"` or `.dark`) will just work. Also, you can pass class to children components as long as you pass them using a prop named `class`, e.g. `class="text-lg bg-red-100"`. 
+Adding `mode: 'svelte-scoped'` to your UnoCSS config options will place styles right inside of each component's style block instead of in a global `uno.css` file. Due to automatic class name compilation, classes that depend on attributes in parent components (like `dir="rtl"` or `.dark`) will just work. Also, you can pass class to children components as long as you pass them using a prop named `class`, e.g. `class="text-lg bg-red-100"`. 
 
 Support for `class:foo` and `class:foo={bar}` is already included. There is no need to add the `extractorSvelte` when using `svelte-scoped` mode.
 
@@ -302,7 +302,7 @@ const config = {
 }
 ```
 
-You have a `SvelteKit scoped` example project on [examples/sveltekit-scoped](https://github.com/unocss/unocss/tree/main/examples/sveltekit-scoped) directory.
+There is a `SvelteKit scoped` example project in the [examples/sveltekit-scoped](https://github.com/unocss/unocss/tree/main/examples/sveltekit-scoped#readme) directory with more detailed explanation of how this mode works.
 
 ### Web Components
 
