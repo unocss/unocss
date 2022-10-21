@@ -17,13 +17,22 @@ npm i -D temp-s-p-u
 // svelte.config.js
 import adapter from '@sveltejs/adapter-auto'
 import preprocess from 'svelte-preprocess'
-import UnoCSS from '@unocss/svelte-preprocess-unocss'
+import UnoCSS from 'temp-s-p-u'
+
+// If wanting to keep classes distinct during dev, turn your build/package script into `cross-env NODE_ENV=production svelte-kit sync && svelte-package`. Requires `cross-env` as a `devDependency`.
+const mode = process.env.NODE_ENV
+const prod = mode === 'production'
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
   preprocess: [
     preprocess(),
-    UnoCSS(),
+    UnoCSS({
+      options: {
+        classPrefix: 'sk-',
+        combine: prod,
+      },
+    }),
   ],
 
   kit: {
@@ -32,6 +41,26 @@ const config = {
 }
 
 export default config
+```
+
+Uno config must be placed in `unocss.config.ts` file since options are passed in `svelte.config.js`
+
+```ts
+// unocss.config.ts
+import { defineConfig, presetIcons, presetUno } from 'unocss'
+
+export default defineConfig({
+  presets: [
+    presetUno(),
+    presetIcons({
+      prefix: 'i-',
+      extraProperties: {
+        'display': 'inline-block',
+        'vertical-align': 'middle',
+      },
+    }),
+  ],
+})
 ```
 
 
