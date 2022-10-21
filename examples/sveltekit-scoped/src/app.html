@@ -4,6 +4,12 @@
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
 		<meta name="viewport" content="width=device-width" />
+
+		<!-- Resets must be added here before any sveltekit injected styles -->
+		<link rel="stylesheet" href="%sveltekit.assets%/tw-reset.css">
+		<!-- Place other styles here that you want component based styles to be able to override -->
+		<link rel="stylesheet" href="%sveltekit.assets%/tw-prose.css" />
+
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-prefetch>

@@ -71,17 +71,32 @@ export async function transformSvelteSFC(code: string, id: string, uno: UnoGener
   if (!combine)
     idHash = hashFn(id)
 
+  function isOriginalOriginalShortcut(token: string): boolean {
+    return !!originalShortcuts.find(s => s[0] === token)
+  }
+
   function queueCompiledClass(tokens: string[]): string {
     if (combine) {
-      const hash = hashFn(tokens.join(' ') + id)
+      const _shortcuts = tokens.filter(t => isOriginalOriginalShortcut(t))
+      for (const s of _shortcuts)
+        toGenerate.add(s)
+
+      const _tokens = tokens.filter(t => !isOriginalOriginalShortcut(t))
+      if (!_tokens.length)
+        return _shortcuts.join(' ')
+      const hash = hashFn(_tokens.join(' ') + id)
       const className = `${classPrefix}${hash}`
-      shortcuts[className] = tokens
+      shortcuts[className] = _tokens
       toGenerate.add(className)
-      return className
+      return [className, ..._shortcuts].join(' ')
     }
     else {
       return tokens.map((token) => {
-        const className = `_${idHash}_${token}` // certain classes (!mt-1, md:mt-1, space-x-1) break when coming at the beginning of a shortcut
+        if (isOriginalOriginalShortcut(token)) {
+          toGenerate.add(token)
+          return token
+        }
+        const className = `_${token}_${idHash}` // certain classes (!mt-1, md:mt-1, space-x-1) break when coming at the beginning of a shortcut
         shortcuts[className] = [token]
         toGenerate.add(className)
         return className
@@ -91,8 +106,11 @@ export async function transformSvelteSFC(code: string, id: string, uno: UnoGener
 
   async function sortKnownAndUnknownClasses(str: string) {
     const classArr = str.split(/\s+/)
-    const result = await Promise.all(classArr.filter(Boolean).map(async i => [i, !!await uno.parseToken(i)] as const))
-    const known = result.filter(([, matched]) => matched).map(([i]) => i).sort()
+    const result = await Promise.all(classArr.filter(Boolean).map(async t => [t, !!await uno.parseToken(t)] as const))
+    const known = result
+      .filter(([, matched]) => matched)
+      .map(([t]) => t)
+      .sort()
     if (!known.length)
       return null
     const replacements = result.filter(([, matched]) => !matched).map(([i]) => i) // unknown
@@ -143,7 +161,7 @@ export async function transformSvelteSFC(code: string, id: string, uno: UnoGener
   styles += wrapSelectorsWithGlobal(css)
   uno.config.shortcuts = originalShortcuts
 
-  if (s.hasChanged()) {
+  if (toGenerate.size > 0 || s.hasChanged()) {
     code = s.toString()
     map = s.generateMap({ hires: true, source: id })
   }
