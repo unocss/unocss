@@ -1,62 +1,52 @@
 <script lang="ts">
-  import { fade, fly } from "svelte/transition";
-  import Counter from "./Counter.svelte";
+  import Button from "$lib/Button.svelte";
+  import Counter from "$lib/Counter.svelte";
+  import Logos from "./Logos.svelte";
   import Prose from "./Prose.svelte";
   import RightToLeftDependent from "./RightToLeftDependent.svelte";
 
-  let logo = false;
   let red = false;
   let rtl = true;
 </script>
 
-<main class="p-1em my-2px mx-auto">
-  <div class="text-center mb-6">
-    <span class="logo" />
+<div class="p-1em my-2px mx-auto">
+  <h1
+    class="animate-bounce color-#ff3e00 dark:color-white uppercase text-5xl fw-100 my-2rem mx-auto"
+  >
+    UnoCSS + SvelteKit!
+  </h1>
 
-    {#if logo}
-      <span class:logo in:fly={{ y: 200, duration: 2000 }} out:fade />
-    {/if}
+  <Logos />
 
-    <h1
-      class="animate-bounce color-#ff3e00 uppercase text-5xl fw-100 my-2rem mx-auto"
-    >
-      SvelteKit!
-    </h1>
-
-    <button class="bg-red-100 hover:bg-red-200 p-3 rounded border mb-4" on:click={() => (logo = !logo)}
-      >{logo ? "Hide 2nd logo" : "Show 2nd logo"}</button
-    >
-
-    <div class:bg-red-400={red}>My BG Color should change</div>
-    <button class="p-3 rounded border bg-gray-100 hover:bg-gray-200" on:click={() => (red = !red)}
-      >Change BG Color: {red ? "Normal" : "Red"}</button
-    >
+  <div class="my-15">
+    <div
+      class:bg-red-400={red}
+      class:bg-gray={!red}
+      class="text-white p-3 rounded mb-3">
+      My BG Color should change
+    </div>
+    <Button onclick={() => (red = !red)}>Change BG Color: {red ? "Gray" : "Red"}</Button>
   </div>
 
-  <div class="border border-gray-400 p-1 mb-1" dir={rtl ? "rtl" : "ltr"}>
+  <div
+    class="bg-gray-500 bg-opacity-15 shadow-lg p-2 mb-3"
+    dir={rtl ? "rtl" : "ltr"}
+  >
     <RightToLeftDependent />
   </div>
-  <button class="p-3 rounded border bg-gray-100 hover:bg-gray-200" on:click={() => (rtl = !rtl)}
-    >Toggle direction: {rtl ? "Right-to-left" : "Left-to-right"}</button
-  >
-
-  <br />
-  <br />
+  <div class="mb-10">
+    <Button onclick={() => (rtl = !rtl)}>Toggle direction: {rtl ? "Right-to-left" : "Left-to-right"}</Button>
+  </div>
 
   <Counter />
 
   <Prose />
 
-  <div class="corner">absolute</div>
-</main>
+  <div class="corner">Fixed</div>
+</div>
 
 <style>
-  :root {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  }
-  
   .corner {
-    --at-apply: absolute flex bottom-2 sm:bottom-6 lg:bottom-10;
+    --at-apply: fixed flex left-2 bottom-2 md:left-6 md:bottom-6 bg-white dark:bg-black p-1;
   }
 </style>

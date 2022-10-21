@@ -10,7 +10,7 @@ export default defineConfig({
     UnoCSS({
       mode: 'svelte-scoped',
       shortcuts: [
-        { logo: 'i-logos:svelte-icon w-6em h-6em transform transition-800 hover:rotate-180' },
+        { logo: 'i-logos:svelte-icon w-7em h-7em transform transition-300' },
       ],
       transformers: [
         transformerDirective(),
