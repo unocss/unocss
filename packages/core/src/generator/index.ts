@@ -336,10 +336,9 @@ export class UnoGenerator {
   }
 
   private applyVariants(parsed: ParsedUtil, variantHandlers = parsed[4], raw = parsed[1]): UtilObject {
-    const handler = [...variantHandlers]
+    const handler = variantHandlers.slice()
       .sort((a, b) => (a.order || 0) - (b.order || 0))
-      .reverse()
-      .reduce(
+      .reduceRight(
         (previous, v) =>
           (input: VariantHandlerContext) => {
             const entries = v.body?.(input.entries) || input.entries
