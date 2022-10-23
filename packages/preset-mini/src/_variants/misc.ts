@@ -1,10 +1,10 @@
 import type { Variant } from '@unocss/core'
-import { getComponent, handler as h, variantGetComponent } from '../utils'
+import { getBracket, handler as h, variantGetBracket, variantGetParameter } from '../utils'
 
 export const variantSelector: Variant = {
   name: 'selector',
   match(matcher) {
-    const variant = variantGetComponent('selector', matcher)
+    const variant = variantGetBracket('selector', matcher, [':', '-'])
     if (variant) {
       const [match, rest] = variant
       const selector = h.bracket(match)
@@ -21,7 +21,7 @@ export const variantSelector: Variant = {
 export const variantCssLayer: Variant = {
   name: 'layer',
   match(matcher) {
-    const variant = variantGetComponent('layer', matcher)
+    const variant = variantGetParameter('layer', matcher, [':', '-'])
     if (variant) {
       const [match, rest] = variant
       const layer = h.bracket(match) ?? match
@@ -41,7 +41,7 @@ export const variantCssLayer: Variant = {
 export const variantInternalLayer: Variant = {
   name: 'uno-layer',
   match(matcher) {
-    const variant = variantGetComponent('uno-layer', matcher)
+    const variant = variantGetParameter('uno-layer', matcher, [':', '-'])
     if (variant) {
       const [match, rest] = variant
       const layer = h.bracket(match) ?? match
@@ -58,7 +58,7 @@ export const variantInternalLayer: Variant = {
 export const variantScope: Variant = {
   name: 'scope',
   match(matcher) {
-    const variant = variantGetComponent('scope', matcher)
+    const variant = variantGetBracket('scope', matcher, [':', '-'])
     if (variant) {
       const [match, rest] = variant
       const scope = h.bracket(match)
@@ -75,11 +75,19 @@ export const variantScope: Variant = {
 export const variantVariables: Variant = {
   name: 'variables',
   match(matcher) {
-    if (!matcher.startsWith('['))
+    const [match, rest] = getBracket(matcher, '[', ']') ?? []
+    if (!(match && rest))
       return
 
-    const [match, rest] = getComponent(matcher, '[', ']', ':') ?? []
-    if (!(match && rest && rest !== ''))
+    let newMatcher: string | undefined
+    for (const separator of [':', '-']) {
+      if (rest.startsWith(separator)) {
+        newMatcher = rest.slice(separator.length)
+        break
+      }
+    }
+
+    if (newMatcher == null)
       return
 
     const variant = h.bracket(match) ?? ''
@@ -87,7 +95,7 @@ export const variantVariables: Variant = {
       return
 
     return {
-      matcher: rest,
+      matcher: newMatcher,
       handle(input, next) {
         const updates = variant.startsWith('@')
           ? {

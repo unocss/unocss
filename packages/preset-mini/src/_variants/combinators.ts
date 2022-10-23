@@ -1,33 +1,30 @@
-import type { Variant, VariantHandler, VariantObject } from '@unocss/core'
-import { getComponent, handler as h } from '../utils'
+import type { Variant, VariantObject } from '@unocss/core'
+import { handler as h, variantGetBracket } from '../utils'
 
 const scopeMatcher = (name: string, combinator: string): VariantObject => ({
   name: `combinator:${name}`,
-  match: (matcher: string): VariantHandler | undefined => {
+  match(matcher) {
     if (!matcher.startsWith(name))
       return
 
-    let newMatcher = matcher.substring(name.length + 1)
-    const body = getComponent(newMatcher, '[', ']', [':', '-'])
-
-    if (!body)
-      return
-
-    const [match, rest] = body
-    let bracketValue = h.bracket(match) ?? ''
-
-    if (bracketValue === '') {
-      bracketValue = '*'
-    }
-    else {
-      if (matcher[name.length] !== '-')
+    let body = variantGetBracket(name, matcher, [':', '-'])
+    if (!body) {
+      for (const separator of [':', '-']) {
+        if (matcher.startsWith(`${name}${separator}`)) {
+          body = ['', matcher.slice(name.length + separator.length)]
+          break
+        }
+      }
+      if (!body)
         return
-      if (rest !== '')
-        newMatcher = rest
     }
+
+    let bracketValue = h.bracket(body[0]) ?? ''
+    if (bracketValue === '')
+      bracketValue = '*'
 
     return {
-      matcher: newMatcher,
+      matcher: body[1],
       selector: s => `${s}${combinator}${bracketValue}`,
     }
   },

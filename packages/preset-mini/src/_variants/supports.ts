@@ -1,20 +1,17 @@
 import type { VariantContext, VariantObject } from '@unocss/core'
 import type { Theme } from '../theme'
-import { handler as h, variantGetComponent } from '../utils'
+import { handler as h, variantGetParameter } from '../utils'
 
 export const variantSupports: VariantObject = {
   name: 'supports',
   match(matcher, { theme }: VariantContext<Theme>) {
-    const variant = variantGetComponent('supports', matcher)
+    const variant = variantGetParameter('supports', matcher, [':', '-'])
     if (variant) {
       const [match, rest] = variant
 
       let supports = h.bracket(match) ?? ''
-      if (supports === '') {
-        const themeValue = theme.supports?.[match]
-        if (themeValue)
-          supports = themeValue
-      }
+      if (supports === '')
+        supports = theme.supports?.[match] ?? ''
 
       if (supports) {
         return {

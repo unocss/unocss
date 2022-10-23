@@ -83,48 +83,59 @@ const sortValue = (pseudo: string) => {
 }
 
 const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: string): VariantObject => {
-  const rawRe = new RegExp(`^(${escapeRegExp(parent)}:)(\\S+)${escapeRegExp(combinator)}\\1`)
+  const rawRE = new RegExp(`^(${escapeRegExp(parent)}:)(\\S+)${escapeRegExp(combinator)}\\1`)
   const pseudoRE = new RegExp(`^${tag}-(?:(?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesStr}))(?:(/\\w+))?[:-]`)
   const pseudoColonRE = new RegExp(`^${tag}-(?:(?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesColonStr}))(?:(/\\w+))?[:]`)
+
+  const matchBracket = (input: string) => {
+    const body = variantGetBracket(tag, input, [])
+    if (!body)
+      return
+
+    const [match, rest] = body
+    const bracketValue = h.bracket(match)
+    if (bracketValue == null)
+      return
+
+    const label = rest.split(/[:-]/, 1)?.[0] ?? ''
+    const prefix = `${parent}${escapeSelector(label)}`
+    return [
+      label,
+      input.slice(input.length - (rest.length - label.length - 1)),
+      bracketValue.includes('&') ? bracketValue.replace(/&/g, prefix) : `${prefix}${bracketValue}`,
+    ]
+  }
+
+  const matchPseudo = (input: string) => {
+    const match = input.match(pseudoRE) || input.match(pseudoColonRE)
+    if (!match)
+      return
+
+    const [original, fn, pseudoKey] = match
+    const label = match[3] ?? ''
+    let pseudo = PseudoClasses[pseudoKey] || PseudoClassesColon[pseudoKey] || `:${pseudoKey}`
+    if (fn)
+      pseudo = `:${fn}(${pseudo})`
+
+    return [
+      label,
+      input.slice(original.length),
+      `${parent}${escapeSelector(label)}${pseudo}`,
+      sortValue(pseudoKey),
+    ]
+  }
+
   return {
     name: `pseudo:${tag}`,
-    match(input: string) {
+    match(input) {
       if (!input.startsWith(tag))
         return
 
-      let label: string
-      let prefix: string
-      let matcher: string
-      let sort: number | undefined
+      const result = matchBracket(input) || matchPseudo(input)
+      if (!result)
+        return
 
-      const body = variantGetBracket(tag, input, [])
-      if (body) {
-        const [match, rest] = body
-        const bracketValue = h.bracket(match)
-        if (bracketValue == null)
-          return
-
-        label = rest.split(/[:-]/, 1)?.[0] ?? ''
-        prefix = `${parent}${escapeSelector(label)}`
-        prefix = bracketValue.includes('&') ? bracketValue.replace(/&/g, prefix) : `${prefix}${bracketValue}`
-        matcher = input.slice(input.length - (rest.length - label.length - 1))
-      }
-      else {
-        const match = input.match(pseudoRE) || input.match(pseudoColonRE)
-        if (!match)
-          return
-
-        const [original, fn, pseudoKey] = match
-        let pseudo = PseudoClasses[pseudoKey] || PseudoClassesColon[pseudoKey] || `:${pseudoKey}`
-        if (fn)
-          pseudo = `:${fn}(${pseudo})`
-
-        label = match[3] ?? ''
-        prefix = `${parent}${escapeSelector(label)}${pseudo}`
-        matcher = input.slice(original.length)
-        sort = sortValue(pseudoKey)
-      }
-
+      const [label, matcher, prefix, sort] = result as [string, string, string, number | undefined]
       if (label !== '')
         warnOnce('The labeled pseudo is experimental and may be changed in breaking ways at any time.')
 
@@ -132,7 +143,7 @@ const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: strin
         matcher,
         handle: (input, next) => next({
           ...input,
-          prefix: `${prefix}${combinator}${input.prefix}`.replace(rawRe, '$1$2:'),
+          prefix: `${prefix}${combinator}${input.prefix}`.replace(rawRE, '$1$2:'),
         }),
         sort,
       }
@@ -147,7 +158,7 @@ const PseudoClassesAndElementsRE = new RegExp(`^(${PseudoClassesAndElementsStr})
 const PseudoClassesAndElementsColonRE = new RegExp(`^(${PseudoClassesAndElementsColonStr})[:]`)
 export const variantPseudoClassesAndElements: VariantObject = {
   name: 'pseudo',
-  match: (input: string) => {
+  match(input) {
     const match = input.match(PseudoClassesAndElementsRE) || input.match(PseudoClassesAndElementsColonRE)
     if (match) {
       const pseudo = PseudoClasses[match[1]] || PseudoClassesColon[match[1]] || `:${match[1]}`
@@ -178,7 +189,7 @@ export const variantPseudoClassesAndElements: VariantObject = {
 const PseudoClassFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesStr})[:-]`)
 const PseudoClassColonFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesColonStr})[:]`)
 export const variantPseudoClassFunctions: VariantObject = {
-  match: (input: string) => {
+  match(input) {
     const match = input.match(PseudoClassFunctionsRE) || input.match(PseudoClassColonFunctionsRE)
     if (match) {
       const fn = match[1]
@@ -206,7 +217,7 @@ export const variantTaggedPseudoClasses = (options: PresetMiniOptions = {}): Var
 
 const PartClassesRE = /(part-\[(.+)]:)(.+)/
 export const partClasses: VariantObject = {
-  match: (input: string) => {
+  match(input) {
     const match = input.match(PartClassesRE)
     if (match) {
       const part = `part(${match[2]})`
