@@ -5,11 +5,11 @@ import { handler as h, variantGetParameter } from '../utils'
 
 export const variantContainerQuery: VariantObject = {
   name: '@',
-  match(matcher, { theme }: VariantContext<Theme>) {
+  match(matcher, ctx: VariantContext<Theme>) {
     if (matcher.startsWith('@container'))
       return
 
-    const variant = variantGetParameter('@', matcher, [':', '-'])
+    const variant = variantGetParameter('@', matcher, ctx.generator.config.separators)
     if (variant) {
       const [match, rest, label] = variant
       const unbracket = h.bracket(match)
@@ -20,7 +20,7 @@ export const variantContainerQuery: VariantObject = {
           container = `(min-width: ${minWidth})`
       }
       else {
-        container = theme.containers?.[match] ?? ''
+        container = ctx.theme.containers?.[match] ?? ''
       }
 
       if (container) {

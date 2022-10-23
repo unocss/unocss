@@ -3,8 +3,8 @@ import { getBracket, handler as h, variantGetBracket, variantGetParameter } from
 
 export const variantSelector: Variant = {
   name: 'selector',
-  match(matcher) {
-    const variant = variantGetBracket('selector-', matcher, [':', '-'])
+  match(matcher, ctx) {
+    const variant = variantGetBracket('selector-', matcher, ctx.generator.config.separators)
     if (variant) {
       const [match, rest] = variant
       const selector = h.bracket(match)
@@ -20,8 +20,8 @@ export const variantSelector: Variant = {
 
 export const variantCssLayer: Variant = {
   name: 'layer',
-  match(matcher) {
-    const variant = variantGetParameter('layer-', matcher, [':', '-'])
+  match(matcher, ctx) {
+    const variant = variantGetParameter('layer-', matcher, ctx.generator.config.separators)
     if (variant) {
       const [match, rest] = variant
       const layer = h.bracket(match) ?? match
@@ -40,8 +40,8 @@ export const variantCssLayer: Variant = {
 
 export const variantInternalLayer: Variant = {
   name: 'uno-layer',
-  match(matcher) {
-    const variant = variantGetParameter('uno-layer-', matcher, [':', '-'])
+  match(matcher, ctx) {
+    const variant = variantGetParameter('uno-layer-', matcher, ctx.generator.config.separators)
     if (variant) {
       const [match, rest] = variant
       const layer = h.bracket(match) ?? match
@@ -57,8 +57,8 @@ export const variantInternalLayer: Variant = {
 
 export const variantScope: Variant = {
   name: 'scope',
-  match(matcher) {
-    const variant = variantGetBracket('scope-', matcher, [':', '-'])
+  match(matcher, ctx) {
+    const variant = variantGetBracket('scope-', matcher, ctx.generator.config.separators)
     if (variant) {
       const [match, rest] = variant
       const scope = h.bracket(match)
@@ -74,7 +74,7 @@ export const variantScope: Variant = {
 
 export const variantVariables: Variant = {
   name: 'variables',
-  match(matcher) {
+  match(matcher, ctx) {
     if (!matcher.startsWith('['))
       return
 
@@ -83,7 +83,7 @@ export const variantVariables: Variant = {
       return
 
     let newMatcher: string | undefined
-    for (const separator of [':', '-']) {
+    for (const separator of ctx.generator.config.separators) {
       if (rest.startsWith(separator)) {
         newMatcher = rest.slice(separator.length)
         break

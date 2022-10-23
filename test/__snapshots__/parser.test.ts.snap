@@ -1,0 +1,6 @@
+// Vitest Snapshot v1
+
+exports[`split string with custom separator 1`] = `
+"/* layer: default */
+.backdrop__shadow-green::backdrop{--un-shadow-opacity:1;--un-shadow-color:rgba(74,222,128,var(--un-shadow-opacity));}"
+`;

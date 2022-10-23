@@ -1,8 +1,5 @@
-import type { Variant } from '@unocss/core'
+import type { VariantObject } from '@unocss/core'
 import { resolveBreakpoints } from '../utils'
-import type { Theme } from '../theme'
-
-const regexCache: Record<string, RegExp> = {}
 
 export const calcMaxWidthBySize = (size: string) => {
   const value = size.match(/^-?[0-9]+\.?[0-9]*/)?.[0] || ''
@@ -11,69 +8,72 @@ export const calcMaxWidthBySize = (size: string) => {
   return Number.isNaN(maxWidth) ? size : `${maxWidth}${unit}`
 }
 
-export const variantBreakpoints: Variant<Theme> = {
-  name: 'breakpoints',
-  match(matcher, context) {
-    const variantEntries: Array<[string, string, number]>
-    = Object.entries(resolveBreakpoints(context) ?? {}).map(([point, size], idx) => [point, size, idx])
-    for (const [point, size, idx] of variantEntries) {
-      if (!regexCache[point])
-        regexCache[point] = new RegExp(`^((?:[al]t-)?${point}[:-])`)
+export const variantBreakpoints = (): VariantObject => {
+  const regexCache: Record<string, RegExp> = {}
+  return {
+    name: 'breakpoints',
+    match(matcher, context) {
+      const variantEntries: Array<[string, string, number]>
+      = Object.entries(resolveBreakpoints(context) ?? {}).map(([point, size], idx) => [point, size, idx])
+      for (const [point, size, idx] of variantEntries) {
+        if (!regexCache[point])
+          regexCache[point] = new RegExp(`^((?:[al]t-)?${point}(?:${context.generator.config.separators.join('|')}))`)
 
-      const match = matcher.match(regexCache[point])
-      if (!match)
-        continue
+        const match = matcher.match(regexCache[point])
+        if (!match)
+          continue
 
-      const [, pre] = match
+        const [, pre] = match
 
-      const m = matcher.slice(pre.length)
-      // container rule is responsive, but also is breakpoint aware
-      // it is handled on its own module (container.ts) and so we
-      // exclude it from here
-      if (m === 'container')
-        continue
+        const m = matcher.slice(pre.length)
+        // container rule is responsive, but also is breakpoint aware
+        // it is handled on its own module (container.ts) and so we
+        // exclude it from here
+        if (m === 'container')
+          continue
 
-      const isLtPrefix = pre.startsWith('lt-')
-      const isAtPrefix = pre.startsWith('at-')
+        const isLtPrefix = pre.startsWith('lt-')
+        const isAtPrefix = pre.startsWith('at-')
 
-      let order = 1000 // parseInt(size)
+        let order = 1000 // parseInt(size)
 
-      if (isLtPrefix) {
-        order -= (idx + 1)
+        if (isLtPrefix) {
+          order -= (idx + 1)
+          return {
+            matcher: m,
+            handle: (input, next) => next({
+              ...input,
+              parent: `${input.parent ? `${input.parent} $$ ` : ''}@media (max-width: ${calcMaxWidthBySize(size)})`,
+              parentOrder: order,
+            }),
+          }
+        }
+
+        order += (idx + 1)
+
+        // support for windicss @<breakpoint> => last breakpoint will not have the upper bound
+        if (isAtPrefix && idx < variantEntries.length - 1) {
+          return {
+            matcher: m,
+            handle: (input, next) => next({
+              ...input,
+              parent: `${input.parent ? `${input.parent} $$ ` : ''}@media (min-width: ${size}) and (max-width: ${calcMaxWidthBySize(variantEntries[idx + 1][1])})`,
+              parentOrder: order,
+            }),
+          }
+        }
+
         return {
           matcher: m,
           handle: (input, next) => next({
             ...input,
-            parent: `${input.parent ? `${input.parent} $$ ` : ''}@media (max-width: ${calcMaxWidthBySize(size)})`,
+            parent: `${input.parent ? `${input.parent} $$ ` : ''}@media (min-width: ${size})`,
             parentOrder: order,
           }),
         }
       }
-
-      order += (idx + 1)
-
-      // support for windicss @<breakpoint> => last breakpoint will not have the upper bound
-      if (isAtPrefix && idx < variantEntries.length - 1) {
-        return {
-          matcher: m,
-          handle: (input, next) => next({
-            ...input,
-            parent: `${input.parent ? `${input.parent} $$ ` : ''}@media (min-width: ${size}) and (max-width: ${calcMaxWidthBySize(variantEntries[idx + 1][1])})`,
-            parentOrder: order,
-          }),
-        }
-      }
-
-      return {
-        matcher: m,
-        handle: (input, next) => next({
-          ...input,
-          parent: `${input.parent ? `${input.parent} $$ ` : ''}@media (min-width: ${size})`,
-          parentOrder: order,
-        }),
-      }
-    }
-  },
-  multiPass: true,
-  autocomplete: '(at-|lt-|)$breakpoints:',
+    },
+    multiPass: true,
+    autocomplete: '(at-|lt-|)$breakpoints:',
+  }
 }

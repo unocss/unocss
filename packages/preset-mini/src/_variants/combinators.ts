@@ -3,13 +3,14 @@ import { handler as h, variantGetBracket } from '../utils'
 
 const scopeMatcher = (name: string, combinator: string): VariantObject => ({
   name: `combinator:${name}`,
-  match(matcher) {
+  match(matcher, ctx) {
     if (!matcher.startsWith(name))
       return
 
-    let body = variantGetBracket(`${name}-`, matcher, [':', '-'])
+    const separators = ctx.generator.config.separators
+    let body = variantGetBracket(`${name}-`, matcher, separators)
     if (!body) {
-      for (const separator of [':', '-']) {
+      for (const separator of separators) {
         if (matcher.startsWith(`${name}${separator}`)) {
           body = ['', matcher.slice(name.length + separator.length)]
           break

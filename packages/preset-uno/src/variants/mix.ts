@@ -1,4 +1,4 @@
-import type { CSSColorValue, Variant } from '@unocss/core'
+import type { CSSColorValue, VariantObject } from '@unocss/core'
 import { colorToString, parseCssColor } from '@unocss/preset-mini/utils'
 
 const mixComponent = (v1: string | number, v2: string | number, w: string | number) => `calc(${v2} + (${v1} - ${v2}) * ${w} / 100)`
@@ -59,24 +59,33 @@ const fns: Record<string, (color: string | CSSColorValue, weight: string | numbe
  * Shading mixes the color with black, Tinting mixes the color with white.
  * @see {@link mixColor}
  */
-export const variantColorMix: Variant = (matcher) => {
-  const m = matcher.match(/^mix-(tint|shade|shift)-(-?\d{1,3})[-:]/)
-  if (m) {
-    return {
-      matcher: matcher.slice(m[0].length),
-      body: (body) => {
-        body.forEach((v) => {
-          if (v[1]) {
-            const color = parseCssColor(`${v[1]}`)
-            if (color) {
-              const mixed = fns[m[1]](color, m[2])
-              if (mixed)
-                v[1] = colorToString(mixed)
-            }
-          }
-        })
-        return body
-      },
-    }
+export const variantColorMix = (): VariantObject => {
+  let re: RegExp
+  return {
+    name: 'mix',
+    match(matcher, ctx) {
+      if (!re)
+        re = new RegExp(`^mix-(tint|shade|shift)-(-?\\d{1,3})(?:${ctx.generator.config.separators.join('|')})`)
+
+      const m = matcher.match(re)
+      if (m) {
+        return {
+          matcher: matcher.slice(m[0].length),
+          body: (body) => {
+            body.forEach((v) => {
+              if (v[1]) {
+                const color = parseCssColor(`${v[1]}`)
+                if (color) {
+                  const mixed = fns[m[1]](color, m[2])
+                  if (mixed)
+                    v[1] = colorToString(mixed)
+                }
+              }
+            })
+            return body
+          },
+        }
+      }
+    },
   }
 }

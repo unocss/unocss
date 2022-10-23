@@ -20,7 +20,7 @@ export const presetUno = (options: PresetUnoOptions = {}): Preset<Theme> => {
     shortcuts,
     variants: [
       ...variants(options),
-      variantColorMix,
+      variantColorMix(),
     ],
     options,
     postprocess: options.variablePrefix && options.variablePrefix !== 'un-'
