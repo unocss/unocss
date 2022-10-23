@@ -163,7 +163,7 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .hover\\\\:not-first\\\\:checked\\\\:bg-red\\\\/10:checked:not(:first-child):hover{background-color:rgba(248,113,113,0.1);}
 .marker\\\\:bg-violet-200::marker{--un-bg-opacity:1;background-color:rgba(221,214,254,var(--un-bg-opacity));}
 .peer:checked~.peer-checked\\\\:bg-blue-500{--un-bg-opacity:1;background-color:rgba(59,130,246,var(--un-bg-opacity));}
-.previous\\\\<label\\\\>:checked+.previous\\\\<label\\\\>-checked\\\\:bg-red-500{--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));}
+.previous\\\\/label:checked+.previous-checked\\\\/label\\\\:bg-red-500{--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));}
 .bg-opacity-45{--un-bg-opacity:0.45;}
 .all-\\\\[svg\\\\]\\\\:fill-red svg{--un-fill-opacity:1;fill:rgba(248,113,113,var(--un-fill-opacity));}
 .fill-\\\\[\\\\#123\\\\]{--un-fill-opacity:1;fill:rgba(17,34,51,var(--un-fill-opacity));}
@@ -325,7 +325,7 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .text-size-\\\\$variable{font-size:var(--variable);}
 .text-size-unset{font-size:unset;}
 .as-parent .group .group-\\\\[\\\\.as-parent_\\\\&\\\\]\\\\:font-13{font-weight:13;}
-.as-parent .group\\\\<label\\\\> .group\\\\<label\\\\>-\\\\[\\\\.as-parent_\\\\&\\\\]\\\\:font-18{font-weight:18;}
+.as-parent .group\\\\/label .group-\\\\[\\\\.as-parent_\\\\&\\\\]\\\\/label\\\\:font-18{font-weight:18;}
 .font-050,
 .font-50,
 .fw-050,
@@ -335,11 +335,13 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .font-inherit{font-weight:inherit;}
 .font-thin{font-weight:100;}
 .group:hover .group-\\\\[\\\\:hover\\\\]\\\\:font-11{font-weight:11;}
+.group:hover .group-hover\\\\:font-10{font-weight:10;}
 .group.not-parent .group-\\\\[\\\\.not-parent\\\\]\\\\:font-14{font-weight:14;}
 .group[data-attr] .group-\\\\[\\\\[data-attr\\\\]\\\\]\\\\:font-12{font-weight:12;}
-.group\\\\<label\\\\>:hover .group\\\\<label\\\\>-\\\\[\\\\:hover\\\\]\\\\:font-16{font-weight:16;}
-.group\\\\<label\\\\>.not-parent .group\\\\<label\\\\>-\\\\[\\\\.not-parent\\\\]\\\\:font-19{font-weight:19;}
-.group\\\\<label\\\\>[data-attr] .group\\\\<label\\\\>-\\\\[\\\\[data-attr\\\\]\\\\]\\\\:font-17{font-weight:17;}
+.group\\\\/label:hover .group-\\\\[\\\\:hover\\\\]\\\\/label\\\\:font-16{font-weight:16;}
+.group\\\\/label:hover .group-hover\\\\/label\\\\:font-15{font-weight:15;}
+.group\\\\/label.not-parent .group-\\\\[\\\\.not-parent\\\\]\\\\/label\\\\:font-19{font-weight:19;}
+.group\\\\/label[data-attr] .group-\\\\[\\\\[data-attr\\\\]\\\\]\\\\/label\\\\:font-17{font-weight:17;}
 .font-leading-2,
 .leading-2{line-height:0.5rem;}
 .leading-\\\\$variable,

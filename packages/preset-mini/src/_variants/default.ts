@@ -13,7 +13,6 @@ import { variantSupports } from './supports'
 import { partClasses, variantPseudoClassFunctions, variantPseudoClassesAndElements, variantTaggedPseudoClasses } from './pseudo'
 
 export const variants = (options: PresetMiniOptions): Variant<Theme>[] => [
-  variantVariables,
   variantCssLayer,
 
   variantSelector,
@@ -34,4 +33,6 @@ export const variants = (options: PresetMiniOptions): Variant<Theme>[] => [
   ...variantColorsMediaOrClass(options),
   ...variantLanguageDirections,
   variantScope,
+
+  variantVariables,
 ]

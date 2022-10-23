@@ -1,7 +1,7 @@
 import type { VariantObject } from '@unocss/core'
 import { escapeRegExp, escapeSelector, warnOnce } from '@unocss/core'
 import type { PresetMiniOptions } from '..'
-import { getComponent, handler as h } from '../_utils'
+import { handler as h, variantGetBracket } from '../_utils'
 
 const PseudoClasses: Record<string, string> = Object.fromEntries([
   // pseudo elements part 1
@@ -83,61 +83,58 @@ const sortValue = (pseudo: string) => {
 }
 
 const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: string): VariantObject => {
-  const rawRe = new RegExp(`^(${escapeRegExp(parent)}(?:<[^>]+>)?:)(\\S+)${escapeRegExp(combinator)}\\1`)
-  const maybeWithBracketRE = new RegExp(`^${tag}(?:<[^>]+>)?-\\[`)
-  const pseudoRE = new RegExp(`^${tag}(<[^>]+>)?-(?:(?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesStr}))[:-]`)
-  const pseudoColonRE = new RegExp(`^${tag}(<[^>]+>)?-(?:(?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesColonStr}))[:]`)
+  const rawRe = new RegExp(`^(${escapeRegExp(parent)}:)(\\S+)${escapeRegExp(combinator)}\\1`)
+  const pseudoRE = new RegExp(`^${tag}-(?:(?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesStr}))(?:(/\\w+))?[:-]`)
+  const pseudoColonRE = new RegExp(`^${tag}-(?:(?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesColonStr}))(?:(/\\w+))?[:]`)
   return {
     name: `pseudo:${tag}`,
     match(input: string) {
       if (!input.startsWith(tag))
         return
 
-      if (input.match(maybeWithBracketRE)) {
-        const labelMatcher = input.substring(tag.length)
-        const [label, afterLabel] = getComponent(labelMatcher, '<', '>', '-') ?? ['', labelMatcher.slice(1)]
-        const body = getComponent(afterLabel, '[', ']', [':', '-'])
+      let label: string
+      let prefix: string
+      let matcher: string
+      let sort: number | undefined
 
-        if (!body)
-          return
-
+      const body = variantGetBracket(tag, input, [])
+      if (body) {
         const [match, rest] = body
         const bracketValue = h.bracket(match)
-
         if (bracketValue == null)
           return
 
-        if (label)
-          warnOnce('The labeled pseudo is experimental and may be changed in breaking ways at any time.')
-
-        let prefix = `${parent}${escapeSelector(label)}`
+        label = rest.split(/[:-]/, 1)?.[0] ?? ''
+        prefix = `${parent}${escapeSelector(label)}`
         prefix = bracketValue.includes('&') ? bracketValue.replace(/&/g, prefix) : `${prefix}${bracketValue}`
-
-        return {
-          matcher: input.slice(input.length - rest.length),
-          handle: (input, next) => next({
-            ...input,
-            prefix: `${prefix}${combinator}${input.prefix}`.replace(rawRe, '$1$2:'),
-          }),
-        }
+        matcher = input.slice(input.length - (rest.length - label.length - 1))
       }
+      else {
+        const match = input.match(pseudoRE) || input.match(pseudoColonRE)
+        if (!match)
+          return
 
-      const match = input.match(pseudoRE) || input.match(pseudoColonRE)
-      if (match) {
-        const [original, label = '', fn, pseudoKey] = match
-        if (label)
-          warnOnce('The labeled pseudo is experimental and may be changed in breaking ways at any time.')
+        const [original, fn, pseudoKey] = match
         let pseudo = PseudoClasses[pseudoKey] || PseudoClassesColon[pseudoKey] || `:${pseudoKey}`
         if (fn)
           pseudo = `:${fn}(${pseudo})`
-        return {
-          matcher: input.slice(original.length),
-          handle: (input, next) => next({
-            ...input,
-            prefix: `${parent}${escapeSelector(label)}${pseudo}${combinator}${input.prefix}`.replace(rawRe, '$1$2:'),
-            sort: sortValue(pseudoKey),
-          }),
-        }
+
+        label = match[3] ?? ''
+        prefix = `${parent}${escapeSelector(label)}${pseudo}`
+        matcher = input.slice(original.length)
+        sort = sortValue(pseudoKey)
+      }
+
+      if (label !== '')
+        warnOnce('The labeled pseudo is experimental and may be changed in breaking ways at any time.')
+
+      return {
+        matcher,
+        handle: (input, next) => next({
+          ...input,
+          prefix: `${prefix}${combinator}${input.prefix}`.replace(rawRe, '$1$2:'),
+        }),
+        sort,
       }
     },
     multiPass: true,

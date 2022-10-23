@@ -1,6 +1,6 @@
 import type { VariantHandler, VariantHandlerContext, VariantObject } from '@unocss/core'
 import { escapeRegExp } from '@unocss/core'
-import { getComponent } from '../utils'
+import { getBracket, getComponent } from '../utils'
 
 export const variantMatcher = (name: string, handler: (input: VariantHandlerContext) => Record<string, any>): VariantObject => {
   const re = new RegExp(`^${escapeRegExp(name)}[:-]`)
@@ -52,3 +52,15 @@ export const variantGetComponent = (name: string, matcher: string): string[] | u
   }
 }
 
+export const variantGetBracket = (name: string, matcher: string, separators: string[]): string[] | undefined => {
+  if (matcher.startsWith(`${name}-[`)) {
+    const [match, rest] = getBracket(matcher.slice(name.length + 1), '[', ']') ?? []
+    if (match && rest) {
+      for (const separator of separators) {
+        if (rest.startsWith(separator))
+          return [match, rest.slice(separator.length), separator]
+      }
+      return [match, rest, '']
+    }
+  }
+}
