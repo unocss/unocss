@@ -75,6 +75,9 @@ export const variantScope: Variant = {
 export const variantVariables: Variant = {
   name: 'variables',
   match(matcher) {
+    if (!matcher.startsWith('['))
+      return
+
     const [match, rest] = getBracket(matcher, '[', ']') ?? []
     if (!(match && rest))
       return
@@ -91,13 +94,14 @@ export const variantVariables: Variant = {
       return
 
     const variant = h.bracket(match) ?? ''
-    if (!(variant.startsWith('@') || variant.includes('&')))
+    const useParent = variant.startsWith('@')
+    if (!(useParent || variant.includes('&')))
       return
 
     return {
       matcher: newMatcher,
       handle(input, next) {
-        const updates = variant.startsWith('@')
+        const updates = useParent
           ? {
               parent: `${input.parent ? `${input.parent} $$ ` : ''}${variant}`,
             }
