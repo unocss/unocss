@@ -74,6 +74,7 @@ importers:
       nuxt-tsconfig-stub: ^0.0.2
       pnpm: 7.13.2
       prettier: ^2.7.1
+      prettier-plugin-svelte: ^2.8.0
       react: ^18.2.0
       rollup: ^2.79.1
       semver: ^7.3.8
@@ -158,13 +159,14 @@ importers:
       nuxt-tsconfig-stub: 0.0.2
       pnpm: 7.13.2
       prettier: 2.7.1
+      prettier-plugin-svelte: 2.8.0_lrllcp5xtrkmmdzifit4hd52ze
       react: 18.2.0
       rollup: 2.79.1
       semver: 7.3.8
       simple-git-hooks: 2.8.0
       splitpanes: 3.1.1
       terser: 5.15.1
-      tsup: 6.2.3_typescript@4.8.4
+      tsup: 6.2.3_64lehftmpdxmnkqestsyufiygi
       typescript: 4.8.4
       unbuild: 0.8.11
       unocss: link:packages/unocss
@@ -3628,7 +3630,7 @@ packages:
       '@babel/plugin-syntax-import-meta': 7.10.4_@babel+core@7.19.1
       '@babel/plugin-transform-typescript': 7.19.1_@babel+core@7.19.1
       '@vue/babel-plugin-jsx': 1.1.1_@babel+core@7.19.1
-      vite: 3.1.6
+      vite: 3.1.6_terser@5.15.1
       vue: 3.2.39
     transitivePeerDependencies:
       - supports-color
@@ -3641,7 +3643,7 @@ packages:
       vite: ^3.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 3.1.6
+      vite: 3.1.6_terser@5.15.1
       vue: 3.2.39
     dev: true
 
@@ -15028,6 +15030,16 @@ packages:
       synckit: 0.7.3
     dev: true
 
+  /prettier-plugin-svelte/2.8.0_lrllcp5xtrkmmdzifit4hd52ze:
+    resolution: {integrity: sha512-QlXv/U3bUszks3XYDPsk1fsaQC+fo2lshwKbcbO+lrSVdJ+40mB1BfL8OCAk1W9y4pJxpqO/4gqm6NtF3zNGCw==}
+    peerDependencies:
+      prettier: ^1.16.4 || ^2.0.0
+      svelte: ^3.2.0
+    dependencies:
+      prettier: 2.7.1
+      svelte: 3.52.0
+    dev: true
+
   /prettier/2.7.1:
     resolution: {integrity: sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==}
     engines: {node: '>=10.13.0'}
@@ -16969,6 +16981,11 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
+  /svelte/3.52.0:
+    resolution: {integrity: sha512-FxcnEUOAVfr10vDU5dVgJN19IvqeHQCS1zfe8vayTfis9A2t5Fhx+JDe5uv/C3j//bB1umpLJ6quhgs9xyUbCQ==}
+    engines: {node: '>= 8'}
+    dev: true
+
   /svg-tags/1.0.0:
     resolution: {integrity: sha512-ovssysQTa+luh7A5Weu3Rta6FJlFBBbInjOh722LIt6klpU2/HtdUbszju/G4devcvk8PGt7FCLv5wftu3THUA==}
     dev: true
@@ -17444,7 +17461,7 @@ packages:
       - ts-node
     dev: true
 
-  /tsup/6.2.3_typescript@4.8.4:
+  /tsup/6.2.3_64lehftmpdxmnkqestsyufiygi:
     resolution: {integrity: sha512-J5Pu2Dx0E1wlpIEsVFv9ryzP1pZ1OYsJ2cBHZ7GrKteytNdzaSz5hmLX7/nAxtypq+jVkVvA79d7S83ETgHQ5w==}
     engines: {node: '>=14'}
     hasBin: true
@@ -17468,7 +17485,8 @@ packages:
       execa: 5.1.1
       globby: 11.1.0
       joycon: 3.1.1
-      postcss-load-config: 3.1.4
+      postcss: 8.4.17
+      postcss-load-config: 3.1.4_postcss@8.4.17
       resolve-from: 5.0.0
       rollup: 2.79.0
       source-map: 0.8.0-beta.0
@@ -17949,7 +17967,7 @@ packages:
       chokidar: 3.5.3
       esbuild: 0.15.10
       rollup: 2.79.1
-      vite: 3.1.6
+      vite: 3.1.6_terser@5.15.1
       webpack-sources: 3.2.3
       webpack-virtual-modules: 0.4.5
     dev: true
