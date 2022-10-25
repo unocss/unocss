@@ -1,9 +1,8 @@
 # temp-s-p-u
 
-## NOTE: This is a temporary package for testing until merged into UnoCSS. Don't expect it to be maintained! If you find this and want update, please watch the Svelte portions of the [UnoCSS docs](https://github.com/unocss/unocss).
+## NOTE: This is a temporary package for testing until merged into UnoCSS. Don't expect it to be maintained! If you find this and want updates, please watch the Svelte portions of the [UnoCSS docs](https://github.com/unocss/unocss).
 
-
-Run UnoCSS in `svelte-scoped` mode as a svelte preprocessor instead of as a Vite plugin (the normal method) to enable styles preprocessing in pipelines that don't use Vite, such as `svelte-package`.
+Until https://github.com/sveltejs/vite-plugin-svelte/issues/475 is resolved, this allows you to run UnoCSS in `svelte-scoped` mode as a svelte preprocessor instead of as a Vite plugin (the normal method) to enable styles preprocessing in pipelines that don't use Vite, such as `svelte-package`.
 
 ## Installation
 
