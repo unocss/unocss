@@ -1,32 +1,40 @@
 import type { Variant, VariantObject } from '@unocss/core'
+import { handler as h, variantGetBracket } from '../utils'
 
-const scopeMatcher = (strict: boolean, name: string, template: string): VariantObject => {
-  const re = strict
-    ? new RegExp(`^${name}(?:-\\[(.+?)\\])[:-]`)
-    : new RegExp(`^${name}(?:-\\[(.+?)\\])?[:-]`)
-  return {
-    name: `combinator:${name}`,
-    match: (matcher: string) => {
-      const match = matcher.match(re)
-      if (match) {
-        return {
-          matcher: matcher.slice(match[0].length),
-          selector: s => template.replace('&&-s', s).replace('&&-c', match[1] ?? '*'),
+const scopeMatcher = (name: string, combinator: string): VariantObject => ({
+  name: `combinator:${name}`,
+  match(matcher) {
+    if (!matcher.startsWith(name))
+      return
+
+    let body = variantGetBracket(name, matcher, [':', '-'])
+    if (!body) {
+      for (const separator of [':', '-']) {
+        if (matcher.startsWith(`${name}${separator}`)) {
+          body = ['', matcher.slice(name.length + separator.length)]
+          break
         }
       }
-    },
-    multiPass: true,
-  }
-}
+      if (!body)
+        return
+    }
+
+    let bracketValue = h.bracket(body[0]) ?? ''
+    if (bracketValue === '')
+      bracketValue = '*'
+
+    return {
+      matcher: body[1],
+      selector: s => `${s}${combinator}${bracketValue}`,
+    }
+  },
+  multiPass: true,
+})
 
 export const variantCombinators: Variant[] = [
-  scopeMatcher(false, 'all', '&&-s &&-c'),
-  scopeMatcher(false, 'children', '&&-s>&&-c'),
-  scopeMatcher(false, 'next', '&&-s+&&-c'),
-  scopeMatcher(false, 'sibling', '&&-s+&&-c'),
-  scopeMatcher(false, 'siblings', '&&-s~&&-c'),
-  scopeMatcher(true, 'group', '&&-c &&-s'),
-  scopeMatcher(true, 'parent', '&&-c>&&-s'),
-  scopeMatcher(true, 'previous', '&&-c+&&-s'),
-  scopeMatcher(true, 'peer', '&&-c~&&-s'),
+  scopeMatcher('all', ' '),
+  scopeMatcher('children', '>'),
+  scopeMatcher('next', '+'),
+  scopeMatcher('sibling', '+'),
+  scopeMatcher('siblings', '~'),
 ]

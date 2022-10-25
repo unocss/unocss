@@ -879,15 +879,13 @@ export const presetMiniTargets: string[] = [
   'all-[.target]-[combinator:test-2]',
   'children-[.target]-[combinator:test-2]',
   'next-[.target]-[combinator:test-2]',
-  'group-[.scope]-[combinator:test-3]',
-  'parent-[.scope]-[combinator:test-3]',
-  'previous-[.scope]-[combinator:test-3]',
   'sibling-[div:hover]-[combinator:test-4]',
-  'group-[div:hover]-[combinator:test-4]',
   'all-[svg]:fill-red',
+  'all-[[data-hvr]:hover]:[color:red]',
 
   // variants combinators
   'all:m-auto',
+  'all:m1/1',
   'children:m-auto',
   'next:mt-0',
 
@@ -900,7 +898,8 @@ export const presetMiniTargets: string[] = [
   'uno-layer-1:translate-0',
   'uno-layer-uno_css:block',
   'layer-base:translate-0',
-  'layer-utility:block',
+  'layer-[utility]:block',
+  'uno-layer-[uno_css]:block',
 
   // variants misc
   '-rotate-2',
@@ -919,7 +918,7 @@ export const presetMiniTargets: string[] = [
   'supports-[(display:_grid)]:block',
 
   // variants media
-  'media-cssvar:block',
+  'media-[(--cssvar)]:block',
 
   // variants prints
   'print:block',
@@ -961,14 +960,25 @@ export const presetMiniTargets: string[] = [
   'focus-within:has-first:checked:bg-gray/20',
 
   // variants scope
-  'scope-scope_class:translate-0',
-  'scope-unocss:block',
+  'scope-[.scope\\_class]:translate-0',
+  'scope-[unocss]:block',
+  'scope-[[data-any]]:inline',
 
   // variants - tagged
   'group-focus:p-4',
   'peer-checked:bg-blue-500',
   'parent-hover:text-center',
-  'previous-checked:bg-red-500',
+  'previous-checked/label:bg-red-500',
+  'group-hover:font-10',
+  'group-[:hover]:font-11',
+  'group-[[data-attr]]:font-12',
+  'group-[.as-parent_&]:font-13',
+  'group-[.not-parent]:font-14',
+  'group-hover/label:font-15',
+  'group-[:hover]/label:font-16',
+  'group-[[data-attr]]/label:font-17',
+  'group-[.as-parent_&]/label:font-18',
+  'group-[.not-parent]/label:font-19',
 
   // variants - variables
   '[&:nth-child(2)]:m-10',
@@ -1003,4 +1013,7 @@ export const presetMiniNonTargets = [
   '-border-solid',
   '-decoration-none',
   '-color-blue-400',
+
+  // variants - combinator
+  'all:[svg]:fill-red',
 ]
