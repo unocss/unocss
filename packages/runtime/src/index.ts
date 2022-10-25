@@ -1,5 +1,5 @@
 import type { GenerateResult, UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
-import { createGenerator } from '@unocss/core'
+import { createGenerator, isString, toArray } from '@unocss/core'
 import { autoPrefixer, decodeHtml } from './utils'
 
 export interface RuntimeOptions {
@@ -97,28 +97,25 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
     return
   }
 
-  const config = window.__unocss || {}
-  const runtime = config?.runtime
-  const defaultConfig = Object.assign(inlineConfig.defaults || {}, runtime)
-  const cloakAttribute = defaultConfig.cloakAttribute ?? 'un-cloak'
-  if (runtime?.autoPrefix) {
-    let postprocess = defaultConfig.postprocess
-    if (!postprocess)
-      postprocess = []
-    if (!Array.isArray(postprocess))
-      postprocess = [postprocess]
-    postprocess.unshift(autoPrefixer(document.createElement('div').style))
-    defaultConfig.postprocess = postprocess
+  const defaultWindow = window
+  const defaultDocument = document
+
+  const userConfig = defaultWindow.__unocss || {}
+  const runtimeOptions = Object.assign({}, inlineConfig, userConfig.runtime)
+  const userConfigDefaults = runtimeOptions.defaults || {}
+  const cloakAttribute = runtimeOptions.cloakAttribute ?? 'un-cloak'
+  if (runtimeOptions.autoPrefix) {
+    const postprocessors = userConfigDefaults.postprocess = toArray(userConfigDefaults.postprocess)
+    postprocessors.unshift(autoPrefixer(defaultDocument.createElement('div').style))
   }
 
-  runtime?.configResolved?.(config, defaultConfig)
+  runtimeOptions.configResolved?.(userConfig, userConfigDefaults)
+  const uno = createGenerator(userConfig, userConfigDefaults)
 
-  let styleElement: HTMLStyleElement | undefined
   let paused = true
-  let inspector: RuntimeInspectorCallback | undefined
-
-  const uno = createGenerator(config, defaultConfig)
   let tokens = new Set<string>()
+  let styleElement: HTMLStyleElement | undefined
+  let inspector: RuntimeInspectorCallback | undefined
 
   let _timer: number | undefined
   let _resolvers: Function[] = []
@@ -133,7 +130,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
     }), 0) as any
   })
 
-  function removeCloak(node: Node = document.body) {
+  function removeCloak(node: Node) {
     if (node.nodeType !== 1)
       return
     const el = node as Element
@@ -146,8 +143,8 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
 
   function getStyleElement() {
     if (!styleElement) {
-      styleElement = document.createElement('style')
-      document.documentElement.prepend(styleElement)
+      styleElement = defaultDocument.createElement('style')
+      defaultDocument.documentElement.prepend(styleElement)
     }
     return styleElement
   }
@@ -171,10 +168,11 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   }
 
   async function extractAll() {
-    const html = document.body && document.body.outerHTML
+    const body = defaultDocument.body
+    const html = body && body.outerHTML
     if (html) {
       await extract(`${html} ${decodeHtml(html)}`)
-      removeCloak()
+      removeCloak(body)
     }
   }
 
@@ -218,7 +216,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   function observe() {
     if (observing)
       return
-    const target = document.documentElement || document.body
+    const target = defaultDocument.documentElement || defaultDocument.body
     if (!target)
       return
     mutationObserver.observe(target, {
@@ -235,17 +233,17 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   }
 
   function ready() {
-    if (document.readyState === 'loading')
-      window.addEventListener('DOMContentLoaded', execute)
+    if (defaultDocument.readyState === 'loading')
+      defaultWindow.addEventListener('DOMContentLoaded', execute)
     else
       execute()
   }
 
-  const unoCssRuntime = window.__unocss_runtime = window.__unocss_runtime = {
+  const unoCssRuntime = defaultWindow.__unocss_runtime = defaultWindow.__unocss_runtime = {
     version: uno.version,
     uno,
     async extract(userTokens) {
-      if (typeof userTokens !== 'string') {
+      if (!isString(userTokens)) {
         userTokens.forEach(t => tokens.add(t))
         userTokens = ''
       }
@@ -266,7 +264,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
     update: updateStyle,
   }
 
-  if (runtime?.ready?.(unoCssRuntime) !== false) {
+  if (runtimeOptions.ready?.(unoCssRuntime) !== false) {
     paused = false
     ready()
   }
