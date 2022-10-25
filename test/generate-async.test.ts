@@ -24,21 +24,21 @@ describe('generate-async', () => {
     expect(order).eql([1, 2])
   })
 
-  test('preflight-first', async () => {
+  test('preflight at the end', async () => {
     const order: number[] = []
     const uno = createGenerator({
       rules: [
         [/^rule$/, () => new Promise(resolve => setTimeout(() => {
-          order.push(2)
+          order.push(1)
           resolve('/* rule */')
         }, 20))],
       ],
       preflights: [
         {
-          getCSS: () => new Promise(resolve => setTimeout(() => {
-            order.push(1)
+          getCSS: () => new Promise((resolve) => {
+            order.push(2)
             resolve('/* preflight */')
-          }, 10)),
+          }),
         },
       ],
     })

@@ -18,13 +18,13 @@
     "lit": "^2.4.0"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.16",
+    "@iconify-json/logos": "^1.1.17",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
     "typescript": "^4.8.4",
     "unocss": "link:../../packages/unocss",
-    "vite": "^3.1.6",
+    "vite": "^3.1.8",
     "vite-plugin-inspect": "^0.7.5"
   }
 }

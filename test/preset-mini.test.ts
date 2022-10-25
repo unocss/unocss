@@ -23,6 +23,9 @@ const uno = createGenerator({
         camelCase: '#234',
       },
     },
+    spacing: {
+      safe: 'max(env(safe-area-inset-left), env(safe-area-inset-right))',
+    },
   },
 })
 

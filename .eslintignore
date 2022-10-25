@@ -4,3 +4,4 @@ node_modules
 interactive/guides/vendor/*.md
 interactive/data/guides.ts
 defaultConfig.ts
+packages/preset-icons/src/collections.json

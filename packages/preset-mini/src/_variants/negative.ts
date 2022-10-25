@@ -1,11 +1,20 @@
 import type { Variant } from '@unocss/core'
-import { CONTROL_MINI_NO_NEGATIVE } from '../utils'
+import { CONTROL_MINI_NO_NEGATIVE, getComponent } from '../utils'
 
 const numberRE = /[0-9.]+(?:[a-z]+|%)?/
 
 const ignoreProps = [
   /opacity|color|flex/,
 ]
+
+const negateFunctions = (value: string) => {
+  const match = value.match(/^(calc|clamp|max|min)\s*(\(.*)/)
+  if (match) {
+    const [fnBody, rest] = getComponent(match[2], '(', ')', ' ') ?? []
+    if (fnBody)
+      return `calc(${match[1]}${fnBody} * -1)${rest ? ` ${rest}` : ''}`
+  }
+}
 
 export const variantNegative: Variant = {
   name: 'negative',
@@ -25,7 +34,12 @@ export const variantNegative: Variant = {
             return
           if (ignoreProps.some(i => v[0].match(i)))
             return
-          if (numberRE.test(value)) {
+          const negated = negateFunctions(value)
+          if (negated) {
+            v[1] = negated
+            changed = true
+          }
+          else if (numberRE.test(value)) {
             v[1] = value.replace(numberRE, i => `-${i}`)
             changed = true
           }
