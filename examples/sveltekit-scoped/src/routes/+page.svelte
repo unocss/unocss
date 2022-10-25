@@ -1,51 +1,52 @@
 <script lang="ts">
-  import { fade, fly } from "svelte/transition";
-  import Counter from "./Counter.svelte";
-  let logo = false;
+  import Button from "$lib/Button.svelte";
+  import Counter from "$lib/Counter.svelte";
+  import Logos from "./Logos.svelte";
+  import Prose from "./Prose.svelte";
+  import RightToLeftDependent from "./RightToLeftDependent.svelte";
+
   let red = false;
-  function toggleLogo() {
-    logo = !logo;
-  }
-  function toggleSpan() {
-    red = !red;
-  }
-  $: button = logo ? "Hide logo" : "Show logo";
-  $: span = red ? "Normal" : "Red";
+  let rtl = true;
 </script>
 
-<main class="text-center p-1em my-0 mx-auto">
-  <span class="logo" />
-
-  {#if logo}
-    <span class:logo in:fly={{ y: 200, duration: 2000 }} out:fade />
-  {/if}
-
+<div class="p-1em my-2px mx-auto">
   <h1
-    class="animate-bounce color-#ff3e00 uppercase font-size-4rem fw-100 line-height-1.1 my-2rem mx-auto max-width-14rem sm:max-width-auto"
+    class="animate-bounce color-#ff3e00 dark:color-white uppercase text-5xl fw-100 my-2rem mx-auto"
   >
-    SvelteKit!
+    UnoCSS + SvelteKit!
   </h1>
 
-  <br />
+  <Logos />
 
-  <div class:bg-red-400={red}>My BG Color should change</div>
+  <div class="my-15">
+    <div
+      class:bg-red-400={red}
+      class:bg-gray={!red}
+      class="text-white p-3 rounded mb-3">
+      My BG Color should change
+    </div>
+    <Button onclick={() => (red = !red)}>Change BG Color: {red ? "Gray" : "Red"}</Button>
+  </div>
 
-  <br />
-
-  <button class="bg-red-100" on:click={toggleLogo}>{button}</button>
-  <button on:click={toggleSpan}>Change BG Color: {span}</button>
-
-  <br />
-  <br />
+  <div
+    class="bg-gray-500 bg-opacity-15 shadow-lg p-2 mb-3"
+    dir={rtl ? "rtl" : "ltr"}
+  >
+    <RightToLeftDependent />
+  </div>
+  <div class="mb-10">
+    <Button onclick={() => (rtl = !rtl)}>Toggle direction: {rtl ? "Right-to-left" : "Left-to-right"}</Button>
+  </div>
 
   <Counter />
 
-  <div class="absolute mt-20px bottom-0">absolute</div>
-</main>
+  <Prose />
+
+  <div class="corner">Fixed</div>
+</div>
 
 <style>
-  :root {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  .corner {
+    --at-apply: fixed flex left-2 bottom-2 md:left-6 md:bottom-6 bg-white dark:bg-black p-1;
   }
 </style>
