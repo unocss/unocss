@@ -29,7 +29,7 @@ describe('attributify', () => {
   translate-x-100%
   translate-y-[10%]
   rotate-30
-  after="content-[unocss]"
+  after="content-[quoted:uno_css]"
   rotate-60="" ma=""
   m='\`
   1 2
@@ -65,8 +65,8 @@ describe('attributify', () => {
       <label absolute leading-1rem left-4 pointer-events-none text-gray-7 top="1/3" transition="200 linear"
         peer-not-placeholder-shown="-translate-y-4 scale-75 origin-top-left text-green-500"
         peer-focus="-translate-y-4 scale-75 origin-top-left text-green-500"
-        before="content-!"
-        after="content-[!]"
+        before-content="[quoted:!]"
+        after="content-[string:!]"
       >Experience now</label>
     </div>
   </div>
@@ -100,7 +100,7 @@ describe('attributify', () => {
   transform
   translate-x-100
   rotate-30
-  after={"content-[unocss]"}
+  after={"content-[quoted:uno-css]"}
   rotate-60="" ma=""
   m='\`
   1 2

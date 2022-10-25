@@ -91,7 +91,7 @@ export function fraction(str: string) {
     return `${round(num * 100)}%`
 }
 
-const bracketTypeRe = /^\[(color|length|position|raw|string):/i
+const bracketTypeRe = /^\[(color|length|position|quoted|string):/i
 function bracketWithType(str: string, requiredType?: string) {
   if (str && str.startsWith('[') && str.endsWith(']')) {
     let base: string | undefined
@@ -125,13 +125,15 @@ function bracketWithType(str: string, requiredType?: string) {
       return
 
     switch (hintedType) {
-      case 'raw': return base
-
       case 'string': return base
         .replace(/(^|[^\\])_/g, '$1 ')
         .replace(/\\_/g, '_')
-        .replace(/(['\\])/g, '\\$1')
-        .replace(/^(.+)$/, '\'$1\'')
+
+      case 'quoted': return base
+        .replace(/(^|[^\\])_/g, '$1 ')
+        .replace(/\\_/g, '_')
+        .replace(/(["\\])/g, '\\$1')
+        .replace(/^(.+)$/, '"$1"')
     }
 
     return base

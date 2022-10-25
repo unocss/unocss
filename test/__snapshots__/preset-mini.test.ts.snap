@@ -38,7 +38,6 @@ exports[`preset-mini > targets 1`] = `
 /* layer: 1 */
 .uno-layer-1\\\\:translate-0{--un-translate-x:0rem;--un-translate-y:0rem;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 /* layer: default */
-.content-\\\\$unocss-var{align-content:var(--unocss-var);}
 .fw-\\\\$variable{font-weight:var(--variable);}
 .items-\\\\$size{align-items:var(--size);}
 .ws-\\\\$variable{white-space:var(--variable);}
@@ -298,11 +297,13 @@ div:hover .group-\\\\[div\\\\:hover\\\\]-\\\\[combinator\\\\:test-4\\\\]{combina
 .content-visibility-hidden{content-visibility:hidden;}
 .content-visibility-auto{content-visibility:auto;}
 .content-visibility-unset{content-visibility:unset;}
-.after\\\\:content-\\\\[unocss\\\\]::after,
-.content-\\\\[unocss\\\\]{content:\\"unocss\\";}
-.content-\\\\[\\\\!\\\\]{content:\\"!\\";}
-.content-\\\\[attr\\\\(dashed-attr\\\\)\\\\]{content:\\"attr(dashed-attr)\\";}
-.content-\\\\[attr\\\\(underlined_attr\\\\)\\\\]{content:\\"attr(underlined_attr)\\";}
+.after\\\\:content-\\\\[quoted\\\\:unocss\\\\]::after,
+.content-\\\\[quoted\\\\:unocss\\\\]{content:\\"unocss\\";}
+.content-\\\\[normal\\\\]{content:normal;}
+.content-\\\\[quoted\\\\:\\\\!\\\\]{content:\\"!\\";}
+.content-\\\\[string\\\\:attr\\\\(dashed-attr\\\\)\\\\]{content:attr(dashed-attr);}
+.content-\\\\[string\\\\:attr\\\\(underlined\\\\\\\\_attr\\\\)\\\\]{content:attr(underlined_attr);}
+.content-\\\\$unocss-var{content:var(--unocss-var);}
 .content-empty,
 .content-none{content:\\"\\";}
 .font-\\\\[system-ui\\\\]{font-family:system-ui;}
