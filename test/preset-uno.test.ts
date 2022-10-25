@@ -48,7 +48,7 @@ const targets2 = [
   'selector-[section]:c-gray-400',
   'selector-[.cls.multi]:c-gray-400',
   'md:selector-[aside]:shadow-xl',
-  'dark:selector-[.body_main]:bg-white',
+  'dark:selector-[.body\\_main]:bg-white',
 ]
 
 const nonTargets = [
