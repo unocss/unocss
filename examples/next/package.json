@@ -14,8 +14,8 @@
     "unocss-nextjs": "link:"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "^1.1.8",
-    "@types/node": "18.8.3",
+    "@iconify-json/carbon": "^1.1.9",
+    "@types/node": "18.11.0",
     "@types/react": "18.0.21",
     "@types/react-dom": "18.0.6",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",

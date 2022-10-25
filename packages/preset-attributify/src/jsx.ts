@@ -110,6 +110,7 @@ export type SeparateEnabled =
   | 'grid'
   | 'h'
   | 'icon'
+  | 'items'
   | 'justify'
   | 'list'
   | 'm'

@@ -191,7 +191,7 @@ exports[`preset-wind > targets 1`] = `
 .break-inside-revert{break-inside:revert;}
 .break-after-column{break-after:column;}
 .break-after-unset{break-after:unset;}
-.-space-x-4>:not([hidden])~:not([hidden]){--un-space-x-reverse:0;margin-left:calc(-1rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(-1rem * var(--un-space-x-reverse));}
+.-space-x-4>:not([hidden])~:not([hidden]){--un-space-x-reverse:0;margin-left:calc(calc(1rem * calc(1 - var(--un-space-x-reverse))) * -1);margin-right:calc(calc(1rem * var(--un-space-x-reverse)) * -1);}
 .space-x-\\\\$space>:not([hidden])~:not([hidden]){--un-space-x-reverse:0;margin-left:calc(var(--space) * calc(1 - var(--un-space-x-reverse)));margin-right:calc(var(--space) * var(--un-space-x-reverse));}
 .space-x-2>:not([hidden])~:not([hidden]){--un-space-x-reverse:0;margin-left:calc(0.5rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(0.5rem * var(--un-space-x-reverse));}
 .space-y-4>:not([hidden])~:not([hidden]){--un-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--un-space-y-reverse)));margin-bottom:calc(1rem * var(--un-space-y-reverse));}
@@ -234,6 +234,7 @@ exports[`preset-wind > targets 1`] = `
 .bg-\\\\[position\\\\:10_20rem\\\\]{background-position:10px 20rem;}
 .bg-\\\\[position\\\\:bottom_left_10\\\\%\\\\]{background-position:bottom left 10%;}
 .bg-\\\\[position\\\\:top_right_1\\\\/3\\\\]{background-position:top right 33.3333333333%;}
+.bg-\\\\[url\\\\(https\\\\:\\\\/\\\\/test\\\\.unocss\\\\.png\\\\)\\\\]{--un-url:url(https://test.unocss.png);background-image:var(--un-url);}
 .bg-gradient-\\\\[70deg\\\\,blue\\\\,pink\\\\]{--un-gradient:70deg,blue,pink;}
 .bg-gradient-stops-\\\\[blue\\\\,pink\\\\],
 .stops-\\\\[blue\\\\,pink\\\\]{--un-gradient-stops:blue,pink;}
@@ -399,6 +400,10 @@ exports[`preset-wind > targets 1`] = `
 .backdrop-filter-revert{-webkit-backdrop-filter:revert;backdrop-filter:revert;}
 .placeholder-inherit::placeholder{color:inherit;}
 .placeholder-red-400::placeholder{--un-placeholder-opacity:1;color:rgba(248,113,113,var(--un-placeholder-opacity));}
+@media (hover: hover) and (pointer: fine){
+.\\\\@hover-text-red:hover{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
+[open] .\\\\@hover\\\\:\\\\[\\\\[open\\\\]_\\\\&\\\\]\\\\:text-blue:hover{--un-text-opacity:1;color:rgba(96,165,250,var(--un-text-opacity));}
+}
 @media (orientation: landscape){
 .landscape\\\\:hidden{display:none;}
 }

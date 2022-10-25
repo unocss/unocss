@@ -610,10 +610,11 @@ export const presetMiniTargets: string[] = [
   // content
   'content-empty',
   'content-none',
-  'content-[!]',
-  'content-[unocss]',
-  'content-[attr(dashed-attr)]',
-  'content-[attr(underlined_attr)]',
+  'content-[normal]',
+  'content-[quoted:!]',
+  'content-[quoted:unocss]',
+  'content-[string:attr(dashed-attr)]',
+  'content-[string:attr(underlined\\_attr)]',
   'content-$unocss-var',
 
   // content visibility
@@ -870,6 +871,9 @@ export const presetMiniTargets: string[] = [
   'important:p-3',
   'sm:important:p-3',
   'p3!',
+  '-mt-safe',
+  '-!mb-safe',
+  '!-ms-safe',
 
   // variants class
   'all-[.target]-[combinator:test-2]',
@@ -923,7 +927,7 @@ export const presetMiniTargets: string[] = [
 
   // variants - pseudo elements
   'before:translate-y-full',
-  'after:content-[unocss]',
+  'after:content-[quoted:unocss]',
   'placeholder-opacity-60',
   'placeholder-color-opacity-60',
   'placeholder-color-red-1',
