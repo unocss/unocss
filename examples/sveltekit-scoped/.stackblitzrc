@@ -1,0 +1,4 @@
+{
+  "installDependencies": false,
+  "startCommand": "npm run stackblitz:dev"
+}
