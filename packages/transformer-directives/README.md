@@ -13,12 +13,12 @@ npm i -D @unocss/transformer-directives
 ```ts
 // uno.config.js
 import { defineConfig } from 'unocss'
-import transformerDirective from '@unocss/transformer-directives'
+import transformerDirectives from '@unocss/transformer-directives'
 
 export default defineConfig({
   // ...
   transformers: [
-    transformerDirective(),
+    transformerDirectives(),
   ],
 })
 ```
@@ -65,7 +65,7 @@ To use rules with `:`, you will need to quote the value
 This feature is enabled by default (with prefix `--at-`), you can configure it or disable it via:
 
 ```js
-transformerDirective({
+transformerDirectives({
   varStyle: '--my-at-',
   // or disable with:
   // varStyle: false
