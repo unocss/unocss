@@ -24,7 +24,7 @@
     "unocss": "link:../../packages/unocss",
     "vite": "3.1.8"
   },
-  "stackblitz" : {
+  "stackblitz": {
     "installDependencies": false,
     "startCommand": "npm run stackblitz:dev"
   }
