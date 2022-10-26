@@ -398,6 +398,13 @@ export const presetWindTargets: string[] = [
 
   // variants - multiple parents
   '@dark:contrast-more:p-10',
+
+  // experimental
+  'zoom-normal',
+  'zoom-50',
+  'zoom-1/1',
+  'zoom-$variant',
+  'zoom-[50%]',
 ]
 
 export const presetWindNonTargets: string[] = [
