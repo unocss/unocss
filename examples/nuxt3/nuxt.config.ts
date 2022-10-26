@@ -1,7 +1,7 @@
 import { defineNuxtConfig } from 'nuxt'
 
 export default defineNuxtConfig({
-  buildModules: [
+  modules: [
     '@unocss/nuxt',
   ],
   unocss: {
