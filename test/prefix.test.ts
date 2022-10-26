@@ -26,6 +26,7 @@ describe('prefix', () => {
       'hover:foo-p4',
       'bar-bar',
       'bar-shortcut',
+      'foo-container',
     ]), { preflights: false })
 
     expect(matched).toMatchInlineSnapshot(`
@@ -34,6 +35,7 @@ describe('prefix', () => {
         "foo-text-red",
         "hover:foo-p4",
         "bar-shortcut",
+        "foo-container",
       }
     `)
 
