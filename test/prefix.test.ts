@@ -1,12 +1,12 @@
 import { createGenerator } from '@unocss/core'
 import { describe, expect, test } from 'vitest'
-import presetMini from '@unocss/preset-mini'
+import presetUno from '@unocss/preset-uno'
 
 describe('prefix', () => {
   test('preset prefix', async () => {
     const uno = createGenerator({
       presets: [
-        presetMini({ prefix: 'foo-' }),
+        presetUno({ prefix: 'foo-' }),
       ],
       rules: [
         ['bar', { color: 'bar' }, { prefix: 'bar-' }],
@@ -26,6 +26,8 @@ describe('prefix', () => {
       'hover:foo-p4',
       'bar-bar',
       'bar-shortcut',
+      'foo-container',
+      '2xl:foo-container',
     ]), { preflights: false })
 
     expect(matched).toMatchInlineSnapshot(`
@@ -34,6 +36,8 @@ describe('prefix', () => {
         "foo-text-red",
         "hover:foo-p4",
         "bar-shortcut",
+        "foo-container",
+        "2xl:foo-container",
       }
     `)
 

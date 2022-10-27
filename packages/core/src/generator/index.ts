@@ -394,7 +394,7 @@ export class UnoGenerator {
     return cssBody
   }
 
-  async parseUtil(input: string | VariantMatchedResult, context: RuleContext, internal = false): Promise<(ParsedUtil | RawUtil)[] | undefined> {
+  async parseUtil(input: string | VariantMatchedResult, context: RuleContext, internal = false, shortcutPrefix: string | undefined = undefined): Promise<(ParsedUtil | RawUtil)[] | undefined> {
     const [raw, processed, variantHandlers] = isString(input)
       ? this.matchVariants(input)
       : input
@@ -432,10 +432,15 @@ export class UnoGenerator {
       // match prefix
       let unprefixed = processed
       if (meta?.prefix) {
-        if (!processed.startsWith(meta.prefix))
-          continue
-
-        unprefixed = processed.slice(meta.prefix.length)
+        if (shortcutPrefix) {
+          if (shortcutPrefix !== meta.prefix)
+            continue
+        }
+        else {
+          if (!processed.startsWith(meta.prefix))
+            continue
+          unprefixed = processed.slice(meta.prefix.length)
+        }
       }
 
       // match rule
@@ -555,7 +560,7 @@ export class UnoGenerator {
         .map(async (i) => {
           const result = isString(i)
             // rule
-            ? await this.parseUtil(i, context, true) as ParsedUtil[]
+            ? await this.parseUtil(i, context, true, meta.prefix) as ParsedUtil[]
             // inline CSS value in shortcut
             : [[Infinity, '{inline}', normalizeCSSEntries(i), undefined, []] as ParsedUtil]
 
