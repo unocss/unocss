@@ -560,7 +560,7 @@ export class UnoGenerator {
         .map(async (i) => {
           const result = isString(i)
             // rule
-            ? await this.parseUtil(i, context, true, meta.prefix ? meta.prefix : undefined) as ParsedUtil[]
+            ? await this.parseUtil(i, context, true, meta.prefix) as ParsedUtil[]
             // inline CSS value in shortcut
             : [[Infinity, '{inline}', normalizeCSSEntries(i), undefined, []] as ParsedUtil]
 
