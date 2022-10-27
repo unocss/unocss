@@ -1,5 +1,7 @@
 # SvelteKit + UnoCSS Vite Plugin (svelte-scoped)
 
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/sveltekit-scoped)
+
 ## Why?
 
 ### Scoping utility classes by component unleashes creativity

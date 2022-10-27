@@ -3,6 +3,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
+    "stackblitz:dev": "node remove-links.js && npm install && vite dev",
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -22,5 +23,9 @@
     "typescript": "^4.8.4",
     "unocss": "link:../../packages/unocss",
     "vite": "3.1.8"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "npm run stackblitz:dev"
   }
 }

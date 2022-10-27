@@ -3,7 +3,7 @@ import { defineConfig } from 'vite'
 import UnoCSS from 'unocss/vite'
 import presetIcons from '@unocss/preset-icons'
 import presetUno from '@unocss/preset-uno'
-import transformerDirective from '@unocss/transformer-directives'
+import transformerDirectives from '@unocss/transformer-directives'
 
 export default defineConfig({
   plugins: [
@@ -13,7 +13,7 @@ export default defineConfig({
         { logo: 'i-logos:svelte-icon w-7em h-7em transform transition-300' },
       ],
       transformers: [
-        transformerDirective(),
+        transformerDirectives(),
       ],
       presets: [
         presetUno(),
