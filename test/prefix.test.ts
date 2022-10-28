@@ -35,7 +35,6 @@ describe('prefix', () => {
         "bar-bar",
         "h-text-red",
         "hover:h-p4",
-        "shortcut",
         "bar-shortcut",
         "h-container",
         "2xl:h-container",

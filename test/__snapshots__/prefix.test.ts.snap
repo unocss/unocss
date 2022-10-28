@@ -6,8 +6,7 @@ exports[`prefix > preset prefix 2`] = `
 .hover\\\\:h-p4:hover{padding:1rem;}
 .h-text-red{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
 .bar-bar,
-.bar-shortcut,
-.shortcut{color:bar;}
+.bar-shortcut{color:bar;}
 @media (min-width: 640px){
 .h-container{max-width:640px;}
 }
