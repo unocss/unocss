@@ -50,7 +50,7 @@ export interface Theme {
   // supports queries
   supports?: Record<string, string>
   // container queries
-  containers: Record<string, string>
+  containers?: Record<string, string>
   // animation
   animation?: ThemeAnimation
   // grids
