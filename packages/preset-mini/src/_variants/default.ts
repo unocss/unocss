@@ -11,8 +11,12 @@ import { variantImportant } from './important'
 import { variantCustomMedia, variantPrint } from './media'
 import { variantSupports } from './supports'
 import { partClasses, variantPseudoClassFunctions, variantPseudoClassesAndElements, variantTaggedPseudoClasses } from './pseudo'
+import { variantAria } from './aria'
+import { variantDataAttribute } from './data'
 
 export const variants = (options: PresetMiniOptions): Variant<Theme>[] => [
+  variantAria,
+  variantDataAttribute,
   variantCssLayer,
 
   variantSelector,
