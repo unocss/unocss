@@ -2,6 +2,7 @@
 export * from './aria'
 export * from './breakpoints'
 export * from './combinators'
+export * from './container'
 export * from './data'
 export * from './media'
 export * from './supports'
