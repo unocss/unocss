@@ -75,7 +75,7 @@ describe('value handler', () => {
       'in', 'cm', 'mm',
       'rpx',
     ]
-    
+
     expect(units.map(y => h.numberWithUnit(`12.34${y}`))).eql(units.map(y => `12.34${y}`))
   })
 })
