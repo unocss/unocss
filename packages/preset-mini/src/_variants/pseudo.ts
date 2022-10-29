@@ -88,7 +88,7 @@ const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: strin
   const pseudoColonRE = new RegExp(`^${tag}-(?:(?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesColonStr}))(?:(/\\w+))?[:]`)
 
   const matchBracket = (input: string) => {
-    const body = variantGetBracket(tag, input, [])
+    const body = variantGetBracket(`${tag}-`, input, [])
     if (!body)
       return
 

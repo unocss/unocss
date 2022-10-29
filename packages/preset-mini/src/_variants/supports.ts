@@ -5,7 +5,7 @@ import { handler as h, variantGetParameter } from '../utils'
 export const variantSupports: VariantObject = {
   name: 'supports',
   match(matcher, { theme }: VariantContext<Theme>) {
-    const variant = variantGetParameter('supports', matcher, [':', '-'])
+    const variant = variantGetParameter('supports-', matcher, [':', '-'])
     if (variant) {
       const [match, rest] = variant
 

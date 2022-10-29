@@ -7,7 +7,7 @@ const scopeMatcher = (name: string, combinator: string): VariantObject => ({
     if (!matcher.startsWith(name))
       return
 
-    let body = variantGetBracket(name, matcher, [':', '-'])
+    let body = variantGetBracket(`${name}-`, matcher, [':', '-'])
     if (!body) {
       for (const separator of [':', '-']) {
         if (matcher.startsWith(`${name}${separator}`)) {
