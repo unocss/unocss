@@ -15,7 +15,7 @@ describe('matched-positions', async () => {
       ],
     })
 
-    expect(await match(uno, '<div border="b gray4 2"></div>'))
+    expect(await match(uno, '<div border="b gray4 2 [&_span]:white"></div>'))
       .toMatchInlineSnapshot(`
         [
           [
@@ -32,6 +32,11 @@ describe('matched-positions', async () => {
             21,
             22,
             "[border=\\"2\\"]",
+          ],
+          [
+            23,
+            37,
+            "[border=\\"[&_span]:white\\"]",
           ],
         ]
       `)
