@@ -1,5 +1,5 @@
 import type { VariantContext, VariantObject } from '@unocss/core'
-import { Theme } from '../theme'
+import type { Theme } from '../theme'
 import { handler as h, variantGetParameter } from '../utils'
 
 export const variantDataAttribute: VariantObject = {
