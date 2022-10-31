@@ -16,6 +16,9 @@ const uno = createGenerator({
         b: 'rgba(var(--custom), %alpha)',
       },
     },
+    data: {
+      dropdown: 'data-bs-toggle="dropdown"',
+    },
   },
 })
 

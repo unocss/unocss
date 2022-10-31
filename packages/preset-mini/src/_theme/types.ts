@@ -38,6 +38,8 @@ export interface Theme {
   lineWidth?: Record<string, string>
   spacing?: Record<string, string>
   duration?: Record<string, string>
+  aria?: Record<string, string>
+  data?: Record<string, string>
   // filters
   blur?: Record<string, string>
   dropShadow?: Record<string, string | string[]>
