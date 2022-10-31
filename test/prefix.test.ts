@@ -6,7 +6,7 @@ describe('prefix', () => {
   test('preset prefix', async () => {
     const uno = createGenerator({
       presets: [
-        presetUno({ prefix: 'foo-' }),
+        presetUno({ prefix: 'h-' }),
       ],
       rules: [
         ['bar', { color: 'bar' }, { prefix: 'bar-' }],
@@ -22,22 +22,22 @@ describe('prefix', () => {
       'bar',
       'shortcut',
       // expected
-      'foo-text-red',
-      'hover:foo-p4',
+      'h-text-red',
+      'hover:h-p4',
       'bar-bar',
       'bar-shortcut',
-      'foo-container',
-      '2xl:foo-container',
+      'h-container',
+      '2xl:h-container',
     ]), { preflights: false })
 
     expect(matched).toMatchInlineSnapshot(`
       Set {
         "bar-bar",
-        "foo-text-red",
-        "hover:foo-p4",
+        "h-text-red",
+        "hover:h-p4",
         "bar-shortcut",
-        "foo-container",
-        "2xl:foo-container",
+        "h-container",
+        "2xl:h-container",
       }
     `)
 
