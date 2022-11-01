@@ -1017,9 +1017,9 @@ export const presetMiniTargets: string[] = [
   // variants - container query (@)
   '@sm:text-red',
   '@lg-text-red',
-  '@[(min-width:100rem)]-text-red',
+  '@[10.5rem]-text-red',
   '@xs/label:text-green',
-  '@[(min-width:100rem)]/label:text-green',
+  '@[100px]/label:text-green',
 ]
 
 export const presetMiniNonTargets = [

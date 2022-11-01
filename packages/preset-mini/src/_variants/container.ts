@@ -12,7 +12,16 @@ export const variantContainerQuery: VariantObject = {
     const variant = variantGetParameter('@', matcher, [':', '-'])
     if (variant) {
       const [match, rest, label] = variant
-      const container = h.bracket(match) ?? theme.containers?.[match] ?? ''
+      const unbracket = h.bracket(match)
+      let container: string | undefined
+      if (unbracket) {
+        const minWidth = h.numberWithUnit(unbracket)
+        if (minWidth)
+          container = `(min-width: ${minWidth})`
+      }
+      else {
+        container = theme.containers?.[match] ?? ''
+      }
 
       if (container) {
         warnOnce('The container query variant is experimental and may not follow semver.')
