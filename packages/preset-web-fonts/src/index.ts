@@ -2,6 +2,7 @@ import type { Preset } from '@unocss/core'
 import { toArray } from '@unocss/core'
 import { BunnyFontsProvider } from './providers/bunny'
 import { GoogleFontsProvider } from './providers/google'
+import { FontshareProvider } from './providers/fontshare'
 import { NoneProvider } from './providers/none'
 import type { WebFontMeta, WebFontsOptions, WebFontsProviders } from './types'
 
@@ -24,6 +25,7 @@ export function normalizedFontMeta(meta: WebFontMeta | string, defaultProvider: 
 const providers = {
   google: GoogleFontsProvider,
   bunny: BunnyFontsProvider,
+  fontshare: FontshareProvider,
   none: NoneProvider,
 }
 
