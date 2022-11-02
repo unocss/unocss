@@ -2,40 +2,40 @@
 
 exports[`prefix > preset prefix 2`] = `
 "/* layer: default */
-.foo-container{max-width:100%;}
-.hover\\\\:foo-p4:hover{padding:1rem;}
-.foo-text-red{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
+.h-container{max-width:100%;}
+.hover\\\\:h-p4:hover{padding:1rem;}
+.h-text-red{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
 .bar-bar,
 .bar-shortcut{color:bar;}
 @media (min-width: 640px){
-.foo-container{max-width:640px;}
+.h-container{max-width:640px;}
 }
 @media (min-width: 768px){
-.foo-container{max-width:768px;}
+.h-container{max-width:768px;}
 }
 @media (min-width: 1024px){
-.foo-container{max-width:1024px;}
+.h-container{max-width:1024px;}
 }
 @media (min-width: 1280px){
-.foo-container{max-width:1280px;}
+.h-container{max-width:1280px;}
 }
 @media (min-width: 1024px){@media (min-width: 1536px){
-.\\\\32 xl\\\\:foo-container{max-width:1024px;}
+.\\\\32 xl\\\\:h-container{max-width:1024px;}
 }}
 @media (min-width: 1280px){@media (min-width: 1536px){
-.\\\\32 xl\\\\:foo-container{max-width:1280px;}
+.\\\\32 xl\\\\:h-container{max-width:1280px;}
 }}
 @media (min-width: 1536px){
-.\\\\32 xl\\\\:foo-container{max-width:100%;}
-.foo-container{max-width:1536px;}
+.\\\\32 xl\\\\:h-container{max-width:100%;}
+.h-container{max-width:1536px;}
 }
 @media (min-width: 1536px){@media (min-width: 1536px){
-.\\\\32 xl\\\\:foo-container{max-width:1536px;}
+.\\\\32 xl\\\\:h-container{max-width:1536px;}
 }}
 @media (min-width: 640px){@media (min-width: 1536px){
-.\\\\32 xl\\\\:foo-container{max-width:640px;}
+.\\\\32 xl\\\\:h-container{max-width:640px;}
 }}
 @media (min-width: 768px){@media (min-width: 1536px){
-.\\\\32 xl\\\\:foo-container{max-width:768px;}
+.\\\\32 xl\\\\:h-container{max-width:768px;}
 }}"
 `;

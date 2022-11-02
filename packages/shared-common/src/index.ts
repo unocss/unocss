@@ -1,5 +1,5 @@
 import type { UnoGenerator } from '@unocss/core'
-import { e, isAttributifySelector, regexClassGroup } from '@unocss/core'
+import { escapeRegExp, isAttributifySelector, regexClassGroup } from '@unocss/core'
 import MagicString from 'magic-string'
 
 // https://github.com/dsblv/string-replace-async/blob/main/index.js
@@ -78,7 +78,7 @@ export function getMatchedPositions(code: string, matched: string[], hasVariantG
 
   // attributify values
   attributify.forEach(([, name, value]) => {
-    const regex = new RegExp(`(${e(name)}=)(['"])[^\\2]*?${e(value)}[^\\2]*?\\2`, 'g')
+    const regex = new RegExp(`(${escapeRegExp(name)}=)(['"])[^\\2]*?${escapeRegExp(value)}[^\\2]*?\\2`, 'g')
     Array.from(code.matchAll(regex))
       .forEach((match) => {
         const escaped = match[1]

@@ -398,6 +398,12 @@ export const presetWindTargets: string[] = [
 
   // variants - multiple parents
   '@dark:contrast-more:p-10',
+
+  // variants - aria (theme)
+  'aria-hidden:hidden',
+
+  // variants - data (theme)
+  'data-dropdown:ring-green',
 ]
 
 export const presetWindNonTargets: string[] = [
