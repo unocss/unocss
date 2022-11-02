@@ -1,21 +1,73 @@
-import { extractorSplit } from '@unocss/core'
+import { extractorSplit, extractorSvelte } from '@unocss/core'
 import { expect, it } from 'vitest'
 
 it('extractorSplit', async () => {
-  let code = ''
-  async function extract() {
+  async function extract(code: string) {
     return [...await extractorSplit.extract({ code, original: code }) || []]
   }
 
-  code = 'foo'
-  expect(await extract()).eql(['foo'])
+  expect(await extract('foo')).eql(['foo'])
+  expect(await extract('<div class="text-red border">foo</div>')).toContain('text-red')
+  expect(await extract('<div class="<sm:text-lg">foo</div>')).toContain('<sm:text-lg')
+  expect(await extract('"class=\"bg-white\""')).toContain('bg-white')
+})
 
-  code = '<div class="text-red border">foo</div>'
-  expect(await extract()).toContain('text-red')
+it('extractorSvelte uses regular split with non .svelte files', async () => {
+  async function extract(code: string) {
+    return [...await extractorSvelte.extract({ code, original: code }) || []]
+  }
 
-  code = '<div class="<sm:text-lg">foo</div>'
-  expect(await extract()).toContain('<sm:text-lg')
+  expect(await extract('foo')).eql(['foo'])
+  expect(await extract('<div class="text-red border">foo</div>')).toContain('text-red')
+  expect(await extract('<div class="<sm:text-lg">foo</div>')).toContain('<sm:text-lg')
+  expect(await extract('"class=\"bg-white\""')).toContain('bg-white')
 
-  code = '"class=\"bg-white\""'
-  expect(await extract()).toContain('bg-white')
+  expect(await extract('<div class:text-orange-400={foo} class="shortcut" />')).toMatchInlineSnapshot(`
+    [
+      "<div",
+      "class:text-orange-400",
+      "foo",
+      "class",
+      "shortcut",
+      "/>",
+    ]
+  `)
+  expect(await extract('class:text-gray-800={$page.url.pathname.startsWith(\'/test\')}')).toMatchInlineSnapshot(`
+    [
+      "class:text-gray-800",
+      "$page.url.pathname.startsWith(",
+      "/test",
+      ")",
+    ]
+  `)
+})
+
+it('extractorSvelte uses svelte-specific split with .svelte files', async () => {
+  async function extract(code: string) {
+    return [...await extractorSvelte.extract({ code, original: code, id: 'file.svelte' }) || []]
+  }
+
+  expect(await extract('foo')).eql(['foo'])
+  expect(await extract('<div class="text-red border">foo</div>')).toContain('text-red')
+  expect(await extract('<div class="<sm:text-lg">foo</div>')).toContain('<sm:text-lg')
+  expect(await extract('"class=\"bg-white\""')).toContain('bg-white')
+
+  expect(await extract('<div class:text-orange-400={foo} class="shortcut" />')).toMatchInlineSnapshot(`
+    [
+      "<div",
+      "text-orange-400",
+      "foo",
+      "class",
+      "shortcut",
+      "/>",
+    ]
+  `)
+  expect(await extract('class:text-gray-800={$page.url.pathname.startsWith(\'/test\')}')).toMatchInlineSnapshot(`
+    [
+      "text-gray-800",
+      "$page.url.pathname.startsWith(",
+      "/test",
+      ")",
+    ]
+  `)
 })
