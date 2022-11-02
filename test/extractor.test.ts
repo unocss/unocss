@@ -25,19 +25,28 @@ it('extractorSvelte uses regular split with non .svelte files', async () => {
   expect(await extract('<div class:text-orange-400={foo} class="shortcut" />')).toMatchInlineSnapshot(`
     [
       "<div",
-      "class:text-orange-400",
+      "class:text-orange-400=",
       "foo",
-      "class",
+      "class=",
       "shortcut",
       "/>",
     ]
   `)
   expect(await extract('class:text-gray-800={$page.url.pathname.startsWith(\'/test\')}')).toMatchInlineSnapshot(`
     [
-      "class:text-gray-800",
+      "class:text-gray-800=",
       "$page.url.pathname.startsWith(",
       "/test",
       ")",
+    ]
+  `)
+
+  expect(await extract('<div class="data-[a~=b]:text-red">foo</div>')).toMatchInlineSnapshot(`
+    [
+      "<div",
+      "class=",
+      "data-[a~=b]:text-red",
+      ">foo</div>",
     ]
   `)
 })
@@ -55,19 +64,28 @@ it('extractorSvelte uses svelte-specific split with .svelte files', async () => 
   expect(await extract('<div class:text-orange-400={foo} class="shortcut" />')).toMatchInlineSnapshot(`
     [
       "<div",
-      "text-orange-400",
+      "text-orange-400=",
       "foo",
-      "class",
+      "class=",
       "shortcut",
       "/>",
     ]
   `)
   expect(await extract('class:text-gray-800={$page.url.pathname.startsWith(\'/test\')}')).toMatchInlineSnapshot(`
     [
-      "text-gray-800",
+      "text-gray-800=",
       "$page.url.pathname.startsWith(",
       "/test",
       ")",
+    ]
+  `)
+
+  expect(await extract('<div class="data-[a~=b]:text-red">foo</div>')).toMatchInlineSnapshot(`
+    [
+      "<div",
+      "class=",
+      "data-[a~=b]:text-red",
+      ">foo</div>",
     ]
   `)
 })
