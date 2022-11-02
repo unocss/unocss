@@ -1,6 +1,6 @@
 import { dirname, resolve } from 'path'
 import { fileURLToPath } from 'url'
-import { addComponentsDir, addPluginTemplate, defineNuxtModule, extendWebpackConfig } from '@nuxt/kit'
+import { addComponentsDir, defineNuxtModule, extendWebpackConfig } from '@nuxt/kit'
 import WebpackPlugin from '@unocss/webpack'
 import VitePlugin from '@unocss/vite'
 import { resolveOptions } from './options'
@@ -32,18 +32,11 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     resolveOptions(options)
 
     if (options.autoImport) {
-      addPluginTemplate({
-        filename: 'unocss.mjs',
-        getContents: () => {
-          const lines = [
-            'import \'uno.css\'',
-            'export default defineNuxtPlugin(() => {})',
-          ]
-          if (options.preflight)
-            lines.unshift('import \'@unocss/reset/tailwind.css\'')
-          return lines.join('\n')
-        },
-      })
+      nuxt.options.css ||= []
+      nuxt.options.css.push('uno.css')
+
+      if (options.preflight)
+        nuxt.options.css.unshift('@unocss/reset/tailwind.css')
     }
 
     if (options.components) {
