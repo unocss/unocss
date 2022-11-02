@@ -3,6 +3,7 @@ import { fileURLToPath } from 'url'
 import { addComponentsDir, addPluginTemplate, defineNuxtModule, extendWebpackConfig } from '@nuxt/kit'
 import WebpackPlugin from '@unocss/webpack'
 import VitePlugin from '@unocss/vite'
+import type { NuxtPlugin } from '@nuxt/schema'
 import { resolveOptions } from './options'
 import type { UnocssNuxtOptions } from './types'
 
@@ -37,7 +38,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
         getContents: () => {
           const lines = [
             'import \'uno.css\'',
-            'export default defineNuxtPlugin(() => {})',
+            'export default () => {}',
           ]
           if (options.preflight)
             lines.unshift('import \'@unocss/reset/tailwind.css\'')
@@ -56,6 +57,14 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     nuxt.hook('vite:extend', ({ config }) => {
       config.plugins = config.plugins || []
       config.plugins.unshift(...VitePlugin({}, options))
+    })
+
+    nuxt.hook('config', (config) => {
+      const plugin: NuxtPlugin = { src: 'unocss.mjs', mode: 'client' }
+      if (config.plugins)
+        config.plugins.push(plugin)
+      else
+        config.plugins = [plugin]
     })
 
     extendWebpackConfig((config) => {
