@@ -502,12 +502,7 @@ export class UnoGenerator {
     let meta: RuleMeta | undefined
     let result: string | ShortcutValue[] | undefined
     for (const s of this.config.shortcuts) {
-      let unprefixed = input
-      if (s[2]?.prefix) {
-        if (!input.startsWith(s[2].prefix))
-          continue
-        unprefixed = input.slice(s[2].prefix.length)
-      }
+      const unprefixed = s[2]?.prefix ? input.slice(s[2].prefix.length) : input
       if (isStaticShortcut(s)) {
         if (s[0] === unprefixed) {
           meta = meta || s[2]

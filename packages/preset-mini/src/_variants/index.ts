@@ -1,8 +1,6 @@
 /* @export-submodules */
-export * from './aria'
 export * from './breakpoints'
 export * from './combinators'
-export * from './data'
 export * from './media'
 export * from './supports'
 export * from './dark'

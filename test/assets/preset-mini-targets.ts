@@ -449,7 +449,7 @@ export const presetMiniTargets: string[] = [
   'w-21',
   'w-1/4',
   'w-lg',
-  'w-1in',
+  'w-1cqw',
   'h-screen-sm',
   'h-screen-lg',
   'max-h-[1px]',
@@ -1000,13 +1000,6 @@ export const presetMiniTargets: string[] = [
 
   // variants - multiple parents
   'sm:lt-lg:p-10',
-
-  // variants - aria
-  'aria-[invalid=spelling]:underline-red-600',
-
-  // variants - data
-  'data-[inline]:inline',
-  'data-[invalid~=grammar]:underline-green-600',
 ]
 
 export const presetMiniNonTargets = [

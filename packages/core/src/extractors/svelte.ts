@@ -1,7 +1,5 @@
 import type { Extractor } from '../types'
-import { isValidSelector } from '../utils'
-
-const splitCode = (code: string) => [...new Set(code.split(/\\?[\s'"`;={}]+/g))].filter(isValidSelector)
+import { splitCode } from './split'
 
 export const extractorSvelte: Extractor = {
   name: 'svelte',
