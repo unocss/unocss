@@ -177,7 +177,7 @@ For example, with the following usage:
 </div>
 ```
 
-the corresponding CSS will be generated:
+The corresponding CSS will be generated:
 
 ```css
 .m-100 { margin: 25rem; }
@@ -312,7 +312,7 @@ For example, `<div class="m-2 hover:m2">` will generate
 .hover\:m2:hover, .m-2 { margin: 0.5rem; }
 ```
 
-instead of two separate rules:
+Instead of two separate rules:
 
 ```css
 .hover\:m2:hover { margin: 0.5rem; }
@@ -555,7 +555,7 @@ Due the fact that UnoCSS works in build time using static extracting, at the com
 safelist: 'p-1 p-2 p-3 p-4'.split(' ')
 ```
 
-the corresponding CSS will always be generated:
+The corresponding CSS will always be generated:
 
 ```css
 .p-1 { padding: 0.25rem; }
