@@ -1,7 +1,7 @@
 import type { Extractor } from '../types'
 import { splitCode } from './split'
 
-const rightTrimRe = /\s*=\s*$/
+const rightTrimRe = /=$/
 
 export const extractorSvelte: Extractor = {
   name: 'svelte',

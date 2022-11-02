@@ -25,6 +25,7 @@ it('extractorSvelte uses regular split with non .svelte files', async () => {
   expect(await extract('<div class:text-orange-400={foo} />')).toContain('class:text-orange-400=')
   expect(await extract('class:text-gray-800={$page.url.pathname.startsWith(\'/test\')}')).toContain('class:text-gray-800=')
   expect(await extract('<div class="data-[a~=b]:text-red">foo</div>')).toContain('data-[a~=b]:text-red')
+  expect(await extract('<div class:text-[32px]="{true}" />')).toContain('class:text-[32px]=')
 })
 
 it('extractorSvelte uses svelte-specific split with .svelte files', async () => {
@@ -40,4 +41,5 @@ it('extractorSvelte uses svelte-specific split with .svelte files', async () => 
   expect(await extract('<div class:text-orange-400={foo} />')).toContain('text-orange-400')
   expect(await extract('class:text-gray-800={$page.url.pathname.startsWith(\'/test\')}')).toContain('text-gray-800')
   expect(await extract('<div class="data-[a~=b]:text-red">foo</div>')).toContain('data-[a~=b]:text-red')
+  expect(await extract('<div class:text-[32px]="{true}" />')).toContain('text-[32px]')
 })
