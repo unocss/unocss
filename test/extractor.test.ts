@@ -22,33 +22,9 @@ it('extractorSvelte uses regular split with non .svelte files', async () => {
   expect(await extract('<div class="<sm:text-lg">foo</div>')).toContain('<sm:text-lg')
   expect(await extract('"class=\"bg-white\""')).toContain('bg-white')
 
-  expect(await extract('<div class:text-orange-400={foo} class="shortcut" />')).toMatchInlineSnapshot(`
-    [
-      "<div",
-      "class:text-orange-400=",
-      "foo",
-      "class=",
-      "shortcut",
-      "/>",
-    ]
-  `)
-  expect(await extract('class:text-gray-800={$page.url.pathname.startsWith(\'/test\')}')).toMatchInlineSnapshot(`
-    [
-      "class:text-gray-800=",
-      "$page.url.pathname.startsWith(",
-      "/test",
-      ")",
-    ]
-  `)
-
-  expect(await extract('<div class="data-[a~=b]:text-red">foo</div>')).toMatchInlineSnapshot(`
-    [
-      "<div",
-      "class=",
-      "data-[a~=b]:text-red",
-      ">foo</div>",
-    ]
-  `)
+  expect(await extract('<div class:text-orange-400={foo} />')).toContain('class:text-orange-400=')
+  expect(await extract('class:text-gray-800={$page.url.pathname.startsWith(\'/test\')}')).toContain('class:text-gray-800=')
+  expect(await extract('<div class="data-[a~=b]:text-red">foo</div>')).toContain('data-[a~=b]:text-red')
 })
 
 it('extractorSvelte uses svelte-specific split with .svelte files', async () => {
@@ -61,31 +37,7 @@ it('extractorSvelte uses svelte-specific split with .svelte files', async () => 
   expect(await extract('<div class="<sm:text-lg">foo</div>')).toContain('<sm:text-lg')
   expect(await extract('"class=\"bg-white\""')).toContain('bg-white')
 
-  expect(await extract('<div class:text-orange-400={foo} class="shortcut" />')).toMatchInlineSnapshot(`
-    [
-      "<div",
-      "text-orange-400",
-      "foo",
-      "class=",
-      "shortcut",
-      "/>",
-    ]
-  `)
-  expect(await extract('class:text-gray-800={$page.url.pathname.startsWith(\'/test\')}')).toMatchInlineSnapshot(`
-    [
-      "text-gray-800",
-      "$page.url.pathname.startsWith(",
-      "/test",
-      ")",
-    ]
-  `)
-
-  expect(await extract('<div class="data-[a~=b]:text-red">foo</div>')).toMatchInlineSnapshot(`
-    [
-      "<div",
-      "class=",
-      "data-[a~=b]:text-red",
-      ">foo</div>",
-    ]
-  `)
+  expect(await extract('<div class:text-orange-400={foo} />')).toContain('text-orange-400')
+  expect(await extract('class:text-gray-800={$page.url.pathname.startsWith(\'/test\')}')).toContain('text-gray-800')
+  expect(await extract('<div class="data-[a~=b]:text-red">foo</div>')).toContain('data-[a~=b]:text-red')
 })
