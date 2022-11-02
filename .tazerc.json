@@ -10,6 +10,7 @@
     "unbuild"
   ],
   "packageMode": {
-    "vue": "minor"
+    "vue": "minor",
+    "nuxt": "minor"
   }
 }

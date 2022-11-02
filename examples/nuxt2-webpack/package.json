@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "start": "nuxt start"
+  },
+  "devDependencies": {
+    "@iconify-json/carbon": "^1.1.9",
+    "@unocss/core": "link:../../packages/core",
+    "@unocss/nuxt": "link:../../packages/nuxt",
+    "@unocss/reset": "link:../../packages/reset",
+    "nuxt": "^2.15.8",
+    "unocss": "link:../../packages/unocss"
+  }
+}
