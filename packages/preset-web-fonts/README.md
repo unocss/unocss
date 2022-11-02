@@ -71,6 +71,7 @@ Currently supported Providers:
 - `none` - do nothing, treat the font as system font
 - `google` - [Google Fonts](https://fonts.google.com/)
 - `bunny` - [Privacy-Friendly Google Fonts](https://fonts.bunny.net/)
+- `fontshare` - [Quality Font Service by ITF](https://www.fontshare.com/)
 
 PR welcome to add more providers 🙌
 
