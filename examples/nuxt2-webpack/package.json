@@ -10,7 +10,7 @@
     "@unocss/core": "link:../../packages/core",
     "@unocss/nuxt": "link:../../packages/nuxt",
     "@unocss/reset": "link:../../packages/reset",
-    "nuxt": "latest",
+    "nuxt": "^2.15.8",
     "unocss": "link:../../packages/unocss"
   }
 }
