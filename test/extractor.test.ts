@@ -64,7 +64,7 @@ it('extractorSvelte uses svelte-specific split with .svelte files', async () => 
   expect(await extract('<div class:text-orange-400={foo} class="shortcut" />')).toMatchInlineSnapshot(`
     [
       "<div",
-      "text-orange-400=",
+      "text-orange-400",
       "foo",
       "class=",
       "shortcut",
@@ -73,7 +73,7 @@ it('extractorSvelte uses svelte-specific split with .svelte files', async () => 
   `)
   expect(await extract('class:text-gray-800={$page.url.pathname.startsWith(\'/test\')}')).toMatchInlineSnapshot(`
     [
-      "text-gray-800=",
+      "text-gray-800",
       "$page.url.pathname.startsWith(",
       "/test",
       ")",
