@@ -5,6 +5,7 @@ import type { TextEditorSelectionChangeEvent } from 'vscode'
 import { log } from './log'
 import { throttle } from './utils'
 import type { ContextLoader } from './contextLoader'
+import { getMatchedPositionsFromCode } from './integration'
 
 export async function registerSelectionStyle(cwd: string, contextLoader: ContextLoader) {
   const hasSelectionStyle = (): boolean => workspace.getConfiguration().get('unocss.selectionStyle') ?? true
@@ -36,29 +37,52 @@ export async function registerSelectionStyle(cwd: string, contextLoader: Context
       if (!code.endsWith('>'))
         code = `${code} >`
       const ctx = await contextLoader.resolveContext(code, id) || (await contextLoader.resolveClosestContext(code, id))
-      const result = await ctx.uno.generate(code, { id, preflights: false, minify: true })
-      if (!result.css)
+      const result = await getMatchedPositionsFromCode(ctx.uno, code)
+      if (!result.length)
         return reset()
+
+      const uniqMap = new Map()
+      for (const [start, end, className] of result)
+        uniqMap.set(`${start}-${end}`, className)
+
+      const sheetMap = new Map()
+      for (const [, className] of uniqMap.entries()) {
+        const result = await ctx.uno.generate(new Set([className]), { preflights: false, safelist: false })
+        const [[key, value]] = Array.from(result.sheet)
+        if (!sheetMap.get(key))
+          sheetMap.set(key, value)
+        else sheetMap.get(key).push(value[0])
+      }
 
       const list = []
       const pseudoReg = /.+(::\w+)/
       const pseudoMap = new Map()
-      const sheet = result?.sheet as Array<any>
-      for (const [key, value] of sheet.entries()) {
+      for (const [key, value] of sheetMap) {
         const arr = []
+        const metaPseudoMap = new Map()
         for (const val of value) {
           const match = val[1].match(pseudoReg)
+          const map = key ? metaPseudoMap : pseudoMap
           if (match) {
-            if (!pseudoMap.get(match[1]))
-              pseudoMap.set(match[1], [])
-            pseudoMap.get(match[1]).push(val[2])
+            if (!map.get(match[1]))
+              map.set(match[1], [])
+            map.get(match[1]).push(val[2])
           }
           else {
             arr.push(val[2])
           }
         }
-        const style = `${key}{${arr.join('')}}`
-        key ? list.push(style) : list.unshift(style)
+        if (!key) {
+          arr.length && list.unshift(`{${arr.join('')}}`)
+        }
+        else {
+          const pseudoList = []
+          for (const [key, value] of metaPseudoMap.entries())
+            pseudoList.push(`${key}{${value.join('')}}`)
+
+          pseudoList.length && list.push(`${key}{${pseudoList.join('')}}`)
+          arr.length && list.push(`${key}{${arr.join('')}}`)
+        }
       }
       const pseudoList = []
       for (const [key, value] of pseudoMap.entries())
