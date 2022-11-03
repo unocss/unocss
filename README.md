@@ -72,7 +72,7 @@ Presets are the heart of UnoCSS. They let you make your own custom framework in 
 - [@unocss/preset-web-fonts](https://github.com/unocss/unocss/tree/main/packages/preset-web-fonts) - Web fonts at ease.
 - [@unocss/preset-typography](https://github.com/unocss/unocss/tree/main/packages/preset-typography) - The typography preset.
 - [@unocss/preset-tagify](https://github.com/unocss/unocss/tree/main/packages/preset-tagify) - Tagify Mode for UnoCSS.
-- [@unocss/preset-rem-to-px](https://github.com/unocss/unocss/tree/main/packages/preset-rem-to-px) - Coverts rem to px for utils.
+- [@unocss/preset-rem-to-px](https://github.com/unocss/unocss/tree/main/packages/preset-rem-to-px) - Converts rem to px for utils.
 
 ###### Community Presets
 
