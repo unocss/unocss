@@ -284,6 +284,7 @@ export class UnoGenerator<Theme extends {} = {}> {
     }
 
     return {
+      sheet,
       get css() { return getLayers() },
       layers,
       matched,
