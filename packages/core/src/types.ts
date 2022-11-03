@@ -635,6 +635,7 @@ RequiredByKey<UserConfig, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'l
 }
 
 export interface GenerateResult {
+  sheet?: any
   css: string
   layers: string[]
   getLayer(name?: string): string | undefined

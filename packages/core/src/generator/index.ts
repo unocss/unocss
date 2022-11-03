@@ -288,6 +288,7 @@ export class UnoGenerator {
     }
 
     return {
+      sheet,
       get css() { return getLayers() },
       layers,
       matched,

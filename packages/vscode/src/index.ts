@@ -6,6 +6,7 @@ import { log } from './log'
 import { registerAnnotations } from './annotation'
 import { registerAutoComplete } from './autocomplete'
 import { ContextLoader } from './contextLoader'
+import { registerSelectionStyle } from './selectionStyle'
 
 export async function activate(ext: ExtensionContext) {
   log.appendLine(`⚪️ UnoCSS for VS Code v${version}\n`)
@@ -50,6 +51,7 @@ export async function activate(ext: ExtensionContext) {
 
   registerAutoComplete(cwd, contextLoader, ext)
   registerAnnotations(cwd, contextLoader, status, ext)
+  registerSelectionStyle(cwd, contextLoader)
 }
 
 export function deactivate() {}
