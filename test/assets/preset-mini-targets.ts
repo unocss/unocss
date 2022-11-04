@@ -66,6 +66,8 @@ export const presetMiniTargets: string[] = [
   'border-x-size-2',
   'border-t-size-2',
   'border-width-3',
+  'border-width-[2em]',
+  'border-width-[calc(1em-1px)]',
   'border-size-unset',
   'border-x-width-3',
   'border-t-width-3',
@@ -114,8 +116,6 @@ export const presetMiniTargets: string[] = [
 
   // border - color
   'border-[#124]',
-  'border-[2em]',
-  'border-[calc(1em-1px)]',
   'border-black/10',
   'border-blue',
   'border-red-100',
