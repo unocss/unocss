@@ -213,6 +213,8 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .border-size-2{border-width:2px;}
 .border-size-none{border-width:0px;}
 .border-size-unset{border-width:unset;}
+.border-width-\\\\[2em\\\\]{border-width:2em;}
+.border-width-\\\\[calc\\\\(1em-1px\\\\)\\\\]{border-width:calc(1em - 1px);}
 .border-width-3{border-width:3px;}
 .border-x-size-2{border-left-width:2px;border-right-width:2px;}
 .border-x-width-3{border-left-width:3px;border-right-width:3px;}
@@ -221,8 +223,6 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .border-t-width-3{border-top-width:3px;}
 .b-block-size-\\\\$variable{border-block-start-width:var(--variable);border-block-end-width:var(--variable);}
 .border-\\\\[\\\\#124\\\\]{--un-border-opacity:1;border-color:rgba(17,34,68,var(--un-border-opacity));}
-.border-\\\\[2em\\\\]{border-color:2em;}
-.border-\\\\[calc\\\\(1em-1px\\\\)\\\\]{border-color:calc(1em - 1px);}
 .border-\\\\[var\\\\(--color\\\\)\\\\],
 .border-\\\\$color{border-color:var(--color);}
 .border-black\\\\/10{border-color:rgba(0,0,0,0.1);}
