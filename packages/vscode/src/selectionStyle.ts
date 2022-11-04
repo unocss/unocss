@@ -48,7 +48,7 @@ export async function registerSelectionStyle(cwd: string, contextLoader: Context
       const sheetMap = new Map()
       for (const [, className] of uniqMap.entries()) {
         const result = await ctx.uno.generate(new Set([className]), { preflights: false, safelist: false })
-        const [[key, value]] = Array.from(result.sheet)
+        const [[key, value]] = Array.from(result.sheet) as Array<[string, any[]]>
         if (!sheetMap.get(key))
           sheetMap.set(key, value)
         else sheetMap.get(key).push(value[0])
