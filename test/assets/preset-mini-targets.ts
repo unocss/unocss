@@ -315,6 +315,8 @@ export const presetMiniTargets: string[] = [
   'grid-rows-minmax-100px',
   'grid-flow-dense',
   'grid-flow-col-dense',
+  'grid-areas-[prepend_content_append]',
+  'grid-area-[content]',
 
   // layout
   'of-y-visible',
