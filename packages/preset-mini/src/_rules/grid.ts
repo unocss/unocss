@@ -58,8 +58,11 @@ export const grids: Rule<Theme>[] = [
   [/^grid-(rows|cols)-(\d+)$/, ([, c, d]) => ({ [`grid-template-${rowCol(c)}`]: `repeat(${d},minmax(0,1fr))` }), { autocomplete: ['grid-(rows|cols)-<num>', 'grid-(rows|cols)-none'] }],
 
   // areas
-  [/^grid-areas-(.+)$/, ([, v]) => ({ 'grid-template-areas': `"${h.bracket.cssvar(v)}"` })],
-  [/^grid-area-(.+)$/, ([, v]) => ({ 'grid-area': h.bracket.cssvar(v) })],
+  [/^grid-area(s)?-(.+)$/, ([, s, v]) => {
+    if (s != null)
+      return { 'grid-template-areas': v.split('-').map(s => `"${h.bracket.cssvar(s)}"`).join(' ') }
+    return { 'grid-area': h.bracket.cssvar(v) }
+  }],
 
   // template none
   ['grid-rows-none', { 'grid-template-rows': 'none' }],
