@@ -59,7 +59,7 @@ export async function registerSelectionStyle(cwd: string, contextLoader: Context
         const arr = []
         const metaPseudoMap = new Map()
         for (const val of value) {
-          const match = val[1].match(pseudoReg)
+          const match = val?.[1]?.match(pseudoReg)
           const map = key ? metaPseudoMap : pseudoMap
           if (match) {
             if (!map.get(match[1]))
