@@ -2,6 +2,7 @@ import { MarkdownString, Position, Range, window, workspace } from 'vscode'
 import parserCSS from 'prettier/parser-postcss'
 import prettier from 'prettier/standalone'
 import type { TextEditorSelectionChangeEvent } from 'vscode'
+import type { StringifiedUtil } from '@unocss/core'
 import { log } from './log'
 import { throttle } from './utils'
 import type { ContextLoader } from './contextLoader'
@@ -10,11 +11,7 @@ import { getMatchedPositionsFromCode } from './integration'
 export async function registerSelectionStyle(cwd: string, contextLoader: ContextLoader) {
   const hasSelectionStyle = (): boolean => workspace.getConfiguration().get('unocss.selectionStyle') ?? true
 
-  const integrationDecoration = window.createTextEditorDecorationType({
-    after: {
-      textDecoration: 'width:10rem;height:10rem;content: \'😎\';cursor: pointer',
-    },
-  })
+  const integrationDecoration = window.createTextEditorDecorationType({})
 
   async function selectionStyle(editor: TextEditorSelectionChangeEvent) {
     try {
@@ -41,20 +38,21 @@ export async function registerSelectionStyle(cwd: string, contextLoader: Context
       if (!result.length)
         return reset()
 
-      const uniqMap = new Map()
+      const uniqMap = new Map<string, string>()
       for (const [start, end, className] of result)
         uniqMap.set(`${start}-${end}`, className)
 
-      const sheetMap = new Map()
+      const sheetMap = new Map<string, StringifiedUtil[]>()
       for (const [, className] of uniqMap.entries()) {
         const result = await ctx.uno.generate(new Set([className]), { preflights: false, safelist: false })
-        const [[key, value]] = Array.from(result.sheet) as Array<[string, any[]]>
-        if (!sheetMap.get(key))
+        const [[key, value]] = Array.from(result.sheet!.entries())
+        if (!sheetMap.has(key))
           sheetMap.set(key, value)
-        else sheetMap.get(key).push(value[0])
+        else
+          sheetMap.get(key)!.push(...value)
       }
 
-      const list = []
+      const list: string[] = []
       const pseudoReg = /.+(::\w+)/
       const pseudoMap = new Map()
       for (const [key, value] of sheetMap) {
@@ -84,7 +82,8 @@ export async function registerSelectionStyle(cwd: string, contextLoader: Context
           arr.length && list.push(`${key}{${arr.join('')}}`)
         }
       }
-      const pseudoList = []
+
+      const pseudoList: string[] = []
       for (const [key, value] of pseudoMap.entries())
         pseudoList.push(`${key}{${value.join('')}}`)
 
@@ -96,7 +95,7 @@ export async function registerSelectionStyle(cwd: string, contextLoader: Context
       editor.textEditor.setDecorations(integrationDecoration, [{
         range,
         get hoverMessage() {
-          return new MarkdownString(`\`\`\`css\n${prettified.trim()}\n\`\`\``)
+          return new MarkdownString(`UnoCSS utilities in the selection will be equivalent to:\n\`\`\`css\n${prettified.trim()}\n\`\`\``)
         },
       }])
 
