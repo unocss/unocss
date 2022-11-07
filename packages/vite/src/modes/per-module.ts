@@ -82,9 +82,6 @@ export function PerModuleModePlugin({ uno, filter }: UnocssPluginContext): Plugi
           map: null,
         }
       },
-      resolveId(id) {
-        return id.startsWith(VIRTUAL_PREFIX) ? id : null
-      },
       load(id) {
         if (!id.startsWith(VIRTUAL_PREFIX))
           return null
