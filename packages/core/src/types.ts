@@ -64,7 +64,7 @@ export interface RuleContext<Theme extends {} = {}> {
   /**
    * UnoCSS generator instance
    */
-  generator: UnoGenerator
+  generator: UnoGenerator<Theme>
   /**
    * The theme object
    */
@@ -76,7 +76,7 @@ export interface RuleContext<Theme extends {} = {}> {
   /**
    * The result of variant matching.
    */
-  variantMatch: VariantMatchedResult
+  variantMatch: VariantMatchedResult<Theme>
   /**
    * Construct a custom CSS rule.
    * Variants and selector escaping will be handled automatically.
@@ -85,15 +85,15 @@ export interface RuleContext<Theme extends {} = {}> {
   /**
    * Available only when `details` option is enabled.
    */
-  rules?: Rule[]
+  rules?: Rule<Theme>[]
   /**
    * Available only when `details` option is enabled.
    */
-  shortcuts?: Shortcut[]
+  shortcuts?: Shortcut<Theme>[]
   /**
    * Available only when `details` option is enabled.
    */
-  variants?: Variant[]
+  variants?: Variant<Theme>[]
 }
 
 export interface VariantContext<Theme extends {} = {}> {
@@ -104,7 +104,7 @@ export interface VariantContext<Theme extends {} = {}> {
   /**
    * UnoCSS generator instance
    */
-  generator: UnoGenerator
+  generator: UnoGenerator<Theme>
   /**
    * The theme object
    */
@@ -121,7 +121,7 @@ export interface PreflightContext<Theme extends {} = {}> {
   /**
    * UnoCSS generator instance
    */
-  generator: UnoGenerator
+  generator: UnoGenerator<Theme>
   /**
    * The theme object
    */
@@ -616,18 +616,18 @@ export interface PluginOptions {
 export interface UserConfig<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions, PluginOptions, CliOptions {}
 export interface UserConfigDefaults<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme> {}
 
-export interface ResolvedConfig extends Omit<
-RequiredByKey<UserConfig, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>,
+export interface ResolvedConfig<Theme extends {} = {}> extends Omit<
+RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>,
 'rules' | 'shortcuts' | 'autocomplete'
 > {
-  presets: Preset[]
-  shortcuts: Shortcut[]
-  variants: VariantObject[]
+  presets: Preset<Theme>[]
+  shortcuts: Shortcut<Theme>[]
+  variants: VariantObject<Theme>[]
   preprocess: Preprocessor[]
   postprocess: Postprocessor[]
   rulesSize: number
-  rulesDynamic: [number, ...DynamicRule][]
-  rulesStaticMap: Record<string, [number, CSSObject | CSSEntries, RuleMeta | undefined, Rule] | undefined>
+  rulesDynamic: [number, ...DynamicRule<Theme>][]
+  rulesStaticMap: Record<string, [number, CSSObject | CSSEntries, RuleMeta | undefined, Rule<Theme>] | undefined>
   autocomplete: {
     templates: (AutoCompleteFunction | AutoCompleteTemplate)[]
     extractors: AutoCompleteExtractor[]
@@ -642,11 +642,11 @@ export interface GenerateResult {
   matched: Set<string>
 }
 
-export type VariantMatchedResult = readonly [
+export type VariantMatchedResult<Theme extends {} = {}> = readonly [
   raw: string,
   current: string,
   variantHandlers: VariantHandler[],
-  variants: Set<Variant>,
+  variants: Set<Variant<Theme>>,
 ]
 
 export type ParsedUtil = readonly [
@@ -663,13 +663,13 @@ export type RawUtil = readonly [
   meta: RuleMeta | undefined,
 ]
 
-export type StringifiedUtil = readonly [
+export type StringifiedUtil<Theme extends {} = {}> = readonly [
   index: number,
   selector: string | undefined,
   body: string,
   parent: string | undefined,
   meta: RuleMeta | undefined,
-  context: RuleContext | undefined,
+  context: RuleContext<Theme> | undefined,
   noMerge: boolean | undefined,
 ]
 

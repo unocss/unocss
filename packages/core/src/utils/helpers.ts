@@ -13,7 +13,7 @@ export function isValidSelector(selector = ''): selector is string {
   return validateFilterRE.test(selector)
 }
 
-export function normalizeVariant(variant: Variant): VariantObject {
+export function normalizeVariant(variant: Variant<any>): VariantObject<any> {
   return typeof variant === 'function'
     ? { match: variant }
     : variant

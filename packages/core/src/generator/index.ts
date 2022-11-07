@@ -5,25 +5,25 @@ import { CONTROL_SHORTCUT_NO_MERGE, TwoKeyMap, e, entriesToCss, expandVariantGro
 import { version } from '../../package.json'
 import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from '../constants'
 
-export class UnoGenerator {
+export class UnoGenerator<Theme extends {} = {}> {
   public version = version
-  private _cache = new Map<string, StringifiedUtil[] | null>()
-  public config: ResolvedConfig
+  private _cache = new Map<string, StringifiedUtil<Theme>[] | null>()
+  public config: ResolvedConfig<Theme>
   public blocked = new Set<string>()
   public parentOrders = new Map<string, number>()
   public events = createNanoEvents<{
-    config: (config: ResolvedConfig) => void
+    config: (config: ResolvedConfig<Theme>) => void
   }>()
 
   constructor(
-    public userConfig: UserConfig = {},
-    public defaults: UserConfigDefaults = {},
+    public userConfig: UserConfig<Theme> = {},
+    public defaults: UserConfigDefaults<Theme> = {},
   ) {
     this.config = resolveConfig(userConfig, defaults)
     this.events.emit('config', this.config)
   }
 
-  setConfig(userConfig?: UserConfig, defaults?: UserConfigDefaults) {
+  setConfig(userConfig?: UserConfig<Theme>, defaults?: UserConfigDefaults<Theme>) {
     if (!userConfig)
       return
     if (defaults)
@@ -54,8 +54,8 @@ export class UnoGenerator {
     return set
   }
 
-  makeContext(raw: string, applied: VariantMatchedResult) {
-    const context: RuleContext = {
+  makeContext(raw: string, applied: VariantMatchedResult<Theme>) {
+    const context: RuleContext<Theme> = {
       rawSelector: raw,
       currentSelector: applied[1],
       theme: this.config.theme,
@@ -141,7 +141,7 @@ export class UnoGenerator {
 
     const layerSet = new Set<string>([LAYER_DEFAULT])
     const matched = new Set<string>()
-    const sheet = new Map<string, StringifiedUtil[]>()
+    const sheet = new Map<string, StringifiedUtil<Theme>[]>()
     let preflightsMap: Record<string, string> = {}
 
     const tokenPromises = Array.from(tokens).map(async (raw) => {
@@ -170,7 +170,7 @@ export class UnoGenerator {
       if (!preflights)
         return
 
-      const preflightContext: PreflightContext = {
+      const preflightContext: PreflightContext<Theme> = {
         generator: this,
         theme: this.config.theme,
       }
@@ -292,14 +292,14 @@ export class UnoGenerator {
     }
   }
 
-  matchVariants(raw: string, current?: string): VariantMatchedResult {
+  matchVariants(raw: string, current?: string): VariantMatchedResult<Theme> {
     // process variants
-    const variants = new Set<Variant>()
+    const variants = new Set<Variant<Theme>>()
     const handlers: VariantHandler[] = []
     let processed = current || raw
     let applied = false
 
-    const context: VariantContext = {
+    const context: VariantContext<Theme> = {
       rawSelector: raw,
       theme: this.config.theme,
       generator: this,
@@ -382,7 +382,7 @@ export class UnoGenerator {
     return obj
   }
 
-  constructCustomCSS(context: Readonly<RuleContext>, body: CSSObject | CSSEntries, overrideSelector?: string) {
+  constructCustomCSS(context: Readonly<RuleContext<Theme>>, body: CSSObject | CSSEntries, overrideSelector?: string) {
     const normalizedBody = normalizeCSSEntries(body)
     if (isString(normalizedBody))
       return normalizedBody
@@ -394,7 +394,7 @@ export class UnoGenerator {
     return cssBody
   }
 
-  async parseUtil(input: string | VariantMatchedResult, context: RuleContext, internal = false, shortcutPrefix: string | undefined = undefined): Promise<(ParsedUtil | RawUtil)[] | undefined> {
+  async parseUtil(input: string | VariantMatchedResult<Theme>, context: RuleContext<Theme>, internal = false, shortcutPrefix: string | undefined = undefined): Promise<(ParsedUtil | RawUtil)[] | undefined> {
     const [raw, processed, variantHandlers] = isString(input)
       ? this.matchVariants(input)
       : input
@@ -453,7 +453,7 @@ export class UnoGenerator {
         continue
 
       if (this.config.details)
-        context.rules!.push([matcher, handler, meta] as DynamicRule)
+        context.rules!.push([matcher, handler, meta] as DynamicRule<Theme>)
 
       const entries = normalizeCSSValues(result).filter(i => i.length)
       if (entries.length) {
@@ -467,7 +467,7 @@ export class UnoGenerator {
     }
   }
 
-  stringifyUtil(parsed?: ParsedUtil | RawUtil, context?: RuleContext): StringifiedUtil | undefined {
+  stringifyUtil(parsed?: ParsedUtil | RawUtil, context?: RuleContext<Theme>): StringifiedUtil<Theme> | undefined {
     if (!parsed)
       return
     if (isRawUtil(parsed))
@@ -488,12 +488,12 @@ export class UnoGenerator {
     return [parsed[0], selector, body, parent, ruleMeta, this.config.details ? context : undefined, noMerge]
   }
 
-  expandShortcut(input: string, context: RuleContext, depth = 5): [ShortcutValue[], RuleMeta | undefined] | undefined {
+  expandShortcut(input: string, context: RuleContext<Theme>, depth = 5): [ShortcutValue[], RuleMeta | undefined] | undefined {
     if (depth === 0)
       return
 
     const recordShortcut = this.config.details
-      ? (s: Shortcut) => {
+      ? (s: Shortcut<Theme>) => {
           context.shortcuts = context.shortcuts ?? []
           context.shortcuts.push(s)
         }
@@ -554,11 +554,11 @@ export class UnoGenerator {
   }
 
   async stringifyShortcuts(
-    parent: VariantMatchedResult,
-    context: RuleContext,
+    parent: VariantMatchedResult<Theme>,
+    context: RuleContext<Theme>,
     expanded: ShortcutValue[],
     meta: RuleMeta = { layer: this.config.shortcutsLayer },
-  ): Promise<StringifiedUtil[] | undefined> {
+  ): Promise<StringifiedUtil<Theme>[] | undefined> {
     const selectorMap = new TwoKeyMap<string, string | undefined, [[CSSEntries, boolean, number][], number]>()
     const parsed = (
       await Promise.all(uniq(expanded)
@@ -578,7 +578,7 @@ export class UnoGenerator {
       .sort((a, b) => a[0] - b[0])
 
     const [raw, , parentVariants] = parent
-    const rawStringfieldUtil: StringifiedUtil[] = []
+    const rawStringfieldUtil: StringifiedUtil<Theme>[] = []
     for (const item of parsed) {
       if (isRawUtil(item)) {
         rawStringfieldUtil.push([item[0], undefined, item[1], undefined, item[2], context, undefined])
@@ -593,10 +593,10 @@ export class UnoGenerator {
     }
     return rawStringfieldUtil.concat(selectorMap
       .map(([e, index], selector, joinedParents) => {
-        const stringify = (flatten: boolean, noMerge: boolean, entrySortPair: [CSSEntries, number][]): (StringifiedUtil | undefined)[] => {
+        const stringify = (flatten: boolean, noMerge: boolean, entrySortPair: [CSSEntries, number][]): (StringifiedUtil<Theme> | undefined)[] => {
           const maxSort = Math.max(...entrySortPair.map(e => e[1]))
           const entriesList = entrySortPair.map(e => e[0])
-          return (flatten ? [entriesList.flat(1)] : entriesList).map((entries: CSSEntries): StringifiedUtil | undefined => {
+          return (flatten ? [entriesList.flat(1)] : entriesList).map((entries: CSSEntries): StringifiedUtil<Theme> | undefined => {
             const body = entriesToCss(entries)
             if (body)
               return [index, selector, body, joinedParents, { ...meta, noMerge, sort: maxSort }, context, undefined]
@@ -615,7 +615,7 @@ export class UnoGenerator {
         ])
       })
       .flat(2)
-      .filter(Boolean) as StringifiedUtil[])
+      .filter(Boolean) as StringifiedUtil<Theme>[])
   }
 
   isBlocked(raw: string) {
@@ -623,8 +623,8 @@ export class UnoGenerator {
   }
 }
 
-export function createGenerator(config?: UserConfig, defaults?: UserConfigDefaults) {
-  return new UnoGenerator(config, defaults)
+export function createGenerator<Theme extends {} = {}>(config?: UserConfig<Theme>, defaults?: UserConfigDefaults<Theme>) {
+  return new UnoGenerator<Theme>(config, defaults)
 }
 
 export const regexScopePlaceholder = / \$\$ /
