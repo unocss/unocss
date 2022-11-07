@@ -3,7 +3,7 @@ import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq } from 
 import { extractorSplit } from './extractors'
 import { DEFAULT_LAYERS } from './constants'
 
-export function resolveShortcuts(shortcuts: UserShortcuts<any>): Shortcut<any>[] {
+export function resolveShortcuts<Theme extends {} = {}>(shortcuts: UserShortcuts<Theme>): Shortcut<Theme>[] {
   return toArray(shortcuts).flatMap((s) => {
     if (Array.isArray(s))
       return [s]
@@ -11,14 +11,14 @@ export function resolveShortcuts(shortcuts: UserShortcuts<any>): Shortcut<any>[]
   })
 }
 
-export function resolvePreset(preset: Preset<any>): Preset<any> {
+export function resolvePreset<Theme extends {} = {}>(preset: Preset<Theme>): Preset<Theme> {
   const shortcuts = preset.shortcuts
     ? resolveShortcuts(preset.shortcuts)
     : undefined
   preset.shortcuts = shortcuts as any
 
   if (preset.prefix || preset.layer) {
-    const apply = (i: Rule | Shortcut) => {
+    const apply = (i: Rule<Theme> | Shortcut) => {
       if (!i[2])
         i[2] = {}
       const meta = i[2]
@@ -80,10 +80,10 @@ export function resolveConfig<Theme extends {} = {}>(
     .filter(Boolean)
     .reverse() as ResolvedConfig<Theme>['rulesDynamic']
 
-  const theme = clone([
+  const theme: Theme = clone([
     ...sortedPresets.map(p => p.theme || {}),
     config.theme || {},
-  ].reduce((a, p) => mergeDeep(a, p), {}))
+  ].reduce<Theme>((a, p) => mergeDeep(a, p), {} as Theme))
 
   ;(mergePresets('extendTheme') as ThemeExtender<any>[]).forEach(extendTheme => extendTheme(theme))
 
