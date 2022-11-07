@@ -1,4 +1,4 @@
-import type { CSSObject, Preset } from '@unocss/core'
+import type { CSSObject, Preset, RuleContext } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
 import { toEscapedSelector } from '@unocss/core'
 import { getPreflights } from './preflights'
@@ -49,7 +49,7 @@ export interface TypographyOptions {
  * @returns typography preset
  * @public
  */
-export function presetTypography(options?: TypographyOptions): Preset<Theme> {
+export function presetTypography(options?: TypographyOptions): Preset {
   if (options?.className) {
     console.warn('[unocss:preset-typography] "className" is deprecated. '
     + 'Use "selectorName" instead.')
@@ -78,7 +78,7 @@ export function presetTypography(options?: TypographyOptions): Preset<Theme> {
       ],
       [
         colorsRE,
-        ([, color], { theme }) => {
+        ([, color], { theme }: RuleContext<Theme>) => {
           const baseColor = theme.colors?.[color] as Record<string, string> | string
           if (baseColor == null)
             return
