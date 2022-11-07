@@ -2,7 +2,7 @@ import { MarkdownString, Position, Range, window, workspace } from 'vscode'
 import parserCSS from 'prettier/parser-postcss'
 import prettier from 'prettier/standalone'
 import type { TextEditorSelectionChangeEvent } from 'vscode'
-import type { StringifiedUtil } from '@unocss/core'
+import { regexScopePlaceholder } from '@unocss/core'
 import { log } from './log'
 import { throttle } from './utils'
 import type { ContextLoader } from './contextLoader'
@@ -28,7 +28,7 @@ export async function registerSelectionStyle(cwd: string, contextLoader: Context
         new Position(selection.start.line, selection.start.character),
         new Position(selection.end.line, selection.end.character),
       )
-      let code = editor.textEditor.document.getText(range)
+      let code = editor.textEditor.document.getText(range).trim()
       if (!code.startsWith('<'))
         code = `<div ${code}`
       if (!code.endsWith('>'))
@@ -42,52 +42,29 @@ export async function registerSelectionStyle(cwd: string, contextLoader: Context
       for (const [start, end, className] of result)
         uniqMap.set(`${start}-${end}`, className)
 
-      const sheetMap = new Map<string, StringifiedUtil[]>()
-      for (const [, className] of uniqMap.entries()) {
-        const result = await ctx.uno.generate(new Set([className]), { preflights: false, safelist: false })
-        const [[key, value]] = Array.from(result.sheet!.entries())
-        if (!sheetMap.has(key))
-          sheetMap.set(key, value)
-        else
-          sheetMap.get(key)!.push(...value)
-      }
+      const classNamePlaceholder = '___'
+      const sheetMap = new Map<string, string>()
+      await Promise.all(Array.from(uniqMap.values())
+        .map(async (name) => {
+          const tokens = await ctx.uno.parseToken(name, classNamePlaceholder) || []
+          tokens.forEach((token) => {
+            if (token[1] && token[2]) {
+              const key = token[1]
+                .replace(`.${classNamePlaceholder}`, '&')
+                .replace(regexScopePlaceholder, ' ')
+                .trim()
+              sheetMap.set(key, (sheetMap.get(key) || '') + token[2])
+            }
+          })
+        }),
+      )
 
-      const list: string[] = []
-      const pseudoReg = /.+(::\w+)/
-      const pseudoMap = new Map()
-      for (const [key, value] of sheetMap) {
-        const arr = []
-        const metaPseudoMap = new Map()
-        for (const val of value) {
-          const match = val?.[1]?.match(pseudoReg)
-          const map = key ? metaPseudoMap : pseudoMap
-          if (match) {
-            if (!map.get(match[1]))
-              map.set(match[1], [])
-            map.get(match[1]).push(val[2])
-          }
-          else {
-            arr.push(val[2])
-          }
-        }
-        if (!key) {
-          arr.length && list.unshift(`{${arr.join('')}}`)
-        }
-        else {
-          const pseudoList = []
-          for (const [key, value] of metaPseudoMap.entries())
-            pseudoList.push(`${key}{${value.join('')}}`)
+      const css = Array.from(sheetMap.keys())
+        .sort()
+        .map(key => `${key}{${sheetMap.get(key)}}`)
+        .join('\n')
 
-          pseudoList.length && list.push(`${key}{${pseudoList.join('')}}`)
-          arr.length && list.push(`${key}{${arr.join('')}}`)
-        }
-      }
-
-      const pseudoList: string[] = []
-      for (const [key, value] of pseudoMap.entries())
-        pseudoList.push(`${key}{${value.join('')}}`)
-
-      const prettified = prettier.format(`${list.concat(pseudoList).join('')}`, {
+      const prettified = prettier.format(css, {
         parser: 'css',
         plugins: [parserCSS],
       })
