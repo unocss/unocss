@@ -60,7 +60,7 @@ export const grids: Rule<Theme>[] = [
   // areas
   [/^grid-area(s)?-(.+)$/, ([, s, v]) => {
     if (s != null)
-      return { 'grid-template-areas': v.split('-').map(s => `"${h.bracket.cssvar(s)}"`).join(' ') }
+      return { 'grid-template-areas': v.startsWith('$') ? h.cssvar(v) : v.split('-').map(s => `"${h.bracket(s)}"`).join(' ') }
     return { 'grid-area': h.bracket.cssvar(v) }
   }],
 
