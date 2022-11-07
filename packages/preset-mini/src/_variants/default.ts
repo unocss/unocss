@@ -13,6 +13,7 @@ import { variantSupports } from './supports'
 import { partClasses, variantPseudoClassFunctions, variantPseudoClassesAndElements, variantTaggedPseudoClasses } from './pseudo'
 import { variantAria } from './aria'
 import { variantDataAttribute } from './data'
+import { variantContainerQuery } from './container'
 
 export const variants = (options: PresetMiniOptions): Variant<Theme>[] => [
   variantAria,
@@ -38,5 +39,6 @@ export const variants = (options: PresetMiniOptions): Variant<Theme>[] => [
   ...variantLanguageDirections,
   variantScope,
 
+  variantContainerQuery,
   variantVariables,
 ]

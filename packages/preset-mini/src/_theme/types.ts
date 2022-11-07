@@ -49,6 +49,8 @@ export interface Theme {
   media?: Record<string, string>
   // supports queries
   supports?: Record<string, string>
+  // container queries
+  containers?: Record<string, string>
   // animation
   animation?: ThemeAnimation
   // grids

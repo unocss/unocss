@@ -914,6 +914,25 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .will-change-scroll{will-change:scroll-position;}
 .will-change-transform{will-change:transform;}
 .will-change-unset{will-change:unset;}
+.\\\\@container{container-type:inline-size;}
+.\\\\@container-normal{container-type:normal;}
+.\\\\@container\\\\/label{container-type:inline-size;container-name:label;}
+.\\\\@container\\\\/label-normal{container-type:normal;container-name:label;}
+@container (min-width: 10.5rem){
+.\\\\@\\\\[10\\\\.5rem\\\\]-text-red{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
+}
+@container (min-width: 24rem){
+.\\\\@sm\\\\:text-red{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
+}
+@container (min-width: 32rem){
+.\\\\@lg-text-red{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
+}
+@container label (min-width: 100px){
+.\\\\@\\\\[100px\\\\]\\\\/label\\\\:text-green{--un-text-opacity:1;color:rgba(74,222,128,var(--un-text-opacity));}
+}
+@container label (min-width: 20rem){
+.\\\\@xs\\\\/label\\\\:text-green{--un-text-opacity:1;color:rgba(74,222,128,var(--un-text-opacity));}
+}
 @layer base{
 .layer-base\\\\:translate-0{--un-translate-x:0rem;--un-translate-y:0rem;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 }

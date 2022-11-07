@@ -88,7 +88,7 @@ const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: strin
   const pseudoColonRE = new RegExp(`^${tag}-(?:(?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesColonStr}))(?:(/\\w+))?[:]`)
 
   const matchBracket = (input: string) => {
-    const body = variantGetBracket(tag, input, [])
+    const body = variantGetBracket(`${tag}-`, input, [])
     if (!body)
       return
 
@@ -137,7 +137,7 @@ const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: strin
 
       const [label, matcher, prefix, sort] = result as [string, string, string, number | undefined]
       if (label !== '')
-        warnOnce('The labeled pseudo is experimental and may be changed in breaking ways at any time.')
+        warnOnce('The labeled variant is experimental and may not follow semver.')
 
       return {
         matcher,

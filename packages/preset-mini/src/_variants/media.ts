@@ -7,7 +7,7 @@ export const variantPrint: Variant = variantParentMatcher('print', '@media print
 export const variantCustomMedia: VariantObject = {
   name: 'media',
   match(matcher, { theme }: VariantContext<Theme>) {
-    const variant = variantGetParameter('media', matcher, [':', '-'])
+    const variant = variantGetParameter('media-', matcher, [':', '-'])
     if (variant) {
       const [match, rest] = variant
 

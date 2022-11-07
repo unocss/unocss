@@ -42,9 +42,9 @@ export const variantParentMatcher = (name: string, parent: string): VariantObjec
   }
 }
 
-export const variantGetBracket = (name: string, matcher: string, separators: string[]): string[] | undefined => {
-  if (matcher.startsWith(`${name}-[`)) {
-    const [match, rest] = getBracket(matcher.slice(name.length + 1), '[', ']') ?? []
+export const variantGetBracket = (prefix: string, matcher: string, separators: string[]): string[] | undefined => {
+  if (matcher.startsWith(`${prefix}[`)) {
+    const [match, rest] = getBracket(matcher.slice(prefix.length), '[', ']') ?? []
     if (match && rest) {
       for (const separator of separators) {
         if (rest.startsWith(separator))
@@ -55,15 +55,24 @@ export const variantGetBracket = (name: string, matcher: string, separators: str
   }
 }
 
-export const variantGetParameter = (name: string, matcher: string, separators: string[]): string[] | undefined => {
-  if (matcher.startsWith(`${name}-`)) {
-    const body = variantGetBracket(name, matcher, separators)
-    if (body)
-      return body
-    for (const separator of separators) {
-      const pos = matcher.indexOf(separator, name.length + 1)
-      if (pos !== -1)
-        return [matcher.slice(name.length + 1, pos), matcher.slice(pos + separator.length)]
+export const variantGetParameter = (prefix: string, matcher: string, separators: string[]): string[] | undefined => {
+  if (matcher.startsWith(prefix)) {
+    const body = variantGetBracket(prefix, matcher, separators)
+    if (body) {
+      const [label = '', rest = body[1]] = variantGetParameter('/', body[1], separators) ?? []
+      return [body[0], rest, label]
+    }
+    for (const separator of separators.filter(x => x !== '/')) {
+      const pos = matcher.indexOf(separator, prefix.length)
+      if (pos !== -1) {
+        const labelPos = matcher.indexOf('/', prefix.length)
+        const unlabelled = labelPos === -1 || pos <= labelPos
+        return [
+          matcher.slice(prefix.length, unlabelled ? pos : labelPos),
+          matcher.slice(pos + separator.length),
+          unlabelled ? '' : matcher.slice(labelPos + 1, pos),
+        ]
+      }
     }
   }
 }

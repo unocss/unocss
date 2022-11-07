@@ -36,3 +36,5 @@ export const maxHeight = {
   ...baseSize,
   screen: '100vh',
 }
+
+export const containers = Object.fromEntries(Object.entries(baseSize).map(([k, v]) => [k, `(min-width: ${v})`]))

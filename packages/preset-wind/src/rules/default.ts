@@ -8,6 +8,7 @@ import {
   borders,
   boxShadows,
   boxSizing,
+  containerParent,
   contentVisibility,
   contents,
   cssProperty,
@@ -155,6 +156,7 @@ export const rules: Rule[] = [
   contentVisibility,
   contents,
   placeholders,
+  containerParent,
 
   // should be the last
   questionMark,

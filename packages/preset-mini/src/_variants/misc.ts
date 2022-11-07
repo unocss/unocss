@@ -4,7 +4,7 @@ import { getBracket, handler as h, variantGetBracket, variantGetParameter } from
 export const variantSelector: Variant = {
   name: 'selector',
   match(matcher) {
-    const variant = variantGetBracket('selector', matcher, [':', '-'])
+    const variant = variantGetBracket('selector-', matcher, [':', '-'])
     if (variant) {
       const [match, rest] = variant
       const selector = h.bracket(match)
@@ -21,7 +21,7 @@ export const variantSelector: Variant = {
 export const variantCssLayer: Variant = {
   name: 'layer',
   match(matcher) {
-    const variant = variantGetParameter('layer', matcher, [':', '-'])
+    const variant = variantGetParameter('layer-', matcher, [':', '-'])
     if (variant) {
       const [match, rest] = variant
       const layer = h.bracket(match) ?? match
@@ -41,7 +41,7 @@ export const variantCssLayer: Variant = {
 export const variantInternalLayer: Variant = {
   name: 'uno-layer',
   match(matcher) {
-    const variant = variantGetParameter('uno-layer', matcher, [':', '-'])
+    const variant = variantGetParameter('uno-layer-', matcher, [':', '-'])
     if (variant) {
       const [match, rest] = variant
       const layer = h.bracket(match) ?? match
@@ -58,7 +58,7 @@ export const variantInternalLayer: Variant = {
 export const variantScope: Variant = {
   name: 'scope',
   match(matcher) {
-    const variant = variantGetBracket('scope', matcher, [':', '-'])
+    const variant = variantGetBracket('scope-', matcher, [':', '-'])
     if (variant) {
       const [match, rest] = variant
       const scope = h.bracket(match)
