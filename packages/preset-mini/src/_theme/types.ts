@@ -8,7 +8,7 @@ export interface ThemeAnimation {
   counts?: Record<string, string | number>
 }
 
-interface Colors {
+export interface Colors {
   [key: string]: Colors | string
 }
 
