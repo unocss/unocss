@@ -16,16 +16,7 @@ export function PerModuleModePlugin({ uno, filter }: UnocssPluginContext): Plugi
     const mod = server.moduleGraph.getModuleById(id)
     if (!mod)
       return
-    server.moduleGraph.invalidateModule(mod)
-    server.ws.send({
-      type: 'update',
-      updates: [{
-        acceptedPath: id,
-        path: id,
-        timestamp: +Date.now(),
-        type: 'js-update',
-      }],
-    })
+    server.reloadModule(mod)
   }
 
   return [
