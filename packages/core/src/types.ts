@@ -640,7 +640,6 @@ export interface GenerateResult {
   getLayer(name?: string): string | undefined
   getLayers(includes?: string[], excludes?: string[]): string
   matched: Set<string>
-  sheet?: Map<string, StringifiedUtil[]>
 }
 
 export type VariantMatchedResult<Theme extends {} = {}> = readonly [
