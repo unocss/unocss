@@ -112,7 +112,6 @@
   "pnpm": {
     "overrides": {
       "@nuxt/kit-edge": "npm:@nuxt/kit@latest",
-      "vite": "^3.1.6",
       "nuxt": "3.0.0-rc.11"
     }
   },
