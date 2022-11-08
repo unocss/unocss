@@ -595,6 +595,9 @@ export const presetMiniTargets: string[] = [
   'whitespace-unset',
   'ws-nowrap',
   'ws-revert',
+  'contain-layout',
+  'contain-[size_layout]',
+  'contain-[size_layout_paint]',
 
   'break-normal',
   'break-words',
