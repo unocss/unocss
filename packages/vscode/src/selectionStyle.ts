@@ -44,16 +44,26 @@ export async function registerSelectionStyle(cwd: string, contextLoader: Context
 
       const classNamePlaceholder = '___'
       const sheetMap = new Map<string, string>()
+      const mediaSheetMap = new Map<string, Map<string, string>>()
       await Promise.all(Array.from(uniqMap.values())
         .map(async (name) => {
           const tokens = await ctx.uno.parseToken(name, classNamePlaceholder) || []
-          tokens.forEach((token) => {
-            if (token[1] && token[2]) {
-              const key = token[1]
+          tokens.forEach(([, className, cssText, media]) => {
+            if (className && cssText) {
+              const key = className
                 .replace(`.${classNamePlaceholder}`, '&')
                 .replace(regexScopePlaceholder, ' ')
                 .trim()
-              sheetMap.set(key, (sheetMap.get(key) || '') + token[2])
+
+              let activeSheetMap = sheetMap
+              if (media) {
+                if (!mediaSheetMap.has(media))
+                  mediaSheetMap.set(media, new Map<string, string>())
+
+                activeSheetMap = mediaSheetMap.get(media)!
+              }
+
+              activeSheetMap.set(key, (activeSheetMap.get(key) || '') + cssText)
             }
           })
         }),
@@ -62,6 +72,19 @@ export async function registerSelectionStyle(cwd: string, contextLoader: Context
       const css = Array.from(sheetMap.keys())
         .sort()
         .map(key => `${key}{${sheetMap.get(key)}}`)
+        .concat(
+          Array.from(mediaSheetMap.keys())
+            .sort()
+            .map((media) => {
+              const sheetMap = mediaSheetMap.get(media)!
+              return `${media}{${
+                  Array.from(sheetMap!.keys())
+                  .sort()
+                  .map(key => `${key}{${sheetMap!.get(key)}}`)
+                  .join('\n')
+                }}`
+            }),
+        )
         .join('\n')
 
       const prettified = prettier.format(css, {
