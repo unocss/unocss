@@ -9,15 +9,15 @@ import { colorToString } from '@unocss/preset-mini/utils'
 export function throttle<T extends ((...args: any) => any)>(func: T, timeFrame: number): T {
   let lastTime = 0
   let timer: any
-  return function () {
+  return function (...args) {
     const now = Date.now()
     clearTimeout(timer)
     if (now - lastTime >= timeFrame) {
       lastTime = now
-      return func()
+      return func(...args)
     }
     else {
-      timer = setTimeout(func, timeFrame)
+      timer = setTimeout(func, timeFrame, ...args)
     }
   } as T
 }

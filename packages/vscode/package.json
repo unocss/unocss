@@ -60,6 +60,11 @@
           "type": "boolean",
           "default": true,
           "description": "Enable/disable color preview decorations"
+        },
+        "unocss.selectionStyle": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable selection style decorations"
         }
       }
     }
