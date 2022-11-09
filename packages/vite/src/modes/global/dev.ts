@@ -20,6 +20,28 @@ export function GlobalModeDevPlugin({ uno, tokens, affectedModules, onInvalidate
   let resolved = false
   let resolvedWarnTimer: any
 
+  async function generateCSS(layer: string) {
+    await Promise.all(tasks)
+    let result: GenerateResult
+    let tokensSize = tokens.size
+    do {
+      result = await uno.generate(tokens)
+      // to capture new tokens created during generation
+      if (tokensSize === tokens.size)
+        break
+      tokensSize = tokens.size
+    } while (true)
+
+    const css = layer === LAYER_MARK_ALL
+      ? result.getLayers(undefined, Array.from(entries)
+        .map(i => resolveLayer(i)).filter((i): i is string => !!i))
+      : result.getLayer(layer)
+    const hash = getHash(css || '', HASH_LENGTH)
+    lastServedHash.set(layer, hash)
+    lastServedTime = Date.now()
+    return { hash, css }
+  }
+
   function configResolved(config: ViteResolvedConfig) {
     base = config.base || ''
     if (base === '/')
@@ -95,14 +117,15 @@ export function GlobalModeDevPlugin({ uno, tokens, affectedModules, onInvalidate
       async configureServer(_server) {
         servers.push(_server)
 
-        _server.ws.on(WS_EVENT_PREFIX, ([layer, hash]: string[]) => {
+        _server.ws.on(WS_EVENT_PREFIX, async ([layer, hash]: string[]) => {
+          await generateCSS(layer)
           if (lastServedHash.get(layer) !== hash)
             sendUpdate(entries)
         })
       },
       buildStart() {
         // warm up for preflights
-        uno.generate('', { preflights: true })
+        uno.generate([], { preflights: true })
       },
       transform(code, id) {
         if (filter(code, id))
@@ -129,24 +152,7 @@ export function GlobalModeDevPlugin({ uno, tokens, affectedModules, onInvalidate
         if (!layer)
           return null
 
-        await Promise.all(tasks)
-        let result: GenerateResult
-        let tokensSize = tokens.size
-        do {
-          result = await uno.generate(tokens)
-          // to capture new tokens created during generation
-          if (tokensSize === tokens.size)
-            break
-          tokensSize = tokens.size
-        } while (true)
-
-        const css = layer === LAYER_MARK_ALL
-          ? result.getLayers(undefined, Array.from(entries)
-            .map(i => resolveLayer(i)).filter((i): i is string => !!i))
-          : result.getLayer(layer)
-        const hash = getHash(css || '', HASH_LENGTH)
-        lastServedHash.set(layer, hash)
-        lastServedTime = Date.now()
+        const { hash, css } = await generateCSS(layer)
         // add hash to the chunk of CSS that it will send back to client to check if there is new CSS generated
         return `/*${hash}*/${css}`
       },
