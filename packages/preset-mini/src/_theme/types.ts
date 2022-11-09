@@ -8,6 +8,10 @@ export interface ThemeAnimation {
   counts?: Record<string, string | number>
 }
 
+export interface Colors {
+  [key: string]: Colors | string
+}
+
 export interface Theme {
   width?: Record<string, string>
   height?: Record<string, string>
@@ -24,9 +28,9 @@ export interface Theme {
   borderRadius?: Record<string, string>
   breakpoints?: Record<string, string>
   verticalBreakpoints?: Record<string, string>
-  colors?: Record<string, string | Record<string, string>>
+  colors?: Colors
   fontFamily?: Record<string, string>
-  fontSize?: Record<string, [string, string]>
+  fontSize?: Record<string, string | [string, string]>
   lineHeight?: Record<string, string>
   letterSpacing?: Record<string, string>
   wordSpacing?: Record<string, string>

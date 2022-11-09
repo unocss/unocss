@@ -79,7 +79,7 @@ export function presetTypography(options?: TypographyOptions): Preset {
       [
         colorsRE,
         ([, color], { theme }: RuleContext<Theme>) => {
-          const baseColor = theme.colors?.[color]
+          const baseColor = theme.colors?.[color] as Record<string, string> | string
           if (baseColor == null)
             return
 

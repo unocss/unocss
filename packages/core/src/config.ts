@@ -3,7 +3,7 @@ import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq } from 
 import { extractorSplit } from './extractors'
 import { DEFAULT_LAYERS } from './constants'
 
-export function resolveShortcuts(shortcuts: UserShortcuts): Shortcut[] {
+export function resolveShortcuts<Theme extends {} = {}>(shortcuts: UserShortcuts<Theme>): Shortcut<Theme>[] {
   return toArray(shortcuts).flatMap((s) => {
     if (Array.isArray(s))
       return [s]
@@ -11,14 +11,14 @@ export function resolveShortcuts(shortcuts: UserShortcuts): Shortcut[] {
   })
 }
 
-export function resolvePreset(preset: Preset): Preset {
+export function resolvePreset<Theme extends {} = {}>(preset: Preset<Theme>): Preset<Theme> {
   const shortcuts = preset.shortcuts
     ? resolveShortcuts(preset.shortcuts)
     : undefined
   preset.shortcuts = shortcuts as any
 
   if (preset.prefix || preset.layer) {
-    const apply = (i: Rule | Shortcut) => {
+    const apply = (i: Rule<Theme> | Shortcut) => {
       if (!i[2])
         i[2] = {}
       const meta = i[2]
@@ -34,11 +34,11 @@ export function resolvePreset(preset: Preset): Preset {
   return preset
 }
 
-export function resolveConfig(
-  userConfig: UserConfig = {},
-  defaults: UserConfigDefaults = {},
-): ResolvedConfig {
-  const config = Object.assign({}, defaults, userConfig) as UserConfigDefaults
+export function resolveConfig<Theme extends {} = {}>(
+  userConfig: UserConfig<Theme> = {},
+  defaults: UserConfigDefaults<Theme> = {},
+): ResolvedConfig<Theme> {
+  const config = Object.assign({}, defaults, userConfig) as UserConfigDefaults<Theme>
   const rawPresets = (config.presets || []).flatMap(toArray).map(resolvePreset)
 
   const sortedPresets = [
@@ -49,7 +49,7 @@ export function resolveConfig(
 
   const layers = Object.assign(DEFAULT_LAYERS, ...rawPresets.map(i => i.layers), userConfig.layers)
 
-  function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist'>(key: T): Required<UserConfig>[T] {
+  function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist'>(key: T): Required<UserConfig<Theme>>[T] {
     return uniq([
       ...sortedPresets.flatMap(p => toArray(p[key] || []) as any[]),
       ...toArray(config[key] || []) as any[],
@@ -62,7 +62,7 @@ export function resolveConfig(
   extractors.sort((a, b) => (a.order || 0) - (b.order || 0))
 
   const rules = mergePresets('rules')
-  const rulesStaticMap: ResolvedConfig['rulesStaticMap'] = {}
+  const rulesStaticMap: ResolvedConfig<Theme>['rulesStaticMap'] = {}
 
   const rulesSize = rules.length
 
@@ -78,12 +78,12 @@ export function resolveConfig(
       return [i, ...rule]
     })
     .filter(Boolean)
-    .reverse() as ResolvedConfig['rulesDynamic']
+    .reverse() as ResolvedConfig<Theme>['rulesDynamic']
 
-  const theme = clone([
+  const theme: Theme = clone([
     ...sortedPresets.map(p => p.theme || {}),
     config.theme || {},
-  ].reduce((a, p) => mergeDeep(a, p), {}))
+  ].reduce<Theme>((a, p) => mergeDeep(a, p), {} as Theme))
 
   ;(mergePresets('extendTheme') as ThemeExtender<any>[]).forEach(extendTheme => extendTheme(theme))
 
