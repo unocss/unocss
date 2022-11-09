@@ -21,14 +21,7 @@
     "vscode": "^1.71.0"
   },
   "activationEvents": [
-    "workspaceContains:**/vite.config.*",
-    "workspaceContains:**/nuxt.config.*",
-    "workspaceContains:**/astro.config.*",
-    "workspaceContains:**/iles.config.*",
-    "workspaceContains:**/svelte.config.*",
-    "workspaceContains:**/uno.config.*",
-    "workspaceContains:**/unocss.config.*",
-    "workspaceContains:**/package.json"
+    "onStartupFinished"
   ],
   "contributes": {
     "commands": [
