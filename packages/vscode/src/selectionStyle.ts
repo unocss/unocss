@@ -35,7 +35,7 @@ export async function registerSelectionStyle(cwd: string, contextLoader: Context
         code = `${code} >`
       const ctx = await contextLoader.resolveContext(code, id) || (await contextLoader.resolveClosestContext(code, id))
       const result = await getMatchedPositionsFromCode(ctx.uno, code)
-      if (!result.length)
+      if (result.length <= 1)
         return reset()
 
       const uniqMap = new Map<string, string>()
@@ -47,13 +47,15 @@ export async function registerSelectionStyle(cwd: string, contextLoader: Context
       await Promise.all(Array.from(uniqMap.values())
         .map(async (name) => {
           const tokens = await ctx.uno.parseToken(name, classNamePlaceholder) || []
-          tokens.forEach((token) => {
-            if (token[1] && token[2]) {
-              const key = token[1]
+          tokens.forEach(([, className, cssText, media]) => {
+            if (className && cssText) {
+              let key = className
                 .replace(`.${classNamePlaceholder}`, '&')
                 .replace(regexScopePlaceholder, ' ')
                 .trim()
-              sheetMap.set(key, (sheetMap.get(key) || '') + token[2])
+              if (media)
+                key = `${media}{${key}`
+              sheetMap.set(key, (sheetMap.get(key) || '') + cssText)
             }
           })
         }),
@@ -61,7 +63,7 @@ export async function registerSelectionStyle(cwd: string, contextLoader: Context
 
       const css = Array.from(sheetMap.keys())
         .sort()
-        .map(key => `${key}{${sheetMap.get(key)}}`)
+        .map(key => `${key}{${sheetMap.get(key)}}${key.includes('{') ? '}' : ''}`)
         .join('\n')
 
       const prettified = prettier.format(css, {
