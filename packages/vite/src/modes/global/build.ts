@@ -175,9 +175,9 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
               .replace(HASH_PLACEHOLDER_RE, '')
             chunk.source = await replaceAsync(css, LAYER_PLACEHOLDER_RE, async (_, __, layer) => {
               replaced = true
-              return await applyCssTransform(layer === LAYER_MARK_ALL
+              return layer === LAYER_MARK_ALL
                 ? result.getLayers(undefined, Array.from(vfsLayers))
-                : result.getLayer(layer) || '', `${chunk.fileName}.css`, options.dir)
+                : result.getLayer(layer) || ''
             })
           }
           else if (chunk.type === 'chunk' && typeof chunk.code === 'string') {
