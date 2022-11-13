@@ -2,7 +2,7 @@ import { MarkdownString, Position, Range, window, workspace } from 'vscode'
 import parserCSS from 'prettier/parser-postcss'
 import prettier from 'prettier/standalone'
 import type { TextEditorSelectionChangeEvent } from 'vscode'
-import { regexScopePlaceholder } from '@unocss/core'
+import { TwoKeyMap, regexScopePlaceholder } from '@unocss/core'
 import { log } from './log'
 import { throttle } from './utils'
 import type { ContextLoader } from './contextLoader'
@@ -43,27 +43,30 @@ export async function registerSelectionStyle(cwd: string, contextLoader: Context
         uniqMap.set(`${start}-${end}`, className)
 
       const classNamePlaceholder = '___'
-      const sheetMap = new Map<string, string>()
+      const sheetMap = new TwoKeyMap<string | undefined, string, string>()
       await Promise.all(Array.from(uniqMap.values())
         .map(async (name) => {
           const tokens = await ctx.uno.parseToken(name, classNamePlaceholder) || []
           tokens.forEach(([, className, cssText, media]) => {
             if (className && cssText) {
-              let key = className
+              const selector = className
                 .replace(`.${classNamePlaceholder}`, '&')
                 .replace(regexScopePlaceholder, ' ')
                 .trim()
-              if (media)
-                key = `${media}{${key}`
-              sheetMap.set(key, (sheetMap.get(key) || '') + cssText)
+              sheetMap.set(media, selector, (sheetMap.get(media, selector) || '') + cssText)
             }
           })
         }),
       )
 
-      const css = Array.from(sheetMap.keys())
-        .sort()
-        .map(key => `${key}{${sheetMap.get(key)}}${key.includes('{') ? '}' : ''}`)
+      const css = Array.from(sheetMap._map.entries())
+        .map(([media, map]) => {
+          const body = Array.from(map.keys())
+            .sort()
+            .map(selector => `${selector}{${map.get(selector)}}`)
+            .join('\n')
+          return media ? `${media}{${body}}` : body
+        })
         .join('\n')
 
       const prettified = prettier.format(css, {
