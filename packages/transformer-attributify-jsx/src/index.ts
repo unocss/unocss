@@ -40,7 +40,7 @@ export interface TransformerAttributifyJsxOptions {
 const elementRE = /<!--[\s\S]*?-->|<(\/?)([a-zA-Z][-.:0-9_a-zA-Z]*)((?:\s+[^>]*?(?:(?:'[^']*')|(?:"[^"]*"))?)*)\s*(\/?)>/gs
 const attributeRE = /([a-zA-Z()#][\[?a-zA-Z0-9-_:()#%\]?]*)(?:\s*=\s*((?:'[^']*')|(?:"[^"]*")|\S+))?/g
 const classFilterRE = /(className|class)\s*=\s*\{[^\}]*\}/i
-const curlybraceRE = /\w+?=\{.+?\}/g
+const curlybraceRE = /\w+\s?=\s?\{.+?\}/g
 export default function transformerAttributifyJsx(options: TransformerAttributifyJsxOptions = {}): SourceCodeTransformer {
   const {
     blocklist = [],
