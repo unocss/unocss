@@ -10,7 +10,7 @@ describe('transformerAttributifyJs', () => {
 <div h-full text-center flex select-none className={red ? 'text-red': 'text-green'}>
   <input value={ target ? '10px' : '20px'} style={{ height: '100px' }}>
   <div ma>
-    <div text-5xl fw100 animate-bounce-alt animate-count-infinite animate-duration-1s>
+    <div text-5xl fw100 animate-bounce-alt animate-count-infinite animate-duration-1s key={index}>
       unocss
     </div>
     <div op30 text-lg fw300 m1 className={hidden && 'op0'}>
@@ -46,7 +46,7 @@ describe('transformerAttributifyJs', () => {
       "<div h-full=\\"\\" text-center=\\"\\" flex=\\"\\" select-none=\\"\\" className={red ? 'text-red': 'text-green'}>
         <input value={ target ? '10px' : '20px'} style={{ height: '100px' }}>
         <div ma=\\"\\">
-          <div text-5xl=\\"\\" fw100=\\"\\" animate-bounce-alt=\\"\\" animate-count-infinite=\\"\\" animate-duration-1s=\\"\\">
+          <div text-5xl=\\"\\" fw100=\\"\\" animate-bounce-alt=\\"\\" animate-count-infinite=\\"\\" animate-duration-1s=\\"\\" key={index}>
             unocss
           </div>
           <div op30=\\"\\" text-lg=\\"\\" fw300=\\"\\" m1=\\"\\" className={hidden && 'op0'}>
@@ -80,7 +80,7 @@ describe('transformerAttributifyJs', () => {
       "<div h-full=\\"\\" text-center=\\"\\" flex select-none=\\"\\" className={red ? 'text-red': 'text-green'}>
         <input value={ target ? '10px' : '20px'} style={{ height: '100px' }}>
         <div ma=\\"\\">
-          <div text-5xl=\\"\\" fw100=\\"\\" animate-bounce-alt=\\"\\" animate-count-infinite=\\"\\" animate-duration-1s=\\"\\">
+          <div text-5xl=\\"\\" fw100=\\"\\" animate-bounce-alt=\\"\\" animate-count-infinite=\\"\\" animate-duration-1s=\\"\\" key={index}>
             unocss
           </div>
           <div op30=\\"\\" text-lg=\\"\\" fw300=\\"\\" m1=\\"\\" className={hidden && 'op0'}>
