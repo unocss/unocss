@@ -8,14 +8,22 @@ export interface AstroIntegrationConfig<Theme extends {} = {}> extends VitePlugi
    * Include reset styles
    * When passing `true`, `@unocss/reset/tailwind.css` will be used
    * @default true
+   * @deprecated use `injects` instead
    */
   injectReset?: string | boolean
 
   /**
    * Inject UnoCSS entry import for every astro page
    * @default true
+   * @deprecated use `injects` instead
    */
   injectEntry?: boolean | string
+
+  /**
+   * Inject for every astro page, e.g., `['import "uno.css"']`
+   * @default []
+   */
+  injects?: ReadonlyArray<string>
 }
 
 export default function UnoCSSAstroIntegration<Theme extends {}>(
@@ -25,6 +33,7 @@ export default function UnoCSSAstroIntegration<Theme extends {}>(
   const {
     injectEntry = true,
     injectReset: includeReset = true,
+    injects: rawInjects = [],
   } = options
 
   return {
@@ -46,6 +55,8 @@ export default function UnoCSSAstroIntegration<Theme extends {}>(
             ? injectEntry
             : 'import "uno.css"')
         }
+        if (rawInjects.length !== 0)
+          injects.push(...rawInjects)
         if (injects?.length)
           injectScript('page-ssr', injects.join('\n'))
       },
