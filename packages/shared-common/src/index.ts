@@ -31,11 +31,11 @@ export function replaceAsync(string: string, searchValue: RegExp, replacer: (...
 export async function isPug(uno: UnoGenerator, code: string, id = '') {
   const pugExtractor = uno.config.extractors?.find(e => e.name === 'pug')
   if (!pugExtractor)
-    return false
+    return { pug: false, code: undefined }
 
   const ctx = { code, id } as any
   await pugExtractor.extract(ctx)
-  return ctx.code !== code
+  return ctx.code !== code ? { pug: true, code: ctx.code } : { pug: false, code: undefined }
 }
 
 export function getPlainClassMatchedPositionsForPug(codeSplit: string, matchedPlain: Set<string>, start: number) {
@@ -49,6 +49,7 @@ export function getPlainClassMatchedPositionsForPug(codeSplit: string, matchedPl
     // end with = : div.p1= content
     // end with space : div.p1 content
     // end with ( :  div.p1(text="red")
+
     const regex = new RegExp(`\.(${plainClassName})[\.#=\s($]`)
     const match = regex.exec(codeSplit)
     if (match)
@@ -149,7 +150,9 @@ export async function getMatchedPositionsFromCode(uno: UnoGenerator, code: strin
   for (const i of transformers?.filter(i => i.enforce === 'post') || [])
     await i.transform(s, id, ctx)
   const hasVariantGroup = !!uno.config.transformers?.find(i => i.name === 'variant-group')
-  const result = await uno.generate(s.toString(), { preflights: false })
-  return getMatchedPositions(code, [...result.matched], hasVariantGroup, await isPug(uno, code, id))
+
+  const { pug, code: pugCode } = await isPug(uno, code, id)
+  const result = await uno.generate(pug ? pugCode : s.toString(), { preflights: false })
+  return getMatchedPositions(code, [...result.matched], hasVariantGroup, pug)
 }
 
