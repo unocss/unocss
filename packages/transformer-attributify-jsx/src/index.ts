@@ -71,13 +71,13 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
     idFilter,
     async transform(code, _, { uno }) {
       const tasks: Promise<void>[] = []
+
       for (const item of Array.from(code.original.matchAll(elementRE))) {
         // Get the length of the className part, and replace it with the equal length of empty string
         const classNamePart = item[3].match(classFilterRE)
         let attributifyPart = item[3]
         if (classNamePart)
           attributifyPart = item[3].replace(classFilterRE, ' '.repeat(classNamePart[0].length))
-
         if (curlybraceRE.test(attributifyPart))
           attributifyPart = attributifyPart.replace(curlybraceRE, match => ' '.repeat(match.length))
         for (const attr of attributifyPart.matchAll(attributeRE)) {
