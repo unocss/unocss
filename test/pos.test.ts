@@ -1,10 +1,13 @@
 import { describe, expect, test } from 'vitest'
 import presetAttributify from '@unocss/preset-attributify'
 import presetUno from '@unocss/preset-uno'
-import { createGenerator } from '@unocss/core'
+import type { UnoGenerator } from '@unocss/core'
+import { createGenerator, extractorSplit } from '@unocss/core'
 import { getMatchedPositionsFromCode as match } from '@unocss/shared-common'
 import transformerVariantGroup from '@unocss/transformer-variant-group'
 import cssDirectives from '@unocss/transformer-directives'
+
+import extractorPug from '@unocss/extractor-pug'
 
 describe('matched-positions', async () => {
   test('attributify', async () => {
@@ -136,6 +139,31 @@ describe('matched-positions', async () => {
           ],
         ]
       `)
+  })
+})
+
+describe('matched-positions-pug', async () => {
+  const matchPug = (uno: UnoGenerator, code: string) => {
+    return match(uno,
+`<template lang='pug'>
+  ${code}
+</template>`, 'App.vue')
+  }
+
+  describe('plain class', () => {
+    const uno = createGenerator({
+      presets: [
+        presetUno(),
+      ],
+      extractors: [
+        extractorSplit,
+        extractorPug(),
+      ],
+    })
+    test('multi class', async () => {
+      const pugCode = 'div.p1.ma'
+      expect(await matchPug(uno, pugCode)).toMatchInlineSnapshot('[]')
+    }, 200000)
   })
 })
 

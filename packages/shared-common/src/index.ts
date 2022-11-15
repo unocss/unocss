@@ -28,7 +28,37 @@ export function replaceAsync(string: string, searchValue: RegExp, replacer: (...
   }
 }
 
-export function getMatchedPositions(code: string, matched: string[], hasVariantGroup = false) {
+export async function isPug(uno: UnoGenerator, code: string, id = '') {
+  const pugExtractor = uno.config.extractors?.find(e => e.name === 'pug')
+  if (!pugExtractor)
+    return false
+
+  const ctx = { code, id } as any
+  await pugExtractor.extract(ctx)
+  return ctx.code !== code
+}
+
+export function getPlainClassMatchedPositionsForPug(codeSplit: string, matchedPlain: Set<string>, start: number) {
+  const result: [number, number, string][] = []
+
+  matchedPlain.forEach((plainClassName) => {
+    // match for 'p1'
+    // end with EOL : div.p1
+    // end with . : div.p1.ma
+    // end with # : div.p1#id
+    // end with = : div.p1= content
+    // end with space : div.p1 content
+    // end with ( :  div.p1(text="red")
+    const regex = new RegExp(`\.(${plainClassName})[\.#=\s($]`)
+    const match = regex.exec(codeSplit)
+    if (match)
+      result.push([start + match.index, start + match.index + plainClassName.length, plainClassName])
+  })
+
+  return result
+}
+
+export function getMatchedPositions(code: string, matched: string[], hasVariantGroup = false, isPug = false) {
   const result: [number, number, string][] = []
   const attributify: RegExpMatchArray[] = []
   const plain = new Set<string>()
@@ -48,8 +78,13 @@ export function getMatchedPositions(code: string, matched: string[], hasVariantG
   let start = 0
   code.split(/([\s"'`;<>]|:\(|\)"|\)\s)/g).forEach((i) => {
     const end = start + i.length
-    if (plain.has(i))
-      result.push([start, end, i])
+    if (isPug) {
+      result.push(...getPlainClassMatchedPositionsForPug(i, plain, start))
+    }
+    else {
+      if (plain.has(i))
+        result.push([start, end, i])
+    }
     start = end
   })
 
@@ -115,5 +150,6 @@ export async function getMatchedPositionsFromCode(uno: UnoGenerator, code: strin
     await i.transform(s, id, ctx)
   const hasVariantGroup = !!uno.config.transformers?.find(i => i.name === 'variant-group')
   const result = await uno.generate(s.toString(), { preflights: false })
-  return getMatchedPositions(code, [...result.matched], hasVariantGroup)
+  return getMatchedPositions(code, [...result.matched], hasVariantGroup, await isPug(uno, code, id))
 }
+
