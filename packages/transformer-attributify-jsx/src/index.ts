@@ -40,8 +40,7 @@ export interface TransformerAttributifyJsxOptions {
 const elementRE = /<!--[\s\S]*?-->|<(\/?)([a-zA-Z][-.:0-9_a-zA-Z]*)((?:\s+[^>]*?(?:(?:'[^']*')|(?:"[^"]*"))?)*)\s*(\/?)>/gs
 const attributeRE = /([a-zA-Z()#][\[?a-zA-Z0-9-_:()#%\]?]*)(?:\s*=\s*((?:'[^']*')|(?:"[^"]*")|\S+))?/g
 const classFilterRE = /(className|class)\s*=\s*\{[^\}]*\}/i
-const curlybraceRE = /\{.+\}/g
-
+const curlybraceRE = /\w+?=\{.+?\}/g
 export default function transformerAttributifyJsx(options: TransformerAttributifyJsxOptions = {}): SourceCodeTransformer {
   const {
     blocklist = [],
@@ -72,15 +71,15 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
     idFilter,
     async transform(code, _, { uno }) {
       const tasks: Promise<void>[] = []
-
       for (const item of Array.from(code.original.matchAll(elementRE))) {
         // Get the length of the className part, and replace it with the equal length of empty string
         const classNamePart = item[3].match(classFilterRE)
         let attributifyPart = item[3]
         if (classNamePart)
           attributifyPart = item[3].replace(classFilterRE, ' '.repeat(classNamePart[0].length))
+
         if (curlybraceRE.test(attributifyPart))
-          continue
+          attributifyPart = attributifyPart.replace(curlybraceRE, match => ' '.repeat(match.length))
         for (const attr of attributifyPart.matchAll(attributeRE)) {
           const matchedRule = attr[0].replace(/\:/i, '-')
           if (matchedRule.includes('=') || isBlocked(matchedRule))
