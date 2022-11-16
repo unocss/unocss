@@ -163,87 +163,108 @@ describe('matched-positions-pug', async () => {
       transformerVariantGroup(),
     ],
   })
-  test('plain class', async () => {
+
+  test('plain class: normal case', async () => {
     const pugCode = `div.p1.ma
       div.p2#id1
       div.p4.p5= p6
       div.p7 p8
-      div.p9(text=red)
+      div.p9(text="red")
       `
-    expect(await matchPug(uno, pugCode)).toMatchInlineSnapshot(`
-        [
-          [
-            28,
-            30,
-            "p1",
-          ],
-          [
-            31,
-            33,
-            "ma",
-          ],
-          [
-            44,
-            46,
-            "p2",
-          ],
-          [
-            61,
-            63,
-            "p4",
-          ],
-          [
-            64,
-            66,
-            "p5",
-          ],
-          [
-            81,
-            83,
-            "p7",
-          ],
-          [
-            97,
-            99,
-            "p9",
-          ],
-        ]
-      `)
+    expect(await matchPug(uno, pugCode)).toMatchSnapshot()
+  }, 20000)
+
+  test('plain class: prefix', async () => {
+    const pugCode = `div(class='hover:scale-100')
+    div(class="hover:scale-90")
+    div(class="hover:scale-80 p1")
+    div(class="hover:scale-70 p2 ")
+    div.p3(class="hover:scale-60")
+    `
+    expect(await matchPug(uno, pugCode)).toMatchSnapshot()
   }, 20000)
 
   test('attributify', async () => {
-    const pugCode = `div.cls(border="b gray4")
-      div(text="red")
+    const pugCode = `div.p4(border="b gray4")
+      div(text='red')
       `
     expect(await matchPug(uno, pugCode)).toMatchInlineSnapshot(`
+      [
         [
-          [
-            40,
-            41,
-            "[border=\\"b\\"]",
-          ],
-          [
-            42,
-            47,
-            "[border=\\"gray4\\"]",
-          ],
-          [
-            66,
-            69,
-            "[text=\\"red\\"]",
-          ],
-        ]
-      `)
+          28,
+          30,
+          "p4",
+        ],
+        [
+          39,
+          40,
+          "b",
+        ],
+        [
+          39,
+          40,
+          "[border=\\"b\\"]",
+        ],
+        [
+          41,
+          46,
+          "[border=\\"gray4\\"]",
+        ],
+        [
+          65,
+          68,
+          "[text=\\"red\\"]",
+        ],
+      ]
+    `)
   })
 
-  test('variant group: not support in pug', async () => {
-    const pugCode = 'div.hover:(h-4 w-4 bg-green-300)'
-    expect(await matchPug(uno, pugCode)).toMatchInlineSnapshot('[]')
+  test('variant group', async () => {
+    const pugCode = 'div.p4(class="hover:(h-4 w-4)")'
+    expect(await matchPug(uno, pugCode)).toMatchInlineSnapshot(`
+      [
+        [
+          28,
+          30,
+          "p4",
+        ],
+        [
+          45,
+          48,
+          "hover:h-4",
+        ],
+        [
+          49,
+          52,
+          "hover:w-4",
+        ],
+      ]
+    `)
   })
 
-  test('css-directive: not support in pug', async () => {
-    const pugCode = 'div.btn-center{@apply text-center my-0 font-medium;\n}'
-    expect(await matchPug(uno, pugCode)).toMatchInlineSnapshot('[]')
+  test('css-directive', async () => {
+    // \n could not be include
+    // div.p2(class="btn-center{@apply p1 m1;\n}") -> pug parse error
+    const pugCode = 'div.p2(class="btn-center{@apply p1 m1;}")'
+    expect(await matchPug(uno, pugCode)).toMatchInlineSnapshot(`
+      [
+        [
+          28,
+          30,
+          "p2",
+        ],
+        [
+          56,
+          58,
+          "p1",
+        ],
+        [
+          59,
+          61,
+          "m1",
+        ],
+      ]
+    `)
   })
 })
 
