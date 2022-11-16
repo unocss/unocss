@@ -51,7 +51,7 @@ export function getPlainClassMatchedPositionsForPug(codeSplit: string, matchedPl
 
     // complex case: match for hover:scale-100
     // such as [div.hover:scale-100] will not be parsed correctly by pug
-    // should use [div.(class='hover:scale-100')]
+    // should use [div(class='hover:scale-100')]
 
     // combine both cases will be 2 syntax
     // div.p1(class='hover:scale-100')
