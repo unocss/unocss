@@ -40,7 +40,6 @@ export async function isPug(uno: UnoGenerator, code: string, id = '') {
 
 export function getPlainClassMatchedPositionsForPug(codeSplit: string, matchedPlain: Set<string>, start: number) {
   const result: [number, number, string][] = []
-
   matchedPlain.forEach((plainClassName) => {
     // match for 'p1'
     // end with EOL : div.p1
@@ -50,10 +49,11 @@ export function getPlainClassMatchedPositionsForPug(codeSplit: string, matchedPl
     // end with space : div.p1 content
     // end with ( :  div.p1(text="red")
 
-    const regex = new RegExp(`\.(${plainClassName})[\.#=\s($]`)
+    const regex = new RegExp(`\.(${plainClassName})[\.#=\s(]|\.(${plainClassName})$`)
     const match = regex.exec(codeSplit)
     if (match)
-      result.push([start + match.index, start + match.index + plainClassName.length, plainClassName])
+      // keep [.] not include -> .p1 will only show underline on [p1]
+      result.push([start + match.index + 1, start + match.index + plainClassName.length + 1, plainClassName])
   })
 
   return result
