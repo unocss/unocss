@@ -918,6 +918,9 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .\\\\@container-normal{container-type:normal;}
 .\\\\@container\\\\/label{container-type:inline-size;container-name:label;}
 .\\\\@container\\\\/label-normal{container-type:normal;container-name:label;}
+.contain-\\\\[size_layout_paint\\\\]{contain:size layout paint;}
+.contain-\\\\[size_layout\\\\]{contain:size layout;}
+.contain-layout{contain:layout;}
 @container (min-width: 10.5rem){
 .\\\\@\\\\[10\\\\.5rem\\\\]-text-red{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
 }
