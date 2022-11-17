@@ -3,9 +3,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "postinstall": "nuxi prepare && esno scripts/prepare.ts",
-    "build": "nuxi generate",
-    "dev": "nuxi dev",
+    "build": "nuxi prepare && esno scripts/prepare.ts && nuxi generate",
+    "dev": "nuxi prepare && esno scripts/prepare.ts && nuxi dev",
     "preview": "nuxi preview",
     "fetch": "esno scripts/fetch.ts"
   },
