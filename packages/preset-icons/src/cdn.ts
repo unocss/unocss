@@ -2,17 +2,24 @@ import type { IconifyJSON } from '@iconify/types'
 import { loadIcon } from '@iconify/utils/lib/loader/loader'
 import { searchForIcon } from '@iconify/utils/lib/loader/modern'
 import type { UniversalIconLoader } from '@iconify/utils/lib/loader/types'
-import { $fetch } from 'ohmyfetch'
+import { ofetch } from 'ofetch'
 import supportedCollection from './collections.json'
-
 export function createCDNLoader(cdnBase: string): UniversalIconLoader {
   const cache = new Map<string, Promise<IconifyJSON>>()
 
   function fetchCollection(name: string) {
     if (!supportedCollection.includes(name))
       return undefined
-    if (!cache.has(name))
-      cache.set(name, $fetch(`${cdnBase}@iconify-json/${name}/icons.json`))
+    if (!cache.has(name)) {
+      const url = `${cdnBase}@iconify-json/${name}/icons.json`
+      ofetch(url, { parseResponse: JSON.parse })
+        .then((it) => {
+          cache.set(name, it)
+        })
+        .catch((err) => {
+          console.error(`Failed to load icon collection from ${url}`, err)
+        })
+    }
     return cache.get(name)!
   }
 

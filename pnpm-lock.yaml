@@ -411,11 +411,11 @@ importers:
       '@iconify/types': ^2.0.0
       '@iconify/utils': ^2.0.1
       '@unocss/core': workspace:*
-      ohmyfetch: ^0.4.20
+      ofetch: ^1.0.0
     dependencies:
       '@iconify/utils': 2.0.1
       '@unocss/core': link:../core
-      ohmyfetch: 0.4.20
+      ofetch: 1.0.0
     devDependencies:
       '@iconify/types': 2.0.0
 
@@ -14029,7 +14029,6 @@ packages:
 
   /node-fetch-native/1.0.1:
     resolution: {integrity: sha512-VzW+TAk2wE4X9maiKMlT+GsPU4OMmR1U9CrHSmd3DFLn2IcZ9VJ6M6BBugGfYUnPCLSYxXdZy17M0BEJyhUTwg==}
-    dev: true
 
   /node-fetch/2.6.7:
     resolution: {integrity: sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==}
@@ -14449,7 +14448,6 @@ packages:
       destr: 1.2.1
       node-fetch-native: 1.0.1
       ufo: 1.0.0
-    dev: true
 
   /ohash/1.0.0:
     resolution: {integrity: sha512-kxSyzq6tt+6EE/xCnD1XaFhCCjUNUaz3X30rJp6mnjGLXAAvuPFqohMdv0aScWzajR45C29HyBaXZ8jXBwnh9A==}
