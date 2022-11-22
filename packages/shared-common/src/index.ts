@@ -1,5 +1,5 @@
 import type { UnoGenerator } from '@unocss/core'
-import { escapeRegExp, isAttributifySelector, regexClassGroup } from '@unocss/core'
+import { cssPropertyRE, escapeRegExp, isAttributifySelector, regexClassGroup } from '@unocss/core'
 import MagicString from 'magic-string'
 
 // https://github.com/dsblv/string-replace-async/blob/main/index.js
@@ -52,6 +52,14 @@ export function getMatchedPositions(code: string, matched: string[], hasVariantG
       result.push([start, end, i])
     start = end
   })
+
+  // highlight for arbitrary css properties
+  for (const match of code.matchAll(cssPropertyRE)) {
+    const start = match.index! + 1
+    const end = start + match[1].length
+    if (plain.has(match[1]))
+      result.push([start, end, match[1]])
+  }
 
   // highlight for variant group
   if (hasVariantGroup) {

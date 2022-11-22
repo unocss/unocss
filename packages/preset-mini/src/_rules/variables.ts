@@ -26,5 +26,12 @@ export const cssVariables: Rule[] = [
 ]
 
 export const cssProperty: Rule[] = [
-  [/^\[([\w_-]+):([^'"]+)\]$/, ([, prop, value]) => ({ [prop]: h.bracket(`[${value}]`) })],
+  [/^\[(.+):(.+)\]$/, ([, prop, value]) => {
+    // preset-wind.test.ts / non-targets
+    // allow `~` and `=` only in css variables as they can be escaped
+    if (/~|=/.test(prop) && !prop.startsWith('--'))
+      return
+
+    return { [prop]: h.bracket(`[${value}]`) }
+  }],
 ]

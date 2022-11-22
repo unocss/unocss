@@ -850,6 +850,10 @@ export const presetMiniTargets: string[] = [
   '[content:attr(attr_content)]',
   '[content:attr(attr\\_content)]',
   '[background-image:url(star_transparent.gif),_url(cat_front.png)]',
+  '[font-family:var(--font-family)]',
+  '[font-family:\'Inter\',_sans-serif]',
+  '[font-feature-settings:\'cv02\',\'cv03\',\'cv04\',\'cv11\']',
+  '[font-variation-settings:"wght"_400,_"opsz"_14]',
 
   // variants
   'active:scale-4',
