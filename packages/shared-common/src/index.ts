@@ -1,4 +1,4 @@
-import type { UnoGenerator } from '@unocss/core'
+import type { ExtractorContext, UnoGenerator } from '@unocss/core'
 import { escapeRegExp, isAttributifySelector, regexClassGroup } from '@unocss/core'
 import MagicString from 'magic-string'
 
@@ -33,9 +33,10 @@ export async function isPug(uno: UnoGenerator, code: string, id = '') {
   if (!pugExtractor)
     return { pug: false, code: '' }
 
-  const ctx = { code, id } as any
+  const ctx = { code, id } as ExtractorContext
   await pugExtractor.extract(ctx)
-  return ctx.code !== code ? { pug: true, code: ctx.code as string } : { pug: false, code: '' }
+  const extractResult = ctx.code.startsWith(code) ? ctx.code.substring(code.length + 2) : ctx.code
+  return ctx.code !== code ? { pug: true, code: extractResult } : { pug: false, code: '' }
 }
 
 export function getPlainClassMatchedPositionsForPug(codeSplit: string, matchedPlain: Set<string>, start: number) {

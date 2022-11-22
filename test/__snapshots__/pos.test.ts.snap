@@ -28,19 +28,9 @@ exports[`matched-positions-pug > plain class: normal case 1`] = `
     "p5",
   ],
   [
-    68,
-    70,
-    "p6",
-  ],
-  [
     81,
     83,
     "p7",
-  ],
-  [
-    84,
-    86,
-    "p8",
   ],
   [
     97,
