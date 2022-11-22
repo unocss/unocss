@@ -26,7 +26,7 @@ export const cssVariables: Rule[] = [
 ]
 
 export const cssProperty: Rule[] = [
-  [/^\[(.+):(.+)\]$/, ([, prop, value]) => {
+  [/^\[([^'"]?.+):(.+)\]$/, ([, prop, value]) => {
     // preset-wind.test.ts / non-targets
     // allow `~` and `=` only in css variables as they can be escaped
     if (/~|=/.test(prop) && !prop.startsWith('--'))
