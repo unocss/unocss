@@ -854,6 +854,8 @@ export const presetMiniTargets: string[] = [
   '[font-family:\'Inter\',_sans-serif]',
   '[font-feature-settings:\'cv02\',\'cv03\',\'cv04\',\'cv11\']',
   '[font-variation-settings:"wght"_400,_"opsz"_14]',
+  '[--css-variable:"wght"_400,_"opsz"_14]',
+  '[--escaped\\~variable\\::100%]',
 
   // variants
   'active:scale-4',
@@ -1052,4 +1054,6 @@ export const presetMiniNonTargets = [
   // arbitrary css properties edge cases that cause invalid output
   '[name].[hash:9]',
   '["update:modelValue"]',
+  // escaped arbitrary css properties only allowed in css variables
+  '[cant\~escape:me]',
 ]
