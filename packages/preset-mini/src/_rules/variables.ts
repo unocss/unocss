@@ -26,5 +26,5 @@ export const cssVariables: Rule[] = [
 ]
 
 export const cssProperty: Rule[] = [
-  [/^\[([\w_-]+):([^'"]+)\]$/, ([, prop, value]) => ({ [prop]: h.bracket(`[${value}]`) })],
+  [/^\[(--(\w|\\\W)+|[\w-]+):(.+)\]$/, ([, prop,, value]) => ({ [prop]: h.bracket(`[${value}]`) })],
 ]

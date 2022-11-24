@@ -41,10 +41,16 @@ exports[`preset-mini > targets 1`] = `
 .fw-\\\\$variable{font-weight:var(--variable);}
 .items-\\\\$size{align-items:var(--size);}
 .ws-\\\\$variable{white-space:var(--variable);}
+.\\\\[--css-variable\\\\:\\\\\\"wght\\\\\\"_400\\\\,_\\\\\\"opsz\\\\\\"_14\\\\]{--css-variable:\\"wght\\" 400, \\"opsz\\" 14;}
+.\\\\[--escaped\\\\\\\\\\\\~variable\\\\\\\\\\\\:\\\\:100\\\\%\\\\]{--escaped\\\\~variable\\\\::100%;}
 .\\\\[a\\\\:b\\\\]{a:b;}
 .\\\\[background-image\\\\:url\\\\(star_transparent\\\\.gif\\\\)\\\\,_url\\\\(cat_front\\\\.png\\\\)\\\\]{background-image:url(star_transparent.gif), url(cat_front.png);}
 .\\\\[content\\\\:attr\\\\(attr_content\\\\)\\\\]{content:attr(attr content);}
 .\\\\[content\\\\:attr\\\\(attr\\\\\\\\_content\\\\)\\\\]{content:attr(attr_content);}
+.\\\\[font-family\\\\:\\\\'Inter\\\\'\\\\,_sans-serif\\\\]{font-family:'Inter', sans-serif;}
+.\\\\[font-family\\\\:var\\\\(--font-family\\\\)\\\\]{font-family:var(--font-family);}
+.\\\\[font-feature-settings\\\\:\\\\'cv02\\\\'\\\\,\\\\'cv03\\\\'\\\\,\\\\'cv04\\\\'\\\\,\\\\'cv11\\\\'\\\\]{font-feature-settings:'cv02','cv03','cv04','cv11';}
+.\\\\[font-variation-settings\\\\:\\\\\\"wght\\\\\\"_400\\\\,_\\\\\\"opsz\\\\\\"_14\\\\]{font-variation-settings:\\"wght\\" 400, \\"opsz\\" 14;}
 .\\\\[margin\\\\:logical_1rem_2rem_3rem\\\\]{margin:logical 1rem 2rem 3rem;}
 .all-\\\\[\\\\.target\\\\]-\\\\[combinator\\\\:test-2\\\\] .target,
 .children-\\\\[\\\\.target\\\\]-\\\\[combinator\\\\:test-2\\\\]>.target,
