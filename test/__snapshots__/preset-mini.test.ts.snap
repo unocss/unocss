@@ -796,12 +796,12 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .place-items-unset{place-items:unset;}
 .place-self-stretch{place-self:stretch;}
 .place-self-revert{place-self:revert;}
-.inset-\\\\[5px\\\\]{inset:5px;}
-.inset-\\\\$variable{inset:var(--variable);}
+.inset-\\\\[5px\\\\]{top:5px;right:5px;botom:5px;left:5px;}
+.inset-\\\\$variable{top:var(--variable);right:var(--variable);botom:var(--variable);left:var(--variable);}
 .inset-0,
-.inset-none{inset:0rem;}
-.inset-5{inset:1.25rem;}
-.inset-unset{inset:unset;}
+.inset-none{top:0rem;right:0rem;botom:0rem;left:0rem;}
+.inset-5{top:1.25rem;right:1.25rem;botom:1.25rem;left:1.25rem;}
+.inset-unset{top:unset;right:unset;botom:unset;left:unset;}
 .inset-x-5{left:1.25rem;right:1.25rem;}
 .inset-y-5{top:1.25rem;bottom:1.25rem;}
 .inset-b-5{bottom:1.25rem;}
