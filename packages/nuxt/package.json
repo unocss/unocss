@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "@nuxt/kit": "^3.0.0",
+    "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
     "@unocss/preset-icons": "workspace:*",

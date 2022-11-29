@@ -371,6 +371,7 @@ importers:
     specifiers:
       '@nuxt/kit': ^3.0.0
       '@nuxt/schema': ^3.0.0
+      '@unocss/config': workspace:*
       '@unocss/core': workspace:*
       '@unocss/preset-attributify': workspace:*
       '@unocss/preset-icons': workspace:*
@@ -385,6 +386,7 @@ importers:
       unocss: workspace:*
     dependencies:
       '@nuxt/kit': 3.0.0
+      '@unocss/config': link:../config
       '@unocss/core': link:../core
       '@unocss/preset-attributify': link:../preset-attributify
       '@unocss/preset-icons': link:../preset-icons

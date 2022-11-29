@@ -58,11 +58,11 @@ export default defineNuxtModule<UnocssNuxtOptions>({
       })
     }
 
-    const { config } = await loadConfig<UserConfig>(process.cwd(), {}, [], options)
+    const { config: unoConfig } = await loadConfig<UserConfig>(process.cwd(), {}, [], options)
 
     if (
       nuxt.options.postcss.plugins.cssnano
-      && config.transformers?.some(t => t.name === 'css-directive' && t.enforce !== 'pre')
+      && unoConfig.transformers?.some(t => t.name === 'css-directive' && t.enforce !== 'pre')
     ) {
       const preset = nuxt.options.postcss.plugins.cssnano.preset
       nuxt.options.postcss.plugins.cssnano = {
@@ -74,7 +74,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
 
     nuxt.hook('vite:extend', ({ config }) => {
       config.plugins = config.plugins || []
-      config.plugins.unshift(...VitePlugin(config))
+      config.plugins.unshift(...VitePlugin(unoConfig))
     })
 
     // Nuxt 2
@@ -90,7 +90,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
 
     extendWebpackConfig((config) => {
       config.plugins = config.plugins || []
-      config.plugins.unshift(WebpackPlugin(config))
+      config.plugins.unshift(WebpackPlugin(unoConfig))
     })
   },
 })
