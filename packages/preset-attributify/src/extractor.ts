@@ -9,7 +9,7 @@ const strippedPrefixes = [
 
 const splitterRE = /[\s'"`;]+/g
 const elementRE = /<\w(?=.*>)[\w:\.$-]*\s((?:['"`\{].*?['"`\}]|.*?)*?)>/gs
-const valuedAttributeRE = /([?]|(?!\d|-{2}|-\d)[a-zA-Z0-9\u00A0-\uFFFF-_:!%-]+)(?:={?(["'])([^\2]*?)\2}?)?/g
+const valuedAttributeRE = /([?]|(?!\d|-{2}|-\d)[a-zA-Z0-9\u00A0-\uFFFF-_:!%-]+)=?(?:["]([^"]*)["]|[']([^']*)[']|[{]([^}]*)[}])?/gms
 
 export const defaultIgnoreAttributes = ['placeholder']
 
@@ -23,7 +23,9 @@ export const extractorAttributify = (options?: AttributifyOptions): Extractor =>
     extract({ code }) {
       const result = Array.from(code.matchAll(elementRE))
         .flatMap(match => Array.from((match[1] || '').matchAll(valuedAttributeRE)))
-        .flatMap(([, name, _, content]) => {
+        .flatMap(([, name, ...contents]) => {
+          const content = contents.filter(Boolean).join('')
+
           if (ignoreAttributes.includes(name))
             return []
 
@@ -50,8 +52,9 @@ export const extractorAttributify = (options?: AttributifyOptions): Extractor =>
               .filter(isValidSelector)
           }
           else {
-            return content
-              .split(splitterRE)
+            const extractTernary = Array.from(content.matchAll(/(?:[\?:].*?)(["'])([^\1]*?)\1/gms))
+              .map(([,,v]) => v.split(splitterRE)).flat()
+            return (extractTernary.length ? extractTernary : content.split(splitterRE))
               .filter(Boolean)
               .map(v => `[${name}~="${v}"]`)
           }

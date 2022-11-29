@@ -25,12 +25,7 @@ Set {
   "[border~=\\"rounded-xl\\"]",
   "[border~=\\"x-1\\"]",
   "[border~=\\"x-style-dashed\\"]",
-  "[font~=\\"foo\\"]",
-  "[font~=\\">\\"]",
-  "[font~=\\"bar\\"]",
-  "[font~=\\"?\\"]",
   "[font~=\\"mono\\"]",
-  "[font~=\\":\\"]",
   "[font~=\\"sans\\"]",
   "[p~=\\"y-2\\"]",
   "[p~=\\"x-4\\"]",
@@ -128,6 +123,11 @@ Set {
   "fixed",
   "[important~=\\"text-red\\"]",
   "[important~=\\"bg-red\\"]",
+  "[bg~=\\"sky-400\\"]",
+  "[bg~=\\"hover:sky-500\\"]",
+  "[bg~=\\"transparent\\"]",
+  "[font~=\\"mono\\"]",
+  "[font~=\\"sans\\"]",
   "[bg~=\\"blue-400\\"]",
   "[bg~=\\"hover:blue-500\\"]",
   "[bg~=\\"dark:!blue-500\\"]",
@@ -301,10 +301,15 @@ exports[`attributify > fixture4 1`] = `
 .dark [bg~=\\"dark\\\\:hover\\\\:blue-600\\"]:hover{--un-bg-opacity:1;background-color:rgba(37,99,235,var(--un-bg-opacity));}
 [bg~=\\"blue-400\\"]{--un-bg-opacity:1;background-color:rgba(96,165,250,var(--un-bg-opacity));}
 [bg~=\\"hover\\\\:blue-500\\"]:hover{--un-bg-opacity:1;background-color:rgba(59,130,246,var(--un-bg-opacity));}
+[bg~=\\"hover\\\\:sky-500\\"]:hover{--un-bg-opacity:1;background-color:rgba(14,165,233,var(--un-bg-opacity));}
+[bg~=\\"sky-400\\"]{--un-bg-opacity:1;background-color:rgba(56,189,248,var(--un-bg-opacity));}
+[bg~=\\"transparent\\"]{background-color:transparent;}
 [important~=\\"bg-red\\"]{--un-bg-opacity:1 !important;background-color:rgba(248,113,113,var(--un-bg-opacity)) !important;}
 [p~=\\"t-2\\"],
 [pt~=\\"\\\\32 \\"],
 [pt2=\\"\\"]{padding-top:0.5rem;}
+[font~=\\"mono\\"]{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\\"Liberation Mono\\",\\"Courier New\\",monospace;}
+[font~=\\"sans\\"]{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\\"Segoe UI\\",Roboto,\\"Helvetica Neue\\",Arial,\\"Noto Sans\\",sans-serif,\\"Apple Color Emoji\\",\\"Segoe UI Emoji\\",\\"Segoe UI Symbol\\",\\"Noto Color Emoji\\";}
 [text~=\\"sm\\"]{font-size:0.875rem;line-height:1.25rem;}
 [important~=\\"text-red\\"]{--un-text-opacity:1 !important;color:rgba(248,113,113,var(--un-text-opacity)) !important;}
 [text~=\\"white\\"]{--un-text-opacity:1;color:rgba(255,255,255,var(--un-text-opacity));}
@@ -345,12 +350,7 @@ exports[`attributify > variant 1`] = `
   "border-rounded-xl",
   "border-x-1",
   "border-x-style-dashed",
-  "font-foo",
-  "font->",
-  "font-bar",
-  "font-?",
   "font-mono",
-  "font-:",
   "font-sans",
   "p-y-2",
   "p-x-4",
