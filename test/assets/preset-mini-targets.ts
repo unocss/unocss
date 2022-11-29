@@ -1054,6 +1054,7 @@ export const presetMiniNonTargets = [
   // arbitrary css properties edge cases that cause invalid output
   '[name].[hash:9]',
   '["update:modelValue"]',
+  '[https://en.wikipedia.org/wiki]',
   // escaped arbitrary css properties only allowed in css variables
   '[cant\~escape:me]',
 ]
