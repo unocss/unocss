@@ -1,4 +1,4 @@
-import type { UnoGenerator, ExtractorContext, UnoGenerator } from '@unocss/core'
+import type { ExtractorContext, UnoGenerator } from '@unocss/core'
 import { arbitraryPropertyRE, escapeRegExp, isAttributifySelector, regexClassGroup } from '@unocss/core'
 import MagicString from 'magic-string'
 
