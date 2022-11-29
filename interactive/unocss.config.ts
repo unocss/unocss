@@ -17,10 +17,10 @@ export const defaultConfig = defineConfig<{}>({
   ],
 })
 
-export default defineConfig<{}>({
+export default defineConfig({
   ...defaultConfig,
   presets: [
-    ...defaultConfig.presets as any,
+    ...defaultConfig.presets!,
     presetIcons({
       scale: 1.2,
     }),

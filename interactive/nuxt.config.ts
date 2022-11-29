@@ -1,5 +1,3 @@
-import { defineNuxtConfig } from 'nuxt'
-
 import { alias } from '../alias'
 
 const externals = [

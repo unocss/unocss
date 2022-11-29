@@ -37,7 +37,7 @@ export interface TransformerDirectivesContext {
 export default function transformerDirectives(options: TransformerDirectivesOptions = {}): SourceCodeTransformer {
   return {
     name: 'css-directive',
-    enforce: options?.enforce,
+    enforce: options?.enforce || 'pre',
     idFilter: id => !!id.match(cssIdRE),
     transform: (code, id, ctx) => {
       return transformDirectives(code, ctx.uno, options, id)

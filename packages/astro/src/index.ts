@@ -16,6 +16,12 @@ export interface AstroIntegrationConfig<Theme extends {} = {}> extends VitePlugi
    * @default true
    */
   injectEntry?: boolean | string
+
+  /**
+   * Inject extra imports for every astro page
+   * @default []
+   */
+  injectExtra?: string[]
 }
 
 export default function UnoCSSAstroIntegration<Theme extends {}>(
@@ -25,6 +31,7 @@ export default function UnoCSSAstroIntegration<Theme extends {}>(
   const {
     injectEntry = true,
     injectReset: includeReset = true,
+    injectExtra = [],
   } = options
 
   return {
@@ -46,6 +53,8 @@ export default function UnoCSSAstroIntegration<Theme extends {}>(
             ? injectEntry
             : 'import "uno.css"')
         }
+        if (injectExtra.length > 0)
+          injects.push(...injectExtra)
         if (injects?.length)
           injectScript('page-ssr', injects.join('\n'))
       },

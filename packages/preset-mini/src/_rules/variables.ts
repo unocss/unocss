@@ -26,5 +26,20 @@ export const cssVariables: Rule[] = [
 ]
 
 export const cssProperty: Rule[] = [
-  [/^\[([\w_-]+):([^'"]+)\]$/, ([, prop, value]) => ({ [prop]: h.bracket(`[${value}]`) })],
+  [/^\[(--(\w|\\\W)+|[\w-]+):(.+)\]$/, ([match, prop,, value]) => {
+    if (!isURI(match.slice(1, -1)))
+      return { [prop]: h.bracket(`[${value}]`) }
+  }],
 ]
+
+function isURI(declaration: string) {
+  if (!declaration.includes('://'))
+    return false
+
+  try {
+    return new URL(declaration).host !== ''
+  }
+  catch (err) {
+    return false
+  }
+}

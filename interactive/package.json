@@ -3,9 +3,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "nuxi prepare && esno scripts/prepare.ts && nuxi generate .",
-    "dev": "nuxi prepare && esno scripts/prepare.ts && nuxi dev .",
-    "start": "node .output/server/index.mjs",
+    "build": "nuxi prepare && esno scripts/prepare.ts && nuxi generate",
+    "dev": "nuxi prepare && esno scripts/prepare.ts && nuxi dev",
+    "preview": "nuxi preview",
     "fetch": "esno scripts/fetch.ts"
   },
   "devDependencies": {
@@ -20,7 +20,7 @@
     "js-yaml": "^4.1.0",
     "knitwork": "^0.1.2",
     "markdown-it-link-attributes": "^4.0.1",
-    "nuxt": "3.0.0-rc.11",
+    "nuxt": "^3.0.0",
     "p-limit": "^4.0.0",
     "postcss-nested": "^6.0.0",
     "prettier": "^2.7.1",

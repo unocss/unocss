@@ -85,7 +85,7 @@
     "lz-string": "^1.4.4",
     "magic-string": "^0.26.7",
     "msw": "^0.47.4",
-    "nuxt": "3.0.0-rc.11",
+    "nuxt": "^3.0.0",
     "nuxt-tsconfig-stub": "^0.0.2",
     "pnpm": "7.13.5",
     "prettier": "^2.7.1",
@@ -113,7 +113,7 @@
     "overrides": {
       "@nuxt/kit-edge": "npm:@nuxt/kit@latest",
       "vite": "^3.1.6",
-      "nuxt": "3.0.0-rc.11"
+      "nuxt": "^3.0.0"
     }
   },
   "simple-git-hooks": {

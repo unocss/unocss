@@ -1,16 +1,17 @@
 {
   "private": true,
   "scripts": {
+    "postinstall": "nuxi prepare",
     "build": "nuxi build",
     "dev": "nuxi dev",
-    "start": "node .output/server/index.mjs"
+    "preview": "nuxi preview"
   },
   "devDependencies": {
     "@iconify-json/carbon": "^1.1.9",
     "@unocss/core": "link:../../packages/core",
     "@unocss/nuxt": "link:../../packages/nuxt",
     "@unocss/reset": "link:../../packages/reset",
-    "nuxt": "^3.0.0-rc.11",
+    "nuxt": "^3.0.0",
     "unocss": "link:../../packages/unocss"
   }
 }

@@ -1,5 +1,5 @@
-import type { ExtractorContext, UnoGenerator } from '@unocss/core'
-import { escapeRegExp, isAttributifySelector, regexClassGroup } from '@unocss/core'
+import type { UnoGenerator, ExtractorContext, UnoGenerator } from '@unocss/core'
+import { arbitraryPropertyRE, escapeRegExp, isAttributifySelector, regexClassGroup } from '@unocss/core'
 import MagicString from 'magic-string'
 
 // https://github.com/dsblv/string-replace-async/blob/main/index.js
@@ -109,6 +109,14 @@ export function getMatchedPositions(code: string, matched: string[], hasVariantG
     }
     start = end
   })
+
+  // highlight for arbitrary css properties
+  for (const match of code.matchAll(arbitraryPropertyRE)) {
+    const start = match.index!
+    const end = start + match[0].length
+    if (plain.has(match[0]))
+      result.push([start, end, match[0]])
+  }
 
   // highlight for variant group
   if (hasVariantGroup) {

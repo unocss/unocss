@@ -41,10 +41,16 @@ exports[`preset-mini > targets 1`] = `
 .fw-\\\\$variable{font-weight:var(--variable);}
 .items-\\\\$size{align-items:var(--size);}
 .ws-\\\\$variable{white-space:var(--variable);}
+.\\\\[--css-variable\\\\:\\\\\\"wght\\\\\\"_400\\\\,_\\\\\\"opsz\\\\\\"_14\\\\]{--css-variable:\\"wght\\" 400, \\"opsz\\" 14;}
+.\\\\[--escaped\\\\\\\\\\\\~variable\\\\\\\\\\\\:\\\\:100\\\\%\\\\]{--escaped\\\\~variable\\\\::100%;}
 .\\\\[a\\\\:b\\\\]{a:b;}
 .\\\\[background-image\\\\:url\\\\(star_transparent\\\\.gif\\\\)\\\\,_url\\\\(cat_front\\\\.png\\\\)\\\\]{background-image:url(star_transparent.gif), url(cat_front.png);}
 .\\\\[content\\\\:attr\\\\(attr_content\\\\)\\\\]{content:attr(attr content);}
 .\\\\[content\\\\:attr\\\\(attr\\\\\\\\_content\\\\)\\\\]{content:attr(attr_content);}
+.\\\\[font-family\\\\:\\\\'Inter\\\\'\\\\,_sans-serif\\\\]{font-family:'Inter', sans-serif;}
+.\\\\[font-family\\\\:var\\\\(--font-family\\\\)\\\\]{font-family:var(--font-family);}
+.\\\\[font-feature-settings\\\\:\\\\'cv02\\\\'\\\\,\\\\'cv03\\\\'\\\\,\\\\'cv04\\\\'\\\\,\\\\'cv11\\\\'\\\\]{font-feature-settings:'cv02','cv03','cv04','cv11';}
+.\\\\[font-variation-settings\\\\:\\\\\\"wght\\\\\\"_400\\\\,_\\\\\\"opsz\\\\\\"_14\\\\]{font-variation-settings:\\"wght\\" 400, \\"opsz\\" 14;}
 .\\\\[margin\\\\:logical_1rem_2rem_3rem\\\\]{margin:logical 1rem 2rem 3rem;}
 .all-\\\\[\\\\.target\\\\]-\\\\[combinator\\\\:test-2\\\\] .target,
 .children-\\\\[\\\\.target\\\\]-\\\\[combinator\\\\:test-2\\\\]>.target,
@@ -579,6 +585,11 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .grid-rows-minmax-100px{grid-template-rows:repeat(auto-fill,minmax(100px,1fr));}
 .grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr));}
 .grid-rows-3{grid-template-rows:repeat(3,minmax(0,1fr));}
+.grid-area-\\\\[content\\\\]{grid-area:content;}
+.grid-area-\\\\$variable{grid-area:var(--variable);}
+.grid-areas-\\\\[prepend_content_append\\\\]{grid-template-areas:\\"prepend content append\\";}
+.grid-areas-\\\\[prepend_content_append\\\\]-\\\\[prepend_content_append\\\\]{grid-template-areas:\\"prepend content append\\" \\"prepend content append\\";}
+.grid-areas-\\\\$variable{grid-template-areas:var(--variable);}
 .gap-\\\\$variable{grid-gap:var(--variable);gap:var(--variable);}
 .gap-4{grid-gap:1rem;gap:1rem;}
 .gap-inherit{grid-gap:inherit;gap:inherit;}
@@ -918,6 +929,9 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .\\\\@container-normal{container-type:normal;}
 .\\\\@container\\\\/label{container-type:inline-size;container-name:label;}
 .\\\\@container\\\\/label-normal{container-type:normal;container-name:label;}
+.contain-\\\\[size_layout_paint\\\\]{contain:size layout paint;}
+.contain-\\\\[size_layout\\\\]{contain:size layout;}
+.contain-layout{contain:layout;}
 @container (min-width: 10.5rem){
 .\\\\@\\\\[10\\\\.5rem\\\\]-text-red{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
 }

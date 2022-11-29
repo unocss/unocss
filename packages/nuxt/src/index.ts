@@ -63,7 +63,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
 
     // Nuxt 2
     if (isNuxt2()) {
-      nuxt.hook('config', (config) => {
+      nuxt.hook('app:resolve', (config) => {
         const plugin: NuxtPlugin = { src: 'unocss.mjs', mode: 'client' }
         if (config.plugins)
           config.plugins.push(plugin)

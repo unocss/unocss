@@ -315,6 +315,11 @@ export const presetMiniTargets: string[] = [
   'grid-rows-minmax-100px',
   'grid-flow-dense',
   'grid-flow-col-dense',
+  'grid-area-[content]',
+  'grid-area-$variable',
+  'grid-areas-[prepend_content_append]',
+  'grid-areas-[prepend_content_append]-[prepend_content_append]',
+  'grid-areas-$variable',
 
   // layout
   'of-y-visible',
@@ -595,6 +600,9 @@ export const presetMiniTargets: string[] = [
   'whitespace-unset',
   'ws-nowrap',
   'ws-revert',
+  'contain-layout',
+  'contain-[size_layout]',
+  'contain-[size_layout_paint]',
 
   'break-normal',
   'break-words',
@@ -842,6 +850,12 @@ export const presetMiniTargets: string[] = [
   '[content:attr(attr_content)]',
   '[content:attr(attr\\_content)]',
   '[background-image:url(star_transparent.gif),_url(cat_front.png)]',
+  '[font-family:var(--font-family)]',
+  '[font-family:\'Inter\',_sans-serif]',
+  '[font-feature-settings:\'cv02\',\'cv03\',\'cv04\',\'cv11\']',
+  '[font-variation-settings:"wght"_400,_"opsz"_14]',
+  '[--css-variable:"wght"_400,_"opsz"_14]',
+  '[--escaped\\~variable\\::100%]',
 
   // variants
   'active:scale-4',
@@ -1036,4 +1050,11 @@ export const presetMiniNonTargets = [
 
   // variants - combinator
   'all:[svg]:fill-red',
+
+  // arbitrary css properties edge cases that cause invalid output
+  '[name].[hash:9]',
+  '["update:modelValue"]',
+  '[https://en.wikipedia.org/wiki]',
+  // escaped arbitrary css properties only allowed in css variables
+  '[cant\~escape:me]',
 ]

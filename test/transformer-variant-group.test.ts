@@ -58,4 +58,30 @@ describe('transformer-variant-group', () => {
       "
     `)
   })
+
+  test('empty group', async () => {
+    const result = await transform(
+      'hover:()',
+    )
+    expect(result).toMatchInlineSnapshot('"hover:()"')
+  })
+
+  test('ignore arrow fn', async () => {
+    const result = await transform(`
+      {
+        hover:(p6) => {
+          console.log('ok')
+        },
+      }
+    `)
+    expect(result).toMatchInlineSnapshot(`
+      "
+            {
+              hover:(p6) => {
+                console.log('ok')
+              },
+            }
+          "
+    `)
+  })
 })
