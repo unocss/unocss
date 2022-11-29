@@ -13,16 +13,16 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.17",
-    "@types/react": "^18.0.21",
-    "@types/react-dom": "^18.0.6",
+    "@iconify-json/logos": "^1.1.19",
+    "@types/react": "^18.0.25",
+    "@types/react-dom": "^18.0.9",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
-    "@vitejs/plugin-react": "^2.1.0",
+    "@vitejs/plugin-react": "^2.2.0",
     "cross-env": "^7.0.3",
-    "typescript": "^4.8.4",
+    "typescript": "^4.9.3",
     "unocss": "link:../../packages/unocss",
-    "vite": "^3.1.8"
+    "vite": "^3.2.4"
   }
 }

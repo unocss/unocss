@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@ampproject/remapping": "^2.2.0",
-    "@rollup/pluginutils": "^5.0.1",
+    "@rollup/pluginutils": "^5.0.2",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/inspector": "workspace:*",
@@ -57,6 +57,6 @@
   },
   "devDependencies": {
     "@unocss/shared-integration": "workspace:*",
-    "vite": "^3.1.8"
+    "vite": "^3.2.4"
   }
 }

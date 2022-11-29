@@ -9,18 +9,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "preact": "^10.11.2"
+    "preact": "^10.11.3"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.17",
+    "@iconify-json/logos": "^1.1.19",
     "@preact/preset-vite": "^2.4.0",
-    "@prefresh/vite": "^2.2.8",
+    "@prefresh/vite": "^2.2.9",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
     "cross-env": "^7.0.3",
-    "typescript": "^4.8.4",
+    "typescript": "^4.9.3",
     "unocss": "link:../../packages/unocss",
-    "vite": "^3.1.8"
+    "vite": "^3.2.4"
   }
 }

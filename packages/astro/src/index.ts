@@ -39,7 +39,7 @@ export default function UnoCSSAstroIntegration<Theme extends {}>(
     hooks: {
       'astro:config:setup': async ({ config, injectScript }) => {
         config.vite.plugins ||= []
-        config.vite.plugins.push(...VitePlugin(options, defaults))
+        config.vite.plugins.push(...VitePlugin(options, defaults) as any)
 
         const injects: string[] = []
         if (includeReset) {

@@ -41,16 +41,16 @@
   },
   "dependencies": {
     "@ampproject/remapping": "^2.2.0",
-    "@rollup/pluginutils": "^5.0.1",
+    "@rollup/pluginutils": "^5.0.2",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "magic-string": "^0.26.7",
-    "unplugin": "^0.10.0",
+    "unplugin": "^1.0.0",
     "webpack-sources": "^3.2.3"
   },
   "devDependencies": {
     "@types/webpack": "^5.28.0",
     "@types/webpack-sources": "^3.2.0",
-    "webpack": "^5.74.0"
+    "webpack": "^5.75.0"
   }
 }

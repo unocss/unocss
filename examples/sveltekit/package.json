@@ -10,19 +10,19 @@
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.17",
-    "@iconify/utils": "^2.0.1",
+    "@iconify-json/logos": "^1.1.19",
+    "@iconify/utils": "^2.0.2",
     "@sveltejs/adapter-auto": "next",
     "@sveltejs/kit": "next",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
-    "svelte": "^3.52.0",
+    "svelte": "^3.53.1",
     "svelte-check": "^2.9.2",
     "svelte-preprocess": "^4.10.7",
-    "tslib": "^2.4.0",
-    "typescript": "^4.8.4",
+    "tslib": "^2.4.1",
+    "typescript": "^4.9.3",
     "unocss": "link:../../packages/unocss",
-    "vite": "3.1.8"
+    "vite": "3.2.4"
   },
   "stackblitz": {
     "installDependencies": false,

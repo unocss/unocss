@@ -51,9 +51,9 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@iconify/utils": "^2.0.1",
+    "@iconify/utils": "^2.0.2",
     "@unocss/core": "workspace:*",
-    "ohmyfetch": "^0.4.20"
+    "ohmyfetch": "^0.4.21"
   },
   "devDependencies": {
     "@iconify/types": "^2.0.0"
