@@ -1,6 +1,6 @@
 import { dirname, resolve } from 'path'
 import fs from 'fs'
-import type { UserConfig } from '@unocss/core'
+import type { UserConfig, UserConfigDefaults } from '@unocss/core'
 import type { LoadConfigResult, LoadConfigSource } from 'unconfig'
 import { createConfigLoader as createLoader } from 'unconfig'
 
@@ -10,10 +10,11 @@ export async function loadConfig<U extends UserConfig>(
   cwd = process.cwd(),
   configOrPath: string | U = cwd,
   extraConfigSources: LoadConfigSource[] = [],
+  defaults: UserConfigDefaults = {},
 ): Promise<LoadConfigResult<U>> {
   let inlineConfig = {} as U
   if (typeof configOrPath !== 'string') {
-    inlineConfig = configOrPath
+    inlineConfig = Object.assign({}, defaults, configOrPath)
     if (inlineConfig.configFile === false) {
       return {
         config: inlineConfig as U,

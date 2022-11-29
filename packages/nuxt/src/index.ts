@@ -4,6 +4,8 @@ import { addComponentsDir, addPluginTemplate, defineNuxtModule, extendWebpackCon
 import WebpackPlugin from '@unocss/webpack'
 import VitePlugin from '@unocss/vite'
 import type { NuxtPlugin } from '@nuxt/schema'
+import { loadConfig } from '@unocss/config'
+import type { UserConfig } from '@unocss/core'
 import { resolveOptions } from './options'
 import type { UnocssNuxtOptions } from './types'
 
@@ -28,7 +30,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     icons: false,
     wind: false,
   },
-  setup(options, nuxt) {
+  async setup(options, nuxt) {
     // preset shortcuts
     resolveOptions(options)
 
@@ -56,9 +58,23 @@ export default defineNuxtModule<UnocssNuxtOptions>({
       })
     }
 
+    const { config: unoConfig } = await loadConfig<UserConfig>(process.cwd(), {}, [], options)
+
+    if (
+      nuxt.options.postcss.plugins.cssnano
+      && unoConfig.transformers?.some(t => t.name === 'css-directive' && t.enforce !== 'pre')
+    ) {
+      const preset = nuxt.options.postcss.plugins.cssnano.preset
+      nuxt.options.postcss.plugins.cssnano = {
+        preset: [preset?.[0] || 'default', Object.assign(
+          preset?.[1] || {}, { mergeRules: false },
+        )],
+      }
+    }
+
     nuxt.hook('vite:extend', ({ config }) => {
       config.plugins = config.plugins || []
-      config.plugins.unshift(...VitePlugin({}, options))
+      config.plugins.unshift(...VitePlugin(unoConfig))
     })
 
     // Nuxt 2
@@ -74,7 +90,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
 
     extendWebpackConfig((config) => {
       config.plugins = config.plugins || []
-      config.plugins.unshift(WebpackPlugin({}, options))
+      config.plugins.unshift(WebpackPlugin(unoConfig))
     })
   },
 })
