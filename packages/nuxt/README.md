@@ -51,6 +51,25 @@ export default {
 }
 ```
 
+```js
+// nuxt.config.js
+
+export default {
+  modules: [
+    ['@unocss/nuxt', {
+      // presets
+      uno: true, // enabled `@unocss/preset-uno`
+      icons: true, // enabled `@unocss/preset-icons`
+      attributify: true, // enabled `@unocss/preset-attributify`,
+
+      // core options
+      shortcuts: [],
+      rules: [],
+    }],
+  ],
+}
+```
+
 ## License
 
 MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)
