@@ -170,7 +170,7 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
       },
     },
     {
-      name: 'unocss:global:build:generate',
+      name: 'unocss:global:build:bundle',
       apply: 'build',
       configResolved(config) {
         viteConfig = config
