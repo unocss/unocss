@@ -1,4 +1,4 @@
-import type { UnoGenerator } from '@unocss/core'
+import type { ExtractorContext, UnoGenerator } from '@unocss/core'
 import { arbitraryPropertyRE, escapeRegExp, isAttributifySelector, regexClassGroup } from '@unocss/core'
 import MagicString from 'magic-string'
 
@@ -28,7 +28,59 @@ export function replaceAsync(string: string, searchValue: RegExp, replacer: (...
   }
 }
 
-export function getMatchedPositions(code: string, matched: string[], hasVariantGroup = false) {
+export async function isPug(uno: UnoGenerator, code: string, id = '') {
+  const pugExtractor = uno.config.extractors?.find(e => e.name === 'pug')
+  if (!pugExtractor)
+    return { pug: false, code: '' }
+
+  const ctx = { code, id } as ExtractorContext
+  await pugExtractor.extract(ctx)
+  const extractResult = ctx.code.startsWith(code) ? ctx.code.substring(code.length + 2) : ctx.code
+  return ctx.code !== code ? { pug: true, code: extractResult } : { pug: false, code: '' }
+}
+
+export function getPlainClassMatchedPositionsForPug(codeSplit: string, matchedPlain: Set<string>, start: number) {
+  const result: [number, number, string][] = []
+  matchedPlain.forEach((plainClassName) => {
+    // normal case: match for 'p1'
+    // end with EOL : div.p1
+    // end with . : div.p1.ma
+    // end with # : div.p1#id
+    // end with = : div.p1= content
+    // end with space : div.p1 content
+    // end with ( :  div.p1(text="red")
+
+    // complex case: match for hover:scale-100
+    // such as [div.hover:scale-100] will not be parsed correctly by pug
+    // should use [div(class='hover:scale-100')]
+
+    // combine both cases will be 2 syntax
+    // div.p1(class='hover:scale-100')
+    // div(class='hover:scale-100 p1') -> p1 should be parsing as well
+    if (plainClassName.includes(':')) {
+      if (plainClassName === codeSplit)
+        result.push([start, start + plainClassName.length, plainClassName])
+    }
+    else {
+      const regex = new RegExp(`\.(${plainClassName})[\.#=\s(]|\.(${plainClassName})$`)
+      const match = regex.exec(codeSplit)
+      if (match) {
+        // keep [.] not include -> .p1 will only show underline on [p1]
+        result.push([start + match.index + 1, start + match.index + plainClassName.length + 1, plainClassName])
+      }
+      else {
+        // div(class='hover:scale-100 p1') -> parsing p1
+        // this will only be triggered if normal case fails
+        if (plainClassName === codeSplit)
+          result.push([start, start + plainClassName.length, plainClassName])
+      }
+    }
+  })
+
+  return result
+}
+
+export function getMatchedPositions(code: string, matched: string[], hasVariantGroup = false, isPug = false) {
   const result: [number, number, string][] = []
   const attributify: RegExpMatchArray[] = []
   const plain = new Set<string>()
@@ -48,8 +100,13 @@ export function getMatchedPositions(code: string, matched: string[], hasVariantG
   let start = 0
   code.split(/([\s"'`;<>]|:\(|\)"|\)\s)/g).forEach((i) => {
     const end = start + i.length
-    if (plain.has(i))
-      result.push([start, end, i])
+    if (isPug) {
+      result.push(...getPlainClassMatchedPositionsForPug(i, plain, start))
+    }
+    else {
+      if (plain.has(i))
+        result.push([start, end, i])
+    }
     start = end
   })
 
@@ -122,6 +179,9 @@ export async function getMatchedPositionsFromCode(uno: UnoGenerator, code: strin
   for (const i of transformers?.filter(i => i.enforce === 'post') || [])
     await i.transform(s, id, ctx)
   const hasVariantGroup = !!uno.config.transformers?.find(i => i.name === 'variant-group')
-  const result = await uno.generate(s.toString(), { preflights: false })
-  return getMatchedPositions(code, [...result.matched], hasVariantGroup)
+
+  const { pug, code: pugCode } = await isPug(uno, s.toString(), id)
+  const result = await uno.generate(pug ? pugCode : s.toString(), { preflights: false })
+  return getMatchedPositions(code, [...result.matched], hasVariantGroup, pug)
 }
+

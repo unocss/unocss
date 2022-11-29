@@ -1,10 +1,13 @@
 import { describe, expect, test } from 'vitest'
 import presetAttributify from '@unocss/preset-attributify'
 import presetUno from '@unocss/preset-uno'
-import { createGenerator } from '@unocss/core'
+import type { UnoGenerator } from '@unocss/core'
+import { createGenerator, extractorSplit } from '@unocss/core'
 import { getMatchedPositionsFromCode as match } from '@unocss/shared-common'
 import transformerVariantGroup from '@unocss/transformer-variant-group'
 import cssDirectives from '@unocss/transformer-directives'
+
+import extractorPug from '@unocss/extractor-pug'
 
 describe('matched-positions', async () => {
   test('attributify', async () => {
@@ -136,6 +139,132 @@ describe('matched-positions', async () => {
           ],
         ]
       `)
+  })
+})
+
+describe('matched-positions-pug', async () => {
+  const matchPug = (uno: UnoGenerator, code: string) => {
+    return match(uno,
+`<template lang='pug'>
+  ${code}
+</template>`, 'App.vue')
+  }
+
+  const uno = createGenerator({
+    presets: [
+      presetUno(),
+      presetAttributify({ strict: true }),
+    ],
+    extractors: [
+      extractorSplit,
+      extractorPug(),
+    ],
+    transformers: [
+      transformerVariantGroup(),
+    ],
+  })
+
+  test('plain class: normal case', async () => {
+    const pugCode = `div.p1.ma
+      div.p2#id1
+      div.p4.p5= p6
+      div.p7 p8
+      div.p9(text="red")
+      `
+    expect(await matchPug(uno, pugCode)).toMatchSnapshot()
+  }, 20000)
+
+  test('plain class: prefix', async () => {
+    const pugCode = `div(class='hover:scale-100')
+    div(class="hover:scale-90")
+    div(class="hover:scale-80 p1")
+    div(class="hover:scale-70 p2 ")
+    div.p3(class="hover:scale-60")
+    `
+    expect(await matchPug(uno, pugCode)).toMatchSnapshot()
+  }, 20000)
+
+  test('attributify', async () => {
+    const pugCode = `div.p4(border="b gray4")
+      div(text='red')
+      `
+    expect(await matchPug(uno, pugCode)).toMatchInlineSnapshot(`
+      [
+        [
+          28,
+          30,
+          "p4",
+        ],
+        [
+          39,
+          40,
+          "b",
+        ],
+        [
+          39,
+          40,
+          "[border=\\"b\\"]",
+        ],
+        [
+          41,
+          46,
+          "[border=\\"gray4\\"]",
+        ],
+        [
+          65,
+          68,
+          "[text=\\"red\\"]",
+        ],
+      ]
+    `)
+  })
+
+  test('variant group', async () => {
+    const pugCode = 'div.p4(class="hover:(h-4 w-4)")'
+    expect(await matchPug(uno, pugCode)).toMatchInlineSnapshot(`
+      [
+        [
+          28,
+          30,
+          "p4",
+        ],
+        [
+          45,
+          48,
+          "hover:h-4",
+        ],
+        [
+          49,
+          52,
+          "hover:w-4",
+        ],
+      ]
+    `)
+  })
+
+  test('css-directive', async () => {
+    // \n could not be include
+    // div.p2(class="btn-center{@apply p1 m1;\n}") -> pug parse error
+    const pugCode = 'div.p2(class="btn-center{@apply p1 m1;}")'
+    expect(await matchPug(uno, pugCode)).toMatchInlineSnapshot(`
+      [
+        [
+          28,
+          30,
+          "p2",
+        ],
+        [
+          56,
+          58,
+          "p1",
+        ],
+        [
+          59,
+          61,
+          "m1",
+        ],
+      ]
+    `)
   })
 })
 

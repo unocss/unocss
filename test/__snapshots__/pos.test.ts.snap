@@ -1,0 +1,91 @@
+// Vitest Snapshot v1
+
+exports[`matched-positions-pug > plain class: normal case 1`] = `
+[
+  [
+    28,
+    30,
+    "p1",
+  ],
+  [
+    31,
+    33,
+    "ma",
+  ],
+  [
+    44,
+    46,
+    "p2",
+  ],
+  [
+    61,
+    63,
+    "p4",
+  ],
+  [
+    64,
+    66,
+    "p5",
+  ],
+  [
+    81,
+    83,
+    "p7",
+  ],
+  [
+    97,
+    99,
+    "p9",
+  ],
+  [
+    106,
+    109,
+    "[text=\\"red\\"]",
+  ],
+]
+`;
+
+exports[`matched-positions-pug > plain class: prefix 1`] = `
+[
+  [
+    35,
+    50,
+    "hover:scale-100",
+  ],
+  [
+    68,
+    82,
+    "hover:scale-90",
+  ],
+  [
+    100,
+    114,
+    "hover:scale-80",
+  ],
+  [
+    115,
+    117,
+    "p1",
+  ],
+  [
+    135,
+    149,
+    "hover:scale-70",
+  ],
+  [
+    150,
+    152,
+    "p2",
+  ],
+  [
+    164,
+    166,
+    "p3",
+  ],
+  [
+    174,
+    188,
+    "hover:scale-60",
+  ],
+]
+`;
