@@ -28,7 +28,7 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
   let ready = reloadConfig()
 
   async function reloadConfig() {
-    const result = await loadConfig(root, configOrPath, extraConfigSources)
+    const result = await loadConfig(root, configOrPath, extraConfigSources, defaults)
     resolveConfigResult(result)
 
     rawConfig = result.config
