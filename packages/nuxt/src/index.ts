@@ -74,7 +74,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
 
     nuxt.hook('vite:extend', ({ config }) => {
       config.plugins = config.plugins || []
-      config.plugins.unshift(...VitePlugin(unoConfig))
+      config.plugins.unshift(...VitePlugin({}, unoConfig))
     })
 
     // Nuxt 2
@@ -90,7 +90,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
 
     extendWebpackConfig((config) => {
       config.plugins = config.plugins || []
-      config.plugins.unshift(WebpackPlugin(unoConfig))
+      config.plugins.unshift(WebpackPlugin({}, unoConfig))
     })
   },
 })
