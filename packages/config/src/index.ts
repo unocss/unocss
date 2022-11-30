@@ -14,7 +14,7 @@ export async function loadConfig<U extends UserConfig>(
 ): Promise<LoadConfigResult<U>> {
   let inlineConfig = {} as U
   if (typeof configOrPath !== 'string') {
-    inlineConfig = Object.assign({}, defaults, configOrPath)
+    inlineConfig = configOrPath
     if (inlineConfig.configFile === false) {
       return {
         config: inlineConfig as U,
@@ -56,7 +56,7 @@ export async function loadConfig<U extends UserConfig>(
   })
 
   const result = await loader.load()
-  result.config = result.config || inlineConfig
+  result.config = Object.assign(defaults, result.config || inlineConfig)
   if (result.config.configDeps) {
     result.sources = [
       ...result.sources,
