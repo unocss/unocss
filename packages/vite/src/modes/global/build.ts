@@ -147,6 +147,9 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
       name: 'unocss:global:build:generate',
       apply: 'build',
       async renderChunk(code, chunk, options) {
+        if (!Object.keys(chunk.modules).some(i => i.match(RESOLVED_ID_RE)))
+          return null
+
         const cssPost = cssPostPlugins.get(options.dir)
         if (!cssPost) {
           this.warn('[unocss] failed to find vite:css-post plugin. It might be an internal bug of UnoCSS')
