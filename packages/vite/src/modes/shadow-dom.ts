@@ -43,7 +43,7 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
       },
     }
   }
-  const transformWebComponent = async (code: string) => {
+  const transformWebComponent = async (code: string, id: string) => {
     if (!code.match(CSS_PLACEHOLDER))
       return code
 
@@ -98,20 +98,29 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
       }
     }
 
+    if (id.endsWith('.vue') && code.match(new RegExp(`<style.*>[\\s\\S]*${CSS_PLACEHOLDER}[\\s\\S]*<\\/style>`))) {
+      code = code.replace(new RegExp(`\\/\\*\\s*${CSS_PLACEHOLDER}\\s*\\*\\/`), css || '')
+      code = code.replace(CSS_PLACEHOLDER, css || '')
+      return code
+    }
+
+    if (id.includes('?vue&type=style'))
+      return code.replace(new RegExp(`(\\/\\*\\s*)?${CSS_PLACEHOLDER}(\\s*\\*\\/)?`), css || '')
+
     return code.replace(CSS_PLACEHOLDER, css?.replace(/\\/g, '\\\\') ?? '')
   }
 
   return {
     name: 'unocss:shadow-dom',
     enforce: 'pre',
-    async transform(code) {
-      return transformWebComponent(code)
+    async transform(code, id) {
+      return transformWebComponent(code, id)
     },
     handleHotUpdate(ctx) {
       const read = ctx.read
       ctx.read = async () => {
         const code = await read()
-        return await transformWebComponent(code)
+        return await transformWebComponent(code, ctx.file)
       }
     },
   }
