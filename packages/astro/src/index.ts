@@ -1,7 +1,9 @@
+import fs from 'fs'
 import type { AstroIntegration } from 'astro'
 import type { VitePluginConfig } from '@unocss/vite'
-import VitePlugin from '@unocss/vite'
+import VitePlugin, { createContext } from '@unocss/vite'
 import type { UserConfigDefaults } from '@unocss/core'
+import fg from 'fast-glob'
 
 export interface AstroIntegrationConfig<Theme extends {} = {}> extends VitePluginConfig<Theme> {
   /**
@@ -38,6 +40,22 @@ export default function UnoCSSAstroIntegration<Theme extends {}>(
     name: 'unocss',
     hooks: {
       'astro:config:setup': async ({ config, injectScript }) => {
+        const ctx = createContext<VitePluginConfig>(options as any, defaults)
+        await ctx.ready
+        const components = await fg('src/components/**/*')
+
+        await Promise.all(
+          components.map(file =>
+            fs.promises.readFile(file, 'utf-8')
+              .then((content) => {
+                if (ctx.filter(content, file))
+                  return ctx.extract(content)
+              }),
+          ),
+        )
+        options.safelist ||= []
+        options.safelist.push(...ctx.tokens)
+
         config.vite.plugins ||= []
         config.vite.plugins.push(...VitePlugin(options, defaults) as any)
 

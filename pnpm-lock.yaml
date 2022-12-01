@@ -168,7 +168,7 @@ importers:
       simple-git-hooks: 2.8.1
       splitpanes: 3.1.5
       terser: 5.16.0
-      tsup: 6.5.0_idbjo54bpfgfu5hzy4ncsoa6f4
+      tsup: 6.5.0_typescript@4.9.3
       typescript: 4.9.3
       unbuild: 0.8.11
       unocss: link:packages/unocss
@@ -287,10 +287,12 @@ importers:
       '@unocss/reset': workspace:*
       '@unocss/vite': workspace:*
       astro: ^1.6.11
+      fast-glob: ^3.2.12
     dependencies:
       '@unocss/core': link:../core
       '@unocss/reset': link:../reset
       '@unocss/vite': link:../vite
+      fast-glob: 3.2.12
     devDependencies:
       astro: 1.6.11
 
@@ -12289,7 +12291,7 @@ packages:
     resolution: {integrity: sha512-aKS4WQjPenRxiQsC93MNfjx+nbF4PAdYzmd/1JIj8HYzqfbu86beTuNgXDzPknWk0n0uARlyewZo4s++ES36Ow==}
     hasBin: true
     dependencies:
-      minimist: 1.2.6
+      minimist: 1.2.7
     dev: true
 
   /json5/2.2.1:
@@ -13736,6 +13738,7 @@ packages:
 
   /nan/2.16.0:
     resolution: {integrity: sha512-UdAqHyFngu7TfQKsCBgAA6pWDkT8MAO7d0jyOecVhN5354xbLqdn8mV9Tat9gepAupm0bt2DbeaSC8vS52MuFA==}
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -18248,7 +18251,7 @@ packages:
       - ts-node
     dev: true
 
-  /tsup/6.5.0_idbjo54bpfgfu5hzy4ncsoa6f4:
+  /tsup/6.5.0_typescript@4.9.3:
     resolution: {integrity: sha512-36u82r7rYqRHFkD15R20Cd4ercPkbYmuvRkz3Q1LCm5BsiFNUgpo36zbjVhCOgvjyxNBWNKHsaD5Rl8SykfzNA==}
     engines: {node: '>=14'}
     hasBin: true
@@ -18272,8 +18275,7 @@ packages:
       execa: 5.1.1
       globby: 11.1.0
       joycon: 3.1.1
-      postcss: 8.4.19
-      postcss-load-config: 3.1.4_postcss@8.4.19
+      postcss-load-config: 3.1.4
       resolve-from: 5.0.0
       rollup: 3.5.0
       source-map: 0.8.0-beta.0
@@ -19215,7 +19217,7 @@ packages:
         optional: true
     dependencies:
       esbuild: 0.15.10
-      postcss: 8.4.19
+      postcss: 8.4.17
       resolve: 1.22.1
       rollup: 2.78.1
       terser: 5.16.0

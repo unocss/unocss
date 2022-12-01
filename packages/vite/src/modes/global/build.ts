@@ -54,12 +54,15 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
     return lastResult
   }
 
+  let replaced = false
+
   return [
     {
       name: 'unocss:global:build:scan',
       apply: 'build',
       enforce: 'pre',
       buildStart() {
+        vfsLayers.clear()
         tasks = []
         lastTokenSize = 0
         lastResult = undefined
@@ -189,12 +192,17 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
           return
 
         if (!vfsLayers.size) {
+          // If `vfsLayers` is empty and `replaced` is true, that means
+          // `generateBundle` hook is called on previous build pipeline. e.g. ssr
+          // Since we already replaced the layers and don't have any more layers
+          // to replace on current build pipeline, we can skip the warning.
+          if (replaced)
+            return
           const msg = '[unocss] entry module not found, have you add `import \'uno.css\'` in your main entry?'
           this.warn(msg)
           return
         }
 
-        let replaced = false
         const getLayer = (layer: string, input: string, replace = false) => {
           const re = new RegExp(`#--unocss-layer-start--${layer}--\\{start:${layer}\\}([\\s\\S]*?)#--unocss-layer-end--${layer}--\\{end:${layer}\\}`, 'g')
           if (replace)

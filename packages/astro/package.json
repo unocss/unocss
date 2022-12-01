@@ -43,7 +43,8 @@
   "dependencies": {
     "@unocss/core": "workspace:*",
     "@unocss/reset": "workspace:*",
-    "@unocss/vite": "workspace:*"
+    "@unocss/vite": "workspace:*",
+    "fast-glob": "^3.2.12"
   },
   "devDependencies": {
     "astro": "^1.6.11"

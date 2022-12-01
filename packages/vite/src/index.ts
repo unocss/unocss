@@ -13,6 +13,7 @@ import type { VitePluginConfig } from './types'
 import { createTransformerPlugins } from './transformers'
 import { createDevtoolsPlugin } from './devtool'
 
+export { createContext }
 export * from './types'
 export * from './modes/chunk-build'
 export * from './modes/global'
