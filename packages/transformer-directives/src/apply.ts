@@ -20,15 +20,14 @@ export async function handleApply(ctx: TransformerDirectivesContext, node: Rule)
   )
 }
 
-export async function parseApply({ code, uno, options, offset }: TransformerDirectivesContext, node: Rule, childNode: CssNode) {
-  const { varStyle = '--at-' } = options
+export async function parseApply({ code, uno, offset, applyVariable }: TransformerDirectivesContext, node: Rule, childNode: CssNode) {
   const calcOffset = (pos: number) => offset ? pos + offset : pos
 
   let body: string | undefined
   if (childNode.type === 'Atrule' && childNode.name === 'apply' && childNode.prelude && childNode.prelude.type === 'Raw') {
     body = childNode.prelude.value.trim()
   }
-  else if (varStyle !== false && childNode!.type === 'Declaration' && childNode.property === `${varStyle}apply` && childNode.value.type === 'Raw') {
+  else if (childNode!.type === 'Declaration' && applyVariable.includes(childNode.property) && childNode.value.type === 'Raw') {
     body = childNode.value.value.trim()
     // remove quotes
     if (body.match(/^(['"]).*\1$/))

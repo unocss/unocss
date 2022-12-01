@@ -354,12 +354,12 @@ describe('transformer-directives', () => {
 
         ul {
           li {
-            --at-apply: border;
+            --uno-apply: border;
           }
         }
         a {
           --at-apply: px-2;
-          --at-apply: "hover:underline";
+          --uno: "hover:underline";
         }
       }`,
     )

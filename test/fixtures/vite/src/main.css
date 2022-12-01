@@ -1,6 +1,6 @@
 .foo {
   @apply flex;
-  @apply gap-1;
+  --uno: gap-1;
 }
 
 .bar {
