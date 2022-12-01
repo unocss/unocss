@@ -93,7 +93,7 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
             _mode = svg.includes('currentColor') ? 'mask' : 'bg'
 
           if (_mode === 'mask') {
-          // Thanks to https://codepen.io/noahblon/post/coloring-svgs-in-css-background-images
+            // Thanks to https://codepen.io/noahblon/post/coloring-svgs-in-css-background-images
             return {
               '--un-icon': url,
               'mask': 'var(--un-icon) no-repeat',
@@ -101,6 +101,8 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
               '-webkit-mask': 'var(--un-icon) no-repeat',
               '-webkit-mask-size': '100% 100%',
               'background-color': 'currentColor',
+              // for Safari https://github.com/elk-zone/elk/pull/264
+              'color': 'inherit',
               ...usedProps,
             }
           }
