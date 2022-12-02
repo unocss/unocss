@@ -5,6 +5,8 @@ import { CSS_PLACEHOLDER } from '../integration'
 export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin {
   const partExtractorRegex = /^part-\[(.+)]:/
   const nameRegexp = /<([^\s^!>]+)\s*([^>]*)>/
+  const vueSFCStyleRE = new RegExp(`<style.*>[\\s\\S]*${CSS_PLACEHOLDER}[\\s\\S]*<\\/style>`)
+
   interface PartData {
     part: string
     rule: string
@@ -98,13 +100,7 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
       }
     }
 
-    if (id.endsWith('.vue') && code.match(new RegExp(`<style.*>[\\s\\S]*${CSS_PLACEHOLDER}[\\s\\S]*<\\/style>`))) {
-      code = code.replace(new RegExp(`\\/\\*\\s*${CSS_PLACEHOLDER}\\s*\\*\\/`), css || '')
-      code = code.replace(CSS_PLACEHOLDER, css || '')
-      return code
-    }
-
-    if (id.includes('?vue&type=style'))
+    if (id.includes('?vue&type=style') || (id.endsWith('.vue') && vueSFCStyleRE.test(code)))
       return code.replace(new RegExp(`(\\/\\*\\s*)?${CSS_PLACEHOLDER}(\\s*\\*\\/)?`), css || '')
 
     return code.replace(CSS_PLACEHOLDER, css?.replace(/\\/g, '\\\\') ?? '')
