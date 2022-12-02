@@ -5,6 +5,8 @@ import { CSS_PLACEHOLDER } from '../integration'
 export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin {
   const partExtractorRegex = /^part-\[(.+)]:/
   const nameRegexp = /<([^\s^!>]+)\s*([^>]*)>/
+  const vueSFCStyleRE = new RegExp(`<style.*>[\\s\\S]*${CSS_PLACEHOLDER}[\\s\\S]*<\\/style>`)
+
   interface PartData {
     part: string
     rule: string
@@ -43,7 +45,7 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
       },
     }
   }
-  const transformWebComponent = async (code: string) => {
+  const transformWebComponent = async (code: string, id: string) => {
     if (!code.match(CSS_PLACEHOLDER))
       return code
 
@@ -98,20 +100,25 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
       }
     }
 
+    // We don't need to escape backslashes here, because, unlike the other
+    // shadow-dom targets, style block in Vue SFC is not a string literal.
+    if (id.includes('?vue&type=style') || (id.endsWith('.vue') && vueSFCStyleRE.test(code)))
+      return code.replace(new RegExp(`(\\/\\*\\s*)?${CSS_PLACEHOLDER}(\\s*\\*\\/)?`), css || '')
+
     return code.replace(CSS_PLACEHOLDER, css?.replace(/\\/g, '\\\\') ?? '')
   }
 
   return {
     name: 'unocss:shadow-dom',
     enforce: 'pre',
-    async transform(code) {
-      return transformWebComponent(code)
+    async transform(code, id) {
+      return transformWebComponent(code, id)
     },
     handleHotUpdate(ctx) {
       const read = ctx.read
       ctx.read = async () => {
         const code = await read()
-        return await transformWebComponent(code)
+        return await transformWebComponent(code, ctx.file)
       }
     },
   }
