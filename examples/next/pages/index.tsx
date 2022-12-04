@@ -17,11 +17,9 @@ const Home: NextPage = () => {
         <span text="blue 5xl hover:red" cursor="default">Hello Next</span>
         <div className="i-carbon-car inline-block" text="4xl teal-500" />
 
-        <Link href="/blog">
-          <a className="flex items-center btn">
-            Blog
+        <Link href="/blog" className="flex items-center btn">
+          Blog
             <div className="i-carbon-arrow-right" />
-          </a>
         </Link>
       </main>
     </>
