@@ -8,12 +8,12 @@
     "preview": "astro preview",
     "astro": "astro"
   },
+  "dependencies": {
+    "vue": "^3.2.30"
+  },
   "devDependencies": {
+    "@astrojs/vue": "^1.2.1",
     "astro": "^1.6.11",
     "unocss": "link:../../packages/unocss"
-  },
-  "dependencies": {
-    "@astrojs/vue": "^1.2.1",
-    "vue": "^3.2.30"
   }
 }
