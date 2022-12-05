@@ -609,6 +609,8 @@ importers:
       '@unocss/scope': workspace:*
       '@unocss/shared-integration': workspace:*
       '@unocss/transformer-directives': workspace:*
+      chokidar: ^3.5.3
+      fast-glob: ^3.2.12
       magic-string: ^0.26.7
       vite: ^3.1.6
     dependencies:
@@ -619,6 +621,8 @@ importers:
       '@unocss/inspector': link:../inspector
       '@unocss/scope': link:../scope
       '@unocss/transformer-directives': link:../transformer-directives
+      chokidar: 3.5.3
+      fast-glob: 3.2.12
       magic-string: 0.26.7
     devDependencies:
       '@unocss/shared-integration': link:../shared-integration

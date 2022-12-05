@@ -1,0 +1,25 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Card from '../components/Card.astro';
+import Example from '../components/Example.vue';
+---
+
+<Layout title="Welcome to Astro.">
+  <main class="p10 text-center">
+    <div>
+      <div class="i-logo"></div>
+    </div>
+    <h1>Welcome to <span class="text-gradient">Astro</span></h1>
+    <p class="instructions">
+      Check out the <code>src/pages</code> directory to get started.<br />
+    </p>
+    <ul role="list" class="link-card-grid">
+      <Card
+        href="/foo"
+        title="/foo"
+        body="Go to page foo."
+      />
+      <Example client:only="vue" />
+    </ul>
+  </main>
+</Layout>

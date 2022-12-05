@@ -1,0 +1,19 @@
+{
+  "name": "unocss-astro",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "devDependencies": {
+    "astro": "^1.6.11",
+    "unocss": "link:../../packages/unocss"
+  },
+  "dependencies": {
+    "@astrojs/vue": "^1.2.1",
+    "vue": "^3.2.30"
+  }
+}

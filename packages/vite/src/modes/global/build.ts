@@ -1,7 +1,9 @@
 import { resolve } from 'path'
+import fs from 'fs'
 import type { Plugin, ResolvedConfig } from 'vite'
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import type { PluginContext } from 'rollup'
+import fg from 'fast-glob'
 import {
   HASH_PLACEHOLDER_RE, LAYER_MARK_ALL, LAYER_PLACEHOLDER_RE,
   RESOLVED_ID_RE,
@@ -14,8 +16,10 @@ import {
   resolveLayer,
 } from '../../integration'
 import type { VitePluginConfig } from '../../types'
+import { applyTransformers } from '../../../../shared-integration/src/transformers'
 
-export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, getConfig }: UnocssPluginContext<VitePluginConfig>): Plugin[] {
+export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>): Plugin[] {
+  const { uno, ready, extract, tokens, filter, getConfig } = ctx
   const vfsLayers = new Set<string>()
   const layerImporterMap = new Map<string, string>()
   let tasks: Promise<any>[] = []
@@ -54,12 +58,15 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
     return lastResult
   }
 
+  let replaced = false
+
   return [
     {
       name: 'unocss:global:build:scan',
       apply: 'build',
       enforce: 'pre',
-      buildStart() {
+      async buildStart() {
+        vfsLayers.clear()
         tasks = []
         lastTokenSize = 0
         lastResult = undefined
@@ -144,6 +151,61 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
       },
     },
     {
+      name: 'unocss:global:content',
+      enforce: 'pre',
+      configResolved(config) {
+        viteConfig = config
+      },
+      async buildStart() {
+        const { watchExternal } = await getConfig()
+        if (watchExternal?.length) {
+          const files = await fg(watchExternal, { cwd: viteConfig.root })
+
+          const transformAndExtract = async (code: string, file: string) => {
+            const preTransform = await applyTransformers(ctx, code, file, 'pre')
+            const defaultTransform = await applyTransformers(ctx, preTransform?.code || code, file)
+            await applyTransformers(ctx, defaultTransform?.code || preTransform?.code || code, file, 'post')
+            return extract(preTransform?.code || code)
+          }
+
+          if (viteConfig.command === 'build') {
+            files.map(file =>
+              tasks.push(fs.promises.readFile(file, 'utf-8')
+                .then(async (content) => {
+                  if (filter(content, file))
+                    return transformAndExtract(content, file)
+                }),
+              ),
+            )
+            return
+          }
+
+          const { watch } = await import('chokidar')
+          const ignored = ['**/{.git,node_modules}/**']
+          const cwd = viteConfig.root
+
+          const watcher = watch(files, {
+            ignorePermissionErrors: true,
+            ignored,
+            cwd,
+          })
+
+          watcher.on('all', (type, file) => {
+            const absolutePath = resolve(cwd, file)
+
+            if (type === 'add' || type === 'change') {
+              tasks.push(fs.promises.readFile(absolutePath, 'utf-8')
+                .then((content) => {
+                  if (filter(content, file))
+                    return transformAndExtract(content, file)
+                }),
+              )
+            }
+          })
+        }
+      },
+    },
+    {
       name: 'unocss:global:build:generate',
       apply: 'build',
       async renderChunk(code, chunk, options) {
@@ -175,9 +237,6 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
     {
       name: 'unocss:global:build:bundle',
       apply: 'build',
-      configResolved(config) {
-        viteConfig = config
-      },
       enforce: 'post',
       // rewrite the css placeholders
       async generateBundle(options, bundle) {
@@ -189,12 +248,17 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
           return
 
         if (!vfsLayers.size) {
+          // If `vfsLayers` is empty and `replaced` is true, that means
+          // `generateBundle` hook is called on previous build pipeline. e.g. ssr
+          // Since we already replaced the layers and don't have any more layers
+          // to replace on current build pipeline, we can skip the warning.
+          if (replaced)
+            return
           const msg = '[unocss] entry module not found, have you add `import \'uno.css\'` in your main entry?'
           this.warn(msg)
           return
         }
 
-        let replaced = false
         const getLayer = (layer: string, input: string, replace = false) => {
           const re = new RegExp(`#--unocss-layer-start--${layer}--\\{start:${layer}\\}([\\s\\S]*?)#--unocss-layer-end--${layer}--\\{end:${layer}\\}`, 'g')
           if (replace)
