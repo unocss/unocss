@@ -71,7 +71,7 @@ exports[`shortcuts > shortcut of nested pseudo 1`] = `
 .btn3:focus,
 .focus\\\\:btn3:focus:focus,
 .focus\\\\:hover\\\\:btn3:focus:hover:focus,
-.hover\\\\:btn3:focus:hover{border-width:1px;border-style:solid;}
+.hover\\\\:btn3:focus:hover{border-width:1px;}
 .btn3,
 .focus\\\\:btn3:focus,
 .focus\\\\:hover\\\\:btn3:hover:focus,

@@ -102,7 +102,6 @@ describe('transformer-directives', () => {
         }
         .btn:hover {
           border-width: 1px;
-          border-style: solid;
           --un-bg-opacity: 1;
           background-color: rgba(255, 255, 255, var(--un-bg-opacity));
         }
@@ -121,7 +120,6 @@ describe('transformer-directives', () => {
         }
         .btn:focus {
           border-width: 1px;
-          border-style: solid;
         }
         .btn:hover {
           --un-bg-opacity: 1;
@@ -161,7 +159,6 @@ describe('transformer-directives', () => {
         }
         input:focus {
           border-width: 1px;
-          border-style: solid;
         }
         "
       `)
@@ -181,7 +178,6 @@ describe('transformer-directives', () => {
         .btn:focus,
         .box:focus {
           border-width: 1px;
-          border-style: solid;
         }
         "
       `)
@@ -199,7 +195,6 @@ describe('transformer-directives', () => {
         }
         .btn.box:focus {
           border-width: 1px;
-          border-style: solid;
         }
         "
       `)
@@ -223,7 +218,6 @@ describe('transformer-directives', () => {
         }
         .btn:hover {
           border-width: 1px;
-          border-style: solid;
         }
         .btn:hover {
           --un-bg-opacity: 1;
@@ -283,7 +277,6 @@ describe('transformer-directives', () => {
           ul {
             li {
               border-width: 1px;
-              border-style: solid;
             }
           }
           a {
@@ -367,12 +360,10 @@ describe('transformer-directives', () => {
       .toMatchInlineSnapshot(`
         "nav {
           border-width: 1px;
-          border-style: solid;
 
           ul {
             li {
               border-width: 1px;
-              border-style: solid;
             }
           }
           a {
