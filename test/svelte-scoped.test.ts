@@ -104,9 +104,6 @@ describe('svelte-scoped', () => {
       "<div class=\\"uno-795nkx\\" />
 
       <style>
-        :global([dir=\\"rtl\\"] .uno-795nkx) {
-          right: 0rem;
-        }
         :global(.uno-795nkx) {
           margin-bottom: 0.25rem;
           font-size: 0.875rem;
@@ -117,6 +114,9 @@ describe('svelte-scoped', () => {
           margin-left: calc(0.25rem * calc(1 - var(--un-space-x-reverse)));
           margin-right: calc(0.25rem * var(--un-space-x-reverse));
         }
+        :global([dir=\\"rtl\\"] .uno-795nkx) {
+          right: 0rem;
+        }
       </style>
       "
     `)
@@ -126,9 +126,6 @@ describe('svelte-scoped', () => {
       />
 
       <style>
-        :global([dir=\\"rtl\\"] ._rtl\\\\:right-0_7dkb0w) {
-          right: 0rem;
-        }
         :global(._mb-1_7dkb0w) {
           margin-bottom: 0.25rem;
         }
@@ -140,6 +137,9 @@ describe('svelte-scoped', () => {
         :global(._text-sm_7dkb0w) {
           font-size: 0.875rem;
           line-height: 1.25rem;
+        }
+        :global([dir=\\"rtl\\"] ._rtl\\\\:right-0_7dkb0w) {
+          right: 0rem;
         }
       </style>
       "

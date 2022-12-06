@@ -25,7 +25,14 @@ exports[`svelte-scoped > everything 1`] = `
   :global(.shortcut) {
     width: 1.25rem;
   }
+  :global(.uno-opam79 > :not([hidden]) ~ :not([hidden])) {
+    --un-space-x-reverse: 0;
+    margin-left: calc(0.25rem * calc(1 - var(--un-space-x-reverse)));
+    margin-right: calc(0.25rem * var(--un-space-x-reverse));
+  }
   :global(.uno-o8l1as) {
+    --un-bg-opacity: 1;
+    background-color: rgba(239, 68, 68, var(--un-bg-opacity));
     --un-scale-x: 0.05;
     --un-scale-y: 0.05;
     transform: translateX(var(--un-translate-x))
@@ -34,20 +41,6 @@ exports[`svelte-scoped > everything 1`] = `
       rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z))
       skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x))
       scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));
-    --un-bg-opacity: 1;
-    background-color: rgba(239, 68, 68, var(--un-bg-opacity));
-  }
-  :global(.uno-opam79 > :not([hidden]) ~ :not([hidden])) {
-    --un-space-x-reverse: 0;
-    margin-left: calc(0.25rem * calc(1 - var(--un-space-x-reverse)));
-    margin-right: calc(0.25rem * var(--un-space-x-reverse));
-  }
-  :global([dir=\\"rtl\\"] .uno-opam79 > :not([hidden]) ~ :not([hidden])) {
-    --un-space-x-reverse: 1;
-  }
-  :global(.dark .uno-o8l1as:hover) {
-    --un-bg-opacity: 1;
-    background-color: rgba(34, 197, 94, var(--un-bg-opacity));
   }
   :global(.uno-opam79) {
     text-align: center;
@@ -56,24 +49,31 @@ exports[`svelte-scoped > everything 1`] = `
     font-size: 0.875rem;
     line-height: 1.25rem;
   }
+  :global(.uno-y37ej3) {
+    --un-text-opacity: 1;
+    color: rgba(251, 146, 60, var(--un-text-opacity));
+  }
   :global(.uno-deus5r:hover) {
     --un-text-opacity: 1;
     color: rgba(248, 113, 113, var(--un-text-opacity));
   }
-  :global(.uno-y37ej3) {
-    --un-text-opacity: 1;
-    color: rgba(251, 146, 60, var(--un-text-opacity));
+  :global([dir=\\"rtl\\"] .uno-opam79 > :not([hidden]) ~ :not([hidden])) {
+    --un-space-x-reverse: 1;
+  }
+  :global(.dark .uno-o8l1as:hover) {
+    --un-bg-opacity: 1;
+    background-color: rgba(34, 197, 94, var(--un-bg-opacity));
   }
   @media (min-width: 640px) {
     :global(.uno-opam79) {
       text-align: left;
     }
-    :global([dir=\\"rtl\\"] .uno-opam79) {
-      text-align: right;
-    }
     :global(.uno-o8l1as) {
       font-size: 1.25rem;
       line-height: 1.75rem;
+    }
+    :global([dir=\\"rtl\\"] .uno-opam79) {
+      text-align: right;
     }
   }
 </style>
@@ -132,21 +132,9 @@ exports[`svelte-scoped > everything 2`] = `
     margin-left: calc(0.25rem * calc(1 - var(--un-space-x-reverse)));
     margin-right: calc(0.25rem * var(--un-space-x-reverse));
   }
-  :global(
-      [dir=\\"rtl\\"]
-        ._rtl\\\\:space-x-reverse_7dkb0w
-        > :not([hidden])
-        ~ :not([hidden])
-    ) {
-    --un-space-x-reverse: 1;
-  }
   :global(._bg-red-500_7dkb0w) {
     --un-bg-opacity: 1;
     background-color: rgba(239, 68, 68, var(--un-bg-opacity));
-  }
-  :global(.dark ._dark\\\\:hover\\\\:bg-green-500_7dkb0w:hover) {
-    --un-bg-opacity: 1;
-    background-color: rgba(34, 197, 94, var(--un-bg-opacity));
   }
   :global(._text-center_7dkb0w) {
     text-align: center;
@@ -155,24 +143,36 @@ exports[`svelte-scoped > everything 2`] = `
     font-size: 0.875rem;
     line-height: 1.25rem;
   }
+  :global(._text-orange-400_7dkb0w) {
+    --un-text-opacity: 1;
+    color: rgba(251, 146, 60, var(--un-text-opacity));
+  }
   :global(._hover\\\\:text-red_7dkb0w:hover) {
     --un-text-opacity: 1;
     color: rgba(248, 113, 113, var(--un-text-opacity));
   }
-  :global(._text-orange-400_7dkb0w) {
-    --un-text-opacity: 1;
-    color: rgba(251, 146, 60, var(--un-text-opacity));
+  :global(
+      [dir=\\"rtl\\"]
+        ._rtl\\\\:space-x-reverse_7dkb0w
+        > :not([hidden])
+        ~ :not([hidden])
+    ) {
+    --un-space-x-reverse: 1;
+  }
+  :global(.dark ._dark\\\\:hover\\\\:bg-green-500_7dkb0w:hover) {
+    --un-bg-opacity: 1;
+    background-color: rgba(34, 197, 94, var(--un-bg-opacity));
   }
   @media (min-width: 640px) {
     :global(._sm\\\\:text-left_7dkb0w) {
       text-align: left;
     }
-    :global([dir=\\"rtl\\"] ._rtl\\\\:sm\\\\:text-right_7dkb0w) {
-      text-align: right;
-    }
     :global(._sm\\\\:text-xl_7dkb0w) {
       font-size: 1.25rem;
       line-height: 1.75rem;
+    }
+    :global([dir=\\"rtl\\"] ._rtl\\\\:sm\\\\:text-right_7dkb0w) {
+      text-align: right;
     }
   }
 </style>

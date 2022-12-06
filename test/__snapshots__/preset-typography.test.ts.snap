@@ -9,8 +9,8 @@ exports[`typography > prose-attribute 1`] = `
 [prose=\\"\\"]{color:var(--un-prose-body);max-width:65ch;}
 .prose-teal,
 [prose-teal=\\"\\"]{--un-prose-body:#0f766e;--un-prose-headings:#134e4a;--un-prose-links:#134e4a;--un-prose-lists:#2dd4bf;--un-prose-hr:#99f6e4;--un-prose-captions:#14b8a6;--un-prose-code:#134e4a;--un-prose-borders:#99f6e4;--un-prose-bg-soft:#ccfbf1;--un-prose-invert-body:#99f6e4;--un-prose-invert-headings:#ccfbf1;--un-prose-invert-links:#ccfbf1;--un-prose-invert-lists:#14b8a6;--un-prose-invert-hr:#0f766e;--un-prose-invert-captions:#2dd4bf;--un-prose-invert-code:#ccfbf1;--un-prose-invert-borders:#0f766e;--un-prose-invert-bg-soft:#115e59;--un-prose-font-mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\\"Liberation Mono\\",\\"Courier New\\",monospace;}
-.dark [dark~=\\"prose-invert\\"],
-.prose-invert{--un-prose-body:var(--un-prose-invert-body);--un-prose-headings:var(--un-prose-invert-headings);--un-prose-links:var(--un-prose-invert-links);--un-prose-lists:var(--un-prose-invert-lists);--un-prose-hr:var(--un-prose-invert-hr);--un-prose-captions:var(--un-prose-invert-captions);--un-prose-code:var(--un-prose-invert-code);--un-prose-borders:var(--un-prose-invert-borders);--un-prose-bg-soft:var(--un-prose-invert-bg-soft);}
+.prose-invert,
+.dark [dark~=\\"prose-invert\\"]{--un-prose-body:var(--un-prose-invert-body);--un-prose-headings:var(--un-prose-invert-headings);--un-prose-links:var(--un-prose-invert-links);--un-prose-lists:var(--un-prose-invert-lists);--un-prose-hr:var(--un-prose-invert-hr);--un-prose-captions:var(--un-prose-invert-captions);--un-prose-code:var(--un-prose-invert-code);--un-prose-borders:var(--un-prose-invert-borders);--un-prose-bg-soft:var(--un-prose-invert-bg-soft);}
 /* layer: default */
 .text-base,
 [text-base=\\"\\"]{font-size:1rem;line-height:1.5rem;}"

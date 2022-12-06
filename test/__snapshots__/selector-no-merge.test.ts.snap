@@ -9,8 +9,8 @@ exports[`selector > rules split selector 1`] = `
 
 exports[`variant > variant shortcuts early 1`] = `
 "/* layer: shortcuts */
-.m2-no-merge::non-breaking{merged:1;}
-.m2-no-merge{merged:1;}"
+.m2-no-merge{merged:1;}
+.m2-no-merge::non-breaking{merged:1;}"
 `;
 
 exports[`variant > variant shortcuts late 1`] = `
@@ -27,6 +27,6 @@ exports[`variant > variant split selector 1`] = `
 
 exports[`variant > variant split shortcuts 1`] = `
 "/* layer: shortcuts */
-.m1-no-merge::breaking{merged:1;}
-.m1-no-merge::non-breaking{merged:1;}"
+.m1-no-merge::non-breaking{merged:1;}
+.m1-no-merge::breaking{merged:1;}"
 `;

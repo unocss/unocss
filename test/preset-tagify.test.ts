@@ -52,18 +52,18 @@ describe('tagify', () => {
 
     expect((await uno.generate(code, { preflights: false })).css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      btn{padding-left:1rem;padding-right:1rem;padding-top:0.25rem;padding-bottom:0.25rem;display:inline-block;--un-bg-opacity:1;background-color:rgba(13,148,136,var(--un-bg-opacity));border-radius:0.25rem;--un-text-opacity:1;color:rgba(255,255,255,var(--un-text-opacity));cursor:pointer;}
-      btn:disabled{opacity:0.5;--un-bg-opacity:1;background-color:rgba(75,85,99,var(--un-bg-opacity));cursor:default;}
+      btn{padding-left:1rem;padding-right:1rem;padding-top:0.25rem;padding-bottom:0.25rem;border-radius:0.25rem;display:inline-block;--un-bg-opacity:1;background-color:rgba(13,148,136,var(--un-bg-opacity));--un-text-opacity:1;color:rgba(255,255,255,var(--un-text-opacity));cursor:pointer;}
       btn:hover{--un-bg-opacity:1;background-color:rgba(15,118,110,var(--un-bg-opacity));}
+      btn:disabled{cursor:default;--un-bg-opacity:1;background-color:rgba(75,85,99,var(--un-bg-opacity));opacity:0.5;}
       /* layer: default */
       .p2{padding:0.5rem;}
       m-1{margin:0.25rem;}
-      hover\\\\:color-red:hover,
       text-red{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
       text-green5\\\\:10{color:rgba(34,197,94,0.1);}
       flex{display:flex;}
       .h2{height:0.5rem;}
-      custom-rule{background-color:pink;}"
+      custom-rule{background-color:pink;}
+      hover\\\\:color-red:hover{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}"
     `)
   })
 

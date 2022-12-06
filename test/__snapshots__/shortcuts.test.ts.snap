@@ -51,9 +51,9 @@ exports[`shortcuts > merge transform-duplicated 1`] = `
 
 exports[`shortcuts > nesting static 1`] = `
 "/* layer: shortcuts */
-.btn2{margin:0.75rem;margin-left:2.5rem;margin-right:2.5rem;padding-left:0.5rem;padding-right:0.5rem;padding-top:0.75rem;padding-bottom:0.75rem;}
-.btn{margin-right:2.5rem;}
 .btn1{margin-left:2.5rem;margin-right:2.5rem;}
+.btn{margin-right:2.5rem;}
+.btn2{padding-left:0.5rem;padding-right:0.5rem;padding-top:0.75rem;padding-bottom:0.75rem;margin:0.75rem;margin-left:2.5rem;margin-right:2.5rem;}
 @media (min-width: 640px){
 .btn2{margin:0.5rem;}
 }"
@@ -61,43 +61,43 @@ exports[`shortcuts > nesting static 1`] = `
 
 exports[`shortcuts > no-merge 1`] = `
 "/* layer: default */
+.with-no-merge{no-merge:1;}
 .merge-candidate,
-.with-no-merge{merged:1;}
-.with-no-merge{no-merge:1;}"
+.with-no-merge{merged:1;}"
 `;
 
 exports[`shortcuts > shortcut of nested pseudo 1`] = `
 "/* layer: shortcuts */
+.btn3{--un-text-opacity:1;color:rgba(154,52,18,var(--un-text-opacity));--un-bg-opacity:1;background-color:rgba(255,255,255,var(--un-bg-opacity));}
 .btn3:focus,
 .focus\\\\:btn3:focus:focus,
 .focus\\\\:hover\\\\:btn3:focus:hover:focus,
 .hover\\\\:btn3:focus:hover{border-width:1px;border-style:solid;}
-.btn3,
-.focus\\\\:btn3:focus,
-.focus\\\\:hover\\\\:btn3:hover:focus,
-.hover\\\\:btn3:hover{--un-bg-opacity:1;background-color:rgba(255,255,255,var(--un-bg-opacity));--un-text-opacity:1;color:rgba(154,52,18,var(--un-text-opacity));}
-.btn3:hover,
-.focus\\\\:btn3:hover:focus,
-.focus\\\\:hover\\\\:btn3:hover:hover:focus,
-.hover\\\\:btn3:hover:hover{--un-bg-opacity:1;background-color:rgba(0,0,0,var(--un-bg-opacity));--un-text-opacity:1;color:rgba(21,94,117,var(--un-text-opacity));text-decoration-line:underline;}"
+.btn3:hover{--un-text-opacity:1;color:rgba(21,94,117,var(--un-text-opacity));--un-bg-opacity:1;background-color:rgba(0,0,0,var(--un-bg-opacity));text-decoration-line:underline;}
+.focus\\\\:btn3:focus{--un-text-opacity:1;color:rgba(154,52,18,var(--un-text-opacity));--un-bg-opacity:1;background-color:rgba(255,255,255,var(--un-bg-opacity));}
+.focus\\\\:btn3:hover:focus{--un-text-opacity:1;color:rgba(21,94,117,var(--un-text-opacity));--un-bg-opacity:1;background-color:rgba(0,0,0,var(--un-bg-opacity));text-decoration-line:underline;}
+.hover\\\\:btn3:hover{--un-text-opacity:1;color:rgba(154,52,18,var(--un-text-opacity));--un-bg-opacity:1;background-color:rgba(255,255,255,var(--un-bg-opacity));}
+.hover\\\\:btn3:hover:hover{--un-text-opacity:1;color:rgba(21,94,117,var(--un-text-opacity));--un-bg-opacity:1;background-color:rgba(0,0,0,var(--un-bg-opacity));text-decoration-line:underline;}
+.focus\\\\:hover\\\\:btn3:hover:focus{--un-text-opacity:1;color:rgba(154,52,18,var(--un-text-opacity));--un-bg-opacity:1;background-color:rgba(255,255,255,var(--un-bg-opacity));}
+.focus\\\\:hover\\\\:btn3:hover:hover:focus{--un-text-opacity:1;color:rgba(21,94,117,var(--un-text-opacity));--un-bg-opacity:1;background-color:rgba(0,0,0,var(--un-bg-opacity));text-decoration-line:underline;}"
 `;
 
 exports[`shortcuts > shortcut with inline body 1`] = `
 "/* layer: shortcuts */
-.hover\\\\:shortcut-inline-body:hover,
 .shortcut-inline-body{padding:0.5rem;margin:3px;}
 .shortcut-inline-dynamic-1{padding:0.25rem;margin:1px;}
-.shortcut-inline-dynamic-2{padding:0.5rem;margin:2px;}"
+.shortcut-inline-dynamic-2{padding:0.5rem;margin:2px;}
+.hover\\\\:shortcut-inline-body:hover{padding:0.5rem;margin:3px;}"
 `;
 
 exports[`shortcuts > static 1`] = `
 "/* layer: shortcuts */
-.sh1{margin:0.75rem;padding-left:0.5rem;padding-right:0.5rem;padding-top:0.75rem;padding-bottom:0.75rem;}
 .sh3{margin:0.75rem;}
-.focus\\\\:sh2:focus,
+.sh1{padding-left:0.5rem;padding-right:0.5rem;padding-top:0.75rem;padding-bottom:0.75rem;margin:0.75rem;}
 .sh2{font-size:0.875rem;line-height:1.25rem;font-size:1.125rem;line-height:1.75rem;}
 .focus\\\\:sh2:hover:focus,
 .sh2:hover{font-size:1.125rem;line-height:1.75rem;}
+.focus\\\\:sh2:focus{font-size:0.875rem;line-height:1.25rem;font-size:1.125rem;line-height:1.75rem;}
 @media (min-width: 640px){
 .sh1,
 .sh3{margin:0.5rem;}
@@ -106,9 +106,9 @@ exports[`shortcuts > static 1`] = `
 
 exports[`shortcuts > variant order 1`] = `
 "/* layer: shortcuts */
+.shortcut-hover-active-1:active,
 .shortcut-hover-active-1:focus,
-.shortcut-hover-active-1:hover,
-.shortcut-hover-active-1:active{--un-bg-opacity:1;background-color:rgba(134,239,172,var(--un-bg-opacity));}"
+.shortcut-hover-active-1:hover{--un-bg-opacity:1;background-color:rgba(134,239,172,var(--un-bg-opacity));}"
 `;
 
 exports[`shortcuts > variant order 2`] = `
@@ -120,24 +120,24 @@ exports[`shortcuts > variant order 2`] = `
 
 exports[`shortcuts > variant order 3`] = `
 "/* layer: shortcuts */
-.shortcut-hover-active-2:focus,
-.uno-layer-shortcuts\\\\:bg-red-300{--un-bg-opacity:1;background-color:rgba(252,165,165,var(--un-bg-opacity));}
+.uno-layer-shortcuts\\\\:bg-red-300,
+.shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgba(252,165,165,var(--un-bg-opacity));}
 .shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgba(253,224,71,var(--un-bg-opacity));}
 .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgba(147,197,253,var(--un-bg-opacity));}"
 `;
 
 exports[`shortcuts > variant order 4`] = `
 "/* layer: shortcuts */
-.shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgba(252,165,165,var(--un-bg-opacity));}
-.shortcut-hover-active-2:hover,
 .uno-layer-shortcuts\\\\:bg-yellow-300{--un-bg-opacity:1;background-color:rgba(253,224,71,var(--un-bg-opacity));}
+.shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgba(252,165,165,var(--un-bg-opacity));}
+.shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgba(253,224,71,var(--un-bg-opacity));}
 .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgba(147,197,253,var(--un-bg-opacity));}"
 `;
 
 exports[`shortcuts > variant order 5`] = `
 "/* layer: shortcuts */
+.uno-layer-shortcuts\\\\:bg-blue-300{--un-bg-opacity:1;background-color:rgba(147,197,253,var(--un-bg-opacity));}
 .shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgba(252,165,165,var(--un-bg-opacity));}
 .shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgba(253,224,71,var(--un-bg-opacity));}
-.uno-layer-shortcuts\\\\:bg-blue-300,
 .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgba(147,197,253,var(--un-bg-opacity));}"
 `;

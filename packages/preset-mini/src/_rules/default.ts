@@ -23,8 +23,6 @@ import { svgUtilities } from './svg'
 import { containerParent } from './container'
 
 export const rules: Rule[] = [
-  cssVariables,
-  cssProperty,
   paddings,
   margins,
   displays,
@@ -78,6 +76,8 @@ export const rules: Rule[] = [
   willChange,
   containerParent,
   contains,
+  cssVariables,
+  cssProperty,
 
   // should be the last
   questionMark,

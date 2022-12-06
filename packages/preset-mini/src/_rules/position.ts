@@ -2,10 +2,13 @@ import type { CSSEntries, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { globalKeywords, handler as h, insetMap, makeGlobalStaticRules } from '../utils'
 
+const positionOrder = ['static', 'fixed', 'absolute', 'relative', 'sticky'].map(k => [
+  new RegExp(`^(?:position-|pos-)?(${k})$`),
+  ([, v]) => ({ position: v }),
+]) as Rule[]
 export const positions: Rule[] = [
-  [/^(?:position-|pos-)?(relative|absolute|fixed|sticky)$/, ([, v]) => ({ position: v })],
+  ...positionOrder,
   [/^(?:position-|pos-)([-\w]+)$/, ([, v]) => globalKeywords.includes(v) ? { position: v } : undefined],
-  [/^(?:position-|pos-)?(static)$/, ([, v]) => ({ position: v })],
 ]
 
 export const justifies: Rule[] = [

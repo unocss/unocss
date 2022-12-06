@@ -144,17 +144,17 @@ export class UnoGenerator<Theme extends {} = {}> {
     const sheet = new Map<string, StringifiedUtil<Theme>[]>()
     let preflightsMap: Record<string, string> = {}
 
-    const tokenPromises = Array.from(tokens).map(async (raw) => {
-      if (matched.has(raw))
-        return
-
+    ;(await Promise.all(Array.from(tokens).map(async (raw) => {
       const payload = await this.parseToken(raw)
-      if (payload == null)
+
+      if (!payload)
         return
 
       matched.add(raw)
 
-      for (const item of payload) {
+      return payload
+    }))).filter(Boolean).forEach((payload) => {
+      for (const item of payload!) {
         const parent = item[3] || ''
         const layer = item[4]?.layer
         if (!sheet.has(parent))
@@ -164,8 +164,6 @@ export class UnoGenerator<Theme extends {} = {}> {
           layerSet.add(layer)
       }
     })
-
-    await Promise.all(tokenPromises)
     await (async () => {
       if (!preflights)
         return
@@ -211,11 +209,11 @@ export class UnoGenerator<Theme extends {} = {}> {
       let css = Array.from(sheet)
         .sort((a, b) => ((this.parentOrders.get(a[0]) ?? 0) - (this.parentOrders.get(b[0]) ?? 0)) || a[0]?.localeCompare(b[0] || '') || 0)
         .map(([parent, items]) => {
-          const size = items.length
           const sorted: PreparedRule[] = items
             .filter(i => (i[4]?.layer || LAYER_DEFAULT) === layer)
-            .sort((a, b) => a[0] - b[0] || (a[4]?.sort || 0) - (b[4]?.sort || 0) || a[1]?.localeCompare(b[1] || '') || a[2]?.localeCompare(b[2] || '') || 0)
-            .map(([, selector, body,, meta,, variantNoMerge]) => {
+            .sort((a, b) => (a[4]?.sort || 0) - (b[4]?.sort || 0) || a[0] - b[0] || 0)
+            .map((arr) => {
+              const [, selector, body,, meta,, variantNoMerge] = arr
               const scopedSelector = selector ? applyScope(selector, scope) : selector
               return [
                 [[scopedSelector ?? '', meta?.sort ?? 0]],
@@ -226,17 +224,14 @@ export class UnoGenerator<Theme extends {} = {}> {
           if (!sorted.length)
             return undefined
           const rules = sorted
-            .reverse()
             .map(([selectorSortPair, body, noMerge], idx) => {
               if (!noMerge && this.config.mergeSelectors) {
                 // search for rules that has exact same body, and merge them
-                for (let i = idx + 1; i < size; i++) {
-                  const current = sorted[i]
-                  if (current && !current[2] && ((selectorSortPair && current[0]) || (selectorSortPair == null && current[0] == null)) && current[1] === body) {
-                    if (selectorSortPair && current[0])
-                      current[0].push(...selectorSortPair)
-                    return null
-                  }
+                const current = sorted[idx + 1]
+                if (current && !current[2] && ((selectorSortPair && current[0]) || (selectorSortPair == null && current[0] == null)) && current[1] === body) {
+                  if (selectorSortPair && current[0])
+                    current[0].push(...selectorSortPair)
+                  return null
                 }
               }
 
@@ -253,7 +248,6 @@ export class UnoGenerator<Theme extends {} = {}> {
                 : body
             })
             .filter(Boolean)
-            .reverse()
             .join(nl)
 
           if (!parent)
@@ -575,7 +569,6 @@ export class UnoGenerator<Theme extends {} = {}> {
         })))
       .flat(1)
       .filter(Boolean)
-      .sort((a, b) => a[0] - b[0])
 
     const [raw, , parentVariants] = parent
     const rawStringfieldUtil: StringifiedUtil<Theme>[] = []

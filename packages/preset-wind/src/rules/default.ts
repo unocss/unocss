@@ -74,9 +74,6 @@ import { columns } from './columns'
 import { placeholders } from './placeholder'
 
 export const rules: Rule[] = [
-  miniCssVariables,
-  cssVariables,
-  cssProperty,
   container,
   screenReadersAccess,
   pointerEvents,
@@ -157,6 +154,9 @@ export const rules: Rule[] = [
   contents,
   placeholders,
   containerParent,
+  miniCssVariables,
+  cssVariables,
+  cssProperty,
 
   // should be the last
   questionMark,

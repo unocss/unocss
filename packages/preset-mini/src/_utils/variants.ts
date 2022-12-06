@@ -15,6 +15,7 @@ export const variantMatcher = (name: string, handler: (input: VariantHandlerCont
             ...input,
             ...handler(input),
           }),
+          sort: 2,
         }
       }
     },
@@ -35,6 +36,7 @@ export const variantParentMatcher = (name: string, parent: string): VariantObjec
             ...input,
             parent: `${input.parent ? `${input.parent} $$ ` : ''}${parent}`,
           }),
+          sort: 2,
         }
       }
     },
