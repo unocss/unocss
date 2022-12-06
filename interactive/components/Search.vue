@@ -13,13 +13,14 @@ const vFocus = {
 
 watch(
   () => route.query.s,
-  async () => {
-    input.value = String(route.query.s || '')
-    await excuteSearch()
+  async (val) => {
+    if (input.value === val) return
+    input.value = String(val || '')
+    await executeSearch()
   },
 )
 
-async function excuteSearch() {
+async function executeSearch() {
   if (input.value)
     isSearching.value = true
   try {
@@ -45,7 +46,7 @@ async function excuteSearch() {
 
 throttledWatch(
   input,
-  excuteSearch,
+  executeSearch,
   { throttle: 100, immediate: true },
 )
 
