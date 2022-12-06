@@ -14,7 +14,8 @@ const vFocus = {
 watch(
   () => route.query.s,
   async (val) => {
-    if (input.value === val) return
+    if (input.value === val)
+      return
     input.value = String(val || '')
     await executeSearch()
   },
