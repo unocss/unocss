@@ -1,0 +1,41 @@
+{
+  "name": "@unocss/preset-px-to-rem",
+  "version": "0.47.5",
+  "description": "Convert all px to rem in utils",
+  "author": "Xc <124118265@qq.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/unocss/unocss/tree/main/packages/preset-px-to-rem#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unocss/unocss.git",
+    "directory": "packages/preset-px-to-rem"
+  },
+  "bugs": {
+    "url": "https://github.com/unocss/unocss/issues"
+  },
+  "keywords": [
+    "unocss",
+    "unocss-preset"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub"
+  },
+  "dependencies": {
+    "@unocss/core": "workspace:*"
+  }
+}
