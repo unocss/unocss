@@ -15,7 +15,7 @@ export interface PxToRemOptions {
    unitPrecision?: number
 }
 
-export default function remToPxPreset(options: PxToRemOptions = {}): Preset {
+export default function pxToRemPreset(options: PxToRemOptions = {}): Preset {
   const {
     rootValue = 75,
     unitPrecision = 5,
