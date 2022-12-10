@@ -43,7 +43,7 @@
     "stub": "unbuild --stub"
   },
   "peerDependencies": {
-    "vite": "^2.9.0 || ^3.0.0-0"
+    "vite": "^2.9.0 || ^3.0.0-0 || ^4.0.0"
   },
   "dependencies": {
     "@ampproject/remapping": "^2.2.0",
@@ -53,10 +53,10 @@
     "@unocss/inspector": "workspace:*",
     "@unocss/scope": "workspace:*",
     "@unocss/transformer-directives": "workspace:*",
-    "magic-string": "^0.26.7"
+    "magic-string": "^0.27.0"
   },
   "devDependencies": {
     "@unocss/shared-integration": "workspace:*",
-    "vite": "^3.2.4"
+    "vite": "^4.0.0"
   }
 }
