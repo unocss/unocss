@@ -169,13 +169,15 @@ export function GlobalModeDevPlugin({ uno, tokens, affectedModules, onInvalidate
 
         // inject css modules to send callback on css load
         if (layer && code.includes('import.meta.hot')) {
-          return `${code}
-if (import.meta.hot) {
-  try { await import.meta.hot.send('${WS_EVENT_PREFIX}', ['${layer}', __vite__css.slice(2,${2 + HASH_LENGTH})]); }
-  catch (e) { console.warn('[unocss-hmr]', e) }
-  if (!import.meta.url.includes('?'))
-    await new Promise(resolve => setTimeout(resolve, 100))
-}`
+          return `!async function() {
+  ${code}
+  if (import.meta.hot) {
+    try { await import.meta.hot.send('${WS_EVENT_PREFIX}', ['${layer}', __vite__css.slice(2,${2 + HASH_LENGTH})]); }
+    catch (e) { console.warn('[unocss-hmr]', e) }
+    if (!import.meta.url.includes('?'))
+      await new Promise(resolve => setTimeout(resolve, 100))
+  }
+}()`
         }
       },
     },
