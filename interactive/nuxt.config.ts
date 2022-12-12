@@ -45,6 +45,9 @@ export default defineNuxtConfig({
     optimizeDeps: {
       exclude: externals,
     },
+    define: {
+      'process.env.VSCODE_TEXTMATE_DEBUG': 'false',
+    },
     build: {
       rollupOptions: {
         external: externals,
