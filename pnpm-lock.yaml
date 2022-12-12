@@ -69,7 +69,7 @@ importers:
       gzip-size: ^6.0.0
       lint-staged: ^13.0.4
       lz-string: ^1.4.4
-      magic-string: ^0.26.7
+      magic-string: ^0.27.0
       msw: ^0.49.1
       nuxt: ^3.0.0
       nuxt-tsconfig-stub: ^0.0.2
@@ -155,7 +155,7 @@ importers:
       gzip-size: 6.0.0
       lint-staged: 13.0.4
       lz-string: 1.4.4
-      magic-string: 0.26.7
+      magic-string: 0.27.0
       msw: 0.49.1_typescript@4.9.3
       nuxt: 3.0.0_sfikxtrpcpf6z5te64wwoo643a
       nuxt-tsconfig-stub: 0.0.2
@@ -315,7 +315,7 @@ importers:
       colorette: ^2.0.19
       consola: ^2.15.3
       fast-glob: ^3.2.12
-      magic-string: ^0.26.7
+      magic-string: ^0.27.0
       pathe: ^1.0.0
       perfect-debounce: ^0.1.3
     dependencies:
@@ -329,7 +329,7 @@ importers:
       colorette: 2.0.19
       consola: 2.15.3
       fast-glob: 3.2.12
-      magic-string: 0.26.7
+      magic-string: 0.27.0
       pathe: 1.0.0
       perfect-debounce: 0.1.3
 
@@ -343,10 +343,10 @@ importers:
 
   packages/core:
     specifiers:
-      magic-string: ^0.26.7
+      magic-string: ^0.27.0
       unconfig: ^0.3.7
     devDependencies:
-      magic-string: 0.26.7
+      magic-string: 0.27.0
       unconfig: 0.3.7
 
   packages/extractor-pug:
@@ -523,40 +523,40 @@ importers:
   packages/transformer-attributify-jsx:
     specifiers:
       '@unocss/core': workspace:*
-      magic-string: ^0.26.7
+      magic-string: ^0.27.0
     dependencies:
       '@unocss/core': link:../core
     devDependencies:
-      magic-string: 0.26.7
+      magic-string: 0.27.0
 
   packages/transformer-compile-class:
     specifiers:
       '@unocss/core': workspace:*
-      magic-string: ^0.26.7
+      magic-string: ^0.27.0
     dependencies:
       '@unocss/core': link:../core
     devDependencies:
-      magic-string: 0.26.7
+      magic-string: 0.27.0
 
   packages/transformer-directives:
     specifiers:
       '@unocss/core': workspace:*
       css-tree: ^2.2.1
-      magic-string: ^0.26.7
+      magic-string: ^0.27.0
     dependencies:
       '@unocss/core': link:../core
       css-tree: 2.2.1
     devDependencies:
-      magic-string: 0.26.7
+      magic-string: 0.27.0
 
   packages/transformer-variant-group:
     specifiers:
       '@unocss/core': workspace:*
-      magic-string: ^0.26.7
+      magic-string: ^0.27.0
     dependencies:
       '@unocss/core': link:../core
     devDependencies:
-      magic-string: 0.26.7
+      magic-string: 0.27.0
 
   packages/unocss:
     specifiers:
@@ -609,7 +609,7 @@ importers:
       '@unocss/scope': workspace:*
       '@unocss/shared-integration': workspace:*
       '@unocss/transformer-directives': workspace:*
-      magic-string: ^0.26.7
+      magic-string: ^0.27.0
       vite: ^3.1.6
     dependencies:
       '@ampproject/remapping': 2.2.0
@@ -619,7 +619,7 @@ importers:
       '@unocss/inspector': link:../inspector
       '@unocss/scope': link:../scope
       '@unocss/transformer-directives': link:../transformer-directives
-      magic-string: 0.26.7
+      magic-string: 0.27.0
     devDependencies:
       '@unocss/shared-integration': link:../shared-integration
       vite: 3.1.6
@@ -652,7 +652,7 @@ importers:
       '@types/webpack-sources': ^3.2.0
       '@unocss/config': workspace:*
       '@unocss/core': workspace:*
-      magic-string: ^0.26.7
+      magic-string: ^0.27.0
       unplugin: ^1.0.0
       webpack: ^5.75.0
       webpack-sources: ^3.2.3
@@ -661,7 +661,7 @@ importers:
       '@rollup/pluginutils': 5.0.2
       '@unocss/config': link:../config
       '@unocss/core': link:../core
-      magic-string: 0.26.7
+      magic-string: 0.27.0
       unplugin: 1.0.0
       webpack-sources: 3.2.3
     devDependencies:
@@ -12765,6 +12765,12 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       sourcemap-codec: 1.4.8
+
+  /magic-string/0.27.0:
+    resolution: {integrity: sha512-8UnnX2PeRAPZuN12svgR9j7M1uWMovg/CEnIwIG0LFkXSJJe4PdfUGiTGl8V9bsBHFUtfVINcSyYxd7q+kx9fA==}
+    engines: {node: '>=12'}
+    dependencies:
+      '@jridgewell/sourcemap-codec': 1.4.14
 
   /make-dir/2.1.0:
     resolution: {integrity: sha512-LS9X+dc8KLxXCb8dni79fLIIUA5VyZoyjSMCwTluaXA0o27cCK0bhXkpgw+sTXVpPy/lSO57ilRixqk0vDmtRA==}
