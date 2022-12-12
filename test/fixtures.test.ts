@@ -88,7 +88,7 @@ describe.concurrent('fixtures', () => {
     const css = await getGlobContent(root, 'dist/**/*.css')
 
     expect(css).contains('.w-200px')
-    expect(css).contains('[font~=mono]')
+    expect(css).contains('[font~="mono"]')
   }, 60_000)
 
   it('vue cli 5', async () => {
@@ -99,6 +99,6 @@ describe.concurrent('fixtures', () => {
     const css = await getGlobContent(root, 'dist/**/*.css')
 
     expect(css).contains('.w-200px')
-    expect(css).contains('[font~=mono]')
+    expect(css).contains('[font~="mono"]')
   }, 60_000)
 })
