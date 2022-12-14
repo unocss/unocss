@@ -4,22 +4,11 @@ import { onBeforeRouteUpdate } from 'vue-router'
 import type { ResultItem } from '~/types'
 import { input, isSearching, searchResult, selectIndex, userConfigLoading } from '~/composables/state'
 
-const route = useRoute()
 const router = useRouter()
 const inputEl = $ref<HTMLInputElement>()
 const vFocus = {
   mounted: (el: HTMLElement) => el.focus(),
 }
-
-watch(
-  () => route.query.s,
-  async (val) => {
-    if (input.value === val)
-      return
-    input.value = String(val || '')
-    await executeSearch()
-  },
-)
 
 async function executeSearch() {
   if (input.value)
@@ -45,10 +34,10 @@ async function executeSearch() {
   })
 }
 
-throttledWatch(
+watchDebounced(
   input,
   executeSearch,
-  { throttle: 100, immediate: true },
+  { debounce: 200, immediate: true },
 )
 
 useEventListener('keydown', (e) => {
