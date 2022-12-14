@@ -4,11 +4,19 @@ import { onBeforeRouteUpdate } from 'vue-router'
 import type { ResultItem } from '~/types'
 import { input, isSearching, searchResult, selectIndex, userConfigLoading } from '~/composables/state'
 
+const route = useRoute()
 const router = useRouter()
 const inputEl = $ref<HTMLInputElement>()
 const vFocus = {
   mounted: (el: HTMLElement) => el.focus(),
 }
+
+watch(
+  () => route.query.s,
+  async (val) => {
+    input.value = String(val || '')
+  },
+)
 
 async function executeSearch() {
   if (input.value)
