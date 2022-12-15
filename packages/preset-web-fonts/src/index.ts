@@ -35,6 +35,7 @@ const preset = (options: WebFontsOptions = {}): Preset<any> => {
     extendTheme = true,
     inlineImports = true,
     themeKey = 'fontFamily',
+    customRequest,
   } = options
 
   const fontObject = Object.fromEntries(
@@ -49,7 +50,9 @@ const preset = (options: WebFontsOptions = {}): Preset<any> => {
     if (inlineImports) {
       if (!importCache[url]) {
         const { $fetch } = await import('ohmyfetch')
-        importCache[url] = $fetch(url, { headers: {}, retry: 3 })
+        importCache[url] = (customRequest
+          ? customRequest(url)
+          : $fetch(url, { headers: {}, retry: 3 }))
           .catch((e) => {
             console.error('Failed to fetch web fonts')
             console.error(e)

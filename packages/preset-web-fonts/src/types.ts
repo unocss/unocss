@@ -42,6 +42,13 @@ export interface WebFontsOptions {
    * @default true
    */
   inlineImports?: boolean
+
+  /**
+   * Inline CSS @import()
+   *
+   * @default undefined
+   */
+  customRequest?: (url: string) => Promise<any>
 }
 
 export interface Provider {
