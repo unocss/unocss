@@ -77,11 +77,6 @@ const PseudoClassesStr = Object.entries(PseudoClasses).filter(([, pseudo]) => !p
 const PseudoClassesColonStr = Object.entries(PseudoClassesColon).filter(([, pseudo]) => !pseudo.startsWith('::')).map(([key]) => key).join('|')
 const PseudoClassFunctionsStr = PseudoClassFunctions.join('|')
 
-const sortValue = (pseudo: string) => {
-  if (pseudo === 'active')
-    return 1
-}
-
 const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: string): VariantObject => {
   const rawRE = new RegExp(`^(${escapeRegExp(parent)}:)(\\S+)${escapeRegExp(combinator)}\\1`)
   const pseudoRE = new RegExp(`^${tag}-(?:(?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesStr}))(?:(/\\w+))?[:-]`)
@@ -121,7 +116,7 @@ const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: strin
       label,
       input.slice(original.length),
       `${parent}${escapeSelector(label)}${pseudo}`,
-      sortValue(pseudoKey),
+      1,
     ]
   }
 
@@ -176,7 +171,7 @@ export const variantPseudoClassesAndElements: VariantObject = {
           return next({
             ...input,
             ...selectors,
-            sort: sortValue(match[1]),
+            sort: 1,
           })
         },
       }

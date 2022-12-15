@@ -8,8 +8,8 @@ exports[`preprocess > prefix 1`] = `
 .uno\\\\:btn1{margin-left:2.5rem;margin-right:2.5rem;}
 /* layer: default */
 .uno\\\\:\\\\!p-5px{padding:5px !important;}
-.uno\\\\:hover\\\\:p-4:hover{padding:1rem;}
 .uno\\\\:pl-10px{padding-left:10px;}
+.uno\\\\:hover\\\\:p-4:hover{padding:1rem;}
 @media (min-width: 640px){
 .uno\\\\:sm\\\\:p-6{padding:1.5rem;}
 }"
@@ -21,8 +21,8 @@ exports[`preprocess > tailwind prefix 1`] = `
 .uno\\\\:btn1{margin-left:2.5rem;margin-right:2.5rem;}
 /* layer: default */
 .\\\\!uno\\\\:p-5px{padding:5px !important;}
-.hover\\\\:uno\\\\:p-4:hover{padding:1rem;}
 .uno\\\\:pl-10px{padding-left:10px;}
+.hover\\\\:uno\\\\:p-4:hover{padding:1rem;}
 @media (min-width: 640px){
 .sm\\\\:uno\\\\:p-6{padding:1.5rem;}
 }"

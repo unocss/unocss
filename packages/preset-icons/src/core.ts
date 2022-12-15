@@ -1,4 +1,4 @@
-import type { Preset } from '@unocss/core'
+import type { DynamicMatcher, Preset, Rule } from '@unocss/core'
 import { warnOnce } from '@unocss/core'
 import type {
   IconifyLoaderOptions,
@@ -51,72 +51,74 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
 
     let iconLoader: UniversalIconLoader
 
+    const ruleMatcher: DynamicMatcher = async ([full, body, _mode = mode]) => {
+      let collection = ''
+      let name = ''
+      let svg: string | undefined
+
+      iconLoader = iconLoader || await lookupIconLoader(options)
+
+      const usedProps = {}
+      if (body.includes(':')) {
+        [collection, name] = body.split(':')
+        svg = await iconLoader(collection, name, { ...loaderOptions, usedProps })
+      }
+      else {
+        const parts = body.split(/-/g)
+        for (let i = COLLECTION_NAME_PARTS_MAX; i >= 1; i--) {
+          collection = parts.slice(0, i).join('-')
+          name = parts.slice(i).join('-')
+          svg = await iconLoader(collection, name, { ...loaderOptions, usedProps })
+          if (svg)
+            break
+        }
+      }
+
+      if (!svg) {
+        if (warn)
+          warnOnce(`failed to load icon "${full}"`)
+        return
+      }
+
+      const url = `url("data:image/svg+xml;utf8,${encodeSvgForCss(svg)}")`
+
+      if (_mode === 'auto')
+        _mode = svg.includes('currentColor') ? 'mask' : 'bg'
+
+      if (_mode === 'mask') {
+        // Thanks to https://codepen.io/noahblon/post/coloring-svgs-in-css-background-images
+        return {
+          '--un-icon': url,
+          'mask': 'var(--un-icon) no-repeat',
+          'mask-size': '100% 100%',
+          '-webkit-mask': 'var(--un-icon) no-repeat',
+          '-webkit-mask-size': '100% 100%',
+          'background-color': 'currentColor',
+          // for Safari https://github.com/elk-zone/elk/pull/264
+          'color': 'inherit',
+          ...usedProps,
+        }
+      }
+      else {
+        return {
+          'background': `${url} no-repeat`,
+          'background-size': '100% 100%',
+          'background-color': 'transparent',
+          ...usedProps,
+        }
+      }
+    }
+
+    const rules = ['mask', 'bg', 'auto'].map((mode) => {
+      return [new RegExp(`^([a-z0-9:-]+)(?:\\?(${mode}))?$`), ruleMatcher, { layer, prefix }]
+    }) as Rule[]
+
     return {
       name: '@unocss/preset-icons',
       enforce: 'pre',
       options,
       layers: { icons: -30 },
-      rules: [[
-        /^([a-z0-9:-]+)(?:\?(mask|bg|auto))?$/,
-        async ([full, body, _mode = mode]) => {
-          let collection = ''
-          let name = ''
-          let svg: string | undefined
-
-          iconLoader = iconLoader || await lookupIconLoader(options)
-
-          const usedProps = {}
-          if (body.includes(':')) {
-            [collection, name] = body.split(':')
-            svg = await iconLoader(collection, name, { ...loaderOptions, usedProps })
-          }
-          else {
-            const parts = body.split(/-/g)
-            for (let i = COLLECTION_NAME_PARTS_MAX; i >= 1; i--) {
-              collection = parts.slice(0, i).join('-')
-              name = parts.slice(i).join('-')
-              svg = await iconLoader(collection, name, { ...loaderOptions, usedProps })
-              if (svg)
-                break
-            }
-          }
-
-          if (!svg) {
-            if (warn)
-              warnOnce(`failed to load icon "${full}"`)
-            return
-          }
-
-          const url = `url("data:image/svg+xml;utf8,${encodeSvgForCss(svg)}")`
-
-          if (_mode === 'auto')
-            _mode = svg.includes('currentColor') ? 'mask' : 'bg'
-
-          if (_mode === 'mask') {
-            // Thanks to https://codepen.io/noahblon/post/coloring-svgs-in-css-background-images
-            return {
-              '--un-icon': url,
-              'mask': 'var(--un-icon) no-repeat',
-              'mask-size': '100% 100%',
-              '-webkit-mask': 'var(--un-icon) no-repeat',
-              '-webkit-mask-size': '100% 100%',
-              'background-color': 'currentColor',
-              // for Safari https://github.com/elk-zone/elk/pull/264
-              'color': 'inherit',
-              ...usedProps,
-            }
-          }
-          else {
-            return {
-              'background': `${url} no-repeat`,
-              'background-size': '100% 100%',
-              'background-color': 'transparent',
-              ...usedProps,
-            }
-          }
-        },
-        { layer, prefix },
-      ]],
+      rules,
     }
   }
 }
