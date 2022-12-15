@@ -1,4 +1,4 @@
-import type { ParsedUtil, RawUtil, StringifiedUtil, Variant, VariantObject } from '../types'
+import type { ParsedUtil, RawUtil, StringFieldUtil, Variant, VariantObject } from '../types'
 
 export const attributifyRE = /^\[(.+?)~?="(.*)"\]$/
 export const cssIdRE = /\.(css|postcss|sass|scss|less|stylus|styl)($|\?)/
@@ -19,7 +19,7 @@ export function normalizeVariant(variant: Variant<any>): VariantObject<any> {
     : variant
 }
 
-export function isRawUtil(util: ParsedUtil | RawUtil | StringifiedUtil): util is RawUtil {
+export function isRawUtil(util: ParsedUtil | RawUtil | StringFieldUtil): util is RawUtil {
   return util.length === 3
 }
 

@@ -1,5 +1,5 @@
 import { createNanoEvents } from '../utils/events'
-import type { CSSEntries, CSSObject, DynamicRule, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
+import type { CSSEntries, CSSObject, DynamicRule, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, Shortcut, ShortcutValue, StringFieldUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
 import { CONTROL_SHORTCUT_NO_MERGE, TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
@@ -7,7 +7,7 @@ import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from '../constants'
 
 export class UnoGenerator<Theme extends {} = {}> {
   public version = version
-  private _cache = new Map<string, StringifiedUtil<Theme>[] | null>()
+  private _cache = new Map<string, StringFieldUtil<Theme>[] | null>()
   public config: ResolvedConfig<Theme>
   public blocked = new Set<string>()
   public parentOrders = new Map<string, number>()
@@ -141,7 +141,7 @@ export class UnoGenerator<Theme extends {} = {}> {
 
     const layerSet = new Set<string>([LAYER_DEFAULT])
     const matched = new Set<string>()
-    const sheet = new Map<string, StringifiedUtil<Theme>[]>()
+    const sheet = new Map<string, StringFieldUtil<Theme>[]>()
     let preflightsMap: Record<string, string> = {}
 
     const tokenPromises = Array.from(tokens).map(async (raw) => {
@@ -467,7 +467,7 @@ export class UnoGenerator<Theme extends {} = {}> {
     }
   }
 
-  stringifyUtil(parsed?: ParsedUtil | RawUtil, context?: RuleContext<Theme>): StringifiedUtil<Theme> | undefined {
+  stringifyUtil(parsed?: ParsedUtil | RawUtil, context?: RuleContext<Theme>): StringFieldUtil<Theme> | undefined {
     if (!parsed)
       return
     if (isRawUtil(parsed))
@@ -558,7 +558,7 @@ export class UnoGenerator<Theme extends {} = {}> {
     context: RuleContext<Theme>,
     expanded: ShortcutValue[],
     meta: RuleMeta = { layer: this.config.shortcutsLayer },
-  ): Promise<StringifiedUtil<Theme>[] | undefined> {
+  ): Promise<StringFieldUtil<Theme>[] | undefined> {
     const selectorMap = new TwoKeyMap<string, string | undefined, [[CSSEntries, boolean, number][], number]>()
     const parsed = (
       await Promise.all(uniq(expanded)
@@ -578,10 +578,10 @@ export class UnoGenerator<Theme extends {} = {}> {
       .sort((a, b) => a[0] - b[0])
 
     const [raw, , parentVariants] = parent
-    const rawStringfieldUtil: StringifiedUtil<Theme>[] = []
+    const rawStringFieldUtil: StringFieldUtil<Theme>[] = []
     for (const item of parsed) {
       if (isRawUtil(item)) {
-        rawStringfieldUtil.push([item[0], undefined, item[1], undefined, item[2], context, undefined])
+        rawStringFieldUtil.push([item[0], undefined, item[1], undefined, item[2], context, undefined])
         continue
       }
       const { selector, entries, parent, sort, noMerge } = this.applyVariants(item, [...item[4], ...parentVariants], raw)
@@ -591,12 +591,12 @@ export class UnoGenerator<Theme extends {} = {}> {
       // add entries
       mapItem[0].push([entries, !!(noMerge ?? item[3]?.noMerge), sort ?? 0])
     }
-    return rawStringfieldUtil.concat(selectorMap
+    return rawStringFieldUtil.concat(selectorMap
       .map(([e, index], selector, joinedParents) => {
-        const stringify = (flatten: boolean, noMerge: boolean, entrySortPair: [CSSEntries, number][]): (StringifiedUtil<Theme> | undefined)[] => {
+        const stringify = (flatten: boolean, noMerge: boolean, entrySortPair: [CSSEntries, number][]): (StringFieldUtil<Theme> | undefined)[] => {
           const maxSort = Math.max(...entrySortPair.map(e => e[1]))
           const entriesList = entrySortPair.map(e => e[0])
-          return (flatten ? [entriesList.flat(1)] : entriesList).map((entries: CSSEntries): StringifiedUtil<Theme> | undefined => {
+          return (flatten ? [entriesList.flat(1)] : entriesList).map((entries: CSSEntries): StringFieldUtil<Theme> | undefined => {
             const body = entriesToCss(entries)
             if (body)
               return [index, selector, body, joinedParents, { ...meta, noMerge, sort: maxSort }, context, undefined]
@@ -615,7 +615,7 @@ export class UnoGenerator<Theme extends {} = {}> {
         ])
       })
       .flat(2)
-      .filter(Boolean) as StringifiedUtil<Theme>[])
+      .filter(Boolean) as StringFieldUtil<Theme>[])
   }
 
   isBlocked(raw: string) {

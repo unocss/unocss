@@ -1,4 +1,4 @@
-import type { StringifiedUtil } from '@unocss/core'
+import type { StringFieldUtil } from '@unocss/core'
 import { expandVariantGroup, notNull, regexScopePlaceholder } from '@unocss/core'
 import type { CssNode, Rule, Selector, SelectorList } from 'css-tree'
 import { clone, generate, parse } from 'css-tree'
@@ -54,9 +54,9 @@ export async function parseApply({ code, uno, offset, applyVariable }: Transform
         target[2] += item[2]
       else
       // use spread operator to prevent reassign to uno internal cache
-        acc.push([...item] as Writeable<StringifiedUtil>)
+        acc.push([...item] as Writeable<StringFieldUtil>)
       return acc
-    }, [] as Writeable<StringifiedUtil>[])
+    }, [] as Writeable<StringFieldUtil>[])
 
   if (!utils.length)
     return

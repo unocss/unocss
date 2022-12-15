@@ -663,7 +663,7 @@ export type RawUtil = readonly [
   meta: RuleMeta | undefined,
 ]
 
-export type StringifiedUtil<Theme extends {} = {}> = readonly [
+export type StringFieldUtil<Theme extends {} = {}> = readonly [
   index: number,
   selector: string | undefined,
   body: string,
