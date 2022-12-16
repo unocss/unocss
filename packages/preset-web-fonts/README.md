@@ -74,6 +74,7 @@ Currently supported Providers:
 - `fontshare` - [Quality Font Service by ITF](https://www.fontshare.com/)
 
 ### Custom request function
+
 Use your own request to fetch font source
 
 ```ts
@@ -110,7 +111,6 @@ Unocss({
   ],
 })
 ```
-
 PR welcome to add more providers 🙌
 
 
