@@ -113,7 +113,6 @@ Unocss({
 ```
 PR welcome to add more providers 🙌
 
-
 ## Configuration
 
 Refer to the [type definition](https://github.com/unocss/unocss/blob/main/packages/preset-web-fonts/src/types.ts#L4) for all configurations available.
