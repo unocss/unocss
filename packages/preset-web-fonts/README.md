@@ -111,6 +111,7 @@ Unocss({
   ],
 })
 ```
+
 PR welcome to add more providers 🙌
 
 ## Configuration
