@@ -34,12 +34,4 @@ export interface VitePluginConfig<Theme extends {} = {}> extends UserConfig<Them
    * @default true
    */
   postcss?: boolean
-
-  /**
-   * Watch external files that is not proccessed by Vite.
-   * Uses `micromatch` package for pattern matching.
-   *
-   * @default undefined
-   */
-  watchExternal?: string[]
 }

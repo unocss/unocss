@@ -23,6 +23,7 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
 
   const modules = new BetterMap<string, string>()
   const tokens = new Set<string>()
+  const tasks: Promise<void>[] = []
   const affectedModules = new Set<string>()
 
   let ready = reloadConfig()
@@ -83,7 +84,7 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
       invalidate()
   }
 
-  const filter = (code: string, id: string) => {
+  function filter(code: string, id: string) {
     if (code.includes(IGNORE_COMMENT))
       return false
     return code.includes(INCLUDE_COMMENT) || code.includes(CSS_PLACEHOLDER) || rollupFilter(id.replace(/\?v=\w+$/, ''))
@@ -94,6 +95,12 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     return rawConfig
   }
 
+  async function flushTasks() {
+    const _tasks = [...tasks]
+    await Promise.all(_tasks)
+    tasks.splice(0, _tasks.length)
+  }
+
   return {
     get ready() {
       return ready
@@ -101,6 +108,8 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     tokens,
     modules,
     affectedModules,
+    tasks,
+    flushTasks,
     invalidate,
     onInvalidate(fn: () => void) {
       invalidations.push(fn)

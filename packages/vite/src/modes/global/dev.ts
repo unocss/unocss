@@ -7,11 +7,9 @@ const WARN_TIMEOUT = 20000
 const WS_EVENT_PREFIX = 'unocss:hmr'
 const HASH_LENGTH = 6
 
-export function GlobalModeDevPlugin({ uno, tokens, affectedModules, onInvalidate, extract, filter }: UnocssPluginContext): Plugin[] {
+export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedModules, onInvalidate, extract, filter }: UnocssPluginContext): Plugin[] {
   const servers: ViteDevServer[] = []
   let base = ''
-
-  const tasks: Promise<any>[] = []
   const entries = new Set<string>()
 
   let invalidateTimer: any
@@ -21,7 +19,7 @@ export function GlobalModeDevPlugin({ uno, tokens, affectedModules, onInvalidate
   let resolvedWarnTimer: any
 
   async function generateCSS(layer: string) {
-    await Promise.all(tasks)
+    await flushTasks()
     let result: GenerateResult
     let tokensSize = tokens.size
     do {

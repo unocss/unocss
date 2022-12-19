@@ -40,8 +40,11 @@ export default function UnoCSSAstroIntegration<Theme extends {}>(
     name: 'unocss',
     hooks: {
       'astro:config:setup': async ({ config, injectScript }) => {
-        options.watchExternal ||= []
-        options.watchExternal.push(resolve(fileURLToPath(config.root), 'src/components/**/*').replace(/\\/g, '/'))
+        // Adding components to UnoCSS's extra content
+        options.extraContent ||= {}
+        options.extraContent.filesystem ||= []
+        options.extraContent.filesystem.push(resolve(fileURLToPath(config.root), 'src/components/**/*').replace(/\\/g, '/'))
+
         config.vite.plugins ||= []
         config.vite.plugins.push(...VitePlugin(options, defaults) as any)
 

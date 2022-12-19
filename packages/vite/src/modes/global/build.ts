@@ -1,9 +1,7 @@
 import { resolve } from 'path'
-import fs from 'fs'
 import type { Plugin, ResolvedConfig } from 'vite'
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import type { PluginContext } from 'rollup'
-import fg from 'fast-glob'
 import {
   HASH_PLACEHOLDER_RE, LAYER_MARK_ALL, LAYER_PLACEHOLDER_RE,
   RESOLVED_ID_RE,
@@ -16,13 +14,12 @@ import {
   resolveLayer,
 } from '../../integration'
 import type { VitePluginConfig } from '../../types'
-import { applyTransformers } from '../../../../shared-integration/src/transformers'
+import { setupExtraContent } from '../../../../shared-integration/src/extra-content'
 
 export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>): Plugin[] {
-  const { uno, ready, extract, tokens, filter, getConfig } = ctx
+  const { uno, ready, extract, tokens, filter, getConfig, tasks, flushTasks } = ctx
   const vfsLayers = new Set<string>()
   const layerImporterMap = new Map<string, string>()
-  let tasks: Promise<any>[] = []
   let viteConfig: ResolvedConfig
 
   // use maps to differentiate multiple build. using outDir as key
@@ -50,7 +47,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
   let lastTokenSize = 0
   let lastResult: GenerateResult | undefined
   async function generateAll() {
-    await Promise.all(tasks)
+    await flushTasks()
     if (lastResult && lastTokenSize === tokens.size)
       return lastResult
     lastResult = await uno.generate(tokens, { minify: true })
@@ -67,7 +64,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
       enforce: 'pre',
       async buildStart() {
         vfsLayers.clear()
-        tasks = []
+        tasks.length = 0
         lastTokenSize = 0
         lastResult = undefined
       },
@@ -156,53 +153,8 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
       configResolved(config) {
         viteConfig = config
       },
-      async buildStart() {
-        const { watchExternal } = await getConfig()
-        if (watchExternal?.length) {
-          const files = await fg(watchExternal, { cwd: viteConfig.root })
-
-          const transformAndExtract = async (code: string, file: string) => {
-            const preTransform = await applyTransformers(ctx, code, file, 'pre')
-            const defaultTransform = await applyTransformers(ctx, preTransform?.code || code, file)
-            await applyTransformers(ctx, defaultTransform?.code || preTransform?.code || code, file, 'post')
-            return extract(preTransform?.code || code)
-          }
-
-          if (viteConfig.command === 'build') {
-            files.map(file =>
-              tasks.push(fs.promises.readFile(file, 'utf-8')
-                .then(async (content) => {
-                  if (filter(content, file))
-                    return transformAndExtract(content, file)
-                }),
-              ),
-            )
-            return
-          }
-
-          const { watch } = await import('chokidar')
-          const ignored = ['**/{.git,node_modules}/**']
-          const cwd = viteConfig.root
-
-          const watcher = watch(files, {
-            ignorePermissionErrors: true,
-            ignored,
-            cwd,
-          })
-
-          watcher.on('all', (type, file) => {
-            const absolutePath = resolve(cwd, file)
-
-            if (type === 'add' || type === 'change') {
-              tasks.push(fs.promises.readFile(absolutePath, 'utf-8')
-                .then((content) => {
-                  if (filter(content, file))
-                    return transformAndExtract(content, file)
-                }),
-              )
-            }
-          })
-        }
+      buildStart() {
+        tasks.push(setupExtraContent(ctx, viteConfig.command === 'serve'))
       },
     },
     {
