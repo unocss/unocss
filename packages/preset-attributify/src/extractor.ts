@@ -52,6 +52,9 @@ export const extractorAttributify = (options?: AttributifyOptions): Extractor =>
               .filter(isValidSelector)
           }
           else {
+            if (options?.prefixedOnly && options.prefix && !name.startsWith(options.prefix))
+              return []
+
             const extractTernary = Array.from(content.matchAll(/(?:[\?:].*?)(["'])([^\1]*?)\1/gms))
               .map(([,,v]) => v.split(splitterRE)).flat()
             return (extractTernary.length ? extractTernary : content.split(splitterRE))

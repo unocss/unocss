@@ -23,6 +23,9 @@ describe('attributify', () => {
   v-bind:p="y-2 x-4"
   border="2 rounded blue-200"
   un-children="m-auto"
+  x-transition:enter-start="opacity-0"
+  :x-transition:enter-start="opacity-0"
+  v-bind:x-transition:enter-start="opacity-0"
   pt2 rounded-sm
   inline-block
   transform
@@ -172,6 +175,18 @@ describe('attributify', () => {
         return typeof r === 'string' ? r : r ? r.matcher : r
       }))
       .toMatchSnapshot()
+  })
+
+  test('prefixedOnly', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetAttributify({ strict: true, prefix: 'un-', prefixedOnly: true }),
+        presetUno({ attributifyPseudo: true }),
+      ],
+    })
+
+    const { css } = await uno.generate(fixture1, { preflights: false })
+    expect(css).toMatchSnapshot()
   })
 
   test('fixture1', async () => {

@@ -33,6 +33,7 @@ Set {
   "[border~=\\"rounded\\"]",
   "[border~=\\"blue-200\\"]",
   "[un-children~=\\"m-auto\\"]",
+  "[x-transition:enter-start~=\\"opacity-0\\"]",
   "[pt2=\\"\\"]",
   "[rounded-sm=\\"\\"]",
   "[inline-block=\\"\\"]",
@@ -330,6 +331,13 @@ exports[`attributify > fixture4 1`] = `
 }"
 `;
 
+exports[`attributify > prefixedOnly 1`] = `
+"/* layer: default */
+.absolute{position:absolute;}
+.fixed{position:fixed;}
+[un-children~=\\"m-auto\\"]>*{margin:auto;}"
+`;
+
 exports[`attributify > variant 1`] = `
 [
   "uno-layer-base-c-white/10",
@@ -363,6 +371,7 @@ exports[`attributify > variant 1`] = `
   "border-rounded",
   "border-blue-200",
   "children-m-auto",
+  "x-transition:enter-start-opacity-0",
   "pt2",
   "rounded-sm",
   "inline-block",
