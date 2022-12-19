@@ -578,10 +578,10 @@ export class UnoGenerator<Theme extends {} = {}> {
       .sort((a, b) => a[0] - b[0])
 
     const [raw, , parentVariants] = parent
-    const rawStringfieldUtil: StringifiedUtil<Theme>[] = []
+    const rawStringifiedUtil: StringifiedUtil<Theme>[] = []
     for (const item of parsed) {
       if (isRawUtil(item)) {
-        rawStringfieldUtil.push([item[0], undefined, item[1], undefined, item[2], context, undefined])
+        rawStringifiedUtil.push([item[0], undefined, item[1], undefined, item[2], context, undefined])
         continue
       }
       const { selector, entries, parent, sort, noMerge } = this.applyVariants(item, [...item[4], ...parentVariants], raw)
@@ -591,7 +591,7 @@ export class UnoGenerator<Theme extends {} = {}> {
       // add entries
       mapItem[0].push([entries, !!(noMerge ?? item[3]?.noMerge), sort ?? 0])
     }
-    return rawStringfieldUtil.concat(selectorMap
+    return rawStringifiedUtil.concat(selectorMap
       .map(([e, index], selector, joinedParents) => {
         const stringify = (flatten: boolean, noMerge: boolean, entrySortPair: [CSSEntries, number][]): (StringifiedUtil<Theme> | undefined)[] => {
           const maxSort = Math.max(...entrySortPair.map(e => e[1]))

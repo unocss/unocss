@@ -1,6 +1,6 @@
 import { dirname, resolve } from 'path'
 import { fileURLToPath } from 'url'
-import { addComponentsDir, addPluginTemplate, defineNuxtModule, extendWebpackConfig, isNuxt2 } from '@nuxt/kit'
+import { addComponentsDir, addPluginTemplate, defineNuxtModule, extendWebpackConfig, isNuxt2, isNuxt3 } from '@nuxt/kit'
 import WebpackPlugin from '@unocss/webpack'
 import VitePlugin from '@unocss/vite'
 import type { NuxtPlugin } from '@nuxt/schema'
@@ -61,7 +61,8 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     const { config: unoConfig } = await loadConfig<UserConfig>(process.cwd(), {}, [], options)
 
     if (
-      nuxt.options.postcss.plugins.cssnano
+      isNuxt3()
+      && nuxt.options.postcss.plugins.cssnano
       && unoConfig.transformers?.some(t => t.name === 'css-directive' && t.enforce !== 'pre')
     ) {
       const preset = nuxt.options.postcss.plugins.cssnano.preset

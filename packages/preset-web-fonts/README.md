@@ -75,6 +75,32 @@ Currently supported Providers:
 
 PR welcome to add more providers 🙌
 
+### Custom fetch function
+
+Use your own function to fetch font source.
+
+```ts
+import presetWebFonts from '@unocss/preset-web-fonts'
+import presetUno from '@unocss/preset-uno'
+import axios from 'axios'
+import ProxyAgent from 'proxy-agent'
+
+Unocss({
+  presets: [
+    presetUno(),
+    presetWebFonts({
+      // use axios with an https proxy
+      customFetch: (url: string) => axios.get(url, { httpsAgent: new ProxyAgent('https://localhost:7890') }),
+      provider: 'google',
+      fonts: {
+        sans: 'Roboto',
+        mono: ['Fira Code', 'Fira Mono:400,700'],
+      },
+    }),
+  ],
+})
+```
+
 ## Configuration
 
 Refer to the [type definition](https://github.com/unocss/unocss/blob/main/packages/preset-web-fonts/src/types.ts#L4) for all configurations available.

@@ -305,7 +305,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
             msg += '\nIt seems you are building in library mode, it\'s recommended to set `build.cssCodeSplit` to true.\nSee https://github.com/vitejs/vite/issues/1579'
           else
             msg += '\nThis is likely an internal bug of unocss vite plugin'
-          this.error(new Error(msg))
+          this.error(msg)
         }
       },
     },

@@ -13,13 +13,12 @@ const vFocus = {
 
 watch(
   () => route.query.s,
-  async () => {
-    input.value = String(route.query.s || '')
-    await excuteSearch()
+  async (val) => {
+    input.value = String(val || '')
   },
 )
 
-async function excuteSearch() {
+async function executeSearch() {
   if (input.value)
     isSearching.value = true
   try {
@@ -43,10 +42,10 @@ async function excuteSearch() {
   })
 }
 
-throttledWatch(
+watchDebounced(
   input,
-  excuteSearch,
-  { throttle: 100, immediate: true },
+  executeSearch,
+  { debounce: 200, immediate: true },
 )
 
 useEventListener('keydown', (e) => {

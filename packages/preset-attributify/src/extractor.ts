@@ -9,7 +9,7 @@ const strippedPrefixes = [
 
 const splitterRE = /[\s'"`;]+/g
 const elementRE = /<\w(?=.*>)[\w:\.$-]*\s((?:['"`\{].*?['"`\}]|.*?)*?)>/gs
-const valuedAttributeRE = /([?]|(?!\d|-{2}|-\d)[a-zA-Z0-9\u00A0-\uFFFF-_:!%-]+)=?(?:["]([^"]*)["]|[']([^']*)[']|[{]([^}]*)[}])?/gms
+const valuedAttributeRE = /([?]|(?!\d|-{2}|-\d)[a-zA-Z0-9\u00A0-\uFFFF-_:!%-.]+)=?(?:["]([^"]*)["]|[']([^']*)[']|[{]([^}]*)[}])?/gms
 
 export const defaultIgnoreAttributes = ['placeholder']
 
@@ -52,6 +52,9 @@ export const extractorAttributify = (options?: AttributifyOptions): Extractor =>
               .filter(isValidSelector)
           }
           else {
+            if (options?.prefixedOnly && options.prefix && !name.startsWith(options.prefix))
+              return []
+
             const extractTernary = Array.from(content.matchAll(/(?:[\?:].*?)(["'])([^\1]*?)\1/gms))
               .map(([,,v]) => v.split(splitterRE)).flat()
             return (extractTernary.length ? extractTernary : content.split(splitterRE))
