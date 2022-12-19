@@ -42,6 +42,13 @@ export interface WebFontsOptions {
    * @default true
    */
   inlineImports?: boolean
+
+  /**
+   * Custom fetch function
+   *
+   * @default undefined
+   */
+  customFetch?: (url: string) => Promise<any>
 }
 
 export interface Provider {
