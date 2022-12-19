@@ -73,9 +73,11 @@ Currently supported Providers:
 - `bunny` - [Privacy-Friendly Google Fonts](https://fonts.bunny.net/)
 - `fontshare` - [Quality Font Service by ITF](https://www.fontshare.com/)
 
-### Custom request function
+PR welcome to add more providers 🙌
 
-Use your own request to fetch font source
+### Custom fetch function
+
+Use your own function to fetch font source.
 
 ```ts
 import presetWebFonts from '@unocss/preset-web-fonts'
@@ -88,31 +90,16 @@ Unocss({
     presetUno(),
     presetWebFonts({
       // use axios with an https proxy
-      customRequest: (url: string) => axios.get(url, { httpsAgent: new ProxyAgent('https://localhost:7890') }),
+      customFetch: (url: string) => axios.get(url, { httpsAgent: new ProxyAgent('https://localhost:7890') }),
       provider: 'google',
       fonts: {
         sans: 'Roboto',
         mono: ['Fira Code', 'Fira Mono:400,700'],
-        // custom ones
-        lobster: 'Lobster',
-        lato: [
-          {
-            name: 'Lato',
-            weights: ['400', '700'],
-            italic: true,
-          },
-          {
-            name: 'sans-serif',
-            provider: 'none',
-          },
-        ],
       },
     }),
   ],
 })
 ```
-
-PR welcome to add more providers 🙌
 
 ## Configuration
 

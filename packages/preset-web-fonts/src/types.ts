@@ -44,11 +44,11 @@ export interface WebFontsOptions {
   inlineImports?: boolean
 
   /**
-   * Inline CSS @import()
+   * Custom fetch function
    *
    * @default undefined
    */
-  customRequest?: (url: string) => Promise<any>
+  customFetch?: (url: string) => Promise<any>
 }
 
 export interface Provider {
