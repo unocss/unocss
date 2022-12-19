@@ -47,6 +47,8 @@ Set {
   "[m~=\\"1\\"]",
   "[m~=\\"2\\"]",
   "[m~=\\"3\\"]",
+  "[ml-1.5=\\"\\"]",
+  "[ml-1..6=\\"\\"]",
 }
 `;
 
@@ -157,6 +159,7 @@ Set {
   "[m~=\\"1\\"]",
   "[m~=\\"2\\"]",
   "[m~=\\"3\\"]",
+  "[ml-1.5=\\"\\"]",
 }
 `;
 
@@ -172,6 +175,7 @@ exports[`attributify > fixture1 1`] = `
 [m~=\\"\\\\33 \\"]{margin:0.75rem;}
 [ma=\\"\\"],
 [un-children~=\\"m-auto\\"]>*{margin:auto;}
+[ml-1\\\\.5=\\"\\"]{margin-left:0.375rem;}
 [inline-block=\\"\\"]{display:inline-block;}
 [flex~=\\"\\\\!\\\\~\\"]{display:flex !important;}
 [flex~=\\"col\\"]{flex-direction:column;}
@@ -283,6 +287,7 @@ exports[`attributify > fixture4 1`] = `
 [m~=\\"\\\\33 \\"]{margin:0.75rem;}
 [ma=\\"\\"],
 [un-children~=\\"m-auto\\"]>*{margin:auto;}
+[ml-1\\\\.5=\\"\\"]{margin-left:0.375rem;}
 [inline-block=\\"\\"]{display:inline-block;}
 [flex~=\\"\\\\!\\\\~\\"]{display:flex !important;}
 [flex~=\\"col\\"]{flex-direction:column;}
@@ -372,5 +377,7 @@ exports[`attributify > variant 1`] = `
   "m-1",
   "m-2",
   "m-3",
+  "ml-1.5",
+  "ml-1..6",
 ]
 `;

@@ -35,6 +35,8 @@ describe('attributify', () => {
   1 2
   3
 \`'
+  ml-1.5
+  ml-1..6
 >
   Button
 </button>
@@ -108,6 +110,7 @@ describe('attributify', () => {
   1 2
   3
 \`'
+  ml-1.5
 >
   Button
 </button>
