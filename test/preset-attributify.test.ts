@@ -36,6 +36,7 @@ describe('attributify', () => {
   3
 \`'
   ml-1.5
+  ml-1..6
 >
   Button
 </button>
