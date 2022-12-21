@@ -47,4 +47,9 @@ describe('variant-group', () => {
       ]
     `)
   })
+
+  test('expand @', async () => {
+    expect(expandVariantGroup('@a:(c-d d-c)')).toEqual('@a:c-d @a:d-c')
+    expect(expandVariantGroup('!@a:(c-d d-c)')).toEqual('!@a:c-d !@a:d-c')
+  })
 })
