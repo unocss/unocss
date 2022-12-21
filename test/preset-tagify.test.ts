@@ -89,7 +89,7 @@ describe('tagify', () => {
 
     expect((await uno.generate(code, { preflights: false })).css).toMatchInlineSnapshot(`
       "/* layer: default */
-      b{border-width:1px;border-style:solid;}
+      b{border-width:1px;}
       h6{height:1.5rem;}"
     `)
   })

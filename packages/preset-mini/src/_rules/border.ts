@@ -85,14 +85,7 @@ const borderColorResolver = (direction: string) => ([, body]: string[], theme: T
 }
 
 function handlerBorder(m: string[], ctx: RuleContext): CSSEntries | undefined {
-  const borderSizes = handlerBorderSize(m, ctx)
-  const borderStyle = handlerBorderStyle(['', m[1], 'solid'])
-  if (borderSizes && borderStyle) {
-    return [
-      ...borderSizes,
-      ...borderStyle,
-    ]
-  }
+  return handlerBorderSize(m, ctx)
 }
 
 function handlerBorderSize([, a = '', b]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
