@@ -29,28 +29,28 @@ exports[`preset-wind > centered containers 1`] = `
 
 exports[`preset-wind > containers 1`] = `
 "/* layer: shortcuts */
-.container{max-width:100%;}
+.container{max-width:100%;margin-left:auto;margin-right:auto;padding-left:1rem;padding-right:1rem;}
 @media (min-width: 640px){
-.container{max-width:640px;}
+.container{max-width:640px;margin-left:auto;margin-right:auto;padding-left:2rem;padding-right:2rem;}
 }
 @media (min-width: 768px){
 .container,
-.md\\\\:container{max-width:768px;}
+.md\\\\:container{max-width:768px;margin-left:auto;margin-right:auto;padding-left:1rem;padding-right:1rem;}
 }
 @media (min-width: 1024px){
 .container,
 .lg\\\\:container,
-.md\\\\:container{max-width:1024px;}
+.md\\\\:container{max-width:1024px;margin-left:auto;margin-right:auto;padding-left:4rem;padding-right:4rem;}
 }
 @media (min-width: 1280px){
 .container,
 .lg\\\\:container,
-.md\\\\:container{max-width:1280px;}
+.md\\\\:container{max-width:1280px;margin-left:auto;margin-right:auto;padding-left:5rem;padding-right:5rem;}
 }
 @media (min-width: 1536px){
 .container,
 .lg\\\\:container,
-.md\\\\:container{max-width:1536px;}
+.md\\\\:container{max-width:1536px;margin-left:auto;margin-right:auto;padding-left:6rem;padding-right:6rem;}
 }"
 `;
 
