@@ -52,4 +52,8 @@ describe('variant-group', () => {
     expect(expandVariantGroup('@a:(c-d d-c)')).toEqual('@a:c-d @a:d-c')
     expect(expandVariantGroup('!@a:(c-d d-c)')).toEqual('!@a:c-d !@a:d-c')
   })
+
+  test('inlucde ?', async () => {
+    expect(expandVariantGroup('a:(b?c d)')).toEqual('a:b?c a:d')
+  })
 })
