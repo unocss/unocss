@@ -1,3 +1,5 @@
+import { resolve } from 'path'
+import { fileURLToPath } from 'url'
 import type { AstroIntegration } from 'astro'
 import type { VitePluginConfig } from '@unocss/vite'
 import VitePlugin from '@unocss/vite'
@@ -38,6 +40,11 @@ export default function UnoCSSAstroIntegration<Theme extends {}>(
     name: 'unocss',
     hooks: {
       'astro:config:setup': async ({ config, injectScript }) => {
+        // Adding components to UnoCSS's extra content
+        options.extraContent ||= {}
+        options.extraContent.filesystem ||= []
+        options.extraContent.filesystem.push(resolve(fileURLToPath(config.root), 'src/components/**/*').replace(/\\/g, '/'))
+
         config.vite.plugins ||= []
         config.vite.plugins.push(...VitePlugin(options, defaults) as any)
 

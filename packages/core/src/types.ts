@@ -531,6 +531,13 @@ export interface UnocssPluginContext<Config extends UserConfig = UserConfig> {
   /** Module IDs that been affected by UnoCSS */
   affectedModules: Set<string>
 
+  /** Pending promises */
+  tasks: Promise<any>[]
+  /**
+   * Await all pending tasks
+   */
+  flushTasks(): Promise<any>
+
   filter: (code: string, id: string) => boolean
   extract: (code: string, id?: string) => Promise<void>
 
@@ -581,6 +588,19 @@ export interface SourceCodeTransformer {
   transform: (code: MagicString, id: string, ctx: UnocssPluginContext) => Awaitable<void>
 }
 
+export interface ExtraContentOptions {
+  /**
+   * Glob patterns to match the files to be extracted
+   * In dev mode, the files will be watched and trigger HMR
+   */
+  filesystem?: string[]
+
+  /**
+   * Plain text to be extracted
+   */
+  plain?: string[]
+}
+
 /**
  * For other modules to aggregate the options
  */
@@ -611,6 +631,11 @@ export interface PluginOptions {
    * Custom transformers to the source code
    */
   transformers?: SourceCodeTransformer[]
+
+  /**
+   * Extra content outside of build pipeline (assets, backend, etc.) to be extracted
+   */
+  extraContent?: ExtraContentOptions
 }
 
 export interface UserConfig<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions, PluginOptions, CliOptions {}

@@ -608,6 +608,8 @@ importers:
       '@unocss/scope': workspace:*
       '@unocss/shared-integration': workspace:*
       '@unocss/transformer-directives': workspace:*
+      chokidar: ^3.5.3
+      fast-glob: ^3.2.12
       magic-string: ^0.27.0
       vite: ^4.0.0
     dependencies:
@@ -618,6 +620,8 @@ importers:
       '@unocss/inspector': link:../inspector
       '@unocss/scope': link:../scope
       '@unocss/transformer-directives': link:../transformer-directives
+      chokidar: 3.5.3
+      fast-glob: 3.2.12
       magic-string: 0.27.0
     devDependencies:
       '@unocss/shared-integration': link:../shared-integration
@@ -651,6 +655,8 @@ importers:
       '@types/webpack-sources': ^3.2.0
       '@unocss/config': workspace:*
       '@unocss/core': workspace:*
+      chokidar: ^3.5.3
+      fast-glob: ^3.2.12
       magic-string: ^0.27.0
       unplugin: ^1.0.1
       webpack: ^5.75.0
@@ -660,6 +666,8 @@ importers:
       '@rollup/pluginutils': 5.0.2
       '@unocss/config': link:../config
       '@unocss/core': link:../core
+      chokidar: 3.5.3
+      fast-glob: 3.2.12
       magic-string: 0.27.0
       unplugin: 1.0.1
       webpack-sources: 3.2.3
@@ -19654,7 +19662,7 @@ packages:
     dependencies:
       '@types/node': 18.11.13
       esbuild: 0.16.4
-      postcss: 8.4.20
+      postcss: 8.4.19
       resolve: 1.22.1
       rollup: 3.7.2
       terser: 5.16.1

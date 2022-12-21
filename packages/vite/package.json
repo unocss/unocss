@@ -53,6 +53,8 @@
     "@unocss/inspector": "workspace:*",
     "@unocss/scope": "workspace:*",
     "@unocss/transformer-directives": "workspace:*",
+    "chokidar": "^3.5.3",
+    "fast-glob": "^3.2.12",
     "magic-string": "^0.27.0"
   },
   "devDependencies": {

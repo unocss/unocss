@@ -14,11 +14,12 @@ import {
   resolveLayer,
 } from '../../integration'
 import type { VitePluginConfig } from '../../types'
+import { setupExtraContent } from '../../../../shared-integration/src/extra-content'
 
-export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, getConfig }: UnocssPluginContext<VitePluginConfig>): Plugin[] {
+export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>): Plugin[] {
+  const { uno, ready, extract, tokens, filter, getConfig, tasks, flushTasks } = ctx
   const vfsLayers = new Set<string>()
   const layerImporterMap = new Map<string, string>()
-  let tasks: Promise<any>[] = []
   let viteConfig: ResolvedConfig
 
   // use maps to differentiate multiple build. using outDir as key
@@ -46,7 +47,7 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
   let lastTokenSize = 0
   let lastResult: GenerateResult | undefined
   async function generateAll() {
-    await Promise.all(tasks)
+    await flushTasks()
     if (lastResult && lastTokenSize === tokens.size)
       return lastResult
     lastResult = await uno.generate(tokens, { minify: true })
@@ -54,13 +55,16 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
     return lastResult
   }
 
+  let replaced = false
+
   return [
     {
       name: 'unocss:global:build:scan',
       apply: 'build',
       enforce: 'pre',
-      buildStart() {
-        tasks = []
+      async buildStart() {
+        vfsLayers.clear()
+        tasks.length = 0
         lastTokenSize = 0
         lastResult = undefined
       },
@@ -144,6 +148,16 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
       },
     },
     {
+      name: 'unocss:global:content',
+      enforce: 'pre',
+      configResolved(config) {
+        viteConfig = config
+      },
+      buildStart() {
+        tasks.push(setupExtraContent(ctx, viteConfig.command === 'serve'))
+      },
+    },
+    {
       name: 'unocss:global:build:generate',
       apply: 'build',
       async renderChunk(code, chunk, options) {
@@ -175,9 +189,6 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
     {
       name: 'unocss:global:build:bundle',
       apply: 'build',
-      configResolved(config) {
-        viteConfig = config
-      },
       enforce: 'post',
       // rewrite the css placeholders
       async generateBundle(options, bundle) {
@@ -189,12 +200,17 @@ export function GlobalModeBuildPlugin({ uno, ready, extract, tokens, filter, get
           return
 
         if (!vfsLayers.size) {
+          // If `vfsLayers` is empty and `replaced` is true, that means
+          // `generateBundle` hook is called on previous build pipeline. e.g. ssr
+          // Since we already replaced the layers and don't have any more layers
+          // to replace on current build pipeline, we can skip the warning.
+          if (replaced)
+            return
           const msg = '[unocss] entry module not found, have you add `import \'uno.css\'` in your main entry?'
           this.warn(msg)
           return
         }
 
-        let replaced = false
         const getLayer = (layer: string, input: string, replace = false) => {
           const re = new RegExp(`#--unocss-layer-start--${layer}--\\{start:${layer}\\}([\\s\\S]*?)#--unocss-layer-end--${layer}--\\{end:${layer}\\}`, 'g')
           if (replace)

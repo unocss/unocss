@@ -3,6 +3,7 @@ import type { ResolvedUnpluginOptions, UnpluginOptions } from 'unplugin'
 import { createUnplugin } from 'unplugin'
 import WebpackSources from 'webpack-sources'
 import { createContext } from '../../shared-integration/src/context'
+import { setupExtraContent } from '../../shared-integration/src/extra-content'
 import { getHash } from '../../shared-integration/src/hash'
 import { HASH_PLACEHOLDER_RE, LAYER_MARK_ALL, LAYER_PLACEHOLDER_RE, RESOLVED_ID_RE, getHashPlaceholder, getLayerPlaceholder, resolveId, resolveLayer } from '../../shared-integration/src/layers'
 import { applyTransformers } from '../../shared-integration/src/transformers'
@@ -23,7 +24,7 @@ export default function WebpackPlugin<Theme extends {}>(
 ) {
   return createUnplugin(() => {
     const ctx = createContext<WebpackPluginOptions>(configOrPath as any, defaults)
-    const { uno, tokens, filter, extract, onInvalidate } = ctx
+    const { uno, tokens, filter, extract, onInvalidate, tasks, flushTasks } = ctx
 
     let timer: any
     onInvalidate(() => {
@@ -41,7 +42,9 @@ export default function WebpackPlugin<Theme extends {}>(
       )
     }
 
-    const tasks: Promise<any>[] = []
+    // TODO: detect webpack's watch mode and enable watcher
+    tasks.push(setupExtraContent(ctx))
+
     const entries = new Set<string>()
     const hashes = new Map<string, string>()
 
@@ -92,7 +95,7 @@ export default function WebpackPlugin<Theme extends {}>(
           compilation.hooks.optimizeAssets.tapPromise(PLUGIN_NAME, async () => {
             const files = Object.keys(compilation.assets)
 
-            await Promise.all(tasks)
+            await flushTasks()
             const result = await uno.generate(tokens, { minify: true })
 
             for (const file of files) {
@@ -133,7 +136,7 @@ export default function WebpackPlugin<Theme extends {}>(
       if (!plugin.__vfsModules)
         return
 
-      await Promise.all(tasks)
+      await flushTasks()
       const result = await uno.generate(tokens)
       if (lastTokenSize === tokens.size)
         return
