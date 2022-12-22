@@ -1,6 +1,6 @@
 import type MagicString from 'magic-string'
 
-export const regexClassGroup = /((?:[!@\w+:_/-]|\[&?>?:?.*\])+?)([:-])\(((?:[~!\w\s:/\\,%#.$-]|\[.*?\])+?)\)(?!\s*?=>)/gm
+export const regexClassGroup = /((?:[!@\w+:_/-]|\[&?>?:?.*\])+?)([:-])\(((?:[~!\w\s:/\\,%#.$?-]|\[.*?\])+?)\)(?!\s*?=>)/gm
 
 export function expandVariantGroup(str: string, separators?: string[], depth?: number): string
 export function expandVariantGroup(str: MagicString, separators?: string[], depth?: number): MagicString
