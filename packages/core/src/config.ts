@@ -7,7 +7,7 @@ export function resolveShortcuts<Theme extends {} = {}>(shortcuts: UserShortcuts
   return toArray(shortcuts).flatMap((s) => {
     if (Array.isArray(s))
       return [s]
-    return Object.entries(s)
+    return Object.entries(s).map(_s => Array.isArray(_s[1]) ? _s[1] : _s)
   })
 }
 
