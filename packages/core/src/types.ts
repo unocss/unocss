@@ -180,10 +180,9 @@ export type Rule<Theme extends {} = {}> = DynamicRule<Theme> | StaticRule
 export type DynamicShortcutMatcher<Theme extends {} = {}> = ((match: RegExpMatchArray, context: Readonly<RuleContext<Theme>>) => (string | ShortcutValue[] | undefined))
 
 export type StaticShortcut = [string, string | ShortcutValue[]] | [string, string | ShortcutValue[], RuleMeta]
-export type ShortcutMap = Record<string, string | ShortcutValue[] | DynamicNamedShortcut>
+export type StaticShortcutMap = Record<string, string | ShortcutValue[]>
 export type DynamicShortcut<Theme extends {} = {}> = [RegExp, DynamicShortcutMatcher<Theme>] | [RegExp, DynamicShortcutMatcher<Theme>, RuleMeta]
-export type DynamicNamedShortcut<Theme extends {} = {}> = [string, [RegExp, DynamicShortcutMatcher<Theme>]] | [string, [RegExp, DynamicShortcutMatcher<Theme>], RuleMeta]
-export type UserShortcuts<Theme extends {} = {}> = ShortcutMap | (StaticShortcut | DynamicShortcut<Theme> | ShortcutMap)[]
+export type UserShortcuts<Theme extends {} = {}> = StaticShortcutMap | (StaticShortcut | DynamicShortcut<Theme> | StaticShortcutMap)[]
 export type Shortcut<Theme extends {} = {}> = StaticShortcut | DynamicShortcut<Theme>
 export type ShortcutValue = string | CSSValue
 
@@ -643,8 +642,8 @@ export interface UserConfig<Theme extends {} = {}> extends ConfigBase<Theme>, Us
 export interface UserConfigDefaults<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme> {}
 
 export interface ResolvedConfig<Theme extends {} = {}> extends Omit<
-RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>,
-'rules' | 'shortcuts' | 'autocomplete'
+  RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>,
+  'rules' | 'shortcuts' | 'autocomplete'
 > {
   presets: Preset<Theme>[]
   shortcuts: Shortcut<Theme>[]

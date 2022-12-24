@@ -2,12 +2,11 @@ import type { Postprocessor, Preprocessor, Preset, ResolvedConfig, Rule, Shortcu
 import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq } from './utils'
 import { extractorSplit } from './extractors'
 import { DEFAULT_LAYERS } from './constants'
-
 export function resolveShortcuts<Theme extends {} = {}>(shortcuts: UserShortcuts<Theme>): Shortcut<Theme>[] {
   return toArray(shortcuts).flatMap((s) => {
     if (Array.isArray(s))
       return [s]
-    return Object.entries(s).map(_s => Array.isArray(_s[1]) ? _s[1] : _s)
+    return Object.entries(s).map(_s => Array.isArray(_s[1]) ? _s[1] : _s) as Shortcut<Theme>[]
   })
 }
 
