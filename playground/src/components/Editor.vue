@@ -48,6 +48,7 @@ function handleReset() {
   if (confirm('Reset all settings? It can NOT be undone.')) {
     inputHTML.value = defaultHTML
     customConfigRaw.value = defaultConfigRaw
+    options.value.transform = false
   }
 }
 
