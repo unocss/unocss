@@ -283,6 +283,7 @@ export class UnoGenerator<Theme extends {} = {}> {
         .join(nl)
       }
       return includes
+        .filter(i => !excludes?.includes(i))
         .map(i => getLayer(i) || '')
         .filter(Boolean)
         .join(nl)
