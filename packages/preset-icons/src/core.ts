@@ -96,10 +96,10 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
             // Thanks to https://codepen.io/noahblon/post/coloring-svgs-in-css-background-images
             return {
               '--un-icon': url,
-              'mask': 'var(--un-icon) no-repeat',
-              'mask-size': '100% 100%',
               '-webkit-mask': 'var(--un-icon) no-repeat',
+              'mask': 'var(--un-icon) no-repeat',
               '-webkit-mask-size': '100% 100%',
+              'mask-size': '100% 100%',
               'background-color': 'currentColor',
               // for Safari https://github.com/elk-zone/elk/pull/264
               'color': 'inherit',
