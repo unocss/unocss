@@ -276,8 +276,14 @@ export class UnoGenerator<Theme extends {} = {}> {
     }
 
     const getLayers = (includes = layers, excludes?: string[]) => {
-      return includes
+      if (!excludes || !excludes?.length) {
+        return includes
         .filter(i => !excludes?.includes(i))
+        .map(i => getLayer(i) || '')
+        .filter(Boolean)
+        .join(nl)
+      }
+      return includes
         .map(i => getLayer(i) || '')
         .filter(Boolean)
         .join(nl)
