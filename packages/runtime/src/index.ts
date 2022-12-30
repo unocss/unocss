@@ -172,6 +172,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
     const html = body && body.outerHTML
     if (html) {
       await extract(`${html} ${decodeHtml(html)}`)
+      removeCloak(defaultDocument.documentElement)
       removeCloak(body)
     }
   }
