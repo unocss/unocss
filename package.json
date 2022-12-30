@@ -73,7 +73,7 @@
     "@vueuse/math": "^9.6.0",
     "brotli-size": "^4.0.0",
     "bumpp": "^8.2.1",
-    "codemirror": "^6.0.1",
+    "codemirror": "^5.65.9",
     "codemirror-theme-vars": "^0.1.1",
     "eslint": "8.29.0",
     "esno": "^0.16.3",
