@@ -1,10 +1,7 @@
 import path from 'path'
-import type { GenerateResult, UnoGenerator } from '@unocss/core'
+import type { UnoGenerator } from '@unocss/core'
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
-import type { Theme } from '@unocss/preset-mini'
-import { parseColor } from '@unocss/preset-mini'
-import { colorToString } from '@unocss/preset-mini/utils'
 
 export function throttle<T extends ((...args: any) => any)>(func: T, timeFrame: number): T {
   let lastTime = 0
@@ -20,6 +17,11 @@ export function throttle<T extends ((...args: any) => any)>(func: T, timeFrame: 
       timer = setTimeout(func, timeFrame, ...args)
     }
   } as T
+}
+
+export const getCSS = async (uno: UnoGenerator, utilName: string) => {
+  const { css } = await uno.generate(utilName, { preflights: false, safelist: false })
+  return css
 }
 
 export async function getPrettiedCSS(uno: UnoGenerator, util: string) {
@@ -39,8 +41,8 @@ export async function getPrettiedMarkdown(uno: UnoGenerator, util: string) {
   return `\`\`\`css\n${(await getPrettiedCSS(uno, util)).prettified}\n\`\`\``
 }
 
-const getMarkdownCssVariables = (code: string) => {
-  const regex = /(?<key>--\S+?):\s*(?<value>.+?);$/gm
+const getCssVariables = (code: string) => {
+  const regex = /(?<key>--\S+?):\s*(?<value>.+?);/gm
   const cssVariables = new Map<string, string>()
   for (const match of code.matchAll(regex)) {
     const key = match.groups?.key
@@ -59,7 +61,7 @@ export const getColorString = (str: string) => {
   if (!colorString)
     return
 
-  const cssVars = getMarkdownCssVariables(str)
+  const cssVars = getCssVariables(str)
 
   for (const match of colorString.matchAll(matchCssVarReg)) {
     const matchedString = match[0]
@@ -72,9 +74,9 @@ export const getColorString = (str: string) => {
     else if (fallback)
       // rgba(248, 113, 113, var(--no-value, 0.5)) => rgba(248, 113, 113, 0.5)
       colorString = colorString.replaceAll(matchedString, fallback)
-    else
-      // remove all `var(...)`
-      colorString = colorString.replaceAll(/,?\s+var\(--.*?\)/gm, '')
+
+    // remove all `var(...)`
+    colorString = colorString.replaceAll(/,?\s+var\(--.*?\)/gm, '')
   }
 
   // if (!(new TinyColor(colorString).isValid))
@@ -83,69 +85,7 @@ export const getColorString = (str: string) => {
   return colorString
 }
 
-export function body2ColorValue(body: string, theme: Theme) {
-  const themeColorNames = Object.keys(theme.colors ?? {})
-  const colorNames = themeColorNames.concat(themeColorNames.map(colorName => colorName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()))
-
-  for (const colorName of colorNames) {
-    const nameIndex = body.indexOf(colorName)
-
-    if (nameIndex > -1) {
-      const parsedResult = parseColor(body.substring(nameIndex), theme)
-      if (parsedResult?.cssColor)
-        return parsedResult
-    }
-  }
-
-  return null
-}
-
-const matchedAttributifyRE = /(?<=^\[.+~=").*(?="\]$)/
-const matchedValuelessAttributifyRE = /(?<=^\[).+(?==""\]$)/
-const _colorsMapCache = new Map<string, string>()
-export async function getColorsMap(uno: UnoGenerator, result: GenerateResult) {
-  const theme = uno.config.theme as Theme
-  const colorsMap = new Map<string, string>()
-
-  for (const i of result.matched) {
-    if (!(await isColorUtility(uno, i)))
-      continue
-
-    const matchedValueless = i.match(matchedValuelessAttributifyRE)?.[0]
-    const colorKey = matchedValueless ?? i.replace('~="', '="')
-
-    const cachedColor = _colorsMapCache.get(colorKey)
-    if (cachedColor) {
-      colorsMap.set(colorKey, cachedColor)
-      continue
-    }
-
-    const matchedAttr = i.match(matchedAttributifyRE)?.[0] ?? matchedValueless
-    const body = (matchedAttr ?? i)
-      .split(':').slice(-1)[0] ?? '' // remove prefix e.g. `dark:` `hover:`
-
-    if (body) {
-      const colorValue = body2ColorValue(body, theme)
-      if (colorValue) {
-        const colorString = colorToString(colorValue.cssColor!, colorValue.alpha)
-        colorsMap.set(colorKey, colorString)
-        _colorsMapCache.set(colorKey, colorString)
-      }
-    }
-  }
-
-  if (_colorsMapCache.size > 5000)
-    _colorsMapCache.clear()
-
-  return colorsMap
-}
-
 export function isSubdir(parent: string, child: string) {
   const relative = path.relative(parent, child)
   return relative && !relative.startsWith('..') && !path.isAbsolute(relative)
-}
-
-async function isColorUtility(uno: UnoGenerator, utilName: string) {
-  const { css } = await uno.generate(utilName, { preflights: false, safelist: false })
-  return css.includes('color')
 }

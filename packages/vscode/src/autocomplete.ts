@@ -3,7 +3,7 @@ import { createAutocomplete } from '@unocss/autocomplete'
 import type { CompletionItemProvider, ExtensionContext } from 'vscode'
 import { CompletionItem, CompletionItemKind, CompletionList, MarkdownString, Range, languages } from 'vscode'
 import type { UnoGenerator, UnocssPluginContext } from '@unocss/core'
-import { body2ColorValue, getPrettiedCSS, getPrettiedMarkdown, isSubdir } from './utils'
+import { getCSS, getColorString, getPrettiedCSS, getPrettiedMarkdown, isSubdir } from './utils'
 import { log } from './log'
 import type { ContextLoader } from './contextLoader'
 import { isCssId } from './integration'
@@ -96,23 +96,25 @@ export async function registerAutoComplete(
         if (!result.suggestions.length)
           return
 
-        const theme = ctx?.uno.config.theme
-        return new CompletionList(result.suggestions.map(([value, label]) => {
-          const colorValue = theme ? body2ColorValue(value, theme) : null
-          const itemKind = colorValue?.color ? CompletionItemKind.Color : CompletionItemKind.EnumMember
-
-          const resolved = result.resolveReplacement(value)
+        const completionItems: UnoCompletionItem[] = []
+        for (const [value, label] of result.suggestions) {
+          const css = await getCSS(ctx!.uno, value)
+          const colorString = getColorString(css)
+          const itemKind = colorString ? CompletionItemKind.Color : CompletionItemKind.EnumMember
           const item = new UnoCompletionItem(label, itemKind, ctx!.uno)
+          const resolved = result.resolveReplacement(value)
+
           item.insertText = resolved.replacement
           item.range = new Range(doc.positionAt(resolved.start), doc.positionAt(resolved.end))
 
-          if (colorValue?.color) {
-            item.documentation = colorValue?.color
+          if (colorString) {
+            item.documentation = colorString
             item.sortText = /-\d$/.test(label) ? '1' : '2' // reorder color completions
           }
+          completionItems.push(item)
+        }
 
-          return item
-        }), true)
+        return new CompletionList(completionItems, true)
       }
       catch (e) {
         log.appendLine(`⚠️ ${String(e)}`)
