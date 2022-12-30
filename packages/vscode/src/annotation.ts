@@ -3,7 +3,7 @@ import type { DecorationOptions, ExtensionContext, StatusBarItem } from 'vscode'
 import { DecorationRangeBehavior, MarkdownString, Range, window, workspace } from 'vscode'
 import { INCLUDE_COMMENT_IDE, getMatchedPositionsFromCode, isCssId } from './integration'
 import { log } from './log'
-import { getColorsMap, getPrettiedMarkdown, isSubdir, throttle } from './utils'
+import { getColorString, getPrettiedMarkdown, isSubdir, throttle } from './utils'
 import type { ContextLoader } from './contextLoader'
 
 export async function registerAnnotations(
@@ -97,25 +97,24 @@ export async function registerAnnotations(
 
       const result = await ctx.uno.generate(code, { id, preflights: false, minify: true })
 
-      const colorsMap = await getColorsMap(ctx.uno, result)
       const colorRanges: DecorationOptions[] = []
-      const _colorPositionsCache = new Map<string, string>() // cache for avoid duplicated color ranges
 
       const ranges: DecorationOptions[] = (
         await Promise.all(
           (await getMatchedPositionsFromCode(ctx.uno, code))
             .map(async (i): Promise<DecorationOptions> => {
-              // side-effect: update colorRanges
-              if (colorPreview && colorsMap.has(i[2]) && !_colorPositionsCache.has(`${i[0]}:${i[1]}`)) {
-                _colorPositionsCache.set(`${i[0]}:${i[1]}`, i[2])
-                colorRanges.push({
-                  range: new Range(doc.positionAt(i[0]), doc.positionAt(i[1])),
-                  renderOptions: { before: { backgroundColor: colorsMap.get(i[2]) } },
-                })
-              }
-
               try {
                 const md = await getPrettiedMarkdown(ctx!.uno, i[2])
+
+                if (colorPreview) {
+                  const color = getColorString(md)
+                  if (color) {
+                    colorRanges.push({
+                      range: new Range(doc.positionAt(i[0]), doc.positionAt(i[1])),
+                      renderOptions: { before: { backgroundColor: color } },
+                    })
+                  }
+                }
                 return {
                   range: new Range(doc.positionAt(i[0]), doc.positionAt(i[1])),
                   get hoverMessage() {
@@ -132,7 +131,6 @@ export async function registerAnnotations(
         )
       ).filter(Boolean)
 
-      _colorPositionsCache.clear()
       editor.setDecorations(colorDecoration, colorRanges)
 
       if (underline) {

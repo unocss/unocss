@@ -39,6 +39,50 @@ export async function getPrettiedMarkdown(uno: UnoGenerator, util: string) {
   return `\`\`\`css\n${(await getPrettiedCSS(uno, util)).prettified}\n\`\`\``
 }
 
+const getMarkdownCssVariables = (code: string) => {
+  const regex = /(?<key>--\S+?):\s*(?<value>.+?);$/gm
+  const cssVariables = new Map<string, string>()
+  for (const match of code.matchAll(regex)) {
+    const key = match.groups?.key
+    if (key)
+      cssVariables.set(key, match.groups?.value ?? '')
+  }
+
+  return cssVariables
+}
+
+const matchCssVarReg = /var\((?<cssVarName>--[^,|)]+)(?:,\s*(?<fallback>[^)]+))?\)/gm
+const colorRegex = /(?:#|0x)(?:[a-f0-9]{3}|[a-f0-9]{6})\b|(?:rgb|hsl)a?\(.*\)/gm
+export const getColorString = (str: string) => {
+  let colorString = str.match(colorRegex)?.[0] // rgba(248, 113, 113, var(--maybe-css-var))
+
+  if (!colorString)
+    return
+
+  const cssVars = getMarkdownCssVariables(str)
+
+  for (const match of colorString.matchAll(matchCssVarReg)) {
+    const matchedString = match[0]
+    const cssVarName = match.groups?.cssVarName
+    const fallback = match.groups?.fallback
+
+    if (cssVarName && cssVars.get(cssVarName))
+      // rgba(248, 113, 113, var(--un-text-opacity)) => rgba(248, 113, 113, 1)
+      colorString = colorString.replaceAll(matchedString, cssVars.get(cssVarName) ?? matchedString)
+    else if (fallback)
+      // rgba(248, 113, 113, var(--no-value, 0.5)) => rgba(248, 113, 113, 0.5)
+      colorString = colorString.replaceAll(matchedString, fallback)
+    else
+      // remove all `var(...)`
+      colorString = colorString.replaceAll(/,?\s+var\(--.*?\)/gm, '')
+  }
+
+  // if (!(new TinyColor(colorString).isValid))
+  //   return
+
+  return colorString
+}
+
 export function body2ColorValue(body: string, theme: Theme) {
   const themeColorNames = Object.keys(theme.colors ?? {})
   const colorNames = themeColorNames.concat(themeColorNames.map(colorName => colorName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()))
