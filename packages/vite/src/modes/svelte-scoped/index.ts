@@ -8,7 +8,7 @@ export * from './transform'
 
 export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin {
   let viteConfig: ResolvedConfig
-  let filter = createFilter([/\.svelte$/], defaultExclude)
+  let filter = createFilter([/\.svelte$/, /\.svelte\.md$/, /\.svx$/], defaultExclude)
 
   return {
     name: 'unocss:svelte-scoped',
