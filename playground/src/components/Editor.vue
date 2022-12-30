@@ -106,6 +106,11 @@ const cssFormatted = useCSSPrettify(
   isCSSPrettify,
 )
 
+watchEffect(() => {
+  // eslint-disable-next-line no-console
+  console.log(cssFormatted.value)
+})
+
 watch(
   titleHeightPercent,
   (value: number) => {
@@ -292,7 +297,7 @@ onMounted(() => {
         </div>
       </TitleBar>
       <CodeMirror
-        :model-value="cssFormatted"
+        model-value="123"
         flex-auto
         mode="css"
         border="l gray-400/20"
