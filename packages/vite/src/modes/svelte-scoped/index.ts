@@ -17,7 +17,7 @@ export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin 
       viteConfig = _viteConfig
       const { config } = await ready
       filter = createFilter(
-        config.include || [/\.svelte$/],
+        config.include || [/\.svelte$/, /\.svelte\.md$/, /\.svx$/],
         config.exclude || defaultExclude,
       )
     },
