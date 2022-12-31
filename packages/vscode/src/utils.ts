@@ -53,17 +53,50 @@ const getCssVariables = (code: string) => {
   return cssVariables
 }
 
-const matchCssVarReg = /var\((?<cssVarName>--[^,|)]+)(?:,\s*(?<fallback>[^)]+))?\)/gm
-const colorRegex = /(?:#|0x)(?:[a-f0-9]{3}|[a-f0-9]{6})\b|(?:rgb|hsl)a?\(.*\)/gm
+const matchCssVarNameRegex = /var\((?<cssVarName>--[^,|)]+)(?:,\s*(?<fallback>[^)]+))?\)/gm
+const cssColorRegex = /(?:#|0x)(?:[a-f0-9]{3}|[a-f0-9]{6})\b|(?:rgb|hsl)a?\(.*\)/gm
+
+/**
+ * Get CSS color string from CSS string
+ *
+ * @example Input with CSS var
+ * ```css
+ *.dark [border="dark\:gray-700"] {
+ *  --un-border-opacity: 1;
+ *  border-color: rgba(55, 65, 81, var(--un-border-opacity));
+ *}
+ * ```
+ * return `rgba(55, 65, 81, 1)`
+ *
+ * @example Input with no-value CSS var and its fallback value
+ * ```css
+ *.bg-brand-primary {
+ *  background-color: hsla(217, 78%, 51%, var(--no-value, 0.5));
+ *}
+ * ```
+ * return `hsla(217, 78%, 51%, 0.5)`
+ *
+ * @example Input with no-value CSS var
+ * ```css
+ *.bg-brand-primary {
+ *  background-color: hsla(217, 78%, 51%, var(--no-value));
+ *}
+ * ```
+ * return `hsla(217, 78%, 51%)`
+ *
+ * @param str - CSS string
+ * @returns The **first** CSS color string (hex, rgb[a], hsl[a]) or `undefined`
+ */
 export const getColorString = (str: string) => {
-  let colorString = str.match(colorRegex)?.[0] // rgba(248, 113, 113, var(--maybe-css-var))
+  let colorString = str.match(cssColorRegex)?.[0] // e.g rgba(248, 113, 113, var(--maybe-css-var))
 
   if (!colorString)
     return
 
   const cssVars = getCssVariables(str)
 
-  for (const match of colorString.matchAll(matchCssVarReg)) {
+  // replace `var(...)` with its value
+  for (const match of colorString.matchAll(matchCssVarNameRegex)) {
     const matchedString = match[0]
     const cssVarName = match.groups?.cssVarName
     const fallback = match.groups?.fallback
@@ -75,7 +108,7 @@ export const getColorString = (str: string) => {
       // rgba(248, 113, 113, var(--no-value, 0.5)) => rgba(248, 113, 113, 0.5)
       colorString = colorString.replaceAll(matchedString, fallback)
 
-    // remove all `var(...)`
+    // rgba(248, 113, 113, var(--no-value)) => rgba(248, 113, 113)
     colorString = colorString.replaceAll(/,?\s+var\(--.*?\)/gm, '')
   }
 
