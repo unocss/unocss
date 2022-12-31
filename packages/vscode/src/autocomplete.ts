@@ -102,7 +102,7 @@ export async function registerAutoComplete(
           const itemKind = colorValue?.color ? CompletionItemKind.Color : CompletionItemKind.EnumMember
 
           const resolved = result.resolveReplacement(value)
-          const item = new UnoCompletionItem(label, itemKind, ctx!.uno)
+          const item = new UnoCompletionItem(value, itemKind, ctx!.uno)
           item.insertText = resolved.replacement
           item.range = new Range(doc.positionAt(resolved.start), doc.positionAt(resolved.end))
 
