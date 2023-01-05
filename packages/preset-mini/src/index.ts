@@ -81,7 +81,7 @@ export const presetMini = (options: PresetMiniOptions = {}): Preset<Theme> => {
 
 export default presetMini
 
-function VarPrefixPostprocessor(prefix: string): Postprocessor {
+export function VarPrefixPostprocessor(prefix: string): Postprocessor {
   return (obj) => {
     obj.entries.forEach((i) => {
       i[0] = i[0].replace(/^--un-/, `--${prefix}`)
