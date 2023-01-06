@@ -78,6 +78,21 @@ export default defineNuxtModule<UnocssNuxtOptions>({
       config.plugins.unshift(...VitePlugin({}, unoConfig))
     })
 
+    if (nuxt.options.dev) {
+      // @ts-expect-error missing type
+      nuxt.hook('devtools:customTabs', (tabs) => {
+        tabs.push({
+          title: 'UnoCSS',
+          name: 'unocss',
+          icon: 'logos-unocss',
+          view: {
+            type: 'iframe',
+            src: '/__unocss/',
+          },
+        })
+      })
+    }
+
     // Nuxt 2
     if (isNuxt2()) {
       nuxt.hook('app:resolve', (config) => {
