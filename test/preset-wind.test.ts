@@ -92,4 +92,22 @@ describe('preset-wind', () => {
     expect(matched).toEqual(new Set(targets))
     expect(css).toMatchSnapshot()
   })
+
+  test('custom var prefix', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetWind({
+          variablePrefix: 'hi-',
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'text-opacity-50',
+      'text-red',
+      'scale-100',
+    ].join(' '), { preflights: false })
+
+    expect(css).toMatchSnapshot()
+  })
 })
