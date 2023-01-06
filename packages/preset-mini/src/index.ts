@@ -51,7 +51,7 @@ export interface PresetMiniOptions extends PresetOptions {
    *
    * @default undefined
    */
-  prefix?: string
+  prefix?: string | string[]
   /**
    * Generate preflight
    *

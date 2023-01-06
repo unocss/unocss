@@ -16,31 +16,77 @@ describe('prefix', () => {
       ],
     })
 
-    const { css, matched } = await uno.generate(new Set([
+    const unexpected = [
       'text-red',
       'hover:p4',
       'bar',
       'shortcut',
-      // expected
+    ]
+
+    const expected = [
       'h-text-red',
       'hover:h-p4',
       'bar-bar',
       'bar-shortcut',
       'h-container',
       '2xl:h-container',
+    ]
+
+    const { css, matched } = await uno.generate(new Set([
+      ...unexpected,
+      ...expected,
     ]), { preflights: false })
 
-    expect(matched).toMatchInlineSnapshot(`
-      Set {
-        "bar-bar",
-        "h-text-red",
-        "hover:h-p4",
-        "bar-shortcut",
-        "h-container",
-        "2xl:h-container",
-      }
-    `)
+    expect([...matched].sort()).toEqual(expected.sort())
+    expect(css).toMatchSnapshot()
+  })
 
+  test('multiple preset prefix', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetUno({ prefix: ['h-', 'x-'] }),
+      ],
+      rules: [
+        ['bar', { color: 'bar' }, { prefix: ['bar-', 'foo-', ''] }],
+        [/^regex$/, () => ({ color: 'regex' }), { prefix: ['bar-', 'foo-', ''] }],
+      ],
+      shortcuts: [
+        ['shortcut', 'bar-bar', { prefix: ['bar-', 'x-'] }],
+      ],
+    })
+
+    const unexpected = [
+      'text-red',
+      'hover:p4',
+      'bar',
+      'shortcut',
+    ]
+
+    const expected = [
+      'h-text-red',
+      'hover:h-p4',
+
+      'bar-bar',
+      'foo-bar',
+      'bar',
+
+      'bar-regex',
+      'foo-regex',
+      'regex',
+
+      'bar-shortcut',
+      'x-shortcut',
+
+      'h-container',
+      '2xl:h-container',
+    ]
+
+    const { css, matched } = await uno.generate(new Set([
+      ...unexpected,
+      ...expected,
+    ]), { preflights: false })
+
+    expect([...matched].sort()).toEqual(expected.sort())
     expect(css).toMatchSnapshot()
   })
 })
