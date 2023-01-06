@@ -37,4 +37,3 @@ export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin 
     },
   }
 }
-

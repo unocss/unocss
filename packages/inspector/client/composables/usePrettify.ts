@@ -41,4 +41,3 @@ export function useHTMLPrettify(content: MaybeRef<string | undefined>, toggle: M
 export function useJSPrettify(content: MaybeRef<string | undefined>, toggle: MaybeRef<boolean> = true) {
   return usePrettify(content, toggle, 'babel')
 }
-

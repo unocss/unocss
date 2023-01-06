@@ -184,4 +184,3 @@ export async function getMatchedPositionsFromCode(uno: UnoGenerator, code: strin
   const result = await uno.generate(pug ? pugCode : s.toString(), { preflights: false })
   return getMatchedPositions(code, [...result.matched], hasVariantGroup, pug)
 }
-
