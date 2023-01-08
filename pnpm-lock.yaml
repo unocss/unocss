@@ -167,7 +167,7 @@ importers:
       simple-git-hooks: 2.8.1
       splitpanes: 3.1.5
       terser: 5.16.1
-      tsup: 6.5.0_rjjztofv3neoollaos63msgx3q
+      tsup: 6.5.0_typescript@4.9.4
       typescript: 4.9.4
       unbuild: 0.8.11
       unocss: link:packages/unocss
@@ -278,7 +278,7 @@ importers:
       prettier: 2.8.1
       shiki: 0.12.1
       theme-vitesse: 0.6.0
-      vite-plugin-vue-markdown: 0.22.2_rollup@2.79.1+vite@4.0.4
+      vite-plugin-vue-markdown: 0.22.2_rollup@2.79.1+vite@3.2.5
 
   packages/astro:
     specifiers:
@@ -410,11 +410,11 @@ importers:
   packages/preset-icons:
     specifiers:
       '@iconify/types': ^2.0.0
-      '@iconify/utils': ^2.0.9
+      '@iconify/utils': ^2.0.10
       '@unocss/core': workspace:*
       ohmyfetch: ^0.4.21
     dependencies:
-      '@iconify/utils': 2.0.9
+      '@iconify/utils': 2.0.10
       '@unocss/core': link:../core
       ohmyfetch: 0.4.21
     devDependencies:
@@ -2762,8 +2762,8 @@ packages:
   /@iconify/types/2.0.0:
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
 
-  /@iconify/utils/2.0.9:
-    resolution: {integrity: sha512-ropNqaeamoxZvXxvaTJXrI0MrqdWdDVIs/mW7/sEQbNi0aXYUGL2iuLs1da3QR163gyG63kiyTsqw2oQYamw3Q==}
+  /@iconify/utils/2.0.10:
+    resolution: {integrity: sha512-DvVLHl2w5ooo8pfUsvcMy+Rh1wkjeTOWWMicUDlLQMBE0baP8l/vwzQwmD7E0s04ixaDsv1I2JiYhKzQgB0GQw==}
     dependencies:
       '@antfu/install-pkg': 0.1.1
       '@antfu/utils': 0.7.2
@@ -2996,7 +2996,7 @@ packages:
       globby: 13.1.2
       hash-sum: 2.0.0
       ignore: 5.2.0
-      jiti: 1.16.1
+      jiti: 1.16.0
       knitwork: 1.0.0
       lodash.template: 4.5.0
       mlly: 1.0.0
@@ -3023,7 +3023,7 @@ packages:
       globby: 13.1.2
       hash-sum: 2.0.0
       ignore: 5.2.0
-      jiti: 1.16.1
+      jiti: 1.16.0
       knitwork: 1.0.0
       lodash.template: 4.5.0
       mlly: 1.0.0
@@ -3066,7 +3066,7 @@ packages:
       c12: 1.0.1
       create-require: 1.1.1
       defu: 6.1.1
-      jiti: 1.16.1
+      jiti: 1.16.0
       pathe: 1.0.0
       pkg-types: 1.0.1
       postcss-import-resolver: 2.0.0
@@ -3087,7 +3087,7 @@ packages:
       c12: 1.0.1
       create-require: 1.1.1
       defu: 6.1.1
-      jiti: 1.16.1
+      jiti: 1.16.0
       pathe: 1.0.0
       pkg-types: 1.0.1
       postcss-import-resolver: 2.0.0
@@ -3231,7 +3231,7 @@ packages:
       chokidar: 3.5.3
       cssnano: 5.1.14_postcss@8.4.20
       defu: 6.1.1
-      esbuild: 0.15.18
+      esbuild: 0.15.14
       escape-string-regexp: 5.0.0
       estree-walker: 3.0.1
       externality: 1.0.0
@@ -18627,7 +18627,7 @@ packages:
       - ts-node
     dev: true
 
-  /tsup/6.5.0_rjjztofv3neoollaos63msgx3q:
+  /tsup/6.5.0_typescript@4.9.4:
     resolution: {integrity: sha512-36u82r7rYqRHFkD15R20Cd4ercPkbYmuvRkz3Q1LCm5BsiFNUgpo36zbjVhCOgvjyxNBWNKHsaD5Rl8SykfzNA==}
     engines: {node: '>=14'}
     hasBin: true
@@ -18651,8 +18651,7 @@ packages:
       execa: 5.1.1
       globby: 11.1.0
       joycon: 3.1.1
-      postcss: 8.4.20
-      postcss-load-config: 3.1.4_postcss@8.4.20
+      postcss-load-config: 3.1.4
       resolve-from: 5.0.0
       rollup: 3.5.0
       source-map: 0.8.0-beta.0
@@ -19579,7 +19578,7 @@ packages:
       - supports-color
     dev: true
 
-  /vite-plugin-vue-markdown/0.22.2_rollup@2.79.1+vite@4.0.4:
+  /vite-plugin-vue-markdown/0.22.2_rollup@2.79.1+vite@3.2.5:
     resolution: {integrity: sha512-MJ2cpEcI1ehfcQbpAMPA6ezhK2nrajL4q8999SXPbPMbRHB+gKoJvqrwei6QIdhCLkgwR1ZDEwigphtuoQAbbw==}
     peerDependencies:
       vite: ^2.0.0 || ^3.0.0-0 || ^4.0.0
@@ -19591,7 +19590,7 @@ packages:
       '@rollup/pluginutils': 5.0.2_rollup@2.79.1
       '@types/markdown-it': 12.2.3
       markdown-it: 13.0.1
-      vite: 4.0.4
+      vite: 3.2.5
     transitivePeerDependencies:
       - rollup
     dev: true
