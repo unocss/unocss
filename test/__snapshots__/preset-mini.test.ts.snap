@@ -829,11 +829,13 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .clear-revert{clear:revert;}
 .z-0,
 .z0{z-index:0;}
-.-z-1{z-index:-1;}
+.-z-1,
+.pos-z--1{z-index:-1;}
+.position-z-auto,
+.z-auto{z-index:auto;}
 .z-\\\\$variable{z-index:var(--variable);}
 .z-1{z-index:1;}
 .z-100{z-index:100;}
-.z-auto{z-index:auto;}
 .z-inherit{z-index:inherit;}
 .box-border{box-sizing:border-box;}
 .box-content{box-sizing:content-box;}

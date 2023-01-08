@@ -388,15 +388,19 @@ export const presetMiniTargets: string[] = [
   'clear-both',
   'clear-none',
   'clear-revert',
+  'box-content',
+  'box-border',
+  'box-inherit',
+
+  // position - z-index
   'z0',
   'z-0',
   'z-1',
   'z-100',
   'z-auto',
   'z-inherit',
-  'box-content',
-  'box-border',
-  'box-inherit',
+  'pos-z--1',
+  'position-z-auto',
 
   // ring, shadow
   'ring',
