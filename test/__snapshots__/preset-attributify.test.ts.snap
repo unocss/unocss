@@ -36,6 +36,8 @@ Set {
   "[x-transition:enter-start~=\\"opacity-0\\"]",
   "[pt2=\\"\\"]",
   "[rounded-sm=\\"\\"]",
+  "[size~=\\"w-1\\"]",
+  "[size~=\\"h-0.5\\"]",
   "[inline-block=\\"\\"]",
   "[transform=\\"\\"]",
   "[translate-x-100%=\\"\\"]",
@@ -178,6 +180,8 @@ exports[`attributify > fixture1 1`] = `
 [un-children~=\\"m-auto\\"]>*{margin:auto;}
 [ml-1\\\\.5=\\"\\"]{margin-left:0.375rem;}
 [inline-block=\\"\\"]{display:inline-block;}
+[size~=\\"h-0\\\\.5\\"]{height:0.125rem;}
+[size~=\\"w-1\\"]{width:0.25rem;}
 [flex~=\\"\\\\!\\\\~\\"]{display:flex !important;}
 [flex~=\\"col\\"]{flex-direction:column;}
 [translate-x-100\\\\%=\\"\\"]{--un-translate-x:100%;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
@@ -374,6 +378,8 @@ exports[`attributify > variant 1`] = `
   "x-transition:enter-start-opacity-0",
   "pt2",
   "rounded-sm",
+  "size-w-1",
+  "size-h-0.5",
   "inline-block",
   "transform",
   "translate-x-100%",

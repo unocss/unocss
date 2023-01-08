@@ -27,6 +27,7 @@ describe('attributify', () => {
   :x-transition:enter-start="opacity-0"
   v-bind:x-transition:enter-start="opacity-0"
   pt2 rounded-sm
+  size="w-1 h-0.5"
   inline-block
   transform
   translate-x-100%

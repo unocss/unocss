@@ -607,7 +607,8 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .pos-unset{position:unset;}
 .position-inherit{position:inherit;}
 .static{position:static;}
-.h-\\\\[calc\\\\(1000px-4rem\\\\)\\\\]{height:calc(1000px - 4rem);}
+.h-\\\\[calc\\\\(1000px-4rem\\\\)\\\\],
+.size-h-\\\\[calc\\\\(1000px-4rem\\\\)\\\\]{height:calc(1000px - 4rem);}
 .h-\\\\$var{height:var(--var);}
 .h-1{height:0.25rem;}
 .h-1\\\\.000\\\\%,
@@ -648,10 +649,12 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .min-h-unset{min-height:unset;}
 .min-w-\\\\$var{min-width:var(--var);}
 .min-w-20{min-width:5rem;}
-.min-w-full{min-width:100%;}
+.min-w-full,
+.size-min-w-full{min-width:100%;}
 .min-w-lg{min-width:32rem;}
 .min-w-none{min-width:none;}
 .min-w-revert-layer{min-width:revert-layer;}
+.size-w-10{width:2.5rem;}
 .w-\\\\[calc\\\\(calc\\\\(100px\\\\*10\\\\)-4rem\\\\)\\\\]{width:calc(calc(100px * 10) - 4rem);}
 .w-1{width:0.25rem;}
 .w-1\\\\/4{width:25%;}
