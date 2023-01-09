@@ -322,14 +322,19 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .peer:not(:placeholder-shown)~.peer-not-placeholder-shown\\\\:text-3xl{font-size:1.875rem;line-height:2.25rem;}
 .peer:not(:placeholder-shown)~.peer-not-placeholder-shown\\\\:text-2xl{font-size:1.5rem;line-height:2rem;}
 .text-\\\\[100px\\\\]{font-size:100px;}
+.text-\\\\[11px\\\\]\\\\/4{font-size:11px;line-height:1rem;}
+.text-\\\\[12px\\\\]\\\\/\\\\[13px\\\\]{font-size:12px;line-height:13px;}
 .text-\\\\[2em\\\\],
 .text-\\\\[length\\\\:2em\\\\],
 .text-2em,
 .text-size-\\\\[2em\\\\]{font-size:2em;}
 .text-\\\\[length\\\\:calc\\\\(1em-1px\\\\)\\\\]{font-size:calc(1em - 1px);}
 .text-\\\\[length\\\\:var\\\\(--size\\\\)\\\\]{font-size:var(--size);}
+.text-\\\\[length\\\\:var\\\\(--size\\\\)\\\\]\\\\:\\\\$leading{font-size:var(--size);line-height:var(--leading);}
 .text-base{font-size:1rem;line-height:1.5rem;}
 .text-lg{font-size:1.125rem;line-height:1.75rem;}
+.text-sm\\\\/\\\\[10px\\\\]{font-size:0.875rem;line-height:10px;}
+.text-sm\\\\/3{font-size:0.875rem;line-height:0.75rem;}
 .text-size-\\\\$variable{font-size:var(--variable);}
 .text-size-unset{font-size:unset;}
 .as-parent .group .group-\\\\[\\\\.as-parent_\\\\&\\\\]\\\\:font-13{font-weight:13;}
@@ -607,7 +612,8 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .pos-unset{position:unset;}
 .position-inherit{position:inherit;}
 .static{position:static;}
-.h-\\\\[calc\\\\(1000px-4rem\\\\)\\\\]{height:calc(1000px - 4rem);}
+.h-\\\\[calc\\\\(1000px-4rem\\\\)\\\\],
+.size-h-\\\\[calc\\\\(1000px-4rem\\\\)\\\\]{height:calc(1000px - 4rem);}
 .h-\\\\$var{height:var(--var);}
 .h-1{height:0.25rem;}
 .h-1\\\\.000\\\\%,
@@ -648,10 +654,12 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .min-h-unset{min-height:unset;}
 .min-w-\\\\$var{min-width:var(--var);}
 .min-w-20{min-width:5rem;}
-.min-w-full{min-width:100%;}
+.min-w-full,
+.size-min-w-full{min-width:100%;}
 .min-w-lg{min-width:32rem;}
 .min-w-none{min-width:none;}
 .min-w-revert-layer{min-width:revert-layer;}
+.size-w-10{width:2.5rem;}
 .w-\\\\[calc\\\\(calc\\\\(100px\\\\*10\\\\)-4rem\\\\)\\\\]{width:calc(calc(100px * 10) - 4rem);}
 .w-1{width:0.25rem;}
 .w-1\\\\/4{width:25%;}
@@ -826,11 +834,13 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .clear-revert{clear:revert;}
 .z-0,
 .z0{z-index:0;}
-.-z-1{z-index:-1;}
+.-z-1,
+.pos-z--1{z-index:-1;}
+.position-z-auto,
+.z-auto{z-index:auto;}
 .z-\\\\$variable{z-index:var(--variable);}
 .z-1{z-index:1;}
 .z-100{z-index:100;}
-.z-auto{z-index:auto;}
 .z-inherit{z-index:inherit;}
 .box-border{box-sizing:border-box;}
 .box-content{box-sizing:content-box;}

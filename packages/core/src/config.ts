@@ -23,9 +23,9 @@ export function resolvePreset<Theme extends {} = {}>(preset: Preset<Theme>): Pre
         i[2] = {}
       const meta = i[2]
       if (meta.prefix == null && preset.prefix)
-        meta.prefix = preset.prefix
+        meta.prefix = toArray(preset.prefix)
       if (meta.layer == null && preset.layer)
-        meta.prefix = preset.layer
+        meta.layer = preset.layer
     }
     shortcuts?.forEach(apply)
     preset.rules?.forEach(apply)
@@ -69,8 +69,10 @@ export function resolveConfig<Theme extends {} = {}>(
   const rulesDynamic = rules
     .map((rule, i) => {
       if (isStaticRule(rule)) {
-        const prefix = rule[2]?.prefix || ''
-        rulesStaticMap[prefix + rule[0]] = [i, rule[1], rule[2], rule]
+        const prefixes = toArray(rule[2]?.prefix || '')
+        prefixes.forEach((prefix) => {
+          rulesStaticMap[prefix + rule[0]] = [i, rule[1], rule[2], rule]
+        })
         // delete static rules so we can't skip them in matching
         // but keep the order
         return undefined

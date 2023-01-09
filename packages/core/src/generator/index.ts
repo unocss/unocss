@@ -1,7 +1,7 @@
 import { createNanoEvents } from '../utils/events'
 import type { CSSEntries, CSSObject, DynamicRule, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
-import { CONTROL_SHORTCUT_NO_MERGE, TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, uniq, warnOnce } from '../utils'
+import { CONTROL_SHORTCUT_NO_MERGE, TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
 import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from '../constants'
 
@@ -394,7 +394,12 @@ export class UnoGenerator<Theme extends {} = {}> {
     return cssBody
   }
 
-  async parseUtil(input: string | VariantMatchedResult<Theme>, context: RuleContext<Theme>, internal = false, shortcutPrefix: string | undefined = undefined): Promise<(ParsedUtil | RawUtil)[] | undefined> {
+  async parseUtil(
+    input: string | VariantMatchedResult<Theme>,
+    context: RuleContext<Theme>,
+    internal = false,
+    shortcutPrefix?: string | string[] | undefined,
+  ): Promise<(ParsedUtil | RawUtil)[] | undefined> {
     const [raw, processed, variantHandlers] = isString(input)
       ? this.matchVariants(input)
       : input
@@ -432,14 +437,17 @@ export class UnoGenerator<Theme extends {} = {}> {
       // match prefix
       let unprefixed = processed
       if (meta?.prefix) {
+        const prefixes = toArray(meta.prefix)
         if (shortcutPrefix) {
-          if (shortcutPrefix !== meta.prefix)
+          const shortcutPrefixes = toArray(shortcutPrefix)
+          if (!prefixes.some(i => shortcutPrefixes.includes(i)))
             continue
         }
         else {
-          if (!processed.startsWith(meta.prefix))
+          const prefix = prefixes.find(i => processed.startsWith(i))
+          if (prefix == null)
             continue
-          unprefixed = processed.slice(meta.prefix.length)
+          unprefixed = processed.slice(prefix.length)
         }
       }
 
@@ -504,9 +512,11 @@ export class UnoGenerator<Theme extends {} = {}> {
     for (const s of this.config.shortcuts) {
       let unprefixed = input
       if (s[2]?.prefix) {
-        if (!input.startsWith(s[2].prefix))
+        const prefixes = toArray(s[2].prefix)
+        const prefix = prefixes.find(i => input.startsWith(i))
+        if (prefix == null)
           continue
-        unprefixed = input.slice(s[2].prefix.length)
+        unprefixed = input.slice(prefix.length)
       }
       if (isStaticShortcut(s)) {
         if (s[0] === unprefixed) {

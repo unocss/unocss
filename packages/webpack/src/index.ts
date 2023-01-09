@@ -171,4 +171,3 @@ function getLayer(id: string) {
   }
   return layer
 }
-

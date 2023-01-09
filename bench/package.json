@@ -11,8 +11,8 @@
     "postcss": "^8.4.20",
     "tailwindcss": "^3.2.4",
     "unocss": "workspace:*",
-    "vite": "^4.0.0",
-    "vite-plugin-windicss": "^1.8.8",
+    "vite": "^4.0.4",
+    "vite-plugin-windicss": "^1.8.10",
     "vue": "^3.2.39",
     "windicss": "^3.5.6"
   }

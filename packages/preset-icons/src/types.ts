@@ -25,7 +25,7 @@ export interface IconsOptions {
    *
    * @default `i-`
    */
-  prefix?: string
+  prefix?: string | string[]
   /**
    * Extra CSS properties applied to the generated CSS
    *

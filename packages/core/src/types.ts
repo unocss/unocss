@@ -160,7 +160,7 @@ export interface RuleMeta {
   /**
    * Matching prefix before this util
    */
-  prefix?: string
+  prefix?: string | string[]
 
   /**
    * Internal rules will only be matched for shortcuts but not the user code.
@@ -463,7 +463,7 @@ export interface Preset<Theme extends {} = {}> extends ConfigBase<Theme> {
   /**
    * Apply prefix to all utilities and shortcuts
    */
-  prefix?: string
+  prefix?: string | string[]
   /**
    * Apply layer to all utilities and shortcuts
    */

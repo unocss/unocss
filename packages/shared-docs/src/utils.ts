@@ -32,4 +32,3 @@ export async function formatCSS(input: string) {
     },
   )
 }
-

@@ -58,7 +58,7 @@ export const extractorAttributify = (options?: AttributifyOptions): Extractor =>
             const extractTernary = Array.from(content.matchAll(/(?:[\?:].*?)(["'])([^\1]*?)\1/gms))
               .map(([,,v]) => v.split(splitterRE)).flat()
             return (extractTernary.length ? extractTernary : content.split(splitterRE))
-              .filter(Boolean)
+              .filter(v => Boolean(v) && v !== ':')
               .map(v => `[${name}~="${v}"]`)
           }
         })

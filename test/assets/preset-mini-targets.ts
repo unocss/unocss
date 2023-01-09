@@ -205,6 +205,11 @@ export const presetMiniTargets: string[] = [
   'text-[length:calc(1em-1px)]',
   'text-[color:var(--color)]',
   'text-[color:var(--color-x)]:[trick]',
+  'text-sm/3',
+  'text-sm/[10px]',
+  'text-[11px]/4',
+  'text-[12px]/[13px]',
+  'text-[length:var(--size)]:$leading',
 
   // color - bg
   'bg-[#153]/10',
@@ -388,15 +393,19 @@ export const presetMiniTargets: string[] = [
   'clear-both',
   'clear-none',
   'clear-revert',
+  'box-content',
+  'box-border',
+  'box-inherit',
+
+  // position - z-index
   'z0',
   'z-0',
   'z-1',
   'z-100',
   'z-auto',
   'z-inherit',
-  'box-content',
-  'box-border',
-  'box-inherit',
+  'pos-z--1',
+  'position-z-auto',
 
   // ring, shadow
   'ring',
@@ -478,6 +487,9 @@ export const presetMiniTargets: string[] = [
   'h-$var',
   'h-[calc(1000px-4rem)]',
   'w-[calc(calc(100px*10)-4rem)]',
+  'size-w-10',
+  'size-h-[calc(1000px-4rem)]',
+  'size-min-w-full',
 
   // size - logical
   'block-auto',
