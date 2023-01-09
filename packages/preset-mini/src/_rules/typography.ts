@@ -1,7 +1,7 @@
 import type { Rule } from '@unocss/core'
 import { toArray } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorResolver, colorableShadows, handler as h } from '../utils'
+import { colorResolver, colorableShadows, handler as h, splitShorthand } from '../utils'
 
 const weightMap: Record<string, string> = {
   thin: '100',
@@ -16,6 +16,10 @@ const weightMap: Record<string, string> = {
   // int[0, 900] -> int
 }
 
+function handleLineHeight(s: string, theme: Theme) {
+  return theme.lineHeight?.[s] || h.bracket.cssvar.global.rem(s)
+}
+
 export const fonts: Rule<Theme>[] = [
   // family
   [
@@ -28,12 +32,22 @@ export const fonts: Rule<Theme>[] = [
   [
     /^text-(.+)$/,
     ([, s = 'base'], { theme }) => {
-      const themed = toArray(theme.fontSize?.[s])
-      if (themed?.[0]) {
-        const [size, height = '1'] = themed
+      const [size, leading] = splitShorthand(s, 'length')
+      const sizePairs = toArray(theme.fontSize?.[size])
+      const lineHeight = leading ? handleLineHeight(leading, theme) : undefined
+
+      if (sizePairs?.[0]) {
+        const [fontSize, height] = sizePairs
         return {
-          'font-size': size,
-          'line-height': height,
+          'font-size': fontSize,
+          'line-height': lineHeight ?? height ?? '1',
+        }
+      }
+
+      if (lineHeight) {
+        return {
+          'font-size': h.bracketOfLength.rem(size),
+          'line-height': lineHeight,
         }
       }
 
@@ -58,7 +72,7 @@ export const fonts: Rule<Theme>[] = [
   // leadings
   [
     /^(?:font-)?(?:leading|lh)-(.+)$/,
-    ([, s], { theme }) => ({ 'line-height': theme.lineHeight?.[s] || h.bracket.cssvar.global.rem(s) }),
+    ([, s], { theme }) => ({ 'line-height': handleLineHeight(s, theme) }),
     { autocomplete: '(leading|lh)-$lineHeight' },
   ],
 

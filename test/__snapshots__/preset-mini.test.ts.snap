@@ -322,14 +322,19 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .peer:not(:placeholder-shown)~.peer-not-placeholder-shown\\\\:text-3xl{font-size:1.875rem;line-height:2.25rem;}
 .peer:not(:placeholder-shown)~.peer-not-placeholder-shown\\\\:text-2xl{font-size:1.5rem;line-height:2rem;}
 .text-\\\\[100px\\\\]{font-size:100px;}
+.text-\\\\[11px\\\\]\\\\/4{font-size:11px;line-height:1rem;}
+.text-\\\\[12px\\\\]\\\\/\\\\[13px\\\\]{font-size:12px;line-height:13px;}
 .text-\\\\[2em\\\\],
 .text-\\\\[length\\\\:2em\\\\],
 .text-2em,
 .text-size-\\\\[2em\\\\]{font-size:2em;}
 .text-\\\\[length\\\\:calc\\\\(1em-1px\\\\)\\\\]{font-size:calc(1em - 1px);}
 .text-\\\\[length\\\\:var\\\\(--size\\\\)\\\\]{font-size:var(--size);}
+.text-\\\\[length\\\\:var\\\\(--size\\\\)\\\\]\\\\:\\\\$leading{font-size:var(--size);line-height:var(--leading);}
 .text-base{font-size:1rem;line-height:1.5rem;}
 .text-lg{font-size:1.125rem;line-height:1.75rem;}
+.text-sm\\\\/\\\\[10px\\\\]{font-size:0.875rem;line-height:10px;}
+.text-sm\\\\/3{font-size:0.875rem;line-height:0.75rem;}
 .text-size-\\\\$variable{font-size:var(--variable);}
 .text-size-unset{font-size:unset;}
 .as-parent .group .group-\\\\[\\\\.as-parent_\\\\&\\\\]\\\\:font-13{font-weight:13;}
