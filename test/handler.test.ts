@@ -46,7 +46,6 @@ describe('value handler', () => {
 
   test('handler resolves numbers using numberWithUnit', () => {
     // normalizations
-    expect(h.numberWithUnit('10')).eql(undefined)
     expect(h.numberWithUnit('10unknown')).eql(undefined)
     expect(h.numberWithUnit('10 unknown')).eql(undefined)
     expect(h.numberWithUnit('10 px')).eql(undefined)
@@ -58,13 +57,21 @@ describe('value handler', () => {
     expect(h.numberWithUnit('00.30px')).eql('0.3px')
     expect(h.numberWithUnit('01.40px')).eql('1.4px')
 
+    // no default value
+    expect(h.numberWithUnit('10')).eql(undefined)
+
     // units
     const units = [
       'pt',
       'pc',
       '%',
+
       'rem', 'em',
-      'ex', 'ch', 'ic',
+      'rex', 'ex',
+      'rcap', 'cap',
+      'rch', 'ch',
+      'ric', 'ic',
+      'rlh', 'lh',
 
       'vw', 'vh', 'vi', 'vb', 'vmin', 'vmax',
       'svw', 'svh', 'svi', 'svb', 'svmin', 'svmax',
@@ -77,5 +84,57 @@ describe('value handler', () => {
     ]
 
     expect(units.map(y => h.numberWithUnit(`12.34${y}`))).eql(units.map(y => `12.34${y}`))
+  })
+
+  test('handler resolves numbers using time', () => {
+    // normalizations
+    expect(h.time('10unknown')).eql(undefined)
+    expect(h.time('10 unknown')).eql(undefined)
+    expect(h.time('10 ms')).eql(undefined)
+    expect(h.time('10ms')).eql('10ms')
+    expect(h.time('10.0ms')).eql('10ms')
+    expect(h.time('0ms')).eql('0ms')
+    expect(h.time('.1ms')).eql('0.1ms')
+    expect(h.time('.20ms')).eql('0.2ms')
+    expect(h.time('00.30ms')).eql('0.3ms')
+    expect(h.time('01.40ms')).eql('1.4ms')
+
+    // default value
+    expect(h.time('10')).eql('10ms')
+
+    // units
+    const units = [
+      'ms',
+      's',
+    ]
+
+    expect(units.map(y => h.time(`12.34${y}`))).eql(units.map(y => `12.34${y}`))
+  })
+
+  test('handler resolves numbers using degree', () => {
+    // normalizations
+    expect(h.degree('10unknown')).eql(undefined)
+    expect(h.degree('10 unknown')).eql(undefined)
+    expect(h.degree('10 deg')).eql(undefined)
+    expect(h.degree('10deg')).eql('10deg')
+    expect(h.degree('10.0deg')).eql('10deg')
+    expect(h.degree('0deg')).eql('0deg')
+    expect(h.degree('.1deg')).eql('0.1deg')
+    expect(h.degree('.20deg')).eql('0.2deg')
+    expect(h.degree('00.30deg')).eql('0.3deg')
+    expect(h.degree('01.40deg')).eql('1.4deg')
+
+    // default value
+    expect(h.degree('10')).eql('10deg')
+
+    // units
+    const units = [
+      'deg',
+      'rad',
+      'grad',
+      'turn',
+    ]
+
+    expect(units.map(y => h.degree(`12.34${y}`))).eql(units.map(y => `12.34${y}`))
   })
 })
