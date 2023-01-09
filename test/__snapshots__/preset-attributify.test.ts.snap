@@ -337,6 +337,8 @@ exports[`attributify > fixture4 1`] = `
 
 exports[`attributify > prefixedOnly 1`] = `
 "/* layer: default */
+.absolute{position:absolute;}
+.fixed{position:fixed;}
 [un-children~=\\"m-auto\\"]>*{margin:auto;}"
 `;
 

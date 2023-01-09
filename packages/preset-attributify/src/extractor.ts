@@ -36,7 +36,7 @@ export const extractorAttributify = (options?: AttributifyOptions): Extractor =>
             }
           }
 
-          if (options?.prefixedOnly && options.prefix && !name.startsWith(options.prefix))
+          if (options?.prefixedOnly && options.prefix && !name.startsWith(options.prefix) && !['class', 'className'].includes(name))
             return []
 
           if (!content) {
