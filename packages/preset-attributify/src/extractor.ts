@@ -25,6 +25,7 @@ export const extractorAttributify = (options?: AttributifyOptions): Extractor =>
         .flatMap(match => Array.from((match[1] || '').matchAll(valuedAttributeRE)))
         .flatMap(([, name, ...contents]) => {
           const content = contents.filter(Boolean).join('')
+          const isClass = ['class', 'className'].includes(name)
 
           if (ignoreAttributes.includes(name))
             return []
@@ -36,7 +37,7 @@ export const extractorAttributify = (options?: AttributifyOptions): Extractor =>
             }
           }
 
-          if (options?.prefixedOnly && options.prefix && !name.startsWith(options.prefix) && !['class', 'className'].includes(name))
+          if (options?.prefixedOnly && options.prefix && !name.startsWith(options.prefix) && !isClass)
             return []
 
           if (!content) {
@@ -49,7 +50,7 @@ export const extractorAttributify = (options?: AttributifyOptions): Extractor =>
             return []
           }
 
-          if (['class', 'className'].includes(name)) {
+          if (isClass) {
             return content
               .split(splitterRE)
               .filter(isValidSelector)
