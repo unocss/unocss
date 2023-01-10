@@ -99,6 +99,8 @@ export default defineConfig({
   the `table` element **(NOTE: `not` utility is only usable in class since it is
   only used in CSS** **selector & not scanned by UnoCSS)**.
 
+  If you enabled the compatibility mode, `not-prose` will be unavailable.
+
 ## Utilities
 
 |  Rule   |                                            Styles by this rule                                                    |
@@ -143,6 +145,10 @@ The CSS declarations passed to `cssExtend` will
 
 - **be merged** deeply with built-in styles.
 
+Since this preset use `:where()` in CSS selectors, it will not work in some
+browsers. To enable compatibility mode, set `compatibilityMode` to `true`.
+Notice that when it is enabled, `not-prose` will be unavailable.
+
 ### Type of `TypographyOptions`
 
 ```ts
@@ -164,6 +170,14 @@ export interface TypographyOptions {
    * @defaultValue undefined
    */
   cssExtend?: Record<string, CSSObject>
+
+  /**
+   * Compacitility Mode. No `:where()` is used. Notice that when it is enabled,
+   * `not-prose` will be unavailable. For more instructions, see [here](https://github.com/unocss/unocss/issues/2051)
+   *
+   * @defaultValue false
+   */
+  compatibilityMode?: boolean
 }
 ```
 

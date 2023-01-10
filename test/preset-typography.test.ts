@@ -76,6 +76,12 @@ const testConfigs = [
       strict: false,
     },
   },
+
+  {
+    name: 'prose-compatibility-mode',
+    input: 'prose',
+    typographyOptions: { compatibilityMode: true },
+  },
 ]
 
 describe('typography', () => {

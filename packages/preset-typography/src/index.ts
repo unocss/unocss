@@ -24,6 +24,15 @@ export interface TypographyOptions {
    * @defaultValue undefined
    */
   cssExtend?: Record<string, CSSObject>
+
+  /**
+   * Compacitility Mode. No `:where()` is used. Notice that when it is enabled,
+   * `not-prose` will be unavailable. For more instructions, see [here](https://github.com/unocss/unocss/issues/2051)
+   *
+   * @defaultValue false
+   */
+  compatibilityMode?: boolean
+
   /**
    * @deprecated use `selectorName` instead. It will be removed in 1.0.
    */
@@ -134,7 +143,7 @@ export function presetTypography(options?: TypographyOptions): Preset {
         layer: 'typography',
         getCSS: () =>
           hasProseClass
-            ? getPreflights(escapedSelector, selectorName, cssExtend)
+            ? getPreflights(escapedSelector, selectorName, cssExtend, options?.compatibilityMode)
             : undefined,
       },
     ],

@@ -5,6 +5,7 @@ function getCSS(
   escapedSelector: string,
   selectorName: string,
   preflights: object,
+  compatibilityMode?: boolean,
 ): string {
   let css = ''
 
@@ -25,6 +26,8 @@ function getCSS(
         if (match) {
           const matchStr = match[0]
           s = s.replace(matchStr, '')
+          if (compatibilityMode)
+            return `${escapedSelector} ${s}${matchStr}`
           return `${escapedSelector} :where(${s})${notProseSelector}${matchStr}`
         }
         return null
@@ -38,7 +41,9 @@ function getCSS(
     }
     else {
       // directly from css declaration
-      css += `${escapedSelector} :where(${selector})${notProseSelector}`
+      if (compatibilityMode)
+        css += `${escapedSelector} ${selector}`
+      else css += `${escapedSelector} :where(${selector})${notProseSelector}`
     }
 
     css += '{'
@@ -57,13 +62,14 @@ export function getPreflights(
   escapedSelector: string,
   selectorName: string,
   cssExtend?: object | undefined,
+  compatibilityMode?: boolean,
 ): string {
   // attribute mode -> add class selector with `:is()` pseudo-class function
   if (!escapedSelector.startsWith('.'))
     escapedSelector = `:is(${escapedSelector},.${selectorName})`
 
   if (cssExtend)
-    return getCSS(escapedSelector, selectorName, mergeDeep(DEFAULT, cssExtend))
+    return getCSS(escapedSelector, selectorName, mergeDeep(DEFAULT, cssExtend), compatibilityMode)
 
-  return getCSS(escapedSelector, selectorName, DEFAULT)
+  return getCSS(escapedSelector, selectorName, DEFAULT, compatibilityMode)
 }
