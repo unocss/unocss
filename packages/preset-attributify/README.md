@@ -177,12 +177,10 @@ declare module 'solid-js' {
 ### Svelte & SvelteKit
 
 ```ts
-import type { AttributifyAttributes } from '@unocss/preset-attributify'
+declare namespace svelteHTML {
+  import type { AttributifyAttributes } from '@unocss/preset-attributify'
 
-declare global {
-  namespace svelte.JSX {
-    interface HTMLAttributes<T> extends AttributifyAttributes {}
-  }
+  type HTMLAttributes = AttributifyAttributes
 }
 ```
 
