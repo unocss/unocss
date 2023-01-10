@@ -1,7 +1,7 @@
 import type { Plugin, ResolvedConfig } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
 import type { UnocssPluginContext } from '@unocss/core'
-import { defaultExclude } from '../../integration'
+import { RESOLVED_ID_RE, defaultExclude, resolveId } from '../../integration'
 import { transformSvelteSFC } from './transform'
 
 export * from './transform'
@@ -20,6 +20,14 @@ export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin 
         config.include || [/\.svelte$/, /\.svelte\.md$/, /\.svx$/],
         config.exclude || defaultExclude,
       )
+    },
+    resolveId,
+    async load(id) {
+      if (!id.match(RESOLVED_ID_RE))
+        return
+
+      const { css } = await uno.generate('', { preflights: true, safelist: true })
+      return css
     },
     transform(code, id) {
       if (!filter(id))
