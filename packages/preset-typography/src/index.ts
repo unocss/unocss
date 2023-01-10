@@ -61,10 +61,9 @@ export interface TypographyOptions {
 export function presetTypography(options?: TypographyOptions): Preset {
   if (options?.className) {
     console.warn('[unocss:preset-typography] "className" is deprecated. '
-    + 'Use "selectorName" instead.')
+      + 'Use "selectorName" instead.')
   }
-  let hasProseClass = false
-  let escapedSelector = ''
+  const escapedSelectores = new Set<string>()
   const selectorName = options?.selectorName || options?.className || 'prose'
   const selectorNameRE = new RegExp(`^${selectorName}$`)
   const colorsRE = new RegExp(`^${selectorName}-([-\\w]+)$`)
@@ -79,8 +78,7 @@ export function presetTypography(options?: TypographyOptions): Preset {
       [
         selectorNameRE,
         (_, { rawSelector }) => {
-          hasProseClass = true
-          escapedSelector = toEscapedSelector(rawSelector)
+          escapedSelectores.add(toEscapedSelector(rawSelector))
           return { 'color': 'var(--un-prose-body)', 'max-width': '65ch' }
         },
         { layer: 'typography' },
@@ -141,10 +139,18 @@ export function presetTypography(options?: TypographyOptions): Preset {
     preflights: [
       {
         layer: 'typography',
-        getCSS: () =>
-          hasProseClass
-            ? getPreflights(escapedSelector, selectorName, cssExtend, options?.compatibilityMode)
-            : undefined,
+        getCSS: () => {
+          if (escapedSelectores.size > 0) {
+            if (options?.compatibilityMode) {
+              return Array.from(escapedSelectores)
+                .map(escapedSelector => getPreflights(escapedSelector, selectorName, cssExtend, options?.compatibilityMode))
+                .join('\n')
+            }
+            else {
+              return getPreflights(Array.from(escapedSelectores).pop()!, selectorName, cssExtend, options?.compatibilityMode)
+            }
+          }
+        },
       },
     ],
   }

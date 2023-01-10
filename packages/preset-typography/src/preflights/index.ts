@@ -65,7 +65,7 @@ export function getPreflights(
   compatibilityMode?: boolean,
 ): string {
   // attribute mode -> add class selector with `:is()` pseudo-class function
-  if (!escapedSelector.startsWith('.'))
+  if (!escapedSelector.startsWith('.') && !compatibilityMode)
     escapedSelector = `:is(${escapedSelector},.${selectorName})`
 
   if (cssExtend)
