@@ -79,7 +79,7 @@ const testConfigs = [
 
   {
     name: 'prose-compatibility-mode',
-    input: 'prose',
+    input: '<a prose class="prose"></a>',
     typographyOptions: { compatibilityMode: true },
   },
 ]
