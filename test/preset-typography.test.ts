@@ -95,7 +95,7 @@ describe('typography', () => {
         ],
       })
 
-      const { css } = await generator.generate(tc.input)
+      const { css } = await generator.generate(tc.input, { preflights: false })
       expect(css).toMatchSnapshot()
     })
   }
