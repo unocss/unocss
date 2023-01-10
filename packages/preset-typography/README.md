@@ -172,7 +172,7 @@ export interface TypographyOptions {
   cssExtend?: Record<string, CSSObject>
 
   /**
-   * Compacitility Mode. No `:where()` is used. Notice that when it is enabled,
+   * Compatibility Mode. No `:where()` is used. Notice that when it is enabled,
    * `not-prose` will be unavailable. For more instructions, see [here](https://github.com/unocss/unocss/issues/2051)
    *
    * @defaultValue false
