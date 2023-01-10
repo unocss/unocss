@@ -140,16 +140,8 @@ export function presetTypography(options?: TypographyOptions): Preset {
       {
         layer: 'typography',
         getCSS: () => {
-          if (escapedSelectores.size > 0) {
-            if (options?.compatibilityMode) {
-              return Array.from(escapedSelectores)
-                .map(escapedSelector => getPreflights(escapedSelector, selectorName, cssExtend, options?.compatibilityMode))
-                .join('\n')
-            }
-            else {
-              return getPreflights(Array.from(escapedSelectores).pop()!, selectorName, cssExtend, options?.compatibilityMode)
-            }
-          }
+          if (escapedSelectores.size > 0)
+            return getPreflights(escapedSelectores, selectorName, cssExtend, options?.compatibilityMode)
         },
       },
     ],

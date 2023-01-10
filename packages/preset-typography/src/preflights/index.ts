@@ -2,7 +2,7 @@ import { mergeDeep } from '@unocss/core'
 import { DEFAULT } from './default'
 
 function getCSS(
-  escapedSelector: string,
+  escapedSelector: string[],
   selectorName: string,
   preflights: object,
   compatibilityMode?: boolean,
@@ -26,9 +26,11 @@ function getCSS(
         if (match) {
           const matchStr = match[0]
           s = s.replace(matchStr, '')
-          if (compatibilityMode)
-            return `${escapedSelector} ${s}${matchStr}`
-          return `${escapedSelector} :where(${s})${notProseSelector}${matchStr}`
+          return escapedSelector.map(e =>
+            compatibilityMode
+              ? `${e} ${s}${matchStr}`
+              : `${e} :where(${s})${notProseSelector}${matchStr}`,
+          ).join(',')
         }
         return null
       })
@@ -41,9 +43,11 @@ function getCSS(
     }
     else {
       // directly from css declaration
-      if (compatibilityMode)
-        css += `${escapedSelector} ${selector}`
-      else css += `${escapedSelector} :where(${selector})${notProseSelector}`
+      css += escapedSelector.map(e =>
+        compatibilityMode
+          ? `${e} ${selector}`
+          : `${e} :where(${selector})${notProseSelector}`,
+      ).join(',')
     }
 
     css += '{'
@@ -59,14 +63,16 @@ function getCSS(
 }
 
 export function getPreflights(
-  escapedSelector: string,
+  escapedSelectores: Set<string>,
   selectorName: string,
   cssExtend?: object | undefined,
   compatibilityMode?: boolean,
 ): string {
+  let escapedSelector = Array.from(escapedSelectores)
+
   // attribute mode -> add class selector with `:is()` pseudo-class function
-  if (!escapedSelector.startsWith('.') && !compatibilityMode)
-    escapedSelector = `:is(${escapedSelector},.${selectorName})`
+  if (!escapedSelector[escapedSelector.length - 1].startsWith('.') && !compatibilityMode)
+    escapedSelector = [`:is(${escapedSelector[escapedSelector.length - 1]},.${selectorName})`]
 
   if (cssExtend)
     return getCSS(escapedSelector, selectorName, mergeDeep(DEFAULT, cssExtend), compatibilityMode)
