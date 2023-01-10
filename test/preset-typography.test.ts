@@ -90,12 +90,12 @@ describe('typography', () => {
       const generator = createGenerator({
         presets: [
           presetAttributify(tc.attributifyOptions),
-          presetUno(),
+          presetUno({ preflight: false }),
           presetTypography(tc.typographyOptions),
         ],
       })
 
-      const { css } = await generator.generate(tc.input, { preflights: false })
+      const { css } = await generator.generate(tc.input)
       expect(css).toMatchSnapshot()
     })
   }
