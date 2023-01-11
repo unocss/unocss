@@ -396,6 +396,12 @@ export interface ConfigBase<Theme extends {} = {}> {
    * @default false
    */
   details?: boolean
+
+  /**
+   * Whether to use the top-level await
+   * @default true
+   */
+  topLevelAwait?: boolean
 }
 
 export type AutoCompleteTemplate = string

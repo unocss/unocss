@@ -167,15 +167,19 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
 
         // inject css modules to send callback on css load
         if (layer && code.includes('import.meta.hot')) {
-          return `${code}
-;(async function() {
-  if (import.meta.hot) {
-    try { await import.meta.hot.send('${WS_EVENT_PREFIX}', ['${layer}', __vite__css.slice(2,${2 + HASH_LENGTH})]); }
-    catch (e) { console.warn('[unocss-hmr]', e) }
-    if (!import.meta.url.includes('?'))
-      await new Promise(resolve => setTimeout(resolve, 100))
-  }
-})()`
+          const immediateFunction = (code: string) => `;(async function() {\n${code}\n})()`
+          const importMetaHot = `if (import.meta.hot) {
+  try { await import.meta.hot.send('${WS_EVENT_PREFIX}', ['${layer}', __vite__css.slice(2,${2 + HASH_LENGTH})]); }
+  catch (e) { console.warn('[unocss-hmr]', e) }
+  if (!import.meta.url.includes('?'))
+    await new Promise(resolve => setTimeout(resolve, 100))
+}`
+
+          return `${code}\n${
+            uno.userConfig.topLevelAwait
+              ? importMetaHot
+              : immediateFunction(importMetaHot)
+          }`
         }
       },
     },
