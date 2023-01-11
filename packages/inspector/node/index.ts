@@ -49,6 +49,12 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
         }
 
         const result = await ctx.uno.generate(code, { id, preflights: false })
+        if (result === false) {
+          res.statusCode = 503
+          res.end()
+          return
+        }
+
         const mod: ModuleInfo = {
           ...result,
           matched: Array.from(result.matched),
@@ -68,6 +74,12 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
         const includeSafelist = JSON.parse(query.get('safelist') ?? 'false')
 
         const result = await ctx.uno.generate(token, { preflights: false, safelist: includeSafelist })
+        if (result === false) {
+          res.statusCode = 503
+          res.end()
+          return
+        }
+
         const mod = {
           ...result,
           matched: Array.from(result.matched),
@@ -80,6 +92,12 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
 
       if (req.url.startsWith('/overview')) {
         const result = await ctx.uno.generate(ctx.tokens)
+        if (result === false) {
+          res.statusCode = 503
+          res.end()
+          return
+        }
+
         const mod = {
           ...result,
           matched: Array.from(result.matched),
