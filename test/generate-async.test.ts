@@ -67,17 +67,4 @@ describe('generator timeout', () => {
     await uno.generate('rule', { timeout: 15 })
     expect(order).eql([1])
   })
-
-  test('timed-out generator returns false', async () => {
-    const uno = createGenerator({
-      rules: [
-        [/^rule$/, () => new Promise(resolve => setTimeout(() => {
-          resolve('/* rule */')
-        }, 20))],
-      ],
-    })
-
-    const result = await uno.generate('rule', { timeout: 15 })
-    expect(result).eql(false)
-  })
 })

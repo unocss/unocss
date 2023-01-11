@@ -119,7 +119,7 @@ export class UnoGenerator<Theme extends {} = {}> {
   async generate(
     input: string | Set<string> | string[],
     options: GenerateOptions = {},
-  ): Promise<GenerateResult | false> {
+  ): Promise<GenerateResult> {
     const {
       timeout = 0,
     } = options
@@ -129,7 +129,13 @@ export class UnoGenerator<Theme extends {} = {}> {
 
     return await Promise.race([
       this.generateRaced(input, options),
-      new Promise(resolve => setTimeout(() => resolve(false), timeout)) as Promise<false>,
+      new Promise(resolve => setTimeout(() => resolve({
+        css: '',
+        layers: [],
+        getLayer: () => undefined,
+        getLayers: () => '',
+        matched: new Set<string>(),
+      }), timeout)) as Promise<GenerateResult>,
     ])
   }
 
