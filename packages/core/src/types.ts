@@ -743,6 +743,12 @@ export interface GenerateOptions {
   minify?: boolean
 
   /**
+   * Set generator timeout duration
+   * @default 0
+   */
+  timeout?: number
+
+  /**
    * @experimental
    */
   scope?: string
