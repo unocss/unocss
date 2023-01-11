@@ -121,6 +121,29 @@ export class UnoGenerator<Theme extends {} = {}> {
     options: GenerateOptions = {},
   ): Promise<GenerateResult> {
     const {
+      timeout = 0,
+    } = options
+
+    if (timeout === 0)
+      return this.generateRaced(input, options)
+
+    return await Promise.race([
+      this.generateRaced(input, options),
+      new Promise(resolve => setTimeout(() => resolve({
+        css: '',
+        layers: [],
+        getLayer: () => undefined,
+        getLayers: () => '',
+        matched: new Set<string>(),
+      }), timeout)) as Promise<GenerateResult>,
+    ])
+  }
+
+  private async generateRaced(
+    input: string | Set<string> | string[],
+    options: GenerateOptions = {},
+  ): Promise<GenerateResult> {
+    const {
       id,
       scope,
       preflights = true,
