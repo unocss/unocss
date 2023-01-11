@@ -97,8 +97,6 @@ export default function WebpackPlugin<Theme extends {}>(
 
             await flushTasks()
             const result = await uno.generate(tokens, { minify: true })
-            if (result === false)
-              return
 
             for (const file of files) {
               // https://github.com/unocss/unocss/pull/1428
