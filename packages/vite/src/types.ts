@@ -38,5 +38,5 @@ export interface VitePluginConfig<Theme extends {} = {}> extends UserConfig<Them
    * Whether to use the top-level await
    * @default true
    */
-  topLevelAwait?: boolean
+  hmrTopLevelAwait?: boolean
 }

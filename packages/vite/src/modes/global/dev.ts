@@ -175,10 +175,10 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
   if (!import.meta.url.includes('?'))
     await new Promise(resolve => setTimeout(resolve, 100))
 }`
-          const { topLevelAwait } = await getConfig() as VitePluginConfig
+          const { hmrTopLevelAwait } = await getConfig() as VitePluginConfig
 
           return `${code}\n${
-            topLevelAwait !== false
+            hmrTopLevelAwait !== false
               ? importMetaHot
               : immediateFunction(importMetaHot)
           }`
