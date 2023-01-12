@@ -26,12 +26,18 @@ export interface TypographyOptions {
   cssExtend?: Record<string, CSSObject>
 
   /**
-   * Compatibility Mode. No `:where()` is used. Notice that when it is enabled,
-   * `not-prose` will be unavailable. For more instructions, see [here](https://github.com/unocss/unocss/issues/2051)
+   * Compatibility option. Notice that when any of it is enabled,
+   * `not-prose` will be unavailable.
+   * For more instructions, see
+   * [here](https://github.com/unocss/unocss/pull/2064)
    *
-   * @defaultValue false
+   * @defaultValue undefined
    */
-  compatibilityMode?: boolean
+  compatibility?: {
+    noColonWhere?: boolean
+    noColonIs?: boolean
+    noColonNot?: boolean
+  }
 
   /**
    * @deprecated use `selectorName` instead. It will be removed in 1.0.
@@ -69,6 +75,8 @@ export function presetTypography(options?: TypographyOptions): Preset {
   const colorsRE = new RegExp(`^${selectorName}-([-\\w]+)$`)
   const invertRE = new RegExp(`^${selectorName}-invert$`)
   const cssExtend = options?.cssExtend
+  const compatibility = options?.compatibility
+  const disableNotUtility = compatibility?.noColonWhere || compatibility?.noColonIs || compatibility?.noColonNot
 
   return {
     name: '@unocss/preset-typography',
@@ -141,7 +149,7 @@ export function presetTypography(options?: TypographyOptions): Preset {
         layer: 'typography',
         getCSS: () => {
           if (escapedSelectores.size > 0)
-            return getPreflights(escapedSelectores, selectorName, cssExtend, options?.compatibilityMode)
+            return getPreflights(escapedSelectores, selectorName, cssExtend, disableNotUtility)
         },
       },
     ],

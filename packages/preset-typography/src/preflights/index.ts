@@ -5,7 +5,7 @@ function getCSS(
   escapedSelector: string[],
   selectorName: string,
   preflights: object,
-  compatibilityMode?: boolean,
+  disableNotUtility?: boolean,
 ): string {
   let css = ''
 
@@ -27,7 +27,7 @@ function getCSS(
           const matchStr = match[0]
           s = s.replace(matchStr, '')
           return escapedSelector.map(e =>
-            compatibilityMode
+            disableNotUtility
               ? `${e} ${s}${matchStr}`
               : `${e} :where(${s})${notProseSelector}${matchStr}`,
           ).join(',')
@@ -44,7 +44,7 @@ function getCSS(
     else {
       // directly from css declaration
       css += escapedSelector.map(e =>
-        compatibilityMode
+        disableNotUtility
           ? `${e} ${selector}`.replace(/,/g, `,${e} `)
           : `${e} :where(${selector})${notProseSelector}`,
       ).join(',')
@@ -66,16 +66,16 @@ export function getPreflights(
   escapedSelectores: Set<string>,
   selectorName: string,
   cssExtend?: object | undefined,
-  compatibilityMode?: boolean,
+  disableNotUtility?: boolean,
 ): string {
   let escapedSelector = Array.from(escapedSelectores)
 
   // attribute mode -> add class selector with `:is()` pseudo-class function
-  if (!escapedSelector[escapedSelector.length - 1].startsWith('.') && !compatibilityMode)
+  if (!escapedSelector[escapedSelector.length - 1].startsWith('.') && !disableNotUtility)
     escapedSelector = [`:is(${escapedSelector[escapedSelector.length - 1]},.${selectorName})`]
 
   if (cssExtend)
-    return getCSS(escapedSelector, selectorName, mergeDeep(DEFAULT, cssExtend), compatibilityMode)
+    return getCSS(escapedSelector, selectorName, mergeDeep(DEFAULT, cssExtend), disableNotUtility)
 
-  return getCSS(escapedSelector, selectorName, DEFAULT, compatibilityMode)
+  return getCSS(escapedSelector, selectorName, DEFAULT, disableNotUtility)
 }
