@@ -1,7 +1,8 @@
 import type { CSSObject, Preset, RuleContext } from '@unocss/core'
-import type { Theme } from '@unocss/preset-mini'
 import { toEscapedSelector } from '@unocss/core'
+import type { Theme } from '@unocss/preset-mini'
 import { getPreflights } from './preflights'
+import type { TypographyCompatibilityOptions } from './types/compatibilityOptions'
 
 /**
  * @public
@@ -26,18 +27,13 @@ export interface TypographyOptions {
   cssExtend?: Record<string, CSSObject>
 
   /**
-   * Compatibility option. Notice that when any of it is enabled,
-   * `not-prose` will be unavailable.
+   * Compatibility option. Notice that it will affect some features.
    * For more instructions, see
-   * [here](https://github.com/unocss/unocss/pull/2064)
+   * [README](https://github.com/unocss/unocss/tree/main/packages/preset-typography)
    *
    * @defaultValue undefined
    */
-  compatibility?: {
-    noColonWhere?: boolean
-    noColonIs?: boolean
-    noColonNot?: boolean
-  }
+  compatibility?: TypographyCompatibilityOptions
 
   /**
    * @deprecated use `selectorName` instead. It will be removed in 1.0.
@@ -76,7 +72,6 @@ export function presetTypography(options?: TypographyOptions): Preset {
   const invertRE = new RegExp(`^${selectorName}-invert$`)
   const cssExtend = options?.cssExtend
   const compatibility = options?.compatibility
-  const disableNotUtility = compatibility?.noColonWhere || compatibility?.noColonIs || compatibility?.noColonNot
 
   return {
     name: '@unocss/preset-typography',
@@ -149,7 +144,7 @@ export function presetTypography(options?: TypographyOptions): Preset {
         layer: 'typography',
         getCSS: () => {
           if (escapedSelectores.size > 0)
-            return getPreflights(escapedSelectores, selectorName, cssExtend, disableNotUtility)
+            return getPreflights({ escapedSelectores, selectorName, cssExtend, compatibility })
         },
       },
     ],

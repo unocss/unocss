@@ -1,13 +1,19 @@
 import { mergeDeep } from '@unocss/core'
+import type { TypographyCompatibilityOptions } from '../types/compatibilityOptions'
 import { DEFAULT } from './default'
 
 function getCSS(
-  escapedSelector: string[],
-  selectorName: string,
-  preflights: object,
-  disableNotUtility?: boolean,
+  options: {
+    escapedSelector: string[]
+    selectorName: string
+    preflights: object
+    compatibility?: TypographyCompatibilityOptions
+  },
 ): string {
   let css = ''
+
+  const { escapedSelector, selectorName, preflights, compatibility } = options
+  const disableNotUtility = compatibility?.noColonNot || compatibility?.noColonWhere
 
   for (const selector in preflights) {
     // @ts-expect-error preflights do not have definitive keys
@@ -63,19 +69,22 @@ function getCSS(
 }
 
 export function getPreflights(
-  escapedSelectores: Set<string>,
-  selectorName: string,
-  cssExtend?: object | undefined,
-  disableNotUtility?: boolean,
+  options: {
+    escapedSelectores: Set<string>
+    selectorName: string
+    cssExtend?: object | undefined
+    compatibility?: TypographyCompatibilityOptions
+  },
 ): string {
+  const { escapedSelectores, selectorName, cssExtend, compatibility } = options
   let escapedSelector = Array.from(escapedSelectores)
 
   // attribute mode -> add class selector with `:is()` pseudo-class function
-  if (!escapedSelector[escapedSelector.length - 1].startsWith('.') && !disableNotUtility)
+  if (!escapedSelector[escapedSelector.length - 1].startsWith('.') && !compatibility?.noColonIs)
     escapedSelector = [`:is(${escapedSelector[escapedSelector.length - 1]},.${selectorName})`]
 
   if (cssExtend)
-    return getCSS(escapedSelector, selectorName, mergeDeep(DEFAULT, cssExtend), disableNotUtility)
+    return getCSS({ escapedSelector, selectorName, preflights: mergeDeep(DEFAULT, cssExtend), compatibility })
 
-  return getCSS(escapedSelector, selectorName, DEFAULT, disableNotUtility)
+  return getCSS({ escapedSelector, selectorName, preflights: DEFAULT, compatibility })
 }

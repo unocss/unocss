@@ -99,7 +99,13 @@ export default defineConfig({
   the `table` element **(NOTE: `not` utility is only usable in class since it is
   only used in CSS** **selector & not scanned by UnoCSS)**.
 
-  If you enabled any of compatibility options, `not-prose` will be unavailable.
+- **Compatibility Options**
+
+  This preset used some pseudo-classes which are not widely supported, but you
+  can disable them.
+
+  - If you enabled `noColonNot` or `noColonWhere`, `not-prose` will be unavailable.
+  - If you enabled `noColonIs`, attributify mode will have a wrong behavior.
 
 ## Utilities
 
@@ -148,6 +154,12 @@ The CSS declarations passed to `cssExtend` will
 ### Type of `TypographyOptions`
 
 ```ts
+export interface TypographyCompatibilityOptions {
+  noColonWhere?: boolean
+  noColonIs?: boolean
+  noColonNot?: boolean
+}
+
 export interface TypographyOptions {
   /**
    * The class name to use the typographic utilities.
@@ -168,18 +180,13 @@ export interface TypographyOptions {
   cssExtend?: Record<string, CSSObject>
 
   /**
-   * Compatibility option. Notice that when any of it is enabled,
-   * `not-prose` will be unavailable.
+   * Compatibility option. Notice that it will affect some features.
    * For more instructions, see
-   * [here](https://github.com/unocss/unocss/pull/2064)
+   * [README](https://github.com/unocss/unocss/tree/main/packages/preset-typography)
    *
    * @defaultValue undefined
    */
-  compatibility?: {
-    noColonWhere?: boolean
-    noColonIs?: boolean
-    noColonNot?: boolean
-  }
+  compatibility?: TypographyCompatibilityOptions
 }
 ```
 

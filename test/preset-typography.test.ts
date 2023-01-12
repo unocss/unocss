@@ -78,9 +78,21 @@ const testConfigs = [
   },
 
   {
-    name: 'prose-compatibility-mode',
+    name: 'prose-compatibility-no-colon-is',
     input: '<a prose class="prose"></a>',
-    typographyOptions: { compatibilityMode: true },
+    typographyOptions: { compatibility: { noColonIs: true } },
+  },
+
+  {
+    name: 'prose-compatibility-no-colon-where',
+    input: '<a prose class="prose"></a>',
+    typographyOptions: { compatibility: { noColonWhere: true } },
+  },
+
+  {
+    name: 'prose-compatibility-no-colon-not',
+    input: '<a prose class="prose"></a>',
+    typographyOptions: { compatibility: { noColonNot: true } },
   },
 ]
 
