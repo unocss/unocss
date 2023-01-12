@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { GuideItem } from '~/types'
 
+import { isDark } from '#imports'
+
 const { item } = defineProps<{
   item: GuideItem
 }>()
@@ -17,7 +19,7 @@ watch(
 </script>
 
 <template>
-  <DetailsBase v-if="component" :title="item.title">
+  <DetailsBase v-if="component" :title="item.title" :class="{ light: !isDark, dark: isDark }">
     <div class="markdown-body max-w-full mt4 text-left">
       <component :is="component" />
     </div>
