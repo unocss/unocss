@@ -2,9 +2,6 @@
 import { searcher } from '~/composables/state'
 
 const isDefault = $computed(() => (userConfigRaw.value || defaultConfigRaw) === defaultConfigRaw)
-
-// To show | hide list of presets
-const showPresets = ref(false)
 </script>
 
 <template>
