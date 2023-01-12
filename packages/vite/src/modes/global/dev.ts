@@ -1,13 +1,14 @@
 import type { Plugin, Update, ViteDevServer, ResolvedConfig as ViteResolvedConfig } from 'vite'
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import { notNull } from '@unocss/core'
+import type { VitePluginConfig } from 'unocss/vite'
 import { LAYER_MARK_ALL, getHash, getPath, resolveId, resolveLayer } from '../../integration'
 
 const WARN_TIMEOUT = 20000
 const WS_EVENT_PREFIX = 'unocss:hmr'
 const HASH_LENGTH = 6
 
-export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedModules, onInvalidate, extract, filter }: UnocssPluginContext): Plugin[] {
+export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedModules, onInvalidate, extract, filter, getConfig }: UnocssPluginContext): Plugin[] {
   const servers: ViteDevServer[] = []
   let base = ''
   const entries = new Set<string>()
@@ -162,18 +163,28 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
         return env.command === 'serve' && !config.build?.ssr
       },
       enforce: 'post',
-      transform(code, id) {
+      async transform(code, id) {
         const layer = resolveLayer(getPath(id))
 
         // inject css modules to send callback on css load
         if (layer && code.includes('import.meta.hot')) {
-          return `${code}
-if (import.meta.hot) {
-  try { await import.meta.hot.send('${WS_EVENT_PREFIX}', ['${layer}', __vite__css.slice(2,${2 + HASH_LENGTH})]); }
-  catch (e) { console.warn('[unocss-hmr]', e) }
-  if (!import.meta.url.includes('?'))
-    await new Promise(resolve => setTimeout(resolve, 100))
-}`
+          let hmr = `
+try {
+  await import.meta.hot.send('${WS_EVENT_PREFIX}', ['${layer}', __vite__css.slice(2,${2 + HASH_LENGTH})]);
+} catch (e) {
+  console.warn('[unocss-hmr]', e)
+}
+if (!import.meta.url.includes('?'))
+  await new Promise(resolve => setTimeout(resolve, 100))`
+
+          const config = await getConfig() as VitePluginConfig
+
+          if (config.hmrTopLevelAwait === false)
+            hmr = `;(async function() {${hmr}\n})()`
+
+          hmr = `\nif (import.meta.hot) {${hmr}}`
+
+          return code + hmr
         }
       },
     },
