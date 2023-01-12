@@ -168,20 +168,23 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
 
         // inject css modules to send callback on css load
         if (layer && code.includes('import.meta.hot')) {
-          const immediateFunction = (code: string) => `;(async function() {\n${code}\n})()`
-          const importMetaHot = `if (import.meta.hot) {
-  try { await import.meta.hot.send('${WS_EVENT_PREFIX}', ['${layer}', __vite__css.slice(2,${2 + HASH_LENGTH})]); }
-  catch (e) { console.warn('[unocss-hmr]', e) }
-  if (!import.meta.url.includes('?'))
-    await new Promise(resolve => setTimeout(resolve, 100))
-}`
-          const { hmrTopLevelAwait } = await getConfig() as VitePluginConfig
+          let hmr = `
+try {
+  await import.meta.hot.send('${WS_EVENT_PREFIX}', ['${layer}', __vite__css.slice(2,${2 + HASH_LENGTH})]);
+} catch (e) {
+  console.warn('[unocss-hmr]', e)
+}
+if (!import.meta.url.includes('?'))
+  await new Promise(resolve => setTimeout(resolve, 100))`
 
-          return `${code}\n${
-            hmrTopLevelAwait !== false
-              ? importMetaHot
-              : immediateFunction(importMetaHot)
-          }`
+          const config = await getConfig() as VitePluginConfig
+
+          if (config.hmrTopLevelAwait === false)
+            hmr = `;(async function() {${hmr}\n})()`
+
+          hmr = `\nif (import.meta.hot) {${hmr}}`
+
+          return code + hmr
         }
       },
     },
