@@ -117,6 +117,6 @@ export function resolveConfig<Theme extends {} = {}>(
     shortcuts: resolveShortcuts(mergePresets('shortcuts')),
     extractors,
     safelist: mergePresets('safelist'),
-    topLevelAwait: config.topLevelAwait ?? true,
+    topLevelAwait: !!config?.topLevelAwait,
   }
 }
