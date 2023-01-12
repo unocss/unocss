@@ -14,7 +14,7 @@ export default defineConfig({
   plugins: [
     Vue(),
     UnoCSS({
-      hmrTopLevelAwait: false,
+      // hmrTopLevelAwait: false,
     }),
     Inspect(),
     Components({
