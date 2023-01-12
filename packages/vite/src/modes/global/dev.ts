@@ -1,13 +1,14 @@
 import type { Plugin, Update, ViteDevServer, ResolvedConfig as ViteResolvedConfig } from 'vite'
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import { notNull } from '@unocss/core'
+import type { VitePluginConfig } from 'unocss/vite'
 import { LAYER_MARK_ALL, getHash, getPath, resolveId, resolveLayer } from '../../integration'
 
 const WARN_TIMEOUT = 20000
 const WS_EVENT_PREFIX = 'unocss:hmr'
 const HASH_LENGTH = 6
 
-export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedModules, onInvalidate, extract, filter }: UnocssPluginContext): Plugin[] {
+export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedModules, onInvalidate, extract, filter, getConfig }: UnocssPluginContext): Plugin[] {
   const servers: ViteDevServer[] = []
   let base = ''
   const entries = new Set<string>()
@@ -162,7 +163,7 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
         return env.command === 'serve' && !config.build?.ssr
       },
       enforce: 'post',
-      transform(code, id) {
+      async transform(code, id) {
         const layer = resolveLayer(getPath(id))
 
         // inject css modules to send callback on css load
@@ -174,9 +175,10 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
   if (!import.meta.url.includes('?'))
     await new Promise(resolve => setTimeout(resolve, 100))
 }`
+          const { topLevelAwait } = await getConfig() as VitePluginConfig
 
           return `${code}\n${
-            uno.userConfig.topLevelAwait
+            topLevelAwait !== false
               ? importMetaHot
               : immediateFunction(importMetaHot)
           }`

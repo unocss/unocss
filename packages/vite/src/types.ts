@@ -34,4 +34,9 @@ export interface VitePluginConfig<Theme extends {} = {}> extends UserConfig<Them
    * @default true
    */
   postcss?: boolean
+  /**
+   * Whether to use the top-level await
+   * @default true
+   */
+  topLevelAwait?: boolean
 }
