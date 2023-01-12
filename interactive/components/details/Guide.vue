@@ -18,8 +18,8 @@ watch(
 </script>
 
 <template>
-  <DetailsBase v-if="component" :title="item.title" :class="isDark ? 'dark' : 'light'">
-    <div class="markdown-body max-w-full mt4 text-left">
+  <DetailsBase v-if="component" :title="item.title">
+    <div class="markdown-body max-w-full mt4 text-left" :class="isDark ? 'dark' : 'light'">
       <component :is="component" />
     </div>
   </DetailsBase>
