@@ -3,7 +3,7 @@ import Vue from '@vitejs/plugin-vue'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Pages from 'vite-plugin-pages'
-import Unocss from 'unocss/vite'
+import UnoCSS from 'unocss/vite'
 import { alias } from '../../alias'
 
 export default defineConfig(({ command }) => ({
@@ -12,7 +12,7 @@ export default defineConfig(({ command }) => ({
   },
   base: command === 'build' ? '/__unocss/' : '/',
   plugins: [
-    Unocss('unocss.config.ts'),
+    UnoCSS('unocss.config.ts'),
     Vue(),
     Components({
       dirs: 'client/components',

@@ -11,7 +11,7 @@ npm i -D @unocss/preset-attributify
 ```ts
 import presetAttributify from '@unocss/preset-attributify'
 
-Unocss({
+UnoCSS({
   presets: [
     presetAttributify({ /* options */ }),
     // ...other presets

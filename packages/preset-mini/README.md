@@ -11,7 +11,7 @@ npm i -D @unocss/preset-mini
 ```ts
 import presetMini from '@unocss/preset-mini'
 
-Unocss({
+UnoCSS({
   presets: [
     presetMini(),
   ],

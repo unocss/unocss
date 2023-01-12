@@ -100,12 +100,12 @@ To set presets to your project:
 
 ```ts
 // vite.config.ts
-import Unocss from 'unocss/vite'
+import UnoCSS from 'unocss/vite'
 import { presetAttributify, presetUno } from 'unocss'
 
 export default {
   plugins: [
-    Unocss({
+    UnoCSS({
       presets: [
         presetAttributify({ /* preset options */}),
         presetUno(),
@@ -122,11 +122,11 @@ To disable the default preset, you can set `presets` to an empty array:
 
 ```ts
 // vite.config.ts
-import Unocss from 'unocss/vite'
+import UnoCSS from 'unocss/vite'
 
 export default {
   plugins: [
-    Unocss({
+    UnoCSS({
       presets: [], // disable default preset
       rules: [
         // your custom rules
@@ -200,9 +200,9 @@ When you really need some advanced rules that can't be covered by the combinatio
 By returning a `string` from the dynamic rule's body function, it will be directly passed to the generated CSS. That also means you would need to take care of things like CSS escaping, variants applying, CSS constructing, and so on.
 
 ```ts
-import Unocss, { toEscapedSelector as e } from 'unocss'
+import UnoCSS, { toEscapedSelector as e } from 'unocss'
 
-Unocss({
+UnoCSS({
   rules: [
     [/^custom-(.+)$/, ([, name], { rawSelector, currentSelector, variantHandlers, theme }) => {
       // discard mismatched rules
