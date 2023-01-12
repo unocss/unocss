@@ -14,7 +14,7 @@ npm i -D @unocss/preset-wind
 ```ts
 import presetWind from '@unocss/preset-wind'
 
-Unocss({
+UnoCSS({
   presets: [
     presetWind(),
   ],

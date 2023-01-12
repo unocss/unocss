@@ -12,7 +12,7 @@ npm i -D @unocss/extractor-pug
 import extractorPug from '@unocss/extractor-pug'
 import { extractorSplit } from '@unocss/core'
 
-Unocss({
+UnoCSS({
   extractors: [
     extractorPug(),
     extractorSplit,

@@ -39,7 +39,7 @@ We use [Iconify](https://iconify.design) as our data source of icons. You need t
 ```ts
 import presetIcons from '@unocss/preset-icons'
 
-Unocss({
+UnoCSS({
   presets: [
     presetIcons({ /* options */ }),
     // ...other presets

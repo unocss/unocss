@@ -12,7 +12,7 @@ npm i -D @unocss/preset-web-fonts
 import presetWebFonts from '@unocss/preset-web-fonts'
 import presetUno from '@unocss/preset-uno'
 
-Unocss({
+UnoCSS({
   presets: [
     presetUno(),
     presetWebFonts({
@@ -85,7 +85,7 @@ import presetUno from '@unocss/preset-uno'
 import axios from 'axios'
 import ProxyAgent from 'proxy-agent'
 
-Unocss({
+UnoCSS({
   presets: [
     presetUno(),
     presetWebFonts({
