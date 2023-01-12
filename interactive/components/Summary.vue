@@ -2,6 +2,9 @@
 import { searcher } from '~/composables/state'
 
 const isDefault = $computed(() => (userConfigRaw.value || defaultConfigRaw) === defaultConfigRaw)
+
+// To show | hide list of presets
+const showPresets = ref(false)
 </script>
 
 <template>
@@ -10,8 +13,13 @@ const isDefault = $computed(() => (userConfigRaw.value || defaultConfigRaw) === 
       <div font-bold text-right>
         {{ searcher.uno.config.presets.length }}
       </div>
-      <div op50>
+      <div op50 @mouseenter="showPresets = true" @mouseleave="showPresets = false">
         Presets
+        <div v-if="showPresets" ml-2>
+          <div v-for="item in searcher.uno.config.presets" :key="item.name">
+            {{ item.name }}
+          </div>
+        </div>
       </div>
       <div font-bold text-right>
         {{ searcher.uno.config.rulesSize }}
