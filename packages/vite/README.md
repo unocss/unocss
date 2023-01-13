@@ -10,11 +10,11 @@ npm i -D unocss
 
 ```ts
 // vite.config.ts
-import Unocss from 'unocss/vite'
+import UnoCSS from 'unocss/vite'
 
 export default {
   plugins: [
-    Unocss({ /* options */ }),
+    UnoCSS({ /* options */ }),
   ],
 }
 ```
@@ -37,11 +37,11 @@ npm i -D @unocss/vite
 
 ```ts
 // vite.config.ts
-import Unocss from '@unocss/vite'
+import UnoCSS from '@unocss/vite'
 
 export default {
   plugins: [
-    Unocss({
+    UnoCSS({
       presets: [
         /* no presets by default */
       ],
@@ -111,12 +111,12 @@ If you're using `@vitejs/plugin-react`:
 ```ts
 // vite.config.js
 import react from '@vitejs/plugin-react'
-import Unocss from 'unocss/vite'
+import UnoCSS from 'unocss/vite'
 
 export default {
   plugins: [
     react(),
-    Unocss({
+    UnoCSS({
       /* options */
     }),
   ],
@@ -128,12 +128,12 @@ or if you're using `@vitejs/plugin-react-refresh`:
 ```ts
 // vite.config.js
 import reactRefresh from '@vitejs/plugin-react-refresh'
-import Unocss from 'unocss/vite'
+import UnoCSS from 'unocss/vite'
 
 export default {
   plugins: [
     reactRefresh(),
-    Unocss({
+    UnoCSS({
       /* options */
     }),
   ],
@@ -147,11 +147,11 @@ If you are using `@vitejs/plugin-react` with `@unocss/preset-attributify`, you m
 ```ts
 // vite.config.js
 import react from '@vitejs/plugin-react'
-import Unocss from 'unocss/vite'
+import UnoCSS from 'unocss/vite'
 
 export default {
   plugins: [
-    Unocss({
+    UnoCSS({
       /* options */
     }),
     react(),
@@ -168,12 +168,12 @@ If you're using `@preact/preset-vite`:
 ```ts
 // vite.config.js
 import preact from '@preact/preset-vite'
-import Unocss from 'unocss/vite'
+import UnoCSS from 'unocss/vite'
 
 export default {
   plugins: [
     preact(),
-    Unocss({
+    UnoCSS({
       /* options */
     }),
   ],
@@ -185,12 +185,12 @@ or if you're using `@prefresh/vite`:
 ```ts
 // vite.config.js
 import prefresh from '@prefresh/vite'
-import Unocss from 'unocss/vite'
+import UnoCSS from 'unocss/vite'
 
 export default {
   plugins: [
     prefresh(),
-    Unocss({
+    UnoCSS({
       /* options */
     }),
   ],
@@ -204,11 +204,11 @@ If you are using `@preact/preset-vite` with `@unocss/preset-attributify`, you mu
 ```ts
 // vite.config.js
 import preact from '@preact/preset-vite'
-import Unocss from 'unocss/vite'
+import UnoCSS from 'unocss/vite'
 
 export default {
   plugins: [
-    Unocss({
+    UnoCSS({
       /* options */
     }),
     preact(),
@@ -229,12 +229,12 @@ You can use simple rules with `class:`, for example `class:bg-red-500={foo}` or 
 ```ts
 // vite.config.js
 import { svelte } from '@sveltejs/vite-plugin-svelte'
-import Unocss from 'unocss/vite'
+import UnoCSS from 'unocss/vite'
 import { extractorSvelte } from '@unocss/core'
 
 export default {
   plugins: [
-    Unocss({
+    UnoCSS({
       extractors: [extractorSvelte],
       /* more options */
     }),
@@ -312,11 +312,11 @@ Don't forget to remove the import for `uno.css` since the `shadow-dom` mode will
 
 ```ts
 // vite.config.js
-import Unocss from 'unocss/vite'
+import UnoCSS from 'unocss/vite'
 
 export default {
   plugins: [
-    Unocss({
+    UnoCSS({
       mode: 'shadow-dom',
       /* more options */
     }),
@@ -363,11 +363,11 @@ The plugin uses `nth-of-type` to avoid collisions with multiple parts in the sam
 
 ```ts
 // vite.config.js
-import Unocss from 'unocss/vite'
+import UnoCSS from 'unocss/vite'
 
 export default {
   plugins: [
-    Unocss({
+    UnoCSS({
       mode: 'shadow-dom',
       shortcuts: [
         { 'cool-blue': 'bg-blue-500 text-white' },
@@ -413,12 +413,12 @@ template.innerHTML = `
 ```ts
 // vite.config.js
 import solidPlugin from 'vite-plugin-solid'
-import Unocss from 'unocss/vite'
+import UnoCSS from 'unocss/vite'
 
 export default {
   plugins: [
     solidPlugin(),
-    Unocss({
+    UnoCSS({
       /* options */
     }),
   ],
@@ -435,12 +435,12 @@ You need to add the `vite-plugin-elm` plugin before UnoCSS's plugin.
 // vite.config.js
 import { defineConfig } from 'vite'
 import elmPlugin from 'vite-plugin-elm'
-import Unocss from 'unocss/vite'
+import UnoCSS from 'unocss/vite'
 
 export default defineConfig({
   plugins: [
     elmPlugin(),
-    Unocss({
+    UnoCSS({
       /* options */
     }),
   ],

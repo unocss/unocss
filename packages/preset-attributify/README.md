@@ -11,7 +11,7 @@ npm i -D @unocss/preset-attributify
 ```ts
 import presetAttributify from '@unocss/preset-attributify'
 
-Unocss({
+UnoCSS({
   presets: [
     presetAttributify({ /* options */ }),
     // ...other presets
@@ -177,12 +177,10 @@ declare module 'solid-js' {
 ### Svelte & SvelteKit
 
 ```ts
-import type { AttributifyAttributes } from '@unocss/preset-attributify'
+declare namespace svelteHTML {
+  import type { AttributifyAttributes } from '@unocss/preset-attributify'
 
-declare global {
-  namespace svelte.JSX {
-    interface HTMLAttributes<T> extends AttributifyAttributes {}
-  }
+  type HTMLAttributes = AttributifyAttributes
 }
 ```
 

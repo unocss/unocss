@@ -21,6 +21,7 @@ export interface VitePluginConfig<Theme extends {} = {}> extends UserConfig<Them
    * @default 'global'
    */
   mode?: 'global' | 'per-module' | 'vue-scoped' | 'svelte-scoped' | 'dist-chunk' | 'shadow-dom'
+
   /**
    * Transform CSS for `@apply` directive
    *
@@ -28,10 +29,23 @@ export interface VitePluginConfig<Theme extends {} = {}> extends UserConfig<Them
    * @default false
    */
   transformCSS?: boolean | 'pre' | 'post'
+
   /**
+   * Make the generated css processed by postcss (https://vitejs.dev/guide/features.html#postcss)
    *
-   * make the generated css processed by postcss (https://vitejs.dev/guide/features.html#postcss)
    * @default true
    */
   postcss?: boolean
+
+  /**
+   * Use top level await in HMR code to avoid FOUC on dev time.
+   *
+   * You usually don't need to disable this, unless you are developing on
+   * a browser that does not support top level await.
+   *
+   * This will only affect on dev time.
+   *
+   * @default true
+   */
+  hmrTopLevelAwait?: boolean
 }

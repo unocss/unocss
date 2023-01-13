@@ -895,4 +895,16 @@
   s {
     opacity: 0.6;
   }
+
+  &.light {
+    .shiki.Vitesse.Dark {
+      display: none;
+    }
+  }
+
+  &.dark {
+    .shiki.Vitesse.Light {
+      display: none;
+    }
+  }
 }

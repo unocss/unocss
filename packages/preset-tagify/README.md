@@ -11,7 +11,7 @@ npm i -D @unocss/preset-tagify
 ```ts
 import presetTagify from '@unocss/preset-tagify'
 
-Unocss({
+UnoCSS({
   presets: [
     presetTagify({ /* options */ }),
     // ...other presets

@@ -15,7 +15,7 @@ npm i -D @unocss/preset-uno
 ```ts
 import presetUno from '@unocss/preset-uno'
 
-Unocss({
+UnoCSS({
   presets: [
     presetUno(),
   ],

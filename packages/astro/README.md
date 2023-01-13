@@ -10,11 +10,11 @@ npm i -D unocss
 
 ```ts
 // astro.config.ts
-import Unocss from 'unocss/astro'
+import UnoCSS from 'unocss/astro'
 
 export default {
   integrations: [
-    Unocss({ /* options */ }),
+    UnoCSS({ /* options */ }),
   ],
 }
 ```
@@ -30,11 +30,11 @@ npm i -D @unocss/astro
 
 ```ts
 // astro.config.mjs
-import Unocss from '@unocss/astro'
+import UnoCSS from '@unocss/astro'
 
 export default {
   integrations: [
-    Unocss({
+    UnoCSS({
       presets: [
         /* no presets by default */
       ],
