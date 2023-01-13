@@ -51,7 +51,7 @@ function getCSS(
       // directly from css declaration
       css += escapedSelector.map(e =>
         disableNotUtility
-          ? `${e} ${selector}`.replace(/,/g, `,${e} `)
+          ? selector.split(',').map(s => `${e} ${s}`).join(',')
           : `${e} :where(${selector})${notProseSelector}`,
       ).join(',')
     }
