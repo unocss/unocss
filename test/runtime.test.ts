@@ -2,7 +2,7 @@ import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import presetTagify from '@unocss/preset-tagify'
 import { describe, expect, test } from 'vitest'
-import { autoPrefixer, decodeHtml } from '../packages/runtime/src/utils'
+import { alternateLayerVariant, autoPrefixer, decodeHtml } from '../packages/runtime/src/utils'
 
 function mockElementWithStyle() {
   const store: any = {}
@@ -82,6 +82,27 @@ describe('runtime auto prefixer', () => {
       </flex>
     `, { preflights: false })
     expect(css).toMatchSnapshot()
+  })
+
+  test('test using configured alternate layer', async () => {
+    const altLayerName = 'split'
+    const uno = createGenerator({
+      presets: [
+        presetUno(),
+      ],
+      variants: [
+        alternateLayerVariant('^', altLayerName),
+      ],
+    })
+
+    const result = await uno.generate([
+      'text-red',
+      '^text-green',
+      '[&:hover]:^text-blue',
+      '^[&:active]:text-yellow',
+    ].join(' '), { preflights: false })
+    expect(result.getLayers(undefined, [altLayerName])).toMatchSnapshot()
+    expect(result.getLayer(altLayerName)).toMatchSnapshot()
   })
 })
 

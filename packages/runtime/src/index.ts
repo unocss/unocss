@@ -1,6 +1,6 @@
 import type { GenerateResult, UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { createGenerator, isString, toArray } from '@unocss/core'
-import { autoPrefixer, decodeHtml } from './utils'
+import { alternateLayerVariant, autoPrefixer, decodeHtml } from './utils'
 
 export interface RuntimeOptions {
   /**
@@ -17,6 +17,11 @@ export interface RuntimeOptions {
    * @default 'un-cloak'
    */
   cloakAttribute?: string
+  /**
+   * Enable a separate uno-layer variant with output on separate style element
+   * @default 'alt-'
+   */
+  alternateLayer?: string | false
   /**
    * Callback to modify config
    */
@@ -72,9 +77,12 @@ export interface RuntimeContext {
   /**
    * Manually run the update cycle.
    *
-   * @returns {GenerateResult & { styleElement: HTMLStyleElement}}
+   * @returns {GenerateResult & { styleElement: HTMLStyleElement, alternateStyleElement?: HTMLStyleElement }}
    */
-  update: () => Promise<GenerateResult & { styleElement: HTMLStyleElement }>
+  update: () => Promise<GenerateResult & {
+    styleElement: HTMLStyleElement
+    alternateStyleElement?: HTMLStyleElement
+  }>
 
   /**
    * The UnoCSS version.
@@ -99,11 +107,18 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
 
   const defaultWindow = window
   const defaultDocument = document
+  const html = () => defaultDocument.documentElement
 
   const userConfig = defaultWindow.__unocss || {}
   const runtimeOptions = Object.assign({}, inlineConfig, userConfig.runtime)
   const userConfigDefaults = runtimeOptions.defaults || {}
   const cloakAttribute = runtimeOptions.cloakAttribute ?? 'un-cloak'
+  const alternateLayer = runtimeOptions.alternateLayer ?? 'alt-'
+  const alternateLayerName = 'unocss runtime alternate'
+  if (alternateLayer) {
+    const variants = userConfigDefaults.variants = toArray(userConfigDefaults.variants)
+    variants.unshift(alternateLayerVariant(alternateLayer, alternateLayerName))
+  }
   if (runtimeOptions.autoPrefix) {
     const postprocessors = userConfigDefaults.postprocess = toArray(userConfigDefaults.postprocess)
     postprocessors.unshift(autoPrefixer(defaultDocument.createElement('div').style))
@@ -115,6 +130,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   let paused = true
   let tokens = new Set<string>()
   let styleElement: HTMLStyleElement | undefined
+  let alternateStyleElement: HTMLStyleElement | undefined
   let inspector: RuntimeInspectorCallback | undefined
 
   let _timer: number | undefined
@@ -144,19 +160,36 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   function getStyleElement() {
     if (!styleElement) {
       styleElement = defaultDocument.createElement('style')
-      defaultDocument.documentElement.prepend(styleElement)
+      html().prepend(styleElement)
     }
     return styleElement
+  }
+
+  function getAlternateStyleElement() {
+    if (!alternateStyleElement) {
+      alternateStyleElement = defaultDocument.createElement('style')
+      html().append(alternateStyleElement)
+    }
+    return alternateStyleElement
   }
 
   async function updateStyle() {
     const result = await uno.generate(tokens)
     const styleElement = getStyleElement()
-    styleElement.innerHTML = result.css
+
+    if (alternateLayer) {
+      getAlternateStyleElement().innerHTML = result.getLayer(alternateLayerName) ?? ''
+      styleElement.innerHTML = result.getLayers(undefined, [alternateLayerName])
+    }
+    else {
+      styleElement.innerHTML = result.css
+    }
+
     tokens = result.matched
     return {
       ...result,
       styleElement,
+      alternateStyleElement,
     }
   }
 
@@ -169,10 +202,10 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
 
   async function extractAll() {
     const body = defaultDocument.body
-    const html = body && body.outerHTML
-    if (html) {
-      await extract(`${html} ${decodeHtml(html)}`)
-      removeCloak(defaultDocument.documentElement)
+    const outerHTML = body && body.outerHTML
+    if (outerHTML) {
+      await extract(`${outerHTML} ${decodeHtml(outerHTML)}`)
+      removeCloak(html())
       removeCloak(body)
     }
   }
@@ -217,7 +250,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   function observe() {
     if (observing)
       return
-    const target = defaultDocument.documentElement || defaultDocument.body
+    const target = html() || defaultDocument.body
     if (!target)
       return
     mutationObserver.observe(target, {

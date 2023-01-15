@@ -1,4 +1,5 @@
-import type { Postprocessor } from '@unocss/core'
+import type { Postprocessor, Variant } from '@unocss/core'
+import { escapeRegExp } from '@unocss/core'
 
 const camelize = (str: string) => str.replace(/-(\w)/g, (_, c) => c ? c.toUpperCase() : '')
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
@@ -35,4 +36,19 @@ export function decodeHtml(html: string): string {
     .replace(/&amp;/g, '&')
     .replace(/&gt;/g, '>')
     .replace(/&lt;/g, '<')
+}
+
+export function alternateLayerVariant(prefix: string, layer: string): Variant {
+  const regex = new RegExp(`^${escapeRegExp(prefix)}(.+)$`)
+  return {
+    match(matcher) {
+      const match = matcher.match(regex)
+      if (match) {
+        return {
+          matcher: match[1],
+          layer,
+        }
+      }
+    },
+  }
 }
