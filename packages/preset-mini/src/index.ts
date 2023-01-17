@@ -1,4 +1,4 @@
-import type { Postprocessor, Preset, PresetOptions } from '@unocss/core'
+import type { Postprocessor, Preflight, PreflightContext, Preset, PresetOptions } from '@unocss/core'
 import { preflights } from './preflights'
 import { rules } from './rules'
 import type { Theme, ThemeAnimation } from './theme'
@@ -74,7 +74,7 @@ export const presetMini = (options: PresetMiniOptions = {}): Preset<Theme> => {
     postprocess: options.variablePrefix && options.variablePrefix !== 'un-'
       ? VarPrefixPostprocessor(options.variablePrefix)
       : undefined,
-    preflights: options.preflight ? preflights : [],
+    preflights: options.preflight ? normalizePreflights(preflights, options.variablePrefix) : [],
     prefix: options.prefix,
   }
 }
@@ -89,4 +89,19 @@ export function VarPrefixPostprocessor(prefix: string): Postprocessor {
         i[1] = i[1].replace(/var\(--un-/g, `var(--${prefix}`)
     })
   }
+}
+
+export function normalizePreflights(preflights: Preflight[], variablePrefix?: string) {
+  if (variablePrefix && variablePrefix !== 'un-') {
+    return preflights.map(p => ({
+      ...p,
+      getCSS: (() => async (ctx: PreflightContext) => {
+        const css = await p.getCSS(ctx)
+        if (css)
+          return css.replace(/--un-/g, `--${variablePrefix}`)
+      })(),
+    }))
+  }
+
+  return preflights
 }
