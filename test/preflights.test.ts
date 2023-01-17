@@ -83,4 +83,16 @@ describe('preflights', () => {
     const { css } = await uno.generate('')
     expect(css).eql('')
   })
+
+  test('preflight with variablePrefix', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini({
+          variablePrefix: 'test-',
+        }),
+      ],
+    })
+    const { css } = await uno.generate('')
+    expect(css).toMatchSnapshot()
+  })
 })
