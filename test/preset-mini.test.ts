@@ -97,6 +97,24 @@ describe('preset-mini', () => {
     expect(css).toMatchSnapshot()
   })
 
+  test('empty prefix', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini({
+          variablePrefix: '',
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'text-opacity-50',
+      'text-red',
+      'scale-100',
+    ].join(' '), { preflights: false })
+
+    expect(css).toMatchSnapshot()
+  })
+
   test('nested theme colors', async () => {
     const { css, matched } = await uno.generate([
       'text-a-b-c',
