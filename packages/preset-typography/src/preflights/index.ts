@@ -70,14 +70,14 @@ function getCSS(
 
 export function getPreflights(
   options: {
-    escapedSelectores: Set<string>
+    escapedSelectors: Set<string>
     selectorName: string
     cssExtend?: object | undefined
     compatibility?: TypographyCompatibilityOptions
   },
 ): string {
-  const { escapedSelectores, selectorName, cssExtend, compatibility } = options
-  let escapedSelector = Array.from(escapedSelectores)
+  const { escapedSelectors, selectorName, cssExtend, compatibility } = options
+  let escapedSelector = Array.from(escapedSelectors)
 
   // attribute mode -> add class selector with `:is()` pseudo-class function
   if (!escapedSelector[escapedSelector.length - 1].startsWith('.') && !compatibility?.noColonIs)
