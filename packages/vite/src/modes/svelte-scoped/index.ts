@@ -3,11 +3,11 @@ import { createFilter } from '@rollup/pluginutils'
 import type { UnocssPluginContext } from '@unocss/core'
 import { defaultExclude } from '../../integration'
 import { transformSvelteSFC } from './transform'
+import { isServerHooksFile, replacePlaceholderWithPreflightsAndSafelist } from './global'
 
 export * from './transform'
 
 const defaultSvelteScopedInclude = [/\.svelte$/, /\.svelte\.md$/, /\.svx$/]
-const globalStyles = '<style>body {color: lightblue; background-color: black}</style>'
 
 export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin {
   let viteConfig: ResolvedConfig
@@ -27,14 +27,11 @@ export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin 
     },
 
     transform(code, id) {
-      if (id.includes('hooks.server')) {
-        return {
-          code: code.replace('__UnoCSS_Svelte_Scoped_global_styles__', globalStyles),
-        }
-      }
-      if (!filter(id))
-        return
-      return transformSvelteSFC(code, id, uno, { combine: viteConfig.command === 'build' })
+      if (isServerHooksFile(id))
+        return replacePlaceholderWithPreflightsAndSafelist(uno, code)
+
+      if (filter(id))
+        return transformSvelteSFC(code, id, uno, { combine: viteConfig.command === 'build' })
     },
 
     handleHotUpdate(ctx) {
