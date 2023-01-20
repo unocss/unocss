@@ -273,17 +273,21 @@ You have a `SvelteKit` example project on [examples/sveltekit](https://github.co
 
 ### Svelte/SvelteKit Scoped Mode
 
-Adding `mode: 'svelte-scoped'` to your UnoCSS config options will place styles right inside of each component's style block instead of in a global `uno.css` file. Due to automatic class name compilation, classes that depend on attributes in parent components (like `dir="rtl"` or `.dark`) will just work. Also, you can pass class to children components as long as you pass them using a prop named `class`, e.g. `class="text-lg bg-red-100"`. 
+Adding `mode: 'svelte-scoped'` to your UnoCSS config options will place styles right inside of each component's style block instead of in a global `uno.css` file. Automatic class name compilation creates global but unique class names so classes that depend are interdependent with other components will just work. This means you can use `rtl:mr-1` or `dark:text-white` which rely on `dir="rtl"` or `.dark` being defined in a parent component. Yes, you can pass classes to children components as long as you pass them using a prop named `class`, e.g. `class="text-lg bg-red-100"`. And spacing out children `<Button>` components using `.space-x-2` will work just fine.
 
-Support for `class:foo` and `class:foo={bar}` is already included. There is no need to add the `extractorSvelte` when using `svelte-scoped` mode.
+Preflights, safelist classes and anything else for which we want utility classes to override must be placed into the head of `app.html` **before** `%sveltekit.head%`. Add `%unocss.global%` to `app.html` after any style resets but before `%sveltekit.head%`. Then add the following code to your `hooks.server.js` or `hooks.server.ts` and the UnoCSS Vite plugin will take care of the rest: 
 
-Because there is no `import 'uno.css'` in your root `+layout.svelte` preflights and safelist classes have no where to be placed. Add the `uno:preflights` or `uno:safelist` attributes to the style block of any component where you want to place them. To use both globally, add the following to your root `+layout.svelte`: 
-
-```html
-<style uno:preflights uno:safelist global></style>
+```js
+/** @type {import('@sveltejs/kit').Handle} */
+export async function handle({ event, resolve }) {
+  const response = await resolve(event, {
+    transformPageChunk: ({ html }) => html.replace('%unocss.global%', '__UnoCSS_Svelte_Scoped_global_styles__'), // this line
+  })
+  return response
+}
 ```
 
-Alternatively, if you only want them to apply to a specific component just add them to that component's `style` tag and don't add the `global` attribute.
+Support for `class:foo` and `class:foo={bar}` is already included. There is no need to add the `extractorSvelte` when using `svelte-scoped` mode.
 
 ```ts
 // vite.config.js

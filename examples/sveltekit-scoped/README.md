@@ -6,27 +6,25 @@
 
 ### Scoping utility classes by component unleashes creativity
 
-A global css file that only includes used utilities is great for small and medium apps, but there will come a point in a large project's life when every time you start to write a class like `.md:max-w-[50vw]` that you know is only going to be used once you start to cringe as you feel the size of your global style sheet getting larger and larger. This inhibits creativity. Sure, you could use `@apply md:max-w-[50vw]` in the style block but that gets tedious. Styles in context are so useful. Furthermore, if you would like to include a great variety of icons in your project, you will begin to feel the weight of adding them to the global stylesheet. When each component bears the weight of its own styles and icons you can continue to expand your project without building an evergrowing global stylesheet.
+A global css file that only includes used utilities is great for small and medium apps, but there will come a point in a large project's life when every time you start to write a class like `.md:max-w-[50vw]` that you know is only going to be used once you start to cringe as you feel the size of your global style sheet getting larger and larger. This inhibits creativity. Sure, you could use `@apply md:max-w-[50vw]` in the style block but that gets tedious, and styles in context are so useful. Furthermore, if you would like to include a great variety of icons in your project, you will begin to feel the weight of adding them to the global stylesheet. When each component bears the weight of its own styles and icons you can continue to expand your project without building an evergrowing global stylesheet.
 
 Another benefit is that if used to build a component library, your library won't need to match the particular Uno, Windi, Tailwind setup/version of your sites. This allows for easier of upgrades of all parts of your ecosystem, because they work well together but aren't dependent on each other. You also won't need to include a global stylesheet alongside your components for them to be used properly. You only need to pay attention to global theme variables and style resets.
 
 ### Completely isolated styles are impractical
 
-There is a problem with purely isolated styles though. Many styles are dependent on elements and styles set in a parent or child component, such as `dark:`, `rtl:`, and `.space-x-1`. The issue of how to pass styles down to children components has often come up in Svelte chat threads. Fortunately `svelte-scoped` mode solves all of these problems as each utility class (or set of classes) is scoped based on filename + class name(s) hashes and made global. Because they are global they will have influence everywhere and because their names are unique they will conflict nowhere.
+There is a problem with purely isolated styles. Many styles are dependent on elements and styles set in a parent or child component, such as `dark:`, `rtl:`, and `.space-x-1`. The issue of how to easily pass styles down to children components is still being wrestled with in the Svelte world. Fortunately `svelte-scoped` mode solves all of these problems as each utility class (or set of classes) is scoped based on filename + class name(s) hashes and made global. Because they are global they will have influence everywhere and because their names are unique they will conflict nowhere.
 
 ## Usage
 
 Set up using `mode: 'svelte-scoped'` as described in the [Svelte/SvelteKit scoped section](/packages/vite/README.md#sveltesveltekit-scoped-mode) of the [Vite instructions](/packages/vite/README.md).
 
-### Preflights & Safelist
+### Preflights, Safelist, and Plugins support
 
-- To use preflights add `<style uno:preflights global></style>` to your root `+layout.svelte` (some classes depend on these, like `.shadow`)
-- To use safelist add `<style uno:safelist global></style>` to your root `+layout.svelte`
-- Or to use both, add `<style uno:preflights uno:safelist global></style>` to your root `+layout.svelte` or a component imported there as demoed in this example repo. If you only want them to apply to 1 component just add them to that component's `style` tag and don't add `global`.
+Because importing styles in your root `+layout.svelte` file (e.g. `import uno.css`) will not give you any control over whether your global styles are loaded before or after component styles (and the order may flip between dev and prod), any styles (like resets, preflights, safelist, typography plugins, etc...) that you want utility classes to be able to override must be placed in the head of `app.html` file before `%sveltekit.head%`. 
 
-### Resets
-
-Import reset stylesheets and anything else that you want utility classes to override in the head of `app.html` file before `%sveltekit.head%`. At present, placing them in your root layout file won't guarantee they are loaded in before specific component styles.
+- Resets are discussed [here](https://github.com/unocss/unocss#style-resetting), but note that SvelteKit provides no convenient `main.ts` sort of location where styles can be guaranteed to come first so manually place these into the head of `app.html` as seen in this example repo.
+- preflights and safelist classes will be added to the global styles import that you should have already placed before `%sveltekit.head%` if you read the setup instructions in [Svelte/SvelteKit Scoped Mode](/packages/vite/README.md#sveltesveltekit-scoped-mode).
+- If you use a plugin like [`@unocss/preset-typography`](https://github.com/unocss/unocss/tree/main/packages/preset-typography) prose, you can use the plugin as desired and those styles will be included within every component they are used in. If you use a plugin in more than one location and it's heavy, consider adding those plugin-related classes to your safelist so they will be declared once, in the global styles.
 
 ### Parent dependent classes
 
@@ -104,7 +102,7 @@ turns into:
 
 ### Conditional `class:` syntax
 
-Class names added using Svelte's class directive feature, `class:text-sm={bar}`, will also be compiled. No need to add `extractorSvelte` and custom extractors will not be used by this mode.
+Class names added using Svelte's class directive feature, `class:text-sm={bar}`, will also be compiled. No need to add `extractorSvelte`. Custom extractors will not be used by this mode.
 
 ```svelte
 <div class:text-sm={bar}>World</div>
@@ -218,12 +216,12 @@ will be transformed into this:
 </style>
 ```
 
-When this reaches the Svelte compiler it will remove the :global() wrappers, add it's own scoping hash just to the `div` and `.foo` rules.
+When this reaches the Svelte compiler, it will remove the :global() wrappers, and add it's own scoping hash just to the `div` and `.foo` rules.
 
 ## Example Project
 To try this out in the example project here, install and then run dev.
 
-- Tested with @sveltejs/kit@1.0.0-next.520 (release candidate)
+- Tested with @sveltejs/kit@^1.0.0
 - Includes usage example of `@unocss/transformer-directives`'s `--at-apply: text-lg underline` ability
 
 ## Notes
@@ -235,5 +233,6 @@ To try this out in the example project here, install and then run dev.
 
 ## Known Issues
 
-- Having a commented out style tag (e.g. `<!-- <style>...</style> -->`) will prevent styles working for that component as they will be placed inside a useless tag.
+- Having a commented out style tag (e.g. `<!-- <style>...</style> -->`) will prevent styles working for that component as they will be placed inside a useless tag. `svelte-scoped` mode should ignore comments include `class="mr-1"` sort of strings defined inside comments
+- Classes referenced in explanatory markdown documentation that is parsed by MDSvex will be transformed contrary to expectation (and styles will be needlessly added). `svelte-scoped` mode should ignore code blocks (whether inline surround by single backticks and multiple lines surrounded by three backticks)
 - Placing `dark:` prefixed styles in a component with `<style global></style>` will not work. If anyone wants to fix, they can look at the compiled Svelte output and go from there.

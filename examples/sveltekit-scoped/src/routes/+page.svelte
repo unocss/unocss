@@ -47,6 +47,6 @@
 
 <style>
   .corner {
-    --at-apply: fixed flex left-2 bottom-2 md:left-6 md:bottom-6 bg-white dark:bg-black p-1;
+    --at-apply: fixed flex left-2 bottom-2 md:left-6 md:bottom-6 bg-gray-200 dark:bg-black p-1;
   }
 </style>

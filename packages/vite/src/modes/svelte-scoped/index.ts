@@ -6,9 +6,12 @@ import { transformSvelteSFC } from './transform'
 
 export * from './transform'
 
+const defaultSvelteScopedInclude = [/\.svelte$/, /\.svelte\.md$/, /\.svx$/]
+const globalStyles = '<style>body {color: lightblue; background-color: black}</style>'
+
 export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin {
   let viteConfig: ResolvedConfig
-  let filter = createFilter([/\.svelte$/, /\.svelte\.md$/, /\.svx$/], defaultExclude)
+  let filter = createFilter(defaultSvelteScopedInclude, defaultExclude)
 
   return {
     name: 'unocss:svelte-scoped',
@@ -17,11 +20,16 @@ export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin 
       viteConfig = _viteConfig
       const { config } = await ready
       filter = createFilter(
-        config.include || [/\.svelte$/, /\.svelte\.md$/, /\.svx$/],
+        config.include || defaultSvelteScopedInclude,
         config.exclude || defaultExclude,
       )
     },
     transform(code, id) {
+      if (id.includes('hooks.server')) {
+        return {
+          code: code.replace('__UnoCSS_Svelte_Scoped_global_styles__', globalStyles),
+        }
+      }
       if (!filter(id))
         return
       return transformSvelteSFC(code, id, uno, { combine: viteConfig.command === 'build' })
