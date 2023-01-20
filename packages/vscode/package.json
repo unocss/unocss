@@ -41,7 +41,13 @@
           "description": "Disable the UnoCSS extension"
         },
         "unocss.root": {
-          "type": "string",
+          "type": [
+            "array",
+            "string"
+          ],
+          "items": {
+            "type": "string"
+          },
           "description": "Project root that contains the UnoCSS configuration file"
         },
         "unocss.underline": {
