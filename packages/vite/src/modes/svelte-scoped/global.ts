@@ -7,6 +7,6 @@ export function isServerHooksFile(path: string) {
 export async function replacePlaceholderWithPreflightsAndSafelist(uno: UnoGenerator, code: string) {
   const { css } = await uno.generate('', { preflights: true, safelist: true, minify: true })
   return {
-    code: code.replace('__UnoCSS_Svelte_Scoped_global_styles__', `<style>${css}</style>`),
+    code: code.replace('__UnoCSS_Svelte_Scoped_global_styles__', `<style>${css.replaceAll(/'/g, '\'')}</style>`),
   }
 }

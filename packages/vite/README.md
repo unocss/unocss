@@ -275,13 +275,13 @@ You have a `SvelteKit` example project on [examples/sveltekit](https://github.co
 
 Adding `mode: 'svelte-scoped'` to your UnoCSS config options will place styles right inside of each component's style block instead of in a global `uno.css` file. Automatic class name compilation creates global but unique class names so classes that depend are interdependent with other components will just work. This means you can use `rtl:mr-1` or `dark:text-white` which rely on `dir="rtl"` or `.dark` being defined in a parent component. Yes, you can pass classes to children components as long as you pass them using a prop named `class`, e.g. `class="text-lg bg-red-100"`. And spacing out children `<Button>` components using `.space-x-2` will work just fine.
 
-Preflights, safelist classes and anything else for which we want utility classes to override must be placed into the head of `app.html` **before** `%sveltekit.head%`. Add `%unocss.global%` to `app.html` after any style resets but before `%sveltekit.head%`. Then add the following code to your `hooks.server.js` or `hooks.server.ts` and the UnoCSS Vite plugin will take care of the rest: 
+Preflights, safelist classes and anything else for which we want utility classes to override must be placed into the head of `app.html` **before** `%sveltekit.head%`. Add `%unocss.global%` to `app.html` after any style resets but before `%sveltekit.head%`. Then add the following code to your `hooks.server.js` or `hooks.server.ts` and the UnoCSS Vite plugin will take care of the rest:
 
 ```js
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({ event, resolve }) {
   const response = await resolve(event, {
-    transformPageChunk: ({ html }) => html.replace('%unocss.global%', '__UnoCSS_Svelte_Scoped_global_styles__'), // this line
+    transformPageChunk: ({ html }) => html.replace('%unocss.global%', '__UnoCSS_Svelte_Scoped_global_styles__'), // this line; beware of the single quotes
   })
   return response
 }
