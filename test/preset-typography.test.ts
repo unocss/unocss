@@ -76,6 +76,24 @@ const testConfigs = [
       strict: false,
     },
   },
+
+  {
+    name: 'prose-compatibility-no-colon-is',
+    input: '<a prose class="prose"></a>',
+    typographyOptions: { compatibility: { noColonIs: true } },
+  },
+
+  {
+    name: 'prose-compatibility-no-colon-where',
+    input: '<a prose class="prose"></a>',
+    typographyOptions: { compatibility: { noColonWhere: true } },
+  },
+
+  {
+    name: 'prose-compatibility-no-colon-not',
+    input: '<a prose class="prose"></a>',
+    typographyOptions: { compatibility: { noColonNot: true } },
+  },
 ]
 
 describe('typography', () => {
@@ -84,7 +102,7 @@ describe('typography', () => {
       const generator = createGenerator({
         presets: [
           presetAttributify(tc.attributifyOptions),
-          presetUno(),
+          presetUno({ preflight: false }),
           presetTypography(tc.typographyOptions),
         ],
       })

@@ -1,12 +1,19 @@
 import { mergeDeep } from '@unocss/core'
+import type { TypographyCompatibilityOptions } from '../types/compatibilityOptions'
 import { DEFAULT } from './default'
 
 function getCSS(
-  escapedSelector: string,
-  selectorName: string,
-  preflights: object,
+  options: {
+    escapedSelector: string[]
+    selectorName: string
+    preflights: object
+    compatibility?: TypographyCompatibilityOptions
+  },
 ): string {
   let css = ''
+
+  const { escapedSelector, selectorName, preflights, compatibility } = options
+  const disableNotUtility = compatibility?.noColonNot || compatibility?.noColonWhere
 
   for (const selector in preflights) {
     // @ts-expect-error preflights do not have definitive keys
@@ -25,7 +32,11 @@ function getCSS(
         if (match) {
           const matchStr = match[0]
           s = s.replace(matchStr, '')
-          return `${escapedSelector} :where(${s})${notProseSelector}${matchStr}`
+          return escapedSelector.map(e =>
+            disableNotUtility
+              ? `${e} ${s}${matchStr}`
+              : `${e} :where(${s})${notProseSelector}${matchStr}`,
+          ).join(',')
         }
         return null
       })
@@ -38,7 +49,11 @@ function getCSS(
     }
     else {
       // directly from css declaration
-      css += `${escapedSelector} :where(${selector})${notProseSelector}`
+      css += escapedSelector.map(e =>
+        disableNotUtility
+          ? selector.split(',').map(s => `${e} ${s}`).join(',')
+          : `${e} :where(${selector})${notProseSelector}`,
+      ).join(',')
     }
 
     css += '{'
@@ -54,16 +69,22 @@ function getCSS(
 }
 
 export function getPreflights(
-  escapedSelector: string,
-  selectorName: string,
-  cssExtend?: object | undefined,
+  options: {
+    escapedSelectors: Set<string>
+    selectorName: string
+    cssExtend?: object | undefined
+    compatibility?: TypographyCompatibilityOptions
+  },
 ): string {
+  const { escapedSelectors, selectorName, cssExtend, compatibility } = options
+  let escapedSelector = Array.from(escapedSelectors)
+
   // attribute mode -> add class selector with `:is()` pseudo-class function
-  if (!escapedSelector.startsWith('.'))
-    escapedSelector = `:is(${escapedSelector},.${selectorName})`
+  if (!escapedSelector[escapedSelector.length - 1].startsWith('.') && !compatibility?.noColonIs)
+    escapedSelector = [`:is(${escapedSelector[escapedSelector.length - 1]},.${selectorName})`]
 
   if (cssExtend)
-    return getCSS(escapedSelector, selectorName, mergeDeep(DEFAULT, cssExtend))
+    return getCSS({ escapedSelector, selectorName, preflights: mergeDeep(DEFAULT, cssExtend), compatibility })
 
-  return getCSS(escapedSelector, selectorName, DEFAULT)
+  return getCSS({ escapedSelector, selectorName, preflights: DEFAULT, compatibility })
 }

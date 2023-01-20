@@ -1,7 +1,8 @@
 import type { CSSObject, Preset, RuleContext } from '@unocss/core'
-import type { Theme } from '@unocss/preset-mini'
 import { toEscapedSelector } from '@unocss/core'
+import type { Theme } from '@unocss/preset-mini'
 import { getPreflights } from './preflights'
+import type { TypographyCompatibilityOptions } from './types/compatibilityOptions'
 
 /**
  * @public
@@ -24,6 +25,16 @@ export interface TypographyOptions {
    * @defaultValue undefined
    */
   cssExtend?: Record<string, CSSObject>
+
+  /**
+   * Compatibility option. Notice that it will affect some features.
+   * For more instructions, see
+   * [README](https://github.com/unocss/unocss/tree/main/packages/preset-typography)
+   *
+   * @defaultValue undefined
+   */
+  compatibility?: TypographyCompatibilityOptions
+
   /**
    * @deprecated use `selectorName` instead. It will be removed in 1.0.
    */
@@ -52,15 +63,15 @@ export interface TypographyOptions {
 export function presetTypography(options?: TypographyOptions): Preset {
   if (options?.className) {
     console.warn('[unocss:preset-typography] "className" is deprecated. '
-    + 'Use "selectorName" instead.')
+      + 'Use "selectorName" instead.')
   }
-  let hasProseClass = false
-  let escapedSelector = ''
+  const escapedSelectors = new Set<string>()
   const selectorName = options?.selectorName || options?.className || 'prose'
   const selectorNameRE = new RegExp(`^${selectorName}$`)
   const colorsRE = new RegExp(`^${selectorName}-([-\\w]+)$`)
   const invertRE = new RegExp(`^${selectorName}-invert$`)
   const cssExtend = options?.cssExtend
+  const compatibility = options?.compatibility
 
   return {
     name: '@unocss/preset-typography',
@@ -70,8 +81,7 @@ export function presetTypography(options?: TypographyOptions): Preset {
       [
         selectorNameRE,
         (_, { rawSelector }) => {
-          hasProseClass = true
-          escapedSelector = toEscapedSelector(rawSelector)
+          escapedSelectors.add(toEscapedSelector(rawSelector))
           return { 'color': 'var(--un-prose-body)', 'max-width': '65ch' }
         },
         { layer: 'typography' },
@@ -132,10 +142,10 @@ export function presetTypography(options?: TypographyOptions): Preset {
     preflights: [
       {
         layer: 'typography',
-        getCSS: () =>
-          hasProseClass
-            ? getPreflights(escapedSelector, selectorName, cssExtend)
-            : undefined,
+        getCSS: () => {
+          if (escapedSelectors.size > 0)
+            return getPreflights({ escapedSelectors, selectorName, cssExtend, compatibility })
+        },
       },
     ],
   }
