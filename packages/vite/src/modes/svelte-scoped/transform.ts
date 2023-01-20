@@ -19,9 +19,6 @@ export interface TransformSFCOptions {
    * @default true
    */
   combine?: boolean
-  /**
-   * Hash function
-   */
   hashFn?: (str: string) => string
 }
 
@@ -40,6 +37,7 @@ export async function transformSvelteSFC(code: string, id: string, uno: UnoGener
   const safelist = code.includes('uno:safelist')
 
   if (preflights || safelist) {
+    console.warn('Adding uno:preflights or uno:safelist as a style tag attribute is deprecated. Please see the svelte-scoped documentation for instructions on where to add preflights and safelist.')
     const { css } = await uno.generate('', { preflights, safelist })
     styles = css
   }
