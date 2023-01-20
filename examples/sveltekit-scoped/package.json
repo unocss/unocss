@@ -1,5 +1,5 @@
 {
-  "name": "unocss-sveltekit",
+  "name": "unocss-sveltekit-scoped",
   "type": "module",
   "scripts": {
     "dev": "vite dev",
