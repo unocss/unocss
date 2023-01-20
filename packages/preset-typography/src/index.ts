@@ -65,7 +65,7 @@ export function presetTypography(options?: TypographyOptions): Preset {
     console.warn('[unocss:preset-typography] "className" is deprecated. '
       + 'Use "selectorName" instead.')
   }
-  const escapedSelectores = new Set<string>()
+  const escapedSelectors = new Set<string>()
   const selectorName = options?.selectorName || options?.className || 'prose'
   const selectorNameRE = new RegExp(`^${selectorName}$`)
   const colorsRE = new RegExp(`^${selectorName}-([-\\w]+)$`)
@@ -81,7 +81,7 @@ export function presetTypography(options?: TypographyOptions): Preset {
       [
         selectorNameRE,
         (_, { rawSelector }) => {
-          escapedSelectores.add(toEscapedSelector(rawSelector))
+          escapedSelectors.add(toEscapedSelector(rawSelector))
           return { 'color': 'var(--un-prose-body)', 'max-width': '65ch' }
         },
         { layer: 'typography' },
@@ -143,8 +143,8 @@ export function presetTypography(options?: TypographyOptions): Preset {
       {
         layer: 'typography',
         getCSS: () => {
-          if (escapedSelectores.size > 0)
-            return getPreflights({ escapedSelectores, selectorName, cssExtend, compatibility })
+          if (escapedSelectors.size > 0)
+            return getPreflights({ escapedSelectors, selectorName, cssExtend, compatibility })
         },
       },
     ],
