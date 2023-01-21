@@ -13,6 +13,7 @@ export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin 
   let viteConfig: ResolvedConfig
   let filter = createFilter(defaultSvelteScopedInclude, defaultExclude)
   let isSvelteKit: boolean
+  let svelteConfig: any
   let unoCssFileRef: string
 
   return {
@@ -31,19 +32,23 @@ export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin 
     },
 
     async buildStart() {
-      if (isSvelteKit && viteConfig.command === 'build') {
-        const { css } = await uno.generate('', { preflights: true, safelist: true, minify: true })
+      if (isSvelteKit) {
+        ({ default: svelteConfig } = await import(`${viteConfig.root}/svelte.config.js`))
 
-        unoCssFileRef = this.emitFile({
-          type: 'asset',
-          name: 'uno.css',
-          source: css,
-        })
+        if (viteConfig.command === 'build') {
+          const { css } = await uno.generate('', { preflights: true, safelist: true, minify: true })
+
+          unoCssFileRef = this.emitFile({
+            type: 'asset',
+            name: 'uno.css',
+            source: css,
+          })
+        }
       }
     },
 
     transform(code, id) {
-      if (isSvelteKit && viteConfig.command === 'serve' && isServerHooksFile(id))
+      if (isSvelteKit && viteConfig.command === 'serve' && isServerHooksFile(id, svelteConfig))
         return replacePlaceholderWithPreflightsAndSafelist(uno, code)
 
       if (filter(id))
@@ -51,10 +56,8 @@ export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin 
     },
 
     async renderChunk(code, chunk) {
-      if (isSvelteKit && viteConfig.command === 'build' && chunk.moduleIds.findIndex(isServerHooksFile) > -1) {
-        // Get svelte kit base path.
-        const { default: svelteConfig } = await import(`${viteConfig.root}/svelte.config.js`)
-        const base = svelteConfig.kit?.paths?.base ?? ''
+      if (isSvelteKit && viteConfig.command === 'build' && chunk.moduleIds.findIndex(id => isServerHooksFile(id, svelteConfig)) > -1) {
+        const base = svelteConfig.kit.paths?.base ?? ''
         const replacement = `<link href="${base}/${this.getFileName(unoCssFileRef)}" rel="stylesheet" />`
         return code.replace('__UnoCSS_Svelte_Scoped_global_styles__', replacement.replaceAll(/'/g, '\''))
       }
