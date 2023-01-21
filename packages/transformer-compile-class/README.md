@@ -2,7 +2,7 @@
 
 <!-- @unocss-ignore -->
 
-Compile group of classes into one class. Inspried by [WindiCSS's compilation mode](https://windicss.org/posts/modes.html#compilation-mode) and [#948](https://github.com/unocss/unocss/issues/948) by [@UltraCakeBakery](https://github.com/UltraCakeBakery).
+Compile group of classes into one class. Inspired by [WindiCSS's compilation mode](https://windicss.org/posts/modes.html#compilation-mode) and [#948](https://github.com/unocss/unocss/issues/948) by [@UltraCakeBakery](https://github.com/UltraCakeBakery).
 
 ## Install
 

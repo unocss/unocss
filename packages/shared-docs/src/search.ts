@@ -85,7 +85,7 @@ export function createSearch(
       return sampleArray(fuseCollection, limit)
 
     const parts = input.split(/\s/g).filter(notNull)
-    const extact = await generateForMultiple(parts)
+    const extract = await generateForMultiple(parts)
 
     await suggestMultiple([
       ...parts,
@@ -103,7 +103,7 @@ export function createSearch(
       .slice(0, limit)
 
     return uniq([
-      ...extact,
+      ...extract,
       ...searchResult,
     ].filter(notNull))
   }

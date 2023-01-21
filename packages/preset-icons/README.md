@@ -57,7 +57,7 @@ npm i -D @iconify/json
 
 ## Configuration
 
-Refer to the [type definition](https://github.com/unocss/unocss/blob/main/packages/preset-icons/src/types.ts#L4) for all configurations avaliable.
+Refer to the [type definition](https://github.com/unocss/unocss/blob/main/packages/preset-icons/src/types.ts#L4) for all configurations available.
 
 ### Extra Properties
 
