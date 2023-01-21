@@ -72,5 +72,28 @@ export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin 
         }
       }
     },
+
+    configureServer(server) {
+      server.middlewares.use((_req, res, next) => {
+        const originalWrite = res.write
+
+        res.write = function (chunk, ...rest) {
+          const str = (chunk instanceof Buffer) ? chunk.toString() : ((Array.isArray(chunk) || 'at' in chunk) ? Buffer.from(chunk).toString() : (`${chunk}`))
+
+          if (str.includes('%unocss.global%') || str.includes('__UnoCSS_Svelte_Scoped_global_styles__')) {
+            viteConfig.logger.error(
+              'You did not setup the unocss svelte-scoped integration for SvelteKit correctly. '
+              + 'Please follow the instructions at https://github.com/unocss/unocss/blob/main/packages/vite/README.md#sveltesveltekit-scoped-mode. '
+              + 'You can see an example of the usage at https://github.com/unocss/unocss/tree/main/examples/sveltekit-scoped.'
+              , { timestamp: true })
+          }
+
+          // @ts-expect-error Mismatch caused by overloads
+          return originalWrite.call(this, chunk, ...rest)
+        }
+
+        next()
+      })
+    },
   }
 }
