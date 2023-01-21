@@ -50,10 +50,11 @@ export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin 
         return transformSvelteSFC(code, id, uno, { combine: viteConfig.command === 'build' })
     },
 
-    renderChunk(code, chunk) {
+    async renderChunk(code, chunk) {
       if (isSvelteKit && viteConfig.command === 'build' && chunk.moduleIds.findIndex(isServerHooksFile) > -1) {
-        // todo: Get svelte kit base path.
-        const base = ''
+        // Get svelte kit base path.
+        const { default: svelteConfig } = await import(`${viteConfig.root}/svelte.config.js`)
+        const base = svelteConfig.kit?.paths?.base ?? ''
         const replacement = `<link href="${base}/${this.getFileName(unoCssFileRef)}" rel="stylesheet" />`
         return code.replace('__UnoCSS_Svelte_Scoped_global_styles__', replacement.replaceAll(/'/g, '\''))
       }
