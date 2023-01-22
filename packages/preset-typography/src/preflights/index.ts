@@ -21,7 +21,7 @@ function getCSS(
     const notProseSelector = `:not(:where(.not-${selectorName},.not-${selectorName} *))`
 
     // since pseudo class & elements can't be matched
-    // within single :where(), they are splitted and rejoined.
+    // within single :where(), they are split and rejoined.
     const pseudoCSSMatchArray = selector
       .split(',')
       .map((s) => {

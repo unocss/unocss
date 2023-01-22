@@ -1,7 +1,7 @@
 {
   "name": "@unocss/reset",
   "version": "0.48.4",
-  "description": "Collection of CSS reseting",
+  "description": "Collection of CSS resetting",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
   "funding": "https://github.com/sponsors/antfu",

@@ -34,7 +34,7 @@ The template uses a simple DSL to specify the autocomplete suggestions. The synt
 
 - `(...|...)`: logic OR groups. `|` as the separator. Will be used as suggestions when the some of the groups match.
 - `<...>`: built-in short hands. currently supports `<num>`, `<percent>` and `<directions>`
-- `$...`: theme infering. for example, `$colors` will list all the properties of the `colors` object of the theme.
+- `$...`: theme inferring. for example, `$colors` will list all the properties of the `colors` object of the theme.
 
 For examples:
 

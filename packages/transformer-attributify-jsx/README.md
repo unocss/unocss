@@ -86,7 +86,7 @@ Instead, you may want to use valued attributes instead:
 
 ## Blocklist
 
-This transformer will only transform attrubutes that are valid UnoCSS utilities.
+This transformer will only transform attributes that are valid UnoCSS utilities.
 You can also `blocklist` bypass some attributes from been transformed.
 
 ```js
