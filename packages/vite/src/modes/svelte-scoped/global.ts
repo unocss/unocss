@@ -9,10 +9,32 @@ export function isServerHooksFile(path: string) {
   return path.includes('hooks') && path.includes('server')
 }
 
+export function replaceGlobalStylesPlaceholder(code: string, replacement: string) {
+  const index = code.indexOf(GLOBAL_STYLES_PLACEHOLDER)
+  if (index < 1) {
+    // Damn.
+    return code
+  }
+
+  const len = GLOBAL_STYLES_PLACEHOLDER.length
+
+  const openingQuote = code[index - 1]
+  const closingQuote = code[index + len]
+
+  if (openingQuote !== closingQuote) {
+    // Damn, but invalid syntax.
+    return code
+  }
+
+  replacement = replacement.replaceAll(new RegExp(openingQuote, 'g'), `\\${openingQuote}`)
+
+  return code.slice(0, index) + replacement + code.slice(index + len)
+}
+
 export async function replacePlaceholderWithPreflightsAndSafelist(uno: UnoGenerator, code: string) {
   const css = await generateGlobalCss(uno)
   return {
-    code: code.replace(GLOBAL_STYLES_PLACEHOLDER, `<style>${css.replaceAll(/'/g, '\'')}</style>`),
+    code: replaceGlobalStylesPlaceholder(code, `<style>${css}</style>`),
   }
 }
 

@@ -3,8 +3,7 @@ import { createFilter } from '@rollup/pluginutils'
 import type { UnocssPluginContext } from '@unocss/core'
 import { defaultExclude } from '../../integration'
 import { transformSvelteSFC } from './transform'
-import { generateGlobalCss, isServerHooksFile, logErrorIfTransformPageChunkHookNotRight, replacePlaceholderWithPreflightsAndSafelist } from './global'
-import { GLOBAL_STYLES_PLACEHOLDER } from './constants'
+import { generateGlobalCss, isServerHooksFile, logErrorIfTransformPageChunkHookNotRight, replaceGlobalStylesPlaceholder, replacePlaceholderWithPreflightsAndSafelist } from './global'
 
 export * from './transform'
 
@@ -67,7 +66,7 @@ export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin 
       if (isSvelteKit && chunk.moduleIds.some(id => isServerHooksFile(id))) {
         const base = viteConfig.base ?? '/'
         const unoCssHashedLinkTag = `<link href="${base}${this.getFileName(unoCssFileReferenceId)}" rel="stylesheet" />`
-        return code.replace(GLOBAL_STYLES_PLACEHOLDER, unoCssHashedLinkTag.replaceAll(/'/g, '\''))
+        return replaceGlobalStylesPlaceholder(code, unoCssHashedLinkTag)
       }
     },
   }
