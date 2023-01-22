@@ -298,8 +298,8 @@ import UnoCSS from 'unocss/vite'
 const config = {
   plugins: [
     UnoCSS({
-      mode: 'svelte-scoped',
-      /* options */
+      mode: 'svelte-scoped', // must be placed here
+      /* options can be placed here or in uno.config.ts */
     }),
     sveltekit(),
   ],

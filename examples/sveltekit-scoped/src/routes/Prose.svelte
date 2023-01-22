@@ -1,4 +1,4 @@
-<div class="prose max-w-full text-left mt-10 bg-white p-3 md:p-5 shadow-lg border rounded">
+<div class="text-base prose prose-purple md:prose-orange  dark:prose-invert max-w-full text-left mt-10 p-3 md:p-5 shadow-lg border rounded">
   <h2>UnoCSS in Svelte Scoped mode</h2>
   <p>This project has the following <b>example usages</b>:</p>
 
@@ -13,6 +13,6 @@
     <li>nested component styles (passed down through class prop)</li>
     <li>Conditional `class:` syntax, including shorthand</li>
     <li>--at-apply</li>
-    <li>A <code>.prose</code> block accomplished via simple stylesheet import. It would be to update the example to use @unocss/preset-typography so dark mode and colors can be easily supported.</li>
+    <li>This <code>.prose</code> block using `presetTypography()`, please place the `prose` class into your safelist to make it work. Color classes like `prose-purple` are fine to leave out of the safelist and their color adjustments will be added just to the component(s) where they are used.</li>
   </ul>
 </div>

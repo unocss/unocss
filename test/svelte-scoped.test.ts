@@ -7,7 +7,7 @@ import { format as prettier } from 'prettier'
 import prettierSvelte from 'prettier-plugin-svelte'
 
 import presetAttributify from '@unocss/preset-attributify'
-import { transformSvelteSFC } from '../packages/vite/src/modes/svelte-scoped'
+import { transformSvelteSFC } from '@unocss/vite'
 
 describe('svelte-scoped', () => {
   const uno = createGenerator({
@@ -29,7 +29,7 @@ describe('svelte-scoped', () => {
   })
 
   async function transform(code: string, { combine = true, format = true } = {}) {
-    const transformed = (await transformSvelteSFC(code, 'Foo.svelte', uno, { combine }))?.code
+    const transformed = (await transformSvelteSFC({ code, id: 'Foo.svelte', uno, options: { combine } }))?.code
     if (transformed && format) {
       return prettier(transformed, {
         parser: 'svelte',
@@ -352,7 +352,7 @@ describe('svelte-scoped', () => {
     const code = `<script lang="ts">
     $: visible
   </script>
-  
+
   <Render {visible}></Render>`.trim()
     expect(await transform(code)).toMatchSnapshot()
     expect(await transform(code, { combine: false })).toMatchSnapshot()

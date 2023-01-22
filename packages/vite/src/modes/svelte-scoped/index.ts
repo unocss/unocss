@@ -47,7 +47,7 @@ export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin 
         return replacePlaceholderWithPreflightsAndSafelist(uno, code)
 
       if (filter(id))
-        return transformSvelteSFC(code, id, uno, { combine: viteConfig.command === 'build' })
+        return transformSvelteSFC({ code, id, uno, options: { combine: viteConfig.command === 'build' } })
     },
 
     handleHotUpdate(ctx) {
@@ -55,7 +55,7 @@ export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin 
       if (filter(ctx.file)) {
         ctx.read = async () => {
           const code = await read()
-          return (await transformSvelteSFC(code, ctx.file, uno, { combine: false }))?.code || code
+          return (await transformSvelteSFC({ code, id: ctx.file, uno, options: { combine: false } }))?.code || code
         }
       }
     },

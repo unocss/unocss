@@ -22,7 +22,7 @@ export interface TransformSFCOptions {
   hashFn?: (str: string) => string
 }
 
-export async function transformSvelteSFC(code: string, id: string, uno: UnoGenerator, options: TransformSFCOptions = {}): Promise<{ code: string; map?: SourceMap } | undefined> {
+export async function transformSvelteSFC({ code, id, uno, isSvelteKit, options }: { code: string; id: string; uno: UnoGenerator; isSvelteKit?: boolean; options: TransformSFCOptions }): Promise<{ code: string; map?: SourceMap } | undefined> {
   const {
     classPrefix = 'uno-',
     combine = true,
@@ -36,8 +36,8 @@ export async function transformSvelteSFC(code: string, id: string, uno: UnoGener
   const preflights = code.includes('uno:preflights')
   const safelist = code.includes('uno:safelist')
 
-  if (preflights || safelist) {
-    console.warn('Adding uno:preflights or uno:safelist as a style tag attribute is deprecated. Please see the svelte-scoped documentation for instructions on where to add preflights and safelist.')
+  if (isSvelteKit && (preflights || safelist)) {
+    console.warn('Adding uno:preflights or uno:safelist as a style tag attribute is deprecated. Please see the svelte-scoped documentation at https://github.com/unocss/unocss/blob/main/packages/vite/README.md#sveltesveltekit-scoped-mode for instructions on how to add preflights and safelist.')
     const { css } = await uno.generate('', { preflights, safelist })
     styles = css
   }
@@ -50,58 +50,9 @@ export async function transformSvelteSFC(code: string, id: string, uno: UnoGener
   const shortcuts: Record<string, string[]> = {}
   const toGenerate = new Set<string>()
   const s = new MagicString(code)
-
-  let idHash: string
-  if (!combine)
-    idHash = hashFn(id)
-
-  function isOriginalOriginalShortcut(token: string): boolean {
-    return !!originalShortcuts.find(s => s[0] === token)
-  }
-
-  function queueCompiledClass(tokens: string[]): string {
-    if (combine) {
-      const _shortcuts = tokens.filter(t => isOriginalOriginalShortcut(t))
-      for (const s of _shortcuts)
-        toGenerate.add(s)
-
-      const _tokens = tokens.filter(t => !isOriginalOriginalShortcut(t))
-      if (!_tokens.length)
-        return _shortcuts.join(' ')
-      const hash = hashFn(_tokens.join(' ') + id)
-      const className = `${classPrefix}${hash}`
-      shortcuts[className] = _tokens
-      toGenerate.add(className)
-      return [className, ..._shortcuts].join(' ')
-    }
-    else {
-      return tokens.map((token) => {
-        if (isOriginalOriginalShortcut(token)) {
-          toGenerate.add(token)
-          return token
-        }
-        const className = `_${token}_${idHash}` // certain classes (!mt-1, md:mt-1, space-x-1) break when coming at the beginning of a shortcut
-        shortcuts[className] = [token]
-        toGenerate.add(className)
-        return className
-      }).join(' ')
-    }
-  }
-
-  async function sortKnownAndUnknownClasses(str: string) {
-    const classArr = str.split(/\s+/)
-    const result = await Promise.all(classArr.filter(Boolean).map(async t => [t, !!await uno.parseToken(t)] as const))
-    const known = result
-      .filter(([, matched]) => matched)
-      .map(([t]) => t)
-      .sort()
-    if (!known.length)
-      return null
-    const replacements = result.filter(([, matched]) => !matched).map(([i]) => i) // unknown
-    const className = queueCompiledClass(known)
-    return [className, ...replacements].join(' ')
-  }
+  const idHash = combine ? '' : hashFn(id)
   const processedMap = new Set()
+
   for (const match of classes) {
     let body = expandVariantGroup(match[2].trim())
 
@@ -182,6 +133,53 @@ export async function transformSvelteSFC(code: string, id: string, uno: UnoGener
         }
       }
     }
+  }
+
+  async function sortKnownAndUnknownClasses(str: string) {
+    const classArr = str.split(/\s+/)
+    const result = await Promise.all(classArr.filter(Boolean).map(async t => [t, !!await uno.parseToken(t)] as const))
+    const known = result
+      .filter(([, matched]) => matched)
+      .map(([t]) => t)
+      .sort()
+    if (!known.length)
+      return null
+    const replacements = result.filter(([, matched]) => !matched).map(([i]) => i) // unknown
+    const className = queueCompiledClass(known)
+    return [className, ...replacements].join(' ')
+  }
+
+  function queueCompiledClass(tokens: string[]): string {
+    if (combine) {
+      const _shortcuts = tokens.filter(t => isOriginalShortcut(t))
+      for (const s of _shortcuts)
+        toGenerate.add(s)
+
+      const _tokens = tokens.filter(t => !isOriginalShortcut(t))
+      if (!_tokens.length)
+        return _shortcuts.join(' ')
+      const hash = hashFn(_tokens.join(' ') + id)
+      const className = `${classPrefix}${hash}`
+      shortcuts[className] = _tokens
+      toGenerate.add(className)
+      return [className, ..._shortcuts].join(' ')
+    }
+    else {
+      return tokens.map((token) => {
+        if (isOriginalShortcut(token)) {
+          toGenerate.add(token)
+          return token
+        }
+        const className = `_${token}_${idHash}` // certain classes (!mt-1, md:mt-1, space-x-1) break when coming at the beginning of a shortcut
+        shortcuts[className] = [token]
+        toGenerate.add(className)
+        return className
+      }).join(' ')
+    }
+  }
+
+  function isOriginalShortcut(token: string): boolean {
+    return !!originalShortcuts.find(s => s[0] === token)
   }
 
   uno.config.shortcuts = [...originalShortcuts, ...Object.entries(shortcuts)]
