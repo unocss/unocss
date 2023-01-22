@@ -6,7 +6,7 @@ export function isServerHooksFile(path: string) {
   // It would be nice to parse the svelte config to learn if user's set a custom hooks.server name but both of the following methods have problems:
   // const svelteConfigRaw = readFileSync('./svelte.config.js', 'utf-8') // manual parsing could fail if people import hooks name from elsewhere or use unstandard syntax
   // ({ default: svelteConfig } = await import(`${viteConfig.root}/svelte.config.js`)) // errors when vitePreprocess is included in svelte.config.js
-  return path.includes('hooks.server')
+  return path.includes('hooks') && path.includes('server')
 }
 
 export async function replacePlaceholderWithPreflightsAndSafelist(uno: UnoGenerator, code: string) {
