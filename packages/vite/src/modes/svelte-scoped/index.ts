@@ -1,9 +1,11 @@
 import type { Plugin, ResolvedConfig } from 'vite'
+import type { Config } from '@sveltejs/kit'
 import { createFilter } from '@rollup/pluginutils'
 import type { UnocssPluginContext } from '@unocss/core'
 import { defaultExclude } from '../../integration'
 import { transformSvelteSFC } from './transform'
-import { isServerHooksFile, replacePlaceholderWithPreflightsAndSafelist } from './global'
+import { generateGlobalCss, isServerHooksFile, replacePlaceholderWithPreflightsAndSafelist } from './global'
+import { GLOBAL_STYLES_PLACEHOLDER } from './constants'
 
 export * from './transform'
 
@@ -13,8 +15,8 @@ export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin 
   let viteConfig: ResolvedConfig
   let filter = createFilter(defaultSvelteScopedInclude, defaultExclude)
   let isSvelteKit: boolean
-  let svelteConfig: any
-  let unoCssFileRef: string
+  let svelteConfig: Config
+  let unoCssFileReferenceId: string
 
   return {
     name: 'unocss:svelte-scoped',
@@ -28,7 +30,7 @@ export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin 
         config.exclude || defaultExclude,
       )
 
-      isSvelteKit = _viteConfig.plugins.findIndex(p => p.name.includes('sveltekit')) > -1
+      isSvelteKit = viteConfig.plugins.some(p => p.name.includes('sveltekit'))
     },
 
     async buildStart() {
@@ -36,9 +38,8 @@ export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin 
         ({ default: svelteConfig } = await import(`${viteConfig.root}/svelte.config.js`))
 
         if (viteConfig.command === 'build') {
-          const { css } = await uno.generate('', { preflights: true, safelist: true, minify: true })
-
-          unoCssFileRef = this.emitFile({
+          const css = await generateGlobalCss(uno)
+          unoCssFileReferenceId = this.emitFile({
             type: 'asset',
             name: 'uno.css',
             source: css,
@@ -55,11 +56,11 @@ export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin 
         return transformSvelteSFC(code, id, uno, { combine: viteConfig.command === 'build' })
     },
 
-    async renderChunk(code, chunk) {
+    renderChunk(code, chunk) {
       if (isSvelteKit && viteConfig.command === 'build' && chunk.moduleIds.findIndex(id => isServerHooksFile(id, svelteConfig)) > -1) {
-        const base = svelteConfig.kit.paths?.base ?? ''
-        const replacement = `<link href="${base}/${this.getFileName(unoCssFileRef)}" rel="stylesheet" />`
-        return code.replace('__UnoCSS_Svelte_Scoped_global_styles__', replacement.replaceAll(/'/g, '\''))
+        const base = svelteConfig.kit?.paths?.base ?? ''
+        const unoCssHashedLinkTag = `<link href="${base}/${this.getFileName(unoCssFileReferenceId)}" rel="stylesheet" />`
+        return code.replace(GLOBAL_STYLES_PLACEHOLDER, unoCssHashedLinkTag.replaceAll(/'/g, '\''))
       }
     },
 
@@ -80,7 +81,7 @@ export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin 
         res.write = function (chunk, ...rest) {
           const str = (chunk instanceof Buffer) ? chunk.toString() : ((Array.isArray(chunk) || 'at' in chunk) ? Buffer.from(chunk).toString() : (`${chunk}`))
 
-          if (str.includes('%unocss.global%') || str.includes('__UnoCSS_Svelte_Scoped_global_styles__')) {
+          if (str.includes('%unocss.global%') || str.includes(GLOBAL_STYLES_PLACEHOLDER)) {
             viteConfig.logger.error(
               'You did not setup the unocss svelte-scoped integration for SvelteKit correctly. '
               + 'Please follow the instructions at https://github.com/unocss/unocss/blob/main/packages/vite/README.md#sveltesveltekit-scoped-mode. '

@@ -1,0 +1,1 @@
+export const GLOBAL_STYLES_PLACEHOLDER = '__UnoCSS_Svelte_Scoped_global_styles__'
