@@ -1,5 +1,4 @@
 import type { Plugin, ResolvedConfig } from 'vite'
-import type { Config } from '@sveltejs/kit'
 import { createFilter } from '@rollup/pluginutils'
 import type { UnocssPluginContext } from '@unocss/core'
 import { defaultExclude } from '../../integration'
@@ -15,7 +14,6 @@ export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin 
   let viteConfig: ResolvedConfig
   let filter = createFilter(defaultSvelteScopedInclude, defaultExclude)
   let isSvelteKit: boolean
-  let svelteConfig: Config
   let unoCssFileReferenceId: string
 
   return {
@@ -34,22 +32,18 @@ export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin 
     },
 
     async buildStart() {
-      if (isSvelteKit) {
-        // ({ default: svelteConfig } = await import(`${viteConfig.root}/svelte.config.js`)) // this errors when running examples/sveltekit-scoped dev on Windows
-
-        if (viteConfig.command === 'build') {
-          const css = await generateGlobalCss(uno)
-          unoCssFileReferenceId = this.emitFile({
-            type: 'asset',
-            name: 'uno.css',
-            source: css,
-          })
-        }
+      if (isSvelteKit && viteConfig.command === 'build') {
+        const css = await generateGlobalCss(uno)
+        unoCssFileReferenceId = this.emitFile({
+          type: 'asset',
+          name: 'uno.css',
+          source: css,
+        })
       }
     },
 
     transform(code, id) {
-      if (isSvelteKit && viteConfig.command === 'serve' && isServerHooksFile(id, svelteConfig))
+      if (isSvelteKit && viteConfig.command === 'serve' && isServerHooksFile(id))
         return replacePlaceholderWithPreflightsAndSafelist(uno, code)
 
       if (filter(id))
@@ -70,9 +64,9 @@ export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin 
 
     // build hook
     renderChunk(code, chunk) {
-      if (isSvelteKit && chunk.moduleIds.some(id => isServerHooksFile(id, svelteConfig))) {
-        const base = svelteConfig?.kit?.paths?.base ?? ''
-        const unoCssHashedLinkTag = `<link href="${base}/${this.getFileName(unoCssFileReferenceId)}" rel="stylesheet" />`
+      if (isSvelteKit && chunk.moduleIds.some(id => isServerHooksFile(id))) {
+        const base = viteConfig.base ?? '/'
+        const unoCssHashedLinkTag = `<link href="${base}${this.getFileName(unoCssFileReferenceId)}" rel="stylesheet" />`
         return code.replace(GLOBAL_STYLES_PLACEHOLDER, unoCssHashedLinkTag.replaceAll(/'/g, '\''))
       }
     },
