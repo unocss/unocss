@@ -8,10 +8,10 @@
 		<!-- Resets must be added before sveltekit head injected styles -->
 		<link rel="stylesheet" href="%sveltekit.assets%/tailwind-reset.css">
 		
-		<!-- Then preflights and safelists -->
+		<!-- Then preflights and safelists (inlined in dev, added as a cacheable hased css file in build) -->
 		%unocss.global%
 
-		<!-- Place other styles here that you want component based styles to be able to override -->
+		<!-- Place other styles here that you want component based utility styles to be able to override -->
 		<link rel="stylesheet" href="%sveltekit.assets%/tw-prose.css" />
 
 		%sveltekit.head%

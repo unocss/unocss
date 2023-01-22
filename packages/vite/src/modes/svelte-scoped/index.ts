@@ -4,7 +4,7 @@ import { createFilter } from '@rollup/pluginutils'
 import type { UnocssPluginContext } from '@unocss/core'
 import { defaultExclude } from '../../integration'
 import { transformSvelteSFC } from './transform'
-import { generateGlobalCss, isServerHooksFile, replacePlaceholderWithPreflightsAndSafelist } from './global'
+import { generateGlobalCss, isServerHooksFile, logErrorIfTransformPageChunkHookNotRight, replacePlaceholderWithPreflightsAndSafelist } from './global'
 import { GLOBAL_STYLES_PLACEHOLDER } from './constants'
 
 export * from './transform'
@@ -35,7 +35,7 @@ export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin 
 
     async buildStart() {
       if (isSvelteKit) {
-        ({ default: svelteConfig } = await import(`${viteConfig.root}/svelte.config.js`))
+        // ({ default: svelteConfig } = await import(`${viteConfig.root}/svelte.config.js`)) // this errors when running examples/sveltekit-scoped dev on Windows
 
         if (viteConfig.command === 'build') {
           const css = await generateGlobalCss(uno)
@@ -56,14 +56,6 @@ export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin 
         return transformSvelteSFC(code, id, uno, { combine: viteConfig.command === 'build' })
     },
 
-    renderChunk(code, chunk) {
-      if (isSvelteKit && viteConfig.command === 'build' && chunk.moduleIds.findIndex(id => isServerHooksFile(id, svelteConfig)) > -1) {
-        const base = svelteConfig.kit?.paths?.base ?? ''
-        const unoCssHashedLinkTag = `<link href="${base}/${this.getFileName(unoCssFileReferenceId)}" rel="stylesheet" />`
-        return code.replace(GLOBAL_STYLES_PLACEHOLDER, unoCssHashedLinkTag.replaceAll(/'/g, '\''))
-      }
-    },
-
     handleHotUpdate(ctx) {
       const read = ctx.read
       if (filter(ctx.file)) {
@@ -74,27 +66,15 @@ export function SvelteScopedPlugin({ ready, uno }: UnocssPluginContext): Plugin 
       }
     },
 
-    configureServer(server) {
-      server.middlewares.use((_req, res, next) => {
-        const originalWrite = res.write
+    configureServer: logErrorIfTransformPageChunkHookNotRight,
 
-        res.write = function (chunk, ...rest) {
-          const str = (chunk instanceof Buffer) ? chunk.toString() : ((Array.isArray(chunk) || 'at' in chunk) ? Buffer.from(chunk).toString() : (`${chunk}`))
-
-          if (str.includes('%unocss.global%') || str.includes(GLOBAL_STYLES_PLACEHOLDER)) {
-            viteConfig.logger.error(
-              'You did not setup the unocss svelte-scoped integration for SvelteKit correctly. '
-              + 'Please follow the instructions at https://github.com/unocss/unocss/blob/main/packages/vite/README.md#sveltesveltekit-scoped-mode. '
-              + 'You can see an example of the usage at https://github.com/unocss/unocss/tree/main/examples/sveltekit-scoped.'
-              , { timestamp: true })
-          }
-
-          // @ts-expect-error Mismatch caused by overloads
-          return originalWrite.call(this, chunk, ...rest)
-        }
-
-        next()
-      })
+    // build hook
+    renderChunk(code, chunk) {
+      if (isSvelteKit && chunk.moduleIds.some(id => isServerHooksFile(id, svelteConfig))) {
+        const base = svelteConfig?.kit?.paths?.base ?? ''
+        const unoCssHashedLinkTag = `<link href="${base}/${this.getFileName(unoCssFileReferenceId)}" rel="stylesheet" />`
+        return code.replace(GLOBAL_STYLES_PLACEHOLDER, unoCssHashedLinkTag.replaceAll(/'/g, '\''))
+      }
     },
   }
 }
