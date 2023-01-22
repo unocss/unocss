@@ -5,30 +5,20 @@ import { GLOBAL_STYLES_PLACEHOLDER } from './constants'
 export function isServerHooksFile(path: string) {
   // It would be nice to parse the svelte config to learn if user's set a custom hooks.server name but both of the following methods have problems:
   // const svelteConfigRaw = readFileSync('./svelte.config.js', 'utf-8') // manual parsing could fail if people import hooks name from elsewhere or use unstandard syntax
-  // ({ default: svelteConfig } = await import(`${viteConfig.root}/svelte.config.js`)) // errors when vitePreprocess is included in svelte.config.js
+  // ({ default: svelteConfig } = await import(`${viteConfig.root}/svelte.config.js`)) // throw import errors when vitePreprocess is included in svelte.config.js on Windows (related to path issues)
   return path.includes('hooks') && path.includes('server')
 }
 
-export function replaceGlobalStylesPlaceholder(code: string, replacement: string) {
+export function replaceGlobalStylesPlaceholder(code: string, stylesTag: string) {
   const index = code.indexOf(GLOBAL_STYLES_PLACEHOLDER)
-  if (index < 1) {
-    // Damn.
+  if (index < 0)
     return code
-  }
 
-  const len = GLOBAL_STYLES_PLACEHOLDER.length
+  const quoteMark = code[index - 1]
 
-  const openingQuote = code[index - 1]
-  const closingQuote = code[index + len]
+  const escapedStyles = stylesTag.replaceAll(new RegExp(quoteMark, 'g'), `\\${quoteMark}`)
 
-  if (openingQuote !== closingQuote) {
-    // Damn, but invalid syntax.
-    return code
-  }
-
-  replacement = replacement.replaceAll(new RegExp(openingQuote, 'g'), `\\${openingQuote}`)
-
-  return code.slice(0, index) + replacement + code.slice(index + len)
+  return code.slice(0, index) + escapedStyles + code.slice(index + GLOBAL_STYLES_PLACEHOLDER.length)
 }
 
 export async function replacePlaceholderWithPreflightsAndSafelist(uno: UnoGenerator, code: string) {

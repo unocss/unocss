@@ -53,6 +53,8 @@ export async function transformSvelteSFC({ code, id, uno, isSvelteKit, options }
   const idHash = combine ? '' : hashFn(id)
   const processedMap = new Set()
 
+  // ignore uno.config.safelist
+
   for (const match of classes) {
     let body = expandVariantGroup(match[2].trim())
 
