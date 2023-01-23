@@ -58,7 +58,6 @@
     "magic-string": "^0.30.0"
   },
   "devDependencies": {
-    "@sveltejs/kit": "^1.2.2",
     "@unocss/shared-integration": "workspace:*",
     "vite": "^4.2.0"
   }
