@@ -18,13 +18,15 @@ There is a problem with purely isolated styles. Many styles are dependent on ele
 
 Set up using `mode: 'svelte-scoped'` as described in the [Svelte/SvelteKit scoped section](/packages/vite/README.md#sveltesveltekit-scoped-mode) of the [Vite instructions](/packages/vite/README.md).
 
-### Preflights, Safelist, and Plugins support
+### Resets, Preflights, Safelist, and Presets support
 
-Because importing styles in your root `+layout.svelte` file (e.g. `import uno.css`) will not give you any control over whether your global styles are loaded before or after component styles (and the order may flip between dev and prod), any styles (like resets, preflights, safelist, typography plugins, etc...) that you want utility classes to be able to override must be placed in the head of `app.html` file before `%sveltekit.head%`. 
+Because importing styles in your root `+layout.svelte` file (e.g. `import uno.css`) will not give you any control over whether your global styles are loaded before or after component styles (and the order may flip between dev and prod), any styles you want utility classes to be able to override (resets, preflights, safelist, typography, etc...) must be placed in the head of `app.html` file before `%sveltekit.head%`. 
 
-- Resets are discussed [here](https://github.com/unocss/unocss#style-resetting), but note that SvelteKit provides no convenient `main.ts` sort of location where styles can be guaranteed to come first so manually place these into the head of `app.html` as seen in this example repo.
-- preflights and safelist classes will be added to the global styles import that you should have already placed before `%sveltekit.head%` if you read the setup instructions in [Svelte/SvelteKit Scoped Mode](/packages/vite/README.md#sveltesveltekit-scoped-mode).
-- If you use a plugin like [`@unocss/preset-typography`](https://github.com/unocss/unocss/tree/main/packages/preset-typography) prose, you can use the plugin as desired and those styles will be included within every component they are used in. If you use a plugin in more than one location and it's heavy, consider adding those plugin-related classes to your safelist so they will be declared once, in the global styles.
+**Resets** are discussed [here](https://github.com/unocss/unocss#style-resetting), but note that SvelteKit provides no convenient `main.ts` sort of location where styles can be guaranteed to come first so for now you must manually place these into the head of `app.html` as seen in this example repo's [`app.html`](./src/app.html) file.
+
+**preflights** and **safelist** classes will be added to the global styles import that you should have already placed before `%sveltekit.head%` if you read the setup instructions in [Svelte/SvelteKit Scoped Mode](/packages/vite/README.md#sveltesveltekit-scoped-mode). Note that safelist classes will not be compiled into local component styles as they already exist in the global stylesheet.
+
+**Presets** need to be handled on a case-by-case basis. More complicated presets like [`@unocss/preset-typography`](https://github.com/unocss/unocss/tree/main/packages/preset-typography) which add a large amount of complex styles just for one `.prose` class most likely will need the class names which come with complicated styles placed in the safelist. If you find they don't work out of the box, try placing the needed classes into your safelist. In the case of `@unocss/preset-typography` you must add `prose` to your safelist, but you can leave off `prose-pink` as the latter class is very simple in that it just adds color variables. If you use a particularly heave class in more than one location, consider adding it to your safelist so it will only be declared once, in the global styles.
 
 ### Parent dependent classes
 
@@ -221,8 +223,8 @@ When this reaches the Svelte compiler, it will remove the :global() wrappers, an
 ## Example Project
 To try this out in the example project here, install and then run dev.
 
-- Tested with @sveltejs/kit@^1.0.0
 - Includes usage example of `@unocss/transformer-directives`'s `--at-apply: text-lg underline` ability
+- Includes `@unocss/preset-typography` usage
 
 ## Notes
 

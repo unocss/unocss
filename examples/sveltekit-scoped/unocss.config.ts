@@ -1,4 +1,4 @@
-// UnoCSS config options can also be place in vite.config.ts, but make sure to at least have a blank unocss.config.ts if you are having trouble getting the UnoCSS VSCode extension to work
+// UnoCSS config options can also be placed in vite.config.ts, but make sure to at least have a blank unocss.config.ts if you are having trouble getting the UnoCSS VSCode extension to work
 
 import { defineConfig, presetIcons, presetTypography, presetUno, transformerDirectives } from 'unocss'
 
