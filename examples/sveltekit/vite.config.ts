@@ -1,9 +1,7 @@
 import { sveltekit } from '@sveltejs/kit/vite'
 import { defineConfig } from 'vite'
 import UnoCSS from 'unocss/vite'
-import { extractorSvelte } from '@unocss/core'
-import presetIcons from '@unocss/preset-icons'
-import presetUno from '@unocss/preset-uno'
+import { extractorSvelte, presetIcons, presetUno } from 'unocss'
 import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
 
 export default defineConfig({
