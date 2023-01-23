@@ -181,11 +181,11 @@ export async function transformSvelteSFC({ code, id, uno, isSvelteKit, options }
   }
 
   function isOriginalShortcut(token: string): boolean {
-    return !!originalShortcuts.find(s => s[0] === token)
+    return originalShortcuts.some(s => s[0] === token)
   }
 
   uno.config.shortcuts = [...originalShortcuts, ...Object.entries(shortcuts)]
-  const { css } = await uno.generate(toGenerate, { preflights: false, safelist: false, minify: true })
+  const { css } = await uno.generate(toGenerate, { preflights: false, safelist: false, minify: true }) // minify option helps wrapSelectorsWithGlobal avoiding getting tangled up in layer comments like /* layer: shortcuts */
 
   styles += wrapSelectorsWithGlobal(css)
   uno.config.shortcuts = originalShortcuts
@@ -221,5 +221,5 @@ interface SourceMap {
 }
 
 // Possible Optimizations
-// 1. If <style> tag includes 'uno:preflights' and 'global' don't have uno.generate output root variables that it thinks are needed because preflights is set to false. If there is no easy to do this in UnoCSS then we could also have preflights set to true and just strip them out if a style tag includes 'uno:preflights' and 'global' but that feels inefficient - is it?
+// 1. If <style> tag includes 'uno:preflights' and 'global' don't have uno.generate output root variables that it thinks are needed because preflights is set to false. If there is no easy way to do this in UnoCSS then we could also have preflights set to true and just strip them out if a style tag includes 'uno:preflights' and 'global' but that feels inefficient - is it?
 // 2. Don't let config-set shortcuts be included in hashed class, would make for clearer output but add complexity to the code
