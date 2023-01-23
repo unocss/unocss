@@ -1,8 +1,7 @@
 {
   "name": "unocss-vite-svelte-scoped",
-  "private": true,
-  "version": "0.0.0",
   "type": "module",
+  "version": "0.0.0",
   "scripts": {
     "dev": "vite",
     "stackblitz:dev": "node remove-links.js && npm install && vite dev",
