@@ -1,6 +1,6 @@
 import type { UnoGenerator } from '@unocss/core'
 import type { ViteDevServer } from 'vite'
-import { GLOBAL_STYLES_PLACEHOLDER } from './constants'
+import { GLOBAL_STYLES_PLACEHOLDER, PLACEHOLDER_USER_SETS_IN_INDEX_HTML } from './constants'
 
 /**
  * It would be nice to parse the svelte config to learn if user set a custom hooks.server name but both of the following methods have problems:
@@ -40,7 +40,7 @@ export function logErrorIfTransformPageChunkHookNotRight(server: ViteDevServer) 
     res.write = function (chunk, ...rest) {
       const str = (chunk instanceof Buffer) ? chunk.toString() : ((Array.isArray(chunk) || 'at' in chunk) ? Buffer.from(chunk).toString() : (`${chunk}`))
 
-      if (str.includes('%unocss.global%') || str.includes(GLOBAL_STYLES_PLACEHOLDER)) {
+      if (str.includes(PLACEHOLDER_USER_SETS_IN_INDEX_HTML) || str.includes(GLOBAL_STYLES_PLACEHOLDER)) {
         server.config.logger.error(
           'You did not setup the UnoCSS svelte-scoped integration for SvelteKit correctly.\n'
           + 'Please follow the instructions at https://github.com/unocss/unocss/blob/main/packages/vite/README.md#sveltesveltekit-scoped-mode.\n'
