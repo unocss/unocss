@@ -13,10 +13,12 @@
   <h1
     class="animate-bounce color-#ff3e00 dark:color-white uppercase text-5xl fw-100 my-2rem mx-auto"
   >
-    UnoCSS + SvelteKit!
+    UnoCSS + SvelteKit Scoped!
   </h1>
 
   <Logos />
+
+  <Prose />
 
   <div class="my-15">
     <div
@@ -44,8 +46,6 @@
   </div>
 
   <Counter />
-
-  <Prose />
 
   <div class="corner">Fixed</div>
 </div>

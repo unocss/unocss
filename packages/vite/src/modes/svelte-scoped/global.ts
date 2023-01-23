@@ -2,10 +2,12 @@ import type { UnoGenerator } from '@unocss/core'
 import type { ViteDevServer } from 'vite'
 import { GLOBAL_STYLES_PLACEHOLDER } from './constants'
 
+/**
+ * It would be nice to parse the svelte config to learn if user set a custom hooks.server name but both of the following methods have problems:
+ * - const svelteConfigRaw = readFileSync('./svelte.config.js', 'utf-8') // manual parsing could fail if people import hooks name from elsewhere or use unstandard syntax
+ * - ({ default: svelteConfig } = await import(`${viteConfig.root}/svelte.config.js`)) // throws import errors when vitePreprocess is included in svelte.config.js on Windows (related to path issues)
+ */
 export function isServerHooksFile(path: string) {
-  // It would be nice to parse the svelte config to learn if user's set a custom hooks.server name but both of the following methods have problems:
-  // const svelteConfigRaw = readFileSync('./svelte.config.js', 'utf-8') // manual parsing could fail if people import hooks name from elsewhere or use unstandard syntax
-  // ({ default: svelteConfig } = await import(`${viteConfig.root}/svelte.config.js`)) // throw import errors when vitePreprocess is included in svelte.config.js on Windows (related to path issues)
   return path.includes('hooks') && path.includes('server')
 }
 

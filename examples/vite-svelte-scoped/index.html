@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Add styles resets first  -->
+		<link rel="stylesheet" href="/tailwind-reset.css">
+
+    <!-- Then preflights and safelists (inlined in dev, added as a cacheable hased css file in build) -->
+    %unocss.global%
+
+		<!-- Place other styles here that you want component based utility styles to be able to override -->
+
+    <title>UnoCSS Svelte Scoped</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

@@ -22,7 +22,7 @@
     <span class:logo={logo} in:fly="{{ y: 200, duration: 2000 }}" out:fade></span>
   {/if}
 
-  <h1 class="animate-bounce">Hello Typescript!</h1>
+  <h1 class="animate-bounce">Vite Svelte (TS) + UnoCSS!</h1>
 
   <br/>
 

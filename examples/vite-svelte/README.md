@@ -6,6 +6,4 @@
 - Creates a global stylesheet
 - Uses `extractorSvelte` to be able to use `class:red-bg-200={true}` in components
 
-## More Information
-
-- This template is sourced from the Vite starter examples listed at https://vitejs.dev/guide/#trying-vite-online, particularly https://vite.new/svelte-ts. See those starters for the latest Vite + Svelte templates. 
+This template is sourced from the Vite starter examples listed at https://vitejs.dev/guide/#trying-vite-online, particularly https://vite.new/svelte-ts. See those starters for the latest Vite + Svelte templates. 
