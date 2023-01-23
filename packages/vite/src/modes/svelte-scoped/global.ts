@@ -12,15 +12,13 @@ export function isServerHooksFile(path: string) {
 }
 
 export function replaceGlobalStylesPlaceholder(code: string, stylesTag: string) {
-  const index = code.indexOf(GLOBAL_STYLES_PLACEHOLDER)
-  if (index < 0)
-    return code
+  const captureQuoteMark = '(["\'`])'
+  const matchCapturedQuoteMark = '\\1'
+  const QUOTES_WITH_PLACEHOLDER_RE = new RegExp(captureQuoteMark + GLOBAL_STYLES_PLACEHOLDER + matchCapturedQuoteMark)
 
-  const quoteMark = code[index - 1]
-
-  const escapedStyles = stylesTag.replaceAll(new RegExp(quoteMark, 'g'), `\\${quoteMark}`)
-
-  return code.slice(0, index) + escapedStyles + code.slice(index + GLOBAL_STYLES_PLACEHOLDER.length)
+  const escapedStylesTag = stylesTag.replaceAll(/`/g, '\\`')
+  return code.replace(QUOTES_WITH_PLACEHOLDER_RE, `\`${escapedStylesTag}\``)
+  // preset-web-fonts doesn't heed the minify option and sends through newlines (\n) that break if we use regular quotes here, this is easier than removing newlines and they're actually kind of useful in dev mode, might consider turning minify off altogether in dev mode
 }
 
 export async function replacePlaceholderWithPreflightsAndSafelist(uno: UnoGenerator, code: string) {

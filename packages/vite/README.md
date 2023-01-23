@@ -273,9 +273,11 @@ You have a `SvelteKit` example project on [examples/sveltekit](https://github.co
 
 ### Svelte/SvelteKit Scoped Mode
 
-Adding `mode: 'svelte-scoped'` to your UnoCSS config options will place styles right inside of each component's style block instead of in a global `uno.css` file. Automatic class name compilation creates global but unique class names so classes that depend are interdependent with other components will just work. This means you can use `rtl:mr-1` or `dark:text-white` which rely on `dir="rtl"` or `.dark` being defined in a parent component. Yes, you can pass classes to children components as long as you pass them using a prop named `class`, e.g. `class="text-lg bg-red-100"`. And spacing out children `<Button>` components using `.space-x-2` will work just fine.
+Adding `mode: 'svelte-scoped'` to your UnoCSS config options will place utility styles right inside of each component's style block instead of in a global `uno.css` file. Class names will be compiled to unique names so they will conflict nowhere and work everywhere. So classes that depend are interdependent with other components will just work. You can use `rtl:mr-1` or `dark:text-white` which rely on `dir="rtl"` or `.dark` being defined in a parent component. You can pass classes to children components as long as you pass them using a prop named `class`, e.g. `class="text-lg bg-red-100"`. Spacing out children `<Button>` components using `.space-x-2` will also work.
 
-Preflights, safelist classes and anything else for which we want utility classes to override must be placed into the head of `app.html` **before** `%sveltekit.head%`. Add `%unocss.global%` to `app.html` after any style resets but before `%sveltekit.head%`. Then add the following code to your `hooks.server.js` or `hooks.server.ts` and the UnoCSS Vite plugin will take care of the rest:
+Anything (preflights, safelist, typography) for which we want utility classes to override must be placed into the head of `app.html` **before** `%sveltekit.head%`. To do this add `%unocss.global%` to your `app.html` after any style resets but before `%sveltekit.head%`.
+
+**If** you are using SvelteKit (and not plain Vite+Svelte) then also add the following code to your `hooks.server.js` or `hooks.server.ts` and the UnoCSS Vite plugin will take care of the rest:
 
 ```js
 /** @type {import('@sveltejs/kit').Handle} */
@@ -306,7 +308,9 @@ const config = {
 }
 ```
 
-There is a `SvelteKit scoped` example project in the [examples/sveltekit-scoped](https://github.com/unocss/unocss/tree/main/examples/sveltekit-scoped#readme) directory with more detailed explanation of how this mode works.
+There is a `SvelteKit scoped` example project in the [examples/sveltekit-scoped](https://github.com/unocss/unocss/tree/main/examples/sveltekit-scoped#readme) directory with more detailed explanation of how this mode works. 
+
+There is a `Vite-Svelte scoped` example in the [examples/vite-svelte-scoped](https://github.com/unocss/unocss/tree/main/examples/vite-svelte-scoped#readme) directory.
 
 ### Web Components
 

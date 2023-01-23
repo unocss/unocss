@@ -18,6 +18,8 @@
 
   <Logos />
 
+  <p class="mt-10 font-mono">.font-mono is set to Fira Code => with nice ligatures (preset-web-fonts)</p>
+
   <Prose />
 
   <div class="my-15">

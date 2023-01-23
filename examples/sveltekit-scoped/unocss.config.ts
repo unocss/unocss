@@ -1,6 +1,6 @@
 // UnoCSS config options can also be placed in vite.config.ts, but make sure to at least have a blank unocss.config.ts if you are having trouble getting the UnoCSS VSCode extension to work
 
-import { defineConfig, presetIcons, presetTypography, presetUno, transformerDirectives } from 'unocss'
+import { defineConfig, presetIcons, presetTypography, presetUno, presetWebFonts, transformerDirectives } from 'unocss'
 
 export default defineConfig({
   shortcuts: [
@@ -19,6 +19,13 @@ export default defineConfig({
       },
     }),
     presetTypography(),
+    presetWebFonts({
+      fonts: {
+        // these will extend the default theme
+        // sans: 'Roboto',
+        mono: ['Fira Code', 'Fira Mono:400,700'],
+      },
+    }),
   ],
   safelist: ['bg-orange-300', 'prose'],
 })

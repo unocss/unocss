@@ -2,6 +2,18 @@
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/sveltekit-scoped)
 
+Compiles `<div class="w-full mb-1" />` into: 
+
+```html
+<div class="uno-3hashz" />
+<style>
+  :global(.uno-3hashz) {
+    width: full;
+    right: .25rem;
+  }
+</style>
+```
+
 ## Why?
 
 ### Scoping utility classes by component unleashes creativity
@@ -22,21 +34,29 @@ Set up using `mode: 'svelte-scoped'` as described in the [Svelte/SvelteKit scope
 
 Because importing styles in your root `+layout.svelte` file (e.g. `import uno.css`) will not give you any control over whether your global styles are loaded before or after component styles (and the order may flip between dev and prod), any styles you want utility classes to be able to override (resets, preflights, safelist, typography, etc...) must be placed in the head of `app.html` file before `%sveltekit.head%`. 
 
-**Resets** are discussed [here](https://github.com/unocss/unocss#style-resetting), but note that SvelteKit provides no convenient `main.ts` sort of location where styles can be guaranteed to come first so for now you must manually place these into the head of `app.html` as seen in this example repo's [`app.html`](./src/app.html) file.
+**Resets** in UnoCSS are discussed [here](https://github.com/unocss/unocss#style-resetting), but note that SvelteKit provides no convenient `main.ts` sort of location where styles can be guaranteed to come first so for now you must manually place these into the head of `app.html` as seen in this example repo's [`app.html`](./src/app.html) file.
 
-**preflights** and **safelist** classes will be added to the global styles import that you should have already placed before `%sveltekit.head%` if you read the setup instructions in [Svelte/SvelteKit Scoped Mode](/packages/vite/README.md#sveltesveltekit-scoped-mode). Note that safelist classes will not be compiled into local component styles as they already exist in the global stylesheet.
+**Preflights** and **safelist** classes will be added to the global styles import that you should have already placed before `%sveltekit.head%` if you read the setup instructions in [Svelte/SvelteKit Scoped Mode](/packages/vite/README.md#sveltesveltekit-scoped-mode). Note that safelist classes will not be compiled into local component styles as they will be placed into the global stylesheet. *If you use a particularly heavy class in many locations, consider adding it to your safelist so it will only be declared once, in the global styles.*
 
-**Presets** need to be handled on a case-by-case basis. More complicated presets like [`@unocss/preset-typography`](https://github.com/unocss/unocss/tree/main/packages/preset-typography) which add a large amount of complex styles just for one `.prose` class most likely will need the class names which come with complicated styles placed in the safelist. If you find they don't work out of the box, try placing the needed classes into your safelist. In the case of `@unocss/preset-typography` you must add `prose` to your safelist, but you can leave off `prose-pink` as the latter class is very simple in that it just adds color variables. If you use a particularly heave class in more than one location, consider adding it to your safelist so it will only be declared once, in the global styles.
+**Presets** need to be handled on a case-by-case basis:
+- All of the presets that add basic utilities will work (uno, mini, wind, etc...)
+- [`@unocss/preset-typography`](https://github.com/unocss/unocss/tree/main/packages/preset-typography) adds a large amount of complex styles to the `.prose` class which `svelte-scoped` will not properly surround with `:global()` wrappers so the `prose` class must be added to your safelist. Simple classes like `prose-pink` will work fine like any other utility class as it just adds color variables. 
+- [`@unocss/preset-icons`](https://github.com/unocss/unocss/tree/main/packages/preset-icons) works
+- [`@unocss/web-fonts`](https://github.com/unocss/unocss/tree/main/packages/preset-icons) works
+- [@unocss/preset-rem-to-px](https://github.com/unocss/unocss/tree/main/packages/preset-rem-to-px) works (it only modifies styles generation so it and all like it will work)
+- [@unocss/preset-attributify](https://github.com/unocss/unocss/tree/main/packages/preset-attributify) doesn't work as `svelte-scoped` uses its own extraction and compilation pipeline
+- [@unocss/preset-tagify](https://github.com/unocss/unocss/tree/main/packages/preset-tagify) doesn't work
+- For other presets, if they don't rely on traditional `class="..."` usage they will probably not work. If they add  complicated styles like see in typography's `.prose` then you probably need to place certain class names into your safelist.
 
 ### Parent dependent classes
 
-```svelte
+```html
 <div class="ltr:left-0 rtl:right-0"></div>
 ```
 
 turns into:
 
-```svelte
+```html
 <div class="uno-3hashz"></div>
 
 <style>
@@ -53,7 +73,7 @@ turns into:
 
 If an element in your component wants to add space between 3 children elements of which some are in separate components you can now do that:
 
-```svelte
+```html
 <div class="space-x-1">
   <div>Status</div>
   <Button>FAQ</Button>
@@ -63,7 +83,7 @@ If an element in your component wants to add space between 3 children elements o
 
 turns into:
 
-```svelte
+```html
 <div class="uno-7haszz">
   <div>Status</div>
   <Button>FAQ</Button>
@@ -83,13 +103,13 @@ turns into:
 
 You can add the `class` prop to a component which which places them on to an element using `class="{$$props.class} foo bar"`.
 
-```svelte
+```html
 <Button class="px-2 py-1">Login</Button>
 ```
 
 turns into:
 
-```svelte
+```html
 <Button class="uno-4hshza">Login</Button>
 
 <style>
@@ -106,13 +126,13 @@ turns into:
 
 Class names added using Svelte's class directive feature, `class:text-sm={bar}`, will also be compiled. No need to add `extractorSvelte`. Custom extractors will not be used by this mode.
 
-```svelte
+```html
 <div class:text-sm={bar}>World</div>
 ```
 
 turns into:
 
-```svelte
+```html
 <div class:uno-2hashz={bar}>World</div>
 
 <style>
@@ -127,7 +147,7 @@ The class directive shorthand usage of `class:text-sm` where `text-sm` is both a
 
 ### Usage Summary
 
-```svelte
+```html
 <span class:logo />
 <!-- This would work if logo is set as a shortcut in the plugin settings and it is a variable in this component. Note that it's class name will not be changed -->
 
@@ -153,7 +173,7 @@ The class directive shorthand usage of `class:text-sm` where `text-sm` is both a
 
 will be transformed into this:
 
-```svelte
+```html
 <span class:logo />
 
 <div class="uno-1hashz">Hello</div>
@@ -230,7 +250,7 @@ To try this out in the example project here, install and then run dev.
 
 - In development, individual classes will be retained and hashed in place for ease of toggling on and off in your browser's developer tools. `class="mb-1 mr-1"` will turn into something like `class="_mb-1_9hwi32 _mr-1_84jfy4`. In production, these will be compiled into a single class name using your desired prefix, `uno-` by default, and a hash based on the filename + class names, e.g. `class="uno-84dke3`.
 - Vite plugins can't yet be used to preprocess files emitted by `svelte-package` as it does not use Vite. Follow https://github.com/sveltejs/vite-plugin-svelte/issues/475 to see when this will be made possible. In the meantime a [temporary svelte preprocessor wrapper](https://www.npmjs.com/package/temp-s-p-u) was published to enable using `svelte-scoped` mode in component libraries and other context that don't use Vite.
-- [UnoCSS Inspector doesn't work yet](https://github.com/unocss/unocss/issues/1718). PR's welcome!
+- [UnoCSS Inspector doesn't work yet](https://github.com/unocss/unocss/issues/1718). PR's welcome! You would need to study how the `unocss:global` global does it by adding tokens to the tasks array via `tasks.push(extract(code, filename))`
 - Has not been tested with `Attributify` mode and other such innovations and probably won't work with them.
 
 ## Known Issues
