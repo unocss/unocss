@@ -18,7 +18,7 @@ export function replaceGlobalStylesPlaceholder(code: string, stylesTag: string) 
 
   const escapedStylesTag = stylesTag.replaceAll(/`/g, '\\`')
   return code.replace(QUOTES_WITH_PLACEHOLDER_RE, `\`${escapedStylesTag}\``)
-  // preset-web-fonts doesn't heed the minify option and sends through newlines (\n) that break if we use regular quotes here, this is easier than removing newlines and they're actually kind of useful in dev mode, might consider turning minify off altogether in dev mode
+  // preset-web-fonts doesn't heed the minify option and sends through newlines (\n) that break if we use regular quotes here, always using a backtick here is easier than removing newlines, which are actually kind of useful in dev mode. I might consider turning minify off altogether in dev mode.
 }
 
 export async function replacePlaceholderWithPreflightsAndSafelist(uno: UnoGenerator, code: string) {
