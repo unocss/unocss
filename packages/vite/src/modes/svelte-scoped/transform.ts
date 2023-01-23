@@ -33,12 +33,12 @@ export async function transformSvelteSFC({ code, id, uno, isSvelteKit, options }
   let map: SourceMap
 
   const alreadyHasStyles = code.match(/<style[^>]*>[\s\S]*?<\/style\s*>/)
-  const preflights = code.includes('uno:preflights')
-  const safelist = code.includes('uno:safelist')
+  const hasPreflightsDirective = code.includes('uno:preflights')
+  const hasSafelistDirective = code.includes('uno:safelist')
 
-  if (isSvelteKit && (preflights || safelist)) {
+  if (isSvelteKit && (hasPreflightsDirective || hasSafelistDirective)) {
     console.warn('Adding uno:preflights or uno:safelist as a style tag attribute is deprecated. Please see the svelte-scoped documentation at https://github.com/unocss/unocss/blob/main/packages/vite/README.md#sveltesveltekit-scoped-mode for instructions on how to add preflights and safelist.')
-    const { css } = await uno.generate('', { preflights, safelist })
+    const { css } = await uno.generate('', { preflights: hasPreflightsDirective, safelist: hasSafelistDirective })
     styles = css
   }
 
@@ -52,8 +52,6 @@ export async function transformSvelteSFC({ code, id, uno, isSvelteKit, options }
   const s = new MagicString(code)
   const idHash = combine ? '' : hashFn(id)
   const processedMap = new Set()
-
-  // ignore uno.config.safelist
 
   for (const match of classes) {
     let body = expandVariantGroup(match[2].trim())
@@ -76,7 +74,7 @@ export async function transformSvelteSFC({ code, id, uno, isSvelteKit, options }
 
   for (const match of classDirectives) {
     const token = match[1]
-    const result = !!await uno.parseToken(token)
+    const result = await needsGenerated(token)
     if (!result)
       continue
     const className = queueCompiledClass([token])
@@ -87,7 +85,7 @@ export async function transformSvelteSFC({ code, id, uno, isSvelteKit, options }
 
   for (const match of classDirectivesShorthand) {
     const token = match[1]
-    const result = !!await uno.parseToken(token)
+    const result = await needsGenerated(token)
     if (!result)
       continue
     const className = queueCompiledClass([token])
@@ -139,7 +137,7 @@ export async function transformSvelteSFC({ code, id, uno, isSvelteKit, options }
 
   async function sortKnownAndUnknownClasses(str: string) {
     const classArr = str.split(/\s+/)
-    const result = await Promise.all(classArr.filter(Boolean).map(async t => [t, !!await uno.parseToken(t)] as const))
+    const result = await Promise.all(classArr.filter(Boolean).map(async token => [token, await needsGenerated(token)] as const))
     const known = result
       .filter(([, matched]) => matched)
       .map(([t]) => t)
@@ -149,6 +147,12 @@ export async function transformSvelteSFC({ code, id, uno, isSvelteKit, options }
     const replacements = result.filter(([, matched]) => !matched).map(([i]) => i) // unknown
     const className = queueCompiledClass(known)
     return [className, ...replacements].join(' ')
+  }
+
+  async function needsGenerated(token: string): Promise<boolean> {
+    if (uno.config.safelist.includes(token))
+      return false
+    return !!await uno.parseToken(token)
   }
 
   function queueCompiledClass(tokens: string[]): string {
@@ -185,7 +189,7 @@ export async function transformSvelteSFC({ code, id, uno, isSvelteKit, options }
   }
 
   uno.config.shortcuts = [...originalShortcuts, ...Object.entries(shortcuts)]
-  const { css } = await uno.generate(toGenerate, { preflights: false, safelist: false, minify: true }) // minify option helps wrapSelectorsWithGlobal avoiding getting tangled up in layer comments like /* layer: shortcuts */
+  const { css } = await uno.generate(toGenerate, { preflights: false, safelist: false, minify: true }) // minify avoids wrapSelectorsWithGlobal getting tangled up in layer comments like /* layer: shortcuts */
 
   styles += wrapSelectorsWithGlobal(css)
   uno.config.shortcuts = originalShortcuts

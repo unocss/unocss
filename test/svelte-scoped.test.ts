@@ -10,6 +10,7 @@ import presetAttributify from '@unocss/preset-attributify'
 import { transformSvelteSFC } from '@unocss/vite'
 
 describe('svelte-scoped', () => {
+  const safelistClassToSkip = 'mr-7'
   const uno = createGenerator({
     presets: [
       presetUno(),
@@ -26,6 +27,7 @@ describe('svelte-scoped', () => {
       { shortcut: 'w-5' },
       { logo: 'i-logos:svelte-icon w-6em' },
     ],
+    safelist: [safelistClassToSkip],
   })
 
   async function transform(code: string, { combine = true, format = true } = {}) {
@@ -292,7 +294,7 @@ describe('svelte-scoped', () => {
     expect(result).toMatchInlineSnapshot('undefined')
   })
 
-  test('dev, only hash but not combine mode, handles classes that fail when coming at the beginning of a shortcut name', async () => {
+  test('in dev, when it only hashes but does not combine, handles classes that fail when coming at the beginning of a shortcut name', async () => {
     const code = '<div class="mb-1 !mt-2 md:mr-3 space-x-1" />'
     expect(await transform(code)).toMatchInlineSnapshot(`
       "<div class=\\"uno-8mjgqp\\" />
@@ -356,6 +358,23 @@ describe('svelte-scoped', () => {
   <Render {visible}></Render>`.trim()
     expect(await transform(code)).toMatchSnapshot()
     expect(await transform(code, { combine: false })).toMatchSnapshot()
+  })
+
+  test('skips generation for classes in safelist as they are set globally and compilation would remove them', async () => {
+    const code = `<div class="bg-red-500 ${safelistClassToSkip}" />`
+    const output = await transform(code)
+    expect(output).toContain(safelistClassToSkip)
+    expect(output).toMatchInlineSnapshot(`
+      "<div class=\\"uno-orrz3z mr-7\\" />
+
+      <style>
+        :global(.uno-orrz3z) {
+          --un-bg-opacity: 1;
+          background-color: rgba(239, 68, 68, var(--un-bg-opacity));
+        }
+      </style>
+      "
+    `)
   })
 
   test('everything', async () => {
