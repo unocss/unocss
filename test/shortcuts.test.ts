@@ -18,6 +18,7 @@ describe('shortcuts', () => {
         btn2: 'sh1 btn1',
       },
       {
+        btn: 'mr-8',
         primary: 'text-orange-800 bg-white',
         accent: 'text-cyan-800 bg-black',
         btn3: 'primary hover:(accent underline) focus:border',

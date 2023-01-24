@@ -51,9 +51,9 @@ exports[`shortcuts > merge transform-duplicated 1`] = `
 
 exports[`shortcuts > nesting static 1`] = `
 "/* layer: shortcuts */
-.btn2{margin:0.75rem;margin-left:2.5rem;margin-right:2.5rem;padding-left:0.5rem;padding-right:0.5rem;padding-top:0.75rem;padding-bottom:0.75rem;}
-.btn{margin-right:2.5rem;}
-.btn1{margin-left:2.5rem;margin-right:2.5rem;}
+.btn2{margin:0.75rem;margin-left:2.5rem;margin-right:2rem;padding-left:0.5rem;padding-right:0.5rem;padding-top:0.75rem;padding-bottom:0.75rem;}
+.btn{margin-right:2rem;}
+.btn1{margin-left:2.5rem;margin-right:2rem;}
 @media (min-width: 640px){
 .btn2{margin:0.5rem;}
 }"

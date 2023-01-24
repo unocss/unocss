@@ -303,7 +303,9 @@ export type ThemeExtender<T> = (theme: T) => void
 
 export interface ConfigBase<Theme extends {} = {}> {
   /**
-   * Rules to generate CSS utilities
+   * Rules to generate CSS utilities.
+   *
+   * Later entries have higher priority.
    */
   rules?: Rule<Theme>[]
 
@@ -316,6 +318,8 @@ export interface ConfigBase<Theme extends {} = {}> {
   /**
    * Similar to Windi CSS's shortcuts,
    * allows you have create new utilities by combining existing ones.
+   *
+   * Later entries have higher priority.
    */
   shortcuts?: UserShortcuts<Theme>
 

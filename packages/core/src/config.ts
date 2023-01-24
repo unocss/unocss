@@ -114,7 +114,7 @@ export function resolveConfig<Theme extends {} = {}>(
     preflights: mergePresets('preflights'),
     autocomplete,
     variants: mergePresets('variants').map(normalizeVariant),
-    shortcuts: resolveShortcuts(mergePresets('shortcuts')),
+    shortcuts: resolveShortcuts(mergePresets('shortcuts')).reverse(),
     extractors,
     safelist: mergePresets('safelist'),
   }
