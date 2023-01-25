@@ -392,6 +392,14 @@ describe('svelte-scoped', () => {
     expect(await transform(code, { combine: false })).toMatchSnapshot()
   })
 
+  test('in component preflights and safelist (use in vanilla Svelte, not SvelteKit)', async () => {
+    const code = `
+<div class="shadow-lg" />
+<style uno:preflights uno:safelist></style>
+    `.trim()
+    expect(await transform(code)).toMatchSnapshot()
+  })
+
   // BUG: When this plugin is run on a component library first, and then in a project second, make sure to use different hashing prefixes because when `uno.parseToken()` checks a previously hashed class like `.uno-ssrvwc` it will add it to uno's cache of non-matches, then when `uno.generate()` runs it will not output the result of that shortcut. I don't know the proper solution to this and I don't think clearing uno's cache of non-matches is right. To see this bug run the following test:
   test.skip('BUG: when a hashed style already exists (from an imported component library that was already processed), and style is found again it will not be output', async () => {
     const result = await transform(`

@@ -3,6 +3,7 @@ import { type UnoGenerator, attributifyRE, escapeRegExp, expandVariantGroup } fr
 import { wrapSelectorsWithGlobal } from './wrap-global'
 import { hash } from './hash'
 
+const stylesTagWithCapturedDirectivesRE = /<style([^>]*)>[\s\S]*?<\/style\s*>/ // <style uno:preflights uno:safelist global>...</style>
 const classesRE = /class=(["'\`])([\S\s]+?)\1/g // class="mb-1"
 const classesDirectivesRE = /class:([\S]+?)={/g // class:mb-1={foo}
 const classDirectivesShorthandRE = /class:([^=>\s/]+)[{>\s/]/g // class:mb-1 (compiled to class:uno-1hashz={mb-1})
@@ -32,13 +33,17 @@ export async function transformSvelteSFC({ code, id, uno, isSvelteKit, options }
   let styles = ''
   let map: SourceMap
 
-  const alreadyHasStyles = code.match(/<style[^>]*>[\s\S]*?<\/style\s*>/)
-  const hasPreflightsDirective = code.includes('uno:preflights')
-  const hasSafelistDirective = code.includes('uno:safelist')
+  const preexistingStylesTag = code.match(stylesTagWithCapturedDirectivesRE)
+  const stylesTagDirectives = preexistingStylesTag?.[1].trim().split(' ')
+  const hasPreflightsDirective = stylesTagDirectives?.includes('uno:preflights')
+  const hasSafelistDirective = stylesTagDirectives?.includes('uno:safelist')
+  const hasGlobalDirective = stylesTagDirectives?.includes('global')
 
-  if (isSvelteKit && (hasPreflightsDirective || hasSafelistDirective)) {
-    console.warn('Adding uno:preflights or uno:safelist as a style tag attribute is deprecated. Please see the svelte-scoped documentation at https://github.com/unocss/unocss/blob/main/packages/vite/README.md#sveltesveltekit-scoped-mode for instructions on how to add preflights and safelist.')
-    const { css } = await uno.generate('', { preflights: hasPreflightsDirective, safelist: hasSafelistDirective })
+  if (hasPreflightsDirective || hasSafelistDirective) {
+    if (isSvelteKit && hasGlobalDirective)
+      console.warn('Using <style uno:preflights uno:safelist global> in SvelteKit is deprecated due to CSS ordering problems it can create. Please see the svelte-scoped documentation at https://github.com/unocss/unocss/blob/main/packages/vite/README.md#sveltesveltekit-scoped-mode for instructions on how to add preflights and safelist classes.')
+
+    const { css } = await uno.generate('', { preflights: hasPreflightsDirective, safelist: hasSafelistDirective, minify: true })
     styles = css
   }
 
@@ -200,7 +205,7 @@ export async function transformSvelteSFC({ code, id, uno, isSvelteKit, options }
   }
   else { return }
 
-  if (alreadyHasStyles) {
+  if (preexistingStylesTag) {
     return {
       code: code.replace(/(<style[^>]*>)/, `$1${styles}`),
       map,

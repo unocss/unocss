@@ -36,7 +36,10 @@ Because importing styles in your root `+layout.svelte` file (e.g. `import uno.cs
 
 **Resets** in UnoCSS are discussed [here](https://github.com/unocss/unocss#style-resetting), but note that SvelteKit provides no convenient `main.ts` sort of location where styles can be guaranteed to come first so for now you must manually place these into the head of `app.html` as seen in this example repo's [`app.html`](./src/app.html) file.
 
-**Preflights** and **safelist** classes will be added to the global styles import that you should have already placed before `%sveltekit.head%` if you read the setup instructions in [Svelte/SvelteKit Scoped Mode](/packages/vite/README.md#sveltesveltekit-scoped-mode). Note that safelist classes will not be compiled into local component styles as they will be placed into the global stylesheet. *If you use a particularly heavy class in many locations, consider adding it to your safelist so it will only be declared once, in the global styles.*
+**Preflights** and **safelist** classes will be added to the global styles import that you should have already placed before `%sveltekit.head%` if you read the setup instructions in [Svelte/SvelteKit Scoped Mode](/packages/vite/README.md#sveltesveltekit-scoped-mode). Note that safelist classes will not be compiled into local component styles as they will be placed into the global stylesheet. 
+
+- If you use a particularly heavy class in many locations, consider adding it to your safelist so it will only be declared once, in the global styles.
+- If you are building individual library components that need to be consumed by themselves without a global stylesheet you can also add either `uno:preflights` or `uno:safelist` to your style tag, e.g. `<style uno:preflights uno:safelist>...</style>`, to have them placed at the beginning of that component's style tag.
 
 **Presets** need to be handled on a case-by-case basis:
 - All of the presets that add basic utilities will work (uno, mini, wind, etc...)
