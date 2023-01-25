@@ -12,6 +12,7 @@ export const presetUno = (options: PresetUnoOptions = {}): Preset<Theme> => {
   options.dark = options.dark ?? 'class'
   options.attributifyPseudo = options.attributifyPseudo ?? false
   options.preflight = options.preflight ?? true
+  options.variablePrefix = options.variablePrefix ?? 'un-'
 
   return {
     name: '@unocss/preset-uno',
@@ -23,9 +24,7 @@ export const presetUno = (options: PresetUnoOptions = {}): Preset<Theme> => {
       variantColorMix(),
     ],
     options,
-    postprocess: options.variablePrefix && options.variablePrefix !== 'un-'
-      ? VarPrefixPostprocessor(options.variablePrefix)
-      : undefined,
+    postprocess: VarPrefixPostprocessor(options.variablePrefix),
     preflights: options.preflight ? normalizePreflights(preflights, options.variablePrefix) : [],
     prefix: options.prefix,
   }

@@ -185,3 +185,21 @@ test('custom var prefix', async () => {
 
   expect(css).toMatchSnapshot()
 })
+
+test('empty prefix', async () => {
+  const uno = createGenerator({
+    presets: [
+      presetUno({
+        variablePrefix: '',
+      }),
+    ],
+  })
+
+  const { css } = await uno.generate([
+    'text-opacity-50',
+    'text-red',
+    'scale-100',
+  ].join(' '), { preflights: false })
+
+  expect(css).toMatchSnapshot()
+})

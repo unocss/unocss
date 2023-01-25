@@ -1,5 +1,12 @@
 // Vitest Snapshot v1
 
+exports[`empty prefix 1`] = `
+"/* layer: default */
+.scale-100{--scale-x:1;--scale-y:1;transform:translateX(var(--translate-x)) translateY(var(--translate-y)) translateZ(var(--translate-z)) rotate(var(--rotate)) rotateX(var(--rotate-x)) rotateY(var(--rotate-y)) rotateZ(var(--rotate-z)) skewX(var(--skew-x)) skewY(var(--skew-y)) scaleX(var(--scale-x)) scaleY(var(--scale-y)) scaleZ(var(--scale-z));}
+.text-red{--text-opacity:1;color:rgba(248,113,113,var(--text-opacity));}
+.text-opacity-50{--text-opacity:0.5;}"
+`;
+
 exports[`preset-wind > centered containers 1`] = `
 "/* layer: shortcuts */
 .container{max-width:100%;margin-left:auto;margin-right:auto;}

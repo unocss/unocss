@@ -95,4 +95,16 @@ describe('preflights', () => {
     const { css } = await uno.generate('')
     expect(css).toMatchSnapshot()
   })
+
+  test('preflight with empty variablePrefix', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini({
+          variablePrefix: '',
+        }),
+      ],
+    })
+    const { css } = await uno.generate('')
+    expect(css).toMatchSnapshot()
+  })
 })
