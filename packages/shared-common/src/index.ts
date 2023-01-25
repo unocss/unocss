@@ -1,5 +1,5 @@
 import type { ExtractorContext, UnoGenerator } from '@unocss/core'
-import { arbitraryPropertyRE, escapeRegExp, isAttributifySelector, regexClassGroup } from '@unocss/core'
+import { arbitraryPropertyRE, escapeRegExp, isAttributifySelector, makeRegexClassGroup } from '@unocss/core'
 import MagicString from 'magic-string'
 
 // https://github.com/dsblv/string-replace-async/blob/main/index.js
@@ -80,7 +80,7 @@ export function getPlainClassMatchedPositionsForPug(codeSplit: string, matchedPl
   return result
 }
 
-export function getMatchedPositions(code: string, matched: string[], hasVariantGroup = false, isPug = false) {
+export function getMatchedPositions(code: string, matched: string[], hasVariantGroup = false, isPug = false, uno: UnoGenerator | undefined = undefined) {
   const result: [number, number, string][] = []
   const attributify: RegExpMatchArray[] = []
   const plain = new Set<string>()
@@ -120,7 +120,7 @@ export function getMatchedPositions(code: string, matched: string[], hasVariantG
 
   // highlight for variant group
   if (hasVariantGroup) {
-    Array.from(code.matchAll(regexClassGroup))
+    Array.from(code.matchAll(makeRegexClassGroup(uno?.config.separators)))
       .forEach((match) => {
         const [, pre, sep, body] = match
         const index = match.index!
@@ -182,5 +182,5 @@ export async function getMatchedPositionsFromCode(uno: UnoGenerator, code: strin
 
   const { pug, code: pugCode } = await isPug(uno, s.toString(), id)
   const result = await uno.generate(pug ? pugCode : s.toString(), { preflights: false })
-  return getMatchedPositions(code, [...result.matched], hasVariantGroup, pug)
+  return getMatchedPositions(code, [...result.matched], hasVariantGroup, pug, uno)
 }

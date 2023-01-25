@@ -1,19 +1,19 @@
-import type { Variant, VariantContext, VariantObject } from '@unocss/core'
+import type { VariantContext, VariantObject } from '@unocss/core'
 import type { Theme } from '../theme'
 import { handler as h, variantGetParameter, variantParentMatcher } from '../utils'
 
-export const variantPrint: Variant = variantParentMatcher('print', '@media print')
+export const variantPrint: VariantObject = variantParentMatcher('print', '@media print')
 
 export const variantCustomMedia: VariantObject = {
   name: 'media',
-  match(matcher, { theme }: VariantContext<Theme>) {
-    const variant = variantGetParameter('media-', matcher, [':', '-'])
+  match(matcher, ctx: VariantContext<Theme>) {
+    const variant = variantGetParameter('media-', matcher, ctx.generator.config.separators)
     if (variant) {
       const [match, rest] = variant
 
       let media = h.bracket(match) ?? ''
       if (media === '')
-        media = theme.media?.[match] ?? ''
+        media = ctx.theme.media?.[match] ?? ''
 
       if (media) {
         return {

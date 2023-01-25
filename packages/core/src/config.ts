@@ -49,7 +49,7 @@ export function resolveConfig<Theme extends {} = {}>(
 
   const layers = Object.assign(DEFAULT_LAYERS, ...rawPresets.map(i => i.layers), userConfig.layers)
 
-  function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist'>(key: T): Required<UserConfig<Theme>>[T] {
+  function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist' | 'separators'>(key: T): Required<UserConfig<Theme>>[T] {
     return uniq([
       ...sortedPresets.flatMap(p => toArray(p[key] || []) as any[]),
       ...toArray(config[key] || []) as any[],
@@ -95,6 +95,10 @@ export function resolveConfig<Theme extends {} = {}>(
       .sort((a, b) => (a.order || 0) - (b.order || 0)),
   }
 
+  let separators = toArray(mergePresets('separators'))
+  if (!separators.length)
+    separators = [':', '-']
+
   return {
     mergeSelectors: true,
     warn: true,
@@ -117,5 +121,6 @@ export function resolveConfig<Theme extends {} = {}>(
     shortcuts: resolveShortcuts(mergePresets('shortcuts')).reverse(),
     extractors,
     safelist: mergePresets('safelist'),
+    separators,
   }
 }

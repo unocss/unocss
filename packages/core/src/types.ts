@@ -310,6 +310,13 @@ export interface ConfigBase<Theme extends {} = {}> {
   rules?: Rule<Theme>[]
 
   /**
+   * Variant separator
+   *
+   * @default [':', '-']
+   */
+  separators?: Arrayable<string>
+
+  /**
    * Variants that preprocess the selectors,
    * having the ability to rewrite the CSS object.
    */
@@ -661,6 +668,7 @@ RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variant
     templates: (AutoCompleteFunction | AutoCompleteTemplate)[]
     extractors: AutoCompleteExtractor[]
   }
+  separators: string[]
 }
 
 export interface GenerateResult {
