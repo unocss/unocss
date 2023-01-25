@@ -7,6 +7,12 @@ exports[`preset-mini > custom var prefix 1`] = `
 .scale-100{--hi-scale-x:1;--hi-scale-y:1;transform:translateX(var(--hi-translate-x)) translateY(var(--hi-translate-y)) translateZ(var(--hi-translate-z)) rotate(var(--hi-rotate)) rotateX(var(--hi-rotate-x)) rotateY(var(--hi-rotate-y)) rotateZ(var(--hi-rotate-z)) skewX(var(--hi-skew-x)) skewY(var(--hi-skew-y)) scaleX(var(--hi-scale-x)) scaleY(var(--hi-scale-y)) scaleZ(var(--hi-scale-z));}"
 `;
 
+exports[`preset-mini > dark class 1`] = `
+"/* layer: default */
+.dark .hello .dark\\\\:scope-\\\\[\\\\.hello\\\\]\\\\:text-1\\\\/2{font-size:0.25rem;line-height:0.5rem;}
+.light [world] .scope-\\\\[\\\\[world\\\\]\\\\]\\\\:light\\\\:text-1\\\\/3{font-size:0.25rem;line-height:0.75rem;}"
+`;
+
 exports[`preset-mini > dark customizing selector 1`] = `
 "/* layer: default */
 [data-mode=\\"dark\\"] .dark\\\\:bg-white{--un-bg-opacity:1;background-color:rgba(255,255,255,var(--un-bg-opacity));}

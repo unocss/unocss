@@ -637,8 +637,8 @@ export function createGenerator<Theme extends {} = {}>(config?: UserConfig<Theme
   return new UnoGenerator<Theme>(config, defaults)
 }
 
-export const regexScopePlaceholder = / \$\$ /
-export const hasScopePlaceholder = (css: string) => css.match(regexScopePlaceholder)
+export const regexScopePlaceholder = /\s\$\$\s+/g
+export const hasScopePlaceholder = (css: string) => css.match(/\s\$\$\s/)
 
 function applyScope(css: string, scope?: string) {
   if (hasScopePlaceholder(css))

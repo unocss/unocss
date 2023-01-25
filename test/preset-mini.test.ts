@@ -159,4 +159,21 @@ describe('preset-mini', () => {
     expect(uno.config.theme.fontSize.lg).toEqual(['3rem', '1.5em'])
     expect(css).toMatchSnapshot()
   })
+
+  test('dark class', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'dark:scope-[.hello]:text-1/2',
+      'scope-[[world]]:light:text-1/3',
+    ].join(' '), {
+      preflights: false,
+    })
+
+    expect(css).toMatchSnapshot()
+  })
 })
