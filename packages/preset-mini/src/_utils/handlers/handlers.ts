@@ -140,8 +140,15 @@ function bracketWithType(str: string, requiredType?: string) {
       .replace(/(url\(.*?\))/g, v => v.replace(/_/g, '\\_'))
       .replace(/(^|[^\\])_/g, '$1 ')
       .replace(/\\_/g, '_')
-      .replace(/(?:calc|clamp|max|min)\((.*)/g, (v) => {
-        return v.replace(/(-?\d*\.?\d(?!\b-.+[,)](?![^+\-/*])\D)(?:%|[a-z]+)?|\))([+\-/*])/g, '$1 $2 ')
+      .replace(/(?:calc|clamp|max|min)\((.*)/g, (match) => {
+        const vars: string[] = []
+        return match
+          .replace(/var\((--.+?)[,)]/g, (match, g1) => {
+            vars.push(g1)
+            return match.replace(g1, '--v')
+          })
+          .replace(/(-?\d*\.?\d(?!\b-\d.+[,)](?![^+\-/*])\D)(?:%|[a-z]+)?|\))([+\-/*])/g, '$1 $2 ')
+          .replace('--v', () => vars.shift()!)
       })
   }
 }
