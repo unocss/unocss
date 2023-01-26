@@ -117,6 +117,7 @@ export const insets: Rule[] = [
       ],
     },
   ],
+  [/^(?:position-|pos-)?(start|end)-(.+)$/, handleInsetValues],
   [/^(?:position-|pos-)?inset-([xy])-(.+)$/, handleInsetValues],
   [/^(?:position-|pos-)?inset-([rltbse])-(.+)$/, handleInsetValues],
   [/^(?:position-|pos-)?inset-(block|inline)-(.+)$/, handleInsetValues],
