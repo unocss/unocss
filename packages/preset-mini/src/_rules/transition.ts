@@ -4,7 +4,7 @@ import { globalKeywords, handler as h, makeGlobalStaticRules } from '../utils'
 
 const transitionPropertyGroup: Record<string, string> = {
   all: 'all',
-  colors: ['color', 'background-color', 'border-color', 'text-decoration-color', 'fill', 'stroke'].join(','),
+  colors: ['color', 'background-color', 'border-color', 'outline-color', 'text-decoration-color', 'fill', 'stroke'].join(','),
   none: 'none',
   opacity: 'opacity',
   shadow: 'box-shadow',
