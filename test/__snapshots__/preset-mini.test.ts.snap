@@ -690,6 +690,9 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .min-w-none{min-width:none;}
 .min-w-revert-layer{min-width:revert-layer;}
 .size-w-10{width:2.5rem;}
+.w-\\\\[calc\\\\(1-\\\\(\\\\(12-3\\\\)\\\\*0\\\\.5\\\\)\\\\)\\\\]{width:calc(1 - ((12 - 3) * 0.5));}
+.w-\\\\[calc\\\\(1-\\\\(var\\\\(--something\\\\)\\\\*0\\\\.5\\\\)\\\\)\\\\]{width:calc(1 - (var(--something) * 0.5));}
+.w-\\\\[calc\\\\(1-var\\\\(--something\\\\)\\\\*0\\\\.5\\\\)\\\\]{width:calc(1 - var(--something) * 0.5);}
 .w-\\\\[calc\\\\(calc\\\\(100px\\\\*10\\\\)-4rem\\\\)\\\\]{width:calc(calc(100px * 10) - 4rem);}
 .w-1{width:0.25rem;}
 .w-1\\\\/4{width:25%;}
