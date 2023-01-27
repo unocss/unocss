@@ -547,7 +547,7 @@ By default, UnoCSS will extract the utilities usage from files in your build pip
 Sometimes you might want have to use dynamic concatenations like:
 
 ```html
-<div class="p-${size}"></div> <!-- this won't work! -->
+<div :class="`p-${size}`"></div> <!-- this won't work! -->
 ```
 
 Due the fact that UnoCSS works in build time using static extracting, at the compile time we can't possibility know all the combination of the utilities. For that, you can configure the `safelist` option.
