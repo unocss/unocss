@@ -271,8 +271,8 @@ exports[`attributify > fixture2 1`] = `
 [un-placeholder~=\\"text-red\\"]::placeholder{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
 [group=\\"\\"]:hover [group-hover~=\\"op-50\\"]{opacity:0.5;}
 [op-20=\\"\\"]{opacity:0.2;}
-[all\\\\:transition-400=\\"\\"] *{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:400ms;}
-[transition~=\\"\\\\32 00\\"]{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:200ms;}
+[all\\\\:transition-400=\\"\\"] *{transition-property:color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:400ms;}
+[transition~=\\"\\\\32 00\\"]{transition-property:color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:200ms;}
 [after~=\\"content-\\\\[string\\\\:\\\\!\\\\]\\"]::after{content:!;}
 [before-content~=\\"\\\\[quoted\\\\:\\\\!\\\\]\\"]::before{content:\\"!\\";}
 @media (min-width: 640px){
