@@ -1067,6 +1067,7 @@ export const presetMiniNonTargets = [
   '[name].[hash:9]',
   '["update:modelValue"]',
   '[https://en.wikipedia.org/wiki]',
+  '[Baz::class]',
   // escaped arbitrary css properties only allowed in css variables
   '[cant\~escape:me]',
 ]
