@@ -52,8 +52,15 @@ function handleReset() {
   }
 }
 
+const handleEditorResize = useThrottleFn(() => {
+  // manually refresh when resizing, ensure content display completely
+  Array.from(document.querySelectorAll('.CodeMirror') ?? []).forEach((el) => {
+    (el as any).CodeMirror?.refresh()
+  })
+}, 200)
 function handleResize(event: ({ size: number })[]) {
   panelSizes.value = event.map(({ size }) => size)
+  handleEditorResize()
 }
 function isCollapsed(index: number) {
   return panelSizes.value[index] <= titleHeightPercent.value + 3
