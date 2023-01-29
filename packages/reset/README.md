@@ -23,8 +23,8 @@ import '@unocss/reset/eric-meyer.css'
 // preflights from tailwind
 import '@unocss/reset/tailwind.css'
 
-// Based on tailwind.css but compatible with most UI component libraries
-// https://github.com/unocss/unocss/issues/2127
+// based on Tailwind's preflight with a few change
+// https://github.com/unocss/unocss/blob/main/packages/reset/uno-reset.md
 import '@unocss/reset/uno-reset.css'
 
 // opinionated reset by Anthony Fu

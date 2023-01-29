@@ -181,6 +181,8 @@ button,
 [type='reset'],
 [type='submit'] {
   -webkit-appearance: button; /* 1 */
+  /*will affect the button style of most component libraries, so disable it*/
+  /*https://github.com/unocss/unocss/issues/2127*/
   /*background-color: transparent; !* 2 *!*/
   background-image: none; /* 2 */
 }
