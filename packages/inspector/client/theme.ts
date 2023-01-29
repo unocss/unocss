@@ -24,6 +24,13 @@ export const vitesseTheme = EditorView.theme({
     color: foreground,
     backgroundColor: background,
   },
+  '& div': {
+    flexDirection: 'initial',
+  },
+
+  '&.cm-focused': {
+    outline: 'none',
+  },
 
   '.cm-content': {
     caretColor: cursor,
