@@ -1,11 +1,10 @@
-/// <reference types="codemirror/addon/hint/show-hint" />
 import type { GenerateResult, UserConfig } from 'unocss'
 import { createGenerator } from 'unocss'
-import type { Editor, Hints } from 'codemirror'
 import { createAutocomplete } from '@unocss/autocomplete'
 import MagicString from 'magic-string'
 import type { UnocssPluginContext } from '@unocss/core'
 import { evaluateUserConfig } from '@unocss/shared-docs'
+import type { CompletionContext, CompletionResult } from '@codemirror/autocomplete'
 import { customConfigRaw, inputHTML } from './url'
 import { defaultConfig } from './config'
 
@@ -59,24 +58,21 @@ export async function generate() {
   init.value = true
 }
 
-export async function getHint(cm: Editor): Promise<Hints | undefined> {
-  const cursor = cm.indexFromPos(cm.getCursor())
-
-  const result = await autocomplete.suggestInFile(cm.getDoc().getValue(), cursor)
+export async function getHint(context: CompletionContext): Promise<CompletionResult | null> {
+  const cursor = context.pos
+  const result = await autocomplete.suggestInFile(context.state.doc.toString(), cursor)
 
   if (!result.suggestions?.length)
-    return
+    return null
 
+  const resolved = result.resolveReplacement(result.suggestions[0][0])
   return {
-    from: cm.posFromIndex(cursor),
-    to: cm.posFromIndex(cursor),
-    list: result.suggestions.map(([value, label]) => {
-      const resolved = result.resolveReplacement(value)
+    from: resolved.start,
+    options: result.suggestions.map(([, label]) => {
       return ({
-        text: resolved.replacement,
-        displayText: label,
-        from: cm.posFromIndex(resolved.start),
-        to: cm.posFromIndex(resolved.end),
+        label,
+        type: 'text',
+        boost: 99,
       })
     }),
   }

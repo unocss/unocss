@@ -52,15 +52,8 @@ function handleReset() {
   }
 }
 
-const handleEditorResize = useThrottleFn(() => {
-  // manually refresh when resizing, ensure content display completely
-  Array.from(document.querySelectorAll('.CodeMirror') ?? []).forEach((el) => {
-    (el as any).CodeMirror?.refresh()
-  })
-}, 200)
 function handleResize(event: ({ size: number })[]) {
   panelSizes.value = event.map(({ size }) => size)
-  handleEditorResize()
 }
 function isCollapsed(index: number) {
   return panelSizes.value[index] <= titleHeightPercent.value + 3
@@ -217,7 +210,7 @@ onMounted(() => {
       </div>
       <CodeMirror
         flex-auto
-        mode="htmlmixed"
+        mode="html"
         class="scrolls border-(l gray-400/20)"
         :matched="output?.matched || new Set()"
         :get-hint="getHint"
@@ -254,7 +247,7 @@ onMounted(() => {
       <CodeMirror
         v-model="customConfigRaw"
         flex-auto
-        mode="javascript"
+        mode="js"
         border="l gray-400/20"
         class="scrolls"
       />
