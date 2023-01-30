@@ -62,6 +62,6 @@ describe('runtime dom manipulation', () => {
     const result = await runtime?.update()
 
     const layers = [...(result?.getStyleElements().keys() ?? [])]
-    expect(layers).toMatchObject(['preflights', 'ammend', 'default', 'pre'])
+    expect(layers).toMatchObject(['pre', 'default', 'ammend', 'preflights'])
   })
 })
