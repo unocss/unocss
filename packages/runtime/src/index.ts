@@ -103,7 +103,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   }
 
   const defaultWindow = window
-  const defaultDocument = document
+  const defaultDocument = window.document
   const html = () => defaultDocument.documentElement
 
   const userConfig = defaultWindow.__unocss || {}
