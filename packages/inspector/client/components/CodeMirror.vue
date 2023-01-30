@@ -97,8 +97,8 @@ grammarly-desktop-integration {
   --cm-definition-keyword: #ab5959;
   --cm-punctuation: #8e8f8b;
   --cm-decorator: #b07d48;
-  --cm-line-highlight-background: #d4e6f6;
-  --cm-line-highlight-border: #cde3f1;
+  --cm-line-highlight-background: #c9c9c910;
+  --cm-line-highlight-border: #b0b0b030;
   --cm-selection-background: #eeeeee;
   /* scrollbars colors */
   --cm-ttc-c-thumb: #eee;
@@ -120,8 +120,8 @@ html.dark {
   --cm-decorator: #bd976a;
   --cm-line-number: #dedcd530;
   --cm-line-number-gutter: #eeeeee;
-  --cm-line-highlight-background: #122434;
-  --cm-line-highlight-border: #233947;
+  --cm-line-highlight-background: #4d4d4d29;
+  --cm-line-highlight-border: #3a3a3a80;
   --cm-selection-background: #242424;
   /* scrollbars colors */
   --cm-ttc-c-thumb: #222;
