@@ -145,10 +145,10 @@ function bracketWithType(str: string, requiredType?: string) {
         return match
           .replace(/var\((--.+?)[,)]/g, (match, g1) => {
             vars.push(g1)
-            return match.replace(g1, '--v')
+            return match.replace(g1, '--un-calc')
           })
           .replace(/(-?\d*\.?\d(?!\b-\d.+[,)](?![^+\-/*])\D)(?:%|[a-z]+)?|\))([+\-/*])/g, '$1 $2 ')
-          .replace('--v', () => vars.shift()!)
+          .replace(/--un-calc/g, () => vars.shift()!)
       })
   }
 }

@@ -11,6 +11,8 @@ describe('value handler', () => {
     expect(h.bracket('[calc(1+2)]')).eql('calc(1 + 2)')
     expect(h.bracket('[calc(1/2)]')).eql('calc(1 / 2)')
     expect(h.bracket('[calc(1*2)]')).eql('calc(1 * 2)')
+
+    expect(h.bracket('[calc(var(--min-width)_-_2_*_var(--col-gap))]')).eql('calc(var(--min-width) - 2 * var(--col-gap))')
   })
 
   test('bracket curly', () => {
