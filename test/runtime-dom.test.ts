@@ -1,10 +1,14 @@
 // @vitest-environment jsdom
 
-import { describe, expect, test } from 'vitest'
+import { afterEach, describe, expect, test } from 'vitest'
 import initUnocssRuntime from '@unocss/runtime'
 import presetUno from '@unocss/preset-uno'
 
 describe('runtime dom manipulation', () => {
+  afterEach(() => {
+    window.document.documentElement.innerHTML = ''
+  })
+
   function initRuntime(options?: Object) {
     initUnocssRuntime({
       defaults: {
@@ -53,5 +57,17 @@ describe('runtime dom manipulation', () => {
 
     const layers = [...(result?.getStyleElements().keys() ?? [])]
     expect(layers).toMatchObject(['pre', 'default', 'ammend', 'preflights'])
+  })
+
+  test('runtime styles is placed in order', async () => {
+    const runtime = initRuntime()
+
+    await runtime?.extract('ring-red')
+    const result = await runtime?.update()
+
+    const doc = window.document
+    expect(doc.documentElement.firstElementChild).toEqual(result?.getStyleElement('preflights'))
+    expect(doc.documentElement.firstElementChild?.nextElementSibling).toEqual(result?.getStyleElement('default'))
+    expect(doc.documentElement.firstElementChild?.nextElementSibling?.nextElementSibling).toEqual(doc.head)
   })
 })
