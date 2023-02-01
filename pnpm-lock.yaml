@@ -173,7 +173,7 @@ importers:
       simple-git-hooks: 2.8.1
       splitpanes: 3.1.5
       terser: 5.16.1
-      tsup: 6.5.0_typescript@4.9.4
+      tsup: 6.5.0_rjjztofv3neoollaos63msgx3q
       typescript: 4.9.4
       unbuild: 0.8.11
       unocss: link:packages/unocss
@@ -284,7 +284,7 @@ importers:
       prettier: 2.8.1
       shiki: 0.12.1
       theme-vitesse: 0.6.0
-      vite-plugin-vue-markdown: 0.22.2_rollup@2.79.1+vite@3.2.5
+      vite-plugin-vue-markdown: 0.22.2_rollup@2.79.1+vite@4.0.4
 
   packages/astro:
     specifiers:
@@ -418,11 +418,11 @@ importers:
       '@iconify/types': ^2.0.0
       '@iconify/utils': ^2.0.10
       '@unocss/core': workspace:*
-      ohmyfetch: ^0.4.21
+      ofetch: ^0.4.21
     dependencies:
       '@iconify/utils': 2.0.10
       '@unocss/core': link:../core
-      ohmyfetch: 0.4.21
+      ofetch: 0.4.21
     devDependencies:
       '@iconify/types': 2.0.0
 
@@ -463,10 +463,10 @@ importers:
   packages/preset-web-fonts:
     specifiers:
       '@unocss/core': workspace:*
-      ohmyfetch: ^0.4.21
+      ofetch: ^0.4.21
     dependencies:
       '@unocss/core': link:../core
-      ohmyfetch: 0.4.21
+      ofetch: 0.4.21
 
   packages/preset-wind:
     specifiers:
@@ -3359,7 +3359,7 @@ packages:
       postcss-url: 10.1.3_postcss@8.4.20
       rollup: 2.79.1
       rollup-plugin-visualizer: 5.8.3_rollup@2.79.1
-      ufo: 1.0.0
+      ufo: 1.0.1
       unplugin: 1.0.1
       vite: 3.2.5
       vite-node: 0.25.2
@@ -3413,7 +3413,7 @@ packages:
       postcss-url: 10.1.3_postcss@8.4.20
       rollup: 2.79.1
       rollup-plugin-visualizer: 5.8.3_rollup@2.79.1
-      ufo: 1.0.0
+      ufo: 1.0.1
       unplugin: 1.0.1
       vite: 3.2.5_qfz55zahqkp66vn23sxaaw3yfe
       vite-node: 0.25.2_qfz55zahqkp66vn23sxaaw3yfe
@@ -11421,7 +11421,7 @@ packages:
       cookie-es: 0.5.0
       destr: 1.2.1
       radix3: 1.0.0
-      ufo: 1.0.0
+      ufo: 1.0.1
     dev: true
 
   /handle-thing/2.0.1:
@@ -14180,7 +14180,7 @@ packages:
       acorn: 8.8.1
       pathe: 1.0.0
       pkg-types: 1.0.1
-      ufo: 1.0.0
+      ufo: 1.0.1
 
   /module-alias/2.2.2:
     resolution: {integrity: sha512-A/78XjoX2EmNvppVWEhM2oGk3x4lLxnkEA4jTbaK97QKSDjkIoOsKQlfylt/d3kKKi596Qy3NP5XrXJ6fZIC9Q==}
@@ -14419,7 +14419,7 @@ packages:
       serve-static: 1.15.0
       source-map-support: 0.5.21
       std-env: 3.3.1
-      ufo: 1.0.0
+      ufo: 1.0.1
       unenv: 1.0.0
       unimport: 1.0.1_rollup@2.79.1
       unstorage: 1.0.1
@@ -14461,10 +14461,10 @@ packages:
 
   /node-fetch-native/0.1.8:
     resolution: {integrity: sha512-ZNaury9r0NxaT2oL65GvdGDy+5PlSaHTovT6JV5tOW07k1TQmgC0olZETa4C9KZg0+6zBr99ctTYa3Utqj9P/Q==}
+    dev: true
 
   /node-fetch-native/1.0.1:
     resolution: {integrity: sha512-VzW+TAk2wE4X9maiKMlT+GsPU4OMmR1U9CrHSmd3DFLn2IcZ9VJ6M6BBugGfYUnPCLSYxXdZy17M0BEJyhUTwg==}
-    dev: true
 
   /node-fetch/2.6.7:
     resolution: {integrity: sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==}
@@ -14869,12 +14869,21 @@ packages:
     resolution: {integrity: sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==}
     dev: true
 
+  /ofetch/0.4.21:
+    resolution: {integrity: sha512-ZSxLju8DFMTANmM18BTMqKkW6Q9vbjYwiV8EYKDzckBG05HQs7xYYf6E20yTvt0z932BToCryDToANhwwPzRhA==}
+    dependencies:
+      destr: 1.2.1
+      node-fetch-native: 1.0.1
+      ufo: 1.0.1
+      undici: 5.12.0
+    dev: false
+
   /ofetch/1.0.0:
     resolution: {integrity: sha512-d40aof8czZFSQKJa4+F7Ch3UC5D631cK1TTUoK+iNEut9NoiCL+u0vykl/puYVUS2df4tIQl5upQcolIcEzQjQ==}
     dependencies:
       destr: 1.2.1
       node-fetch-native: 1.0.1
-      ufo: 1.0.0
+      ufo: 1.0.1
     dev: true
 
   /ohash/1.0.0:
@@ -14888,6 +14897,7 @@ packages:
       node-fetch-native: 0.1.8
       ufo: 0.8.6
       undici: 5.12.0
+    dev: true
 
   /on-finished/2.4.1:
     resolution: {integrity: sha512-oVlzkg3ENAhCk2zdv7IJwd/QUD4z2RxRwpkcGY8psCVcCYZNq4wYnVWALHM+brtuJjePWiYF/ClmuDr8Ch5+kg==}
@@ -18815,7 +18825,7 @@ packages:
       - ts-node
     dev: true
 
-  /tsup/6.5.0_typescript@4.9.4:
+  /tsup/6.5.0_rjjztofv3neoollaos63msgx3q:
     resolution: {integrity: sha512-36u82r7rYqRHFkD15R20Cd4ercPkbYmuvRkz3Q1LCm5BsiFNUgpo36zbjVhCOgvjyxNBWNKHsaD5Rl8SykfzNA==}
     engines: {node: '>=14'}
     hasBin: true
@@ -18839,7 +18849,8 @@ packages:
       execa: 5.1.1
       globby: 11.1.0
       joycon: 3.1.1
-      postcss-load-config: 3.1.4
+      postcss: 8.4.20
+      postcss-load-config: 3.1.4_postcss@8.4.20
       resolve-from: 5.0.0
       rollup: 3.5.0
       source-map: 0.8.0-beta.0
@@ -18957,13 +18968,13 @@ packages:
 
   /ufo/0.8.6:
     resolution: {integrity: sha512-fk6CmUgwKCfX79EzcDQQpSCMxrHstvbLswFChHS0Vump+kFkw7nJBfTZoC1j0bOGoY9I7R3n2DGek5ajbcYnOw==}
+    dev: true
 
   /ufo/1.0.0:
     resolution: {integrity: sha512-DRty0ZBNlJ2R59y4mEupJRKLbkLQsc4qtxjpQv78AwEDuBkaUogMc2LkeqW3HddFlw6NwnXYfdThEZOiNgkmmQ==}
 
   /ufo/1.0.1:
     resolution: {integrity: sha512-boAm74ubXHY7KJQZLlXrtMz52qFvpsbOxDcZOnw/Wf+LS4Mmyu7JxmzD4tDLtUQtmZECypJ0FrCz4QIe6dvKRA==}
-    dev: true
 
   /uglify-js/3.4.10:
     resolution: {integrity: sha512-Y2VsbPVs0FIshJztycsO2SfPk7/KAF/T72qzv9u5EpQ4kB2hQoHlhNQTsNyy6ul7lQtqJN/AoWeS23OzEiEFxw==}
@@ -19766,7 +19777,7 @@ packages:
       - supports-color
     dev: true
 
-  /vite-plugin-vue-markdown/0.22.2_rollup@2.79.1+vite@3.2.5:
+  /vite-plugin-vue-markdown/0.22.2_rollup@2.79.1+vite@4.0.4:
     resolution: {integrity: sha512-MJ2cpEcI1ehfcQbpAMPA6ezhK2nrajL4q8999SXPbPMbRHB+gKoJvqrwei6QIdhCLkgwR1ZDEwigphtuoQAbbw==}
     peerDependencies:
       vite: ^2.0.0 || ^3.0.0-0 || ^4.0.0
@@ -19778,7 +19789,7 @@ packages:
       '@rollup/pluginutils': 5.0.2_rollup@2.79.1
       '@types/markdown-it': 12.2.3
       markdown-it: 13.0.1
-      vite: 3.2.5
+      vite: 4.0.4
     transitivePeerDependencies:
       - rollup
     dev: true
@@ -20104,7 +20115,7 @@ packages:
   /vue-bundle-renderer/1.0.0:
     resolution: {integrity: sha512-43vCqTgaMXfHhtR8/VcxxWD1DgtzyvNc4wNyG5NKCIH19O1z5G9ZCRXTGEA2wifVec5PU82CkRLD2sTK9NkTdA==}
     dependencies:
-      ufo: 1.0.0
+      ufo: 1.0.1
     dev: true
 
   /vue-demi/0.13.11_vue@3.2.40:
