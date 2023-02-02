@@ -52,13 +52,8 @@ export default ESLintUtils.RuleCreator(name => name)({
                 .map((i: TSESTree.Node) => [i.range[0] - offset, i.range[1] - offset] as const)
                 .sort((a: any, b: any) => b[0] - a[0])
 
-              for (let [start, end] of sortedNodes.slice(1)) {
-                if (code[start - 1] === ' ')
-                  start--
-                if (code[end] === ' ')
-                  end++
+              for (const [start, end] of sortedNodes.slice(1))
                 s.remove(start, end)
-              }
 
               s.overwrite(sortedNodes[0][0], sortedNodes[0][1], ` ${sorted.trim()} `)
 
