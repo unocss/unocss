@@ -24,4 +24,11 @@ describe('sort rules', () => {
     expect(await sort('lg:grid-cols-4 grid sm:grid-cols-3 grid-cols-2'))
       .toMatchInlineSnapshot('"grid grid-cols-2 lg:grid-cols-4 sm:grid-cols-3"')
   })
+
+  test('variant group', async () => {
+    expect(await sort('hover:pt-2 hover:p-4 foo'))
+      .toMatchInlineSnapshot('"foo hover:p-4 hover:pt-2"')
+    expect(await sort('hover:(pt-2 p-4) hover:text-red hover:focus:(m1 mx2) foo'))
+      .toMatchInlineSnapshot('"foo hover:(p-4 pt-2 text-red) hover:focus:(m1 mx2)"')
+  })
 })

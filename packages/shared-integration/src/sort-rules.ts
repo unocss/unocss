@@ -1,5 +1,5 @@
 import type { UnoGenerator } from '@unocss/core'
-import { expandVariantGroup, notNull, parseVariantGroup } from '@unocss/core'
+import { collapseVariantGroup, notNull, parseVariantGroup } from '@unocss/core'
 
 export async function sortRules(rules: string, uno: UnoGenerator) {
   const unknown: string[] = []
@@ -38,7 +38,7 @@ export async function sortRules(rules: string, uno: UnoGenerator) {
     .join(' ')
 
   if (expandedResult?.prefixes.length)
-    sorted = expandVariantGroup(sorted, expandedResult.prefixes)
+    sorted = collapseVariantGroup(sorted, expandedResult.prefixes)
 
   return [...unknown, sorted].join(' ')
 }

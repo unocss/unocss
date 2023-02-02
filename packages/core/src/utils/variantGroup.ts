@@ -48,8 +48,10 @@ export function parseVariantGroup(str: string, separators = ['-', ':'], depth = 
 export function collapseVariantGroup(str: string, prefixes: string[]): string {
   const collection = new Map<string, string[]>()
 
+  const sortedPrefix = prefixes.sort((a, b) => b.length - a.length)
+
   return str.split(/\s+/g).map((part) => {
-    const prefix = prefixes.find(prefix => part.startsWith(prefix))
+    const prefix = sortedPrefix.find(prefix => part.startsWith(prefix))
     if (!prefix)
       return part
 
