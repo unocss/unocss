@@ -14,7 +14,7 @@
   "bugs": {
     "url": "https://github.com/unocss/unocss/issues"
   },
-  "keywords": [],
+  "keywords": ["eslint-config", "eslint"],
   "sideEffects": false,
   "exports": {
     ".": {

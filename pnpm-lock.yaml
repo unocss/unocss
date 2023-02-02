@@ -354,6 +354,12 @@ importers:
       magic-string: 0.27.0
       unconfig: 0.3.7
 
+  packages/eslint-config:
+    specifiers:
+      '@unocss/eslint-plugin': workspace:*
+    dependencies:
+      '@unocss/eslint-plugin': link:../eslint-plugin
+
   packages/eslint-plugin:
     specifiers:
       '@typescript-eslint/utils': ^5.50.0
