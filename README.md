@@ -51,6 +51,7 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 - [CDN Runtime](https://github.com/unocss/unocss/blob/main/packages/runtime)
 - [CLI](https://github.com/unocss/unocss/blob/main/packages/cli)
 - [VS Code extension](https://github.com/unocss/unocss/blob/main/packages/vscode)
+- [ESLint Config](https://github.com/unocss/unocss/blob/main/packages/eslint-config)
 
 ## Configurations
 

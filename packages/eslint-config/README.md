@@ -22,7 +22,8 @@ In `.eslintrc`:
 
 ## Rules
 
-- `@unocss/order` - Enforce a specific order for class and attribute selectors.
+- `@unocss/order` - Enforce a specific order for class selectors.
+- `@unocss/order-attributify` - Enforce a specific order for attributify selectors.
 
 ## Prior Arts
 

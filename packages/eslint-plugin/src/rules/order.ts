@@ -14,8 +14,8 @@ export default ESLintUtils.RuleCreator(name => name)({
     type: 'layout',
     fixable: 'code',
     docs: {
-      description: 'Order',
-      recommended: false,
+      description: 'Order of UnoCSS utilities in class attribute',
+      recommended: 'warn',
     },
     messages: {
       'invalid-order': 'UnoCSS utilities are not ordered',
