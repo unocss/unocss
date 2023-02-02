@@ -50,7 +50,7 @@ export default ESLintUtils.RuleCreator(name => name)({
 
               const sortedNodes = valueless
                 .map((i: TSESTree.Node) => [i.range[0] - offset, i.range[1] - offset] as const)
-                .sort((a: any, b: any) => a[0] - b[0])
+                .sort((a: any, b: any) => b[0] - a[0])
 
               for (let [start, end] of sortedNodes.slice(1)) {
                 if (code[start - 1] === ' ')
