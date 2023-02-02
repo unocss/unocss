@@ -1,6 +1,6 @@
 {
   "name": "@unocss/eslint-config",
-  "version": "0.0.0",
+  "version": "0.49.3",
   "description": "ESLint config for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -14,7 +14,10 @@
   "bugs": {
     "url": "https://github.com/unocss/unocss/issues"
   },
-  "keywords": ["eslint-config", "eslint"],
+  "keywords": [
+    "eslint-config",
+    "eslint"
+  ],
   "sideEffects": false,
   "exports": {
     ".": {
