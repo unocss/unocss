@@ -31,7 +31,7 @@ export default ESLintUtils.RuleCreator(name => name)({
 
     const templateBodyVisitor: RuleListener = {
       VStartTag(node: any) {
-        const valueless = node.attributes.filter((i: any) => !INGORE_ATTRIBUTES.includes(i.key?.name?.toLowerCase()) && i.value == null)
+        const valueless = node.attributes.filter((i: any) => typeof i.key?.name === 'string' && !INGORE_ATTRIBUTES.includes(i.key?.name?.toLowerCase()) && i.value == null)
         if (!valueless.length)
           return
 
