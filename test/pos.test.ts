@@ -54,7 +54,25 @@ describe('matched-positions', async () => {
     })
 
     expect(await match(uno, '.btn-center{@apply text-center my-0 font-medium;\n}'))
-      .toMatchInlineSnapshot('[]')
+      .toMatchInlineSnapshot(`
+        [
+          [
+            19,
+            30,
+            "text-center",
+          ],
+          [
+            31,
+            35,
+            "my-0",
+          ],
+          [
+            36,
+            47,
+            "font-medium",
+          ],
+        ]
+      `)
   })
 
   test('class-based', async () => {
@@ -99,6 +117,21 @@ describe('matched-positions', async () => {
     expect(await match(uno, '<div class="hover:(h-4 w-4 bg-green-300) disabled:opacity-50"></div>'))
       .toMatchInlineSnapshot(`
         [
+          [
+            19,
+            22,
+            "hover:h-4",
+          ],
+          [
+            23,
+            26,
+            "hover:w-4",
+          ],
+          [
+            27,
+            39,
+            "hover:bg-green-300",
+          ],
           [
             41,
             60,
@@ -194,6 +227,16 @@ describe('matched-positions-pug', async () => {
           28,
           30,
           "p4",
+        ],
+        [
+          45,
+          48,
+          "hover:h-4",
+        ],
+        [
+          49,
+          52,
+          "hover:w-4",
         ],
       ]
     `)
