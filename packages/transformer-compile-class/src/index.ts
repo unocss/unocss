@@ -42,7 +42,7 @@ export default function transformerCompileClass(options: CompileClassOptions = {
   const regex = new RegExp(`(["'\`])${escapeRegExp(trigger)}\\s([^\\1]*?)\\1`, 'g')
 
   return {
-    name: 'compile-class',
+    name: '@unocss/transformer-compile-class',
     enforce: 'pre',
     async transform(s, _, { uno, tokens }) {
       const matches = [...s.original.matchAll(regex)]
