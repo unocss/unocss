@@ -66,7 +66,7 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
   )
 
   return {
-    name: '@unocss/transformer-attributify-jsx',
+    name: 'transformer-jsx',
     enforce: 'pre',
     idFilter,
     async transform(code, _, { uno }) {
