@@ -21,7 +21,7 @@ export async function sortRules(rules: string, uno: UnoGenerator) {
         unknown.push(i)
         return undefined
       }
-      const variantRank = (token[0][5]?.variantHandlers?.length || 0) * 1000
+      const variantRank = (token[0][5]?.variantHandlers?.length || 0) * 100_000
       const order = token[0][0] + variantRank
       return [order, i] as const
     }))
