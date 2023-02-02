@@ -45,7 +45,7 @@ describe('matched-positions', async () => {
       `)
   })
 
-  test('css-directive', async () => {
+  test('@unocss/transformer-directives', async () => {
     const uno = createGenerator({
       presets: [
         presetUno(),
@@ -242,7 +242,7 @@ describe('matched-positions-pug', async () => {
     `)
   })
 
-  test('css-directive', async () => {
+  test('@unocss/transformer-directives', async () => {
     // \n could not be include
     // div.p2(class="btn-center{@apply p1 m1;\n}") -> pug parse error
     const pugCode = 'div.p2(class="btn-center{@apply p1 m1;}")'
