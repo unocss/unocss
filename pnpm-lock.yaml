@@ -366,11 +366,13 @@ importers:
       '@unocss/config': workspace:^0.49.2
       '@unocss/core': workspace:*
       '@unocss/eslint-plugin': workspace:*
+      magic-string: ^0.27.0
       synckit: ^0.8.5
     dependencies:
       '@typescript-eslint/utils': 5.50.0_iukboom6ndih5an6iafl45j2fe
       '@unocss/config': link:../config
       '@unocss/core': link:../core
+      magic-string: 0.27.0
       synckit: 0.8.5
     devDependencies:
       '@unocss/eslint-plugin': 'link:'
@@ -4434,7 +4436,7 @@ packages:
       '@babel/core': 7.20.2
       '@babel/plugin-transform-typescript': 7.20.2_@babel+core@7.20.2
       '@vue/babel-plugin-jsx': 1.1.1_@babel+core@7.20.2
-      vite: 3.2.5
+      vite: 3.2.5_qfz55zahqkp66vn23sxaaw3yfe
       vue: 3.2.45
     transitivePeerDependencies:
       - supports-color
@@ -4447,7 +4449,7 @@ packages:
       vite: ^3.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 3.2.5
+      vite: 3.2.5_qfz55zahqkp66vn23sxaaw3yfe
       vue: 3.2.45
     dev: true
 

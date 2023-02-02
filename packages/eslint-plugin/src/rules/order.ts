@@ -4,6 +4,7 @@ import { createSyncFn } from 'synckit'
 import type { RuleListener } from '@typescript-eslint/utils/dist/ts-eslint'
 import type { TSESTree } from '@typescript-eslint/types'
 import { distDir } from '../dirs'
+import { CLASS_FIELDS } from '../constants'
 
 const sortClasses = createSyncFn<(classes: string) => Promise<string>>(join(distDir, 'worker-sort.cjs'))
 
@@ -33,7 +34,7 @@ export default ESLintUtils.RuleCreator(name => name)({
           node,
           messageId: 'invalid-order',
           fix(fixer) {
-            return fixer.replaceText(node, `"${sorted}"`)
+            return fixer.replaceText(node, `"${sorted.trim()}"`)
           },
         })
       }
@@ -41,7 +42,7 @@ export default ESLintUtils.RuleCreator(name => name)({
 
     const scriptVisitor: RuleListener = {
       JSXAttribute(node) {
-        if (typeof node.name.name === 'string' && ['classname', 'class'].includes(node.name.name.toLowerCase()) && node.value) {
+        if (typeof node.name.name === 'string' && CLASS_FIELDS.includes(node.name.name.toLowerCase()) && node.value) {
           if (node.value.type === 'Literal')
             checkLiteral(node.value)
         }
@@ -49,15 +50,11 @@ export default ESLintUtils.RuleCreator(name => name)({
     }
 
     const templateBodyVisitor: RuleListener = {
-      // VStartTag(node) {
-      //   console.log('VStartTag', node)
-      // },
       VAttribute(node: any) {
         if (node.key.name === 'class') {
           if (node.value.type === 'VLiteral')
             checkLiteral(node.value)
         }
-        // console.log('VAttribute', node)
       },
     }
 

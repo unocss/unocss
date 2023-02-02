@@ -14,7 +14,10 @@
   "bugs": {
     "url": "https://github.com/unocss/unocss/issues"
   },
-  "keywords": ["eslint-plugin", "eslint"],
+  "keywords": [
+    "eslint-plugin",
+    "eslint"
+  ],
   "sideEffects": false,
   "exports": {
     ".": {
@@ -40,6 +43,7 @@
     "@typescript-eslint/utils": "^5.50.0",
     "@unocss/config": "workspace:^0.49.2",
     "@unocss/core": "workspace:*",
+    "magic-string": "^0.27.0",
     "synckit": "^0.8.5"
   },
   "devDependencies": {

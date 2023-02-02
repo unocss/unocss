@@ -14,7 +14,7 @@ export async function sortRules(rules: string, uno: UnoGenerator) {
   const expandedResult = parseVariantGroup(rules) // todo read seperators from config
   rules = expandedResult.expanded
 
-  const result = await Promise.all(rules.split(/\s/g)
+  const result = await Promise.all(rules.split(/\s+/g)
     .map(async (i) => {
       const token = await uno.parseToken(i)
       if (token == null) {
@@ -40,5 +40,5 @@ export async function sortRules(rules: string, uno: UnoGenerator) {
   if (expandedResult?.prefixes.length)
     sorted = collapseVariantGroup(sorted, expandedResult.prefixes)
 
-  return [...unknown, sorted].join(' ')
+  return [...unknown, sorted].join(' ').trim()
 }

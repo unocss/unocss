@@ -1,11 +1,18 @@
 import { loadConfig } from '@unocss/config'
+import type { UnoGenerator } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
 import { runAsWorker } from 'synckit'
 import { sortRules } from '../../shared-integration/src/sort-rules'
 
-runAsWorker(async (classes: string) => {
+async function getGenerator() {
   const { config } = await loadConfig()
-  const uno = createGenerator(config)
+  return createGenerator(config)
+}
 
+let promise: Promise<UnoGenerator<any>> | undefined
+
+runAsWorker(async (classes: string) => {
+  promise = promise || getGenerator()
+  const uno = await promise
   return await sortRules(classes, uno)
 })
