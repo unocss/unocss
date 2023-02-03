@@ -68,6 +68,7 @@ export interface Theme {
   container?: {
     center?: boolean
     padding?: string | Record<string, string>
+    maxWidth?: Record<string, string>
   }
   // vars
   /** Used to generate CSS variables placeholder in preflight */
