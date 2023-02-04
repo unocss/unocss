@@ -30,6 +30,8 @@ describe('prefix', () => {
       'bar-shortcut',
       'h-container',
       '2xl:h-container',
+      'dark:children:hover:h-space-x-4',
+      'dark:hover:children:h-space-x-4',
     ]
 
     const { css, matched } = await uno.generate(new Set([
