@@ -49,6 +49,9 @@ exports[`prefix > multiple preset prefix 1`] = `
 exports[`prefix > preset prefix 1`] = `
 "/* layer: default */
 .h-container{max-width:100%;}
+.dark .dark\\\\:children\\\\:hover\\\\:h-space-x-4:hover>*>:not([hidden])~:not([hidden]),
+.dark .dark\\\\:hover\\\\:children\\\\:h-space-x-4>*:hover>:not([hidden])~:not([hidden]){--un-space-x-reverse:0;margin-left:calc(1rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(1rem * var(--un-space-x-reverse));}
+.dark .dark\\\\:hover\\\\:children\\\\:h-divide-x>*:hover>:not([hidden])~:not([hidden]){--un-divide-x-reverse:0;border-left-width:calc(1px * calc(1 - var(--un-divide-x-reverse)));border-right-width:calc(1px * var(--un-divide-x-reverse));border-left-style:solid;border-right-style:solid;}
 .hover\\\\:h-p4:hover{padding:1rem;}
 .h-text-red{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
 .bar-bar,
