@@ -32,6 +32,7 @@ describe('prefix', () => {
       '2xl:h-container',
       'dark:children:hover:h-space-x-4',
       'dark:hover:children:h-space-x-4',
+      'dark:hover:children:h-divide-x',
     ]
 
     const { css, matched } = await uno.generate(new Set([
