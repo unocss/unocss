@@ -105,7 +105,7 @@ describe('svelte-scoped', () => {
 
       <style>
         :global([dir=\\"rtl\\"] .uno-795nkx) {
-          right: 0rem;
+          right: 0;
         }
         :global(.uno-795nkx) {
           margin-bottom: 0.25rem;
@@ -127,7 +127,7 @@ describe('svelte-scoped', () => {
 
       <style>
         :global([dir=\\"rtl\\"] ._rtl\\\\:right-0_7dkb0w) {
-          right: 0rem;
+          right: 0;
         }
         :global(._mb-1_7dkb0w) {
           margin-bottom: 0.25rem;

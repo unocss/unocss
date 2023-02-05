@@ -8,7 +8,7 @@ exports[`cli > builds uno.css 1`] = `
 
 exports[`cli > supports directives transformer 1`] = `""`;
 
-exports[`cli > supports directives transformer 2`] = `".btn-center{margin-top:0rem;margin-bottom:0rem;text-align:center;font-weight:500;}"`;
+exports[`cli > supports directives transformer 2`] = `".btn-center{margin-top:0;margin-bottom:0;text-align:center;font-weight:500;}"`;
 
 exports[`cli > supports unocss.config.js 1`] = `
 "/* layer: shortcuts */
