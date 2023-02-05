@@ -17,7 +17,6 @@ declare module '@vue/runtime-core' {
     NarBar: typeof import('./../../packages/inspector/client/components/NarBar.vue')['default']
     Overview: typeof import('./../../packages/inspector/client/components/Overview.vue')['default']
     PanelConfig: typeof import('./components/panel/PanelConfig.vue')['default']
-    PanelCss: typeof import('./components/panel/PanelCss.vue')['default']
     PanelHtml: typeof import('./components/panel/PanelHtml.vue')['default']
     PanelOutputCss: typeof import('./components/panel/PanelOutputCss.vue')['default']
     Playground: typeof import('./components/Playground.vue')['default']
