@@ -1,12 +1,7 @@
 <script setup lang="ts">
 // @ts-expect-error missing types
 import { Pane, Splitpanes } from 'splitpanes'
-import { isDark } from '../logics/dark'
-import { customConfigError, customConfigRaw, getHint, inputHTML, output, showPreflights, transformedHTML } from '../logics/uno'
 import { defaultConfigRaw, defaultHTML } from '../defaults'
-import { STORAGE_KEY, options } from '../logics/url'
-import { version } from '../../../package.json'
-import { useCSSPrettify, useHTMLPrettify, useJSPrettify } from '../../../packages/inspector/client/composables/usePrettify'
 
 const { copy, copied } = useClipboard()
 const panel = ref()
@@ -125,60 +120,7 @@ onMounted(() => {
   <Splitpanes ref="panel" :class="{ loading }" horizontal @resize="handleResize">
     <Pane :min-size="titleHeightPercent * 2" :size="panelSizes[0]" flex flex-col min-h-65px>
       <div class="flex flex-wrap bg-$cm-background">
-        <div
-          class="flex items-center px-2 op-60 bg-gray/10"
-          border="l t gray-400/20" h-36px w-full
-        >
-          <div flex items-center gap-2>
-            <img src="/icon-gray.svg" w-4 h-4alt="">
-            <div text-sm>
-              UnoCSS Playground
-            </div>
-            <div text-xs op50>
-              v{{ version }}
-            </div>
-          </div>
-
-          <div class="pl-1 ml-auto space-x-2 text-sm md:text-base flex items-center flex-nowrap">
-            <button
-              :class="copied ? 'i-ri-checkbox-circle-line text-green' : 'i-ri-share-line'"
-              icon-btn
-              title="Share Link"
-              @click="handleShare"
-            />
-            <button
-              i-ri-eraser-line
-              icon-btn
-              title="Reset To Default"
-              @click="handleReset"
-            />
-            <a
-              i-ri-search-line icon-btn
-              href="https://uno.antfu.me"
-              target="_blank"
-              title="Interactive Docs"
-            />
-            <button
-              i-ri-device-line
-              icon-btn
-              title="Responsive"
-              @click="options.responsive = !options.responsive"
-            />
-            <a
-              i-ri-github-line icon-btn
-              href="https://github.com/unocss/unocss"
-              target="_blank"
-              title="GitHub"
-            />
-            <button
-              i-ri-sun-line
-              dark:i-ri-moon-line
-              icon-btn
-              title="Toggle Color Mode"
-              @click="isDark = !isDark"
-            />
-          </div>
-        </div>
+        <HeaderBar />
         <TitleBar
           title="HTML" w-full relative
           @title-click="togglePanel(0)"
@@ -302,12 +244,3 @@ onMounted(() => {
     </Pane>
   </Splitpanes>
 </template>
-
-<style>
-.splitpanes.loading .splitpanes__pane {
-  transition: none !important;
-}
-[icon-btn=""] {
-  --at-apply: text-xl op75 hover:op100;
-}
-</style>

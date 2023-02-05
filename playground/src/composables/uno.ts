@@ -5,10 +5,6 @@ import MagicString from 'magic-string'
 import type { UnocssPluginContext } from '@unocss/core'
 import { evaluateUserConfig } from '@unocss/shared-docs'
 import type { CompletionContext, CompletionResult } from '@codemirror/autocomplete'
-import { customConfigRaw, inputHTML } from './url'
-import { defaultConfig } from './config'
-
-export { customConfigRaw, inputHTML } from './url'
 
 export const init = ref(false)
 export const customConfigError = ref<Error>()
@@ -27,16 +23,21 @@ const reGenerate = () => {
   autocomplete = createAutocomplete(uno)
 }
 
-const getTransformedHTML = async () => {
-  const id = 'input.html'
-  const input = new MagicString(inputHTML.value)
-  await applyTransformers(input, id, 'pre')
-  await applyTransformers(input, id)
-  await applyTransformers(input, id, 'post')
-  return input.toString()
-}
+const { transformedHTML, getTransformedHTML } = useTransformers()
+function useTransformers() {
+  const getTransformedHTML = async () => {
+    const id = 'input.html'
+    const input = new MagicString(inputHTML.value)
+    await applyTransformers(input, id, 'pre')
+    await applyTransformers(input, id)
+    await applyTransformers(input, id, 'post')
+    return input.toString()
+  }
 
-export const transformedHTML = computedAsync(async () => await getTransformedHTML())
+  const transformedHTML = computedAsync(async () => await getTransformedHTML())
+
+  return { getTransformedHTML, transformedHTML }
+}
 
 export async function applyTransformers(code: MagicString, id: string, enforce?: 'pre' | 'post') {
   let { transformers } = uno.config
@@ -110,3 +111,7 @@ watch(
 )
 
 watch(defaultConfig, reGenerate)
+
+export {
+  transformedHTML,
+}

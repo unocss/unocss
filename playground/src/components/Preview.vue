@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import { isDark } from '../logics/dark'
 import { useResize } from '../useResize'
-import { init, output, transformedHTML } from '../logics/uno'
-import { options } from '../logics/url'
 
 const iframe = ref<HTMLIFrameElement>()
 
