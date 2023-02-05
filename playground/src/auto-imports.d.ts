@@ -22,6 +22,7 @@ declare global {
   const createReactiveFn: typeof import('@vueuse/core')['createReactiveFn']
   const createSharedComposable: typeof import('@vueuse/core')['createSharedComposable']
   const createUnrefFn: typeof import('@vueuse/core')['createUnrefFn']
+  const cssFormatted: typeof import('./composables/prettier')['cssFormatted']
   const customConfigError: typeof import('./composables/uno')['customConfigError']
   const customConfigRaw: typeof import('./composables/url')['customConfigRaw']
   const customRef: typeof import('vue')['customRef']
@@ -36,15 +37,20 @@ declare global {
   const eagerComputed: typeof import('@vueuse/core')['eagerComputed']
   const effectScope: typeof import('vue')['effectScope']
   const extendRef: typeof import('@vueuse/core')['extendRef']
+  const formatConfig: typeof import('./composables/prettier')['formatConfig']
+  const formatHTML: typeof import('./composables/prettier')['formatHTML']
   const generate: typeof import('./composables/uno')['generate']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
   const getHint: typeof import('./composables/uno')['getHint']
+  const getInitialPanelSizes: typeof import('./composables/panel')['getInitialPanelSizes']
   const h: typeof import('vue')['h']
   const ignorableWatch: typeof import('@vueuse/core')['ignorableWatch']
   const init: typeof import('./composables/uno')['init']
   const inject: typeof import('vue')['inject']
   const inputHTML: typeof import('./composables/url')['inputHTML']
+  const isCSSPrettify: typeof import('./composables/prettier')['isCSSPrettify']
+  const isCollapsed: typeof import('./composables/panel')['isCollapsed']
   const isDark: typeof import('./composables/dark')['isDark']
   const isDefined: typeof import('@vueuse/core')['isDefined']
   const isProxy: typeof import('vue')['isProxy']
@@ -58,6 +64,7 @@ declare global {
   const makeDestructurable: typeof import('@vueuse/core')['makeDestructurable']
   const markRaw: typeof import('vue')['markRaw']
   const nextTick: typeof import('vue')['nextTick']
+  const normalizePanels: typeof import('./composables/panel')['normalizePanels']
   const onActivated: typeof import('vue')['onActivated']
   const onBeforeMount: typeof import('vue')['onBeforeMount']
   const onBeforeUnmount: typeof import('vue')['onBeforeUnmount']
@@ -77,6 +84,8 @@ declare global {
   const onUpdated: typeof import('vue')['onUpdated']
   const options: typeof import('./composables/url')['options']
   const output: typeof import('./composables/uno')['output']
+  const panelEl: typeof import('./composables/panel')['panelEl']
+  const panelSizes: typeof import('./composables/panel')['panelSizes']
   const pausableWatch: typeof import('@vueuse/core')['pausableWatch']
   const provide: typeof import('vue')['provide']
   const reactify: typeof import('@vueuse/core')['reactify']
@@ -105,11 +114,13 @@ declare global {
   const templateRef: typeof import('@vueuse/core')['templateRef']
   const throttledRef: typeof import('@vueuse/core')['throttledRef']
   const throttledWatch: typeof import('@vueuse/core')['throttledWatch']
+  const titleHeightPercent: typeof import('./composables/panel')['titleHeightPercent']
   const toRaw: typeof import('vue')['toRaw']
   const toReactive: typeof import('@vueuse/core')['toReactive']
   const toRef: typeof import('vue')['toRef']
   const toRefs: typeof import('vue')['toRefs']
   const toggleDark: typeof import('./composables/dark')['toggleDark']
+  const togglePanel: typeof import('./composables/panel')['togglePanel']
   const transformedHTML: typeof import('./composables/uno')['transformedHTML']
   const triggerRef: typeof import('vue')['triggerRef']
   const tryOnBeforeMount: typeof import('@vueuse/core')['tryOnBeforeMount']
@@ -142,7 +153,6 @@ declare global {
   const useBreakpoints: typeof import('@vueuse/core')['useBreakpoints']
   const useBroadcastChannel: typeof import('@vueuse/core')['useBroadcastChannel']
   const useBrowserLocation: typeof import('@vueuse/core')['useBrowserLocation']
-  const useCSSPrettify: typeof import('./composables/prettier')['useCSSPrettify']
   const useCached: typeof import('@vueuse/core')['useCached']
   const useCeil: typeof import('@vueuse/math')['useCeil']
   const useClamp: typeof import('@vueuse/math')['useClamp']
@@ -189,14 +199,12 @@ declare global {
   const useFullscreen: typeof import('@vueuse/core')['useFullscreen']
   const useGamepad: typeof import('@vueuse/core')['useGamepad']
   const useGeolocation: typeof import('@vueuse/core')['useGeolocation']
-  const useHTMLPrettify: typeof import('./composables/prettier')['useHTMLPrettify']
   const useIdle: typeof import('@vueuse/core')['useIdle']
   const useImage: typeof import('@vueuse/core')['useImage']
   const useInfiniteScroll: typeof import('@vueuse/core')['useInfiniteScroll']
   const useIntersectionObserver: typeof import('@vueuse/core')['useIntersectionObserver']
   const useInterval: typeof import('@vueuse/core')['useInterval']
   const useIntervalFn: typeof import('@vueuse/core')['useIntervalFn']
-  const useJSPrettify: typeof import('./composables/prettier')['useJSPrettify']
   const useKeyModifier: typeof import('@vueuse/core')['useKeyModifier']
   const useLastChanged: typeof import('@vueuse/core')['useLastChanged']
   const useLocalStorage: typeof import('@vueuse/core')['useLocalStorage']
@@ -328,6 +336,7 @@ declare module 'vue' {
     readonly createReactiveFn: UnwrapRef<typeof import('@vueuse/core')['createReactiveFn']>
     readonly createSharedComposable: UnwrapRef<typeof import('@vueuse/core')['createSharedComposable']>
     readonly createUnrefFn: UnwrapRef<typeof import('@vueuse/core')['createUnrefFn']>
+    readonly cssFormatted: UnwrapRef<typeof import('./composables/prettier')['cssFormatted']>
     readonly customConfigError: UnwrapRef<typeof import('./composables/uno')['customConfigError']>
     readonly customConfigRaw: UnwrapRef<typeof import('./composables/url')['customConfigRaw']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
@@ -342,15 +351,20 @@ declare module 'vue' {
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
+    readonly formatConfig: UnwrapRef<typeof import('./composables/prettier')['formatConfig']>
+    readonly formatHTML: UnwrapRef<typeof import('./composables/prettier')['formatHTML']>
     readonly generate: UnwrapRef<typeof import('./composables/uno')['generate']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getHint: UnwrapRef<typeof import('./composables/uno')['getHint']>
+    readonly getInitialPanelSizes: UnwrapRef<typeof import('./composables/panel')['getInitialPanelSizes']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
     readonly init: UnwrapRef<typeof import('./composables/uno')['init']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly inputHTML: UnwrapRef<typeof import('./composables/url')['inputHTML']>
+    readonly isCSSPrettify: UnwrapRef<typeof import('./composables/prettier')['isCSSPrettify']>
+    readonly isCollapsed: UnwrapRef<typeof import('./composables/panel')['isCollapsed']>
     readonly isDark: UnwrapRef<typeof import('./composables/dark')['isDark']>
     readonly isDefined: UnwrapRef<typeof import('@vueuse/core')['isDefined']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
@@ -364,6 +378,7 @@ declare module 'vue' {
     readonly makeDestructurable: UnwrapRef<typeof import('@vueuse/core')['makeDestructurable']>
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
     readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
+    readonly normalizePanels: UnwrapRef<typeof import('./composables/panel')['normalizePanels']>
     readonly onActivated: UnwrapRef<typeof import('vue')['onActivated']>
     readonly onBeforeMount: UnwrapRef<typeof import('vue')['onBeforeMount']>
     readonly onBeforeUnmount: UnwrapRef<typeof import('vue')['onBeforeUnmount']>
@@ -383,6 +398,8 @@ declare module 'vue' {
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
     readonly options: UnwrapRef<typeof import('./composables/url')['options']>
     readonly output: UnwrapRef<typeof import('./composables/uno')['output']>
+    readonly panelEl: UnwrapRef<typeof import('./composables/panel')['panelEl']>
+    readonly panelSizes: UnwrapRef<typeof import('./composables/panel')['panelSizes']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly reactify: UnwrapRef<typeof import('@vueuse/core')['reactify']>
@@ -411,11 +428,13 @@ declare module 'vue' {
     readonly templateRef: UnwrapRef<typeof import('@vueuse/core')['templateRef']>
     readonly throttledRef: UnwrapRef<typeof import('@vueuse/core')['throttledRef']>
     readonly throttledWatch: UnwrapRef<typeof import('@vueuse/core')['throttledWatch']>
+    readonly titleHeightPercent: UnwrapRef<typeof import('./composables/panel')['titleHeightPercent']>
     readonly toRaw: UnwrapRef<typeof import('vue')['toRaw']>
     readonly toReactive: UnwrapRef<typeof import('@vueuse/core')['toReactive']>
     readonly toRef: UnwrapRef<typeof import('vue')['toRef']>
     readonly toRefs: UnwrapRef<typeof import('vue')['toRefs']>
     readonly toggleDark: UnwrapRef<typeof import('./composables/dark')['toggleDark']>
+    readonly togglePanel: UnwrapRef<typeof import('./composables/panel')['togglePanel']>
     readonly transformedHTML: UnwrapRef<typeof import('./composables/uno')['transformedHTML']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly tryOnBeforeMount: UnwrapRef<typeof import('@vueuse/core')['tryOnBeforeMount']>
@@ -448,7 +467,6 @@ declare module 'vue' {
     readonly useBreakpoints: UnwrapRef<typeof import('@vueuse/core')['useBreakpoints']>
     readonly useBroadcastChannel: UnwrapRef<typeof import('@vueuse/core')['useBroadcastChannel']>
     readonly useBrowserLocation: UnwrapRef<typeof import('@vueuse/core')['useBrowserLocation']>
-    readonly useCSSPrettify: UnwrapRef<typeof import('./composables/prettier')['useCSSPrettify']>
     readonly useCached: UnwrapRef<typeof import('@vueuse/core')['useCached']>
     readonly useCeil: UnwrapRef<typeof import('@vueuse/math')['useCeil']>
     readonly useClamp: UnwrapRef<typeof import('@vueuse/math')['useClamp']>
@@ -495,14 +513,12 @@ declare module 'vue' {
     readonly useFullscreen: UnwrapRef<typeof import('@vueuse/core')['useFullscreen']>
     readonly useGamepad: UnwrapRef<typeof import('@vueuse/core')['useGamepad']>
     readonly useGeolocation: UnwrapRef<typeof import('@vueuse/core')['useGeolocation']>
-    readonly useHTMLPrettify: UnwrapRef<typeof import('./composables/prettier')['useHTMLPrettify']>
     readonly useIdle: UnwrapRef<typeof import('@vueuse/core')['useIdle']>
     readonly useImage: UnwrapRef<typeof import('@vueuse/core')['useImage']>
     readonly useInfiniteScroll: UnwrapRef<typeof import('@vueuse/core')['useInfiniteScroll']>
     readonly useIntersectionObserver: UnwrapRef<typeof import('@vueuse/core')['useIntersectionObserver']>
     readonly useInterval: UnwrapRef<typeof import('@vueuse/core')['useInterval']>
     readonly useIntervalFn: UnwrapRef<typeof import('@vueuse/core')['useIntervalFn']>
-    readonly useJSPrettify: UnwrapRef<typeof import('./composables/prettier')['useJSPrettify']>
     readonly useKeyModifier: UnwrapRef<typeof import('@vueuse/core')['useKeyModifier']>
     readonly useLastChanged: UnwrapRef<typeof import('@vueuse/core')['useLastChanged']>
     readonly useLocalStorage: UnwrapRef<typeof import('@vueuse/core')['useLocalStorage']>
