@@ -1,6 +1,7 @@
 <script lang='ts' setup>
 // @ts-expect-error missing types
 import { Pane } from 'splitpanes'
+import { isCSSPrettify, showPreflights } from '../../composables/prettier'
 </script>
 
 <template>

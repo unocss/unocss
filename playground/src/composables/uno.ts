@@ -11,52 +11,22 @@ export const customConfigError = ref<Error>()
 
 export const uno = createGenerator({}, defaultConfig.value)
 export const output = shallowRef<GenerateResult>()
-export const showPreflights = ref(false)
 
 let customConfig: UserConfig = {}
 let autocomplete = createAutocomplete(uno)
 let initial = true
 
-const reGenerate = () => {
-  uno.setConfig(customConfig, defaultConfig.value)
-  generate()
-  autocomplete = createAutocomplete(uno)
-}
-
-const { transformedHTML, getTransformedHTML } = useTransformers()
-function useTransformers() {
-  const getTransformedHTML = async () => {
-    const id = 'input.html'
-    const input = new MagicString(inputHTML.value)
-    await applyTransformers(input, id, 'pre')
-    await applyTransformers(input, id)
-    await applyTransformers(input, id, 'post')
-    return input.toString()
-  }
-
-  const transformedHTML = computedAsync(async () => await getTransformedHTML())
-
-  return { getTransformedHTML, transformedHTML }
-}
-
-export async function applyTransformers(code: MagicString, id: string, enforce?: 'pre' | 'post') {
-  let { transformers } = uno.config
-  transformers = (transformers ?? []).filter(i => i.enforce === enforce)
-
-  if (!transformers.length)
-    return
-
-  const fakePluginContext = { uno } as UnocssPluginContext
-  for (const { idFilter, transform } of transformers) {
-    if (idFilter && !idFilter(id))
-      continue
-    await transform(code, id, fakePluginContext)
-  }
-}
+const { transformedHTML, getTransformedHTML } = useTransformer()
 
 export async function generate() {
   output.value = await uno.generate(transformedHTML.value || '')
   init.value = true
+}
+
+function reGenerate() {
+  uno.setConfig(customConfig, defaultConfig.value)
+  generate()
+  autocomplete = createAutocomplete(uno)
 }
 
 export async function getHint(context: CompletionContext): Promise<CompletionResult | null> {
@@ -112,6 +82,34 @@ watch(
 
 watch(defaultConfig, reGenerate)
 
-export {
-  transformedHTML,
+function useTransformer() {
+  const transformedHTML = computedAsync(async () => await getTransformedHTML())
+
+  async function applyTransformers(code: MagicString, id: string, enforce?: 'pre' | 'post') {
+    let { transformers } = uno.config
+    transformers = (transformers ?? []).filter(i => i.enforce === enforce)
+
+    if (!transformers.length)
+      return
+
+    const fakePluginContext = { uno } as UnocssPluginContext
+    for (const { idFilter, transform } of transformers) {
+      if (idFilter && !idFilter(id))
+        continue
+      await transform(code, id, fakePluginContext)
+    }
+  }
+
+  async function getTransformedHTML() {
+    const id = 'input.html'
+    const input = new MagicString(inputHTML.value)
+    await applyTransformers(input, id, 'pre')
+    await applyTransformers(input, id)
+    await applyTransformers(input, id, 'post')
+    return input.toString()
+  }
+
+  return { transformedHTML, getTransformedHTML }
 }
+
+export { transformedHTML }
