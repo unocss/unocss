@@ -335,6 +335,11 @@ exports[`attributify > fixture4 1`] = `
 }"
 `;
 
+exports[`attributify > merge attribute name and value-only 1`] = `
+"/* layer: default */
+[bg~=\\"\\\\[\\\\&\\\\.foo\\\\]\\\\:\\\\[\\\\&\\\\:nth-child\\\\(3\\\\)\\\\]\\\\:\\\\[\\\\#123\\\\]\\"]{background-color:&.foo;}"
+`;
+
 exports[`attributify > prefixedOnly 1`] = `
 "/* layer: default */
 .absolute{position:absolute;}
