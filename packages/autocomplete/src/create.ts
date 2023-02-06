@@ -63,7 +63,7 @@ export function createAutocomplete(uno: UnoGenerator): UnocssAutocomplete {
       return cache.get(input)!
 
     // match and ignore existing variants
-    const [, processed, , variants] = uno.matchVariants(input)
+    const [, processed, , variants] = await uno.matchVariants(input)
     let idx = processed ? input.search(escapeRegExp(processed)) : input.length
     // This input contains variants that modifies the processed part,
     // autocomplete will need to reverse it which is not possible
