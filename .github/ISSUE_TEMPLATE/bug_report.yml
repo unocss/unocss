@@ -1,0 +1,57 @@
+name: 🐞 Bug report
+description: Report an issue with UnoCSS
+labels: [pending triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report! If you have a usage question
+        or are unsure if this is really a bug, make sure to:
+
+        - Read the `README.md` of using the package
+        - Already used the [Interactive Docs](https://uno.antfu.me)
+        - Ask on [GitHub Discussion](https://github.com/unocss/unocss/discussions) or join our [Discord Chat Server](https://chat.antfu.me)
+
+  - type: input
+    id: version
+    attributes:
+      label: UnoCSS version
+    validations:
+      required: true
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is. If you intend to submit a PR for this issue, tell us in the description. Thanks!
+      placeholder: Bug description
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Please provide a link to [Playground](https://uno.antfu.me/play) or [StackBlitz](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/vite-vue3) or a github repo that can reproduce the problem you ran into. A [minimal reproduction](https://stackoverflow.com/help/minimal-reproducible-example) is required unless you are absolutely sure that the issue is obvious and the provided information is enough to understand the problem.
+      placeholder: Reproduction
+    validations:
+      required: true
+  - type: textarea
+    id: system-info
+    attributes:
+      label: System Info
+      placeholder: System, Browsers, Framework
+    validations:
+      required: false
+  - type: checkboxes
+    id: checkboxes
+    attributes:
+      label: Validations
+      description: Before submitting the issue, please make sure you do the following
+      options:
+        - label: Read the [Contributing Guidelines](https://github.com/unocss/unocss/blob/main/CONTRIBUTING.md).
+          required: true
+        - label: Check that there isn't [already an issue](https://github.com/unocss/unocss/issues) that reports the same bug to avoid creating a duplicate.
+          required: true
+        - label: Check that this is a concrete bug. For Q&A open a [GitHub Discussion](https://github.com/unocss/unocss/discussions) or join our [Discord Chat Server](https://chat.antfu.me).
+          required: true
+        - label: The provided reproduction is a [minimal reproducible example](https://stackoverflow.com/help/minimal-reproducible-example) of the bug.
+          required: true
