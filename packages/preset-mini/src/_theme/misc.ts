@@ -33,7 +33,7 @@ export const spacing = {
 
 export const duration = {
   DEFAULT: '150ms',
-  none: '0',
+  none: '0s',
   75: '75ms',
   100: '100ms',
   150: '150ms',
