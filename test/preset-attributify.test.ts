@@ -170,11 +170,13 @@ describe('attributify', () => {
       strict: true,
     })
 
-    expect(Array.from(await uno.applyExtractors(fixture1) || [])
-      .map((i) => {
-        const r = variant.match(i, {} as any)
+    const promises = Array.from(await uno.applyExtractors(fixture1) || [])
+      .map(async (i) => {
+        const r = await variant.match(i, {} as any)
         return typeof r === 'string' ? r : r ? r.matcher : r
-      }))
+      })
+
+    expect(await Promise.all(promises))
       .toMatchSnapshot()
   })
 
