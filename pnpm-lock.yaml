@@ -433,8 +433,10 @@ importers:
   packages/preset-attributify:
     specifiers:
       '@unocss/core': workspace:*
+      '@unocss/preset-mini': workspace:*
     dependencies:
       '@unocss/core': link:../core
+      '@unocss/preset-mini': link:../preset-mini
 
   packages/preset-icons:
     specifiers:
@@ -4436,7 +4438,7 @@ packages:
       '@babel/core': 7.20.2
       '@babel/plugin-transform-typescript': 7.20.2_@babel+core@7.20.2
       '@vue/babel-plugin-jsx': 1.1.1_@babel+core@7.20.2
-      vite: 3.2.5_qfz55zahqkp66vn23sxaaw3yfe
+      vite: 3.2.5
       vue: 3.2.45
     transitivePeerDependencies:
       - supports-color
@@ -4449,7 +4451,7 @@ packages:
       vite: ^3.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 3.2.5_qfz55zahqkp66vn23sxaaw3yfe
+      vite: 3.2.5
       vue: 3.2.45
     dev: true
 
@@ -10819,6 +10821,7 @@ packages:
 
   /file-uri-to-path/1.0.0:
     resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==}
+    requiresBuild: true
     dev: true
 
   /filesize/3.6.1:
@@ -14311,6 +14314,7 @@ packages:
 
   /nan/2.16.0:
     resolution: {integrity: sha512-UdAqHyFngu7TfQKsCBgAA6pWDkT8MAO7d0jyOecVhN5354xbLqdn8mV9Tat9gepAupm0bt2DbeaSC8vS52MuFA==}
+    requiresBuild: true
     dev: true
     optional: true
 
