@@ -50,8 +50,11 @@ export function rem(str: string) {
     return
   const [, n, unit] = match
   const num = parseFloat(n)
-  if (!Number.isNaN(num))
+  if (!Number.isNaN(num)) {
+    if (num === 0)
+      return '0'
     return unit ? `${round(num)}${unit}` : `${round(num / 4)}rem`
+  }
 }
 
 export function px(str: string) {
@@ -62,8 +65,11 @@ export function px(str: string) {
     return
   const [, n, unit] = match
   const num = parseFloat(n)
-  if (!Number.isNaN(num))
+  if (!Number.isNaN(num)) {
+    if (num === 0)
+      return '0'
     return unit ? `${round(num)}${unit}` : `${round(num)}px`
+  }
 }
 
 export function number(str: string) {
@@ -87,8 +93,11 @@ export function fraction(str: string) {
     return '100%'
   const [left, right] = str.split('/')
   const num = parseFloat(left) / parseFloat(right)
-  if (!Number.isNaN(num))
+  if (!Number.isNaN(num)) {
+    if (num === 0)
+      return '0'
     return `${round(num * 100)}%`
+  }
 }
 
 const bracketTypeRe = /^\[(color|length|position|quoted|string):/i
@@ -180,8 +189,11 @@ export function time(str: string) {
     return
   const [, n, unit] = match
   const num = parseFloat(n)
-  if (!Number.isNaN(num))
+  if (!Number.isNaN(num)) {
+    if (num === 0)
+      return '0'
     return unit ? `${round(num)}${unit}` : `${round(num)}ms`
+  }
 }
 
 export function degree(str: string) {
@@ -190,8 +202,11 @@ export function degree(str: string) {
     return
   const [, n, unit] = match
   const num = parseFloat(n)
-  if (!Number.isNaN(num))
+  if (!Number.isNaN(num)) {
+    if (num === 0)
+      return '0'
     return unit ? `${round(num)}${unit}` : `${round(num)}deg`
+  }
 }
 
 export function global(str: string) {
