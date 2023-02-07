@@ -241,6 +241,7 @@ declare global {
   const useProjection: typeof import('@vueuse/math')['useProjection']
   const useRafFn: typeof import('@vueuse/core')['useRafFn']
   const useRefHistory: typeof import('@vueuse/core')['useRefHistory']
+  const useResize: typeof import('./composables/resize')['useResize']
   const useResizeObserver: typeof import('@vueuse/core')['useResizeObserver']
   const useRound: typeof import('@vueuse/math')['useRound']
   const useScreenOrientation: typeof import('@vueuse/core')['useScreenOrientation']
@@ -554,6 +555,7 @@ declare module 'vue' {
     readonly useProjection: UnwrapRef<typeof import('@vueuse/math')['useProjection']>
     readonly useRafFn: UnwrapRef<typeof import('@vueuse/core')['useRafFn']>
     readonly useRefHistory: UnwrapRef<typeof import('@vueuse/core')['useRefHistory']>
+    readonly useResize: UnwrapRef<typeof import('./composables/resize')['useResize']>
     readonly useResizeObserver: UnwrapRef<typeof import('@vueuse/core')['useResizeObserver']>
     readonly useRound: UnwrapRef<typeof import('@vueuse/math')['useRound']>
     readonly useScreenOrientation: UnwrapRef<typeof import('@vueuse/core')['useScreenOrientation']>
