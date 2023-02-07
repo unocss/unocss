@@ -59,6 +59,113 @@ UnoCSS is an atomic-CSS engine instead of a framework. Everything is designed wi
 
 By default, UnoCSS applies [the default preset](https://github.com/unocss/unocss/tree/main/packages/preset-uno), which provides a common superset of the popular utilities-first frameworks Tailwind CSS, Windi CSS, Bootstrap, Tachyons, etc.
 
+### usage
+
+add it with config to build tool directly like:
+
+```js
+// vite.config.ts
+import unocss from 'unocss/vite'
+import { presetAttributify, presetUno, transformerVariantGroup } from 'unocss'
+import { colors } from 'unocss/preset-mini'
+
+export default {
+  plugins: [
+    unocss({
+      transformers: [
+        transformerVariantGroup()
+      ],
+      theme: {
+        colors: {
+          color: {
+            50: colors.blue['50'],
+            100: colors.blue['100'],
+            200: colors.blue['200'],
+            300: colors.blue['300'],
+            400: colors.blue['400'],
+            500: colors.blue['500'],
+            600: colors.blue['600'],
+            700: colors.blue['700'],
+            800: colors.blue['800'],
+            900: colors.blue['900'],
+          }
+        },
+      },
+      rules: [
+        ['custom-rule', { color: 'red' }]
+      ],
+      variants: [
+        // add your variants
+      ],
+      shortcuts: {
+        'custom-shortcut': 'text-lg text-orange hover:text-teal'
+      },
+      presets: [
+        presetAttributify({ /* preset options */}),
+        presetUno(),
+        // ...custom presets
+      ],
+    }),
+  ],
+}
+```
+
+or make it in sepreat file like:
+
+```js
+// vite.config.ts
+import unocss from 'unocss/vite'
+
+export default {
+  plugins: [
+    unocss(),
+  ],
+}
+```
+
+```js
+// uno.config.js
+
+import { defineConfig, presetAttributify, presetUno, transformerVariantGroup } from 'unocss'
+import { colors } from 'unocss/preset-mini'
+
+export default defineConfig({
+  transformers: [
+    transformerVariantGroup()
+  ],
+  theme: {
+    colors: {
+      color: {
+        50: colors.blue['50'],
+        100: colors.blue['100'],
+        200: colors.blue['200'],
+        300: colors.blue['300'],
+        400: colors.blue['400'],
+        500: colors.blue['500'],
+        600: colors.blue['600'],
+        700: colors.blue['700'],
+        800: colors.blue['800'],
+        900: colors.blue['900'],
+      }
+    },
+  },
+  rules: [
+    ['custom-rule', { color: 'red' }]
+  ],
+  variants: [
+    // add your variants
+  ],
+  shortcuts: {
+    'custom-shortcut': 'text-lg text-orange hover:text-teal'
+  },
+  presets: [
+    presetAttributify({ /* preset options */}),
+    presetUno(),
+    // ...custom presets
+  ],
+})
+```
+
 ### Presets
 
 Presets are the heart of UnoCSS. They let you make your own custom framework in minutes.
@@ -89,6 +196,8 @@ Presets are the heart of UnoCSS. They let you make your own custom framework in 
 - [unocss-preset-daisy](https://github.com/kidonng/unocss-preset-daisy) - daisyUI Preset by [@kidonng](https://github.com/kidonng).
 - [unocss-preset-primitives](https://github.com/zirbest/unocss-preset-primitives) - Like [headlessui-tailwindcss](https://github.com/tailwindlabs/headlessui/tree/main/packages/%40headlessui-tailwindcss) , radix-ui , custom for UnoCSS By [@zirbest](https://github.com/zirbest).
 - [unocss-preset-theme](https://github.com/Dunqing/unocss-preset-theme) - Preset for automatic theme switching by [@Dunqing](https://github.com/Dunqing).
+- [unocss-thems]() - unocss variant generator that generates variants for multiple color themes or styles By [@maggie-j-liu
+](https://github.com/maggie-j-liu).
 - [unocss-preset-chinese](https://github.com/kirklin/unocss-preset-chinese) - Preset for Chinese fonts by [@kirklin](https://github.com/kirklin).
 
 ###### Community Frameworks
