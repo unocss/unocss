@@ -35,7 +35,7 @@ export const fontFamily = {
     '"Courier New"',
     'monospace',
   ].join(','),
-}
+} satisfies Theme['fontFamily']
 
 export const fontSize: Theme['fontSize'] = {
   'xs': ['0.75rem', '1rem'],
@@ -51,7 +51,7 @@ export const fontSize: Theme['fontSize'] = {
   '7xl': ['4.5rem', '1'],
   '8xl': ['6rem', '1'],
   '9xl': ['8rem', '1'],
-}
+}satisfies Theme['fontSize']
 
 export const textIndent: Theme['textIndent'] = {
   'DEFAULT': '1.5rem',
@@ -62,7 +62,7 @@ export const textIndent: Theme['textIndent'] = {
   'xl': '2.5rem',
   '2xl': '3rem',
   '3xl': '4rem',
-}
+} satisfies Theme['textIndent']
 
 export const textStrokeWidth: Theme['textStrokeWidth'] = {
   DEFAULT: '1.5rem',
@@ -70,33 +70,33 @@ export const textStrokeWidth: Theme['textStrokeWidth'] = {
   sm: 'thin',
   md: 'medium',
   lg: 'thick',
-}
+} satisfies Theme['textStrokeWidth']
 
-export const textShadow: Theme['textShadow'] = {
+export const textShadow = {
   DEFAULT: ['0 0 1px rgba(0,0,0,0.2)', '0 0 1px rgba(1,0,5,0.1)'],
   none: '0 0 rgba(0,0,0,0)',
   sm: '1px 1px 3px rgba(36,37,47,0.25)',
   md: ['0 1px 2px rgba(30,29,39,0.19)', '1px 2px 4px rgba(54,64,147,0.18)'],
   lg: ['3px 3px 6px rgba(0,0,0,0.26)', '0 0 5px rgba(15,3,86,0.22)'],
   xl: ['1px 1px 3px rgba(0,0,0,0.29)', '2px 4px 7px rgba(73,64,125,0.35)'],
-}
+} satisfies Theme['textShadow']
 
-export const lineHeight: Theme['lineHeight'] = {
+export const lineHeight = {
   none: '1',
   tight: '1.25',
   snug: '1.375',
   normal: '1.5',
   relaxed: '1.625',
   loose: '2',
-}
+} satisfies Theme['lineHeight']
 
-export const letterSpacing: Theme['letterSpacing'] = {
+export const letterSpacing = {
   tighter: '-0.05em',
   tight: '-0.025em',
   normal: '0em',
   wide: '0.025em',
   wider: '0.05em',
   widest: '0.1em',
-}
+} satisfies Theme['letterSpacing']
 
-export const wordSpacing: Theme['wordSpacing'] = letterSpacing
+export const wordSpacing = letterSpacing satisfies Theme['letterSpacing']

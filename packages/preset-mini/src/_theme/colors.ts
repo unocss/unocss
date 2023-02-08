@@ -6,7 +6,7 @@
 
 import type { Theme } from './types'
 
-export const colors: Theme['colors'] = {
+export const colors = {
   inherit: 'inherit',
   current: 'currentColor',
   transparent: 'transparent',
@@ -331,10 +331,10 @@ export const colors: Theme['colors'] = {
   get blueGray() {
     return this.slate
   },
-}
+} satisfies Theme['colors']
 
 // assign default color, and color shortcuts
-Object.values(colors).forEach((color) => {
+Object.values(colors as Required<Theme>['colors']).forEach((color) => {
   if (typeof color !== 'string') {
     color.DEFAULT = color.DEFAULT || color[400]
     Object.keys(color).forEach((key) => {
