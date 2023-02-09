@@ -54,6 +54,7 @@ const PseudoClasses: Record<string, string> = Object.fromEntries([
   'only-of-type',
 
   // pseudo elements part 2
+  ['backdrop-element', '::backdrop'],
   ['placeholder', '::placeholder'],
   ['before', '::before'],
   ['after', '::after'],
