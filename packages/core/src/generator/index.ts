@@ -368,7 +368,7 @@ export class UnoGenerator<Theme extends {} = {}> {
         variantContextResult.prefix,
         variantContextResult.selector,
         variantContextResult.pseudo,
-      ].join('')),
+      ].join(''), this.config.unsortedPseudoElements ?? []),
       entries: variantContextResult.entries,
       parent,
       layer: variantContextResult.layer,
@@ -647,11 +647,17 @@ function applyScope(css: string, scope?: string) {
     return scope ? `${scope} ${css}` : css
 }
 
-export function movePseudoElementsEnd(selector: string) {
+export function movePseudoElementsEnd(selector: string, excludedPseudo: string[] = []) {
   const pseudoElements = selector.match(/::[\w-]+(\([\w-]+\))?/g)
   if (pseudoElements) {
-    for (const e of pseudoElements)
+    for (let i = pseudoElements.length - 1; i >= 0; --i) {
+      const e = pseudoElements[i]
+      if (excludedPseudo.includes(e)) {
+        pseudoElements.splice(i, 1)
+        continue
+      }
       selector = selector.replace(e, '')
+    }
     selector += pseudoElements.join('')
   }
   return selector

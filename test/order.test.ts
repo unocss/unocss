@@ -114,6 +114,13 @@ describe('order', () => {
       .toMatchSnapshot()
   })
 
+  test('movePseudoElementsEnd with exception', () => {
+    expect(movePseudoElementsEnd('.part-\\[hello-2\\]\\:marker\\:file\\:hover\\:selection\\:mb-4::part(hello-2)::marker::file-selector-button:hover::selection', [
+      '::file-selector-button',
+    ]))
+      .toMatchSnapshot()
+  })
+
   test('variant sorting', async () => {
     const uno = createGenerator({
       rules: [

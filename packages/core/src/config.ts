@@ -1,7 +1,7 @@
 import type { Postprocessor, Preprocessor, Preset, ResolvedConfig, Rule, Shortcut, ThemeExtender, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
 import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq } from './utils'
 import { extractorSplit } from './extractors'
-import { DEFAULT_LAYERS } from './constants'
+import { DEFAULT_LAYERS, DEFAULT_SEPARATORS, DEFAULT_UNSORTED_PSEUDO_ELEMENTS } from './constants'
 
 export function resolveShortcuts<Theme extends {} = {}>(shortcuts: UserShortcuts<Theme>): Shortcut<Theme>[] {
   return toArray(shortcuts).flatMap((s) => {
@@ -49,7 +49,7 @@ export function resolveConfig<Theme extends {} = {}>(
 
   const layers = Object.assign(DEFAULT_LAYERS, ...rawPresets.map(i => i.layers), userConfig.layers)
 
-  function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist' | 'separators'>(key: T): Required<UserConfig<Theme>>[T] {
+  function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist' | 'separators' | 'unsortedPseudoElements'>(key: T): Required<UserConfig<Theme>>[T] {
     return uniq([
       ...sortedPresets.flatMap(p => toArray(p[key] || []) as any[]),
       ...toArray(config[key] || []) as any[],
@@ -97,7 +97,11 @@ export function resolveConfig<Theme extends {} = {}>(
 
   let separators = toArray(mergePresets('separators'))
   if (!separators.length)
-    separators = [':', '-']
+    separators = [...DEFAULT_SEPARATORS]
+
+  let unsortedPseudoElements = mergePresets('unsortedPseudoElements')
+  if (unsortedPseudoElements == null)
+    unsortedPseudoElements = [...DEFAULT_UNSORTED_PSEUDO_ELEMENTS]
 
   return {
     mergeSelectors: true,
@@ -122,5 +126,6 @@ export function resolveConfig<Theme extends {} = {}>(
     extractors,
     safelist: mergePresets('safelist'),
     separators,
+    unsortedPseudoElements,
   }
 }

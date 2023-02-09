@@ -407,6 +407,11 @@ export interface ConfigBase<Theme extends {} = {}> {
    * @default false
    */
   details?: boolean
+
+  /**
+   * Excluded pseudo elements when moving to the end of selector
+   */
+  unsortedPseudoElements?: string[]
 }
 
 export type AutoCompleteTemplate = string

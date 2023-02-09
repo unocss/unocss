@@ -7,3 +7,7 @@ export const DEFAULT_LAYERS = {
   [LAYER_SHORTCUTS]: -10,
   [LAYER_DEFAULT]: 0,
 }
+
+export const DEFAULT_SEPARATORS = [':', '-']
+
+export const DEFAULT_UNSORTED_PSEUDO_ELEMENTS = []
