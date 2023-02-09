@@ -10,4 +10,13 @@ export const DEFAULT_LAYERS = {
 
 export const DEFAULT_SEPARATORS = [':', '-']
 
-export const DEFAULT_UNSORTED_PSEUDO_ELEMENTS = []
+export const DEFAULT_UNSORTED_PSEUDO_ELEMENTS = [
+  '::-webkit-resizer',
+  '::-webkit-scrollbar',
+  '::-webkit-scrollbar-button',
+  '::-webkit-scrollbar-corner',
+  '::-webkit-scrollbar-thumb',
+  '::-webkit-scrollbar-track',
+  '::-webkit-scrollbar-track-piece',
+  '::file-selector-button',
+]
