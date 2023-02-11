@@ -148,7 +148,9 @@ export function getMatchedPositions(code: string, matched: string[], hasVariantG
       .forEach((match) => {
         const escaped = match[1]
         const body = match[0].slice(escaped.length)
-        const bodyIndex = body.indexOf(value)
+        let bodyIndex = body.match(`[\\b\\s'"]${escapeRegExp(value)}[\\b\\s'"]`)?.index ?? -1
+        if (body[bodyIndex].match(/[\s'"]/))
+          bodyIndex++
         if (bodyIndex < 0)
           return
         const start = match.index! + escaped.length + bodyIndex
