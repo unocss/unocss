@@ -51,6 +51,7 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 - [CDN Runtime](https://github.com/unocss/unocss/blob/main/packages/runtime)
 - [CLI](https://github.com/unocss/unocss/blob/main/packages/cli)
 - [VS Code extension](https://github.com/unocss/unocss/blob/main/packages/vscode)
+- [ESLint Config](https://github.com/unocss/unocss/blob/main/packages/eslint-config)
 
 ## Configurations
 
@@ -88,6 +89,7 @@ Presets are the heart of UnoCSS. They let you make your own custom framework in 
 - [unocss-preset-daisy](https://github.com/kidonng/unocss-preset-daisy) - daisyUI Preset by [@kidonng](https://github.com/kidonng).
 - [unocss-preset-primitives](https://github.com/zirbest/unocss-preset-primitives) - Like [headlessui-tailwindcss](https://github.com/tailwindlabs/headlessui/tree/main/packages/%40headlessui-tailwindcss) , radix-ui , custom for UnoCSS By [@zirbest](https://github.com/zirbest).
 - [unocss-preset-theme](https://github.com/Dunqing/unocss-preset-theme) - Preset for automatic theme switching by [@Dunqing](https://github.com/Dunqing).
+- [unocss-preset-chinese](https://github.com/kirklin/unocss-preset-chinese) - Preset for Chinese fonts by [@kirklin](https://github.com/kirklin).
 
 ###### Community Frameworks
 

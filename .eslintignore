@@ -5,3 +5,4 @@ interactive/guides/vendor/*.md
 interactive/data/guides.ts
 defaultConfig.ts
 packages/preset-icons/src/collections.json
+packages/eslint-plugin/fixtures

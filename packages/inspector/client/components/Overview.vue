@@ -97,7 +97,7 @@ const formatted = useCSSPrettify(computed(() => overview.value?.css), isPrettify
       :model-value="formatted"
       :read-only="true"
       mode="css"
-      class="scrolls overview-scrolls"
+      class="overview-scrolls"
       :style="style"
     />
   </div>

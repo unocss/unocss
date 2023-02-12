@@ -1092,4 +1092,7 @@ export const presetMiniNonTargets = [
   '[Baz::class]',
   // escaped arbitrary css properties only allowed in css variables
   '[cant\~escape:me]',
+
+  // not exists
+  'text-main/50',
 ]

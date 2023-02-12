@@ -12,6 +12,14 @@
   --play-ttc-c-track: #111;
 }
 
+[icon-btn=""] {
+  --at-apply: text-xl op75 hover:op100;
+}
+
+.splitpanes.loading .splitpanes__pane {
+  transition: none !important;
+}
+
 .splitpanes__splitter {
   @apply relative;
 }

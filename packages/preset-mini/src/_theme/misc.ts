@@ -11,12 +11,12 @@ export const verticalBreakpoints = { ...breakpoints }
 
 export const lineWidth = {
   DEFAULT: '1px',
-  none: '0px',
+  none: '0',
 }
 
 export const spacing = {
   'DEFAULT': '1rem',
-  'none': '0rem',
+  'none': '0',
   'xs': '0.75rem',
   'sm': '0.875rem',
   'lg': '1.125rem',
@@ -33,7 +33,7 @@ export const spacing = {
 
 export const duration = {
   DEFAULT: '150ms',
-  none: '0ms',
+  none: '0s',
   75: '75ms',
   100: '100ms',
   150: '150ms',
@@ -46,7 +46,7 @@ export const duration = {
 
 export const borderRadius = {
   'DEFAULT': '0.25rem',
-  'none': '0rem',
+  'none': '0',
   'sm': '0.125rem',
   'md': '0.375rem',
   'lg': '0.5rem',
@@ -77,5 +77,5 @@ export const easing = {
 
 export const ringWidth = {
   DEFAULT: '1px',
-  none: '0px',
+  none: '0',
 }

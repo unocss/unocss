@@ -44,9 +44,10 @@ export const fonts: Rule<Theme>[] = [
         }
       }
 
-      if (lineHeight) {
+      const fontSize = h.bracketOfLength.rem(size)
+      if (lineHeight && fontSize) {
         return {
-          'font-size': h.bracketOfLength.rem(size),
+          'font-size': fontSize,
           'line-height': lineHeight,
         }
       }

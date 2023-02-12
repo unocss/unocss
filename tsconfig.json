@@ -52,6 +52,7 @@
     "**/client/**",
     "**/playground/**",
     "**/examples/**",
+    "**/fixtures/**",
     "**/interactive/**",
     "**/test/dts/**"
   ]

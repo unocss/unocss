@@ -52,7 +52,7 @@ const preset = (options: WebFontsOptions = {}): Preset<any> => {
         const userAgentWoff2 = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36'
         const promise = customFetch
           ? customFetch(url)
-          : (await import('ohmyfetch')).$fetch(url, { headers: { 'User-Agent': userAgentWoff2 }, retry: 3 })
+          : (await import('ofetch')).$fetch(url, { headers: { 'User-Agent': userAgentWoff2 }, retry: 3 })
         importCache[url] = promise.catch((e) => {
           console.error('Failed to fetch web fonts')
           console.error(e)

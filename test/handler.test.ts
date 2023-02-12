@@ -11,6 +11,8 @@ describe('value handler', () => {
     expect(h.bracket('[calc(1+2)]')).eql('calc(1 + 2)')
     expect(h.bracket('[calc(1/2)]')).eql('calc(1 / 2)')
     expect(h.bracket('[calc(1*2)]')).eql('calc(1 * 2)')
+
+    expect(h.bracket('[calc(var(--min-width)_-_2_*_var(--col-gap))]')).eql('calc(var(--min-width) - 2 * var(--col-gap))')
   })
 
   test('bracket curly', () => {
@@ -93,7 +95,7 @@ describe('value handler', () => {
     expect(h.time('10 ms')).eql(undefined)
     expect(h.time('10ms')).eql('10ms')
     expect(h.time('10.0ms')).eql('10ms')
-    expect(h.time('0ms')).eql('0ms')
+    expect(h.time('0ms')).eql('0')
     expect(h.time('.1ms')).eql('0.1ms')
     expect(h.time('.20ms')).eql('0.2ms')
     expect(h.time('00.30ms')).eql('0.3ms')
@@ -118,7 +120,7 @@ describe('value handler', () => {
     expect(h.degree('10 deg')).eql(undefined)
     expect(h.degree('10deg')).eql('10deg')
     expect(h.degree('10.0deg')).eql('10deg')
-    expect(h.degree('0deg')).eql('0deg')
+    expect(h.degree('0deg')).eql('0')
     expect(h.degree('.1deg')).eql('0.1deg')
     expect(h.degree('.20deg')).eql('0.2deg')
     expect(h.degree('00.30deg')).eql('0.3deg')

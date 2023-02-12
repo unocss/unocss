@@ -2,7 +2,7 @@ import type { IconifyJSON } from '@iconify/types'
 import { loadIcon } from '@iconify/utils/lib/loader/loader'
 import { searchForIcon } from '@iconify/utils/lib/loader/modern'
 import type { UniversalIconLoader } from '@iconify/utils/lib/loader/types'
-import { $fetch } from 'ohmyfetch'
+import { $fetch } from 'ofetch'
 import supportedCollection from './collections.json'
 
 export function createCDNLoader(cdnBase: string): UniversalIconLoader {
