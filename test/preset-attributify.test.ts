@@ -49,7 +49,7 @@ describe('attributify', () => {
   const fixture2 = `
 <template>
   <div h-80 text-center flex flex-col align-center select-none all:transition-400>
-    <input type="checkbox" peer mt-a>
+    <input type="checkbox" peer placeholder=">" class="<md:color-red" mt-a>
     <div mb-a group peer-checked="text-4xl">
       <div
         font-100 text-4xl mb--3 p-10
