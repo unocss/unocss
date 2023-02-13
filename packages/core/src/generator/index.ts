@@ -364,11 +364,11 @@ export class UnoGenerator<Theme extends {} = {}> {
       this.parentOrders.set(parent, parentOrder)
 
     const obj: UtilObject = {
-      selector: movePseudoElementsEnd([
+      selector: [
         variantContextResult.prefix,
         variantContextResult.selector,
         variantContextResult.pseudo,
-      ].join('')),
+      ].join(''),
       entries: variantContextResult.entries,
       parent,
       layer: variantContextResult.layer,
@@ -645,32 +645,6 @@ function applyScope(css: string, scope?: string) {
     return css.replace(regexScopePlaceholder, scope ? ` ${scope} ` : ' ')
   else
     return scope ? `${scope} ${css}` : css
-}
-
-const excludedPseudo = [
-  '::-webkit-resizer',
-  '::-webkit-scrollbar',
-  '::-webkit-scrollbar-button',
-  '::-webkit-scrollbar-corner',
-  '::-webkit-scrollbar-thumb',
-  '::-webkit-scrollbar-track',
-  '::-webkit-scrollbar-track-piece',
-  '::file-selector-button',
-]
-export function movePseudoElementsEnd(selector: string) {
-  const pseudoElements = selector.match(/::[\w-]+(\([\w-]+\))?/g)
-  if (pseudoElements) {
-    for (let i = pseudoElements.length - 1; i >= 0; --i) {
-      const e = pseudoElements[i]
-      if (excludedPseudo.includes(e)) {
-        pseudoElements.splice(i, 1)
-        continue
-      }
-      selector = selector.replace(e, '')
-    }
-    selector += pseudoElements.join('')
-  }
-  return selector
 }
 
 const attributifyRe = /^\[(.+?)(~?=)"(.*)"\]$/

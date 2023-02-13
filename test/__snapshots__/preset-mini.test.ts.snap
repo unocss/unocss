@@ -184,7 +184,7 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .first-line\\\\:bg-green-400::first-line{--un-bg-opacity:1;background-color:rgba(74,222,128,var(--un-bg-opacity));}
 .focus-within\\\\:has-first\\\\:checked\\\\:bg-gray\\\\/20:checked:has(:first-child):focus-within,
 .focus-within\\\\:where-first\\\\:checked\\\\:bg-gray\\\\/20:checked:where(:first-child):focus-within{background-color:rgba(156,163,175,0.2);}
-.hover\\\\:file\\\\:bg-violet-100:hover::file-selector-button{--un-bg-opacity:1;background-color:rgba(237,233,254,var(--un-bg-opacity));}
+.hover\\\\:file\\\\:bg-violet-100::file-selector-button:hover{--un-bg-opacity:1;background-color:rgba(237,233,254,var(--un-bg-opacity));}
 .hover\\\\:is-first\\\\:checked\\\\:bg-true-gray\\\\/10:checked:is(:first-child):hover,
 .hover\\\\:not-first\\\\:checked\\\\:bg-true-gray\\\\/10:checked:not(:first-child):hover{background-color:rgba(163,163,163,0.1);}
 .hover\\\\:not-first\\\\:checked\\\\:bg-red\\\\/10:checked:not(:first-child):hover{background-color:rgba(248,113,113,0.1);}
