@@ -647,11 +647,27 @@ function applyScope(css: string, scope?: string) {
     return scope ? `${scope} ${css}` : css
 }
 
+const excludedPseudo = [
+  '::-webkit-resizer',
+  '::-webkit-scrollbar',
+  '::-webkit-scrollbar-button',
+  '::-webkit-scrollbar-corner',
+  '::-webkit-scrollbar-thumb',
+  '::-webkit-scrollbar-track',
+  '::-webkit-scrollbar-track-piece',
+  '::file-selector-button',
+]
 export function movePseudoElementsEnd(selector: string) {
   const pseudoElements = selector.match(/::[\w-]+(\([\w-]+\))?/g)
   if (pseudoElements) {
-    for (const e of pseudoElements)
+    for (let i = pseudoElements.length - 1; i >= 0; --i) {
+      const e = pseudoElements[i]
+      if (excludedPseudo.includes(e)) {
+        pseudoElements.splice(i, 1)
+        continue
+      }
       selector = selector.replace(e, '')
+    }
     selector += pseudoElements.join('')
   }
   return selector
