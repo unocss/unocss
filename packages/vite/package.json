@@ -55,10 +55,10 @@
     "@unocss/transformer-directives": "workspace:*",
     "chokidar": "^3.5.3",
     "fast-glob": "^3.2.12",
-    "magic-string": "^0.27.0"
+    "magic-string": "^0.29.0"
   },
   "devDependencies": {
     "@unocss/shared-integration": "workspace:*",
-    "vite": "^4.0.4"
+    "vite": "^4.1.1"
   }
 }
