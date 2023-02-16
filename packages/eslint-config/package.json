@@ -1,6 +1,6 @@
 {
   "name": "@unocss/eslint-config",
-  "version": "0.49.5",
+  "version": "0.49.6",
   "description": "ESLint config for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
