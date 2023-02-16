@@ -44,7 +44,9 @@ export function parseCssColor(str = ''): CSSColorValue | undefined {
 
 export function colorOpacityToString(color: CSSColorValue) {
   const alpha = color.alpha ?? 1
-  return typeof alpha === 'string' && alphaPlaceholders.includes(alpha) ? 1 : alpha
+  return (typeof alpha === 'string' && alphaPlaceholders.includes(alpha))
+    ? 1
+    : alpha
 }
 
 export function colorToString(color: CSSColorValue | string, alphaOverride?: string | number) {
