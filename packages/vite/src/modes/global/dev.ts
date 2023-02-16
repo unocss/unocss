@@ -153,7 +153,7 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
 
         const { hash, css } = await generateCSS(layer)
         // add hash to the chunk of CSS that it will send back to client to check if there is new CSS generated
-        return `/*${hash}*/${css}`
+        return `__uno_hash_${hash}{--:''};${css}`
       },
     },
     {
@@ -170,7 +170,12 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
         if (layer && code.includes('import.meta.hot')) {
           let hmr = `
 try {
-  await import.meta.hot.send('${WS_EVENT_PREFIX}', ['${layer}', __vite__css.slice(2,${2 + HASH_LENGTH})]);
+  let hash = __vite__css.match(/__uno_hash_(\\w{${HASH_LENGTH}})/)
+  hash = hash && hash[1]
+  if (!hash)
+    console.warn('[unocss-hmr]', 'failed to get unocss hash, hmr might not work')
+  else
+    await import.meta.hot.send('${WS_EVENT_PREFIX}', ['${layer}', hash]);
 } catch (e) {
   console.warn('[unocss-hmr]', e)
 }
