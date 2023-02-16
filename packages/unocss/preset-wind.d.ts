@@ -1,2 +1,2 @@
-export * from './dist/perset-wind'
-export { default } from './dist/perset-wind'
+export * from './dist/preset-wind'
+export { default } from './dist/preset-wind'

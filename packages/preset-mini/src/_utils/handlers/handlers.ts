@@ -190,8 +190,8 @@ export function time(str: string) {
   const [, n, unit] = match
   const num = parseFloat(n)
   if (!Number.isNaN(num)) {
-    if (num === 0)
-      return '0'
+    if (num === 0 && !unit)
+      return '0s'
     return unit ? `${round(num)}${unit}` : `${round(num)}ms`
   }
 }
