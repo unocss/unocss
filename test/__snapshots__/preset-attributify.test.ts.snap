@@ -66,6 +66,7 @@ Set {
   "[all:transition-400=\\"\\"]",
   "[type~=\\"checkbox\\"]",
   "[peer=\\"\\"]",
+  "<md:color-red",
   "[mt-a=\\"\\"]",
   "[mb-a=\\"\\"]",
   "[group=\\"\\"]",
