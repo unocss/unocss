@@ -77,9 +77,13 @@ const PseudoClassesStr = Object.entries(PseudoClasses).filter(([, pseudo]) => !p
 const PseudoClassesColonStr = Object.entries(PseudoClassesColon).filter(([, pseudo]) => !pseudo.startsWith('::')).map(([key]) => key).join('|')
 const PseudoClassFunctionsStr = PseudoClassFunctions.join('|')
 
-const sortValue = (pseudo: string) => {
-  if (pseudo === 'active')
-    return 1
+const pseudoModifier = (pseudo: string) => {
+  if (pseudo === 'active') {
+    return {
+      sort: 1,
+      noMerge: true,
+    }
+  }
 }
 
 const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: string): VariantObject => {
@@ -122,7 +126,7 @@ const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: strin
       label,
       input.slice(original.length),
       `${parent}${escapeSelector(label)}${pseudo}`,
-      sortValue(pseudoKey),
+      pseudoKey,
     ]
   }
 
@@ -142,7 +146,7 @@ const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: strin
       if (!result)
         return
 
-      const [label, matcher, prefix, sort] = result as [string, string, string, number | undefined]
+      const [label, matcher, prefix, pseudoName = ''] = result as [string, string, string, string | undefined]
       if (label !== '')
         warnOnce('The labeled variant is experimental and may not follow semver.')
 
@@ -151,8 +155,8 @@ const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: strin
         handle: (input, next) => next({
           ...input,
           prefix: `${prefix}${combinator}${input.prefix}`.replace(rawRE, '$1$2:'),
+          ...pseudoModifier(pseudoName),
         }),
-        sort,
       }
     },
     multiPass: true,
@@ -189,7 +193,7 @@ export const variantPseudoClassesAndElements = (): VariantObject => {
             return next({
               ...input,
               ...selectors,
-              sort: sortValue(match[1]),
+              ...pseudoModifier(match[1]),
             })
           },
         }

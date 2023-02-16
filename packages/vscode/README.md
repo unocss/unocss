@@ -30,6 +30,12 @@ By default the extension will search for the config files under project root. Wh
 }
 ```
 
+For now not working with auto-importing `defineNuxtConfig` in `nuxt.config.ts`, add manual import: 
+
+```ts
+import { defineNuxtConfig } from 'nuxt/config'
+```
+
 ## License
 
 MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)
