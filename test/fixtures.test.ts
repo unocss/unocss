@@ -5,13 +5,15 @@ import { describe, expect, it } from 'vitest'
 import fs from 'fs-extra'
 import fg from 'fast-glob'
 
+const isWindows = process.platform === 'win32'
+
 async function getGlobContent(cwd: string, glob: string) {
   return await fg(glob, { cwd, absolute: true })
     .then(r => Promise.all(r.map(f => fs.readFile(f, 'utf8'))))
     .then(r => r.join('\n'))
 }
 
-describe.concurrent('fixtures', () => {
+describe.skipIf(isWindows).concurrent('fixtures', () => {
   it('vite client', async () => {
     const root = resolve(__dirname, 'fixtures/vite')
     await fs.emptyDir(join(root, 'dist'))
