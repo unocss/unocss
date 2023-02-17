@@ -153,7 +153,7 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
 
         const { hash, css } = await generateCSS(layer)
         // add hash to the chunk of CSS that it will send back to client to check if there is new CSS generated
-        return `__uno_hash_${hash}{--:''};${css}`
+        return `__uno_hash_${hash}{--:'';}${css}`
       },
     },
     {
