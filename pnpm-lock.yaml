@@ -431,6 +431,22 @@ importers:
     devDependencies:
       '@nuxt/schema': 3.2.0
 
+  packages/postcss:
+    specifiers:
+      '@unocss/config': workspace:^0.49.7
+      '@unocss/core': workspace:0.49.7
+      css-tree: ^2.3.1
+      fast-glob: ^3.2.12
+      magic-string: ^0.27.0
+      postcss: ^8.4.21
+    dependencies:
+      '@unocss/config': link:../config
+      '@unocss/core': link:../core
+      css-tree: 2.3.1
+      fast-glob: 3.2.12
+      magic-string: 0.27.0
+      postcss: 8.4.21
+
   packages/preset-attributify:
     specifiers:
       '@unocss/core': workspace:*
