@@ -526,6 +526,10 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .text-red\\\\:20{color:rgba(248,113,113,0.2);}
 .text-red2{--un-text-opacity:1;color:rgba(254,202,202,var(--un-text-opacity));}
 .text-rose{--un-text-opacity:1;color:rgba(251,113,133,var(--un-text-opacity));}
+.color-inherit,
+.text-inherit{color:inherit;}
+.color-initial{color:initial;}
+.text-revert{color:revert;}
 .placeholder-color-opacity-60::placeholder{--un-text-opacity:0.6;}
 .text-opacity-\\\\[13\\\\.3333333\\\\%\\\\]{--un-text-opacity:13.3333333%;}
 .font-italic,
