@@ -199,8 +199,13 @@ function unocss({ content }: { content?: string[] } = {}) {
     postcssPlugin: 'unocss',
     plugins: [
       async function (root: Root, result: Result) {
+        const cfg = await config
+
+        if (!cfg.sources.length)
+          throw new Error('UnoCSS config file not found.')
+
         if (!uno)
-          uno = createGenerator((await config).config)
+          uno = createGenerator(cfg.config)
 
         parseApply(root, uno)
         parseTheme(root, uno)
