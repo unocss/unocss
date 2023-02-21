@@ -67,7 +67,7 @@ export async function activate(ext: ExtensionContext) {
   }
 
   // now if the root is an array, then it is an empty array
-  const cwd = root && !Array.isArray(root)
+  const cwd = (root && !Array.isArray(root))
     ? path.resolve(projectPath, root)
     : projectPath
 

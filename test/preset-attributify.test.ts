@@ -49,7 +49,7 @@ describe('attributify', () => {
   const fixture2 = `
 <template>
   <div h-80 text-center flex flex-col align-center select-none all:transition-400>
-    <input type="checkbox" peer mt-a>
+    <input type="checkbox" peer placeholder=">" class="<md:color-red" mt-a>
     <div mb-a group peer-checked="text-4xl">
       <div
         font-100 text-4xl mb--3 p-10
@@ -67,7 +67,7 @@ describe('attributify', () => {
   </div>
   <div flex>
     <div ma inline-flex relative h-14>
-      <input type="text" m-0 pt-4 px-4 text-true-gray-800 peer placeholder="unocss" un-placeholder="text-red">
+      <input type="text" m-0 pt-4 px-4 text-true-gray-800 peer placeholder="unocss" un-placeholder="text-red" backdrop-element="filter">
       <label absolute leading-1rem left-4 pointer-events-none text-gray-7 top="1/3" transition="200 linear"
         peer-not-placeholder-shown="-translate-y-4 scale-75 origin-top-left text-green-500"
         peer-focus="-translate-y-4 scale-75 origin-top-left text-green-500"
