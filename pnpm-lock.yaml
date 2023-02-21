@@ -220,6 +220,7 @@ importers:
       '@unocss/webpack': link:../../packages/webpack
       '@vue/cli-plugin-babel': ~4.5.15
       '@vue/cli-service': ~4.5.15
+      cross-env: ^7.0.3
       unocss: link:../../packages/unocss
       vue: ^2.7.13
       vue-template-compiler: ^2.7.14
@@ -229,6 +230,7 @@ importers:
       '@unocss/webpack': link:../../packages/webpack
       '@vue/cli-plugin-babel': 4.5.19_3wz4dnhrl2gnugrnrhjduh5sla
       '@vue/cli-service': 4.5.19_34zles7rzzpqyzusaj5vt2july
+      cross-env: 7.0.3
       unocss: link:../../packages/unocss
       vue-template-compiler: 2.7.14
 
@@ -7791,6 +7793,14 @@ packages:
     resolution: {integrity: sha512-+BO9wPPi+DWTDcNYhr/W90myha8ptzftZT+LwcmUbbok0rcP/fequmFYCw8NMoH7pkAZQzU78b3kYrlua5a9eA==}
     dev: true
 
+  /cross-env/7.0.3:
+    resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
+    engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
+    hasBin: true
+    dependencies:
+      cross-spawn: 7.0.3
+    dev: true
+
   /cross-spawn/6.0.5:
     resolution: {integrity: sha512-eTVLrBSt7fjbDygz805pMnstIs2VTBNkRm0qxZd+M7A5XDdxVRWO5MxGBXZhjY4cqLYLdtrGqRf8mBPmzwSpWQ==}
     engines: {node: '>=4.8'}
@@ -12544,7 +12554,7 @@ packages:
     resolution: {integrity: sha512-l0x2DvrW294C9uDCoQe1VSU4gf529FkSZ6leBl4TiqZH/e+0R7hSfHQBNut2mNygDgHwvYHfFLn6Oxb3VWj2rA==}
     engines: {node: '>=12'}
     dependencies:
-      chalk: 5.1.2
+      chalk: 5.2.0
       is-unicode-supported: 1.3.0
     dev: true
 
@@ -13507,6 +13517,7 @@ packages:
 
   /nan/2.16.0:
     resolution: {integrity: sha512-UdAqHyFngu7TfQKsCBgAA6pWDkT8MAO7d0jyOecVhN5354xbLqdn8mV9Tat9gepAupm0bt2DbeaSC8vS52MuFA==}
+    requiresBuild: true
     dev: true
     optional: true
 
