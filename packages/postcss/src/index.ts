@@ -13,13 +13,13 @@ import type { Theme } from '@unocss/preset-mini'
 
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
 
-function parseScreen(root: Root, uno: UnoGenerator) {
+function parseScreen(root: Root, uno: UnoGenerator, directiveName: string) {
   // @ts-expect-error types
-  root.walkAtRules('screen', async (rule) => {
+  root.walkAtRules(directiveName, async (rule) => {
     let breakpointName = ''
     let prefix = ''
 
-    if (rule.name === 'screen' && rule.params)
+    if (rule.params)
       breakpointName = rule.params.trim()
 
     if (!breakpointName)
@@ -70,9 +70,9 @@ function calcMaxWidthBySize(size: string) {
   return Number.isNaN(maxWidth) ? size : `${maxWidth}${unit}`
 }
 
-function parseApply(root: Root, uno: UnoGenerator) {
+function parseApply(root: Root, uno: UnoGenerator, directiveName: string) {
   // @ts-expect-error types doesn't allow async callback but it seems work
-  root.walkAtRules('apply', async (rule) => {
+  root.walkAtRules(directiveName, async (rule) => {
     if (!rule.parent)
       return
 
@@ -148,8 +148,8 @@ function parseApply(root: Root, uno: UnoGenerator) {
     rule.remove()
   })
 }
-const themeFnRE = /theme\((.*?)\)/g
-function parseTheme(root: Root, uno: UnoGenerator) {
+function parseTheme(root: Root, uno: UnoGenerator, directiveName: string) {
+  const themeFnRE = new RegExp(`${directiveName}\\((.*?)\\)`, 'g')
   root.walkDecls((decl) => {
     const matches = Array.from(decl.value.matchAll(themeFnRE))
 
@@ -159,7 +159,7 @@ function parseTheme(root: Root, uno: UnoGenerator) {
     for (const match of matches) {
       const rawArg = match[1].trim()
       if (!rawArg)
-        throw new Error('theme() expect exact one argument, but got 0')
+        throw new Error(`${directiveName}() expect exact one argument, but got 0`)
 
       let value = uno.config.theme as Record<string, any>
       const keys = rawArg.slice(1, -1).split('.')
@@ -189,7 +189,17 @@ function parseTheme(root: Root, uno: UnoGenerator) {
     }
   })
 }
-function unocss({ content }: { content?: string[] } = {}) {
+
+interface PluginOptions {
+  content?: string[]
+  directiveMap?: {
+    apply: string
+    screen: string
+    theme: string
+  }
+}
+
+function unocss({ content, directiveMap }: PluginOptions = {}) {
   const fileMap = new Map()
   const fileClassMap = new Map()
   const classes = new Set<string>()
@@ -207,9 +217,9 @@ function unocss({ content }: { content?: string[] } = {}) {
         if (!uno)
           uno = createGenerator(cfg.config)
 
-        parseApply(root, uno)
-        parseTheme(root, uno)
-        parseScreen(root, uno)
+        parseApply(root, uno, directiveMap?.apply || 'apply')
+        parseTheme(root, uno, directiveMap?.theme || 'theme')
+        parseScreen(root, uno, directiveMap?.screen || 'screen')
 
         const entries = await fg(content ?? ['**/*.{html,js,ts,jsx,tsx,vue,svelte,astro}'], {
           dot: true,
