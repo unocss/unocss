@@ -33,6 +33,11 @@ export default defineConfig({
 })
 ```
 
+```css
+// style.css
+@unocss;
+```
+
 ## Usage
 
 ### `@apply`
