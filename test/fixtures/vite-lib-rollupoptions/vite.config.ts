@@ -12,7 +12,7 @@ export default defineConfig({
       external: ['vue'],
       output: [
         {
-          dir: 'dist/es',
+          dir: resolve(__dirname, 'dist/es'),
           format: 'es',
           entryFileNames: '[name].mjs',
           assetFileNames: 'assets/[name].css',
@@ -20,7 +20,7 @@ export default defineConfig({
           preserveModulesRoot: resolve(__dirname, './'),
         },
         {
-          dir: 'dist/cjs',
+          dir: resolve(__dirname, 'dist/cjs'),
           format: 'cjs',
           entryFileNames: '[name].cjs',
           assetFileNames: 'assets/[name].css',
@@ -31,7 +31,7 @@ export default defineConfig({
           globals: {
             vue: 'Vue',
           },
-          dir: 'dist/umd',
+          dir: resolve(__dirname, 'dist/umd'),
           format: 'umd',
           entryFileNames: 'index.js',
           name: 'MyLib',
@@ -40,7 +40,7 @@ export default defineConfig({
           globals: {
             vue: 'Vue',
           },
-          dir: 'dist/iife',
+          dir: resolve(__dirname, 'dist/iife'),
           format: 'iife',
           entryFileNames: 'index.js',
           name: 'MyLib',

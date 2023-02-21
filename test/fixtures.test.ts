@@ -85,7 +85,10 @@ describe.concurrent('fixtures', () => {
   it('vite lib rollupOptions', async () => {
     const root = resolve(__dirname, 'fixtures/vite-lib-rollupoptions')
     await fs.emptyDir(join(root, 'dist'))
-    await execa('npm', ['run', 'build'], { stdio: 'ignore', cwd: root })
+    await build({
+      root,
+      logLevel: 'warn',
+    })
 
     const files = await fg(['dist/**/index.js'], { cwd: root, absolute: true })
     expect(files).toHaveLength(2)
