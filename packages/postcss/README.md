@@ -34,11 +34,35 @@ export default defineConfig({
 ```
 
 ```css
-// style.css
+/* style.css */
 @unocss;
 ```
 
 ## Usage
+
+### `@unocss`
+
+`@unocss` at-rule is a placeholder. It will be replaced by the generated CSS. 
+
+You can also inject each layer individually:
+
+```css
+/* style.css */
+@unocss preflights;
+@unocss default;
+
+/*
+  Fallback layer. It's always recommended to include.
+  Only unused layers will be injected here.
+*/
+@unocss; 
+```
+
+If you want to include all layers no matter whether they are previously included or not, you can use `@unocss all`. This is useful if you want to include generated CSS in multiple files.
+
+```css
+@unocss all; 
+```
 
 ### `@apply`
 

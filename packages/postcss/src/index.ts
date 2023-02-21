@@ -268,22 +268,31 @@ function unocss({ content, directiveMap }: PluginOptions = {}) {
             classes.clear()
             const excludes: string[] = []
             root.walkAtRules('unocss', (rule) => {
-              const source = rule.source
               if (rule.params) {
+                const source = rule.source
                 const layers = rule.params.split(',').map(v => v.trim())
-                const css = postcss.parse(c.getLayers(layers) || '')
+                const css = postcss.parse(
+                  layers
+                    .map(i => (i === 'all' ? c.getLayers() : c.getLayer(i)) || '')
+                    .filter(Boolean)
+                    .join('\n'),
+                )
                 css.walkDecls((declaration) => {
                   declaration.source = source
                 })
                 rule.replaceWith(css)
                 excludes.push(rule.params)
-                return
               }
-              const css = postcss.parse(c.getLayers(undefined, excludes) || '')
-              css.walkDecls((declaration) => {
-                declaration.source = source
-              })
-              rule.replaceWith(css)
+            })
+            root.walkAtRules('unocss', (rule) => {
+              if (!rule.params) {
+                const source = rule.source
+                const css = postcss.parse(c.getLayers(undefined, excludes) || '')
+                css.walkDecls((declaration) => {
+                  declaration.source = source
+                })
+                rule.replaceWith(css)
+              }
             })
           }
         }
