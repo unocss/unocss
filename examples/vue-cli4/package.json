@@ -1,8 +1,9 @@
 {
   "private": true,
   "scripts": {
-    "dev": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider vue-cli-service serve",
+    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider vue-cli-service build",
+    "build:macos": "vue-cli-service build"
   },
   "dependencies": {
     "vue": "^2.7.13"
@@ -11,6 +12,7 @@
     "@unocss/webpack": "link:../../packages/webpack",
     "@vue/cli-plugin-babel": "~4.5.15",
     "@vue/cli-service": "~4.5.15",
+    "cross-env": "^7.0.3",
     "unocss": "link:../../packages/unocss",
     "vue-template-compiler": "^2.7.14"
   }
