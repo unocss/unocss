@@ -31,6 +31,10 @@ describe('shortcuts', () => {
       ['loading', 'animate-spin duration-1000'],
       ['shortcut-inline-body', ['p2', { margin: '3px' }]],
       [/^shortcut-inline-dynamic-(\d)$/, ([,d]) => [`p${d}`, { margin: `${d}px` }]],
+      {
+        'test': 'focus:text-green',
+        'test-last': 'focus:text-blue',
+      },
     ],
     presets: [
       presetUno(),
@@ -119,6 +123,13 @@ describe('shortcuts', () => {
       hover:shortcut-inline-body
       shortcut-inline-dynamic-1
       shortcut-inline-dynamic-2
+    `, { preflights: false })
+    expect(css).toMatchSnapshot()
+  })
+
+  test('shortcut order', async () => {
+    const { css } = await uno.generate(`
+      test test-last
     `, { preflights: false })
     expect(css).toMatchSnapshot()
   })
