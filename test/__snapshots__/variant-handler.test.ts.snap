@@ -15,6 +15,11 @@ exports[`variants > noMerge variant with shortcut 1`] = `
 .bar::c{name:bar;}"
 `;
 
+exports[`variants > selector match can be ordered 1`] = `
+"/* layer: default */
+.override{name:bar;}"
+`;
+
 exports[`variants > selector section is merged in order 1`] = `
 "/* layer: default */
 .prefix .pre\\\\:back\\\\:foo::pseudo,
