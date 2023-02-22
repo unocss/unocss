@@ -9,9 +9,9 @@
     "fs-extra": "^11.1.0",
     "local-pkg": "^0.4.3",
     "postcss": "^8.4.21",
-    "tailwindcss": "^3.2.6",
+    "tailwindcss": "^3.2.7",
     "unocss": "workspace:*",
-    "vite": "^4.1.1",
+    "vite": "^4.1.4",
     "vite-plugin-windicss": "^1.8.10",
     "vue": "^3.2.39",
     "windicss": "^3.5.6"
