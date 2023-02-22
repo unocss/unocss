@@ -22,4 +22,4 @@ export const verticalAligns: Rule[] = [
   [/^(?:vertical|align|v)-([-\w]+)$/, ([, v]) => ({ 'vertical-align': verticalAlignAlias[v] }), { autocomplete: `(vertical|align|v)-(${Object.keys(verticalAlignAlias).join('|')})` }],
 ]
 
-export const textAligns: Rule[] = ['center', 'left', 'right', 'justify', 'start', 'end', ...globalKeywords].map(v => [`text-${v}`, { 'text-align': v }])
+export const textAligns: Rule[] = ['center', 'left', 'right', 'justify', 'start', 'end'].map(v => [`text-${v}`, { 'text-align': v }])
