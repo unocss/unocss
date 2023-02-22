@@ -193,7 +193,7 @@ export const variantPseudoClassesAndElements = (): VariantObject => {
         return {
           matcher: input.slice(match[0].length),
           handle: (input, next) => {
-            const selectors = pseudo.startsWith('::') && !excludedPseudo.includes(pseudo)
+            const selectors = (pseudo.startsWith('::') && !excludedPseudo.includes(pseudo))
               ? {
                   pseudo: `${input.pseudo}${pseudo}`,
                 }
