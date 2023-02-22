@@ -93,6 +93,36 @@ describe('preset-wind', () => {
     expect(css).toMatchSnapshot()
   })
 
+  test('containers with max width', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetWind(),
+      ],
+      theme: {
+        container: {
+          maxWidth: {
+            sm: '540px',
+            md: '720px',
+            lg: '960px',
+            xl: '1140px',
+            xxl: '1320px',
+          },
+        },
+      },
+    })
+
+    const targets = [
+      'container',
+      'md:container',
+      'lg:container',
+    ]
+
+    const { css, matched } = await uno.generate(new Set(targets), { preflights: false })
+
+    expect(matched).toEqual(new Set(targets))
+    expect(css).toMatchSnapshot()
+  })
+
   test('custom var prefix', async () => {
     const uno = createGenerator({
       presets: [
