@@ -43,6 +43,7 @@ importers:
       '@unocss/config': workspace:*
       '@unocss/core': workspace:*
       '@unocss/extractor-pug': workspace:*
+      '@unocss/postcss': workspace:*
       '@unocss/preset-attributify': workspace:*
       '@unocss/preset-icons': workspace:*
       '@unocss/preset-mini': workspace:*
@@ -132,6 +133,7 @@ importers:
       '@unocss/config': link:packages/config
       '@unocss/core': link:packages/core
       '@unocss/extractor-pug': link:packages/extractor-pug
+      '@unocss/postcss': link:packages/postcss
       '@unocss/preset-attributify': link:packages/preset-attributify
       '@unocss/preset-icons': link:packages/preset-icons
       '@unocss/preset-mini': link:packages/preset-mini

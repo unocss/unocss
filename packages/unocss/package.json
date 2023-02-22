@@ -85,6 +85,11 @@
       "types": "./dist/webpack.d.ts",
       "require": "./dist/webpack.cjs",
       "import": "./dist/webpack.mjs"
+    },
+    "./postcss": {
+      "types": "./dist/postcss.d.ts",
+      "require": "./dist/postcss.cjs",
+      "import": "./dist/postcss.mjs"
     }
   },
   "main": "dist/index.cjs",
