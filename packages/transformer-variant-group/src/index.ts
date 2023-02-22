@@ -21,7 +21,7 @@ export interface TransformerVariantGroupOptions {
 
 export default function transformerVariantGroup(options: TransformerVariantGroupOptions = {}): SourceCodeTransformer {
   return {
-    name: 'variant-group',
+    name: '@unocss/transformer-variant-group',
     enforce: 'pre',
     transform(s) {
       expandVariantGroup(s, options.separators)

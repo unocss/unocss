@@ -338,6 +338,12 @@ exports[`attributify > fixture4 1`] = `
 }"
 `;
 
+exports[`attributify > merge attribute name and value-only 1`] = `
+"/* layer: default */
+[bg~=\\"\\\\[\\\\&\\\\:nth-child\\\\(3\\\\)\\\\]\\\\:\\\\[\\\\#123456\\\\]\\"]:nth-child(3){--un-bg-opacity:1;background-color:rgba(18,52,86,var(--un-bg-opacity));}
+[bg~=\\"\\\\[\\\\&\\\\.foo\\\\]\\\\:\\\\[\\\\&\\\\:nth-child\\\\(3\\\\)\\\\]\\\\:\\\\[\\\\#123\\\\]\\"]:nth-child(3).foo{--un-bg-opacity:1;background-color:rgba(17,34,51,var(--un-bg-opacity));}"
+`;
+
 exports[`attributify > prefixedOnly 1`] = `
 "/* layer: default */
 .absolute{position:absolute;}

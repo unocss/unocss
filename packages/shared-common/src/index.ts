@@ -1,5 +1,5 @@
 import type { ExtractorContext, UnoGenerator } from '@unocss/core'
-import { arbitraryPropertyRE, escapeRegExp, isAttributifySelector, makeRegexClassGroup } from '@unocss/core'
+import { arbitraryPropertyRE, escapeRegExp, isAttributifySelector, makeRegexClassGroup, quotedArbitraryValuesRE } from '@unocss/core'
 import MagicString from 'magic-string'
 
 // https://github.com/dsblv/string-replace-async/blob/main/index.js
@@ -110,6 +110,14 @@ export function getMatchedPositions(code: string, matched: string[], hasVariantG
     start = end
   })
 
+  // highlight for qouted arbitrary values
+  for (const match of code.matchAll(quotedArbitraryValuesRE)) {
+    const start = match.index!
+    const end = start + match[0].length
+    if (plain.has(match[0]))
+      result.push([start, end, match[0]])
+  }
+
   // highlight for arbitrary css properties
   for (const match of code.matchAll(arbitraryPropertyRE)) {
     const start = match.index!
@@ -162,10 +170,10 @@ export function getMatchedPositions(code: string, matched: string[], hasVariantG
   return result.sort((a, b) => a[0] - b[0])
 }
 
-// remove css-directive transformer to get matched result from source code
+// remove @unocss/transformer-directives transformer to get matched result from source code
 const ignoreTransformers = [
-  'css-directive',
-  'compile-class',
+  '@unocss/transformer-directives',
+  '@unocss/transformer-compile-class',
 ]
 
 export async function getMatchedPositionsFromCode(uno: UnoGenerator, code: string, id = '') {
@@ -180,7 +188,7 @@ export async function getMatchedPositionsFromCode(uno: UnoGenerator, code: strin
     await i.transform(s, id, ctx)
   for (const i of transformers?.filter(i => i.enforce === 'post') || [])
     await i.transform(s, id, ctx)
-  const hasVariantGroup = !!uno.config.transformers?.find(i => i.name === 'variant-group')
+  const hasVariantGroup = !!uno.config.transformers?.find(i => i.name === '@unocss/transformer-variant-group')
 
   const { pug, code: pugCode } = await isPug(uno, s.toString(), id)
   const result = await uno.generate(pug ? pugCode : s.toString(), { preflights: false })

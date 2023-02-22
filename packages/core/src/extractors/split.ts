@@ -2,6 +2,7 @@ import type { Extractor } from '../types'
 import { isValidSelector } from '../utils'
 
 const defaultSplitRE = /\\?[\s'"`;{}]+/g
+export const quotedArbitraryValuesRE = /(?:[\w&:[\]-]|\[\S+=\S+\])+\[\\?['"]?\S+?['"]\]\]?[\w:-]*/g
 export const arbitraryPropertyRE = /\[(\\\W|[\w-])+:['"]?\S+?['"]?\]/g
 const arbitraryPropertyCandidateRE = new RegExp(`^${arbitraryPropertyRE.source}$`)
 
@@ -14,6 +15,9 @@ export const splitCode = (code: string) => {
 
     result.add(match[0])
   }
+
+  for (const match of code.matchAll(quotedArbitraryValuesRE))
+    result.add(match[0])
 
   code.split(defaultSplitRE).forEach((match) => {
     isValidSelector(match) && !arbitraryPropertyCandidateRE.test(match) && result.add(match)

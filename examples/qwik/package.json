@@ -13,12 +13,12 @@
     "qwik": "qwik"
   },
   "devDependencies": {
-    "@builder.io/qwik": "0.18.1",
-    "@builder.io/qwik-city": "0.2.1",
+    "@builder.io/qwik": "0.19.0",
+    "@builder.io/qwik-city": "0.3.0",
     "@types/node": "latest",
     "@unocss/reset": "link:../../packages/reset",
     "typescript": "^4.9.5",
     "unocss": "link:../../packages/unocss",
-    "vite": "4.1.1"
+    "vite": "4.1.4"
   }
 }

@@ -109,9 +109,33 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         }
       },
       async configResolved(config) {
-        const distDir = resolve(config.root, config.build.outDir)
-        cssPostPlugins.set(distDir, config.plugins.find(i => i.name === 'vite:css-post'))
-        cssPlugins.set(distDir, config.plugins.find(i => i.name === 'vite:css'))
+        const distDirs = [
+          resolve(config.root, config.build.outDir),
+        ]
+
+        // for Vite lib more with rollupOptions.output, #2231
+        if (config.build.rollupOptions.output) {
+          const outputOptions = config.build.rollupOptions.output
+          if (Array.isArray(outputOptions)) {
+            distDirs.push(
+              ...outputOptions.map(option => option.dir).filter(Boolean) as string[],
+            )
+          }
+          else {
+            if (outputOptions.dir)
+              distDirs.push(outputOptions.dir)
+          }
+        }
+
+        const cssPostPlugin = config.plugins.find(i => i.name === 'vite:css-post')
+        const cssPlugin = config.plugins.find(i => i.name === 'vite:css')
+
+        if (cssPostPlugin)
+          distDirs.forEach(dir => cssPostPlugins.set(dir, cssPostPlugin))
+
+        if (cssPlugin)
+          distDirs.forEach(dir => cssPlugins.set(dir, cssPlugin))
+
         await ready
       },
       // we inject a hash to chunk before the dist hash calculation to make sure

@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.1.23",
-    "@iconify/utils": "^2.1.3",
+    "@iconify/utils": "^2.1.4",
     "@sveltejs/adapter-auto": "next",
     "@sveltejs/kit": "next",
     "@unocss/core": "link:../../packages/core",
@@ -22,7 +22,7 @@
     "tslib": "^2.5.0",
     "typescript": "^4.9.5",
     "unocss": "link:../../packages/unocss",
-    "vite": "4.1.1"
+    "vite": "4.1.4"
   },
   "stackblitz": {
     "installDependencies": false,

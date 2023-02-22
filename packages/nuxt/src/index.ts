@@ -63,12 +63,12 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     if (
       isNuxt3()
       && nuxt.options.postcss.plugins.cssnano
-      && unoConfig.transformers?.some(t => t.name === 'css-directive' && t.enforce !== 'pre')
+      && unoConfig.transformers?.some(t => t.name === '@unocss/transformer-directives' && t.enforce !== 'pre')
     ) {
       const preset = nuxt.options.postcss.plugins.cssnano.preset
       nuxt.options.postcss.plugins.cssnano = {
         preset: [preset?.[0] || 'default', Object.assign(
-          preset?.[1] || {}, { mergeRules: false },
+          preset?.[1] || {}, { mergeRules: false, normalizeWhitespace: false },
         )],
       }
     }

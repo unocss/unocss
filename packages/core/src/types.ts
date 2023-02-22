@@ -270,7 +270,7 @@ export interface VariantHandler {
   layer?: string | undefined
 }
 
-export type VariantFunction<Theme extends {} = {}> = (matcher: string, context: Readonly<VariantContext<Theme>>) => string | VariantHandler | undefined
+export type VariantFunction<Theme extends {} = {}> = (matcher: string, context: Readonly<VariantContext<Theme>>) => Awaitable<string | VariantHandler | undefined>
 
 export interface VariantObject<Theme extends {} = {}> {
   /**
@@ -281,6 +281,10 @@ export interface VariantObject<Theme extends {} = {}> {
    * The entry function to match and rewrite the selector for further processing.
    */
   match: VariantFunction<Theme>
+  /**
+   * Sort for when the match is applied.
+   */
+  order?: number
 
   /**
    * Allows this variant to be used more than once in matching a single rule

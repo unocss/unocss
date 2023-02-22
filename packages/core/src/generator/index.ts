@@ -87,7 +87,7 @@ export class UnoGenerator<Theme extends {} = {}> {
       return
     }
 
-    const applied = this.matchVariants(raw, current)
+    const applied = await this.matchVariants(raw, current)
 
     if (!applied || this.isBlocked(applied[1])) {
       this.blocked.add(raw)
@@ -101,7 +101,7 @@ export class UnoGenerator<Theme extends {} = {}> {
       context.variants = [...applied[3]]
 
     // expand shortcuts
-    const expanded = this.expandShortcut(context.currentSelector, context)
+    const expanded = await this.expandShortcut(context.currentSelector, context)
     const utils = expanded
       ? await this.stringifyShortcuts(context.variantMatch, context, expanded[0], expanded[1])
       // no shortcuts
@@ -214,7 +214,14 @@ export class UnoGenerator<Theme extends {} = {}> {
           const size = items.length
           const sorted: PreparedRule[] = items
             .filter(i => (i[4]?.layer || LAYER_DEFAULT) === layer)
-            .sort((a, b) => a[0] - b[0] || (a[4]?.sort || 0) - (b[4]?.sort || 0) || a[1]?.localeCompare(b[1] || '') || a[2]?.localeCompare(b[2] || '') || 0)
+            .sort((a, b) =>
+              a[0] - b[0] // rule index
+              || (a[4]?.sort || 0) - (b[4]?.sort || 0) // sort context
+              || a[5]?.currentSelector?.localeCompare(b[5]?.currentSelector ?? '') // shortcuts
+              || a[1]?.localeCompare(b[1] || '') // selector
+              || a[2]?.localeCompare(b[2] || '') // body
+              || 0,
+            )
             .map(([, selector, body,, meta,, variantNoMerge]) => {
               const scopedSelector = selector ? applyScope(selector, scope) : selector
               return [
@@ -292,7 +299,7 @@ export class UnoGenerator<Theme extends {} = {}> {
     }
   }
 
-  matchVariants(raw: string, current?: string): VariantMatchedResult<Theme> {
+  async matchVariants(raw: string, current?: string): Promise<VariantMatchedResult<Theme>> {
     // process variants
     const variants = new Set<Variant<Theme>>()
     const handlers: VariantHandler[] = []
@@ -310,7 +317,7 @@ export class UnoGenerator<Theme extends {} = {}> {
       for (const v of this.config.variants) {
         if (!v.multiPass && variants.has(v))
           continue
-        let handler = v.match(processed, context)
+        let handler = await v.match(processed, context)
         if (!handler)
           continue
         if (isString(handler))
@@ -364,11 +371,11 @@ export class UnoGenerator<Theme extends {} = {}> {
       this.parentOrders.set(parent, parentOrder)
 
     const obj: UtilObject = {
-      selector: movePseudoElementsEnd([
+      selector: [
         variantContextResult.prefix,
         variantContextResult.selector,
         variantContextResult.pseudo,
-      ].join('')),
+      ].join(''),
       entries: variantContextResult.entries,
       parent,
       layer: variantContextResult.layer,
@@ -401,7 +408,7 @@ export class UnoGenerator<Theme extends {} = {}> {
     shortcutPrefix?: string | string[] | undefined,
   ): Promise<(ParsedUtil | RawUtil)[] | undefined> {
     const [raw, processed, variantHandlers] = isString(input)
-      ? this.matchVariants(input)
+      ? await this.matchVariants(input)
       : input
 
     if (this.config.details)
@@ -496,7 +503,7 @@ export class UnoGenerator<Theme extends {} = {}> {
     return [parsed[0], selector, body, parent, ruleMeta, this.config.details ? context : undefined, noMerge]
   }
 
-  expandShortcut(input: string, context: RuleContext<Theme>, depth = 5): [ShortcutValue[], RuleMeta | undefined] | undefined {
+  async expandShortcut(input: string, context: RuleContext<Theme>, depth = 5): Promise<[ShortcutValue[], RuleMeta | undefined] | undefined> {
     if (depth === 0)
       return
 
@@ -544,9 +551,9 @@ export class UnoGenerator<Theme extends {} = {}> {
 
     // expand nested shortcuts with variants
     if (!result) {
-      const [raw, inputWithoutVariant] = isString(input) ? this.matchVariants(input) : input
+      const [raw, inputWithoutVariant] = isString(input) ? await this.matchVariants(input) : input
       if (raw !== inputWithoutVariant) {
-        const expanded = this.expandShortcut(inputWithoutVariant, context, depth - 1)
+        const expanded = await this.expandShortcut(inputWithoutVariant, context, depth - 1)
         if (expanded)
           result = expanded[0].map(item => isString(item) ? raw.replace(inputWithoutVariant, item) : item)
       }
@@ -556,9 +563,9 @@ export class UnoGenerator<Theme extends {} = {}> {
       return
 
     return [
-      result
-        .flatMap(r => (isString(r) ? this.expandShortcut(r, context, depth - 1)?.[0] : undefined) || [r])
-        .filter(Boolean),
+      (await Promise.all(result.map(
+        async r => (isString(r) ? (await this.expandShortcut(r, context, depth - 1))?.[0] : undefined) || [r],
+      ))).flat(1).filter(Boolean),
       meta,
     ]
   }
@@ -645,16 +652,6 @@ function applyScope(css: string, scope?: string) {
     return css.replace(regexScopePlaceholder, scope ? ` ${scope} ` : ' ')
   else
     return scope ? `${scope} ${css}` : css
-}
-
-export function movePseudoElementsEnd(selector: string) {
-  const pseudoElements = selector.match(/::[\w-]+(\([\w-]+\))?/g)
-  if (pseudoElements) {
-    for (const e of pseudoElements)
-      selector = selector.replace(e, '')
-    selector += pseudoElements.join('')
-  }
-  return selector
 }
 
 const attributifyRe = /^\[(.+?)(~?=)"(.*)"\]$/
