@@ -259,4 +259,12 @@ describe('attributify', () => {
       await uno.generate('<div class="w-fullllllllllllll"')
     }, 20)
   })
+
+  test('merge attribute name and value-only', async () => {
+    const { css } = await uno.generate(`
+      <div bg="[&:nth-child(3)]:[#123456]"></div>
+      <div class="foo" bg="[&.foo]:[&:nth-child(3)]:[#123]"></div>
+    `, { preflights: false })
+    expect(css).toMatchSnapshot()
+  })
 })
