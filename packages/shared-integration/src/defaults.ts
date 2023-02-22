@@ -5,4 +5,4 @@ export const defaultExclude = [cssIdRE]
 export const defaultInclude = [/\.(vue|svelte|[jt]sx|mdx?|astro|elm|php|phtml|html)($|\?)/]
 
 // micromatch patterns, used in postcss plugin
-export const defaultIncludeGlobs = [/\.(vue|svelte|[jt]sx|mdx?|astro|elm|php|phtml|html)($|\?)/]
+export const defaultIncludeGlobs = ['**/*.{html,js,ts,jsx,tsx,vue,svelte,astro,elm,php,phtml,mdx,md}']
