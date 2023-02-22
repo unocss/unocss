@@ -40,6 +40,6 @@
     "@unocss/core": "workspace:*"
   },
   "devDependencies": {
-    "magic-string": "^0.29.0"
+    "magic-string": "^0.30.0"
   }
 }

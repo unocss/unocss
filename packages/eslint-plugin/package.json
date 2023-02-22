@@ -41,9 +41,9 @@
   },
   "dependencies": {
     "@typescript-eslint/utils": "^5.53.0",
-    "@unocss/config": "workspace:^0.49.2",
+    "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
-    "magic-string": "^0.29.0",
+    "magic-string": "^0.30.0",
     "synckit": "^0.8.5"
   },
   "devDependencies": {

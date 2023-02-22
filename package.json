@@ -89,7 +89,7 @@
     "jsdom": "^21.1.0",
     "lint-staged": "^13.1.2",
     "lz-string": "^1.4.4",
-    "magic-string": "^0.29.0",
+    "magic-string": "^0.30.0",
     "msw": "^1.0.1",
     "nuxt": "^3.0.0",
     "nuxt-tsconfig-stub": "^0.0.2",
