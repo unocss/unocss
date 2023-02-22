@@ -2,6 +2,11 @@ import type { GenerateResult, UnoGenerator, UserConfig, UserConfigDefaults } fro
 import { createGenerator, isString, toArray } from '@unocss/core'
 import { autoPrefixer, decodeHtml } from './utils'
 
+export interface RuntimeGenerateResult extends GenerateResult {
+  getStyleElement(name: string): HTMLStyleElement | undefined
+  getStyleElements(): Map<string, HTMLStyleElement>
+}
+
 export interface RuntimeOptions {
   /**
    * Default config of UnoCSS
@@ -72,9 +77,9 @@ export interface RuntimeContext {
   /**
    * Manually run the update cycle.
    *
-   * @returns {GenerateResult & { styleElement: HTMLStyleElement}}
+   * @returns {RuntimeGenerateResult}
    */
-  update: () => Promise<GenerateResult & { styleElement: HTMLStyleElement }>
+  update: () => Promise<RuntimeGenerateResult>
 
   /**
    * The UnoCSS version.
@@ -98,7 +103,8 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   }
 
   const defaultWindow = window
-  const defaultDocument = document
+  const defaultDocument = window.document
+  const html = () => defaultDocument.documentElement
 
   const userConfig = defaultWindow.__unocss || {}
   const runtimeOptions = Object.assign({}, inlineConfig, userConfig.runtime)
@@ -111,10 +117,10 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
 
   runtimeOptions.configResolved?.(userConfig, userConfigDefaults)
   const uno = createGenerator(userConfig, userConfigDefaults)
+  const styleElements = new Map<string, HTMLStyleElement>()
 
   let paused = true
   let tokens = new Set<string>()
-  let styleElement: HTMLStyleElement | undefined
   let inspector: RuntimeInspectorCallback | undefined
 
   let _timer: number | undefined
@@ -141,22 +147,42 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
     })
   }
 
-  function getStyleElement() {
+  function getStyleElement(layer: string, previousLayer?: string) {
+    let styleElement = styleElements.get(layer)
+
     if (!styleElement) {
       styleElement = defaultDocument.createElement('style')
-      defaultDocument.documentElement.prepend(styleElement)
+      styleElements.set(layer, styleElement)
+
+      if (previousLayer == null) {
+        html().prepend(styleElement)
+      }
+      else {
+        const previousStyle = getStyleElement(previousLayer)
+        const parentNode = previousStyle.parentNode
+        if (parentNode)
+          parentNode.insertBefore(styleElement, previousStyle.nextSibling)
+        else
+          html().prepend(styleElement)
+      }
     }
+
     return styleElement
   }
 
   async function updateStyle() {
     const result = await uno.generate(tokens)
-    const styleElement = getStyleElement()
-    styleElement.innerHTML = result.css
+
+    result.layers.reduce((previous: string | undefined, current) => {
+      getStyleElement(current, previous).innerHTML = result.getLayer(current) ?? ''
+      return current
+    }, undefined)
+
     tokens = result.matched
     return {
       ...result,
-      styleElement,
+      getStyleElement: (layer: string) => styleElements.get(layer),
+      getStyleElements: () => styleElements,
     }
   }
 
@@ -169,10 +195,10 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
 
   async function extractAll() {
     const body = defaultDocument.body
-    const html = body && body.outerHTML
-    if (html) {
-      await extract(`${html} ${decodeHtml(html)}`)
-      removeCloak(defaultDocument.documentElement)
+    const outerHTML = body && body.outerHTML
+    if (outerHTML) {
+      await extract(`${outerHTML} ${decodeHtml(outerHTML)}`)
+      removeCloak(html())
       removeCloak(body)
     }
   }
@@ -184,8 +210,10 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
       if (mutation.target.nodeType !== 1)
         return
       const target = mutation.target as Element
-      if (target === styleElement)
-        return
+      for (const item of styleElements) {
+        if (target === item[1])
+          return
+      }
       if (mutation.type === 'childList') {
         mutation.addedNodes.forEach(async (node) => {
           if (node.nodeType !== 1)
@@ -217,7 +245,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   function observe() {
     if (observing)
       return
-    const target = defaultDocument.documentElement || defaultDocument.body
+    const target = html() || defaultDocument.body
     if (!target)
       return
     mutationObserver.observe(target, {
