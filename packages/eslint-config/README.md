@@ -2,8 +2,6 @@
 
 ESLint config for UnoCSS.
 
-**Currently working in progress, breaking changes may NOT follow semver.**
-
 ## Installation
 
 ```bash
