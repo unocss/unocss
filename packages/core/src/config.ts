@@ -117,7 +117,9 @@ export function resolveConfig<Theme extends {} = {}>(
     postprocess: mergePresets('postprocess') as Postprocessor[],
     preflights: mergePresets('preflights'),
     autocomplete,
-    variants: mergePresets('variants').map(normalizeVariant),
+    variants: mergePresets('variants')
+      .map(normalizeVariant)
+      .sort((a, b) => (a.order || 0) - (b.order || 0)),
     shortcuts: resolveShortcuts(mergePresets('shortcuts')).reverse(),
     extractors,
     safelist: mergePresets('safelist'),
