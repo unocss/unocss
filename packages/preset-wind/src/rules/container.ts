@@ -42,9 +42,12 @@ export const container: Rule<Theme>[] = [
       }
 
       const css: CSSObject = {
-        'width': '100%',
         'max-width': maxWidth,
       }
+
+      // only apply width: 100% when no variant handler is present
+      if (!variantHandlers.length)
+        css.width = '100%'
 
       if (theme.container?.center) {
         css['margin-left'] = 'auto'
