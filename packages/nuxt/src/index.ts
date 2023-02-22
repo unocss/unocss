@@ -42,7 +42,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
             'import \'uno.css\'',
             isNuxt2()
               ? 'export default () => {}'
-              : 'export default defineNuxtPlugin(() => {})',
+              : 'import { defineNuxtPlugin } from \'#imports\'; export default defineNuxtPlugin(() => {})',
           ]
           if (options.preflight)
             lines.unshift('import \'@unocss/reset/tailwind.css\'')
@@ -68,7 +68,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
       const preset = nuxt.options.postcss.plugins.cssnano.preset
       nuxt.options.postcss.plugins.cssnano = {
         preset: [preset?.[0] || 'default', Object.assign(
-          preset?.[1] || {}, { mergeRules: false },
+          preset?.[1] || {}, { mergeRules: false, normalizeWhitespace: false },
         )],
       }
     }
