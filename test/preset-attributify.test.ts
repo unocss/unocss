@@ -170,11 +170,13 @@ describe('attributify', () => {
       strict: true,
     })
 
-    expect(Array.from(await uno.applyExtractors(fixture1) || [])
-      .map((i) => {
-        const r = variant.match(i, {} as any)
+    const promises = Array.from(await uno.applyExtractors(fixture1) || [])
+      .map(async (i) => {
+        const r = await variant.match(i, {} as any)
         return typeof r === 'string' ? r : r ? r.matcher : r
-      }))
+      })
+
+    expect(await Promise.all(promises))
       .toMatchSnapshot()
   })
 
@@ -256,5 +258,13 @@ describe('attributify', () => {
     test('with incomplete element', async () => {
       await uno.generate('<div class="w-fullllllllllllll"')
     }, 20)
+  })
+
+  test('merge attribute name and value-only', async () => {
+    const { css } = await uno.generate(`
+      <div bg="[&:nth-child(3)]:[#123456]"></div>
+      <div class="foo" bg="[&.foo]:[&:nth-child(3)]:[#123]"></div>
+    `, { preflights: false })
+    expect(css).toMatchSnapshot()
   })
 })

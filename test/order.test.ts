@@ -1,4 +1,4 @@
-import { createGenerator, movePseudoElementsEnd } from '@unocss/core'
+import { createGenerator } from '@unocss/core'
 import { describe, expect, test } from 'vitest'
 import { variantMatcher } from '@unocss/preset-mini/utils'
 import presetMini from '@unocss/preset-mini'
@@ -109,9 +109,19 @@ describe('order', () => {
     expect(css).toMatchSnapshot()
   })
 
-  test('movePseudoElementsEnd', () => {
-    expect(movePseudoElementsEnd('.part-\\[hello-2\\]\\:marker\\:file\\:hover\\:selection\\:mb-4::part(hello-2)::marker::file-selector-button:hover::selection'))
-      .toMatchSnapshot()
+  test('pseudo-elements sorting', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'dark:hover:file:marker:bg-red-600',
+      'dark:file:marker:hover:bg-red-600',
+    ].join(' '), { preflights: false })
+
+    expect(css).toMatchSnapshot()
   })
 
   test('variant sorting', async () => {

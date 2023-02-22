@@ -10,14 +10,18 @@ exports[`order > fully controlled rules merged and sorted by body 1`] = `
 .css{--var:css;}"
 `;
 
-exports[`order > movePseudoElementsEnd 1`] = `".part-\\\\[hello-2\\\\]\\\\:marker\\\\:file\\\\:hover\\\\:selection\\\\:mb-4:hover::part(hello-2)::marker::file-selector-button::selection"`;
-
 exports[`order > multiple variant sorting 1`] = `
 "/* layer: default */
 .dark .group:hover:focus-within .dark\\\\:group-hover\\\\:group-focus-within\\\\:bg-blue-600{--un-bg-opacity:1;background-color:rgba(37,99,235,var(--un-bg-opacity));}
 .group:hover:focus-within .dark .group-hover\\\\:group-focus-within\\\\:dark\\\\:bg-red-600{--un-bg-opacity:1;background-color:rgba(220,38,38,var(--un-bg-opacity));}
 .parent:hover>.light .group:focus-within .parent-hover\\\\:light\\\\:group-focus-within\\\\:bg-yellow-600{--un-bg-opacity:1;background-color:rgba(202,138,4,var(--un-bg-opacity));}
 .parent:hover>.light .parent:focus-within>.parent-hover\\\\:light\\\\:parent-focus-within\\\\:bg-green-600{--un-bg-opacity:1;background-color:rgba(22,163,74,var(--un-bg-opacity));}"
+`;
+
+exports[`order > pseudo-elements sorting 1`] = `
+"/* layer: default */
+.dark .dark\\\\:file\\\\:marker\\\\:hover\\\\:bg-red-600:hover::file-selector-button::marker,
+.dark .dark\\\\:hover\\\\:file\\\\:marker\\\\:bg-red-600::file-selector-button:hover::marker{--un-bg-opacity:1;background-color:rgba(220,38,38,var(--un-bg-opacity));}"
 `;
 
 exports[`order > variant ordering 1`] = `

@@ -109,34 +109,32 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         }
       },
       async configResolved(config) {
-        const distDir = resolve(config.root, config.build.outDir)
+        const distDirs = [
+          resolve(config.root, config.build.outDir),
+        ]
 
-        let rollupOptionsOutputDirs: string[] = []
-
+        // for Vite lib more with rollupOptions.output, #2231
         if (config.build.rollupOptions.output) {
           const outputOptions = config.build.rollupOptions.output
           if (Array.isArray(outputOptions)) {
-            rollupOptionsOutputDirs = outputOptions.map(option => option.dir).filter(Boolean) as string[]
+            distDirs.push(
+              ...outputOptions.map(option => option.dir).filter(Boolean) as string[],
+            )
           }
           else {
             if (outputOptions.dir)
-              rollupOptionsOutputDirs.push(outputOptions.dir)
+              distDirs.push(outputOptions.dir)
           }
         }
 
         const cssPostPlugin = config.plugins.find(i => i.name === 'vite:css-post')
-
-        if (cssPostPlugin) {
-          cssPostPlugins.set(distDir, cssPostPlugin)
-          rollupOptionsOutputDirs.forEach(dir => cssPostPlugins.set(dir, cssPostPlugin))
-        }
-
         const cssPlugin = config.plugins.find(i => i.name === 'vite:css')
 
-        if (cssPlugin) {
-          cssPlugins.set(distDir, cssPlugin)
-          rollupOptionsOutputDirs.forEach(dir => cssPlugins.set(dir, cssPlugin))
-        }
+        if (cssPostPlugin)
+          distDirs.forEach(dir => cssPostPlugins.set(dir, cssPostPlugin))
+
+        if (cssPlugin)
+          distDirs.forEach(dir => cssPlugins.set(dir, cssPlugin))
 
         await ready
       },
