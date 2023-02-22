@@ -1,2 +1,2 @@
-export { extractorSplit, arbitraryPropertyRE } from './split'
+export { extractorSplit, arbitraryPropertyRE, quotedArbitraryValuesRE } from './split'
 export { extractorSvelte } from './svelte'

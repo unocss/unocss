@@ -659,6 +659,9 @@ export const presetMiniTargets: string[] = [
   'content-[normal]',
   'content-[quoted:!]',
   'content-[quoted:unocss]',
+  'content-[\'quoted1\']',
+  'content-[\'quoted_with_space\']',
+  'content-["quoted2"]',
   'content-[string:attr(dashed-attr)]',
   'content-[string:attr(underlined\\_attr)]',
   'content-$unocss-var',
@@ -1044,6 +1047,8 @@ export const presetMiniTargets: string[] = [
   '[*[open]:readonly_&]:[&[open]:disabled]:m-17',
   '[@supports(display:grid)]:bg-red/33',
   '[@supports(display:grid)]:[*+&]:bg-red/34',
+  'before:[&[data-active=\'true\']]:content-[\'test\']',
+  '[&[data-active="true"]]:bg-red',
 
   // variants - combinators + pseudo
   'checked:next:text-slate-100',

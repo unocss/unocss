@@ -166,6 +166,7 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .opacity-\\\\$opa{opacity:var(--opa);}
 .opacity-0{opacity:0;}
 .placeholder-opacity-60::placeholder{opacity:0.6;}
+.\\\\[\\\\&\\\\[data-active\\\\=\\\\\\"true\\\\\\"\\\\]\\\\]\\\\:bg-red[data-active=\\"true\\"]{--un-bg-opacity:1;background-color:rgba(248,113,113,var(--un-bg-opacity));}
 .bg-\\\\[\\\\#153\\\\]\\\\/10,
 .bg-\\\\[\\\\#1533\\\\]\\\\/10{background-color:rgba(17,85,51,0.1);}
 .bg-\\\\[\\\\#1533\\\\]{--un-bg-opacity:0.2;background-color:rgba(17,85,51,var(--un-bg-opacity));}
@@ -335,6 +336,10 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .content-visibility-unset{content-visibility:unset;}
 .after\\\\:content-\\\\[quoted\\\\:unocss\\\\]::after,
 .content-\\\\[quoted\\\\:unocss\\\\]{content:\\"unocss\\";}
+.before\\\\:\\\\[\\\\&\\\\[data-active\\\\=\\\\'true\\\\'\\\\]\\\\]\\\\:content-\\\\[\\\\'test\\\\'\\\\][data-active='true']::before{content:'test';}
+.content-\\\\[\\\\'quoted_with_space\\\\'\\\\]{content:'quoted with space';}
+.content-\\\\[\\\\'quoted1\\\\'\\\\]{content:'quoted1';}
+.content-\\\\[\\\\\\"quoted2\\\\\\"\\\\]{content:\\"quoted2\\";}
 .content-\\\\[normal\\\\]{content:normal;}
 .content-\\\\[quoted\\\\:\\\\!\\\\]{content:\\"!\\";}
 .content-\\\\[string\\\\:attr\\\\(dashed-attr\\\\)\\\\]{content:attr(dashed-attr);}
