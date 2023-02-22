@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Fragment, h } from 'preact'
 import { useState } from 'preact/compat'
 
 export function App() {

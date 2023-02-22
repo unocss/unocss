@@ -1,9 +1,4 @@
 <script setup lang="ts">
-import { isDark } from '../logics/dark'
-import { useResize } from '../useResize'
-import { init, output, transformedHTML } from '../logics/uno'
-import { options } from '../logics/url'
-
 const iframe = ref<HTMLIFrameElement>()
 
 const iframeData = reactive({
@@ -82,31 +77,31 @@ watch(isResponsive, (responsive) => {
     :class="{ 'p-4': options.responsive, 'pointer-events-none': isResizing }"
   >
     <div v-if="options.responsive" class="absolute flex items-start" :style="`width:${frameWidth}px;height:${frameHeight}px`">
-      <div class="absolute -mt-4 h-4 w-full flex items-center justify-center bg-light-700 dark:bg-dark-800">
+      <div class="responsiveBorder -mt-4 h-4 w-full">
         <div class="text-xs font-medium text-gray-600 dark:text-gray-400">
           {{ width.toFixed(0) }}x{{ height.toFixed(0) }} ({{ (100 * scale).toFixed(0) }}%)
         </div>
       </div>
-      <div class="absolute -ml-4 h-full w-4 flex items-center justify-center bg-light-700 dark:bg-dark-800">
-        <span w-4 h-4 i-la-grip-lines-vertical text-gray-400 />
+      <div class="responsiveBorder -ml-4 h-full w-4">
+        <span i-la-grip-lines-vertical />
       </div>
-      <div class="absolute right-0 -mr-4 h-full w-4 flex items-center justify-center bg-light-700 dark:bg-dark-800">
-        <span w-4 h-4 i-la-grip-lines-vertical text-gray-400 />
+      <div class="responsiveBorder right-0 -mr-4 h-full w-4">
+        <span i-la-grip-lines-vertical />
       </div>
-      <div class="absolute bottom-0 -mb-4 h-4 w-full flex items-center justify-center bg-light-700 dark:bg-dark-800">
-        <span w-4 h-4 i-la-grip-lines text-gray-400 />
+      <div class="responsiveBorder bottom-0 -mb-4 h-4 w-full">
+        <span i-la-grip-lines />
       </div>
-      <div class="absolute right-0 bottom-0 -mr-4 -mb-4 h-4 w-4 flex items-center justify-center bg-light-700 dark:bg-dark-800">
-        <span w-4 h-4 i-la-grip-lines text-gray-400 class="-rotate-45 -mt-1 -ml-1" />
+      <div class="responsiveBorder right-0 bottom-0 -mr-4 -mb-4 h-4 w-4">
+        <span i-la-grip-lines class="-rotate-45 -mt-1 -ml-1" />
       </div>
-      <div class="absolute left-0 bottom-0 -ml-4 -mb-4 h-4 w-4 flex items-center justify-center bg-light-700 dark:bg-dark-800">
-        <span w-4 h-4 i-la-grip-lines text-gray-400 class="rotate-45 -mt-1 -mr-1" />
+      <div class="responsiveBorder left-0 bottom-0 -ml-4 -mb-4 h-4 w-4">
+        <span i-la-grip-lines class="rotate-45 -mt-1 -mr-1" />
       </div>
-      <div class="absolute top-0 left-0 -ml-4 -mt-4 h-4 w-4 flex items-center justify-center bg-light-700 dark:bg-dark-800">
-        <span w-4 h-4 i-la-grip-lines text-gray-400 class="rotate-135 -mb-1 -mr-1" />
+      <div class="responsiveBorder top-0 left-0 -ml-4 -mt-4 h-4 w-4">
+        <span i-la-grip-lines class="rotate-135 -mb-1 -mr-1" />
       </div>
-      <div class="absolute top-0 right-0 -mr-4 -mt-4 h-4 w-4 flex items-center justify-center bg-light-700 dark:bg-dark-800">
-        <span w-4 h-4 i-la-grip-lines text-gray-400 class="rotate-45 -mb-1 -ml-1" />
+      <div class="responsiveBorder top-0 right-0 -mr-4 -mt-4 h-4 w-4">
+        <span i-la-grip-lines class="rotate-45 -mb-1 -ml-1" />
       </div>
     </div>
     <div

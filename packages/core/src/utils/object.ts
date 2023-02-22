@@ -72,7 +72,7 @@ export function clone<T>(val: T): T {
   if (Array.isArray(val)) {
     out = Array(k = val.length)
     // eslint-disable-next-line no-cond-assign
-    while (k--) out[k] = (tmp = val[k]) && typeof tmp === 'object' ? clone(tmp) : tmp
+    while (k--) out[k] = ((tmp = val[k]) && typeof tmp === 'object') ? clone(tmp) : tmp
     return out as any
   }
 
@@ -89,7 +89,7 @@ export function clone<T>(val: T): T {
       }
       else {
         // eslint-disable-next-line no-cond-assign
-        out[k] = (tmp = (val as any)[k]) && typeof tmp === 'object' ? clone(tmp) : tmp
+        out[k] = ((tmp = (val as any)[k]) && typeof tmp === 'object') ? clone(tmp) : tmp
       }
     }
     return out

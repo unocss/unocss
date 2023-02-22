@@ -45,6 +45,36 @@ describe('matched-positions', async () => {
       `)
   })
 
+  test('attributify position', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetAttributify({ strict: true }),
+        presetUno({ attributifyPseudo: true }),
+      ],
+      theme: {
+        colors: {
+          bb: 'black',
+        },
+      },
+    })
+
+    expect(await match(uno, '<div border="bb b"></div>'))
+      .toMatchInlineSnapshot(`
+        [
+          [
+            13,
+            15,
+            "[border=\\"bb\\"]",
+          ],
+          [
+            16,
+            17,
+            "[border=\\"b\\"]",
+          ],
+        ]
+      `)
+  })
+
   test('css-directive', async () => {
     const uno = createGenerator({
       presets: [

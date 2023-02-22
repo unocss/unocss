@@ -176,7 +176,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           `#--unocss-layer-start--${layer}--{start:${layer}} ${
             layer === LAYER_MARK_ALL
             ? result.getLayers(undefined, Array.from(vfsLayers))
-            : result.getLayer(layer) || ''
+            : (result.getLayer(layer) || '')
           } #--unocss-layer-end--${layer}--{end:${layer}}`,
         ).join('')
 

@@ -35,7 +35,7 @@ export interface PresetMiniOptions extends PresetOptions {
    */
   dark?: 'class' | 'media' | DarkModeSelectors
   /**
-   * Generate pesudo selector as `[group=""]` instead of `.group`
+   * Generate psuedo selector as `[group=""]` instead of `.group`
    *
    * @default false
    */
