@@ -82,6 +82,38 @@ describe.concurrent('fixtures', () => {
     }
   })
 
+  it('vite lib rollupOptions', async () => {
+    const root = resolve(__dirname, 'fixtures/vite-lib-rollupoptions')
+    await fs.emptyDir(join(root, 'dist'))
+    await build({
+      root,
+      logLevel: 'warn',
+    })
+
+    const files = await fg(['dist/**/index.js'], { cwd: root, absolute: true })
+    expect(files).toHaveLength(2)
+
+    for (const path of files) {
+      const code = await fs.readFile(path, 'utf-8')
+      // basic
+      expect(code).contains('.text-red')
+      // transformer-variant-group
+      expect(code).contains('.text-sm')
+      // transformer-compile-class
+      expect(code).contains('.uno-tacwqa')
+      // transformer-directives
+      expect(code).not.contains('@apply')
+      expect(code).not.contains('--at-apply')
+      expect(code).contains('gap:.25rem')
+      expect(code).contains('gap:.5rem')
+
+      // transformer-variant-group
+      expect(code).contains('text-sm')
+      // transformer-compile-class
+      expect(code).contains('uno-tacwqa')
+    }
+  })
+
   it('vue cli 4', async () => {
     const root = resolve(__dirname, '../examples/vue-cli4')
     await fs.emptyDir(join(root, 'dist'))
