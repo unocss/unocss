@@ -3,7 +3,7 @@ import type { UnoGenerator } from '@unocss/core'
 import fg from 'fast-glob'
 import type { Result, Root } from 'postcss'
 import postcss from 'postcss'
-import { createGenerator } from '@unocss/core'
+import { createGenerator, warnOnce } from '@unocss/core'
 import { loadConfig } from '@unocss/config'
 import { defaultIncludeGlobs } from '../../shared-integration/src/defaults'
 import { parseApply } from './apply'
@@ -21,6 +21,12 @@ function unocss({ content, directiveMap, cwd, configOrPath }: UnoPostcssPluginOp
   const classes = new Set<string>()
   const config = loadConfig(cwd, configOrPath)
   let uno: UnoGenerator
+
+  warnOnce(
+    '`@unocss/postcss` package is in an experimental state right now. '
+    + 'It doesn\'t follow semver, and may introduce breaking changes in patch versions.',
+  )
+  console.warn()
   return {
     postcssPlugin: 'unocss',
     plugins: [

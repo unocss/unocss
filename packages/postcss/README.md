@@ -1,5 +1,8 @@
 # @unocss/postcss
 
+## Experimental
+This package is in an experimental state right now. It doesn't follow semver, and may introduce breaking changes in patch versions.
+
 <!-- @unocss-ignore -->
 
 PostCSS plugin for UnoCSS. Supports `@apply`、`@screen` and `theme()` directives.
