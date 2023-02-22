@@ -1,5 +1,5 @@
 import type { ExtractorContext, UnoGenerator } from '@unocss/core'
-import { arbitraryPropertyRE, escapeRegExp, isAttributifySelector, makeRegexClassGroup } from '@unocss/core'
+import { arbitraryPropertyRE, escapeRegExp, isAttributifySelector, makeRegexClassGroup, quotedArbitraryValuesRE } from '@unocss/core'
 import MagicString from 'magic-string'
 
 // https://github.com/dsblv/string-replace-async/blob/main/index.js
@@ -110,6 +110,14 @@ export function getMatchedPositions(code: string, matched: string[], hasVariantG
     start = end
   })
 
+  // highlight for qouted arbitrary values
+  for (const match of code.matchAll(quotedArbitraryValuesRE)) {
+    const start = match.index!
+    const end = start + match[0].length
+    if (plain.has(match[0]))
+      result.push([start, end, match[0]])
+  }
+
   // highlight for arbitrary css properties
   for (const match of code.matchAll(arbitraryPropertyRE)) {
     const start = match.index!
@@ -148,7 +156,9 @@ export function getMatchedPositions(code: string, matched: string[], hasVariantG
       .forEach((match) => {
         const escaped = match[1]
         const body = match[0].slice(escaped.length)
-        const bodyIndex = body.indexOf(value)
+        let bodyIndex = body.match(`[\\b\\s'"]${escapeRegExp(value)}[\\b\\s'"]`)?.index ?? -1
+        if (body[bodyIndex]?.match(/[\s'"]/))
+          bodyIndex++
         if (bodyIndex < 0)
           return
         const start = match.index! + escaped.length + bodyIndex

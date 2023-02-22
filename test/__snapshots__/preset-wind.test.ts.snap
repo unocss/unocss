@@ -9,7 +9,7 @@ exports[`empty prefix 1`] = `
 
 exports[`preset-wind > centered containers 1`] = `
 "/* layer: shortcuts */
-.container{max-width:100%;margin-left:auto;margin-right:auto;}
+.container{width:100%;margin-left:auto;margin-right:auto;}
 @media (min-width: 640px){
 .container{max-width:640px;margin-left:auto;margin-right:auto;}
 }
@@ -36,7 +36,7 @@ exports[`preset-wind > centered containers 1`] = `
 
 exports[`preset-wind > containers 1`] = `
 "/* layer: shortcuts */
-.container{max-width:100%;margin-left:auto;margin-right:auto;padding-left:1rem;padding-right:1rem;}
+.container{width:100%;margin-left:auto;margin-right:auto;padding-left:1rem;padding-right:1rem;}
 @media (min-width: 640px){
 .container{max-width:640px;margin-left:auto;margin-right:auto;padding-left:2rem;padding-right:2rem;}
 }
@@ -58,6 +58,28 @@ exports[`preset-wind > containers 1`] = `
 .container,
 .lg\\\\:container,
 .md\\\\:container{max-width:1536px;margin-left:auto;margin-right:auto;padding-left:6rem;padding-right:6rem;}
+}"
+`;
+
+exports[`preset-wind > containers with max width 1`] = `
+"/* layer: shortcuts */
+.container{width:100%;}
+@media (min-width: 640px){
+.container{max-width:540px;}
+}
+@media (min-width: 768px){
+.container,
+.md\\\\:container{max-width:720px;}
+}
+@media (min-width: 1024px){
+.container,
+.lg\\\\:container,
+.md\\\\:container{max-width:960px;}
+}
+@media (min-width: 1280px){
+.container,
+.lg\\\\:container,
+.md\\\\:container{max-width:1140px;}
 }"
 `;
 

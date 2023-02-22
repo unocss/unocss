@@ -91,6 +91,7 @@ Presets are the heart of UnoCSS. They let you make your own custom framework in 
 - [unocss-preset-theme](https://github.com/Dunqing/unocss-preset-theme) - Preset for automatic theme switching by [@Dunqing](https://github.com/Dunqing).
 - [unocss-preset-chinese](https://github.com/kirklin/unocss-preset-chinese) - Preset for Chinese fonts by [@kirklin](https://github.com/kirklin).
 - [unocss-preset-autoprefixer](https://github.com/zouhangwithsweet/unocss-preset-autoprefixer) - Autoprefixer Preset by [@zouhang](https://github.com/zouhangwithsweet).
+- [unocss-preset-scrollbar-hide](https://github.com/reslear/unocss-preset-scrollbar-hide) - Hide scrollbars, although the element can still be scrolled by [@reslear](https://github.com/reslear).
 
 ###### Community Frameworks
 

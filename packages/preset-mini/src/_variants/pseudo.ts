@@ -54,6 +54,7 @@ const PseudoClasses: Record<string, string> = Object.fromEntries([
   'only-of-type',
 
   // pseudo elements part 2
+  ['backdrop-element', '::backdrop'],
   ['placeholder', '::placeholder'],
   ['before', '::before'],
   ['after', '::after'],
@@ -163,6 +164,16 @@ const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: strin
   }
 }
 
+const excludedPseudo = [
+  '::-webkit-resizer',
+  '::-webkit-scrollbar',
+  '::-webkit-scrollbar-button',
+  '::-webkit-scrollbar-corner',
+  '::-webkit-scrollbar-thumb',
+  '::-webkit-scrollbar-track',
+  '::-webkit-scrollbar-track-piece',
+  '::file-selector-button',
+]
 const PseudoClassesAndElementsStr = Object.entries(PseudoClasses).map(([key]) => key).join('|')
 const PseudoClassesAndElementsColonStr = Object.entries(PseudoClassesColon).map(([key]) => key).join('|')
 export const variantPseudoClassesAndElements = (): VariantObject => {
@@ -182,7 +193,7 @@ export const variantPseudoClassesAndElements = (): VariantObject => {
         return {
           matcher: input.slice(match[0].length),
           handle: (input, next) => {
-            const selectors = pseudo.startsWith('::')
+            const selectors = (pseudo.startsWith('::') && !excludedPseudo.includes(pseudo))
               ? {
                   pseudo: `${input.pseudo}${pseudo}`,
                 }

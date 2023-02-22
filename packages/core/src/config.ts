@@ -47,7 +47,7 @@ export function resolveConfig<Theme extends {} = {}>(
     ...rawPresets.filter(p => p.enforce === 'post'),
   ]
 
-  const layers = Object.assign(DEFAULT_LAYERS, ...rawPresets.map(i => i.layers), userConfig.layers)
+  const layers = Object.assign({}, DEFAULT_LAYERS, ...rawPresets.map(i => i.layers), config.layers)
 
   function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist' | 'separators'>(key: T): Required<UserConfig<Theme>>[T] {
     return uniq([

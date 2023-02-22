@@ -2,7 +2,7 @@
 const a = 1
 const b = 2
 // eslint-disable-next-line @typescript-eslint/space-infix-ops
-const c = a-(b -a -b)
+const _c = a-(b -a -b)
 </script>
 
 <template>
