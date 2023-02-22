@@ -245,10 +245,6 @@ export interface VariantHandler {
    */
   matcher: string
   /**
-   * Order in which the variant is applied to selector.
-   */
-  order?: number
-  /**
    * Rewrite the output selector. Often be used to append pseudo classes or parents.
    */
   selector?: (input: string, body: CSSEntries) => string | undefined

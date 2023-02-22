@@ -37,14 +37,21 @@ describe('order', () => {
       variants: [
         variantMatcher('light', input => ({ prefix: `${input.prefix}.light $$ ` })),
         variantMatcher('group', input => ({ prefix: `${input.prefix}.group ` })),
-        (v, ctx) => {
-          const match = variantMatcher('dark', input => ({ prefix: `${input.prefix}.dark $$ ` })).match(v, ctx)
-          if (typeof match === 'object') {
-            return {
-              ...match,
-              order: 1,
+        {
+          match(input) {
+            if (input.startsWith('dark:')) {
+              return {
+                matcher: input.slice(5),
+                handle: (input, next) => {
+                  const applied = next(input)
+                  return {
+                    ...applied,
+                    prefix: `${applied.prefix}.dark $$ `,
+                  }
+                },
+              }
             }
-          }
+          },
         },
       ],
     })
@@ -69,14 +76,21 @@ describe('order', () => {
       variants: [
         variantMatcher('light', input => ({ prefix: `.light $$ ${input.prefix}` })),
         variantMatcher('group', input => ({ prefix: `.group ${input.prefix}` })),
-        (v, ctx) => {
-          const match = variantMatcher('dark', input => ({ prefix: `.dark $$ ${input.prefix}` })).match(v, ctx)
-          if (typeof match === 'object') {
-            return {
-              ...match,
-              order: 1,
+        {
+          match(input) {
+            if (input.startsWith('dark:')) {
+              return {
+                matcher: input.slice(5),
+                handle: (input, next) => {
+                  const applied = next(input)
+                  return {
+                    ...applied,
+                    prefix: `.dark $$ ${applied.prefix}`,
+                  }
+                },
+              }
             }
-          }
+          },
         },
       ],
     })
