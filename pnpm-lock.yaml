@@ -43,6 +43,7 @@ importers:
       '@unocss/config': workspace:*
       '@unocss/core': workspace:*
       '@unocss/extractor-pug': workspace:*
+      '@unocss/postcss': workspace:*
       '@unocss/preset-attributify': workspace:*
       '@unocss/preset-icons': workspace:*
       '@unocss/preset-mini': workspace:*
@@ -134,6 +135,7 @@ importers:
       '@unocss/config': link:packages/config
       '@unocss/core': link:packages/core
       '@unocss/extractor-pug': link:packages/extractor-pug
+      '@unocss/postcss': link:packages/postcss
       '@unocss/preset-attributify': link:packages/preset-attributify
       '@unocss/preset-icons': link:packages/preset-icons
       '@unocss/preset-mini': link:packages/preset-mini
@@ -436,6 +438,22 @@ importers:
       unocss: link:../unocss
     devDependencies:
       '@nuxt/schema': 3.2.2
+
+  packages/postcss:
+    specifiers:
+      '@unocss/config': workspace:*
+      '@unocss/core': workspace:*
+      css-tree: ^2.3.1
+      fast-glob: ^3.2.12
+      magic-string: ^0.27.0
+      postcss: ^8.4.21
+    dependencies:
+      '@unocss/config': link:../config
+      '@unocss/core': link:../core
+      css-tree: 2.3.1
+      fast-glob: 3.2.12
+      magic-string: 0.27.0
+      postcss: 8.4.21
 
   packages/preset-attributify:
     specifiers:

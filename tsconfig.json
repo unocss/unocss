@@ -42,6 +42,7 @@
       "@unocss/vite": ["./packages/vite/src/index.ts"],
       "@unocss/webpack": ["./packages/webpack/src/index.ts"],
       "@unocss/astro": ["./packages/astro/src/index.ts"],
+      "@unocss/postcss": ["./packages/postcss/src/index.ts"],
       "unocss": ["./packages/unocss/src/index.ts"],
       "unocss/vite": ["./packages/unocss/src/vite.ts"]
     }
