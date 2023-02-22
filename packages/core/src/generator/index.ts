@@ -364,11 +364,11 @@ export class UnoGenerator<Theme extends {} = {}> {
       this.parentOrders.set(parent, parentOrder)
 
     const obj: UtilObject = {
-      selector: movePseudoElementsEnd([
+      selector: [
         variantContextResult.prefix,
         variantContextResult.selector,
         variantContextResult.pseudo,
-      ].join('')),
+      ].join(''),
       entries: variantContextResult.entries,
       parent,
       layer: variantContextResult.layer,
@@ -645,16 +645,6 @@ function applyScope(css: string, scope?: string) {
     return css.replace(regexScopePlaceholder, scope ? ` ${scope} ` : ' ')
   else
     return scope ? `${scope} ${css}` : css
-}
-
-export function movePseudoElementsEnd(selector: string) {
-  const pseudoElements = selector.match(/::[\w-]+(\([\w-]+\))?/g)
-  if (pseudoElements) {
-    for (const e of pseudoElements)
-      selector = selector.replace(e, '')
-    selector += pseudoElements.join('')
-  }
-  return selector
 }
 
 const attributifyRe = /^\[(.+?)(~?=)"(.*)"\]$/
