@@ -1,4 +1,4 @@
-import { $fetch } from 'ohmyfetch'
+import { $fetch } from 'ofetch'
 import pLimit from 'p-limit'
 import fs from 'fs-extra'
 import type { DocItem } from '../types'

@@ -66,6 +66,7 @@ Set {
   "[all:transition-400=\\"\\"]",
   "[type~=\\"checkbox\\"]",
   "[peer=\\"\\"]",
+  "<md:color-red",
   "[mt-a=\\"\\"]",
   "[mb-a=\\"\\"]",
   "[group=\\"\\"]",
@@ -96,6 +97,7 @@ Set {
   "[px-4=\\"\\"]",
   "[text-true-gray-800=\\"\\"]",
   "[un-placeholder~=\\"text-red\\"]",
+  "[backdrop-element~=\\"filter\\"]",
   "[absolute=\\"\\"]",
   "[leading-1rem=\\"\\"]",
   "[left-4=\\"\\"]",
@@ -230,7 +232,7 @@ exports[`attributify > fixture2 1`] = `
 [relative=\\"\\"]{position:relative;}
 [left-4=\\"\\"]{left:1rem;}
 [top~=\\"\\\\31 \\\\/3\\"]{top:33.3333333333%;}
-[m-0=\\"\\"]{margin:0rem;}
+[m-0=\\"\\"]{margin:0;}
 [ma=\\"\\"]{margin:auto;}
 [mb--3=\\"\\"]{margin-bottom:-0.75rem;}
 [mb-a=\\"\\"]{margin-bottom:auto;}
@@ -271,6 +273,7 @@ exports[`attributify > fixture2 1`] = `
 [un-placeholder~=\\"text-red\\"]::placeholder{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
 [group=\\"\\"]:hover [group-hover~=\\"op-50\\"]{opacity:0.5;}
 [op-20=\\"\\"]{opacity:0.2;}
+[backdrop-element~=\\"filter\\"]::backdrop{filter:var(--un-blur) var(--un-brightness) var(--un-contrast) var(--un-drop-shadow) var(--un-grayscale) var(--un-hue-rotate) var(--un-invert) var(--un-saturate) var(--un-sepia);}
 [all\\\\:transition-400=\\"\\"] *{transition-property:color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:400ms;}
 [transition~=\\"\\\\32 00\\"]{transition-property:color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:200ms;}
 [after~=\\"content-\\\\[string\\\\:\\\\!\\\\]\\"]::after{content:!;}
@@ -333,6 +336,12 @@ exports[`attributify > fixture4 1`] = `
 @media (min-width: 1024px){
 [lg~=\\"bg-blue-600\\"]{--un-bg-opacity:1;background-color:rgba(37,99,235,var(--un-bg-opacity));}
 }"
+`;
+
+exports[`attributify > merge attribute name and value-only 1`] = `
+"/* layer: default */
+[bg~=\\"\\\\[\\\\&\\\\:nth-child\\\\(3\\\\)\\\\]\\\\:\\\\[\\\\#123456\\\\]\\"]:nth-child(3){--un-bg-opacity:1;background-color:rgba(18,52,86,var(--un-bg-opacity));}
+[bg~=\\"\\\\[\\\\&\\\\.foo\\\\]\\\\:\\\\[\\\\&\\\\:nth-child\\\\(3\\\\)\\\\]\\\\:\\\\[\\\\#123\\\\]\\"]:nth-child(3).foo{--un-bg-opacity:1;background-color:rgba(17,34,51,var(--un-bg-opacity));}"
 `;
 
 exports[`attributify > prefixedOnly 1`] = `

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { ResultItem } from '~/types'
-
 const { compact = undefined } = defineProps<{
   active?: boolean
   compact?: boolean | undefined

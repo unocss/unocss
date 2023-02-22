@@ -25,7 +25,7 @@ function handlerDivide([, d, s]: string[], { theme }: RuleContext<Theme>): CSSEn
   if (v != null) {
     const results = directionMap[d].map((item): [string, string] => {
       const key = `border${item}-width`
-      const value = item.endsWith('right') || item.endsWith('bottom')
+      const value = (item.endsWith('right') || item.endsWith('bottom'))
         ? `calc(${v} * var(--un-divide-${d}-reverse))`
         : `calc(${v} * calc(1 - var(--un-divide-${d}-reverse)))`
       return [key, value]

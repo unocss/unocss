@@ -1,5 +1,5 @@
 import type { Rule } from '@unocss/core'
-import { colorResolver, handler as h } from '../utils'
+import { colorResolver, globalKeywords, handler as h } from '../utils'
 import { numberWithUnitRE } from '../_utils/handlers/regex'
 
 /**
@@ -13,9 +13,10 @@ export const opacity: Rule[] = [
  * @example c-red color-red5 text-red-300
  */
 export const textColors: Rule[] = [
-  [/^(?:color|c)-(.+)$/, colorResolver('color', 'text'), { autocomplete: '(text|color|c)-$colors' }],
+  [/^(?:color|c)-(.+)$/, colorResolver('color', 'text'), { autocomplete: '(color|c)-$colors' }],
   // auto detection and fallback to font-size if the content looks like a size
-  [/^text-(.+)$/, colorResolver('color', 'text', css => !css.color?.toString().match(numberWithUnitRE)), { autocomplete: '(text|color|c)-$colors' }],
+  [/^text-(.+)$/, colorResolver('color', 'text', css => !css.color?.toString().match(numberWithUnitRE)), { autocomplete: 'text-$colors' }],
+  [/^(?:text|color|c)-(.+)$/, ([, v]) => globalKeywords.includes(v) ? { color: v } : undefined, { autocomplete: `(text|color|c)-(${globalKeywords.join('|')})` }],
   [/^(?:text|color|c)-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-opacity': h.bracket.percent(opacity) }), { autocomplete: '(text|color|c)-(op|opacity)-<percent>' }],
 ]
 
