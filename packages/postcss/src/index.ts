@@ -5,6 +5,7 @@ import type { Result, Root } from 'postcss'
 import postcss from 'postcss'
 import { createGenerator } from '@unocss/core'
 import { loadConfig } from '@unocss/config'
+import { defaultIncludeGlobs } from '../../shared-integration/src/defaults'
 import { parseApply } from './apply'
 import { parseTheme } from './theme'
 import { parseScreen } from './screen'
@@ -36,7 +37,7 @@ function unocss({ content, directiveMap, cwd, configOrPath }: UnoPostcssPluginOp
         parseTheme(root, uno, directiveMap?.theme || 'theme')
         parseScreen(root, uno, directiveMap?.screen || 'screen')
 
-        const globs = content?.filter(v => typeof v === 'string') as string[] ?? ['**/*.{html,js,ts,jsx,tsx,vue,svelte,astro}']
+        const globs = content?.filter(v => typeof v === 'string') as string[] ?? defaultIncludeGlobs
         const rawContent = content?.filter(v => typeof v === 'object') as {
           raw: string
           extension: string
