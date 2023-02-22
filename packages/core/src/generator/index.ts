@@ -214,7 +214,14 @@ export class UnoGenerator<Theme extends {} = {}> {
           const size = items.length
           const sorted: PreparedRule[] = items
             .filter(i => (i[4]?.layer || LAYER_DEFAULT) === layer)
-            .sort((a, b) => a[0] - b[0] || (a[4]?.sort || 0) - (b[4]?.sort || 0) || a[1]?.localeCompare(b[1] || '') || a[2]?.localeCompare(b[2] || '') || 0)
+            .sort((a, b) =>
+              a[0] - b[0] // rule index
+              || (a[4]?.sort || 0) - (b[4]?.sort || 0) // sort context
+              || a[5]?.currentSelector?.localeCompare(b[5]?.currentSelector ?? '') // shortcuts
+              || a[1]?.localeCompare(b[1] || '') // selector
+              || a[2]?.localeCompare(b[2] || '') // body
+              || 0,
+            )
             .map(([, selector, body,, meta,, variantNoMerge]) => {
               const scopedSelector = selector ? applyScope(selector, scope) : selector
               return [

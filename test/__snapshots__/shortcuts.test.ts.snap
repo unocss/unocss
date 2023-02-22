@@ -82,6 +82,12 @@ exports[`shortcuts > shortcut of nested pseudo 1`] = `
 .hover\\\\:btn3:hover:hover{--un-bg-opacity:1;background-color:rgba(0,0,0,var(--un-bg-opacity));--un-text-opacity:1;color:rgba(21,94,117,var(--un-text-opacity));text-decoration-line:underline;}"
 `;
 
+exports[`shortcuts > shortcut order 1`] = `
+"/* layer: shortcuts */
+.test:focus{--un-text-opacity:1;color:rgba(74,222,128,var(--un-text-opacity));}
+.test-last:focus{--un-text-opacity:1;color:rgba(96,165,250,var(--un-text-opacity));}"
+`;
+
 exports[`shortcuts > shortcut with inline body 1`] = `
 "/* layer: shortcuts */
 .hover\\\\:shortcut-inline-body:hover,

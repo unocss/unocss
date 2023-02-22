@@ -10,8 +10,8 @@ exports[`layers > static 1`] = `
 /* layer: c */
 .c5{name:5;}
 /* layer: d */
-/* RAW 3 */
 /* RAW 4 */
+/* RAW 3 */
 /* layer: s */
 .abcd{name:bar1;name:bar2;name:2;}"
 `;
