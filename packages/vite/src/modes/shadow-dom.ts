@@ -49,7 +49,6 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
     if (!code.match(CSS_PLACEHOLDER))
       return code
 
-    // eslint-disable-next-line prefer-const
     let { css, matched } = await uno.generate(code, {
       preflights: true,
       safelist: true,

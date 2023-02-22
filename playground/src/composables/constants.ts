@@ -1,10 +1,11 @@
-import defaultConfigRaw from '../../packages/shared-docs/src/defaultConfig.ts?raw'
+import defaultConfigRaw from '../../../packages/shared-docs/src/defaultConfig.ts?raw'
+import { version } from '../../../package.json'
 
 export const defaultHTML = `
 <div h-full text-center flex select-none all:transition-400>
   <div ma>
     <div text-5xl fw100 animate-bounce-alt animate-count-infinite animate-duration-1s>
-      unocss
+      UnoCSS
     </div>
     <div op30 text-lg fw300 m1>
       The instant on-demand Atomic CSS engine.
@@ -24,6 +25,8 @@ export const defaultHTML = `
 </div>
 `.trim()
 
-export { defaultConfigRaw }
+export { defaultConfigRaw, version }
 
 export const defaultOptions = '{}'
+
+export const STORAGE_KEY = 'last-search'

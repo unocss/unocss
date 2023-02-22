@@ -14,7 +14,7 @@ export default defineConfig({
   plugins: [
     Vue(),
     UnoCSS({
-      // hmrTopLevelAwait: false,
+      // hmrTopLevelAwait: false, // Related to #2066
     }),
     Inspect(),
     Components({
@@ -30,6 +30,10 @@ export default defineConfig({
         '@vueuse/core',
         '@vueuse/math',
       ],
+      dirs: [
+        'src/composables',
+      ],
+      vueTemplate: true,
       dts: 'src/auto-imports.d.ts',
     }),
   ],

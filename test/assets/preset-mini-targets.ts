@@ -984,6 +984,7 @@ export const presetMiniTargets: string[] = [
   'file:bg-violet-50',
   'hover:file:bg-violet-100',
   'backdrop:shadow-green',
+  'backdrop-element:shadow-green-100',
 
   // variants - pseudo classes
   'rtl:text-right',
@@ -1092,4 +1093,7 @@ export const presetMiniNonTargets = [
   '[Baz::class]',
   // escaped arbitrary css properties only allowed in css variables
   '[cant\~escape:me]',
+
+  // not exists
+  'text-main/50',
 ]

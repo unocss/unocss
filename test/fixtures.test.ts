@@ -5,6 +5,8 @@ import { describe, expect, it } from 'vitest'
 import fs from 'fs-extra'
 import fg from 'fast-glob'
 
+const isMacOS = process.platform === 'darwin'
+
 async function getGlobContent(cwd: string, glob: string) {
   return await fg(glob, { cwd, absolute: true })
     .then(r => Promise.all(r.map(f => fs.readFile(f, 'utf8'))))
@@ -83,7 +85,7 @@ describe.concurrent('fixtures', () => {
   it('vue cli 4', async () => {
     const root = resolve(__dirname, '../examples/vue-cli4')
     await fs.emptyDir(join(root, 'dist'))
-    await execa('npm', ['run', 'build'], { stdio: 'ignore', cwd: root })
+    await execa('npm', ['run', isMacOS ? 'build:macos' : 'build'], { stdio: 'ignore', cwd: root })
 
     const css = await getGlobContent(root, 'dist/**/*.css')
 

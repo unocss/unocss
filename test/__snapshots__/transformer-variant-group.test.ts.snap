@@ -2,6 +2,8 @@
 
 exports[`transformer-variant-group > basic > "!hover:(m-2 p-2)" 1`] = `"!hover:m-2 !hover:p-2"`;
 
+exports[`transformer-variant-group > basic > "[&]:(w-4 h-4) [&]:(w-4 h-4)" 1`] = `"[&]:w-4 [&]:h-4 [&]:w-4 [&]:h-4"`;
+
 exports[`transformer-variant-group > basic > "at-lg:(p-1 p-2)" 1`] = `"at-lg:p-1 at-lg:p-2"`;
 
 exports[`transformer-variant-group > basic > "bg-white font-light sm:hover:(bg-gray-100 font-medium)" 1`] = `"bg-white font-light sm:hover:bg-gray-100 sm:hover:font-medium"`;

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discord Chat
+    url: https://chat.antfu.me
+    about: Ask and discuss real-time with other users on the UnoCSS channel on the Anthony's server.
+  - name: Questions & Discussions
+    url: https://github.com/unocss/unocss/discussions
+    about: Use GitHub discussions for message-board style questions and discussions.

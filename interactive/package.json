@@ -13,7 +13,7 @@
     "@unocss/autocomplete": "workspace:*",
     "@unocss/nuxt": "workspace:*",
     "@unocss/shared-docs": "workspace:*",
-    "@vueuse/nuxt": "^9.10.0",
+    "@vueuse/nuxt": "^9.12.0",
     "esno": "^0.16.3",
     "fs-extra": "^11.1.0",
     "fuse.js": "^6.6.2",
@@ -23,9 +23,9 @@
     "nuxt": "^3.0.0",
     "p-limit": "^4.0.0",
     "postcss-nested": "^6.0.0",
-    "prettier": "^2.8.1",
-    "shiki": "^0.12.1",
-    "theme-vitesse": "^0.6.0",
-    "vite-plugin-vue-markdown": "^0.22.2"
+    "prettier": "^2.8.4",
+    "shiki": "^0.14.1",
+    "theme-vitesse": "^0.6.2",
+    "vite-plugin-vue-markdown": "^0.22.4"
   }
 }
