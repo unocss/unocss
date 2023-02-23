@@ -63,7 +63,7 @@ importers:
       '@vueuse/core': ^9.13.0
       '@vueuse/math': ^9.13.0
       brotli-size: ^4.0.0
-      bumpp: ^8.2.1
+      bumpp: ^9.0.0
       codemirror: ^6.0.1
       codemirror-theme-vars: ^0.1.1
       eslint: 8.34.0
@@ -155,7 +155,7 @@ importers:
       '@vueuse/core': 9.13.0_vue@3.2.47
       '@vueuse/math': 9.13.0_vue@3.2.47
       brotli-size: 4.0.0
-      bumpp: 8.2.1
+      bumpp: 9.0.0
       codemirror: 6.0.1_@lezer+common@1.0.2
       codemirror-theme-vars: 0.1.1
       eslint: 8.34.0
@@ -6763,15 +6763,14 @@ packages:
       semver: 7.3.8
     dev: true
 
-  /bumpp/8.2.1:
-    resolution: {integrity: sha512-4tHKsWC2mqHQvdjZ4AXgVhS2xMsz8qQ4zYt87vGRXW5tqAjrYa/UJqy7s/dGYI2OIe9ghBdiFhKpyKEX9SXffg==}
+  /bumpp/9.0.0:
+    resolution: {integrity: sha512-I2+JLFQin46NioHg6wi23hYQMVExiJyGblARp5fIHUzLv3rRz9me38eUe2xlQCAl7Ys9X+SlhTaIkttTxiL6cQ==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
       '@jsdevtools/ez-spawn': 3.0.4
       cac: 6.7.14
       fast-glob: 3.2.12
-      kleur: 4.1.5
       prompts: 2.4.2
       semver: 7.3.8
     dev: true
