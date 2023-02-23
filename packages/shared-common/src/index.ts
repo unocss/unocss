@@ -98,7 +98,7 @@ export function getMatchedPositions(code: string, matched: string[], hasVariantG
 
   // highlight for plain classes
   let start = 0
-  code.split(/([\s"'`;<>]|:\(|\)"|\)\s)/g).forEach((i) => {
+  code.split(/([\s"'`;<>*]|:\(|\)"|\)\s)/g).forEach((i) => {
     const end = start + i.length
     if (isPug) {
       result.push(...getPlainClassMatchedPositionsForPug(i, plain, start))
@@ -133,7 +133,7 @@ export function getMatchedPositions(code: string, matched: string[], hasVariantG
         const [, pre, sep, body] = match
         const index = match.index!
         let start = index + pre.length + sep.length + 1
-        body.split(/([\s"'`;<>]|:\(|\)"|\)\s)/g).forEach((i) => {
+        body.split(/([\s"'`;<>*]|:\(|\)"|\)\s)/g).forEach((i) => {
           const end = start + i.length
           const full = pre + sep + i
           if (plain.has(full)) {
