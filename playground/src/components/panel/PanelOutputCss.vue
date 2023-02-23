@@ -2,14 +2,15 @@
 // @ts-expect-error missing types
 import { Pane } from 'splitpanes'
 import { isCSSPrettify, showPreflights } from '../../composables/prettier'
+
+const [isCustomCSS, toggleCustomCSS] = useToggle(false)
+
+const _customCSS = ref(customCSS)
 </script>
 
 <template>
   <Pane :min-size="titleHeightPercent" :size="panelSizes[2]" flex flex-col min-h-28px>
-    <TitleBar
-      title="Output CSS"
-      @title-click="togglePanel(2)"
-    >
+    <TitleBar :title="isCustomCSS ? 'Custom CSS' : 'Output CSS'" @title-click="togglePanel(2)">
       <template #before>
         <div
           class="flex-shrink-0 i-ri-arrow-right-s-line mr-1 transition-transform transform"
@@ -17,11 +18,10 @@ import { isCSSPrettify, showPreflights } from '../../composables/prettier'
         />
       </template>
       <div
-        flex justify-end items-center w-full gap2
-        transition duration-400
-        :class="isCollapsed(2) ? 'op0' : ''"
+        flex justify-end items-center w-full gap2 transition duration-400 :class="isCollapsed(2) ? 'op0' : ''"
         un-children="inline-flex items-center cursor-pointer gap1"
       >
+        <button i-ri:arrow-right-up-line title="Custom CSS" @click="toggleCustomCSS()" />
         <label>
           <input v-model="showPreflights" type="checkbox">
           <span text-sm>Preflights</span>
@@ -32,12 +32,9 @@ import { isCSSPrettify, showPreflights } from '../../composables/prettier'
         </label>
       </div>
     </TitleBar>
+    <CodeMirror v-if="isCustomCSS" v-model="_customCSS" flex-auto mode="css" border="l gray-400/20" class="scrolls" />
     <CodeMirror
-      :model-value="cssFormatted"
-      flex-auto
-      mode="css"
-      border="l gray-400/20"
-      class="scrolls"
+      v-else :model-value="cssFormatted" flex-auto mode="css" border="l gray-400/20" class="scrolls"
       :read-only="true"
     />
   </Pane>

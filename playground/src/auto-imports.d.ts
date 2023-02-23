@@ -25,11 +25,14 @@ declare global {
   const createSharedComposable: typeof import('@vueuse/core')['createSharedComposable']
   const createUnrefFn: typeof import('@vueuse/core')['createUnrefFn']
   const cssFormatted: typeof import('./composables/prettier')['cssFormatted']
+  const customCSS: typeof import('./composables/url')['customCSS']
+  const customCSSLayerName: typeof import('./composables/constants')['customCSSLayerName']
   const customConfigError: typeof import('./composables/uno')['customConfigError']
   const customConfigRaw: typeof import('./composables/url')['customConfigRaw']
   const customRef: typeof import('vue')['customRef']
   const debouncedRef: typeof import('@vueuse/core')['debouncedRef']
   const debouncedWatch: typeof import('@vueuse/core')['debouncedWatch']
+  const defaultCSS: typeof import('./composables/constants')['defaultCSS']
   const defaultConfig: typeof import('./composables/config')['defaultConfig']
   const defaultConfigRaw: typeof import('./composables/constants')['defaultConfigRaw']
   const defaultHTML: typeof import('./composables/constants')['defaultHTML']
@@ -139,6 +142,7 @@ declare global {
   const useArrayFilter: typeof import('@vueuse/core')['useArrayFilter']
   const useArrayFind: typeof import('@vueuse/core')['useArrayFind']
   const useArrayFindIndex: typeof import('@vueuse/core')['useArrayFindIndex']
+  const useArrayFindLast: typeof import('@vueuse/core')['useArrayFindLast']
   const useArrayJoin: typeof import('@vueuse/core')['useArrayJoin']
   const useArrayMap: typeof import('@vueuse/core')['useArrayMap']
   const useArrayReduce: typeof import('@vueuse/core')['useArrayReduce']
@@ -345,11 +349,14 @@ declare module 'vue' {
     readonly createSharedComposable: UnwrapRef<typeof import('@vueuse/core')['createSharedComposable']>
     readonly createUnrefFn: UnwrapRef<typeof import('@vueuse/core')['createUnrefFn']>
     readonly cssFormatted: UnwrapRef<typeof import('./composables/prettier')['cssFormatted']>
+    readonly customCSS: UnwrapRef<typeof import('./composables/url')['customCSS']>
+    readonly customCSSLayerName: UnwrapRef<typeof import('./composables/constants')['customCSSLayerName']>
     readonly customConfigError: UnwrapRef<typeof import('./composables/uno')['customConfigError']>
     readonly customConfigRaw: UnwrapRef<typeof import('./composables/url')['customConfigRaw']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
     readonly debouncedRef: UnwrapRef<typeof import('@vueuse/core')['debouncedRef']>
     readonly debouncedWatch: UnwrapRef<typeof import('@vueuse/core')['debouncedWatch']>
+    readonly defaultCSS: UnwrapRef<typeof import('./composables/constants')['defaultCSS']>
     readonly defaultConfig: UnwrapRef<typeof import('./composables/config')['defaultConfig']>
     readonly defaultConfigRaw: UnwrapRef<typeof import('./composables/constants')['defaultConfigRaw']>
     readonly defaultHTML: UnwrapRef<typeof import('./composables/constants')['defaultHTML']>
@@ -459,6 +466,7 @@ declare module 'vue' {
     readonly useArrayFilter: UnwrapRef<typeof import('@vueuse/core')['useArrayFilter']>
     readonly useArrayFind: UnwrapRef<typeof import('@vueuse/core')['useArrayFind']>
     readonly useArrayFindIndex: UnwrapRef<typeof import('@vueuse/core')['useArrayFindIndex']>
+    readonly useArrayFindLast: UnwrapRef<typeof import('@vueuse/core')['useArrayFindLast']>
     readonly useArrayJoin: UnwrapRef<typeof import('@vueuse/core')['useArrayJoin']>
     readonly useArrayMap: UnwrapRef<typeof import('@vueuse/core')['useArrayMap']>
     readonly useArrayReduce: UnwrapRef<typeof import('@vueuse/core')['useArrayReduce']>
