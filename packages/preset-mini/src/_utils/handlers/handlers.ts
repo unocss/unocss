@@ -119,6 +119,10 @@ function bracketWithType(str: string, requiredType?: string) {
     if (!base)
       return
 
+    // test/preset-attributify.test.ts > fixture5
+    if (base === '=""')
+      return
+
     let curly = 0
     for (const i of base) {
       if (i === '[') {
