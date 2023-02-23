@@ -15,7 +15,7 @@ export const options = ref<Options>(JSON.parse(decode(params.get('options') || '
 export const customCSS = ref(decode(params.get('css') || '') || defaultCSS)
 
 throttledWatch(
-  [customConfigRaw, inputHTML, options],
+  [customConfigRaw, inputHTML, customCSS, options],
   () => {
     const url = new URL('/play/', window.location.origin)
     url.searchParams.set('html', encode(inputHTML.value))
