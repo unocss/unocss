@@ -37,7 +37,7 @@ export const extractorAttributify = (options?: AttributifyOptions): Extractor =>
           }
 
           if (!content) {
-            if (isValidSelector(name) && nonValuedAttribute !== false && !name.endsWith(':')) {
+            if (isValidSelector(name) && nonValuedAttribute !== false) {
               const result = [`[${name}=""]`]
               if (trueToNonValued)
                 result.push(`[${name}="true"]`)
