@@ -29,7 +29,7 @@ if (!customConfigRaw.value)
         <button
           i-ri-mist-line icon-btn
           title="Format"
-          @click="formatConfig"
+          @click="formatConfig()"
         />
       </div>
     </TitleBar>

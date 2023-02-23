@@ -41,7 +41,7 @@ const computedInputHTML = computed({
           <button
             i-ri-mist-line icon-btn
             title="Format"
-            @click="formatHTML"
+            @click="formatHTML()"
           />
         </div>
       </TitleBar>

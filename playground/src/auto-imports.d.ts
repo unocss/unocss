@@ -42,6 +42,7 @@ declare global {
   const eagerComputed: typeof import('@vueuse/core')['eagerComputed']
   const effectScope: typeof import('vue')['effectScope']
   const extendRef: typeof import('@vueuse/core')['extendRef']
+  const formatCSS: typeof import('./composables/prettier')['formatCSS']
   const formatConfig: typeof import('./composables/prettier')['formatConfig']
   const formatHTML: typeof import('./composables/prettier')['formatHTML']
   const generate: typeof import('./composables/uno')['generate']
@@ -366,6 +367,7 @@ declare module 'vue' {
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
+    readonly formatCSS: UnwrapRef<typeof import('./composables/prettier')['formatCSS']>
     readonly formatConfig: UnwrapRef<typeof import('./composables/prettier')['formatConfig']>
     readonly formatHTML: UnwrapRef<typeof import('./composables/prettier')['formatHTML']>
     readonly generate: UnwrapRef<typeof import('./composables/uno')['generate']>
