@@ -120,6 +120,14 @@ describe('attributify', () => {
 </button>
   `
 
+  const fixture5 = `
+    <div
+      rules={[
+        {},
+        { min: 8, max: 40, message: 'Password length bewteen 8 and 40 only.' },
+      ]}
+    >`
+
   const uno = createGenerator({
     presets: [
       presetAttributify({ strict: true }),
@@ -189,6 +197,17 @@ describe('attributify', () => {
     })
 
     const { css } = await uno.generate(fixture1, { preflights: false })
+    expect(css).toMatchSnapshot()
+  })
+
+  test('fixture5', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetAttributify({ strict: true, prefixedOnly: true }),
+        presetUno(),
+      ],
+    })
+    const { css } = await uno.generate(fixture5, { preflights: false })
     expect(css).toMatchSnapshot()
   })
 
