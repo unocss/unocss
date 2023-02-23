@@ -1,4 +1,5 @@
 import type { CSSObject, Rule, Shortcut, VariantHandlerContext } from '@unocss/core'
+import { isString } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
 import { resolveBreakpoints } from '@unocss/preset-mini/utils'
 
@@ -10,35 +11,43 @@ export const container: Rule<Theme>[] = [
     (m, context) => {
       const { theme, variantHandlers } = context
 
-      let width = '100%'
-
       const themePadding = theme.container?.padding
       let padding: string | undefined
 
-      if (typeof themePadding === 'string')
+      if (isString(themePadding))
         padding = themePadding
       else
         padding = themePadding?.DEFAULT
 
+      const themeMaxWidth = theme.container?.maxWidth
+      let maxWidth: string | undefined
+
       for (const v of variantHandlers) {
         const query = v.handle?.({} as VariantHandlerContext, x => x)?.parent
-        if (typeof query === 'string') {
+        if (isString(query)) {
           const match = query.match(queryMatcher)?.[1]
           if (match) {
-            width = match
-
             const bp = resolveBreakpoints(context) ?? {}
             const matchBp = Object.keys(bp).find(key => bp[key] === match)
 
-            if (matchBp && typeof themePadding !== 'string')
+            if (!themeMaxWidth)
+              maxWidth = match
+            else if (matchBp)
+              maxWidth = themeMaxWidth?.[matchBp]
+
+            if (matchBp && !isString(themePadding))
               padding = themePadding?.[matchBp] ?? padding
           }
         }
       }
 
       const css: CSSObject = {
-        'max-width': width,
+        'max-width': maxWidth,
       }
+
+      // only apply width: 100% when no variant handler is present
+      if (!variantHandlers.length)
+        css.width = '100%'
 
       if (theme.container?.center) {
         css['margin-left'] = 'auto'

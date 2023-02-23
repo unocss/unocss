@@ -6,7 +6,7 @@ import { containers, height, maxHeight, maxWidth, width } from './size'
 import type { Theme } from './types'
 import { preflightBase } from './preflight'
 
-export const theme: Theme = {
+export const theme = {
   width,
   height,
   maxWidth,
@@ -41,4 +41,4 @@ export const theme: Theme = {
   ringWidth,
   preflightBase,
   containers,
-}
+} satisfies Theme

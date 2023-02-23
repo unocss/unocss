@@ -1,6 +1,6 @@
 {
   "name": "unocss",
-  "version": "0.49.4",
+  "version": "0.50.0",
   "description": "The instant on-demand Atomic CSS engine.",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -85,6 +85,11 @@
       "types": "./dist/webpack.d.ts",
       "require": "./dist/webpack.cjs",
       "import": "./dist/webpack.mjs"
+    },
+    "./postcss": {
+      "types": "./dist/postcss.d.ts",
+      "require": "./dist/postcss.cjs",
+      "import": "./dist/postcss.mjs"
     }
   },
   "main": "dist/index.cjs",

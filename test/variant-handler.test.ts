@@ -182,4 +182,25 @@ describe('variants', () => {
 
     expect(css).toMatchSnapshot()
   })
+
+  test('selector match can be ordered', async () => {
+    const uno = createGenerator({
+      rules: [
+        ['foo', { name: 'bar' }],
+      ],
+      variants: [
+        variantMatcher('pre', () => ({ selector: '.gone' })),
+        {
+          ...variantMatcher('pre', () => ({ selector: '.override' })),
+          order: -1,
+        },
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'pre:foo',
+    ].join(' '), { preflights: false })
+
+    expect(css).toMatchSnapshot()
+  })
 })

@@ -5,6 +5,7 @@ export default defineBuildConfig({
     'src/index',
     'src/vite',
     'src/webpack',
+    'src/postcss',
     'src/astro',
     'src/preset-uno',
     'src/preset-icons',
@@ -22,6 +23,8 @@ export default defineBuildConfig({
     'astro',
     'webpack',
     '@unocss/webpack',
+    '@unocss/postcss',
+    'postcss',
   ],
   rollup: {
     emitCJS: true,

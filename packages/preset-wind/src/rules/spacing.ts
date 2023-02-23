@@ -14,7 +14,7 @@ function handlerSpace([, d, s]: string[], { theme }: RuleContext<Theme>): CSSEnt
   if (v != null) {
     const results = directionMap[d].map((item): [string, string] => {
       const key = `margin${item}`
-      const value = item.endsWith('right') || item.endsWith('bottom')
+      const value = (item.endsWith('right') || item.endsWith('bottom'))
         ? `calc(${v} * var(--un-space-${d}-reverse))`
         : `calc(${v} * calc(1 - var(--un-space-${d}-reverse)))`
       return [key, value]

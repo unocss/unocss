@@ -111,7 +111,7 @@ export default function WebpackPlugin<Theme extends {}>(
                 const css = layer === LAYER_MARK_ALL
                   ? result.getLayers(undefined, Array.from(entries)
                     .map(i => resolveLayer(i)).filter((i): i is string => !!i))
-                  : result.getLayer(layer) || ''
+                  : (result.getLayer(layer) || '')
 
                 if (!quote)
                   return css
@@ -151,7 +151,7 @@ export default function WebpackPlugin<Theme extends {}>(
           const code = layer === LAYER_MARK_ALL
             ? result.getLayers(undefined, Array.from(entries)
               .map(i => resolveLayer(i)).filter((i): i is string => !!i))
-            : result.getLayer(layer) || ''
+            : (result.getLayer(layer) || '')
 
           const hash = getHash(code)
           hashes.set(path, hash)

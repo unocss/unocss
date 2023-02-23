@@ -1,3 +1,5 @@
+import type { Theme } from './types'
+
 export const baseSize = {
   'xs': '20rem',
   'sm': '24rem',
@@ -17,24 +19,24 @@ export const width = {
   auto: 'auto',
   ...baseSize,
   screen: '100vw',
-}
+} satisfies Theme['width']
 
 export const maxWidth = {
   none: 'none',
   ...baseSize,
   screen: '100vw',
-}
+} satisfies Theme['maxWidth']
 
 export const height = {
   auto: 'auto',
   ...baseSize,
   screen: '100vh',
-}
+} satisfies Theme['height']
 
 export const maxHeight = {
   none: 'none',
   ...baseSize,
   screen: '100vh',
-}
+} satisfies Theme['maxHeight']
 
-export const containers = Object.fromEntries(Object.entries(baseSize).map(([k, v]) => [k, `(min-width: ${v})`]))
+export const containers = Object.fromEntries(Object.entries(baseSize).map(([k, v]) => [k, `(min-width: ${v})`])) satisfies Theme['containers']

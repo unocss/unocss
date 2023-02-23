@@ -27,4 +27,6 @@
 | [@unocss/webpack](./webpack) | The Webpack plugin | No | - |
 | [@unocss/nuxt](./nuxt) | The Nuxt Module | No | - |
 | [@unocss/runtime](./runtime) | CSS-in-JS Runtime for UnoCSS | No | - |
+| [@unocss/eslint-plugin](./eslint-plugin) | ESLint plugin | No | - |
+| [@unocss/eslint-config](./eslint-config) | ESLint config | No | - |
 | [VS Code Extension](./vscode) | UnoCSS for VS Code | - | - |
