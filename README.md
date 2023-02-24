@@ -345,6 +345,8 @@ import '@unocss/reset/normalize.css'
 import '@unocss/reset/eric-meyer.css'
 // preflights from tailwind
 import '@unocss/reset/tailwind.css'
+// https://github.com/unocss/unocss/blob/main/packages/reset/tailwind-compat.md
+import '@unocss/reset/tailwind-compat.css'
 ```
 
 Learn more at [@unocss/reset](https://github.com/unocss/unocss/tree/main/packages/reset).
