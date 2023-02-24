@@ -1,6 +1,6 @@
 {
   "name": "@unocss/postcss",
-  "version": "0.50.0",
+  "version": "0.50.1",
   "description": "PostCSS plugin for UnoCSS",
   "author": "sibbng <sibbngheid@gmail.com>",
   "license": "MIT",
