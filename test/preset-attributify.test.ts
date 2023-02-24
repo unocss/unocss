@@ -128,6 +128,11 @@ describe('attributify', () => {
       ]}
     >`
 
+  const fixture6 = `<div foo={\`\${5}\`} foo={"\${5}"} foo={'\${5}'} >
+  \`'"
+  <div bg="red" >
+  `
+
   const uno = createGenerator({
     presets: [
       presetAttributify({ strict: true }),
@@ -208,6 +213,11 @@ describe('attributify', () => {
       ],
     })
     const { css } = await uno.generate(fixture5, { preflights: false })
+    expect(css).toMatchSnapshot()
+  })
+
+  test('fixture6', async () => {
+    const { css } = await uno.generate(fixture6, { preflights: false })
     expect(css).toMatchSnapshot()
   })
 
