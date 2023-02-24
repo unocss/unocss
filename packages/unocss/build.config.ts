@@ -23,8 +23,6 @@ export default defineBuildConfig({
     'astro',
     'webpack',
     '@unocss/webpack',
-    '@unocss/postcss',
-    'postcss',
   ],
   rollup: {
     emitCJS: true,
