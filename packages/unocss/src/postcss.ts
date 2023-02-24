@@ -1,1 +1,2 @@
-export * from '@unocss/postcss'
+import postcss from '@unocss/postcss'
+export default postcss
