@@ -36,7 +36,7 @@ const config: UserConfig = {
   },
 }
 
-const pcss = postcss(
+const pcss = () => postcss(
   postcssPlugin({
     content: [
       './test/assets/preset-wind-targets.ts',
@@ -47,7 +47,7 @@ const pcss = postcss(
     configOrPath: config,
   }))
 
-const pcssLite = postcss(
+const pcssLite = () => postcss(
   postcssPlugin({
     content: [
       {
@@ -74,7 +74,7 @@ const processOptions = { from: file, to: file }
 
 describe('postcss', () => {
   test('@unocss', async () => {
-    const { css } = await pcss.process('@unocss;', processOptions)
+    const { css } = await pcss().process('@unocss;', processOptions)
 
     const targets = presetWindTargets
 
@@ -88,31 +88,31 @@ describe('postcss', () => {
   })
 
   test('@unocss layers', async () => {
-    const { css } = await pcssLite.process('@unocss shortcuts, default;@unocss preflights;@unocss;', processOptions)
+    const { css } = await pcssLite().process('@unocss shortcuts, default;@unocss preflights;@unocss;', processOptions)
 
     expect(css).toMatchSnapshot()
   })
 
   test('@unocss all layers', async () => {
-    const { css } = await pcssLite.process('@unocss preflights;@unocss all;', processOptions)
+    const { css } = await pcssLite().process('@unocss preflights;@unocss all;', processOptions)
 
     expect(css).toMatchSnapshot()
   })
 
   test('@apply', async () => {
-    const { css } = await pcssLite.process('div{@apply bg-red hover:text-white dark:hover:[&>:focus]:text-[20px];}', processOptions)
+    const { css } = await pcssLite().process('div{@apply bg-red hover:text-white dark:hover:[&>:focus]:text-[20px];}', processOptions)
 
     expect(css).toMatchSnapshot()
   })
 
   test('theme()', async () => {
-    const { css } = await pcssLite.process('div{color:theme(\'colors.red.600\')}', processOptions)
+    const { css } = await pcssLite().process('div{color:theme(\'colors.red.600\')}', processOptions)
 
     expect(css).toMatchSnapshot()
   })
 
   test('@screen', async () => {
-    const { css } = await pcssLite.process(`@screen at-md {
+    const { css } = await pcssLite().process(`@screen at-md {
       div{@apply bg-red hover:text-white dark:hover:[&>:focus]:text-[20px];}
       div{color:theme(\'colors.red.600\')}
     }`, processOptions)

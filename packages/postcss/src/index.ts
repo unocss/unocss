@@ -38,9 +38,9 @@ function unocss({ content, directiveMap, cwd, configOrPath }: UnoPostcssPluginOp
         if (!uno)
           uno = createGenerator(cfg.config)
 
-        parseApply(root, uno, directiveMap?.apply || 'apply')
+        await parseApply(root, uno, directiveMap?.apply || 'apply')
         parseTheme(root, uno, directiveMap?.theme || 'theme')
-        parseScreen(root, uno, directiveMap?.screen || 'screen')
+        await parseScreen(root, uno, directiveMap?.screen || 'screen')
 
         const globs = content?.filter(v => typeof v === 'string') as string[] ?? defaultIncludeGlobs
         const rawContent = content?.filter(v => typeof v === 'object') as {
