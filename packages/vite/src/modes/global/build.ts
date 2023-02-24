@@ -120,10 +120,15 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
             distDirs.push(
               ...outputOptions.map(option => option.dir).filter(Boolean) as string[],
             )
+            distDirs.push(
+              ...outputOptions.map(option => option.dir ? resolve(config.root, option.dir) : '').filter(Boolean) as string[],
+            )
           }
           else {
-            if (outputOptions.dir)
+            if (outputOptions.dir) {
               distDirs.push(outputOptions.dir)
+              distDirs.push(resolve(config.root, outputOptions.dir))
+            }
           }
         }
 
