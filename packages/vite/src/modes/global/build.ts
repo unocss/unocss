@@ -1,4 +1,4 @@
-import { resolve } from 'path'
+import { isAbsolute, resolve } from 'path'
 import type { Plugin, ResolvedConfig } from 'vite'
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import type { PluginContext } from 'rollup'
@@ -116,15 +116,12 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         // for Vite lib more with rollupOptions.output, #2231
         if (config.build.rollupOptions.output) {
           const outputOptions = config.build.rollupOptions.output
-          if (Array.isArray(outputOptions)) {
-            distDirs.push(
-              ...outputOptions.map(option => option.dir).filter(Boolean) as string[],
-            )
-          }
-          else {
-            if (outputOptions.dir)
-              distDirs.push(outputOptions.dir)
-          }
+          const outputDirs = Array.isArray(outputOptions)
+            ? outputOptions.map(option => option.dir).filter(Boolean) as string[]
+            : outputOptions.dir
+              ? [outputOptions.dir]
+              : []
+          distDirs.push(...outputDirs.map(dir => isAbsolute(dir) ? dir : resolve(config.root, dir)))
         }
 
         const cssPostPlugin = config.plugins.find(i => i.name === 'vite:css-post')

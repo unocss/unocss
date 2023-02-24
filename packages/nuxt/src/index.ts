@@ -58,7 +58,9 @@ export default defineNuxtModule<UnocssNuxtOptions>({
       })
     }
 
-    const { config: unoConfig } = await loadConfig<UserConfig>(process.cwd(), {}, [], options)
+    const { config: unoConfig } = await loadConfig<UserConfig>(process.cwd(), {
+      configFile: options.configFile,
+    }, [], options)
 
     if (
       isNuxt3()
