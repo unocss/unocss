@@ -340,6 +340,11 @@ exports[`attributify > fixture4 1`] = `
 
 exports[`attributify > fixture5 1`] = `""`;
 
+exports[`attributify > fixture6 1`] = `
+"/* layer: default */
+[bg~=\\"red\\"]{--un-bg-opacity:1;background-color:rgba(248,113,113,var(--un-bg-opacity));}"
+`;
+
 exports[`attributify > merge attribute name and value-only 1`] = `
 "/* layer: default */
 [bg~=\\"\\\\[\\\\&\\\\:nth-child\\\\(3\\\\)\\\\]\\\\:\\\\[\\\\#123456\\\\]\\"]:nth-child(3){--un-bg-opacity:1;background-color:rgba(18,52,86,var(--un-bg-opacity));}
