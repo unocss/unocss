@@ -121,7 +121,13 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
             : outputOptions.dir
               ? [outputOptions.dir]
               : []
-          distDirs.push(...outputDirs.map(dir => isAbsolute(dir) ? dir : resolve(config.root, dir)))
+
+          outputDirs.forEach((dir) => {
+            distDirs.push(dir)
+
+            if (!isAbsolute(dir))
+              distDirs.push(resolve(config.root, dir))
+          })
         }
 
         const cssPostPlugin = config.plugins.find(i => i.name === 'vite:css-post')
