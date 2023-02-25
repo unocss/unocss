@@ -19,19 +19,19 @@ describe('transformer-directives', () => {
     shortcuts: {
       btn: 'px-2 py-3 md:px-4 bg-blue-500 text-white rounded',
     },
-    extendTheme: () => ({
-      breakpoints: {
+    extendTheme: (theme) => {
+      theme.breakpoints = {
         xs: '320px',
         sm: '640px',
         md: '768px',
         lg: '1024px',
         xl: '1280px',
         xxl: '1536px',
-      },
-    }),
+      }
+    },
   })
 
-  async function transform(code: string, _uno: UnoGenerator = uno) {
+  async function transform(code: string, _uno: UnoGenerator<Theme> = uno) {
     const s = new MagicString(code)
     await transformDirectives(s, _uno, {})
     return prettier.format(s.toString(), {
@@ -307,6 +307,11 @@ describe('transformer-directives', () => {
           display: grid;
           grid-template-columns: repeat(2, minmax(0, 1fr));
         }
+        @media (min-width: 320px) {
+          .grid {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+          }
+        }
         @media (min-width: 640px) {
           .grid {
             grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -325,11 +330,6 @@ describe('transformer-directives', () => {
         @media (min-width: 1280px) {
           .grid {
             grid-template-columns: repeat(10, minmax(0, 1fr));
-          }
-        }
-        @media (min-width: 320px) {
-          .grid {
-            grid-template-columns: repeat(1, minmax(0, 1fr));
           }
         }
         @media (min-width: 1536px) {
@@ -526,7 +526,7 @@ describe('transformer-directives', () => {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
-      @media (min-width: 320px) and (max-width: 1535.9px) {
+      @media (min-width: 320px) and (max-width: 639.9px) {
         .grid {
           grid-template-columns: repeat(1, minmax(0, 1fr));
         }
