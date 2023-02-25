@@ -1,5 +1,5 @@
 export const panelEl = ref()
-const TITLE_HEIGHT = 30
+const TITLE_HEIGHT = 29
 const { height: vh } = useElementSize(panelEl)
 
 export const titleHeightPercent = computed(() => {
@@ -16,14 +16,15 @@ export const panelSizes = useLocalStorage<number[]>(
 
 export function getInitialPanelSizes(percent: number): number[] {
   return [
-    100 - percent * 2,
+    percent,
+    percent,
     percent,
     percent,
   ]
 }
 
 export function isCollapsed(index: number) {
-  return panelSizes.value[index] <= titleHeightPercent.value + 3
+  return panelSizes.value[index] <= titleHeightPercent.value + 0.1
 }
 
 export function togglePanel(index: number) {
