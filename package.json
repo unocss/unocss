@@ -3,9 +3,9 @@
   "type": "module",
   "version": "0.50.1",
   "private": true,
-  "packageManager": "pnpm@7.11.0",
+  "packageManager": "pnpm@7.27.1",
   "scripts": {
-    "postinstall": "esno scripts/icon-collections.ts",
+    "postinstall": "esno scripts/pnpm.ts && esno scripts/icon-collections.ts",
     "bench": "npm -C bench run bench",
     "build": "rimraf packages/*/dist && esno scripts/copy-files.ts && pnpm -r --filter=./packages/* run build && pnpm -r run build-post",
     "dev": "nr stub",
