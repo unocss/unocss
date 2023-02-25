@@ -86,8 +86,8 @@ export function resolveConfig<Theme extends {} = {}>(
     ...sortedPresets.map(p => p.theme),
     config.theme,
   ].reverse().find(Boolean) as Theme
-  theme = (mergePresets('extendTheme') as ThemeExtender<any>[])
-    .reduce((mergedTheme, extendTheme) => mergeDeep(mergedTheme, extendTheme(mergedTheme)), theme)
+  theme = (mergePresets('extendTheme') as ThemeExtender<Theme>[])
+    .reduce((mergedTheme, extendTheme) => mergeDeep(mergedTheme, extendTheme(mergedTheme) || {}), theme)
 
   const autocomplete = {
     templates: uniq(sortedPresets.map(p => toArray(p.autocomplete?.templates)).flat()),

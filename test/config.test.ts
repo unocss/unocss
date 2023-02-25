@@ -21,7 +21,7 @@ describe('config', () => {
     const unocss = createGenerator<Theme
     >({
       extendTheme: (theme) => {
-        theme.colors.antfu = {
+        theme.colors!.antfu = {
           100: 'red',
         }
         return {

@@ -59,7 +59,7 @@ export default function transformerDirectives(options: TransformerDirectivesOpti
 
 export async function transformDirectives(
   code: MagicString,
-  uno: UnoGenerator<any>,
+  uno: UnoGenerator,
   options: TransformerDirectivesOptions,
   filename?: string,
   originalCode?: string,

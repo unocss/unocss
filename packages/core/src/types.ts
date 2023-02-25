@@ -303,7 +303,7 @@ export type Variant<Theme extends {} = {}> = VariantFunction<Theme> | VariantObj
 
 export type Preprocessor = (matcher: string) => string | undefined
 export type Postprocessor = (util: UtilObject) => void
-export type ThemeExtender<T> = (theme: Required<T>) => T | void
+export type ThemeExtender<T> = (theme: T) => T | void
 
 export interface ConfigBase<Theme extends {} = {}> {
   /**
