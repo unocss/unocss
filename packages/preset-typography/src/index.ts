@@ -60,7 +60,7 @@ export interface TypographyOptions {
  * @returns typography preset
  * @public
  */
-export function presetTypography(options?: TypographyOptions): Preset {
+export function presetTypography(options?: TypographyOptions): Preset<Theme> {
   if (options?.className) {
     console.warn('[unocss:preset-typography] "className" is deprecated. '
       + 'Use "selectorName" instead.')
