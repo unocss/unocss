@@ -1,4 +1,4 @@
-import type { CSSObject, Preset, RuleContext } from '@unocss/core'
+import type { CSSObject, Preset } from '@unocss/core'
 import { toEscapedSelector } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
 import { getPreflights } from './preflights'
@@ -88,7 +88,7 @@ export function presetTypography(options?: TypographyOptions): Preset {
       ],
       [
         colorsRE,
-        ([, color], { theme }: RuleContext<Theme>) => {
+        ([, color], { theme }) => {
           const baseColor = theme.colors?.[color] as Record<string, string> | string
           if (baseColor == null)
             return

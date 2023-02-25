@@ -495,8 +495,10 @@ importers:
   packages/preset-typography:
     specifiers:
       '@unocss/core': workspace:*
+      '@unocss/preset-mini': workspace:*
     dependencies:
       '@unocss/core': link:../core
+      '@unocss/preset-mini': link:../preset-mini
 
   packages/preset-uno:
     specifiers:
