@@ -9,12 +9,12 @@ import {
 } from 'unocss'
 
 export default defineConfig({
-  theme: {
+  extendTheme: () => ({
     fontFamily: {
       sans: '\'Inter\', sans-serif',
       mono: '\'Fira Code\', monospace',
     },
-  },
+  }),
   shortcuts: {
     responsiveBorder: 'absolute flex items-center justify-center bg-light-700 dark:bg-dark-800 [&>span]-(w-4 h-4 text-gray-400)',
   },
