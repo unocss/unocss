@@ -209,15 +209,8 @@ export function hasParseableColor(color: string | undefined, theme: Theme) {
   return color != null && !!parseColor(color, theme)?.color
 }
 
-export function resolveBreakpoints({ theme, generator }: Readonly<VariantContext<Theme>>) {
-  let breakpoints: Record<string, string> | undefined
-  if (generator.userConfig && generator.userConfig.theme)
-    breakpoints = (generator.userConfig.theme as any).breakpoints
-
-  if (!breakpoints)
-    breakpoints = theme.breakpoints
-
-  return breakpoints
+export function resolveBreakpoints({ generator }: Readonly<Pick<VariantContext<Theme>, 'generator'>>) {
+  return generator.config.theme.breakpoints
 }
 
 export function resolveVerticalBreakpoints({ theme, generator }: Readonly<VariantContext<Theme>>) {

@@ -443,6 +443,7 @@ importers:
     specifiers:
       '@unocss/config': workspace:*
       '@unocss/core': workspace:*
+      '@unocss/preset-mini': workspace:*
       css-tree: ^2.3.1
       fast-glob: ^3.2.12
       magic-string: ^0.27.0
@@ -450,6 +451,7 @@ importers:
     dependencies:
       '@unocss/config': link:../config
       '@unocss/core': link:../core
+      '@unocss/preset-mini': link:../preset-mini
       css-tree: 2.3.1
       fast-glob: 3.2.12
       magic-string: 0.27.0
@@ -594,10 +596,12 @@ importers:
   packages/transformer-directives:
     specifiers:
       '@unocss/core': workspace:*
+      '@unocss/preset-mini': workspace:*
       css-tree: ^2.3.1
       magic-string: ^0.27.0
     dependencies:
       '@unocss/core': link:../core
+      '@unocss/preset-mini': link:../preset-mini
       css-tree: 2.3.1
     devDependencies:
       magic-string: 0.27.0

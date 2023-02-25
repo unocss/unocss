@@ -3,6 +3,7 @@ import type { SourceCodeTransformer, UnoGenerator } from '@unocss/core'
 import type { CssNode, List, ListItem } from 'css-tree'
 import { parse, walk } from 'css-tree'
 import type MagicString from 'magic-string'
+import type { Theme } from '@unocss/preset-mini'
 import { handleThemeFn, themeFnRE } from './theme'
 import { handleScreen } from './screen'
 import { handleApply } from './apply'
@@ -39,7 +40,7 @@ export interface TransformerDirectivesOptions {
 
 export interface TransformerDirectivesContext {
   code: MagicString
-  uno: UnoGenerator
+  uno: UnoGenerator<Theme>
   options: TransformerDirectivesOptions
   applyVariable: string[]
   offset?: number

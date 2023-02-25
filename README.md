@@ -420,7 +420,7 @@ The variant system is very powerful and can't be covered fully in this guide, yo
 
 ### Extend Theme
 
-UnoCSS also supports the theming system that you might be familiar with in Tailwind / Windi. At the user level, you can specify the `theme` property in your config, and it will be deep merged to the default theme.
+UnoCSS also supports the theming system that you might be familiar with in Tailwind / Windi. At the user level, you can specify the `theme` property in your config, and it will be overridden by the default theme.
 
 <!--eslint-skip-->
 
@@ -436,6 +436,27 @@ theme: {
 }
 ```
 
+if you want to extend the theme, you can use the `extendTheme` function:
+
+<!--eslint-skip-->
+
+```ts
+extendTheme: ({ theme }) => {
+  // Modify the original theme
+  theme.colors.veryCool = '#0000ff'
+
+  // Or return a custom theme will be merged
+  return {
+    colors: {
+      veryCool: '#0000ff', // class="text-very-cool"
+      brand: {
+        primary: 'hsla(var(--hue, 217), 78%, 51%)', // class="bg-brand-primary"
+      }
+    },
+  }
+}
+```
+
 To consume the theme in rules:
 
 ```ts
@@ -446,24 +467,6 @@ rules: [
   }],
 ]
 ```
-
-One exception is that UnoCSS gives full control of `breakpoints` to users. When a custom `breakpoints` is provided, the default will be overridden instead of merging. For example:
-
-<!--eslint-skip-->
-
-```ts
-theme: {
-  // ...
-  breakpoints: {
-    sm: '320px',
-    md: '640px',
-  },
-}
-```
-
-Right now, you can only use the `sm:` and `md:` breakpoint variants.
-
-`verticalBreakpoints` is same as `breakpoints` but for vertical layout.
 
 ### Layers
 

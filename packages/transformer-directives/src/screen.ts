@@ -1,4 +1,4 @@
-import type { Theme } from '@unocss/preset-mini'
+import { resolveBreakpoints } from '@unocss/preset-mini/utils'
 import type { Atrule } from 'css-tree'
 import type { TransformerDirectivesContext } from '.'
 
@@ -20,17 +20,7 @@ export function handleScreen({ code, uno }: TransformerDirectivesContext, node: 
     breakpointName = match[2]
   }
 
-  const resolveBreakpoints = () => {
-    let breakpoints: Record<string, string> | undefined
-    if (uno.userConfig && uno.userConfig.theme)
-      breakpoints = (uno.userConfig.theme as Theme).breakpoints
-
-    if (!breakpoints)
-      breakpoints = (uno.config.theme as Theme).breakpoints
-
-    return breakpoints
-  }
-  const variantEntries: Array<[string, string, number]> = Object.entries(resolveBreakpoints() ?? {}).map(([point, size], idx) => [point, size, idx])
+  const variantEntries: Array<[string, string, number]> = Object.entries(resolveBreakpoints({ generator: uno }) ?? {}).map(([point, size], idx) => [point, size, idx])
   const generateMediaQuery = (breakpointName: string, prefix?: string) => {
     const [, size, idx] = variantEntries.find(i => i[0] === breakpointName)!
     if (prefix) {
