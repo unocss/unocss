@@ -1,3 +1,4 @@
+import type { Theme } from '@unocss/preset-mini'
 import { createGenerator } from '@unocss/core'
 import presetMini from '@unocss/preset-mini'
 import presetUno from '@unocss/preset-uno'
@@ -46,39 +47,39 @@ describe('preflights', () => {
   })
 
   test('preflight root can be customized with string', async () => {
-    const uno = createGenerator({
+    const uno = createGenerator<Theme>({
       presets: [
         presetMini(),
       ],
-      theme: {
+      extendTheme: () => ({
         preflightRoot: ':root',
-      },
+      }),
     })
     const { css } = await uno.generate('')
     expect(css).toMatchSnapshot()
   })
 
   test('preflight root can be customized with array', async () => {
-    const uno = createGenerator({
+    const uno = createGenerator<Theme>({
       presets: [
         presetMini(),
       ],
-      theme: {
+      extendTheme: () => ({
         preflightRoot: ['.scope-1', '[data-scope-2]'],
-      },
+      }),
     })
     const { css } = await uno.generate('')
     expect(css).toMatchSnapshot()
   })
 
   test('preflight root can be disabled using empty array', async () => {
-    const uno = createGenerator({
+    const uno = createGenerator<Theme>({
       presets: [
         presetMini(),
       ],
-      theme: {
+      extendTheme: () => ({
         preflightRoot: [],
-      },
+      }),
     })
     const { css } = await uno.generate('')
     expect(css).eql('')

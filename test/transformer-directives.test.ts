@@ -2,6 +2,7 @@ import { readFile } from 'fs/promises'
 import { describe, expect, test } from 'vitest'
 import { transformDirectives } from '@unocss/transformer-directives'
 import type { UnoGenerator } from '@unocss/core'
+import type { Theme } from '@unocss/preset-uno'
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import prettier from 'prettier/standalone'
@@ -9,7 +10,7 @@ import parserCSS from 'prettier/parser-postcss'
 import MagicString from 'magic-string'
 
 describe('transformer-directives', () => {
-  const uno = createGenerator({
+  const uno = createGenerator<Theme>({
     presets: [
       presetUno({
         dark: 'media',
@@ -18,7 +19,7 @@ describe('transformer-directives', () => {
     shortcuts: {
       btn: 'px-2 py-3 md:px-4 bg-blue-500 text-white rounded',
     },
-    theme: {
+    extendTheme: () => ({
       breakpoints: {
         xs: '320px',
         sm: '640px',
@@ -27,7 +28,7 @@ describe('transformer-directives', () => {
         xl: '1280px',
         xxl: '1536px',
       },
-    },
+    }),
   })
 
   async function transform(code: string, _uno: UnoGenerator = uno) {
@@ -306,11 +307,6 @@ describe('transformer-directives', () => {
           display: grid;
           grid-template-columns: repeat(2, minmax(0, 1fr));
         }
-        @media (min-width: 320px) {
-          .grid {
-            grid-template-columns: repeat(1, minmax(0, 1fr));
-          }
-        }
         @media (min-width: 640px) {
           .grid {
             grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -329,6 +325,11 @@ describe('transformer-directives', () => {
         @media (min-width: 1280px) {
           .grid {
             grid-template-columns: repeat(10, minmax(0, 1fr));
+          }
+        }
+        @media (min-width: 320px) {
+          .grid {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
           }
         }
         @media (min-width: 1536px) {
@@ -525,7 +526,7 @@ describe('transformer-directives', () => {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
-      @media (min-width: 320px) and (max-width: 639.9px) {
+      @media (min-width: 320px) and (max-width: 1535.9px) {
         .grid {
           grid-template-columns: repeat(1, minmax(0, 1fr));
         }

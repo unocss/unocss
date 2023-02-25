@@ -1,15 +1,17 @@
+import type { Theme } from '@unocss/preset-wind'
 import { createGenerator, escapeSelector } from '@unocss/core'
 import presetWind from '@unocss/preset-wind'
 import { describe, expect, test } from 'vitest'
 import { presetWindNonTargets, presetWindTargets } from './assets/preset-wind-targets'
 
-const uno = createGenerator({
+const uno = createGenerator<Theme
+>({
   presets: [
     presetWind({
       dark: 'media',
     }),
   ],
-  theme: {
+  extendTheme: () => ({
     colors: {
       custom: {
         a: 'var(--custom)',
@@ -29,7 +31,7 @@ const uno = createGenerator({
         '2xl': '6rem',
       },
     },
-  },
+  }),
 })
 
 describe('preset-wind', () => {
@@ -71,15 +73,16 @@ describe('preset-wind', () => {
   })
 
   test('centered containers', async () => {
-    const uno = createGenerator({
+    const uno = createGenerator<Theme
+    >({
       presets: [
         presetWind(),
       ],
-      theme: {
+      extendTheme: () => ({
         container: {
           center: true,
         },
-      },
+      }),
     })
 
     const targets = [
@@ -94,11 +97,11 @@ describe('preset-wind', () => {
   })
 
   test('containers with max width', async () => {
-    const uno = createGenerator({
+    const uno = createGenerator<Theme>({
       presets: [
         presetWind(),
       ],
-      theme: {
+      extendTheme: () => ({
         container: {
           maxWidth: {
             sm: '540px',
@@ -108,7 +111,7 @@ describe('preset-wind', () => {
             xxl: '1320px',
           },
         },
-      },
+      }),
     })
 
     const targets = [
