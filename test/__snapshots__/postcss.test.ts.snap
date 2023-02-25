@@ -1,10 +1,10 @@
 // Vitest Snapshot v1
 
-exports[`postcss > @apply 1`] = `"div{@apply bg-red hover:text-white dark:hover:[&>:focus]:text-[20px];}"`;
+exports[`postcss > @apply 1`] = `"div{--un-bg-opacity:1;background-color:rgba(248,113,113,var(--un-bg-opacity));}div:hover{--un-text-opacity:1;color:rgba(255,255,255,var(--un-text-opacity));}.dark div>:focus:hover{font-size:20px;}"`;
 
 exports[`postcss > @screen 1`] = `
 "@media (min-width: 768px) and (max-width: 1023.9px) {
-      div{@apply bg-red hover:text-white dark:hover:[&>:focus]:text-[20px];}
+      div{--un-bg-opacity:1;background-color:rgba(248,113,113,var(--un-bg-opacity));}div:hover{--un-text-opacity:1;color:rgba(255,255,255,var(--un-text-opacity));}.dark div>:focus:hover{font-size:20px;}
       div{color:#dc2626}
     }"
 `;

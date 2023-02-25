@@ -14,6 +14,7 @@ const languageIds = [
   'hbs',
   'html',
   'css',
+  'postcss',
   'javascript',
   'javascriptreact',
   'markdown',

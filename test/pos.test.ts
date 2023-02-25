@@ -110,28 +110,41 @@ describe('matched-positions', async () => {
       presets: [
         presetUno(),
       ],
+      shortcuts: {
+        '<custom-shortcut': 'text-lg',
+      },
     })
 
-    expect(await match(uno, '<div class="bg-gray-900 h-4 hover:scale-100"></div>'))
+    expect(await match(uno, '<div class="bg-gray-900 h-4 hover:scale-100 [&>span]:text-white <custom-shortcut"></div>'))
       .toMatchInlineSnapshot(`
-      [
         [
-          12,
-          23,
-          "bg-gray-900",
-        ],
-        [
-          24,
-          27,
-          "h-4",
-        ],
-        [
-          28,
-          43,
-          "hover:scale-100",
-        ],
-      ]
-    `)
+          [
+            12,
+            23,
+            "bg-gray-900",
+          ],
+          [
+            24,
+            27,
+            "h-4",
+          ],
+          [
+            28,
+            43,
+            "hover:scale-100",
+          ],
+          [
+            44,
+            63,
+            "[&>span]:text-white",
+          ],
+          [
+            64,
+            80,
+            "<custom-shortcut",
+          ],
+        ]
+      `)
   })
 
   test('variant-group', async () => {

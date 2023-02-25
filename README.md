@@ -52,6 +52,7 @@ Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcs
 - [CLI](https://github.com/unocss/unocss/blob/main/packages/cli)
 - [VS Code extension](https://github.com/unocss/unocss/blob/main/packages/vscode)
 - [ESLint Config](https://github.com/unocss/unocss/blob/main/packages/eslint-config)
+- [PostCSS](https://github.com/unocss/unocss/blob/main/packages/postcss)
 
 ## Configurations
 
@@ -344,6 +345,8 @@ import '@unocss/reset/normalize.css'
 import '@unocss/reset/eric-meyer.css'
 // preflights from tailwind
 import '@unocss/reset/tailwind.css'
+// https://github.com/unocss/unocss/blob/main/packages/reset/tailwind-compat.md
+import '@unocss/reset/tailwind-compat.css'
 ```
 
 Learn more at [@unocss/reset](https://github.com/unocss/unocss/tree/main/packages/reset).
