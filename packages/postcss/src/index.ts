@@ -40,7 +40,7 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
   let promises: Promise<void>[] = []
 
   return {
-    postcssPlugin: unocss,
+    postcssPlugin: directiveMap.unocss,
     plugins: [
       async function (root: Root, result: Result) {
         if (!result.opts.from?.split('?')[0].endsWith('.css'))
