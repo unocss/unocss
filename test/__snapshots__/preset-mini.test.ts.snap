@@ -1033,6 +1033,7 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .lt-lg\\\\:m2{margin:0.5rem;}
 }
 @media (max-width: 639.9px){
+.\\\\<sm\\\\:m1,
 .lt-sm\\\\:m1{margin:0.25rem;}
 }
 @media (max-width: 1023.9px){@media (min-width: 640px){
@@ -1044,6 +1045,7 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .sm\\\\:m1{margin:0.25rem;}
 }
 @media (min-width: 640px) and (max-width: 767.9px){
+.\\\\~sm\\\\:m1,
 .at-sm\\\\:m1{margin:0.25rem;}
 }
 @media (min-width: 768px){
