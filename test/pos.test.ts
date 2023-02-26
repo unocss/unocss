@@ -303,6 +303,34 @@ describe('matched-positions-pug', async () => {
     `)
   })
 
+  test('attributify `><`', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetAttributify(),
+        presetUno(),
+      ],
+      shortcuts: {
+        '<custom-shortcut': 'text-teal',
+      },
+    })
+
+    expect(await match(uno, '<div border></div><div <custom-shortcut></div>'))
+      .toMatchInlineSnapshot(`
+        [
+          [
+            5,
+            11,
+            "border",
+          ],
+          [
+            23,
+            39,
+            "<custom-shortcut",
+          ],
+        ]
+      `)
+  })
+
   test('@unocss/transformer-directives', async () => {
     // \n could not be include
     // div.p2(class="btn-center{@apply p1 m1;\n}") -> pug parse error
