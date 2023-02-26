@@ -1,4 +1,4 @@
-import { readFile, stat } from 'fs/promises'
+import { readFile } from 'fs/promises'
 import type { UnoGenerator } from '@unocss/core'
 import fg from 'fast-glob'
 import type { Result, Root } from 'postcss'
@@ -7,40 +7,72 @@ import { createGenerator, warnOnce } from '@unocss/core'
 import { loadConfig } from '@unocss/config'
 import { defaultIncludeGlobs } from '../../shared-integration/src/defaults'
 import { parseApply } from './apply'
-import { parseTheme } from './theme'
+import { parseTheme, themeFnRE } from './theme'
 import { parseScreen } from './screen'
 import type { UnoPostcssPluginOptions } from './types'
 
 export * from './types'
 
-function unocss({ content, directiveMap, cwd, configOrPath }: UnoPostcssPluginOptions = {
-  cwd: process.cwd(),
-}) {
-  const fileMap = new Map()
-  const fileClassMap = new Map()
-  const classes = new Set<string>()
-  const config = loadConfig(cwd, configOrPath)
-  let uno: UnoGenerator
-
+function unocss(options: UnoPostcssPluginOptions = {}) {
   warnOnce(
     '`@unocss/postcss` package is in an experimental state right now. '
     + 'It doesn\'t follow semver, and may introduce breaking changes in patch versions.',
   )
+
+  const {
+    cwd = process.cwd(),
+    directiveMap = {
+      apply: 'apply',
+      theme: 'theme',
+      screen: 'screen',
+      unocss: 'unocss',
+    },
+    content,
+    configOrPath,
+  } = options
+
+  const fileMap = new Map()
+  const fileClassMap = new Map()
+  const classes = new Set<string>()
+  const config = loadConfig(cwd, configOrPath)
+
+  let uno: UnoGenerator
+  let promises: Promise<void>[] = []
+
   return {
-    postcssPlugin: 'unocss',
+    postcssPlugin: unocss,
     plugins: [
       async function (root: Root, result: Result) {
-        const cfg = await config
+        if (!result.opts.from?.split('?')[0].endsWith('.css'))
+          return
 
-        if (!Object.keys(!cfg.config))
+        let isTarget = false
+        root.walkAtRules((rule) => {
+          if (
+            rule.name === directiveMap.unocss
+            || rule.name === directiveMap.apply
+            || rule.name === directiveMap.theme
+            || rule.name === directiveMap.screen
+          )
+            isTarget = true
+        })
+        const themeFn = themeFnRE(directiveMap.theme)
+        if (!isTarget) {
+          root.walkDecls((decl) => {
+            if (themeFn.test(decl.value))
+              isTarget = true
+          })
+        }
+
+        if (!isTarget)
+          return
+
+        const cfg = await config
+        if (!Object.keys(cfg.config).length)
           throw new Error('UnoCSS config file not found.')
 
         if (!uno)
           uno = createGenerator(cfg.config)
-
-        await parseApply(root, uno, directiveMap?.apply || 'apply')
-        parseTheme(root, uno, directiveMap?.theme || 'theme')
-        await parseScreen(root, uno, directiveMap?.screen || 'screen')
 
         const globs = content?.filter(v => typeof v === 'string') as string[] ?? defaultIncludeGlobs
         const rawContent = content?.filter(v => typeof v === 'object') as {
@@ -53,85 +85,87 @@ function unocss({ content, directiveMap, cwd, configOrPath }: UnoPostcssPluginOp
           dot: true,
           absolute: true,
           ignore: ['**/{.git,node_modules}/**'],
+          stats: true,
+        }) as unknown as { path: string; mtimeMs: number }[]
+
+        result.messages.push({
+          type: 'dependency',
+          plugin: directiveMap.unocss,
+          file: result.opts.from,
+          parent: result.opts.from,
         })
 
-        if (result.opts.from?.split('?')[0].endsWith('.css')) {
-          result.messages.push({
-            type: 'dependency',
-            plugin: 'unocss',
-            file: result.opts.from,
-            parent: result.opts.from,
-          })
+        await parseApply(root, uno, directiveMap.apply)
+        await parseTheme(root, uno, directiveMap.theme)
+        await parseScreen(root, uno, directiveMap.screen)
 
-          await Promise.all(
-            [
-              ...rawContent.map(async (v) => {
-                const { matched } = await uno.generate(v.raw, {
-                  id: `unocss${v.extension}`,
-                })
+        promises.push(
+          ...rawContent.map(async (v) => {
+            const { matched } = await uno.generate(v.raw, {
+              id: `unocss${v.extension}`,
+            })
 
-                for (const candidate of matched)
-                  classes.add(candidate)
-              }),
-              ...entries.map(async (file) => {
-                result.messages.push({
-                  type: 'dependency',
-                  plugin: 'unocss',
-                  file,
-                  parent: result.opts.from,
-                })
-
-                const { mtimeMs } = await stat(file)
-                if (fileMap.has(file) && mtimeMs <= fileMap.get(file))
-                  return
-
-                else
-                  fileMap.set(file, mtimeMs)
-
-                const content = await readFile(file, 'utf8')
-                const { matched } = await uno.generate(content, {
-                  id: file,
-                })
-
-                fileClassMap.set(file, matched)
-              }),
-            ],
-          )
-          for (const set of fileClassMap.values()) {
-            for (const candidate of set)
+            for (const candidate of matched)
               classes.add(candidate)
-          }
-          const c = await uno.generate(classes)
-          classes.clear()
-          const excludes: string[] = []
-          root.walkAtRules('unocss', (rule) => {
-            if (rule.params) {
-              const source = rule.source
-              const layers = rule.params.split(',').map(v => v.trim())
-              const css = postcss.parse(
-                layers
-                  .map(i => (i === 'all' ? c.getLayers() : c.getLayer(i)) || '')
-                  .filter(Boolean)
-                  .join('\n'),
-              )
-              css.walkDecls((declaration) => {
-                declaration.source = source
-              })
-              rule.replaceWith(css)
-              excludes.push(rule.params)
-            }
-          })
-          root.walkAtRules('unocss', (rule) => {
-            if (!rule.params) {
-              const source = rule.source
-              const css = postcss.parse(c.getLayers(undefined, excludes) || '')
-              css.walkDecls((declaration) => {
-                declaration.source = source
-              })
-              rule.replaceWith(css)
-            }
-          })
+          }),
+          ...entries.map(async ({ path: file, mtimeMs }) => {
+            result.messages.push({
+              type: 'dependency',
+              plugin: directiveMap.unocss,
+              file,
+              parent: result.opts.from,
+            })
+
+            if (fileMap.has(file) && mtimeMs <= fileMap.get(file))
+              return
+
+            else
+              fileMap.set(file, mtimeMs)
+
+            const content = await readFile(file, 'utf8')
+            const { matched } = await uno.generate(content, {
+              id: file,
+            })
+
+            fileClassMap.set(file, matched)
+          }),
+        )
+        await Promise.all(promises)
+        promises = []
+        for (const set of fileClassMap.values()) {
+          for (const candidate of set)
+            classes.add(candidate)
         }
+        const c = await uno.generate(classes)
+        classes.clear()
+        const excludes: string[] = []
+        root.walkAtRules(directiveMap.unocss, (rule) => {
+          if (rule.params) {
+            const source = rule.source
+            const layers = rule.params.split(',').map(v => v.trim())
+            const css = postcss.parse(
+              layers
+                .map(i => (i === 'all' ? c.getLayers() : c.getLayer(i)) || '')
+                .filter(Boolean)
+                .join('\n'),
+            )
+            css.walkDecls((declaration) => {
+              declaration.source = source
+            })
+            rule.replaceWith(css)
+            excludes.push(rule.params)
+          }
+        })
+        root.walkAtRules(directiveMap.unocss, (rule) => {
+          if (!rule.params) {
+            const source = rule.source
+            const css = postcss.parse(c.getLayers(undefined, excludes) || '')
+            css.walkDecls((declaration) => {
+              declaration.source = source
+            })
+            rule.replaceWith(css)
+          }
+        })
       },
     ],
   }

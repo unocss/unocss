@@ -9,6 +9,7 @@ export interface UnoPostcssPluginOptions {
     apply: string
     screen: string
     theme: string
+    unocss: string
   }
   cwd?: string
   configOrPath?: string | UserConfig
