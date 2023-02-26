@@ -1,5 +1,11 @@
-import { readFileSync, writeFileSync } from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
+import fs from 'fs-extra'
 
-const pkg = JSON.parse(readFileSync('package.json', 'utf-8'))
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+const pkgJson = path.join(__dirname, '../package.json')
+const pkg = fs.readJsonSync(pkgJson)
 pkg.packageManager = `pnpm@${pkg.devDependencies.pnpm}`
-writeFileSync('package.json', `${JSON.stringify(pkg, null, 2)}\n`, 'utf-8')
+fs.writeJsonSync(pkgJson, pkg, { spaces: 2 })
