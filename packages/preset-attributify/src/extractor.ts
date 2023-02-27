@@ -9,7 +9,7 @@ const strippedPrefixes = [
 
 const splitterRE = /[\s'"`;]+/g
 const elementRE = /<[^>\s]*\s((?:'.*?'|".*?"|`.*?`|\{.*?\}|[^>]*?)*)/g
-const valuedAttributeRE = /([?]|(?!\d|-{2}|-\d)[a-zA-Z0-9\u00A0-\uFFFF-_:!%-.]+)=?(?:["]([^"]*)["]|[']([^']*)[']|[{]([^}]*)[}])?/gms
+const valuedAttributeRE = /([?]|(?!\d|-{2}|-\d)[a-zA-Z0-9\u00A0-\uFFFF-_:!%-.]+)=?(?:["]([^"]*)["]|[']([^']*)[']|[{]((?:[`](?:[^`]*)[`]|[^}])+)[}])?/gms
 
 export const defaultIgnoreAttributes = ['placeholder', 'fill', 'opacity']
 
@@ -55,11 +55,34 @@ export const extractorAttributify = (options?: AttributifyOptions): Extractor =>
             if (options?.prefixedOnly && options.prefix && !name.startsWith(options.prefix))
               return []
 
-            const extractTernary = Array.from(content.matchAll(/(?:[\?:].*?)(["'])([^\1]*?)\1/gms))
-              .map(([,,v]) => v.split(splitterRE)).flat()
-            return (extractTernary.length ? extractTernary : content.split(splitterRE))
+            let newContent = content
+
+            const ternaries = []
+            const extractTernary = (content: string) => {
+              const results: string[] = []
+              for (const [,,v] of content.matchAll(/(?:[\?:].*?)(["'])([^\1]+?)\1/gms)) {
+                v.split(splitterRE).flat().filter(Boolean).forEach((v) => {
+                  results.push(`[${name}~="${v}"]`)
+                })
+              }
+              return results
+            }
+
+            for (const ternary of content.matchAll(/(?:[\$]\s*{)(.+?\?.*?(["'])([^\2]+?)\2)(?:})/gms)) {
+              const [match, g1] = ternary
+              newContent = newContent.replace(match, '')
+              ternaries.push(...extractTernary(g1))
+            }
+
+            if (!ternaries.length) {
+              ternaries.push(...extractTernary(content))
+              if (ternaries.length)
+                return ternaries.flat()
+            }
+
+            return newContent.split(splitterRE)
               .filter(v => Boolean(v) && v !== ':')
-              .map(v => `[${name}~="${v}"]`)
+              .map(v => `[${name}~="${v}"]`).concat(ternaries)
           }
         })
 

@@ -151,13 +151,13 @@ export function getMatchedPositions(code: string, matched: string[], hasVariantG
 
   // attributify values
   attributify.forEach(([, name, value]) => {
-    const regex = new RegExp(`(${escapeRegExp(name)}=)(['"])[^\\2]*?${escapeRegExp(value)}[^\\2]*?\\2`, 'g')
+    const regex = new RegExp(`(${escapeRegExp(name)}=){?(['"\`])[^\\2]*?${escapeRegExp(value)}[^\\2]*?\\2`, 'g')
     Array.from(code.matchAll(regex))
       .forEach((match) => {
         const escaped = match[1]
         const body = match[0].slice(escaped.length)
-        let bodyIndex = body.match(`[\\b\\s'"]${escapeRegExp(value)}[\\b\\s'"]`)?.index ?? -1
-        if (body[bodyIndex]?.match(/[\s'"]/))
+        let bodyIndex = body.match(`[\\b\\s'"\`]${escapeRegExp(value)}[\\b\\s'"]`)?.index ?? -1
+        if (body[bodyIndex]?.match(/[\s'"\`]/))
           bodyIndex++
         if (bodyIndex < 0)
           return

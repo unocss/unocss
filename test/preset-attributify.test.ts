@@ -50,6 +50,7 @@ describe('attributify', () => {
 <template>
   <div h-80 text-center flex flex-col align-center select-none all:transition-400>
     <input type="checkbox" peer placeholder=">" class="<md:color-red" mt-a>
+    <div :text="\`red-600 \${red ? 'red-400 hover:red-500' : 'red-500'}\`"></div>  
     <div mb-a group peer-checked="text-4xl">
       <div
         font-100 text-4xl mb--3 p-10
@@ -93,7 +94,8 @@ describe('attributify', () => {
   lg={"bg-blue-600"}
   class={"absolute fixed"}
   important={"text-red bg-red"}
-  bg={ withBg ? "sky-400 hover:sky-500" : "transparent" }
+  bg={ sky ? "sky-400 hover:sky-500" : "transparent" }
+  bg={\`purple-600 \${purple ? "purple-400 hover:purple-500" : "purple-500"}\`}
   font={foo > bar ? 'mono' : 'sans'}
   bg={"blue-400 hover:blue-500 dark:!blue-500 dark:hover:blue-600"}
   text={"sm white"}
