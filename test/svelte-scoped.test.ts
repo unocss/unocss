@@ -6,12 +6,14 @@ import { format as prettier } from 'prettier'
 // @ts-expect-error missing types
 import prettierSvelte from 'prettier-plugin-svelte'
 
+import presetAttributify from '@unocss/preset-attributify'
 import { transformSvelteSFC } from '../packages/vite/src/modes/svelte-scoped'
 
 describe('svelte-scoped', () => {
   const uno = createGenerator({
     presets: [
       presetUno(),
+      presetAttributify(),
       presetIcons({
         prefix: 'i-',
         extraProperties: {
@@ -333,6 +335,14 @@ describe('svelte-scoped', () => {
       </style>
       "
     `)
+  })
+
+  test('attributify', async () => {
+    const code = `
+    <div bg="red fixed hover:blue" hover="bg-blue text-white"  />
+        `.trim()
+    expect(await transform(code)).toMatchSnapshot()
+    expect(await transform(code, { combine: false })).toMatchSnapshot()
   })
 
   test('everything', async () => {
