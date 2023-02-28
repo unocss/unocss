@@ -74,9 +74,9 @@ export async function build(_options: CliOptions) {
       watcher.add(configSources)
 
     watcher.on('all', async (type, file) => {
-      const absolutePath = normalize(resolve(cwd, file))
+      const absolutePath = resolve(cwd, file)
 
-      if (configSources.includes(absolutePath)) {
+      if (configSources.includes(normalize(absolutePath))) {
         await ctx.reloadConfig()
         consola.info(`${cyan(basename(file))} changed, setting new config`)
       }
