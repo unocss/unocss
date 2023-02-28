@@ -1,5 +1,5 @@
 import { existsSync, promises as fs } from 'fs'
-import { basename, dirname, relative, resolve } from 'pathe'
+import { basename, dirname, relative, resolve } from 'path'
 import fg from 'fast-glob'
 import consola from 'consola'
 import { cyan, dim, green } from 'colorette'
