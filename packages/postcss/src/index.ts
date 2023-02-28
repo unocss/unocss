@@ -84,19 +84,22 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
         else
           targetCache.add(result.opts.from)
 
-        const cfg = await config
-
-        const config_mtime = (await stat(cfg.sources[0])).mtimeMs
-        if (config_mtime > last_config_mtime) {
-          uno = createGenerator(cfg.config)
-          last_config_mtime = config_mtime
+        try {
+          const cfg = await config
+          if (!uno) {
+            uno = createGenerator(cfg.config)
+          }
+          else {
+            const config_mtime = (await stat(cfg.sources[0])).mtimeMs
+            if (config_mtime > last_config_mtime) {
+              uno = createGenerator((await loadConfig(cwd, configOrPath)).config)
+              last_config_mtime = config_mtime
+            }
+          }
         }
-
-        if (!uno)
-          uno = createGenerator((await loadConfig(cwd, configOrPath)).config)
-
-        if (!Object.keys(cfg.config).length)
-          throw new Error('UnoCSS config file not found.')
+        catch (error: any) {
+          throw new Error (`UnoCSS config not found: ${error.message}`)
+        }
 
         const globs = content?.filter(v => typeof v === 'string') as string[] ?? defaultIncludeGlobs
         const rawContent = content?.filter(v => typeof v === 'object') as {
