@@ -2,10 +2,10 @@ import type { UnoGenerator } from '@unocss/core'
 import type { Root } from 'postcss'
 import MagicString from 'magic-string'
 
-export function parseTheme(root: Root, uno: UnoGenerator, directiveName: string) {
-  const themeFnRE = new RegExp(`${directiveName}\\((.*?)\\)`, 'g')
+export const themeFnRE = (directiveName: string) => new RegExp(`${directiveName}\\((.*?)\\)`, 'g')
+export async function parseTheme(root: Root, uno: UnoGenerator, directiveName: string) {
   root.walkDecls((decl) => {
-    const matches = Array.from(decl.value.matchAll(themeFnRE))
+    const matches = Array.from(decl.value.matchAll(themeFnRE(directiveName)))
 
     if (!matches.length)
       return
