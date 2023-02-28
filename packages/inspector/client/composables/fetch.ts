@@ -109,13 +109,14 @@ function toTree(modules: ModuleDest[], name: string) {
     const children = Object.values(node.children)
     if (children.length === 1 && !node.items.length) {
       const child = children[0]
-      if (child) {
-        node.name = node.name ? `${node.name}/${child.name}` : child.name
-        node.items = child.items
-        node.children = child.children
-      }
+      node.name = node.name ? `${node.name}/${child.name}` : child.name
+      node.items = child.items
+      node.children = child.children
+      flat(node)
     }
-    children.forEach(flat)
+    else {
+      children.forEach(flat)
+    }
   }
 
   Object.values(node.children).forEach(flat)
