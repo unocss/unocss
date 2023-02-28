@@ -1,5 +1,5 @@
 import { existsSync, promises as fs } from 'fs'
-import { basename, dirname, relative, resolve } from 'path'
+import { basename, dirname, normalize, relative, resolve } from 'pathe'
 import fg from 'fast-glob'
 import consola from 'consola'
 import { cyan, dim, green } from 'colorette'
@@ -74,7 +74,7 @@ export async function build(_options: CliOptions) {
       watcher.add(configSources)
 
     watcher.on('all', async (type, file) => {
-      const absolutePath = resolve(cwd, file)
+      const absolutePath = normalize(resolve(cwd, file))
 
       if (configSources.includes(absolutePath)) {
         await ctx.reloadConfig()
