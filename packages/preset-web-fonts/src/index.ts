@@ -6,8 +6,6 @@ import { FontshareProvider } from './providers/fontshare'
 import { NoneProvider } from './providers/none'
 import type { WebFontMeta, WebFontsOptions, WebFontsProviders } from './types'
 
-export * from './types'
-
 export function normalizedFontMeta(meta: WebFontMeta | string, defaultProvider: WebFontsProviders): WebFontMeta {
   if (typeof meta !== 'string') {
     meta.provider = meta.provider ?? defaultProvider
