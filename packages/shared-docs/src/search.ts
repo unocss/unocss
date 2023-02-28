@@ -260,6 +260,21 @@ export function createSearch(
     return fuseCollection.length
   }
 
+  function getInfo() {
+    return {
+      version: uno.version,
+      presetsCount: uno.config.presets.length,
+      rulesCount: uno.config.rulesSize,
+      variantsCount: uno.config.variants.length,
+      shortcutsCount: uno.config.shortcuts.length,
+      searchCount: getSearchCount(),
+    }
+  }
+
+  function getThemeColors() {
+    return (uno.config.theme as any).colors || {}
+  }
+
   // docs is lazy loaded
   watchAtMost(
     () => docs.value,
@@ -283,5 +298,9 @@ export function createSearch(
     getItemId,
     getSameRules,
     getSearchCount,
+    getInfo,
+    getThemeColors,
   }
 }
+
+export type SearchObject = ReturnType<typeof createSearch>

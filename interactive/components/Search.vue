@@ -87,11 +87,11 @@ function clear() {
   nextTick().then(() => inputEl?.focus())
 }
 
-function openItem(item: ResultItem) {
+async function openItem(item: ResultItem) {
   if (isMobile.value && !isModalOpen.value)
     isModalOpen.value = true
   else
-    input.value = searcher.getItemId(item)
+    input.value = await searcher.getItemId(item)
 }
 
 function selectItem(item: ResultItem) {
