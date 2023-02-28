@@ -12,6 +12,7 @@ export default defineNuxtConfig({
   alias,
   modules: [
     '@vueuse/nuxt',
+    '@nuxt/devtools',
     '~/../packages/nuxt/src/index.ts',
     '~/modules/markdown',
   ],

@@ -54,16 +54,28 @@ export const moduleTree = computed(() => {
     return {
       workspace: { children: {}, items: [] },
       root: { children: {}, items: [] },
+      nodeModules: { children: {}, items: [] },
     }
   }
 
-  const modules: ModuleDest[] = info.value.modules.map(i => ({ full: i, path: i }))
-  const inWorkspace = modules.filter(i => i.full.startsWith(info.value!.root))
-  const inRoot = modules.filter(i => !i.full.startsWith(info.value!.root))
+  const inWorkspace: ModuleDest[] = []
+  const inRoot: ModuleDest[] = []
+  const inNodeModules: ModuleDest[] = []
+  info.value
+    .modules.map(i => ({ full: i, path: i }))
+    .forEach((i) => {
+      if (i.full.includes('node_modules'))
+        inNodeModules.push(i)
+      else if (i.full.startsWith(info.value!.root))
+        inWorkspace.push(i)
+      else
+        inRoot.push(i)
+    })
   inWorkspace.forEach(i => i.path = i.path.slice(info.value!.root.length + 1))
 
   return {
     workspace: toTree(inWorkspace, 'Project Root'),
+    nodeModules: toTree(inNodeModules, 'Node Modules'),
     root: toTree(inRoot, 'Disk Root'),
   }
 })
@@ -72,6 +84,9 @@ function toTree(modules: ModuleDest[], name: string) {
   const node: TreeNode = { name, children: {}, items: [] }
 
   function add(mod: ModuleDest, parts: string[], current = node) {
+    if (!mod)
+      return
+
     if (parts.length <= 1) {
       current.items.push(mod)
       return
@@ -87,6 +102,23 @@ function toTree(modules: ModuleDest[], name: string) {
     const parts = m.path.split(/\//g).filter(Boolean)
     add(m, parts)
   })
+
+  function flat(node: TreeNode) {
+    if (!node)
+      return
+    const children = Object.values(node.children)
+    if (children.length === 1 && !node.items.length) {
+      const child = children[0]
+      if (child) {
+        node.name = node.name ? `${node.name}/${child.name}` : child.name
+        node.items = child.items
+        node.children = child.children
+      }
+    }
+    children.forEach(flat)
+  }
+
+  Object.values(node.children).forEach(flat)
 
   return node
 }

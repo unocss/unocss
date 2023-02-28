@@ -37,7 +37,7 @@ export interface TransformerAttributifyJsxOptions {
   exclude?: FilterPattern
 }
 
-const elementRE = /<!--[\s\S]*?-->|<(\/?)([a-zA-Z][-.:0-9_a-zA-Z]*)((?:\s+[^>]*?(?:(?:'[^']*')|(?:"[^"]*"))?)*)\s*(\/?)>/gs
+const elementRE = /<([^>\s]*\s)((?:'.*?'|".*?"|`.*?`|\{.*?\}|[^>]*?)*)/g
 const attributeRE = /([a-zA-Z()#][\[?a-zA-Z0-9-_:()#%\]?]*)(?:\s*=\s*((?:'[^']*')|(?:"[^"]*")|\S+))?/g
 const classFilterRE = /(className|class)\s*=\s*\{[^\}]*\}/i
 const curlybraceRE = /\w+\s?=\s?\{.+?\}/g
@@ -74,10 +74,10 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
 
       for (const item of Array.from(code.original.matchAll(elementRE))) {
         // Get the length of the className part, and replace it with the equal length of empty string
-        const classNamePart = item[3].match(classFilterRE)
-        let attributifyPart = item[3]
+        const classNamePart = item[2].match(classFilterRE)
+        let attributifyPart = item[2]
         if (classNamePart)
-          attributifyPart = item[3].replace(classFilterRE, ' '.repeat(classNamePart[0].length))
+          attributifyPart = item[2].replace(classFilterRE, ' '.repeat(classNamePart[0].length))
         if (curlybraceRE.test(attributifyPart))
           attributifyPart = attributifyPart.replace(curlybraceRE, match => ' '.repeat(match.length))
         for (const attr of attributifyPart.matchAll(attributeRE)) {
@@ -87,7 +87,7 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
 
           tasks.push(uno.parseToken(matchedRule).then((matched) => {
             if (matched) {
-              const tag = item[2]
+              const tag = item[1]
               const startIdx = (item.index || 0) + (attr.index || 0) + tag.length + 1
               const endIdx = startIdx + matchedRule.length
               code.overwrite(startIdx, endIdx, `${matchedRule}=""`)

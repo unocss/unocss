@@ -37,6 +37,7 @@ const variantSteps = $computed(() => {
   return steps
 })
 const imageUrls = $computed(() => {
+  // @ts-expect-error cast
   return item.urls?.filter(i => i.startsWith('data:image') || i.match(/\.(png|jpg|jpeg|svg)$/ig))
 })
 

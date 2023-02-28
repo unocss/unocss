@@ -1,5 +1,63 @@
 // Vitest Snapshot v1
 
+exports[`svelte-scoped > attributify 1`] = `
+"<div
+  class:uno-otwx4w={true}
+  class:uno-g3ok09={true}
+  class:uno-ut4lmc={true}
+  class:uno-99czie={true}
+  class:uno-il0ztn={true}
+/>
+
+<style>
+  :global(.uno-g3ok09) {
+    --un-bg-opacity: 1;
+    background-color: rgba(248, 113, 113, var(--un-bg-opacity));
+  }
+  :global(.uno-il0ztn:hover, .uno-ut4lmc:hover) {
+    --un-bg-opacity: 1;
+    background-color: rgba(96, 165, 250, var(--un-bg-opacity));
+  }
+  :global(.uno-otwx4w) {
+    background-attachment: fixed;
+  }
+  :global(.uno-99czie:hover) {
+    --un-text-opacity: 1;
+    color: rgba(255, 255, 255, var(--un-text-opacity));
+  }
+</style>
+"
+`;
+
+exports[`svelte-scoped > attributify 2`] = `
+"<div
+  class:_bg-red_7dkb0w={true}
+  class:_bg-fixed_7dkb0w={true}
+  class:_hover:bg-blue_7dkb0w={true}
+  class:_hover-bg-blue_7dkb0w={true}
+  class:_hover-text-white_7dkb0w={true}
+/>
+
+<style>
+  :global(._bg-red_7dkb0w) {
+    --un-bg-opacity: 1;
+    background-color: rgba(248, 113, 113, var(--un-bg-opacity));
+  }
+  :global(._hover-bg-blue_7dkb0w:hover, ._hover\\\\:bg-blue_7dkb0w:hover) {
+    --un-bg-opacity: 1;
+    background-color: rgba(96, 165, 250, var(--un-bg-opacity));
+  }
+  :global(._bg-fixed_7dkb0w) {
+    background-attachment: fixed;
+  }
+  :global(._hover-text-white_7dkb0w:hover) {
+    --un-text-opacity: 1;
+    color: rgba(255, 255, 255, var(--un-text-opacity));
+  }
+</style>
+"
+`;
+
 exports[`svelte-scoped > everything 1`] = `
 "<div class=\\"uno-o8l1as\\" />
 <div class:logo class=\\"foo bar\\" />

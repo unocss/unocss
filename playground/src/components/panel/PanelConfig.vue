@@ -3,33 +3,35 @@
 import { Pane } from 'splitpanes'
 import { customConfigRaw } from '../../composables/url'
 
+defineProps<{ index: number }>()
+
 if (!customConfigRaw.value)
   customConfigRaw.value = defaultConfigRaw
 </script>
 
 <template>
-  <Pane :min-size="titleHeightPercent" :size="panelSizes[1]" flex flex-col min-h-28px relative>
+  <Pane :min-size="titleHeightPercent" :size="panelSizes[index]" flex flex-col relative>
     <TitleBar
       title="Config"
-      @title-click="togglePanel(1)"
+      @title-click="togglePanel(index)"
     >
       <template #before>
         <div
           class="flex-shrink-0 i-ri-arrow-right-s-line mr-1 transition-transform transform"
-          :class="isCollapsed(1) ? '' : 'rotate-90'"
+          :class="isCollapsed(index) ? '' : 'rotate-90'"
         />
       </template>
       <div
         flex flex-1 justify-end items-center w-full gap2
         transition duration-400
-        :class="isCollapsed(1) ? 'op0' : ''"
+        :class="isCollapsed(index) ? 'op0' : ''"
         un-children="inline-flex items-center cursor-pointer gap1"
       >
         <div w-1px h-28px my--1 bg-gray:20 />
         <button
           i-ri-mist-line icon-btn
           title="Format"
-          @click="formatConfig"
+          @click="formatConfig()"
         />
       </div>
     </TitleBar>

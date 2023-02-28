@@ -1,5 +1,5 @@
 import { existsSync, promises as fs } from 'fs'
-import { basename, dirname, relative, resolve } from 'pathe'
+import { basename, dirname, normalize, relative, resolve } from 'pathe'
 import fg from 'fast-glob'
 import consola from 'consola'
 import { cyan, dim, green } from 'colorette'
@@ -33,7 +33,7 @@ export async function build(_options: CliOptions) {
 
   async function loadConfig() {
     const ctx = createContext<UserConfig>(options.config, defaultConfig)
-    const configSources = (await ctx.updateRoot(cwd)).sources
+    const configSources = (await ctx.updateRoot(cwd)).sources.map(i => normalize(i))
     return { ctx, configSources }
   }
 

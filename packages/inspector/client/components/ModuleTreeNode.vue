@@ -24,7 +24,7 @@ const route = useRoute()
       {{ node.name }}
     </summary>
 
-    <ModuleTreeNode v-for="e of Object.entries(node.children)" :key="e[0]" ml2 :node="e[1]" />
+    <ModuleTreeNode v-for="e of Object.entries(node.children)" :key="e[0]" ml4 :node="e[1]" />
     <div
       v-for="i of node.items"
       :key="i.full"
@@ -35,6 +35,7 @@ const route = useRoute()
         block
         text-sm
         p="x2 y1"
+        ml1
         rounded
         :to="`/module/${encodeURIComponent(i.full)}`"
         :class="{ 'bg-gray/10': i.full === route.params.id }"

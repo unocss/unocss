@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite --open",
     "build": "vite build",
+    "update-post": "vite build",
     "serve": "vite preview"
   }
 }
