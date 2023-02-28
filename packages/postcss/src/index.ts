@@ -89,7 +89,7 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
           if (!uno) {
             uno = createGenerator(cfg.config)
           }
-          else {
+          else if (cfg.sources.length) {
             const config_mtime = (await stat(cfg.sources[0])).mtimeMs
             if (config_mtime > last_config_mtime) {
               uno = createGenerator((await loadConfig(cwd, configOrPath)).config)
