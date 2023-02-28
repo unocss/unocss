@@ -37,6 +37,45 @@ export default defineConfig({
     expect(output).toMatchSnapshot()
   })
 
+  it('supports unocss.config.ts changed rebuild', async () => {
+    const { output, testDir } = await runCli({
+      'views/index.html': '<div class="bg-foo"></div>',
+      'unocss.config.ts': `
+import { defineConfig } from 'unocss'
+export default defineConfig({
+  theme: {
+    colors: {
+      foo: "red",
+    }
+  }
+})`.trim(),
+    }, { args: ['-w'] })
+    for (let i = 50; i >= 0; i--) {
+      await sleep(50)
+      if (output)
+        break
+    }
+    expect(output).toContain('.bg-foo{background-color:red;}')
+    await fs.writeFile(resolve(testDir as string, 'unocss.config.ts'), `
+import { defineConfig } from 'unocss'
+export default defineConfig({
+  theme: {
+    colors: {
+      foo: "blue",
+    }
+  }
+})
+    `)
+    for (let i = 100; i >= 0; i--) {
+      await sleep(1000)
+      const outputChanged = await readFile(testDir as string)
+      if (i === 0 || outputChanged.includes('.bg-foo')) {
+        expect(outputChanged).toContain('.bg-foo{background-color:blue;}')
+        break
+      }
+    }
+  })
+
   it('supports variantGroup transformer', async () => {
     const { output, transform } = await runCli({
       'views/index.html': '<div class="p-4 border-(solid red)"></div>',
@@ -46,7 +85,7 @@ export default defineConfig({
   transformers: [transformerVariantGroup()]
 })
     `.trim(),
-    }, 'views/index.html')
+    }, { transformFile: 'views/index.html' })
     expect(output).toMatchSnapshot()
     expect(transform).toMatchSnapshot()
   })
@@ -60,7 +99,7 @@ export default defineConfig({
   transformers: [transformerDirectives()]
 })
     `.trim(),
-    }, 'views/index.css')
+    }, { transformFile: 'views/index.css' })
     expect(output).toMatchSnapshot()
     expect(transform).toMatchSnapshot()
   })
@@ -162,16 +201,16 @@ function readFile(testDir: string, targetFile?: string) {
   return fs.readFile(resolve(testDir, targetFile ?? 'uno.css'), 'utf8')
 }
 
-async function runCli(files: Record<string, string>, transformFile?: string) {
+async function runCli(files: Record<string, string>, options?: { transformFile?: string; args?: string[] }) {
   const testDir = getTestDir()
 
   await initOutputFiles(testDir, files)
-  await runAsyncChildProcess(testDir, 'views/**/*')
+  await runAsyncChildProcess(testDir, 'views/**/*', ...options?.args ?? [])
 
   const output = await readFile(testDir)
 
-  if (transformFile) {
-    const transform = await readFile(testDir, transformFile)
+  if (options?.transformFile) {
+    const transform = await readFile(testDir, options?.transformFile)
     return {
       output,
       transform,
@@ -180,5 +219,6 @@ async function runCli(files: Record<string, string>, transformFile?: string) {
 
   return {
     output,
+    testDir,
   }
 }
