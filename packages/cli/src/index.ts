@@ -33,7 +33,7 @@ export async function build(_options: CliOptions) {
 
   async function loadConfig() {
     const ctx = createContext<UserConfig>(options.config, defaultConfig)
-    const configSources = (await ctx.updateRoot(cwd)).sources
+    const configSources = (await ctx.updateRoot(cwd)).sources.map(i => normalize(i))
     return { ctx, configSources }
   }
 
@@ -76,7 +76,7 @@ export async function build(_options: CliOptions) {
     watcher.on('all', async (type, file) => {
       const absolutePath = resolve(cwd, file)
 
-      if (configSources.includes(normalize(absolutePath))) {
+      if (configSources.includes(absolutePath)) {
         await ctx.reloadConfig()
         consola.info(`${cyan(basename(file))} changed, setting new config`)
       }
