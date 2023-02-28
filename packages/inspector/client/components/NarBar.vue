@@ -12,7 +12,7 @@ const toggleDark = useToggle(isDark)
   >
     <div flex flex-auto children:my-auto ws-nowrap>
       <img
-        src="/icon.svg"
+        src="/favicon.svg"
         filter
         dark:invert
         inline-block

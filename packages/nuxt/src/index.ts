@@ -86,7 +86,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
         tabs.push({
           title: 'UnoCSS',
           name: 'unocss',
-          icon: 'logos-unocss',
+          icon: '/__unocss/favicon.svg',
           view: {
             type: 'iframe',
             src: '/__unocss/',
