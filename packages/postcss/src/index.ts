@@ -1,4 +1,4 @@
-import { readFile } from 'fs/promises'
+import { readFile, stat } from 'fs/promises'
 import type { UnoGenerator } from '@unocss/core'
 import fg from 'fast-glob'
 import type { Result, Root } from 'postcss'
@@ -39,6 +39,7 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
 
   let uno: UnoGenerator
   let promises: Promise<void>[] = []
+  let last_config_mtime = 0
   const targetRE = new RegExp(Object.values(directiveMap).join('|'))
 
   return {
@@ -84,11 +85,18 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
           targetCache.add(result.opts.from)
 
         const cfg = await config
+
+        const config_mtime = (await stat(cfg.sources[0])).mtimeMs
+        if (config_mtime > last_config_mtime) {
+          uno = createGenerator(cfg.config)
+          last_config_mtime = config_mtime
+        }
+        else {
+          uno = createGenerator((await loadConfig(cwd, configOrPath)).config)
+        }
+
         if (!Object.keys(cfg.config).length)
           throw new Error('UnoCSS config file not found.')
-
-        if (!uno)
-          uno = createGenerator(cfg.config)
 
         const globs = content?.filter(v => typeof v === 'string') as string[] ?? defaultIncludeGlobs
         const rawContent = content?.filter(v => typeof v === 'object') as {
