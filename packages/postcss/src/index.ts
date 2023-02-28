@@ -102,7 +102,7 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
         promises.push(
           ...rawContent.map(async (v) => {
             const { matched } = await uno.generate(v.raw, {
-              id: `unocss${v.extension}`,
+              id: `unocss.${v.extension}`,
             })
 
             for (const candidate of matched)
