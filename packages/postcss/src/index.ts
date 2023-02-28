@@ -34,10 +34,12 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
   const fileMap = new Map()
   const fileClassMap = new Map()
   const classes = new Set<string>()
+  const targetCache = new Set<string>()
   const config = loadConfig(cwd, configOrPath)
 
   let uno: UnoGenerator
   let promises: Promise<void>[] = []
+  const targetRE = new RegExp(Object.values(directiveMap).join('|'))
 
   return {
     postcssPlugin: directiveMap.unocss,
@@ -47,25 +49,39 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
           return
 
         let isTarget = false
-        root.walkAtRules((rule) => {
-          if (
-            rule.name === directiveMap.unocss
-            || rule.name === directiveMap.apply
-            || rule.name === directiveMap.theme
-            || rule.name === directiveMap.screen
-          )
+
+        if (targetRE.test(root.toString())) {
+          if (!targetCache.has(result.opts.from)) {
+            root.walkAtRules((rule) => {
+              if (
+                rule.name === directiveMap.unocss
+              || rule.name === directiveMap.apply
+              || rule.name === directiveMap.theme
+              || rule.name === directiveMap.screen
+              )
+                isTarget = true
+            })
+
+            if (!isTarget) {
+              const themeFn = themeFnRE(directiveMap.theme)
+              root.walkDecls((decl) => {
+                if (themeFn.test(decl.value))
+                  isTarget = true
+              })
+            }
+          }
+          else {
             isTarget = true
-        })
-        const themeFn = themeFnRE(directiveMap.theme)
-        if (!isTarget) {
-          root.walkDecls((decl) => {
-            if (themeFn.test(decl.value))
-              isTarget = true
-          })
+          }
+        }
+        else if (targetCache.has(result.opts.from)) {
+          targetCache.delete(result.opts.from)
         }
 
         if (!isTarget)
           return
+        else
+          targetCache.add(result.opts.from)
 
         const cfg = await config
         if (!Object.keys(cfg.config).length)
