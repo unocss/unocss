@@ -91,9 +91,9 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
           uno = createGenerator(cfg.config)
           last_config_mtime = config_mtime
         }
-        else {
+
+        if (!uno)
           uno = createGenerator((await loadConfig(cwd, configOrPath)).config)
-        }
 
         if (!Object.keys(cfg.config).length)
           throw new Error('UnoCSS config file not found.')
