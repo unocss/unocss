@@ -14,11 +14,11 @@
   "dependencies": {
     "@quasar/extras": "^1.15.11",
     "quasar": "^2.6.0",
-    "vue": "^3.2.39",
+    "vue": "^3.2.47",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
-    "@quasar/app-vite": "^1.2.0",
+    "@quasar/app-vite": "^1.2.1",
     "autoprefixer": "^10.4.13",
     "typescript": "^4.9.5",
     "unocss": "link:../../packages/unocss"

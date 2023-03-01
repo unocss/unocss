@@ -9,7 +9,6 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    A: typeof import('./components/foo/bar/tt.vue/a.vue')['default']
     CodeMirror: typeof import('./components/CodeMirror.vue')['default']
     FileIcon: typeof import('./components/FileIcon.vue')['default']
     ModuleId: typeof import('./components/ModuleId.vue')['default']

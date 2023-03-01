@@ -13,8 +13,8 @@
     "qwik": "qwik"
   },
   "devDependencies": {
-    "@builder.io/qwik": "0.19.0",
-    "@builder.io/qwik-city": "0.3.0",
+    "@builder.io/qwik": "0.20.1",
+    "@builder.io/qwik-city": "0.5.2",
     "@types/node": "latest",
     "@unocss/reset": "link:../../packages/reset",
     "typescript": "^4.9.5",
