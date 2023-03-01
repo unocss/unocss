@@ -117,8 +117,9 @@ export async function registerAutoComplete(
 
         return new CompletionList(completionItems, true)
       }
-      catch (e) {
-        log.appendLine(`⚠️ ${String(e)}`)
+      catch (e: any) {
+        log.appendLine('⚠️ Error on getting autocompletion items')
+        log.appendLine(String(e.stack ?? e))
         return null
       }
     },

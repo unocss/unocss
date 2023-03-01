@@ -225,10 +225,13 @@ describe('svelte-scoped', () => {
   })
 
   test('handles backticks and single quotes', async () => {
-    const backticks = await transform('<span class=`font-bold` />', { format: false })
+    const backticks = await transform(`<script></script>
+    <span class=\`font-bold\` />
+    <style></style>`, { format: false })
     expect(backticks).toMatchInlineSnapshot(`
-      "<span class=\`uno-k2ufqh\` />
-      <style>:global(.uno-k2ufqh){font-weight:700;}</style>"
+      "<script></script>
+          <span class=\`uno-k2ufqh\` />
+          <style>:global(.uno-k2ufqh){font-weight:700;}</style>"
     `)
     const singleQuotes = await transform(`
     <span class='font-bold' />`.trim())
@@ -341,6 +344,16 @@ describe('svelte-scoped', () => {
     const code = `
     <div bg="red fixed hover:blue" hover="bg-blue text-white"  />
         `.trim()
+    expect(await transform(code)).toMatchSnapshot()
+    expect(await transform(code, { combine: false })).toMatchSnapshot()
+  })
+
+  test('search attributify candidates only on template', async () => {
+    const code = `<script lang="ts">
+    $: visible
+  </script>
+  
+  <Render {visible}></Render>`.trim()
     expect(await transform(code)).toMatchSnapshot()
     expect(await transform(code, { combine: false })).toMatchSnapshot()
   })

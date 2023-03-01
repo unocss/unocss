@@ -60,8 +60,8 @@ export async function activate(ext: ExtensionContext) {
         }),
       )
     }
-    catch (error) {
-      log.appendLine((error as Error).message)
+    catch (e: any) {
+      log.appendLine(String(e.stack ?? e))
     }
     return
   }
@@ -82,8 +82,8 @@ export async function activate(ext: ExtensionContext) {
       }),
     )
   }
-  catch (error) {
-    log.appendLine((error as Error).message)
+  catch (e: any) {
+    log.appendLine(String(e.stack ?? e))
   }
 }
 

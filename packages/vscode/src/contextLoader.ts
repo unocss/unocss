@@ -124,9 +124,9 @@ export class ContextLoader {
       try {
         sources = (await context.ready).sources
       }
-      catch (e) {
+      catch (e: any) {
         log.appendLine(`⚠️ Error on loading config. Config directory: ${dir}`)
-        log.appendLine(String(e))
+        log.appendLine(String(e.stack ?? e))
         console.error(e)
         return null
       }
