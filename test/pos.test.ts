@@ -85,6 +85,59 @@ describe('matched-positions', async () => {
       `)
   })
 
+  test('ternary position highlight', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetAttributify({ strict: true }),
+        presetUno({ attributifyPseudo: true }),
+      ],
+    })
+
+    expect(await match(uno, `
+      <div :p="\`y4 \${\`y5\` ? 'x-4' : '4'} x8\`"></div>
+      <div p={\`y4 \${\`y5\` ? 'x-4' : '4'} x8\`}></div>
+    `))
+      .toMatchInlineSnapshot(`
+        [
+          [
+            17,
+            19,
+            "[p=\\"y4\\"]",
+          ],
+          [
+            30,
+            33,
+            "[p=\\"x-4\\"]",
+          ],
+          [
+            38,
+            39,
+            "[p=\\"4\\"]",
+          ],
+          [
+            42,
+            44,
+            "[p=\\"x8\\"]",
+          ],
+          [
+            69,
+            71,
+            "[p=\\"y4\\"]",
+          ],
+          [
+            82,
+            85,
+            "[p=\\"x-4\\"]",
+          ],
+          [
+            94,
+            96,
+            "[p=\\"x8\\"]",
+          ],
+        ]
+      `)
+  })
+
   test('css-directive', async () => {
     const uno = createGenerator({
       presets: [
