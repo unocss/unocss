@@ -1,5 +1,5 @@
 import MagicString from 'magic-string'
-import { type UnoGenerator, expandVariantGroup } from '@unocss/core'
+import { type UnoGenerator, attributifyRE, escapeRegExp, expandVariantGroup } from '@unocss/core'
 import { wrapSelectorsWithGlobal } from './wrap-global'
 import { hash } from './hash'
 
@@ -47,20 +47,6 @@ export async function transformSvelteSFC(code: string, id: string, uno: UnoGener
   const classes = [...code.matchAll(classesRE)]
   const classDirectives = [...code.matchAll(classesDirectivesRE)]
   const classDirectivesShorthand = [...code.matchAll(classDirectivesShorthandRE)]
-
-  if (!classes.length && !classDirectives.length && !classDirectivesShorthand.length) {
-    if (preflights || safelist) {
-      if (alreadyHasStyles) {
-        return {
-          code: code.replace(/(<style[^>]*>)/, `$1${styles}`),
-        }
-      }
-      return { code: `${code}\n<style>${styles}</style>` }
-    }
-    else {
-      return
-    }
-  }
 
   const originalShortcuts = uno.config.shortcuts
   const shortcuts: Record<string, string[]> = {}
@@ -117,7 +103,7 @@ export async function transformSvelteSFC(code: string, id: string, uno: UnoGener
     const className = queueCompiledClass(known)
     return [className, ...replacements].join(' ')
   }
-
+  const processedMap = new Set()
   for (const match of classes) {
     let body = expandVariantGroup(match[2].trim())
 
@@ -130,8 +116,10 @@ export async function transformSvelteSFC(code: string, id: string, uno: UnoGener
 
     const replacement = await sortKnownAndUnknownClasses(body)
     if (replacement) {
-      const start = match.index!
-      s.overwrite(start + 7, start + match[0].length - 1, replacement)
+      const start = match.index! + 7
+      const end = match.index! + match[0].length - 1
+      processedMap.add(start)
+      s.overwrite(start, end, replacement)
     }
   }
 
@@ -142,6 +130,7 @@ export async function transformSvelteSFC(code: string, id: string, uno: UnoGener
       continue
     const className = queueCompiledClass([token])
     const start = match.index! + 'class:'.length
+    processedMap.add(start)
     s.overwrite(start, start + match[1].length, className)
   }
 
@@ -152,7 +141,46 @@ export async function transformSvelteSFC(code: string, id: string, uno: UnoGener
       continue
     const className = queueCompiledClass([token])
     const start = match.index! + 'class:'.length
+    processedMap.add(start)
     s.overwrite(start, start + match[1].length, `${className}={${token}}`)
+  }
+
+  const { matched } = await uno.generate(code, { preflights: false, safelist: false, minify: true })
+
+  for (const token of matched) {
+    const match = token.match(attributifyRE)
+    if (match) {
+      const [,name, value] = match
+      if (!value) {
+        let start = 0
+        code.split(/([\s"'`;*]|:\(|\)"|\)\s)/g).forEach((i) => {
+          const end = start + i.length
+          if (i === name && !processedMap.has(start)) {
+            const className = queueCompiledClass([name])
+            s.appendLeft(start, `class:${className}={true} `)
+            s.overwrite(start, end, '')
+          }
+          start = end
+        })
+      }
+      else {
+        const regex = new RegExp(`(${escapeRegExp(name)}=)(['"])[^\\2]*?${escapeRegExp(value)}[^\\2]*?\\2`, 'g')
+        for (const match of code.matchAll(regex)) {
+          const escaped = match[1]
+          const body = match[0].slice(escaped.length)
+          let bodyIndex = body.match(`[\\b\\s'"]${escapeRegExp(value)}[\\b\\s'"]`)?.index ?? -1
+          if (body[bodyIndex]?.match(/[\s'"]/))
+            bodyIndex++
+          if (bodyIndex < 0)
+            return
+          const [,base] = await uno.matchVariants(value)
+          const variants = value.replace(base, '')
+          const className = queueCompiledClass([`${variants + name}-${base}`])
+          s.appendLeft(match.index!, `class:${className}={true} `)
+          s.overwrite(match.index!, match.index! + match[0].length, '')
+        }
+      }
+    }
   }
 
   uno.config.shortcuts = [...originalShortcuts, ...Object.entries(shortcuts)]

@@ -23,7 +23,7 @@ function handleReset() {
 <template>
   <div
     class="flex items-center px-2 op-60 bg-gray/10"
-    border="l t gray-400/20" h-36px w-full
+    border="l t gray-400/20" w-full
   >
     <div flex items-center gap-2>
       <img src="/icon-gray.svg" w-4 h-4alt="">

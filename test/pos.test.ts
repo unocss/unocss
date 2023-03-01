@@ -147,6 +147,30 @@ describe('matched-positions', async () => {
       `)
   })
 
+  test('arbitrary property', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetUno(),
+      ],
+    })
+
+    expect(await match(uno, '<div class="[color:red] [color:\'red\']"></div>'))
+      .toMatchInlineSnapshot(`
+        [
+          [
+            12,
+            23,
+            "[color:red]",
+          ],
+          [
+            24,
+            37,
+            "[color:'red']",
+          ],
+        ]
+      `)
+  })
+
   test('variant-group', async () => {
     const uno = createGenerator({
       presets: [

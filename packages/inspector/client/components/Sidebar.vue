@@ -38,6 +38,12 @@ import { moduleTree } from '../composables/fetch'
         p="l3 t4"
         icon="i-carbon-vmdk-disk"
       />
+      <ModuleTreeNode
+        v-if="Object.keys(moduleTree.nodeModules.children).length"
+        :node="moduleTree.nodeModules"
+        p="l3 t4"
+        icon="i-carbon-categories"
+      />
     </div>
   </div>
 </template>

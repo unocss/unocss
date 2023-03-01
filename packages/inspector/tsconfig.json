@@ -7,7 +7,6 @@
     "moduleResolution": "node",
     "strict": true,
     "sourceMap": true,
-    "useDefineForClassFields": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "jsx": "preserve",

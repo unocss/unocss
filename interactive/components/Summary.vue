@@ -2,37 +2,39 @@
 import { searcher } from '~/composables/state'
 
 const isDefault = $computed(() => (userConfigRaw.value || defaultConfigRaw) === defaultConfigRaw)
+
+const info = await searcher.getInfo()
 </script>
 
 <template>
   <div h-full items-center justify-center gap6>
     <div grid="~ cols-[max-content_1fr]" w-auto text-left gap2 op80>
       <div font-bold text-right>
-        {{ searcher.uno.config.presets.length }}
+        {{ info.presetsCount }}
       </div>
       <div op50>
         Presets
       </div>
       <div font-bold text-right>
-        {{ searcher.uno.config.rulesSize }}
+        {{ info.rulesCount }}
       </div>
       <div op50>
         Rules
       </div>
       <div font-bold text-right>
-        {{ searcher.uno.config.shortcuts.length }}
+        {{ info.shortcutsCount }}
       </div>
       <div op50>
         Shortcuts
       </div>
       <div font-bold text-right>
-        {{ searcher.uno.config.variants.length }}
+        {{ info.variantsCount }}
       </div>
       <div op50>
         Variants
       </div>
       <div font-bold text-right>
-        {{ searcher.getSearchCount() }}
+        {{ info.searchCount }}
       </div>
       <div op50>
         Search entries

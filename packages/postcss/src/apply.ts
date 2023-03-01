@@ -7,7 +7,7 @@ import { expandVariantGroup, notNull, regexScopePlaceholder } from '@unocss/core
 
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
 
-export function parseApply(root: Root, uno: UnoGenerator, directiveName: string) {
+export async function parseApply(root: Root, uno: UnoGenerator, directiveName: string) {
   // @ts-expect-error types doesn't allow async callback but it seems work
   root.walkAtRules(directiveName, async (rule) => {
     if (!rule.parent)
