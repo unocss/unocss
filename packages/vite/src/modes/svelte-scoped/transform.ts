@@ -145,7 +145,10 @@ export async function transformSvelteSFC(code: string, id: string, uno: UnoGener
     s.overwrite(start, start + match[1].length, `${className}={${token}}`)
   }
 
-  const { matched } = await uno.generate(code, { preflights: false, safelist: false, minify: true })
+  // search attributify candidates only on template
+  const templateCode = code
+    .replace(/<(script|style)[^>]*>[\s\S]*?<\/\1\s*>/g, match => Array(match.length).fill(' ').join(''))
+  const { matched } = await uno.generate(templateCode, { preflights: false, safelist: false, minify: true })
 
   for (const token of matched) {
     const match = token.match(attributifyRE)
@@ -153,7 +156,7 @@ export async function transformSvelteSFC(code: string, id: string, uno: UnoGener
       const [,name, value] = match
       if (!value) {
         let start = 0
-        code.split(/([\s"'`;*]|:\(|\)"|\)\s)/g).forEach((i) => {
+        templateCode.split(/([\s"'`;*]|:\(|\)"|\)\s)/g).forEach((i) => {
           const end = start + i.length
           if (i === name && !processedMap.has(start)) {
             const className = queueCompiledClass([name])
@@ -165,7 +168,7 @@ export async function transformSvelteSFC(code: string, id: string, uno: UnoGener
       }
       else {
         const regex = new RegExp(`(${escapeRegExp(name)}=)(['"])[^\\2]*?${escapeRegExp(value)}[^\\2]*?\\2`, 'g')
-        for (const match of code.matchAll(regex)) {
+        for (const match of templateCode.matchAll(regex)) {
           const escaped = match[1]
           const body = match[0].slice(escaped.length)
           let bodyIndex = body.match(`[\\b\\s'"]${escapeRegExp(value)}[\\b\\s'"]`)?.index ?? -1

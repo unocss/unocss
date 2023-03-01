@@ -237,6 +237,10 @@ exports[`svelte-scoped > everything 2`] = `
 "
 `;
 
+exports[`svelte-scoped > search attributify candidates only on template 1`] = `undefined`;
+
+exports[`svelte-scoped > search attributify candidates only on template 2`] = `undefined`;
+
 exports[`svelte-scoped > shortcut with icon 1`] = `
 "<span class=\\"logo\\" />
 
