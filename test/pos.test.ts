@@ -18,7 +18,7 @@ describe('matched-positions', async () => {
       ],
     })
 
-    expect(await match(uno, '<div border="b gray4 2 [&_span]:white"></div>'))
+    expect(await match(uno, '<div border="b gray4 2 [&_span]:white" hover="[&>span]:text-white" border></div>'))
       .toMatchInlineSnapshot(`
         [
           [
@@ -40,6 +40,16 @@ describe('matched-positions', async () => {
             23,
             37,
             "[border=\\"[&_span]:white\\"]",
+          ],
+          [
+            46,
+            65,
+            "[hover=\\"[&>span]:text-white\\"]",
+          ],
+          [
+            67,
+            73,
+            "border",
           ],
         ]
       `)
@@ -176,12 +186,15 @@ describe('matched-positions', async () => {
       presets: [
         presetUno(),
       ],
+      shortcuts: {
+        '<custom-shortcut': 'text-lg',
+      },
       transformers: [
         transformerVariantGroup(),
       ],
     })
 
-    expect(await match(uno, '<div class="hover:(h-4 w-4 bg-green-300) disabled:opacity-50"></div>'))
+    expect(await match(uno, '<div class="hover:(h-4 w-4 bg-green-300 <custom-shortcut) disabled:opacity-50"></div>'))
       .toMatchInlineSnapshot(`
         [
           [
@@ -200,8 +213,13 @@ describe('matched-positions', async () => {
             "hover:bg-green-300",
           ],
           [
-            41,
-            60,
+            40,
+            56,
+            "hover:<custom-shortcut",
+          ],
+          [
+            58,
+            77,
             "disabled:opacity-50",
           ],
         ]
@@ -307,6 +325,34 @@ describe('matched-positions-pug', async () => {
         ],
       ]
     `)
+  })
+
+  test('attributify `><`', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetAttributify(),
+        presetUno(),
+      ],
+      shortcuts: {
+        '<custom-shortcut': 'text-teal',
+      },
+    })
+
+    expect(await match(uno, '<div border></div><div <custom-shortcut></div>'))
+      .toMatchInlineSnapshot(`
+        [
+          [
+            5,
+            11,
+            "border",
+          ],
+          [
+            23,
+            39,
+            "<custom-shortcut",
+          ],
+        ]
+      `)
   })
 
   test('@unocss/transformer-directives', async () => {
