@@ -199,5 +199,6 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
 }
 
 unocss.postcss = true
+unocss.default = unocss
 
 export default unocss
