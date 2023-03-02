@@ -1,12 +1,12 @@
 const path = require('path')
 const { override, addWebpackPlugin } = require('customize-cra')
-const UnoCss = require('@unocss/webpack').default
+const UnoCSS = require('@unocss/webpack').default
 const { presetIcons, presetUno } = require('unocss')
 
 module.exports = {
   webpack: override(
     addWebpackPlugin(
-      UnoCss({
+      UnoCSS({
         shortcuts: [
           { logo: 'i-logos-react w-6em h-6em transform transition-800 hover:rotate-180' },
         ],

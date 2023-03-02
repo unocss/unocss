@@ -35,8 +35,10 @@
     ]
   },
   "devDependencies": {
+    "@iconify-json/carbon": "^1.1.13",
     "@unocss/webpack": "link:../../packages/webpack",
     "customize-cra": "^1.0.0",
-    "react-app-rewired": "^2.2.1"
+    "react-app-rewired": "^2.2.1",
+    "unocss": "link:../../packages/unocss"
   }
 }
