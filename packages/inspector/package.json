@@ -1,6 +1,6 @@
 {
   "name": "@unocss/inspector",
-  "version": "0.50.1",
+  "version": "0.50.3",
   "description": "The inspector UI for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -37,8 +37,8 @@
     "build": "unbuild",
     "build-post": "vite build",
     "stub": "unbuild --stub",
-    "dev": "nr play",
-    "play": "nr stub && vite"
+    "dev": "nr stub && vite",
+    "update-post": "vite build"
   },
   "dependencies": {
     "gzip-size": "^6.0.0",

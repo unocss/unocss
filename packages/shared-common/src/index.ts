@@ -88,17 +88,31 @@ export function getMatchedPositions(code: string, matched: string[], hasVariantG
   Array.from(matched)
     .forEach((v) => {
       const match = isAttributifySelector(v)
-      if (!match)
+      if (!match) {
+        highlightLessGreaterThanSign(v)
         plain.add(v)
-      else if (!match[2])
+      }
+      else if (!match[2]) {
+        highlightLessGreaterThanSign(match[1])
         plain.add(match[1])
-      else
-        attributify.push(match)
+      }
+      else { attributify.push(match) }
     })
+
+  // highlight classes that includes `><`
+  function highlightLessGreaterThanSign(str: string) {
+    if (str.match(/[><]/)) {
+      for (const match of code.matchAll(new RegExp(escapeRegExp(str), 'g'))) {
+        const start = match.index!
+        const end = start + match[0].length
+        result.push([start, end, match[0]])
+      }
+    }
+  }
 
   // highlight for plain classes
   let start = 0
-  code.split(/([\s"'`;*]|:\(|\)"|\)\s)/g).forEach((i) => {
+  code.split(/([\s"'`;<>*]|:\(|\)"|\)\s)/g).forEach((i) => {
     const end = start + i.length
     if (isPug) {
       result.push(...getPlainClassMatchedPositionsForPug(i, plain, start))
@@ -122,8 +136,12 @@ export function getMatchedPositions(code: string, matched: string[], hasVariantG
   for (const match of code.matchAll(arbitraryPropertyRE)) {
     const start = match.index!
     const end = start + match[0].length
-    if (plain.has(match[0]))
-      result.push([start, end, match[0]])
+    if (plain.has(match[0])) {
+      // non-quoted arbitrary properties already highlighted by plain class highlighter
+      const index = result.findIndex(([s, e]) => s === start && e === end)
+      if (index < 0)
+        result.push([start, end, match[0]])
+    }
   }
 
   // highlight for variant group

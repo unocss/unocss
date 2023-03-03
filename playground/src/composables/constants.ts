@@ -27,6 +27,9 @@ export const defaultHTML = `
 
 export { defaultConfigRaw, version }
 
+export const defaultCSS = ''
+export const customCSSLayerName = 'playground'
+
 export const defaultOptions = '{}'
 
 export const STORAGE_KEY = 'last-search'

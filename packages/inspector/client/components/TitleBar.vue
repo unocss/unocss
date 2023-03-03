@@ -22,7 +22,7 @@ const emit = defineEmits<{
   >
     <div flex @click="e => emit('titleClick', e)">
       <slot name="before" />
-      <div mr-2 op-60>
+      <div mr-2 op-60 shrink-0>
         {{ title }}
       </div>
     </div>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { uno } from '~/composables/state'
+import { searcher } from '~/composables/state'
 
-const colors = (uno.config.theme as any).colors || {}
+const colors = await searcher.getThemeColors()
 </script>
 
 <template>

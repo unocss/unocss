@@ -3,7 +3,7 @@ import type { Root } from 'postcss'
 import type { Theme } from '@unocss/preset-mini'
 import { resolveBreakpoints } from '@unocss/preset-mini/utils'
 
-export function parseScreen(root: Root, uno: UnoGenerator<Theme>, directiveName: string) {
+export async function parseScreen(root: Root, uno: UnoGenerator<Theme>, directiveName: string) {
   // @ts-expect-error types
   root.walkAtRules(directiveName, async (rule) => {
     let breakpointName = ''

@@ -50,12 +50,19 @@ export async function getHint(context: CompletionContext): Promise<CompletionRes
 }
 
 debouncedWatch(
-  customConfigRaw,
+  [customConfigRaw, customCSS],
   async () => {
     customConfigError.value = undefined
     try {
       const result = await evaluateUserConfig(customConfigRaw.value)
       if (result) {
+        const preflights = (result.preflights ?? []).filter(p => p.layer !== customCSSLayerName)
+        preflights.push({
+          layer: customCSSLayerName,
+          getCSS: () => customCSS.value,
+        })
+
+        result.preflights = preflights
         customConfig = result
         reGenerate()
         if (initial) {

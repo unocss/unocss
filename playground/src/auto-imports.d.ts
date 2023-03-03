@@ -25,11 +25,14 @@ declare global {
   const createSharedComposable: typeof import('@vueuse/core')['createSharedComposable']
   const createUnrefFn: typeof import('@vueuse/core')['createUnrefFn']
   const cssFormatted: typeof import('./composables/prettier')['cssFormatted']
+  const customCSS: typeof import('./composables/url')['customCSS']
+  const customCSSLayerName: typeof import('./composables/constants')['customCSSLayerName']
   const customConfigError: typeof import('./composables/uno')['customConfigError']
   const customConfigRaw: typeof import('./composables/url')['customConfigRaw']
   const customRef: typeof import('vue')['customRef']
   const debouncedRef: typeof import('@vueuse/core')['debouncedRef']
   const debouncedWatch: typeof import('@vueuse/core')['debouncedWatch']
+  const defaultCSS: typeof import('./composables/constants')['defaultCSS']
   const defaultConfig: typeof import('./composables/config')['defaultConfig']
   const defaultConfigRaw: typeof import('./composables/constants')['defaultConfigRaw']
   const defaultHTML: typeof import('./composables/constants')['defaultHTML']
@@ -39,6 +42,7 @@ declare global {
   const eagerComputed: typeof import('@vueuse/core')['eagerComputed']
   const effectScope: typeof import('vue')['effectScope']
   const extendRef: typeof import('@vueuse/core')['extendRef']
+  const formatCSS: typeof import('./composables/prettier')['formatCSS']
   const formatConfig: typeof import('./composables/prettier')['formatConfig']
   const formatHTML: typeof import('./composables/prettier')['formatHTML']
   const generate: typeof import('./composables/uno')['generate']
@@ -319,7 +323,7 @@ declare global {
 // for type re-export
 declare global {
   // @ts-ignore
-  export type { Component,ComponentPublicInstance,ComputedRef,InjectionKey,PropType,Ref,VNode } from 'vue'
+  export type { Component, ComponentPublicInstance, ComputedRef, InjectionKey, PropType, Ref, VNode } from 'vue'
 }
 // for vue template auto import
 import { UnwrapRef } from 'vue'
@@ -346,11 +350,14 @@ declare module 'vue' {
     readonly createSharedComposable: UnwrapRef<typeof import('@vueuse/core')['createSharedComposable']>
     readonly createUnrefFn: UnwrapRef<typeof import('@vueuse/core')['createUnrefFn']>
     readonly cssFormatted: UnwrapRef<typeof import('./composables/prettier')['cssFormatted']>
+    readonly customCSS: UnwrapRef<typeof import('./composables/url')['customCSS']>
+    readonly customCSSLayerName: UnwrapRef<typeof import('./composables/constants')['customCSSLayerName']>
     readonly customConfigError: UnwrapRef<typeof import('./composables/uno')['customConfigError']>
     readonly customConfigRaw: UnwrapRef<typeof import('./composables/url')['customConfigRaw']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
     readonly debouncedRef: UnwrapRef<typeof import('@vueuse/core')['debouncedRef']>
     readonly debouncedWatch: UnwrapRef<typeof import('@vueuse/core')['debouncedWatch']>
+    readonly defaultCSS: UnwrapRef<typeof import('./composables/constants')['defaultCSS']>
     readonly defaultConfig: UnwrapRef<typeof import('./composables/config')['defaultConfig']>
     readonly defaultConfigRaw: UnwrapRef<typeof import('./composables/constants')['defaultConfigRaw']>
     readonly defaultHTML: UnwrapRef<typeof import('./composables/constants')['defaultHTML']>
@@ -360,6 +367,7 @@ declare module 'vue' {
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
+    readonly formatCSS: UnwrapRef<typeof import('./composables/prettier')['formatCSS']>
     readonly formatConfig: UnwrapRef<typeof import('./composables/prettier')['formatConfig']>
     readonly formatHTML: UnwrapRef<typeof import('./composables/prettier')['formatHTML']>
     readonly generate: UnwrapRef<typeof import('./composables/uno')['generate']>
