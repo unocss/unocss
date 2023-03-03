@@ -1,4 +1,3 @@
-import type { Theme } from '@unocss/preset-uno'
 import { createGenerator, escapeSelector } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import { expect, test } from 'vitest'
@@ -116,13 +115,13 @@ const nonTargets = [
   'bg-blend-plus-lighter', // only added in mix-blend
 ]
 
-const uno = createGenerator<Theme>({
+const uno = createGenerator({
   presets: [
     presetUno({
       dark: 'media',
     }),
   ],
-  extendTheme: () => ({
+  theme: {
     colors: {
       custom: {
         a: 'var(--custom)',
@@ -134,7 +133,7 @@ const uno = createGenerator<Theme>({
       },
       info: 'hsl(200.1, 100%, 54.3%)',
     },
-  }),
+  },
 })
 
 test('targets', async () => {

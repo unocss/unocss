@@ -13,7 +13,7 @@ const config: UserConfig = {
       dark: 'media',
     }),
   ],
-  extendTheme: () => ({
+  theme: {
     colors: {
       custom: {
         a: 'var(--custom)',
@@ -33,7 +33,7 @@ const config: UserConfig = {
         '2xl': '6rem',
       },
     },
-  }),
+  },
 }
 
 const pcss = () => postcss(

@@ -1,17 +1,16 @@
-import type { Theme } from '@unocss/preset-mini'
 import { createGenerator, escapeSelector } from '@unocss/core'
 import presetMini from '@unocss/preset-mini'
 import { describe, expect, test } from 'vitest'
 import { presetMiniNonTargets, presetMiniTargets } from './assets/preset-mini-targets'
 import { presetWindTargets } from './assets/preset-wind-targets'
 
-const uno = createGenerator<Theme>({
+const uno = createGenerator({
   presets: [
     presetMini({
       dark: 'media',
     }),
   ],
-  extendTheme: () => ({
+  theme: {
     colors: {
       custom: {
         a: 'var(--custom)',
@@ -27,7 +26,7 @@ const uno = createGenerator<Theme>({
     spacing: {
       safe: 'max(env(safe-area-inset-left), env(safe-area-inset-right))',
     },
-  }),
+  },
 })
 
 describe('preset-mini', () => {

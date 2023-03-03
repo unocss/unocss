@@ -2,7 +2,6 @@ import { readFile } from 'fs/promises'
 import { describe, expect, test } from 'vitest'
 import { transformDirectives } from '@unocss/transformer-directives'
 import type { UnoGenerator } from '@unocss/core'
-import type { Theme } from '@unocss/preset-uno'
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import prettier from 'prettier/standalone'
@@ -10,7 +9,7 @@ import parserCSS from 'prettier/parser-postcss'
 import MagicString from 'magic-string'
 
 describe('transformer-directives', () => {
-  const uno = createGenerator<Theme>({
+  const uno = createGenerator({
     presets: [
       presetUno({
         dark: 'media',
@@ -19,19 +18,19 @@ describe('transformer-directives', () => {
     shortcuts: {
       btn: 'px-2 py-3 md:px-4 bg-blue-500 text-white rounded',
     },
-    extendTheme: (theme) => {
-      theme.breakpoints = {
+    theme: {
+      breakpoints: {
         xs: '320px',
         sm: '640px',
         md: '768px',
         lg: '1024px',
         xl: '1280px',
         xxl: '1536px',
-      }
+      },
     },
   })
 
-  async function transform(code: string, _uno: UnoGenerator<Theme> = uno) {
+  async function transform(code: string, _uno: UnoGenerator = uno) {
     const s = new MagicString(code)
     await transformDirectives(s, _uno, {})
     return prettier.format(s.toString(), {

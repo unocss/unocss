@@ -83,7 +83,7 @@ will generate:
 ```
 
 ### Theme
-You can fully customize your theme property in your config.
+You can fully customize your theme property in your config, and UnoCSS will eventually deeply merge it to the default theme.
 
 <!--eslint-skip-->
 
@@ -111,6 +111,24 @@ rules: [
   }],
 ]
 ```
+
+One exception is that UnoCSS gives full control of `breakpoints` to users. When a custom `breakpoints` is provided, the default will be overridden instead of merging. For example:
+
+```ts
+presetMini({
+  theme: {
+    // ...
+    breakpoints: {
+      sm: '320px',
+      md: '640px',
+    },
+  },
+})
+```
+
+Right now, you can only use the `sm:` and `md:` breakpoint variants.
+
+`verticalBreakpoints` is same as `breakpoints` but for vertical layout.
 
 ## License
 
