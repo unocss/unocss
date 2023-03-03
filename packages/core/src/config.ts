@@ -51,8 +51,8 @@ export function resolveConfig<Theme extends {} = {}>(
 
   function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist' | 'separators'>(key: T): Required<UserConfig<Theme>>[T] {
     return uniq([
-      ...sortedPresets.flatMap(p => toArray(p[key] || []) as unknown as any[]),
-      ...toArray(config[key] || []) as unknown as any[],
+      ...sortedPresets.flatMap(p => toArray(p[key] || []) as any[]),
+      ...toArray(config[key] || []) as any[],
     ])
   }
 
