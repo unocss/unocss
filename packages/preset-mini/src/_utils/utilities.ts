@@ -210,7 +210,7 @@ export function hasParseableColor(color: string | undefined, theme: Theme) {
 }
 
 export function resolveBreakpoints({ generator }: Readonly<Pick<VariantContext<Theme>, 'generator'>>) {
-  return generator.config.theme.breakpoints
+  return generator.userConfig.theme?.breakpoints || generator.config.theme.breakpoints
 }
 
 export function resolveVerticalBreakpoints({ theme, generator }: Readonly<VariantContext<Theme>>) {

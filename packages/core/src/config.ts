@@ -1,5 +1,5 @@
 import type { Postprocessor, Preprocessor, Preset, ResolvedConfig, Rule, Shortcut, ThemeExtender, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
-import { isStaticRule, mergeDeep, normalizeVariant, toArray, uniq } from './utils'
+import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq } from './utils'
 import { extractorSplit } from './extractors'
 import { DEFAULT_LAYERS } from './constants'
 
@@ -51,8 +51,8 @@ export function resolveConfig<Theme extends {} = {}>(
 
   function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist' | 'separators'>(key: T): Required<UserConfig<Theme>>[T] {
     return uniq([
-      ...sortedPresets.flatMap(p => toArray(p[key] || []) as any[]),
-      ...toArray(config[key] || []) as any[],
+      ...sortedPresets.flatMap(p => toArray(p[key] || []) as unknown as any[]),
+      ...toArray(config[key] || []) as unknown as any[],
     ])
   }
 
@@ -82,12 +82,15 @@ export function resolveConfig<Theme extends {} = {}>(
     .filter(Boolean)
     .reverse() as ResolvedConfig<Theme>['rulesDynamic']
 
-  let theme = [
-    ...sortedPresets.map(p => p.theme),
-    config.theme,
-  ].reverse().find(Boolean) as Theme
+  let theme: Theme = clone([
+    ...sortedPresets.map(p => p.theme || {}),
+    config.theme || {},
+  ].reduce<Theme>((a, p) => mergeDeep(a, p), {} as Theme))
+
   theme = (mergePresets('extendTheme') as ThemeExtender<Theme>[])
     .reduce((mergedTheme, extendTheme) => mergeDeep(mergedTheme, extendTheme(mergedTheme) || {}), theme)
+
+  theme = config.themeResolved ? config.themeResolved(theme) : theme
 
   const autocomplete = {
     templates: uniq(sortedPresets.map(p => toArray(p.autocomplete?.templates)).flat()),

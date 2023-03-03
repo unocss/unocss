@@ -304,6 +304,7 @@ export type Variant<Theme extends {} = {}> = VariantFunction<Theme> | VariantObj
 export type Preprocessor = (matcher: string) => string | undefined
 export type Postprocessor = (util: UtilObject) => void
 export type ThemeExtender<T> = (theme: T) => T | void
+export type ThemeResolved<T> = (mergedTheme: T) => T
 
 export interface ConfigBase<Theme extends {} = {}> {
   /**
@@ -506,7 +507,8 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
    * The theme object, will be merged with the theme provides by presets
    */
   theme?: Theme
-
+  /** */
+  themeResolved?: ThemeResolved<Theme>
   /**
    * Layout name of shortcuts
    *

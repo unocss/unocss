@@ -1,33 +1,62 @@
+import type { UserConfig } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
 import presetMini from '@unocss/preset-mini'
 import { describe, expect, test } from 'vitest'
 
 describe('config', () => {
-  test('override theme', async () => {
-    const unocss = createGenerator({
-      theme: {
-      },
+  const createUno = (userConfig: UserConfig) => {
+    return createGenerator<Theme>({
+      ...userConfig,
       presets: [
         presetMini(),
       ],
     })
-    expect(unocss.config.theme).toEqual({})
-    const { css } = await unocss.generate('text-red text-blue')
-    expect(css).toMatchInlineSnapshot('""')
+  }
+  test('theme', async () => {
+    const uno = createUno({
+      theme: {
+        colors: {
+          red: {
+            500: '#0f0',
+          },
+        },
+      },
+    })
+    const { css } = await uno.generate('text-red-500 text-blue', { preflights: false })
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .text-blue{--un-text-opacity:1;color:rgba(96,165,250,var(--un-text-opacity));}
+      .text-red-500{--un-text-opacity:1;color:rgba(0,255,0,var(--un-text-opacity));}"
+    `)
   })
 
-  test('extend theme', async () => {
-    const unocss = createGenerator<Theme
-    >({
+  test('themeResolved', async () => {
+    const uno = createUno({
+      themeResolved(mergedTheme) {
+        return {
+          ...mergedTheme,
+          colors: {
+            red: {
+              500: 'red',
+            },
+          },
+        }
+      },
+    })
+    expect(uno.config.theme.colors).toEqual({ red: { 500: 'red' } })
+  })
+
+  test('extendTheme', async () => {
+    const unocss = createGenerator<Theme>({
       extendTheme: (theme) => {
-        theme.colors!.antfu = {
+        theme.colors!.red = {
           100: 'red',
         }
         return {
           colors: {
-            antfu: {
-              200: 'blue',
+            red: {
+              200: 'red',
             },
           },
         }
@@ -36,13 +65,11 @@ describe('config', () => {
         presetMini(),
       ],
     })
-    const { css } = await unocss.generate('text-antfu-100 text-antfu-200')
+    const { css } = await unocss.generate('text-red-100 text-red-200', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
-      "/* layer: preflights */
-      *,::before,::after{--un-rotate:0;--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;--un-ring-offset-shadow:0 0 rgba(0,0,0,0);--un-ring-shadow:0 0 rgba(0,0,0,0);--un-shadow-inset: ;--un-shadow:0 0 rgba(0,0,0,0);--un-ring-inset: ;--un-ring-offset-width:0px;--un-ring-offset-color:#fff;--un-ring-width:0px;--un-ring-color:rgba(147,197,253,0.5);}::backdrop{--un-rotate:0;--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;--un-ring-offset-shadow:0 0 rgba(0,0,0,0);--un-ring-shadow:0 0 rgba(0,0,0,0);--un-shadow-inset: ;--un-shadow:0 0 rgba(0,0,0,0);--un-ring-inset: ;--un-ring-offset-width:0px;--un-ring-offset-color:#fff;--un-ring-width:0px;--un-ring-color:rgba(147,197,253,0.5);}
-      /* layer: default */
-      .text-antfu-100{color:red;}
-      .text-antfu-200{color:blue;}"
+      "/* layer: default */
+      .text-red-100,
+      .text-red-200{color:red;}"
     `)
   })
 })
