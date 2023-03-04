@@ -16,7 +16,7 @@ export const panelSizes = useLocalStorage<number[]>(
 
 export function getInitialPanelSizes(percent: number): number[] {
   return [
-    percent,
+    100 - percent * 3,
     percent,
     percent,
     percent,
