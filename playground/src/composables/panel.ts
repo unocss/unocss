@@ -63,6 +63,7 @@ export function normalizePanels() {
 watch(
   titleHeightPercent,
   (value: number) => {
-    panelSizes.value = getInitialPanelSizes(value)
+    if (panelSizes.value.includes(100))
+      panelSizes.value = getInitialPanelSizes(value)
   },
 )
