@@ -2,7 +2,7 @@ import type { CSSEntries, CSSObject, DynamicMatcher, ParsedColorValue, Rule, Rul
 import { isString, toArray } from '@unocss/core'
 import type { Theme } from '../theme'
 import { colorOpacityToString, colorToString, parseCssColor } from './colors'
-import { handler as h } from './handlers'
+import { h } from './handlers'
 import { directionMap, globalKeywords } from './mappings'
 
 export const CONTROL_MINI_NO_NEGATIVE = '$$mini-no-negative'

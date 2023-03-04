@@ -1,5 +1,5 @@
 import type { Variant } from '@unocss/core'
-import { getBracket, handler as h, variantGetBracket, variantGetParameter } from '../utils'
+import { getBracket, h, variantGetBracket, variantGetParameter } from '../utils'
 
 export const variantSelector: Variant = {
   name: 'selector',

@@ -1,5 +1,5 @@
 import type { Rule } from '@unocss/core'
-import { handler as h } from '../utils'
+import { h } from '../utils'
 
 const variablesAbbrMap: Record<string, string> = {
   backface: 'backface-visibility',

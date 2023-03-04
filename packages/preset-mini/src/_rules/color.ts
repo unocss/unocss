@@ -1,5 +1,5 @@
 import type { Rule } from '@unocss/core'
-import { colorResolver, globalKeywords, handler as h } from '../utils'
+import { colorResolver, globalKeywords, h } from '../utils'
 import { numberWithUnitRE } from '../_utils/handlers/regex'
 
 /**

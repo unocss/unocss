@@ -1,7 +1,7 @@
 import type { Rule } from '@unocss/core'
 import { toArray } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorResolver, colorableShadows, handler as h, splitShorthand } from '../utils'
+import { colorResolver, colorableShadows, h, splitShorthand } from '../utils'
 
 const weightMap: Record<string, string> = {
   thin: '100',

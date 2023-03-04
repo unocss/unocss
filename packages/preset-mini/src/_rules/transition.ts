@@ -1,6 +1,6 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { globalKeywords, handler as h, makeGlobalStaticRules } from '../utils'
+import { globalKeywords, h, makeGlobalStaticRules } from '../utils'
 
 const transitionPropertyGroup: Record<string, string> = {
   all: 'all',

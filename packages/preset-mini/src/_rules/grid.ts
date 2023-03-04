@@ -1,6 +1,6 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { handler as h } from '../utils'
+import { h } from '../utils'
 
 const rowCol = (s: string) => s.replace('col', 'column')
 const rowColTheme = (s: string) => s[0] === 'r' ? 'Row' : 'Column'

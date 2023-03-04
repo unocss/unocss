@@ -1,6 +1,6 @@
 import type { CSSEntries, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
-import { directionMap, handler as h } from '@unocss/preset-mini/utils'
+import { directionMap, h } from '@unocss/preset-mini/utils'
 
 export const spaces: Rule[] = [
   [/^space-?([xy])-?(-?.+)$/, handlerSpace, { autocomplete: ['space-(x|y|block|inline)', 'space-(x|y|block|inline)-reverse', 'space-(x|y|block|inline)-$spacing'] }],

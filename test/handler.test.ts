@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { handler as h } from '@unocss/preset-mini/utils'
+import { h } from '@unocss/preset-mini/utils'
 
 describe('value handler', () => {
   test('bracket math function', () => {

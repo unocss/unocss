@@ -1,6 +1,6 @@
 import type { CSSEntries, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { globalKeywords, handler as h, insetMap, makeGlobalStaticRules } from '../utils'
+import { globalKeywords, h, insetMap, makeGlobalStaticRules } from '../utils'
 
 export const positions: Rule[] = [
   [/^(?:position-|pos-)?(relative|absolute|fixed|sticky)$/, ([, v]) => ({ position: v })],

@@ -1,6 +1,6 @@
 import type { CSSValues, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { handler as h, makeGlobalStaticRules, positionMap, xyzMap } from '../utils'
+import { h, makeGlobalStaticRules, positionMap, xyzMap } from '../utils'
 
 const transformValues = [
   'translate',

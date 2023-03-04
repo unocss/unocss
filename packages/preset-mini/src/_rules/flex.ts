@@ -1,6 +1,6 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { handler as h } from '../utils'
+import { h } from '../utils'
 
 export const flex: Rule<Theme>[] = [
   // display

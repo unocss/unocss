@@ -1,7 +1,7 @@
 import type { VariantObject } from '@unocss/core'
 import { escapeRegExp, escapeSelector, warnOnce } from '@unocss/core'
 import type { PresetMiniOptions } from '..'
-import { handler as h, variantGetBracket } from '../_utils'
+import { h, variantGetBracket } from '../_utils'
 
 const PseudoClasses: Record<string, string> = Object.fromEntries([
   // pseudo elements part 1
