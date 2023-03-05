@@ -1,5 +1,5 @@
-import { fileURLToPath } from 'url'
-import { dirname, resolve } from 'path'
+import { fileURLToPath } from 'node:url'
+import { dirname, resolve } from 'node:path'
 import { getPackageInfo } from 'local-pkg'
 import fs from 'fs-extra'
 

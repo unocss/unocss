@@ -1,5 +1,5 @@
 import fs from 'fs/promises'
-import { resolve } from 'path'
+import { resolve } from 'node:path'
 import fg from 'fast-glob'
 import type { UnocssPluginContext } from '@unocss/core'
 import { applyTransformers } from './transformers'

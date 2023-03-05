@@ -1,4 +1,4 @@
-import { join } from 'path'
+import { join } from 'node:path'
 import { ESLintUtils } from '@typescript-eslint/utils'
 import { createSyncFn } from 'synckit'
 import type { RuleListener } from '@typescript-eslint/utils/dist/ts-eslint'

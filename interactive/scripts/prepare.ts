@@ -1,4 +1,4 @@
-import { basename, dirname, parse } from 'path'
+import { basename, dirname, parse } from 'node:path'
 import fs from 'fs-extra'
 import fg from 'fast-glob'
 import YAML from 'js-yaml'
