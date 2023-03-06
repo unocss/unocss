@@ -35,7 +35,7 @@ export const animations: Rule<Theme>[] = [
   // timings
   [/^animate-duration-(.+)$/, ([, d], { theme }) => ({ 'animation-duration': theme.duration?.[d || 'DEFAULT'] ?? h.bracket.cssvar.time(d) }), { autocomplete: ['animate-duration', 'animate-duration-$duration'] }],
   [/^animate-delay-(.+)$/, ([, d], { theme }) => ({ 'animation-delay': theme.duration?.[d || 'DEFAULT'] ?? h.bracket.cssvar.time(d) }), { autocomplete: ['animate-delay', 'animate-delay-$duration'] }],
-  [/^animate-ease(?:-(.+))?$/, ([, d], { theme }) => ({ 'animation-timing-function': theme.easing?.[d || 'DEFAULT'] ?? h.bracket.cssvar(d) }), { autocomplete: 'animate-delay-$easing' }],
+  [/^animate-ease(?:-(.+))?$/, ([, d], { theme }) => ({ 'animation-timing-function': theme.easing?.[d || 'DEFAULT'] ?? h.bracket.cssvar(d) }), { autocomplete: ['animate-ease', 'animate-ease-$easing'] }],
 
   // fill mode
   [/^animate-(fill-mode-|fill-|mode-)?(.+)$/,
