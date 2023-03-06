@@ -16,6 +16,7 @@ function handleReset() {
     inputHTML.value = defaultHTML
     customConfigRaw.value = defaultConfigRaw
     options.value.transform = false
+    customCSS.value = defaultCSS
   }
 }
 </script>
