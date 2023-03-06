@@ -92,7 +92,7 @@
     "lint-staged": "^13.1.2",
     "lz-string": "^1.4.4",
     "magic-string": "^0.30.0",
-    "msw": "^1.1.0",
+    "msw": "1.0.1",
     "nuxt": "^3.2.3",
     "nuxt-tsconfig-stub": "^0.0.2",
     "pnpm": "7.28.0",

@@ -76,7 +76,7 @@ importers:
       lint-staged: ^13.1.2
       lz-string: ^1.4.4
       magic-string: ^0.27.0
-      msw: ^1.1.0
+      msw: 1.0.1
       nuxt: ^3.2.0
       nuxt-tsconfig-stub: ^0.0.2
       pnpm: 7.28.0
@@ -169,7 +169,7 @@ importers:
       lint-staged: 13.1.2
       lz-string: 1.4.4
       magic-string: 0.27.0
-      msw: 1.1.0_typescript@4.9.5
+      msw: 1.0.1_typescript@4.9.5
       nuxt: 3.2.0_uzbq4ory462ebewfy5txueuyuq
       nuxt-tsconfig-stub: 0.0.2
       pnpm: 7.28.0
@@ -14121,8 +14121,8 @@ packages:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
     dev: true
 
-  /msw/1.1.0_typescript@4.9.5:
-    resolution: {integrity: sha512-oqMvUXm1bMbwvGpoXAQVz8vXXQyQyx52HBDg3EDOK+dFXkQHssgkXEG4LfMwwZyr2Qt18I/w04XPaY4BkFTkzA==}
+  /msw/1.0.1_typescript@4.9.5:
+    resolution: {integrity: sha512-fBwQRCmf+jh0zlGlasBfpCaxLqb4QLMsY1Q+nkXkO0nnUYopl50NcNRvP4V+TAiqOwJSd0LrQ5NcJqwbrnTBqw==}
     engines: {node: '>=14'}
     hasBin: true
     requiresBuild: true
