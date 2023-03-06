@@ -21,15 +21,16 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
 
   const {
     cwd = process.cwd(),
-    directiveMap = {
-      apply: 'apply',
-      theme: 'theme',
-      screen: 'screen',
-      unocss: 'unocss',
-    },
     content,
     configOrPath,
   } = options
+
+  const directiveMap = Object.assign({
+    apply: 'apply',
+    theme: 'theme',
+    screen: 'screen',
+    unocss: 'unocss',
+  }, options.directiveMap || {})
 
   const fileMap = new Map()
   const fileClassMap = new Map()
