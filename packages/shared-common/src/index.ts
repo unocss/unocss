@@ -113,6 +113,7 @@ export function getMatchedPositions(code: string, matched: string[], hasVariantG
   // highlight for plain classes
   let start = 0
   code.split(/([\s"'`;<>*]|:\(|\)"|\)\s)/g).forEach((i) => {
+    i = i.replace(/:$/, '')
     const end = start + i.length
     if (isPug) {
       result.push(...getPlainClassMatchedPositionsForPug(i, plain, start))

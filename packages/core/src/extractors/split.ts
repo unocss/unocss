@@ -20,6 +20,7 @@ export const splitCode = (code: string) => {
     result.add(match[0])
 
   code.split(defaultSplitRE).forEach((match) => {
+    match = match.replace(/:$/, '')
     isValidSelector(match) && !arbitraryPropertyCandidateRE.test(match) && result.add(match)
   })
 
