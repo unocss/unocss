@@ -1,4 +1,4 @@
-import { existsSync, promises as fs } from 'fs'
+import { existsSync, promises as fs } from 'node:fs'
 import { basename, dirname, normalize, relative, resolve } from 'pathe'
 import fg from 'fast-glob'
 import consola from 'consola'

@@ -1,4 +1,4 @@
-import { createHash } from 'crypto'
+import { createHash } from 'node:crypto'
 
 export function getHash(input: string, length = 8) {
   return createHash('sha256')

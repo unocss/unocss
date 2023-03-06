@@ -1,4 +1,4 @@
-import { readFile, stat } from 'fs/promises'
+import { readFile, stat } from 'node:fs/promises'
 import type { UnoGenerator } from '@unocss/core'
 import fg from 'fast-glob'
 import type { Result, Root } from 'postcss'

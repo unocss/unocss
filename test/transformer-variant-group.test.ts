@@ -1,4 +1,4 @@
-import { readFile } from 'fs/promises'
+import { readFile } from 'node:fs/promises'
 import { describe, expect, test } from 'vitest'
 import { expandVariantGroup } from '@unocss/core'
 import MagicString from 'magic-string'

@@ -1,5 +1,5 @@
-import { resolve } from 'path'
-import { fileURLToPath } from 'url'
+import { resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import type { AstroIntegration } from 'astro'
 import type { VitePluginConfig } from '@unocss/vite'
 import VitePlugin from '@unocss/vite'

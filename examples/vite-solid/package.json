@@ -18,6 +18,6 @@
     "typescript": "^4.9.5",
     "unocss": "link:../../packages/unocss",
     "vite": "^4.1.4",
-    "vite-plugin-solid": "^2.6.0"
+    "vite-plugin-solid": "^2.6.1"
   }
 }

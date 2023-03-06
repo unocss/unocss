@@ -9,7 +9,7 @@
     "astro": "astro"
   },
   "devDependencies": {
-    "astro": "^2.0.16",
+    "astro": "^2.0.17",
     "unocss": "link:../../packages/unocss"
   }
 }

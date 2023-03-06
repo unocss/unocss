@@ -1,4 +1,4 @@
-import { isAbsolute, resolve } from 'path'
+import { isAbsolute, resolve } from 'node:path'
 import type { Plugin, ResolvedConfig } from 'vite'
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import type { PluginContext } from 'rollup'

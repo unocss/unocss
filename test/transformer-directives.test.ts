@@ -1,4 +1,4 @@
-import { readFile } from 'fs/promises'
+import { readFile } from 'node:fs/promises'
 import { describe, expect, test } from 'vitest'
 import { transformDirectives } from '@unocss/transformer-directives'
 import type { UnoGenerator } from '@unocss/core'

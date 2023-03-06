@@ -1,5 +1,5 @@
-import { dirname, resolve } from 'path'
-import { fileURLToPath } from 'url'
+import { dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { addComponentsDir, addPluginTemplate, defineNuxtModule, extendWebpackConfig, isNuxt2, isNuxt3 } from '@nuxt/kit'
 import WebpackPlugin from '@unocss/webpack'
 import VitePlugin from '@unocss/vite'
