@@ -1,4 +1,5 @@
 import { readFile, stat } from 'node:fs/promises'
+import { normalize } from 'node:path'
 import type { UnoGenerator } from '@unocss/core'
 import fg from 'fast-glob'
 import type { Result, Root } from 'postcss'
@@ -140,7 +141,7 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
             result.messages.push({
               type: 'dependency',
               plugin: directiveMap.unocss,
-              file,
+              file: normalize(file),
               parent: result.opts.from,
             })
 
