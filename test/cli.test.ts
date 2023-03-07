@@ -2,6 +2,7 @@ import { resolve } from 'node:path'
 import fs from 'fs-extra'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { startCli } from '../packages/cli/src/cli-start'
+import { getWatcher } from '../packages/cli/src/watcher'
 
 export const tempDir = resolve('.temp')
 export const cli = resolve(__dirname, '../packages/cli/src/cli.ts')
@@ -67,13 +68,14 @@ export default defineConfig({
 })
     `)
     for (let i = 100; i >= 0; i--) {
-      await sleep(1000)
+      await sleep(500)
       const outputChanged = await readFile(testDir as string)
       if (i === 0 || outputChanged.includes('.bg-foo')) {
         expect(outputChanged).toContain('.bg-foo{background-color:blue;}')
         break
       }
     }
+    (await getWatcher()).close()
   })
 
   it('supports variantGroup transformer', async () => {
