@@ -12,6 +12,7 @@ import { applyTransformers } from '../../shared-integration/src/transformers'
 import { PrettyError, handleError } from './errors'
 import { defaultConfig } from './config'
 import type { CliOptions, ResolvedCliOptions } from './types'
+import { getWatcher } from './watcher'
 
 const name = 'unocss'
 
@@ -58,17 +59,9 @@ export async function build(_options: CliOptions) {
   const startWatcher = async () => {
     if (!options.watch)
       return
-
-    const { watch } = await import('chokidar')
     const { patterns } = options
-    const ignored = ['**/{.git,node_modules}/**']
 
-    const watcher = watch(patterns, {
-      ignoreInitial: true,
-      ignorePermissionErrors: true,
-      ignored,
-      cwd,
-    })
+    const watcher = await getWatcher(options)
 
     if (configSources.length)
       watcher.add(configSources)
