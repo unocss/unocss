@@ -122,12 +122,14 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
           stats: true,
         }) as unknown as { path: string; mtimeMs: number }[]
 
-        result.messages.push({
-          type: 'dependency',
-          plugin: directiveMap.unocss,
-          file: from,
-          parent: from,
-        })
+        if (isScanTarget) {
+          result.messages.push({
+            type: 'dependency',
+            plugin: directiveMap.unocss,
+            file: from,
+            parent: from,
+          })
+        }
 
         await parseApply(root, uno, directiveMap.apply)
         await parseTheme(root, uno, directiveMap.theme)
