@@ -43,7 +43,7 @@ export default function UnoCSSAstroIntegration<Theme extends {}>(
         // Adding components to UnoCSS's extra content
         options.extraContent ||= {}
         options.extraContent.filesystem ||= []
-        options.extraContent.filesystem.push(resolve(fileURLToPath(config.root), 'src/components/**/*').replace(/\\/g, '/'))
+        options.extraContent.filesystem.push(resolve(fileURLToPath(config.srcDir), 'components/**/*').replace(/\\/g, '/'))
 
         config.vite.plugins ||= []
         config.vite.plugins.push(...VitePlugin(options, defaults) as any)
