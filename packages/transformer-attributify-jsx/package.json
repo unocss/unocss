@@ -24,6 +24,11 @@
       "types": "./dist/index.d.ts",
       "require": "./dist/index.cjs",
       "import": "./dist/index.mjs"
+    },
+    "./babel": {
+      "types": "./dist/babel.d.ts",
+      "require": "./dist/babel.cjs",
+      "import": "./dist/babel.mjs"
     }
   },
   "main": "./dist/index.cjs",
@@ -40,6 +45,9 @@
     "@unocss/core": "workspace:*"
   },
   "devDependencies": {
+    "@babel/core": "^7.21.0",
+    "@babel/plugin-syntax-jsx": "^7.18.6",
+    "@babel/preset-typescript": "^7.21.0",
     "magic-string": "^0.30.0"
   }
 }
