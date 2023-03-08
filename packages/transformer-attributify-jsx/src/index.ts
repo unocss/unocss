@@ -37,7 +37,7 @@ export interface TransformerAttributifyJsxOptions {
   exclude?: FilterPattern
 }
 
-const elementRE = /<([^>\s]*\s)((?:'.*?'|".*?"|`.*?`|\{.*?\}|[^>]*?)*)/g
+const elementRE = /(<\w[\w:\.$-]*\s)((?:'[^>]*?'|"[^>]*?"|`(?:[^>]|[\S])*?`|\{(?:[^>]|[\S])*?\}|[^>]*?)*)/g
 const attributeRE = /([a-zA-Z()#][\[?a-zA-Z0-9-_:()#%\]?]*)(?:\s*=\s*((?:'[^']*')|(?:"[^"]*")|\S+))?/g
 const valuedAttributeRE = /((?!\d|-{2}|-\d)[a-zA-Z0-9\u00A0-\uFFFF-_:!%-.~<]+)=(?:["]([^"]*)["]|[']([^']*)[']|[{]((?:[`(](?:[^`)]*)[`)]|[^}])+)[}])/gms
 
@@ -85,7 +85,7 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
           tasks.push(uno.parseToken(matchedRule).then((matched) => {
             if (matched) {
               const tag = item[1]
-              const startIdx = (item.index || 0) + (attr.index || 0) + tag.length + 1
+              const startIdx = (item.index || 0) + (attr.index || 0) + tag.length
               const endIdx = startIdx + matchedRule.length
               code.overwrite(startIdx, endIdx, `${matchedRule}=""`)
             }
