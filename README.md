@@ -94,6 +94,7 @@ Presets are the heart of UnoCSS. They let you make your own custom framework in 
 - [unocss-preset-autoprefixer](https://github.com/zouhangwithsweet/unocss-preset-autoprefixer) - Autoprefixer Preset by [@zouhang](https://github.com/zouhangwithsweet).
 - [unocss-preset-scrollbar-hide](https://github.com/reslear/unocss-preset-scrollbar-hide) - Hide scrollbars, although the element can still be scrolled by [@reslear](https://github.com/reslear).
 - [unocss-preset-radix](https://github.com/endigma/unocss-preset-radix) - Use the Radix UI color palette with UnoCSS by [@endigma](https://github.com/endigma)
+- [unocss-preset-glyph](https://github.com/chu121su12/unocss-preset-glyph) - Embed subset of glyphs from fonts by [@chu121su12](https://github.com/chu121su12).
 
 ###### Community Frameworks
 
