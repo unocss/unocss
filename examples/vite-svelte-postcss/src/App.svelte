@@ -1,6 +1,6 @@
 <div text-center font-sans p4 flex flex-col items-center gap-8>
   <div class="flex gap-4">
-    <div class="i-logos-vue text-3xl" />
+    <div class="i-logos-svelte-icon text-3xl" />
     <div class="i-logos-unocss text-3xl" />
     <div class="i-logos-postcss text-3xl" />
   </div>
