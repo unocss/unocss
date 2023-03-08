@@ -78,6 +78,11 @@ describe('transformerAttributifyJsx', () => {
           mr-10=\\"\\" 
           className={cn({ 'c-red': variable > 0 }, 'mr-10')}
         ></section>
+        <div 
+          label={
+            <b>1</b>
+          }
+        ></div>
         <div absolute=\\"\\" bottom-5=\\"\\" right-0=\\"\\" left-0=\\"\\" text-center=\\"\\" op30=\\"\\" fw300=\\"\\">
           on-demand · instant · fully customizable
         </div>
@@ -118,6 +123,11 @@ describe('transformerAttributifyJsx', () => {
           mr-10=\\"\\" 
           className={cn({ 'c-red': variable > 0 }, 'mr-10')}
         ></section>
+        <div 
+          label={
+            <b>1</b>
+          }
+        ></div>
         <div absolute bottom-5=\\"\\" right-0=\\"\\" left-0=\\"\\" text-center=\\"\\" op30=\\"\\" fw300=\\"\\">
           on-demand · instant · fully customizable
         </div>
@@ -168,6 +178,7 @@ describe('transformerAttributifyJsxBabel', () => {
         }, 'mr-10')} mr-10=\\"\\" className={cn({
           'c-red': variable > 0
         }, 'mr-10')}></section>
+        <div label={<b>1</b>}></div>
         <div absolute=\\"\\" bottom-5=\\"\\" right-0=\\"\\" left-0=\\"\\" text-center=\\"\\" op30=\\"\\" fw300=\\"\\">
           on-demand · instant · fully customizable
         </div>
@@ -205,6 +216,7 @@ describe('transformerAttributifyJsxBabel', () => {
         }, 'mr-10')} mr-10=\\"\\" className={cn({
           'c-red': variable > 0
         }, 'mr-10')}></section>
+        <div label={<b>1</b>}></div>
         <div absolute bottom-5=\\"\\" right-0=\\"\\" left-0=\\"\\" text-center=\\"\\" op30=\\"\\" fw300=\\"\\">
           on-demand · instant · fully customizable
         </div>
