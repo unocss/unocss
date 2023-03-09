@@ -6,10 +6,12 @@ import type {
 } from '@iconify/utils/lib/loader/types'
 import { encodeSvgForCss } from '@iconify/utils/lib/svg/encode-svg-for-css'
 import type { IconsOptions } from './types'
+import supportedCollection from './collections.json'
 
 const COLLECTION_NAME_PARTS_MAX = 3
 
 export { IconsOptions }
+export { supportedCollection }
 
 export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => Promise<UniversalIconLoader>) {
   return function presetIcons(options: IconsOptions = {}): Preset {

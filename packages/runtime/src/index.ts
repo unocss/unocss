@@ -93,6 +93,7 @@ declare global {
   interface Window {
     __unocss?: UserConfig & { runtime?: RuntimeOptions }
     __unocss_runtime?: RuntimeContext
+    __unocss_presets?: Record<string, Function>
   }
 }
 

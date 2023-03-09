@@ -22,7 +22,7 @@ export function normalizedFontMeta(meta: WebFontMeta | string, defaultProvider: 
   }
 }
 
-const providers = {
+export const providers = {
   google: GoogleFontsProvider,
   bunny: BunnyFontsProvider,
   fontshare: FontshareProvider,
