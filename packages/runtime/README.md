@@ -71,6 +71,25 @@ With `@unocss/preset-mini` and `@unocss/preset-attributify` preset:
 <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime/mini.global.js"></script>
 ```
 
+### Individual Presets
+
+All the official presets from UnoCSS are available and must be loaded before initializing the runtime.
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@unocss/runtime/preset-icons.global.js"></script>
+<script>
+  window.__unocss = {
+    presets: [
+      window.__unocss_presets.presetIcons({
+        scale: 1.2,
+        cdn: 'https://esm.sh/'
+      }),
+    ],
+  }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@unocss/runtime/core.global.js"></script>
+```
+
 ## Bundler Usage
 
 ```bash
