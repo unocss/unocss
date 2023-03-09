@@ -108,6 +108,13 @@ export interface RuntimeContext {
   update: () => Promise<RuntimeGenerateResult>
 
   /**
+   * Loaded presets
+   *
+   * @type {Record<string, Function>}
+   */
+  presets: Record<string, Function>
+
+  /**
    * The UnoCSS version.
    *
    * @type {string}
@@ -118,7 +125,7 @@ export interface RuntimeContext {
 declare global {
   interface Window {
     __unocss?: UserConfig & { runtime?: RuntimeOptions }
-    __unocss_runtime?: RuntimeContext
+    __unocss_runtime?: RuntimeContext | { presets: {} }
   }
 }
 
@@ -322,6 +329,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
         ready()
     },
     update: updateStyle,
+    presets: defaultWindow.__unocss_runtime?.presets ?? {},
   }
 
   if (runtimeOptions.ready?.(unoCssRuntime) !== false) {
