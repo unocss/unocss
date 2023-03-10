@@ -4,7 +4,7 @@ import type { WebFontsOptions } from '@unocss/preset-web-fonts'
 import { normalizedFontMeta, providers } from '@unocss/preset-web-fonts'
 
 (() => {
-  const $fetch = (url: string) => fetch(url).then(data => data.json())
+  const $fetch = (url: string) => fetch(url).then(data => data.text())
 
   const presetWebFonts = (options: WebFontsOptions = {}): Preset<any> => {
     const {
