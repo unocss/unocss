@@ -47,7 +47,6 @@
     "@types/css-tree": "^2.3.1",
     "@types/fs-extra": "^11.0.1",
     "@types/js-yaml": "^4.0.5",
-    "@types/lz-string": "^1.5.0",
     "@types/markdown-it-link-attributes": "^3.0.1",
     "@types/node": "^18.15.3",
     "@types/prettier": "^2.7.2",
@@ -93,7 +92,7 @@
     "lz-string": "^1.5.0",
     "magic-string": "^0.30.0",
     "msw": "1.1.0",
-    "nuxt": "^3.2.3",
+    "nuxt": "^3.3.1",
     "nuxt-tsconfig-stub": "^0.0.2",
     "pnpm": "7.29.3",
     "prettier": "^2.8.4",
@@ -121,7 +120,7 @@
   "pnpm": {
     "overrides": {
       "@nuxt/kit-edge": "npm:@nuxt/kit@latest",
-      "nuxt": "^3.2.0",
+      "nuxt": "^3.3.1",
       "magic-string": "^0.30.0"
     }
   },
