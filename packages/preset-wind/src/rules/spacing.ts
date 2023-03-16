@@ -10,8 +10,11 @@ export const spaces: Rule[] = [
 ]
 
 function handlerSpace([, d, s]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
-  const v = theme.spacing?.[s || 'DEFAULT'] ?? h.bracket.cssvar.auto.fraction.rem(s || '1')
+  let v = theme.spacing?.[s || 'DEFAULT'] ?? h.bracket.cssvar.auto.fraction.rem(s || '1')
   if (v != null) {
+    if (v === '0')
+      v = '0px'
+
     const results = directionMap[d].map((item): [string, string] => {
       const key = `margin${item}`
       const value = (item.endsWith('right') || item.endsWith('bottom'))
