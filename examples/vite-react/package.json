@@ -23,6 +23,6 @@
     "cross-env": "^7.0.3",
     "typescript": "^4.9.5",
     "unocss": "link:../../packages/unocss",
-    "vite": "^4.1.4"
+    "vite": "^4.2.0"
   }
 }

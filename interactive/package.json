@@ -26,7 +26,7 @@
     "postcss-nested": "^6.0.1",
     "prettier": "^2.8.4",
     "shiki": "^0.14.1",
-    "theme-vitesse": "^0.6.3",
+    "theme-vitesse": "^0.6.4",
     "vite-plugin-vue-markdown": "^0.22.4"
   }
 }
