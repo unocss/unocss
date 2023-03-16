@@ -104,6 +104,13 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
     }
   }
 
+  function clearWarnTimer() {
+    if (resolvedWarnTimer) {
+      clearTimeout(resolvedWarnTimer)
+      resolvedWarnTimer = undefined
+    }
+  }
+
   onInvalidate(() => {
     invalidate(10, new Set([...entries, ...affectedModules]))
   })
@@ -143,6 +150,7 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
         const entry = resolveId(id)
         if (entry) {
           resolved = true
+          clearWarnTimer()
           entries.add(entry)
           return entry
         }
@@ -158,6 +166,9 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
           code: `__uno_hash_${hash}{--:'';}${css}`,
           map: { mappings: '' },
         }
+      },
+      closeBundle() {
+        clearWarnTimer()
       },
     },
     {
