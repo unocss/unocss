@@ -627,6 +627,7 @@ importers:
       '@unocss/cli': workspace:*
       '@unocss/core': workspace:*
       '@unocss/postcss': workspace:*
+      '@unocss/preset-arbitrary': workspace:*
       '@unocss/preset-attributify': workspace:*
       '@unocss/preset-icons': workspace:*
       '@unocss/preset-mini': workspace:*
@@ -647,6 +648,7 @@ importers:
       '@unocss/cli': link:../cli
       '@unocss/core': link:../core
       '@unocss/postcss': link:../postcss
+      '@unocss/preset-arbitrary': link:../preset-arbitrary
       '@unocss/preset-attributify': link:../preset-attributify
       '@unocss/preset-icons': link:../preset-icons
       '@unocss/preset-mini': link:../preset-mini

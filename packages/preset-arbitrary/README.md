@@ -1,6 +1,6 @@
 # @unocss/preset-arbitrary
 
-Support arbitrary values for utilities.
+Support arbitrary variants for utilities.
 
 ## Installation
 
