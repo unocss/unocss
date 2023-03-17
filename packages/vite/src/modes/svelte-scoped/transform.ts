@@ -194,7 +194,7 @@ export async function transformSvelteSFC(code: string, id: string, uno: UnoGener
 
   if (toGenerate.size > 0 || s.hasChanged()) {
     code = s.toString()
-    map = s.generateMap({ hires: true, source: id })
+    map = s.generateMap({ hires: true, source: id }) as any
   }
   else { return }
 

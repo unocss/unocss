@@ -2,6 +2,7 @@ import type { Plugin, Update, ViteDevServer, ResolvedConfig as ViteResolvedConfi
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import { notNull } from '@unocss/core'
 import type { VitePluginConfig } from 'unocss/vite'
+import MagicString from 'magic-string'
 import { LAYER_MARK_ALL, getHash, getPath, resolveId, resolveLayer } from '../../integration'
 
 const WARN_TIMEOUT = 20000
@@ -152,8 +153,11 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
           return null
 
         const { hash, css } = await generateCSS(layer)
-        // add hash to the chunk of CSS that it will send back to client to check if there is new CSS generated
-        return `__uno_hash_${hash}{--:'';}${css}`
+        return {
+          // add hash to the chunk of CSS that it will send back to client to check if there is new CSS generated
+          code: `__uno_hash_${hash}{--:'';}${css}`,
+          map: { mappings: '' },
+        }
       },
     },
     {
@@ -186,10 +190,15 @@ if (!import.meta.url.includes('?'))
 
           if (config.hmrTopLevelAwait === false)
             hmr = `;(async function() {${hmr}\n})()`
-
           hmr = `\nif (import.meta.hot) {${hmr}}`
 
-          return code + hmr
+          const s = new MagicString(code)
+          s.append(hmr)
+
+          return {
+            code: s.toString(),
+            map: s.generateMap() as any,
+          }
         }
       },
     },
