@@ -128,6 +128,7 @@
     "@unocss/preset-web-fonts": "workspace:*",
     "@unocss/preset-wind": "workspace:*",
     "@unocss/reset": "workspace:*",
+    "@unocss/preset-arbitrary": "workspace:*",
     "@unocss/transformer-attributify-jsx": "workspace:*",
     "@unocss/transformer-compile-class": "workspace:*",
     "@unocss/transformer-directives": "workspace:*",

@@ -457,6 +457,12 @@ importers:
       magic-string: 0.30.0
       postcss: 8.4.21
 
+  packages/preset-arbitrary:
+    specifiers:
+      '@unocss/core': workspace:*
+    dependencies:
+      '@unocss/core': link:../core
+
   packages/preset-attributify:
     specifiers:
       '@unocss/core': workspace:*

@@ -6,7 +6,7 @@ import { createGenerator, extractorSplit } from '@unocss/core'
 import { getMatchedPositionsFromCode as match } from '@unocss/shared-common'
 import transformerVariantGroup from '@unocss/transformer-variant-group'
 import cssDirectives from '@unocss/transformer-directives'
-
+import presetArbitrary from '@unocss/preset-arbitrary'
 import extractorPug from '@unocss/extractor-pug'
 
 describe('matched-positions', async () => {
@@ -35,16 +35,6 @@ describe('matched-positions', async () => {
             21,
             22,
             "[border=\\"2\\"]",
-          ],
-          [
-            23,
-            37,
-            "[border=\\"[&_span]:white\\"]",
-          ],
-          [
-            46,
-            65,
-            "[hover=\\"[&>span]:text-white\\"]",
           ],
           [
             67,
@@ -144,11 +134,6 @@ describe('matched-positions', async () => {
             "hover:scale-100",
           ],
           [
-            44,
-            63,
-            "[&>span]:text-white",
-          ],
-          [
             64,
             80,
             "<custom-shortcut",
@@ -161,6 +146,7 @@ describe('matched-positions', async () => {
     const uno = createGenerator({
       presets: [
         presetUno(),
+        presetArbitrary(),
       ],
     })
 

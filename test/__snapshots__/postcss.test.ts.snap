@@ -1,10 +1,10 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`postcss > @apply 1`] = `"div{--un-bg-opacity:1;background-color:rgba(248,113,113,var(--un-bg-opacity));}div:hover{--un-text-opacity:1;color:rgba(255,255,255,var(--un-text-opacity));}.dark div>:focus:hover{font-size:20px;}"`;
+exports[`postcss > @apply 1`] = `"div{--un-bg-opacity:1;background-color:rgba(248,113,113,var(--un-bg-opacity));}div:hover{--un-text-opacity:1;color:rgba(255,255,255,var(--un-text-opacity));}"`;
 
 exports[`postcss > @screen 1`] = `
 "@media (min-width: 768px) and (max-width: 1023.9px) {
-      div{--un-bg-opacity:1;background-color:rgba(248,113,113,var(--un-bg-opacity));}div:hover{--un-text-opacity:1;color:rgba(255,255,255,var(--un-text-opacity));}.dark div>:focus:hover{font-size:20px;}
+      div{--un-bg-opacity:1;background-color:rgba(248,113,113,var(--un-bg-opacity));}div:hover{--un-text-opacity:1;color:rgba(255,255,255,var(--un-text-opacity));}
       div{color:#dc2626}
     }"
 `;
@@ -379,7 +379,6 @@ exports[`postcss > @unocss 1`] = `
 .placeholder-red-400::placeholder{--un-placeholder-opacity:1;color:rgba(248,113,113,var(--un-placeholder-opacity));}
 @media (hover: hover) and (pointer: fine){
 .\\\\@hover-text-red:hover{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
-[open] .\\\\@hover\\\\:\\\\[\\\\[open\\\\]_\\\\&\\\\]\\\\:text-blue:hover{--un-text-opacity:1;color:rgba(96,165,250,var(--un-text-opacity));}
 }
 @media (orientation: landscape){
 .landscape\\\\:hidden{display:none;}

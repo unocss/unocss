@@ -1,5 +1,6 @@
 import { createGenerator, toEscapedSelector as e } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
+import presetArbitrary from '@unocss/preset-arbitrary'
 import presetAttributify, { autocompleteExtractorAttributify, variantAttributify } from '@unocss/preset-attributify'
 import { describe, expect, test } from 'vitest'
 
@@ -290,6 +291,14 @@ describe('attributify', () => {
   })
 
   test('merge attribute name and value-only', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetAttributify({ strict: true }),
+        presetUno({ attributifyPseudo: true }),
+        presetArbitrary(),
+      ],
+    })
+
     const { css } = await uno.generate(`
       <div bg="[&:nth-child(3)]:[#123456]"></div>
       <div class="foo" bg="[&.foo]:[&:nth-child(3)]:[#123]"></div>

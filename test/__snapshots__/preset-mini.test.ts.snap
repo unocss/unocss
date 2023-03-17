@@ -54,17 +54,6 @@ exports[`preset-mini > targets 1`] = `
 .fw-\\\\$variable{font-weight:var(--variable);}
 .items-\\\\$size{align-items:var(--size);}
 .ws-\\\\$variable{white-space:var(--variable);}
-.\\\\[--css-variable\\\\:\\\\\\"wght\\\\\\"_400\\\\,_\\\\\\"opsz\\\\\\"_14\\\\]{--css-variable:\\"wght\\" 400, \\"opsz\\" 14;}
-.\\\\[--escaped\\\\\\\\\\\\~variable\\\\\\\\\\\\:\\\\:100\\\\%\\\\]{--escaped\\\\~variable\\\\::100%;}
-.\\\\[a\\\\:b\\\\]{a:b;}
-.\\\\[background-image\\\\:url\\\\(star_transparent\\\\.gif\\\\)\\\\,_url\\\\(cat_front\\\\.png\\\\)\\\\]{background-image:url(star_transparent.gif), url(cat_front.png);}
-.\\\\[content\\\\:attr\\\\(attr_content\\\\)\\\\]{content:attr(attr content);}
-.\\\\[content\\\\:attr\\\\(attr\\\\\\\\_content\\\\)\\\\]{content:attr(attr_content);}
-.\\\\[font-family\\\\:\\\\'Inter\\\\'\\\\,_sans-serif\\\\]{font-family:'Inter', sans-serif;}
-.\\\\[font-family\\\\:var\\\\(--font-family\\\\)\\\\]{font-family:var(--font-family);}
-.\\\\[font-feature-settings\\\\:\\\\'cv02\\\\'\\\\,\\\\'cv03\\\\'\\\\,\\\\'cv04\\\\'\\\\,\\\\'cv11\\\\'\\\\]{font-feature-settings:'cv02','cv03','cv04','cv11';}
-.\\\\[font-variation-settings\\\\:\\\\\\"wght\\\\\\"_400\\\\,_\\\\\\"opsz\\\\\\"_14\\\\]{font-variation-settings:\\"wght\\" 400, \\"opsz\\" 14;}
-.\\\\[margin\\\\:logical_1rem_2rem_3rem\\\\]{margin:logical 1rem 2rem 3rem;}
 .all-\\\\[\\\\.target\\\\]-\\\\[combinator\\\\:test-2\\\\] .target,
 .children-\\\\[\\\\.target\\\\]-\\\\[combinator\\\\:test-2\\\\]>.target,
 .next-\\\\[\\\\.target\\\\]-\\\\[combinator\\\\:test-2\\\\]+.target{combinator:test-2;}
@@ -115,12 +104,6 @@ exports[`preset-mini > targets 1`] = `
 .pis-10px{padding-inline-start:10px;}
 .-m-lg{margin:-1.125rem;}
 .\\\\!m-\\\\$c-m{margin:var(--c-m) !important;}
-.\\\\[\\\\&_\\\\&\\\\]\\\\:m-13 .\\\\[\\\\&_\\\\&\\\\]\\\\:m-13{margin:3.25rem;}
-.\\\\[\\\\&\\\\:nth-child\\\\(2\\\\)\\\\]\\\\:m-10:nth-child(2){margin:2.5rem;}
-.\\\\[\\\\&\\\\[open\\\\]\\\\:readonly\\\\]\\\\:m-16[open]:readonly{margin:4rem;}
-.\\\\[\\\\&\\\\[open\\\\]\\\\]\\\\:m-14[open]{margin:3.5rem;}
-.\\\\[\\\\&\\\\[readonly\\\\]\\\\[disabled\\\\]\\\\]\\\\:m-15[readonly][disabled]{margin:3.75rem;}
-.\\\\[\\\\&\\\\>\\\\*\\\\]\\\\:m-11>*{margin:2.75rem;}
 .all\\\\:m-auto *,
 .children\\\\:m-auto>*,
 .m-auto{margin:auto;}
@@ -130,8 +113,6 @@ exports[`preset-mini > targets 1`] = `
 .m-none{margin:0;}
 .m-1\\\\/2{margin:50%;}
 .m-inherit{margin:inherit;}
-*[open]:readonly .\\\\[\\\\*\\\\[open\\\\]\\\\:readonly_\\\\&\\\\]\\\\:\\\\[\\\\&\\\\[open\\\\]\\\\:disabled\\\\]\\\\:m-17[open]:disabled{margin:4.25rem;}
-*>.\\\\[\\\\*\\\\>\\\\&\\\\]\\\\:m-12{margin:3rem;}
 .m-xy,
 .mxy{margin:1rem;}
 .mx-1{margin-left:0.25rem;margin-right:0.25rem;}
@@ -166,7 +147,6 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .opacity-\\\\$opa{opacity:var(--opa);}
 .opacity-0{opacity:0;}
 .placeholder-opacity-60::placeholder{opacity:0.6;}
-.\\\\[\\\\&\\\\[data-active\\\\=\\\\\\"true\\\\\\"\\\\]\\\\]\\\\:bg-red[data-active=\\"true\\"]{--un-bg-opacity:1;background-color:rgba(248,113,113,var(--un-bg-opacity));}
 .bg-\\\\[\\\\#153\\\\]\\\\/10,
 .bg-\\\\[\\\\#1533\\\\]\\\\/10{background-color:rgba(17,85,51,0.1);}
 .bg-\\\\[\\\\#1533\\\\]{--un-bg-opacity:0.2;background-color:rgba(17,85,51,var(--un-bg-opacity));}
@@ -336,10 +316,6 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .content-visibility-unset{content-visibility:unset;}
 .after\\\\:content-\\\\[quoted\\\\:unocss\\\\]::after,
 .content-\\\\[quoted\\\\:unocss\\\\]{content:\\"unocss\\";}
-.before\\\\:\\\\[\\\\&\\\\[data-active\\\\=\\\\'true\\\\'\\\\]\\\\]\\\\:content-\\\\[\\\\'test\\\\'\\\\][data-active='true']::before{content:'test';}
-.content-\\\\[\\\\'quoted_with_space\\\\'\\\\]{content:'quoted with space';}
-.content-\\\\[\\\\'quoted1\\\\'\\\\]{content:'quoted1';}
-.content-\\\\[\\\\\\"quoted2\\\\\\"\\\\]{content:\\"quoted2\\";}
 .content-\\\\[normal\\\\]{content:normal;}
 .content-\\\\[quoted\\\\:\\\\!\\\\]{content:\\"!\\";}
 .content-\\\\[string\\\\:attr\\\\(dashed-attr\\\\)\\\\]{content:attr(dashed-attr);}
@@ -1024,10 +1000,6 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 }
 @supports (display: grid){
 .supports-\\\\[\\\\(display\\\\:_grid\\\\)\\\\]\\\\:block{display:block;}
-}
-@supports(display:grid){
-.\\\\[\\\\@supports\\\\(display\\\\:grid\\\\)\\\\]\\\\:bg-red\\\\/33{background-color:rgba(248,113,113,0.33);}
-*+.\\\\[\\\\@supports\\\\(display\\\\:grid\\\\)\\\\]\\\\:\\\\[\\\\*\\\\+\\\\&\\\\]\\\\:bg-red\\\\/34{background-color:rgba(248,113,113,0.34);}
 }
 @media (max-width: 1023.9px){
 .lt-lg\\\\:m2{margin:0.5rem;}
