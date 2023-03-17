@@ -20,6 +20,44 @@ UnoCSS({
 })
 ```
 
+## Nuxt 3 Installation
+
+Step 1. Install @unocss/preset-rem-to-px
+
+```bash
+npm i -D @unocss/preset-rem-to-px
+```
+
+Step 2. Add the following references in the *__nuxt.config.ts__* file:
+
+```ts
+...
+import presetUno from "@unocss/preset-uno";
+import presetRemToPx from "@unocss/preset-rem-to-px";
+import presetAttributify from "@unocss/preset-attributify";
+import presetIcons from "@unocss/preset-icons";
+...
+```
+
+Step 3. Add the *__unocss config__* in the *__nuxt.config.ts__* file:
+
+```ts
+export default defineNuxtConfig({
+...
+  unocss: {
+    presets: [
+      presetUno(),
+      presetAttributify(),
+      presetIcons(),
+      presetRemToPx(),
+    ],
+    shortcuts: [],
+    rules: [],
+  },
+...
+});
+```
+
 ## Usage
 
 ```html
