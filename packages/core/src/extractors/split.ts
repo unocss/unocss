@@ -3,8 +3,8 @@ import { isValidSelector } from '../utils'
 
 const defaultSplitRE = /\\?[\s'"`;{}]+/g
 export const quotedArbitraryValuesRE = /(?:[\w&:[\]-]|\[\S+=\S+\])+\[\\?['"]?\S+?['"]\]\]?[\w:-]*/g
-export const arbitraryPropertyRE = /\[(\\\W|[\w-])+:['"]?\S+?['"]?\]/g
-const arbitraryPropertyCandidateRE = new RegExp(`^${arbitraryPropertyRE.source}$`)
+export const arbitraryPropertyRE = /\[(\\\W|[\w-])+:[^\s:]*?("\S+?"|'\S+?'|`\S+?`|[^\s:]+?)[^\s:]*?\)?\]/g
+const arbitraryPropertyCandidateRE = /^\[(\\\W|[\w-])+:['"]?\S+?['"]?\]$/
 
 export const splitCode = (code: string) => {
   const result = new Set<string>()
