@@ -17,5 +17,17 @@
         <a href="#">Hello</a>
       </div>
     </div>
+    <div class="my-class">
+      Directives in Vue SFC
+    </div>
   </div>
 </template>
+
+<style>
+@screen md {
+  .my-class {
+    @apply bg-red-800;
+    color: theme('colors.red.300');
+  }
+}
+</style>
