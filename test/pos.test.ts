@@ -15,12 +15,18 @@ describe('matched-positions', async () => {
       presets: [
         presetAttributify({ strict: true }),
         presetUno({ attributifyPseudo: true }),
+        presetArbitrary(),
       ],
     })
 
     expect(await match(uno, '<div border="b gray4 2 [&_span]:white" hover="[&>span]:text-white" border></div>'))
       .toMatchInlineSnapshot(`
         [
+          [
+            13,
+            14,
+            "b",
+          ],
           [
             13,
             14,
@@ -35,6 +41,21 @@ describe('matched-positions', async () => {
             21,
             22,
             "[border=\\"2\\"]",
+          ],
+          [
+            23,
+            37,
+            "[border=\\"[&_span]:white\\"]",
+          ],
+          [
+            46,
+            65,
+            "[&>span]:text-white",
+          ],
+          [
+            46,
+            65,
+            "[hover=\\"[&>span]:text-white\\"]",
           ],
           [
             67,
@@ -109,6 +130,7 @@ describe('matched-positions', async () => {
     const uno = createGenerator({
       presets: [
         presetUno(),
+        presetArbitrary(),
       ],
       shortcuts: {
         '<custom-shortcut': 'text-lg',
@@ -132,6 +154,11 @@ describe('matched-positions', async () => {
             28,
             43,
             "hover:scale-100",
+          ],
+          [
+            44,
+            63,
+            "[&>span]:text-white",
           ],
           [
             64,
