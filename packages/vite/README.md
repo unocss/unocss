@@ -230,12 +230,16 @@ You can use simple rules with `class:`, for example `class:bg-red-500={foo}` or 
 // vite.config.js
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import UnoCSS from 'unocss/vite'
-import { extractorSvelte } from '@unocss/core'
+import { extractorSplit } from 'unocss'
+import extractorSvelte from '@unocss/extractor-svelte'
 
 export default {
   plugins: [
     UnoCSS({
-      extractors: [extractorSvelte],
+      extractors: [
+        extractorSplit,
+        extractorSvelte
+      ],
       /* more options */
     }),
     svelte(),
@@ -255,13 +259,17 @@ You can use simple rules with `class:`, for example `class:bg-red-500={foo}` or 
 // vite.config.js
 import { sveltekit } from '@sveltejs/kit/vite'
 import UnoCSS from 'unocss/vite'
-import { extractorSvelte } from '@unocss/core'
+import { extractorSplit } from '@unocss/core'
+import extractorSvelte from '@unocss/extractor-svelte'
 
 /** @type {import('vite').UserConfig} */
 const config = {
   plugins: [
     UnoCSS({
-      extractors: [extractorSvelte],
+      extractors: [
+        extractorSplit,
+        extractorSvelte
+      ],
       /* more options */
     }),
     sveltekit(),

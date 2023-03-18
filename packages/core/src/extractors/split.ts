@@ -38,3 +38,5 @@ export const extractorSplit: Extractor = {
     return splitCode(code)
   },
 }
+
+export { extractorSplit as extractorDefault }

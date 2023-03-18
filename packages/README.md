@@ -19,6 +19,7 @@
 | [@unocss/transformer-compile-class](./transformer-compile-class) | Compile group of classes into one class | ✅ | No |
 | [@unocss/transformer-attributify-jsx](./transformer-attributify-jsx) | Support valueless attributify in JSX/TSX | ✅ | No |
 | [@unocss/extractor-pug](./extractor-pug) | Extractor for Pug | No | - |
+| [@unocss/extractor-svelte](./extractor-svelte) | Extractor for Svelte | No | - |
 | [@unocss/autocomplete](./autocomplete) | Utils for autocomplete | No | - |
 | [@unocss/config](./config) | Configuration file loader | ✅ | - |
 | [@unocss/reset](./reset) | Collection of common CSS resets | ✅ | No |

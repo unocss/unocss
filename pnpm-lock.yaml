@@ -398,6 +398,12 @@ importers:
       '@unocss/core': link:../core
       pug: 3.0.2
 
+  packages/extractor-svelte:
+    specifiers:
+      '@unocss/core': workspace:*
+    devDependencies:
+      '@unocss/core': link:../core
+
   packages/inspector:
     specifiers:
       gzip-size: ^6.0.0

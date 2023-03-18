@@ -1,7 +1,8 @@
 import { sveltekit } from '@sveltejs/kit/vite'
 import { defineConfig } from 'vite'
 import UnoCSS from 'unocss/vite'
-import { extractorSvelte } from '@unocss/core'
+import { extractorDefault } from 'unocss'
+import extractorSvelte from '@unocss/extractor-svelte'
 import presetIcons from '@unocss/preset-icons'
 import presetUno from '@unocss/preset-uno'
 import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
@@ -9,7 +10,10 @@ import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
 export default defineConfig({
   plugins: [
     UnoCSS({
-      extractors: [extractorSvelte],
+      extractors: [
+        extractorDefault,
+        extractorSvelte,
+      ],
       shortcuts: [
         { logo: 'i-logos:svelte-icon w-6em h-6em transform transition-800 hover:rotate-180' },
       ],

@@ -15,26 +15,26 @@ export default function extractorPug(): Extractor {
   return {
     name: 'pug',
     order: -1,
-    async extract(ctx) {
-      if (!ctx.id)
+    async preprocess(code, id) {
+      if (!id)
         return
-      if (ctx.id.match(/\.pug$/) || ctx.id.match(/\?vue&type=template/)) {
+      if (id.match(/\.pug$/) || id.match(/\?vue&type=template/)) {
         try {
-          ctx.code = await compile(ctx.code, ctx.id) || ctx.code
+          code = await compile(code, id) || code
         }
         catch {}
       }
-      else if (ctx.id.match(/\.vue$/)) {
-        const matches = Array.from(ctx.code.matchAll(regexVueTemplate))
+      else if (id.match(/\.vue$/)) {
+        const matches = Array.from(code.matchAll(regexVueTemplate))
         let tail = ''
         for (const match of matches) {
           if (match && match[1])
-            tail += `\n${await compile(match[1], ctx.id)}`
+            tail += `\n${await compile(match[1], id)}`
         }
         if (tail)
-          ctx.code = `${ctx.code}\n\n${tail}`
+          code = `${code}\n\n${tail}`
       }
-      return undefined
+      return code
     },
   }
 }
