@@ -1,5 +1,6 @@
 import { extractorSplit, extractorSvelte } from '@unocss/core'
 import { expect, it } from 'vitest'
+import { extractorSplitArbitrary } from '../packages/preset-arbitrary/src/split-arbitrary'
 
 it('extractorSplit', async () => {
   async function extract(code: string) {
@@ -10,8 +11,15 @@ it('extractorSplit', async () => {
   expect(await extract('<div class="text-red border">foo</div>')).toContain('text-red')
   expect(await extract('<div class="<sm:text-lg">foo</div>')).toContain('<sm:text-lg')
   expect(await extract('"class=\"bg-white\""')).toContain('bg-white')
-  expect(await extract('<div class="[content:\'bar:baz\'] [foo:bar:baz]">')).not.contains('[foo:bar:baz]')
   expect(await extract('<div :class="{ fixed: isMobile }">')).toContain('fixed')
+})
+
+it('extractorSplitArbitrary', async () => {
+  async function extract(code: string) {
+    return [...await extractorSplitArbitrary.extract({ code, original: code }) || []]
+  }
+
+  expect(await extract('<div class="[content:\'bar:baz\'] [foo:bar:baz]">')).not.contains('[foo:bar:baz]')
 })
 
 it('extractorSvelte uses regular split with non .svelte files', async () => {

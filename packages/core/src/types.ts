@@ -411,6 +411,13 @@ export interface ConfigBase<Theme extends {} = {}> {
    * @default false
    */
   details?: boolean
+
+  /**
+   * A hook to modify the resolved config.
+   *
+   * First presets runs first and the user config
+   */
+  configResolved?: (config: ResolvedConfig) => void
 }
 
 export type AutoCompleteTemplate = string
