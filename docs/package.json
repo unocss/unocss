@@ -10,9 +10,9 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "@nuxt-themes/docus": "^1.9.0",
+    "@nuxt-themes/docus": "^1.9.9",
     "@nuxt/eslint-config": "^0.1.1",
     "eslint": "^8.35.0",
-    "nuxt": "^3.2.2"
+    "nuxt": "^3.3.1"
   }
 }
