@@ -32,7 +32,7 @@ export default function UnoCSSAstroIntegration<Theme extends {}>(
 ): AstroIntegration {
   const {
     injectEntry = true,
-    injectReset: includeReset = true,
+    injectReset: includeReset = false,
     injectExtra = [],
   } = options
 

@@ -5,6 +5,6 @@ import vue from '@astrojs/vue'
 export default defineConfig({
   integrations: [
     vue(),
-    UnoCSS(),
+    UnoCSS({ injectReset: true }),
   ],
 })
