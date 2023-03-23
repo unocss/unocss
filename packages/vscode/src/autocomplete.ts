@@ -21,6 +21,8 @@ const defaultLanguageIds = [
   'ejs',
   'php',
   'svelte',
+  'typescript',
+  'typescriptreact',
   'vue-html',
   'vue',
   'sass',
