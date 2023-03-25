@@ -102,6 +102,7 @@ export default defineConfig({
   ],
   lang: 'en-US',
   srcDir: './src',
+  lastUpdated: true,
   cleanUrls: true,
   themeConfig: {
     logo: '/logo.svg',
