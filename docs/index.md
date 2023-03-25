@@ -14,8 +14,11 @@ hero:
       text: Get Started
       link: /guide/
     - theme: alt
-      text: Play
-      link: /playground
+      text: Interactive Docs
+      link: /interactive/
+    - theme: alt
+      text: Playground
+      link: /playground/
 
 features:
   - title: Fully customizable
