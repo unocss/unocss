@@ -1,18 +1,12 @@
 {
-  "name": "docus-starter",
-  "version": "0.1.0",
-  "private": true,
+  "name": "docs",
+  "version": "1.0.0",
   "scripts": {
-    "dev": "nuxi dev",
-    "build": "nuxi build",
-    "generate": "nuxi generate",
-    "preview": "nuxi preview",
-    "lint": "eslint ."
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
   },
   "devDependencies": {
-    "@nuxt-themes/docus": "^1.9.9",
-    "@nuxt/eslint-config": "^0.1.1",
-    "eslint": "^8.35.0",
-    "nuxt": "^3.3.1"
+    "vitepress": "1.0.0-alpha.61"
   }
 }
