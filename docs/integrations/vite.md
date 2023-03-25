@@ -280,7 +280,7 @@ const config = {
   ],
 }
 ```
-:sandbox{src="https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/sveltekit"}
+<!-- :sandbox{src="https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/sveltekit"} -->
 
 You have a `SvelteKit` example project in [examples/sveltekit](https://github.com/unocss/unocss/tree/main/examples/sveltekit) directory.
 
@@ -314,7 +314,7 @@ const config = {
 }
 ```
 
-:sandbox{src="https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/sveltekit-scoped"}
+<!-- :sandbox{src="https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/sveltekit-scoped"} -->
 
 There is a `SvelteKit scoped` example project in the [examples/sveltekit-scoped](https://github.com/unocss/unocss/tree/main/examples/sveltekit-scoped#readme) directory with more detailed explanation of how this mode works.
 

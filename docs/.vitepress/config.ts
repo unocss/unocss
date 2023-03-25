@@ -23,7 +23,7 @@ const Integrations: DefaultTheme.NavItemWithLink[] = [
   { text: 'VSCode extension', link: '/integrations/vscode' },
 ]
 
-const Presets: DefaultTheme.NavItemWithLink[] = [
+const OfficialPresets: DefaultTheme.NavItemWithLink[] = [
   { text: 'Uno', link: '/presets/uno' },
   { text: 'Wind', link: '/presets/wind' },
   { text: 'Mini', link: '/presets/mini' },
@@ -32,11 +32,11 @@ const Presets: DefaultTheme.NavItemWithLink[] = [
   { text: 'Icons', link: '/presets/icons' },
   { text: 'Attributify', link: '/presets/attributify' },
   { text: 'Tagify', link: '/presets/tagify' },
-  { text: 'rem-to-px', link: '/presets/rem-to-px' },
+  { text: 'Rem to px', link: '/presets/rem-to-px' },
 ]
 
 const Transformers: DefaultTheme.NavItemWithLink[] = [
-  { text: 'Variant group', link: '/transformer-s/variant-group' },
+  { text: 'Variant group', link: '/transformers/variant-group' },
   { text: 'Directives', link: '/transformers/directives' },
   { text: 'Compile class', link: '/transformers/compile-class' },
   { text: 'Attributify JSX', link: '/transformers/attributify-jsx' },
@@ -54,8 +54,36 @@ const Tools: DefaultTheme.NavItemWithLink[] = [
 ]
 
 const Nav: DefaultTheme.NavItem[] = [
-  { text: 'Guide', items: Guides },
-  { text: 'Presets', items: Presets },
+  {
+    text: 'Guide',
+    items: [
+      {
+        text: 'Guide',
+        items: Guides,
+      },
+    ],
+  },
+  {
+    text: 'Integrations',
+    items: Integrations,
+  },
+  {
+    text: 'Presets',
+    items: [
+      {
+        text: 'All Presets',
+        link: '/presets/',
+      },
+      {
+        text: 'Community Presets',
+        link: '/presets/#community-presets',
+      },
+      {
+        text: 'Official',
+        items: OfficialPresets,
+      },
+    ],
+  },
   { text: 'Interactive Docs', link: 'https://uno.antfu.me/', target: '_blank' },
   { text: 'Playground', link: 'https://uno.antfu.me/play/', target: '_blank' },
 ]
@@ -78,7 +106,7 @@ function sidebarGettingStarted() {
     },
     {
       text: 'Presets',
-      items: Presets,
+      items: OfficialPresets,
     },
   ]
 }
@@ -88,7 +116,7 @@ function sidebarGuide() {
     {
       text: 'Presets',
       collapsed: false,
-      items: Presets,
+      items: OfficialPresets,
     },
     {
       text: 'Transformers',
@@ -149,7 +177,7 @@ export default defineConfig({
     nav: Nav,
     sidebar: {
       ...setSidebar([...Guides, ...Integrations], sidebarGettingStarted),
-      ...setSidebar([...Presets, ...Transformers, ...Tools], sidebarGuide),
+      ...setSidebar([...OfficialPresets, ...Transformers, ...Tools], sidebarGuide),
     },
     editLink: {
       pattern: 'https://github.com/unocss/unocss/docs/edit/main/docs/:path',

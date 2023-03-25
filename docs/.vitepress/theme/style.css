@@ -8,12 +8,19 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  animation: rainbow 10s ease 0s infinite;
+  animation: rainbow 15s ease 0s infinite;
+  --vp-code-block-bg: rgba(125,125,125,0.04);
+  --vp-code-tab-divider: var(--vp-c-divider);
+  --vp-code-copy-code-bg: rgba(125,125,125,0.1);
+  --vp-code-copy-code-hover-bg: rgba(125,125,125,0.2);
+  --vp-c-disabled-bg: rgba(125,125,125,0.2);
 }
 
 .dark {
-  --vp-c-bg: #111;
+  --vp-code-block-bg: rgba(0,0,0,0.2);
+  --vp-c-text-code: #c0cec0;
 }
+
 
 /**
  * Component: Button
