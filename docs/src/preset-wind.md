@@ -8,7 +8,7 @@ description: The Tailwind / Windi CSS compact preset for UnoCSS (@unocss/preset-
 The Tailwind / Windi CSS compact preset for UnoCSS: `@unocss/preset-wind`.
 
 ::: info
-This preset inherits [Mini preset](/guide/preset/mini).
+This preset inherits [Mini preset](/preset-mini).
 :::
 
 ## Installation

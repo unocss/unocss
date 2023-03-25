@@ -5,10 +5,10 @@ description: The default preset for UnoCSS (@unocss/preset-uno)
 
 # Uno preset
 
-The default preset for UnoCSS: `@unocss/preset-uno`. It's currently equivalent to [`@unocss/preset-wind`](/guide/preset/wind).
+The default preset for UnoCSS: `@unocss/preset-uno`. It's currently equivalent to [`@unocss/preset-wind`](/preset-wind).
 
 ::: info
-This preset inherits [Wind preset](/guide/preset/wind) and [Mini preset](/guide/preset/mini).
+This preset inherits [Wind preset](/preset-wind) and [Mini preset](/preset-mini).
 :::
 
 ## Installation

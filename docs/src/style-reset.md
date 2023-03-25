@@ -27,4 +27,4 @@ import '@unocss/reset/tailwind.css'
 import '@unocss/reset/tailwind-compat.css'
 ```
 
-Learn more at [@unocss/reset](/guide/package/reset).
+Learn more at [@unocss/reset](/reset).

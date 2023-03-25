@@ -51,15 +51,15 @@ export default {
 
 ## Official presets
 
-- [@unocss/preset-uno](/preset/uno) - The default preset.
-- [@unocss/preset-wind](/preset/wind) - Tailwind / Windi CSS compact preset.
-- [@unocss/preset-mini](/preset/mini) - The minimal but essential rules and variants.
-- [@unocss/preset-attributify](/preset/attributify) - Provides [Attributify Mode](/preset/attributify) to other presets and rules.
-- [@unocss/preset-icons](/preset/icons) - Use any icon as a class utility.
-- [@unocss/preset-web-fonts](/preset/web-fonts) - Web fonts at ease.
-- [@unocss/preset-typography](/preset/typography) - The typography preset.
-- [@unocss/preset-tagify](/preset/tagify) - Tagify Mode for UnoCSS.
-- [@unocss/preset-rem-to-px](/preset/rem-to-px) - Converts rem to px for utils.
+- [@unocss/preset-uno](/preset-uno) - The default preset.
+- [@unocss/preset-wind](/preset-wind) - Tailwind / Windi CSS compact preset.
+- [@unocss/preset-mini](/preset-mini) - The minimal but essential rules and variants.
+- [@unocss/preset-attributify](/preset-attributify) - Provides attributify mode to other presets and rules.
+- [@unocss/preset-icons](/preset-icons) - Use any icon as a class utility.
+- [@unocss/preset-web-fonts](/preset-web-fonts) - Web fonts at ease.
+- [@unocss/preset-typography](/preset-typography) - The typography preset.
+- [@unocss/preset-tagify](/preset-tagify) - Tagify Mode for UnoCSS.
+- [@unocss/preset-rem-to-px](/preset-rem-to-px) - Converts rem to px for utils.
 
 ## Community presets
 

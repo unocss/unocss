@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress'
 
 const nav = [
   { text: 'Getting started', link: '/presets' },
-  { text: 'Guide', link: 'preset/uno' },
+  { text: 'Guide', link: 'preset-uno' },
   { text: 'Reference', link: '/interactive' },
   { text: 'Playground', link: '/play' },
 ]
@@ -30,22 +30,22 @@ const itemsInstallation = [
 ]
 
 const itemsPresets = [
-  { text: 'Uno', link: '/preset/uno' },
-  { text: 'Wind', link: '/preset/wind' },
-  { text: 'Mini', link: '/preset/mini' },
-  { text: 'Web fonts', link: '/preset/web-fonts' },
-  { text: 'Typography', link: '/preset/typography' },
-  { text: 'Icons', link: '/preset/icons' },
-  { text: 'Attributify', link: '/preset/attributify' },
-  { text: 'Tagify', link: '/preset/tagify' },
-  { text: 'rem-to-px', link: '/preset/rem-to-px' },
+  { text: 'Uno', link: '/preset-uno' },
+  { text: 'Wind', link: '/preset-wind' },
+  { text: 'Mini', link: '/preset-mini' },
+  { text: 'Web fonts', link: '/preset-web-fonts' },
+  { text: 'Typography', link: '/preset-typography' },
+  { text: 'Icons', link: '/preset-icons' },
+  { text: 'Attributify', link: '/preset-attributify' },
+  { text: 'Tagify', link: '/preset-tagify' },
+  { text: 'rem-to-px', link: '/preset-rem-to-px' },
 ]
 
 const itemsTransformers = [
-  { text: 'Variant group', link: '/transformer/variant-group' },
-  { text: 'Directives', link: '/transformer/directives' },
-  { text: 'Compile class', link: '/transformer/compile-class' },
-  { text: 'Attributify JSX', link: '/transformer/attributify-jsx' },
+  { text: 'Variant group', link: '/transformer-variant-group' },
+  { text: 'Directives', link: '/transformer-directives' },
+  { text: 'Compile class', link: '/transformer-compile-class' },
+  { text: 'Attributify JSX', link: '/transformer-attributify-jsx' },
 ]
 
 const itemsOtherPackages = [
@@ -108,9 +108,7 @@ export default defineConfig({
     nav,
     sidebar: {
       ...setSidebar([...itemsConcepts, ...itemsInstallation], sidebarGettingStarted),
-      ...setSidebar(itemsOtherPackages, sidebarGuide),
-      '/preset/': sidebarGuide(),
-      '/transformer/': sidebarGuide(),
+      ...setSidebar([...itemsPresets, ...itemsTransformers, ...itemsOtherPackages], sidebarGuide),
     },
     socialLinks: [
       { icon: 'github', link: 'https://github.com/unocss/unocss' },

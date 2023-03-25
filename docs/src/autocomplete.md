@@ -5,7 +5,7 @@ description: Autocomplete utils for UnoCSS (@unocss/autocomplete)
 
 # Autocomplete
 
-Autocomplete utils for UnoCSS: `@unocss/autocomplete`. This is embedded in the [playground](/play) and the [VS Code extension](/getting-started/vscode-extension).
+Autocomplete utils for UnoCSS: `@unocss/autocomplete`. This is embedded in the [playground](/play) and the [VS Code extension](/vscode-extension).
 
 ## Usage
 
