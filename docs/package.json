@@ -2,11 +2,12 @@
   "name": "docs",
   "version": "1.0.0",
   "scripts": {
-    "docs:dev": "vitepress dev",
-    "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview"
+    "docs:dev": "vitepress dev .",
+    "docs:build": "vitepress build .",
+    "docs:preview": "vitepress preview ."
   },
   "devDependencies": {
-    "vitepress": "1.0.0-alpha.61"
+    "vitepress": "1.0.0-alpha.61",
+    "unocss": "workspace:*"
   }
 }

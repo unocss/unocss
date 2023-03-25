@@ -2,8 +2,7 @@ import { defineConfig } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/types'
 
 const nav: DefaultTheme.NavItem[] = [
-  { text: 'Getting started', link: '/presets' },
-  { text: 'Guide', link: 'preset-uno' },
+  { text: 'Guide', link: '/guide/' },
   { text: 'Interactive Docs', link: 'https://uno.antfu.me/' },
   { text: 'Playground', link: 'https://uno.antfu.me/play/' },
 ]
@@ -105,6 +104,14 @@ export default defineConfig({
   srcDir: './src',
   lastUpdated: true,
   cleanUrls: true,
+
+  markdown: {
+    theme: {
+      light: 'vitesse-light',
+      dark: 'vitesse-dark',
+    },
+  },
+
   themeConfig: {
     logo: '/logo.svg',
     nav,

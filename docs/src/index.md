@@ -3,6 +3,9 @@ layout: home
 title: "UnoCSS: The instant on-demand Atomic CSS engine"
 
 hero:
+  image:
+    src: /logo.svg
+    alt: UnoCSS
   name: "UnoCSS"
   text: "The instant on-demand Atomic CSS engine"
   actions:

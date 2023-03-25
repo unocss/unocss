@@ -1,5 +1,10 @@
 lockfileVersion: 5.4
 
+overrides:
+  '@nuxt/kit-edge': npm:@nuxt/kit@latest
+  nuxt: ^3.3.1
+  magic-string: ^0.30.0
+
 importers:
 
   .:
@@ -279,7 +284,7 @@ importers:
       vite-plugin-vue-markdown: ^0.22.4
     devDependencies:
       '@antfu/utils': 0.7.2
-      '@nuxt/devtools': 0.2.5_nuxt@3.3.1+vite@4.2.0
+      '@nuxt/devtools': 0.2.5_nuxt@3.3.1+vite@4.2.1
       '@unocss/autocomplete': link:../packages/autocomplete
       '@unocss/nuxt': link:../packages/nuxt
       '@unocss/shared-docs': link:../packages/shared-docs
@@ -296,7 +301,7 @@ importers:
       prettier: 2.8.4
       shiki: 0.14.1
       theme-vitesse: 0.6.4
-      vite-plugin-vue-markdown: 0.22.4_vite@4.2.0
+      vite-plugin-vue-markdown: 0.22.4_vite@4.2.1
 
   packages/astro:
     specifiers:
@@ -4034,7 +4039,7 @@ packages:
     resolution: {integrity: sha512-YBI/6o2EBz02tdEJRBK8xkt3zvOFOWlLBf7WKYGBsSYSRtjjgrqPe2skp6VLLmKx5WbHHDNcW+6oACaurxGzeA==}
     dev: true
 
-  /@nuxt/devtools/0.2.5_nuxt@3.3.1+vite@4.2.0:
+  /@nuxt/devtools/0.2.5_nuxt@3.3.1+vite@4.2.1:
     resolution: {integrity: sha512-fNFQ9iT01gotZriD2ZAQQvDZu8KhtF7tcZ9PajPNhxyHK50ATAA03JEL3+2eCRanI7R1/Kl575vQcWJovi/c4w==}
     hasBin: true
     peerDependencies:
@@ -4056,9 +4061,9 @@ packages:
       pkg-types: 1.0.2
       rc9: 2.0.1
       unimport: 2.2.4
-      vite: 4.2.0
-      vite-plugin-inspect: 0.7.15_vite@4.2.0
-      vite-plugin-vue-inspector: 3.3.2_vite@4.2.0
+      vite: 4.2.1
+      vite-plugin-inspect: 0.7.15_vite@4.2.1
+      vite-plugin-vue-inspector: 3.3.2_vite@4.2.1
     transitivePeerDependencies:
       - bluebird
       - rollup
@@ -6118,7 +6123,7 @@ packages:
       '@vue/reactivity-transform': 3.2.47
       '@vue/shared': 3.2.47
       estree-walker: 2.0.2
-      magic-string: 0.25.9
+      magic-string: 0.30.0
       postcss: 8.4.21
       source-map: 0.6.1
     dev: true
@@ -6225,7 +6230,7 @@ packages:
       '@vue/compiler-core': 3.2.47
       '@vue/shared': 3.2.47
       estree-walker: 2.0.2
-      magic-string: 0.25.9
+      magic-string: 0.30.0
     dev: true
 
   /@vue/reactivity/3.2.47:
@@ -14219,12 +14224,6 @@ packages:
     hasBin: true
     dev: true
 
-  /magic-string/0.25.9:
-    resolution: {integrity: sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ==}
-    dependencies:
-      sourcemap-codec: 1.4.8
-    dev: true
-
   /magic-string/0.30.0:
     resolution: {integrity: sha512-LA+31JYDJLs82r2ScLrlz1GjSgu66ZV518eyWT+S8VhyQn/JL0u9MeBOvQMGYiPk1DBiSN9DDMOcXvigJZaViQ==}
     engines: {node: '>=12'}
@@ -19145,11 +19144,6 @@ packages:
       whatwg-url: 7.1.0
     dev: true
 
-  /sourcemap-codec/1.4.8:
-    resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
-    deprecated: Please use @jridgewell/sourcemap-codec instead
-    dev: true
-
   /space-separated-tokens/2.0.1:
     resolution: {integrity: sha512-ekwEbFp5aqSPKaqeY1PGrlGQxPNaq+Cnx4+bE2D8sciBQrHpbwoBbawqTN2+6jPs9IdWxxiUcN0K2pkczD3zmw==}
     dev: true
@@ -21085,7 +21079,7 @@ packages:
       vscode-uri: 3.0.6
     dev: true
 
-  /vite-plugin-inspect/0.7.15_vite@4.2.0:
+  /vite-plugin-inspect/0.7.15_vite@4.2.1:
     resolution: {integrity: sha512-oxeZCljacA/slhGFbDNlBqdhDU9fgdHL84i7Nz7DnaAIE7DhTiW2djanw3d/BKuZtduKUY82vRUQ4iaG917t2A==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -21098,7 +21092,7 @@ packages:
       kolorist: 1.7.0
       sirv: 2.0.2
       ufo: 1.1.1
-      vite: 4.2.0
+      vite: 4.2.1
     transitivePeerDependencies:
       - rollup
       - supports-color
@@ -21146,7 +21140,7 @@ packages:
       - supports-color
     dev: true
 
-  /vite-plugin-vue-inspector/3.3.2_vite@4.2.0:
+  /vite-plugin-vue-inspector/3.3.2_vite@4.2.1:
     resolution: {integrity: sha512-8IlDI4Y2hQeBud+ZoQ3/bnvrgkECcbV5ImlawPOhdxg1Th//rCmXefpoeF3r/lwzquIdnGg+TKgugCMqSuWVHA==}
     peerDependencies:
       vite: ^3.0.0-0 || ^4.0.0-0
@@ -21160,12 +21154,12 @@ packages:
       kolorist: 1.7.0
       magic-string: 0.30.0
       shell-quote: 1.8.0
-      vite: 4.2.0
+      vite: 4.2.1
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /vite-plugin-vue-markdown/0.22.4_vite@4.2.0:
+  /vite-plugin-vue-markdown/0.22.4_vite@4.2.1:
     resolution: {integrity: sha512-+kDzqGI5Lq0Wa6M4EJtV7cqOIHgGp6g4jcazXljQKLl9Og4fRs6FuGAPa2HiJ44Z9es85LAPiPbTjwrZEGEUKA==}
     peerDependencies:
       vite: ^2.0.0 || ^3.0.0-0 || ^4.0.0
@@ -21177,7 +21171,7 @@ packages:
       '@rollup/pluginutils': 5.0.2
       '@types/markdown-it': 12.2.3
       markdown-it: 13.0.1
-      vite: 4.2.0
+      vite: 4.2.1
     transitivePeerDependencies:
       - rollup
     dev: true
