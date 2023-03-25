@@ -84,8 +84,8 @@ const Nav: DefaultTheme.NavItem[] = [
       },
     ],
   },
-  { text: 'Interactive Docs', link: 'https://uno.antfu.me/', target: '_blank' },
-  { text: 'Playground', link: 'https://uno.antfu.me/play/', target: '_blank' },
+  { text: 'Interactive Docs', link: '/interactive/', target: '_blank' },
+  { text: 'Playground', link: '/play/', target: '_blank' },
 ]
 
 function setSidebar(items: DefaultTheme.NavItemWithLink[], sidebarFunction: () => DefaultTheme.SidebarItem[]) {
@@ -147,7 +147,7 @@ export default defineConfig({
   title,
   titleTemplate: title,
   description,
-  outDir: '../dist',
+  outDir: './dist',
   head: [
     ['link', { rel: 'icon', href: '/logo.svg', type: 'image/svg+xml' }],
     ['link', { rel: 'alternate icon', href: '/favicon.ico', type: 'image/png', sizes: '16x16' }],

@@ -1,7 +1,7 @@
 {
   "name": "docs",
+  "private": true,
   "type": "module",
-  "version": "1.0.0",
   "scripts": {
     "docs:dev": "vitepress dev",
     "docs:build": "nr docs:fetch-avatars && vitepress build",
