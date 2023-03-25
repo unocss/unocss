@@ -1,13 +1,7 @@
 import { defineConfig } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/types'
 
-const nav: DefaultTheme.NavItemWithLink[] = [
-  { text: 'Guide', link: '/guide/' },
-  { text: 'Interactive Docs', link: 'https://uno.antfu.me/', target: '_blank' },
-  { text: 'Playground', link: 'https://uno.antfu.me/play/', target: '_blank' },
-]
-
-const itemsConcepts: DefaultTheme.NavItemWithLink[] = [
+const Guides: DefaultTheme.NavItemWithLink[] = [
   { text: 'Presets', link: '/guide/presets' },
   { text: 'Rules', link: '/guide/rules' },
   { text: 'Shortcuts', link: '/guide/shortcuts' },
@@ -18,7 +12,7 @@ const itemsConcepts: DefaultTheme.NavItemWithLink[] = [
   { text: 'Layers', link: '/guide/layers' },
 ]
 
-const itemsInstallation: DefaultTheme.NavItemWithLink[] = [
+const Integrations: DefaultTheme.NavItemWithLink[] = [
   { text: 'Vite', link: '/integrations/vite' },
   { text: 'Nuxt', link: '/integrations/nuxt' },
   { text: 'Astro', link: '/integrations/astro' },
@@ -26,10 +20,10 @@ const itemsInstallation: DefaultTheme.NavItemWithLink[] = [
   { text: 'Next.js', link: '/integrations/next' },
   { text: 'Runtime', link: '/integrations/runtime' },
   { text: 'CLI', link: '/integrations/cli' },
-  { text: 'VSCode extension', link: '/integrations/vscode-extension' },
+  { text: 'VSCode extension', link: '/integrations/vscode' },
 ]
 
-const itemsPresets: DefaultTheme.NavItemWithLink[] = [
+const Presets: DefaultTheme.NavItemWithLink[] = [
   { text: 'Uno', link: '/presets/uno' },
   { text: 'Wind', link: '/presets/wind' },
   { text: 'Mini', link: '/presets/mini' },
@@ -41,19 +35,29 @@ const itemsPresets: DefaultTheme.NavItemWithLink[] = [
   { text: 'rem-to-px', link: '/presets/rem-to-px' },
 ]
 
-const itemsTransformers: DefaultTheme.NavItemWithLink[] = [
+const Transformers: DefaultTheme.NavItemWithLink[] = [
   { text: 'Variant group', link: '/transformer-s/variant-group' },
   { text: 'Directives', link: '/transformers/directives' },
   { text: 'Compile class', link: '/transformers/compile-class' },
   { text: 'Attributify JSX', link: '/transformers/attributify-jsx' },
 ]
 
-const itemsOtherPackages: DefaultTheme.NavItemWithLink[] = [
+const Extractors: DefaultTheme.NavItemWithLink[] = [
+  { text: 'Pug extractor', link: '/extractors/pug' },
+]
+
+const Tools: DefaultTheme.NavItemWithLink[] = [
   { text: 'Inspector', link: '/tools/inspector' },
   { text: 'Core', link: '/tools/core' },
   { text: 'Autocomplete', link: '/tools/autocomplete' },
   { text: 'Reset', link: '/tools/reset' },
-  { text: 'Pug extractor', link: '/extractors/pug' },
+]
+
+const Nav: DefaultTheme.NavItem[] = [
+  { text: 'Guide', items: Guides },
+  { text: 'Presets', items: Presets },
+  { text: 'Interactive Docs', link: 'https://uno.antfu.me/', target: '_blank' },
+  { text: 'Playground', link: 'https://uno.antfu.me/play/', target: '_blank' },
 ]
 
 function setSidebar(items: DefaultTheme.NavItemWithLink[], sidebarFunction: () => DefaultTheme.SidebarItem[]) {
@@ -65,11 +69,16 @@ function setSidebar(items: DefaultTheme.NavItemWithLink[], sidebarFunction: () =
 function sidebarGettingStarted() {
   return <DefaultTheme.SidebarItem[]>[
     {
-      text: 'Concepts',
-      items: itemsConcepts,
-    }, {
-      text: 'Installation',
-      items: itemsInstallation,
+      text: 'Guides',
+      items: Guides,
+    },
+    {
+      text: 'Integrations',
+      items: Integrations,
+    },
+    {
+      text: 'Presets',
+      items: Presets,
     },
   ]
 }
@@ -79,15 +88,22 @@ function sidebarGuide() {
     {
       text: 'Presets',
       collapsed: false,
-      items: itemsPresets,
-    }, {
+      items: Presets,
+    },
+    {
       text: 'Transformers',
       collapsed: false,
-      items: itemsTransformers,
-    }, {
+      items: Transformers,
+    },
+    {
+      text: 'Extractors',
+      collapsed: false,
+      items: Extractors,
+    },
+    {
       text: 'Other packages',
       collapsed: false,
-      items: itemsOtherPackages,
+      items: Tools,
     },
   ]
 }
@@ -114,10 +130,10 @@ export default defineConfig({
 
   themeConfig: {
     logo: '/logo.svg',
-    nav,
+    nav: Nav,
     sidebar: {
-      ...setSidebar([...itemsConcepts, ...itemsInstallation], sidebarGettingStarted),
-      ...setSidebar([...itemsPresets, ...itemsTransformers, ...itemsOtherPackages], sidebarGuide),
+      ...setSidebar([...Guides, ...Integrations], sidebarGettingStarted),
+      ...setSidebar([...Presets, ...Transformers, ...Tools], sidebarGuide),
     },
     editLink: {
       pattern: 'https://github.com/unocss/unocss/docs/edit/main/docs/:path',

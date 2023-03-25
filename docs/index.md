@@ -7,7 +7,8 @@ hero:
     src: /logo.svg
     alt: UnoCSS
   name: "UnoCSS"
-  text: "The instant on-demand Atomic CSS engine"
+  text: Instant On-demand Atomic CSS Engine
+  tagline: Customizable · Powerful · Fast · Joyful
   actions:
     - theme: brand
       text: Get Started
@@ -24,5 +25,3 @@ features:
   - title: Lightweight
     details: "Zero deps and browser friendly: ~6kb min+brotli"
 ---
-
-<Home />
