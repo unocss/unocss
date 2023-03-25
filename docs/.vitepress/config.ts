@@ -110,6 +110,10 @@ export default defineConfig({
       ...setSidebar([...itemsConcepts, ...itemsInstallation], sidebarGettingStarted),
       ...setSidebar([...itemsPresets, ...itemsTransformers, ...itemsOtherPackages], sidebarGuide),
     },
+    editLink: {
+      pattern: 'https://github.com/unocss/unocss/docs/edit/main/docs/:path',
+      text: 'Suggest changes to this page',
+    },
     socialLinks: [
       { icon: 'github', link: 'https://github.com/unocss/unocss' },
       { icon: 'discord', link: 'http://chat.antfu.me' },
