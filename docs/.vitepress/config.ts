@@ -3,7 +3,7 @@ import { defineConfig } from 'vitepress'
 const nav = [
   { text: 'Getting started', link: '/presets' },
   { text: 'Guide', link: 'preset-uno' },
-  { text: 'Reference', link: 'https://uno.antfu.me/' },
+  { text: 'Interactive Docs', link: 'https://uno.antfu.me/' },
   { text: 'Playground', link: 'https://uno.antfu.me/play/' },
 ]
 
