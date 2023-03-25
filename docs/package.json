@@ -1,5 +1,6 @@
 {
   "name": "docs",
+  "type": "module",
   "version": "1.0.0",
   "scripts": {
     "docs:dev": "vitepress dev .",
@@ -7,7 +8,7 @@
     "docs:preview": "vitepress preview ."
   },
   "devDependencies": {
-    "vitepress": "1.0.0-alpha.61",
-    "unocss": "workspace:*"
+    "unocss": "workspace:*",
+    "vitepress": "1.0.0-alpha.61"
   }
 }

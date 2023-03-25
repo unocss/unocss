@@ -63,7 +63,7 @@ const Nav: DefaultTheme.NavItem[] = [
 function setSidebar(items: DefaultTheme.NavItemWithLink[], sidebarFunction: () => DefaultTheme.SidebarItem[]) {
   return Object.assign({}, ...items.map(item => ({
     [item.link]: sidebarFunction(),
-  })))
+  }))) as DefaultTheme.SidebarMulti
 }
 
 function sidebarGettingStarted() {
@@ -117,7 +117,6 @@ export default defineConfig({
     ['meta', { name: 'og:title', content: 'UnoCSS' }],
     ['meta', { property: 'og:image', content: '/cover/default.png' }],
   ],
-  srcDir: '.',
   lastUpdated: true,
   cleanUrls: true,
 
