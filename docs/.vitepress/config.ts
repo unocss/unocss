@@ -1,59 +1,59 @@
 import { defineConfig } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/types'
 
-const nav: DefaultTheme.NavItem[] = [
+const nav: DefaultTheme.NavItemWithLink[] = [
   { text: 'Guide', link: '/guide/' },
-  { text: 'Interactive Docs', link: 'https://uno.antfu.me/' },
-  { text: 'Playground', link: 'https://uno.antfu.me/play/' },
+  { text: 'Interactive Docs', link: 'https://uno.antfu.me/', target: '_blank' },
+  { text: 'Playground', link: 'https://uno.antfu.me/play/', target: '_blank' },
 ]
 
 const itemsConcepts: DefaultTheme.NavItemWithLink[] = [
-  { text: 'Presets', link: '/presets' },
-  { text: 'Rules', link: '/rules' },
-  { text: 'Shortcuts', link: '/shortcuts' },
-  { text: 'Variants', link: '/variants' },
-  { text: 'Preflights', link: '/preflights' },
-  { text: 'Style reset', link: '/style-reset' },
-  { text: 'Extend theme', link: '/extend-theme' },
-  { text: 'Layers', link: '/layers' },
+  { text: 'Presets', link: '/guide/presets' },
+  { text: 'Rules', link: '/guide/rules' },
+  { text: 'Shortcuts', link: '/guide/shortcuts' },
+  { text: 'Variants', link: '/guide/variants' },
+  { text: 'Preflights', link: '/guide/preflights' },
+  { text: 'Style reset', link: '/guide/style-reset' },
+  { text: 'Extend theme', link: '/guide/extend-theme' },
+  { text: 'Layers', link: '/guide/layers' },
 ]
 
 const itemsInstallation: DefaultTheme.NavItemWithLink[] = [
-  { text: 'Vite', link: '/vite' },
-  { text: 'Nuxt', link: '/nuxt' },
-  { text: 'Astro', link: '/astro' },
-  { text: 'webpack', link: '/webpack' },
-  { text: 'Next.js', link: '/next' },
-  { text: 'Runtime', link: '/runtime' },
-  { text: 'CLI', link: '/cli' },
-  { text: 'VSCode extension', link: '/vscode-extension' },
+  { text: 'Vite', link: '/integrations/vite' },
+  { text: 'Nuxt', link: '/integrations/nuxt' },
+  { text: 'Astro', link: '/integrations/astro' },
+  { text: 'webpack', link: '/integrations/webpack' },
+  { text: 'Next.js', link: '/integrations/next' },
+  { text: 'Runtime', link: '/integrations/runtime' },
+  { text: 'CLI', link: '/integrations/cli' },
+  { text: 'VSCode extension', link: '/integrations/vscode-extension' },
 ]
 
 const itemsPresets: DefaultTheme.NavItemWithLink[] = [
-  { text: 'Uno', link: '/preset-uno' },
-  { text: 'Wind', link: '/preset-wind' },
-  { text: 'Mini', link: '/preset-mini' },
-  { text: 'Web fonts', link: '/preset-web-fonts' },
-  { text: 'Typography', link: '/preset-typography' },
-  { text: 'Icons', link: '/preset-icons' },
-  { text: 'Attributify', link: '/preset-attributify' },
-  { text: 'Tagify', link: '/preset-tagify' },
-  { text: 'rem-to-px', link: '/preset-rem-to-px' },
+  { text: 'Uno', link: '/presets/uno' },
+  { text: 'Wind', link: '/presets/wind' },
+  { text: 'Mini', link: '/presets/mini' },
+  { text: 'Web fonts', link: '/presets/web-fonts' },
+  { text: 'Typography', link: '/presets/typography' },
+  { text: 'Icons', link: '/presets/icons' },
+  { text: 'Attributify', link: '/presets/attributify' },
+  { text: 'Tagify', link: '/presets/tagify' },
+  { text: 'rem-to-px', link: '/presets/rem-to-px' },
 ]
 
 const itemsTransformers: DefaultTheme.NavItemWithLink[] = [
-  { text: 'Variant group', link: '/transformer-variant-group' },
-  { text: 'Directives', link: '/transformer-directives' },
-  { text: 'Compile class', link: '/transformer-compile-class' },
-  { text: 'Attributify JSX', link: '/transformer-attributify-jsx' },
+  { text: 'Variant group', link: '/transformer-s/variant-group' },
+  { text: 'Directives', link: '/transformers/directives' },
+  { text: 'Compile class', link: '/transformers/compile-class' },
+  { text: 'Attributify JSX', link: '/transformers/attributify-jsx' },
 ]
 
 const itemsOtherPackages: DefaultTheme.NavItemWithLink[] = [
-  { text: 'Inspector', link: '/inspector' },
-  { text: 'Core', link: '/core' },
-  { text: 'Autocomplete', link: '/autocomplete' },
-  { text: 'Reset', link: '/reset' },
-  { text: 'Pug extractor', link: '/extractor-pug' },
+  { text: 'Inspector', link: '/tools/inspector' },
+  { text: 'Core', link: '/tools/core' },
+  { text: 'Autocomplete', link: '/tools/autocomplete' },
+  { text: 'Reset', link: '/tools/reset' },
+  { text: 'Pug extractor', link: '/extractors/pug' },
 ]
 
 function setSidebar(items: DefaultTheme.NavItemWithLink[], sidebarFunction: () => DefaultTheme.SidebarItem[]) {
@@ -101,7 +101,7 @@ export default defineConfig({
     ['meta', { name: 'og:title', content: 'UnoCSS' }],
     ['meta', { property: 'og:image', content: '/cover/default.png' }],
   ],
-  srcDir: './src',
+  srcDir: '.',
   lastUpdated: true,
   cleanUrls: true,
 
