@@ -119,6 +119,7 @@ export default defineConfig({
   title,
   titleTemplate: title,
   description,
+  outDir: '../dist',
   head: [
     ['link', { rel: 'icon', href: '/logo.svg', type: 'image/svg+xml' }],
     ['link', { rel: 'alternate icon', href: '/favicon.ico', type: 'image/png', sizes: '16x16' }],

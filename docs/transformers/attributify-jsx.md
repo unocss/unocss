@@ -5,7 +5,7 @@ description: Support valueless attributify in JSX/TSX (@unocss/transformer-attri
 
 #  Attributify JSX transformer
 
-Support [valueless attributify](/preset-attributify#valueless-attributify) in JSX/TSX: `@unocss/transformer-attributify-jsx`.
+Support [valueless attributify](/presets/attributify#valueless-attributify) in JSX/TSX: `@unocss/transformer-attributify-jsx`.
 
 ## Presentation
 
@@ -77,8 +77,9 @@ export default defineConfig({
 ```
 
 ## Caveats
+
 ::: warning
-The rules are almost the same as those of [Attributify preset](/preset-attributify), but there are several precautions.
+The rules are almost the same as those of [Attributify preset](/presets/attributify), but there are several precautions.
 :::
 
 ```html

@@ -64,7 +64,7 @@ export default {
 }
 ```
 
-For more details, please refer to the [Vite plugin](/vite).
+For more details, please refer to the [Vite plugin](/integrations/vite).
 
 ::: info
 If you are building a meta framework on top of UnoCSS, see [this file](https://github.com/unocss/unocss/blob/main/packages/unocss/src/astro.ts) for an example to bind the default presets.
