@@ -5,11 +5,13 @@ import './rainbow.css'
 import './style.css'
 import 'uno.css'
 
+import HomePage from './components/HomePage.vue'
+
 export default {
   ...Theme,
   Layout: () => {
     return h(Theme.Layout, null, {
-      // https://vitepress.dev/guide/extending-default-theme#layout-slots
+      'home-features-after': () => h(HomePage),
     })
   },
   enhanceApp(/* { app, router, siteData } */) {

@@ -1,5 +1,7 @@
 import { defineConfig } from 'vite'
-import UnoCSS from 'unocss/vite'
+import presetUno from '@unocss/preset-uno'
+import presetAttributify from '@unocss/preset-attributify'
+import Unocss from 'unocss/vite'
 
 export default defineConfig({
   optimizeDeps: {
@@ -13,6 +15,8 @@ export default defineConfig({
     },
   },
   plugins: [
-    UnoCSS(),
+    Unocss({
+      presets: [presetUno(), presetAttributify()],
+    }),
   ],
 })

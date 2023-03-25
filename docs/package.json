@@ -3,11 +3,15 @@
   "type": "module",
   "version": "1.0.0",
   "scripts": {
-    "docs:dev": "vitepress dev .",
-    "docs:build": "vitepress build .",
-    "docs:preview": "vitepress preview ."
+    "docs:dev": "vitepress dev",
+    "docs:build": "nr docs:fetch-avatars && vitepress build",
+    "docs:build:no-fetch": "vitepress build",
+    "docs:preview": "vitepress preview",
+    "docs:fetch-avatars": "esno scripts/fetch-avatars.ts",
+    "docs:contributors": "esno scripts/update-contributors.ts"
   },
   "devDependencies": {
+    "ohmyfetch": "^0.4.21",
     "unocss": "workspace:*",
     "vitepress": "1.0.0-alpha.61"
   }
