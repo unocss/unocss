@@ -1,7 +1,7 @@
 import { fileURLToPath } from 'node:url'
 import { join, resolve } from 'pathe'
 import fs from 'fs-extra'
-import { $fetch } from 'ohmyfetch'
+import { $fetch } from 'ofetch'
 
 const docsDir = resolve(fileURLToPath(import.meta.url), '../..').replace(/\//g, '/')
 const pathContributors = resolve(docsDir, '.vitepress/contributor-names.json').replace(/\//g, '/')

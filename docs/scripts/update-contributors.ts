@@ -1,5 +1,5 @@
 import { promises as fs } from 'node:fs'
-import { $fetch } from 'ohmyfetch'
+import { $fetch } from 'ofetch'
 
 interface Contributor {
   login: string
