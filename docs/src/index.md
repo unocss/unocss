@@ -1,5 +1,6 @@
 ---
 layout: home
+title: "UnoCSS: The instant on-demand Atomic CSS engine"
 
 hero:
   name: "UnoCSS"
@@ -20,3 +21,5 @@ features:
   - title: Lightweight
     details: "Zero deps and browser friendly: ~6kb min+brotli."
 ---
+
+<Home />

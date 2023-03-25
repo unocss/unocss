@@ -97,9 +97,11 @@ export default defineConfig({
   titleTemplate: 'UnoCSS',
   description: 'The instant on-demand Atomic CSS engine',
   head: [
+    ['meta', { name: 'og:title', content: 'UnoCSS' }],
     ['meta', { property: 'og:image', content: '/cover/default.png' }],
   ],
   lang: 'en-US',
+  srcDir: './src',
   cleanUrls: true,
   themeConfig: {
     logo: '/logo.svg',
@@ -110,9 +112,9 @@ export default defineConfig({
       '/preset/': sidebarGuide(),
       '/transformer/': sidebarGuide(),
     },
-
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
+      { icon: 'github', link: 'https://github.com/unocss/unocss' },
+      { icon: 'discord', link: 'http://chat.antfu.me' },
     ],
   },
 })
