@@ -1,13 +1,14 @@
 import { defineConfig } from 'vitepress'
+import type { DefaultTheme } from 'vitepress/types'
 
-const nav = [
+const nav: DefaultTheme.NavItem[] = [
   { text: 'Getting started', link: '/presets' },
   { text: 'Guide', link: 'preset-uno' },
   { text: 'Interactive Docs', link: 'https://uno.antfu.me/' },
   { text: 'Playground', link: 'https://uno.antfu.me/play/' },
 ]
 
-const itemsConcepts = [
+const itemsConcepts: DefaultTheme.NavItemWithLink[] = [
   { text: 'Presets', link: '/presets' },
   { text: 'Rules', link: '/rules' },
   { text: 'Shortcuts', link: '/shortcuts' },
@@ -18,7 +19,7 @@ const itemsConcepts = [
   { text: 'Layers', link: '/layers' },
 ]
 
-const itemsInstallation = [
+const itemsInstallation: DefaultTheme.NavItemWithLink[] = [
   { text: 'Vite', link: '/vite' },
   { text: 'Nuxt', link: '/nuxt' },
   { text: 'Astro', link: '/astro' },
@@ -29,7 +30,7 @@ const itemsInstallation = [
   { text: 'VSCode extension', link: '/vscode-extension' },
 ]
 
-const itemsPresets = [
+const itemsPresets: DefaultTheme.NavItemWithLink[] = [
   { text: 'Uno', link: '/preset-uno' },
   { text: 'Wind', link: '/preset-wind' },
   { text: 'Mini', link: '/preset-mini' },
@@ -41,14 +42,14 @@ const itemsPresets = [
   { text: 'rem-to-px', link: '/preset-rem-to-px' },
 ]
 
-const itemsTransformers = [
+const itemsTransformers: DefaultTheme.NavItemWithLink[] = [
   { text: 'Variant group', link: '/transformer-variant-group' },
   { text: 'Directives', link: '/transformer-directives' },
   { text: 'Compile class', link: '/transformer-compile-class' },
   { text: 'Attributify JSX', link: '/transformer-attributify-jsx' },
 ]
 
-const itemsOtherPackages = [
+const itemsOtherPackages: DefaultTheme.NavItemWithLink[] = [
   { text: 'Inspector', link: '/inspector' },
   { text: 'Core', link: '/core' },
   { text: 'Autocomplete', link: '/autocomplete' },
@@ -56,14 +57,14 @@ const itemsOtherPackages = [
   { text: 'Pug extractor', link: '/extractor-pug' },
 ]
 
-function setSidebar(items, sidebarFunction) {
+function setSidebar(items: DefaultTheme.NavItemWithLink[], sidebarFunction: () => DefaultTheme.SidebarItem[]) {
   return Object.assign({}, ...items.map(item => ({
     [item.link]: sidebarFunction(),
   })))
 }
 
 function sidebarGettingStarted() {
-  return [
+  return <DefaultTheme.SidebarItem[]>[
     {
       text: 'Concepts',
       items: itemsConcepts,
@@ -75,7 +76,7 @@ function sidebarGettingStarted() {
 }
 
 function sidebarGuide() {
-  return [
+  return <DefaultTheme.SidebarItem[]>[
     {
       text: 'Presets',
       collapsed: false,
@@ -93,6 +94,7 @@ function sidebarGuide() {
 }
 
 export default defineConfig({
+  lang: 'en-US',
   title: 'UnoCSS',
   titleTemplate: 'UnoCSS',
   description: 'The instant on-demand Atomic CSS engine',
@@ -100,7 +102,6 @@ export default defineConfig({
     ['meta', { name: 'og:title', content: 'UnoCSS' }],
     ['meta', { property: 'og:image', content: '/cover/default.png' }],
   ],
-  lang: 'en-US',
   srcDir: './src',
   lastUpdated: true,
   cleanUrls: true,
