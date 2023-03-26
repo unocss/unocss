@@ -99,9 +99,11 @@ const plainTeamMembers: CoreTeam[] = [
   },
   {
     avatar: 'https://github.com/sudongyuer.png',
-    name: 'Frozen FIsh',
+    name: 'Tsuki Su',
     github: 'sudongyuer',
-    title: 'TODO',
+    twitter: 'sudongyuer',
+    title: 'A zealous open sourceror & Full Stack Developer & Junior designer',
+    desc: 'Previously worked at Tencent, now starting a business',
   },
 ]
 
