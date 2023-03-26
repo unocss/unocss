@@ -284,7 +284,7 @@ importers:
       '@unocss/autocomplete': link:../packages/autocomplete
       '@unocss/nuxt': link:../packages/nuxt
       '@unocss/shared-docs': link:../packages/shared-docs
-      '@vueuse/nuxt': 9.13.0_nuxt@3.2.0+vue@2.7.14
+      '@vueuse/nuxt': 9.13.0_nuxt@3.2.0+vue@3.2.47
       esno: 0.16.3
       fs-extra: 11.1.0
       fuse.js: 6.6.2
@@ -447,7 +447,6 @@ importers:
     specifiers:
       '@unocss/config': workspace:*
       '@unocss/core': workspace:*
-      '@unocss/preset-mini': workspace:*
       css-tree: ^2.3.1
       fast-glob: ^3.2.12
       magic-string: ^0.27.0
@@ -455,7 +454,6 @@ importers:
     dependencies:
       '@unocss/config': link:../config
       '@unocss/core': link:../core
-      '@unocss/preset-mini': link:../preset-mini
       css-tree: 2.3.1
       fast-glob: 3.2.12
       magic-string: 0.27.0
@@ -602,12 +600,10 @@ importers:
   packages/transformer-directives:
     specifiers:
       '@unocss/core': workspace:*
-      '@unocss/preset-mini': workspace:*
       css-tree: ^2.3.1
       magic-string: ^0.27.0
     dependencies:
       '@unocss/core': link:../core
-      '@unocss/preset-mini': link:../preset-mini
       css-tree: 2.3.1
     devDependencies:
       magic-string: 0.27.0
@@ -5516,18 +5512,6 @@ packages:
     resolution: {integrity: sha512-Iu8Tbg3f+emIIMmI2ycSI8QcEuAUgPTgHwesDU1eKMLE4YC/c/sFbGc70QgMq31ijRftV0R7vCm9co6rldCeOA==}
     dev: true
 
-  /@vueuse/core/9.13.0_vue@2.7.14:
-    resolution: {integrity: sha512-pujnclbeHWxxPRqXWmdkKV5OX4Wk4YeK7wusHqRwU0Q7EFusHoqNA/aPhB6KCh9hEqJkLAJo7bb0Lh9b+OIVzw==}
-    dependencies:
-      '@types/web-bluetooth': 0.0.16
-      '@vueuse/metadata': 9.13.0
-      '@vueuse/shared': 9.13.0_vue@2.7.14
-      vue-demi: 0.13.11_vue@2.7.14
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-      - vue
-    dev: true
-
   /@vueuse/core/9.13.0_vue@3.2.47:
     resolution: {integrity: sha512-pujnclbeHWxxPRqXWmdkKV5OX4Wk4YeK7wusHqRwU0Q7EFusHoqNA/aPhB6KCh9hEqJkLAJo7bb0Lh9b+OIVzw==}
     dependencies:
@@ -5566,30 +5550,21 @@ packages:
     resolution: {integrity: sha512-gdU7TKNAUVlXXLbaF+ZCfte8BjRJQWPCa2J55+7/h+yDtzw3vOoGQDRXzI6pyKyo6bXFT5/QoPE4hAknExjRLQ==}
     dev: true
 
-  /@vueuse/nuxt/9.13.0_nuxt@3.2.0+vue@2.7.14:
+  /@vueuse/nuxt/9.13.0_nuxt@3.2.0+vue@3.2.47:
     resolution: {integrity: sha512-JunH/w6nFIwCyaZ0s+pfrYFMfBzGfhkwmFPz7ogHFmb71Ty/5HINrYOAOZCXpN44X6QH6FiJq/wuLLdvYzqFUw==}
     peerDependencies:
       nuxt: ^3.0.0
     dependencies:
       '@nuxt/kit': 3.2.3
-      '@vueuse/core': 9.13.0_vue@2.7.14
+      '@vueuse/core': 9.13.0_vue@3.2.47
       '@vueuse/metadata': 9.13.0
       local-pkg: 0.4.3
       nuxt: 3.2.0
-      vue-demi: 0.13.11_vue@2.7.14
+      vue-demi: 0.13.11_vue@3.2.47
     transitivePeerDependencies:
       - '@vue/composition-api'
       - rollup
       - supports-color
-      - vue
-    dev: true
-
-  /@vueuse/shared/9.13.0_vue@2.7.14:
-    resolution: {integrity: sha512-UrnhU+Cnufu4S6JLCPZnkWh0WwZGUp72ktOF2DFptMlOs3TOdVv8xJN53zhHGARmVOsz5KqOls09+J1NR6sBKw==}
-    dependencies:
-      vue-demi: 0.13.11_vue@2.7.14
-    transitivePeerDependencies:
-      - '@vue/composition-api'
       - vue
     dev: true
 
@@ -20344,21 +20319,6 @@ packages:
     resolution: {integrity: sha512-w1zRgff5lVJ5YAIkVSKuFjDyCgKdg/sPbcgZbosnMCoHblg0uThCKA2n/XWUGnw0Rh2+03UY/VtkwaYwMUSRyQ==}
     dependencies:
       ufo: 1.1.1
-    dev: true
-
-  /vue-demi/0.13.11_vue@2.7.14:
-    resolution: {integrity: sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==}
-    engines: {node: '>=12'}
-    hasBin: true
-    requiresBuild: true
-    peerDependencies:
-      '@vue/composition-api': ^1.0.0-rc.1
-      vue: ^3.0.0-0 || ^2.6.0
-    peerDependenciesMeta:
-      '@vue/composition-api':
-        optional: true
-    dependencies:
-      vue: 2.7.14
     dev: true
 
   /vue-demi/0.13.11_vue@3.2.47:
