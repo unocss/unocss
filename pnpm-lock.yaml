@@ -223,13 +223,21 @@ importers:
 
   docs:
     specifiers:
+      '@iconify-json/carbon': ^1.1.16
+      '@iconify-json/material-symbols': ^1.1.35
+      '@iconify-json/mdi': ^1.1.50
+      '@iconify-json/tabler': ^1.1.68
       ofetch: ^1.0.0
       unocss: workspace:*
-      vitepress: 1.0.0-alpha.61
+      vitepress: 1.0.0-alpha.63
     devDependencies:
+      '@iconify-json/carbon': 1.1.16
+      '@iconify-json/material-symbols': 1.1.35
+      '@iconify-json/mdi': 1.1.50
+      '@iconify-json/tabler': 1.1.68
       ofetch: 1.0.1
       unocss: link:../packages/unocss
-      vitepress: 1.0.0-alpha.61_6nilccg2rhd3mct5xof6ep35te
+      vitepress: 1.0.0-alpha.63
 
   examples/vue-cli4:
     specifiers:
@@ -784,14 +792,16 @@ packages:
       '@algolia/autocomplete-shared': 1.7.4
     dev: true
 
-  /@algolia/autocomplete-preset-algolia/1.7.4_4cwlnazjj7u2acpwn27jf7qna4:
+  /@algolia/autocomplete-preset-algolia/1.7.4_algoliasearch@4.16.0:
     resolution: {integrity: sha512-s37hrvLEIfcmKY8VU9LsAXgm2yfmkdHT3DnA3SgHaY93yjZ2qL57wzb5QweVkYuEBZkT2PIREvRoLXC2sxTbpQ==}
     peerDependencies:
       '@algolia/client-search': '>= 4.9.1 < 6'
       algoliasearch: '>= 4.9.1 < 6'
+    peerDependenciesMeta:
+      '@algolia/client-search':
+        optional: true
     dependencies:
       '@algolia/autocomplete-shared': 1.7.4
-      '@algolia/client-search': 4.16.0
       algoliasearch: 4.16.0
     dev: true
 
@@ -2772,10 +2782,10 @@ packages:
     resolution: {integrity: sha512-6SCwI7P8ao+se1TUsdZ7B4XzL+gqeQZnBc+2EONZlcVa0dVrk0NjETxozFKgMv0eEGH8QzP1fkN+A1rH61l4eg==}
     dev: true
 
-  /@docsearch/js/3.3.3_6nilccg2rhd3mct5xof6ep35te:
+  /@docsearch/js/3.3.3:
     resolution: {integrity: sha512-2xAv2GFuHzzmG0SSZgf8wHX0qZX8n9Y1ZirKUk5Wrdc+vH9CL837x2hZIUdwcPZI9caBA+/CzxsS68O4waYjUQ==}
     dependencies:
-      '@docsearch/react': 3.3.3_6nilccg2rhd3mct5xof6ep35te
+      '@docsearch/react': 3.3.3
       preact: 10.13.1
     transitivePeerDependencies:
       - '@algolia/client-search'
@@ -2784,7 +2794,7 @@ packages:
       - react-dom
     dev: true
 
-  /@docsearch/react/3.3.3_6nilccg2rhd3mct5xof6ep35te:
+  /@docsearch/react/3.3.3:
     resolution: {integrity: sha512-pLa0cxnl+G0FuIDuYlW+EBK6Rw2jwLw9B1RHIeS4N4s2VhsfJ/wzeCi3CWcs5yVfxLd5ZK50t//TMA5e79YT7Q==}
     peerDependencies:
       '@types/react': '>= 16.8.0 < 19.0.0'
@@ -2799,7 +2809,7 @@ packages:
         optional: true
     dependencies:
       '@algolia/autocomplete-core': 1.7.4
-      '@algolia/autocomplete-preset-algolia': 1.7.4_4cwlnazjj7u2acpwn27jf7qna4
+      '@algolia/autocomplete-preset-algolia': 1.7.4_algoliasearch@4.16.0
       '@docsearch/css': 3.3.3
       algoliasearch: 4.16.0
     transitivePeerDependencies:
@@ -3594,6 +3604,12 @@ packages:
       '@iconify/types': 2.0.0
     dev: true
 
+  /@iconify-json/material-symbols/1.1.35:
+    resolution: {integrity: sha512-Bfb5Dkso3U4JJA6bLwJp5LSoeaxcgUQZ6YH9+d5uxQwfCiCD/UMG4oEwbrRjM70cr+0Yb+OMsv5YUSzcoe4PRw==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
   /@iconify-json/mdi/1.1.50:
     resolution: {integrity: sha512-SgbT5w5eHCdOG74ZWPz7HlTGk6VsifIJhNi6lAsxj/5Nlqt6Cz4LlQmSa9eecU9p075Jub2aAx/o7YI+GCahRQ==}
     dependencies:
@@ -3614,6 +3630,12 @@ packages:
 
   /@iconify-json/tabler/1.1.67:
     resolution: {integrity: sha512-lHQLgste5NmoY+7vxOdi6IjuaitZv+QVO2oTvK1nHTFAolstKwf5Z3x6w5bqL4mNcun1K8v34jYXGcL8k1IPgw==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
+  /@iconify-json/tabler/1.1.68:
+    resolution: {integrity: sha512-HejD5fXGC+HjaAxQQrwihg3ehMm5iNVSS9AOabSviVJUEojwF19ceQQJRcNBWaT2A6dLE+2ejcKb5YeJ9w8RFg==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: true
@@ -3920,7 +3942,7 @@ packages:
       mkdirp: 1.0.4
       npm-pick-manifest: 7.0.2
       proc-log: 2.0.1
-      promise-inflight: 1.0.1_bluebird@3.7.2
+      promise-inflight: 1.0.1
       promise-retry: 2.0.1
       semver: 7.3.8
       which: 2.0.2
@@ -3937,7 +3959,7 @@ packages:
       mkdirp: 1.0.4
       npm-pick-manifest: 8.0.1
       proc-log: 3.0.0
-      promise-inflight: 1.0.1_bluebird@3.7.2
+      promise-inflight: 1.0.1
       promise-retry: 2.0.1
       semver: 7.3.8
       which: 3.0.0
@@ -7873,7 +7895,7 @@ packages:
       minipass-flush: 1.0.5
       minipass-pipeline: 1.2.4
       p-map: 4.0.0
-      promise-inflight: 1.0.1_bluebird@3.7.2
+      promise-inflight: 1.0.1
       ssri: 10.0.1
       tar: 6.1.13
       unique-filename: 3.0.0
@@ -21374,12 +21396,12 @@ packages:
       vite: 4.2.0
     dev: true
 
-  /vitepress/1.0.0-alpha.61_6nilccg2rhd3mct5xof6ep35te:
-    resolution: {integrity: sha512-NvzERVS3/TU9YkYcaiK7yNSe0zY9UcSV58tx3mxbvVLCuwRykzO4OWbl6vQT6Ut6YGuZU1y3Z5WcSS+fHfaxJA==}
+  /vitepress/1.0.0-alpha.63:
+    resolution: {integrity: sha512-7QMwjT9888S64SkmJqSmRlP417yniCj4IqawIpzYSQMnlJ5CjBWOTbzXKvmzRZkjOJGTcaYr2C88+1/z8ERG+g==}
     hasBin: true
     dependencies:
       '@docsearch/css': 3.3.3
-      '@docsearch/js': 3.3.3_6nilccg2rhd3mct5xof6ep35te
+      '@docsearch/js': 3.3.3
       '@vitejs/plugin-vue': 4.1.0_vite@4.2.1+vue@3.2.47
       '@vue/devtools-api': 6.5.0
       '@vueuse/core': 9.13.0_vue@3.2.47

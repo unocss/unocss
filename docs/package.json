@@ -8,8 +8,12 @@
     "docs:preview": "vitepress preview"
   },
   "devDependencies": {
+    "@iconify-json/carbon": "^1.1.16",
+    "@iconify-json/material-symbols": "^1.1.35",
+    "@iconify-json/mdi": "^1.1.50",
+    "@iconify-json/tabler": "^1.1.68",
     "ofetch": "^1.0.0",
     "unocss": "workspace:*",
-    "vitepress": "1.0.0-alpha.61"
+    "vitepress": "1.0.0-alpha.63"
   }
 }
