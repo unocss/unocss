@@ -47,7 +47,7 @@ export default defineConfig({
 })
 ```
 
-Compare to the inline configure inside your `vite.config.ts` or other tools configurations, the dedicated config file will work better with [IDEs](/integrations/vscode) and integrations with other tools like the [ESLint plugin](/integrations/eslint), and also make HMR work better.
+Compared to the inline configuration inside your `vite.config.ts` or other tools configurations, the dedicated config file will work better with [IDEs](/integrations/vscode) and integrations with other tools like the [ESLint plugin](/integrations/eslint), and also make HMR work better.
 
 By default, UnoCSS will automatically look for `uno.config.{js,ts,mjs,mts}` or `unocss.config.{js,ts,mjs,mts}` in the root directory of your project. You can also specify the config file manually, for example in Vite:
 

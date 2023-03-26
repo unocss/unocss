@@ -1,14 +1,14 @@
 # Extracting & Safelist
 
-Since UnoCSS works **at build time**, it meaning only the statically presented utilities will be generated and shipped to your app. Utilities that used dynamically or fetched from external resources at runtime might not be applied.
+Since UnoCSS works **at build time**, it means that only statically presented utilities will be generated and shipped to your app. Utilities that are used dynamically or fetched from external resources at runtime might not be applied.
 
-By default, UnoCSS will extract the utilities usage from files in your build pipeline with extension `.jsx`, `.tsx`, `.vue`, `.md`, `.html`, `.svelte`, `.astro`. And then generate the CSS on demand.
+By default, UnoCSS will extract the utilities usage from files in your build pipeline with extension `.jsx`, `.tsx`, `.vue`, `.md`, `.html`, `.svelte`, `.astro` and then generate the appropriate CSS on demand.
 
 `.js` and `.ts` files are **NOT included by default**. You can add `@unocss-include`, per-file basis, anywhere in the file that you want UnoCSS to scan, or add `*.js` or `*.ts` in the configuration to include all js/ts files as scan targets. Similarly, you can also add `@unocss-ignore` to bypass the scanning and transforming for a file.
 
 ### Safelist
 
-Sometimes you might want have to use dynamic concatenations like:
+Sometimes you might want to use dynamic concatenations like:
 
 ```html
 <div class="p-${size}"></div> <!-- this won't work! -->
@@ -39,4 +39,4 @@ safelist: [
 ]
 ```
 
-If you are seaking for the true dynamic generation at the runtime, you may check the [@unocss/runtime](https://github.com/unocss/unocss/tree/main/packages/runtime) package.
+If you are seeking for a true dynamic generation at runtime, you may want to check out the [@unocss/runtime](https://github.com/unocss/unocss/tree/main/packages/runtime) package.
