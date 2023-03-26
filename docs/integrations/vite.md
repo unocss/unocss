@@ -1,11 +1,11 @@
 ---
-title: Vite plugin
+title: Vite Integration
 description: The Vite plugin for UnoCSS (@unocss/vite).
 ---
 
 # Vite
 
-The Vite plugin for UnoCSS: `@unocss/vite`. Ships with the `unocss` package.
+The Vite plugin ships with the `unocss` package.
 
 ## Installation
 
@@ -21,54 +21,36 @@ The Vite plugin for UnoCSS: `@unocss/vite`. Ships with the `unocss` package.
   ```
 :::
 
+Install the plugin:
+
 ```ts
 // vite.config.ts
 import UnoCSS from 'unocss/vite'
-export default {
+import { defineConfig } from 'vite'
+
+export default defineConfig({
   plugins: [
-    UnoCSS({ /* options */ }),
+    UnoCSS(),
   ],
-}
+})
 ```
 
-Add `uno.css` to your main entry:
+Create a `uno.config.js` file:
+
+```ts
+// uno.config.js
+import { defineConfig } from 'unocss'
+
+export default defineConfig({
+  // ...UnoCSS options
+})
+```
+
+Add `virtual:uno.css` to your main entry:
 
 ```ts
 // main.ts
-import 'uno.css'
-```
-
-### Usage without presets
-
-::: info
-This plugin does not come with any default presets. If you are building a meta framework on top of UnoCSS, see [this file](https://github.com/unocss/unocss/blob/main/packages/unocss/src/vite.ts) for an example to bind the default presets.
-:::
-
-::: code-group
-  ```bash [pnpm]
-  pnpm add -D @unocss/vite
-  ```
-  ```bash [yarn]
-  yarn add -D @unocss/vite
-  ```
-  ```bash [npm]
-  npm install -D @unocss/vite
-  ```
-:::
-
-```ts
-// vite.config.ts
-import UnoCSS from '@unocss/vite'
-export default {
-  plugins: [
-    UnoCSS({
-      presets: [
-        /* no presets by default */
-      ],
-      /* options */
-    }),
-  ],
-}
+import 'virtual:uno.css'
 ```
 
 ## Modes
@@ -124,36 +106,17 @@ Some UI/App frameworks have some caveats that must be fixed to make it work, if 
 
 ### React
 
-**WARNING**: You should import the `uno.css` virtual module using `import 'virtual:uno.css'` instead `import 'uno.css'`. When you start the dev server first time, you'll need to update some style module to get it working (we're trying to fix it).
-
 If you're using `@vitejs/plugin-react`:
 
 ```ts
 // vite.config.js
-import react from '@vitejs/plugin-react'
 import UnoCSS from 'unocss/vite'
+import React from '@vitejs/plugin-react'
+
 export default {
   plugins: [
-    react(),
-    UnoCSS({
-      /* options */
-    }),
-  ],
-}
-```
-
-or if you're using `@vitejs/plugin-react-refresh`:
-
-```ts
-// vite.config.js
-import reactRefresh from '@vitejs/plugin-react-refresh'
-import UnoCSS from 'unocss/vite'
-export default {
-  plugins: [
-    reactRefresh(),
-    UnoCSS({
-      /* options */
-    }),
+    React(),
+    UnoCSS(),
   ],
 }
 ```
@@ -164,14 +127,13 @@ If you are using `@vitejs/plugin-react` with `@unocss/preset-attributify`, you m
 
 ```ts
 // vite.config.js
-import react from '@vitejs/plugin-react'
 import UnoCSS from 'unocss/vite'
+import React from '@vitejs/plugin-react'
+
 export default {
   plugins: [
-    UnoCSS({
-      /* options */
-    }),
-    react(),
+    UnoCSS(),
+    React(),
   ],
 }
 ```
@@ -186,6 +148,7 @@ If you're using `@preact/preset-vite`:
 // vite.config.js
 import preact from '@preact/preset-vite'
 import UnoCSS from 'unocss/vite'
+
 export default {
   plugins: [
     preact(),
@@ -214,7 +177,7 @@ export default {
 
 If you're using `@unocss/preset-attributify` you should remove `tsc` from the `build` script.
 
-If you are using `@preact/preset-vite` with `@unocss/preset-attributify`, you must add the plugin before `@preact/preset-vite`.
+If you are using `@preact/preset-vite` with `@unocss/preset-attributify`, you need to add the plugin before `@preact/preset-vite`.
 
 ```ts
 // vite.config.js
@@ -245,6 +208,7 @@ You can use simple rules with `class:`, for example `class:bg-red-500={foo}` or 
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import UnoCSS from 'unocss/vite'
 import { extractorSvelte } from '@unocss/core'
+
 export default {
   plugins: [
     UnoCSS({
@@ -258,7 +222,7 @@ export default {
 
 You have a `Vite + Svelte` example project on [examples/vite-svelte](https://github.com/unocss/unocss/tree/main/examples/vite-svelte) directory.
 
-###  Sveltekit
+### Sveltekit
 
 To support `class:foo` and `class:foo={bar}` add the plugin and configure `extractorSvelte` on `extractors` option.
 
@@ -420,7 +384,6 @@ template.innerHTML = `
 
 ### Solid
 
-**WARNING**: You should import the `uno.css` virtual module using `import 'virtual:uno.css'` instead `import 'uno.css'`. When you start the dev server first time, you'll need to update some style module to get it working (we're trying to fix it).
 
 ```ts
 // vite.config.js
@@ -445,14 +408,13 @@ You need to add the `vite-plugin-elm` plugin before UnoCSS's plugin.
 ```ts
 // vite.config.js
 import { defineConfig } from 'vite'
-import elmPlugin from 'vite-plugin-elm'
+import Elm from 'vite-plugin-elm'
 import UnoCSS from 'unocss/vite'
+
 export default defineConfig({
   plugins: [
-    elmPlugin(),
-    UnoCSS({
-      /* options */
-    }),
+    Elm(),
+    UnoCSS(),
   ],
 })
 ```

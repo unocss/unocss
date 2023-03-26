@@ -1,9 +1,9 @@
 ---
-title: Style reset
+title: Style Reset
 description: UnoCSS does not provide style resetting or preflight by default for maximum flexibility and does not populate your global CSS.
 ---
 
-# Style reset
+# Browser Style Reset
 
 UnoCSS does not provide style resetting or preflight by default for maximum flexibility and does not populate your global CSS. If you use UnoCSS along with other CSS frameworks, they probably already do the resetting for you. If you use UnoCSS alone, you can use resetting libraries like [Normalize.css](https://necolas.github.io/normalize.css/).
 

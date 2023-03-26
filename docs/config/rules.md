@@ -5,8 +5,6 @@ description: Writing custom rules for UnoCSS is super easy.
 
 # Rules
 
-Writing custom rules for UnoCSS is super easy.
-
 ## Static rules
 
 With this example:

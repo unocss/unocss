@@ -23,7 +23,7 @@ shortcuts: {
 
 In addition to the plain mapping, UnoCSS also allows you to define dynamic shortcuts.
 
-Similar to [Rules](/guide/rules), a dynamic shortcut is the combination of a matcher RegExp and a handler function.
+Similar to [Rules](/config/rules), a dynamic shortcut is the combination of a matcher RegExp and a handler function.
 
 ```ts
 shortcuts: [

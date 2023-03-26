@@ -6,7 +6,7 @@ description: UnoCSS allows you to define the layers as you want.
 
 # Layers
 
-The order of CSS will affect their priorities. While we will [retain the order of rules](/guide/rules#ordering), sometimes you may want to group some utilities to have more explicit control of their order.
+The order of CSS will affect their priorities. While we will [retain the order of rules](/config/rules#ordering), sometimes you may want to group some utilities to have more explicit control of their order.
 
 ## Usage
 

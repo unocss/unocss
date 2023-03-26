@@ -2,14 +2,19 @@ import { defineConfig } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/types'
 
 const Guides: DefaultTheme.NavItemWithLink[] = [
+  { text: 'Getting Started', link: '/guide/' },
+  { text: 'Why UnoCSS?', link: '/guide/why' },
   { text: 'Presets', link: '/guide/presets' },
-  { text: 'Rules', link: '/guide/rules' },
-  { text: 'Shortcuts', link: '/guide/shortcuts' },
-  { text: 'Variants', link: '/guide/variants' },
-  { text: 'Preflights', link: '/guide/preflights' },
   { text: 'Style reset', link: '/guide/style-reset' },
-  { text: 'Extend theme', link: '/guide/extend-theme' },
-  { text: 'Layers', link: '/guide/layers' },
+]
+
+const APIConfig: DefaultTheme.NavItemWithLink[] = [
+  { text: 'Rules', link: '/config/rules' },
+  { text: 'Shortcuts', link: '/config/shortcuts' },
+  { text: 'Variants', link: '/config/variants' },
+  { text: 'Preflights', link: '/config/preflights' },
+  { text: 'Extend theme', link: '/config/extend-theme' },
+  { text: 'Layers', link: '/config/layers' },
 ]
 
 const Integrations: DefaultTheme.NavItemWithLink[] = [
