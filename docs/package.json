@@ -1,0 +1,15 @@
+{
+  "name": "docs",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
+  },
+  "devDependencies": {
+    "ofetch": "^1.0.0",
+    "unocss": "workspace:*",
+    "vitepress": "1.0.0-alpha.61"
+  }
+}
