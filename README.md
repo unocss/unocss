@@ -582,7 +582,7 @@ safelist: [
 ]
 ```
 
-If you are seaking for the true dynamic generation at the runtime, you may check the [@unocss/runtime](https://github.com/unocss/unocss/tree/main/packages/runtime) package.
+If you are seeking the true dynamic generation at the runtime, you may check the [@unocss/runtime](https://github.com/unocss/unocss/tree/main/packages/runtime) package.
 
 ### Inspector
 
