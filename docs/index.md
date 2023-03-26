@@ -15,7 +15,7 @@ hero:
       link: /guide/
     - theme: alt
       text: Interactive Docs
-      link: https://uno.antfu.me/
+      link: https://uno.antfu.me
     - theme: alt
       text: Playground
       link: https://uno.antfu.me/play
