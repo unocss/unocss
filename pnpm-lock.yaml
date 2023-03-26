@@ -223,13 +223,15 @@ importers:
 
   docs:
     specifiers:
+      '@iconify-json/carbon': ^1.1.16
       ofetch: ^1.0.0
       unocss: workspace:*
-      vitepress: 1.0.0-alpha.61
+      vitepress: 1.0.0-alpha.63
     devDependencies:
+      '@iconify-json/carbon': 1.1.16
       ofetch: 1.0.1
       unocss: link:../packages/unocss
-      vitepress: 1.0.0-alpha.61_6nilccg2rhd3mct5xof6ep35te
+      vitepress: 1.0.0-alpha.63_6nilccg2rhd3mct5xof6ep35te
 
   examples/vue-cli4:
     specifiers:
@@ -21374,8 +21376,8 @@ packages:
       vite: 4.2.0
     dev: true
 
-  /vitepress/1.0.0-alpha.61_6nilccg2rhd3mct5xof6ep35te:
-    resolution: {integrity: sha512-NvzERVS3/TU9YkYcaiK7yNSe0zY9UcSV58tx3mxbvVLCuwRykzO4OWbl6vQT6Ut6YGuZU1y3Z5WcSS+fHfaxJA==}
+  /vitepress/1.0.0-alpha.63_6nilccg2rhd3mct5xof6ep35te:
+    resolution: {integrity: sha512-7QMwjT9888S64SkmJqSmRlP417yniCj4IqawIpzYSQMnlJ5CjBWOTbzXKvmzRZkjOJGTcaYr2C88+1/z8ERG+g==}
     hasBin: true
     dependencies:
       '@docsearch/css': 3.3.3
