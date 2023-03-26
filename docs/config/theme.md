@@ -1,9 +1,9 @@
 ---
-title: Extend theme
+title: Theme
 description: UnoCSS also supports the theming system that you might be familiar with in Tailwind / Windi.
 ---
 
-# Extend theme
+# Theme
 
 UnoCSS also supports the theming system that you might be familiar with in Tailwind / Windi. At the user level, you can specify the `theme` property in your config, and it will be deep merged to the default theme.
 

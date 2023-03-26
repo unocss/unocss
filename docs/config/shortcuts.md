@@ -62,20 +62,3 @@ With this, we could use `btn-green` and `btn-red` to generate the following CSS:
   color: rgba(254, 226, 226, var(--un-text-opacity));
 }
 ```
-
-## Rules merging
-
-By default, UnoCSS will merge CSS rules with the same body to minimize the CSS size.
-
-For example, `<div class="m-2 hover:m2">` will generate:
-
-```css
-.hover\:m2:hover, .m-2 { margin: 0.5rem; }
-```
-
-Instead of two separate rules:
-
-```css
-.hover\:m2:hover { margin: 0.5rem; }
-.m-2 { margin: 0.5rem; }
-```

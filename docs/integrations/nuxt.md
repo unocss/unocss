@@ -1,20 +1,11 @@
 ---
 title: Nuxt module
-description: Nuxt module for UnoCSS (@unocss/nuxt).
+description: Nuxt module for UnoCSS.
 ---
 
 # Nuxt
 
-The Nuxt module for UnoCSS: `@unocss/nuxt`. This is the simplest way to use UnoCSS in your Nuxt project.
-
-## Support status
-
-| | Nuxt 2 | Nuxt Bridge | Nuxt 3 |
-| --- | :-- | :-- | :-- |
-| Webpack Dev | ✅ | ✅ | 🚧 |
-| Webpack Build | ✅ | ✅ | ✅ |
-| Vite Dev | - | ✅ | ✅ |
-| Vite Build | - | ✅ | ✅ |
+The Nuxt module for UnoCSS.
 
 ## Installation
 
@@ -30,37 +21,27 @@ The Nuxt module for UnoCSS: `@unocss/nuxt`. This is the simplest way to use UnoC
   ```
 :::
 
-```js
+```ts
 // nuxt.config.ts
-export default {
+export default defineNuxtConfig({
   modules: [
     '@unocss/nuxt',
   ],
-}
+})
 ```
+
+## Support status
+
+| | Nuxt 2 | Nuxt Bridge | Nuxt 3 |
+| --- | :-- | :-- | :-- |
+| Webpack Dev | ✅ | ✅ | 🚧 |
+| Webpack Build | ✅ | ✅ | ✅ |
+| Vite Dev | - | ✅ | ✅ |
+| Vite Build | - | ✅ | ✅ |
 
 ## Configuration
 
-In the Nuxt module, we also provided some shortcuts for official presets:
-
-```js
-// nuxt.config.ts
-export default {
-  modules: [
-    '@unocss/nuxt',
-  ],
-  unocss: {
-    // presets
-    uno: true, // enables `@unocss/preset-uno`
-    icons: true, // enables `@unocss/preset-icons`
-    attributify: true, // enables `@unocss/preset-attributify`,
-
-    // core options
-    shortcuts: [],
-    rules: [],
-  },
-}
-```
+We recommend to use the dedicated `uno.config.ts` file for configuration. See [Config File](/guide/config-file) for more details.
 
 ## License
 

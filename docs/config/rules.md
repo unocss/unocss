@@ -5,6 +5,8 @@ description: Writing custom rules for UnoCSS is super easy.
 
 # Rules
 
+Rules define the way UnoCSS search and generate CSS for your codebase.
+
 ## Static rules
 
 With this example:
@@ -108,3 +110,20 @@ You might need to read some code to take the full power of it.
 ## Ordering
 
 UnoCSS respects the order of the rules you defined in the generated CSS. Latter ones come with higher priority.
+
+## Rules merging
+
+By default, UnoCSS will merge CSS rules with the same body to minimize the CSS size.
+
+For example, `<div class="m-2 hover:m2">` will generate:
+
+```css
+.hover\:m2:hover, .m-2 { margin: 0.5rem; }
+```
+
+Instead of two separate rules:
+
+```css
+.hover\:m2:hover { margin: 0.5rem; }
+.m-2 { margin: 0.5rem; }
+```

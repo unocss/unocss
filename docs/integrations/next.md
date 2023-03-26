@@ -25,10 +25,10 @@ Getting Started with UnoCSS and Next.js.
 
 ### Configuration 
 
-Create `unocss.config.ts` at the root of your project.
+Create `uno.config.ts` at the root of your project.
 
 ```ts
-// unocss.config.ts
+// uno.config.ts
 import {
   defineConfig,
   presetAttributify, presetIcons, presetUno, presetWebFonts

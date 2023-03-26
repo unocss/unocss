@@ -1,15 +1,16 @@
 ---
 title: Runtime
 description: CSS-in-JS runtime of UnoCSS (@unocss/runtime).
+outline: deep
 ---
 
 # Runtime
 
-CSS-in-JS runtime of UnoCSS: `@unocss/runtime`.
+UnoCSS runtime provide a CDN build that runs the UnoCSS engine right in the browser. It will detect the DOM changes and generate the styles on the fly.
 
 ## Usage
 
-Simply add this line to your `index.html`:
+Add the following line to your `index.html`:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></script>
@@ -32,7 +33,7 @@ window.__unocss = {
 </script>
 ```
 
-By default, [Uno preset](/presets/uno) is be applied.
+By default, the [Uno preset](/presets/uno) is be applied.
 
 The runtime does not come with preflights, if you want to have style resets, you can either add your own, or use one from [Reset package](/tools/reset).
 
@@ -41,6 +42,11 @@ The runtime does not come with preflights, if you want to have style resets, you
 <!-- or -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unocss/reset/tailwind.min.css">
 ```
+
+## Builds
+
+Serval builds are available for different use cases.
+
 ### Core
 
 Without any preset:
@@ -85,9 +91,9 @@ import initUnocssRuntime from '@unocss/runtime'
 initUnocssRuntime({ /* options */ })
 ```
 
-## Preventing flash of unstyled content
+## Preventing FOUC
 
-Since UnoCSS runs after the DOM is present, there can be a "flash of unstyled content" which may leads the user to see the page as unstyled.
+Since UnoCSS runs after the DOM is present, there can be a "flash of unstyled content" (FOUC) which may leads the user to see the page as unstyled.
 
 Use `un-cloak` attribute with CSS rules such as `[un-cloak] { display: none }` to hide the unstyled element until UnoCSS applies the styles for it.
 
@@ -102,7 +108,3 @@ Use `un-cloak` attribute with CSS rules such as `[un-cloak] { display: none }` t
   This text will only be visible in blue color.
 </div>
 ```
-
-## License
-
-- MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)

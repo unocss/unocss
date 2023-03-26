@@ -7,14 +7,17 @@ const Guides: DefaultTheme.NavItemWithLink[] = [
   { text: 'Why UnoCSS?', link: '/guide/why' },
   { text: 'Presets', link: '/guide/presets' },
   { text: 'Style reset', link: '/guide/style-reset' },
+  { text: 'Config file', link: '/guide/config-file' },
+  { text: 'Extracting & Safelist', link: '/guide/extracting' },
 ]
 
-const APIConfig: DefaultTheme.NavItemWithLink[] = [
+const Configs: DefaultTheme.NavItemWithLink[] = [
   { text: 'Rules', link: '/config/rules' },
   { text: 'Shortcuts', link: '/config/shortcuts' },
+  { text: 'Theme', link: '/config/theme' },
   { text: 'Variants', link: '/config/variants' },
+  { text: 'Extractors', link: '/config/extractors' },
   { text: 'Preflights', link: '/config/preflights' },
-  { text: 'Extend theme', link: '/config/extend-theme' },
   { text: 'Layers', link: '/config/layers' },
 ]
 
@@ -23,6 +26,7 @@ const Integrations: DefaultTheme.NavItemWithLink[] = [
   { text: 'Nuxt', link: '/integrations/nuxt' },
   { text: 'Astro', link: '/integrations/astro' },
   { text: 'Webpack', link: '/integrations/webpack' },
+  { text: 'PostCSS', link: '/integrations/PostCSS' },
   { text: 'Next.js', link: '/integrations/next' },
   { text: 'Runtime', link: '/integrations/runtime' },
   { text: 'CLI', link: '/integrations/cli' },
@@ -50,6 +54,7 @@ const Transformers: DefaultTheme.NavItemWithLink[] = [
 
 const Extractors: DefaultTheme.NavItemWithLink[] = [
   { text: 'Pug extractor', link: '/extractors/pug' },
+  { text: 'Svelte extractor', link: '/extractors/svelte' },
 ]
 
 const Tools: DefaultTheme.NavItemWithLink[] = [
@@ -71,28 +76,54 @@ const Nav: DefaultTheme.NavItem[] = [
   },
   {
     text: 'Integrations',
-    items: Integrations,
+    items: [
+      {
+        text: 'Integrations',
+        items: Integrations,
+      },
+      {
+        text: 'Examples',
+        link: 'https://github.com/unocss/unocss/tree/main/examples',
+      },
+    ],
+  },
+  {
+    text: 'Config',
+    items: [
+      {
+        text: 'Config File',
+        link: '/guide/config-file',
+      },
+      {
+        text: 'Concepts',
+        items: Configs,
+      },
+    ],
   },
   {
     text: 'Presets',
     items: [
       {
-        text: 'All Presets',
+        text: 'Overview',
         link: '/presets/',
       },
       {
         text: 'Community Presets',
-        link: '/presets/#community-presets',
+        link: '/presets/community',
       },
       {
-        text: 'Official',
+        text: 'Presets',
         items: OfficialPresets,
       },
+      {
+        text: 'Transformers',
+        items: Transformers,
+      },
+      {
+        text: 'Extractors',
+        items: Extractors,
+      },
     ],
-  },
-  {
-    text: 'Transformers',
-    items: Transformers,
   },
   { text: 'Interactive Docs', link: '/interactive/', target: '_blank' },
   { text: 'Playground', link: '/play/', target: '_blank' },
@@ -111,53 +142,63 @@ const Nav: DefaultTheme.NavItem[] = [
   },
 ]
 
-function setSidebar(items: DefaultTheme.NavItemWithLink[], sidebarFunction: () => DefaultTheme.SidebarItem[]) {
-  return Object.assign({}, ...items.map(item => ({
-    [item.link]: sidebarFunction(),
-  }))) as DefaultTheme.SidebarMulti
-}
+const SidebarGuide: DefaultTheme.SidebarItem[] = [
+  {
+    text: 'Guides',
+    items: Guides,
+  },
+  {
+    text: 'Integrations',
+    items: Integrations,
+  },
+  {
+    text: 'Presets',
+    link: '/presets/',
+  },
+  {
+    text: 'Config',
+    link: '/config/',
+  },
+  {
+    text: 'Examples',
+    link: 'https://github.com/unocss/unocss/tree/main/examples',
+  },
+]
 
-function sidebarGettingStarted() {
-  return <DefaultTheme.SidebarItem[]>[
-    {
-      text: 'Guides',
-      items: Guides,
-    },
-    {
-      text: 'Integrations',
-      items: Integrations,
-    },
-    {
-      text: 'Presets',
-      items: OfficialPresets,
-    },
-  ]
-}
+const SidebarPresets: DefaultTheme.SidebarItem[] = [
+  {
+    text: 'Presets',
+    collapsed: false,
+    items: OfficialPresets,
+  },
+  {
+    text: 'Transformers',
+    collapsed: false,
+    items: Transformers,
+  },
+  {
+    text: 'Extractors',
+    collapsed: false,
+    items: Extractors,
+  },
+  {
+    text: 'Other packages',
+    collapsed: false,
+    items: Tools,
+  },
+]
 
-function sidebarGuide() {
-  return <DefaultTheme.SidebarItem[]>[
-    {
-      text: 'Presets',
-      collapsed: false,
-      items: OfficialPresets,
-    },
-    {
-      text: 'Transformers',
-      collapsed: false,
-      items: Transformers,
-    },
-    {
-      text: 'Extractors',
-      collapsed: false,
-      items: Extractors,
-    },
-    {
-      text: 'Other packages',
-      collapsed: false,
-      items: Tools,
-    },
-  ]
-}
+const SidebarConfig: DefaultTheme.SidebarItem[] = [
+  {
+    text: 'Config',
+    collapsed: false,
+    items: Configs,
+  },
+  {
+    text: 'Config File',
+    link: '/guide/config-file',
+  },
+]
 
 // TODO: verify this is the correct url
 const ogUrl = 'https://unocss.dev/'
@@ -199,8 +240,15 @@ export default defineConfig({
     logo: '/logo.svg',
     nav: Nav,
     sidebar: {
-      ...setSidebar([...Guides, ...Integrations], sidebarGettingStarted),
-      ...setSidebar([...OfficialPresets, ...Transformers, ...Tools], sidebarGuide),
+      '/guide/': SidebarGuide,
+      '/integrations/': SidebarGuide,
+      '/tools/': SidebarGuide,
+
+      '/presets/': SidebarPresets,
+      '/transformers/': SidebarPresets,
+      '/extractors/': SidebarPresets,
+
+      '/config/': SidebarConfig,
     },
     editLink: {
       pattern: 'https://github.com/unocss/unocss/docs/edit/main/docs/:path',

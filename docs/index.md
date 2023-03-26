@@ -11,7 +11,7 @@ hero:
   tagline: Customizable · Powerful · Fast · Joyful
   actions:
     - theme: brand
-      text: Get Started
+      text: Getting Started
       link: /guide/
     - theme: alt
       text: Interactive Docs

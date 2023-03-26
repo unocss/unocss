@@ -24,7 +24,7 @@ Typography classes for UnoCSS with `@unocss/preset-typography`.
 ## Usage
 
 ```js
-// unocss.config.ts
+// uno.config.ts
 import {
   defineConfig,
   presetAttributify, presetTypography, presetUno
@@ -190,7 +190,7 @@ export interface TypographyOptions {
 ### Example
 
 ```ts
-// unocss.config.ts
+// uno.config.ts
 import { defineConfig, presetAttributify, presetUno } from 'unocss'
 import { presetTypography } from '@unocss/preset-typography'
 

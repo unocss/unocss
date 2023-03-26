@@ -10,10 +10,10 @@ npm i -D unocss @unocss/webpack
 
 <br>
 
-#### 2. Add `unocss.config.ts` in the root of your project
+#### 2. Add `uno.config.ts` in the root of your project
 
 ```ts
-// unocss.config.ts
+// uno.config.ts
 import { defineConfig, presetAttributify, presetIcons, presetUno, presetWebFonts } from 'unocss'
 
 export default defineConfig({

@@ -26,7 +26,7 @@ This plugin does not come with any default presets.
   ```
 :::
 
-If you prefer, you can have a separate config file: `unocss.config.js` or `unocss.config.ts`.
+If you prefer, you can have a separate config file: `uno.config.js` or `uno.config.ts`.
 
 ::: code-group
 ```ts [webpack 4]

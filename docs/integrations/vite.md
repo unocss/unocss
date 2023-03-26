@@ -1,6 +1,7 @@
 ---
 title: Vite Integration
 description: The Vite plugin for UnoCSS (@unocss/vite).
+outline: 'deep'
 ---
 
 # Vite

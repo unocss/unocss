@@ -16,7 +16,7 @@ description: UnoCSS for VS Code.
 By default the extension will search for the config files under project root:
 
 - `uno.config.js`
-- `unocss.config.js`
+- `uno.config.js`
 - `vite.config.js`
 - `svelte.config.js`
 - `astro.config.js`
