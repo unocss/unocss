@@ -1,10 +1,10 @@
 import type { DefaultTheme } from 'vitepress'
-import contributorNames from './contributor-names.json'
 
 export interface Contributor {
   name: string
   avatar: string
 }
+
 export interface CoreTeam extends Partial<DefaultTheme.TeamMember> {
   avatar: string
   name: string
@@ -20,35 +20,21 @@ export interface CoreTeam extends Partial<DefaultTheme.TeamMember> {
   desc?: string
 }
 
-const contributorsAvatars: Record<string, string> = {}
-
-const getAvatarUrl = (name: string) => import.meta.hot ? `https://github.com/${name}.png` : `/user-avatars/${name}.png`
-
-export const contributors = (contributorNames as string[]).reduce((acc, name) => {
-  contributorsAvatars[name] = getAvatarUrl(name)
-  acc.push({ name, avatar: contributorsAvatars[name] })
-  return acc
-}, [] as Contributor[])
-
 const createLinks = (tm: CoreTeam): CoreTeam => {
   tm.links = [{ icon: 'github', link: `https://github.com/${tm.github}` }]
   if (tm.webtools)
     tm.links.push({ icon: 'mastodon', link: `https://elk.zone/m.webtoo.ls/@${tm.webtools}` })
-
   if (tm.discord)
     tm.links.push({ icon: 'discord', link: tm.discord })
-
   if (tm.youtube)
     tm.links.push({ icon: 'youtube', link: `https://www.youtube.com/@${tm.youtube}` })
-
   tm.links.push({ icon: 'twitter', link: `https://twitter.com/${tm.twitter}` })
-
   return tm
 }
 
 const plainTeamMembers: CoreTeam[] = [
   {
-    avatar: '/user-avatars/antfu.png',
+    avatar: 'https://github.com/antfu.png',
     name: 'Anthony Fu',
     github: 'antfu',
     webtools: 'antfu',
@@ -62,27 +48,27 @@ const plainTeamMembers: CoreTeam[] = [
     desc: 'Core team member of Vite & Vue',
   },
   {
-    avatar: '/user-avatars/chu121su12.png',
+    avatar: 'https://github.com/chu121su12.png',
     name: 'Saya',
     github: 'chu121su12',
     title: 'TODO',
     desc: 'TODO',
   },
   {
-    avatar: '/user-avatars/zyyv.png',
+    avatar: 'https://github.com/zyyv.png',
     name: 'Chris',
     github: 'zyyv',
     twitter: 'chris_zyyv',
     title: 'Regardless of the past, do not ask the future.',
   },
   {
-    avatar: '/user-avatars/sibbng.png',
+    avatar: 'https://github.com/sibbng.png',
     name: 'sibbng',
     github: 'sibbng',
     title: 'TODO',
   },
   {
-    avatar: '/user-avatars/userquin.png',
+    avatar: 'https://github.com/userquin.png',
     name: 'Joaquín Sánchez',
     github: 'userquin',
     webtools: 'userquin',
@@ -91,28 +77,28 @@ const plainTeamMembers: CoreTeam[] = [
     desc: 'Vite\'s fanatical follower',
   },
   {
-    avatar: '/user-avatars/QiroNT.png',
+    avatar: 'https://github.com/QiroNT.png',
     name: 'Chino Moca',
     github: 'QiroNT',
     twitter: 'QiroNT',
     title: 'Balance & Tradeoff',
   },
   {
-    avatar: '/user-avatars/johannschopplich.png',
+    avatar: 'https://github.com/johannschopplich.png',
     name: 'Johann Schopplich',
     github: 'johannschopplich',
     title: 'Full Stack Developer',
     desc: 'Pharmacist prior to that',
   },
   {
-    avatar: '/user-avatars/ydcjeff.png',
+    avatar: 'https://github.com/ydcjeff.png',
     name: 'Jeff Yang',
     github: 'ydcjeff',
     twitter: 'ydcjeff',
     title: 'TODO',
   },
   {
-    avatar: '/user-avatars/sudongyuer.png',
+    avatar: 'https://github.com/sudongyuer.png',
     name: 'Frozen FIsh',
     github: 'sudongyuer',
     title: 'TODO',

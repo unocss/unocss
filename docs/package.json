@@ -4,11 +4,8 @@
   "private": true,
   "scripts": {
     "docs:dev": "vitepress dev",
-    "docs:build": "nr docs:fetch-avatars && vitepress build",
-    "docs:build:no-fetch": "vitepress build",
-    "docs:preview": "vitepress preview",
-    "docs:fetch-avatars": "esno scripts/fetch-avatars.ts",
-    "docs:contributors": "esno scripts/update-contributors.ts"
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
   },
   "devDependencies": {
     "ofetch": "^1.0.0",
