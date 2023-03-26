@@ -507,7 +507,9 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
    * The theme object, will be merged with the theme provides by presets
    */
   theme?: Theme
-  /** */
+  /**
+   * the returned theme will be the final theme
+   */
   themeResolved?: ThemeResolved<Theme>
   /**
    * Layout name of shortcuts
