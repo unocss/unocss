@@ -11,7 +11,7 @@
     "@unocss/core": "link:../../packages/core",
     "@unocss/nuxt": "link:../../packages/nuxt",
     "@unocss/reset": "link:../../packages/reset",
-    "nuxt": "^3.2.3",
+    "nuxt": "^3.3.1",
     "unocss": "link:../../packages/unocss"
   }
 }

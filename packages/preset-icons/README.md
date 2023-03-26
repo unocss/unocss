@@ -151,7 +151,7 @@ Additionally, you can also use [FileSystemIconLoader](https://github.com/iconify
 
 ```ts
 // vite.config.ts
-import { promises as fs } from 'fs'
+import fs from 'node:fs/promises'
 // loader helpers
 import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
 

@@ -30,6 +30,7 @@ const languageIds = [
   'less',
   'stylus',
   'astro',
+  'rust',
 ]
 const delimiters = ['-', ':']
 

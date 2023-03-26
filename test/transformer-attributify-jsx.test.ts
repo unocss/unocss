@@ -26,8 +26,16 @@ describe('transformerAttributifyJs', () => {
     </div>
   </div>
 </div>
-<section className={cn({ 'c-red': variable > 0 })}>
-</section>
+<section 
+  className={cn({ 'c-red': variable > 0 }, 'mr-10')} 
+  mr-10 
+  className={cn({ 'c-red': variable > 0 }, 'mr-10')}
+></section>
+<div 
+  label={
+    <b>1</b>
+  }
+></div>
 <div absolute bottom-5 right-0 left-0 text-center op30 fw300>
   on-demand · instant · fully customizable
 </div>
@@ -64,8 +72,16 @@ describe('transformerAttributifyJs', () => {
           </div>
         </div>
       </div>
-      <section className={cn({ 'c-red': variable > 0 })}>
-      </section>
+      <section 
+        className={cn({ 'c-red': variable > 0 }, 'mr-10')} 
+        mr-10=\\"\\" 
+        className={cn({ 'c-red': variable > 0 }, 'mr-10')}
+      ></section>
+      <div 
+        label={
+          <b>1</b>
+        }
+      ></div>
       <div absolute=\\"\\" bottom-5=\\"\\" right-0=\\"\\" left-0=\\"\\" text-center=\\"\\" op30=\\"\\" fw300=\\"\\">
         on-demand · instant · fully customizable
       </div>"
@@ -100,8 +116,16 @@ describe('transformerAttributifyJs', () => {
           </div>
         </div>
       </div>
-      <section className={cn({ 'c-red': variable > 0 })}>
-      </section>
+      <section 
+        className={cn({ 'c-red': variable > 0 }, 'mr-10')} 
+        mr-10=\\"\\" 
+        className={cn({ 'c-red': variable > 0 }, 'mr-10')}
+      ></section>
+      <div 
+        label={
+          <b>1</b>
+        }
+      ></div>
       <div absolute bottom-5=\\"\\" right-0=\\"\\" left-0=\\"\\" text-center=\\"\\" op30=\\"\\" fw300=\\"\\">
         on-demand · instant · fully customizable
       </div>"

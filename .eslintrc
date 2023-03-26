@@ -23,6 +23,14 @@
     },
     {
       "files": [
+        "packages/vscode/**/*.*"
+      ],
+      "rules": {
+        "unicorn/prefer-node-protocol": "off"
+      }
+    },
+    {
+      "files": [
         "**/*.md/*.*"
       ],
       "rules": {

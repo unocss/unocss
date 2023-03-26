@@ -6,8 +6,8 @@
     "codemirror",
     "@vue/cli-plugin-babel",
     "@vue/cli-service",
-    "rollup",
-    "unbuild"
+    "unbuild",
+    "msw"
   ],
   "packageMode": {
     "vue": "minor",

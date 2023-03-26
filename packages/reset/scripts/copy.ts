@@ -1,4 +1,4 @@
-import fs from 'fs'
+import fs from 'node:fs'
 
 fs.copyFileSync(
   'node_modules/@csstools/normalize.css/normalize.css',

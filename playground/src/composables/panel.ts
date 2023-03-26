@@ -16,7 +16,7 @@ export const panelSizes = useLocalStorage<number[]>(
 
 export function getInitialPanelSizes(percent: number): number[] {
   return [
-    percent,
+    100 - percent * 3,
     percent,
     percent,
     percent,
@@ -63,6 +63,7 @@ export function normalizePanels() {
 watch(
   titleHeightPercent,
   (value: number) => {
-    panelSizes.value = getInitialPanelSizes(value)
+    if (panelSizes.value.includes(100))
+      panelSizes.value = getInitialPanelSizes(value)
   },
 )
