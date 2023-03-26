@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/types'
+import { version } from '../../package.json'
 
 const Guides: DefaultTheme.NavItemWithLink[] = [
   { text: 'Getting Started', link: '/guide/' },
@@ -21,7 +22,7 @@ const Integrations: DefaultTheme.NavItemWithLink[] = [
   { text: 'Vite', link: '/integrations/vite' },
   { text: 'Nuxt', link: '/integrations/nuxt' },
   { text: 'Astro', link: '/integrations/astro' },
-  { text: 'webpack', link: '/integrations/webpack' },
+  { text: 'Webpack', link: '/integrations/webpack' },
   { text: 'Next.js', link: '/integrations/next' },
   { text: 'Runtime', link: '/integrations/runtime' },
   { text: 'CLI', link: '/integrations/cli' },
@@ -89,8 +90,25 @@ const Nav: DefaultTheme.NavItem[] = [
       },
     ],
   },
+  {
+    text: 'Transformers',
+    items: Transformers,
+  },
   { text: 'Interactive Docs', link: '/interactive/', target: '_blank' },
   { text: 'Playground', link: '/play/', target: '_blank' },
+  {
+    text: `v${version}`,
+    items: [
+      {
+        text: 'Release Notes',
+        link: 'https://github.com/unocss/unocss/releases',
+      },
+      {
+        text: 'Contributing',
+        link: 'https://github.com/unocss/unocss/blob/main/CONTRIBUTING.md',
+      },
+    ],
+  },
 ]
 
 function setSidebar(items: DefaultTheme.NavItemWithLink[], sidebarFunction: () => DefaultTheme.SidebarItem[]) {
