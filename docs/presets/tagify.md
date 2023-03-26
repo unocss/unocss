@@ -26,7 +26,7 @@ UnoCSS({
 
 ## Tagify mode
 
-This preset can come in handy when you only need a single unocss rule to be apply on an element.
+This preset can come in handy when you only need to apply a single unocss rule to an element.
 
 ```html
 <span class="text-red"> red text </span>

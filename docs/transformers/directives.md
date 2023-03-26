@@ -74,7 +74,7 @@ To use rules with `:`, you will have to quote the value:
 }
 ```
 
-This feature is enabled by default with a few alias, you can configure or disable it via:
+This feature is enabled by default with a few aliases, that you can configure or disable via:
 
 ```js
 transformerDirectives({
@@ -87,7 +87,7 @@ transformerDirectives({
 
 ### `@screen`
 
-The `@screen` directive allows you to create media queries that reference your breakpoints by name comes from [`theme.breakpoints`](/config/theme).
+The `@screen` directive that allows you to create media queries that reference your breakpoints by name comes from [`theme.breakpoints`](/config/theme).
 
 ```css
 .grid {

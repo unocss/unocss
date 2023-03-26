@@ -26,7 +26,7 @@ This will add a new CSS utility `m-1` to your project. Since UnoCSS is on-demand
 <div class="m-1">Hello</div>
 ```
 
-`m-1` will be detected and generates the following CSS:
+`m-1` will be detected and the following CSS will be generated:
 
 ```css
 .m-1 { margin: 1px; }
@@ -92,7 +92,7 @@ So similarly, we provided a few [official presets](/presets/) for you to start u
 
 ## Play
 
-You can try UnoCSS in your browser, in the [Playground](/play/). Or look up for utilities from the default presets in the [Interactive Docs](/interactive/).
+You can try UnoCSS in your browser, in the [Playground](/play/). Or look up utilities from the default presets in the [Interactive Docs](/interactive/).
 
 ## Installation
 
