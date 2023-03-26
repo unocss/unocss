@@ -36,7 +36,7 @@ features:
   - icon: <span class="i-carbon:code"></span>
     title: Attributify Mode
     details: "Group utilities in attributes"
-  - icon: <span class="i-carbon-face-wink"></span>
+  - icon: <span class="i-carbon-face-wink hover:i-carbon-face-satisfied"></span>
     title: Pure CSS Icons
     details: "Use any icon as a single class"
   - icon: <span class="i-carbon:group-objects"></span>
