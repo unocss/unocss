@@ -89,8 +89,8 @@ const Nav: DefaultTheme.NavItem[] = [
       },
     ],
   },
-  { text: 'Interactive Docs', link: '/interactive/', target: '_blank' },
-  { text: 'Playground', link: '/play/', target: '_blank' },
+  { text: 'Interactive Docs', link: 'https://uno.antfu.me', target: '_blank' },
+  { text: 'Playground', link: 'https://uno.antfu.me/play', target: '_blank' },
 ]
 
 function setSidebar(items: DefaultTheme.NavItemWithLink[], sidebarFunction: () => DefaultTheme.SidebarItem[]) {
