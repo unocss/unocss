@@ -90,6 +90,10 @@ export default defineConfig({
 
 So similarly, we provided a few [official presets](/presets/) for you to start using right away, and you can also find many interesting [community presets](/presets/#community).
 
+## Play
+
+You can try UnoCSS in your browser, in the [Playground](/play/). Or look up for utilities from the default presets in the [Interactive Docs](/interactive/).
+
 ## Installation
 
 UnoCSS comes with many integrations for various frameworks:

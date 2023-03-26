@@ -228,6 +228,11 @@ export default defineConfig({
   ],
   lastUpdated: true,
   cleanUrls: true,
+  ignoreDeadLinks: [
+    /^\/play/,
+    /^\/interactive/,
+    /:\/\/localhost/,
+  ],
 
   markdown: {
     theme: {

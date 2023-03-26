@@ -87,7 +87,7 @@ transformerDirectives({
 
 ### `@screen`
 
-The `@screen` directive allows you to create media queries that reference your breakpoints by name comes from [`theme.breakpoints`](/config/extend-theme).
+The `@screen` directive allows you to create media queries that reference your breakpoints by name comes from [`theme.breakpoints`](/config/theme).
 
 ```css
 .grid {
