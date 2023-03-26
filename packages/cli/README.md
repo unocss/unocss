@@ -6,7 +6,7 @@ The CLI for UnoCSS. A perfect fit for traditional backends.
 
 - 🍱 Suited for traditional backends like Laravel or Kirby
 - 👀 [Watch mode](#development) included
-- 🔌 Supports custom configurations via [`unocss.config.js`](#unocssconfigjs-support)
+- 🔌 Supports custom configurations via [`unocss.config.js`](#configurations) or [`unocss.config.ts`](#configurations)
 
 ## Requirements
 
