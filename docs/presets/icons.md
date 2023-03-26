@@ -5,7 +5,7 @@ description: Use any icon with Pure CSS for UnoCSS (@unocss/preset-icons)
 
 # Icons preset
 
-Use any icon with Pure CSS for UnoCSS: `@unocss/preset-icons`.
+Use any icon with Pure CSS for UnoCSS.
 
 ::: info
 Recommended reading: [Icons in Pure CSS](https://antfu.me/posts/icons-in-pure-css)
@@ -33,6 +33,8 @@ For examples:
 
 <img src="https://user-images.githubusercontent.com/11247099/136709053-31b4db79-eddc-4dc6-aa2d-388086332630.gif" height="100"><br>This is powered by pure CSS
 
+[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-icons)
+
 ## Install
 
 ```bash
@@ -42,15 +44,25 @@ npm i -D @unocss/preset-icons @iconify-json/[the-collection-you-want]
 We use [Iconify](https://iconify.design) as our data source of icons. You need to install the corresponding iconset in `devDependencies` by following the `@iconify-json/*` pattern. For example, `@iconify-json/mdi` for [Material Design Icons](https://materialdesignicons.com/), `@iconify-json/tabler` for [Tabler](https://tabler-icons.io/). You can refer to [Icônes](https://icones.js.org/) or [Iconify](https://icon-sets.iconify.design/) for all the collections available.
 
 ```ts
+// uno.config.ts
+import { defineConfig } from 'unocss'
 import presetIcons from '@unocss/preset-icons'
 
-UnoCSS({
+export default defineConfig({
   presets: [
     presetIcons({ /* options */ }),
     // ...other presets
   ],
 })
 ```
+
+::: tip
+This preset is included in the `unocss` package, you can also import it from there:
+
+```ts
+import { presetIcons } from 'unocss'
+```
+:::
 
 ::: info
 You can also use this preset alone as a complement to your existing UI frameworks to have pure CSS icons!
@@ -104,12 +116,16 @@ When using bundlers, you can provide the collections using `dynamic imports` so 
 ```ts
 import presetIcons from '@unocss/preset-icons/browser'
 
-presetIcons({
-  collections: {
-    carbon: () => import('@iconify-json/carbon/icons.json').then(i => i.default),
-    mdi: () => import('@iconify-json/mdi/icons.json').then(i => i.default),
-    logos: () => import('@iconify-json/logos/icons.json').then(i => i.default),
-  }
+export default defineConfig({
+  presets: [
+    presetIcons({
+      collections: {
+        carbon: () => import('@iconify-json/carbon/icons.json').then(i => i.default),
+        mdi: () => import('@iconify-json/mdi/icons.json').then(i => i.default),
+        logos: () => import('@iconify-json/logos/icons.json').then(i => i.default),
+      }
+    })
+  ]
 })
 ```
 
@@ -118,8 +134,6 @@ presetIcons({
 Or if you prefer to fetch them from CDN, you can specify the `cdn` option since `v0.32.10`. We recommend [esm.sh](https://esm.sh/) as the CDN provider.
 
 ```ts
-import presetIcons from '@unocss/preset-icons/browser'
-
 presetIcons({
   cdn: 'https://esm.sh/'
 })
@@ -130,19 +144,15 @@ presetIcons({
 You can also provide your own custom collections using [CustomIconLoader](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/types.ts#L17) or [InlineCollection](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/types.ts#L86), for example using `InlineCollection`:
 
 ```ts
-UnoCSS({
-  presets: [
-    presetIcons({
-      collections: {
-        custom: {
-          circle: '<svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50"></circle></svg>',
-          /* ... */
-        },
-        carbon: () => import('@iconify-json/carbon/icons.json').then(i => i.default as any),
-        /* ... */
-      }
-    })
-  ]
+presetIcons({
+  collections: {
+    custom: {
+      circle: '<svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50"></circle></svg>',
+      /* ... */
+    },
+    carbon: () => import('@iconify-json/carbon/icons.json').then(i => i.default as any),
+    /* ... */
+  }
 })
 ```
 
@@ -157,12 +167,13 @@ You can also provide your own custom collections using also [CustomIconLoader](h
 Additionally, you can also use [FileSystemIconLoader](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/node-loaders.ts#L9) to load your custom icons from your file system. You will need to install `@iconify/utils` package as `dev dependency`.
 
 ```ts
-// vite.config.ts
+// uno.config.ts
 import fs from 'node:fs/promises'
+import { defineConfig } from 'unocss'
 // loader helpers
 import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
 
-UnoCSS({
+export default defineConfig({
   presets: [
     presetIcons({
       collections: {
@@ -212,35 +223,27 @@ For each loaded icon, the customizations will be applied in this order:
 When loading your custom icons, you can transform them, for example adding `fill` attribute with `currentColor`:
 
 ```ts
-UnoCSS({
-  presets: [
-    presetIcons({
-      customizations: {
-        transform(svg) {
-          return svg.replace(/#fff/, 'currentColor')
-        }
-      }
-    })
-  ]
+presetIcons({
+  customizations: {
+    transform(svg) {
+      return svg.replace(/#fff/, 'currentColor')
+    }
+  }
 })
 ```
 
 From version `0.30.8` the `transform` provides the `collection` and `icon` names:
 
 ```ts
-UnoCSS({
-  presets: [
-    presetIcons({
-      customizations: {
-        transform(svg, collection, icon) {
-          // do not apply fill to this icons on this collection
-          if (collection === 'custom' && icon === 'my-icon')
-            return svg
-          return svg.replace(/#fff/, 'currentColor')
-        }
-      }
-    })
-  ]
+presetIcons({
+  customizations: {
+    transform(svg, collection, icon) {
+      // do not apply fill to this icons on this collection
+      if (collection === 'custom' && icon === 'my-icon')
+        return svg
+      return svg.replace(/#fff/, 'currentColor')
+    }
+  }
 })
 ```
 
@@ -249,18 +252,14 @@ UnoCSS({
 When loading any icon you can customize common properties to all of them, for example configuring the same size:
 
 ```ts
-UnoCSS({
-  presets: [
-    presetIcons({
-      customizations: {
-        customize(props) {
-          props.width = '2em'
-          props.height = '2em'
-          return props
-        }
-      }
-    })
-  ]
+presetIcons({
+  customizations: {
+    customize(props) {
+      props.width = '2em'
+      props.height = '2em'
+      return props
+    }
+  }
 })
 ```
 
@@ -275,30 +274,26 @@ The `iconCustomizer` will be applied to any collection, that is, for each icon f
 For example, you can configure `iconCustomizer` to change all icons for a collection or individual icons on a collection:
 
 ```ts
-UnoCSS({
-  presets: [
-    presetIcons({
-      customizations: {
-        iconCustomizer(collection, icon, props) {
-          // customize all icons in this collection
-          if (collection === 'my-other-icons') {
-            props.width = '4em'
-            props.height = '4em'
-          }
-          // customize this icon in this collection
-          if (collection === 'my-icons' && icon === 'account') {
-            props.width = '6em'
-            props.height = '6em'
-          }
-          // customize this @iconify icon in this collection
-          if (collection === 'mdi' && icon === 'account') {
-            props.width = '2em'
-            props.height = '2em'
-          }
-        }
+presetIcons({
+  customizations: {
+    iconCustomizer(collection, icon, props) {
+      // customize all icons in this collection
+      if (collection === 'my-other-icons') {
+        props.width = '4em'
+        props.height = '4em'
       }
-    })
-  ]
+      // customize this icon in this collection
+      if (collection === 'my-icons' && icon === 'account') {
+        props.width = '6em'
+        props.height = '6em'
+      }
+      // customize this @iconify icon in this collection
+      if (collection === 'mdi' && icon === 'account') {
+        props.width = '2em'
+        props.height = '2em'
+      }
+    }
+  }
 })
 ```
 

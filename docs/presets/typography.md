@@ -5,7 +5,9 @@ description: Typography classes for UnoCSS (@unocss/preset-typography)
 
 # Typography preset
 
-Typography classes for UnoCSS with `@unocss/preset-typography`.
+Provides a set of prose classes you can use to add typographic defaults to vanilla HTML.
+
+[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-typography)
 
 ## Installation
 
@@ -19,6 +21,15 @@ Typography classes for UnoCSS with `@unocss/preset-typography`.
   ```bash [npm]
   npm install -D @unocss/preset-typography
   ```
+:::
+
+
+::: tip
+This preset is included in the `unocss` package, you can also import it from there:
+
+```ts
+import { presetTypography } from 'unocss'
+```
 :::
 
 ## Usage
@@ -222,8 +233,3 @@ export default defineConfig({
 
 - [TailwindCSS Typography](https://github.com/tailwindlabs/tailwindcss-typography)
 - [WindiCSS Typography](https://github.com/windicss/windicss/tree/main/src/plugin/typography)
-
-## License
-
-- MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)
-- MIT License &copy; 2021-PRESENT [Jeff Yang](https://github.com/ydcjeff)

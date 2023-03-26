@@ -24,17 +24,14 @@ Pug extractor for UnoCSS: `@unocss/extractor-pug`.
 ## Usage
 
 ```ts
-import extractorPug from '@unocss/extractor-pug'
+import { defineConfig } from 'unocss'
 import { extractorSplit } from '@unocss/core'
+import extractorPug from '@unocss/extractor-pug'
 
-UnoCSS({
+export default defineConfig({
   extractors: [
     extractorPug(),
     extractorSplit,
   ],
 })
 ```
-
-## License
-
-- MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)

@@ -147,15 +147,13 @@ If you're using `@preact/preset-vite`:
 
 ```ts
 // vite.config.js
-import preact from '@preact/preset-vite'
+import Preact from '@preact/preset-vite'
 import UnoCSS from 'unocss/vite'
 
 export default {
   plugins: [
-    preact(),
-    UnoCSS({
-      /* options */
-    }),
+    UnoCSS(),
+    Preact(),
   ],
 }
 ```
@@ -164,35 +162,17 @@ or if you're using `@prefresh/vite`:
 
 ```ts
 // vite.config.js
-import prefresh from '@prefresh/vite'
+import Prefresh from '@prefresh/vite'
 import UnoCSS from 'unocss/vite'
 export default {
   plugins: [
-    prefresh(),
-    UnoCSS({
-      /* options */
-    }),
+    UnoCSS(),
+    Prefresh(),
   ],
 }
 ```
 
 If you're using `@unocss/preset-attributify` you should remove `tsc` from the `build` script.
-
-If you are using `@preact/preset-vite` with `@unocss/preset-attributify`, you need to add the plugin before `@preact/preset-vite`.
-
-```ts
-// vite.config.js
-import preact from '@preact/preset-vite'
-import UnoCSS from 'unocss/vite'
-export default {
-  plugins: [
-    UnoCSS({
-      /* options */
-    }),
-    preact(),
-  ],
-}
-```
 
 You have a `Preact` example project on [examples/vite-preact](https://github.com/unocss/unocss/tree/main/examples/vite-preact) directory  using both plugins, check the scripts on `package.json` and its Vite configuration file.
 
@@ -390,6 +370,7 @@ template.innerHTML = `
 // vite.config.js
 import solidPlugin from 'vite-plugin-solid'
 import UnoCSS from 'unocss/vite'
+
 export default {
   plugins: [
     solidPlugin(),

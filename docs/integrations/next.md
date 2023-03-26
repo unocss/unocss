@@ -103,6 +103,7 @@ const Home: NextPage = () => {
 ```
 
 ## Hot Module Reload 
+
 To support HMR you have to opt-out of webpacks caching.
 
 ```js{5}
@@ -111,11 +112,7 @@ const nextConfig = {
   reactStrictMode: true,
   webpack: (config) => {
 +   config.cache = false
-    config.plugins.push(
-      UnoCSS({
-        // ...
-      })
-    )
+    config.plugins.push(UnoCSS())
     return config
   }
 }

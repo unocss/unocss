@@ -5,7 +5,9 @@ description: Converts rem to px for utils (@unocss/preset-rem-to-px)
 
 # rem to px preset
 
-Converts rem to px for utils: `@unocss/preset-rem-to-px`.
+Converts rem to px for all utilities.
+
+[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-rem-to-px)
 
 ## Installation
 
@@ -22,13 +24,14 @@ Converts rem to px for utils: `@unocss/preset-rem-to-px`.
 :::
 
 ```ts
-import presetUno from '@unocss/preset-uno'
+// uno.config.ts
+import { defineConfig } from 'unocss'
 import presetRemToPx from '@unocss/preset-rem-to-px'
 
-UnoCSS({
+export default defineConfig({
   presets: [
-    presetUno(),
-    presetRemToPx()
+    presetRemToPx(),
+    // ...other presets
   ],
 })
 ```
@@ -51,7 +54,3 @@ UnoCSS({
   }
   ```
 :::
-
-## License
-
-- MIT License &copy; 2022-PRESENT [Anthony Fu](https://github.com/antfu)

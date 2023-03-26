@@ -5,10 +5,12 @@ description: The Tailwind / Windi CSS compact preset for UnoCSS (@unocss/preset-
 
 # Wind preset
 
-The Tailwind / Windi CSS compact preset for UnoCSS: `@unocss/preset-wind`.
+The Tailwind / Windi CSS compact preset for UnoCSS.
+
+[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-wind)
 
 ::: info
-This preset inherits [Mini preset](/presets/mini).
+This preset inherits [`@unocss/preset-mini`](/presets/mini).
 :::
 
 ## Installation
@@ -26,14 +28,24 @@ This preset inherits [Mini preset](/presets/mini).
 :::
 
 ```ts
+// uno.config.ts
+import { defineConfig } from 'unocss'
 import presetWind from '@unocss/preset-wind'
 
-UnoCSS({
+export default defineConfig({
   presets: [
     presetWind(),
   ],
 })
 ```
+
+::: tip
+This preset is included in the `unocss` package, you can also import it from there:
+
+```ts
+import { presetWind } from 'unocss'
+```
+:::
 
 ## Differences from Windi CSS
 
@@ -77,7 +89,3 @@ The variant `@hover-text-red` will output:
   }
 }
 ```
-
-## License
-
-- MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)

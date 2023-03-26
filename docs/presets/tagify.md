@@ -5,7 +5,7 @@ description: Tagify Mode for UnoCSS (@unocss/preset-tagify)
 
 # Tagify preset
 
-Tagify Mode for UnoCSS: `@unocss/preset-tagify`.
+This enables the [tagify mode](#tagify-mode) for other presets.
 
 ## Installation
 
@@ -14,9 +14,11 @@ npm i -D @unocss/preset-tagify
 ```
 
 ```ts
+// uno.config.ts
+import { defineConfig } from 'unocss'
 import presetTagify from '@unocss/preset-tagify'
 
-UnoCSS({
+export default defineConfig({
   presets: [
     presetTagify({ /* options */ }),
     // ...other presets
@@ -70,6 +72,9 @@ presetTagify({
     ? { display: 'inline-block' }
     : { }
 })
+```
+
+```js
 presetTagify({
   // extraProperties can also be a plain object
   extraProperties: { display: 'block' }

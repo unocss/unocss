@@ -24,15 +24,22 @@ features:
   - icon: <span class="i-carbon:ibm-toolchain"></span>
     title: Fully Customizable
     details: No core utilities, all functionalities are provided via presets.
+    link: /guide/
+    linkText: Getting Started
   - icon: <span class="i-carbon-meter-alt"></span>
     title: Instant
     details: No parsing, no AST, no scanning. It’s 5x faster than Windi CSS or Tailwind JIT.
   - icon: <span class="i-carbon-wind-gusts"></span>
     title: Lightweight
     details: "Zero deps and browser friendly: ~6kb min+brotli"
+  - icon: <span class="i-carbon-ibm-cloud-transit-gateway"></span>
+    title: Rich Integrations
+    details: "First class support of Vite, Webpack, PostCSS, CLI, VS Code, ESLint, etc."
+    link: /integrations/
+    linkText: "Learn more"
   - icon: <span class="i-carbon-asset"></span>
     title: Shortcuts
-    details: "Aliasing utilities, dynamically"
+    details: "Aliasing or grouping utilities, dynamically"
     link: /config/shortcuts
     linkText: "Configuration and usage"
   - icon: <span class="i-carbon:code"></span>
@@ -70,8 +77,4 @@ features:
     details: "Use UnoCSS with one line of CDN import"
     link: /integrations/runtime
     linkText: "@unocss/runtime"
-  - icon: <span class="i-carbon-ibm-cloud-transit-gateway"></span>
-    title: Integration
-    details: "First class support of Vite, Webpack, PostCSS, CLI, VS Code, ESLint, etc."
-    link: /integrations/vite
 ---

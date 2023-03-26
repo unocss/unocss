@@ -1,11 +1,11 @@
 ---
 title: Attributify preset
-description: The attributify preset enables Windi CSS’s attributify mode for other presets (@unocss/preset-attributify)
+description: The UnoCSS preset that enables the attributify mode for other presets.
 ---
 
 # Attributify preset
 
-The attributify preset `@unocss/preset-attributify` enables the [attributify mode](https://windicss.org/posts/v30.html#attributify-mode) of Windi CSS for other presets.
+This enables the [attributify mode](#attributify-mode) for other presets.
 
 ## Installation
 
@@ -22,9 +22,10 @@ The attributify preset `@unocss/preset-attributify` enables the [attributify mod
 :::
 
 ```ts
+// uno.config.ts
 import presetAttributify from '@unocss/preset-attributify'
 
-UnoCSS({
+export default defineConfig({
   presets: [
     presetAttributify({ /* preset options */ }),
     // ...
@@ -32,7 +33,15 @@ UnoCSS({
 })
 ```
 
-## Example
+::: tip
+This preset is included in the `unocss` package, you can also import it from there:
+
+```ts
+import { presetAttributify } from 'unocss'
+```
+:::
+
+## Attributify Mode
 
 Imagine you have this button using Tailwind’s utilities. When the list gets longer, it becomes really hard to read and maintain.
 
@@ -233,7 +242,7 @@ interface HTMLAttributes extends Partial<Record<AttributifyNames<Prefix>, string
 
 ## Credits
 
-Initial idea by [@Tahul](https://github.com/Tahul) and [@antfu](https://github.com/antfu). Prior implementation in Windi CSS by [@voorjaar](https://github.com/voorjaar).
+Initial idea by [@Tahul](https://github.com/Tahul) and [@antfu](https://github.com/antfu). Prior [implementation in Windi CSS](https://windicss.org/posts/v30.html#attributify-mode) by [@voorjaar](https://github.com/voorjaar).
 
 ## License
 

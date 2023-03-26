@@ -33,20 +33,20 @@ const Integrations: DefaultTheme.NavItemWithLink[] = [
   { text: 'VSCode extension', link: '/integrations/vscode' },
 ]
 
-const OfficialPresets: DefaultTheme.NavItemWithLink[] = [
-  { text: 'Uno', link: '/presets/uno' },
-  { text: 'Wind', link: '/presets/wind' },
-  { text: 'Mini', link: '/presets/mini' },
-  { text: 'Web fonts', link: '/presets/web-fonts' },
-  { text: 'Typography', link: '/presets/typography' },
+const Presets: DefaultTheme.NavItemWithLink[] = [
+  { text: 'Uno (default)', link: '/presets/uno' },
   { text: 'Icons', link: '/presets/icons' },
   { text: 'Attributify', link: '/presets/attributify' },
+  { text: 'Typography', link: '/presets/typography' },
+  { text: 'Web fonts', link: '/presets/web-fonts' },
+  { text: 'Wind', link: '/presets/wind' },
+  { text: 'Mini', link: '/presets/mini' },
   { text: 'Tagify', link: '/presets/tagify' },
   { text: 'Rem to px', link: '/presets/rem-to-px' },
 ]
 
 const Transformers: DefaultTheme.NavItemWithLink[] = [
-  { text: 'Variant group', link: '/transformers/variant-group' },
+  { text: 'Variant Group', link: '/transformers/variant-group' },
   { text: 'Directives', link: '/transformers/directives' },
   { text: 'Compile class', link: '/transformers/compile-class' },
   { text: 'Attributify JSX', link: '/transformers/attributify-jsx' },
@@ -113,7 +113,7 @@ const Nav: DefaultTheme.NavItem[] = [
       },
       {
         text: 'Presets',
-        items: OfficialPresets,
+        items: Presets,
       },
       {
         text: 'Transformers',
@@ -167,9 +167,17 @@ const SidebarGuide: DefaultTheme.SidebarItem[] = [
 
 const SidebarPresets: DefaultTheme.SidebarItem[] = [
   {
+    text: 'Overview',
+    link: '/presets/',
+  },
+  {
     text: 'Presets',
     collapsed: false,
-    items: OfficialPresets,
+    items: Presets,
+  },
+  {
+    text: 'Community Presets',
+    link: '/presets/community',
   },
   {
     text: 'Transformers',

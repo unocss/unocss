@@ -5,10 +5,12 @@ description: The default preset for UnoCSS (@unocss/preset-uno)
 
 # Uno preset
 
-The default preset for UnoCSS: `@unocss/preset-uno`. It's currently equivalent to [`@unocss/preset-wind`](/presets/wind).
+The default preset for UnoCSS. It's currently equivalent to [`@unocss/preset-wind`](/presets/wind).
+
+[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-uno)
 
 ::: info
-This preset inherits [Wind preset](/presets/wind) and [Mini preset](/presets/mini).
+This preset inherits [`@unocss/preset-wind`](/presets/wind) and [`@unocss/preset-mini`](/presets/mini).
 :::
 
 ## Installation
@@ -26,14 +28,24 @@ This preset inherits [Wind preset](/presets/wind) and [Mini preset](/presets/min
 :::
 
 ```ts
+// uno.config.ts
+import { defineConfig } from 'unocss'
 import presetUno from '@unocss/preset-uno'
 
-UnoCSS({
+export default defineConfig({
   presets: [
     presetUno(),
   ],
 })
 ```
+
+::: tip
+This preset is included in the `unocss` package, you can also import it from there:
+
+```ts
+import { presetUno } from 'unocss'
+```
+:::
 
 ## Usage
 
@@ -49,7 +61,3 @@ For example, both `ml-3` (Tailwind), `ms-2` (Bootstrap), `ma4` (Tachyons), and `
 ```
 
 For more details about the default preset, you can check out our [playground](https://uno.antfu.me/play/) and try out. Meanwhile, you can also check out [the implementations](https://github.com/unocss/unocss/tree/main/packages).
-
-## License
-
-- MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)

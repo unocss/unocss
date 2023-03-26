@@ -5,7 +5,9 @@ description: The minimal preset for UnoCSS (@unocss/preset-mini)
 
 # Mini preset
 
-The minimal preset for UnoCSS: `@unocss/preset-mini`.
+The basic preset for UnoCSS, with only the most essential utilities.
+
+[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-mini)
 
 ## Installation
 
@@ -22,14 +24,25 @@ The minimal preset for UnoCSS: `@unocss/preset-mini`.
 :::
 
 ```ts
+// uno.config.ts
+import { defineConfig } from 'unocss'
 import presetMini from '@unocss/preset-mini'
 
-UnoCSS({
+export default defineConfig({
   presets: [
     presetMini(),
+    // ...other presets
   ],
 })
 ```
+
+::: tip
+This preset is included in the `unocss` package, you can also import it from there:
+
+```ts
+import { presetMini } from 'unocss'
+```
+:::
 
 ## Features
 

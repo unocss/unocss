@@ -3,11 +3,16 @@ title: Web fonts preset
 description: Web fonts support for UnoCSS (@unocss/preset-web-fonts)
 ---
 
-# Web fonts preset
+# Web Fonts preset
 
-Web fonts support for UnoCSS with `@unocss/preset-web-fonts`.
+Use web fonts from [Google Fonts](https://fonts.google.com/), [FontShare](https://www.fontshare.com/) by simply providing the font names.
+
+See [all supported providers](#providers).
+
+[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-web-fonts)
 
 ## Installation
+
 ::: code-group
   ```bash [pnpm]
   pnpm add -D @unocss/preset-web-fonts
@@ -21,38 +26,55 @@ Web fonts support for UnoCSS with `@unocss/preset-web-fonts`.
 :::
 
 ```ts
+// uno.config.ts
+import { defineConfig } from 'unocss'
 import presetWebFonts from '@unocss/preset-web-fonts'
 import presetUno from '@unocss/preset-uno'
 
-UnoCSS({
+export default defineConfig({
   presets: [
     presetUno(),
-    presetWebFonts({
-      provider: 'google', // default provider
-      fonts: {
-        // these will extend the default theme
-        sans: 'Roboto',
-        mono: ['Fira Code', 'Fira Mono:400,700'],
-        // custom ones
-        lobster: 'Lobster',
-        lato: [
-          {
-            name: 'Lato',
-            weights: ['400', '700'],
-            italic: true,
-          },
-          {
-            name: 'sans-serif',
-            provider: 'none',
-          },
-        ],
-      },
-    }),
+    presetWebFonts({ /* options */ }),
   ],
 })
 ```
 
-The following CSS will be generated:
+
+::: tip
+This preset is included in the `unocss` package, you can also import it from there:
+
+```ts
+import { presetWebFonts } from 'unocss'
+```
+:::
+
+## Example
+
+```ts
+presetWebFonts({
+  provider: 'google', // default provider
+  fonts: {
+    // these will extend the default theme
+    sans: 'Roboto',
+    mono: ['Fira Code', 'Fira Mono:400,700'],
+    // custom ones
+    lobster: 'Lobster',
+    lato: [
+      {
+        name: 'Lato',
+        weights: ['400', '700'],
+        italic: true,
+      },
+      {
+        name: 'sans-serif',
+        provider: 'none',
+      },
+    ],
+  },
+})
+```
+
+The following CSS will be generated automatically:
 
 ```css
 @import url('https://fonts.googleapis.com/css2?family=Roboto&family=Fira+Code&family=Fira+Mono:wght@400;700&family=Lobster&family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap');
@@ -89,19 +111,19 @@ Currently supported Providers:
 PR welcome to add more providers. 🙌
 :::
 
-
-
 ### Custom fetch function
 
 Use your own function to fetch font source.
 
 ```ts
+// uno.config.ts
+import { defineConfig } from 'unocss'
 import presetWebFonts from '@unocss/preset-web-fonts'
 import presetUno from '@unocss/preset-uno'
 import axios from 'axios'
 import ProxyAgent from 'proxy-agent'
 
-UnoCSS({
+export default defineConfig({
   presets: [
     presetUno(),
     presetWebFonts({
@@ -120,7 +142,3 @@ UnoCSS({
 ## Configuration
 
 Refer to the [type definition](https://github.com/unocss/unocss/blob/main/packages/preset-web-fonts/src/types.ts#L4) for all available configurations.
-
-## License
-
-- MIT License &copy; 2022-PRESENT [Anthony Fu](https://github.com/antfu)
