@@ -15,10 +15,10 @@ hero:
       link: /guide/
     - theme: alt
       text: Interactive Docs
-      link: /interactive/
+      link: https://uno.antfu.me/
     - theme: alt
       text: Playground
-      link: /playground/
+      link: https://uno.antfu.me/play
 
 features:
   - title: Fully customizable
