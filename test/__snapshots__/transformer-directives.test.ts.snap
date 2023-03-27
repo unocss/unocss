@@ -79,8 +79,8 @@ html.dark {
 .select-dark {
   display: block;
   width: 100%;
-  appearance: none;
   -webkit-appearance: none;
+  appearance: none;
   border-radius: 0.25rem;
   --un-bg-opacity: 1;
   background-color: rgba(55, 65, 81, var(--un-bg-opacity));
