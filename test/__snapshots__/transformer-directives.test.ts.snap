@@ -117,6 +117,7 @@ html.dark {
 .icon-btn {
   display: inline-block;
   cursor: pointer;
+  -webkit-user-select: none;
   user-select: none;
   font-size: 1.5rem;
   line-height: 2rem;
