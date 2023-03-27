@@ -11,10 +11,6 @@ The command line interface for UnoCSS: `@unocss/cli`.
 - 👀 [Watch mode](#development) included
 - 🔌 Supports custom configurations via [`uno.config.js`](#unocssconfigjs-support)
 
-## Requirements
-
-- Node 14+ (Node 16 recommended)
-
 ## Installation
 
 This package is shipped with the `unocss` package:
@@ -118,8 +114,3 @@ The output filename for the generated UnoCSS file. Defaults to `uno.css` in the 
 ### `--watch`
 
 Indicates if the files found by the glob pattern should be watched.
-
-## License
-
-- MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)
-- MIT License &copy; 2021-PRESENT [Johann Schopplich](https://github.com/johannschopplich)

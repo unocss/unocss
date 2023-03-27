@@ -3,7 +3,7 @@ title: Nuxt module
 description: Nuxt module for UnoCSS.
 ---
 
-# Nuxt
+# Nuxt Integration
 
 The Nuxt module for UnoCSS.
 

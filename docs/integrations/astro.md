@@ -3,7 +3,7 @@ title: Astro
 description: The UnoCSS integration for Astro (@unocss/astro).
 ---
 
-# Astro
+# Astro Integration
 
 The UnoCSS integration for [Astro](https://astro.build/): `@unocss/astro`. Check the [example](https://github.com/unocss/unocss/tree/main/examples/astro).
 

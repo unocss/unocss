@@ -4,7 +4,7 @@ description: The Vite plugin for UnoCSS (@unocss/vite).
 outline: 'deep'
 ---
 
-# Vite
+# Vite Integration
 
 The Vite plugin ships with the `unocss` package.
 
