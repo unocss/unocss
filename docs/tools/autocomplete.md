@@ -1,6 +1,6 @@
 ---
 title: Autocomplete utils
-description: Autocomplete utils for UnoCSS (@unocss/autocomplete)
+description: Autocomplete utils for UnoCSS (@unocss/autocomplete).
 ---
 
 # Autocomplete

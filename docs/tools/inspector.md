@@ -1,6 +1,6 @@
 ---
 title: Inspector
-description: The inspector UI for UnoCSS (@unocss/inspector)
+description: The inspector UI for UnoCSS (@unocss/inspector).
 ---
 
 # Inspector

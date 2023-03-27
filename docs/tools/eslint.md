@@ -1,6 +1,6 @@
 ---
 title: Eslint
-description: The core engine of UnoCSS without any presets. It can be used as the engine of your own Atomic CSS framework.
+description: Eslint config for UnoCSS (@unocss/eslint-config).
 ---
 
 # Eslint
