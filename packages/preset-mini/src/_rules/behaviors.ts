@@ -20,8 +20,8 @@ export const outline: Rule<Theme>[] = [
 
 export const appearance: Rule[] = [
   ['appearance-none', {
-    'appearance': 'none',
     '-webkit-appearance': 'none',
+    'appearance': 'none',
   }],
 ]
 

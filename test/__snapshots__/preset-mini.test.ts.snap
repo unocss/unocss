@@ -823,7 +823,7 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .outline-revert-layer{outline-style:revert-layer;}
 .outline-unset{outline-style:unset;}
 .outline-none{outline:2px solid transparent;outline-offset:2px;}
-.appearance-none{appearance:none;-webkit-appearance:none;}
+.appearance-none{-webkit-appearance:none;appearance:none;}
 .order-\\\\$variable{order:var(--variable);}
 .order-first{order:-9999;}
 .order-none{order:0;}
