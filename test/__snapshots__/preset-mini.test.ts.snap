@@ -778,8 +778,8 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .vertical-baseline{vertical-align:baseline;}
 .vertical-inherit{vertical-align:inherit;}
 .vertical-super{vertical-align:super;}
-.select-all{user-select:all;}
-.select-none{user-select:none;}
+.select-all{-webkit-user-select:all;user-select:all;}
+.select-none{-webkit-user-select:none;user-select:none;}
 .select-inherit{user-select:inherit;}
 .whitespace-pre-wrap{white-space:pre-wrap;}
 .whitespace-unset{white-space:unset;}
