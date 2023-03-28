@@ -9,22 +9,82 @@ UnoCSS does not provide style resetting or preflight by default for maximum flex
 
 We also provide a small collection for you to grab them quickly:
 
-```bash
-npm i @unocss/reset
-```
+## Installation
+
+::: code-group
+  ```bash [pnpm]
+  pnpm add @unocss/reset
+  ```
+  ```bash [yarn]
+  yarn add @unocss/reset
+  ```
+  ```bash [npm]
+  npm install @unocss/reset
+  ```
+:::
+
+## Usage
+
+You can add one of the following reset stylesheets to your `main.js`.
+
+### normalize.css
+
+Source: https://necolas.github.io/normalize.css/
 
 ```ts
-// main.js
-// pick one of the following
-
-// normalize.css
 import '@unocss/reset/normalize.css'
-// reset.css by Eric Meyer https://meyerweb.com/eric/tools/css/reset/index.html
+```
+
+### sanitize.css
+
+Source: https://github.com/csstools/sanitize.css#usage
+
+```ts
+import '@unocss/reset/sanitize/sanitize.css'
+import '@unocss/reset/sanitize/assets.css'
+```
+
+### Eric Meyer
+
+Source: https://meyerweb.com/eric/tools/css/reset/index.html
+
+```ts
 import '@unocss/reset/eric-meyer.css'
-// preflights from tailwind
+```
+
+### Tailwind
+
+```ts
 import '@unocss/reset/tailwind.css'
-// https://github.com/unocss/unocss/blob/main/packages/reset/tailwind-compat.md
+```
+
+### Tailwind compat
+
+```ts
 import '@unocss/reset/tailwind-compat.css'
 ```
 
-Learn more at [@unocss/reset](/tools/reset).
+This reset is based on [Tailwind reset](#tailwind), minus the background color override for buttons to avoid conflicts with UI frameworks. See [linked issue #2127](https://github.com/unocss/unocss/issues/2127).
+
+::: code-group
+  ```css [Before]
+  button,
+  [type='button'],
+  [type='reset'],
+  [type='submit'] {
+    -webkit-appearance: button; /* 1 */
+    background-color: transparent; /* 2 */
+    background-image: none; /* 2 */
+  }
+  ```
+  ```css [After]
+  button,
+  [type='button'],
+  [type='reset'],
+  [type='submit'] {
+    -webkit-appearance: button; /* 1 */
+    /*background-color: transparent; !* 2 *!*/
+    background-image: none; /* 2 */
+  }
+  ```
+:::

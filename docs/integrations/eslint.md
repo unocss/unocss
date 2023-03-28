@@ -1,6 +1,6 @@
 ---
-title: Eslint
-description: Eslint config for UnoCSS (@unocss/eslint-config).
+title: ESLint
+description: ESLint config for UnoCSS (@unocss/eslint-config).
 ---
 
 # ESLint
@@ -39,8 +39,3 @@ In `.eslintrc`:
 ## Prior Arts
 
 Thanks to [eslint-plugin-unocss](https://github.com/devunt/eslint-plugin-unocss) by [@devunt](https://github.com/devunt).
-
-## License
-
-- MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)
-

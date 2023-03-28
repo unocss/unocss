@@ -61,7 +61,6 @@ const Tools: DefaultTheme.NavItemWithLink[] = [
   { text: 'Inspector', link: '/tools/inspector' },
   { text: 'Core', link: '/tools/core' },
   { text: 'Autocomplete', link: '/tools/autocomplete' },
-  { text: 'Reset', link: '/tools/reset' },
 ]
 
 const Nav: DefaultTheme.NavItem[] = [
