@@ -40,6 +40,14 @@
           "default": false,
           "description": "Disable the UnoCSS extension"
         },
+        "unocss.languageIds": {
+          "type": [
+            "array"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
         "unocss.root": {
           "type": [
             "array",
