@@ -4,7 +4,7 @@ description: The webpack plugin for UnoCSS (@unocss/webpack).
 ---
 
 
-# webpack
+# Webpack
 
 The webpack plugin for UnoCSS: `@unocss/webpack`. Currently, this plugin only supports the [`global` mode](https://github.com/unocss/unocss/blob/main/packages/vite/src/types.ts#L11-L21).
 

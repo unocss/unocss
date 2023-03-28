@@ -1,6 +1,6 @@
 ---
 title: Reset
-description: Collection of standard reset CSS stylesheets (@unocss/reset)
+description: Collection of standard reset CSS stylesheets (@unocss/reset).
 ---
 
 # Reset
