@@ -80,8 +80,3 @@ presetTagify({
   extraProperties: { display: 'block' }
 })
 ```
-
-## License
-
-- MIT License &copy; 2022-PRESENT [Jeff Zou](https://github.com/zojize)
-- MIT License &copy; 2022-PRESENT [Anthony Fu](https://github.com/antfu)

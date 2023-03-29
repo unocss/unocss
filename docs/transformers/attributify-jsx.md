@@ -60,7 +60,7 @@ export function Component() {
 :::
 
 ```ts{12}
-// uno.config.js
+// uno.config.ts
 import { defineConfig, presetAttributify } from 'unocss'
 import transformerAttributifyJsx from '@unocss/transformer-attributify-jsx'
 

@@ -243,7 +243,3 @@ interface HTMLAttributes extends Partial<Record<AttributifyNames<Prefix>, string
 ## Credits
 
 Initial idea by [@Tahul](https://github.com/Tahul) and [@antfu](https://github.com/antfu). Prior [implementation in Windi CSS](https://windicss.org/posts/v30.html#attributify-mode) by [@voorjaar](https://github.com/voorjaar).
-
-## License
-
-- MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)

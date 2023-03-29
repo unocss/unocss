@@ -26,7 +26,7 @@ module.exports = {
 ```
 
 ```ts
-// uno.config.js
+// uno.config.ts
 import { defineConfig, presetUno } from 'unocss'
 
 export default defineConfig({

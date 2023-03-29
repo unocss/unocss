@@ -22,7 +22,7 @@ Enables the [variant group feature](https://windicss.org/features/variant-groups
 :::
 
 ```ts
-// uno.config.js
+// uno.config.ts
 import { defineConfig } from 'unocss'
 import transformerVariantGroup from '@unocss/transformer-variant-group'
 

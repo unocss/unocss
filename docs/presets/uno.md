@@ -60,4 +60,7 @@ For example, both `ml-3` (Tailwind), `ms-2` (Bootstrap), `ma4` (Tachyons), and `
 .mt-10px { margin-top: 10px; }
 ```
 
-For more details about the default preset, you can check out our [playground](https://uno.antfu.me/play/) and try out. Meanwhile, you can also check out [the implementations](https://github.com/unocss/unocss/tree/main/packages).
+## Rules
+
+This presets is compactible with [Tailwind CSS](https://tailwindcss.com/) and [Windi CSS](https://windicss.org/), you can refer to their [documentation](https://tailwindcss.com/docs) for detailed usage.
+For all rules and presets included in this preset, please refer to our [interactive docs](/interactive/) or directly go to the [source code](https://github.com/unocss/unocss/tree/main/packages/preset-uno).

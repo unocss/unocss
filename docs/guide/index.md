@@ -10,7 +10,7 @@ UnoCSS is the instant atomic CSS engine, that is designed to be flexible and ext
 For example, you could define your custom CSS utilities, by providing rules in your local [config file](/guide/config-file).
 
 ```ts
-// uno.config.js
+// uno.config.ts
 import { defineConfig } from 'unocss'
 
 export default defineConfig({
@@ -35,7 +35,7 @@ This will add a new CSS utility `m-1` to your project. Since UnoCSS is on-demand
 To make it more flexible, you can make your rule dynamic by changing the first argument on the rule (we call it matcher) to a RegExp, and the body to a function, for example:
 
 ```diff
-// uno.config.js
+// uno.config.ts
 export default defineConfig({
   rules: [
 -    ['m-1', { margin: '1px' }]
@@ -77,7 +77,7 @@ export const myPreset: Preset = {
 ```
 
 ```ts
-// uno.config.js
+// uno.config.ts
 import { defineConfig } from 'unocss'
 import { myPreset } from './my-preset'
 

@@ -1,9 +1,9 @@
 ---
-title: Nuxt module
+title: UnoCSS Nuxt Module
 description: Nuxt module for UnoCSS.
 ---
 
-# Nuxt Integration
+# Nuxt Module
 
 The Nuxt module for UnoCSS.
 
@@ -21,6 +21,8 @@ The Nuxt module for UnoCSS.
   ```
 :::
 
+Add `@unocss/nuxt` to your Nuxt config file:
+
 ```ts
 // nuxt.config.ts
 export default defineNuxtConfig({
@@ -29,6 +31,19 @@ export default defineNuxtConfig({
   ],
 })
 ```
+
+Create a `uno.config.ts` file:
+
+```ts
+// uno.config.ts
+import { defineConfig } from 'unocss'
+
+export default defineConfig({
+  // ...UnoCSS options
+})
+```
+
+The `uno.css` entry will be automatically injected by the module.
 
 ## Support status
 

@@ -1,9 +1,9 @@
 ---
-title: VSCode extension
+title: UnoCSS VS Code Extension
 description: UnoCSS for VS Code.
 ---
 
-# UnoCSS for VS Code
+# UnoCSS VS Code Extension
 
 - Decoration and tooltip for matched utilities
 - Auto loading configs
@@ -13,10 +13,12 @@ description: UnoCSS for VS Code.
 
 ## Config
 
+// TODO: rewrite this section refering to the config file docs
+
 By default the extension will search for the config files under project root:
 
-- `uno.config.js`
-- `uno.config.js`
+- `uno.config.ts`
+- `uno.config.ts`
 - `vite.config.js`
 - `svelte.config.js`
 - `astro.config.js`

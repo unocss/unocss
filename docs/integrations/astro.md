@@ -1,5 +1,5 @@
 ---
-title: Astro
+title: UnoCSS Astro Integration
 description: The UnoCSS integration for Astro (@unocss/astro).
 ---
 
@@ -27,9 +27,20 @@ import UnoCSS from 'unocss/astro'
 
 export default {
   integrations: [
-    UnoCSS({ /* options */ }),
+    UnoCSS(),
   ],
 }
+```
+
+Create a `uno.config.ts` file:
+
+```ts
+// uno.config.ts
+import { defineConfig } from 'unocss'
+
+export default defineConfig({
+  // ...UnoCSS options
+})
 ```
 
 ### Usage without presets

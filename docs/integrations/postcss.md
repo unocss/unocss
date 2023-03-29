@@ -1,3 +1,8 @@
+---
+title: UnoCSS PostCSS Plugin
+outline: deep
+---
+
 # PostCSS Plugin
 
 PostCSS plugin for UnoCSS. Supports `@apply`、`@screen` and `theme()` directives.
@@ -27,7 +32,7 @@ module.exports = {
 ```
 
 ```ts
-// uno.config.js
+// uno.config.ts
 import { defineConfig, presetUno } from 'unocss'
 
 export default defineConfig({

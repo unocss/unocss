@@ -42,7 +42,7 @@ Add `uno.css` to your main entry:
 import 'uno.css'
 ```
 
-Or you can have the config file in `uno.config.js` or `uno.config.ts`.
+Or you can have the config file in `uno.config.ts` or `uno.config.ts`.
 
 ## License
 

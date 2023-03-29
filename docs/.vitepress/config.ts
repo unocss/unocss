@@ -26,9 +26,9 @@ const Integrations: DefaultTheme.NavItemWithLink[] = [
   { text: 'Nuxt', link: '/integrations/nuxt' },
   { text: 'Astro', link: '/integrations/astro' },
   { text: 'Webpack', link: '/integrations/webpack' },
-  { text: 'PostCSS', link: '/integrations/postcss' },
   { text: 'Runtime', link: '/integrations/runtime' },
   { text: 'CLI', link: '/integrations/cli' },
+  { text: 'PostCSS', link: '/integrations/postcss' },
   { text: 'ESLint', link: '/integrations/eslint' },
   { text: 'VSCode extension', link: '/integrations/vscode' },
 ]

@@ -1,10 +1,10 @@
 ---
-title: Vite Integration
+title: UnoCSS Vite Plugin
 description: The Vite plugin for UnoCSS (@unocss/vite).
 outline: 'deep'
 ---
 
-# Vite Integration
+# Vite Plugin
 
 The Vite plugin ships with the `unocss` package.
 
@@ -36,10 +36,10 @@ export default defineConfig({
 })
 ```
 
-Create a `uno.config.js` file:
+Create a `uno.config.ts` file:
 
 ```ts
-// uno.config.js
+// uno.config.ts
 import { defineConfig } from 'unocss'
 
 export default defineConfig({

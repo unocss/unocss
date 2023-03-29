@@ -1,18 +1,15 @@
 # Config File
 
-There are multiple ways to configure UnoCSS. The most recommended way is to use a dedicated `uno.config.ts` file. A full featured config file looks like this:
+We **highly recommend to use a dedicated `uno.config.ts` file** to config your UnoCSS, in order to get the best experience with IDEs and other integrations.
+
+A full featured config file looks like this:
 
 ```ts
 // uno.config.ts
 import {
-  defineConfig,
-  presetAttributify,
-  presetIcons,
-  presetTypography,
-  presetUno,
-  presetWebFonts,
-  transformerDirectives,
-  transformerVariantGroup,
+  defineConfig, presetAttributify, presetIcons,
+  presetTypography, presetUno, presetWebFonts,
+  transformerDirectives, transformerVariantGroup
 } from 'unocss'
 
 export default defineConfig({
@@ -27,16 +24,11 @@ export default defineConfig({
   presets: [
     presetUno(),
     presetAttributify(),
-    presetIcons({
-      scale: 1.2,
-      warn: true,
-    }),
+    presetIcons(),
     presetTypography(),
     presetWebFonts({
       fonts: {
-        sans: 'DM Sans',
-        serif: 'DM Serif Display',
-        mono: 'DM Mono',
+        // ...
       },
     }),
   ],

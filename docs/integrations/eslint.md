@@ -1,9 +1,9 @@
 ---
-title: ESLint
+title: UnoCSS ESLint Config
 description: ESLint config for UnoCSS (@unocss/eslint-config).
 ---
 
-# ESLint
+# ESLint Config
 
 ESLint config for UnoCSS: `@unocss/eslint-config`.
 

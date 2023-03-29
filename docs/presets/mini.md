@@ -44,6 +44,10 @@ import { presetMini } from 'unocss'
 ```
 :::
 
+## Rules
+
+This presets is is a subset of [`@unocss/preset-wind`](/presets/wind), containing only the most essential utilities that aligned with CSS's properties, but excluded opinioned or complicated utilities introduced in Tailwind (`container`, `animation`, `gradient` etc.). This can be a good starting point for your own custom preset on top of familiar utilities from Tailwind CSS or Windi CSS.
+
 ## Features
 
 ### Dark mode
@@ -159,7 +163,3 @@ presetMini({
 ::: info
 `verticalBreakpoints` is same as `breakpoints` but for vertical layout.
 :::
-
-## License
-
-- MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)

@@ -23,7 +23,7 @@ UnoCSS transformer for `@apply`, `@screen` and `theme()` directives: `@unocss/tr
 
 
 ```ts
-// uno.config.js
+// uno.config.ts
 import { defineConfig } from 'unocss'
 import transformerDirectives from '@unocss/transformer-directives'
 

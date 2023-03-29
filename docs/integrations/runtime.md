@@ -1,5 +1,5 @@
 ---
-title: Runtime
+title: UnoCSS CDN Runtime
 description: CSS-in-JS runtime of UnoCSS (@unocss/runtime).
 outline: deep
 ---
