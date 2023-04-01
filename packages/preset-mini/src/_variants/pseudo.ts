@@ -78,12 +78,16 @@ const PseudoClassesStr = Object.entries(PseudoClasses).filter(([, pseudo]) => !p
 const PseudoClassesColonStr = Object.entries(PseudoClassesColon).filter(([, pseudo]) => !pseudo.startsWith('::')).map(([key]) => key).join('|')
 const PseudoClassFunctionsStr = PseudoClassFunctions.join('|')
 
-const pseudoModifier = (pseudo: string) => {
+const pseudoModifier = (base: number, pseudo: string) => {
   if (pseudo === 'active') {
     return {
-      sort: 1,
+      sort: base + 10,
       noMerge: true,
     }
+  }
+
+  return {
+    sort: base,
   }
 }
 
@@ -156,7 +160,7 @@ const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: strin
         handle: (input, next) => next({
           ...input,
           prefix: `${prefix}${combinator}${input.prefix}`.replace(rawRE, '$1$2:'),
-          ...pseudoModifier(pseudoName),
+          ...pseudoModifier(50, pseudoName),
         }),
       }
     },
@@ -204,7 +208,7 @@ export const variantPseudoClassesAndElements = (): VariantObject => {
             return next({
               ...input,
               ...selectors,
-              ...pseudoModifier(match[1]),
+              ...pseudoModifier(30, match[1]),
             })
           },
         }
@@ -232,6 +236,7 @@ export const variantPseudoClassFunctions = (): VariantObject => {
         return {
           matcher: input.slice(match[0].length),
           selector: s => `${s}:${fn}(${pseudo})`,
+          ...pseudoModifier(10, ''),
         }
       }
     },
