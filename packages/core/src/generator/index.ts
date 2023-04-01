@@ -126,6 +126,7 @@ export class UnoGenerator<Theme extends {} = {}> {
       preflights = true,
       safelist = true,
       minify = false,
+      noMerge = false,
     } = options
 
     const tokens: Readonly<Set<string>> = isString(input)
@@ -234,8 +235,8 @@ export class UnoGenerator<Theme extends {} = {}> {
             return undefined
           const rules = sorted
             .reverse()
-            .map(([selectorSortPair, body, noMerge], idx) => {
-              if (!noMerge && this.config.mergeSelectors) {
+            .map(([selectorSortPair, body, ruleNoMerge], idx) => {
+              if (!noMerge && !ruleNoMerge && this.config.mergeSelectors) {
                 // search for rules that has exact same body, and merge them
                 for (let i = idx + 1; i < size; i++) {
                   const current = sorted[i]

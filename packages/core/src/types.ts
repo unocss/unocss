@@ -742,13 +742,13 @@ export interface GenerateOptions {
 
   /**
    * Generate preflights (if defined)
-   *
    * @default true
    */
   preflights?: boolean
 
   /**
    * Includes safelist
+   * @default true
    */
   safelist?: boolean
 
@@ -757,6 +757,12 @@ export interface GenerateOptions {
    * @default false
    */
   minify?: boolean
+
+  /**
+   * Disable merging for similar css body
+   * @default false
+   */
+  noMerge?: boolean
 
   /**
    * @experimental

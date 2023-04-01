@@ -1,0 +1,15 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`unocss generator > generator can enable noMerge option 1`] = `
+"/* layer: default */
+.focus\\\\:top-0:focus,
+.hover\\\\:top-0:hover,
+.top-0{top:0;}"
+`;
+
+exports[`unocss generator > generator can enable noMerge option 2`] = `
+"/* layer: default */
+.focus\\\\:top-0:focus{top:0;}
+.hover\\\\:top-0:hover{top:0;}
+.top-0{top:0;}"
+`;
