@@ -22,6 +22,11 @@ const bgGradientColorValue = (mode: string, cssColor: CSSColorValue | undefined,
 
 const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
   ([, body]: string[], { theme }: RuleContext<Theme>) => {
+    if (/^[0-9]/.test(body)) {
+      return {
+        [`--un-gradient-${mode}-position`]: body
+      }
+    }
     const data = parseColor(body, theme)
 
     if (!data)
@@ -37,18 +42,18 @@ const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
     switch (mode) {
       case 'from':
         return {
-          '--un-gradient-from': colorString,
-          '--un-gradient-to': bgGradientToValue(cssColor),
+          '--un-gradient-from': `${colorString} var(--un-gradient-from-position)`,
+          '--un-gradient-to': `${bgGradientToValue(cssColor)} var(--un-gradient-to-position)`,
           '--un-gradient-stops': 'var(--un-gradient-from), var(--un-gradient-to)',
         }
       case 'via':
         return {
           '--un-gradient-to': bgGradientToValue(cssColor),
-          '--un-gradient-stops': `var(--un-gradient-from), ${colorString}, var(--un-gradient-to)`,
+          '--un-gradient-stops': `var(--un-gradient-from), ${colorString} var(--un-gradient-via-position), var(--un-gradient-to)`,
         }
       case 'to':
         return {
-          '--un-gradient-to': colorString,
+          '--un-gradient-to': `${colorString} var(--un-gradient-to-position)`,
         }
     }
   }
@@ -57,6 +62,11 @@ const bgUrlRE = /^\[url\(.+\)\]$/
 const bgLengthRE = /^\[length:.+\]$/
 const bgPositionRE = /^\[position:.+\]$/
 export const backgroundStyles: Rule[] = [
+  [/from-(.+)$/, ([, d]) => {
+    return {
+      '--un-gradient-from-position': d,
+    }
+  }],
   [/^bg-(.+)$/, ([, d]) => {
     if (bgUrlRE.test(d))
       return { '--un-url': h.bracket(d), 'background-image': 'var(--un-url)' }
