@@ -62,11 +62,6 @@ const bgUrlRE = /^\[url\(.+\)\]$/
 const bgLengthRE = /^\[length:.+\]$/
 const bgPositionRE = /^\[position:.+\]$/
 export const backgroundStyles: Rule[] = [
-  [/from-(.+)$/, ([, d]) => {
-    return {
-      '--un-gradient-from-position': d,
-    }
-  }],
   [/^bg-(.+)$/, ([, d]) => {
     if (bgUrlRE.test(d))
       return { '--un-url': h.bracket(d), 'background-image': 'var(--un-url)' }
