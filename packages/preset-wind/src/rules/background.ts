@@ -22,11 +22,6 @@ const bgGradientColorValue = (mode: string, cssColor: CSSColorValue | undefined,
 
 const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
   ([, body]: string[], { theme }: RuleContext<Theme>) => {
-    if (/^[0-9]/.test(body)) {
-      return {
-        [`--un-gradient-${mode}-position`]: h.bracket(`[${body}]`)
-      }
-    }
     const data = parseColor(body, theme)
 
     if (!data)
@@ -61,6 +56,12 @@ const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
     }
   }
 
+const bgGradientPositionResolver = (mode: 'from' | 'to' | 'via') =>
+  ([, body]: string[]) => {
+    return {
+      [`--un-gradient-${mode}-position`]: `${Number(h.bracket.cssvar.percent(body)) * 100}%`,
+    }
+  }
 const bgUrlRE = /^\[url\(.+\)\]$/
 const bgLengthRE = /^\[length:.+\]$/
 const bgPositionRE = /^\[position:.+\]$/
@@ -85,7 +86,9 @@ export const backgroundStyles: Rule[] = [
   [/^(?:bg-gradient-)?from-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-from-opacity': h.bracket.percent(opacity) })],
   [/^(?:bg-gradient-)?via-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-via-opacity': h.bracket.percent(opacity) })],
   [/^(?:bg-gradient-)?to-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-to-opacity': h.bracket.percent(opacity) })],
-
+  [/from-([0-9].+)$/, bgGradientPositionResolver('from')],
+  [/via-([0-9].+)$/, bgGradientPositionResolver('via')],
+  [/to-([0-9].+)$/, bgGradientPositionResolver('to')],
   // images
   [/^bg-gradient-((?:repeating-)?(?:linear|radial|conic))$/, ([, s]) => ({
     'background-image': `${s}-gradient(var(--un-gradient, var(--un-gradient-stops, rgba(255, 255, 255, 0))))`,
