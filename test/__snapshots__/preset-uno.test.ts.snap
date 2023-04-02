@@ -37,9 +37,9 @@ exports[`targets 1`] = `
 .mix-shift-50-c-red-600{--un-text-opacity:1;color:rgba(calc(220 + (0 - 220) * 50 / 100),calc(38 + (0 - 38) * 50 / 100),calc(38 + (0 - 38) * 50 / 100),calc(var(--un-text-opacity) + (1 - var(--un-text-opacity)) * 50 / 100));}
 .mix-tint-50-c-red-400{--un-text-opacity:1;color:rgba(calc(248 + (255 - 248) * 50 / 100),calc(113 + (255 - 113) * 50 / 100),calc(113 + (255 - 113) * 50 / 100),calc(var(--un-text-opacity) + (1 - var(--un-text-opacity)) * 50 / 100));}
 .text-custom-a{color:var(--custom);}
-.focus\\\\:placeholder-red-300:focus::placeholder{--un-placeholder-opacity:1;color:rgba(252,165,165,var(--un-placeholder-opacity));}
 .placeholder-inherit::placeholder{color:inherit;}
 .placeholder-red-400::placeholder{--un-placeholder-opacity:1;color:rgba(248,113,113,var(--un-placeholder-opacity));}
+.focus\\\\:placeholder-red-300:focus::placeholder{--un-placeholder-opacity:1;color:rgba(252,165,165,var(--un-placeholder-opacity));}
 .hover\\\\:placeholder-op90:hover::placeholder,
 .placeholder-op90::placeholder{--un-placeholder-opacity:0.9;}
 .placeholder-opacity-10::placeholder{--un-placeholder-opacity:0.1;}
