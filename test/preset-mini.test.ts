@@ -194,4 +194,25 @@ describe('preset-mini', () => {
 
     expect(css).toMatchSnapshot()
   })
+
+  test('pseudo are ordered properly, and after the non-pseudo rules', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'bg-blue-3',
+      'hover:bg-blue-3',
+      'dark:bg-blue-3',
+      'dark:focus:bg-blue-3',
+      'not-hover:bg-blue-3',
+      'peer-hover:bg-blue-3',
+    ].join(' '), {
+      preflights: false,
+    })
+
+    expect(css).toMatchSnapshot()
+  })
 })
