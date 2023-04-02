@@ -51,8 +51,7 @@ const plainTeamMembers: CoreTeam[] = [
     avatar: 'https://github.com/chu121su12.png',
     name: 'Saya',
     github: 'chu121su12',
-    title: 'TODO',
-    desc: 'TODO',
+    title: 'Programmer',
   },
   {
     avatar: 'https://github.com/zyyv.png',
