@@ -24,7 +24,7 @@ const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
   ([, body]: string[], { theme }: RuleContext<Theme>) => {
     if (/^[0-9]/.test(body)) {
       return {
-        [`--un-gradient-${mode}-position`]: body
+        [`--un-gradient-${mode}-position`]: h.bracket(`[${body}]`)
       }
     }
     const data = parseColor(body, theme)
