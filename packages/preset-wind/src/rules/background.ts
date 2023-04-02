@@ -19,16 +19,12 @@ const bgGradientColorValue = (mode: string, cssColor: CSSColorValue | undefined,
 
   return colorToString(color, alpha)
 }
-const defaultPosition = {
-  from: '0%',
-  to: '100%',
-  via: '50%'
-}
+
 const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
   ([, body]: string[], { theme }: RuleContext<Theme>) => {
     if (/^[0-9]/.test(body)) {
       return {
-        [`--un-gradient-${mode}-position`]: h.bracket(`[${body}]`) || defaultPosition[mode]
+        [`--un-gradient-${mode}-position`]: h.bracket(`[${body}]`)
       }
     }
     const data = parseColor(body, theme)
@@ -46,20 +42,20 @@ const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
     switch (mode) {
       case 'from':
         return {
-          '--un-gradient-from-position': '',
+          '--un-gradient-from-position': '0%',
           '--un-gradient-from': `${colorString} var(--un-gradient-from-position)`,
           '--un-gradient-to': `${bgGradientToValue(cssColor)} var(--un-gradient-to-position)`,
           '--un-gradient-stops': 'var(--un-gradient-from), var(--un-gradient-to)',
         }
       case 'via':
         return {
-          '--un-gradient-via-position': '',
+          '--un-gradient-via-position': '50%',
           '--un-gradient-to': bgGradientToValue(cssColor),
           '--un-gradient-stops': `var(--un-gradient-from), ${colorString} var(--un-gradient-via-position), var(--un-gradient-to)`,
         }
       case 'to':
         return {
-          '--un-gradient-to-position': '',
+          '--un-gradient-to-position': '100%',
           '--un-gradient-to': `${colorString} var(--un-gradient-to-position)`,
         }
     }
