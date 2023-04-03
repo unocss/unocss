@@ -5,7 +5,7 @@ description: The shortcuts functionality that UnoCSS provides is similar to Wind
 
 # Shortcuts
 
-The shortcuts functionality that UnoCSS provides is similar to [Windi CSS's](https://windicss.org/features/shortcuts.html) one.
+Shortcuts could let you combine multiple rules into a single shorthand, inspired by [Windi CSS's](https://windicss.org/features/shortcuts.html).
 
 ## Usage
 

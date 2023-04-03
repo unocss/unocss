@@ -7,6 +7,8 @@ description: Tagify Mode for UnoCSS (@unocss/preset-tagify)
 
 This enables the [tagify mode](#tagify-mode) for other presets.
 
+[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-tagify)
+
 ## Installation
 
 ```bash

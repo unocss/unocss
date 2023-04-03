@@ -1,6 +1,7 @@
 ---
 title: Presets
 description: Presets are the heart of UnoCSS. They let you make your own custom framework in minutes.
+outline: deep
 ---
 
 # Presets
@@ -39,3 +40,5 @@ export default defineConfig({
   ],
 })
 ```
+
+You can check [official presets](/presets/) and [community presets](/presets/community) for more. 

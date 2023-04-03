@@ -1,6 +1,7 @@
 ---
 title: Directives transformer
 description: UnoCSS transformer for @apply, @screen and theme() directives (@unocss/transformer-directives)
+outline: deep
 ---
 
 # Directives transformer

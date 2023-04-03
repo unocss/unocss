@@ -94,7 +94,6 @@ const plainTeamMembers: CoreTeam[] = [
     name: 'Jeff Yang',
     github: 'ydcjeff',
     twitter: 'ydcjeff',
-    title: 'TODO',
   },
   {
     avatar: 'https://github.com/sudongyuer.png',

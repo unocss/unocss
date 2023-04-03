@@ -12,13 +12,16 @@ const Guides: DefaultTheme.NavItemWithLink[] = [
 ]
 
 const Configs: DefaultTheme.NavItemWithLink[] = [
+  { text: 'Overview', link: '/config/' },
   { text: 'Rules', link: '/config/rules' },
   { text: 'Shortcuts', link: '/config/shortcuts' },
   { text: 'Theme', link: '/config/theme' },
   { text: 'Variants', link: '/config/variants' },
   { text: 'Extractors', link: '/config/extractors' },
+  { text: 'Transformers', link: '/config/transformers' },
   { text: 'Preflights', link: '/config/preflights' },
   { text: 'Layers', link: '/config/layers' },
+  { text: 'Presets', link: '/config/presets' },
 ]
 
 const Integrations: DefaultTheme.NavItemWithLink[] = [
@@ -54,7 +57,7 @@ const Transformers: DefaultTheme.NavItemWithLink[] = [
 
 const Extractors: DefaultTheme.NavItemWithLink[] = [
   { text: 'Pug extractor', link: '/extractors/pug' },
-  { text: 'Svelte extractor', link: '/extractors/svelte' },
+  // { text: 'Svelte extractor', link: '/extractors/svelte' },
 ]
 
 const Tools: DefaultTheme.NavItemWithLink[] = [
@@ -254,8 +257,8 @@ export default defineConfig({
     sidebar: {
       '/guide/': SidebarGuide,
       '/integrations/': SidebarGuide,
-      '/tools/': SidebarGuide,
 
+      '/tools/': SidebarPresets,
       '/presets/': SidebarPresets,
       '/transformers/': SidebarPresets,
       '/extractors/': SidebarPresets,

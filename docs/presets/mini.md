@@ -1,6 +1,7 @@
 ---
 title: Mini preset
 description: The minimal preset for UnoCSS (@unocss/preset-mini)
+outline: deep
 ---
 
 # Mini preset

@@ -1,11 +1,14 @@
 ---
 title: Attributify preset
 description: The UnoCSS preset that enables the attributify mode for other presets.
+outline: deep
 ---
 
 # Attributify preset
 
 This enables the [attributify mode](#attributify-mode) for other presets.
+
+[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-attributify)
 
 ## Installation
 

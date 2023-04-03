@@ -1,6 +1,7 @@
 ---
 title: Compile class transformer
 description: Compile group of classes into one class (@unocss/transformer-compile-class)
+outline: deep
 ---
 
 # Compile class transformer

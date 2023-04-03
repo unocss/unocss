@@ -98,12 +98,12 @@ You can try UnoCSS in your browser, in the [Playground](/play/). Or look up util
 
 UnoCSS comes with many integrations for various frameworks:
 
-// TODO: make a grid with icons
+<!-- // TODO: make a grid with icons -->
 
 - [Vite](/integrations/vite)
 - [Nuxt](/integrations/nuxt)
 - [Astro](/integrations/astro)
-- [webpack](/integrations/webpack)
+- [Webpack](/integrations/webpack)
 - [CLI](/integrations/cli)
 - [PostCSS](/integrations/postcss)
 - [CDN Runtime](/integrations/runtime)

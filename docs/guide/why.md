@@ -1,4 +1,10 @@
+---
+outline: deep
+---
+
 # Why UnoCSS?
+
+## Motivations
 
 We recommend you to read the blog post [Reimagine Atomic CSS](https://antfu.me/posts/reimagine-atomic-css) wrote by the creator of UnoCSS, [Anthony Fu](https://antfu.me/), to get a better understanding of the motivation behind UnoCSS.
 
@@ -28,7 +34,7 @@ Thanks to the flexibility UnoCSS provides, we are able to experiments with a lot
 - [Shortcuts](/config/shortcuts)
 - [Tagify](/presets/tagify)
 - [Web fonts](/presets/web-fonts)
-- [CDN Runtime](/presets/runtime)
+- [CDN Runtime](/integrations/runtime)
 - [Inspector](/tools/inspector)
 
 The downside of UnoCSS over Tailwind CSS is that it does not support Tailwind's plugin system or configurations, meaning it might make the migration harder from a heavily customized Tailwind CSS project. This is intended decision to make UnoCSS high-performant and extensible, and we believe the trade-off is worth it.

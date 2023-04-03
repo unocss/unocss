@@ -1,6 +1,7 @@
 ---
 title: Style Reset
 description: UnoCSS does not provide style resetting or preflight by default for maximum flexibility and does not populate your global CSS.
+outline: deep
 ---
 
 # Browser Style Reset
