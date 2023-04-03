@@ -11,7 +11,7 @@ pnpm add @unocss/preset-typography -D
 ## Usage
 
 ```js
-// unocss.config.js
+// uno.config.ts
 import { defineConfig, presetAttributify, presetTypography, presetUno } from 'unocss'
 
 export default defineConfig({
@@ -193,7 +193,7 @@ export interface TypographyOptions {
 ### Example
 
 ```ts
-// unocss.config.ts
+// uno.config.ts
 import { defineConfig, presetAttributify, presetUno } from 'unocss'
 import { presetTypography } from '@unocss/preset-typography'
 
