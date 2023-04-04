@@ -8,7 +8,7 @@ export type { Theme }
 
 export interface PresetUnoOptions extends PresetMiniOptions {}
 
-export const presetUno = (options: PresetUnoOptions = {}): Preset<Theme> => {
+export function presetUno(options: PresetUnoOptions = {}): Preset<Theme> {
   options.dark = options.dark ?? 'class'
   options.attributifyPseudo = options.attributifyPseudo ?? false
   options.preflight = options.preflight ?? true

@@ -78,7 +78,7 @@ const PseudoClassesStr = Object.entries(PseudoClasses).filter(([, pseudo]) => !p
 const PseudoClassesColonStr = Object.entries(PseudoClassesColon).filter(([, pseudo]) => !pseudo.startsWith('::')).map(([key]) => key).join('|')
 const PseudoClassFunctionsStr = PseudoClassFunctions.join('|')
 
-const pseudoModifier = (pseudo: string) => {
+function pseudoModifier(pseudo: string) {
   if (pseudo === 'active') {
     return {
       sort: 1,
@@ -87,7 +87,7 @@ const pseudoModifier = (pseudo: string) => {
   }
 }
 
-const taggedPseudoClassMatcher = (tag: string, parent: string, combinator: string): VariantObject => {
+function taggedPseudoClassMatcher(tag: string, parent: string, combinator: string): VariantObject {
   const rawRE = new RegExp(`^(${escapeRegExp(parent)}:)(\\S+)${escapeRegExp(combinator)}\\1`)
   let splitRE: RegExp
   let pseudoRE: RegExp
@@ -176,7 +176,7 @@ const excludedPseudo = [
 ]
 const PseudoClassesAndElementsStr = Object.entries(PseudoClasses).map(([key]) => key).join('|')
 const PseudoClassesAndElementsColonStr = Object.entries(PseudoClassesColon).map(([key]) => key).join('|')
-export const variantPseudoClassesAndElements = (): VariantObject => {
+export function variantPseudoClassesAndElements(): VariantObject {
   let PseudoClassesAndElementsRE: RegExp
   let PseudoClassesAndElementsColonRE: RegExp
   return {
@@ -215,7 +215,7 @@ export const variantPseudoClassesAndElements = (): VariantObject => {
   }
 }
 
-export const variantPseudoClassFunctions = (): VariantObject => {
+export function variantPseudoClassFunctions(): VariantObject {
   let PseudoClassFunctionsRE: RegExp
   let PseudoClassColonFunctionsRE: RegExp
   return {
@@ -240,7 +240,7 @@ export const variantPseudoClassFunctions = (): VariantObject => {
   }
 }
 
-export const variantTaggedPseudoClasses = (options: PresetMiniOptions = {}): VariantObject[] => {
+export function variantTaggedPseudoClasses(options: PresetMiniOptions = {}): VariantObject[] {
   const attributify = !!options?.attributifyPseudo
 
   return [

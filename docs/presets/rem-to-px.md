@@ -1,9 +1,10 @@
 ---
 title: rem to px preset
-description: Converts rem to px for utils (@unocss/preset-rem-to-px)
+description: Converts rem to px for utils (@unocss/preset-rem-to-px).
+outline: deep
 ---
 
-# rem to px preset
+# Rem to px preset
 
 Converts rem to px for all utilities.
 
@@ -54,3 +55,11 @@ export default defineConfig({
   }
   ```
 :::
+
+## Options
+
+### baseFontSize
+- **Type:** `number`
+- **Default:** `16`
+
+The base font size to convert rem to px (`1rem = n px`).

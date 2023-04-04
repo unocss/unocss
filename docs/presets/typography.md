@@ -1,6 +1,6 @@
 ---
 title: Typography preset
-description: Typography classes for UnoCSS (@unocss/preset-typography)
+description: Typography classes for UnoCSS (@unocss/preset-typography).
 outline: deep
 ---
 
@@ -111,7 +111,7 @@ only used in CSS** **selector & not scanned by UnoCSS)**.
 ### Compatibility options
 
 This preset uses some pseudo-classes which are not widely supported, but you
-can disable them.
+can disable them. ([#2064](https://github.com/unocss/unocss/pull/2064))
 
 - If you enable `noColonNot` or `noColonWhere`, `not-prose` will be unavailable.
 - If you enable `noColonIs`, attributify mode will have a wrong behavior.
@@ -149,57 +149,51 @@ can disable them.
 | `prose-neutral` |
 | `prose-stone`   |
 
-## Configurations
+## Options
 
 This preset has `selectorName` and `cssExtend` configurations for users who like
 to override or extend.
 
+:::tip
 The CSS declarations passed to `cssExtend` will
 
 - **override** the built-in styles if the values are conflicting, else
-
 - **be merged** deeply with built-in styles.
+:::
 
-### Type of `TypographyOptions`
+### selectorName
+- **Type:** `string`
+- **Default:** `prose`
 
+The class name to use the typographic utilities. To undo the styles to the elements, use it like `not-${selectorName}` which is by default `not-prose`.
+
+:::tip
+`not` utility is only available in class.
+:::
+
+### cssExtend
+- **Type:** `Record<string, CSSObject>`
+- **Default:** `undefined`
+  
+Extend or override CSS selectors with CSS declaration block.
+
+### compatibility
+- **Type:** `TypographyCompatibilityOptions`
+- **Default:** `undefined`
+
+See [Compatibility options](#compatibility-options).
+:::warning
+Notice that it will affect some features.
+:::
 ```ts
-export interface TypographyCompatibilityOptions {
+interface TypographyCompatibilityOptions {
   noColonWhere?: boolean
   noColonIs?: boolean
   noColonNot?: boolean
 }
-
-export interface TypographyOptions {
-  /**
-   * The class name to use the typographic utilities.
-   * To undo the styles to the elements, use it like
-   * `not-${selectorName}` which is by default `not-prose`.
-   *
-   * Note: `not` utility is only available in class.
-   *
-   * @defaultValue `prose`
-   */
-  selectorName?: string
-
-  /**
-   * Extend or override CSS selectors with CSS declaration block.
-   *
-   * @defaultValue undefined
-   */
-  cssExtend?: Record<string, CSSObject>
-
-  /**
-   * Compatibility option. Notice that it will affect some features.
-   * For more instructions, see
-   * [README](https://github.com/unocss/unocss/tree/main/packages/preset-typography)
-   *
-   * @defaultValue undefined
-   */
-  compatibility?: TypographyCompatibilityOptions
-}
 ```
 
-### Example
+## Example
 
 ```ts
 // uno.config.ts

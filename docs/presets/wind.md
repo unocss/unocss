@@ -1,6 +1,6 @@
 ---
 title: Wind preset
-description: The Tailwind / Windi CSS compact preset for UnoCSS (@unocss/preset-wind)
+description: The Tailwind / Windi CSS compact preset for UnoCSS (@unocss/preset-wind).
 outline: deep
 ---
 
@@ -49,8 +49,8 @@ import { presetWind } from 'unocss'
 :::
 
 ## Rules
-
 This presets is compactible with [Tailwind CSS](https://tailwindcss.com/) and [Windi CSS](https://windicss.org/), you can refer to their [documentation](https://tailwindcss.com/docs) for detailed usage.
+
 For all rules and presets included in this preset, please refer to our [interactive docs](/interactive/) or directly go to the [source code](https://github.com/unocss/unocss/tree/main/packages/preset-wind).
 
 ## Differences from Windi CSS
@@ -95,3 +95,9 @@ The variant `@hover-text-red` will output:
   }
 }
 ```
+
+## Options
+
+::: info
+This preset options are inherited from [`@unocss/preset-mini`](/presets/mini#options).
+:::
