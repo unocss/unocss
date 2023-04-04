@@ -1,5 +1,6 @@
 packages:
   - bench
+  - docs
   - playground
   - interactive
   - 'packages/*'
