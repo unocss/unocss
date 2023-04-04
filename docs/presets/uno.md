@@ -64,7 +64,7 @@ For example, both `ml-3` (Tailwind), `ms-2` (Bootstrap), `ma4` (Tachyons), and `
 ## Options
 
 ::: info
-This preset configurations are inherited from [`@unocss/preset-mini`](/presets/mini#options).
+This preset options are inherited from [`@unocss/preset-mini`](/presets/mini#options).
 :::
 
 For more details about the default preset, you can check out our [playground](https://uno.antfu.me/play/) and try out. Meanwhile, you can also check out [the implementations](https://github.com/unocss/unocss/tree/main/packages).
