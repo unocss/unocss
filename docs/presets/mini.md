@@ -1,6 +1,6 @@
 ---
 title: Mini preset
-description: The minimal preset for UnoCSS (@unocss/preset-mini)
+description: The minimal preset for UnoCSS (@unocss/preset-mini).
 outline: deep
 ---
 
@@ -164,3 +164,53 @@ presetMini({
 ::: info
 `verticalBreakpoints` is same as `breakpoints` but for vertical layout.
 :::
+
+## Options
+
+### dark
+- **Type:** `class | media | DarkModeSelectors`
+- **Default:** `class`
+
+The dark mode options. It can be either `class`, `media`, or a custom selector object(`DarkModeSelectors`).
+
+```ts
+interface DarkModeSelectors {
+  /**
+   * Selector for light variant.
+   *
+   * @default '.light'
+   */
+  light?: string
+
+  /**
+   * Selector for dark variant.
+   *
+   * @default '.dark'
+   */
+  dark?: string
+}
+```
+
+### attributifyPseudo
+- **Type:** `Boolean`
+- **Default:** `false`
+
+Generate psuedo selector as `[group=""]` instead of `.group`.
+
+### variablePrefix
+- **Type:** `string`
+- **Default:** `un-`
+
+Prefix for CSS variables.
+
+### prefix
+- **Type:** `string | string[]`
+- **Default:** `undefined`
+
+Utils prefix.
+
+### preflight
+- **Type:** `boolean`
+- **Default:** `true`
+
+Generate preflight.
