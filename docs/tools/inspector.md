@@ -1,6 +1,7 @@
 ---
 title: Inspector
 description: The inspector UI for UnoCSS (@unocss/inspector).
+prev: Pug extractor | Extractors
 ---
 
 # Inspector

@@ -1,6 +1,7 @@
 ---
 title: Attributify JSX transformer
 description: Support valueless attributify in JSX/TSX (@unocss/transformer-attributify-jsx)
+next: Pug extractor | Extractors
 ---
 
 #  Attributify JSX transformer
