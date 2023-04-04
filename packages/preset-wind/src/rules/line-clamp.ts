@@ -7,6 +7,7 @@ export const lineClamps: Rule[] = [
     'display': '-webkit-box',
     '-webkit-box-orient': 'vertical',
     '-webkit-line-clamp': v,
+    'line-clamp': v,
   }), { autocomplete: ['line-clamp', 'line-clamp-<num>'] }],
 
   ...['none', ...globalKeywords].map(keyword => [`line-clamp-${keyword}`, {
@@ -14,5 +15,6 @@ export const lineClamps: Rule[] = [
     'display': 'block',
     '-webkit-box-orient': 'horizontal',
     '-webkit-line-clamp': keyword,
+    'line-clamp': keyword,
   }] as Rule),
 ]
