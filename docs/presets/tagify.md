@@ -84,7 +84,7 @@ presetTagify({
 })
 ```
 
-## Configuration
+## Options
 
 ### prefix
 - **Type:** `string`

@@ -91,7 +91,7 @@ The variant `@hover-text-red` will output:
 }
 ```
 
-## Configuration
+## Options
 
 ::: info
 This preset configurations are inherited from [`@unocss/preset-mini`](/presets/mini#options).

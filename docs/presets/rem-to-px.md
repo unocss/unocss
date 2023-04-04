@@ -56,7 +56,7 @@ export default defineConfig({
   ```
 :::
 
-## Configuration
+## Options
 
 ### baseFontSize
 - **Type:** `number`

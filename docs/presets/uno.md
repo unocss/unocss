@@ -61,7 +61,7 @@ For example, both `ml-3` (Tailwind), `ms-2` (Bootstrap), `ma4` (Tachyons), and `
 .mt-10px { margin-top: 10px; }
 ```
 
-## Configuration
+## Options
 
 ::: info
 This preset configurations are inherited from [`@unocss/preset-mini`](/presets/mini#options).

@@ -165,7 +165,7 @@ presetMini({
 `verticalBreakpoints` is same as `breakpoints` but for vertical layout.
 :::
 
-## Configuration
+## Options
 
 ### dark
 - **Type:** `class | media | DarkModeSelectors`

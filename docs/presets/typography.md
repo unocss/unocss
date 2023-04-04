@@ -149,7 +149,7 @@ can disable them. ([#2064](https://github.com/unocss/unocss/pull/2064))
 | `prose-neutral` |
 | `prose-stone`   |
 
-## Configuration
+## Options
 
 This preset has `selectorName` and `cssExtend` configurations for users who like
 to override or extend.

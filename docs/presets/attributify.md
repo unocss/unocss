@@ -243,7 +243,7 @@ type Prefix = 'uno:' // change it to your prefix
 interface HTMLAttributes extends Partial<Record<AttributifyNames<Prefix>, string>> {}
 ```
 
-## Configuration
+## Options
 
 ### strict
 

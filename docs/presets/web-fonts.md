@@ -91,7 +91,7 @@ export default defineConfig({
 })
 ```
 
-## Configuration
+## Options
 
 ### provider
 - **Type:** `WebFontsProviders`

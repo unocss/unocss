@@ -75,10 +75,6 @@ If you prefer to install the all the icon sets available on Iconify at once (~13
 npm i -D @iconify/json
 ```
 
-## Configuration
-
-Refer to the [type definition](https://github.com/unocss/unocss/blob/main/packages/preset-icons/src/types.ts#L4) for all configurations available.
-
 ### Extra Properties
 
 You can provide the extra CSS properties to control the default behavior of the icons. The following is an example of make icons inlined by default:
@@ -298,7 +294,7 @@ presetIcons({
 })
 ```
 
-## Configuration
+## Options
 
 ### scale
 
