@@ -20,7 +20,7 @@ export interface CoreTeam extends Partial<DefaultTheme.TeamMember> {
   desc?: string
 }
 
-const createLinks = (tm: CoreTeam): CoreTeam => {
+function createLinks(tm: CoreTeam): CoreTeam {
   tm.links = [{ icon: 'github', link: `https://github.com/${tm.github}` }]
   if (tm.webtools)
     tm.links.push({ icon: 'mastodon', link: `https://elk.zone/m.webtoo.ls/@${tm.webtools}` })

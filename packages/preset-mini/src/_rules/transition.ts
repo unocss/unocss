@@ -11,7 +11,7 @@ const transitionPropertyGroup: Record<string, string> = {
   transform: 'transform',
 }
 
-const transitionProperty = (prop: string): string | undefined => {
+function transitionProperty(prop: string): string | undefined {
   return h.properties(prop) ?? transitionPropertyGroup[prop]
 }
 

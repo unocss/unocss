@@ -164,6 +164,7 @@ or if you're using `@prefresh/vite`:
 // vite.config.js
 import Prefresh from '@prefresh/vite'
 import UnoCSS from 'unocss/vite'
+
 export default {
   plugins: [
     UnoCSS(),
@@ -272,6 +273,7 @@ Don't forget to remove the import for `uno.css` since the `shadow-dom` mode will
 ```ts
 // vite.config.js
 import UnoCSS from 'unocss/vite'
+
 export default {
   plugins: [
     UnoCSS({
@@ -322,6 +324,7 @@ The plugin uses `nth-of-type` to avoid collisions with multiple parts in the sam
 ```ts
 // vite.config.js
 import UnoCSS from 'unocss/vite'
+
 export default {
   plugins: [
     UnoCSS({

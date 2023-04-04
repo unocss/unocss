@@ -11,7 +11,7 @@ export * from './variant'
 export * from './types'
 export * from './jsx'
 
-const preset = (options: AttributifyOptions = {}): Preset => {
+function preset(options: AttributifyOptions = {}): Preset {
   options.strict = options.strict ?? false
   options.prefix = options.prefix ?? 'un-'
   options.prefixedOnly = options.prefixedOnly ?? false

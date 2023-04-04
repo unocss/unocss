@@ -8,10 +8,12 @@ export const fontVariantNumericBase = {
   '--un-numeric-spacing': varEmpty,
   '--un-numeric-fraction': varEmpty,
 }
-const toEntries = (entry: any) => ({
-  ...entry,
-  'font-variant-numeric': 'var(--un-ordinal) var(--un-slashed-zero) var(--un-numeric-figure) var(--un-numeric-spacing) var(--un-numeric-fraction)',
-})
+function toEntries(entry: any) {
+  return {
+    ...entry,
+    'font-variant-numeric': 'var(--un-ordinal) var(--un-slashed-zero) var(--un-numeric-figure) var(--un-numeric-spacing) var(--un-numeric-fraction)',
+  }
+}
 
 export const fontVariantNumeric: Rule[] = [
   [/^ordinal$/, () => toEntries({ '--un-ordinal': 'ordinal' }), { autocomplete: 'ordinal' }],

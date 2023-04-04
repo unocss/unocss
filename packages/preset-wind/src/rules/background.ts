@@ -2,14 +2,14 @@ import type { CSSColorValue, Rule, RuleContext } from '@unocss/core'
 import { colorOpacityToString, colorToString, globalKeywords, handler as h, makeGlobalStaticRules, parseColor, positionMap } from '@unocss/preset-mini/utils'
 import type { Theme } from '@unocss/preset-mini'
 
-const bgGradientToValue = (cssColor: CSSColorValue | undefined) => {
+function bgGradientToValue(cssColor: CSSColorValue | undefined) {
   if (cssColor)
     return colorToString(cssColor, 0)
 
   return 'rgba(255,255,255,0)'
 }
 
-const bgGradientColorValue = (mode: string, cssColor: CSSColorValue | undefined, color: string, alpha: any) => {
+function bgGradientColorValue(mode: string, cssColor: CSSColorValue | undefined, color: string, alpha: any) {
   if (cssColor) {
     if (alpha != null)
       return colorToString(cssColor, alpha)
@@ -20,8 +20,8 @@ const bgGradientColorValue = (mode: string, cssColor: CSSColorValue | undefined,
   return colorToString(color, alpha)
 }
 
-const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
-  ([, body]: string[], { theme }: RuleContext<Theme>) => {
+function bgGradientColorResolver(mode: 'from' | 'to' | 'via') {
+  return ([, body]: string[], { theme }: RuleContext<Theme>) => {
     const data = parseColor(body, theme)
 
     if (!data)
@@ -52,6 +52,7 @@ const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
         }
     }
   }
+}
 
 const bgUrlRE = /^\[url\(.+\)\]$/
 const bgLengthRE = /^\[length:.+\]$/
