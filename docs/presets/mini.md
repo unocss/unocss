@@ -214,7 +214,3 @@ Utils prefix.
 - **Default:** `true`
 
 Generate preflight.
-
-## License
-
-- MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)
