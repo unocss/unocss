@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "@astrojs/vue": "^2.1.0",
-    "astro": "^2.1.3",
+    "astro": "^2.1.9",
     "unocss": "link:../../packages/unocss"
   }
 }

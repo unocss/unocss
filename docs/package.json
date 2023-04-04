@@ -9,8 +9,8 @@
   },
   "devDependencies": {
     "@iconify-json/carbon": "^1.1.16",
-    "ofetch": "^1.0.0",
+    "ofetch": "^1.0.1",
     "unocss": "workspace:*",
-    "vitepress": "1.0.0-alpha.63"
+    "vitepress": "1.0.0-alpha.65"
   }
 }

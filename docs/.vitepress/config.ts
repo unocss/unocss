@@ -266,7 +266,7 @@ export default defineConfig({
       '/config/': SidebarConfig,
     },
     editLink: {
-      pattern: 'https://github.com/unocss/unocss/docs/edit/main/docs/:path',
+      pattern: 'https://github.com/unocss/unocss/edit/main/docs/:path',
       text: 'Suggest changes to this page',
     },
     socialLinks: [

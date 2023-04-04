@@ -40,7 +40,7 @@
     "lint": "nr build && cd ./fixtures && eslint ./src"
   },
   "dependencies": {
-    "@typescript-eslint/utils": "^5.55.0",
+    "@typescript-eslint/utils": "^5.57.1",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "magic-string": "^0.30.0",
