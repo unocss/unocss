@@ -1,7 +1,6 @@
 ---
 title: Attributify preset
 description: The UnoCSS preset that enables the attributify mode for other presets.
-outline: deep
 ---
 
 # Attributify preset
@@ -243,6 +242,53 @@ type Prefix = 'uno:' // change it to your prefix
 interface HTMLAttributes extends Partial<Record<AttributifyNames<Prefix>, string>> {}
 ```
 
+## Configuration
+
+### strict
+
+- **type:** `boolean`
+- **default:** `false`
+
+Only generate CSS for attributify or class.
+
+### prefix
+
+- **type:** `string`
+- **default:** `'un-'`
+
+The prefix for attributify mode.
+
+### prefixedOnly
+
+- **type:** `boolean`
+- **default:** `false`
+
+Only match for prefixed attributes.
+
+### nonValuedAttribute
+
+- **type:** `boolean`
+- **default:** `true`
+
+Support matching non-valued attributes.
+
+### ignoreAttributes
+
+- **type:** `string[]`
+
+A list of attributes to be ignored from extracting.
+
+### trueToNonValued
+
+- **type:** `boolean`
+- **default:** `false`
+
+Non-valued attributes will also match if the actual value represented in DOM is `true`. This option exists for supporting frameworks that encodes non-valued attributes as `true`. Enabling this option will break rules that ends with `true`.
+
 ## Credits
 
 Initial idea by [@Tahul](https://github.com/Tahul) and [@antfu](https://github.com/antfu). Prior [implementation in Windi CSS](https://windicss.org/posts/v30.html#attributify-mode) by [@voorjaar](https://github.com/voorjaar).
+
+## License
+
+- MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)

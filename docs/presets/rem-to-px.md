@@ -3,7 +3,7 @@ title: rem to px preset
 description: Converts rem to px for utils (@unocss/preset-rem-to-px)
 ---
 
-# rem to px preset
+# Rem to px preset
 
 Converts rem to px for all utilities.
 

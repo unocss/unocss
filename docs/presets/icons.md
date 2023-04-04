@@ -1,16 +1,13 @@
 ---
 title: Icons preset
 description: Use any icon with Pure CSS for UnoCSS (@unocss/preset-icons)
-outline: deep
 ---
 
 # Icons preset
 
 Use any icon with Pure CSS for UnoCSS.
 
-[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-icons)
-
-::: tip
+::: info
 Recommended reading: [Icons in Pure CSS](https://antfu.me/posts/icons-in-pure-css)
 :::
 
@@ -34,7 +31,9 @@ For examples:
 <div class="i-twemoji-grinning-face-with-smiling-eyes hover:i-twemoji-face-with-tears-of-joy" />
 ```
 
-<img src="https://user-images.githubusercontent.com/11247099/136709053-31b4db79-eddc-4dc6-aa2d-388086332630.gif" height="100">
+<img src="https://user-images.githubusercontent.com/11247099/136709053-31b4db79-eddc-4dc6-aa2d-388086332630.gif" height="100"><br>This is powered by pure CSS
+
+[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-icons)
 
 ## Install
 
@@ -297,6 +296,101 @@ presetIcons({
   }
 })
 ```
+
+## Configuration
+
+### scale
+
+- Type: `number`
+- Default: `1`
+
+Scale related to the current font size (1em).
+
+### mode
+
+- Type: `'mask' | 'background-img' | 'auto'`
+- Default: `'auto'`
+- See: https://antfu.me/posts/icons-in-pure-css
+
+Mode of generated CSS icons.
+
+:::tip
+- `mask` - use background color and the `mask` property for monochrome icons
+- `background-img` - use background image for the icons, colors are static
+- `auto` - smartly decide mode between `mask` and `background-img` per icon based on its style
+:::
+
+### prefix
+
+- Type: `string | string[]`
+- Default: `'i-'`
+
+Class prefix for matching icon rules.
+
+### extraProperties
+
+- Type: `Record<string, string>`
+- Default: `{}`
+
+Extra CSS properties applied to the generated CSS.
+
+### warn
+
+- Type: `boolean`
+- Default: `false`
+
+Emit warning when missing icons are matched.
+
+### collections
+
+- Type: `Record<string, (() => Awaitable<IconifyJSON>) | undefined | CustomIconLoader | InlineCollection>`
+- Default: `undefined`
+
+In Node.js environment, the preset will search for the installed iconify dataset automatically. When using in the browser, this options is provided to provide dataset with custom loading mechanism.
+
+### layer
+
+- Type: `string`
+- Default: `'icons'`
+
+Rule layer.
+
+### customizations
+
+- Type: `Omit<IconCustomizations, 'additionalProps' | 'trimCustomSvg'>`
+- Default: `undefined`
+
+Custom icon customizations.
+
+### autoInstall
+
+- Type: `boolean`
+- Default: `false`
+
+Auto install icon sources package when the usages is detected.
+
+:::warning
+Only on `node` environment, on `browser` this option will be ignored.
+:::
+
+### unit
+
+- Type: `string`
+- Default: `'em'`
+
+Custom icon unit.
+
+### cdn
+
+- Type: `string`
+- Default: `undefined`
+
+Load icons from CDN. Should starts with `https://` and ends with `/`.
+
+Recommends:
+
+- `https://esm.sh/`
+- `https://cdn.skypack.dev/`
 
 ### Advanced Custom Icon Set Cleanup
 

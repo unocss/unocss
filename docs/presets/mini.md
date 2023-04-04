@@ -1,7 +1,6 @@
 ---
 title: Mini preset
 description: The minimal preset for UnoCSS (@unocss/preset-mini)
-outline: deep
 ---
 
 # Mini preset
@@ -44,10 +43,6 @@ This preset is included in the `unocss` package, you can also import it from the
 import { presetMini } from 'unocss'
 ```
 :::
-
-## Rules
-
-This presets is is a subset of [`@unocss/preset-wind`](/presets/wind), containing only the most essential utilities that aligned with CSS's properties, but excluded opinioned or complicated utilities introduced in Tailwind (`container`, `animation`, `gradient` etc.). This can be a good starting point for your own custom preset on top of familiar utilities from Tailwind CSS or Windi CSS.
 
 ## Features
 
@@ -164,3 +159,57 @@ presetMini({
 ::: info
 `verticalBreakpoints` is same as `breakpoints` but for vertical layout.
 :::
+
+## Configuration
+
+### dark
+- **Type:** `class | media | DarkModeSelectors`
+- **Default:** `class`
+
+The dark mode options. It can be either `class`, `media`, or a custom selector object(`DarkModeSelectors`).
+
+```ts
+interface DarkModeSelectors {
+  /**
+   * Selector for light variant.
+   *
+   * @default '.light'
+   */
+  light?: string
+
+  /**
+   * Selector for dark variant.
+   *
+   * @default '.dark'
+   */
+  dark?: string
+}
+```
+
+### attributifyPseudo
+- **Type:** `Boolean`
+- **Default:** `false`
+
+Generate psuedo selector as `[group=""]` instead of `.group`.
+
+### variablePrefix
+- **Type:** `string`
+- **Default:** `un-`
+
+Prefix for CSS variables.
+
+### prefix
+- **Type:** `string | string[]`
+- **Default:** `undefined`
+
+Utils prefix.
+
+### preflight
+- **Type:** `boolean`
+- **Default:** `true`
+
+Generate preflight.
+
+## License
+
+- MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)
