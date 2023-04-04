@@ -105,8 +105,8 @@ exports[`preset-wind > targets 1`] = `
 .not-sr-only{position:static;width:auto;height:auto;padding:0;margin:0;overflow:visible;clip:auto;white-space:normal;}
 .line-clamp-100{overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:100;line-clamp:100;}
 .line-clamp-7{overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:7;line-clamp:7;}
-.line-clamp-none{-webkit-line-clamp:none;line-clamp:none;}
-.line-clamp-unset{-webkit-line-clamp:unset;line-clamp:unset;}
+.line-clamp-none{overflow:visible;display:block;-webkit-box-orient:horizontal;-webkit-line-clamp:none;line-clamp:none;}
+.line-clamp-unset{overflow:visible;display:block;-webkit-box-orient:horizontal;-webkit-line-clamp:unset;line-clamp:unset;}
 .isolate{isolation:isolate;}
 .isolate-auto,
 .isolation-auto{isolation:auto;}

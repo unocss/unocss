@@ -11,6 +11,9 @@ export const lineClamps: Rule[] = [
   }), { autocomplete: ['line-clamp', 'line-clamp-<num>'] }],
 
   ...['none', ...globalKeywords].map(keyword => [`line-clamp-${keyword}`, {
+    'overflow': 'visible',
+    'display': 'block',
+    '-webkit-box-orient': 'horizontal',
     '-webkit-line-clamp': keyword,
     'line-clamp': keyword,
   }] as Rule),
