@@ -9,6 +9,7 @@ const Guides: DefaultTheme.NavItemWithLink[] = [
   { text: 'Style reset', link: '/guide/style-reset' },
   { text: 'Config file', link: '/guide/config-file' },
   { text: 'Extracting & Safelist', link: '/guide/extracting' },
+  { text: 'Packages', link: '/guide/packages' },
 ]
 
 const Configs: DefaultTheme.NavItemWithLink[] = [
@@ -210,7 +211,6 @@ const SidebarConfig: DefaultTheme.SidebarItem[] = [
   },
 ]
 
-// TODO: verify this is the correct url
 const ogUrl = 'https://unocss.dev/'
 const ogImage = `${ogUrl}og-image.png`
 const title = 'UnoCSS'
@@ -271,7 +271,7 @@ export default defineConfig({
     },
     socialLinks: [
       { icon: 'github', link: 'https://github.com/unocss/unocss' },
-      { icon: 'discord', link: 'http://chat.antfu.me' },
+      { icon: 'discord', link: 'https://chat.antfu.me' },
     ],
     footer: {
       message: 'Released under the MIT License.',

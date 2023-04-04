@@ -5,7 +5,7 @@ outline: deep
 
 # PostCSS Plugin
 
-PostCSS plugin for UnoCSS. Supports `@apply`、`@screen` and `theme()` directives.
+PostCSS plugin for UnoCSS. Supports `@apply`, `@screen` and `theme()` directives.
 
 [Source Code](https://github.com/unocss/unocss/tree/main/packages/postcss)
 
