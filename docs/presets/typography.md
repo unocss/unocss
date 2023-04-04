@@ -1,6 +1,7 @@
 ---
 title: Typography preset
-description: Typography classes for UnoCSS (@unocss/preset-typography)
+description: Typography classes for UnoCSS (@unocss/preset-typography).
+outline: deep
 ---
 
 # Typography preset

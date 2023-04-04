@@ -1,6 +1,7 @@
 ---
 title: Uno preset
-description: The default preset for UnoCSS (@unocss/preset-uno)
+description: The default preset for UnoCSS (@unocss/preset-uno).
+outline: deep
 ---
 
 # Uno preset

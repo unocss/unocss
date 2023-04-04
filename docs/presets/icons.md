@@ -1,13 +1,16 @@
 ---
 title: Icons preset
-description: Use any icon with Pure CSS for UnoCSS (@unocss/preset-icons)
+description: Use any icon with Pure CSS for UnoCSS (@unocss/preset-icons).
+outline: deep
 ---
 
 # Icons preset
 
 Use any icon with Pure CSS for UnoCSS.
 
-::: info
+[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-icons)
+
+::: tip
 Recommended reading: [Icons in Pure CSS](https://antfu.me/posts/icons-in-pure-css)
 :::
 
@@ -31,9 +34,7 @@ For examples:
 <div class="i-twemoji-grinning-face-with-smiling-eyes hover:i-twemoji-face-with-tears-of-joy" />
 ```
 
-<img src="https://user-images.githubusercontent.com/11247099/136709053-31b4db79-eddc-4dc6-aa2d-388086332630.gif" height="100"><br>This is powered by pure CSS
-
-[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-icons)
+<img src="https://user-images.githubusercontent.com/11247099/136709053-31b4db79-eddc-4dc6-aa2d-388086332630.gif" height="100">
 
 ## Install
 

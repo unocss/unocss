@@ -1,6 +1,7 @@
 ---
 title: Attributify preset
 description: The UnoCSS preset that enables the attributify mode for other presets.
+outline: deep
 ---
 
 # Attributify preset

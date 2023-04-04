@@ -1,6 +1,7 @@
 ---
 title: Mini preset
-description: The minimal preset for UnoCSS (@unocss/preset-mini)
+description: The minimal preset for UnoCSS (@unocss/preset-mini).
+outline: deep
 ---
 
 # Mini preset
@@ -43,6 +44,10 @@ This preset is included in the `unocss` package, you can also import it from the
 import { presetMini } from 'unocss'
 ```
 :::
+
+## Rules
+
+This presets is is a subset of [`@unocss/preset-wind`](/presets/wind), containing only the most essential utilities that aligned with CSS's properties, but excluded opinioned or complicated utilities introduced in Tailwind (`container`, `animation`, `gradient` etc.). This can be a good starting point for your own custom preset on top of familiar utilities from Tailwind CSS or Windi CSS.
 
 ## Features
 

@@ -1,6 +1,7 @@
 ---
 title: Web fonts preset
-description: Web fonts support for UnoCSS (@unocss/preset-web-fonts)
+description: Web fonts support for UnoCSS (@unocss/preset-web-fonts).
+outline: deep
 ---
 
 # Web Fonts preset
