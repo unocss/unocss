@@ -2,7 +2,6 @@
 title: Packages
 description: "UnoCSS Packages: available packages and what's included and enabled in unocss."
 outline: deep
-next: Vite | Integrations
 ---
 
 # Packages

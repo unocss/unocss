@@ -1,8 +1,6 @@
 ---
 title: Pug extractor
 description: Pug extractor for UnoCSS (@unocss/extractor-pug)
-prev: Attributify JSX | Transformers
-next: Inspector | Other Packages
 ---
 
 # Pug extractor

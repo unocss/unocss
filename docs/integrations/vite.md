@@ -2,7 +2,6 @@
 title: UnoCSS Vite Plugin
 description: The Vite plugin for UnoCSS (@unocss/vite).
 outline: deep
-prev: Packages | Guide
 ---
 
 # Vite Plugin
