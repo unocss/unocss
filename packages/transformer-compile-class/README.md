@@ -11,7 +11,7 @@ npm i -D @unocss/transformer-compile-class
 ```
 
 ```ts
-// uno.config.js
+// uno.config.ts
 import { defineConfig } from 'unocss'
 import transformerCompileClass from '@unocss/transformer-compile-class'
 
