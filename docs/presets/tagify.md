@@ -83,3 +83,27 @@ presetTagify({
   extraProperties: { display: 'block' }
 })
 ```
+
+## Configuration
+
+### prefix
+- **Type:** `string`
+
+The prefix to use for the tagify variant.
+
+### excludedTags
+- **Type:** `string[] | RegExp[]`
+- **Default:** `['b', /^h\d+$/, 'table']`
+
+Tags excluded from processing.
+
+### extraProperties
+- **Type:** `Record<string, string> | ((matched: string) => Partial<Record<string, string>>)`
+
+Extra CSS properties to apply to matched rules.
+
+### defaultExtractor
+- **Type:** `boolean`
+- **Default:** `true`
+
+Enable default extractor.

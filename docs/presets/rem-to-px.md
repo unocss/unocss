@@ -55,3 +55,11 @@ export default defineConfig({
   }
   ```
 :::
+
+## Configuration
+
+### baseFontSize
+- **Type:** `number`
+- **Default:** `16`
+
+The base font size to convert rem to px (`1rem = n px`).

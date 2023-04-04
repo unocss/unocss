@@ -193,7 +193,7 @@ interface TypographyCompatibilityOptions {
 }
 ```
 
-### Example
+## Example
 
 ```ts
 // uno.config.ts
