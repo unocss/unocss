@@ -327,6 +327,21 @@ importers:
       '@iconify-json/carbon':
         specifier: ^1.1.16
         version: 1.1.16
+      '@iconify-json/logos':
+        specifier: ^1.1.24
+        version: 1.1.24
+      '@iconify-json/mdi':
+        specifier: ^1.1.50
+        version: 1.1.50
+      '@iconify-json/ph':
+        specifier: ^1.1.5
+        version: 1.1.5
+      '@iconify-json/twemoji':
+        specifier: ^1.1.11
+        version: 1.1.11
+      '@iconify-json/vscode-icons':
+        specifier: ^1.1.22
+        version: 1.1.22
       ofetch:
         specifier: ^1.0.1
         version: 1.0.1
@@ -3842,6 +3857,12 @@ packages:
 
   /@iconify-json/uim@1.1.5:
     resolution: {integrity: sha512-AbdW0nc8LJw0L7m9hvUSxUJ1/MCE5MzU0BSlQZAqerXrZ8LeYYcMrIz185IaCB0swYCm1Eb+FNIY8A2P0o609A==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
+  /@iconify-json/vscode-icons@1.1.22:
+    resolution: {integrity: sha512-lO0Sl2xApg/R7PlZJOiRbwuOQFXPRVbM8c+RHOMxWEUF0Hd/UiHBemYjdUDW5pr9QNmvv183rwJiBFHBvIeZ5A==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: true
