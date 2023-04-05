@@ -679,6 +679,9 @@ importers:
       '@unocss/core':
         specifier: workspace:*
         version: link:../core
+      '@unocss/extractor-arbitrary-variants':
+        specifier: workspace:*
+        version: link:../extractor-arbitrary-variants
 
   packages/preset-rem-to-px:
     dependencies:

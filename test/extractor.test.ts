@@ -1,5 +1,5 @@
 import { extractorSplit, extractorSvelte } from '@unocss/core'
-import extractorArbitraryVariants from '@unocss/extractor-arbitrary-variants'
+import { extractorArbitraryVariants } from '@unocss/extractor-arbitrary-variants'
 import { expect, it } from 'vitest'
 
 it('extractorSplit', async () => {

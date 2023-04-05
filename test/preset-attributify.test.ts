@@ -290,13 +290,6 @@ describe('attributify', () => {
   })
 
   test('merge attribute name and value-only', async () => {
-    const uno = createGenerator({
-      presets: [
-        presetAttributify({ strict: true }),
-        presetUno({ attributifyPseudo: true }),
-      ],
-    })
-
     const { css } = await uno.generate(`
       <div bg="[&:nth-child(3)]:[#123456]"></div>
       <div class="foo" bg="[&.foo]:[&:nth-child(3)]:[#123]"></div>
