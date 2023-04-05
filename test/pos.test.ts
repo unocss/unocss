@@ -41,6 +41,21 @@ describe('matched-positions', async () => {
             "[border=\\"2\\"]",
           ],
           [
+            23,
+            37,
+            "[border=\\"[&_span]:white\\"]",
+          ],
+          [
+            46,
+            65,
+            "[&>span]:text-white",
+          ],
+          [
+            46,
+            65,
+            "[hover=\\"[&>span]:text-white\\"]",
+          ],
+          [
             67,
             73,
             "border",
@@ -141,6 +156,11 @@ describe('matched-positions', async () => {
             28,
             43,
             "hover:scale-100",
+          ],
+          [
+            44,
+            63,
+            "[&>span]:text-white",
           ],
           [
             64,
