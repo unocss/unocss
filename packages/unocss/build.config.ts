@@ -13,7 +13,6 @@ export default defineBuildConfig({
     'src/preset-tagify',
     'src/preset-web-fonts',
     'src/preset-typography',
-    'src/preset-arbitrary',
     'src/preset-wind',
     'src/preset-mini',
   ],

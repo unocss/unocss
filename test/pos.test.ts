@@ -6,7 +6,7 @@ import { createGenerator, extractorSplit } from '@unocss/core'
 import { getMatchedPositionsFromCode as match } from '@unocss/shared-common'
 import transformerVariantGroup from '@unocss/transformer-variant-group'
 import cssDirectives from '@unocss/transformer-directives'
-import presetArbitrary from '@unocss/preset-arbitrary'
+import presetArbitrary from '@unocss/extractor-arbitrary-variants'
 import extractorPug from '@unocss/extractor-pug'
 
 describe('matched-positions', async () => {

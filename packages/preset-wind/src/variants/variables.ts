@@ -1,10 +1,5 @@
-import type { Preset, Variant } from '@unocss/core'
-import { extractorSplit } from '@unocss/core'
-import { getBracket, h } from '../../preset-mini/src/utils'
-import { extractorSplitArbitrary } from './split-arbitrary'
-
-export interface PresetArbitraryOptions {
-}
+import type { Variant } from '@unocss/core'
+import { getBracket, h } from '@unocss/preset-mini/utils'
 
 export const variantVariables: Variant = {
   name: 'variables',
@@ -50,19 +45,4 @@ export const variantVariables: Variant = {
     }
   },
   multiPass: true,
-}
-
-export default function arbitraryPreset(options: PresetArbitraryOptions = {}): Preset {
-  return {
-    name: '@unocss/preset-arbitrary',
-    variants: [
-      variantVariables,
-    ],
-    configResolved(config) {
-      if (config.extractors.includes(extractorSplit))
-        config.extractors.splice(config.extractors.indexOf(extractorSplit), 1, extractorSplitArbitrary)
-      else
-        config.extractors.unshift(extractorSplitArbitrary)
-    },
-  }
 }

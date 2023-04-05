@@ -1,6 +1,6 @@
 import { extractorSplit, extractorSvelte } from '@unocss/core'
+import extractorArbitraryVariants from '@unocss/extractor-arbitrary-variants'
 import { expect, it } from 'vitest'
-import { extractorSplitArbitrary } from '../packages/preset-arbitrary/src/split-arbitrary'
 
 it('extractorSplit', async () => {
   async function extract(code: string) {
@@ -16,7 +16,7 @@ it('extractorSplit', async () => {
 
 it('extractorSplitArbitrary', async () => {
   async function extract(code: string) {
-    return [...await extractorSplitArbitrary.extract({ code, original: code }) || []]
+    return [...await extractorArbitraryVariants.extract({ code, original: code }) || []]
   }
 
   expect(await extract('<div class="[content:\'bar:baz\'] [foo:bar:baz]">')).not.contains('[foo:bar:baz]')

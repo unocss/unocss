@@ -1,6 +1,8 @@
 import type { Preset } from '@unocss/core'
+import { extractorSplit } from '@unocss/core'
 import type { PresetMiniOptions, Theme } from '@unocss/preset-mini'
 import { VarPrefixPostprocessor, normalizePreflights, preflights } from '@unocss/preset-mini'
+import { extractorArbitraryVariants } from '@unocss/extractor-arbitrary-variants'
 import { rules } from './rules'
 import { shortcuts } from './shortcuts'
 import { theme } from './theme'
@@ -27,9 +29,17 @@ export function presetWind(options: PresetWindOptions = {}): Preset<Theme> {
     shortcuts,
     variants: variants(options),
     options,
-    postprocess: VarPrefixPostprocessor(options.variablePrefix),
-    preflights: options.preflight ? normalizePreflights(preflights, options.variablePrefix) : [],
     prefix: options.prefix,
+    postprocess: VarPrefixPostprocessor(options.variablePrefix),
+    preflights: options.preflight
+      ? normalizePreflights(preflights, options.variablePrefix)
+      : [],
+    configResolved(config) {
+      if (config.extractors.includes(extractorSplit))
+        config.extractors.splice(config.extractors.indexOf(extractorSplit), 1, extractorArbitraryVariants)
+      else
+        config.extractors.unshift(extractorArbitraryVariants)
+    },
   }
 }
 

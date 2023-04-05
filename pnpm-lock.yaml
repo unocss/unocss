@@ -555,6 +555,12 @@ importers:
         specifier: workspace:*
         version: 'link:'
 
+  packages/extractor-arbitrary-variants:
+    dependencies:
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../core
+
   packages/extractor-pug:
     devDependencies:
       '@types/pug':
@@ -645,12 +651,6 @@ importers:
       postcss:
         specifier: ^8.4.21
         version: 8.4.21
-
-  packages/preset-arbitrary:
-    dependencies:
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../core
 
   packages/preset-attributify:
     dependencies:
@@ -841,12 +841,12 @@ importers:
       '@unocss/core':
         specifier: workspace:*
         version: link:../core
+      '@unocss/extractor-arbitrary-variants':
+        specifier: workspace:*
+        version: link:../extractor-arbitrary-variants
       '@unocss/postcss':
         specifier: workspace:*
         version: link:../postcss
-      '@unocss/preset-arbitrary':
-        specifier: workspace:*
-        version: link:../preset-arbitrary
       '@unocss/preset-attributify':
         specifier: workspace:*
         version: link:../preset-attributify

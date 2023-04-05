@@ -5,7 +5,7 @@ export const quotedArbitraryValuesRE = /(?:[\w&:[\]-]|\[\S+=\S+\])+\[\\?['"]?\S+
 export const arbitraryPropertyRE = /\[(\\\W|[\w-])+:[^\s:]*?("\S+?"|'\S+?'|`\S+?`|[^\s:]+?)[^\s:]*?\)?\]/g
 const arbitraryPropertyCandidateRE = /^\[(\\\W|[\w-])+:['"]?\S+?['"]?\]$/
 
-export function splitCode(code: string) {
+export function splitCodeWithArbitraryVariants(code: string) {
   const result = new Set<string>()
 
   for (const match of code.matchAll(arbitraryPropertyRE)) {
@@ -28,10 +28,12 @@ export function splitCode(code: string) {
   return [...result]
 }
 
-export const extractorSplitArbitrary: Extractor = {
-  name: 'split-arbitrary',
+export const extractorArbitraryVariants: Extractor = {
+  name: '@unocss/extractor-arbitrary-variants',
   order: 0,
   extract({ code }) {
-    return splitCode(code)
+    return splitCodeWithArbitraryVariants(code)
   },
 }
+
+export default extractorArbitraryVariants
