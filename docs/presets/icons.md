@@ -6,31 +6,7 @@ outline: deep
 
 <script setup>
 const toggleDark = () => {
-  const preference = localStorage.getItem('vitepress-theme-appearance') || '';
-  localStorage.setItem('vitepress-theme-appearance', preference === 'dark' ? '' : 'dark');
-  const css = document.createElement('style');
-    css.type = 'text/css';
-    css.appendChild(
-      document.createTextNode(
-        `:not(.VPSwitchAppearance):not(.VPSwitchAppearance *) {
-  -webkit-transition: none !important;
-  -moz-transition: none !important;
-  -o-transition: none !important;
-  -ms-transition: none !important;
-  transition: none !important;
-}`
-      )
-    );
-  document.head.appendChild(css);
-
-  if (preference === 'dark') {
-    document.documentElement.classList.remove('dark');
-  } else {
-    document.documentElement.classList.add('dark');
-  }
-
-  const _ = window.getComputedStyle(css).opacity;
-  document.head.removeChild(css);
+  document.querySelector('.VPSwitchAppearance')?.click()
 }
 </script>
 
@@ -72,6 +48,8 @@ For examples:
   <div class="i-twemoji:grinning-face-with-smiling-eyes hover:i-twemoji:face-with-tears-of-joy" /> 
   <div class="text-base my-auto flex"><div class="i-carbon:arrow-left my-auto mr-1" /> Hover it</div>
 </div>
+
+Check [all available icons](https://icones.js.org/).
 
 ## Install
 
