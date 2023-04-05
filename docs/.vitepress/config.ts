@@ -212,7 +212,7 @@ const SidebarConfig: DefaultTheme.SidebarItem[] = [
 ]
 
 const ogUrl = 'https://unocss.dev/'
-const ogImage = `${ogUrl}og-image.png`
+const ogImage = `${ogUrl}og.png`
 const title = 'UnoCSS'
 const description = 'The instant on-demand Atomic CSS engine'
 
@@ -223,7 +223,7 @@ export default defineConfig({
   description,
   outDir: './dist',
   head: [
-    ['link', { rel: 'icon', href: '/logo.svg', type: 'image/svg+xml' }],
+    ['link', { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' }],
     ['link', { rel: 'alternate icon', href: '/favicon.ico', type: 'image/png', sizes: '16x16' }],
     ['meta', { name: 'author', content: 'Anthony Fu' }],
     ['meta', { property: 'og:type', content: 'website' }],
@@ -235,6 +235,7 @@ export default defineConfig({
     ['meta', { name: 'twitter:image', content: ogImage }],
     ['meta', { name: 'twitter:site', content: '@antfu7' }],
     ['meta', { name: 'twitter:url', content: ogUrl }],
+    ['link', { rel: 'search', type: 'application/opensearchdescription+xml', href: '/search.xml', title: 'UnoCSS' }],
   ],
   lastUpdated: true,
   cleanUrls: true,

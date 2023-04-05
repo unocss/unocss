@@ -3,15 +3,27 @@ import '@unocss/reset/antfu.css'
 import './markdown.css'
 import 'uno.css'
 
+const ogUrl = 'https://unocss.dev/'
+const ogImage = `${ogUrl}og.png`
+const title = 'UnoCSS Interactive Docs'
+const description = 'The instant on-demand Atomic CSS engine'
+
 useHead({
-  title: 'UnoCSS Interactive Docs',
+  title,
   htmlAttrs: [
     { lang: 'en-US' },
   ],
-  meta: [{
-    name: 'description',
-    content: 'UnoCSS Interactive Docs',
-  }],
+  meta: [
+    { property: 'og:type', content: 'website' },
+    { name: 'og:title', content: title },
+    { name: 'og:description', content: description },
+    { property: 'og:image', content: ogImage },
+    { name: 'twitter:title', content: title },
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:image', content: ogImage },
+    { name: 'twitter:site', content: '@antfu7' },
+    { name: 'twitter:url', content: ogUrl },
+  ],
   link: [
     { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
     { rel: 'search', type: 'application/opensearchdescription+xml', href: '/search.xml', title: 'UnoCSS' },
