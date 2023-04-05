@@ -92,7 +92,7 @@ So similarly, we provided a few [official presets](/presets/) for you to start u
 
 ## Play
 
-You can try UnoCSS in your browser, in the [Playground](/play/). Or look up utilities from the default presets in the [Interactive Docs](/interactive/).
+You can try UnoCSS in your browser, in the <a href="/play/" target="_blank">Playground</a>. Or look up utilities from the default presets in the <a href="/interactive/" target="_blank">Interactive Docs</a>.
 
 ## Installation
 
