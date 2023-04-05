@@ -4,6 +4,12 @@ description: Use any icon with Pure CSS for UnoCSS (@unocss/preset-icons).
 outline: deep
 ---
 
+<script setup>
+const toggleDark = () => {
+  document.querySelector('.VPSwitchAppearance')?.click()
+}
+</script>
+
 # Icons preset
 
 Use any icon with Pure CSS for UnoCSS.
@@ -34,7 +40,16 @@ For examples:
 <div class="i-twemoji-grinning-face-with-smiling-eyes hover:i-twemoji-face-with-tears-of-joy" />
 ```
 
-<img src="https://user-images.githubusercontent.com/11247099/136709053-31b4db79-eddc-4dc6-aa2d-388086332630.gif" height="100">
+<div class="w-full flex items-center justify-center gap-x-4 text-4xl p-2 mt-4">
+  <div class="i-ph:anchor-simple-thin" />
+  <div class="i-mdi:alarm text-orange-400 hover:text-teal-400" />
+  <div class="w-2em h-2em i-logos:vue transform transition-800 hover:rotate-180" />
+  <button class="i-carbon:sun dark:i-carbon:moon !w-2em !h-2em" @click="toggleDark()" title="toggle dark mode"/>
+  <div class="i-twemoji:grinning-face-with-smiling-eyes hover:i-twemoji:face-with-tears-of-joy" /> 
+  <div class="text-base my-auto flex"><div class="i-carbon:arrow-left my-auto mr-1" /> Hover it</div>
+</div>
+
+Check [all available icons](https://icones.js.org/).
 
 ## Install
 
@@ -97,6 +112,18 @@ By default, this preset will choose the rendering modes automatically for each i
 - `?mask` for `mask` - renders the icon as a mask image
 
 For example, `vscode-icons:file-type-light-pnpm`, an icon with colors (the `svg` doesn't contain `currentColor`) that will be rendered as a background image. Use `vscode-icons:file-type-light-pnpm?mask` to render it as a mask image and bypass it's colors.
+
+```html
+<div class="w-full flex items-center justify-center gap-x-4 text-4xl p-2 mt-4">
+  <div class="i-vscode-icons:file-type-light-pnpm" />
+  <div class="i-vscode-icons:file-type-light-pnpm?mask text-red-300" />
+</div>
+```
+
+<div class="w-full flex items-center justify-center gap-x-4 text-4xl p-2 mt-4">
+  <div class="i-vscode-icons:file-type-light-pnpm" />
+  <div class="i-vscode-icons:file-type-light-pnpm?mask text-red-300" />
+</div>
 
 ## Configuring collections and icons resolvers
 
