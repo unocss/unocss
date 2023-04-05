@@ -15,10 +15,12 @@ hero:
       link: /guide/
     - theme: alt
       text: Interactive Docs
-      link: /interactive/
+      link: https://unocss.dev/interactive/
+      target: _blank
     - theme: alt
       text: Playground
-      link: /playground/
+      link: https://unocss.dev/play/
+      target: _blank
 
 features:
   - icon: <span class="i-carbon:ibm-toolchain"></span>
