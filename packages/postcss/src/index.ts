@@ -48,43 +48,48 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
     postcssPlugin: directiveMap.unocss,
     plugins: [
       async function (root: Root, result: Result) {
-        if (!result.opts.from?.split('?')[0].endsWith('.css'))
+        const from = result.opts.from?.split('?')[0]
+
+        if (!from)
           return
 
-        let isTarget = false
+        let isTarget = targetCache.has(from)
+        const isScanTarget = root.toString().includes(`@${directiveMap.unocss}`)
 
         if (targetRE.test(root.toString())) {
-          if (!targetCache.has(result.opts.from)) {
+          if (!isTarget) {
             root.walkAtRules((rule) => {
               if (
                 rule.name === directiveMap.unocss
-              || rule.name === directiveMap.apply
-              || rule.name === directiveMap.theme
-              || rule.name === directiveMap.screen
+                || rule.name === directiveMap.apply
+                || rule.name === directiveMap.screen
               )
                 isTarget = true
+
+              if (isTarget)
+                return false
             })
 
             if (!isTarget) {
               const themeFn = themeFnRE(directiveMap.theme)
               root.walkDecls((decl) => {
-                if (themeFn.test(decl.value))
+                if (themeFn.test(decl.value)) {
                   isTarget = true
+                  return false
+                }
               })
             }
-          }
-          else {
-            isTarget = true
+            else {
+              targetCache.add(from)
+            }
           }
         }
-        else if (targetCache.has(result.opts.from)) {
-          targetCache.delete(result.opts.from)
+        else if (targetCache.has(from)) {
+          targetCache.delete(from)
         }
 
         if (!isTarget)
           return
-        else
-          targetCache.add(result.opts.from)
 
         try {
           const cfg = await config
@@ -109,20 +114,13 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
           extension: string
         }[] ?? []
 
-        const entries = await fg(globs, {
+        const entries = await fg(isScanTarget ? globs : from, {
           cwd,
           dot: true,
           absolute: true,
           ignore: ['**/{.git,node_modules}/**'],
           stats: true,
         }) as unknown as { path: string; mtimeMs: number }[]
-
-        result.messages.push({
-          type: 'dependency',
-          plugin: directiveMap.unocss,
-          file: result.opts.from,
-          parent: result.opts.from,
-        })
 
         await parseApply(root, uno, directiveMap.apply)
         await parseTheme(root, uno, directiveMap.theme)
@@ -142,7 +140,7 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
               type: 'dependency',
               plugin: directiveMap.unocss,
               file: normalize(file),
-              parent: result.opts.from,
+              parent: from,
             })
 
             if (fileMap.has(file) && mtimeMs <= fileMap.get(file))

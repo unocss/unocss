@@ -2,7 +2,7 @@ import type { VariantHandlerContext, VariantObject } from '@unocss/core'
 import { escapeRegExp } from '@unocss/core'
 import { getBracket } from '../utils'
 
-export const variantMatcher = (name: string, handler: (input: VariantHandlerContext) => Record<string, any>): VariantObject => {
+export function variantMatcher(name: string, handler: (input: VariantHandlerContext) => Record<string, any>): VariantObject {
   let re: RegExp
   return {
     name,
@@ -25,7 +25,7 @@ export const variantMatcher = (name: string, handler: (input: VariantHandlerCont
   }
 }
 
-export const variantParentMatcher = (name: string, parent: string): VariantObject => {
+export function variantParentMatcher(name: string, parent: string): VariantObject {
   let re: RegExp
   return {
     name,
@@ -48,7 +48,7 @@ export const variantParentMatcher = (name: string, parent: string): VariantObjec
   }
 }
 
-export const variantGetBracket = (prefix: string, matcher: string, separators: string[]): string[] | undefined => {
+export function variantGetBracket(prefix: string, matcher: string, separators: string[]): string[] | undefined {
   if (matcher.startsWith(`${prefix}[`)) {
     const [match, rest] = getBracket(matcher.slice(prefix.length), '[', ']') ?? []
     if (match && rest) {
@@ -61,7 +61,7 @@ export const variantGetBracket = (prefix: string, matcher: string, separators: s
   }
 }
 
-export const variantGetParameter = (prefix: string, matcher: string, separators: string[]): string[] | undefined => {
+export function variantGetParameter(prefix: string, matcher: string, separators: string[]): string[] | undefined {
   if (matcher.startsWith(prefix)) {
     const body = variantGetBracket(prefix, matcher, separators)
     if (body) {

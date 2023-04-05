@@ -1,8 +1,14 @@
 import type { Postprocessor } from '@unocss/core'
 
-const camelize = (str: string) => str.replace(/-(\w)/g, (_, c) => c ? c.toUpperCase() : '')
-const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
-const hyphenate = (str: string) => str.replace(/(?:^|\B)([A-Z])/g, '-$1').toLowerCase()
+function camelize(str: string) {
+  return str.replace(/-(\w)/g, (_, c) => c ? c.toUpperCase() : '')
+}
+function capitalize(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}
+function hyphenate(str: string) {
+  return str.replace(/(?:^|\B)([A-Z])/g, '-$1').toLowerCase()
+}
 const prefixes = ['Webkit', 'Moz', 'ms']
 
 export function autoPrefixer(style: CSSStyleDeclaration): Postprocessor {

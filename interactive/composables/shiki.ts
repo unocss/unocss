@@ -4,7 +4,7 @@ export const shiki = ref<Highlighter>()
 
 import('shiki')
   .then(async (r) => {
-    r.setCDN('/shiki/')
+    r.setCDN('/interactive/shiki/')
     shiki.value = await r.getHighlighter({
       themes: [
         'vitesse-dark',

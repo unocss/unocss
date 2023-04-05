@@ -6,7 +6,7 @@ The CLI for UnoCSS. A perfect fit for traditional backends.
 
 - 🍱 Suited for traditional backends like Laravel or Kirby
 - 👀 [Watch mode](#development) included
-- 🔌 Supports custom configurations via [`unocss.config.js`](#unocssconfigjs-support)
+- 🔌 Supports custom configurations via [`uno.config.ts`](#unocssconfigjs-support)
 
 ## Requirements
 
@@ -70,7 +70,7 @@ The final `uno.css` will be generated to the current directory by default.
 
 ### Configurations
 
-Create a `unocss.config.js` or `unocss.config.ts` configuration file the root-level of your project to customize UnoCSS.
+Create a `uno.config.ts` or `uno.config.ts` configuration file the root-level of your project to customize UnoCSS.
 
 ```js
 import { defineConfig } from 'unocss'

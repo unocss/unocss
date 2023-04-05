@@ -1,0 +1,12 @@
+.vp-code-group .tabs label {
+  background-color: transparent;
+}
+
+table {
+  width: 100% !important;
+  display: table;
+}
+
+.custom-block.tip .custom-block-title {
+  color: var(--vp-c-brand);
+}
