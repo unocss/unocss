@@ -68,7 +68,7 @@ The generated `css` will be a global stylesheet injected on the `index.html`.
 
 ### `vue-scoped`
 
-This mode will inject generated CSS to Vue SFC's `<style scoped>` for isolation.
+This mode will inject generated CSS to Vue SFCs `<style scoped>` for isolation.
 
 ### `svelte-scoped`
 

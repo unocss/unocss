@@ -58,7 +58,7 @@ If you are seeking for a true dynamic generation at runtime, you may want to che
 
 ## Blocklist
 
-Similar to `safelist`, you can also configure `blocklist` to exclude some utilities from being generated. Different from `safelist`, `blocklist` accpet both string for exact match and regex for pattern match.
+Similar to `safelist`, you can also configure `blocklist` to exclude some utilities from being generated. Different from `safelist`, `blocklist` accept both string for exact match and regex for pattern match.
 
 ```ts
 // uno.config.ts

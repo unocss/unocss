@@ -13,7 +13,7 @@ description: UnoCSS for VS Code.
 
 ## Config
 
-To get the best IDE experience, we recommend you to [use a separate `uno.config.ts` file](/guide/config-file) for configring your UnoCSS.
+To get the best IDE experience, we recommend you to [use a separate `uno.config.ts` file](/guide/config-file) for configuring your UnoCSS.
 
 The extension will try to find the UnoCSS configurations under your project. When there is no config found, the extension will be disabled. To work with monorepo, you need to change the `unocss.root` option in your `settings.json` to the directory that contains the config file.
 
