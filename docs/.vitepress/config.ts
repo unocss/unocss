@@ -134,7 +134,7 @@ const Nav: DefaultTheme.NavItem[] = [
     ],
   },
   { text: 'Interactive Docs', link: `${ogUrl}interactive/`, target: '_blank' },
-  { text: 'Playground', link: `${ogUrl}/play/`, target: '_blank' },
+  { text: 'Playground', link: `${ogUrl}play/`, target: '_blank' },
   {
     text: `v${version}`,
     items: [
