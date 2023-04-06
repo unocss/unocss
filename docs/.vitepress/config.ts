@@ -2,6 +2,11 @@ import { defineConfig } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/types'
 import { version } from '../../package.json'
 
+const ogUrl = 'https://unocss.dev/'
+const ogImage = `${ogUrl}og.png`
+const title = 'UnoCSS'
+const description = 'The instant on-demand Atomic CSS engine'
+
 const Guides: DefaultTheme.NavItemWithLink[] = [
   { text: 'Getting Started', link: '/guide/' },
   { text: 'Why UnoCSS?', link: '/guide/why' },
@@ -128,8 +133,8 @@ const Nav: DefaultTheme.NavItem[] = [
       },
     ],
   },
-  { text: 'Interactive Docs', link: '/interactive/', target: '_blank' },
-  { text: 'Playground', link: '/play/', target: '_blank' },
+  { text: 'Interactive Docs', link: `${ogUrl}interactive/`, target: '_blank' },
+  { text: 'Playground', link: `${ogUrl}play/`, target: '_blank' },
   {
     text: `v${version}`,
     items: [
@@ -210,11 +215,6 @@ const SidebarConfig: DefaultTheme.SidebarItem[] = [
     link: '/guide/config-file',
   },
 ]
-
-const ogUrl = 'https://unocss.dev/'
-const ogImage = `${ogUrl}og.png`
-const title = 'UnoCSS'
-const description = 'The instant on-demand Atomic CSS engine'
 
 export default defineConfig({
   lang: 'en-US',
