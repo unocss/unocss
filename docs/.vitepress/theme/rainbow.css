@@ -84,5 +84,5 @@
 
 :root {
   --vp-c-brand: #00a98e; --vp-c-brand-light: #4ad1b4; --vp-c-brand-lighter: #78fadc; --vp-c-brand-dark: #008269; --vp-c-brand-darker: #005d47; --vp-c-brand-next: #009ff7;
-  animation: rainbow 15s linear infinite;
+  animation: rainbow 40s linear infinite;
 }

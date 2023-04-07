@@ -18,6 +18,7 @@
   --vp-code-tab-active-text-color: var(--vp-c-text-1);
   --vp-code-tab-hover-text-color: var(--vp-c-text-1);
   --vp-code-copy-code-active-text: var(--vp-c-text-2);
+  --vp-c-brand-lightest: var(--vp-c-brand);
 }
 
 .dark {
