@@ -17,7 +17,7 @@
   --vp-c-disabled-bg: rgba(125,125,125,0.2);
   --vp-code-tab-text-color: var(--vp-c-text-2);
   --vp-code-tab-active-text-color: var(--vp-c-text-1);
-  --vp-code-tab-hover-text-color: var(--vp-c-text-text-2);
+  --vp-code-tab-hover-text-color: var(--vp-c-text-1);
   --vp-code-copy-code-active-text: var(--vp-c-text-2);
 }
 
