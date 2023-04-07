@@ -37,7 +37,7 @@ features:
   - icon: <span class="i-carbon-ibm-cloud-transit-gateway"></span>
     title: Rich Integrations
     details: "First class support of Vite, Webpack, PostCSS, CLI, VS Code, ESLint, etc."
-    link: /integrations/
+    link: /integrations/vite
     linkText: "Learn more"
   - icon: <span class="i-carbon-asset"></span>
     title: Shortcuts
