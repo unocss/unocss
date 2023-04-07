@@ -77,6 +77,11 @@
   }
 }
 
+/* Safari has a very bad performance on gradient and filter */
+.browser-safari, .browser-firefox {
+  --vp-home-hero-image-background-image: transparent;
+  --vp-home-hero-image-filter: '';
+}
 
 /**
  * Component: Custom Block
