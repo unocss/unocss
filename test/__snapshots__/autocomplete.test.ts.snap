@@ -95,5 +95,6 @@ exports[`autocomplete > should provide skip DEFAULT 1`] = `
   "text-red-700",
   "text-red-800",
   "text-red-900",
+  "text-red-950",
 ]
 `;
