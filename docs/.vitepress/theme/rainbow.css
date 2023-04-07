@@ -89,6 +89,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   :root {
-    animation: none;
+    animation: none !important;
   }
 }
