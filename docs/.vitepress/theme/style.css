@@ -8,7 +8,6 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  animation: rainbow 15s ease 0s infinite;
   --vp-c-gutter: var(--vp-c-divider);
   --vp-code-block-bg: rgba(125,125,125,0.04);
   --vp-code-tab-divider: var(--vp-c-divider);
