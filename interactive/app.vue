@@ -4,7 +4,7 @@ import './markdown.css'
 import 'uno.css'
 
 const ogUrl = 'https://unocss.dev/'
-const ogImage = `${ogUrl}og.png`
+const ogImage = `${ogUrl}og.png#1`
 const title = 'UnoCSS Interactive Docs'
 const description = 'The instant on-demand Atomic CSS engine'
 

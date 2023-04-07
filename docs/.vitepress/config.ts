@@ -3,7 +3,7 @@ import type { DefaultTheme } from 'vitepress/types'
 import { version } from '../../package.json'
 
 const ogUrl = 'https://unocss.dev/'
-const ogImage = `${ogUrl}og.png`
+const ogImage = `${ogUrl}og.png#1`
 const title = 'UnoCSS'
 const description = 'The instant on-demand Atomic CSS engine'
 
