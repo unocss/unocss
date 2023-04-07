@@ -12,15 +12,14 @@
   --vp-c-gutter: var(--vp-c-divider);
   --vp-code-block-bg: rgba(125,125,125,0.04);
   --vp-code-tab-divider: var(--vp-c-divider);
+  --vp-code-copy-code-bg: rgba(125,125,125,0.1);
   --vp-code-copy-code-hover-bg: rgba(125,125,125,0.2);
   --vp-c-disabled-bg: rgba(125,125,125,0.2);
   --vp-code-tab-text-color: var(--vp-c-text-2);
   --vp-code-tab-active-text-color: var(--vp-c-text-1);
   --vp-code-tab-hover-text-color: var(--vp-c-text-text-2);
+  --vp-code-copy-code-active-text: var(--vp-c-text-2);
   --vp-c-text-dark-3: rgba(56, 56, 56, 0.8);
-  --vp-code-copy-code-bg: initial;
-  --vp-code-block-hover-bg: rgba(125, 125, 125, 0.1);
-  --vp-code-copy-code-active-text: var(--vp-c-text-dark-3);
 }
 
 .dark {
@@ -30,9 +29,7 @@
   --vp-code-tab-active-text-color: var(--vp-c-text-dark-1);
   --vp-code-tab-hover-text-color: var(--vp-c-text-dark-1);
   --vp-code-copy-code-active-text: var(--vp-c-text-dark-2);
-  --vp-c-text-dark-3: rgba(235, 235, 235, 0.38);
-  --vp-code-copy-code-bg: initial;
-  --vp-code-copy-code-hover-bg: rgba(255, 255, 255, 0.05);
+  --vp-c-text-dark-3: var(--vp-c-text-dark-2);
 }
 
 
@@ -118,43 +115,4 @@
 /* Transition by color instead of opacity */
 .dark .vp-doc .custom-block a {
   transition: color 0.25s;
-}
-
-.vp-doc th,
-.vp-doc td {
-  padding: 6px 10px;
-  border: 1px solid #8882;
-}
-
-html:not(.dark) .vp-doc [class*=language-]:before {
-  color: var(--vp-custom-block-details-text);
-}
-
-html:not(.dark) .vp-doc [class*='language-']:not(:hover) > span.copy,
-html:not(.dark) .vp-doc [class*='language-']:not(:hover) > span.copy.copied:before {
-  background-color: var(--vp-code-block-hover-bg);
-  opacity: 0;
-}
-
-html:not(.dark) .vp-doc [class*='language-']:hover > span.copy:hover {
-  opacity: 1;
-  background-color: var(--vp-code-block-hover-bg);
-}
-
-html:not(.dark) .vp-doc [class*='language-']:hover > span.copy.copied,
-html:not(.dark) .vp-doc [class*='language-']:hover > span.copy.copied:hover {
-  opacity: 1;
-  background-color: var(--vp-code-block-hover-bg);
-}
-
-html:not(.dark) .vp-doc [class*='language-']:hover > span.copy.copied:before,
-html:not(.dark) .vp-doc [class*='language-']:hover > span.copy.copied:hover:before {
-  color: var(--vp-custom-block-details-text);
-  background-color: var(--vp-code-block-hover-bg);
-}
-
-/* remove the gray color from code block inside details > summary */
-.vp-doc .custom-block div[class*=language-] code,
-.vp-doc details > summary + div[class*='language-'] > pre > code {
-  --vp-code-block-bg: transparent;
 }
