@@ -1,6 +1,6 @@
 {
   "name": "@unocss/astro",
-  "version": "0.50.6",
+  "version": "0.50.7",
   "description": "UnoCSS integration for Astro",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -46,6 +46,6 @@
     "@unocss/vite": "workspace:*"
   },
   "devDependencies": {
-    "astro": "^2.1.3"
+    "astro": "^2.1.9"
   }
 }

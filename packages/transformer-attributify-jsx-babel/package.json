@@ -1,0 +1,48 @@
+{
+  "name": "@unocss/transformer-attributify-jsx-babel",
+  "version": "0.50.4",
+  "description": "Support valueless attributify in JSX/TSX.",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/antfu",
+  "homepage": "https://github.com/unocss/unocss/tree/main/packages/transformer-attributify-jsx-babel#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unocss/unocss.git",
+    "directory": "packages/transformer-attributify-jsx-babel"
+  },
+  "bugs": {
+    "url": "https://github.com/unocss/unocss/issues"
+  },
+  "keywords": [
+    "unocss",
+    "unocss-transformer"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub"
+  },
+  "dependencies": {
+    "@unocss/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.0",
+    "@babel/plugin-syntax-jsx": "^7.18.6",
+    "@babel/preset-typescript": "^7.21.0",
+    "magic-string": "^0.30.0"
+  }
+}

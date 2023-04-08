@@ -1,14 +1,14 @@
 import type { VariantObject } from '@unocss/core'
 import { resolveBreakpoints } from '../utils'
 
-export const calcMaxWidthBySize = (size: string) => {
+export function calcMaxWidthBySize(size: string) {
   const value = size.match(/^-?[0-9]+\.?[0-9]*/)?.[0] || ''
   const unit = size.slice(value.length)
   const maxWidth = (parseFloat(value) - 0.1)
   return Number.isNaN(maxWidth) ? size : `${maxWidth}${unit}`
 }
 
-export const variantBreakpoints = (): VariantObject => {
+export function variantBreakpoints(): VariantObject {
   const regexCache: Record<string, RegExp> = {}
   return {
     name: 'breakpoints',

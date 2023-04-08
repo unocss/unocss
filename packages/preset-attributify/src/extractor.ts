@@ -13,7 +13,7 @@ const valuedAttributeRE = /([?]|(?!\d|-{2}|-\d)[a-zA-Z0-9\u00A0-\uFFFF-_:!%-.~<]
 
 export const defaultIgnoreAttributes = ['placeholder', 'fill', 'opacity']
 
-export const extractorAttributify = (options?: AttributifyOptions): Extractor => {
+export function extractorAttributify(options?: AttributifyOptions): Extractor {
   const ignoreAttributes = options?.ignoreAttributes ?? defaultIgnoreAttributes
   const nonValuedAttribute = options?.nonValuedAttribute ?? true
   const trueToNonValued = options?.trueToNonValued ?? false

@@ -101,7 +101,7 @@ export function resolveConfig<Theme extends {} = {}>(
   if (!separators.length)
     separators = [':', '-']
 
-  return {
+  const resolved: ResolvedConfig<any> = {
     mergeSelectors: true,
     warn: true,
     blocklist: [],
@@ -127,4 +127,10 @@ export function resolveConfig<Theme extends {} = {}>(
     safelist: mergePresets('safelist'),
     separators,
   }
+
+  for (const p of sortedPresets)
+    p?.configResolved?.(resolved)
+  userConfig?.configResolved?.(resolved)
+
+  return resolved
 }

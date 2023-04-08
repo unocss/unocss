@@ -2,14 +2,14 @@ import type { CSSColorValue, Rule, RuleContext } from '@unocss/core'
 import { colorOpacityToString, colorToString, globalKeywords, handler as h, makeGlobalStaticRules, parseColor, positionMap } from '@unocss/preset-mini/utils'
 import type { Theme } from '@unocss/preset-mini'
 
-const bgGradientToValue = (cssColor: CSSColorValue | undefined) => {
+function bgGradientToValue(cssColor: CSSColorValue | undefined) {
   if (cssColor)
     return colorToString(cssColor, 0)
 
   return 'rgba(255,255,255,0)'
 }
 
-const bgGradientColorValue = (mode: string, cssColor: CSSColorValue | undefined, color: string, alpha: any) => {
+function bgGradientColorValue(mode: string, cssColor: CSSColorValue | undefined, color: string, alpha: any) {
   if (cssColor) {
     if (alpha != null)
       return colorToString(cssColor, alpha)
@@ -20,8 +20,8 @@ const bgGradientColorValue = (mode: string, cssColor: CSSColorValue | undefined,
   return colorToString(color, alpha)
 }
 
-const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
-  ([, body]: string[], { theme }: RuleContext<Theme>) => {
+function bgGradientColorResolver(mode: 'from' | 'to' | 'via') {
+  return ([, body]: string[], { theme }: RuleContext<Theme>) => {
     const data = parseColor(body, theme)
 
     if (!data)
@@ -37,21 +37,33 @@ const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
     switch (mode) {
       case 'from':
         return {
-          '--un-gradient-from': colorString,
-          '--un-gradient-to': bgGradientToValue(cssColor),
+          '--un-gradient-from-position': '0%',
+          '--un-gradient-from': `${colorString} var(--un-gradient-from-position)`,
+          '--un-gradient-to': `${bgGradientToValue(cssColor)} var(--un-gradient-to-position)`,
           '--un-gradient-stops': 'var(--un-gradient-from), var(--un-gradient-to)',
         }
       case 'via':
         return {
+          '--un-gradient-via-position': '50%',
           '--un-gradient-to': bgGradientToValue(cssColor),
-          '--un-gradient-stops': `var(--un-gradient-from), ${colorString}, var(--un-gradient-to)`,
+          '--un-gradient-stops': `var(--un-gradient-from), ${colorString} var(--un-gradient-via-position), var(--un-gradient-to)`,
         }
       case 'to':
         return {
-          '--un-gradient-to': colorString,
+          '--un-gradient-to-position': '100%',
+          '--un-gradient-to': `${colorString} var(--un-gradient-to-position)`,
         }
     }
   }
+}
+
+function bgGradientPositionResolver() {
+  return ([, mode, body]: string[]) => {
+    return {
+      [`--un-gradient-${mode}-position`]: `${Number(h.bracket.cssvar.percent(body)) * 100}%`,
+    }
+  }
+}
 
 const bgUrlRE = /^\[url\(.+\)\]$/
 const bgLengthRE = /^\[length:.+\]$/
@@ -77,7 +89,7 @@ export const backgroundStyles: Rule[] = [
   [/^(?:bg-gradient-)?from-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-from-opacity': h.bracket.percent(opacity) })],
   [/^(?:bg-gradient-)?via-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-via-opacity': h.bracket.percent(opacity) })],
   [/^(?:bg-gradient-)?to-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-to-opacity': h.bracket.percent(opacity) })],
-
+  [/^(from|via|to)-([\d\.]+)%$/, bgGradientPositionResolver()],
   // images
   [/^bg-gradient-((?:repeating-)?(?:linear|radial|conic))$/, ([, s]) => ({
     'background-image': `${s}-gradient(var(--un-gradient, var(--un-gradient-stops, rgba(255, 255, 255, 0))))`,
