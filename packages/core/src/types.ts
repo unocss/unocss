@@ -402,6 +402,11 @@ export interface ConfigBase<Theme extends {} = {}> {
   }
 
   /**
+   * A function to mutate the config object.
+   */
+  configResolved?: (config: ResolvedConfig<Theme>) => void
+
+  /**
    * Expose internal details for debugging / inspecting
    *
    * Added `rules`, `shortcuts`, `variants` to the context and expose the context object in `StringifiedUtil`
@@ -470,6 +475,9 @@ export interface AutoCompleteExtractor {
 
 export interface Preset<Theme extends {} = {}> extends ConfigBase<Theme> {
   name: string
+  /**
+   * Enforce the preset to be applied before or after other presets
+   */
   enforce?: 'pre' | 'post'
   /**
    * Preset options for other tools like IDE to consume
