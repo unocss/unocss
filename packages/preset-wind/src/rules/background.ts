@@ -20,8 +20,8 @@ function bgGradientColorValue(mode: string, cssColor: CSSColorValue | undefined,
   return colorToString(color, alpha)
 }
 
-function bgGradientColorResolver(mode: 'from' | 'to' | 'via') {
-  return ([, body]: string[], { theme }: RuleContext<Theme>) => {
+function bgGradientColorResolver() {
+  return ([, mode, body]: string[], { theme }: RuleContext<Theme>) => {
     const data = parseColor(body, theme)
 
     if (!data)
@@ -83,12 +83,8 @@ export const backgroundStyles: Rule[] = [
     autocomplete: ['bg-gradient', 'bg-gradient-(from|to|via)', 'bg-gradient-(from|to|via)-$colors', 'bg-gradient-(from|to|via)-(op|opacity)', 'bg-gradient-(from|to|via)-(op|opacity)-<percent>'],
   }],
   [/^(?:bg-gradient-)?stops-(\[.+\])$/, ([, s]) => ({ '--un-gradient-stops': h.bracket(s) })],
-  [/^(?:bg-gradient-)?from-(.+)$/, bgGradientColorResolver('from')],
-  [/^(?:bg-gradient-)?via-(.+)$/, bgGradientColorResolver('via')],
-  [/^(?:bg-gradient-)?to-(.+)$/, bgGradientColorResolver('to')],
-  [/^(?:bg-gradient-)?from-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-from-opacity': h.bracket.percent(opacity) })],
-  [/^(?:bg-gradient-)?via-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-via-opacity': h.bracket.percent(opacity) })],
-  [/^(?:bg-gradient-)?to-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-to-opacity': h.bracket.percent(opacity) })],
+  [/^(?:bg-gradient-)?(from|via|to)-(.+)$/, bgGradientColorResolver()],
+  [/^(?:bg-gradient-)?(from|via|to)-op(?:acity)?-?(.+)$/, ([, position, opacity]) => ({ [`--un-${position}-opacity`]: h.bracket.percent(opacity) })],
   [/^(from|via|to)-([\d\.]+)%$/, bgGradientPositionResolver()],
   // images
   [/^bg-gradient-((?:repeating-)?(?:linear|radial|conic))$/, ([, s]) => ({
@@ -114,26 +110,25 @@ export const backgroundStyles: Rule[] = [
     }
   }, { autocomplete: ['bg-gradient-shape', `bg-gradient-shape-(${Object.keys(positionMap).join('|')})`, `shape-(${Object.keys(positionMap).join('|')})`] }],
   ['bg-none', { 'background-image': 'none' }],
-
-  ['box-decoration-slice', { 'box-decoration-break': 'slice' }],
-  ['box-decoration-clone', { 'box-decoration-break': 'clone' }],
+  [/box-decoration-(slice|clone)/, ([, body]) => ({
+    'box-decoration-break': body
+  })],
   ...makeGlobalStaticRules('box-decoration', 'box-decoration-break'),
 
   // size
-  ['bg-auto', { 'background-size': 'auto' }],
-  ['bg-cover', { 'background-size': 'cover' }],
-  ['bg-contain', { 'background-size': 'contain' }],
+  [/bg-(auto|cover|contain)/, ([, body]) => ({ 'background-size': body })],
 
   // attachments
-  ['bg-fixed', { 'background-attachment': 'fixed' }],
-  ['bg-local', { 'background-attachment': 'local' }],
-  ['bg-scroll', { 'background-attachment': 'scroll' }],
+  [/bg-(fixed|local|scroll)/, ([, body]) => ({ 'background-attachment': body })],
 
   // clips
-  ['bg-clip-border', { '-webkit-background-clip': 'border-box', 'background-clip': 'border-box' }],
-  ['bg-clip-content', { '-webkit-background-clip': 'content-box', 'background-clip': 'content-box' }],
-  ['bg-clip-padding', { '-webkit-background-clip': 'padding-box', 'background-clip': 'padding-box' }],
-  ['bg-clip-text', { '-webkit-background-clip': 'text', 'background-clip': 'text' }],
+  [/bg-clip-(border|content|padding|text)/, ([, body]) => {
+    const value = body === 'text' ? 'text' : `${body}-box`
+    return {
+      '-webkit-background-clip': value,
+      'background-clip': value
+    }
+  }],
   ...globalKeywords.map(keyword => [`bg-clip-${keyword}`, {
     '-webkit-background-clip': keyword,
     'background-clip': keyword,
@@ -144,17 +139,12 @@ export const backgroundStyles: Rule[] = [
   [/^bg-([-\w]{3,})$/, ([, s]) => ({ 'background-position': positionMap[s] })],
 
   // repeats
-  ['bg-repeat', { 'background-repeat': 'repeat' }],
-  ['bg-no-repeat', { 'background-repeat': 'no-repeat' }],
-  ['bg-repeat-x', { 'background-repeat': 'repeat-x' }],
-  ['bg-repeat-y', { 'background-repeat': 'repeat-y' }],
-  ['bg-repeat-round', { 'background-repeat': 'round' }],
-  ['bg-repeat-space', { 'background-repeat': 'space' }],
+  [/bg-((no-)?repeat)/, ([_, body]) => ({ 'background-repeat': body })],
+  [/bg-repeat-(x|y)/, ([_, body]) => ({ 'background-repeat': `repeat-${body}` })],
+  [/bg-repeat-(round|space)/, ([_, body]) => ({ 'background-repeat': body })],
   ...makeGlobalStaticRules('bg-repeat', 'background-repeat'),
 
   // origins
-  ['bg-origin-border', { 'background-origin': 'border-box' }],
-  ['bg-origin-padding', { 'background-origin': 'padding-box' }],
-  ['bg-origin-content', { 'background-origin': 'content-box' }],
+  [/bg-origin-(border|padding|content)/, ([, body]) => ({ 'background-origin': `${body}-box` })],
   ...makeGlobalStaticRules('bg-origin', 'background-origin'),
 ]
