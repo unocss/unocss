@@ -39,6 +39,7 @@
       "@unocss/transformer-variant-group": ["./packages/transformer-variant-group/src/index.ts"],
       "@unocss/transformer-compile-class": ["./packages/transformer-compile-class/src/index.ts"],
       "@unocss/transformer-attributify-jsx": ["./packages/transformer-attributify-jsx/src/index.ts"],
+      "@unocss/transformer-attributify-jsx-babel": ["./packages/transformer-attributify-jsx-babel/src/index.ts"],
       "@unocss/vite": ["./packages/vite/src/index.ts"],
       "@unocss/webpack": ["./packages/webpack/src/index.ts"],
       "@unocss/astro": ["./packages/astro/src/index.ts"],

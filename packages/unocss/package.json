@@ -129,6 +129,7 @@
     "@unocss/preset-wind": "workspace:*",
     "@unocss/reset": "workspace:*",
     "@unocss/transformer-attributify-jsx": "workspace:*",
+    "@unocss/transformer-attributify-jsx-babel": "workspace:*",
     "@unocss/transformer-compile-class": "workspace:*",
     "@unocss/transformer-directives": "workspace:*",
     "@unocss/transformer-variant-group": "workspace:*",
