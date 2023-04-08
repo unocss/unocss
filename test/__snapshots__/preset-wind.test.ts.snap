@@ -305,8 +305,8 @@ exports[`preset-wind > targets 1`] = `
 .bg-gradient-via-opacity-40{--un-via-opacity:0.4;}
 .via-opacity-30{--un-via-opacity:0.3;}
 .from-10\\\\%{--un-gradient-from-position:10%;}
-.via-20\\\\%{--un-gradient-via-position:20%;}
 .to-90\\\\%{--un-gradient-to-position:90%;}
+.via-20\\\\%{--un-gradient-via-position:20%;}
 .bg-gradient-linear{background-image:linear-gradient(var(--un-gradient, var(--un-gradient-stops, rgba(255, 255, 255, 0))));}
 .bg-gradient-radial{background-image:radial-gradient(var(--un-gradient, var(--un-gradient-stops, rgba(255, 255, 255, 0))));}
 .bg-gradient-repeating-conic{background-image:repeating-conic-gradient(var(--un-gradient, var(--un-gradient-stops, rgba(255, 255, 255, 0))));}
