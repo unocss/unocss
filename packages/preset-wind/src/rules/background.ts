@@ -30,7 +30,7 @@ const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
     const { alpha, color, cssColor } = data
 
     if (!color)
-      return {}
+      return
 
     const colorString = bgGradientColorValue(mode, cssColor, color, alpha)
 
@@ -56,8 +56,8 @@ const bgGradientColorResolver = (mode: 'from' | 'to' | 'via') =>
     }
   }
 
-const bgGradientPositionResolver = (mode: 'from' | 'to' | 'via') =>
-  ([, body]: string[]) => {
+const bgGradientPositionResolver = () =>
+  ([, mode, body]: string[]) => {
     return {
       [`--un-gradient-${mode}-position`]: `${Number(h.bracket.cssvar.percent(body)) * 100}%`,
     }
@@ -86,9 +86,7 @@ export const backgroundStyles: Rule[] = [
   [/^(?:bg-gradient-)?from-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-from-opacity': h.bracket.percent(opacity) })],
   [/^(?:bg-gradient-)?via-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-via-opacity': h.bracket.percent(opacity) })],
   [/^(?:bg-gradient-)?to-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-to-opacity': h.bracket.percent(opacity) })],
-  [/from-([0-9].+)$/, bgGradientPositionResolver('from')],
-  [/via-([0-9].+)$/, bgGradientPositionResolver('via')],
-  [/to-([0-9].+)$/, bgGradientPositionResolver('to')],
+  [/^(from|via|to)-([\d\.]+)%$/, bgGradientPositionResolver()],
   // images
   [/^bg-gradient-((?:repeating-)?(?:linear|radial|conic))$/, ([, s]) => ({
     'background-image': `${s}-gradient(var(--un-gradient, var(--un-gradient-stops, rgba(255, 255, 255, 0))))`,
