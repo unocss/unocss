@@ -1,4 +1,4 @@
-import type { Postprocessor, Preprocessor, Preset, ResolvedConfig, Rule, Shortcut, ThemeExtender, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
+import type { Postprocessor, Preprocessor, Preset, ResolvedConfig, Rule, Shortcut, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
 import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq } from './utils'
 import { extractorSplit } from './extractors'
 import { DEFAULT_LAYERS } from './constants'
@@ -87,10 +87,9 @@ export function resolveConfig<Theme extends {} = {}>(
     config.theme || {},
   ].reduce<Theme>((a, p) => mergeDeep(a, p), {} as Theme))
 
-  theme = (mergePresets('extendTheme') as ThemeExtender<Theme>[])
-    .reduce((mergedTheme, extendTheme) => mergeDeep(mergedTheme, extendTheme(mergedTheme) || {}), theme)
-
-  theme = config.themeResolved ? config.themeResolved(theme) : theme
+  const extendThemes = toArray(mergePresets('extendTheme'))
+  for (const extendTheme of extendThemes)
+    theme = extendTheme(theme) || theme
 
   const autocomplete = {
     templates: uniq(sortedPresets.map(p => toArray(p.autocomplete?.templates)).flat()),

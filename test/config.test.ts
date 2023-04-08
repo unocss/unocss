@@ -31,9 +31,9 @@ describe('config', () => {
     `)
   })
 
-  test('themeResolved', async () => {
+  test('extendTheme with return extend', async () => {
     const uno = createUno({
-      themeResolved(mergedTheme) {
+      extendTheme(mergedTheme) {
         return {
           ...mergedTheme,
           colors: {
@@ -47,12 +47,9 @@ describe('config', () => {
     expect(uno.config.theme.colors).toEqual({ red: { 500: 'red' } })
   })
 
-  test('extendTheme', async () => {
+  test('extendTheme with return', async () => {
     const unocss = createGenerator<Theme>({
-      extendTheme: (theme) => {
-        theme.colors!.red = {
-          100: 'red',
-        }
+      extendTheme: () => {
         return {
           colors: {
             red: {
@@ -68,7 +65,26 @@ describe('config', () => {
     const { css } = await unocss.generate('text-red-100 text-red-200', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: default */
-      .text-red-100,
+      .text-red-200{color:red;}"
+    `)
+  })
+
+  test('extendTheme with mutation', async () => {
+    const unocss = createGenerator<Theme>({
+      extendTheme: (theme) => {
+        // @ts-expect-error test
+        theme.colors.red[100] = 'green'
+        // @ts-expect-error test
+        theme.colors.red[200] = 'red'
+      },
+      presets: [
+        presetMini(),
+      ],
+    })
+    const { css } = await unocss.generate('text-red-100 text-red-200', { preflights: false })
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .text-red-100{color:green;}
       .text-red-200{color:red;}"
     `)
   })

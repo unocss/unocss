@@ -304,7 +304,6 @@ export type Variant<Theme extends {} = {}> = VariantFunction<Theme> | VariantObj
 export type Preprocessor = (matcher: string) => string | undefined
 export type Postprocessor = (util: UtilObject) => void
 export type ThemeExtender<T> = (theme: T) => T | void
-export type ThemeResolved<T> = (mergedTheme: T) => T
 
 export interface ConfigBase<Theme extends {} = {}> {
   /**
@@ -383,7 +382,9 @@ export interface ConfigBase<Theme extends {} = {}> {
   postprocess?: Arrayable<Postprocessor>
 
   /**
-   * Custom functions to extend the theme object
+   * Custom functions mutate the theme object.
+   *
+   * It's also possible to return a new theme object to completely replace the original one.
    */
   extendTheme?: Arrayable<ThemeExtender<Theme>>
 
@@ -507,10 +508,7 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
    * The theme object, will be merged with the theme provides by presets
    */
   theme?: Theme
-  /**
-   * the returned theme will be the final theme
-   */
-  themeResolved?: ThemeResolved<Theme>
+
   /**
    * Layout name of shortcuts
    *
