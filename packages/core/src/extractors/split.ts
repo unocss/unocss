@@ -2,7 +2,7 @@ import type { Extractor } from '../types'
 import { isValidSelector } from '../utils'
 
 export const defaultSplitRE = /[\\:]?[\s'"`;{}]+/g
-export const splitWithVariantGroupRE = /[\\:]?([\s"'`;<>*]|:\(|\)"|\)\s)/g
+export const splitWithVariantGroupRE = /([\\:]?[\s"'`;<>*]|:\(|\)"|\)\s)/g
 
 export const quotedArbitraryValuesRE = /(?:[\w&:[\]-]|\[\S+=\S+\])+\[\\?['"]?\S+?['"]\]\]?[\w:-]*/g
 export const arbitraryPropertyRE = /\[(\\\W|[\w-])+:[^\s:]*?("\S+?"|'\S+?'|`\S+?`|[^\s:]+?)[^\s:]*?\)?\]/g
