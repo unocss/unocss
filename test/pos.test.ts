@@ -230,6 +230,25 @@ describe('matched-positions', async () => {
         ]
       `)
   })
+
+  test('colon highlighting #2460', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetUno(),
+      ],
+    })
+
+    expect(await match(uno, 'w5:<div class="w-full"></div>'))
+      .toMatchInlineSnapshot(`
+        [
+          [
+            15,
+            21,
+            "w-full",
+          ],
+        ]
+      `)
+  })
 })
 
 describe('matched-positions-pug', async () => {

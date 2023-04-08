@@ -1,0 +1,38 @@
+[build.environment]
+  NODE_VERSION = "18"
+  NODE_OPTIONS = "--max_old_space_size=4096"
+
+[build]
+  publish = "docs/dist"
+  command = "pnpm run deploy"
+
+[functions]
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/play/*"
+  to = "/play/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/interactive/*"
+  to = "/interactive/index.html"
+  status = 200
+
+[[redirects]]
+  from = "https://unocss.antfu.me/*"
+  to = "https://uno.antfu.me/play/:splat"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "https://uno.antfu.me/play/*"
+  to = "https://unocss.dev/play/:splat"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "https://uno.antfu.me/*"
+  to = "https://unocss.dev/interactive/:splat"
+  status = 302
+  force = true

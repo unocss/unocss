@@ -1,6 +1,8 @@
 import { resolve } from 'node:path'
 
-const r = (p: string) => resolve(__dirname, p)
+function r(p: string) {
+  return resolve(__dirname, p)
+}
 
 export const alias: Record<string, string> = {
   '@unocss/astro': r('./packages/astro/src/'),
@@ -27,6 +29,7 @@ export const alias: Record<string, string> = {
   '@unocss/shared-docs': r('./packages/shared-docs/src/'),
   '@unocss/shared-integration': r('./packages/shared-integration/src/'),
   '@unocss/transformer-attributify-jsx': r('./packages/transformer-attributify-jsx/src/'),
+  '@unocss/transformer-attributify-jsx-babel': r('./packages/transformer-attributify-jsx-babel/src/'),
   '@unocss/transformer-compile-class': r('./packages/transformer-compile-class/src/'),
   '@unocss/transformer-directives': r('./packages/transformer-directives/src/'),
   '@unocss/transformer-variant-group': r('./packages/transformer-variant-group/src/'),

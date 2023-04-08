@@ -2,6 +2,7 @@
 import { computed, nextTick, reactive, ref, unref, watch } from 'vue'
 import type { MaybeElementRef, MaybeRef } from '@vueuse/core'
 import { clamp, createEventHook, tryOnScopeDispose, unrefElement, useEventListener } from '@vueuse/core'
+
 type Edges = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'left' | 'right' | 'top' | 'bottom'
 
 export interface UseResizeOptions {

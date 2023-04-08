@@ -43,7 +43,9 @@ const info = await searcher.getInfo()
         />
       </template>
 
-      <a i-carbon-template href="https://uno.antfu.me/play/" rel="noopener noreferrer" title="Playground" target="_blank" aria-label="Playground" />
+      <a i-carbon-document-multiple-01 href="https://unocss.dev/" rel="noopener noreferrer" title="Documentations" target="_blank" aria-label="Documentations" />
+
+      <a i-carbon-template href="https://unocss.dev/play/" rel="noopener noreferrer" title="Playground" target="_blank" aria-label="Playground" />
 
       <a i-carbon-logo-github href="https://github.com/unocss/unocss" rel="noopener noreferrer" title="GitHub" target="_blank" aria-label="GitHub" />
 

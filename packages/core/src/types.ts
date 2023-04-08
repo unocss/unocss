@@ -414,6 +414,13 @@ export interface ConfigBase<Theme extends {} = {}> {
   }
 
   /**
+   * Hook to modify the resolved config.
+   *
+   * First presets runs first and the user config
+   */
+  configResolved?: (config: ResolvedConfig) => void
+
+  /**
    * Expose internal details for debugging / inspecting
    *
    * Added `rules`, `shortcuts`, `variants` to the context and expose the context object in `StringifiedUtil`
@@ -482,6 +489,9 @@ export interface AutoCompleteExtractor {
 
 export interface Preset<Theme extends {} = {}> extends ConfigBase<Theme> {
   name: string
+  /**
+   * Enforce the preset to be applied before or after other presets
+   */
   enforce?: 'pre' | 'post'
   /**
    * Preset options for other tools like IDE to consume

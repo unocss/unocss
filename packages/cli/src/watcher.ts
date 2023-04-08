@@ -3,7 +3,7 @@ import type { CliOptions } from './types'
 
 let watcher: FSWatcher
 
-export const getWatcher = async (options?: CliOptions) => {
+export async function getWatcher(options?: CliOptions) {
   // test case entry without options
   if (watcher && !options)
     return watcher
