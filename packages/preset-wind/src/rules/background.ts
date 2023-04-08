@@ -110,25 +110,26 @@ export const backgroundStyles: Rule[] = [
     }
   }, { autocomplete: ['bg-gradient-shape', `bg-gradient-shape-(${Object.keys(positionMap).join('|')})`, `shape-(${Object.keys(positionMap).join('|')})`] }],
   ['bg-none', { 'background-image': 'none' }],
-  [/box-decoration-(slice|clone)/, ([, body]) => ({
-    'box-decoration-break': body
-  })],
+
+  ['box-decoration-slice', { 'box-decoration-break': 'slice' }],
+  ['box-decoration-clone', { 'box-decoration-break': 'clone' }],
   ...makeGlobalStaticRules('box-decoration', 'box-decoration-break'),
 
   // size
-  [/bg-(auto|cover|contain)/, ([, body]) => ({ 'background-size': body })],
+  ['bg-auto', { 'background-size': 'auto' }],
+  ['bg-cover', { 'background-size': 'cover' }],
+  ['bg-contain', { 'background-size': 'contain' }],
 
   // attachments
-  [/bg-(fixed|local|scroll)/, ([, body]) => ({ 'background-attachment': body })],
+  ['bg-fixed', { 'background-attachment': 'fixed' }],
+  ['bg-local', { 'background-attachment': 'local' }],
+  ['bg-scroll', { 'background-attachment': 'scroll' }],
 
   // clips
-  [/bg-clip-(border|content|padding|text)/, ([, body]) => {
-    const value = body === 'text' ? 'text' : `${body}-box`
-    return {
-      '-webkit-background-clip': value,
-      'background-clip': value
-    }
-  }],
+  ['bg-clip-border', { '-webkit-background-clip': 'border-box', 'background-clip': 'border-box' }],
+  ['bg-clip-content', { '-webkit-background-clip': 'content-box', 'background-clip': 'content-box' }],
+  ['bg-clip-padding', { '-webkit-background-clip': 'padding-box', 'background-clip': 'padding-box' }],
+  ['bg-clip-text', { '-webkit-background-clip': 'text', 'background-clip': 'text' }],
   ...globalKeywords.map(keyword => [`bg-clip-${keyword}`, {
     '-webkit-background-clip': keyword,
     'background-clip': keyword,
@@ -139,12 +140,17 @@ export const backgroundStyles: Rule[] = [
   [/^bg-([-\w]{3,})$/, ([, s]) => ({ 'background-position': positionMap[s] })],
 
   // repeats
-  [/bg-((no-)?repeat)/, ([_, body]) => ({ 'background-repeat': body })],
-  [/bg-repeat-(x|y)/, ([_, body]) => ({ 'background-repeat': `repeat-${body}` })],
-  [/bg-repeat-(round|space)/, ([_, body]) => ({ 'background-repeat': body })],
+  ['bg-repeat', { 'background-repeat': 'repeat' }],
+  ['bg-no-repeat', { 'background-repeat': 'no-repeat' }],
+  ['bg-repeat-x', { 'background-repeat': 'repeat-x' }],
+  ['bg-repeat-y', { 'background-repeat': 'repeat-y' }],
+  ['bg-repeat-round', { 'background-repeat': 'round' }],
+  ['bg-repeat-space', { 'background-repeat': 'space' }],
   ...makeGlobalStaticRules('bg-repeat', 'background-repeat'),
 
   // origins
-  [/bg-origin-(border|padding|content)/, ([, body]) => ({ 'background-origin': `${body}-box` })],
+  ['bg-origin-border', { 'background-origin': 'border-box' }],
+  ['bg-origin-padding', { 'background-origin': 'padding-box' }],
+  ['bg-origin-content', { 'background-origin': 'content-box' }],
   ...makeGlobalStaticRules('bg-origin', 'background-origin'),
 ]
