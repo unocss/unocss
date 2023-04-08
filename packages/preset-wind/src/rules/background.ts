@@ -111,7 +111,7 @@ export const backgroundStyles: Rule[] = [
   }, { autocomplete: ['bg-gradient-shape', `bg-gradient-shape-(${Object.keys(positionMap).join('|')})`, `shape-(${Object.keys(positionMap).join('|')})`] }],
   ['bg-none', { 'background-image': 'none' }],
   [/box-decoration-(slice|clone)/, ([, body]) => ({
-    'box-decoration-break': body
+    'box-decoration-break': body,
   })],
   ...makeGlobalStaticRules('box-decoration', 'box-decoration-break'),
 
@@ -126,7 +126,7 @@ export const backgroundStyles: Rule[] = [
     const value = body === 'text' ? 'text' : `${body}-box`
     return {
       '-webkit-background-clip': value,
-      'background-clip': value
+      'background-clip': value,
     }
   }],
   ...globalKeywords.map(keyword => [`bg-clip-${keyword}`, {
