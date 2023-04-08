@@ -402,9 +402,11 @@ export interface ConfigBase<Theme extends {} = {}> {
   }
 
   /**
-   * A function to mutate the config object.
+   * Hook to modify the resolved config.
+   *
+   * First presets runs first and the user config
    */
-  configResolved?: (config: ResolvedConfig<Theme>) => void
+  configResolved?: (config: ResolvedConfig) => void
 
   /**
    * Expose internal details for debugging / inspecting
