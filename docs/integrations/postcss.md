@@ -98,16 +98,16 @@ The `@screen` directive allows you to create media queries that reference your b
 
 ```css
 .grid {
-  --uno: grid grid-cols-2;
+  @apply grid grid-cols-2;
 }
 @screen xs {
   .grid {
-    --uno: grid-cols-1;
+    @apply grid-cols-1;
   }
 }
 @screen sm {
   .grid {
-    --uno: grid-cols-3;
+    @apply grid-cols-3;
   }
 }
 /* ... */
@@ -141,16 +141,16 @@ Will be transformed to:
 
 ```css
 .grid {
-  --uno: grid grid-cols-2;
+  @apply grid grid-cols-2;
 }
 @screen lt-xs {
   .grid {
-    --uno: grid-cols-1;
+    @apply grid-cols-1;
   }
 }
 @screen lt-sm {
   .grid {
-    --uno: grid-cols-3;
+    @apply grid-cols-3;
   }
 }
 /* ... */
@@ -180,21 +180,21 @@ Will be transformed to:
 
 ```css
 .grid {
-  --uno: grid grid-cols-2;
+  @apply grid grid-cols-2;
 }
 @screen at-xs {
   .grid {
-    --uno: grid-cols-1;
+    @apply grid-cols-1;
   }
 }
 @screen at-xl {
   .grid {
-    --uno: grid-cols-3;
+    @apply grid-cols-3;
   }
 }
 @screen at-xxl {
   .grid {
-    --uno: grid-cols-4;
+    @apply grid-cols-4;
   }
 }
 /* ... */
