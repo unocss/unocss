@@ -57,12 +57,14 @@ function bgGradientColorResolver(mode: 'from' | 'to' | 'via') {
   }
 }
 
-const bgGradientPositionResolver = () =>
-  ([, mode, body]: string[]) => {
+function bgGradientPositionResolver() {
+  return ([, mode, body]: string[]) => {
     return {
       [`--un-gradient-${mode}-position`]: `${Number(h.bracket.cssvar.percent(body)) * 100}%`,
     }
   }
+}
+
 const bgUrlRE = /^\[url\(.+\)\]$/
 const bgLengthRE = /^\[length:.+\]$/
 const bgPositionRE = /^\[position:.+\]$/
