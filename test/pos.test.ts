@@ -231,7 +231,7 @@ describe('matched-positions', async () => {
       `)
   })
 
-  test('colon highligting #2460', async () => {
+  test('colon highlighting #2460', async () => {
     const uno = createGenerator({
       presets: [
         presetUno(),
