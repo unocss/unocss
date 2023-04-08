@@ -4,7 +4,7 @@ import presetUno from '@unocss/preset-uno'
 import { createGenerator } from '@unocss/core'
 import { describe, expect, test } from 'vitest'
 import transformerAttributifyJsx from '../packages/transformer-attributify-jsx/src'
-import transformerAttributifyJsxBabel from '../packages/transformer-attributify-jsx/src/babel'
+import transformerAttributifyJsxBabel from '../packages/transformer-attributify-jsx-babel/src'
 
 const originalCode = `
 <div h-full text-center flex select-none className={red ? 'text-red': 'text-green'}>

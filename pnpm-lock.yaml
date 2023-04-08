@@ -581,6 +581,15 @@ importers:
 
   packages/transformer-attributify-jsx:
     specifiers:
+      '@unocss/core': workspace:*
+      magic-string: ^0.27.0
+    dependencies:
+      '@unocss/core': link:../core
+    devDependencies:
+      magic-string: 0.27.0
+
+  packages/transformer-attributify-jsx-babel:
+    specifiers:
       '@babel/core': ^7.21.0
       '@babel/plugin-syntax-jsx': ^7.18.6
       '@babel/preset-typescript': ^7.21.0
@@ -639,6 +648,7 @@ importers:
       '@unocss/preset-wind': workspace:*
       '@unocss/reset': workspace:*
       '@unocss/transformer-attributify-jsx': workspace:*
+      '@unocss/transformer-attributify-jsx-babel': workspace:*
       '@unocss/transformer-compile-class': workspace:*
       '@unocss/transformer-directives': workspace:*
       '@unocss/transformer-variant-group': workspace:*
@@ -659,6 +669,7 @@ importers:
       '@unocss/preset-wind': link:../preset-wind
       '@unocss/reset': link:../reset
       '@unocss/transformer-attributify-jsx': link:../transformer-attributify-jsx
+      '@unocss/transformer-attributify-jsx-babel': link:../transformer-attributify-jsx-babel
       '@unocss/transformer-compile-class': link:../transformer-compile-class
       '@unocss/transformer-directives': link:../transformer-directives
       '@unocss/transformer-variant-group': link:../transformer-variant-group

@@ -8,6 +8,9 @@ export default defineBuildConfig({
   declaration: true,
   externals: [
     'magic-string',
+    '@babel/core',
+    '@babel/preset-typescript',
+    '@babel/plugin-syntax-jsx',
   ],
   rollup: {
     emitCJS: true,

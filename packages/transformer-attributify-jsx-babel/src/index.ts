@@ -74,7 +74,7 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
 
   function babelPlugin(uno: UnoGenerator, ctx: InternaalBabelContext): babel.PluginObj {
     return {
-      name: '@unocss/transformer-attributify-jsx/babel',
+      name: '@unocss/transformer-attributify-jsx-babel',
       visitor: {
         JSXAttribute(path) {
           if (path.node.value === null) {
@@ -103,7 +103,7 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
   }
 
   return {
-    name: '@unocss/transformer-attributify-jsx',
+    name: '@unocss/transformer-attributify-jsx-babel',
     enforce: 'pre',
     idFilter,
     async transform(code, id, { uno }) {
