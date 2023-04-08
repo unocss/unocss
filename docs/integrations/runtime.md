@@ -45,7 +45,7 @@ The runtime does not come with preflights, if you want to have style resets, you
 
 ## Builds
 
-Serval builds are available for different use cases.
+Several builds are available for different use cases.
 
 ### Core
 

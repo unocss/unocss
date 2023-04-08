@@ -5,7 +5,7 @@ description: Getting started with UnoCSS
 
 # What is UnoCSS?
 
-UnoCSS is the instant atomic CSS engine, that is designed to be flexible and extensible. The core is unopinionated, and all the CSS utilities are provided via presets.
+UnoCSS is the instant atomic CSS engine, that is designed to be flexible and extensible. The core is un-opinionated, and all the CSS utilities are provided via presets.
 
 For example, you could define your custom CSS utilities, by providing rules in your local [config file](/guide/config-file).
 
@@ -39,7 +39,7 @@ To make it more flexible, you can make your rule dynamic by changing the first a
 export default defineConfig({
   rules: [
 -    ['m-1', { margin: '1px' }]
-+    [/^m-(\d+)$/, ([_, num]) => ({ margin: `${num}px` })],
++    [/^m-([\.\d]+)$/, ([_, num]) => ({ margin: `${num}px` })],
   ],
 })
 ```
@@ -67,8 +67,8 @@ import { Preset } from 'unocss'
 export const myPreset: Preset = {
   name: 'my-preset',
   rules: [
-    [/^m-(\d+)$/, ([_, num]) => ({ margin: `${num}px` })],
-    [/^p-(\d+)$/, ([_, num]) => ({ padding: `${num}px` })],
+    [/^m-([\.\d]+)$/, ([_, num]) => ({ margin: `${num}px` })],
+    [/^p-([\.\d]+)$/, ([_, num]) => ({ padding: `${num}px` })],
   ],
   variants: [/* ... */],
   shortcuts: [/* ... */]
@@ -92,7 +92,7 @@ So similarly, we provided a few [official presets](/presets/) for you to start u
 
 ## Play
 
-You can try UnoCSS in your browser, in the [Playground](/play/). Or look up utilities from the default presets in the [Interactive Docs](/interactive/).
+You can try UnoCSS in your browser, in the <a href="/play/" target="_blank">Playground</a>. Or look up utilities from the default presets in the <a href="/interactive/" target="_blank">Interactive Docs</a>.
 
 ## Installation
 

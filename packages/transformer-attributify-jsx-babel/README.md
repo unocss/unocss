@@ -1,4 +1,4 @@
-# @unocss/transformer-attributify-jsx
+# @unocss/transformer-attributify-jsx-babel
 
 <!-- @unocss-ignore -->
 
@@ -46,13 +46,13 @@ export function Component() {
 ## Install
 
 ```bash
-npm i -D @unocss/transformer-attributify-jsx
+npm i -D @unocss/transformer-attributify-jsx-babel
 ```
 
 ```ts
-// uno.config.ts
+// uno.config.js
 import { defineConfig, presetAttributify } from 'unocss'
-import transformerAttributifyJsx from '@unocss/transformer-attributify-jsx'
+import transformerAttributifyJsx from '@unocss/transformer-attributify-jsx-babel'
 
 export default defineConfig({
   // ...
@@ -67,8 +67,6 @@ export default defineConfig({
 ```
 
 ## Caveats
-
-If you encounter any issues with this package, there is [@unocss/transformer-attributify-jsx-babel](https://github.com/unocss/unocss/tree/main/packages/transformer-attributify-jsx-babel) package that uses Babel to transform JSX.
 
 > ⚠️ The rules are almost the same as those of `preset-attributify`, but there are several precautions
 
