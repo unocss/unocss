@@ -1,6 +1,6 @@
 {
   "name": "@unocss/autocomplete",
-  "version": "0.50.6",
+  "version": "0.50.7",
   "description": "Autocomplete utils for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -37,7 +37,7 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "lru-cache": "^8.0.3"
+    "lru-cache": "^8.0.4"
   },
   "devDependencies": {
     "@unocss/core": "workspace:*"

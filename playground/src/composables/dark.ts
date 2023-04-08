@@ -1,4 +1,4 @@
 export const isDark = useDark()
-export const toggleDark = () => {
+export function toggleDark() {
   isDark.value = !isDark.value
 }
