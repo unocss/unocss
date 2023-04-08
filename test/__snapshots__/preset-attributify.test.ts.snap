@@ -250,9 +250,9 @@ exports[`attributify > fixture2 1`] = `
 [peer=\\"\\"]:focus~[peer-focus~=\\"scale-75\\"],
 [peer=\\"\\"]:not(:placeholder-shown)~[peer-not-placeholder-shown~=\\"scale-75\\"]{--un-scale-x:0.75;--un-scale-y:0.75;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 [select-none=\\"\\"]{-webkit-user-select:none;user-select:none;}
-[bg-gradient~=\\"from-yellow-400\\"]{--un-gradient-from:rgba(250,204,21,var(--un-from-opacity, 1));--un-gradient-to:rgba(250,204,21,0);--un-gradient-stops:var(--un-gradient-from), var(--un-gradient-to);}
-[bg-gradient~=\\"via-red-500\\"]{--un-gradient-to:rgba(239,68,68,0);--un-gradient-stops:var(--un-gradient-from), rgba(239,68,68,var(--un-via-opacity, 1)), var(--un-gradient-to);}
-[bg-gradient~=\\"to-pink-500\\"]{--un-gradient-to:rgba(236,72,153,var(--un-to-opacity, 1));}
+[bg-gradient~=\\"from-yellow-400\\"]{--un-gradient-from-position:0%;--un-gradient-from:rgba(250,204,21,var(--un-from-opacity, 1)) var(--un-gradient-from-position);--un-gradient-to:rgba(250,204,21,0) var(--un-gradient-to-position);--un-gradient-stops:var(--un-gradient-from), var(--un-gradient-to);}
+[bg-gradient~=\\"via-red-500\\"]{--un-gradient-via-position:50%;--un-gradient-to:rgba(239,68,68,0);--un-gradient-stops:var(--un-gradient-from), rgba(239,68,68,var(--un-via-opacity, 1)) var(--un-gradient-via-position), var(--un-gradient-to);}
+[bg-gradient~=\\"to-pink-500\\"]{--un-gradient-to-position:100%;--un-gradient-to:rgba(236,72,153,var(--un-to-opacity, 1)) var(--un-gradient-to-position);}
 [bg-gradient~=\\"to-r\\"]{--un-gradient-shape:to right;--un-gradient:var(--un-gradient-shape), var(--un-gradient-stops);background-image:linear-gradient(var(--un-gradient));}
 [p-10=\\"\\"]{padding:2.5rem;}
 [px-4=\\"\\"]{padding-left:1rem;padding-right:1rem;}

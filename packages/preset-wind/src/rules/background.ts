@@ -37,19 +37,30 @@ function bgGradientColorResolver(mode: 'from' | 'to' | 'via') {
     switch (mode) {
       case 'from':
         return {
-          '--un-gradient-from': colorString,
-          '--un-gradient-to': bgGradientToValue(cssColor),
+          '--un-gradient-from-position': '0%',
+          '--un-gradient-from': `${colorString} var(--un-gradient-from-position)`,
+          '--un-gradient-to': `${bgGradientToValue(cssColor)} var(--un-gradient-to-position)`,
           '--un-gradient-stops': 'var(--un-gradient-from), var(--un-gradient-to)',
         }
       case 'via':
         return {
+          '--un-gradient-via-position': '50%',
           '--un-gradient-to': bgGradientToValue(cssColor),
-          '--un-gradient-stops': `var(--un-gradient-from), ${colorString}, var(--un-gradient-to)`,
+          '--un-gradient-stops': `var(--un-gradient-from), ${colorString} var(--un-gradient-via-position), var(--un-gradient-to)`,
         }
       case 'to':
         return {
-          '--un-gradient-to': colorString,
+          '--un-gradient-to-position': '100%',
+          '--un-gradient-to': `${colorString} var(--un-gradient-to-position)`,
         }
+    }
+  }
+}
+
+function bgGradientPositionResolver() {
+  return ([, mode, body]: string[]) => {
+    return {
+      [`--un-gradient-${mode}-position`]: `${Number(h.bracket.cssvar.percent(body)) * 100}%`,
     }
   }
 }
@@ -78,7 +89,7 @@ export const backgroundStyles: Rule[] = [
   [/^(?:bg-gradient-)?from-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-from-opacity': h.bracket.percent(opacity) })],
   [/^(?:bg-gradient-)?via-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-via-opacity': h.bracket.percent(opacity) })],
   [/^(?:bg-gradient-)?to-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-to-opacity': h.bracket.percent(opacity) })],
-
+  [/^(from|via|to)-([\d\.]+)%$/, bgGradientPositionResolver()],
   // images
   [/^bg-gradient-((?:repeating-)?(?:linear|radial|conic))$/, ([, s]) => ({
     'background-image': `${s}-gradient(var(--un-gradient, var(--un-gradient-stops, rgba(255, 255, 255, 0))))`,
