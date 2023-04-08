@@ -1,6 +1,6 @@
 import type { VariantObject } from '@unocss/core'
 
-export const variantImportant = (): VariantObject => {
+export function variantImportant(): VariantObject {
   let re: RegExp
   return {
     name: 'important',

@@ -446,6 +446,7 @@ export const presetMiniTargets: string[] = [
   'shadow-xl',
   'shadow-green-500',
   'shadow-green-900/50',
+  'shadow-[#fff]',
   'shadow-op-50',
   'shadow-inset',
   'shadow-[0px_4px_4px_0px_rgba(237,_0,_0,_1)]',
@@ -1102,6 +1103,7 @@ export const presetMiniNonTargets = [
   '["update:modelValue"]',
   '[https://en.wikipedia.org/wiki]',
   '[Baz::class]',
+  '[foo:bar:baz]',
   // escaped arbitrary css properties only allowed in css variables
   '[cant\~escape:me]',
 

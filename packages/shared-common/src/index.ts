@@ -1,5 +1,5 @@
 import type { ExtractorContext, UnoGenerator } from '@unocss/core'
-import { arbitraryPropertyRE, escapeRegExp, isAttributifySelector, makeRegexClassGroup, quotedArbitraryValuesRE } from '@unocss/core'
+import { arbitraryPropertyRE, escapeRegExp, isAttributifySelector, makeRegexClassGroup, quotedArbitraryValuesRE, splitWithVariantGroupRE } from '@unocss/core'
 import MagicString from 'magic-string'
 
 // https://github.com/dsblv/string-replace-async/blob/main/index.js
@@ -112,7 +112,7 @@ export function getMatchedPositions(code: string, matched: string[], hasVariantG
 
   // highlight for plain classes
   let start = 0
-  code.split(/([\s"'`;<>*]|:\(|\)"|\)\s)/g).forEach((i) => {
+  code.split(splitWithVariantGroupRE).forEach((i) => {
     const end = start + i.length
     if (isPug) {
       result.push(...getPlainClassMatchedPositionsForPug(i, plain, start))
@@ -124,7 +124,7 @@ export function getMatchedPositions(code: string, matched: string[], hasVariantG
     start = end
   })
 
-  // highlight for qouted arbitrary values
+  // highlight for quoted arbitrary values
   for (const match of code.matchAll(quotedArbitraryValuesRE)) {
     const start = match.index!
     const end = start + match[0].length

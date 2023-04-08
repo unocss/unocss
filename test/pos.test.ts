@@ -164,7 +164,7 @@ describe('matched-positions', async () => {
       ],
     })
 
-    expect(await match(uno, '<div class="[color:red] [color:\'red\']"></div>'))
+    expect(await match(uno, '<div class="[color:red] [color:\'red\'] [foo:bar:baz] [content:\'bar:baz\']"></div>'))
       .toMatchInlineSnapshot(`
         [
           [
@@ -176,6 +176,11 @@ describe('matched-positions', async () => {
             24,
             37,
             "[color:'red']",
+          ],
+          [
+            52,
+            71,
+            "[content:'bar:baz']",
           ],
         ]
       `)

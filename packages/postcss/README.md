@@ -1,11 +1,11 @@
 # @unocss/postcss
 
-## Experimental
-This package is in an experimental state right now. It doesn't follow semver, and may introduce breaking changes in patch versions.
+PostCSS plugin for UnoCSS. Supports `@apply`、`@screen` and `theme()` directives.
+
+> **Warning**: Experimental
+> This package is in an experimental state right now. It doesn't follow semver, and may introduce breaking changes in patch versions.
 
 <!-- @unocss-ignore -->
-
-PostCSS plugin for UnoCSS. Supports `@apply`、`@screen` and `theme()` directives.
 
 ## Install
 
@@ -26,7 +26,7 @@ module.exports = {
 ```
 
 ```ts
-// uno.config.js
+// uno.config.ts
 import { defineConfig, presetUno } from 'unocss'
 
 export default defineConfig({

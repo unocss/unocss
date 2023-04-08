@@ -4,7 +4,7 @@ import type { TagifyOptions } from './types'
 export const MARKER = '__TAGIFY__'
 export const htmlTagRE = /<([\w\d-:]+)/g
 
-export const extractorTagify = (options: TagifyOptions): Extractor => {
+export function extractorTagify(options: TagifyOptions): Extractor {
   const {
     prefix = '',
     excludedTags = ['b', /^h\d+$/, 'table'],
