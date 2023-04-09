@@ -583,10 +583,10 @@ importers:
         version: 3.0.2
 
   packages/extractor-svelte:
-    specifiers:
-      '@unocss/core': workspace:*
     devDependencies:
-      '@unocss/core': link:../core
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../core
 
   packages/inspector:
     dependencies:
