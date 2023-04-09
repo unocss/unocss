@@ -11,7 +11,21 @@ export function resolveShortcuts<Theme extends {} = {}>(shortcuts: UserShortcuts
   })
 }
 
+const __RESOLVED = '_uno_resolved'
+
+/**
+ * Resolve a single preset, nested presets are ignored
+ */
 export function resolvePreset<Theme extends {} = {}>(preset: Preset<Theme>): Preset<Theme> {
+  if (__RESOLVED in preset)
+    return preset
+
+  preset = { ...preset }
+  Object.defineProperty(preset, __RESOLVED, {
+    value: true,
+    enumerable: false,
+  })
+
   const shortcuts = preset.shortcuts
     ? resolveShortcuts(preset.shortcuts)
     : undefined
@@ -34,12 +48,23 @@ export function resolvePreset<Theme extends {} = {}>(preset: Preset<Theme>): Pre
   return preset
 }
 
+/**
+ * Resolve presets with nested presets
+ */
+export function resolvePresets<Theme extends {} = {}>(preset: Preset<Theme>): Preset<Theme>[] {
+  const root = resolvePreset(preset)
+  if (!root.presets)
+    return [root]
+  const nested = (root.presets || []).flatMap(toArray).flatMap(resolvePresets)
+  return [root, ...nested]
+}
+
 export function resolveConfig<Theme extends {} = {}>(
   userConfig: UserConfig<Theme> = {},
   defaults: UserConfigDefaults<Theme> = {},
 ): ResolvedConfig<Theme> {
   const config = Object.assign({}, defaults, userConfig) as UserConfigDefaults<Theme>
-  const rawPresets = (config.presets || []).flatMap(toArray).map(resolvePreset)
+  const rawPresets = uniq((config.presets || []).flatMap(toArray).flatMap(resolvePresets))
 
   const sortedPresets = [
     ...rawPresets.filter(p => p.enforce === 'pre'),

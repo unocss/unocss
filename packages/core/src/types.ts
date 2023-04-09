@@ -410,6 +410,11 @@ export interface ConfigBase<Theme extends {} = {}> {
   extendTheme?: Arrayable<ThemeExtender<Theme>>
 
   /**
+   * Presets
+   */
+  presets?: (Preset<Theme> | Preset<Theme>[])[]
+
+  /**
    * Additional options for auto complete
    */
   autocomplete?: {
@@ -546,11 +551,6 @@ export interface UserOnlyOptions<Theme extends {} = {}> {
    * @default 'shortcuts'
    */
   shortcutsLayer?: string
-
-  /**
-   * Presets
-   */
-  presets?: (Preset<Theme> | Preset<Theme>[])[]
 
   /**
    * Environment mode

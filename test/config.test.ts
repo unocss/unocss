@@ -1,4 +1,4 @@
-import type { UserConfig } from '@unocss/core'
+import type { Preset, UserConfig } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
 import presetMini from '@unocss/preset-mini'
@@ -86,6 +86,50 @@ describe('config', () => {
       "/* layer: default */
       .text-red-100{color:green;}
       .text-red-200{color:red;}"
+    `)
+  })
+
+  test('nested presets', async () => {
+    const presetA: Preset = {
+      name: 'presetA',
+      rules: [
+        ['text-red-500', { color: 'red' }],
+        ['bg-red-500', { backgroundColor: 'red' }],
+      ],
+      shortcuts: {
+        'text-red': 'text-red-500',
+      },
+    }
+    const presetB: Preset = {
+      name: 'presetB',
+      rules: [
+        ['text-yellow-500', { color: 'yellow' }],
+        ['bg-yellow-500', { backgroundColor: 'yellow' }],
+      ],
+      shortcuts: [{
+        btn: 'text-red bg-yellow-500',
+      }],
+      presets: [
+        presetA,
+      ],
+    }
+
+    const uno = createGenerator({
+      presets: [
+        presetB,
+      ],
+    })
+
+    expect(uno.config.presets.map(i => i.name))
+      .toEqual(['presetB', 'presetA'])
+
+    const { css } = await uno.generate('btn text-red text-yellow-500', { preflights: false })
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: shortcuts */
+      .btn{backgroundColor:yellow;color:red;}
+      .text-red{color:red;}
+      /* layer: default */
+      .text-yellow-500{color:yellow;}"
     `)
   })
 })
