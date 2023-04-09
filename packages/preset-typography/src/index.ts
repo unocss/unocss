@@ -45,7 +45,7 @@ export interface TypographyOptions {
  * UnoCSS Preset for Typography
  *
  * ```js
- * // unocss.config.js
+ * // uno.config.ts
  * import { presetAttributify, presetUno, defineConfig, presetTypography } from 'unocss'
  *
  * export default defineConfig({
