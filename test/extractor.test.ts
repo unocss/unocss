@@ -18,8 +18,7 @@ it('extractorSplit', async () => {
 it('extractorSvelte uses regular split with non .svelte files', async () => {
   const uno = createGenerator({
     extractors: [
-      extractorSplit,
-      extractorSvelte,
+      extractorSvelte(),
     ],
   })
 
@@ -41,8 +40,7 @@ it('extractorSvelte uses regular split with non .svelte files', async () => {
 it('extractorSvelte uses svelte-specific split with .svelte files', async () => {
   const uno = createGenerator({
     extractors: [
-      extractorSplit,
-      extractorSvelte,
+      extractorSvelte(),
     ],
   })
 

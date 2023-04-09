@@ -223,7 +223,7 @@ const config = {
   plugins: [
     UnoCSS({
       extractors: [
-        extractorSvelte
+        extractorSvelte()
       ],
       /* more options */
     }),
@@ -253,6 +253,7 @@ Alternatively, if you only want them to apply to a specific component just add t
 // vite.config.js
 import { sveltekit } from '@sveltejs/kit/vite'
 import UnoCSS from 'unocss/vite'
+
 /** @type {import('vite').UserConfig} */
 const config = {
   plugins: [

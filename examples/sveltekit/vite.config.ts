@@ -10,7 +10,7 @@ export default defineConfig({
   plugins: [
     UnoCSS({
       extractors: [
-        extractorSvelte,
+        extractorSvelte(),
       ],
       shortcuts: [
         { logo: 'i-logos:svelte-icon w-6em h-6em transform transition-800 hover:rotate-180' },

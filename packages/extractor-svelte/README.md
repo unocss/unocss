@@ -18,12 +18,10 @@ npm i -D @unocss/extractor-svelte
 
 ```ts
 import extractorSvelte from '@unocss/extractor-svelte'
-import { extractorDefault } from '@unocss/core'
 
 UnoCSS({
   extractors: [
-    extractorDefault,
-    extractorSvelte,
+    extractorSvelte(),
   ],
 })
 ```

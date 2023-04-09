@@ -1,6 +1,5 @@
 import {
   defineConfig,
-  extractorDefault,
   presetAttributify,
   presetIcons,
   presetTypography,
@@ -11,8 +10,7 @@ import extractorSvelte from '@unocss/extractor-svelte'
 
 export default defineConfig({
   extractors: [
-    extractorDefault,
-    extractorSvelte,
+    extractorSvelte(),
   ],
   presets: [
     presetUno({

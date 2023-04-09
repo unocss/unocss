@@ -63,7 +63,7 @@ const Transformers: DefaultTheme.NavItemWithLink[] = [
 
 const Extractors: DefaultTheme.NavItemWithLink[] = [
   { text: 'Pug extractor', link: '/extractors/pug' },
-  // { text: 'Svelte extractor', link: '/extractors/svelte' },
+  { text: 'Svelte extractor', link: '/extractors/svelte' },
 ]
 
 const Tools: DefaultTheme.NavItemWithLink[] = [
