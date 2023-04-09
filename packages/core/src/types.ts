@@ -115,6 +115,7 @@ export interface ExtractorContext {
   readonly original: string
   code: string
   id?: string
+  extracted: Set<string>
 }
 
 export interface PreflightContext<Theme extends {} = {}> {
@@ -130,8 +131,13 @@ export interface PreflightContext<Theme extends {} = {}> {
 
 export interface Extractor {
   name: string
-  extract(ctx: ExtractorContext): Awaitable<Set<string> | string[] | undefined>
   order?: number
+  /**
+   * Extract the code and return a list of selectors.
+   *
+   * Return `undefined` to skip this extractor.
+   */
+  extract?(ctx: ExtractorContext): Awaitable<Set<string> | string[] | undefined | void>
 }
 
 export interface RuleMeta {
