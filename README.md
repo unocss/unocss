@@ -61,7 +61,7 @@ Read the [documentation](https://unocss.dev/) for more details.
 
 ## Acknowledgement
 
-UnoCSS is made possible thanks to the insprations from the following projects:
+UnoCSS is made possible thanks to the inspirations from the following projects:
 
 > in alphabet order
 
