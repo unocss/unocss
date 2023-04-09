@@ -25,7 +25,7 @@ export default function myPreset(options: MyPresetOptions): Preset {
 Then the user can use it like this:
 
 ```ts
-// unocss.config.ts
+// uno.config.ts
 import { defineConfig } from 'unocss'
 import myPreset from './my-preset'
 

@@ -9,7 +9,7 @@ export interface AstroIntegrationConfig<Theme extends {} = {}> extends VitePlugi
   /**
    * Include reset styles
    * When passing `true`, `@unocss/reset/tailwind.css` will be used
-   * @default true
+   * @default false
    */
   injectReset?: string | boolean
 
@@ -32,7 +32,7 @@ export default function UnoCSSAstroIntegration<Theme extends {}>(
 ): AstroIntegration {
   const {
     injectEntry = true,
-    injectReset: includeReset = true,
+    injectReset = false,
     injectExtra = [],
   } = options
 
@@ -49,9 +49,9 @@ export default function UnoCSSAstroIntegration<Theme extends {}>(
         config.vite.plugins.push(...VitePlugin(options, defaults) as any)
 
         const injects: string[] = []
-        if (includeReset) {
-          const resetPath = typeof includeReset === 'string'
-            ? includeReset
+        if (injectReset) {
+          const resetPath = typeof injectReset === 'string'
+            ? injectReset
             : '@unocss/reset/tailwind.css'
           injects.push(`import "${resetPath}"`)
         }

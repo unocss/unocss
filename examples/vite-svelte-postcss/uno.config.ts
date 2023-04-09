@@ -1,15 +1,17 @@
 import {
   defineConfig,
-  extractorSvelte,
   presetAttributify,
   presetIcons,
   presetTypography,
   presetUno,
   presetWebFonts,
 } from 'unocss'
+import extractorSvelte from '@unocss/extractor-svelte'
 
 export default defineConfig({
-  extractors: [extractorSvelte],
+  extractors: [
+    extractorSvelte(),
+  ],
   presets: [
     presetUno({
       attributifyPseudo: true,

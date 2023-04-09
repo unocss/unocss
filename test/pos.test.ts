@@ -2,11 +2,10 @@ import { describe, expect, test } from 'vitest'
 import presetAttributify from '@unocss/preset-attributify'
 import presetUno from '@unocss/preset-uno'
 import type { UnoGenerator } from '@unocss/core'
-import { createGenerator, extractorSplit } from '@unocss/core'
+import { createGenerator } from '@unocss/core'
 import { getMatchedPositionsFromCode as match } from '@unocss/shared-common'
 import transformerVariantGroup from '@unocss/transformer-variant-group'
 import cssDirectives from '@unocss/transformer-directives'
-
 import extractorPug from '@unocss/extractor-pug'
 
 describe('matched-positions', async () => {
@@ -230,6 +229,25 @@ describe('matched-positions', async () => {
         ]
       `)
   })
+
+  test('colon highlighting #2460', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetUno(),
+      ],
+    })
+
+    expect(await match(uno, 'w5:<div class="w-full"></div>'))
+      .toMatchInlineSnapshot(`
+        [
+          [
+            15,
+            21,
+            "w-full",
+          ],
+        ]
+      `)
+  })
 })
 
 describe('matched-positions-pug', async () => {
@@ -246,7 +264,6 @@ describe('matched-positions-pug', async () => {
       presetAttributify({ strict: true }),
     ],
     extractors: [
-      extractorSplit,
       extractorPug(),
     ],
     transformers: [
@@ -284,11 +301,6 @@ describe('matched-positions-pug', async () => {
           28,
           30,
           "p4",
-        ],
-        [
-          39,
-          40,
-          "b",
         ],
         [
           39,

@@ -115,6 +115,7 @@ export interface ExtractorContext {
   readonly original: string
   code: string
   id?: string
+  extracted: Set<string>
 }
 
 export interface PreflightContext<Theme extends {} = {}> {
@@ -130,8 +131,13 @@ export interface PreflightContext<Theme extends {} = {}> {
 
 export interface Extractor {
   name: string
-  extract(ctx: ExtractorContext): Awaitable<Set<string> | string[] | undefined>
   order?: number
+  /**
+   * Extract the code and return a list of selectors.
+   *
+   * Return `undefined` to skip this extractor.
+   */
+  extract?(ctx: ExtractorContext): Awaitable<Set<string> | string[] | undefined | void>
 }
 
 export interface RuleMeta {
@@ -303,7 +309,7 @@ export type Variant<Theme extends {} = {}> = VariantFunction<Theme> | VariantObj
 
 export type Preprocessor = (matcher: string) => string | undefined
 export type Postprocessor = (util: UtilObject) => void
-export type ThemeExtender<T> = (theme: T) => void
+export type ThemeExtender<T> = (theme: T) => T | void
 
 export interface ConfigBase<Theme extends {} = {}> {
   /**
@@ -352,6 +358,21 @@ export interface ConfigBase<Theme extends {} = {}> {
   extractors?: Extractor[]
 
   /**
+   * Default extractor that are always applied.
+   * By default it split the source code by whitespace and quotes.
+   *
+   * It maybe be replaced by preset or user config,
+   * only one default extractor can be presented,
+   * later one will override the previous one.
+   *
+   * Pass `null` or `false` to disable the default extractor.
+   *
+   * @see https://github.com/antfu/unocss/blob/main/packages/core/src/extractors/split.ts
+   * @default import('@unocss/core').defaultExtractor
+   */
+  extractorDefault?: Extractor | null | false
+
+  /**
    * Raw CSS injections.
    */
   preflights?: Preflight<Theme>[]
@@ -382,7 +403,9 @@ export interface ConfigBase<Theme extends {} = {}> {
   postprocess?: Arrayable<Postprocessor>
 
   /**
-   * Custom functions to extend the theme object
+   * Custom functions mutate the theme object.
+   *
+   * It's also possible to return a new theme object to completely replace the original one.
    */
   extendTheme?: Arrayable<ThemeExtender<Theme>>
 
@@ -400,6 +423,13 @@ export interface ConfigBase<Theme extends {} = {}> {
      */
     extractors?: Arrayable<AutoCompleteExtractor>
   }
+
+  /**
+   * Hook to modify the resolved config.
+   *
+   * First presets runs first and the user config
+   */
+  configResolved?: (config: ResolvedConfig) => void
 
   /**
    * Expose internal details for debugging / inspecting
@@ -470,6 +500,9 @@ export interface AutoCompleteExtractor {
 
 export interface Preset<Theme extends {} = {}> extends ConfigBase<Theme> {
   name: string
+  /**
+   * Enforce the preset to be applied before or after other presets
+   */
   enforce?: 'pre' | 'post'
   /**
    * Preset options for other tools like IDE to consume

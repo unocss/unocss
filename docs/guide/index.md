@@ -39,7 +39,7 @@ To make it more flexible, you can make your rule dynamic by changing the first a
 export default defineConfig({
   rules: [
 -    ['m-1', { margin: '1px' }]
-+    [/^m-(\d+)$/, ([_, num]) => ({ margin: `${num}px` })],
++    [/^m-([\.\d]+)$/, ([_, num]) => ({ margin: `${num}px` })],
   ],
 })
 ```
@@ -67,8 +67,8 @@ import { Preset } from 'unocss'
 export const myPreset: Preset = {
   name: 'my-preset',
   rules: [
-    [/^m-(\d+)$/, ([_, num]) => ({ margin: `${num}px` })],
-    [/^p-(\d+)$/, ([_, num]) => ({ padding: `${num}px` })],
+    [/^m-([\.\d]+)$/, ([_, num]) => ({ margin: `${num}px` })],
+    [/^p-([\.\d]+)$/, ([_, num]) => ({ padding: `${num}px` })],
   ],
   variants: [/* ... */],
   shortcuts: [/* ... */]

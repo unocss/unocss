@@ -6,5 +6,6 @@ interactive/data/guides.ts
 defaultConfig.ts
 packages/preset-icons/src/collections.json
 packages/eslint-plugin/fixtures
+bench/source/gen*.js
 !.vitepress
 docs/.vitepress/cache/deps/*.*

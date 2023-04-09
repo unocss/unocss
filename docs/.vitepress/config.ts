@@ -3,7 +3,7 @@ import type { DefaultTheme } from 'vitepress/types'
 import { version } from '../../package.json'
 
 const ogUrl = 'https://unocss.dev/'
-const ogImage = `${ogUrl}og.png`
+const ogImage = `${ogUrl}og.png#1`
 const title = 'UnoCSS'
 const description = 'The instant on-demand Atomic CSS engine'
 
@@ -57,13 +57,14 @@ const Presets: DefaultTheme.NavItemWithLink[] = [
 const Transformers: DefaultTheme.NavItemWithLink[] = [
   { text: 'Variant Group', link: '/transformers/variant-group' },
   { text: 'Directives', link: '/transformers/directives' },
-  { text: 'Compile class', link: '/transformers/compile-class' },
+  { text: 'Compile Class', link: '/transformers/compile-class' },
   { text: 'Attributify JSX', link: '/transformers/attributify-jsx' },
 ]
 
 const Extractors: DefaultTheme.NavItemWithLink[] = [
-  { text: 'Pug extractor', link: '/extractors/pug' },
-  // { text: 'Svelte extractor', link: '/extractors/svelte' },
+  { text: 'Pug Extractor', link: '/extractors/pug' },
+  { text: 'Svelte Extractor', link: '/extractors/svelte' },
+  { text: 'Arbitrary Variants Extractor', link: '/extractors/arbitrary-variants' },
 ]
 
 const Tools: DefaultTheme.NavItemWithLink[] = [

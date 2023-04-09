@@ -19,7 +19,7 @@ export function extractorAttributify(options?: AttributifyOptions): Extractor {
   const trueToNonValued = options?.trueToNonValued ?? false
 
   return {
-    name: 'attributify',
+    name: '@unocss/preset-attributify/extractor',
     extract({ code }) {
       const result = Array.from(code.matchAll(elementRE))
         .flatMap(match => Array.from((match[1] || '').matchAll(valuedAttributeRE)))

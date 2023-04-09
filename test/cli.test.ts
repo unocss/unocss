@@ -38,10 +38,10 @@ export default defineConfig({
     expect(output).toMatchSnapshot()
   })
 
-  it('supports unocss.config.ts changed rebuild', async () => {
+  it('supports uno.config.ts changed rebuild', async () => {
     const { output, testDir } = await runCli({
       'views/index.html': '<div class="bg-foo"></div>',
-      'unocss.config.ts': `
+      'uno.config.ts': `
 import { defineConfig } from 'unocss'
 export default defineConfig({
   theme: {
@@ -57,7 +57,7 @@ export default defineConfig({
         break
     }
     expect(output).toContain('.bg-foo{background-color:red;}')
-    await fs.writeFile(resolve(testDir as string, 'unocss.config.ts'), `
+    await fs.writeFile(resolve(testDir as string, 'uno.config.ts'), `
 import { defineConfig } from 'unocss'
 export default defineConfig({
   theme: {

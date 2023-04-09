@@ -12,27 +12,9 @@
 
 <br>
 
-## Features
+## Documentation
 
-- Decoration and tooltip for matched utilities
-- Loading configs from `uno.config.ts`, `uno.config.ts`, `vite.config.js`, `svelte.config.js`, `astro.config.js`, `iles.config.js` or `nuxt.config.js` (or `.ts`)
-- Count of matched utilities
-
-## Config
-
-By default the extension will search for the config files under project root. When there is no config found, the extension will be disabled. To work with monorepo, you need to change the `unocss.root` option in your `settings.json` to the directory that contains the config file.
-
-```javascript
-{
-  "unocss.root": "packages/client"
-}
-```
-
-For now not working with auto-importing `defineNuxtConfig` in `nuxt.config.ts`, add manual import: 
-
-```ts
-import { defineNuxtConfig } from 'nuxt/config'
-```
+Please refer to the [documentation](https://unocss.dev/integrations/vscode).
 
 ## License
 

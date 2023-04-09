@@ -56,7 +56,7 @@ Read the [documentation](https://unocss.dev/) for more details.
 - [CDN Runtime](https://unocss.dev/integrations/runtime)
 - [CLI](https://unocss.dev/integrations/cli)
 - [VS Code extension](https://unocss.dev/integrations/vscode)
-- [ESLint Config](https://unocss.dev/integrations/eslint-config)
+- [ESLint Config](https://unocss.dev/integrations/eslint)
 - [PostCSS](https://unocss.dev/integrations/postcss)
 
 ## Acknowledgement
