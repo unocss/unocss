@@ -25,13 +25,11 @@ Pug extractor for UnoCSS: `@unocss/extractor-pug`.
 
 ```ts
 import { defineConfig } from 'unocss'
-import { extractorSplit } from '@unocss/core'
 import extractorPug from '@unocss/extractor-pug'
 
 export default defineConfig({
   extractors: [
     extractorPug(),
-    extractorSplit,
   ],
 })
 ```

@@ -57,8 +57,12 @@ export function resolveConfig<Theme extends {} = {}>(
   }
 
   const extractors = mergePresets('extractors')
-  if (!extractors.length)
-    extractors.push(extractorSplit)
+  let extractorDefault = [...sortedPresets, config].reverse().find(i => i.extractorDefault !== undefined)?.extractorDefault
+  if (extractorDefault === undefined)
+    extractorDefault = extractorSplit
+  if (extractorDefault && !extractors.includes(extractorDefault))
+    extractors.unshift(extractorDefault)
+
   extractors.sort((a, b) => (a.order || 0) - (b.order || 0))
 
   const rules = mergePresets('rules')
