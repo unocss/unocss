@@ -120,7 +120,3 @@ Will be compiled to:
   unocss
 </div>
 ```
-
-## License
-
-- MIT License &copy; 2022-PRESENT [Anthony Fu](https://github.com/antfu)
