@@ -215,6 +215,7 @@ You can use simple rules with `class:`, for example `class:bg-red-500={foo}` or 
 import { sveltekit } from '@sveltejs/kit/vite'
 import UnoCSS from 'unocss/vite'
 import { extractorSvelte } from '@unocss/core'
+
 /** @type {import('vite').UserConfig} */
 const config = {
   plugins: [

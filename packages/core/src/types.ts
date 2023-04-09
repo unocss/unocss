@@ -352,6 +352,21 @@ export interface ConfigBase<Theme extends {} = {}> {
   extractors?: Extractor[]
 
   /**
+   * Default extractor that are always applied.
+   * By default it split the source code by whitespace and quotes.
+   *
+   * It maybe be replaced by preset or user config,
+   * only one default extractor can be presented,
+   * later one will override the previous one.
+   *
+   * Pass `null` or `false` to disable the default extractor.
+   *
+   * @see https://github.com/antfu/unocss/blob/main/packages/core/src/extractors/split.ts
+   * @default import('@unocss/core').defaultExtractor
+   */
+  extractorDefault?: Extractor | null | false
+
+  /**
    * Raw CSS injections.
    */
   preflights?: Preflight<Theme>[]
