@@ -118,6 +118,7 @@
     "@unocss/astro": "workspace:*",
     "@unocss/cli": "workspace:*",
     "@unocss/core": "workspace:*",
+    "@unocss/extractor-arbitrary-variants": "workspace:*",
     "@unocss/postcss": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
     "@unocss/preset-icons": "workspace:*",

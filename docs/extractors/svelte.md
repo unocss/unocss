@@ -1,8 +1,8 @@
 ---
-title: Svelte extractor
+title: Svelte Extractor
 ---
 
-# Svelte extractor
+# Svelte Extractor
 
 Supports extracting classes from `class:` directive.
 

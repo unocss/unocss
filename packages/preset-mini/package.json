@@ -65,6 +65,7 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@unocss/core": "workspace:*"
+    "@unocss/core": "workspace:*",
+    "@unocss/extractor-arbitrary-variants": "workspace:*"
   }
 }

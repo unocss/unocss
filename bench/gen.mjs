@@ -1,5 +1,5 @@
-import { existsSync, promises as fs } from 'fs'
-import { join } from 'path'
+import { existsSync, promises as fs } from 'node:fs'
+import { join } from 'node:path'
 import { dir } from './meta.mjs'
 
 const sizes = [
@@ -61,8 +61,8 @@ const names = [
   ], [
     '1',
     '2',
-    '[1fr,3em]',
-    '[20px,min-content,1fr]',
+    '[1fr_3em]',
+    '[20px_min-content_1fr]',
   ]),
 ]
 

@@ -23,6 +23,7 @@ export const alias: Record<string, string> = {
   '@unocss/preset-uno': r('./packages/preset-uno/src/'),
   '@unocss/preset-web-fonts': r('./packages/preset-web-fonts/src/'),
   '@unocss/preset-wind': r('./packages/preset-wind/src/'),
+  '@unocss/extractor-arbitrary-variants': r('./packages/extractor-arbitrary-variants/src/'),
   '@unocss/runtime': r('./packages/runtime/src/'),
   '@unocss/scope': r('./packages/scope/'),
   '@unocss/shared-common': r('./packages/shared-common/src/'),

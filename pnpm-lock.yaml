@@ -570,6 +570,12 @@ importers:
         specifier: workspace:*
         version: 'link:'
 
+  packages/extractor-arbitrary-variants:
+    dependencies:
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../core
+
   packages/extractor-pug:
     devDependencies:
       '@types/pug':
@@ -694,6 +700,9 @@ importers:
       '@unocss/core':
         specifier: workspace:*
         version: link:../core
+      '@unocss/extractor-arbitrary-variants':
+        specifier: workspace:*
+        version: link:../extractor-arbitrary-variants
 
   packages/preset-rem-to-px:
     dependencies:
@@ -875,6 +884,9 @@ importers:
       '@unocss/core':
         specifier: workspace:*
         version: link:../core
+      '@unocss/extractor-arbitrary-variants':
+        specifier: workspace:*
+        version: link:../extractor-arbitrary-variants
       '@unocss/postcss':
         specifier: workspace:*
         version: link:../postcss

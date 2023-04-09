@@ -10,7 +10,7 @@ export * from './variant'
 export * from './types'
 export * from './jsx'
 
-function preset(options: AttributifyOptions = {}): Preset {
+function presetAttributify(options: AttributifyOptions = {}): Preset {
   options.strict = options.strict ?? false
   options.prefix = options.prefix ?? 'un-'
   options.prefixedOnly = options.prefixedOnly ?? false
@@ -29,6 +29,7 @@ function preset(options: AttributifyOptions = {}): Preset {
 
   return {
     name: '@unocss/preset-attributify',
+    enforce: 'post',
     variants,
     extractors,
     options,
@@ -39,4 +40,5 @@ function preset(options: AttributifyOptions = {}): Preset {
   }
 }
 
-export default preset
+export { presetAttributify }
+export default presetAttributify

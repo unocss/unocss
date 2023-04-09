@@ -31,6 +31,7 @@
       "@unocss/preset-uno": ["./packages/preset-uno/src/index.ts"],
       "@unocss/preset-web-fonts": ["./packages/preset-web-fonts/src/index.ts"],
       "@unocss/preset-wind": ["./packages/preset-wind/src/index.ts"],
+      "@unocss/extractor-arbitrary-variants": ["./packages/extractor-arbitrary-variants/src/index.ts"],
       "@unocss/preset-rem-to-px": ["./packages/preset-rem-to-px/src/index.ts"],
       "@unocss/extractor-pug": ["./packages/extractor-pug/src/index.ts"],
       "@unocss/extractor-svelte": ["./packages/extractor-svelte/src/index.ts"],
