@@ -10,7 +10,7 @@ The UnoCSS integration for [Astro](https://astro.build/): `@unocss/astro`. Check
 ## Installation
 
 
-**Using astro add **
+**Using astro add**
 
 ::: code-group
   ```bash [pnpm]
@@ -24,7 +24,7 @@ The UnoCSS integration for [Astro](https://astro.build/): `@unocss/astro`. Check
   ```
 :::
 
-**Individually **
+**Individually**
 
 ::: code-group
   ```bash [pnpm]
