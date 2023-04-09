@@ -43,7 +43,7 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@ampproject/remapping": "^2.2.0",
+    "@ampproject/remapping": "^2.2.1",
     "@rollup/pluginutils": "^5.0.2",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",

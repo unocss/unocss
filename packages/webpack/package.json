@@ -40,7 +40,7 @@
     "webpack": "^4 || ^5"
   },
   "dependencies": {
-    "@ampproject/remapping": "^2.2.0",
+    "@ampproject/remapping": "^2.2.1",
     "@rollup/pluginutils": "^5.0.2",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
@@ -53,6 +53,6 @@
   "devDependencies": {
     "@types/webpack": "^5.28.1",
     "@types/webpack-sources": "^3.2.0",
-    "webpack": "^5.77.0"
+    "webpack": "^5.78.0"
   }
 }

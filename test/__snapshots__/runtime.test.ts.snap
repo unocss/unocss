@@ -1,31 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`runtime auto prefixer > runtime tagify 1`] = `
-"/* layer: default */
-m-1{margin:0.25rem;}
-flex{display:flex;}
-scale-2{--un-scale-x:0.02;--un-scale-y:0.02;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
-.p2{padding:0.5rem;}
-hover\\\\:color-red:hover,
-text-red{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
-text-green5\\\\:10{color:rgba(34,197,94,0.1);}
-shadow-xl{--un-shadow:var(--un-shadow-inset) 0 20px 25px -5px var(--un-shadow-color, rgba(0,0,0,0.1)),var(--un-shadow-inset) 0 8px 10px -6px var(--un-shadow-color, rgba(0,0,0,0.1));box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}"
-`;
-
-exports[`runtime auto prefixer > using autoprefixer 1`] = `
-"/* layer: default */
-.\\\\[--vars\\\\:value\\\\]{--vars:value;}
-.\\\\[-vars\\\\:value\\\\],
-.\\\\[vars\\\\:value\\\\]{-webkit-vars:value;}
-.\\\\[filter\\\\:none\\\\]{-webkit-filter:none;}
-.\\\\[hyphens\\\\:none\\\\]{-ms-hyphens:none;}
-.\\\\[non-hyphens\\\\:none\\\\]{non-hyphens:none;}
-.\\\\[perspective\\\\:0\\\\]{-webkit-perspective:0;}
-.perspect-1px{-webkit-perspective:1px;}
-.hyphens-auto{-webkit-hyphens:auto;-ms-hyphens:auto;}
-.filter{-webkit-filter:var(--un-blur) var(--un-brightness) var(--un-contrast) var(--un-drop-shadow) var(--un-grayscale) var(--un-hue-rotate) var(--un-invert) var(--un-saturate) var(--un-sepia);}"
-`;
-
 exports[`runtime auto prefixer > without autoprefixer 1`] = `
 "/* layer: default */
 .\\\\[--vars\\\\:value\\\\]{--vars:value;}

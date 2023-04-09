@@ -1,0 +1,3 @@
+/* layer: default */
+.dark .hello .dark\:scope-\[\.hello\]\:text-1\/2{font-size:0.25rem;line-height:0.5rem;}
+.light [world] .scope-\[\[world\]\]\:light\:text-1\/3{font-size:0.25rem;line-height:0.75rem;}

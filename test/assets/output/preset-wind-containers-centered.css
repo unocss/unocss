@@ -1,0 +1,24 @@
+/* layer: shortcuts */
+.container{width:100%;margin-left:auto;margin-right:auto;}
+@media (min-width: 640px){
+.container{max-width:640px;margin-left:auto;margin-right:auto;}
+}
+@media (min-width: 768px){
+.container,
+.md\:container{max-width:768px;margin-left:auto;margin-right:auto;}
+}
+@media (min-width: 1024px){
+.container,
+.lg\:container,
+.md\:container{max-width:1024px;margin-left:auto;margin-right:auto;}
+}
+@media (min-width: 1280px){
+.container,
+.lg\:container,
+.md\:container{max-width:1280px;margin-left:auto;margin-right:auto;}
+}
+@media (min-width: 1536px){
+.container,
+.lg\:container,
+.md\:container{max-width:1536px;margin-left:auto;margin-right:auto;}
+}

@@ -59,7 +59,7 @@ describe('runtime auto prefixer', () => {
     })
 
     const { css } = await uno.generate(targets, { preflights: false })
-    expect(css).toMatchSnapshot()
+    expect(css).toMatchFileSnapshot('./assets/output/runtime-preset-uno-autoprefixer.css')
   })
 
   test('runtime tagify', async () => {
@@ -81,7 +81,7 @@ describe('runtime auto prefixer', () => {
         <shadow-xl> modal </shadow-xl>
       </flex>
     `, { preflights: false })
-    expect(css).toMatchSnapshot()
+    await expect(css).toMatchFileSnapshot('./assets/output/runtime-preset-tagify.css')
   })
 })
 

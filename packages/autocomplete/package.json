@@ -37,7 +37,7 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "lru-cache": "^8.0.4"
+    "lru-cache": "^8.0.5"
   },
   "devDependencies": {
     "@unocss/core": "workspace:*"

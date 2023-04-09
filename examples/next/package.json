@@ -8,7 +8,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "13.2.4",
+    "next": "13.3.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "unocss-nextjs": "link:"
@@ -21,9 +21,9 @@
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/reset": "link:../../packages/reset",
     "@unocss/webpack": "link:../../packages/webpack",
-    "eslint": "8.37.0",
-    "eslint-config-next": "13.2.4",
-    "typescript": "5.0.3",
+    "eslint": "8.38.0",
+    "eslint-config-next": "13.3.0",
+    "typescript": "5.0.4",
     "unocss": "link:../../packages/unocss"
   }
 }

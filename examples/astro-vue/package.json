@@ -12,9 +12,9 @@
     "vue": "^3.2.47"
   },
   "devDependencies": {
-    "@astrojs/vue": "^2.1.0",
+    "@astrojs/vue": "^2.1.1",
     "@unocss/reset": "link:../../packages/reset",
-    "astro": "^2.1.9",
+    "astro": "^2.2.1",
     "unocss": "link:../../packages/unocss"
   }
 }
