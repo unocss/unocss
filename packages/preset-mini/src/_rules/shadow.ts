@@ -1,6 +1,6 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorResolver, colorableShadows, handler as h } from '../utils'
+import { colorResolver, colorableShadows, handler as h, hasParseableColor } from '../utils'
 import { varEmpty } from './static'
 
 export const boxShadowsBase = {
@@ -15,10 +15,12 @@ export const boxShadows: Rule<Theme>[] = [
   [/^shadow(?:-(.+))?$/, (match, context) => {
     const [, d] = match
     const { theme } = context
-    const v = theme.boxShadow?.[d || 'DEFAULT'] || h.bracket.cssvar(d)
-    if (v) {
+    const v = theme.boxShadow?.[d || 'DEFAULT']
+    const c = d ? h.bracket.cssvar(d) : undefined
+
+    if ((v != null || c != null) && !hasParseableColor(c, theme)) {
       return {
-        '--un-shadow': colorableShadows(v, '--un-shadow-color').join(','),
+        '--un-shadow': colorableShadows((v || c)!, '--un-shadow-color').join(','),
         'box-shadow': 'var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow)',
       }
     }

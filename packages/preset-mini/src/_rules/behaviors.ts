@@ -25,7 +25,7 @@ export const appearance: Rule[] = [
   }],
 ]
 
-const willChangeProperty = (prop: string): string | undefined => {
+function willChangeProperty(prop: string): string | undefined {
   return h.properties.auto.global(prop) ?? {
     contents: 'contents',
     scroll: 'scroll-position',

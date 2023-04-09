@@ -57,4 +57,4 @@ export default defineConfig({
 })
 ```
 
-For the full list of supported configration options, please refer to the [Config reference](/config/).
+For the full list of supported configuration options, please refer to the [Config reference](/config/).

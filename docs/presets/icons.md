@@ -1,8 +1,14 @@
 ---
 title: Icons preset
-description: Use any icon with Pure CSS for UnoCSS (@unocss/preset-icons)
+description: Use any icon with Pure CSS for UnoCSS (@unocss/preset-icons).
 outline: deep
 ---
+
+<script setup>
+const toggleDark = () => {
+  document.querySelector('.VPSwitchAppearance')?.click()
+}
+</script>
 
 # Icons preset
 
@@ -34,7 +40,16 @@ For examples:
 <div class="i-twemoji-grinning-face-with-smiling-eyes hover:i-twemoji-face-with-tears-of-joy" />
 ```
 
-<img src="https://user-images.githubusercontent.com/11247099/136709053-31b4db79-eddc-4dc6-aa2d-388086332630.gif" height="100">
+<div class="w-full flex items-center justify-center gap-x-4 text-4xl p-2 mt-4">
+  <div class="i-ph:anchor-simple-thin" />
+  <div class="i-mdi:alarm text-orange-400 hover:text-teal-400" />
+  <div class="w-2em h-2em i-logos:vue transform transition-800 hover:rotate-180" />
+  <button class="i-carbon:sun dark:i-carbon:moon !w-2em !h-2em" @click="toggleDark()" title="toggle dark mode"/>
+  <div class="i-twemoji:grinning-face-with-smiling-eyes hover:i-twemoji:face-with-tears-of-joy" /> 
+  <div class="text-base my-auto flex"><div class="i-carbon:arrow-left my-auto mr-1" /> Hover it</div>
+</div>
+
+Check [all available icons](https://icones.js.org/).
 
 ## Install
 
@@ -42,7 +57,7 @@ For examples:
 npm i -D @unocss/preset-icons @iconify-json/[the-collection-you-want]
 ```
 
-We use [Iconify](https://iconify.design) as our data source of icons. You need to install the corresponding iconset in `devDependencies` by following the `@iconify-json/*` pattern. For example, `@iconify-json/mdi` for [Material Design Icons](https://materialdesignicons.com/), `@iconify-json/tabler` for [Tabler](https://tabler-icons.io/). You can refer to [Icônes](https://icones.js.org/) or [Iconify](https://icon-sets.iconify.design/) for all the collections available.
+We use [Iconify](https://iconify.design) as our data source of icons. You need to install the corresponding icon-set in `devDependencies` by following the `@iconify-json/*` pattern. For example, `@iconify-json/mdi` for [Material Design Icons](https://materialdesignicons.com/), `@iconify-json/tabler` for [Tabler](https://tabler-icons.io/). You can refer to [Icônes](https://icones.js.org/) or [Iconify](https://icon-sets.iconify.design/) for all the collections available.
 
 ```ts
 // uno.config.ts
@@ -75,10 +90,6 @@ If you prefer to install the all the icon sets available on Iconify at once (~13
 npm i -D @iconify/json
 ```
 
-## Configuration
-
-Refer to the [type definition](https://github.com/unocss/unocss/blob/main/packages/preset-icons/src/types.ts#L4) for all configurations available.
-
 ### Extra Properties
 
 You can provide the extra CSS properties to control the default behavior of the icons. The following is an example of make icons inlined by default:
@@ -101,6 +112,18 @@ By default, this preset will choose the rendering modes automatically for each i
 - `?mask` for `mask` - renders the icon as a mask image
 
 For example, `vscode-icons:file-type-light-pnpm`, an icon with colors (the `svg` doesn't contain `currentColor`) that will be rendered as a background image. Use `vscode-icons:file-type-light-pnpm?mask` to render it as a mask image and bypass it's colors.
+
+```html
+<div class="w-full flex items-center justify-center gap-x-4 text-4xl p-2 mt-4">
+  <div class="i-vscode-icons:file-type-light-pnpm" />
+  <div class="i-vscode-icons:file-type-light-pnpm?mask text-red-300" />
+</div>
+```
+
+<div class="w-full flex items-center justify-center gap-x-4 text-4xl p-2 mt-4">
+  <div class="i-vscode-icons:file-type-light-pnpm" />
+  <div class="i-vscode-icons:file-type-light-pnpm?mask text-red-300" />
+</div>
 
 ## Configuring collections and icons resolvers
 
@@ -297,6 +320,101 @@ presetIcons({
   }
 })
 ```
+
+## Options
+
+### scale
+
+- Type: `number`
+- Default: `1`
+
+Scale related to the current font size (1em).
+
+### mode
+
+- Type: `'mask' | 'background-img' | 'auto'`
+- Default: `'auto'`
+- See: https://antfu.me/posts/icons-in-pure-css
+
+Mode of generated CSS icons.
+
+:::tip
+- `mask` - use background color and the `mask` property for monochrome icons
+- `background-img` - use background image for the icons, colors are static
+- `auto` - smartly decide mode between `mask` and `background-img` per icon based on its style
+:::
+
+### prefix
+
+- Type: `string | string[]`
+- Default: `'i-'`
+
+Class prefix for matching icon rules.
+
+### extraProperties
+
+- Type: `Record<string, string>`
+- Default: `{}`
+
+Extra CSS properties applied to the generated CSS.
+
+### warn
+
+- Type: `boolean`
+- Default: `false`
+
+Emit warning when missing icons are matched.
+
+### collections
+
+- Type: `Record<string, (() => Awaitable<IconifyJSON>) | undefined | CustomIconLoader | InlineCollection>`
+- Default: `undefined`
+
+In Node.js environment, the preset will search for the installed iconify dataset automatically. When using in the browser, this options is provided to provide dataset with custom loading mechanism.
+
+### layer
+
+- Type: `string`
+- Default: `'icons'`
+
+Rule layer.
+
+### customizations
+
+- Type: `Omit<IconCustomizations, 'additionalProps' | 'trimCustomSvg'>`
+- Default: `undefined`
+
+Custom icon customizations.
+
+### autoInstall
+
+- Type: `boolean`
+- Default: `false`
+
+Auto install icon sources package when the usages is detected.
+
+:::warning
+Only on `node` environment, on `browser` this option will be ignored.
+:::
+
+### unit
+
+- Type: `string`
+- Default: `'em'`
+
+Custom icon unit.
+
+### cdn
+
+- Type: `string`
+- Default: `undefined`
+
+Load icons from CDN. Should starts with `https://` and ends with `/`.
+
+Recommends:
+
+- `https://esm.sh/`
+- `https://cdn.skypack.dev/`
 
 ### Advanced Custom Icon Set Cleanup
 

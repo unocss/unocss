@@ -18,6 +18,7 @@
 | [@unocss/transformer-directives](./transformer-directives) | Transformer for CSS directives like `@apply` | ✅ | No |
 | [@unocss/transformer-compile-class](./transformer-compile-class) | Compile group of classes into one class | ✅ | No |
 | [@unocss/transformer-attributify-jsx](./transformer-attributify-jsx) | Support valueless attributify in JSX/TSX | ✅ | No |
+| [@unocss/transformer-attributify-jsx-babel](./transformer-attributify-jsx) | Support valueless attributify in JSX/TSX (Babel) | No | No |
 | [@unocss/extractor-pug](./extractor-pug) | Extractor for Pug | No | - |
 | [@unocss/autocomplete](./autocomplete) | Utils for autocomplete | No | - |
 | [@unocss/config](./config) | Configuration file loader | ✅ | - |

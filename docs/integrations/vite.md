@@ -68,7 +68,7 @@ The generated `css` will be a global stylesheet injected on the `index.html`.
 
 ### `vue-scoped`
 
-This mode will inject generated CSS to Vue SFC's `<style scoped>` for isolation.
+This mode will inject generated CSS to Vue SFCs `<style scoped>` for isolation.
 
 ### `svelte-scoped`
 
@@ -164,6 +164,7 @@ or if you're using `@prefresh/vite`:
 // vite.config.js
 import Prefresh from '@prefresh/vite'
 import UnoCSS from 'unocss/vite'
+
 export default {
   plugins: [
     UnoCSS(),
@@ -214,6 +215,7 @@ You can use simple rules with `class:`, for example `class:bg-red-500={foo}` or 
 import { sveltekit } from '@sveltejs/kit/vite'
 import UnoCSS from 'unocss/vite'
 import { extractorSvelte } from '@unocss/core'
+
 /** @type {import('vite').UserConfig} */
 const config = {
   plugins: [
@@ -272,6 +274,7 @@ Don't forget to remove the import for `uno.css` since the `shadow-dom` mode will
 ```ts
 // vite.config.js
 import UnoCSS from 'unocss/vite'
+
 export default {
   plugins: [
     UnoCSS({
@@ -322,6 +325,7 @@ The plugin uses `nth-of-type` to avoid collisions with multiple parts in the sam
 ```ts
 // vite.config.js
 import UnoCSS from 'unocss/vite'
+
 export default {
   plugins: [
     UnoCSS({

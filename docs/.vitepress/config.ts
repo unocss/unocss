@@ -2,6 +2,11 @@ import { defineConfig } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/types'
 import { version } from '../../package.json'
 
+const ogUrl = 'https://unocss.dev/'
+const ogImage = `${ogUrl}og.png#1`
+const title = 'UnoCSS'
+const description = 'The instant on-demand Atomic CSS engine'
+
 const Guides: DefaultTheme.NavItemWithLink[] = [
   { text: 'Getting Started', link: '/guide/' },
   { text: 'Why UnoCSS?', link: '/guide/why' },
@@ -9,6 +14,7 @@ const Guides: DefaultTheme.NavItemWithLink[] = [
   { text: 'Style reset', link: '/guide/style-reset' },
   { text: 'Config file', link: '/guide/config-file' },
   { text: 'Extracting & Safelist', link: '/guide/extracting' },
+  { text: 'Packages', link: '/guide/packages' },
 ]
 
 const Configs: DefaultTheme.NavItemWithLink[] = [
@@ -127,8 +133,8 @@ const Nav: DefaultTheme.NavItem[] = [
       },
     ],
   },
-  { text: 'Interactive Docs', link: '/interactive/', target: '_blank' },
-  { text: 'Playground', link: '/play/', target: '_blank' },
+  { text: 'Interactive Docs', link: `${ogUrl}interactive/`, target: '_blank' },
+  { text: 'Playground', link: `${ogUrl}play/`, target: '_blank' },
   {
     text: `v${version}`,
     items: [
@@ -210,12 +216,6 @@ const SidebarConfig: DefaultTheme.SidebarItem[] = [
   },
 ]
 
-// TODO: verify this is the correct url
-const ogUrl = 'https://unocss.dev/'
-const ogImage = `${ogUrl}og-image.png`
-const title = 'UnoCSS'
-const description = 'The instant on-demand Atomic CSS engine'
-
 export default defineConfig({
   lang: 'en-US',
   title,
@@ -223,7 +223,7 @@ export default defineConfig({
   description,
   outDir: './dist',
   head: [
-    ['link', { rel: 'icon', href: '/logo.svg', type: 'image/svg+xml' }],
+    ['link', { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' }],
     ['link', { rel: 'alternate icon', href: '/favicon.ico', type: 'image/png', sizes: '16x16' }],
     ['meta', { name: 'author', content: 'Anthony Fu' }],
     ['meta', { property: 'og:type', content: 'website' }],
@@ -235,6 +235,7 @@ export default defineConfig({
     ['meta', { name: 'twitter:image', content: ogImage }],
     ['meta', { name: 'twitter:site', content: '@antfu7' }],
     ['meta', { name: 'twitter:url', content: ogUrl }],
+    ['link', { rel: 'search', type: 'application/opensearchdescription+xml', href: '/search.xml', title: 'UnoCSS' }],
   ],
   lastUpdated: true,
   cleanUrls: true,
@@ -266,12 +267,12 @@ export default defineConfig({
       '/config/': SidebarConfig,
     },
     editLink: {
-      pattern: 'https://github.com/unocss/unocss/docs/edit/main/docs/:path',
+      pattern: 'https://github.com/unocss/unocss/edit/main/docs/:path',
       text: 'Suggest changes to this page',
     },
     socialLinks: [
       { icon: 'github', link: 'https://github.com/unocss/unocss' },
-      { icon: 'discord', link: 'http://chat.antfu.me' },
+      { icon: 'discord', link: 'https://chat.antfu.me' },
     ],
     footer: {
       message: 'Released under the MIT License.',

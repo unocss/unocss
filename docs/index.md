@@ -15,10 +15,12 @@ hero:
       link: /guide/
     - theme: alt
       text: Interactive Docs
-      link: /interactive/
+      link: https://unocss.dev/interactive/
+      target: _blank
     - theme: alt
       text: Playground
-      link: /playground/
+      link: https://unocss.dev/play/
+      target: _blank
 
 features:
   - icon: <span class="i-carbon:ibm-toolchain"></span>
@@ -35,7 +37,7 @@ features:
   - icon: <span class="i-carbon-ibm-cloud-transit-gateway"></span>
     title: Rich Integrations
     details: "First class support of Vite, Webpack, PostCSS, CLI, VS Code, ESLint, etc."
-    link: /integrations/
+    link: /integrations/vite
     linkText: "Learn more"
   - icon: <span class="i-carbon-asset"></span>
     title: Shortcuts

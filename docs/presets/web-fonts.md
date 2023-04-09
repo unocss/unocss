@@ -1,6 +1,7 @@
 ---
 title: Web fonts preset
-description: Web fonts support for UnoCSS (@unocss/preset-web-fonts)
+description: Web fonts support for UnoCSS (@unocss/preset-web-fonts).
+outline: deep
 ---
 
 # Web Fonts preset
@@ -47,6 +48,103 @@ This preset is included in the `unocss` package, you can also import it from the
 import { presetWebFonts } from 'unocss'
 ```
 :::
+
+
+## Providers
+
+Currently supported Providers:
+
+- `none` - do nothing, treat the font as system font
+- `google` - [Google Fonts](https://fonts.google.com/)
+- `bunny` - [Privacy-Friendly Google Fonts](https://fonts.bunny.net/)
+- `fontshare` - [Quality Font Service by ITF](https://www.fontshare.com/)
+
+::: info
+PR welcome to add more providers. 🙌
+:::
+
+### Custom fetch function
+
+Use your own function to fetch font source.
+
+```ts
+// uno.config.ts
+import { defineConfig } from 'unocss'
+import presetWebFonts from '@unocss/preset-web-fonts'
+import presetUno from '@unocss/preset-uno'
+import axios from 'axios'
+import ProxyAgent from 'proxy-agent'
+
+export default defineConfig({
+  presets: [
+    presetUno(),
+    presetWebFonts({
+      // use axios with an https proxy
+      customFetch: (url: string) => axios.get(url, { httpsAgent: new ProxyAgent('https://localhost:7890') }),
+      provider: 'google',
+      fonts: {
+        sans: 'Roboto',
+        mono: ['Fira Code', 'Fira Mono:400,700'],
+      },
+    }),
+  ],
+})
+```
+
+## Options
+
+### provider
+- **Type:** `WebFontsProviders`
+- **Default:** `google`
+
+Provider service of the web fonts.
+
+```ts
+type WebFontsProviders = 'google' | 'bunny' | 'fontshare' | 'none'
+```
+
+### fonts
+- **Type:** `Record<string, WebFontMeta | string | (WebFontMeta | string)[]>`
+
+The fonts. See [example](#example) for more details.
+
+```ts
+interface WebFontMeta {
+  name: string
+  weights?: (string | number)[]
+  italic?: boolean
+  /**
+   * Override the provider
+   * @default <matches root config>
+   */
+  provider?: WebFontsProviders
+}
+```
+
+### extendTheme
+- **Type:** `boolean`
+- **Default:** `true`
+
+Extend the theme object.
+
+### themeKey
+- **Type:** `string`
+- **Default:** `fontFamily`
+
+Key for the theme object.
+
+### inlineImports
+- **Type:** `boolean`
+- **Default:** `true`
+
+Inline CSS `@import()`.
+
+### customFetch
+- **Type:** `(url: string) => Promise<string>`
+- **Default:** `undefined`
+
+Use your own function to fetch font source. See [Custom fetch function](#custom-fetch-function).
+
 
 ## Example
 
@@ -97,48 +195,3 @@ The following CSS will be generated automatically:
     "Noto Color Emoji";
 }
 ```
-
-## Providers
-
-Currently supported Providers:
-
-- `none` - do nothing, treat the font as system font
-- `google` - [Google Fonts](https://fonts.google.com/)
-- `bunny` - [Privacy-Friendly Google Fonts](https://fonts.bunny.net/)
-- `fontshare` - [Quality Font Service by ITF](https://www.fontshare.com/)
-
-::: info
-PR welcome to add more providers. 🙌
-:::
-
-### Custom fetch function
-
-Use your own function to fetch font source.
-
-```ts
-// uno.config.ts
-import { defineConfig } from 'unocss'
-import presetWebFonts from '@unocss/preset-web-fonts'
-import presetUno from '@unocss/preset-uno'
-import axios from 'axios'
-import ProxyAgent from 'proxy-agent'
-
-export default defineConfig({
-  presets: [
-    presetUno(),
-    presetWebFonts({
-      // use axios with an https proxy
-      customFetch: (url: string) => axios.get(url, { httpsAgent: new ProxyAgent('https://localhost:7890') }),
-      provider: 'google',
-      fonts: {
-        sans: 'Roboto',
-        mono: ['Fira Code', 'Fira Mono:400,700'],
-      },
-    }),
-  ],
-})
-```
-
-## Configuration
-
-Refer to the [type definition](https://github.com/unocss/unocss/blob/main/packages/preset-web-fonts/src/types.ts#L4) for all available configurations.
