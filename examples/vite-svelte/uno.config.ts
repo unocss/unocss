@@ -1,24 +1,24 @@
-import { defineConfig } from 'unocss/vite'
 import presetIcons from '@unocss/preset-icons'
 import presetUno from '@unocss/preset-uno'
-import transformerDirectives from '@unocss/transformer-directives'
+import extractorSvelte from '@unocss/extractor-svelte'
+import { defineConfig } from 'unocss'
 
 export default defineConfig({
-  shortcuts: [
-    { logo: 'i-logos:svelte-icon w-7em h-7em transform transition-300' },
+  extractors: [
+    extractorSvelte(),
   ],
-  transformers: [
-    transformerDirectives(),
+  shortcuts: [
+    { logo: 'i-logos-svelte-icon w-6em h-6em transform transition-800 hover:rotate-180' },
+    { foo: 'bg-yellow-400' },
+    { bar: 'bg-green-400' },
   ],
   presets: [
     presetUno(),
     presetIcons({
-      prefix: 'i-',
       extraProperties: {
         'display': 'inline-block',
         'vertical-align': 'middle',
       },
     }),
   ],
-  safelist: ['bg-orange-300'],
 })
