@@ -3,8 +3,8 @@
 Extractors are used to extract the usage of utilities from your source code.
 
 ```ts
-// unocss.config.ts
-import { defineConfig } from '@unocss/core'
+// uno.config.ts
+import { defineConfig } from 'unocss'
 
 export default defineConfig({
   extractors: [
@@ -18,8 +18,8 @@ By default [extractorSplit](https://github.com/unocss/unocss/blob/main/packages/
 To override the default extractors, you can use `extractorDefault` option.
 
 ```ts
-// unocss.config.ts
-import { defineConfig } from '@unocss/core'
+// uno.config.ts
+import { defineConfig } from 'unocss'
 
 export default defineConfig({
   extractors: [

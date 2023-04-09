@@ -12,7 +12,7 @@ export default defineConfig(({ command }) => ({
   },
   base: command === 'build' ? '/__unocss/' : '/',
   plugins: [
-    UnoCSS('unocss.config.ts'),
+    UnoCSS('uno.config.ts'),
     Vue(),
     Components({
       dirs: 'client/components',
