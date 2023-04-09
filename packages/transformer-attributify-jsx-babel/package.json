@@ -1,6 +1,6 @@
 {
   "name": "@unocss/transformer-attributify-jsx-babel",
-  "version": "0.50.8",
+  "version": "0.51.0",
   "description": "Support valueless attributify in JSX/TSX.",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",

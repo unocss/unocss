@@ -1,6 +1,6 @@
 {
   "name": "@unocss/extractor-svelte",
-  "version": "0.50.6",
+  "version": "0.51.0",
   "description": "UnoCSS extractor for Svelte",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
