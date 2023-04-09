@@ -1,2 +1,6 @@
-export { extractorSplit, extractorDefault, defaultSplitRE, splitWithVariantGroupRE } from './split'
-export { extractorSvelte } from './svelte'
+export {
+  extractorSplit,
+  extractorSplit as extractorDefault,
+  defaultSplitRE,
+  splitWithVariantGroupRE,
+} from './split'

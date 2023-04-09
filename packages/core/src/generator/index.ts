@@ -36,22 +36,23 @@ export class UnoGenerator<Theme extends {} = {}> {
     this.events.emit('config', this.config)
   }
 
-  async applyExtractors(code: string, id?: string, set = new Set<string>()) {
+  async applyExtractors(code: string, id?: string, extracted = new Set<string>()) {
     const context: ExtractorContext = {
-      get original() { return code },
+      original: code,
       code,
       id,
+      extracted,
     }
 
     for (const extractor of this.config.extractors) {
-      const result = await extractor.extract(context)
+      const result = await extractor.extract?.(context)
       if (result) {
         for (const token of result)
-          set.add(token)
+          extracted.add(token)
       }
     }
 
-    return set
+    return extracted
   }
 
   makeContext(raw: string, applied: VariantMatchedResult<Theme>) {

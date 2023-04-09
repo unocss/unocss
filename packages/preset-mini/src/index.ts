@@ -1,5 +1,4 @@
 import type { Postprocessor, Preflight, PreflightContext, Preset, PresetOptions } from '@unocss/core'
-import { extractorDefault } from '@unocss/core'
 import { extractorArbitraryVariants } from '@unocss/extractor-arbitrary-variants'
 import { preflights } from './preflights'
 import { rules } from './rules'
@@ -88,15 +87,9 @@ export function presetMini(options: PresetMiniOptions = {}): Preset<Theme> {
     preflights: options.preflight
       ? normalizePreflights(preflights, options.variablePrefix)
       : [],
-
-    configResolved(config) {
-      if (options.arbitraryVariants === false)
-        return
-      if (config.extractors.includes(extractorDefault))
-        config.extractors.splice(config.extractors.indexOf(extractorDefault), 1, extractorArbitraryVariants)
-      else
-        config.extractors.unshift(extractorArbitraryVariants)
-    },
+    extractorDefault: options.arbitraryVariants === false
+      ? undefined
+      : extractorArbitraryVariants,
   }
 }
 

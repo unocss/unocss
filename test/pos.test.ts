@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest'
 import presetAttributify from '@unocss/preset-attributify'
 import presetUno from '@unocss/preset-uno'
 import type { UnoGenerator } from '@unocss/core'
-import { createGenerator, extractorSplit } from '@unocss/core'
+import { createGenerator } from '@unocss/core'
 import { getMatchedPositionsFromCode as match } from '@unocss/shared-common'
 import transformerVariantGroup from '@unocss/transformer-variant-group'
 import cssDirectives from '@unocss/transformer-directives'
@@ -279,7 +279,6 @@ describe('matched-positions-pug', async () => {
       presetAttributify({ strict: true }),
     ],
     extractors: [
-      extractorSplit,
       extractorPug(),
     ],
     transformers: [
@@ -317,11 +316,6 @@ describe('matched-positions-pug', async () => {
           28,
           30,
           "p4",
-        ],
-        [
-          39,
-          40,
-          "b",
         ],
         [
           39,

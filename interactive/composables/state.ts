@@ -7,7 +7,7 @@ import type { ResultItem } from '~/types'
 import { mdnIndex as docs } from '~/data/mdn-index'
 import { guideIndex as guides } from '~/data/guides'
 
-import { defaultConfig } from '~/unocss.config'
+import { defaultConfig } from '~/uno.config'
 
 export { defaultConfigRaw }
 

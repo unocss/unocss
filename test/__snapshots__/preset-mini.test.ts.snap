@@ -77,9 +77,6 @@ exports[`preset-mini > targets 1`] = `
 .p-2,
 .p2,
 .where-hover\\\\:p-2:where(:hover){padding:0.5rem;}
-.group:focus .group-focus\\\\:p-4,
-.p-xy,
-.pxy{padding:1rem;}
 .hover\\\\:\\\\!p-1:hover{padding:0.25rem !important;}
 .hover\\\\:p-5:hover{padding:1.25rem;}
 .important\\\\:p-3,
@@ -90,6 +87,9 @@ exports[`preset-mini > targets 1`] = `
 .p-none{padding:0;}
 .p-unset{padding:unset;}
 .pa{padding:auto;}
+.group:focus .group-focus\\\\:p-4{padding:1rem;}
+.p-xy,
+.pxy{padding:1rem;}
 .\\\\!hover\\\\:px-10:hover{padding-left:2.5rem !important;padding-right:2.5rem !important;}
 .p-x,
 .px{padding-left:1rem;padding-right:1rem;}
@@ -456,8 +456,8 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 .case-upper{text-transform:uppercase;}
 .case-normal{text-transform:none;}
 .case-inherit{text-transform:inherit;}
-.group:hover:focus .group-hover\\\\:group-focus\\\\:text-center,
 .parent:hover>.parent-hover\\\\:text-center{text-align:center;}
+.group:hover:focus .group-hover\\\\:group-focus\\\\:text-center{text-align:center;}
 .text-left,
 [dir=\\"ltr\\"] .ltr\\\\:text-left{text-align:left;}
 [dir=\\"rtl\\"] .rtl\\\\:text-right{text-align:right;}
@@ -1067,7 +1067,7 @@ unocss .scope-\\\\[unocss\\\\]\\\\:block{display:block;}
 
 exports[`preset-mini > the :active pseudo is sorted and separated after other pseudo 1`] = `
 "/* layer: default */
-.focus\\\\:bg-blue-3:focus,
 .hover\\\\:bg-blue-3:hover{--un-bg-opacity:1;background-color:rgba(147,197,253,var(--un-bg-opacity));}
+.focus\\\\:bg-blue-3:focus{--un-bg-opacity:1;background-color:rgba(147,197,253,var(--un-bg-opacity));}
 .active\\\\:bg-blue-3:active{--un-bg-opacity:1;background-color:rgba(147,197,253,var(--un-bg-opacity));}"
 `;

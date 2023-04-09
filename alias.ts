@@ -11,6 +11,7 @@ export const alias: Record<string, string> = {
   '@unocss/config': r('./packages/config/src/'),
   '@unocss/core': r('./packages/core/src/'),
   '@unocss/extractor-pug': r('./packages/extractor-pug/src/'),
+  '@unocss/extractor-svelte': r('./packages/extractor-svelte/src/'),
   '@unocss/inspector': r('./packages/inspector/node/'),
   '@unocss/nuxt': r('./packages/nuxt/src/'),
   '@unocss/preset-attributify': r('./packages/preset-attributify/src/'),
