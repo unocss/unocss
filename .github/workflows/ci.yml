@@ -48,15 +48,20 @@ jobs:
       fail-fast: false
 
     steps:
+      - name: Set git to use LF
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+
       - uses: actions/checkout@v3
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
 
-      - name: Set node ${{ matrix.node }}
+      - name: Set node ${{ matrix.node_version }}
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node }}
+          node-version: ${{ matrix.node_version }}
           cache: pnpm
 
       - run: corepack enable
