@@ -1,6 +1,6 @@
 export {
   extractorSplit,
-  extractorDefault,
+  extractorSplit as extractorDefault,
   arbitraryPropertyRE,
   quotedArbitraryValuesRE,
   defaultSplitRE,
