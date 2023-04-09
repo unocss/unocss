@@ -18,6 +18,7 @@
   --vp-code-tab-active-text-color: var(--vp-c-text-1);
   --vp-code-tab-hover-text-color: var(--vp-c-text-1);
   --vp-code-copy-code-active-text: var(--vp-c-text-2);
+  --vp-c-text-dark-3: rgba(56, 56, 56, 0.8);
   --vp-c-brand-lightest: var(--vp-c-brand);
 }
 
@@ -28,6 +29,7 @@
   --vp-code-tab-active-text-color: var(--vp-c-text-dark-1);
   --vp-code-tab-hover-text-color: var(--vp-c-text-dark-1);
   --vp-code-copy-code-active-text: var(--vp-c-text-dark-2);
+  --vp-c-text-dark-3: var(--vp-c-text-dark-2);
 }
 
 
@@ -138,4 +140,3 @@
 .dark .vp-doc .custom-block a {
   transition: color 0.25s;
 }
-
