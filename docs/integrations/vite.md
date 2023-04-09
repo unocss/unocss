@@ -189,14 +189,12 @@ You can use simple rules with `class:`, for example `class:bg-red-500={foo}` or 
 // vite.config.js
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import UnoCSS from 'unocss/vite'
-import { extractorDefault } from 'unocss'
 import extractorSvelte from '@unocss/extractor-svelte'
 
 export default {
   plugins: [
     UnoCSS({
       extractors: [
-        extractorDefault,
         extractorSvelte
       ],
       /* more options */

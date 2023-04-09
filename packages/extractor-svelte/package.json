@@ -16,8 +16,7 @@
   },
   "keywords": [
     "unocss",
-    "unocss-extractor",
-    "pug"
+    "unocss-extractor"
   ],
   "sideEffects": false,
   "exports": {

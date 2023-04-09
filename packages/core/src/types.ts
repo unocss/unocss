@@ -133,12 +133,6 @@ export interface Extractor {
   name: string
   order?: number
   /**
-   * Preprocess the code before extracting.
-   *
-   * All `preprocess` will be executed in order before `extract` is called.
-   */
-  preprocess?(code: string, id?: string): Awaitable<string | undefined | void>
-  /**
    * Extract the code and return a list of selectors.
    *
    * Return `undefined` to skip this extractor.

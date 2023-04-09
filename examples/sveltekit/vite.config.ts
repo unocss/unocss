@@ -1,7 +1,6 @@
 import { sveltekit } from '@sveltejs/kit/vite'
 import { defineConfig } from 'vite'
 import UnoCSS from 'unocss/vite'
-import { extractorDefault } from 'unocss'
 import extractorSvelte from '@unocss/extractor-svelte'
 import presetIcons from '@unocss/preset-icons'
 import presetUno from '@unocss/preset-uno'
@@ -11,7 +10,6 @@ export default defineConfig({
   plugins: [
     UnoCSS({
       extractors: [
-        extractorDefault,
         extractorSvelte,
       ],
       shortcuts: [

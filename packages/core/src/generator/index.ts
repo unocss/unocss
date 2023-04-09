@@ -45,12 +45,6 @@ export class UnoGenerator<Theme extends {} = {}> {
     }
 
     for (const extractor of this.config.extractors) {
-      const result = await extractor.preprocess?.(context.code, context.id)
-      if (result !== undefined)
-        context.code = result
-    }
-
-    for (const extractor of this.config.extractors) {
       const result = await extractor.extract?.(context)
       if (result) {
         for (const token of result)
