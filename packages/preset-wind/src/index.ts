@@ -14,7 +14,7 @@ export { rules, shortcuts, theme, variants }
 
 export interface PresetWindOptions extends PresetMiniOptions { }
 
-export const presetWind = (options: PresetWindOptions = {}): Preset<Theme> => {
+export function presetWind(options: PresetWindOptions = {}): Preset<Theme> {
   options.dark = options.dark ?? 'class'
   options.attributifyPseudo = options.attributifyPseudo ?? false
   options.preflight = options.preflight ?? true

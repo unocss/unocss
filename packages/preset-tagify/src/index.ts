@@ -1,5 +1,4 @@
 import type { Preset } from '@unocss/core'
-import { extractorSplit } from '@unocss/core'
 import type { TagifyOptions } from './types'
 import { extractorTagify } from './extractor'
 import { variantTagify } from './variant'
@@ -20,13 +19,13 @@ function tagifyPreset(options: TagifyOptions = {}): Preset {
     extractorTagify(options),
   ]
 
-  if (defaultExtractor)
-    extractors.push(extractorSplit)
-
   return {
     name: '@unocss/preset-tagify',
     variants,
     extractors,
+    extractorDefault: defaultExtractor
+      ? undefined
+      : false,
   }
 }
 

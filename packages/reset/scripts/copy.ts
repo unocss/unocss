@@ -1,7 +1,8 @@
 import fs from 'node:fs'
+import { dirname } from 'node:path'
 
 fs.copyFileSync(
-  'node_modules/@csstools/normalize.css/normalize.css',
+  require.resolve('@csstools/normalize.css'),
   'normalize.css',
 )
 
@@ -18,7 +19,7 @@ for (const stylesheet of [
   'ui-monospace.css',
 ]) {
   fs.copyFileSync(
-    `node_modules/sanitize.css/${stylesheet}`,
+    `${dirname(require.resolve('sanitize.css'))}/${stylesheet}`,
     `sanitize/${stylesheet}`,
   )
 }

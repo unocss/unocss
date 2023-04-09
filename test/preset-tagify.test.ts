@@ -15,7 +15,7 @@ describe('tagify', () => {
       </foo>
     `
 
-    expect(extractor.extract({ code } as ExtractorContext)).toMatchInlineSnapshot(`
+    expect(extractor.extract!({ code } as ExtractorContext)).toMatchInlineSnapshot(`
       Set {
         "__TAGIFY__foo",
         "__TAGIFY__bar",

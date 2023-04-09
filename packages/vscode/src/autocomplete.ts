@@ -1,14 +1,14 @@
 import type { UnocssAutocomplete } from '@unocss/autocomplete'
 import { createAutocomplete } from '@unocss/autocomplete'
-import type { CompletionItemProvider, ExtensionContext } from 'vscode'
-import { CompletionItem, CompletionItemKind, CompletionList, MarkdownString, Range, languages } from 'vscode'
+import type { CompletionItemProvider, Disposable, ExtensionContext } from 'vscode'
+import { CompletionItem, CompletionItemKind, CompletionList, MarkdownString, Range, languages, window, workspace } from 'vscode'
 import type { UnoGenerator, UnocssPluginContext } from '@unocss/core'
 import { getCSS, getColorString, getPrettiedCSS, getPrettiedMarkdown, isSubdir } from './utils'
 import { log } from './log'
 import type { ContextLoader } from './contextLoader'
 import { isCssId } from './integration'
 
-const languageIds = [
+const defaultLanguageIds = [
   'erb',
   'haml',
   'hbs',
@@ -48,6 +48,7 @@ export async function registerAutoComplete(
   contextLoader: ContextLoader,
   ext: ExtensionContext,
 ) {
+  const allLanguages = await languages.getLanguages()
   const autoCompletes = new Map<UnocssPluginContext, UnocssAutocomplete>()
   contextLoader.events.on('contextReload', (ctx) => {
     autoCompletes.delete(ctx)
@@ -69,6 +70,21 @@ export async function registerAutoComplete(
 
   async function getMarkdown(uno: UnoGenerator, util: string) {
     return new MarkdownString(await getPrettiedMarkdown(uno, util))
+  }
+
+  function validateLanguages(targets: string[]) {
+    const unValidLanguages: string[] = []
+    const validLanguages = targets.filter((language) => {
+      if (!allLanguages.includes(language)) {
+        unValidLanguages.push(language)
+        return false
+      }
+      return true
+    })
+    if (unValidLanguages.length)
+      window.showWarningMessage(`These language configurations are illegal: ${unValidLanguages.join(',')}`)
+
+    return validLanguages
   }
 
   const provider: CompletionItemProvider<UnoCompletionItem> = {
@@ -134,11 +150,32 @@ export async function registerAutoComplete(
     },
   }
 
-  ext.subscriptions.push(
-    languages.registerCompletionItemProvider(
-      languageIds,
+  let completeUnregister: Disposable
+
+  const registerProvider = () => {
+    completeUnregister?.dispose?.()
+
+    const languagesIds: string[] = workspace.getConfiguration().get('unocss.languageIds') || []
+
+    const validLanguages = validateLanguages(languagesIds)
+
+    completeUnregister = languages.registerCompletionItemProvider(
+      defaultLanguageIds.concat(validLanguages),
       provider,
       ...delimiters,
-    ),
+    )
+    return completeUnregister
+  }
+
+  ext.subscriptions.push(workspace.onDidChangeConfiguration(async (event) => {
+    if (event.affectsConfiguration('unocss.languageIds')) {
+      ext.subscriptions.push(
+        registerProvider(),
+      )
+    }
+  }))
+
+  ext.subscriptions.push(
+    registerProvider(),
   )
 }

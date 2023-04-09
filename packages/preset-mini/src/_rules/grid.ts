@@ -2,10 +2,14 @@ import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
 import { handler as h } from '../utils'
 
-const rowCol = (s: string) => s.replace('col', 'column')
-const rowColTheme = (s: string) => s[0] === 'r' ? 'Row' : 'Column'
+function rowCol(s: string) {
+  return s.replace('col', 'column')
+}
+function rowColTheme(s: string) {
+  return s[0] === 'r' ? 'Row' : 'Column'
+}
 
-const autoDirection = (c: string, theme: Theme, prop: string) => {
+function autoDirection(c: string, theme: Theme, prop: string) {
   const v = theme[`gridAuto${rowColTheme(c)}`]?.[prop]
   if (v != null)
     return v

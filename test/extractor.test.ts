@@ -1,9 +1,10 @@
-import { extractorSplit, extractorSvelte } from '@unocss/core'
+import { createGenerator, extractorSplit } from '@unocss/core'
+import extractorSvelte from '@unocss/extractor-svelte'
 import { expect, it } from 'vitest'
 
 it('extractorSplit', async () => {
   async function extract(code: string) {
-    return [...await extractorSplit.extract({ code, original: code }) || []]
+    return [...await extractorSplit.extract?.({ code, original: code } as any) || []]
   }
 
   expect(await extract('foo')).eql(['foo'])
@@ -15,8 +16,14 @@ it('extractorSplit', async () => {
 })
 
 it('extractorSvelte uses regular split with non .svelte files', async () => {
+  const uno = createGenerator({
+    extractors: [
+      extractorSvelte(),
+    ],
+  })
+
   async function extract(code: string) {
-    return [...await extractorSvelte.extract({ code, original: code }) || []]
+    return Array.from(await uno.applyExtractors(code))
   }
 
   expect(await extract('foo')).eql(['foo'])
@@ -31,8 +38,14 @@ it('extractorSvelte uses regular split with non .svelte files', async () => {
 })
 
 it('extractorSvelte uses svelte-specific split with .svelte files', async () => {
+  const uno = createGenerator({
+    extractors: [
+      extractorSvelte(),
+    ],
+  })
+
   async function extract(code: string) {
-    return [...await extractorSvelte.extract({ code, original: code, id: 'file.svelte' }) || []]
+    return Array.from(await uno.applyExtractors(code, 'file.svelte'))
   }
 
   expect(await extract('foo')).eql(['foo'])

@@ -2,7 +2,7 @@
 
 The inspector UI for UnoCSS. Ships with `unocss` and `@unocss/vite`.
 
-Visit `http://localhost:3000/__unocss` in your Vite dev server to see the inspector.
+Visit `http://localhost:5173/__unocss` in your Vite dev server to see the inspector.
 
 <img src="https://user-images.githubusercontent.com/11247099/140885990-1827f5ce-f12a-4ed4-9d63-e5145a65fb4a.png">
 <img src="https://user-images.githubusercontent.com/11247099/140886020-7014f412-f020-4aed-a169-d025cc1bbcd3.png">

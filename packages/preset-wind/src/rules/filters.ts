@@ -29,7 +29,7 @@ export const backdropFilterBase = {
 }
 const backdropFilterProperty = 'var(--un-backdrop-blur) var(--un-backdrop-brightness) var(--un-backdrop-contrast) var(--un-backdrop-grayscale) var(--un-backdrop-hue-rotate) var(--un-backdrop-invert) var(--un-backdrop-opacity) var(--un-backdrop-saturate) var(--un-backdrop-sepia)'
 
-const percentWithDefault = (str?: string) => {
+function percentWithDefault(str?: string) {
   let v = h.bracket.cssvar(str || '')
   if (v != null)
     return v
@@ -39,8 +39,8 @@ const percentWithDefault = (str?: string) => {
     return v
 }
 
-const toFilter = (varName: string, resolver: (str: string, theme: Theme) => string | undefined) =>
-  ([, b, s]: string[], { theme }: RuleContext<Theme>): CSSValues | undefined => {
+function toFilter(varName: string, resolver: (str: string, theme: Theme) => string | undefined) {
+  return ([, b, s]: string[], { theme }: RuleContext<Theme>): CSSValues | undefined => {
     const value = resolver(s, theme) ?? (s === 'none' ? '0' : '')
     if (value !== '') {
       if (b) {
@@ -58,8 +58,9 @@ const toFilter = (varName: string, resolver: (str: string, theme: Theme) => stri
       }
     }
   }
+}
 
-const dropShadowResolver = ([, s]: string[], { theme }: RuleContext<Theme>) => {
+function dropShadowResolver([, s]: string[], { theme }: RuleContext<Theme>) {
   let v = theme.dropShadow?.[s || 'DEFAULT']
   if (v != null) {
     const shadows = colorableShadows(v, '--un-drop-shadow-color')
