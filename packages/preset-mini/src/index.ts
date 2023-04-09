@@ -1,5 +1,5 @@
 import type { Postprocessor, Preflight, PreflightContext, Preset, PresetOptions } from '@unocss/core'
-import { extractorSplit } from '@unocss/core'
+import { extractorDefault } from '@unocss/core'
 import { extractorArbitraryVariants } from '@unocss/extractor-arbitrary-variants'
 import { preflights } from './preflights'
 import { rules } from './rules'
@@ -37,7 +37,7 @@ export interface PresetMiniOptions extends PresetOptions {
    */
   dark?: 'class' | 'media' | DarkModeSelectors
   /**
-   * Generate psuedo selector as `[group=""]` instead of `.group`
+   * Generate pseudo selector as `[group=""]` instead of `.group`
    *
    * @default false
    */
@@ -88,11 +88,12 @@ export function presetMini(options: PresetMiniOptions = {}): Preset<Theme> {
     preflights: options.preflight
       ? normalizePreflights(preflights, options.variablePrefix)
       : [],
+
     configResolved(config) {
       if (options.arbitraryVariants === false)
         return
-      if (config.extractors.includes(extractorSplit))
-        config.extractors.splice(config.extractors.indexOf(extractorSplit), 1, extractorArbitraryVariants)
+      if (config.extractors.includes(extractorDefault))
+        config.extractors.splice(config.extractors.indexOf(extractorDefault), 1, extractorArbitraryVariants)
       else
         config.extractors.unshift(extractorArbitraryVariants)
     },

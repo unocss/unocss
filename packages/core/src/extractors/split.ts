@@ -8,9 +8,11 @@ export function splitCode(code: string) {
 }
 
 export const extractorSplit: Extractor = {
-  name: 'split',
+  name: '@unocss/core/extractor-split',
   order: 0,
   extract({ code }) {
     return splitCode(code)
   },
 }
+
+export { extractorSplit as extractorDefault }
