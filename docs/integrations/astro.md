@@ -23,13 +23,14 @@ The UnoCSS integration for [Astro](https://astro.build/): `@unocss/astro`. Check
 
 ```ts
 // astro.config.ts
+import { defineConfig } from 'astro/config'
 import UnoCSS from 'unocss/astro'
 
-export default {
+export default defineConfig({
   integrations: [
     UnoCSS(),
   ],
-}
+})
 ```
 
 Create a `uno.config.ts` file:
@@ -40,6 +41,38 @@ import { defineConfig } from 'unocss'
 
 export default defineConfig({
   // ...UnoCSS options
+})
+```
+
+### Style Reset
+
+By default, [browser style reset](/guide/style-reset) will not be injected. To enable it, install the `@unocss/reset` package:
+
+::: code-group
+  ```bash [pnpm]
+  pnpm add -D @unocss/reset
+  ```
+  ```bash [yarn]
+  yarn add -D @unocss/reset
+  ```
+  ```bash [npm]
+  npm install -D @unocss/reset
+  ```
+:::
+
+And update your `astro.config.ts`:
+
+```ts
+// astro.config.ts
+import { defineConfig } from 'astro/config'
+import UnoCSS from 'unocss/astro'
+
+export default defineConfig({
+  integrations: [
+    UnoCSS({
+      injectReset: true // or a path to the reset file
+    }),
+  ],
 })
 ```
 
