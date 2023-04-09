@@ -1,4 +1,4 @@
-import type { Postprocessor, Preprocessor, Preset, ResolvedConfig, Rule, Shortcut, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
+import type { Preset, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
 import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq } from './utils'
 import { extractorSplit } from './extractors'
 import { DEFAULT_LAYERS } from './constants'
@@ -72,17 +72,21 @@ export function resolveConfig<Theme extends {} = {}>(
     ...rawPresets.filter(p => p.enforce === 'post'),
   ]
 
-  const layers = Object.assign({}, DEFAULT_LAYERS, ...rawPresets.map(i => i.layers), config.layers)
+  const sources = [
+    ...sortedPresets,
+    config,
+  ]
+  const sourcesReversed = [...sources].reverse()
 
-  function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist' | 'separators'>(key: T): Required<UserConfig<Theme>>[T] {
-    return uniq([
-      ...sortedPresets.flatMap(p => toArray(p[key] || []) as any[]),
-      ...toArray(config[key] || []) as any[],
-    ])
+  const layers = Object.assign({}, DEFAULT_LAYERS, ...sources.map(i => i.layers))
+
+  function getMerged<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist' | 'separators'>(key: T): ToArray<Required<UserConfig<Theme>>[T]> {
+    return uniq(sources.flatMap(p => toArray(p[key] || []) as any[])) as any
   }
 
-  const extractors = mergePresets('extractors')
-  let extractorDefault = [...sortedPresets, config].reverse().find(i => i.extractorDefault !== undefined)?.extractorDefault
+  const extractors = getMerged('extractors')
+  let extractorDefault = sourcesReversed
+    .find(i => i.extractorDefault !== undefined)?.extractorDefault
   if (extractorDefault === undefined)
     extractorDefault = extractorSplit
   if (extractorDefault && !extractors.includes(extractorDefault))
@@ -90,7 +94,7 @@ export function resolveConfig<Theme extends {} = {}>(
 
   extractors.sort((a, b) => (a.order || 0) - (b.order || 0))
 
-  const rules = mergePresets('rules')
+  const rules = getMerged('rules')
   const rulesStaticMap: ResolvedConfig<Theme>['rulesStaticMap'] = {}
 
   const rulesSize = rules.length
@@ -111,22 +115,20 @@ export function resolveConfig<Theme extends {} = {}>(
     .filter(Boolean)
     .reverse() as ResolvedConfig<Theme>['rulesDynamic']
 
-  let theme: Theme = clone([
-    ...sortedPresets.map(p => p.theme || {}),
-    config.theme || {},
-  ].reduce<Theme>((a, p) => mergeDeep(a, p), {} as Theme))
+  let theme: Theme = sources.map(p => p.theme ? clone(p.theme) : {})
+    .reduce<Theme>((a, p) => mergeDeep(a, p), {} as Theme)
 
-  const extendThemes = toArray(mergePresets('extendTheme'))
+  const extendThemes = getMerged('extendTheme')
   for (const extendTheme of extendThemes)
     theme = extendTheme(theme) || theme
 
   const autocomplete = {
-    templates: uniq(sortedPresets.map(p => toArray(p.autocomplete?.templates)).flat()),
-    extractors: sortedPresets.map(p => toArray(p.autocomplete?.extractors)).flat()
+    templates: uniq(sources.flatMap(p => toArray(p.autocomplete?.templates))),
+    extractors: sources.flatMap(p => toArray(p.autocomplete?.extractors))
       .sort((a, b) => (a.order || 0) - (b.order || 0)),
   }
 
-  let separators = toArray(mergePresets('separators'))
+  let separators = getMerged('separators')
   if (!separators.length)
     separators = [':', '-']
 
@@ -144,22 +146,21 @@ export function resolveConfig<Theme extends {} = {}>(
     rulesSize,
     rulesDynamic,
     rulesStaticMap,
-    preprocess: mergePresets('preprocess') as Preprocessor[],
-    postprocess: mergePresets('postprocess') as Postprocessor[],
-    preflights: mergePresets('preflights'),
+    preprocess: getMerged('preprocess'),
+    postprocess: getMerged('postprocess'),
+    preflights: getMerged('preflights'),
     autocomplete,
-    variants: mergePresets('variants')
+    variants: getMerged('variants')
       .map(normalizeVariant)
       .sort((a, b) => (a.order || 0) - (b.order || 0)),
-    shortcuts: resolveShortcuts(mergePresets('shortcuts')).reverse(),
+    shortcuts: resolveShortcuts(getMerged('shortcuts')).reverse(),
     extractors,
-    safelist: mergePresets('safelist'),
+    safelist: getMerged('safelist'),
     separators,
   }
 
-  for (const p of sortedPresets)
+  for (const p of sources)
     p?.configResolved?.(resolved)
-  userConfig?.configResolved?.(resolved)
 
   return resolved
 }
