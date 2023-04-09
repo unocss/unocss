@@ -303,7 +303,7 @@ export type Variant<Theme extends {} = {}> = VariantFunction<Theme> | VariantObj
 
 export type Preprocessor = (matcher: string) => string | undefined
 export type Postprocessor = (util: UtilObject) => void
-export type ThemeExtender<T> = (theme: T) => void
+export type ThemeExtender<T> = (theme: T) => T | void
 
 export interface ConfigBase<Theme extends {} = {}> {
   /**
@@ -382,7 +382,9 @@ export interface ConfigBase<Theme extends {} = {}> {
   postprocess?: Arrayable<Postprocessor>
 
   /**
-   * Custom functions to extend the theme object
+   * Custom functions mutate the theme object.
+   *
+   * It's also possible to return a new theme object to completely replace the original one.
    */
   extendTheme?: Arrayable<ThemeExtender<Theme>>
 
