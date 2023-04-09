@@ -243,12 +243,12 @@ exports[`attributify > fixture2 1`] = `
 [flex=\\"\\"]{display:flex;}
 [inline-flex=\\"\\"]{display:inline-flex;}
 [flex-col=\\"\\"]{flex-direction:column;}
-[peer=\\"\\"]:focus~[peer-focus~=\\"origin-top-left\\"],
 [peer=\\"\\"]:not(:placeholder-shown)~[peer-not-placeholder-shown~=\\"origin-top-left\\"]{transform-origin:top left;}
-[peer=\\"\\"]:focus~[peer-focus~=\\"-translate-y-4\\"],
+[peer=\\"\\"]:focus~[peer-focus~=\\"origin-top-left\\"]{transform-origin:top left;}
 [peer=\\"\\"]:not(:placeholder-shown)~[peer-not-placeholder-shown~=\\"-translate-y-4\\"]{--un-translate-y:-1rem;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
-[peer=\\"\\"]:focus~[peer-focus~=\\"scale-75\\"],
+[peer=\\"\\"]:focus~[peer-focus~=\\"-translate-y-4\\"]{--un-translate-y:-1rem;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 [peer=\\"\\"]:not(:placeholder-shown)~[peer-not-placeholder-shown~=\\"scale-75\\"]{--un-scale-x:0.75;--un-scale-y:0.75;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
+[peer=\\"\\"]:focus~[peer-focus~=\\"scale-75\\"]{--un-scale-x:0.75;--un-scale-y:0.75;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 [select-none=\\"\\"]{-webkit-user-select:none;user-select:none;}
 [bg-gradient~=\\"from-yellow-400\\"]{--un-gradient-from-position:0%;--un-gradient-from:rgba(250,204,21,var(--un-from-opacity, 1)) var(--un-gradient-from-position);--un-gradient-to:rgba(250,204,21,0) var(--un-gradient-to-position);--un-gradient-stops:var(--un-gradient-from), var(--un-gradient-to);}
 [bg-gradient~=\\"to-pink-500\\"]{--un-gradient-to-position:100%;--un-gradient-to:rgba(236,72,153,var(--un-to-opacity, 1)) var(--un-gradient-to-position);}
@@ -266,11 +266,11 @@ exports[`attributify > fixture2 1`] = `
 [leading-1rem=\\"\\"]{line-height:1rem;}
 [tracking-wider=\\"\\"]{letter-spacing:0.05em;}
 [group=\\"\\"]:hover [group-hover~=\\"text-teal-400\\"]{--un-text-opacity:1;color:rgba(45,212,191,var(--un-text-opacity));}
-[peer=\\"\\"]:focus~[peer-focus~=\\"text-green-500\\"],
 [peer=\\"\\"]:not(:placeholder-shown)~[peer-not-placeholder-shown~=\\"text-green-500\\"]{--un-text-opacity:1;color:rgba(34,197,94,var(--un-text-opacity));}
 [text-gray-7=\\"\\"]{--un-text-opacity:1;color:rgba(55,65,81,var(--un-text-opacity));}
 [text-true-gray-800=\\"\\"]{--un-text-opacity:1;color:rgba(38,38,38,var(--un-text-opacity));}
 [un-placeholder~=\\"text-red\\"]::placeholder{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
+[peer=\\"\\"]:focus~[peer-focus~=\\"text-green-500\\"]{--un-text-opacity:1;color:rgba(34,197,94,var(--un-text-opacity));}
 [group=\\"\\"]:hover [group-hover~=\\"op-50\\"]{opacity:0.5;}
 [op-20=\\"\\"]{opacity:0.2;}
 [backdrop-element~=\\"filter\\"]::backdrop{filter:var(--un-blur) var(--un-brightness) var(--un-contrast) var(--un-drop-shadow) var(--un-grayscale) var(--un-hue-rotate) var(--un-invert) var(--un-saturate) var(--un-sepia);}
