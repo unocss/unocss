@@ -9,6 +9,7 @@
     "astro": "astro"
   },
   "devDependencies": {
+    "@unocss/reset": "link:../../packages/reset",
     "astro": "^2.1.9",
     "unocss": "link:../../packages/unocss"
   }
