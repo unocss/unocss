@@ -1,5 +1,5 @@
 <script setup>
-import '@unocss/reset/antfu.css'
+import '@unocss/reset/tailwind.css'
 import './markdown.css'
 import 'uno.css'
 
@@ -38,10 +38,14 @@ useHead({
 </template>
 
 <style>
+html {
+  scrollbar-gutter: stable;
+}
 html, body , #__nuxt {
   height: 100vh;
 }
 html.dark {
+  color-scheme: dark;
   background: #121212;
   color: white;
 }
@@ -50,5 +54,23 @@ html.dark .shiki-light {
 }
 html:not(.dark) .shiki-dark {
   display: none;
+}
+html.dark ::-moz-selection  {
+  background: #444;
+}
+html.dark ::selection {
+  background: #444;
+}
+/* Flexbox default changes */
+div {
+  display: flex;
+  flex-direction: column;
+}
+div[row=""] {
+  display: flex;
+  flex-direction: row;
+}
+div[block=""] {
+  display: block;
 }
 </style>
