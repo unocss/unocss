@@ -1,30 +1,10 @@
 # @unocss/extractor-svelte
 
-Svelte extractor for UnoCSS.
-
 Supports extracting classes from `class:` directive.
 
-```html
-<div class:text-orange-400={foo} />
-```
+## Documentation
 
-Will be extracted as `text-orange-400`.
-
-## Install
-
-```bash
-npm i -D @unocss/extractor-svelte
-```
-
-```ts
-import extractorSvelte from '@unocss/extractor-svelte'
-
-UnoCSS({
-  extractors: [
-    extractorSvelte(),
-  ],
-})
-```
+Please refer to the [documentation](https://unocss.dev/extractors/svelte).
 
 ## License
 

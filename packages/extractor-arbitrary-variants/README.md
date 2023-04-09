@@ -2,29 +2,9 @@
 
 Exactor to support arbitrary variants for utilities.
 
-## Installation
+## Documentation
 
-```bash
-npm i -D @unocss/extractor-arbitrary-variants
-```
-
-```ts
-import extractorArbitrary from '@unocss/extractor-arbitrary-variants'
-
-UnoCSS({
-  extractors: [
-    extractorArbitrary()
-  ],
-})
-```
-
-## Usage
-
-```html
-<div class="[&>*]:m-1 [&[open]]:p-2"></div>
-```
-
-Will be captured with `[&>*]:m-1` and `[&[open]]:p-2` as variants.
+Please refer to the [documentation](https://unocss.dev/extractors/arbitrary-variants).
 
 ## License
 
