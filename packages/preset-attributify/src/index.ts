@@ -29,6 +29,7 @@ function presetAttributify(options: AttributifyOptions = {}): Preset {
 
   return {
     name: '@unocss/preset-attributify',
+    enforce: 'post',
     variants,
     extractors,
     options,

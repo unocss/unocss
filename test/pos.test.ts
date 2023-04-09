@@ -23,11 +23,6 @@ describe('matched-positions', async () => {
           [
             13,
             14,
-            "b",
-          ],
-          [
-            13,
-            14,
             "[border=\\"b\\"]",
           ],
           [
@@ -44,11 +39,6 @@ describe('matched-positions', async () => {
             23,
             37,
             "[border=\\"[&_span]:white\\"]",
-          ],
-          [
-            46,
-            65,
-            "[&>span]:text-white",
           ],
           [
             46,
@@ -84,11 +74,6 @@ describe('matched-positions', async () => {
             13,
             15,
             "[border=\\"bb\\"]",
-          ],
-          [
-            16,
-            17,
-            "b",
           ],
           [
             16,

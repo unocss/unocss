@@ -1,9 +1,9 @@
 ---
-title: Pug extractor
+title: Pug Extractor
 description: Pug extractor for UnoCSS (@unocss/extractor-pug)
 ---
 
-# Pug extractor
+# Pug Extractor
 
 Support extracting classes from Pug template.
 
