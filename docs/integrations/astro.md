@@ -9,6 +9,23 @@ The UnoCSS integration for [Astro](https://astro.build/): `@unocss/astro`. Check
 
 ## Installation
 
+
+**Using astro add **
+
+::: code-group
+  ```bash [pnpm]
+  pnpm  astro add -D @unocss/astro
+  ```
+  ```bash [yarn]
+  yarn astro add -D @unocss/astro
+  ```
+  ```bash [npm]
+  npx astro add -D @unocss/astro
+  ```
+:::
+
+**Individually **
+
 ::: code-group
   ```bash [pnpm]
   pnpm add -D unocss
@@ -32,6 +49,7 @@ export default defineConfig({
   ],
 })
 ```
+
 
 Create a `uno.config.ts` file:
 
