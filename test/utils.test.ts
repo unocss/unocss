@@ -20,6 +20,26 @@ it('mergeDeep', () => {
         "foo": true,
       }
     `)
+
+  expect(mergeDeep<any>({
+    foo: true,
+    bar: 1,
+    arr: [1],
+  }, {
+    bar: {},
+    arr: [2],
+  } as any,
+  true))
+    .toMatchInlineSnapshot(`
+      {
+        "arr": [
+          1,
+          2,
+        ],
+        "bar": {},
+        "foo": true,
+      }
+    `)
 })
 
 it('getComponents', () => {

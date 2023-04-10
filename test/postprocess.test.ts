@@ -36,5 +36,9 @@ test('postprocess', async () => {
   })
   const { css, matched } = await uno.generate(new Set([...positive]), { preflights: false })
   expect(matched).eql(new Set(positive))
-  expect(css).toMatchSnapshot()
+  expect(css).toMatchInlineSnapshot(`
+    "/* layer: default */
+    .scale-100{--hello-scale-x:1;--hello-scale-y:1;transform:translateX(var(--hello-translate-x)) translateY(var(--hello-translate-y)) translateZ(var(--hello-translate-z)) rotate(var(--hello-rotate)) rotateX(var(--hello-rotate-x)) rotateY(var(--hello-rotate-y)) rotateZ(var(--hello-rotate-z)) skewX(var(--hello-skew-x)) skewY(var(--hello-skew-y)) scaleX(var(--hello-scale-x)) scaleY(var(--hello-scale-y)) scaleZ(var(--hello-scale-z));}
+    .text-opacity-50{--hi-text-opacity:0.5;}"
+  `)
 })

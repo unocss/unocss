@@ -1,0 +1,3 @@
+/* layer: default */
+.text-red{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
+[text~="green"]{--un-text-opacity:1;color:rgba(74,222,128,var(--un-text-opacity));}

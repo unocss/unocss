@@ -27,4 +27,6 @@
 
 | Package | Description |
 | ------- | ----------- |
-| [@unocss/extractor-pug](/extractors/pug) | Extractor for Pug | No |
+| [@unocss/extractor-pug](/extractors/pug) | Extractor for Pug |
+| [@unocss/extractor-svelte](/extractors/svelte) | Extractor for Svelte |
+| [@unocss/extractor-pug](/extractors/arbitrary-variants) | Extractor to support arbitrary variants for utilities |

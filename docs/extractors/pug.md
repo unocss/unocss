@@ -1,11 +1,11 @@
 ---
-title: Pug extractor
+title: Pug Extractor
 description: Pug extractor for UnoCSS (@unocss/extractor-pug)
 ---
 
-# Pug extractor
+# Pug Extractor
 
-Pug extractor for UnoCSS: `@unocss/extractor-pug`.
+Support extracting classes from Pug template.
 
 ## Installation
 
@@ -21,17 +21,13 @@ Pug extractor for UnoCSS: `@unocss/extractor-pug`.
   ```
 :::
 
-## Usage
-
 ```ts
 import { defineConfig } from 'unocss'
-import { extractorSplit } from '@unocss/core'
 import extractorPug from '@unocss/extractor-pug'
 
 export default defineConfig({
   extractors: [
     extractorPug(),
-    extractorSplit,
   ],
 })
 ```

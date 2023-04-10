@@ -56,12 +56,12 @@ Read the [documentation](https://unocss.dev/) for more details.
 - [CDN Runtime](https://unocss.dev/integrations/runtime)
 - [CLI](https://unocss.dev/integrations/cli)
 - [VS Code extension](https://unocss.dev/integrations/vscode)
-- [ESLint Config](https://unocss.dev/integrations/eslint-config)
+- [ESLint Config](https://unocss.dev/integrations/eslint)
 - [PostCSS](https://unocss.dev/integrations/postcss)
 
 ## Acknowledgement
 
-UnoCSS is made possible thanks to the insprations from the following projects:
+UnoCSS is made possible thanks to the inspirations from the following projects:
 
 > in alphabet order
 

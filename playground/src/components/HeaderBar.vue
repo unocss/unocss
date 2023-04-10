@@ -57,7 +57,7 @@ function handleReset() {
       />
       <a
         i-ri-search-line icon-btn
-        href="https://unocss.dev/play/"
+        href="https://unocss.dev/interactive/"
         target="_blank"
         title="Interactive Docs"
       />

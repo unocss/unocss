@@ -1,0 +1,13 @@
+/* layer: shortcuts */
+.btn3:focus{border-width:1px;}
+.focus\:btn3:focus:focus{border-width:1px;}
+.focus\:hover\:btn3:focus:hover:focus{border-width:1px;}
+.hover\:btn3:focus:hover{border-width:1px;}
+.btn3,
+.hover\:btn3:hover{--un-bg-opacity:1;background-color:rgba(255,255,255,var(--un-bg-opacity));--un-text-opacity:1;color:rgba(154,52,18,var(--un-text-opacity));}
+.btn3:hover,
+.hover\:btn3:hover:hover{--un-bg-opacity:1;background-color:rgba(0,0,0,var(--un-bg-opacity));--un-text-opacity:1;color:rgba(21,94,117,var(--un-text-opacity));text-decoration-line:underline;}
+.focus\:btn3:focus{--un-bg-opacity:1;background-color:rgba(255,255,255,var(--un-bg-opacity));--un-text-opacity:1;color:rgba(154,52,18,var(--un-text-opacity));}
+.focus\:btn3:hover:focus{--un-bg-opacity:1;background-color:rgba(0,0,0,var(--un-bg-opacity));--un-text-opacity:1;color:rgba(21,94,117,var(--un-text-opacity));text-decoration-line:underline;}
+.focus\:hover\:btn3:hover:focus{--un-bg-opacity:1;background-color:rgba(255,255,255,var(--un-bg-opacity));--un-text-opacity:1;color:rgba(154,52,18,var(--un-text-opacity));}
+.focus\:hover\:btn3:hover:hover:focus{--un-bg-opacity:1;background-color:rgba(0,0,0,var(--un-bg-opacity));--un-text-opacity:1;color:rgba(21,94,117,var(--un-text-opacity));text-decoration-line:underline;}

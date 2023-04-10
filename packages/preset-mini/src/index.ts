@@ -1,4 +1,5 @@
 import type { Postprocessor, Preflight, PreflightContext, Preset, PresetOptions } from '@unocss/core'
+import { extractorArbitraryVariants } from '@unocss/extractor-arbitrary-variants'
 import { preflights } from './preflights'
 import { rules } from './rules'
 import type { Theme, ThemeAnimation } from './theme'
@@ -35,7 +36,7 @@ export interface PresetMiniOptions extends PresetOptions {
    */
   dark?: 'class' | 'media' | DarkModeSelectors
   /**
-   * Generate psuedo selector as `[group=""]` instead of `.group`
+   * Generate pseudo selector as `[group=""]` instead of `.group`
    *
    * @default false
    */
@@ -58,6 +59,15 @@ export interface PresetMiniOptions extends PresetOptions {
    * @default true
    */
   preflight?: boolean
+
+  /**
+   * Enable arbitrary variants, for example `<div class="[&>*]:m-1 [&[open]]:p-2"></div>`.
+   *
+   * Disable this might slightly improve the performance.
+   *
+   * @default true
+   */
+  arbitraryVariants?: boolean
 }
 
 export function presetMini(options: PresetMiniOptions = {}): Preset<Theme> {
@@ -72,9 +82,14 @@ export function presetMini(options: PresetMiniOptions = {}): Preset<Theme> {
     rules,
     variants: variants(options),
     options,
-    postprocess: VarPrefixPostprocessor(options.variablePrefix),
-    preflights: options.preflight ? normalizePreflights(preflights, options.variablePrefix) : [],
     prefix: options.prefix,
+    postprocess: VarPrefixPostprocessor(options.variablePrefix),
+    preflights: options.preflight
+      ? normalizePreflights(preflights, options.variablePrefix)
+      : [],
+    extractorDefault: options.arbitraryVariants === false
+      ? undefined
+      : extractorArbitraryVariants,
   }
 }
 

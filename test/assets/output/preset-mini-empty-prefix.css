@@ -1,0 +1,4 @@
+/* layer: default */
+.text-red{--text-opacity:1;color:rgba(248,113,113,var(--text-opacity));}
+.text-opacity-50{--text-opacity:0.5;}
+.scale-100{--scale-x:1;--scale-y:1;transform:translateX(var(--translate-x)) translateY(var(--translate-y)) translateZ(var(--translate-z)) rotate(var(--rotate)) rotateX(var(--rotate-x)) rotateY(var(--rotate-y)) rotateZ(var(--rotate-z)) skewX(var(--skew-x)) skewY(var(--skew-y)) scaleX(var(--scale-x)) scaleY(var(--scale-y)) scaleZ(var(--scale-z));}

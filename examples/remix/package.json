@@ -31,7 +31,7 @@
     "@unocss/preset-uno": "link:../../packages/preset-uno",
     "@unocss/preset-web-fonts": "link:../../packages/preset-web-fonts",
     "concurrently": "^8.0.1",
-    "typescript": "^5.0.3",
+    "typescript": "^5.0.4",
     "unocss": "link:../../packages/unocss"
   }
 }

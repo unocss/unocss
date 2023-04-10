@@ -24,7 +24,7 @@ export interface WebFontsOptions {
   fonts?: Record<string, WebFontMeta | string | (WebFontMeta | string)[]>
 
   /**
-   * Extend the theme object
+   * Extend fonts to the theme object
    * @default true
    */
   extendTheme?: boolean

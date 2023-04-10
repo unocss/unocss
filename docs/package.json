@@ -9,6 +9,11 @@
   },
   "devDependencies": {
     "@iconify-json/carbon": "^1.1.16",
+    "@iconify-json/logos": "^1.1.24",
+    "@iconify-json/mdi": "^1.1.50",
+    "@iconify-json/ph": "^1.1.5",
+    "@iconify-json/twemoji": "^1.1.11",
+    "@iconify-json/vscode-icons": "^1.1.22",
     "ofetch": "^1.0.1",
     "unocss": "workspace:*",
     "vitepress": "1.0.0-alpha.65"

@@ -106,7 +106,7 @@ const Home: NextPage = () => {
 
 ## Hot Module Reload 
 
-To support HMR you have to opt-out of webpacks caching.
+To support HMR you have to opt-out of webpack's caching.
 
 ```js{5}
 // next.config.js

@@ -1,17 +1,29 @@
 <script setup>
-import '@unocss/reset/antfu.css'
+import '@unocss/reset/tailwind.css'
 import './markdown.css'
 import 'uno.css'
 
+const ogUrl = 'https://unocss.dev/'
+const ogImage = `${ogUrl}og.png#1`
+const title = 'UnoCSS Interactive Docs'
+const description = 'The instant on-demand Atomic CSS engine'
+
 useHead({
-  title: 'UnoCSS Interactive Docs',
+  title,
   htmlAttrs: [
     { lang: 'en-US' },
   ],
-  meta: [{
-    name: 'description',
-    content: 'UnoCSS Interactive Docs',
-  }],
+  meta: [
+    { property: 'og:type', content: 'website' },
+    { name: 'og:title', content: title },
+    { name: 'og:description', content: description },
+    { property: 'og:image', content: ogImage },
+    { name: 'twitter:title', content: title },
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:image', content: ogImage },
+    { name: 'twitter:site', content: '@antfu7' },
+    { name: 'twitter:url', content: ogUrl },
+  ],
   link: [
     { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
     { rel: 'search', type: 'application/opensearchdescription+xml', href: '/search.xml', title: 'UnoCSS' },
@@ -26,10 +38,14 @@ useHead({
 </template>
 
 <style>
+html {
+  scrollbar-gutter: stable;
+}
 html, body , #__nuxt {
   height: 100vh;
 }
 html.dark {
+  color-scheme: dark;
   background: #121212;
   color: white;
 }
@@ -38,5 +54,23 @@ html.dark .shiki-light {
 }
 html:not(.dark) .shiki-dark {
   display: none;
+}
+html.dark ::-moz-selection  {
+  background: #444;
+}
+html.dark ::selection {
+  background: #444;
+}
+/* Flexbox default changes */
+div {
+  display: flex;
+  flex-direction: column;
+}
+div[row=""] {
+  display: flex;
+  flex-direction: row;
+}
+div[block=""] {
+  display: block;
 }
 </style>

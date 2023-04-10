@@ -1,6 +1,6 @@
 {
   "name": "unocss",
-  "version": "0.50.6",
+  "version": "0.51.2",
   "description": "The instant on-demand Atomic CSS engine.",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -118,6 +118,7 @@
     "@unocss/astro": "workspace:*",
     "@unocss/cli": "workspace:*",
     "@unocss/core": "workspace:*",
+    "@unocss/extractor-arbitrary-variants": "workspace:*",
     "@unocss/postcss": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
     "@unocss/preset-icons": "workspace:*",
@@ -129,6 +130,7 @@
     "@unocss/preset-wind": "workspace:*",
     "@unocss/reset": "workspace:*",
     "@unocss/transformer-attributify-jsx": "workspace:*",
+    "@unocss/transformer-attributify-jsx-babel": "workspace:*",
     "@unocss/transformer-compile-class": "workspace:*",
     "@unocss/transformer-directives": "workspace:*",
     "@unocss/transformer-variant-group": "workspace:*",

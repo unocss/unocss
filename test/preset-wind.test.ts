@@ -45,7 +45,7 @@ describe('preset-wind', () => {
         unmatched.push(i)
     }
     expect(unmatched).toEqual([])
-    expect(css).toMatchSnapshot()
+    await expect(css).toMatchFileSnapshot('./assets/output/preset-wind-targets.css')
     expect(css).toEqual(css2)
   })
 
@@ -67,7 +67,7 @@ describe('preset-wind', () => {
     const { css, matched } = await uno.generate(new Set([...targets, ...nonTargets]), { preflights: false })
 
     expect(matched).toEqual(new Set(targets))
-    expect(css).toMatchSnapshot()
+    await expect(css).toMatchFileSnapshot('./assets/output/preset-wind-containers.css')
   })
 
   test('centered containers', async () => {
@@ -90,7 +90,7 @@ describe('preset-wind', () => {
     const { css, matched } = await uno.generate(new Set(targets), { preflights: false })
 
     expect(matched).toEqual(new Set(targets))
-    expect(css).toMatchSnapshot()
+    await expect(css).toMatchFileSnapshot('./assets/output/preset-wind-containers-centered.css')
   })
 
   test('containers with max width', async () => {
@@ -120,7 +120,7 @@ describe('preset-wind', () => {
     const { css, matched } = await uno.generate(new Set(targets), { preflights: false })
 
     expect(matched).toEqual(new Set(targets))
-    expect(css).toMatchSnapshot()
+    await expect(css).toMatchFileSnapshot('./assets/output/preset-wind-containers-max-width.css')
   })
 
   test('custom var prefix', async () => {
@@ -138,7 +138,7 @@ describe('preset-wind', () => {
       'scale-100',
     ].join(' '), { preflights: false })
 
-    expect(css).toMatchSnapshot()
+    await expect(css).toMatchFileSnapshot('./assets/output/preset-wind-custom-var-prefix.css')
   })
 })
 
@@ -157,5 +157,5 @@ test('empty prefix', async () => {
     'scale-100',
   ].join(' '), { preflights: false })
 
-  expect(css).toMatchSnapshot()
+  await expect(css).toMatchFileSnapshot('./assets/output/preset-wind-empty-var-prefix.css')
 })

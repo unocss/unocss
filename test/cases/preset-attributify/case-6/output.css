@@ -1,0 +1,2 @@
+/* layer: default */
+[bg~="red"]{--un-bg-opacity:1;background-color:rgba(248,113,113,var(--un-bg-opacity));}

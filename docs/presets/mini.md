@@ -47,7 +47,7 @@ import { presetMini } from 'unocss'
 
 ## Rules
 
-This presets is is a subset of [`@unocss/preset-wind`](/presets/wind), containing only the most essential utilities that aligned with CSS's properties, but excluded opinioned or complicated utilities introduced in Tailwind (`container`, `animation`, `gradient` etc.). This can be a good starting point for your own custom preset on top of familiar utilities from Tailwind CSS or Windi CSS.
+This preset is a subset of [`@unocss/preset-wind`](/presets/wind), containing only the most essential utilities aligned with CSS's properties, but excludes opinioned or complicated utilities introduced in Tailwind (`container`, `animation`, `gradient` etc.). This can be a good starting point for your own custom preset on top of familiar utilities from Tailwind CSS or Windi CSS.
 
 ## Features
 
@@ -195,7 +195,7 @@ interface DarkModeSelectors {
 - **Type:** `Boolean`
 - **Default:** `false`
 
-Generate psuedo selector as `[group=""]` instead of `.group`.
+Generate pseudo selector as `[group=""]` instead of `.group`.
 
 ### variablePrefix
 - **Type:** `string`

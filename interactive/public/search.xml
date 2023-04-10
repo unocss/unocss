@@ -1,9 +1,0 @@
-<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">
-  <ShortName>UnoCSS</ShortName>
-  <Description>UnoCSS Interactive Docs</Description>
-  <InputEncoding>UTF-8</InputEncoding>
-  <Image width="192" height="192">https://uno.antfu.me/favicon.svg</Image>
-  <Image width="512" height="512">https://uno.antfu.me/favicon.svg</Image>
-  <Image width="16" height="16">https://uno.antfu.me/favicon.svg</Image>
-  <Url type="text/html" template="https://uno.antfu.me/?s={searchTerms}"/>
-</OpenSearchDescription>

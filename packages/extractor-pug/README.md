@@ -1,24 +1,10 @@
 # @unocss/extractor-pug
 
-Pug extractor for UnoCSS.
+Support extracting classes from Pug template.
 
-## Install
+## Documentation
 
-```bash
-npm i -D @unocss/extractor-pug
-```
-
-```ts
-import extractorPug from '@unocss/extractor-pug'
-import { extractorSplit } from '@unocss/core'
-
-UnoCSS({
-  extractors: [
-    extractorPug(),
-    extractorSplit,
-  ],
-})
-```
+Please refer to the [documentation](https://unocss.dev/extractors/pug).
 
 ## License
 

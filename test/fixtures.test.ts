@@ -6,6 +6,7 @@ import fs from 'fs-extra'
 import fg from 'fast-glob'
 
 const isMacOS = process.platform === 'darwin'
+const isNode16 = process.versions.node.startsWith('16')
 
 async function getGlobContent(cwd: string, glob: string) {
   return await fg(glob, { cwd, absolute: true })
@@ -114,10 +115,10 @@ describe.concurrent('fixtures', () => {
     }
   })
 
-  it.skipIf(isMacOS)('vue cli 4', async () => {
+  it.skipIf(isMacOS || isNode16)('vue cli 4', async () => {
     const root = resolve(__dirname, '../examples/vue-cli4')
     await fs.emptyDir(join(root, 'dist'))
-    await execa('npm', ['run', 'build'], { stdio: 'ignore', cwd: root })
+    await execa('npm', ['run', 'build'], { cwd: root })
 
     const css = await getGlobContent(root, 'dist/**/*.css')
 

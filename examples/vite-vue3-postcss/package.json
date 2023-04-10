@@ -14,7 +14,7 @@
     "@iconify-json/logos": "^1.1.24",
     "@unocss/postcss": "link:../../packages/postcss",
     "@vitejs/plugin-vue": "^4.1.0",
-    "typescript": "^5.0.3",
+    "typescript": "^5.0.4",
     "vite": "^4.2.1"
   }
 }

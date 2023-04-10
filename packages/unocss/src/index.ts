@@ -1,4 +1,4 @@
-import type { UserConfig } from '@unocss/core'
+import type { Preset, UserConfig } from '@unocss/core'
 import type { Theme as PresetUnoTheme } from '@unocss/preset-uno'
 
 export * from '@unocss/core'
@@ -17,4 +17,8 @@ export { default as transformerAttributifyJsx } from '@unocss/transformer-attrib
 
 export function defineConfig<Theme extends {} = PresetUnoTheme>(config: UserConfig<Theme>) {
   return config
+}
+
+export function definePreset<Theme extends {} = {}>(preset: Preset<Theme>) {
+  return preset
 }
