@@ -3,136 +3,7 @@ import presetUno from '@unocss/preset-uno'
 import { autocompleteExtractorAttributify, presetAttributify, variantAttributify } from '@unocss/preset-attributify'
 import { describe, expect, test } from 'vitest'
 
-describe('attributify', () => {
-  const fixture1 = `
-<button
-  uno-layer-base="c-white/10 hover:c-black/20"
-  sm="[color:red]"
-  md="[--var:var(--another)]"
-  lg="bg-blue-600"
-  class="absolute fixed"
-  important="text-red bg-red"
-  bg="blue-400 hover:blue-500 dark:!blue-500 dark:hover:blue-600"
-  text="sm white"
-  !leading-4
-  flex="!~ col"
-  p="t-2"
-  pt="2"
-  border="rounded-xl x-1 x-style-dashed"
-  :font="foo > bar ? 'mono' : 'sans'"
-  v-bind:p="y-2 x-4"
-  border="2 rounded blue-200"
-  un-children="m-auto"
-  x-transition:enter-start="opacity-0"
-  :x-transition:enter-start="opacity-0"
-  v-bind:x-transition:enter-start="opacity-0"
-  pt2 rounded-sm
-  size="w-1 h-0.5"
-  inline-block
-  transform
-  translate-x-100%
-  translate-y-[10%]
-  rotate-30
-  after="content-[quoted:uno_css]"
-  rotate-60="" ma=""
-  m='\`
-  1 2
-  3
-\`'
-  ml-1.5
-  ml-1..6
->
-  Button
-</button>
-`
-
-  const fixture2 = `
-<template>
-  <div h-80 text-center flex flex-col align-center select-none all:transition-400>
-    <input type="checkbox" peer placeholder=">" class="<md:color-red" mt-a>
-    <div mb-a group peer-checked="text-4xl">
-      <div
-        font-100 text-4xl mb--3 p-10
-        bg-gradient="to-r from-yellow-400 via-red-500 to-pink-500"
-      >
-        ~
-      </div>
-      <div text-5xl font-100 sm="bg-blue-600">
-        unocss
-      </div>
-      <div op-20 font-200 mt-1 tracking-wider group-hover="text-teal-400 op-50">
-        Re-imaging Atomic CSS
-      </div>
-    </div>
-  </div>
-  <div flex>
-    <div ma inline-flex relative h-14>
-      <input type="text" m-0 pt-4 px-4 text-true-gray-800 peer placeholder="unocss" un-placeholder="text-red" backdrop-element="filter">
-      <label absolute leading-1rem left-4 pointer-events-none text-gray-7 top="1/3" transition="200 linear"
-        peer-not-placeholder-shown="-translate-y-4 scale-75 origin-top-left text-green-500"
-        peer-focus="-translate-y-4 scale-75 origin-top-left text-green-500"
-        before-content="[quoted:!]"
-        after="content-[string:!]"
-      >Experience now</label>
-    </div>
-  </div>
-</template>
-`
-
-  const fixture3 = `
-<div custom="1" class="custom-2">
-<div>
-`
-
-  // jsx
-  const fixture4 = `
-    <button
-  uno-layer-base={"c-white/10 hover:c-black/20"}
-  sm={"[color:red]"}
-  md={"[--var:var(--another)]"}
-  lg={"bg-blue-600"}
-  class={"absolute fixed"}
-  important={"text-red bg-red"}
-  bg={ withBg ? "sky-400 hover:sky-500" : "transparent" }
-  font={foo > bar ? 'mono' : 'sans'}
-  bg={"blue-400 hover:blue-500 dark:!blue-500 dark:hover:blue-600"}
-  text={"sm white"}
-  flex="!~ col"
-  p="t-2"
-  pt="2"
-  border="rounded-xl x-1 x-style-dashed"
-  border="2 rounded blue-200"
-  un-children={"m-auto"}
-  pt2 rounded-sm
-  inline-block
-  transform
-  translate-x-100
-  rotate-30
-  after={"content-[quoted:uno-css]"}
-  rotate-60="" ma=""
-  m='\`
-  1 2
-  3
-\`'
-  ml-1.5
->
-  Button
-</button>
-  `
-
-  const fixture5 = `
-    <div
-      rules={[
-        {},
-        { min: 8, max: 40, message: 'Password length bewteen 8 and 40 only.' },
-      ]}
-    >`
-
-  const fixture6 = `<div foo={\`\${5}\`} foo={"\${5}"} foo={'\${5}'} >
-  \`'"
-  <div bg="red" >
-  `
-
+describe('attributify', async () => {
   const uno = createGenerator({
     presets: [
       presetAttributify({ strict: true }),
@@ -164,17 +35,17 @@ describe('attributify', () => {
     ],
   })
 
-  test('extractor1', async () => {
-    expect(await uno.applyExtractors(fixture1)).toMatchSnapshot()
+  describe('cases', () => {
+    const cases = import.meta.glob('./cases/preset-attributify/*/input.html', { as: 'raw' })
+    for (const [path, input] of Object.entries(cases)) {
+      test(path, async () => {
+        const { css } = await uno.generate(await input(), { preflights: false })
+        expect(css).toMatchFileSnapshot(path.replace('input.html', 'output.css'))
+      })
+    }
   })
 
-  test('extractor2', async () => {
-    expect(await uno.applyExtractors(fixture2)).toMatchSnapshot()
-  })
-
-  test('extractor4', async () => {
-    expect(await uno.applyExtractors(fixture4)).toMatchSnapshot()
-  })
+  const fixture1 = (await import('./cases/preset-attributify/case-1/input.html?raw')).default
 
   test('variant', async () => {
     const variant = variantAttributify({
@@ -205,89 +76,53 @@ describe('attributify', () => {
     expect(css).toMatchSnapshot()
   })
 
-  test('fixture5', async () => {
-    const uno = createGenerator({
-      presets: [
-        presetAttributify({ strict: true, prefixedOnly: true }),
-        presetUno(),
-      ],
+  test('autocomplete extractor', async () => {
+    const res = await autocompleteExtractorAttributify.extract({
+      content: fixture1,
+      cursor: 187,
     })
-    const { css } = await uno.generate(fixture5, { preflights: false })
-    expect(css).toMatchSnapshot()
-  })
 
-  test('fixture6', async () => {
-    const { css } = await uno.generate(fixture6, { preflights: false })
-    expect(css).toMatchSnapshot()
-  })
+    expect(res).not.toBeNull()
 
-  test('fixture1', async () => {
-    const { css } = await uno.generate(fixture1, { preflights: false })
-    expect(css).toMatchSnapshot()
-  })
-
-  test('fixture2', async () => {
-    const { css } = await uno.generate(fixture2, { preflights: false })
-    expect(css).toMatchSnapshot()
-  })
-
-  test('fixture4', async () => {
-    const { css } = await uno.generate(fixture4, { preflights: false })
-    expect(css).toMatchSnapshot()
-
-    test('autocomplete extractor', async () => {
-      const res = await autocompleteExtractorAttributify.extract({
-        content: fixture1,
-        cursor: 187,
-      })
-
-      expect(res).not.toBeNull()
-
-      expect(res!.extracted).toMatchInlineSnapshot('"bg-blue-400"')
-      expect(res!.transformSuggestions!([`${res!.extracted}1`, `${res!.extracted}2`]))
-        .toMatchInlineSnapshot(`
+    expect(res!.extracted).toMatchInlineSnapshot('"bg-blue-400"')
+    expect(res!.transformSuggestions!([`${res!.extracted}1`, `${res!.extracted}2`]))
+      .toMatchInlineSnapshot(`
         [
           "blue-4001",
           "blue-4002",
         ]
       `)
 
-      const reversed = res!.resolveReplacement(`${res!.extracted}1`)
-      expect(reversed).toMatchInlineSnapshot(`
+    const reversed = res!.resolveReplacement(`${res!.extracted}1`)
+    expect(reversed).toMatchInlineSnapshot(`
       {
-        "end": 193,
+        "end": 192,
         "replacement": "blue-4001",
-        "start": 185,
+        "start": 184,
       }
     `)
 
-      expect(fixture1.slice(reversed.start, reversed.end))
-        .toMatchInlineSnapshot('"blue-400"')
-    })
+    expect(fixture1.slice(reversed.start, reversed.end))
+      .toMatchInlineSnapshot('"blue-400"')
+  })
 
-    test('compatible with full controlled rules', async () => {
-      const { css } = await uno.generate(fixture3, { preflights: false })
-      expect(css).toMatchSnapshot()
+  test('with trueToNonValued', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetAttributify({ trueToNonValued: true }),
+        presetUno(),
+      ],
     })
-
-    test('with trueToNonValued', async () => {
-      const uno = createGenerator({
-        presets: [
-          presetAttributify({ trueToNonValued: true }),
-          presetUno(),
-        ],
-      })
-      const { css } = await uno.generate(`
+    const { css } = await uno.generate(`
       <div flex="true"></div>
       <div grid="~ cols-2"></div>
     `, { preflights: false })
-      expect(css).toMatchSnapshot()
-    })
-
-    test('with incomplete element', async () => {
-      await uno.generate('<div class="w-fullllllllllllll"')
-    }, 20)
+    expect(css).toMatchSnapshot()
   })
+
+  test('with incomplete element', async () => {
+    await uno.generate('<div class="w-fullllllllllllll"')
+  }, 20)
 
   test('merge attribute name and value-only', async () => {
     const { css } = await uno.generate(`
