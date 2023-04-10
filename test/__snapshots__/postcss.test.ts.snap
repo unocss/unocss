@@ -153,6 +153,8 @@ exports[`postcss > @unocss 1`] = `
 .list-greek{list-style-type:lower-greek;}
 .list-outside{list-style-position:outside;}
 .list-none{list-style-type:none;}
+.list-image-\\\\[url\\\\(https\\\\:\\\\/\\\\/test\\\\.unocss\\\\.png\\\\)\\\\]{list-style-image:url(https://test.unocss.png);}
+.list-image-none{list-style-image:none;}
 .list-inherit{list-style-type:inherit;}
 .columns-\\\\[3_auto\\\\]{columns:3 auto;}
 .columns-\\\\[auto_13em\\\\]{columns:auto 13em;}

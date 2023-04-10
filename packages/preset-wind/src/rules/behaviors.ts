@@ -34,6 +34,12 @@ export const listStyle: Rule[] = [
   ['list-outside', { 'list-style-position': 'outside' }],
   ['list-inside', { 'list-style-position': 'inside' }],
   ['list-none', { 'list-style-type': 'none' }],
+  // image
+  [/^list-image-(.+)$/, ([, d]) => {
+    if (/^\[url\(.+\)\]$/.test(d))
+      return { 'list-style-image': h.bracket(d) }
+  }],
+  ['list-image-none', { 'list-style-image': 'none' }],
   ...makeGlobalStaticRules('list', 'list-style-type'),
 ]
 
