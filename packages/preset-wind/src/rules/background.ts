@@ -39,6 +39,7 @@ function bgGradientColorResolver() {
         return {
           '--un-gradient-from-position': '0%',
           '--un-gradient-from': `${colorString} var(--un-gradient-from-position)`,
+          '--un-gradient-to-position': '100%',
           '--un-gradient-to': `${bgGradientToValue(cssColor)} var(--un-gradient-to-position)`,
           '--un-gradient-stops': 'var(--un-gradient-from), var(--un-gradient-to)',
         }
