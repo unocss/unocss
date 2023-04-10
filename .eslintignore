@@ -9,3 +9,4 @@ packages/eslint-plugin/fixtures
 bench/source/gen*.js
 !.vitepress
 docs/.vitepress/cache/deps/*.*
+test/cases
