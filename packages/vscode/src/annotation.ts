@@ -114,7 +114,7 @@ export async function registerAnnotations(
 
                 if (colorPreview) {
                   const color = getColorString(md)
-                  if (color) {
+                  if (color && !colorRanges.find(r => r.range.start.isEqual(doc.positionAt(i[0])))) {
                     colorRanges.push({
                       range: new Range(doc.positionAt(i[0]), doc.positionAt(i[1])),
                       renderOptions: { before: { backgroundColor: color } },
