@@ -51,7 +51,7 @@
     "cac": "^6.7.14",
     "chokidar": "^3.5.3",
     "colorette": "^2.0.19",
-    "consola": "^2.15.3",
+    "consola": "^3.0.0",
     "fast-glob": "^3.2.12",
     "magic-string": "^0.30.0",
     "pathe": "^1.1.0",
