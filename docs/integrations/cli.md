@@ -9,7 +9,7 @@ The command line interface for UnoCSS: `@unocss/cli`.
 
 - 🍱 Suited for traditional backends like Laravel or Kirby
 - 👀 [Watch mode](#development) included
-- 🔌 Supports custom configurations via [`uno.config.ts`](#unocssconfigjs-support)
+- 🔌 Supports custom configurations via [`uno.config.ts`](#configurations)
 
 ## Installation
 
@@ -87,30 +87,41 @@ The final `uno.css` will be generated to the current directory by default.
 
 ### Configurations
 
-Create a `uno.config.ts` or `uno.config.ts` configuration file the root-level of your project to customize UnoCSS.
+Create a `uno.config.js` or `uno.config.ts` configuration file the root-level of your project to customize UnoCSS.
 
-```js
+```ts
 import { defineConfig } from 'unocss'
 
 export default defineConfig({
-  shortcuts: [
-    { box: 'max-w-7xl mx-auto bg-gray-100 rounded-md shadow-sm p-4' },
-  ],
+  cli: {
+    entry: {}, // CliEntryItem | CliEntryItem[]
+  },
+  // ...
 })
+
+interface CliEntryItem {
+  /**
+   * Glob patterns to match files
+   */
+  patterns: string[]
+  /**
+   * The output filename for the generated UnoCSS file
+   */
+  outFile: string
+}
 ```
 
-For a list of options, head over to the [UnoCSS configurations](https://github.com/unocss/unocss#configurations) docs.
+For a list of options, head over to the [UnoCSS configurations](/config/) docs.
 
-## CLI options
+## Options
 
-::: info
-Inspect all available options with `unocss --help`.
-:::
+| Options       |               |
+| ------------- | ------------- |
+| `-v, --version` | Display the current version of UnoCSS |
+| `-c, --config-file <file>` | Config file |
+| `-o, --out-file <file>` | The output filename for the generated UnoCSS file. Defaults to `uno.css` in the current working directory |
+| `-w, --watch` | Indicates if the files found by the glob pattern should be watched |
+| `--preflights` | Enable preflight styles |
+| `-m, --minify` | Minify generated CSS |
+| `-h, --help` | Display available CLI options |
 
-### `--out-file`
-
-The output filename for the generated UnoCSS file. Defaults to `uno.css` in the current working directory.
-
-### `--watch`
-
-Indicates if the files found by the glob pattern should be watched.
