@@ -19,6 +19,6 @@ The extension will try to find the UnoCSS configurations under your project. Whe
 
 ```javascript
 {
-  "unocss.root": "packages/client"
+  "unocss.root": ["packages/client"]
 }
 ```
