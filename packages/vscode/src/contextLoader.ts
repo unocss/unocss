@@ -16,6 +16,7 @@ export class ContextLoader {
   public ready: Promise<void>
   public defaultContext: UnocssPluginContext<UserConfig<any>>
   public contextsMap = new Map<string, UnocssPluginContext<UserConfig<any>> | null>()
+  public configSources: string[] = []
 
   private fileContextCache = new Map<string, UnocssPluginContext<UserConfig<any>> | null>()
   private configExistsCache = new Map<string, boolean>()
@@ -89,6 +90,10 @@ export class ContextLoader {
 
     const load = async () => {
       log.appendLine(`🛠 Resolving config for ${dir}`)
+
+      // @ts-expect-error support global utils
+      globalThis.defineNuxtConfig = config => config
+
       const context = createContext(
         dir,
         this.defaultUnocssConfig,
@@ -130,6 +135,8 @@ export class ContextLoader {
         console.error(e)
         return null
       }
+
+      this.configSources = sources
 
       if (!sources.length)
         return null

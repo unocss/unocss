@@ -14,6 +14,7 @@ export async function registerAnnotations(
 ) {
   let underline: boolean = workspace.getConfiguration().get('unocss.underline') ?? true
   let colorPreview: boolean = workspace.getConfiguration().get('unocss.colorPreview') ?? true
+
   ext.subscriptions.push(workspace.onDidChangeConfiguration((event) => {
     if (event.affectsConfiguration('unocss.underline')) {
       underline = workspace.getConfiguration().get('unocss.underline') ?? true
@@ -92,7 +93,12 @@ export async function registerAnnotations(
       if (!ctx)
         ctx = await contextLoader.resolveClosestContext(code, id)
 
-      if (!ctx.filter(code, id) && !code.includes(INCLUDE_COMMENT_IDE) && !isCssId(id))
+      const isTarget = ctx.filter(code, id) // normal unocss filter
+        || code.includes(INCLUDE_COMMENT_IDE) // force include
+        || contextLoader.configSources.includes(id) // include config files
+        || isCssId(id) // include css files
+
+      if (!isTarget)
         return reset()
 
       const result = await ctx.uno.generate(code, { id, preflights: false, minify: true })
