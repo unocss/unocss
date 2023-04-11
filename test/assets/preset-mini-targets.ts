@@ -1109,4 +1109,7 @@ export const presetMiniNonTargets = [
 
   // not exists
   'text-main/50',
+
+  // overmatch
+  'op50>Foo',
 ]
