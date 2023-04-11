@@ -36,15 +36,13 @@ export const scrolls: Rule[] = [
       'scroll-(m|p|ma|pa|block|inline)-(x|y|r|l|t|b|bs|be|is|ie)-$spacing',
     ],
   }],
-  [/^scroll-m-?([xy])-?(-?.+)$/, directionSize('scroll-margin')],
-  [/^scroll-m-?([rltb])-?(-?.+)$/, directionSize('scroll-margin')],
+  [/^scroll-m-?([xyrltb])-?(-?.+)$/, directionSize('scroll-margin')],
   [/^scroll-m-(block|inline)-(-?.+)$/, directionSize('scroll-margin')],
   [/^scroll-m-?([bi][se])-?(-?.+)$/, directionSize('scroll-margin')],
 
   // scroll padding
   [/^scroll-pa?()-?(-?.+)$/, directionSize('scroll-padding')],
-  [/^scroll-p-?([xy])-?(-?.+)$/, directionSize('scroll-padding')],
-  [/^scroll-p-?([rltb])-?(-?.+)$/, directionSize('scroll-padding')],
+  [/^scroll-p-?([xyrltb])-?(-?.+)$/, directionSize('scroll-padding')],
   [/^scroll-p-(block|inline)-(-?.+)$/, directionSize('scroll-padding')],
   [/^scroll-p-?([bi][se])-?(-?.+)$/, directionSize('scroll-padding')],
 ]
