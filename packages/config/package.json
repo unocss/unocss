@@ -1,6 +1,6 @@
 {
   "name": "@unocss/config",
-  "version": "0.51.3",
+  "version": "0.51.4",
   "description": "Config loader for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
