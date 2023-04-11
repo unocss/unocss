@@ -1,6 +1,6 @@
 {
   "name": "@unocss/astro",
-  "version": "0.51.2",
+  "version": "0.51.3",
   "description": "UnoCSS integration for Astro",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
