@@ -57,7 +57,7 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
       options,
       layers: { icons: -30 },
       rules: [[
-        /^([a-z0-9:-]+)(?:\?(mask|bg|auto))?$/,
+        /^([a-z0-9:_-]+)(?:\?(mask|bg|auto))?$/,
         async ([full, body, _mode = mode]) => {
           let collection = ''
           let name = ''
