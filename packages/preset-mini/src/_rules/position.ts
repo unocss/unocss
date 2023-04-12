@@ -1,4 +1,4 @@
-import type { CSSEntries, Rule, RuleContext } from '@unocss/core'
+import type { CSSEntries, Rule, RuleContext, StaticRule } from '@unocss/core'
 import type { Theme } from '../theme'
 import { globalKeywords, handler as h, insetMap, makeGlobalStaticRules } from '../utils'
 
@@ -8,7 +8,7 @@ export const positions: Rule[] = [
   [/^(?:position-|pos-)?(static)$/, ([, v]) => ({ position: v })],
 ]
 
-export const justifies: Rule[] = [
+export const justifies: StaticRule[] = [
   // contents
   ['justify-start', { 'justify-content': 'flex-start' }],
   ['justify-end', { 'justify-content': 'flex-end' }],
@@ -41,7 +41,7 @@ export const orders: Rule[] = [
   ['order-none', { order: '0' }],
 ]
 
-export const alignments: Rule[] = [
+export const alignments: StaticRule[] = [
   // contents
   ['content-center', { 'align-content': 'center' }],
   ['content-start', { 'align-content': 'flex-start' }],
@@ -95,6 +95,16 @@ export const placements: Rule[] = [
   ['place-self-stretch', { 'place-self': 'stretch' }],
   ...makeGlobalStaticRules('place-self'),
 ]
+
+/**
+ * This is to add `flex-` and `grid-` prefix to the alignment rules,
+ * supporting `flex="~ items-center"` in attributify mode.
+ */
+export const flexGridJustifiesAlignments = [...justifies, ...alignments]
+  .flatMap(([k, v]): StaticRule[] => [
+    [`flex-${k}`, v],
+    [`grid-${k}`, v],
+  ])
 
 function handleInsetValue(v: string, { theme }: RuleContext<Theme>): string | number | undefined {
   return theme.spacing?.[v] ?? h.bracket.cssvar.global.auto.fraction.rem(v)
