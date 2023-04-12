@@ -62,7 +62,7 @@ Similar to `safelist`, you can also configure `blocklist` to exclude some utilit
 
 ```ts
 // uno.config.ts
-exclude: [
+blocklist: [
   'p-1',
   /^p-[2-4]$/,
 ]
