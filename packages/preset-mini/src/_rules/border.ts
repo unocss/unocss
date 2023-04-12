@@ -106,7 +106,7 @@ function handlerBorderColor([, a = '', c]: string[], { theme }: RuleContext<Them
 }
 
 function handlerBorderOpacity([, a = '', opacity]: string[]): CSSEntries | undefined {
-  const v = h.bracket.percent(opacity)
+  const v = h.bracket.percent.cssvar(opacity)
   if (a in directionMap && v != null)
     return directionMap[a].map(i => [`--un-border${i}-opacity`, v])
 }
