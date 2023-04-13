@@ -10,7 +10,7 @@ Ships with `unocss` and `@unocss/vite`.
 
 ## Usage
 
-Visit <a href="http://localhost:3000/__unocss" target="_blank" rel="noreferrer">localhost:3000/__unocss</a> in your Vite dev server to see the inspector.
+Visit <a href="http://localhost:5173/__unocss" target="_blank" rel="noreferrer">localhost:5173/__unocss</a> in your Vite dev server to see the inspector.
 
 The inspector allows you to inspect the generated CSS rules and the applied classes for each file. And also provided a REPL to test your utilities based on your current configuration.
 
