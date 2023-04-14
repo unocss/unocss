@@ -1,8 +1,9 @@
 import type { Plugin } from 'vite'
-import type { UnocssPluginContext } from '@unocss/core'
-import { CSS_PLACEHOLDER } from '../integration'
+import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
+import { CSS_GLOBAL_PLACEHOLDER, CSS_PLACEHOLDER } from '../integration'
+import type { VitePluginConfig } from '../types'
 
-export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin {
+export function ShadowDomModuleModePlugin({ uno, flushTasks, tokens, tasks, filter, extract }: UnocssPluginContext<VitePluginConfig>): Plugin {
   const partExtractorRegex = /^part-\[(.+)]:/
   const nameRegexp = /<([^\s^!>]+)\s*([^>]*)>/
   const vueSFCStyleRE = new RegExp(`<style.*>[\\s\\S]*${CSS_PLACEHOLDER}[\\s\\S]*<\\/style>`)
@@ -107,10 +108,28 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
     return code.replace(CSS_PLACEHOLDER, css?.replace(/\\/g, '\\\\') ?? '')
   }
 
+  let lastTokenSize = 0
+  let lastResult: GenerateResult | undefined
+  async function generateAll() {
+    await flushTasks()
+    if (lastResult && lastTokenSize === tokens.size)
+      return lastResult
+    lastResult = await uno.generate(tokens, { minify: true })
+    lastTokenSize = tokens.size
+    return lastResult
+  }
+
   return {
     name: 'unocss:shadow-dom',
     enforce: 'pre',
+    async buildStart() {
+      tasks.length = 0
+      lastTokenSize = 0
+      lastResult = undefined
+    },
     async transform(code, id) {
+      if (filter(code, id))
+        tasks.push(extract(code, id))
       return transformWebComponent(code, id)
     },
     handleHotUpdate(ctx) {
@@ -119,6 +138,10 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
         const code = await read()
         return await transformWebComponent(code, ctx.file)
       }
+    },
+    async renderChunk(code) {
+      const { css } = await generateAll()
+      return code.replace(CSS_GLOBAL_PLACEHOLDER, css?.replace(/\\/g, '\\\\') ?? '')
     },
   }
 }
