@@ -3,10 +3,11 @@ import { type UnoGenerator, attributifyRE, escapeRegExp, expandVariantGroup } fr
 import { wrapSelectorsWithGlobal } from './wrap-global'
 import { hash } from './hash'
 
-const classesRE = /class=(["'\`])([\S\s]+?)\1/g // class="mb-1"
+const classesRE = /class=(["'\`])([^\{][\S\s]*?)\1/g // class="mb-1"
+const classesExpressionsRE = /class=(["'\`])?(\{[\S\s]+?\})\1/g // class={clsx('mb-1')} or class="{clsx('mb-1')}"
 const classesDirectivesRE = /class:([\S]+?)={/g // class:mb-1={foo}
-const classDirectivesShorthandRE = /class:([^=>\s/]+)[{>\s/]/g // class:mb-1 (compiled to class:uno-1hashz={mb-1})
-const classesFromInlineConditionalsRE = /'([\S\s]+?)'/g // { foo ? 'mt-1' : 'mt-2'}
+const classesDirectivesShorthandRE = /class:([^=>\s/]+)[{>\s/]/g // class:mb-1 (compiled to class:uno-1hashz={mb-1})
+const classesInsideExpressionsRE = /(["'\`])([\S\s]+?)\1/g // { foo ? 'mt-1' : "mt-2"}
 
 export interface TransformSFCOptions {
   /**
@@ -44,9 +45,9 @@ export async function transformSvelteSFC(code: string, id: string, uno: UnoGener
     styles = css
   }
 
-  const classes = [...code.matchAll(classesRE)]
+  const classes = [...code.matchAll(classesRE), ...code.matchAll(classesExpressionsRE)]
   const classDirectives = [...code.matchAll(classesDirectivesRE)]
-  const classDirectivesShorthand = [...code.matchAll(classDirectivesShorthandRE)]
+  const classDirectivesShorthand = [...code.matchAll(classesDirectivesShorthandRE)]
 
   const originalShortcuts = uno.config.shortcuts
   const shortcuts: Record<string, string[]> = {}
@@ -103,24 +104,35 @@ export async function transformSvelteSFC(code: string, id: string, uno: UnoGener
     const className = queueCompiledClass(known)
     return [className, ...replacements].join(' ')
   }
+
   const processedMap = new Set()
+
   for (const match of classes) {
     let body = expandVariantGroup(match[2].trim())
+    let replaced = false
 
-    const inlineConditionals = [...body.matchAll(classesFromInlineConditionalsRE)]
-    for (const conditional of inlineConditionals) {
-      const replacement = await sortKnownAndUnknownClasses(conditional[1].trim())
-      if (replacement)
-        body = body.replace(conditional[0], `'${replacement}'`)
+    const expressions = [...body.matchAll(classesInsideExpressionsRE)]
+    for (const expression of expressions) {
+      const replacement = await sortKnownAndUnknownClasses(expression[2].trim())
+      if (replacement) {
+        body = body.replace(expression[2], replacement)
+        replaced = true
+      }
     }
 
     const replacement = await sortKnownAndUnknownClasses(body)
     if (replacement) {
-      const start = match.index! + 7
-      const end = match.index! + match[0].length - 1
-      processedMap.add(start)
-      s.overwrite(start, end, replacement)
+      body = body.replace(body, replacement)
+      replaced = true
     }
+
+    if (!replaced)
+      continue
+
+    const start = match.index! + (match[1] ? 7 : 6)
+    const end = match.index! + match[0].length - (match[1] ? 1 : 0)
+    processedMap.add(start)
+    s.overwrite(start, end, body)
   }
 
   for (const match of classDirectives) {
