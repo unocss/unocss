@@ -20,7 +20,3 @@ table {
 .VPHero .image-container:hover .image-bg {
   opacity: 0.2;
 }
-
-.VPNavBar {
-  white-space: nowrap;
-}
