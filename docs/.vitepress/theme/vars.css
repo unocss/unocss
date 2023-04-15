@@ -21,7 +21,8 @@
   --vp-c-text-dark-3: rgba(56, 56, 56, 0.8);
   --vp-c-brand-lightest: var(--vp-c-brand);
 
-  --vp-c-highlight-bg: var(--vp-c-brand);
+  --vp-c-highlight-bg: var(--vp-c-brand-light);
+  --vp-c-highlight-text: var(--vp-c-bg);
 }
 
 .dark {

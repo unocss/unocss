@@ -57,6 +57,11 @@ table {
 /* VitePress Search */
 
 .VPLocalSearchBox .result.selected {
-  background: rgba(125,125,125,0.04) !important;
   border: 1px solid var(--vp-c-divider) !important;
+}
+.VPLocalSearchBox .result {
+  border: 1px solid var(--vp-c-divider) !important;
+}
+.VPLocalSearchBox .title-icon {
+  color: inherit !important;
 }
