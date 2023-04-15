@@ -313,6 +313,39 @@ export type Postprocessor = (util: UtilObject) => void
 export type ThemeExtender<T> = (theme: T) => T | void
 
 export interface ConfigBase<Theme extends {} = {}> {
+  content?: {
+    /**
+     * Glob patterns to extract th classes from.
+     *
+     * In Vite plugin, this patterns only used to extract classes
+     * from the files that is not part of the build pipeline.
+     *
+     * In PostCSS plugin, files to be scanned are determined by
+     * the glob patterns defined in this option.
+     */
+    filesystem?: string[]
+
+    /**
+     * Plain text to be extracted
+     */
+    plain?: (string | { content: string; extension: string })[]
+
+    /**
+     * Options used by Vite to filter processing files.
+     */
+    pipeline?: {
+      /**
+       * Patterns that filter the files being extracted.
+       */
+      include?: FilterPattern
+
+      /**
+       * Patterns that filter the files NOT being extracted.
+       */
+      exclude?: FilterPattern
+    }
+  }
+
   /**
    * Rules to generate CSS utilities.
    *
@@ -571,7 +604,7 @@ export interface CliOptions {
 }
 
 export interface UnocssPluginContext<Config extends UserConfig = UserConfig> {
-  ready: Promise<LoadConfigResult<Config>>
+  ready: Promise<LoadConfigResult<ResolvedConfig>>
   uno: UnoGenerator
   /** All tokens scanned */
   tokens: Set<string>
@@ -590,7 +623,7 @@ export interface UnocssPluginContext<Config extends UserConfig = UserConfig> {
   filter: (code: string, id: string) => boolean
   extract: (code: string, id?: string) => Promise<void>
 
-  reloadConfig: () => Promise<LoadConfigResult<Config>>
+  reloadConfig: () => Promise<LoadConfigResult<ResolvedConfig>>
   getConfig: () => Promise<Config>
   onReload: (fn: () => void) => void
 
@@ -598,7 +631,7 @@ export interface UnocssPluginContext<Config extends UserConfig = UserConfig> {
   onInvalidate: (fn: () => void) => void
 
   root: string
-  updateRoot: (root: string) => Promise<LoadConfigResult<Config>>
+  updateRoot: (root: string) => Promise<LoadConfigResult<ResolvedConfig>>
   getConfigFileList: () => string[]
 }
 
@@ -637,19 +670,6 @@ export interface SourceCodeTransformer {
   transform: (code: MagicString, id: string, ctx: UnocssPluginContext) => Awaitable<void>
 }
 
-export interface ExtraContentOptions {
-  /**
-   * Glob patterns to match the files to be extracted
-   * In dev mode, the files will be watched and trigger HMR
-   */
-  filesystem?: string[]
-
-  /**
-   * Plain text to be extracted
-   */
-  plain?: string[]
-}
-
 /**
  * For other modules to aggregate the options
  */
@@ -667,24 +687,9 @@ export interface PluginOptions {
   configDeps?: string[]
 
   /**
-   * Patterns that filter the files being extracted.
-   */
-  include?: FilterPattern
-
-  /**
-   * Patterns that filter the files NOT being extracted.
-   */
-  exclude?: FilterPattern
-
-  /**
    * Custom transformers to the source code
    */
   transformers?: SourceCodeTransformer[]
-
-  /**
-   * Extra content outside of build pipeline (assets, backend, etc.) to be extracted
-   */
-  extraContent?: ExtraContentOptions
 }
 
 export interface UserConfig<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions, PluginOptions, CliOptions {}
@@ -692,7 +697,7 @@ export interface UserConfigDefaults<Theme extends {} = {}> extends ConfigBase<Th
 
 export interface ResolvedConfig<Theme extends {} = {}> extends Omit<
 RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>,
-'rules' | 'shortcuts' | 'autocomplete'
+'rules' | 'shortcuts' | 'autocomplete' | 'content'
 > {
   presets: Preset<Theme>[]
   shortcuts: Shortcut<Theme>[]
@@ -707,6 +712,14 @@ RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variant
     extractors: AutoCompleteExtractor[]
   }
   separators: string[]
+  content: {
+    filesystem: string[]
+    plain: (string | { content: string; extension: string })[]
+    pipeline: {
+      include: FilterPattern
+      exclude: FilterPattern
+    }
+  }
 }
 
 export interface GenerateResult {

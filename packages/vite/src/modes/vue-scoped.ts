@@ -1,10 +1,9 @@
 import type { Plugin } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
 import type { UnocssPluginContext } from '@unocss/core'
-import { defaultExclude } from '../integration'
 
 export function VueScopedPlugin({ uno, ready }: UnocssPluginContext): Plugin {
-  let filter = createFilter([/\.vue$/], defaultExclude)
+  let filter = createFilter([/\.vue$/], uno.config.content.pipeline.exclude)
 
   async function transformSFC(code: string) {
     const { css } = await uno.generate(code)
@@ -19,8 +18,8 @@ export function VueScopedPlugin({ uno, ready }: UnocssPluginContext): Plugin {
     async configResolved() {
       const { config } = await ready
       filter = createFilter(
-        config.include || [/\.vue$/],
-        config.exclude || defaultExclude,
+        config.content.pipeline.include || [/\.vue$/],
+        config.content.pipeline.exclude,
       )
     },
     transform(code, id) {

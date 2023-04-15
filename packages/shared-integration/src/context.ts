@@ -1,10 +1,9 @@
 import { createFilter } from '@rollup/pluginutils'
 import type { LoadConfigResult, LoadConfigSource } from '@unocss/config'
 import { loadConfig } from '@unocss/config'
-import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocss/core'
+import type { ResolvedConfig, UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { BetterMap, createGenerator } from '@unocss/core'
 import { CSS_PLACEHOLDER, IGNORE_COMMENT, INCLUDE_COMMENT } from './constants'
-import { defaultExclude, defaultInclude } from './defaults'
 
 export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
   configOrPath?: Config | string,
@@ -16,7 +15,10 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
   let rawConfig = {} as Config
   let configFileList: string[] = []
   const uno = createGenerator(rawConfig, defaults)
-  let rollupFilter = createFilter(defaultInclude, defaultExclude)
+  let rollupFilter = createFilter(
+    uno.config.content.pipeline.include,
+    uno.config.content.pipeline.exclude,
+  )
 
   const invalidations: Array<() => void> = []
   const reloadListeners: Array<() => void> = []
@@ -28,7 +30,7 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
 
   let ready = reloadConfig()
 
-  async function reloadConfig() {
+  async function reloadConfig(): Promise<LoadConfigResult<ResolvedConfig>> {
     const result = await loadConfig(root, configOrPath, extraConfigSources, defaults)
     resolveConfigResult(result)
 
@@ -37,8 +39,8 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     uno.setConfig(rawConfig)
     uno.config.envMode = 'dev'
     rollupFilter = createFilter(
-      rawConfig.include || defaultInclude,
-      rawConfig.exclude || defaultExclude,
+      uno.config.content.pipeline.include,
+      uno.config.content.pipeline.exclude,
     )
     tokens.clear()
     await Promise.all(modules.map((code, id) => uno.applyExtractors(code, id, tokens)))
@@ -56,7 +58,7 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
         presets.add(i.name)
     })
 
-    return result
+    return { config: uno.config, sources: result.sources }
   }
 
   async function updateRoot(newRoot: string) {

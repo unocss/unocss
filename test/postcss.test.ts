@@ -8,6 +8,14 @@ import postcss from 'postcss'
 import { presetWindTargets } from './assets/preset-wind-targets'
 
 const config: UserConfig = {
+  content: {
+    filesystem: [
+      './test/assets/preset-wind-targets.ts',
+    ],
+    plain: [{
+      content: presetWindTargets.join(' '), extension: 'html',
+    }],
+  },
   presets: [
     presetWind({
       dark: 'media',
@@ -39,12 +47,6 @@ const config: UserConfig = {
 function pcss() {
   return postcss(
     postcssPlugin({
-      content: [
-        './test/assets/preset-wind-targets.ts',
-        {
-          raw: presetWindTargets.join(' '), extension: 'html',
-        },
-      ],
       configOrPath: config,
     }))
 }
@@ -52,12 +54,15 @@ function pcss() {
 function pcssLite() {
   return postcss(
     postcssPlugin({
-      content: [
-        {
-          raw: '<div class="relative p4 test example">', extension: 'html',
-        },
-      ],
       configOrPath: <UserConfig>{
+        content: {
+          filesystem: ['./*.html'],
+          plain: [
+            {
+              content: '<div class="relative p4 test example">', extension: 'html',
+            },
+          ],
+        },
         presets: [
           presetWind(),
           {

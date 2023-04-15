@@ -5,21 +5,21 @@ import type { UnocssPluginContext } from '@unocss/core'
 import { applyTransformers } from './transformers'
 
 export async function setupExtraContent(ctx: UnocssPluginContext, shouldWatch = false) {
-  const { extraContent } = await ctx.getConfig()
+  const { content } = await ctx.getConfig()
   const { extract, tasks, root, filter } = ctx
 
   // plain text
-  if (extraContent?.plain) {
+  if (content?.plain) {
     await Promise.all(
-      extraContent.plain.map((code, idx) => {
-        return extract(code, `__extra_content_${idx}__`)
+      content.plain.map((plain) => {
+        return typeof plain === 'string' ? extract(plain) : extract(plain.content, plain.extension)
       }),
     )
   }
 
   // filesystem
-  if (extraContent?.filesystem) {
-    const files = await fg(extraContent.filesystem, { cwd: root })
+  if (content?.filesystem) {
+    const files = await fg(content.filesystem, { cwd: root })
 
     async function extractFile(file: string) {
       const code = await fs.readFile(file, 'utf-8')

@@ -1,5 +1,5 @@
+import { clone, defaultExclude, defaultInclude, defaultIncludeGlobs, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq } from './utils'
 import type { Preset, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
-import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq } from './utils'
 import { extractorSplit } from './extractors'
 import { DEFAULT_LAYERS } from './constants'
 
@@ -132,12 +132,27 @@ export function resolveConfig<Theme extends {} = {}>(
   if (!separators.length)
     separators = [':', '-']
 
+  const content = (config.content || {}) as ResolvedConfig['content']
+  content.plain ||= []
+  const defaultPipeline = {
+    include: defaultInclude,
+    exclude: defaultExclude,
+  }
+  content.pipeline ||= defaultPipeline
+  content.pipeline.include ||= defaultPipeline.include
+  content.pipeline.exclude ||= defaultPipeline.include
+
+  // @ts-expect-error private
+  if (config.__postcss)
+    content.filesystem ||= defaultIncludeGlobs
+
   const resolved: ResolvedConfig<any> = {
     mergeSelectors: true,
     warn: true,
     blocklist: [],
     sortLayers: layers => layers,
     ...config,
+    content,
     presets: sortedPresets,
     envMode: config.envMode || 'build',
     shortcutsLayer: config.shortcutsLayer || 'shortcuts',

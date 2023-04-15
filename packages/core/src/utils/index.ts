@@ -1,3 +1,4 @@
+export * from './defaults'
 export * from './escape'
 export * from './object'
 export * from './basic'
