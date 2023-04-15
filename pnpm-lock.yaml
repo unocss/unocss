@@ -349,8 +349,8 @@ importers:
         specifier: workspace:*
         version: link:../packages/unocss
       vitepress:
-        specifier: 1.0.0-alpha.67
-        version: 1.0.0-alpha.67(@types/node@18.15.11)(@types/react@18.0.33)(react@18.2.0)(terser@5.16.8)
+        specifier: 1.0.0-alpha.69
+        version: 1.0.0-alpha.69(@types/node@18.15.11)(@types/react@18.0.33)(react@18.2.0)(terser@5.16.8)
 
   examples/vue-cli4:
     dependencies:
@@ -20827,8 +20827,8 @@ packages:
       vite: 4.2.1(@types/node@18.15.11)(terser@5.16.8)
     dev: true
 
-  /vitepress@1.0.0-alpha.67(@types/node@18.15.11)(@types/react@18.0.33)(react@18.2.0)(terser@5.16.8):
-    resolution: {integrity: sha512-57vC0ALFp5irEmjFyOE7HCIiXB6ZEoDfsLl+sw7wTzDSX9LYfxSHQecu/C8knalqqI/oB6RZhWos0tUtH8lVTw==}
+  /vitepress@1.0.0-alpha.69(@types/node@18.15.11)(@types/react@18.0.33)(react@18.2.0)(terser@5.16.8):
+    resolution: {integrity: sha512-d7Vz+S/1i/7szVUSOHJf12APtoGlHXIJXzDvXLChhlE000TVzWoYX6rUAchjJzfxdFjng3Eo96ZkPs7OJxDjMg==}
     hasBin: true
     dependencies:
       '@docsearch/css': 3.3.3
