@@ -55,13 +55,24 @@ table {
 
 
 /* VitePress Search */
-
-.VPLocalSearchBox .result.selected {
+.VPLocalSearchBox .result {
+  --vp-c-bg-search-result: var(--vp-c-bg);
+  background: var(--vp-c-bg-search-result) !important;
+  padding: 4px !important;
   border: 1px solid var(--vp-c-divider) !important;
 }
-.VPLocalSearchBox .result {
-  border: 1px solid var(--vp-c-divider) !important;
+.VPLocalSearchBox .result.selected {
+  --vp-c-bg-search-result: var(--vp-c-bg-soft) !important;
+}
+.VPLocalSearchBox .result .excerpt-gradient-top {
+  background: linear-gradient(var(--vp-c-bg-search-result),transparent) !important;
+}
+.VPLocalSearchBox .result .excerpt-gradient-bottom {
+  background: linear-gradient(transparent,var(--vp-c-bg-search-result)) !important;
 }
 .VPLocalSearchBox .title-icon {
-  color: inherit !important;
+  display: none;
+}
+.VPLocalSearchBox .excerpt-wrapper {
+  margin-top: 4px;
 }
