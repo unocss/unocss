@@ -56,7 +56,7 @@ function pcssLite() {
     postcssPlugin({
       configOrPath: <UserConfig>{
         content: {
-          filesystem: ['./*.html'],
+          filesystem: [],
           plain: [
             {
               content: '<div class="relative p4 test example">', extension: 'html',
