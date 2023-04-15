@@ -255,6 +255,9 @@ export default defineConfig({
   themeConfig: {
     logo: '/logo.svg',
     nav: Nav,
+    search: {
+      provider: 'local',
+    },
     sidebar: {
       '/guide/': SidebarGuide,
       '/integrations/': SidebarGuide,
