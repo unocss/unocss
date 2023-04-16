@@ -1,5 +1,5 @@
 import { readFile, stat } from 'node:fs/promises'
-import { normalize, resolve } from 'node:path'
+import { normalize } from 'node:path'
 import type { UnoGenerator } from '@unocss/core'
 import fg from 'fast-glob'
 import type { Result, Root } from 'postcss'
@@ -127,7 +127,7 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
             const { matched } = typeof v === 'string'
               ? await uno.generate(v)
               : await uno.generate(v.content, {
-                id: resolve(cwd, `unocss.${v.extension}`),
+                id: `unocss.${v.extension}`,
               })
 
             for (const candidate of matched)
