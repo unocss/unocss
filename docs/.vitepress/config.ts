@@ -81,6 +81,7 @@ const Nav: DefaultTheme.NavItem[] = [
         items: Guides,
       },
     ],
+    activeMatch: '^/guide/',
   },
   {
     text: 'Integrations',
@@ -94,6 +95,7 @@ const Nav: DefaultTheme.NavItem[] = [
         link: 'https://github.com/unocss/unocss/tree/main/examples',
       },
     ],
+    activeMatch: '^/integrations/',
   },
   {
     text: 'Config',
@@ -107,6 +109,7 @@ const Nav: DefaultTheme.NavItem[] = [
         items: Configs,
       },
     ],
+    activeMatch: '^/config/',
   },
   {
     text: 'Presets',
@@ -132,6 +135,7 @@ const Nav: DefaultTheme.NavItem[] = [
         items: Extractors,
       },
     ],
+    activeMatch: '^/(presets|transformers|extractors)/',
   },
   { text: 'Interactive Docs', link: `${ogUrl}interactive/`, target: '_blank' },
   { text: 'Playground', link: `${ogUrl}play/`, target: '_blank' },
