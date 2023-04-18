@@ -83,6 +83,7 @@ export const transforms: Rule[] = [
   [/^(?:transform-)?translate-([xyz])-(.+)$/, handleTranslate],
   [/^(?:transform-)?rotate-()(.+)$/, handleRotate],
   [/^(?:transform-)?rotate-([xyz])-(.+)$/, handleRotate],
+  [/^(?:transform-)?skew-()(.+)$/, handleSkew],
   [/^(?:transform-)?skew-([xy])-(.+)$/, handleSkew, { autocomplete: ['transform-skew-(x|y)-<percent>'] }],
   [/^(?:transform-)?scale-()(.+)$/, handleScale],
   [/^(?:transform-)?scale-([xyz])-(.+)$/, handleScale, { autocomplete: [`transform-(${transformValues.join('|')})-<percent>`, `transform-(${transformValues.join('|')})-(x|y|z)-<percent>`] }],
@@ -144,9 +145,9 @@ function handleRotate([, d = '', b]: string[]): CSSValues | undefined {
 function handleSkew([, d, b]: string[]): CSSValues | undefined {
   const v = h.bracket.cssvar.degree(b)
   if (v != null) {
-    return {
-      [`--un-skew-${d}`]: v,
-      transform: transformCpu,
-    }
+    return [
+      ...xyzMap[d].map((i): [string, string] => [`--un-skew${i}`, v]),
+      ['transform', transformCpu],
+    ]
   }
 }
