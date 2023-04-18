@@ -40,7 +40,7 @@ describe('attributify', async () => {
     for (const [path, input] of Object.entries(cases)) {
       test(path, async () => {
         const { css } = await uno.generate(await input(), { preflights: false })
-        expect(css).toMatchFileSnapshot(path.replace('input.html', 'output.css'))
+        await expect(css).toMatchFileSnapshot(path.replace('input.html', 'output.css'))
       })
     }
   })

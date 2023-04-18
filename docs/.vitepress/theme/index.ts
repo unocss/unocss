@@ -2,7 +2,7 @@
 import { h, watch } from 'vue'
 import Theme from 'vitepress/theme'
 import './rainbow.css'
-import './style.css'
+import './vars.css'
 import './overrides.css'
 import 'uno.css'
 

@@ -13,7 +13,7 @@ export default function myTransformers(options: MyOptions = {}): SourceCodeTrans
   return {
     name: 'my-transformer',
     enforce: 'pre', // enforce before other transformers
-    idFilter() {
+    idFilter(id) {
       // only transform .tsx and .jsx files
       return id.match(/\.[tj]sx$/)
     },

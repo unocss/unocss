@@ -7,7 +7,7 @@ import { fonts, tabSizes, textIndents, textShadows, textStrokes } from './typogr
 import { gaps } from './gap'
 import { grids } from './grid'
 import { overflows } from './layout'
-import { alignments, boxSizing, floats, insets, justifies, orders, placements, positions, zIndexes } from './position'
+import { alignments, boxSizing, flexGridJustifiesAlignments, floats, insets, justifies, orders, placements, positions, zIndexes } from './position'
 import { rings } from './ring'
 import { boxShadows } from './shadow'
 import { aspectRatio, sizes } from './size'
@@ -69,6 +69,7 @@ export const rules: Rule[] = [
   justifies,
   alignments,
   placements,
+  flexGridJustifiesAlignments,
   insets,
   floats,
   zIndexes,

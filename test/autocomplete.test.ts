@@ -111,6 +111,22 @@ describe('autocomplete', () => {
     ).toMatchSnapshot()
   })
 
+  it('should not suggest blocked rules', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetUno(),
+      ],
+      blocklist: [
+        /[A-Z]/,
+      ],
+    })
+
+    const ac = createAutocomplete(uno)
+
+    expect((await ac.suggest('text-trueGray-')))
+      .toMatchInlineSnapshot('[]')
+  })
+
   it('should provide skip DEFAULT', async () => {
     expect((await ac.suggest('text-red-')))
       .toMatchSnapshot()

@@ -96,6 +96,7 @@ export const breaks: Rule[] = [
 
 export const textOverflows: Rule[] = [
   ['truncate', { 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }],
+  ['text-truncate', { 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }],
   ['text-ellipsis', { 'text-overflow': 'ellipsis' }],
   ['text-clip', { 'text-overflow': 'clip' }],
 ]

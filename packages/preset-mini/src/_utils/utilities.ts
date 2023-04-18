@@ -1,4 +1,4 @@
-import type { CSSEntries, CSSObject, DynamicMatcher, ParsedColorValue, Rule, RuleContext, VariantContext } from '@unocss/core'
+import type { CSSEntries, CSSObject, DynamicMatcher, ParsedColorValue, RuleContext, StaticRule, VariantContext } from '@unocss/core'
 import { isString, toArray } from '@unocss/core'
 import type { Theme } from '../theme'
 import { colorOpacityToString, colorToString, parseCssColor } from './colors'
@@ -231,8 +231,8 @@ export function resolveVerticalBreakpoints({ theme, generator }: Readonly<Varian
   return verticalBreakpoints
 }
 
-export function makeGlobalStaticRules(prefix: string, property?: string) {
-  return globalKeywords.map(keyword => [`${prefix}-${keyword}`, { [property ?? prefix]: keyword }] as Rule)
+export function makeGlobalStaticRules(prefix: string, property?: string): StaticRule[] {
+  return globalKeywords.map(keyword => [`${prefix}-${keyword}`, { [property ?? prefix]: keyword }])
 }
 
 export function getBracket(str: string, open: string, close: string) {
