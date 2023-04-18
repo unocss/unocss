@@ -110,7 +110,6 @@ describe('preset-mini', () => {
       'text-opacity-50',
       'text-red',
       'scale-100',
-      'skew-50deg',
     ].join(' '), { preflights: false })
 
     await expect(css).toMatchFileSnapshot('./assets/output/preset-mini-empty-prefix.css')
