@@ -330,6 +330,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .text-size-unset{font-size:unset;}
 .as-parent .group .group-\[\.as-parent_\&\]\:font-13{font-weight:13;}
 .as-parent .group\/label .group-\[\.as-parent_\&\]\/label\:font-18{font-weight:18;}
+.font-\[550\]{font-weight:550;}
 .font-050,
 .font-50,
 .fw-050,
