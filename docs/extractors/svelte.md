@@ -25,10 +25,10 @@ Will be extracted as `text-orange-400` and generates:
   pnpm add -D @unocss/extractor-svelte
   ```
   ```bash [yarn]
-  yarn add -D @unocss/extractor-sve
+  yarn add -D @unocss/extractor-svelte
   ```
   ```bash [npm]
-  npm install -D @unocss/extractor-sve
+  npm install -D @unocss/extractor-svelte
   ```
 :::
 
