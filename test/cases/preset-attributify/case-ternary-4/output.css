@@ -1,0 +1,5 @@
+/* layer: default */
+[text~="blue-1"]{--un-text-opacity:1;color:rgba(219,234,254,var(--un-text-opacity));}
+[text~="blue-2"]{--un-text-opacity:1;color:rgba(191,219,254,var(--un-text-opacity));}
+[text~="green-1"]{--un-text-opacity:1;color:rgba(220,252,231,var(--un-text-opacity));}
+[text~="red-1"]{--un-text-opacity:1;color:rgba(254,226,226,var(--un-text-opacity));}

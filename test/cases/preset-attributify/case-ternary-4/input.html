@@ -1,0 +1,11 @@
+<div :text="
+  red
+    ? 'red-1'
+    : green 
+      ? (yellow 
+        ? `yellow-1 yellow-2`
+        : 'green-1')
+    : `red-2 ${
+      blue ? 'blue-1' : 'blue-2'
+    }`
+"></div>

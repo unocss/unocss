@@ -1,0 +1,5 @@
+/* layer: default */
+[text~="hover\:red-500"]:hover,
+[text~="red-500"]{--un-text-opacity:1;color:rgba(239,68,68,var(--un-text-opacity));}
+[text~="red-400"]{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
+[text~="red-600"]{--un-text-opacity:1;color:rgba(220,38,38,var(--un-text-opacity));}
