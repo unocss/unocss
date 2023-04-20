@@ -1,3 +1,4 @@
+import { resolve } from 'node:path'
 import { alias } from '../alias'
 
 const externals = [
@@ -19,6 +20,16 @@ export default defineNuxtConfig({
   ssr: false,
   experimental: {
     reactivityTransform: true,
+  },
+  app: {
+    baseURL: '/interactive/',
+  },
+  nitro: {
+    preset: 'netlify',
+    rootDir: resolve(__dirname, '..'),
+    output: {
+      publicDir: resolve(__dirname, '../docs/dist/interactive/'),
+    },
   },
   postcss: {
     plugins: {

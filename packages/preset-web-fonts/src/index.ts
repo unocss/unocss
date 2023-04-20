@@ -29,7 +29,7 @@ const providers = {
   none: NoneProvider,
 }
 
-const preset = (options: WebFontsOptions = {}): Preset<any> => {
+function preset(options: WebFontsOptions = {}): Preset<any> {
   const {
     provider: defaultProvider = 'google',
     extendTheme = true,

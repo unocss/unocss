@@ -281,6 +281,76 @@ describe('svelte-scoped', () => {
     `)
   })
 
+  test('handles classes in inline expressions', async () => {
+    const result = await transform(`
+    <span class={classnames('text-red-500', foo ? "font-bold" : 'font-medium', 'foo', bar && 'hover:(bg-blue-500 text-white) baz')}>Hello</span>`.trim())
+    expect(result).toMatchInlineSnapshot(`
+      "<span
+        class={classnames(
+          \\"uno-ik91av\\",
+          foo ? \\"uno-k2ufqh\\" : \\"uno-wgrcwx\\",
+          \\"foo\\",
+          bar && \\"uno-484hzz baz\\"
+        )}>Hello</span
+      >
+
+      <style>
+        :global(.uno-484hzz:hover) {
+          --un-bg-opacity: 1;
+          background-color: rgba(59, 130, 246, var(--un-bg-opacity));
+          --un-text-opacity: 1;
+          color: rgba(255, 255, 255, var(--un-text-opacity));
+        }
+        :global(.uno-k2ufqh) {
+          font-weight: 700;
+        }
+        :global(.uno-wgrcwx) {
+          font-weight: 500;
+        }
+        :global(.uno-ik91av) {
+          --un-text-opacity: 1;
+          color: rgba(239, 68, 68, var(--un-text-opacity));
+        }
+      </style>
+      "
+    `)
+  })
+
+  test('handles classes in quoted inline expressions', async () => {
+    const result = await transform(`
+    <span class="{classnames('text-red-500', foo ? 'font-bold' : 'font-medium', 'foo', bar && 'hover:(bg-blue-500 text-white) baz')}">Hello</span>`.trim())
+    expect(result).toMatchInlineSnapshot(`
+      "<span
+        class={classnames(
+          \\"uno-ik91av\\",
+          foo ? \\"uno-k2ufqh\\" : \\"uno-wgrcwx\\",
+          \\"foo\\",
+          bar && \\"uno-484hzz baz\\"
+        )}>Hello</span
+      >
+
+      <style>
+        :global(.uno-484hzz:hover) {
+          --un-bg-opacity: 1;
+          background-color: rgba(59, 130, 246, var(--un-bg-opacity));
+          --un-text-opacity: 1;
+          color: rgba(255, 255, 255, var(--un-text-opacity));
+        }
+        :global(.uno-k2ufqh) {
+          font-weight: 700;
+        }
+        :global(.uno-wgrcwx) {
+          font-weight: 500;
+        }
+        :global(.uno-ik91av) {
+          --un-text-opacity: 1;
+          color: rgba(239, 68, 68, var(--un-text-opacity));
+        }
+      </style>
+      "
+    `)
+  })
+
   test('no tokens found returns undefined', async () => {
     const result = await transform(`
     <div class="foo" />

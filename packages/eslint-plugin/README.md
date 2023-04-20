@@ -2,6 +2,6 @@
 
 ESLint plugin for UnoCSS.
 
-## Installation
+## Documentation
 
-Please refer to [@unocss/eslint-config](https://github.com/unocss/unocss/blob/main/packages/eslint-config) for installation.
+Please refer to the [documentation](https://unocss.dev/integrations/eslint).

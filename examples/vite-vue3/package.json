@@ -8,15 +8,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.2.39"
+    "vue": "^3.2.47"
   },
   "devDependencies": {
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
-    "@vitejs/plugin-vue": "^4.0.0",
-    "typescript": "^4.9.5",
+    "@vitejs/plugin-vue": "^4.1.0",
+    "typescript": "^5.0.4",
     "unocss": "link:../../packages/unocss",
-    "vite": "^4.1.4"
+    "vite": "^4.2.1"
   }
 }

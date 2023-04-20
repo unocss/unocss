@@ -19,7 +19,7 @@ export function throttle<T extends ((...args: any) => any)>(func: T, timeFrame: 
   } as T
 }
 
-export const getCSS = async (uno: UnoGenerator, utilName: string) => {
+export async function getCSS(uno: UnoGenerator, utilName: string) {
   const { css } = await uno.generate(utilName, { preflights: false, safelist: false })
   return css
 }
@@ -41,7 +41,7 @@ export async function getPrettiedMarkdown(uno: UnoGenerator, util: string) {
   return `\`\`\`css\n${(await getPrettiedCSS(uno, util)).prettified}\n\`\`\``
 }
 
-const getCssVariables = (code: string) => {
+function getCssVariables(code: string) {
   const regex = /(?<key>--\S+?):\s*(?<value>.+?);/gm
   const cssVariables = new Map<string, string>()
   for (const match of code.matchAll(regex)) {
@@ -87,7 +87,7 @@ const cssColorRegex = /(?:#|0x)(?:[a-f0-9]{3}|[a-f0-9]{6})\b|(?:rgb|hsl)a?\(.*\)
  * @param str - CSS string
  * @returns The **first** CSS color string (hex, rgb[a], hsl[a]) or `undefined`
  */
-export const getColorString = (str: string) => {
+export function getColorString(str: string) {
   let colorString = str.match(cssColorRegex)?.[0] // e.g rgba(248, 113, 113, var(--maybe-css-var))
 
   if (!colorString)

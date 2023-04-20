@@ -1,0 +1,30 @@
+@layer base, components, utilities;
+
+@layer base {
+  @unocss preflights;
+}
+
+@layer utilities {
+  @unocss default;
+
+  @unocss;
+}
+
+@layer components {
+  html {
+    background: theme('colors.black');
+    color: theme('colors.gray.300');
+  }
+  button, a {
+    @apply focus-visible:outline-none focus:outline-2 focus:outline-offset-2 focus:outline-sky-600;
+    @apply [&:hover]:text-[#fff] bg-gray-900 hover:bg-gray-700 text-gray-200 text-base no-underline b-0 dark:hover:bg-blue-600;
+    @apply px-4 py-2 rounded-lg block;
+  }
+}
+
+@screen at-sm {
+  html {
+    background: theme('colors.gray.900');
+  }
+}
+

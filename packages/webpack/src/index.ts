@@ -144,7 +144,7 @@ export default function WebpackPlugin<Theme extends {}>(
       lastTokenSize = tokens.size
       Array.from(plugin.__vfsModules)
         .forEach((id) => {
-          const path = id.slice(plugin.__virtualModulePrefix.length).replace(/\\/g, '/')
+          const path = decodeURIComponent(id.slice(plugin.__virtualModulePrefix.length))
           const layer = resolveLayer(path)
           if (!layer)
             return

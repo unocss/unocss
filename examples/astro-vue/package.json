@@ -9,11 +9,12 @@
     "astro": "astro"
   },
   "dependencies": {
-    "vue": "^3.2.30"
+    "vue": "^3.2.47"
   },
   "devDependencies": {
-    "@astrojs/vue": "^2.0.1",
-    "astro": "^2.0.14",
+    "@astrojs/vue": "^2.1.1",
+    "@unocss/reset": "link:../../packages/reset",
+    "astro": "^2.2.1",
     "unocss": "link:../../packages/unocss"
   }
 }

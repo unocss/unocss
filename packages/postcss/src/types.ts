@@ -6,10 +6,10 @@ export interface UnoPostcssPluginOptions {
     extension: string
   })[]
   directiveMap?: {
-    apply: string
-    screen: string
-    theme: string
-    unocss: string
+    apply?: string
+    screen?: string
+    theme?: string
+    unocss?: string
   }
   cwd?: string
   configOrPath?: string | UserConfig

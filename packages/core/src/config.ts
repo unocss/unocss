@@ -1,4 +1,4 @@
-import type { Postprocessor, Preprocessor, Preset, ResolvedConfig, Rule, Shortcut, ThemeExtender, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
+import type { Preset, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
 import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq } from './utils'
 import { extractorSplit } from './extractors'
 import { DEFAULT_LAYERS } from './constants'
@@ -11,7 +11,21 @@ export function resolveShortcuts<Theme extends {} = {}>(shortcuts: UserShortcuts
   })
 }
 
+const __RESOLVED = '_uno_resolved'
+
+/**
+ * Resolve a single preset, nested presets are ignored
+ */
 export function resolvePreset<Theme extends {} = {}>(preset: Preset<Theme>): Preset<Theme> {
+  if (__RESOLVED in preset)
+    return preset
+
+  preset = { ...preset }
+  Object.defineProperty(preset, __RESOLVED, {
+    value: true,
+    enumerable: false,
+  })
+
   const shortcuts = preset.shortcuts
     ? resolveShortcuts(preset.shortcuts)
     : undefined
@@ -34,12 +48,23 @@ export function resolvePreset<Theme extends {} = {}>(preset: Preset<Theme>): Pre
   return preset
 }
 
+/**
+ * Resolve presets with nested presets
+ */
+export function resolvePresets<Theme extends {} = {}>(preset: Preset<Theme>): Preset<Theme>[] {
+  const root = resolvePreset(preset)
+  if (!root.presets)
+    return [root]
+  const nested = (root.presets || []).flatMap(toArray).flatMap(resolvePresets)
+  return [root, ...nested]
+}
+
 export function resolveConfig<Theme extends {} = {}>(
   userConfig: UserConfig<Theme> = {},
   defaults: UserConfigDefaults<Theme> = {},
 ): ResolvedConfig<Theme> {
   const config = Object.assign({}, defaults, userConfig) as UserConfigDefaults<Theme>
-  const rawPresets = (config.presets || []).flatMap(toArray).map(resolvePreset)
+  const rawPresets = uniq((config.presets || []).flatMap(toArray).flatMap(resolvePresets))
 
   const sortedPresets = [
     ...rawPresets.filter(p => p.enforce === 'pre'),
@@ -47,21 +72,29 @@ export function resolveConfig<Theme extends {} = {}>(
     ...rawPresets.filter(p => p.enforce === 'post'),
   ]
 
-  const layers = Object.assign({}, DEFAULT_LAYERS, ...rawPresets.map(i => i.layers), config.layers)
+  const sources = [
+    ...sortedPresets,
+    config,
+  ]
+  const sourcesReversed = [...sources].reverse()
 
-  function mergePresets<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist' | 'separators'>(key: T): Required<UserConfig<Theme>>[T] {
-    return uniq([
-      ...sortedPresets.flatMap(p => toArray(p[key] || []) as any[]),
-      ...toArray(config[key] || []) as any[],
-    ])
+  const layers = Object.assign({}, DEFAULT_LAYERS, ...sources.map(i => i.layers))
+
+  function getMerged<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist' | 'separators'>(key: T): ToArray<Required<UserConfig<Theme>>[T]> {
+    return uniq(sources.flatMap(p => toArray(p[key] || []) as any[])) as any
   }
 
-  const extractors = mergePresets('extractors')
-  if (!extractors.length)
-    extractors.push(extractorSplit)
+  const extractors = getMerged('extractors')
+  let extractorDefault = sourcesReversed
+    .find(i => i.extractorDefault !== undefined)?.extractorDefault
+  if (extractorDefault === undefined)
+    extractorDefault = extractorSplit
+  if (extractorDefault && !extractors.includes(extractorDefault))
+    extractors.unshift(extractorDefault)
+
   extractors.sort((a, b) => (a.order || 0) - (b.order || 0))
 
-  const rules = mergePresets('rules')
+  const rules = getMerged('rules')
   const rulesStaticMap: ResolvedConfig<Theme>['rulesStaticMap'] = {}
 
   const rulesSize = rules.length
@@ -82,24 +115,24 @@ export function resolveConfig<Theme extends {} = {}>(
     .filter(Boolean)
     .reverse() as ResolvedConfig<Theme>['rulesDynamic']
 
-  const theme: Theme = clone([
-    ...sortedPresets.map(p => p.theme || {}),
-    config.theme || {},
-  ].reduce<Theme>((a, p) => mergeDeep(a, p), {} as Theme))
+  let theme: Theme = sources.map(p => p.theme ? clone(p.theme) : {})
+    .reduce<Theme>((a, p) => mergeDeep(a, p), {} as Theme)
 
-  ;(mergePresets('extendTheme') as ThemeExtender<any>[]).forEach(extendTheme => extendTheme(theme))
+  const extendThemes = getMerged('extendTheme')
+  for (const extendTheme of extendThemes)
+    theme = extendTheme(theme) || theme
 
   const autocomplete = {
-    templates: uniq(sortedPresets.map(p => toArray(p.autocomplete?.templates)).flat()),
-    extractors: sortedPresets.map(p => toArray(p.autocomplete?.extractors)).flat()
+    templates: uniq(sources.flatMap(p => toArray(p.autocomplete?.templates))),
+    extractors: sources.flatMap(p => toArray(p.autocomplete?.extractors))
       .sort((a, b) => (a.order || 0) - (b.order || 0)),
   }
 
-  let separators = toArray(mergePresets('separators'))
+  let separators = getMerged('separators')
   if (!separators.length)
     separators = [':', '-']
 
-  return {
+  const resolved: ResolvedConfig<any> = {
     mergeSelectors: true,
     warn: true,
     blocklist: [],
@@ -113,16 +146,21 @@ export function resolveConfig<Theme extends {} = {}>(
     rulesSize,
     rulesDynamic,
     rulesStaticMap,
-    preprocess: mergePresets('preprocess') as Preprocessor[],
-    postprocess: mergePresets('postprocess') as Postprocessor[],
-    preflights: mergePresets('preflights'),
+    preprocess: getMerged('preprocess'),
+    postprocess: getMerged('postprocess'),
+    preflights: getMerged('preflights'),
     autocomplete,
-    variants: mergePresets('variants')
+    variants: getMerged('variants')
       .map(normalizeVariant)
       .sort((a, b) => (a.order || 0) - (b.order || 0)),
-    shortcuts: resolveShortcuts(mergePresets('shortcuts')).reverse(),
+    shortcuts: resolveShortcuts(getMerged('shortcuts')).reverse(),
     extractors,
-    safelist: mergePresets('safelist'),
+    safelist: getMerged('safelist'),
     separators,
   }
+
+  for (const p of sources)
+    p?.configResolved?.(resolved)
+
+  return resolved
 }

@@ -83,6 +83,8 @@ export function number(str: string) {
 export function percent(str: string) {
   if (str.endsWith('%'))
     str = str.slice(0, -1)
+  if (!numberRE.test(str))
+    return
   const num = parseFloat(str)
   if (!Number.isNaN(num))
     return `${round(num / 100)}`

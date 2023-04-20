@@ -16,6 +16,7 @@ function handleReset() {
     inputHTML.value = defaultHTML
     customConfigRaw.value = defaultConfigRaw
     options.value.transform = false
+    customCSS.value = defaultCSS
   }
 }
 </script>
@@ -49,8 +50,14 @@ function handleReset() {
         @click="handleReset"
       />
       <a
+        i-ri-file-list-3-line icon-btn
+        href="https://unocss.dev/"
+        target="_blank"
+        title="Documentations"
+      />
+      <a
         i-ri-search-line icon-btn
-        href="https://uno.antfu.me"
+        href="https://unocss.dev/interactive/"
         target="_blank"
         title="Interactive Docs"
       />

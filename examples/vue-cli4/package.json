@@ -6,7 +6,7 @@
     "build:macos": "vue-cli-service build"
   },
   "dependencies": {
-    "vue": "^2.7.13"
+    "vue": "^2.7.14"
   },
   "devDependencies": {
     "@unocss/webpack": "link:../../packages/webpack",

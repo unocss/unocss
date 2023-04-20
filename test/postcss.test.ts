@@ -36,38 +36,42 @@ const config: UserConfig = {
   },
 }
 
-const pcss = () => postcss(
-  postcssPlugin({
-    content: [
-      './test/assets/preset-wind-targets.ts',
-      {
-        raw: presetWindTargets.join(' '), extension: 'html',
-      },
-    ],
-    configOrPath: config,
-  }))
-
-const pcssLite = () => postcss(
-  postcssPlugin({
-    content: [
-      {
-        raw: '<div class="relative p4 test example">', extension: 'html',
-      },
-    ],
-    configOrPath: <UserConfig>{
-      presets: [
-        presetWind(),
+function pcss() {
+  return postcss(
+    postcssPlugin({
+      content: [
+        './test/assets/preset-wind-targets.ts',
         {
-          rules: [
-            ['example', { color: 'red' }, { layer: 'my-layer' }],
-          ],
+          raw: presetWindTargets.join(' '), extension: 'html',
         },
       ],
-      shortcuts: {
-        test: 'p5',
+      configOrPath: config,
+    }))
+}
+
+function pcssLite() {
+  return postcss(
+    postcssPlugin({
+      content: [
+        {
+          raw: '<div class="relative p4 test example">', extension: 'html',
+        },
+      ],
+      configOrPath: <UserConfig>{
+        presets: [
+          presetWind(),
+          {
+            rules: [
+              ['example', { color: 'red' }, { layer: 'my-layer' }],
+            ],
+          },
+        ],
+        shortcuts: {
+          test: 'p5',
+        },
       },
-    },
-  }))
+    }))
+}
 
 const file = 'style.css'
 const processOptions = { from: file, to: file }

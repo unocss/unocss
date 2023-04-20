@@ -1,5 +1,5 @@
-import { resolve } from 'path'
-import { fileURLToPath } from 'url'
+import { resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import type { AstroIntegration } from 'astro'
 import type { VitePluginConfig } from '@unocss/vite'
 import VitePlugin from '@unocss/vite'
@@ -9,7 +9,7 @@ export interface AstroIntegrationConfig<Theme extends {} = {}> extends VitePlugi
   /**
    * Include reset styles
    * When passing `true`, `@unocss/reset/tailwind.css` will be used
-   * @default true
+   * @default false
    */
   injectReset?: string | boolean
 
@@ -32,7 +32,7 @@ export default function UnoCSSAstroIntegration<Theme extends {}>(
 ): AstroIntegration {
   const {
     injectEntry = true,
-    injectReset: includeReset = true,
+    injectReset = false,
     injectExtra = [],
   } = options
 
@@ -43,15 +43,15 @@ export default function UnoCSSAstroIntegration<Theme extends {}>(
         // Adding components to UnoCSS's extra content
         options.extraContent ||= {}
         options.extraContent.filesystem ||= []
-        options.extraContent.filesystem.push(resolve(fileURLToPath(config.root), 'src/components/**/*').replace(/\\/g, '/'))
+        options.extraContent.filesystem.push(resolve(fileURLToPath(config.srcDir), 'components/**/*').replace(/\\/g, '/'))
 
         config.vite.plugins ||= []
         config.vite.plugins.push(...VitePlugin(options, defaults) as any)
 
         const injects: string[] = []
-        if (includeReset) {
-          const resetPath = typeof includeReset === 'string'
-            ? includeReset
+        if (injectReset) {
+          const resetPath = typeof injectReset === 'string'
+            ? injectReset
             : '@unocss/reset/tailwind.css'
           injects.push(`import "${resetPath}"`)
         }

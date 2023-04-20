@@ -1,16 +1,17 @@
-import { existsSync, promises as fs } from 'fs'
+import { existsSync, promises as fs } from 'node:fs'
 import { basename, dirname, normalize, relative, resolve } from 'pathe'
 import fg from 'fast-glob'
-import consola from 'consola'
+import { consola } from 'consola'
 import { cyan, dim, green } from 'colorette'
 import { debounce } from 'perfect-debounce'
 import { toArray } from '@unocss/core'
 import type { SourceCodeTransformerEnforce, UserConfig } from '@unocss/core'
-import { version } from '../package.json'
 import { createContext } from '../../shared-integration/src/context'
 import { applyTransformers } from '../../shared-integration/src/transformers'
-import { PrettyError, handleError } from './errors'
+import { version } from '../package.json'
 import { defaultConfig } from './config'
+import { PrettyError, handleError } from './errors'
+import { getWatcher } from './watcher'
 import type { CliOptions, ResolvedCliOptions } from './types'
 
 const name = 'unocss'
@@ -58,17 +59,9 @@ export async function build(_options: CliOptions) {
   const startWatcher = async () => {
     if (!options.watch)
       return
-
-    const { watch } = await import('chokidar')
     const { patterns } = options
-    const ignored = ['**/{.git,node_modules}/**']
 
-    const watcher = watch(patterns, {
-      ignoreInitial: true,
-      ignorePermissionErrors: true,
-      ignored,
-      cwd,
-    })
+    const watcher = await getWatcher(options)
 
     if (configSources.length)
       watcher.add(configSources)
@@ -125,7 +118,8 @@ export async function build(_options: CliOptions) {
 
     // update source file
     await Promise.all(
-      postTransform.filter(({ transformedCode }) => !!transformedCode)
+      postTransform
+        .filter(({ transformedCode }) => !!transformedCode)
         .map(({ transformedCode, id }) => new Promise<void>((resolve) => {
           if (existsSync(id))
             fs.writeFile(id, transformedCode as string, 'utf-8').then(resolve)

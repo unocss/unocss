@@ -2,26 +2,9 @@
 
 ESLint config for UnoCSS.
 
-## Installation
+## Documentation
 
-```bash
-npm i -D @unocss/eslint-config
-```
-
-In `.eslintrc`:
-
-```json
-{
-  "extends": [
-    "@unocss"
-  ]
-}
-```
-
-## Rules
-
-- `@unocss/order` - Enforce a specific order for class selectors.
-- `@unocss/order-attributify` - Enforce a specific order for attributify selectors.
+Please refer to the [documentation](https://unocss.dev/integrations/eslint).
 
 ## Prior Arts
 

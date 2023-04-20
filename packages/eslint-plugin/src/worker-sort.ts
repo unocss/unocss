@@ -5,7 +5,9 @@ import { runAsWorker } from 'synckit'
 import { sortRules } from '../../shared-integration/src/sort-rules'
 
 async function getGenerator() {
-  const { config } = await loadConfig()
+  const { config, sources } = await loadConfig()
+  if (!sources.length)
+    throw new Error('[@unocss/eslint-plugin] No config file found, create a `uno.config.ts` file in your project root and try again.')
   return createGenerator(config)
 }
 

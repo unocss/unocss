@@ -10,7 +10,7 @@ defineProps<{ index: number }>()
   <Pane :min-size="titleHeightPercent" :size="panelSizes[index]" flex flex-col>
     <div class="flex flex-wrap bg-$cm-background">
       <TitleBar
-        title="Cutsom CSS" w-full relative
+        title="Custom CSS" w-full relative
         @title-click="togglePanel(index)"
       >
         <template #before>

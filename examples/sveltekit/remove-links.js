@@ -1,4 +1,4 @@
-import { promises as fsPromises } from 'fs'
+import { promises as fsPromises } from 'node:fs'
 
 async function replaceInFile(filename, replacement) {
   try {

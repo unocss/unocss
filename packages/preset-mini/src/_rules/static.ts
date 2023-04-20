@@ -58,10 +58,10 @@ export const resizes: Rule[] = [
 ]
 
 export const userSelects: Rule[] = [
-  ['select-auto', { 'user-select': 'auto' }],
-  ['select-all', { 'user-select': 'all' }],
-  ['select-text', { 'user-select': 'text' }],
-  ['select-none', { 'user-select': 'none' }],
+  ['select-auto', { '-webkit-user-select': 'auto', 'user-select': 'auto' }],
+  ['select-all', { '-webkit-user-select': 'all', 'user-select': 'all' }],
+  ['select-text', { '-webkit-user-select': 'text', 'user-select': 'text' }],
+  ['select-none', { '-webkit-user-select': 'none', 'user-select': 'none' }],
   ...makeGlobalStaticRules('select', 'user-select'),
 ]
 
@@ -96,6 +96,7 @@ export const breaks: Rule[] = [
 
 export const textOverflows: Rule[] = [
   ['truncate', { 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }],
+  ['text-truncate', { 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }],
   ['text-ellipsis', { 'text-overflow': 'ellipsis' }],
   ['text-clip', { 'text-overflow': 'clip' }],
 ]

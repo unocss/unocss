@@ -1,6 +1,7 @@
 import type { ExtractorContext, UnoGenerator } from '@unocss/core'
-import { arbitraryPropertyRE, escapeRegExp, isAttributifySelector, makeRegexClassGroup, quotedArbitraryValuesRE } from '@unocss/core'
+import { escapeRegExp, isAttributifySelector, makeRegexClassGroup, splitWithVariantGroupRE } from '@unocss/core'
 import MagicString from 'magic-string'
+import { arbitraryPropertyRE, quotedArbitraryValuesRE } from '../../extractor-arbitrary-variants/src'
 
 // https://github.com/dsblv/string-replace-async/blob/main/index.js
 export function replaceAsync(string: string, searchValue: RegExp, replacer: (...args: string[]) => Promise<string>) {
@@ -34,9 +35,13 @@ export async function isPug(uno: UnoGenerator, code: string, id = '') {
     return { pug: false, code: '' }
 
   const ctx = { code, id } as ExtractorContext
-  await pugExtractor.extract(ctx)
-  const extractResult = ctx.code.startsWith(code) ? ctx.code.substring(code.length + 2) : ctx.code
-  return ctx.code !== code ? { pug: true, code: extractResult } : { pug: false, code: '' }
+  await pugExtractor.extract?.(ctx)
+  const extractResult = ctx.code.startsWith(code)
+    ? ctx.code.substring(code.length + 2)
+    : ctx.code
+  return ctx.code !== code
+    ? { pug: true, code: extractResult }
+    : { pug: false, code: '' }
 }
 
 export function getPlainClassMatchedPositionsForPug(codeSplit: string, matchedPlain: Set<string>, start: number) {
@@ -112,7 +117,7 @@ export function getMatchedPositions(code: string, matched: string[], hasVariantG
 
   // highlight for plain classes
   let start = 0
-  code.split(/([\s"'`;<>*]|:\(|\)"|\)\s)/g).forEach((i) => {
+  code.split(splitWithVariantGroupRE).forEach((i) => {
     const end = start + i.length
     if (isPug) {
       result.push(...getPlainClassMatchedPositionsForPug(i, plain, start))
@@ -124,7 +129,7 @@ export function getMatchedPositions(code: string, matched: string[], hasVariantG
     start = end
   })
 
-  // highlight for qouted arbitrary values
+  // highlight for quoted arbitrary values
   for (const match of code.matchAll(quotedArbitraryValuesRE)) {
     const start = match.index!
     const end = start + match[0].length

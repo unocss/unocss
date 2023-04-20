@@ -10,31 +10,11 @@
 <a href="https://marketplace.visualstudio.com/items?itemName=antfu.unocss" target="__blank"><img src="https://img.shields.io/visual-studio-marketplace/v/antfu.unocss.svg?color=eee&amp;label=VS%20Code%20Marketplace&logo=visual-studio-code" alt="Visual Studio Marketplace Version" /></a>
 </p>
 
-> **Preview**
-
 <br>
 
-## Features
+## Documentation
 
-- Decoration and tooltip for matched utilities
-- Loading configs from `uno.config.js`, `unocss.config.js`, `vite.config.js`, `svelte.config.js`, `astro.config.js`, `iles.config.js` or `nuxt.config.js` (or `.ts`)
-- Count of matched utilities
-
-## Config
-
-By default the extension will search for the config files under project root. When there is no config found, the extension will be disabled. To work with monorepo, you need to change the `unocss.root` option in your `settings.json` to the directory that contains the config file.
-
-```javascript
-{
-  "unocss.root": "packages/client"
-}
-```
-
-For now not working with auto-importing `defineNuxtConfig` in `nuxt.config.ts`, add manual import: 
-
-```ts
-import { defineNuxtConfig } from 'nuxt/config'
-```
+Please refer to the [documentation](https://unocss.dev/integrations/vscode).
 
 ## License
 

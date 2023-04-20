@@ -2,51 +2,9 @@
 
 Coverts rem to px for utils.
 
-## Installation
+## Documentation
 
-```bash
-npm i -D @unocss/preset-rem-to-px
-```
-
-```ts
-import presetUno from '@unocss/preset-uno'
-import presetRemToPx from '@unocss/preset-rem-to-px'
-
-UnoCSS({
-  presets: [
-    presetUno(),
-    presetRemToPx()
-  ],
-})
-```
-
-## Usage
-
-```html
-<div class="m-2"></div>
-```
-
-<table><tr><td width="500px" valign="top">
-
-### without
-
-```css
-.m-2 {
-  margin: 0.5rem;
-}
-```
-
-</td><td width="500px" valign="top">
-
-### with
-
-```css
-.m-2 {
-  margin: 8px;
-}
-```
-
-</td></tr></table>
+Please refer to the [documentation](https://unocss.dev/presets/rem-to-px).
 
 ## License
 
