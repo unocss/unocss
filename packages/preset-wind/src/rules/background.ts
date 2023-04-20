@@ -84,7 +84,9 @@ export const backgroundStyles: Rule[] = [
     autocomplete: ['bg-gradient', 'bg-gradient-(from|to|via)', 'bg-gradient-(from|to|via)-$colors', 'bg-gradient-(from|to|via)-(op|opacity)', 'bg-gradient-(from|to|via)-(op|opacity)-<percent>'],
   }],
   [/^(?:bg-gradient-)?stops-(\[.+\])$/, ([, s]) => ({ '--un-gradient-stops': h.bracket(s) })],
-  [/^(?:bg-gradient-)?(from|via|to)-(.+)$/, bgGradientColorResolver()],
+  [/^(?:bg-gradient-)?(from)-(.+)$/, bgGradientColorResolver()],
+  [/^(?:bg-gradient-)?(via)-(.+)$/, bgGradientColorResolver()],
+  [/^(?:bg-gradient-)?(to)-(.+)$/, bgGradientColorResolver()],
   [/^(?:bg-gradient-)?(from|via|to)-op(?:acity)?-?(.+)$/, ([, position, opacity]) => ({ [`--un-${position}-opacity`]: h.bracket.percent(opacity) })],
   [/^(from|via|to)-([\d\.]+)%$/, bgGradientPositionResolver()],
   // images
