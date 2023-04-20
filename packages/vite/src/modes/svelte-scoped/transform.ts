@@ -1,13 +1,19 @@
+import type { SourceMap } from 'magic-string'
 import MagicString from 'magic-string'
-import { type UnoGenerator, attributifyRE, escapeRegExp, expandVariantGroup } from '@unocss/core'
+import { escapeRegExp, expandVariantGroup } from '@unocss/core'
+import type { UnoGenerator } from '@unocss/core'
+import { splitCode } from '../../../../core/src/extractors/split'
 import { wrapSelectorsWithGlobal } from './wrap-global'
 import { hash } from './hash'
 
-const classesRE = /class=(["'\`])([^\{][\S\s]*?)\1/g // class="mb-1"
-const classesExpressionsRE = /class=(["'\`])?(\{[\S\s]+?\})\1/g // class={clsx('mb-1')} or class="{clsx('mb-1')}"
-const classesDirectivesRE = /class:([\S]+?)={/g // class:mb-1={foo}
-const classesDirectivesShorthandRE = /class:([^=>\s/]+)[{>\s/]/g // class:mb-1 (compiled to class:uno-1hashz={mb-1})
-const classesInsideExpressionsRE = /(["'\`])([\S\s]+?)\1/g // { foo ? 'mt-1' : "mt-2"}
+const classesRE = /class=(["'\`])([\S\s]*?)\1/g // class="mb-1" or class="{clsx('mb-1')}" or class="mb-1 {clsx('mb-1')}"
+const classExpressionsRE = /class=()(\{[\S\s]*?\})/g // class={clsx('mb-1')}
+
+const classDirectivesRE = /class:([\S]+?)=(["'\`])?\{([\S\s]*?)\}\2/g // class:mb-1={foo} or class:mb-1="{foo}"
+const classDirectiveShorthandsRE = /class:([^\s={/>]+?)(?=[\s{/>])/g // class:mb-1 (compiled to class:uno-1hashz={mb-1})
+
+const expressionsRE = /\{([\S\s]*?)\}/g // { foo }
+const classesInsideExpressionRE = /(["'\`])([\S\s]+?)\1/g // { foo ? 'mt-1' : "mt-2"}
 
 export interface TransformSFCOptions {
   /**
@@ -26,214 +32,128 @@ export interface TransformSFCOptions {
   hashFn?: (str: string) => string
 }
 
-export async function transformSvelteSFC(code: string, id: string, uno: UnoGenerator, options: TransformSFCOptions = {}): Promise<{ code: string; map?: SourceMap } | undefined> {
+export async function transformSvelteSFC(code: string, filename: string, uno: UnoGenerator, options: TransformSFCOptions = {}): Promise<{ code: string; map?: SourceMap } | undefined> {
   const {
     classPrefix = 'uno-',
     combine = true,
     hashFn = hash,
   } = options
 
-  let styles = ''
+  let generatedStyleBody = ''
   let map: SourceMap
 
-  const alreadyHasStyles = code.match(/<style[^>]*>[\s\S]*?<\/style\s*>/)
-  const preflights = code.includes('uno:preflights')
-  const safelist = code.includes('uno:safelist')
+  const styleTag = code.match(/<style([^>]*)>([\s\S]*?)<\/style\s*>/)
+  const preflights = styleTag?.[1]?.includes('uno:preflights')
+  const safelist = styleTag?.[1]?.includes('uno:safelist')
 
   if (preflights || safelist) {
     const { css } = await uno.generate('', { preflights, safelist })
-    styles = css
+    generatedStyleBody = css
   }
 
-  const classes = [...code.matchAll(classesRE), ...code.matchAll(classesExpressionsRE)]
-  const classDirectives = [...code.matchAll(classesDirectivesRE)]
-  const classDirectivesShorthand = [...code.matchAll(classesDirectivesShorthandRE)]
+  const classes = [...code.matchAll(classesRE), ...code.matchAll(classExpressionsRE)]
+  const classDirectives = [...code.matchAll(classDirectivesRE)]
+  const classDirectivesShorthands = [...code.matchAll(classDirectiveShorthandsRE)]
 
-  const originalShortcuts = uno.config.shortcuts
-  const shortcuts: Record<string, string[]> = {}
-  const toGenerate = new Set<string>()
+  const hashedClassNames = new Map<string, string>()
   const s = new MagicString(code)
 
-  let idHash: string
-  if (!combine)
-    idHash = hashFn(id)
+  async function hashClassName(className: string) {
+    const tokens = splitCode(className).sort()
+    const parsedTokens = await Promise.all(tokens.map(async token => ({ token, result: await uno.parseToken(token) })))
 
-  function isOriginalOriginalShortcut(token: string): boolean {
-    return !!originalShortcuts.find(s => s[0] === token)
-  }
+    const knownTokens = parsedTokens.filter(({ result }) => result).map(({ token }) => token)
+    const unknownTokens = parsedTokens.filter(({ result }) => !result).map(({ token }) => token)
 
-  function queueCompiledClass(tokens: string[]): string {
+    const knownClassName = knownTokens.join(' ')
+    const unknownClassName = unknownTokens.join(' ')
+
+    if (knownTokens.length === 0)
+      return ''
+
+    const hashedClassName = `${classPrefix}${hashFn(`${filename}:${knownClassName}`)}`
+
     if (combine) {
-      const _shortcuts = tokens.filter(t => isOriginalOriginalShortcut(t))
-      for (const s of _shortcuts)
-        toGenerate.add(s)
-
-      const _tokens = tokens.filter(t => !isOriginalOriginalShortcut(t))
-      if (!_tokens.length)
-        return _shortcuts.join(' ')
-      const hash = hashFn(_tokens.join(' ') + id)
-      const className = `${classPrefix}${hash}`
-      shortcuts[className] = _tokens
-      toGenerate.add(className)
-      return [className, ..._shortcuts].join(' ')
+      hashedClassNames.set(hashedClassName, knownClassName)
+      return `${hashedClassName} ${unknownClassName}`.trim()
     }
     else {
-      return tokens.map((token) => {
-        if (isOriginalOriginalShortcut(token)) {
-          toGenerate.add(token)
-          return token
-        }
-        const className = `_${token}_${idHash}` // certain classes (!mt-1, md:mt-1, space-x-1) break when coming at the beginning of a shortcut
-        shortcuts[className] = [token]
-        toGenerate.add(className)
-        return className
-      }).join(' ')
+      const hashedTokens = knownTokens.map((token) => {
+        const hashedToken = `_${hashedClassName}__${token}`
+        hashedClassNames.set(hashedToken, token)
+        return hashedToken
+      })
+
+      return [...hashedTokens, ...unknownTokens].join(' ')
     }
   }
-
-  async function sortKnownAndUnknownClasses(str: string) {
-    const classArr = str.split(/\s+/)
-    const result = await Promise.all(classArr.filter(Boolean).map(async t => [t, !!await uno.parseToken(t)] as const))
-    const known = result
-      .filter(([, matched]) => matched)
-      .map(([t]) => t)
-      .sort()
-    if (!known.length)
-      return null
-    const replacements = result.filter(([, matched]) => !matched).map(([i]) => i) // unknown
-    const className = queueCompiledClass(known)
-    return [className, ...replacements].join(' ')
-  }
-
-  const processedMap = new Set()
 
   for (const match of classes) {
-    let body = expandVariantGroup(match[2].trim())
-    let replaced = false
+    let className = expandVariantGroup(match[2].trim())
 
-    const expressions = [...body.matchAll(classesInsideExpressionsRE)]
-    for (const expression of expressions) {
-      const replacement = await sortKnownAndUnknownClasses(expression[2].trim())
-      if (replacement) {
-        body = body.replace(expression[2], replacement)
-        replaced = true
+    const expressions = [...className.matchAll(expressionsRE)]
+    const hashedExpressions = []
+    for (const exprMatch of expressions) {
+      let expr = exprMatch[0]
+      className = className.replace(expr, '')
+
+      const classes = [...expr.matchAll(classesInsideExpressionRE)]
+      for (const cls of classes) {
+        const hashedClassName = await hashClassName(cls[2])
+        if (hashedClassName) {
+          const pattern = new RegExp(`(['"\`])${escapeRegExp(cls[2])}\\1`, 'g')
+          expr = expr.replace(pattern, `$1${hashedClassName}$1`)
+        }
       }
+
+      hashedExpressions.push(expr)
     }
 
-    const replacement = await sortKnownAndUnknownClasses(body)
-    if (replacement) {
-      body = body.replace(body, replacement)
-      replaced = true
-    }
+    const hashedClassName = await hashClassName(className)
+    if (hashedClassName)
+      className = className.replace(className, hashedClassName)
 
-    if (!replaced)
-      continue
+    if (hashedExpressions.length > 0)
+      className = `${className} ${hashedExpressions.join(' ')}`.trim()
 
-    const start = match.index! + (match[1] ? 7 : 6)
-    const end = match.index! + match[0].length - (match[1] ? 1 : 0)
-    processedMap.add(start)
-    s.overwrite(start, end, body)
+    s.overwrite(match.index!, match.index! + match[0].length, `class="${className}"`)
   }
 
   for (const match of classDirectives) {
-    const token = match[1]
-    const result = !!await uno.parseToken(token)
-    if (!result)
-      continue
-    const className = queueCompiledClass([token])
-    const start = match.index! + 'class:'.length
-    processedMap.add(start)
-    s.overwrite(start, start + match[1].length, className)
+    const className = match[1]
+    const hashedClassName = await hashClassName(className)
+    if (hashedClassName)
+      s.overwrite(match.index!, match.index! + match[0].length, `class:${hashedClassName}="{${match[3]}}"`)
   }
 
-  for (const match of classDirectivesShorthand) {
-    const token = match[1]
-    const result = !!await uno.parseToken(token)
-    if (!result)
-      continue
-    const className = queueCompiledClass([token])
-    const start = match.index! + 'class:'.length
-    processedMap.add(start)
-    s.overwrite(start, start + match[1].length, `${className}={${token}}`)
+  for (const match of classDirectivesShorthands) {
+    const className = match[1]
+    const hashedClassName = await hashClassName(className)
+    if (hashedClassName)
+      s.overwrite(match.index!, match.index! + match[0].length, `class:${hashedClassName}="{${match[1]}}"`)
   }
 
-  // search attributify candidates only on template
-  const templateCode = code
-    .replace(/<(script|style)[^>]*>[\s\S]*?<\/\1\s*>/g, match => Array(match.length).fill(' ').join(''))
-  const { matched } = await uno.generate(templateCode, { preflights: false, safelist: false, minify: true })
-
-  for (const token of matched) {
-    const match = token.match(attributifyRE)
-    if (match) {
-      const [,name, value] = match
-      if (!value) {
-        let start = 0
-        templateCode.split(/([\s"'`;*]|:\(|\)"|\)\s)/g).forEach((i) => {
-          const end = start + i.length
-          if (i === name && !processedMap.has(start)) {
-            const className = queueCompiledClass([name])
-            s.appendLeft(start, `class:${className}={true} `)
-            s.overwrite(start, end, '')
-          }
-          start = end
-        })
-      }
-      else {
-        const regex = new RegExp(`(${escapeRegExp(name)}=)(['"])[^\\2]*?${escapeRegExp(value)}[^\\2]*?\\2`, 'g')
-        for (const match of templateCode.matchAll(regex)) {
-          const escaped = match[1]
-          const body = match[0].slice(escaped.length)
-          let bodyIndex = body.match(`[\\b\\s'"]${escapeRegExp(value)}[\\b\\s'"]`)?.index ?? -1
-          if (body[bodyIndex]?.match(/[\s'"]/))
-            bodyIndex++
-          if (bodyIndex < 0)
-            return
-          const [,base] = await uno.matchVariants(value)
-          const variants = value.replace(base, '')
-          const className = queueCompiledClass([`${variants + name}-${base}`])
-          s.appendLeft(match.index!, `class:${className}={true} `)
-          s.overwrite(match.index!, match.index! + match[0].length, '')
-        }
-      }
-    }
-  }
-
-  uno.config.shortcuts = [...originalShortcuts, ...Object.entries(shortcuts)]
-  const { css } = await uno.generate(toGenerate, { preflights: false, safelist: false, minify: true })
-
-  styles += wrapSelectorsWithGlobal(css)
+  const originalShortcuts = uno.config.shortcuts
+  uno.config.shortcuts = [...originalShortcuts, ...hashedClassNames.entries()]
+  const { css } = await uno.generate([...hashedClassNames.keys()], { preflights: false, safelist: false, minify: true })
   uno.config.shortcuts = originalShortcuts
 
-  if (toGenerate.size > 0 || s.hasChanged()) {
+  generatedStyleBody += wrapSelectorsWithGlobal(css)
+
+  if (hashedClassNames.size > 0 || s.hasChanged()) {
     code = s.toString()
-    map = s.generateMap({ hires: true, source: id }) as any
+    map = s.generateMap({ hires: true, source: filename })
   }
   else { return }
 
-  if (alreadyHasStyles) {
+  if (styleTag) {
     return {
-      code: code.replace(/(<style[^>]*>)/, `$1${styles}`),
+      code: code.replace(styleTag[0], `<style${styleTag[1] ? ` ${styleTag[1]}` : ''}>${styleTag[2]}${generatedStyleBody}</style>`),
       map,
     }
   }
   return {
-    code: `${code}\n<style>${styles}</style>`,
+    code: `${code}\n<style>${generatedStyleBody}</style>`,
     map,
   }
 }
-
-// Should be able to import SourceMap from '@unocss/core' but this causes a type error in packages\vite\src\modes\svelte-scoped\index.ts that I don't understand. The only difference is that `toString()` and `toUrl()` are missing on that type.
-interface SourceMap {
-  file: string
-  mappings: string
-  names: string[]
-  sources: string[]
-  sourcesContent: string[]
-  version: number
-  toString(): string
-  toUrl(): string
-}
-
-// Possible Optimizations
-// 1. If <style> tag includes 'uno:preflights' and 'global' don't have uno.generate output root variables that it thinks are needed because preflights is set to false. If there is no easy to do this in UnoCSS then we could also have preflights set to true and just strip them out if a style tag includes 'uno:preflights' and 'global' but that feels inefficient - is it?
-// 2. Don't let config-set shortcuts be included in hashed class, would make for clearer output but add complexity to the code
