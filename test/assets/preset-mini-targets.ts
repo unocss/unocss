@@ -815,6 +815,7 @@ export const presetMiniTargets: string[] = [
   'leading-inherit',
   'font-leading-2',
   'lh-[1.5]',
+  'line-height-[1.5]',
   'tracking-wide',
   'tracking-[2/5]',
   'tracking-inherit',
