@@ -46,7 +46,6 @@ function bgGradientColorResolver() {
       case 'via':
         return {
           '--un-gradient-via-position': '50%',
-          '--un-gradient-to': bgGradientToValue(cssColor),
           '--un-gradient-stops': `var(--un-gradient-from), ${colorString} var(--un-gradient-via-position), var(--un-gradient-to)`,
         }
       case 'to':
