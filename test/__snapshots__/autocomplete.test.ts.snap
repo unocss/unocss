@@ -33,7 +33,7 @@ exports[`autocomplete > should provide autocomplete 1`] = `
   "columns-": "columns-0 columns-1 columns-2 columns-3 columns-4 columns-5 columns-6 columns-8 columns-10 columns-12",
   "divide-": "divide-amber divide-black divide-block divide-block-reverse divide-blue divide-bluegray divide-blueGray divide-coolgray divide-coolGray divide-current",
   "fill-": "fill-amber fill-black fill-blue fill-bluegray fill-blueGray fill-coolgray fill-coolGray fill-current fill-cyan fill-dark",
-  "filter-": "filter-drop filter-drop-shadow filter-drop-shadow-color filter-grayscale filter-inherit filter-initial filter-invert filter-none filter-revert filter-revert-layer",
+  "filter-": "filter-blur filter-drop filter-drop-shadow filter-drop-shadow-color filter-grayscale filter-inherit filter-initial filter-invert filter-none filter-revert",
   "fle": "flex flex-1 flex-auto flex-col flex-col-reverse flex-content-around flex-content-between flex-content-center flex-content-end flex-content-evenly",
   "font-": "font-100 font-200 font-300 font-400 font-500 font-600 font-700 font-800 font-900 font-black",
   "grid-auto-flow-": "grid-auto-flow-col grid-auto-flow-col-dense grid-auto-flow-dense grid-auto-flow-row grid-auto-flow-row-dense",
