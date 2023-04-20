@@ -66,7 +66,7 @@ export const fonts: Rule<Theme>[] = [
   // weights
   [
     /^(?:font|fw)-?([^-]+)$/,
-    ([, s]) => ({ 'font-weight': weightMap[s] || h.global.number(s) }),
+    ([, s]) => ({ 'font-weight': weightMap[s] || h.bracket.global.number(s) }),
     { autocomplete: `(font|fw)-(100|200|300|400|500|600|700|800|900|${Object.keys(weightMap).join('|')})` },
   ],
 
