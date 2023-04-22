@@ -133,6 +133,8 @@ export const presetWindTargets: string[] = [
   'list-disc-outside',
   'list-alpha-inside',
   'list-inherit',
+  'list-image-[url(https://test.unocss.png)]',
+  'list-image-none',
   'box-decoration-slice',
   'box-decoration-initial',
   'accent-op-90',
