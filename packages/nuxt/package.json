@@ -1,6 +1,6 @@
 {
   "name": "@unocss/nuxt",
-  "version": "0.51.7",
+  "version": "0.51.8",
   "description": "Nuxt module for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
