@@ -6,7 +6,7 @@ export function createFontshareProvider(name: WebFontsProviders, host: string): 
   return {
     name,
     getImportUrl(fonts) {
-      const strings = fonts.filter(f => f.provider === name).map((f) => {
+      const strings = fonts.map((f) => {
         let name = f.name.replace(/\s+/g, '-').toLocaleLowerCase()
         if (f.weights?.length)
           name += `@${f.weights.flatMap(w => f.italic ? Number(w) + 1 : w).sort().join()}`

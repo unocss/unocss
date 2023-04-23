@@ -1,13 +1,10 @@
 import type { Provider, WebFontsProviders } from '../types'
 
-export const GoogleFontsProvider: Provider = createGoogleProvider('google', 'https://fonts.googleapis.com')
-
-export function createGoogleProvider(name: WebFontsProviders, host: string): Provider {
+export function createGoogleCompatibleProvider(name: WebFontsProviders, host: string): Provider {
   return {
     name,
     getImportUrl(fonts) {
       const strings = fonts
-        .filter(i => i.provider === name)
         .map((i) => {
           let name = i.name.replace(/\s+/g, '+')
           if (i.weights?.length) {
@@ -21,3 +18,5 @@ export function createGoogleProvider(name: WebFontsProviders, host: string): Pro
     },
   }
 }
+
+export const GoogleFontsProvider: Provider = createGoogleCompatibleProvider('google', 'https://fonts.googleapis.com')

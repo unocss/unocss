@@ -1,3 +1,3 @@
-import { createGoogleProvider } from './google'
+import { createGoogleCompatibleProvider } from './google'
 
-export const BunnyFontsProvider = createGoogleProvider('bunny', 'https://fonts.bunny.net')
+export const BunnyFontsProvider = createGoogleCompatibleProvider('bunny', 'https://fonts.bunny.net')

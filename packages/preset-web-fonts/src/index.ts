@@ -21,6 +21,8 @@ function resolveProvider(provider: WebFontsProviders): Provider {
   return provider
 }
 
+export { createGoogleCompatibleProvider as createGoogleProvider } from './providers/google'
+
 export function normalizedFontMeta(meta: WebFontMeta | string, defaultProvider: WebFontsProviders): ResolvedWebFontMeta {
   if (typeof meta !== 'string') {
     meta.provider = resolveProvider(meta.provider || defaultProvider)
@@ -84,7 +86,7 @@ function preset(options: WebFontsOptions = {}): Preset<any> {
           const preflights: (string | undefined)[] = []
 
           for (const provider of enabledProviders) {
-            const fontsForProvider = fonts.filter(i => i.provider === provider)
+            const fontsForProvider = fonts.filter(i => i.provider.name === provider.name)
 
             if (provider.getImportUrl) {
               const url = provider.getImportUrl(fontsForProvider)
