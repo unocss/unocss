@@ -19,8 +19,5 @@ export function createGoogleProvider(name: WebFontsProviders, host: string): Pro
         }).join('&')
       return `${host}/css2?${strings}&display=swap`
     },
-    getFontName(font) {
-      return `"${font.name}"`
-    },
   }
 }

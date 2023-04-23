@@ -15,8 +15,5 @@ export function createFontshareProvider(name: WebFontsProviders, host: string): 
       }).join('&')
       return `${host}/v2/css?${strings}&display=swap`
     },
-    getFontName(font) {
-      return `"${font.name}"`
-    },
   }
 }
