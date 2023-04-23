@@ -30,6 +30,11 @@ export interface RuntimeOptions {
    * Callback when the runtime is ready. Returning false will prevent default extraction
    */
   ready?: (runtime: RuntimeContext) => false | any
+  /**
+   * When enabled, UnoCSS will look for the existing selectors defined in the stylesheet and bypass them.
+   * This is useful when using the runtime alongwith the build-time UnoCSS.
+   */
+  bypassDefined?: boolean
 }
 
 export type RuntimeInspectorCallback = (element: Element) => boolean
@@ -152,6 +157,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
 
     if (!styleElement) {
       styleElement = defaultDocument.createElement('style')
+      styleElement.setAttribute('data-unocss-runtime-layer', layer)
       styleElements.set(layer, styleElement)
 
       if (previousLayer == null) {
@@ -257,6 +263,8 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   }
 
   function execute() {
+    if (runtimeOptions.bypassDefined)
+      getDefinedCssSelectors(uno.blocked)
     extractAll()
     observe()
   }
@@ -297,4 +305,36 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
     paused = false
     ready()
   }
+}
+
+/**
+ * Read all defined css selectors, and add them to the blocked list
+ */
+function getDefinedCssSelectors(selectors = new Set<string>()) {
+  for (let i = 0; i < document.styleSheets.length; i++) {
+    const sheet = document.styleSheets[i]
+    let list
+    try {
+      list = sheet.cssRules || sheet.rules
+
+      if (!list)
+        continue
+
+      Array.from(list)
+        // @ts-expect-error missing types
+        .flatMap(r => r.selectorText?.split(/,/g) || [])
+        .forEach((s) => {
+          if (!s)
+            return
+          s = s.trim()
+          if (s.startsWith('.'))
+            s = s.slice(1)
+          selectors.add(s)
+        })
+    }
+    catch (e) {
+      continue
+    }
+  }
+  return selectors
 }
