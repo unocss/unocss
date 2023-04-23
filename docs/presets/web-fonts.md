@@ -55,6 +55,7 @@ import { presetWebFonts } from 'unocss'
 Currently supported Providers:
 
 - `none` - do nothing, treat the font as system font
+- `custom`- use custom url to fetch font source
 - `google` - [Google Fonts](https://fonts.google.com/)
 - `bunny` - [Privacy-Friendly Google Fonts](https://fonts.bunny.net/)
 - `fontshare` - [Quality Font Service by ITF](https://www.fontshare.com/)
@@ -118,6 +119,10 @@ interface WebFontMeta {
    * @default <matches root config>
    */
   provider?: WebFontsProviders
+  /**
+   * Override the provider url
+   */
+  url?: string
 }
 ```
 
@@ -145,6 +150,11 @@ Inline CSS `@import()`.
 
 Use your own function to fetch font source. See [Custom fetch function](#custom-fetch-function).
 
+### url
+- **Type:** `string`
+- **Default:** `undefined`
+
+Custom url to fetch font source. Only used if `provider` is `custom`.
 
 ## Example
 
