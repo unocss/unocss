@@ -1,4 +1,4 @@
-export type WebFontsProviders = 'google' | 'bunny' | 'fontshare' | 'none'
+export type WebFontsProviders = 'google' | 'bunny' | 'fontshare' | 'custom' | 'none'
 
 export interface WebFontMeta {
   name: string
@@ -9,6 +9,10 @@ export interface WebFontMeta {
    * @default <matches root config>
    */
   provider?: WebFontsProviders
+  /**
+   * Override the provider url
+   */
+  url?: string
 }
 
 export interface WebFontsOptions {

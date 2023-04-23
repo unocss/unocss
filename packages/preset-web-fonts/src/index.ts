@@ -1,8 +1,9 @@
 import type { Preset } from '@unocss/core'
 import { toArray } from '@unocss/core'
 import { BunnyFontsProvider } from './providers/bunny'
-import { GoogleFontsProvider } from './providers/google'
+import { CustomProvider } from './providers/custom'
 import { FontshareProvider } from './providers/fontshare'
+import { GoogleFontsProvider } from './providers/google'
 import { NoneProvider } from './providers/none'
 import type { WebFontMeta, WebFontsOptions, WebFontsProviders } from './types'
 
@@ -26,6 +27,7 @@ const providers = {
   google: GoogleFontsProvider,
   bunny: BunnyFontsProvider,
   fontshare: FontshareProvider,
+  custom: CustomProvider,
   none: NoneProvider,
 }
 
