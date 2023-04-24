@@ -26,7 +26,7 @@ In `.eslintrc`:
 ```json
 {
   "extends": [
-    "@unocss"
+    "@unocss/eslint-config"
   ]
 }
 ```
