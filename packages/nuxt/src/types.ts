@@ -19,7 +19,7 @@ export interface UnocssNuxtOptions extends UserConfig {
    *
    * @default 'global'
    */
-  mode?: 'global' | 'per-module' | 'vue-scoped' | 'svelte-scoped' | 'dist-chunk' | 'shadow-dom'
+  mode?: 'global' | 'per-module' | 'vue-scoped' | 'dist-chunk' | 'shadow-dom'
 
   /**
    * Injecting `uno.css` entry
