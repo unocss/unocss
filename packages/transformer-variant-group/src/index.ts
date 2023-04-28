@@ -24,7 +24,7 @@ export default function transformerVariantGroup(options: TransformerVariantGroup
     name: '@unocss/transformer-variant-group',
     enforce: 'pre',
     transform(s) {
-      expandVariantGroup(s, options.separators)
+      return expandVariantGroup(s, options.separators)
     },
   }
 }
