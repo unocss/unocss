@@ -1,0 +1,7 @@
+{
+  "name": "@unocss/svelte-preprocess",
+  "version": "0.51.8",
+  "description": "Run UnoCSS via a svelte-preprocessor for use in component libraries",
+  "author": "Jacob Bowdoin",
+  "license": "MIT"
+}

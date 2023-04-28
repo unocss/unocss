@@ -1,0 +1,7 @@
+{
+  "name": "@unocss/svelte-scoped-vite",
+  "version": "0.51.8",
+  "description": "Use UnoCSS utility styles in a modular fashion with styles being stored only in the Svelte component they are used in.",
+  "author": "Jacob Bowdoin",
+  "license": "MIT"
+}
