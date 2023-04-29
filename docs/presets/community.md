@@ -26,3 +26,4 @@
 # Community transformers
 
 - [unocss-transformer-attribute-values-group](https://github.com/lvjiaxuan/unocss-transformer-attribute-values-group) - Attribute values group transformer for UnoCSS by [@lvjiaxuan](https://github.com/lvjiaxuan).
+- [unocss-transformer-alias](https://github.com/zyyv/unocss-transformer-alias) - Transform alias for UnoCSS shortcuts by [@zyyv](https://github.com/zyyv).
