@@ -5,13 +5,13 @@ description: Getting started with UnoCSS and Next.js.
 
 # Next.js
 
-// TODO: link to examples
+<!-- // TODO: link to examples -->
 
 Getting Started with UnoCSS and Next.js.
 
 ## Setup
 
-### Installation 
+### Installation
 
 ::: code-group
   ```bash [pnpm]
@@ -25,7 +25,7 @@ Getting Started with UnoCSS and Next.js.
   ```
 :::
 
-### Configuration 
+### Configuration
 
 Create `uno.config.ts` at the root of your project.
 
@@ -85,7 +85,7 @@ export default MyApp
 ```
 
 
-## Usage 
+## Usage
 
 Style your components with unocss!
 
@@ -104,7 +104,7 @@ const Home: NextPage = () => {
 }
 ```
 
-## Hot Module Reload 
+## Hot Module Reload
 
 To support HMR you have to opt-out of webpack's caching.
 

@@ -101,6 +101,7 @@ UnoCSS comes with many integrations for various frameworks:
 <!-- // TODO: make a grid with icons -->
 
 - [Vite](/integrations/vite)
+- [Next.js](/integrations/next)
 - [Nuxt](/integrations/nuxt)
 - [Astro](/integrations/astro)
 - [Webpack](/integrations/webpack)
