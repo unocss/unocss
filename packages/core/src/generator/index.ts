@@ -564,7 +564,7 @@ export class UnoGenerator<Theme extends {} = {}> {
       return
 
     return [
-      (await Promise.all(result.map(
+      (await Promise.all(result.filter(s => s !== input).map(
         async r => (isString(r) ? (await this.expandShortcut(r, context, depth - 1))?.[0] : undefined) || [r],
       ))).flat(1).filter(Boolean),
       meta,
