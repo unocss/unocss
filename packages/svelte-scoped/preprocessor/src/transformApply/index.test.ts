@@ -126,6 +126,5 @@ describe('transformApply', () => {
     `)
   })
 
-  // TODO: file issue: using two media queries like `sm:lt-lg:ml-1` produces $$ instead of the necessary "and" between media queries and so is broken - I think it is a bug elsewhere in UnoCSS
-  // may be connected to regexScopePlaceholder
+  // TODO: file issue: using two media queries like `sm:lt-lg:ml-1` produces $$ instead of the necessary "and" between media queries and so is broken - I think it is a bug elsewhere in UnoCSS. It may be connected to regexScopePlaceholder
 })

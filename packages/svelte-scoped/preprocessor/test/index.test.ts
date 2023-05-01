@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { preprocess } from 'svelte/compiler'
 import { format as prettier } from 'prettier'
+// @ts-expect-error missing types
 import prettierSvelte from 'prettier-plugin-svelte'
 import presetUno from '@unocss/preset-uno'
 import presetIcons from '@unocss/preset-icons'

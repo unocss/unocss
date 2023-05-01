@@ -1,5 +1,6 @@
 {
   "name": "@unocss/svelte-preprocess",
+  "type": "module",
   "version": "0.51.8",
   "description": "Run UnoCSS via a svelte-preprocessor for use in component libraries",
   "author": "Jacob Bowdoin",
@@ -22,16 +23,11 @@
     "component-library"
   ],
   "sideEffects": false,
-  "type": "module",
-  "scripts": {
-    "build": "unbuild",
-    "stub": "unbuild --stub"
-  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
     }
   },
   "main": "./dist/index.cjs",
@@ -40,6 +36,10 @@
   "files": [
     "dist"
   ],
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub"
+  },
   "dependencies": {
     "@unocss/config": "workspace:*",
     "@unocss/transformer-directives": "workspace:*",
