@@ -25,18 +25,17 @@ const defaultOptions: UnocssSveltePreprocessOptions = {
   },
 }
 
-describe('svelte-preprocessor cases', () => {
-  const cases = import.meta.glob('./cases/**/Input.svelte', { as: 'raw' })
-
-  async function preprocessSFC(code: string, path: string, options: UnocssSveltePreprocessOptions = {}): Promise<string> {
+describe('svelte-preprocessor', () => {
+  async function preprocessSFC(code: string, filename = 'Foo.svelte', options: UnocssSveltePreprocessOptions = {}): Promise<string> {
     options = { ...defaultOptions, ...options }
-    const result = await preprocess(code, [UnocssSveltePreprocess(options)], { filename: path })
+    const result = await preprocess(code, [UnocssSveltePreprocess(options)], { filename })
     return prettier(result.code, {
       parser: 'svelte',
       plugins: [prettierSvelte],
     })
   }
 
+  const cases = import.meta.glob('./cases/**/Input.svelte', { as: 'raw' })
   for (const [path, loadRaw] of Object.entries(cases)) {
     it(path, async () => {
       const dev = await preprocessSFC(await loadRaw(), path, { combine: false })

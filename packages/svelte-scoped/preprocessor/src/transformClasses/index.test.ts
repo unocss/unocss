@@ -1,4 +1,4 @@
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test as it } from 'vitest'
 import { createGenerator } from '@unocss/core'
 import { format as prettier } from 'prettier'
 import prettierSvelte from 'prettier-plugin-svelte'
@@ -37,7 +37,7 @@ describe('transform', () => {
     return transformed
   }
 
-  test('simple', async () => {
+  it('simple', async () => {
     const code = '<div class="bg-red-500" />'
     expect(await transform(code)).toMatchInlineSnapshot(`
       "<div class=\\"uno-orrz3z\\" />
@@ -63,7 +63,7 @@ describe('transform', () => {
     `)
   })
 
-  test('does not change shortcut names', async () => {
+  it('does not change shortcut names', async () => {
     const code = `
     <div class="shortcut mb-1 foo" />
     <div class:shortcut />
@@ -98,7 +98,7 @@ describe('transform', () => {
     `)
   })
 
-  test('wraps parent and child dependent classes like rtl: and space-x-1 with :global() wrapper', async () => {
+  it('wraps parent and child dependent classes like rtl: and space-x-1 with :global() wrapper', async () => {
     const code = '<div class="mb-1 text-sm rtl:right-0 space-x-1" />'
     expect(await transform(code)).toMatchInlineSnapshot(`
       "<div class=\\"uno-795nkx\\" />
@@ -146,7 +146,7 @@ describe('transform', () => {
     `)
   })
 
-  test('handles class directives, including shorthand syntax; uses same hash for multiple occurrences of same class(es)', async () => {
+  it('handles class directives, including shorthand syntax; uses same hash for multiple occurrences of same class(es)', async () => {
     const result = await transform(`
     <div class="flex"/>
     <div class:flex={bar} />
@@ -166,13 +166,13 @@ describe('transform', () => {
     `)
   })
 
-  test('order of utility classes does not affect output', async () => {
+  it('order of utility classes does not affect output', async () => {
     const order1CSS = await transform('<div class="flex bg-blue-400 my-awesome-class font-bold"></div>')
     const order2CSS = await transform('<div class="my-awesome-class bg-blue-400  font-bold flex"></div>')
     expect(order1CSS).toBe(order2CSS)
   })
 
-  test(':global() properly handles @media queries', async () => {
+  it(':global() properly handles @media queries', async () => {
     const result = await transform(`
     <div class="dark:hover:sm:space-x-1" />`.trim())
     expect(result).toMatchInlineSnapshot(`
@@ -191,7 +191,7 @@ describe('transform', () => {
     `)
   })
 
-  test('does not place :global() around animate-bounce keyframe digits', async () => {
+  it('does not place :global() around animate-bounce keyframe digits', async () => {
     const result = await transform('<div class="animate-bounce" />')
     expect(result).toMatchInlineSnapshot(`
       "<div class=\\"uno-swfyci\\" />
@@ -216,13 +216,12 @@ describe('transform', () => {
     `)
   })
 
-  test('shortcut with icon', async () => {
-    const result = await transform(`
-    <span class="logo" />`.trim())
-    expect(result).toMatchSnapshot()
+  it('shortcut with icon', async () => {
+    const result = await transform('<span class="logo" />')
+    expect(result).toMatchFileSnapshot('./test-outputs/ShortcutWithIcon.svelte')
   })
 
-  test('handles backticks and single quotes', async () => {
+  it('handles backticks and single quotes', async () => {
     const backticks = await transform('<span class=`font-bold` />', { format: false })
     expect(backticks).toMatchInlineSnapshot(`
       "<span class=\`uno-k2ufqh\` />
@@ -242,7 +241,7 @@ describe('transform', () => {
     `)
   })
 
-  test('handles classes in inline conditionals', async () => {
+  it('handles classes in inline conditionals', async () => {
     // people should probably write this as `class:text-red-600={err} class:text-green-600={!err} etc...` but people commonly use inline conditionals complex situations as demoed in this test and we should support them if we want this to be an easy migration from other Tailwind based tools.
     const result = await transform(`
     <span class="font-bold {bar ? 'text-red-600' : 'text-(green-500 blue-400) font-semibold boo'} underline foo {baz ? 'italic ' : ''}">Hello</span>`.trim())
@@ -276,7 +275,7 @@ describe('transform', () => {
     `)
   })
 
-  test('no tokens found returns undefined', async () => {
+  it('no tokens found returns undefined', async () => {
     const result = await transform(`
     <div class="foo" />
     <style global>
@@ -287,7 +286,7 @@ describe('transform', () => {
     expect(result).toMatchInlineSnapshot('undefined')
   })
 
-  test('in dev, when it only hashes but does not combine, handles classes that fail when coming at the beginning of a shortcut name', async () => {
+  it('in dev, when it only hashes but does not combine, handles classes that fail when coming at the beginning of a shortcut name', async () => {
     const code = '<div class="mb-1 !mt-2 md:mr-3 space-x-1" />'
     expect(await transform(code)).toMatchInlineSnapshot(`
       "<div class=\\"uno-8mjgqp\\" />
@@ -335,7 +334,7 @@ describe('transform', () => {
     `)
   })
 
-  test('skips generation for classes in safelist as they are set globally and compilation would remove them', async () => {
+  it('skips generation for classes in safelist as they are set globally and compilation would remove them', async () => {
     const code = `<div class="bg-red-500 ${safelistClassToSkip}" />`
     const output = await transform(code)
     expect(output).toContain(safelistClassToSkip)
@@ -352,7 +351,7 @@ describe('transform', () => {
     `)
   })
 
-  test('does not add styles to a commented out style tag', async () => {
+  it('does not add styles to a commented out style tag', async () => {
     const code = `<div class="hidden" />
       <!-- <style></style> -->`
     const output = await transform(code)
@@ -369,7 +368,7 @@ describe('transform', () => {
     `)
   })
 
-  test('everything', async () => {
+  it('everything', async () => {
     const code = `
 <div class="bg-red-500 sm:text-xl dark:hover:bg-green-500 transform scale-5" />
 <div class:logo class="foo bar" />
@@ -380,12 +379,12 @@ describe('transform', () => {
   <Button class="hover:text-red text-sm" />
 </div>
     `.trim()
-    expect(await transform(code)).toMatchSnapshot()
-    expect(await transform(code, { combine: false })).toMatchSnapshot()
+    expect(await transform(code)).toMatchFileSnapshot('./test-outputs/EverythingProd.svelte')
+    expect(await transform(code, { combine: false })).toMatchFileSnapshot('./test-outputs/EverythingDev.svelte')
   })
 
   // BUG: When this plugin is run on a component library first, and then in a project second, make sure to use different hashing prefixes because when `uno.parseToken()` checks a previously hashed class like `.uno-ssrvwc` it will add it to uno's cache of non-matches, then when `uno.generate()` runs it will not output the result of that shortcut. I don't know the proper solution to this and I don't think clearing uno's cache of non-matches is right. To see this bug run the following test:
-  test.skip('BUG: when a hashed style already exists (from an imported component library that was already processed), and style is found again it will not be output', async () => {
+  it.skip('BUG: when a hashed style already exists (from an imported component library that was already processed), and style is found again it will not be output', async () => {
     const result = await transform(`
     <div class="uno-ssrvwc hidden" />`.trim())
     expect(result).toMatchInlineSnapshot(`
