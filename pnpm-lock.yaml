@@ -819,6 +819,9 @@ importers:
       '@unocss/transformer-directives':
         specifier: workspace:*
         version: link:../../transformer-directives
+      css-tree:
+        specifier: ^2.3.1
+        version: 2.3.1
       magic-string:
         specifier: ^0.30.0
         version: 0.30.0
