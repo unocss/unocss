@@ -2,9 +2,9 @@ import type { PreprocessorGroup } from 'svelte/types/compiler/preprocess'
 import { type UnoGenerator, type UserConfig, type UserConfigDefaults, createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import { loadConfig } from '@unocss/config'
-// import { transformClasses } from './transformClasses'
-import type { UnocssSveltePreprocessOptions } from './types'
+import { transformClasses } from './transformClasses'
 import { transformApply } from './transformApply'
+import type { UnocssSveltePreprocessOptions } from './types'
 
 export default function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = {}): PreprocessorGroup {
   if (!options.classPrefix)
@@ -17,7 +17,7 @@ export default function UnocssSveltePreprocess(options: UnocssSveltePreprocessOp
       if (!uno)
         uno = await init(options.configOrPath)
 
-      // return await transformClasses({ code: content, filename: filename || '', uno, options })
+      return await transformClasses({ code: content, filename: filename || '', uno, options })
     },
 
     style: async ({ content }) => {
