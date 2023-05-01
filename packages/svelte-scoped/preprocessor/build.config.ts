@@ -10,7 +10,7 @@ export default defineBuildConfig({
     'svelte',
     '@unocss/core',
     '@unocss/preset-uno',
-    // '@unocss/transformer-directives',
+    'css-tree',
   ],
   rollup: {
     emitCJS: true,
