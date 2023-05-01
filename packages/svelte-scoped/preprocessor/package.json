@@ -3,5 +3,50 @@
   "version": "0.51.8",
   "description": "Run UnoCSS via a svelte-preprocessor for use in component libraries",
   "author": "Jacob Bowdoin",
-  "license": "MIT"
+  "license": "MIT",
+  "homepage": "https://github.com/unocss/unocss/tree/main/packages/vite#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unocss/unocss.git",
+    "directory": "packages/svelte-scoped/preprocessor"
+  },
+  "bugs": {
+    "url": "https://github.com/unocss/unocss/issues"
+  },
+  "keywords": [
+    "sveltekit",
+    "svelte",
+    "unocss",
+    "utility-styles",
+    "component-scoped",
+    "component-library"
+  ],
+  "sideEffects": false,
+  "type": "module",
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@unocss/config": "workspace:*",
+    "@unocss/transformer-directives": "workspace:*",
+    "magic-string": "^0.30.0"
+  },
+  "devDependencies": {
+    "prettier-plugin-svelte": "^2.10.0",
+    "svelte": "^3.57.0"
+  }
 }
