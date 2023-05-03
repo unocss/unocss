@@ -1,14 +1,13 @@
 import MagicString, { type SourceMap } from 'magic-string'
-import { type UnoGenerator, expandVariantGroup } from '@unocss/core'
+import { expandVariantGroup } from '@unocss/core'
+import type { Shortcut, type UnoGenerator } from '@unocss/core'
+
 import type { Processed } from 'svelte/types/compiler/preprocess'
 import type { TransformClassesOptions } from '../types'
 import { wrapSelectorsWithGlobal } from './wrap-global'
 import { hash } from './hash'
 import { findClasses } from './findClasses'
-
-const notInCommentRE = /(?<!<!--\s*)/
-const stylesTagWithCapturedDirectivesRE = /<style([^>]*)>[\s\S]*?<\/style\s*>/
-const actualStylesTagWithCapturedDirectivesRE = new RegExp(notInCommentRE.source + stylesTagWithCapturedDirectivesRE.source, 'g')
+import { addGeneratedStylesIntoStyleBlock } from './addGeneratedStyles'
 
 const classesFromInlineConditionalsRE = /'([\S\s]+?)'/g // { foo ? 'mt-1' : 'mt-2'}
 
@@ -28,7 +27,6 @@ export async function transformClasses({ code, filename, uno, options }: { code:
   const toGenerate = new Set<string>()
   const s = new MagicString(code)
   const idHash = combine ? '' : hashFn(filename)
-  let map: SourceMap
 
   for (const { body: unexpandedBody, start, end } of classes) {
     let body = expandVariantGroup(unexpandedBody)
@@ -114,29 +112,29 @@ export async function transformClasses({ code, filename, uno, options }: { code:
     return originalShortcuts.some(s => s[0] === token)
   }
 
-  uno.config.shortcuts = [...originalShortcuts, ...Object.entries(shortcuts)]
-  const { css } = await uno.generate(toGenerate, { preflights: false, safelist: false, minify: true }) // minify avoids wrapSelectorsWithGlobal getting tangled up in layer comments like /* layer: shortcuts */
+  if (toGenerate.size === 0)
+    return
 
-  const styles = wrapSelectorsWithGlobal(css)
-  uno.config.shortcuts = originalShortcuts
-
-  if (toGenerate.size > 0 || s.hasChanged()) {
+  let map: SourceMap | undefined
+  if (s.hasChanged()) {
     code = s.toString()
     map = s.generateMap({ hires: true, source: filename })
   }
-  else { return }
 
-  const preexistingStylesTag = code.match(actualStylesTagWithCapturedDirectivesRE)
-  if (preexistingStylesTag) {
-    return {
-      code: code.replace(/(<style[^>]*>)/, `$1${styles}`),
-      map,
-    }
-  }
+  const styles = await generateStyles(uno, originalShortcuts, shortcuts, toGenerate)
+
   return {
-    code: `${code}\n<style>${styles}</style>`,
+    code: addGeneratedStylesIntoStyleBlock(code, styles),
     map,
   }
+}
+
+async function generateStyles(uno: UnoGenerator<{}>, originalShortcuts: Shortcut<{}>[], shortcuts: Record<string, string[]>, toGenerate: Set<string>) {
+  uno.config.shortcuts = [...originalShortcuts, ...Object.entries(shortcuts)]
+  const { css } = await uno.generate(toGenerate, { preflights: false, safelist: false, minify: true }) // minify avoids wrapSelectorsWithGlobal getting tangled up in layer comments like /* layer: shortcuts */
+  uno.config.shortcuts = originalShortcuts
+
+  return wrapSelectorsWithGlobal(css)
 }
 
 // Possible Optimizations
