@@ -1,4 +1,3 @@
-import { describe, expect, test as it } from 'vitest'
 import { createGenerator } from '@unocss/core'
 import { format as prettier } from 'prettier'
 // @ts-expect-error missing types

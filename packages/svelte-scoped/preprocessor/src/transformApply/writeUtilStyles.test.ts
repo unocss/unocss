@@ -1,4 +1,3 @@
-import { describe, expect, it } from 'vitest'
 import type { SelectorList } from 'css-tree'
 import { parse, walk } from 'css-tree'
 import { generateUpdatedSelector, surroundAllButOriginalSelectorWithGlobal } from './writeUtilStyles'

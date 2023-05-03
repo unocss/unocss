@@ -1,4 +1,3 @@
-import { afterEach, describe, expect, it, vi } from 'vitest'
 import { createGenerator, warnOnce } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import { getUtils } from './getUtils'

@@ -1,4 +1,3 @@
-import { describe, expect, test } from 'vitest'
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import { format as prettier } from 'prettier'
