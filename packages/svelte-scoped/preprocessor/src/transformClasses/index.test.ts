@@ -151,16 +151,16 @@ describe('transform', () => {
     <div class="flex"/>
     <div class:flex={bar} />
     <div class:flex />
-    <div class:flex/>
-    <div class:flex>
+    <div class:flex />
+    <div class:flex />
     <div class:flex class="bar" />
     `.trim(), { format: false })
     expect(result).toMatchInlineSnapshot(`
       "<div class=\\"uno-oo7fkj\\"/>
           <div class:uno-oo7fkj={bar} />
           <div class:uno-oo7fkj={flex} />
-          <div class:uno-oo7fkj={flex}/>
-          <div class:uno-oo7fkj={flex}>
+          <div class:uno-oo7fkj={flex} />
+          <div class:uno-oo7fkj={flex} />
           <div class:uno-oo7fkj={flex} class=\\"bar\\" />
       <style>:global(.uno-oo7fkj){display:flex;}</style>"
     `)

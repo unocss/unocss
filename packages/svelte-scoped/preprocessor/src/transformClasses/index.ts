@@ -4,20 +4,16 @@ import type { Processed } from 'svelte/types/compiler/preprocess'
 import type { TransformClassesOptions } from '../types'
 import { wrapSelectorsWithGlobal } from './wrap-global'
 import { hash } from './hash'
+import { findClasses } from './findClasses'
 
 const notInCommentRE = /(?<!<!--\s*)/
 const stylesTagWithCapturedDirectivesRE = /<style([^>]*)>[\s\S]*?<\/style\s*>/
 const actualStylesTagWithCapturedDirectivesRE = new RegExp(notInCommentRE.source + stylesTagWithCapturedDirectivesRE.source, 'g')
 
-const classesRE = /class=(["'\`])([\S\s]+?)\1/g // class="mb-1"
-const classDirectivesRE = /class:([\S]+?)={/g // class:mb-1={foo}
-const classDirectivesShorthandRE = /class:([^=>\s/]+)[{>\s/]/g // class:mb-1 (compiled to class:uno-1hashz={mb-1})
 const classesFromInlineConditionalsRE = /'([\S\s]+?)'/g // { foo ? 'mt-1' : 'mt-2'}
 
 export async function transformClasses({ code, filename, uno, options }: { code: string; filename: string; uno: UnoGenerator; options: TransformClassesOptions }): Promise<Processed | void> {
-  const classes = [...code.matchAll(classesRE)]
-  const classDirectives = [...code.matchAll(classDirectivesRE)]
-  const classDirectivesShorthand = [...code.matchAll(classDirectivesShorthandRE)]
+  const { classes, classDirectives, classDirectivesShorthand } = findClasses(code)
   if (!classes.length && !classDirectives.length && !classDirectivesShorthand.length)
     return
 
@@ -32,11 +28,10 @@ export async function transformClasses({ code, filename, uno, options }: { code:
   const toGenerate = new Set<string>()
   const s = new MagicString(code)
   const idHash = combine ? '' : hashFn(filename)
-  let styles = ''
   let map: SourceMap
 
-  for (const match of classes) {
-    let body = expandVariantGroup(match[2].trim())
+  for (const { body: unexpandedBody, start, end } of classes) {
+    let body = expandVariantGroup(unexpandedBody)
 
     const inlineConditionals = [...body.matchAll(classesFromInlineConditionalsRE)]
     for (const conditional of inlineConditionals) {
@@ -46,30 +41,24 @@ export async function transformClasses({ code, filename, uno, options }: { code:
     }
 
     const replacement = await sortKnownAndUnknownClasses(body)
-    if (replacement) {
-      const start = match.index!
-      s.overwrite(start + 7, start + match[0].length - 1, replacement)
-    }
+    if (replacement)
+      s.overwrite(start, end, replacement)
   }
 
-  for (const match of classDirectives) {
-    const token = match[1]
+  for (const { body: token, start, end } of classDirectives) {
     const result = await needsGenerated(token)
     if (!result)
       continue
     const className = queueCompiledClass([token])
-    const start = match.index! + 'class:'.length
-    s.overwrite(start, start + match[1].length, className)
+    s.overwrite(start, end, className)
   }
 
-  for (const match of classDirectivesShorthand) {
-    const token = match[1]
+  for (const { body: token, start, end } of classDirectivesShorthand) {
     const result = await needsGenerated(token)
     if (!result)
       continue
     const className = queueCompiledClass([token])
-    const start = match.index! + 'class:'.length
-    s.overwrite(start, start + match[1].length, `${className}={${token}}`)
+    s.overwrite(start, end, `${className}={${token}}`)
   }
 
   async function sortKnownAndUnknownClasses(str: string) {
@@ -128,7 +117,7 @@ export async function transformClasses({ code, filename, uno, options }: { code:
   uno.config.shortcuts = [...originalShortcuts, ...Object.entries(shortcuts)]
   const { css } = await uno.generate(toGenerate, { preflights: false, safelist: false, minify: true }) // minify avoids wrapSelectorsWithGlobal getting tangled up in layer comments like /* layer: shortcuts */
 
-  styles += wrapSelectorsWithGlobal(css)
+  const styles = wrapSelectorsWithGlobal(css)
   uno.config.shortcuts = originalShortcuts
 
   if (toGenerate.size > 0 || s.hasChanged()) {
