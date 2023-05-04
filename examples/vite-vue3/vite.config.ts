@@ -5,6 +5,7 @@ import UnoCSS from 'unocss/vite'
 import presetAttributify from '@unocss/preset-attributify'
 import presetIcons from '@unocss/preset-icons'
 import presetUno from '@unocss/preset-uno'
+import Inspect from 'vite-plugin-inspect'
 import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
 
 const iconDirectory = resolve(__dirname, 'icons')
@@ -13,6 +14,7 @@ const iconDirectory = resolve(__dirname, 'icons')
 export default defineConfig({
   plugins: [
     Vue(),
+    Inspect(),
     UnoCSS({
       shortcuts: [
         { logo: 'i-logos-vue w-6em h-6em transform transition-800' },

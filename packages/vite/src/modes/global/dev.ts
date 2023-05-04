@@ -72,20 +72,27 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
       server.ws.send({
         type: 'update',
         updates: Array.from(ids)
-          .map((id) => {
+          .flatMap((id) => {
             const mod = server.moduleGraph.getModuleById(id)
             if (!mod)
               return null
-            if (mod.id?.match(INLINE_MODULE_RE)) {
-              server.reloadModule(mod)
-              return null
+            const updates: Update[] = [
+              {
+                acceptedPath: mod.url,
+                path: mod.url,
+                timestamp: lastServedTime,
+                type: 'js-update',
+              },
+            ]
+            if (mod.id && mod.id !== mod.url) {
+              updates.push({
+                acceptedPath: mod.id,
+                path: mod.url,
+                timestamp: lastServedTime,
+                type: 'js-update',
+              })
             }
-            return <Update>{
-              acceptedPath: mod.url,
-              path: mod.url,
-              timestamp: lastServedTime,
-              type: 'js-update',
-            }
+            return updates
           })
           .filter(notNull),
       })
@@ -187,6 +194,12 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
         const layer = resolveLayer(getPath(id))
         const isInlineCssMod = id.match(INLINE_MODULE_RE)
 
+        const s = new MagicString(code)
+        if (isInlineCssMod) {
+          s.replace('export default', 'const __vite__css =')
+          s.append('\nexport default __vite__css')
+        }
+
         // inject css modules to send callback on css load
         if (layer && (code.includes('import.meta.hot') || isInlineCssMod)) {
           let hmr = `
@@ -203,16 +216,16 @@ try {
 if (!import.meta.url.includes('?'))
   await new Promise(resolve => setTimeout(resolve, 100))`
 
+          // Reload full page when using `?inline` - any better solution?
+          if (isInlineCssMod)
+            hmr += '\nimport.meta.hot.accept(() => location.reload())\n'
+
           const config = await getConfig() as VitePluginConfig
 
           if (config.hmrTopLevelAwait === false)
             hmr = `;(async function() {${hmr}\n})()`
           hmr = `\nif (import.meta.hot) {${hmr}}`
 
-          if (isInlineCssMod)
-            hmr = `;import __vite__css from ${JSON.stringify(id)};${hmr}`
-
-          const s = new MagicString(code)
           s.append(hmr)
 
           return {

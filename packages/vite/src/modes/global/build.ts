@@ -88,6 +88,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
             entry += '&used'
 
           const layer = resolveLayer(entry)
+
           if (layer) {
             vfsLayers.add(layer)
             if (importer)
@@ -100,7 +101,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         const layer = resolveLayer(getPath(id))
         if (layer) {
           vfsLayers.add(layer)
-          return ` ${getLayerPlaceholder(layer)}`
+          return getLayerPlaceholder(layer)
         }
       },
       moduleParsed({ id, importedIds }) {

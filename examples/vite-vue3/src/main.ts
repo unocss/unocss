@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
-import App from './App.vue'
 import 'uno.css'
+import 'uno:shortcuts.css'
+import App from './App.vue'
 
 createApp(App).mount('#app')
