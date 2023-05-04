@@ -16,6 +16,8 @@ import {
 import type { VitePluginConfig } from '../../types'
 import { setupExtraContent } from '../../../../shared-integration/src/extra-content'
 
+const USED_INLINE_RE = /[\/\\]__uno(?:(_.*?))?\.css\?(.*?inline.*?)$/
+
 export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>): Plugin[] {
   const { uno, ready, extract, tokens, filter, getConfig, tasks, flushTasks } = ctx
   const vfsLayers = new Set<string>()
@@ -80,8 +82,11 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         },
       },
       resolveId(id, importer) {
-        const entry = resolveId(id)
+        let entry = resolveId(id)
         if (entry) {
+          if (entry.endsWith('?inline'))
+            entry += '&used'
+
           const layer = resolveLayer(entry)
           if (layer) {
             vfsLayers.add(layer)
@@ -95,7 +100,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         const layer = resolveLayer(getPath(id))
         if (layer) {
           vfsLayers.add(layer)
-          return getLayerPlaceholder(layer)
+          return ` ${getLayerPlaceholder(layer)}`
         }
       },
       moduleParsed({ id, importedIds }) {
@@ -221,7 +226,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
       enforce: 'post',
       // rewrite the css placeholders
       async generateBundle(options, bundle) {
-        const checkJs = ['umd', 'amd', 'iife'].includes(options.format)
+        const checkJs = ['umd', 'amd', 'iife'].includes(options.format) || Array.from(this.getModuleIds()).some(id => id.match(USED_INLINE_RE))
         const files = Object.keys(bundle)
           .filter(i => i.endsWith('.css') || (checkJs && i.endsWith('.js')))
 
@@ -269,7 +274,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
               .replace(HASH_PLACEHOLDER_RE, '')
             chunk.code = await replaceAsync(js, LAYER_PLACEHOLDER_RE, async (_, __, layer) => {
               replaced = true
-              const css = getLayer(layer, js)
+              const css = getLayer(layer, js).trim() || (await generateAll()).css
               return css
                 .replace(/\n/g, '')
                 .replace(/(?<!\\)(['"])/g, '\\$1')

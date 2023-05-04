@@ -8,6 +8,7 @@ import { LAYER_MARK_ALL, getHash, getPath, resolveId, resolveLayer } from '../..
 const WARN_TIMEOUT = 20000
 const WS_EVENT_PREFIX = 'unocss:hmr'
 const HASH_LENGTH = 6
+const INLINE_MODULE_RE = /(\?|&)inline(&|$)/
 
 export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedModules, onInvalidate, extract, filter, getConfig }: UnocssPluginContext): Plugin[] {
   const servers: ViteDevServer[] = []
@@ -75,6 +76,10 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
             const mod = server.moduleGraph.getModuleById(id)
             if (!mod)
               return null
+            if (mod.id?.match(INLINE_MODULE_RE)) {
+              server.reloadModule(mod)
+              return null
+            }
             return <Update>{
               acceptedPath: mod.url,
               path: mod.url,
@@ -180,9 +185,10 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
       enforce: 'post',
       async transform(code, id) {
         const layer = resolveLayer(getPath(id))
+        const isInlineCssMod = id.match(INLINE_MODULE_RE)
 
         // inject css modules to send callback on css load
-        if (layer && code.includes('import.meta.hot')) {
+        if (layer && (code.includes('import.meta.hot') || isInlineCssMod)) {
           let hmr = `
 try {
   let hash = __vite__css.match(/__uno_hash_(\\w{${HASH_LENGTH}})/)
@@ -202,6 +208,9 @@ if (!import.meta.url.includes('?'))
           if (config.hmrTopLevelAwait === false)
             hmr = `;(async function() {${hmr}\n})()`
           hmr = `\nif (import.meta.hot) {${hmr}}`
+
+          if (isInlineCssMod)
+            hmr = `;import __vite__css from ${JSON.stringify(id)};${hmr}`
 
           const s = new MagicString(code)
           s.append(hmr)

@@ -13,15 +13,15 @@ export function resolveId(id: string) {
   for (const alias of VIRTUAL_ENTRY_ALIAS) {
     const match = id.match(alias)
     if (match) {
-      return match[1]
+      return (match[1]
         ? `/__uno_${match[1]}.css`
-        : '/__uno.css'
+        : '/__uno.css') + (match[2] || '')
     }
   }
 }
 
 export function resolveLayer(id: string) {
-  const match = id.match(RESOLVED_ID_RE)
+  const match = id.match(RESOLVED_ID_WITH_QUERY_RE)
   if (match)
     return match[1] || LAYER_MARK_ALL
 }
