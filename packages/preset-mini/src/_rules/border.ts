@@ -48,38 +48,40 @@ export const borders: Rule[] = [
   [/^(?:border|b)-([bi][se])-(?:style-)?(.+)$/, handlerBorderStyle],
 ]
 
-const borderColorResolver = (direction: string) => ([, body]: string[], theme: Theme): CSSObject | undefined => {
-  const data = parseColor(body, theme)
+function borderColorResolver(direction: string) {
+  return ([, body]: string[], theme: Theme): CSSObject | undefined => {
+    const data = parseColor(body, theme)
 
-  if (!data)
-    return
+    if (!data)
+      return
 
-  const { alpha, color, cssColor } = data
+    const { alpha, color, cssColor } = data
 
-  if (cssColor) {
-    if (alpha != null) {
-      return {
-        [`border${direction}-color`]: colorToString(cssColor, alpha),
+    if (cssColor) {
+      if (alpha != null) {
+        return {
+          [`border${direction}-color`]: colorToString(cssColor, alpha),
+        }
       }
-    }
-    if (direction === '') {
-      return {
-        '--un-border-opacity': colorOpacityToString(cssColor),
-        'border-color': colorToString(cssColor, 'var(--un-border-opacity)'),
+      if (direction === '') {
+        return {
+          '--un-border-opacity': colorOpacityToString(cssColor),
+          'border-color': colorToString(cssColor, 'var(--un-border-opacity)'),
+        }
       }
-    }
-    else {
-      return {
+      else {
+        return {
         // Separate this return since if `direction` is an empty string, the first key will be overwritten by the second.
-        '--un-border-opacity': colorOpacityToString(cssColor),
-        [`--un-border${direction}-opacity`]: 'var(--un-border-opacity)',
-        [`border${direction}-color`]: colorToString(cssColor, `var(--un-border${direction}-opacity)`),
+          '--un-border-opacity': colorOpacityToString(cssColor),
+          [`--un-border${direction}-opacity`]: 'var(--un-border-opacity)',
+          [`border${direction}-color`]: colorToString(cssColor, `var(--un-border${direction}-opacity)`),
+        }
       }
     }
-  }
-  else if (color) {
-    return {
-      [`border${direction}-color`]: colorToString(color, alpha),
+    else if (color) {
+      return {
+        [`border${direction}-color`]: colorToString(color, alpha),
+      }
     }
   }
 }
@@ -104,7 +106,7 @@ function handlerBorderColor([, a = '', c]: string[], { theme }: RuleContext<Them
 }
 
 function handlerBorderOpacity([, a = '', opacity]: string[]): CSSEntries | undefined {
-  const v = h.bracket.percent(opacity)
+  const v = h.bracket.percent.cssvar(opacity)
   if (a in directionMap && v != null)
     return directionMap[a].map(i => [`--un-border${i}-opacity`, v])
 }

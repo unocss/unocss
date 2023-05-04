@@ -44,7 +44,7 @@ test('web-fonts (inline: false)', async () => {
   })
 
   const { css } = await uno.generate(classes)
-  expect(css).toMatchSnapshot()
+  expect(css).toMatchFileSnapshot('./assets/output/preset-web-fonts.css')
 })
 
 test('web-fonts (inline: true)', async () => {

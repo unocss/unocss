@@ -1,6 +1,6 @@
 {
   "name": "@unocss/webpack",
-  "version": "0.50.6",
+  "version": "0.51.8",
   "description": "The Webpack plugin for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -40,7 +40,7 @@
     "webpack": "^4 || ^5"
   },
   "dependencies": {
-    "@ampproject/remapping": "^2.2.0",
+    "@ampproject/remapping": "^2.2.1",
     "@rollup/pluginutils": "^5.0.2",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
@@ -51,8 +51,8 @@
     "webpack-sources": "^3.2.3"
   },
   "devDependencies": {
-    "@types/webpack": "^5.28.0",
+    "@types/webpack": "^5.28.1",
     "@types/webpack-sources": "^3.2.0",
-    "webpack": "^5.76.2"
+    "webpack": "^5.78.0"
   }
 }

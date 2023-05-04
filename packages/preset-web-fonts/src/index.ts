@@ -4,32 +4,41 @@ import { BunnyFontsProvider } from './providers/bunny'
 import { GoogleFontsProvider } from './providers/google'
 import { FontshareProvider } from './providers/fontshare'
 import { NoneProvider } from './providers/none'
-import type { WebFontMeta, WebFontsOptions, WebFontsProviders } from './types'
+import type { Provider, ResolvedWebFontMeta, WebFontMeta, WebFontsOptions, WebFontsProviders } from './types'
 
 export * from './types'
 
-export function normalizedFontMeta(meta: WebFontMeta | string, defaultProvider: WebFontsProviders): WebFontMeta {
-  if (typeof meta !== 'string') {
-    meta.provider = meta.provider ?? defaultProvider
-    return meta
-  }
-
-  const [name, weights = ''] = meta.split(':')
-  return {
-    name,
-    weights: weights.split(/[,;]\s*/).filter(Boolean),
-    provider: defaultProvider,
-  }
-}
-
-const providers = {
+const builtinProviders = {
   google: GoogleFontsProvider,
   bunny: BunnyFontsProvider,
   fontshare: FontshareProvider,
   none: NoneProvider,
 }
 
-const preset = (options: WebFontsOptions = {}): Preset<any> => {
+function resolveProvider(provider: WebFontsProviders): Provider {
+  if (typeof provider === 'string')
+    return builtinProviders[provider]
+  return provider
+}
+
+export { createGoogleCompatibleProvider as createGoogleProvider } from './providers/google'
+
+export function normalizedFontMeta(meta: WebFontMeta | string, defaultProvider: WebFontsProviders): ResolvedWebFontMeta {
+  if (typeof meta !== 'string') {
+    meta.provider = resolveProvider(meta.provider || defaultProvider)
+    return meta as ResolvedWebFontMeta
+  }
+
+  const [name, weights = ''] = meta.split(':')
+
+  return {
+    name,
+    weights: weights.split(/[,;]\s*/).filter(Boolean),
+    provider: resolveProvider(defaultProvider),
+  }
+}
+
+function preset(options: WebFontsOptions = {}): Preset<any> {
   const {
     provider: defaultProvider = 'google',
     extendTheme = true,
@@ -67,17 +76,17 @@ const preset = (options: WebFontsOptions = {}): Preset<any> => {
     }
   }
 
+  const enabledProviders = new Set(fonts.map(i => i.provider))
+
   const preset: Preset<any> = {
     name: '@unocss/preset-web-fonts',
     preflights: [
       {
         async getCSS() {
-          const names = new Set(fonts.map(i => i.provider || defaultProvider))
           const preflights: (string | undefined)[] = []
 
-          for (const name of names) {
-            const fontsForProvider = fonts.filter(i => i.provider === name)
-            const provider = providers[name]
+          for (const provider of enabledProviders) {
+            const fontsForProvider = fonts.filter(i => i.provider.name === provider.name)
 
             if (provider.getImportUrl) {
               const url = provider.getImportUrl(fontsForProvider)
@@ -100,7 +109,7 @@ const preset = (options: WebFontsOptions = {}): Preset<any> => {
         theme[themeKey] = {}
       const obj = Object.fromEntries(
         Object.entries(fontObject)
-          .map(([name, fonts]) => [name, fonts.map(f => providers[f.provider || defaultProvider].getFontName(f))]),
+          .map(([name, fonts]) => [name, fonts.map(f => f.provider.getFontName?.(f) ?? `"${f.name}"`)]),
       )
       for (const key of Object.keys(obj)) {
         if (typeof theme[themeKey][key] === 'string')

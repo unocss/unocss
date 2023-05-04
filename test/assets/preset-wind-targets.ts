@@ -76,6 +76,9 @@ export const presetWindTargets: string[] = [
 
   // bg gradient
   'from-current',
+  'from-10%',
+  'via-20%',
+  'to-90%',
   'from-green-500',
   'from-green-500/50',
   'from-transparent',
@@ -130,6 +133,8 @@ export const presetWindTargets: string[] = [
   'list-disc-outside',
   'list-alpha-inside',
   'list-inherit',
+  'list-image-[url(https://test.unocss.png)]',
+  'list-image-none',
   'box-decoration-slice',
   'box-decoration-initial',
   'accent-op-90',

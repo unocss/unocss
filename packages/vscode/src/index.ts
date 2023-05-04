@@ -8,7 +8,7 @@ import { registerAutoComplete } from './autocomplete'
 import { ContextLoader } from './contextLoader'
 import { registerSelectionStyle } from './selectionStyle'
 
-const registerRoot = async (ext: ExtensionContext, status: StatusBarItem, cwd: string) => {
+async function registerRoot(ext: ExtensionContext, status: StatusBarItem, cwd: string) {
   const contextLoader = new ContextLoader(cwd)
 
   await contextLoader.ready

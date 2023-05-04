@@ -43,7 +43,7 @@ describe('transformer-directives', () => {
     const result = await transform(
       '.btn { @apply rounded text-lg font-mono; }',
     )
-    expect(result)
+    await expect(result)
       .toMatchInlineSnapshot(`
         ".btn {
           border-radius: 0.25rem;
@@ -56,57 +56,20 @@ describe('transformer-directives', () => {
       `)
   })
 
-  test('breakpoint', async () => {
+  test('breakpoints', async () => {
     const result = await transform(
       '.grid { @apply grid grid-cols-2 xl:grid-cols-10 sm:grid-cols-7 md:grid-cols-3 lg:grid-cols-4 }',
     )
-    expect(result)
-      .toMatchInlineSnapshot(`
-        ".grid {
-          display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-        @media (min-width: 640px) {
-          .grid {
-            grid-template-columns: repeat(7, minmax(0, 1fr));
-          }
-        }
-        @media (min-width: 768px) {
-          .grid {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-          }
-        }
-        @media (min-width: 1024px) {
-          .grid {
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-          }
-        }
-        @media (min-width: 1280px) {
-          .grid {
-            grid-template-columns: repeat(10, minmax(0, 1fr));
-          }
-        }
-        "
-      `)
+    await expect(result)
+      .toMatchFileSnapshot('./assets/output/transformer-directives-breakpoints.css')
   })
 
   test('variant group', async () => {
     const result = await transform(
       '.btn { @apply grid-(cols-2 rows-4) hover:(border bg-white) }',
     )
-    expect(result)
-      .toMatchInlineSnapshot(`
-        ".btn {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          grid-template-rows: repeat(4, minmax(0, 1fr));
-        }
-        .btn:hover {
-          border-width: 1px;
-          --un-bg-opacity: 1;
-          background-color: rgba(255, 255, 255, var(--un-bg-opacity));
-        }
-        "
-      `)
+    await expect(result)
+      .toMatchFileSnapshot('./assets/output/transformer-directives-variant-group.css')
   })
 
   test('pseudo-classes', async () => {
@@ -295,49 +258,14 @@ describe('transformer-directives', () => {
     const css = await readFile('./test/assets/apply.css', 'utf8')
     const result = await transform(css)
 
-    expect(result).toMatchSnapshot()
+    await expect(result)
+      .toMatchFileSnapshot('./assets/output/transformer-directives-apply.css')
   })
 
   test('custom breakpoints', async () => {
     const result = await transform('.grid { @apply grid grid-cols-2 xs:grid-cols-1 xxl:grid-cols-15 xl:grid-cols-10 sm:grid-cols-7 md:grid-cols-3 lg:grid-cols-4 }')
-    expect(result)
-      .toMatchInlineSnapshot(`
-        ".grid {
-          display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-        @media (min-width: 320px) {
-          .grid {
-            grid-template-columns: repeat(1, minmax(0, 1fr));
-          }
-        }
-        @media (min-width: 640px) {
-          .grid {
-            grid-template-columns: repeat(7, minmax(0, 1fr));
-          }
-        }
-        @media (min-width: 768px) {
-          .grid {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-          }
-        }
-        @media (min-width: 1024px) {
-          .grid {
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-          }
-        }
-        @media (min-width: 1280px) {
-          .grid {
-            grid-template-columns: repeat(10, minmax(0, 1fr));
-          }
-        }
-        @media (min-width: 1536px) {
-          .grid {
-            grid-template-columns: repeat(15, minmax(0, 1fr));
-          }
-        }
-        "
-      `)
+    await expect(result)
+      .toMatchFileSnapshot('./assets/output/transformer-directives-custom-breakpoints.css')
   })
 
   test('var style class', async () => {
@@ -356,192 +284,98 @@ describe('transformer-directives', () => {
         }
       }`,
     )
-    expect(result)
-      .toMatchInlineSnapshot(`
-        "nav {
-          border-width: 1px;
-
-          ul {
-            li {
-              border-width: 1px;
-            }
-          }
-          a {
-            padding-left: 0.5rem;
-            padding-right: 0.5rem;
-          }
-          a:hover {
-            text-decoration-line: underline;
-          }
-        }
-        "
-      `)
+    await expect(result)
+      .toMatchFileSnapshot('./assets/output/transformer-directives-var-style-class.css')
   })
 
   test('@screen basic', async () => {
     const result = await transform(`
-          .grid {
-            @apply grid grid-cols-2;
-          }
-          @screen xs {
-            .grid {
-              @apply grid-cols-1;
-            }
-          }
-          @screen sm {
-            .grid {
-              @apply grid-cols-3;
-            }
-          }
-          @screen md {
-            .grid {
-              @apply grid-cols-4;
-            }
-          }
-          @screen lg {
-            .grid {
-              @apply grid-cols-5;
-            }
-          }
-          @screen xl {
-            .grid {
-              @apply grid-cols-6;
-            }
-          }
-          @screen xxl {
-            .grid {
-              @apply grid-cols-7;
-            }
-          }
-        `)
-    expect(result)
-      .toMatchInlineSnapshot(`
-          ".grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-          }
-          @media (min-width: 320px) {
-            .grid {
-              grid-template-columns: repeat(1, minmax(0, 1fr));
-            }
-          }
-          @media (min-width: 640px) {
-            .grid {
-              grid-template-columns: repeat(3, minmax(0, 1fr));
-            }
-          }
-          @media (min-width: 768px) {
-            .grid {
-              grid-template-columns: repeat(4, minmax(0, 1fr));
-            }
-          }
-          @media (min-width: 1024px) {
-            .grid {
-              grid-template-columns: repeat(5, minmax(0, 1fr));
-            }
-          }
-          @media (min-width: 1280px) {
-            .grid {
-              grid-template-columns: repeat(6, minmax(0, 1fr));
-            }
-          }
-          @media (min-width: 1536px) {
-            .grid {
-              grid-template-columns: repeat(7, minmax(0, 1fr));
-            }
-          }
-          "
-        `)
+.grid {
+  @apply grid grid-cols-2;
+}
+@screen xs {
+  .grid {
+    @apply grid-cols-1;
+  }
+}
+@screen sm {
+  .grid {
+    @apply grid-cols-3;
+  }
+}
+@screen md {
+  .grid {
+    @apply grid-cols-4;
+  }
+}
+@screen lg {
+  .grid {
+    @apply grid-cols-5;
+  }
+}
+@screen xl {
+  .grid {
+    @apply grid-cols-6;
+  }
+}
+@screen xxl {
+  .grid {
+    @apply grid-cols-7;
+  }
+}
+`)
+    await expect(result)
+      .toMatchFileSnapshot('./assets/output/transformer-directives-at-screen.css')
   })
 
   test('@screen lt variant', async () => {
     const result = await transform(`
-          .grid {
-            @apply grid grid-cols-2;
-          }
-          @screen lt-xs {
-            .grid {
-              @apply grid-cols-1;
-            }
-          }
-          @screen lt-sm {
-            .grid {
-              @apply grid-cols-3;
-            }
-          }
-          @screen lt-md {
-            .grid {
-              @apply grid-cols-4;
-            }
-          }
-        `)
-    expect(result).toMatchInlineSnapshot(`
-        ".grid {
-          display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-        @media (max-width: 319.9px) {
-          .grid {
-            grid-template-columns: repeat(1, minmax(0, 1fr));
-          }
-        }
-        @media (max-width: 639.9px) {
-          .grid {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-          }
-        }
-        @media (max-width: 767.9px) {
-          .grid {
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-          }
-        }
-        "
-      `)
+.grid {
+  @apply grid grid-cols-2;
+}
+@screen lt-xs {
+  .grid {
+    @apply grid-cols-1;
+  }
+}
+@screen lt-sm {
+  .grid {
+    @apply grid-cols-3;
+  }
+}
+@screen lt-md {
+  .grid {
+    @apply grid-cols-4;
+  }
+}
+`)
+    await expect(result)
+      .toMatchFileSnapshot('./assets/output/transformer-directives-screen-lt.css')
   })
 
   test('@screen at variant', async () => {
     const result = await transform(`
-          .grid {
-            @apply grid grid-cols-2;
-          }
-          @screen at-xs {
-            .grid {
-              @apply grid-cols-1;
-            }
-          }
-          @screen at-xl {
-            .grid {
-              @apply grid-cols-3;
-            }
-          }
-          @screen at-xxl {
-            .grid {
-              @apply grid-cols-4;
-            }
-          }
-        `)
-    expect(result).toMatchInlineSnapshot(`
-      ".grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-      @media (min-width: 320px) and (max-width: 639.9px) {
-        .grid {
-          grid-template-columns: repeat(1, minmax(0, 1fr));
-        }
-      }
-      @media (min-width: 1280px) and (max-width: 1535.9px) {
-        .grid {
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-        }
-      }
-      @media (min-width: 1536px) {
-        .grid {
-          grid-template-columns: repeat(4, minmax(0, 1fr));
-        }
-      }
-      "
-    `)
+  .grid {
+    @apply grid grid-cols-2;
+  }
+  @screen at-xs {
+    .grid {
+      @apply grid-cols-1;
+    }
+  }
+  @screen at-xl {
+    .grid {
+      @apply grid-cols-3;
+    }
+  }
+  @screen at-xxl {
+    .grid {
+      @apply grid-cols-4;
+    }
+  }
+`)
+    await expect(result)
+      .toMatchFileSnapshot('./assets/output/transformer-directives-screen-at.css')
   })
 
   describe('theme()', () => {
@@ -594,14 +428,15 @@ describe('transformer-directives', () => {
     })
 
     test('with @apply', async () => {
-      expect(await transform(`
-        div {
-          @apply flex h-full w-full justify-center items-center;
+      const result = await transform(`
+div {
+  @apply flex h-full w-full justify-center items-center;
 
-          --my-color: theme('colors.red.500');
-          color: var(--my-color);
-        }`,
-      )).toMatchInlineSnapshot(`
+  --my-color: theme('colors.red.500');
+  color: var(--my-color);
+}`,
+      )
+      expect(result).toMatchInlineSnapshot(`
         "div {
           height: 100%;
           width: 100%;

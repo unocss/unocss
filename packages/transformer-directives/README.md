@@ -11,7 +11,7 @@ npm i -D @unocss/transformer-directives
 ```
 
 ```ts
-// uno.config.js
+// uno.config.ts
 import { defineConfig } from 'unocss'
 import transformerDirectives from '@unocss/transformer-directives'
 

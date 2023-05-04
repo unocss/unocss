@@ -145,6 +145,7 @@ export const presetMiniTargets: string[] = [
   'border-[var(--color)]',
   'border-green-100/20',
   'border-opacity-20',
+  'border-opacity-$opacity-variable',
   'border-y-red',
   'border-y-op-30',
   'border-x-[rgb(1,2,3)]/[0.5]',
@@ -218,6 +219,7 @@ export const presetMiniTargets: string[] = [
   'text-red100',
   'text-red2',
   'text-opacity-[13.3333333%]',
+  'text-opacity-$opacity-variable',
   'text-[var(--color)]',
   'text-[#124]',
   'text-[2em]',
@@ -248,6 +250,7 @@ export const presetMiniTargets: string[] = [
   'bg-teal-500/[55%]',
   'bg-hex-452233/40',
   'bg-opacity-45',
+  'bg-opacity-$opacity-variable',
 
   // color - ring
   'ring-red2',
@@ -256,9 +259,11 @@ export const presetMiniTargets: string[] = [
   'ring-width-px',
   'ring-size-px',
   'ring-op-5',
+  'ring-op-$opacity-variable',
   'ring-offset-red2',
   'ring-offset-red2/5',
   'ring-offset-op-5',
+  'ring-offset-op-$opacity-variable',
 
   // decoration
   'decoration-none',
@@ -274,6 +279,7 @@ export const presetMiniTargets: string[] = [
   'underline-dashed',
   'underline-red-500',
   'underline-op80',
+  'underline-op-$opacity-variable',
   'underline-auto',
   'underline-inherit',
   'underline-5',
@@ -446,7 +452,9 @@ export const presetMiniTargets: string[] = [
   'shadow-xl',
   'shadow-green-500',
   'shadow-green-900/50',
+  'shadow-[#fff]',
   'shadow-op-50',
+  'shadow-op-$opacity-variable',
   'shadow-inset',
   'shadow-[0px_4px_4px_0px_rgba(237,_0,_0,_1)]',
   'shadow-$variable',
@@ -681,12 +689,14 @@ export const presetMiniTargets: string[] = [
   'fill-current',
   'fill-green-400',
   'fill-opacity-80',
+  'fill-opacity-$opacity-variable',
   'fill-[#123]',
   'fill-[1rem]',
   'stroke-none',
   'stroke-current',
   'stroke-green-400',
   'stroke-opacity-80',
+  'stroke-opacity-$opacity-variable',
   'stroke-[#123]',
   'stroke-[1rem]',
   'stroke-size-none',
@@ -727,6 +737,7 @@ export const presetMiniTargets: string[] = [
   'transform-rotate-y-1',
   'transform-rotate-z-[var(--spin)]',
   'rotate-z-[var(--spin)]',
+  'skew-10',
   'skew-x-10',
   'skew-x-10deg',
   'skew-x-10.00deg',
@@ -779,6 +790,7 @@ export const presetMiniTargets: string[] = [
   // typography
   'font-mono',
   'font-[system-ui]',
+  'font-[550]',
   'font-$font-name',
   'text-4xl',
   'text-base',
@@ -805,6 +817,7 @@ export const presetMiniTargets: string[] = [
   'leading-inherit',
   'font-leading-2',
   'lh-[1.5]',
+  'line-height-[1.5]',
   'tracking-wide',
   'tracking-[2/5]',
   'tracking-inherit',
@@ -825,12 +838,14 @@ export const presetMiniTargets: string[] = [
   'text-stroke-sm',
   'text-stroke-blue-500',
   'text-stroke-op-60',
+  'text-stroke-op-$opacity-variable',
   'text-shadow',
   'text-shadow-lg',
   'text-shadow-none',
   'text-shadow-$var',
   'text-shadow-color-red-300',
   'text-shadow-color-op-30',
+  'text-shadow-color-op-$opacity-variable',
 
   // variables
   'bg-$test-variable',
@@ -1108,4 +1123,7 @@ export const presetMiniNonTargets = [
 
   // not exists
   'text-main/50',
+
+  // overmatch
+  'op50>Foo',
 ]

@@ -16,6 +16,7 @@ export class ContextLoader {
   public ready: Promise<void>
   public defaultContext: UnocssPluginContext<UserConfig<any>>
   public contextsMap = new Map<string, UnocssPluginContext<UserConfig<any>> | null>()
+  public configSources: string[] = []
 
   private fileContextCache = new Map<string, UnocssPluginContext<UserConfig<any>> | null>()
   private configExistsCache = new Map<string, boolean>()
@@ -89,6 +90,10 @@ export class ContextLoader {
 
     const load = async () => {
       log.appendLine(`🛠 Resolving config for ${dir}`)
+
+      // @ts-expect-error support global utils
+      globalThis.defineNuxtConfig = config => config
+
       const context = createContext(
         dir,
         this.defaultUnocssConfig,
@@ -131,6 +136,8 @@ export class ContextLoader {
         return null
       }
 
+      this.configSources = sources
+
       if (!sources.length)
         return null
 
@@ -160,8 +167,10 @@ export class ContextLoader {
       log.appendLine(`🛠 New configuration loaded from\n${sources.map(s => `  - ${s}`).join('\n')}`)
       log.appendLine(`ℹ️ ${context.uno.config.presets.length} presets, ${context.uno.config.rulesSize} rules, ${context.uno.config.shortcuts.length} shortcuts, ${context.uno.config.variants.length} variants, ${context.uno.config.transformers?.length || 0} transformers loaded`)
 
-      if (!sources.some(i => i.match(/\buno(css)?\.config\./)))
-        log.appendLine('💡 To have the best IDE experience, it\'s recommended to move UnoCSS configurations into a standalone `unocss.config.js` file at the root of your project.')
+      if (!sources.some(i => i.match(/\buno(css)?\.config\./))) {
+        log.appendLine('💡 To have the best IDE experience, it\'s recommended to move UnoCSS configurations into a standalone `uno.config.ts` file at the root of your project.')
+        log.appendLine('👉 Learn more at https://unocss.dev/guide/config-file')
+      }
 
       return context
     }

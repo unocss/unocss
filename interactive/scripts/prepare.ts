@@ -1,4 +1,4 @@
-import { basename, dirname, parse } from 'node:path'
+import { basename, parse } from 'node:path'
 import fs from 'fs-extra'
 import fg from 'fast-glob'
 import YAML from 'js-yaml'
@@ -7,7 +7,7 @@ import { objectMap } from '@antfu/utils'
 
 const dereference = process.platform === 'win32' ? true : undefined
 
-const { copyFile, copy, writeFileSync } = fs
+const { copy, writeFileSync } = fs
 
 await fs.ensureDir('guides/vendor/')
 
@@ -17,17 +17,6 @@ await copy('node_modules/shiki/', 'public/shiki/', {
 })
 await copy('node_modules/theme-vitesse/themes', 'public/shiki/themes', { dereference })
 await copy('node_modules/theme-vitesse/themes', 'node_modules/shiki/themes', { overwrite: true, dereference })
-
-await Promise.all([
-  copyFile('../README.md', 'guides/vendor/intro.md'),
-  ...fg.sync('../packages/*/README.md')
-    .map(async (src) => {
-      const name = basename(dirname(src))
-      if (['unocss', 'scope'].includes(name) || name.startsWith('shared-'))
-        return
-      copyFile(src, `guides/vendor/${name}.md`)
-    }),
-])
 
 const code = genArrayFromRaw(
   fg.sync('guides/**/*.{md,vue}')

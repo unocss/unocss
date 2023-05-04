@@ -46,7 +46,7 @@ export default defineConfig({
     ],
   },
   build: {
-    outDir: '../interactive/public/play',
+    outDir: '../docs/dist/play',
     emptyOutDir: true,
     rollupOptions: {
       external: [

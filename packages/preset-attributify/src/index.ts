@@ -1,5 +1,4 @@
 import type { Preset } from '@unocss/core'
-import { extractorSplit } from '@unocss/core'
 import { autocompleteExtractorAttributify } from './autocomplete'
 import { defaultIgnoreAttributes, extractorAttributify } from './extractor'
 import type { AttributifyOptions } from './types'
@@ -11,7 +10,7 @@ export * from './variant'
 export * from './types'
 export * from './jsx'
 
-const preset = (options: AttributifyOptions = {}): Preset => {
+function presetAttributify(options: AttributifyOptions = {}): Preset {
   options.strict = options.strict ?? false
   options.prefix = options.prefix ?? 'un-'
   options.prefixedOnly = options.prefixedOnly ?? false
@@ -28,18 +27,18 @@ const preset = (options: AttributifyOptions = {}): Preset => {
     autocompleteExtractorAttributify,
   ]
 
-  if (!options.strict)
-    extractors.unshift(extractorSplit)
-
   return {
     name: '@unocss/preset-attributify',
+    enforce: 'post',
     variants,
     extractors,
     options,
     autocomplete: {
       extractors: autocompleteExtractors,
     },
+    extractorDefault: options.strict ? false : undefined,
   }
 }
 
-export default preset
+export { presetAttributify }
+export default presetAttributify

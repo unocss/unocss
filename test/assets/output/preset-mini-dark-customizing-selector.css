@@ -1,0 +1,7 @@
+/* layer: default */
+[data-mode="dark"] .dark\:bg-white{--un-bg-opacity:1;background-color:rgba(255,255,255,var(--un-bg-opacity));}
+[data-mode="light"] .light\:bg-black{--un-bg-opacity:1;background-color:rgba(0,0,0,var(--un-bg-opacity));}
+[data-mode="dark"] .dark\:hover\:rounded:hover{border-radius:0.25rem;}
+[data-mode="dark"] .dark\:text-lg{font-size:1.125rem;line-height:1.75rem;}
+[data-mode="light"] .light\:text-sm{font-size:0.875rem;line-height:1.25rem;}
+[data-mode="light"] .light\:disabled\:w-full:disabled{width:100%;}

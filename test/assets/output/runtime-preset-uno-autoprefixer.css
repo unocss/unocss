@@ -1,0 +1,11 @@
+/* layer: default */
+.\[--vars\:value\]{--vars:value;}
+.\[-vars\:value\],
+.\[vars\:value\]{-webkit-vars:value;}
+.\[filter\:none\]{-webkit-filter:none;}
+.\[hyphens\:none\]{-ms-hyphens:none;}
+.\[non-hyphens\:none\]{non-hyphens:none;}
+.\[perspective\:0\]{-webkit-perspective:0;}
+.perspect-1px{-webkit-perspective:1px;}
+.hyphens-auto{-webkit-hyphens:auto;-ms-hyphens:auto;}
+.filter{-webkit-filter:var(--un-blur) var(--un-brightness) var(--un-contrast) var(--un-drop-shadow) var(--un-grayscale) var(--un-hue-rotate) var(--un-invert) var(--un-saturate) var(--un-sepia);}

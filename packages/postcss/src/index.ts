@@ -116,9 +116,8 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
 
         const entries = await fg(isScanTarget ? globs : from, {
           cwd,
-          dot: true,
           absolute: true,
-          ignore: ['**/{.git,node_modules}/**'],
+          ignore: ['**/node_modules/**'],
           stats: true,
         }) as unknown as { path: string; mtimeMs: number }[]
 

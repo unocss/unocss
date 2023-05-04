@@ -13,12 +13,15 @@
 | [@unocss/preset-icons](./preset-icons) | Pure CSS Icons solution powered by Iconify | ✅ | No |
 | [@unocss/preset-web-fonts](./preset-web-fonts) | Web fonts (Google Fonts, etc.) support | ✅ | No |
 | [@unocss/preset-typography](./preset-typography) | The typography preset | ✅ | No |
+| [@unocss/extractor-arbitrary-variants](./extractor-arbitrary-variants) | Arbitrary variants for utils | ✅ | No |
 | [@unocss/preset-rem-to-px](./preset-rem-to-px) | Coverts rem to px for utils | No | No |
 | [@unocss/transformer-variant-group](./transformer-variant-group) | Transformer for Windi CSS's variant group feature | ✅ | No |
 | [@unocss/transformer-directives](./transformer-directives) | Transformer for CSS directives like `@apply` | ✅ | No |
 | [@unocss/transformer-compile-class](./transformer-compile-class) | Compile group of classes into one class | ✅ | No |
 | [@unocss/transformer-attributify-jsx](./transformer-attributify-jsx) | Support valueless attributify in JSX/TSX | ✅ | No |
+| [@unocss/transformer-attributify-jsx-babel](./transformer-attributify-jsx) | Support valueless attributify in JSX/TSX (Babel) | No | No |
 | [@unocss/extractor-pug](./extractor-pug) | Extractor for Pug | No | - |
+| [@unocss/extractor-svelte](./extractor-svelte) | Extractor for Svelte | No | - |
 | [@unocss/autocomplete](./autocomplete) | Utils for autocomplete | No | - |
 | [@unocss/config](./config) | Configuration file loader | ✅ | - |
 | [@unocss/reset](./reset) | Collection of common CSS resets | ✅ | No |

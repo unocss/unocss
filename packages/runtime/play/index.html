@@ -1,8 +1,20 @@
 <head>
+<script>
+window.__unocss = {
+  runtime: {
+    bypassDefined: true,
+  },
+}
+</script>
 <script src="../attributify.global.js"></script>
 <style>
 [un-cloak] {
   display: none;
+}
+/* with bypassDefined, unocss will not generate this */
+.text-red {
+  font-style: italic;
+  color: red;
 }
 </style>
 </head>

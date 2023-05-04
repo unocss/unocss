@@ -175,7 +175,7 @@ export function createAutocomplete(uno: UnoGenerator): UnocssAutocomplete {
 
   function processSuggestions(suggestions: (string[] | undefined)[], prefix = '', suffix = '') {
     return uniq(suggestions.flat())
-      .filter((i): i is string => !!(i && !i.match(/-$/)))
+      .filter((i): i is string => !!(i && !i.match(/-$/) && !uno.isBlocked(i)))
       .sort((a, b) => {
         const numA = +(a.match(/\d+$/)?.[0] || NaN)
         const numB = +(b.match(/\d+$/)?.[0] || NaN)

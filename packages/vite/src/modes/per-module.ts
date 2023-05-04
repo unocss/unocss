@@ -1,3 +1,4 @@
+import { Buffer } from 'node:buffer'
 import type { Plugin, ViteDevServer } from 'vite'
 import type { UnocssPluginContext } from '@unocss/core'
 import { getHash } from '../integration'

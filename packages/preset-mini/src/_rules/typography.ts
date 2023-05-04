@@ -66,15 +66,15 @@ export const fonts: Rule<Theme>[] = [
   // weights
   [
     /^(?:font|fw)-?([^-]+)$/,
-    ([, s]) => ({ 'font-weight': weightMap[s] || h.global.number(s) }),
+    ([, s]) => ({ 'font-weight': weightMap[s] || h.bracket.global.number(s) }),
     { autocomplete: `(font|fw)-(100|200|300|400|500|600|700|800|900|${Object.keys(weightMap).join('|')})` },
   ],
 
   // leadings
   [
-    /^(?:font-)?(?:leading|lh)-(.+)$/,
+    /^(?:font-)?(?:leading|lh|line-height)-(.+)$/,
     ([, s], { theme }) => ({ 'line-height': handleLineHeight(s, theme) }),
-    { autocomplete: '(leading|lh)-$lineHeight' },
+    { autocomplete: '(leading|lh|line-height)-$lineHeight' },
   ],
 
   // synthesis
@@ -122,7 +122,7 @@ export const textStrokes: Rule<Theme>[] = [
 
   // colors
   [/^text-stroke-(.+)$/, colorResolver('-webkit-text-stroke-color', 'text-stroke'), { autocomplete: 'text-stroke-$colors' }],
-  [/^text-stroke-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-stroke-opacity': h.bracket.percent(opacity) }), { autocomplete: 'text-stroke-(op|opacity)-<percent>' }],
+  [/^text-stroke-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-stroke-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'text-stroke-(op|opacity)-<percent>' }],
 ]
 
 export const textShadows: Rule<Theme>[] = [
@@ -139,5 +139,5 @@ export const textShadows: Rule<Theme>[] = [
 
   // colors
   [/^text-shadow-color-(.+)$/, colorResolver('--un-text-shadow-color', 'text-shadow'), { autocomplete: 'text-shadow-color-$colors' }],
-  [/^text-shadow-color-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-shadow-opacity': h.bracket.percent(opacity) }), { autocomplete: 'text-shadow-color-(op|opacity)-<percent>' }],
+  [/^text-shadow-color-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-shadow-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'text-shadow-color-(op|opacity)-<percent>' }],
 ]

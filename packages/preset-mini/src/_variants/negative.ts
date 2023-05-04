@@ -7,7 +7,7 @@ const ignoreProps = [
   /opacity|color|flex/,
 ]
 
-const negateFunctions = (value: string) => {
+function negateFunctions(value: string) {
   const match = value.match(/^(calc|clamp|max|min)\s*(\(.*)/)
   if (match) {
     const [fnBody, rest] = getComponent(match[2], '(', ')', ' ') ?? []

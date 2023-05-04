@@ -8,14 +8,16 @@ import { variantContrasts, variantMotions, variantOrientations } from './media'
 import { variantSpaceAndDivide } from './misc'
 import { placeholderModifier } from './placeholder'
 
-export const variants = (options: PresetWindOptions): Variant<Theme>[] => [
-  placeholderModifier,
-  variantSpaceAndDivide,
-  ...miniVariants(options),
-  ...variantContrasts,
-  ...variantOrientations,
-  ...variantMotions,
-  ...variantCombinators,
-  ...variantColorsScheme,
-  ...variantStickyHover,
-]
+export function variants(options: PresetWindOptions): Variant<Theme>[] {
+  return [
+    placeholderModifier,
+    variantSpaceAndDivide,
+    ...miniVariants(options),
+    ...variantContrasts,
+    ...variantOrientations,
+    ...variantMotions,
+    ...variantCombinators,
+    ...variantColorsScheme,
+    ...variantStickyHover,
+  ]
+}

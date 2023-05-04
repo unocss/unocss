@@ -10,10 +10,10 @@ npm i -D unocss @unocss/webpack
 
 <br>
 
-#### 2. Add `unocss.config.ts` in the root of your project
+#### 2. Add `uno.config.ts` in the root of your project
 
 ```ts
-// unocss.config.ts
+// uno.config.ts
 import { defineConfig, presetAttributify, presetIcons, presetUno, presetWebFonts } from 'unocss'
 
 export default defineConfig({
@@ -74,7 +74,7 @@ const Home: NextPage = () => {
   return (
     <>
       <main className="py-20 px-12 text-center flex flex-col items-center gap-20px">
-        <span text="blue 5xl hover:red" cursor="default">Nextjs</span>
+        <span text="blue 5xl hover:red" cursor="default">Next.js</span>
         <div className="i-carbon-car inline-block" text="4xl" />
         <button className="btn w-10rem">Button</button>
       </main>
@@ -85,7 +85,8 @@ const Home: NextPage = () => {
 
 <br>
 
-## Hot Module Reload 
+## Hot Module Reload
+
 To support HMR you have to opt-out of webpacks caching.
 
 ```diff
@@ -95,11 +96,7 @@ const nextConfig = {
   reactStrictMode: true,
   webpack: (config) => {
 +   config.cache = false
-    config.plugins.push(
-      UnoCSS({
-        //...
-      })
-    )
+    config.plugins.push(UnoCSS())
     return config
   }
 }
