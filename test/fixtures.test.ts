@@ -46,6 +46,21 @@ describe.concurrent('fixtures', () => {
     expect(js).contains('uno-tacwqa')
   })
 
+  it('vite legacy', async () => {
+    const root = resolve(__dirname, 'fixtures/vite-legacy')
+    await fs.emptyDir(join(root, 'dist'))
+    await build({
+      root,
+      logLevel: 'warn',
+    })
+
+    const svgs = await fg('dist/**/uno*.svg', { cwd: root, absolute: true })
+    expect(svgs.length).toBe(1)
+
+    const css = await getGlobContent(root, 'dist/**/*.css')
+    expect(css).contains('.text-red')
+  })
+
   it('vite lib', async () => {
     const root = resolve(__dirname, 'fixtures/vite-lib')
     await fs.emptyDir(join(root, 'dist'))

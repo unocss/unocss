@@ -73,6 +73,7 @@
     "@unocss/transformer-variant-group": "workspace:*",
     "@unocss/vite": "workspace:*",
     "@unocss/webpack": "workspace:*",
+    "@vitejs/plugin-legacy": "^4.0.3",
     "@vitejs/plugin-vue": "^4.1.0",
     "@vitest/ui": "^0.29.3",
     "@vueuse/core": "^9.13.0",
