@@ -194,6 +194,7 @@ Additionally, you can also use [FileSystemIconLoader](https://github.com/iconify
 // uno.config.ts
 import fs from 'node:fs/promises'
 import { defineConfig } from 'unocss'
+
 // loader helpers
 import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
 

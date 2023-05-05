@@ -62,10 +62,13 @@ When you want to have your custom CSS between layers, you can update your entry 
 ```ts
 // 'uno:[layer-name].css'
 import 'uno:components.css'
+
 // layers that are not 'components' and 'utilities' will fallback to here
 import 'uno.css'
+
 // your own CSS
 import './my-custom.css'
+
 // "utilities" layer will have the highest priority
 import 'uno:utilities.css'
 ```

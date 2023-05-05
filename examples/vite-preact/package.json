@@ -12,7 +12,7 @@
     "preact": "^10.13.2"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.24",
+    "@iconify-json/logos": "^1.1.25",
     "@preact/preset-vite": "^2.5.0",
     "@prefresh/vite": "^2.2.9",
     "@unocss/core": "link:../../packages/core",
@@ -21,6 +21,6 @@
     "cross-env": "^7.0.3",
     "typescript": "^5.0.4",
     "unocss": "link:../../packages/unocss",
-    "vite": "^4.2.1"
+    "vite": "^4.3.5"
   }
 }

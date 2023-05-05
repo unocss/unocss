@@ -8,21 +8,21 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "13.3.0",
+    "next": "13.4.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "unocss-nextjs": "link:"
   },
   "devDependencies": {
     "@iconify-json/carbon": "^1.1.16",
-    "@types/node": "18.15.11",
-    "@types/react": "18.0.33",
-    "@types/react-dom": "18.0.11",
+    "@types/node": "18.16.4",
+    "@types/react": "18.2.5",
+    "@types/react-dom": "18.2.4",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/reset": "link:../../packages/reset",
     "@unocss/webpack": "link:../../packages/webpack",
-    "eslint": "8.38.0",
-    "eslint-config-next": "13.3.0",
+    "eslint": "8.39.0",
+    "eslint-config-next": "13.4.1",
     "typescript": "5.0.4",
     "unocss": "link:../../packages/unocss"
   }

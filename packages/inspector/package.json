@@ -42,6 +42,6 @@
   },
   "dependencies": {
     "gzip-size": "^6.0.0",
-    "sirv": "^2.0.2"
+    "sirv": "^2.0.3"
   }
 }

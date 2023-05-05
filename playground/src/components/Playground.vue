@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { breakpointsTailwind } from '@vueuse/core'
+
 // @ts-expect-error missing types
 import { Pane, Splitpanes } from 'splitpanes'
 
