@@ -6,20 +6,15 @@ import type { WebFontsOptions } from '@unocss/preset-web-fonts'
 import type { TypographyOptions } from '@unocss/preset-typography'
 import type { TagifyOptions } from '@unocss/preset-tagify'
 import type { PresetWindOptions } from '@unocss/preset-wind'
+import type { VitePluginConfig } from '@unocss/vite'
 
 export interface UnocssNuxtOptions extends UserConfig {
   /**
-   * CSS Generation mode
+   * CSS Generation mode. Only work with Vite.
    *
-   * - `global` - generate a single CSS sheet for entire App
-   * - `dist-chunk` - generate a CSS sheet for each code chunk on build, great for MPA
-   * - `per-module` - generate a CSS sheet for each module, can be scoped
-   * - `vue-scoped` - inject generated CSS to Vue SFC's `<style scoped>` for isolation
-   * - `shadow-dom` - inject generated CSS to `Shadow DOM` css style block for each web component
-   *
-   * @default 'global'
+   * @see https://unocss.dev/integrations/vite#modes
    */
-  mode?: 'global' | 'per-module' | 'vue-scoped' | 'dist-chunk' | 'shadow-dom'
+  mode?: VitePluginConfig['mode']
 
   /**
    * Injecting `uno.css` entry
