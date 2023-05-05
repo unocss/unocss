@@ -4,6 +4,11 @@
   "description": "Placeholder for UnoCSS scope import",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/unocss/unocss",
+    "directory": "packages/scope"
+  },
   "exports": {
     ".": {
       "types": "./index.d.ts",
