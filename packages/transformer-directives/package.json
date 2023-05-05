@@ -4,14 +4,14 @@
   "description": "UnoCSS transformer for `@apply` directive",
   "author": "hannoeru <me@hanlee.co>",
   "license": "MIT",
-  "homepage": "https://github.com/antfu/unocss/tree/main/packages/transformer-directives#readme",
+  "homepage": "https://github.com/unocss/unocss/tree/main/packages/transformer-directives#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/antfu/unocss",
+    "url": "https://github.com/unocss/unocss",
     "directory": "packages/transformer-directives"
   },
   "bugs": {
-    "url": "https://github.com/antfu/unocss/issues"
+    "url": "https://github.com/unocss/unocss/issues"
   },
   "keywords": [
     "unocss",

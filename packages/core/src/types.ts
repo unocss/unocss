@@ -368,7 +368,7 @@ export interface ConfigBase<Theme extends {} = {}> {
    *
    * Pass `null` or `false` to disable the default extractor.
    *
-   * @see https://github.com/antfu/unocss/blob/main/packages/core/src/extractors/split.ts
+   * @see https://github.com/unocss/unocss/blob/main/packages/core/src/extractors/split.ts
    * @default import('@unocss/core').defaultExtractor
    */
   extractorDefault?: Extractor | null | false
