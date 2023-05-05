@@ -148,12 +148,12 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .bg-opacity-45{--un-bg-opacity:0.45;}
 .all-\[svg\]\:fill-red svg{--un-fill-opacity:1;fill:rgba(248,113,113,var(--un-fill-opacity));}
 .fill-\[\#123\]{--un-fill-opacity:1;fill:rgba(17,34,51,var(--un-fill-opacity));}
-.fill-\[1rem\]{fill:1rem;}
 .fill-current{fill:currentColor;}
 .fill-green-400{--un-fill-opacity:1;fill:rgba(74,222,128,var(--un-fill-opacity));}
 .fill-opacity-\$opacity-variable{--un-fill-opacity:var(--opacity-variable);}
 .fill-opacity-80{--un-fill-opacity:0.8;}
 .fill-none{fill:none;}
+.stroke-\[1rem\],
 .stroke-size-\[1rem\],
 .stroke-width-\[1rem\]{stroke-width:1rem;}
 .stroke-size-\$variable,
@@ -172,7 +172,6 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .stroke-offset-1px{stroke-dashoffset:1px;}
 .stroke-offset-none{stroke-dashoffset:0;}
 .stroke-\[\#123\]{--un-stroke-opacity:1;stroke:rgba(17,34,51,var(--un-stroke-opacity));}
-.stroke-\[1rem\]{stroke:1rem;}
 .stroke-current{stroke:currentColor;}
 .stroke-green-400{--un-stroke-opacity:1;stroke:rgba(74,222,128,var(--un-stroke-opacity));}
 .stroke-opacity-\$opacity-variable{--un-stroke-opacity:var(--opacity-variable);}
