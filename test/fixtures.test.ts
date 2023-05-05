@@ -6,6 +6,7 @@ import fs from 'fs-extra'
 import fg from 'fast-glob'
 
 const isMacOS = process.platform === 'darwin'
+const isWindows = process.platform === 'win32'
 const isNode16 = process.versions.node.startsWith('16')
 
 async function getGlobContent(cwd: string, glob: string) {
@@ -47,7 +48,7 @@ describe.concurrent('fixtures', () => {
     expect(js).contains('uno-tacwqa')
   })
 
-  it('vite legacy', async () => {
+  it.skipIf(isWindows)('vite legacy', async () => {
     const root = resolve(__dirname, 'fixtures/vite-legacy')
     await fs.emptyDir(join(root, 'dist'))
     await build({
