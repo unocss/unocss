@@ -34,12 +34,12 @@ export interface CompileClassOptions {
 
 export default function transformerCompileClass(options: CompileClassOptions = {}): SourceCodeTransformer {
   const {
-    trigger = ':uno:',
+    trigger = 'uno',
     classPrefix = 'uno-',
     hashFn = hash,
     keepUnknown = true,
   } = options
-  const regex = new RegExp(`(["'\`])${escapeRegExp(trigger)}\\s([^\\1]*?)\\1`, 'g')
+  const regex = new RegExp(`(["'\`]):${escapeRegExp(trigger)}(?:-)?([^\\1]+)?:\\s([^\\1]*?)\\1`, 'g')
 
   return {
     name: '@unocss/transformer-compile-class',
@@ -50,7 +50,7 @@ export default function transformerCompileClass(options: CompileClassOptions = {
         return
 
       for (const match of matches) {
-        let body = expandVariantGroup(match[2].trim())
+        let body = expandVariantGroup(match[3].trim())
         const start = match.index!
         const replacements = []
         if (keepUnknown) {
@@ -62,14 +62,21 @@ export default function transformerCompileClass(options: CompileClassOptions = {
         }
         if (body) {
           body = body.split(/\s+/).sort().join(' ')
-          const hash = hashFn(body)
-          const className = `${classPrefix}${hash}`
+          const className = match[2] ? `${classPrefix}${match[2]}` : `${classPrefix}${hashFn(body)}`
+
+          // FIXME: Ideally we should also check that the hash doesn't match. If the hash is the same, the same class
+          // name is allowed, as the applied styles are the same.
+          if (tokens && tokens.has(className))
+            throw new Error(`duplicate compile class name '${className}', please choose different class name`)
+
           replacements.unshift(className)
           if (options.layer)
             uno.config.shortcuts.push([className, body, { layer: options.layer }])
           else
             uno.config.shortcuts.push([className, body])
-          tokens.add(className)
+
+          if (tokens)
+            tokens.add(className)
         }
         s.overwrite(start + 1, start + match[0].length - 1, replacements.join(' '))
       }
