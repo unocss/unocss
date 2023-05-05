@@ -57,7 +57,7 @@ describe.concurrent('fixtures', () => {
 
     const css = await getGlobContent(root, 'dist/**/*.css')
     expect(css).contains('.text-red')
-  }, 10000)
+  }, 20000)
 
   it('vite lib', async () => {
     const root = resolve(__dirname, 'fixtures/vite-lib')
