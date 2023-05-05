@@ -1,6 +1,6 @@
 {
   "name": "@unocss/runtime",
-  "version": "0.51.8",
+  "version": "0.51.9",
   "description": "CSS-in-JS Runtime for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
