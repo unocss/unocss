@@ -50,10 +50,7 @@ describe.concurrent('fixtures', () => {
   it('vite legacy', async () => {
     const root = resolve(__dirname, 'fixtures/vite-legacy')
     await fs.emptyDir(join(root, 'dist'))
-    await build({
-      root,
-      logLevel: 'warn',
-    })
+    await execa('npm', ['run', 'build'], { cwd: root })
 
     const svgs = await fg('dist/**/uno*.svg', { cwd: root, absolute: true })
     expect(svgs.length).toBe(1)
