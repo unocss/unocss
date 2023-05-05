@@ -7,7 +7,7 @@
   "homepage": "https://github.com/antfu/unocss/tree/main/packages/transformer-directives#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/antfu/unocss.git",
+    "url": "https://github.com/antfu/unocss",
     "directory": "packages/transformer-directives"
   },
   "bugs": {
