@@ -163,7 +163,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         }
 
         let { css } = await generateAll()
-        const fakeCssId = `${chunk.fileName}-unocss-hash.css`
+        const fakeCssId = `${viteConfig.root}/${chunk.fileName}-unocss-hash.css`
         css = await applyCssTransform(css, fakeCssId, options.dir, this)
 
         const hash = getHash(css)
@@ -218,7 +218,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           } #--unocss-layer-end--${layer}--{end:${layer}}`,
         ).join('')
 
-        const fakeCssId = `${chunk.fileName}-unocss-hash.css`
+        const fakeCssId = `${viteConfig.root}/${chunk.fileName}-unocss-hash.css`
         const css = await applyCssTransform(cssWithLayers, fakeCssId, options.dir, this)
         const transformHandler = 'handler' in cssPost.transform!
           ? cssPost.transform.handler

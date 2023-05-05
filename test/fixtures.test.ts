@@ -50,14 +50,17 @@ describe.concurrent('fixtures', () => {
   it('vite legacy', async () => {
     const root = resolve(__dirname, 'fixtures/vite-legacy')
     await fs.emptyDir(join(root, 'dist'))
-    await execa('npm', ['run', 'build'], { cwd: root })
+    await build({
+      root,
+      logLevel: 'warn',
+    })
 
     const svgs = await fg('dist/assets/uno-*.svg', { cwd: root, absolute: true })
     expect(svgs).toHaveLength(1)
 
     const css = await getGlobContent(root, 'dist/**/*.css')
     expect(css).contains('.text-red')
-  }, 20000)
+  }, 15000)
 
   it('vite lib', async () => {
     const root = resolve(__dirname, 'fixtures/vite-lib')
