@@ -26,8 +26,8 @@ describe('transform', () => {
     safelist: [safelistClassToSkip],
   })
 
-  async function transform(code: string, { combine = true, format = true } = {}) {
-    const transformed = (await transformClasses({ code, filename: 'Foo.svelte', uno, options: { combine } }))?.code
+  async function transform(content: string, { combine = true, format = true } = {}) {
+    const transformed = (await transformClasses({ content, filename: 'Foo.svelte', uno, options: { combine } }))?.code
     if (transformed && format) {
       return prettier(transformed, {
         parser: 'svelte',
@@ -101,18 +101,18 @@ describe('transform', () => {
   it('wraps parent and child dependent classes like rtl: and space-x-1 with :global() wrapper', async () => {
     const code = '<div class="mb-1 text-sm rtl:right-0 space-x-1" />'
     expect(await transform(code)).toMatchInlineSnapshot(`
-      "<div class=\\"uno-795nkx\\" />
+      "<div class=\\"uno-tlm2ul\\" />
 
       <style>
-        :global([dir=\\"rtl\\"] .uno-795nkx) {
+        :global([dir=\\"rtl\\"] .uno-tlm2ul) {
           right: 0;
         }
-        :global(.uno-795nkx) {
+        :global(.uno-tlm2ul) {
           margin-bottom: 0.25rem;
           font-size: 0.875rem;
           line-height: 1.25rem;
         }
-        :global(.uno-795nkx > :not([hidden]) ~ :not([hidden])) {
+        :global(.uno-tlm2ul > :not([hidden]) ~ :not([hidden])) {
           --un-space-x-reverse: 0;
           margin-left: calc(0.25rem * calc(1 - var(--un-space-x-reverse)));
           margin-right: calc(0.25rem * var(--un-space-x-reverse));
@@ -122,7 +122,7 @@ describe('transform', () => {
     `)
     expect(await transform(code, { combine: false })).toMatchInlineSnapshot(`
       "<div
-        class=\\"_mb-1_7dkb0w _rtl:right-0_7dkb0w _space-x-1_7dkb0w _text-sm_7dkb0w\\"
+        class=\\"_mb-1_7dkb0w _text-sm_7dkb0w _rtl:right-0_7dkb0w _space-x-1_7dkb0w\\"
       />
 
       <style>
@@ -166,10 +166,11 @@ describe('transform', () => {
     `)
   })
 
-  it('order of utility classes does not affect output', async () => {
-    const order1CSS = await transform('<div class="flex bg-blue-400 my-awesome-class font-bold"></div>')
-    const order2CSS = await transform('<div class="my-awesome-class bg-blue-400  font-bold flex"></div>')
-    expect(order1CSS).toBe(order2CSS)
+  it('order of utility classes does not styles output (though hash will be different)', async () => {
+    const order1 = await transform('<div class="flex bg-blue-400 my-awesome-class font-bold"></div>')
+    const order2 = await transform('<div class="my-awesome-class bg-blue-400  font-bold flex"></div>')
+    const extractCss = (css: string) => css.match(/{([^}]*)}/)![1]
+    expect(extractCss(order1!)).toEqual(extractCss(order2!))
   })
 
   it(':global() properly handles @media queries', async () => {
@@ -242,7 +243,7 @@ describe('transform', () => {
   })
 
   it('handles classes in inline conditionals', async () => {
-    // people should probably write this as `class:text-red-600={err} class:text-green-600={!err} etc...` but people commonly use inline conditionals complex situations as demoed in this test and we should support them if we want this to be an easy migration from other Tailwind based tools.
+    // writing `class:text-red-600={err} class:text-green-600={!err}` is best practice but people commonly use inline conditionals as demoed in this test and supporting them makes for an easier migration from a normal global Uno stylesheet usage or other Tailwind based tools.
     const result = await transform(`
     <span class="font-bold {bar ? 'text-red-600' : 'text-(green-500 blue-400) font-semibold boo'} underline foo {baz ? 'italic ' : ''}">Hello</span>`.trim())
     expect(result).toMatchInlineSnapshot(`
@@ -289,20 +290,20 @@ describe('transform', () => {
   it('in dev, when it only hashes but does not combine, handles classes that fail when coming at the beginning of a shortcut name', async () => {
     const code = '<div class="mb-1 !mt-2 md:mr-3 space-x-1" />'
     expect(await transform(code)).toMatchInlineSnapshot(`
-      "<div class=\\"uno-8mjgqp\\" />
+      "<div class=\\"uno-83is87\\" />
 
       <style>
-        :global(.uno-8mjgqp) {
-          margin-top: 0.5rem !important;
+        :global(.uno-83is87) {
           margin-bottom: 0.25rem;
+          margin-top: 0.5rem !important;
         }
-        :global(.uno-8mjgqp > :not([hidden]) ~ :not([hidden])) {
+        :global(.uno-83is87 > :not([hidden]) ~ :not([hidden])) {
           --un-space-x-reverse: 0;
           margin-left: calc(0.25rem * calc(1 - var(--un-space-x-reverse)));
           margin-right: calc(0.25rem * var(--un-space-x-reverse));
         }
         @media (min-width: 768px) {
-          :global(.uno-8mjgqp) {
+          :global(.uno-83is87) {
             margin-right: 0.75rem;
           }
         }
@@ -310,7 +311,7 @@ describe('transform', () => {
       "
     `)
     expect(await transform(code, { combine: false })).toMatchInlineSnapshot(`
-      "<div class=\\"_!mt-2_7dkb0w _mb-1_7dkb0w _md:mr-3_7dkb0w _space-x-1_7dkb0w\\" />
+      "<div class=\\"_mb-1_7dkb0w _!mt-2_7dkb0w _md:mr-3_7dkb0w _space-x-1_7dkb0w\\" />
 
       <style>
         :global(._\\\\!mt-2_7dkb0w) {

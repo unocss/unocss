@@ -1,8 +1,11 @@
-interface FoundClass {
+export interface FoundClass {
   body: string
   start: number
   end: number
+  type: ClassForms
 }
+
+type ClassForms = 'regular' | 'directive' | 'directiveShorthand'
 
 const classesRE = /class=(["'\`])([\S\s]*?)\1/g // class="mb-1"
 const classDirectivesRE = /class:([\S]+?)={/g // class:mb-1={foo}
@@ -13,21 +16,22 @@ export function findClasses(code: string) {
   const matchedClassDirectives = [...code.matchAll(classDirectivesRE)]
   const matchedClassDirectivesShorthand = [...code.matchAll(classDirectivesShorthandRE)]
 
-  const classes = parseMatches(matchedClasses, 2, 'class="'.length)
-  const classDirectives = parseMatches(matchedClassDirectives, 1, 'class:'.length)
-  const classDirectivesShorthand = parseMatches(matchedClassDirectivesShorthand, 1, 'class:'.length)
+  const classes = parseMatches(matchedClasses, 'regular', 'class="'.length)
+  const classDirectives = parseMatches(matchedClassDirectives, 'directive', 'class:'.length)
+  const classDirectivesShorthand = parseMatches(matchedClassDirectivesShorthand, 'directiveShorthand', 'class:'.length)
 
-  return { classes, classDirectives, classDirectivesShorthand }
+  return [...classes, ...classDirectives, ...classDirectivesShorthand]
 }
 
-function parseMatches(matches: RegExpMatchArray[], bodyCapturingGroup: number, prefixLength: number) {
+function parseMatches(matches: RegExpMatchArray[], type: ClassForms, prefixLength: number) {
   return matches.map((match) => {
-    const body = match[bodyCapturingGroup]
+    const body = match[type === 'regular' ? 2 : 1]
     const start = match.index! + prefixLength
     return {
       body: body.trim(),
       start,
       end: start + body.length,
+      type,
     }
   }).filter(hasBody)
 }
@@ -40,12 +44,13 @@ if (import.meta.vitest) {
   describe('findClasses', () => {
     it('returns body, start, and end for basic class', () => {
       const code = '<span class="mb-1 pr-2 " />'
-      const result = findClasses(code).classes
+      const result = findClasses(code)
       const expected: FoundClass[] = [
         {
           body: 'mb-1 pr-2',
           start: 13,
           end: 23,
+          type: 'regular',
         },
       ]
       expect(result).toEqual(expected)
@@ -53,12 +58,13 @@ if (import.meta.vitest) {
 
     it('ignores empty classes', () => {
       const code = '<div class="" /><div class="mb-1" />'
-      const result = findClasses(code).classes
+      const result = findClasses(code)
       const expected: FoundClass[] = [
         {
           body: 'mb-1',
           start: 28,
           end: 32,
+          type: 'regular',
         },
       ]
       expect(result).toEqual(expected)
@@ -66,12 +72,13 @@ if (import.meta.vitest) {
 
     it('classDirectives', () => {
       const code = '<span class:mb-1={foo} />'
-      const result = findClasses(code).classDirectives
+      const result = findClasses(code)
       const expected: FoundClass[] = [
         {
           body: 'mb-1',
           start: 12,
           end: 16,
+          type: 'directive',
         },
       ]
       expect(result).toEqual(expected)
@@ -79,12 +86,13 @@ if (import.meta.vitest) {
 
     it('classDirectivesShorthand', () => {
       const code = '<span class:logo />'
-      const result = findClasses(code).classDirectivesShorthand
+      const result = findClasses(code)
       const expected: FoundClass[] = [
         {
           body: 'logo',
           start: 12,
           end: 16,
+          type: 'directiveShorthand',
         },
       ]
       expect(result).toEqual(expected)

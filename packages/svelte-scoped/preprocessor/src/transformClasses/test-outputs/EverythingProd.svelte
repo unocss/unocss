@@ -1,9 +1,9 @@
-<div class="uno-o8l1as" />
+<div class="uno-uovm2y" />
 <div class:logo class="foo bar" />
 <div class:uno-y37ej3={foo} class="shortcut" />
 
-<div class="uno-opam79 foo">
-  <div class="uno-deus5r" />
+<div class="uno-rdvmaz foo">
+  <div class="uno-wt89uz" />
   <Button class="uno-deus5r" />
 </div>
 
@@ -22,7 +22,7 @@
   :global(.shortcut) {
     width: 1.25rem;
   }
-  :global(.uno-o8l1as) {
+  :global(.uno-uovm2y) {
     --un-scale-x: 0.05;
     --un-scale-y: 0.05;
     transform: translateX(var(--un-translate-x))
@@ -34,26 +34,26 @@
     --un-bg-opacity: 1;
     background-color: rgba(239, 68, 68, var(--un-bg-opacity));
   }
-  :global(.uno-opam79 > :not([hidden]) ~ :not([hidden])) {
+  :global(.uno-rdvmaz > :not([hidden]) ~ :not([hidden])) {
     --un-space-x-reverse: 0;
     margin-left: calc(0.25rem * calc(1 - var(--un-space-x-reverse)));
     margin-right: calc(0.25rem * var(--un-space-x-reverse));
   }
-  :global([dir="rtl"] .uno-opam79 > :not([hidden]) ~ :not([hidden])) {
+  :global([dir="rtl"] .uno-rdvmaz > :not([hidden]) ~ :not([hidden])) {
     --un-space-x-reverse: 1;
   }
-  :global(.dark .uno-o8l1as:hover) {
+  :global(.dark .uno-uovm2y:hover) {
     --un-bg-opacity: 1;
     background-color: rgba(34, 197, 94, var(--un-bg-opacity));
   }
-  :global(.uno-opam79) {
+  :global(.uno-rdvmaz) {
     text-align: center;
   }
-  :global(.uno-deus5r) {
+  :global(.uno-deus5r, .uno-wt89uz) {
     font-size: 0.875rem;
     line-height: 1.25rem;
   }
-  :global(.uno-deus5r:hover) {
+  :global(.uno-deus5r:hover, .uno-wt89uz:hover) {
     --un-text-opacity: 1;
     color: rgba(248, 113, 113, var(--un-text-opacity));
   }
@@ -62,13 +62,13 @@
     color: rgba(251, 146, 60, var(--un-text-opacity));
   }
   @media (min-width: 640px) {
-    :global(.uno-opam79) {
+    :global(.uno-rdvmaz) {
       text-align: left;
     }
-    :global([dir="rtl"] .uno-opam79) {
+    :global([dir="rtl"] .uno-rdvmaz) {
       text-align: right;
     }
-    :global(.uno-o8l1as) {
+    :global(.uno-uovm2y) {
       font-size: 1.25rem;
       line-height: 1.75rem;
     }

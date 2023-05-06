@@ -1,13 +1,13 @@
 <div
-  class="_bg-red-500_7dkb0w _dark:hover:bg-green-500_7dkb0w _scale-5_7dkb0w _sm:text-xl_7dkb0w _transform_7dkb0w"
+  class="_bg-red-500_7dkb0w _sm:text-xl_7dkb0w _dark:hover:bg-green-500_7dkb0w _transform_7dkb0w _scale-5_7dkb0w"
 />
 <div class:logo class="foo bar" />
 <div class:_text-orange-400_7dkb0w={foo} class="shortcut" />
 
 <div
-  class="_rtl:sm:text-right_7dkb0w _rtl:space-x-reverse_7dkb0w _sm:text-left_7dkb0w _space-x-1_7dkb0w _text-center_7dkb0w foo"
+  class="_text-center_7dkb0w _sm:text-left_7dkb0w _rtl:sm:text-right_7dkb0w _space-x-1_7dkb0w _rtl:space-x-reverse_7dkb0w foo"
 >
-  <div class="_hover:text-red_7dkb0w _text-sm_7dkb0w" />
+  <div class="_text-sm_7dkb0w _hover:text-red_7dkb0w" />
   <Button class="_hover:text-red_7dkb0w _text-sm_7dkb0w" />
 </div>
 

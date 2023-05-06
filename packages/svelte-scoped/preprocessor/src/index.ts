@@ -17,7 +17,7 @@ export default function UnocssSveltePreprocess(options: UnocssSveltePreprocessOp
       if (!uno)
         uno = await init(options.configOrPath)
 
-      return await transformClasses({ code: content, filename: filename || '', uno, options })
+      return await transformClasses({ content, filename: filename || '', uno, options })
     },
 
     style: async ({ content }) => {
