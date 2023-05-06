@@ -1,4 +1,4 @@
-import type { ResolvedConfig, StringifiedUtil, UnoGenerator } from '@unocss/core'
+import type { GenerateResult, ResolvedConfig, StringifiedUtil, UnoGenerator } from '@unocss/core'
 
 const mockClasses = ['mb-1', 'mr-1', 'font-bold', 'text-lg', 'text-red-600', 'text-green-600', 'italic']
 
@@ -28,4 +28,5 @@ export const unoMock: UnoGenerator = {
       return [util]
     return undefined
   },
+  generate: async (selectors: string[]) => { return { css: selectors.join('') } as GenerateResult },
 }

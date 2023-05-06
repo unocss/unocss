@@ -4,7 +4,7 @@
     "types": [
       "vite/client",
       "vitest/globals",
-      "vitest/importMeta",
+      "vitest/importMeta"
     ]
   }
 }

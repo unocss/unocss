@@ -38,7 +38,8 @@
   ],
   "scripts": {
     "build": "unbuild",
-    "stub": "unbuild --stub"
+    "stub": "unbuild --stub",
+    "bench": "vitest bench"
   },
   "dependencies": {
     "@unocss/config": "workspace:*",
