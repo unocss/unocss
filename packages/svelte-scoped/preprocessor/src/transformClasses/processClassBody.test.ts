@@ -1,46 +1,7 @@
-import type { ResolvedConfig, StringifiedUtil, UnoGenerator } from '@unocss/core'
 import type { FoundClass } from './findClasses'
 import type { ProcessResult } from './processClasses'
 import { processClassBody } from './processClassBody'
-
-const utils: StringifiedUtil<{}>[] = [
-  [
-    1,
-    'mb-1',
-    'margin-bottom: 0.25rem',
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-  ],
-  [
-    2,
-    'mr-1',
-    'margin-right: 0.25rem',
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-  ],
-]
-
-const shortcutName = 'my-shortcut'
-// @ts-expect-error config not being fully fleshed out
-const config: ResolvedConfig = {
-  safelist: [],
-  shortcuts: [[shortcutName, 'px-1']],
-}
-
-// @ts-expect-error generator not being fully fleshed out
-const unoMock: UnoGenerator = {
-  config,
-  parseToken: async (token: string) => {
-    const util = utils.find(([, name]) => name === token)
-    if (util)
-      return [util]
-    return undefined
-  },
-}
+import { shortcutName, unoMock } from './unoMock'
 
 describe('processClassBody', () => {
   describe('handles two simples classes and an unknown', () => {

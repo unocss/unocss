@@ -248,17 +248,17 @@ describe('transform', () => {
     <span class="font-bold {bar ? 'text-red-600' : 'text-(green-500 blue-400) font-semibold boo'} underline foo {baz ? 'italic ' : ''}">Hello</span>`.trim())
     expect(result).toMatchInlineSnapshot(`
       "<span
-        class=\\"uno-r4l94t {bar ? 'uno-ffvc5a' : 'uno-24bnl1 boo'} foo {baz
+        class=\\"uno-r4l94t foo {bar ? 'uno-ffvc5a' : 'uno-3h14cd boo'} {baz
           ? 'uno-br1nw8'
           : ''}\\">Hello</span
       >
 
       <style>
-        :global(.uno-24bnl1) {
+        :global(.uno-3h14cd) {
           font-weight: 600;
           --un-text-opacity: 1;
-          color: rgba(96, 165, 250, var(--un-text-opacity));
           color: rgba(34, 197, 94, var(--un-text-opacity));
+          color: rgba(96, 165, 250, var(--un-text-opacity));
         }
         :global(.uno-r4l94t) {
           font-weight: 700;

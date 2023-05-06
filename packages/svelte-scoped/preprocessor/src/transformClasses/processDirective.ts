@@ -5,6 +5,7 @@ import { needsGenerated } from './needsGenerated'
 import { generateClassName } from './generateClassName'
 import type { ProcessResult } from './processClasses'
 import { isShortcut } from './isShortcut'
+import { shortcutName, unoMock } from './unoMock'
 
 export async function processDirective(
   { body: token, start, end, type }: FoundClass,
@@ -33,14 +34,6 @@ export async function processDirective(
 if (import.meta.vitest) {
   describe('processDirective', () => {
     test('ignores non-utility', async () => {
-      const unoMock: UnoGenerator = {
-        config: {
-          safelist: [],
-          shortcuts: [],
-        },
-        parseToken: async () => undefined,
-      }
-
       const classToIgnore: FoundClass = {
         body: 'foo',
         start: 0,
@@ -51,32 +44,16 @@ if (import.meta.vitest) {
     })
 
     test('shortcut', async () => {
-      const unoMock: UnoGenerator = {
-        config: {
-          safelist: [],
-          shortcuts: [{ 0: 'foo' }],
-        },
-        parseToken: async () => undefined,
-      }
-
       const shortcut: FoundClass = {
-        body: 'foo',
+        body: shortcutName,
         start: 0,
         end: 3,
         type: 'directive',
       }
-      expect(await processDirective(shortcut, {}, unoMock, 'Foo.svelte')).toEqual({ shortcuts: ['foo'] })
+      expect(await processDirective(shortcut, {}, unoMock, 'Foo.svelte')).toEqual({ shortcuts: [shortcutName] })
     })
 
     test('handles directive', async () => {
-      const unoMock: UnoGenerator = {
-        config: {
-          safelist: [],
-          shortcuts: [],
-        },
-        parseToken: async () => [{ 0: '', 1: ['mb-1'] }],
-      }
-
       const foundClass: FoundClass = {
         body: 'mb-1',
         start: 13,
