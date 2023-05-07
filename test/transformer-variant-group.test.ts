@@ -14,11 +14,13 @@ describe('transformer-variant-group', () => {
     const cases = [
       'bg-white font-light sm:hover:(bg-gray-100 font-medium)',
       'lt-sm:hover:(p-1 p-2)',
+      '<sm:hover:(p-1 p-2)',
       'sm:(p-1 p-2)',
       'dark:lg:(p-1 p-2)',
       'at-lg:(p-1 p-2)',
       'md:(w-40vw pr-4.5rem)',
       'lt-md:(grid grid-cols-[1fr,50%])',
+      '<md:(grid grid-cols-[1fr,50%])',
       '!hover:(m-2 p-2)',
       'hover:(!m-2 p-2)',
       'md:(w-1/2 h-[calc(100%-4rem)])',
@@ -52,6 +54,7 @@ describe('transformer-variant-group', () => {
       <template>
         <div class=\\"bg-white font-light sm:hover:bg-gray-100 sm:hover:font-medium\\" />
         <div class=\\"lt-sm:hover:p-1 lt-sm:hover:p-2\\" />
+        <div class=\\"<sm:p-1 <sm:p-2\\" />
         <div class=\\"sm:p-1 sm:p-2\\" />
         <div class=\\"dark:lg:p-1 dark:lg:p-2\\" />
         <div class=\\"hover:bg-red hover:text-green hover:dark:bg-cyan hover:dark:text-pink\\" />
