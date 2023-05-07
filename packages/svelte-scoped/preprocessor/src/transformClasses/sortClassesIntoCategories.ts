@@ -5,23 +5,19 @@ import { needsGenerated } from './needsGenerated'
 import { generateClassName } from './generateClassName'
 import type { ProcessResult } from './processClasses'
 
-export async function sortClassesIntoCategories(body: string, uno: UnoGenerator<{}>, options: TransformClassesOptions, filename: string) {
+export async function sortClassesIntoCategories(body: string, options: TransformClassesOptions, uno: UnoGenerator<{}>, filename: string) {
   const { combine = true } = options
 
   const rulesToGenerate: ProcessResult['rulesToGenerate'] = {}
-  const shortcuts: ProcessResult['shortcuts'] = []
   const ignore: string[] = []
 
   const classes = body.trim().split(/\s+/)
   const knownClassesToCombine: string[] = []
 
   for (const token of classes) {
-    if (isShortcut(token, uno.config.shortcuts)) {
-      shortcuts.push(token)
-      continue
-    }
+    const isShortcutOrUtility = isShortcut(token, uno.config.shortcuts) || await needsGenerated(token, uno)
 
-    if (!await needsGenerated(token, uno)) {
+    if (!isShortcutOrUtility) {
       ignore.push(token)
       continue
     }
@@ -40,5 +36,5 @@ export async function sortClassesIntoCategories(body: string, uno: UnoGenerator<
     rulesToGenerate[generatedClassName] = knownClassesToCombine
   }
 
-  return { rulesToGenerate, shortcuts, ignore }
+  return { rulesToGenerate, ignore }
 }

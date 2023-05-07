@@ -13,10 +13,8 @@ export async function processDirective(
   uno: UnoGenerator,
   filename: string,
 ): Promise<Partial<ProcessResult> | undefined> {
-  if (isShortcut(token, uno.config.shortcuts))
-    return { shortcuts: [token] }
-
-  if (!await needsGenerated(token, uno))
+  const isShortcutOrUtility = isShortcut(token, uno.config.shortcuts) || await needsGenerated(token, uno)
+  if (!isShortcutOrUtility)
     return
 
   const generatedClassName = generateClassName(token, options, filename)
@@ -50,7 +48,7 @@ if (import.meta.vitest) {
         end: 3,
         type: 'directive',
       }
-      expect(await processDirective(shortcut, {}, unoMock, 'Foo.svelte')).toEqual({ shortcuts: [shortcutName] })
+      expect((await processDirective(shortcut, {}, unoMock, 'Foo.svelte'))!.rulesToGenerate).toEqual({ 'uno-jryqbp': [shortcutName] })
     })
 
     test('handles directive', async () => {

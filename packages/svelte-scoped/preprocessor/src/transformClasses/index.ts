@@ -13,15 +13,14 @@ export async function transformClasses({ content, filename, uno, options }: { co
   if (!classesToProcess.length)
     return
 
-  const { rulesToGenerate, codeUpdates, shortcuts } = await processClasses(classesToProcess, options, uno, filename)
-  if (!Object.keys(rulesToGenerate).length && !shortcuts.length)
+  const { rulesToGenerate, codeUpdates } = await processClasses(classesToProcess, options, uno, filename)
+  if (!Object.keys(rulesToGenerate).length)
     return
 
   const { map, code } = updateTemplateCodeIfNeeded(codeUpdates, content, filename)
 
-  const styles = await generateStyles(uno, rulesToGenerate, shortcuts)
-
-  const codeWithGeneratedStyles = addGeneratedStylesIntoStyleBlock(code, styles)
+  const generatedStyles = await generateStyles(rulesToGenerate, uno)
+  const codeWithGeneratedStyles = addGeneratedStylesIntoStyleBlock(code, generatedStyles)
 
   return {
     code: codeWithGeneratedStyles,
@@ -46,13 +45,13 @@ function updateTemplateCodeIfNeeded(codeUpdates: ProcessResult['codeUpdate'][], 
 
 const removeCommentsToMakeGlobalWrappingEasy = true
 
-async function generateStyles(uno: UnoGenerator<{}>, rulesToGenerate: ProcessResult['rulesToGenerate'], shortcuts: string[]) {
+async function generateStyles(rulesToGenerate: ProcessResult['rulesToGenerate'], uno: UnoGenerator<{}>) {
   const originalShortcuts = uno.config.shortcuts
 
   const shortcutsForThisComponent = Object.entries(rulesToGenerate)
   uno.config.shortcuts = [...originalShortcuts, ...shortcutsForThisComponent]
 
-  const selectorsToGenerate = [...Object.keys(rulesToGenerate), ...shortcuts]
+  const selectorsToGenerate = Object.keys(rulesToGenerate)
   const { css } = await uno.generate(selectorsToGenerate,
     {
       preflights: false,

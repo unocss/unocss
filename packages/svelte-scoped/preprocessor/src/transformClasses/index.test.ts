@@ -63,34 +63,35 @@ describe('transform', () => {
     `)
   })
 
-  it('does not change shortcut names', async () => {
+  it('also hashes shortcut names', async () => {
     const code = `
     <div class="shortcut mb-1 foo" />
     <div class:shortcut />
     `.trim()
     expect(await transform(code)).toMatchInlineSnapshot(`
-      "<div class=\\"uno-2se4c1 shortcut foo\\" />
-      <div class:shortcut />
+      "<div class=\\"uno-azh9r1 foo\\" />
+      <div class:uno-4cfcv2={shortcut} />
 
       <style>
-        :global(.uno-2se4c1) {
+        :global(.uno-azh9r1) {
           margin-bottom: 0.25rem;
+          width: 1.25rem;
         }
-        :global(.shortcut) {
+        :global(.uno-4cfcv2) {
           width: 1.25rem;
         }
       </style>
       "
     `)
     expect(await transform(code, { combine: false })).toMatchInlineSnapshot(`
-      "<div class=\\"_mb-1_7dkb0w shortcut foo\\" />
-      <div class:shortcut />
+      "<div class=\\"_shortcut_7dkb0w _mb-1_7dkb0w foo\\" />
+      <div class:_shortcut_7dkb0w={shortcut} />
 
       <style>
         :global(._mb-1_7dkb0w) {
           margin-bottom: 0.25rem;
         }
-        :global(.shortcut) {
+        :global(._shortcut_7dkb0w) {
           width: 1.25rem;
         }
       </style>

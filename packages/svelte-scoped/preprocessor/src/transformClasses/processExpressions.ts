@@ -5,14 +5,12 @@ import { sortClassesIntoCategories } from './sortClassesIntoCategories'
 import { shortcutName, unoMock } from './unoMock'
 
 const expressionsRE = /{[^{}]+?}/g // { foo ? 'mt-1' : 'mt-2'}
-const classesRE = /'([\S\s]+?)'/g // 'mt-1 mr-1'
-// Not supporting usage of backticks or double quotes inside inline conditionals /(["'\`])([\S\s]+?)\1/g
+const classesRE = /(["'\`])([\S\s]+?)\1/g // 'mt-1 mr-1'
 
 export async function processExpressions(body: string, options: TransformClassesOptions,
   uno: UnoGenerator,
   filename: string) {
   const rulesToGenerate: ProcessResult['rulesToGenerate'] = {}
-  let shortcuts: ProcessResult['shortcuts'] = []
   const updatedExpressions: string[] = []
   let restOfBody = body
 
@@ -21,31 +19,28 @@ export async function processExpressions(body: string, options: TransformClasses
     restOfBody = restOfBody.replace(expression, '').trim()
     const classes = [...expression.matchAll(classesRE)]
 
-    for (const [withQuotes, withoutQuotes] of classes) {
-      const { rulesToGenerate: rulesFromExpression, shortcuts: shortcutsFromExpression, ignore } = await sortClassesIntoCategories(withoutQuotes, uno, options, filename)
+    for (const [withQuotes, quoteMark, withoutQuotes] of classes) {
+      const { rulesToGenerate: rulesFromExpression, ignore } = await sortClassesIntoCategories(withoutQuotes, options, uno, filename)
       Object.assign(rulesToGenerate, rulesFromExpression)
 
-      shortcuts = [...shortcuts, ...shortcutsFromExpression]
-
       const updatedClasses = Object.keys(rulesFromExpression)
-        .concat(shortcutsFromExpression)
         .concat(ignore)
         .join(' ')
 
-      expression = expression.replace(withQuotes, `'${updatedClasses}'`)
+      expression = expression.replace(withQuotes, quoteMark + updatedClasses + quoteMark)
     }
 
     updatedExpressions.push(expression)
   }
 
-  return { rulesToGenerate, shortcuts, updatedExpressions, restOfBody }
+  return { rulesToGenerate, updatedExpressions, restOfBody }
 }
 
 if (import.meta.vitest) {
   describe('processExpressions', () => {
     const body = `font-bold {bar ? 'text-red-600' : 'text-green-600 ${shortcutName} text-lg boo'} underline foo {baz ? 'italic ' : ''}`
 
-    test.only('combined', async () => {
+    test('combined', async () => {
       expect(await processExpressions(body, {}, unoMock, 'Foo.svelte')).toMatchInlineSnapshot(`
         {
           "restOfBody": "font-bold  underline foo",
@@ -56,16 +51,14 @@ if (import.meta.vitest) {
             "uno-ffvc5a": [
               "text-red-600",
             ],
-            "uno-qqh05x": [
+            "uno-oaete6": [
               "text-green-600",
+              "my-shortcut",
               "text-lg",
             ],
           },
-          "shortcuts": [
-            "my-shortcut",
-          ],
           "updatedExpressions": [
-            "{bar ? 'uno-ffvc5a' : 'uno-qqh05x my-shortcut boo'}",
+            "{bar ? 'uno-ffvc5a' : 'uno-oaete6 boo'}",
             "{baz ? 'uno-br1nw8' : ''}",
           ],
         }
@@ -75,10 +68,13 @@ if (import.meta.vitest) {
     test('uncombined', async () => {
       expect(await processExpressions(body, { combine: false }, unoMock, 'Foo.svelte')).toMatchInlineSnapshot(`
         {
-          "restOfBody": "font-bold  underline foo ",
+          "restOfBody": "font-bold  underline foo",
           "rulesToGenerate": {
             "_italic_7dkb0w": [
               "italic",
+            ],
+            "_my-shortcut_7dkb0w": [
+              "my-shortcut",
             ],
             "_text-green-600_7dkb0w": [
               "text-green-600",
@@ -90,11 +86,8 @@ if (import.meta.vitest) {
               "text-red-600",
             ],
           },
-          "shortcuts": [
-            "my-shortcut",
-          ],
           "updatedExpressions": [
-            "{bar ? '_text-red-600_7dkb0w' : '_text-green-600_7dkb0w _text-lg_7dkb0w my-shortcut boo'}",
+            "{bar ? '_text-red-600_7dkb0w' : '_text-green-600_7dkb0w _my-shortcut_7dkb0w _text-lg_7dkb0w boo'}",
             "{baz ? '_italic_7dkb0w' : ''}",
           ],
         }

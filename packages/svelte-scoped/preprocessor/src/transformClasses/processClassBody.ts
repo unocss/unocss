@@ -15,21 +15,15 @@ export async function processClassBody(
 ): Promise<Partial<ProcessResult>> {
   const expandedBody = expandVariantGroup(body)
 
-  const { restOfBody, updatedExpressions, rulesToGenerate: rulesFromExpressions, shortcuts: shortcutsFromExpressions } = await processExpressions(expandedBody, options, uno, filename)
+  const { rulesToGenerate: rulesFromExpressions, restOfBody, updatedExpressions } = await processExpressions(expandedBody, options, uno, filename)
+  const { rulesToGenerate: rulesFromRegularClasses, ignore } = await sortClassesIntoCategories(restOfBody, options, uno, filename)
 
-  const { rulesToGenerate: normalRules, shortcuts: normalShortcuts, ignore } = await sortClassesIntoCategories(restOfBody, uno, options, filename)
+  const rulesToGenerate = { ...rulesFromExpressions, ...rulesFromRegularClasses }
 
-  const rulesToGenerate = { ...rulesFromExpressions, ...normalRules }
-  const shortcuts = [...shortcutsFromExpressions, ...normalShortcuts]
-
-  if (!Object.keys(rulesToGenerate).length) {
-    if (shortcuts.length)
-      return { shortcuts }
+  if (!Object.keys(rulesToGenerate).length)
     return {}
-  }
 
-  const content = Object.keys(normalRules)
-    .concat(normalShortcuts)
+  const content = Object.keys(rulesFromRegularClasses)
     .concat(ignore)
     .concat(updatedExpressions)
     .join(' ')
@@ -40,5 +34,5 @@ export async function processClassBody(
     end,
   }
 
-  return { rulesToGenerate, shortcuts, codeUpdate }
+  return { rulesToGenerate, codeUpdate }
 }

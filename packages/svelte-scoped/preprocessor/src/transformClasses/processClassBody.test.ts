@@ -23,7 +23,6 @@ describe('processClassBody', () => {
           start: 13,
           end: 17,
         },
-        shortcuts: [],
       }
 
       expect(await processClassBody(foundClass, { combine: false }, unoMock, 'Foo.svelte')).toEqual(expected)
@@ -39,7 +38,6 @@ describe('processClassBody', () => {
           start: 13,
           end: 17,
         },
-        shortcuts: [],
       }
 
       expect(await processClassBody(foundClass, { combine: true }, unoMock, 'Foo.svelte')).toEqual(expected)
@@ -73,6 +71,6 @@ describe('processClassBody', () => {
       end: 3,
       type: 'regular',
     }
-    expect(await processClassBody(shortcut, {}, unoMock, 'Foo.svelte')).toEqual({ shortcuts: [shortcutName] })
+    expect((await processClassBody(shortcut, {}, unoMock, 'Foo.svelte'))!.rulesToGenerate).toEqual({ 'uno-jryqbp': [shortcutName] })
   })
 })
