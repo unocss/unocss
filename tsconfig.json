@@ -13,7 +13,9 @@
     "jsx": "preserve",
     "types": [
       "node",
-      "vite/client"
+      "vite/client",
+      "vitest/globals",
+      "vitest/importMeta"
     ],
     "paths": {
       "@unocss/autocomplete": ["./packages/autocomplete/src/index.ts"],
