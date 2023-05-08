@@ -28,3 +28,26 @@ export function notNull<T>(value: T | null | undefined): value is T {
 }
 
 export function noop() {}
+
+export interface Colors {
+  [key: string]: Colors & { DEFAULT?: string } | string
+}
+
+export function assignDefaultToColors(colors: Colors): void {
+  Object.values(colors).forEach((color) => {
+    if (typeof color !== 'string' && color !== undefined)
+      color.DEFAULT = color.DEFAULT || color[400] as string
+  })
+}
+
+export function assignShortcutsToColors(colors: Colors): void {
+  Object.values(colors).forEach((color) => {
+    if (typeof color !== 'string' && color !== undefined) {
+      Object.keys(color).forEach((key) => {
+        const short = +key / 100
+        if (short === Math.round(short) && color[short] === undefined)
+          color[short] = color[key]
+      })
+    }
+  })
+}
