@@ -19,6 +19,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     configKey: 'unocss',
   },
   defaults: {
+    mode: 'global',
     autoImport: true,
     preflight: false,
     components: true,
@@ -78,7 +79,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
 
     nuxt.hook('vite:extend', ({ config }) => {
       config.plugins = config.plugins || []
-      config.plugins.unshift(...VitePlugin({}, unoConfig))
+      config.plugins.unshift(...VitePlugin({ mode: options.mode }, unoConfig))
     })
 
     if (nuxt.options.dev) {

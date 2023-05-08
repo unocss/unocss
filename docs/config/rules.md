@@ -63,7 +63,7 @@ Congratulations! Now you got your own powerful atomic CSS utilities, enjoy!
 This is an advanced feature, you don't need it in most of the cases.
 :::
 
-When you really need some advanced rules that can't be covered by the combination of [Dynamic Rules](#dynamic-rules) and [Variants](#custom-variants), we also provide a way to give you full control to generate the CSS.
+When you really need some advanced rules that can't be covered by the combination of [Dynamic Rules](#dynamic-rules) and [Variants](/config/variants), we also provide a way to give you full control to generate the CSS.
 
 By returning a `string` from the dynamic rule's body function, it will be directly passed to the generated CSS. That also means you would need to take care of things like CSS escaping, variants applying, CSS constructing, and so on.
 

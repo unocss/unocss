@@ -691,7 +691,6 @@ export const presetMiniTargets: string[] = [
   'fill-opacity-80',
   'fill-opacity-$opacity-variable',
   'fill-[#123]',
-  'fill-[1rem]',
   'stroke-none',
   'stroke-current',
   'stroke-green-400',

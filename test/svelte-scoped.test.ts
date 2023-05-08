@@ -3,6 +3,7 @@ import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import presetIcons from '@unocss/preset-icons'
 import { format as prettier } from 'prettier'
+
 // @ts-expect-error missing types
 import prettierSvelte from 'prettier-plugin-svelte'
 

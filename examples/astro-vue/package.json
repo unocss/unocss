@@ -14,7 +14,7 @@
   "devDependencies": {
     "@astrojs/vue": "^2.1.1",
     "@unocss/reset": "link:../../packages/reset",
-    "astro": "^2.2.1",
+    "astro": "^2.4.1",
     "unocss": "link:../../packages/unocss"
   }
 }

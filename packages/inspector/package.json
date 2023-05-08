@@ -1,6 +1,6 @@
 {
   "name": "@unocss/inspector",
-  "version": "0.51.8",
+  "version": "0.51.12",
   "description": "The inspector UI for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -8,7 +8,7 @@
   "homepage": "https://github.com/unocss/unocss/tree/main/packages/inspector#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/unocss/unocss.git",
+    "url": "https://github.com/unocss/unocss",
     "directory": "packages/inspector"
   },
   "bugs": {
@@ -42,6 +42,6 @@
   },
   "dependencies": {
     "gzip-size": "^6.0.0",
-    "sirv": "^2.0.2"
+    "sirv": "^2.0.3"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@unocss/eslint-plugin",
-  "version": "0.51.8",
+  "version": "0.51.12",
   "description": "ESLint plugin for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -8,7 +8,7 @@
   "homepage": "https://github.com/unocss/unocss/tree/main/packages/esling-plugin#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/unocss/unocss.git",
+    "url": "https://github.com/unocss/unocss",
     "directory": "packages/esling-plugin"
   },
   "bugs": {
@@ -40,7 +40,7 @@
     "lint": "nr build && cd ./fixtures && eslint ./src"
   },
   "dependencies": {
-    "@typescript-eslint/utils": "^5.57.1",
+    "@typescript-eslint/utils": "^5.59.2",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "magic-string": "^0.30.0",
