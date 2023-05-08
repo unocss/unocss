@@ -9,7 +9,8 @@ export interface ThemeAnimation {
 }
 
 export interface Colors {
-  [key: string]: Colors | string
+  [key: string]: Colors | string | undefined
+  DEFAULT?: string
 }
 
 export interface Theme {
