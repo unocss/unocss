@@ -1,0 +1,35 @@
+import type { Plugin } from 'vite'
+import { type UserConfig, createGenerator } from '@unocss/core'
+import { loadConfig } from '@unocss/config'
+import { PassPreprocessToSveltePlugin } from './passPreprocessToSveltePlugin'
+import { GlobalStylesPlugin } from './globalStylesPlugin'
+import type { SvelteScopedContext, UnocssSvelteScopedViteOptions } from './types'
+
+export function SvelteScopedUno(options: UnocssSvelteScopedViteOptions = {}): Plugin[] {
+  const context = createSvelteScopedContext(options.configOrPath)
+
+  const plugins: Plugin[] = [
+    GlobalStylesPlugin(context, options.addReset),
+  ]
+
+  if (!options.onlyGlobal)
+    plugins.push(PassPreprocessToSveltePlugin(options, context))
+
+  return plugins
+}
+
+export function createSvelteScopedContext(configOrPath?: UserConfig | string): SvelteScopedContext {
+  const uno = createGenerator()
+  const ready = reloadConfig()
+
+  async function reloadConfig() {
+    const { config } = await loadConfig(process.cwd(), configOrPath)
+    uno.setConfig(config)
+    return config
+  }
+
+  return {
+    uno,
+    ready,
+  }
+}

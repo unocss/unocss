@@ -4,9 +4,11 @@ import presetUno from '@unocss/preset-uno'
 import { loadConfig } from '@unocss/config'
 import { transformClasses } from './transformClasses'
 import { transformApply } from './transformApply'
-import type { UnocssSveltePreprocessOptions } from './types'
+import type { SvelteScopedContext, UnocssSveltePreprocessOptions } from './types'
 
-export default function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = {}): PreprocessorGroup {
+// export * from './types.d.js'
+
+export default function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = {}, unoContextFromVite?: SvelteScopedContext): PreprocessorGroup {
   if (!options.classPrefix)
     options.classPrefix = 'spu-'
 
@@ -15,7 +17,7 @@ export default function UnocssSveltePreprocess(options: UnocssSveltePreprocessOp
   return {
     markup: async ({ content, filename }) => {
       if (!uno)
-        uno = await init(options.configOrPath)
+        uno = await getGenerator(options.configOrPath, unoContextFromVite)
 
       return await transformClasses({ content, filename: filename || '', uno, options })
     },
@@ -32,7 +34,7 @@ export default function UnocssSveltePreprocess(options: UnocssSveltePreprocessOp
         return
 
       if (!uno)
-        uno = await init(options.configOrPath)
+        uno = await getGenerator(options.configOrPath)
 
       let preflightsSafelistCss = ''
       if (addPreflights || addSafelist) {
@@ -57,7 +59,12 @@ export default function UnocssSveltePreprocess(options: UnocssSveltePreprocessOp
   }
 }
 
-async function init(configOrPath?: UserConfig | string) {
+async function getGenerator(configOrPath?: UserConfig | string, unoContextFromVite?: SvelteScopedContext) {
+  if (unoContextFromVite) {
+    await unoContextFromVite.ready
+    return unoContextFromVite.uno
+  }
+
   const defaults: UserConfigDefaults = {
     presets: [
       presetUno(),
