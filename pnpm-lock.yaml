@@ -831,7 +831,7 @@ importers:
     devDependencies:
       prettier-plugin-svelte:
         specifier: ^2.10.0
-        version: 2.10.0(prettier@2.8.7)(svelte@3.58.0)
+        version: 2.10.0(prettier@2.8.8)(svelte@3.58.0)
       svelte:
         specifier: ^3.58.0
         version: 3.58.0
