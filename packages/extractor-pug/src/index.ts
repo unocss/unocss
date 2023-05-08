@@ -6,7 +6,7 @@ export default function extractorPug(): Extractor {
   async function compile(code: string, id: string) {
     const Pug = await import('pug')
     try {
-      return Pug.compile(code, { filename: id })()
+      return Pug.compile(code, { filename: id, doctype: 'html' })()
       // other build processes will catch pug errors
     }
     catch { }
