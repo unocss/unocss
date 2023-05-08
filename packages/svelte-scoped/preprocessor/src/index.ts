@@ -20,18 +20,39 @@ export default function UnocssSveltePreprocess(options: UnocssSveltePreprocessOp
       return await transformClasses({ content, filename: filename || '', uno, options })
     },
 
-    style: async ({ content }) => {
-      if (options.applyVariables === false)
+    style: async ({ content, attributes }) => {
+      const addPreflights = !!attributes['unocss:preflights']
+      const addSafelist = !!attributes['unocss:safelist']
+      // TODO: if using Vite plugin warnOnce that they should add these globally instead of in a component - this is just for component libraries
+
+      const checkForApply = options.applyVariables !== false
+
+      const changeNeeded = addPreflights || addSafelist || checkForApply
+      if (!changeNeeded)
         return
 
       if (!uno)
         uno = await init(options.configOrPath)
 
-      return await transformApply({
-        code: content,
-        uno,
-        applyVariables: options.applyVariables,
-      })
+      let preflightsSafelistCss = ''
+      if (addPreflights || addSafelist) {
+        const { css } = await uno.generate([], { preflights: addPreflights, safelist: addSafelist, minify: true })
+        preflightsSafelistCss = css
+      }
+
+      if (checkForApply) {
+        const transformedApplies = await transformApply({
+          code: content,
+          uno,
+          applyVariables: options.applyVariables,
+        })
+
+        if (transformedApplies)
+          return { code: preflightsSafelistCss + transformedApplies }
+      }
+
+      if (preflightsSafelistCss)
+        return { code: preflightsSafelistCss }
     },
   }
 }

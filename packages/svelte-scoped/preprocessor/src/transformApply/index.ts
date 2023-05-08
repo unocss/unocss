@@ -1,7 +1,6 @@
 import { toArray } from '@unocss/core'
 import type { UnoGenerator } from '@unocss/core'
 import MagicString from 'magic-string'
-import type { Processed } from 'svelte/types/compiler/preprocess'
 import type { CssNode, Rule } from 'css-tree'
 import { parse, walk } from 'css-tree'
 import type { TransformApplyOptions } from '../types'
@@ -17,7 +16,7 @@ interface TransformApplyContext {
 const DEFAULT_APPLY_VARIABLES = ['--at-apply']
 const emptyRulesetsRE = /[^}]+{\s*}/g
 
-export async function transformApply({ code, uno, applyVariables }: { code: string; uno: UnoGenerator; applyVariables?: TransformApplyOptions['applyVariables'] }): Promise<Processed | void> {
+export async function transformApply({ code, uno, applyVariables }: { code: string; uno: UnoGenerator; applyVariables?: TransformApplyOptions['applyVariables'] }): Promise<string | void> {
   applyVariables = toArray(applyVariables || DEFAULT_APPLY_VARIABLES)
   const hasApply = code.includes('@apply') || applyVariables.some(v => code.includes(v))
   if (!hasApply)
@@ -29,8 +28,7 @@ export async function transformApply({ code, uno, applyVariables }: { code: stri
   if (!s.hasChanged())
     return
   const result = s.toString()
-  code = result.replace(emptyRulesetsRE, '')
-  return { code }
+  return result.replace(emptyRulesetsRE, '')
 }
 
 async function walkCss(ctx: TransformApplyContext,

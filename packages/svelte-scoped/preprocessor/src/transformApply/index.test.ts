@@ -13,7 +13,7 @@ describe('transformApply', () => {
 
   async function transform(code: string) {
     const transformed = await transformApply({ code, uno })
-    return prettier(transformed?.code || '', {
+    return prettier(transformed || '', {
       parser: 'css',
       plugins: [parserCSS],
     }).trim()

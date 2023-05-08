@@ -14,6 +14,7 @@ const defaultOptions: UnocssSveltePreprocessOptions = {
     // shortcuts: [
     //   { logo: 'i-logos:svelte-icon w-7em h-7em transform transition-300' },
     // ],
+    safelist: ['mb-7px'],
     presets: [
       presetUno(),
       presetIcons({
@@ -39,7 +40,7 @@ describe('svelte-preprocessor', () => {
 
   const cases = import.meta.glob('./cases/**/Input.svelte', { as: 'raw' })
   for (const [path, loadRaw] of Object.entries(cases)) {
-    it(path, async () => {
+    it(path.replace(/.\/cases\/(.+)\/Input.svelte/, '$1'), async () => {
       const dev = await preprocessSFC(await loadRaw(), path, { combine: false })
       expect(dev).toMatchFileSnapshot(path.replace('Input.svelte', 'OutputDev.svelte'))
       const prod = await preprocessSFC(await loadRaw(), path)

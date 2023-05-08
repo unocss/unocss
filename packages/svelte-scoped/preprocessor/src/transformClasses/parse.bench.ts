@@ -1,3 +1,4 @@
+/* eslint-disable unused-imports/no-unused-vars */
 import MagicString from 'magic-string'
 import { parse } from 'svelte/compiler'
 import { bench, describe } from 'vitest'
