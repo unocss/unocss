@@ -29,14 +29,8 @@ function AstroVitePlugin(options: AstroVitePluginOptions): Plugin {
       if (id.endsWith(UNO_INJECT_ID))
         return injects.join('\n')
 
-      if (!options?.ssr && id.includes(UNO_QUERY_KEY)) {
-        return {
-          code: '',
-          map: {
-            mappings: '',
-          },
-        }
-      }
+      if (!options?.ssr && id.includes(UNO_QUERY_KEY))
+        return ''
     },
   }
 }
