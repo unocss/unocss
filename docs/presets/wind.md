@@ -67,7 +67,7 @@ For all rules and presets included in this preset, please refer to our [interact
 
 This preset uses `_` instead of `,` to respect space in bracket syntax.
 
-| Windi CSS | UnoCSs |
+| Windi CSS | UnoCSS |
 |:--|:--|
 | `grid-cols-[1fr,10px,max-content]` | `grid-cols-[1fr_10px_max-content]` |
 
