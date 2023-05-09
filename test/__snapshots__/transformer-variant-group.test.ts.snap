@@ -2,6 +2,10 @@
 
 exports[`transformer-variant-group > basic > "!hover:(m-2 p-2)" 1`] = `"!hover:m-2 !hover:p-2"`;
 
+exports[`transformer-variant-group > basic > "<md:(grid grid-cols-[1fr,50%])" 1`] = `"<md:grid <md:grid-cols-[1fr,50%]"`;
+
+exports[`transformer-variant-group > basic > "<sm:hover:(p-1 p-2)" 1`] = `"<sm:hover:p-1 <sm:hover:p-2"`;
+
 exports[`transformer-variant-group > basic > "[&]:(w-4 h-4) [&]:(w-4 h-4)" 1`] = `"[&]:w-4 [&]:h-4 [&]:w-4 [&]:h-4"`;
 
 exports[`transformer-variant-group > basic > "at-lg:(p-1 p-2)" 1`] = `"at-lg:p-1 at-lg:p-2"`;
