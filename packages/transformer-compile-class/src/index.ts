@@ -39,7 +39,7 @@ export default function transformerCompileClass(options: CompileClassOptions = {
     hashFn = hash,
     keepUnknown = true,
   } = options
-  const regex = new RegExp(`(["'\`]):${escapeRegExp(trigger)}(?:-)?([^\\1]+)?:\\s([^\\1]*?)\\1`, 'g')
+  const regex = new RegExp(`(["'\`]):${escapeRegExp(trigger)}(?:-)?([^\\s\\1]+)?:\\s([^\\1]*?)\\1`, 'g')
 
   return {
     name: '@unocss/transformer-compile-class',
