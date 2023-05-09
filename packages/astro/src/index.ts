@@ -39,14 +39,17 @@ export default function UnoCSSAstroIntegration<Theme extends {}>(
   return {
     name: 'unocss',
     hooks: {
-      'astro:config:setup': async ({ config, injectScript }) => {
+      'astro:config:setup': async ({ config, updateConfig, injectScript }) => {
         // Adding components to UnoCSS's extra content
         options.extraContent ||= {}
         options.extraContent.filesystem ||= []
         options.extraContent.filesystem.push(resolve(fileURLToPath(config.srcDir), 'components/**/*').replace(/\\/g, '/'))
 
-        config.vite.plugins ||= []
-        config.vite.plugins.push(...VitePlugin(options, defaults) as any)
+        updateConfig({
+          vite: {
+            plugins: VitePlugin(options, defaults),
+          },
+        })
 
         const injects: string[] = []
         if (injectReset) {
