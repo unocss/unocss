@@ -19,7 +19,6 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
   let lastServedTime = Date.now()
   let resolved = false
   let resolvedWarnTimer: any
-  let isAstro = false
 
   async function generateCSS(layer: string) {
     await flushTasks()
@@ -49,7 +48,6 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
       base = ''
     else if (base.endsWith('/'))
       base = base.slice(0, base.length - 1)
-    isAstro = config.plugins.some(plugin => plugin.name.startsWith('astro:'))
   }
 
   function invalidate(timer = 10, ids: Set<string> = entries) {
@@ -148,14 +146,7 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
           tasks.push(extract(code, filename))
         },
       },
-      resolveId(id, importer) {
-        if (
-          isAstro
-          && importer === 'astro:scripts/page-ssr.js'
-          && id.includes('?uno')
-        )
-          return `${id}?uno`
-
+      resolveId(id) {
         const entry = resolveId(id)
         if (entry) {
           resolved = true
@@ -164,14 +155,7 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
           return entry
         }
       },
-      async load(id, options) {
-        if (isAstro && !options?.ssr && id.includes('?uno')) {
-          return {
-            code: '',
-            map: { mappings: '' },
-          }
-        }
-
+      async load(id) {
         const layer = resolveLayer(getPath(id))
         if (!layer)
           return null

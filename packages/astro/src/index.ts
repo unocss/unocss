@@ -4,6 +4,42 @@ import type { AstroIntegration } from 'astro'
 import type { VitePluginConfig } from '@unocss/vite'
 import VitePlugin from '@unocss/vite'
 import type { UserConfigDefaults } from '@unocss/core'
+import type { Plugin } from 'vite'
+
+const UNO_INJECT_ID = 'uno-astro'
+const UNO_QUERY_KEY = 'uwa'
+
+interface AstroVitePluginOptions {
+  injects: string[]
+}
+
+function AstroVitePlugin(options: AstroVitePluginOptions): Plugin {
+  const { injects } = options
+  return {
+    name: 'unocss:astro',
+    apply: 'serve',
+    enforce: 'pre',
+    resolveId(id, importer) {
+      if (id === UNO_INJECT_ID)
+        return id
+      if (importer?.endsWith(UNO_INJECT_ID))
+        return `${id}${id.includes('?') ? '&' : '?'}${UNO_QUERY_KEY}`
+    },
+    load(id, options) {
+      if (id.endsWith(UNO_INJECT_ID))
+        return injects.join('\n')
+
+      if (!options?.ssr && id.includes(UNO_QUERY_KEY)) {
+        return {
+          code: '',
+          map: {
+            mappings: '',
+          },
+        }
+      }
+    },
+  }
+}
 
 export interface AstroIntegrationConfig<Theme extends {} = {}> extends VitePluginConfig<Theme> {
   /**
@@ -45,12 +81,6 @@ export default function UnoCSSAstroIntegration<Theme extends {}>(
         options.extraContent.filesystem ||= []
         options.extraContent.filesystem.push(resolve(fileURLToPath(config.srcDir), 'components/**/*').replace(/\\/g, '/'))
 
-        updateConfig({
-          vite: {
-            plugins: VitePlugin(options, defaults),
-          },
-        })
-
         const injects: string[] = []
         if (injectReset) {
           const resetPath = typeof injectReset === 'string'
@@ -65,8 +95,17 @@ export default function UnoCSSAstroIntegration<Theme extends {}>(
         }
         if (injectExtra.length > 0)
           injects.push(...injectExtra)
+
+        updateConfig({
+          vite: {
+            plugins: [AstroVitePlugin({
+              injects,
+            }), ...VitePlugin(options, defaults)],
+          },
+        })
+
         if (injects?.length)
-          injectScript('page-ssr', injects.join('\n'))
+          injectScript('page-ssr', `import ${JSON.stringify(UNO_INJECT_ID)}`)
       },
     },
   }
