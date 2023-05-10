@@ -37,7 +37,7 @@ export function GlobalStylesPlugin({ ready, uno }: SvelteScopedContext, addReset
         const css = await generateGlobalCss(uno, addReset)
         unoCssFileReferenceId = this.emitFile({
           type: 'asset',
-          name: 'svelte-scoped-uno-global.css',
+          name: 'unocss-svelte-scoped-global.css',
           source: css,
         })
       }
