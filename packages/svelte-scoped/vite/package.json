@@ -1,7 +1,45 @@
 {
   "name": "@unocss/svelte-scoped-vite",
+  "type": "module",
   "version": "0.51.8",
-  "description": "Use UnoCSS utility styles in a modular fashion with styles being stored only in the Svelte component they are used in.",
+  "description": "Vite plugin to use UnoCSS in a modular fashion with styles being stored only in the Svelte component they are used in.",
   "author": "Jacob Bowdoin",
-  "license": "MIT"
+  "license": "MIT",
+  "homepage": "https://github.com/unocss/unocss/tree/main/packages/svelte-scoped/vite#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unocss/unocss.git",
+    "directory": "packages/svelte-scoped/preprocessor"
+  },
+  "bugs": {
+    "url": "https://github.com/unocss/unocss/issues"
+  },
+  "keywords": [
+    "sveltekit",
+    "svelte",
+    "unocss",
+    "utility-styles",
+    "component-scoped"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub"
+  },
+  "dependencies": {
+    "@unocss/svelte-preprocess": "workspace:*"
+  }
 }

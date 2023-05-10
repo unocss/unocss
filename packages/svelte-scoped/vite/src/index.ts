@@ -5,7 +5,7 @@ import { PassPreprocessToSveltePlugin } from './passPreprocessToSveltePlugin'
 import { GlobalStylesPlugin } from './globalStylesPlugin'
 import type { SvelteScopedContext, UnocssSvelteScopedViteOptions } from './types'
 
-export function SvelteScopedUno(options: UnocssSvelteScopedViteOptions = {}): Plugin[] {
+export default function SvelteScopedUno(options: UnocssSvelteScopedViteOptions = {}): Plugin[] {
   const context = createSvelteScopedContext(options.configOrPath)
 
   const plugins: Plugin[] = [
@@ -18,7 +18,7 @@ export function SvelteScopedUno(options: UnocssSvelteScopedViteOptions = {}): Pl
   return plugins
 }
 
-export function createSvelteScopedContext(configOrPath?: UserConfig | string): SvelteScopedContext {
+function createSvelteScopedContext(configOrPath?: UserConfig | string): SvelteScopedContext {
   const uno = createGenerator()
   const ready = reloadConfig()
 

@@ -5,7 +5,7 @@
   "description": "Run UnoCSS via a svelte-preprocessor for use in component libraries",
   "author": "Jacob Bowdoin",
   "license": "MIT",
-  "homepage": "https://github.com/unocss/unocss/tree/main/packages/vite#readme",
+  "homepage": "https://github.com/unocss/unocss/tree/main/packages/svelte-scoped/preprocessor#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/unocss/unocss.git",
