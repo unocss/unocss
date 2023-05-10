@@ -79,9 +79,7 @@ export function splitShorthand(body: string, type: string) {
 export function parseColor(body: string, theme: Theme): ParsedColorValue | undefined {
   const [main, opacity] = splitShorthand(body, 'color')
 
-  const colors = main
-    .replace(/([a-z])([0-9])/g, '$1-$2')
-    .split(/-/g)
+  const colors = main.split(/-/g)
   const [name] = colors
 
   if (!name)
