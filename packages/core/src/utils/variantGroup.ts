@@ -6,7 +6,7 @@ const regexCache: Record<string, RegExp> = {}
 export function makeRegexClassGroup(separators = ['-', ':']) {
   const key = separators.join('|')
   if (!regexCache[key])
-    regexCache[key] = new RegExp(`((?:[!@\\w+:_/-]|\\[&?>?:?\\S*\\])+?)(${key})\\(((?:[~!<>\\w\\s:/\\\\,%#.$?-]|\\[.*?\\])+?)\\)(?!\\s*?=>)`, 'gm')
+    regexCache[key] = new RegExp(`((?:[!@<~\\w+:_/-]|\\[&?>?:?\\S*\\])+?)(${key})\\(((?:[~!<>\\w\\s:/\\\\,%#.$?-]|\\[.*?\\])+?)\\)(?!\\s*?=>)`, 'gm')
   regexCache[key].lastIndex = 0
   return regexCache[key]
 }

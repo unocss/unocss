@@ -359,8 +359,8 @@ export const colors = {
 
 // assign default color, and color shortcuts
 Object.values(colors as Required<Theme>['colors']).forEach((color) => {
-  if (typeof color !== 'string') {
-    color.DEFAULT = color.DEFAULT || color[400]
+  if (typeof color !== 'string' && color !== undefined) {
+    color.DEFAULT = color.DEFAULT || color[400] as string
     Object.keys(color).forEach((key) => {
       const short = +key / 100
       if (short === Math.round(short))
