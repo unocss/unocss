@@ -1,14 +1,14 @@
-import { defineConfig } from 'unocss/vite'
-import presetIcons from '@unocss/preset-icons'
-import presetUno from '@unocss/preset-uno'
-import transformerDirectives from '@unocss/transformer-directives'
+import {
+  defineConfig,
+  presetIcons,
+  presetTypography,
+  presetUno,
+  presetWebFonts,
+} from 'unocss'
 
 export default defineConfig({
   shortcuts: [
     { logo: 'i-logos:svelte-icon w-7em h-7em transform transition-300' },
-  ],
-  transformers: [
-    transformerDirectives(),
   ],
   presets: [
     presetUno(),
@@ -19,6 +19,14 @@ export default defineConfig({
         'vertical-align': 'middle',
       },
     }),
+    presetTypography(),
+    presetWebFonts({
+      fonts: {
+        // these will extend the default theme
+        // sans: 'Roboto',
+        mono: ['Fira Code', 'Fira Mono:400,700'],
+      },
+    }),
   ],
-  safelist: ['bg-orange-300'],
+  safelist: ['bg-orange-300', 'prose'],
 })

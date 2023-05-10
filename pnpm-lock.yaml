@@ -836,7 +836,11 @@ importers:
         specifier: ^3.58.0
         version: 3.58.0
 
-  packages/svelte-scoped/vite: {}
+  packages/svelte-scoped/vite:
+    dependencies:
+      '@unocss/svelte-preprocess':
+        specifier: workspace:*
+        version: link:../preprocessor
 
   packages/transformer-attributify-jsx:
     dependencies:
