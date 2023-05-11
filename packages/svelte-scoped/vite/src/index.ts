@@ -1,9 +1,10 @@
 import type { Plugin } from 'vite'
 import { type UserConfig, createGenerator } from '@unocss/core'
 import { loadConfig } from '@unocss/config'
+import type { SvelteScopedContext } from '@unocss/svelte-preprocess'
+import type { UnocssSvelteScopedViteOptions } from './types'
 import { PassPreprocessToSveltePlugin } from './passPreprocessToSveltePlugin'
 import { GlobalStylesPlugin } from './globalStylesPlugin'
-import type { SvelteScopedContext, UnocssSvelteScopedViteOptions } from './types'
 
 export default function SvelteScopedUno(options: UnocssSvelteScopedViteOptions = {}): Plugin[] {
   const context = createSvelteScopedContext(options.configOrPath)

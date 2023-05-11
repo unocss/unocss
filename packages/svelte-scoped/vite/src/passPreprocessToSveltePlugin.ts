@@ -1,6 +1,7 @@
 import type { Plugin } from 'vite'
+import type { SvelteScopedContext } from '@unocss/svelte-preprocess'
 import UnocssSveltePreprocess from '@unocss/svelte-preprocess'
-import type { SvelteScopedContext, UnocssSvelteScopedViteOptions } from './types'
+import type { UnocssSvelteScopedViteOptions } from './types'
 
 export function PassPreprocessToSveltePlugin(options: UnocssSvelteScopedViteOptions = {}, ctx: SvelteScopedContext): Plugin {
   return {
