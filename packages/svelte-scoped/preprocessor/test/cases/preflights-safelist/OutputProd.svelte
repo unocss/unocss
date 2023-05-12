@@ -1,6 +1,6 @@
 <div class="spu-buw73b" />
 
-<style unocss:preflights unocss:safelist>
+<style uno:preflights uno:safelist>
   *,
   ::before,
   ::after {

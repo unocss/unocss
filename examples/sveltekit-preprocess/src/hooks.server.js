@@ -1,4 +1,4 @@
-// This is just here for our global usage of @unocss/svelte-scoped-vite plugin to conveniently provide a reset and preflights to my demo app - this is unnecessary for your usage of @unocss/svelte-preprocess
+// This is just here for our global usage of @unocss/svelte-scoped-vite plugin to conveniently provide a reset and preflights to the demo app - this is unnecessary for your usage of @unocss/svelte-preprocess
 
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({ event, resolve }) {

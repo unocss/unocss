@@ -33,7 +33,7 @@ export interface TransformApplyOptions {
    *
    * @default ['--at-apply', '@apply']
    */
-  applyVariables?: false | string | string[]
+  applyVariables?: string | string[] | false
 }
 
 export interface SvelteScopedContext {

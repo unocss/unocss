@@ -19,7 +19,7 @@ export function GlobalStylesPlugin({ ready, uno }: SvelteScopedContext, addReset
     },
 
     // serve
-    configureServer: checkTransformPageChunkHook,
+    configureServer: server => checkTransformPageChunkHook(server, isSvelteKit),
 
     // serve
     async transform(code, id) {

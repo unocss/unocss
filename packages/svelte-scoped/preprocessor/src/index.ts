@@ -23,8 +23,8 @@ export default function UnocssSveltePreprocess(options: UnocssSveltePreprocessOp
     },
 
     style: async ({ content, attributes }) => {
-      const addPreflights = !!attributes['unocss:preflights']
-      const addSafelist = !!attributes['unocss:safelist']
+      const addPreflights = !!attributes['uno:preflights']
+      const addSafelist = !!attributes['uno:safelist']
 
       const checkForApply = options.applyVariables !== false
 

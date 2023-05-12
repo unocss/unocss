@@ -1,6 +1,6 @@
 <div class="_mb-1_b00x5a" />
 
-<style unocss:preflights unocss:safelist>
+<style uno:preflights uno:safelist>
   *,
   ::before,
   ::after {

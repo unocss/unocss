@@ -29,7 +29,11 @@ export async function generateGlobalCss(uno: UnoGenerator, addReset?: 'tailwind'
   return css
 }
 
-export function checkTransformPageChunkHook(server: ViteDevServer) {
+const SVELTE_ERROR = `[unocss] You have not setup the svelte-scoped global styles correctly. You must place '${PLACEHOLDER_USER_SETS_IN_INDEX_HTML}' in your index.html file.
+`
+const SVELTE_KIT_ERROR = `[unocss] You have not setup the svelte-scoped global styles correctly. You must place '${PLACEHOLDER_USER_SETS_IN_INDEX_HTML}' in your app.html file. You also need to have a transformPageChunk hook in your server hooks file with: \`html.replace('${PLACEHOLDER_USER_SETS_IN_INDEX_HTML}', '${GLOBAL_STYLES_PLACEHOLDER}')\`. You can see an example of the usage at https://github.com/unocss/unocss/tree/main/examples/sveltekit-scoped.`
+
+export function checkTransformPageChunkHook(server: ViteDevServer, isSvelteKit: boolean) {
   server.middlewares.use((req, res, next) => {
     const originalWrite = res.write
 
@@ -37,10 +41,8 @@ export function checkTransformPageChunkHook(server: ViteDevServer) {
       // eslint-disable-next-line n/prefer-global/buffer
       const str = (chunk instanceof Buffer) ? chunk.toString() : ((Array.isArray(chunk) || 'at' in chunk) ? Buffer.from(chunk).toString() : (`${chunk}`))
 
-      if (str.includes('<head>') && !str.includes(DEV_GLOBAL_STYLES_DATA_TITLE)) {
-        server.config.logger.error(`[unocss] You have not setup the svelte-scoped global styles correctly. You must place '${PLACEHOLDER_USER_SETS_IN_INDEX_HTML}' in your root html file. In SvelteKit you also need to have a transformPageChunk hook in your server hooks file with: \`html.replace('${PLACEHOLDER_USER_SETS_IN_INDEX_HTML}', '${GLOBAL_STYLES_PLACEHOLDER}')\`. You can see an example of the usage at https://github.com/unocss/unocss/tree/main/examples/sveltekit-scoped.`
-          , { timestamp: true })
-      }
+      if (str.includes('<head>') && !str.includes(DEV_GLOBAL_STYLES_DATA_TITLE))
+        server.config.logger.error(isSvelteKit ? SVELTE_KIT_ERROR : SVELTE_ERROR, { timestamp: true })
 
       // @ts-expect-error - TS doesn't like this
       return originalWrite.call(this, chunk, ...rest)

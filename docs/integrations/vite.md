@@ -70,6 +70,10 @@ The generated `css` will be a global stylesheet injected on the `index.html`.
 
 This mode will inject generated CSS to Vue SFCs `<style scoped>` for isolation.
 
+### `svelte-scoped`
+
+`svelte-scoped` mode has been moved to its own package, see [@unocss/svelte-scoped-vite](/integrations/svelte-scoped).
+
 ### `shadow-dom`
 
 Since `Web Components` uses `Shadow DOM`, there is no way to style content directly from a global stylesheet (unless you use `custom css vars`, those will penetrate the `Shadow DOM`), you need to inline the generated css by the plugin into the `Shadow DOM` style.
@@ -227,13 +231,8 @@ const config = {
   ],
 }
 ```
-<!-- :sandbox{src="https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/sveltekit"} -->
 
 You have a `SvelteKit` example project in [examples/sveltekit](https://github.com/unocss/unocss/tree/main/examples/sveltekit) directory.
-
-### Svelte/SvelteKit Scoped Mode
-
-`svelte-scoped` mode has been moved to its own package, see [@unocss/svelte-scoped-vite](/integrations/svelte-scoped)
 
 ### Web Components
 
