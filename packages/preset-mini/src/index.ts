@@ -100,7 +100,7 @@ export function CSSVariablesPostprocessor(): Postprocessor {
     obj.entries.forEach((entry) => {
       const val = entry[1]
       if (typeof val === 'string' && val.startsWith('--'))
-        entry[1] = `var(${entry[1]})`
+        entry[1] = `var(${val})`
     })
   }
 }
