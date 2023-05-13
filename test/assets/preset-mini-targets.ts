@@ -235,12 +235,17 @@ export const presetMiniTargets: string[] = [
   'text-[11px]/4',
   'text-[12px]/[13px]',
   'text-[length:var(--size)]:$leading',
+  'text-[--color]',
+  'text-[--color-red]',
+  'text-[color:--color-red]',
+  'text-[length:--size]',
 
   // color - bg
   'bg-[#153]/10',
   'bg-[#1533]',
   'bg-[#1533]/10',
   'bg-[rgba(1,2,3,0.5)]',
+  'bg-[rgba(1,2,3,--opacity)]',
   'bg-#452233/40',
   'bg-red-100',
   'bg-teal-100/55',
@@ -250,6 +255,7 @@ export const presetMiniTargets: string[] = [
   'bg-teal-500/[55%]',
   'bg-hex-452233/40',
   'bg-opacity-45',
+  'bg-opacity-[--opacity]',
   'bg-opacity-$opacity-variable',
 
   // color - ring

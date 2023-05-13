@@ -83,7 +83,7 @@ export function presetMini(options: PresetMiniOptions = {}): Preset<Theme> {
     variants: variants(options),
     options,
     prefix: options.prefix,
-    postprocess: VarPrefixPostprocessor(options.variablePrefix),
+    postprocess: ([VarPrefixPostprocessor(options.variablePrefix), CSSVariablesPostprocessor()].filter(Boolean)) as Postprocessor[],
     preflights: options.preflight
       ? normalizePreflights(preflights, options.variablePrefix)
       : [],
@@ -94,6 +94,16 @@ export function presetMini(options: PresetMiniOptions = {}): Preset<Theme> {
 }
 
 export default presetMini
+
+export function CSSVariablesPostprocessor(): Postprocessor {
+  return (obj) => {
+    obj.entries.forEach((entry) => {
+      const val = entry[1]
+      if (typeof val === 'string' && val.startsWith('--'))
+        entry[1] = `var(${entry[1]})`
+    })
+  }
+}
 
 export function VarPrefixPostprocessor(prefix: string): Postprocessor | undefined {
   if (prefix !== 'un-') {
