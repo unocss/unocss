@@ -32,7 +32,7 @@ const defaultLanguageIds = [
   'astro',
   'rust',
 ]
-const delimiters = ['-', ':']
+const delimiters = ['-', ':', ' ', '"', '\'']
 
 class UnoCompletionItem extends CompletionItem {
   uno: UnoGenerator
