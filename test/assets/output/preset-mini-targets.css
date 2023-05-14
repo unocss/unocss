@@ -119,13 +119,14 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .opacity-0{opacity:0;}
 .placeholder-opacity-60::placeholder{opacity:0.6;}
 .\[\&\[data-active\=\"true\"\]\]\:bg-red[data-active="true"]{--un-bg-opacity:1;background-color:rgba(248,113,113,var(--un-bg-opacity));}
+.bg-\[--test-variable\],
+.bg-\$test-variable{background-color:var(--test-variable);}
 .bg-\[\#153\]\/10,
 .bg-\[\#1533\]\/10{background-color:rgba(17,85,51,0.1);}
 .bg-\[\#1533\]{--un-bg-opacity:0.2;background-color:rgba(17,85,51,var(--un-bg-opacity));}
 .bg-\[rgba\(1\,2\,3\,0\.5\)\]{--un-bg-opacity:0.5;background-color:rgba(1,2,3,var(--un-bg-opacity));}
 .bg-\#452233\/40,
 .bg-hex-452233\/40{background-color:rgba(69,34,51,0.4);}
-.bg-\$test-variable{background-color:var(--test-variable);}
 .bg-red-100{--un-bg-opacity:1;background-color:rgba(254,226,226,var(--un-bg-opacity));}
 .bg-teal-100\/55{background-color:rgba(204,251,241,0.55);}
 .bg-teal-200\:55{background-color:rgba(153,246,228,0.55);}
@@ -144,6 +145,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .marker\:bg-violet-200::marker{--un-bg-opacity:1;background-color:rgba(221,214,254,var(--un-bg-opacity));}
 .peer:checked~.peer-checked\:bg-blue-500{--un-bg-opacity:1;background-color:rgba(59,130,246,var(--un-bg-opacity));}
 .previous\/label:checked+.previous-checked\/label\:bg-red-500{--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));}
+.bg-opacity-\[--opacity-variable\],
 .bg-opacity-\$opacity-variable{--un-bg-opacity:var(--opacity-variable);}
 .bg-opacity-45{--un-bg-opacity:0.45;}
 .all-\[svg\]\:fill-red svg{--un-fill-opacity:1;fill:rgba(248,113,113,var(--un-fill-opacity));}
@@ -318,6 +320,8 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .text-\[length\:2em\],
 .text-2em,
 .text-size-\[2em\]{font-size:2em;}
+.text-\[length\:--variable\],
+.text-size-\$variable{font-size:var(--variable);}
 .text-\[length\:calc\(1em-1px\)\]{font-size:calc(1em - 1px);}
 .text-\[length\:var\(--size\)\]{font-size:var(--size);}
 .text-\[length\:var\(--size\)\]\:\$leading{font-size:var(--size);line-height:var(--leading);}
@@ -325,7 +329,6 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .text-lg{font-size:1.125rem;line-height:1.75rem;}
 .text-sm\/\[10px\]{font-size:0.875rem;line-height:10px;}
 .text-sm\/3{font-size:0.875rem;line-height:0.75rem;}
-.text-size-\$variable{font-size:var(--variable);}
 .text-size-unset{font-size:unset;}
 .as-parent .group .group-\[\.as-parent_\&\]\:font-13{font-weight:13;}
 .as-parent .group\/label .group-\[\.as-parent_\&\]\/label\:font-18{font-weight:18;}
@@ -478,12 +481,14 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .checked\:next\:text-slate-100+*:checked{--un-text-opacity:1;color:rgba(241,245,249,var(--un-text-opacity));}
 .next\:checked\:children\:text-slate-600>*:checked+*{--un-text-opacity:1;color:rgba(71,85,105,var(--un-text-opacity));}
 .next\:checked\:text-slate-200:checked+*{--un-text-opacity:1;color:rgba(226,232,240,var(--un-text-opacity));}
+.text-\[--variable\],
+.text-\[color\:--variable\],
+.text-\$variable{color:var(--variable);}
 .text-\[\#124\]{--un-text-opacity:1;color:rgba(17,34,68,var(--un-text-opacity));}
 .text-\[calc\(1em-1px\)\]{color:calc(1em - 1px);}
 .text-\[color\:var\(--color-x\)\]\:\[trick\]{color:var(--color-x);}
 .text-\[color\:var\(--color\)\],
 .text-\[var\(--color\)\]{color:var(--color);}
-.text-\$variable{color:var(--variable);}
 .text-black\/10{color:rgba(0,0,0,0.1);}
 .text-red-200\/10{color:rgba(254,202,202,0.1);}
 .text-red-300\:20,

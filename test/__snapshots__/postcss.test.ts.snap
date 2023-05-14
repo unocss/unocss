@@ -206,8 +206,10 @@ exports[`postcss > @unocss 1`] = `
 .overscroll-y-unset{overscroll-behavior-y:unset;}
 .scroll-auto{scroll-behavior:auto;}
 .scroll-unset{scroll-behavior:unset;}
+.bg-\\\\[length\\\\:--variable\\\\]{background-size:var(--variable);}
 .bg-\\\\[length\\\\:1\\\\/2_20rem\\\\]{background-size:50% 20rem;}
 .bg-\\\\[length\\\\:10_20rem\\\\]{background-size:10px 20rem;}
+.bg-\\\\[position\\\\:--variable\\\\]{background-position:var(--variable);}
 .bg-\\\\[position\\\\:1\\\\/2_20rem\\\\]{background-position:50% 20rem;}
 .bg-\\\\[position\\\\:10_20rem\\\\]{background-position:10px 20rem;}
 .bg-\\\\[position\\\\:bottom_left_10\\\\%\\\\]{background-position:bottom left 10%;}
