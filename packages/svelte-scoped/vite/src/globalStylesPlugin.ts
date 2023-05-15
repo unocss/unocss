@@ -2,8 +2,9 @@ import type { Plugin, ResolvedConfig } from 'vite'
 import type { SvelteScopedContext } from '@unocss/svelte-preprocess'
 import { checkTransformPageChunkHook, generateGlobalCss, isServerHooksFile, replaceGlobalStylesPlaceholder } from './global'
 import { DEV_GLOBAL_STYLES_DATA_TITLE, PLACEHOLDER_USER_SETS_IN_INDEX_HTML } from './constants'
+import type { UnocssSvelteScopedViteOptions } from './types'
 
-export function GlobalStylesPlugin({ ready, uno }: SvelteScopedContext, addReset?: 'tailwind'): Plugin {
+export function GlobalStylesPlugin({ ready, uno }: SvelteScopedContext, addReset?: UnocssSvelteScopedViteOptions['addReset']): Plugin {
   let isSvelteKit: boolean
   let viteConfig: ResolvedConfig
   let unoCssFileReferenceId: string
