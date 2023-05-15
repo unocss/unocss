@@ -103,6 +103,12 @@ export function parseColor(body: string, theme: Theme): ParsedColorValue | undef
 
   color = color || bracket
 
+  if (!color) {
+    const colorData = getThemeColor(theme, [main])
+    if (typeof colorData === 'string')
+      color = colorData
+  }
+
   let no = 'DEFAULT'
   if (!color) {
     let colorData
