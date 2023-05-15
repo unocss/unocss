@@ -1,5 +1,6 @@
 import { createGenerator, warnOnce } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { getUtils } from './getUtils'
 
 vi.mock('@unocss/core', async () => {

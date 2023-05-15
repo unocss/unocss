@@ -19,6 +19,8 @@ export function generateClassName(body: string, options: TransformClassesOptions
 }
 
 if (import.meta.vitest) {
+  const { describe, expect, it } = import.meta.vitest
+
   describe('generateClassName', () => {
     const filename = 'Foo.svelte'
     it('prod: combined', () => {

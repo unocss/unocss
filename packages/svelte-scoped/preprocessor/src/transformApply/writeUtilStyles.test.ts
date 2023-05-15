@@ -1,5 +1,6 @@
 import type { SelectorList } from 'css-tree'
 import { parse, walk } from 'css-tree'
+import { describe, expect, it } from 'vitest'
 import { generateUpdatedSelector, surroundAllButOriginalSelectorWithGlobal } from './writeUtilStyles'
 
 describe('generateUpdatedSelector', () => {

@@ -1,5 +1,6 @@
 import { createGenerator } from '@unocss/core'
 import { format as prettier } from 'prettier'
+import { describe, expect, it } from 'vitest'
 
 // @ts-expect-error missing types
 import prettierSvelte from 'prettier-plugin-svelte'

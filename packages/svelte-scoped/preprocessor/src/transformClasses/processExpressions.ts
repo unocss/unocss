@@ -37,10 +37,12 @@ export async function processExpressions(body: string, options: TransformClasses
 }
 
 if (import.meta.vitest) {
+  const { describe, expect, it } = import.meta.vitest
+
   describe('processExpressions', () => {
     const body = `font-bold {bar ? 'text-red-600' : 'text-green-600 ${shortcutName} text-lg boo'} underline foo {baz ? 'italic ' : ''}`
 
-    test('combined', async () => {
+    it('combined', async () => {
       expect(await processExpressions(body, {}, unoMock, 'Foo.svelte')).toMatchInlineSnapshot(`
         {
           "restOfBody": "font-bold  underline foo",
@@ -65,7 +67,7 @@ if (import.meta.vitest) {
       `)
     })
 
-    test('uncombined', async () => {
+    it('uncombined', async () => {
       expect(await processExpressions(body, { combine: false }, unoMock, 'Foo.svelte')).toMatchInlineSnapshot(`
         {
           "restOfBody": "font-bold  underline foo",

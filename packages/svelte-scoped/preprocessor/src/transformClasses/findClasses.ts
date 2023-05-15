@@ -41,6 +41,8 @@ function hasBody(foundClass: FoundClass) {
 }
 
 if (import.meta.vitest) {
+  const { describe, expect, it } = import.meta.vitest
+
   describe('findClasses', () => {
     it('returns body, start, and end for basic class', () => {
       const code = '<span class="mb-1 pr-2 " />'

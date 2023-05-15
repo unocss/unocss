@@ -30,8 +30,10 @@ export async function processDirective(
 }
 
 if (import.meta.vitest) {
+  const { describe, expect, it } = import.meta.vitest
+
   describe('processDirective', () => {
-    test('ignores non-utility', async () => {
+    it('ignores non-utility', async () => {
       const classToIgnore: FoundClass = {
         body: 'foo',
         start: 0,
@@ -41,7 +43,7 @@ if (import.meta.vitest) {
       expect(await processDirective(classToIgnore, {}, unoMock, 'Foo.svelte')).toEqual(undefined)
     })
 
-    test('shortcut', async () => {
+    it('shortcut', async () => {
       const shortcut: FoundClass = {
         body: shortcutName,
         start: 0,
@@ -51,7 +53,7 @@ if (import.meta.vitest) {
       expect((await processDirective(shortcut, {}, unoMock, 'Foo.svelte'))!.rulesToGenerate).toEqual({ 'uno-jryqbp': [shortcutName] })
     })
 
-    test('handles directive', async () => {
+    it('handles directive', async () => {
       const foundClass: FoundClass = {
         body: 'mb-1',
         start: 13,

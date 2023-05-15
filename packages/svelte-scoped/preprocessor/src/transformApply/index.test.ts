@@ -2,6 +2,7 @@ import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import { format as prettier } from 'prettier'
 import parserCSS from 'prettier/parser-postcss'
+import { describe, expect, it } from 'vitest'
 import { transformApply } from '.'
 
 describe('transformApply', () => {
@@ -19,7 +20,7 @@ describe('transformApply', () => {
     }).trim()
   }
 
-  test('handles @apply', async () => {
+  it('handles @apply', async () => {
     const style = `
       .custom-class {
         @apply hidden md:block;
@@ -37,7 +38,7 @@ describe('transformApply', () => {
     `)
   })
 
-  test('handles --at-apply', async () => {
+  it('handles --at-apply', async () => {
     const style = `
       .custom-class {
         --at-apply: hidden;
@@ -50,7 +51,7 @@ describe('transformApply', () => {
     `)
   })
 
-  test('wraps global around everything that is not the starting class name', async () => {
+  it('wraps global around everything that is not the starting class name', async () => {
     const code = `
       button, .btn {
         --at-apply: flex mb-1 dark:rtl:hover:mr-1 hover:space-x-1 first-line:uppercase;
@@ -78,7 +79,7 @@ describe('transformApply', () => {
     `)
   })
 
-  test('can wrap utility names in quotes if code editor needs it', async () => {
+  it('can wrap utility names in quotes if code editor needs it', async () => {
     const notWrapped = `
       button {
         --at-apply: flex rtl:mr-1;
@@ -90,7 +91,7 @@ describe('transformApply', () => {
     expect(await transform(notWrapped)).toEqual(await transform(wrapped))
   })
 
-  test('handles complex parent and child dependent rule', async () => {
+  it('handles complex parent and child dependent rule', async () => {
     const code = `
       button {
         --at-apply: flex rtl:mr-1 dark:sm:rtl:hover:space-x-1;

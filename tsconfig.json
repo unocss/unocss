@@ -14,7 +14,6 @@
     "types": [
       "node",
       "vite/client",
-      "vitest/globals",
       "vitest/importMeta"
     ],
     "paths": {

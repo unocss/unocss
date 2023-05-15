@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import type { FoundClass } from './findClasses'
 import type { ProcessResult } from './processClasses'
 import { processClassBody } from './processClassBody'
@@ -12,7 +13,7 @@ describe('processClassBody', () => {
       type: 'regular',
     }
 
-    test('uncombined', async () => {
+    it('uncombined', async () => {
       const expected: Partial<ProcessResult> = {
         rulesToGenerate: {
           '_mb-1_7dkb0w': ['mb-1'],
@@ -28,7 +29,7 @@ describe('processClassBody', () => {
       expect(await processClassBody(foundClass, { combine: false }, unoMock, 'Foo.svelte')).toEqual(expected)
     })
 
-    test('combined', async () => {
+    it('combined', async () => {
       const expected: Partial<ProcessResult> = {
         rulesToGenerate: {
           'uno-07jvco': ['mb-1', 'mr-1'],
@@ -43,7 +44,7 @@ describe('processClassBody', () => {
       expect(await processClassBody(foundClass, { combine: true }, unoMock, 'Foo.svelte')).toEqual(expected)
     })
 
-    test('extra spaces and unknown class in middle', async () => {
+    it('extra spaces and unknown class in middle', async () => {
       const reorderedClass = {
         ...foundClass,
         body: 'mb-1   foo mr-1',
@@ -54,7 +55,7 @@ describe('processClassBody', () => {
     })
   })
 
-  test('returns empty object if only finds unknown classes', async () => {
+  it('returns empty object if only finds unknown classes', async () => {
     const classToIgnore: FoundClass = {
       body: 'foo bar',
       start: 0,
@@ -64,7 +65,7 @@ describe('processClassBody', () => {
     expect(await processClassBody(classToIgnore, {}, unoMock, 'Foo.svelte')).toEqual({})
   })
 
-  test('shortcut', async () => {
+  it('shortcut', async () => {
     const shortcut: FoundClass = {
       body: shortcutName,
       start: 0,

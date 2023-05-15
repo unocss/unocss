@@ -14,6 +14,8 @@ export function addGeneratedStylesIntoStyleBlock(code: string, styles: string) {
 }
 
 if (import.meta.vitest) {
+  const { describe, expect, it } = import.meta.vitest
+
   describe('addGeneratedStylesIntoStyleBlock', () => {
     it('adds styles to beginning of existing style block', () => {
       const code = '<style>body { background-color: red; }</style>'

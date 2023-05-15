@@ -14,15 +14,17 @@ export function wrapSelectorsWithGlobal(css: string) {
 }
 
 if (import.meta.vitest) {
+  const { describe, expect, it } = import.meta.vitest
+
   describe('wrapSelectorsWithGlobal', () => {
-    test('should wrap multiple selectors with :global()', () => {
+    it('should wrap multiple selectors with :global()', () => {
       const css = '.my-class{color:red;}[dir="rtl"] .mb-1{margin-bottom:0.25em;}'
       const expected = ':global(.my-class){color:red;}:global([dir="rtl"] .mb-1){margin-bottom:0.25em;}'
 
       expect(wrapSelectorsWithGlobal(css)).toBe(expected)
     })
 
-    test('should not wrap selectors preceded by digits', () => {
+    it('should not wrap selectors preceded by digits', () => {
       const css = `@keyframes animation {
       0% { opacity: 0; }
       100% { opacity: 1; }
@@ -32,7 +34,7 @@ if (import.meta.vitest) {
       expect(wrapSelectorsWithGlobal(css)).toBe(expected)
     })
 
-    test('should not wrap @media selectors (selectors inside parenthesis)', () => {
+    it('should not wrap @media selectors (selectors inside parenthesis)', () => {
       const css = '@media (min-width: 768px) {.my-class{color:red;}}'
       const expected = '@media (min-width: 768px) {:global(.my-class){color:red;}}'
 
