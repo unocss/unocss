@@ -7,8 +7,7 @@ import type { UserConfigDefaults } from '@unocss/core'
 import type { Plugin } from 'vite'
 
 const UNO_INJECT_ID = 'uno-astro'
-const UNO_QUERY_KEY = 'uwa'
-const queryRE = /[\&\?]uwa/
+const UNO_QUERY_KEY = 'uno-with-astro-key'
 
 interface AstroVitePluginOptions {
   injects: string[]
@@ -32,7 +31,7 @@ function AstroVitePlugin(options: AstroVitePluginOptions): Plugin {
 
       if (
         !options?.ssr
-        && queryRE.test(id)
+        && id.includes(UNO_QUERY_KEY)
         && id.includes('.css')
       )
         return ''
