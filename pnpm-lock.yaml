@@ -838,6 +838,9 @@ importers:
 
   packages/svelte-scoped/vite:
     dependencies:
+      '@unocss/reset':
+        specifier: workspace:*
+        version: link:../../reset
       '@unocss/svelte-preprocess':
         specifier: workspace:*
         version: link:../preprocessor

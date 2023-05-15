@@ -10,6 +10,7 @@ export default defineBuildConfig({
     '@unocss/core',
     '@unocss/config',
     '@unocss/preset-uno',
+    '@unocss/reset',
     'svelte',
     'vite',
   ],
