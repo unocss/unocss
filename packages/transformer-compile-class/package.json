@@ -1,6 +1,6 @@
 {
   "name": "@unocss/transformer-compile-class",
-  "version": "0.51.12",
+  "version": "0.51.13",
   "description": "Compile group of classes into one class",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",

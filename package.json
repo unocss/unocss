@@ -1,7 +1,7 @@
 {
   "name": "@unocss/monorepo",
   "type": "module",
-  "version": "0.51.12",
+  "version": "0.51.13",
   "private": true,
   "packageManager": "pnpm@8.4.0",
   "scripts": {
