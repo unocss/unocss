@@ -34,9 +34,14 @@ if (import.meta.vitest) {
     })
 
     it('should not add styles to commented out style block', () => {
-      const code = '<div /><!-- <style>body { background-color: red; }</style> -->'
       const styles = 'h1 { color: blue; }'
-      const expected = '<div /><!-- <style>body { background-color: red; }</style> -->\n<style>h1 { color: blue; }</style>'
+
+      const code = `<div />
+<!-- <style>body { background-color: red; }</style> -->`
+
+      const expected = `<div />
+<!-- <style>body { background-color: red; }</style> -->
+<style>${styles}</style>`
 
       expect(addGeneratedStylesIntoStyleBlock(code, styles)).toBe(expected)
     })

@@ -2,7 +2,8 @@ import { defineBuildConfig } from 'unbuild'
 
 export default defineBuildConfig({
   entries: [
-    'src/index',
+    'src/preprocess',
+    'src/vite',
   ],
   clean: true,
   declaration: true,
@@ -11,10 +12,14 @@ export default defineBuildConfig({
     '@unocss/config',
     '@unocss/preset-uno',
     '@unocss/reset',
+    'css-tree',
     'svelte',
     'vite',
   ],
   rollup: {
     emitCJS: true,
+  },
+  replace: {
+    'import.meta.vitest': 'undefined',
   },
 })

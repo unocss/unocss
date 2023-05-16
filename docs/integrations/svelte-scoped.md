@@ -32,39 +32,39 @@ is transformed into:
 | Use Case | | Description | Package to Use |
 | --- | --- | --- | --- |
 | Smaller apps | :x: | Having 1 global CSS file is more convenient. Use the regular Vite plugin for [Svelte](/integrations/vite#svelte)/[SvelteKit](/integrations/vite#sveltekit). | [unocss/vite](/integrations/vite#svelte) |
-| Larger apps | ✅ | Svelte Scoped can help you avoid an ever-growing global CSS file. | [@unocss/svelte-scoped-vite](#svelte-scoped-vite-plugin) |
-| Component library | ✅ | Generated styles are placed directly in built components without the need to use UnoCSS in a consuming app's build pipeline. | [@unocss/svelte-preprocess](#svelte-preprocessor) |
+| Larger apps | ✅ | Svelte Scoped can help you avoid an ever-growing global CSS file. | [@unocss/svelte-scoped/vite](#vite-plugin) |
+| Component library | ✅ | Generated styles are placed directly in built components without the need to use UnoCSS in a consuming app's build pipeline. | [@unocss/svelte-scoped/preprocess](#svelte-preprocessor) |
 
-## Svelte Scoped Vite Plugin
+## Vite Plugin
 
 In Svelte or SvelteKit apps, inject generated styles directly into your Svelte components, while only placing the bare minimum necessary styles in a global stylesheet. Check out the [SvelteKit example](https://github.com/unocss/unocss/tree/main/examples/sveltekit-scoped) in Stackblitz:
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/sveltekit-scoped)
 
 
-### Installation
+### Install
 
 ::: code-group
   ```bash [pnpm]
-  pnpm add -D unocss @unocss/svelte-scoped-vite
+  pnpm add -D unocss @unocss/svelte-scoped
   ```
   ```bash [yarn]
-  yarn add -D unocss @unocss/svelte-scoped-vite
+  yarn add -D unocss @unocss/svelte-scoped
   ```
   ```bash [npm]
-  npm install -D unocss @unocss/svelte-scoped-vite
+  npm install -D unocss @unocss/svelte-scoped
   ```
 :::
 
 #### Add plugin
 
-Add `@unocss/svelte-scoped-vite` to your Vite config:
+Add `@unocss/svelte-scoped/vite` to your Vite config:
 
 ```ts
 // vite.config.ts
 import { defineConfig } from 'vite'
 import { sveltekit } from '@sveltejs/kit/vite'
-import UnoCSS from '@unocss/svelte-scoped-vite'
+import UnoCSS from '@unocss/svelte-scoped/vite'
 
 export default defineConfig({
   plugins: [
@@ -117,29 +117,29 @@ Use utility styles to build a component library that is not dependent on includi
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/sveltekit-preprocess)
 
-### Installation
+### Install
 
 ::: code-group
   ```bash [pnpm]
-  pnpm add -D unocss @unocss/svelte-preprocess
+  pnpm add -D unocss @unocss/svelte-scoped
   ```
   ```bash [yarn]
-  yarn add -D unocss @unocss/svelte-preprocess
+  yarn add -D unocss @unocss/svelte-scoped
   ```
   ```bash [npm]
-  npm install -D unocss @unocss/svelte-preprocess
+  npm install -D unocss @unocss/svelte-scoped
   ```
 :::
 
 #### Add preprocessor
 
-Add `@unocss/svelte-preprocess` to your Svelte config:
+Add `@unocss/svelte-scoped/preprocess` to your Svelte config:
 
 ```ts
 // svelte.config.js
 import adapter from '@sveltejs/adapter-auto'
 import { vitePreprocess } from '@sveltejs/kit/vite'
-import UnoCSS from '@unocss/svelte-preprocess'
+import UnoCSS from '@unocss/svelte-scoped/preprocess'
 
 const config = {
   preprocess: [

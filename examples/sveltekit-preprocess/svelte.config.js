@@ -1,6 +1,6 @@
 import adapter from '@sveltejs/adapter-auto'
 import { vitePreprocess } from '@sveltejs/kit/vite'
-import UnoCSS from '@unocss/svelte-preprocess'
+import UnoCSS from '@unocss/svelte-scoped/preprocess'
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {

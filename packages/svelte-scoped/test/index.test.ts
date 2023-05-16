@@ -6,8 +6,8 @@ import { format as prettier } from 'prettier'
 import prettierSvelte from 'prettier-plugin-svelte'
 import presetUno from '@unocss/preset-uno'
 import presetIcons from '@unocss/preset-icons'
-import UnocssSveltePreprocess from '../src'
-import type { UnocssSveltePreprocessOptions } from '../src/types'
+import UnocssSveltePreprocess from '../src/preprocess'
+import type { UnocssSveltePreprocessOptions } from '../src/preprocess/types'
 
 const defaultOptions: UnocssSveltePreprocessOptions = {
   configOrPath: {

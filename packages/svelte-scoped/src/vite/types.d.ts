@@ -1,4 +1,4 @@
-import type { UnocssSveltePreprocessOptions } from '@unocss/svelte-preprocess'
+import type { UnocssSveltePreprocessOptions } from '../preprocess/types'
 
 export interface UnocssSvelteScopedViteOptions extends UnocssSveltePreprocessOptions {
   /**
@@ -7,7 +7,7 @@ export interface UnocssSvelteScopedViteOptions extends UnocssSveltePreprocessOpt
   */
   classPrefix?: string
   /**
-   * Add Tailwind reset to the beginning of the global stylesheet
+   * Add reset to the beginning of the global stylesheet
    * @default undefined
    */
   addReset?: StyleReset | undefined

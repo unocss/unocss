@@ -1,5 +1,5 @@
 import type { Plugin, ResolvedConfig } from 'vite'
-import type { SvelteScopedContext } from '@unocss/svelte-preprocess'
+import type { SvelteScopedContext } from '../preprocess'
 import { checkTransformPageChunkHook, generateGlobalCss, isServerHooksFile, replaceGlobalStylesPlaceholder } from './global'
 import { DEV_GLOBAL_STYLES_DATA_TITLE, PLACEHOLDER_USER_SETS_IN_INDEX_HTML } from './constants'
 import type { UnocssSvelteScopedViteOptions } from './types'

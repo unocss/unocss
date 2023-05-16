@@ -814,14 +814,17 @@ importers:
         specifier: workspace:*
         version: link:../scope
 
-  packages/svelte-scoped/preprocessor:
+  packages/svelte-scoped:
     dependencies:
       '@unocss/config':
         specifier: workspace:*
-        version: link:../../config
+        version: link:../config
+      '@unocss/reset':
+        specifier: workspace:*
+        version: link:../reset
       '@unocss/transformer-directives':
         specifier: workspace:*
-        version: link:../../transformer-directives
+        version: link:../transformer-directives
       css-tree:
         specifier: ^2.3.1
         version: 2.3.1
@@ -835,15 +838,6 @@ importers:
       svelte:
         specifier: ^3.58.0
         version: 3.58.0
-
-  packages/svelte-scoped/vite:
-    dependencies:
-      '@unocss/reset':
-        specifier: workspace:*
-        version: link:../../reset
-      '@unocss/svelte-preprocess':
-        specifier: workspace:*
-        version: link:../preprocessor
 
   packages/transformer-attributify-jsx:
     dependencies:

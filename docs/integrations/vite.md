@@ -72,7 +72,7 @@ This mode will inject generated CSS to Vue SFCs `<style scoped>` for isolation.
 
 ### `svelte-scoped`
 
-`svelte-scoped` mode has been moved to its own package, see [@unocss/svelte-scoped-vite](/integrations/svelte-scoped).
+`svelte-scoped` mode has been moved to its own package, see [@unocss/svelte-scoped/vite](/integrations/svelte-scoped).
 
 ### `shadow-dom`
 
