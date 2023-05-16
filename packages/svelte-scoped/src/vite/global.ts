@@ -4,10 +4,9 @@ import { DEV_GLOBAL_STYLES_DATA_TITLE, GLOBAL_STYLES_PLACEHOLDER, PLACEHOLDER_US
 import type { UnocssSvelteScopedViteOptions } from './types'
 import tailwindReset from './resets/tailwind-reset.min'
 
-// Each incurs: SyntaxError: Unexpected token '*'
+// svelte-kit dev errors on these, if build then `Unknown file extension ".css"` or if stub then `SyntaxError: Unexpected token '*'`
 // import tailwindReset from '@unocss/reset/tailwind.css'
 // import tailwindReset from '@unocss/reset/tailwind.css?raw'
-// import tailwindReset from '@unocss/reset/tailwind.css?inline'
 
 /**
  * It would be nice to parse the svelte config to learn if user set a custom hooks.server name but both of the following methods have problems:
@@ -32,8 +31,6 @@ export async function generateGlobalCss(uno: UnoGenerator, addReset?: UnocssSvel
   const { css } = await uno.generate('', { preflights: true, safelist: true, minify: true })
   if (addReset === 'tailwind')
     return tailwindReset + css
-  // if (addReset === 'normalize')
-    // ...etc
   return css
 }
 
