@@ -12,8 +12,8 @@ describe('transformApply', () => {
     ],
   })
 
-  async function transform(code: string) {
-    const transformed = await transformApply({ code, uno })
+  async function transform(content: string, prepend?: string) {
+    const transformed = (await transformApply({ content, uno, prepend }))?.code
     return prettier(transformed || '', {
       parser: 'css',
       plugins: [parserCSS],
@@ -122,6 +122,26 @@ describe('transformApply', () => {
         button {
           margin-bottom: 0.25rem;
         }
+      }"
+    `)
+  })
+
+  it('prepends', async () => {
+    const style = `
+      .custom-class {
+        --at-apply: hidden;
+      }
+    `
+    const prepend = `
+    ::backdrop {
+      --un-rotate: 0;
+    }`
+    expect(await transform(style, prepend)).toMatchInlineSnapshot(`
+      "::backdrop {
+        --un-rotate: 0;
+      }
+      .custom-class {
+        display: none;
       }"
     `)
   })

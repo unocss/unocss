@@ -1,6 +1,7 @@
 import { toArray } from '@unocss/core'
 import type { UnoGenerator } from '@unocss/core'
 import MagicString from 'magic-string'
+import type { Processed } from 'svelte/types/compiler/preprocess'
 import type { CssNode, Rule } from 'css-tree'
 import { parse, walk } from 'css-tree'
 import type { TransformApplyOptions } from '../types'
@@ -14,21 +15,32 @@ interface TransformApplyContext {
   applyVariables: string[]
 }
 const DEFAULT_APPLY_VARIABLES = ['--at-apply']
-const emptyRulesetsRE = /[^}]+{\s*}/g
 
-export async function transformApply({ code, uno, applyVariables }: { code: string; uno: UnoGenerator; applyVariables?: TransformApplyOptions['applyVariables'] }): Promise<string | void> {
+export async function transformApply({ content, uno, prepend, applyVariables, filename }: {
+  content: string
+  uno: UnoGenerator
+  prepend?: string
+  applyVariables?: TransformApplyOptions['applyVariables']
+  filename?: string
+}): Promise<Processed | void> {
   applyVariables = toArray(applyVariables || DEFAULT_APPLY_VARIABLES)
-  const hasApply = code.includes('@apply') || applyVariables.some(v => code.includes(v))
+  const hasApply = content.includes('@apply') || applyVariables.some(v => content.includes(v))
   if (!hasApply)
     return
 
-  const s = new MagicString(code)
+  const s = new MagicString(content)
   await walkCss({ s, uno, applyVariables })
 
   if (!s.hasChanged())
     return
-  const result = s.toString()
-  return result.replace(emptyRulesetsRE, '')
+
+  if (prepend)
+    s.prepend(prepend)
+
+  return {
+    code: s.toString(),
+    map: s.generateMap({ hires: true, source: filename || '' }),
+  }
 }
 
 async function walkCss(ctx: TransformApplyContext,
@@ -81,3 +93,6 @@ function getChildNodeValue(childNode: CssNode, applyVariables: string[]): string
   if (childNode!.type === 'Declaration' && applyVariables.includes(childNode.property) && childNode.value.type === 'Raw')
     return removeOuterQuotes(childNode.value.value.trim())
 }
+
+// const emptyRulesetsRE = /[^}]+{\s*}/g
+// Changed to not removing empty rulesets (occur when using apply with only more complicated utilities) in favor of being able to easily output CSS sourcemaps. Since the parseApply function already removes the --at-apply line from the interior of a ruleset, we can't use magic-string's remove on the entire ruleset. It would have been nice for component library authors, but it will make the code very complex and the Svelte compiler will strip out the empty ruleset anyways.

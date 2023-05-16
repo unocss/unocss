@@ -22,7 +22,7 @@ export default function UnocssSveltePreprocess(options: UnocssSveltePreprocessOp
       return await transformClasses({ content, filename: filename || '', uno, options })
     },
 
-    style: async ({ content, attributes }) => {
+    style: async ({ content, attributes, filename }) => {
       const addPreflights = !!attributes['uno:preflights']
       const addSafelist = !!attributes['uno:safelist']
 
@@ -44,14 +44,13 @@ export default function UnocssSveltePreprocess(options: UnocssSveltePreprocessOp
       }
 
       if (checkForApply) {
-        const transformedApplies = await transformApply({
-          code: content,
+        return await transformApply({
+          content,
+          prepend: preflightsSafelistCss,
           uno,
           applyVariables: options.applyVariables,
+          filename,
         })
-
-        if (transformedApplies)
-          return { code: preflightsSafelistCss + transformedApplies }
       }
 
       if (preflightsSafelistCss)
