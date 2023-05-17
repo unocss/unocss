@@ -2,11 +2,7 @@ import type { UnoGenerator } from '@unocss/core'
 import type { ViteDevServer } from 'vite'
 import { DEV_GLOBAL_STYLES_DATA_TITLE, GLOBAL_STYLES_PLACEHOLDER, PLACEHOLDER_USER_SETS_IN_INDEX_HTML } from './constants'
 import type { UnocssSvelteScopedViteOptions } from './types'
-import tailwindReset from './resets/tailwind-reset.min'
-
-// svelte-kit dev errors on these, if build then `Unknown file extension ".css"` or if stub then `SyntaxError: Unexpected token '*'`
-// import tailwindReset from '@unocss/reset/tailwind.css'
-// import tailwindReset from '@unocss/reset/tailwind.css?raw'
+import { getReset } from './getReset'
 
 /**
  * It would be nice to parse the svelte config to learn if user set a custom hooks.server name but both of the following methods have problems:
@@ -29,9 +25,8 @@ export function replaceGlobalStylesPlaceholder(code: string, stylesTag: string) 
 
 export async function generateGlobalCss(uno: UnoGenerator, addReset?: UnocssSvelteScopedViteOptions['addReset']): Promise<string> {
   const { css } = await uno.generate('', { preflights: true, safelist: true, minify: true })
-  if (addReset === 'tailwind')
-    return tailwindReset + css
-  return css
+  const reset = addReset ? getReset(addReset) : ''
+  return reset + css
 }
 
 const SVELTE_ERROR = `[unocss] You have not setup the svelte-scoped global styles correctly. You must place '${PLACEHOLDER_USER_SETS_IN_INDEX_HTML}' in your index.html file.

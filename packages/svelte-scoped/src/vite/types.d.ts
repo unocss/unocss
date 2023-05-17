@@ -18,4 +18,4 @@ export interface UnocssSvelteScopedViteOptions extends UnocssSveltePreprocessOpt
   onlyGlobal?: boolean
 }
 
-type StyleReset = 'tailwind'; // 'normalize' | 'sanitize' | 'eric-meyer' | 'tailwind-compat'
+type StyleReset = 'normalize' | 'sanitize' | 'eric-meyer' | 'tailwind' | 'tailwind-compat'
