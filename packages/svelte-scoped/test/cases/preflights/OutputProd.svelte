@@ -1,6 +1,6 @@
-<div class="spu-buw73b" />
+<div class="spu-ff1ijb" />
 
-<style uno:preflights uno:safelist>
+<style uno:preflights>
   *,
   ::before,
   ::after {
@@ -107,11 +107,13 @@
     --un-backdrop-saturate: ;
     --un-backdrop-sepia: ;
   }
-  .mb-7px {
-    margin-bottom: 7px;
-  }
-  :global(.spu-buw73b) {
+  :global(.spu-ff1ijb) {
     margin-bottom: 0.25rem;
+    --un-shadow: var(--un-shadow-inset) 0 1px 3px 0
+        var(--un-shadow-color, rgba(0, 0, 0, 0.1)),
+      var(--un-shadow-inset) 0 1px 2px -1px var(--un-shadow-color, rgba(0, 0, 0, 0.1));
+    box-shadow: var(--un-ring-offset-shadow), var(--un-ring-shadow),
+      var(--un-shadow);
   }
   div {
     border-radius: 0.25rem;

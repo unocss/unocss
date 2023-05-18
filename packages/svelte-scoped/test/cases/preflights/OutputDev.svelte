@@ -1,6 +1,6 @@
-<div class="_mb-1_b00x5a" />
+<div class="_mb-1_32yp54 _shadow_32yp54" />
 
-<style uno:preflights uno:safelist>
+<style uno:preflights>
   *,
   ::before,
   ::after {
@@ -107,11 +107,15 @@
     --un-backdrop-saturate: ;
     --un-backdrop-sepia: ;
   }
-  .mb-7px {
-    margin-bottom: 7px;
-  }
-  :global(._mb-1_b00x5a) {
+  :global(._mb-1_32yp54) {
     margin-bottom: 0.25rem;
+  }
+  :global(._shadow_32yp54) {
+    --un-shadow: var(--un-shadow-inset) 0 1px 3px 0
+        var(--un-shadow-color, rgba(0, 0, 0, 0.1)),
+      var(--un-shadow-inset) 0 1px 2px -1px var(--un-shadow-color, rgba(0, 0, 0, 0.1));
+    box-shadow: var(--un-ring-offset-shadow), var(--un-ring-shadow),
+      var(--un-shadow);
   }
   div {
     border-radius: 0.25rem;

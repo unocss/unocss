@@ -26,8 +26,7 @@ is transformed into:
 </style>
 ```
 
-
-## When to Use
+## When to use
 
 | Use Case | | Description | Package to Use |
 | --- | --- | --- | --- |
@@ -35,9 +34,138 @@ is transformed into:
 | Larger apps | ✅ | Svelte Scoped can help you avoid an ever-growing global CSS file. | [@unocss/svelte-scoped/vite](#vite-plugin) |
 | Component library | ✅ | Generated styles are placed directly in built components without the need to use UnoCSS in a consuming app's build pipeline. | [@unocss/svelte-scoped/preprocess](#svelte-preprocessor) |
 
+## How it works
+
+A regular UnoCSS/Tailwind setup places utility styles in a global CSS file with proper ordering. In contrast, Svelte Scoped distributes your styles across many arbitrarily ordered Svelte component CSS files. However, it must keep the utility styles global to allow them to be context aware as needed for things like right-to-left and other [use cases](#context-aware) listed below. This presents a challenge that is solved by using Svelte's `:global()` wrapper to opt out of the default Svelte CSS hashing method and instead use a hash based on filename + class name(s) to compile unique class names that can be made global without style conflicts.
+
+## Usage
+
+Because Svelte Scoped rewrites your utility class names, you are limited in where you can write them:
+
+| Supported Syntax | Example |
+| --- | --- |
+| Class attribute | `<div class="mb-1" />` |
+| Class directive | `<div class:mb-1={condition} />` |
+| Class directive shorthand | `<div class:logo />` |
+| Class prop | `<Button class="mb-1" />` |
+
+Svelte Scoped is designed to be a drop-in replacement for a project that uses utility styles. As such, expressions found within class attributes are also supported (e.g. `<div class="mb-1 {foo ? 'mr-1' : 'mr-2'}" />`) but we recommend you use the class directive syntax moving forward. Note also that if you've used class names in other ways like placing them in a `<script>` block or using attributify mode then you'll need to take additional steps before using Svelte Scoped. You can utilize the `safelist` option and also check the [presets](#presets-support) section below for more tips.
+
+### Context aware
+
+Even though styles are distributed across your app's Svelte components, they are still global classes and will work in relationship to elements found outside of their specific components. Here are some examples:
+
+#### Parent dependent
+
+Classes that depend on attributes found in a parent component:
+
+```svelte
+<div class="dark:mb-2 rtl:right-0"></div>
+```
+
+turn into:
+
+```svelte
+<div class="uno-3hashz"></div>
+
+<style>
+  :global(.dark .uno-3hashz) {
+    margin-bottom: 0.5rem;
+  }
+  :global([dir="rtl"] .uno-3hashz) {
+    right: 0rem;
+  }
+</style>
+```
+
+#### Children influencing
+
+You can add space between 3 children elements of which some are in separate components:
+
+```svelte
+<div class="space-x-1">
+  <div>Status: online</div>
+  <Button>FAQ</Button>
+  <Button>Login</Button>
+</div>
+```
+
+turns into:
+
+```svelte
+<div class="uno-7haszz">
+  <div>Status: online</div>
+  <Button>FAQ</Button>
+  <Button>Login</Button>
+</div>
+
+<style>
+  :global(.uno-7haszz > :not([hidden]) ~ :not([hidden])) {
+    --un-space-x-reverse: 0;
+    margin-left: calc(0.25rem * calc(1 - var(--un-space-x-reverse)));
+    margin-right: calc(0.25rem * var(--un-space-x-reverse));
+  }
+</style>
+```
+
+#### Passing classes to child components
+
+You can add a `class` prop to a component to allow passing custom classes wherever that component is consumed. 
+
+```svelte
+<Button class="px-2 py-1">Login</Button>
+```
+
+turns into:
+
+```svelte
+<Button class="uno-4hshza">Login</Button>
+
+<style>
+  :global(.uno-4hshza) {
+    padding-left:0.5rem;
+    padding-right:0.5rem;
+    padding-top:0.25rem;
+    padding-bottom:0.25rem;
+  }
+</style>
+```
+
+An easy way to implement the class in a receiving component would be to place them on to an element using `{$$props.class}` as in `div class="{$$props.class} foo bar" />`.
+
+### Apply directives
+
+You can use apply directives inside your `<style>` blocks with either `--at-apply` or `@apply` or a custom value set using the `applyVariables` option. 
+
+Svelte Scoped even properly handles context dependent classes like `dark:text-white` that the regular [`@unocss/transformer-directives`](/transformers/directives) package can't handle properly because it wasn't built specifically for Svelte style blocks. For example, with Svelte Scoped this component:
+
+```svelte
+<div />
+
+<style>
+  div {
+    --at-apply: rtl:ml-2;
+  }
+</style>
+```
+
+will be transformed into:
+
+```svelte
+<div />
+
+<style>
+  :global([dir=\\"rtl\\"]) div {
+    margin-right: 0.5rem;
+  }
+</style>
+```
+
+In order for `rtl:ml-2` to work properly, the `[dir="rtl"]` selector is wrapped with `:global()` to keep the Svelte compiler from stripping it out automatically as the component has no element with that attribute. However, `div` can't be included in the `:global()` wrapper because that style would then affect every `div` in your app.
+
 ## Vite Plugin
 
-In Svelte or SvelteKit apps, inject generated styles directly into your Svelte components, while only placing the bare minimum necessary styles in a global stylesheet. Check out the [SvelteKit example](https://github.com/unocss/unocss/tree/main/examples/sveltekit-scoped) in Stackblitz:
+In Svelte or SvelteKit apps, inject generated styles directly into your Svelte components, while placing the minimum necessary styles in a global stylesheet. Check out the [SvelteKit example](https://github.com/unocss/unocss/tree/main/examples/sveltekit-scoped) in Stackblitz:
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/sveltekit-scoped)
 
@@ -152,7 +280,7 @@ const config = {
 }
 ```
 
-#### Don't Combine Class Names in Development
+#### Don't combine class names in development
 
 When using Svelte Scoped in a normal app, the Vite plugin will automatically detect `dev` vs `build`. In development, classes will be kept distinct and hashed in place for ease of toggling on/off in your browser's developer tools. `class="mb-1 mr-1"` will turn into something like `class="_mb-1_9hwi32 _mr-1_84jfy4`. In production, these will be compiled into a single class name using your desired prefix, `uno-` by default, and a hash based on the filename + class names, e.g. `class="uno-84dke3`.
 
@@ -180,15 +308,35 @@ const config = {
 
 Setup your `uno.config.ts` file as described [below](#configuration).
 
-### Preflights & Safelist
+### Preflights
 
-When using Svelte Scoped as a preprocessor you have the option to include preflights/safelist classes directly in your component by adding `uno:preflights` or `uno:safelist` as a style attribute. 
+When using the preprocessor you have the option to include preflights in your component by adding `uno:preflights` as a style attribute. 
 
 ```html
-<style uno:preflights uno:safelist></style>
+<style uno:preflights></style>
 ```
 
 Adding preflights into individual components is unnecessary if your classes do not depend on preflights or your built components are being consumed only in apps that already include preflights.
+
+### Safelist
+
+When using the preprocessor you have the option to include safelist classes in your component by adding `uno:safelist` as a style attribute. 
+
+```html
+<style uno:safelist global></style>
+```
+
+To avoid having the Svelte compiler then strip them out because they're not found in the component, you'll also need to add the `global` modifier which will require https://github.com/sveltejs/svelte-preprocess. It's probably easier to just use `--at-apply` instead:
+
+```svelte
+<div class:computed-foo={condition} />
+
+<style>
+  :global(.computed-foo) {
+    --at-apply: mb-1 mr-2;
+  }
+</style>
+```
 
 ## Configuration
 
@@ -208,128 +356,6 @@ See [Config File](/guide/config-file) and [Config reference](/config/) for more 
 ::: info
 Transformers and extractors are not supported due to the differences in normal UnoCSS global usage and Svelte Scoped usage.
 :::
-
-
-## Usage
-
-The following methods of writing classes are supported:
-
-- `class="mb-1 mr-1"`
-- `class:mb-1={condition}`
-- `class:logo` (both the class and condition have the same name)
-
-### Context dependent classes
-
-Svelte Scoped will automatically compile class names to a unique name based on class name(s) + component name and then add a `:global()` wrapper which keeps the Svelte compiler from stripping them out and allows classes to have global influence without style conflicts.
-
-#### Parent dependent
-
-Classes that depend on attributes found in a parent component:
-
-```svelte
-<div class="dark:mb-2 rtl:right-0"></div>
-```
-
-turn into:
-
-```svelte
-<div class="uno-3hashz"></div>
-
-<style>
-  :global(.dark .uno-3hashz) {
-    margin-bottom: 0.5rem;
-  }
-  :global([dir="rtl"] .uno-3hashz) {
-    right: 0rem;
-  }
-</style>
-```
-
-#### Children influencing
-
-You can add space between 3 children elements of which some are in separate components:
-
-```svelte
-<div class="space-x-1">
-  <div>Status: online</div>
-  <Button>FAQ</Button>
-  <Button>Login</Button>
-</div>
-```
-
-turns into:
-
-```svelte
-<div class="uno-7haszz">
-  <div>Status: online</div>
-  <Button>FAQ</Button>
-  <Button>Login</Button>
-</div>
-
-<style>
-  :global(.uno-7haszz > :not([hidden]) ~ :not([hidden])) {
-    --un-space-x-reverse: 0;
-    margin-left: calc(0.25rem * calc(1 - var(--un-space-x-reverse)));
-    margin-right: calc(0.25rem * var(--un-space-x-reverse));
-  }
-</style>
-```
-
-#### Passing classes to child components
-
-You can add a `class` prop to a component to allow passing custom classes wherever that component is consumed. 
-
-```svelte
-<Button class="px-2 py-1">Login</Button>
-```
-
-turns into:
-
-```svelte
-<Button class="uno-4hshza">Login</Button>
-
-<style>
-  :global(.uno-4hshza) {
-    padding-left:0.5rem;
-    padding-right:0.5rem;
-    padding-top:0.25rem;
-    padding-bottom:0.25rem;
-  }
-</style>
-```
-
-An easy way to implement the class in the receiving component (`Button` in the example above) is to place them on to an element using `{$$props.class}` as in `div class="{$$props.class} foo bar" />`.
-
-### Apply directives
-
-You can use apply directives inside your `<style>` blocks with either `--at-apply` or `@apply` or any custom value set using the `applyVariables` option. 
-
-Svelte Scoped even properly handles context dependent classes like `dark:text-white` that the regular [`@unocss/transformer-directives`](/transformers/directives) package can't handle properly because it wasn't built specifically for Svelte style blocks. For example, with Svelte Scoped this component:
-
-```svelte
-<div />
-
-<style>
-  div {
-    --at-apply: rtl:ml-2;
-  }
-</style>
-```
-
-will be transformed into:
-
-```svelte
-<div />
-
-<style>
-  :global([dir=\\"rtl\\"]) div {
-    margin-right: 0.5rem;
-     rtl:ml-1;
-  }
-</style>
-```
-
-In order for `rtl:ml-2` to work properly, the `[dir="rtl"]` selector needs wrapped with `:global()` to keep the Svelte compiler from stripping it out automatically as the component has no element with that attribute. However, you don't want `div` being included in the `:global()` wrapper because that would then affect every `div` element in your entire app.
 
 ## Presets support
 
