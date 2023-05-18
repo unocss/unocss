@@ -5,7 +5,7 @@ import UnoCSS from '@unocss/svelte-scoped/vite'
 export default defineConfig({
   plugins: [
     UnoCSS({
-      addReset: 'tailwind',
+      injectReset: '@unocss/reset/tailwind.css',
     }),
     sveltekit(),
   ],

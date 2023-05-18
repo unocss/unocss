@@ -69,7 +69,7 @@ import UnoCSS from '@unocss/svelte-scoped/vite'
 export default defineConfig({
   plugins: [
     UnoCSS({
-      // addReset: 'tailwind',
+      // injectReset: '@unocss/reset/normalize.css', // see type definition for all included reset options or how to pass in your own
       // ...other Svelte Scoped options
     }),
     sveltekit(),
@@ -83,7 +83,7 @@ Setup your `uno.config.ts` file as described [below](#configuration).
 
 #### Global styles
 
-While almost all styles are placed into individual components, there are still a few that must be placed into a global stylesheet: preflights, safelist, and an optional reset (if you use the `addReset` option).
+While almost all styles are placed into individual components, there are still a few that must be placed into a global stylesheet: preflights, safelist, and an optional reset (if you use the `injectReset` option).
 
 Add the `%unocss-svelte-scoped.global%` placeholder into your `<head>` tag. In Svelte this is `index.html`. In SvelteKit this will be in `app.html` before `%sveltekit.head%`:
 

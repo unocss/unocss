@@ -23,9 +23,9 @@ export function replaceGlobalStylesPlaceholder(code: string, stylesTag: string) 
   // preset-web-fonts doesn't heed the minify option and sends through newlines (\n) that break if we use regular quotes here. Always using a backtick here is easier than removing newlines, which are actually kind of useful in dev mode. I might consider turning minify off altogether in dev mode.
 }
 
-export async function generateGlobalCss(uno: UnoGenerator, addReset?: UnocssSvelteScopedViteOptions['addReset']): Promise<string> {
+export async function generateGlobalCss(uno: UnoGenerator, injectReset?: UnocssSvelteScopedViteOptions['injectReset']): Promise<string> {
   const { css } = await uno.generate('', { preflights: true, safelist: true, minify: true })
-  const reset = addReset ? getReset(addReset) : ''
+  const reset = injectReset ? getReset(injectReset) : ''
   return reset + css
 }
 

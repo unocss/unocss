@@ -10,7 +10,7 @@ export default function UnocssSvelteScopedVite(options: UnocssSvelteScopedViteOp
   const context = createSvelteScopedContext(options.configOrPath)
 
   const plugins: Plugin[] = [
-    GlobalStylesPlugin(context, options.addReset),
+    GlobalStylesPlugin(context, options.injectReset),
   ]
 
   if (!options.onlyGlobal)

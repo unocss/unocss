@@ -1,30 +1,30 @@
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync, statSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import type { UnocssSvelteScopedViteOptions } from './types'
 
 const _dirname = typeof __dirname !== 'undefined'
   ? __dirname
   : dirname(fileURLToPath(import.meta.url))
 
-// Method 1: Include @unocss/reset as a dependency of svelte-scoped. This works in my machine with pnpm but will it always work?
-export function getReset(addReset: UnocssSvelteScopedViteOptions['addReset']): string | undefined {
-  if (addReset === 'eric-meyer')
-    return readFileSync(resolve(_dirname, '../node_modules/@unocss/reset/eric-meyer.css'), 'utf-8')
+export function getReset(injectReset: string): string {
+  if (injectReset.startsWith('@unocss/reset'))
+    return readFileSync(resolve(_dirname, `../node_modules/${injectReset}`), 'utf-8')
 
-  if (addReset === 'normalize')
-    return readFileSync(resolve(_dirname, '../node_modules/@unocss/reset/normalize.css'), 'utf-8')
+  if (injectReset.startsWith('.') || injectReset.startsWith('/')) {
+    const resolved = resolve(process.cwd(), injectReset)
+    if (!isFile(resolved))
+      throw new Error(`${injectReset} given as your injectReset value is not a valid file path relative to the root of your project, where your vite config file sits. To give an example, if you placed a reset.css in your src directory, "./src/reset.css" would work.`)
 
-  if (addReset === 'sanitize')
-    return readFileSync(resolve(_dirname, '../node_modules/@unocss/reset/sanitize/sanitize.css'), 'utf-8')
-    // this one is bit more complicated with a base reset and additional resets for specific areas https://unocss.dev/guide/style-reset#sanitize-css. Do we provide the base and point people to https://github.com/csstools/sanitize.css#usage for direct CDN imports if they want more than the base?
+    return readFileSync(resolved, 'utf-8')
+  }
 
-  if (addReset === 'tailwind')
-    return readFileSync(resolve(_dirname, '../node_modules/@unocss/reset/tailwind.css'), 'utf-8')
+  const resolvedFromNodeModules = resolve(process.cwd(), 'node_modules', injectReset)
+  if (!isFile(resolvedFromNodeModules))
+    throw new Error(`${injectReset} given as your injectReset value is not a valid file path relative to your project's node_modules folder. Can you confirm that you've installed ${injectReset}?`)
 
-  if (addReset === 'tailwind-compat')
-    return readFileSync(resolve(_dirname, '../node_modules/@unocss/reset/tailwind-compat.css'), 'utf-8')
+  return readFileSync(resolvedFromNodeModules, 'utf-8')
 }
 
-// Method 2: copy resets into svelte-scoped/dist/reset at build/stub time
-// readFileSync(resolve(_dirname, 'reset/normalize.css'), 'utf-8')
+function isFile(path: string) {
+  return existsSync(path) && statSync(path).isFile()
+}
