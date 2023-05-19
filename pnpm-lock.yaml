@@ -822,9 +822,6 @@ importers:
       '@unocss/reset':
         specifier: workspace:*
         version: link:../reset
-      '@unocss/transformer-directives':
-        specifier: workspace:*
-        version: link:../transformer-directives
       css-tree:
         specifier: ^2.3.1
         version: 2.3.1
