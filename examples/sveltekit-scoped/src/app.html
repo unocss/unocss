@@ -4,15 +4,19 @@
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
 		<meta name="viewport" content="width=device-width" />
+		<title>SvelteKit using UnoCSS Svelte Scoped</title>
 
-		<!-- Resets must be added here before any sveltekit injected styles -->
-		<link rel="stylesheet" href="%sveltekit.assets%/tw-reset.css">
-		<!-- Place other styles here that you want component based styles to be able to override -->
-		<link rel="stylesheet" href="%sveltekit.assets%/tw-prose.css" />
+    <!-- If you have a preferred styles reset and don't turn on one of the optional resets provided by @unocss/svelte-scoped/vite, add that first  -->
+		
+    <!-- Then the global styles from @unocss/svelte-scoped/vite (optional reset, preflights and safelists). These are inlined in dev, added as a cacheable hashed css file in build. -->
+		%unocss-svelte-scoped.global%
+
+		<!-- Place other styles here that you want component based utility styles to be able to override as Svelte component styles will be placed at sveltekit's head tag below -->
 
 		%sveltekit.head%
 	</head>
-	<body data-sveltekit-prefetch>
+	<body data-sveltekit-preload-data="hover">
+		<!-- To use UnoCSS classes in this app.html add them to UnoCSS safelist -->
 		<div>%sveltekit.body%</div>
 	</body>
 </html>

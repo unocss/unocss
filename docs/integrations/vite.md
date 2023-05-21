@@ -72,7 +72,7 @@ This mode will inject generated CSS to Vue SFCs `<style scoped>` for isolation.
 
 ### `svelte-scoped`
 
-This mode will inject generated CSS to Svelte's `<style>` for isolation.
+`svelte-scoped` mode has been moved to its own package, see [@unocss/svelte-scoped/vite](/integrations/svelte-scoped).
 
 ### `shadow-dom`
 
@@ -231,44 +231,8 @@ const config = {
   ],
 }
 ```
-<!-- :sandbox{src="https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/sveltekit"} -->
 
 You have a `SvelteKit` example project in [examples/sveltekit](https://github.com/unocss/unocss/tree/main/examples/sveltekit) directory.
-
-### Svelte/SvelteKit Scoped Mode
-
-Adding `mode: 'svelte-scoped'` to your UnoCSS config options will place styles right inside of each component's style block instead of in a global `uno.css` file. Due to automatic class name compilation, classes that depend on attributes in parent components (like `dir="rtl"` or `.dark`) will just work. Also, you can pass classes to children components as long as you pass them using a prop named `class`, e.g. `class="text-lg bg-red-100"`. 
-
-Support for `class:foo` and `class:foo={bar}` is already included. There is no need to add the `extractorSvelte` when using `svelte-scoped` mode.
-
-Because there is no `import 'uno.css'` in your root `+layout.svelte` preflights and safelist classes have no where to be placed. Add the `uno:preflights` or `uno:safelist` attributes to the style block of any component where you want to place them. To use both globally, add the following to your root `+layout.svelte`: 
-
-```html
-<style uno:preflights uno:safelist global></style>
-```
-
-Alternatively, if you only want them to apply to a specific component just add them to that component's `style` tag and don't add the `global` attribute.
-
-```ts
-// vite.config.js
-import { sveltekit } from '@sveltejs/kit/vite'
-import UnoCSS from 'unocss/vite'
-
-/** @type {import('vite').UserConfig} */
-const config = {
-  plugins: [
-    UnoCSS({
-      mode: 'svelte-scoped',
-      /* options */
-    }),
-    sveltekit(),
-  ],
-}
-```
-
-<!-- :sandbox{src="https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/sveltekit-scoped"} -->
-
-There is a `SvelteKit scoped` example project in the [examples/sveltekit-scoped](https://github.com/unocss/unocss/tree/main/examples/sveltekit-scoped#readme) directory with more detailed explanation of how this mode works.
 
 ### Web Components
 

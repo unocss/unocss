@@ -1,0 +1,65 @@
+{
+  "name": "@unocss/svelte-scoped",
+  "type": "module",
+  "version": "0.51.8",
+  "description": "Use UnoCSS in a modular fashion with styles being stored only in the Svelte component they are used in: Vite plugin for apps, preprocessor for component libraries",
+  "author": "Jacob Bowdoin",
+  "license": "MIT",
+  "homepage": "https://github.com/unocss/unocss/tree/main/packages/svelte-scoped#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unocss/unocss.git",
+    "directory": "packages/svelte-scoped"
+  },
+  "bugs": {
+    "url": "https://github.com/unocss/unocss/issues"
+  },
+  "keywords": [
+    "sveltekit",
+    "svelte",
+    "unocss",
+    "utility-styles",
+    "component-scoped",
+    "component-library"
+  ],
+  "sideEffects": false,
+  "exports": {
+    "./preprocess": {
+      "types": "./dist/preprocess.d.ts",
+      "require": "./dist/preprocess.cjs",
+      "import": "./dist/preprocess.mjs"
+    },
+    "./vite": {
+      "types": "./dist/vite.d.ts",
+      "require": "./dist/vite.cjs",
+      "import": "./dist/vite.mjs"
+    }
+  },
+  "main": "./dist/vite.cjs",
+  "module": "./dist/vite.mjs",
+  "types": "./dist/vite.d.ts",
+  "typesVersions": {
+    ">4.0": {
+      "preprocess": ["./dist/preprocess.d.ts"],
+      "vite": ["./dist/vite.d.ts"]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub",
+    "bench": "vitest bench"
+  },
+  "dependencies": {
+    "@unocss/config": "workspace:*",
+    "@unocss/reset": "workspace:*",
+    "css-tree": "^2.3.1",
+    "magic-string": "^0.30.0"
+  },
+  "devDependencies": {
+    "prettier-plugin-svelte": "^2.10.0",
+    "svelte": "^3.58.0"
+  }
+}
