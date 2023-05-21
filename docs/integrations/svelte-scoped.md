@@ -361,11 +361,9 @@ Transformers and extractors are not supported due to the differences in normal U
 
 Do to the nature of having a few necessary styles in a global stylesheet and everything else contained in each component where needed, presets need to be handled on a case-by-case basis:
 
-| | Supported | Notes | 
+| Preset | Supported | Notes | 
 | --- | :-- | :-- | 
-| Presets that only add rules/variants | ✅ | PresetUno, PresetMini, PresetWind, etc...  |
-| [@unocss/preset-icons](https://github.com/unocss/unocss/tree/main/packages/preset-icons) | ✅ |  |
-| [@unocss/web-fonts](https://github.com/unocss/unocss/tree/main/packages/preset-icons) | ✅ |  | 
+| [@unocss/preset-uno](https://unocss.dev/presets/uno), [@unocss/preset-mini](https://unocss.dev/presets/mini), [@unocss/preset-wind](https://unocss.dev/presets/wind), [@unocss/preset-icons](https://github.com/unocss/unocss/tree/main/packages/preset-icons), [@unocss/web-fonts](https://github.com/unocss/unocss/tree/main/packages/preset-icons) | ✅ | These and all community plugins, e.g. [unocss-preset-forms](https://github.com/Julien-R44/unocss-preset-forms), that only rely on rules/variants/preflights will work. |
 | [@unocss/preset-typography](https://github.com/unocss/unocss/tree/main/packages/preset-typography) | ✅ | Using the `.prose` class adds a large amount of rulesets which Svelte Scoped will not properly surround with `:global()` wrappers so add the `prose` class to your safelist when using this preset. All other classes from this preset, e.g. `prose-pink`, can be component scoped. | 
 | [@unocss/preset-rem-to-px](https://github.com/unocss/unocss/tree/main/packages/preset-rem-to-px) | ✅ | This and all presets like it that only modify style output will work. | 
 | [@unocss/preset-attributify](https://github.com/unocss/unocss/tree/main/packages/preset-attributify) | - | Use the [unplugin-attributify-to-class](https://github.com/MellowCo/unplugin-attributify-to-class) Vite plugin, updating the include option: `attributifyToClass({ include: [/\.svelte$/]})`  |
