@@ -29,8 +29,8 @@
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.1.28",
-    "@sveltejs/adapter-auto": "^2.0.1",
-    "@sveltejs/kit": "^1.16.3",
+    "@sveltejs/adapter-auto": "^2.1.0",
+    "@sveltejs/kit": "^1.18.0",
     "@sveltejs/package": "^2.0.2",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
@@ -41,7 +41,7 @@
     "tslib": "^2.5.0",
     "typescript": "^5.0.4",
     "unocss": "link:../../packages/unocss",
-    "vite": "^4.3.5"
+    "vite": "^4.3.8"
   },
   "stackblitz": {
     "installDependencies": false,
