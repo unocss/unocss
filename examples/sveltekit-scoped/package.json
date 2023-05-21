@@ -12,6 +12,7 @@
   "devDependencies": {
     "@iconify-json/logos": "^1.1.28",
     "@iconify-json/ri": "^1.1.8",
+    "@julr/unocss-preset-forms": "^0.0.5",
     "@sveltejs/adapter-auto": "^2.0.1",
     "@sveltejs/kit": "^1.16.3",
     "@types/marked": "^4.3.0",

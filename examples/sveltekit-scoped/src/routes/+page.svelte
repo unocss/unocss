@@ -1,6 +1,7 @@
 <script lang="ts">
   import Button from "$lib/Button.svelte";
   import Counter from "$lib/Counter.svelte";
+  import Forms from "$lib/Forms.svelte";
   import Logos from "./Logos.svelte";
   import Prose from "./Prose.svelte";
   import RightToLeftDependent from "./RightToLeftDependent.svelte";
@@ -43,6 +44,10 @@
   </div>
 
   <Counter />
+
+  <div class="my-5 border" />
+
+  <Forms />
 
   <div class="corner">Fixed</div>
 </div>
