@@ -14,9 +14,9 @@ export default function myPreset(options: MyPresetOptions): Preset {
     rules: [
       // ...
     ],
-    variants: {
+    variants: [
       // ...
-    },
+    ],
     // it supports most of the configuration you could have in the root config
   }
 }
