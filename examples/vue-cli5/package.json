@@ -13,5 +13,9 @@
     "@unocss/webpack": "link:../../packages/webpack",
     "@vue/cli-plugin-babel": "~5.0.8",
     "@vue/cli-service": "~5.0.8"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node prepare-for-stackblitz.js && npm install && npm run dev"
   }
 }

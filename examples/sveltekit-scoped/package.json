@@ -3,7 +3,6 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "stackblitz:dev": "node remove-links.js && npm install && vite dev",
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -29,6 +28,6 @@
   },
   "stackblitz": {
     "installDependencies": false,
-    "startCommand": "npm run stackblitz:dev"
+    "startCommand": "node prepare-for-stackblitz.js && npm install && npm run dev"
   }
 }

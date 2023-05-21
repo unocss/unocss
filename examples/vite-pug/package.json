@@ -8,5 +8,9 @@
   },
   "devDependencies": {
     "pug": "^3.0.2"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node prepare-for-stackblitz.js && npm install && npm run dev"
   }
 }

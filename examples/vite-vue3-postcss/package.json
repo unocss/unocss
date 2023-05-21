@@ -16,5 +16,9 @@
     "@vitejs/plugin-vue": "^4.2.1",
     "typescript": "^5.0.4",
     "vite": "^4.3.5"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node prepare-for-stackblitz.js && npm install && npm run dev"
   }
 }

@@ -25,5 +25,9 @@
     "eslint-config-next": "13.4.1",
     "typescript": "5.0.4",
     "unocss": "link:../../packages/unocss"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node prepare-for-stackblitz.js && npm install && npm run dev"
   }
 }

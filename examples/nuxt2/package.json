@@ -13,5 +13,9 @@
     "@unocss/reset": "link:../../packages/reset",
     "nuxt-edge": "latest",
     "unocss": "link:../../packages/unocss"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node prepare-for-stackblitz.js && npm install && npm run dev"
   }
 }

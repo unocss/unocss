@@ -12,5 +12,9 @@
     "@unocss/reset": "link:../../packages/reset",
     "astro": "^2.4.1",
     "unocss": "link:../../packages/unocss"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node prepare-for-stackblitz.js && npm install && npm run dev"
   }
 }
