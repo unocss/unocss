@@ -103,6 +103,7 @@ UnoCSS comes with many integrations for various frameworks:
 - [Vite](/integrations/vite)
 - [Nuxt](/integrations/nuxt)
 - [Astro](/integrations/astro)
+- [Svelte Scoped](/integrations/svelte-scoped)
 - [Webpack](/integrations/webpack)
 - [CLI](/integrations/cli)
 - [PostCSS](/integrations/postcss)
