@@ -80,7 +80,7 @@ export default defineConfig({
     presetUno(),
     presetWebFonts({
       // use axios with an https proxy
-      customFetch: (url: string) => axios.get(url, { httpsAgent: new ProxyAgent('https://localhost:7890') }),
+      customFetch: (url: string) => axios.get(url, { httpsAgent: new ProxyAgent('https://localhost:7890') }).then(it => it.data),
       provider: 'google',
       fonts: {
         sans: 'Roboto',
