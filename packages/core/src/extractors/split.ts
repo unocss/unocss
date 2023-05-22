@@ -1,7 +1,7 @@
 import type { Extractor } from '../types'
 
 export const defaultSplitRE = /[\\:]?[\s'"`;{}]+/g
-export const splitWithVariantGroupRE = /([\\:]?[\s"'`;<>*]|:\(|\)"|\)\s)/g
+export const splitWithVariantGroupRE = /([\\:]?[\s"'`;<>]|:\(|\)"|\)\s)/g
 
 export function splitCode(code: string) {
   return [...new Set(code.split(defaultSplitRE))]

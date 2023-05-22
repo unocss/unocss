@@ -76,34 +76,120 @@ describe('attributify', async () => {
     expect(css).toMatchSnapshot()
   })
 
-  test('autocomplete extractor', async () => {
-    const res = await autocompleteExtractorAttributify.extract({
-      content: fixture1,
-      cursor: 187,
-    })
+  describe('autocomplete extractor', async () => {
+    test('without prefix', async () => {
+      const res = await autocompleteExtractorAttributify().extract({
+        content: fixture1,
+        cursor: 187,
+      })
 
-    expect(res).not.toBeNull()
+      expect(res).not.toBeNull()
 
-    expect(res!.extracted).toMatchInlineSnapshot('"bg-blue-400"')
-    expect(res!.transformSuggestions!([`${res!.extracted}1`, `${res!.extracted}2`]))
-      .toMatchInlineSnapshot(`
-        [
-          "blue-4001",
-          "blue-4002",
-        ]
+      expect(res!.extracted).toMatchInlineSnapshot('"bg-blue-400"')
+      expect(res!.transformSuggestions!([`${res!.extracted}1`, `${res!.extracted}2`]))
+        .toMatchInlineSnapshot(`
+          [
+            "blue-4001",
+            "blue-4002",
+          ]
+        `)
+
+      const reversed = res!.resolveReplacement(`${res!.extracted}1`)
+      expect(reversed).toMatchInlineSnapshot(`
+        {
+          "end": 192,
+          "replacement": "blue-4001",
+          "start": 184,
+        }
       `)
 
-    const reversed = res!.resolveReplacement(`${res!.extracted}1`)
-    expect(reversed).toMatchInlineSnapshot(`
-      {
-        "end": 192,
-        "replacement": "blue-4001",
-        "start": 184,
-      }
-    `)
+      expect(fixture1.slice(reversed.start, reversed.end))
+        .toMatchInlineSnapshot('"blue-400"')
+    })
 
-    expect(fixture1.slice(reversed.start, reversed.end))
-      .toMatchInlineSnapshot('"blue-400"')
+    test('with prefix', async () => {
+      const fixtureWithPrefix = `
+<div un-text-cent>
+  <div un-text="cent
+</div>
+      `
+      const res1 = await autocompleteExtractorAttributify({ prefix: 'un-' }).extract({
+        content: fixtureWithPrefix,
+        cursor: 18,
+      })
+
+      expect(res1).not.toBeNull()
+
+      expect(res1!.extracted).toMatchInlineSnapshot('"text-cent"')
+      expect(res1!.transformSuggestions!([`${res1!.extracted}1`, `${res1!.extracted}2`]))
+        .toMatchInlineSnapshot(`
+          [
+            "un-text-cent1",
+            "un-text-cent2",
+          ]
+        `)
+
+      const reversed1 = res1!.resolveReplacement(`${res1!.extracted}1`)
+      expect(reversed1).toMatchInlineSnapshot(`
+        {
+          "end": 18,
+          "replacement": "text-cent1",
+          "start": 6,
+        }
+      `)
+
+      expect(fixtureWithPrefix.slice(reversed1.start, reversed1.end))
+        .toMatchInlineSnapshot('"un-text-cent"')
+
+      const res2 = await autocompleteExtractorAttributify({ prefix: 'un-' }).extract({
+        content: fixtureWithPrefix,
+        cursor: 40,
+      })
+
+      expect(res2).not.toBeNull()
+
+      expect(res2!.extracted).toMatchInlineSnapshot('"text-cent"')
+      expect(res2!.transformSuggestions!([`${res2!.extracted}1`, `${res2!.extracted}2`]))
+        .toMatchInlineSnapshot(`
+          [
+            "cent1",
+            "cent2",
+          ]
+        `)
+
+      const reversed2 = res2!.resolveReplacement(`${res2!.extracted}1`)
+      expect(reversed2).toMatchInlineSnapshot(`
+        {
+          "end": 40,
+          "replacement": "cent1",
+          "start": 36,
+        }
+      `)
+
+      expect(fixtureWithPrefix.slice(reversed2.start, reversed2.end))
+        .toMatchInlineSnapshot('"cent"')
+    })
+
+    test('only prefix', async () => {
+      const fixtureOnlyPrefix = `
+<div text-cent>
+  <div text="cent
+</div>
+      `
+      const res1 = await autocompleteExtractorAttributify({ prefix: 'un-', prefixedOnly: true }).extract({
+        content: fixtureOnlyPrefix,
+        cursor: 15,
+      })
+
+      expect(res1).toBeNull()
+
+      const res2 = await autocompleteExtractorAttributify({ prefix: 'un-', prefixedOnly: true }).extract({
+        content: fixtureOnlyPrefix,
+        cursor: 34,
+      })
+
+      expect(res2).toBeNull()
+    })
   })
 
   test('with trueToNonValued', async () => {

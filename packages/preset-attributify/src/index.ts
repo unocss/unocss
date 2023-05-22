@@ -24,7 +24,7 @@ function presetAttributify(options: AttributifyOptions = {}): Preset {
     extractorAttributify(options),
   ]
   const autocompleteExtractors = [
-    autocompleteExtractorAttributify,
+    autocompleteExtractorAttributify(options),
   ]
 
   return {

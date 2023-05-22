@@ -125,6 +125,9 @@ function bracketWithType(str: string, requiredType?: string) {
     if (base === '=""')
       return
 
+    if (base.startsWith('--'))
+      base = `var(${base})`
+
     let curly = 0
     for (const i of base) {
       if (i === '[') {
