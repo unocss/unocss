@@ -1,7 +1,7 @@
 {
   "name": "@unocss/svelte-scoped",
   "type": "module",
-  "version": "0.52.0",
+  "version": "0.52.1",
   "description": "Use UnoCSS in a modular fashion with styles being stored only in the Svelte component they are used in: Vite plugin for apps, preprocessor for component libraries",
   "author": "Jacob Bowdoin",
   "license": "MIT",
