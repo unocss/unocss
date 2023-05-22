@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "@unocss/reset": "link:../../packages/reset",
-    "astro": "^2.4.1",
+    "astro": "^2.5.2",
     "unocss": "link:../../packages/unocss"
   }
 }
