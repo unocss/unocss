@@ -19,11 +19,16 @@ function AstroVitePlugin(options: AstroVitePluginOptions): Plugin {
     name: 'unocss:astro',
     apply: 'serve',
     enforce: 'pre',
-    resolveId(id, importer) {
+    async resolveId(id, importer) {
       if (id === UNO_INJECT_ID)
         return id
-      if (importer?.endsWith(UNO_INJECT_ID))
-        return `${id}${id.includes('?') ? '&' : '?'}${UNO_QUERY_KEY}`
+      if (importer?.endsWith(UNO_INJECT_ID)) {
+        const resolved = await this.resolve(id, importer, { skipSelf: true })
+        if (resolved) {
+          const fsPath = resolved.id
+          return `${fsPath}${fsPath.includes('?') ? '&' : '?'}${UNO_QUERY_KEY}`
+        }
+      }
     },
     load(id, options) {
       if (id.endsWith(UNO_INJECT_ID))
