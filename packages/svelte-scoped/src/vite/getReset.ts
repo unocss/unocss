@@ -8,9 +8,13 @@ const _dirname = typeof __dirname !== 'undefined'
 
 export function getReset(injectReset: string): string {
   if (injectReset.startsWith('@unocss/reset')) {
-    const resolvedPNPM = resolve(resolve(_dirname, `../node_modules/${injectReset}`))
+    const resolvedPNPM = resolve(resolve(_dirname, `../../../${injectReset}`))
     if (isFile(resolvedPNPM))
       return readFileSync(resolvedPNPM, 'utf-8')
+
+    const resolvedPNPM_in_uno_repo = resolve(resolve(_dirname, `../node_modules/${injectReset}`))
+    if (isFile(resolvedPNPM_in_uno_repo))
+      return readFileSync(resolvedPNPM_in_uno_repo, 'utf-8')
 
     const resolvedNPM = resolve(process.cwd(), 'node_modules', injectReset)
     if (isFile(resolvedNPM))
