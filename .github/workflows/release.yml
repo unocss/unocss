@@ -1,8 +1,5 @@
 name: Release
 
-permissions:
-  contents: write
-
 on:
   push:
     tags:
@@ -12,6 +9,7 @@ jobs:
   release:
     permissions:
       id-token: write
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -29,7 +27,6 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - run: npx changelogithub
-        continue-on-error: true
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
