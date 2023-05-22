@@ -61,18 +61,4 @@ describe('transformer-compile-class', () => {
     expect(order1.css).toBe(order2.css)
     expect(order1.code).toBe(order2.code)
   })
-
-  test('custom compile class name', async () => {
-    const result = await transform(`
-<div class=":uno-foo: bg-red-500 text-xl">`.trim())
-
-    expect(result.code.trim()).toMatchInlineSnapshot(`
-    "<div class=\\"uno-foo\\">"
-    `)
-
-    expect(result.css).toMatchInlineSnapshot(`
-      "/* layer: shortcuts */
-      .uno-foo{--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));font-size:1.25rem;line-height:1.75rem;}"
-    `)
-  })
 })

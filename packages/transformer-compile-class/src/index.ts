@@ -1,12 +1,33 @@
 import type { SourceCodeTransformer } from '@unocss/core'
-import { escapeRegExp, expandVariantGroup } from '@unocss/core'
+import { expandVariantGroup } from '@unocss/core'
 
 export interface CompileClassOptions {
   /**
-   * Trigger string
-   * @default ':uno:'
+   * Trigger regex literal. The default trigger regex literal matches `:uno:`,
+   * for example: `<div class=":uno: font-bold text-white">`.
+   *
+   * @example
+   * The trigger additionally allows defining a capture group named `name`, which
+   * allows custom class names. One possible regex would be:
+   *
+   * ```
+   * export default defineConfig({
+   *   transformers: [
+   *     transformerCompileClass({
+   *       trigger: /(["'`]):uno(?:-)?(?<name>[^\s\1]+)?:\s([^\1]*?)\1/g
+   *     }),
+   *   ],
+   * })
+   * ```
+   *
+   * This regular expression matches `:uno-MYNAME:` and uses `MYNAME` in
+   * combination with the class prefix as the final class name, for example:
+   * `.uno-MYNAME`. It should be noted that the regex literal needs to include
+   * the global flag `/g`.
+   *
+   * @default `/(["'`]):uno:\s([^\1]*?)\1/g`
    */
-  trigger?: string
+  trigger?: RegExp
 
   /**
    * Prefix for compile class name
@@ -34,23 +55,25 @@ export interface CompileClassOptions {
 
 export default function transformerCompileClass(options: CompileClassOptions = {}): SourceCodeTransformer {
   const {
-    trigger = 'uno',
+    trigger = /(["'`]):uno:\s([^\1]*?)\1/g,
     classPrefix = 'uno-',
     hashFn = hash,
     keepUnknown = true,
   } = options
-  const regex = new RegExp(`(["'\`]):${escapeRegExp(trigger)}(?:-)?([^\\s\\1]+)?:\\s([^\\1]*?)\\1`, 'g')
 
   return {
     name: '@unocss/transformer-compile-class',
     enforce: 'pre',
     async transform(s, _, { uno, tokens }) {
-      const matches = [...s.original.matchAll(regex)]
+      const matches = [...s.original.matchAll(trigger)]
       if (!matches.length)
         return
 
       for (const match of matches) {
-        let body = expandVariantGroup(match[3].trim())
+        let body = (match.length === 4 && match.groups)
+          ? expandVariantGroup(match[3].trim())
+          : expandVariantGroup(match[2].trim())
+
         const start = match.index!
         const replacements = []
         if (keepUnknown) {
@@ -62,7 +85,9 @@ export default function transformerCompileClass(options: CompileClassOptions = {
         }
         if (body) {
           body = body.split(/\s+/).sort().join(' ')
-          const className = match[2] ? `${classPrefix}${match[2]}` : `${classPrefix}${hashFn(body)}`
+          const className = (match.groups && match.groups.name)
+            ? `${classPrefix}${match.groups.name}`
+            : `${classPrefix}${hashFn(body)}`
 
           // FIXME: Ideally we should also check that the hash doesn't match. If the hash is the same, the same class
           // name is allowed, as the applied styles are the same.
