@@ -1,5 +1,5 @@
 import type { SourceCodeTransformer } from '@unocss/core'
-import { expandVariantGroup } from '@unocss/core'
+import { escapeRegExp, expandVariantGroup } from '@unocss/core'
 
 export interface CompileClassOptions {
   /**
@@ -25,9 +25,13 @@ export interface CompileClassOptions {
    * `.uno-MYNAME`. It should be noted that the regex literal needs to include
    * the global flag `/g`.
    *
+   * @note
+   * This parameter is backwards compatible. It accepts string only trigger
+   * words, like `:uno:` or a regex literal.
+   *
    * @default `/(["'`]):uno:\s([^\1]*?)\1/g`
    */
-  trigger?: RegExp
+  trigger?: string | RegExp
 
   /**
    * Prefix for compile class name
@@ -61,11 +65,17 @@ export default function transformerCompileClass(options: CompileClassOptions = {
     keepUnknown = true,
   } = options
 
+  // Provides backwards compatibility. We either accept a trigger string which
+  // gets turned into a regexp (like previously) or a regex literal directly.
+  const regexp = typeof trigger === 'string'
+    ? RegExp(`(["'\`])${escapeRegExp(trigger)}\\s([^\\1]*?)\\1`, 'g')
+    : trigger
+
   return {
     name: '@unocss/transformer-compile-class',
     enforce: 'pre',
     async transform(s, _, { uno, tokens }) {
-      const matches = [...s.original.matchAll(trigger)]
+      const matches = [...s.original.matchAll(regexp)]
       if (!matches.length)
         return
 
@@ -76,6 +86,7 @@ export default function transformerCompileClass(options: CompileClassOptions = {
 
         const start = match.index!
         const replacements = []
+
         if (keepUnknown) {
           const result = await Promise.all(body.split(/\s+/).filter(Boolean).map(async i => [i, !!await uno.parseToken(i)] as const))
           const known = result.filter(([, matched]) => matched).map(([i]) => i)
@@ -83,6 +94,7 @@ export default function transformerCompileClass(options: CompileClassOptions = {
           replacements.push(...unknown)
           body = known.join(' ')
         }
+
         if (body) {
           body = body.split(/\s+/).sort().join(' ')
           const className = (match.groups && match.groups.name)
@@ -103,6 +115,7 @@ export default function transformerCompileClass(options: CompileClassOptions = {
           if (tokens)
             tokens.add(className)
         }
+
         s.overwrite(start + 1, start + match[0].length - 1, replacements.join(' '))
       }
     },
