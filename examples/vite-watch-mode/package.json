@@ -11,8 +11,8 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.25",
-    "@types/react": "^18.2.5",
+    "@iconify-json/logos": "^1.1.31",
+    "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
@@ -21,6 +21,6 @@
     "cross-env": "^7.0.3",
     "typescript": "^5.0.4",
     "unocss": "link:../../packages/unocss",
-    "vite": "^4.3.5"
+    "vite": "^4.3.8"
   }
 }

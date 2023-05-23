@@ -28,20 +28,20 @@
     "svelte": "^3.59.1"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.28",
-    "@sveltejs/adapter-auto": "^2.0.1",
-    "@sveltejs/kit": "^1.16.3",
+    "@iconify-json/logos": "^1.1.31",
+    "@sveltejs/adapter-auto": "^2.1.0",
+    "@sveltejs/kit": "^1.18.0",
     "@sveltejs/package": "^2.0.2",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
     "@unocss/svelte-scoped": "link:../../packages/svelte-scoped",
-    "publint": "^0.1.11",
+    "publint": "^0.1.12",
     "svelte": "^3.59.1",
     "svelte-check": "^3.3.2",
-    "tslib": "^2.5.0",
+    "tslib": "^2.5.2",
     "typescript": "^5.0.4",
     "unocss": "link:../../packages/unocss",
-    "vite": "^4.3.5"
+    "vite": "^4.3.8"
   },
   "stackblitz": {
     "installDependencies": false,
