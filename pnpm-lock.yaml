@@ -533,8 +533,8 @@ importers:
         specifier: workspace:*
         version: link:../core
       unconfig:
-        specifier: ^0.3.8
-        version: 0.3.8
+        specifier: ^0.3.9
+        version: 0.3.9
 
   packages/core:
     devDependencies:
@@ -542,8 +542,8 @@ importers:
         specifier: ^0.30.0
         version: 0.30.0
       unconfig:
-        specifier: ^0.3.8
-        version: 0.3.8
+        specifier: ^0.3.9
+        version: 0.3.9
 
   packages/eslint-config:
     dependencies:
@@ -1029,8 +1029,8 @@ importers:
         specifier: ^6.7.0
         version: 6.7.0(postcss@8.4.23)(typescript@5.0.4)
       unconfig:
-        specifier: ^0.3.8
-        version: 0.3.8
+        specifier: ^0.3.9
+        version: 0.3.9
 
   packages/webpack:
     dependencies:
@@ -19789,7 +19789,7 @@ packages:
       pacote: 15.1.3
       prompts: 2.4.2
       semver: 7.5.1
-      unconfig: 0.3.8
+      unconfig: 0.3.9
       yargs: 17.7.2
     transitivePeerDependencies:
       - bluebird
@@ -20383,8 +20383,8 @@ packages:
       - supports-color
     dev: true
 
-  /unconfig@0.3.8:
-    resolution: {integrity: sha512-Z2+4i1tnNB49T8KFUlBOGXVsXgxlMb8U5C7HnrrJJs8O6ncKl9xiwRHEw6S7rxqjPWvxCVuaKW1w4UjQAfk7Xw==}
+  /unconfig@0.3.9:
+    resolution: {integrity: sha512-8yhetFd48M641mxrkWA+C/lZU4N0rCOdlo3dFsyFPnBHBjMJfjT/3eAZBRT2RxCRqeBMAKBVgikejdS6yeBjMw==}
     dependencies:
       '@antfu/utils': 0.7.2
       defu: 6.1.2
