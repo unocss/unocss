@@ -224,7 +224,7 @@ Add the `%unocss-svelte-scoped.global%` placeholder into your `<head>` tag. In S
 </head>
 ```
 
-If using SvelteKit, you also must add the following to the `transformPageChunk` hook in your `server.hooks.js` file:
+If using SvelteKit, you also must add the following to the `transformPageChunk` hook in your `hooks.server.js` file:
 
 ```js
 /** @type {import('@sveltejs/kit').Handle} */
