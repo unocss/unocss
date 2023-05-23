@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import type { UnoGenerator } from '@unocss/core'
+import type { SourceCodeTransformer, UnoGenerator } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
 import MagicString from 'magic-string'
 import transformerCompileClass from '@unocss/transformer-compile-class'
@@ -11,11 +11,15 @@ describe('transformer-compile-class', () => {
       presetUno(),
     ],
   })
-  const transformer = transformerCompileClass()
 
-  async function transform(code: string, _uno: UnoGenerator = uno) {
+  const defaultTransformer = transformerCompileClass()
+  const customClassNameTransformer = transformerCompileClass({
+    trigger: /(["'`]):uno(?:-)?(?<name>[^\s\1]+)?:\s([^\1]*?)\1/g,
+  })
+
+  async function transform(code: string, _uno: UnoGenerator = uno, _tranformer: SourceCodeTransformer = defaultTransformer) {
     const s = new MagicString(code)
-    await transformer.transform(s, 'foo.js', { uno: _uno, tokens: new Set() } as any)
+    await _tranformer.transform(s, 'foo.js', { uno: _uno, tokens: new Set() } as any)
     const result = s.toString()
     const { css } = await uno.generate(result, { preflights: false })
     return {
@@ -60,5 +64,47 @@ describe('transformer-compile-class', () => {
 
     expect(order1.css).toBe(order2.css)
     expect(order1.code).toBe(order2.code)
+  })
+
+  test('custom class name trigger (without class name)', async () => {
+    const result = await transform(`
+<div class=":uno: bg-red-500 text-xl">`.trim(), uno, customClassNameTransformer)
+
+    expect(result.code.trim()).toMatchInlineSnapshot(`
+      "<div class=\\"uno-trmz0g\\">"
+    `)
+
+    expect(result.css).toMatchInlineSnapshot(`
+      "/* layer: shortcuts */
+      .uno-trmz0g{--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));font-size:1.25rem;line-height:1.75rem;}"
+    `)
+  })
+
+  test('custom class name trigger (with basic class name)', async () => {
+    const result = await transform(`
+<div class=":uno-foo: bg-red-500 text-xl">`.trim(), uno, customClassNameTransformer)
+
+    expect(result.code.trim()).toMatchInlineSnapshot(`
+      "<div class=\\"uno-foo\\">"
+    `)
+
+    expect(result.css).toMatchInlineSnapshot(`
+      "/* layer: shortcuts */
+      .uno-foo{--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));font-size:1.25rem;line-height:1.75rem;}"
+    `)
+  })
+
+  test('custom class name trigger (with complex class name)', async () => {
+    const result = await transform(`
+<div class=":uno-foo_bar-baz: bg-red-500 text-xl">`.trim(), uno, customClassNameTransformer)
+
+    expect(result.code.trim()).toMatchInlineSnapshot(`
+      "<div class=\\"uno-foo_bar-baz\\">"
+    `)
+
+    expect(result.css).toMatchInlineSnapshot(`
+      "/* layer: shortcuts */
+      .uno-foo_bar-baz{--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));font-size:1.25rem;line-height:1.75rem;}"
+    `)
   })
 })
