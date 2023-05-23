@@ -31,7 +31,7 @@ export async function generateGlobalCss(uno: UnoGenerator, injectReset?: UnocssS
 
 const SVELTE_ERROR = `[unocss] You have not setup the svelte-scoped global styles correctly. You must place '${PLACEHOLDER_USER_SETS_IN_INDEX_HTML}' in your index.html file.
 `
-const SVELTE_KIT_ERROR = `[unocss] You have not setup the svelte-scoped global styles correctly. You must place '${PLACEHOLDER_USER_SETS_IN_INDEX_HTML}' in your app.html file. You also need to have a transformPageChunk hook in your server hooks file with: \`html.replace('${PLACEHOLDER_USER_SETS_IN_INDEX_HTML}', '${GLOBAL_STYLES_PLACEHOLDER}')\`. You can see an example of the usage at https://github.com/unocss/unocss/tree/main/examples/sveltekit-scoped.`
+const SVELTE_KIT_ERROR = `[unocss] You have not setup the svelte-scoped global styles correctly. You must place '${PLACEHOLDER_USER_SETS_IN_INDEX_HTML}' in your app.html file. You also need to have a transformPageChunk hook in your hooks.server.js file with: \`html.replace('${PLACEHOLDER_USER_SETS_IN_INDEX_HTML}', '${GLOBAL_STYLES_PLACEHOLDER}')\`. You can see an example of the usage at https://github.com/unocss/unocss/tree/main/examples/sveltekit-scoped.`
 
 export function checkTransformPageChunkHook(server: ViteDevServer, isSvelteKit: boolean) {
   server.middlewares.use((req, res, next) => {
