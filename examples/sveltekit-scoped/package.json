@@ -15,7 +15,7 @@
     "@julr/unocss-preset-forms": "^0.0.5",
     "@sveltejs/adapter-auto": "^2.1.0",
     "@sveltejs/kit": "^1.18.0",
-    "@types/marked": "^4.3.1",
+    "@types/marked": "^5.0.0",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
     "@unocss/svelte-scoped": "link:../../packages/svelte-scoped",
