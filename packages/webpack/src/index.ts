@@ -9,7 +9,16 @@ import { HASH_PLACEHOLDER_RE, LAYER_MARK_ALL, LAYER_PLACEHOLDER_RE, RESOLVED_ID_
 import { applyTransformers } from '../../shared-integration/src/transformers'
 import { getPath, isCssId } from '../../shared-integration/src/utils'
 
-export interface WebpackPluginOptions<Theme extends {} = {}> extends UserConfig<Theme> {}
+export interface WebpackPluginOptions<Theme extends {} = {}> extends UserConfig<Theme> {
+  /**
+   * only extract files through `PluginOptions.ExtraContentOptions`
+   * In order to fix the bug of persistent caching in Webpack5
+   * @see: https://github.com/unocss/unocss/issues/419
+   *
+   * @default false
+   */
+  scanModeOnly?: boolean
+}
 
 const PLUGIN_NAME = 'unocss:webpack'
 const UPDATE_DEBOUNCE = 10
@@ -24,6 +33,7 @@ export default function WebpackPlugin<Theme extends {}>(
 ) {
   return createUnplugin(() => {
     const ctx = createContext<WebpackPluginOptions>(configOrPath as any, defaults)
+    const inlineConfig = (configOrPath && typeof configOrPath !== 'string') ? configOrPath : {}
     const { uno, tokens, filter, extract, onInvalidate, tasks, flushTasks } = ctx
 
     let timer: any
@@ -43,7 +53,8 @@ export default function WebpackPlugin<Theme extends {}>(
     }
 
     // TODO: detect webpack's watch mode and enable watcher
-    tasks.push(setupExtraContent(ctx))
+    const shouldWatch = ctx.uno.config.extraContent?.enableWatch ?? false
+    tasks.push(setupExtraContent(ctx, shouldWatch))
 
     const entries = new Set<string>()
     const hashes = new Map<string, string>()
@@ -52,7 +63,8 @@ export default function WebpackPlugin<Theme extends {}>(
       name: 'unocss:webpack',
       enforce: 'pre',
       transformInclude(id) {
-        return filter('', id) && !id.match(/\.html$/) && !RESOLVED_ID_RE.test(id)
+        // transform nothing in scan mode
+        return !inlineConfig.scanModeOnly && filter('', id) && !id.match(/\.html$/) && !RESOLVED_ID_RE.test(id)
       },
       async transform(code, id) {
         const result = await applyTransformers(ctx, code, id, 'pre')

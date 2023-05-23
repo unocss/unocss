@@ -648,6 +648,12 @@ export interface ExtraContentOptions {
    * Plain text to be extracted
    */
   plain?: string[]
+
+  /**
+   * enable/disable file watching
+   * @default false
+   */
+  enableWatch?: boolean
 }
 
 /**
