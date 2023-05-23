@@ -44,7 +44,7 @@ function AstroVitePlugin(options: AstroVitePluginOptions): Plugin {
         && id.includes(UNO_QUERY_KEY)
         && id.includes('.css')
       )
-        return ''
+        return null
     },
   }
 }
