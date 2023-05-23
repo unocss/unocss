@@ -302,8 +302,8 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .content-\[string\:attr\(dashed-attr\)\]{content:attr(dashed-attr);}
 .content-\[string\:attr\(underlined\\_attr\)\]{content:attr(underlined_attr);}
 .content-\$unocss-var{content:var(--unocss-var);}
-.content-empty,
-.content-none{content:"";}
+.content-empty{content:"";}
+.content-none{content:none;}
 .font-\[system-ui\]{font-family:system-ui;}
 .font-\$font-name{font-family:var(--font-name);}
 .font-mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;}
