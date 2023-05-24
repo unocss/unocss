@@ -59,7 +59,7 @@ export interface CompileClassOptions {
 
 export default function transformerCompileClass(options: CompileClassOptions = {}): SourceCodeTransformer {
   const {
-    trigger = /(["'`]):uno:\s([^\1]*?)\1/g,
+    trigger = /(["'`]):uno(?:-)?(?<name>[^\s\1]+)?:\s([^\1]*?)\1/g,
     classPrefix = 'uno-',
     hashFn = hash,
     keepUnknown = true,
@@ -97,19 +97,19 @@ export default function transformerCompileClass(options: CompileClassOptions = {
 
         if (body) {
           body = body.split(/\s+/).sort().join(' ')
-          const className = (match.groups && match.groups.name)
-            ? `${classPrefix}${match.groups.name}`
-            : `${classPrefix}${hashFn(body)}`
 
-          /**
-           * In the case where className is defined by the developer, duplicates are not allowed,
-           * but with automatic hashing using hashFn, duplicates are considered acceptable.
-           */
-          const isSelfDefinedClassName = !!(match.groups && match.groups.name);
+          const hashClassName = `${classPrefix}${hashFn(body)}`
+
+          const defineClassName = (match.groups && match.groups.name)
+            ? `${classPrefix}${match.groups.name}`
+            : ''
+
+          const className = defineClassName || hashClassName
+          const token = defineClassName ? `${defineClassName}:${hashClassName}` : hashClassName
 
           // FIXME: Ideally we should also check that the hash doesn't match. If the hash is the same, the same class
           // name is allowed, as the applied styles are the same.
-          if (tokens && tokens.has(className) && isSelfDefinedClassName)
+          if (tokens && tokens.has(className) && !tokens.has(token))
             throw new Error(`duplicate compile class name '${className}', please choose different class name`)
 
           replacements.unshift(className)
@@ -118,8 +118,13 @@ export default function transformerCompileClass(options: CompileClassOptions = {
           else
             uno.config.shortcuts.push([className, body])
 
-          if (tokens)
-            tokens.add(className)
+          if (tokens) {
+            tokens.add(token)
+
+            if (className !== token) {
+              tokens.add(className)
+            }
+          }
         }
 
         s.overwrite(start + 1, start + match[0].length - 1, replacements.join(' '))
