@@ -138,8 +138,8 @@ const Nav: DefaultTheme.NavItem[] = [
     ],
     activeMatch: '^/(presets|transformers|extractors)/',
   },
-  { text: 'Interactive Docs', link: `${ogUrl}interactive/`, target: '_blank' },
-  { text: 'Playground', link: `${ogUrl}play/`, target: '_blank' },
+  { text: 'Interactive Docs', link: '/interactive/', target: '_blank' },
+  { text: 'Playground', link: '/play/', target: '_blank' },
   {
     text: `v${version}`,
     items: [
