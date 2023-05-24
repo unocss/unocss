@@ -85,7 +85,7 @@ export default function transformerCompileClass(options: CompileClassOptions = {
           : expandVariantGroup(match[2].trim())
 
         const start = match.index!
-        const replacements = []
+        const replacements: string[] = []
 
         if (keepUnknown) {
           const result = await Promise.all(body.split(/\s+/).filter(Boolean).map(async i => [i, !!await uno.parseToken(i)] as const))
@@ -101,9 +101,15 @@ export default function transformerCompileClass(options: CompileClassOptions = {
             ? `${classPrefix}${match.groups.name}`
             : `${classPrefix}${hashFn(body)}`
 
+          /**
+           * In the case where className is defined by the developer, duplicates are not allowed,
+           * but with automatic hashing using hashFn, duplicates are considered acceptable.
+           */
+          const isSelfDefinedClassName = !!(match.groups && match.groups.name);
+
           // FIXME: Ideally we should also check that the hash doesn't match. If the hash is the same, the same class
           // name is allowed, as the applied styles are the same.
-          if (tokens && tokens.has(className))
+          if (tokens && tokens.has(className) && isSelfDefinedClassName)
             throw new Error(`duplicate compile class name '${className}', please choose different class name`)
 
           replacements.unshift(className)
