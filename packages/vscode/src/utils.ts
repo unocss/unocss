@@ -122,3 +122,11 @@ export function isSubdir(parent: string, child: string) {
   const relative = path.relative(parent, child)
   return relative && !relative.startsWith('..') && !path.isAbsolute(relative)
 }
+
+export function isFulfilled<T>(result: PromiseSettledResult<T>): result is PromiseFulfilledResult<T> {
+  return result.status === 'fulfilled'
+}
+
+export function isRejected(result: PromiseSettledResult<unknown>): result is PromiseRejectedResult {
+  return result.status === 'rejected'
+}

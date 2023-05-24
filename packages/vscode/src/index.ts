@@ -7,6 +7,7 @@ import { registerAnnotations } from './annotation'
 import { registerAutoComplete } from './autocomplete'
 import { ContextLoader } from './contextLoader'
 import { registerSelectionStyle } from './selectionStyle'
+import { isFulfilled, isRejected } from './utils'
 
 async function registerRoot(ext: ExtensionContext, status: StatusBarItem, cwd: string) {
   const contextLoader = new ContextLoader(cwd)
@@ -49,18 +50,24 @@ export async function activate(ext: ExtensionContext) {
   if (Array.isArray(root) && root.length) {
     const cwds = root.map(dir => path.resolve(projectPath, dir))
 
-    try {
-      const contextLoaders = await Promise.all(cwds.map(cwd => registerRoot(ext, status, cwd)))
+    const contextLoadersResult = await Promise.allSettled(
+      cwds.map(cwd => registerRoot(ext, status, cwd)),
+    )
 
-      ext.subscriptions.push(
-        commands.registerCommand('unocss.reload', async () => {
-          log.appendLine('🔁 Reloading...')
-          await Promise.all(contextLoaders.map(ctxLoader => ctxLoader.reload))
-          log.appendLine('✅ Reloaded.')
-        }),
-      )
-    }
-    catch (e: any) {
+    ext.subscriptions.push(
+      commands.registerCommand('unocss.reload', async () => {
+        log.appendLine('🔁 Reloading...')
+        await Promise.all(
+          contextLoadersResult
+            .filter(isFulfilled)
+            .map(result => result.value.reload),
+        )
+        log.appendLine('✅ Reloaded.')
+      }),
+    )
+
+    for (const result of contextLoadersResult.filter(isRejected)) {
+      const e = result.reason
       log.appendLine(String(e.stack ?? e))
     }
     return
