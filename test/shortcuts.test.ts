@@ -35,6 +35,10 @@ describe('shortcuts', () => {
         'test': 'focus:text-green',
         'test-last': 'focus:text-blue',
       },
+      {
+        'space-default': 'space-y-2 dark:space-y-4',
+        'divide-default': 'divide-[#000000] dark:divide-[#33334a]',
+      },
     ],
     presets: [
       presetUno(),
@@ -176,6 +180,28 @@ describe('shortcuts', () => {
       "/* layer: shortcuts */
       .test:focus{--un-text-opacity:1;color:rgba(74,222,128,var(--un-text-opacity));}
       .test-last:focus{--un-text-opacity:1;color:rgba(96,165,250,var(--un-text-opacity));}"
+    `)
+  })
+
+  test('divide', async () => {
+    const { css } = await uno.generate('divide-y divide-default', { preflights: false })
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: shortcuts */
+      .dark .divide-default>:not([hidden])~:not([hidden]){--un-divide-opacity:1;border-color:rgba(51,51,74,var(--un-divide-opacity));}
+      .divide-default>:not([hidden])~:not([hidden]){--un-divide-opacity:1;border-color:rgba(0,0,0,var(--un-divide-opacity));}
+      /* layer: default */
+      .divide-y>:not([hidden])~:not([hidden]){--un-divide-y-reverse:0;border-top-width:calc(1px * calc(1 - var(--un-divide-y-reverse)));border-bottom-width:calc(1px * var(--un-divide-y-reverse));}"
+    `)
+  })
+
+  test('space', async () => {
+    const { css } = await uno.generate('space-x-2px space-default', { preflights: false })
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: shortcuts */
+      .dark .space-default>:not([hidden])~:not([hidden]){--un-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--un-space-y-reverse)));margin-bottom:calc(1rem * var(--un-space-y-reverse));}
+      .space-default>:not([hidden])~:not([hidden]){--un-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--un-space-y-reverse)));margin-bottom:calc(0.5rem * var(--un-space-y-reverse));}
+      /* layer: default */
+      .space-x-2px>:not([hidden])~:not([hidden]){--un-space-x-reverse:0;margin-left:calc(2px * calc(1 - var(--un-space-x-reverse)));margin-right:calc(2px * var(--un-space-x-reverse));}"
     `)
   })
 })
