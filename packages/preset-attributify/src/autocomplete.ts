@@ -54,15 +54,10 @@ export function autocompleteExtractorAttributify(options?: AttributifyOptions): 
       if (attrValues === undefined) {
         return {
           extracted: attrNameWithoutPrefix,
-          transformSuggestions(suggestion) {
-            if (hasPrefix)
-              return suggestion.map(s => options.prefix! + s)
-            else
-              return suggestion
-          },
           resolveReplacement(suggestion) {
+            const startOffset = hasPrefix ? options.prefix!.length : 0
             return {
-              start: attrsPos,
+              start: attrsPos + startOffset,
               end: attrsPos + attrName!.length,
               replacement: suggestion,
             }

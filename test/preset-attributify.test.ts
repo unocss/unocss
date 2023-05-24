@@ -121,25 +121,18 @@ describe('attributify', async () => {
       expect(res1).not.toBeNull()
 
       expect(res1!.extracted).toMatchInlineSnapshot('"text-cent"')
-      expect(res1!.transformSuggestions!([`${res1!.extracted}1`, `${res1!.extracted}2`]))
-        .toMatchInlineSnapshot(`
-          [
-            "un-text-cent1",
-            "un-text-cent2",
-          ]
-        `)
 
       const reversed1 = res1!.resolveReplacement(`${res1!.extracted}1`)
       expect(reversed1).toMatchInlineSnapshot(`
         {
           "end": 18,
           "replacement": "text-cent1",
-          "start": 6,
+          "start": 9,
         }
       `)
 
       expect(fixtureWithPrefix.slice(reversed1.start, reversed1.end))
-        .toMatchInlineSnapshot('"un-text-cent"')
+        .toMatchInlineSnapshot('"text-cent"')
 
       const res2 = await autocompleteExtractorAttributify({ prefix: 'un-' }).extract({
         content: fixtureWithPrefix,
