@@ -23,16 +23,19 @@
     <div class="sprite-custom-close" />
     <div class="sprite-custom-chevron-down" />
     <div class="sprite-custom-chevron-up" />
+    <div class="sprite-custom-animated" />
 
     <div>Custom SVG Sprite background image</div>
     <div class="sprite-custom-close?bg" />
     <div class="sprite-custom-chevron-down?bg" />
     <div class="sprite-custom-chevron-up?bg" />
+    <div class="sprite-custom-animated?bg" />
 
     <div>Custom SVG Sprite (attributify)</div>
     <div sprite-custom-close />
     <div sprite-custom-chevron-down />
     <div sprite-custom-chevron-up />
+    <div sprite-custom-animated />
   </div>
 </template>
 
