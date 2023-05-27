@@ -2,6 +2,36 @@ import type { CustomIconLoader, IconCustomizations, InlineCollection } from '@ic
 import type { Awaitable } from '@unocss/core'
 import type { IconifyJSON } from '@iconify/types'
 
+export interface CSSSVGSprites {
+  /**
+   * Mode of generated CSS icons.
+   *
+   * - `mask` - use background color and the `mask` property for monochrome icons
+   * - `background-img` - use background image for the icons, colors are static
+   * - `auto` - smartly decide mode between `mask` and `background-img` per icon based on its style
+   * - if omitted it will be used
+   *
+   * @default 'auto'
+   * @see https://antfu.me/posts/icons-in-pure-css
+   */
+  mode?: 'mask' | 'background-img' | 'auto'
+  /**
+   * Class prefix for matching icon rules.
+   *
+   * @default `sprite-`
+   */
+  prefix?: string | string[]
+  /**
+   * Collections to load.
+   */
+  collections: string | string[]
+  /**
+   * Loader function.
+   * @param name SVG Sprite name.
+   */
+  loader: (name: string) => Awaitable<Record<string, string> | undefined>
+}
+
 export interface IconsOptions {
   /**
    * Scale related to the current font size (1em).
@@ -76,4 +106,9 @@ export interface IconsOptions {
    * - https://cdn.skypack.dev/
    */
   cdn?: string
+
+  /**
+   * SVG Sprites: only available in Node.
+   */
+  sprites?: CSSSVGSprites
 }

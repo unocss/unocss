@@ -11,6 +11,7 @@ import { ConfigHMRPlugin } from './config-hmr'
 import type { VitePluginConfig } from './types'
 import { createTransformerPlugins } from './transformers'
 import { createDevtoolsPlugin } from './devtool'
+import { SVGSpritePlugin } from './svg-sprite'
 
 export * from './types'
 export * from './modes/chunk-build'
@@ -32,6 +33,7 @@ export default function UnocssPlugin<Theme extends {}>(
 
   const plugins = [
     ConfigHMRPlugin(ctx),
+    SVGSpritePlugin(ctx),
     ...createTransformerPlugins(ctx),
     ...createDevtoolsPlugin(ctx),
   ]
