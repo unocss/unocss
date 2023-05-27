@@ -68,7 +68,7 @@ export function SVGSpritePlugin(ctx: UnocssPluginContext): Plugin {
   }
 }
 
-// TODO: move this to utils package in @iconify/iconify
+// TODO: move this to @iconify/utils repo
 function parseSVGData(data: string) {
   const match = data.match(/<svg[^>]+viewBox="([^"]+)"[^>]*>([\s\S]+)<\/svg>/)
   if (!match)
@@ -79,7 +79,7 @@ function parseSVGData(data: string) {
   return <SpriteEntry>{ rawViewBox: match[1], content: path, x, y, width, height }
 }
 
-// TODO: move this to utils package in @iconify/iconify
+// TODO: move this to @iconify/utils repo
 function createCSSSVGSprite(icons: Record<string, string>) {
   return `<svg xmlns="http://www.w3.org/2000/svg">${
       Object.entries(icons).reduce((acc, [name, icon]) => {

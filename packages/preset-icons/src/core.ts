@@ -119,6 +119,16 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
   }
 }
 
+export function combineLoaders(loaders: UniversalIconLoader[]) {
+  return <UniversalIconLoader>(async (...args) => {
+    for (const loader of loaders) {
+      const result = await loader(...args)
+      if (result)
+        return result
+    }
+  })
+}
+
 function createDynamicMatcher(
   warn: boolean,
   mode: string,
@@ -198,16 +208,6 @@ function createDynamicMatcher(
         'background-color': 'transparent',
         ...usedProps,
       }
-    }
-  })
-}
-
-export function combineLoaders(loaders: UniversalIconLoader[]) {
-  return <UniversalIconLoader>(async (...args) => {
-    for (const loader of loaders) {
-      const result = await loader(...args)
-      if (result)
-        return result
     }
   })
 }
