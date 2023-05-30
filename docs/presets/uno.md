@@ -64,7 +64,7 @@ For example, both `ml-3` (Tailwind), `ms-2` (Bootstrap), `ma4` (Tachyons), and `
 ## Rules
 This preset is compatible with [Tailwind CSS](https://tailwindcss.com/) and [Windi CSS](https://windicss.org/), you can refer to their [documentation](https://tailwindcss.com/docs) for detailed usage.
 
-For all rules and presets included in this preset, please refer to our [interactive docs](/interactive/) or directly go to the [source code](https://github.com/unocss/unocss/tree/main/packages/preset-uno).
+For all rules and presets included in this preset, please refer to our [interactive docs](https://unocss.dev/interactive/) or directly go to the [source code](https://github.com/unocss/unocss/tree/main/packages/preset-uno).
 
 ## Options
 
