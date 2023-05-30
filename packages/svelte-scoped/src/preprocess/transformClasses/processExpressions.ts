@@ -4,7 +4,7 @@ import type { ProcessResult } from './processClasses'
 import { sortClassesIntoCategories } from './sortClassesIntoCategories'
 import { shortcutName, unoMock } from './unoMock'
 
-const expressionsRE = /{[^{}]+?}/g // { foo ? 'mt-1' : 'mt-2'}
+const expressionsRE = /\S*{[^{}]+?}\S*/g // { foo ? 'mt-1' : 'mt-2'}, \S* handles expressions as partial class name as in bg-{color}-100
 const classesRE = /(["'\`])([\S\s]+?)\1/g // 'mt-1 mr-1'
 
 export async function processExpressions(body: string, options: TransformClassesOptions,
@@ -38,12 +38,12 @@ export async function processExpressions(body: string, options: TransformClasses
 
 if (import.meta.vitest) {
   const { describe, expect, it } = import.meta.vitest
-
   describe('processExpressions', () => {
-    const body = `font-bold {bar ? 'text-red-600' : 'text-green-600 ${shortcutName} text-lg boo'} underline foo {baz ? 'italic ' : ''}`
+    describe('everything', () => {
+      const body = `font-bold {bar ? 'text-red-600' : 'text-green-600 ${shortcutName} text-lg boo'} underline foo {baz ? 'italic ' : ''}`
 
-    it('combined', async () => {
-      expect(await processExpressions(body, {}, unoMock, 'Foo.svelte')).toMatchInlineSnapshot(`
+      it('combined', async () => {
+        expect(await processExpressions(body, {}, unoMock, 'Foo.svelte')).toMatchInlineSnapshot(`
         {
           "restOfBody": "font-bold  underline foo",
           "rulesToGenerate": {
@@ -65,10 +65,10 @@ if (import.meta.vitest) {
           ],
         }
       `)
-    })
+      })
 
-    it('uncombined', async () => {
-      expect(await processExpressions(body, { combine: false }, unoMock, 'Foo.svelte')).toMatchInlineSnapshot(`
+      it('uncombined', async () => {
+        expect(await processExpressions(body, { combine: false }, unoMock, 'Foo.svelte')).toMatchInlineSnapshot(`
         {
           "restOfBody": "font-bold  underline foo",
           "rulesToGenerate": {
@@ -91,6 +91,21 @@ if (import.meta.vitest) {
           "updatedExpressions": [
             "{bar ? '_text-red-600_7dkb0w' : '_text-green-600_7dkb0w _my-shortcut_7dkb0w _text-lg_7dkb0w boo'}",
             "{baz ? '_italic_7dkb0w' : ''}",
+          ],
+        }
+      `)
+      })
+    })
+
+    it('handles expression as only part of a class', async () => {
+      const body = 'mr-1 pr{os}e bg-{color}'
+      expect(await processExpressions(body, {}, unoMock, 'Foo.svelte')).toMatchInlineSnapshot(`
+        {
+          "restOfBody": "mr-1",
+          "rulesToGenerate": {},
+          "updatedExpressions": [
+            "pr{os}e",
+            "bg-{color}",
           ],
         }
       `)
