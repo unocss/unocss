@@ -126,7 +126,7 @@ describe('transformApply', () => {
     `)
   })
 
-  it('prepends', async () => {
+  it('prepends (e.g. preflights)', async () => {
     const style = `
       .custom-class {
         --at-apply: hidden;
