@@ -94,6 +94,12 @@ export const breaks: Rule[] = [
   ['break-keep', { 'word-break': 'keep-all' }],
 ]
 
+export const textWraps: Rule[] = [
+  ['text-wrap', { 'text-wrap': 'wrap' }],
+  ['text-nowrap', { 'text-wrap': 'nowrap' }],
+  ['text-balance', { 'text-wrap': 'balance' }],
+]
+
 export const textOverflows: Rule[] = [
   ['truncate', { 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }],
   ['text-truncate', { 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }],

@@ -958,6 +958,9 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .contain-\[size_layout_paint\]{contain:size layout paint;}
 .contain-\[size_layout\]{contain:size layout;}
 .contain-layout{contain:layout;}
+.text-wrap{text-wrap:wrap;}
+.text-nowrap{text-wrap:nowrap;}
+.text-balance{text-wrap:balance;}
 @container (min-width: 10.5rem){
 .\@\[10\.5rem\]-text-red{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
 }
