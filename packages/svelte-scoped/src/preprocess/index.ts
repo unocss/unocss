@@ -3,9 +3,9 @@ import { type UnoGenerator, type UserConfig, type UserConfigDefaults, createGene
 import presetUno from '@unocss/preset-uno'
 import { loadConfig } from '@unocss/config'
 import { transformClasses } from './transformClasses'
-import { transformApply } from './transformApply'
+import { transformStyle } from './transformStyle'
 import type { SvelteScopedContext, UnocssSveltePreprocessOptions } from './types'
-import { themeRE, transformTheme } from './transformTheme'
+import { themeRE } from './transformTheme'
 
 export * from './types.d.js'
 
@@ -45,11 +45,8 @@ export default function UnocssSveltePreprocess(options: UnocssSveltePreprocessOp
         preflightsSafelistCss = css
       }
 
-      if (hasThemeFn)
-        content = transformTheme(content, uno.config.theme)
-
-      if (checkForApply) {
-        return await transformApply({
+      if (checkForApply || hasThemeFn) {
+        return await transformStyle({
           content,
           prepend: preflightsSafelistCss,
           uno,

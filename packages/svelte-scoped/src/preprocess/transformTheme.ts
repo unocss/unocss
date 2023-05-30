@@ -1,9 +1,11 @@
+import MagicString from 'magic-string'
+
 interface Theme { [key: string]: any }
 
 export const themeRE = /theme\((.+?)\)/g
 
-export function transformTheme(code: string, theme: Theme): string {
-  return code.replace(themeRE, (_, match) => {
+export function transformTheme(s: MagicString, theme: Theme): MagicString {
+  return s.replace(themeRE, (_, match) => {
     const argumentsWithoutQuotes = match.slice(1, -1)
     return getThemeValue(argumentsWithoutQuotes, theme)
   })
@@ -46,7 +48,7 @@ div {
   background: theme('colors.blue.500');
   margin-right: theme("spacing.sm"); 
 }`.trim()
-      expect(transformTheme(code, theme)).toMatchInlineSnapshot(`
+      expect(transformTheme(new MagicString(code), theme).toString()).toMatchInlineSnapshot(`
         "div { 
           background: #3b82f6;
           margin-right: 0.875rem; 
@@ -54,9 +56,9 @@ div {
       `)
     })
 
-    it('do not match if no arguments', () => {
+    it('does nothing if contains no arguments', () => {
       const noArgument = 'div { background: theme() }'
-      expect(transformTheme(noArgument, theme)).toBe(noArgument)
+      expect(transformTheme(new MagicString(noArgument), theme).toString()).toBe(noArgument)
     })
   })
 
