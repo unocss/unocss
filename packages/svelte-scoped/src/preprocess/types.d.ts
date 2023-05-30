@@ -39,4 +39,5 @@ export interface TransformApplyOptions {
 export interface SvelteScopedContext {
   uno: UnoGenerator<{}>
   ready: Promise<UserConfig<{}>>
+  affectedModules: Set<string>
 }

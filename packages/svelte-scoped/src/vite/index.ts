@@ -5,11 +5,13 @@ import type { SvelteScopedContext } from '../preprocess'
 import type { UnocssSvelteScopedViteOptions } from './types'
 import { PassPreprocessToSveltePlugin } from './passPreprocessToSveltePlugin'
 import { GlobalStylesPlugin } from './globalStylesPlugin'
+import { createTransformerPlugins } from './transformers'
 
 export default function UnocssSvelteScopedVite(options: UnocssSvelteScopedViteOptions = {}): Plugin[] {
   const context = createSvelteScopedContext(options.configOrPath)
 
   const plugins: Plugin[] = [
+    ...createTransformerPlugins(context, options.cssFileTransformers),
     GlobalStylesPlugin(context, options.injectReset),
   ]
 
@@ -30,6 +32,7 @@ function createSvelteScopedContext(configOrPath?: UserConfig | string): SvelteSc
   }
 
   return {
+    affectedModules: new Set(),
     uno,
     ready,
   }

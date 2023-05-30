@@ -8,6 +8,12 @@ export default defineBuildConfig({
   clean: true,
   declaration: true,
   externals: [
+    '@ampproject/remapping',
+    '@jridgewell/trace-mapping',
+    '@jridgewell/gen-mapping',
+    '@jridgewell/set-array',
+    '@jridgewell/sourcemap-codec',
+    '@jridgewell/resolve-uri',
     '@unocss/core',
     '@unocss/config',
     '@unocss/preset-uno',
