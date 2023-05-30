@@ -9,7 +9,7 @@ import { themeRE } from './transformTheme'
 
 export * from './types.d.js'
 
-export default function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = {}, unoContextFromVite?: SvelteScopedContext): PreprocessorGroup {
+export default function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = {}, unoContextFromVite?: SvelteScopedContext, isViteBuild?: () => boolean): PreprocessorGroup {
   if (!options.classPrefix)
     options.classPrefix = 'spu-'
 
@@ -19,6 +19,9 @@ export default function UnocssSveltePreprocess(options: UnocssSveltePreprocessOp
     markup: async ({ content, filename }) => {
       if (!uno)
         uno = await getGenerator(options.configOrPath, unoContextFromVite)
+
+      if (isViteBuild && !options.combine)
+        options.combine = isViteBuild()
 
       return await transformClasses({ content, filename: filename || '', uno, options })
     },

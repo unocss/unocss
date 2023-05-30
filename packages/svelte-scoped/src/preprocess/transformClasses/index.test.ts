@@ -287,7 +287,7 @@ describe('transform', () => {
         color: red;
       }
     </style>`.trim())
-    expect(result).toMatchInlineSnapshot('undefined')
+    expect(result).toBe(undefined)
   })
 
   it('in dev, when it only hashes but does not combine, handles classes that fail when coming at the beginning of a shortcut name', async () => {
