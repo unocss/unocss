@@ -2,7 +2,7 @@ import type { UniversalIconLoader } from '@iconify/utils'
 import { loadIcon } from '@iconify/utils'
 import { createCDNLoader } from './cdn'
 import { combineLoaders, createPresetIcons } from './core'
-import { isNode, isVSCode } from './utils'
+import { isNode, isRaycast, isVSCode } from './utils'
 
 export * from './core'
 
@@ -25,7 +25,7 @@ export const presetIcons = createPresetIcons(async (options) => {
 
   const loaders: UniversalIconLoader[] = []
 
-  if (isNode && !isVSCode)
+  if (isNode && !isVSCode && !isRaycast)
     loaders.push(await createNodeLoader())
 
   if (cdn)
