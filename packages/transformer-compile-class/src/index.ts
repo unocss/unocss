@@ -88,7 +88,7 @@ export default function transformerCompileClass(options: CompileClassOptions = {
         const replacements: string[] = []
 
         if (keepUnknown) {
-          const result = await Promise.all(body.split(/\s+/).filter(Boolean).map(async i => [i, !!await uno.parseToken(i)] as const))
+          const result = await Promise.all(body.split(/\s+/).filter(Boolean).map(async (i: string) => [i, !!await uno.parseToken(i)] as const))
           const known = result.filter(([, matched]) => matched).map(([i]) => i)
           const unknown = result.filter(([, matched]) => !matched).map(([i]) => i)
           replacements.push(...unknown)
@@ -104,12 +104,19 @@ export default function transformerCompileClass(options: CompileClassOptions = {
             ? `${classPrefix}${match.groups.name}`
             : ''
 
+          // The className will be obtained in the priority order 
+          // of defineClassName first, followed by hashClassName.
           const className = defineClassName || hashClassName
-          const token = defineClassName ? `${defineClassName}:${hashClassName}` : hashClassName
+          // In the case where a class name is defined, 
+          // an additional token will be initialized by combining the defineClassName and hashClassName 
+          // to confirm that the defineClassName is used consistently in two different places.
+          const verifyToken = defineClassName ? `${defineClassName}:${hashClassName}` : hashClassName
 
-          // FIXME: Ideally we should also check that the hash doesn't match. If the hash is the same, the same class
-          // name is allowed, as the applied styles are the same.
-          if (tokens && tokens.has(className) && !tokens.has(token))
+          // If there is already a similar className in the tokens, 
+          // recheck it using the verifyToken to confirm that two different places 
+          // are using the same className and have the same hashClassName. 
+          // If they have the same className, they must also have the same hashClassName.
+          if (tokens && tokens.has(className) && !tokens.has(verifyToken))
             throw new Error(`duplicate compile class name '${className}', please choose different class name`)
 
           replacements.unshift(className)
@@ -119,10 +126,12 @@ export default function transformerCompileClass(options: CompileClassOptions = {
             uno.config.shortcuts.push([className, body])
 
           if (tokens) {
-            tokens.add(token)
-
-            if (className !== token) {
-              tokens.add(className)
+            tokens.add(className)
+            
+            // If the className is defined by the developer, 
+            // the verifyToken will be pushed into the tokens.
+            if (className !== verifyToken) {
+              tokens.add(verifyToken)
             }
           }
         }
