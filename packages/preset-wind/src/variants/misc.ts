@@ -9,7 +9,8 @@ export const variantSpaceAndDivide: Variant = (matcher) => {
     return {
       matcher,
       selector: (input) => {
-        return `${input}>:not([hidden])~:not([hidden])`
+        const not = '>:not([hidden])~:not([hidden])'
+        return input.includes(not) ? input : `${input}${not}`
       },
     }
   }

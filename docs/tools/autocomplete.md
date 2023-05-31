@@ -45,7 +45,7 @@ The template uses a simple DSL to specify the autocomplete suggestions. The synt
 
 - **Template**: `(border|b)-(solid|dashed|dotted|double|hidden|none)`
 - **Input**: `b-do`
-- **Suggestions**: `b-dashed`, `b-double`
+- **Suggestions**: `b-dotted`, `b-double`
 
 ### Example 2
 

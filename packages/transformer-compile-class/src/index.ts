@@ -3,10 +3,35 @@ import { escapeRegExp, expandVariantGroup } from '@unocss/core'
 
 export interface CompileClassOptions {
   /**
-   * Trigger string
-   * @default ':uno:'
+   * Trigger regex literal. The default trigger regex literal matches `:uno:`,
+   * for example: `<div class=":uno: font-bold text-white">`.
+   *
+   * @example
+   * The trigger additionally allows defining a capture group named `name`, which
+   * allows custom class names. One possible regex would be:
+   *
+   * ```
+   * export default defineConfig({
+   *   transformers: [
+   *     transformerCompileClass({
+   *       trigger: /(["'`]):uno(?:-)?(?<name>[^\s\1]+)?:\s([^\1]*?)\1/g
+   *     }),
+   *   ],
+   * })
+   * ```
+   *
+   * This regular expression matches `:uno-MYNAME:` and uses `MYNAME` in
+   * combination with the class prefix as the final class name, for example:
+   * `.uno-MYNAME`. It should be noted that the regex literal needs to include
+   * the global flag `/g`.
+   *
+   * @note
+   * This parameter is backwards compatible. It accepts string only trigger
+   * words, like `:uno:` or a regex literal.
+   *
+   * @default `/(["'`]):uno:\s([^\1]*?)\1/g`
    */
-  trigger?: string
+  trigger?: string | RegExp
 
   /**
    * Prefix for compile class name
@@ -34,25 +59,34 @@ export interface CompileClassOptions {
 
 export default function transformerCompileClass(options: CompileClassOptions = {}): SourceCodeTransformer {
   const {
-    trigger = ':uno:',
+    trigger = /(["'`]):uno:\s([^\1]*?)\1/g,
     classPrefix = 'uno-',
     hashFn = hash,
     keepUnknown = true,
   } = options
-  const regex = new RegExp(`(["'\`])${escapeRegExp(trigger)}\\s([^\\1]*?)\\1`, 'g')
+
+  // Provides backwards compatibility. We either accept a trigger string which
+  // gets turned into a regexp (like previously) or a regex literal directly.
+  const regexp = typeof trigger === 'string'
+    ? RegExp(`(["'\`])${escapeRegExp(trigger)}\\s([^\\1]*?)\\1`, 'g')
+    : trigger
 
   return {
     name: '@unocss/transformer-compile-class',
     enforce: 'pre',
     async transform(s, _, { uno, tokens }) {
-      const matches = [...s.original.matchAll(regex)]
+      const matches = [...s.original.matchAll(regexp)]
       if (!matches.length)
         return
 
       for (const match of matches) {
-        let body = expandVariantGroup(match[2].trim())
+        let body = (match.length === 4 && match.groups)
+          ? expandVariantGroup(match[3].trim())
+          : expandVariantGroup(match[2].trim())
+
         const start = match.index!
         const replacements = []
+
         if (keepUnknown) {
           const result = await Promise.all(body.split(/\s+/).filter(Boolean).map(async i => [i, !!await uno.parseToken(i)] as const))
           const known = result.filter(([, matched]) => matched).map(([i]) => i)
@@ -60,17 +94,28 @@ export default function transformerCompileClass(options: CompileClassOptions = {
           replacements.push(...unknown)
           body = known.join(' ')
         }
+
         if (body) {
           body = body.split(/\s+/).sort().join(' ')
-          const hash = hashFn(body)
-          const className = `${classPrefix}${hash}`
+          const className = (match.groups && match.groups.name)
+            ? `${classPrefix}${match.groups.name}`
+            : `${classPrefix}${hashFn(body)}`
+
+          // FIXME: Ideally we should also check that the hash doesn't match. If the hash is the same, the same class
+          // name is allowed, as the applied styles are the same.
+          if (tokens && tokens.has(className))
+            throw new Error(`duplicate compile class name '${className}', please choose different class name`)
+
           replacements.unshift(className)
           if (options.layer)
             uno.config.shortcuts.push([className, body, { layer: options.layer }])
           else
             uno.config.shortcuts.push([className, body])
-          tokens.add(className)
+
+          if (tokens)
+            tokens.add(className)
         }
+
         s.overwrite(start + 1, start + match[0].length - 1, replacements.join(' '))
       }
     },

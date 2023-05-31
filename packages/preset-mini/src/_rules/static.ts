@@ -84,7 +84,7 @@ export const contentVisibility: Rule[] = [
 export const contents: Rule[] = [
   [/^content-(.+)$/, ([, v]) => ({ content: h.bracket.cssvar(v) })],
   ['content-empty', { content: '""' }],
-  ['content-none', { content: '""' }],
+  ['content-none', { content: 'none' }],
 ]
 
 export const breaks: Rule[] = [

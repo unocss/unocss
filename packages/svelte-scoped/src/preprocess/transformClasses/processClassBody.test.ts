@@ -1,19 +1,18 @@
 import { describe, expect, it } from 'vitest'
-import type { FoundClass } from './findClasses'
+import type { TransformClassesOptions } from '../types'
 import type { ProcessResult } from './processClasses'
 import { processClassBody } from './processClassBody'
 import { shortcutName, unoMock } from './unoMock'
 
 describe('processClassBody', () => {
-  describe('handles two simples classes and an unknown', () => {
-    const foundClass: FoundClass = {
-      body: 'mb-1 mr-1 foo',
-      start: 13,
-      end: 17,
-      type: 'regular',
-    }
+  function process(body: string, options: TransformClassesOptions = {}) {
+    return processClassBody({ body, start: 0, end: body.length, type: 'regular' }, options, unoMock, 'Foo.svelte')
+  }
 
-    it('uncombined', async () => {
+  describe('handles two utility classes and an unknown', () => {
+    const two_utilties_and_unknown = 'mb-1 mr-1 foo'
+
+    it('when uncombined', async () => {
       const expected: Partial<ProcessResult> = {
         rulesToGenerate: {
           '_mb-1_7dkb0w': ['mb-1'],
@@ -21,57 +20,48 @@ describe('processClassBody', () => {
         },
         codeUpdate: {
           content: '_mb-1_7dkb0w _mr-1_7dkb0w foo',
-          start: 13,
-          end: 17,
+          start: 0,
+          end: 13,
         },
       }
 
-      expect(await processClassBody(foundClass, { combine: false }, unoMock, 'Foo.svelte')).toEqual(expected)
+      expect(await process(two_utilties_and_unknown, { combine: false })).toEqual(expected)
     })
 
-    it('combined', async () => {
+    it('when combined', async () => {
       const expected: Partial<ProcessResult> = {
         rulesToGenerate: {
           'uno-07jvco': ['mb-1', 'mr-1'],
         },
         codeUpdate: {
           content: 'uno-07jvco foo',
-          start: 13,
-          end: 17,
+          start: 0,
+          end: 13,
         },
       }
 
-      expect(await processClassBody(foundClass, { combine: true }, unoMock, 'Foo.svelte')).toEqual(expected)
+      expect(await process(two_utilties_and_unknown)).toEqual(expected)
     })
 
-    it('extra spaces and unknown class in middle', async () => {
-      const reorderedClass = {
-        ...foundClass,
-        body: 'mb-1   foo mr-1',
-      }
-      const result1 = await processClassBody(foundClass, { combine: false }, unoMock, 'Foo.svelte')
-      const result2 = await processClassBody(reorderedClass, { combine: false }, unoMock, 'Foo.svelte')
+    it('with extra spaces and unknown class in middle', async () => {
+      const reordered = 'mb-1   foo mr-1'
+      const result1 = (await process(two_utilties_and_unknown, { combine: false })!).codeUpdate!.content
+      const result2 = (await process(reordered, { combine: false })!).codeUpdate!.content
       expect(result1).toEqual(result2)
     })
   })
 
   it('returns empty object if only finds unknown classes', async () => {
-    const classToIgnore: FoundClass = {
-      body: 'foo bar',
-      start: 0,
-      end: 3,
-      type: 'regular',
-    }
-    expect(await processClassBody(classToIgnore, {}, unoMock, 'Foo.svelte')).toEqual({})
+    const unknownClasses = 'foo bar'
+    expect(await process(unknownClasses)).toEqual({})
   })
 
   it('shortcut', async () => {
-    const shortcut: FoundClass = {
-      body: shortcutName,
-      start: 0,
-      end: 3,
-      type: 'regular',
-    }
-    expect((await processClassBody(shortcut, {}, unoMock, 'Foo.svelte'))!.rulesToGenerate).toEqual({ 'uno-jryqbp': [shortcutName] })
+    expect((await process(shortcutName))!.rulesToGenerate).toEqual({ 'uno-jryqbp': [shortcutName] })
+  })
+
+  it('expression', async () => {
+    const body = 'mr-1 foo {variable ? \'mb-1\' : \'baz\'}'
+    expect((await process(body))!.codeUpdate!.content).toMatchInlineSnapshot('"uno-76ckap foo {variable ? \'uno-2se4c1\' : \'baz\'}"')
   })
 })

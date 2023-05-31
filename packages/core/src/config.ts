@@ -164,3 +164,32 @@ export function resolveConfig<Theme extends {} = {}>(
 
   return resolved
 }
+
+/**
+ * Merge multiple configs into one, later ones have higher priority
+ */
+export function mergeConfigs<Theme extends {} = {}>(
+  configs: UserConfig<Theme>[],
+): UserConfig<Theme> {
+  function getMerged<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist' | 'separators' | 'presets'>(key: T): ToArray<Required<UserConfig<Theme>>[T]> {
+    return uniq(configs.flatMap(p => toArray(p[key] || []) as any[])) as any
+  }
+
+  const merged = Object.assign(
+    {},
+    ...configs,
+    {
+      presets: getMerged('presets'),
+      safelist: getMerged('safelist'),
+      preprocess: getMerged('preprocess'),
+      postprocess: getMerged('postprocess'),
+      preflights: getMerged('preflights'),
+      rules: getMerged('rules'),
+      variants: getMerged('variants'),
+      shortcuts: getMerged('shortcuts'),
+      extractors: getMerged('extractors'),
+    },
+  )
+
+  return merged
+}

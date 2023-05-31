@@ -9,6 +9,7 @@ export default defineConfig({
     alias,
   },
   test: {
+    name: 'unit',
     setupFiles: ['./test/setup.ts'],
     exclude: [...defaultExclude, '**/svelte-scoped/**'],
   },
