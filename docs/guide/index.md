@@ -116,7 +116,7 @@ UnoCSS comes with many integrations for various frameworks:
 |---|---|---|---|
 | yes | `astro` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/astro) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/astro) | x
 | yes, but example itself has error (play to see) | `astro-vue` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/astro-vue) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/astro-vue) |
-| ? | `next` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/next) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/next) |
+| error resolving dependencies | `next` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/next) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/next) |
 | ? | `nuxt2` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/nuxt2) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/nuxt2) |
 | ? | `nuxt2-webpack` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/nuxt2-webpack) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/nuxt2-webpack) |
 | ? | `nuxt3` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/nuxt3) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/nuxt3) |
