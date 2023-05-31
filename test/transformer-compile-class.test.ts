@@ -107,4 +107,28 @@ describe('transformer-compile-class', () => {
       .uno-foo_bar-baz{--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));font-size:1.25rem;line-height:1.75rem;}"
     `)
   })
+
+  test('custom class name conflicts', async () => {
+    await expect(async () => {
+      await transform(`
+      <div class=":uno-foo: w-1"/>
+      <div class=":uno-foo: w-2"/>
+    `.trim(), uno)
+    }).rejects
+      .toMatchInlineSnapshot('[Error: duplicate compile class name \'uno-foo\', please choose different class name]')
+  })
+
+  test('normal class name should not conflicts', async () => {
+    const result = await transform(`
+<div class=":uno: w-1 h-1"/>
+<div class=":uno: w-2 h-2"/>
+<div class=":uno: h-1 w-1"/>
+    `, uno)
+
+    expect(result.code.trim()).toMatchInlineSnapshot(`
+      "<div class=\\"uno-prhvrm\\"/>
+      <div class=\\"uno-umiu5u\\"/>
+      <div class=\\"uno-prhvrm\\"/>"
+    `)
+  })
 })
