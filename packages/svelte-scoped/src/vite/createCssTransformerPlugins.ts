@@ -3,7 +3,11 @@ import { type PluginOptions, type UnocssPluginContext, cssIdRE } from '@unocss/c
 import type { SvelteScopedContext } from '../preprocess'
 import { applyTransformers } from '../../../shared-integration/src/transformers'
 
-export function createTransformerPlugins(ctx: SvelteScopedContext, cssTransformers: PluginOptions['transformers']): Plugin[] {
+interface CssTransformerPluginsContext extends SvelteScopedContext {
+  affectedModules: Set<string>
+}
+
+export function createCssTransformerPlugins(ctx: CssTransformerPluginsContext, cssTransformers: PluginOptions['transformers']): Plugin[] {
   const enforces = ['default', 'pre', 'post'] as const
   return enforces.map((enforce): Plugin => ({
     name: `unocss:svelte-scoped-transformers:${enforce}`,
