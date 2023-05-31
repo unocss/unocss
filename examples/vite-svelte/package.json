@@ -25,6 +25,6 @@
   },
   "stackblitz": {
     "installDependencies": false,
-    "startCommand": "node prepare-for-stackblitz.js && npm install && npm run dev"
+    "startCommand": "node .stackblitz.js && npm install && npm run dev"
   }
 }
