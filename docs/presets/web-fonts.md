@@ -66,6 +66,17 @@ PR welcome to add more providers. 🙌
 ### Custom fetch function
 
 Use your own function to fetch font source.
+::: code-group
+  ```bash [pnpm]
+  pnpm add -D https-proxy-agent
+  ```
+  ```bash [yarn]
+  yarn add -D https-proxy-agent
+  ```
+  ```bash [npm]
+  npm install -D https-proxy-agent
+  ```
+:::
 
 ```ts
 // uno.config.ts
@@ -73,14 +84,19 @@ import { defineConfig } from 'unocss'
 import presetWebFonts from '@unocss/preset-web-fonts'
 import presetUno from '@unocss/preset-uno'
 import axios from 'axios'
-import ProxyAgent from 'proxy-agent'
+import { HttpsProxyAgent } from 'https-proxy-agent'
 
 export default defineConfig({
   presets: [
     presetUno(),
     presetWebFonts({
       // use axios with an https proxy
-      customFetch: (url: string) => axios.get(url, { httpsAgent: new ProxyAgent('https://localhost:7890') }).then(it => it.data),
+      // clash default port 7890, v2rayN default port 10809
+      customFetch: (url: string) => {
+        return axios
+          .get(url, { httpsAgent: new HttpsProxyAgent('http://127.0.0.1:7890') })
+          .then(it => it.data)
+      },
       provider: 'google',
       fonts: {
         sans: 'Roboto',
