@@ -15,6 +15,7 @@
     "@unocss/postcss": "link:../../packages/postcss",
     "@vitejs/plugin-vue": "^4.2.3",
     "typescript": "^5.0.4",
+    "unocss": "link:../../packages/unocss",
     "vite": "^4.3.9"
   },
   "stackblitz": {
