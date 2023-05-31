@@ -10,8 +10,7 @@
   "dependencies": {
     "next": "13.4.4",
     "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "unocss-nextjs": "link:"
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
     "@iconify-json/carbon": "^1.1.17",
