@@ -2,7 +2,7 @@ import type { UniversalIconLoader } from '@iconify/utils'
 import { loadIcon } from '@iconify/utils'
 import { createCDNLoader } from './cdn'
 import { combineLoaders, createPresetIcons } from './core'
-import { isNode, isRaycast, isVSCode } from './utils'
+import { isNode, isVSCode } from './utils'
 
 export * from './core'
 
@@ -12,8 +12,8 @@ async function createNodeLoader() {
   }
   catch { }
   try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    return require('@iconify/utils/lib/loader/node-loader.cjs')
+    // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+    return require('@iconify/utils/lib/loader/node-loader.cjs').loadNodeIcon
   }
   catch { }
 }
@@ -25,8 +25,11 @@ export const presetIcons = createPresetIcons(async (options) => {
 
   const loaders: UniversalIconLoader[] = []
 
-  if (isNode && !isVSCode && !isRaycast)
-    loaders.push(await createNodeLoader())
+  if (isNode && !isVSCode) {
+    const nodeLoader = await createNodeLoader()
+    if (nodeLoader !== undefined)
+      loaders.push(nodeLoader)
+  }
 
   if (cdn)
     loaders.push(createCDNLoader(cdn))
