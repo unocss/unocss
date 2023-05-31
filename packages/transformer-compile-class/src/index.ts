@@ -109,8 +109,11 @@ export default function transformerCompileClass(options: CompileClassOptions = {
           }
           const className = `${classPrefix}${hash}`
 
-          if (tokens && tokens.has(className) && explicitName)
-            throw new Error(`duplicate compile class name '${className}', please choose different class name`)
+          if (tokens && tokens.has(className) && explicitName) {
+            const existing = uno.config.shortcuts.find(i => i[0] === className)
+            if (existing && existing[1] !== body)
+              throw new Error(`Duplicated compile class name "${className}". One is "${body}" and the other is "${existing[1]}" Please choose different class name`)
+          }
 
           replacements.unshift(className)
           if (options.layer)

@@ -174,6 +174,14 @@ export interface RuleMeta {
    * @default false
    */
   internal?: boolean
+
+  /**
+   * Store the hash of the rule boy
+   *
+   * @internal
+   * @private
+   */
+  __hash?: string
 }
 
 export type CSSValue = CSSObject | CSSEntries
