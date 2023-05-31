@@ -36,10 +36,12 @@ const delimiters = ['-', ':']
 
 class UnoCompletionItem extends CompletionItem {
   uno: UnoGenerator
+  value: string
 
-  constructor(label: string, kind: CompletionItemKind, uno: UnoGenerator) {
+  constructor(label: string, kind: CompletionItemKind, value: string, uno: UnoGenerator) {
     super(label, kind)
     this.uno = uno
+    this.value = value
   }
 }
 
@@ -119,7 +121,7 @@ export async function registerAutoComplete(
           const css = await getCSS(ctx!.uno, value)
           const colorString = getColorString(css)
           const itemKind = colorString ? CompletionItemKind.Color : CompletionItemKind.EnumMember
-          const item = new UnoCompletionItem(value, itemKind, ctx!.uno)
+          const item = new UnoCompletionItem(label, itemKind, value, ctx!.uno)
           const resolved = result.resolveReplacement(value)
 
           item.insertText = resolved.replacement
@@ -143,9 +145,9 @@ export async function registerAutoComplete(
 
     async resolveCompletionItem(item) {
       if (item.kind === CompletionItemKind.Color)
-        item.detail = await (await getPrettiedCSS(item.uno, item.label as string)).prettified
+        item.detail = await (await getPrettiedCSS(item.uno, item.value)).prettified
       else
-        item.documentation = await getMarkdown(item.uno, item.label as string)
+        item.documentation = await getMarkdown(item.uno, item.value)
       return item
     },
   }

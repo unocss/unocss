@@ -4,16 +4,19 @@ import UnocssSveltePreprocess from '../preprocess'
 import type { UnocssSvelteScopedViteOptions } from './types'
 
 export function PassPreprocessToSveltePlugin(options: UnocssSvelteScopedViteOptions = {}, ctx: SvelteScopedContext): Plugin {
+  let commandIsBuild = true
+  const isBuild = () => commandIsBuild
+
   return {
     name: 'unocss:svelte-scoped:pass-preprocess',
     enforce: 'pre',
 
-    configResolved(viteConfig) {
-      options = { ...options, combine: viteConfig.command === 'build' }
+    configResolved({ command }) {
+      commandIsBuild = command === 'build'
     },
 
     api: {
-      sveltePreprocess: UnocssSveltePreprocess(options, ctx),
+      sveltePreprocess: UnocssSveltePreprocess(options, ctx, isBuild),
     },
   }
 }
