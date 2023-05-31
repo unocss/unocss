@@ -112,7 +112,7 @@ UnoCSS comes with many integrations for various frameworks:
 
 ## Examples
 
-| Example | Source | Playground | Errors to fix |
+| Example | Source | Playground | Stackblitz Messages |
 |---|---|---|---|
 | `astro` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/astro) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/astro) |
 | `astro-vue` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/astro-vue) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/astro-vue) | Warning: duplicate compile class name 'uno-06j1dt', please choose different class name from unocss:transformers:pre, src/components/Example.vue | 
@@ -138,4 +138,4 @@ UnoCSS comes with many integrations for various frameworks:
 | `vite-vue3-postcss` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-vue3-postcss) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vite-vue3-postcss) |
 | `vite-watch-mode` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-watch-mode) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vite-watch-mode?view=editor) |
 | `vue-cli4` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vue-cli4) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vue-cli4) |
-| `vue-cli5` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vue-cli5) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vue-cli5) | Broken: exits serve process at 10% with no message - needs unocss dep? |
+| `vue-cli5` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vue-cli5) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vue-cli5) | 

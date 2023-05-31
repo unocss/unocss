@@ -402,6 +402,9 @@ importers:
       '@vue/cli-service':
         specifier: ~5.0.8
         version: 5.0.8(@babel/core@7.22.1)(esbuild@0.15.18)(react@18.2.0)
+      unocss:
+        specifier: link:../../packages/unocss
+        version: link:../../packages/unocss
 
   interactive:
     devDependencies:
