@@ -11,6 +11,7 @@
     "vue": "^3.2.47"
   },
   "devDependencies": {
+    "@iconify-json/logos": "^1.1.31",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",

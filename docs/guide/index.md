@@ -110,12 +110,12 @@ UnoCSS comes with many integrations for various frameworks:
 - [CDN Runtime](/integrations/runtime)
 
 
-## Examples (WIP)
+## Examples
 
 | Working | Example | Source | Playground |
 |---|---|---|---|
 | yes | `astro` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/astro) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/astro) | x
-| yes, but example itself has error | `astro-vue` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/astro-vue) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/astro-vue) |
+| yes, unmatched utility "i-logos-astro" in shortcut "i-logo",  error: duplicate compile class name 'uno-06j1dt', please choose different class name Plugin: unocss:transformers:pre File: /home/projects/unocss-unocss-fgvbib/src/components/Example.vue | `astro-vue` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/astro-vue) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/astro-vue) |
 | fails to load SWC binary for @next/swc-linux | `next` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/next) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/next) |
 | yes | `nuxt2` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/nuxt2) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/nuxt2) |
 | yes | `nuxt2-webpack` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/nuxt2-webpack) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/nuxt2-webpack) |
@@ -127,15 +127,15 @@ UnoCSS comes with many integrations for various frameworks:
 | yes | `sveltekit-preprocess` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/sveltekit-preprocess) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/sveltekit-preprocess) |
 | yes | `sveltekit-scoped` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/sveltekit-scoped) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/sveltekit-scoped) |
 | no, but https://stackblitz.com/edit/elm-daisyui does | `vite-elm` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-elm) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vite-elm) |
-| ? | `vite-lit` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-lit) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vite-lit) |
-| ? | `vite-preact` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-preact) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vite-preact) |
+| yes | `vite-lit` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-lit) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vite-lit) |
+| yes | `vite-preact` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-preact) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vite-preact) |
 | yes | `vite-pug` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-pug) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vite-pug) |
-| ? | `vite-react` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-react) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vite-react) |
-| ? | `vite-solid` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-solid) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vite-solid) |
+| yes | `vite-react` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-react) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vite-react) |
+| yes | `vite-solid` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-solid) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vite-solid) |
 | yes | `vite-svelte` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-svelte) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vite-svelte) |
 | no | `vite-svelte-postcss` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-svelte-postcss) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vite-svelte-postcss) |
 | yes, unmatched utility "i-logos-vue" in shortcut "logo" | `vite-vue3` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-vue3) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vite-vue3) |
-| ? | `vite-vue3-postcss` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-vue3-postcss) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vite-vue3-postcss) |
-| ? | `vite-watch-mode` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-watch-mode) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vite-watch-mode) |
-| ? | `vue-cli4` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vue-cli4) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vue-cli4) |
-| ? | `vue-cli5` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vue-cli5) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vue-cli5) |
+| yes | `vite-vue3-postcss` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-vue3-postcss) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vite-vue3-postcss) |
+| yes (this is just a build example, not a dev server) | `vite-watch-mode` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-watch-mode) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vite-watch-mode) |
+| yes | `vue-cli4` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vue-cli4) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vue-cli4) |
+| exists serve process at 10% with no message - needs unocss dep? | `vue-cli5` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vue-cli5) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vue-cli5) |

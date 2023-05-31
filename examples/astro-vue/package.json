@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "@astrojs/vue": "^2.2.0",
+    "@iconify-json/logos": "^1.1.31",
     "@unocss/reset": "link:../../packages/reset",
     "astro": "^2.5.5",
     "unocss": "link:../../packages/unocss"
