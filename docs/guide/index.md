@@ -115,14 +115,14 @@ UnoCSS comes with many integrations for various frameworks:
 | Working | Example | Source | Playground |
 |---|---|---|---|
 | yes | `astro` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/astro) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/astro) | x
-| yes, but example itself has error (play to see) | `astro-vue` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/astro-vue) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/astro-vue) |
-| error resolving dependencies | `next` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/next) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/next) |
-| ? | `nuxt2` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/nuxt2) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/nuxt2) |
-| ? | `nuxt2-webpack` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/nuxt2-webpack) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/nuxt2-webpack) |
-| ? | `nuxt3` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/nuxt3) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/nuxt3) |
-| ? | `quasar` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/quasar) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/quasar) |
-| ? | `qwik` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/qwik) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/qwik) |
-| ? | `remix` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/remix) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/remix) |
+| yes, but example itself has error | `astro-vue` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/astro-vue) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/astro-vue) |
+| fails to load SWC binary for @next/swc-linux | `next` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/next) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/next) |
+| yes | `nuxt2` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/nuxt2) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/nuxt2) |
+| yes | `nuxt2-webpack` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/nuxt2-webpack) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/nuxt2-webpack) |
+| yes | `nuxt3` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/nuxt3) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/nuxt3) |
+| yes | `quasar` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/quasar) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/quasar) |
+| error when starting dev server: Cannot find module 'undici' | `qwik` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/qwik) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/qwik) |
+| yes, example itself has some Remix upgrade notices | `remix` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/remix) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/remix) |
 | yes | `sveltekit` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/sveltekit) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/sveltekit) |
 | yes | `sveltekit-preprocess` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/sveltekit-preprocess) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/sveltekit-preprocess) |
 | yes | `sveltekit-scoped` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/sveltekit-scoped) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/sveltekit-scoped) |
@@ -134,7 +134,7 @@ UnoCSS comes with many integrations for various frameworks:
 | ? | `vite-solid` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-solid) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vite-solid) |
 | yes | `vite-svelte` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-svelte) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vite-svelte) |
 | no | `vite-svelte-postcss` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-svelte-postcss) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vite-svelte-postcss) |
-| ? | `vite-vue3` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-vue3) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vite-vue3) |
+| yes, unmatched utility "i-logos-vue" in shortcut "logo" | `vite-vue3` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-vue3) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vite-vue3) |
 | ? | `vite-vue3-postcss` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-vue3-postcss) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vite-vue3-postcss) |
 | ? | `vite-watch-mode` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-watch-mode) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vite-watch-mode) |
 | ? | `vue-cli4` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vue-cli4) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/stackblitz-examples/examples/vue-cli4) |

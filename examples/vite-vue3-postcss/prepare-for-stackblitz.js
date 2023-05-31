@@ -1,12 +1,12 @@
-import { promises as fsPromises } from 'node:fs'
+import fs from 'node:fs'
 
 updateDependencyLinksToLatest('./package.json')
 
-async function updateDependencyLinksToLatest(filename) {
+function updateDependencyLinksToLatest(filename) {
   try {
-    const contents = await fsPromises.readFile(filename, 'utf-8')
+    const contents = fs.readFileSync(filename, 'utf-8')
     const updatedContent = contents.replace(/"link:...+"/gi, '"latest"')
-    await fsPromises.writeFile(filename, updatedContent)
+    fs.writeFileSync(filename, updatedContent)
   }
   catch (err) {
     console.error(err)
