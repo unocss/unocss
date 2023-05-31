@@ -33,5 +33,9 @@
     "concurrently": "^8.0.1",
     "typescript": "^5.0.4",
     "unocss": "link:../../packages/unocss"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node .stackblitz.mjs && npm install && npm run dev"
   }
 }

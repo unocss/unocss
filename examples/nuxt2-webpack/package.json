@@ -12,5 +12,9 @@
     "@unocss/reset": "link:../../packages/reset",
     "nuxt": "^2.16.2",
     "unocss": "link:../../packages/unocss"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node .stackblitz.mjs && npm install && npm run dev"
   }
 }

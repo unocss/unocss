@@ -22,5 +22,9 @@
     "typescript": "^5.0.4",
     "unocss": "link:../../packages/unocss",
     "vite": "^4.3.9"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node .stackblitz.mjs && npm install && npm run dev"
   }
 }

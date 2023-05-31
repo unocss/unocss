@@ -1,9 +1,8 @@
 {
-  "name": "unocss-sveltekit-rc",
+  "name": "unocss-sveltekit",
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "stackblitz:dev": "node remove-links.js && npm install && vite dev",
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -12,14 +11,13 @@
   "devDependencies": {
     "@iconify-json/logos": "^1.1.31",
     "@iconify/utils": "^2.1.5",
-    "@sveltejs/adapter-auto": "next",
-    "@sveltejs/kit": "next",
+    "@sveltejs/adapter-auto": "^2.1.0",
+    "@sveltejs/kit": "^1.18.0",
     "@unocss/core": "link:../../packages/core",
     "@unocss/extractor-svelte": "link:../../packages/extractor-svelte",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
     "svelte": "^3.59.1",
     "svelte-check": "^3.4.3",
-    "svelte-preprocess": "^5.0.4",
     "tslib": "^2.5.2",
     "typescript": "^5.0.4",
     "unocss": "link:../../packages/unocss",
@@ -27,6 +25,6 @@
   },
   "stackblitz": {
     "installDependencies": false,
-    "startCommand": "npm run stackblitz:dev"
+    "startCommand": "node .stackblitz.js && npm install && npm run dev"
   }
 }
