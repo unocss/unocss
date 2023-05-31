@@ -1,0 +1,15 @@
+{
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "test": "vitest --run"
+  },
+  "devDependencies": {
+    "@sveltejs/kit": "^1.20.0",
+    "@unocss/svelte-scoped": "workspace:*",
+    "@unocss/transformer-directives": "workspace:*"
+  }
+}
