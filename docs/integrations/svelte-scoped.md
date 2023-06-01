@@ -163,6 +163,10 @@ will be transformed into:
 
 In order for `rtl:ml-2` to work properly, the `[dir="rtl"]` selector is wrapped with `:global()` to keep the Svelte compiler from stripping it out automatically as the component has no element with that attribute. However, `div` can't be included in the `:global()` wrapper because that style would then affect every `div` in your app.
 
+### Other style block directives
+
+Using [theme()](https://unocss.dev/transformers/directives#theme) is also supported, but [@screen](https://unocss.dev/transformers/directives#screen) is **not**.
+
 ## Vite Plugin
 
 In Svelte or SvelteKit apps, inject generated styles directly into your Svelte components, while placing the minimum necessary styles in a global stylesheet. Check out the [SvelteKit example](https://github.com/unocss/unocss/tree/main/examples/sveltekit-scoped) in Stackblitz:

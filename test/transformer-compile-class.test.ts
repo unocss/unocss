@@ -1,25 +1,31 @@
 import { describe, expect, test } from 'vitest'
-import type { SourceCodeTransformer, UnoGenerator } from '@unocss/core'
+import type { UnoGenerator } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
 import MagicString from 'magic-string'
+import type { CompileClassOptions } from '@unocss/transformer-compile-class'
 import transformerCompileClass from '@unocss/transformer-compile-class'
 import presetUno from '@unocss/preset-uno'
 
+const CUSTOM_TRIGGER = /(["'`]):custom(?:-)?(?<name>[^\s\1]+)?:\s([^\1]*?)\1/g
+
 describe('transformer-compile-class', () => {
-  const uno = createGenerator({
-    presets: [
-      presetUno(),
-    ],
-  })
+  function createUno(options?: CompileClassOptions) {
+    return createGenerator({
+      presets: [
+        presetUno(),
+      ],
+      transformers: [
+        transformerCompileClass(options),
+      ],
+    })
+  }
 
-  const defaultTransformer = transformerCompileClass()
-  const customClassNameTransformer = transformerCompileClass({
-    trigger: /(["'`]):uno(?:-)?(?<name>[^\s\1]+)?:\s([^\1]*?)\1/g,
-  })
-
-  async function transform(code: string, _uno: UnoGenerator = uno, _tranformer: SourceCodeTransformer = defaultTransformer) {
+  async function transform(code: string, uno: UnoGenerator = createUno()) {
     const s = new MagicString(code)
-    await _tranformer.transform(s, 'foo.js', { uno: _uno, tokens: new Set() } as any)
+
+    for (const t of uno.config.transformers || [])
+      await t.transform(s, 'foo.js', { uno, tokens: new Set() } as any)
+
     const result = s.toString()
     const { css } = await uno.generate(result, { preflights: false })
     return {
@@ -67,12 +73,12 @@ describe('transformer-compile-class', () => {
   })
 
   test('custom class name trigger (without class name)', async () => {
-    const result = await transform(`
-<div class=":uno: bg-red-500 text-xl">`.trim(), uno, customClassNameTransformer)
+    const result = await transform(
+      '<div class=":custom: bg-red-500 text-xl">'.trim(),
+      createUno({ trigger: CUSTOM_TRIGGER }),
+    )
 
-    expect(result.code.trim()).toMatchInlineSnapshot(`
-      "<div class=\\"uno-trmz0g\\">"
-    `)
+    expect(result.code.trim()).toMatchInlineSnapshot('"<div class=\\"uno-trmz0g\\">"')
 
     expect(result.css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
@@ -81,30 +87,74 @@ describe('transformer-compile-class', () => {
   })
 
   test('custom class name trigger (with basic class name)', async () => {
-    const result = await transform(`
-<div class=":uno-foo: bg-red-500 text-xl">`.trim(), uno, customClassNameTransformer)
+    const result = await transform(
+      '<div class=":custom-foo: bg-red-500 text-xl">'.trim(),
+      createUno({
+        trigger: CUSTOM_TRIGGER,
+        classPrefix: 'something-',
+      }),
+    )
 
-    expect(result.code.trim()).toMatchInlineSnapshot(`
-      "<div class=\\"uno-foo\\">"
-    `)
+    expect(result.code.trim()).toMatchInlineSnapshot('"<div class=\\"something-foo\\">"')
 
     expect(result.css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      .uno-foo{--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));font-size:1.25rem;line-height:1.75rem;}"
+      .something-foo{--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));font-size:1.25rem;line-height:1.75rem;}"
     `)
   })
 
   test('custom class name trigger (with complex class name)', async () => {
-    const result = await transform(`
-<div class=":uno-foo_bar-baz: bg-red-500 text-xl">`.trim(), uno, customClassNameTransformer)
+    const result = await transform(
+      '<div class=":custom-foo_bar-baz: bg-red-500 text-xl">'.trim(),
+      createUno({ trigger: CUSTOM_TRIGGER }),
+    )
 
-    expect(result.code.trim()).toMatchInlineSnapshot(`
-      "<div class=\\"uno-foo_bar-baz\\">"
-    `)
+    expect(result.code.trim()).toMatchInlineSnapshot('"<div class=\\"uno-foo_bar-baz\\">"')
 
     expect(result.css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
       .uno-foo_bar-baz{--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));font-size:1.25rem;line-height:1.75rem;}"
+    `)
+  })
+
+  test('custom class name conflicts', async () => {
+    await expect(async () => {
+      await transform(`
+      <div class=":uno-foo: w-1"/>
+      <div class=":uno-foo: w-2"/>
+    `.trim())
+    }).rejects
+      .toMatchInlineSnapshot('[Error: Duplicated compile class name "uno-foo". One is "w-2" and the other is "w-1" Please choose different class name]')
+  })
+
+  test('custom class name should not conflicts when the content is the same', async () => {
+    const result = await transform(`
+<div class=":uno-foo: h-1 w-1"/>
+<div class=":uno-foo: w-1 h-1"/>
+    `.trim())
+
+    expect(result.code.trim()).toMatchInlineSnapshot(`
+      "<div class=\\"uno-foo\\"/>
+      <div class=\\"uno-foo\\"/>"
+    `)
+
+    expect(result.css.trim()).toMatchInlineSnapshot(`
+      "/* layer: shortcuts */
+      .uno-foo{height:0.25rem;width:0.25rem;}"
+    `)
+  })
+
+  test('normal class name should not conflicts', async () => {
+    const result = await transform(`
+<div class=":uno: w-1 h-1"/>
+<div class=":uno: w-2 h-2"/>
+<div class=":uno: h-1 w-1"/>
+    `)
+
+    expect(result.code.trim()).toMatchInlineSnapshot(`
+      "<div class=\\"uno-prhvrm\\"/>
+      <div class=\\"uno-umiu5u\\"/>
+      <div class=\\"uno-prhvrm\\"/>"
     `)
   })
 })

@@ -10,8 +10,7 @@
   "dependencies": {
     "next": "13.4.4",
     "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "unocss-nextjs": "link:"
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
     "@iconify-json/carbon": "^1.1.17",
@@ -25,5 +24,9 @@
     "eslint-config-next": "13.4.4",
     "typescript": "5.0.4",
     "unocss": "link:../../packages/unocss"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node .stackblitz.mjs && npm install && npm run dev"
   }
 }

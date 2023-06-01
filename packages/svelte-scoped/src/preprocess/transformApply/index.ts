@@ -1,10 +1,7 @@
-import { toArray } from '@unocss/core'
 import type { UnoGenerator } from '@unocss/core'
-import MagicString from 'magic-string'
-import type { Processed } from 'svelte/types/compiler/preprocess'
+import type MagicString from 'magic-string'
 import type { CssNode, Rule } from 'css-tree'
 import { parse, walk } from 'css-tree'
-import type { TransformApplyOptions } from '../types'
 import { removeOuterQuotes } from './removeOuterQuotes'
 import { writeUtilStyles } from './writeUtilStyles'
 import { getUtils } from './getUtils'
@@ -14,44 +11,15 @@ interface TransformApplyContext {
   uno: UnoGenerator
   applyVariables: string[]
 }
-const DEFAULT_APPLY_VARIABLES = ['--at-apply']
 
-export async function transformApply({ content, uno, prepend, applyVariables, filename }: {
-  content: string
-  uno: UnoGenerator
-  prepend?: string
-  applyVariables?: TransformApplyOptions['applyVariables']
-  filename?: string
-}): Promise<Processed | void> {
-  applyVariables = toArray(applyVariables || DEFAULT_APPLY_VARIABLES)
-  const hasApply = content.includes('@apply') || applyVariables.some(v => content.includes(v))
-  if (!hasApply)
-    return
-
-  const s = new MagicString(content)
-  await walkCss({ s, uno, applyVariables })
-
-  if (!s.hasChanged())
-    return
-
-  if (prepend)
-    s.prepend(prepend)
-
-  return {
-    code: s.toString(),
-    map: s.generateMap({ hires: true, source: filename || '' }),
-  }
-}
-
-async function walkCss(ctx: TransformApplyContext,
-) {
+export async function transformApply(ctx: TransformApplyContext): Promise<MagicString> {
   const ast = parse(ctx.s.original, {
     parseAtrulePrelude: false,
     positions: true,
   })
 
   if (ast.type !== 'StyleSheet')
-    return
+    return ctx.s
 
   const stack: Promise<void>[] = []
 
@@ -61,6 +29,8 @@ async function walkCss(ctx: TransformApplyContext,
   })
 
   await Promise.all(stack)
+
+  return ctx.s
 }
 
 /** transformerDirectives's handleApply function checks for style nesting (childNode.type === 'Raw') but we are not supporting it here as it is not valid syntax in Svelte style tags. If browser support becomes mainstream and Svelte updates in kind, we can support that. */

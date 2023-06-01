@@ -658,6 +658,9 @@ export const presetMiniTargets: string[] = [
   'break-words',
   'break-keep',
   'text-clip',
+  'text-wrap',
+  'text-nowrap',
+  'text-balance',
   'case-upper', // !
   'case-normal', // !
   'case-inherit', // !

@@ -3,8 +3,9 @@ import { type UnoGenerator, type UserConfig, type UserConfigDefaults, createGene
 import presetUno from '@unocss/preset-uno'
 import { loadConfig } from '@unocss/config'
 import { transformClasses } from './transformClasses'
-import { transformApply } from './transformApply'
+import { transformStyle } from './transformStyle'
 import type { SvelteScopedContext, UnocssSveltePreprocessOptions } from './types'
+import { themeRE } from './transformTheme'
 
 export * from './types.d.js'
 
@@ -30,8 +31,9 @@ export default function UnocssSveltePreprocess(options: UnocssSveltePreprocessOp
       const addSafelist = !!attributes['uno:safelist']
 
       const checkForApply = options.applyVariables !== false
+      const hasThemeFn = content.match(themeRE)
 
-      const changeNeeded = addPreflights || addSafelist || checkForApply
+      const changeNeeded = addPreflights || addSafelist || checkForApply || hasThemeFn
       if (!changeNeeded)
         return
 
@@ -46,8 +48,8 @@ export default function UnocssSveltePreprocess(options: UnocssSveltePreprocessOp
         preflightsSafelistCss = css
       }
 
-      if (checkForApply) {
-        return await transformApply({
+      if (checkForApply || hasThemeFn) {
+        return await transformStyle({
           content,
           prepend: preflightsSafelistCss,
           uno,

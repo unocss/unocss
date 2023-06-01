@@ -29,7 +29,7 @@ export interface CompileClassOptions {
    * This parameter is backwards compatible. It accepts string only trigger
    * words, like `:uno:` or a regex literal.
    *
-   * @default `/(["'`]):uno:\s([^\1]*?)\1/g`
+   * @default `/(["'`]):uno(?:-)?(?<name>[^\s\1]+)?:\s([^\1]*?)\1/g`
    */
   trigger?: string | RegExp
 
@@ -59,7 +59,7 @@ export interface CompileClassOptions {
 
 export default function transformerCompileClass(options: CompileClassOptions = {}): SourceCodeTransformer {
   const {
-    trigger = /(["'`]):uno:\s([^\1]*?)\1/g,
+    trigger = /(["'`]):uno(?:-)?(?<name>[^\s\1]+)?:\s([^\1]*?)\1/g,
     classPrefix = 'uno-',
     hashFn = hash,
     keepUnknown = true,
@@ -97,14 +97,23 @@ export default function transformerCompileClass(options: CompileClassOptions = {
 
         if (body) {
           body = body.split(/\s+/).sort().join(' ')
-          const className = (match.groups && match.groups.name)
-            ? `${classPrefix}${match.groups.name}`
-            : `${classPrefix}${hashFn(body)}`
+          let hash: string
+          let explicitName = false
 
-          // FIXME: Ideally we should also check that the hash doesn't match. If the hash is the same, the same class
-          // name is allowed, as the applied styles are the same.
-          if (tokens && tokens.has(className))
-            throw new Error(`duplicate compile class name '${className}', please choose different class name`)
+          if (match.groups && match.groups.name) {
+            hash = match.groups.name
+            explicitName = true
+          }
+          else {
+            hash = hashFn(body)
+          }
+          const className = `${classPrefix}${hash}`
+
+          if (tokens && tokens.has(className) && explicitName) {
+            const existing = uno.config.shortcuts.find(i => i[0] === className)
+            if (existing && existing[1] !== body)
+              throw new Error(`Duplicated compile class name "${className}". One is "${body}" and the other is "${existing[1]}" Please choose different class name`)
+          }
 
           replacements.unshift(className)
           if (options.layer)

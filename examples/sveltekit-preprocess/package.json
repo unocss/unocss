@@ -15,7 +15,6 @@
   ],
   "scripts": {
     "dev": "vite dev",
-    "stackblitz:dev": "node remove-links.js && npm install && vite dev",
     "build": "vite build && npm run package",
     "preview": "vite preview",
     "package": "svelte-kit sync && svelte-package && publint",
@@ -45,6 +44,6 @@
   },
   "stackblitz": {
     "installDependencies": false,
-    "startCommand": "npm run stackblitz:dev"
+    "startCommand": "node .stackblitz.js && npm install && npm run dev"
   }
 }

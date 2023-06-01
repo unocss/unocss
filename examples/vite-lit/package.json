@@ -26,5 +26,9 @@
     "unocss": "link:../../packages/unocss",
     "vite": "^4.3.9",
     "vite-plugin-inspect": "^0.7.28"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node .stackblitz.mjs && npm install && npm run dev"
   }
 }

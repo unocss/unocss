@@ -3,6 +3,7 @@ import presetUno from '@unocss/preset-uno'
 import { format as prettier } from 'prettier'
 import parserCSS from 'prettier/parser-postcss'
 import { describe, expect, it } from 'vitest'
+import MagicString from 'magic-string'
 import { transformApply } from '.'
 
 describe('transformApply', () => {
@@ -12,8 +13,10 @@ describe('transformApply', () => {
     ],
   })
 
-  async function transform(content: string, prepend?: string) {
-    const transformed = (await transformApply({ content, uno, prepend }))?.code
+  async function transform(content: string) {
+    const s = new MagicString(content)
+
+    const transformed = (await transformApply({ s, uno, applyVariables: ['--at-apply'] })).toString()
     return prettier(transformed || '', {
       parser: 'css',
       plugins: [parserCSS],
@@ -122,26 +125,6 @@ describe('transformApply', () => {
         button {
           margin-bottom: 0.25rem;
         }
-      }"
-    `)
-  })
-
-  it('prepends', async () => {
-    const style = `
-      .custom-class {
-        --at-apply: hidden;
-      }
-    `
-    const prepend = `
-    ::backdrop {
-      --un-rotate: 0;
-    }`
-    expect(await transform(style, prepend)).toMatchInlineSnapshot(`
-      "::backdrop {
-        --un-rotate: 0;
-      }
-      .custom-class {
-        display: none;
       }"
     `)
   })
