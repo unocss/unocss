@@ -11,6 +11,8 @@ export const variantHasPseudo: Variant[] = [
 
       const [match, reset] = body
       const bracketValue = h.bracket(match)
+      if (!bracketValue)
+        return
 
       if (match) {
         return {
@@ -32,6 +34,8 @@ export const variantHasPseudo: Variant[] = [
 
       const [match, reset] = body
       const bracketValue = h.bracket(match)
+      if (!bracketValue)
+        return
 
       if (match) {
         return {
@@ -53,6 +57,8 @@ export const variantHasPseudo: Variant[] = [
 
       const [match, reset] = body
       const bracketValue = h.bracket(match)
+      if (!bracketValue)
+        return
 
       if (match) {
         return {
