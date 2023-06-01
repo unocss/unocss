@@ -31,7 +31,7 @@ export default function UnocssSveltePreprocess(options: UnocssSveltePreprocessOp
       let addPreflights = !!attributes['uno:preflights']
       let addSafelist = !!attributes['uno:safelist']
 
-      if (unoContextFromVite) {
+      if (unoContextFromVite && (addPreflights || addSafelist)) {
         // Svelte 4 style preprocessors will be able to remove attributes after handling them, but for now we must ignore them when using the Vite plugin to avoid a SvelteKit app double-processing that which a component library already processed.
         addPreflights = false
         addSafelist = false
