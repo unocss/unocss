@@ -1,6 +1,6 @@
 import type { Variant } from '@unocss/core'
 import { warnOnce } from '@unocss/core'
-import { variantMatcher } from '@unocss/preset-mini/utils'
+import { h, variantGetBracket, variantMatcher } from '@unocss/preset-mini/utils'
 
 export const variantStickyHover: Variant[] = [
   variantMatcher('@hover', (input) => {
@@ -10,4 +10,28 @@ export const variantStickyHover: Variant[] = [
       selector: `${input.selector || ''}:hover`,
     }
   }),
+]
+
+export const variantHasPseudo: Variant[] = [
+  {
+    name: 'has',
+    match(input, ctx) {
+      warnOnce('The `has-*` variants for :has(...) pseudo-class is experimental and may not follow semver')
+
+      const body = variantGetBracket('has-', input, ctx.generator.config.separators)
+      if (body) {
+        const [match, reset] = body
+
+        if (match) {
+          return {
+            matcher: reset,
+            handle: (input, next) => next({
+              ...input,
+              selector: `${input.selector || ''}:has(${h.bracket(match)})`,
+            }),
+          }
+        }
+      }
+    },
+  },
 ]
