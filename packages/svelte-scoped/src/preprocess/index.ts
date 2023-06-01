@@ -3,9 +3,10 @@ import { type UnoGenerator, type UserConfig, type UserConfigDefaults, createGene
 import presetUno from '@unocss/preset-uno'
 import { loadConfig } from '@unocss/config'
 import { transformClasses } from './transformClasses'
-import { transformStyle } from './transformStyle'
+import { checkForApply, transformStyle } from './transformStyle'
 import type { SvelteScopedContext, UnocssSveltePreprocessOptions } from './types'
 import { themeRE } from './transformTheme'
+import { wrapSelectorsWithGlobal } from './transformClasses/wrapGlobal'
 
 export * from './types.d.js'
 
@@ -30,10 +31,10 @@ export default function UnocssSveltePreprocess(options: UnocssSveltePreprocessOp
       const addPreflights = !!attributes['uno:preflights']
       const addSafelist = !!attributes['uno:safelist']
 
-      const checkForApply = options.applyVariables !== false
-      const hasThemeFn = content.match(themeRE)
+      const { hasApply, applyVariables } = checkForApply(content, options.applyVariables)
+      const hasThemeFn = !!content.match(themeRE)
 
-      const changeNeeded = addPreflights || addSafelist || checkForApply || hasThemeFn
+      const changeNeeded = addPreflights || addSafelist || hasApply || hasThemeFn
       if (!changeNeeded)
         return
 
@@ -45,21 +46,22 @@ export default function UnocssSveltePreprocess(options: UnocssSveltePreprocessOp
         if (unoContextFromVite)
           warnOnce('Do not place preflights or safelist within an individual component as they already placed in your global styles injected into the head tag. These options are only for component libraries.')
         const { css } = await uno.generate([], { preflights: addPreflights, safelist: addSafelist, minify: true })
-        preflightsSafelistCss = css
+        preflightsSafelistCss = wrapSelectorsWithGlobal(css)
       }
 
-      if (checkForApply || hasThemeFn) {
+      if (hasApply || hasThemeFn) {
         return await transformStyle({
           content,
-          prepend: preflightsSafelistCss,
           uno,
-          applyVariables: options.applyVariables,
           filename,
+          prepend: preflightsSafelistCss,
+          applyVariables,
+          hasThemeFn,
         })
       }
 
       if (preflightsSafelistCss)
-        return { code: preflightsSafelistCss }
+        return { code: preflightsSafelistCss + content }
     },
   }
 }
