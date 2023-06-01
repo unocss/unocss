@@ -28,8 +28,15 @@ export default function UnocssSveltePreprocess(options: UnocssSveltePreprocessOp
     },
 
     style: async ({ content, attributes, filename }) => {
-      const addPreflights = !!attributes['uno:preflights']
-      const addSafelist = !!attributes['uno:safelist']
+      let addPreflights = !!attributes['uno:preflights']
+      let addSafelist = !!attributes['uno:safelist']
+
+      if (unoContextFromVite) {
+        // Svelte 4 style preprocessors will be able to remove attributes after handling them, but for now we must ignore them when using the Vite plugin to avoid a SvelteKit app double-processing that which a component library already processed.
+        addPreflights = false
+        addSafelist = false
+        warnOnce('Notice for those transitioning to @unocss/svelte-scoped/vite: uno:preflights and uno:safelist are only for use in component libraries. Please see the documentation for how to add preflights and safelist into your head tag. If you are consuming a component library built by @unocss/svelte-scoped/preprocess, you can ignore this upgrade notice.') // remove notice in future
+      }
 
       const { hasApply, applyVariables } = checkForApply(content, options.applyVariables)
       const hasThemeFn = !!content.match(themeRE)
@@ -43,8 +50,6 @@ export default function UnocssSveltePreprocess(options: UnocssSveltePreprocessOp
 
       let preflightsSafelistCss = ''
       if (addPreflights || addSafelist) {
-        if (unoContextFromVite)
-          warnOnce('Do not place preflights or safelist within an individual component as they already placed in your global styles injected into the head tag. These options are only for component libraries.')
         const { css } = await uno.generate([], { preflights: addPreflights, safelist: addSafelist, minify: true })
         preflightsSafelistCss = wrapSelectorsWithGlobal(css)
       }
