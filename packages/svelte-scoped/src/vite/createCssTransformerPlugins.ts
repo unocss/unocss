@@ -7,6 +7,8 @@ interface CssTransformerPluginsContext extends SvelteScopedContext {
   affectedModules: Set<string>
 }
 
+const svelteIdRE = /[&?]svelte/
+
 export function createCssTransformerPlugins(ctx: CssTransformerPluginsContext, cssTransformers: PluginOptions['transformers']): Plugin[] {
   const enforces = ['default', 'pre', 'post'] as const
   return enforces.map((enforce): Plugin => ({
@@ -14,7 +16,7 @@ export function createCssTransformerPlugins(ctx: CssTransformerPluginsContext, c
     enforce: enforce === 'default' ? undefined : enforce,
 
     async transform(code, id) {
-      if (!id.match(cssIdRE))
+      if (!id.match(cssIdRE) || id.match(svelteIdRE))
         return
       ctx.uno.config.transformers = cssTransformers ?? []
       return applyTransformers(ctx as UnocssPluginContext, code, id, enforce)
