@@ -15,17 +15,17 @@
     "start": "remix-serve build"
   },
   "dependencies": {
-    "@remix-run/react": "^1.15.0",
-    "@remix-run/serve": "^1.15.0",
+    "@remix-run/react": "^1.16.1",
+    "@remix-run/serve": "^1.16.1",
     "@unocss/reset": "link:../../packages/reset",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "remix": "^1.15.0"
+    "remix": "^1.16.1"
   },
   "devDependencies": {
-    "@remix-run/dev": "^1.15.0",
-    "@types/react": "^18.0.33",
-    "@types/react-dom": "^18.0.11",
+    "@remix-run/dev": "^1.16.1",
+    "@types/react": "^18.2.7",
+    "@types/react-dom": "^18.2.4",
     "@unocss/cli": "link:../../packages/cli",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-uno": "link:../../packages/preset-uno",
@@ -33,5 +33,9 @@
     "concurrently": "^8.0.1",
     "typescript": "^5.0.4",
     "unocss": "link:../../packages/unocss"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node .stackblitz.mjs && npm install && npm run dev"
   }
 }

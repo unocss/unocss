@@ -13,7 +13,8 @@
     "jsx": "preserve",
     "types": [
       "node",
-      "vite/client"
+      "vite/client",
+      "vitest/importMeta"
     ],
     "paths": {
       "@unocss/autocomplete": ["./packages/autocomplete/src/index.ts"],
@@ -38,6 +39,8 @@
       "@unocss/shared-integration": ["./packages/shared-integration/src/index.ts"],
       "@unocss/shared-docs": ["./packages/shared-docs/src/index.ts"],
       "@unocss/shared-common": ["./packages/shared-common/src/index.ts"],
+      "@unocss/svelte-scoped/preprocess": ["./packages/svelte-scoped/src/preprocess/index.ts"],
+      "@unocss/svelte-scoped/vite": ["./packages/svelte-scoped/src/vite/index.ts"],
       "@unocss/transformer-directives": ["./packages/transformer-directives/src/index.ts"],
       "@unocss/transformer-variant-group": ["./packages/transformer-variant-group/src/index.ts"],
       "@unocss/transformer-compile-class": ["./packages/transformer-compile-class/src/index.ts"],

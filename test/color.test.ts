@@ -186,5 +186,7 @@ describe('color utils', () => {
 
     // invalid
     expect(fn('hex-invalid')).eql({})
+    expect(fn('5px')).eql(undefined)
+    expect(fn('5rem')).eql(undefined)
   })
 })

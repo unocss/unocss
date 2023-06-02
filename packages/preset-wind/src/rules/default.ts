@@ -74,6 +74,7 @@ export const rules: Rule[] = [
   _.paddings,
   _.textAligns,
   _.textIndents,
+  _.textWraps,
   _.verticalAligns,
   _.fonts,
   _.textTransforms,

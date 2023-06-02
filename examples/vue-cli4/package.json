@@ -15,5 +15,9 @@
     "cross-env": "^7.0.3",
     "unocss": "link:../../packages/unocss",
     "vue-template-compiler": "^2.7.14"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node .stackblitz.mjs && npm install && npm run dev"
   }
 }

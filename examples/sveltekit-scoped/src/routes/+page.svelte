@@ -1,6 +1,7 @@
 <script lang="ts">
   import Button from "$lib/Button.svelte";
   import Counter from "$lib/Counter.svelte";
+  import Forms from "$lib/Forms.svelte";
   import Logos from "./Logos.svelte";
   import Prose from "./Prose.svelte";
   import RightToLeftDependent from "./RightToLeftDependent.svelte";
@@ -13,10 +14,14 @@
   <h1
     class="animate-bounce color-#ff3e00 dark:color-white uppercase text-5xl fw-100 my-2rem mx-auto"
   >
-    UnoCSS + SvelteKit!
+  SvelteKit + UnoCSS Scoped!
   </h1>
 
   <Logos />
+
+  <p class="mt-10 font-mono">.font-mono is set to Fira Code => with nice ligatures (preset-web-fonts)</p>
+
+  <Prose />
 
   <div class="my-15">
     <div
@@ -40,7 +45,9 @@
 
   <Counter />
 
-  <Prose />
+  <div class="my-5 border" />
+
+  <Forms />
 
   <div class="corner">Fixed</div>
 </div>

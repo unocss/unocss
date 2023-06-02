@@ -1,7 +1,7 @@
 import { isAbsolute, resolve } from 'node:path'
 import type { Plugin, ResolvedConfig } from 'vite'
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
-import type { PluginContext } from 'rollup'
+import type { NormalizedOutputOptions, PluginContext, RenderedChunk } from 'rollup'
 import {
   HASH_PLACEHOLDER_RE, LAYER_MARK_ALL, LAYER_PLACEHOLDER_RE,
   RESOLVED_ID_RE,
@@ -15,6 +15,11 @@ import {
 } from '../../integration'
 import type { VitePluginConfig } from '../../types'
 import { setupExtraContent } from '../../../../shared-integration/src/extra-content'
+
+// https://github.com/vitejs/vite/blob/main/packages/plugin-legacy/src/index.ts#L742-L744
+function isLegacyChunk(chunk: RenderedChunk, options: NormalizedOutputOptions) {
+  return options.format === 'system' && chunk.fileName.includes('-legacy')
+}
 
 export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>): Plugin[] {
   const { uno, ready, extract, tokens, filter, getConfig, tasks, flushTasks } = ctx
@@ -144,6 +149,9 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
       // we inject a hash to chunk before the dist hash calculation to make sure
       // the hash is different when unocss changes
       async renderChunk(_, chunk, options) {
+        if (isLegacyChunk(chunk, options))
+          return null
+
         // skip hash generation on non-entry chunk
         if (!Object.keys(chunk.modules).some(i => i.match(RESOLVED_ID_RE)))
           return null
@@ -155,7 +163,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         }
 
         let { css } = await generateAll()
-        const fakeCssId = `${chunk.fileName}-unocss-hash.css`
+        const fakeCssId = `${viteConfig.root}/${chunk.fileName}-unocss-hash.css`
         css = await applyCssTransform(css, fakeCssId, options.dir, this)
 
         const hash = getHash(css)
@@ -190,6 +198,9 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
       name: 'unocss:global:build:generate',
       apply: 'build',
       async renderChunk(code, chunk, options) {
+        if (isLegacyChunk(chunk, options))
+          return null
+
         if (!Object.keys(chunk.modules).some(i => i.match(RESOLVED_ID_RE)))
           return null
 
@@ -207,7 +218,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           } #--unocss-layer-end--${layer}--{end:${layer}}`,
         ).join('')
 
-        const fakeCssId = `${chunk.fileName}-unocss-hash.css`
+        const fakeCssId = `${viteConfig.root}/${chunk.fileName}-unocss-hash.css`
         const css = await applyCssTransform(cssWithLayers, fakeCssId, options.dir, this)
         const transformHandler = 'handler' in cssPost.transform!
           ? cssPost.transform.handler

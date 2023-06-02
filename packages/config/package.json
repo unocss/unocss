@@ -1,6 +1,6 @@
 {
   "name": "@unocss/config",
-  "version": "0.51.8",
+  "version": "0.52.7",
   "description": "Config loader for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -8,7 +8,7 @@
   "homepage": "https://github.com/unocss/unocss/tree/main/packages/config#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/unocss/unocss.git",
+    "url": "https://github.com/unocss/unocss",
     "directory": "packages/config"
   },
   "bugs": {
@@ -38,6 +38,6 @@
   },
   "dependencies": {
     "@unocss/core": "workspace:*",
-    "unconfig": "^0.3.7"
+    "unconfig": "^0.3.9"
   }
 }

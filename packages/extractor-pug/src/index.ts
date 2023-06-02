@@ -1,12 +1,13 @@
 import type { Extractor } from '@unocss/core'
+import type { Options } from 'pug'
 
 const regexVueTemplate = /<template.*?lang=['"]pug['"][^>]*?>\s*([\s\S]*?\s*)<\/template>/gm
 
-export default function extractorPug(): Extractor {
+export default function extractorPug(options: Options = {}): Extractor {
   async function compile(code: string, id: string) {
     const Pug = await import('pug')
     try {
-      return Pug.compile(code, { filename: id })()
+      return Pug.compile(code, { filename: id, doctype: 'html', ...options })()
       // other build processes will catch pug errors
     }
     catch { }

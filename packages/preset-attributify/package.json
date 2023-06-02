@@ -1,6 +1,6 @@
 {
   "name": "@unocss/preset-attributify",
-  "version": "0.51.8",
+  "version": "0.52.7",
   "description": "Attributify preset for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -8,7 +8,7 @@
   "homepage": "https://github.com/unocss/unocss/tree/main/packages/preset-attributify#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/unocss/unocss.git",
+    "url": "https://github.com/unocss/unocss",
     "directory": "packages/preset-attributify"
   },
   "bugs": {

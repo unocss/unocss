@@ -11,12 +11,17 @@
     "vue": "^3.2.47"
   },
   "devDependencies": {
+    "@iconify-json/logos": "^1.1.31",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
-    "@vitejs/plugin-vue": "^4.1.0",
+    "@vitejs/plugin-vue": "^4.2.3",
     "typescript": "^5.0.4",
     "unocss": "link:../../packages/unocss",
-    "vite": "^4.2.1"
+    "vite": "^4.3.9"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node .stackblitz.js && npm install && npm run dev"
   }
 }

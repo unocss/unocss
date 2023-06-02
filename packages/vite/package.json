@@ -1,6 +1,6 @@
 {
   "name": "@unocss/vite",
-  "version": "0.51.8",
+  "version": "0.52.7",
   "description": "The Vite plugin for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -8,7 +8,7 @@
   "homepage": "https://github.com/unocss/unocss/tree/main/packages/vite#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/unocss/unocss.git",
+    "url": "https://github.com/unocss/unocss",
     "directory": "packages/vite"
   },
   "bugs": {
@@ -59,6 +59,6 @@
   },
   "devDependencies": {
     "@unocss/shared-integration": "workspace:*",
-    "vite": "^4.2.1"
+    "vite": "^4.3.9"
   }
 }

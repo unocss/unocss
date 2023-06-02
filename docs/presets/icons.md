@@ -194,6 +194,7 @@ Additionally, you can also use [FileSystemIconLoader](https://github.com/iconify
 // uno.config.ts
 import fs from 'node:fs/promises'
 import { defineConfig } from 'unocss'
+
 // loader helpers
 import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
 
@@ -418,11 +419,11 @@ Recommends:
 
 ### Advanced Custom Icon Set Cleanup
 
-When using this preset with your custom icons, consider using a cleanup process similar to that done by [Iconify](https://iconify.design/) for any icons sets. All the tools you need are available in [Iconify Tools](https://docs.iconify.design/tools/tools2/).
+When using this preset with your custom icons, consider using a cleanup process similar to that done by [Iconify](https://iconify.design/) for any icons sets. All the tools you need are available in [Iconify Tools](https://iconify.design/docs/libraries/tools/).
 
 You can check this repo, using this preset on a `Vue 3` project: [@iconify/tools/@iconify-demo/unocss](https://github.com/iconify/tools/tree/main/%40iconify-demo/unocss).
 
-Read [Cleaning up icons](https://docs.iconify.design/articles/cleaning-up-icons/) article from [Iconify](https://iconify.design/) for more details.
+Read [Cleaning up icons](https://iconify.design/docs/articles/cleaning-up-icons/) article from [Iconify](https://iconify.design/) for more details.
 
 ## Credits
 

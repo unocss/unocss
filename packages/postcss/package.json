@@ -1,6 +1,6 @@
 {
   "name": "@unocss/postcss",
-  "version": "0.51.8",
+  "version": "0.52.7",
   "description": "PostCSS plugin for UnoCSS",
   "author": "sibbng <sibbngheid@gmail.com>",
   "license": "MIT",
@@ -8,7 +8,7 @@
   "homepage": "https://github.com/unocss/unocss/tree/main/packages/postcss#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/unocss/unocss.git",
+    "url": "https://github.com/unocss/unocss",
     "directory": "packages/postcss"
   },
   "bugs": {
@@ -45,6 +45,6 @@
     "css-tree": "^2.3.1",
     "fast-glob": "^3.2.12",
     "magic-string": "^0.30.0",
-    "postcss": "^8.4.21"
+    "postcss": "^8.4.24"
   }
 }

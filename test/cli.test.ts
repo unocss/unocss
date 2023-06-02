@@ -12,6 +12,7 @@ beforeAll(async () => {
 })
 
 afterAll(async () => {
+  (await getWatcher()).close()
   await fs.remove(tempDir)
 })
 
@@ -36,46 +37,6 @@ export default defineConfig({
     })
 
     expect(output).toMatchSnapshot()
-  })
-
-  it('supports uno.config.ts changed rebuild', async () => {
-    const { output, testDir } = await runCli({
-      'views/index.html': '<div class="bg-foo"></div>',
-      'uno.config.ts': `
-import { defineConfig } from 'unocss'
-export default defineConfig({
-  theme: {
-    colors: {
-      foo: "red",
-    }
-  }
-})`.trim(),
-    }, { args: ['-w'] })
-    for (let i = 50; i >= 0; i--) {
-      await sleep(50)
-      if (output)
-        break
-    }
-    expect(output).toContain('.bg-foo{background-color:red;}')
-    await fs.writeFile(resolve(testDir as string, 'uno.config.ts'), `
-import { defineConfig } from 'unocss'
-export default defineConfig({
-  theme: {
-    colors: {
-      foo: "blue",
-    }
-  }
-})
-    `)
-    for (let i = 100; i >= 0; i--) {
-      await sleep(500)
-      const outputChanged = await readFile(testDir as string)
-      if (i === 0 || outputChanged.includes('.bg-foo')) {
-        expect(outputChanged).toContain('.bg-foo{background-color:blue;}')
-        break
-      }
-    }
-    (await getWatcher()).close()
   })
 
   it('supports variantGroup transformer', async () => {
@@ -173,7 +134,47 @@ export default defineConfig({
     expect(output1).toContain('.bg-blue')
     expect(output2).toContain('.bg-red')
   })
+
+  it('supports uno.config.ts changed rebuild', async () => {
+    const { output, testDir } = await runCli({
+      'views/index.html': '<div class="bg-foo"></div>',
+      'uno.config.ts': `
+import { defineConfig } from 'unocss'
+export default defineConfig({
+  theme: {
+    colors: {
+      foo: "red",
+    }
+  }
+})`.trim(),
+    }, { args: ['-w'] })
+    for (let i = 50; i >= 0; i--) {
+      await sleep(50)
+      if (output)
+        break
+    }
+    expect(output).toContain('.bg-foo{background-color:red;}')
+    await fs.writeFile(resolve(testDir as string, 'uno.config.ts'), `
+import { defineConfig } from 'unocss'
+export default defineConfig({
+  theme: {
+    colors: {
+      foo: "blue",
+    }
+  }
 })
+    `)
+    for (let i = 100; i >= 0; i--) {
+      await sleep(500)
+      const outputChanged = await readFile(testDir as string)
+      if (i === 0 || outputChanged.includes('.bg-foo{background-color:blue;}')) {
+        expect(outputChanged).toContain('.bg-foo{background-color:blue;}')
+        break
+      }
+    }
+  })
+})
+
 // ----- Utils -----
 function sleep(time = 300) {
   return new Promise<void>((resolve) => {

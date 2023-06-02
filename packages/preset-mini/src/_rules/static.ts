@@ -84,7 +84,7 @@ export const contentVisibility: Rule[] = [
 export const contents: Rule[] = [
   [/^content-(.+)$/, ([, v]) => ({ content: h.bracket.cssvar(v) })],
   ['content-empty', { content: '""' }],
-  ['content-none', { content: '""' }],
+  ['content-none', { content: 'none' }],
 ]
 
 export const breaks: Rule[] = [
@@ -92,6 +92,12 @@ export const breaks: Rule[] = [
   ['break-words', { 'overflow-wrap': 'break-word' }],
   ['break-all', { 'word-break': 'break-all' }],
   ['break-keep', { 'word-break': 'keep-all' }],
+]
+
+export const textWraps: Rule[] = [
+  ['text-wrap', { 'text-wrap': 'wrap' }],
+  ['text-nowrap', { 'text-wrap': 'nowrap' }],
+  ['text-balance', { 'text-wrap': 'balance' }],
 ]
 
 export const textOverflows: Rule[] = [

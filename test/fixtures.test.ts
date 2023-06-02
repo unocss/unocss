@@ -6,6 +6,7 @@ import fs from 'fs-extra'
 import fg from 'fast-glob'
 
 const isMacOS = process.platform === 'darwin'
+const isWindows = process.platform === 'win32'
 const isNode16 = process.versions.node.startsWith('16')
 
 async function getGlobContent(cwd: string, glob: string) {
@@ -46,6 +47,21 @@ describe.concurrent('fixtures', () => {
     // transformer-compile-class
     expect(js).contains('uno-tacwqa')
   })
+
+  it.skipIf(isWindows)('vite legacy', async () => {
+    const root = resolve(__dirname, 'fixtures/vite-legacy')
+    await fs.emptyDir(join(root, 'dist'))
+    await build({
+      root,
+      logLevel: 'warn',
+    })
+
+    const svgs = await fg('dist/assets/uno-*.svg', { cwd: root, absolute: true })
+    expect(svgs).toHaveLength(1)
+
+    const css = await getGlobContent(root, 'dist/**/*.css')
+    expect(css).contains('.text-red')
+  }, 15000)
 
   it('vite lib', async () => {
     const root = resolve(__dirname, 'fixtures/vite-lib')
