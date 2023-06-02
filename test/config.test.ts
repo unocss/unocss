@@ -172,6 +172,55 @@ describe('mergeConfigs', () => {
               [Function],
             ],
           ],
+          "theme": {},
+          "variants": [],
+        }
+      `)
+  })
+  it('theme', () => {
+    expect(mergeConfigs([
+      {
+        theme: {
+          fontSize: {
+            md: ['1.125rem', '1.5rem'],
+            lg: ['1.25rem', '1.5rem'],
+          },
+        },
+      },
+      {
+        theme: {
+          fontSize: {
+            sm: ['0.875rem', '1.125rem'],
+          },
+        },
+      },
+    ]))
+      .toMatchInlineSnapshot(`
+        {
+          "extractors": [],
+          "postprocess": [],
+          "preflights": [],
+          "preprocess": [],
+          "presets": [],
+          "rules": [],
+          "safelist": [],
+          "shortcuts": [],
+          "theme": {
+            "fontSize": {
+              "lg": [
+                "1.25rem",
+                "1.5rem",
+              ],
+              "md": [
+                "1.125rem",
+                "1.5rem",
+              ],
+              "sm": [
+                "0.875rem",
+                "1.125rem",
+              ],
+            },
+          },
           "variants": [],
         }
       `)
