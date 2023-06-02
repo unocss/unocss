@@ -137,7 +137,7 @@ Source code for all the examples can be found in the [/examples](https://github.
 | `vite-react` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-react) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/vite-react) |
 | `vite-solid` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-solid) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/vite-solid) |
 | `vite-svelte` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-svelte) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/vite-svelte) |
-| `vite-svelte-postcss` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-svelte-postcss) |
+| `vite-svelte-postcss` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-svelte-postcss) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/vite-svelte-postcss) |
 | `vite-vue3` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-vue3) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/vite-vue3) |
 | `vite-vue3-postcss` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-vue3-postcss) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/vite-vue3-postcss) |
 | `vite-watch-mode` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-watch-mode) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/vite-watch-mode?view=editor) |
