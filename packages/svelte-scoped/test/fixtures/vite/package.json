@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "test": "vitest --run"
+    "test": "svelte-kit sync && vitest --run"
   },
   "devDependencies": {
     "@sveltejs/kit": "^1.20.0",
