@@ -1,7 +1,7 @@
 import type { VariantObject } from '@unocss/core'
 import { escapeRegExp, escapeSelector, warnOnce } from '@unocss/core'
 import type { PresetMiniOptions } from '..'
-import { handler as h, variantGetBracket } from '../_utils'
+import { getBracket, handler as h, variantGetBracket } from '../_utils'
 
 const PseudoClasses: Record<string, string> = Object.fromEntries([
   // pseudo elements part 1
@@ -242,17 +242,20 @@ export function variantPseudoClassesAndElements(): VariantObject {
 export function variantPseudoClassFunctions(): VariantObject {
   let PseudoClassFunctionsRE: RegExp
   let PseudoClassColonFunctionsRE: RegExp
+  let PseudoClassVarFunctionRE: RegExp
   return {
     match(input, ctx) {
       if (!(PseudoClassFunctionsRE && PseudoClassColonFunctionsRE)) {
         PseudoClassFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesStr})(?:${ctx.generator.config.separators.join('|')})`)
         PseudoClassColonFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesColonStr})(?:${ctx.generator.config.separators.filter(x => x !== '-').join('|')})`)
+        PseudoClassVarFunctionRE = new RegExp(`^(${PseudoClassFunctionsStr})-(\\[.+\\])(?:${ctx.generator.config.separators.filter(x => x !== '-').join('|')})`)
       }
 
-      const match = input.match(PseudoClassFunctionsRE) || input.match(PseudoClassColonFunctionsRE)
+      const match = input.match(PseudoClassFunctionsRE) || input.match(PseudoClassColonFunctionsRE) || input.match(PseudoClassVarFunctionRE)
       if (match) {
         const fn = match[1]
-        const pseudo = PseudoClasses[match[2]] || PseudoClassesColon[match[2]] || `:${match[2]}`
+        const fnVal = getBracket(match[2], '[', ']')
+        const pseudo = fnVal ? h.bracket(match[2]) : (PseudoClasses[match[2]] || PseudoClassesColon[match[2]] || `:${match[2]}`)
         return {
           matcher: input.slice(match[0].length),
           selector: s => `${s}:${fn}(${pseudo})`,

@@ -7,7 +7,6 @@ import { variantStickyHover } from './experimental'
 import { variantContrasts, variantMotions, variantOrientations } from './media'
 import { variantSpaceAndDivide } from './misc'
 import { placeholderModifier } from './placeholder'
-import { variantHasPseudo } from './has'
 
 export function variants(options: PresetWindOptions): Variant<Theme>[] {
   return [
@@ -20,6 +19,5 @@ export function variants(options: PresetWindOptions): Variant<Theme>[] {
     ...variantCombinators,
     ...variantColorsScheme,
     ...variantStickyHover,
-    ...variantHasPseudo,
   ]
 }
