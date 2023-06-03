@@ -7,7 +7,7 @@ import prettierSvelte from 'prettier-plugin-svelte'
 import presetUno from '@unocss/preset-uno'
 import presetIcons from '@unocss/preset-icons'
 import UnocssSveltePreprocess from '../src/preprocess'
-import type { UnocssSveltePreprocessOptions } from '../src/preprocess/types'
+import type { UnocssSveltePreprocessOptions } from '../src/preprocess'
 
 const defaultOptions: UnocssSveltePreprocessOptions = {
   configOrPath: {
