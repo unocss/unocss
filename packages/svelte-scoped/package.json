@@ -55,7 +55,7 @@
     "build": "unbuild",
     "stub": "unbuild --stub",
     "bench": "vitest bench",
-    "test": "vitest --run && pnpm -r --filter=\"./test/fixtures/*\" test"
+    "test:integration": "pnpm -r --filter=\"./test/fixtures/*\" test"
   },
   "dependencies": {
     "@unocss/config": "workspace:*",

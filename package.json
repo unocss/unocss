@@ -21,7 +21,7 @@
     "size": "esno scripts/size.ts",
     "stub": "pnpm -r --filter=./packages/* --parallel run stub",
     "typecheck": "tsc --noEmit",
-    "test": "vitest",
+    "test": "vitest && pnpm -F svelte-scoped test:integration",
     "test:update": "vitest -u",
     "test:ci": "nr build && nr typecheck && nr lint && nr test"
   },
