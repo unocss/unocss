@@ -53,13 +53,13 @@
     font-size: 0.875rem;
     line-height: 1.25rem;
   }
-  :global(.uno-deus5r:hover, .uno-wt89uz:hover) {
-    --un-text-opacity: 1;
-    color: rgba(248, 113, 113, var(--un-text-opacity));
-  }
   :global(.uno-y37ej3) {
     --un-text-opacity: 1;
     color: rgba(251, 146, 60, var(--un-text-opacity));
+  }
+  :global(.uno-deus5r:hover, .uno-wt89uz:hover) {
+    --un-text-opacity: 1;
+    color: rgba(248, 113, 113, var(--un-text-opacity));
   }
   @media (min-width: 640px) {
     :global(.uno-rdvmaz) {
