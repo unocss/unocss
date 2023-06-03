@@ -63,9 +63,13 @@ const PseudoClasses: Record<string, string> = Object.fromEntries([
   ['file', '::file-selector-button'],
 ].map(key => Array.isArray(key) ? key : [key, `:${key}`]))
 
+const PseudoClassesKeys = Object.keys(PseudoClasses)
+
 const PseudoClassesColon: Record<string, string> = Object.fromEntries([
   ['backdrop', '::backdrop'],
 ].map(key => Array.isArray(key) ? key : [key, `:${key}`]))
+
+const PseudoClassesColonKeys = Object.keys(PseudoClassesColon)
 
 const PseudoClassFunctions = [
   'not',
@@ -183,6 +187,7 @@ const excludedPseudo = [
 ]
 const PseudoClassesAndElementsStr = Object.entries(PseudoClasses).map(([key]) => key).join('|')
 const PseudoClassesAndElementsColonStr = Object.entries(PseudoClassesColon).map(([key]) => key).join('|')
+
 export function variantPseudoClassesAndElements(): VariantObject {
   let PseudoClassesAndElementsRE: RegExp
   let PseudoClassesAndElementsColonRE: RegExp
@@ -197,6 +202,14 @@ export function variantPseudoClassesAndElements(): VariantObject {
       const match = input.match(PseudoClassesAndElementsRE) || input.match(PseudoClassesAndElementsColonRE)
       if (match) {
         const pseudo = PseudoClasses[match[1]] || PseudoClassesColon[match[1]] || `:${match[1]}`
+
+        // order of pseudo classes
+        let index: number | undefined = PseudoClassesKeys.indexOf(match[1])
+        if (index === -1)
+          index = PseudoClassesColonKeys.indexOf(match[1])
+        if (index === -1)
+          index = undefined
+
         return {
           matcher: input.slice(match[0].length),
           handle: (input, next) => {
@@ -212,6 +225,7 @@ export function variantPseudoClassesAndElements(): VariantObject {
               ...input,
               ...selectors,
               ...pseudoModifier(match[1]),
+              sort: index,
             })
           },
         }
@@ -259,7 +273,8 @@ export function variantTaggedPseudoClasses(options: PresetMiniOptions = {}): Var
 }
 
 const PartClassesRE = /(part-\[(.+)]:)(.+)/
-export const partClasses: VariantObject = {
+
+export const variantPartClasses: VariantObject = {
   match(input) {
     const match = input.match(PartClassesRE)
     if (match) {
