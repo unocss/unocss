@@ -403,11 +403,6 @@ export const presetWindTargets: string[] = [
   '@hover-text-red',
   '@hover:[[open]_&]:text-blue',
 
-  // variants :has pseudo-class
-  'has-[[data-potato]]:text-blue',
-  'group-has-[[data-potato]]:text-white',
-  'peer-has-[[data-potato]]:text-black',
-
   // variants - multiple parents
   '@dark:contrast-more:p-10',
 

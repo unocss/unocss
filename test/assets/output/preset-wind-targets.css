@@ -265,9 +265,7 @@
 .lining-nums{--un-numeric-figure:lining-nums;font-variant-numeric:var(--un-ordinal) var(--un-slashed-zero) var(--un-numeric-figure) var(--un-numeric-spacing) var(--un-numeric-fraction);}
 .tabular-nums{--un-numeric-spacing:tabular-nums;font-variant-numeric:var(--un-ordinal) var(--un-slashed-zero) var(--un-numeric-figure) var(--un-numeric-spacing) var(--un-numeric-fraction);}
 .normal-nums{font-variant-numeric:normal;}
-.group:has([data-potato]) .group-has-\[\[data-potato\]\]\:text-white{--un-text-opacity:1;color:rgba(255,255,255,var(--un-text-opacity));}
 .has-\[\[data-potato\]\]\:text-blue:has([data-potato]){--un-text-opacity:1;color:rgba(96,165,250,var(--un-text-opacity));}
-.peer:has([data-potato]) ~ .peer-has-\[\[data-potato\]\]\:text-black{--un-text-opacity:1;color:rgba(0,0,0,var(--un-text-opacity));}
 .hyphens-auto{-webkit-hyphens:auto;-ms-hyphens:auto;hyphens:auto;}
 .hyphens-none{-webkit-hyphens:none;-ms-hyphens:none;hyphens:none;}
 .hyphens-unset{-webkit-hyphens:unset;-ms-hyphens:unset;hyphens:unset;}
