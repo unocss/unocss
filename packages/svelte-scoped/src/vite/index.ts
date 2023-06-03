@@ -11,18 +11,14 @@ export default function UnocssSvelteScopedVite(options: UnocssSvelteScopedViteOp
   const context = createSvelteScopedContext(options.configOrPath)
 
   const plugins: Plugin[] = [
-    ...createCssTransformerPlugins(
-      {
-        ...context,
-        affectedModules: new Set<string>(),
-      },
-      options.cssFileTransformers,
-    ),
     GlobalStylesPlugin(context, options.injectReset),
   ]
 
   if (!options.onlyGlobal)
     plugins.push(PassPreprocessToSveltePlugin(options, context))
+
+  if (options.cssFileTransformers)
+    plugins.push(...createCssTransformerPlugins(context, options.cssFileTransformers))
 
   return plugins
 }
