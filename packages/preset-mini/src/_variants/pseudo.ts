@@ -99,8 +99,9 @@ function taggedPseudoClassMatcher(tag: string, parent: string, combinator: strin
   let splitRE: RegExp
   let pseudoRE: RegExp
   let pseudoColonRE: RegExp
+  let pseudoVarRE: RegExp
 
-  const matchBracket = (input: string) => {
+  const matchBracket = (input: string): [label: string, rest: string, prefix: string] | undefined => {
     const body = variantGetBracket(`${tag}-`, input, [])
     if (!body)
       return
@@ -119,7 +120,7 @@ function taggedPseudoClassMatcher(tag: string, parent: string, combinator: strin
     ]
   }
 
-  const matchPseudo = (input: string) => {
+  const matchPseudo = (input: string): [label: string, rest: string, prefix: string, pseudoKey: string] | undefined => {
     const match = input.match(pseudoRE) || input.match(pseudoColonRE)
     if (!match)
       return
@@ -138,6 +139,21 @@ function taggedPseudoClassMatcher(tag: string, parent: string, combinator: strin
     ]
   }
 
+  const matchPseudoVar = (input: string): [label: string, rest: string, prefix: string] | undefined => {
+    const match = input.match(pseudoVarRE)
+    if (!match)
+      return
+    const [original, fn, pseudoValue] = match
+    const label = match[3] ?? ''
+    const pseudo = `:${fn}(${pseudoValue})`
+
+    return [
+      label,
+      input.slice(original.length),
+      `${parent}${escapeSelector(label)}${pseudo}`,
+    ]
+  }
+
   return {
     name: `pseudo:${tag}`,
     match(input, ctx) {
@@ -145,16 +161,17 @@ function taggedPseudoClassMatcher(tag: string, parent: string, combinator: strin
         splitRE = new RegExp(`(?:${ctx.generator.config.separators.join('|')})`)
         pseudoRE = new RegExp(`^${tag}-(?:(?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesStr}))(?:(/\\w+))?(?:${ctx.generator.config.separators.join('|')})`)
         pseudoColonRE = new RegExp(`^${tag}-(?:(?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesColonStr}))(?:(/\\w+))?(?:${ctx.generator.config.separators.filter(x => x !== '-').join('|')})`)
+        pseudoVarRE = new RegExp(`^${tag}-(?:(${PseudoClassFunctionsStr})-)?\\[(.+)\\](?:(/\\w+))?(?:${ctx.generator.config.separators.filter(x => x !== '-').join('|')})`)
       }
 
       if (!input.startsWith(tag))
         return
 
-      const result = matchBracket(input) || matchPseudo(input)
+      const result = matchBracket(input) || matchPseudo(input) || matchPseudoVar(input)
       if (!result)
         return
 
-      const [label, matcher, prefix, pseudoName = ''] = result as [string, string, string, string | undefined]
+      const [label, matcher, prefix, pseudoName = ''] = result
       if (label !== '')
         warnOnce('The labeled variant is experimental and may not follow semver.')
 
