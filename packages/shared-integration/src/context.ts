@@ -5,6 +5,7 @@ import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocs
 import { BetterMap, createGenerator } from '@unocss/core'
 import { CSS_PLACEHOLDER, IGNORE_COMMENT, INCLUDE_COMMENT } from './constants'
 import { defaultPipelineExclude, defaultPipelineInclude } from './defaults'
+import { deprecationCheck } from './deprecation'
 
 export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
   configOrPath?: Config | string,
@@ -31,6 +32,7 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
   async function reloadConfig() {
     const result = await loadConfig(root, configOrPath, extraConfigSources, defaults)
     resolveConfigResult(result)
+    deprecationCheck(result.config)
 
     rawConfig = result.config
     configFileList = result.sources
