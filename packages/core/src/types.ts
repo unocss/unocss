@@ -645,9 +645,10 @@ export interface SourceCodeTransformer {
   transform: (code: MagicString, id: string, ctx: UnocssPluginContext) => Awaitable<void>
 }
 
-export interface ExtraContentOptions {
+export interface ContentOptions {
   /**
-   * Glob patterns to match the files to be extracted
+   * Glob patterns to extract from the file system, in addition to other content sources.
+   *
    * In dev mode, the files will be watched and trigger HMR
    */
   filesystem?: string[]
@@ -655,7 +656,24 @@ export interface ExtraContentOptions {
   /**
    * Plain text to be extracted
    */
-  plain?: string[]
+  plain?: (string | { code: string; id?: string }) []
+
+  /**
+   * Filters to determine whether to extract certain modules from the build tools' transformation pipeline.
+   *
+   * Currently only works for Vite and Webpack integration.
+   */
+  pipeline?: {
+    /**
+     * Patterns that filter the files being extracted.
+     */
+    include?: FilterPattern
+
+    /**
+     * Patterns that filter the files NOT being extracted.
+     */
+    exclude?: FilterPattern
+  }
 }
 
 /**
@@ -675,24 +693,40 @@ export interface PluginOptions {
   configDeps?: string[]
 
   /**
-   * Patterns that filter the files being extracted.
-   */
-  include?: FilterPattern
-
-  /**
-   * Patterns that filter the files NOT being extracted.
-   */
-  exclude?: FilterPattern
-
-  /**
    * Custom transformers to the source code
    */
   transformers?: SourceCodeTransformer[]
 
   /**
-   * Extra content outside of build pipeline (assets, backend, etc.) to be extracted
+   * Options for sources to be extracted as utilities usages
+   *
+   * Supported sources:
+   * - `filesystem` - extract from file system
+   * - `plain` - extract from plain inline text
+   * - `pipeline` - extract from build tools' transformation pipeline, such as Vite and Webpack
+   *
+   * The usage extracted from each source will be **merged** together.
    */
-  extraContent?: ExtraContentOptions
+  content?: ContentOptions
+
+  /** ========== DEPRECATED OPTIONS ========== **/
+
+  /**
+   * @deprecated Renamed to `content`
+   */
+  extraContent?: ContentOptions
+
+  /**
+   * Patterns that filter the files being extracted.
+   * @deprecated moved to `content.pipeline.include`
+   */
+  include?: FilterPattern
+
+  /**
+    * Patterns that filter the files NOT being extracted.
+    * @deprecated moved to `content.pipeline.exclude`
+    */
+  exclude?: FilterPattern
 }
 
 export interface UserConfig<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions, PluginOptions, CliOptions {}

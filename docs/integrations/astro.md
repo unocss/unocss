@@ -111,4 +111,4 @@ If you are building a meta framework on top of UnoCSS, see [this file](https://g
 
 ## Notes
 
-[`client:only`](https://docs.astro.build/en/reference/directives-reference/#clientonly) components must be placed in [`components`](https://docs.astro.build/en/core-concepts/project-structure/#srccomponents) folder or added to UnoCSS's `extraContent` config in order to be processed.
+[`client:only`](https://docs.astro.build/en/reference/directives-reference/#clientonly) components must be placed in [`components`](https://docs.astro.build/en/core-concepts/project-structure/#srccomponents) folder or added to UnoCSS's `content` config in order to be processed.

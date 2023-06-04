@@ -4,7 +4,7 @@ import { loadConfig } from '@unocss/config'
 import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { BetterMap, createGenerator } from '@unocss/core'
 import { CSS_PLACEHOLDER, IGNORE_COMMENT, INCLUDE_COMMENT } from './constants'
-import { defaultExclude, defaultInclude } from './defaults'
+import { defaultPipelineExclude, defaultPipelineInclude } from './defaults'
 
 export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
   configOrPath?: Config | string,
@@ -16,7 +16,7 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
   let rawConfig = {} as Config
   let configFileList: string[] = []
   const uno = createGenerator(rawConfig, defaults)
-  let rollupFilter = createFilter(defaultInclude, defaultExclude)
+  let rollupFilter = createFilter(defaultPipelineInclude, defaultPipelineExclude)
 
   const invalidations: Array<() => void> = []
   const reloadListeners: Array<() => void> = []
@@ -37,8 +37,8 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     uno.setConfig(rawConfig)
     uno.config.envMode = 'dev'
     rollupFilter = createFilter(
-      rawConfig.include || defaultInclude,
-      rawConfig.exclude || defaultExclude,
+      rawConfig.content?.pipeline?.include || rawConfig.include || defaultPipelineInclude,
+      rawConfig.content?.pipeline?.exclude || rawConfig.exclude || defaultPipelineExclude,
     )
     tokens.clear()
     await Promise.all(modules.map((code, id) => uno.applyExtractors(code, id, tokens)))

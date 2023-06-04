@@ -1,6 +1,5 @@
-/* eslint-disable unused-imports/no-unused-imports */
 import type { UserConfig } from '@unocss/core'
-import { createGenerator, escapeSelector } from '@unocss/core'
+import { escapeSelector } from '@unocss/core'
 import presetWind from '@unocss/preset-wind'
 import postcssPlugin from '@unocss/postcss'
 import { describe, expect, test } from 'vitest'
@@ -8,6 +7,15 @@ import postcss from 'postcss'
 import { presetWindTargets } from './assets/preset-wind-targets'
 
 const config: UserConfig = {
+  content: {
+    filesystem: [
+      './test/assets/preset-wind-targets.ts',
+    ],
+    plain: [{
+      code: presetWindTargets.join(' '),
+      id: 'targets.html',
+    }],
+  },
   presets: [
     presetWind({
       dark: 'media',
@@ -52,12 +60,16 @@ function pcss() {
 function pcssLite() {
   return postcss(
     postcssPlugin({
-      content: [
-        {
-          raw: '<div class="relative p4 test example">', extension: 'html',
-        },
-      ],
       configOrPath: <UserConfig>{
+        content: {
+          filesystem: [],
+          plain: [
+            {
+              code: '<div class="relative p4 test example">',
+              id: 'inline.html',
+            },
+          ],
+        },
         presets: [
           presetWind(),
           {
