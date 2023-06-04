@@ -6,7 +6,7 @@ import type { UnocssSvelteScopedViteOptions } from './types'
 import { PassPreprocessToSveltePlugin } from './passPreprocessToSveltePlugin'
 import { GlobalStylesPlugin } from './globalStylesPlugin'
 
-export default function UnocssSvelteScopedVite(options: UnocssSvelteScopedViteOptions = {}): Plugin[] {
+export function UnocssSvelteScopedVite(options: UnocssSvelteScopedViteOptions = {}): Plugin[] {
   const context = createSvelteScopedContext(options.configOrPath)
 
   const plugins: Plugin[] = [
