@@ -22,7 +22,6 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
 
   const {
     cwd = process.cwd(),
-    content,
     configOrPath,
   } = options
 

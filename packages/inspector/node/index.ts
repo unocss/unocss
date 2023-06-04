@@ -95,9 +95,9 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
     })
   }
 
-  return <Plugin>{
+  return {
     name: 'unocss:inspector',
     apply: 'serve',
     configureServer,
-  }
+  } as Plugin
 }

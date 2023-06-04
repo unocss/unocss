@@ -88,6 +88,10 @@ const Nav: DefaultTheme.NavItem[] = [
     text: 'Integrations',
     items: [
       {
+        text: 'Overview',
+        link: '/integrations/',
+      },
+      {
         text: 'Integrations',
         items: Integrations,
       },
@@ -162,7 +166,13 @@ const SidebarGuide: DefaultTheme.SidebarItem[] = [
   },
   {
     text: 'Integrations',
-    items: Integrations,
+    items: [
+      {
+        text: 'Overview',
+        link: '/integrations/',
+      },
+      ...Integrations,
+    ],
   },
   {
     text: 'Presets',

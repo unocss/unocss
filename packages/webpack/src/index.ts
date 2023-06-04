@@ -48,7 +48,7 @@ export default function WebpackPlugin<Theme extends {}>(
     const entries = new Set<string>()
     const hashes = new Map<string, string>()
 
-    const plugin = <UnpluginOptions>{
+    const plugin = {
       name: 'unocss:webpack',
       enforce: 'pre',
       transformInclude(id) {
@@ -129,7 +129,7 @@ export default function WebpackPlugin<Theme extends {}>(
           })
         })
       },
-    } as Required<ResolvedUnpluginOptions>
+    } as UnpluginOptions as Required<ResolvedUnpluginOptions>
 
     let lastTokenSize = tokens.size
     async function updateModules() {
