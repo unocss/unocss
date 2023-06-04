@@ -7,9 +7,7 @@ import { transformStyle } from './transformStyle'
 import type { SvelteScopedContext, UnocssSveltePreprocessOptions } from './types'
 import { themeRE } from './transformTheme'
 
-export * from './types.d.js'
-
-export default function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = {}, unoContextFromVite?: SvelteScopedContext, isViteBuild?: () => boolean): PreprocessorGroup {
+export function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = {}, unoContextFromVite?: SvelteScopedContext, isViteBuild?: () => boolean): PreprocessorGroup {
   if (!options.classPrefix)
     options.classPrefix = 'spu-'
 
