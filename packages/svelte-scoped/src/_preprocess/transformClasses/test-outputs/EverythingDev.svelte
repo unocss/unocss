@@ -72,13 +72,13 @@
     font-size: 0.875rem;
     line-height: 1.25rem;
   }
-  :global(._hover\:text-red_7dkb0w:hover) {
-    --un-text-opacity: 1;
-    color: rgba(248, 113, 113, var(--un-text-opacity));
-  }
   :global(._text-orange-400_7dkb0w) {
     --un-text-opacity: 1;
     color: rgba(251, 146, 60, var(--un-text-opacity));
+  }
+  :global(._hover\:text-red_7dkb0w:hover) {
+    --un-text-opacity: 1;
+    color: rgba(248, 113, 113, var(--un-text-opacity));
   }
   @media (min-width: 640px) {
     :global(._sm\:text-left_7dkb0w) {
