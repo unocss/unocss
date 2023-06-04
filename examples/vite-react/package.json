@@ -14,14 +14,14 @@
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.1.31",
-    "@types/react": "^18.2.7",
+    "@types/react": "^18.2.8",
     "@types/react-dom": "^18.2.4",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
     "@vitejs/plugin-react": "^4.0.0",
     "cross-env": "^7.0.3",
-    "typescript": "^5.0.4",
+    "typescript": "^5.1.3",
     "unocss": "link:../../packages/unocss",
     "vite": "^4.3.9"
   },
