@@ -4,13 +4,15 @@ outline: deep
 
 # Extracting
 
+UnoCSS works by searching for the utilities usages from your codebase and generate the corresponding CSS on-demand. And we call this process **extracting**.
+
 ## Content Sources
 
 UnoCSS supports extracting utilities usages from multiple sources:
 
 - [Pipeline](#extracting-from-build-tools-pipeline) - Extract right from your build tools pipeline
 - [Filesystem](#extracting-from-filesystem) - Extract from your filesystem by reading and watching files
-- [Inline](#extracting-from-plain-text) - Extract from inline plain text
+- [Inline](#extracting-from-inline-text) - Extract from inline plain text
 
 Usages of utilities that comes from different sources will be merged together and generate the final CSS.
 
