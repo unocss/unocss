@@ -4,22 +4,26 @@ import fg from 'fast-glob'
 import type { UnocssPluginContext } from '@unocss/core'
 import { applyTransformers } from './transformers'
 
-export async function setupExtraContent(ctx: UnocssPluginContext, shouldWatch = false) {
-  const { extraContent } = await ctx.getConfig()
+export async function setupContentExtractor(ctx: UnocssPluginContext, shouldWatch = false) {
+  const { content } = await ctx.getConfig()
   const { extract, tasks, root, filter } = ctx
 
-  // plain text
-  if (extraContent?.plain) {
+  // inline text
+  if (content?.inline) {
     await Promise.all(
-      extraContent.plain.map((code, idx) => {
-        return extract(code, `__extra_content_${idx}__`)
+      content.inline.map(async (c, idx) => {
+        if (typeof c === 'function')
+          c = await c()
+        if (typeof c === 'string')
+          c = { code: c }
+        return extract(c.code, c.id ?? `__plain_content_${idx}__`)
       }),
     )
   }
 
   // filesystem
-  if (extraContent?.filesystem) {
-    const files = await fg(extraContent.filesystem, { cwd: root })
+  if (content?.filesystem) {
+    const files = await fg(content.filesystem, { cwd: root })
 
     async function extractFile(file: string) {
       const code = await fs.readFile(file, 'utf-8')

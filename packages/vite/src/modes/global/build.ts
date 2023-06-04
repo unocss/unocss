@@ -14,7 +14,7 @@ import {
   resolveLayer,
 } from '../../integration'
 import type { VitePluginConfig } from '../../types'
-import { setupExtraContent } from '../../../../shared-integration/src/extra-content'
+import { setupContentExtractor } from '../../../../shared-integration/src/content'
 
 // https://github.com/vitejs/vite/blob/main/packages/plugin-legacy/src/index.ts#L742-L744
 function isLegacyChunk(chunk: RenderedChunk, options: NormalizedOutputOptions) {
@@ -191,7 +191,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         viteConfig = config
       },
       buildStart() {
-        tasks.push(setupExtraContent(ctx, viteConfig.command === 'serve'))
+        tasks.push(setupContentExtractor(ctx, viteConfig.command === 'serve'))
       },
     },
     {
