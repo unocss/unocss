@@ -1,4 +1,4 @@
-import type { UnocssSveltePreprocessOptions } from '../preprocess/types'
+import type { UnocssSveltePreprocessOptions } from '../preprocess'
 import type { PluginOptions } from '@unocss/core'
 
 export interface UnocssSvelteScopedViteOptions extends UnocssSveltePreprocessOptions {

@@ -1039,6 +1039,13 @@ export const presetMiniTargets: string[] = [
   'group-has-placeholder-shown:text-4xl',
   'focus-within:has-first:checked:bg-gray/20',
 
+  // variants - pseudo function with custom value
+  'has-[:hover]:m-1',
+  'group-not-[[data-potato]]:m-1',
+  'previous-is-[div]:m-1',
+  'peer-where-[.child]:m-1',
+  'parent-not-[#someId]:m-1',
+
   // variants scope
   'scope-[.scope\\_class]:translate-0',
   'scope-[unocss]:block',
