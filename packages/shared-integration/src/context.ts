@@ -38,10 +38,12 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     configFileList = result.sources
     uno.setConfig(rawConfig)
     uno.config.envMode = 'dev'
-    rollupFilter = createFilter(
-      rawConfig.content?.pipeline?.include || rawConfig.include || defaultPipelineInclude,
-      rawConfig.content?.pipeline?.exclude || rawConfig.exclude || defaultPipelineExclude,
-    )
+    rollupFilter = rawConfig.content?.pipeline === false
+      ? () => false
+      : createFilter(
+        rawConfig.content?.pipeline?.include || rawConfig.include || defaultPipelineInclude,
+        rawConfig.content?.pipeline?.exclude || rawConfig.exclude || defaultPipelineExclude,
+      )
     tokens.clear()
     await Promise.all(modules.map((code, id) => uno.applyExtractors(code, id, tokens)))
     invalidate()

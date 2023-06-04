@@ -27,10 +27,12 @@ export function resolveOptions(options: UnocssNuxtOptions) {
     }
   }
 
-  options.content ||= {}
-  options.content.pipeline ||= {}
-  options.content.pipeline.exclude ||= defaultPipelineExclude
-  if (Array.isArray(options.content.pipeline.exclude))
+  options.content ??= {}
+  options.content.pipeline ??= {}
+  if (options.content.pipeline !== false) {
+    options.content.pipeline.exclude ??= defaultPipelineExclude
+    if (Array.isArray(options.content.pipeline.exclude))
     // ignore macro files created by Nuxt
-    options.content.pipeline.exclude.push(/\?macro=true/)
+      options.content.pipeline.exclude.push(/\?macro=true/)
+  }
 }

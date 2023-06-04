@@ -664,8 +664,10 @@ export interface ContentOptions {
    * Filters to determine whether to extract certain modules from the build tools' transformation pipeline.
    *
    * Currently only works for Vite and Webpack integration.
+   *
+   * Set `false` to disable.
    */
-  pipeline?: {
+  pipeline?: false | {
     /**
      * Patterns that filter the files being extracted.
      * Supports regular expressions and `picomatch` glob patterns.

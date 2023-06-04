@@ -18,10 +18,12 @@ export function VueScopedPlugin({ uno, ready }: UnocssPluginContext): Plugin {
     enforce: 'pre',
     async configResolved() {
       const { config } = await ready
-      filter = createFilter(
-        config.content?.pipeline?.include ?? config.include ?? [/\.vue$/],
-        config.content?.pipeline?.exclude ?? config.exclude ?? defaultPipelineExclude,
-      )
+      filter = config.content?.pipeline === false
+        ? () => false
+        : createFilter(
+          config.content?.pipeline?.include ?? config.include ?? [/\.vue$/],
+          config.content?.pipeline?.exclude ?? config.exclude ?? defaultPipelineExclude,
+        )
     },
     transform(code, id) {
       if (!filter(id))
