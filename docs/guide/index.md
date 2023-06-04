@@ -94,52 +94,14 @@ So similarly, we provided a few [official presets](/presets/) for you to start u
 
 You can try UnoCSS in your browser, in the <a href="/play/" target="_blank">Playground</a>. Or look up utilities from the default presets in the <a href="/interactive/" target="_blank">Interactive Docs</a>.
 
-## Installation
+## Integrations
 
-UnoCSS comes with many integrations for various frameworks:
+UnoCSS comes with integrations for various frameworks / tools:
 
-<!-- // TODO: make a grid with icons -->
-
-- [Vite](/integrations/vite)
-- [Nuxt](/integrations/nuxt)
-- [Astro](/integrations/astro)
-- [Svelte Scoped](/integrations/svelte-scoped)
-- [Webpack](/integrations/webpack)
-- [CLI](/integrations/cli)
-- [PostCSS](/integrations/postcss)
-- [CDN Runtime](/integrations/runtime)
-
+<ContentIntegrations />
 
 ## Examples
 
 Source code for all the examples can be found in the [/examples](https://github.com/unocss/unocss/tree/main/examples) directory.
 
-<!-- TODO: make it auto generated: -->
-
-| Example | Source | Playground |
-|---|---|---|
-| `astro` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/astro) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/astro) |
-| `astro-vue` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/astro-vue) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/astro-vue) | 
-| `next` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/next) | |
-| `nuxt2` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/nuxt2) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/nuxt2) |
-| `nuxt2-webpack` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/nuxt2-webpack) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/nuxt2-webpack) |
-| `nuxt3` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/nuxt3) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/nuxt3) |
-| `quasar` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/quasar) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/quasar) |
-| `qwik` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/qwik) | |
-| `remix` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/remix) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/remix) |
-| `sveltekit` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/sveltekit) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/sveltekit) |
-| `sveltekit-preprocess` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/sveltekit-preprocess) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/sveltekit-preprocess) |
-| `sveltekit-scoped` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/sveltekit-scoped) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/sveltekit-scoped) |
-| `vite-elm` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-elm) | |
-| `vite-lit` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-lit) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/vite-lit) |
-| `vite-preact` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-preact) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/vite-preact) |
-| `vite-pug` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-pug) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/vite-pug) |
-| `vite-react` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-react) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/vite-react) |
-| `vite-solid` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-solid) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/vite-solid) |
-| `vite-svelte` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-svelte) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/vite-svelte) |
-| `vite-svelte-postcss` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-svelte-postcss) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/vite-svelte-postcss) |
-| `vite-vue3` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-vue3) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/vite-vue3) |
-| `vite-vue3-postcss` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-vue3-postcss) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/vite-vue3-postcss) |
-| `vite-watch-mode` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vite-watch-mode) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/vite-watch-mode?view=editor) |
-| `vue-cli4` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vue-cli4) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/vue-cli4) |
-| `vue-cli5` | [GitHub](https://github.com/unocss/unocss/tree/main/examples/vue-cli5) | [Play Online](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/vue-cli5) | 
+<ContentExamples/>
