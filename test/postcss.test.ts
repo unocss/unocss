@@ -60,7 +60,7 @@ function pcss() {
 function pcssLite() {
   return postcss(
     postcssPlugin({
-      configOrPath: <UserConfig>{
+      configOrPath: {
         content: {
           filesystem: [],
           inline: [
@@ -81,7 +81,7 @@ function pcssLite() {
         shortcuts: {
           test: 'p5',
         },
-      },
+      } as UserConfig,
     }))
 }
 
