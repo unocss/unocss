@@ -658,7 +658,7 @@ export interface ContentOptions {
   /**
    * Inline text to be extracted
    */
-  inline?: (string | { code: string; id?: string } | (() => Thenable<string | { code: string; id?: string }>)) []
+  inline?: (string | { code: string; id?: string } | (() => Awaitable<string | { code: string; id?: string }>)) []
 
   /**
    * Filters to determine whether to extract certain modules from the build tools' transformation pipeline.
