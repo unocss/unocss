@@ -17,7 +17,7 @@ if (import.meta.vitest) {
   const { describe, expect, it } = import.meta.vitest
 
   describe('wrapSelectorsWithGlobal', () => {
-    it('should wrap multiple selectors with :global()', () => {
+    it('wraps multiple selectors with :global()', () => {
       const css = '.my-class{color:red;}[dir="rtl"] .mb-1{margin-bottom:0.25em;}'
       const expected = ':global(.my-class){color:red;}:global([dir="rtl"] .mb-1){margin-bottom:0.25em;}'
 
@@ -29,9 +29,7 @@ if (import.meta.vitest) {
       0% { opacity: 0; }
       100% { opacity: 1; }
     }`
-      const expected = css
-
-      expect(wrapSelectorsWithGlobal(css)).toBe(expected)
+      expect(wrapSelectorsWithGlobal(css)).toBe(css)
     })
 
     it('should not wrap @media selectors (selectors inside parenthesis)', () => {
@@ -39,6 +37,13 @@ if (import.meta.vitest) {
       const expected = '@media (min-width: 768px) {:global(.my-class){color:red;}}'
 
       expect(wrapSelectorsWithGlobal(css)).toBe(expected)
+    })
+
+    it('should not wrap selectors starting with * or ::', () => {
+      const cssWithAsterisk = '*,::before,::after { --un-rotate: 0;}'
+      expect(wrapSelectorsWithGlobal(cssWithAsterisk)).toBe(cssWithAsterisk)
+      const cssWithDoubleColon = '::backdrop { --un-rotate: 0;}'
+      expect(wrapSelectorsWithGlobal(cssWithDoubleColon)).toBe(cssWithDoubleColon)
     })
   })
 }
