@@ -1,7 +1,7 @@
 import type { VariantObject } from '@unocss/core'
 import { escapeRegExp, escapeSelector, warnOnce } from '@unocss/core'
 import type { PresetMiniOptions } from '..'
-import { handler as h, variantGetBracket } from '../_utils'
+import { getBracket, handler as h, variantGetBracket } from '../_utils'
 
 /**
  * Note: the order of following pseudo classes will affect the order of generated css.
@@ -95,8 +95,9 @@ function taggedPseudoClassMatcher(tag: string, parent: string, combinator: strin
   let splitRE: RegExp
   let pseudoRE: RegExp
   let pseudoColonRE: RegExp
+  let pseudoVarRE: RegExp
 
-  const matchBracket = (input: string) => {
+  const matchBracket = (input: string): [label: string, rest: string, prefix: string] | undefined => {
     const body = variantGetBracket(`${tag}-`, input, [])
     if (!body)
       return
@@ -115,7 +116,7 @@ function taggedPseudoClassMatcher(tag: string, parent: string, combinator: strin
     ]
   }
 
-  const matchPseudo = (input: string) => {
+  const matchPseudo = (input: string): [label: string, rest: string, prefix: string, pseudoKey: string] | undefined => {
     const match = input.match(pseudoRE) || input.match(pseudoColonRE)
     if (!match)
       return
@@ -134,6 +135,21 @@ function taggedPseudoClassMatcher(tag: string, parent: string, combinator: strin
     ]
   }
 
+  const matchPseudoVar = (input: string): [label: string, rest: string, prefix: string] | undefined => {
+    const match = input.match(pseudoVarRE)
+    if (!match)
+      return
+    const [original, fn, pseudoValue] = match
+    const label = match[3] ?? ''
+    const pseudo = `:${fn}(${pseudoValue})`
+
+    return [
+      label,
+      input.slice(original.length),
+      `${parent}${escapeSelector(label)}${pseudo}`,
+    ]
+  }
+
   return {
     name: `pseudo:${tag}`,
     match(input, ctx) {
@@ -141,16 +157,17 @@ function taggedPseudoClassMatcher(tag: string, parent: string, combinator: strin
         splitRE = new RegExp(`(?:${ctx.generator.config.separators.join('|')})`)
         pseudoRE = new RegExp(`^${tag}-(?:(?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesStr}))(?:(/\\w+))?(?:${ctx.generator.config.separators.join('|')})`)
         pseudoColonRE = new RegExp(`^${tag}-(?:(?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesColonStr}))(?:(/\\w+))?(?:${ctx.generator.config.separators.filter(x => x !== '-').join('|')})`)
+        pseudoVarRE = new RegExp(`^${tag}-(?:(${PseudoClassFunctionsStr})-)?\\[(.+)\\](?:(/\\w+))?(?:${ctx.generator.config.separators.filter(x => x !== '-').join('|')})`)
       }
 
       if (!input.startsWith(tag))
         return
 
-      const result = matchBracket(input) || matchPseudo(input)
+      const result = matchBracket(input) || matchPseudo(input) || matchPseudoVar(input)
       if (!result)
         return
 
-      const [label, matcher, prefix, pseudoName = ''] = result as [string, string, string, string | undefined]
+      const [label, matcher, prefix, pseudoName = ''] = result
       if (label !== '')
         warnOnce('The labeled variant is experimental and may not follow semver.')
 
@@ -231,17 +248,20 @@ export function variantPseudoClassesAndElements(): VariantObject {
 export function variantPseudoClassFunctions(): VariantObject {
   let PseudoClassFunctionsRE: RegExp
   let PseudoClassColonFunctionsRE: RegExp
+  let PseudoClassVarFunctionRE: RegExp
   return {
     match(input, ctx) {
       if (!(PseudoClassFunctionsRE && PseudoClassColonFunctionsRE)) {
         PseudoClassFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesStr})(?:${ctx.generator.config.separators.join('|')})`)
         PseudoClassColonFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesColonStr})(?:${ctx.generator.config.separators.filter(x => x !== '-').join('|')})`)
+        PseudoClassVarFunctionRE = new RegExp(`^(${PseudoClassFunctionsStr})-(\\[.+\\])(?:${ctx.generator.config.separators.filter(x => x !== '-').join('|')})`)
       }
 
-      const match = input.match(PseudoClassFunctionsRE) || input.match(PseudoClassColonFunctionsRE)
+      const match = input.match(PseudoClassFunctionsRE) || input.match(PseudoClassColonFunctionsRE) || input.match(PseudoClassVarFunctionRE)
       if (match) {
         const fn = match[1]
-        const pseudo = PseudoClasses[match[2]] || PseudoClassesColon[match[2]] || `:${match[2]}`
+        const fnVal = getBracket(match[2], '[', ']')
+        const pseudo = fnVal ? h.bracket(match[2]) : (PseudoClasses[match[2]] || PseudoClassesColon[match[2]] || `:${match[2]}`)
         return {
           matcher: input.slice(match[0].length),
           selector: s => `${s}:${fn}(${pseudo})`,

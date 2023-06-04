@@ -77,6 +77,11 @@
 .children\:m-auto>*,
 .m-auto{margin:auto;}
 .all\:m1\/1 *{margin:100%;}
+.group:not([data-potato]) .group-not-\[\[data-potato\]\]\:m-1,
+.has-\[\:hover\]\:m-1:has(:hover),
+.parent:not(#someId)>.parent-not-\[\#someId\]\:m-1,
+.peer:where(.child)~.peer-where-\[\.child\]\:m-1,
+.previous:is(div)+.previous-is-\[div\]\:m-1{margin:0.25rem;}
 .m-\[3em\]{margin:3em;}
 .m-0,
 .m-none{margin:0;}
