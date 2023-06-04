@@ -17,6 +17,9 @@ export function deprecationCheck(config: UserConfig) {
   if (config.extraContent)
     warn('`extraContent` option is deprecated, use `content` instead.')
 
+  if (config.content?.plain)
+    warn('`content.plain` option is renamed to `content.inline`.')
+
   if (warned && typeof process !== 'undefined' && process.env.CI)
     throw new Error('deprecation warning')
 }

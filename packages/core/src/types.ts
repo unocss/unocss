@@ -649,14 +649,16 @@ export interface ContentOptions {
   /**
    * Glob patterns to extract from the file system, in addition to other content sources.
    *
-   * In dev mode, the files will be watched and trigger HMR
+   * In dev mode, the files will be watched and trigger HMR.
+   *
+   * @default []
    */
   filesystem?: string[]
 
   /**
-   * Plain text to be extracted
+   * Inline text to be extracted
    */
-  plain?: (string | { code: string; id?: string }) []
+  inline?: (string | { code: string; id?: string } | (() => Thenable<string | { code: string; id?: string }>)) []
 
   /**
    * Filters to determine whether to extract certain modules from the build tools' transformation pipeline.
@@ -666,14 +668,31 @@ export interface ContentOptions {
   pipeline?: {
     /**
      * Patterns that filter the files being extracted.
+     * Supports regular expressions and `picomatch` glob patterns.
+     *
+     * By default, `.ts` and `.js` files are NOT extracted.
+     *
+     * @see https://www.npmjs.com/package/picomatch
+     * @default [/\.(vue|svelte|[jt]sx|mdx?|astro|elm|php|phtml|html)($|\?)/]
      */
     include?: FilterPattern
 
     /**
      * Patterns that filter the files NOT being extracted.
+     * Supports regular expressions and `picomatch` glob patterns.
+     *
+     * By default, `node_modules` and `dist` are also extracted.
+     *
+     * @see https://www.npmjs.com/package/picomatch
+     * @default [/\.(css|postcss|sass|scss|less|stylus|styl)($|\?)/]
      */
     exclude?: FilterPattern
   }
+
+  /**
+   * @deprecated Renamed to `inline`
+   */
+  plain?: (string | { code: string; id?: string }) []
 }
 
 /**

@@ -109,7 +109,7 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
         }
 
         const globs = uno.config.content?.filesystem ?? defaultFilesystemGlobs
-        const plainContent = uno.config.content?.plain ?? []
+        const plainContent = uno.config.content?.inline ?? []
 
         const entries = await fg(isScanTarget ? globs : from, {
           cwd,
@@ -124,6 +124,8 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
 
         promises.push(
           ...plainContent.map(async (c, idx) => {
+            if (typeof c === 'function')
+              c = await c()
             if (typeof c === 'string')
               c = { code: c }
             const { matched } = await uno.generate(c.code, { id: c.id ?? `__plain_content_${idx}__` })

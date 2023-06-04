@@ -11,7 +11,7 @@ const config: UserConfig = {
     filesystem: [
       './test/assets/preset-wind-targets.ts',
     ],
-    plain: [{
+    inline: [{
       code: presetWindTargets.join(' '),
       id: 'targets.html',
     }],
@@ -63,7 +63,7 @@ function pcssLite() {
       configOrPath: <UserConfig>{
         content: {
           filesystem: [],
-          plain: [
+          inline: [
             {
               code: '<div class="relative p4 test example">',
               id: 'inline.html',

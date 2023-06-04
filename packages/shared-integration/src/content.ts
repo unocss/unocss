@@ -8,10 +8,12 @@ export async function setupContentExtractor(ctx: UnocssPluginContext, shouldWatc
   const { content } = await ctx.getConfig()
   const { extract, tasks, root, filter } = ctx
 
-  // plain text
-  if (content?.plain) {
+  // inline text
+  if (content?.inline) {
     await Promise.all(
-      content.plain.map((c, idx) => {
+      content.inline.map(async (c, idx) => {
+        if (typeof c === 'function')
+          c = await c()
         if (typeof c === 'string')
           c = { code: c }
         return extract(c.code, c.id ?? `__plain_content_${idx}__`)
