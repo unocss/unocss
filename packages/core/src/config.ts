@@ -115,8 +115,7 @@ export function resolveConfig<Theme extends {} = {}>(
     .filter(Boolean)
     .reverse() as ResolvedConfig<Theme>['rulesDynamic']
 
-  let theme: Theme = sources.map(p => p.theme ? clone(p.theme) : {})
-    .reduce<Theme>((a, p) => mergeDeep(a, p), {} as Theme)
+  let theme: Theme = mergeThemes(sources.map(p => p.theme))
 
   const extendThemes = getMerged('extendTheme')
   for (const extendTheme of extendThemes)
@@ -179,6 +178,7 @@ export function mergeConfigs<Theme extends {} = {}>(
     {},
     ...configs,
     {
+      theme: mergeThemes(configs.map(c => c.theme)),
       presets: getMerged('presets'),
       safelist: getMerged('safelist'),
       preprocess: getMerged('preprocess'),
@@ -192,4 +192,8 @@ export function mergeConfigs<Theme extends {} = {}>(
   )
 
   return merged
+}
+
+function mergeThemes<Theme extends {} = {}>(themes: (Theme | undefined)[]): Theme {
+  return themes.map(theme => theme ? clone(theme) : {}).reduce<Theme>((a, b) => mergeDeep(a, b), {} as Theme)
 }

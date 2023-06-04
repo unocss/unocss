@@ -85,9 +85,10 @@ export default function UnoCSSAstroIntegration<Theme extends {}>(
     hooks: {
       'astro:config:setup': async ({ config, updateConfig, injectScript }) => {
         // Adding components to UnoCSS's extra content
-        options.extraContent ||= {}
-        options.extraContent.filesystem ||= []
-        options.extraContent.filesystem.push(resolve(fileURLToPath(config.srcDir), 'components/**/*').replace(/\\/g, '/'))
+        const source = resolve(fileURLToPath(config.srcDir), 'components/**/*').replace(/\\/g, '/')
+        options.content ||= {}
+        options.content.filesystem ||= []
+        options.content.filesystem.push(source)
 
         const injects: string[] = []
         if (injectReset) {
