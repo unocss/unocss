@@ -3,6 +3,11 @@ import { escapeRegExp, escapeSelector, warnOnce } from '@unocss/core'
 import type { PresetMiniOptions } from '..'
 import { handler as h, variantGetBracket } from '../_utils'
 
+/**
+ * Note: the order of following pseudo classes will affect the order of generated css.
+ *
+ * Reference: https://github.com/tailwindlabs/tailwindcss/blob/main/src/corePlugins.js#L83
+ */
 const PseudoClasses: Record<string, string> = Object.fromEntries([
   // pseudo elements part 1
   ['first-letter', '::first-letter'],
@@ -15,29 +20,32 @@ const PseudoClasses: Record<string, string> = Object.fromEntries([
   'target',
   ['open', '[open]'],
 
-  // user action
-  'hover',
-  'active',
-  'focus-visible',
-  'focus-within',
-  'focus',
-
-  // input
-  'autofill',
-  'enabled',
-  'disabled',
-  'read-only',
-  'read-write',
-  'placeholder-shown',
+  // forms
   'default',
   'checked',
   'indeterminate',
+  'placeholder-shown',
+  'autofill',
+  'optional',
+  'required',
   'valid',
   'invalid',
   'in-range',
   'out-of-range',
-  'required',
-  'optional',
+  'read-only',
+  'read-write',
+
+  // content
+  'empty',
+
+  // interactions
+  'focus-within',
+  'hover',
+  'focus',
+  'focus-visible',
+  'active',
+  'enabled',
+  'disabled',
 
   // tree-structural
   'root',
@@ -81,22 +89,6 @@ const PseudoClassFunctions = [
 const PseudoClassesStr = Object.entries(PseudoClasses).filter(([, pseudo]) => !pseudo.startsWith('::')).map(([key]) => key).join('|')
 const PseudoClassesColonStr = Object.entries(PseudoClassesColon).filter(([, pseudo]) => !pseudo.startsWith('::')).map(([key]) => key).join('|')
 const PseudoClassFunctionsStr = PseudoClassFunctions.join('|')
-
-function pseudoModifier(pseudo: string) {
-  if (pseudo === 'focus') {
-    return {
-      sort: 10,
-      noMerge: true,
-    }
-  }
-
-  if (pseudo === 'active') {
-    return {
-      sort: 20,
-      noMerge: true,
-    }
-  }
-}
 
 function taggedPseudoClassMatcher(tag: string, parent: string, combinator: string): VariantObject {
   const rawRE = new RegExp(`^(${escapeRegExp(parent)}:)(\\S+)${escapeRegExp(combinator)}\\1`)
@@ -167,7 +159,7 @@ function taggedPseudoClassMatcher(tag: string, parent: string, combinator: strin
         handle: (input, next) => next({
           ...input,
           prefix: `${prefix}${combinator}${input.prefix}`.replace(rawRE, '$1$2:'),
-          ...pseudoModifier(pseudoName),
+          sort: PseudoClassesKeys.indexOf(pseudoName) ?? PseudoClassesColonKeys.indexOf(pseudoName),
         }),
       }
     },
@@ -224,8 +216,8 @@ export function variantPseudoClassesAndElements(): VariantObject {
             return next({
               ...input,
               ...selectors,
-              ...pseudoModifier(match[1]),
               sort: index,
+              noMerge: true,
             })
           },
         }

@@ -57,7 +57,11 @@
     --un-text-opacity: 1;
     color: rgba(251, 146, 60, var(--un-text-opacity));
   }
-  :global(.uno-deus5r:hover, .uno-wt89uz:hover) {
+  :global(.uno-deus5r:hover) {
+    --un-text-opacity: 1;
+    color: rgba(248, 113, 113, var(--un-text-opacity));
+  }
+  :global(.uno-wt89uz:hover) {
     --un-text-opacity: 1;
     color: rgba(248, 113, 113, var(--un-text-opacity));
   }

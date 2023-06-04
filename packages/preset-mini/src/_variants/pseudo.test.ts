@@ -16,16 +16,35 @@ test('pseudo variant order', async () => {
   const css = await uno.generate([
     'foo-1',
     'hover:foo-2',
-    'disabled:foo-3',
+    'focus:foo-3',
+    'disabled:foo-4',
   ]).then(r => r.css)
 
   expect(css.indexOf('foo-1')).toBeLessThan(css.indexOf('foo-2'))
   expect(css.indexOf('foo-2')).toBeLessThan(css.indexOf('foo-3'))
+  expect(css.indexOf('foo-3')).toBeLessThan(css.indexOf('foo-4'))
   expect(css)
     .toMatchInlineSnapshot(`
       "/* layer: default */
       .foo-1{text:foo-1;}
       .hover\\\\:foo-2:hover{text:foo-2;}
-      .disabled\\\\:foo-3:disabled{text:foo-3;}"
+      .focus\\\\:foo-3:focus{text:foo-3;}
+      .disabled\\\\:foo-4:disabled{text:foo-4;}"
+    `)
+
+  const css2 = await uno.generate([
+    'foo-1',
+    'hover:foo-1',
+    'focus:foo-1',
+    'disabled:foo-1',
+  ]).then(r => r.css)
+
+  expect(css2)
+    .toMatchInlineSnapshot(`
+      "/* layer: default */
+      .foo-1{text:foo-1;}
+      .hover\\\\:foo-1:hover{text:foo-1;}
+      .focus\\\\:foo-1:focus{text:foo-1;}
+      .disabled\\\\:foo-1:disabled{text:foo-1;}"
     `)
 })

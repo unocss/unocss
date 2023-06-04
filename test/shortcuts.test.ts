@@ -95,8 +95,8 @@ describe('shortcuts', () => {
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
       .shortcut-hover-active-1:hover{--un-bg-opacity:1;background-color:rgba(134,239,172,var(--un-bg-opacity));}
-      .shortcut-hover-active-1:active{--un-bg-opacity:1;background-color:rgba(134,239,172,var(--un-bg-opacity));}
-      .shortcut-hover-active-1:focus{--un-bg-opacity:1;background-color:rgba(134,239,172,var(--un-bg-opacity));}"
+      .shortcut-hover-active-1:focus{--un-bg-opacity:1;background-color:rgba(134,239,172,var(--un-bg-opacity));}
+      .shortcut-hover-active-1:active{--un-bg-opacity:1;background-color:rgba(134,239,172,var(--un-bg-opacity));}"
     `)
   })
 
@@ -105,8 +105,8 @@ describe('shortcuts', () => {
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
       .shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgba(253,224,71,var(--un-bg-opacity));}
-      .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgba(147,197,253,var(--un-bg-opacity));}
-      .shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgba(252,165,165,var(--un-bg-opacity));}"
+      .shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgba(252,165,165,var(--un-bg-opacity));}
+      .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgba(147,197,253,var(--un-bg-opacity));}"
     `)
   })
 
@@ -116,8 +116,8 @@ describe('shortcuts', () => {
       "/* layer: shortcuts */
       .uno-layer-shortcuts\\\\:bg-red-300{--un-bg-opacity:1;background-color:rgba(252,165,165,var(--un-bg-opacity));}
       .shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgba(253,224,71,var(--un-bg-opacity));}
-      .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgba(147,197,253,var(--un-bg-opacity));}
-      .shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgba(252,165,165,var(--un-bg-opacity));}"
+      .shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgba(252,165,165,var(--un-bg-opacity));}
+      .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgba(147,197,253,var(--un-bg-opacity));}"
     `)
   })
 
@@ -125,10 +125,10 @@ describe('shortcuts', () => {
     const { css } = await uno.generate('shortcut-hover-active-2 uno-layer-shortcuts:bg-yellow-300', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      .uno-layer-shortcuts\\\\:bg-yellow-300,
+      .uno-layer-shortcuts\\\\:bg-yellow-300{--un-bg-opacity:1;background-color:rgba(253,224,71,var(--un-bg-opacity));}
       .shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgba(253,224,71,var(--un-bg-opacity));}
-      .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgba(147,197,253,var(--un-bg-opacity));}
-      .shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgba(252,165,165,var(--un-bg-opacity));}"
+      .shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgba(252,165,165,var(--un-bg-opacity));}
+      .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgba(147,197,253,var(--un-bg-opacity));}"
     `)
   })
 
@@ -138,8 +138,8 @@ describe('shortcuts', () => {
       "/* layer: shortcuts */
       .uno-layer-shortcuts\\\\:bg-blue-300{--un-bg-opacity:1;background-color:rgba(147,197,253,var(--un-bg-opacity));}
       .shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgba(253,224,71,var(--un-bg-opacity));}
-      .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgba(147,197,253,var(--un-bg-opacity));}
-      .shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgba(252,165,165,var(--un-bg-opacity));}"
+      .shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgba(252,165,165,var(--un-bg-opacity));}
+      .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgba(147,197,253,var(--un-bg-opacity));}"
     `)
   })
 
@@ -167,10 +167,10 @@ describe('shortcuts', () => {
     `, { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      .shortcut-inline-body,
-      .hover\\\\:shortcut-inline-body:hover{padding:0.5rem;margin:3px;}
+      .shortcut-inline-body{padding:0.5rem;margin:3px;}
       .shortcut-inline-dynamic-1{padding:0.25rem;margin:1px;}
-      .shortcut-inline-dynamic-2{padding:0.5rem;margin:2px;}"
+      .shortcut-inline-dynamic-2{padding:0.5rem;margin:2px;}
+      .hover\\\\:shortcut-inline-body:hover{padding:0.5rem;margin:3px;}"
     `)
   })
 
