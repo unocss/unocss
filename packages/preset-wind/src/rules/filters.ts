@@ -35,7 +35,7 @@ function percentWithDefault(str?: string) {
     return v
 
   v = str ? h.percent(str) : '1'
-  if (v != null && parseFloat(v) <= 1)
+  if (v != null && Number.parseFloat(v) <= 1)
     return v
 }
 

@@ -10,7 +10,7 @@ import { variantNegative } from './negative'
 import { variantImportant } from './important'
 import { variantCustomMedia, variantPrint } from './media'
 import { variantSupports } from './supports'
-import { partClasses, variantPseudoClassFunctions, variantPseudoClassesAndElements, variantTaggedPseudoClasses } from './pseudo'
+import { variantPartClasses, variantPseudoClassFunctions, variantPseudoClassesAndElements, variantTaggedPseudoClasses } from './pseudo'
 import { variantAria } from './aria'
 import { variantDataAttribute } from './data'
 import { variantContainerQuery } from './container'
@@ -35,7 +35,7 @@ export function variants(options: PresetMiniOptions): Variant<Theme>[] {
     variantPseudoClassFunctions(),
     ...variantTaggedPseudoClasses(options),
 
-    partClasses,
+    variantPartClasses,
     ...variantColorsMediaOrClass(options),
     ...variantLanguageDirections,
     variantScope,

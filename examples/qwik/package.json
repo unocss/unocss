@@ -13,12 +13,16 @@
     "qwik": "qwik"
   },
   "devDependencies": {
-    "@builder.io/qwik": "1.0.0",
-    "@builder.io/qwik-city": "1.0.0",
+    "@builder.io/qwik": "1.1.4",
+    "@builder.io/qwik-city": "1.1.4",
     "@types/node": "latest",
     "@unocss/reset": "link:../../packages/reset",
-    "typescript": "^5.0.4",
+    "typescript": "^5.1.3",
     "unocss": "link:../../packages/unocss",
-    "vite": "4.3.5"
+    "vite": "4.3.9"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node .stackblitz.mjs && npm install && npm run dev"
   }
 }

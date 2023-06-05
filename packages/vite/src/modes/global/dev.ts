@@ -75,12 +75,12 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
             const mod = server.moduleGraph.getModuleById(id)
             if (!mod)
               return null
-            return <Update>{
+            return {
               acceptedPath: mod.url,
               path: mod.url,
               timestamp: lastServedTime,
               type: 'js-update',
-            }
+            } as Update
           })
           .filter(notNull),
       })

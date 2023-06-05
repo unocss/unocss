@@ -35,6 +35,7 @@ UnoCSS is a monorepo that contains multiple packages. This page lists all the pa
 | [@unocss/astro](/integrations/astro)                             | The Astro integration                              | <span class="block i-carbon:checkbox-checked-filled text-green-600 dark:text-green-400 w-2em h-2em" />                    | - |
 | [@unocss/webpack](/integrations/webpack)                         | The Webpack plugin                                 | No                   | - |
 | [@unocss/nuxt](/integrations/nuxt)                               | The Nuxt Module                                    | No                   | - |
+| [@unocss/svelte-scoped](/integrations/svelte-scoped)                               | Svelte Scoped Vite plugin + Preprocessor                                 | No                   | - |
 | [@unocss/next](/integrations/next)                               | The Next.js plugin                                 | No                   | - |
 | [@unocss/runtime](/integrations/runtime)                         | CSS-in-JS Runtime for UnoCSS                       | No                   | - |
 | [@unocss/eslint-plugin](/integrations/eslint)                    | ESLint plugin                                      | No                   | - |

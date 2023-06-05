@@ -4,3 +4,4 @@ packages/preset-icons              @antfu @userquin
 packages/preset-typography         @ydcjeff
 packages/runtime                   @antfu @chu121su12
 packages/transformer-directives    @hannoeru
+packages/svelte-scoped/*           @jacob-8

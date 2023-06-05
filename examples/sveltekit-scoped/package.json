@@ -1,31 +1,33 @@
 {
-  "name": "unocss-sveltekit",
+  "name": "unocss-sveltekit-scoped",
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "stackblitz:dev": "node remove-links.js && npm install && vite dev",
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.25",
-    "@iconify-json/ri": "^1.1.8",
-    "@sveltejs/adapter-auto": "next",
-    "@sveltejs/kit": "next",
+    "@iconify-json/logos": "^1.1.31",
+    "@iconify-json/ri": "^1.1.9",
+    "@julr/unocss-preset-forms": "^0.0.5",
+    "@sveltejs/adapter-auto": "^2.1.0",
+    "@sveltejs/kit": "^1.20.1",
+    "@types/marked": "^5.0.0",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
-    "svelte": "^3.59.0",
-    "svelte-check": "^3.3.1",
-    "svelte-preprocess": "^5.0.3",
-    "tslib": "^2.5.0",
-    "typescript": "^5.0.4",
+    "@unocss/svelte-scoped": "link:../../packages/svelte-scoped",
+    "marked": "^5.0.4",
+    "svelte": "^3.59.1",
+    "svelte-check": "^3.4.3",
+    "tslib": "^2.5.3",
+    "typescript": "^5.1.3",
     "unocss": "link:../../packages/unocss",
-    "vite": "^4.3.5"
+    "vite": "^4.3.9"
   },
   "stackblitz": {
     "installDependencies": false,
-    "startCommand": "npm run stackblitz:dev"
+    "startCommand": "node .stackblitz.js && npm install && npm run dev"
   }
 }

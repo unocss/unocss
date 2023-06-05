@@ -174,6 +174,14 @@ export interface RuleMeta {
    * @default false
    */
   internal?: boolean
+
+  /**
+   * Store the hash of the rule boy
+   *
+   * @internal
+   * @private
+   */
+  __hash?: string
 }
 
 export type CSSValue = CSSObject | CSSEntries
@@ -637,17 +645,56 @@ export interface SourceCodeTransformer {
   transform: (code: MagicString, id: string, ctx: UnocssPluginContext) => Awaitable<void>
 }
 
-export interface ExtraContentOptions {
+export interface ContentOptions {
   /**
-   * Glob patterns to match the files to be extracted
-   * In dev mode, the files will be watched and trigger HMR
+   * Glob patterns to extract from the file system, in addition to other content sources.
+   *
+   * In dev mode, the files will be watched and trigger HMR.
+   *
+   * @default []
    */
   filesystem?: string[]
 
   /**
-   * Plain text to be extracted
+   * Inline text to be extracted
    */
-  plain?: string[]
+  inline?: (string | { code: string; id?: string } | (() => Awaitable<string | { code: string; id?: string }>)) []
+
+  /**
+   * Filters to determine whether to extract certain modules from the build tools' transformation pipeline.
+   *
+   * Currently only works for Vite and Webpack integration.
+   *
+   * Set `false` to disable.
+   */
+  pipeline?: false | {
+    /**
+     * Patterns that filter the files being extracted.
+     * Supports regular expressions and `picomatch` glob patterns.
+     *
+     * By default, `.ts` and `.js` files are NOT extracted.
+     *
+     * @see https://www.npmjs.com/package/picomatch
+     * @default [/\.(vue|svelte|[jt]sx|mdx?|astro|elm|php|phtml|html)($|\?)/]
+     */
+    include?: FilterPattern
+
+    /**
+     * Patterns that filter the files NOT being extracted.
+     * Supports regular expressions and `picomatch` glob patterns.
+     *
+     * By default, `node_modules` and `dist` are also extracted.
+     *
+     * @see https://www.npmjs.com/package/picomatch
+     * @default [/\.(css|postcss|sass|scss|less|stylus|styl)($|\?)/]
+     */
+    exclude?: FilterPattern
+  }
+
+  /**
+   * @deprecated Renamed to `inline`
+   */
+  plain?: (string | { code: string; id?: string }) []
 }
 
 /**
@@ -667,24 +714,40 @@ export interface PluginOptions {
   configDeps?: string[]
 
   /**
-   * Patterns that filter the files being extracted.
-   */
-  include?: FilterPattern
-
-  /**
-   * Patterns that filter the files NOT being extracted.
-   */
-  exclude?: FilterPattern
-
-  /**
    * Custom transformers to the source code
    */
   transformers?: SourceCodeTransformer[]
 
   /**
-   * Extra content outside of build pipeline (assets, backend, etc.) to be extracted
+   * Options for sources to be extracted as utilities usages
+   *
+   * Supported sources:
+   * - `filesystem` - extract from file system
+   * - `plain` - extract from plain inline text
+   * - `pipeline` - extract from build tools' transformation pipeline, such as Vite and Webpack
+   *
+   * The usage extracted from each source will be **merged** together.
    */
-  extraContent?: ExtraContentOptions
+  content?: ContentOptions
+
+  /** ========== DEPRECATED OPTIONS ========== **/
+
+  /**
+   * @deprecated Renamed to `content`
+   */
+  extraContent?: ContentOptions
+
+  /**
+   * Patterns that filter the files being extracted.
+   * @deprecated moved to `content.pipeline.include`
+   */
+  include?: FilterPattern
+
+  /**
+    * Patterns that filter the files NOT being extracted.
+    * @deprecated moved to `content.pipeline.exclude`
+    */
+  exclude?: FilterPattern
 }
 
 export interface UserConfig<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions, PluginOptions, CliOptions {}

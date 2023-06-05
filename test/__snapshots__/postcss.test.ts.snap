@@ -104,11 +104,11 @@ exports[`postcss > @unocss 1`] = `
 .animate-normal{animation-direction:normal;}
 .animate-reverse{animation-direction:reverse;}
 .animate-count-2\\\\.4{animation-iteration-count:2.4;}
-.animate-iteration-2{animation-iteration-count:2;}
-.animate-iteration-count-\\\\[2\\\\,4\\\\,infinity\\\\]{animation-iteration-count:count,[2,4,infinity];}
-.animate-iteration-count-\\\\$variable{animation-iteration-count:count,$variable;}
-.animate-iteration-count-2{animation-iteration-count:count,2;}
-.animate-iteration-count-2-4-infinity{animation-iteration-count:count,2,4,infinity;}
+.animate-iteration-2,
+.animate-iteration-count-2{animation-iteration-count:2;}
+.animate-iteration-count-\\\\[2\\\\,4\\\\,infinity\\\\],
+.animate-iteration-count-2-4-infinity{animation-iteration-count:2,4,infinity;}
+.animate-iteration-count-\\\\$variable{animation-iteration-count:var(--variable);}
 .animate-paused,
 .animate-play-paused{animation-play-state:paused;}
 .animate-play-state-running,
@@ -206,8 +206,10 @@ exports[`postcss > @unocss 1`] = `
 .overscroll-y-unset{overscroll-behavior-y:unset;}
 .scroll-auto{scroll-behavior:auto;}
 .scroll-unset{scroll-behavior:unset;}
+.bg-\\\\[length\\\\:--variable\\\\]{background-size:var(--variable);}
 .bg-\\\\[length\\\\:1\\\\/2_20rem\\\\]{background-size:50% 20rem;}
 .bg-\\\\[length\\\\:10_20rem\\\\]{background-size:10px 20rem;}
+.bg-\\\\[position\\\\:--variable\\\\]{background-position:var(--variable);}
 .bg-\\\\[position\\\\:1\\\\/2_20rem\\\\]{background-position:50% 20rem;}
 .bg-\\\\[position\\\\:10_20rem\\\\]{background-position:10px 20rem;}
 .bg-\\\\[position\\\\:bottom_left_10\\\\%\\\\]{background-position:bottom left 10%;}

@@ -14,7 +14,7 @@
     />
 
     {#if !hide}
-      <span class="logo" in:fly={{ y: 200, duration: 2000 }} out:fade />
+      <span class="logo drop-shadow-on-hover" in:fly={{ y: 200, duration: 2000 }} out:fade />
     {/if}
   </div>
 
@@ -25,7 +25,9 @@
   img:hover {
     filter: drop-shadow(0 0 5em gray);
   }
-  .logo:hover {
+
+  /* .logo is a shortcut and will be hashed on compile so we can't use .logo:hover in a manually written class */
+  .drop-shadow-on-hover:hover {
     filter: drop-shadow(0 0 2em #ff3e00aa);
   }
 </style>

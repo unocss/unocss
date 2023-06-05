@@ -39,9 +39,10 @@ export async function getHint(context: CompletionContext): Promise<CompletionRes
   const resolved = result.resolveReplacement(result.suggestions[0][0])
   return {
     from: resolved.start,
-    options: result.suggestions.map(([, label]) => {
+    options: result.suggestions.map(([value, label]) => {
       return ({
         label,
+        apply: value,
         type: 'text',
         boost: 99,
       })

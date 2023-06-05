@@ -115,8 +115,7 @@ export function resolveConfig<Theme extends {} = {}>(
     .filter(Boolean)
     .reverse() as ResolvedConfig<Theme>['rulesDynamic']
 
-  let theme: Theme = sources.map(p => p.theme ? clone(p.theme) : {})
-    .reduce<Theme>((a, p) => mergeDeep(a, p), {} as Theme)
+  let theme: Theme = mergeThemes(sources.map(p => p.theme))
 
   const extendThemes = getMerged('extendTheme')
   for (const extendTheme of extendThemes)
@@ -163,4 +162,38 @@ export function resolveConfig<Theme extends {} = {}>(
     p?.configResolved?.(resolved)
 
   return resolved
+}
+
+/**
+ * Merge multiple configs into one, later ones have higher priority
+ */
+export function mergeConfigs<Theme extends {} = {}>(
+  configs: UserConfig<Theme>[],
+): UserConfig<Theme> {
+  function getMerged<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist' | 'separators' | 'presets'>(key: T): ToArray<Required<UserConfig<Theme>>[T]> {
+    return uniq(configs.flatMap(p => toArray(p[key] || []) as any[])) as any
+  }
+
+  const merged = Object.assign(
+    {},
+    ...configs,
+    {
+      theme: mergeThemes(configs.map(c => c.theme)),
+      presets: getMerged('presets'),
+      safelist: getMerged('safelist'),
+      preprocess: getMerged('preprocess'),
+      postprocess: getMerged('postprocess'),
+      preflights: getMerged('preflights'),
+      rules: getMerged('rules'),
+      variants: getMerged('variants'),
+      shortcuts: getMerged('shortcuts'),
+      extractors: getMerged('extractors'),
+    },
+  )
+
+  return merged
+}
+
+function mergeThemes<Theme extends {} = {}>(themes: (Theme | undefined)[]): Theme {
+  return themes.map(theme => theme ? clone(theme) : {}).reduce<Theme>((a, b) => mergeDeep(a, b), {} as Theme)
 }

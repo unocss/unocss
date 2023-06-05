@@ -24,13 +24,10 @@
 .sibling-\[div\:hover\]-\[combinator\:test-4\]+div:hover{combinator:test-4;}
 .-p-px{padding:-1px;}
 .\!p-5px{padding:5px !important;}
-.first\:p-2:first-child,
 .has-hover\:p-2:has(:hover),
 .p-2,
 .p2,
 .where-hover\:p-2:where(:hover){padding:0.5rem;}
-.hover\:\!p-1:hover{padding:0.25rem !important;}
-.hover\:p-5:hover{padding:1.25rem;}
 .important\:p-3,
 .p3\!{padding:0.75rem !important;}
 .is-hover\:p-4px:is(:hover),
@@ -39,13 +36,16 @@
 .p-none{padding:0;}
 .p-unset{padding:unset;}
 .pa{padding:auto;}
-.group:focus .group-focus\:p-4{padding:1rem;}
+.hover\:\!p-1:hover{padding:0.25rem !important;}
+.hover\:p-5:hover{padding:1.25rem;}
 .p-xy,
-.pxy{padding:1rem;}
-.\!hover\:px-10:hover{padding-left:2.5rem !important;padding-right:2.5rem !important;}
+.pxy,
+.group:focus .group-focus\:p-4{padding:1rem;}
+.first\:p-2:first-child{padding:0.5rem;}
 .p-x,
 .px{padding-left:1rem;padding-right:1rem;}
 .px-1{padding-left:0.25rem;padding-right:0.25rem;}
+.\!hover\:px-10:hover{padding-left:2.5rem !important;padding-right:2.5rem !important;}
 .p-t-2,
 .pt-2,
 .pt2{padding-top:0.5rem;}
@@ -65,6 +65,11 @@
 .p-ie-revert{padding-inline-end:revert;}
 .pbs-\$title2{padding-block-start:var(--title2);}
 .pis-10px{padding-inline-start:10px;}
+.group:not([data-potato]) .group-not-\[\[data-potato\]\]\:m-1,
+.parent:not(#someId)>.parent-not-\[\#someId\]\:m-1,
+.peer:where(.child)~.peer-where-\[\.child\]\:m-1,
+.previous:is(div)+.previous-is-\[div\]\:m-1,
+.has-\[\:hover\]\:m-1:has(:hover){margin:0.25rem;}
 .-m-lg{margin:-1.125rem;}
 .\!m-\$c-m{margin:var(--c-m) !important;}
 .\[\&_\&\]\:m-13 .\[\&_\&\]\:m-13{margin:3.25rem;}
@@ -113,37 +118,39 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .contents{display:contents;}
 .display-\$var{display:var(--var);}
 .display-inherit{display:inherit;}
-.disabled\:op50:disabled{opacity:0.5;}
 .op-10{opacity:0.1;}
 .opacity-\$opa{opacity:var(--opa);}
 .opacity-0{opacity:0;}
+.disabled\:op50:disabled{opacity:0.5;}
 .placeholder-opacity-60::placeholder{opacity:0.6;}
 .\[\&\[data-active\=\"true\"\]\]\:bg-red[data-active="true"]{--un-bg-opacity:1;background-color:rgba(248,113,113,var(--un-bg-opacity));}
+.bg-\[--test-variable\],
+.bg-\$test-variable{background-color:var(--test-variable);}
 .bg-\[\#153\]\/10,
 .bg-\[\#1533\]\/10{background-color:rgba(17,85,51,0.1);}
 .bg-\[\#1533\]{--un-bg-opacity:0.2;background-color:rgba(17,85,51,var(--un-bg-opacity));}
 .bg-\[rgba\(1\,2\,3\,0\.5\)\]{--un-bg-opacity:0.5;background-color:rgba(1,2,3,var(--un-bg-opacity));}
 .bg-\#452233\/40,
 .bg-hex-452233\/40{background-color:rgba(69,34,51,0.4);}
-.bg-\$test-variable{background-color:var(--test-variable);}
 .bg-red-100{--un-bg-opacity:1;background-color:rgba(254,226,226,var(--un-bg-opacity));}
 .bg-teal-100\/55{background-color:rgba(204,251,241,0.55);}
 .bg-teal-200\:55{background-color:rgba(153,246,228,0.55);}
 .bg-teal-300\:\[\.55\]{background-color:rgba(94,234,212,.55);}
 .bg-teal-400\/\[\.55\]{background-color:rgba(45,212,191,.55);}
 .bg-teal-500\/\[55\%\]{background-color:rgba(20,184,166,55%);}
-.file\:bg-violet-50::file-selector-button{--un-bg-opacity:1;background-color:rgba(245,243,255,var(--un-bg-opacity));}
-.first-letter\:bg-green-400::first-letter,
+.first-letter\:bg-green-400::first-letter{--un-bg-opacity:1;background-color:rgba(74,222,128,var(--un-bg-opacity));}
 .first-line\:bg-green-400::first-line{--un-bg-opacity:1;background-color:rgba(74,222,128,var(--un-bg-opacity));}
-.focus-within\:has-first\:checked\:bg-gray\/20:checked:has(:first-child):focus-within,
-.focus-within\:where-first\:checked\:bg-gray\/20:checked:where(:first-child):focus-within{background-color:rgba(156,163,175,0.2);}
-.hover\:file\:bg-violet-100::file-selector-button:hover{--un-bg-opacity:1;background-color:rgba(237,233,254,var(--un-bg-opacity));}
-.hover\:is-first\:checked\:bg-true-gray\/10:checked:is(:first-child):hover,
-.hover\:not-first\:checked\:bg-true-gray\/10:checked:not(:first-child):hover{background-color:rgba(163,163,163,0.1);}
-.hover\:not-first\:checked\:bg-red\/10:checked:not(:first-child):hover{background-color:rgba(248,113,113,0.1);}
-.marker\:bg-violet-200::marker{--un-bg-opacity:1;background-color:rgba(221,214,254,var(--un-bg-opacity));}
 .peer:checked~.peer-checked\:bg-blue-500{--un-bg-opacity:1;background-color:rgba(59,130,246,var(--un-bg-opacity));}
 .previous\/label:checked+.previous-checked\/label\:bg-red-500{--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));}
+.focus-within\:has-first\:checked\:bg-gray\/20:checked:has(:first-child):focus-within{background-color:rgba(156,163,175,0.2);}
+.focus-within\:where-first\:checked\:bg-gray\/20:checked:where(:first-child):focus-within{background-color:rgba(156,163,175,0.2);}
+.hover\:file\:bg-violet-100::file-selector-button:hover{--un-bg-opacity:1;background-color:rgba(237,233,254,var(--un-bg-opacity));}
+.hover\:is-first\:checked\:bg-true-gray\/10:checked:is(:first-child):hover{background-color:rgba(163,163,163,0.1);}
+.hover\:not-first\:checked\:bg-red\/10:checked:not(:first-child):hover{background-color:rgba(248,113,113,0.1);}
+.hover\:not-first\:checked\:bg-true-gray\/10:checked:not(:first-child):hover{background-color:rgba(163,163,163,0.1);}
+.marker\:bg-violet-200::marker{--un-bg-opacity:1;background-color:rgba(221,214,254,var(--un-bg-opacity));}
+.file\:bg-violet-50::file-selector-button{--un-bg-opacity:1;background-color:rgba(245,243,255,var(--un-bg-opacity));}
+.bg-opacity-\[--opacity-variable\],
 .bg-opacity-\$opacity-variable{--un-bg-opacity:var(--opacity-variable);}
 .bg-opacity-45{--un-bg-opacity:0.45;}
 .all-\[svg\]\:fill-red svg{--un-fill-opacity:1;fill:rgba(248,113,113,var(--un-fill-opacity));}
@@ -289,28 +296,22 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .content-visibility-hidden{content-visibility:hidden;}
 .content-visibility-auto{content-visibility:auto;}
 .content-visibility-unset{content-visibility:unset;}
-.after\:content-\[quoted\:unocss\]::after,
-.content-\[quoted\:unocss\]{content:"unocss";}
-.before\:\[\&\[data-active\=\'true\'\]\]\:content-\[\'test\'\][data-active='true']::before{content:'test';}
 .content-\[\'quoted_with_space\'\]{content:'quoted with space';}
 .content-\[\'quoted1\'\]{content:'quoted1';}
 .content-\[\"quoted2\"\]{content:"quoted2";}
 .content-\[normal\]{content:normal;}
 .content-\[quoted\:\!\]{content:"!";}
+.content-\[quoted\:unocss\]{content:"unocss";}
 .content-\[string\:attr\(dashed-attr\)\]{content:attr(dashed-attr);}
 .content-\[string\:attr\(underlined\\_attr\)\]{content:attr(underlined_attr);}
 .content-\$unocss-var{content:var(--unocss-var);}
-.content-empty,
-.content-none{content:"";}
+.before\:\[\&\[data-active\=\'true\'\]\]\:content-\[\'test\'\][data-active='true']::before{content:'test';}
+.after\:content-\[quoted\:unocss\]::after{content:"unocss";}
+.content-empty{content:"";}
+.content-none{content:none;}
 .font-\[system-ui\]{font-family:system-ui;}
 .font-\$font-name{font-family:var(--font-name);}
 .font-mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;}
-.group:has(:placeholder-shown) .group-has-placeholder-shown\:text-4xl,
-.group:where(:placeholder-shown) .group-where-placeholder-shown\:text-4xl,
-.text-4xl{font-size:2.25rem;line-height:2.5rem;}
-.peer:is(:placeholder-shown)~.peer-is-placeholder-shown\:text-3xl,
-.peer:not(:placeholder-shown)~.peer-not-placeholder-shown\:text-3xl{font-size:1.875rem;line-height:2.25rem;}
-.peer:not(:placeholder-shown)~.peer-not-placeholder-shown\:text-2xl{font-size:1.5rem;line-height:2rem;}
 .text-\[100px\]{font-size:100px;}
 .text-\[11px\]\/4{font-size:11px;line-height:1rem;}
 .text-\[12px\]\/\[13px\]{font-size:12px;line-height:13px;}
@@ -318,17 +319,30 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .text-\[length\:2em\],
 .text-2em,
 .text-size-\[2em\]{font-size:2em;}
+.text-\[length\:--variable\],
+.text-size-\$variable{font-size:var(--variable);}
 .text-\[length\:calc\(1em-1px\)\]{font-size:calc(1em - 1px);}
 .text-\[length\:var\(--size\)\]{font-size:var(--size);}
 .text-\[length\:var\(--size\)\]\:\$leading{font-size:var(--size);line-height:var(--leading);}
+.text-4xl,
+.group:has(:placeholder-shown) .group-has-placeholder-shown\:text-4xl,
+.group:where(:placeholder-shown) .group-where-placeholder-shown\:text-4xl{font-size:2.25rem;line-height:2.5rem;}
 .text-base{font-size:1rem;line-height:1.5rem;}
 .text-lg{font-size:1.125rem;line-height:1.75rem;}
 .text-sm\/\[10px\]{font-size:0.875rem;line-height:10px;}
 .text-sm\/3{font-size:0.875rem;line-height:0.75rem;}
-.text-size-\$variable{font-size:var(--variable);}
+.peer:is(:placeholder-shown)~.peer-is-placeholder-shown\:text-3xl,
+.peer:not(:placeholder-shown)~.peer-not-placeholder-shown\:text-3xl{font-size:1.875rem;line-height:2.25rem;}
+.peer:not(:placeholder-shown)~.peer-not-placeholder-shown\:text-2xl{font-size:1.5rem;line-height:2rem;}
 .text-size-unset{font-size:unset;}
 .as-parent .group .group-\[\.as-parent_\&\]\:font-13{font-weight:13;}
 .as-parent .group\/label .group-\[\.as-parent_\&\]\/label\:font-18{font-weight:18;}
+.group:hover .group-\[\:hover\]\:font-11{font-weight:11;}
+.group.not-parent .group-\[\.not-parent\]\:font-14{font-weight:14;}
+.group[data-attr] .group-\[\[data-attr\]\]\:font-12{font-weight:12;}
+.group\/label:hover .group-\[\:hover\]\/label\:font-16{font-weight:16;}
+.group\/label.not-parent .group-\[\.not-parent\]\/label\:font-19{font-weight:19;}
+.group\/label[data-attr] .group-\[\[data-attr\]\]\/label\:font-17{font-weight:17;}
 .font-\[550\]{font-weight:550;}
 .font-050,
 .font-50,
@@ -338,14 +352,8 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .fw-900{font-weight:900;}
 .font-inherit{font-weight:inherit;}
 .font-thin{font-weight:100;}
-.group:hover .group-\[\:hover\]\:font-11{font-weight:11;}
 .group:hover .group-hover\:font-10{font-weight:10;}
-.group.not-parent .group-\[\.not-parent\]\:font-14{font-weight:14;}
-.group[data-attr] .group-\[\[data-attr\]\]\:font-12{font-weight:12;}
-.group\/label:hover .group-\[\:hover\]\/label\:font-16{font-weight:16;}
 .group\/label:hover .group-hover\/label\:font-15{font-weight:15;}
-.group\/label.not-parent .group-\[\.not-parent\]\/label\:font-19{font-weight:19;}
-.group\/label[data-attr] .group-\[\[data-attr\]\]\/label\:font-17{font-weight:17;}
 .font-leading-2,
 .leading-2{line-height:0.5rem;}
 .leading-\$variable,
@@ -416,8 +424,8 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .case-upper{text-transform:uppercase;}
 .case-normal{text-transform:none;}
 .case-inherit{text-transform:inherit;}
+.group:hover:focus .group-hover\:group-focus\:text-center,
 .parent:hover>.parent-hover\:text-center{text-align:center;}
-.group:hover:focus .group-hover\:group-focus\:text-center{text-align:center;}
 .text-left,
 [dir="ltr"] .ltr\:text-left{text-align:left;}
 [dir="rtl"] .rtl\:text-right{text-align:right;}
@@ -465,45 +473,46 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .color-blue-gray\/10,
 .color-bluegray-400\/10,
 .color-bluegray\/10{color:rgba(148,163,184,0.1);}
-.in-range\:color-pink-100:in-range,
-.open\:color-pink-100[open],
+.open\:color-pink-100[open]{--un-text-opacity:1;color:rgba(252,231,243,var(--un-text-opacity));}
+.placeholder-shown-color-transparent:placeholder-shown{color:transparent;}
+.in-range\:color-pink-100:in-range{--un-text-opacity:1;color:rgba(252,231,243,var(--un-text-opacity));}
 .out-of-range\:color-pink-100:out-of-range{--un-text-opacity:1;color:rgba(252,231,243,var(--un-text-opacity));}
-.placeholder-color-red-1::placeholder,
-.text-red-100,
-.text-red100{--un-text-opacity:1;color:rgba(254,226,226,var(--un-text-opacity));}
-.placeholder-shown-color-transparent:placeholder-shown,
+.placeholder-color-red-1::placeholder{--un-text-opacity:1;color:rgba(254,226,226,var(--un-text-opacity));}
 .placeholder\:color-transparent::placeholder{color:transparent;}
 .selection\:color-\[var\(--select-color\)\]::selection{color:var(--select-color);}
-.checked\:next\:hover\:text-slate-500:hover+*:checked{--un-text-opacity:1;color:rgba(100,116,139,var(--un-text-opacity));}
-.checked\:next\:text-slate-100+*:checked{--un-text-opacity:1;color:rgba(241,245,249,var(--un-text-opacity));}
-.next\:checked\:children\:text-slate-600>*:checked+*{--un-text-opacity:1;color:rgba(71,85,105,var(--un-text-opacity));}
-.next\:checked\:text-slate-200:checked+*{--un-text-opacity:1;color:rgba(226,232,240,var(--un-text-opacity));}
+.text-\[--variable\],
+.text-\[color\:--variable\],
+.text-\$variable{color:var(--variable);}
 .text-\[\#124\]{--un-text-opacity:1;color:rgba(17,34,68,var(--un-text-opacity));}
 .text-\[calc\(1em-1px\)\]{color:calc(1em - 1px);}
 .text-\[color\:var\(--color-x\)\]\:\[trick\]{color:var(--color-x);}
 .text-\[color\:var\(--color\)\],
 .text-\[var\(--color\)\]{color:var(--color);}
-.text-\$variable{color:var(--variable);}
 .text-black\/10{color:rgba(0,0,0,0.1);}
+.text-red-100,
+.text-red100{--un-text-opacity:1;color:rgba(254,226,226,var(--un-text-opacity));}
 .text-red-200\/10{color:rgba(254,202,202,0.1);}
 .text-red-300\:20,
 .text-red-300\/20{color:rgba(252,165,165,0.2);}
 .text-red\:20{color:rgba(248,113,113,0.2);}
 .text-red2{--un-text-opacity:1;color:rgba(254,202,202,var(--un-text-opacity));}
 .text-rose{--un-text-opacity:1;color:rgba(251,113,133,var(--un-text-opacity));}
+.checked\:next\:hover\:text-slate-500:hover+*:checked{--un-text-opacity:1;color:rgba(100,116,139,var(--un-text-opacity));}
+.checked\:next\:text-slate-100+*:checked{--un-text-opacity:1;color:rgba(241,245,249,var(--un-text-opacity));}
+.next\:checked\:children\:text-slate-600>*:checked+*{--un-text-opacity:1;color:rgba(71,85,105,var(--un-text-opacity));}
+.next\:checked\:text-slate-200:checked+*{--un-text-opacity:1;color:rgba(226,232,240,var(--un-text-opacity));}
 .color-inherit,
 .text-inherit{color:inherit;}
 .color-initial{color:initial;}
 .text-revert{color:revert;}
-.placeholder-color-opacity-60::placeholder{--un-text-opacity:0.6;}
 .text-opacity-\[13\.3333333\%\]{--un-text-opacity:13.3333333%;}
 .text-opacity-\$opacity-variable{--un-text-opacity:var(--opacity-variable);}
+.placeholder-color-opacity-60::placeholder{--un-text-opacity:0.6;}
 .font-italic,
 .italic{font-style:italic;}
 .font-oblique,
 .oblique{font-style:oblique;}
 .antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-smoothing:grayscale;}
-.backdrop-element\:shadow-green-100::backdrop{--un-shadow-opacity:1;--un-shadow-color:rgba(220,252,231,var(--un-shadow-opacity));}
 .backdrop\:shadow-green::backdrop{--un-shadow-opacity:1;--un-shadow-color:rgba(74,222,128,var(--un-shadow-opacity));}
 .shadow{--un-shadow:var(--un-shadow-inset) 0 1px 3px 0 var(--un-shadow-color, rgba(0,0,0,0.1)),var(--un-shadow-inset) 0 1px 2px -1px var(--un-shadow-color, rgba(0,0,0,0.1));box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
 .shadow-\[\#fff\]{--un-shadow-opacity:1;--un-shadow-color:rgba(255,255,255,var(--un-shadow-opacity));}
@@ -515,6 +524,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .shadow-none{--un-shadow:0 0 var(--un-shadow-color, rgba(0,0,0,0));box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
 .shadow-transparent{--un-shadow-color:transparent;}
 .shadow-xl{--un-shadow:var(--un-shadow-inset) 0 20px 25px -5px var(--un-shadow-color, rgba(0,0,0,0.1)),var(--un-shadow-inset) 0 8px 10px -6px var(--un-shadow-color, rgba(0,0,0,0.1));box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
+.backdrop-element\:shadow-green-100::backdrop{--un-shadow-opacity:1;--un-shadow-color:rgba(220,252,231,var(--un-shadow-opacity));}
 .shadow-op-\$opacity-variable{--un-shadow-opacity:var(--opacity-variable);}
 .shadow-op-50{--un-shadow-opacity:0.5;}
 .shadow-inset{--un-shadow-inset:inset;}
@@ -895,13 +905,13 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .translate-full{--un-translate-x:100%;--un-translate-y:100%;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .-translate-x-full{--un-translate-x:-100%;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .-translate-y-1\/2{--un-translate-y:-50%;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
-.before\:translate-y-full::before{--un-translate-y:100%;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
-.hover\:translate-x-3:hover{--un-translate-x:0.75rem;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
-.peer:checked~.peer-checked\:translate-x-\[var\(--reveal\)\]{--un-translate-x:var(--reveal);transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .translate-x-\$variable{--un-translate-x:var(--variable);transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .translate-x-full{--un-translate-x:100%;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .translate-y-1\/4{--un-translate-y:25%;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .translate-y-px{--un-translate-y:1px;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
+.peer:checked~.peer-checked\:translate-x-\[var\(--reveal\)\]{--un-translate-x:var(--reveal);transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
+.hover\:translate-x-3:hover{--un-translate-x:0.75rem;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
+.before\:translate-y-full::before{--un-translate-y:100%;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .-rotate-2{--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-rotate:-2deg;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .rotate-\[var\(--spin\)\]{--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-rotate:var(--spin);transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .rotate-\$variable{--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-rotate:var(--variable);transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
@@ -927,8 +937,8 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .skew-y-10deg{--un-skew-y:10deg;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .skew-y-2grad{--un-skew-y:2grad;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .skew-y-3\.14rad{--un-skew-y:3.14rad;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
-.hover\:scale-4:hover{--un-scale-x:0.04;--un-scale-y:0.04;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .scale-\$variable{--un-scale-x:var(--variable);--un-scale-y:var(--variable);transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
+.hover\:scale-4:hover{--un-scale-x:0.04;--un-scale-y:0.04;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .active\:scale-4:active{--un-scale-x:0.04;--un-scale-y:0.04;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .-scale-x-full{--un-scale-x:-100%;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .scale-x-\$variable{--un-scale-x:var(--variable);transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
@@ -953,6 +963,9 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .contain-\[size_layout_paint\]{contain:size layout paint;}
 .contain-\[size_layout\]{contain:size layout;}
 .contain-layout{contain:layout;}
+.text-wrap{text-wrap:wrap;}
+.text-nowrap{text-wrap:nowrap;}
+.text-balance{text-wrap:balance;}
 @container (min-width: 10.5rem){
 .\@\[10\.5rem\]-text-red{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
 }

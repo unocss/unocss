@@ -33,6 +33,7 @@ const Integrations: DefaultTheme.NavItemWithLink[] = [
   { text: 'Vite', link: '/integrations/vite' },
   { text: 'Nuxt', link: '/integrations/nuxt' },
   { text: 'Astro', link: '/integrations/astro' },
+  { text: 'Svelte Scoped', link: '/integrations/svelte-scoped' },
   { text: 'Webpack', link: '/integrations/webpack' },
   { text: 'Runtime', link: '/integrations/runtime' },
   { text: 'CLI', link: '/integrations/cli' },
@@ -87,6 +88,10 @@ const Nav: DefaultTheme.NavItem[] = [
     text: 'Integrations',
     items: [
       {
+        text: 'Overview',
+        link: '/integrations/',
+      },
+      {
         text: 'Integrations',
         items: Integrations,
       },
@@ -137,8 +142,8 @@ const Nav: DefaultTheme.NavItem[] = [
     ],
     activeMatch: '^/(presets|transformers|extractors)/',
   },
-  { text: 'Interactive Docs', link: `${ogUrl}interactive/`, target: '_blank' },
-  { text: 'Playground', link: `${ogUrl}play/`, target: '_blank' },
+  { text: 'Interactive Docs', link: '/interactive/', target: '_blank' },
+  { text: 'Playground', link: '/play/', target: '_blank' },
   {
     text: `v${version}`,
     items: [
@@ -161,7 +166,13 @@ const SidebarGuide: DefaultTheme.SidebarItem[] = [
   },
   {
     text: 'Integrations',
-    items: Integrations,
+    items: [
+      {
+        text: 'Overview',
+        link: '/integrations/',
+      },
+      ...Integrations,
+    ],
   },
   {
     text: 'Presets',
