@@ -23,10 +23,7 @@ npm i -D @unocss/postcss
 // postcss.config.cjs
 module.exports = {
   plugins: {
-    '@unocss/postcss': {
-      // Optional
-      content: ['**/*.{html,js,ts,jsx,tsx,vue,svelte,astro}'],
-    },
+    '@unocss/postcss': {},
   },
 }
 ```
@@ -36,6 +33,11 @@ module.exports = {
 import { defineConfig, presetUno } from 'unocss'
 
 export default defineConfig({
+  content: {
+    filesystem: [
+      '**/*.{html,js,ts,jsx,tsx,vue,svelte,astro}',
+    ]
+  },
   presets: [
     presetUno(),
   ],

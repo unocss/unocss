@@ -564,9 +564,15 @@ export class UnoGenerator<Theme extends {} = {}> {
       return
 
     return [
-      (await Promise.all(result.filter(s => s !== input).map(
-        async r => (isString(r) ? (await this.expandShortcut(r, context, depth - 1))?.[0] : undefined) || [r],
-      ))).flat(1).filter(Boolean),
+      (await Promise.all(result.filter(s => s !== input).map(async r =>
+        (
+          isString(r)
+            ? (await this.expandShortcut(r, context, depth - 1))?.[0]
+            : undefined
+        ) || [r],
+      )))
+        .flat(1)
+        .filter(Boolean),
       meta,
     ]
   }
@@ -658,6 +664,7 @@ function applyScope(css: string, scope?: string) {
 }
 
 const attributifyRe = /^\[(.+?)(~?=)"(.*)"\]$/
+
 export function toEscapedSelector(raw: string) {
   if (attributifyRe.test(raw))
     return raw.replace(attributifyRe, (_, n, s, i) => `[${e(n)}${s}"${e(i)}"]`)

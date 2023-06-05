@@ -3,7 +3,7 @@ import type { ResolvedUnpluginOptions, UnpluginOptions } from 'unplugin'
 import { createUnplugin } from 'unplugin'
 import WebpackSources from 'webpack-sources'
 import { createContext } from '../../shared-integration/src/context'
-import { setupExtraContent } from '../../shared-integration/src/extra-content'
+import { setupContentExtractor } from '../../shared-integration/src/content'
 import { getHash } from '../../shared-integration/src/hash'
 import { HASH_PLACEHOLDER_RE, LAYER_MARK_ALL, LAYER_PLACEHOLDER_RE, RESOLVED_ID_RE, getHashPlaceholder, getLayerPlaceholder, resolveId, resolveLayer } from '../../shared-integration/src/layers'
 import { applyTransformers } from '../../shared-integration/src/transformers'
@@ -43,12 +43,12 @@ export default function WebpackPlugin<Theme extends {}>(
     }
 
     // TODO: detect webpack's watch mode and enable watcher
-    tasks.push(setupExtraContent(ctx))
+    tasks.push(setupContentExtractor(ctx))
 
     const entries = new Set<string>()
     const hashes = new Map<string, string>()
 
-    const plugin = <UnpluginOptions>{
+    const plugin = {
       name: 'unocss:webpack',
       enforce: 'pre',
       transformInclude(id) {
@@ -129,7 +129,7 @@ export default function WebpackPlugin<Theme extends {}>(
           })
         })
       },
-    } as Required<ResolvedUnpluginOptions>
+    } as UnpluginOptions as Required<ResolvedUnpluginOptions>
 
     let lastTokenSize = tokens.size
     async function updateModules() {
