@@ -53,7 +53,7 @@ function shade(color: string | CSSColorValue, weight: string | number) {
  * Mix color with black or white, according to weight. @see {@link mixColor}
  */
 function shift(color: string | CSSColorValue, weight: string | number) {
-  const num = parseFloat(`${weight}`)
+  const num = Number.parseFloat(`${weight}`)
   if (!Number.isNaN(num))
     return num > 0 ? shade(color, weight) : tint(color, -num)
 }
