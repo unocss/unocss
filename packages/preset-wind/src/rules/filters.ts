@@ -1,6 +1,6 @@
 import type { CSSValues, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
-import { colorResolver, colorableShadows, globalKeywords, handler as h } from '@unocss/preset-mini/utils'
+import { colorResolver, colorableShadows, globalKeywords, h } from '@unocss/preset-mini/utils'
 import { varEmpty } from '@unocss/preset-mini/rules'
 
 export const filterBase = {

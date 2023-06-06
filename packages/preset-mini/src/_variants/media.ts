@@ -1,6 +1,6 @@
 import type { VariantContext, VariantObject } from '@unocss/core'
 import type { Theme } from '../theme'
-import { handler as h, variantGetParameter, variantParentMatcher } from '../utils'
+import { h, variantGetParameter, variantParentMatcher } from '../utils'
 
 export const variantPrint: VariantObject = variantParentMatcher('print', '@media print')
 
