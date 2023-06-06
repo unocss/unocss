@@ -1,7 +1,7 @@
 import type { VariantObject } from '@unocss/core'
 import { escapeRegExp, escapeSelector, warnOnce } from '@unocss/core'
 import type { PresetMiniOptions } from '..'
-import { getBracket, handler as h, variantGetBracket } from '../_utils'
+import { getBracket, h, variantGetBracket } from '../_utils'
 
 /**
  * Note: the order of following pseudo classes will affect the order of generated css.

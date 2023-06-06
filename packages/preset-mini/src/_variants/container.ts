@@ -1,7 +1,7 @@
 import type { VariantContext, VariantObject } from '@unocss/core'
 import { warnOnce } from '@unocss/core'
 import type { Theme } from '../theme'
-import { handler as h, variantGetParameter } from '../utils'
+import { h, variantGetParameter } from '../utils'
 
 export const variantContainerQuery: VariantObject = {
   name: '@',
