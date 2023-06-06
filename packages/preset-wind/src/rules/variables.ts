@@ -1,5 +1,5 @@
 import type { Rule } from '@unocss/core'
-import { handler as h } from '@unocss/preset-mini/utils'
+import { h } from '@unocss/preset-mini/utils'
 
 const variablesAbbrMap: Record<string, string> = {
   'bg-blend': 'background-blend-mode',

@@ -1,6 +1,6 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
-import { handler as h } from '@unocss/preset-mini/utils'
+import { h } from '@unocss/preset-mini/utils'
 
 export const borderSpacingBase = {
   '--un-border-spacing-x': 0,

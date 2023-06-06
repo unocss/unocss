@@ -935,6 +935,7 @@ export const presetMiniTargets: string[] = [
   'first-line:bg-green-400',
   'first-letter:bg-green-400',
   'group-hover:group-focus:text-center',
+  'focus-visible:outline-none',
   'hover:!p-1',
   'hover:not-first:checked:bg-red/10',
   'hover:p-5',
