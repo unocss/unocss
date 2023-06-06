@@ -144,7 +144,7 @@ export default function UnoCSSAstroIntegration<Theme extends {}>(
           const resetPath = typeof injectReset === 'string'
             ? injectReset
             : '@unocss/reset/tailwind.css'
-          injects.push(`import "${resetPath}"`)
+          injects.push(`import ${JSON.stringify(resetPath)}`)
         }
         if (injectEntry) {
           injects.push(typeof injectEntry === 'string'
