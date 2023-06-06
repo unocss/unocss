@@ -141,10 +141,10 @@ export default function UnoCSSAstroIntegration<Theme extends {}>(
 
         const injects: string[] = []
         if (injectReset) {
-          const resetInjectPath = typeof injectReset === 'string'
+          const resetPath = typeof injectReset === 'string'
             ? injectReset
             : '@unocss/reset/tailwind.css'
-          injects.push(`import "${resetInjectPath}"`)
+          injects.push(`import "${resetPath}"`)
         }
         if (injectEntry) {
           injects.push(typeof injectEntry === 'string'
