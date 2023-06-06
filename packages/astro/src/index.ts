@@ -8,7 +8,6 @@ import type { Plugin, ResolvedConfig } from 'vite'
 
 const UNO_INJECT_ID = 'uno-astro'
 const UNO_QUERY_KEY = 'uno-with-astro-key'
-const ASTRO_PAGE_SSR_ID = 'astro:scripts/page-ssr.js'
 const astroCSSKeyRE = /(\?|\&)lang\.css/
 
 interface AstroVitePluginOptions {
@@ -32,21 +31,24 @@ function AstroVitePlugin(options: AstroVitePluginOptions): Plugin {
       nodeModulesPath = `${config.root}/node_modules`
     },
     async resolveId(id, importer) {
-      if (id === UNO_INJECT_ID)
-        return id
-
-      if (injectReset) {
-        if (id === ASTRO_PAGE_SSR_ID) {
+      if (id === UNO_INJECT_ID) {
+        if (injectReset) {
+          /**
+           * When running here, means that this is a new file.
+           * We need to make sure that the reset css for each file
+           * needs to be loaded first.
+           */
           resetCSSInjected = false
-          return
         }
-
-        if (astroCSSKeyRE.test(id) && !resetCSSInjected) {
-          return new Promise((resolve) => {
-            resolveCSSQueue.add(() => resolve(null))
-          })
-        }
+        return id
       }
+
+      if (
+        injectReset && command === 'serve'
+        // css need to be injected after reset style
+        && astroCSSKeyRE.test(id) && !resetCSSInjected
+      )
+        return new Promise(resolve => resolveCSSQueue.add(() => resolve()))
 
       if (importer?.endsWith(UNO_INJECT_ID) && command === 'serve') {
         const resolved = await this.resolve(id, importer, { skipSelf: true })
@@ -55,14 +57,6 @@ function AstroVitePlugin(options: AstroVitePluginOptions): Plugin {
           const realId = `${fsPath}${fsPath.includes('?') ? '&' : '?'}${UNO_QUERY_KEY}`
 
           if (injectReset) {
-            if (id.includes('uno.css') && !resetCSSInjected) {
-              return new Promise((resolve) => {
-                resolveCSSQueue.add(
-                  () => resolve(realId),
-                )
-              })
-            }
-
             if (resetInjectPath!.includes(id)) {
               // Make sure the reset style is injected first
               setTimeout(() => {
@@ -72,6 +66,12 @@ function AstroVitePlugin(options: AstroVitePluginOptions): Plugin {
                 })
               })
               resetCSSInjected = true
+            }
+            // css need to be injected after reset style
+            else if (id.includes('.css') && !resetCSSInjected) {
+              return new Promise((resolve) => {
+                resolveCSSQueue.add(() => resolve(realId))
+              })
             }
           }
 
