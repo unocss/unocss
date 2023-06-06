@@ -1,6 +1,6 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorResolver, globalKeywords, handler as h } from '../utils'
+import { colorResolver, globalKeywords, h } from '../utils'
 
 export const outline: Rule<Theme>[] = [
   // size

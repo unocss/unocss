@@ -1,5 +1,5 @@
 import type { Rule } from '@unocss/core'
-import { globalKeywords, handler as h, makeGlobalStaticRules } from '@unocss/preset-mini/utils'
+import { globalKeywords, h, makeGlobalStaticRules } from '@unocss/preset-mini/utils'
 import type { Theme } from '@unocss/preset-mini'
 
 export const animations: Rule<Theme>[] = [

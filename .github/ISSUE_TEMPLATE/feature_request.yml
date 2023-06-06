@@ -40,7 +40,7 @@ body:
           required: true
         - label: Read the `README.md` of using the package.
           required: true
-        - label: Already used the [Interactive Docs](https://uno.antfu.me).
+        - label: Already used the [Interactive Docs](https://unocss.dev/interactive/).
           required: false
         - label: Check that there isn't already an issue that request the same feature to avoid creating a duplicate.
           required: true
