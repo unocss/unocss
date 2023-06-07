@@ -92,6 +92,7 @@ export const breaks: Rule[] = [
   ['break-words', { 'overflow-wrap': 'break-word' }],
   ['break-all', { 'word-break': 'break-all' }],
   ['break-keep', { 'word-break': 'keep-all' }],
+  ['break-anywhere', { 'overflow-wrap': 'anywhere' }],
 ]
 
 export const textWraps: Rule[] = [
