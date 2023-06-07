@@ -2,7 +2,7 @@
   "name": "unocss-next",
   "private": true,
   "scripts": {
-    "preinstall": "node .codesandbox.mjs",
+    "codesandbox": "node .codesandbox.mjs && npm install && npm run dev",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
