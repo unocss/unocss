@@ -23,6 +23,40 @@ function autoDirection(c: string, theme: Theme, prop: string) {
   return h.bracket.cssvar.auto.rem(prop)
 }
 
+function indexOfAny(str: string, vals: string[], start = 0) {
+  return vals.reduce((c, v) => {
+    const i = str.indexOf(v, start)
+    if (i !== -1 && (c === -1 || i < c))
+      c = i
+    return c
+  }, -1)
+}
+
+function replaceCommas(str: string) {
+  const indices = [',', '(', ')']
+  let result = ''
+  let bracketCount = 0
+  let start = 0
+  let i = indexOfAny(str, indices)
+  while (i !== -1) {
+    switch (str[i]) {
+      case ',':
+        result += `${str.substring(start, i)} `
+        start = i + 1
+        break
+      case '(':
+        bracketCount++
+        break
+      case ')':
+        bracketCount--
+        break
+    }
+    i = indexOfAny(str, (bracketCount === 0) ? indices : ['(', ')'], i + 1)
+  }
+  result += str.substring(start)
+  return result
+}
+
 export const grids: Rule<Theme>[] = [
   // displays
   ['grid', { display: 'grid' }],
@@ -56,7 +90,7 @@ export const grids: Rule<Theme>[] = [
 
   // templates
   [/^grid-(rows|cols)-(.+)$/, ([, c, v], { theme }) => ({
-    [`grid-template-${rowCol(c)}`]: theme[`gridTemplate${rowColTheme(c)}`]?.[v] ?? h.bracket.cssvar(v),
+    [`grid-template-${rowCol(c)}`]: theme[`gridTemplate${rowColTheme(c)}`]?.[v] ?? replaceCommas(h.bracket.cssvar(v) ?? ''),
   })],
   [/^grid-(rows|cols)-minmax-([\w.-]+)$/, ([, c, d]) => ({ [`grid-template-${rowCol(c)}`]: `repeat(auto-fill,minmax(${d},1fr))` })],
   [/^grid-(rows|cols)-(\d+)$/, ([, c, d]) => ({ [`grid-template-${rowCol(c)}`]: `repeat(${d},minmax(0,1fr))` }), { autocomplete: ['grid-(rows|cols)-<num>', 'grid-(rows|cols)-none'] }],
