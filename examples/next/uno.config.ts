@@ -7,8 +7,15 @@ import {
 
 export default defineConfig({
   presets: [
-    presetUno(),
+    presetUno({
+      dark: 'media',
+    }),
     presetAttributify(),
-    presetIcons(),
+    presetIcons({
+      extraProperties: {
+        'display': 'inline-block',
+        'vertical-align': 'middle',
+      },
+    }),
   ],
 })

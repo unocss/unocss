@@ -1,34 +1,133 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Getting Started with UnoCSS and Nextjs
 
-## Getting Started
+This example is a [Next](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-First, run the development server:
+## Configuration
+
+#### 1. Installing the dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+npm i -D unocss @unocss/reset @unocss/postcss
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<br>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+#### 2. Add these files in the root of your project
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```ts
+// @filename uno.config.ts
+import { defineConfig, presetUno } from 'unocss'
 
-## Learn More
+export default defineConfig({
+  presets: [
+    presetUno(),
+    // ...
+  ],
+})
+ ```
 
-To learn more about Next.js, take a look at the following resources:
+<br>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+ ```ts
+// @filename postcss.config.js
+module.exports = {
+   plugins: {
+     '@unocss/postcss': {
+       // Optional
+       content: ['**/*.{html,js,ts,jsx,tsx}'],
+     },
+   },
+}
+ ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+ #### 3. Update your `globals.css` file with UnoCSS
 
-## Deploy on Vercel
+```css
+// @filename src/app/globals.css
+@import '@unocss/reset/tailwind.css';
+@unocss all;
+ ```
+## Usage 
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Style your components using UnoCSS!
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```tsx
+// @filename src/app/page.tsx
+export default function Home() {
+  return (
+    <main className='flex min-h-screen flex-col items-center justify-between p-24'>
+      <div className='z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex'>
+        <p className='...'>
+          Get started by editing&nbsp;
+          <code className='font-mono font-bold'>src/app/page.tsx</code>
+        </p>
+      </div>
+    </main>
+  )
+}
+```
+
+## Bonus
+
+### Attributify preset
+
+You can also import from `unocss` package other presets such as `presetAttributify` to enable [attributify mode](https://unocss.dev/presets/attributify#attributify-preset)
+
+```ts
+// @filename uno.config.ts
+import { presetAttributify } from 'unocss'
+
+export default defineConfig({
+  presets: [
+    presetAttributify(),
+    // ...
+  ],
+})
+ ```
+
+Then you can style your components in attributify mode
+
+```tsx
+// @filename src/components/Resources.tsx
+export const Resources: React.FC<{ resources: Resource[] }> = ({ resources }) => {
+  return (
+    <div
+      m='b-32 lg:b-0'
+      grid='~ lg:cols-4' // ~ is used as a prefix for self-referencing
+      text='center lg:left'
+    />
+  )
+}
+```
+
+For TypeScript support while using `AttributifyAttributes` make sure to read: [Attributify TypeScript Support](https://unocss.dev/presets/attributify#typescript-support-jsx-tsx)
+
+### Icons preset
+
+You can also import from `unocss` package `presetIcons` to enable using the [Icons Preset](https://unocss.dev/presets/icons) for any icon with Pure CSS for UnoCSS.
+
+```ts
+// @filename uno.config.ts
+import { presetIcons } from 'unocss'
+
+export default defineConfig({
+  presets: [
+    presetIcons({
+      // Optional
+      extraProperties: {
+        'display': 'inline-block',
+        'vertical-align': 'middle',
+      },
+    }),
+    // ...
+  ],
+})
+ ```
+
+ Then you can use any of the available icons:
+
+ ```html
+ <span className='i-lucide:arrow-up-right' />
+ ```
+
+ For more information on UnoCSS please visit the Docs [UnoCSS.dev](https://unocss.dev/)
