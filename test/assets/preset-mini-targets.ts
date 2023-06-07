@@ -814,6 +814,7 @@ export const presetMiniTargets: string[] = [
   'font-synthesis-$synth',
   'font-synthesis-inherit',
   'font-inherit',
+  'font-["custom_fontFamily_name"]',
   'fw-inherit',
   'fw-900',
   'fw-050',
