@@ -1,5 +1,5 @@
 import type { Rule } from '@unocss/core'
-import { colorResolver, handler as h } from '@unocss/preset-mini/utils'
+import { colorResolver, h } from '@unocss/preset-mini/utils'
 
 export const placeholders: Rule[] = [
   // The prefix `$ ` is intentional. This rule is not to be matched directly from user-generated token.
