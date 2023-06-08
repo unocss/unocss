@@ -5,7 +5,7 @@ import { sortClassesIntoCategories } from './sortClassesIntoCategories'
 import { shortcutName, unoMock } from './unoMock'
 
 const expressionsRE = /\S*{[^{}]+?}\S*/g // { foo ? 'mt-1' : 'mt-2'}, \S* handles expressions as partial class name as in bg-{color}-100
-const classesRE = /(["'\`])([\S\s]+?)\1/g // 'mt-1 mr-1'
+const classesRE = /(["'\`])([\S\s]*?)\1/g // 'mt-1 mr-1'
 
 export async function processExpressions(body: string, options: TransformClassesOptions,
   uno: UnoGenerator,
@@ -106,6 +106,23 @@ if (import.meta.vitest) {
           "updatedExpressions": [
             "pr{os}e",
             "bg-{color}",
+          ],
+        }
+      `)
+    })
+
+    it('handles empty string in expression', async () => {
+      const body = 'font-bold {grid ? \'\' : \'mr-1\'}'
+      expect(await processExpressions(body, {}, unoMock, 'Foo.svelte')).toMatchInlineSnapshot(`
+        {
+          "restOfBody": "font-bold",
+          "rulesToGenerate": {
+            "uno-76ckap": [
+              "mr-1",
+            ],
+          },
+          "updatedExpressions": [
+            "{grid ? '' : 'uno-76ckap'}",
           ],
         }
       `)
