@@ -7,7 +7,7 @@ This example is a [Next](https://nextjs.org/) project bootstrapped with [`create
 #### 1. Installing the dependencies:
 
 ```bash
-npm i -D unocss @unocss/reset @unocss/postcss
+npm i -D unocss @unocss/postcss
 ```
 
 <br>
