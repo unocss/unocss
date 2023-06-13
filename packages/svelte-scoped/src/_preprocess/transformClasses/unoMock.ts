@@ -28,5 +28,5 @@ export const unoMock: UnoGenerator = {
       return [util]
     return undefined
   },
-  generate: async (selectors: string[]) => { return { css: selectors.join('') } as GenerateResult },
+  generate: async (selectors: string[]) => { return { css: selectors.join('') } as GenerateResult<any> },
 }
