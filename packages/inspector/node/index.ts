@@ -3,8 +3,11 @@ import { fileURLToPath } from 'node:url'
 import sirv from 'sirv'
 import type { Plugin, ViteDevServer } from 'vite'
 import type { UnocssPluginContext } from '@unocss/core'
+import { CountableSet } from '@unocss/core'
 import gzipSize from 'gzip-size'
-import type { ModuleInfo, ProjectInfo } from '../types'
+import type { ModuleInfo, OverviewInfo, ProjectInfo } from '../types'
+import { analyzer } from './analyzer'
+import { extractGroups } from './suggestions'
 
 const _dirname = typeof __dirname !== 'undefined'
   ? __dirname
@@ -48,10 +51,13 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
           return
         }
 
-        const result = await ctx.uno.generate(code, { id, preflights: false })
+        const tokens = new CountableSet<string>()
+        await ctx.uno.applyExtractors(code, id, tokens)
+        const result = await ctx.uno.generate(tokens, { id, extendedMatch: true, preflights: false })
+        const analyzed = await analyzer(result, ctx)
         const mod: ModuleInfo = {
           ...result,
-          matched: Array.from(result.matched),
+          ...analyzed,
           gzipSize: await gzipSize(result.css),
           code,
           id,
@@ -79,10 +85,18 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
       }
 
       if (req.url.startsWith('/overview')) {
-        const result = await ctx.uno.generate(ctx.tokens)
-        const mod = {
+        const code = ctx.modules.map(code => code).join('\n')
+        const tokens = new CountableSet<string>()
+
+        await ctx.uno.applyExtractors(code, undefined, tokens)
+        const result = await ctx.uno.generate(tokens, { extendedMatch: true, preflights: false })
+        const analyzed = await analyzer(result, ctx)
+        const suggestedShortcuts = await extractGroups(ctx.modules, ctx)
+
+        const mod: OverviewInfo = {
           ...result,
-          matched: Array.from(result.matched),
+          ...analyzed,
+          suggestedShortcuts: suggestedShortcuts.map(s => ({ ...s, modules: [...s.modules] })),
           gzipSize: await gzipSize(result.css),
         }
         res.setHeader('Content-Type', 'application/json')

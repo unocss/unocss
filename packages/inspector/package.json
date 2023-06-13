@@ -41,6 +41,7 @@
     "update-post": "vite build"
   },
   "dependencies": {
+    "cheerio": "1.0.0-rc.12",
     "gzip-size": "^6.0.0",
     "sirv": "^2.0.3"
   }

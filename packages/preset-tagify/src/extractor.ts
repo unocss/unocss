@@ -1,4 +1,5 @@
 import type { Extractor } from '@unocss/core'
+import { CountableSet } from '@unocss/core'
 import type { TagifyOptions } from './types'
 
 export const MARKER = '__TAGIFY__'
@@ -12,8 +13,8 @@ export function extractorTagify(options: TagifyOptions): Extractor {
 
   return {
     name: 'tagify',
-    extract({ code }) {
-      return new Set(
+    extract({ code, envMode }) {
+      return new (envMode === 'dev' ? CountableSet : Set)(
         Array.from(code.matchAll(htmlTagRE))
           .filter(({ 1: match }) => {
             for (const exclude of excludedTags) {

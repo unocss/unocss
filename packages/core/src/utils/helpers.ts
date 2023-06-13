@@ -1,4 +1,5 @@
 import type { ParsedUtil, RawUtil, StringifiedUtil, Variant, VariantObject } from '../types'
+import { CountableSet } from './set'
 
 export const attributifyRE = /^\[(.+?)~?="(.*)"\]$/
 export const cssIdRE = /\.(css|postcss|sass|scss|less|stylus|styl)($|\?)/
@@ -25,6 +26,10 @@ export function isRawUtil(util: ParsedUtil | RawUtil | StringifiedUtil): util is
 
 export function notNull<T>(value: T | null | undefined): value is T {
   return value != null
+}
+
+export function isCountableSet<T = string>(value: any): value is CountableSet<T> {
+  return value instanceof CountableSet
 }
 
 export function noop() {}

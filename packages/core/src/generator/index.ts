@@ -1,7 +1,8 @@
 import { createNanoEvents } from '../utils/events'
-import type { CSSEntries, CSSObject, DynamicRule, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
+import type { CSSEntries, CSSObject, DynamicRule, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, Shortcut, ShortcutValue, StringifiedUtil, TokenInfo, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
-import { CONTROL_SHORTCUT_NO_MERGE, TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, uniq, warnOnce } from '../utils'
+import type { CountableSet } from '../utils'
+import { CONTROL_SHORTCUT_NO_MERGE, TwoKeyMap, e, entriesToCss, expandVariantGroup, isCountableSet, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
 import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from '../constants'
 
@@ -36,17 +37,40 @@ export class UnoGenerator<Theme extends {} = {}> {
     this.events.emit('config', this.config)
   }
 
-  async applyExtractors(code: string, id?: string, extracted = new Set<string>()) {
+  applyExtractors(
+    code: string,
+    id?: string,
+    extracted?: Set<string>,
+  ): Promise<Set<string>>
+  applyExtractors(
+    code: string,
+    id?: string,
+    extracted?: CountableSet<string>,
+  ): Promise<CountableSet<string>>
+  async applyExtractors(
+    code: string,
+    id?: string,
+    extracted: Set<string> | CountableSet<string> = new Set<string>(),
+  ): Promise<Set<string> | CountableSet<string>> {
     const context: ExtractorContext = {
       original: code,
       code,
       id,
       extracted,
+      envMode: this.config.envMode,
     }
 
     for (const extractor of this.config.extractors) {
       const result = await extractor.extract?.(context)
-      if (result) {
+
+      if (!result)
+        continue
+
+      if (isCountableSet(result) && isCountableSet(extracted)) {
+        for (const [token, count] of result.entries())
+          extracted.set(token, count)
+      }
+      else {
         for (const token of result)
           extracted.add(token)
       }
@@ -117,31 +141,46 @@ export class UnoGenerator<Theme extends {} = {}> {
     this._cache.set(cacheKey, null)
   }
 
+  generate(
+    input: string | Set<string> | CountableSet<string> | string[],
+    options?: GenerateOptions<false>
+  ): Promise<GenerateResult<Set<string>>>
+  generate(
+    input: string | Set<string> | CountableSet<string> | string[],
+    options?: GenerateOptions<true>
+  ): Promise<GenerateResult<Map<string, TokenInfo<Theme>>>>
   async generate(
-    input: string | Set<string> | string[],
-    options: GenerateOptions = {},
-  ): Promise<GenerateResult> {
+    input: string | Set<string> | CountableSet<string> | string[],
+    options: GenerateOptions<boolean> = {},
+  ): Promise<GenerateResult<unknown>> {
     const {
       id,
       scope,
       preflights = true,
       safelist = true,
       minify = false,
+      extendedMatch = false,
     } = options
 
-    const tokens: Readonly<Set<string>> = isString(input)
+    const tokens: Readonly<Set<string> | CountableSet<string>> = isString(input)
       ? await this.applyExtractors(input, id)
       : Array.isArray(input)
-        ? new Set(input)
+        ? new Set<string>(input)
         : input
 
-    if (safelist)
-      this.config.safelist.forEach(s => tokens.add(s))
+    if (safelist) {
+      this.config.safelist.forEach((s) => {
+        // We don't want to increment count if token is already in the set
+        if (isCountableSet(tokens) && tokens.has(s))
+          return
+        tokens.add(s)
+      })
+    }
 
     const nl = minify ? '' : '\n'
 
     const layerSet = new Set<string>([LAYER_DEFAULT])
-    const matched = new Set<string>()
+    const matched = extendedMatch ? new Map<string, TokenInfo<Theme>>() : new Set<string>()
     const sheet = new Map<string, StringifiedUtil<Theme>[]>()
     let preflightsMap: Record<string, string> = {}
 
@@ -153,7 +192,15 @@ export class UnoGenerator<Theme extends {} = {}> {
       if (payload == null)
         return
 
-      matched.add(raw)
+      if (matched instanceof Map) {
+        matched.set(raw, {
+          payload,
+          count: isCountableSet(tokens) ? tokens.count(raw) : 1,
+        })
+      }
+      else {
+        matched.add(raw)
+      }
 
       for (const item of payload) {
         const parent = item[3] || ''

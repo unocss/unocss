@@ -3,8 +3,8 @@ import { moduleTree } from '../composables/fetch'
 </script>
 
 <template>
-  <div h-full>
-    <div b="r main" of-hidden>
+  <div h-full b="r main">
+    <div of-hidden>
       <NarBar />
       <div
         pt="4"
@@ -25,7 +25,7 @@ import { moduleTree } from '../composables/fetch'
         <div b="b main" />
       </div>
     </div>
-    <div b="r main" class="scrolls scrolls-sidebar">
+    <div class="scrolls scrolls-sidebar">
       <ModuleTreeNode
         v-if="Object.keys(moduleTree.workspace.children).length"
         :node="moduleTree.workspace"
