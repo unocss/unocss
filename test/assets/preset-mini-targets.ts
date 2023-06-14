@@ -1135,6 +1135,8 @@ export const presetMiniNonTargets = [
   '[https://en.wikipedia.org/wiki]',
   '[Baz::class]',
   '[foo:bar:baz]',
+  '[foo:{bar}]',
+  '[foo:\'bar\',"baz",`]',
   // escaped arbitrary css properties only allowed in css variables
   '[cant\~escape:me]',
 
