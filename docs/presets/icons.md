@@ -84,7 +84,7 @@ import { presetIcons } from 'unocss'
 You can also use this preset alone as a complement to your existing UI frameworks to have pure CSS icons!
 :::
 
-If you prefer to install the all the icon sets available on Iconify at once (~130MB):
+If you prefer to install all the icon sets available on Iconify at once (~130MB):
 
 ```bash
 npm i -D @iconify/json
