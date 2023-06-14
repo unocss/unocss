@@ -25,7 +25,7 @@ Follow the following conventions to use the icons
 - `<prefix><collection>-<icon>`
 - `<prefix><collection>:<icon>`
 
-For examples:
+For example:
 
 ```html
 <!-- A basic anchor icon from Phosphor icons -->
