@@ -92,7 +92,7 @@ Can be written as:
 
 ## Valueless attributify
 
-In addition to Windi CSS’s attributify mode, this presets also supports valueless attributes.
+In addition to Windi CSS’s attributify mode, this preset also supports valueless attributes.
 
 For example,
 
