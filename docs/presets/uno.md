@@ -69,7 +69,7 @@ For all rules and presets included in this preset, please refer to our [interact
 ## Options
 
 ::: info
-This preset options are inherited from [`@unocss/preset-mini`](/presets/mini#options).
+These preset options are inherited from [`@unocss/preset-mini`](/presets/mini#options).
 :::
 
 For more details about the default preset, you can check out our [playground](https://uno.antfu.me/play/) and try out. Meanwhile, you can also check out [the implementations](https://github.com/unocss/unocss/tree/main/packages).
