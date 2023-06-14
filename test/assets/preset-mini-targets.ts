@@ -901,8 +901,6 @@ export const presetMiniTargets: string[] = [
   'transition-duration-$variable',
   'ease-$variable',
   'text-$variable',
-  // eslint-disable-next-line no-template-curly-in-string
-  'c-${variable}',
   'text-size-$variable',
   'fw-$variable',
   'leading-$variable',
