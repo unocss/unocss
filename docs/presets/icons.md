@@ -92,7 +92,7 @@ npm i -D @iconify/json
 
 ### Extra Properties
 
-You can provide the extra CSS properties to control the default behavior of the icons. The following is an example of make icons inlined by default:
+You can provide the extra CSS properties to control the default behavior of the icons. The following is an example of making icons inlined by default:
 
 ```ts
 presetIcons({
