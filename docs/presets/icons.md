@@ -184,7 +184,7 @@ And then, you can use it on your html: `<span class="i-custom:circle"></span>`
 
 ### Node.js
 
-In `Node.js` the preset will search for the installed iconify dataset automatically and so you don't need to register the `iconify` collections.
+In `Node.js` the preset will search for the installed iconify dataset automatically, so you don't need to register the `iconify` collections.
 
 You can also provide your own custom collections using also [CustomIconLoader](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/types.ts#L17) or [InlineCollection](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/types.ts#L86).
 
