@@ -92,7 +92,7 @@ Can be written as:
 
 ## Valueless attributify
 
-In addition to Windi CSS’s attributify mode, this presets also supports valueless attributes.
+In addition to Windi CSS’s attributify mode, this preset also supports valueless attributes.
 
 For example,
 
@@ -107,7 +107,7 @@ now can be
 ```
 
 ::: info
-Note: If you are using JSX, `<div foo>` might be transformed to `<div foo={true}>` which will make the generate CSS from UnoCSS failed to match the attributes. To solve this, you might want to try [`transformer-attributify-jsx`](https://github.com/unocss/unocss/tree/main/packages/transformer-attributify-jsx) along with this preset.
+Note: If you are using JSX, `<div foo>` might be transformed to `<div foo={true}>` which will make the generated CSS from UnoCSS fail to match the attributes. To solve this, you might want to try [`transformer-attributify-jsx`](https://github.com/unocss/unocss/tree/main/packages/transformer-attributify-jsx) along with this preset.
 :::
 
 ## Properties conflicts
