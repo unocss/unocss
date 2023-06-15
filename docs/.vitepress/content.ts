@@ -10,6 +10,7 @@ export interface Example {
   name: string
   path: string
   stackblitz?: boolean
+  codesandbox?: boolean
   icon?: string
   icons?: string[]
 }
@@ -101,6 +102,7 @@ export const examples: Example[] = [
     path: 'examples/next',
     icon: 'i-logos-nextjs-icon',
     // stackblitz: true,
+    codesandbox: true,
   },
   {
     name: 'react',
