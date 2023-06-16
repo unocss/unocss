@@ -2,10 +2,10 @@ import type { AutoCompleteExtractorResult, AutoCompleteFunction, AutoCompleteTem
 import { escapeRegExp, toArray, uniq } from '@unocss/core'
 import { LRUCache } from 'lru-cache'
 import { parseAutocomplete } from './parse'
-import type { ParsedAutocompleteTemplate, UnocssAutocomplete } from './types'
-import { searchAttrKey, searchUsageBoundary } from './utils'
+import type { AutoCompleteMatchType, AutocompleteOptions, ParsedAutocompleteTemplate, UnocssAutocomplete } from './types'
+import { searchAttrKey, searchFuzzy, searchUsageBoundary } from './utils'
 
-export function createAutocomplete(uno: UnoGenerator): UnocssAutocomplete {
+export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptions = {}): UnocssAutocomplete {
   const templateCache = new Map<string, ParsedAutocompleteTemplate>()
   const cache = new LRUCache<string, string[]>({ max: 5000 })
 
@@ -72,13 +72,15 @@ export function createAutocomplete(uno: UnoGenerator): UnocssAutocomplete {
     const variantPrefix = input.slice(0, idx)
     const variantSuffix = input.slice(idx + input.length)
 
+    const matchType = options.matchType ?? 'prefix'
+
     const result = processSuggestions(
       await Promise.all([
         suggestSelf(processed),
-        suggestStatic(processed),
+        suggestStatic(processed, matchType),
         suggestUnoCache(processed),
-        ...suggestFromPreset(processed),
-        ...suggestVariant(processed, variants),
+        ...suggestFromPreset(processed, matchType),
+        ...suggestVariant(processed, variants, matchType),
       ]),
       variantPrefix,
       variantSuffix,
@@ -132,7 +134,9 @@ export function createAutocomplete(uno: UnoGenerator): UnocssAutocomplete {
     return i ? [input] : []
   }
 
-  async function suggestStatic(input: string) {
+  async function suggestStatic(input: string, matchType: AutoCompleteMatchType = 'prefix') {
+    if (matchType === 'fuzzy')
+      return searchFuzzy(staticUtils, input)
     return staticUtils.filter(i => i.startsWith(input))
   }
 
@@ -142,22 +146,22 @@ export function createAutocomplete(uno: UnoGenerator): UnocssAutocomplete {
     return keys.filter(i => i[1] && i[0].startsWith(input)).map(i => i[0])
   }
 
-  function suggestFromPreset(input: string) {
+  function suggestFromPreset(input: string, matchType: AutoCompleteMatchType = 'prefix') {
     return templates.map(fn =>
       typeof fn === 'function'
         ? fn(input)
-        : getParsed(fn)(input),
+        : getParsed(fn)(input, matchType),
     ) || []
   }
 
-  function suggestVariant(input: string, used: Set<Variant>) {
+  function suggestVariant(input: string, used: Set<Variant>, matchType: AutoCompleteMatchType = 'prefix') {
     return uno.config.variants
       .filter(v => v.autocomplete && (v.multiPass || !used.has(v)))
       .flatMap(v => toArray(v.autocomplete || []))
       .map(fn =>
         typeof fn === 'function'
           ? fn(input)
-          : getParsed(fn)(input),
+          : getParsed(fn)(input, matchType),
       )
   }
 
