@@ -73,7 +73,7 @@
           "default": true,
           "description": "Enable/disable selection style decorations"
         },
-        "unocss.autocomplete.matchType":{
+        "unocss.autocomplete.matchType": {
           "type": "string",
           "default": "prefix",
           "enum": [
