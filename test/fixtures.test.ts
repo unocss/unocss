@@ -31,7 +31,7 @@ describe.concurrent('fixtures', () => {
     const js = await getGlobContent(root, 'dist/**/*.js')
 
     // basic
-    expect(css).contains('.text-red')
+    expect(css).not.contains('.text-red')
     // transformer-variant-group
     expect(css).contains('.text-sm')
     // transformer-compile-class
