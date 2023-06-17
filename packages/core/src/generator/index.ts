@@ -67,8 +67,8 @@ export class UnoGenerator<Theme extends {} = {}> {
         continue
 
       if (isCountableSet(result) && isCountableSet(extracted)) {
-        for (const [token, count] of result.entries())
-          extracted.set(token, count)
+        for (const token of result)
+          extracted.setCount(token, result.getCount(token))
       }
       else {
         for (const token of result)
@@ -195,7 +195,7 @@ export class UnoGenerator<Theme extends {} = {}> {
       if (matched instanceof Map) {
         matched.set(raw, {
           payload,
-          count: isCountableSet(tokens) ? tokens.count(raw) : 1,
+          count: isCountableSet(tokens) ? tokens.getCount(raw) : 1,
         })
       }
       else {
