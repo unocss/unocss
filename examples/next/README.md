@@ -1,20 +1,22 @@
 # Getting Started with UnoCSS and Nextjs
 
-## Configuration 
+This example is a [Next](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+## Configuration
 
 #### 1. Installing the dependencies:
 
 ```bash
-npm i -D unocss @unocss/webpack
+npm i -D unocss @unocss/postcss
 ```
 
 <br>
 
-#### 2. Add `uno.config.ts` in the root of your project
+#### 2. Add these files in the root of your project
 
 ```ts
-// uno.config.ts
-import { defineConfig, presetAttributify, presetIcons, presetUno, presetWebFonts } from 'unocss'
+// @filename uno.config.ts
+import { defineConfig, presetUno } from 'unocss'
 
 export default defineConfig({
   presets: [
@@ -24,96 +26,108 @@ export default defineConfig({
 })
  ```
 
-#### 3. Add unocss as plugin to webpack through your `next.config.js`
-
-```js
-// next.config.js
-
-const UnoCSS = require('@unocss/webpack').default
-
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-  webpack: (config) => {
-    config.plugins.push(
-      UnoCSS(), // <--
-    )
-    return config
-  },
-}
-
-module.exports = nextConfig
-```
-
 <br>
 
-#### 4. import `uno.css` in `_app.tsx`
-
-```tsx
-// _app.tsx
-import '@unocss/reset/tailwind.css'
-import 'uno.css'
-
-import type { AppProps } from 'next/app'
-
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+ ```ts
+// @filename postcss.config.js
+module.exports = {
+   plugins: {
+     '@unocss/postcss': {
+       // Optional
+       content: ['**/*.{html,js,ts,jsx,tsx}'],
+     },
+   },
 }
+ ```
 
-export default MyApp
-```
+ #### 3. Update your `globals.css` file with UnoCSS
 
-
+```css
+// @filename src/app/globals.css
+@import '@unocss/reset/tailwind.css';
+@unocss all;
+ ```
 ## Usage 
 
-Style your components with unocss!
+Style your components using UnoCSS!
 
 ```tsx
-/* index.tsx */
-const Home: NextPage = () => {
+// @filename src/app/page.tsx
+export default function Home() {
   return (
-    <>
-      <main className="py-20 px-12 text-center flex flex-col items-center gap-20px">
-        <span text="blue 5xl hover:red" cursor="default">Next.js</span>
-        <div className="i-carbon-car inline-block" text="4xl" />
-        <button className="btn w-10rem">Button</button>
-      </main>
-    </>
+    <main className='flex min-h-screen flex-col items-center justify-between p-24'>
+      <div className='z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex'>
+        <p className='...'>
+          Get started by editing&nbsp;
+          <code className='font-mono font-bold'>src/app/page.tsx</code>
+        </p>
+      </div>
+    </main>
   )
 }
 ```
 
-<br>
+## Bonus
 
-## Hot Module Reload
+### Attributify preset
 
-To support HMR you have to opt-out of webpacks caching.
+You can also import from `unocss` package other presets such as `presetAttributify` to enable [attributify mode](https://unocss.dev/presets/attributify#attributify-preset)
 
-```diff
-// next.config.js
+```ts
+// @filename uno.config.ts
+import { presetAttributify } from 'unocss'
 
-const nextConfig = {
-  reactStrictMode: true,
-  webpack: (config) => {
-+   config.cache = false
-    config.plugins.push(UnoCSS())
-    return config
-  }
+export default defineConfig({
+  presets: [
+    presetAttributify(),
+    // ...
+  ],
+})
+ ```
+
+Then you can style your components in attributify mode
+
+```tsx
+// @filename src/components/Resources.tsx
+export const Resources: React.FC<{ resources: Resource[] }> = ({ resources }) => {
+  return (
+    <div
+      m='b-32 lg:b-0'
+      grid='~ lg:cols-4' // ~ is used as a prefix for self-referencing
+      text='center lg:left'
+    />
+  )
 }
 ```
-<br>
 
-## Troubleshooting
+For TypeScript support while using `AttributifyAttributes` make sure to read: [Attributify TypeScript Support](https://unocss.dev/presets/attributify#typescript-support-jsx-tsx)
 
-#### Error concerning virtual module
+### Icons preset
 
-```bash
-Error: ENOENT: no such file or directory, open '.../_virtual_/__uno.css'
-```
+You can also import from `unocss` package `presetIcons` to enable using the [Icons Preset](https://unocss.dev/presets/icons) for any icon with Pure CSS for UnoCSS.
 
-try deleting the `.next` directory and restart the dev server.
+```ts
+// @filename uno.config.ts
+import { presetIcons } from 'unocss'
 
-#### Other
+export default defineConfig({
+  presets: [
+    presetIcons({
+      // Optional
+      extraProperties: {
+        'display': 'inline-block',
+        'vertical-align': 'middle',
+      },
+    }),
+    // ...
+  ],
+})
+ ```
 
-- you might need to bump your target up to at least `es2015` in your `tsconfig.json` to build your project
-- files with `.js` extension are not supported by default. Change your file extensions to `.jsx` or try to include js files in your config with `include: /\.js$/`. [Learn more](https://github.com/unocss/unocss#scanning).
+ Then you can use any of the available icons:
+
+ ```html
+ <span className='i-lucide:arrow-up-right' />
+ ```
+
+ For more information on UnoCSS please visit the Docs [UnoCSS.dev](https://unocss.dev/)

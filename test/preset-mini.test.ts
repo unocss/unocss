@@ -209,4 +209,21 @@ describe('preset-mini', () => {
 
     await expect(css).toMatchFileSnapshot('./assets/output/preset-mini-active-pseudo.css')
   })
+
+  test('css variable with `{` `}` will not generate css ', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      // eslint-disable-next-line no-template-curly-in-string
+      'c-${variable}',
+    ].join(' '), {
+      preflights: false,
+    })
+
+    expect(css).toBe('')
+  })
 })
