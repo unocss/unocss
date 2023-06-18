@@ -6,8 +6,6 @@ import type { SourceMap } from 'rollup'
 import { IGNORE_COMMENT, SKIP_COMMENT_RE } from './constants'
 import { hash } from './hash'
 
-const skipMap = new Map<string, string>()
-
 export async function applyTransformers(
   ctx: UnocssPluginContext,
   original: string,
@@ -21,8 +19,9 @@ export async function applyTransformers(
   if (!transformers.length)
     return
 
+  const skipMap = new Map<string, string>()
   let code = original
-  let s = new MagicString(transformSkipCode(code))
+  let s = new MagicString(transformSkipCode(code, skipMap))
   const maps: EncodedSourceMap[] = []
 
   for (const t of transformers) {
@@ -35,7 +34,7 @@ export async function applyTransformers(
     }
     await t.transform(s, id, ctx)
     if (s.hasChanged()) {
-      code = restoreSkipCode(s.toString())
+      code = restoreSkipCode(s.toString(), skipMap)
       maps.push(s.generateMap({ hires: true, source: id }) as EncodedSourceMap)
       s = new MagicString(code)
     }
@@ -50,12 +49,12 @@ export async function applyTransformers(
   }
 }
 
-function transformSkipCode(code: string) {
+function transformSkipCode(code: string, map: Map<string, string>) {
   for (const item of Array.from(code.matchAll(SKIP_COMMENT_RE))) {
     if (item != null) {
       const matched = item[0]
       const withHashKey = `@unocss-skip-placeholder-${hash(matched)}`
-      skipMap.set(withHashKey, matched)
+      map.set(withHashKey, matched)
       code = code.replace(matched, withHashKey)
     }
   }
@@ -63,8 +62,8 @@ function transformSkipCode(code: string) {
   return code
 }
 
-function restoreSkipCode(code: string) {
-  for (const [withHashKey, matched] of skipMap.entries())
+function restoreSkipCode(code: string, map: Map<string, string>) {
+  for (const [withHashKey, matched] of map.entries())
     code = code.replace(withHashKey, matched)
 
   return code
