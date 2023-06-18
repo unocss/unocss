@@ -39,7 +39,6 @@ describe.concurrent('fixtures', () => {
     // transformer-directives
     expect(css).not.contains('@apply')
     expect(css).contains('gap:.25rem')
-    expect(css).contains('gap:.5rem')
 
     // transformer-variant-group
     expect(js).contains('text-sm')
@@ -51,6 +50,7 @@ describe.concurrent('fixtures', () => {
     expect(css).not.contains('.text-yellow')
     // test transform
     expect(css).contains('--at-apply')
+    expect(css).not.contains('gap:.5rem')
     expect(css).not.contains('.text-teal')
   })
 
