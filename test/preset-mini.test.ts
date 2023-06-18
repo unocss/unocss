@@ -224,6 +224,6 @@ describe('preset-mini', () => {
       preflights: false,
     })
 
-    await expect(css).toBe('')
+    expect(css).toBe('')
   })
 })
