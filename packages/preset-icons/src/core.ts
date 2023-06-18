@@ -66,19 +66,25 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
           iconLoader = iconLoader || await lookupIconLoader(options)
 
           const usedProps = {}
-          if (body.includes(':')) {
-            [collection, name] = body.split(':')
-            svg = await iconLoader(collection, name, { ...loaderOptions, usedProps })
-          }
-          else {
-            const parts = body.split(/-/g)
-            for (let i = COLLECTION_NAME_PARTS_MAX; i >= 1; i--) {
-              collection = parts.slice(0, i).join('-')
-              name = parts.slice(i).join('-')
+          try {
+            if (body.includes(':')) {
+              [collection, name] = body.split(':')
               svg = await iconLoader(collection, name, { ...loaderOptions, usedProps })
-              if (svg)
-                break
             }
+            else {
+              const parts = body.split(/-/g)
+              for (let i = COLLECTION_NAME_PARTS_MAX; i >= 1; i--) {
+                collection = parts.slice(0, i).join('-')
+                name = parts.slice(i).join('-')
+                svg = await iconLoader(collection, name, { ...loaderOptions, usedProps })
+                if (svg)
+                  break
+              }
+            }
+          }
+          catch (error: any) {
+            warnOnce(error.message)
+            return
           }
 
           if (!svg) {
