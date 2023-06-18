@@ -2,7 +2,7 @@ import type { AutoCompleteExtractorResult, AutoCompleteFunction, AutoCompleteTem
 import { escapeRegExp, toArray, uniq } from '@unocss/core'
 import { LRUCache } from 'lru-cache'
 import { parseAutocomplete } from './parse'
-import type { AutoCompleteMatchType, AutocompleteOptions, ParsedAutocompleteTemplate, UnocssAutocomplete } from './types'
+import type { AutocompleteOptions, ParsedAutocompleteTemplate, UnocssAutocomplete } from './types'
 import { searchAttrKey, searchFuzzy, searchUsageBoundary } from './utils'
 
 export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptions = {}): UnocssAutocomplete {
@@ -11,6 +11,8 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
 
   let staticUtils: string[] = []
   const templates: (AutoCompleteTemplate | AutoCompleteFunction)[] = []
+
+  const matchType = options.matchType ?? 'prefix'
 
   reset()
 
@@ -72,15 +74,13 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
     const variantPrefix = input.slice(0, idx)
     const variantSuffix = input.slice(idx + input.length)
 
-    const matchType = options.matchType ?? 'prefix'
-
     const result = processSuggestions(
       await Promise.all([
         suggestSelf(processed),
-        suggestStatic(processed, matchType),
+        suggestStatic(processed),
         suggestUnoCache(processed),
-        ...suggestFromPreset(processed, matchType),
-        ...suggestVariant(processed, variants, matchType),
+        ...suggestFromPreset(processed),
+        ...suggestVariant(processed, variants),
       ]),
       variantPrefix,
       variantSuffix,
@@ -134,7 +134,7 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
     return i ? [input] : []
   }
 
-  async function suggestStatic(input: string, matchType: AutoCompleteMatchType = 'prefix') {
+  async function suggestStatic(input: string) {
     if (matchType === 'fuzzy')
       return searchFuzzy(staticUtils, input)
     return staticUtils.filter(i => i.startsWith(input))
@@ -146,7 +146,7 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
     return keys.filter(i => i[1] && i[0].startsWith(input)).map(i => i[0])
   }
 
-  function suggestFromPreset(input: string, matchType: AutoCompleteMatchType = 'prefix') {
+  function suggestFromPreset(input: string) {
     return templates.map(fn =>
       typeof fn === 'function'
         ? fn(input)
@@ -154,7 +154,7 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
     ) || []
   }
 
-  function suggestVariant(input: string, used: Set<Variant>, matchType: AutoCompleteMatchType = 'prefix') {
+  function suggestVariant(input: string, used: Set<Variant>) {
     return uno.config.variants
       .filter(v => v.autocomplete && (v.multiPass || !used.has(v)))
       .flatMap(v => toArray(v.autocomplete || []))
