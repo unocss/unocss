@@ -31,14 +31,13 @@ describe.concurrent('fixtures', () => {
     const js = await getGlobContent(root, 'dist/**/*.js')
 
     // basic
-    expect(css).not.contains('.text-red')
+    expect(css).contains('.text-red')
     // transformer-variant-group
     expect(css).contains('.text-sm')
     // transformer-compile-class
     expect(css).contains('.uno-tacwqa')
     // transformer-directives
     expect(css).not.contains('@apply')
-    expect(css).not.contains('--at-apply')
     expect(css).contains('gap:.25rem')
     expect(css).contains('gap:.5rem')
 
@@ -46,6 +45,13 @@ describe.concurrent('fixtures', () => {
     expect(js).contains('text-sm')
     // transformer-compile-class
     expect(js).contains('uno-tacwqa')
+
+    // @unocss-skip magic comment
+    // test extract
+    expect(css).not.contains('.text-green')
+    // test transform
+    expect(css).contains('--at-apply')
+    expect(css).not.contains('.text-teal')
   })
 
   it.skipIf(isWindows)('vite legacy', async () => {
