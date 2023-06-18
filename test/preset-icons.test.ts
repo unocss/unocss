@@ -69,6 +69,6 @@ describe('preset-icons', () => {
   test('load icon from custom collection with an error', async () => {
     const { css, layers } = await unoWithUnit.generate('<button class="i-custom:error-icon" />', { preflights: false })
     expect(layers).toEqual(['default'])
-    expect(css).toMatchInlineSnapshot('""')
+    expect(css).toEqual('')
   })
 })
