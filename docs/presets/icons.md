@@ -25,7 +25,7 @@ Follow the following conventions to use the icons
 - `<prefix><collection>-<icon>`
 - `<prefix><collection>:<icon>`
 
-For examples:
+For example:
 
 ```html
 <!-- A basic anchor icon from Phosphor icons -->
@@ -84,7 +84,7 @@ import { presetIcons } from 'unocss'
 You can also use this preset alone as a complement to your existing UI frameworks to have pure CSS icons!
 :::
 
-If you prefer to install the all the icon sets available on Iconify at once (~130MB):
+If you prefer to install all the icon sets available on Iconify at once (~130MB):
 
 ```bash
 npm i -D @iconify/json
@@ -92,7 +92,7 @@ npm i -D @iconify/json
 
 ### Extra Properties
 
-You can provide the extra CSS properties to control the default behavior of the icons. The following is an example of make icons inlined by default:
+You can provide the extra CSS properties to control the default behavior of the icons. The following is an example of making icons inlined by default:
 
 ```ts
 presetIcons({
@@ -184,7 +184,7 @@ And then, you can use it on your html: `<span class="i-custom:circle"></span>`
 
 ### Node.js
 
-In `Node.js` the preset will search for the installed iconify dataset automatically and so you don't need to register the `iconify` collections.
+In `Node.js` the preset will search for the installed iconify dataset automatically, so you don't need to register the `iconify` collections.
 
 You can also provide your own custom collections using also [CustomIconLoader](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/types.ts#L17) or [InlineCollection](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/types.ts#L86).
 

@@ -188,7 +188,7 @@ export function bracketOfPosition(str: string) {
 }
 
 export function cssvar(str: string) {
-  if (str.match(/^\$\S/))
+  if (str.match(/^\$[^\s'"`;{}]/))
     return `var(--${escapeSelector(str.slice(1))})`
 }
 
