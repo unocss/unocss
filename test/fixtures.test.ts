@@ -48,7 +48,7 @@ describe.concurrent('fixtures', () => {
 
     // @unocss-skip magic comment
     // test extract
-    expect(css).not.contains('.text-green')
+    expect(css).not.contains('.text-yellow')
     // test transform
     expect(css).contains('--at-apply')
     expect(css).not.contains('.text-teal')

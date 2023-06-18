@@ -10,10 +10,13 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = html`
       Red
     </p>
     <!-- @unocss-skip-start -->
-    <p class=":uno: text-green text-xl">
-      Green Large
+    <p class="text-yellow text-lg">
+      Teal Large
     </p>
     <!-- @unocss-skip-end -->
+    <p class=":uno: text-green text-xl">
+      Green XL
+    </p>
     <p class="text-(blue sm)">
       Blue Small
     </p>
