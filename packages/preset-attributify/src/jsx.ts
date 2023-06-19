@@ -18,7 +18,6 @@ export type SpecialSingleWord =
   | 'flex'
   | 'block'
   | 'inline'
-  | 'block'
   | 'table'
   | 'isolate'
   | 'absolute'
