@@ -15,6 +15,9 @@ export async function startCli(cwd = process.cwd(), argv = process.argv, options
     .option('-o, --out-file <file>', 'Output file', {
       default: cwd,
     })
+    .option('--stdout', 'Output to STDOUT', {
+      default: false,
+    })
     .option('-c, --config [file]', 'Config file')
     .option('-w, --watch', 'Watch for file changes')
     .option('--preflights', 'Enable preflights', { default: true })
