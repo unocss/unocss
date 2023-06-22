@@ -61,6 +61,25 @@ export const classes = {
 
 Similarly, you can also add `@unocss-ignore` to bypass the scanning and transforming for a file.
 
+If you want the UnoCSS to skip a block of code without being extracted, you can use `@unocss-skip-start` `@unocss-skip-end` in pairs:
+
+```html
+<p class="text-green text-xl">
+  Green Large
+</p>
+
+<!-- @unocss-skip-end -->
+<!-- `text-red` will not be extracted -->
+<p class="text-red">
+  Red
+</p>
+<!-- @unocss-skip-end -->
+```
+
+:::tip
+You can use `@unocss-skip-start` `@unocss-skip-end` magic comment in any extracting files, and must be used **in pairs** to be effective.
+:::
+
 ### Extracting from Filesystem
 
 In cases that you are using integrations that does not have access to the build tools pipeline (for example, the [PostCSS](/integrations/postcss) plugin), or you are integrating with backend frameworks that the code does not go through the pipeline, you can manually specify the files to be extracted.

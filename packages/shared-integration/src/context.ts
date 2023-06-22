@@ -3,7 +3,7 @@ import type { LoadConfigResult, LoadConfigSource } from '@unocss/config'
 import { loadConfig } from '@unocss/config'
 import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { BetterMap, createGenerator } from '@unocss/core'
-import { CSS_PLACEHOLDER, IGNORE_COMMENT, INCLUDE_COMMENT } from './constants'
+import { CSS_PLACEHOLDER, IGNORE_COMMENT, INCLUDE_COMMENT, SKIP_COMMENT_RE } from './constants'
 import { defaultPipelineExclude, defaultPipelineInclude } from './defaults'
 import { deprecationCheck } from './deprecation'
 
@@ -45,7 +45,7 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
         rawConfig.content?.pipeline?.exclude || rawConfig.exclude || defaultPipelineExclude,
       )
     tokens.clear()
-    await Promise.all(modules.map((code, id) => uno.applyExtractors(code, id, tokens)))
+    await Promise.all(modules.map((code, id) => uno.applyExtractors(code.replace(SKIP_COMMENT_RE, ''), id, tokens)))
     invalidate()
     dispatchReload()
 
@@ -83,7 +83,7 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     if (id)
       modules.set(id, code)
     const len = tokens.size
-    await uno.applyExtractors(code, id, tokens)
+    await uno.applyExtractors(code.replace(SKIP_COMMENT_RE, ''), id, tokens)
     if (tokens.size > len)
       invalidate()
   }
