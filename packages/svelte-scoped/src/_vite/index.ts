@@ -5,9 +5,13 @@ import type { SvelteScopedContext } from '../preprocess'
 import type { UnocssSvelteScopedViteOptions } from './types'
 import { PassPreprocessToSveltePlugin } from './passPreprocessToSveltePlugin'
 import { GlobalStylesPlugin } from './globalStylesPlugin'
+import { createCssTransformerPlugins } from './createCssTransformerPlugins'
 
 export function UnocssSvelteScopedVite(options: UnocssSvelteScopedViteOptions = {}): Plugin[] {
   const context = createSvelteScopedContext(options.configOrPath)
+
+  if (context.uno.config.transformers)
+    throw new Error('Due to the differences in normal UnoCSS global usage and Svelte Scoped usage, "config.transformers" will be ignored. You can still use transformers in CSS files with the "cssFileTransformers" option.')
 
   const plugins: Plugin[] = [
     GlobalStylesPlugin(context, options.injectReset),
@@ -15,6 +19,9 @@ export function UnocssSvelteScopedVite(options: UnocssSvelteScopedViteOptions = 
 
   if (!options.onlyGlobal)
     plugins.push(PassPreprocessToSveltePlugin(options, context))
+
+  if (options.cssFileTransformers)
+    plugins.push(...createCssTransformerPlugins(context, options.cssFileTransformers))
 
   return plugins
 }

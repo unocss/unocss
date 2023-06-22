@@ -1,5 +1,5 @@
 body {
-  margin: 0;
+  --at-apply: m-0 p-2 bg-red-100;
 }
 
 :root {
