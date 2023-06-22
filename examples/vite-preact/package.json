@@ -12,7 +12,7 @@
     "preact": "^10.15.1"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.31",
+    "@iconify-json/logos": "^1.1.33",
     "@preact/preset-vite": "^2.5.0",
     "@prefresh/vite": "^2.4.0",
     "@unocss/core": "link:../../packages/core",

@@ -42,6 +42,6 @@
   },
   "dependencies": {
     "@unocss/core": "workspace:*",
-    "ofetch": "^1.0.1"
+    "ofetch": "^1.1.1"
   }
 }

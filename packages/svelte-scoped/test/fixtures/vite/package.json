@@ -8,7 +8,7 @@
     "test": "svelte-kit sync && vitest --run"
   },
   "devDependencies": {
-    "@sveltejs/kit": "^1.20.0",
+    "@sveltejs/kit": "^1.20.4",
     "@unocss/svelte-scoped": "workspace:*",
     "@unocss/transformer-directives": "workspace:*"
   }
