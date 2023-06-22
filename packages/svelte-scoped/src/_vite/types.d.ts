@@ -1,4 +1,5 @@
 import type { UnocssSveltePreprocessOptions } from '../preprocess'
+import type { PluginOptions } from '@unocss/core'
 
 export interface UnocssSvelteScopedViteOptions extends UnocssSveltePreprocessOptions {
   /**
@@ -27,4 +28,9 @@ export interface UnocssSvelteScopedViteOptions extends UnocssSveltePreprocessOpt
    * @default false
   */
   onlyGlobal?: boolean
+  /**
+   * Process CSS files using UnoCSS transformers.
+   * @default undefined
+   */
+  cssFileTransformers?: PluginOptions['transformers']
 }

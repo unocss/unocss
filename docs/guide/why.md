@@ -6,7 +6,7 @@ outline: deep
 
 ## Motivations
 
-We recommend you to read the blog post [Reimagine Atomic CSS](https://antfu.me/posts/reimagine-atomic-css) wrote by the creator of UnoCSS, [Anthony Fu](https://antfu.me/), to get a better understanding of the motivation behind UnoCSS.
+We recommend you to read the blog post [Reimagine Atomic CSS](https://antfu.me/posts/reimagine-atomic-css) written by the creator of UnoCSS, [Anthony Fu](https://antfu.me/), to get a better understanding of the motivation behind UnoCSS.
 
 ## How is UnoCSS Different from X?
 

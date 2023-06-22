@@ -52,7 +52,7 @@ import { presetUno } from 'unocss'
 
 This preset attempts to provide a common superset of the popular utility-first frameworks, including Tailwind CSS, Windi CSS, Bootstrap, Tachyons, etc.
 
-For example, both `ml-3` (Tailwind), `ms-2` (Bootstrap), `ma4` (Tachyons), and `mt-10px` (Windi CSS) are valid.
+For example, `ml-3` (Tailwind), `ms-2` (Bootstrap), `ma4` (Tachyons), and `mt-10px` (Windi CSS) are all valid.
 
 ```css
 .ma4 { margin: 1rem; }
@@ -69,7 +69,7 @@ For all rules and presets included in this preset, please refer to our [interact
 ## Options
 
 ::: info
-This preset options are inherited from [`@unocss/preset-mini`](/presets/mini#options).
+This preset's options are inherited from [`@unocss/preset-mini`](/presets/mini#options).
 :::
 
-For more details about the default preset, you can check out our [playground](https://uno.antfu.me/play/) and try out. Meanwhile, you can also check out [the implementations](https://github.com/unocss/unocss/tree/main/packages).
+For more details about the default preset, you can check out our [playground](https://uno.antfu.me/play/) and try it out. Meanwhile, you can also check out [the implementations](https://github.com/unocss/unocss/tree/main/packages).

@@ -6,6 +6,7 @@ import type { UnocssPluginContext } from '@unocss/core'
 import { CountableSet } from '@unocss/core'
 import gzipSize from 'gzip-size'
 import type { ModuleInfo, OverviewInfo, ProjectInfo } from '../types'
+import { SKIP_COMMENT_RE } from '../../shared-integration/src/constants'
 import { analyzer } from './analyzer'
 import { extractGroups } from './suggestions'
 
@@ -52,7 +53,7 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
         }
 
         const tokens = new CountableSet<string>()
-        await ctx.uno.applyExtractors(code, id, tokens)
+        await ctx.uno.applyExtractors(code.replace(SKIP_COMMENT_RE, ''), id, tokens)
         const result = await ctx.uno.generate(tokens, { id, extendedMatch: true, preflights: false })
         const analyzed = await analyzer(result, ctx)
         const mod: ModuleInfo = {
