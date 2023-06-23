@@ -1,4 +1,7 @@
-import type { AutocompleteTemplatePart, ParsedAutocompleteTemplate } from './types'
+import { uniq } from '@unocss/core'
+import { Fzf } from 'fzf'
+import type { AutoCompleteMatchType, AutocompleteTemplatePart, ParsedAutocompleteTemplate } from './types'
+import { cartesian } from './utils'
 
 export const shorthands: Record<string, string> = {
   num: `(${[0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 24, 36].join('|')})`,
@@ -38,6 +41,8 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
   })
 
   handleGroups(template)
+
+  const fzf = new Fzf(getAllCombination(parts))
 
   return {
     parts,
@@ -85,7 +90,9 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
     )
   }
 
-  function suggest(input: string) {
+  function suggest(input: string, matchType: AutoCompleteMatchType = 'prefix') {
+    if (input.length && matchType === 'fuzzy')
+      return fzf.find(input).map(i => i.item)
     let rest = input
     let matched = ''
     let combinations: string[] = []
@@ -178,4 +185,37 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
     return combinations.map(i => matched + i)
       .filter(i => i.length >= input.length)
   }
+}
+
+function getValuesFromPartTemplate(part: AutocompleteTemplatePart): string[] {
+  if (part.type === 'static')
+    return [part.value]
+  if (part.type === 'theme') {
+    return part.objects.flatMap((i) => {
+      const keys = Object.keys(i).filter(i => i && i[0] !== '_')
+      for (const key in i) {
+        const value = i[key]
+        if (value === null || value === undefined)
+          continue
+        if (typeof value === 'object' && !Array.isArray(value)) {
+          const subKeys = getValuesFromPartTemplate({
+            type: 'theme',
+            objects: [value as Record<string, unknown>],
+          }).map(i => `${key}-${i}`)
+
+          keys.push(...subKeys)
+        }
+      }
+      return keys
+    })
+  }
+  if (part.type === 'group')
+    return [...part.values]
+  return []
+}
+
+function getAllCombination(parts: AutocompleteTemplatePart[]) {
+  const values = parts.map(i => getValuesFromPartTemplate(i))
+  const list = uniq(cartesian(values).flatMap(i => i.join('').replace('-DEFAULT', '')))
+  return list
 }

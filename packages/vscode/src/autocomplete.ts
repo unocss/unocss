@@ -1,4 +1,4 @@
-import type { UnocssAutocomplete } from '@unocss/autocomplete'
+import type { AutoCompleteMatchType, UnocssAutocomplete } from '@unocss/autocomplete'
 import { createAutocomplete } from '@unocss/autocomplete'
 import type { CompletionItemProvider, Disposable, ExtensionContext } from 'vscode'
 import { CompletionItem, CompletionItemKind, CompletionList, MarkdownString, Range, languages, window, workspace } from 'vscode'
@@ -59,12 +59,18 @@ export async function registerAutoComplete(
     autoCompletes.delete(ctx)
   })
 
+  let matchType = workspace.getConfiguration().get<AutoCompleteMatchType>('unocss.autocomplete.matchType', 'prefix')
+
+  let maxItems = workspace.getConfiguration().get<number>('unocss.autocomplete.maxItems', 1000)
+
   function getAutocomplete(ctx: UnocssPluginContext) {
     const cached = autoCompletes.get(ctx)
     if (cached)
       return cached
 
-    const autocomplete = createAutocomplete(ctx.uno)
+    const autocomplete = createAutocomplete(ctx.uno, {
+      matchType,
+    })
 
     autoCompletes.set(ctx, autocomplete)
     return autocomplete
@@ -117,7 +123,10 @@ export async function registerAutoComplete(
           return
 
         const completionItems: UnoCompletionItem[] = []
-        for (const [value, label] of result.suggestions) {
+
+        const suggestions = result.suggestions.slice(0, maxItems)
+
+        for (const [value, label] of suggestions) {
           const css = await getCSS(ctx!.uno, value)
           const colorString = getColorString(css)
           const itemKind = colorString ? CompletionItemKind.Color : CompletionItemKind.EnumMember
@@ -174,6 +183,14 @@ export async function registerAutoComplete(
       ext.subscriptions.push(
         registerProvider(),
       )
+    }
+    if (event.affectsConfiguration('unocss.autocomplete.matchType')) {
+      autoCompletes.clear()
+      matchType = workspace.getConfiguration().get<AutoCompleteMatchType>('unocss.autocomplete.matchType', 'prefix')
+    }
+    if (event.affectsConfiguration('unocss.autocomplete.maxItems')) {
+      autoCompletes.clear()
+      maxItems = workspace.getConfiguration().get<number>('unocss.autocomplete.maxItems', 1000)
     }
   }))
 

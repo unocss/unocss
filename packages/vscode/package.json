@@ -72,6 +72,20 @@
           "type": "boolean",
           "default": true,
           "description": "Enable/disable selection style decorations"
+        },
+        "unocss.autocomplete.matchType": {
+          "type": "string",
+          "default": "prefix",
+          "enum": [
+            "prefix",
+            "fuzzy"
+          ],
+          "description": "The matching type for autocomplete"
+        },
+        "unocss.autocomplete.maxItems": {
+          "type": "number",
+          "default": 1000,
+          "description": "The maximum number of items to show in autocomplete"
         }
       }
     }

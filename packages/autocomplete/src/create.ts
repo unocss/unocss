@@ -1,16 +1,21 @@
 import type { AutoCompleteExtractorResult, AutoCompleteFunction, AutoCompleteTemplate, SuggestResult, UnoGenerator, Variant } from '@unocss/core'
 import { escapeRegExp, toArray, uniq } from '@unocss/core'
 import { LRUCache } from 'lru-cache'
+import { Fzf } from 'fzf'
 import { parseAutocomplete } from './parse'
-import type { ParsedAutocompleteTemplate, UnocssAutocomplete } from './types'
+import type { AutocompleteOptions, ParsedAutocompleteTemplate, UnocssAutocomplete } from './types'
 import { searchAttrKey, searchUsageBoundary } from './utils'
 
-export function createAutocomplete(uno: UnoGenerator): UnocssAutocomplete {
+export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptions = {}): UnocssAutocomplete {
   const templateCache = new Map<string, ParsedAutocompleteTemplate>()
   const cache = new LRUCache<string, string[]>({ max: 5000 })
 
   let staticUtils: string[] = []
+  let staticFzf = new Fzf<string[]>([])
+
   const templates: (AutoCompleteTemplate | AutoCompleteFunction)[] = []
+
+  const matchType = options.matchType ?? 'prefix'
 
   reset()
 
@@ -133,6 +138,8 @@ export function createAutocomplete(uno: UnoGenerator): UnocssAutocomplete {
   }
 
   async function suggestStatic(input: string) {
+    if (matchType === 'fuzzy')
+      return staticFzf.find(input).map(i => i.item)
     return staticUtils.filter(i => i.startsWith(input))
   }
 
@@ -146,7 +153,7 @@ export function createAutocomplete(uno: UnoGenerator): UnocssAutocomplete {
     return templates.map(fn =>
       typeof fn === 'function'
         ? fn(input)
-        : getParsed(fn)(input),
+        : getParsed(fn)(input, matchType),
     ) || []
   }
 
@@ -157,7 +164,7 @@ export function createAutocomplete(uno: UnoGenerator): UnocssAutocomplete {
       .map(fn =>
         typeof fn === 'function'
           ? fn(input)
-          : getParsed(fn)(input),
+          : getParsed(fn)(input, matchType),
       )
   }
 
@@ -168,6 +175,7 @@ export function createAutocomplete(uno: UnoGenerator): UnocssAutocomplete {
       ...Object.keys(uno.config.rulesStaticMap),
       ...uno.config.shortcuts.filter(i => typeof i[0] === 'string').map(i => i[0] as string),
     ]
+    staticFzf = new Fzf(staticUtils)
     templates.length = 0
     templates.push(
       ...uno.config.autocomplete.templates || [],
