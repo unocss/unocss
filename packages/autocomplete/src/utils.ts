@@ -18,3 +18,20 @@ export function searchAttrKey(content: string, cursor: number) {
   if (text.match(/(<\w+\s*)[^>]*$/) !== null)
     return text.match(/\S+(?=\s*=\s*["']?[^"']*$)/)?.[0]
 }
+
+export function cartesian<T>(arr: T[][]): T[][] {
+  if (arr.length < 2)
+    return arr
+  return arr.reduce(
+    (a, b) => {
+      const ret: T[][] = []
+      a.forEach((a) => {
+        b.forEach((b) => {
+          ret.push(a.concat([b]))
+        })
+      })
+      return ret
+    },
+    [[]] as T[][],
+  )
+}
