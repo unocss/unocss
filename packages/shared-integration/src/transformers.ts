@@ -3,7 +3,8 @@ import MagicString from 'magic-string'
 import type { EncodedSourceMap } from '@ampproject/remapping'
 import remapping from '@ampproject/remapping'
 import type { SourceMap } from 'rollup'
-import { IGNORE_COMMENT } from './constants'
+import { IGNORE_COMMENT, SKIP_COMMENT_RE } from './constants'
+import { hash } from './hash'
 
 export async function applyTransformers(
   ctx: UnocssPluginContext,
@@ -18,9 +19,11 @@ export async function applyTransformers(
   if (!transformers.length)
     return
 
+  const skipMap = new Map<string, string>()
   let code = original
-  let s = new MagicString(code)
+  let s = new MagicString(transformSkipCode(code, skipMap))
   const maps: EncodedSourceMap[] = []
+
   for (const t of transformers) {
     if (t.idFilter) {
       if (!t.idFilter(id))
@@ -31,7 +34,7 @@ export async function applyTransformers(
     }
     await t.transform(s, id, ctx)
     if (s.hasChanged()) {
-      code = s.toString()
+      code = restoreSkipCode(s.toString(), skipMap)
       maps.push(s.generateMap({ hires: true, source: id }) as EncodedSourceMap)
       s = new MagicString(code)
     }
@@ -44,4 +47,24 @@ export async function applyTransformers(
       map: remapping(maps, () => null) as SourceMap,
     }
   }
+}
+
+function transformSkipCode(code: string, map: Map<string, string>) {
+  for (const item of Array.from(code.matchAll(SKIP_COMMENT_RE))) {
+    if (item != null) {
+      const matched = item[0]
+      const withHashKey = `@unocss-skip-placeholder-${hash(matched)}`
+      map.set(withHashKey, matched)
+      code = code.replace(matched, withHashKey)
+    }
+  }
+
+  return code
+}
+
+function restoreSkipCode(code: string, map: Map<string, string>) {
+  for (const [withHashKey, matched] of map.entries())
+    code = code.replace(withHashKey, matched)
+
+  return code
 }
