@@ -43,4 +43,9 @@ describe('autocomplete-fuzzy', () => {
     expect(await ac.suggest('bmc'))
       .includes('bg-mode-color')
   })
+
+  it('order', async () => {
+    const suggestions = await ac.suggest('ga')
+    expect(suggestions.indexOf('gap-0')).toBeLessThan(suggestions.indexOf('gap-1'))
+  })
 })

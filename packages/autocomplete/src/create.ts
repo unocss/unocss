@@ -1,7 +1,7 @@
 import type { AutoCompleteExtractorResult, AutoCompleteFunction, AutoCompleteTemplate, SuggestResult, UnoGenerator, Variant } from '@unocss/core'
 import { escapeRegExp, toArray, uniq } from '@unocss/core'
 import { LRUCache } from 'lru-cache'
-import { Fzf } from 'fzf'
+import { Fzf, byLengthAsc, byStartAsc } from 'fzf'
 import { parseAutocomplete } from './parse'
 import type { AutocompleteOptions, ParsedAutocompleteTemplate, UnocssAutocomplete } from './types'
 import { searchAttrKey, searchUsageBoundary } from './utils'
@@ -77,7 +77,7 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
     const variantPrefix = input.slice(0, idx)
     const variantSuffix = input.slice(idx + input.length)
 
-    const result = processSuggestions(
+    let result = processSuggestions(
       await Promise.all([
         suggestSelf(processed),
         suggestStatic(processed),
@@ -89,6 +89,12 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
       variantSuffix,
     )
 
+    if (matchType === 'fuzzy') {
+      const fzf = new Fzf(result, {
+        tiebreakers: [byStartAsc, byLengthAsc],
+      })
+      result = fzf.find(input).map(i => i.item)
+    }
     cache.set(input, result)
     return result
   }
