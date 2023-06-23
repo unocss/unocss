@@ -2,6 +2,7 @@ export class CountableSet<K> extends Set<K> {
   _map = new Map<K, number>()
 
   add(key: K) {
+    this._map ??= new Map()
     this._map.set(key, (this._map.get(key) ?? 0) + 1)
     return super.add(key)
   }

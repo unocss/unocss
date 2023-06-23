@@ -1,5 +1,5 @@
 import type { GenerateResult, TokenInfo, UnocssPluginContext } from '@unocss/core'
-import { parseColor } from '@unocss/preset-mini/utils'
+import { parseColor } from '../../preset-mini/src/utils'
 import type { MatchedColor, MatchedSelector } from '../types'
 import { getSelectorCategory } from './utils'
 
