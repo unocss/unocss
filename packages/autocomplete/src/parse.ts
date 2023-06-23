@@ -34,8 +34,6 @@ function handleRegexMatch(
 export function parseAutocomplete(template: string, theme: any = {}): ParsedAutocompleteTemplate {
   const parts: AutocompleteTemplatePart[] = []
 
-  let fzf = new Fzf<string[]>([])
-
   template = template.replace(/<(\w+)>/g, (_, key) => {
     if (!shorthands[key])
       throw new Error(`Unknown template shorthand: ${key}`)
@@ -43,6 +41,8 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
   })
 
   handleGroups(template)
+
+  const fzf = new Fzf(getAllCombination(parts))
 
   return {
     parts,
@@ -88,7 +88,6 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
         handleNonGroup(str)
       },
     )
-    fzf = new Fzf(getAllCombination(parts))
   }
 
   function suggest(input: string, matchType: AutoCompleteMatchType = 'prefix') {
