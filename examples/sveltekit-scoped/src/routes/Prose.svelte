@@ -3,7 +3,7 @@
 >
   <h1>Svelte Scoped Uno with SvelteKit</h1>
 
-  <p>This project has the following **example usages**:</p>
+  <p>This project has the following <b>example usages</b>:</p>
 
   <ul>
     <li>dark mode</li>
