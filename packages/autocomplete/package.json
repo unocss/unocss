@@ -37,6 +37,7 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
+    "fzf": "^0.5.2",
     "lru-cache": "^9.1.2"
   },
   "devDependencies": {

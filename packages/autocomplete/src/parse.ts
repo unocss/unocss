@@ -1,6 +1,7 @@
 import { uniq } from '@unocss/core'
+import { Fzf } from 'fzf'
 import type { AutoCompleteMatchType, AutocompleteTemplatePart, ParsedAutocompleteTemplate } from './types'
-import { cartesian, searchFuzzy } from './utils'
+import { cartesian } from './utils'
 
 export const shorthands: Record<string, string> = {
   num: `(${[0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 24, 36].join('|')})`,
@@ -32,6 +33,8 @@ function handleRegexMatch(
 
 export function parseAutocomplete(template: string, theme: any = {}): ParsedAutocompleteTemplate {
   const parts: AutocompleteTemplatePart[] = []
+
+  let fzf = new Fzf<string[]>([])
 
   template = template.replace(/<(\w+)>/g, (_, key) => {
     if (!shorthands[key])
@@ -85,14 +88,12 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
         handleNonGroup(str)
       },
     )
+    fzf = new Fzf(getAllCombination(parts))
   }
 
   function suggest(input: string, matchType: AutoCompleteMatchType = 'prefix') {
-    if (input.length && matchType === 'fuzzy') {
-      const values = parts.map(i => getValuesFromPartTemplate(i))
-      const list = uniq(cartesian(values).flatMap(i => i.join('').replace('-DEFAULT', '')))
-      return searchFuzzy(list, input)
-    }
+    if (input.length && matchType === 'fuzzy')
+      return fzf.find(input).map(i => i.item)
     let rest = input
     let matched = ''
     let combinations: string[] = []
@@ -212,4 +213,10 @@ function getValuesFromPartTemplate(part: AutocompleteTemplatePart): string[] {
   if (part.type === 'group')
     return [...part.values]
   return []
+}
+
+function getAllCombination(parts: AutocompleteTemplatePart[]) {
+  const values = parts.map(i => getValuesFromPartTemplate(i))
+  const list = uniq(cartesian(values).flatMap(i => i.join('').replace('-DEFAULT', '')))
+  return list
 }

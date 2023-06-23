@@ -19,18 +19,6 @@ export function searchAttrKey(content: string, cursor: number) {
     return text.match(/\S+(?=\s*=\s*["']?[^"']*$)/)?.[0]
 }
 
-/**
- * fuzzy search
- * eg: tct -> [t]ext-[c]en[t]er
- * @param list
- * @param keyword
- * @returns
- */
-export function searchFuzzy(list: string[], keyword: string) {
-  const regex = new RegExp(keyword.split('').join('.*'))
-  return list.filter(i => regex.test(i))
-}
-
 export function cartesian<T>(arr: T[][]): T[][] {
   if (arr.length < 2)
     return arr
