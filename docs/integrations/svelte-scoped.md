@@ -347,13 +347,9 @@ export default defineConfig({
 })
 ```
 
-See [Config File](/guide/config-file) and [Config reference](/config/) for more details.
+Extractors are not supported due to the differences in normal UnoCSS global usage and Svelte Scoped usage. Presets and Transformers are supported as described in the following sections. See [Config File](/guide/config-file) and [Config reference](/config/) for all other details.
 
-::: info
-Transformers and extractors are not supported due to the differences in normal UnoCSS global usage and Svelte Scoped usage.
-:::
-
-## Presets support
+### Presets support
 
 Do to the nature of having a few necessary styles in a global stylesheet and everything else contained in each component where needed, presets need to be handled on a case-by-case basis:
 
@@ -366,6 +362,28 @@ Do to the nature of having a few necessary styles in a global stylesheet and eve
 | [@unocss/preset-tagify](https://github.com/unocss/unocss/tree/main/packages/preset-tagify) | - | Presets that add custom extractors will not work. Create a preprocessor to convert `<text-red>Hi</text-red>` to `<span class="text-red">Hi</span>`, then create a PR to add the link here. |
 
 For other presets, if they don't rely on traditional `class="..."` usage you will need to first preprocess those class names into the `class="..."` attribute. If they add presets like typography's `.prose` class then you will need to place the classes which trigger the preset additions into your safelist.
+
+### Transformers support
+
+Transformers are supported for your CSS files (css|postcss|sass|scss|less|stylus|styl). To use them, add the transformer into the `cssFileTransformers` option in your `vite.config.ts`:
+
+```ts
+// vite.config.ts
+import transformerDirectives from '@unocss/transformer-directives'
+
+export default defineConfig({
+  plugins: [
+    UnoCSS({
+      cssFileTransformers: [transformerDirectives()],
+    }),
+    sveltekit(),
+  ],
+})
+```
+
+::: info
+Transformers are not supported in Svelte components due to how Svelte Scoped works.
+:::
 
 ## Scoped utility classes unleash creativity
 

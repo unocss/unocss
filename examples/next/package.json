@@ -1,5 +1,5 @@
 {
-  "name": "unocss-nextjs",
+  "name": "unocss-next",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -8,25 +8,20 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "13.4.4",
+    "next": "13.4.7",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "^1.1.17",
-    "@types/node": "20.2.5",
-    "@types/react": "18.2.8",
-    "@types/react-dom": "18.2.4",
-    "@unocss/preset-attributify": "link:../../packages/preset-attributify",
-    "@unocss/reset": "link:../../packages/reset",
-    "@unocss/webpack": "link:../../packages/webpack",
-    "eslint": "8.42.0",
-    "eslint-config-next": "13.4.4",
+    "@iconify-json/lucide": "^1.1.103",
+    "@types/node": "20.3.1",
+    "@types/react": "18.2.13",
+    "@types/react-dom": "18.2.6",
+    "@unocss/postcss": "latest",
+    "eslint": "8.43.0",
+    "eslint-config-next": "13.4.7",
+    "postcss": "8.4.24",
     "typescript": "5.1.3",
-    "unocss": "link:../../packages/unocss"
-  },
-  "stackblitz": {
-    "installDependencies": false,
-    "startCommand": "node .stackblitz.mjs && npm install && npm run dev"
+    "unocss": "latest"
   }
 }

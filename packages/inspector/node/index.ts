@@ -5,6 +5,7 @@ import type { Plugin, ViteDevServer } from 'vite'
 import type { UnocssPluginContext } from '@unocss/core'
 import gzipSize from 'gzip-size'
 import type { ModuleInfo, ProjectInfo } from '../types'
+import { SKIP_COMMENT_RE } from '../../shared-integration/src/constants'
 
 const _dirname = typeof __dirname !== 'undefined'
   ? __dirname
@@ -48,7 +49,7 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
           return
         }
 
-        const result = await ctx.uno.generate(code, { id, preflights: false })
+        const result = await ctx.uno.generate(code.replace(SKIP_COMMENT_RE, ''), { id, preflights: false })
         const mod: ModuleInfo = {
           ...result,
           matched: Array.from(result.matched),

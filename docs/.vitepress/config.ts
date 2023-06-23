@@ -97,7 +97,7 @@ const Nav: DefaultTheme.NavItem[] = [
       },
       {
         text: 'Examples',
-        link: 'https://github.com/unocss/unocss/tree/main/examples',
+        link: '/integrations/#examples',
       },
     ],
     activeMatch: '^/integrations/',
@@ -172,19 +172,19 @@ const SidebarGuide: DefaultTheme.SidebarItem[] = [
         link: '/integrations/',
       },
       ...Integrations,
+      {
+        text: 'Examples',
+        link: '/integrations/#examples',
+      },
     ],
-  },
-  {
-    text: 'Presets',
-    link: '/presets/',
   },
   {
     text: 'Config',
     link: '/config/',
   },
   {
-    text: 'Examples',
-    link: 'https://github.com/unocss/unocss/tree/main/examples',
+    text: 'Presets',
+    link: '/presets/',
   },
 ]
 

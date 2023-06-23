@@ -46,8 +46,10 @@ export async function build(_options: CliOptions) {
     }),
   )
 
-  consola.log(green(`${name} v${version}`))
-  consola.start(`UnoCSS ${options.watch ? 'in watch mode...' : 'for production...'}`)
+  if (!options.stdout) {
+    consola.log(green(`${name} v${version}`))
+    consola.start(`UnoCSS ${options.watch ? 'in watch mode...' : 'for production...'}`)
+  }
 
   const debouncedBuild = debounce(
     async () => {
@@ -57,7 +59,7 @@ export async function build(_options: CliOptions) {
   )
 
   const startWatcher = async () => {
-    if (!options.watch)
+    if (options.stdout || !options.watch)
       return
     const { patterns } = options
 
@@ -110,8 +112,6 @@ export async function build(_options: CliOptions) {
   async function generate(options: ResolvedCliOptions) {
     const sourceCache = Array.from(fileCache).map(([id, code]) => ({ id, code }))
 
-    const outFile = resolve(options.cwd || process.cwd(), options.outFile ?? 'uno.css')
-
     const preTransform = await transformFiles(sourceCache, 'pre')
     const defaultTransform = await transformFiles(preTransform)
     const postTransform = await transformFiles(defaultTransform, 'post')
@@ -134,6 +134,12 @@ export async function build(_options: CliOptions) {
       },
     )
 
+    if (options.stdout) {
+      process.stdout.write(css)
+      return
+    }
+
+    const outFile = resolve(options.cwd || process.cwd(), options.outFile ?? 'uno.css')
     const dir = dirname(outFile)
     if (!existsSync(dir))
       await fs.mkdir(dir, { recursive: true })

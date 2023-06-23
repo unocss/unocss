@@ -38,14 +38,20 @@ describe.concurrent('fixtures', () => {
     expect(css).contains('.uno-tacwqa')
     // transformer-directives
     expect(css).not.contains('@apply')
-    expect(css).not.contains('--at-apply')
     expect(css).contains('gap:.25rem')
-    expect(css).contains('gap:.5rem')
 
     // transformer-variant-group
     expect(js).contains('text-sm')
     // transformer-compile-class
     expect(js).contains('uno-tacwqa')
+
+    // @unocss-skip magic comment
+    // test extract
+    expect(css).not.contains('.text-yellow')
+    // test transform
+    expect(css).contains('--at-apply')
+    expect(css).not.contains('gap:.5rem')
+    expect(css).not.contains('.text-teal')
   })
 
   it.skipIf(isWindows)('vite legacy', async () => {

@@ -4,7 +4,7 @@
 
 Use UnoCSS via a Svelte preprocessor to enable usage when building a component library. Read the [@unocss/svelte-scoped/preprocess docs](https://unocss.dev/integrations/svelte-scoped#preprocessor) for more information.
 
-## Usage
+## SvelteKit Library Usage
 
 To develop your library, run the following commands:
 
@@ -16,19 +16,19 @@ npm run dev
 To build your library:
 
 ```bash
-npm package
+npm run package
 ```
 
 To create a production version of your showcase app:
 
 ```bash
-npm build
+npm run build
 ```
 
-You can preview the production build with `npm preview`.
+You can preview the production build with `npm run preview`.
 
 To publish your library to [npm](https://www.npmjs.com):
 
 ```bash
-npm publish
+npm run publish
 ```

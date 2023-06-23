@@ -78,7 +78,7 @@ function handleReset() {
         dark:i-ri-moon-line
         icon-btn
         title="Toggle Color Mode"
-        @click="toggleDark()"
+        @click="toggleDark"
       />
     </div>
   </div>

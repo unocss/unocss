@@ -1,0 +1,7 @@
+.foo {
+  --at-apply: gap-2;
+}
+
+.bar {
+  --at-apply: bg-black;
+}
