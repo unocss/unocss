@@ -63,6 +63,8 @@ export default defineNuxtModule<UnocssNuxtOptions>({
       configFile: options.configFile,
     }, [], options)
 
+    await nuxt.callHook('unocss:config', unoConfig)
+
     if (
       isNuxt3()
       && nuxt.options.builder === '@nuxt/vite-builder'

@@ -87,3 +87,12 @@ export interface UnocssNuxtOptions extends UserConfig {
    */
   wind?: boolean | PresetWindOptions
 }
+
+declare module '@nuxt/schema' {
+  interface NuxtHooks {
+    /**
+     * When UnoCSS load config completed.
+     */
+    'unocss:config': (config: UserConfig) => void
+  }
+}
