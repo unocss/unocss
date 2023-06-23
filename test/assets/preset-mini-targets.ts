@@ -796,7 +796,7 @@ export const presetMiniTargets: string[] = [
   // typography
   'font-mono',
   'font-[system-ui]',
-  'font-[550]',
+  'font-550',
   'font-$font-name',
   'text-4xl',
   'text-base',
@@ -814,6 +814,8 @@ export const presetMiniTargets: string[] = [
   'font-synthesis-$synth',
   'font-synthesis-inherit',
   'font-inherit',
+  'font-["custom_fontFamily_name"]',
+  'fw-inherit',
   'fw-900',
   'fw-050',
   'fw-50',
@@ -935,6 +937,7 @@ export const presetMiniTargets: string[] = [
   'first-line:bg-green-400',
   'first-letter:bg-green-400',
   'group-hover:group-focus:text-center',
+  'focus-visible:outline-none',
   'hover:!p-1',
   'hover:not-first:checked:bg-red/10',
   'hover:p-5',
@@ -1132,6 +1135,8 @@ export const presetMiniNonTargets = [
   '[https://en.wikipedia.org/wiki]',
   '[Baz::class]',
   '[foo:bar:baz]',
+  '[foo:{bar}]',
+  '[foo:\'bar\',"baz",`]',
   // escaped arbitrary css properties only allowed in css variables
   '[cant\~escape:me]',
 

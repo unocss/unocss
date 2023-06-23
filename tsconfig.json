@@ -47,6 +47,7 @@
       "@unocss/transformer-attributify-jsx": ["./packages/transformer-attributify-jsx/src/index.ts"],
       "@unocss/transformer-attributify-jsx-babel": ["./packages/transformer-attributify-jsx-babel/src/index.ts"],
       "@unocss/vite": ["./packages/vite/src/index.ts"],
+      "@unocss/vscode/utils": ["./packages/vscode/src/utils.ts"],
       "@unocss/webpack": ["./packages/webpack/src/index.ts"],
       "@unocss/astro": ["./packages/astro/src/index.ts"],
       "@unocss/postcss": ["./packages/postcss/src/index.ts"],

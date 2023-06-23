@@ -37,6 +37,7 @@ export const alias: Record<string, string> = {
   '@unocss/transformer-variant-group': r('./packages/transformer-variant-group/src/'),
   'unocss': r('./packages/unocss/src/'),
   '@unocss/vite': r('./packages/vite/src/'),
+  '@unocss/vscode': r('./packages/vscode/src/'),
   '@unocss/postcss': r('./packages/postcss/src/'),
   '@unocss/webpack': r('./packages/webpack/src/'),
 }

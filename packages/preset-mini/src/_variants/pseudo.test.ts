@@ -48,3 +48,35 @@ test('pseudo variant order', async () => {
       .disabled\\\\:foo-1:disabled{text:foo-1;}"
     `)
 })
+
+// https://github.com/unocss/unocss/issues/2733
+test('focus-visible:', async () => {
+  const uno = createGenerator({
+    variants: [
+      variantPseudoClassesAndElements(),
+    ],
+    rules: [
+      [/^foo-(\d)$/, ([_, a]) => ({ text: `foo-${a}` })],
+    ],
+  })
+
+  const result = await uno.generate([
+    'focus-visible:foo-1',
+    'focus:foo-2',
+  ])
+
+  expect(result.matched)
+    .toMatchInlineSnapshot(`
+      Set {
+        "focus-visible:foo-1",
+        "focus:foo-2",
+      }
+    `)
+
+  expect(result.css)
+    .toMatchInlineSnapshot(`
+      "/* layer: default */
+      .focus\\\\:foo-2:focus{text:foo-2;}
+      .focus-visible\\\\:foo-1:focus-visible{text:foo-1;}"
+    `)
+})

@@ -26,6 +26,8 @@ export { createGoogleCompatibleProvider as createGoogleProvider } from './provid
 export function normalizedFontMeta(meta: WebFontMeta | string, defaultProvider: WebFontsProviders): ResolvedWebFontMeta {
   if (typeof meta !== 'string') {
     meta.provider = resolveProvider(meta.provider || defaultProvider)
+    if (meta.weights)
+      meta.weights = [...new Set(meta.weights.map(Number).sort((a, b) => a - b))]
     return meta as ResolvedWebFontMeta
   }
 
@@ -33,7 +35,7 @@ export function normalizedFontMeta(meta: WebFontMeta | string, defaultProvider: 
 
   return {
     name,
-    weights: weights.split(/[,;]\s*/).filter(Boolean),
+    weights: [...new Set(weights.split(/[,;]\s*/).filter(Boolean).map(Number).sort((a, b) => a - b))],
     provider: resolveProvider(defaultProvider),
   }
 }

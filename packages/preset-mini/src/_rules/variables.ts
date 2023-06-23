@@ -1,5 +1,5 @@
 import type { Rule } from '@unocss/core'
-import { handler as h } from '../utils'
+import { h } from '../utils'
 
 const variablesAbbrMap: Record<string, string> = {
   backface: 'backface-visibility',
@@ -26,7 +26,7 @@ export const cssVariables: Rule[] = [
 ]
 
 export const cssProperty: Rule[] = [
-  [/^\[(--(\w|\\\W)+|[\w-]+):([^\s:]*?("\S+?"|'\S+?'|`\S+?`|[^\s:]+?)[^\s:]*?\)?)\]$/, ([match, prop,, value]) => {
+  [/^\[(--(\w|\\\W)+|[\w-]+):(("[^\s"]+?"|'[^\s']+?'|`[^\s`]+?`|[^\s:'"`;{}]+?)+)\]$/, ([match, prop,, value]) => {
     if (!isURI(match.slice(1, -1)))
       return { [prop]: h.bracket(`[${value}]`) }
   }],

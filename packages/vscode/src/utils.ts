@@ -42,7 +42,7 @@ export async function getPrettiedMarkdown(uno: UnoGenerator, util: string) {
 }
 
 function getCssVariables(code: string) {
-  const regex = /(?<key>--\S+?):\s*(?<value>.+?);/gm
+  const regex = /(?<key>--\S+?):\s*(?<value>.+?)\s*[!;]/gm
   const cssVariables = new Map<string, string>()
   for (const match of code.matchAll(regex)) {
     const key = match.groups?.key

@@ -25,10 +25,13 @@ import { examples } from '../../content'
             <span text-xs>Source</span>
           </a>
           <a
-            v-if="item.stackblitz"
+            v-if="item.stackblitz || item.codesandbox"
             class="text-inherit! op50 hover:op100"
             flex="~ items-center gap-0.5"
-            :href="`https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/${item.name}`" target="_blank"
+            :href="item.stackblitz
+              ? `https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/${item.name}`
+              : `https://codesandbox.io/s/github/unocss/unocss/tree/main/examples/${item.name}`"
+            target="_blank"
           >
             <div i-carbon-executable-program />
             <span text-xs>Play online</span>

@@ -1,16 +1,20 @@
 import type { AutoCompleteExtractorResult, AutoCompleteFunction, AutoCompleteTemplate, SuggestResult, UnoGenerator, Variant } from '@unocss/core'
 import { escapeRegExp, toArray, uniq } from '@unocss/core'
 import { LRUCache } from 'lru-cache'
+import { Fzf, byLengthAsc, byStartAsc } from 'fzf'
 import { parseAutocomplete } from './parse'
-import type { ParsedAutocompleteTemplate, UnocssAutocomplete } from './types'
-import { searchUsageBoundary } from './utils'
+import type { AutocompleteOptions, ParsedAutocompleteTemplate, UnocssAutocomplete } from './types'
+import { searchAttrKey, searchUsageBoundary } from './utils'
 
-export function createAutocomplete(uno: UnoGenerator): UnocssAutocomplete {
+export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptions = {}): UnocssAutocomplete {
   const templateCache = new Map<string, ParsedAutocompleteTemplate>()
   const cache = new LRUCache<string, string[]>({ max: 5000 })
 
   let staticUtils: string[] = []
+
   const templates: (AutoCompleteTemplate | AutoCompleteFunction)[] = []
+
+  const matchType = options.matchType ?? 'prefix'
 
   reset()
 
@@ -56,8 +60,8 @@ export function createAutocomplete(uno: UnoGenerator): UnocssAutocomplete {
     return templateCache.get(template)!.suggest
   }
 
-  async function suggest(input: string) {
-    if (input.length < 2)
+  async function suggest(input: string, allowsEmptyInput = false) {
+    if (!allowsEmptyInput && input.length < 2)
       return []
     if (cache.has(input))
       return cache.get(input)!
@@ -72,7 +76,7 @@ export function createAutocomplete(uno: UnoGenerator): UnocssAutocomplete {
     const variantPrefix = input.slice(0, idx)
     const variantSuffix = input.slice(idx + input.length)
 
-    const result = processSuggestions(
+    let result = processSuggestions(
       await Promise.all([
         suggestSelf(processed),
         suggestStatic(processed),
@@ -84,15 +88,23 @@ export function createAutocomplete(uno: UnoGenerator): UnocssAutocomplete {
       variantSuffix,
     )
 
+    if (matchType === 'fuzzy') {
+      const fzf = new Fzf(result, {
+        tiebreakers: [byStartAsc, byLengthAsc],
+      })
+      result = fzf.find(input).map(i => i.item)
+    }
     cache.set(input, result)
     return result
   }
 
   async function suggestInFile(content: string, cursor: number): Promise<SuggestResult> {
+    const isInsideAttrValue = searchAttrKey(content, cursor) !== undefined
+
     // try resolve by extractors
     const byExtractor = await searchUsageByExtractor(content, cursor)
     if (byExtractor) {
-      const suggestions = await suggest(byExtractor.extracted)
+      const suggestions = await suggest(byExtractor.extracted, isInsideAttrValue)
       const formatted = byExtractor.transformSuggestions ? byExtractor.transformSuggestions(suggestions) : suggestions
       return {
         suggestions: suggestions.map((v, i) => [v, formatted[i]] as [string, string]),
@@ -102,7 +114,8 @@ export function createAutocomplete(uno: UnoGenerator): UnocssAutocomplete {
 
     // regular resolve
     const regular = searchUsageBoundary(content, cursor)
-    const suggestions = await suggest(regular.content)
+    const suggestions = await suggest(regular.content, isInsideAttrValue)
+
     return {
       suggestions: suggestions.map(v => [v, v] as [string, string]),
       resolveReplacement: suggestion => ({
@@ -130,6 +143,8 @@ export function createAutocomplete(uno: UnoGenerator): UnocssAutocomplete {
   }
 
   async function suggestStatic(input: string) {
+    if (matchType === 'fuzzy')
+      return staticUtils
     return staticUtils.filter(i => i.startsWith(input))
   }
 
@@ -143,7 +158,7 @@ export function createAutocomplete(uno: UnoGenerator): UnocssAutocomplete {
     return templates.map(fn =>
       typeof fn === 'function'
         ? fn(input)
-        : getParsed(fn)(input),
+        : getParsed(fn)(input, matchType),
     ) || []
   }
 
@@ -154,7 +169,7 @@ export function createAutocomplete(uno: UnoGenerator): UnocssAutocomplete {
       .map(fn =>
         typeof fn === 'function'
           ? fn(input)
-          : getParsed(fn)(input),
+          : getParsed(fn)(input, matchType),
       )
   }
 

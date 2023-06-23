@@ -1,7 +1,7 @@
 import type { VariantObject } from '@unocss/core'
 import { escapeRegExp, escapeSelector, warnOnce } from '@unocss/core'
 import type { PresetMiniOptions } from '..'
-import { getBracket, handler as h, variantGetBracket } from '../_utils'
+import { getBracket, h, variantGetBracket } from '../_utils'
 
 /**
  * Note: the order of following pseudo classes will affect the order of generated css.
@@ -86,8 +86,16 @@ const PseudoClassFunctions = [
   'has',
 ]
 
-const PseudoClassesStr = Object.entries(PseudoClasses).filter(([, pseudo]) => !pseudo.startsWith('::')).map(([key]) => key).join('|')
-const PseudoClassesColonStr = Object.entries(PseudoClassesColon).filter(([, pseudo]) => !pseudo.startsWith('::')).map(([key]) => key).join('|')
+const PseudoClassesStr = Object.entries(PseudoClasses)
+  .filter(([, pseudo]) => !pseudo.startsWith('::'))
+  .map(([key]) => key)
+  .sort((a, b) => b.length - a.length)
+  .join('|')
+const PseudoClassesColonStr = Object.entries(PseudoClassesColon)
+  .filter(([, pseudo]) => !pseudo.startsWith('::'))
+  .map(([key]) => key)
+  .sort((a, b) => b.length - a.length)
+  .join('|')
 const PseudoClassFunctionsStr = PseudoClassFunctions.join('|')
 
 function taggedPseudoClassMatcher(tag: string, parent: string, combinator: string): VariantObject {
@@ -194,8 +202,15 @@ const excludedPseudo = [
   '::-webkit-scrollbar-track-piece',
   '::file-selector-button',
 ]
-const PseudoClassesAndElementsStr = Object.entries(PseudoClasses).map(([key]) => key).join('|')
-const PseudoClassesAndElementsColonStr = Object.entries(PseudoClassesColon).map(([key]) => key).join('|')
+
+const PseudoClassesAndElementsStr = Object.entries(PseudoClasses)
+  .map(([key]) => key)
+  .sort((a, b) => b.length - a.length)
+  .join('|')
+const PseudoClassesAndElementsColonStr = Object.entries(PseudoClassesColon)
+  .map(([key]) => key)
+  .sort((a, b) => b.length - a.length)
+  .join('|')
 
 export function variantPseudoClassesAndElements(): VariantObject {
   let PseudoClassesAndElementsRE: RegExp

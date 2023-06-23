@@ -1,7 +1,7 @@
 import type { Rule } from '@unocss/core'
 import { toArray } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorResolver, colorableShadows, handler as h, splitShorthand } from '../utils'
+import { colorResolver, colorableShadows, h, splitShorthand } from '../utils'
 
 const weightMap: Record<string, string> = {
   thin: '100',
@@ -21,13 +21,6 @@ function handleLineHeight(s: string, theme: Theme) {
 }
 
 export const fonts: Rule<Theme>[] = [
-  // family
-  [
-    /^font-(.+)$/,
-    ([, d], { theme }) => ({ 'font-family': theme.fontFamily?.[d] || h.bracket.cssvar.global(d) }),
-    { autocomplete: 'font-$fontFamily' },
-  ],
-
   // size
   [
     /^text-(.+)$/,
@@ -96,6 +89,13 @@ export const fonts: Rule<Theme>[] = [
     /^(?:font-)?word-spacing-(.+)$/,
     ([, s], { theme }) => ({ 'word-spacing': theme.wordSpacing?.[s] || h.bracket.cssvar.global.rem(s) }),
     { autocomplete: 'word-spacing-$wordSpacing' },
+  ],
+
+  // family
+  [
+    /^font-(.+)$/,
+    ([, d], { theme }) => ({ 'font-family': theme.fontFamily?.[d] || h.bracket.cssvar.global(d) }),
+    { autocomplete: 'font-$fontFamily' },
   ],
 ]
 
