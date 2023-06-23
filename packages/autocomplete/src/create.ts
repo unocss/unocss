@@ -11,7 +11,6 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
   const cache = new LRUCache<string, string[]>({ max: 5000 })
 
   let staticUtils: string[] = []
-  let staticFzf = new Fzf<string[]>([])
 
   const templates: (AutoCompleteTemplate | AutoCompleteFunction)[] = []
 
@@ -145,7 +144,7 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
 
   async function suggestStatic(input: string) {
     if (matchType === 'fuzzy')
-      return staticFzf.find(input).map(i => i.item)
+      return staticUtils
     return staticUtils.filter(i => i.startsWith(input))
   }
 
@@ -181,7 +180,6 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
       ...Object.keys(uno.config.rulesStaticMap),
       ...uno.config.shortcuts.filter(i => typeof i[0] === 'string').map(i => i[0] as string),
     ]
-    staticFzf = new Fzf(staticUtils)
     templates.length = 0
     templates.push(
       ...uno.config.autocomplete.templates || [],
