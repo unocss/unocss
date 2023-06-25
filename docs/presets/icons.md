@@ -53,9 +53,17 @@ Check [all available icons](https://icones.js.org/).
 
 ## Install
 
-```bash
-npm i -D @unocss/preset-icons @iconify-json/[the-collection-you-want]
-```
+::: code-group
+  ```bash [pnpm]
+  pnpm add -D @unocss/preset-icons @iconify-json/[the-collection-you-want]
+  ```
+  ```bash [yarn]
+  yarn add -D @unocss/preset-icons @iconify-json/[the-collection-you-want]
+  ```
+  ```bash [npm]
+  npm install -D @unocss/preset-icons @iconify-json/[the-collection-you-want]
+  ```
+:::
 
 We use [Iconify](https://iconify.design) as our data source of icons. You need to install the corresponding icon-set in `devDependencies` by following the `@iconify-json/*` pattern. For example, `@iconify-json/mdi` for [Material Design Icons](https://materialdesignicons.com/), `@iconify-json/tabler` for [Tabler](https://tabler-icons.io/). You can refer to [Icônes](https://icones.js.org/) or [Iconify](https://icon-sets.iconify.design/) for all the collections available.
 
@@ -86,9 +94,17 @@ You can also use this preset alone as a complement to your existing UI framework
 
 If you prefer to install all the icon sets available on Iconify at once (~130MB):
 
-```bash
-npm i -D @iconify/json
-```
+::: code-group
+  ```bash [pnpm]
+  pnpm add -D @iconify/json
+  ```
+  ```bash [yarn]
+  yarn add -D @iconify/json
+  ```
+  ```bash [npm]
+  npm install -D @iconify/json
+  ```
+:::
 
 ### Extra Properties
 
