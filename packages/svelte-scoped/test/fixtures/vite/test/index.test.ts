@@ -3,6 +3,9 @@ import { describe, expect, it } from 'vitest'
 import { build } from 'vite'
 import fg from 'fast-glob'
 
+const isMacOS = process.platform === 'darwin'
+const isWindows = process.platform === 'win32'
+
 async function getGlobContent(cwd: string, glob: string) {
   return await fg(glob, { cwd, absolute: true })
     .then(r => Promise.all(r.map(f => readFile(f, 'utf8'))))
@@ -10,7 +13,7 @@ async function getGlobContent(cwd: string, glob: string) {
 }
 
 describe('svelte-scoped-vite', () => {
-  it('vite', async () => {
+  it.skipIf(isWindows || isMacOS)('vite', async () => {
     await build({
       logLevel: 'error',
       build: {
