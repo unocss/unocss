@@ -54,7 +54,7 @@ export function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = 
 
       let preflightsSafelistCss = ''
       if (addPreflights || addSafelist) {
-        const { css } = await uno.generate([], { preflights: addPreflights, safelist: addSafelist, minify: true })
+        const { css } = await uno.generate([], { preflights: !!addPreflights, safelist: !!addSafelist, minify: true })
         preflightsSafelistCss = wrapSelectorsWithGlobal(css)
       }
 
