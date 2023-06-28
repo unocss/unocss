@@ -1,6 +1,6 @@
 <div class="uno-prose" />
 
-<style uno:preflights uno:safelist>
+<style uno-preflights uno-safelist>
   *,
   ::before,
   ::after {
