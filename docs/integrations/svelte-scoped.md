@@ -314,10 +314,10 @@ Setup your `uno.config.ts` file as described [below](#configuration).
 
 ### Preflights
 
-When using the preprocessor you have the option to include preflights in a component by adding `uno:preflights` as a style attribute.
+When using the preprocessor you have the option to include preflights in the specific component(s) where they are needed by adding `uno-preflights` as a style attribute.
 
 ```html
-<style uno:preflights></style>
+<style uno-preflights></style>
 ```
 
 Any special preflights that start with a period, such as `.prose :where(a):not(:where(.not-prose, .not-prose *))`, will be wrapped with `:global()` to avoid being automatically stripped out by the Svelte compiler.
@@ -326,10 +326,10 @@ Any special preflights that start with a period, such as `.prose :where(a):not(:
 
 ### Safelist
 
-When using the preprocessor you have the option to include safelist classes in a component by adding `uno:safelist` as a style attribute. 
+When using the preprocessor you have the option to include safelist classes in a component by adding `uno-safelist` as a style attribute. 
 
 ```html
-<style uno:safelist></style>
+<style uno-safelist></style>
 ```
 
 Your safelist styles will be wrapped with `:global()` to avoid being automatically stripped out by the Svelte compiler.
