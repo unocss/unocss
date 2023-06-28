@@ -29,8 +29,8 @@ export function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = 
       // deprecated the `uno:preflights` syntax because Svelte 4 disallows colons in custom attributes and thus will split `uno:preflights` into two attributes
       const svelte3AddPreflights = attributes['uno:preflights']
       const svelte3AddSafelist = attributes['uno:safelist']
-      const svelte4DeprecatedAddPreflights = attributes['uno'] && attributes['preflights']
-      const svelte4DeprecatedAddSafelist = attributes['uno'] && attributes['safelist']
+      const svelte4DeprecatedAddPreflights = attributes.uno && attributes.preflights
+      const svelte4DeprecatedAddSafelist = attributes.uno && attributes.safelist
 
       let addPreflights = attributes['uno-preflights'] || svelte3AddPreflights || svelte4DeprecatedAddPreflights
       let addSafelist = attributes['uno-safelist'] || svelte3AddSafelist || svelte4DeprecatedAddSafelist
