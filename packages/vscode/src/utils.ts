@@ -31,7 +31,7 @@ export async function getCSS(uno: UnoGenerator, utilName: string) {
  * @param str
  * @returns
  */
-export function addRem2PxComment(str?: string, rootFontSize = 16) {
+export function addRemToPxComment(str?: string, rootFontSize = 16) {
   if (!str)
     return ''
   // if font size is not set, skip
@@ -56,7 +56,7 @@ export function addRem2PxComment(str?: string, rootFontSize = 16) {
 
 export async function getPrettiedCSS(uno: UnoGenerator, util: string, rootFontSize: number) {
   const result = (await uno.generate(new Set([util]), { preflights: false, safelist: false }))
-  const css = addRem2PxComment(result.css, rootFontSize)
+  const css = addRemToPxComment(result.css, rootFontSize)
   const prettified = prettier.format(css, {
     parser: 'css',
     plugins: [parserCSS],
