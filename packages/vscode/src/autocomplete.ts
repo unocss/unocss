@@ -65,7 +65,7 @@ export async function registerAutoComplete(
 
   let rootFontSize = workspace.getConfiguration().get('unocss.rootFontSize', 16)
 
-  let enableRemToPxPreview = workspace.getConfiguration().get('unocss.enableRemToPxPreview', false)
+  let enableRemToPxPreview = workspace.getConfiguration().get('unocss.preview.remToPx', false)
 
   function getAutocomplete(ctx: UnocssPluginContext) {
     const cached = autoCompletes.get(ctx)
@@ -197,9 +197,9 @@ export async function registerAutoComplete(
       maxItems = workspace.getConfiguration().get<number>('unocss.autocomplete.maxItems', 1000)
     }
 
-    if (event.affectsConfiguration('unocss.enableRemToPxPreview')) {
+    if (event.affectsConfiguration('unocss.preview.remToPx')) {
       autoCompletes.clear()
-      enableRemToPxPreview = workspace.getConfiguration().get('unocss.enableRemToPxPreview', false)
+      enableRemToPxPreview = workspace.getConfiguration().get('unocss.preview.remToPx', false)
     }
     if (enableRemToPxPreview) {
       if (event.affectsConfiguration('unocss.rootFontSize')) {

@@ -16,7 +16,7 @@ export async function registerAnnotations(
   let colorPreview = workspace.getConfiguration().get('unocss.colorPreview', true)
 
   let rootFontSize = workspace.getConfiguration().get('unocss.rootFontSize', 16)
-  let enableRemToPxPreview = workspace.getConfiguration().get('unocss.enableRemToPxPreview', false)
+  let enableRemToPxPreview = workspace.getConfiguration().get('unocss.preview.remToPx', false)
 
   ext.subscriptions.push(workspace.onDidChangeConfiguration((event) => {
     if (event.affectsConfiguration('unocss.underline')) {
@@ -27,8 +27,8 @@ export async function registerAnnotations(
       colorPreview = workspace.getConfiguration().get('unocss.colorPreview', true)
       updateAnnotation()
     }
-    if (event.affectsConfiguration('unocss.enableRemToPxPreview')) {
-      enableRemToPxPreview = workspace.getConfiguration().get('unocss.enableRemToPxPreview', false)
+    if (event.affectsConfiguration('unocss.preview.remToPx')) {
+      enableRemToPxPreview = workspace.getConfiguration().get('unocss.preview.remToPx', false)
       updateAnnotation()
     }
     if (enableRemToPxPreview) {

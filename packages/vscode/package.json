@@ -73,7 +73,7 @@
           "default": 16,
           "description": "The root font size in pixels"
         },
-        "unocss.enableRemToPxPreview": {
+        "unocss.preview.remToPx": {
           "type": "boolean",
           "default": false,
           "description": "Enable/disable rem to px preview decorations"
