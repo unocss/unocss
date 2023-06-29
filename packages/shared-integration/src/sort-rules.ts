@@ -28,12 +28,7 @@ export async function sortRules(rules: string, uno: UnoGenerator) {
 
   let sorted = result
     .filter(notNull)
-    .sort((a, b) => {
-      let result = a[0] - b[0]
-      if (result === 0)
-        result = a[1].localeCompare(b[1])
-      return result
-    })
+    .sort((a, b) => a[1].localeCompare(b[1]))
     .map(i => i[1])
     .join(' ')
 

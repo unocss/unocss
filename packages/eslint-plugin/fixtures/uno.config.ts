@@ -8,4 +8,11 @@ export default defineConfig({
   transformers: [
     transformerVariantGroup(),
   ],
+  shortcuts: [
+    {
+      'flex-center': 'items-center',
+      'disblock': 'block',
+      'bg-my-white': 'bg-white',
+    }
+  ]
 })

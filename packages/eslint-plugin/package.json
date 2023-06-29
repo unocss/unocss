@@ -37,7 +37,8 @@
   },
   "scripts": {
     "build": "unbuild",
-    "lint": "nr build && cd ./fixtures && eslint ./src"
+    "lint": "nr build && cd ./fixtures && eslint ./src",
+    "lint:s": "nr build && cd ./fixtures && eslint --fix ./src/WithShortCuts.vue"
   },
   "dependencies": {
     "@typescript-eslint/utils": "^5.60.0",
