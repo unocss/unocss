@@ -61,7 +61,11 @@ export async function registerAutoComplete(
 
   let matchType = workspace.getConfiguration().get<AutoCompleteMatchType>('unocss.autocomplete.matchType', 'prefix')
 
-  let maxItems = workspace.getConfiguration().get<number>('unocss.autocomplete.maxItems', 1000)
+  let maxItems = workspace.getConfiguration().get('unocss.autocomplete.maxItems', 1000)
+
+  let rootFontSize = workspace.getConfiguration().get('unocss.rootFontSize', 16)
+
+  let enableRemToPxPreview = workspace.getConfiguration().get('unocss.enableRemToPxPreview', false)
 
   function getAutocomplete(ctx: UnocssPluginContext) {
     const cached = autoCompletes.get(ctx)
@@ -76,8 +80,8 @@ export async function registerAutoComplete(
     return autocomplete
   }
 
-  async function getMarkdown(uno: UnoGenerator, util: string) {
-    return new MarkdownString(await getPrettiedMarkdown(uno, util))
+  async function getMarkdown(uno: UnoGenerator, util: string, rootFontSize: number) {
+    return new MarkdownString(await getPrettiedMarkdown(uno, util, rootFontSize))
   }
 
   function validateLanguages(targets: string[]) {
@@ -154,9 +158,9 @@ export async function registerAutoComplete(
 
     async resolveCompletionItem(item) {
       if (item.kind === CompletionItemKind.Color)
-        item.detail = await (await getPrettiedCSS(item.uno, item.value)).prettified
+        item.detail = await (await getPrettiedCSS(item.uno, item.value, rootFontSize)).prettified
       else
-        item.documentation = await getMarkdown(item.uno, item.value)
+        item.documentation = await getMarkdown(item.uno, item.value, rootFontSize)
       return item
     },
   }
@@ -191,6 +195,20 @@ export async function registerAutoComplete(
     if (event.affectsConfiguration('unocss.autocomplete.maxItems')) {
       autoCompletes.clear()
       maxItems = workspace.getConfiguration().get<number>('unocss.autocomplete.maxItems', 1000)
+    }
+
+    if (event.affectsConfiguration('unocss.enableRemToPxPreview')) {
+      autoCompletes.clear()
+      enableRemToPxPreview = workspace.getConfiguration().get('unocss.enableRemToPxPreview', false)
+    }
+    if (enableRemToPxPreview) {
+      if (event.affectsConfiguration('unocss.rootFontSize')) {
+        autoCompletes.clear()
+        rootFontSize = workspace.getConfiguration().get('unocss.rootFontSize', 16)
+      }
+    }
+    else {
+      rootFontSize = -1
     }
   }))
 

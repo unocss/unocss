@@ -68,6 +68,16 @@
           "default": true,
           "description": "Enable/disable color preview decorations"
         },
+        "unocss.rootFontSize": {
+          "type": "number",
+          "default": 16,
+          "description": "The root font size in pixels"
+        },
+        "unocss.enableRemToPxPreview": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable/disable rem to px preview decorations"
+        },
         "unocss.selectionStyle": {
           "type": "boolean",
           "default": true,

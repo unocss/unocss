@@ -12,17 +12,33 @@ export async function registerAnnotations(
   status: StatusBarItem,
   ext: ExtensionContext,
 ) {
-  let underline: boolean = workspace.getConfiguration().get('unocss.underline') ?? true
-  let colorPreview: boolean = workspace.getConfiguration().get('unocss.colorPreview') ?? true
+  let underline = workspace.getConfiguration().get('unocss.underline', true)
+  let colorPreview = workspace.getConfiguration().get('unocss.colorPreview', true)
+
+  let rootFontSize = workspace.getConfiguration().get('unocss.rootFontSize', 16)
+  let enableRemToPxPreview = workspace.getConfiguration().get('unocss.enableRemToPxPreview', false)
 
   ext.subscriptions.push(workspace.onDidChangeConfiguration((event) => {
     if (event.affectsConfiguration('unocss.underline')) {
-      underline = workspace.getConfiguration().get('unocss.underline') ?? true
+      underline = workspace.getConfiguration().get('unocss.underline', true)
       updateAnnotation()
     }
     if (event.affectsConfiguration('unocss.colorPreview')) {
-      colorPreview = workspace.getConfiguration().get('unocss.colorPreview') ?? true
+      colorPreview = workspace.getConfiguration().get('unocss.colorPreview', true)
       updateAnnotation()
+    }
+    if (event.affectsConfiguration('unocss.enableRemToPxPreview')) {
+      enableRemToPxPreview = workspace.getConfiguration().get('unocss.enableRemToPxPreview', false)
+      updateAnnotation()
+    }
+    if (enableRemToPxPreview) {
+      if (event.affectsConfiguration('unocss.rootFontSize')) {
+        rootFontSize = workspace.getConfiguration().get('unocss.rootFontSize', 16)
+        updateAnnotation()
+      }
+    }
+    else {
+      rootFontSize = -1
     }
   }))
 
@@ -110,7 +126,7 @@ export async function registerAnnotations(
           (await getMatchedPositionsFromCode(ctx.uno, code))
             .map(async (i): Promise<DecorationOptions> => {
               try {
-                const md = await getPrettiedMarkdown(ctx!.uno, i[2])
+                const md = await getPrettiedMarkdown(ctx!.uno, i[2], rootFontSize)
 
                 if (colorPreview) {
                   const color = getColorString(md)
