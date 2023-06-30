@@ -107,6 +107,7 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
       const suggestions = await suggest(byExtractor.extracted, isInsideAttrValue)
       const formatted = byExtractor.transformSuggestions ? byExtractor.transformSuggestions(suggestions) : suggestions
       return {
+        input: byExtractor.extracted,
         suggestions: suggestions.map((v, i) => [v, formatted[i]] as [string, string]),
         resolveReplacement: byExtractor.resolveReplacement,
       }
@@ -117,6 +118,7 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
     const suggestions = await suggest(regular.content, isInsideAttrValue)
 
     return {
+      input: regular.content,
       suggestions: suggestions.map(v => [v, v] as [string, string]),
       resolveReplacement: suggestion => ({
         start: regular.start,

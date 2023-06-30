@@ -478,6 +478,11 @@ export interface Replacement {
 }
 
 export interface SuggestResult {
+
+  /**
+   * The original input
+   */
+  input: string
   /**
    * The generated suggestions
    *

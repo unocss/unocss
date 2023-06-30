@@ -3,7 +3,7 @@ import { createAutocomplete } from '@unocss/autocomplete'
 import type { CompletionItemProvider, Disposable, ExtensionContext } from 'vscode'
 import { CompletionItem, CompletionItemKind, CompletionList, MarkdownString, Range, languages, window, workspace } from 'vscode'
 import type { UnoGenerator, UnocssPluginContext } from '@unocss/core'
-import { getCSS, getColorString, getPrettiedCSS, getPrettiedMarkdown, isSubdir } from './utils'
+import { getPrettiedMarkdown, isSubdir } from './utils'
 import { log } from './log'
 import type { ContextLoader } from './contextLoader'
 import { isCssId } from './integration'
@@ -130,22 +130,26 @@ export async function registerAutoComplete(
 
         const suggestions = result.suggestions.slice(0, maxItems)
 
+        const time = performance.now()
+
         for (const [value, label] of suggestions) {
-          const css = await getCSS(ctx!.uno, value)
-          const colorString = getColorString(css)
-          const itemKind = colorString ? CompletionItemKind.Color : CompletionItemKind.EnumMember
-          const item = new UnoCompletionItem(label, itemKind, value, ctx!.uno)
+          // const css = await getCSS(ctx!.uno, value)
+          // const colorString = getColorString(css)
+          // const itemKind = colorString ? CompletionItemKind.Color : CompletionItemKind.EnumMember
+          const item = new UnoCompletionItem(label, CompletionItemKind.EnumMember, value, ctx!.uno)
           const resolved = result.resolveReplacement(value)
 
           item.insertText = resolved.replacement
           item.range = new Range(doc.positionAt(resolved.start), doc.positionAt(resolved.end))
 
-          if (colorString) {
-            item.documentation = colorString
-            item.sortText = /-\d$/.test(label) ? '1' : '2' // reorder color completions
-          }
+          // if (colorString) {
+          //   item.detail = colorString
+          //   item.sortText = /-\d$/.test(label) ? '1' : '2' // reorder color completions
+          // }
           completionItems.push(item)
         }
+
+        log.appendLine(`🤖 suggested by '${result.input}' | ${performance.now() - time}ms`)
 
         return new CompletionList(completionItems, true)
       }
@@ -157,10 +161,7 @@ export async function registerAutoComplete(
     },
 
     async resolveCompletionItem(item) {
-      if (item.kind === CompletionItemKind.Color)
-        item.detail = await (await getPrettiedCSS(item.uno, item.value, rootFontSize)).prettified
-      else
-        item.documentation = await getMarkdown(item.uno, item.value, rootFontSize)
+      item.documentation = await getMarkdown(item.uno, item.value, rootFontSize)
       return item
     },
   }
