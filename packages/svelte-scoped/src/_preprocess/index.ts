@@ -10,7 +10,7 @@ import { wrapSelectorsWithGlobal } from './transformClasses/wrapGlobal'
 
 export function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = {}, unoContextFromVite?: SvelteScopedContext, isViteBuild?: () => boolean): PreprocessorGroup {
   if (!options.classPrefix)
-    options.classPrefix = 'spu-'
+    options.classPrefix = 'usp-'
 
   let uno: UnoGenerator
 

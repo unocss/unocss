@@ -13,6 +13,9 @@ export function UnocssSvelteScopedVite(options: UnocssSvelteScopedViteOptions = 
   if (context.uno.config.transformers)
     throw new Error('Due to the differences in normal UnoCSS global usage and Svelte Scoped usage, "config.transformers" will be ignored. You can still use transformers in CSS files with the "cssFileTransformers" option.')
 
+  if (!options.classPrefix)
+    options.classPrefix = 'uno-'
+
   const plugins: Plugin[] = [
     GlobalStylesPlugin(context, options.injectReset),
   ]
