@@ -124,6 +124,7 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
 export function combineLoaders(loaders: UniversalIconLoader[]) {
   return (async (...args) => {
     for (const loader of loaders) {
+      if ( !loader ) continue;
       const result = await loader(...args)
       if (result)
         return result
