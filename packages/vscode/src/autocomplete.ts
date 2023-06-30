@@ -3,7 +3,7 @@ import { createAutocomplete } from '@unocss/autocomplete'
 import type { CompletionItemProvider, Disposable, ExtensionContext } from 'vscode'
 import { CompletionItem, CompletionItemKind, CompletionList, MarkdownString, Range, languages, window, workspace } from 'vscode'
 import type { UnoGenerator, UnocssPluginContext } from '@unocss/core'
-import { getPrettiedMarkdown, isSubdir } from './utils'
+import { getCSS, getColorString, getPrettiedMarkdownByText, isSubdir } from './utils'
 import { log } from './log'
 import type { ContextLoader } from './contextLoader'
 import { isCssId } from './integration'
@@ -37,11 +37,13 @@ const delimiters = ['-', ':', ' ', '"', '\'']
 class UnoCompletionItem extends CompletionItem {
   uno: UnoGenerator
   value: string
+  css: string
 
-  constructor(label: string, kind: CompletionItemKind, value: string, uno: UnoGenerator) {
+  constructor(label: string, kind: CompletionItemKind, value: string, uno: UnoGenerator, css = '') {
     super(label, kind)
     this.uno = uno
     this.value = value
+    this.css = css
   }
 }
 
@@ -59,13 +61,17 @@ export async function registerAutoComplete(
     autoCompletes.delete(ctx)
   })
 
-  let matchType = workspace.getConfiguration().get<AutoCompleteMatchType>('unocss.autocomplete.matchType', 'prefix')
+  const configuration = workspace.getConfiguration()
 
-  let maxItems = workspace.getConfiguration().get('unocss.autocomplete.maxItems', 1000)
+  let matchType = configuration.get<AutoCompleteMatchType>('unocss.autocomplete.matchType', 'prefix')
 
-  let rootFontSize = workspace.getConfiguration().get('unocss.rootFontSize', 16)
+  let maxItems = configuration.get('unocss.autocomplete.maxItems', 1000)
 
-  let enableRemToPxPreview = workspace.getConfiguration().get('unocss.preview.remToPx', false)
+  let rootFontSize = configuration.get('unocss.rootFontSize', 16)
+
+  let enableRemToPxPreview = configuration.get('unocss.preview.remToPx', false)
+
+  let simpleAutocomplete = configuration.get('unocss.autocomplete.simple', false)
 
   function getAutocomplete(ctx: UnocssPluginContext) {
     const cached = autoCompletes.get(ctx)
@@ -80,8 +86,8 @@ export async function registerAutoComplete(
     return autocomplete
   }
 
-  async function getMarkdown(uno: UnoGenerator, util: string, rootFontSize: number) {
-    return new MarkdownString(await getPrettiedMarkdown(uno, util, rootFontSize))
+  function getMarkdown(css: string, rootFontSize: number) {
+    return new MarkdownString(getPrettiedMarkdownByText(css, rootFontSize))
   }
 
   function validateLanguages(targets: string[]) {
@@ -133,20 +139,24 @@ export async function registerAutoComplete(
         const time = performance.now()
 
         for (const [value, label] of suggestions) {
-          // const css = await getCSS(ctx!.uno, value)
-          // const colorString = getColorString(css)
-          // const itemKind = colorString ? CompletionItemKind.Color : CompletionItemKind.EnumMember
-          const item = new UnoCompletionItem(label, CompletionItemKind.EnumMember, value, ctx!.uno)
           const resolved = result.resolveReplacement(value)
-
+          const item = new UnoCompletionItem(label, CompletionItemKind.EnumMember, value, ctx!.uno)
+          item.range = new Range(doc.positionAt(resolved.start), doc.positionAt(resolved.end))
           item.insertText = resolved.replacement
+          completionItems.push(item)
+          if (simpleAutocomplete)
+            continue
+          const css = (await getCSS(ctx.uno, value))
+          const colorString = getColorString(css)
+          item.kind = colorString ? CompletionItemKind.Color : CompletionItemKind.EnumMember
+          item.css = css
+
           item.range = new Range(doc.positionAt(resolved.start), doc.positionAt(resolved.end))
 
-          // if (colorString) {
-          //   item.detail = colorString
-          //   item.sortText = /-\d$/.test(label) ? '1' : '2' // reorder color completions
-          // }
-          completionItems.push(item)
+          if (colorString) {
+            item.detail = colorString
+            item.sortText = /-\d$/.test(label) ? '1' : '2' // reorder color completions
+          }
         }
 
         log.appendLine(`🤖 suggested by '${result.input}' | ${performance.now() - time}ms`)
@@ -161,7 +171,8 @@ export async function registerAutoComplete(
     },
 
     async resolveCompletionItem(item) {
-      item.documentation = await getMarkdown(item.uno, item.value, rootFontSize)
+      if (!simpleAutocomplete)
+        item.documentation = getMarkdown(item.css, rootFontSize)
       return item
     },
   }
@@ -189,23 +200,29 @@ export async function registerAutoComplete(
         registerProvider(),
       )
     }
+
+    if (event.affectsConfiguration('unocss.autocomplete.simple')) {
+      autoCompletes.clear()
+      simpleAutocomplete = configuration.get('unocss.autocomplete.simple', false)
+    }
+
     if (event.affectsConfiguration('unocss.autocomplete.matchType')) {
       autoCompletes.clear()
-      matchType = workspace.getConfiguration().get<AutoCompleteMatchType>('unocss.autocomplete.matchType', 'prefix')
+      matchType = configuration.get<AutoCompleteMatchType>('unocss.autocomplete.matchType', 'prefix')
     }
     if (event.affectsConfiguration('unocss.autocomplete.maxItems')) {
       autoCompletes.clear()
-      maxItems = workspace.getConfiguration().get<number>('unocss.autocomplete.maxItems', 1000)
+      maxItems = configuration.get<number>('unocss.autocomplete.maxItems', 1000)
     }
 
     if (event.affectsConfiguration('unocss.preview.remToPx')) {
       autoCompletes.clear()
-      enableRemToPxPreview = workspace.getConfiguration().get('unocss.preview.remToPx', false)
+      enableRemToPxPreview = configuration.get('unocss.preview.remToPx', false)
     }
     if (enableRemToPxPreview) {
       if (event.affectsConfiguration('unocss.rootFontSize')) {
         autoCompletes.clear()
-        rootFontSize = workspace.getConfiguration().get('unocss.rootFontSize', 16)
+        rootFontSize = configuration.get('unocss.rootFontSize', 16)
       }
     }
     else {
