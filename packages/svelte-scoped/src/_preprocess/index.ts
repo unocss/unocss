@@ -19,7 +19,7 @@ export function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = 
       if (!uno)
         uno = await getGenerator(options.configOrPath, unoContextFromVite)
 
-      if (isViteBuild && !options.combine)
+      if (isViteBuild && options.combine === undefined)
         options.combine = isViteBuild()
 
       return await transformClasses({ content, filename: filename || '', uno, options })
