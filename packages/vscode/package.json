@@ -97,7 +97,7 @@
           "default": 1000,
           "description": "The maximum number of items to show in autocomplete"
         },
-        "unocss.autocomplete.simple":{
+        "unocss.autocomplete.simple": {
           "type": "boolean",
           "default": false,
           "description": "Enable/disable simple autocomplete to improvement performance"
