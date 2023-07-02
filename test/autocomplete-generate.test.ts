@@ -3,6 +3,9 @@ import { createGenerator } from '@unocss/core'
 import { describe, it } from 'vitest'
 import presetUno from '@unocss/preset-uno'
 
+/**
+ *  test autocomplete generator performance
+ */
 describe('autocomplete-generator', () => {
   const uno = createGenerator({
     presets: [
