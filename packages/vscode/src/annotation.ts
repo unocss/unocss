@@ -5,6 +5,7 @@ import { INCLUDE_COMMENT_IDE, getMatchedPositionsFromCode, isCssId } from './int
 import { log } from './log'
 import { getColorString, getPrettiedMarkdown, isSubdir, throttle } from './utils'
 import type { ContextLoader } from './contextLoader'
+import { reactiveConfiguration } from './reactiveConfig'
 
 export async function registerAnnotations(
   cwd: string,
@@ -12,35 +13,23 @@ export async function registerAnnotations(
   status: StatusBarItem,
   ext: ExtensionContext,
 ) {
-  let underline = workspace.getConfiguration().get('unocss.underline', true)
-  let colorPreview = workspace.getConfiguration().get('unocss.colorPreview', true)
+  const { configuration, watchConfiguration } = reactiveConfiguration({
+    ext,
+    scope: 'unocss',
+    initValue: {
+      underline: true,
+      colorPreview: true,
+      rootFontSize: 16,
+      enableRemToPxPreview: false,
+    },
+    alias: {
+      enableRemToPxPreview: 'preview.remToPx',
+    },
+  })
 
-  let rootFontSize = workspace.getConfiguration().get('unocss.rootFontSize', 16)
-  let enableRemToPxPreview = workspace.getConfiguration().get('unocss.preview.remToPx', false)
-
-  ext.subscriptions.push(workspace.onDidChangeConfiguration((event) => {
-    if (event.affectsConfiguration('unocss.underline')) {
-      underline = workspace.getConfiguration().get('unocss.underline', true)
-      updateAnnotation()
-    }
-    if (event.affectsConfiguration('unocss.colorPreview')) {
-      colorPreview = workspace.getConfiguration().get('unocss.colorPreview', true)
-      updateAnnotation()
-    }
-    if (event.affectsConfiguration('unocss.preview.remToPx')) {
-      enableRemToPxPreview = workspace.getConfiguration().get('unocss.preview.remToPx', false)
-      updateAnnotation()
-    }
-    if (enableRemToPxPreview) {
-      if (event.affectsConfiguration('unocss.rootFontSize')) {
-        rootFontSize = workspace.getConfiguration().get('unocss.rootFontSize', 16)
-        updateAnnotation()
-      }
-    }
-    else {
-      rootFontSize = -1
-    }
-  }))
+  watchConfiguration(['underline', 'colorPreview', 'enableRemToPxPreview', 'rootFontSize'], () => {
+    updateAnnotation()
+  })
 
   workspace.onDidSaveTextDocument(async (doc) => {
     const id = doc.uri.fsPath
@@ -126,9 +115,9 @@ export async function registerAnnotations(
           (await getMatchedPositionsFromCode(ctx.uno, code))
             .map(async (i): Promise<DecorationOptions> => {
               try {
-                const md = await getPrettiedMarkdown(ctx!.uno, i[2], rootFontSize)
+                const md = await getPrettiedMarkdown(ctx!.uno, i[2], configuration.enableRemToPxPreview ? configuration.rootFontSize : -1)
 
-                if (colorPreview) {
+                if (configuration.colorPreview) {
                   const color = getColorString(md)
                   if (color && !colorRanges.find(r => r.range.start.isEqual(doc.positionAt(i[0])))) {
                     colorRanges.push({
@@ -155,7 +144,7 @@ export async function registerAnnotations(
 
       editor.setDecorations(colorDecoration, colorRanges)
 
-      if (underline) {
+      if (configuration.underline) {
         editor.setDecorations(NoneDecoration, [])
         editor.setDecorations(UnderlineDecoration, ranges)
       }

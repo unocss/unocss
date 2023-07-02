@@ -1,12 +1,13 @@
 import type { AutoCompleteMatchType, UnocssAutocomplete } from '@unocss/autocomplete'
 import { createAutocomplete } from '@unocss/autocomplete'
 import type { CompletionItemProvider, Disposable, ExtensionContext } from 'vscode'
-import { CompletionItem, CompletionItemKind, CompletionList, MarkdownString, Range, languages, window, workspace } from 'vscode'
+import { CompletionItem, CompletionItemKind, CompletionList, MarkdownString, Range, languages, window } from 'vscode'
 import type { UnoGenerator, UnocssPluginContext } from '@unocss/core'
 import { getCSS, getColorString, getPrettiedMarkdownByText, isSubdir } from './utils'
 import { log } from './log'
 import type { ContextLoader } from './contextLoader'
 import { isCssId } from './integration'
+import { reactiveConfiguration } from './reactiveConfig'
 
 const defaultLanguageIds = [
   'erb',
@@ -61,17 +62,24 @@ export async function registerAutoComplete(
     autoCompletes.delete(ctx)
   })
 
-  const configuration = workspace.getConfiguration()
-
-  let matchType = configuration.get<AutoCompleteMatchType>('unocss.autocomplete.matchType', 'prefix')
-
-  let maxItems = configuration.get('unocss.autocomplete.maxItems', 1000)
-
-  let rootFontSize = configuration.get('unocss.rootFontSize', 16)
-
-  let enableRemToPxPreview = configuration.get('unocss.preview.remToPx', false)
-
-  let simpleAutocomplete = configuration.get('unocss.autocomplete.simple', false)
+  const { configuration, watchConfiguration } = reactiveConfiguration({
+    ext,
+    scope: 'unocss',
+    initValue: {
+      languagesIds: <string[]>[],
+      matchType: <AutoCompleteMatchType>'prefix',
+      maxItems: 1000,
+      rootFontSize: 16,
+      enableRemToPxPreview: false,
+      simpleMode: false,
+    },
+    alias: {
+      enableRemToPxPreview: 'preview.remToPx',
+      matchType: 'autocomplete.matchType',
+      maxItems: 'autocomplete.maxItems',
+      simpleMode: 'autocomplete.simpleMode',
+    },
+  })
 
   function getAutocomplete(ctx: UnocssPluginContext) {
     const cached = autoCompletes.get(ctx)
@@ -79,7 +87,7 @@ export async function registerAutoComplete(
       return cached
 
     const autocomplete = createAutocomplete(ctx.uno, {
-      matchType,
+      matchType: configuration.matchType,
     })
 
     autoCompletes.set(ctx, autocomplete)
@@ -134,7 +142,7 @@ export async function registerAutoComplete(
 
         const completionItems: UnoCompletionItem[] = []
 
-        const suggestions = result.suggestions.slice(0, maxItems)
+        const suggestions = result.suggestions.slice(0, configuration.maxItems)
 
         const time = performance.now()
 
@@ -144,7 +152,7 @@ export async function registerAutoComplete(
           item.range = new Range(doc.positionAt(resolved.start), doc.positionAt(resolved.end))
           item.insertText = resolved.replacement
           completionItems.push(item)
-          if (simpleAutocomplete)
+          if (configuration.simpleMode)
             continue
           const css = (await getCSS(ctx.uno, value))
           const colorString = getColorString(css)
@@ -159,7 +167,7 @@ export async function registerAutoComplete(
           }
         }
 
-        log.appendLine(`🤖 suggested by '${result.input}' | ${performance.now() - time}ms`)
+        log.appendLine(`🤖 suggested by '${result.input}' ${configuration.simpleMode ? 'with simple mode' : ''} | ${performance.now() - time}ms`)
 
         return new CompletionList(completionItems, true)
       }
@@ -171,8 +179,8 @@ export async function registerAutoComplete(
     },
 
     async resolveCompletionItem(item) {
-      if (!simpleAutocomplete)
-        item.documentation = getMarkdown(item.css, rootFontSize)
+      if (!configuration.simpleMode && item.css)
+        item.documentation = getMarkdown(item.css, configuration.enableRemToPxPreview ? configuration.rootFontSize : -1)
       return item
     },
   }
@@ -182,9 +190,7 @@ export async function registerAutoComplete(
   const registerProvider = () => {
     completeUnregister?.dispose?.()
 
-    const languagesIds: string[] = workspace.getConfiguration().get('unocss.languageIds') || []
-
-    const validLanguages = validateLanguages(languagesIds)
+    const validLanguages = validateLanguages(configuration.languagesIds)
 
     completeUnregister = languages.registerCompletionItemProvider(
       defaultLanguageIds.concat(validLanguages),
@@ -194,41 +200,20 @@ export async function registerAutoComplete(
     return completeUnregister
   }
 
-  ext.subscriptions.push(workspace.onDidChangeConfiguration(async (event) => {
-    if (event.affectsConfiguration('unocss.languageIds')) {
-      ext.subscriptions.push(
-        registerProvider(),
-      )
-    }
+  watchConfiguration(['languagesIds', 'simpleMode'], () => {
+    ext.subscriptions.push(
+      registerProvider(),
+    )
+  })
 
-    if (event.affectsConfiguration('unocss.autocomplete.simple')) {
-      autoCompletes.clear()
-      simpleAutocomplete = configuration.get('unocss.autocomplete.simple', false)
-    }
-
-    if (event.affectsConfiguration('unocss.autocomplete.matchType')) {
-      autoCompletes.clear()
-      matchType = configuration.get<AutoCompleteMatchType>('unocss.autocomplete.matchType', 'prefix')
-    }
-    if (event.affectsConfiguration('unocss.autocomplete.maxItems')) {
-      autoCompletes.clear()
-      maxItems = configuration.get<number>('unocss.autocomplete.maxItems', 1000)
-    }
-
-    if (event.affectsConfiguration('unocss.preview.remToPx')) {
-      autoCompletes.clear()
-      enableRemToPxPreview = configuration.get('unocss.preview.remToPx', false)
-    }
-    if (enableRemToPxPreview) {
-      if (event.affectsConfiguration('unocss.rootFontSize')) {
-        autoCompletes.clear()
-        rootFontSize = configuration.get('unocss.rootFontSize', 16)
-      }
-    }
-    else {
-      rootFontSize = -1
-    }
-  }))
+  watchConfiguration([
+    'matchType',
+    'maxItems',
+    'rootFontSize',
+    'enableRemToPxPreview',
+  ], () => {
+    autoCompletes.clear()
+  })
 
   ext.subscriptions.push(
     registerProvider(),
