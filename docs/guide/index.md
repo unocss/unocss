@@ -88,7 +88,7 @@ export default defineConfig({
 })
 ```
 
-So similarly, we provided a few [official presets](/presets/) for you to start using right away, and you can also find many interesting [community presets](/presets/#community).
+So similarly, we provided a few [official presets](/presets/) for you to start using right away, and you can also find many interesting [community presets](/presets/community).
 
 ## Play
 
