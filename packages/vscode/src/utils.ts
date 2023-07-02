@@ -73,19 +73,15 @@ export async function getPrettiedCSS(uno: UnoGenerator, util: string, rootFontSi
   }
 }
 
-export async function getPrettiedCSSByText(uno: UnoGenerator, util: string, rootFontSize: number) {
-  const result = (await uno.generate(new Set([util]), { preflights: false, safelist: false }))
-  const css = addRemToPxComment(result.css, rootFontSize)
-  const prettified = prettyCSS(css)
+export async function getPrettiedCSSByText(css: string, rootFontSize: number) {
+  css = addRemToPxComment(css, rootFontSize)
+  css = prettyCSS(css)
 
-  return {
-    ...result,
-    prettified,
-  }
+  return css
 }
 
 export function getPrettiedMarkdownByText(css: string, rootFontSize: number) {
-  return `\`\`\`css\n${prettyCSS(addRemToPxComment(css, rootFontSize))}\n\`\`\``
+  return `\`\`\`css\n${getPrettiedCSSByText(css, rootFontSize)}\n\`\`\``
 }
 
 export async function getPrettiedMarkdown(uno: UnoGenerator, util: string, rootFontSize: number) {
