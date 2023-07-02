@@ -73,7 +73,7 @@ export async function getPrettiedCSS(uno: UnoGenerator, util: string, rootFontSi
   }
 }
 
-export async function getPrettiedCSSByText(css: string, rootFontSize: number) {
+export function getPrettiedCSSByText(css: string, rootFontSize: number) {
   css = addRemToPxComment(css, rootFontSize)
   css = prettyCSS(css)
 
