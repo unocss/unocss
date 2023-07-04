@@ -7,6 +7,7 @@ import { getCSS, getColorString, getPrettiedCSS, getPrettiedMarkdown, isSubdir }
 import { log } from './log'
 import type { ContextLoader } from './contextLoader'
 import { isCssId } from './integration'
+import { useConfiguration } from './configuration'
 
 const defaultLanguageIds = [
   'erb',
@@ -59,13 +60,22 @@ export async function registerAutoComplete(
     autoCompletes.delete(ctx)
   })
 
-  let matchType = workspace.getConfiguration().get<AutoCompleteMatchType>('unocss.autocomplete.matchType', 'prefix')
-
-  let maxItems = workspace.getConfiguration().get('unocss.autocomplete.maxItems', 1000)
-
-  let rootFontSize = workspace.getConfiguration().get('unocss.rootFontSize', 16)
-
-  let enableRemToPxPreview = workspace.getConfiguration().get('unocss.preview.remToPx', false)
+  const { configuration, watchChanged } = useConfiguration({
+    ext,
+    scope: 'unocss',
+    initialValue: {
+      languagesIds: <string[]>[],
+      matchType: <AutoCompleteMatchType>'prefix',
+      maxItems: 1000,
+      rootFontSize: 16,
+      enableRemToPxPreview: false,
+    },
+    alias: {
+      enableRemToPxPreview: 'preview.remToPx',
+      matchType: 'autocomplete.matchType',
+      maxItems: 'autocomplete.maxItems',
+    },
+  })
 
   function getAutocomplete(ctx: UnocssPluginContext) {
     const cached = autoCompletes.get(ctx)
@@ -73,7 +83,7 @@ export async function registerAutoComplete(
       return cached
 
     const autocomplete = createAutocomplete(ctx.uno, {
-      matchType,
+      matchType: configuration.matchType,
     })
 
     autoCompletes.set(ctx, autocomplete)
@@ -128,7 +138,7 @@ export async function registerAutoComplete(
 
         const completionItems: UnoCompletionItem[] = []
 
-        const suggestions = result.suggestions.slice(0, maxItems)
+        const suggestions = result.suggestions.slice(0, configuration.maxItems)
 
         for (const [value, label] of suggestions) {
           const css = await getCSS(ctx!.uno, value)
@@ -157,6 +167,7 @@ export async function registerAutoComplete(
     },
 
     async resolveCompletionItem(item) {
+      const rootFontSize = configuration.rootFontSize ? configuration.rootFontSize : -1
       if (item.kind === CompletionItemKind.Color)
         item.detail = await (await getPrettiedCSS(item.uno, item.value, rootFontSize)).prettified
       else
@@ -182,35 +193,20 @@ export async function registerAutoComplete(
     return completeUnregister
   }
 
-  ext.subscriptions.push(workspace.onDidChangeConfiguration(async (event) => {
-    if (event.affectsConfiguration('unocss.languageIds')) {
-      ext.subscriptions.push(
-        registerProvider(),
-      )
-    }
-    if (event.affectsConfiguration('unocss.autocomplete.matchType')) {
-      autoCompletes.clear()
-      matchType = workspace.getConfiguration().get<AutoCompleteMatchType>('unocss.autocomplete.matchType', 'prefix')
-    }
-    if (event.affectsConfiguration('unocss.autocomplete.maxItems')) {
-      autoCompletes.clear()
-      maxItems = workspace.getConfiguration().get<number>('unocss.autocomplete.maxItems', 1000)
-    }
+  watchChanged(['languagesIds'], () => {
+    ext.subscriptions.push(
+      registerProvider(),
+    )
+  })
 
-    if (event.affectsConfiguration('unocss.preview.remToPx')) {
-      autoCompletes.clear()
-      enableRemToPxPreview = workspace.getConfiguration().get('unocss.preview.remToPx', false)
-    }
-    if (enableRemToPxPreview) {
-      if (event.affectsConfiguration('unocss.rootFontSize')) {
-        autoCompletes.clear()
-        rootFontSize = workspace.getConfiguration().get('unocss.rootFontSize', 16)
-      }
-    }
-    else {
-      rootFontSize = -1
-    }
-  }))
+  watchChanged([
+    'matchType',
+    'maxItems',
+    'rootFontSize',
+    'enableRemToPxPreview',
+  ], () => {
+    autoCompletes.clear()
+  })
 
   ext.subscriptions.push(
     registerProvider(),
