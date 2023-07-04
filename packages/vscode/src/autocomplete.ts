@@ -7,7 +7,7 @@ import { getCSS, getColorString, getPrettiedMarkdownByText, isSubdir } from './u
 import { log } from './log'
 import type { ContextLoader } from './contextLoader'
 import { isCssId } from './integration'
-import { reactiveConfiguration } from './reactiveConfig'
+import { useConfiguration } from './configuration'
 
 const defaultLanguageIds = [
   'erb',
@@ -62,10 +62,10 @@ export async function registerAutoComplete(
     autoCompletes.delete(ctx)
   })
 
-  const { configuration, watchConfiguration } = reactiveConfiguration({
+  const { configuration, watchChanged } = useConfiguration({
     ext,
     scope: 'unocss',
-    initValue: {
+    initialValue: {
       languagesIds: <string[]>[],
       matchType: <AutoCompleteMatchType>'prefix',
       maxItems: 1000,
@@ -200,13 +200,13 @@ export async function registerAutoComplete(
     return completeUnregister
   }
 
-  watchConfiguration(['languagesIds', 'simpleMode'], () => {
+  watchChanged(['languagesIds', 'simpleMode'], () => {
     ext.subscriptions.push(
       registerProvider(),
     )
   })
 
-  watchConfiguration([
+  watchChanged([
     'matchType',
     'maxItems',
     'rootFontSize',

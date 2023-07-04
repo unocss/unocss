@@ -3,10 +3,10 @@ import type { ExtensionContext } from 'vscode'
 import { workspace } from 'vscode'
 import { createNanoEvents } from '../../core/src/utils/events'
 
-export interface ReactiveConfigurationOptions<Init> {
+export interface UseConfigurationOptions<Init> {
   ext?: ExtensionContext
   scope?: string
-  initValue: Init
+  initialValue: Init
   alias?: Partial<Record<keyof Init, string>>
 }
 
@@ -14,8 +14,8 @@ export type ConfigurationListenerMap<Init> = Map<keyof Init, WatchConfigurationH
 
 export type WatchConfigurationHandler<Init, K extends keyof Init> = (value: Init[K]) => void
 
-export function reactiveConfiguration<Init extends Record<string, unknown>>(options: ReactiveConfigurationOptions<Init>) {
-  const { initValue, alias, scope, ext } = options
+export function useConfiguration<Init extends Record<string, unknown>>(options: UseConfigurationOptions<Init>) {
+  const { initialValue, alias, scope, ext } = options
   const configuration = {} as Init
 
   const getConfigurationKey = (key: keyof Init) => {
@@ -25,18 +25,18 @@ export function reactiveConfiguration<Init extends Record<string, unknown>>(opti
 
   const reload = () => {
     const _config = workspace.getConfiguration()
-    for (const key in initValue) {
+    for (const key in initialValue) {
       const configurationKey = getConfigurationKey(key)
-      configuration[key] = _config.get(configurationKey, initValue[key])
+      configuration[key] = _config.get(configurationKey, initialValue[key])
     }
   }
 
   const reset = () => {
     const _config = workspace.getConfiguration()
-    for (const key in initValue) {
-      configuration[key] = initValue[key]
+    for (const key in initialValue) {
+      configuration[key] = initialValue[key]
       const configurationKey = getConfigurationKey(key)
-      _config.update(configurationKey, initValue[key], true)
+      _config.update(configurationKey, initialValue[key], true)
     }
   }
 
@@ -44,7 +44,7 @@ export function reactiveConfiguration<Init extends Record<string, unknown>>(opti
 
   const emitter = createNanoEvents()
 
-  const watchConfiguration = <K extends keyof Init>(key: K | K[], fn: WatchConfigurationHandler<Init, K>) => {
+  const watchChanged = <K extends keyof Init>(key: K | K[], fn: WatchConfigurationHandler<Init, K>) => {
     const keys = toArray(key)
     const unsubscribes = keys.map(key => emitter.on(`update:${String(key)}`, fn))
     return () => unsubscribes.forEach(fn => fn())
@@ -54,10 +54,10 @@ export function reactiveConfiguration<Init extends Record<string, unknown>>(opti
     const _config = workspace.getConfiguration()
     const changedKeys = new Set<keyof Init>()
 
-    for (const key in initValue) {
+    for (const key in initialValue) {
       const configurationKey = getConfigurationKey(key)
       if (e.affectsConfiguration(configurationKey)) {
-        const value = _config.get(configurationKey, initValue[key])
+        const value = _config.get(configurationKey, initialValue[key])
         configuration[key as keyof Init] = value as Init[keyof Init]
         changedKeys.add(key)
       }
@@ -71,7 +71,7 @@ export function reactiveConfiguration<Init extends Record<string, unknown>>(opti
 
   return {
     configuration,
-    watchConfiguration,
+    watchChanged,
     disposable,
     reload,
     reset,

@@ -5,7 +5,7 @@ import { INCLUDE_COMMENT_IDE, getMatchedPositionsFromCode, isCssId } from './int
 import { log } from './log'
 import { getColorString, getPrettiedMarkdown, isSubdir, throttle } from './utils'
 import type { ContextLoader } from './contextLoader'
-import { reactiveConfiguration } from './reactiveConfig'
+import { useConfiguration } from './configuration'
 
 export async function registerAnnotations(
   cwd: string,
@@ -13,10 +13,10 @@ export async function registerAnnotations(
   status: StatusBarItem,
   ext: ExtensionContext,
 ) {
-  const { configuration, watchConfiguration } = reactiveConfiguration({
+  const { configuration, watchChanged } = useConfiguration({
     ext,
     scope: 'unocss',
-    initValue: {
+    initialValue: {
       underline: true,
       colorPreview: true,
       rootFontSize: 16,
@@ -27,7 +27,7 @@ export async function registerAnnotations(
     },
   })
 
-  watchConfiguration(['underline', 'colorPreview', 'enableRemToPxPreview', 'rootFontSize'], () => {
+  watchChanged(['underline', 'colorPreview', 'enableRemToPxPreview', 'rootFontSize'], () => {
     updateAnnotation()
   })
 
