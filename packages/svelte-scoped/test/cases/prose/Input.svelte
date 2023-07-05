@@ -1,3 +1,3 @@
 <div class="uno-prose" />
 
-<style uno:preflights uno:safelist></style>
+<style uno-preflights uno-safelist></style>

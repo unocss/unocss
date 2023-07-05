@@ -1,6 +1,6 @@
 <div class="spu-ff1ijb" />
 
-<style uno:preflights>
+<style uno-preflights>
   *,
   ::before,
   ::after {
