@@ -110,6 +110,8 @@ export async function registerAnnotations(
 
       const colorRanges: DecorationOptions[] = []
 
+      const rootFontSize = configuration.enableRemToPxPreview ? configuration.rootFontSize : -1
+
       const ranges: DecorationOptions[] = (
         await Promise.all(
           (await getMatchedPositionsFromCode(ctx.uno, code))
