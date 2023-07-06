@@ -24,11 +24,11 @@ export interface UnocssNuxtOptions extends UserConfig {
   autoImport?: boolean
 
   /**
-   * Injecting `@unocss/reset/tailwind.css` entry
-   *
+   * Include reset styles
+   * When passing `true`, `@unocss/reset/tailwind.css` will be used
    * @default false
    */
-  preflight?: boolean
+  preflight?: string | boolean
 
   /**
    * Installing UnoCSS components

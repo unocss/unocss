@@ -11,5 +11,9 @@
 </template>
 
 <style>
+/**
+ * Alternatively, `preflight: true` or `preflight: "@unocss/reset/tailwind.css"` can be used on `nuxt.config.ts`
+ * to achieve the same behaviour
+ */
 @import '@unocss/reset/tailwind.css';
 </style>

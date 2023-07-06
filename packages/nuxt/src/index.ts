@@ -45,8 +45,12 @@ export default defineNuxtModule<UnocssNuxtOptions>({
               ? 'export default () => {}'
               : 'import { defineNuxtPlugin } from \'#imports\'; export default defineNuxtPlugin(() => {})',
           ]
-          if (options.preflight)
-            lines.unshift('import \'@unocss/reset/tailwind.css\'')
+          if (options.preflight) {
+            const resetPath = typeof options.preflight === 'string'
+              ? options.preflight
+              : '@unocss/reset/tailwind.css'
+            lines.unshift(`import '${resetPath}'`)
+          }
           return lines.join('\n')
         },
       })
