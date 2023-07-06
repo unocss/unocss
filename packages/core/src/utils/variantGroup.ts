@@ -90,7 +90,7 @@ export function expandVariantGroup(str: string | MagicString, separators = ['-',
   }
   else {
     return str.length()
-      ? str.overwrite(0, str.length(), expanded)
+      ? str.overwrite(0, str.original.length, expanded)
       : str
   }
 }
