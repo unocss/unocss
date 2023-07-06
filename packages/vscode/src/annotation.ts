@@ -117,7 +117,7 @@ export async function registerAnnotations(
           (await getMatchedPositionsFromCode(ctx.uno, code))
             .map(async (i): Promise<DecorationOptions> => {
               try {
-                const md = await getPrettiedMarkdown(ctx!.uno, i[2], configuration.enableRemToPxPreview ? configuration.rootFontSize : -1)
+                const md = await getPrettiedMarkdown(ctx!.uno, i[2], rootFontSize)
 
                 if (configuration.colorPreview) {
                   const color = getColorString(md)
