@@ -68,7 +68,7 @@ If you want the UnoCSS to skip a block of code without being extracted, you can 
   Green Large
 </p>
 
-<!-- @unocss-skip-end -->
+<!-- @unocss-skip-start -->
 <!-- `text-red` will not be extracted -->
 <p class="text-red">
   Red
