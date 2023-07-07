@@ -97,7 +97,7 @@
     "nuxt": "^3.3.1",
     "nuxt-tsconfig-stub": "^0.0.2",
     "pnpm": "8.6.6",
-    "prettier": "^3.0.0",
+    "prettier": "^2.8.8",
     "prettier-plugin-svelte": "^2.10.1",
     "react": "^18.2.0",
     "rollup": "^3.26.2",
@@ -123,7 +123,8 @@
     "overrides": {
       "@nuxt/kit-edge": "npm:@nuxt/kit@latest",
       "nuxt": "^3.3.1",
-      "magic-string": "^0.30.0"
+      "magic-string": "^0.30.1",
+      "prettier": "^2.8.8"
     }
   },
   "simple-git-hooks": {
