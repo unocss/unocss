@@ -111,6 +111,12 @@ export const examples: Example[] = [
     stackblitz: true,
   },
   {
+    name: 'vite-lightningcss',
+    path: 'examples/vite-lightningcss',
+    icon: 'i-ph-lightning text-yellow',
+    stackblitz: true,
+  },
+  {
     name: 'vite-lit',
     path: 'examples/vite-lit',
     icon: 'i-logos-lit-icon',
