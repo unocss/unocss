@@ -54,11 +54,11 @@
     "@unocss/scope": "workspace:*",
     "@unocss/transformer-directives": "workspace:*",
     "chokidar": "^3.5.3",
-    "fast-glob": "^3.2.12",
-    "magic-string": "^0.30.0"
+    "fast-glob": "^3.3.0",
+    "magic-string": "^0.30.1"
   },
   "devDependencies": {
     "@unocss/shared-integration": "workspace:*",
-    "vite": "^4.3.9"
+    "vite": "^4.4.1"
   }
 }

@@ -11,7 +11,7 @@
   "devDependencies": {
     "@iconify-json/logos": "^1.1.33",
     "@unocss/reset": "link:../../packages/reset",
-    "astro": "^2.7.0",
+    "astro": "^2.8.0",
     "unocss": "link:../../packages/unocss"
   },
   "stackblitz": {
