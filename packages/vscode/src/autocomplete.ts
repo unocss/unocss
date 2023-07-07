@@ -31,6 +31,7 @@ const defaultLanguageIds = [
   'stylus',
   'astro',
   'rust',
+  'pug',
 ]
 const delimiters = ['-', ':', ' ', '"', '\'']
 
