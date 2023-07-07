@@ -114,7 +114,8 @@ export const examples: Example[] = [
     name: 'vite-lightningcss',
     path: 'examples/vite-lightningcss',
     icon: 'i-ph-lightning text-yellow',
-    stackblitz: true,
+    // lightingcss is not supported by stackblitz yet
+    // stackblitz: true,
   },
   {
     name: 'vite-lit',
