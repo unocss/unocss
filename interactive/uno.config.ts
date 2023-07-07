@@ -9,7 +9,7 @@ import {
   transformerVariantGroup,
 } from 'unocss'
 
-export const defaultConfig = defineConfig<{}>({
+export const defaultConfig = defineConfig({
   details: true,
   presets: [
     presetUno(),

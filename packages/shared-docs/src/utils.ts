@@ -28,7 +28,7 @@ export async function formatCSS(input: string) {
     {
       parser: 'css',
       plugins: [prettierParserCSS],
-      printWidth: Infinity,
+      printWidth: Number.POSITIVE_INFINITY,
     },
   )
 }

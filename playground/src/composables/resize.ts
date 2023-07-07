@@ -35,9 +35,9 @@ export function useResize(element: MaybeElementRef, options: UseResizeOptions = 
   } = options
   let {
     minWidth = 1,
-    maxWidth = Infinity,
+    maxWidth = Number.POSITIVE_INFINITY,
     minHeight = 1,
-    maxHeight = Infinity,
+    maxHeight = Number.POSITIVE_INFINITY,
   } = options
 
   const isActive = ref(disabled)
