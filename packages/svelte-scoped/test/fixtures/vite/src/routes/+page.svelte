@@ -2,4 +2,4 @@
   import '../app.css'
 </script>
 
-<div class="foo bar" />
+<div class="foo bar mb-1" />
