@@ -41,9 +41,7 @@
           "description": "Disable the UnoCSS extension"
         },
         "unocss.languageIds": {
-          "type": [
-            "array"
-          ],
+          "type": "array",
           "items": {
             "type": "string"
           }
