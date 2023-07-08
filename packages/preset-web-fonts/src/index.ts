@@ -27,7 +27,11 @@ export function normalizedFontMeta(meta: WebFontMeta | string, defaultProvider: 
   if (typeof meta !== 'string') {
     meta.provider = resolveProvider(meta.provider || defaultProvider)
     if (meta.weights)
-      meta.weights = [...new Set(meta.weights.map(Number).sort((a, b) => a - b))]
+      meta.weights = [
+        ...new Set(meta.weights.sort((a, b) => 
+          a.toString().localeCompare(b.toString(), 'en', { numeric: true }))
+        )
+      ]
     return meta as ResolvedWebFontMeta
   }
 
