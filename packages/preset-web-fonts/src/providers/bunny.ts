@@ -13,7 +13,7 @@ export function createBunnyFontsProvider(
         if (!weights?.length)
           return `${formattedName}${italic ? ':i' : ''}`
 
-        let weightsAsString = weights.sort().map(weight => weight.toString())
+        let weightsAsString = weights.map(weight => weight.toString())
         // 1. if weights have at least one element that has 'i', ignore the `italic` flag.
         // 2. if none of the weights have an 'i' and italic is true, append an 'i'
         const weightsHaveItalic = weightsAsString.some(weight => weight.endsWith('i'))
