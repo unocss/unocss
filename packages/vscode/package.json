@@ -68,7 +68,7 @@
           "default": true,
           "description": "Enable/disable color preview decorations"
         },
-         "unocss.remToPxPreview": {
+        "unocss.remToPxPreview": {
           "type": "boolean",
           "default": false,
           "description": "Enable/disable rem to px preview in hover"
