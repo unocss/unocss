@@ -15,10 +15,10 @@ export { default as transformerVariantGroup } from '@unocss/transformer-variant-
 export { default as transformerCompileClass } from '@unocss/transformer-compile-class'
 export { default as transformerAttributifyJsx } from '@unocss/transformer-attributify-jsx'
 
-export function defineConfig<T extends {} = Theme>(config: UserConfig<T>) {
+export function defineConfig<T extends object = Theme>(config: UserConfig<T>) {
   return config
 }
 
-export function definePreset<T extends {} = {}>(preset: Preset<T>) {
+export function definePreset<T extends object = object>(preset: Preset<T>) {
   return preset
 }

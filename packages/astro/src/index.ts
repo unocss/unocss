@@ -98,7 +98,7 @@ function AstroVitePlugin(options: AstroVitePluginOptions): Plugin {
   }
 }
 
-export interface AstroIntegrationConfig<Theme extends {} = {}> extends VitePluginConfig<Theme> {
+export interface AstroIntegrationConfig<Theme extends object = object> extends VitePluginConfig<Theme> {
   /**
    * Include reset styles
    * When passing `true`, `@unocss/reset/tailwind.css` will be used
@@ -119,7 +119,7 @@ export interface AstroIntegrationConfig<Theme extends {} = {}> extends VitePlugi
   injectExtra?: string[]
 }
 
-export default function UnoCSSAstroIntegration<Theme extends {}>(
+export default function UnoCSSAstroIntegration<Theme extends object>(
   options: AstroIntegrationConfig<Theme> = {},
   defaults?: UserConfigDefaults,
 ): AstroIntegration {

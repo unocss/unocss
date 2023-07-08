@@ -12,9 +12,6 @@ import type { UnocssSveltePreprocessOptions } from '../src/preprocess'
 
 const defaultOptions: UnocssSveltePreprocessOptions = {
   configOrPath: {
-    // shortcuts: [
-    //   { logo: 'i-logos:svelte-icon w-7em h-7em transform transition-300' },
-    // ],
     safelist: ['mb-7px', 'uno-prose'],
     presets: [
       presetUno(),
