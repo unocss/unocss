@@ -14,7 +14,7 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
 
   const templates: (AutoCompleteTemplate | AutoCompleteFunction)[] = []
 
-  const matchType = options.matchType ?? 'prefix'
+  const matchType = options.matchType ?? 'fuzzy'
 
   reset()
 
