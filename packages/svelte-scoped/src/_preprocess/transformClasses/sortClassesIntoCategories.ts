@@ -5,7 +5,12 @@ import { needsGenerated } from './needsGenerated'
 import { generateClassName } from './generateClassName'
 import type { ProcessResult } from './processClasses'
 
-export async function sortClassesIntoCategories(body: string, options: TransformClassesOptions, uno: UnoGenerator<{}>, filename: string) {
+export async function sortClassesIntoCategories(
+  body: string,
+  options: TransformClassesOptions,
+  uno: UnoGenerator<object>,
+  filename: string,
+) {
   const { combine = true } = options
 
   const rulesToGenerate: ProcessResult['rulesToGenerate'] = {}

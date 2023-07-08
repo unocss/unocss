@@ -1,6 +1,6 @@
 import type { UserConfig } from '@unocss/core'
 
-export interface VitePluginConfig<Theme extends {} = {}> extends UserConfig<Theme> {
+export interface VitePluginConfig<Theme extends object = object> extends UserConfig<Theme> {
   /**
    * Enable UnoCSS inspector
    *

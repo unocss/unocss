@@ -1,21 +1,20 @@
 {
-  "name": "vite-vue3",
+  "name": "vite-lightningcss",
   "type": "module",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
-  "dependencies": {
-    "vue": "^3.2.47"
-  },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.33",
+    "@iconify-json/ph": "^1.1.5",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
-    "@vitejs/plugin-vue": "^4.2.3",
+    "@unocss/preset-uno": "link:../../packages/preset-uno",
+    "lightningcss": "^1.21.5",
     "typescript": "^5.1.6",
     "unocss": "link:../../packages/unocss",
     "vite": "^4.4.2"

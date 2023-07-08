@@ -153,6 +153,8 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .bg-opacity-\[--opacity-variable\],
 .bg-opacity-\$opacity-variable{--un-bg-opacity:var(--opacity-variable);}
 .bg-opacity-45{--un-bg-opacity:0.45;}
+.color-scheme-dark{color-scheme:dark;}
+.color-scheme-light{color-scheme:light;}
 .all-\[svg\]\:fill-red svg{--un-fill-opacity:1;fill:rgba(248,113,113,var(--un-fill-opacity));}
 .fill-\[\#123\]{--un-fill-opacity:1;fill:rgba(17,34,51,var(--un-fill-opacity));}
 .fill-current{fill:currentColor;}
