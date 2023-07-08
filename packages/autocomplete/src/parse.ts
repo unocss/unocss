@@ -90,7 +90,7 @@ export function parseAutocomplete(template: string, theme: any = {}): ParsedAuto
     )
   }
 
-  function suggest(input: string, matchType: AutoCompleteMatchType = 'fuzzy') {
+  function suggest(input: string, matchType: AutoCompleteMatchType = 'prefix') {
     if (input.length > 1 && matchType === 'fuzzy')
       return fzf.find(input).map(i => i.item)
     let rest = input

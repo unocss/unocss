@@ -19,7 +19,9 @@ describe('autocomplete', () => {
     ],
   })
 
-  const ac = createAutocomplete(uno)
+  const ac = createAutocomplete(uno, {
+    matchType: 'prefix',
+  })
 
   async function enumerateSuggestions(inputs: string[]) {
     return Object.fromEntries(await Promise.all(inputs.map(async input => [
@@ -220,7 +222,9 @@ describe('use uno cache', () => {
     ],
   })
 
-  const ac = createAutocomplete(uno)
+  const ac = createAutocomplete(uno, {
+    matchType: 'prefix',
+  })
 
   it('use cache', async () => {
     expect(await ac.suggest('btn'))
