@@ -1,7 +1,7 @@
-<div class="spu-xjcfo6" />
+<div class="usp-xjcfo6" />
 
 <style>
-  :global(.spu-xjcfo6) {
+  :global(.usp-xjcfo6) {
     margin-right: 0.25rem;
   }
   div {
