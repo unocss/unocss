@@ -28,7 +28,7 @@ export function normalizedFontMeta(meta: WebFontMeta | string, defaultProvider: 
     meta.provider = resolveProvider(meta.provider || defaultProvider)
     if (meta.weights) {
       meta.weights = [
-        ...new Set(meta.weights.sort((a, b) => 
+        ...new Set(meta.weights.sort((a, b) =>
           a.toString().localeCompare(b.toString(), 'en', { numeric: true })),
         ),
       ]
