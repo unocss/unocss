@@ -35,20 +35,5 @@ describe('autocomplete-generator', () => {
   }
 
   it('generator', async () => {
-    const { result: list } = await timing('suggest', () => {
-      return ac.suggest('tdo')
-    })
-
-    await timing('generate', () => {
-      return Promise.all(list.map(r => uno.generate(r)))
-    })
-
-    const { result: list2 } = await timing('repeat suggest', () => {
-      return ac.suggest('tdo')
-    })
-
-    await timing('repeat generate', () => {
-      return Promise.all(list2.map(r => uno.generate(r)))
-    })
   })
 })

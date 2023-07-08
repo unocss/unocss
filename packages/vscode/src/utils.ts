@@ -90,6 +90,12 @@ export async function getPrettiedMarkdown(uno: UnoGenerator, util: string, remTo
   return `\`\`\`css\n${(await getPrettiedCSS(uno, util, remToPxRatio)).prettified}\n\`\`\``
 }
 
+export function matchRuleMeta(uno: UnoGenerator, input: string) {
+  const rules = uno.config.rulesDynamic
+  const matched = rules.find(rule => rule[1].test(input))
+  return matched?.[3] ?? null
+}
+
 function getCssVariables(code: string) {
   const regex = /(?<key>--\S+?):\s*(?<value>.+?)\s*[!;]/gm
   const cssVariables = new Map<string, string>()

@@ -2,8 +2,8 @@ import type { UnocssAutocomplete } from '@unocss/autocomplete'
 import { createAutocomplete } from '@unocss/autocomplete'
 import type { CompletionItemProvider, Disposable, ExtensionContext } from 'vscode'
 import { CompletionItem, CompletionItemKind, CompletionList, MarkdownString, Range, languages, window } from 'vscode'
-import type { UnoGenerator, UnocssPluginContext } from '@unocss/core'
-import { getCSS, getColorString, getPrettiedMarkdownByText, isSubdir } from './utils'
+import { type UnoGenerator, type UnocssPluginContext, toArray } from '@unocss/core'
+import { getCSS, getColorString, getPrettiedMarkdownByText, isSubdir, matchRuleMeta } from './utils'
 import { log } from './log'
 import type { ContextLoader } from './contextLoader'
 import { isCssId } from './integration'
@@ -55,6 +55,9 @@ export async function registerAutoComplete(
 ) {
   const allLanguages = await languages.getLanguages()
   const autoCompletes = new Map<UnocssPluginContext, UnocssAutocomplete>()
+
+  const cacheRules = new Map<string, boolean>()
+
   contextLoader.events.on('contextReload', (ctx) => {
     autoCompletes.delete(ctx)
   })
@@ -81,6 +84,19 @@ export async function registerAutoComplete(
 
   async function getMarkdown(uno: UnoGenerator, util: string, remToPxRatio: number) {
     return new MarkdownString(await getPrettiedMarkdown(uno, util, remToPxRatio))
+  }
+
+  function hasColorRule(uno: UnoGenerator, value: string) {
+    if (!cacheRules.has(value)) {
+      const matched = matchRuleMeta(uno, value)
+      const autocomplete = matched?.autocomplete
+      log.appendLine(`🤖 ${value} | ${autocomplete}`)
+      if (autocomplete) {
+        const rs = toArray(autocomplete).some(r => r.includes('$colors'))
+        cacheRules.set(value, rs)
+      }
+    }
+    return cacheRules.get(value) ?? false
   }
 
   function validateLanguages(targets: string[]) {
@@ -137,7 +153,7 @@ export async function registerAutoComplete(
           item.range = new Range(doc.positionAt(resolved.start), doc.positionAt(resolved.end))
           item.insertText = resolved.replacement
           completionItems.push(item)
-          if (configuration.simpleMode)
+          if (!hasColorRule(ctx.uno, value))
             continue
           const css = (await getCSS(ctx.uno, value))
           const colorString = getColorString(css)
