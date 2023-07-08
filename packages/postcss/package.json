@@ -1,6 +1,6 @@
 {
   "name": "@unocss/postcss",
-  "version": "0.53.4",
+  "version": "0.53.5",
   "description": "PostCSS plugin for UnoCSS",
   "author": "sibbng <sibbngheid@gmail.com>",
   "license": "MIT",
@@ -43,8 +43,8 @@
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "css-tree": "^2.3.1",
-    "fast-glob": "^3.2.12",
-    "magic-string": "^0.30.0",
-    "postcss": "^8.4.24"
+    "fast-glob": "^3.3.0",
+    "magic-string": "^0.30.1",
+    "postcss": "^8.4.25"
   }
 }

@@ -3,7 +3,7 @@ import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq } from 
 import { extractorSplit } from './extractors'
 import { DEFAULT_LAYERS } from './constants'
 
-export function resolveShortcuts<Theme extends {} = {}>(shortcuts: UserShortcuts<Theme>): Shortcut<Theme>[] {
+export function resolveShortcuts<Theme extends object = object>(shortcuts: UserShortcuts<Theme>): Shortcut<Theme>[] {
   return toArray(shortcuts).flatMap((s) => {
     if (Array.isArray(s))
       return [s]
@@ -16,7 +16,7 @@ const __RESOLVED = '_uno_resolved'
 /**
  * Resolve a single preset, nested presets are ignored
  */
-export function resolvePreset<Theme extends {} = {}>(preset: Preset<Theme>): Preset<Theme> {
+export function resolvePreset<Theme extends object = object>(preset: Preset<Theme>): Preset<Theme> {
   if (__RESOLVED in preset)
     return preset
 
@@ -51,7 +51,7 @@ export function resolvePreset<Theme extends {} = {}>(preset: Preset<Theme>): Pre
 /**
  * Resolve presets with nested presets
  */
-export function resolvePresets<Theme extends {} = {}>(preset: Preset<Theme>): Preset<Theme>[] {
+export function resolvePresets<Theme extends object = object>(preset: Preset<Theme>): Preset<Theme>[] {
   const root = resolvePreset(preset)
   if (!root.presets)
     return [root]
@@ -59,7 +59,7 @@ export function resolvePresets<Theme extends {} = {}>(preset: Preset<Theme>): Pr
   return [root, ...nested]
 }
 
-export function resolveConfig<Theme extends {} = {}>(
+export function resolveConfig<Theme extends object = object>(
   userConfig: UserConfig<Theme> = {},
   defaults: UserConfigDefaults<Theme> = {},
 ): ResolvedConfig<Theme> {
@@ -167,7 +167,7 @@ export function resolveConfig<Theme extends {} = {}>(
 /**
  * Merge multiple configs into one, later ones have higher priority
  */
-export function mergeConfigs<Theme extends {} = {}>(
+export function mergeConfigs<Theme extends object = object>(
   configs: UserConfig<Theme>[],
 ): UserConfig<Theme> {
   function getMerged<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist' | 'separators' | 'presets'>(key: T): ToArray<Required<UserConfig<Theme>>[T]> {
@@ -194,6 +194,6 @@ export function mergeConfigs<Theme extends {} = {}>(
   return merged
 }
 
-function mergeThemes<Theme extends {} = {}>(themes: (Theme | undefined)[]): Theme {
+function mergeThemes<Theme extends object = object>(themes: (Theme | undefined)[]): Theme {
   return themes.map(theme => theme ? clone(theme) : {}).reduce<Theme>((a, b) => mergeDeep(a, b), {} as Theme)
 }

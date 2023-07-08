@@ -40,7 +40,7 @@ export interface PresetMiniOptions extends PresetOptions {
    *
    * @default false
    */
-  attributifyPseudo?: Boolean
+  attributifyPseudo?: boolean
   /**
    * Prefix for CSS variables.
    *

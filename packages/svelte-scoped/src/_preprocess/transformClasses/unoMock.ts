@@ -2,7 +2,7 @@ import type { GenerateResult, ResolvedConfig, StringifiedUtil, UnoGenerator } fr
 
 const mockClasses = ['mb-1', 'mr-1', 'font-bold', 'text-lg', 'text-red-600', 'text-green-600', 'italic']
 
-const utils: StringifiedUtil<{}>[] = mockClasses.map((name, index) => [
+const utils: StringifiedUtil<object>[] = mockClasses.map((name, index) => [
   index,
   name,
   '',

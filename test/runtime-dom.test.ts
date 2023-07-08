@@ -9,7 +9,7 @@ describe('runtime dom manipulation', () => {
     window.document.documentElement.innerHTML = ''
   })
 
-  function initRuntime(options?: Object) {
+  function initRuntime(options?: any) {
     initUnocssRuntime({
       defaults: {
         presets: [

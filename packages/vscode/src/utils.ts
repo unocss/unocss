@@ -24,9 +24,39 @@ export async function getCSS(uno: UnoGenerator, utilName: string) {
   return css
 }
 
-export async function getPrettiedCSS(uno: UnoGenerator, util: string) {
+/**
+ *
+ * Credit to [@voorjaar](https://github.com/voorjaar)
+ * @see https://github.com/windicss/windicss-intellisense/issues/13
+ * @param str
+ * @returns
+ */
+export function addRemToPxComment(str?: string, remToPixel = 16) {
+  if (!str)
+    return ''
+  if (remToPixel < 1)
+    return str
+  let index = 0
+  const output: string[] = []
+
+  while (index < str.length) {
+    const rem = str.slice(index).match(/-?[\d.]+rem;/)
+    if (!rem || !rem.index)
+      break
+    const px = ` /* ${Number.parseFloat(rem[0].slice(0, -4)) * remToPixel}px */`
+    const end = index + rem.index + rem[0].length
+    output.push(str.slice(index, end))
+    output.push(px)
+    index = end
+  }
+  output.push(str.slice(index))
+  return output.join('')
+}
+
+export async function getPrettiedCSS(uno: UnoGenerator, util: string, remToPxRatio: number) {
   const result = (await uno.generate(new Set([util]), { preflights: false, safelist: false }))
-  const prettified = prettier.format(result.css, {
+  const css = addRemToPxComment(result.css, remToPxRatio)
+  const prettified = prettier.format(css, {
     parser: 'css',
     plugins: [parserCSS],
   })
@@ -37,8 +67,8 @@ export async function getPrettiedCSS(uno: UnoGenerator, util: string) {
   }
 }
 
-export async function getPrettiedMarkdown(uno: UnoGenerator, util: string) {
-  return `\`\`\`css\n${(await getPrettiedCSS(uno, util)).prettified}\n\`\`\``
+export async function getPrettiedMarkdown(uno: UnoGenerator, util: string, remToPxRatio: number) {
+  return `\`\`\`css\n${(await getPrettiedCSS(uno, util, remToPxRatio)).prettified}\n\`\`\``
 }
 
 function getCssVariables(code: string) {

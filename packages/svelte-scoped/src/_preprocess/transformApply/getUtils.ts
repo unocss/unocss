@@ -25,7 +25,7 @@ export async function getUtils(body: string, uno: UnoGenerator): Promise<Stringi
     }, [] as Writeable<StringifiedUtil>[])
 }
 
-async function parseUtils(classNames: string[], uno: UnoGenerator<{}>) {
+async function parseUtils(classNames: string[], uno: UnoGenerator<object>) {
   const foundUtils: StringifiedUtil[][] = []
 
   for (const token of classNames) {

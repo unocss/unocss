@@ -1,7 +1,7 @@
 import type { Rule } from '@unocss/core'
 import { transitions } from './transition'
 import { borders } from './border'
-import { bgColors, opacity, textColors } from './color'
+import { bgColors, colorScheme, opacity, textColors } from './color'
 import { flex } from './flex'
 import { fonts, tabSizes, textIndents, textShadows, textStrokes } from './typography'
 import { gaps } from './gap'
@@ -30,6 +30,7 @@ export const rules: Rule[] = [
   displays,
   opacity,
   bgColors,
+  colorScheme,
   svgUtilities,
   borders,
   contentVisibility,

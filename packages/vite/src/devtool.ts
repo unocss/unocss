@@ -21,7 +21,7 @@ const MODULES_MAP: Record<string, string | undefined> = {
   [MOCK_CLASSES_MODULE_ID]: MOCK_CLASSES_PATH,
 }
 
-const POST_PATH = '/@unocss-devtools-update'
+const BASE_POST_PATH = '/@unocss-devtools-update'
 
 function getBodyJson(req: IncomingMessage) {
   return new Promise<any>((resolve, reject) => {
@@ -45,6 +45,7 @@ export function createDevtoolsPlugin(ctx: UnocssPluginContext): Plugin[] {
   let clientCode = ''
   let devtoolTimer: any
   let lastUpdate = Date.now()
+  let postPath = BASE_POST_PATH
 
   function toClass(name: string) {
     // css escape
@@ -91,13 +92,14 @@ export function createDevtoolsPlugin(ctx: UnocssPluginContext): Plugin[] {
 
       configResolved(_config) {
         config = _config
+        postPath = `${(config.base?.replace(/\/$/, '') ?? '')}${BASE_POST_PATH}`
       },
 
       configureServer(_server) {
         server = _server
 
         server.middlewares.use(async (req, res, next) => {
-          if (req.url !== POST_PATH)
+          if (req.url !== postPath)
             return next()
 
           try {
@@ -141,7 +143,7 @@ export function createDevtoolsPlugin(ctx: UnocssPluginContext): Plugin[] {
               `import('${DEVTOOLS_CSS_PATH}')`,
             ]
               .join('\n')
-              .replace('__POST_PATH__', (config.server?.origin ?? '') + POST_PATH)
+              .replace('__POST_PATH__', `${(config.server?.origin ?? '')}${postPath}`)
           }
           return config.command === 'build'
             ? ''

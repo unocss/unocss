@@ -1,7 +1,7 @@
 import { mergeDeep } from '@unocss/core'
 import { getComponent } from '@unocss/preset-mini/utils'
 import { expect, it } from 'vitest'
-import { getColorString } from '@unocss/vscode/utils'
+import { addRemToPxComment, getColorString } from '@unocss/vscode/utils'
 
 it('mergeDeep', () => {
   expect(mergeDeep<any>({
@@ -94,4 +94,23 @@ it('getColorString', () => {
   expect(getColorString(textAmberImportant)).eql('rgba(251, 191, 36, 1)')
   expect(getColorString(bgAmber)).eql('rgba(251, 191, 36, 1)')
   expect(getColorString(bgAmberImportant)).eql('rgba(251, 191, 36, 1)')
+})
+
+it('addRemToPxComment', () => {
+  const text = `
+  /* layer: default */
+  .m-9 {
+    margin: 2.25rem;
+  }`
+
+  for (let i = 10; i < 32; i += 1) {
+    expect(addRemToPxComment(text, i)).eql(`
+  /* layer: default */
+  .m-9 {
+    margin: 2.25rem; /* ${i / 4 * 9}px */
+  }`)
+  }
+
+  expect(addRemToPxComment(text, 0)).eql(text)
+  expect(addRemToPxComment(text, -1)).eql(text)
 })

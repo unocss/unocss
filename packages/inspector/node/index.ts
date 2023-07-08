@@ -33,7 +33,7 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
           configSources: (await ctx.ready).sources,
         }
         res.setHeader('Content-Type', 'application/json')
-        res.write(JSON.stringify(info, null, 2))
+        res.write(JSON.stringify(info, getCircularReplacer(), 2))
         res.end()
         return
       }
@@ -101,4 +101,23 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
     apply: 'serve',
     configureServer,
   } as Plugin
+}
+
+function getCircularReplacer() {
+  const ancestors: any = []
+  return function (this: any, key: any, value: any) {
+    if (typeof value !== 'object' || value === null)
+      return value
+
+    // `this` is the object that value is contained in,
+    // i.e., its direct parent.
+    while (ancestors.length > 0 && ancestors.at(-1) !== this)
+      ancestors.pop()
+
+    if (ancestors.includes(value))
+      return '[Circular]'
+
+    ancestors.push(value)
+    return value
+  }
 }
