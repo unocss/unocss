@@ -1,4 +1,4 @@
-import type { AutoCompleteMatchType, UnocssAutocomplete } from '@unocss/autocomplete'
+import type { UnocssAutocomplete } from '@unocss/autocomplete'
 import { createAutocomplete } from '@unocss/autocomplete'
 import type { CompletionItemProvider, Disposable, ExtensionContext } from 'vscode'
 import { CompletionItem, CompletionItemKind, CompletionList, MarkdownString, Range, languages, window, workspace } from 'vscode'
@@ -7,6 +7,7 @@ import { getCSS, getColorString, getPrettiedCSS, getPrettiedMarkdown, isSubdir }
 import { log } from './log'
 import type { ContextLoader } from './contextLoader'
 import { isCssId } from './integration'
+import { useConfigurations } from './configuration'
 
 const defaultLanguageIds = [
   'erb',
@@ -59,9 +60,7 @@ export async function registerAutoComplete(
     autoCompletes.delete(ctx)
   })
 
-  let matchType = workspace.getConfiguration().get<AutoCompleteMatchType>('unocss.autocomplete.matchType', 'prefix')
-
-  let maxItems = workspace.getConfiguration().get<number>('unocss.autocomplete.maxItems', 1000)
+  const { configuration, watchChanged } = useConfigurations(ext)
 
   function getAutocomplete(ctx: UnocssPluginContext) {
     const cached = autoCompletes.get(ctx)
@@ -69,15 +68,15 @@ export async function registerAutoComplete(
       return cached
 
     const autocomplete = createAutocomplete(ctx.uno, {
-      matchType,
+      matchType: configuration.matchType,
     })
 
     autoCompletes.set(ctx, autocomplete)
     return autocomplete
   }
 
-  async function getMarkdown(uno: UnoGenerator, util: string) {
-    return new MarkdownString(await getPrettiedMarkdown(uno, util))
+  async function getMarkdown(uno: UnoGenerator, util: string, remToPxRatio: number) {
+    return new MarkdownString(await getPrettiedMarkdown(uno, util, remToPxRatio))
   }
 
   function validateLanguages(targets: string[]) {
@@ -124,7 +123,7 @@ export async function registerAutoComplete(
 
         const completionItems: UnoCompletionItem[] = []
 
-        const suggestions = result.suggestions.slice(0, maxItems)
+        const suggestions = result.suggestions.slice(0, configuration.maxItems)
 
         for (const [value, label] of suggestions) {
           const css = await getCSS(ctx!.uno, value)
@@ -153,10 +152,11 @@ export async function registerAutoComplete(
     },
 
     async resolveCompletionItem(item) {
+      const remToPxRatio = configuration.remToPxRatio ? configuration.remToPxRatio : -1
       if (item.kind === CompletionItemKind.Color)
-        item.detail = await (await getPrettiedCSS(item.uno, item.value)).prettified
+        item.detail = await (await getPrettiedCSS(item.uno, item.value, remToPxRatio)).prettified
       else
-        item.documentation = await getMarkdown(item.uno, item.value)
+        item.documentation = await getMarkdown(item.uno, item.value, remToPxRatio)
       return item
     },
   }
@@ -178,21 +178,20 @@ export async function registerAutoComplete(
     return completeUnregister
   }
 
-  ext.subscriptions.push(workspace.onDidChangeConfiguration(async (event) => {
-    if (event.affectsConfiguration('unocss.languageIds')) {
-      ext.subscriptions.push(
-        registerProvider(),
-      )
-    }
-    if (event.affectsConfiguration('unocss.autocomplete.matchType')) {
-      autoCompletes.clear()
-      matchType = workspace.getConfiguration().get<AutoCompleteMatchType>('unocss.autocomplete.matchType', 'prefix')
-    }
-    if (event.affectsConfiguration('unocss.autocomplete.maxItems')) {
-      autoCompletes.clear()
-      maxItems = workspace.getConfiguration().get<number>('unocss.autocomplete.maxItems', 1000)
-    }
-  }))
+  watchChanged(['languagesIds'], () => {
+    ext.subscriptions.push(
+      registerProvider(),
+    )
+  })
+
+  watchChanged([
+    'matchType',
+    'maxItems',
+    'remToPxRatio',
+    'remToPxPreview',
+  ], () => {
+    autoCompletes.clear()
+  })
 
   ext.subscriptions.push(
     registerProvider(),
