@@ -1,4 +1,4 @@
-import type { AutoCompleteMatchType, UnocssAutocomplete } from '@unocss/autocomplete'
+import type { UnocssAutocomplete } from '@unocss/autocomplete'
 import { createAutocomplete } from '@unocss/autocomplete'
 import type { CompletionItemProvider, Disposable, ExtensionContext } from 'vscode'
 import { CompletionItem, CompletionItemKind, CompletionList, MarkdownString, Range, languages, window, workspace } from 'vscode'
@@ -7,7 +7,7 @@ import { getCSS, getColorString, getPrettiedCSS, getPrettiedMarkdown, isSubdir }
 import { log } from './log'
 import type { ContextLoader } from './contextLoader'
 import { isCssId } from './integration'
-import { useConfiguration } from './configuration'
+import { useConfigurations } from './configuration'
 
 const defaultLanguageIds = [
   'erb',
@@ -60,22 +60,7 @@ export async function registerAutoComplete(
     autoCompletes.delete(ctx)
   })
 
-  const { configuration, watchChanged } = useConfiguration({
-    ext,
-    scope: 'unocss',
-    initialValue: {
-      languagesIds: <string[]>[],
-      matchType: <AutoCompleteMatchType>'prefix',
-      maxItems: 1000,
-      rootFontSize: 16,
-      enableRemToPxPreview: false,
-    },
-    alias: {
-      enableRemToPxPreview: 'preview.remToPx',
-      matchType: 'autocomplete.matchType',
-      maxItems: 'autocomplete.maxItems',
-    },
-  })
+  const { configuration, watchChanged } = useConfigurations(ext)
 
   function getAutocomplete(ctx: UnocssPluginContext) {
     const cached = autoCompletes.get(ctx)
@@ -90,8 +75,8 @@ export async function registerAutoComplete(
     return autocomplete
   }
 
-  async function getMarkdown(uno: UnoGenerator, util: string, rootFontSize: number) {
-    return new MarkdownString(await getPrettiedMarkdown(uno, util, rootFontSize))
+  async function getMarkdown(uno: UnoGenerator, util: string, remToPxRatio: number) {
+    return new MarkdownString(await getPrettiedMarkdown(uno, util, remToPxRatio))
   }
 
   function validateLanguages(targets: string[]) {
@@ -167,11 +152,11 @@ export async function registerAutoComplete(
     },
 
     async resolveCompletionItem(item) {
-      const rootFontSize = configuration.rootFontSize ? configuration.rootFontSize : -1
+      const remToPxRatio = configuration.remToPxRatio ? configuration.remToPxRatio : -1
       if (item.kind === CompletionItemKind.Color)
-        item.detail = await (await getPrettiedCSS(item.uno, item.value, rootFontSize)).prettified
+        item.detail = await (await getPrettiedCSS(item.uno, item.value, remToPxRatio)).prettified
       else
-        item.documentation = await getMarkdown(item.uno, item.value, rootFontSize)
+        item.documentation = await getMarkdown(item.uno, item.value, remToPxRatio)
       return item
     },
   }
@@ -202,8 +187,8 @@ export async function registerAutoComplete(
   watchChanged([
     'matchType',
     'maxItems',
-    'rootFontSize',
-    'enableRemToPxPreview',
+    'remToPxRatio',
+    'remToPxPreview',
   ], () => {
     autoCompletes.clear()
   })

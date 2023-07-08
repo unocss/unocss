@@ -5,7 +5,7 @@ import { INCLUDE_COMMENT_IDE, getMatchedPositionsFromCode, isCssId } from './int
 import { log } from './log'
 import { getColorString, getPrettiedMarkdown, isSubdir, throttle } from './utils'
 import type { ContextLoader } from './contextLoader'
-import { useConfiguration } from './configuration'
+import { useConfigurations } from './configuration'
 
 export async function registerAnnotations(
   cwd: string,
@@ -13,21 +13,9 @@ export async function registerAnnotations(
   status: StatusBarItem,
   ext: ExtensionContext,
 ) {
-  const { configuration, watchChanged } = useConfiguration({
-    ext,
-    scope: 'unocss',
-    initialValue: {
-      underline: true,
-      colorPreview: true,
-      rootFontSize: 16,
-      enableRemToPxPreview: false,
-    },
-    alias: {
-      enableRemToPxPreview: 'preview.remToPx',
-    },
-  })
+  const { configuration, watchChanged } = useConfigurations(ext)
 
-  watchChanged(['underline', 'colorPreview', 'enableRemToPxPreview', 'rootFontSize'], () => {
+  watchChanged(['underline', 'colorPreview', 'remToPxPreview', 'remToPxRatio'], () => {
     updateAnnotation()
   })
 
@@ -110,14 +98,16 @@ export async function registerAnnotations(
 
       const colorRanges: DecorationOptions[] = []
 
-      const rootFontSize = configuration.enableRemToPxPreview ? configuration.rootFontSize : -1
+      const remToPxRatio = configuration.remToPxPreview
+        ? configuration.remToPxRatio
+        : -1
 
       const ranges: DecorationOptions[] = (
         await Promise.all(
           (await getMatchedPositionsFromCode(ctx.uno, code))
             .map(async (i): Promise<DecorationOptions> => {
               try {
-                const md = await getPrettiedMarkdown(ctx!.uno, i[2], rootFontSize)
+                const md = await getPrettiedMarkdown(ctx!.uno, i[2], remToPxRatio)
 
                 if (configuration.colorPreview) {
                   const color = getColorString(md)

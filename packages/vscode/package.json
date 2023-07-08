@@ -68,15 +68,15 @@
           "default": true,
           "description": "Enable/disable color preview decorations"
         },
-        "unocss.rootFontSize": {
-          "type": "number",
-          "default": 16,
-          "description": "The root font size in pixels"
-        },
-        "unocss.preview.remToPx": {
+         "unocss.remToPxPreview": {
           "type": "boolean",
           "default": false,
-          "description": "Enable/disable rem to px preview decorations"
+          "description": "Enable/disable rem to px preview in hover"
+        },
+        "unocss.remToPxRatio": {
+          "type": "number",
+          "default": 16,
+          "description": "Ratio of rem to px"
         },
         "unocss.selectionStyle": {
           "type": "boolean",

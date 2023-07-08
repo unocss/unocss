@@ -31,11 +31,10 @@ export async function getCSS(uno: UnoGenerator, utilName: string) {
  * @param str
  * @returns
  */
-export function addRemToPxComment(str?: string, rootFontSize = 16) {
+export function addRemToPxComment(str?: string, remToPixel = 16) {
   if (!str)
     return ''
-  // if font size is not set, skip
-  if (rootFontSize < 1)
+  if (remToPixel < 1)
     return str
   let index = 0
   const output: string[] = []
@@ -44,7 +43,7 @@ export function addRemToPxComment(str?: string, rootFontSize = 16) {
     const rem = str.slice(index).match(/-?[\d.]+rem;/)
     if (!rem || !rem.index)
       break
-    const px = ` /* ${Number.parseFloat(rem[0].slice(0, -4)) * rootFontSize}px */`
+    const px = ` /* ${Number.parseFloat(rem[0].slice(0, -4)) * remToPixel}px */`
     const end = index + rem.index + rem[0].length
     output.push(str.slice(index, end))
     output.push(px)
@@ -54,9 +53,9 @@ export function addRemToPxComment(str?: string, rootFontSize = 16) {
   return output.join('')
 }
 
-export async function getPrettiedCSS(uno: UnoGenerator, util: string, rootFontSize: number) {
+export async function getPrettiedCSS(uno: UnoGenerator, util: string, remToPxRatio: number) {
   const result = (await uno.generate(new Set([util]), { preflights: false, safelist: false }))
-  const css = addRemToPxComment(result.css, rootFontSize)
+  const css = addRemToPxComment(result.css, remToPxRatio)
   const prettified = prettier.format(css, {
     parser: 'css',
     plugins: [parserCSS],
@@ -68,8 +67,8 @@ export async function getPrettiedCSS(uno: UnoGenerator, util: string, rootFontSi
   }
 }
 
-export async function getPrettiedMarkdown(uno: UnoGenerator, util: string, rootFontSize: number) {
-  return `\`\`\`css\n${(await getPrettiedCSS(uno, util, rootFontSize)).prettified}\n\`\`\``
+export async function getPrettiedMarkdown(uno: UnoGenerator, util: string, remToPxRatio: number) {
+  return `\`\`\`css\n${(await getPrettiedCSS(uno, util, remToPxRatio)).prettified}\n\`\`\``
 }
 
 function getCssVariables(code: string) {
