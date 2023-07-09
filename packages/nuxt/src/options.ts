@@ -23,7 +23,7 @@ export function resolveOptions(options: UnocssNuxtOptions) {
     for (const [key, preset] of Object.entries(presetMap)) {
       const option = options[key as keyof UnocssNuxtOptions]
       if (option)
-        options.presets.push(preset(typeof option === 'boolean' ? {} : option))
+        options.presets.push(preset(typeof option === 'boolean' ? {} as any : option))
     }
   }
 

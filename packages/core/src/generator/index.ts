@@ -5,7 +5,7 @@ import { CONTROL_SHORTCUT_NO_MERGE, TwoKeyMap, e, entriesToCss, expandVariantGro
 import { version } from '../../package.json'
 import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from '../constants'
 
-export class UnoGenerator<Theme extends {} = {}> {
+export class UnoGenerator<Theme extends object = object> {
   public version = version
   private _cache = new Map<string, StringifiedUtil<Theme>[] | null>()
   public config: ResolvedConfig<Theme>
@@ -591,7 +591,7 @@ export class UnoGenerator<Theme extends {} = {}> {
             // rule
             ? await this.parseUtil(i, context, true, meta.prefix) as ParsedUtil[]
             // inline CSS value in shortcut
-            : [[Infinity, '{inline}', normalizeCSSEntries(i), undefined, []] as ParsedUtil]
+            : [[Number.POSITIVE_INFINITY, '{inline}', normalizeCSSEntries(i), undefined, []] as ParsedUtil]
 
           if (!result)
             warnOnce(`unmatched utility "${i}" in shortcut "${parent[1]}"`)
@@ -647,7 +647,7 @@ export class UnoGenerator<Theme extends {} = {}> {
   }
 }
 
-export function createGenerator<Theme extends {} = {}>(config?: UserConfig<Theme>, defaults?: UserConfigDefaults<Theme>) {
+export function createGenerator<Theme extends object = object>(config?: UserConfig<Theme>, defaults?: UserConfigDefaults<Theme>) {
   return new UnoGenerator<Theme>(config, defaults)
 }
 

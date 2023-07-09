@@ -22,7 +22,7 @@ export function createBunnyFontsProvider(
 
         return `${formattedName}:${weightsAsString.join(',')}`
       })
-      return `${host}/css?family=${fontFamilies.join('|')}`
+      return `${host}/css?family=${fontFamilies.join('|')}&display=swap`
     },
   }
 }
