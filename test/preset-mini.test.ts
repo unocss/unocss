@@ -226,4 +226,23 @@ describe('preset-mini', () => {
 
     expect(css).toBe('')
   })
+
+  test('group data variant', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'group-data-[state=open]:rotate-180',
+      'group-data-[state=open]:text-red',
+      'data-[state=open]:text-red',
+      'group-hover:font-bold',
+    ].join(' '), {
+      preflights: false,
+    })
+
+    await expect(css).toMatchFileSnapshot('./assets/output/preset-mini-group-data.css')
+  })
 })

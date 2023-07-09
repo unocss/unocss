@@ -18,3 +18,20 @@ export const variantDataAttribute: VariantObject = {
     }
   },
 }
+
+export const variantGroupDataAttribute: VariantObject = {
+  name: 'group-data',
+  match(matcher, ctx: VariantContext<Theme>) {
+    const variant = variantGetParameter('group-data-', matcher, ctx.generator.config.separators)
+    if (variant) {
+      const [match, rest] = variant
+      const dataAttribute = h.bracket(match) ?? ctx.theme.data?.[match] ?? ''
+      if (dataAttribute) {
+        return {
+          matcher: rest,
+          selector: s => `.group[data-${dataAttribute}] ${s}`,
+        }
+      }
+    }
+  },
+}
