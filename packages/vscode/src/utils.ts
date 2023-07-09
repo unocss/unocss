@@ -76,8 +76,8 @@ export function cssMarkdown(code: string) {
   return `\`\`\`css\n${code}\n\`\`\``
 }
 
-export function getPrettiedMarkdownByText(css: string, rootFontSize: number) {
-  css = addRemToPxComment(css, rootFontSize)
+export function getPrettiedMarkdownByText(css: string, remToPxRatio: number) {
+  css = addRemToPxComment(css, remToPxRatio)
   css = prettyCSS(css)
   return cssMarkdown(css)
 }
