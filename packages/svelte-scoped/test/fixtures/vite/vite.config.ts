@@ -2,7 +2,6 @@ import { defineConfig } from 'vite'
 import transformerDirectives from '@unocss/transformer-directives'
 import { sveltekit } from '@sveltejs/kit/vite'
 import UnoCSS from '@unocss/svelte-scoped/vite'
-import presetUno from '@unocss/preset-uno'
 
 export default defineConfig({
   build: {
@@ -11,11 +10,7 @@ export default defineConfig({
   clearScreen: false,
   plugins: [
     UnoCSS({
-      configOrPath: {
-        presets: [
-          presetUno(),
-        ],
-      },
+      // no Uno config specified here or with a uno.config.ts to test using default preset
       cssFileTransformers: [transformerDirectives()],
     }),
     sveltekit(),
