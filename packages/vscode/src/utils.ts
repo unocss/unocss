@@ -1,5 +1,5 @@
 import path from 'path'
-import type { UnoGenerator } from '@unocss/core'
+import { type UnoGenerator, toArray } from '@unocss/core'
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
 
@@ -54,9 +54,7 @@ export function addRemToPxComment(str?: string, remToPixel = 16) {
   return output.join('')
 }
 
-export async function getPrettiedCSS(uno: UnoGenerator, util: string, remToPxRatio: number) {
-  const result = (await uno.generate(new Set([util]), { preflights: false, safelist: false }))
-  const css = addRemToPxComment(result.css, remToPxRatio)
+export function prettyCSS(css: string) {
   const prettified = prettier.format(css, {
     parser: 'css',
     plugins: [parserCSS],
@@ -68,32 +66,31 @@ export async function getPrettiedCSS(uno: UnoGenerator, util: string, rootFontSi
   const result = (await uno.generate(new Set([util]), { preflights: false, safelist: false }))
   const css = addRemToPxComment(result.css, rootFontSize)
   const prettified = prettyCSS(css)
-
   return {
     ...result,
     prettified,
   }
 }
 
-export function getPrettiedCSSByText(css: string, rootFontSize: number) {
-  css = addRemToPxComment(css, rootFontSize)
-  css = prettyCSS(css)
-
-  return css
+export function cssMarkdown(code: string) {
+  return `\`\`\`css\n${code}\n\`\`\``
 }
 
 export function getPrettiedMarkdownByText(css: string, rootFontSize: number) {
-  return `\`\`\`css\n${getPrettiedCSSByText(css, rootFontSize)}\n\`\`\``
+  css = addRemToPxComment(css, rootFontSize)
+  css = prettyCSS(css)
+  return cssMarkdown(css)
 }
 
 export async function getPrettiedMarkdown(uno: UnoGenerator, util: string, remToPxRatio: number) {
-  return `\`\`\`css\n${(await getPrettiedCSS(uno, util, remToPxRatio)).prettified}\n\`\`\``
+  return cssMarkdown((await getPrettiedCSS(uno, util, remToPxRatio)).prettified)
 }
 
-export function matchRuleMeta(uno: UnoGenerator, input: string) {
+export function hasColorRule(uno: UnoGenerator, input: string) {
   const rules = uno.config.rulesDynamic
-  const matched = rules.find(rule => rule[1].test(input))
-  return matched?.[3] ?? null
+  const matched = rules.filter(rule => rule[1].test(input))
+  const autocomplete = matched.flatMap(rule => toArray(rule[3]?.autocomplete))
+  return autocomplete.some(r => r.includes('$colors'))
 }
 
 function getCssVariables(code: string) {

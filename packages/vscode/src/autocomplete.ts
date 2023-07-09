@@ -2,8 +2,8 @@ import type { UnocssAutocomplete } from '@unocss/autocomplete'
 import { createAutocomplete } from '@unocss/autocomplete'
 import type { CompletionItemProvider, Disposable, ExtensionContext } from 'vscode'
 import { CompletionItem, CompletionItemKind, CompletionList, MarkdownString, Range, languages, window } from 'vscode'
-import { type UnoGenerator, type UnocssPluginContext, toArray } from '@unocss/core'
-import { getCSS, getColorString, getPrettiedMarkdownByText, isSubdir, matchRuleMeta } from './utils'
+import { type UnoGenerator, type UnocssPluginContext } from '@unocss/core'
+import { getCSS, getColorString, getPrettiedMarkdownByText, hasColorRule, isSubdir } from './utils'
 import { log } from './log'
 import type { ContextLoader } from './contextLoader'
 import { isCssId } from './integration'
@@ -56,7 +56,7 @@ export async function registerAutoComplete(
   const allLanguages = await languages.getLanguages()
   const autoCompletes = new Map<UnocssPluginContext, UnocssAutocomplete>()
 
-  const cacheRules = new Map<string, boolean>()
+  const hasColorCache = new Map<string, boolean>()
 
   contextLoader.events.on('contextReload', (ctx) => {
     autoCompletes.delete(ctx)
@@ -64,7 +64,6 @@ export async function registerAutoComplete(
   contextLoader.events.on('contextUnload', (ctx) => {
     autoCompletes.delete(ctx)
   })
-
 
   const { configuration, watchChanged } = useConfigurations(ext)
 
@@ -81,22 +80,16 @@ export async function registerAutoComplete(
     return autocomplete
   }
 
-
-  async function getMarkdown(uno: UnoGenerator, util: string, remToPxRatio: number) {
-    return new MarkdownString(await getPrettiedMarkdown(uno, util, remToPxRatio))
+  function getMarkdown(css: string, remToPxRatio: number) {
+    return new MarkdownString(getPrettiedMarkdownByText(css, remToPxRatio))
   }
 
-  function hasColorRule(uno: UnoGenerator, value: string) {
-    if (!cacheRules.has(value)) {
-      const matched = matchRuleMeta(uno, value)
-      const autocomplete = matched?.autocomplete
-      log.appendLine(`🤖 ${value} | ${autocomplete}`)
-      if (autocomplete) {
-        const rs = toArray(autocomplete).some(r => r.includes('$colors'))
-        cacheRules.set(value, rs)
-      }
+  function hasColorRuleFromCache(uno: UnoGenerator, value: string) {
+    if (!hasColorCache.has(value)) {
+      const matched = hasColorRule(uno, value)
+      hasColorCache.set(value, matched)
     }
-    return cacheRules.get(value) ?? false
+    return hasColorCache.get(value) ?? false
   }
 
   function validateLanguages(targets: string[]) {
@@ -153,7 +146,7 @@ export async function registerAutoComplete(
           item.range = new Range(doc.positionAt(resolved.start), doc.positionAt(resolved.end))
           item.insertText = resolved.replacement
           completionItems.push(item)
-          if (!hasColorRule(ctx.uno, value))
+          if (!hasColorRuleFromCache(ctx.uno, value))
             continue
           const css = (await getCSS(ctx.uno, value))
           const colorString = getColorString(css)
@@ -168,7 +161,7 @@ export async function registerAutoComplete(
           }
         }
 
-        log.appendLine(`🤖 suggested by '${result.input}' ${configuration.simpleMode ? 'with simple mode' : ''} | ${performance.now() - time}ms`)
+        log.appendLine(`🤖 suggested by '${result.input}'| ${performance.now() - time}ms`)
 
         return new CompletionList(completionItems, true)
       }
@@ -180,11 +173,9 @@ export async function registerAutoComplete(
     },
 
     async resolveCompletionItem(item) {
-      const remToPxRatio = configuration.remToPxRatio ? configuration.remToPxRatio : -1
-      if (item.kind === CompletionItemKind.Color)
-        item.detail = await (await getPrettiedCSS(item.uno, item.value, remToPxRatio)).prettified
-      else
-        item.documentation = await getMarkdown(item.uno, item.value, remToPxRatio)
+      if (!item.css)
+        item.css = (await getCSS(item.uno, item.value))
+      item.documentation = getMarkdown(item.css, configuration.remToPxPreview ? configuration.remToPxRatio : -1)
       return item
     },
   }

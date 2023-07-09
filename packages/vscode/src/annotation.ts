@@ -13,7 +13,6 @@ export async function registerAnnotations(
   status: StatusBarItem,
   ext: ExtensionContext,
 ) {
-
   const { configuration, watchChanged } = useConfigurations(ext)
 
   watchChanged(['underline', 'colorPreview', 'remToPxPreview', 'remToPxRatio'], () => {
@@ -99,7 +98,6 @@ export async function registerAnnotations(
 
       const colorRanges: DecorationOptions[] = []
 
-
       const remToPxRatio = configuration.remToPxPreview
         ? configuration.remToPxRatio
         : -1
@@ -109,7 +107,6 @@ export async function registerAnnotations(
           (await getMatchedPositionsFromCode(ctx.uno, code))
             .map(async (i): Promise<DecorationOptions> => {
               try {
-
                 const md = await getPrettiedMarkdown(ctx!.uno, i[2], remToPxRatio)
 
                 if (configuration.colorPreview) {
