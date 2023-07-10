@@ -4,6 +4,7 @@
   "version": "0.53.5",
   "private": true,
   "packageManager": "pnpm@8.6.6",
+  "homepage": "https://unocss.dev",
   "scripts": {
     "postinstall": "esno scripts/icon-collections.ts",
     "taze": "taze minor -wIr && pnpm -r --parallel run update-post",
