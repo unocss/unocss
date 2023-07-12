@@ -51,6 +51,7 @@ Read the [documentation](https://unocss.dev/) for more details.
 
 - [Vite](https://unocss.dev/integrations/vite)
 - [Nuxt](https://unocss.dev/integrations/nuxt)
+- [Next.js](https://unocss.dev/integrations/next)
 - [Astro](https://unocss.dev/integrations/astro)
 - [Webpack](https://unocss.dev/integrations/webpack)
 - [CDN Runtime](https://unocss.dev/integrations/runtime)
