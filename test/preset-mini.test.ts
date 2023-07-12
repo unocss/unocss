@@ -236,7 +236,7 @@ describe('preset-mini', () => {
 
     const { css } = await uno.generate([
       'group-data-[state=open]:rotate-180',
-      'group-data-[state=open]:text-red',
+      'group-data-[state=open]:text-black',
       'data-[state=open]:text-red',
       'group-hover:font-bold',
     ].join(' '), {

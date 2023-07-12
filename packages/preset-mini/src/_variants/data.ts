@@ -28,8 +28,7 @@ export const variantGroupDataAttribute: VariantObject = {
       const dataAttribute = h.bracket(match) ?? ctx.theme.data?.[match] ?? ''
       if (dataAttribute) {
         return {
-          matcher: rest,
-          selector: s => `.group[data-${dataAttribute}] ${s}`,
+          matcher: `group-[[data-${dataAttribute}]]:${rest}`,
         }
       }
     }
