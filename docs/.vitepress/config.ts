@@ -40,6 +40,7 @@ const Integrations: DefaultTheme.NavItemWithLink[] = [
   { text: 'PostCSS', link: '/integrations/postcss' },
   { text: 'ESLint', link: '/integrations/eslint' },
   { text: 'VSCode extension', link: '/integrations/vscode' },
+  { text: 'WebStorm plugin', link: '/integrations/webstorm' },
 ]
 
 const Presets: DefaultTheme.NavItemWithLink[] = [
