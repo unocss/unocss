@@ -3,19 +3,6 @@ import { toArray } from '@unocss/core'
 import type { Theme } from '../theme'
 import { colorResolver, colorableShadows, h, splitShorthand } from '../utils'
 
-const weightMap: Record<string, string> = {
-  thin: '100',
-  extralight: '200',
-  light: '300',
-  normal: '400',
-  medium: '500',
-  semibold: '600',
-  bold: '700',
-  extrabold: '800',
-  black: '900',
-  // int[0, 900] -> int
-}
-
 function handleLineHeight(s: string, theme: Theme) {
   return theme.lineHeight?.[s] || h.bracket.cssvar.global.rem(s)
 }
@@ -59,8 +46,13 @@ export const fonts: Rule<Theme>[] = [
   // weights
   [
     /^(?:font|fw)-?([^-]+)$/,
-    ([, s]) => ({ 'font-weight': weightMap[s] || h.bracket.global.number(s) }),
-    { autocomplete: `(font|fw)-(100|200|300|400|500|600|700|800|900|${Object.keys(weightMap).join('|')})` },
+    ([, s], { theme }) => ({ 'font-weight': theme.fontWeight?.[s] || h.bracket.global.number(s) }),
+    {
+      autocomplete: [
+        '(font|fw)-(100|200|300|400|500|600|700|800|900)',
+        '(font|fw)-$fontWeight',
+      ],
+    },
   ],
 
   // leadings
