@@ -1,6 +1,8 @@
 import type { Plugin } from 'vite'
-import { type UserConfig, createGenerator } from '@unocss/core'
+import { createGenerator } from '@unocss/core'
+import type { UserConfig, UserConfigDefaults } from '@unocss/core'
 import { loadConfig } from '@unocss/config'
+import presetUno from '@unocss/preset-uno'
 import type { SvelteScopedContext } from '../preprocess'
 import type { UnocssSvelteScopedViteOptions } from './types'
 import { PassPreprocessToSveltePlugin } from './passPreprocessToSveltePlugin'
@@ -26,13 +28,19 @@ export function UnocssSvelteScopedVite(options: UnocssSvelteScopedViteOptions = 
   return plugins
 }
 
+const defaults: UserConfigDefaults = {
+  presets: [
+    presetUno(),
+  ],
+}
+
 function createSvelteScopedContext(configOrPath?: UserConfig | string): SvelteScopedContext {
   const uno = createGenerator()
   const ready = reloadConfig()
 
   async function reloadConfig() {
     const { config } = await loadConfig(process.cwd(), configOrPath)
-    uno.setConfig(config)
+    uno.setConfig(config, defaults)
     return config
   }
 
