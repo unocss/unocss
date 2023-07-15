@@ -24,17 +24,10 @@ function resolveProvider(provider: WebFontsProviders): Provider {
 export { createGoogleCompatibleProvider as createGoogleProvider } from './providers/google'
 
 export function normalizedFontMeta(meta: WebFontMeta | string, defaultProvider: WebFontsProviders): ResolvedWebFontMeta {
-  const sortFilterWeights = (weights: (string | number)[]) => [...new Set(weights
-    .map(Number)
-    .filter(w => !Number.isNaN(Number(w)))
-    .sort((a, b) => a - b),
-  )]
-
   if (typeof meta !== 'string') {
     meta.provider = resolveProvider(meta.provider || defaultProvider)
     if (meta.weights)
-      meta.weights = sortFilterWeights(meta.weights)
-
+      meta.weights = [...new Set(meta.weights.sort((a, b) => a.toString().localeCompare(b.toString(), 'en', { numeric: true })))]
     return meta as ResolvedWebFontMeta
   }
 
@@ -42,7 +35,7 @@ export function normalizedFontMeta(meta: WebFontMeta | string, defaultProvider: 
 
   return {
     name,
-    weights: sortFilterWeights(weights.split(/[,;]\s*/).filter(Boolean)),
+    weights: [...new Set(weights.split(/[,;]\s*/).filter(Boolean).sort((a, b) => a.toString().localeCompare(b.toString(), 'en', { numeric: true })))],
     provider: resolveProvider(defaultProvider),
   }
 }

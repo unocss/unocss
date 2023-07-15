@@ -99,7 +99,7 @@ test('web-fonts weigth deduplicate', async () => {
           lato: [
             {
               name: 'Lato',
-              weights: ['1000', '200', '1000', '400', 'xxx'],
+              weights: ['1000', '200', '1000', '400'],
               italic: true,
             },
           ],
