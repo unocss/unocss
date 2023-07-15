@@ -26,13 +26,9 @@ export { createGoogleCompatibleProvider as createGoogleProvider } from './provid
 export function normalizedFontMeta(meta: WebFontMeta | string, defaultProvider: WebFontsProviders): ResolvedWebFontMeta {
   if (typeof meta !== 'string') {
     meta.provider = resolveProvider(meta.provider || defaultProvider)
-    if (meta.weights) {
-      meta.weights = [
-        ...new Set(meta.weights.sort((a, b) =>
-          a.toString().localeCompare(b.toString(), 'en', { numeric: true })),
-        ),
-      ]
-    }
+    if (meta.weights)
+      meta.weights = [...new Set(meta.weights.sort((a, b) => a.toString().localeCompare(b.toString(), 'en', { numeric: true })))]
+
     return meta as ResolvedWebFontMeta
   }
 
