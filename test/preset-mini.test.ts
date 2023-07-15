@@ -175,6 +175,29 @@ describe('preset-mini', () => {
     await expect(css).toMatchFileSnapshot('./assets/output/preset-mini-font-size-theme.css')
   })
 
+  test('fontWeight theme', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+      theme: {
+        fontWeight: {
+          head: '900',
+          foot: '100',
+        },
+      },
+    })
+
+    const { css } = await uno.generate([
+      'font-head',
+      'font-foot',
+    ].join(' '), { preflights: false })
+
+    // @ts-expect-error types
+    expect(uno.config.theme.fontWeight.head).toEqual('900')
+    await expect(css).toMatchFileSnapshot('./assets/output/preset-mini-font-weight-theme.css')
+  })
+
   test('dark class', async () => {
     const uno = createGenerator({
       presets: [
