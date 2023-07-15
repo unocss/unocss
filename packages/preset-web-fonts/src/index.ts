@@ -35,7 +35,7 @@ export function normalizedFontMeta(meta: WebFontMeta | string, defaultProvider: 
 
   return {
     name,
-    weights: [...new Set(weights.split(/[,;]\s*/).filter(Boolean).sort((a, b) => a.toString().localeCompare(b.toString(), 'en', { numeric: true })))],
+    weights: [...new Set(weights.split(/[,;]\s*/).filter(Boolean).sort((a, b) => a.localeCompare(b, 'en', { numeric: true })))],
     provider: resolveProvider(defaultProvider),
   }
 }
