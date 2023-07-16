@@ -1,24 +1,27 @@
 ---
-title: UnoCSS WebStorm Plugin
-description: UnoCSS support for WebStorm/IntelliJ IDEA
+title: Community JetBrains Plugin for UnoCSS
 ---
 
-# UnoCSS Plugin for JetBrains IDEs
-A [plugin](https://github.com/re-ovo/unocss-intellij) that provides support for Unocss in JetBrains IDEs.
+# JetBrains IDEs Plugin
 
-::: warning
-Note: This plugin is a third-party plugin, not maintained by UnoCSS official team. If you have any issues with this plugin, please report it to the plugin author.
+A community [plugin](https://github.com/re-ovo/unocss-intellij) that provides support for Unocss in JetBrains IDEs.
+
+:::info
+Note: This is a **community-maintained plugin, not reviewed or maintained by the UnoCSS team**. Please do your own research before using. If you have any issues with this plugin, please report it to [re-ovo/unocss-intellij](https://github.com/re-ovo/unocss-intellij).
 :::
 
 ## Installation
-[Marketplace](https://plugins.jetbrains.com/plugin/22204-unocss)
+
+[JetBrains Marketplace](https://plugins.jetbrains.com/plugin/22204-unocss)
 
 ## Features
+
 - Auto-completion for UnoCSS classes
 - Hover documentation for UnoCSS classes
 - Code folding
 - Color/Icon preview
 
-## Found a bug?
+## Bug Reports / Feature Requests
+
 Report it at [Issue Tracker](https://github.com/re-ovo/unocss-intellij/issues)
 
