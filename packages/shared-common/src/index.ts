@@ -1,5 +1,5 @@
-import type { ExtractorContext, UnoGenerator } from '@unocss/core'
-import { escapeRegExp, isAttributifySelector, makeRegexClassGroup, splitWithVariantGroupRE } from '@unocss/core'
+import type { Annotation, ExtractorContext, UnoGenerator } from '@unocss/core'
+import { escapeRegExp, isAttributifySelector, splitWithVariantGroupRE } from '@unocss/core'
 import MagicString from 'magic-string'
 import { arbitraryPropertyRE, quotedArbitraryValuesRE } from '../../extractor-arbitrary-variants/src'
 
@@ -85,8 +85,8 @@ export function getPlainClassMatchedPositionsForPug(codeSplit: string, matchedPl
   return result
 }
 
-export function getMatchedPositions(code: string, matched: string[], hasVariantGroup = false, isPug = false, uno: UnoGenerator | undefined = undefined) {
-  const result: [number, number, string][] = []
+export function getMatchedPositions(code: string, matched: string[], transformerAnnotations: Annotation[], isPug = false) {
+  const result: (readonly [number, number, string])[] = []
   const attributify: RegExpMatchArray[] = []
   const plain = new Set<string>()
 
@@ -149,29 +149,6 @@ export function getMatchedPositions(code: string, matched: string[], hasVariantG
     }
   }
 
-  // highlight for variant group
-  if (hasVariantGroup) {
-    Array.from(code.matchAll(makeRegexClassGroup(uno?.config.separators)))
-      .forEach((match) => {
-        const [, pre, sep, body] = match
-        const index = match.index!
-        let start = index + pre.length + sep.length + 1
-        body.split(/([\s"'`;*]|:\(|\)"|\)\s)/g).forEach((i) => {
-          const end = start + i.length
-          const full = pre + sep + i
-          if (plain.has(full)) {
-            // find existing plain class match and replace it
-            const index = result.findIndex(([s, e]) => s === start && e === end)
-            if (index < 0)
-              result.push([start, end, full])
-            else
-              result[index][2] = full
-          }
-          start = end
-        })
-      })
-  }
-
   // attributify values
   attributify.forEach(([, name, value]) => {
     const regex = new RegExp(`(${escapeRegExp(name)}=)(['"])[^\\2]*?${escapeRegExp(value)}[^\\2]*?\\2`, 'g')
@@ -190,6 +167,10 @@ export function getMatchedPositions(code: string, matched: string[], hasVariantG
       })
   })
 
+  result.push(...transformerAnnotations.map(i =>
+    [i.offset, i.offset + i.length, i.description] as const,
+  ))
+
   return result.sort((a, b) => a[0] - b[0])
 }
 
@@ -205,15 +186,16 @@ export async function getMatchedPositionsFromCode(uno: UnoGenerator, code: strin
   const ctx = { uno, tokens } as any
 
   const transformers = uno.config.transformers?.filter(i => !ignoreTransformers.includes(i.name))
-  for (const i of transformers?.filter(i => i.enforce === 'pre') || [])
-    await i.transform(s, id, ctx)
-  for (const i of transformers?.filter(i => !i.enforce || i.enforce === 'default') || [])
-    await i.transform(s, id, ctx)
-  for (const i of transformers?.filter(i => i.enforce === 'post') || [])
-    await i.transform(s, id, ctx)
-  const hasVariantGroup = !!uno.config.transformers?.find(i => i.name === '@unocss/transformer-variant-group')
+  const annotations = []
+  for (const enforce of ['pre', 'default', 'post']) {
+    for (const i of transformers?.filter(i => (i.enforce ?? 'default') === enforce) || []) {
+      const result = await i.transform(s, id, ctx)
+      if (i.getAnnotations)
+        annotations.push(...await i.getAnnotations(result))
+    }
+  }
 
   const { pug, code: pugCode } = await isPug(uno, s.toString(), id)
   const result = await uno.generate(pug ? pugCode : s.toString(), { preflights: false })
-  return getMatchedPositions(code, [...result.matched], hasVariantGroup, pug, uno)
+  return getMatchedPositions(code, [...result.matched], annotations, pug)
 }

@@ -1,4 +1,4 @@
-import type MagicString from 'magic-string'
+import MagicString from 'magic-string'
 import { notNull } from '../utils'
 
 const regexCache: Record<string, RegExp> = {}
@@ -11,37 +11,77 @@ export function makeRegexClassGroup(separators = ['-', ':']) {
   return regexCache[key]
 }
 
-export function parseVariantGroup(str: string, separators = ['-', ':'], depth = 5) {
+interface Group {
+  length: number
+  items: GroupItem[]
+}
+interface GroupItem {
+  offset: number
+  length: number
+  expanded: string
+}
+
+export function parseVariantGroup(str: string | MagicString, separators = ['-', ':'], depth = 5) {
   const regexClassGroup = makeRegexClassGroup(separators)
-  let hasChanged = false
+  let hasChanged
   let content = str.toString()
   const prefixes = new Set<string>()
+  const groupsByOffset = new Map<number, Group>()
 
   do {
-    const before = content
+    hasChanged = false
     content = content.replace(
       regexClassGroup,
-      (from, pre, sep, body: string) => {
+      (from, pre: string, sep: string, body: string, groupOffset: number) => {
         if (!separators.includes(sep))
           return from
 
+        hasChanged = true
         prefixes.add(pre + sep)
+        const bodyOffset = groupOffset + pre.length + sep.length + 1
+        const group: Group = { length: from.length, items: [] }
+        groupsByOffset.set(groupOffset, group)
 
-        return body
-          .split(/\s/g)
-          .filter(Boolean)
-          .map(i => i === '~' ? pre : i.replace(/^(!?)(.*)/, `$1${pre}${sep}$2`))
-          .join(' ')
+        for (const itemMatch of [...body.matchAll(/\S+/g)]) {
+          const itemOffset = bodyOffset + itemMatch.index!
+          let innerItems = groupsByOffset.get(itemOffset)?.items
+          if (innerItems) {
+            // We won't need to look up this group from this offset again.
+            // It gets added to the current group below.
+            groupsByOffset.delete(itemOffset)
+          }
+          else {
+            innerItems = [{
+              offset: itemOffset,
+              length: itemMatch[0].length,
+              expanded: itemMatch[0],
+            }]
+          }
+          for (const item of innerItems) {
+            item.expanded = item.expanded === '~' ? pre : item.expanded.replace(/^(!?)(.*)/, `$1${pre}${sep}$2`)
+            group.items.push(item)
+          }
+        }
+        // The replacement string just needs to be the same length (so it doesn't mess up offsets)
+        // and not contain any grouping/separator characters (so any outer groups will match on
+        // the next pass). The final value of `content` won't be used; we construct the final result
+        // below using groupsByOffset.
+        return '$'.repeat(from.length)
       },
     )
-    hasChanged = content !== before
     depth -= 1
   } while (hasChanged && depth)
 
+  const expanded = typeof str === 'string' ? new MagicString(str) : str
+  for (const [offset, group] of groupsByOffset)
+    expanded.overwrite(offset, offset + group.length, group.items.map(item => item.expanded).join(' '))
+
   return {
     prefixes: Array.from(prefixes),
-    expanded: content,
     hasChanged,
+    groupsByOffset,
+    // Computed lazily because MagicString's toString does a lot of work
+    get expanded() { return expanded.toString() },
   }
 }
 
@@ -81,16 +121,6 @@ export function collapseVariantGroup(str: string, prefixes: string[]): string {
 export function expandVariantGroup(str: string, separators?: string[], depth?: number): string
 export function expandVariantGroup(str: MagicString, separators?: string[], depth?: number): MagicString
 export function expandVariantGroup(str: string | MagicString, separators = ['-', ':'], depth = 5) {
-  const {
-    expanded,
-  } = parseVariantGroup(str.toString(), separators, depth)
-
-  if (typeof str === 'string') {
-    return expanded
-  }
-  else {
-    return str.length()
-      ? str.overwrite(0, str.original.length, expanded)
-      : str
-  }
+  const res = parseVariantGroup(str, separators, depth)
+  return typeof str === 'string' ? res.expanded : str
 }
