@@ -1,4 +1,5 @@
 import MagicString from 'magic-string'
+import type { Annotation } from '../types'
 import { notNull } from '../utils'
 
 const regexCache: Record<string, RegExp> = {}
@@ -13,12 +14,7 @@ export function makeRegexClassGroup(separators = ['-', ':']) {
 
 interface Group {
   length: number
-  items: GroupItem[]
-}
-interface GroupItem {
-  offset: number
-  length: number
-  expanded: string
+  items: Annotation[]
 }
 
 export function parseVariantGroup(str: string | MagicString, separators = ['-', ':'], depth = 5) {
@@ -54,11 +50,11 @@ export function parseVariantGroup(str: string | MagicString, separators = ['-', 
             innerItems = [{
               offset: itemOffset,
               length: itemMatch[0].length,
-              expanded: itemMatch[0],
+              className: itemMatch[0],
             }]
           }
           for (const item of innerItems) {
-            item.expanded = item.expanded === '~' ? pre : item.expanded.replace(/^(!?)(.*)/, `$1${pre}${sep}$2`)
+            item.className = item.className === '~' ? pre : item.className.replace(/^(!?)(.*)/, `$1${pre}${sep}$2`)
             group.items.push(item)
           }
         }
@@ -74,7 +70,7 @@ export function parseVariantGroup(str: string | MagicString, separators = ['-', 
 
   const expanded = typeof str === 'string' ? new MagicString(str) : str
   for (const [offset, group] of groupsByOffset)
-    expanded.overwrite(offset, offset + group.length, group.items.map(item => item.expanded).join(' '))
+    expanded.overwrite(offset, offset + group.length, group.items.map(item => item.className).join(' '))
 
   return {
     prefixes: Array.from(prefixes),

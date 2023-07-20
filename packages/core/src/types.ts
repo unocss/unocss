@@ -622,12 +622,12 @@ export interface SourceMap {
 export interface Annotation {
   offset: number
   length: number
-  description: string
+  className: string
 }
 
 export type SourceCodeTransformerEnforce = 'pre' | 'post' | 'default'
 
-export interface SourceCodeTransformer<T = any> {
+export interface SourceCodeTransformer {
   name: string
   /**
    * The order of transformer
@@ -640,8 +640,9 @@ export interface SourceCodeTransformer<T = any> {
   /**
    * The transform function
    */
-  transform: (code: MagicString, id: string, ctx: UnocssPluginContext) => Awaitable<T>
-  getAnnotations?: (transformResult: T) => Awaitable<Annotation[]>
+  transform: (
+    code: MagicString, id: string, ctx: UnocssPluginContext
+  ) => Awaitable<{ getAnnotations?(): Annotation[] } | void>
 }
 
 export interface ContentOptions {

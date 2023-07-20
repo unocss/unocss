@@ -105,12 +105,12 @@ function useTransformer() {
 
     const annotations = []
     const fakePluginContext = { uno } as UnocssPluginContext
-    for (const { idFilter, transform, getAnnotations } of transformers) {
+    for (const { idFilter, transform } of transformers) {
       if (idFilter && !idFilter(id))
         continue
       const result = await transform(code, id, fakePluginContext)
-      if (getAnnotations)
-        annotations.push(...await getAnnotations(result))
+      if (result?.getAnnotations)
+        annotations.push(...result.getAnnotations())
     }
     return annotations
   }

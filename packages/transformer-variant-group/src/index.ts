@@ -21,17 +21,17 @@ export interface TransformerVariantGroupOptions {
 
 export default function transformerVariantGroup(
   options: TransformerVariantGroupOptions = {},
-): SourceCodeTransformer<ReturnType<typeof parseVariantGroup>> {
+): SourceCodeTransformer {
   return {
     name: '@unocss/transformer-variant-group',
     enforce: 'pre',
     transform(s) {
-      return parseVariantGroup(s, options.separators)
-    },
-    getAnnotations(transformResult) {
-      return [...transformResult.groupsByOffset.values()].flatMap(group =>
-        group.items.map(item => ({ ...item, description: item.expanded })),
-      )
+      const result = parseVariantGroup(s, options.separators)
+      return {
+        getAnnotations() {
+          return [...result.groupsByOffset.values()].flatMap(group => group.items)
+        },
+      }
     },
   }
 }

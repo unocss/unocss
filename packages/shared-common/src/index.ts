@@ -168,7 +168,7 @@ export function getMatchedPositions(code: string, matched: string[], transformer
   })
 
   result.push(...transformerAnnotations.map(i =>
-    [i.offset, i.offset + i.length, i.description] as const,
+    [i.offset, i.offset + i.length, i.className] as const,
   ))
 
   return result.sort((a, b) => a[0] - b[0])
@@ -190,8 +190,8 @@ export async function getMatchedPositionsFromCode(uno: UnoGenerator, code: strin
   for (const enforce of ['pre', 'default', 'post']) {
     for (const i of transformers?.filter(i => (i.enforce ?? 'default') === enforce) || []) {
       const result = await i.transform(s, id, ctx)
-      if (i.getAnnotations)
-        annotations.push(...await i.getAnnotations(result))
+      if (result?.getAnnotations)
+        annotations.push(...result.getAnnotations())
     }
   }
 
