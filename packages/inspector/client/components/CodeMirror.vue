@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { getMatchedPositions } from '@unocss/shared-common'
+import type { Annotation } from '@unocss/core'
 import { Decoration } from '@codemirror/view'
 import { useEventListener, useThrottleFn } from '@vueuse/core'
 import type { CompletionSource } from '@codemirror/autocomplete'
@@ -10,6 +11,7 @@ const props = defineProps<{
   mode?: string
   readOnly?: boolean
   matched?: Set<string> | string[]
+  annotations?: Annotation[]
   getHint?: CompletionSource
 }>()
 
@@ -41,7 +43,7 @@ onMounted(async () => {
     cm.dispatch({
       effects: filterMarks.of((from: number, to: number) => to <= 0 || from >= cm.state.doc.toString().length),
     })
-    getMatchedPositions(props.modelValue, Array.from(props.matched || []), true)
+    getMatchedPositions(props.modelValue, Array.from(props.matched || []), props.annotations || [])
       .forEach(i => mark(i[0], i[1]))
   }
 
