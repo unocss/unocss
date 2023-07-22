@@ -1,9 +1,26 @@
 import type { CSSEntries, Rule, RuleContext, StaticRule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { globalKeywords, h, insetMap, makeGlobalStaticRules } from '../utils'
+import { globalKeywords, h, insetMap, makeGlobalStaticRules, makeGroupAutocomplete } from '../utils'
+
+const positionValues = [
+  'relative',
+  'absolute',
+  'fixed',
+  'sticky',
+  'static',
+  ...globalKeywords,
+]
 
 export const positions: Rule[] = [
-  [/^(?:position-|pos-)?(relative|absolute|fixed|sticky)$/, ([, v]) => ({ position: v })],
+  [/^(?:position-|pos-)?(relative|absolute|fixed|sticky)$/, ([, v]) => ({ position: v }), {
+    autocomplete: [
+      makeGroupAutocomplete([
+        ['position', 'pos'],
+        positionValues,
+      ]),
+      makeGroupAutocomplete([positionValues]),
+    ],
+  }],
   [/^(?:position-|pos-)([-\w]+)$/, ([, v]) => globalKeywords.includes(v) ? { position: v } : undefined],
   [/^(?:position-|pos-)?(static)$/, ([, v]) => ({ position: v })],
 ]
@@ -17,6 +34,8 @@ export const justifies: StaticRule[] = [
   ['justify-around', { 'justify-content': 'space-around' }],
   ['justify-evenly', { 'justify-content': 'space-evenly' }],
   ['justify-stretch', { 'justify-content': 'stretch' }],
+  ['justify-left', { 'justify-content': 'left' }],
+  ['justify-right', { 'justify-content': 'right' }],
   ...makeGlobalStaticRules('justify', 'justify-content'),
 
   // items

@@ -244,6 +244,14 @@ export function makeGlobalStaticRules(prefix: string, property?: string): Static
   return globalKeywords.map(keyword => [`${prefix}-${keyword}`, { [property ?? prefix]: keyword }])
 }
 
+export function makeGroupAutocomplete(groups: (string[] | string)[]) {
+  return groups.map((r) => {
+    if (Array.isArray(r))
+      return `(${r.join('|')})`
+    return r
+  }).join('-')
+}
+
 export function getBracket(str: string, open: string, close: string) {
   if (str === '')
     return

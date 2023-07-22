@@ -1,7 +1,8 @@
 import { mergeDeep } from '@unocss/core'
-import { getComponent } from '@unocss/preset-mini/utils'
+import { getComponent, makeGroupAutocomplete } from '@unocss/preset-mini/utils'
 import { expect, it } from 'vitest'
 import { addRemToPxComment, getColorString } from '@unocss/vscode/utils'
+import { cartesian } from '@unocss/autocomplete'
 
 it('mergeDeep', () => {
   expect(mergeDeep<any>({
@@ -96,6 +97,15 @@ it('getColorString', () => {
   expect(getColorString(bgAmberImportant)).eql('rgba(251, 191, 36, 1)')
 })
 
+it('makeGroupAutocomplete', () => {
+  expect(makeGroupAutocomplete([
+    ['position', 'pos'],
+    ['relative', 'absolute', 'fixed', 'sticky', 'static'],
+  ])).eql(
+    '(position|pos)-(relative|absolute|fixed|sticky|static)',
+  )
+})
+
 it('addRemToPxComment', () => {
   const text = `
   /* layer: default */
@@ -113,4 +123,27 @@ it('addRemToPxComment', () => {
 
   expect(addRemToPxComment(text, 0)).eql(text)
   expect(addRemToPxComment(text, -1)).eql(text)
+})
+
+it('cartesian', () => {
+  const a = ['a', 'b', 'c']
+  const b = ['1', '2', '3']
+  // multiple
+  expect(cartesian([a, b])).eql([
+    ['a', '1'],
+    ['a', '2'],
+    ['a', '3'],
+    ['b', '1'],
+    ['b', '2'],
+    ['b', '3'],
+    ['c', '1'],
+    ['c', '2'],
+    ['c', '3'],
+  ])
+  // single
+  expect(cartesian([a])).eql([
+    ['a'],
+    ['b'],
+    ['c'],
+  ])
 })
