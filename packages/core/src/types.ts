@@ -436,6 +436,12 @@ export interface ConfigBase<Theme extends object = object> {
      * transform class-name style suggestions to the correct format
      */
     extractors?: Arrayable<AutoCompleteExtractor>
+
+    /**
+     * Custom shorthands to provide autocomplete suggestions.
+     * if values is an array, it will be joined with `|` and wrapped with `()`
+     */
+    shorthands?: Record<string, string | string[]>
   }
 
   /**
@@ -768,6 +774,7 @@ RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variant
   autocomplete: {
     templates: (AutoCompleteFunction | AutoCompleteTemplate)[]
     extractors: AutoCompleteExtractor[]
+    shorthands: Record<string, string>
   }
   separators: string[]
 }
