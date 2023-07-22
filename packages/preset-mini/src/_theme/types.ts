@@ -31,6 +31,7 @@ export interface Theme {
   colors?: Colors
   fontFamily?: Record<string, string>
   fontSize?: Record<string, string | [string, string]>
+  fontWeight?: Record<string, string>
   lineHeight?: Record<string, string>
   letterSpacing?: Record<string, string>
   wordSpacing?: Record<string, string>
