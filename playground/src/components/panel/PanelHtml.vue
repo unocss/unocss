@@ -54,6 +54,7 @@ const computedInputHTML = computed({
       mode="html"
       class="scrolls border-(l gray-400/20)"
       :matched="output?.matched || new Set()"
+      :annotations="annotations"
       :get-hint="getHint"
       :read-only="options.transform"
     />
