@@ -1,4 +1,4 @@
-<div class="spu-ff1ijb" />
+<div class="usp-ff1ijb" />
 
 <style uno-preflights>
   *,
@@ -107,7 +107,7 @@
     --un-backdrop-saturate: ;
     --un-backdrop-sepia: ;
   }
-  :global(.spu-ff1ijb) {
+  :global(.usp-ff1ijb) {
     margin-bottom: 0.25rem;
     --un-shadow: var(--un-shadow-inset) 0 1px 3px 0
         var(--un-shadow-color, rgba(0, 0, 0, 0.1)),
