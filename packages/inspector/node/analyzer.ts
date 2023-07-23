@@ -3,7 +3,7 @@ import { parseColor } from '../../preset-mini/src/utils'
 import type { MatchedColor, MatchedSelector } from '../types'
 import { getSelectorCategory } from './utils'
 
-export async function analyzer(result: GenerateResult<Map<string, TokenInfo<{}>>>, ctx: UnocssPluginContext) {
+export async function analyzer(result: GenerateResult<Map<string, TokenInfo<object>>>, ctx: UnocssPluginContext) {
   const matched: MatchedSelector[] = []
   const colors: MatchedColor[] = []
 

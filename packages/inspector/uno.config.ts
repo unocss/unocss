@@ -5,7 +5,7 @@ import presetIcons from '@unocss/preset-icons'
 
 export function createConfig(): VitePluginConfig {
   return {
-    envMode: 'build',
+    envMode: 'dev',
     details: true,
     theme: {
       fontFamily: {
