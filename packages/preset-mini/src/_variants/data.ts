@@ -1,4 +1,4 @@
-import type { VariantContext, VariantObject } from '@unocss/core'
+import type { Variant, VariantContext, VariantObject } from '@unocss/core'
 import type { Theme } from '../theme'
 import { h, variantGetParameter } from '../utils'
 
@@ -19,7 +19,7 @@ export const variantDataAttribute: VariantObject = {
   },
 }
 
-export const variantGroupDataAttribute: VariantObject = {
+export const variantGroupDataAttribute: Variant = {
   name: 'group-data',
   match(matcher, ctx: VariantContext<Theme>) {
     const variant = variantGetParameter('group-data-', matcher, ctx.generator.config.separators)

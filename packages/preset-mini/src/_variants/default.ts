@@ -19,7 +19,6 @@ export function variants(options: PresetMiniOptions): Variant<Theme>[] {
   return [
     variantAria,
     variantDataAttribute,
-    variantGroupDataAttribute,
     variantCssLayer,
 
     variantSelector,
@@ -43,5 +42,6 @@ export function variants(options: PresetMiniOptions): Variant<Theme>[] {
 
     variantContainerQuery,
     variantVariables,
+    variantGroupDataAttribute,
   ]
 }
