@@ -2,7 +2,7 @@
   "publisher": "antfu",
   "name": "@unocss/vscode",
   "displayName": "UnoCSS",
-  "version": "0.53.5",
+  "version": "0.53.6",
   "private": true,
   "description": "UnoCSS for VS Code",
   "license": "MIT",
@@ -41,9 +41,7 @@
           "description": "Disable the UnoCSS extension"
         },
         "unocss.languageIds": {
-          "type": [
-            "array"
-          ],
+          "type": "array",
           "items": {
             "type": "string"
           }
