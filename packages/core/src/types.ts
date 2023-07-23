@@ -834,7 +834,7 @@ export interface UtilObject {
   noMerge: boolean | undefined
 }
 
-export interface TokenInfo<Theme extends {} = {}> {
+export interface TokenInfo<Theme extends object = object> {
   payload: StringifiedUtil<Theme>[]
   count: number
 }
