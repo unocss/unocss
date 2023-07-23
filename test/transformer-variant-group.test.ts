@@ -10,7 +10,7 @@ describe('transformer-variant-group', () => {
   async function transform(code: string) {
     const s = new MagicString(code)
     const result = await transformer.transform(s, '', {} as UnocssPluginContext)
-    return { transformed: s.toString(), annotations: result!.getAnnotations!() }
+    return { transformed: s.toString(), annotations: result!.highlightAnnotations }
   }
 
   test('basic', async () => {

@@ -109,8 +109,9 @@ function useTransformer() {
       if (idFilter && !idFilter(id))
         continue
       const result = await transform(code, id, fakePluginContext)
-      if (result?.getAnnotations)
-        annotations.push(...result.getAnnotations())
+      const _annotations = result?.highlightAnnotations
+      if (_annotations)
+        annotations.push(..._annotations)
     }
     return annotations
   }

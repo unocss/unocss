@@ -195,8 +195,9 @@ export async function getMatchedPositionsFromCode(uno: UnoGenerator, code: strin
   for (const enforce of ['pre', 'default', 'post']) {
     for (const i of transformers?.filter(i => (i.enforce ?? 'default') === enforce) || []) {
       const result = await i.transform(s, id, ctx)
-      if (result?.getAnnotations)
-        annotations.push(...result.getAnnotations())
+      const _annotations = result?.highlightAnnotations
+      if (_annotations)
+        annotations.push(..._annotations)
     }
   }
 

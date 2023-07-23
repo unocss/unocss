@@ -28,7 +28,7 @@ export default function transformerVariantGroup(
     transform(s) {
       const result = parseVariantGroup(s, options.separators)
       return {
-        getAnnotations() {
+        get highlightAnnotations() {
           return [...result.groupsByOffset.values()].flatMap(group => group.items)
         },
       }
