@@ -171,9 +171,8 @@ export class UnoGenerator<Theme extends object = object> {
     if (safelist) {
       this.config.safelist.forEach((s) => {
         // We don't want to increment count if token is already in the set
-        if (isCountableSet(tokens) && tokens.has(s))
-          return
-        tokens.add(s)
+        if (!tokens.has(s))
+          tokens.add(s)
       })
     }
 

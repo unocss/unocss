@@ -26,3 +26,7 @@ export class CountableSet<K> extends Set<K> {
     return super.add(key)
   }
 }
+
+export function isCountableSet<T = string>(value: any): value is CountableSet<T> {
+  return value instanceof CountableSet
+}
