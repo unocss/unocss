@@ -1,5 +1,6 @@
 {
   "name": "@unocss/reset",
+  "type": "module",
   "version": "0.53.6",
   "description": "Collection of CSS resetting",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
