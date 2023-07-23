@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { getMatchedPositions } from '@unocss/shared-common'
-import type { Annotation } from '@unocss/core'
+import type { HighlightAnnotation } from '@unocss/core'
 import { Decoration } from '@codemirror/view'
-import { useEventListener, useThrottleFn } from '@vueuse/core'
+import { useEventListener, useThrottleFn, useVModel } from '@vueuse/core'
 import type { CompletionSource } from '@codemirror/autocomplete'
+import { onMounted, reactive, ref, toRefs, watch } from 'vue'
 import { addMarks, filterMarks, useCodeMirror } from '../composables/codemirror'
 
 const props = defineProps<{
@@ -11,7 +12,7 @@ const props = defineProps<{
   mode?: string
   readOnly?: boolean
   matched?: Set<string> | string[]
-  annotations?: Annotation[]
+  annotations?: HighlightAnnotation[]
   getHint?: CompletionSource
 }>()
 

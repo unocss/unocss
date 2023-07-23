@@ -1,5 +1,5 @@
 import MagicString from 'magic-string'
-import type { Annotation } from '../types'
+import type { HighlightAnnotation } from '../types'
 import { notNull } from '../utils'
 
 const regexCache: Record<string, RegExp> = {}
@@ -12,9 +12,9 @@ export function makeRegexClassGroup(separators = ['-', ':']) {
   return regexCache[key]
 }
 
-interface Group {
+interface VariantGroup {
   length: number
-  items: Annotation[]
+  items: HighlightAnnotation[]
 }
 
 export function parseVariantGroup(str: string | MagicString, separators = ['-', ':'], depth = 5) {
@@ -22,7 +22,7 @@ export function parseVariantGroup(str: string | MagicString, separators = ['-', 
   let hasChanged
   let content = str.toString()
   const prefixes = new Set<string>()
-  const groupsByOffset = new Map<number, Group>()
+  const groupsByOffset = new Map<number, VariantGroup>()
 
   do {
     hasChanged = false
@@ -35,7 +35,7 @@ export function parseVariantGroup(str: string | MagicString, separators = ['-', 
         hasChanged = true
         prefixes.add(pre + sep)
         const bodyOffset = groupOffset + pre.length + sep.length + 1
-        const group: Group = { length: from.length, items: [] }
+        const group: VariantGroup = { length: from.length, items: [] }
         groupsByOffset.set(groupOffset, group)
 
         for (const itemMatch of [...body.matchAll(/\S+/g)]) {
@@ -54,7 +54,9 @@ export function parseVariantGroup(str: string | MagicString, separators = ['-', 
             }]
           }
           for (const item of innerItems) {
-            item.className = item.className === '~' ? pre : item.className.replace(/^(!?)(.*)/, `$1${pre}${sep}$2`)
+            item.className = item.className === '~'
+              ? pre
+              : item.className.replace(/^(!?)(.*)/, `$1${pre}${sep}$2`)
             group.items.push(item)
           }
         }
@@ -68,7 +70,10 @@ export function parseVariantGroup(str: string | MagicString, separators = ['-', 
     depth -= 1
   } while (hasChanged && depth)
 
-  const expanded = typeof str === 'string' ? new MagicString(str) : str
+  const expanded = typeof str === 'string'
+    ? new MagicString(str)
+    : str
+
   for (const [offset, group] of groupsByOffset)
     expanded.overwrite(offset, offset + group.length, group.items.map(item => item.className).join(' '))
 
@@ -118,5 +123,7 @@ export function expandVariantGroup(str: string, separators?: string[], depth?: n
 export function expandVariantGroup(str: MagicString, separators?: string[], depth?: number): MagicString
 export function expandVariantGroup(str: string | MagicString, separators = ['-', ':'], depth = 5) {
   const res = parseVariantGroup(str, separators, depth)
-  return typeof str === 'string' ? res.expanded : str
+  return typeof str === 'string'
+    ? res.expanded
+    : str
 }

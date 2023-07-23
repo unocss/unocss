@@ -619,7 +619,7 @@ export interface SourceMap {
   version?: number
 }
 
-export interface Annotation {
+export interface HighlightAnnotation {
   offset: number
   length: number
   className: string
@@ -641,8 +641,10 @@ export interface SourceCodeTransformer {
    * The transform function
    */
   transform: (
-    code: MagicString, id: string, ctx: UnocssPluginContext
-  ) => Awaitable<{ getAnnotations?(): Annotation[] } | void>
+    code: MagicString,
+    id: string,
+    ctx: UnocssPluginContext
+  ) => Awaitable<{ getAnnotations?(): HighlightAnnotation[] } | void>
 }
 
 export interface ContentOptions {

@@ -1,4 +1,4 @@
-import type { Annotation, ExtractorContext, UnoGenerator } from '@unocss/core'
+import type { ExtractorContext, HighlightAnnotation, UnoGenerator } from '@unocss/core'
 import { escapeRegExp, isAttributifySelector, splitWithVariantGroupRE } from '@unocss/core'
 import MagicString from 'magic-string'
 import { arbitraryPropertyRE, quotedArbitraryValuesRE } from '../../extractor-arbitrary-variants/src'
@@ -85,8 +85,13 @@ export function getPlainClassMatchedPositionsForPug(codeSplit: string, matchedPl
   return result
 }
 
-export function getMatchedPositions(code: string, matched: string[], transformerAnnotations: Annotation[], isPug = false) {
-  const result: (readonly [number, number, string])[] = []
+export function getMatchedPositions(
+  code: string,
+  matched: string[],
+  extraAnnotations: HighlightAnnotation[] = [],
+  isPug = false,
+) {
+  const result: (readonly [start: number, end: number, text: string])[] = []
   const attributify: RegExpMatchArray[] = []
   const plain = new Set<string>()
 
@@ -167,7 +172,7 @@ export function getMatchedPositions(code: string, matched: string[], transformer
       })
   })
 
-  result.push(...transformerAnnotations.map(i =>
+  result.push(...extraAnnotations.map(i =>
     [i.offset, i.offset + i.length, i.className] as const,
   ))
 
