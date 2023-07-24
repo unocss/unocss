@@ -1,17 +1,21 @@
 import { readFile } from 'node:fs/promises'
 import { describe, expect, test } from 'vitest'
-import { expandVariantGroup } from '@unocss/core'
+import { type UnocssPluginContext, expandVariantGroup } from '@unocss/core'
 import MagicString from 'magic-string'
+import transformerVariantGroup from '@unocss/transformer-variant-group'
+
+const transformer = transformerVariantGroup()
 
 describe('transformer-variant-group', () => {
   async function transform(code: string) {
     const s = new MagicString(code)
-    expandVariantGroup(s)
-    return s.toString()
+    const result = await transformer.transform(s, '', {} as UnocssPluginContext)
+    return { transformed: s.toString(), annotations: result!.highlightAnnotations }
   }
 
   test('basic', async () => {
     const cases = [
+      'a1 a2:(b1 b2:(c1 c2-(d1 d2) c3) b3) a3',
       'bg-white font-light sm:hover:(bg-gray-100 font-medium)',
       'lt-sm:hover:(p-1 p-2)',
       '<sm:hover:(p-1 p-2)',
@@ -67,7 +71,12 @@ describe('transformer-variant-group', () => {
     const result = await transform(
       'hover:()',
     )
-    expect(result).toMatchInlineSnapshot('"hover:()"')
+    expect(result).toMatchInlineSnapshot(`
+      {
+        "annotations": [],
+        "transformed": "hover:()",
+      }
+    `)
   })
 
   test('ignore arrow fn', async () => {
@@ -79,13 +88,16 @@ describe('transformer-variant-group', () => {
       }
     `)
     expect(result).toMatchInlineSnapshot(`
-      "
+      {
+        "annotations": [],
+        "transformed": "
             {
               hover:(p6) => {
                 console.log('ok')
               },
             }
-          "
+          ",
+      }
     `)
   })
 })
