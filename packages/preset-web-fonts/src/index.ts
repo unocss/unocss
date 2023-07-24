@@ -74,7 +74,7 @@ function preset(options: WebFontsOptions = {}): Preset<any> {
       return await importCache[url]
     }
     else {
-      return `@import url('${url}')`
+      return `@import url('${url}');`
     }
   }
 

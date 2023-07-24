@@ -280,15 +280,15 @@ export class UnoGenerator<Theme extends object = object> {
       }
 
       const layerMark = minify ? '' : `/* layer: ${layer} */${nl}`
-      return layerCache[layer] = css ? layerMark + css : ''
+      return layerCache[layer] = sortImport(css ? layerMark + css : '')
     }
 
     const getLayers = (includes = layers, excludes?: string[]) => {
-      return includes
+      return sortImport(includes
         .filter(i => !excludes?.includes(i))
         .map(i => getLayer(i) || '')
         .filter(Boolean)
-        .join(nl)
+        .join(nl))
     }
 
     return {
@@ -297,6 +297,18 @@ export class UnoGenerator<Theme extends object = object> {
       matched,
       getLayers,
       getLayer,
+    }
+
+    function sortImport(css: string) {
+      const importRe = /(@import\s+(?:url\(["']?[^"')]+["']?\)\s*;|["'][^"')]+["']\s*;|[^;]+\s*;))/gm
+      const imports = css.match(importRe)
+
+      if (imports != null) {
+        const _css = css.replace(importRe, '').replace(/^\s*/gm, '')
+        css = `${imports.filter(Boolean).join(`${nl}`)}${nl}${_css}`
+      }
+
+      return css
     }
   }
 
