@@ -625,12 +625,10 @@ export interface SourceMap {
   version?: number
 }
 
-export interface TransformResult {
-  code: string
-  map?: SourceMap | null
-  etag?: string
-  deps?: string[]
-  dynamicDeps?: string[]
+export interface HighlightAnnotation {
+  offset: number
+  length: number
+  className: string
 }
 
 export type SourceCodeTransformerEnforce = 'pre' | 'post' | 'default'
@@ -648,7 +646,11 @@ export interface SourceCodeTransformer {
   /**
    * The transform function
    */
-  transform: (code: MagicString, id: string, ctx: UnocssPluginContext) => Awaitable<void>
+  transform: (
+    code: MagicString,
+    id: string,
+    ctx: UnocssPluginContext
+  ) => Awaitable<{ highlightAnnotations?: HighlightAnnotation[] } | void>
 }
 
 export interface ContentOptions {
