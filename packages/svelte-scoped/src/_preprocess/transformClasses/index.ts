@@ -58,7 +58,6 @@ async function generateStyles(rulesToGenerate: ProcessResult['rulesToGenerate'],
       safelist: false,
       minify: removeCommentsToMakeGlobalWrappingEasy,
     })
-  uno.config.shortcuts = originalShortcuts
 
   const cssPreparedForSvelteCompiler = wrapSelectorsWithGlobal(css)
   return cssPreparedForSvelteCompiler
