@@ -3,7 +3,7 @@ import type { CSSEntries, CSSObject, DynamicRule, ExtractorContext, GenerateOpti
 import { resolveConfig } from '../config'
 import { CONTROL_SHORTCUT_NO_MERGE, TwoKeyMap, e, entriesToCss, expandVariantGroup, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
-import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from '../constants'
+import { LAYER_DEFAULT, LAYER_IMPORTS, LAYER_PREFLIGHTS } from '../constants'
 
 export class UnoGenerator<Theme extends object = object> {
   public version = version
@@ -177,10 +177,24 @@ export class UnoGenerator<Theme extends object = object> {
       }
 
       const preflightLayerSet = new Set<string>([])
+
       this.config.preflights.forEach(({ layer = LAYER_PREFLIGHTS }) => {
         layerSet.add(layer)
         preflightLayerSet.add(layer)
       })
+
+      const importSet = new Set<string>()
+      const hoistAtImport = (css: string) => {
+        const importRe = /(@import\s+(?:url\(["']?[^"')]+["']?\)\s*;|["'][^"')]+["']\s*;|[^;]+\s*;))/gm
+        const imports = css.match(importRe)
+
+        if (imports != null) {
+          imports.forEach(i => importSet.add(i))
+          return css.replace(importRe, '').replace(/^\s*/gm, '')
+        }
+
+        return css
+      }
 
       preflightsMap = Object.fromEntries(
         await Promise.all(Array.from(preflightLayerSet).map(
@@ -188,7 +202,10 @@ export class UnoGenerator<Theme extends object = object> {
             const preflights = await Promise.all(
               this.config.preflights
                 .filter(i => (i.layer || LAYER_PREFLIGHTS) === layer)
-                .map(async i => await i.getCSS(preflightContext)),
+                .map(async (i) => {
+                  const css = await i.getCSS(preflightContext)
+                  return css ? hoistAtImport(css) : undefined
+                }),
             )
             const css = preflights
               .filter(Boolean)
@@ -197,6 +214,10 @@ export class UnoGenerator<Theme extends object = object> {
           },
         )),
       )
+      if (importSet.size > 0) {
+        layerSet.add(LAYER_IMPORTS)
+        preflightsMap[LAYER_IMPORTS] = [...importSet].join(nl)
+      }
     })()
 
     const layers = this.config.sortLayers(Array
@@ -280,15 +301,15 @@ export class UnoGenerator<Theme extends object = object> {
       }
 
       const layerMark = minify ? '' : `/* layer: ${layer} */${nl}`
-      return layerCache[layer] = sortImport(css ? layerMark + css : '')
+      return layerCache[layer] = css ? layerMark + css : ''
     }
 
     const getLayers = (includes = layers, excludes?: string[]) => {
-      return sortImport(includes
+      return includes
         .filter(i => !excludes?.includes(i))
         .map(i => getLayer(i) || '')
         .filter(Boolean)
-        .join(nl))
+        .join(nl)
     }
 
     return {
@@ -297,18 +318,6 @@ export class UnoGenerator<Theme extends object = object> {
       matched,
       getLayers,
       getLayer,
-    }
-
-    function sortImport(css: string) {
-      const importRe = /(@import\s+(?:url\(["']?[^"')]+["']?\)\s*;|["'][^"')]+["']\s*;|[^;]+\s*;))/gm
-      const imports = css.match(importRe)
-
-      if (imports != null) {
-        const _css = css.replace(importRe, '').replace(/^\s*/gm, '')
-        css = `${imports.filter(Boolean).join(`${nl}`)}${nl}${_css}`
-      }
-
-      return css
     }
   }
 
