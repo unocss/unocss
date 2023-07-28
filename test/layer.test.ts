@@ -67,7 +67,7 @@ describe('layers', () => {
     })
     const { css } = await uno.generate('font-mono', { preflights: true })
     expect(css).toMatchInlineSnapshot(`
-      "/* layer: @imports */
+      "/* layer: imports */
       @import url('https://test.import.com/normalize.css');
       @import url('fineprint.css') print;
       @import url('bluish.css') projection, tv;
