@@ -321,8 +321,11 @@ export class UnoGenerator<Theme extends object = object> {
         let handler = await v.match(processed, context)
         if (!handler)
           continue
-        if (isString(handler))
+        if (isString(handler)) {
+          if (handler === processed)
+            continue
           handler = { matcher: handler }
+        }
         processed = handler.matcher
         handlers.unshift(handler)
         variants.add(v)
