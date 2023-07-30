@@ -1,4 +1,4 @@
-import MagicString from 'magic-string'
+import type MagicString from 'magic-string'
 import type { HighlightAnnotation } from '../types'
 import { notNull } from '../utils'
 
@@ -70,12 +70,28 @@ export function parseVariantGroup(str: string | MagicString, separators = ['-', 
     depth -= 1
   } while (hasChanged && depth)
 
-  const expanded = typeof str === 'string'
-    ? new MagicString(str)
-    : str
+  let expanded: MagicString | string
 
-  for (const [offset, group] of groupsByOffset)
-    expanded.overwrite(offset, offset + group.length, group.items.map(item => item.className).join(' '))
+  if (typeof str === 'string') {
+    expanded = ''
+    let prevOffset = 0
+    for (const [offset, group] of groupsByOffset) {
+      expanded += str.slice(prevOffset, offset)
+      expanded += group.items.map(item => item.className).join(' ')
+      prevOffset = offset + group.length
+    }
+    expanded += str.slice(prevOffset)
+  }
+  else {
+    expanded = str
+    for (const [offset, group] of groupsByOffset) {
+      expanded.overwrite(
+        offset,
+        offset + group.length,
+        group.items.map(item => item.className).join(' '),
+      )
+    }
+  }
 
   return {
     prefixes: Array.from(prefixes),
