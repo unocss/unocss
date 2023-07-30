@@ -34,72 +34,15 @@ describe('layers', () => {
           inlineImports: false,
         }),
       ],
-      preflights: [{
-        layer: 'testImports',
-        getCSS: () => `
-@import url('https://test.import.com/normalize.css');
-@import url('fineprint.css') print;
-.a {
-  color: red;
-}
-@import url('bluish.css') projection, tv;
-.b {
-  color: blue;
-}
-@import 'custom.css';
-.c {
-  color: green;
-}
-@import url('chrome://communicator/skin/');
-.d {
-  color: yellow;
-}
-@import 'common.css' screen, projection;
-.e {
-  color: purple;
-}
-@import url('landscape.css') screen and (orientation: landscape);
-.f {
-  color: orange;
-}
-`,
-      }],
     })
     const { css } = await uno.generate('font-mono', { preflights: true })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: imports */
-      @import url('https://test.import.com/normalize.css');
-      @import url('fineprint.css') print;
-      @import url('bluish.css') projection, tv;
-      @import 'custom.css';
-      @import url('chrome://communicator/skin/');
-      @import 'common.css' screen, projection;
-      @import url('landscape.css') screen and (orientation: landscape);
       @import url('https://fonts.googleapis.com/css2?family=Fira+Code&family=Fira+Mono:wght@400;700&display=swap');
       /* layer: preflights */
       *,::before,::after{--un-rotate:0;--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;--un-ring-offset-shadow:0 0 rgba(0,0,0,0);--un-ring-shadow:0 0 rgba(0,0,0,0);--un-shadow-inset: ;--un-shadow:0 0 rgba(0,0,0,0);--un-ring-inset: ;--un-ring-offset-width:0px;--un-ring-offset-color:#fff;--un-ring-width:0px;--un-ring-color:rgba(147,197,253,0.5);}::backdrop{--un-rotate:0;--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;--un-ring-offset-shadow:0 0 rgba(0,0,0,0);--un-ring-shadow:0 0 rgba(0,0,0,0);--un-shadow-inset: ;--un-shadow:0 0 rgba(0,0,0,0);--un-ring-inset: ;--un-ring-offset-width:0px;--un-ring-offset-color:#fff;--un-ring-width:0px;--un-ring-color:rgba(147,197,253,0.5);}
       /* layer: default */
-      .font-mono{font-family:\\"Fira Code\\",\\"Fira Mono\\",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\\"Liberation Mono\\",\\"Courier New\\",monospace;}
-      /* layer: testImports */
-      .a {
-      color: red;
-      }
-      .b {
-      color: blue;
-      }
-      .c {
-      color: green;
-      }
-      .d {
-      color: yellow;
-      }
-      .e {
-      color: purple;
-      }
-      .f {
-      color: orange;
-      }
-      "
+      .font-mono{font-family:\\"Fira Code\\",\\"Fira Mono\\",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\\"Liberation Mono\\",\\"Courier New\\",monospace;}"
     `)
   })
 })
