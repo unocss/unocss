@@ -46,6 +46,6 @@
     "@unocss/vite": "workspace:*"
   },
   "devDependencies": {
-    "astro": "^2.8.0"
+    "astro": "^2.9.6"
   }
 }

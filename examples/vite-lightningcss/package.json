@@ -17,7 +17,7 @@
     "lightningcss": "^1.21.5",
     "typescript": "^5.1.6",
     "unocss": "link:../../packages/unocss",
-    "vite": "^4.4.2"
+    "vite": "^4.4.7"
   },
   "stackblitz": {
     "installDependencies": false,
