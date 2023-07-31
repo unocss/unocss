@@ -1,5 +1,5 @@
 import { mergeDeep } from '@unocss/core'
-import { getComponent, makeGroupAutocomplete } from '@unocss/preset-mini/utils'
+import { getComponent } from '@unocss/preset-mini/utils'
 import { expect, it } from 'vitest'
 import { addRemToPxComment, getColorString } from '@unocss/vscode/utils'
 import { cartesian } from '@unocss/autocomplete'
@@ -95,15 +95,6 @@ it('getColorString', () => {
   expect(getColorString(textAmberImportant)).eql('rgba(251, 191, 36, 1)')
   expect(getColorString(bgAmber)).eql('rgba(251, 191, 36, 1)')
   expect(getColorString(bgAmberImportant)).eql('rgba(251, 191, 36, 1)')
-})
-
-it('makeGroupAutocomplete', () => {
-  expect(makeGroupAutocomplete([
-    ['position', 'pos'],
-    ['relative', 'absolute', 'fixed', 'sticky', 'static'],
-  ])).eql(
-    '(position|pos)-(relative|absolute|fixed|sticky|static)',
-  )
 })
 
 it('addRemToPxComment', () => {
