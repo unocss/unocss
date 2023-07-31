@@ -9,7 +9,7 @@ import { shorthands } from './shorthands'
 
 export { preflights } from './preflights'
 export { theme, colors } from './theme'
-export { parseColor, globalKeywords } from './utils'
+export { parseColor } from './utils'
 
 export type { ThemeAnimation, Theme }
 
