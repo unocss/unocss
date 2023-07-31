@@ -14,7 +14,7 @@ export default defineNuxtConfig({
   modules: [
     '@vueuse/nuxt',
     '@nuxt/devtools',
-    '~/../packages/nuxt/src/index.ts',
+    '../packages/nuxt/src/index.ts',
     '~/modules/markdown',
   ],
   ssr: false,
@@ -25,7 +25,6 @@ export default defineNuxtConfig({
     baseURL: '/interactive/',
   },
   nitro: {
-    preset: 'netlify',
     rootDir: resolve(__dirname, '..'),
     output: {
       publicDir: resolve(__dirname, '../docs/dist/interactive/'),

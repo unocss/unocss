@@ -1,4 +1,5 @@
 import { readFile } from 'node:fs/promises'
+import process from 'node:process'
 import { beforeAll, describe, expect, it } from 'vitest'
 import { build } from 'vite'
 import fg from 'fast-glob'
