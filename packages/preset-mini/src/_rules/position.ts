@@ -1,24 +1,13 @@
 import type { CSSEntries, Rule, RuleContext, StaticRule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { globalKeywords, h, insetMap, makeGlobalStaticRules, makeGroupAutocomplete } from '../utils'
-
-const positionValues = [
-  'relative',
-  'absolute',
-  'fixed',
-  'sticky',
-  'static',
-  ...globalKeywords,
-]
+import { globalKeywords, h, insetMap, makeGlobalStaticRules } from '../utils'
 
 export const positions: Rule[] = [
   [/^(?:position-|pos-)?(relative|absolute|fixed|sticky)$/, ([, v]) => ({ position: v }), {
     autocomplete: [
-      makeGroupAutocomplete([
-        ['position', 'pos'],
-        positionValues,
-      ]),
-      makeGroupAutocomplete([positionValues]),
+      '(position|pos)-<position>',
+      '(position|pos)-<globalKeyword>',
+      '<position>',
     ],
   }],
   [/^(?:position-|pos-)([-\w]+)$/, ([, v]) => globalKeywords.includes(v) ? { position: v } : undefined],
