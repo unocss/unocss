@@ -125,6 +125,7 @@ export function resolveConfig<Theme extends object = object>(
     templates: uniq(sources.flatMap(p => toArray(p.autocomplete?.templates))),
     extractors: sources.flatMap(p => toArray(p.autocomplete?.extractors))
       .sort((a, b) => (a.order || 0) - (b.order || 0)),
+    shorthands: mergeAutocompleteShorthands(sources.map(p => p.autocomplete?.shorthands || {})),
   }
 
   let separators = getMerged('separators')
@@ -196,4 +197,23 @@ export function mergeConfigs<Theme extends object = object>(
 
 function mergeThemes<Theme extends object = object>(themes: (Theme | undefined)[]): Theme {
   return themes.map(theme => theme ? clone(theme) : {}).reduce<Theme>((a, b) => mergeDeep(a, b), {} as Theme)
+}
+
+function mergeAutocompleteShorthands(shorthands: Record<string, string | string[]>[]) {
+  return shorthands.reduce<Record<string, string>>((a, b) => {
+    const rs: Record<string, string> = {}
+    for (const key in b) {
+      const value = b[key]
+      if (Array.isArray(value))
+        rs[key] = `(${value.join('|')})`
+
+      else
+        rs[key] = value
+    }
+    return {
+      ...a,
+      ...rs,
+    }
+  }
+  , {})
 }

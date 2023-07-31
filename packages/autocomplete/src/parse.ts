@@ -31,13 +31,18 @@ function handleRegexMatch(
     onNotMatched(str.slice(lastIndex), lastIndex, str.length)
 }
 
-export function parseAutocomplete(template: string, theme: any = {}): ParsedAutocompleteTemplate {
+export function parseAutocomplete(template: string, theme: any = {}, extraShorthands: Record<string, string> = {}): ParsedAutocompleteTemplate {
   const parts: AutocompleteTemplatePart[] = []
 
+  const newShorthands = {
+    ...shorthands,
+    ...extraShorthands,
+  }
+
   template = template.replace(/<(\w+)>/g, (_, key) => {
-    if (!shorthands[key])
+    if (!newShorthands[key])
       throw new Error(`Unknown template shorthand: ${key}`)
-    return shorthands[key]
+    return newShorthands[key]
   })
 
   handleGroups(template)
