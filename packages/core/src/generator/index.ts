@@ -23,7 +23,10 @@ export class UnoGenerator<Theme extends object = object> {
     this.events.emit('config', this.config)
   }
 
-  setConfig(userConfig?: UserConfig<Theme>, defaults?: UserConfigDefaults<Theme>) {
+  setConfig(
+    userConfig?: UserConfig<Theme>,
+    defaults?: UserConfigDefaults<Theme>,
+  ): void {
     if (!userConfig)
       return
     if (defaults)
@@ -36,7 +39,11 @@ export class UnoGenerator<Theme extends object = object> {
     this.events.emit('config', this.config)
   }
 
-  async applyExtractors(code: string, id?: string, extracted = new Set<string>()) {
+  async applyExtractors(
+    code: string,
+    id?: string,
+    extracted = new Set<string>(),
+  ): Promise<Set<string>> {
     const context: ExtractorContext = {
       original: code,
       code,
@@ -55,7 +62,7 @@ export class UnoGenerator<Theme extends object = object> {
     return extracted
   }
 
-  makeContext(raw: string, applied: VariantMatchedResult<Theme>) {
+  makeContext(raw: string, applied: VariantMatchedResult<Theme>): RuleContext<Theme> {
     const context: RuleContext<Theme> = {
       rawSelector: raw,
       currentSelector: applied[1],
@@ -68,7 +75,10 @@ export class UnoGenerator<Theme extends object = object> {
     return context
   }
 
-  async parseToken(raw: string, alias?: string) {
+  async parseToken(
+    raw: string,
+    alias?: string,
+  ): Promise<StringifiedUtil<Theme>[] | undefined | null> {
     if (this.blocked.has(raw))
       return
 
@@ -300,7 +310,10 @@ export class UnoGenerator<Theme extends object = object> {
     }
   }
 
-  async matchVariants(raw: string, current?: string): Promise<VariantMatchedResult<Theme>> {
+  async matchVariants(
+    raw: string,
+    current?: string,
+  ): Promise<VariantMatchedResult<Theme>> {
     // process variants
     const variants = new Set<Variant<Theme>>()
     const handlers: VariantHandler[] = []
@@ -342,7 +355,11 @@ export class UnoGenerator<Theme extends object = object> {
     return [raw, processed, handlers, variants]
   }
 
-  private applyVariants(parsed: ParsedUtil, variantHandlers = parsed[4], raw = parsed[1]): UtilObject {
+  private applyVariants(
+    parsed: ParsedUtil,
+    variantHandlers = parsed[4],
+    raw = parsed[1],
+  ): UtilObject {
     const handler = variantHandlers.slice()
       .sort((a, b) => (a.order || 0) - (b.order || 0))
       .reduceRight(
@@ -393,7 +410,11 @@ export class UnoGenerator<Theme extends object = object> {
     return obj
   }
 
-  constructCustomCSS(context: Readonly<RuleContext<Theme>>, body: CSSObject | CSSEntries, overrideSelector?: string) {
+  constructCustomCSS(
+    context: Readonly<RuleContext<Theme>>,
+    body: CSSObject | CSSEntries,
+    overrideSelector?: string,
+  ): string {
     const normalizedBody = normalizeCSSEntries(body)
     if (isString(normalizedBody))
       return normalizedBody
@@ -486,7 +507,10 @@ export class UnoGenerator<Theme extends object = object> {
     }
   }
 
-  stringifyUtil(parsed?: ParsedUtil | RawUtil, context?: RuleContext<Theme>): StringifiedUtil<Theme> | undefined {
+  stringifyUtil(
+    parsed?: ParsedUtil | RawUtil,
+    context?: RuleContext<Theme>,
+  ): StringifiedUtil<Theme> | undefined {
     if (!parsed)
       return
     if (isRawUtil(parsed))
@@ -507,7 +531,11 @@ export class UnoGenerator<Theme extends object = object> {
     return [parsed[0], selector, body, parent, ruleMeta, this.config.details ? context : undefined, noMerge]
   }
 
-  async expandShortcut(input: string, context: RuleContext<Theme>, depth = 5): Promise<[ShortcutValue[], RuleMeta | undefined] | undefined> {
+  async expandShortcut(
+    input: string,
+    context: RuleContext<Theme>,
+    depth = 5,
+  ): Promise<[ShortcutValue[], RuleMeta | undefined] | undefined> {
     if (depth === 0)
       return
 
@@ -645,7 +673,7 @@ export class UnoGenerator<Theme extends object = object> {
       .filter(Boolean) as StringifiedUtil<Theme>[])
   }
 
-  isBlocked(raw: string) {
+  isBlocked(raw: string): boolean {
     return !raw || this.config.blocklist.some(e => isString(e) ? e === raw : e.test(raw))
   }
 }
