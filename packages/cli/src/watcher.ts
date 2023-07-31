@@ -1,3 +1,4 @@
+import process from 'node:process'
 import type { FSWatcher } from 'chokidar'
 import type { CliOptions } from './types'
 

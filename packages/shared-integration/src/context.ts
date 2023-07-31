@@ -1,3 +1,4 @@
+import process from 'node:process'
 import { createFilter } from '@rollup/pluginutils'
 import type { LoadConfigResult, LoadConfigSource } from '@unocss/config'
 import { loadConfig } from '@unocss/config'
