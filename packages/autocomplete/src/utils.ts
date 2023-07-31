@@ -20,6 +20,8 @@ export function searchAttrKey(content: string, cursor: number) {
 }
 
 export function cartesian<T>(arr: T[][]): T[][] {
+  if (arr.length < 2)
+    return arr
   return arr.reduce(
     (a, b) => {
       const ret: T[][] = []
