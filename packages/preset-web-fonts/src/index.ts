@@ -1,5 +1,6 @@
 import type { Preset } from '@unocss/core'
 import { toArray } from '@unocss/core'
+import { LAYER_IMPORTS } from '../../core/src/constants'
 import { BunnyFontsProvider } from './providers/bunny'
 import { GoogleFontsProvider } from './providers/google'
 import { FontshareProvider } from './providers/fontshare'
@@ -75,7 +76,7 @@ function preset(options: WebFontsOptions = {}): Preset<any> {
       return await importCache[url]
     }
     else {
-      return `@import url('${url}')`
+      return `@import url('${url}');`
     }
   }
 
@@ -102,6 +103,7 @@ function preset(options: WebFontsOptions = {}): Preset<any> {
 
           return preflights.filter(Boolean).join('\n')
         },
+        layer: inlineImports ? undefined : LAYER_IMPORTS,
       },
     ],
   }
