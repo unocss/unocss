@@ -466,6 +466,9 @@ importers:
       vite-plugin-vue-markdown:
         specifier: ^0.23.7
         version: 0.23.7(rollup@3.27.0)(vite@4.4.7)
+      vue:
+        specifier: ^3.2.47
+        version: 3.3.4
 
   packages/astro:
     dependencies:
