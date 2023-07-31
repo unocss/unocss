@@ -9,6 +9,8 @@ on:
     branches:
       - main
 
+  merge_group: {}
+
 jobs:
   lint:
     runs-on: ubuntu-latest
