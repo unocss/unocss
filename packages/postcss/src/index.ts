@@ -1,5 +1,6 @@
 import { readFile, stat } from 'node:fs/promises'
 import { normalize } from 'node:path'
+import process from 'node:process'
 import type { UnoGenerator } from '@unocss/core'
 import fg from 'fast-glob'
 import type { Result, Root } from 'postcss'

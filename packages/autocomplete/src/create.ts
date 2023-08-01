@@ -56,7 +56,7 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
 
   function getParsed(template: string) {
     if (!templateCache.has(template))
-      templateCache.set(template, parseAutocomplete(template, uno.config.theme))
+      templateCache.set(template, parseAutocomplete(template, uno.config.theme, uno.config.autocomplete.shorthands))
     return templateCache.get(template)!.suggest
   }
 

@@ -1,3 +1,4 @@
+import process from 'node:process'
 import { cac } from 'cac'
 import { loadConfig } from '@unocss/config'
 import { toArray } from '@unocss/core'

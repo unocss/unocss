@@ -1,3 +1,4 @@
+import process from 'node:process'
 import type { PreprocessorGroup } from 'svelte/types/compiler/preprocess'
 import { type UnoGenerator, type UserConfig, type UserConfigDefaults, createGenerator, warnOnce } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'

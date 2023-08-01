@@ -1,3 +1,4 @@
+import process from 'node:process'
 import type { Plugin } from 'vite'
 import { createGenerator } from '@unocss/core'
 import type { UserConfig, UserConfigDefaults } from '@unocss/core'
