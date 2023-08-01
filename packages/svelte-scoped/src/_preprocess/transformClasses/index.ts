@@ -43,22 +43,19 @@ function updateTemplateCodeIfNeeded(codeUpdates: ProcessResult['codeUpdate'][], 
   }
 }
 
-const removeCommentsToMakeGlobalWrappingEasy = true
+const REMOVE_COMMENTS_TO_MAKE_GLOBAL_WRAPPING_EASY = true
 
 async function generateStyles(rulesToGenerate: ProcessResult['rulesToGenerate'], uno: UnoGenerator<object>) {
-  const originalShortcuts = uno.config.shortcuts
-
   const shortcutsForThisComponent = Object.entries(rulesToGenerate)
-  uno.config.shortcuts = [...originalShortcuts, ...shortcutsForThisComponent]
+  uno.config.shortcuts.push(...shortcutsForThisComponent)
 
   const selectorsToGenerate = Object.keys(rulesToGenerate)
   const { css } = await uno.generate(selectorsToGenerate,
     {
       preflights: false,
       safelist: false,
-      minify: removeCommentsToMakeGlobalWrappingEasy,
+      minify: REMOVE_COMMENTS_TO_MAKE_GLOBAL_WRAPPING_EASY,
     })
-  uno.config.shortcuts = originalShortcuts
 
   const cssPreparedForSvelteCompiler = wrapSelectorsWithGlobal(css)
   return cssPreparedForSvelteCompiler
