@@ -238,6 +238,8 @@ export const presetMiniTargets: string[] = [
   'text-[11px]/4',
   'text-[12px]/[13px]',
   'text-[length:var(--size)]:$leading',
+  'text-size-1em',
+  'font-size-1.5rem',
 
   // color - bg
   'bg-[#153]/10',

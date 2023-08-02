@@ -36,7 +36,7 @@ export const fonts: Rule<Theme>[] = [
     },
     { autocomplete: 'text-$fontSize' },
   ],
-  [/^text-size-(.+)$/, ([, s], { theme }) => {
+  [/^(?:text|font)-size-(.+)$/, ([, s], { theme }) => {
     const themed = toArray(theme.fontSize?.[s])
     const size = themed?.[0] ?? h.bracket.cssvar.global.rem(s)
     if (size != null)
