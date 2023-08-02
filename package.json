@@ -23,7 +23,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest",
     "test:update": "vitest -u",
-    "test:integration": "pnpm -F svelte-scoped test:integration", 
+    "test:integration": "pnpm -F svelte-scoped test:integration",
     "test:ci": "nr build && nr typecheck && nr lint && nr test && nr test:integration"
   },
   "devDependencies": {
