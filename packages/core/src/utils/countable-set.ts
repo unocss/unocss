@@ -1,5 +1,10 @@
 export class CountableSet<K> extends Set<K> {
-  _map = new Map<K, number>()
+  _map: Map<K, number>
+
+  constructor(values?: Iterable<K>) {
+    super(values)
+    this._map ??= new Map()
+  }
 
   add(key: K) {
     this._map ??= new Map()
