@@ -333,6 +333,8 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .peer:is(:placeholder-shown)~.peer-is-placeholder-shown\:text-3xl,
 .peer:not(:placeholder-shown)~.peer-not-placeholder-shown\:text-3xl{font-size:1.875rem;line-height:2.25rem;}
 .peer:not(:placeholder-shown)~.peer-not-placeholder-shown\:text-2xl{font-size:1.5rem;line-height:2rem;}
+.font-size-1\.5rem{font-size:1.5rem;}
+.text-size-1em{font-size:1em;}
 .text-size-unset{font-size:unset;}
 .as-parent .group .group-\[\.as-parent_\&\]\:font-13{font-weight:13;}
 .as-parent .group\/label .group-\[\.as-parent_\&\]\/label\:font-18{font-weight:18;}
