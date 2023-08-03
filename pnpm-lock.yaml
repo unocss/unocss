@@ -481,6 +481,9 @@ importers:
       '@unocss/vite':
         specifier: workspace:*
         version: link:../vite
+      vite:
+        specifier: ^2.9.0 || ^3.0.0-0 || ^4.0.0
+        version: 4.4.9(@types/node@20.4.8)(terser@5.19.2)
     devDependencies:
       astro:
         specifier: ^2.10.1
@@ -986,6 +989,9 @@ importers:
       '@unocss/vite':
         specifier: workspace:*
         version: link:../vite
+      vite:
+        specifier: ^2.9.0 || ^3.0.0-0 || ^4.0.0
+        version: 4.4.9(@types/node@20.4.8)(terser@5.19.2)
     devDependencies:
       '@unocss/webpack':
         specifier: workspace:*
