@@ -1,7 +1,7 @@
 import { Buffer } from 'node:buffer'
 import type { Plugin, ViteDevServer } from 'vite'
 import type { UnocssPluginContext } from '@unocss/core'
-import { getHash } from '../integration'
+import { getHash, getPath, resolveId, resolveLayer } from '../integration'
 
 const VIRTUAL_PREFIX = '/@unocss/'
 const SCOPE_IMPORT_RE = / from (['"])(@unocss\/scope)\1/
@@ -33,26 +33,41 @@ export function PerModuleModePlugin({ uno, filter }: UnocssPluginContext): Plugi
     {
       name: 'unocss:module-scope:pre',
       enforce: 'pre',
+      resolveId(id) {
+        const entry = resolveId(id)
+        if (entry)
+          return entry
+      },
+      async load(id) {
+        const layer = resolveLayer(getPath(id))
+        if (!layer)
+          return null
+
+        const { css } = await uno.generate('', { preflights: true })
+        if (!css)
+          return null
+
+        return {
+          code: css,
+          map: null,
+        }
+      },
       async transform(code, id) {
         if (!filter(code, id))
           return
-
         const hash = getHash(id)
+        const hasScope = code.match(SCOPE_IMPORT_RE)
 
-        const { css } = await uno.generate(code, {
-          id,
-          preflights: true,
-        })
-        if (!css)
+        const { css } = await uno.generate(code, { id, scope: hasScope ? `.${hash}` : undefined, preflights: false })
+        if (!css && !hasScope)
           return null
+        if (hasScope)
+          code = code.replace(SCOPE_IMPORT_RE, ` from 'data:text/javascript;base64,${Buffer.from(`export default () => "${hash}"`).toString('base64')}'`)
 
         moduleMap.set(hash, [id, css])
         invalidate(hash)
 
-        return {
-          code: `import "${VIRTUAL_PREFIX}${hash}.css";${code}`,
-          map: null,
-        }
+        return null
       },
     },
     {
@@ -66,21 +81,16 @@ export function PerModuleModePlugin({ uno, filter }: UnocssPluginContext): Plugi
           return
 
         const hash = getHash(id)
-        const hasScope = code.match(SCOPE_IMPORT_RE)
 
-        const { css } = await uno.generate(code, { id, scope: hasScope ? `.${hash}` : undefined, preflights: false })
-        if (!css && !hasScope)
-          return null
-
-        if (hasScope)
-          code = code.replace(SCOPE_IMPORT_RE, ` from 'data:text/javascript;base64,${Buffer.from(`export default () => "${hash}"`).toString('base64')}'`)
-
-        moduleMap.set(hash, [id, css])
         invalidate(hash)
 
-        return {
-          code: `import "${VIRTUAL_PREFIX}${hash}.css";${code}`,
-          map: null,
+        const module = moduleMap.get(hash) || []
+
+        if (module.length) {
+          return {
+            code: `import "${VIRTUAL_PREFIX}${hash}.css";${code}`,
+            map: null,
+          }
         }
       },
       resolveId(id) {
