@@ -1,8 +1,7 @@
 import { createNanoEvents } from '../utils/events'
 import type { CSSEntries, CSSObject, DynamicRule, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, Shortcut, ShortcutValue, StringifiedUtil, TokenInfo, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
-import type { CountableSet } from '../utils'
-import { CONTROL_SHORTCUT_NO_MERGE, TwoKeyMap, e, entriesToCss, expandVariantGroup, isCountableSet, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, uniq, warnOnce } from '../utils'
+import { CONTROL_SHORTCUT_NO_MERGE, CountableSet, TwoKeyMap, e, entriesToCss, expandVariantGroup, isCountableSet, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
 import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from '../constants'
 
@@ -68,7 +67,7 @@ export class UnoGenerator<Theme extends object = object> {
 
       if (isCountableSet(result) && isCountableSet(extracted)) {
         for (const token of result)
-          extracted.setCount(token, result.getCount(token))
+          extracted.setCount(token, extracted.getCount(token) + result.getCount(token))
       }
       else {
         for (const token of result)
@@ -163,7 +162,7 @@ export class UnoGenerator<Theme extends object = object> {
     } = options
 
     const tokens: Readonly<Set<string> | CountableSet<string>> = isString(input)
-      ? await this.applyExtractors(input, id)
+      ? await this.applyExtractors(input, id, extendedMatch ? new CountableSet<string>() : new Set<string>())
       : Array.isArray(input)
         ? new Set<string>(input)
         : input

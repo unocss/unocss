@@ -1,12 +1,7 @@
 import type { BetterMap, UnocssPluginContext } from '@unocss/core'
 import { sortRules } from '../../shared-integration/src/sort-rules'
+import type { SuggestedShortcut } from '../types'
 import { getIntersections } from './utils'
-
-interface SuggestedShortcut {
-  selectors: string[]
-  count: number
-  modules: Set<string>
-}
 
 export async function extractGroups(modules: BetterMap<string, string>, ctx: UnocssPluginContext) {
   const allSelectors: { selectors: string[]; id: string }[] = []
@@ -34,6 +29,7 @@ export async function extractGroups(modules: BetterMap<string, string>, ctx: Uno
   }
 
   return Object.values(itemGroups)
+    .map(item => ({ ...item, name: item.selectors.join(' ') }))
     .filter(item => item.count > 3 && item.selectors.length > 2)
     .sort((a, b) => b.count - a.count)
 }

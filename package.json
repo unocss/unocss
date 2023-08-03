@@ -87,6 +87,7 @@
     "esno": "^0.16.3",
     "execa": "^7.1.1",
     "fast-glob": "^3.3.0",
+    "floating-vue": "2.0.0-beta.24",
     "fs-extra": "^11.1.1",
     "gzip-size": "^6.0.0",
     "jsdom": "^22.1.0",

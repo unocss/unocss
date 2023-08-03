@@ -9,7 +9,8 @@ export interface ProjectInfo {
 }
 
 export interface Result extends Omit<GenerateResult, 'matched'> {
-  matched: MatchedSelector[]
+  matched: (Omit<MatchedSelector, 'modules'> & { modules: string[] })[]
+  colors: (Omit<MatchedColor, 'modules'> & { modules: string[] })[]
 }
 
 export interface ModuleInfo extends Result {
@@ -20,15 +21,17 @@ export interface ModuleInfo extends Result {
 
 export interface OverviewInfo extends Result {
   gzipSize: number
-  suggestedShortcuts: SuggestedShortcut[]
+  suggestedShortcuts: (Omit<SuggestedShortcut, 'modules'> & { modules: string[] })[]
 }
 
 export interface MatchedSelector {
+  name: string
   rawSelector: string
   category: string
   count: number
   baseSelector?: string
   variants?: string[]
+  modules: Set<string>
 }
 
 export interface MatchedColor {
@@ -36,10 +39,12 @@ export interface MatchedColor {
   no: string
   color: string
   count: number
+  modules: Set<string>
 }
 
 export interface SuggestedShortcut {
+  name: string
   selectors: string[]
   count: number
-  modules: string[]
+  modules: Set<string>
 }

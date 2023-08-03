@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url'
 import sirv from 'sirv'
 import type { Plugin, ViteDevServer } from 'vite'
 import type { UnocssPluginContext } from '@unocss/core'
-import { CountableSet } from '@unocss/core'
+import { BetterMap, CountableSet } from '@unocss/core'
 import gzipSize from 'gzip-size'
 import type { ModuleInfo, OverviewInfo, ProjectInfo } from '../types'
 import { SKIP_COMMENT_RE } from '../../shared-integration/src/constants'
@@ -55,10 +55,11 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
         const tokens = new CountableSet<string>()
         await ctx.uno.applyExtractors(code.replace(SKIP_COMMENT_RE, ''), id, tokens)
         const result = await ctx.uno.generate(tokens, { id, extendedMatch: true, preflights: false })
-        const analyzed = await analyzer(result, ctx)
+        const analyzed = await analyzer(new BetterMap([[id, code]]), ctx)
         const mod: ModuleInfo = {
           ...result,
-          ...analyzed,
+          colors: analyzed.colors.map(s => ({ ...s, modules: [...s.modules] })),
+          matched: analyzed.matched.map(s => ({ ...s, modules: [...s.modules] })),
           gzipSize: await gzipSize(result.css),
           code,
           id,
@@ -86,17 +87,14 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
       }
 
       if (req.url.startsWith('/overview')) {
-        const code = ctx.modules.map(code => code).join('\n')
-        const tokens = new CountableSet<string>()
-
-        await ctx.uno.applyExtractors(code, undefined, tokens)
-        const result = await ctx.uno.generate(tokens, { extendedMatch: true, preflights: false })
-        const analyzed = await analyzer(result, ctx)
+        const result = await ctx.uno.generate(ctx.tokens, { preflights: false })
+        const analyzed = await analyzer(ctx.modules, ctx)
         const suggestedShortcuts = await extractGroups(ctx.modules, ctx)
 
         const mod: OverviewInfo = {
           ...result,
-          ...analyzed,
+          colors: analyzed.colors.map(s => ({ ...s, modules: [...s.modules] })),
+          matched: analyzed.matched.map(s => ({ ...s, modules: [...s.modules] })),
           suggestedShortcuts: suggestedShortcuts.map(s => ({ ...s, modules: [...s.modules] })),
           gzipSize: await gzipSize(result.css),
         }
