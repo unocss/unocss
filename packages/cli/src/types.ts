@@ -8,6 +8,7 @@ export interface CliOptions {
   watch?: boolean
   config?: string
   stdout?: boolean
+  updateSource?: boolean
 
   // generate options
   preflights?: boolean

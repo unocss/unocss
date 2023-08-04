@@ -67,6 +67,20 @@ export default defineConfig({
     expect(transform).toMatchSnapshot()
   })
 
+  it('supports not updating source files', async () => {
+    const { output, transform } = await runCli({
+      'views/index.html': '<div class="p-4 border-(solid red)"></div>',
+      'unocss.config.js': `
+import { defineConfig, transformerVariantGroup } from 'unocss'
+export default defineConfig({
+  transformers: [transformerVariantGroup()]
+})
+    `.trim(),
+    }, { transformFile: 'views/index.html', args: ['--no-update-source'] })
+    expect(output).toMatchSnapshot()
+    expect(transform).toMatchSnapshot()
+  })
+
   it('uno.css exclude initialized class after changing file', async () => {
     const fileName = 'views/index.html'
     const initializedContent = '<div class="bg-blue"></div>'

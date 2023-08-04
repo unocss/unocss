@@ -118,14 +118,16 @@ export async function build(_options: CliOptions) {
     const postTransform = await transformFiles(defaultTransform, 'post')
 
     // update source file
-    await Promise.all(
-      postTransform
-        .filter(({ transformedCode }) => !!transformedCode)
-        .map(({ transformedCode, id }) => new Promise<void>((resolve) => {
-          if (existsSync(id))
-            fs.writeFile(id, transformedCode as string, 'utf-8').then(resolve)
-        })),
-    )
+    if (options.updateSource !== false) {
+      await Promise.all(
+        postTransform
+          .filter(({ transformedCode }) => !!transformedCode)
+          .map(({ transformedCode, id }) => new Promise<void>((resolve) => {
+            if (existsSync(id))
+              fs.writeFile(id, transformedCode as string, 'utf-8').then(resolve)
+          })),
+      )
+    }
 
     const { css, matched } = await ctx.uno.generate(
       [...postTransform.map(({ code, transformedCode }) => transformedCode ?? code)].join('\n'),
