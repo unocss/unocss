@@ -1,3 +1,4 @@
+import process from 'node:process'
 import type { Plugin, Update, ViteDevServer, ResolvedConfig as ViteResolvedConfig } from 'vite'
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import { notNull } from '@unocss/core'
@@ -75,12 +76,12 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
             const mod = server.moduleGraph.getModuleById(id)
             if (!mod)
               return null
-            return <Update>{
+            return {
               acceptedPath: mod.url,
               path: mod.url,
               timestamp: lastServedTime,
               type: 'js-update',
-            }
+            } as Update
           })
           .filter(notNull),
       })

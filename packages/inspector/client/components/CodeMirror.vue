@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { getMatchedPositions } from '@unocss/shared-common'
+import type { HighlightAnnotation } from '@unocss/core'
 import { Decoration } from '@codemirror/view'
-import { useEventListener, useThrottleFn } from '@vueuse/core'
+import { useEventListener, useThrottleFn, useVModel } from '@vueuse/core'
 import type { CompletionSource } from '@codemirror/autocomplete'
+import { onMounted, reactive, ref, toRefs, watch } from 'vue'
 import { addMarks, filterMarks, useCodeMirror } from '../composables/codemirror'
 
 const props = defineProps<{
@@ -10,6 +12,7 @@ const props = defineProps<{
   mode?: string
   readOnly?: boolean
   matched?: Set<string> | string[]
+  annotations?: HighlightAnnotation[]
   getHint?: CompletionSource
 }>()
 
@@ -41,7 +44,7 @@ onMounted(async () => {
     cm.dispatch({
       effects: filterMarks.of((from: number, to: number) => to <= 0 || from >= cm.state.doc.toString().length),
     })
-    getMatchedPositions(props.modelValue, Array.from(props.matched || []), true)
+    getMatchedPositions(props.modelValue, Array.from(props.matched || []), props.annotations || [])
       .forEach(i => mark(i[0], i[1]))
   }
 

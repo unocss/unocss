@@ -7,7 +7,8 @@
     "@vue/cli-plugin-babel",
     "@vue/cli-service",
     "unbuild",
-    "msw"
+    "msw",
+    "prettier"
   ],
   "packageMode": {
     "vue": "minor",

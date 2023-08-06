@@ -3,7 +3,7 @@ title: UnoCSS VS Code Extension
 description: UnoCSS for VS Code.
 ---
 
-# UnoCSS VS Code Extension
+# VS Code Extension
 
 [Install in Marketplace](https://marketplace.visualstudio.com/items?itemName=antfu.unocss)
 

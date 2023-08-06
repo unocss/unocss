@@ -3,7 +3,7 @@ import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq } from 
 import { extractorSplit } from './extractors'
 import { DEFAULT_LAYERS } from './constants'
 
-export function resolveShortcuts<Theme extends {} = {}>(shortcuts: UserShortcuts<Theme>): Shortcut<Theme>[] {
+export function resolveShortcuts<Theme extends object = object>(shortcuts: UserShortcuts<Theme>): Shortcut<Theme>[] {
   return toArray(shortcuts).flatMap((s) => {
     if (Array.isArray(s))
       return [s]
@@ -16,7 +16,7 @@ const __RESOLVED = '_uno_resolved'
 /**
  * Resolve a single preset, nested presets are ignored
  */
-export function resolvePreset<Theme extends {} = {}>(preset: Preset<Theme>): Preset<Theme> {
+export function resolvePreset<Theme extends object = object>(preset: Preset<Theme>): Preset<Theme> {
   if (__RESOLVED in preset)
     return preset
 
@@ -51,7 +51,7 @@ export function resolvePreset<Theme extends {} = {}>(preset: Preset<Theme>): Pre
 /**
  * Resolve presets with nested presets
  */
-export function resolvePresets<Theme extends {} = {}>(preset: Preset<Theme>): Preset<Theme>[] {
+export function resolvePresets<Theme extends object = object>(preset: Preset<Theme>): Preset<Theme>[] {
   const root = resolvePreset(preset)
   if (!root.presets)
     return [root]
@@ -59,7 +59,7 @@ export function resolvePresets<Theme extends {} = {}>(preset: Preset<Theme>): Pr
   return [root, ...nested]
 }
 
-export function resolveConfig<Theme extends {} = {}>(
+export function resolveConfig<Theme extends object = object>(
   userConfig: UserConfig<Theme> = {},
   defaults: UserConfigDefaults<Theme> = {},
 ): ResolvedConfig<Theme> {
@@ -115,8 +115,7 @@ export function resolveConfig<Theme extends {} = {}>(
     .filter(Boolean)
     .reverse() as ResolvedConfig<Theme>['rulesDynamic']
 
-  let theme: Theme = sources.map(p => p.theme ? clone(p.theme) : {})
-    .reduce<Theme>((a, p) => mergeDeep(a, p), {} as Theme)
+  let theme: Theme = mergeThemes(sources.map(p => p.theme))
 
   const extendThemes = getMerged('extendTheme')
   for (const extendTheme of extendThemes)
@@ -126,6 +125,7 @@ export function resolveConfig<Theme extends {} = {}>(
     templates: uniq(sources.flatMap(p => toArray(p.autocomplete?.templates))),
     extractors: sources.flatMap(p => toArray(p.autocomplete?.extractors))
       .sort((a, b) => (a.order || 0) - (b.order || 0)),
+    shorthands: mergeAutocompleteShorthands(sources.map(p => p.autocomplete?.shorthands || {})),
   }
 
   let separators = getMerged('separators')
@@ -163,4 +163,57 @@ export function resolveConfig<Theme extends {} = {}>(
     p?.configResolved?.(resolved)
 
   return resolved
+}
+
+/**
+ * Merge multiple configs into one, later ones have higher priority
+ */
+export function mergeConfigs<Theme extends object = object>(
+  configs: UserConfig<Theme>[],
+): UserConfig<Theme> {
+  function getMerged<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist' | 'separators' | 'presets'>(key: T): ToArray<Required<UserConfig<Theme>>[T]> {
+    return uniq(configs.flatMap(p => toArray(p[key] || []) as any[])) as any
+  }
+
+  const merged = Object.assign(
+    {},
+    ...configs,
+    {
+      theme: mergeThemes(configs.map(c => c.theme)),
+      presets: getMerged('presets'),
+      safelist: getMerged('safelist'),
+      preprocess: getMerged('preprocess'),
+      postprocess: getMerged('postprocess'),
+      preflights: getMerged('preflights'),
+      rules: getMerged('rules'),
+      variants: getMerged('variants'),
+      shortcuts: getMerged('shortcuts'),
+      extractors: getMerged('extractors'),
+    },
+  )
+
+  return merged
+}
+
+function mergeThemes<Theme extends object = object>(themes: (Theme | undefined)[]): Theme {
+  return themes.map(theme => theme ? clone(theme) : {}).reduce<Theme>((a, b) => mergeDeep(a, b), {} as Theme)
+}
+
+function mergeAutocompleteShorthands(shorthands: Record<string, string | string[]>[]) {
+  return shorthands.reduce<Record<string, string>>((a, b) => {
+    const rs: Record<string, string> = {}
+    for (const key in b) {
+      const value = b[key]
+      if (Array.isArray(value))
+        rs[key] = `(${value.join('|')})`
+
+      else
+        rs[key] = value
+    }
+    return {
+      ...a,
+      ...rs,
+    }
+  }
+  , {})
 }

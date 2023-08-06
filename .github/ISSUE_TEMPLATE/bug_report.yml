@@ -9,7 +9,7 @@ body:
         or are unsure if this is really a bug, make sure to:
 
         - Read the `README.md` of using the package
-        - Already used the [Interactive Docs](https://uno.antfu.me)
+        - Already used the [Interactive Docs](https://unocss.dev/interactive/)
         - Ask on [GitHub Discussion](https://github.com/unocss/unocss/discussions) or join our [Discord Chat Server](https://chat.antfu.me)
 
   - type: input
@@ -30,7 +30,7 @@ body:
     id: reproduction
     attributes:
       label: Reproduction
-      description: Please provide a link to [Playground](https://uno.antfu.me/play) or [StackBlitz](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/vite-vue3) or a github repo that can reproduce the problem you ran into. A [minimal reproduction](https://stackoverflow.com/help/minimal-reproducible-example) is required unless you are absolutely sure that the issue is obvious and the provided information is enough to understand the problem.
+      description: Please provide a link to [Playground](https://unocss.dev/play/) or [StackBlitz](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/vite-vue3) or a github repo that can reproduce the problem you ran into. A [minimal reproduction](https://stackoverflow.com/help/minimal-reproducible-example) is required unless you are absolutely sure that the issue is obvious and the provided information is enough to understand the problem. [Why reproduction is required](https://antfu.me/posts/why-reproductions-are-required).
       placeholder: Reproduction
     validations:
       required: true

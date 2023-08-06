@@ -8,7 +8,7 @@ import { distDir } from '../dirs'
 
 const sortClasses = createSyncFn<(classes: string) => Promise<string>>(join(distDir, 'worker-sort.cjs'))
 
-const INGORE_ATTRIBUTES = ['style', 'class', 'classname', 'value']
+const IGNORE_ATTRIBUTES = ['style', 'class', 'classname', 'value']
 
 export default ESLintUtils.RuleCreator(name => name)({
   name: 'order-attributify',
@@ -31,7 +31,7 @@ export default ESLintUtils.RuleCreator(name => name)({
 
     const templateBodyVisitor: RuleListener = {
       VStartTag(node: any) {
-        const valueless = node.attributes.filter((i: any) => typeof i.key?.name === 'string' && !INGORE_ATTRIBUTES.includes(i.key?.name?.toLowerCase()) && i.value == null)
+        const valueless = node.attributes.filter((i: any) => typeof i.key?.name === 'string' && !IGNORE_ATTRIBUTES.includes(i.key?.name?.toLowerCase()) && i.value == null)
         if (!valueless.length)
           return
 

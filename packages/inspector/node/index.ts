@@ -5,6 +5,7 @@ import type { Plugin, ViteDevServer } from 'vite'
 import type { UnocssPluginContext } from '@unocss/core'
 import gzipSize from 'gzip-size'
 import type { ModuleInfo, ProjectInfo } from '../types'
+import { SKIP_COMMENT_RE } from '../../shared-integration/src/constants'
 
 const _dirname = typeof __dirname !== 'undefined'
   ? __dirname
@@ -32,7 +33,7 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
           configSources: (await ctx.ready).sources,
         }
         res.setHeader('Content-Type', 'application/json')
-        res.write(JSON.stringify(info, null, 2))
+        res.write(JSON.stringify(info, getCircularReplacer(), 2))
         res.end()
         return
       }
@@ -48,7 +49,7 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
           return
         }
 
-        const result = await ctx.uno.generate(code, { id, preflights: false })
+        const result = await ctx.uno.generate(code.replace(SKIP_COMMENT_RE, ''), { id, preflights: false })
         const mod: ModuleInfo = {
           ...result,
           matched: Array.from(result.matched),
@@ -95,9 +96,28 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
     })
   }
 
-  return <Plugin>{
+  return {
     name: 'unocss:inspector',
     apply: 'serve',
     configureServer,
+  } as Plugin
+}
+
+function getCircularReplacer() {
+  const ancestors: any = []
+  return function (this: any, key: any, value: any) {
+    if (typeof value !== 'object' || value === null)
+      return value
+
+    // `this` is the object that value is contained in,
+    // i.e., its direct parent.
+    while (ancestors.length > 0 && ancestors.at(-1) !== this)
+      ancestors.pop()
+
+    if (ancestors.includes(value))
+      return '[Circular]'
+
+    ancestors.push(value)
+    return value
   }
 }

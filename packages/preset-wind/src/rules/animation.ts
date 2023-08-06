@@ -1,5 +1,5 @@
 import type { Rule } from '@unocss/core'
-import { globalKeywords, handler as h, makeGlobalStaticRules } from '@unocss/preset-mini/utils'
+import { globalKeywords, h, makeGlobalStaticRules } from '@unocss/preset-mini/utils'
 import type { Theme } from '@unocss/preset-mini'
 
 export const animations: Rule<Theme>[] = [
@@ -62,7 +62,7 @@ export const animations: Rule<Theme>[] = [
   ],
 
   // others
-  [/^animate-(?:iteration-|count-|iteration-count-)(.+)$/, ([, d]) => ({ 'animation-iteration-count': h.bracket.cssvar(d) ?? d.replace(/\-/g, ',') }), { autocomplete: ['animate-(iteration|count|iteration-count)', 'animate-(iteration|count|iteration-count)-<num>'] }],
+  [/^animate-(?:iteration-count-|iteration-|count-)(.+)$/, ([, d]) => ({ 'animation-iteration-count': h.bracket.cssvar(d) ?? d.replace(/\-/g, ',') }), { autocomplete: ['animate-(iteration|count|iteration-count)', 'animate-(iteration|count|iteration-count)-<num>'] }],
   [/^animate-(play-state-|play-|state-)?(.+)$/,
     ([, t, d]) => ['paused', 'running', ...[t ? globalKeywords : []]].includes(d) ? { 'animation-play-state': d } : undefined,
     {

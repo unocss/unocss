@@ -15,8 +15,8 @@ async function createNodeLoader() {
   }
   catch { }
   try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    return require('@iconify/utils/lib/loader/node-loader.cjs')
+    // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+    return require('@iconify/utils/lib/loader/node-loader.cjs').loadNodeIcon
   }
   catch { }
 }
@@ -28,8 +28,11 @@ export const presetIcons = createPresetIcons(async (options) => {
 
   const loaders: UniversalIconLoader[] = []
 
-  if (isNode && !isVSCode)
-    loaders.push(await createNodeLoader())
+  if (isNode && !isVSCode) {
+    const nodeLoader = await createNodeLoader()
+    if (nodeLoader !== undefined)
+      loaders.push(nodeLoader)
+  }
 
   if (cdn)
     loaders.push(createCDNLoader(cdn))

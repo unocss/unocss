@@ -2,11 +2,22 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite --open",
+    "dev": "vite",
     "build": "vite build",
     "serve": "vite preview"
   },
+  "dependencies": {
+    "vue": "^3.2.47"
+  },
   "devDependencies": {
-    "pug": "^3.0.2"
+    "@unocss/extractor-pug": "link:../../packages/extractor-pug",
+    "@vitejs/plugin-vue": "^4.2.3",
+    "pug": "^3.0.2",
+    "unocss": "link:../../packages/unocss",
+    "vite": "^4.4.7"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node .stackblitz.mjs && npm install && npm run dev"
   }
 }

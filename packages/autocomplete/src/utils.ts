@@ -12,3 +12,24 @@ export function searchUsageBoundary(line: string, index: number) {
     end,
   }
 }
+
+export function searchAttrKey(content: string, cursor: number) {
+  const text = content.substring(0, cursor)
+  if (text.match(/(<\w+\s*)[^>]*$/) !== null)
+    return text.match(/\S+(?=\s*=\s*["']?[^"']*$)/)?.[0]
+}
+
+export function cartesian<T>(arr: T[][]): T[][] {
+  return arr.reduce(
+    (a, b) => {
+      const ret: T[][] = []
+      a.forEach((a) => {
+        b.forEach((b) => {
+          ret.push(a.concat([b]))
+        })
+      })
+      return ret
+    },
+    [[]] as T[][],
+  )
+}

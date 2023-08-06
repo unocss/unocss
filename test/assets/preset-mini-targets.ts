@@ -238,6 +238,8 @@ export const presetMiniTargets: string[] = [
   'text-[11px]/4',
   'text-[12px]/[13px]',
   'text-[length:var(--size)]:$leading',
+  'text-size-1em',
+  'font-size-1.5rem',
 
   // color - bg
   'bg-[#153]/10',
@@ -658,6 +660,9 @@ export const presetMiniTargets: string[] = [
   'break-words',
   'break-keep',
   'text-clip',
+  'text-wrap',
+  'text-nowrap',
+  'text-balance',
   'case-upper', // !
   'case-normal', // !
   'case-inherit', // !
@@ -793,7 +798,7 @@ export const presetMiniTargets: string[] = [
   // typography
   'font-mono',
   'font-[system-ui]',
-  'font-[550]',
+  'font-550',
   'font-$font-name',
   'text-4xl',
   'text-base',
@@ -811,6 +816,8 @@ export const presetMiniTargets: string[] = [
   'font-synthesis-$synth',
   'font-synthesis-inherit',
   'font-inherit',
+  'font-["custom_fontFamily_name"]',
+  'fw-inherit',
   'fw-900',
   'fw-050',
   'fw-50',
@@ -849,6 +856,10 @@ export const presetMiniTargets: string[] = [
   'text-shadow-color-red-300',
   'text-shadow-color-op-30',
   'text-shadow-color-op-$opacity-variable',
+
+  // misc
+  'color-scheme-light',
+  'color-scheme-dark',
 
   // variables
   'bg-[--test-variable]',
@@ -932,6 +943,7 @@ export const presetMiniTargets: string[] = [
   'first-line:bg-green-400',
   'first-letter:bg-green-400',
   'group-hover:group-focus:text-center',
+  'focus-visible:outline-none',
   'hover:!p-1',
   'hover:not-first:checked:bg-red/10',
   'hover:p-5',
@@ -1036,6 +1048,13 @@ export const presetMiniTargets: string[] = [
   'group-has-placeholder-shown:text-4xl',
   'focus-within:has-first:checked:bg-gray/20',
 
+  // variants - pseudo function with custom value
+  'has-[:hover]:m-1',
+  'group-not-[[data-potato]]:m-1',
+  'previous-is-[div]:m-1',
+  'peer-where-[.child]:m-1',
+  'parent-not-[#someId]:m-1',
+
   // variants scope
   'scope-[.scope\\_class]:translate-0',
   'scope-[unocss]:block',
@@ -1122,6 +1141,8 @@ export const presetMiniNonTargets = [
   '[https://en.wikipedia.org/wiki]',
   '[Baz::class]',
   '[foo:bar:baz]',
+  '[foo:{bar}]',
+  '[foo:\'bar\',"baz",`]',
   // escaped arbitrary css properties only allowed in css variables
   '[cant\~escape:me]',
 

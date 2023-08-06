@@ -1,6 +1,6 @@
 {
   "name": "@unocss/cli",
-  "version": "0.52.3",
+  "version": "0.54.1",
   "description": "CLI for UnoCSS",
   "author": {
     "name": "Johann Schopplich",
@@ -51,10 +51,10 @@
     "cac": "^6.7.14",
     "chokidar": "^3.5.3",
     "colorette": "^2.0.20",
-    "consola": "^3.1.0",
-    "fast-glob": "^3.2.12",
-    "magic-string": "^0.30.0",
-    "pathe": "^1.1.0",
+    "consola": "^3.2.3",
+    "fast-glob": "^3.3.1",
+    "magic-string": "^0.30.2",
+    "pathe": "^1.1.1",
     "perfect-debounce": "^1.0.0"
   }
 }

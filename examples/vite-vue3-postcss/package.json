@@ -11,10 +11,15 @@
     "vue": "^3.2.47"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.31",
+    "@iconify-json/logos": "^1.1.33",
     "@unocss/postcss": "link:../../packages/postcss",
     "@vitejs/plugin-vue": "^4.2.3",
-    "typescript": "^5.0.4",
-    "vite": "^4.3.8"
+    "typescript": "^5.1.6",
+    "unocss": "link:../../packages/unocss",
+    "vite": "^4.4.7"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node .stackblitz.js && npm install && npm run dev"
   }
 }

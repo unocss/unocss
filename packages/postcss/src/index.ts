@@ -1,12 +1,13 @@
 import { readFile, stat } from 'node:fs/promises'
 import { normalize } from 'node:path'
+import process from 'node:process'
 import type { UnoGenerator } from '@unocss/core'
 import fg from 'fast-glob'
 import type { Result, Root } from 'postcss'
 import postcss from 'postcss'
 import { createGenerator, warnOnce } from '@unocss/core'
 import { loadConfig } from '@unocss/config'
-import { defaultIncludeGlobs } from '../../shared-integration/src/defaults'
+import { defaultFilesystemGlobs } from '../../shared-integration/src/defaults'
 import { parseApply } from './apply'
 import { parseTheme, themeFnRE } from './theme'
 import { parseScreen } from './screen'
@@ -22,7 +23,6 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
 
   const {
     cwd = process.cwd(),
-    content,
     configOrPath,
   } = options
 
@@ -108,11 +108,8 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
           throw new Error (`UnoCSS config not found: ${error.message}`)
         }
 
-        const globs = content?.filter(v => typeof v === 'string') as string[] ?? defaultIncludeGlobs
-        const rawContent = content?.filter(v => typeof v === 'object') as {
-          raw: string
-          extension: string
-        }[] ?? []
+        const globs = uno.config.content?.filesystem ?? defaultFilesystemGlobs
+        const plainContent = uno.config.content?.inline ?? []
 
         const entries = await fg(isScanTarget ? globs : from, {
           cwd,
@@ -126,10 +123,12 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
         await parseScreen(root, uno, directiveMap.screen)
 
         promises.push(
-          ...rawContent.map(async (v) => {
-            const { matched } = await uno.generate(v.raw, {
-              id: `unocss.${v.extension}`,
-            })
+          ...plainContent.map(async (c, idx) => {
+            if (typeof c === 'function')
+              c = await c()
+            if (typeof c === 'string')
+              c = { code: c }
+            const { matched } = await uno.generate(c.code, { id: c.id ?? `__plain_content_${idx}__` })
 
             for (const candidate of matched)
               classes.add(candidate)

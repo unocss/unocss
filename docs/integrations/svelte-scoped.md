@@ -163,6 +163,10 @@ will be transformed into:
 
 In order for `rtl:ml-2` to work properly, the `[dir="rtl"]` selector is wrapped with `:global()` to keep the Svelte compiler from stripping it out automatically as the component has no element with that attribute. However, `div` can't be included in the `:global()` wrapper because that style would then affect every `div` in your app.
 
+### Other style block directives
+
+Using [theme()](https://unocss.dev/transformers/directives#theme) is also supported, but [@screen](https://unocss.dev/transformers/directives#screen) is **not**.
+
 ## Vite Plugin
 
 In Svelte or SvelteKit apps, inject generated styles directly into your Svelte components, while placing the minimum necessary styles in a global stylesheet. Check out the [SvelteKit example](https://github.com/unocss/unocss/tree/main/examples/sveltekit-scoped) in Stackblitz:
@@ -310,33 +314,25 @@ Setup your `uno.config.ts` file as described [below](#configuration).
 
 ### Preflights
 
-When using the preprocessor you have the option to include preflights in your component by adding `uno:preflights` as a style attribute. 
+When using the preprocessor you have the option to include preflights in the specific component(s) where they are needed by adding `uno-preflights` as a style attribute.
 
 ```html
-<style uno:preflights></style>
+<style uno-preflights></style>
 ```
 
-Adding preflights into individual components is unnecessary if your classes do not depend on preflights or your built components are being consumed only in apps that already include preflights.
+Any special preflights that start with a period, such as `.prose :where(a):not(:where(.not-prose, .not-prose *))`, will be wrapped with `:global()` to avoid being automatically stripped out by the Svelte compiler.
+
+*Adding preflights into individual components is unnecessary if your classes do not depend on preflights or your built components are being consumed only in apps that already include preflights.*
 
 ### Safelist
 
-When using the preprocessor you have the option to include safelist classes in your component by adding `uno:safelist` as a style attribute. 
+When using the preprocessor you have the option to include safelist classes in a component by adding `uno-safelist` as a style attribute. 
 
 ```html
-<style uno:safelist global></style>
+<style uno-safelist></style>
 ```
 
-To avoid having the Svelte compiler then strip them out because they're not found in the component, you'll also need to add the `global` modifier which will require https://github.com/sveltejs/svelte-preprocess. It's probably easier to just use `--at-apply` instead:
-
-```svelte
-<div class:computed-foo={condition} />
-
-<style>
-  :global(.computed-foo) {
-    --at-apply: mb-1 mr-2;
-  }
-</style>
-```
+Your safelist styles will be wrapped with `:global()` to avoid being automatically stripped out by the Svelte compiler.
 
 ## Configuration
 
@@ -351,29 +347,47 @@ export default defineConfig({
 })
 ```
 
-See [Config File](/guide/config-file) and [Config reference](/config/) for more details.
+Extractors are not supported due to the differences in normal UnoCSS global usage and Svelte Scoped usage. Presets and Transformers are supported as described in the following sections. See [Config File](/guide/config-file) and [Config reference](/config/) for all other details.
 
-::: info
-Transformers and extractors are not supported due to the differences in normal UnoCSS global usage and Svelte Scoped usage.
-:::
-
-## Presets support
+### Presets support
 
 Do to the nature of having a few necessary styles in a global stylesheet and everything else contained in each component where needed, presets need to be handled on a case-by-case basis:
 
 | Preset | Supported | Notes | 
 | --- | :-- | :-- | 
 | [@unocss/preset-uno](https://unocss.dev/presets/uno), [@unocss/preset-mini](https://unocss.dev/presets/mini), [@unocss/preset-wind](https://unocss.dev/presets/wind), [@unocss/preset-icons](https://github.com/unocss/unocss/tree/main/packages/preset-icons), [@unocss/web-fonts](https://github.com/unocss/unocss/tree/main/packages/preset-icons) | ✅ | These and all community plugins, e.g. [unocss-preset-forms](https://github.com/Julien-R44/unocss-preset-forms), that only rely on rules/variants/preflights will work. |
-| [@unocss/preset-typography](https://github.com/unocss/unocss/tree/main/packages/preset-typography) | ✅ | Using the `.prose` class adds a large amount of rulesets which Svelte Scoped will not properly surround with `:global()` wrappers so add the `prose` class to your safelist when using this preset. All other classes from this preset, e.g. `prose-pink`, can be component scoped. | 
+| [@unocss/preset-typography](https://github.com/unocss/unocss/tree/main/packages/preset-typography) | ✅ | Due to how this preset adds rulesets to your preflights you must add the `prose` class to your safelist when using this preset, otherwise the preflights will never be triggered. All other classes from this preset, e.g. `prose-pink`, can be component scoped. | 
 | [@unocss/preset-rem-to-px](https://github.com/unocss/unocss/tree/main/packages/preset-rem-to-px) | ✅ | This and all presets like it that only modify style output will work. | 
 | [@unocss/preset-attributify](https://github.com/unocss/unocss/tree/main/packages/preset-attributify) | - | Preset won't work. Instead use [unplugin-attributify-to-class](https://github.com/MellowCo/unplugin-attributify-to-class) Vite plugin (`attributifyToClass({ include: [/\.svelte$/]})`) before the Svelte Scoped Vite plugin  |
 | [@unocss/preset-tagify](https://github.com/unocss/unocss/tree/main/packages/preset-tagify) | - | Presets that add custom extractors will not work. Create a preprocessor to convert `<text-red>Hi</text-red>` to `<span class="text-red">Hi</span>`, then create a PR to add the link here. |
 
-For other presets, if they don't rely on traditional `class="..."` usage you will need to first preprocess those class names into the `class="..."` attribute. If they add extremely complex styles like typography's `.prose` class then you may need to place the complex class names into your safelist.
+For other presets, if they don't rely on traditional `class="..."` usage you will need to first preprocess those class names into the `class="..."` attribute. If they add presets like typography's `.prose` class then you will need to place the classes which trigger the preset additions into your safelist.
 
-## Scoped utility classes unleashes creativity
+### Transformers support
 
-Some advice on when you might want to use scoped styles: A global css file that includes everything is great for smaller apps, but there will come a point in a large project's life when every time you start to write a class like `.md:max-w-[50vw]` that you know is only going to be used once you start to cringe as you feel the size of your global style sheet getting larger and larger. This inhibits creativity. Sure, you could use `--at-apply: md:max-w-[50vw]` in the style block but that gets tedious and styles in context are so useful. Furthermore, if you would like to include a great variety of icons in your project, you will begin to feel the weight of adding them to the global stylesheet. When each component bears the weight of its own styles and icons you can continue to expand your project without having to analyze the cost benefit of each new addition.
+Transformers are supported for your CSS files (css|postcss|sass|scss|less|stylus|styl). To use them, add the transformer into the `cssFileTransformers` option in your `vite.config.ts`:
+
+```ts
+// vite.config.ts
+import transformerDirectives from '@unocss/transformer-directives'
+
+export default defineConfig({
+  plugins: [
+    UnoCSS({
+      cssFileTransformers: [transformerDirectives()],
+    }),
+    sveltekit(),
+  ],
+})
+```
+
+::: info
+Transformers are not supported in Svelte components due to how Svelte Scoped works.
+:::
+
+## Scoped utility classes unleash creativity
+
+Some advice on when you might want to use scoped styles: If you have come to the point in a large project's life when every time you use a class like `.md:max-w-[50vw]` that you know is only used once you cringe as you feel the size of your global style sheet getting larger and larger, then give this package a try. Hesitancy to use exactly the class you need inhibits creativity. Sure, you could use `--at-apply: md:max-w-[50vw]` in the style block but that gets tedious and styles in context are useful. Furthermore, if you would like to include a great variety of icons in your project, you will begin to feel the weight of adding them to the global stylesheet. When each component bears the weight of its own styles and icons you can continue to expand your project without having to analyze the cost benefit of each new addition.
 
 ## License
 

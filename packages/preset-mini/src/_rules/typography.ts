@@ -1,33 +1,13 @@
 import type { Rule } from '@unocss/core'
 import { toArray } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorResolver, colorableShadows, handler as h, splitShorthand } from '../utils'
-
-const weightMap: Record<string, string> = {
-  thin: '100',
-  extralight: '200',
-  light: '300',
-  normal: '400',
-  medium: '500',
-  semibold: '600',
-  bold: '700',
-  extrabold: '800',
-  black: '900',
-  // int[0, 900] -> int
-}
+import { colorResolver, colorableShadows, h, splitShorthand } from '../utils'
 
 function handleLineHeight(s: string, theme: Theme) {
   return theme.lineHeight?.[s] || h.bracket.cssvar.global.rem(s)
 }
 
 export const fonts: Rule<Theme>[] = [
-  // family
-  [
-    /^font-(.+)$/,
-    ([, d], { theme }) => ({ 'font-family': theme.fontFamily?.[d] || h.bracket.cssvar.global(d) }),
-    { autocomplete: 'font-$fontFamily' },
-  ],
-
   // size
   [
     /^text-(.+)$/,
@@ -56,7 +36,7 @@ export const fonts: Rule<Theme>[] = [
     },
     { autocomplete: 'text-$fontSize' },
   ],
-  [/^text-size-(.+)$/, ([, s], { theme }) => {
+  [/^(?:text|font)-size-(.+)$/, ([, s], { theme }) => {
     const themed = toArray(theme.fontSize?.[s])
     const size = themed?.[0] ?? h.bracket.cssvar.global.rem(s)
     if (size != null)
@@ -66,8 +46,13 @@ export const fonts: Rule<Theme>[] = [
   // weights
   [
     /^(?:font|fw)-?([^-]+)$/,
-    ([, s]) => ({ 'font-weight': weightMap[s] || h.bracket.global.number(s) }),
-    { autocomplete: `(font|fw)-(100|200|300|400|500|600|700|800|900|${Object.keys(weightMap).join('|')})` },
+    ([, s], { theme }) => ({ 'font-weight': theme.fontWeight?.[s] || h.bracket.global.number(s) }),
+    {
+      autocomplete: [
+        '(font|fw)-(100|200|300|400|500|600|700|800|900)',
+        '(font|fw)-$fontWeight',
+      ],
+    },
   ],
 
   // leadings
@@ -96,6 +81,13 @@ export const fonts: Rule<Theme>[] = [
     /^(?:font-)?word-spacing-(.+)$/,
     ([, s], { theme }) => ({ 'word-spacing': theme.wordSpacing?.[s] || h.bracket.cssvar.global.rem(s) }),
     { autocomplete: 'word-spacing-$wordSpacing' },
+  ],
+
+  // family
+  [
+    /^font-(.+)$/,
+    ([, d], { theme }) => ({ 'font-family': theme.fontFamily?.[d] || h.bracket.cssvar.global(d) }),
+    { autocomplete: 'font-$fontFamily' },
   ],
 ]
 

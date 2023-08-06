@@ -1,6 +1,8 @@
 # @unocss/svelte-scoped
 
-Place generated CSS for each Svelte component's utility styles directly into the Svelte component's `<style>` block instead of in a global CSS file. 
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/sveltekit-scoped)
+
+Place generated CSS for each Svelte component's utility styles directly into the component's `<style>` block instead of in a global CSS file. 
 
 ## Documentation
 

@@ -1,6 +1,6 @@
 import type { Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { handler as h } from '../utils'
+import { h } from '../utils'
 
 const directions: Record<string, string> = {
   '': '',
@@ -12,7 +12,6 @@ function handleGap([, d = '', s]: string[], { theme }: RuleContext<Theme>) {
   const v = theme.spacing?.[s] ?? h.bracket.cssvar.global.rem(s)
   if (v != null) {
     return {
-      [`grid-${directions[d]}gap`]: v,
       [`${directions[d]}gap`]: v,
     }
   }

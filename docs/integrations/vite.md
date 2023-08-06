@@ -195,7 +195,7 @@ export default {
   plugins: [
     UnoCSS({
       extractors: [
-        extractorSvelte
+        extractorSvelte(),
       ],
       /* more options */
     }),
@@ -223,7 +223,7 @@ const config = {
   plugins: [
     UnoCSS({
       extractors: [
-        extractorSvelte()
+        extractorSvelte(),
       ],
       /* more options */
     }),

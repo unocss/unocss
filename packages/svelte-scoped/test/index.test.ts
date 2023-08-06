@@ -6,15 +6,13 @@ import { format as prettier } from 'prettier'
 import prettierSvelte from 'prettier-plugin-svelte'
 import presetUno from '@unocss/preset-uno'
 import presetIcons from '@unocss/preset-icons'
+import presetTypography from '@unocss/preset-typography'
 import UnocssSveltePreprocess from '../src/preprocess'
-import type { UnocssSveltePreprocessOptions } from '../src/preprocess/types'
+import type { UnocssSveltePreprocessOptions } from '../src/preprocess'
 
 const defaultOptions: UnocssSveltePreprocessOptions = {
   configOrPath: {
-    // shortcuts: [
-    //   { logo: 'i-logos:svelte-icon w-7em h-7em transform transition-300' },
-    // ],
-    safelist: ['mb-7px'],
+    safelist: ['mb-7px', 'uno-prose'],
     presets: [
       presetUno(),
       presetIcons({
@@ -23,6 +21,9 @@ const defaultOptions: UnocssSveltePreprocessOptions = {
           'display': 'inline-block',
           'vertical-align': 'middle',
         },
+      }),
+      presetTypography({
+        selectorName: 'uno-prose',
       }),
     ],
   },

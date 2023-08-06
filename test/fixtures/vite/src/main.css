@@ -3,6 +3,8 @@
   --uno: gap-1;
 }
 
+/* @unocss-skip-start */
 .bar {
   --at-apply: gap-2;
 }
+/* @unocss-skip-end */

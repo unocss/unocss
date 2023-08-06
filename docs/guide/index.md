@@ -88,23 +88,20 @@ export default defineConfig({
 })
 ```
 
-So similarly, we provided a few [official presets](/presets/) for you to start using right away, and you can also find many interesting [community presets](/presets/#community).
+So similarly, we provided a few [official presets](/presets/) for you to start using right away, and you can also find many interesting [community presets](/presets/community).
 
 ## Play
 
 You can try UnoCSS in your browser, in the <a href="/play/" target="_blank">Playground</a>. Or look up utilities from the default presets in the <a href="/interactive/" target="_blank">Interactive Docs</a>.
 
-## Installation
+## Integrations
 
-UnoCSS comes with many integrations for various frameworks:
+UnoCSS comes with integrations for various frameworks / tools:
 
-<!-- // TODO: make a grid with icons -->
+<ContentIntegrations />
 
-- [Vite](/integrations/vite)
-- [Nuxt](/integrations/nuxt)
-- [Astro](/integrations/astro)
-- [Svelte Scoped](/integrations/svelte-scoped)
-- [Webpack](/integrations/webpack)
-- [CLI](/integrations/cli)
-- [PostCSS](/integrations/postcss)
-- [CDN Runtime](/integrations/runtime)
+## Examples
+
+Source code for all the examples can be found in the [/examples](https://github.com/unocss/unocss/tree/main/examples) directory.
+
+<ContentExamples/>

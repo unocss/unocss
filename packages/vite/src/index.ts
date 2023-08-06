@@ -19,11 +19,11 @@ export * from './modes/global'
 export * from './modes/per-module'
 export * from './modes/vue-scoped'
 
-export function defineConfig<Theme extends {}>(config: VitePluginConfig<Theme>) {
+export function defineConfig<Theme extends object>(config: VitePluginConfig<Theme>) {
   return config
 }
 
-export default function UnocssPlugin<Theme extends {}>(
+export default function UnocssPlugin<Theme extends object>(
   configOrPath?: VitePluginConfig<Theme> | string,
   defaults: UserConfigDefaults = {},
 ): Plugin[] {

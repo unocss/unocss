@@ -40,7 +40,7 @@ const markField = StateField.define({
   provide: f => EditorView.decorations.from(f),
 })
 
-const langExtensions: Record<string, () => {}> = {
+const langExtensions: Record<string, () => object> = {
   xml,
   css,
   html: () => htmlLanguage.extension,

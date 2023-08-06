@@ -1,6 +1,6 @@
 <div class="_mb-1_32yp54 _shadow_32yp54" />
 
-<style uno:preflights>
+<style uno-preflights>
   *,
   ::before,
   ::after {

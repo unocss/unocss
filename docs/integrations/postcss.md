@@ -15,18 +15,23 @@ This package is in an experimental state right now. It doesn't follow semver, an
 
 ## Install
 
-```bash
-npm i -D @unocss/postcss
-```
+::: code-group
+  ```bash [pnpm]
+  pnpm add -D @unocss/postcss
+  ```
+  ```bash [yarn]
+  yarn add -D @unocss/postcss
+  ```
+  ```bash [npm]
+  npm install -D @unocss/postcss
+  ```
+:::
 
 ```ts
 // postcss.config.cjs
 module.exports = {
   plugins: {
-    '@unocss/postcss': {
-      // Optional
-      content: ['**/*.{html,js,ts,jsx,tsx,vue,svelte,astro}'],
-    },
+    '@unocss/postcss': {},
   },
 }
 ```
@@ -36,6 +41,11 @@ module.exports = {
 import { defineConfig, presetUno } from 'unocss'
 
 export default defineConfig({
+  content: {
+    filesystem: [
+      '**/*.{html,js,ts,jsx,tsx,vue,svelte,astro}',
+    ]
+  },
   presets: [
     presetUno(),
   ],

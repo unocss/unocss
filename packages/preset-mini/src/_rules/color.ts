@@ -1,5 +1,5 @@
 import type { Rule } from '@unocss/core'
-import { colorResolver, globalKeywords, handler as h } from '../utils'
+import { colorResolver, globalKeywords, h } from '../utils'
 import { numberWithUnitRE } from '../_utils/handlers/regex'
 
 /**
@@ -23,4 +23,8 @@ export const textColors: Rule[] = [
 export const bgColors: Rule[] = [
   [/^bg-(.+)$/, colorResolver('background-color', 'bg'), { autocomplete: 'bg-$colors' }],
   [/^bg-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-bg-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'bg-(op|opacity)-<percent>' }],
+]
+
+export const colorScheme: Rule[] = [
+  [/^color-scheme-(\w+)$/, ([, v]) => ({ 'color-scheme': v })],
 ]

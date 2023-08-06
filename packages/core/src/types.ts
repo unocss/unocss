@@ -52,7 +52,7 @@ export interface ParsedColorValue {
 
 export type PresetOptions = Record<string, any>
 
-export interface RuleContext<Theme extends {} = {}> {
+export interface RuleContext<Theme extends object = object> {
   /**
    * Unprocessed selector from user input.
    * Useful for generating CSS rule.
@@ -97,7 +97,7 @@ export interface RuleContext<Theme extends {} = {}> {
   variants?: Variant<Theme>[]
 }
 
-export interface VariantContext<Theme extends {} = {}> {
+export interface VariantContext<Theme extends object = object> {
   /**
    * Unprocessed selector from user input.
    */
@@ -119,7 +119,7 @@ export interface ExtractorContext {
   extracted: Set<string>
 }
 
-export interface PreflightContext<Theme extends {} = {}> {
+export interface PreflightContext<Theme extends object = object> {
   /**
    * UnoCSS generator instance
    */
@@ -174,28 +174,36 @@ export interface RuleMeta {
    * @default false
    */
   internal?: boolean
+
+  /**
+   * Store the hash of the rule boy
+   *
+   * @internal
+   * @private
+   */
+  __hash?: string
 }
 
 export type CSSValue = CSSObject | CSSEntries
 export type CSSValues = CSSValue | CSSValue[]
 
-export type DynamicMatcher<Theme extends {} = {}> = ((match: RegExpMatchArray, context: Readonly<RuleContext<Theme>>) => Awaitable<CSSValue | string | (CSSValue | string)[] | undefined>)
-export type DynamicRule<Theme extends {} = {}> = [RegExp, DynamicMatcher<Theme>] | [RegExp, DynamicMatcher<Theme>, RuleMeta]
+export type DynamicMatcher<Theme extends object = object> = ((match: RegExpMatchArray, context: Readonly<RuleContext<Theme>>) => Awaitable<CSSValue | string | (CSSValue | string)[] | undefined>)
+export type DynamicRule<Theme extends object = object> = [RegExp, DynamicMatcher<Theme>] | [RegExp, DynamicMatcher<Theme>, RuleMeta]
 export type StaticRule = [string, CSSObject | CSSEntries] | [string, CSSObject | CSSEntries, RuleMeta]
-export type Rule<Theme extends {} = {}> = DynamicRule<Theme> | StaticRule
+export type Rule<Theme extends object = object> = DynamicRule<Theme> | StaticRule
 
-export type DynamicShortcutMatcher<Theme extends {} = {}> = ((match: RegExpMatchArray, context: Readonly<RuleContext<Theme>>) => (string | ShortcutValue[] | undefined))
+export type DynamicShortcutMatcher<Theme extends object = object> = ((match: RegExpMatchArray, context: Readonly<RuleContext<Theme>>) => (string | ShortcutValue[] | undefined))
 
 export type StaticShortcut = [string, string | ShortcutValue[]] | [string, string | ShortcutValue[], RuleMeta]
 export type StaticShortcutMap = Record<string, string | ShortcutValue[]>
-export type DynamicShortcut<Theme extends {} = {}> = [RegExp, DynamicShortcutMatcher<Theme>] | [RegExp, DynamicShortcutMatcher<Theme>, RuleMeta]
-export type UserShortcuts<Theme extends {} = {}> = StaticShortcutMap | (StaticShortcut | DynamicShortcut<Theme> | StaticShortcutMap)[]
-export type Shortcut<Theme extends {} = {}> = StaticShortcut | DynamicShortcut<Theme>
+export type DynamicShortcut<Theme extends object = object> = [RegExp, DynamicShortcutMatcher<Theme>] | [RegExp, DynamicShortcutMatcher<Theme>, RuleMeta]
+export type UserShortcuts<Theme extends object = object> = StaticShortcutMap | (StaticShortcut | DynamicShortcut<Theme> | StaticShortcutMap)[]
+export type Shortcut<Theme extends object = object> = StaticShortcut | DynamicShortcut<Theme>
 export type ShortcutValue = string | CSSValue
 
 export type FilterPattern = ReadonlyArray<string | RegExp> | string | RegExp | null
 
-export interface Preflight<Theme extends {} = {}> {
+export interface Preflight<Theme extends object = object> {
   getCSS: (context: PreflightContext<Theme>) => Promise<string | undefined> | string | undefined
   layer?: string
 }
@@ -277,9 +285,9 @@ export interface VariantHandler {
   layer?: string | undefined
 }
 
-export type VariantFunction<Theme extends {} = {}> = (matcher: string, context: Readonly<VariantContext<Theme>>) => Awaitable<string | VariantHandler | undefined>
+export type VariantFunction<Theme extends object = object> = (matcher: string, context: Readonly<VariantContext<Theme>>) => Awaitable<string | VariantHandler | undefined>
 
-export interface VariantObject<Theme extends {} = {}> {
+export interface VariantObject<Theme extends object = object> {
   /**
    * The name of the variant.
    */
@@ -306,13 +314,13 @@ export interface VariantObject<Theme extends {} = {}> {
   autocomplete?: Arrayable<AutoCompleteFunction | AutoCompleteTemplate>
 }
 
-export type Variant<Theme extends {} = {}> = VariantFunction<Theme> | VariantObject<Theme>
+export type Variant<Theme extends object = object> = VariantFunction<Theme> | VariantObject<Theme>
 
 export type Preprocessor = (matcher: string) => string | undefined
 export type Postprocessor = (util: UtilObject) => void
 export type ThemeExtender<T> = (theme: T) => T | void
 
-export interface ConfigBase<Theme extends {} = {}> {
+export interface ConfigBase<Theme extends object = object> {
   /**
    * Rules to generate CSS utilities.
    *
@@ -428,6 +436,12 @@ export interface ConfigBase<Theme extends {} = {}> {
      * transform class-name style suggestions to the correct format
      */
     extractors?: Arrayable<AutoCompleteExtractor>
+
+    /**
+     * Custom shorthands to provide autocomplete suggestions.
+     * if values is an array, it will be joined with `|` and wrapped with `()`
+     */
+    shorthands?: Record<string, string | string[]>
   }
 
   /**
@@ -504,7 +518,7 @@ export interface AutoCompleteExtractor {
   order?: number
 }
 
-export interface Preset<Theme extends {} = {}> extends ConfigBase<Theme> {
+export interface Preset<Theme extends object = object> extends ConfigBase<Theme> {
   name: string
   /**
    * Enforce the preset to be applied before or after other presets
@@ -540,7 +554,7 @@ export interface GeneratorOptions {
   warn?: boolean
 }
 
-export interface UserOnlyOptions<Theme extends {} = {}> {
+export interface UserOnlyOptions<Theme extends object = object> {
   /**
    * The theme object, will be merged with the theme provides by presets
    */
@@ -611,12 +625,10 @@ export interface SourceMap {
   version?: number
 }
 
-export interface TransformResult {
-  code: string
-  map?: SourceMap | null
-  etag?: string
-  deps?: string[]
-  dynamicDeps?: string[]
+export interface HighlightAnnotation {
+  offset: number
+  length: number
+  className: string
 }
 
 export type SourceCodeTransformerEnforce = 'pre' | 'post' | 'default'
@@ -634,20 +646,63 @@ export interface SourceCodeTransformer {
   /**
    * The transform function
    */
-  transform: (code: MagicString, id: string, ctx: UnocssPluginContext) => Awaitable<void>
+  transform: (
+    code: MagicString,
+    id: string,
+    ctx: UnocssPluginContext
+  ) => Awaitable<{ highlightAnnotations?: HighlightAnnotation[] } | void>
 }
 
-export interface ExtraContentOptions {
+export interface ContentOptions {
   /**
-   * Glob patterns to match the files to be extracted
-   * In dev mode, the files will be watched and trigger HMR
+   * Glob patterns to extract from the file system, in addition to other content sources.
+   *
+   * In dev mode, the files will be watched and trigger HMR.
+   *
+   * @default []
    */
   filesystem?: string[]
 
   /**
-   * Plain text to be extracted
+   * Inline text to be extracted
    */
-  plain?: string[]
+  inline?: (string | { code: string; id?: string } | (() => Awaitable<string | { code: string; id?: string }>)) []
+
+  /**
+   * Filters to determine whether to extract certain modules from the build tools' transformation pipeline.
+   *
+   * Currently only works for Vite and Webpack integration.
+   *
+   * Set `false` to disable.
+   */
+  pipeline?: false | {
+    /**
+     * Patterns that filter the files being extracted.
+     * Supports regular expressions and `picomatch` glob patterns.
+     *
+     * By default, `.ts` and `.js` files are NOT extracted.
+     *
+     * @see https://www.npmjs.com/package/picomatch
+     * @default [/\.(vue|svelte|[jt]sx|mdx?|astro|elm|php|phtml|html)($|\?)/]
+     */
+    include?: FilterPattern
+
+    /**
+     * Patterns that filter the files NOT being extracted.
+     * Supports regular expressions and `picomatch` glob patterns.
+     *
+     * By default, `node_modules` and `dist` are also extracted.
+     *
+     * @see https://www.npmjs.com/package/picomatch
+     * @default [/\.(css|postcss|sass|scss|less|stylus|styl)($|\?)/]
+     */
+    exclude?: FilterPattern
+  }
+
+  /**
+   * @deprecated Renamed to `inline`
+   */
+  plain?: (string | { code: string; id?: string }) []
 }
 
 /**
@@ -667,30 +722,46 @@ export interface PluginOptions {
   configDeps?: string[]
 
   /**
-   * Patterns that filter the files being extracted.
-   */
-  include?: FilterPattern
-
-  /**
-   * Patterns that filter the files NOT being extracted.
-   */
-  exclude?: FilterPattern
-
-  /**
    * Custom transformers to the source code
    */
   transformers?: SourceCodeTransformer[]
 
   /**
-   * Extra content outside of build pipeline (assets, backend, etc.) to be extracted
+   * Options for sources to be extracted as utilities usages
+   *
+   * Supported sources:
+   * - `filesystem` - extract from file system
+   * - `plain` - extract from plain inline text
+   * - `pipeline` - extract from build tools' transformation pipeline, such as Vite and Webpack
+   *
+   * The usage extracted from each source will be **merged** together.
    */
-  extraContent?: ExtraContentOptions
+  content?: ContentOptions
+
+  /** ========== DEPRECATED OPTIONS ========== **/
+
+  /**
+   * @deprecated Renamed to `content`
+   */
+  extraContent?: ContentOptions
+
+  /**
+   * Patterns that filter the files being extracted.
+   * @deprecated moved to `content.pipeline.include`
+   */
+  include?: FilterPattern
+
+  /**
+    * Patterns that filter the files NOT being extracted.
+    * @deprecated moved to `content.pipeline.exclude`
+    */
+  exclude?: FilterPattern
 }
 
-export interface UserConfig<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions, PluginOptions, CliOptions {}
-export interface UserConfigDefaults<Theme extends {} = {}> extends ConfigBase<Theme>, UserOnlyOptions<Theme> {}
+export interface UserConfig<Theme extends object = object> extends ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions, PluginOptions, CliOptions {}
+export interface UserConfigDefaults<Theme extends object = object> extends ConfigBase<Theme>, UserOnlyOptions<Theme> {}
 
-export interface ResolvedConfig<Theme extends {} = {}> extends Omit<
+export interface ResolvedConfig<Theme extends object = object> extends Omit<
 RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>,
 'rules' | 'shortcuts' | 'autocomplete'
 > {
@@ -705,6 +776,7 @@ RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variant
   autocomplete: {
     templates: (AutoCompleteFunction | AutoCompleteTemplate)[]
     extractors: AutoCompleteExtractor[]
+    shorthands: Record<string, string>
   }
   separators: string[]
 }
@@ -717,7 +789,7 @@ export interface GenerateResult {
   matched: Set<string>
 }
 
-export type VariantMatchedResult<Theme extends {} = {}> = readonly [
+export type VariantMatchedResult<Theme extends object = object> = readonly [
   raw: string,
   current: string,
   variantHandlers: VariantHandler[],
@@ -738,7 +810,7 @@ export type RawUtil = readonly [
   meta: RuleMeta | undefined,
 ]
 
-export type StringifiedUtil<Theme extends {} = {}> = readonly [
+export type StringifiedUtil<Theme extends object = object> = readonly [
   index: number,
   selector: string | undefined,
   body: string,

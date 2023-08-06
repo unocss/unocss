@@ -14,7 +14,7 @@ import {
   resolveLayer,
 } from '../../integration'
 import type { VitePluginConfig } from '../../types'
-import { setupExtraContent } from '../../../../shared-integration/src/extra-content'
+import { setupContentExtractor } from '../../../../shared-integration/src/content'
 
 // https://github.com/vitejs/vite/blob/main/packages/plugin-legacy/src/index.ts#L742-L744
 function isLegacyChunk(chunk: RenderedChunk, options: NormalizedOutputOptions) {
@@ -191,7 +191,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         viteConfig = config
       },
       buildStart() {
-        tasks.push(setupExtraContent(ctx, viteConfig.command === 'serve'))
+        tasks.push(setupContentExtractor(ctx, viteConfig.command === 'serve'))
       },
     },
     {
@@ -210,11 +210,12 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           return null
         }
         const result = await generateAll()
+        const mappedVfsLayer = Array.from(vfsLayers).map(layer => layer === LAYER_MARK_ALL ? layer : layer.replace(/^_/, ''))
         const cssWithLayers = Array.from(vfsLayers).map(layer =>
           `#--unocss-layer-start--${layer}--{start:${layer}} ${
             layer === LAYER_MARK_ALL
-            ? result.getLayers(undefined, Array.from(vfsLayers))
-            : (result.getLayer(layer) || '')
+            ? result.getLayers(undefined, mappedVfsLayer)
+            : (result.getLayer(layer.replace(/^_/, '')) || '')
           } #--unocss-layer-end--${layer}--{end:${layer}}`,
         ).join('')
 

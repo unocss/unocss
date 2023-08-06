@@ -1,6 +1,6 @@
 import type { CSSValues, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
-import { colorResolver, colorableShadows, globalKeywords, handler as h } from '@unocss/preset-mini/utils'
+import { colorResolver, colorableShadows, globalKeywords, h } from '@unocss/preset-mini/utils'
 import { varEmpty } from '@unocss/preset-mini/rules'
 
 export const filterBase = {
@@ -35,7 +35,7 @@ function percentWithDefault(str?: string) {
     return v
 
   v = str ? h.percent(str) : '1'
-  if (v != null && parseFloat(v) <= 1)
+  if (v != null && Number.parseFloat(v) <= 1)
     return v
 }
 

@@ -11,16 +11,20 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.31",
-    "@types/react": "^18.2.6",
-    "@types/react-dom": "^18.2.4",
+    "@iconify-json/logos": "^1.1.33",
+    "@types/react": "^18.2.17",
+    "@types/react-dom": "^18.2.7",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
-    "@vitejs/plugin-react": "^4.0.0",
+    "@vitejs/plugin-react": "^4.0.3",
     "cross-env": "^7.0.3",
-    "typescript": "^5.0.4",
+    "typescript": "^5.1.6",
     "unocss": "link:../../packages/unocss",
-    "vite": "^4.3.8"
+    "vite": "^4.4.7"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node .stackblitz.mjs && npm install && npm run dev"
   }
 }

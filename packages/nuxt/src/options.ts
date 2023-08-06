@@ -5,7 +5,7 @@ import presetWebFonts from '@unocss/preset-web-fonts'
 import presetTypography from '@unocss/preset-typography'
 import presetTagify from '@unocss/preset-tagify'
 import presetWind from '@unocss/preset-wind'
-import { defaultExclude } from '../../shared-integration/src/defaults'
+import { defaultPipelineExclude } from '../../shared-integration/src/defaults'
 import type { UnocssNuxtOptions } from './types'
 
 export function resolveOptions(options: UnocssNuxtOptions) {
@@ -23,11 +23,16 @@ export function resolveOptions(options: UnocssNuxtOptions) {
     for (const [key, preset] of Object.entries(presetMap)) {
       const option = options[key as keyof UnocssNuxtOptions]
       if (option)
-        options.presets.push(preset(typeof option === 'boolean' ? {} : option))
+        options.presets.push(preset(typeof option === 'boolean' ? {} as any : option))
     }
   }
-  options.exclude = options.exclude || defaultExclude
-  // ignore macro files created by Nuxt
-  if (Array.isArray(options.exclude))
-    options.exclude.push(/\?macro=true/)
+
+  options.content ??= {}
+  options.content.pipeline ??= {}
+  if (options.content.pipeline !== false) {
+    options.content.pipeline.exclude ??= defaultPipelineExclude
+    if (Array.isArray(options.content.pipeline.exclude))
+    // ignore macro files created by Nuxt
+      options.content.pipeline.exclude.push(/\?macro=true/)
+  }
 }

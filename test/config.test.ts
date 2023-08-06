@@ -1,8 +1,8 @@
 import type { Preset, UserConfig } from '@unocss/core'
-import { createGenerator } from '@unocss/core'
+import { createGenerator, mergeConfigs } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
 import presetMini from '@unocss/preset-mini'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it, test } from 'vitest'
 
 describe('config', () => {
   const createUno = (userConfig: UserConfig) => {
@@ -131,5 +131,98 @@ describe('config', () => {
       /* layer: default */
       .text-yellow-500{color:yellow;}"
     `)
+  })
+})
+
+describe('mergeConfigs', () => {
+  it('basic', () => {
+    expect(mergeConfigs([
+      {
+        shortcuts: {
+          foo: 'string',
+        },
+      },
+      {
+        shortcuts: [
+          {
+            bar: 'string',
+          },
+          [/a/i, () => 'a'],
+        ],
+      },
+    ]))
+      .toMatchInlineSnapshot(`
+        {
+          "extractors": [],
+          "postprocess": [],
+          "preflights": [],
+          "preprocess": [],
+          "presets": [],
+          "rules": [],
+          "safelist": [],
+          "shortcuts": [
+            {
+              "foo": "string",
+            },
+            {
+              "bar": "string",
+            },
+            [
+              /a/i,
+              [Function],
+            ],
+          ],
+          "theme": {},
+          "variants": [],
+        }
+      `)
+  })
+  it('theme', () => {
+    expect(mergeConfigs([
+      {
+        theme: {
+          fontSize: {
+            md: ['1.125rem', '1.5rem'],
+            lg: ['1.25rem', '1.5rem'],
+          },
+        },
+      },
+      {
+        theme: {
+          fontSize: {
+            sm: ['0.875rem', '1.125rem'],
+          },
+        },
+      },
+    ]))
+      .toMatchInlineSnapshot(`
+        {
+          "extractors": [],
+          "postprocess": [],
+          "preflights": [],
+          "preprocess": [],
+          "presets": [],
+          "rules": [],
+          "safelist": [],
+          "shortcuts": [],
+          "theme": {
+            "fontSize": {
+              "lg": [
+                "1.25rem",
+                "1.5rem",
+              ],
+              "md": [
+                "1.125rem",
+                "1.5rem",
+              ],
+              "sm": [
+                "0.875rem",
+                "1.125rem",
+              ],
+            },
+          },
+          "variants": [],
+        }
+      `)
   })
 })

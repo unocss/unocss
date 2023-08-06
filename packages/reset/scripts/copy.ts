@@ -1,13 +1,17 @@
-import fs from 'node:fs'
+import fs from 'node:fs/promises'
+import { existsSync } from 'node:fs'
 import { dirname } from 'node:path'
+import { createRequire } from 'node:module'
 
-fs.copyFileSync(
+const require = createRequire(import.meta.url)
+
+await fs.copyFile(
   require.resolve('@csstools/normalize.css'),
   'normalize.css',
 )
 
-if (!fs.existsSync('sanitize'))
-  fs.mkdirSync('sanitize')
+if (!existsSync('sanitize'))
+  await fs.mkdir('sanitize')
 
 for (const stylesheet of [
   'sanitize.css',
@@ -18,7 +22,7 @@ for (const stylesheet of [
   'system-ui.css',
   'ui-monospace.css',
 ]) {
-  fs.copyFileSync(
+  await fs.copyFile(
     `${dirname(require.resolve('sanitize.css'))}/${stylesheet}`,
     `sanitize/${stylesheet}`,
   )
