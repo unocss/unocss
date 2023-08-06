@@ -1,41 +1,38 @@
-import type { Awaitable, Preset, UnocssPluginContext } from '@unocss/core'
+import type { Preset, UnocssPluginContext } from '@unocss/core'
 import type { Plugin } from 'vite'
-import { warnOnce } from '@unocss/core'
+import type { OutputAsset } from 'rollup'
 
 const ENTRY_ALIAS = /^unocss-(.*)-sprite\.svg$/
 
-type PresetIcons = Preset & {
-  options: {
-    warn?: boolean
-    sprites?: {
-      collections: string | string[]
-      loader: (name: string) => Awaitable<Record<string, string> | undefined>
-    }
-  }
+interface GeneratedSpriteData {
+  name: string
+  asset: Uint8Array
 }
 
-interface SpriteEntry {
-  content: string
-  rawViewBox: string
-  x: number
-  y: number
-  width: number
-  height: number
-  entry: string
+interface PresetIcons extends Preset {
+  generateCSSSVGSprites: () => AsyncIterableIterator<GeneratedSpriteData>
+  createCSSSVGSprite: (collection: string) => Promise<Uint8Array | undefined>
 }
 
-interface Sprites {
-  content: string
-  previous?: Pick<SpriteEntry, 'y'>
+interface SpritesInfo {
+  cssFiles: OutputAsset[]
+  svgFiles: [name: string, fileName: string, find: string][]
 }
 
-const sprites = new Map<string, Promise<string>>()
+interface SpriteData {
+  name: string
+  asset: Uint8Array
+  lastModified: number
+}
 
-export function SVGSpritePlugin(ctx: UnocssPluginContext): Plugin {
-  return {
-    name: 'unocss:css-svg-sprite',
+export function SVGSpritePlugin(ctx: UnocssPluginContext): Plugin[] {
+  const sprites = new Map<string, SpriteData>()
+  return [{
+    name: 'unocss:css-svg-sprite:dev',
     enforce: 'pre',
+    apply: 'serve',
     configureServer(server) {
+      ctx.onReload(() => sprites.clear())
       server.middlewares.use(async (req, res, next) => {
         const uri = req.url
         if (!uri)
@@ -49,90 +46,102 @@ export function SVGSpritePlugin(ctx: UnocssPluginContext): Plugin {
         if (!match)
           return next()
 
-        const sprite = await prepareSVGSprite(ctx, match[1])
+        const preset = await lookupPresetIcons(ctx)
+        if (!preset)
+          return next()
 
+        let sprite = sprites.get(match[1])
+        let status = 200
+        const lastModified = sprite?.lastModified ?? Date.now()
+        if (!sprite) {
+          const spriteData = await preset.createCSSSVGSprite(match[1])
+          if (spriteData) {
+            sprite = {
+              name: match[1],
+              asset: spriteData,
+              lastModified,
+            }
+            sprites.set(match[1], sprite)
+          }
+        }
+        else {
+          status = req.headers['if-modified-since'] === `${lastModified}` ? 304 : 200
+        }
+
+        const now = Date.now()
         res.setHeader('Content-Type', 'image/svg+xml')
         if (sprite) {
-          res.statusCode = 200
-          res.write(sprite, 'utf-8')
+          res.statusCode = status
+          if (now > lastModified)
+            res.setHeader('Age', Math.floor((now - lastModified) / 1000))
+
+          res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate')
+          res.setHeader('Last-Modified', `${lastModified}`)
+          if (status !== 304)
+            res.write(sprite.asset)
         }
         else {
           res.statusCode = 404
+          res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate')
         }
         res.end()
       })
     },
-    async generateBundle() {
+  }, {
+    name: 'unocss:css-svg-sprite:build',
+    enforce: 'post',
+    apply: 'build',
+    async buildStart() {
+      const preset = await lookupPresetIcons(ctx)
+      if (!preset)
+        return
 
+      for await (const sprite of preset.generateCSSSVGSprites()) {
+        const { asset, name } = sprite
+        const assetName = `unocss-${name}-sprite.svg`
+        this.emitFile({
+          type: 'asset',
+          name: assetName,
+          source: asset,
+        })
+        sprites.set(assetName, { name, asset: undefined!, lastModified: 0 })
+      }
     },
-  }
-}
+    async generateBundle(options, bundle) {
+      const preset = await lookupPresetIcons(ctx)
+      if (!preset)
+        return
 
-// TODO: move this to @iconify/utils repo
-function parseSVGData(data: string) {
-  const match = data.match(/<svg[^>]+viewBox="([^"]+)"[^>]*>([\s\S]+)<\/svg>/)
-  if (!match)
-    return
-
-  const [, viewBox, path] = match
-  const [x, y, width, height] = viewBox.split(' ').map(Number)
-  return <SpriteEntry>{ rawViewBox: match[1], content: path, x, y, width, height }
-}
-
-// TODO: move this to @iconify/utils repo
-function createCSSSVGSprite(icons: Record<string, string>) {
-  return `<svg xmlns="http://www.w3.org/2000/svg">${
-      Object.entries(icons).reduce((acc, [name, icon]) => {
-        const data = parseSVGData(icon)
-        if (data) {
-          const newY = acc.previous ? (acc.previous.y + 1) : data.y
-          acc.content += `
-  <symbol id="shapes-${name}" viewBox="${data.rawViewBox}">${data.content}</symbol>
-  <view id="shapes-${name}-view" viewBox="${data.x} ${newY} ${data.width} ${data.height}"/>
-  <use href="#shapes-${name}" x="${data.x}" y="${newY}" id="${name}"/>`
-
-          acc.previous = {
-            y: data.height + (acc.previous ? acc.previous.y : 0),
+      const spritesInfo = Object.entries(bundle).reduce<SpritesInfo>((acc, [name, asset]) => {
+        if (name) {
+          if (name.endsWith('.svg')) {
+            if (asset.name && sprites.has(asset.name))
+              acc.svgFiles.push([asset.name, asset.fileName, `url(${asset.name}`])
+          }
+          else if (name.endsWith('.css') && asset.type === 'asset' && 'source' in asset && typeof asset.source === 'string') {
+            acc.cssFiles.push(asset)
           }
         }
 
         return acc
-      }, <Sprites>{ content: '' }).content}
-</svg>`
+      }, { cssFiles: [], svgFiles: [] })
+
+      if (!spritesInfo.cssFiles.length || !spritesInfo.svgFiles.length)
+        return
+
+      for (const asset of spritesInfo.cssFiles) {
+        for (const [, fileName, find] of spritesInfo.svgFiles) {
+          const idx = fileName.lastIndexOf('/')
+          asset.source = (asset.source as string)
+            .replaceAll(find, `url(${idx > -1 ? fileName.slice(idx + 1) : fileName}`)
+        }
+      }
+    },
+  }]
 }
 
-function createSVGSpritePromise(icons: Record<string, string>) {
-  return new Promise<string>((resolve, reject) => {
-    try {
-      resolve(createCSSSVGSprite(icons))
-    }
-    catch (e) {
-      reject(e)
-    }
-  })
-}
-
-async function loadSVGSpriteIcons(preset: PresetIcons, sprite: string) {
-  const sprites = preset.options!.sprites!
-  if ((typeof sprites.collections === 'string' && sprites.collections !== sprite) || !sprites.collections.includes(sprite)) {
-    if (preset.options.warn)
-      warnOnce(`missing collection in sprites.collections "${sprite}", svg sprite will not generated in build`)
-
-    return ''
-  }
-
-  const icons = await sprites.loader(sprite)
-  return icons ? await createSVGSpritePromise(icons) : ''
-}
-
-async function prepareSVGSprite(ctx: UnocssPluginContext, sprite: string) {
+async function lookupPresetIcons(ctx: UnocssPluginContext) {
   await ctx.ready
-  const preset: PresetIcons = ctx.uno.config?.presets?.find(p => 'options' in p && p.options && 'sprites' in p.options && typeof p.options.sprites !== 'undefined') as any
-  if (!preset || typeof preset.options?.sprites === 'undefined')
-    return
-
-  const spriteEntry = sprites.get(sprite) ?? sprites.set(sprite, loadSVGSpriteIcons(preset, sprite)).get(sprite)!
-
-  const data = await spriteEntry
-  return data.length ? data : undefined
+  const preset: PresetIcons | undefined = ctx.uno.config?.presets?.find(p => 'options' in p && p.options && 'sprites' in p.options && typeof p.options.sprites !== 'undefined') as any
+  return preset
 }

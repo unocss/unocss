@@ -2,6 +2,23 @@ import type { CustomIconLoader, IconCustomizations, InlineCollection } from '@ic
 import type { Awaitable } from '@unocss/core'
 import type { IconifyJSON } from '@iconify/types'
 
+/* TODO BEGIN-CLEANUP: types from @iconify/utils: remove them once published */
+export interface SpriteIcon {
+  name: string
+  svg: string
+  collection?: string
+}
+
+export type AsyncSpriteIcons = AsyncIterableIterator<SpriteIcon>
+export type AsyncSpriteIconsFactory = () => AsyncSpriteIcons
+
+export type SpriteCollection =
+    | SpriteIcon
+    | SpriteIcon[]
+    | AsyncSpriteIcons
+    | AsyncSpriteIconsFactory
+/* TODO END-CLEANUP: types from @iconify/utils: remove them once published */
+
 export interface CSSSVGSprites {
   /**
    * Mode of generated CSS icons.
@@ -22,14 +39,12 @@ export interface CSSSVGSprites {
    */
   prefix?: string | string[]
   /**
-   * Collections to load.
+   * Emit warning when invalid icons are matched
+   *
+   * @default false
    */
-  collections: string | string[]
-  /**
-   * Loader function.
-   * @param name SVG Sprite name.
-   */
-  loader: (name: string) => Awaitable<Record<string, string> | undefined>
+  warn?: boolean
+  sprites: Record<string, SpriteCollection | SpriteCollection[]>
 }
 
 export interface IconsOptions {
@@ -108,7 +123,7 @@ export interface IconsOptions {
   cdn?: string
 
   /**
-   * SVG Sprites: only available in Node.
+   * CSS SVG Sprites.
    */
   sprites?: CSSSVGSprites
 }

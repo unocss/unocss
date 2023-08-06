@@ -1,21 +1,27 @@
 import type { DynamicMatcher, Preset, Rule } from '@unocss/core'
 import { warnOnce } from '@unocss/core'
 import type {
-  CustomIconLoader,
   IconifyLoaderOptions,
   UniversalIconLoader,
 } from '@iconify/utils/lib/loader/types'
 import { encodeSvgForCss } from '@iconify/utils/lib/svg/encode-svg-for-css'
 
+import { mergeIconProps, trimSVG } from '@iconify/utils'
 import type { CSSSVGSprites, IconsOptions } from './types'
+import { createAsyncSpriteIconsFactory, createUint8ArraySprite } from './create-sprite'
 
 const COLLECTION_NAME_PARTS_MAX = 3
 
 export { IconsOptions }
 
-interface CSSSVGSpritesOptions extends CSSSVGSprites {
-  svgCollections: Record<string, Record<string, string>>
-  customCollections: Record<string, CustomIconLoader>
+interface GeneratedSpriteData {
+  name: string
+  asset: Uint8Array
+}
+
+interface PresetIcons extends Preset {
+  generateCSSSVGSprites: () => AsyncIterableIterator<GeneratedSpriteData>
+  createCSSSVGSprite: (collection: string) => Promise<Uint8Array | undefined>
 }
 
 export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => Promise<UniversalIconLoader>) {
@@ -64,40 +70,9 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
     ]]
 
     if (sprites) {
-      const collections = Array.isArray(sprites.collections) ? sprites.collections : [sprites.collections]
-      const svgCollections: Record<string, Record<string, string>> = {}
-      const originalLoader = sprites.loader
-      const customCollections = collections.reduce((acc, c) => {
-        acc[c] = async (name) => {
-          let collection: Record<string, string> | undefined = svgCollections[c]
-          if (!collection) {
-            collection = await originalLoader(c)
-            svgCollections[c] = collection ?? {}
-          }
-
-          return collection?.[name]
-        }
-
-        return acc
-      }, <Record<string, CustomIconLoader>>{})
-      const spriteOptions: CSSSVGSpritesOptions = {
-        ...sprites,
-        // override loader to cache collections
-        async loader(name) {
-          let collection: Record<string, string> | undefined = svgCollections[name]
-          if (!collection) {
-            collection = await originalLoader(name)
-            svgCollections[name] = collection ?? {}
-          }
-
-          return collection
-        },
-        svgCollections,
-        customCollections,
-      }
       rules.push([
         /^([a-z0-9:_-]+)(?:\?(mask|bg|auto))?$/,
-        createDynamicMatcher(warn, sprites.mode ?? mode, loaderOptions, iconLoaderResolver, spriteOptions),
+        createDynamicMatcher(warn, sprites.mode ?? mode, loaderOptions, iconLoaderResolver, sprites),
         { layer, prefix: sprites.prefix ?? 'sprite-' },
       ])
     }
@@ -109,12 +84,14 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
       return iconLoader
     }
 
-    return {
+    return <PresetIcons>{
       name: '@unocss/preset-icons',
       enforce: 'pre',
       options,
       layers: { icons: -30 },
       rules,
+      generateCSSSVGSprites: createGenerateCSSSVGSprites(sprites),
+      createCSSSVGSprite: createCSSSVGSpriteLoader(sprites),
     }
   }
 }
@@ -134,7 +111,7 @@ function createDynamicMatcher(
   mode: string,
   loaderOptions: IconifyLoaderOptions,
   iconLoaderResolver: () => Promise<UniversalIconLoader>,
-  sprites?: CSSSVGSpritesOptions,
+  sprites?: CSSSVGSprites,
 ) {
   return <DynamicMatcher>(async ([full, body, _mode = mode]) => {
     let collection = ''
@@ -147,11 +124,7 @@ function createDynamicMatcher(
     if (body.includes(':')) {
       [collection, name] = body.split(':')
       svg = sprites
-        ? await iconLoader(collection, name, {
-          ...loaderOptions,
-          usedProps,
-          customCollections: sprites.customCollections,
-        })
+        ? await loadSvgFromSprite(collection, name, sprites, { ...loaderOptions, usedProps })
         : await iconLoader(collection, name, { ...loaderOptions, usedProps })
     }
     else {
@@ -160,11 +133,7 @@ function createDynamicMatcher(
         collection = parts.slice(0, i).join('-')
         name = parts.slice(i).join('-')
         svg = sprites
-          ? await iconLoader(collection, name, {
-            ...loaderOptions,
-            usedProps,
-            customCollections: sprites.customCollections,
-          })
+          ? await loadSvgFromSprite(collection, name, sprites, { ...loaderOptions, usedProps })
           : await iconLoader(collection, name, { ...loaderOptions, usedProps })
         if (svg)
           break
@@ -178,7 +147,6 @@ function createDynamicMatcher(
     }
 
     let url: string
-    // TODO: resolve base path
     if (sprites)
       url = `url("unocss-${collection}-sprite.svg#shapes-${name}-view")`
     else
@@ -210,4 +178,113 @@ function createDynamicMatcher(
       }
     }
   })
+}
+
+function createCSSSVGSpriteLoader(sprites?: CSSSVGSprites) {
+  return async (collection: string) => {
+    const collections = sprites?.sprites[collection]
+    if (!collections)
+      return undefined
+
+    return await createUint8ArraySprite(
+      collection,
+      createAsyncSpriteIconsFactory(collections),
+      sprites?.warn ?? false,
+    )
+  }
+}
+
+function createGenerateCSSSVGSprites(sprites?: CSSSVGSprites) {
+  return async function* () {
+    if (sprites) {
+      const warn = sprites.warn ?? false
+      for (const [collection, collections] of Object.entries(sprites.sprites)) {
+        yield <GeneratedSpriteData>{
+          name: collection,
+          asset: await createUint8ArraySprite(
+            collection,
+            createAsyncSpriteIconsFactory(collections),
+            warn,
+          ),
+        }
+      }
+    }
+  }
+}
+
+async function customizeSpriteIcon(
+  collection: string,
+  icon: string,
+  options: IconifyLoaderOptions,
+  svg?: string,
+) {
+  if (!svg)
+    return svg
+
+  const cleanupIdx = svg.indexOf('<svg')
+  if (cleanupIdx > 0)
+    svg = svg.slice(cleanupIdx)
+
+  const { transform } = options?.customizations ?? {}
+  svg
+      = typeof transform === 'function'
+      ? await transform(svg, collection, icon)
+      : svg
+
+  if (!svg.startsWith('<svg')) {
+    console.warn(
+        `Custom icon "${icon}" in "${collection}" is not a valid SVG`,
+    )
+    return svg
+  }
+
+  return await mergeIconProps(
+    options?.customizations?.trimCustomSvg === true
+      ? trimSVG(svg)
+      : svg,
+    collection,
+    icon,
+    options,
+    undefined,
+  )
+}
+
+async function loadSvgFromSprite(
+  collectionName: string,
+  icon: string,
+  sprites: CSSSVGSprites,
+  options: IconifyLoaderOptions,
+) {
+  const collections = sprites.sprites[collectionName]
+  if (!collections)
+    return
+
+  const collectionsArray = Array.isArray(collections)
+    ? collections
+    : [collections]
+
+  for (const collection of collectionsArray) {
+    if (Array.isArray(collection)) {
+      for (const spriteIcon of collection) {
+        if (spriteIcon.name === icon)
+          return await customizeSpriteIcon(collectionName, icon, options, spriteIcon.svg)
+      }
+    }
+    else if ('svg' in collection) {
+      if (collection.name === icon)
+        return await customizeSpriteIcon(collectionName, icon, options, collection.svg)
+    }
+    else if (typeof collection === 'function') {
+      for await (const spriteIcon of collection()) {
+        if (spriteIcon.name === icon)
+          return await customizeSpriteIcon(collectionName, icon, options, spriteIcon.svg)
+      }
+    }
+    else {
+      for await (const spriteIcon of collection[Symbol.asyncIterator]()) {
+        if (spriteIcon.name === icon)
+          return await customizeSpriteIcon(collectionName, icon, options, spriteIcon.svg)
+      }
+    }
+  }
 }

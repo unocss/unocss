@@ -31,6 +31,15 @@
     <div class="sprite-custom-chevron-up?bg" />
     <div class="sprite-custom-animated?bg" />
 
+    <div>Custom MDI SVG Sprite</div>
+    <div class="sprite-custom-mdi-account" />
+    <div class="sprite-custom-mdi-alert-octagram" />
+    <div class="sprite-custom-mdi-access-point-network" />
+
+    <div>Custom SVG Sprite From file system</div>
+    <div class="sprite-custom-fs-icon" />
+    <div class="sprite-custom-fs-multi-line-attr" />
+
     <div>Custom SVG Sprite (attributify)</div>
     <div sprite-custom-close />
     <div sprite-custom-chevron-down />
