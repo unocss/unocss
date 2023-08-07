@@ -118,7 +118,7 @@ export async function build(_options: CliOptions) {
     const postTransform = await transformFiles(defaultTransform, 'post')
 
     // update source file
-    if (options.updateSource !== false) {
+    if (options.writeTransformed) {
       await Promise.all(
         postTransform
           .filter(({ transformedCode }) => !!transformedCode)
