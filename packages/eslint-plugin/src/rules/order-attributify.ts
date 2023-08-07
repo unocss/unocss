@@ -1,7 +1,7 @@
 import { join } from 'node:path'
 import { ESLintUtils } from '@typescript-eslint/utils'
 import { createSyncFn } from 'synckit'
-import type { RuleListener } from '@typescript-eslint/utils/dist/ts-eslint'
+import type { RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import type { TSESTree } from '@typescript-eslint/types'
 import MagicString from 'magic-string'
 import { distDir } from '../dirs'
@@ -17,7 +17,7 @@ export default ESLintUtils.RuleCreator(name => name)({
     fixable: 'code',
     docs: {
       description: 'Order of UnoCSS attributes',
-      recommended: false,
+      recommended: 'recommended',
     },
     messages: {
       'invalid-order': 'UnoCSS attributes are not ordered',
@@ -64,13 +64,13 @@ export default ESLintUtils.RuleCreator(name => name)({
       },
     }
 
-    // @ts-expect-error missing-types
+    // @ts-expect-error missing types
     if (context.parserServices == null || context.parserServices.defineTemplateBodyVisitor == null) {
       return scriptVisitor
     }
     else {
       // For Vue
-      // @ts-expect-error missing-types
+      // @ts-expect-error missing types
       return context.parserServices?.defineTemplateBodyVisitor(templateBodyVisitor, scriptVisitor)
     }
   },

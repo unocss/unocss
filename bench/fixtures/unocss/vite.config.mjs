@@ -5,7 +5,11 @@ export default defineConfig({
   plugins: [
     UnoCSS({
       mergeSelectors: false,
-      include: [/\.js$/],
+      content: {
+        pipeline: {
+          include: [/\.js$/],
+        },
+      },
     }),
   ],
 })

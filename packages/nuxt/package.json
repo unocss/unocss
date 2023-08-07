@@ -1,6 +1,6 @@
 {
   "name": "@unocss/nuxt",
-  "version": "0.54.1",
+  "version": "0.54.2",
   "description": "Nuxt module for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -24,8 +24,8 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./index.cjs",
-      "import": "./dist/index.mjs"
+      "import": "./dist/index.mjs",
+      "require": "./index.cjs"
     }
   },
   "main": "./index.cjs",

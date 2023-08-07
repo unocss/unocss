@@ -1,12 +1,12 @@
 import { createAutocomplete } from '@unocss/autocomplete'
 import { createGenerator } from '@unocss/core'
 import { describe, expect, it } from 'vitest'
-import presetUno from '@unocss/preset-uno'
+import presetMini from '@unocss/preset-mini'
 
 describe('autocomplete-fuzzy', () => {
   const uno = createGenerator({
     presets: [
-      presetUno(),
+      presetMini(),
     ],
     shortcuts: [
       {
@@ -42,6 +42,11 @@ describe('autocomplete-fuzzy', () => {
       .includes('foo-bar')
     expect(await ac.suggest('bmc'))
       .includes('bg-mode-color')
+  })
+
+  it('group', async () => {
+    const suggestions = await ac.suggest('ab')
+    expect((suggestions).includes('absolute')).toBe(true)
   })
 
   it('order', async () => {

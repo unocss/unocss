@@ -144,8 +144,8 @@ describe('preset-mini', () => {
   test('none targets', async () => {
     const { css, matched } = await uno.generate(new Set(presetMiniNonTargets), { minify: true, preflights: false })
 
-    expect(css).toEqual('')
     expect([...matched]).toEqual([])
+    expect(css).toEqual('')
   })
 
   test('fontSize theme', async () => {
