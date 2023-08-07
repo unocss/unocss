@@ -20,7 +20,7 @@
     "release": "bumpp -r",
     "size": "esno scripts/size.ts",
     "stub": "pnpm -r --filter=./packages/* --parallel run stub",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && pnpm -C packages/eslint-plugin run typecheck",
     "test": "vitest",
     "test:update": "vitest -u",
     "test:integration": "pnpm -F svelte-scoped test:integration",
