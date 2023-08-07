@@ -63,6 +63,7 @@
     "**/examples/**",
     "**/fixtures/**",
     "**/interactive/**",
-    "**/test/dts/**"
+    "**/test/dts/**",
+    "packages/eslint-plugin/**"
   ]
 }

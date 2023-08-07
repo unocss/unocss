@@ -35,6 +35,7 @@
   },
   "scripts": {
     "build": "unbuild",
+    "typecheck": "tsc --noEmit",
     "lint": "nr build && cd ./fixtures && eslint ./src"
   },
   "dependencies": {
