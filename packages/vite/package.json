@@ -23,13 +23,13 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.mjs"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
     },
     "./client": {
       "types": "./dist/client.d.ts",
-      "require": "./dist/client.cjs",
-      "import": "./dist/client.mjs"
+      "import": "./dist/client.mjs",
+      "require": "./dist/client.cjs"
     }
   },
   "main": "dist/index.cjs",

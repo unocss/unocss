@@ -26,13 +26,13 @@
   "exports": {
     "./preprocess": {
       "types": "./dist/preprocess.d.ts",
-      "require": "./dist/preprocess.cjs",
-      "import": "./dist/preprocess.mjs"
+      "import": "./dist/preprocess.mjs",
+      "require": "./dist/preprocess.cjs"
     },
     "./vite": {
       "types": "./dist/vite.d.ts",
-      "require": "./dist/vite.cjs",
-      "import": "./dist/vite.mjs"
+      "import": "./dist/vite.mjs",
+      "require": "./dist/vite.cjs"
     }
   },
   "main": "./dist/vite.cjs",

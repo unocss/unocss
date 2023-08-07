@@ -25,18 +25,18 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.mjs"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
     },
     "./browser": {
       "types": "./dist/browser.d.ts",
-      "require": "./dist/browser.cjs",
-      "import": "./dist/browser.mjs"
+      "import": "./dist/browser.mjs",
+      "require": "./dist/browser.cjs"
     },
     "./core": {
       "types": "./dist/core.d.ts",
-      "require": "./dist/core.cjs",
-      "import": "./dist/core.mjs"
+      "import": "./dist/core.mjs",
+      "require": "./dist/core.cjs"
     }
   },
   "main": "dist/index.cjs",
