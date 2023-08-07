@@ -176,6 +176,11 @@ describe('matched-positions', async () => {
             37,
             "[color:'red']",
           ],
+          [
+            52,
+            71,
+            "[content:'bar:baz']",
+          ],
         ]
       `)
   })

@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "@antfu/utils": "^0.7.5",
-    "@nuxt/devtools": "^0.7.1",
+    "@nuxt/devtools": "^0.7.5",
     "@unocss/autocomplete": "workspace:*",
     "@unocss/nuxt": "workspace:*",
     "@unocss/shared-docs": "workspace:*",
@@ -21,13 +21,13 @@
     "js-yaml": "^4.1.0",
     "knitwork": "^1.0.0",
     "markdown-it-link-attributes": "^4.0.1",
-    "nuxt": "^3.6.2",
+    "nuxt": "^3.6.5",
     "p-limit": "^4.0.0",
     "postcss-nested": "^6.0.1",
     "prettier": "^2.8.8",
     "shiki": "^0.14.3",
     "theme-vitesse": "^0.7.2",
     "vite-plugin-vue-markdown": "^0.23.7",
-    "vue": "^3.2.47"
+    "vue": "^3.3.4"
   }
 }
