@@ -67,19 +67,39 @@ export default defineConfig({
     expect(transform).toMatchSnapshot()
   })
 
-  it('supports not updating source files', async () => {
-    const { output, transform } = await runCli({
-      'views/index.html': '<div class="p-4 border-(solid red)"></div>',
-      'unocss.config.js': `
+  it.each([
+    {
+      transformer: 'variant group transformer',
+      files: {
+        'views/index.html': '<div class="p-4 border-(solid red)"></div>',
+        'unocss.config.js': `
 import { defineConfig, transformerVariantGroup } from 'unocss'
 export default defineConfig({
   transformers: [transformerVariantGroup()]
 })
-    `.trim(),
-    }, { transformFile: 'views/index.html', args: ['--no-update-source'] })
-    expect(output).toMatchSnapshot()
-    expect(transform).toMatchSnapshot()
-  })
+      `.trim(),
+      } as Record<string, string>,
+      transformFile: 'views/index.html',
+    },
+    {
+      transformer: 'directives transformer',
+      files: {
+        'views/index.css': '.btn-center{@apply text-center my-0 font-medium;}',
+        'unocss.config.js': `
+import { defineConfig, transformerDirectives } from 'unocss'
+export default defineConfig({
+  transformers: [transformerDirectives()]
+})
+      `.trim(),
+      },
+      transformFile: 'views/index.css',
+    },
+  ])('supports updating source files with transformed utilities ($transformer)',
+    async ({ files, transformFile }) => {
+      const { output, transform } = await runCli(files, { transformFile, args: ['--write-transformed'] })
+      expect(output).toMatchSnapshot()
+      expect(transform).toMatchSnapshot()
+    })
 
   it('uno.css exclude initialized class after changing file', async () => {
     const fileName = 'views/index.html'
