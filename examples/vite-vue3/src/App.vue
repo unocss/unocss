@@ -49,7 +49,8 @@
 
 <style>
 .mdi-close {
-  --un-icon: url("/sprite.svg#shapes-close-view");
+  /*--un-icon: url("/sprite.svg#shapes-close-view");*/
+  --un-icon: url("/sprite.svg#close");
   -webkit-mask: var(--un-icon) no-repeat;
   mask: var(--un-icon) no-repeat;
   -webkit-mask-size: 100% 100%;
@@ -62,7 +63,8 @@
   vertical-align: middle;
 }
 .mdi-close-bg {
-  background: url("/sprite.svg#shapes-close-view") no-repeat;
+  /*background: url("/sprite.svg#shapes-close-view") no-repeat;*/
+  background: url("/sprite.svg#close") no-repeat;
   background-size: 100% 100%;
   background-color: transparent;
   display: inline-block;
@@ -71,7 +73,8 @@
   height: 1em;
 }
 .mdi-chevron-down {
-  --un-icon: url("/sprite.svg#shapes-chevron-down-view");
+  /*--un-icon: url("/sprite.svg#shapes-chevron-down-view");*/
+  --un-icon: url("/sprite.svg#chevron-down");
   -webkit-mask: var(--un-icon) no-repeat;
   mask: var(--un-icon) no-repeat;
   -webkit-mask-size: 100% 100%;
@@ -84,7 +87,8 @@
   vertical-align: middle;
 }
 .mdi-chevron-down-bg {
-  background: url("/sprite.svg#shapes-chevron-down-view") no-repeat;
+  /*background: url("/sprite.svg#shapes-chevron-down-view") no-repeat;*/
+  background: url("/sprite.svg#chevron-down") no-repeat;
   background-size: 100% 100%;
   background-color: transparent;
   display: inline-block;
@@ -93,7 +97,8 @@
   height: 1em;
 }
 .mdi-chevron-up {
-  --un-icon: url("/sprite.svg#shapes-chevron-up-view");
+  /*--un-icon: url("/sprite.svg#shapes-chevron-up-view");*/
+  --un-icon: url("/sprite.svg#chevron-up");
   -webkit-mask: var(--un-icon) no-repeat;
   mask: var(--un-icon) no-repeat;
   -webkit-mask-size: 100% 100%;
@@ -106,7 +111,8 @@
   vertical-align: middle;
 }
 .mdi-chevron-up-bg {
-  background: url("/sprite.svg#shapes-chevron-up-view") no-repeat;
+  /*background: url("/sprite.svg#shapes-chevron-up-view") no-repeat;*/
+  background: url("/sprite.svg#chevron-up") no-repeat;
   background-size: 100% 100%;
   background-color: transparent;
   display: inline-block;

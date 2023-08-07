@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg">
-    <symbol id="shapes-close" viewBox="0 0 24 24">
+    <!--<symbol id="shapes-close" viewBox="0 0 24 24">
         <path fill="currentColor" d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"/>
     </symbol>
     <symbol id="shapes-chevron-down" viewBox="0 0 24 24">
@@ -13,5 +13,22 @@
     <view id="shapes-chevron-up-view" viewBox="0 49 24 24"/>
     <use href="#shapes-close" x="0" y="0" id="close"/>
     <use href="#shapes-chevron-down" x="0" y="25" id="chevron-down"/>
-    <use href="#shapes-chevron-up" x="0" y="49" id="chevron-up"/>
+    <use href="#shapes-chevron-up" x="0" y="49" id="chevron-up"/>-->
+
+
+    <symbol id="s-close" viewBox="0 0 24 24">
+        <path fill="currentColor" d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"/>
+    </symbol>
+    <symbol id="s-chevron-down" viewBox="0 0 24 24">
+        <path fill="currentColor" d="M7.41 8.58L12 13.17l4.59-4.59L18 10l-6 6l-6-6l1.41-1.42Z"/>
+    </symbol>
+    <symbol id="s-chevron-up" viewBox="0 0 24 24">
+        <path fill="currentColor" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6l-6 6l1.41 1.41Z"/>
+    </symbol>
+    <view id="close" viewBox="0 0 24 24"/>
+    <view id="chevron-down" viewBox="0 25 24 24"/>
+    <view id="chevron-up" viewBox="0 49 24 24"/>
+    <use href="#s-close" x="0" y="0"/>
+    <use href="#s-chevron-down" x="0" y="25"/>
+    <use href="#s-chevron-up" x="0" y="49"/>
 </svg>

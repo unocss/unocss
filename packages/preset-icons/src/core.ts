@@ -14,10 +14,12 @@ const COLLECTION_NAME_PARTS_MAX = 3
 
 export { IconsOptions }
 
+/* TODO BEGIN-CLEANUP: types from @iconify/utils: remove them once published */
 interface GeneratedSpriteData {
   name: string
   asset: Uint8Array
 }
+/* TODO END-CLEANUP: types from @iconify/utils: remove them once published */
 
 interface PresetIcons extends Preset {
   generateCSSSVGSprites: () => AsyncIterableIterator<GeneratedSpriteData>
@@ -150,7 +152,7 @@ function createDynamicMatcher(
 
     let url: string
     if (sprites)
-      url = `url("unocss-${collection}-sprite.svg#shapes-${name}-view")`
+      url = `url("unocss-${collection}-sprite.svg#${name}")`
     else
       url = `url("data:image/svg+xml;utf8,${encodeSvgForCss(svg)}")`
 
@@ -182,6 +184,7 @@ function createDynamicMatcher(
   })
 }
 
+/* TODO BEGIN-CLEANUP: types from @iconify/utils: remove them once published */
 function createCSSSVGSpriteLoader(sprites?: CSSSVGSprites) {
   return async (collection: string) => {
     const collections = sprites?.sprites[collection]
@@ -290,3 +293,4 @@ async function loadSvgFromSprite(
     }
   }
 }
+/* TODO END-CLEANUP: types from @iconify/utils: remove them once published */

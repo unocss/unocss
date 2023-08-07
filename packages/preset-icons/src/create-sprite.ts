@@ -126,9 +126,9 @@ function generateSpriteEntry(
 ) {
   const y = context.minY ?? 0
   const entry = `
-  <symbol id="shapes-${icon.name}" viewBox="${data.rawViewBox}">${data.content}</symbol>
-  <view id="shapes-${icon.name}-view" viewBox="${data.x} ${y} ${data.width} ${data.height}"/>
-  <use href="#shapes-${icon.name}" x="${data.x}" y="${y}" id="${icon.name}"/>`
+  <symbol id="s-${icon.name}" viewBox="${data.rawViewBox}">${data.content}</symbol>
+  <view id="${icon.name}" viewBox="${data.x} ${y} ${data.width} ${data.height}"/>
+  <use href="#s-${icon.name}" x="${data.x}" y="${y}"/>`
   context.minY = y + data.height + 1
   return entry
 }
