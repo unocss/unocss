@@ -1,6 +1,6 @@
 {
   "name": "@unocss/transformer-compile-class",
-  "version": "0.53.6",
+  "version": "0.54.2",
   "description": "Compile group of classes into one class",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -22,8 +22,8 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.mjs"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
     }
   },
   "main": "./dist/index.cjs",
@@ -40,6 +40,6 @@
     "@unocss/core": "workspace:*"
   },
   "devDependencies": {
-    "magic-string": "^0.30.1"
+    "magic-string": "^0.30.2"
   }
 }

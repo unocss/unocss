@@ -1,3 +1,4 @@
+import process from 'node:process'
 import { route } from 'quasar/wrappers'
 import {
   createMemoryHistory,

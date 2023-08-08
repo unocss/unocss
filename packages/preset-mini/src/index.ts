@@ -5,6 +5,7 @@ import { rules } from './rules'
 import type { Theme, ThemeAnimation } from './theme'
 import { theme } from './theme'
 import { variants } from './variants'
+import { shorthands } from './shorthands'
 
 export { preflights } from './preflights'
 export { theme, colors } from './theme'
@@ -90,6 +91,9 @@ export function presetMini(options: PresetMiniOptions = {}): Preset<Theme> {
     extractorDefault: options.arbitraryVariants === false
       ? undefined
       : extractorArbitraryVariants,
+    autocomplete: {
+      shorthands,
+    },
   }
 }
 

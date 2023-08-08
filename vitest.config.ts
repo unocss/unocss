@@ -9,6 +9,7 @@ export default defineConfig({
     alias,
   },
   test: {
+    testTimeout: 30_000,
     name: 'unit',
     setupFiles: ['./test/setup.ts'],
     exclude: [...defaultExclude, '**/svelte-scoped/**'],

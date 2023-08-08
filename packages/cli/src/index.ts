@@ -1,4 +1,5 @@
 import { existsSync, promises as fs } from 'node:fs'
+import process from 'node:process'
 import { basename, dirname, normalize, relative, resolve } from 'pathe'
 import fg from 'fast-glob'
 import { consola } from 'consola'

@@ -1,4 +1,5 @@
 import { join, resolve } from 'node:path'
+import process from 'node:process'
 import { execa } from 'execa'
 import { build } from 'vite'
 import { describe, expect, it } from 'vitest'
