@@ -19,7 +19,7 @@ export async function extractGroups(modules: BetterMap<string, string>, ctx: Uno
     for (let j = 0; j < intersected.length; j++) {
       const key = intersected[j].join(' ')
       if (!itemGroups[key])
-        itemGroups[key] = { selectors: intersected[j], count: 0, modules: new Set() }
+        itemGroups[key] = { name: key, selectors: intersected[j], count: 0, modules: new Set() }
 
       if (itemGroups[key].selectors.every(s => allSelectors[i].selectors.includes(s))) {
         itemGroups[key].count++
