@@ -23,7 +23,7 @@ const props = withDefaults(defineProps<{
 })
 const [DefineDropdown, ReuseDropdown] = createReusableTemplate<{
   matched: { name: string; count: number; modules: string[] }
-  showDocs?: boolean
+  docs?: boolean
 }>()
 
 const selectors = computed(() => [...props.selectors].sort((a, b) => b.count - a.count))
@@ -64,7 +64,7 @@ function openEditor(id: string) {
 
 <template>
   <div p-4 space-y-8>
-    <DefineDropdown v-slot="{ matched, showDocs = true }">
+    <DefineDropdown v-slot="{ matched, docs = true }">
       <div space-x-4 px4 py3>
         <Copy v-slot="{ copy, copied }">
           <button :class="copied ? 'text-green' : 'text-dark:50 hover:text-dark dark:text-white:50 dark:hover:text-white'" text-sm @click="copy(matched.name)">
@@ -72,7 +72,7 @@ function openEditor(id: string) {
             {{ copied ? 'Copied' : 'Copy' }}
           </button>
         </Copy>
-        <a v-if="showDocs" :href="`https://unocss.dev/interactive/?s=${matched.name}`" target="_blank" text-sm text-dark:50 hover:text-dark dark:text-white:50 dark:hover:text-white>
+        <a v-if="docs" :href="`https://unocss.dev/interactive/?s=${matched.name}`" target="_blank" text-sm text-dark:50 hover:text-dark dark:text-white:50 dark:hover:text-white>
           <div i-carbon-notebook />
           Docs
         </a>
@@ -125,7 +125,7 @@ function openEditor(id: string) {
                 <sup text-xs ml-0.5 op50>{{ item.count }}</sup>
               </span>
               <template #popper>
-                <ReuseDropdown :matched="item" :show-docs="false" />
+                <ReuseDropdown :matched="item" :docs="false" />
               </template>
             </Dropdown>
             <div font-mono text-sm op50 ws-nowrap of-ellipsis of-hidden>{{ item.color }}</div>
@@ -176,7 +176,7 @@ function openEditor(id: string) {
               <sup op50 ml-0.5>{{ item.count }}</sup>
             </span>
             <template #popper>
-              <ReuseDropdown :matched="item" :show-docs="false" />
+              <ReuseDropdown :matched="item" :docs="false" />
             </template>
           </Dropdown>
         </div>
