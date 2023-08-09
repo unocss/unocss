@@ -7,7 +7,7 @@ export default defineBuildConfig({
     'src/worker-sort',
   ],
   clean: true,
-  declaration: true,
+  declaration: false,
   rollup: {
     emitCJS: true,
   },

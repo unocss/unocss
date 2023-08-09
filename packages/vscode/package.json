@@ -2,7 +2,7 @@
   "publisher": "antfu",
   "name": "@unocss/vscode",
   "displayName": "UnoCSS",
-  "version": "0.54.1",
+  "version": "0.54.2",
   "private": true,
   "description": "UnoCSS for VS Code",
   "license": "MIT",
@@ -110,7 +110,7 @@
     "esno": "^0.17.0",
     "jiti": "^1.19.1",
     "prettier": "^2.8.8",
-    "tsup": "^7.1.0",
+    "tsup": "^7.2.0",
     "unconfig": "^0.3.10"
   }
 }

@@ -1,7 +1,7 @@
 import { join } from 'node:path'
 import { ESLintUtils } from '@typescript-eslint/utils'
 import { createSyncFn } from 'synckit'
-import type { RuleListener } from '@typescript-eslint/utils/dist/ts-eslint'
+import type { RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import type { TSESTree } from '@typescript-eslint/types'
 import { distDir } from '../dirs'
 import { AST_NODES_WITH_QUOTES, CLASS_FIELDS } from '../constants'
@@ -15,7 +15,7 @@ export default ESLintUtils.RuleCreator(name => name)({
     fixable: 'code',
     docs: {
       description: 'Order of UnoCSS utilities in class attribute',
-      recommended: 'warn',
+      recommended: 'recommended',
     },
     messages: {
       'invalid-order': 'UnoCSS utilities are not ordered',
