@@ -26,8 +26,8 @@ export function createConfig(): VitePluginConfig {
       presetUno(),
     ],
     shortcuts: {
-      'b-main': 'border-gray-400 border-opacity-30',
-      'bg-main': 'bg-gray-405',
+      'border-main': 'border-gray:20',
+      'bg-active': 'bg-gray:8',
     },
   }
 }

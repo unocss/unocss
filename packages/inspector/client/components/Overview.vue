@@ -60,7 +60,7 @@ const formatted = useCSSPrettify(computed(() => overview.value?.css), isPrettify
           </div>
         </div>
       </div>
-      <div b="t main" p="x4 y2" grid="~ cols-4 gap-4">
+      <div border="t main" p="x4 y2" grid="~ cols-4 gap-4">
         <div>
           <div op80>
             Included Files

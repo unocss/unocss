@@ -1,8 +1,8 @@
 <template>
   <div
-    bg-gray4:10
+    bg-active
     p-5
-    b="b main"
+    border="b main"
     text="sm gray5 dark:gray3"
   >
     <slot />

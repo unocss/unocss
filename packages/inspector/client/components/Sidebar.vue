@@ -3,7 +3,7 @@ import { moduleTree } from '../composables/fetch'
 </script>
 
 <template>
-  <div h-full b="r main">
+  <div h-full border="r main">
     <div of-hidden>
       <NarBar />
       <div
@@ -22,7 +22,7 @@ import { moduleTree } from '../composables/fetch'
             REPL
           </span>
         </RouterLink>
-        <div b="b main" />
+        <div border="b main" />
       </div>
     </div>
     <div class="scrolls scrolls-sidebar">

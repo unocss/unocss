@@ -88,7 +88,7 @@ const formatted = useCSSPrettify(computed(() => mod.value?.css), isPrettify)
               </label>
             </TitleBar>
             <CodeMirror
-              h-full b="l main" :model-value="formatted" :read-only="true" mode="css"
+              h-full border="l main" :model-value="formatted" :read-only="true" mode="css"
               class="scrolls module-scrolls" :style="style"
             />
           </div>

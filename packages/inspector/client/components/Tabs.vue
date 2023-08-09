@@ -12,10 +12,10 @@ const active = useVModel(props, 'modelValue', emit, { passive: true, defaultValu
 </script>
 
 <template>
-  <ul flex b="t main">
+  <ul flex border="t main">
     <li
       v-for="{ label, value, icon } in items" :key="value" cursor-pointer px-4 py-3 whitespace-nowrap select-none
-      :class="active === value ? 'bg-gray-4:10 dark:b-white dark:text-white' : 'text-dark:50 dark:text-white:50'"
+      :class="active === value ? 'bg-active dark:text-white text-black' : 'text-dark:50 dark:text-white:50'"
       @click="active = value"
     >
       <div :class="icon" />

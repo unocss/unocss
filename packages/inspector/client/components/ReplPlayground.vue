@@ -41,8 +41,7 @@ const { data: result } = fetchRepl(input, isSafelistIncluded)
         :style="style"
       />
       <CodeMirror
-        b-l
-        b-main
+        border="l main"
         :model-value="result?.css || '/* empty */'"
         :read-only="true"
         mode="css"
