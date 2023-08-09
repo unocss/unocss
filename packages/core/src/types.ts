@@ -841,8 +841,8 @@ export interface UtilObject {
   noMerge: boolean | undefined
 }
 
-export interface TokenInfo<Theme extends object = object> {
-  payload: StringifiedUtil<Theme>[]
+export interface ExtendedTokenInfo<Theme extends object = object> {
+  data: StringifiedUtil<Theme>[]
   count: number
 }
 
@@ -878,5 +878,5 @@ export interface GenerateOptions<T extends boolean> {
   /**
    * If return extended "matched" with payload and count
    */
-  extendedMatch?: T
+  extendedInfo?: T
 }

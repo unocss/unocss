@@ -54,7 +54,7 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
         const tokens = new CountableSet<string>()
         await ctx.uno.applyExtractors(code.replace(SKIP_COMMENT_RE, ''), id, tokens)
 
-        const result = await ctx.uno.generate(tokens, { id, extendedMatch: true, preflights: false })
+        const result = await ctx.uno.generate(tokens, { id, extendedInfo: true, preflights: false })
         const analyzed = await analyzer(new BetterMap([[id, code]]), ctx)
         const mod: ModuleInfo = {
           ...result,

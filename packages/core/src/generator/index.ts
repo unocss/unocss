@@ -1,5 +1,5 @@
 import { createNanoEvents } from '../utils/events'
-import type { CSSEntries, CSSObject, DynamicRule, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, Shortcut, ShortcutValue, StringifiedUtil, TokenInfo, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
+import type { CSSEntries, CSSObject, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
 import { CONTROL_SHORTCUT_NO_MERGE, CountableSet, TwoKeyMap, e, entriesToCss, expandVariantGroup, isCountableSet, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
@@ -153,7 +153,7 @@ export class UnoGenerator<Theme extends object = object> {
   generate(
     input: string | Set<string> | CountableSet<string> | string[],
     options?: GenerateOptions<true>
-  ): Promise<GenerateResult<Map<string, TokenInfo<Theme>>>>
+  ): Promise<GenerateResult<Map<string, ExtendedTokenInfo<Theme>>>>
   async generate(
     input: string | Set<string> | CountableSet<string> | string[],
     options: GenerateOptions<boolean> = {},
@@ -164,11 +164,14 @@ export class UnoGenerator<Theme extends object = object> {
       preflights = true,
       safelist = true,
       minify = false,
-      extendedMatch = false,
+      extendedInfo = false,
     } = options
 
     const tokens: Readonly<Set<string> | CountableSet<string>> = isString(input)
-      ? await this.applyExtractors(input, id, extendedMatch ? new CountableSet<string>() : new Set<string>())
+      ? await this.applyExtractors(input, id, extendedInfo
+        ? new CountableSet<string>()
+        : new Set<string>(),
+      )
       : Array.isArray(input)
         ? new Set<string>(input)
         : input
@@ -184,7 +187,10 @@ export class UnoGenerator<Theme extends object = object> {
     const nl = minify ? '' : '\n'
 
     const layerSet = new Set<string>([LAYER_DEFAULT])
-    const matched = extendedMatch ? new Map<string, TokenInfo<Theme>>() : new Set<string>()
+    const matched = extendedInfo
+      ? new Map<string, ExtendedTokenInfo<Theme>>()
+      : new Set<string>()
+
     const sheet = new Map<string, StringifiedUtil<Theme>[]>()
     let preflightsMap: Record<string, string> = {}
 
@@ -198,7 +204,7 @@ export class UnoGenerator<Theme extends object = object> {
 
       if (matched instanceof Map) {
         matched.set(raw, {
-          payload,
+          data: payload,
           count: isCountableSet(tokens) ? tokens.getCount(raw) : 1,
         })
       }

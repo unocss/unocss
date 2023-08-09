@@ -1,4 +1,4 @@
-import type { BetterMap, TokenInfo, UnocssPluginContext } from '@unocss/core'
+import type { BetterMap, ExtendedTokenInfo, UnocssPluginContext } from '@unocss/core'
 import { parseColor } from '../../preset-mini/src/utils'
 import type { MatchedColor, MatchedSelector } from '../types'
 import { getSelectorCategory } from './utils'
@@ -20,25 +20,25 @@ function uniq<T>(array: T[]) {
 export async function analyzer(modules: BetterMap<string, string>, ctx: UnocssPluginContext) {
   const matched: MatchedSelector[] = []
   const colors: MatchedColor[] = []
-  const tokensInfo = new Map<string, TokenInfo & { modules: string[] }>()
+  const tokensInfo = new Map<string, ExtendedTokenInfo & { modules: string[] }>()
 
   await Promise.all(modules.map(async (code, id) => {
-    const result = await ctx.uno.generate(code, { id, extendedMatch: true, preflights: false })
+    const result = await ctx.uno.generate(code, { id, extendedInfo: true, preflights: false })
 
     for (const [key, value] of result.matched.entries()) {
       const prev = tokensInfo.get(key)
 
       tokensInfo.set(key, {
-        payload: value.payload,
+        data: value.data,
         count: prev?.modules?.length ? value.count + prev.count : value.count,
         modules: uniq([...(prev?.modules || []), id]),
       })
     }
   }))
 
-  for (const [rawSelector, { payload, count, modules: _modules }] of tokensInfo.entries()) {
-    const ruleContext = payload[payload.length - 1][5]
-    const ruleMeta = payload[payload.length - 1][4]
+  for (const [rawSelector, { data, count, modules: _modules }] of tokensInfo.entries()) {
+    const ruleContext = data[data.length - 1][5]
+    const ruleMeta = data[data.length - 1][4]
     const baseSelector = ruleContext?.currentSelector
     const variants = ruleContext?.variants?.map(v => v.name).filter(Boolean) as string[]
     const layer = ruleMeta?.layer || 'default'
