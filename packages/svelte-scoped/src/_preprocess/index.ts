@@ -1,3 +1,4 @@
+import process from 'node:process'
 import type { PreprocessorGroup } from 'svelte/types/compiler/preprocess'
 import { type UnoGenerator, type UserConfig, type UserConfigDefaults, createGenerator, warnOnce } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
@@ -10,7 +11,7 @@ import { wrapSelectorsWithGlobal } from './transformClasses/wrapGlobal'
 
 export function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = {}, unoContextFromVite?: SvelteScopedContext, isViteBuild?: () => boolean): PreprocessorGroup {
   if (!options.classPrefix)
-    options.classPrefix = 'spu-'
+    options.classPrefix = 'usp-'
 
   let uno: UnoGenerator
 
@@ -19,7 +20,7 @@ export function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = 
       if (!uno)
         uno = await getGenerator(options.configOrPath, unoContextFromVite)
 
-      if (isViteBuild && !options.combine)
+      if (isViteBuild && options.combine === undefined)
         options.combine = isViteBuild()
 
       return await transformClasses({ content, filename: filename || '', uno, options })

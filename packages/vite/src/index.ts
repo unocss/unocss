@@ -1,5 +1,5 @@
 import type { Plugin } from 'vite'
-import type { UserConfigDefaults } from '@unocss/core'
+import type { UnocssPluginContext, UserConfigDefaults } from '@unocss/core'
 import UnocssInspector from '@unocss/inspector'
 import { createContext } from './integration'
 import { ChunkModeBuildPlugin } from './modes/chunk-build'
@@ -22,6 +22,11 @@ export function defineConfig<Theme extends object>(config: VitePluginConfig<Them
   return config
 }
 
+export interface UnocssVitePluginAPI {
+  getContext(): UnocssPluginContext<VitePluginConfig>
+  getMode(): VitePluginConfig['mode']
+}
+
 export default function UnocssPlugin<Theme extends object>(
   configOrPath?: VitePluginConfig<Theme> | string,
   defaults: UserConfigDefaults = {},
@@ -34,6 +39,13 @@ export default function UnocssPlugin<Theme extends object>(
     ConfigHMRPlugin(ctx),
     ...createTransformerPlugins(ctx),
     ...createDevtoolsPlugin(ctx),
+    {
+      name: 'unocss:api',
+      api: <UnocssVitePluginAPI>{
+        getContext: () => ctx,
+        getMode: () => mode,
+      },
+    },
   ]
 
   if (inlineConfig.inspector !== false)

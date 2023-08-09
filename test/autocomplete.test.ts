@@ -39,7 +39,7 @@ describe('autocomplete', () => {
 
     ac.templates.forEach((i) => {
       if (typeof i === 'string')
-        parseAutocomplete(i, uno.config.theme)
+        parseAutocomplete(i, uno.config.theme, uno.config.autocomplete.shorthands)
     })
   })
 

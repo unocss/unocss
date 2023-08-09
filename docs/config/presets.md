@@ -2,7 +2,7 @@
 
 Presets are partial configurations that will be merged into the main configuration.
 
-When authoring a presets, we usually export a constractor functions that you could ask for some preset-specific options. For example:
+When authoring a preset, we usually export a constructor function that you could ask for some preset-specific options. For example:
 
 ```ts
 // my-preset.ts

@@ -1,7 +1,9 @@
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import process from 'node:process'
 import { addComponentsDir, addPluginTemplate, defineNuxtModule, extendWebpackConfig, isNuxt2, isNuxt3 } from '@nuxt/kit'
 import WebpackPlugin from '@unocss/webpack'
+import type { VitePluginConfig } from '@unocss/vite'
 import VitePlugin from '@unocss/vite'
 import type { NuxtPlugin } from '@nuxt/schema'
 import { loadConfig } from '@unocss/config'
@@ -35,12 +37,15 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     // preset shortcuts
     resolveOptions(options)
 
+    options.mode ??= 'global'
+    const InjectModes: VitePluginConfig['mode'][] = ['global', 'dist-chunk']
+
     if (options.autoImport) {
       addPluginTemplate({
         filename: 'unocss.mjs',
         getContents: () => {
           const lines = [
-            'import \'uno.css\'',
+            InjectModes.includes(options.mode) ? 'import \'uno.css\'' : '',
             isNuxt2()
               ? 'export default () => {}'
               : 'import { defineNuxtPlugin } from \'#imports\'; export default defineNuxtPlugin(() => {})',

@@ -144,8 +144,8 @@ describe('preset-mini', () => {
   test('none targets', async () => {
     const { css, matched } = await uno.generate(new Set(presetMiniNonTargets), { minify: true, preflights: false })
 
-    expect(css).toEqual('')
     expect([...matched]).toEqual([])
+    expect(css).toEqual('')
   })
 
   test('fontSize theme', async () => {
@@ -173,6 +173,29 @@ describe('preset-mini', () => {
     // @ts-expect-error types
     expect(uno.config.theme.fontSize.lg).toEqual(['3rem', '1.5em'])
     await expect(css).toMatchFileSnapshot('./assets/output/preset-mini-font-size-theme.css')
+  })
+
+  test('fontWeight theme', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+      theme: {
+        fontWeight: {
+          head: '900',
+          foot: '100',
+        },
+      },
+    })
+
+    const { css } = await uno.generate([
+      'font-head',
+      'font-foot',
+    ].join(' '), { preflights: false })
+
+    // @ts-expect-error types
+    expect(uno.config.theme.fontWeight.head).toEqual('900')
+    await expect(css).toMatchFileSnapshot('./assets/output/preset-mini-font-weight-theme.css')
   })
 
   test('dark class', async () => {
@@ -225,5 +248,24 @@ describe('preset-mini', () => {
     })
 
     expect(css).toBe('')
+  })
+
+  test('group data variant', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'group-data-[state=open]:rotate-180',
+      'group-data-[state=open]:text-black',
+      'data-[state=open]:text-red',
+      'group-hover:font-bold',
+    ].join(' '), {
+      preflights: false,
+    })
+
+    await expect(css).toMatchFileSnapshot('./assets/output/preset-mini-group-data.css')
   })
 })

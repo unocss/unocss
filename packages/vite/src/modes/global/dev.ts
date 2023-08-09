@@ -1,3 +1,4 @@
+import process from 'node:process'
 import type { Plugin, Update, ViteDevServer, ResolvedConfig as ViteResolvedConfig } from 'vite'
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import { notNull } from '@unocss/core'

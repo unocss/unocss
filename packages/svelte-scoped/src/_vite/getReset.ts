@@ -1,5 +1,6 @@
 import { existsSync, readFileSync, statSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
+import process from 'node:process'
 import { fileURLToPath } from 'node:url'
 
 const _dirname = typeof __dirname !== 'undefined'

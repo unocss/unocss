@@ -1,5 +1,5 @@
 import { colors } from './colors'
-import { fontFamily, fontSize, letterSpacing, lineHeight, textIndent, textShadow, textStrokeWidth, wordSpacing } from './font'
+import { fontFamily, fontSize, fontWeight, letterSpacing, lineHeight, textIndent, textShadow, textStrokeWidth, wordSpacing } from './font'
 import { borderRadius, boxShadow, breakpoints, duration, easing, lineWidth, ringWidth, spacing, verticalBreakpoints } from './misc'
 import { blur, dropShadow } from './filters'
 import { containers, height, maxHeight, maxWidth, width } from './size'
@@ -22,6 +22,7 @@ export const theme = {
   colors,
   fontFamily,
   fontSize,
+  fontWeight,
   breakpoints,
   verticalBreakpoints,
   borderRadius,

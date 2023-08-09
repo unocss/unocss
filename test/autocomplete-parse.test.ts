@@ -81,6 +81,18 @@ describe('autocomplete-parse', () => {
         "pt-8",
       ]
     `)
+
+    const parsed2 = parseAutocomplete('text-<size>', {}, {
+      size: '(sm|md|lg|xl)',
+    })
+    expect(parsed2.suggest('text-')).toMatchInlineSnapshot(`
+      [
+        "text-sm",
+        "text-md",
+        "text-lg",
+        "text-xl",
+      ]
+    `)
   })
 
   it('theme', () => {

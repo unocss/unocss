@@ -3,7 +3,13 @@ import type { Theme } from '../theme'
 import { globalKeywords, h, insetMap, makeGlobalStaticRules } from '../utils'
 
 export const positions: Rule[] = [
-  [/^(?:position-|pos-)?(relative|absolute|fixed|sticky)$/, ([, v]) => ({ position: v })],
+  [/^(?:position-|pos-)?(relative|absolute|fixed|sticky)$/, ([, v]) => ({ position: v }), {
+    autocomplete: [
+      '(position|pos)-<position>',
+      '(position|pos)-<globalKeyword>',
+      '<position>',
+    ],
+  }],
   [/^(?:position-|pos-)([-\w]+)$/, ([, v]) => globalKeywords.includes(v) ? { position: v } : undefined],
   [/^(?:position-|pos-)?(static)$/, ([, v]) => ({ position: v })],
 ]

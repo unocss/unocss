@@ -1,7 +1,7 @@
 {
   "name": "@unocss/svelte-scoped",
   "type": "module",
-  "version": "0.53.5",
+  "version": "0.54.2",
   "description": "Use UnoCSS in a modular fashion with styles being stored only in the Svelte component they are used in: Vite plugin for apps, preprocessor for component libraries",
   "author": "Jacob Bowdoin",
   "license": "MIT",
@@ -26,13 +26,13 @@
   "exports": {
     "./preprocess": {
       "types": "./dist/preprocess.d.ts",
-      "require": "./dist/preprocess.cjs",
-      "import": "./dist/preprocess.mjs"
+      "import": "./dist/preprocess.mjs",
+      "require": "./dist/preprocess.cjs"
     },
     "./vite": {
       "types": "./dist/vite.d.ts",
-      "require": "./dist/vite.cjs",
-      "import": "./dist/vite.mjs"
+      "import": "./dist/vite.mjs",
+      "require": "./dist/vite.cjs"
     }
   },
   "main": "./dist/vite.cjs",
@@ -61,10 +61,10 @@
     "@unocss/config": "workspace:*",
     "@unocss/reset": "workspace:*",
     "css-tree": "^2.3.1",
-    "magic-string": "^0.30.1"
+    "magic-string": "^0.30.2"
   },
   "devDependencies": {
     "prettier-plugin-svelte": "^2.10.1",
-    "svelte": "^4.0.5"
+    "svelte": "^4.1.2"
   }
 }

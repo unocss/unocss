@@ -10,5 +10,6 @@ Configurations are what make UnoCSS powerful.
 - [Extractors](/config/extractors) - Define where and how the usage of utilities are extracted.
 - [Preflights](/config/preflights) - Define global CSS rules.
 - [Layers](/config/layers) - Define the order of each utilities layer.
+- [Autocomplete](/config/autocomplete) - Define customized autocomplete suggestions.
 - [Presets](/config/presets) - Predefined configurations for common use cases.
 

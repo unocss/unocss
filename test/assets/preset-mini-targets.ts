@@ -238,6 +238,8 @@ export const presetMiniTargets: string[] = [
   'text-[11px]/4',
   'text-[12px]/[13px]',
   'text-[length:var(--size)]:$leading',
+  'text-size-1em',
+  'font-size-1.5rem',
 
   // color - bg
   'bg-[#153]/10',
@@ -924,7 +926,6 @@ export const presetMiniTargets: string[] = [
   '[font-feature-settings:\'cv02\',\'cv03\',\'cv04\',\'cv11\']',
   '[font-variation-settings:"wght"_400,_"opsz"_14]',
   '[--css-variable:"wght"_400,_"opsz"_14]',
-  '[--escaped\\~variable\\::100%]',
 
   // variants
   'active:scale-4',
@@ -1143,6 +1144,8 @@ export const presetMiniNonTargets = [
   '[foo:\'bar\',"baz",`]',
   // escaped arbitrary css properties only allowed in css variables
   '[cant\~escape:me]',
+  // https://github.com/unocss/unocss/issues/2951
+  '[https://example.com/documentation/](https://example.com/documentation/)',
 
   // not exists
   'text-main/50',

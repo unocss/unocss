@@ -26,6 +26,7 @@ const Configs: DefaultTheme.NavItemWithLink[] = [
   { text: 'Transformers', link: '/config/transformers' },
   { text: 'Preflights', link: '/config/preflights' },
   { text: 'Layers', link: '/config/layers' },
+  { text: 'AutoComplete', link: '/config/autocomplete' },
   { text: 'Presets', link: '/config/presets' },
 ]
 
@@ -40,6 +41,7 @@ const Integrations: DefaultTheme.NavItemWithLink[] = [
   { text: 'PostCSS', link: '/integrations/postcss' },
   { text: 'ESLint', link: '/integrations/eslint' },
   { text: 'VSCode extension', link: '/integrations/vscode' },
+  { text: 'JetBrains IDE Plugin', link: '/integrations/jetbrains' },
 ]
 
 const Presets: DefaultTheme.NavItemWithLink[] = [
