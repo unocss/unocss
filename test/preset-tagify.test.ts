@@ -16,11 +16,11 @@ describe('tagify', () => {
     `
 
     expect(extractor.extract!({ code } as ExtractorContext)).toMatchInlineSnapshot(`
-      Set {
+      [
         "__TAGIFY__foo",
         "__TAGIFY__bar",
         "__TAGIFY__baz",
-      }
+      ]
     `)
   })
 

@@ -1,4 +1,4 @@
-import type { GenerateResult, ResolvedConfig } from '@unocss/core'
+import type { GenerateResult, ResolvedConfig, RuleMeta } from '@unocss/core'
 
 export interface ProjectInfo {
   version: string
@@ -9,7 +9,8 @@ export interface ProjectInfo {
 }
 
 export interface Result extends Omit<GenerateResult, 'matched'> {
-  matched: string[]
+  matched: (Omit<MatchedSelector, 'modules'> & { modules: string[] })[]
+  colors: (Omit<MatchedColor, 'modules'> & { modules: string[] })[]
 }
 
 export interface ModuleInfo extends Result {
@@ -20,4 +21,30 @@ export interface ModuleInfo extends Result {
 
 export interface OverviewInfo extends Result {
   gzipSize: number
+}
+
+export interface MatchedSelector {
+  name: string
+  rawSelector: string
+  category: string
+  count: number
+  ruleMeta?: RuleMeta
+  baseSelector?: string
+  variants?: string[]
+  modules: string[]
+}
+
+export interface MatchedColor {
+  name: string
+  no: string
+  color: string
+  count: number
+  modules: string[]
+}
+
+export interface SuggestedShortcut {
+  name: string
+  selectors: string[]
+  count: number
+  modules: string[]
 }

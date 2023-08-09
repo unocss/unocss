@@ -21,7 +21,7 @@ export function extractorAttributify(options?: AttributifyOptions): Extractor {
   return {
     name: '@unocss/preset-attributify/extractor',
     extract({ code }) {
-      const result = Array.from(code.matchAll(elementRE))
+      return Array.from(code.matchAll(elementRE))
         .flatMap(match => Array.from((match[1] || '').matchAll(valuedAttributeRE)))
         .flatMap(([, name, ...contents]) => {
           const content = contents.filter(Boolean).join('')
@@ -60,8 +60,6 @@ export function extractorAttributify(options?: AttributifyOptions): Extractor {
               .map(v => `[${name}~="${v}"]`)
           }
         })
-
-      return new Set(result)
     },
   }
 }

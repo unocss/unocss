@@ -50,7 +50,7 @@ function toggleDark(event?: MouseEvent) {
 <template>
   <nav
     p="x4 y3"
-    b="b main"
+    border="b main"
     flex
     children:my-auto
   >

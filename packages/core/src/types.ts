@@ -1,7 +1,7 @@
 import type { LoadConfigResult } from 'unconfig'
 import type MagicString from 'magic-string'
 import type { UnoGenerator } from './generator'
-import type { BetterMap } from './utils'
+import type { BetterMap, CountableSet } from './utils'
 
 export type Awaitable<T> = T | Promise<T>
 export type Arrayable<T> = T | T[]
@@ -116,7 +116,8 @@ export interface ExtractorContext {
   readonly original: string
   code: string
   id?: string
-  extracted: Set<string>
+  extracted: Set<string> | CountableSet<string>
+  envMode?: 'dev' | 'build'
 }
 
 export interface PreflightContext<Theme extends object = object> {
@@ -138,7 +139,7 @@ export interface Extractor {
    *
    * Return `undefined` to skip this extractor.
    */
-  extract?(ctx: ExtractorContext): Awaitable<Set<string> | string[] | undefined | void>
+  extract?(ctx: ExtractorContext): Awaitable<Set<string> | CountableSet<string> | string[] | undefined | void>
 }
 
 export interface RuleMeta {
@@ -781,12 +782,12 @@ RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variant
   separators: string[]
 }
 
-export interface GenerateResult {
+export interface GenerateResult<T = Set<string>> {
   css: string
   layers: string[]
   getLayer(name?: string): string | undefined
   getLayers(includes?: string[], excludes?: string[]): string
-  matched: Set<string>
+  matched: T
 }
 
 export type VariantMatchedResult<Theme extends object = object> = readonly [
@@ -840,7 +841,21 @@ export interface UtilObject {
   noMerge: boolean | undefined
 }
 
-export interface GenerateOptions {
+/**
+ * Returned from `uno.generate()` when `extendedInfo` option is enabled.
+ */
+export interface ExtendedTokenInfo<Theme extends object = object> {
+  /**
+   * Stringified util data
+   */
+  data: StringifiedUtil<Theme>[]
+  /**
+   * Return -1 if the data structure is not countable
+   */
+  count: number
+}
+
+export interface GenerateOptions<T extends boolean> {
   /**
    * Filepath of the file being processed.
    */
@@ -868,4 +883,9 @@ export interface GenerateOptions {
    * @experimental
    */
   scope?: string
+
+  /**
+   * If return extended "matched" with payload and count
+   */
+  extendedInfo?: T
 }

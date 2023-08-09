@@ -38,7 +38,7 @@ const route = useRoute()
         ml1
         rounded
         :to="`/module/${encodeURIComponent(i.full)}`"
-        :class="{ 'bg-gray/10': i.full === route.params.id }"
+        :class="{ 'bg-active': i.full === route.params.id }"
       >
         <FileIcon :id="i.path" />
         <span ml-1>

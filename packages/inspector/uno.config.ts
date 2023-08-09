@@ -5,7 +5,8 @@ import presetIcons from '@unocss/preset-icons'
 
 export function createConfig(): VitePluginConfig {
   return {
-    envMode: 'build',
+    envMode: 'dev',
+    details: true,
     theme: {
       fontFamily: {
         sans: '\'Inter\', sans-serif',
@@ -25,8 +26,8 @@ export function createConfig(): VitePluginConfig {
       presetUno(),
     ],
     shortcuts: {
-      'b-main': 'border-gray-400 border-opacity-30',
-      'bg-main': 'bg-gray-405',
+      'border-main': 'border-gray:20',
+      'bg-active': 'bg-gray:8',
     },
   }
 }
