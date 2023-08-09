@@ -2,18 +2,15 @@
 import { computed } from 'vue'
 import type { MatchedColor, MatchedSelector } from '../../types'
 
-type _MatchedSelector = Omit<MatchedSelector, 'modules'> & { modules: string[] }
-type _MatchedColor = Omit<MatchedColor, 'modules'> & { modules: string[] }
-
 interface Grouped {
   name: string
   count: number
-  items: _MatchedSelector[]
+  items: MatchedSelector[]
 }
 
 const props = defineProps<{
-  selectors: _MatchedSelector[]
-  colors: _MatchedColor[]
+  selectors: MatchedSelector[]
+  colors: MatchedColor[]
 }>()
 
 const selectors = computed(() => [...props.selectors].sort((a, b) => b.count - a.count))
@@ -40,7 +37,6 @@ const grouped = computed(() => {
         items: [item],
       })
     }
-
     return acc
   }, []).sort((a, b) => b.count - a.count)
 })

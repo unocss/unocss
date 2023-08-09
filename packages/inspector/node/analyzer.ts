@@ -3,10 +3,24 @@ import { parseColor } from '../../preset-mini/src/utils'
 import type { MatchedColor, MatchedSelector } from '../types'
 import { getSelectorCategory } from './utils'
 
+const ignoredColors = [
+  'transparent',
+  'current',
+  'currentColor',
+  'inherit',
+  'initial',
+  'unset',
+  'none',
+]
+
+function uniq<T>(array: T[]) {
+  return [...new Set(array)]
+}
+
 export async function analyzer(modules: BetterMap<string, string>, ctx: UnocssPluginContext) {
   const matched: MatchedSelector[] = []
   const colors: MatchedColor[] = []
-  const tokensInfo = new Map<string, TokenInfo & { modules: Set<string> }>()
+  const tokensInfo = new Map<string, TokenInfo & { modules: string[] }>()
 
   await Promise.all(modules.map(async (code, id) => {
     const result = await ctx.uno.generate(code, { id, extendedMatch: true, preflights: false })
@@ -16,30 +30,32 @@ export async function analyzer(modules: BetterMap<string, string>, ctx: UnocssPl
 
       tokensInfo.set(key, {
         payload: value.payload,
-        count: prev?.modules?.size ? value.count + prev.count : value.count,
-        modules: new Set([...(prev?.modules || []), id]),
+        count: prev?.modules?.length ? value.count + prev.count : value.count,
+        modules: uniq([...(prev?.modules || []), id]),
       })
     }
   }))
 
   for (const [rawSelector, { payload, count, modules: _modules }] of tokensInfo.entries()) {
     const ruleContext = payload[payload.length - 1][5]
+    const ruleMeta = payload[payload.length - 1][4]
     const baseSelector = ruleContext?.currentSelector
     const variants = ruleContext?.variants?.map(v => v.name).filter(Boolean) as string[]
+    const layer = ruleMeta?.layer || 'default'
 
     if (baseSelector) {
-      const category = getSelectorCategory(baseSelector)
+      const category = layer !== 'default' ? layer : getSelectorCategory(baseSelector)
       const body = baseSelector
         .replace(/^ring-offset|outline-solid|outline-dotted/, 'head')
         .replace(/^\w+-/, '')
       const parsedColor = parseColor(body, ctx.uno.config.theme)
 
-      if (parsedColor?.color && parsedColor?.color !== 'transparent') {
+      if (parsedColor?.color && !ignoredColors.includes(parsedColor?.color)) {
         const existing = colors.find(c => c.name === parsedColor.name && c.no === parsedColor.no)
 
         if (existing) {
           existing.count += count
-          existing.modules = new Set([...existing.modules, ..._modules])
+          existing.modules = uniq([...existing.modules, ..._modules])
         }
         else {
           colors.push({
@@ -60,6 +76,7 @@ export async function analyzer(modules: BetterMap<string, string>, ctx: UnocssPl
           category,
           variants,
           count,
+          ruleMeta,
           modules: _modules,
         })
         continue

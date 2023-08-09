@@ -4,10 +4,8 @@ import { computed } from 'vue'
 import type { MatchedSelector } from '../../types'
 import { isAttributifySelector } from '../../../core/src'
 
-type _MatchedSelector = Omit<MatchedSelector, 'modules'> & { modules: string[] }
-
 const props = defineProps<{
-  item: _MatchedSelector
+  item: MatchedSelector
 }>()
 
 const isAttributify = computed(() => isAttributifySelector(props.item.name))

@@ -1,4 +1,4 @@
-import type { GenerateResult, ResolvedConfig } from '@unocss/core'
+import type { GenerateResult, ResolvedConfig, RuleMeta } from '@unocss/core'
 
 export interface ProjectInfo {
   version: string
@@ -28,9 +28,10 @@ export interface MatchedSelector {
   rawSelector: string
   category: string
   count: number
+  ruleMeta?: RuleMeta
   baseSelector?: string
   variants?: string[]
-  modules: Set<string>
+  modules: string[]
 }
 
 export interface MatchedColor {
@@ -38,12 +39,12 @@ export interface MatchedColor {
   no: string
   color: string
   count: number
-  modules: Set<string>
+  modules: string[]
 }
 
 export interface SuggestedShortcut {
   name: string
   selectors: string[]
   count: number
-  modules: Set<string>
+  modules: string[]
 }
