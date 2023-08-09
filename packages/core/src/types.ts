@@ -841,8 +841,17 @@ export interface UtilObject {
   noMerge: boolean | undefined
 }
 
+/**
+ * Returned from `uno.generate()` when `extendedInfo` option is enabled.
+ */
 export interface ExtendedTokenInfo<Theme extends object = object> {
+  /**
+   * Stringified util data
+   */
   data: StringifiedUtil<Theme>[]
+  /**
+   * Return -1 if the data structure is not countable
+   */
   count: number
 }
 

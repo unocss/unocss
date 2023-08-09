@@ -168,9 +168,12 @@ export class UnoGenerator<Theme extends object = object> {
     } = options
 
     const tokens: Readonly<Set<string> | CountableSet<string>> = isString(input)
-      ? await this.applyExtractors(input, id, extendedInfo
-        ? new CountableSet<string>()
-        : new Set<string>(),
+      ? await this.applyExtractors(
+        input,
+        id,
+        extendedInfo
+          ? new CountableSet<string>()
+          : new Set<string>(),
       )
       : Array.isArray(input)
         ? new Set<string>(input)
@@ -205,7 +208,7 @@ export class UnoGenerator<Theme extends object = object> {
       if (matched instanceof Map) {
         matched.set(raw, {
           data: payload,
-          count: isCountableSet(tokens) ? tokens.getCount(raw) : 1,
+          count: isCountableSet(tokens) ? tokens.getCount(raw) : -1,
         })
       }
       else {
