@@ -21,7 +21,6 @@ export interface ModuleInfo extends Result {
 
 export interface OverviewInfo extends Result {
   gzipSize: number
-  suggestedShortcuts: (Omit<SuggestedShortcut, 'modules'> & { modules: string[] })[]
 }
 
 export interface MatchedSelector {

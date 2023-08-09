@@ -8,7 +8,6 @@ import gzipSize from 'gzip-size'
 import type { ModuleInfo, OverviewInfo, ProjectInfo } from '../types'
 import { SKIP_COMMENT_RE } from '../../shared-integration/src/constants'
 import { analyzer } from './analyzer'
-import { extractGroups } from './suggestions'
 
 const _dirname = typeof __dirname !== 'undefined'
   ? __dirname
@@ -89,13 +88,11 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
       if (req.url.startsWith('/overview')) {
         const result = await ctx.uno.generate(ctx.tokens, { preflights: false })
         const analyzed = await analyzer(ctx.modules, ctx)
-        const suggestedShortcuts = await extractGroups(ctx.modules, ctx)
 
         const mod: OverviewInfo = {
           ...result,
           colors: analyzed.colors.map(s => ({ ...s, modules: [...s.modules] })),
           matched: analyzed.matched.map(s => ({ ...s, modules: [...s.modules] })),
-          suggestedShortcuts: suggestedShortcuts.map(s => ({ ...s, modules: [...s.modules] })),
           gzipSize: await gzipSize(result.css),
         }
         res.setHeader('Content-Type', 'application/json')

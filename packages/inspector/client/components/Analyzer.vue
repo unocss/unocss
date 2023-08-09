@@ -14,13 +14,11 @@ interface Grouped {
   items: _MatchedSelector[]
 }
 
-const props = withDefaults(defineProps<{
+const props = defineProps<{
   selectors: _MatchedSelector[]
   colors: _MatchedColor[]
-  suggestedShortcuts?: _SuggestedShortcut[]
-}>(), {
-  suggestedShortcuts: () => [],
-})
+}>()
+
 const [DefineDropdown, ReuseDropdown] = createReusableTemplate<{
   matched: { name: string; count: number; modules: string[] }
   docs?: boolean
@@ -33,8 +31,6 @@ const colors = computed(() => {
     .map(item => ({ ...item, name: item.no === 'DEFAULT' ? `${item.name}` : `${item.name}-${item.no}` }))
     .sort((a, b) => b.count - a.count)
 })
-
-const suggestedShortcuts = computed(() => [...props.suggestedShortcuts].sort((a, b) => b.count - a.count) || [])
 
 const grouped = computed(() => {
   return selectors.value.reduce<Grouped[]>((acc, item) => {
@@ -161,25 +157,6 @@ function openEditor(id: string) {
       </div>
       <div v-else op50>
         No utilities found.
-      </div>
-    </div>
-    <div v-if="suggestedShortcuts.length">
-      <div mb-4 op50 uppercase text-sm>
-        Suggested Shortcuts
-        <sup op50 text-sm>{{ suggestedShortcuts.length }}</sup>
-      </div>
-      <div grid gap-4>
-        <div v-for="(item, i) in suggestedShortcuts" :key="i" flex p-4 bg-gray-5:5 dark:bg-gray-5:10>
-          <Dropdown :distance="10">
-            <span cursor-pointer font-mono text-sm b="b transparent hover:current" op="50 hover:100">
-              <span>{{ item.selectors.join(' ') }}</span>
-              <sup op50 ml-0.5>{{ item.count }}</sup>
-            </span>
-            <template #popper>
-              <ReuseDropdown :matched="item" :docs="false" />
-            </template>
-          </Dropdown>
-        </div>
       </div>
     </div>
   </div>

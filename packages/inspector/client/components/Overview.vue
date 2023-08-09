@@ -101,8 +101,9 @@ const formatted = useCSSPrettify(computed(() => overview.value?.css), isPrettify
       :style="style"
     />
     <Analyzer
-      v-else flex-grow overflow-y-auto :selectors="overview.matched" :colors="overview.colors"
-      :suggested-shortcuts="overview.suggestedShortcuts"
+      v-else flex-grow overflow-y-auto
+      :selectors="overview.matched"
+      :colors="overview.colors"
     />
   </div>
 </template>
