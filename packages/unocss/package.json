@@ -107,10 +107,14 @@
     "stub": "unbuild --stub"
   },
   "peerDependencies": {
-    "@unocss/webpack": "workspace:*"
+    "@unocss/webpack": "workspace:*",
+    "vite": "^2.9.0 || ^3.0.0-0 || ^4.0.0"
   },
   "peerDependenciesMeta": {
     "@unocss/webpack": {
+      "optional": true
+    },
+    "vite": {
       "optional": true
     }
   },
