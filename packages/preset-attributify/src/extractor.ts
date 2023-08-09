@@ -1,5 +1,5 @@
 import type { Extractor } from '@unocss/core'
-import { CountableSet, isValidSelector } from '@unocss/core'
+import { isValidSelector } from '@unocss/core'
 import type { AttributifyOptions } from '.'
 
 const strippedPrefixes = [
@@ -20,8 +20,8 @@ export function extractorAttributify(options?: AttributifyOptions): Extractor {
 
   return {
     name: '@unocss/preset-attributify/extractor',
-    extract({ code, envMode }) {
-      const result = Array.from(code.matchAll(elementRE))
+    extract({ code }) {
+      return Array.from(code.matchAll(elementRE))
         .flatMap(match => Array.from((match[1] || '').matchAll(valuedAttributeRE)))
         .flatMap(([, name, ...contents]) => {
           const content = contents.filter(Boolean).join('')
@@ -60,8 +60,6 @@ export function extractorAttributify(options?: AttributifyOptions): Extractor {
               .map(v => `[${name}~="${v}"]`)
           }
         })
-
-      return new (envMode === 'dev' ? CountableSet : Set)(result)
     },
   }
 }

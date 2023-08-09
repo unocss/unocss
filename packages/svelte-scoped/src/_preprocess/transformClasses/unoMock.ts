@@ -22,11 +22,15 @@ const config: ResolvedConfig = {
 // @ts-expect-error generator not being fully fleshed out
 export const unoMock: UnoGenerator = {
   config,
-  parseToken: async (token: string) => {
+  async parseToken(token: string) {
     const util = utils.find(([, name]) => name === token)
     if (util)
       return [util]
     return undefined
   },
-  generate: async (selectors: string[]) => { return { css: selectors.join('') } as GenerateResult<any> },
+  async generate(selectors: string[]) {
+    return {
+      css: selectors.join(''),
+    } as GenerateResult<any>
+  },
 }
