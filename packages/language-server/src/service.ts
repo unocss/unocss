@@ -7,7 +7,7 @@ import { createLogger } from './log'
 import { useConfigurations } from './configuration'
 import type { LanguageContextOptions, LanguageServiceContext, LanguageServiceProvider } from './types'
 import { registerAutoComplete } from './autocomplete'
-import { registerAnnotations } from './annotation'
+import { registerAnnotation } from './annotation'
 
 const triggerCharacters = ['-', ':', ' ', '"', '\'', '!']
 
@@ -81,8 +81,7 @@ export function createLanguageService(options: LanguageContextOptions = {}): Lan
 
   serviceContext.use(
     registerAutoComplete,
-    // registerHover,
-    registerAnnotations,
+    registerAnnotation,
   )
 
   return serviceContext

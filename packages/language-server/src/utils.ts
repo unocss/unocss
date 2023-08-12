@@ -21,6 +21,14 @@ export function throttle<T extends ((...args: any) => any)>(func: T, timeFrame: 
   } as T
 }
 
+export function debounce<T extends ((...args: any) => any)>(func: T, wait: number): T {
+  let timeout: any
+  return function (...args) {
+    clearTimeout(timeout)
+    timeout = setTimeout(func, wait, ...args)
+  } as T
+}
+
 export async function getCSS(uno: UnoGenerator, utilName: string) {
   const { css } = await uno.generate(utilName, { preflights: false, safelist: false })
   return css

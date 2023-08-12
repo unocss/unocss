@@ -52,3 +52,17 @@ export interface LanguageServiceContext {
 }
 
 export type LanguageServiceProvider = (context: LanguageServiceContext) => void
+
+export type AnnotationEventParams = {
+  uri: string
+  underline: boolean
+  annotations: {
+    color?: string
+    className: string
+    css: string
+    range: [number, number]
+  }[]
+} | {
+  uri: null
+  reason?: string
+}

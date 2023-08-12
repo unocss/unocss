@@ -3,7 +3,7 @@ import type { LanguageClientOptions, ServerOptions } from 'vscode-languageclient
 import type { ExtensionContext } from 'vscode'
 import { version } from '../package.json'
 import { log } from './log'
-import { createAnnotationHandler } from './annotations'
+import { createAnnotationHandler } from './annotation'
 
 let client: LanguageClient
 

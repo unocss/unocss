@@ -47,6 +47,7 @@ export function createAnnotationHandler() {
 
   return (params: AnnotationEventParams) => {
     const editor = window.activeTextEditor
+    console.log(editor)
     if (!editor)
       return
     if (params.uri === null) {
@@ -61,11 +62,11 @@ export function createAnnotationHandler() {
       return
     }
     const colorRanges = params.annotations.map<DecorationOptions>((r) => {
-      const [start, end, css] = r
+      const [start, end] = r.range
       return {
         range: new Range(doc.positionAt(start), doc.positionAt(end)),
         get hoverMessage() {
-          return getMarkdown(css, 'css')
+          return getMarkdown(r.css, 'css')
         },
       }
     })

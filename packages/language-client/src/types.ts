@@ -1,8 +1,1 @@
-export type AnnotationEventParams = {
-  uri: string
-  underline: boolean
-  annotations: [number, number, string][]
-} | {
-  uri: null
-  reason?: string
-}
+export type * from '@unocss/language-server'

@@ -1,14 +1,16 @@
 import { fileURLToPath } from 'node:url'
-import type { LanguageServiceContext } from './types'
+import type { AnnotationEventParams, LanguageServiceContext } from './types'
 import { INCLUDE_COMMENT_IDE, getMatchedPositionsFromCode, isCssId } from './integration'
-import { getPrettiedCSS, throttle } from './utils'
+import { debounce, getPrettiedCSS } from './utils'
+import { log } from './log'
 
-export async function registerAnnotations(
+export async function registerAnnotation(
   server: LanguageServiceContext,
 ) {
-  const { contextLoader, getDocument, connection, watchConfigChanged, configuration } = server
+  const { contextLoader, getDocument, documents, connection, watchConfigChanged, configuration } = server
 
   const reset = async (reason?: string) => {
+    log.appendLine(`[annotation] reset: ${reason}`)
     await connection.sendNotification('unocss/annotation', {
       uri: null,
       annotations: [],
@@ -17,12 +19,11 @@ export async function registerAnnotations(
   }
 
   watchConfigChanged(['underline', 'remToPxPreview', 'remToPxRatio'], async () => {
-    await reset('config changed')
+
   })
 
-  connection.onDidChangeTextDocument(throttle(async (event) => {
-    const textDocument = event.textDocument
-    const doc = getDocument(textDocument.uri)
+  documents.onDidChangeContent(debounce(async (event) => {
+    const doc = event.document
     if (!doc)
       return
     const code = doc.getText()
@@ -47,14 +48,19 @@ export async function registerAnnotations(
     const matched = await getMatchedPositionsFromCode(uno, code)
 
     const annotations = await Promise.all(matched.map(async (r) => {
-      const { prettified } = await getPrettiedCSS(uno, r[2], configuration.remToPxRatio)
-      return [r[0], r[1], prettified] as [number, number, string]
+      const [start, end, className] = r
+      const { prettified: css } = await getPrettiedCSS(uno, className, configuration.remToPxRatio)
+      return {
+        css,
+        range: [start, end] as [number, number],
+        className,
+      }
     }))
 
     connection.sendNotification('unocss/annotation', {
       uri,
       annotations,
       underline: configuration.underline,
-    })
+    } as AnnotationEventParams)
   }, 200))
 }
