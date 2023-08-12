@@ -2,6 +2,7 @@
 import { info, overview, overviewFetch } from '../composables/fetch'
 import { useScrollStyle } from '../composables/useScrollStyle'
 import { useCSSPrettify } from '../composables/usePrettify'
+import Analyzer from './Analyzer.vue'
 
 const status = ref(null)
 const style = useScrollStyle(status, 'overview-scrolls')
@@ -9,13 +10,14 @@ const style = useScrollStyle(status, 'overview-scrolls')
 overviewFetch.execute()
 
 const isPrettify = ref(false)
+const active = ref('source')
 const formatted = useCSSPrettify(computed(() => overview.value?.css), isPrettify)
 </script>
 
 <template>
-  <div h-full>
+  <div h-full flex flex-col>
     <StatusBar ref="status" p0>
-      <div p="x4 y2" grid="~ cols-4 gap-4">
+      <div p="4" grid="~ cols-4 gap-4">
         <div>
           <div op80>
             Presets
@@ -58,7 +60,7 @@ const formatted = useCSSPrettify(computed(() => overview.value?.css), isPrettify
           </div>
         </div>
       </div>
-      <div b="t main" p="x4 y2" grid="~ cols-4 gap-4">
+      <div border="t main" p="x4 y2" grid="~ cols-4 gap-4">
         <div>
           <div op80>
             Included Files
@@ -86,7 +88,8 @@ const formatted = useCSSPrettify(computed(() => overview.value?.css), isPrettify
           </div>
         </div>
       </div>
-      <TitleBar border="t gray-400/20" title="Output CSS">
+      <OverviewTabs v-model="active" />
+      <TitleBar v-if="active === 'source'" border="t gray-400/20" title="Output CSS">
         <label>
           <input v-model="isPrettify" type="checkbox">
           Prettify
@@ -94,11 +97,13 @@ const formatted = useCSSPrettify(computed(() => overview.value?.css), isPrettify
       </TitleBar>
     </StatusBar>
     <CodeMirror
-      :model-value="formatted"
-      :read-only="true"
-      mode="css"
-      class="overview-scrolls"
+      v-if="active === 'source'" :model-value="formatted" :read-only="true" mode="css" class="overview-scrolls"
       :style="style"
+    />
+    <Analyzer
+      v-else flex-grow overflow-y-auto
+      :selectors="overview.matched"
+      :colors="overview.colors"
     />
   </div>
 </template>

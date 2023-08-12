@@ -3,9 +3,11 @@ import { fileURLToPath } from 'node:url'
 import sirv from 'sirv'
 import type { Plugin, ViteDevServer } from 'vite'
 import type { UnocssPluginContext } from '@unocss/core'
+import { BetterMap, CountableSet } from '@unocss/core'
 import gzipSize from 'gzip-size'
-import type { ModuleInfo, ProjectInfo } from '../types'
+import type { ModuleInfo, OverviewInfo, ProjectInfo } from '../types'
 import { SKIP_COMMENT_RE } from '../../shared-integration/src/constants'
+import { analyzer } from './analyzer'
 
 const _dirname = typeof __dirname !== 'undefined'
   ? __dirname
@@ -49,14 +51,19 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
           return
         }
 
-        const result = await ctx.uno.generate(code.replace(SKIP_COMMENT_RE, ''), { id, preflights: false })
+        const tokens = new CountableSet<string>()
+        await ctx.uno.applyExtractors(code.replace(SKIP_COMMENT_RE, ''), id, tokens)
+
+        const result = await ctx.uno.generate(tokens, { id, extendedInfo: true, preflights: false })
+        const analyzed = await analyzer(new BetterMap([[id, code]]), ctx)
         const mod: ModuleInfo = {
           ...result,
-          matched: Array.from(result.matched),
+          ...analyzed,
           gzipSize: await gzipSize(result.css),
           code,
           id,
         }
+
         res.setHeader('Content-Type', 'application/json')
         res.write(JSON.stringify(mod, null, 2))
         res.end()
@@ -80,10 +87,13 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
       }
 
       if (req.url.startsWith('/overview')) {
-        const result = await ctx.uno.generate(ctx.tokens)
-        const mod = {
+        const result = await ctx.uno.generate(ctx.tokens, { preflights: false })
+        const analyzed = await analyzer(ctx.modules, ctx)
+
+        const mod: OverviewInfo = {
           ...result,
-          matched: Array.from(result.matched),
+          colors: analyzed.colors.map(s => ({ ...s, modules: [...s.modules] })),
+          matched: analyzed.matched.map(s => ({ ...s, modules: [...s.modules] })),
           gzipSize: await gzipSize(result.css),
         }
         res.setHeader('Content-Type', 'application/json')

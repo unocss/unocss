@@ -1,7 +1,7 @@
 {
   "name": "@unocss/monorepo",
   "type": "module",
-  "version": "0.54.2",
+  "version": "0.55.0",
   "private": true,
   "packageManager": "pnpm@8.6.12",
   "scripts": {
@@ -88,6 +88,7 @@
     "esno": "^0.17.0",
     "execa": "^7.2.0",
     "fast-glob": "^3.3.1",
+    "floating-vue": "2.0.0-beta.24",
     "fs-extra": "^11.1.1",
     "gzip-size": "^6.0.0",
     "jsdom": "^22.1.0",

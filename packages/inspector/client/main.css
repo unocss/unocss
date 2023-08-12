@@ -68,3 +68,31 @@ html:not(.dark) {
 .dark::view-transition-new(root) {
   z-index: 1;
 }
+
+.v-popper--theme-dropdown .v-popper__inner {
+  background: #fff;
+  border-radius: 0px;
+  border-color: #D9DDE0;
+  box-shadow: 0 6px 30px #0000001a;
+}
+
+.v-popper--theme-dropdown .v-popper__arrow-outer {
+  border-color: #D9DDE0;
+}
+
+.v-popper--theme-dropdown .v-popper__arrow-inner {
+  border-color: #fff;
+}
+
+.dark .v-popper--theme-dropdown .v-popper__inner {
+  background: #080808;
+  color: #ffffff;
+  border-color: #3E4245;
+}
+
+.dark .v-popper--theme-dropdown .v-popper__arrow-outer {
+  border-color: #3E4245;
+}
+.dark .v-popper--theme-dropdown .v-popper__arrow-inner {
+  border-color: #080808;
+}

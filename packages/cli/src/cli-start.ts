@@ -21,6 +21,7 @@ export async function startCli(cwd = process.cwd(), argv = process.argv, options
     })
     .option('-c, --config [file]', 'Config file')
     .option('-w, --watch', 'Watch for file changes')
+    .option('--write-transformed', 'Update source files with transformed utilities', { default: false })
     .option('--preflights', 'Enable preflights', { default: true })
     .option('-m, --minify', 'Minify generated CSS', { default: false })
     .action(async (patterns: Array<string>, flags) => {

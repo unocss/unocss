@@ -1,0 +1,57 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`extended-info 1`] = `
+Map {
+  "a" => {
+    "count": 1,
+    "data": [
+      [
+        0,
+        ".a",
+        "name:bar1;",
+        undefined,
+        {
+          "layer": "a",
+          "sort": undefined,
+        },
+        undefined,
+        undefined,
+      ],
+    ],
+  },
+  "b" => {
+    "count": 2,
+    "data": [
+      [
+        1,
+        ".b",
+        "name:bar2;",
+        undefined,
+        {
+          "layer": "b",
+          "sort": undefined,
+        },
+        undefined,
+        undefined,
+      ],
+    ],
+  },
+  "c1" => {
+    "count": 1,
+    "data": [
+      [
+        2,
+        ".c1",
+        "name:1;",
+        undefined,
+        {
+          "layer": "c",
+          "sort": undefined,
+        },
+        undefined,
+        undefined,
+      ],
+    ],
+  },
+}
+`;

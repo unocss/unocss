@@ -5,27 +5,27 @@ export const quotedArbitraryValuesRE = /(?:[\w&:[\]-]|\[\S+=\S+\])+\[\\?['"]?\S+
 export const arbitraryPropertyRE = /\[(\\\W|[\w-])+:[^\s:]*?("\S+?"|'\S+?'|`\S+?`|[^\s:]+?)[^\s:]*?\)?\]/g
 const arbitraryPropertyCandidateRE = /^\[(\\\W|[\w-])+:['"]?\S+?['"]?\]$/
 
-export function splitCodeWithArbitraryVariants(code: string) {
-  const result = new Set<string>()
+export function splitCodeWithArbitraryVariants(code: string): string[] {
+  const result: string[] = []
 
   for (const match of code.matchAll(arbitraryPropertyRE)) {
     if (!code[match.index! - 1]?.match(/^[\s'"`]/))
       continue
 
-    result.add(match[0])
+    result.push(match[0])
   }
 
   for (const match of code.matchAll(quotedArbitraryValuesRE))
-    result.add(match[0])
+    result.push(match[0])
 
   code
     .split(defaultSplitRE)
     .forEach((match) => {
       if (isValidSelector(match) && !arbitraryPropertyCandidateRE.test(match))
-        result.add(match)
+        result.push(match)
     })
 
-  return [...result]
+  return result
 }
 
 export const extractorArbitraryVariants: Extractor = {
