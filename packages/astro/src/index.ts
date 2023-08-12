@@ -93,7 +93,7 @@ function AstroVitePlugin(options: AstroVitePluginOptions): Plugin {
          */
         && !id.startsWith(nodeModulesPath)
       )
-        return ''
+        return null
     },
   }
 }
