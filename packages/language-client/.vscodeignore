@@ -1,0 +1,4 @@
+.github/**
+.vscode/**
+.vscode-test/**
+scripts/**

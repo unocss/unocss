@@ -1,0 +1,50 @@
+{
+  "name": "@unocss/language-server",
+  "version": "0.54.2",
+  "description": "Nuxt module for UnoCSS",
+  "author": "Chizuki <chizukicn@outlook.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/unocss/unocss#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/unocss/unocss",
+    "directory": "packages/language-service"
+  },
+  "bugs": {
+    "url": "https://github.com/unocss/unocss/issues"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "unocss",
+    "language-service",
+    "vscode"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch src"
+  },
+  "dependencies": {
+    "@unocss/autocomplete": "workspace:*",
+    "@unocss/config": "workspace:*",
+    "@unocss/core": "workspace:*",
+    "@unocss/preset-uno": "workspace:*",
+    "unconfig": "^0.3.10",
+    "unocss": "workspace:*",
+    "vscode-languageserver": "^8.1.0",
+    "vscode-languageserver-protocol": "^3.17.3",
+    "vscode-languageserver-textdocument": "^1.0.8"
+  }
+}

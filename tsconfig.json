@@ -21,6 +21,8 @@
       "@unocss/config": ["./packages/config/src/index.ts"],
       "@unocss/core": ["./packages/core/src/index.ts"],
       "@unocss/inspector": ["./packages/inspector/node/index.ts"],
+      "@unocss/language-server":[ "./packages/language-server/src/index.ts"],
+      "@unocss/language-client":[ "./packages/language-client/src/index.ts"],
       "@unocss/preset-attributify": ["./packages/preset-attributify/src/index.ts"],
       "@unocss/preset-icons": ["./packages/preset-icons/src/index.ts"],
       "@unocss/preset-mini": ["./packages/preset-mini/src/index.ts"],
