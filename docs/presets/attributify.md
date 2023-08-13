@@ -46,7 +46,7 @@ import { presetAttributify } from 'unocss'
 
 ## Attributify Mode
 
-Imagine you have this button using Tailwind’s utilities. When the list gets longer, it becomes really hard to read and maintain.
+Imagine you have this button using Tailwind's utilities. When the list gets longer, it becomes really hard to read and maintain.
 
 ```html
 <button class="bg-blue-400 hover:bg-blue-500 text-sm text-white font-mono font-light py-2 px-4 rounded border-2 border-blue-200 dark:bg-blue-500 dark:hover:bg-blue-600">
@@ -92,7 +92,7 @@ Can be written as:
 
 ## Valueless attributify
 
-In addition to Windi CSS’s attributify mode, this preset also supports valueless attributes.
+In addition to Windi CSS's attributify mode, this preset also supports valueless attributes.
 
 For example,
 
@@ -112,7 +112,7 @@ Note: If you are using JSX, `<div foo>` might be transformed to `<div foo={true}
 
 ## Properties conflicts
 
-If the name of the attributes mode ever conflicts with the elements’ or components’ properties, you can add `un-` prefix to be specific to UnoCSS’s attributify mode.
+If the name of the attributes mode ever conflicts with the elements' or components' properties, you can add `un-` prefix to be specific to UnoCSS's attributify mode.
 
 For example:
 

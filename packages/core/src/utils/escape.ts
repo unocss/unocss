@@ -15,7 +15,7 @@ export function escapeSelector(str: string): string {
   const firstCodeUnit = str.charCodeAt(0)
   while (++index < length) {
     codeUnit = str.charCodeAt(index)
-    // Note: there’s no need to special-case astral symbols, surrogate
+    // Note: there's no need to special-case astral symbols, surrogate
     // pairs, or lone surrogates.
 
     // If the character is NULL (U+0000), then the REPLACEMENT CHARACTER
