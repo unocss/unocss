@@ -4,8 +4,6 @@ export class CountableSet<K> extends Set<K> {
   constructor(values?: Iterable<K>) {
     super(values)
     this._map ??= new Map()
-    for (const value of values ?? [])
-      this.add(value)
   }
 
   add(key: K) {
