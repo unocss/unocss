@@ -110,7 +110,7 @@
     "terser": "^5.19.2",
     "tsup": "^7.2.0",
     "typescript": "^5.1.6",
-    "unbuild": "^0.8.11",
+    "unbuild": "^2.0.0-rc.0",
     "unocss": "workspace:*",
     "unplugin-auto-import": "^0.16.6",
     "unplugin-vue-components": "^0.25.1",
