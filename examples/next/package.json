@@ -8,19 +8,19 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "13.4.13",
+    "next": "13.4.16",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@iconify-json/lucide": "^1.1.116",
-    "@types/node": "20.4.8",
-    "@types/react": "18.2.18",
+    "@iconify-json/lucide": "^1.1.118",
+    "@types/node": "20.5.0",
+    "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
     "@unocss/postcss": "latest",
-    "eslint": "8.46.0",
-    "eslint-config-next": "13.4.13",
-    "postcss": "8.4.27",
+    "eslint": "8.47.0",
+    "eslint-config-next": "13.4.16",
+    "postcss": "8.4.28",
     "typescript": "5.1.6",
     "unocss": "latest"
   }

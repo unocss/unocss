@@ -1,6 +1,6 @@
 ---
 title: Shortcuts
-description: The shortcuts functionality that UnoCSS provides is similar to Windi CSS’s one.
+description: The shortcuts functionality that UnoCSS provides is similar to Windi CSS's one.
 ---
 
 # Shortcuts
