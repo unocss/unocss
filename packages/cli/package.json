@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "@ampproject/remapping": "^2.2.1",
-    "@rollup/pluginutils": "^5.0.2",
+    "@rollup/pluginutils": "^5.0.3",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
