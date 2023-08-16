@@ -78,9 +78,10 @@ export async function activate(ext: ExtensionContext) {
     : projectPath
 
   try {
+    const contextLoader = await registerRoot(ext, status, cwd)
+
     ext.subscriptions.push(
       commands.registerCommand('unocss.reload', async () => {
-        const contextLoader = await registerRoot(ext, status, cwd)
         log.appendLine('🔁 Reloading...')
         await contextLoader.reload()
         log.appendLine('✅ Reloaded.')
