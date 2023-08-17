@@ -113,6 +113,8 @@ export type SeparateEnabled =
   | 'justify'
   | 'list'
   | 'm'
+  | 'min-h'
+  | 'min-w'
   | 'opacity'
   | 'order'
   | 'outline'
