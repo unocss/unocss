@@ -34,7 +34,7 @@ function AstroVitePlugin(options: AstroVitePluginOptions): Plugin {
       if (RESOLVED_ID_RE.test(id)) {
         // https://github.com/withastro/astro/blob/087270c61fd5c91ddd37db5c8fd93a8a0ef41f94/packages/astro/src/core/util.ts#L91-L93
         // Align data-astro-dev-id with data-vite-dev-id to fix https://github.com/unocss/unocss/issues/2513
-        return join(root, id)
+        return this.resolve(join(root, id), importer, { skipSelf: true })
       }
 
       if (id === UNO_INJECT_ID) {
