@@ -22,6 +22,7 @@
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
+    "@unocss/preset-typography": "link:../../packages/preset-typography",
     "typescript": "^5.1.6",
     "unocss": "link:../../packages/unocss",
     "vite": "^4.4.9",
