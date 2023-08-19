@@ -6,7 +6,6 @@
     "codemirror",
     "@vue/cli-plugin-babel",
     "@vue/cli-service",
-    "unbuild",
     "msw",
     "prettier"
   ],
