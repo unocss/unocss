@@ -90,7 +90,7 @@ This mode will generate a CSS sheet for each code chunk on build, great for MPA.
 
 ## Edit classes in DevTools
 
-Because of limitation of "on-demand" where the DevTools don’t know those you haven’t used in your source code yet. So if you want to try how things work by directly changing the classes in DevTools, just add the following lines to your main entry.
+Because of limitation of "on-demand" where the DevTools don't know those you haven't used in your source code yet. So if you want to try how things work by directly changing the classes in DevTools, just add the following lines to your main entry.
 
 ```ts
 import 'uno.css'
