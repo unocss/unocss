@@ -3,6 +3,7 @@ import UnoCSS from 'unocss/vite'
 import presetIcons from '@unocss/preset-icons'
 import presetUno from '@unocss/preset-uno'
 import presetAttributify from '@unocss/preset-attributify'
+import presetTypography from '@unocss/preset-typography'
 import ViteInspector from 'vite-plugin-inspect'
 
 // https://vitejs.dev/config/
@@ -33,6 +34,7 @@ export default defineConfig({
             'vertical-align': 'middle',
           },
         }),
+        presetTypography(),
       ],
       inspector: false,
     }),
