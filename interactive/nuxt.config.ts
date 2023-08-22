@@ -18,6 +18,7 @@ export default defineNuxtConfig({
     '~/modules/markdown',
   ],
   ssr: false,
+  spaLoadingTemplate: "./spa-loading-template.html",
   experimental: {
     reactivityTransform: true,
   },
