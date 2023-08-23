@@ -87,7 +87,7 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
       }
 
       if (req.url.startsWith('/overview')) {
-        const result = await ctx.uno.generate(ctx.tokens, { extendedInfo: true, preflights: false })
+        const result = await ctx.uno.generate(ctx.tokens, { preflights: false })
         const analyzed = await analyzer(ctx.modules, ctx)
 
         const mod: OverviewInfo = {

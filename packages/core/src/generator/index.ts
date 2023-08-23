@@ -97,7 +97,6 @@ export class UnoGenerator<Theme extends object = object> {
   async parseToken(
     raw: string,
     alias?: string,
-    extendedInfo = false,
   ): Promise<StringifiedUtil<Theme>[] | undefined | null> {
     if (this.blocked.has(raw))
       return
@@ -128,17 +127,15 @@ export class UnoGenerator<Theme extends object = object> {
 
     const context = this.makeContext(raw, [alias || applied[0], applied[1], applied[2], applied[3]])
 
-    if (this.config.details || extendedInfo)
+    if (this.config.details)
       context.variants = [...applied[3]]
 
     // expand shortcuts
-    const expanded = await this.expandShortcut(context.currentSelector, context, undefined, extendedInfo)
+    const expanded = await this.expandShortcut(context.currentSelector, context)
     const utils = expanded
       ? await this.stringifyShortcuts(context.variantMatch, context, expanded[0], expanded[1])
       // no shortcuts
-      : (await this.parseUtil(context.variantMatch, context, undefined, undefined, extendedInfo))
-          ?.map(i => this.stringifyUtil(i, context, extendedInfo))
-          .filter(notNull)
+      : (await this.parseUtil(context.variantMatch, context))?.map(i => this.stringifyUtil(i, context)).filter(notNull)
 
     if (utils?.length) {
       this._cache.set(cacheKey, utils)
@@ -204,8 +201,7 @@ export class UnoGenerator<Theme extends object = object> {
       if (matched.has(raw))
         return
 
-      const payload = await this.parseToken(raw, undefined, extendedInfo)
-
+      const payload = await this.parseToken(raw)
       if (payload == null)
         return
 
@@ -485,21 +481,19 @@ export class UnoGenerator<Theme extends object = object> {
     context: RuleContext<Theme>,
     internal = false,
     shortcutPrefix?: string | string[] | undefined,
-    extendedInfo = false,
   ): Promise<(ParsedUtil | RawUtil)[] | undefined> {
     const [raw, processed, variantHandlers] = isString(input)
       ? await this.matchVariants(input)
       : input
-    const details = this.config.details || extendedInfo
 
-    if (details)
+    if (this.config.details)
       context.rules = context.rules ?? []
 
     // use map to for static rules
     const staticMatch = this.config.rulesStaticMap[processed]
     if (staticMatch) {
       if (staticMatch[1] && (internal || !staticMatch[2]?.internal)) {
-        if (details)
+        if (this.config.details)
           context.rules!.push(staticMatch[3])
 
         const index = staticMatch[0]
@@ -548,7 +542,7 @@ export class UnoGenerator<Theme extends object = object> {
       if (!result)
         continue
 
-      if (details)
+      if (this.config.details)
         context.rules!.push([matcher, handler, meta] as DynamicRule<Theme>)
 
       const entries = normalizeCSSValues(result).filter(i => i.length)
@@ -566,15 +560,11 @@ export class UnoGenerator<Theme extends object = object> {
   stringifyUtil(
     parsed?: ParsedUtil | RawUtil,
     context?: RuleContext<Theme>,
-    extendedInfo = false,
   ): StringifiedUtil<Theme> | undefined {
     if (!parsed)
       return
-
-    const details = this.config.details || extendedInfo
-
     if (isRawUtil(parsed))
-      return [parsed[0], undefined, parsed[1], undefined, parsed[2], details ? context : undefined, undefined]
+      return [parsed[0], undefined, parsed[1], undefined, parsed[2], this.config.details ? context : undefined, undefined]
 
     const { selector, entries, parent, layer: variantLayer, sort: variantSort, noMerge } = this.applyVariants(parsed)
     const body = entriesToCss(entries)
@@ -588,19 +578,18 @@ export class UnoGenerator<Theme extends object = object> {
       layer: variantLayer ?? metaLayer,
       sort: variantSort ?? metaSort,
     }
-    return [parsed[0], selector, body, parent, ruleMeta, details ? context : undefined, noMerge]
+    return [parsed[0], selector, body, parent, ruleMeta, this.config.details ? context : undefined, noMerge]
   }
 
   async expandShortcut(
     input: string,
     context: RuleContext<Theme>,
     depth = 5,
-    extendedInfo = false,
   ): Promise<[ShortcutValue[], RuleMeta | undefined] | undefined> {
     if (depth === 0)
       return
 
-    const recordShortcut = this.config.details || extendedInfo
+    const recordShortcut = this.config.details
       ? (s: Shortcut<Theme>) => {
           context.shortcuts = context.shortcuts ?? []
           context.shortcuts.push(s)
