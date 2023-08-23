@@ -272,7 +272,7 @@ Map {
                 ],
               ],
             },
-            "version": "0.55.0",
+            "version": "0.55.2",
           },
           "rawSelector": "a",
           "rules": [
@@ -570,7 +570,7 @@ Map {
                 ],
               ],
             },
-            "version": "0.55.0",
+            "version": "0.55.2",
           },
           "rawSelector": "b",
           "rules": [
@@ -870,7 +870,7 @@ Map {
                 ],
               ],
             },
-            "version": "0.55.0",
+            "version": "0.55.2",
           },
           "rawSelector": "c1",
           "rules": [
