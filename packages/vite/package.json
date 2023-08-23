@@ -1,6 +1,6 @@
 {
   "name": "@unocss/vite",
-  "version": "0.55.0",
+  "version": "0.55.2",
   "description": "The Vite plugin for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@ampproject/remapping": "^2.2.1",
-    "@rollup/pluginutils": "^5.0.2",
+    "@rollup/pluginutils": "^5.0.3",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/inspector": "workspace:*",

@@ -1,13 +1,13 @@
-import { resolve } from 'node:path'
+import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { AstroIntegration } from 'astro'
 import type { VitePluginConfig } from '@unocss/vite'
 import VitePlugin from '@unocss/vite'
 import type { UserConfigDefaults } from '@unocss/core'
 import type { Plugin, ResolvedConfig } from 'vite'
+import { RESOLVED_ID_RE } from '../../shared-integration/src/layers'
 
 const UNO_INJECT_ID = 'uno-astro'
-const UNO_QUERY_KEY = 'uno-with-astro-key'
 const astroCSSKeyRE = /(\?|\&)lang\.css/
 
 interface AstroVitePluginOptions {
@@ -19,7 +19,7 @@ function AstroVitePlugin(options: AstroVitePluginOptions): Plugin {
   const { injects, injectReset } = options
   const resetInjectPath = injectReset ? injects[0] : undefined
   let command: ResolvedConfig['command']
-  let nodeModulesPath: string
+  let root: string
   let resetCSSInjected = false
   const resolveCSSQueue = new Set<() => void>()
 
@@ -27,10 +27,16 @@ function AstroVitePlugin(options: AstroVitePluginOptions): Plugin {
     name: 'unocss:astro',
     enforce: 'pre',
     configResolved(config) {
+      root = config.root
       command = config.command
-      nodeModulesPath = `${config.root}/node_modules`
     },
     async resolveId(id, importer) {
+      if (RESOLVED_ID_RE.test(id)) {
+        // https://github.com/withastro/astro/blob/087270c61fd5c91ddd37db5c8fd93a8a0ef41f94/packages/astro/src/core/util.ts#L91-L93
+        // Align data-astro-dev-id with data-vite-dev-id to fix https://github.com/unocss/unocss/issues/2513
+        return this.resolve(join(root, id), importer, { skipSelf: true })
+      }
+
       if (id === UNO_INJECT_ID) {
         if (injectReset) {
           /**
@@ -54,7 +60,6 @@ function AstroVitePlugin(options: AstroVitePluginOptions): Plugin {
         const resolved = await this.resolve(id, importer, { skipSelf: true })
         if (resolved) {
           const fsPath = resolved.id
-          const realId = `${fsPath}${fsPath.includes('?') ? '&' : '?'}${UNO_QUERY_KEY}`
 
           if (injectReset) {
             if (resetInjectPath!.includes(id)) {
@@ -70,30 +75,20 @@ function AstroVitePlugin(options: AstroVitePluginOptions): Plugin {
             // css need to be injected after reset style
             else if (id.includes('.css') && !resetCSSInjected) {
               return new Promise((resolve) => {
-                resolveCSSQueue.add(() => resolve(realId))
+                resolveCSSQueue.add(() => {
+                  resolve(fsPath)
+                })
               })
             }
           }
 
-          return realId
+          return fsPath
         }
       }
     },
-    load(id, options) {
+    load(id) {
       if (id.endsWith(UNO_INJECT_ID))
         return injects.join('\n')
-
-      if (
-        !options?.ssr
-        && id.includes(UNO_QUERY_KEY)
-        && id.includes('.css')
-        /**
-         * If the module in node_modules, astro will reuse same style tag
-         * @see https://github.com/unocss/unocss/issues/2655
-         */
-        && !id.startsWith(nodeModulesPath)
-      )
-        return ''
     },
   }
 }
