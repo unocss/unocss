@@ -1,3 +1,4 @@
+import process from 'node:process'
 import type { Preset, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
 import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq } from './utils'
 import { extractorSplit } from './extractors'
@@ -157,6 +158,7 @@ export function resolveConfig<Theme extends object = object>(
     extractors,
     safelist: getMerged('safelist'),
     separators,
+    details: config.details ?? process.env.NODE_ENV === 'development',
   }
 
   for (const p of sources)
