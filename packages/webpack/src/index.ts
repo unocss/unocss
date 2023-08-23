@@ -1,3 +1,4 @@
+import process from 'node:process'
 import type { UserConfig, UserConfigDefaults } from '@unocss/core'
 import type { ResolvedUnpluginOptions, UnpluginOptions } from 'unplugin'
 import { createUnplugin } from 'unplugin'
@@ -23,7 +24,10 @@ export default function WebpackPlugin<Theme extends object>(
   defaults?: UserConfigDefaults,
 ) {
   return createUnplugin(() => {
-    const ctx = createContext<WebpackPluginOptions>(configOrPath as any, defaults)
+    const ctx = createContext<WebpackPluginOptions>(configOrPath as any, {
+      envMode: process.env.NODE_ENV === 'development' ? 'dev' : 'build',
+      ...defaults,
+    })
     const { uno, tokens, filter, extract, onInvalidate, tasks, flushTasks } = ctx
 
     let timer: any
