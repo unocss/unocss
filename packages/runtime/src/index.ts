@@ -122,6 +122,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
 
   runtimeOptions.configResolved?.(userConfig, userConfigDefaults)
   const uno = createGenerator(userConfig, userConfigDefaults)
+  const inject = (styleElement) => runtimeOptions.inject ? runtimeOptions.inject(styleElement) : html().prepend(styleElement)
   const styleElements = new Map<string, HTMLStyleElement>()
 
   let paused = true
@@ -161,7 +162,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
       styleElements.set(layer, styleElement)
 
       if (previousLayer == null) {
-        html().prepend(styleElement)
+        inject(styleElement)
       }
       else {
         const previousStyle = getStyleElement(previousLayer)
@@ -169,7 +170,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
         if (parentNode)
           parentNode.insertBefore(styleElement, previousStyle.nextSibling)
         else
-          html().prepend(styleElement)
+          inject(styleElement)
       }
     }
 
