@@ -35,7 +35,7 @@ export function variantBreakpoints(): VariantObject {
         if (m === 'container')
           continue
 
-        const isLtPrefix = pre.startsWith('lt-') || pre.startsWith('<')
+        const isLtPrefix = pre.startsWith('lt-') || pre.startsWith('<') || pre.startsWith('max-')
         const isAtPrefix = pre.startsWith('at-') || pre.startsWith('~')
 
         let order = 1000 // parseInt(size)
@@ -77,6 +77,6 @@ export function variantBreakpoints(): VariantObject {
       }
     },
     multiPass: true,
-    autocomplete: '(at-|lt-|)$breakpoints:',
+    autocomplete: '(at-|lt-|max-|)$breakpoints:',
   }
 }
