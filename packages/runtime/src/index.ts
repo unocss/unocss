@@ -251,13 +251,14 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   function observe() {
     if (observing)
       return
-    const target = html() || defaultDocument.body
-    if (!target)
+    const target = () => runtimeOptions.observer?.target ? runtimeOptions.observer.target() : (html() || defaultDocument.body);
+    if (!target())
       return
-    mutationObserver.observe(target, {
+    mutationObserver.observe(target(), {
       childList: true,
       subtree: true,
       attributes: true,
+      ...(runtimeOptions.observer?.attributeFilter ? { attributeFilter: runtimeOptions.observer.attributeFilter } : {}),
     })
     observing = true
   }
