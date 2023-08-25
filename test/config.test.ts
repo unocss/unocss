@@ -153,13 +153,6 @@ describe('mergeConfigs', () => {
     ]))
       .toMatchInlineSnapshot(`
         {
-          "extractors": [],
-          "postprocess": [],
-          "preflights": [],
-          "preprocess": [],
-          "presets": [],
-          "rules": [],
-          "safelist": [],
           "shortcuts": [
             {
               "foo": "string",
@@ -172,8 +165,6 @@ describe('mergeConfigs', () => {
               [Function],
             ],
           ],
-          "theme": {},
-          "variants": [],
         }
       `)
   })
@@ -182,6 +173,7 @@ describe('mergeConfigs', () => {
       {
         theme: {
           fontSize: {
+            sm: ['0.875rem', '1.125rem'],
             md: ['1.125rem', '1.5rem'],
             lg: ['1.25rem', '1.5rem'],
           },
@@ -190,21 +182,14 @@ describe('mergeConfigs', () => {
       {
         theme: {
           fontSize: {
-            sm: ['0.875rem', '1.125rem'],
+            sm: ['1rem', '1.125rem'],
+            xl: ['1.5rem', '1.75rem'],
           },
         },
       },
     ]))
       .toMatchInlineSnapshot(`
         {
-          "extractors": [],
-          "postprocess": [],
-          "preflights": [],
-          "preprocess": [],
-          "presets": [],
-          "rules": [],
-          "safelist": [],
-          "shortcuts": [],
           "theme": {
             "fontSize": {
               "lg": [
@@ -216,12 +201,15 @@ describe('mergeConfigs', () => {
                 "1.5rem",
               ],
               "sm": [
-                "0.875rem",
+                "1rem",
                 "1.125rem",
+              ],
+              "xl": [
+                "1.5rem",
+                "1.75rem",
               ],
             },
           },
-          "variants": [],
         }
       `)
   })

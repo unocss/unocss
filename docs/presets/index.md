@@ -12,7 +12,7 @@
 | [@unocss/preset-icons](/presets/icons) | Pure CSS Icons solution powered by Iconify |
 | [@unocss/preset-web-fonts](/presets/web-fonts) | Web fonts (Google Fonts, etc.) support |
 | [@unocss/preset-typography](/presets/typography) | The typography preset |
-| [@unocss/preset-rem-to-px](/presets/rem-to-px) | Coverts rem to px for utils |
+| [@unocss/preset-rem-to-px](/presets/rem-to-px) | Converts rem to px for utils |
 
 ## Transformers
 

@@ -104,7 +104,7 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
     if (id.includes('?vue&type=style') || (id.endsWith('.vue') && vueSFCStyleRE.test(code)))
       return code.replace(new RegExp(`(\\/\\*\\s*)?${CSS_PLACEHOLDER}(\\s*\\*\\/)?`), css || '')
 
-    return code.replace(CSS_PLACEHOLDER, css?.replace(/\\/g, '\\\\') ?? '')
+    return code.replace(CSS_PLACEHOLDER, css?.replace(/\\/g, '\\\\')?.replace(/`/g, '\\`') ?? '')
   }
 
   return {
