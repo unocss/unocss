@@ -948,6 +948,7 @@ export const presetMiniTargets: string[] = [
   'hover:p-5',
   'lt-lg:m2',
   'lt-sm:m1',
+  'max-sm:m1',
   '<sm:m1',
   'md:!hidden',
   'md:m-1',

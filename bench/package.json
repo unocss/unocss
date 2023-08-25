@@ -4,7 +4,7 @@
   },
   "devDependencies": {
     "@unocss/vite": "workspace:*",
-    "@vitejs/plugin-vue": "^4.2.3",
+    "@vitejs/plugin-vue": "^4.3.3",
     "autoprefixer": "^10.4.15",
     "fs-extra": "^11.1.1",
     "local-pkg": "^0.4.3",
