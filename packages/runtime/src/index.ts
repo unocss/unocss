@@ -27,6 +27,10 @@ export interface RuntimeOptions {
    */
   configResolved?: (config: UserConfig, defaults: UserConfigDefaults) => void
   /**
+   * Optional function to control UnoCSS style element(s) injection into DOM.
+   */
+  inject?: (styleElement: Element) => void
+  /**
    * Callback when the runtime is ready. Returning false will prevent default extraction
    */
   ready?: (runtime: RuntimeContext) => false | any
