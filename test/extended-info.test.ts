@@ -20,5 +20,16 @@ test('extended-info', async () => {
   expect(extended.get('a')?.count).toBe(1)
   expect(extended.get('b')?.count).toBe(2)
 
+  // clean up `context` to make clear snapshot
+  Array.from(extended.values()).forEach((i) => {
+    i.data.forEach((j) => {
+      if (j[5]) {
+        // @ts-expect-error removing no-required
+        delete j[5]?.generator
+        // @ts-expect-error removing no-required
+        delete j[5]?.constructCSS
+      }
+    })
+  })
   expect(extended).toMatchSnapshot()
 })

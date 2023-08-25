@@ -23,6 +23,7 @@ const originalCode = `
         href="https://github.com/unocss/unocss"
         target="_blank"
       ></a>
+      <router-link to={\`/path/\${1}\`}/>
     </div>
   </div>
   <section 
@@ -71,6 +72,7 @@ describe('transformerAttributifyJsx', () => {
               href=\\"https://github.com/unocss/unocss\\"
               target=\\"_blank\\"
             ></a>
+            <router-link to={\`/path/\${1}\`}/>
           </div>
         </div>
         <section 
@@ -116,6 +118,7 @@ describe('transformerAttributifyJsx', () => {
               href=\\"https://github.com/unocss/unocss\\"
               target=\\"_blank\\"
             ></a>
+            <router-link to={\`/path/\${1}\`}/>
           </div>
         </div>
         <section 
@@ -171,6 +174,7 @@ describe('transformerAttributifyJsxBabel', () => {
           </div>
           <div m2=\\"\\" flex=\\"\\" justify-center=\\"\\" text-2xl=\\"\\" op30=\\"\\" hover:op80=\\"\\" hover:text-2xl=\\"\\">
             <a i-carbon-logo-github text-inherit=\\"\\" href=\\"https://github.com/unocss/unocss\\" target=\\"_blank\\"></a>
+            <router-link to={\`/path/\${1}\`} />
           </div>
         </div>
         <section className={cn({
@@ -209,6 +213,7 @@ describe('transformerAttributifyJsxBabel', () => {
           </div>
           <div m2=\\"\\" flex justify-center=\\"\\" text-2xl=\\"\\" op30=\\"\\" hover:op80=\\"\\" hover:text-2xl=\\"\\">
             <a i-carbon-logo-github text-inherit=\\"\\" href=\\"https://github.com/unocss/unocss\\" target=\\"_blank\\"></a>
+            <router-link to={\`/path/\${1}\`} />
           </div>
         </div>
         <section className={cn({
