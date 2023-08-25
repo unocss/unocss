@@ -1019,7 +1019,8 @@ unocss .scope-\[unocss\]\:block{display:block;}
 }
 @media (max-width: 639.9px){
 .\<sm\:m1,
-.lt-sm\:m1{margin:0.25rem;}
+.lt-sm\:m1,
+.max-sm\:m1{margin:0.25rem;}
 }
 @media (max-width: 1023.9px){@media (min-width: 640px){
 .sm\:lt-lg\:p-10{padding:2.5rem;}
