@@ -14,7 +14,30 @@ Map {
           "layer": "a",
           "sort": undefined,
         },
-        undefined,
+        {
+          "currentSelector": "a",
+          "rawSelector": "a",
+          "rules": [
+            [
+              "a",
+              {
+                "name": "bar1",
+              },
+              {
+                "layer": "a",
+              },
+            ],
+          ],
+          "theme": {},
+          "variantHandlers": [],
+          "variantMatch": [
+            "a",
+            "a",
+            [],
+            Set {},
+          ],
+          "variants": [],
+        },
         undefined,
       ],
     ],
@@ -31,7 +54,30 @@ Map {
           "layer": "b",
           "sort": undefined,
         },
-        undefined,
+        {
+          "currentSelector": "b",
+          "rawSelector": "b",
+          "rules": [
+            [
+              "b",
+              {
+                "name": "bar2",
+              },
+              {
+                "layer": "b",
+              },
+            ],
+          ],
+          "theme": {},
+          "variantHandlers": [],
+          "variantMatch": [
+            "b",
+            "b",
+            [],
+            Set {},
+          ],
+          "variants": [],
+        },
         undefined,
       ],
     ],
@@ -48,7 +94,28 @@ Map {
           "layer": "c",
           "sort": undefined,
         },
-        undefined,
+        {
+          "currentSelector": "c1",
+          "rawSelector": "c1",
+          "rules": [
+            [
+              /\\^c\\(\\\\d\\+\\)\\$/,
+              [Function],
+              {
+                "layer": "c",
+              },
+            ],
+          ],
+          "theme": {},
+          "variantHandlers": [],
+          "variantMatch": [
+            "c1",
+            "c1",
+            [],
+            Set {},
+          ],
+          "variants": [],
+        },
         undefined,
       ],
     ],

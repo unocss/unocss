@@ -1,3 +1,4 @@
+import process from 'node:process'
 import type { Plugin } from 'vite'
 import type { UnocssPluginContext, UserConfigDefaults } from '@unocss/core'
 import UnocssInspector from '@unocss/inspector'
@@ -31,7 +32,10 @@ export default function UnocssPlugin<Theme extends object>(
   configOrPath?: VitePluginConfig<Theme> | string,
   defaults: UserConfigDefaults = {},
 ): Plugin[] {
-  const ctx = createContext<VitePluginConfig>(configOrPath as any, defaults)
+  const ctx = createContext<VitePluginConfig>(configOrPath as any, {
+    envMode: process.env.NODE_ENV === 'development' ? 'dev' : 'build',
+    ...defaults,
+  })
   const inlineConfig = (configOrPath && typeof configOrPath !== 'string') ? configOrPath : {}
   const mode = inlineConfig.mode ?? 'global'
 

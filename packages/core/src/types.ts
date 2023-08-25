@@ -459,7 +459,7 @@ export interface ConfigBase<Theme extends object = object> {
    *
    * You don't usually need to set this.
    *
-   * @default false
+   * @default `true` when `envMode` is `dev`, otherwise `false`
    */
   details?: boolean
 }
