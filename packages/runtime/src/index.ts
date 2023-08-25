@@ -29,7 +29,7 @@ export interface RuntimeOptions {
   /**
    * Optional function to control UnoCSS style element(s) injection into DOM.
    */
-  inject?: (styleElement: Element) => void
+  inject?: (styleElement: HTMLStyleElement) => void
   /**
    * Callback when the runtime is ready. Returning false will prevent default extraction
    */
