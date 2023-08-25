@@ -157,7 +157,7 @@ export function resolveConfig<Theme extends object = object>(
     extractors,
     safelist: getMerged('safelist'),
     separators,
-    details: config.envMode === 'dev',
+    details: config.details ?? (config.envMode === 'dev'),
   }
 
   for (const p of sources)
