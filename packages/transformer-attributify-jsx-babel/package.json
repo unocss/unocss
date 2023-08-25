@@ -40,9 +40,9 @@
     "@unocss/core": "workspace:*"
   },
   "devDependencies": {
-    "@babel/core": "^7.22.10",
+    "@babel/core": "^7.22.11",
     "@babel/plugin-syntax-jsx": "^7.22.5",
-    "@babel/preset-typescript": "^7.22.5",
-    "magic-string": "^0.30.2"
+    "@babel/preset-typescript": "^7.22.11",
+    "magic-string": "^0.30.3"
   }
 }
