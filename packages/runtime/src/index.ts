@@ -7,6 +7,18 @@ export interface RuntimeGenerateResult extends GenerateResult {
   getStyleElements(): Map<string, HTMLStyleElement>
 }
 
+export interface RuntimeObserverConfig {
+  /**
+   * A function that returns an HTML Element for the MutationObserver to watch.
+   */
+  target?: () => Element
+  /**
+   * An array of attribute names for the MutationObserver to limit which attributes
+   * are watched for mutations.
+   */
+  attributeFilter?: Array<string>
+}
+
 export interface RuntimeOptions {
   /**
    * Default config of UnoCSS
@@ -30,6 +42,10 @@ export interface RuntimeOptions {
    * Callback when the runtime is ready. Returning false will prevent default extraction
    */
   ready?: (runtime: RuntimeContext) => false | any
+  /**
+   * Runtime MutationObserver configuration options
+   */
+  observer?: RuntimeObserverConfig
   /**
    * When enabled, UnoCSS will look for the existing selectors defined in the stylesheet and bypass them.
    * This is useful when using the runtime alongwith the build-time UnoCSS.
@@ -251,10 +267,10 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   function observe() {
     if (observing)
       return
-    const target = () => runtimeOptions.observer?.target ? runtimeOptions.observer.target() : (html() || defaultDocument.body);
-    if (!target())
+    const target = runtimeOptions.observer?.target ? runtimeOptions.observer.target() : (html() || defaultDocument.body)
+    if (!target)
       return
-    mutationObserver.observe(target(), {
+    mutationObserver.observe(target, {
       childList: true,
       subtree: true,
       attributes: true,
