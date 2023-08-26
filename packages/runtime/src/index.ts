@@ -274,7 +274,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
       childList: true,
       subtree: true,
       attributes: true,
-      ...(runtimeOptions.observer?.attributeFilter ? { attributeFilter: runtimeOptions.observer.attributeFilter } : {}),
+      attributeFilter: runtimeOptions.observer?.attributeFilter,
     })
     observing = true
   }
