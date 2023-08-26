@@ -15,7 +15,6 @@ async function registerRoot(ext: ExtensionContext, status: StatusBarItem, cwd: s
   await contextLoader.ready
 
   const hasConfig = await contextLoader.loadContextInDirectory(cwd)
-  // TODO: improve this to re-enable after configuration created
   if (hasConfig) {
     registerAutoComplete(cwd, contextLoader, ext)
     registerAnnotations(cwd, contextLoader, status, ext)
@@ -77,19 +76,23 @@ export async function activate(ext: ExtensionContext) {
     ? path.resolve(projectPath, root)
     : projectPath
 
-  try {
-    ext.subscriptions.push(
-      commands.registerCommand('unocss.reload', async () => {
-        const contextLoader = await registerRoot(ext, status, cwd)
-        log.appendLine('🔁 Reloading...')
-        await contextLoader.reload()
-        log.appendLine('✅ Reloaded.')
-      }),
-    )
-  }
-  catch (e: any) {
-    log.appendLine(String(e.stack ?? e))
-  }
+  const contextLoader = await registerRoot(ext, status, cwd)
+  ext.subscriptions.push(
+    commands.registerCommand('unocss.reload', async () => {
+      log.appendLine('🔁 Reloading...')
+      if (contextLoader.contextsMap.get(cwd) === null) {
+        contextLoader.contextsMap.delete(cwd)
+        const hasConfig = await contextLoader.loadContextInDirectory(cwd)
+        if (hasConfig) {
+          registerAutoComplete(cwd, contextLoader, ext)
+          registerAnnotations(cwd, contextLoader, status, ext)
+          registerSelectionStyle(cwd, contextLoader)
+        }
+      }
+      contextLoader.reload()
+      log.appendLine('✅ Reloaded.')
+    }),
+  )
 }
 
 export function deactivate() {}

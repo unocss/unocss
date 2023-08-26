@@ -15,9 +15,11 @@
 - [unocss-preset-chinese](https://github.com/kirklin/unocss-preset-chinese) - Preset for Chinese fonts by [@kirklin](https://github.com/kirklin).
 - [unocss-preset-autoprefixer](https://github.com/zouhangwithsweet/unocss-preset-autoprefixer) - Autoprefixer Preset by [@zouhang](https://github.com/zouhangwithsweet).
 - [unocss-preset-scrollbar-hide](https://github.com/reslear/unocss-preset-scrollbar-hide) - Hide scrollbars, although the element can still be scrolled by [@reslear](https://github.com/reslear).
-- [unocss-preset-radix](https://github.com/endigma/unocss-preset-radix) - Use the Radix UI color palette with UnoCSS by [@endigma](https://github.com/endigma)
+- [unocss-preset-radix](https://github.com/endigma/unocss-preset-radix) - Use the Radix UI color palette with UnoCSS by [@endigma](https://github.com/endigma).
 - [unocss-preset-glyph](https://github.com/chu121su12/unocss-preset-glyph) - Embed subset of glyphs from fonts by [@chu121su12](https://github.com/chu121su12).
-- [unocss-preset-grid](https://github.com/StatuAgency/unocss-preset-grid) - Bootstrap 5 Like Grid Preset by [@StatuAgency](https://github.com/StatuAgency)
+- [unocss-preset-grid](https://github.com/StatuAgency/unocss-preset-grid) - Bootstrap 5 Like Grid Preset by [@StatuAgency](https://github.com/StatuAgency).
+- [unocss-preset-grid-areas](https://github.com/chz/unocss-preset-grid-areas) - Grid Areas Preset for UnoCSS by [@chz](https://github.com/chz).
+- [unocss-preset-ease](https://github.com/kirklin/unocss-preset-ease) - Easing Functions as Transitions for UnoCSS by [@kirklin](https://github.com/kirklin).
 
 # Community frameworks
 

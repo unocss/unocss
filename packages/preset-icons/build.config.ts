@@ -45,17 +45,19 @@ export default defineBuildConfig({
           return false
         return external(id)
       }
-      options.plugins!.unshift({
-        name: 'stub',
-        resolveId(id) {
-          if (id === 'debug')
-            return '@stub'
-        },
-        load(id) {
-          if (id === '@stub')
-            return 'export default function () {return ()=>{}}'
-        },
-      })
+      if (Array.isArray(options.plugins)) {
+        options.plugins.unshift({
+          name: 'stub',
+          resolveId(id) {
+            if (id === 'debug')
+              return '@stub'
+          },
+          load(id) {
+            if (id === '@stub')
+              return 'export default function () {return ()=>{}}'
+          },
+        })
+      }
     },
   },
 })

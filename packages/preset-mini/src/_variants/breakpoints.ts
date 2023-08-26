@@ -4,8 +4,11 @@ import { resolveBreakpoints } from '../utils'
 export function calcMaxWidthBySize(size: string) {
   const value = size.match(/^-?[0-9]+\.?[0-9]*/)?.[0] || ''
   const unit = size.slice(value.length)
-  const maxWidth = (Number.parseFloat(value) - 0.1)
-  return Number.isNaN(maxWidth) ? size : `${maxWidth}${unit}`
+  if (unit === 'px') {
+    const maxWidth = (Number.parseFloat(value) - 0.1)
+    return Number.isNaN(maxWidth) ? size : `${maxWidth}${unit}`
+  }
+  return `calc(${size} - 0.1px)`
 }
 
 export function variantBreakpoints(): VariantObject {
@@ -17,7 +20,7 @@ export function variantBreakpoints(): VariantObject {
       = Object.entries(resolveBreakpoints(context) ?? {}).map(([point, size], idx) => [point, size, idx])
       for (const [point, size, idx] of variantEntries) {
         if (!regexCache[point])
-          regexCache[point] = new RegExp(`^((?:([al]t-|[<~]))?${point}(?:${context.generator.config.separators.join('|')}))`)
+          regexCache[point] = new RegExp(`^((?:([al]t-|[<~]|max-))?${point}(?:${context.generator.config.separators.join('|')}))`)
 
         const match = matcher.match(regexCache[point])
         if (!match)
@@ -32,7 +35,7 @@ export function variantBreakpoints(): VariantObject {
         if (m === 'container')
           continue
 
-        const isLtPrefix = pre.startsWith('lt-') || pre.startsWith('<')
+        const isLtPrefix = pre.startsWith('lt-') || pre.startsWith('<') || pre.startsWith('max-')
         const isAtPrefix = pre.startsWith('at-') || pre.startsWith('~')
 
         let order = 1000 // parseInt(size)
@@ -74,6 +77,6 @@ export function variantBreakpoints(): VariantObject {
       }
     },
     multiPass: true,
-    autocomplete: '(at-|lt-|)$breakpoints:',
+    autocomplete: '(at-|lt-|max-|)$breakpoints:',
   }
 }

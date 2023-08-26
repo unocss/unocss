@@ -157,6 +157,7 @@ export function resolveConfig<Theme extends object = object>(
     extractors,
     safelist: getMerged('safelist'),
     separators,
+    details: config.details ?? (config.envMode === 'dev'),
   }
 
   for (const p of sources)
@@ -171,28 +172,22 @@ export function resolveConfig<Theme extends object = object>(
 export function mergeConfigs<Theme extends object = object>(
   configs: UserConfig<Theme>[],
 ): UserConfig<Theme> {
-  function getMerged<T extends 'rules' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist' | 'separators' | 'presets'>(key: T): ToArray<Required<UserConfig<Theme>>[T]> {
-    return uniq(configs.flatMap(p => toArray(p[key] || []) as any[])) as any
-  }
+  const maybeArrays = ['shortcuts', 'preprocess', 'postprocess']
+  const config = configs.map(config => Object.entries(config)
+    .reduce<UserConfig<Theme>>((acc, [key, value]) => ({
+      ...acc,
+      [key]: maybeArrays.includes(key) ? toArray(value) : value,
+    }), {}))
+    .reduce<UserConfig<Theme>>(({ theme: themeA, ...a }, { theme: themeB, ...b }) => {
+      const c = mergeDeep<UserConfig<Theme>>(a, b, true)
 
-  const merged = Object.assign(
-    {},
-    ...configs,
-    {
-      theme: mergeThemes(configs.map(c => c.theme)),
-      presets: getMerged('presets'),
-      safelist: getMerged('safelist'),
-      preprocess: getMerged('preprocess'),
-      postprocess: getMerged('postprocess'),
-      preflights: getMerged('preflights'),
-      rules: getMerged('rules'),
-      variants: getMerged('variants'),
-      shortcuts: getMerged('shortcuts'),
-      extractors: getMerged('extractors'),
-    },
-  )
+      if (themeA || themeB)
+        c.theme = mergeThemes([themeA, themeB])
 
-  return merged
+      return c
+    }, {})
+
+  return config
 }
 
 function mergeThemes<Theme extends object = object>(themes: (Theme | undefined)[]): Theme {
