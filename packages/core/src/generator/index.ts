@@ -328,7 +328,7 @@ export class UnoGenerator<Theme extends object = object> {
             return rules
 
           const parents = parent.split(' $$ ')
-          return `${parents.join('{')}{${nl}${rules}${nl}}${parents.map(_ => '').join('}')}`
+          return `${parents.join('{')}{${nl}${rules}${nl}${'}'.repeat(parents.length)}`
         })
         .filter(Boolean)
         .join(nl)
