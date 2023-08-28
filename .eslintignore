@@ -10,3 +10,4 @@ bench/source/gen*.js
 !.vitepress
 docs/.vitepress/cache/deps/*.*
 test/cases
+packages/vscode/deno

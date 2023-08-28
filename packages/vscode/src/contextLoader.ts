@@ -1,6 +1,7 @@
 import { readdir } from 'fs/promises'
 import path from 'path'
 import fs from 'fs'
+import { execFileSync } from 'child_process'
 import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { notNull } from '@unocss/core'
 import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
@@ -10,6 +11,9 @@ import { createNanoEvents } from '../../core/src/utils/events'
 import { createContext, isCssId } from './integration'
 import { isSubdir } from './utils'
 import { log } from './log'
+
+// https://github.com/denoland/deno_config/blob/c68c63a9e929a942cac2af6922889c6f21052861/src/lib.rs#L889
+const DENO_CONFIG_NAMES = ['deno.json', 'deno.jsonc']
 
 export class ContextLoader {
   public cwd: string
@@ -117,6 +121,36 @@ export class ContextLoader {
             files: 'nuxt.config',
             fields: 'unocss',
           }),
+          {
+            files: [
+              'fresh.config',
+            ],
+            extensions: ['ts'],
+            transform: (_code, filepath) => {
+              let denoConfig: string | undefined
+              for (const it of DENO_CONFIG_NAMES) {
+                const configPath = path.join(filepath, '..', it)
+                if (fs.existsSync(configPath)) {
+                  denoConfig = configPath
+                  break
+                }
+              }
+              const result = execFileSync(
+                'deno',
+                [
+                  'run',
+                  '-A',
+                  '-q',
+                  ...(
+                    denoConfig ? ['-c', denoConfig] : []
+                  ),
+                  path.join(__dirname, '../deno/fresh.ts'),
+                  filepath,
+                ],
+              ).toString()
+              return `export default ${result}`
+            },
+          },
         ],
         (result) => {
           if (result.sources.some(s => s.includes('nuxt.config')))
