@@ -13,7 +13,13 @@ describe('CountableSet', () => {
       }
     `)
 
-    expect(s._map).toMatchInlineSnapshot('Map {}')
+    expect(s._map).toMatchInlineSnapshot(`
+      Map {
+        "bar1" => 1,
+        "bar2" => 2,
+        "bar3" => 1,
+      }
+    `)
   })
 
   test('add', () => {

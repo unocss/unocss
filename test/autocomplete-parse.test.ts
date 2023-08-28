@@ -64,19 +64,21 @@ describe('autocomplete-parse', () => {
   })
 
   it('shorthands', () => {
-    const parsed = parseAutocomplete('(m|p)<directions>-<percentage>')
+    const parsed = parseAutocomplete('(m|p)<directions>-<num>')
     expect(parsed.suggest('pt-')).toMatchInlineSnapshot(`
       [
-        "pt-100%",
-        "pt-10%",
-        "pt-20%",
-        "pt-30%",
-        "pt-40%",
-        "pt-50%",
-        "pt-60%",
-        "pt-70%",
-        "pt-80%",
-        "pt-90%",
+        "pt-10",
+        "pt-12",
+        "pt-24",
+        "pt-36",
+        "pt-0",
+        "pt-1",
+        "pt-2",
+        "pt-3",
+        "pt-4",
+        "pt-5",
+        "pt-6",
+        "pt-8",
       ]
     `)
 
@@ -89,6 +91,22 @@ describe('autocomplete-parse', () => {
         "text-md",
         "text-lg",
         "text-xl",
+      ]
+    `)
+
+    const parsed3 = parseAutocomplete('w-<percentage>')
+    expect(parsed3.suggest('w-')).toMatchInlineSnapshot(`
+      [
+        "w-100%",
+        "w-10%",
+        "w-20%",
+        "w-30%",
+        "w-40%",
+        "w-50%",
+        "w-60%",
+        "w-70%",
+        "w-80%",
+        "w-90%",
       ]
     `)
   })
