@@ -64,21 +64,19 @@ describe('autocomplete-parse', () => {
   })
 
   it('shorthands', () => {
-    const parsed = parseAutocomplete('(m|p)<directions>-<num>')
+    const parsed = parseAutocomplete('(m|p)<directions>-<percentage>')
     expect(parsed.suggest('pt-')).toMatchInlineSnapshot(`
       [
-        "pt-10",
-        "pt-12",
-        "pt-24",
-        "pt-36",
-        "pt-0",
-        "pt-1",
-        "pt-2",
-        "pt-3",
-        "pt-4",
-        "pt-5",
-        "pt-6",
-        "pt-8",
+        "pt-100%",
+        "pt-10%",
+        "pt-20%",
+        "pt-30%",
+        "pt-40%",
+        "pt-50%",
+        "pt-60%",
+        "pt-70%",
+        "pt-80%",
+        "pt-90%",
       ]
     `)
 
