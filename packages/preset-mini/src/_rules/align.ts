@@ -22,7 +22,7 @@ export const verticalAligns: Rule[] = [
   [/^(?:vertical|align|v)-([-\w]+%?)$/, ([, v]) => ({ 'vertical-align': verticalAlignAlias[v] ?? v }), {
     autocomplete: [
       `(vertical|align|v)-(${Object.keys(verticalAlignAlias).join('|')})`,
-      '(vertical|align|v)-<num>',
+      '(vertical|align|v)-<percentage>',
     ],
   }],
 ]
