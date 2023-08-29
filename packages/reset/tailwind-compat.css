@@ -26,6 +26,7 @@ Please read: https://github.com/unocss/unocss/blob/main/packages/reset/tailwind-
 
 html {
   line-height: 1.5; /* 1 */
+  -webkit-text-size-adjust: 100%; /* 2 */
   text-size-adjust: 100%; /* 2 */
   -moz-tab-size: 4; /* 3 */
   tab-size: 4; /* 3 */
