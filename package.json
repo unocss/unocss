@@ -53,6 +53,7 @@
     "@types/node": "^20.5.6",
     "@types/prettier": "^2.7.3",
     "@types/react": "^18.2.21",
+    "@types/vscode": "^1.71.0",
     "@types/ws": "^8.5.5",
     "@unocss/astro": "workspace:*",
     "@unocss/autocomplete": "workspace:*",
