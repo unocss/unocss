@@ -5,7 +5,7 @@
   "private": true,
   "packageManager": "pnpm@8.6.12",
   "scripts": {
-    "postinstall": "esno scripts/icon-collections.ts",
+    "postinstall": "esno scripts/prepare.ts",
     "taze": "taze minor -wIr && pnpm -r --parallel run update-post",
     "bench": "npm -C bench run bench",
     "build": "rimraf packages/*/dist && esno scripts/copy-files.ts && pnpm -r --filter=./packages/* run build && pnpm -r run build-post",
@@ -130,7 +130,7 @@
     }
   },
   "simple-git-hooks": {
-    "pre-commit": "npx lint-staged"
+    "pre-commit": "esno scripts/prepare.ts && npx lint-staged"
   },
   "lint-staged": {
     "*.{js,ts,tsx,vue,md}": [
