@@ -7,6 +7,18 @@ export interface RuntimeGenerateResult extends GenerateResult {
   getStyleElements(): Map<string, HTMLStyleElement>
 }
 
+export interface RuntimeObserverConfig {
+  /**
+   * A function that returns an HTML Element for the MutationObserver to watch.
+   */
+  target?: () => Element
+  /**
+   * An array of attribute names for the MutationObserver to limit which attributes
+   * are watched for mutations.
+   */
+  attributeFilter?: Array<string>
+}
+
 export interface RuntimeOptions {
   /**
    * Default config of UnoCSS
@@ -27,9 +39,18 @@ export interface RuntimeOptions {
    */
   configResolved?: (config: UserConfig, defaults: UserConfigDefaults) => void
   /**
+   * Optional function to control UnoCSS style element(s) injection into DOM.
+   * When provided, the default injection logic will be overridden.
+   */
+  inject?: (styleElement: HTMLStyleElement) => void
+  /**
    * Callback when the runtime is ready. Returning false will prevent default extraction
    */
   ready?: (runtime: RuntimeContext) => false | any
+  /**
+   * Runtime MutationObserver configuration options
+   */
+  observer?: RuntimeObserverConfig
   /**
    * When enabled, UnoCSS will look for the existing selectors defined in the stylesheet and bypass them.
    * This is useful when using the runtime alongwith the build-time UnoCSS.
@@ -122,6 +143,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
 
   runtimeOptions.configResolved?.(userConfig, userConfigDefaults)
   const uno = createGenerator(userConfig, userConfigDefaults)
+  const inject = (styleElement) => runtimeOptions.inject ? runtimeOptions.inject(styleElement) : html().prepend(styleElement)
   const styleElements = new Map<string, HTMLStyleElement>()
 
   let paused = true
@@ -161,7 +183,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
       styleElements.set(layer, styleElement)
 
       if (previousLayer == null) {
-        html().prepend(styleElement)
+        inject(styleElement)
       }
       else {
         const previousStyle = getStyleElement(previousLayer)
@@ -169,7 +191,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
         if (parentNode)
           parentNode.insertBefore(styleElement, previousStyle.nextSibling)
         else
-          html().prepend(styleElement)
+          inject(styleElement)
       }
     }
 
@@ -251,13 +273,14 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   function observe() {
     if (observing)
       return
-    const target = html() || defaultDocument.body
+    const target = runtimeOptions.observer?.target ? runtimeOptions.observer.target() : (html() || defaultDocument.body)
     if (!target)
       return
     mutationObserver.observe(target, {
       childList: true,
       subtree: true,
       attributes: true,
+      attributeFilter: runtimeOptions.observer?.attributeFilter,
     })
     observing = true
   }
