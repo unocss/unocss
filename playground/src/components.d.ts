@@ -7,7 +7,10 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    Analyzer: typeof import('./../../packages/inspector/client/components/Analyzer.vue')['default']
+    AnalyzerItem: typeof import('./../../packages/inspector/client/components/AnalyzerItem.vue')['default']
     CodeMirror: typeof import('./../../packages/inspector/client/components/CodeMirror.vue')['default']
+    Copy: typeof import('./../../packages/inspector/client/components/Copy.vue')['default']
     Editor: typeof import('./components/Editor.vue')['default']
     FileIcon: typeof import('./../../packages/inspector/client/components/FileIcon.vue')['default']
     HeaderBar: typeof import('./components/HeaderBar.vue')['default']
@@ -16,6 +19,7 @@ declare module 'vue' {
     ModuleTreeNode: typeof import('./../../packages/inspector/client/components/ModuleTreeNode.vue')['default']
     NarBar: typeof import('./../../packages/inspector/client/components/NarBar.vue')['default']
     Overview: typeof import('./../../packages/inspector/client/components/Overview.vue')['default']
+    OverviewTabs: typeof import('./../../packages/inspector/client/components/OverviewTabs.vue')['default']
     PanelConfig: typeof import('./components/panel/PanelConfig.vue')['default']
     PanelCustomCss: typeof import('./components/panel/PanelCustomCss.vue')['default']
     PanelHtml: typeof import('./components/panel/PanelHtml.vue')['default']
@@ -27,6 +31,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     Sidebar: typeof import('./../../packages/inspector/client/components/Sidebar.vue')['default']
     StatusBar: typeof import('./../../packages/inspector/client/components/StatusBar.vue')['default']
+    Tabs: typeof import('./../../packages/inspector/client/components/Tabs.vue')['default']
     TitleBar: typeof import('./../../packages/inspector/client/components/TitleBar.vue')['default']
   }
 }
