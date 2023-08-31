@@ -830,6 +830,7 @@ export type PreparedRule = readonly [
 export interface CliEntryItem {
   patterns: string[]
   outFile: string
+  outTransformed?: boolean
 }
 
 export interface UtilObject {

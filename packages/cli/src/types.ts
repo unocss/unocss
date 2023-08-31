@@ -9,6 +9,7 @@ export interface CliOptions {
   config?: string
   stdout?: boolean
   writeTransformed?: boolean
+  outTransformed?: boolean
 
   // generate options
   preflights?: boolean

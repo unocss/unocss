@@ -1,5 +1,10 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`cli > builds transformed files 1`] = `
+"// @unocss-include
+const foo = \\"p-4 border-solid border-red\\""
+`;
+
 exports[`cli > builds uno.css 1`] = `
 "/* layer: default */
 .max-w-screen-md{max-width:768px;}

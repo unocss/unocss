@@ -1,6 +1,6 @@
 import { existsSync, promises as fs } from 'node:fs'
 import process from 'node:process'
-import { basename, dirname, normalize, relative, resolve } from 'pathe'
+import { basename, dirname, format, normalize, parse, relative, resolve } from 'pathe'
 import fg from 'fast-glob'
 import { consola } from 'consola'
 import { cyan, dim, green } from 'colorette'
@@ -117,14 +117,29 @@ export async function build(_options: CliOptions) {
     const defaultTransform = await transformFiles(preTransform)
     const postTransform = await transformFiles(defaultTransform, 'post')
 
-    // update source file
-    if (options.writeTransformed) {
+    const { writeTransformed, outTransformed } = options
+
+    if (writeTransformed || outTransformed) {
       await Promise.all(
         postTransform
           .filter(({ transformedCode }) => !!transformedCode)
-          .map(({ transformedCode, id }) => new Promise<void>((resolve) => {
-            if (existsSync(id))
-              fs.writeFile(id, transformedCode as string, 'utf-8').then(resolve)
+          .map(({ transformedCode, id }) => new Promise<void[]>((_resolve) => {
+            const promises: Array<Promise<void>> = []
+
+            if (existsSync(id)) {
+              // update source file
+              if (writeTransformed)
+                promises.push(fs.writeFile(id, transformedCode as string, 'utf-8'))
+
+              // output transformed files
+              if (outTransformed) {
+                const parseRes = parse(id)
+                parseRes.base = `${parseRes.name}.uno${parseRes.ext}`
+                promises.push(fs.writeFile(format(parseRes), transformedCode as string, 'utf-8'))
+              }
+            }
+
+            Promise.all(promises).then(_resolve)
           })),
       )
     }

@@ -25,6 +25,32 @@ describe('cli', () => {
     expect(output).toMatchSnapshot()
   })
 
+  it('builds transformed files', async () => {
+    const testDir = getTestDir()
+    const sourceFile = 'views/index.js'
+
+    await Promise.all([
+      fs.outputFile(resolve(testDir, sourceFile), `// @unocss-include
+const foo = "p-4 border-(solid red)"`),
+      fs.outputFile(resolve(testDir, 'uno.config.js'), `import { defineConfig, transformerVariantGroup } from 'unocss'
+export default defineConfig({
+  transformers: [transformerVariantGroup()]
+})`),
+    ])
+
+    await runAsyncChildProcess(testDir, sourceFile, '--out-transformed')
+
+    const outTransformedFile = resolve(testDir, 'views/index.uno.js')
+    for (let i = 50; i >= 0; i--) {
+      await sleep(50)
+      if (fs.existsSync(outTransformedFile))
+        break
+    }
+
+    const output = await fs.readFile(outTransformedFile, 'utf8')
+    expect(output).toMatchSnapshot()
+  })
+
   it('supports unocss.config.js', async () => {
     const { output } = await runCli({
       'views/index.html': '<div class="box"></div>',
@@ -133,7 +159,7 @@ export default defineConfig({
     const files = [
       {
         path: 'views/index1.html',
-        content: '<div class="bg-blue"></div>',
+        content: '<div class="bg-blue font-(light mono)"></div>',
       },
       {
         path: 'views/index2.html',
@@ -142,20 +168,22 @@ export default defineConfig({
       {
         path: 'unocss.config.js',
         content: `
-import { defineConfig } from 'unocss'
+import { defineConfig, transformerVariantGroup } from 'unocss'
 export default defineConfig({
-    cli: {
+  cli: {
     entry: [
       {
         patterns: ['views/index1.html'],
         outFile: '${outFiles[0]}',
+        outTransformed: true
       },
       {
         patterns: ['views/index2.html'],
         outFile: '${outFiles[1]}',
       },
     ],
-  }
+  },
+  transformers: [transformerVariantGroup()]
 })
           `.trim(),
       },
@@ -164,9 +192,13 @@ export default defineConfig({
     await runAsyncChildProcess(testDir, '', '')
 
     await sleep(500)
-    const [output1, output2] = await Promise.all(outFiles.map(async file => readFile(testDir, resolve(testDir, file))))
+    const [output1, output2, output3] = await Promise.all([
+      ...outFiles.map(async file => readFile(testDir, resolve(testDir, file))),
+      readFile(testDir, resolve(testDir, 'views/index1.uno.html')),
+    ])
     expect(output1).toContain('.bg-blue')
     expect(output2).toContain('.bg-red')
+    expect(output3).toContain('font-light')
   })
 
   it('supports uno.config.ts changed rebuild', async () => {

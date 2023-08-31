@@ -108,6 +108,10 @@ interface CliEntryItem {
    * The output filename for the generated UnoCSS file
    */
   outFile: string
+  /**
+   * Enable outputting the transformed files alongside the source files, like `index.uno.js`
+   */
+  outTransformed?: boolean
 }
 ```
 
@@ -120,6 +124,7 @@ For a list of options, head over to the [UnoCSS configurations](/config/) docs.
 | `-v, --version` | Display the current version of UnoCSS |
 | `-c, --config-file <file>` | Config file |
 | `-o, --out-file <file>` | The output filename for the generated UnoCSS file. Defaults to `uno.css` in the current working directory |
+| `--out-transformed` | Enable outputting the transformed files alongside the source files, like `index.uno.js`. Defaults to `false` |
 | `--stdout` | Write the generated UnoCSS file to STDOUT. Will cause the `--watch` and `--out-file` being ignored |
 | `-w, --watch` | Indicates if the files found by the glob pattern should be watched |
 | `--preflights` | Enable preflight styles |
