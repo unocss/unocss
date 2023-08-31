@@ -1,6 +1,6 @@
 {
   "publisher": "antfu",
-  "name": "unocss",
+  "name": "@unocss/vscode",
   "displayName": "UnoCSS",
   "version": "0.55.3",
   "private": true,
