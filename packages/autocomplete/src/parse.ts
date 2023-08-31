@@ -87,7 +87,7 @@ export function parseAutocomplete(template: string, theme: any = {}, extraShorth
       (m) => {
         parts.push({
           type: 'group',
-          values: m[1].split('|').sort((a, b) => b.length - a.length),
+          values: m[1].split('|'),
         })
       },
       (str) => {
