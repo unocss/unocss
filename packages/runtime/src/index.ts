@@ -143,7 +143,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
 
   runtimeOptions.configResolved?.(userConfig, userConfigDefaults)
   const uno = createGenerator(userConfig, userConfigDefaults)
-  const inject = (styleElement) => runtimeOptions.inject ? runtimeOptions.inject(styleElement) : html().prepend(styleElement)
+  const inject = (styleElement: HTMLStyleElement) => runtimeOptions.inject ? runtimeOptions.inject(styleElement) : html().prepend(styleElement)
   const styleElements = new Map<string, HTMLStyleElement>()
 
   let paused = true
