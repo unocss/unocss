@@ -25,11 +25,11 @@ describe('autocomplete-parse', () => {
           {
             "type": "group",
             "values": [
+              "solid",
               "dashed",
               "dotted",
               "double",
               "hidden",
-              "solid",
               "none",
             ],
           },
@@ -53,11 +53,11 @@ describe('autocomplete-parse', () => {
     expect(parsed.suggest('prefix-border-'))
       .toMatchInlineSnapshot(`
         [
+          "prefix-border-solid",
           "prefix-border-dashed",
           "prefix-border-dotted",
           "prefix-border-double",
           "prefix-border-hidden",
-          "prefix-border-solid",
           "prefix-border-none",
         ]
       `)
@@ -67,10 +67,6 @@ describe('autocomplete-parse', () => {
     const parsed = parseAutocomplete('(m|p)<directions>-<num>')
     expect(parsed.suggest('pt-')).toMatchInlineSnapshot(`
       [
-        "pt-10",
-        "pt-12",
-        "pt-24",
-        "pt-36",
         "pt-0",
         "pt-1",
         "pt-2",
@@ -79,6 +75,10 @@ describe('autocomplete-parse', () => {
         "pt-5",
         "pt-6",
         "pt-8",
+        "pt-10",
+        "pt-12",
+        "pt-24",
+        "pt-36",
       ]
     `)
 
