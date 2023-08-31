@@ -92,6 +92,9 @@ importers:
       '@types/react':
         specifier: ^18.2.21
         version: 18.2.21
+      '@types/vscode':
+        specifier: ^1.71.0
+        version: 1.71.0
       '@types/ws':
         specifier: ^8.5.5
         version: 8.5.5
@@ -268,7 +271,7 @@ importers:
         version: 2.0.0(typescript@5.2.2)
       unocss:
         specifier: workspace:*
-        version: link:packages/vscode
+        version: link:packages/unocss
       unplugin-auto-import:
         specifier: ^0.16.6
         version: 0.16.6(@vueuse/core@10.3.0)(rollup@3.28.1)
@@ -319,7 +322,7 @@ importers:
         version: 3.3.3
       unocss:
         specifier: workspace:*
-        version: link:../packages/vscode
+        version: link:../packages/unocss
       vite:
         specifier: ^4.4.9
         version: 4.4.9(@types/node@20.5.6)(terser@5.19.2)
@@ -358,7 +361,7 @@ importers:
         version: 1.3.3
       unocss:
         specifier: workspace:*
-        version: link:../packages/vscode
+        version: link:../packages/unocss
       vitepress:
         specifier: 1.0.0-rc.4
         version: 1.0.0-rc.4(@algolia/client-search@4.19.1)(@types/node@20.5.6)(@types/react@18.2.21)(react@18.2.0)(search-insights@2.7.0)(terser@5.19.2)
@@ -675,7 +678,7 @@ importers:
         version: link:../webpack
       unocss:
         specifier: workspace:*
-        version: link:../vscode
+        version: link:../unocss
     devDependencies:
       '@nuxt/schema':
         specifier: ^3.6.5
@@ -8090,7 +8093,7 @@ packages:
     dependencies:
       '@babel/core': 7.22.11
       find-cache-dir: 3.3.2
-      loader-utils: 2.0.2
+      loader-utils: 2.0.4
       make-dir: 3.1.0
       schema-utils: 2.7.1
       webpack: 5.88.2(esbuild@0.18.20)
