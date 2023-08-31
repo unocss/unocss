@@ -1,4 +1,4 @@
-import { createGenerator, extractorSplit } from '@unocss/core'
+import { createGenerator } from '@unocss/core'
 import { expect, it } from 'vitest'
 import extractorMdc from '../src/index'
 
