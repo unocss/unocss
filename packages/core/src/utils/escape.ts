@@ -25,6 +25,12 @@ export function escapeSelector(str: string): string {
       continue
     }
 
+    // Percentage
+    if (codeUnit === 37) {
+      result += '\\%'
+      continue
+    }
+
     // Comma
     if (codeUnit === 44) {
       result += '\\,'
