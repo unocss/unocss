@@ -664,7 +664,7 @@ importers:
         version: 2.8.8
       tsup:
         specifier: ^7.2.0
-        version: 7.2.0(postcss@8.4.27)(typescript@5.1.6)
+        version: 7.2.0(postcss@8.4.28)(typescript@5.2.2)
       unconfig:
         specifier: ^0.3.10
         version: 0.3.10
@@ -5046,6 +5046,7 @@ packages:
     engines: {node: '>= 10.0.0'}
     cpu: [arm]
     os: [linux]
+    libc: [glibc]
     requiresBuild: true
     dev: true
     optional: true
@@ -5055,6 +5056,7 @@ packages:
     engines: {node: '>= 10.0.0'}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
     requiresBuild: true
     dev: true
     optional: true
@@ -5064,6 +5066,7 @@ packages:
     engines: {node: '>= 10.0.0'}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
     requiresBuild: true
     dev: true
     optional: true
@@ -5073,6 +5076,7 @@ packages:
     engines: {node: '>= 10.0.0'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
     requiresBuild: true
     dev: true
     optional: true
@@ -5082,6 +5086,7 @@ packages:
     engines: {node: '>= 10.0.0'}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
     requiresBuild: true
     dev: true
     optional: true
@@ -20784,7 +20789,7 @@ packages:
       postcss: 8.4.28
       postcss-load-config: 4.0.1(postcss@8.4.28)
       resolve-from: 5.0.0
-      rollup: 3.28.0
+      rollup: 3.28.1
       source-map: 0.8.0-beta.0
       sucrase: 3.34.0
       tree-kill: 1.2.2
@@ -22078,7 +22083,7 @@ packages:
     resolution: {integrity: sha512-GL4QdbYUF/XxQlAsvYWZRV3V34kOkpRlvV60/72ghHfsYFnS/v2MANZ9P6sHmxFcZKOse8O+L9G7Czg0NUWing==}
     engines: {vscode: ^1.67.0}
     dependencies:
-      minimatch: 5.1.2
+      minimatch: 5.1.6
       semver: 7.5.4
       vscode-languageserver-protocol: 3.17.3
     dev: false
