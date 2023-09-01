@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@unocss/extractor-pug": "link:../../packages/extractor-pug",
-    "@vitejs/plugin-vue": "^4.2.3",
+    "@vitejs/plugin-vue": "^4.3.3",
     "pug": "^3.0.2",
     "unocss": "link:../../packages/unocss",
     "vite": "^4.4.9"

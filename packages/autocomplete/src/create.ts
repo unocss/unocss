@@ -192,10 +192,17 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
     return uniq(suggestions.flat())
       .filter((i): i is string => !!(i && !i.match(/-$/) && !uno.isBlocked(i)))
       .sort((a, b) => {
+        if (/\d/.test(a) && /\D/.test(b))
+          return 1
+
+        if (/\D/.test(a) && /\d/.test(b))
+          return -1
+
         const numA = +(a.match(/\d+$/)?.[0] || Number.NaN)
         const numB = +(b.match(/\d+$/)?.[0] || Number.NaN)
         if (!Number.isNaN(numA) && !Number.isNaN(numB))
           return numA - numB
+
         return a.localeCompare(b)
       })
       .map(i => prefix + i + suffix)

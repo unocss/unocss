@@ -4,9 +4,10 @@ import type { AutoCompleteMatchType, AutocompleteTemplatePart, ParsedAutocomplet
 import { cartesian } from './utils'
 
 export const shorthands: Record<string, string> = {
-  num: `(${[0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 24, 36].join('|')})`,
-  percent: `(${Array.from({ length: 11 }, (_, i) => i * 10).join('|')})`,
   directions: '(x|y|t|b|l|r|s|e)',
+  num: `(${[0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 24, 36].join('|')})`,
+  percent: `(${[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].join('|')})`,
+  percentage: `(${['10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%'].join('|')})`,
 }
 
 export const ignoredThemeKeys = ['DEFAULT']
@@ -86,7 +87,7 @@ export function parseAutocomplete(template: string, theme: any = {}, extraShorth
       (m) => {
         parts.push({
           type: 'group',
-          values: m[1].split('|').sort((a, b) => b.length - a.length),
+          values: m[1].split('|'),
         })
       },
       (str) => {
