@@ -1,12 +1,13 @@
 import fs from 'node:fs/promises'
-import { resolve } from 'node:path'
+import node_path, { resolve } from 'node:path'
 import fg from 'fast-glob'
+import { createFilter } from '@rollup/pluginutils'
 import type { UnocssPluginContext } from '@unocss/core'
 import { applyTransformers } from './transformers'
 
 export async function setupContentExtractor(ctx: UnocssPluginContext, shouldWatch = false) {
   const { content } = await ctx.getConfig()
-  const { extract, tasks, root, filter } = ctx
+  const { extract, tasks, root } = ctx
 
   // inline text
   if (content?.inline) {
@@ -24,11 +25,14 @@ export async function setupContentExtractor(ctx: UnocssPluginContext, shouldWatc
   // filesystem
   if (content?.filesystem) {
     const files = await fg(content.filesystem, { cwd: root })
+    const filter = createFilter(content.filesystem, [], { resolve: root })
 
     async function extractFile(file: string) {
-      const code = await fs.readFile(file, 'utf-8')
-      if (!filter(code, file))
+      file = node_path.isAbsolute(file) ? file : node_path.resolve(root, file)
+      if (!filter(file))
         return
+
+      const code = await fs.readFile(file, 'utf-8')
       const preTransform = await applyTransformers(ctx, code, file, 'pre')
       const defaultTransform = await applyTransformers(ctx, preTransform?.code || code, file)
       await applyTransformers(ctx, defaultTransform?.code || preTransform?.code || code, file, 'post')
