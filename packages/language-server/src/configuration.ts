@@ -2,7 +2,7 @@ import { toArray } from '@unocss/core'
 import type { AutoCompleteMatchType } from '@unocss/autocomplete'
 import { type Connection, type Disposable } from 'vscode-languageserver'
 import { createNanoEvents } from '../../core/src/utils/events'
-import type { ConfigurationService, WatchConfigurationHandler } from './types'
+import type { ConfigurationService } from './types'
 import { getValue } from './utils'
 
 export interface UseConfigurationOptions<Config> {
@@ -13,7 +13,9 @@ export interface UseConfigurationOptions<Config> {
 
 export function getConfigurations<Config extends Record<string, unknown>>(connection: Connection, options: UseConfigurationOptions<Config>): ConfigurationService<Config> {
   const { initialValue, alias, scope } = options
-  const configuration = {} as Config
+  const configuration = {
+    ...initialValue,
+  } as Config
 
   const workspace = connection.workspace
 
@@ -28,6 +30,10 @@ export function getConfigurations<Config extends Record<string, unknown>>(connec
 
   let isReady = false
 
+  const ready = new Promise<Config>((resolve) => {
+    events.on('ready', resolve)
+  })
+
   const reload = async () => {
     const changedSettings = await workspace.getConfiguration()
     for (const key in initialValue) {
@@ -40,13 +46,24 @@ export function getConfigurations<Config extends Record<string, unknown>>(connec
     }
   }
 
-  const onReady = (fn: (configuration: Config) => (void | Promise<void>)) => {
-    events.on('ready', fn)
-  }
-  const watchChanged = <K extends keyof Config>(key: K | K[], fn: WatchConfigurationHandler<Config, K>) => {
+  const watchChanged = (
+    key: any,
+    fn: (value: any) => void,
+    options: { immediate?: boolean } = {},
+  ) => {
+    const isArray = Array.isArray(key)
     const keys = toArray(key)
-    const unsubscribes = keys.map(key => events.on(`update:${String(key)}`, fn))
-    return () => unsubscribes.forEach(fn => fn())
+    const off = events.on('update', (changedKeys: (keyof Config)[]) => {
+      const changed = keys.some(k => changedKeys.includes(k))
+      if (changed)
+        fn(isArray ? keys.map(k => configuration[k]) : configuration)
+    })
+    if (options.immediate) {
+      ready.then(() => {
+        events.emit('update', keys)
+      })
+    }
+    return off
   }
 
   disposables.push(
@@ -63,8 +80,8 @@ export function getConfigurations<Config extends Record<string, unknown>>(connec
           changedKeys.add(key)
         }
       }
-      for (const key of changedKeys)
-        events.emit(`update:${String(key)}`, configuration[key])
+      if (changedKeys.size > 0)
+        events.emit('update', Array.from(changedKeys))
     }),
   )
 
@@ -75,9 +92,9 @@ export function getConfigurations<Config extends Record<string, unknown>>(connec
   return {
     configuration,
     events,
+    ready,
     watchChanged,
     reload,
-    onReady,
     dispose,
   }
 }

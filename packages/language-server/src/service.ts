@@ -49,8 +49,9 @@ export function createLanguageService(options: LanguageContextOptions = {}): Lan
     logger,
     disposables,
     configuration: configurationStore.configuration,
-    getDocument,
+    configReady: configurationStore.ready,
     watchConfigChanged: configurationStore.watchChanged,
+    getDocument,
     listen,
     dispose,
     use(...providers: LanguageServiceProvider[]) {
@@ -79,10 +80,12 @@ export function createLanguageService(options: LanguageContextOptions = {}): Lan
     await contextLoader.reload()
   }))
 
-  serviceContext.use(
-    registerAutoComplete,
-    registerAnnotation,
-  )
+  configurationStore.ready.then(() => {
+    serviceContext.use(
+      registerAutoComplete,
+      registerAnnotation,
+    )
+  })
 
   return serviceContext
 }

@@ -24,17 +24,28 @@ export interface LanguageServiceConfiguration {
   underline: boolean
 }
 
-export type ConfigurationListenerMap<Init> = Map<keyof Init, WatchConfigurationHandler<Init, keyof Init>>
+export type Keys<Config> = (keyof Config)[]
 
-export type WatchConfigurationHandler<Init, K extends keyof Init> = (value: Init[K]) => void
+export interface WatchChangedOptions {
+  immediate?: boolean
+}
 
 export interface ConfigurationService<Config = LanguageServiceConfiguration> {
   configuration: Config
-  watchChanged: <K extends keyof Config>(key: K | K[], fn: WatchConfigurationHandler<Config, K>) => () => void
+  watchChanged<K extends Keys<Config>>(
+    key: [...K],
+    handler: (config: Config) => void,
+    options?: WatchChangedOptions
+  ): () => void
+  watchChanged<K extends keyof Config>(
+    key: K,
+    handler: (value: Config[K]) => void,
+    options?: WatchChangedOptions
+  ): () => void
   reload: () => Promise<void>
-  onReady: (fn: (configuration: Config) => (void | Promise<void>)) => void
   dispose: () => void
   events: ReturnType<typeof createNanoEvents>
+  ready: Promise<Config>
 }
 
 export interface LanguageServiceContext {
@@ -46,6 +57,7 @@ export interface LanguageServiceContext {
   configuration: ConfigurationService['configuration']
   getDocument(uri: string): TextDocument | null
   watchConfigChanged: ConfigurationService['watchChanged']
+  configReady: ConfigurationService['ready']
   listen(): void
   dispose(): void
   use(...providers: LanguageServiceProvider[]): void

@@ -47,9 +47,10 @@ export function createAnnotationHandler() {
 
   return (params: AnnotationEventParams) => {
     const editor = window.activeTextEditor
-    console.log(editor)
-    if (!editor)
+    if (!editor) {
+      log.appendLine(`⚠️ Editor not found for ${params.uri}`)
       return
+    }
     if (params.uri === null) {
       reset()
       log.appendLine(`⚠️ ${params.reason}`)

@@ -1,13 +1,14 @@
 import { fileURLToPath } from 'node:url'
+import type { TextDocument } from 'vscode-languageserver-textdocument'
 import type { AnnotationEventParams, LanguageServiceContext } from './types'
 import { INCLUDE_COMMENT_IDE, getMatchedPositionsFromCode, isCssId } from './integration'
-import { debounce, getPrettiedCSS } from './utils'
+import { getPrettiedCSS, throttle } from './utils'
 import { log } from './log'
 
 export async function registerAnnotation(
   server: LanguageServiceContext,
 ) {
-  const { contextLoader, getDocument, documents, connection, watchConfigChanged, configuration } = server
+  const { contextLoader, documents, connection, watchConfigChanged, configuration, configReady } = server
 
   const reset = async (reason?: string) => {
     log.appendLine(`[annotation] reset: ${reason}`)
@@ -18,14 +19,7 @@ export async function registerAnnotation(
     })
   }
 
-  watchConfigChanged(['underline', 'remToPxPreview', 'remToPxRatio'], async () => {
-
-  })
-
-  documents.onDidChangeContent(debounce(async (event) => {
-    const doc = event.document
-    if (!doc)
-      return
+  const updateAnnotation = async (doc: TextDocument) => {
     const code = doc.getText()
     if (!code)
       return reset('empty code')
@@ -36,9 +30,9 @@ export async function registerAnnotation(
       ctx = await contextLoader.resolveClosestContext(code, id)
 
     const isTarget = ctx.filter(code, id) // normal unocss filter
-        || code.includes(INCLUDE_COMMENT_IDE) // force include
-        || contextLoader.configSources.includes(id) // include config files
-        || isCssId(id) // include css files
+      || code.includes(INCLUDE_COMMENT_IDE) // force include
+      || contextLoader.configSources.includes(id) // include config files
+      || isCssId(id) // include css files
 
     if (!isTarget)
       return reset('not target')
@@ -62,5 +56,16 @@ export async function registerAnnotation(
       annotations,
       underline: configuration.underline,
     } as AnnotationEventParams)
+  }
+
+  connection.onDidChangeTextDocument(throttle(async (e) => {
+    const doc = documents.get(e.textDocument.uri)
+    if (!doc)
+      return
+    await updateAnnotation(doc)
   }, 200))
+
+  watchConfigChanged(['underline', 'remToPxPreview', 'remToPxRatio'], async () => {
+    await Promise.all(documents.all().map(updateAnnotation))
+  })
 }
