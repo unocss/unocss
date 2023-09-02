@@ -13,7 +13,6 @@ const emit = defineEmits<{
     style="background-color: var(--cm-background)"
     border="l y gray/20"
     text="gray/80"
-
     min-h-30px
     max-h-30px
     select-none
