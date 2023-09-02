@@ -131,6 +131,7 @@ declare global {
   const toValue: typeof import('vue')['toValue']
   const toggleDark: typeof import('./composables/dark')['toggleDark']
   const togglePanel: typeof import('./composables/panel')['togglePanel']
+  const transformedCSS: typeof import('./composables/uno')['transformedCSS']
   const transformedHTML: typeof import('./composables/uno')['transformedHTML']
   const triggerRef: typeof import('vue')['triggerRef']
   const tryOnBeforeMount: typeof import('@vueuse/core')['tryOnBeforeMount']
@@ -466,6 +467,7 @@ declare module 'vue' {
     readonly toValue: UnwrapRef<typeof import('vue')['toValue']>
     readonly toggleDark: UnwrapRef<typeof import('./composables/dark')['toggleDark']>
     readonly togglePanel: UnwrapRef<typeof import('./composables/panel')['togglePanel']>
+    readonly transformedCSS: UnwrapRef<typeof import('./composables/uno')['transformedCSS']>
     readonly transformedHTML: UnwrapRef<typeof import('./composables/uno')['transformedHTML']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly tryOnBeforeMount: UnwrapRef<typeof import('@vueuse/core')['tryOnBeforeMount']>
@@ -795,6 +797,7 @@ declare module '@vue/runtime-core' {
     readonly toValue: UnwrapRef<typeof import('vue')['toValue']>
     readonly toggleDark: UnwrapRef<typeof import('./composables/dark')['toggleDark']>
     readonly togglePanel: UnwrapRef<typeof import('./composables/panel')['togglePanel']>
+    readonly transformedCSS: UnwrapRef<typeof import('./composables/uno')['transformedCSS']>
     readonly transformedHTML: UnwrapRef<typeof import('./composables/uno')['transformedHTML']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly tryOnBeforeMount: UnwrapRef<typeof import('@vueuse/core')['tryOnBeforeMount']>

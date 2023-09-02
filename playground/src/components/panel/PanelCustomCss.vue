@@ -4,6 +4,13 @@ import { Pane } from 'splitpanes'
 import { customCSS } from '../../composables/url'
 
 defineProps<{ index: number }>()
+
+const computedCustomCSS = computed({
+  get: () => unref(options.value.transformCustomCSS ? transformedCSS : customCSS),
+  set: (value) => {
+    customCSS.value = value
+  },
+})
 </script>
 
 <template>
@@ -20,12 +27,16 @@ defineProps<{ index: number }>()
           />
         </template>
         <div
-          flex justify-end items-center w-full gap2
+          flex justify-end items-center w-full h-full gap2
           transition duration-400
           :class="isCollapsed(index) ? 'op0' : ''"
           un-children="inline-flex items-center cursor-pointer gap-1"
         >
-          <div w-1px h-28px my--1 bg-gray:20 />
+          <label>
+            <input v-model="options.transformCustomCSS" type="checkbox">
+            <span text-sm>Transform</span>
+          </label>
+          <div w-1px h-full my--1 bg-gray:20 />
           <button
             i-ri-mist-line icon-btn
             title="Format"
@@ -34,6 +45,14 @@ defineProps<{ index: number }>()
         </div>
       </TitleBar>
     </div>
-    <CodeMirror v-model="customCSS" flex-auto mode="css" border="l gray-400/20" class="scrolls" />
+    <CodeMirror
+      v-model="computedCustomCSS"
+      :read-only="options.transformCustomCSS"
+      flex-auto
+      mode="css"
+      border="l
+      gray-400/20"
+      class="scrolls"
+    />
   </Pane>
 </template>
