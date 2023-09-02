@@ -36,6 +36,8 @@ export async function parseApply(root: Root, uno: UnoGenerator, directiveName: s
     if (!utils.length)
       return
 
+    const parentAfterNodes: Root[] = []
+
     for (const i of utils) {
       const [, _selector, body, parent] = i
       const selector = _selector?.replace(regexScopePlaceholder, ' ') || _selector
@@ -71,7 +73,7 @@ export async function parseApply(root: Root, uno: UnoGenerator, directiveName: s
         css_parsed.walkDecls((declaration) => {
           declaration.source = source
         })
-        rule.parent.after(css_parsed)
+        parentAfterNodes.push(css_parsed)
       }
       else {
         const css = postcss.parse(body)
@@ -81,7 +83,7 @@ export async function parseApply(root: Root, uno: UnoGenerator, directiveName: s
         rule.parent.append(css)
       }
     }
-
+    rule.parent.after(parentAfterNodes)
     rule.remove()
   })
 }

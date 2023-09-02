@@ -115,10 +115,17 @@ describe('postcss', () => {
     expect(css).toMatchSnapshot()
   })
 
-  test('@apply', async () => {
-    const { css } = await pcssLite().process('div{@apply bg-red hover:text-white dark:hover:[&>:focus]:text-[20px];}', processOptions)
+  describe('@apply', () => {
+    test('basic', async () => {
+      const { css } = await pcssLite().process('div{@apply bg-red hover:text-white dark:hover:[&>:focus]:text-[20px];}', processOptions)
 
-    expect(css).toMatchSnapshot()
+      expect(css).toMatchSnapshot()
+    })
+
+    test('media', async () => {
+      const { css } = await pcssLite().process('div{@apply sm:bg-red lg:bg-pink xl:bg-white md:bg-blue}', processOptions)
+      expect(css).toMatchSnapshot()
+    })
   })
 
   test('theme()', async () => {
