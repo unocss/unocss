@@ -1,6 +1,6 @@
 import { colors } from './colors'
 import { fontFamily, fontSize, fontWeight, letterSpacing, lineHeight, textIndent, textShadow, textStrokeWidth, wordSpacing } from './font'
-import { borderRadius, boxShadow, breakpoints, duration, easing, lineWidth, ringWidth, spacing, verticalBreakpoints } from './misc'
+import { borderRadius, boxShadow, breakpoints, duration, easing, lineWidth, ringWidth, spacing, verticalBreakpoints, zIndex } from './misc'
 import { blur, dropShadow } from './filters'
 import { containers, height, maxHeight, maxWidth, width } from './size'
 import type { Theme } from './types'
@@ -42,4 +42,5 @@ export const theme = {
   ringWidth,
   preflightBase,
   containers,
+  zIndex,
 } satisfies Theme

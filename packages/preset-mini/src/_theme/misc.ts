@@ -81,3 +81,7 @@ export const ringWidth = {
   DEFAULT: '1px',
   none: '0',
 } satisfies Theme['ringWidth']
+
+export const zIndex = {
+  auto: 'auto',
+}
