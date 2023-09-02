@@ -47,6 +47,7 @@ const computedCustomCSS = computed({
     </div>
     <CodeMirror
       v-model="computedCustomCSS"
+      :read-only="options.transformCustomCSS"
       flex-auto
       mode="css"
       border="l

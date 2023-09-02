@@ -9,7 +9,7 @@ export function formatConfig() {
 }
 
 export function formatCSS() {
-  customCSS.value = useCSSPrettify(customCSS).value
+  customCSS.value = useCSSPrettify(options.value.transformCustomCSS ? transformedCSS : customCSS).value
 }
 
 export const showPreflights = ref(false)

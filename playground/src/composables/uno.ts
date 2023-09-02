@@ -62,7 +62,7 @@ debouncedWatch(
         const preflights = (result.preflights ?? []).filter(p => p.layer !== customCSSLayerName)
         preflights.push({
           layer: customCSSLayerName,
-          getCSS: () => customCSS.value,
+          getCSS: () => transformedCSS.value,
         })
 
         result.preflights = preflights
@@ -70,8 +70,14 @@ debouncedWatch(
         reGenerate()
         if (initial) {
           const { transformers = [] } = uno.config
-          if (transformers.length)
+          if (transformers.length) {
             transformed.value = await getTransformed('html')
+            const _p = uno.config.preflights.find(i => i.layer === customCSSLayerName)
+            _p!.getCSS = async () => {
+              transformedCSS.value = (await getTransformed('css')).output
+              return transformedCSS.value
+            }
+          }
           initial = false
         }
       }
@@ -85,7 +91,7 @@ debouncedWatch(
 )
 
 watch(
-  transformed,
+  transformedHTML,
   generate,
   { immediate: true },
 )
@@ -95,7 +101,7 @@ watch(defaultConfig, reGenerate)
 function useTransformer() {
   const transformed = computedAsync(async () => await getTransformed('html'))
   const transformedHTML = computed(() => transformed.value?.output)
-  const transformedCSS = computedAsync(async () => await getTransformed('css')).value.output
+  const transformedCSS = computedAsync(async () => (await getTransformed('css')).output)
 
   async function applyTransformers(code: MagicString, id: string, enforce?: 'pre' | 'post') {
     let { transformers } = uno.config
@@ -118,12 +124,8 @@ function useTransformer() {
   }
 
   async function getTransformed(type: 'html' | 'css') {
-    const idMap = {
-      html: 'input.html',
-      css: 'input.css',
-    }
-    const id = idMap[type]
-    const input = new MagicString(inputHTML.value)
+    const id = type === 'html' ? 'input.html' : 'input.css'
+    const input = new MagicString(type === 'html' ? inputHTML.value : customCSS.value)
     const annotations = []
     annotations.push(...await applyTransformers(input, id, 'pre'))
     annotations.push(...await applyTransformers(input, id))

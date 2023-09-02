@@ -10,10 +10,10 @@ interface Options {
   height?: number
 }
 
-export const customConfigRaw = ref(decode(params.get('config') || '') || defaultConfigRaw)
 export const inputHTML = ref(decode(params.get('html') || '') || defaultHTML)
-export const options = ref<Options>(JSON.parse(decode(params.get('options') || '') || defaultOptions))
+export const customConfigRaw = ref(decode(params.get('config') || '') || defaultConfigRaw)
 export const customCSS = ref(decode(params.get('css') || '') || defaultCSS)
+export const options = ref<Options>(JSON.parse(decode(params.get('options') || '') || defaultOptions))
 
 throttledWatch(
   [customConfigRaw, inputHTML, customCSS, options],
