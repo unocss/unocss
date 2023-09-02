@@ -16,7 +16,7 @@ for (const file of files) {
   let content = await fs.readFile(file, 'utf-8')
   const index = content.indexOf(exportSubmodules)
   if (index !== -1) {
-    const submodules = await fg(['**/*.ts'], { cwd: dirname(file), absolute: true })
+    const submodules = await fg(['**/*.ts'], { cwd: dirname(file), absolute: true, ignore: ['**/*.test.ts'] })
     const imports = submodules
       .filter(i => i !== file)
       .map(i => relative(dirname(file), i))
