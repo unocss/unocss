@@ -2,7 +2,7 @@ import type { GenerateResult, UserConfig } from 'unocss'
 import { createGenerator } from 'unocss'
 import { createAutocomplete } from '@unocss/autocomplete'
 import MagicString from 'magic-string'
-import type { Annotation, UnocssPluginContext } from '@unocss/core'
+import type { HighlightAnnotation, UnocssPluginContext } from '@unocss/core'
 import { evaluateUserConfig } from '@unocss/shared-docs'
 import type { CompletionContext, CompletionResult } from '@codemirror/autocomplete'
 
@@ -11,13 +11,13 @@ export const customConfigError = ref<Error>()
 
 export const uno = createGenerator({}, defaultConfig.value)
 export const output = shallowRef<GenerateResult>()
-export const annotations = shallowRef<Annotation[]>()
+export const annotations = shallowRef<HighlightAnnotation[]>()
 
 let customConfig: UserConfig = {}
 let autocomplete = createAutocomplete(uno)
 let initial = true
 
-const { transformedHTML, transformed, getTransformed } = useTransformer()
+const { transformedHTML, transformed, getTransformed, transformedCSS } = useTransformer()
 
 export async function generate() {
   output.value = await uno.generate(transformedHTML.value || '')
@@ -71,7 +71,7 @@ debouncedWatch(
         if (initial) {
           const { transformers = [] } = uno.config
           if (transformers.length)
-            transformed.value = await getTransformed()
+            transformed.value = await getTransformed('html')
           initial = false
         }
       }
@@ -93,8 +93,9 @@ watch(
 watch(defaultConfig, reGenerate)
 
 function useTransformer() {
-  const transformed = computedAsync(async () => await getTransformed())
-  const transformedHTML = computed(() => transformed.value?.html)
+  const transformed = computedAsync(async () => await getTransformed('html'))
+  const transformedHTML = computed(() => transformed.value?.output)
+  const transformedCSS = computedAsync(async () => await getTransformed('css')).value.output
 
   async function applyTransformers(code: MagicString, id: string, enforce?: 'pre' | 'post') {
     let { transformers } = uno.config
@@ -116,17 +117,21 @@ function useTransformer() {
     return annotations
   }
 
-  async function getTransformed() {
-    const id = 'input.html'
+  async function getTransformed(type: 'html' | 'css') {
+    const idMap = {
+      html: 'input.html',
+      css: 'input.css',
+    }
+    const id = idMap[type]
     const input = new MagicString(inputHTML.value)
     const annotations = []
     annotations.push(...await applyTransformers(input, id, 'pre'))
     annotations.push(...await applyTransformers(input, id))
     annotations.push(...await applyTransformers(input, id, 'post'))
-    return { html: input.toString(), annotations }
+    return { output: input.toString(), annotations }
   }
 
-  return { transformedHTML, transformed, getTransformed }
+  return { transformedHTML, transformed, getTransformed, transformedCSS }
 }
 
-export { transformedHTML }
+export { transformedHTML, transformedCSS }

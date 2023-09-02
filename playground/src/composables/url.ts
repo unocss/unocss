@@ -3,7 +3,8 @@ import { decompressFromEncodedURIComponent as decode, compressToEncodedURICompon
 const params = new URLSearchParams(window.location.search || localStorage.getItem(STORAGE_KEY) || '')
 
 interface Options {
-  transform?: boolean
+  transformHtml?: boolean
+  transformCustomCSS?: boolean
   responsive?: boolean
   width?: number
   height?: number
