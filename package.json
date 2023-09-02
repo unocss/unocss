@@ -131,7 +131,7 @@
     }
   },
   "simple-git-hooks": {
-    "pre-commit": "esno scripts/prepare.ts && npx lint-staged"
+    "pre-commit": "npx esno scripts/prepare.ts && npx lint-staged"
   },
   "lint-staged": {
     "*.{js,ts,tsx,vue,md}": [
