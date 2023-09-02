@@ -130,7 +130,13 @@ function useTransformer() {
     annotations.push(...await applyTransformers(input, id, 'pre'))
     annotations.push(...await applyTransformers(input, id))
     annotations.push(...await applyTransformers(input, id, 'post'))
-    return { output: input.toString(), annotations }
+    return { output: type === 'css' ? cleanOutput(input.toString()) : input.toString(), annotations }
+  }
+
+  function cleanOutput(code: string) {
+    return code.replace(/\/\*\s*?[\s\S]*?\s*?\*\//g, '')
+      .replace(/\n\s+/g, '\n')
+      .trim()
   }
 
   return { transformedHTML, transformed, getTransformed, transformedCSS }
