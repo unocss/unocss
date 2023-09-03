@@ -136,7 +136,7 @@ function useTransformer() {
 async function detectTransformer() {
   const { transformers = [] } = uno.config
   if (!transformers.some(t => t.name === '@unocss/transformer-directives')) {
-    const msg = 'You need to install \'@unocss/transformer-directives\' to use this feature.'
+    const msg = 'Using directives requires \'@unocss/transformer-directives\' to be installed.'
     customCSSError.value = new Error(msg)
     transformedCSS.value = customCSS.value
   }
