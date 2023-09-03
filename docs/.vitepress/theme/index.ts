@@ -1,21 +1,19 @@
 // https://vitepress.dev/guide/custom-theme
 import { h, watch } from 'vue'
 import Theme from 'vitepress/theme'
+import UnoCSSLayout from './UnoCSSLayout.vue'
+
 import './rainbow.css'
 import './vars.css'
 import './overrides.css'
 import 'uno.css'
-
-import HomePage from './components/HomePage.vue'
 
 let homePageStyle: HTMLStyleElement | undefined
 
 export default {
   ...Theme,
   Layout: () => {
-    return h(Theme.Layout, null, {
-      'home-features-after': () => h(HomePage),
-    })
+    return h(UnoCSSLayout)
   },
   enhanceApp({ router }) {
     if (typeof window === 'undefined')

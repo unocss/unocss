@@ -19,7 +19,7 @@
   --vp-code-tab-hover-text-color: var(--vp-c-text-1);
   --vp-code-copy-code-active-text: var(--vp-c-text-2);
   --vp-c-text-dark-3: rgba(56, 56, 56, 0.8);
-  --vp-c-brand-lightest: var(--vp-c-brand);
+  --vp-c-brand-lightest: var(--vp-c-brand-1);
 
   --vp-c-highlight-bg: var(--vp-c-brand-light);
   --vp-c-highlight-text: var(--vp-c-bg);
@@ -28,11 +28,6 @@
 .dark {
   --vp-code-block-bg: rgba(0,0,0,0.2);
   --vp-c-text-code: #c0cec0;
-  --vp-code-tab-text-color: var(--vp-c-text-dark-2);
-  --vp-code-tab-active-text-color: var(--vp-c-text-dark-1);
-  --vp-code-tab-hover-text-color: var(--vp-c-text-dark-1);
-  --vp-code-copy-code-active-text: var(--vp-c-text-dark-2);
-  --vp-c-text-dark-3: var(--vp-c-text-dark-2);
 }
 
 
@@ -43,7 +38,7 @@
 :root {
   --vp-button-brand-border: var(--vp-c-brand-light);
   --vp-button-brand-text: var(--vp-c-white);
-  --vp-button-brand-bg: var(--vp-c-brand);
+  --vp-button-brand-bg: var(--vp-c-brand-1);
   --vp-button-brand-hover-border: var(--vp-c-brand-light);
   --vp-button-brand-hover-text: var(--vp-c-white);
   --vp-button-brand-hover-bg: var(--vp-c-brand-light);
@@ -60,12 +55,12 @@
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: -webkit-linear-gradient(
     120deg,
-    var(--vp-c-brand) 30%,
+    var(--vp-c-brand-1) 30%,
     var(--vp-c-brand-next)
   );
   --vp-home-hero-image-background-image: linear-gradient(
     -45deg,
-    var(--vp-c-brand) 30%,
+    var(--vp-c-brand-1) 30%,
     var(--vp-c-brand-next)
   );
   --vp-home-hero-image-filter: blur(80px);
@@ -94,13 +89,13 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-custom-block-tip-border: var(--vp-c-brand);
+  --vp-custom-block-tip-border: var(--vp-c-brand-1);
   --vp-custom-block-tip-text: var(--vp-c-brand-darker);
   --vp-custom-block-tip-bg: var(--vp-c-brand-dimm);
 }
 
 .dark {
-  --vp-custom-block-tip-border: var(--vp-c-brand);
+  --vp-custom-block-tip-border: var(--vp-c-brand-1);
   --vp-custom-block-tip-text: var(--vp-c-brand-lightest);
   --vp-custom-block-tip-bg: var(--vp-c-brand-dimm);
 }
@@ -110,5 +105,5 @@
  * -------------------------------------------------------------------------- */
 
 .DocSearch {
-  --docsearch-primary-color: var(--vp-c-brand) !important;
+  --docsearch-primary-color: var(--vp-c-brand-1) !important;
 }
