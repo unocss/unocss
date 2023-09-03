@@ -11,10 +11,20 @@ const computedCustomCSS = computed({
     customCSS.value = value
   },
 })
+
+const errorBody = computed(() => {
+  if (customCSSError.value) {
+    const msg = customCSSError.value.message
+    const match = msg.match(/^(.+)'(.+)'(.+)$/)
+    if (match)
+      return `${match[1]}'<a inline-block b="b dashed red4" href="https://unocss.dev/transformers/directives" target='_blank'>${match[2]}</a>'${match[3]}`
+  }
+  return ''
+})
 </script>
 
 <template>
-  <Pane :min-size="titleHeightPercent" :size="panelSizes[index]" flex flex-col>
+  <Pane :min-size="titleHeightPercent" :size="panelSizes[index]" flex flex-col relative>
     <div class="flex flex-wrap bg-$cm-background">
       <TitleBar
         title="Custom CSS" w-full relative
@@ -53,6 +63,17 @@ const computedCustomCSS = computed({
       border="l
       gray-400/20"
       class="scrolls"
+    />
+    <div
+      v-if="options.transformCustomCSS && customCSSError"
+      absolute
+      left-0
+      right-0
+      bottom-0
+      p="x-2 y-1"
+      bg="red-400/20"
+      text="red-400 sm"
+      v-html="errorBody"
     />
   </Pane>
 </template>
