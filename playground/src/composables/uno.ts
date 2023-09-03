@@ -8,7 +8,7 @@ import type { CompletionContext, CompletionResult } from '@codemirror/autocomple
 
 export const init = ref(false)
 export const customConfigError = ref<Error>()
-export const customCSSError = ref<Error>()
+export const customCSSWarn = ref<Error>()
 
 export const uno = createGenerator({}, defaultConfig.value)
 export const output = shallowRef<GenerateResult>()
@@ -57,7 +57,7 @@ debouncedWatch(
   [customConfigRaw, customCSS],
   async () => {
     customConfigError.value = undefined
-    customCSSError.value = undefined
+    customCSSWarn.value = undefined
     try {
       const result = await evaluateUserConfig(customConfigRaw.value)
       if (result) {
@@ -137,7 +137,7 @@ async function detectTransformer() {
   const { transformers = [] } = uno.config
   if (!transformers.some(t => t.name === '@unocss/transformer-directives')) {
     const msg = 'Using directives requires \'@unocss/transformer-directives\' to be installed.'
-    customCSSError.value = new Error(msg)
+    customCSSWarn.value = new Error(msg)
     transformedCSS.value = customCSS.value
   }
   else {

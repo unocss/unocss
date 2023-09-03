@@ -12,9 +12,9 @@ const computedCustomCSS = computed({
   },
 })
 
-const errorBody = computed(() => {
-  if (customCSSError.value) {
-    const msg = customCSSError.value.message
+const WarnContent = computed(() => {
+  if (customCSSWarn.value) {
+    const msg = customCSSWarn.value.message
     const match = msg.match(/^(.+)'(.+)'(.+)$/)
     if (match)
       return `Warning: ${match[1]}<a inline-block b="b dashed yellow4" href="https://unocss.dev/transformers/directives" target='_blank'>${match[2]}</a>${match[3]}`
@@ -65,7 +65,7 @@ const errorBody = computed(() => {
       class="scrolls"
     />
     <div
-      v-if="!isCollapsed(index) && options.transformCustomCSS && customCSSError"
+      v-if="!isCollapsed(index) && options.transformCustomCSS && customCSSWarn && WarnContent"
       absolute
       left-0
       right-0
@@ -73,7 +73,7 @@ const errorBody = computed(() => {
       p="x-2 y-1"
       bg="yellow-400/20"
       text="yellow-400 sm"
-      v-html="errorBody"
+      v-html="WarnContent"
     />
   </Pane>
 </template>
