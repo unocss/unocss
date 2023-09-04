@@ -4,7 +4,7 @@ import type { TSESTree } from '@typescript-eslint/types'
 import MagicString from 'magic-string'
 import { syncAction } from './_'
 
-const IGNORE_ATTRIBUTES = ['style', 'class', 'classname', 'value']
+export const IGNORE_ATTRIBUTES = ['style', 'class', 'classname', 'value']
 
 export default ESLintUtils.RuleCreator(name => name)({
   name: 'order-attributify',

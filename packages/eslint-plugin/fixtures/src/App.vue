@@ -19,6 +19,6 @@
       hover:(text-red text-4xl)
       hover:mx1 mx1 m2
       blocked-rule
-    "></div>
+  "  blocked-rule-attr></div>
   </div>
 </template>

@@ -3,6 +3,7 @@ import type { RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import type { TSESTree } from '@typescript-eslint/types'
 import { CLASS_FIELDS } from '../constants'
 import { syncAction } from './_'
+import { IGNORE_ATTRIBUTES } from './order-attributify'
 
 export default ESLintUtils.RuleCreator(name => name)({
   name: 'blocklist',
@@ -56,6 +57,27 @@ export default ESLintUtils.RuleCreator(name => name)({
         if (node.key.name === 'class') {
           if (node.value.type === 'VLiteral')
             checkLiteral(node.value)
+        }
+      },
+      // Attributify
+      VStartTag(node: any) {
+        const valueless = node.attributes.filter((i: any) => typeof i.key?.name === 'string' && !IGNORE_ATTRIBUTES.includes(i.key?.name?.toLowerCase()) && i.value == null)
+        if (!valueless.length)
+          return
+
+        for (const node of valueless) {
+          if (!node?.key?.name)
+            continue
+          const blocked = syncAction('blocklist', node.key.name, context.filename)
+          blocked.forEach((i) => {
+            context.report({
+              node,
+              messageId: 'in-blocklist',
+              data: {
+                name: i,
+              },
+            })
+          })
         }
       },
     }
