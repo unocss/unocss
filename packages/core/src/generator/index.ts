@@ -724,7 +724,7 @@ export class UnoGenerator<Theme extends object = object> {
   }
 
   isBlocked(raw: string): boolean {
-    return !raw || this.config.blocklist.some(e => isString(e) ? e === raw : e.test(raw))
+    return !raw || this.config.blocklist.some(e => typeof e === 'function' ? e(raw) : isString(e) ? e === raw : e.test(raw))
   }
 }
 

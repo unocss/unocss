@@ -43,7 +43,7 @@ if (!customConfigRaw.value)
       class="scrolls"
     />
     <div
-      v-if="customConfigError"
+      v-if="!isCollapsed(index) && customConfigError"
       absolute
       left-0
       right-0

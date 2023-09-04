@@ -24,7 +24,7 @@ export function getInitialPanelSizes(percent: number): number[] {
 }
 
 export function isCollapsed(index: number) {
-  return panelSizes.value[index] <= titleHeightPercent.value + 0.1
+  return panelSizes.value[index] <= titleHeightPercent.value + 3
 }
 
 export function togglePanel(index: number) {
