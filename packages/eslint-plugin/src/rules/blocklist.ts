@@ -1,42 +1,39 @@
 import { ESLintUtils } from '@typescript-eslint/utils'
 import type { RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import type { TSESTree } from '@typescript-eslint/types'
-import { AST_NODES_WITH_QUOTES, CLASS_FIELDS } from '../constants'
+import { CLASS_FIELDS } from '../constants'
 import { syncAction } from './_'
 
 export default ESLintUtils.RuleCreator(name => name)({
-  name: 'order',
+  name: 'blocklist',
   meta: {
-    type: 'layout',
+    type: 'problem',
     fixable: 'code',
     docs: {
-      description: 'Order of UnoCSS utilities in class attribute',
+      description: 'Utilities in UnoCSS blocklist',
       recommended: 'recommended',
     },
     messages: {
-      'invalid-order': 'UnoCSS utilities are not ordered',
+      'in-blocklist': 'Utility \'{{ name }}\' is in blocklist',
     },
     schema: [],
   },
   defaultOptions: [],
   create(context) {
-    function checkLiteral(node: TSESTree.Literal) {
+    const checkLiteral = (node: TSESTree.Literal) => {
       if (typeof node.value !== 'string' || !node.value.trim())
         return
       const input = node.value
-      const sorted = syncAction('sort', input).trim()
-      if (sorted !== input) {
+      const blocked = syncAction('blocklist', input, context.filename)
+      blocked.forEach((i) => {
         context.report({
           node,
-          messageId: 'invalid-order',
-          fix(fixer) {
-            if (AST_NODES_WITH_QUOTES.includes(node.type))
-              return fixer.replaceTextRange([node.range[0] + 1, node.range[1] - 1], sorted)
-            else
-              return fixer.replaceText(node, sorted)
+          messageId: 'in-blocklist',
+          data: {
+            name: i,
           },
         })
-      }
+      })
     }
 
     const scriptVisitor: RuleListener = {

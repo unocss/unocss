@@ -1,12 +1,8 @@
-import { join } from 'node:path'
 import { ESLintUtils } from '@typescript-eslint/utils'
-import { createSyncFn } from 'synckit'
 import type { RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import type { TSESTree } from '@typescript-eslint/types'
 import MagicString from 'magic-string'
-import { distDir } from '../dirs'
-
-const sortClasses = createSyncFn<(classes: string) => Promise<string>>(join(distDir, 'worker-sort.cjs'))
+import { syncAction } from './_'
 
 const IGNORE_ATTRIBUTES = ['style', 'class', 'classname', 'value']
 
@@ -36,7 +32,7 @@ export default ESLintUtils.RuleCreator(name => name)({
           return
 
         const input = valueless.map((i: any) => i.key.name).join(' ').trim()
-        const sorted = sortClasses(input)
+        const sorted = syncAction('sort', input)
         if (sorted !== input) {
           context.report({
             node,
