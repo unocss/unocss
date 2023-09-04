@@ -1001,13 +1001,13 @@ importers:
       '@unocss/vite':
         specifier: workspace:*
         version: link:../vite
-      vite:
-        specifier: ^2.9.0 || ^3.0.0-0 || ^4.0.0
-        version: 4.4.9(@types/node@20.5.6)(terser@5.19.2)
     devDependencies:
       '@unocss/webpack':
         specifier: workspace:*
         version: link:../webpack
+      vite:
+        specifier: ^4.4.9
+        version: 4.4.9(@types/node@20.5.6)(terser@5.19.2)
 
   packages/vite:
     dependencies:
@@ -1189,9 +1189,6 @@ packages:
     peerDependencies:
       '@algolia/client-search': '>= 4.9.1 < 6'
       algoliasearch: '>= 4.9.1 < 6'
-    peerDependenciesMeta:
-      '@algolia/client-search':
-        optional: true
     dependencies:
       '@algolia/client-search': 4.19.1
       algoliasearch: 4.19.1
