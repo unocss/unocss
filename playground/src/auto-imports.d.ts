@@ -31,6 +31,7 @@ declare global {
   const cssFormatted: typeof import('./composables/prettier')['cssFormatted']
   const customCSS: typeof import('./composables/url')['customCSS']
   const customCSSLayerName: typeof import('./composables/constants')['customCSSLayerName']
+  const customCSSWarn: typeof import('./composables/uno')['customCSSWarn']
   const customConfigError: typeof import('./composables/uno')['customConfigError']
   const customConfigRaw: typeof import('./composables/url')['customConfigRaw']
   const customRef: typeof import('vue')['customRef']
@@ -367,6 +368,7 @@ declare module 'vue' {
     readonly cssFormatted: UnwrapRef<typeof import('./composables/prettier')['cssFormatted']>
     readonly customCSS: UnwrapRef<typeof import('./composables/url')['customCSS']>
     readonly customCSSLayerName: UnwrapRef<typeof import('./composables/constants')['customCSSLayerName']>
+    readonly customCSSWarn: UnwrapRef<typeof import('./composables/uno')['customCSSWarn']>
     readonly customConfigError: UnwrapRef<typeof import('./composables/uno')['customConfigError']>
     readonly customConfigRaw: UnwrapRef<typeof import('./composables/url')['customConfigRaw']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
@@ -697,6 +699,7 @@ declare module '@vue/runtime-core' {
     readonly cssFormatted: UnwrapRef<typeof import('./composables/prettier')['cssFormatted']>
     readonly customCSS: UnwrapRef<typeof import('./composables/url')['customCSS']>
     readonly customCSSLayerName: UnwrapRef<typeof import('./composables/constants')['customCSSLayerName']>
+    readonly customCSSWarn: UnwrapRef<typeof import('./composables/uno')['customCSSWarn']>
     readonly customConfigError: UnwrapRef<typeof import('./composables/uno')['customConfigError']>
     readonly customConfigRaw: UnwrapRef<typeof import('./composables/url')['customConfigRaw']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
