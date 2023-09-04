@@ -156,7 +156,7 @@ describe('config', () => {
       ],
     })
 
-    expect(unoB.config.presets.map(i => i.name)).toEqual(['presetB', 'presetC', 'presetA'])
+    expect(unoB.config.presets.map(i => i.name)).toEqual(['presetA', 'presetB', 'presetC'])
   })
 })
 
