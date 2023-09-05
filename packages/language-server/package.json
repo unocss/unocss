@@ -1,6 +1,6 @@
 {
   "name": "@unocss/language-server",
-  "version": "0.54.2",
+  "version": "0.55.4",
   "description": "Nuxt module for UnoCSS",
   "author": "Chizuki <chizukicn@outlook.com>",
   "license": "MIT",
@@ -13,9 +13,6 @@
   "bugs": {
     "url": "https://github.com/unocss/unocss/issues"
   },
-  "files": [
-    "dist"
-  ],
   "keywords": [
     "unocss",
     "language-service",
@@ -32,6 +29,9 @@
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch src"

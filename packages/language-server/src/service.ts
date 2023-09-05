@@ -1,11 +1,12 @@
 import { fileURLToPath } from 'node:url'
 import { TextDocument } from 'vscode-languageserver-textdocument'
-import { DidChangeConfigurationNotification, ProposedFeatures, TextDocumentSyncKind, TextDocuments, createConnection } from 'vscode-languageserver/node'
+import { ProposedFeatures, TextDocumentSyncKind, TextDocuments, createConnection } from 'vscode-languageserver/node'
 import type { CompletionItem, Disposable, InitializeParams, InitializeResult } from 'vscode-languageserver/node'
+import { createNanoEvents } from './integration'
 import { ContextLoader } from './contextLoader'
 import { createLogger } from './log'
 import { useConfigurations } from './configuration'
-import type { LanguageContextOptions, LanguageServiceContext, LanguageServiceProvider } from './types'
+import type { LanguageContextOptions, LanguageServiceContext, LanguageServiceContextEventsMap } from './types'
 import { registerAutoComplete } from './autocomplete'
 import { registerAnnotation } from './annotation'
 
@@ -14,12 +15,15 @@ const triggerCharacters = ['-', ':', ' ', '"', '\'', '!']
 export function createLanguageService(options: LanguageContextOptions = {}): LanguageServiceContext {
   const documents = new TextDocuments(TextDocument)
   const connection = options.connection ?? createConnection(ProposedFeatures.all)
-  const contextLoader = options.contextLoader ?? new ContextLoader()
   const logger = options.logger ?? createLogger(connection)
+
+  const contextLoader = options.contextLoader ?? new ContextLoader()
 
   const disposables: Disposable[] = []
 
-  const configurationStore = useConfigurations(connection)
+  const events = createNanoEvents<LanguageServiceContextEventsMap>()
+
+  const configurationStore = useConfigurations(connection, events)
 
   disposables.push(configurationStore)
 
@@ -42,19 +46,23 @@ export function createLanguageService(options: LanguageContextOptions = {}): Lan
     return documents.get(uri) ?? null
   }
 
+  disposables.push(connection.onInitialized(async () => {
+    events.emit('serviceReady')
+  }))
+
   const serviceContext: LanguageServiceContext = {
     connection,
     documents,
     contextLoader,
     logger,
+    events,
     disposables,
     configuration: configurationStore.configuration,
-    configReady: configurationStore.ready,
     watchConfigChanged: configurationStore.watchChanged,
     getDocument,
     listen,
     dispose,
-    use(...providers: LanguageServiceProvider[]) {
+    use(...providers) {
       providers.forEach(p => p(serviceContext))
     },
   }
@@ -74,18 +82,10 @@ export function createLanguageService(options: LanguageContextOptions = {}): Lan
     return result
   }))
 
-  disposables.push(connection.onInitialized(async () => {
-    connection.client.register(DidChangeConfigurationNotification.type)
-    await configurationStore.reload()
-    await contextLoader.reload()
-  }))
-
-  configurationStore.ready.then(() => {
-    serviceContext.use(
-      registerAutoComplete,
-      registerAnnotation,
-    )
-  })
+  serviceContext.use(
+    registerAutoComplete,
+    registerAnnotation,
+  )
 
   return serviceContext
 }

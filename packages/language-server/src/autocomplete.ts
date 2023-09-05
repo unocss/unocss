@@ -7,8 +7,8 @@ import { getCSS, getColorString } from './utils'
 import { isCssId } from './integration'
 import type { LanguageServiceContext } from './types'
 
-export function registerAutoComplete(server: LanguageServiceContext) {
-  const { contextLoader, configuration, watchConfigChanged, getDocument, logger, connection, disposables } = server
+export function registerAutoComplete(serviceContext: LanguageServiceContext) {
+  const { contextLoader, configuration, watchConfigChanged, getDocument, logger, connection, disposables } = serviceContext
 
   const autoCompletes = new Map<UnocssPluginContext, UnocssAutocomplete>()
 

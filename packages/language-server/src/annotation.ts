@@ -6,9 +6,11 @@ import { getPrettiedCSS, throttle } from './utils'
 import { log } from './log'
 
 export async function registerAnnotation(
-  server: LanguageServiceContext,
+  serviceContext: LanguageServiceContext,
 ) {
-  const { contextLoader, documents, connection, watchConfigChanged, configuration, configReady } = server
+  const { contextLoader, documents, connection, watchConfigChanged, configuration } = serviceContext
+
+  log.appendLine('[annotation] registered')
 
   const reset = async (reason?: string) => {
     log.appendLine(`[annotation] reset: ${reason}`)
@@ -65,7 +67,14 @@ export async function registerAnnotation(
     await updateAnnotation(doc)
   }, 200))
 
+  connection.onNotification('unocss/updateAnnotation', async (uri: string) => {
+    const doc = documents.get(uri)
+    if (!doc)
+      return
+    await updateAnnotation(doc)
+  })
+
   watchConfigChanged(['underline', 'remToPxPreview', 'remToPxRatio'], async () => {
     await Promise.all(documents.all().map(updateAnnotation))
-  })
+  }, { immediate: true })
 }

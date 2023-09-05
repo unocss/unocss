@@ -1,11 +1,12 @@
 import { fileURLToPath } from 'node:url'
 import type { DecorationOptions } from 'vscode'
 import { DecorationRangeBehavior, Range, window } from 'vscode'
+import type { LanguageClient } from 'vscode-languageclient/node'
 import type { AnnotationEventParams } from './types'
 import { getMarkdown } from './utils'
 import { log } from './log'
 
-export function createAnnotationHandler() {
+export function registerAnnotation(client: LanguageClient) {
   const UnderlineDecoration = window.createTextEditorDecorationType({
     textDecoration: 'none; border-bottom: 1px dashed currentColor',
     rangeBehavior: DecorationRangeBehavior.ClosedClosed,
@@ -45,7 +46,7 @@ export function createAnnotationHandler() {
     }
   }
 
-  return (params: AnnotationEventParams) => {
+  const annotationUpdateHandler = (params: AnnotationEventParams) => {
     const editor = window.activeTextEditor
     if (!editor) {
       log.appendLine(`⚠️ Editor not found for ${params.uri}`)
@@ -80,4 +81,15 @@ export function createAnnotationHandler() {
       editor.setDecorations(NoneDecoration, colorRanges)
     }
   }
+
+  client.onNotification('unocss/annotation', annotationUpdateHandler)
+
+  window.onDidChangeActiveTextEditor((editor) => {
+    const uri = editor?.document.uri.toString() ?? null
+    if (uri) {
+      client.sendNotification('unocss/updateAnnotation', {
+        uri,
+      })
+    }
+  })
 }

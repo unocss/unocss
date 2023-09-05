@@ -1,7 +1,7 @@
 import type { Connection, Disposable, TextDocuments } from 'vscode-languageserver'
 import type { TextDocument } from 'vscode-languageserver-textdocument'
 import type { AutoCompleteMatchType } from '@unocss/autocomplete'
-import type { createNanoEvents } from '@unocss/core/src/utils/events'
+import type { Emitter } from './integration'
 import type { ContextLoader } from './contextLoader'
 
 export interface LanguageServiceLogger {
@@ -12,6 +12,11 @@ export interface LanguageContextOptions {
   connection?: Connection
   contextLoader?: ContextLoader
   logger?: LanguageServiceLogger
+}
+
+export interface LanguageServiceContextEventsMap {
+  configChanged: (changedKeys: Keys<LanguageServiceConfiguration>) => void
+  serviceReady: () => void
 }
 
 export interface LanguageServiceConfiguration {
@@ -44,7 +49,7 @@ export interface ConfigurationService<Config = LanguageServiceConfiguration> {
   ): () => void
   reload: () => Promise<void>
   dispose: () => void
-  events: ReturnType<typeof createNanoEvents>
+  events: Emitter<LanguageServiceContextEventsMap>
   ready: Promise<Config>
 }
 
@@ -55,9 +60,9 @@ export interface LanguageServiceContext {
   logger: LanguageServiceLogger
   disposables: Disposable[]
   configuration: ConfigurationService['configuration']
+  events: Emitter<LanguageServiceContextEventsMap>
   getDocument(uri: string): TextDocument | null
   watchConfigChanged: ConfigurationService['watchChanged']
-  configReady: ConfigurationService['ready']
   listen(): void
   dispose(): void
   use(...providers: LanguageServiceProvider[]): void

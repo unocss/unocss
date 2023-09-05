@@ -1,7 +1,8 @@
 import { toArray } from '@unocss/core'
 import type { AutoCompleteMatchType } from '@unocss/autocomplete'
 import { type Connection, type Disposable } from 'vscode-languageserver'
-import { createNanoEvents } from '../../core/src/utils/events'
+import type { Emitter } from './integration'
+import { createNanoEvents } from './integration'
 import type { ConfigurationService } from './types'
 import { getValue } from './utils'
 
@@ -9,6 +10,10 @@ export interface UseConfigurationOptions<Config> {
   scope?: string
   initialValue: Config
   alias?: Partial<Record<keyof Config, string>>
+  events?: Emitter<{
+    serviceReady: () => void
+    configChanged: (changedKeys: (keyof Config)[]) => void
+  }>
 }
 
 export function getConfigurations<Config extends Record<string, unknown>>(connection: Connection, options: UseConfigurationOptions<Config>): ConfigurationService<Config> {
@@ -26,13 +31,7 @@ export function getConfigurations<Config extends Record<string, unknown>>(connec
     return [scope, key].filter(Boolean).join('.')
   }
 
-  const events = createNanoEvents()
-
-  let isReady = false
-
-  const ready = new Promise<Config>((resolve) => {
-    events.on('ready', resolve)
-  })
+  const events = options.events ?? createNanoEvents()
 
   const reload = async () => {
     const changedSettings = await workspace.getConfiguration()
@@ -40,11 +39,21 @@ export function getConfigurations<Config extends Record<string, unknown>>(connec
       const configurationKey = getConfigurationKey(key)
       configuration[key] = getValue(changedSettings, configurationKey, initialValue[key]) as Config[typeof key]
     }
-    if (!isReady) {
-      isReady = true
-      events.emit('ready', configuration)
-    }
   }
+
+  const waitServiceReady = async () => {
+    return new Promise<void>((resolve) => {
+      events.on('serviceReady', () => {
+        resolve()
+      })
+    })
+  }
+
+  const ready = (async () => {
+    await waitServiceReady()
+    await reload()
+    return configuration
+  })()
 
   const watchChanged = (
     key: any,
@@ -53,14 +62,14 @@ export function getConfigurations<Config extends Record<string, unknown>>(connec
   ) => {
     const isArray = Array.isArray(key)
     const keys = toArray(key)
-    const off = events.on('update', (changedKeys: (keyof Config)[]) => {
+    const off = events.on('configChanged', (changedKeys: (keyof Config)[]) => {
       const changed = keys.some(k => changedKeys.includes(k))
       if (changed)
         fn(isArray ? keys.map(k => configuration[k]) : configuration)
     })
     if (options.immediate) {
       ready.then(() => {
-        events.emit('update', keys)
+        events.emit('configChanged', keys)
       })
     }
     return off
@@ -81,7 +90,7 @@ export function getConfigurations<Config extends Record<string, unknown>>(connec
         }
       }
       if (changedKeys.size > 0)
-        events.emit('update', Array.from(changedKeys))
+        events.emit('configChanged', Array.from(changedKeys))
     }),
   )
 
@@ -99,8 +108,9 @@ export function getConfigurations<Config extends Record<string, unknown>>(connec
   }
 }
 
-export function useConfigurations(connection: Connection) {
+export function useConfigurations(connection: Connection, events?: ReturnType<typeof createNanoEvents>) {
   return getConfigurations(connection, {
+    events,
     scope: 'unocss',
     initialValue: {
       colorPreview: true,

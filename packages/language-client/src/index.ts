@@ -3,7 +3,7 @@ import type { LanguageClientOptions, ServerOptions } from 'vscode-languageclient
 import type { ExtensionContext } from 'vscode'
 import { version } from '../package.json'
 import { log } from './log'
-import { createAnnotationHandler } from './annotation'
+import { registerAnnotation } from './annotation'
 
 let client: LanguageClient
 
@@ -37,7 +37,7 @@ export async function activate(ext: ExtensionContext) {
 
   client = new LanguageClient('unocss-lsp', 'UnoCSS LanguageClient', serverOptions, clientOptions)
 
-  client.onNotification('unocss/annotation', createAnnotationHandler())
+  registerAnnotation(client)
 
   client.registerProposedFeatures()
   client.start()
