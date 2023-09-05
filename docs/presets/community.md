@@ -20,7 +20,7 @@
 - [unocss-preset-grid](https://github.com/StatuAgency/unocss-preset-grid) - Bootstrap 5 Like Grid Preset by [@StatuAgency](https://github.com/StatuAgency).
 - [unocss-preset-grid-areas](https://github.com/chz/unocss-preset-grid-areas) - Grid Areas Preset for UnoCSS by [@chz](https://github.com/chz).
 - [unocss-preset-ease](https://github.com/kirklin/unocss-preset-ease) - Easing Functions as Transitions for UnoCSS by [@kirklin](https://github.com/kirklin).
-- [unocss-preset-useful](https://github.com/zyyv/unocss-preset-useful) - Integrate and Useful Preset by [@zyyv](https://github.com/zyyv).
+- [unocss-preset-useful](https://github.com/unpreset/unocss-preset-useful) - Integrate and Useful Preset by [@zyyv](https://github.com/zyyv).
 
 # Community frameworks
 
