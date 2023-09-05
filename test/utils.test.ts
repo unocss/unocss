@@ -114,6 +114,20 @@ it('addRemToPxComment', () => {
 
   expect(addRemToPxComment(text, 0)).eql(text)
   expect(addRemToPxComment(text, -1)).eql(text)
+
+  const importantText = `
+  /* layer: default */
+  .\!m-9 {
+    margin: 2.25rem !important;
+  }`
+
+  const importantComment = addRemToPxComment(importantText, 16)
+
+  expect(importantComment).eql(`
+  /* layer: default */
+  .\!m-9 {
+    margin: 2.25rem !important; /* 36px */
+  }`)
 })
 
 it('cartesian', () => {
