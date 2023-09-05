@@ -20,11 +20,12 @@
 - [unocss-preset-grid](https://github.com/StatuAgency/unocss-preset-grid) - Bootstrap 5 Like Grid Preset by [@StatuAgency](https://github.com/StatuAgency).
 - [unocss-preset-grid-areas](https://github.com/chz/unocss-preset-grid-areas) - Grid Areas Preset for UnoCSS by [@chz](https://github.com/chz).
 - [unocss-preset-ease](https://github.com/kirklin/unocss-preset-ease) - Easing Functions as Transitions for UnoCSS by [@kirklin](https://github.com/kirklin).
+- [unocss-preset-useful](https://github.com/zyyv/unocss-preset-useful) - Integrate and Useful Preset by [@zyyv](https://github.com/zyyv).
 
 # Community frameworks
 
 - [Anu](https://github.com/jd-solanki/anu) - DX focused utility based vue component library by [@jd-solanki](https://github.com/jd-solanki).
-- [OnuUI](https://github.com/onu-ui/onu-ui) - Popular, beautiful and fast UnoCSS component library by [@zyyv](https://github.com/zyyv), [@yzh990918](https://github.com/yzh990918).
+- [Onu UI](https://github.com/onu-ui/onu-ui) - Bullheaded and lightweight UnoCSS ui library by [@zyyv](https://github.com/zyyv), [@yzh990918](https://github.com/yzh990918).
 - [AtoUI](https://github.com/bennymi/ato-ui) - Elemental UI library for Svelte offering an easily themeable design system by [@bennymi](https://github.com/bennymi).
 
 # Community transformers
