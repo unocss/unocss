@@ -40,17 +40,19 @@ export function addRemToPxComment(str?: string, remToPixel = 16) {
   const output: string[] = []
 
   while (index < str.length) {
-    const rem = str.slice(index).match(/-?[\d.]+rem;/)
+    const rem = str.slice(index).match(/(-?[\d.]+)rem(\s+\!important)?;/)
     if (!rem || !rem.index)
       break
-    const px = ` /* ${Number.parseFloat(rem[0].slice(0, -4)) * remToPixel}px */`
+    const px = ` /* ${Number.parseFloat(rem[1]) * remToPixel}px */`
     const end = index + rem.index + rem[0].length
+
     output.push(str.slice(index, end))
     output.push(px)
     index = end
   }
   output.push(str.slice(index))
-  return output.join('')
+  const rs = output.join('')
+  return rs
 }
 
 export async function getPrettiedCSS(uno: UnoGenerator, util: string, remToPxRatio: number) {
