@@ -51,8 +51,7 @@ export function addRemToPxComment(str?: string, remToPixel = 16) {
     index = end
   }
   output.push(str.slice(index))
-  const rs = output.join('')
-  return rs
+  return output.join('')
 }
 
 export async function getPrettiedCSS(uno: UnoGenerator, util: string, remToPxRatio: number) {
