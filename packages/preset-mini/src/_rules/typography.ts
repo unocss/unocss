@@ -3,8 +3,8 @@ import { toArray } from '@unocss/core'
 import type { Theme } from '../theme'
 import { colorResolver, colorableShadows, h, splitShorthand } from '../utils'
 
-function handleThemeByKey(ls: string, theme: Theme, key: 'lineHeight' | 'letterSpacing') {
-  return theme[key]?.[ls] || h.bracket.cssvar.global.rem(ls)
+function handleThemeByKey(s: string, theme: Theme, key: 'lineHeight' | 'letterSpacing') {
+  return theme[key]?.[s] || h.bracket.cssvar.global.rem(s)
 }
 
 export const fonts: Rule<Theme>[] = [
