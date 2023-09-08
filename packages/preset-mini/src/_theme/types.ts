@@ -45,6 +45,7 @@ export interface Theme {
   duration?: Record<string, string>
   aria?: Record<string, string>
   data?: Record<string, string>
+  zIndex?: Record<string, string>
   // filters
   blur?: Record<string, string>
   dropShadow?: Record<string, string | string[]>

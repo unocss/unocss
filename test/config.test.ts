@@ -132,6 +132,32 @@ describe('config', () => {
       .text-yellow-500{color:yellow;}"
     `)
   })
+
+  test('uniq presets', async () => {
+    const presetA: Preset = { name: 'presetA' }
+    const presetB: Preset = { name: 'presetB' }
+    const presetC: Preset = { name: 'presetC', presets: [presetA] }
+
+    const unoA = createGenerator({
+      presets: [
+        presetA,
+        presetB,
+        presetA,
+      ],
+    })
+
+    expect(unoA.config.presets.map(i => i.name)).toEqual(['presetA', 'presetB'])
+
+    const unoB = createGenerator({
+      presets: [
+        presetA,
+        presetB,
+        presetC,
+      ],
+    })
+
+    expect(unoB.config.presets.map(i => i.name)).toEqual(['presetA', 'presetB', 'presetC'])
+  })
 })
 
 describe('mergeConfigs', () => {

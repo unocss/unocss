@@ -1,5 +1,5 @@
 import type { Preset, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
-import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq } from './utils'
+import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq, uniqueBy } from './utils'
 import { extractorSplit } from './extractors'
 import { DEFAULT_LAYERS } from './constants'
 
@@ -64,7 +64,7 @@ export function resolveConfig<Theme extends object = object>(
   defaults: UserConfigDefaults<Theme> = {},
 ): ResolvedConfig<Theme> {
   const config = Object.assign({}, defaults, userConfig) as UserConfigDefaults<Theme>
-  const rawPresets = uniq((config.presets || []).flatMap(toArray).flatMap(resolvePresets))
+  const rawPresets = uniqueBy((config.presets || []).flatMap(toArray).flatMap(resolvePresets), (a, b) => a.name === b.name)
 
   const sortedPresets = [
     ...rawPresets.filter(p => p.enforce === 'pre'),

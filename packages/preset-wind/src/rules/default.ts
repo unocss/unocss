@@ -16,6 +16,7 @@ import { touchActions } from './touch-actions'
 import { scrolls } from './scrolls'
 import { columns } from './columns'
 import { placeholders } from './placeholder'
+import { viewTransition } from './view-transition'
 
 // _. indicates that the rule is from @unocss/preset-mini
 
@@ -106,6 +107,7 @@ export const rules: Rule[] = [
   _.contents,
   placeholders,
   _.containerParent,
+  viewTransition,
 
   // should be the last
   _.questionMark,

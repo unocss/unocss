@@ -1135,6 +1135,11 @@ export const presetMiniNonTargets = [
   // variants - combinator
   'all:[svg]:fill-red',
 
+  // vertical align
+  'v-random',
+  'v-foo-100%',
+  'vertical-x-100%',
+
   // arbitrary css properties edge cases that cause invalid output
   '[name].[hash:9]',
   '["update:modelValue"]',

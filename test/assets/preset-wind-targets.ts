@@ -411,6 +411,10 @@ export const presetWindTargets: string[] = [
 
   // variants - data (theme)
   'data-dropdown:ring-green',
+
+  // view-transition
+  'view-transition-foo',
+  'view-transition-none',
 ]
 
 export const presetWindNonTargets: string[] = [

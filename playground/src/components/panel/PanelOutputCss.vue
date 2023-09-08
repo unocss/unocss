@@ -16,7 +16,9 @@ defineProps<{ index: number }>()
         />
       </template>
       <div
-        flex justify-end items-center w-full gap2 transition duration-400 :class="isCollapsed(index) ? 'op0' : ''"
+        flex justify-end items-center w-full h-full
+        gap2 transition duration-400
+        :class="isCollapsed(index) ? 'op0' : ''"
         un-children="inline-flex items-center cursor-pointer gap1"
       >
         <label>

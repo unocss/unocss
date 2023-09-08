@@ -1,6 +1,10 @@
 {
+  "root": true,
   "extends": [
     "@antfu",
     "plugin:@unocss/recommended"
-  ]
+  ],
+  "rules": {
+    "@unocss/blocklist": "error"
+  }
 }

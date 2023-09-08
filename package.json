@@ -1,7 +1,7 @@
 {
   "name": "@unocss/monorepo",
   "type": "module",
-  "version": "0.55.4",
+  "version": "0.55.7",
   "private": true,
   "packageManager": "pnpm@8.6.12",
   "scripts": {
@@ -125,9 +125,39 @@
   "pnpm": {
     "overrides": {
       "@nuxt/kit-edge": "npm:@nuxt/kit@latest",
-      "magic-string": "^0.30.1",
-      "nuxt": "^3.6.2",
-      "prettier": "^2.8.8"
+      "deep-equal": "npm:@nolyfill/deep-equal@latest",
+      "define-properties": "npm:@nolyfill/define-properties@latest",
+      "function-bind": "npm:@nolyfill/function-bind@latest",
+      "function.prototype.name": "npm:@nolyfill/function.prototype.name@latest",
+      "get-symbol-description": "npm:@nolyfill/get-symbol-description@latest",
+      "has": "npm:@nolyfill/has@latest",
+      "has-property-descriptors": "npm:@nolyfill/has-property-descriptors@latest",
+      "has-proto": "npm:@nolyfill/has-proto@latest",
+      "has-symbols": "npm:@nolyfill/has-symbols@latest",
+      "internal-slot": "npm:@nolyfill/internal-slot@latest",
+      "is-arguments": "npm:@nolyfill/is-arguments@latest",
+      "is-date-object": "npm:@nolyfill/is-date-object@latest",
+      "is-generator-function": "npm:@nolyfill/is-generator-function@latest",
+      "is-regex": "npm:@nolyfill/is-regex@latest",
+      "is-shared-array-buffer": "npm:@nolyfill/is-shared-array-buffer@latest",
+      "is-string": "npm:@nolyfill/is-string@latest",
+      "is-symbol": "npm:@nolyfill/is-symbol@latest",
+      "is-weakref": "npm:@nolyfill/is-weakref@latest",
+      "magic-string": "latest",
+      "nuxt": "latest",
+      "object-is": "npm:@nolyfill/object-is@latest",
+      "object-keys": "npm:@nolyfill/object-keys@latest",
+      "object.assign": "npm:@nolyfill/object.assign@latest",
+      "object.getownpropertydescriptors": "npm:@nolyfill/object.getownpropertydescriptors@latest",
+      "object.values": "npm:@nolyfill/object.values@latest",
+      "prettier": "^2.8.8",
+      "regexp.prototype.flags": "npm:@nolyfill/regexp.prototype.flags@latest",
+      "safe-regex-test": "npm:@nolyfill/safe-regex-test@latest",
+      "side-channel": "npm:@nolyfill/side-channel@latest",
+      "string.prototype.trimend": "npm:@nolyfill/string.prototype.trimend@latest",
+      "string.prototype.trimstart": "npm:@nolyfill/string.prototype.trimstart@latest",
+      "unbox-primitive": "npm:@nolyfill/unbox-primitive@latest",
+      "which-typed-array": "npm:@nolyfill/which-typed-array@latest"
     }
   },
   "simple-git-hooks": {

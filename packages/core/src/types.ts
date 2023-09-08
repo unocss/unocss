@@ -209,7 +209,7 @@ export interface Preflight<Theme extends object = object> {
   layer?: string
 }
 
-export type BlocklistRule = string | RegExp
+export type BlocklistRule = string | RegExp | ((selector: string) => boolean | null | undefined)
 
 export interface VariantHandlerContext {
   /**

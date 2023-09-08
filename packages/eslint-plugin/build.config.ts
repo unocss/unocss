@@ -4,7 +4,7 @@ export default defineBuildConfig({
   entries: [
     'src/dirs',
     'src/index',
-    'src/worker-sort',
+    'src/worker',
   ],
   clean: true,
   declaration: false,

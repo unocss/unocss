@@ -33,7 +33,7 @@
 [align-10px=""]{vertical-align:10px;}
 [align-1rem=""]{vertical-align:1rem;}
 [align-20\%=""]{vertical-align:20%;}
-[align-center=""]{vertical-align:center;}
+[align-middle=""]{vertical-align:middle;}
 [text-4xl=""],
 [peer=""]:checked~[peer-checked~="text-4xl"]{font-size:2.25rem;line-height:2.5rem;}
 [text-5xl=""]{font-size:3rem;line-height:1;}

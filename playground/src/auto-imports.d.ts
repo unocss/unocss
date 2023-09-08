@@ -31,6 +31,7 @@ declare global {
   const cssFormatted: typeof import('./composables/prettier')['cssFormatted']
   const customCSS: typeof import('./composables/url')['customCSS']
   const customCSSLayerName: typeof import('./composables/constants')['customCSSLayerName']
+  const customCSSWarn: typeof import('./composables/uno')['customCSSWarn']
   const customConfigError: typeof import('./composables/uno')['customConfigError']
   const customConfigRaw: typeof import('./composables/url')['customConfigRaw']
   const customRef: typeof import('vue')['customRef']
@@ -131,6 +132,7 @@ declare global {
   const toValue: typeof import('vue')['toValue']
   const toggleDark: typeof import('./composables/dark')['toggleDark']
   const togglePanel: typeof import('./composables/panel')['togglePanel']
+  const transformedCSS: typeof import('./composables/uno')['transformedCSS']
   const transformedHTML: typeof import('./composables/uno')['transformedHTML']
   const triggerRef: typeof import('vue')['triggerRef']
   const tryOnBeforeMount: typeof import('@vueuse/core')['tryOnBeforeMount']
@@ -366,6 +368,7 @@ declare module 'vue' {
     readonly cssFormatted: UnwrapRef<typeof import('./composables/prettier')['cssFormatted']>
     readonly customCSS: UnwrapRef<typeof import('./composables/url')['customCSS']>
     readonly customCSSLayerName: UnwrapRef<typeof import('./composables/constants')['customCSSLayerName']>
+    readonly customCSSWarn: UnwrapRef<typeof import('./composables/uno')['customCSSWarn']>
     readonly customConfigError: UnwrapRef<typeof import('./composables/uno')['customConfigError']>
     readonly customConfigRaw: UnwrapRef<typeof import('./composables/url')['customConfigRaw']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
@@ -466,6 +469,7 @@ declare module 'vue' {
     readonly toValue: UnwrapRef<typeof import('vue')['toValue']>
     readonly toggleDark: UnwrapRef<typeof import('./composables/dark')['toggleDark']>
     readonly togglePanel: UnwrapRef<typeof import('./composables/panel')['togglePanel']>
+    readonly transformedCSS: UnwrapRef<typeof import('./composables/uno')['transformedCSS']>
     readonly transformedHTML: UnwrapRef<typeof import('./composables/uno')['transformedHTML']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly tryOnBeforeMount: UnwrapRef<typeof import('@vueuse/core')['tryOnBeforeMount']>
@@ -695,6 +699,7 @@ declare module '@vue/runtime-core' {
     readonly cssFormatted: UnwrapRef<typeof import('./composables/prettier')['cssFormatted']>
     readonly customCSS: UnwrapRef<typeof import('./composables/url')['customCSS']>
     readonly customCSSLayerName: UnwrapRef<typeof import('./composables/constants')['customCSSLayerName']>
+    readonly customCSSWarn: UnwrapRef<typeof import('./composables/uno')['customCSSWarn']>
     readonly customConfigError: UnwrapRef<typeof import('./composables/uno')['customConfigError']>
     readonly customConfigRaw: UnwrapRef<typeof import('./composables/url')['customConfigRaw']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
@@ -795,6 +800,7 @@ declare module '@vue/runtime-core' {
     readonly toValue: UnwrapRef<typeof import('vue')['toValue']>
     readonly toggleDark: UnwrapRef<typeof import('./composables/dark')['toggleDark']>
     readonly togglePanel: UnwrapRef<typeof import('./composables/panel')['togglePanel']>
+    readonly transformedCSS: UnwrapRef<typeof import('./composables/uno')['transformedCSS']>
     readonly transformedHTML: UnwrapRef<typeof import('./composables/uno')['transformedHTML']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly tryOnBeforeMount: UnwrapRef<typeof import('@vueuse/core')['tryOnBeforeMount']>

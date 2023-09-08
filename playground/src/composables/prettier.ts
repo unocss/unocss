@@ -1,7 +1,7 @@
 import { useCSSPrettify, useHTMLPrettify, useJSPrettify } from '../../../packages/inspector/client/composables/usePrettify'
 
 export function formatHTML() {
-  inputHTML.value = useHTMLPrettify(options.value.transform ? transformedHTML : inputHTML).value
+  inputHTML.value = useHTMLPrettify(options.value.transformHtml ? transformedHTML : inputHTML).value
 }
 
 export function formatConfig() {
@@ -9,7 +9,7 @@ export function formatConfig() {
 }
 
 export function formatCSS() {
-  customCSS.value = useCSSPrettify(customCSS).value
+  customCSS.value = useCSSPrettify(options.value.transformCustomCSS ? transformedCSS : customCSS).value
 }
 
 export const showPreflights = ref(false)
