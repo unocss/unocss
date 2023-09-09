@@ -3,6 +3,8 @@ import type MagicString from 'magic-string'
 import type { UnoGenerator } from './generator'
 import type { BetterMap, CountableSet } from './utils'
 
+export * from './utils'
+
 export type Awaitable<T> = T | Promise<T>
 export type Arrayable<T> = T | T[]
 export type ToArray<T> = T extends (infer U)[] ? U[] : T[]
