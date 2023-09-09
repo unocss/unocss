@@ -1,4 +1,4 @@
-import type { Postprocessor, Preflight, PreflightContext, Preset, PresetOptions } from '@unocss/core'
+import type { Postprocessor, Preflight, PreflightContext, PresetOptions } from '@unocss/core'
 import { createPreset } from '@unocss/core'
 import { extractorArbitraryVariants } from '@unocss/extractor-arbitrary-variants'
 import { preflights } from './preflights'
@@ -72,7 +72,7 @@ export interface PresetMiniOptions extends PresetOptions {
   arbitraryVariants?: boolean
 }
 
-export const presetMini = createPreset((options: PresetMiniOptions = {}): Preset<Theme> => {
+export const presetMini = createPreset<PresetMiniOptions | undefined, Theme>((options = {}) => {
   options.dark = options.dark ?? 'class'
   options.attributifyPseudo = options.attributifyPseudo ?? false
   options.preflight = options.preflight ?? true
