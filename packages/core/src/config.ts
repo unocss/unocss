@@ -1,4 +1,4 @@
-import type { Preset, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
+import type { Preset, PresetFactory, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
 import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq, uniqueBy } from './utils'
 import { extractorSplit } from './extractors'
 import { DEFAULT_LAYERS } from './constants'
@@ -211,4 +211,13 @@ function mergeAutocompleteShorthands(shorthands: Record<string, string | string[
     }
   }
   , {})
+}
+
+/**
+ * define a preset factory
+ * @param factory
+ * @returns
+ */
+export function createPreset<PresetOptions, Theme extends object = object>(factory: PresetFactory<PresetOptions, Theme>): PresetFactory<PresetOptions, Theme> {
+  return factory
 }
