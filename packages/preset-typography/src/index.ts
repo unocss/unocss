@@ -80,9 +80,13 @@ export function presetTypography(options?: TypographyOptions): Preset<Theme> {
     rules: [
       [
         selectorNameRE,
-        (_, { rawSelector }) => {
+        (_, { theme, rawSelector }) => {
           escapedSelectors.add(toEscapedSelector(rawSelector))
-          return { 'color': 'var(--un-prose-body)', 'max-width': '65ch' }
+          return {
+            'color': 'var(--un-prose-body)',
+            'max-width': '65ch',
+            '--un-prose-font-mono': theme.fontFamily?.mono,
+          }
         },
         { layer: 'typography' },
       ],
@@ -115,8 +119,6 @@ export function presetTypography(options?: TypographyOptions): Preset<Theme> {
             '--un-prose-invert-code': colorObject[100] ?? baseColor,
             '--un-prose-invert-borders': colorObject[700] ?? baseColor,
             '--un-prose-invert-bg-soft': colorObject[800] ?? baseColor,
-
-            '--un-prose-font-mono': theme.fontFamily?.mono,
           }
         },
         { layer: 'typography' },
