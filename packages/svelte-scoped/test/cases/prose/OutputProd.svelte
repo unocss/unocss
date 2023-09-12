@@ -354,6 +354,8 @@
   :global(.uno-prose) {
     color: var(--un-prose-body);
     max-width: 65ch;
+    --un-prose-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      "Liberation Mono", "Courier New", monospace;
   }
   :global(.mb-7px) {
     margin-bottom: 7px;
