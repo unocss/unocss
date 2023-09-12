@@ -6,10 +6,11 @@ import {
   presetWebFonts,
 } from 'unocss'
 import { presetForms } from '@julr/unocss-preset-forms'
+import { logo } from './src/shortcuts/logo'
 
 export default defineConfig({
   shortcuts: [
-    { logo: 'i-logos:svelte-icon w-7em h-7em transform transition-300' },
+    logo,
     { 'styled-input': 'rounded-md border-gray-300 focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50' },
   ],
   presets: [
