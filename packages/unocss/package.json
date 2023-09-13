@@ -1,6 +1,6 @@
 {
   "name": "unocss",
-  "version": "0.55.6",
+  "version": "0.55.7",
   "description": "The instant on-demand Atomic CSS engine.",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -141,6 +141,7 @@
     "@unocss/vite": "workspace:*"
   },
   "devDependencies": {
-    "@unocss/webpack": "workspace:*"
+    "@unocss/webpack": "workspace:*",
+    "vite": "^4.4.9"
   }
 }

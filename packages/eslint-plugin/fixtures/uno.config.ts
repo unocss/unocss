@@ -8,4 +8,7 @@ export default defineConfig({
   transformers: [
     transformerVariantGroup(),
   ],
+  blocklist: [
+    (i) => i.includes('blocked')
+  ]
 })

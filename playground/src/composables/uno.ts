@@ -8,6 +8,7 @@ import type { CompletionContext, CompletionResult } from '@codemirror/autocomple
 
 export const init = ref(false)
 export const customConfigError = ref<Error>()
+export const customCSSWarn = ref<Error>()
 
 export const uno = createGenerator({}, defaultConfig.value)
 export const output = shallowRef<GenerateResult>()
@@ -56,28 +57,25 @@ debouncedWatch(
   [customConfigRaw, customCSS],
   async () => {
     customConfigError.value = undefined
+    customCSSWarn.value = undefined
     try {
       const result = await evaluateUserConfig(customConfigRaw.value)
       if (result) {
         const preflights = (result.preflights ?? []).filter(p => p.layer !== customCSSLayerName)
         preflights.push({
           layer: customCSSLayerName,
-          getCSS: () => transformedCSS.value,
+          getCSS: () => cleanOutput(transformedCSS.value),
         })
 
         result.preflights = preflights
         customConfig = result
         reGenerate()
+        await detectTransformer()
+
         if (initial) {
           const { transformers = [] } = uno.config
-          if (transformers.length) {
+          if (transformers.length)
             transformed.value = await getTransformed('html')
-            const _p = uno.config.preflights.find(i => i.layer === customCSSLayerName)
-            _p!.getCSS = async () => {
-              transformedCSS.value = (await getTransformed('css')).output
-              return transformedCSS.value
-            }
-          }
           initial = false
         }
       }
@@ -95,8 +93,6 @@ watch(
   generate,
   { immediate: true },
 )
-
-watch(defaultConfig, reGenerate)
 
 function useTransformer() {
   const transformed = computedAsync(async () => await getTransformed('html'))
@@ -124,22 +120,35 @@ function useTransformer() {
   }
 
   async function getTransformed(type: 'html' | 'css') {
-    const id = type === 'html' ? 'input.html' : 'input.css'
-    const input = new MagicString(type === 'html' ? inputHTML.value : customCSS.value)
+    const isHTML = type === 'html'
+    const id = isHTML ? 'input.html' : 'input.css'
+    const input = new MagicString(isHTML ? inputHTML.value : customCSS.value)
     const annotations = []
     annotations.push(...await applyTransformers(input, id, 'pre'))
     annotations.push(...await applyTransformers(input, id))
     annotations.push(...await applyTransformers(input, id, 'post'))
-    return { output: type === 'css' ? cleanOutput(input.toString()) : input.toString(), annotations }
-  }
-
-  function cleanOutput(code: string) {
-    return code.replace(/\/\*\s*?[\s\S]*?\s*?\*\//g, '')
-      .replace(/\n\s+/g, '\n')
-      .trim()
+    return { output: isHTML ? input.toString() : cleanOutput(input.toString()), annotations }
   }
 
   return { transformedHTML, transformed, getTransformed, transformedCSS }
 }
 
+async function detectTransformer() {
+  const { transformers = [] } = uno.config
+  if (!transformers.some(t => t.name === '@unocss/transformer-directives')) {
+    const msg = 'Using directives requires \'@unocss/transformer-directives\' to be installed.'
+    customCSSWarn.value = new Error(msg)
+    transformedCSS.value = customCSS.value
+  }
+  else {
+    transformedCSS.value = (await getTransformed('css')).output
+  }
+}
+
 export { transformedHTML, transformedCSS }
+
+function cleanOutput(code: string) {
+  return code.replace(/\/\*\s*?[\s\S]*?\s*?\*\//g, '')
+    .replace(/\n\s+/g, '\n')
+    .trim()
+}

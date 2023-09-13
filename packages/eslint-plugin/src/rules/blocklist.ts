@@ -1,42 +1,40 @@
 import { ESLintUtils } from '@typescript-eslint/utils'
 import type { RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import type { TSESTree } from '@typescript-eslint/types'
-import { AST_NODES_WITH_QUOTES, CLASS_FIELDS } from '../constants'
+import { CLASS_FIELDS } from '../constants'
 import { syncAction } from './_'
+import { IGNORE_ATTRIBUTES } from './order-attributify'
 
 export default ESLintUtils.RuleCreator(name => name)({
-  name: 'order',
+  name: 'blocklist',
   meta: {
-    type: 'layout',
+    type: 'problem',
     fixable: 'code',
     docs: {
-      description: 'Order of UnoCSS utilities in class attribute',
+      description: 'Utilities in UnoCSS blocklist',
       recommended: 'recommended',
     },
     messages: {
-      'invalid-order': 'UnoCSS utilities are not ordered',
+      'in-blocklist': 'Utility \'{{ name }}\' is in blocklist',
     },
     schema: [],
   },
   defaultOptions: [],
   create(context) {
-    function checkLiteral(node: TSESTree.Literal) {
+    const checkLiteral = (node: TSESTree.Literal) => {
       if (typeof node.value !== 'string' || !node.value.trim())
         return
       const input = node.value
-      const sorted = syncAction('sort', input).trim()
-      if (sorted !== input) {
+      const blocked = syncAction('blocklist', input, context.filename)
+      blocked.forEach((i) => {
         context.report({
           node,
-          messageId: 'invalid-order',
-          fix(fixer) {
-            if (AST_NODES_WITH_QUOTES.includes(node.type))
-              return fixer.replaceTextRange([node.range[0] + 1, node.range[1] - 1], sorted)
-            else
-              return fixer.replaceText(node, sorted)
+          messageId: 'in-blocklist',
+          data: {
+            name: i,
           },
         })
-      }
+      })
     }
 
     const scriptVisitor: RuleListener = {
@@ -59,6 +57,27 @@ export default ESLintUtils.RuleCreator(name => name)({
         if (node.key.name === 'class') {
           if (node.value.type === 'VLiteral')
             checkLiteral(node.value)
+        }
+      },
+      // Attributify
+      VStartTag(node: any) {
+        const valueless = node.attributes.filter((i: any) => typeof i.key?.name === 'string' && !IGNORE_ATTRIBUTES.includes(i.key?.name?.toLowerCase()) && i.value == null)
+        if (!valueless.length)
+          return
+
+        for (const node of valueless) {
+          if (!node?.key?.name)
+            continue
+          const blocked = syncAction('blocklist', node.key.name, context.filename)
+          blocked.forEach((i) => {
+            context.report({
+              node,
+              messageId: 'in-blocklist',
+              data: {
+                name: i,
+              },
+            })
+          })
         }
       },
     }

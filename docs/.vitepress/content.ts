@@ -105,12 +105,6 @@ export const examples: Example[] = [
     codesandbox: true,
   },
   {
-    name: 'react',
-    path: 'examples/react',
-    icon: 'i-logos-react',
-    stackblitz: true,
-  },
-  {
     name: 'vite-lightningcss',
     path: 'examples/vite-lightningcss',
     icon: 'i-ph-lightning text-yellow',

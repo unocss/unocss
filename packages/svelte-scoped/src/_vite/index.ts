@@ -9,6 +9,7 @@ import type { UnocssSvelteScopedViteOptions } from './types'
 import { PassPreprocessToSveltePlugin } from './passPreprocessToSveltePlugin'
 import { GlobalStylesPlugin } from './globalStylesPlugin'
 import { createCssTransformerPlugins } from './createCssTransformerPlugins'
+import { ConfigHMRPlugin } from './config-hmr'
 
 export function UnocssSvelteScopedVite(options: UnocssSvelteScopedViteOptions = {}): Plugin[] {
   const context = createSvelteScopedContext(options.configOrPath)
@@ -21,10 +22,11 @@ export function UnocssSvelteScopedVite(options: UnocssSvelteScopedViteOptions = 
 
   const plugins: Plugin[] = [
     GlobalStylesPlugin(context, options.injectReset),
+    ConfigHMRPlugin(context),
   ]
 
   if (!options.onlyGlobal)
-    plugins.push(PassPreprocessToSveltePlugin(options, context))
+    plugins.push(PassPreprocessToSveltePlugin(context, options))
 
   if (options.cssFileTransformers)
     plugins.push(...createCssTransformerPlugins(context, options.cssFileTransformers))
@@ -43,9 +45,9 @@ function createSvelteScopedContext(configOrPath?: UserConfig | string): SvelteSc
   const ready = reloadConfig()
 
   async function reloadConfig() {
-    const { config } = await loadConfig(process.cwd(), configOrPath)
+    const { config, sources } = await loadConfig(process.cwd(), configOrPath)
     uno.setConfig(config, defaults)
-    return config
+    return { config, sources }
   }
 
   return {

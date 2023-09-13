@@ -35,6 +35,24 @@ In `.eslintrc`:
 
 - `@unocss/order` - Enforce a specific order for class selectors.
 - `@unocss/order-attributify` - Enforce a specific order for attributify selectors.
+- `@unocss/blocklist` - Disallow specific class selectors [Optional].
+
+### `@unocss/blocklist`
+
+Throw warning or error when using utilities listed in `blocklist` get matched.
+
+This rule is not enabled by default. To enable it, add the following to your `.eslintrc`:
+
+```jsonc
+{
+  "extends": [
+    "@unocss"
+  ],
+  "rules": {
+    "@unocss/blocklist": "warn" // or "error"
+  }
+}
+```
 
 ## Prior Arts
 
