@@ -3,7 +3,7 @@ import type { SvelteScopedContext } from '../preprocess'
 import UnocssSveltePreprocess from '../preprocess'
 import type { UnocssSvelteScopedViteOptions } from './types'
 
-export function PassPreprocessToSveltePlugin(options: UnocssSvelteScopedViteOptions = {}, ctx: SvelteScopedContext): Plugin {
+export function PassPreprocessToSveltePlugin(context: SvelteScopedContext, options: UnocssSvelteScopedViteOptions = {}): Plugin {
   let commandIsBuild = true
   const isBuild = () => commandIsBuild
 
@@ -16,7 +16,7 @@ export function PassPreprocessToSveltePlugin(options: UnocssSvelteScopedViteOpti
     },
 
     api: {
-      sveltePreprocess: UnocssSveltePreprocess(options, ctx, isBuild),
+      sveltePreprocess: UnocssSveltePreprocess(options, context, isBuild),
     },
   }
 }
