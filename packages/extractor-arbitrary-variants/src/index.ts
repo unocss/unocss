@@ -4,8 +4,11 @@ import { defaultSplitRE, isValidSelector } from '@unocss/core'
 export const quotedArbitraryValuesRE = /(?:[\w&:[\]-]|\[\S+=\S+\])+\[\\?['"]?\S+?['"]\]\]?[\w:-]*/g
 export const arbitraryPropertyRE = /\[(\\\W|[\w-])+:[^\s:]*?("\S+?"|'\S+?'|`\S+?`|[^\s:]+?)[^\s:]*?\)?\]/g
 const arbitraryPropertyCandidateRE = /^\[(\\\W|[\w-])+:['"]?\S+?['"]?\]$/
+const sourceMapRE = /\/\/#\s*sourceMappingURL=.*\n?/g
 
 export function splitCodeWithArbitraryVariants(code: string): string[] {
+  // remove sourcemap
+  code = code.replace(sourceMapRE, '')
   const result: string[] = []
 
   for (const match of code.matchAll(arbitraryPropertyRE)) {
