@@ -5,7 +5,7 @@
   "license": "",
   "sideEffects": false,
   "engines": {
-    "node": ">=14"
+    "node": ">=18"
   },
   "scripts": {
     "dev": "concurrently \"unocss \"app/**/*.tsx\" --out-file=\"app/uno.css\" --watch\" \"remix dev\"",
