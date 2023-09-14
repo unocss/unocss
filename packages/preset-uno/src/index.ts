@@ -17,6 +17,6 @@ export const presetUno = definePreset<Theme, PresetUnoOptions | undefined>((opti
       variantColorMix(),
     ],
   }
-})
+}, {})
 
 export default presetUno

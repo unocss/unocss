@@ -96,7 +96,7 @@ export const presetMini = definePreset<Theme, PresetMiniOptions | undefined>((op
       shorthands,
     },
   }
-})
+}, {})
 
 export default presetMini
 
