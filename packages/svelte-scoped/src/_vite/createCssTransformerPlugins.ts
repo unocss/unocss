@@ -5,7 +5,7 @@ import { applyTransformers } from '../../../shared-integration/src/transformers'
 
 const svelteIdRE = /[&?]svelte/
 
-export function createCssTransformerPlugins(ctx: SvelteScopedContext, cssTransformers: PluginOptions['transformers']): Plugin[] {
+export function createCssTransformerPlugins(context: SvelteScopedContext, cssTransformers: PluginOptions['transformers']): Plugin[] {
   const enforces = ['default', 'pre', 'post'] as const
   return enforces.map((enforce): Plugin => ({
     name: `unocss:svelte-scoped-transformers:${enforce}`,
@@ -14,9 +14,9 @@ export function createCssTransformerPlugins(ctx: SvelteScopedContext, cssTransfo
     async transform(code, id) {
       if (!id.match(cssIdRE) || id.match(svelteIdRE))
         return
-      ctx.uno.config.transformers = cssTransformers ?? []
+      context.uno.config.transformers = cssTransformers ?? []
       return applyTransformers({
-        ...ctx,
+        ...context,
         affectedModules: new Set<string>(),
       } as UnocssPluginContext, code, id, enforce)
     },
