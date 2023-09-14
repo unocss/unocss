@@ -1,4 +1,4 @@
-import type { Preset, PresetFactory, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
+import type { DefinePreset, Preset, PresetFactory, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
 import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq, uniqueBy } from './utils'
 import { extractorSplit } from './extractors'
 import { DEFAULT_LAYERS } from './constants'
@@ -213,11 +213,27 @@ function mergeAutocompleteShorthands(shorthands: Record<string, string | string[
   , {})
 }
 
-/**
- * define a preset factory
- * @param factory
- * @returns
- */
-export function createPreset<PresetOptions, Theme extends object = object>(factory: PresetFactory<PresetOptions, Theme>): PresetFactory<PresetOptions, Theme> {
-  return factory
+export function definePreset<T extends object = object>(preset: Preset<T> | PresetFactory<T>): DefinePreset<T>
+
+export function definePreset<T extends object = object, PresetOptions extends object | undefined = object>(preset: Preset<T> | PresetFactory<T, PresetOptions>, defaultOptions: PresetOptions): DefinePreset<T, PresetOptions>
+
+export function definePreset<T extends object = object, PresetOptions extends object | undefined = object>(preset: Preset<T> | PresetFactory<T, PresetOptions>, defaultOptions?: PresetOptions): DefinePreset<T, PresetOptions> {
+  const fn = typeof preset === 'function'
+    ? preset
+    : () => preset
+  const initialPreset = fn(defaultOptions!)
+  return new Proxy(fn, {
+    get(_, prop) {
+      return initialPreset[prop as keyof Preset<T>]
+    },
+    apply(_, thisArg, args) {
+      return fn.apply(thisArg, args as [PresetOptions])
+    },
+    ownKeys(_) {
+      return Object.keys(initialPreset)
+    },
+    getOwnPropertyDescriptor(_, prop) {
+      return Object.getOwnPropertyDescriptor(initialPreset, prop)
+    },
+  })
 }
