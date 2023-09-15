@@ -7,7 +7,7 @@ export * from './extractor'
 export * from './types'
 export * from './variant'
 
-export const tagifyPreset = definePreset((options: TagifyOptions = {}) => {
+export const presetTagify = definePreset((options: TagifyOptions = {}) => {
   const {
     defaultExtractor = true,
   } = options
@@ -29,4 +29,4 @@ export const tagifyPreset = definePreset((options: TagifyOptions = {}) => {
   }
 })
 
-export default tagifyPreset
+export default presetTagify

@@ -10,7 +10,7 @@ export interface RemToPxOptions {
   baseFontSize?: number
 }
 
-export const remToPxPreset = definePreset((options: RemToPxOptions = {}) => {
+export const presetRemToPx = definePreset((options: RemToPxOptions = {}) => {
   const {
     baseFontSize = 16,
   } = options
@@ -27,4 +27,4 @@ export const remToPxPreset = definePreset((options: RemToPxOptions = {}) => {
   }
 })
 
-export default remToPxPreset
+export default presetRemToPx
