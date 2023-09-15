@@ -7,7 +7,7 @@ export type { Theme }
 
 export interface PresetUnoOptions extends PresetMiniOptions {}
 
-export const presetUno = definePreset((options: PresetUnoOptions | undefined = {}) => {
+export const presetUno = definePreset((options: PresetUnoOptions = {}) => {
   const wind = presetWind(options)
   return {
     ...wind,
