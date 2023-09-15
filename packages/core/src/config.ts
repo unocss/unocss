@@ -221,19 +221,58 @@ export function definePreset<T extends object = object, PresetOptions extends ob
   const fn = typeof preset === 'function'
     ? preset
     : () => preset
-  const initialPreset = fn(defaultOptions!)
+
+  let defaultPreset: Preset<T>
+
+  const lazyLoad = () => {
+    if (!defaultPreset)
+      defaultPreset = fn(defaultOptions!)
+    return defaultPreset
+  }
+
   return new Proxy(fn, {
-    get(_, prop) {
-      return initialPreset[prop as keyof Preset<T>]
-    },
     apply(_, thisArg, args) {
-      return fn.apply(thisArg, args as [PresetOptions])
+      return Reflect.apply(fn, thisArg, args)
+    },
+    get(_, prop) {
+      const preset = lazyLoad()
+      return Reflect.get(preset, prop)
     },
     ownKeys(_) {
-      return Object.keys(initialPreset)
+      const preset = lazyLoad()
+      return Reflect.ownKeys(preset)
     },
     getOwnPropertyDescriptor(_, prop) {
-      return Object.getOwnPropertyDescriptor(initialPreset, prop)
+      const preset = lazyLoad()
+      return Reflect.getOwnPropertyDescriptor(preset, prop)
+    },
+    defineProperty(_, prop, descriptor) {
+      const preset = lazyLoad()
+      return Reflect.defineProperty(preset, prop, descriptor)
+    },
+    deleteProperty(_, prop) {
+      const preset = lazyLoad()
+      return Reflect.deleteProperty(preset, prop)
+    },
+    has(_, prop) {
+      const preset = lazyLoad()
+      return Reflect.has(preset, prop)
+    },
+    getPrototypeOf(_) {
+      const preset = lazyLoad()
+      return Reflect.getPrototypeOf(preset)
+    },
+    setPrototypeOf(_, prototype) {
+      const preset = lazyLoad()
+      return Reflect.setPrototypeOf(preset, prototype)
+    },
+    isExtensible(_) {
+      const preset = lazyLoad()
+      return Reflect.isExtensible(preset)
+    },
+    preventExtensions(_) {
+      const preset = lazyLoad()
+      return Reflect.preventExtensions(preset)
     },
   })
 }
