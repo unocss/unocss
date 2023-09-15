@@ -113,3 +113,63 @@ export function isStaticRule(rule: Rule<any>): rule is StaticRule {
 export function isStaticShortcut(sc: Shortcut<any>): sc is StaticShortcut {
   return isString(sc[0])
 }
+
+export function functional<T extends object, P extends any[]>(source: T | ((...args: P) => T), ...args: P): T & ((...args: P) => T) {
+  const fn = typeof source === 'function'
+    ? source
+    : () => source
+
+  let defaultValue: T
+
+  const lazyLoad = () => {
+    if (!defaultValue)
+      defaultValue = fn(...args)
+    return defaultValue
+  }
+
+  return new Proxy(fn, {
+    apply(_, thisArg, args) {
+      return Reflect.apply(fn, thisArg, args)
+    },
+    get(_, prop) {
+      const obj = lazyLoad()
+      return Reflect.get(obj, prop)
+    },
+    ownKeys(_) {
+      const obj = lazyLoad()
+      return Reflect.ownKeys(obj)
+    },
+    getOwnPropertyDescriptor(_, prop) {
+      const obj = lazyLoad()
+      return Reflect.getOwnPropertyDescriptor(obj, prop)
+    },
+    defineProperty(_, prop, descriptor) {
+      const obj = lazyLoad()
+      return Reflect.defineProperty(obj, prop, descriptor)
+    },
+    deleteProperty(_, prop) {
+      const obj = lazyLoad()
+      return Reflect.deleteProperty(obj, prop)
+    },
+    has(_, prop) {
+      const obj = lazyLoad()
+      return Reflect.has(obj, prop)
+    },
+    getPrototypeOf(_) {
+      const obj = lazyLoad()
+      return Reflect.getPrototypeOf(obj)
+    },
+    setPrototypeOf(_, prototype) {
+      const obj = lazyLoad()
+      return Reflect.setPrototypeOf(obj, prototype)
+    },
+    isExtensible(_) {
+      const obj = lazyLoad()
+      return Reflect.isExtensible(obj)
+    },
+    preventExtensions(_) {
+      const obj = lazyLoad()
+      return Reflect.preventExtensions(obj)
+    },
+  }) as T & ((...args: P) => T)
+}

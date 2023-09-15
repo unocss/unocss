@@ -1,5 +1,5 @@
 import type { DefinePreset, Preset, PresetFactory, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
-import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq, uniqueBy } from './utils'
+import { clone, functional, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq, uniqueBy } from './utils'
 import { extractorSplit } from './extractors'
 import { DEFAULT_LAYERS } from './constants'
 
@@ -218,61 +218,5 @@ export function definePreset<T extends object = object>(preset: Preset<T> | Pres
 export function definePreset<T extends object = object, PresetOptions extends object | undefined = object>(preset: Preset<T> | PresetFactory<T, PresetOptions>, defaultOptions: PresetOptions): DefinePreset<T, PresetOptions>
 
 export function definePreset<T extends object = object, PresetOptions extends object | undefined = object>(preset: Preset<T> | PresetFactory<T, PresetOptions>, defaultOptions?: PresetOptions): DefinePreset<T, PresetOptions> {
-  const fn = typeof preset === 'function'
-    ? preset
-    : () => preset
-
-  let defaultPreset: Preset<T>
-
-  const lazyLoad = () => {
-    if (!defaultPreset)
-      defaultPreset = fn(defaultOptions!)
-    return defaultPreset
-  }
-
-  return new Proxy(fn, {
-    apply(_, thisArg, args) {
-      return Reflect.apply(fn, thisArg, args)
-    },
-    get(_, prop) {
-      const preset = lazyLoad()
-      return Reflect.get(preset, prop)
-    },
-    ownKeys(_) {
-      const preset = lazyLoad()
-      return Reflect.ownKeys(preset)
-    },
-    getOwnPropertyDescriptor(_, prop) {
-      const preset = lazyLoad()
-      return Reflect.getOwnPropertyDescriptor(preset, prop)
-    },
-    defineProperty(_, prop, descriptor) {
-      const preset = lazyLoad()
-      return Reflect.defineProperty(preset, prop, descriptor)
-    },
-    deleteProperty(_, prop) {
-      const preset = lazyLoad()
-      return Reflect.deleteProperty(preset, prop)
-    },
-    has(_, prop) {
-      const preset = lazyLoad()
-      return Reflect.has(preset, prop)
-    },
-    getPrototypeOf(_) {
-      const preset = lazyLoad()
-      return Reflect.getPrototypeOf(preset)
-    },
-    setPrototypeOf(_, prototype) {
-      const preset = lazyLoad()
-      return Reflect.setPrototypeOf(preset, prototype)
-    },
-    isExtensible(_) {
-      const preset = lazyLoad()
-      return Reflect.isExtensible(preset)
-    },
-    preventExtensions(_) {
-      const preset = lazyLoad()
-      return Reflect.preventExtensions(preset)
-    },
-  })
+  return functional(preset, defaultOptions)
 }
