@@ -4,6 +4,7 @@ import { resolveConfig } from '../config'
 import { CONTROL_SHORTCUT_NO_MERGE, CountableSet, TwoKeyMap, e, entriesToCss, expandVariantGroup, isCountableSet, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
 import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from '../constants'
+import { removeSourceMap } from '../utils/source-map'
 
 export class UnoGenerator<Theme extends object = object> {
   public version = version
@@ -56,7 +57,7 @@ export class UnoGenerator<Theme extends object = object> {
   ): Promise<Set<string> | CountableSet<string>> {
     const context: ExtractorContext = {
       original: code,
-      code,
+      code: removeSourceMap(code),
       id,
       extracted,
       envMode: this.config.envMode,
