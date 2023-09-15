@@ -1,5 +1,4 @@
-import type { Preset } from '@unocss/core'
-import { warnOnce } from '@unocss/core'
+import { definePreset, warnOnce } from '@unocss/core'
 import type {
   IconifyLoaderOptions,
   UniversalIconLoader,
@@ -12,7 +11,7 @@ const COLLECTION_NAME_PARTS_MAX = 3
 export { IconsOptions }
 
 export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => Promise<UniversalIconLoader>) {
-  return function presetIcons(options: IconsOptions = {}): Preset {
+  return definePreset((options: IconsOptions = {}) => {
     const {
       scale = 1,
       mode = 'auto',
@@ -118,7 +117,7 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
         { layer, prefix },
       ]],
     }
-  }
+  })
 }
 
 export function combineLoaders(loaders: UniversalIconLoader[]) {

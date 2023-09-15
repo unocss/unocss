@@ -23,6 +23,6 @@ export const presetWind = definePreset((options: PresetWindOptions = {}) => {
     shortcuts,
     variants: variants(options),
   }
-}, {})
+})
 
 export default presetWind

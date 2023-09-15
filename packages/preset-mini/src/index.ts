@@ -96,7 +96,7 @@ export const presetMini = definePreset((options: PresetMiniOptions = {}) => {
       shorthands,
     },
   }
-}, {})
+})
 
 export default presetMini
 

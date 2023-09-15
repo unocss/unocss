@@ -17,6 +17,6 @@ export const presetUno = definePreset((options: PresetUnoOptions = {}) => {
       variantColorMix(),
     ],
   }
-}, {})
+})
 
 export default presetUno
