@@ -19,6 +19,4 @@ export const presetUno = definePreset((options: PresetUnoOptions = {}) => {
   }
 }, {})
 
-presetUno()
-
 export default presetUno
