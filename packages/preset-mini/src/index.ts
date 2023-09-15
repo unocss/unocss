@@ -72,7 +72,7 @@ export interface PresetMiniOptions extends PresetOptions {
   arbitraryVariants?: boolean
 }
 
-export const presetMini = definePreset<Theme, PresetMiniOptions | undefined>((options = {}) => {
+export const presetMini = definePreset((options: PresetMiniOptions = {}) => {
   options.dark = options.dark ?? 'class'
   options.attributifyPseudo = options.attributifyPseudo ?? false
   options.preflight = options.preflight ?? true

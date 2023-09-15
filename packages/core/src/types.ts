@@ -890,6 +890,6 @@ export interface GenerateOptions<T extends boolean> {
   extendedInfo?: T
 }
 
-export type PresetFactory<Theme extends object = object, PresetOptions extends object | undefined = undefined> = undefined extends PresetOptions ? (options?: PresetOptions) => Preset<Theme> : (options: PresetOptions) => Preset<Theme>
+export type PresetFactory<P extends Preset, Args extends any[] = any[]> = (...args: Args) => P
 
-export type DefinePreset<T extends object, PresetOptions extends object | undefined = undefined> = Preset<T> & PresetFactory<T, PresetOptions>
+export type DefinePreset<P extends Preset, Args extends any[] = any[]> = P & PresetFactory<P, Args>

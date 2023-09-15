@@ -213,10 +213,12 @@ function mergeAutocompleteShorthands(shorthands: Record<string, string | string[
   , {})
 }
 
-export function definePreset<T extends object = object>(preset: Preset<T> | PresetFactory<T>): DefinePreset<T>
+export function definePreset<P extends Preset>(preset: PresetFactory<P>): DefinePreset<P>
 
-export function definePreset<T extends object = object, PresetOptions extends object | undefined = object>(preset: Preset<T> | PresetFactory<T, PresetOptions>, defaultOptions: PresetOptions): DefinePreset<T, PresetOptions>
+export function definePreset<P extends Preset>(preset: P): DefinePreset<P>
 
-export function definePreset<T extends object = object, PresetOptions extends object | undefined = object>(preset: Preset<T> | PresetFactory<T, PresetOptions>, defaultOptions?: PresetOptions): DefinePreset<T, PresetOptions> {
-  return functional(preset, defaultOptions)
+export function definePreset<P extends Preset, Args extends any[]>(preset: PresetFactory<P, Args>, ...defaultOptions: Args): DefinePreset<P, Args>
+
+export function definePreset<P extends Preset, Args extends any[]>(preset: DefinePreset<P, Args>, ...defaultOptions: Args) {
+  return functional(preset, ...defaultOptions)
 }
