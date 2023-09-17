@@ -19,6 +19,12 @@ describe('transformer-directives', () => {
       btn: 'px-2 py-3 md:px-4 bg-blue-500 text-white rounded',
     },
     theme: {
+      colors: {
+        hsl: 'hsl(210, 50%, 50%)',
+        hsla: 'hsl(210, 50%, 50%, )',
+        rgb: 'rgb(255, 0, 0)',
+        rgba: 'rgba(255, 0, 0, 0.5)',
+      },
       breakpoints: {
         xs: '320px',
         sm: '640px',
@@ -446,6 +452,28 @@ div {
 
           --my-color: #ef4444;
           color: var(--my-color);
+        }
+        "
+      `)
+    })
+
+    test('opacity', async () => {
+      const result = await transform(`
+        div {
+          color: theme('colors.red.500 / 50%');
+          color: theme('colors.rgb / 0.5');
+          color: theme('colors.rgba / 50%');
+          color: theme('colors.hsl / 0.6');
+          color: theme('colors.hsla / 60%');
+        }`,
+      )
+      expect(result).toMatchInlineSnapshot(`
+        "div {
+          color: rgba(239, 68, 68, 50%);
+          color: rgba(255, 0, 0, 0.5);
+          color: rgba(255, 0, 0, 50%);
+          color: hsla(210, 50%, 50%, 0.6);
+          color: hsla(210, 50%, 50%, 60%);
         }
         "
       `)
