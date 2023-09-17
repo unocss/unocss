@@ -121,7 +121,7 @@ export function functional<T extends object, P extends any[]>(source: T | ((...a
 
   let defaultValue: T
 
-  const lazyLoad = () => {
+  const lazy = () => {
     if (!defaultValue)
       defaultValue = fn(...args)
     return defaultValue
@@ -132,44 +132,38 @@ export function functional<T extends object, P extends any[]>(source: T | ((...a
       return Reflect.apply(fn, thisArg, args)
     },
     get(_, prop) {
-      const obj = lazyLoad()
-      return Reflect.get(obj, prop)
+      return Reflect.get(lazy(), prop)
+    },
+    set(_, prop, value) {
+      return Reflect.set(lazy(), prop, value)
     },
     ownKeys(_) {
-      const obj = lazyLoad()
-      return Reflect.ownKeys(obj)
+      return Reflect.ownKeys(lazy())
     },
     getOwnPropertyDescriptor(_, prop) {
-      const obj = lazyLoad()
-      return Reflect.getOwnPropertyDescriptor(obj, prop)
+      return Reflect.getOwnPropertyDescriptor(lazy(), prop)
     },
     defineProperty(_, prop, descriptor) {
-      const obj = lazyLoad()
-      return Reflect.defineProperty(obj, prop, descriptor)
+      return Reflect.defineProperty(lazy(), prop, descriptor)
     },
     deleteProperty(_, prop) {
-      const obj = lazyLoad()
-      return Reflect.deleteProperty(obj, prop)
+      return Reflect.deleteProperty(lazy(), prop)
     },
     has(_, prop) {
-      const obj = lazyLoad()
-      return Reflect.has(obj, prop)
+      return Reflect.has(lazy(), prop)
     },
     getPrototypeOf(_) {
-      const obj = lazyLoad()
-      return Reflect.getPrototypeOf(obj)
+      return Reflect.getPrototypeOf(lazy())
     },
     setPrototypeOf(_, prototype) {
-      const obj = lazyLoad()
-      return Reflect.setPrototypeOf(obj, prototype)
+      return Reflect.setPrototypeOf(lazy(), prototype)
     },
     isExtensible(_) {
-      const obj = lazyLoad()
-      return Reflect.isExtensible(obj)
+      return Reflect.isExtensible(lazy())
     },
     preventExtensions(_) {
-      const obj = lazyLoad()
-      return Reflect.preventExtensions(obj)
+      return Reflect.preventExtensions(lazy())
     },
+
   }) as T & ((...args: P) => T)
 }
