@@ -28,10 +28,10 @@ overrides:
   nuxt: latest
   object-is: npm:@nolyfill/object-is@latest
   object-keys: npm:@nolyfill/object-keys@latest
-  prettier: ^2.8.8
   object.assign: npm:@nolyfill/object.assign@latest
   object.getownpropertydescriptors: npm:@nolyfill/object.getownpropertydescriptors@latest
   object.values: npm:@nolyfill/object.values@latest
+  prettier: ^2.8.8
   regexp.prototype.flags: npm:@nolyfill/regexp.prototype.flags@latest
   safe-regex-test: npm:@nolyfill/safe-regex-test@latest
   side-channel: npm:@nolyfill/side-channel@latest
@@ -7562,7 +7562,7 @@ packages:
     resolution: {integrity: sha512-MjutTiS9XIteriwkH9D+que+bILbpulekYzjJGQDg3Sb2H87aOcO30f7N11ZiHF5OYoZn4yJz4lDbB3A6IuXfQ==}
     dependencies:
       debug: 4.3.4(supports-color@6.1.0)
-      jiti: 1.19.3
+      jiti: 1.20.0
       windicss: 3.5.6
     transitivePeerDependencies:
       - supports-color
@@ -19175,13 +19175,6 @@ packages:
       yargs: 17.7.2
     dev: true
 
-  /rollup@3.28.0:
-    resolution: {integrity: sha512-d7zhvo1OUY2SXSM6pfNjgD5+d0Nz87CUp4mt8l/GgVP3oBsPwzNvSzyu1me6BSG9JIgWNTVcafIXBIyM8yQ3yw==}
-    engines: {node: '>=14.18.0', npm: '>=8.0.0'}
-    hasBin: true
-    optionalDependencies:
-      fsevents: 2.3.3
-
   /rollup@3.29.2:
     resolution: {integrity: sha512-CJouHoZ27v6siztc21eEQGo0kIcE5D1gVPA571ez0mMYb25LGYGKnVNXpEj5MGlepmDWGXNjDB5q7uNiPHC11A==}
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
@@ -20838,7 +20831,7 @@ packages:
       postcss: 8.4.29
       postcss-load-config: 4.0.1(postcss@8.4.29)
       resolve-from: 5.0.0
-      rollup: 3.28.0
+      rollup: 3.29.2
       source-map: 0.8.0-beta.0
       sucrase: 3.34.0
       tree-kill: 1.2.2
@@ -21940,7 +21933,7 @@ packages:
       '@types/node': 20.5.6
       esbuild: 0.18.11
       postcss: 8.4.28
-      rollup: 3.28.0
+      rollup: 3.29.2
       terser: 5.19.2
     optionalDependencies:
       fsevents: 2.3.3
