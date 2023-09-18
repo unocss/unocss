@@ -1,5 +1,5 @@
-import type { DefinePreset, Preset, PresetFactory, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
-import { clone, functional, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq, uniqueBy } from './utils'
+import type { DefinePreset, Preset, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
+import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq, uniqueBy } from './utils'
 import { extractorSplit } from './extractors'
 import { DEFAULT_LAYERS } from './constants'
 
@@ -213,12 +213,8 @@ function mergeAutocompleteShorthands(shorthands: Record<string, string | string[
   , {})
 }
 
-export function definePreset<P extends Preset>(preset: PresetFactory<P>): DefinePreset<P>
-
-export function definePreset<P extends Preset>(preset: P): DefinePreset<P>
-
-export function definePreset<P extends Preset, Args extends any[]>(preset: PresetFactory<P, Args>, ...defaultOptions: Args): DefinePreset<P, Args>
-
-export function definePreset<P extends Preset, Args extends any[]>(preset: DefinePreset<P, Args>, ...defaultOptions: Args) {
-  return functional(preset, ...defaultOptions)
+export function definePreset<P extends Preset, Args extends any[]>(preset: DefinePreset<P, Args>) {
+  return typeof preset === 'function'
+    ? preset
+    : () => preset
 }

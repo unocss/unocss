@@ -890,6 +890,6 @@ export interface GenerateOptions<T extends boolean> {
   extendedInfo?: T
 }
 
-export type PresetFactory<P extends Preset, Args extends any[] = any[]> = (...args: Args) => P
+export type PresetFactory<P extends Preset<any> = Preset, Args extends any[] = any[]> = (...args: Args) => P
 
-export type DefinePreset<P extends Preset, Args extends any[] = any[]> = P & PresetFactory<P, Args>
+export type DefinePreset<P extends Preset<any> = Preset, Args extends any[] = any[]> = P | PresetFactory<P, Args>

@@ -125,6 +125,6 @@ export const presetWebFonts = definePreset((options: WebFontsOptions = {}) => {
     }
   }
   return preset
-}, {})
+})
 
 export default presetWebFonts

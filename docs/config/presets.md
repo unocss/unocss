@@ -6,9 +6,9 @@ When authoring a preset, we usually export a constructor function that you could
 
 ```ts
 // my-preset.ts
-import { Preset } from 'unocss'
+import { Preset, definePreset } from 'unocss'
 
-export default function myPreset(options: MyPresetOptions): Preset {
+export const myPreset = definePreset((options: MyPresetOptions): Preset => {
   return {
     name: 'my-preset',
     rules: [
@@ -19,7 +19,9 @@ export default function myPreset(options: MyPresetOptions): Preset {
     ],
     // it supports most of the configuration you could have in the root config
   }
-}
+})
+
+export default myPreset
 ```
 
 Then the user can use it like this:
