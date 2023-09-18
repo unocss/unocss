@@ -28,6 +28,18 @@ This package is in an experimental state right now. It doesn't follow semver, an
 :::
 
 ```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
+
+  css: ['~/assets/css/styles.css'], // add here path to your main css file
+  modules: [
+    '@unocss/nuxt',
+  ],
+})
+```
+:::
+
+```ts
 // postcss.config.cjs
 module.exports = {
   plugins: {
