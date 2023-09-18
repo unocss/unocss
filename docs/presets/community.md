@@ -28,7 +28,7 @@
 - [Anu](https://github.com/jd-solanki/anu) - DX focused utility based vue component library by [@jd-solanki](https://github.com/jd-solanki).
 - [Onu UI](https://github.com/onu-ui/onu-ui) - Bullheaded and lightweight UnoCSS ui library by [@zyyv](https://github.com/zyyv), [@yzh990918](https://github.com/yzh990918).
 - [AtoUI](https://github.com/bennymi/ato-ui) - Elemental UI library for Svelte offering an easily themeable design system by [@bennymi](https://github.com/bennymi).
-- [Una UI](https://unaui.com/) - The atomic UI Framework for Nuxt 3, powered by UnoCSS engine by [@phojie](https://github.com/phojie)
+- [Una UI](https://unaui.com/) - The atomic UI Framework for Nuxt 3, powered by UnoCSS engine by [@phojie](https://github.com/phojie).
 
 # Community transformers
 
