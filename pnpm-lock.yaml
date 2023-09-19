@@ -658,6 +658,9 @@ importers:
 
   packages/inspector:
     dependencies:
+      '@unocss/rule-utils':
+        specifier: workspace:*
+        version: link:../rule-utils
       gzip-size:
         specifier: ^6.0.0
         version: 6.0.0
