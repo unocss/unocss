@@ -1,5 +1,5 @@
 import type { CSSObject, Preset } from '@unocss/core'
-import { toEscapedSelector } from '@unocss/core'
+import { definePreset, toEscapedSelector } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
 import { getPreflights } from './preflights'
 import type { TypographyCompatibilityOptions } from './types/compatibilityOptions'
@@ -60,7 +60,7 @@ export interface TypographyOptions {
  * @returns typography preset
  * @public
  */
-export function presetTypography(options?: TypographyOptions): Preset<Theme> {
+export const presetTypography = definePreset((options?: TypographyOptions): Preset<Theme> => {
   if (options?.className) {
     console.warn('[unocss:preset-typography] "className" is deprecated. '
       + 'Use "selectorName" instead.')
@@ -148,6 +148,6 @@ export function presetTypography(options?: TypographyOptions): Preset<Theme> {
       },
     ],
   }
-}
+})
 
 export default presetTypography

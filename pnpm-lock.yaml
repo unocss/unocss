@@ -52,7 +52,7 @@ importers:
         version: 0.21.8
       '@codemirror/lang-css':
         specifier: ^6.2.1
-        version: 6.2.1(@codemirror/view@6.16.0)
+        version: 6.2.1(@codemirror/view@6.19.0)
       '@codemirror/lang-html':
         specifier: ^6.4.6
         version: 6.4.6
@@ -61,7 +61,7 @@ importers:
         version: 6.2.1
       '@codemirror/lang-xml':
         specifier: ^6.0.2
-        version: 6.0.2(@codemirror/view@6.16.0)
+        version: 6.0.2(@codemirror/view@6.19.0)
       '@iconify-json/carbon':
         specifier: ^1.1.21
         version: 1.1.21
@@ -658,6 +658,9 @@ importers:
 
   packages/inspector:
     dependencies:
+      '@unocss/rule-utils':
+        specifier: workspace:*
+        version: link:../rule-utils
       gzip-size:
         specifier: ^6.0.0
         version: 6.0.0
@@ -765,6 +768,9 @@ importers:
       '@unocss/extractor-arbitrary-variants':
         specifier: workspace:*
         version: link:../extractor-arbitrary-variants
+      '@unocss/rule-utils':
+        specifier: workspace:*
+        version: link:../rule-utils
 
   packages/preset-rem-to-px:
     dependencies:
@@ -798,6 +804,9 @@ importers:
       '@unocss/preset-wind':
         specifier: workspace:*
         version: link:../preset-wind
+      '@unocss/rule-utils':
+        specifier: workspace:*
+        version: link:../rule-utils
 
   packages/preset-web-fonts:
     dependencies:
@@ -816,6 +825,9 @@ importers:
       '@unocss/preset-mini':
         specifier: workspace:*
         version: link:../preset-mini
+      '@unocss/rule-utils':
+        specifier: workspace:*
+        version: link:../rule-utils
 
   packages/reset:
     devDependencies:
@@ -825,6 +837,12 @@ importers:
       sanitize.css:
         specifier: ^13.0.0
         version: 13.0.0
+
+  packages/rule-utils:
+    dependencies:
+      '@unocss/core':
+        specifier: workspace:^
+        version: link:../core
 
   packages/runtime:
     dependencies:
@@ -951,6 +969,9 @@ importers:
       '@unocss/core':
         specifier: workspace:*
         version: link:../core
+      '@unocss/rule-utils':
+        specifier: workspace:*
+        version: link:../rule-utils
       css-tree:
         specifier: ^2.3.1
         version: 2.3.1
@@ -3131,7 +3152,7 @@ packages:
     resolution: {integrity: sha512-mzAenteTfomcB7mfPtyi+4oe5BZ6MXxWcn4CX+h4IRJ+OOGXBrWU6jDQavkQI9Vuc5P+donFabBfFCcmWka9lQ==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/code-frame': 7.22.10
+      '@babel/code-frame': 7.22.13
       '@babel/generator': 7.22.10
       '@babel/helper-environment-visitor': 7.22.5
       '@babel/helper-function-name': 7.22.5
@@ -3230,18 +3251,6 @@ packages:
       '@lezer/common': 1.0.3
     dev: true
 
-  /@codemirror/lang-css@6.2.1(@codemirror/view@6.16.0):
-    resolution: {integrity: sha512-/UNWDNV5Viwi/1lpr/dIXJNWiwDxpw13I4pTUAsNxZdg6E0mI2kTQb0P2iHczg1Tu+H4EBgJR+hYhKiHKko7qg==}
-    dependencies:
-      '@codemirror/autocomplete': 6.9.0(@codemirror/language@6.8.0)(@codemirror/state@6.2.1)(@codemirror/view@6.16.0)(@lezer/common@1.0.3)
-      '@codemirror/language': 6.8.0
-      '@codemirror/state': 6.2.1
-      '@lezer/common': 1.0.3
-      '@lezer/css': 1.1.3
-    transitivePeerDependencies:
-      - '@codemirror/view'
-    dev: true
-
   /@codemirror/lang-css@6.2.1(@codemirror/view@6.19.0):
     resolution: {integrity: sha512-/UNWDNV5Viwi/1lpr/dIXJNWiwDxpw13I4pTUAsNxZdg6E0mI2kTQb0P2iHczg1Tu+H4EBgJR+hYhKiHKko7qg==}
     dependencies:
@@ -3280,10 +3289,10 @@ packages:
       '@lezer/javascript': 1.4.5
     dev: true
 
-  /@codemirror/lang-xml@6.0.2(@codemirror/view@6.16.0):
+  /@codemirror/lang-xml@6.0.2(@codemirror/view@6.19.0):
     resolution: {integrity: sha512-JQYZjHL2LAfpiZI2/qZ/qzDuSqmGKMwyApYmEUUCTxLM4MWS7sATUEfIguZQr9Zjx/7gcdnewb039smF6nC2zw==}
     dependencies:
-      '@codemirror/autocomplete': 6.9.0(@codemirror/language@6.8.0)(@codemirror/state@6.2.1)(@codemirror/view@6.16.0)(@lezer/common@1.0.3)
+      '@codemirror/autocomplete': 6.9.0(@codemirror/language@6.8.0)(@codemirror/state@6.2.1)(@codemirror/view@6.19.0)(@lezer/common@1.0.3)
       '@codemirror/language': 6.8.0
       '@codemirror/state': 6.2.1
       '@lezer/common': 1.0.3
@@ -6494,7 +6503,7 @@ packages:
       vue: ^3.0.0
     dependencies:
       '@babel/core': 7.22.20
-      '@babel/plugin-transform-typescript': 7.22.11(@babel/core@7.22.20)
+      '@babel/plugin-transform-typescript': 7.22.15(@babel/core@7.22.20)
       '@vue/babel-plugin-jsx': 1.1.5(@babel/core@7.22.20)
       vite: 4.4.9(@types/node@20.6.2)(terser@5.19.4)
       vue: 3.3.4
@@ -6575,7 +6584,7 @@ packages:
       vue:
         optional: true
     dependencies:
-      '@babel/types': 7.22.11
+      '@babel/types': 7.22.19
       '@rollup/pluginutils': 5.0.4(rollup@3.29.2)
       '@vue/compiler-sfc': 3.3.4
       ast-kit: 0.9.5(rollup@3.29.2)
@@ -8057,6 +8066,7 @@ packages:
 
   /anymatch@2.0.0(supports-color@6.1.0):
     resolution: {integrity: sha512-5teOsQWABXHHBFP9y3skS5P3d/WfWXpv3FUpy+LorMrNYaT9pI4oLMQX7jzQ2KklNpGpWHzdCXTDT2Y3XGlZBw==}
+    requiresBuild: true
     dependencies:
       micromatch: 3.1.10(supports-color@6.1.0)
       normalize-path: 2.1.1
@@ -8253,7 +8263,7 @@ packages:
     resolution: {integrity: sha512-kbL7ERlqjXubdDd+szuwdlQ1xUxEz9mCz1+m07ftNVStgwRb2RWw+U6oKo08PAvOishMxiqz1mlJyLl8yQx2Qg==}
     engines: {node: '>=16.14.0'}
     dependencies:
-      '@babel/parser': 7.22.11
+      '@babel/parser': 7.22.16
       '@rollup/pluginutils': 5.0.4(rollup@3.29.2)
       pathe: 1.1.1
     transitivePeerDependencies:
@@ -8271,8 +8281,8 @@ packages:
     resolution: {integrity: sha512-vdCU9JvpsrxWxvJiRHAr8If8cu07LWJXDPhkqLiP4ErbN1fu/mK623QGmU4Qbn2Nq4Mx0vR/Q017B6+HcHg1aQ==}
     engines: {node: '>=16.14.0'}
     dependencies:
-      '@babel/parser': 7.22.11
-      '@babel/types': 7.22.11
+      '@babel/parser': 7.22.16
+      '@babel/types': 7.22.19
     dev: true
 
   /astro@3.1.0(@types/node@20.6.2)(terser@5.19.4):
@@ -8351,6 +8361,7 @@ packages:
 
   /async-each@1.0.3:
     resolution: {integrity: sha512-z/WhQ5FPySLdvREByI2vZiTWwCnF0moMJ1hK9YQwDTHKh6I7/uSckMetoRGb5UBZPC1z0jlw+n/XCgjeH7y1AQ==}
+    requiresBuild: true
     dev: true
 
   /async-limiter@1.0.1:
@@ -8654,6 +8665,7 @@ packages:
   /binary-extensions@1.13.1:
     resolution: {integrity: sha512-Un7MIEDdUC5gNpcGDV97op1Ywk748MpHcFTHoYs6qnj1Z3j7I53VG3nwZhKzoBZmbdRNnb6WRdFlwl7tSDuZGw==}
     engines: {node: '>=0.10.0'}
+    requiresBuild: true
     dev: true
 
   /binary-extensions@2.2.0:
@@ -13849,6 +13861,7 @@ packages:
   /is-binary-path@1.0.1:
     resolution: {integrity: sha512-9fRVlXc0uCxEDj1nQzaWONSpbTfx0FmJfzHF7pwlI8DkWGoHBBea4Pg5Ky0ojwwxQmnSifgbKkI06Qv0Ljgj+Q==}
     engines: {node: '>=0.10.0'}
+    requiresBuild: true
     dependencies:
       binary-extensions: 1.13.1
     dev: true
@@ -14002,6 +14015,7 @@ packages:
   /is-glob@3.1.0:
     resolution: {integrity: sha512-UFpDDrPgM6qpnFNI+rh/p3bUaq9hKLZN8bMUWzxmcnZVS3omf4IPK+BrewlnWjO1WmUsMYuSjKh4UJuV4+Lqmw==}
     engines: {node: '>=0.10.0'}
+    requiresBuild: true
     dependencies:
       is-extglob: 2.1.1
     dev: true
@@ -16316,6 +16330,7 @@ packages:
   /normalize-path@2.1.1:
     resolution: {integrity: sha512-3pKJwH184Xo/lnH6oyP1q2pMd7HcypqqmRs91/6/i2CGtWwIKGCkOOMTm/zXbgTEWHw1uNpNi/igc3ePOYHb6w==}
     engines: {node: '>=0.10.0'}
+    requiresBuild: true
     dependencies:
       remove-trailing-separator: 1.1.0
     dev: true
@@ -17128,6 +17143,7 @@ packages:
 
   /path-dirname@1.0.2:
     resolution: {integrity: sha512-ALzNPpyNq9AqXMBjeymIjFDAkAFH06mHJH/cSBHAgU0s4vfpBn6b2nf8tiRLvagKD8RbTpq2FKTBg7cl9l3c7Q==}
+    requiresBuild: true
     dev: true
 
   /path-exists@3.0.0:
@@ -18881,6 +18897,7 @@ packages:
   /readdirp@2.2.1(supports-color@6.1.0):
     resolution: {integrity: sha512-1JU/8q+VgFZyxwrJ+SVIOsh+KywWGpds3NTqikiKpDMZWScmAYyKIgqkO+ARvNWJfXeXR1zxz7aHF4u4CyH6vQ==}
     engines: {node: '>=0.10'}
+    requiresBuild: true
     dependencies:
       graceful-fs: 4.2.11
       micromatch: 3.1.10(supports-color@6.1.0)
@@ -19068,6 +19085,7 @@ packages:
 
   /remove-trailing-separator@1.1.0:
     resolution: {integrity: sha512-/hS+Y0u3aOfIETiaiirUFwDBDzmXPvO+jAfKTitUngIPzdKc6Z0LoFjM/CK5PL4C+eKwHohlHAb6H0VFfmmUsw==}
+    requiresBuild: true
     dev: true
 
   /renderkid@2.0.7:
@@ -19314,7 +19332,7 @@ packages:
       rollup: 3.29.2
       typescript: 5.2.2
     optionalDependencies:
-      '@babel/code-frame': 7.22.10
+      '@babel/code-frame': 7.22.13
     dev: true
 
   /rollup-plugin-visualizer@5.9.2(rollup@3.29.2):
@@ -21533,7 +21551,7 @@ packages:
       vue-router:
         optional: true
     dependencies:
-      '@babel/types': 7.22.11
+      '@babel/types': 7.22.19
       '@rollup/pluginutils': 5.0.4(rollup@3.29.2)
       '@vue-macros/common': 1.7.0(rollup@3.29.2)(vue@3.3.4)
       ast-walker-scope: 0.4.2
@@ -21656,6 +21674,7 @@ packages:
   /upath@1.2.0:
     resolution: {integrity: sha512-aZwGpamFO61g3OlfT7OQCHqhGnW43ieH9WZeP7QxN/G/jS4jfqUkZxoryvJgVPEcrl5NL/ggHsSmLMHuH64Lhg==}
     engines: {node: '>=4'}
+    requiresBuild: true
     dev: true
 
   /update-browserslist-db@1.0.11(browserslist@4.21.10):
@@ -21939,7 +21958,7 @@ packages:
       vue-tsc:
         optional: true
     dependencies:
-      '@babel/code-frame': 7.22.10
+      '@babel/code-frame': 7.22.13
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       chokidar: 3.5.3

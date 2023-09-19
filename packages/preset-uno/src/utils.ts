@@ -1,2 +1,1 @@
-// eslint-disable-next-line import/export
-export * from '@unocss/preset-mini/utils'
+export * from '@unocss/rule-utils'

@@ -1,4 +1,5 @@
 import type { Declaration } from 'css-tree'
+import { colorToString, parseCssColor } from '@unocss/rule-utils'
 import type { TransformerDirectivesContext } from '.'
 
 export const themeFnRE = /theme\((.*?)\)/g
@@ -18,8 +19,9 @@ export function handleThemeFn({ code, uno, options }: TransformerDirectivesConte
     if (!rawArg)
       throw new Error('theme() expect exact one argument, but got 0')
 
+    const [rawKey, alpha] = rawArg.slice(1, -1).split('/') as [string, string?]
     let value: any = uno.config.theme
-    const keys = rawArg.slice(1, -1).split('.')
+    const keys = rawKey.trim().split('.')
 
     keys.every((key) => {
       if (value[key] != null)
@@ -32,6 +34,12 @@ export function handleThemeFn({ code, uno, options }: TransformerDirectivesConte
     })
 
     if (typeof value === 'string') {
+      if (alpha) {
+        const color = parseCssColor(value)
+        if (color)
+          value = colorToString(color, alpha)
+      }
+
       code.overwrite(
         offset + match.index!,
         offset + match.index! + match[0].length,

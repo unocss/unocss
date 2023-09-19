@@ -1,5 +1,5 @@
 import type { Preset } from '@unocss/core'
-import { toArray } from '@unocss/core'
+import { definePreset, toArray } from '@unocss/core'
 import { LAYER_IMPORTS } from '../../core/src/constants'
 import { BunnyFontsProvider } from './providers/bunny'
 import { GoogleFontsProvider } from './providers/google'
@@ -41,7 +41,7 @@ export function normalizedFontMeta(meta: WebFontMeta | string, defaultProvider: 
   }
 }
 
-function preset(options: WebFontsOptions = {}): Preset<any> {
+export const presetWebFonts = definePreset((options: WebFontsOptions = {}) => {
   const {
     provider: defaultProvider = 'google',
     extendTheme = true,
@@ -124,8 +124,7 @@ function preset(options: WebFontsOptions = {}): Preset<any> {
       }
     }
   }
-
   return preset
-}
+})
 
-export default preset
+export default presetWebFonts
