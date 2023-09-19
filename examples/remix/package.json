@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@remix-run/dev": "^1.19.3",
-    "@types/react": "^18.2.21",
+    "@types/react": "^18.2.22",
     "@types/react-dom": "^18.2.7",
     "@unocss/cli": "link:../../packages/cli",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",

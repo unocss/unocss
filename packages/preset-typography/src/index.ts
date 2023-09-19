@@ -24,7 +24,7 @@ export interface TypographyOptions {
    *
    * @defaultValue undefined
    */
-  cssExtend?: Record<string, CSSObject>
+  cssExtend?: Record<string, CSSObject> | ((theme: Theme) => Record<string, CSSObject>)
 
   /**
    * Compatibility option. Notice that it will affect some features.
@@ -70,7 +70,6 @@ export const presetTypography = definePreset((options?: TypographyOptions): Pres
   const selectorNameRE = new RegExp(`^${selectorName}$`)
   const colorsRE = new RegExp(`^${selectorName}-([-\\w]+)$`)
   const invertRE = new RegExp(`^${selectorName}-invert$`)
-  const cssExtend = options?.cssExtend
   const compatibility = options?.compatibility
 
   return {
@@ -115,8 +114,6 @@ export const presetTypography = definePreset((options?: TypographyOptions): Pres
             '--un-prose-invert-code': colorObject[100] ?? baseColor,
             '--un-prose-invert-borders': colorObject[700] ?? baseColor,
             '--un-prose-invert-bg-soft': colorObject[800] ?? baseColor,
-
-            '--un-prose-font-mono': theme.fontFamily?.mono,
           }
         },
         { layer: 'typography' },
@@ -142,9 +139,11 @@ export const presetTypography = definePreset((options?: TypographyOptions): Pres
     preflights: [
       {
         layer: 'typography',
-        getCSS: () => {
-          if (escapedSelectors.size > 0)
-            return getPreflights({ escapedSelectors, selectorName, cssExtend, compatibility })
+        getCSS: (context) => {
+          if (escapedSelectors.size > 0) {
+            const cssExtend = typeof options?.cssExtend === 'function' ? options.cssExtend(context.theme) : options?.cssExtend
+            return getPreflights(context, { escapedSelectors, selectorName, cssExtend, compatibility })
+          }
         },
       },
     ],
