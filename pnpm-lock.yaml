@@ -765,9 +765,9 @@ importers:
       '@unocss/extractor-arbitrary-variants':
         specifier: workspace:*
         version: link:../extractor-arbitrary-variants
-      '@unocss/utils':
+      '@unocss/rule-utils':
         specifier: workspace:*
-        version: link:../utils
+        version: link:../rule-utils
 
   packages/preset-rem-to-px:
     dependencies:
@@ -828,6 +828,12 @@ importers:
       sanitize.css:
         specifier: ^13.0.0
         version: 13.0.0
+
+  packages/rule-utils:
+    dependencies:
+      '@unocss/core':
+        specifier: workspace:^
+        version: link:../core
 
   packages/runtime:
     dependencies:
@@ -1041,12 +1047,6 @@ importers:
       vite:
         specifier: ^4.4.9
         version: 4.4.9(@types/node@20.5.6)(terser@5.19.2)
-
-  packages/utils:
-    dependencies:
-      '@unocss/core':
-        specifier: workspace:^
-        version: link:../core
 
   packages/vite:
     dependencies:

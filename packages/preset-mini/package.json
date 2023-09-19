@@ -67,6 +67,6 @@
   "dependencies": {
     "@unocss/core": "workspace:*",
     "@unocss/extractor-arbitrary-variants": "workspace:*",
-    "@unocss/utils": "workspace:*"
+    "@unocss/rule-utils": "workspace:*"
   }
 }
