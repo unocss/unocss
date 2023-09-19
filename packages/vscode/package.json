@@ -108,7 +108,7 @@
     "@unocss/nuxt": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
     "esno": "^0.17.0",
-    "jiti": "^1.19.3",
+    "jiti": "^1.20.0",
     "prettier": "^2.8.8",
     "tsup": "^7.2.0",
     "unconfig": "^0.3.10"

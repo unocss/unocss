@@ -9,7 +9,7 @@ export interface Resource {
 /**
  * The Resources component is an example of UnoCSS Attributify preset
  * Learn more: https://unocss.dev/presets/attributify
- * */
+ */
 export const Resources: React.FC<{ resources: Resource[] }> = ({ resources }) => {
   return (
     <div

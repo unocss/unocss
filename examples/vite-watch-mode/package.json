@@ -11,8 +11,8 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.34",
-    "@types/react": "^18.2.21",
+    "@iconify-json/logos": "^1.1.37",
+    "@types/react": "^18.2.22",
     "@types/react-dom": "^18.2.7",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
