@@ -184,7 +184,8 @@
     color: var(--un-prose-code);
     font-size: 0.875em;
     font-weight: 600;
-    font-family: var(--un-prose-font-mono);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      "Liberation Mono", "Courier New", monospace;
   }
   :global(
       .uno-prose

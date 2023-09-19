@@ -1,4 +1,5 @@
 import { mergeDeep } from '@unocss/core'
+import type { PreflightContext } from '@unocss/core'
 import type { TypographyCompatibilityOptions } from '../types/compatibilityOptions'
 import { DEFAULT } from './default'
 
@@ -69,6 +70,7 @@ function getCSS(
 }
 
 export function getPreflights(
+  context: PreflightContext,
   options: {
     escapedSelectors: Set<string>
     selectorName: string
@@ -84,7 +86,7 @@ export function getPreflights(
     escapedSelector = [`:is(${escapedSelector[escapedSelector.length - 1]},.${selectorName})`]
 
   if (cssExtend)
-    return getCSS({ escapedSelector, selectorName, preflights: mergeDeep(DEFAULT, cssExtend), compatibility })
+    return getCSS({ escapedSelector, selectorName, preflights: mergeDeep(DEFAULT(context.theme), cssExtend), compatibility })
 
-  return getCSS({ escapedSelector, selectorName, preflights: DEFAULT, compatibility })
+  return getCSS({ escapedSelector, selectorName, preflights: DEFAULT(context.theme), compatibility })
 }
