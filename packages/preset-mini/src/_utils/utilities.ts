@@ -1,6 +1,6 @@
 import type { CSSEntries, CSSObject, DynamicMatcher, ParsedColorValue, RuleContext, StaticRule, VariantContext } from '@unocss/core'
 import { toArray } from '@unocss/core'
-import { colorOpacityToString, colorToString, getComponents, parseCssColor } from '@unocss/rule-utils'
+import { colorOpacityToString, colorToString, getStringComponents, parseCssColor } from '@unocss/rule-utils'
 import type { Theme } from '../theme'
 import { h } from './handlers'
 import { directionMap, globalKeywords } from './mappings'
@@ -203,7 +203,7 @@ export function colorableShadows(shadows: string | string[], colorVar: string) {
   shadows = toArray(shadows)
   for (let i = 0; i < shadows.length; i++) {
     // shadow values are between 3 to 6 terms including color
-    const components = getComponents(shadows[i], ' ', 6)
+    const components = getStringComponents(shadows[i], ' ', 6)
     if (!components || components.length < 3)
       return shadows
     const color = parseCssColor(components.pop())
@@ -242,38 +242,4 @@ export function resolveVerticalBreakpoints({ theme, generator }: Readonly<Varian
 
 export function makeGlobalStaticRules(prefix: string, property?: string): StaticRule[] {
   return globalKeywords.map(keyword => [`${prefix}-${keyword}`, { [property ?? prefix]: keyword }])
-}
-
-export function getBracket(str: string, open: string, close: string) {
-  if (str === '')
-    return
-
-  const l = str.length
-  let parenthesis = 0
-  let opened = false
-  let openAt = 0
-  for (let i = 0; i < l; i++) {
-    switch (str[i]) {
-      case open:
-        if (!opened) {
-          opened = true
-          openAt = i
-        }
-        parenthesis++
-        break
-
-      case close:
-        --parenthesis
-        if (parenthesis < 0)
-          return
-        if (parenthesis === 0) {
-          return [
-            str.slice(openAt, i + 1),
-            str.slice(i + 1),
-            str.slice(0, openAt),
-          ]
-        }
-        break
-    }
-  }
 }

@@ -1,6 +1,41 @@
 import { isString } from '@unocss/core'
 
-export function getComponent(str: string, open: string, close: string, separators: string | string[]) {
+export function getBracket(str: string, open: string, close: string) {
+  if (str === '')
+    return
+
+  const l = str.length
+  let parenthesis = 0
+  let opened = false
+  let openAt = 0
+  for (let i = 0; i < l; i++) {
+    switch (str[i]) {
+      case open:
+        if (!opened) {
+          opened = true
+          openAt = i
+        }
+        parenthesis++
+        break
+
+      case close:
+        --parenthesis
+        if (parenthesis < 0)
+          return
+        if (parenthesis === 0) {
+          return [
+            str.slice(openAt, i + 1),
+            str.slice(i + 1),
+            str.slice(0, openAt),
+          ]
+        }
+        break
+    }
+  }
+}
+
+
+export function getStringComponent(str: string, open: string, close: string, separators: string | string[]) {
   if (str === '')
     return
 
@@ -44,14 +79,14 @@ export function getComponent(str: string, open: string, close: string, separator
   ]
 }
 
-export function getComponents(str: string, separators: string | string[], limit?: number) {
+export function getStringComponents(str: string, separators: string | string[], limit?: number) {
   limit = limit ?? 10
   const components = []
   let i = 0
   while (str !== '') {
     if (++i > limit)
       return
-    const componentPair = getComponent(str, '(', ')', separators)
+    const componentPair = getStringComponent(str, '(', ')', separators)
     if (!componentPair)
       return
     const [component, rest] = componentPair
