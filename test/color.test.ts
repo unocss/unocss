@@ -1,6 +1,8 @@
 import type { RuleContext } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
-import { colorResolver, colorToString, colorableShadows, hex2rgba, parseCssColor } from '@unocss/preset-mini/utils'
+import { colorResolver, colorableShadows } from '@unocss/preset-mini/utils'
+import { colorToString, hex2rgba, parseCssColor } from '@unocss/rule-utils'
+
 import { describe, expect, it } from 'vitest'
 
 describe('color utils', () => {

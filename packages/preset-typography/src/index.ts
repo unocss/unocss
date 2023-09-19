@@ -1,5 +1,5 @@
 import type { CSSObject, Preset } from '@unocss/core'
-import { toEscapedSelector } from '@unocss/core'
+import { definePreset, toEscapedSelector } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
 import { getPreflights } from './preflights'
 import type { TypographyCompatibilityOptions } from './types/compatibilityOptions'
@@ -24,7 +24,7 @@ export interface TypographyOptions {
    *
    * @defaultValue undefined
    */
-  cssExtend?: Record<string, CSSObject>
+  cssExtend?: Record<string, CSSObject> | ((theme: Theme) => Record<string, CSSObject>)
 
   /**
    * Compatibility option. Notice that it will affect some features.
@@ -60,7 +60,7 @@ export interface TypographyOptions {
  * @returns typography preset
  * @public
  */
-export function presetTypography(options?: TypographyOptions): Preset<Theme> {
+export const presetTypography = definePreset((options?: TypographyOptions): Preset<Theme> => {
   if (options?.className) {
     console.warn('[unocss:preset-typography] "className" is deprecated. '
       + 'Use "selectorName" instead.')
@@ -70,7 +70,6 @@ export function presetTypography(options?: TypographyOptions): Preset<Theme> {
   const selectorNameRE = new RegExp(`^${selectorName}$`)
   const colorsRE = new RegExp(`^${selectorName}-([-\\w]+)$`)
   const invertRE = new RegExp(`^${selectorName}-invert$`)
-  const cssExtend = options?.cssExtend
   const compatibility = options?.compatibility
 
   return {
@@ -115,8 +114,6 @@ export function presetTypography(options?: TypographyOptions): Preset<Theme> {
             '--un-prose-invert-code': colorObject[100] ?? baseColor,
             '--un-prose-invert-borders': colorObject[700] ?? baseColor,
             '--un-prose-invert-bg-soft': colorObject[800] ?? baseColor,
-
-            '--un-prose-font-mono': theme.fontFamily?.mono,
           }
         },
         { layer: 'typography' },
@@ -142,13 +139,15 @@ export function presetTypography(options?: TypographyOptions): Preset<Theme> {
     preflights: [
       {
         layer: 'typography',
-        getCSS: () => {
-          if (escapedSelectors.size > 0)
-            return getPreflights({ escapedSelectors, selectorName, cssExtend, compatibility })
+        getCSS: (context) => {
+          if (escapedSelectors.size > 0) {
+            const cssExtend = typeof options?.cssExtend === 'function' ? options.cssExtend(context.theme) : options?.cssExtend
+            return getPreflights(context, { escapedSelectors, selectorName, cssExtend, compatibility })
+          }
         },
       },
     ],
   }
-}
+})
 
 export default presetTypography

@@ -1,8 +1,8 @@
 import { mergeDeep } from '@unocss/core'
-import { getComponent } from '@unocss/preset-mini/utils'
 import { expect, it } from 'vitest'
 import { addRemToPxComment, getColorString } from '@unocss/vscode/utils'
 import { cartesian } from '@unocss/autocomplete'
+import { getComponent } from '@unocss/rule-utils'
 
 it('mergeDeep', () => {
   expect(mergeDeep<any>({
