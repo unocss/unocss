@@ -33,4 +33,5 @@
 | [@unocss/runtime](./runtime) | CSS-in-JS Runtime for UnoCSS | No | - |
 | [@unocss/eslint-plugin](./eslint-plugin) | ESLint plugin | No | - |
 | [@unocss/eslint-config](./eslint-config) | ESLint config | No | - |
+| [@unocss/rule-utils](./rule-utils) | The utilities for creating rules/presets for UnoCSS | No | - |
 | [VS Code Extension](./vscode) | UnoCSS for VS Code | - | - |
