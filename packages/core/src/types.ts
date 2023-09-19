@@ -739,7 +739,7 @@ export interface PluginOptions {
    */
   content?: ContentOptions
 
-  /** ========== DEPRECATED OPTIONS ========== **/
+  /** ========== DEPRECATED OPTIONS ========== */
 
   /**
    * @deprecated Renamed to `content`
@@ -753,9 +753,9 @@ export interface PluginOptions {
   include?: FilterPattern
 
   /**
-    * Patterns that filter the files NOT being extracted.
-    * @deprecated moved to `content.pipeline.exclude`
-    */
+   * Patterns that filter the files NOT being extracted.
+   * @deprecated moved to `content.pipeline.exclude`
+   */
   exclude?: FilterPattern
 }
 
