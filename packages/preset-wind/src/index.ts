@@ -1,5 +1,5 @@
-import type { Preset } from '@unocss/core'
-import type { PresetMiniOptions, Theme } from '@unocss/preset-mini'
+import { definePreset } from '@unocss/core'
+import type { PresetMiniOptions } from '@unocss/preset-mini'
 import { presetMini } from '@unocss/preset-mini'
 
 import { rules } from './rules'
@@ -14,7 +14,7 @@ export { rules, shortcuts, theme, variants }
 
 export interface PresetWindOptions extends PresetMiniOptions { }
 
-export function presetWind(options: PresetWindOptions = {}): Preset<Theme> {
+export const presetWind = definePreset((options: PresetWindOptions = {}) => {
   return {
     ...presetMini(options),
     name: '@unocss/preset-wind',
@@ -23,6 +23,6 @@ export function presetWind(options: PresetWindOptions = {}): Preset<Theme> {
     shortcuts,
     variants: variants(options),
   }
-}
+})
 
 export default presetWind
