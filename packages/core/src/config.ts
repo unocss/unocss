@@ -1,4 +1,4 @@
-import type { DefinePreset, Preset, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
+import type { Preset, PresetFactory, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
 import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq, uniqueBy } from './utils'
 import { extractorSplit } from './extractors'
 import { DEFAULT_LAYERS } from './constants'
@@ -16,7 +16,11 @@ const __RESOLVED = '_uno_resolved'
 /**
  * Resolve a single preset, nested presets are ignored
  */
-export function resolvePreset<Theme extends object = object>(preset: Preset<Theme>): Preset<Theme> {
+export function resolvePreset<Theme extends object = object>(presetInput: Preset<Theme> | PresetFactory<Theme, any>): Preset<Theme> {
+  let preset = typeof presetInput === 'function'
+    ? presetInput()
+    : presetInput
+
   if (__RESOLVED in preset)
     return preset
 
@@ -51,7 +55,7 @@ export function resolvePreset<Theme extends object = object>(preset: Preset<Them
 /**
  * Resolve presets with nested presets
  */
-export function resolvePresets<Theme extends object = object>(preset: Preset<Theme>): Preset<Theme>[] {
+export function resolvePresets<Theme extends object = object>(preset: Preset<Theme> | PresetFactory<Theme, any>): Preset<Theme>[] {
   const root = resolvePreset(preset)
   if (!root.presets)
     return [root]
@@ -213,8 +217,8 @@ function mergeAutocompleteShorthands(shorthands: Record<string, string | string[
   , {})
 }
 
-export function definePreset<P extends Preset, Args extends any[]>(preset: DefinePreset<P, Args>) {
-  return typeof preset === 'function'
-    ? preset
-    : () => preset
+export function definePreset<Options extends object | undefined = undefined, Theme extends object = object>(preset: PresetFactory<Theme, Options>): PresetFactory<Theme, Options>
+export function definePreset<Theme extends object = object>(preset: Preset<Theme>): Preset<Theme> 
+export function definePreset(preset: any) {
+  return preset
 }

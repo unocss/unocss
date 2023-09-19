@@ -3,12 +3,23 @@ import { describe, expect, it } from 'vitest'
 
 describe('definePreset', () => {
   it('functional', async () => {
-    const presetFun = definePreset(() => {
+    const presetFn1 = definePreset(() => {
       return {
-        name: 'custom-preset-functional',
+        name: 'custom-preset-functional-1',
         rules: [
-          ['text-fun', {
+          ['text-fn1', {
             color: 'red',
+          }],
+        ],
+      }
+    })
+
+    const presetFn2 = definePreset(() => {
+      return {
+        name: 'custom-preset-functional-2',
+        rules: [
+          ['text-fn2', {
+            color: 'green',
           }],
         ],
       }
@@ -37,17 +48,23 @@ describe('definePreset', () => {
 
     const uno = createGenerator({
       presets: [
-        presetFun(),
-        presetStatic(),
+        presetFn1(),
+        presetFn2, // presetFn2 is a factory that will be evaluated by uno
+        presetStatic,
         presetOptional({
           color: 'dark',
         }),
       ],
     })
 
-    const { css } = await uno.generate('text-fun text-static text-option', {
-      minify: true,
-    })
-    expect(css).toMatchInlineSnapshot('".text-fun{color:red;}.text-static{color:blue;}.text-option{color:dark;}"')
+    const { css } = await uno.generate('text-fn1 text-fn2 text-static text-option')
+    expect(css)
+      .toMatchInlineSnapshot(`
+        "/* layer: default */
+        .text-fn1{color:red;}
+        .text-fn2{color:green;}
+        .text-static{color:blue;}
+        .text-option{color:dark;}"
+      `)
   })
 })
