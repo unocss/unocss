@@ -2,6 +2,51 @@ import type { CustomIconLoader, IconCustomizations, InlineCollection } from '@ic
 import type { Awaitable } from '@unocss/core'
 import type { IconifyJSON } from '@iconify/types'
 
+/* TODO BEGIN-CLEANUP: types from @iconify/utils: remove them once published */
+export interface SpriteIcon {
+  name: string
+  svg: string
+  collection?: string
+}
+
+export type AsyncSpriteIcons = AsyncIterableIterator<SpriteIcon>
+export type AsyncSpriteIconsFactory = () => AsyncSpriteIcons
+
+export type SpriteCollection =
+    | SpriteIcon
+    | SpriteIcon[]
+    | AsyncSpriteIcons
+    | AsyncSpriteIconsFactory
+/* TODO END-CLEANUP: types from @iconify/utils: remove them once published */
+
+export interface CSSSVGSprites {
+  /**
+   * Mode of generated CSS icons.
+   *
+   * - `mask` - use background color and the `mask` property for monochrome icons
+   * - `background-img` - use background image for the icons, colors are static
+   * - `auto` - smartly decide mode between `mask` and `background-img` per icon based on its style
+   * - if omitted, icons mode will be used
+   *
+   * @default 'auto'
+   * @see https://antfu.me/posts/icons-in-pure-css
+   */
+  mode?: 'mask' | 'background-img' | 'auto'
+  /**
+   * Class prefix for matching icon rules.
+   *
+   * @default `sprite-`
+   */
+  prefix?: string | string[]
+  /**
+   * Emit warning when invalid icons are matched
+   *
+   * @default false
+   */
+  warn?: boolean
+  sprites: Record<string, SpriteCollection | SpriteCollection[]>
+}
+
 export interface IconsOptions {
   /**
    * Scale related to the current font size (1em).
@@ -76,4 +121,9 @@ export interface IconsOptions {
    * - https://cdn.skypack.dev/
    */
   cdn?: string
+
+  /**
+   * CSS SVG Sprites.
+   */
+  sprites?: CSSSVGSprites
 }

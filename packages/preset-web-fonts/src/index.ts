@@ -68,7 +68,7 @@ function preset(options: WebFontsOptions = {}): Preset<any> {
         importCache[url] = promise.catch((e) => {
           console.error('Failed to fetch web fonts')
           console.error(e)
-          // eslint-disable-next-line n/prefer-global/process
+
           if (typeof process !== 'undefined' && process.env.CI)
             throw e
         })

@@ -5,6 +5,9 @@ import { combineLoaders, createPresetIcons } from './core'
 import { isNode, isVSCode } from './utils'
 
 export * from './core'
+/* TODO BEGIN-CLEANUP: types from @iconify/utils: remove them once published */
+export type { AsyncSpriteIcons, AsyncSpriteIconsFactory, SpriteCollection, SpriteIcon } from './types'
+/* TODO END-CLEANUP: types from @iconify/utils: remove them once published */
 
 async function createNodeLoader() {
   try {

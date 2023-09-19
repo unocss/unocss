@@ -20,7 +20,6 @@ export function deprecationCheck(config: UserConfig) {
   if (config.content?.plain)
     warn('`content.plain` option is renamed to `content.inline`.')
 
-  // eslint-disable-next-line n/prefer-global/process
   if (warned && typeof process !== 'undefined' && process.env.CI)
     throw new Error('deprecation warning')
 }
