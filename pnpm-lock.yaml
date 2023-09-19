@@ -804,6 +804,9 @@ importers:
       '@unocss/preset-wind':
         specifier: workspace:*
         version: link:../preset-wind
+      '@unocss/rule-utils':
+        specifier: workspace:*
+        version: link:../rule-utils
 
   packages/preset-web-fonts:
     dependencies:
@@ -822,6 +825,9 @@ importers:
       '@unocss/preset-mini':
         specifier: workspace:*
         version: link:../preset-mini
+      '@unocss/rule-utils':
+        specifier: workspace:*
+        version: link:../rule-utils
 
   packages/reset:
     devDependencies:

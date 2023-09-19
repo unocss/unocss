@@ -1,5 +1,6 @@
 import type { Variant } from '@unocss/core'
-import { CONTROL_MINI_NO_NEGATIVE, getComponent } from '../utils'
+import { getComponent } from '@unocss/rule-utils'
+import { CONTROL_MINI_NO_NEGATIVE } from '../utils'
 
 const numberRE = /[0-9.]+(?:[a-z]+|%)?/
 
