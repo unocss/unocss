@@ -1,15 +1,15 @@
 {
-  "name": "@unocss/config",
+  "name": "@unocss/rule-utils",
   "version": "0.56.0",
-  "description": "Config loader for UnoCSS",
+  "description": "Utilities for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
   "funding": "https://github.com/sponsors/antfu",
-  "homepage": "https://github.com/unocss/unocss/tree/main/packages/config#readme",
+  "homepage": "https://github.com/unocss/unocss/tree/main/packages/rule-utils#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/unocss/unocss",
-    "directory": "packages/config"
+    "directory": "packages/rule-utils"
   },
   "bugs": {
     "url": "https://github.com/unocss/unocss/issues"
@@ -37,7 +37,6 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@unocss/core": "workspace:*",
-    "unconfig": "^0.3.10"
+    "@unocss/core": "workspace:^"
   }
 }

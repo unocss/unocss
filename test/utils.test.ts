@@ -1,8 +1,8 @@
 import { mergeDeep } from '@unocss/core'
-import { getComponent } from '@unocss/preset-mini/utils'
 import { expect, it } from 'vitest'
 import { addRemToPxComment, getColorString } from '@unocss/vscode/utils'
 import { cartesian } from '@unocss/autocomplete'
+import { getStringComponent } from '@unocss/rule-utils'
 
 it('mergeDeep', () => {
   expect(mergeDeep<any>({
@@ -45,7 +45,7 @@ it('mergeDeep', () => {
 })
 
 it('getComponents', () => {
-  const fn1 = (s: string) => getComponent(s, '(', ')', ',')
+  const fn1 = (s: string) => getStringComponent(s, '(', ')', ',')
 
   expect(fn1('comma,separated')).eql(['comma', 'separated'])
   expect(fn1('comma ,separated')).eql(['comma ', 'separated'])

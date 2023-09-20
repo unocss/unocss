@@ -22,7 +22,7 @@ export interface TransformClassesOptions {
   combine?: boolean
   /**
    * Used to generate hash for compiled class names
-  */
+   */
   hashFn?: (str: string) => string
 }
 

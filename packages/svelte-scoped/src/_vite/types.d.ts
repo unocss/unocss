@@ -1,11 +1,11 @@
-import type { UnocssSveltePreprocessOptions } from '../preprocess'
 import type { PluginOptions } from '@unocss/core'
+import type { UnocssSveltePreprocessOptions } from '../preprocess'
 
 export interface UnocssSvelteScopedViteOptions extends UnocssSveltePreprocessOptions {
   /**
    * Prefix for compiled class names
    * @default 'uno-'
-  */
+   */
   classPrefix?: string
   /**
    * Inject reset to the beginning of the global stylesheet. 
@@ -26,7 +26,7 @@ export interface UnocssSvelteScopedViteOptions extends UnocssSveltePreprocessOpt
   /**
    * When building a component library using `@unocss/svelte-scoped/preprocessor` you can also use `@unocss/svelte-scoped/vite` with this set to `true` to add needed global styles for your library demo app: resets, preflights, and safelist
    * @default false
-  */
+   */
   onlyGlobal?: boolean
   /**
    * Process CSS files using UnoCSS transformers.

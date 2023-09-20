@@ -88,7 +88,7 @@ describe('transformerAttributifyJsx', () => {
         <div absolute=\\"\\" bottom-5=\\"\\" right-0=\\"\\" left-0=\\"\\" text-center=\\"\\" op30=\\"\\" fw300=\\"\\">
           on-demand · instant · fully customizable
         </div>
-        <div components={<div absolute bottom-5></div>}></div>
+        <div components={<div absolute=\\"\\" bottom-5=\\"\\"></div>}></div>
       </div>"
     `)
   })
@@ -134,7 +134,7 @@ describe('transformerAttributifyJsx', () => {
         <div absolute bottom-5=\\"\\" right-0=\\"\\" left-0=\\"\\" text-center=\\"\\" op30=\\"\\" fw300=\\"\\">
           on-demand · instant · fully customizable
         </div>
-        <div components={<div absolute bottom-5></div>}></div>
+        <div components={<div absolute bottom-5=\\"\\"></div>}></div>
       </div>"
     `)
 

@@ -1,7 +1,7 @@
 import type { CSSEntries, CSSObject, DynamicMatcher, ParsedColorValue, RuleContext, StaticRule, VariantContext } from '@unocss/core'
-import { isString, toArray } from '@unocss/core'
+import { toArray } from '@unocss/core'
+import { colorOpacityToString, colorToString, getStringComponents, parseCssColor } from '@unocss/rule-utils'
 import type { Theme } from '../theme'
-import { colorOpacityToString, colorToString, parseCssColor } from './colors'
 import { h } from './handlers'
 import { directionMap, globalKeywords } from './mappings'
 
@@ -167,8 +167,8 @@ export function parseColor(body: string, theme: Theme): ParsedColorValue | undef
  *
  * @param {string} property - Property for the css value to be created.
  * @param {string} varName - Base name for the opacity variable.
- * @param {function} [shouldPass] - Function to decide whether to pass the css.
- * @return {@link DynamicMatcher} object.
+ * @param {Function} [shouldPass] - Function to decide whether to pass the css.
+ * @return {DynamicMatcher} object.
  */
 export function colorResolver(property: string, varName: string, shouldPass?: (css: CSSObject) => boolean): DynamicMatcher {
   return ([, body]: string[], { theme }: RuleContext<Theme>): CSSObject | undefined => {
@@ -203,7 +203,7 @@ export function colorableShadows(shadows: string | string[], colorVar: string) {
   shadows = toArray(shadows)
   for (let i = 0; i < shadows.length; i++) {
     // shadow values are between 3 to 6 terms including color
-    const components = getComponents(shadows[i], ' ', 6)
+    const components = getStringComponents(shadows[i], ' ', 6)
     if (!components || components.length < 3)
       return shadows
     const color = parseCssColor(components.pop())
@@ -242,100 +242,4 @@ export function resolveVerticalBreakpoints({ theme, generator }: Readonly<Varian
 
 export function makeGlobalStaticRules(prefix: string, property?: string): StaticRule[] {
   return globalKeywords.map(keyword => [`${prefix}-${keyword}`, { [property ?? prefix]: keyword }])
-}
-
-export function getBracket(str: string, open: string, close: string) {
-  if (str === '')
-    return
-
-  const l = str.length
-  let parenthesis = 0
-  let opened = false
-  let openAt = 0
-  for (let i = 0; i < l; i++) {
-    switch (str[i]) {
-      case open:
-        if (!opened) {
-          opened = true
-          openAt = i
-        }
-        parenthesis++
-        break
-
-      case close:
-        --parenthesis
-        if (parenthesis < 0)
-          return
-        if (parenthesis === 0) {
-          return [
-            str.slice(openAt, i + 1),
-            str.slice(i + 1),
-            str.slice(0, openAt),
-          ]
-        }
-        break
-    }
-  }
-}
-
-export function getComponent(str: string, open: string, close: string, separators: string | string[]) {
-  if (str === '')
-    return
-
-  if (isString(separators))
-    separators = [separators]
-
-  if (separators.length === 0)
-    return
-
-  const l = str.length
-  let parenthesis = 0
-  for (let i = 0; i < l; i++) {
-    switch (str[i]) {
-      case open:
-        parenthesis++
-        break
-
-      case close:
-        if (--parenthesis < 0)
-          return
-        break
-
-      default:
-        for (const separator of separators) {
-          const separatorLength = separator.length
-          if (separatorLength && separator === str.slice(i, i + separatorLength) && parenthesis === 0) {
-            if (i === 0 || i === l - separatorLength)
-              return
-            return [
-              str.slice(0, i),
-              str.slice(i + separatorLength),
-            ]
-          }
-        }
-    }
-  }
-
-  return [
-    str,
-    '',
-  ]
-}
-
-export function getComponents(str: string, separators: string | string[], limit?: number) {
-  limit = limit ?? 10
-  const components = []
-  let i = 0
-  while (str !== '') {
-    if (++i > limit)
-      return
-    const componentPair = getComponent(str, '(', ')', separators)
-    if (!componentPair)
-      return
-    const [component, rest] = componentPair
-    components.push(component)
-    str = rest
-  }
-  if (components.length > 0)
-    return components
 }

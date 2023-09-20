@@ -1,10 +1,15 @@
 import { createGenerator } from '@unocss/core'
-import presetAttributify from '@unocss/preset-attributify'
+import presetAttributify, { type AttributifyOptions } from '@unocss/preset-attributify'
 import { presetUno } from '@unocss/preset-uno'
-import { presetTypography } from '@unocss/preset-typography'
+import { type TypographyOptions, presetTypography } from '@unocss/preset-typography'
 import { describe, expect, test } from 'vitest'
 
-const testConfigs = [
+const testConfigs: {
+  name: string
+  input: string
+  typographyOptions: TypographyOptions
+  attributifyOptions?: AttributifyOptions
+}[] = [
   // prose test
   {
     name: 'prose-class',
@@ -48,6 +53,29 @@ const testConfigs = [
         'a:visited': {
           color: '#14b8a6',
         },
+      },
+    },
+  },
+
+  // custom css test with function
+  {
+    name: 'prose-custom-css-function',
+    input: 'prose',
+    typographyOptions: {
+      cssExtend: (theme) => {
+        const purple = theme.colors?.purple as Record<string, string>
+        return {
+          'code': {
+            'color': purple['600'],
+            'font-family': theme.fontFamily?.sans,
+          },
+          'a:hover': {
+            color: purple['500'],
+          },
+          'a:visited': {
+            color: purple['400'],
+          },
+        }
       },
     },
   },

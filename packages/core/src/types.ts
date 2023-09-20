@@ -422,7 +422,7 @@ export interface ConfigBase<Theme extends object = object> {
   /**
    * Presets
    */
-  presets?: (Preset<Theme> | Preset<Theme>[])[]
+  presets?: (PresetOrFactory<Theme> | PresetOrFactory<Theme>[])[]
 
   /**
    * Additional options for auto complete
@@ -538,6 +538,10 @@ export interface Preset<Theme extends object = object> extends ConfigBase<Theme>
    */
   layer?: string
 }
+
+export type PresetFactory<Theme extends object = object, PresetOptions extends object | undefined = undefined> = (options?: PresetOptions) => Preset<Theme>
+
+export type PresetOrFactory<Theme extends object = object> = Preset<Theme> | PresetFactory<Theme, any>
 
 export interface GeneratorOptions {
   /**
@@ -739,7 +743,7 @@ export interface PluginOptions {
    */
   content?: ContentOptions
 
-  /** ========== DEPRECATED OPTIONS ========== **/
+  /** ========== DEPRECATED OPTIONS ========== */
 
   /**
    * @deprecated Renamed to `content`
@@ -753,9 +757,9 @@ export interface PluginOptions {
   include?: FilterPattern
 
   /**
-    * Patterns that filter the files NOT being extracted.
-    * @deprecated moved to `content.pipeline.exclude`
-    */
+   * Patterns that filter the files NOT being extracted.
+   * @deprecated moved to `content.pipeline.exclude`
+   */
   exclude?: FilterPattern
 }
 
