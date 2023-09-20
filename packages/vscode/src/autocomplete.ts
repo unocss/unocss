@@ -53,14 +53,17 @@ export async function registerAutoComplete(
 ) {
   const allLanguages = await languages.getLanguages()
   const autoCompletes = new Map<UnocssPluginContext, UnocssAutocomplete>()
+  const { configuration, watchChanged, disposable } = useConfigurations(ext)
+
   contextLoader.events.on('contextReload', (ctx) => {
     autoCompletes.delete(ctx)
   })
+  
   contextLoader.events.on('contextUnload', (ctx) => {
     autoCompletes.delete(ctx)
+    disposable.dispose()
   })
 
-  const { configuration, watchChanged } = useConfigurations(ext)
 
   function getAutocomplete(ctx: UnocssPluginContext) {
     const cached = autoCompletes.get(ctx)

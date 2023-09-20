@@ -1,8 +1,8 @@
 <script setup lang="ts">
 const a = 1
 const b = 2
- 
-const _c = a - (b - a - b)
+// eslint-disable-next-line @stylistic/ts/space-infix-ops
+const _c = a-(b -a -b)
 </script>
 
 <template>

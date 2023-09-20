@@ -1,5 +1,4 @@
 import path from 'path'
-import { watch } from 'fs'
 import type { ExtensionContext, StatusBarItem } from 'vscode'
 import { StatusBarAlignment, commands, window, workspace } from 'vscode'
 import { findUp } from 'find-up'
@@ -78,22 +77,19 @@ export async function activate(ext: ExtensionContext) {
   const cacheMap = new Set()
   const contextCache = new Map()
   const watchConfigMap = ['uno.config.js', 'uno.config.ts', 'unocss.config.js', 'unocss.config.ts']
-  const useWatcherUnoConfig = (filepath: string) => {
-    const watcher = watch(filepath, 'utf-8', async (type, filename) => {
-      if (type === 'change') {
-        contextCache.get(filepath)()
-      }
-      else if (type === 'rename') {
-        watcher.close()
-        if (filename && watchConfigMap.includes(filename)) {
-          const originContextReload = contextCache.get(filepath)
-          contextCache.delete(filepath)
-          const newConfigUrl = path.resolve(path.dirname(filepath), filename)
-          contextCache.set(newConfigUrl, originContextReload)
-          useWatcherUnoConfig(newConfigUrl)
-        }
-      }
-    })
+  const useWatcherUnoConfig = (configUrl: string) => {
+    const watcher = workspace.createFileSystemWatcher(configUrl)
+    
+    ext.subscriptions.push(watcher.onDidChange(() => {
+      contextCache.get(configUrl).reload()
+    }))
+
+    ext.subscriptions.push(watcher.onDidDelete(() => {
+      contextCache.get(configUrl).unload(path.dirname(configUrl))
+      watcher.dispose()
+    }))
+
+    return watcher
   }
 
   const registerUnocss = async () => {
@@ -111,14 +107,14 @@ export async function activate(ext: ExtensionContext) {
     if (!filter(url))
       return
 
-    const target = await findUp(watchConfigMap, { cwd: url })
+    const configUrl = await findUp(watchConfigMap, { cwd: url })
 
-    if (!target || cacheMap.has(target))
+    if (!configUrl || cacheMap.has(configUrl))
       return
 
     cacheMap.add(url)
-    cacheMap.add(target)
-    const cwd = path.dirname(target)
+    cacheMap.add(configUrl)
+    const cwd = path.dirname(configUrl)
 
     const contextLoader = await registerRoot(ext, status, cwd)
     const reload = async () => {
@@ -126,8 +122,16 @@ export async function activate(ext: ExtensionContext) {
       await contextLoader.reload()
       log.appendLine('✅ Reloaded.')
     }
-    contextCache.set(url, () => reload())
-    useWatcherUnoConfig(url)
+    const unload = (configDir: string) => {
+      log.appendLine('🔁 unloading...')
+      contextLoader.unloadContext(configDir)
+      log.appendLine('✅ unloaded.')
+    }
+    contextCache.set(configUrl, {
+      reload,
+      unload,
+    })
+    useWatcherUnoConfig(configUrl)
     ext.subscriptions.push(
       commands.registerCommand('unocss.reload', reload),
     )
