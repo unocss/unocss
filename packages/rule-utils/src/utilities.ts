@@ -34,7 +34,6 @@ export function getBracket(str: string, open: string, close: string) {
   }
 }
 
-
 export function getStringComponent(str: string, open: string, close: string, separators: string | string[]) {
   if (str === '')
     return
