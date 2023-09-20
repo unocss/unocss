@@ -1,7 +1,9 @@
 import path from 'path'
+import { watch } from 'fs'
 import type { ExtensionContext, StatusBarItem } from 'vscode'
 import { StatusBarAlignment, commands, window, workspace } from 'vscode'
 import { findUp } from 'find-up'
+import { createFilter } from '@rollup/pluginutils'
 import { version } from '../package.json'
 import { log } from './log'
 import { registerAnnotations } from './annotation'
@@ -44,6 +46,8 @@ export async function activate(ext: ExtensionContext) {
   status.text = 'UnoCSS'
 
   const root = config.get<string | string[]>('root')
+  const exclude = config.get<string | string[]>('exclude')
+  const include = config.get<string | string[]>('include')
 
   if (Array.isArray(root) && root.length) {
     const cwds = root.map(dir => path.resolve(projectPath, dir))
@@ -72,34 +76,67 @@ export async function activate(ext: ExtensionContext) {
   // now if the root is an array, then it is an empty array
 
   const cacheMap = new Set()
+  const contextCache = new Map()
+  const watchConfigMap = ['uno.config.js', 'uno.config.ts', 'unocss.config.js', 'unocss.config.ts']
+  const useWatcherUnoConfig = (filepath: string) => {
+    const watcher = watch(filepath, 'utf-8', async (type, filename) => {
+      if (type === 'change') {
+        contextCache.get(filepath)()
+      }
+      else if (type === 'rename') {
+        watcher.close()
+        if (filename && watchConfigMap.includes(filename)) {
+          const originContextReload = contextCache.get(filepath)
+          contextCache.delete(filepath)
+          const newConfigUrl = path.resolve(path.dirname(filepath), filename)
+          contextCache.set(newConfigUrl, originContextReload)
+          useWatcherUnoConfig(newConfigUrl)
+        }
+      }
+    })
+  }
 
   const registerUnocss = async () => {
     const url = window.activeTextEditor?.document.uri.fsPath
     if (!url)
       return
-    if (/node_modules/.test(url))
-      return
-    const target = await findUp(['package.json'], { cwd: url })
-    if (!target)
-      return
-    const cwd = target.slice(0, -13)
-    if (cacheMap.has(cwd))
-      return
-    cacheMap.add(cwd)
-    const contextLoader = await registerRoot(ext, status, cwd)
 
+    if (cacheMap.has(url))
+      return
+
+    const defaultExclude = exclude && exclude.length ? exclude : /[\/](node_modules|dist|\.temp|\.cache|\.vscode)[\/]/
+    const defaultInclude = include && include.length ? include : /.*\.(ts|js|tsx|jsx|solid|svelte|vue|html)$/
+
+    const filter = createFilter(defaultInclude, defaultExclude)
+    if (!filter(url))
+      return
+
+    const target = await findUp(watchConfigMap, { cwd: url })
+
+    if (!target || cacheMap.has(target))
+      return
+
+    cacheMap.add(url)
+    cacheMap.add(target)
+    const cwd = path.dirname(target)
+
+    const contextLoader = await registerRoot(ext, status, cwd)
+    const reload = async () => {
+      log.appendLine('🔁 Reloading...')
+      await contextLoader.reload()
+      log.appendLine('✅ Reloaded.')
+    }
+    contextCache.set(url, () => reload())
+    useWatcherUnoConfig(url)
     ext.subscriptions.push(
-      commands.registerCommand('unocss.reload', async () => {
-        log.appendLine('🔁 Reloading...')
-        await contextLoader.reload()
-        log.appendLine('✅ Reloaded.')
-      }),
+      commands.registerCommand('unocss.reload', reload),
     )
   }
 
   try {
     await registerUnocss()
-    ext.subscriptions.push(window.onDidChangeActiveTextEditor(registerUnocss))
+    if (!root || !root.length)
+      ext.subscriptions.push(window.onDidChangeActiveTextEditor(registerUnocss))
   }
   catch (e: any) {
     log.appendLine(String(e.stack ?? e))
