@@ -177,7 +177,7 @@ export async function registerAnnotations(
     await updateAnnotation()
   })
 
-  contextLoader.events.on('contextUnload', async () => {
+  contextLoader.events.on('unload', async () => {
     reset(window.activeTextEditor)
     disposals.forEach(disposal => disposal.dispose())
   })

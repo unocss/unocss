@@ -61,6 +61,10 @@ export async function registerAutoComplete(
   
   contextLoader.events.on('contextUnload', (ctx) => {
     autoCompletes.delete(ctx)
+  })
+
+  contextLoader.events.on('unload', (ctx) => {
+    autoCompletes.delete(ctx)
     disposable.dispose()
   })
 

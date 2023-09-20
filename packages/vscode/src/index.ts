@@ -79,7 +79,7 @@ export async function activate(ext: ExtensionContext) {
   const watchConfigMap = ['uno.config.js', 'uno.config.ts', 'unocss.config.js', 'unocss.config.ts']
   const useWatcherUnoConfig = (configUrl: string) => {
     const watcher = workspace.createFileSystemWatcher(configUrl)
-    
+
     ext.subscriptions.push(watcher.onDidChange(() => {
       contextCache.get(configUrl).reload()
     }))
@@ -124,7 +124,7 @@ export async function activate(ext: ExtensionContext) {
     }
     const unload = (configDir: string) => {
       log.appendLine('🔁 unloading...')
-      contextLoader.unloadContext(configDir)
+      contextLoader.unload(configDir)
       log.appendLine('✅ unloaded.')
     }
     contextCache.set(configUrl, {
