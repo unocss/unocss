@@ -725,6 +725,9 @@ importers:
       '@unocss/core':
         specifier: workspace:*
         version: link:../core
+      '@unocss/rule-utils':
+        specifier: workspace:*
+        version: link:../rule-utils
       css-tree:
         specifier: ^2.3.1
         version: 2.3.1
