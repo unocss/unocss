@@ -1,6 +1,6 @@
 {
   "name": "@unocss/preset-mini",
-  "version": "0.55.7",
+  "version": "0.56.0",
   "description": "The minimal preset for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -66,6 +66,7 @@
   },
   "dependencies": {
     "@unocss/core": "workspace:*",
-    "@unocss/extractor-arbitrary-variants": "workspace:*"
+    "@unocss/extractor-arbitrary-variants": "workspace:*",
+    "@unocss/rule-utils": "workspace:*"
   }
 }

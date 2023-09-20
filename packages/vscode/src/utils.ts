@@ -25,11 +25,10 @@ export async function getCSS(uno: UnoGenerator, utilName: string) {
 }
 
 /**
- *
  * Credit to [@voorjaar](https://github.com/voorjaar)
+ *
  * @see https://github.com/windicss/windicss-intellisense/issues/13
  * @param str
- * @returns
  */
 export function addRemToPxComment(str?: string, remToPixel = 16) {
   if (!str)

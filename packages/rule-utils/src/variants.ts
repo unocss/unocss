@@ -1,6 +1,6 @@
 import type { VariantHandlerContext, VariantObject } from '@unocss/core'
 import { escapeRegExp } from '@unocss/core'
-import { getBracket } from '../utils'
+import { getBracket } from './utilities'
 
 export function variantMatcher(name: string, handler: (input: VariantHandlerContext) => Record<string, any>): VariantObject {
   let re: RegExp
