@@ -43,6 +43,18 @@ const originalCode = `
 </div>
   `.trim()
 
+const tagCouldBeAttrCode = `
+<div>
+  <b text-red>Test</b>
+  <h1 text-red>Test</h1>
+  <h2 text-red>Test</h2>
+  <h3 text-red>Test</h3>
+  <h4 text-red>Test</h4>
+  <h5 text-red>Test</h5>
+  <h6 text-red>Test</h6>
+</div>
+`.trim()
+
 describe('transformerAttributifyJsx', () => {
   const uno = createGenerator({
     presets: [
@@ -146,6 +158,23 @@ describe('transformerAttributifyJsx', () => {
         expect(codeToString).not.toMatch(`${rule}=""`)
     })
   })
+
+  test('if class-like tag do not cause error', async () => {
+    const code = new MagicString(tagCouldBeAttrCode)
+    await transformerAttributifyJsx().transform(code, 'app.tsx', { uno, tokens: new Set() } as any)
+
+    expect(code.toString()).toMatchInlineSnapshot(`
+      "<div>
+        <b text-red=\\"\\">Test</b>
+        <h1 text-red=\\"\\">Test</h1>
+        <h2 text-red=\\"\\">Test</h2>
+        <h3 text-red=\\"\\">Test</h3>
+        <h4 text-red=\\"\\">Test</h4>
+        <h5 text-red=\\"\\">Test</h5>
+        <h6 text-red=\\"\\">Test</h6>
+      </div>"
+    `)
+  })
 })
 
 describe('transformerAttributifyJsxBabel', () => {
@@ -236,5 +265,22 @@ describe('transformerAttributifyJsxBabel', () => {
       else
         expect(codeToString).not.toMatch(`${rule}=""`)
     })
+  })
+
+  test('if class-like tag do not cause error', async () => {
+    const code = new MagicString(tagCouldBeAttrCode)
+    await transformerAttributifyJsx().transform(code, 'app.tsx', { uno, tokens: new Set() } as any)
+
+    expect(code.toString()).toMatchInlineSnapshot(`
+      "<div>
+        <b text-red=\\"\\">Test</b>
+        <h1 text-red=\\"\\">Test</h1>
+        <h2 text-red=\\"\\">Test</h2>
+        <h3 text-red=\\"\\">Test</h3>
+        <h4 text-red=\\"\\">Test</h4>
+        <h5 text-red=\\"\\">Test</h5>
+        <h6 text-red=\\"\\">Test</h6>
+      </div>"
+    `)
   })
 })

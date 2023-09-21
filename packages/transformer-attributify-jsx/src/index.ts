@@ -38,7 +38,7 @@ export interface TransformerAttributifyJsxOptions {
 }
 
 const elementRE = /(<\w[\w:\.$-]*\s)([\s\S]*?)(?=>[\s\S]?<\/[\s\w:\.$-]*>|\/>)/g
-const attributeRE = /(?<!<)([a-zA-Z()#][\[?a-zA-Z0-9-_:()#%\]?]*)(?:\s*=\s*((?:'[^']*')|(?:"[^"]*")|\S+))?/g
+const attributeRE = /(?<!<\/?)([a-zA-Z()#][\[?a-zA-Z0-9-_:()#%\]?]*)(?:\s*=\s*((?:'[^']*')|(?:"[^"]*")|\S+))?/g
 const valuedAttributeRE = /((?!\d|-{2}|-\d)[a-zA-Z0-9\u00A0-\uFFFF-_:!%-.~<]+)=(?:["]([^"]*)["]|[']([^']*)[']|[{]((?:[`(](?:[^`)]*)[`)]|[^}])+)[}])/gms
 
 export default function transformerAttributifyJsx(options: TransformerAttributifyJsxOptions = {}): SourceCodeTransformer {
