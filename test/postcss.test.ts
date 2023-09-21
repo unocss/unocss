@@ -129,7 +129,7 @@ describe('postcss', () => {
   })
 
   test('theme()', async () => {
-    const { css } = await pcssLite().process('div{color:theme(\'colors.red.600\')}', processOptions)
+    const { css } = await pcssLite().process('div{color:theme(\'colors.red.600\');background-color:theme(\'colors.red.600 / 50%\')}', processOptions)
 
     expect(css).toMatchSnapshot()
   })
