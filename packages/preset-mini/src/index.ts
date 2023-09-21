@@ -112,11 +112,11 @@ export function VarPrefixPostprocessor(prefix: string): Postprocessor | undefine
   }
 }
 
-export function normalizePreflights(preflights: Preflight[], variablePrefix: string) {
+export function normalizePreflights<Theme extends object>(preflights: Preflight<Theme>[], variablePrefix: string) {
   if (variablePrefix !== 'un-') {
     return preflights.map(p => ({
       ...p,
-      getCSS: (() => async (ctx: PreflightContext) => {
+      getCSS: (() => async (ctx: PreflightContext<Theme>) => {
         const css = await p.getCSS(ctx)
         if (css)
           return css.replace(/--un-/g, `--${variablePrefix}`)
