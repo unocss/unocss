@@ -84,11 +84,6 @@ export function createSearch(
     if (input.match(/^rand(om)?:/))
       return sampleArray(fuseCollection, limit)
 
-    const parts = input.split(/\s/g).filter(notNull)
-    const extract = await generateForMultiple(parts)
-
-    await suggestMultiple(getPossibleSuggest(parts)).then(generateForMultiple)
-
     // css attr
     if (input.match(/^[a-zA-Z-]+:\s?[a-zA-Z0-9\s.#]+;?$/)) {
       const cssParts = input.split(':').map(str => str.trim())
@@ -102,6 +97,11 @@ export function createSearch(
         ...fuse.search(normalizedCSSAttr, { limit: limit * 2 }).map(i => i.item),
       ])
     }
+
+    const parts = input.split(/\s/g).filter(notNull)
+    const extract = await generateForMultiple(parts)
+
+    await suggestMultiple(getPossibleSuggest(parts)).then(generateForMultiple)
 
     const searchResult = uniq([
       ...fuse.search(input, { limit: limit * 2 }),
