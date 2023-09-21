@@ -128,6 +128,8 @@ export async function activate(ext: ExtensionContext) {
     const unload = (configDir: string) => {
       log.appendLine('🔁 unloading...')
       contextLoader.unload(configDir)
+      cacheMap.delete(cwd)
+      contextCache.delete(configUrl)
       log.appendLine('✅ unloaded.')
     }
     const dispose = useWatcherUnoConfig(configUrl)
