@@ -65,7 +65,7 @@ const fns: Record<string, (color: string | CSSColorValue, weight: string | numbe
  * Shading mixes the color with black, Tinting mixes the color with white.
  * @see {@link mixColor}
  */
-export function variantColorMix(): VariantObject {
+export function variantColorMix<Theme extends object>(): VariantObject<Theme> {
   let re: RegExp
   return {
     name: 'mix',
