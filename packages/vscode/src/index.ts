@@ -74,7 +74,7 @@ export async function activate(ext: ExtensionContext) {
   }
   // now if the root is an array, then it is an empty array
 
-  const cacheMap = new Set()
+  const cacheMap = new Set<string>()
   const contextCache = new Map()
   const watchConfigMap = ['uno.config.js', 'uno.config.ts', 'unocss.config.js', 'unocss.config.ts']
   const useWatcherUnoConfig = (configUrl: string) => {
@@ -89,7 +89,11 @@ export async function activate(ext: ExtensionContext) {
       watcher.dispose()
     }))
 
-    return watcher
+    return () => watcher.dispose()
+  }
+
+  const hasCache = (url: string) => {
+    return [...cacheMap].find(cache => url.startsWith(cache))
   }
 
   const registerUnocss = async () => {
@@ -97,7 +101,7 @@ export async function activate(ext: ExtensionContext) {
     if (!url)
       return
 
-    if (cacheMap.has(url))
+    if (hasCache(url))
       return
 
     const defaultExclude = exclude && exclude.length ? exclude : /[\/](node_modules|dist|\.temp|\.cache|\.vscode)[\/]/
@@ -112,9 +116,8 @@ export async function activate(ext: ExtensionContext) {
     if (!configUrl || cacheMap.has(configUrl))
       return
 
-    cacheMap.add(url)
-    cacheMap.add(configUrl)
     const cwd = path.dirname(configUrl)
+    cacheMap.add(cwd)
 
     const contextLoader = await registerRoot(ext, status, cwd)
     const reload = async () => {
@@ -127,11 +130,13 @@ export async function activate(ext: ExtensionContext) {
       contextLoader.unload(configDir)
       log.appendLine('✅ unloaded.')
     }
+    const dispose = useWatcherUnoConfig(configUrl)
+
     contextCache.set(configUrl, {
       reload,
       unload,
+      dispose,
     })
-    useWatcherUnoConfig(configUrl)
     ext.subscriptions.push(
       commands.registerCommand('unocss.reload', reload),
     )
