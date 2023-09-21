@@ -1,16 +1,16 @@
 {
   "compilerOptions": {
+    "incremental": true,
     "target": "ES2017",
-    "module": "ES2020",
     "lib": ["es2020", "DOM"],
     "jsx": "react-jsx",
     "jsxImportSource": "@builder.io/qwik",
-    "strict": true,
-    "resolveJsonModule": true,
+    "module": "ES2020",
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "incremental": true
+    "strict": true,
+    "skipLibCheck": true
   },
   "include": ["./src"]
 }
