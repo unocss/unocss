@@ -1,4 +1,5 @@
 import type { UnoGenerator } from '@unocss/core'
+import { colorToString, parseCssColor } from '@unocss/rule-utils'
 import type { Root } from 'postcss'
 import MagicString from 'magic-string'
 
@@ -17,8 +18,9 @@ export async function parseTheme(root: Root, uno: UnoGenerator, directiveName: s
       if (!rawArg)
         throw new Error(`${directiveName}() expect exact one argument, but got 0`)
 
-      let value = uno.config.theme as Record<string, any>
-      const keys = rawArg.slice(1, -1).split('.')
+      const [rawKey, alpha] = rawArg.slice(1, -1).split('/') as [string, string?]
+      let value: any = uno.config.theme
+      const keys = rawKey.trim().split('.')
 
       keys.every((key) => {
         if (value[key] != null)
@@ -31,6 +33,11 @@ export async function parseTheme(root: Root, uno: UnoGenerator, directiveName: s
       })
 
       if (typeof value === 'string') {
+        if (alpha) {
+          const color = parseCssColor(value)
+          if (color)
+            value = colorToString(color, alpha)
+        }
         const code = new MagicString(decl.value)
         code.overwrite(
           match.index!,
