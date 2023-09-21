@@ -1,21 +1,10 @@
 {
   "compilerOptions": {
     "target": "es2018",
-    "module": "esnext",
     "lib": ["esnext"],
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "strict": true,
-    "strictNullChecks": true,
-    "resolveJsonModule": true,
-    "skipDefaultLibCheck": true,
-    "skipLibCheck": true,
     "jsx": "preserve",
-    "types": [
-      "node",
-      "vite/client",
-      "vitest/importMeta"
-    ],
+    "module": "esnext",
+    "moduleResolution": "node",
     "paths": {
       "@unocss/autocomplete": ["./packages/autocomplete/src/index.ts"],
       "@unocss/config": ["./packages/config/src/index.ts"],
@@ -54,7 +43,18 @@
       "@unocss/rule-utils": ["./packages/rule-utils/src/index.ts"],
       "unocss": ["./packages/unocss/src/index.ts"],
       "unocss/vite": ["./packages/unocss/src/vite.ts"]
-    }
+    },
+    "types": [
+      "node",
+      "vite/client",
+      "vitest/importMeta"
+    ],
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true
   },
   "exclude": [
     "**/dist/**",

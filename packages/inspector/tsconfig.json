@@ -2,18 +2,18 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "target": "esnext",
-    "module": "esnext",
     "lib": ["esnext", "dom"],
-    "moduleResolution": "node",
-    "strict": true,
-    "sourceMap": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
     "jsx": "preserve",
+    "module": "esnext",
+    "moduleResolution": "node",
     "types": [
       "vite/client",
       "vite-plugin-pages/client"
-    ]
+    ],
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "strict": true
   },
   "include": ["**/*.ts", "**/*.d.ts", "**/*.tsx", "**/*.vue"]
 }

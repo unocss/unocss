@@ -2,14 +2,14 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "target": "esnext",
+    "lib": ["esnext", "dom"],
+    "jsx": "preserve",
     "module": "esnext",
     "moduleResolution": "node",
-    "strict": true,
-    "jsx": "preserve",
-    "sourceMap": true,
     "resolveJsonModule": true,
+    "sourceMap": true,
     "esModuleInterop": true,
-    "lib": ["esnext", "dom"]
+    "strict": true
   },
   "include": ["**/*.ts", "**/*.d.ts", "**/*.tsx", "**/*.vue"]
 }
