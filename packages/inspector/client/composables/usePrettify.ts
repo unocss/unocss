@@ -2,7 +2,7 @@ import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
 import parserHTML from 'prettier/parser-html'
 import parserBabel from 'prettier/parser-babel'
-import { resolveUnref } from '@vueuse/core'
+import { toValue } from '@vueuse/core'
 import { computed } from 'vue'
 import type { MaybeRefOrGetter } from '@vueuse/core'
 
@@ -13,11 +13,11 @@ export function usePrettify(content: MaybeRefOrGetter<string | undefined>, toggl
     babel: parserBabel,
   }
   return computed(() => {
-    if (!resolveUnref(toggle))
-      return resolveUnref(content) || '/* empty */'
+    if (!toValue(toggle))
+      return toValue(content) || '/* empty */'
 
     try {
-      return prettier.format(resolveUnref(content) || '', {
+      return prettier.format(toValue(content) || '', {
         parser: type,
         plugins: [plugins[type]],
         singleQuote: true,
@@ -26,7 +26,7 @@ export function usePrettify(content: MaybeRefOrGetter<string | undefined>, toggl
     }
     catch (e: any) {
       console.error(e)
-      return `/* Error on prettifying: ${e.message} */\n${resolveUnref(content) || ''}`
+      return `/* Error on prettifying: ${e.message} */\n${toValue(content) || ''}`
     }
   })
 }
