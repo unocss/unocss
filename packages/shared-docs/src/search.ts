@@ -34,7 +34,7 @@ export function createSearch(
         },
         {
           name: 'body',
-          weight: 0.4,
+          weight: 0.6,
         },
         {
           name: 'title',
@@ -87,11 +87,21 @@ export function createSearch(
     const parts = input.split(/\s/g).filter(notNull)
     const extract = await generateForMultiple(parts)
 
-    await suggestMultiple([
-      ...parts,
-      ...parts.map(i => `${i}-`),
-      ...parts.flatMap(i => az09.map(a => `${i}-${a}`)),
-    ]).then(r => generateForMultiple(r))
+    await suggestMultiple(getPossibleSuggest(parts)).then(generateForMultiple)
+
+    // css attr
+    if (input.match(/^[a-zA-Z-]+:\s?[a-zA-Z0-9\s.#]+;?$/)) {
+      const cssParts = input.split(':').map(str => str.trim())
+      const normalizedCSSAttr = cssParts.join(': ')
+      const possibleDynamicClass = cssParts.join('-')
+
+      await suggestMultiple([possibleDynamicClass]).then(generateForMultiple)
+
+      return uniq([
+        ...fuse.search(possibleDynamicClass, { limit: limit * 2 }).map(i => i.item),
+        ...fuse.search(normalizedCSSAttr, { limit: limit * 2 }).map(i => i.item),
+      ])
+    }
 
     const searchResult = uniq([
       ...fuse.search(input, { limit: limit * 2 }),
@@ -209,6 +219,13 @@ export function createSearch(
     const pseudo = uniq([...css.matchAll(/\:([\w-]+)/mg)].map(i => `:${i[1]}`))
     return [...props, ...functions, ...pseudo]
       .filter(i => docs.value.find(s => s.title === i))
+  }
+
+  function getPossibleSuggest(str: string[]) {
+    return [...str,
+      ...str.map(i => `${i}-`),
+      ...str.flatMap(i => az09.map(a => `${i}-${a}`)),
+    ]
   }
 
   function getUrls(css: string) {
