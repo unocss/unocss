@@ -368,7 +368,7 @@ export class UnoGenerator<Theme extends object = object> {
     const variants = new Set<Variant<Theme>>()
     const handlers: VariantHandler[] = []
     let processed = current || raw
-    let applied = false
+    let applied = true
 
     const context: VariantContext<Theme> = {
       rawSelector: raw,
@@ -376,7 +376,7 @@ export class UnoGenerator<Theme extends object = object> {
       generator: this,
     }
 
-    while (true) {
+    while (applied) {
       applied = false
       for (const v of this.config.variants) {
         if (!v.multiPass && variants.has(v))
