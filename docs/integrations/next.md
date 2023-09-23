@@ -33,7 +33,10 @@ Create `uno.config.ts` at the root of your project.
 // uno.config.ts
 import {
   defineConfig,
-  presetAttributify, presetIcons, presetUno, presetWebFonts
+  presetAttributify,
+  presetIcons,
+  presetUno,
+  presetWebFonts
 } from 'unocss'
 
 export default defineConfig({

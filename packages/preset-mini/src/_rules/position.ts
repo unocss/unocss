@@ -124,7 +124,9 @@ function handleInsetValues([, d, v]: string[], ctx: RuleContext): CSSEntries | u
 }
 
 export const insets: Rule[] = [
-  [/^(?:position-|pos-)?inset-(.+)$/, ([, v], ctx) => ({ inset: handleInsetValue(v, ctx) }),
+  [
+    /^(?:position-|pos-)?inset-(.+)$/,
+    ([, v], ctx) => ({ inset: handleInsetValue(v, ctx) }),
     {
       autocomplete: [
         '(position|pos)-inset-<directions>-$spacing',

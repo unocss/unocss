@@ -50,7 +50,8 @@ function pcss() {
       content: [
         './test/assets/preset-wind-targets.ts',
         {
-          raw: presetWindTargets.join(' '), extension: 'html',
+          raw: presetWindTargets.join(' '),
+          extension: 'html',
         },
       ],
       configOrPath: config,

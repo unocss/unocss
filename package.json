@@ -27,7 +27,7 @@
     "test:ci": "nr build && nr typecheck && nr lint && nr test && nr test:integration"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^1.0.0-beta.2",
+    "@antfu/eslint-config": "^1.0.0-beta.3",
     "@antfu/ni": "^0.21.8",
     "@codemirror/lang-css": "^6.2.1",
     "@codemirror/lang-html": "^6.4.6",
@@ -86,7 +86,7 @@
     "bumpp": "^9.2.0",
     "codemirror": "^6.0.1",
     "codemirror-theme-vars": "^0.1.2",
-    "eslint": "8.49.0",
+    "eslint": "8.50.0",
     "esno": "^0.17.0",
     "execa": "^8.0.1",
     "fast-glob": "^3.3.1",
