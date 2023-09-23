@@ -45,8 +45,8 @@ importers:
   .:
     devDependencies:
       '@antfu/eslint-config':
-        specifier: ^1.0.0-beta.3
-        version: 1.0.0-beta.3(eslint@8.50.0)(typescript@5.2.2)
+        specifier: ^1.0.0-beta.4
+        version: 1.0.0-beta.4(eslint@8.50.0)(typescript@5.2.2)
       '@antfu/ni':
         specifier: ^0.21.8
         version: 0.21.8
@@ -1353,13 +1353,12 @@ packages:
       '@jridgewell/gen-mapping': 0.3.3
       '@jridgewell/trace-mapping': 0.3.19
 
-  /@antfu/eslint-config@1.0.0-beta.3(eslint@8.50.0)(typescript@5.2.2):
-    resolution: {integrity: sha512-k+UCHm9Ios7fZlQht8ptU7pMq++2644ZATAbXwz1AzZJ/glYAchVzVp42HdlNdwnj+GiBBkBVC/YaOV2TYLtxA==}
+  /@antfu/eslint-config@1.0.0-beta.4(eslint@8.50.0)(typescript@5.2.2):
+    resolution: {integrity: sha512-4QLToVBpsMo0W8Xw6m2E64ALC2Aq0um3MPT7J1fWj3ySkvLAcGG0GP8F/tl/3iJvWBjKua2nyMNzO4IdEannZw==}
     peerDependencies:
       eslint: '>=8.0.0'
     dependencies:
       '@eslint-stylistic/metadata': 0.0.4
-      '@eslint/js': 8.50.0
       '@stylistic/eslint-plugin-js': 0.0.4
       '@stylistic/eslint-plugin-ts': 0.0.4(eslint@8.50.0)(typescript@5.2.2)
       '@typescript-eslint/eslint-plugin': 6.7.2(@typescript-eslint/parser@6.7.2)(eslint@8.50.0)(typescript@5.2.2)

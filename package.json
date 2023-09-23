@@ -27,7 +27,7 @@
     "test:ci": "nr build && nr typecheck && nr lint && nr test && nr test:integration"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^1.0.0-beta.3",
+    "@antfu/eslint-config": "^1.0.0-beta.4",
     "@antfu/ni": "^0.21.8",
     "@codemirror/lang-css": "^6.2.1",
     "@codemirror/lang-html": "^6.4.6",
