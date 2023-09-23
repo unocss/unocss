@@ -33,7 +33,8 @@ export const writingOrientations: Rule[] = [
 
 export const screenReadersAccess: Rule[] = [
   [
-    'sr-only', {
+    'sr-only',
+    {
       'position': 'absolute',
       'width': '1px',
       'height': '1px',

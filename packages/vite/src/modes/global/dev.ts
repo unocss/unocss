@@ -30,6 +30,7 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
       if (tokensSize === tokens.size)
         break
       tokensSize = tokens.size
+    // eslint-disable-next-line no-constant-condition
     } while (true)
 
     const css = layer === LAYER_MARK_ALL

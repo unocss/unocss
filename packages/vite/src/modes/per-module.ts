@@ -109,5 +109,6 @@ export function PerModuleModePlugin({ uno, filter }: UnocssPluginContext): Plugi
 
         return `\n/* unocss ${source} */\n${css}`
       },
-    }]
+    },
+  ]
 }

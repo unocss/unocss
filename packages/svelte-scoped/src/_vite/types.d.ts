@@ -8,17 +8,17 @@ export interface UnocssSvelteScopedViteOptions extends UnocssSveltePreprocessOpt
    */
   classPrefix?: string
   /**
-   * Inject reset to the beginning of the global stylesheet. 
-   * 
-   * You can pass one of the included resets from [@unocss/reset](https://unocss.dev/guide/style-reset): 
+   * Inject reset to the beginning of the global stylesheet.
+   *
+   * You can pass one of the included resets from [@unocss/reset](https://unocss.dev/guide/style-reset):
    * - `@unocss/reset/normalize.css`
    * - `@unocss/reset/eric-meyer.css`
-   * - `@unocss/reset/sanitize/sanitize.css` 
-   * - `@unocss/reset/tailwind.css` 
+   * - `@unocss/reset/sanitize/sanitize.css`
+   * - `@unocss/reset/tailwind.css`
    * - `@unocss/reset/tailwind-compat.css`
-   * 
+   *
    * You can pass your own custom reset by passing the filepath relative to your project root as in `./src/reset.css`
-   * 
+   *
    * You can install a package then pass a path to the CSS file in your node_modules as in `@bob/my-tools/reset.css`.
    * @default undefined
    */
