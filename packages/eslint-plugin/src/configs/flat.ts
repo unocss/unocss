@@ -7,5 +7,5 @@ export default {
   rules: {
     'unocss/order': 'warn',
     'unocss/order-attributify': 'warn',
-  },
+  } as const,
 }
