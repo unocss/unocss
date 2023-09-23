@@ -26,7 +26,8 @@ export async function evaluateUserConfig<U = UserConfig>(configStr: string): Pro
   const _import = new Function('a', 'return import(a);')
   const __import = (name: string): any => {
     if (!modulesCache.has(name)) {
-      modulesCache.set(name,
+      modulesCache.set(
+        name,
         name.endsWith('.json')
           ? $fetch(CDN_BASE + name, { responseType: 'json' }).then(r => ({ default: r }))
           : _import(CDN_BASE + name),

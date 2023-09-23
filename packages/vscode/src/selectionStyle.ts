@@ -56,8 +56,7 @@ export async function registerSelectionStyle(cwd: string, contextLoader: Context
               sheetMap.set(media, selector, (sheetMap.get(media, selector) || '') + cssText)
             }
           })
-        }),
-      )
+        }))
 
       const css = Array.from(sheetMap._map.entries())
         .map(([media, map]) => {

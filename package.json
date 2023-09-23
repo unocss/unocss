@@ -27,7 +27,7 @@
     "test:ci": "nr build && nr typecheck && nr lint && nr test && nr test:integration"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^1.0.0-beta.4",
+    "@antfu/eslint-config": "^1.0.0-beta.5",
     "@antfu/ni": "^0.21.8",
     "@codemirror/lang-css": "^6.2.1",
     "@codemirror/lang-html": "^6.4.6",
@@ -44,7 +44,7 @@
     "@iconify-json/teenyicons": "^1.1.6",
     "@iconify-json/twemoji": "^1.1.12",
     "@iconify-json/uim": "^1.1.6",
-    "@iconify/json": "^2.2.118",
+    "@iconify/json": "^2.2.119",
     "@types/connect": "^3.4.36",
     "@types/css-tree": "^2.3.2",
     "@types/fs-extra": "^11.0.2",
@@ -87,6 +87,7 @@
     "codemirror": "^6.0.1",
     "codemirror-theme-vars": "^0.1.2",
     "eslint": "8.50.0",
+    "eslint-plugin-antfu": "^1.0.0-beta.6",
     "esno": "^0.17.0",
     "execa": "^8.0.1",
     "fast-glob": "^3.3.1",
@@ -121,7 +122,7 @@
     "vite-plugin-pages": "^0.31.0",
     "vitest": "^0.34.5",
     "vue": "^3.3.4",
-    "vue-router": "^4.2.4"
+    "vue-router": "^4.2.5"
   },
   "pnpm": {
     "overrides": {

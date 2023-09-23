@@ -45,8 +45,8 @@ importers:
   .:
     devDependencies:
       '@antfu/eslint-config':
-        specifier: ^1.0.0-beta.4
-        version: 1.0.0-beta.4(eslint@8.50.0)(typescript@5.2.2)
+        specifier: ^1.0.0-beta.5
+        version: 1.0.0-beta.5(eslint@8.50.0)(typescript@5.2.2)
       '@antfu/ni':
         specifier: ^0.21.8
         version: 0.21.8
@@ -96,8 +96,8 @@ importers:
         specifier: ^1.1.6
         version: 1.1.6
       '@iconify/json':
-        specifier: ^2.2.118
-        version: 2.2.118
+        specifier: ^2.2.119
+        version: 2.2.119
       '@types/connect':
         specifier: ^3.4.36
         version: 3.4.36
@@ -224,6 +224,9 @@ importers:
       eslint:
         specifier: 8.50.0
         version: 8.50.0
+      eslint-plugin-antfu:
+        specifier: 1.0.0-beta.6
+        version: 1.0.0-beta.6(eslint@8.50.0)(typescript@5.2.2)
       esno:
         specifier: ^0.17.0
         version: 0.17.0
@@ -327,8 +330,8 @@ importers:
         specifier: ^3.3.4
         version: 3.3.4
       vue-router:
-        specifier: ^4.2.4
-        version: 4.2.4(vue@3.3.4)
+        specifier: ^4.2.5
+        version: 4.2.5(vue@3.3.4)
 
   bench:
     devDependencies:
@@ -1353,8 +1356,8 @@ packages:
       '@jridgewell/gen-mapping': 0.3.3
       '@jridgewell/trace-mapping': 0.3.19
 
-  /@antfu/eslint-config@1.0.0-beta.4(eslint@8.50.0)(typescript@5.2.2):
-    resolution: {integrity: sha512-4QLToVBpsMo0W8Xw6m2E64ALC2Aq0um3MPT7J1fWj3ySkvLAcGG0GP8F/tl/3iJvWBjKua2nyMNzO4IdEannZw==}
+  /@antfu/eslint-config@1.0.0-beta.5(eslint@8.50.0)(typescript@5.2.2):
+    resolution: {integrity: sha512-1iWpBV7yD46l3YppRsXVmS5eyFpQJFoKMNrKtVVaFuHaAdrj3ylsm5JMgPqh+dE4lbRQsScIOjbXaTGfyn4s2w==}
     peerDependencies:
       eslint: '>=8.0.0'
     dependencies:
@@ -1365,7 +1368,7 @@ packages:
       '@typescript-eslint/parser': 6.7.2(eslint@8.50.0)(typescript@5.2.2)
       eslint: 8.50.0
       eslint-define-config: 1.23.0
-      eslint-plugin-antfu: 1.0.0-beta.4(eslint@8.50.0)(typescript@5.2.2)
+      eslint-plugin-antfu: 1.0.0-beta.6(eslint@8.50.0)(typescript@5.2.2)
       eslint-plugin-eslint-comments: 3.2.0(eslint@8.50.0)
       eslint-plugin-i: 2.28.1(@typescript-eslint/parser@6.7.2)(eslint@8.50.0)
       eslint-plugin-jsdoc: 46.8.2(eslint@8.50.0)
@@ -3683,8 +3686,8 @@ packages:
       '@iconify/types': 2.0.0
     dev: true
 
-  /@iconify/json@2.2.118:
-    resolution: {integrity: sha512-nQvWSyimrU3fXtK0aDc6LkTc85H29jid1x3synkrscTpS8R0CkNe0qPh5ko2+SGrQKcyiaw7yKnEHp9Ar6HrgA==}
+  /@iconify/json@2.2.119:
+    resolution: {integrity: sha512-tYvxJpBds6UgXe6/iq2pW7hblsniDGWuKEwCr8PnSKLmZMilrtzHX7v+pg7FFmV2l2qA2Iw4toMRpe11tWBI4Q==}
     dependencies:
       '@iconify/types': 2.0.0
       pathe: 1.1.1
@@ -10502,8 +10505,8 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-plugin-antfu@1.0.0-beta.4(eslint@8.50.0)(typescript@5.2.2):
-    resolution: {integrity: sha512-SbN6Sp6t/4dyLgJkme+OHOifPp4pFCUXmhwY2cPBwUa1aC//olNl4Us9zuGDFoaHy0ArXDJu3SLPeqaFci1AoQ==}
+  /eslint-plugin-antfu@1.0.0-beta.6(eslint@8.50.0)(typescript@5.2.2):
+    resolution: {integrity: sha512-AbHAYYVv8BhjH4FkoSZWV+FxYwZUspqr0Zo5y4K0Jm8BhwXo6+UaQrpW3exxraJmsVTXty+Hlkcd4ysQV6DICw==}
     dependencies:
       '@typescript-eslint/utils': 6.7.2(eslint@8.50.0)(typescript@5.2.2)
     transitivePeerDependencies:
@@ -15307,12 +15310,12 @@ packages:
       unenv: 1.7.4
       unimport: 3.3.0(rollup@3.29.2)
       unplugin: 1.5.0
-      unplugin-vue-router: 0.6.4(rollup@3.29.2)(vue-router@4.2.4)(vue@3.3.4)
+      unplugin-vue-router: 0.6.4(rollup@3.29.2)(vue-router@4.2.5)(vue@3.3.4)
       untyped: 1.4.0
       vue: 3.3.4
       vue-bundle-renderer: 2.0.0
       vue-devtools-stub: 0.1.0
-      vue-router: 4.2.4(vue@3.3.4)
+      vue-router: 4.2.5(vue@3.3.4)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -20153,7 +20156,7 @@ packages:
       - supports-color
     dev: true
 
-  /unplugin-vue-router@0.6.4(rollup@3.29.2)(vue-router@4.2.4)(vue@3.3.4):
+  /unplugin-vue-router@0.6.4(rollup@3.29.2)(vue-router@4.2.5)(vue@3.3.4):
     resolution: {integrity: sha512-9THVhhtbVFxbsIibjK59oPwMI1UCxRWRPX7azSkTUABsxovlOXJys5SJx0kd/0oKIqNJuYgkRfAgPuO77SqCOg==}
     peerDependencies:
       vue-router: ^4.1.0
@@ -20173,7 +20176,7 @@ packages:
       pathe: 1.1.1
       scule: 1.0.0
       unplugin: 1.5.0
-      vue-router: 4.2.4(vue@3.3.4)
+      vue-router: 4.2.5(vue@3.3.4)
       yaml: 2.3.1
     transitivePeerDependencies:
       - rollup
@@ -21143,8 +21146,8 @@ packages:
       vue: 3.3.4
     dev: true
 
-  /vue-router@4.2.4(vue@3.3.4):
-    resolution: {integrity: sha512-9PISkmaCO02OzPVOMq2w82ilty6+xJmQrarYZDkjZBfl4RvYAlt4PKnEX21oW4KTtWfa9OuO/b3qk1Od3AEdCQ==}
+  /vue-router@4.2.5(vue@3.3.4):
+    resolution: {integrity: sha512-DIUpKcyg4+PTQKfFPX88UWhlagBEBEfJ5A8XDXRJLUnZOvcpMF8o/dnL90vpVkGaPbjvXazV/rC1qBKrZlFugw==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:

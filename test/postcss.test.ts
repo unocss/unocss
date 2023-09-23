@@ -55,7 +55,8 @@ function pcss() {
         },
       ],
       configOrPath: config,
-    }))
+    }),
+  )
 }
 
 function pcssLite() {
@@ -83,7 +84,8 @@ function pcssLite() {
           test: 'p5',
         },
       } as UserConfig,
-    }))
+    }),
+  )
 }
 
 const file = 'style.css'

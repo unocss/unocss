@@ -94,12 +94,11 @@ export default defineConfig({
       },
       transformFile: 'views/index.css',
     },
-  ])('supports updating source files with transformed utilities ($transformer)',
-    async ({ files, transformFile }) => {
-      const { output, transform } = await runCli(files, { transformFile, args: ['--write-transformed'] })
-      expect(output).toMatchSnapshot()
-      expect(transform).toMatchSnapshot()
-    })
+  ])('supports updating source files with transformed utilities ($transformer)', async ({ files, transformFile }) => {
+    const { output, transform } = await runCli(files, { transformFile, args: ['--write-transformed'] })
+    expect(output).toMatchSnapshot()
+    expect(transform).toMatchSnapshot()
+  })
 
   it('uno.css exclude initialized class after changing file', async () => {
     const fileName = 'views/index.html'
@@ -224,9 +223,7 @@ function getTestDir() {
 
 function initOutputFiles(testDir: string, files: Record<string, string>) {
   return Promise.all(
-    Object.entries(files).map(([path, content]) =>
-      fs.outputFile(resolve(testDir, path), content, 'utf8'),
-    ),
+    Object.entries(files).map(([path, content]) => fs.outputFile(resolve(testDir, path), content, 'utf8')),
   )
 }
 

@@ -14,7 +14,8 @@ describe('rem-to-px', () => {
   test('should works', async () => {
     expect((await uno.generate(
       new Set(['m4', 'mx2', '-p2', 'gap2']),
-      { preflights: false })).css)
+      { preflights: false },
+    )).css)
       .toMatchInlineSnapshot(`
         "/* layer: default */
         .-p2{padding:-8px;}
@@ -27,7 +28,8 @@ describe('rem-to-px', () => {
   test('important prefix should works', async () => {
     expect((await uno.generate(
       new Set(['!m4', '!mx2', '!-p2', '!gap2']),
-      { preflights: false })).css)
+      { preflights: false },
+    )).css)
       .toMatchInlineSnapshot(`
         "/* layer: default */
         .\\\\!-p2{padding:-8px !important;}

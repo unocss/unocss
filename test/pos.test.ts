@@ -252,8 +252,7 @@ describe('matched-positions', async () => {
 
 describe('matched-positions-pug', async () => {
   const matchPug = (uno: UnoGenerator, code: string) => {
-    return match(uno,
-`<template lang='pug'>
+    return match(uno, `<template lang='pug'>
   ${code}
 </template>`, 'App.vue')
   }
