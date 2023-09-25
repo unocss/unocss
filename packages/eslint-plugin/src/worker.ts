@@ -1,3 +1,4 @@
+import process from 'node:process'
 import { loadConfig } from '@unocss/config'
 import type { UnoGenerator } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
@@ -5,6 +6,9 @@ import { runAsWorker } from 'synckit'
 import { sortRules } from '../../shared-integration/src/sort-rules'
 
 let promise: Promise<UnoGenerator<any>> | undefined
+
+// bypass icon rules in ESLint
+process.env.ESLINT ||= 'true'
 
 async function _getGenerator() {
   const { config, sources } = await loadConfig()
