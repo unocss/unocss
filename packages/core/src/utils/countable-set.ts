@@ -1,9 +1,20 @@
+function initCountableMap<K>(values?: Iterable<K>) {
+  if (!values)
+    return new Map()
+
+  const map = new Map<K, number>()
+  for (const value of values)
+    map.set(value, (map.get(value) ?? 0) + 1)
+
+  return map
+}
+
 export class CountableSet<K> extends Set<K> {
   _map: Map<K, number>
 
   constructor(values?: Iterable<K>) {
     super(values)
-    this._map ??= new Map()
+    this._map ??= initCountableMap<K>(values)
   }
 
   add(key: K) {
