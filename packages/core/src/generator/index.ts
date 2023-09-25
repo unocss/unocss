@@ -669,7 +669,7 @@ export class UnoGenerator<Theme extends object = object> {
             // inline CSS value in shortcut
             : [[Number.POSITIVE_INFINITY, '{inline}', normalizeCSSEntries(i), undefined, []] as ParsedUtil]
 
-          if (!result)
+          if (!result && this.config.warn)
             warnOnce(`unmatched utility "${i}" in shortcut "${parent[1]}"`)
           return result || []
         })))

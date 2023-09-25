@@ -14,7 +14,10 @@ async function _getGenerator() {
   const { config, sources } = await loadConfig()
   if (!sources.length)
     throw new Error('[@unocss/eslint-plugin] No config file found, create a `uno.config.ts` file in your project root and try again.')
-  return createGenerator(config)
+  return createGenerator({
+    ...config,
+    warn: false,
+  })
 }
 
 export async function getGenerator() {
