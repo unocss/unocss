@@ -125,10 +125,10 @@ describe('transformer-compile-class', () => {
       <div class=":uno-foo: w-2"/>
     `.trim())
     }).rejects
-      .toMatchInlineSnapshot('[Error: Duplicated compile class name "uno-foo". One is "w-2" and the other is "w-1" Please choose different class name]')
+      .toMatchInlineSnapshot('[Error: Duplicated compile class name "uno-foo". One is "w-2" and the other is "w-1" Please choose different class name or set \'hashExplicitName\' to \'true\' in the plugin options.]')
   })
 
-  test('custom class name should not conflicts when the content is the same', async () => {
+  test('custom class name should not conflict when the content is the same', async () => {
     const result = await transform(`
 <div class=":uno-foo: h-1 w-1"/>
 <div class=":uno-foo: w-1 h-1"/>
@@ -145,7 +145,19 @@ describe('transformer-compile-class', () => {
     `)
   })
 
-  test('normal class name should not conflicts', async () => {
+  test('custom class name should not conflict when hashExplicitName is true', async () => {
+    const result = await transform(`
+<div class=":uno-foo: w-1"/>
+<div class=":uno-foo: w-2"/>
+    `.trim(), createUno({ hashExplicitName: true }))
+
+    expect(result.code.trim()).toMatchInlineSnapshot(`
+    "<div class=\\"uno-foo-kos6xc\\"/>
+    <div class=\\"uno-foo-lir009\\"/>"
+    `)
+  })
+
+  test('normal class name should not conflict', async () => {
     const result = await transform(`
 <div class=":uno: w-1 h-1"/>
 <div class=":uno: w-2 h-2"/>
