@@ -1,5 +1,5 @@
 import path from 'path'
-import type { ExtensionContext, StatusBarItem } from 'vscode'
+import type { ExtensionContext, StatusBarItem, WorkspaceConfiguration } from 'vscode'
 import { StatusBarAlignment, commands, window, workspace } from 'vscode'
 import { findUp } from 'find-up'
 import { createFilter } from '@rollup/pluginutils'
@@ -10,6 +10,7 @@ import { registerAutoComplete } from './autocomplete'
 import { ContextLoader } from './contextLoader'
 import { registerSelectionStyle } from './selectionStyle'
 import { isFulfilled, isRejected } from './utils'
+import { defaultPipelineExclude, defaultPipelineInclude } from './integration'
 
 async function registerRoot(ext: ExtensionContext, status: StatusBarItem, cwd: string) {
   const contextLoader = new ContextLoader(cwd)
@@ -45,48 +46,75 @@ export async function activate(ext: ExtensionContext) {
   status.text = 'UnoCSS'
 
   const root = config.get<string | string[]>('root')
-  const exclude = config.get<string | string[]>('exclude')
-  const include = config.get<string | string[]>('include')
 
-  if (Array.isArray(root) && root.length) {
-    const cwds = root.map(dir => path.resolve(projectPath, dir))
-    const contextLoadersResult = await Promise.allSettled(
-      cwds.map(cwd => registerRoot(ext, status, cwd)),
-    )
+  if (Array.isArray(root) && root.length)
+    return await rootRegisterManual(ext, root, projectPath, status)
+  else
+    return await rootRegisterAuto(ext, root, config, status)
+}
 
-    ext.subscriptions.push(
-      commands.registerCommand('unocss.reload', async () => {
-        log.appendLine('🔁 Reloading...')
-        await Promise.all(
-          contextLoadersResult
-            .filter(isFulfilled)
-            .map(result => result.value.reload),
-        )
-        log.appendLine('✅ Reloaded.')
-      }),
-    )
+async function rootRegisterManual(
+  ext: ExtensionContext,
+  root: string[],
+  projectPath: string,
+  status: StatusBarItem,
+) {
+  log.appendLine('📂 Manual roots search mode.' + `\n${root.map(i => `  - ${i}`).join('\n')}`)
 
-    for (const result of contextLoadersResult.filter(isRejected)) {
-      const e = result.reason
-      log.appendLine(String(e.stack ?? e))
-    }
-    return
+  const cwds = root.map(dir => path.resolve(projectPath, dir))
+  const contextLoadersResult = await Promise.allSettled(
+    cwds.map(cwd => registerRoot(ext, status, cwd)),
+  )
+
+  ext.subscriptions.push(
+    commands.registerCommand('unocss.reload', async () => {
+      log.appendLine('🔁 Reloading...')
+      await Promise.all(
+        contextLoadersResult
+          .filter(isFulfilled)
+          .map(result => result.value.reload),
+      )
+      log.appendLine('✅ Reloaded.')
+    }),
+  )
+
+  for (const result of contextLoadersResult.filter(isRejected)) {
+    const e = result.reason
+    log.appendLine(String(e.stack ?? e))
   }
-  // now if the root is an array, then it is an empty array
+}
+
+async function rootRegisterAuto(
+  ext: ExtensionContext,
+  root: string | string[] | undefined,
+  config: WorkspaceConfiguration,
+  status: StatusBarItem,
+) {
+  log.appendLine('📂 Auto roots search mode.')
+
+  const _exclude = config.get<string | string[]>('exclude')
+  const _include = config.get<string | string[]>('include')
+
+  const exclude = _exclude && _exclude.length ? _exclude : defaultPipelineExclude
+  const include = _include && _include.length ? _include : defaultPipelineInclude
+  const filter = createFilter(include, exclude)
 
   const cacheMap = new Set<string>()
   const contextCache = new Map()
+
   const watchConfigMap = ['uno.config.js', 'uno.config.ts', 'unocss.config.js', 'unocss.config.ts']
   const useWatcherUnoConfig = (configUrl: string) => {
     const watcher = workspace.createFileSystemWatcher(configUrl)
 
     ext.subscriptions.push(watcher.onDidChange(() => {
       contextCache.get(configUrl).reload()
+      cacheMap.clear()
     }))
 
     ext.subscriptions.push(watcher.onDidDelete(() => {
       contextCache.get(configUrl).unload(path.dirname(configUrl))
       watcher.dispose()
+      cacheMap.clear()
     }))
 
     return () => watcher.dispose()
@@ -104,10 +132,6 @@ export async function activate(ext: ExtensionContext) {
     if (hasCache(url))
       return
 
-    const defaultExclude = exclude && exclude.length ? exclude : /[\/](node_modules|dist|\.temp|\.cache|\.vscode)[\/]/
-    const defaultInclude = include && include.length ? include : /.*\.(ts|js|tsx|jsx|solid|svelte|vue|html)$/
-
-    const filter = createFilter(defaultInclude, defaultExclude)
     if (!filter(url))
       return
 
@@ -132,6 +156,7 @@ export async function activate(ext: ExtensionContext) {
       contextCache.delete(configUrl)
       log.appendLine('✅ unloaded.')
     }
+
     const dispose = useWatcherUnoConfig(configUrl)
 
     contextCache.set(configUrl, {
