@@ -46,7 +46,7 @@
     }
   },
   "devDependencies": {
-    "@types/pug": "^2.0.6",
+    "@types/pug": "^2.0.7",
     "@unocss/core": "workspace:*",
     "pug": "^3.0.2"
   }

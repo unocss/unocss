@@ -27,7 +27,7 @@
     "test:ci": "nr build && nr typecheck && nr lint && nr test && nr test:integration"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^1.0.0-beta.8",
+    "@antfu/eslint-config": "^1.0.0-beta.10",
     "@antfu/ni": "^0.21.8",
     "@codemirror/lang-css": "^6.2.1",
     "@codemirror/lang-html": "^6.4.6",
@@ -50,11 +50,11 @@
     "@types/fs-extra": "^11.0.2",
     "@types/js-yaml": "^4.0.6",
     "@types/markdown-it-link-attributes": "^3.0.1",
-    "@types/node": "^20.6.5",
+    "@types/node": "^20.7.0",
     "@types/prettier": "^2.7.3",
     "@types/react": "^18.2.22",
     "@types/vscode": "^1.71.0",
-    "@types/ws": "^8.5.5",
+    "@types/ws": "^8.5.6",
     "@unocss/astro": "workspace:*",
     "@unocss/autocomplete": "workspace:*",
     "@unocss/cli": "workspace:*",
