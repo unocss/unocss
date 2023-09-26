@@ -150,8 +150,6 @@ export async function registerAnnotations(
       status.text = `UnoCSS: ${result.matched.size}`
       status.tooltip = new MarkdownString(`${result.matched.size} utilities used in this file`)
       status.show()
-
-
     }
     catch (e: any) {
       log.appendLine('⚠️ Error on annotation')

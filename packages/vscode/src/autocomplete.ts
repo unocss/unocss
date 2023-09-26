@@ -58,7 +58,7 @@ export async function registerAutoComplete(
   contextLoader.events.on('contextReload', (ctx) => {
     autoCompletes.delete(ctx)
   })
-  
+
   contextLoader.events.on('contextUnload', (ctx) => {
     autoCompletes.delete(ctx)
   })
@@ -67,7 +67,6 @@ export async function registerAutoComplete(
     autoCompletes.delete(ctx)
     disposable.dispose()
   })
-
 
   function getAutocomplete(ctx: UnocssPluginContext) {
     const cached = autoCompletes.get(ctx)
