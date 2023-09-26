@@ -90,5 +90,9 @@ export async function registerSelectionStyle(cwd: string, contextLoader: Context
     }
   }
 
-  window.onDidChangeTextEditorSelection(throttle(selectionStyle, 200))
+  const dispose = window.onDidChangeTextEditorSelection(throttle(selectionStyle, 200))
+
+  contextLoader.events.on('unload', () => {
+    dispose.dispose()
+  })
 }

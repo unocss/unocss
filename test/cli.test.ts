@@ -4,7 +4,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { startCli } from '../packages/cli/src/cli-start'
 import { getWatcher } from '../packages/cli/src/watcher'
 
-export const tempDir = resolve('.temp')
+export const tempDir = resolve('_temp')
 export const cli = resolve(__dirname, '../packages/cli/src/cli.ts')
 
 beforeAll(async () => {
