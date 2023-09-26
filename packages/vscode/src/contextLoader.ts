@@ -104,6 +104,7 @@ export class ContextLoader {
       return cached
 
     const load = async () => {
+      log.appendLine('\n-----------')
       log.appendLine(`🛠 Resolving config for ${dir}`)
 
       // @ts-expect-error support global utils

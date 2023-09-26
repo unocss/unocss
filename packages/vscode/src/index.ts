@@ -99,29 +99,25 @@ async function rootRegisterAuto(
   const include = _include && _include.length ? _include : defaultPipelineInclude
   const filter = createFilter(include, exclude)
 
-  const cacheMap = new Set<string>()
-  const contextCache = new Map()
+  const cacheFileLookUp = new Set<string>()
+  const cacheContext = new Map()
 
   const watchConfigMap = ['uno.config.js', 'uno.config.ts', 'unocss.config.js', 'unocss.config.ts']
   const useWatcherUnoConfig = (configUrl: string) => {
     const watcher = workspace.createFileSystemWatcher(configUrl)
 
     ext.subscriptions.push(watcher.onDidChange(() => {
-      contextCache.get(configUrl).reload()
-      cacheMap.clear()
+      cacheContext.get(configUrl).reload()
+      cacheFileLookUp.clear()
     }))
 
     ext.subscriptions.push(watcher.onDidDelete(() => {
-      contextCache.get(configUrl).unload(path.dirname(configUrl))
+      cacheContext.get(configUrl).unload(path.dirname(configUrl))
       watcher.dispose()
-      cacheMap.clear()
+      cacheFileLookUp.clear()
     }))
 
     return () => watcher.dispose()
-  }
-
-  const hasCache = (url: string) => {
-    return [...cacheMap].find(cache => url.startsWith(cache))
   }
 
   const registerUnocss = async () => {
@@ -129,19 +125,31 @@ async function rootRegisterAuto(
     if (!url)
       return
 
-    if (hasCache(url))
+    if (cacheFileLookUp.has(url))
       return
 
-    if (!filter(url))
+    if (!filter(url)) {
+      cacheFileLookUp.add(url)
       return
+    }
+
+    const dir = path.dirname(url)
+    if (cacheFileLookUp.has(dir)) {
+      cacheFileLookUp.add(url)
+      return
+    }
 
     const configUrl = await findUp(watchConfigMap, { cwd: url })
-
-    if (!configUrl || cacheMap.has(configUrl))
+    if (!configUrl) {
+      cacheFileLookUp.add(url)
       return
+    }
 
     const cwd = path.dirname(configUrl)
-    cacheMap.add(cwd)
+    if (cacheFileLookUp.has(cwd))
+      return
+
+    cacheFileLookUp.add(cwd)
 
     const contextLoader = await registerRoot(ext, status, cwd)
     const reload = async () => {
@@ -152,14 +160,13 @@ async function rootRegisterAuto(
     const unload = (configDir: string) => {
       log.appendLine('🔁 unloading...')
       contextLoader.unload(configDir)
-      cacheMap.delete(cwd)
-      contextCache.delete(configUrl)
+      cacheFileLookUp.delete(cwd)
+      cacheContext.delete(configUrl)
       log.appendLine('✅ unloaded.')
     }
-
     const dispose = useWatcherUnoConfig(configUrl)
 
-    contextCache.set(configUrl, {
+    cacheContext.set(configUrl, {
       reload,
       unload,
       dispose,

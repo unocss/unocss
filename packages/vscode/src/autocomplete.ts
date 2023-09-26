@@ -122,7 +122,7 @@ export async function registerAutoComplete(
 
         const result = await autoComplete.suggestInFile(code, doc.offsetAt(position))
 
-        log.appendLine(`🤖 ${id} | ${result.suggestions.slice(0, 10).map(v => `[${v[0]}, ${v[1]}]`).join(', ')}`)
+        // log.appendLine(`🤖 ${id} | ${result.suggestions.slice(0, 10).map(v => `[${v[0]}, ${v[1]}]`).join(', ')}`)
 
         if (!result.suggestions.length)
           return
