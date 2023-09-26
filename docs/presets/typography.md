@@ -39,7 +39,9 @@ import { presetTypography } from 'unocss'
 // uno.config.ts
 import {
   defineConfig,
-  presetAttributify, presetTypography, presetUno
+  presetAttributify,
+  presetTypography,
+  presetUno
 } from 'unocss'
 
 export default defineConfig({

@@ -14,7 +14,7 @@ export const presetUno = definePreset((options: PresetUnoOptions = {}) => {
     name: '@unocss/preset-uno',
     variants: [
       ...wind.variants!,
-      variantColorMix(),
+      variantColorMix<Theme>(),
     ],
   }
 })

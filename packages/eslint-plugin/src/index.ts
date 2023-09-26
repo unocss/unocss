@@ -1,15 +1,11 @@
-import order from './rules/order'
-import orderAttributify from './rules/order-attributify'
-import blocklist from './rules/blocklist'
 import configsRecommended from './configs/recommended'
+import configsFlat from './configs/flat'
+import { plugin } from './plugin'
 
 export default {
-  rules: {
-    order,
-    'order-attributify': orderAttributify,
-    blocklist,
-  },
+  ...plugin,
   configs: {
     recommended: configsRecommended,
+    flat: configsFlat,
   },
 }

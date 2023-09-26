@@ -1158,4 +1158,6 @@ export const presetMiniNonTargets = [
 
   // overmatch
   'op50>Foo',
+
+  'display-a',
 ]

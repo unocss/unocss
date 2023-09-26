@@ -38,7 +38,7 @@ export function checkTransformPageChunkHook(server: ViteDevServer, isSvelteKit: 
     const originalWrite = res.write
 
     res.write = function (chunk, ...rest) {
-      // eslint-disable-next-line n/prefer-global/buffer
+      // eslint-disable-next-line node/prefer-global/buffer
       const str = typeof chunk === 'string' ? chunk : (chunk instanceof Buffer) ? chunk.toString() : ((Array.isArray(chunk) || 'at' in chunk) ? Buffer.from(chunk).toString() : (`${chunk}`))
 
       if (str.includes('<head>') && !str.includes(DEV_GLOBAL_STYLES_DATA_TITLE))

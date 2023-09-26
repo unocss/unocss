@@ -10,7 +10,7 @@ export const CONTROL_MINI_NO_NEGATIVE = '$$mini-no-negative'
 /**
  * Provide {@link DynamicMatcher} function returning spacing definition. See spacing rules.
  *
- * @param {string} propertyPrefix - Property for the css value to be created. Postfix will be appended according to direction matched.
+ * @param propertyPrefix - Property for the css value to be created. Postfix will be appended according to direction matched.
  * @see {@link directionMap}
  */
 export function directionSize(propertyPrefix: string): DynamicMatcher {
@@ -72,9 +72,9 @@ export function splitShorthand(body: string, type: string) {
  * 'red-100/20' // From theme, plus scale/opacity
  * '[rgb(100,2,3)]/[var(--op)]' // Bracket with rgb color and bracket with opacity
  *
- * @param {string} body - Color string to be parsed.
- * @param {Theme} theme - {@link Theme} object.
- * @return {ParsedColorValue|undefined}  {@link ParsedColorValue} object if string is parseable.
+ * @param body - Color string to be parsed.
+ * @param theme - {@link Theme} object.
+ * @return object if string is parseable.
  */
 export function parseColor(body: string, theme: Theme): ParsedColorValue | undefined {
   const [main, opacity] = splitShorthand(body, 'color')
@@ -165,10 +165,10 @@ export function parseColor(body: string, theme: Theme): ParsedColorValue | undef
  * colorResolver('color', 'text')('', 'hex-124')
  * return { '--un-text-opacity': '1', 'color': 'rgba(17,34,68,var(--un-text-opacity))' }
  *
- * @param {string} property - Property for the css value to be created.
- * @param {string} varName - Base name for the opacity variable.
- * @param {Function} [shouldPass] - Function to decide whether to pass the css.
- * @return {DynamicMatcher} object.
+ * @param property - Property for the css value to be created.
+ * @param varName - Base name for the opacity variable.
+ * @param [shouldPass] - Function to decide whether to pass the css.
+ * @return object.
  */
 export function colorResolver(property: string, varName: string, shouldPass?: (css: CSSObject) => boolean): DynamicMatcher {
   return ([, body]: string[], { theme }: RuleContext<Theme>): CSSObject | undefined => {

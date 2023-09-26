@@ -17,8 +17,7 @@ export const Resources: React.FC<{ resources: Resource[] }> = ({ resources }) =>
       grid='~ lg:cols-4'
       text='center lg:left'
     >{
-        resources.map(({ title, href, description }) => (
-          <a
+        resources.map(({ title, href, description }) => (<a
             key={href}
             className='group'
             href={href}

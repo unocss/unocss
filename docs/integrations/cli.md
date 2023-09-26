@@ -123,6 +123,7 @@ For a list of options, head over to the [UnoCSS configurations](/config/) docs.
 | `--stdout` | Write the generated UnoCSS file to STDOUT. Will cause the `--watch` and `--out-file` being ignored |
 | `-w, --watch` | Indicates if the files found by the glob pattern should be watched |
 | `--preflights` | Enable preflight styles |
+| `--write-transformed` | Update source files with transformed utilities |
 | `-m, --minify` | Minify generated CSS |
 | `-h, --help` | Display available CLI options |
 

@@ -1,6 +1,6 @@
 {
   "name": "unocss",
-  "version": "0.56.0",
+  "version": "0.56.2",
   "description": "The instant on-demand Atomic CSS engine.",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -96,8 +96,8 @@
   "module": "dist/index.mjs",
   "types": "index.d.ts",
   "files": [
-    "dist",
-    "*.d.ts"
+    "*.d.ts",
+    "dist"
   ],
   "engines": {
     "node": ">=14"

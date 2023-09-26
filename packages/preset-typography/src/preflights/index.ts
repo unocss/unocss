@@ -33,11 +33,9 @@ function getCSS(
         if (match) {
           const matchStr = match[0]
           s = s.replace(matchStr, '')
-          return escapedSelector.map(e =>
-            disableNotUtility
-              ? `${e} ${s}${matchStr}`
-              : `${e} :where(${s})${notProseSelector}${matchStr}`,
-          ).join(',')
+          return escapedSelector.map(e => disableNotUtility
+            ? `${e} ${s}${matchStr}`
+            : `${e} :where(${s})${notProseSelector}${matchStr}`).join(',')
         }
         return null
       })
@@ -50,11 +48,9 @@ function getCSS(
     }
     else {
       // directly from css declaration
-      css += escapedSelector.map(e =>
-        disableNotUtility
-          ? selector.split(',').map(s => `${e} ${s}`).join(',')
-          : `${e} :where(${selector})${notProseSelector}`,
-      ).join(',')
+      css += escapedSelector.map(e => disableNotUtility
+        ? selector.split(',').map(s => `${e} ${s}`).join(',')
+        : `${e} :where(${selector})${notProseSelector}`).join(',')
     }
 
     css += '{'
