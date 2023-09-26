@@ -1,4 +1,4 @@
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import type { UnoGenerator } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
 import MagicString from 'magic-string'
@@ -20,11 +20,12 @@ describe('transformer-compile-class', () => {
     })
   }
 
-  async function transform(code: string, uno: UnoGenerator = createUno()) {
+  async function transform(code: string, uno: UnoGenerator = createUno(), invalidate = () => 0) {
     const s = new MagicString(code)
+    invalidate = invalidate || vi.fn()
 
     for (const t of uno.config.transformers || [])
-      await t.transform(s, 'foo.js', { uno, tokens: new Set() } as any)
+      await t.transform(s, 'foo.js', { uno, tokens: new Set(), invalidate } as any)
 
     const result = s.toString()
     const { css } = await uno.generate(result, { preflights: false })
@@ -156,5 +157,24 @@ describe('transformer-compile-class', () => {
       <div class=\\"uno-umiu5u\\"/>
       <div class=\\"uno-prhvrm\\"/>"
     `)
+  })
+
+  test('css should be updated exact times when compiled class changes', async () => {
+    const invalidateFn = vi.fn()
+    const uno = createUno()
+
+    await transform(`
+    <div class=":uno: w-1 h-1"/>
+        `.trim(), uno, invalidateFn)
+
+    await transform(`
+    <div class=":uno: w-1 h-2"/>
+        `.trim(), uno, invalidateFn)
+
+    await transform(`
+    <div class=":uno: w-1 h-1"/>
+        `.trim(), uno, invalidateFn)
+
+    expect(invalidateFn).toHaveBeenCalledTimes(2)
   })
 })
