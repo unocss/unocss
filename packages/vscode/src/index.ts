@@ -2,6 +2,7 @@ import path from 'path'
 import type { ExtensionContext, StatusBarItem, WorkspaceConfiguration } from 'vscode'
 import { StatusBarAlignment, commands, window, workspace } from 'vscode'
 import { findUp } from 'find-up'
+import type { FilterPattern } from '@rollup/pluginutils'
 import { createFilter } from '@rollup/pluginutils'
 import { version } from '../package.json'
 import { log } from './log'
@@ -92,11 +93,11 @@ async function rootRegisterAuto(
 ) {
   log.appendLine('📂 Auto roots search mode.')
 
-  const _exclude = config.get<string | string[]>('exclude')
-  const _include = config.get<string | string[]>('include')
+  const _exclude = config.get<FilterPattern>('exclude')
+  const _include = config.get<FilterPattern>('include')
 
-  const exclude = _exclude && _exclude.length ? _exclude : defaultPipelineExclude
-  const include = _include && _include.length ? _include : defaultPipelineInclude
+  const include: FilterPattern = _include || defaultPipelineInclude
+  const exclude: FilterPattern = _exclude || [/[\/](node_modules|dist|\.temp|\.cache|\.vscode)[\/]/, ...defaultPipelineExclude]
   const filter = createFilter(include, exclude)
 
   const cacheFileLookUp = new Set<string>()
