@@ -65,8 +65,7 @@ export default function transformerCompileClass(options: CompileClassOptions = {
     keepUnknown = true,
   } = options
   // #2866
-  let lastCompiled = new Set()
-  const currentCompiled = new Set()
+  const compiledClass = new Set()
 
   // Provides backwards compatibility. We either accept a trigger string which
   // gets turned into a regexp (like previously) or a regex literal directly.
@@ -82,6 +81,7 @@ export default function transformerCompileClass(options: CompileClassOptions = {
       if (!matches.length)
         return
 
+      const size = compiledClass.size
       for (const match of matches) {
         let body = (match.length === 4 && match.groups)
           ? expandVariantGroup(match[3].trim())
@@ -118,7 +118,7 @@ export default function transformerCompileClass(options: CompileClassOptions = {
               throw new Error(`Duplicated compile class name "${className}". One is "${body}" and the other is "${existing[1]}" Please choose different class name`)
           }
 
-          currentCompiled.add(className)
+          compiledClass.add(className)
           replacements.unshift(className)
           if (options.layer)
             uno.config.shortcuts.push([className, body, { layer: options.layer }])
@@ -132,10 +132,8 @@ export default function transformerCompileClass(options: CompileClassOptions = {
         s.overwrite(start + 1, start + match[0].length - 1, replacements.join(' '))
       }
 
-      if (currentCompiled.size > lastCompiled.size) {
-        lastCompiled = new Set(currentCompiled)
+      if (compiledClass.size > size)
         invalidate()
-      }
     },
   }
 }
