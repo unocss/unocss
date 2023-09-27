@@ -16,11 +16,6 @@ import type { UnoPostcssPluginOptions } from './types'
 export * from './types'
 
 function unocss(options: UnoPostcssPluginOptions = {}) {
-  warnOnce(
-    '`@unocss/postcss` package is in an experimental state right now. '
-    + 'It doesn\'t follow semver, and may introduce breaking changes in patch versions.',
-  )
-
   const {
     cwd = process.cwd(),
     configOrPath,
