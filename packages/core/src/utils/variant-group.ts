@@ -4,7 +4,9 @@ import { notNull } from '../utils'
 
 const regexCache: Record<string, RegExp> = {}
 
-export function makeRegexClassGroup(separators = ['-', ':']) {
+export const defaultVariantGroupSeparators = ['-', ':']
+
+export function makeRegexClassGroup(separators = defaultVariantGroupSeparators) {
   const key = separators.join('|')
   if (!regexCache[key])
     regexCache[key] = new RegExp(`((?:[!@<~\\w+:_/-]|\\[&?>?:?\\S*\\])+?)(${key})\\(((?:[~!<>\\w\\s:/\\\\,%#.$?-]|\\[.*?\\])+?)\\)(?!\\s*?=>)`, 'gm')
@@ -17,7 +19,7 @@ interface VariantGroup {
   items: HighlightAnnotation[]
 }
 
-export function parseVariantGroup(str: string | MagicString, separators = ['-', ':'], depth = 5) {
+export function parseVariantGroup(str: string | MagicString, separators = defaultVariantGroupSeparators, depth = 5) {
   const regexClassGroup = makeRegexClassGroup(separators)
   let hasChanged
   let content = str.toString()

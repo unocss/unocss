@@ -30,6 +30,7 @@ describe('transformer-variant-group', () => {
       'md:(w-1/2 h-[calc(100%-4rem)])',
       'hover:(\n!m-2 \np-2\n)',
       '[&]:(w-4 h-4) [&]:(w-4 h-4)',
+      '!(bg-black text-white)',
     ]
 
     for (const c of cases) {

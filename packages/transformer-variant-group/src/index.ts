@@ -1,5 +1,5 @@
 import type { SourceCodeTransformer } from '@unocss/core'
-import { parseVariantGroup } from '@unocss/core'
+import { defaultVariantGroupSeparators, parseVariantGroup } from '@unocss/core'
 
 export interface TransformerVariantGroupOptions {
   /**
@@ -26,7 +26,7 @@ export default function transformerVariantGroup(
     name: '@unocss/transformer-variant-group',
     enforce: 'pre',
     transform(s) {
-      const result = parseVariantGroup(s, options.separators)
+      const result = parseVariantGroup(s, options.separators || [...defaultVariantGroupSeparators, '!', ''])
       return {
         get highlightAnnotations() {
           return [...result.groupsByOffset.values()].flatMap(group => group.items)

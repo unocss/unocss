@@ -1,5 +1,23 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`transformer-variant-group > basic > "!(bg-black text-white)" 1`] = `
+{
+  "annotations": [
+    {
+      "className": "!bg-black",
+      "length": 8,
+      "offset": 2,
+    },
+    {
+      "className": "!text-white",
+      "length": 10,
+      "offset": 11,
+    },
+  ],
+  "transformed": "!bg-black !text-white",
+}
+`;
+
 exports[`transformer-variant-group > basic > "!hover:(m-2 p-2)" 1`] = `
 {
   "annotations": [
