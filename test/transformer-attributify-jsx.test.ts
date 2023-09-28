@@ -42,9 +42,9 @@ const originalCode = `
   <div components={<div absolute bottom-5></div>}></div>
   <h1 flex>h1</h1>
   <div {...{ flex }} />  
-  <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, "flex", \`flex\` ] } />  
+  <div {...{ onClick: () => { grid(); flex } }} flex />
   <div {...true ? flex : props.grid } {...grid || ( block ) && $flex } />  
-  <div {...{onClick: ()=>{ grid(1); flex } }} flex />
+  <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, "flex", \`flex\` ] } />  
 </div>
   `.trim()
 
@@ -108,9 +108,9 @@ describe('transformerAttributifyJsx', () => {
         <div components={<div absolute=\\"\\" bottom-5=\\"\\"></div>}></div>
         <h1 flex=\\"\\">h1</h1>
         <div {...{ flex }} />  
-        <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, \\"flex\\", \`flex\` ] } />  
+        <div {...{ onClick: () => { grid(); flex } }} flex=\\"\\" />
         <div {...true ? flex : props.grid } {...grid || ( block ) && $flex } />  
-        <div {...{onClick: ()=>{ grid(1); flex } }} flex=\\"\\" />
+        <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, \\"flex\\", \`flex\` ] } />  
       </div>"
     `)
   })
@@ -159,9 +159,9 @@ describe('transformerAttributifyJsx', () => {
         <div components={<div absolute bottom-5=\\"\\"></div>}></div>
         <h1 flex>h1</h1>
         <div {...{ flex }} />  
-        <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, \\"flex\\", \`flex\` ] } />  
+        <div {...{ onClick: () => { grid(); flex } }} flex />
         <div {...true ? flex : props.grid } {...grid || ( block ) && $flex } />  
-        <div {...{onClick: ()=>{ grid(1); flex } }} flex />
+        <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, \\"flex\\", \`flex\` ] } />  
       </div>"
     `)
 
@@ -235,14 +235,14 @@ describe('transformerAttributifyJsxBabel', () => {
         <div {...{
           flex
         }} />  
-        <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, \\"flex\\", \`flex\`]} />  
-        <div {...true ? flex : props.grid} {...grid || block && $flex} />  
         <div {...{
           onClick: () => {
-            grid(1);
+            grid();
             flex;
           }
         }} flex=\\"\\" />
+        <div {...true ? flex : props.grid} {...grid || block && $flex} />  
+        <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, \\"flex\\", \`flex\`]} />  
       </div>;"
     `)
   })
@@ -286,14 +286,14 @@ describe('transformerAttributifyJsxBabel', () => {
         <div {...{
           flex
         }} />  
-        <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, \\"flex\\", \`flex\`]} />  
-        <div {...true ? flex : props.grid} {...grid || block && $flex} />  
         <div {...{
           onClick: () => {
-            grid(1);
+            grid();
             flex;
           }
         }} flex />
+        <div {...true ? flex : props.grid} {...grid || block && $flex} />  
+        <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, \\"flex\\", \`flex\`]} />  
       </div>;"
     `)
 
