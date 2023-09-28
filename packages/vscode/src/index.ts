@@ -109,7 +109,6 @@ async function rootRegisterAuto(
 
     ext.subscriptions.push(watcher.onDidChange(() => {
       cacheContext.get(configUrl).reload()
-      cacheFileLookUp.clear()
     }))
 
     ext.subscriptions.push(watcher.onDidDelete(() => {
