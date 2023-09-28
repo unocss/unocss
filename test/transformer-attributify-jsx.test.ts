@@ -40,6 +40,11 @@ const originalCode = `
     on-demand · instant · fully customizable
   </div>
   <div components={<div absolute bottom-5></div>}></div>
+  <h1 flex>h1</h1>
+  <div {...{ flex }} />  
+  <div {...[, [flex], !flex, -flex, +flex, ^flex, ~flex, "flex", \`flex\` ] } />  
+  <div { id ? ' flex : row.grid } { grid || ( block ) && $flex } />  
+  <div { onClick: ()=>{ grid(1); flex }} flex />
 </div>
   `.trim()
 
@@ -101,6 +106,11 @@ describe('transformerAttributifyJsx', () => {
           on-demand · instant · fully customizable
         </div>
         <div components={<div absolute=\\"\\" bottom-5=\\"\\"></div>}></div>
+        <h1 flex=\\"\\">h1</h1>
+        <div {...{ flex }} />  
+        <div {...[, [flex], !flex, -flex, +flex, ^flex, ~flex, \\"flex\\", \`flex\` ] } />  
+        <div { id ? ' flex : row.grid } { grid || ( block ) && $flex } />  
+        <div { onClick: ()=>{ grid(1); flex }} flex=\\"\\" />
       </div>"
     `)
   })
@@ -147,6 +157,11 @@ describe('transformerAttributifyJsx', () => {
           on-demand · instant · fully customizable
         </div>
         <div components={<div absolute bottom-5=\\"\\"></div>}></div>
+        <h1 flex>h1</h1>
+        <div {...{ flex }} />  
+        <div {...[, [flex], !flex, -flex, +flex, ^flex, ~flex, \\"flex\\", \`flex\` ] } />  
+        <div { id ? ' flex : row.grid } { grid || ( block ) && $flex } />  
+        <div { onClick: ()=>{ grid(1); flex }} flex />
       </div>"
     `)
 
@@ -212,6 +227,11 @@ describe('transformerAttributifyJsxBabel', () => {
           'c-red': variable > 0
         }, 'mr-10')}></section>
         <div label={<b>1</b>}></div>
+        <div {...{
+          flex
+        }} />  
+        <div {...flex} />  
+        <div {...[flex]} />  
         <div absolute=\\"\\" bottom-5=\\"\\" right-0=\\"\\" left-0=\\"\\" text-center=\\"\\" op30=\\"\\" fw300=\\"\\">
           on-demand · instant · fully customizable
         </div>
@@ -251,6 +271,11 @@ describe('transformerAttributifyJsxBabel', () => {
           'c-red': variable > 0
         }, 'mr-10')}></section>
         <div label={<b>1</b>}></div>
+        <div {...{
+          flex
+        }} />  
+        <div {...flex} />  
+        <div {...[flex]} />  
         <div absolute bottom-5=\\"\\" right-0=\\"\\" left-0=\\"\\" text-center=\\"\\" op30=\\"\\" fw300=\\"\\">
           on-demand · instant · fully customizable
         </div>
