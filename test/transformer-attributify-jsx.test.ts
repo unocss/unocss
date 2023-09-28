@@ -227,11 +227,6 @@ describe('transformerAttributifyJsxBabel', () => {
           'c-red': variable > 0
         }, 'mr-10')}></section>
         <div label={<b>1</b>}></div>
-        <div {...{
-          flex
-        }} />  
-        <div {...flex} />  
-        <div {...[flex]} />  
         <div absolute=\\"\\" bottom-5=\\"\\" right-0=\\"\\" left-0=\\"\\" text-center=\\"\\" op30=\\"\\" fw300=\\"\\">
           on-demand · instant · fully customizable
         </div>
@@ -271,11 +266,6 @@ describe('transformerAttributifyJsxBabel', () => {
           'c-red': variable > 0
         }, 'mr-10')}></section>
         <div label={<b>1</b>}></div>
-        <div {...{
-          flex
-        }} />  
-        <div {...flex} />  
-        <div {...[flex]} />  
         <div absolute bottom-5=\\"\\" right-0=\\"\\" left-0=\\"\\" text-center=\\"\\" op30=\\"\\" fw300=\\"\\">
           on-demand · instant · fully customizable
         </div>
