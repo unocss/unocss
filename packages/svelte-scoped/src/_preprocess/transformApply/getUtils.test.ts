@@ -47,7 +47,7 @@ describe('getUtils', async () => {
           undefined,
           {
             "layer": undefined,
-            "sort": 22,
+            "sort": 24,
           },
           undefined,
           true,
@@ -70,7 +70,7 @@ describe('getUtils', async () => {
           undefined,
           {
             "layer": undefined,
-            "sort": 22,
+            "sort": 24,
           },
           undefined,
           true,
