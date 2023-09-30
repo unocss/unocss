@@ -5,7 +5,7 @@ import type { UnoGenerator } from '@unocss/core'
 import fg from 'fast-glob'
 import type { Result, Root } from 'postcss'
 import postcss from 'postcss'
-import { createGenerator, warnOnce } from '@unocss/core'
+import { createGenerator } from '@unocss/core'
 import { loadConfig } from '@unocss/config'
 import { defaultFilesystemGlobs } from '../../shared-integration/src/defaults'
 import { parseApply } from './apply'
@@ -16,11 +16,6 @@ import type { UnoPostcssPluginOptions } from './types'
 export * from './types'
 
 function unocss(options: UnoPostcssPluginOptions = {}) {
-  warnOnce(
-    '`@unocss/postcss` package is in an experimental state right now. '
-    + 'It doesn\'t follow semver, and may introduce breaking changes in patch versions.',
-  )
-
   const {
     cwd = process.cwd(),
     configOrPath,
