@@ -40,6 +40,11 @@ const originalCode = `
     on-demand · instant · fully customizable
   </div>
   <div components={<div absolute bottom-5></div>}></div>
+  <h1 flex>h1</h1>
+  <div {...{ flex }} />  
+  <div {...{ onClick: () => { grid(); flex } }} flex />
+  <div {...true ? flex : props.grid } {...grid || ( block ) && $flex } />  
+  <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, "flex", \`flex\` ] } />  
 </div>
   `.trim()
 
@@ -101,6 +106,11 @@ describe('transformerAttributifyJsx', () => {
           on-demand · instant · fully customizable
         </div>
         <div components={<div absolute=\\"\\" bottom-5=\\"\\"></div>}></div>
+        <h1 flex=\\"\\">h1</h1>
+        <div {...{ flex }} />  
+        <div {...{ onClick: () => { grid(); flex } }} flex=\\"\\" />
+        <div {...true ? flex : props.grid } {...grid || ( block ) && $flex } />  
+        <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, \\"flex\\", \`flex\` ] } />  
       </div>"
     `)
   })
@@ -147,6 +157,11 @@ describe('transformerAttributifyJsx', () => {
           on-demand · instant · fully customizable
         </div>
         <div components={<div absolute bottom-5=\\"\\"></div>}></div>
+        <h1 flex>h1</h1>
+        <div {...{ flex }} />  
+        <div {...{ onClick: () => { grid(); flex } }} flex />
+        <div {...true ? flex : props.grid } {...grid || ( block ) && $flex } />  
+        <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, \\"flex\\", \`flex\` ] } />  
       </div>"
     `)
 
@@ -216,6 +231,18 @@ describe('transformerAttributifyJsxBabel', () => {
           on-demand · instant · fully customizable
         </div>
         <div components={<div absolute=\\"\\" bottom-5=\\"\\"></div>}></div>
+        <h1 flex=\\"\\">h1</h1>
+        <div {...{
+          flex
+        }} />  
+        <div {...{
+          onClick: () => {
+            grid();
+            flex;
+          }
+        }} flex=\\"\\" />
+        <div {...true ? flex : props.grid} {...grid || block && $flex} />  
+        <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, \\"flex\\", \`flex\`]} />  
       </div>;"
     `)
   })
@@ -255,6 +282,18 @@ describe('transformerAttributifyJsxBabel', () => {
           on-demand · instant · fully customizable
         </div>
         <div components={<div absolute bottom-5=\\"\\"></div>}></div>
+        <h1 flex>h1</h1>
+        <div {...{
+          flex
+        }} />  
+        <div {...{
+          onClick: () => {
+            grid();
+            flex;
+          }
+        }} flex />
+        <div {...true ? flex : props.grid} {...grid || block && $flex} />  
+        <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, \\"flex\\", \`flex\`]} />  
       </div>;"
     `)
 
