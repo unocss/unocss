@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "@antfu/utils": "^0.7.6",
-    "@nuxt/devtools": "^0.8.3",
+    "@nuxt/devtools": "^0.8.5",
     "@unocss/autocomplete": "workspace:*",
     "@unocss/nuxt": "workspace:*",
     "@unocss/shared-docs": "workspace:*",

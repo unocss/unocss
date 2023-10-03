@@ -40,8 +40,25 @@ const originalCode = `
     on-demand · instant · fully customizable
   </div>
   <div components={<div absolute bottom-5></div>}></div>
+  <h1 flex>h1</h1>
+  <div {...{ flex }} />  
+  <div {...{ onClick: () => { grid(); flex } }} flex />
+  <div {...true ? flex : props.grid } {...grid || ( block ) && $flex } />  
+  <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, "flex", \`flex\` ] } />  
 </div>
   `.trim()
+
+const tagCouldBeAttrCode = `
+<div>
+  <b text-red>Test</b>
+  <h1 text-red>Test</h1>
+  <h2 text-red>Test</h2>
+  <h3 text-red>Test</h3>
+  <h4 text-red>Test</h4>
+  <h5 text-red>Test</h5>
+  <h6 text-red>Test</h6>
+</div>
+`.trim()
 
 describe('transformerAttributifyJsx', () => {
   const uno = createGenerator({
@@ -89,6 +106,11 @@ describe('transformerAttributifyJsx', () => {
           on-demand · instant · fully customizable
         </div>
         <div components={<div absolute=\\"\\" bottom-5=\\"\\"></div>}></div>
+        <h1 flex=\\"\\">h1</h1>
+        <div {...{ flex }} />  
+        <div {...{ onClick: () => { grid(); flex } }} flex=\\"\\" />
+        <div {...true ? flex : props.grid } {...grid || ( block ) && $flex } />  
+        <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, \\"flex\\", \`flex\` ] } />  
       </div>"
     `)
   })
@@ -135,6 +157,11 @@ describe('transformerAttributifyJsx', () => {
           on-demand · instant · fully customizable
         </div>
         <div components={<div absolute bottom-5=\\"\\"></div>}></div>
+        <h1 flex>h1</h1>
+        <div {...{ flex }} />  
+        <div {...{ onClick: () => { grid(); flex } }} flex />
+        <div {...true ? flex : props.grid } {...grid || ( block ) && $flex } />  
+        <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, \\"flex\\", \`flex\` ] } />  
       </div>"
     `)
 
@@ -145,6 +172,23 @@ describe('transformerAttributifyJsx', () => {
       else
         expect(codeToString).not.toMatch(`${rule}=""`)
     })
+  })
+
+  test('if class-like tag do not cause error', async () => {
+    const code = new MagicString(tagCouldBeAttrCode)
+    await transformerAttributifyJsx().transform(code, 'app.tsx', { uno, tokens: new Set() } as any)
+
+    expect(code.toString()).toMatchInlineSnapshot(`
+      "<div>
+        <b text-red=\\"\\">Test</b>
+        <h1 text-red=\\"\\">Test</h1>
+        <h2 text-red=\\"\\">Test</h2>
+        <h3 text-red=\\"\\">Test</h3>
+        <h4 text-red=\\"\\">Test</h4>
+        <h5 text-red=\\"\\">Test</h5>
+        <h6 text-red=\\"\\">Test</h6>
+      </div>"
+    `)
   })
 })
 
@@ -187,6 +231,18 @@ describe('transformerAttributifyJsxBabel', () => {
           on-demand · instant · fully customizable
         </div>
         <div components={<div absolute=\\"\\" bottom-5=\\"\\"></div>}></div>
+        <h1 flex=\\"\\">h1</h1>
+        <div {...{
+          flex
+        }} />  
+        <div {...{
+          onClick: () => {
+            grid();
+            flex;
+          }
+        }} flex=\\"\\" />
+        <div {...true ? flex : props.grid} {...grid || block && $flex} />  
+        <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, \\"flex\\", \`flex\`]} />  
       </div>;"
     `)
   })
@@ -226,6 +282,18 @@ describe('transformerAttributifyJsxBabel', () => {
           on-demand · instant · fully customizable
         </div>
         <div components={<div absolute bottom-5=\\"\\"></div>}></div>
+        <h1 flex>h1</h1>
+        <div {...{
+          flex
+        }} />  
+        <div {...{
+          onClick: () => {
+            grid();
+            flex;
+          }
+        }} flex />
+        <div {...true ? flex : props.grid} {...grid || block && $flex} />  
+        <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, \\"flex\\", \`flex\`]} />  
       </div>;"
     `)
 
@@ -236,5 +304,22 @@ describe('transformerAttributifyJsxBabel', () => {
       else
         expect(codeToString).not.toMatch(`${rule}=""`)
     })
+  })
+
+  test('if class-like tag do not cause error', async () => {
+    const code = new MagicString(tagCouldBeAttrCode)
+    await transformerAttributifyJsx().transform(code, 'app.tsx', { uno, tokens: new Set() } as any)
+
+    expect(code.toString()).toMatchInlineSnapshot(`
+      "<div>
+        <b text-red=\\"\\">Test</b>
+        <h1 text-red=\\"\\">Test</h1>
+        <h2 text-red=\\"\\">Test</h2>
+        <h3 text-red=\\"\\">Test</h3>
+        <h4 text-red=\\"\\">Test</h4>
+        <h5 text-red=\\"\\">Test</h5>
+        <h6 text-red=\\"\\">Test</h6>
+      </div>"
+    `)
   })
 })

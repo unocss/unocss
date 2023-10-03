@@ -21,7 +21,19 @@ ESLint config for UnoCSS: `@unocss/eslint-config`.
   ```
 :::
 
-In `.eslintrc`:
+In [Flat Config Style](https://eslint.org/docs/latest/use/configure/configuration-files-new):
+
+```js
+// eslint.config.js
+import unocss from '@unocss/eslint-config/flat'
+
+export default [
+  unocss,
+  // other configs
+]
+```
+
+In legacy `.eslintrc` style:
 
 ```json
 {

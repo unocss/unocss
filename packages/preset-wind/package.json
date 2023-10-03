@@ -1,6 +1,6 @@
 {
   "name": "@unocss/preset-wind",
-  "version": "0.56.0",
+  "version": "0.56.5",
   "description": "Tailwind / Windi CSS compact preset for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -31,8 +31,8 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
-    "dist",
-    "*.css"
+    "*.css",
+    "dist"
   ],
   "scripts": {
     "build": "unbuild",

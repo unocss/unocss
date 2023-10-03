@@ -42,3 +42,7 @@ export default defineConfig({
 ```
 
 You can check [official presets](/presets/) and [community presets](/presets/community) for more. 
+
+### Creating presets
+
+To see how you can create your own custom preset, see [Config: presets](/config/presets).

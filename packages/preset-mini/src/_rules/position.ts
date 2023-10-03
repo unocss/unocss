@@ -23,6 +23,8 @@ export const justifies: StaticRule[] = [
   ['justify-around', { 'justify-content': 'space-around' }],
   ['justify-evenly', { 'justify-content': 'space-evenly' }],
   ['justify-stretch', { 'justify-content': 'stretch' }],
+  ['justify-left', { 'justify-content': 'left' }],
+  ['justify-right', { 'justify-content': 'right' }],
   ...makeGlobalStaticRules('justify', 'justify-content'),
 
   // items
@@ -124,7 +126,9 @@ function handleInsetValues([, d, v]: string[], ctx: RuleContext): CSSEntries | u
 }
 
 export const insets: Rule[] = [
-  [/^(?:position-|pos-)?inset-(.+)$/, ([, v], ctx) => ({ inset: handleInsetValue(v, ctx) }),
+  [
+    /^(?:position-|pos-)?inset-(.+)$/,
+    ([, v], ctx) => ({ inset: handleInsetValue(v, ctx) }),
     {
       autocomplete: [
         '(position|pos)-inset-<directions>-$spacing',

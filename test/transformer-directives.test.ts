@@ -440,8 +440,7 @@ div {
 
   --my-color: theme('colors.red.500');
   color: var(--my-color);
-}`,
-      )
+}`)
       expect(result).toMatchInlineSnapshot(`
         "div {
           height: 100%;
@@ -465,8 +464,7 @@ div {
           color: theme('colors.rgba / 50%');
           color: theme('colors.hsl / 0.6');
           color: theme('colors.hsla / 60%');
-        }`,
-      )
+        }`)
       expect(result).toMatchInlineSnapshot(`
         "div {
           color: rgba(239, 68, 68, 50%);

@@ -23,15 +23,18 @@ it('mergeDeep', () => {
       }
     `)
 
-  expect(mergeDeep<any>({
-    foo: true,
-    bar: 1,
-    arr: [1],
-  }, {
-    bar: {},
-    arr: [2],
-  } as any,
-  true))
+  expect(mergeDeep<any>(
+    {
+      foo: true,
+      bar: 1,
+      arr: [1],
+    },
+    {
+      bar: {},
+      arr: [2],
+    } as any,
+    true,
+  ))
     .toMatchInlineSnapshot(`
       {
         "arr": [

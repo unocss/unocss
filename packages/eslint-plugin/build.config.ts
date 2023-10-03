@@ -7,8 +7,11 @@ export default defineBuildConfig({
     'src/worker',
   ],
   clean: true,
-  declaration: false,
+  declaration: true,
   rollup: {
     emitCJS: true,
+    dts: {
+      respectExternal: true,
+    },
   },
 })

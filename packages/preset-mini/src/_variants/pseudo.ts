@@ -30,6 +30,8 @@ const PseudoClasses: Record<string, string> = Object.fromEntries([
   'required',
   'valid',
   'invalid',
+  'user-valid',
+  'user-invalid',
   'in-range',
   'out-of-range',
   'read-only',

@@ -19,7 +19,7 @@
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
-    "@vitejs/plugin-react": "^4.0.4",
+    "@vitejs/plugin-react": "^4.1.0",
     "cross-env": "^7.0.3",
     "typescript": "^5.2.2",
     "unocss": "link:../../packages/unocss",

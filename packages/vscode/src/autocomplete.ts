@@ -53,14 +53,20 @@ export async function registerAutoComplete(
 ) {
   const allLanguages = await languages.getLanguages()
   const autoCompletes = new Map<UnocssPluginContext, UnocssAutocomplete>()
+  const { configuration, watchChanged, disposable } = useConfigurations(ext)
+
   contextLoader.events.on('contextReload', (ctx) => {
     autoCompletes.delete(ctx)
   })
+
   contextLoader.events.on('contextUnload', (ctx) => {
     autoCompletes.delete(ctx)
   })
 
-  const { configuration, watchChanged } = useConfigurations(ext)
+  contextLoader.events.on('unload', (ctx) => {
+    autoCompletes.delete(ctx)
+    disposable.dispose()
+  })
 
   function getAutocomplete(ctx: UnocssPluginContext) {
     const cached = autoCompletes.get(ctx)
@@ -116,7 +122,7 @@ export async function registerAutoComplete(
 
         const result = await autoComplete.suggestInFile(code, doc.offsetAt(position))
 
-        log.appendLine(`🤖 ${id} | ${result.suggestions.slice(0, 10).map(v => `[${v[0]}, ${v[1]}]`).join(', ')}`)
+        // log.appendLine(`🤖 ${id} | ${result.suggestions.slice(0, 10).map(v => `[${v[0]}, ${v[1]}]`).join(', ')}`)
 
         if (!result.suggestions.length)
           return

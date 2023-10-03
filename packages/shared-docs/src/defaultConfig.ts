@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-restricted-imports
 import {
   defineConfig,
   presetAttributify,
@@ -7,17 +8,17 @@ import {
 
 export default defineConfig({
   rules: [
-    ['custom-rule', { color: 'red' }]
+    ['custom-rule', { color: 'red' }],
   ],
   shortcuts: {
-    'custom-shortcut': 'text-lg text-orange hover:text-teal'
+    'custom-shortcut': 'text-lg text-orange hover:text-teal',
   },
   presets: [
     presetUno(),
     presetAttributify(),
     presetIcons({
       scale: 1.2,
-      cdn: 'https://esm.sh/'
+      cdn: 'https://esm.sh/',
     }),
-  ]
+  ],
 })

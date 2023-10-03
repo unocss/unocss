@@ -213,12 +213,11 @@ function mergeAutocompleteShorthands(shorthands: Record<string, string | string[
       ...a,
       ...rs,
     }
-  }
-  , {})
+  }, {})
 }
 
 export function definePreset<Options extends object | undefined = undefined, Theme extends object = object>(preset: PresetFactory<Theme, Options>): PresetFactory<Theme, Options>
-export function definePreset<Theme extends object = object>(preset: Preset<Theme>): Preset<Theme> 
+export function definePreset<Theme extends object = object>(preset: Preset<Theme>): Preset<Theme>
 export function definePreset(preset: any) {
   return preset
 }

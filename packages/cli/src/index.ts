@@ -107,7 +107,8 @@ export async function build(_options: CliOptions) {
           .then((transformsRes) => {
             resolve({ id, code, transformedCode: transformsRes?.code || transformedCode })
           })
-      })))
+      })),
+    )
   }
 
   async function generate(options: ResolvedCliOptions) {
