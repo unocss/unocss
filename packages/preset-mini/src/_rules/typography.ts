@@ -3,12 +3,8 @@ import { toArrayReadonly } from '@unocss/core'
 import type { Theme } from '../theme'
 import { colorResolver, colorableShadows, h, splitShorthand } from '../utils'
 
-function handleLineHeight(s: string, theme: Theme) {
-  return theme.lineHeight?.[s] || h.bracket.cssvar.global.rem(s)
-}
-
-function handleLetterSpace(s: string, theme: Theme) {
-  return theme.letterSpacing?.[s] || h.bracket.cssvar.global.rem(s)
+function handleThemeByKey(s: string, theme: Theme, key: 'lineHeight' | 'letterSpacing') {
+  return theme[key]?.[s] || h.bracket.cssvar.global.rem(s)
 }
 
 export const fonts: Rule<Theme>[] = [
@@ -18,7 +14,7 @@ export const fonts: Rule<Theme>[] = [
     ([, s = 'base'], { theme }) => {
       const [size, leading] = splitShorthand(s, 'length')
       const sizePairs = toArrayReadonly(theme.fontSize?.[size])
-      const lineHeight = leading ? handleLineHeight(leading, theme) : undefined
+      const lineHeight = leading ? handleThemeByKey(leading, theme, 'lineHeight') : undefined
 
       if (sizePairs?.[0]) {
         const [fontSize, height, letterSpacing] = sizePairs
@@ -31,7 +27,7 @@ export const fonts: Rule<Theme>[] = [
         return {
           'font-size': fontSize,
           'line-height': lineHeight ?? height ?? '1',
-          'letter-spacing': letterSpacing ? handleLetterSpace(letterSpacing, theme) : undefined,
+          'letter-spacing': letterSpacing ? handleThemeByKey(letterSpacing, theme, 'letterSpacing') : undefined,
         }
       }
 
@@ -69,7 +65,7 @@ export const fonts: Rule<Theme>[] = [
   // leadings
   [
     /^(?:font-)?(?:leading|lh|line-height)-(.+)$/,
-    ([, s], { theme }) => ({ 'line-height': handleLineHeight(s, theme) }),
+    ([, s], { theme }) => ({ 'line-height': handleThemeByKey(s, theme, 'lineHeight') }),
     { autocomplete: '(leading|lh|line-height)-$lineHeight' },
   ],
 
