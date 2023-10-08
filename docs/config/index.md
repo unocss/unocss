@@ -245,7 +245,6 @@ Output file path.
 
 Layout name of shortcuts.
 
-
 ### envMode
 
 - **Type:** `'dev' | 'build'`
@@ -258,7 +257,6 @@ Environment mode.
 - **Type:** `boolean`
 
 Expose internal details for debugging / inspecting.
-
 
 ### warn
 
