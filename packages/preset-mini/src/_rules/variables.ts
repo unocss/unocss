@@ -1,5 +1,6 @@
 import type { Rule } from '@unocss/core'
-import { h } from '../utils'
+import { colorToString, h, parseCssColor } from '../utils'
+import type { Theme } from '../../theme'
 
 const variablesAbbrMap: Record<string, string> = {
   backface: 'backface-visibility',
@@ -33,9 +34,8 @@ export const cssProperty: Rule[] = [
     const [prop, ...rest] = body.split(':')
     const value = rest.join(':')
     if (!isURI(body) && prop.match(/^[a-z-]+$/) && isValidCSSBody(value)) {
-      if (value.startsWith('theme(') && value.endsWith(')')) {
-        const keys = value.slice(6, -1).split('.')
-        const val = keys.reduce((p, c) => p?.[c], theme as any)
+      if (value.includes('theme')) {
+        const val = parseThemeString(value, theme)
         if (val)
           return { [prop]: val }
       }
@@ -87,4 +87,26 @@ function isURI(declaration: string) {
   catch (err) {
     return false
   }
+}
+
+function parseThemeString(value: string, theme: Theme) {
+  const reg = /theme\((.*?)\)/g
+  for (const match of Array.from(value.matchAll(reg))) {
+    const [keyStr, alpha] = match[1].split('/') as [string, string?]
+    const keys = keyStr.trim().split('.')
+    let val = keys.reduce((p, c) => p?.[c], theme as any)
+
+    if (!val)
+      return
+
+    if (keys[0] === 'colors' && alpha) {
+      const color = parseCssColor(val)
+      if (color)
+        val = colorToString(color, alpha)
+    }
+
+    value = value.replace(match[0], val)
+  }
+
+  return value
 }
