@@ -26,13 +26,20 @@ export const cssVariables: Rule[] = [
 ]
 
 export const cssProperty: Rule[] = [
-  [/^\[(.*)\]$/, ([_, body]) => {
+  [/^\[(.*)\]$/, ([_, body], { theme }) => {
     if (!body.includes(':'))
       return
 
     const [prop, ...rest] = body.split(':')
     const value = rest.join(':')
     if (!isURI(body) && prop.match(/^[a-z-]+$/) && isValidCSSBody(value)) {
+      if (value.startsWith('theme(') && value.endsWith(')')) {
+        const keys = value.slice(6, -1).split('.')
+        const val = keys.reduce((p, c) => p?.[c], theme as any)
+        if (val)
+          return { [prop]: val }
+      }
+
       const parsed = h.bracket(`[${value}]`)
       if (parsed)
         return { [prop]: parsed }

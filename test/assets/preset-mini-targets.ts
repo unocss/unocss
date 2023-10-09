@@ -1118,6 +1118,12 @@ export const presetMiniTargets: string[] = [
   '@[10.5rem]-text-red',
   '@xs/label:text-green',
   '@[100px]/label:text-green',
+  '[padding:theme(spacing.xl)]',
+  // '[color:theme(colors.blue.300/40%)]',
+  '[--css-variable-color:theme(colors.red.500)]',
+  // '[--css-variable-color:theme(colors.red.500/50%)]',
+  // '[--css-variable-color:theme(colors.green.500),theme(colors.blue.500)]',
+  '[--css-spacing:theme(spacing.sm)]',
 ]
 
 export const presetMiniNonTargets = [
