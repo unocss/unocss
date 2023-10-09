@@ -114,7 +114,7 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
         }) as unknown as { path: string; mtimeMs: number }[]
 
         await parseApply(root, uno, directiveMap.apply)
-        await parseTheme(root, uno, directiveMap.theme)
+        await parseTheme(root, uno)
         await parseScreen(root, uno, directiveMap.screen)
 
         promises.push(

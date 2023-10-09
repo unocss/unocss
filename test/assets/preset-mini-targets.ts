@@ -925,7 +925,13 @@ export const presetMiniTargets: string[] = [
   '[font-family:\'Inter\',_sans-serif]',
   '[font-feature-settings:\'cv02\',\'cv03\',\'cv04\',\'cv11\']',
   '[font-variation-settings:"wght"_400,_"opsz"_14]',
+  '[padding:theme(spacing.xl)]',
+  '[color:theme(colors.blue.300/40%)]',
   '[--css-variable:"wght"_400,_"opsz"_14]',
+  '[--css-variable-color:theme(colors.red.500)]',
+  '[--css-variable-color:theme(colors.red.500/50%)]',
+  '[--css-variable-color:theme(colors.green.500),theme(colors.blue.500)]',
+  '[--css-spacing:theme(spacing.sm)]',
 
   // variants
   'active:scale-4',

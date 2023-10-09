@@ -6,9 +6,14 @@
 .fw-\$variable{font-weight:var(--variable);}
 .items-\$size{align-items:var(--size);}
 .ws-\$variable{white-space:var(--variable);}
+.\[--css-spacing\:theme\(spacing\.sm\)\]{--css-spacing:0.875rem;}
+.\[--css-variable-color\:theme\(colors\.green\.500\)\,theme\(colors\.blue\.500\)\]{--css-variable-color:#22c55e,#3b82f6;}
+.\[--css-variable-color\:theme\(colors\.red\.500\)\]{--css-variable-color:#ef4444;}
+.\[--css-variable-color\:theme\(colors\.red\.500\/50\%\)\]{--css-variable-color:rgba(239,68,68,50%);}
 .\[--css-variable\:\"wght\"_400\,_\"opsz\"_14\]{--css-variable:"wght" 400, "opsz" 14;}
 .\[a\:b\]{a:b;}
 .\[background-image\:url\(star_transparent\.gif\)\,_url\(cat_front\.png\)\]{background-image:url(star_transparent.gif), url(cat_front.png);}
+.\[color\:theme\(colors\.blue\.300\/40\%\)\]{color:rgba(147,197,253,40%);}
 .\[content\:attr\(attr_content\)\]{content:attr(attr content);}
 .\[content\:attr\(attr\\_content\)\]{content:attr(attr_content);}
 .\[font-family\:\'Inter\'\,_sans-serif\]{font-family:'Inter', sans-serif;}
@@ -16,6 +21,7 @@
 .\[font-feature-settings\:\'cv02\'\,\'cv03\'\,\'cv04\'\,\'cv11\'\]{font-feature-settings:'cv02','cv03','cv04','cv11';}
 .\[font-variation-settings\:\"wght\"_400\,_\"opsz\"_14\]{font-variation-settings:"wght" 400, "opsz" 14;}
 .\[margin\:logical_1rem_2rem_3rem\]{margin:logical 1rem 2rem 3rem;}
+.\[padding\:theme\(spacing\.xl\)\]{padding:1.25rem;}
 .all-\[\.target\]-\[combinator\:test-2\] .target,
 .children-\[\.target\]-\[combinator\:test-2\]>.target,
 .next-\[\.target\]-\[combinator\:test-2\]+.target{combinator:test-2;}
