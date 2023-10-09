@@ -9,7 +9,7 @@ import { createGenerator } from '@unocss/core'
 import { loadConfig } from '@unocss/config'
 import { defaultFilesystemGlobs } from '../../shared-integration/src/defaults'
 import { parseApply } from './apply'
-import { parseTheme, themeFnRE } from './theme'
+import { parseTheme } from './theme'
 import { parseScreen } from './screen'
 import type { UnoPostcssPluginOptions } from './types'
 
@@ -66,9 +66,8 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
             })
 
             if (!isTarget) {
-              const themeFn = themeFnRE(directiveMap.theme)
               root.walkDecls((decl) => {
-                if (themeFn.test(decl.value)) {
+                if (decl.value.includes('theme(')) {
                   isTarget = true
                   return false
                 }
