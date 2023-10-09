@@ -1,10 +1,10 @@
 import { createGenerator } from '@unocss/core'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { variantMatcher } from '@unocss/preset-mini/utils'
 import presetMini from '@unocss/preset-mini'
 
 describe('order', () => {
-  test('static', async () => {
+  it('static', async () => {
     const uno = createGenerator({
       rules: [
         ['foo', { name: 'bar1' }],
@@ -16,7 +16,7 @@ describe('order', () => {
     expect(css).toContain('bar2')
   })
 
-  test('dynamic', async () => {
+  it('dynamic', async () => {
     const uno = createGenerator({
       rules: [
         [/^foo$/, () => ({ name: 'bar1' })],
@@ -28,7 +28,7 @@ describe('order', () => {
     expect(css).toContain('bar2')
   })
 
-  test('variant ordering', async () => {
+  it('variant ordering', async () => {
     const uno = createGenerator({
       rules: [
         [/^foo-.$/, ([m]) => ({ name: m })],
@@ -60,7 +60,7 @@ describe('order', () => {
     expect(css).toEqual(css2)
   })
 
-  test('variant ordering reversed', async () => {
+  it('variant ordering reversed', async () => {
     const uno = createGenerator({
       rules: [
         [/^foo-.$/, ([m]) => ({ name: m })],
@@ -92,7 +92,7 @@ describe('order', () => {
     expect(css).toEqual(css2)
   })
 
-  test('multiple variant sorting', async () => {
+  it('multiple variant sorting', async () => {
     const uno = createGenerator({
       presets: [
         presetMini(),
@@ -109,7 +109,7 @@ describe('order', () => {
     expect(css).toMatchSnapshot()
   })
 
-  test('pseudo-elements sorting', async () => {
+  it('pseudo-elements sorting', async () => {
     const uno = createGenerator({
       presets: [
         presetMini(),
@@ -124,7 +124,7 @@ describe('order', () => {
     expect(css).toMatchSnapshot()
   })
 
-  test('variant sorting', async () => {
+  it('variant sorting', async () => {
     const uno = createGenerator({
       rules: [
         [/^foo-.$/, ([m]) => ({ foo: m })],
@@ -158,7 +158,7 @@ describe('order', () => {
     expect(css).toEqual(css2)
   })
 
-  test('fully controlled rules merged and sorted by body', async () => {
+  it('fully controlled rules merged and sorted by body', async () => {
     const uno = createGenerator({
       rules: [
         ['uno', { '--var': 'uno' }],

@@ -43,6 +43,6 @@
     "@babel/core": "^7.23.0",
     "@babel/plugin-syntax-jsx": "^7.22.5",
     "@babel/preset-typescript": "^7.23.0",
-    "magic-string": "^0.30.3"
+    "magic-string": "^0.30.4"
   }
 }

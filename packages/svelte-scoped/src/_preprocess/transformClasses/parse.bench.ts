@@ -1,7 +1,7 @@
 /* eslint-disable unused-imports/no-unused-vars */
 import MagicString from 'magic-string'
 import { parse } from 'svelte/compiler'
-import { bench, describe } from 'vitest'
+import { describe } from 'vitest'
 import { unoMock } from './unoMock'
 import { findClasses } from './findClasses'
 import { processClasses } from './processClasses'
@@ -22,21 +22,21 @@ div {
 
 describe('measure basic operations', () => {
   const classesRE = /class=(["'\`])([\S\s]+?)\1/g // class="mb-1"
-  bench('find classes using regex', () => {
+  it('find classes using regex', () => {
     const classes = [...simpleSvelteComponent.matchAll(classesRE)]
   })
 
-  bench('create a MagicString', () => {
+  it('create a MagicString', () => {
     const s = new MagicString(simpleSvelteComponent)
   })
 })
 
 describe('parse classes in a simple Svelte component', () => {
-  bench('create an AST', () => {
+  it('create an AST', () => {
     const ast = parse(simpleSvelteComponent, { filename: 'App.svelte' })
   })
 
-  bench('use regex to find and process classes', async () => {
+  it('use regex to find and process classes', async () => {
     const classesToProcess = findClasses(simpleSvelteComponent)
     const result = await processClasses(classesToProcess, {}, unoMock, 'App.svelte')
   })
@@ -79,11 +79,11 @@ describe('parse classes in a bigger Svelte component with an artificially large 
   }
 </style>`
 
-  bench('create an AST', () => {
+  it('create an AST', () => {
     const ast = parse(biggerSvelteComponent, { filename: 'App.svelte' })
   })
 
-  bench('use regex to find and process classes', async () => {
+  it('use regex to find and process classes', async () => {
     const classesToProcess = findClasses(biggerSvelteComponent)
     const result = await processClasses(classesToProcess, {}, unoMock, 'App.svelte')
   })
@@ -173,11 +173,11 @@ describe('parse classes in a slideover Svelte component with some logic as well 
   </div>
 </div>`
 
-  bench('create an AST', () => {
+  it('create an AST', () => {
     const ast = parse(slideoverComponent, { filename: 'App.svelte' })
   })
 
-  bench('use regex to find and process classes', async () => {
+  it('use regex to find and process classes', async () => {
     const classesToProcess = findClasses(slideoverComponent)
     const result = await processClasses(classesToProcess, {}, unoMock, 'App.svelte')
   })

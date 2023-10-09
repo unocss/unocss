@@ -41,12 +41,12 @@
   },
   "dependencies": {
     "@ampproject/remapping": "^2.2.1",
-    "@rollup/pluginutils": "^5.0.4",
+    "@rollup/pluginutils": "^5.0.5",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "chokidar": "^3.5.3",
     "fast-glob": "^3.3.1",
-    "magic-string": "^0.30.3",
+    "magic-string": "^0.30.4",
     "unplugin": "^1.5.0",
     "webpack-sources": "^3.2.3"
   },

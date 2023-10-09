@@ -1,8 +1,8 @@
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { CountableSet } from '../packages/unocss'
 
-describe('CountableSet', () => {
-  test('constructor', () => {
+describe('countableSet', () => {
+  it('constructor', () => {
     const s = new CountableSet(['bar1', 'bar2', 'bar3', 'bar2'])
 
     expect(s).toMatchInlineSnapshot(`
@@ -22,7 +22,7 @@ describe('CountableSet', () => {
     `)
   })
 
-  test('add', () => {
+  it('add', () => {
     const s = new CountableSet()
 
     s.add('bar1')
@@ -44,14 +44,14 @@ describe('CountableSet', () => {
     `)
   })
 
-  test('getCount', () => {
+  it('getCount', () => {
     const s = new CountableSet(['bar1', 'bar2', 'bar2'])
 
     expect(s.getCount('bar1')).toBe(1)
     expect(s.getCount('bar2')).toBe(2)
   })
 
-  test('setCount', () => {
+  it('setCount', () => {
     const s = new CountableSet()
 
     s.setCount('bar1', 2)

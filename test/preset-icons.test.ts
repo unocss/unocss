@@ -1,7 +1,7 @@
 import { createGenerator } from '@unocss/core'
 import presetIcons from '@unocss/preset-icons'
 import presetUno from '@unocss/preset-uno'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 describe('preset-icons', () => {
   const fixtures = [
@@ -44,19 +44,19 @@ describe('preset-icons', () => {
     ],
   })
 
-  test('fixtures', async () => {
+  it('fixtures', async () => {
     const { css, layers } = await uno.generate(fixtures.join(' '), { preflights: false })
     expect(layers).toEqual(['icons', 'default'])
     await expect(css).toMatchFileSnapshot('./assets/output/preset-icons.css')
   })
 
-  test('icon unit fixtures', async () => {
+  it('icon unit fixtures', async () => {
     const { css, layers } = await unoWithUnit.generate(fixtures.join(' '), { preflights: false })
     expect(layers).toEqual(['icons', 'default'])
     await expect(css).toMatchFileSnapshot('./assets/output/preset-icons-unit.css')
   })
 
-  test('svg prologue cleared', async () => {
+  it('svg prologue cleared', async () => {
     const { css, layers } = await unoWithUnit.generate('<button class="i-custom:circle-with-xml-preface" />', { preflights: false })
     expect(layers).toEqual(['icons', 'default'])
     expect(css).toContain('data:image/svg+xml;utf8,%3Csvg')

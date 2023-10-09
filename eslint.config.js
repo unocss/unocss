@@ -15,6 +15,7 @@ export default antfu(
   },
   {
     rules: {
+      'style/jsx-child-element-spacing': 'off',
       'ts/no-invalid-void-type': 'off',
       'no-restricted-imports': [
         'error',

@@ -1,9 +1,9 @@
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 describe('blocklist', () => {
-  test('basic', async () => {
+  it('basic', async () => {
     const uno = createGenerator({
       presets: [
         presetUno(),
