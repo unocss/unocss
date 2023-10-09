@@ -7,6 +7,6 @@ export function themeFnRE(directiveName: string) {
 }
 export async function parseTheme(root: Root, uno: UnoGenerator) {
   root.walkDecls((decl) => {
-    decl.value = transformThemeFn(decl.value, uno.config.theme, false)
+    decl.value = transformThemeFn(decl.value, uno.config.theme)
   })
 }
