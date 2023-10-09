@@ -1,16 +1,16 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "lib": ["ESNext", "DOM"],
     "jsx": "preserve",
+    "lib": ["ESNext", "DOM"],
     "useDefineForClassFields": true,
     "module": "ESNext",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
-    "sourceMap": true,
-    "isolatedModules": true,
-    "esModuleInterop": true,
     "strict": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
     "skipLibCheck": true
   }
 }

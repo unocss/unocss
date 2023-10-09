@@ -1,8 +1,8 @@
 import { createGenerator } from '@unocss/core'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 describe('generate-async', () => {
-  test('rule-first', async () => {
+  it('rule-first', async () => {
     const order: number[] = []
     const uno = createGenerator({
       rules: [
@@ -24,7 +24,7 @@ describe('generate-async', () => {
     expect(order).eql([1, 2])
   })
 
-  test('preflight at the end', async () => {
+  it('preflight at the end', async () => {
     const order: number[] = []
     const uno = createGenerator({
       rules: [

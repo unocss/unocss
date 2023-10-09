@@ -1,4 +1,3 @@
-/* eslint-disable style/quotes */
 export default [
   '',
   '',

@@ -1,7 +1,7 @@
 import { createGenerator } from '@unocss/core'
-import { expect, test } from 'vitest'
+import { expect, it } from 'vitest'
 
-test('extended-info', async () => {
+it('extended-info', async () => {
   const uno = createGenerator({
     rules: [
       ['a', { name: 'bar1' }, { layer: 'a' }],

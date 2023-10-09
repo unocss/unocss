@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "es2018",
-    "lib": ["esnext"],
     "jsx": "preserve",
+    "lib": ["esnext"],
     "module": "esnext",
     "moduleResolution": "node",
     "paths": {
@@ -45,15 +45,15 @@
       "unocss": ["./packages/unocss/src/index.ts"],
       "unocss/vite": ["./packages/unocss/src/vite.ts"]
     },
+    "resolveJsonModule": true,
     "types": [
       "node",
       "vite/client",
       "vitest/importMeta"
     ],
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
     "strict": true,
     "strictNullChecks": true,
+    "esModuleInterop": true,
     "skipDefaultLibCheck": true,
     "skipLibCheck": true
   },

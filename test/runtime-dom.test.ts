@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import { afterEach, describe, expect, test } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 import initUnocssRuntime from '@unocss/runtime'
 import presetUno from '@unocss/preset-uno'
 
@@ -25,7 +25,7 @@ describe('runtime dom manipulation', () => {
     return window.__unocss_runtime
   }
 
-  test('runtime generates multiple styles', async () => {
+  it('runtime generates multiple styles', async () => {
     const runtime = initRuntime()
 
     await runtime?.extract('container mt0')
@@ -42,7 +42,7 @@ describe('runtime dom manipulation', () => {
     })
   })
 
-  test('runtime can retrieve styles ordered by layer', async () => {
+  it('runtime can retrieve styles ordered by layer', async () => {
     const runtime = initRuntime({
       layers: {
         pre: -10,
@@ -59,7 +59,7 @@ describe('runtime dom manipulation', () => {
     expect(layers).toMatchObject(['pre', 'default', 'ammend', 'preflights'])
   })
 
-  test('runtime styles is placed in order', async () => {
+  it('runtime styles is placed in order', async () => {
     const runtime = initRuntime()
 
     await runtime?.extract('ring-red')

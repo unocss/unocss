@@ -1,10 +1,10 @@
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import presetIcons from '@unocss/preset-icons'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 describe('preprocess', () => {
-  test('prefix', async () => {
+  it('prefix', async () => {
     const positive = [
       'uno:pl-10px',
       'uno:hover:p-4',
@@ -40,7 +40,7 @@ describe('preprocess', () => {
     expect(css).toMatchSnapshot()
   })
 
-  test('tailwind prefix', async () => {
+  it('tailwind prefix', async () => {
     const positive = [
       'uno:pl-10px',
       'hover:uno:p-4',

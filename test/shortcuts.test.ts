@@ -2,7 +2,7 @@ import { CONTROL_SHORTCUT_NO_MERGE, createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 describe('shortcuts', () => {
   const uno = createGenerator({
@@ -57,17 +57,17 @@ describe('shortcuts', () => {
     ],
   })
 
-  test('static', async () => {
+  it('static', async () => {
     const { css } = await uno.generate('sh1 sh2 focus:sh2 sh3', { preflights: false })
     await expect(css).toMatchFileSnapshot('./assets/output/shortcuts-static.css')
   })
 
-  test('nesting static', async () => {
+  it('nesting static', async () => {
     const { css } = await uno.generate('btn1 btn btn2', { preflights: false })
     await expect(css).toMatchFileSnapshot('./assets/output/shortcuts-nesting-static.css')
   })
 
-  test('dynamic', async () => {
+  it('dynamic', async () => {
     const { css } = await uno.generate('button-1 button-2', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
@@ -76,7 +76,7 @@ describe('shortcuts', () => {
     `)
   })
 
-  test('merge transform-duplicated', async () => {
+  it('merge transform-duplicated', async () => {
     const { css } = await uno.generate('transform-duplicated', { preflights: false })
     const prettified = prettier.format(css, {
       parser: 'css',
@@ -85,12 +85,12 @@ describe('shortcuts', () => {
     await expect(prettified).toMatchFileSnapshot('./assets/output/shortcuts-transform-duplicated.css')
   })
 
-  test('no-merge', async () => {
+  it('no-merge', async () => {
     const { css } = await uno.generate('with-no-merge merge-candidate', { preflights: false })
     await expect(css).toMatchFileSnapshot('./assets/output/shortcuts-no-merge.css')
   })
 
-  test('variant order', async () => {
+  it('variant order', async () => {
     const { css } = await uno.generate('shortcut-hover-active-1', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
@@ -100,7 +100,7 @@ describe('shortcuts', () => {
     `)
   })
 
-  test('variant order', async () => {
+  it('variant order 1', async () => {
     const { css } = await uno.generate('shortcut-hover-active-2', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
@@ -110,7 +110,7 @@ describe('shortcuts', () => {
     `)
   })
 
-  test('variant order', async () => {
+  it('variant order 2', async () => {
     const { css } = await uno.generate('shortcut-hover-active-2 uno-layer-shortcuts:bg-red-300', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
@@ -121,7 +121,7 @@ describe('shortcuts', () => {
     `)
   })
 
-  test('variant order', async () => {
+  it('variant order 3', async () => {
     const { css } = await uno.generate('shortcut-hover-active-2 uno-layer-shortcuts:bg-yellow-300', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
@@ -132,7 +132,7 @@ describe('shortcuts', () => {
     `)
   })
 
-  test('variant order', async () => {
+  it('variant order 4', async () => {
     const { css } = await uno.generate('shortcut-hover-active-2 uno-layer-shortcuts:bg-blue-300', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
@@ -143,7 +143,7 @@ describe('shortcuts', () => {
     `)
   })
 
-  test('animate', async () => {
+  it('animate', async () => {
     const { css } = await uno.generate('loading', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
@@ -153,12 +153,12 @@ describe('shortcuts', () => {
     `)
   })
 
-  test('shortcut of nested pseudo', async () => {
+  it('shortcut of nested pseudo', async () => {
     const { css } = await uno.generate('btn3 focus:btn3 hover:btn3 focus:hover:btn3', { preflights: false })
     await expect(css).toMatchFileSnapshot('./assets/output/shortcuts-nested-pseudo.css')
   })
 
-  test('shortcut with inline body', async () => {
+  it('shortcut with inline body', async () => {
     const { css } = await uno.generate(`
       shortcut-inline-body
       hover:shortcut-inline-body
@@ -174,7 +174,7 @@ describe('shortcuts', () => {
     `)
   })
 
-  test('shortcut order', async () => {
+  it('shortcut order', async () => {
     const { css } = await uno.generate('test test-last', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
@@ -183,7 +183,7 @@ describe('shortcuts', () => {
     `)
   })
 
-  test('divide', async () => {
+  it('divide', async () => {
     const { css } = await uno.generate('divide-y divide-default', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
@@ -194,7 +194,7 @@ describe('shortcuts', () => {
     `)
   })
 
-  test('space', async () => {
+  it('space', async () => {
     const { css } = await uno.generate('space-x-2px space-default', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */

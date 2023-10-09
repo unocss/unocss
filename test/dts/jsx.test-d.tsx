@@ -15,7 +15,8 @@ function App() {
             hover:p="0"
             hover="bg-teal-400 border-teal-400"
             className="*app-border rounded mt-4"
-            onClick={() => setCount(count => count + 1)}>
+            onClick={() => setCount(count => count + 1)}
+          >
             count is: {count}
           </button>
         </p>
