@@ -1,6 +1,6 @@
 import type { Rule } from '@unocss/core'
 import { colorToString, h, parseCssColor } from '../utils'
-import type { Theme } from '../../theme'
+import type { Theme } from '../_theme/types'
 
 const variablesAbbrMap: Record<string, string> = {
   backface: 'backface-visibility',
