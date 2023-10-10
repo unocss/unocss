@@ -120,10 +120,9 @@ export function resolveConfig<Theme extends object = object>(
     .reverse() as ResolvedConfig<Theme>['rulesDynamic']
 
   let theme: Theme = mergeThemes(sources.map(p => p.theme))
-
   const extendThemes = getMerged('extendTheme')
   for (const extendTheme of extendThemes)
-    theme = extendTheme(theme) || theme
+    theme = extendTheme(theme) ? mergeDeep(theme, extendTheme(theme)!) : theme
 
   const autocomplete = {
     templates: uniq(sources.flatMap(p => toArray(p.autocomplete?.templates))),

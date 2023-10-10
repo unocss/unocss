@@ -33,9 +33,8 @@ describe('config', () => {
 
   it('extendTheme with return extend', async () => {
     const uno = createUno({
-      extendTheme(mergedTheme) {
+      extendTheme() {
         return {
-          ...mergedTheme,
           colors: {
             red: {
               500: 'red',
@@ -44,7 +43,31 @@ describe('config', () => {
         }
       },
     })
-    expect(uno.config.theme.colors).toEqual({ red: { 500: 'red' } })
+    expect(uno.config.theme.colors!.red).toMatchInlineSnapshot(`
+      {
+        "1": "#fee2e2",
+        "100": "#fee2e2",
+        "2": "#fecaca",
+        "200": "#fecaca",
+        "3": "#fca5a5",
+        "300": "#fca5a5",
+        "4": "#f87171",
+        "400": "#f87171",
+        "5": "#ef4444",
+        "50": "#fef2f2",
+        "500": "red",
+        "6": "#dc2626",
+        "600": "#dc2626",
+        "7": "#b91c1c",
+        "700": "#b91c1c",
+        "8": "#991b1b",
+        "800": "#991b1b",
+        "9": "#7f1d1d",
+        "900": "#7f1d1d",
+        "950": "#450a0a",
+        "DEFAULT": "#f87171",
+      }
+    `)
   })
 
   it('extendTheme with return', async () => {
@@ -65,6 +88,7 @@ describe('config', () => {
     const { css } = await unocss.generate('text-red-100 text-red-200', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: default */
+      .text-red-100{--un-text-opacity:1;color:rgba(254,226,226,var(--un-text-opacity));}
       .text-red-200{color:red;}"
     `)
   })
