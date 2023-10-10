@@ -2,6 +2,11 @@ import MagicString from 'magic-string'
 import { colorToString, parseCssColor } from './colors'
 
 export const themeFnRE = /theme\(\s*['"]?(.*?)['"]?\s*\)/g
+
+export function hasThemeFn(str: string) {
+  return str.includes('theme(') && str.endsWith(')')
+}
+
 export function transformThemeFn(code: string, theme: Record<string, any>, throwOnMissing = true) {
   const s = new MagicString(code)
   const matches = Array.from(code.toString().matchAll(themeFnRE))

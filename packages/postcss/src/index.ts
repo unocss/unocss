@@ -7,6 +7,7 @@ import type { Result, Root } from 'postcss'
 import postcss from 'postcss'
 import { createGenerator } from '@unocss/core'
 import { loadConfig } from '@unocss/config'
+import { hasThemeFn } from '@unocss/rule-utils'
 import { defaultFilesystemGlobs } from '../../shared-integration/src/defaults'
 import { parseApply } from './apply'
 import { parseTheme } from './theme'
@@ -67,7 +68,7 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
 
             if (!isTarget) {
               root.walkDecls((decl) => {
-                if (decl.value.includes('theme(')) {
+                if (hasThemeFn(decl.value)) {
                   isTarget = true
                   return false
                 }
