@@ -25,7 +25,7 @@ export function parseVariantGroup(str: string | MagicString, separators = ['-', 
   const groupsByOffset = new Map<number, VariantGroup>()
   const processedStr = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
   const isAttributor = (matchText: string, offset: number) => {
-    const reg = new RegExp(`<[\\w_\\-]+[^>\\/]*${processedStr(matchText)}[^>\\/]*>`, 'gm')
+    const reg = new RegExp(`<[\\w_\\-]+[^>\\/]*${processedStr(matchText)}[^>\\/]*\/?>`, 'gm')
     for (const match of content.matchAll(reg)) {
       const index = match.index!
       if (index < offset && (index + match[0].length > offset))
