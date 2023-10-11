@@ -4,7 +4,9 @@ import { colorToString, parseCssColor } from './colors'
 export const themeFnRE = /theme\(\s*['"]?(.*?)['"]?\s*\)/g
 
 export function hasThemeFn(str: string) {
-  return str.includes('theme(') && str.includes(')')
+  const result = themeFnRE.test(str)
+  themeFnRE.lastIndex = 0
+  return result
 }
 
 export function transformThemeFn(code: string, theme: Record<string, any>, throwOnMissing = true) {
