@@ -110,8 +110,8 @@
   :global(.usp-ff1ijb) {
     margin-bottom: 0.25rem;
     --un-shadow: var(--un-shadow-inset) 0 1px 3px 0
-        var(--un-shadow-color, rgba(0, 0, 0, 0.1)),
-      var(--un-shadow-inset) 0 1px 2px -1px var(--un-shadow-color, rgba(0, 0, 0, 0.1));
+        var(--un-shadow-color, rgba(0 0 0/0.1)),
+      var(--un-shadow-inset) 0 1px 2px -1px var(--un-shadow-color, rgba(0 0 0/0.1));
     box-shadow: var(--un-ring-offset-shadow), var(--un-ring-shadow),
       var(--un-shadow);
   }

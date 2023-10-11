@@ -58,8 +58,11 @@ export function colorToString(color: CSSColorValue | string, alphaOverride?: str
   alpha = alphaOverride ?? alpha
   type = type.toLowerCase()
 
+  if (['hsla', 'rgba'].includes(type))
+    return `${type.replace('a', '')}a(${components.join(' ')}${alpha == null ? '' : `/${alpha}`})`
+
   // Comma separated functions
-  if (['hsla', 'hsl', 'rgba', 'rgb'].includes(type))
+  if (['hsl', 'rgb'].includes(type))
     return `${type.replace('a', '')}a(${components.join(',')}${alpha == null ? '' : `,${alpha}`})`
 
   alpha = alpha == null ? '' : ` / ${alpha}`

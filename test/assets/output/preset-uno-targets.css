@@ -3,8 +3,8 @@
 .border-custom-b\/0{border-color:rgba(var(--custom), 0);}
 .border-custom-b\/10{border-color:rgba(var(--custom), 0.1);}
 .bg-custom-b{background-color:rgba(var(--custom), 1);}
-.bg-custom-c{--un-bg-opacity:1;background-color:rgba(var(--custom-c),var(--un-bg-opacity));}
-.bg-custom-c\/10{background-color:rgba(var(--custom-c),0.1);}
+.bg-custom-c{--un-bg-opacity:1;background-color:rgba(var(--custom-c)/var(--un-bg-opacity));}
+.bg-custom-c\/10{background-color:rgba(var(--custom-c)/0.1);}
 .bg-custom-d{background-color:hsl(var(--custom-d), 1);}
 .bg-custom-d\/20{background-color:hsl(var(--custom-d), 0.2);}
 .bg-custom-e{--un-bg-opacity:1;background-color:hsla(var(--custom-e),var(--un-bg-opacity));}
