@@ -20,18 +20,8 @@ export function transformThemeFn(code: string, theme: Record<string, any>, throw
       throw new Error('theme() expect exact one argument, but got 0')
 
     const [rawKey, alpha] = rawArg.split('/') as [string, string?]
-    let value: any = theme
     const keys = rawKey.trim().split('.')
-
-    keys.every((key) => {
-      if (value[key] != null)
-        value = value[key]
-      else if (value[+key] != null)
-        value = value[+key]
-      else
-        return false
-      return true
-    })
+    let value = keys.reduce((t, k) => t?.[k], theme) as unknown as string | undefined
 
     if (typeof value === 'string') {
       if (alpha) {
