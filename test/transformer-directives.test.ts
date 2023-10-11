@@ -23,7 +23,7 @@ describe('transformer-directives', () => {
         hsl: 'hsl(210, 50%, 50%)',
         hsla: 'hsl(210, 50%, 50%, )',
         rgb: 'rgb(255, 0, 0)',
-        rgba: 'rgba(255, 0, 0, 0.5)',
+        rgba: 'rgba(255 0 0 / 0.5)',
       },
       breakpoints: {
         xs: '320px',
@@ -92,7 +92,7 @@ describe('transformer-directives', () => {
         }
         .btn:hover {
           --un-bg-opacity: 1;
-          background-color: rgba(255, 255, 255, var(--un-bg-opacity));
+          background-color: rgb(255 255 255 / var(--un-bg-opacity));
         }
         "
       `)
@@ -109,7 +109,7 @@ describe('transformer-directives', () => {
         @media (min-width: 640px) {
           .btn:hover {
             --un-bg-opacity: 1;
-            background-color: rgba(255, 255, 255, var(--un-bg-opacity));
+            background-color: rgb(255 255 255 / var(--un-bg-opacity));
           }
         }
         "
@@ -183,14 +183,14 @@ describe('transformer-directives', () => {
         ".btn {
           padding: 0.75rem;
           --un-bg-opacity: 1;
-          background-color: rgba(255, 255, 255, var(--un-bg-opacity));
+          background-color: rgb(255 255 255 / var(--un-bg-opacity));
         }
         .btn:hover {
           border-width: 1px;
         }
         .btn:hover {
           --un-bg-opacity: 1;
-          background-color: rgba(59, 130, 246, var(--un-bg-opacity));
+          background-color: rgb(59 130 246 / var(--un-bg-opacity));
         }
         "
       `)
@@ -217,11 +217,11 @@ describe('transformer-directives', () => {
       .toMatchInlineSnapshot(`
         ".btn {
           --un-bg-opacity: 1;
-          background-color: rgba(255, 255, 255, var(--un-bg-opacity));
+          background-color: rgb(255 255 255 / var(--un-bg-opacity));
         }
         .dark .btn {
           --un-bg-opacity: 1;
-          background-color: rgba(0, 0, 0, var(--un-bg-opacity));
+          background-color: rgb(0 0 0 / var(--un-bg-opacity));
         }
         "
       `)
@@ -467,11 +467,11 @@ div {
         }`)
       expect(result).toMatchInlineSnapshot(`
         "div {
-          color: rgba(239, 68, 68, 50%);
-          color: rgba(255, 0, 0, 0.5);
-          color: rgba(255 0 0/ 50%);
-          color: hsla(210, 50%, 50%, 0.6);
-          color: hsla(210, 50%, 50%, 60%);
+          color: rgb(239 68 68 / 50%);
+          color: rgb(255 0 0 / 0.5);
+          color: rgba(255 0 0 / 50%);
+          color: hsl(210 50% 50% / 0.6);
+          color: hsl(210 50% 50% / 60%);
         }
         "
       `)

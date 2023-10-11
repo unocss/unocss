@@ -21,13 +21,13 @@ describe('color utils', () => {
 
   it('parses css colors', () => {
     expect(parseCssColor('rgb(0,1,2)')).eql({ type: 'rgb', components: ['0', '1', '2'], alpha: undefined })
-    expect(parseCssColor('rgba(0,1,2,3)')).eql({ type: 'rgba', components: ['0', '1', '2'], alpha: '3' })
-    expect(parseCssColor('rgba(0,(1),2,3)')).eql({ type: 'rgba', components: ['0', '(1)', '2'], alpha: '3' })
+    expect(parseCssColor('rgba(0 1 2 / 3)')).eql({ type: 'rgba', components: ['0', '1', '2'], alpha: '3' })
+    expect(parseCssColor('rgba(0 (1) 2 / 3)')).eql({ type: 'rgba', components: ['0', '(1)', '2'], alpha: '3' })
     expect(parseCssColor('rgb(0)')).eql({ type: 'rgb', components: ['0'], alpha: undefined })
     expect(parseCssColor('rgb(0,1)')).eql(undefined)
-    expect(parseCssColor('rgba(0,1,2)')).eql(undefined)
-    expect(parseCssColor('rgba(0,1,2,3,4)')).eql(undefined)
-    expect(parseCssColor('rgba(0,)1(,2,3)')).eql(undefined)
+    expect(parseCssColor('rgba(0 1  2)')).eql(undefined)
+    expect(parseCssColor('rgba(0,1 2 3 / 4)')).eql(undefined)
+    expect(parseCssColor('rgba(0 )1( 2 / 3)')).eql(undefined)
 
     expect(parseCssColor('rgba(0 1 2 / 3)')).eql({ type: 'rgba', components: ['0', '1', '2'], alpha: '3' })
     expect(parseCssColor('rgba(0 1 2/ 3)')).eql({ type: 'rgba', components: ['0', '1', '2'], alpha: '3' })
@@ -40,12 +40,12 @@ describe('color utils', () => {
     expect(parseCssColor('rgba(0 1)')).eql(undefined)
     expect(parseCssColor('rgba(0 1 / 2)')).eql(undefined)
     expect(parseCssColor('rgb(0 1 2)')).eql({ type: 'rgb', components: ['0', '1', '2'], alpha: undefined })
-    expect(parseCssColor('rgba(0 1 2)')).eql(undefined)
+    expect(parseCssColor('rgba(0 1 2)')).eql({ type: 'rgba', components: ['0', '1', '2'], alpha: undefined })
     expect(parseCssColor('rgba(0 1 2 3)')).eql(undefined)
     expect(parseCssColor('rgba(0 1 2 3 4)')).eql(undefined)
 
     expect(parseCssColor('color(rgb 0 1 2)')).eql({ type: 'rgb', components: ['0', '1', '2'], alpha: undefined })
-    expect(parseCssColor('color(rgba 0 1 2)')).eql(undefined)
+    expect(parseCssColor('color(rgba 0 1 2)')).eql({ type: 'rgba', components: ['0', '1', '2'], alpha: undefined })
     expect(parseCssColor('color(rgba 0 1 2 / 3)')).eql({ type: 'rgba', components: ['0', '1', '2'], alpha: '3' })
 
     expect(parseCssColor('color(fancy 0 1 2 3 4 5 / 6)')).eql({ type: 'fancy', components: ['0', '1', '2', '3', '4', '5'], alpha: '6' })
@@ -77,16 +77,16 @@ describe('color utils', () => {
   it('generate css color string', () => {
     const fn = (x: string) => colorToString(parseCssColor(x)!)
 
-    expect(fn('rgb(0,1,2)')).eql('rgba(0,1,2)')
-    expect(fn('rgba(0,1,2,3)')).eql('rgba(0 1 2/3)')
-    expect(fn('rgba(0,(1),2,3)')).eql('rgba(0 (1) 2/3)')
+    expect(fn('rgb(0,1,2)')).eql('rgb(0 1 2)')
+    expect(fn('rgba(0 1 2 / 3)')).eql('rgba(0 1 2 / 3)')
+    expect(fn('rgba(0 (1) 2 / 3)')).eql('rgba(0 (1) 2 / 3)')
 
-    expect(fn('rgba(0 1 2 / 3)')).eql('rgba(0 1 2/3)')
-    expect(fn('rgba(0 1 2/ 3)')).eql('rgba(0 1 2/3)')
-    expect(fn('rgba(0 1 2 /3)')).eql('rgba(0 1 2/3)')
-    expect(fn('rgba(0 1 2/3)')).eql('rgba(0 1 2/3)')
+    expect(fn('rgba(0 1 2 / 3)')).eql('rgba(0 1 2 / 3)')
+    expect(fn('rgba(0 1 2/ 3)')).eql('rgba(0 1 2 / 3)')
+    expect(fn('rgba(0 1 2 /3)')).eql('rgba(0 1 2 / 3)')
+    expect(fn('rgba(0 1 2/3)')).eql('rgba(0 1 2 / 3)')
 
-    expect(fn('color(rgba 0 1 2 / 3)')).eql('rgba(0 1 2/3)')
+    expect(fn('color(rgba 0 1 2 / 3)')).eql('rgba(0 1 2 / 3)')
     expect(fn('color(fancy 0 1 2 3 4 5 / 6)')).eql('color(fancy 0 1 2 3 4 5 / 6)')
     expect(fn('color(fancy 0 1 2 3 4 5 /6)')).eql('color(fancy 0 1 2 3 4 5 / 6)')
     expect(fn('color(fancy 0 1 2 3 4 5/ 6)')).eql('color(fancy 0 1 2 3 4 5 / 6)')
@@ -106,13 +106,13 @@ describe('color utils', () => {
 
   it('parses shadow color values', () => {
     // default 'none'
-    expect(colorableShadows('0 0 #0000', '--v')).eql(['0 0 var(--v, rgba(0,0,0,0))'])
+    expect(colorableShadows('0 0 #0000', '--v')).eql(['0 0 var(--v, rgb(0 0 0 / 0))'])
 
     // with spaces
-    expect(colorableShadows('0 1px 3px 0 rgba(0, 0, 0, 0.2)', '--v')).eql(['0 1px 3px 0 var(--v, rgba(0 0 0/0.2))'])
+    expect(colorableShadows('0 1px 3px 0 rgba(0, 0, 0, 0.2)', '--v')).eql(['0 1px 3px 0 var(--v, rgba(0 0 0 / 0.2))'])
 
     // full box-shadow
-    expect(colorableShadows('var(--un-shadow-inset) 0 1px 3px 0 #0000', '--v')).eql(['var(--un-shadow-inset) 0 1px 3px 0 var(--v, rgba(0,0,0,0))'])
+    expect(colorableShadows('var(--un-shadow-inset) 0 1px 3px 0 #0000', '--v')).eql(['var(--un-shadow-inset) 0 1px 3px 0 var(--v, rgb(0 0 0 / 0))'])
 
     // no color
     expect(colorableShadows('0', '--v')).eql(['0'])
@@ -123,7 +123,7 @@ describe('color utils', () => {
 
     // component length
     expect(colorableShadows('1px #200', '--v')).eql(['1px #200'])
-    expect(colorableShadows('inset 2px 3px 4px 5px #600', '--v')).eql(['inset 2px 3px 4px 5px var(--v, rgba(102,0,0))'])
+    expect(colorableShadows('inset 2px 3px 4px 5px #600', '--v')).eql(['inset 2px 3px 4px 5px var(--v, rgb(102 0 0))'])
     expect(colorableShadows('inset 2px 3px 4px 5px 6px #700', '--v')).eql(['inset 2px 3px 4px 5px 6px #700'])
   })
 
@@ -148,38 +148,38 @@ describe('color utils', () => {
 
     expect(fn('info')).eql({
       '--un-v-opacity': 1,
-      'prop': 'hsla(200.1,100%,54.3%,var(--un-v-opacity))',
+      'prop': 'hsl(200.1 100% 54.3% / var(--un-v-opacity))',
     })
 
     expect(fn('info/10')).eql({
-      prop: 'hsla(200.1,100%,54.3%,0.1)',
+      prop: 'hsl(200.1 100% 54.3% / 0.1)',
     })
 
     expect(fn('warning')).eql({
       '--un-v-opacity': 1,
-      'prop': 'hsla(42.4,100%,50%,var(--un-v-opacity))',
+      'prop': 'hsl(42.4 100% 50% / var(--un-v-opacity))',
     })
 
     expect(fn('warning/[20%]')).eql({
-      prop: 'hsla(42.4,100%,50%,20%)',
+      prop: 'hsl(42.4 100% 50% / 20%)',
     })
 
     expect(fn('danger')).eql({
       '--un-v-opacity': 1,
-      'prop': 'hsla(var(--danger),var(--un-v-opacity))',
+      'prop': 'hsl(var(--danger) / var(--un-v-opacity))',
     })
 
     expect(fn('danger/$o3')).eql({
-      prop: 'hsla(var(--danger),var(--o3))',
+      prop: 'hsl(var(--danger) / var(--o3))',
     })
 
     expect(fn('hex-fff')).eql({
       '--un-v-opacity': 1,
-      'prop': 'rgba(255,255,255,var(--un-v-opacity))',
+      'prop': 'rgb(255 255 255 / var(--un-v-opacity))',
     })
 
     expect(fn('hex-fff/10')).eql({
-      prop: 'rgba(255,255,255,0.1)',
+      prop: 'rgb(255 255 255 / 0.1)',
     })
 
     expect(fn('$abc')).eql({

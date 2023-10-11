@@ -68,7 +68,7 @@ Will be compiled to:
 }
 .uno-0qw2gr:hover {
   --un-text-opacity: 1;
-  color: rgba(248, 113, 113, var(--un-text-opacity));
+  color: rgba(248 113 113 / var(--un-text-opacity));
 }
 @media (min-width: 640px) {
   .uno-qlmcrp {

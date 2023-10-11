@@ -45,10 +45,10 @@ With this, we could use `btn-green` and `btn-red` to generate the following CSS:
   padding-left: 1rem;
   padding-right: 1rem;
   --un-bg-opacity: 1;
-  background-color: rgba(74, 222, 128, var(--un-bg-opacity));
+  background-color: rgba(74 222 128 / var(--un-bg-opacity));
   border-radius: 0.5rem;
   --un-text-opacity: 1;
-  color: rgba(220, 252, 231, var(--un-text-opacity));
+  color: rgba(220 252 231 / var(--un-text-opacity));
 }
 .btn-red {
   padding-top: 0.5rem;
@@ -56,9 +56,9 @@ With this, we could use `btn-green` and `btn-red` to generate the following CSS:
   padding-left: 1rem;
   padding-right: 1rem;
   --un-bg-opacity: 1;
-  background-color: rgba(248, 113, 113, var(--un-bg-opacity));
+  background-color: rgba(248 113 113 / var(--un-bg-opacity));
   border-radius: 0.5rem;
   --un-text-opacity: 1;
-  color: rgba(254, 226, 226, var(--un-text-opacity));
+  color: rgba(254 226 226 / var(--un-text-opacity));
 }
 ```
