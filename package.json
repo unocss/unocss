@@ -105,7 +105,7 @@
     "prettier": "^2.8.8",
     "prettier-plugin-svelte": "^2.10.1",
     "react": "^18.2.0",
-    "rollup": "^4.0.2",
+    "rollup": "^3.29.3",
     "semver": "^7.5.4",
     "simple-git-hooks": "^2.9.0",
     "splitpanes": "^3.1.5",
