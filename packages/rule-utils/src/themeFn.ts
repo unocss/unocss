@@ -10,14 +10,15 @@ export function hasThemeFn(str: string) {
 }
 
 export function transformThemeFn(code: string, theme: Record<string, any>, throwOnMissing = true) {
-  const s = new MagicString(code)
   const matches = Array.from(code.toString().matchAll(themeFnRE))
 
   if (!matches.length)
     return code
 
+  const s = new MagicString(code)
+
   for (const match of matches) {
-    const rawArg = match[1].trim()
+    const rawArg = match[1]
     if (!rawArg)
       throw new Error('theme() expect exact one argument, but got 0')
 
