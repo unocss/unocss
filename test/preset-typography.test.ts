@@ -2,7 +2,7 @@ import { createGenerator } from '@unocss/core'
 import presetAttributify, { type AttributifyOptions } from '@unocss/preset-attributify'
 import { presetUno } from '@unocss/preset-uno'
 import { type TypographyOptions, presetTypography } from '@unocss/preset-typography'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 const testConfigs: {
   name: string
@@ -126,7 +126,7 @@ const testConfigs: {
 
 describe('typography', () => {
   for (const tc of testConfigs) {
-    test(tc.name, async () => {
+    it(tc.name, async () => {
       const generator = createGenerator({
         presets: [
           presetAttributify(tc.attributifyOptions),

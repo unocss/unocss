@@ -1,9 +1,9 @@
 import { createGenerator } from '@unocss/core'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import presetUno from '@unocss/preset-uno'
 
 describe('prefix', () => {
-  test('preset prefix', async () => {
+  it('preset prefix', async () => {
     const uno = createGenerator({
       presets: [
         presetUno({ prefix: 'h-' }),
@@ -44,7 +44,7 @@ describe('prefix', () => {
     expect(css).toMatchSnapshot()
   })
 
-  test('multiple preset prefix', async () => {
+  it('multiple preset prefix', async () => {
     const uno = createGenerator({
       presets: [
         presetUno({ prefix: ['h-', 'x-'] }),

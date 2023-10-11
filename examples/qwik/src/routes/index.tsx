@@ -7,7 +7,7 @@ export default component$(() => {
   return (
     <div class="text-center">
       <header class="bg-#282c34 min-h-100vh flex flex-col items-center justify-center color-white space-y-2em">
-        <div class="logo"/>
+        <div class="logo" />
         <h1 class="text-xl font-500 animate-bounce-alt animate-duration-2s">Hello Vite + Qwik!</h1>
         <p>
           <button

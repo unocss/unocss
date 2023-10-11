@@ -1,9 +1,9 @@
-import { expect, test } from 'vitest'
+import { expect, it } from 'vitest'
 import { createGenerator } from '@unocss/core'
 import { variantPseudoClassesAndElements } from './pseudo'
 
 // https://github.com/unocss/unocss/issues/2713
-test('pseudo variant order', async () => {
+it('pseudo variant order', async () => {
   const uno = createGenerator({
     variants: [
       variantPseudoClassesAndElements(),
@@ -50,7 +50,7 @@ test('pseudo variant order', async () => {
 })
 
 // https://github.com/unocss/unocss/issues/2733
-test('focus-visible:', async () => {
+it('focus-visible:', async () => {
   const uno = createGenerator({
     variants: [
       variantPseudoClassesAndElements(),

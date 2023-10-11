@@ -2,14 +2,14 @@ import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import presetIcons from '@unocss/preset-icons'
 import presetAttributify from '@unocss/preset-attributify'
-import { expect, test } from 'vitest'
+import { expect, it } from 'vitest'
 
 const targets = [
   'icon-mdi-alarm',
   '[uno-sm~="bg-blue-400"]',
 ]
 
-test('options properties does not override each other', async () => {
+it('options properties does not override each other', async () => {
   const uno1 = createGenerator({
     presets: [
       presetAttributify({ prefix: 'uno-' }),

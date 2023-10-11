@@ -1,18 +1,18 @@
 {
   "compilerOptions": {
     "target": "ES2019",
-    "lib": ["DOM", "DOM.Iterable", "ES2019"],
     "jsx": "react-jsx",
-    "moduleResolution": "node",
+    "lib": ["DOM", "DOM.Iterable", "ES2019"],
     "baseUrl": ".",
+    "moduleResolution": "node",
     "paths": {
       "~/*": ["./app/*"]
     },
     "resolveJsonModule": true,
+    "strict": true,
     "noEmit": true,
-    "isolatedModules": true,
     "esModuleInterop": true,
-    "strict": true
+    "isolatedModules": true
   },
   "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx"]
 }
