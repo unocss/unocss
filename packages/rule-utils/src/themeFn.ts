@@ -14,7 +14,7 @@ export function transformThemeFn(code: string, theme: Record<string, any>, throw
   const matches = Array.from(code.toString().matchAll(themeFnRE))
 
   if (!matches.length)
-    return s.toString()
+    return code
 
   for (const match of matches) {
     const rawArg = match[1].trim()
