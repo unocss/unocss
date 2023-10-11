@@ -17,7 +17,14 @@ export function checkForApply(content: string, _applyVariables: TransformApplyOp
   }
 }
 
-export async function transformStyle({ content, uno, prepend, filename, applyVariables, hasThemeFn }: {
+export async function transformStyle({
+  content,
+  uno,
+  prepend,
+  filename,
+  applyVariables,
+  hasThemeFn,
+}: {
   content: string
   uno: UnoGenerator
   filename?: string

@@ -1,11 +1,11 @@
 import presetIcons from '@unocss/preset-icons'
 import { type ExtractorContext, createGenerator } from '@unocss/core'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import presetTagify, { extractorTagify } from '@unocss/preset-tagify'
 import presetMini from '@unocss/preset-mini'
 
 describe('tagify', () => {
-  test('extractor', async () => {
+  it('extractor', async () => {
     const extractor = extractorTagify({})
 
     const code = `
@@ -24,7 +24,7 @@ describe('tagify', () => {
     `)
   })
 
-  test('preset', async () => {
+  it('preset', async () => {
     const uno = createGenerator({
       shortcuts: [
         ['btn', 'px-4 py-1 rounded inline-block bg-teal-600 text-white cursor-pointer hover:bg-teal-700 disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50'],
@@ -67,7 +67,7 @@ describe('tagify', () => {
     `)
   })
 
-  test('exclude tags', async () => {
+  it('exclude tags', async () => {
     const uno = createGenerator({
       presets: [
         presetMini(),
@@ -94,7 +94,7 @@ describe('tagify', () => {
     `)
   })
 
-  test('extraProperties', async () => {
+  it('extraProperties', async () => {
     const uno = createGenerator({
       presets: [
         presetIcons(),
@@ -112,7 +112,7 @@ describe('tagify', () => {
     expect((await uno.generate(code, { preflights: false })).css).toContain('display:inline-block')
   })
 
-  test('prefix', async () => {
+  it('prefix', async () => {
     const uno = createGenerator({
       presets: [
         presetMini(),

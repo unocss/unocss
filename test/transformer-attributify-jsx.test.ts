@@ -2,7 +2,7 @@ import MagicString from 'magic-string'
 import presetAttributify from '@unocss/preset-attributify'
 import presetUno from '@unocss/preset-uno'
 import { createGenerator } from '@unocss/core'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import transformerAttributifyJsx from '../packages/transformer-attributify-jsx/src'
 import transformerAttributifyJsxBabel from '../packages/transformer-attributify-jsx-babel/src'
 
@@ -68,7 +68,7 @@ describe('transformerAttributifyJsx', () => {
     ],
   })
 
-  test('transform', async () => {
+  it('transform', async () => {
     const code = new MagicString(originalCode)
     await transformerAttributifyJsx().transform(code, 'app.tsx', { uno, tokens: new Set() } as any)
 
@@ -115,7 +115,7 @@ describe('transformerAttributifyJsx', () => {
     `)
   })
 
-  test('blocklist', async () => {
+  it('blocklist', async () => {
     const code = new MagicString(originalCode)
     const blocklist: (string | RegExp)[] = ['flex', 'absolute']
 
@@ -174,7 +174,7 @@ describe('transformerAttributifyJsx', () => {
     })
   })
 
-  test('if class-like tag do not cause error', async () => {
+  it('if class-like tag do not cause error', async () => {
     const code = new MagicString(tagCouldBeAttrCode)
     await transformerAttributifyJsx().transform(code, 'app.tsx', { uno, tokens: new Set() } as any)
 
@@ -200,7 +200,7 @@ describe('transformerAttributifyJsxBabel', () => {
     ],
   })
 
-  test('transform', async () => {
+  it('transform', async () => {
     const code = new MagicString(originalCode)
     await transformerAttributifyJsxBabel().transform(code, 'app.tsx', { uno, tokens: new Set() } as any)
 
@@ -247,7 +247,7 @@ describe('transformerAttributifyJsxBabel', () => {
     `)
   })
 
-  test('blocklist', async () => {
+  it('blocklist', async () => {
     const code = new MagicString(originalCode)
     const blocklist: (string | RegExp)[] = ['flex', 'absolute']
 
@@ -306,7 +306,7 @@ describe('transformerAttributifyJsxBabel', () => {
     })
   })
 
-  test('if class-like tag do not cause error', async () => {
+  it('if class-like tag do not cause error', async () => {
     const code = new MagicString(tagCouldBeAttrCode)
     await transformerAttributifyJsx().transform(code, 'app.tsx', { uno, tokens: new Set() } as any)
 

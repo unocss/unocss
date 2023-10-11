@@ -1,21 +1,21 @@
 {
   "compilerOptions": {
     "lib": ["es2017", "dom", "dom.iterable"],
-    "experimentalDecorators": true,
     "useDefineForClassFields": false,
-    "module": "esnext",
+    "experimentalDecorators": true,
     "rootDir": "./src",
+    "module": "esnext",
     "moduleResolution": "node",
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "outDir": "./types",
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "./types",
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src/**/*.ts"],
   "exclude": []

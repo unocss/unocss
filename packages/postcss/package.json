@@ -45,7 +45,7 @@
     "@unocss/rule-utils": "workspace:*",
     "css-tree": "^2.3.1",
     "fast-glob": "^3.3.1",
-    "magic-string": "^0.30.3",
-    "postcss": "^8.4.30"
+    "magic-string": "^0.30.4",
+    "postcss": "^8.4.31"
   }
 }
