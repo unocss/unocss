@@ -1,7 +1,7 @@
 /* eslint-disable unused-imports/no-unused-vars */
 import MagicString from 'magic-string'
 import { parse } from 'svelte/compiler'
-import { describe } from 'vitest'
+import { describe, it } from 'vitest'
 import { unoMock } from './unoMock'
 import { findClasses } from './findClasses'
 import { processClasses } from './processClasses'
