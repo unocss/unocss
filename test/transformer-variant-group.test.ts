@@ -33,7 +33,7 @@ describe('transformer-variant-group', () => {
     ]
 
     for (const c of cases) {
-      const result = await transform(c)
+      const result = await transform(`<div ${c}>${c}</div>`)
       expect(result).toMatchSnapshot(`"${c}"`)
     }
   })

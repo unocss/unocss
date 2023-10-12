@@ -4,7 +4,7 @@ import { expandVariantGroup, warnOnce } from '@unocss/core'
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
 
 export async function getUtils(body: string, uno: UnoGenerator): Promise<StringifiedUtil[]> {
-  const classNames = expandVariantGroup(body)
+  const classNames = expandVariantGroup(body, undefined, undefined, 'utils')
     .split(/\s+/g)
     .map(className => className.trim().replace(/\\/, ''))
 

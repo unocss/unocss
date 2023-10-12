@@ -37,7 +37,7 @@ export async function parseApply({ code, uno, offset, applyVariable }: Transform
   if (!body)
     return
 
-  const classNames = expandVariantGroup(body)
+  const classNames = expandVariantGroup(body, undefined, undefined, childNode.type)
     .split(/\s+/g)
     .map(className => className.trim().replace(/\\/, ''))
 
@@ -53,7 +53,7 @@ export async function parseApply({ code, uno, offset, applyVariable }: Transform
       if (target)
         target[2] += item[2]
       else
-      // use spread operator to prevent reassign to uno internal cache
+        // use spread operator to prevent reassign to uno internal cache
         acc.push([...item] as Writeable<StringifiedUtil>)
       return acc
     }, [] as Writeable<StringifiedUtil>[])
@@ -84,7 +84,6 @@ export async function parseApply({ code, uno, offset, applyVariable }: Transform
         })
         newSelector = generate(prelude)
       }
-
       let css = `${newSelector}{${body}}`
       if (parent)
         css = `${parent}{${css}}`

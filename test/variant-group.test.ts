@@ -3,58 +3,58 @@ import { describe, expect, it } from 'vitest'
 
 describe('variant-group', () => {
   it('basic', async () => {
-    expect(expandVariantGroup('')).toEqual('')
-    expect(expandVariantGroup('a b c')).toEqual('a b c')
-    expect(expandVariantGroup('a:b:c')).toEqual('a:b:c')
-    expect(expandVariantGroup('hello a:(b c) c:(a:b d)')).toEqual('hello a:b a:c c:a:b c:d')
+    expect(expandVariantGroup('<div></div>')).toEqual('<div></div>')
+    expect(expandVariantGroup('<div a b c>a b c</div>')).toEqual('<div a b c>a b c</div>')
+    expect(expandVariantGroup('<div a:b:c>a:b:c</div>')).toEqual('<div a:b:c>a:b:c</div>')
+    expect(expandVariantGroup('<div hello a:(b c) c:(a:b d)>hello a:(b c) c:(a:b d)</div>')).toEqual('<div hello a:b a:c c:a:b c:d>hello a:(b c) c:(a:b d)</div>')
   })
 
   it('hoist-important', async () => {
-    expect(expandVariantGroup('b:c:d:(!a z)')).toEqual('!b:c:d:a b:c:d:z')
+    expect(expandVariantGroup('<div b:c:d:(!a z)>b:c:d:(!a z)</div>')).toEqual('<div !b:c:d:a b:c:d:z>b:c:d:(!a z)</div>')
   })
 
   it('dash separator', async () => {
-    expect(expandVariantGroup('a-(b c) c-(a:b d)')).toEqual('a-b a-c c-a:b c-d')
+    expect(expandVariantGroup('<div a-(b c) c-(a:b d)>a-(b c) c-(a:b d)</div>')).toEqual('<div a-b a-c c-a:b c-d>a-(b c) c-(a:b d)</div>')
   })
 
   it('tilde symbol', () => {
-    expect(expandVariantGroup('a-(~ b c)')).toEqual('a a-b a-c')
+    expect(expandVariantGroup('<div a-(~ b c)>a-(~ b c)</div>')).toEqual('<div a a-b a-c>a-(~ b c)</div>')
   })
 
   it('nested', () => {
-    expect(expandVariantGroup('a-(b c-(d e f))')).toEqual('a-b a-c-d a-c-e a-c-f')
+    expect(expandVariantGroup('<div a-(b c-(d e f))>a-(b c-(d e f))</div>')).toEqual('<div a-b a-c-d a-c-e a-c-f>a-(b c-(d e f))</div>')
   })
 
   it('spaces', () => {
-    expect(expandVariantGroup('a-( ~ b c )')).toEqual('a a-b a-c')
+    expect(expandVariantGroup('<div a-( ~ b c )>a-( ~ b c )</div>')).toEqual('<div a a-b a-c>a-( ~ b c )</div>')
   })
 
   it('square bracket', async () => {
-    expect(expandVariantGroup('b:[&:not(c)]:d:(!a z)')).toEqual('!b:[&:not(c)]:d:a b:[&:not(c)]:d:z')
+    expect(expandVariantGroup('<div b:[&:not(c)]:d:(!a z)>b:[&:not(c)]:d:(!a z)</div>')).toEqual('<div !b:[&:not(c)]:d:a b:[&:not(c)]:d:z>b:[&:not(c)]:d:(!a z)</div>')
   })
 
   it('square bracket case2', async () => {
-    expect(expandVariantGroup('[&]:(a-b c-d)')).toEqual('[&]:a-b [&]:c-d')
+    expect(expandVariantGroup('<div [&]:(a-b c-d)>[&]:(a-b c-d)</div>')).toEqual('<div [&]:a-b [&]:c-d>[&]:(a-b c-d)</div>')
   })
 
   it('expand with space', async () => {
     const shortcut = '  a:(b:(c-d d-c)) '
-    expect(expandVariantGroup(shortcut)).toEqual('  a:b:c-d a:b:d-c ')
+    expect(expandVariantGroup(shortcut)).toEqual('  a:(b:(c-d d-c)) ')
     expect(expandVariantGroup(shortcut.trim()).split(/\s+/g)).toMatchInlineSnapshot(`
       [
-        "a:b:c-d",
-        "a:b:d-c",
+        "a:(b:(c-d",
+        "d-c))",
       ]
     `)
   })
 
   it('expand @', async () => {
-    expect(expandVariantGroup('@a:(c-d d-c)')).toEqual('@a:c-d @a:d-c')
-    expect(expandVariantGroup('!@a:(c-d d-c)')).toEqual('!@a:c-d !@a:d-c')
+    expect(expandVariantGroup('<div @a:(c-d d-c)>@a:(c-d d-c)</div>')).toEqual('<div @a:c-d @a:d-c>@a:(c-d d-c)</div>')
+    expect(expandVariantGroup('<div !@a:(c-d d-c)>!@a:(c-d d-c)</div>')).toEqual('<div !@a:c-d !@a:d-c>!@a:(c-d d-c)</div>')
   })
 
-  it('inlucde ?', async () => {
-    expect(expandVariantGroup('a:(b?c d)')).toEqual('a:b?c a:d')
+  it('include ?', async () => {
+    expect(expandVariantGroup('<div a:(b?c d)>a:(b?c d)</div>')).toEqual('<div a:b?c a:d>a:(b?c d)</div>')
   })
 })
 

@@ -17,7 +17,7 @@ interface VariantGroup {
   items: HighlightAnnotation[]
 }
 
-export function parseVariantGroup(str: string | MagicString, separators = ['-', ':'], depth = 5) {
+export function parseVariantGroup(str: string | MagicString, separators = ['-', ':'], depth = 5, type?: string) {
   const regexClassGroup = makeRegexClassGroup(separators)
   let hasChanged
   let content = str.toString()
@@ -38,7 +38,7 @@ export function parseVariantGroup(str: string | MagicString, separators = ['-', 
     content = content.replace(
       regexClassGroup,
       (from, pre: string, sep: string, body: string, groupOffset: number) => {
-        if (!isAttributor(from, groupOffset))
+        if (!type && !isAttributor(from, groupOffset))
           return from
         if (!separators.includes(sep))
           return from
@@ -146,10 +146,10 @@ export function collapseVariantGroup(str: string, prefixes: string[]): string {
     .join(' ')
 }
 
-export function expandVariantGroup(str: string, separators?: string[], depth?: number): string
-export function expandVariantGroup(str: MagicString, separators?: string[], depth?: number): MagicString
-export function expandVariantGroup(str: string | MagicString, separators = ['-', ':'], depth = 5) {
-  const res = parseVariantGroup(str, separators, depth)
+export function expandVariantGroup(str: string, separators?: string[], depth?: number, type?: string): string
+export function expandVariantGroup(str: MagicString, separators?: string[], depth?: number, type?: string): MagicString
+export function expandVariantGroup(str: string | MagicString, separators = ['-', ':'], depth = 5, type?: string) {
+  const res = parseVariantGroup(str, separators, depth, type)
   return typeof str === 'string'
     ? res.expanded
     : str

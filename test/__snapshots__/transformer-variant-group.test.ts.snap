@@ -6,15 +6,15 @@ exports[`transformer-variant-group > basic > "!hover:(m-2 p-2)" 1`] = `
     {
       "className": "!hover:m-2",
       "length": 3,
-      "offset": 8,
+      "offset": 13,
     },
     {
       "className": "!hover:p-2",
       "length": 3,
-      "offset": 12,
+      "offset": 17,
     },
   ],
-  "transformed": "!hover:m-2 !hover:p-2",
+  "transformed": "<div !hover:m-2 !hover:p-2>!hover:(m-2 p-2)</div>",
 }
 `;
 
@@ -24,15 +24,15 @@ exports[`transformer-variant-group > basic > "<md:(grid grid-cols-[1fr,50%])" 1`
     {
       "className": "<md:grid",
       "length": 4,
-      "offset": 5,
+      "offset": 10,
     },
     {
       "className": "<md:grid-cols-[1fr,50%]",
       "length": 19,
-      "offset": 10,
+      "offset": 15,
     },
   ],
-  "transformed": "<md:grid <md:grid-cols-[1fr,50%]",
+  "transformed": "<div <md:grid <md:grid-cols-[1fr,50%]><md:(grid grid-cols-[1fr,50%])</div>",
 }
 `;
 
@@ -42,15 +42,15 @@ exports[`transformer-variant-group > basic > "<sm:hover:(p-1 p-2)" 1`] = `
     {
       "className": "<sm:hover:p-1",
       "length": 3,
-      "offset": 11,
+      "offset": 16,
     },
     {
       "className": "<sm:hover:p-2",
       "length": 3,
-      "offset": 15,
+      "offset": 20,
     },
   ],
-  "transformed": "<sm:hover:p-1 <sm:hover:p-2",
+  "transformed": "<div <sm:hover:p-1 <sm:hover:p-2><sm:hover:(p-1 p-2)</div>",
 }
 `;
 
@@ -60,25 +60,25 @@ exports[`transformer-variant-group > basic > "[&]:(w-4 h-4) [&]:(w-4 h-4)" 1`] =
     {
       "className": "[&]:w-4",
       "length": 3,
-      "offset": 5,
+      "offset": 10,
     },
     {
       "className": "[&]:h-4",
       "length": 3,
-      "offset": 9,
+      "offset": 14,
     },
     {
       "className": "[&]:w-4",
       "length": 3,
-      "offset": 19,
+      "offset": 24,
     },
     {
       "className": "[&]:h-4",
       "length": 3,
-      "offset": 23,
+      "offset": 28,
     },
   ],
-  "transformed": "[&]:w-4 [&]:h-4 [&]:w-4 [&]:h-4",
+  "transformed": "<div [&]:w-4 [&]:h-4 [&]:w-4 [&]:h-4>[&]:(w-4 h-4) [&]:(w-4 h-4)</div>",
 }
 `;
 
@@ -88,35 +88,35 @@ exports[`transformer-variant-group > basic > "a1 a2:(b1 b2:(c1 c2-(d1 d2) c3) b3
     {
       "className": "a2:b1",
       "length": 2,
-      "offset": 7,
+      "offset": 12,
     },
     {
       "className": "a2:b2:c1",
       "length": 2,
-      "offset": 14,
+      "offset": 19,
     },
     {
       "className": "a2:b2:c2-d1",
       "length": 2,
-      "offset": 21,
+      "offset": 26,
     },
     {
       "className": "a2:b2:c2-d2",
       "length": 2,
-      "offset": 24,
+      "offset": 29,
     },
     {
       "className": "a2:b2:c3",
       "length": 2,
-      "offset": 28,
+      "offset": 33,
     },
     {
       "className": "a2:b3",
       "length": 2,
-      "offset": 32,
+      "offset": 37,
     },
   ],
-  "transformed": "a1 a2:b1 a2:b2:c1 a2:b2:c2-d1 a2:b2:c2-d2 a2:b2:c3 a2:b3 a3",
+  "transformed": "<div a1 a2:b1 a2:b2:c1 a2:b2:c2-d1 a2:b2:c2-d2 a2:b2:c3 a2:b3 a3>a1 a2:(b1 b2:(c1 c2-(d1 d2) c3) b3) a3</div>",
 }
 `;
 
@@ -126,15 +126,15 @@ exports[`transformer-variant-group > basic > "at-lg:(p-1 p-2)" 1`] = `
     {
       "className": "at-lg:p-1",
       "length": 3,
-      "offset": 7,
+      "offset": 12,
     },
     {
       "className": "at-lg:p-2",
       "length": 3,
-      "offset": 11,
+      "offset": 16,
     },
   ],
-  "transformed": "at-lg:p-1 at-lg:p-2",
+  "transformed": "<div at-lg:p-1 at-lg:p-2>at-lg:(p-1 p-2)</div>",
 }
 `;
 
@@ -144,15 +144,15 @@ exports[`transformer-variant-group > basic > "bg-white font-light sm:hover:(bg-g
     {
       "className": "sm:hover:bg-gray-100",
       "length": 11,
-      "offset": 30,
+      "offset": 35,
     },
     {
       "className": "sm:hover:font-medium",
       "length": 11,
-      "offset": 42,
+      "offset": 47,
     },
   ],
-  "transformed": "bg-white font-light sm:hover:bg-gray-100 sm:hover:font-medium",
+  "transformed": "<div bg-white font-light sm:hover:bg-gray-100 sm:hover:font-medium>bg-white font-light sm:hover:(bg-gray-100 font-medium)</div>",
 }
 `;
 
@@ -162,15 +162,15 @@ exports[`transformer-variant-group > basic > "dark:lg:(p-1 p-2)" 1`] = `
     {
       "className": "dark:lg:p-1",
       "length": 3,
-      "offset": 9,
+      "offset": 14,
     },
     {
       "className": "dark:lg:p-2",
       "length": 3,
-      "offset": 13,
+      "offset": 18,
     },
   ],
-  "transformed": "dark:lg:p-1 dark:lg:p-2",
+  "transformed": "<div dark:lg:p-1 dark:lg:p-2>dark:lg:(p-1 p-2)</div>",
 }
 `;
 
@@ -183,15 +183,18 @@ p-2
     {
       "className": "!hover:m-2",
       "length": 4,
-      "offset": 8,
+      "offset": 13,
     },
     {
       "className": "hover:p-2",
       "length": 3,
-      "offset": 14,
+      "offset": 19,
     },
   ],
-  "transformed": "!hover:m-2 hover:p-2",
+  "transformed": "<div !hover:m-2 hover:p-2>hover:(
+!m-2 
+p-2
+)</div>",
 }
 `;
 
@@ -201,15 +204,15 @@ exports[`transformer-variant-group > basic > "hover:(!m-2 p-2)" 1`] = `
     {
       "className": "!hover:m-2",
       "length": 4,
-      "offset": 7,
+      "offset": 12,
     },
     {
       "className": "hover:p-2",
       "length": 3,
-      "offset": 12,
+      "offset": 17,
     },
   ],
-  "transformed": "!hover:m-2 hover:p-2",
+  "transformed": "<div !hover:m-2 hover:p-2>hover:(!m-2 p-2)</div>",
 }
 `;
 
@@ -219,15 +222,15 @@ exports[`transformer-variant-group > basic > "lt-md:(grid grid-cols-[1fr,50%])" 
     {
       "className": "lt-md:grid",
       "length": 4,
-      "offset": 7,
+      "offset": 12,
     },
     {
       "className": "lt-md:grid-cols-[1fr,50%]",
       "length": 19,
-      "offset": 12,
+      "offset": 17,
     },
   ],
-  "transformed": "lt-md:grid lt-md:grid-cols-[1fr,50%]",
+  "transformed": "<div lt-md:grid lt-md:grid-cols-[1fr,50%]>lt-md:(grid grid-cols-[1fr,50%])</div>",
 }
 `;
 
@@ -237,15 +240,15 @@ exports[`transformer-variant-group > basic > "lt-sm:hover:(p-1 p-2)" 1`] = `
     {
       "className": "lt-sm:hover:p-1",
       "length": 3,
-      "offset": 13,
+      "offset": 18,
     },
     {
       "className": "lt-sm:hover:p-2",
       "length": 3,
-      "offset": 17,
+      "offset": 22,
     },
   ],
-  "transformed": "lt-sm:hover:p-1 lt-sm:hover:p-2",
+  "transformed": "<div lt-sm:hover:p-1 lt-sm:hover:p-2>lt-sm:hover:(p-1 p-2)</div>",
 }
 `;
 
@@ -255,15 +258,15 @@ exports[`transformer-variant-group > basic > "md:(w-1/2 h-[calc(100%-4rem)])" 1`
     {
       "className": "md:w-1/2",
       "length": 5,
-      "offset": 4,
+      "offset": 9,
     },
     {
       "className": "md:h-[calc(100%-4rem)]",
       "length": 19,
-      "offset": 10,
+      "offset": 15,
     },
   ],
-  "transformed": "md:w-1/2 md:h-[calc(100%-4rem)]",
+  "transformed": "<div md:w-1/2 md:h-[calc(100%-4rem)]>md:(w-1/2 h-[calc(100%-4rem)])</div>",
 }
 `;
 
@@ -273,15 +276,15 @@ exports[`transformer-variant-group > basic > "md:(w-40vw pr-4.5rem)" 1`] = `
     {
       "className": "md:w-40vw",
       "length": 6,
-      "offset": 4,
+      "offset": 9,
     },
     {
       "className": "md:pr-4.5rem",
       "length": 9,
-      "offset": 11,
+      "offset": 16,
     },
   ],
-  "transformed": "md:w-40vw md:pr-4.5rem",
+  "transformed": "<div md:w-40vw md:pr-4.5rem>md:(w-40vw pr-4.5rem)</div>",
 }
 `;
 
@@ -291,14 +294,14 @@ exports[`transformer-variant-group > basic > "sm:(p-1 p-2)" 1`] = `
     {
       "className": "sm:p-1",
       "length": 3,
-      "offset": 4,
+      "offset": 9,
     },
     {
       "className": "sm:p-2",
       "length": 3,
-      "offset": 8,
+      "offset": 13,
     },
   ],
-  "transformed": "sm:p-1 sm:p-2",
+  "transformed": "<div sm:p-1 sm:p-2>sm:(p-1 p-2)</div>",
 }
 `;
