@@ -27,7 +27,7 @@
 .splitpanes__splitter:before {
   content: '';
   transition: opacity 0.4s;
-  background-color: rgba(125, 125, 125, 0.1);
+  background-color: rgb(125 125 125 / 0.1);
   @apply absolute z-1 top-0 left-0 op-0;
 }
 

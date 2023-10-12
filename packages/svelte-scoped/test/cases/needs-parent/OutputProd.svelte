@@ -24,19 +24,19 @@
   button {
     border-radius: 0.25rem;
     --un-bg-opacity: 1;
-    background-color: rgb(254 226 226 / var(--un-bg-opacity));
+    background-color: rgba(254, 226, 226, var(--un-bg-opacity));
     padding: 0.75rem;
   }
   button:hover {
     --un-bg-opacity: 1;
-    background-color: rgb(254 202 202 / var(--un-bg-opacity));
+    background-color: rgba(254, 202, 202, var(--un-bg-opacity));
   }
   :global(.dark) button {
     --un-bg-opacity: 1;
-    background-color: rgb(185 28 28 / var(--un-bg-opacity));
+    background-color: rgba(185, 28, 28, var(--un-bg-opacity));
   }
   :global(.dark) button:hover {
     --un-bg-opacity: 1;
-    background-color: rgb(220 38 38 / var(--un-bg-opacity));
+    background-color: rgba(220, 38, 38, var(--un-bg-opacity));
   }
 </style>
