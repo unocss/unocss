@@ -1,6 +1,6 @@
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
-import { expect, test } from 'vitest'
+import { expect, it } from 'vitest'
 
 export const fixture = new Set([
   'pl-10px',
@@ -23,7 +23,7 @@ const uno = createGenerator({
   ],
 })
 
-test('scope', async () => {
+it('scope', async () => {
   const { css } = await uno.generate(fixture, { scope: '.foo-scope', preflights: false })
   expect(css).toMatchSnapshot()
 })

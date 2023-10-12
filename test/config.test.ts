@@ -2,7 +2,7 @@ import type { Preset, UserConfig } from '@unocss/core'
 import { createGenerator, mergeConfigs } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
 import presetMini from '@unocss/preset-mini'
-import { describe, expect, it, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 describe('config', () => {
   const createUno = (userConfig: UserConfig) => {
@@ -13,7 +13,7 @@ describe('config', () => {
       ],
     })
   }
-  test('theme', async () => {
+  it('theme', async () => {
     const uno = createUno({
       theme: {
         colors: {
@@ -31,7 +31,7 @@ describe('config', () => {
     `)
   })
 
-  test('extendTheme with return extend', async () => {
+  it('extendTheme with return extend', async () => {
     const uno = createUno({
       extendTheme(mergedTheme) {
         return {
@@ -47,7 +47,7 @@ describe('config', () => {
     expect(uno.config.theme.colors).toEqual({ red: { 500: 'red' } })
   })
 
-  test('extendTheme with return', async () => {
+  it('extendTheme with return', async () => {
     const unocss = createGenerator<Theme>({
       extendTheme: () => {
         return {
@@ -69,7 +69,7 @@ describe('config', () => {
     `)
   })
 
-  test('extendTheme with mutation', async () => {
+  it('extendTheme with mutation', async () => {
     const unocss = createGenerator<Theme>({
       extendTheme: (theme) => {
         // @ts-expect-error test
@@ -89,7 +89,7 @@ describe('config', () => {
     `)
   })
 
-  test('nested presets', async () => {
+  it('nested presets', async () => {
     const presetA: Preset = {
       name: 'presetA',
       rules: [
@@ -133,7 +133,7 @@ describe('config', () => {
     `)
   })
 
-  test('uniq presets', async () => {
+  it('uniq presets', async () => {
     const presetA: Preset = { name: 'presetA' }
     const presetB: Preset = { name: 'presetB' }
     const presetC: Preset = { name: 'presetC', presets: [presetA] }

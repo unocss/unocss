@@ -1,6 +1,6 @@
 import { createGenerator, escapeSelector } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
-import { expect, test } from 'vitest'
+import { expect, it } from 'vitest'
 import { nonTargets, targets, targets2 } from './assets/preset-uno-targets'
 
 const uno = createGenerator({
@@ -24,7 +24,7 @@ const uno = createGenerator({
   },
 })
 
-test('targets', async () => {
+it('targets', async () => {
   const code = targets.join(' ')
   const { css } = await uno.generate(code, { preflights: false })
   const { css: css2 } = await uno.generate(code, { preflights: false })
@@ -39,7 +39,7 @@ test('targets', async () => {
   expect(css).toEqual(css2)
 })
 
-test('targets 2', async () => {
+it('targets 2', async () => {
   const code = targets2.join(' ')
   const { css } = await uno.generate(code, { preflights: false })
   const { css: css2 } = await uno.generate(code, { preflights: false })
@@ -48,7 +48,7 @@ test('targets 2', async () => {
   expect(css).toEqual(css2)
 })
 
-test('non-targets', async () => {
+it('non-targets', async () => {
   const code = nonTargets.join(' ')
   const { css, matched } = await uno.generate(code, { preflights: false })
 
@@ -56,7 +56,7 @@ test('non-targets', async () => {
   expect(css).toBe('')
 })
 
-test('custom var prefix', async () => {
+it('custom var prefix', async () => {
   const uno = createGenerator({
     presets: [
       presetUno({
@@ -74,7 +74,7 @@ test('custom var prefix', async () => {
   await expect(css).toMatchFileSnapshot('./assets/output/preset-uno-custom-var-prefix.css')
 })
 
-test('empty prefix', async () => {
+it('empty prefix', async () => {
   const uno = createGenerator({
     presets: [
       presetUno({

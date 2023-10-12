@@ -1,10 +1,10 @@
 import { createGenerator } from '@unocss/core'
 import presetMini from '@unocss/preset-mini'
 import presetWebFonts from '@unocss/preset-web-fonts'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 describe('layers', () => {
-  test('static', async () => {
+  it('static', async () => {
     const uno = createGenerator({
       rules: [
         ['a', { name: 'bar1' }, { layer: 'a' }],
@@ -22,7 +22,7 @@ describe('layers', () => {
     expect(css).toMatchSnapshot()
   })
 
-  test('@import layer', async () => {
+  it('@import layer', async () => {
     const uno = createGenerator({
       presets: [
         presetMini(),

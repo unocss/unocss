@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "@ampproject/remapping": "^2.2.1",
-    "@rollup/pluginutils": "^5.0.4",
+    "@rollup/pluginutils": "^5.0.5",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
@@ -53,7 +53,7 @@
     "colorette": "^2.0.20",
     "consola": "^3.2.3",
     "fast-glob": "^3.3.1",
-    "magic-string": "^0.30.3",
+    "magic-string": "^0.30.4",
     "pathe": "^1.1.1",
     "perfect-debounce": "^1.0.0"
   }
