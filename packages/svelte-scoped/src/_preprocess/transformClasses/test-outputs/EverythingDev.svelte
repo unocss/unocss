@@ -59,11 +59,11 @@
   }
   :global(._bg-red-500_7dkb0w) {
     --un-bg-opacity: 1;
-    background-color: rgba(239, 68, 68, var(--un-bg-opacity));
+    background-color: rgb(239 68 68 / var(--un-bg-opacity));
   }
   :global(.dark ._dark\:hover\:bg-green-500_7dkb0w:hover) {
     --un-bg-opacity: 1;
-    background-color: rgba(34, 197, 94, var(--un-bg-opacity));
+    background-color: rgb(34 197 94 / var(--un-bg-opacity));
   }
   :global(._text-center_7dkb0w) {
     text-align: center;
@@ -74,11 +74,11 @@
   }
   :global(._text-orange-400_7dkb0w) {
     --un-text-opacity: 1;
-    color: rgba(251, 146, 60, var(--un-text-opacity));
+    color: rgb(251 146 60 / var(--un-text-opacity));
   }
   :global(._hover\:text-red_7dkb0w:hover) {
     --un-text-opacity: 1;
-    color: rgba(248, 113, 113, var(--un-text-opacity));
+    color: rgb(248 113 113 / var(--un-text-opacity));
   }
   @media (min-width: 640px) {
     :global(._sm\:text-left_7dkb0w) {

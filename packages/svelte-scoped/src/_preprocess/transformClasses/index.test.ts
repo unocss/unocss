@@ -47,7 +47,7 @@ describe('transform', () => {
       <style>
         :global(.uno-orrz3z) {
           --un-bg-opacity: 1;
-          background-color: rgba(239, 68, 68, var(--un-bg-opacity));
+          background-color: rgb(239 68 68 / var(--un-bg-opacity));
         }
       </style>
       "
@@ -58,7 +58,7 @@ describe('transform', () => {
       <style>
         :global(._bg-red-500_7dkb0w) {
           --un-bg-opacity: 1;
-          background-color: rgba(239, 68, 68, var(--un-bg-opacity));
+          background-color: rgb(239 68 68 / var(--un-bg-opacity));
         }
       </style>
       "
@@ -251,26 +251,28 @@ describe('transform', () => {
     <span class="font-bold {bar ? 'text-red-600' : 'text-(green-500 blue-400) font-semibold boo'} underline foo {baz ? 'italic ' : ''}">Hello</span>`.trim())
     expect(result).toMatchInlineSnapshot(`
       "<span
-        class=\\"uno-r4l94t foo {bar
-          ? 'uno-ffvc5a'
-          : 'uno-wkrlzv text-(green-500 blue-400) boo'} {baz ? 'uno-br1nw8' : ''}\\"
-        >Hello</span
+        class=\\"uno-r4l94t foo {bar ? 'uno-ffvc5a' : 'uno-3h14cd boo'} {baz
+          ? 'uno-br1nw8'
+          : ''}\\">Hello</span
       >
 
       <style>
+        :global(.uno-3h14cd) {
+          font-weight: 600;
+          --un-text-opacity: 1;
+          color: rgb(34 197 94 / var(--un-text-opacity));
+          color: rgb(96 165 250 / var(--un-text-opacity));
+        }
         :global(.uno-r4l94t) {
           font-weight: 700;
           text-decoration-line: underline;
-        }
-        :global(.uno-wkrlzv) {
-          font-weight: 600;
         }
         :global(.uno-br1nw8) {
           font-style: italic;
         }
         :global(.uno-ffvc5a) {
           --un-text-opacity: 1;
-          color: rgba(220, 38, 38, var(--un-text-opacity));
+          color: rgb(220 38 38 / var(--un-text-opacity));
         }
       </style>
       "
@@ -346,7 +348,7 @@ describe('transform', () => {
       <style>
         :global(.uno-orrz3z) {
           --un-bg-opacity: 1;
-          background-color: rgba(239, 68, 68, var(--un-bg-opacity));
+          background-color: rgb(239 68 68 / var(--un-bg-opacity));
         }
       </style>
       "

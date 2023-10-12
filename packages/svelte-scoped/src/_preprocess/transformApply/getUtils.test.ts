@@ -64,23 +64,19 @@ describe('getUtils', async () => {
     expect(result).toMatchInlineSnapshot(`
       [
         [
-          744,
-          ".\\\\-",
-          "font-weight:500;",
+          84,
+          ".\\\\-:hover",
+          "margin-right:0.25rem;font-weight:500;",
           undefined,
           {
-            "autocomplete": [
-              "(font|fw)-(100|200|300|400|500|600|700|800|900)",
-              "(font|fw)-$fontWeight",
-            ],
             "layer": undefined,
-            "sort": undefined,
+            "sort": 24,
           },
           undefined,
-          undefined,
+          true,
         ],
       ]
     `)
-    expect(warnOnce).toHaveBeenCalledTimes(3)
+    expect(warnOnce).toHaveBeenCalledTimes(2)
   })
 })
