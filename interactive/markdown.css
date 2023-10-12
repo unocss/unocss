@@ -58,7 +58,7 @@
   }
 
   mark {
-    background-color: rgba(187 128 9 / 0.15);
+    background-color: rgba(187, 128, 9, 0.15);
     color: #c9d1d9;
   }
 
@@ -629,7 +629,7 @@
   }
 
   table tr:nth-child(2n) {
-    background-color: rgba(156 163 175 / 0.02);
+    background-color: rgba(156, 163, 175, 0.02);
   }
 
   img {

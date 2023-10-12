@@ -27,15 +27,15 @@
     --un-numeric-fraction: ;
     --un-border-spacing-x: 0;
     --un-border-spacing-y: 0;
-    --un-ring-offset-shadow: 0 0 rgba(0 0 0 / 0);
-    --un-ring-shadow: 0 0 rgba(0 0 0 / 0);
+    --un-ring-offset-shadow: 0 0 rgba(0, 0, 0, 0);
+    --un-ring-shadow: 0 0 rgba(0, 0, 0, 0);
     --un-shadow-inset: ;
-    --un-shadow: 0 0 rgba(0 0 0 / 0);
+    --un-shadow: 0 0 rgba(0, 0, 0, 0);
     --un-ring-inset: ;
     --un-ring-offset-width: 0px;
     --un-ring-offset-color: #fff;
     --un-ring-width: 0px;
-    --un-ring-color: rgba(147 197 253 / 0.5);
+    --un-ring-color: rgba(147, 197, 253, 0.5);
     --un-blur: ;
     --un-brightness: ;
     --un-contrast: ;
@@ -79,15 +79,15 @@
     --un-numeric-fraction: ;
     --un-border-spacing-x: 0;
     --un-border-spacing-y: 0;
-    --un-ring-offset-shadow: 0 0 rgba(0 0 0 / 0);
-    --un-ring-shadow: 0 0 rgba(0 0 0 / 0);
+    --un-ring-offset-shadow: 0 0 rgba(0, 0, 0, 0);
+    --un-ring-shadow: 0 0 rgba(0, 0, 0, 0);
     --un-shadow-inset: ;
-    --un-shadow: 0 0 rgba(0 0 0 / 0);
+    --un-shadow: 0 0 rgba(0, 0, 0, 0);
     --un-ring-inset: ;
     --un-ring-offset-width: 0px;
     --un-ring-offset-color: #fff;
     --un-ring-width: 0px;
-    --un-ring-color: rgba(147 197 253 / 0.5);
+    --un-ring-color: rgba(147, 197, 253, 0.5);
     --un-blur: ;
     --un-brightness: ;
     --un-contrast: ;
@@ -110,9 +110,8 @@
   :global(.usp-ff1ijb) {
     margin-bottom: 0.25rem;
     --un-shadow: var(--un-shadow-inset) 0 1px 3px 0
-        var(--un-shadow-color, rgba(0 0 0 / 0.1)),
-      var(--un-shadow-inset) 0 1px 2px -1px var(--un-shadow-color, rgba(0 0 0 /
-              0.1));
+        var(--un-shadow-color, rgba(0, 0, 0, 0.1)),
+      var(--un-shadow-inset) 0 1px 2px -1px var(--un-shadow-color, rgba(0, 0, 0, 0.1));
     box-shadow: var(--un-ring-offset-shadow), var(--un-ring-shadow),
       var(--un-shadow);
   }

@@ -91,7 +91,7 @@ The variant `@hover-text-red` will output:
 @media (hover: hover) and (pointer: fine) {
   .\@hover-text-red:hover {
     --un-text-opacity: 1;
-    color: rgba(248 113 113 / var(--un-text-opacity));
+    color: rgba(248, 113, 113, var(--un-text-opacity));
   }
 }
 ```

@@ -155,15 +155,15 @@ export function parseColor(body: string, theme: Theme): ParsedColorValue | undef
  *
  * @example Resolving 'red-100' from theme:
  * colorResolver('background-color', 'background')('', 'red-100')
- * return { '--un-background-opacity': '1', 'background-color': 'rgba(254 226 226 / var(--un-background-opacity))' }
+ * return { '--un-background-opacity': '1', 'background-color': 'rgba(254, 226, 226, var(--un-background-opacity))' }
  *
  * @example Resolving 'red-100/20' from theme:
  * colorResolver('background-color', 'background')('', 'red-100/20')
- * return { 'background-color': 'rgba(204 251 241 / 0.22)' }
+ * return { 'background-color': 'rgba(204, 251, 241, 0.22)' }
  *
  * @example Resolving 'hex-124':
  * colorResolver('color', 'text')('', 'hex-124')
- * return { '--un-text-opacity': '1', 'color': 'rgba(17 34 68 / var(--un-text-opacity))' }
+ * return { '--un-text-opacity': '1', 'color': 'rgba(17, 34, 68, var(--un-text-opacity))' }
  *
  * @param property - Property for the css value to be created.
  * @param varName - Base name for the opacity variable.

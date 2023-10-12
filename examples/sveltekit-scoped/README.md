@@ -57,7 +57,7 @@ will be transformed into this:
 <style>
   :global(.uno-1hashz) {
     --un-bg-opacity: 1;
-    background-color: rgba(254 226 226 / var(--un-bg-opacity));
+    background-color: rgba(254, 226, 226, var(--un-bg-opacity));
     font-size: 1.125rem;
     line-height: 1.75rem;
   }
@@ -96,7 +96,7 @@ will be transformed into this:
   
   div {
     --un-text-opacity: 1;
-    color: rgba(59 130 246 / var(--un-text-opacity));
+    color: rgba(59, 130, 246, var(--un-text-opacity));
     text-decoration-line: underline;
   }
 
