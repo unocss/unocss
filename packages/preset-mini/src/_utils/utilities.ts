@@ -3,7 +3,7 @@ import { toArray } from '@unocss/core'
 import { colorOpacityToString, colorToString, getStringComponents, parseCssColor } from '@unocss/rule-utils'
 import type { Theme } from '../theme'
 import { h } from './handlers'
-import { directionMap, globalKeywords } from './mappings'
+import { cssFunctions, directionMap, globalKeywords } from './mappings'
 
 export const CONTROL_MINI_NO_NEGATIVE = '$$mini-no-negative'
 
@@ -242,4 +242,8 @@ export function resolveVerticalBreakpoints({ theme, generator }: Readonly<Varian
 
 export function makeGlobalStaticRules(prefix: string, property?: string): StaticRule[] {
   return globalKeywords.map(keyword => [`${prefix}-${keyword}`, { [property ?? prefix]: keyword }])
+}
+
+export function isCSSFunction(value: string) {
+  return cssFunctions.some(fn => new RegExp(`^${fn}\\(.*\\)`).test(value))
 }
