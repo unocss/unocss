@@ -85,3 +85,7 @@ export const ringWidth = {
 export const zIndex = {
   auto: 'auto',
 }
+
+export const media = {
+  mouse: '(hover) and (pointer: fine)',
+}
