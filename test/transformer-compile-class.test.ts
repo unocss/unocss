@@ -177,4 +177,23 @@ describe('transformer-compile-class', () => {
 
     expect(invalidateFn).toHaveBeenCalledTimes(2)
   })
+
+  it('test border', async () => {
+    const result = await transform(`
+    <div class="border-[calc(var(--border-width)*1px)]"/>
+    <div class="border-[calc(10px+1px)]"/>
+    <div class="border-[rgba(0,0,0.5)]"/>
+    <div class="border-red-500"/>
+    <div class="border-1"/>
+        `.trim())
+
+    expect(result.css.trim()).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .border-1{border-width:1px;}
+      .border-\\\\[calc\\\\(10px\\\\+1px\\\\)\\\\]{border-width:calc(10px + 1px);}
+      .border-\\\\[calc\\\\(var\\\\(--border-width\\\\)\\\\*1px\\\\)\\\\]{border-width:calc(var(--border-width) * 1px);}
+      .border-\\\\[rgba\\\\(0\\\\,0\\\\,0\\\\.5\\\\)\\\\]{border-color:rgba(0,0,0.5);}
+      .border-red-500{--un-border-opacity:1;border-color:rgba(239,68,68,var(--un-border-opacity));}"
+    `)
+  })
 })

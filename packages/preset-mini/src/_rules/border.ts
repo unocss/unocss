@@ -80,6 +80,12 @@ function borderColorResolver(direction: string) {
       }
     }
     else if (color) {
+      if (color.startsWith('calc')) {
+        return {
+          'border-width': color,
+        }
+      }
+
       return {
         [`border${direction}-color`]: colorToString(color, alpha),
       }
