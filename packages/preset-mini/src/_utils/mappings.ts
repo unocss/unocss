@@ -114,4 +114,4 @@ export const globalKeywords = [
   'unset',
 ]
 
-export const cssFunctions = ['min', 'max', 'clamp', 'calc']
+export const cssFunctions = ['min', 'max', 'clamp', 'calc'].map(fn => new RegExp(`^${fn}\\(.*\\)`))

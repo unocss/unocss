@@ -245,5 +245,5 @@ export function makeGlobalStaticRules(prefix: string, property?: string): Static
 }
 
 export function isCSSFunction(value: string) {
-  return cssFunctions.some(fn => new RegExp(`^${fn}\\(.*\\)`).test(value))
+  return cssFunctions.some(reg => reg.test(value))
 }
