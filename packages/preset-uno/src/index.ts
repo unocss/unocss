@@ -1,8 +1,8 @@
 import { definePreset } from '@unocss/core'
 import type { PresetMiniOptions, Theme } from '@unocss/preset-mini'
-import { presetWind } from '@unocss/preset-wind'
+import { presetWind, shortcuts as windiShortcuts } from '@unocss/preset-wind'
 import { variantColorMix } from './variants/mix'
-import { mediaHover } from './shortcuts/shortcuts'
+import { mediaHover } from './shortcuts/mediaHover'
 
 export type { Theme }
 
@@ -18,7 +18,7 @@ export const presetUno = definePreset((options: PresetUnoOptions = {}) => {
       variantColorMix<Theme>(),
     ],
     shortcuts: [
-      ...(Array.isArray(wind.shortcuts) ? wind.shortcuts : [wind.shortcuts]),
+      ...windiShortcuts,
       ...mediaHover,
     ],
   }
