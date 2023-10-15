@@ -983,11 +983,11 @@ export const presetMiniTargets: string[] = [
   'light:text-sm',
 
   // variants layer
-  'uno-layer-1:translate-0',
-  'uno-layer-uno_css:block',
+  'sheet-1:translate-0',
+  'sheet-uno_css:block',
   'layer-base:translate-0',
   'layer-[utility]:block',
-  'uno-layer-[uno_css]:block',
+  'sheet-[uno_css]:block',
 
   // variants misc
   '-rotate-2',

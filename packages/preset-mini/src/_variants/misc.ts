@@ -39,9 +39,9 @@ export const variantCssLayer: Variant = {
 }
 
 export const variantInternalLayer: Variant = {
-  name: 'uno-layer',
+  name: 'sheet',
   match(matcher, ctx) {
-    const variant = variantGetParameter('uno-layer-', matcher, ctx.generator.config.separators)
+    const variant = variantGetParameter('sheet-', matcher, ctx.generator.config.separators)
     if (variant) {
       const [match, rest] = variant
       const layer = h.bracket(match) ?? match

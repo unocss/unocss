@@ -35,7 +35,7 @@ exports[`postcss > @unocss 1`] = `
 }
 /* layer: _pre */
 @media (prefers-contrast: less){
-.uno-layer-_pre\\\\:contrast-less\\\\:bg-gray-3{--un-bg-opacity:1;background-color:rgba(209,213,219,var(--un-bg-opacity));}
+.sheet-_pre\\\\:contrast-less\\\\:bg-gray-3{--un-bg-opacity:1;background-color:rgba(209,213,219,var(--un-bg-opacity));}
 }
 /* layer: default */
 .bg-blend-\\\\$data{background-blend-mode:var(--data);}

@@ -52,7 +52,7 @@ describe('runtime dom manipulation', () => {
       },
     })
 
-    await runtime?.extract('uno-layer-pre:pt-0 uno-layer-[ammend]:pb-0 p-0')
+    await runtime?.extract('sheet-pre:pt-0 sheet-[ammend]:pb-0 p-0')
     const result = await runtime?.update()
 
     const layers = [...(result?.getStyleElements().keys() ?? [])]

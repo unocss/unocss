@@ -97,9 +97,9 @@ describe('attributify', async () => {
       const reversed = res!.resolveReplacement(`${res!.extracted}1`)
       expect(reversed).toMatchInlineSnapshot(`
         {
-          "end": 192,
+          "end": 188,
           "replacement": "blue-4001",
-          "start": 184,
+          "start": 180,
         }
       `)
 

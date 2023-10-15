@@ -1,6 +1,6 @@
 /* layer: base */
-[uno-layer-base~="c-white\/10"]{color:rgba(255,255,255,0.1);}
-[uno-layer-base~="hover\:c-black\/20"]:hover{color:rgba(0,0,0,0.2);}
+[sheet-base~="c-white\/10"]{color:rgba(255,255,255,0.1);}
+[sheet-base~="hover\:c-black\/20"]:hover{color:rgba(0,0,0,0.2);}
 /* layer: default */
 .absolute{position:absolute;}
 .fixed{position:fixed;}
