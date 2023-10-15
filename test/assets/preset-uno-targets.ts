@@ -39,7 +39,7 @@ export const targets = [
   'hover:placeholder-op90',
 
   // shortcuts
-  'group-mouse-hover:bg-red-100',
+  'group-mouse-hover:font-italic',
 ]
 
 export const targets2 = [

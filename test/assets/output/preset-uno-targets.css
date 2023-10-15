@@ -1,6 +1,6 @@
 /* layer: shortcuts */
 @media (hover) and (pointer: fine){
-.group:hover .group-mouse-hover\:bg-red-100{--un-bg-opacity:1;background-color:rgba(254,226,226,var(--un-bg-opacity));}
+.group:hover .group-mouse-hover\:font-italic{font-style:italic;}
 }
 /* layer: default */
 .border-custom-b{border-color:rgba(var(--custom), 1);}
