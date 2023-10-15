@@ -1,7 +1,7 @@
 import type { CSSEntries, CSSObject, Rule, RuleContext } from '@unocss/core'
 import { colorOpacityToString, colorToString } from '@unocss/rule-utils'
 import type { Theme } from '../theme'
-import { cornerMap, directionMap, globalKeywords, h, hasParseableColor, isCSSFunction, parseColor } from '../utils'
+import { cornerMap, directionMap, globalKeywords, h, hasParseableColor, isCSSMathFn, parseColor } from '../utils'
 
 export const borderStyles = ['solid', 'dashed', 'dotted', 'double', 'hidden', 'none', 'groove', 'ridge', 'inset', 'outset', ...globalKeywords]
 
@@ -80,7 +80,7 @@ function borderColorResolver(direction: string) {
       }
     }
     else if (color) {
-      if (isCSSFunction(color)) {
+      if (isCSSMathFn(color)) {
         return {
           'border-width': color,
         }

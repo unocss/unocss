@@ -3,7 +3,7 @@ import { toArray } from '@unocss/core'
 import { colorOpacityToString, colorToString, getStringComponents, parseCssColor } from '@unocss/rule-utils'
 import type { Theme } from '../theme'
 import { h } from './handlers'
-import { cssFunctions, directionMap, globalKeywords } from './mappings'
+import { cssMathFnRE, directionMap, globalKeywords } from './mappings'
 
 export const CONTROL_MINI_NO_NEGATIVE = '$$mini-no-negative'
 
@@ -244,6 +244,6 @@ export function makeGlobalStaticRules(prefix: string, property?: string): Static
   return globalKeywords.map(keyword => [`${prefix}-${keyword}`, { [property ?? prefix]: keyword }])
 }
 
-export function isCSSFunction(value: string) {
-  return cssFunctions.some(reg => reg.test(value))
+export function isCSSMathFn(value: string) {
+  return cssMathFnRE.test(value)
 }
