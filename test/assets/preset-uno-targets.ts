@@ -37,6 +37,9 @@ export const targets = [
   // mini + wind - placeholder
   'focus:placeholder-red-300',
   'hover:placeholder-op90',
+
+  // shortcuts
+  'group-mouse-hover:bg-red-100',
 ]
 
 export const targets2 = [
