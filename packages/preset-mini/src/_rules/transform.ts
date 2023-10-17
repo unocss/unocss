@@ -84,9 +84,9 @@ export const transforms: Rule[] = [
   [/^(?:transform-)?rotate-()(.+)$/, handleRotate],
   [/^(?:transform-)?rotate-([xyz])-(.+)$/, handleRotate],
   [/^(?:transform-)?skew-()(.+)$/, handleSkew],
-  [/^(?:transform-)?skew-([xy])-(.+)$/, handleSkew, { autocomplete: ['transform-skew-(x|y)-<percent>'] }],
+  [/^(?:transform-)?skew-([xy])-(.+)$/, handleSkew, { autocomplete: ['transform-skew-(x|y)-<percent>', 'skew-(x|y)-<percent>'] }],
   [/^(?:transform-)?scale-()(.+)$/, handleScale],
-  [/^(?:transform-)?scale-([xyz])-(.+)$/, handleScale, { autocomplete: [`transform-(${transformValues.join('|')})-<percent>`, `transform-(${transformValues.join('|')})-(x|y|z)-<percent>`] }],
+  [/^(?:transform-)?scale-([xyz])-(.+)$/, handleScale, { autocomplete: [`transform-(${transformValues.join('|')})-<percent>`, `transform-(${transformValues.join('|')})-(x|y|z)-<percent>`, `(${transformValues.join('|')})-<percent>`, `(${transformValues.join('|')})-(x|y|z)-<percent>`] }],
 
   // style
   [/^(?:transform-)?preserve-3d$/, () => ({ 'transform-style': 'preserve-3d' })],
