@@ -1,5 +1,5 @@
-import { createWebFontPreset, normalizedFontMeta } from './preset'
 import { definePreset } from '@unocss/core'
+import { createWebFontPreset, normalizedFontMeta } from './preset'
 
 export * from './types'
 export { normalizedFontMeta }

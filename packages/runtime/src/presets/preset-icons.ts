@@ -11,7 +11,7 @@ window.__unocss_runtime.presets = Object.assign(window.__unocss_runtime?.presets
       return createCDNFetchLoader(url => fetch(url).then(data => data.json()), cdn)
     return loadIcon
   })
-  
+
   return {
     presetIcons: (options: IconsOptions) => presetIcons(options),
   }

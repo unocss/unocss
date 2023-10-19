@@ -125,7 +125,7 @@ export interface RuntimeContext {
 declare global {
   interface Window {
     __unocss?: UserConfig & { runtime?: RuntimeOptions }
-    __unocss_runtime?: RuntimeContext | { presets: {} }
+    __unocss_runtime?: RuntimeContext | { presets: Record<string, Function> }
   }
 }
 
