@@ -8,11 +8,12 @@ import type { IconifyJSON } from '@iconify/types'
 import { loadIcon } from '@iconify/utils/lib/loader/loader'
 import { searchForIcon } from '@iconify/utils/lib/loader/modern'
 import type { IconsOptions } from './types'
-import supportedCollection from './collections.json'
+import icons from './collections.json'
 
 const COLLECTION_NAME_PARTS_MAX = 3
 
 export { IconsOptions }
+export { icons }
 
 export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => Promise<UniversalIconLoader>) {
   return definePreset((options: IconsOptions = {}) => {
@@ -140,7 +141,7 @@ export function createCDNFetchLoader(fetcher: (url: string) => Promise<any>, cdn
   const cache = new Map<string, Promise<IconifyJSON>>()
 
   function fetchCollection(name: string) {
-    if (!supportedCollection.includes(name))
+    if (!icons.includes(name))
       return undefined
     if (!cache.has(name))
       cache.set(name, fetcher(`${cdnBase}@iconify-json/${name}/icons.json`))
