@@ -44,9 +44,7 @@ export function togglePanel(idx: number) {
 export function normalizePanels() {
   const height = (100 - collapsedPanels.value.size * titleHeightPercent.value) / (panelSizes.value.length - collapsedPanels.value.size)
 
-  panelSizes.value.forEach((v, idx) => {
-    panelSizes.value[idx] = collapsedPanels.value.has(idx) ? titleHeightPercent.value : height
-  })
+  panelSizes.value = panelSizes.value.map((_, idx) => collapsedPanels.value.has(idx) ? titleHeightPercent.value : height)
 }
 
 watch(
@@ -64,6 +62,6 @@ watch(
 watch(
   titleHeightPercent,
   (value: number) => {
-    panelSizes.value = panelSizes.value.map((percent, idx) => collapsedPanels.value.has(idx) ? value : Math.max(value, percent))
+    panelSizes.value = panelSizes.value.map((height, idx) => collapsedPanels.value.has(idx) ? value : Math.max(value, height))
   },
 )
