@@ -43,8 +43,8 @@ export const sizes: Rule<Theme>[] = [
       '(max|min)-(w|h)-full',
     ],
   }],
-  [/^(?:size-)?(min-|max-)?(h)-screen-(.+)$/, ([, m, w, s], context) => ({ [getPropName(m, w)]: handleBreakponit(context, s, 'verticalBreakpoints') })],
-  [/^(?:size-)?(min-|max-)?(w)-screen-(.+)$/, ([, m, w, s], context) => ({ [getPropName(m, w)]: handleBreakponit(context, s) }), {
+  [/^(?:size-)?(min-|max-)?(h)-screen-(.+)$/, ([, m, w, s], context) => ({ [getPropName(m, w)]: handleBreakpoint(context, s, 'verticalBreakpoints') })],
+  [/^(?:size-)?(min-|max-)?(w)-screen-(.+)$/, ([, m, w, s], context) => ({ [getPropName(m, w)]: handleBreakpoint(context, s) }), {
     autocomplete: [
       '(w|h)-screen',
       '(min|max)-(w|h)-screen',
@@ -56,7 +56,7 @@ export const sizes: Rule<Theme>[] = [
   }],
 ]
 
-function handleBreakponit(context: Readonly<RuleContext<Theme>>, screen: string, key: 'breakpoints' | 'verticalBreakpoints' = 'breakpoints') {
+function handleBreakpoint(context: Readonly<RuleContext<Theme>>, screen: string, key: 'breakpoints' | 'verticalBreakpoints' = 'breakpoints') {
   const bp = resolveBreakpoints(context, key)
   if (bp)
     return bp.find(i => i.point === screen)?.size
