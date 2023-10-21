@@ -56,5 +56,5 @@ export interface VitePluginConfig<Theme extends object = object> extends UserCon
    *
    * @default 'cors'
    */
-  fetchMode?: RequestMode
+  fetchMode?: 'cors' | 'navigate' | 'no-cors' | 'same-origin'
 }
