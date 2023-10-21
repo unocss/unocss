@@ -132,39 +132,6 @@ presetMini({
 })
 ```
 
-To consume the theme in rules:
-
-```ts
-rules: [
-  [/^text-(.*)$/, ([, c], { theme }) => {
-    if (theme.colors[c])
-      return { color: theme.colors[c] }
-  }],
-]
-```
-
-::: warning
-One exception is that UnoCSS gives full control of `breakpoints` to users. When a custom `breakpoints` is provided, the default will be overridden instead of merging.
-:::
-
-With the following example, you will be able to only use the `sm:` and `md:` breakpoint variants:
-
-```ts
-presetMini({
-  theme: {
-    // ...
-    breakpoints: {
-      sm: '320px',
-      md: '640px',
-    },
-  },
-})
-```
-
-::: info
-`verticalBreakpoints` is same as `breakpoints` but for vertical layout.
-:::
-
 ## Options
 
 ### dark
