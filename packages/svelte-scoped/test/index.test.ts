@@ -54,7 +54,7 @@ describe('svelte-preprocessor', () => {
 })
 
 describe('svelte-scoped helpers', () => {
-  it('replaces template litera syntax in css', async () => {
+  it('escape template literal characters in placeholder replacement', async () => {
     const css = await fs.readFile('packages/svelte-scoped/test/fixtures/escaped-unicode.css', 'utf8')
 
     const escaped = replaceGlobalStylesPlaceholder(
