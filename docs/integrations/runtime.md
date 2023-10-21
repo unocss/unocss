@@ -16,11 +16,11 @@ Add the following line to your `index.html`:
 <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></script>
 ```
 
-To configure UnoCSS (optional):
+The runtime may be configured by defining the configuration before loading the runtime:
 
 ```html
+<!-- define unocss options... -->
 <script>
-// pass unocss options
 window.__unocss = {
   rules: [
     // custom rules...
@@ -31,6 +31,8 @@ window.__unocss = {
   // ...
 }
 </script>
+<!-- ... and then load the runtime -->
+<script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></script>
 ```
 
 By default, the [Uno preset](/presets/uno) is be applied.
