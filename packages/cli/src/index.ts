@@ -10,6 +10,7 @@ import type { SourceCodeTransformerEnforce, UserConfig } from '@unocss/core'
 import { createContext } from '../../shared-integration/src/context'
 import { applyTransformers } from '../../shared-integration/src/transformers'
 import { version } from '../package.json'
+import { SKIP_COMMENT_RE } from '../../shared-integration/src/constants'
 import { defaultConfig } from './config'
 import { PrettyError, handleError } from './errors'
 import { getWatcher } from './watcher'
@@ -131,7 +132,7 @@ export async function build(_options: CliOptions) {
     }
 
     const { css, matched } = await ctx.uno.generate(
-      [...postTransform.map(({ code, transformedCode }) => transformedCode ?? code)].join('\n'),
+      [...postTransform.map(({ code, transformedCode }) => (transformedCode ?? code).replace(SKIP_COMMENT_RE, ''))].join('\n'),
       {
         preflights: options.preflights,
         minify: options.minify,
