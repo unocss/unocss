@@ -71,6 +71,8 @@ export const presetMiniTargets: string[] = [
   'border-size-unset',
   'border-x-width-3',
   'border-t-width-3',
+  'border-[calc(var(--border-width)*1px)]',
+  'border-[calc(10px+1px)]',
   'rounded-[4px]',
   'rounded-1/2',
   'rounded-full',

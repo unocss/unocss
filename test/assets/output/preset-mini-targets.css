@@ -215,6 +215,8 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .border-t-width-3{border-top-width:3px;}
 .b-block-size-\$variable{border-block-start-width:var(--variable);border-block-end-width:var(--variable);}
 .border-\[\#124\]{--un-border-opacity:1;border-color:rgba(17,34,68,var(--un-border-opacity));}
+.border-\[calc\(10px\+1px\)\]{border-width:calc(10px + 1px);}
+.border-\[calc\(var\(--border-width\)\*1px\)\]{border-width:calc(var(--border-width) * 1px);}
 .border-\[var\(--color\)\],
 .border-\$color{border-color:var(--color);}
 .border-black{--un-border-opacity:1;border-color:rgba(0,0,0,var(--un-border-opacity));}
