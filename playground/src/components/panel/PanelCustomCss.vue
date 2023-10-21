@@ -24,7 +24,7 @@ const WarnContent = computed(() => {
 </script>
 
 <template>
-  <Pane :min-size="titleHeightPercent" :size="panelSizes[index]" flex flex-col relative :class="isCollapsed(index) ? '' : 'flex-grow'">
+  <Pane :min-size="titleHeightPercent" :size="panelSizes[index]" flex flex-col relative>
     <div class="flex flex-wrap bg-$cm-background">
       <TitleBar
         title="Custom CSS" w-full relative

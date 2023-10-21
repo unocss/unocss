@@ -1,7 +1,6 @@
 export const panelEl = ref()
 const TITLE_HEIGHT = 29
 const { height: vh } = useElementSize(panelEl)
-const collapsedPanels = ref(new Set())
 
 export const titleHeightPercent = computed(() => {
   if (!vh.value)
@@ -14,6 +13,14 @@ export const panelSizes = useLocalStorage<number[]>(
   getInitialPanelSizes(titleHeightPercent.value),
   { listenToStorageChanges: false },
 )
+const collapsedPanels = useLocalStorage<Set<number>>(
+  'unocss-collapsed-panels',
+  new Set([1, 2, 3]),
+  { listenToStorageChanges: false },
+)
+const normalizedHeight = computed(() => {
+  return (100 - collapsedPanels.value.size * titleHeightPercent.value) / (panelSizes.value.length - collapsedPanels.value.size)
+})
 
 export function getInitialPanelSizes(percent: number): number[] {
   return [
@@ -42,9 +49,7 @@ export function togglePanel(idx: number) {
 }
 
 export function normalizePanels() {
-  const height = (100 - collapsedPanels.value.size * titleHeightPercent.value) / (panelSizes.value.length - collapsedPanels.value.size)
-
-  panelSizes.value = panelSizes.value.map((_, idx) => collapsedPanels.value.has(idx) ? titleHeightPercent.value : height)
+  panelSizes.value = panelSizes.value.map((_, idx) => collapsedPanels.value.has(idx) ? titleHeightPercent.value : normalizedHeight.value)
 }
 
 watch(
@@ -62,6 +67,6 @@ watch(
 watch(
   titleHeightPercent,
   (value: number) => {
-    panelSizes.value = panelSizes.value.map((height, idx) => collapsedPanels.value.has(idx) ? value : Math.max(value, height))
+    panelSizes.value = panelSizes.value.map((height, idx) => collapsedPanels.value.has(idx) ? value : Math.max(value, height, normalizedHeight.value))
   },
 )

@@ -7,7 +7,7 @@ defineProps<{ index: number }>()
 </script>
 
 <template>
-  <Pane :min-size="titleHeightPercent" :size="panelSizes[index]" flex flex-col :class="isCollapsed(index) ? '' : 'flex-grow'">
+  <Pane :min-size="titleHeightPercent" :size="panelSizes[index]" flex flex-col>
     <TitleBar title="Output CSS" @title-click="togglePanel(index)">
       <template #before>
         <div

@@ -16,7 +16,7 @@ const computedInputHTML = computed({
 </script>
 
 <template>
-  <Pane :min-size="titleHeightPercent" :size="panelSizes[index]" flex flex-col :class="isCollapsed(index) ? '' : 'flex-grow'">
+  <Pane :min-size="titleHeightPercent" :size="panelSizes[index]" flex flex-col>
     <div class="flex flex-wrap bg-$cm-background">
       <!--  <HeaderBar /> -->
       <TitleBar

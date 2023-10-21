@@ -10,7 +10,7 @@ if (!customConfigRaw.value)
 </script>
 
 <template>
-  <Pane :min-size="titleHeightPercent" :size="panelSizes[index]" flex flex-col relative :class="isCollapsed(index) ? '' : 'flex-grow'">
+  <Pane :min-size="titleHeightPercent" :size="panelSizes[index]" flex flex-col relative>
     <TitleBar
       title="Config"
       @title-click="togglePanel(index)"
