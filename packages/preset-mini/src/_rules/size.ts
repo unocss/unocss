@@ -1,4 +1,4 @@
-import type { Rule } from '@unocss/core'
+import type { Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { h, resolveBreakpoints, resolveVerticalBreakpoints } from '../utils'
 
@@ -43,8 +43,8 @@ export const sizes: Rule<Theme>[] = [
       '(max|min)-(w|h)-full',
     ],
   }],
-  [/^(?:size-)?(min-|max-)?(h)-screen-(.+)$/, ([, m, w, s], context) => ({ [getPropName(m, w)]: resolveVerticalBreakpoints(context)?.[s] })],
-  [/^(?:size-)?(min-|max-)?(w)-screen-(.+)$/, ([, m, w, s], context) => ({ [getPropName(m, w)]: resolveBreakpoints(context)?.[s] }), {
+  [/^(?:size-)?(min-|max-)?(h)-screen-(.+)$/, ([, m, w, s], context) => ({ [getPropName(m, w)]: handleBreakponit(context, s, 'verticalBreakpoints') })],
+  [/^(?:size-)?(min-|max-)?(w)-screen-(.+)$/, ([, m, w, s], context) => ({ [getPropName(m, w)]: handleBreakponit(context, s) }), {
     autocomplete: [
       '(w|h)-screen',
       '(min|max)-(w|h)-screen',
@@ -55,6 +55,12 @@ export const sizes: Rule<Theme>[] = [
     ],
   }],
 ]
+
+function handleBreakponit(context: Readonly<RuleContext<Theme>>, screen: string, key: 'breakpoints' | 'verticalBreakpoints' = 'breakpoints') {
+  const bp = resolveBreakpoints(context, key)
+  if (bp)
+    return bp.find(i => i.point === screen)?.size
+}
 
 function getAspectRatio(prop: string) {
   if (/^\d+\/\d+$/.test(prop))
