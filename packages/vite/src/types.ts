@@ -47,4 +47,14 @@ export interface VitePluginConfig<Theme extends object = object> extends UserCon
    * @default true
    */
   hmrTopLevelAwait?: boolean
+
+  /**
+   * Fetch mode in devtools.
+   *
+   * Some server does not configure its CORS and you may want to set this to 'no-cors'.
+   * See https://github.com/unocss/unocss/issues/2822.
+   *
+   * @default 'cors'
+   */
+  fetchMode?: RequestMode
 }
