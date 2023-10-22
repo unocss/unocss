@@ -38,7 +38,8 @@ export const cssProperty: Rule[] = [
 
       if (hasThemeFn(value))
         parsed = transformThemeFn(value, theme)
-      else
+
+      if (!parsed || parsed === value)
         parsed = h.bracket(`[${value}]`)
 
       if (parsed)
