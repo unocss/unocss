@@ -222,7 +222,7 @@ importers:
         specifier: ^0.1.2
         version: 0.1.2
       eslint:
-        specifier: 8.52.0
+        specifier: ^8.52.0
         version: 8.52.0
       eslint-plugin-antfu:
         specifier: ^1.0.0-beta.12
