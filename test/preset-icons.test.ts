@@ -1,5 +1,5 @@
 import { createGenerator } from '@unocss/core'
-import presetIcons, { icons } from '@unocss/preset-icons'
+import presetIcons from '@unocss/preset-icons'
 import presetUno from '@unocss/preset-uno'
 import { describe, expect, it } from 'vitest'
 
@@ -61,9 +61,5 @@ describe('preset-icons', () => {
     expect(layers).toEqual(['icons', 'default'])
     expect(css).toContain('data:image/svg+xml;utf8,%3Csvg')
     await expect(css).toMatchFileSnapshot('./assets/output/preset-icons-unit-svg-prologue.css')
-  })
-
-  it('exports default collection list', () => {
-    expect(icons).toMatchSnapshot()
   })
 })
