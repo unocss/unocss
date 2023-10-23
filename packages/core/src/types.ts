@@ -6,7 +6,6 @@ import type { BetterMap, CountableSet } from './utils'
 export type Awaitable<T> = T | Promise<T>
 export type Arrayable<T> = T | T[]
 export type ToArray<T> = T extends (infer U)[] ? U[] : T[]
-export type Arrayify<T> = T extends readonly any[] ? T : readonly [T]
 export type ArgumentType<T> = T extends ((...args: infer A) => any) ? A : never
 export type Shift<T> = T extends [_: any, ...args: infer A] ? A : never
 export type RestArgs<T> = Shift<ArgumentType<T>>

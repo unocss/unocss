@@ -1,5 +1,5 @@
-import type { Rule } from '@unocss/core'
-import { toArrayReadonly } from '@unocss/core'
+import type { CSSObject, Rule } from '@unocss/core'
+import { toArray } from '@unocss/core'
 import type { Theme } from '../theme'
 import { colorResolver, colorableShadows, h, splitShorthand } from '../utils'
 
@@ -13,7 +13,7 @@ export const fonts: Rule<Theme>[] = [
     /^text-(.+)$/,
     ([, s = 'base'], { theme }) => {
       const [size, leading] = splitShorthand(s, 'length')
-      const sizePairs = toArrayReadonly(theme.fontSize?.[size])
+      const sizePairs = toArray(theme.fontSize?.[size]) as [string, string | CSSObject, string?]
       const lineHeight = leading ? handleThemeByKey(leading, theme, 'lineHeight') : undefined
 
       if (sizePairs?.[0]) {
@@ -44,7 +44,7 @@ export const fonts: Rule<Theme>[] = [
     { autocomplete: 'text-$fontSize' },
   ],
   [/^(?:text|font)-size-(.+)$/, ([, s], { theme }) => {
-    const themed = toArrayReadonly(theme.fontSize?.[s])
+    const themed = toArray(theme.fontSize?.[s]) as [string, string | CSSObject]
     const size = themed?.[0] ?? h.bracket.cssvar.global.rem(s)
     if (size != null)
       return { 'font-size': size }

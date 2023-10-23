@@ -1,11 +1,5 @@
-import type { Arrayify } from '../types'
-
 export function toArray<T>(value: T | T[] = []): T[] {
   return Array.isArray(value) ? value : [value]
-}
-
-export function toArrayReadonly<T>(value: T) {
-  return (Array.isArray(value) ? value : [value]) as Arrayify<T>
 }
 
 export function uniq<T>(value: T[]): T[] {
