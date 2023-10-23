@@ -1,15 +1,15 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-toolbar-title>
+  <QLayout view="lHh Lpr lFf">
+    <QHeader elevated>
+      <QToolbar>
+        <QToolbarTitle>
           Quasar With UnoCSS
-        </q-toolbar-title>
-      </q-toolbar>
-    </q-header>
+        </QToolbarTitle>
+      </QToolbar>
+    </QHeader>
 
-    <q-page-container>
-      <router-view />
-    </q-page-container>
-  </q-layout>
+    <QPageContainer>
+      <RouterView />
+    </QPageContainer>
+  </QLayout>
 </template>

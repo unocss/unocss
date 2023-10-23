@@ -15,25 +15,38 @@ export default component$(() => {
             type="button"
             onClick$={() => state.count++}
           >
-            count is: {state.count}
+            count is:
+            {' '}
+            {state.count}
           </button>
 
           <button
-            bg-blue-400 hover:bg-blue-500
-            text-sm text-white
-            font-mono font-light
-            py-2 px-4
+            bg-blue-400
+            hover:bg-blue-500
+            text-sm
+            text-white
+            font-mono
+            font-light
+            py-2
+            px-4
             ml-1em
-            b-2 b-blue-200
+            b-2
+            b-blue-200
             class="rounded"
             type="button"
             onClick$={() => state.count++}
           >
-            count is: {state.count}
+            count is:
+            {' '}
+            {state.count}
           </button>
         </p>
         <p>
-          Edit <code>index.tsx</code> and save to test HMR updates.
+          Edit
+          {' '}
+          <code>index.tsx</code>
+          {' '}
+          and save to test HMR updates.
         </p>
         <p>
           <a

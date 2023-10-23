@@ -14,7 +14,9 @@ function App() {
             type="button"
             onClick={() => setCount(count => count + 1)}
           >
-            count is: {count}
+            count is:
+            {' '}
+            {count}
           </button>
 
           <button
@@ -27,12 +29,18 @@ function App() {
             type="button"
             onClick={() => setCount(count => count + 1)}
           >
-            count is: {count}
+            count is:
+            {' '}
+            {count}
           </button>
 
         </p>
         <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
+          Edit
+          {' '}
+          <code>App.tsx</code>
+          {' '}
+          and save to test HMR updates.
         </p>
         <p>
           <a
