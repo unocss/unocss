@@ -3,5 +3,5 @@ import 'uno.css'
 </script>
 
 <template>
-  <router-view />
+  <RouterView />
 </template>

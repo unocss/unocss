@@ -5,5 +5,5 @@
 .btn:hover {
   border-width: 1px;
   --un-bg-opacity: 1;
-  background-color: rgba(255, 255, 255, var(--un-bg-opacity));
+  background-color: rgb(255 255 255 / var(--un-bg-opacity));
 }

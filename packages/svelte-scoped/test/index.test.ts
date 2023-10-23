@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { preprocess } from 'svelte/compiler'
 import { format as prettier } from 'prettier'
+import fs from 'fs-extra'
 
 // @ts-expect-error missing types
 import prettierSvelte from 'prettier-plugin-svelte'
@@ -9,6 +10,8 @@ import presetIcons from '@unocss/preset-icons'
 import presetTypography from '@unocss/preset-typography'
 import UnocssSveltePreprocess from '../src/preprocess'
 import type { UnocssSveltePreprocessOptions } from '../src/preprocess'
+import { replaceGlobalStylesPlaceholder } from '../src/_vite/global'
+import { GLOBAL_STYLES_PLACEHOLDER } from '../src/_vite/constants'
 
 const defaultOptions: UnocssSveltePreprocessOptions = {
   configOrPath: {
@@ -48,4 +51,17 @@ describe('svelte-preprocessor', () => {
       expect(prod).toMatchFileSnapshot(path.replace('Input.svelte', 'OutputProd.svelte'))
     })
   }
+})
+
+describe('svelte-scoped helpers', () => {
+  it('escape template literal characters in placeholder replacement', async () => {
+    const css = await fs.readFile('packages/svelte-scoped/test/fixtures/escaped-unicode.css', 'utf8')
+
+    const escaped = replaceGlobalStylesPlaceholder(
+      `'${GLOBAL_STYLES_PLACEHOLDER}'`
+      , `<style type="text/css">${css}</style>`,
+    )
+
+    expect(escaped).toContain('"\\\\200B"')
+  })
 })

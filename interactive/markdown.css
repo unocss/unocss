@@ -58,7 +58,7 @@
   }
 
   mark {
-    background-color: rgba(187, 128, 9, 0.15);
+    background-color: rgb(187 128 9 / 0.15);
     color: #c9d1d9;
   }
 
@@ -218,7 +218,7 @@
     background-color: #161b22;
     --at-apply: border border-base;
     border-radius: 6px;
-    box-shadow: inset 0 -1px 0 rgba(110, 118, 129, 0.4);
+    box-shadow: inset 0 -1px 0 rgb(110 118 129 / 0.4);
   }
 
   h1,
@@ -629,7 +629,7 @@
   }
 
   table tr:nth-child(2n) {
-    background-color: rgba(156, 163, 175, 0.02);
+    background-color: rgb(156 163 175 / 0.02);
   }
 
   img {

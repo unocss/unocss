@@ -39,7 +39,9 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            By <h2>Vercel</h2>
+            By
+            {' '}
+            <h2>Vercel</h2>
           </a>
         </div>
       </div>

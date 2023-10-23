@@ -287,6 +287,7 @@ export const presetWindTargets: string[] = [
   'space-y-4',
   'space-x-reverse',
   'space-x-$space',
+  'space-x-[var(--space)]',
   'space-inline-2',
   'space-block-4',
   'space-block-none',
