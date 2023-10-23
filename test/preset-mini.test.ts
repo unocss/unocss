@@ -318,6 +318,7 @@ describe('preset-mini', () => {
         },
       },
     })
+
     expect((await uno.generate('z-header', { preflights: false })).css)
       .toMatchInlineSnapshot(`
         "/* layer: default */
