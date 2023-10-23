@@ -115,9 +115,10 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
       async configureServer(_server) {
         servers.push(_server)
 
-        _server.ws.on(WS_EVENT_PREFIX, async ([layer, hash]: string[]) => {
+        _server.ws.on(WS_EVENT_PREFIX, async ([layer]: string[]) => {
+          const preHash = lastServedHash.get(layer)
           await generateCSS(layer)
-          if (lastServedHash.get(layer) !== hash)
+          if (lastServedHash.get(layer) !== preHash)
             sendUpdate(entries)
         })
       },
@@ -180,7 +181,7 @@ try {
   if (!hash)
     console.warn('[unocss-hmr]', 'failed to get unocss hash, hmr might not work')
   else
-    await import.meta.hot.send('${WS_EVENT_PREFIX}', ['${layer}', hash]);
+    await import.meta.hot.send('${WS_EVENT_PREFIX}', ['${layer}']);
 } catch (e) {
   console.warn('[unocss-hmr]', e)
 }
