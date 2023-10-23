@@ -9,11 +9,11 @@
 .\[--css-spacing\:theme\(spacing\.sm\)\]{--css-spacing:0.875rem;}
 .\[--css-variable-color\:theme\(colors\.green\.500\)\,theme\(colors\.blue\.500\)\]{--css-variable-color:#22c55e,#3b82f6;}
 .\[--css-variable-color\:theme\(colors\.red\.500\)\]{--css-variable-color:#ef4444;}
-.\[--css-variable-color\:theme\(colors\.red\.500\/50\%\)\]{--css-variable-color:rgba(239,68,68,50%);}
+.\[--css-variable-color\:theme\(colors\.red\.500\/50\%\)\]{--css-variable-color:rgb(239 68 68 / 50%);}
 .\[--css-variable\:\"wght\"_400\,_\"opsz\"_14\]{--css-variable:"wght" 400, "opsz" 14;}
 .\[a\:b\]{a:b;}
 .\[background-image\:url\(star_transparent\.gif\)\,_url\(cat_front\.png\)\]{background-image:url(star_transparent.gif), url(cat_front.png);}
-.\[color\:theme\(colors\.blue\.300\/40\%\)\]{color:rgba(147,197,253,40%);}
+.\[color\:theme\(colors\.blue\.300\/40\%\)\]{color:rgb(147 197 253 / 40%);}
 .\[content\:attr\(attr_content\)\]{content:attr(attr content);}
 .\[content\:attr\(attr\\_content\)\]{content:attr(attr_content);}
 .\[font-family\:\'Inter\'\,_sans-serif\]{font-family:'Inter', sans-serif;}
@@ -222,6 +222,8 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .border-t-width-3{border-top-width:3px;}
 .b-block-size-\$variable{border-block-start-width:var(--variable);border-block-end-width:var(--variable);}
 .border-\[\#124\]{--un-border-opacity:1;border-color:rgb(17 34 68 / var(--un-border-opacity));}
+.border-\[calc\(10px\+1px\)\]{border-width:calc(10px + 1px);}
+.border-\[calc\(var\(--border-width\)\*1px\)\]{border-width:calc(var(--border-width) * 1px);}
 .border-\[var\(--color\)\],
 .border-\$color{border-color:var(--color);}
 .border-black{--un-border-opacity:1;border-color:rgb(0 0 0 / var(--un-border-opacity));}
@@ -1005,7 +1007,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 }
 @media (hover) and (pointer: fine){
 .media-mouse\:block{display:block;}
-.group:hover .group-hover\:media-mouse\:bg-red{--un-bg-opacity:1;background-color:rgba(248,113,113,var(--un-bg-opacity));}
+.group:hover .group-hover\:media-mouse\:bg-red{--un-bg-opacity:1;background-color:rgb(248 113 113 / var(--un-bg-opacity));}
 }
 @media (prefers-color-scheme: dark){
 .dark\:text-xl{font-size:1.25rem;line-height:1.75rem;}
