@@ -9,8 +9,8 @@ export function extractColors(css: string) {
       if (Number.isNaN(r))
         return ''
       if (!Number.isNaN(a))
-        return `rgba(${r}, ${g}, ${b}, ${a})`
-      return `rgb(${r}, ${g}, ${b})`
+        return `rgb(${r} ${g} ${b} / ${a})`
+      return `rgb(${r} ${g} ${b})`
     })
     .filter(Boolean)
 }

@@ -77,7 +77,6 @@ export const presetMini = definePreset((options: PresetMiniOptions = {}) => {
   options.attributifyPseudo = options.attributifyPseudo ?? false
   options.preflight = options.preflight ?? true
   options.variablePrefix = options.variablePrefix ?? 'un-'
-
   return {
     name: '@unocss/preset-mini',
     theme,

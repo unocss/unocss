@@ -8,8 +8,8 @@ export const ringBase = {
   '--un-ring-offset-width': '0px',
   '--un-ring-offset-color': '#fff',
   '--un-ring-width': '0px',
-  '--un-ring-color': 'rgba(147,197,253,0.5)',
-  '--un-shadow': '0 0 rgba(0,0,0,0)',
+  '--un-ring-color': 'rgb(147 197 253 / 0.5)',
+  '--un-shadow': '0 0 rgb(0 0 0 / 0)',
 }
 
 export const rings: Rule<Theme>[] = [

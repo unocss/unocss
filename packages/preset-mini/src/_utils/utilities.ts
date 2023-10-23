@@ -70,7 +70,7 @@ export function splitShorthand(body: string, type: string) {
  * 'red' // From theme, if 'red' is available
  * 'red-100' // From theme, plus scale
  * 'red-100/20' // From theme, plus scale/opacity
- * '[rgb(100,2,3)]/[var(--op)]' // Bracket with rgb color and bracket with opacity
+ * '[rgb(100 2 3)]/[var(--op)]' // Bracket with rgb color and bracket with opacity
  *
  * @param body - Color string to be parsed.
  * @param theme - {@link Theme} object.
@@ -155,15 +155,15 @@ export function parseColor(body: string, theme: Theme): ParsedColorValue | undef
  *
  * @example Resolving 'red-100' from theme:
  * colorResolver('background-color', 'background')('', 'red-100')
- * return { '--un-background-opacity': '1', 'background-color': 'rgba(254,226,226,var(--un-background-opacity))' }
+ * return { '--un-background-opacity': '1', 'background-color': 'rgb(254 226 226 / var(--un-background-opacity))' }
  *
  * @example Resolving 'red-100/20' from theme:
  * colorResolver('background-color', 'background')('', 'red-100/20')
- * return { 'background-color': 'rgba(204,251,241,0.22)' }
+ * return { 'background-color': 'rgb(204 251 241 / 0.22)' }
  *
  * @example Resolving 'hex-124':
  * colorResolver('color', 'text')('', 'hex-124')
- * return { '--un-text-opacity': '1', 'color': 'rgba(17,34,68,var(--un-text-opacity))' }
+ * return { '--un-text-opacity': '1', 'color': 'rgb(17 34 68 / var(--un-text-opacity))' }
  *
  * @param property - Property for the css value to be created.
  * @param varName - Base name for the opacity variable.
@@ -218,26 +218,23 @@ export function hasParseableColor(color: string | undefined, theme: Theme) {
   return color != null && !!parseColor(color, theme)?.color
 }
 
-export function resolveBreakpoints({ theme, generator }: Readonly<VariantContext<Theme>>) {
+export function resolveBreakpoints({ theme, generator }: Readonly<VariantContext<Theme>>, key: 'breakpoints' | 'verticalBreakpoints' = 'breakpoints') {
   let breakpoints: Record<string, string> | undefined
   if (generator.userConfig && generator.userConfig.theme)
-    breakpoints = (generator.userConfig.theme as any).breakpoints
+    breakpoints = (generator.userConfig.theme as any)[key]
 
   if (!breakpoints)
-    breakpoints = theme.breakpoints
+    breakpoints = theme[key]
 
   return breakpoints
+    ? Object.entries(breakpoints)
+      .sort((a, b) => Number.parseInt(a[1].replace(/[a-z]+/gi, '')) - Number.parseInt(b[1].replace(/[a-z]+/gi, '')))
+      .map(([point, size]) => ({ point, size }))
+    : undefined
 }
 
-export function resolveVerticalBreakpoints({ theme, generator }: Readonly<VariantContext<Theme>>) {
-  let verticalBreakpoints: Record<string, string> | undefined
-  if (generator.userConfig && generator.userConfig.theme)
-    verticalBreakpoints = (generator.userConfig.theme as any).verticalBreakpoints
-
-  if (!verticalBreakpoints)
-    verticalBreakpoints = theme.verticalBreakpoints
-
-  return verticalBreakpoints
+export function resolveVerticalBreakpoints(context: Readonly<VariantContext<Theme>>) {
+  return resolveBreakpoints(context, 'verticalBreakpoints')
 }
 
 export function makeGlobalStaticRules(prefix: string, property?: string): StaticRule[] {
