@@ -114,4 +114,4 @@ export const globalKeywords = [
   'unset',
 ]
 
-export const cssMathFnRE = new RegExp(`^(${['min', 'max', 'clamp', 'calc'].join('|')})\\(.*\\)`)
+export const cssMathFnRE = /^(?:calc|env|clamp|min|max)\(.*\)/
