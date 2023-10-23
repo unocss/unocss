@@ -63,7 +63,7 @@ will generate:
 
 ```css
 .dark .dark\:bg-red\:10 {
-  background-color: rgba(248, 113, 113, 0.1);
+  background-color: rgb(248 113 113 / 0.1);
 }
 ```
 
@@ -76,7 +76,7 @@ To opt-in media query based dark mode, you can use `@dark:` variant:
 ```css
 @media (prefers-color-scheme: dark) {
   .\@dark\:bg-red\:10 {
-    background-color: rgba(248, 113, 113, 0.1);
+    background-color: rgb(248 113 113 / 0.1);
   }
 }
 ```
@@ -125,45 +125,12 @@ presetMini({
     colors: {
       'veryCool': '#0000ff', // class="text-very-cool"
       'brand': {
-        'primary': 'hsla(var(--hue, 217), 78%, 51%)', //class="bg-brand-primary"
+        'primary': 'hsl(var(--hue 217) 78% / 51%)', //class="bg-brand-primary"
       }
     },
   }
 })
 ```
-
-To consume the theme in rules:
-
-```ts
-rules: [
-  [/^text-(.*)$/, ([, c], { theme }) => {
-    if (theme.colors[c])
-      return { color: theme.colors[c] }
-  }],
-]
-```
-
-::: warning
-One exception is that UnoCSS gives full control of `breakpoints` to users. When a custom `breakpoints` is provided, the default will be overridden instead of merging.
-:::
-
-With the following example, you will be able to only use the `sm:` and `md:` breakpoint variants:
-
-```ts
-presetMini({
-  theme: {
-    // ...
-    breakpoints: {
-      sm: '320px',
-      md: '640px',
-    },
-  },
-})
-```
-
-::: info
-`verticalBreakpoints` is same as `breakpoints` but for vertical layout.
-:::
 
 ## Options
 

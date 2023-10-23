@@ -4,16 +4,16 @@
 
 html {
   --un-bg-opacity: 1;
-  background-color: rgba(242, 242, 242, var(--un-bg-opacity));
+  background-color: rgb(242 242 242 / var(--un-bg-opacity));
   --un-text-opacity: 1;
-  color: rgba(64, 64, 64, var(--un-text-opacity));
+  color: rgb(64 64 64 / var(--un-text-opacity));
 }
 
 html.dark {
   --un-bg-opacity: 1;
-  background-color: rgba(24, 24, 24, var(--un-bg-opacity));
+  background-color: rgb(24 24 24 / var(--un-bg-opacity));
   --un-text-opacity: 1;
-  color: rgba(243, 244, 246, var(--un-text-opacity));
+  color: rgb(243 244 246 / var(--un-text-opacity));
 }
 
 #nprogress {
@@ -22,7 +22,7 @@ html.dark {
 
 #nprogress .bar {
   --un-bg-opacity: 1;
-  background-color: rgba(168, 85, 247, var(--un-bg-opacity));
+  background-color: rgb(168 85 247 / var(--un-bg-opacity));
   --un-bg-opacity: 0.75;
 
   position: fixed;
@@ -80,7 +80,7 @@ html.dark {
   appearance: none;
   border-radius: 0.25rem;
   --un-bg-opacity: 1;
-  background-color: rgba(55, 65, 81, var(--un-bg-opacity));
+  background-color: rgb(55 65 81 / var(--un-bg-opacity));
   padding-left: 2rem;
   padding-right: 2rem;
   padding-top: 0.5rem;
@@ -98,13 +98,13 @@ html.dark {
   box-shadow: var(--un-ring-offset-shadow), var(--un-ring-shadow),
     var(--un-shadow);
   --un-ring-opacity: 1;
-  --un-ring-color: rgba(31, 41, 55, var(--un-ring-opacity));
+  --un-ring-color: rgb(31 41 55 / var(--un-ring-opacity));
   --un-ring-opacity: 0.75;
 }
 @media (prefers-color-scheme: dark) {
   .select-dark {
     --un-bg-opacity: 1;
-    background-color: rgba(31, 41, 55, var(--un-bg-opacity));
+    background-color: rgb(31 41 55 / var(--un-bg-opacity));
   }
 }
 .select-dark:focus {
@@ -138,10 +138,10 @@ html.dark {
   width: 100%;
   height: var(--header-height);
   --un-bg-opacity: 1;
-  background-color: rgba(0, 0, 0, var(--un-bg-opacity));
+  background-color: rgb(0 0 0 / var(--un-bg-opacity));
   --un-bg-opacity: 0.8;
   --un-text-opacity: 1;
-  color: rgba(255, 255, 255, var(--un-text-opacity));
+  color: rgb(255 255 255 / var(--un-text-opacity));
   --un-backdrop-blur: blur(16px);
   -webkit-backdrop-filter: var(--un-backdrop-blur) var(--un-backdrop-brightness)
     var(--un-backdrop-contrast) var(--un-backdrop-grayscale)
@@ -167,7 +167,7 @@ html.dark {
 @media (prefers-color-scheme: dark) {
   .d-header {
     --un-bg-opacity: 1;
-    background-color: rgba(45, 45, 45, var(--un-bg-opacity));
+    background-color: rgb(45 45 45 / var(--un-bg-opacity));
   }
 }
 
@@ -190,7 +190,7 @@ html.dark {
 input {
   border-radius: 0.25rem;
   --un-bg-opacity: 1;
-  background-color: rgba(50, 50, 50, var(--un-bg-opacity));
+  background-color: rgb(50 50 50 / var(--un-bg-opacity));
   padding-left: 0.75rem;
   padding-right: 0.75rem;
   padding-top: 0.5rem;
@@ -212,7 +212,7 @@ input:focus {
 .btn {
   border-radius: 0.25rem;
   --un-bg-opacity: 1;
-  background-color: rgba(60, 60, 60, var(--un-bg-opacity));
+  background-color: rgb(60 60 60 / var(--un-bg-opacity));
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   padding-left: 1rem;
@@ -221,7 +221,7 @@ input:focus {
   font-weight: 500;
   text-transform: uppercase;
   --un-text-opacity: 1;
-  color: rgba(255, 255, 255, var(--un-text-opacity));
+  color: rgb(255 255 255 / var(--un-text-opacity));
 }
 .btn:disabled {
   cursor: not-allowed;

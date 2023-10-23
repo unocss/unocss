@@ -10,7 +10,7 @@ export function splitCodeWithArbitraryVariants(code: string): string[] {
   const result: string[] = []
 
   for (const match of code.matchAll(arbitraryPropertyRE)) {
-    if (!code[match.index! - 1]?.match(/^[\s'"`]/))
+    if (match.index !== 0 && !code[match.index! - 1]?.match(/^[\s'"`]/))
       continue
 
     result.push(match[0])

@@ -49,9 +49,15 @@ import { presetWind } from 'unocss'
 :::
 
 ## Rules
-This preset is compatible with [Tailwind CSS](https://tailwindcss.com/) and [Windi CSS](https://windicss.org/), you can refer to their [documentation](https://tailwindcss.com/docs) for detailed usage.
+The primary goal of this preset is to provide compatibility with [Tailwind CSS](https://tailwindcss.com/) and [Windi CSS](https://windicss.org/). It should be noted that complete compatibility may not be guaranteed. Please refer to their [documentation](https://tailwindcss.com/docs) for detailed usage.
 
 For all rules and presets included in this preset, please refer to our [interactive docs](/interactive/) or directly go to the [source code](https://github.com/unocss/unocss/tree/main/packages/preset-wind).
+
+## Differences from Tailwind CSS
+
+### Quotes
+
+Using quotes in the template (the files intended to be processed) is not supported due to how the extractor works.
 
 ## Differences from Windi CSS
 
@@ -91,7 +97,7 @@ The variant `@hover-text-red` will output:
 @media (hover: hover) and (pointer: fine) {
   .\@hover-text-red:hover {
     --un-text-opacity: 1;
-    color: rgba(248, 113, 113, var(--un-text-opacity));
+    color: rgb(248 113 113 / var(--un-text-opacity));
   }
 }
 ```

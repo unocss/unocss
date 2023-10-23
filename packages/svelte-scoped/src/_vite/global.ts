@@ -18,7 +18,10 @@ export function replaceGlobalStylesPlaceholder(code: string, stylesTag: string) 
   const matchCapturedQuoteMark = '\\1'
   const QUOTES_WITH_PLACEHOLDER_RE = new RegExp(captureQuoteMark + GLOBAL_STYLES_PLACEHOLDER + matchCapturedQuoteMark)
 
-  const escapedStylesTag = stylesTag.replaceAll(/`/g, '\\`')
+  const escapedStylesTag = stylesTag
+    .replaceAll(/\\(?![`$])/g, '\\\\')
+    .replaceAll(/(?<!\\)([`$])/g, '\\$1')
+
   return code.replace(QUOTES_WITH_PLACEHOLDER_RE, `\`${escapedStylesTag}\``)
   // preset-web-fonts doesn't heed the minify option and sends through newlines (\n) that break if we use regular quotes here. Always using a backtick here is easier than removing newlines, which are actually kind of useful in dev mode. I might consider turning minify off altogether in dev mode.
 }
