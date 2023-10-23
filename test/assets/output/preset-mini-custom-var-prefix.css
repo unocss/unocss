@@ -1,4 +1,4 @@
 /* layer: default */
-.text-red{--hi-text-opacity:1;color:rgba(248,113,113,var(--hi-text-opacity));}
+.text-red{--hi-text-opacity:1;color:rgb(248 113 113 / var(--hi-text-opacity));}
 .text-opacity-50{--hi-text-opacity:0.5;}
 .scale-100{--hi-scale-x:1;--hi-scale-y:1;transform:translateX(var(--hi-translate-x)) translateY(var(--hi-translate-y)) translateZ(var(--hi-translate-z)) rotate(var(--hi-rotate)) rotateX(var(--hi-rotate-x)) rotateY(var(--hi-rotate-y)) rotateZ(var(--hi-rotate-z)) skewX(var(--hi-skew-x)) skewY(var(--hi-skew-y)) scaleX(var(--hi-scale-x)) scaleY(var(--hi-scale-y)) scaleZ(var(--hi-scale-z));}

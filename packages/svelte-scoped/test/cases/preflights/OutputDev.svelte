@@ -27,15 +27,15 @@
     --un-numeric-fraction: ;
     --un-border-spacing-x: 0;
     --un-border-spacing-y: 0;
-    --un-ring-offset-shadow: 0 0 rgba(0, 0, 0, 0);
-    --un-ring-shadow: 0 0 rgba(0, 0, 0, 0);
+    --un-ring-offset-shadow: 0 0 rgb(0 0 0 / 0);
+    --un-ring-shadow: 0 0 rgb(0 0 0 / 0);
     --un-shadow-inset: ;
-    --un-shadow: 0 0 rgba(0, 0, 0, 0);
+    --un-shadow: 0 0 rgb(0 0 0 / 0);
     --un-ring-inset: ;
     --un-ring-offset-width: 0px;
     --un-ring-offset-color: #fff;
     --un-ring-width: 0px;
-    --un-ring-color: rgba(147, 197, 253, 0.5);
+    --un-ring-color: rgb(147 197 253 / 0.5);
     --un-blur: ;
     --un-brightness: ;
     --un-contrast: ;
@@ -79,15 +79,15 @@
     --un-numeric-fraction: ;
     --un-border-spacing-x: 0;
     --un-border-spacing-y: 0;
-    --un-ring-offset-shadow: 0 0 rgba(0, 0, 0, 0);
-    --un-ring-shadow: 0 0 rgba(0, 0, 0, 0);
+    --un-ring-offset-shadow: 0 0 rgb(0 0 0 / 0);
+    --un-ring-shadow: 0 0 rgb(0 0 0 / 0);
     --un-shadow-inset: ;
-    --un-shadow: 0 0 rgba(0, 0, 0, 0);
+    --un-shadow: 0 0 rgb(0 0 0 / 0);
     --un-ring-inset: ;
     --un-ring-offset-width: 0px;
     --un-ring-offset-color: #fff;
     --un-ring-width: 0px;
-    --un-ring-color: rgba(147, 197, 253, 0.5);
+    --un-ring-color: rgb(147 197 253 / 0.5);
     --un-blur: ;
     --un-brightness: ;
     --un-contrast: ;
@@ -112,27 +112,28 @@
   }
   :global(._shadow_32yp54) {
     --un-shadow: var(--un-shadow-inset) 0 1px 3px 0
-        var(--un-shadow-color, rgba(0, 0, 0, 0.1)),
-      var(--un-shadow-inset) 0 1px 2px -1px var(--un-shadow-color, rgba(0, 0, 0, 0.1));
+        var(--un-shadow-color, rgb(0 0 0 / 0.1)),
+      var(--un-shadow-inset) 0 1px 2px -1px var(--un-shadow-color, rgb(0 0 0 /
+              0.1));
     box-shadow: var(--un-ring-offset-shadow), var(--un-ring-shadow),
       var(--un-shadow);
   }
   div {
     border-radius: 0.25rem;
     --un-bg-opacity: 1;
-    background-color: rgba(254, 226, 226, var(--un-bg-opacity));
+    background-color: rgb(254 226 226 / var(--un-bg-opacity));
     padding: 0.75rem;
   }
   div:hover {
     --un-bg-opacity: 1;
-    background-color: rgba(254, 202, 202, var(--un-bg-opacity));
+    background-color: rgb(254 202 202 / var(--un-bg-opacity));
   }
   :global(.dark) div {
     --un-bg-opacity: 1;
-    background-color: rgba(185, 28, 28, var(--un-bg-opacity));
+    background-color: rgb(185 28 28 / var(--un-bg-opacity));
   }
   :global(.dark) div:hover {
     --un-bg-opacity: 1;
-    background-color: rgba(220, 38, 38, var(--un-bg-opacity));
+    background-color: rgb(220 38 38 / var(--un-bg-opacity));
   }
 </style>
