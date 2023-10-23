@@ -997,6 +997,10 @@ unocss .scope-\[unocss\]\:block{display:block;}
 @media (--cssvar){
 .media-\[\(--cssvar\)\]\:block{display:block;}
 }
+@media (hover) and (pointer: fine){
+.media-mouse\:block{display:block;}
+.group:hover .group-hover\:media-mouse\:bg-red{--un-bg-opacity:1;background-color:rgba(248,113,113,var(--un-bg-opacity));}
+}
 @media (prefers-color-scheme: dark){
 .dark\:text-xl{font-size:1.25rem;line-height:1.75rem;}
 .dark\:not-odd\:text-red:not(:nth-child(odd)){--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}

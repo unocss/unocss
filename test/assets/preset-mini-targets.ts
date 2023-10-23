@@ -1007,7 +1007,9 @@ export const presetMiniTargets: string[] = [
   'supports-[(display:_grid)]:block',
 
   // variants media
+  'media-mouse:block',
   'media-[(--cssvar)]:block',
+  'group-hover:media-mouse:bg-red',
 
   // variants prints
   'print:block',
