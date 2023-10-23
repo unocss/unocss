@@ -325,4 +325,32 @@ describe('preset-mini', () => {
         .z-header{z-index:500;}"
       `)
   })
+
+  it('theme font-size with letter-space', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+      theme: {
+        fontSize: {
+          normal: '24px',
+          ls: ['8rem', '1', '2.25rem'],
+          obj: ['8rem', {
+            'line-height': '2.25rem',
+            'letter-spacing': '-0.02em',
+            'font-weight': '700',
+          }],
+        },
+      },
+    })
+
+    expect((await uno.generate('text-sm text-normal text-ls text-obj', { preflights: false })).css)
+      .toMatchInlineSnapshot(`
+        "/* layer: default */
+        .text-ls{font-size:8rem;line-height:1;letter-spacing:2.25rem;}
+        .text-normal{font-size:24px;line-height:1;}
+        .text-obj{font-size:8rem;line-height:2.25rem;letter-spacing:-0.02em;font-weight:700;}
+        .text-sm{font-size:0.875rem;line-height:1.25rem;}"
+      `)
+  })
 })

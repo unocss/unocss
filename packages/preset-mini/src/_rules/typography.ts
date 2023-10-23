@@ -1,10 +1,10 @@
-import type { Rule } from '@unocss/core'
+import type { CSSObject, Rule } from '@unocss/core'
 import { toArray } from '@unocss/core'
 import type { Theme } from '../theme'
 import { colorResolver, colorableShadows, h, splitShorthand } from '../utils'
 
-function handleLineHeight(s: string, theme: Theme) {
-  return theme.lineHeight?.[s] || h.bracket.cssvar.global.rem(s)
+function handleThemeByKey(s: string, theme: Theme, key: 'lineHeight' | 'letterSpacing') {
+  return theme[key]?.[s] || h.bracket.cssvar.global.rem(s)
 }
 
 export const fonts: Rule<Theme>[] = [
@@ -13,14 +13,21 @@ export const fonts: Rule<Theme>[] = [
     /^text-(.+)$/,
     ([, s = 'base'], { theme }) => {
       const [size, leading] = splitShorthand(s, 'length')
-      const sizePairs = toArray(theme.fontSize?.[size])
-      const lineHeight = leading ? handleLineHeight(leading, theme) : undefined
+      const sizePairs = toArray(theme.fontSize?.[size]) as [string, string | CSSObject, string?]
+      const lineHeight = leading ? handleThemeByKey(leading, theme, 'lineHeight') : undefined
 
       if (sizePairs?.[0]) {
-        const [fontSize, height] = sizePairs
+        const [fontSize, height, letterSpacing] = sizePairs
+        if (typeof height === 'object') {
+          return {
+            'font-size': fontSize,
+            ...height,
+          }
+        }
         return {
           'font-size': fontSize,
           'line-height': lineHeight ?? height ?? '1',
+          'letter-spacing': letterSpacing ? handleThemeByKey(letterSpacing, theme, 'letterSpacing') : undefined,
         }
       }
 
@@ -37,7 +44,7 @@ export const fonts: Rule<Theme>[] = [
     { autocomplete: 'text-$fontSize' },
   ],
   [/^(?:text|font)-size-(.+)$/, ([, s], { theme }) => {
-    const themed = toArray(theme.fontSize?.[s])
+    const themed = toArray(theme.fontSize?.[s]) as [string, string | CSSObject]
     const size = themed?.[0] ?? h.bracket.cssvar.global.rem(s)
     if (size != null)
       return { 'font-size': size }
@@ -58,7 +65,7 @@ export const fonts: Rule<Theme>[] = [
   // leadings
   [
     /^(?:font-)?(?:leading|lh|line-height)-(.+)$/,
-    ([, s], { theme }) => ({ 'line-height': handleLineHeight(s, theme) }),
+    ([, s], { theme }) => ({ 'line-height': handleThemeByKey(s, theme, 'lineHeight') }),
     { autocomplete: '(leading|lh|line-height)-$lineHeight' },
   ],
 

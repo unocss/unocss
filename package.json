@@ -109,6 +109,7 @@
     "semver": "^7.5.4",
     "simple-git-hooks": "^2.9.0",
     "splitpanes": "^3.1.5",
+    "std-env": "^3.4.3",
     "taze": "^0.11.4",
     "terser": "^5.22.0",
     "tsup": "^7.2.0",
