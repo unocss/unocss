@@ -7,9 +7,10 @@ import type { Result, Root } from 'postcss'
 import postcss from 'postcss'
 import { createGenerator } from '@unocss/core'
 import { loadConfig } from '@unocss/config'
+import { hasThemeFn } from '@unocss/rule-utils'
 import { defaultFilesystemGlobs } from '../../shared-integration/src/defaults'
 import { parseApply } from './apply'
-import { parseTheme, themeFnRE } from './theme'
+import { parseTheme } from './theme'
 import { parseScreen } from './screen'
 import type { UnoPostcssPluginOptions } from './types'
 
@@ -66,9 +67,8 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
             })
 
             if (!isTarget) {
-              const themeFn = themeFnRE(directiveMap.theme)
               root.walkDecls((decl) => {
-                if (themeFn.test(decl.value)) {
+                if (hasThemeFn(decl.value)) {
                   isTarget = true
                   return false
                 }
@@ -114,7 +114,7 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
         }) as unknown as { path: string; mtimeMs: number }[]
 
         await parseApply(root, uno, directiveMap.apply)
-        await parseTheme(root, uno, directiveMap.theme)
+        await parseTheme(root, uno)
         await parseScreen(root, uno, directiveMap.screen)
 
         promises.push(

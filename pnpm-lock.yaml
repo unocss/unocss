@@ -852,6 +852,9 @@ importers:
       '@unocss/core':
         specifier: workspace:^
         version: link:../core
+      magic-string:
+        specifier: latest
+        version: 0.30.4
 
   packages/runtime:
     dependencies:
