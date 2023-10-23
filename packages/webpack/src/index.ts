@@ -118,7 +118,7 @@ export default function WebpackPlugin<Theme extends object>(
                   : (result.getLayer(layer) || '')
 
                 if (!quote)
-                  return css.replaceAll(/\\/g, '\\\\\\\\')
+                  return css
 
                 // the css is in a js file, escaping
                 let escaped = JSON.stringify(css).slice(1, -1)
