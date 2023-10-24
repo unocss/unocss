@@ -855,9 +855,6 @@ importers:
       '@unocss/core':
         specifier: workspace:^
         version: link:../core
-      '@unocss/preset-mini':
-        specifier: workspace:^
-        version: link:../preset-mini
       magic-string:
         specifier: latest
         version: 0.30.5
