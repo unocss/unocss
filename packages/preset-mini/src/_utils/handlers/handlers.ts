@@ -106,11 +106,8 @@ export function px(str: string) {
     return
   const [, n, unit] = match
   const num = Number.parseFloat(n)
-  if (!Number.isNaN(num)) {
-    if (num === 0)
-      return '0'
+  if (!Number.isNaN(num))
     return unit ? `${round(num)}${unit}` : `${round(num)}px`
-  }
 }
 
 export function number(str: string) {
