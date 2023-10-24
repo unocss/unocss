@@ -1,5 +1,5 @@
 import type { CSSColorValue, Rule, RuleContext } from '@unocss/core'
-import { globalKeywords, h, makeGlobalStaticRules, parseColor, positionMap } from '@unocss/preset-mini/utils'
+import { cssMathFnRE, globalKeywords, h, makeGlobalStaticRules, parseColor, positionMap } from '@unocss/preset-mini/utils'
 import type { Theme } from '@unocss/preset-mini'
 import { colorOpacityToString, colorToString } from '@unocss/rule-utils'
 
@@ -76,7 +76,7 @@ export const backgroundStyles: Rule[] = [
       return { '--un-url': h.bracket(d), 'background-image': 'var(--un-url)' }
     if (bgLengthRE.test(d) && h.bracketOfLength(d) != null)
       return { 'background-size': h.bracketOfLength(d)!.split(' ').map(e => h.fraction.auto.px.cssvar(e) ?? e).join(' ') }
-    if (bgPositionRE.test(d) && h.bracketOfPosition(d) != null)
+    if ((isSize(d) || bgPositionRE.test(d)) && h.bracketOfPosition(d) != null)
       return { 'background-position': h.bracketOfPosition(d)!.split(' ').map(e => h.position.fraction.auto.px.cssvar(e) ?? e).join(' ') }
   }],
 
@@ -158,3 +158,9 @@ export const backgroundStyles: Rule[] = [
   ['bg-origin-content', { 'background-origin': 'content-box' }],
   ...makeGlobalStaticRules('bg-origin', 'background-origin'),
 ]
+
+export function isSize(str: string) {
+  if (str[0] === '[' && str.slice(-1) === ']')
+    str = str.slice(1, -1)
+  return cssMathFnRE.test(str) || /^[0-9]+(?:px|rem|em|vw|vh|%)$/.test(str)
+}
