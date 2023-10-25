@@ -2,10 +2,10 @@ import { createGenerator } from '@unocss/core'
 import presetMini from '@unocss/preset-mini'
 import presetUno from '@unocss/preset-uno'
 import presetWind from '@unocss/preset-wind'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 describe('preflights', () => {
-  test('basic', async () => {
+  it('basic', async () => {
     const uno = createGenerator({
       preflights: [
         {
@@ -28,7 +28,7 @@ describe('preflights', () => {
     expect(css).toMatchSnapshot()
   })
 
-  test('no preflights with preset', async () => {
+  it('no preflights with preset', async () => {
     const cssArray = [presetMini, presetUno, presetWind].map(async (preset) => {
       const uno = createGenerator({
         presets: [preset({ preflight: false })],
@@ -45,7 +45,7 @@ describe('preflights', () => {
     `)
   })
 
-  test('preflight root can be customized with string', async () => {
+  it('preflight root can be customized with string', async () => {
     const uno = createGenerator({
       presets: [
         presetMini(),
@@ -58,7 +58,7 @@ describe('preflights', () => {
     expect(css).toMatchSnapshot()
   })
 
-  test('preflight root can be customized with array', async () => {
+  it('preflight root can be customized with array', async () => {
     const uno = createGenerator({
       presets: [
         presetMini(),
@@ -71,7 +71,7 @@ describe('preflights', () => {
     expect(css).toMatchSnapshot()
   })
 
-  test('preflight root can be disabled using empty array', async () => {
+  it('preflight root can be disabled using empty array', async () => {
     const uno = createGenerator({
       presets: [
         presetMini(),
@@ -84,7 +84,7 @@ describe('preflights', () => {
     expect(css).eql('')
   })
 
-  test('preflight with variablePrefix', async () => {
+  it('preflight with variablePrefix', async () => {
     const uno = createGenerator({
       presets: [
         presetMini({
@@ -96,7 +96,7 @@ describe('preflights', () => {
     expect(css).toMatchSnapshot()
   })
 
-  test('preflight with empty variablePrefix', async () => {
+  it('preflight with empty variablePrefix', async () => {
     const uno = createGenerator({
       presets: [
         presetMini({

@@ -1,6 +1,6 @@
 {
   "name": "@unocss/preset-uno",
-  "version": "0.55.7",
+  "version": "0.57.1",
   "description": "The default preset for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -46,8 +46,8 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
-    "dist",
-    "*.css"
+    "*.css",
+    "dist"
   ],
   "scripts": {
     "build": "unbuild",
@@ -56,6 +56,7 @@
   "dependencies": {
     "@unocss/core": "workspace:*",
     "@unocss/preset-mini": "workspace:*",
-    "@unocss/preset-wind": "workspace:*"
+    "@unocss/preset-wind": "workspace:*",
+    "@unocss/rule-utils": "workspace:*"
   }
 }

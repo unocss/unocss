@@ -51,13 +51,12 @@ async function report() {
     return [target, result.filter(i => i.name === target).sort((a, b) => a.time - b.time)[0].time]
   })
 
-  const percentile = percent =>
-    targets.map((target) => {
-      const items = result.filter(i => i.name === target)
-      const sorted = items.sort((a, b) => a.time - b.time)
-      const index = Math.floor(sorted.length * percent)
-      return [target, sorted[index].time]
-    })
+  const percentile = percent => targets.map((target) => {
+    const items = result.filter(i => i.name === target)
+    const sorted = items.sort((a, b) => a.time - b.time)
+    const index = Math.floor(sorted.length * percent)
+    return [target, sorted[index].time]
+  })
   const fifty = percentile(0.5)
   const seventyFive = percentile(0.75)
   const ninetyFive = percentile(0.95)

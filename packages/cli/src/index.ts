@@ -10,6 +10,7 @@ import type { SourceCodeTransformerEnforce, UserConfig } from '@unocss/core'
 import { createContext } from '../../shared-integration/src/context'
 import { applyTransformers } from '../../shared-integration/src/transformers'
 import { version } from '../package.json'
+import { SKIP_COMMENT_RE } from '../../shared-integration/src/constants'
 import { defaultConfig } from './config'
 import { PrettyError, handleError } from './errors'
 import { getWatcher } from './watcher'
@@ -47,10 +48,17 @@ export async function build(_options: CliOptions) {
     }),
   )
 
-  if (!options.stdout) {
-    consola.log(green(`${name} v${version}`))
-    consola.start(`UnoCSS ${options.watch ? 'in watch mode...' : 'for production...'}`)
+  if (options.stdout && options.outFile) {
+    consola.fatal(`Cannot use --stdout and --out-file at the same time`)
+    return
   }
+
+  consola.log(green(`${name} v${version}`))
+
+  if (options.watch)
+    consola.start('UnoCSS in watch mode...')
+  else
+    consola.start('UnoCSS for production...')
 
   const debouncedBuild = debounce(
     async () => {
@@ -60,7 +68,7 @@ export async function build(_options: CliOptions) {
   )
 
   const startWatcher = async () => {
-    if (options.stdout || !options.watch)
+    if (!options.watch)
       return
     const { patterns } = options
 
@@ -107,7 +115,8 @@ export async function build(_options: CliOptions) {
           .then((transformsRes) => {
             resolve({ id, code, transformedCode: transformsRes?.code || transformedCode })
           })
-      })))
+      })),
+    )
   }
 
   async function generate(options: ResolvedCliOptions) {
@@ -130,7 +139,7 @@ export async function build(_options: CliOptions) {
     }
 
     const { css, matched } = await ctx.uno.generate(
-      [...postTransform.map(({ code, transformedCode }) => transformedCode ?? code)].join('\n'),
+      [...postTransform.map(({ code, transformedCode }) => (transformedCode ?? code).replace(SKIP_COMMENT_RE, ''))].join('\n'),
       {
         preflights: options.preflights,
         minify: options.minify,

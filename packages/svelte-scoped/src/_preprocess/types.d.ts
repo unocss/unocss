@@ -1,4 +1,5 @@
 import type { UnoGenerator, UserConfig } from '@unocss/core'
+import type { LoadConfigResult } from '@unocss/config'
 
 export interface UnocssSveltePreprocessOptions extends TransformClassesOptions, TransformApplyOptions {
   /**
@@ -21,7 +22,7 @@ export interface TransformClassesOptions {
   combine?: boolean
   /**
    * Used to generate hash for compiled class names
-  */
+   */
   hashFn?: (str: string) => string
 }
 
@@ -37,6 +38,6 @@ export interface TransformApplyOptions {
 }
 
 export interface SvelteScopedContext {
-  uno: UnoGenerator<{}>
-  ready: Promise<UserConfig<{}>>
+  uno: UnoGenerator
+  ready: Promise<LoadConfigResult<UserConfig>>
 }

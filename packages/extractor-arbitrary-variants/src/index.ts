@@ -1,5 +1,6 @@
 import type { Extractor } from '@unocss/core'
 import { defaultSplitRE, isValidSelector } from '@unocss/core'
+import { removeSourceMap } from './source-map'
 
 export const quotedArbitraryValuesRE = /(?:[\w&:[\]-]|\[\S+=\S+\])+\[\\?['"]?\S+?['"]\]\]?[\w:-]*/g
 export const arbitraryPropertyRE = /\[(\\\W|[\w-])+:[^\s:]*?("\S+?"|'\S+?'|`\S+?`|[^\s:]+?)[^\s:]*?\)?\]/g
@@ -9,7 +10,7 @@ export function splitCodeWithArbitraryVariants(code: string): string[] {
   const result: string[] = []
 
   for (const match of code.matchAll(arbitraryPropertyRE)) {
-    if (!code[match.index! - 1]?.match(/^[\s'"`]/))
+    if (match.index !== 0 && !code[match.index! - 1]?.match(/^[\s'"`]/))
       continue
 
     result.push(match[0])
@@ -32,7 +33,7 @@ export const extractorArbitraryVariants: Extractor = {
   name: '@unocss/extractor-arbitrary-variants',
   order: 0,
   extract({ code }) {
-    return splitCodeWithArbitraryVariants(code)
+    return splitCodeWithArbitraryVariants(removeSourceMap(code))
   },
 }
 

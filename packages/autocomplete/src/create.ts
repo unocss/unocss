@@ -40,15 +40,16 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
       ...a2zd.map(j => `${i}${j}`),
     ])
 
-    await Promise.all(keys.map(key =>
-      suggest(key)
-        .then(i => i.forEach(j => matched.add(j))),
-    ))
-
-    await Promise.all([...matched]
-      .filter(i => i.match(/^\w+$/) && i.length > 3)
-      .map(i => suggest(`${i}-`)
+    await Promise.all(
+      keys.map(key => suggest(key)
         .then(i => i.forEach(j => matched.add(j)))),
+    )
+
+    await Promise.all(
+      [...matched]
+        .filter(i => i.match(/^\w+$/) && i.length > 3)
+        .map(i => suggest(`${i}-`)
+          .then(i => i.forEach(j => matched.add(j)))),
     )
 
     return matched
@@ -155,22 +156,18 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
   }
 
   function suggestFromPreset(input: string) {
-    return templates.map(fn =>
-      typeof fn === 'function'
-        ? fn(input)
-        : getParsed(fn)(input, matchType),
-    ) || []
+    return templates.map(fn => typeof fn === 'function'
+      ? fn(input)
+      : getParsed(fn)(input, matchType)) || []
   }
 
   function suggestVariant(input: string, used: Set<Variant>) {
     return uno.config.variants
       .filter(v => v.autocomplete && (v.multiPass || !used.has(v)))
       .flatMap(v => toArray(v.autocomplete || []))
-      .map(fn =>
-        typeof fn === 'function'
-          ? fn(input)
-          : getParsed(fn)(input, matchType),
-      )
+      .map(fn => typeof fn === 'function'
+        ? fn(input)
+        : getParsed(fn)(input, matchType))
   }
 
   function reset() {

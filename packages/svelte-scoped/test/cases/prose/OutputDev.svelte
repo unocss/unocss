@@ -27,15 +27,15 @@
     --un-numeric-fraction: ;
     --un-border-spacing-x: 0;
     --un-border-spacing-y: 0;
-    --un-ring-offset-shadow: 0 0 rgba(0, 0, 0, 0);
-    --un-ring-shadow: 0 0 rgba(0, 0, 0, 0);
+    --un-ring-offset-shadow: 0 0 rgb(0 0 0 / 0);
+    --un-ring-shadow: 0 0 rgb(0 0 0 / 0);
     --un-shadow-inset: ;
-    --un-shadow: 0 0 rgba(0, 0, 0, 0);
+    --un-shadow: 0 0 rgb(0 0 0 / 0);
     --un-ring-inset: ;
     --un-ring-offset-width: 0px;
     --un-ring-offset-color: #fff;
     --un-ring-width: 0px;
-    --un-ring-color: rgba(147, 197, 253, 0.5);
+    --un-ring-color: rgb(147 197 253 / 0.5);
     --un-blur: ;
     --un-brightness: ;
     --un-contrast: ;
@@ -79,15 +79,15 @@
     --un-numeric-fraction: ;
     --un-border-spacing-x: 0;
     --un-border-spacing-y: 0;
-    --un-ring-offset-shadow: 0 0 rgba(0, 0, 0, 0);
-    --un-ring-shadow: 0 0 rgba(0, 0, 0, 0);
+    --un-ring-offset-shadow: 0 0 rgb(0 0 0 / 0);
+    --un-ring-shadow: 0 0 rgb(0 0 0 / 0);
     --un-shadow-inset: ;
-    --un-shadow: 0 0 rgba(0, 0, 0, 0);
+    --un-shadow: 0 0 rgb(0 0 0 / 0);
     --un-ring-inset: ;
     --un-ring-offset-width: 0px;
     --un-ring-offset-color: #fff;
     --un-ring-width: 0px;
-    --un-ring-color: rgba(147, 197, 253, 0.5);
+    --un-ring-color: rgb(147 197 253 / 0.5);
     --un-blur: ;
     --un-brightness: ;
     --un-contrast: ;
@@ -184,7 +184,8 @@
     color: var(--un-prose-code);
     font-size: 0.875em;
     font-weight: 600;
-    font-family: var(--un-prose-font-mono);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      "Liberation Mono", "Courier New", monospace;
   }
   :global(
       .uno-prose

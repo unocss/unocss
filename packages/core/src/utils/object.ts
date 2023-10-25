@@ -9,7 +9,7 @@ export function normalizeCSSEntries(obj: string | CSSEntries | CSSObject): strin
 
 export function normalizeCSSValues(obj: CSSValue | string | (CSSValue | string)[]): (string | CSSEntries)[] {
   if (Array.isArray(obj)) {
-    // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
+    // eslint-disable-next-line ts/prefer-ts-expect-error
     // @ts-ignore type cast
     if (obj.find(i => !Array.isArray(i) || Array.isArray(i[0])))
       return (obj as (string | CSSValue)[]).map(i => normalizeCSSEntries(i))

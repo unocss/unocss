@@ -47,7 +47,7 @@ describe('transform', () => {
       <style>
         :global(.uno-orrz3z) {
           --un-bg-opacity: 1;
-          background-color: rgba(239, 68, 68, var(--un-bg-opacity));
+          background-color: rgb(239 68 68 / var(--un-bg-opacity));
         }
       </style>
       "
@@ -58,7 +58,7 @@ describe('transform', () => {
       <style>
         :global(._bg-red-500_7dkb0w) {
           --un-bg-opacity: 1;
-          background-color: rgba(239, 68, 68, var(--un-bg-opacity));
+          background-color: rgb(239 68 68 / var(--un-bg-opacity));
         }
       </style>
       "
@@ -260,8 +260,8 @@ describe('transform', () => {
         :global(.uno-3h14cd) {
           font-weight: 600;
           --un-text-opacity: 1;
-          color: rgba(34, 197, 94, var(--un-text-opacity));
-          color: rgba(96, 165, 250, var(--un-text-opacity));
+          color: rgb(34 197 94 / var(--un-text-opacity));
+          color: rgb(96 165 250 / var(--un-text-opacity));
         }
         :global(.uno-r4l94t) {
           font-weight: 700;
@@ -272,7 +272,7 @@ describe('transform', () => {
         }
         :global(.uno-ffvc5a) {
           --un-text-opacity: 1;
-          color: rgba(220, 38, 38, var(--un-text-opacity));
+          color: rgb(220 38 38 / var(--un-text-opacity));
         }
       </style>
       "
@@ -348,7 +348,7 @@ describe('transform', () => {
       <style>
         :global(.uno-orrz3z) {
           --un-bg-opacity: 1;
-          background-color: rgba(239, 68, 68, var(--un-bg-opacity));
+          background-color: rgb(239 68 68 / var(--un-bg-opacity));
         }
       </style>
       "
@@ -388,7 +388,7 @@ describe('transform', () => {
   })
 
   // BUG: When this plugin is run on a component library first, and then in a project second, make sure to use different hashing prefixes because when `uno.parseToken()` checks a previously hashed class like `.uno-ssrvwc` it will add it to uno's cache of non-matches, then when `uno.generate()` runs it will not output the result of that shortcut. I don't know the proper solution to this and I don't think clearing uno's cache of non-matches is right. To see this bug run the following test:
-  it.skip('BUG: when a hashed style already exists (from an imported component library that was already processed), and style is found again it will not be output', async () => {
+  it.skip('bUG: when a hashed style already exists (from an imported component library that was already processed), and style is found again it will not be output', async () => {
     const result = await transform(`
     <div class="uno-ssrvwc hidden" />`.trim())
     expect(result).toMatchInlineSnapshot(`

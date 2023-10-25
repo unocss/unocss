@@ -40,4 +40,5 @@ export const alias: Record<string, string> = {
   '@unocss/vscode': r('./packages/vscode/src/'),
   '@unocss/postcss': r('./packages/postcss/src/'),
   '@unocss/webpack': r('./packages/webpack/src/'),
+  '@unocss/rule-utils': r('./packages/rule-utils/src/'),
 }

@@ -172,9 +172,7 @@ export function getMatchedPositions(
       })
   })
 
-  result.push(...extraAnnotations.map(i =>
-    [i.offset, i.offset + i.length, i.className] as const,
-  ))
+  result.push(...extraAnnotations.map(i => [i.offset, i.offset + i.length, i.className] as const))
 
   return result.sort((a, b) => a[0] - b[0])
 }

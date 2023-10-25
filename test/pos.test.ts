@@ -1,4 +1,4 @@
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import presetAttributify from '@unocss/preset-attributify'
 import presetUno from '@unocss/preset-uno'
 import type { UnoGenerator } from '@unocss/core'
@@ -9,7 +9,7 @@ import cssDirectives from '@unocss/transformer-directives'
 import extractorPug from '@unocss/extractor-pug'
 
 describe('matched-positions', async () => {
-  test('attributify', async () => {
+  it('attributify', async () => {
     const uno = createGenerator({
       presets: [
         presetAttributify({ strict: true }),
@@ -54,7 +54,7 @@ describe('matched-positions', async () => {
       `)
   })
 
-  test('attributify position', async () => {
+  it('attributify position', async () => {
     const uno = createGenerator({
       presets: [
         presetAttributify({ strict: true }),
@@ -84,7 +84,7 @@ describe('matched-positions', async () => {
       `)
   })
 
-  test('css-directive', async () => {
+  it('css-directive', async () => {
     const uno = createGenerator({
       presets: [
         presetUno(),
@@ -114,7 +114,7 @@ describe('matched-positions', async () => {
       `)
   })
 
-  test('class-based', async () => {
+  it('class-based', async () => {
     const uno = createGenerator({
       presets: [
         presetUno(),
@@ -156,7 +156,7 @@ describe('matched-positions', async () => {
       `)
   })
 
-  test('arbitrary property', async () => {
+  it('arbitrary property', async () => {
     const uno = createGenerator({
       presets: [
         presetUno(),
@@ -185,7 +185,7 @@ describe('matched-positions', async () => {
       `)
   })
 
-  test('variant-group', async () => {
+  it('variant-group', async () => {
     const uno = createGenerator({
       presets: [
         presetUno(),
@@ -230,7 +230,7 @@ describe('matched-positions', async () => {
       `)
   })
 
-  test('colon highlighting #2460', async () => {
+  it('colon highlighting #2460', async () => {
     const uno = createGenerator({
       presets: [
         presetUno(),
@@ -252,8 +252,7 @@ describe('matched-positions', async () => {
 
 describe('matched-positions-pug', async () => {
   const matchPug = (uno: UnoGenerator, code: string) => {
-    return match(uno,
-`<template lang='pug'>
+    return match(uno, `<template lang='pug'>
   ${code}
 </template>`, 'App.vue')
   }
@@ -271,7 +270,7 @@ describe('matched-positions-pug', async () => {
     ],
   })
 
-  test('plain class: normal case', async () => {
+  it('plain class: normal case', async () => {
     const pugCode = `div.p1.ma
       div.p2#id1
       div.p4.p5= p6
@@ -281,7 +280,7 @@ describe('matched-positions-pug', async () => {
     expect(await matchPug(uno, pugCode)).toMatchSnapshot()
   }, 20000)
 
-  test('plain class: prefix', async () => {
+  it('plain class: prefix', async () => {
     const pugCode = `div(class='hover:scale-100')
     div(class="hover:scale-90")
     div(class="hover:scale-80 p1")
@@ -291,7 +290,7 @@ describe('matched-positions-pug', async () => {
     expect(await matchPug(uno, pugCode)).toMatchSnapshot()
   }, 20000)
 
-  test('attributify', async () => {
+  it('attributify', async () => {
     const pugCode = `div.p4(border="b gray4")
       div(text='red')
       `
@@ -321,7 +320,7 @@ describe('matched-positions-pug', async () => {
     `)
   })
 
-  test('variant group', async () => {
+  it('variant group', async () => {
     const pugCode = 'div.p4(class="hover:(h-4 w-4)")'
     expect(await matchPug(uno, pugCode)).toMatchInlineSnapshot(`
       [
@@ -344,7 +343,7 @@ describe('matched-positions-pug', async () => {
     `)
   })
 
-  test('attributify `><`', async () => {
+  it('attributify `><`', async () => {
     const uno = createGenerator({
       presets: [
         presetAttributify(),
@@ -372,7 +371,7 @@ describe('matched-positions-pug', async () => {
       `)
   })
 
-  test('@unocss/transformer-directives', async () => {
+  it('@unocss/transformer-directives', async () => {
     // \n could not be include
     // div.p2(class="btn-center{@apply p1 m1;\n}") -> pug parse error
     const pugCode = 'div.p2(class="btn-center{@apply p1 m1;}")'

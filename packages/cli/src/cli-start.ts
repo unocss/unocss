@@ -35,12 +35,10 @@ export async function startCli(cwd = process.cwd(), argv = process.argv, options
       const { config } = await loadConfig(cwd, options.config)
 
       const entries = toArray(config.cli?.entry || options)
-      await Promise.all(entries.map(entry =>
-        build({
-          ...options,
-          ...entry,
-        }),
-      ))
+      await Promise.all(entries.map(entry => build({
+        ...options,
+        ...entry,
+      })))
     })
 
   cli.help()

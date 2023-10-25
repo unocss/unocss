@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { type UnocssPluginContext, expandVariantGroup } from '@unocss/core'
 import MagicString from 'magic-string'
 import transformerVariantGroup from '@unocss/transformer-variant-group'
@@ -13,7 +13,7 @@ describe('transformer-variant-group', () => {
     return { transformed: s.toString(), annotations: result!.highlightAnnotations }
   }
 
-  test('basic', async () => {
+  it('basic', async () => {
     const cases = [
       'a1 a2:(b1 b2:(c1 c2-(d1 d2) c3) b3) a3',
       'bg-white font-light sm:hover:(bg-gray-100 font-medium)',
@@ -38,7 +38,7 @@ describe('transformer-variant-group', () => {
     }
   })
 
-  test('vue file with strict sep', async () => {
+  it('vue file with strict sep', async () => {
     async function transform(code: string) {
       const s = new MagicString(code)
       expandVariantGroup(s, [':'])
@@ -51,7 +51,7 @@ describe('transformer-variant-group', () => {
       "<script setup lang=\\"ts\\">
       const a = 1
       const b = 2
-      // eslint-disable-next-line @typescript-eslint/space-infix-ops
+      // eslint-disable-next-line style/space-infix-ops
       const _c = a-(b -a -b)
       </script>
 
@@ -67,7 +67,7 @@ describe('transformer-variant-group', () => {
     `)
   })
 
-  test('empty group', async () => {
+  it('empty group', async () => {
     const result = await transform(
       'hover:()',
     )
@@ -79,7 +79,7 @@ describe('transformer-variant-group', () => {
     `)
   })
 
-  test('ignore arrow fn', async () => {
+  it('ignore arrow fn', async () => {
     const result = await transform(`
       {
         hover:(p6) => {

@@ -42,12 +42,10 @@ export class TwoKeyMap<K1, K2, V> {
 
   map<T>(fn: (v: V, k1: K1, k2: K2) => T): T[] {
     return Array.from(this._map.entries())
-      .flatMap(([k1, m2]) =>
-        Array.from(m2.entries())
-          .map(([k2, v]) => {
-            return fn(v, k1, k2)
-          }),
-      )
+      .flatMap(([k1, m2]) => Array.from(m2.entries())
+        .map(([k2, v]) => {
+          return fn(v, k1, k2)
+        }))
   }
 }
 

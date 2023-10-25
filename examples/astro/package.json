@@ -9,9 +9,10 @@
     "astro": "astro"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.34",
+    "@iconify-json/logos": "^1.1.37",
     "@unocss/reset": "link:../../packages/reset",
-    "astro": "^2.10.14",
+    "astro": "^3.2.3",
+    "canvas-confetti": "^1.9.0",
     "unocss": "link:../../packages/unocss"
   },
   "stackblitz": {

@@ -92,4 +92,4 @@ export default ESLintUtils.RuleCreator(name => name)({
       return context.parserServices?.defineTemplateBodyVisitor(templateBodyVisitor, scriptVisitor)
     }
   },
-})
+}) as any as ESLintUtils.RuleWithMeta<[], ''>

@@ -11,8 +11,7 @@ const props = defineProps<{
 const isAttributify = computed(() => isAttributifySelector(props.item.name))
 const name = computed(() => isAttributify.value
   ? `[${props.item.name.slice(1, -1).replace(/=""$/, '').replace(/~="/, '="')}]`
-  : props.item.name,
-)
+  : props.item.name)
 
 function openEditor(id: string) {
   fetch(`/__open-in-editor?file=${encodeURIComponent(id)}`)

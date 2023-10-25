@@ -1,6 +1,6 @@
 import type { CSSColorValue, RGBAColorValue } from '@unocss/core'
 import { escapeRegExp } from '@unocss/core'
-import { getComponents } from './utilities'
+import { getStringComponents } from './utilities'
 
 /* eslint-disable no-case-declarations */
 
@@ -29,9 +29,6 @@ export function parseCssColor(str = ''): CSSColorValue | undefined {
   if (components.length === 0)
     return
 
-  if (['rgba', 'hsla'].includes(type) && alpha == null)
-    return
-
   if (cssColorFunctions.includes(type) && ![1, 3].includes(components.length))
     return
 
@@ -58,9 +55,8 @@ export function colorToString(color: CSSColorValue | string, alphaOverride?: str
   alpha = alphaOverride ?? alpha
   type = type.toLowerCase()
 
-  // Comma separated functions
-  if (['hsla', 'hsl', 'rgba', 'rgb'].includes(type))
-    return `${type.replace('a', '')}a(${components.join(',')}${alpha == null ? '' : `,${alpha}`})`
+  if (['hsla', 'rgba'].includes(type))
+    return `${type}(${components.join(', ')}${alpha == null ? '' : `, ${alpha}`})`
 
   alpha = alpha == null ? '' : ` / ${alpha}`
   if (cssColorFunctions.includes(type))
@@ -146,7 +142,7 @@ function parseCssCommaColorFunction(color: string): CSSColorValue | false | unde
 
   const [, type, componentString] = match
   // With min 3 (rgb) and max 4 (rgba), try to get 5 components
-  const components = getComponents(componentString, ',', 5)
+  const components = getStringComponents(componentString, ',', 5)
   if (components) {
     if ([3, 4].includes(components.length)) {
       return {
@@ -196,7 +192,7 @@ function parseCssColorFunction(color: string): CSSColorValue | undefined {
 }
 
 function parseCssSpaceColorValues(componentString: string) {
-  const components = getComponents(componentString, ' ')
+  const components = getStringComponents(componentString, ' ')
   if (!components)
     return
 
@@ -218,7 +214,7 @@ function parseCssSpaceColorValues(componentString: string) {
   }
 
   // maybe (fn 1 2 3/4)
-  const withAlpha = getComponents(components[totalComponents - 1], '/', 2)
+  const withAlpha = getStringComponents(components[totalComponents - 1], '/', 2)
   if (!withAlpha)
     return
 

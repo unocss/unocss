@@ -1,18 +1,22 @@
-import type { Preset } from '@unocss/core'
-import { warnOnce } from '@unocss/core'
+import { definePreset, warnOnce } from '@unocss/core'
 import type {
   IconifyLoaderOptions,
   UniversalIconLoader,
 } from '@iconify/utils/lib/loader/types'
 import { encodeSvgForCss } from '@iconify/utils/lib/svg/encode-svg-for-css'
+import type { IconifyJSON } from '@iconify/types'
+import { loadIcon } from '@iconify/utils/lib/loader/loader'
+import { searchForIcon } from '@iconify/utils/lib/loader/modern'
 import type { IconsOptions } from './types'
+import icons from './collections.json'
 
 const COLLECTION_NAME_PARTS_MAX = 3
 
 export { IconsOptions }
+export { icons }
 
 export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => Promise<UniversalIconLoader>) {
-  return function presetIcons(options: IconsOptions = {}): Preset {
+  return definePreset((options: IconsOptions = {}) => {
     const {
       scale = 1,
       mode = 'auto',
@@ -118,7 +122,7 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
         { layer, prefix },
       ]],
     }
-  }
+  })
 }
 
 export function combineLoaders(loaders: UniversalIconLoader[]) {
@@ -131,4 +135,35 @@ export function combineLoaders(loaders: UniversalIconLoader[]) {
         return result
     }
   }) as UniversalIconLoader
+}
+
+export function createCDNFetchLoader(fetcher: (url: string) => Promise<any>, cdnBase: string): UniversalIconLoader {
+  const cache = new Map<string, Promise<IconifyJSON>>()
+
+  function fetchCollection(name: string) {
+    if (!icons.includes(name))
+      return undefined
+    if (!cache.has(name))
+      cache.set(name, fetcher(`${cdnBase}@iconify-json/${name}/icons.json`))
+    return cache.get(name)!
+  }
+
+  return async (collection, icon, options) => {
+    let result = await loadIcon(collection, icon, options)
+    if (result)
+      return result
+
+    const iconSet = await fetchCollection(collection)
+    if (iconSet) {
+      // possible icon names
+      const ids = [
+        icon,
+        icon.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase(),
+        icon.replace(/([a-z])(\d+)/g, '$1-$2'),
+      ]
+      result = await searchForIcon(iconSet, collection, ids, options)
+    }
+
+    return result
+  }
 }

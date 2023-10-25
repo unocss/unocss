@@ -1,5 +1,5 @@
 import process from 'node:process'
-import type { Plugin, Update, ViteDevServer, ResolvedConfig as ViteResolvedConfig } from 'vite'
+import type { Plugin, Update, ViteDevServer } from 'vite'
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import { notNull } from '@unocss/core'
 import type { VitePluginConfig } from 'unocss/vite'
@@ -12,7 +12,6 @@ const HASH_LENGTH = 6
 
 export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedModules, onInvalidate, extract, filter, getConfig }: UnocssPluginContext): Plugin[] {
   const servers: ViteDevServer[] = []
-  let base = ''
   const entries = new Set<string>()
 
   let invalidateTimer: any
@@ -41,14 +40,6 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
     lastServedHash.set(layer, hash)
     lastServedTime = Date.now()
     return { hash, css }
-  }
-
-  function configResolved(config: ViteResolvedConfig) {
-    base = config.base || ''
-    if (base === '/')
-      base = ''
-    else if (base.endsWith('/'))
-      base = base.slice(0, base.length - 1)
   }
 
   function invalidate(timer = 10, ids: Set<string> = entries) {
@@ -121,13 +112,13 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
       name: 'unocss:global',
       apply: 'serve',
       enforce: 'pre',
-      configResolved,
       async configureServer(_server) {
         servers.push(_server)
 
-        _server.ws.on(WS_EVENT_PREFIX, async ([layer, hash]: string[]) => {
+        _server.ws.on(WS_EVENT_PREFIX, async ([layer]: string[]) => {
+          const preHash = lastServedHash.get(layer)
           await generateCSS(layer)
-          if (lastServedHash.get(layer) !== hash)
+          if (lastServedHash.get(layer) !== preHash)
             sendUpdate(entries)
         })
       },
@@ -174,7 +165,6 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
     },
     {
       name: 'unocss:global:post',
-      configResolved,
       apply(config, env) {
         return env.command === 'serve' && !config.build?.ssr
       },
@@ -191,7 +181,7 @@ try {
   if (!hash)
     console.warn('[unocss-hmr]', 'failed to get unocss hash, hmr might not work')
   else
-    await import.meta.hot.send('${WS_EVENT_PREFIX}', ['${layer}', hash]);
+    await import.meta.hot.send('${WS_EVENT_PREFIX}', ['${layer}']);
 } catch (e) {
   console.warn('[unocss-hmr]', e)
 }

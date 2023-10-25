@@ -1,23 +1,24 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
+// Component Imports
+import Button from '../components/Button.astro';
+
+// Full Astro Component Syntax:
+// https://docs.astro.build/core-concepts/astro-components/
 ---
 
-<Layout title="Welcome to Astro.">
-  <main class="p10 text-center">
-    <div>
-      <div class="i-logo"></div>
-    </div>
-    <h1>Welcome to <span class="text-gradient">Astro</span></h1>
-    <p class="instructions">
-      Check out the <code>src/pages</code> directory to get started.<br />
-    </p>
-    <ul role="list" class="link-card-grid">
-      <Card
-        href="/foo"
-        title="/foo"
-        body="Go to page foo."
-      />
-    </ul>
-  </main>
-</Layout>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Astro + UnoCSS</title>
+	</head>
+
+	<body>
+		<div class="grid place-items-center h-screen content-center">
+			<Button>UnoCSS Button in Astro!</Button>
+			<a href="/markdown-page" class="p-4 underline">Markdown is also supported...</a>
+		</div>
+	</body>
+</html>

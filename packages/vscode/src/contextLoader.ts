@@ -26,6 +26,7 @@ export class ContextLoader {
 
   public events = createNanoEvents<{
     reload: () => void
+    unload: (context: UnocssPluginContext<UserConfig<any>>) => void
     contextLoaded: (context: UnocssPluginContext<UserConfig<any>>) => void
     contextReload: (context: UnocssPluginContext<UserConfig<any>>) => void
     contextUnload: (context: UnocssPluginContext<UserConfig<any>>) => void
@@ -60,6 +61,20 @@ export class ContextLoader {
     await this.loadContextInDirectory(this.cwd)
   }
 
+  async unload(configDir: string) {
+    const context = this.contextsMap.get(configDir)
+    if (!context)
+      return
+
+    this.contextsMap.delete(configDir)
+
+    for (const [path, ctx] of this.fileContextCache) {
+      if (ctx === context)
+        this.fileContextCache.delete(path)
+    }
+    this.events.emit('unload', context)
+  }
+
   async unloadContext(configDir: string) {
     const context = this.contextsMap.get(configDir)
     if (!context)
@@ -89,6 +104,7 @@ export class ContextLoader {
       return cached
 
     const load = async () => {
+      log.appendLine('\n-----------')
       log.appendLine(`🛠 Resolving config for ${dir}`)
 
       // @ts-expect-error support global utils

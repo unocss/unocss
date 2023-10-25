@@ -1,6 +1,6 @@
 import { createGenerator } from '@unocss/core'
 import presetAttributify from '@unocss/preset-attributify'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 describe('emojis', () => {
   const fixture1 = `
@@ -21,11 +21,11 @@ describe('emojis', () => {
     ],
   })
 
-  test('extractor1', async () => {
+  it('extractor1', async () => {
     expect(await uno.applyExtractors(fixture1)).toMatchSnapshot()
   })
 
-  test('fixture1', async () => {
+  it('fixture1', async () => {
     const { css } = await uno.generate(fixture1, { preflights: false })
     expect(css).toMatchSnapshot()
   })
