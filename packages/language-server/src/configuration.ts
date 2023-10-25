@@ -1,6 +1,6 @@
 import { toArray } from '@unocss/core'
 import type { AutoCompleteMatchType } from '@unocss/autocomplete'
-import { type Connection, type Disposable } from 'vscode-languageserver'
+import type { Connection, Disposable } from 'vscode-languageserver'
 import type { Emitter } from './integration'
 import { createNanoEvents } from './integration'
 import type { ConfigurationService } from './types'
