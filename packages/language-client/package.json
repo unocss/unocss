@@ -1,0 +1,120 @@
+{
+  "publisher": "antfu",
+  "name": "@unocss/language-client",
+  "displayName": "UnoCSS",
+  "version": "0.55.4",
+  "private": true,
+  "description": "UnoCSS for Language Client",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/unocss/unocss",
+    "directory": "packages/language-client"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./dist/index.js",
+  "preview": true,
+  "icon": "res/logo.png",
+  "engines": {
+    "vscode": "^1.71.0"
+  },
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "unocss.reload",
+        "title": "Reload UnoCSS",
+        "category": "UnoCSS"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "UnoCSS",
+      "properties": {
+        "unocss.disable": {
+          "type": "boolean",
+          "default": false,
+          "description": "Disable the UnoCSS extension"
+        },
+        "unocss.languageIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "unocss.root": {
+          "type": [
+            "array",
+            "string"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "description": "Project root that contains the UnoCSS configuration file"
+        },
+        "unocss.underline": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable underline decoration for class names"
+        },
+        "unocss.colorPreview": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable color preview decorations"
+        },
+        "unocss.remToPxPreview": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable/disable rem to px preview in hover"
+        },
+        "unocss.remToPxRatio": {
+          "type": "number",
+          "default": 16,
+          "description": "Ratio of rem to px"
+        },
+        "unocss.selectionStyle": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable selection style decorations"
+        },
+        "unocss.autocomplete.matchType": {
+          "type": "string",
+          "default": "prefix",
+          "enum": [
+            "prefix",
+            "fuzzy"
+          ],
+          "description": "The matching type for autocomplete"
+        },
+        "unocss.autocomplete.maxItems": {
+          "type": "number",
+          "default": 1000,
+          "description": "The maximum number of items to show in autocomplete"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch src",
+    "publish": "esno ./scripts/publish.ts"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^8.1.0"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.71.0",
+    "@unocss/language-server": "workspace:*",
+    "@unocss/nuxt": "workspace:*",
+    "@unocss/preset-uno": "workspace:*",
+    "esno": "^0.17.0",
+    "jiti": "^1.19.1",
+    "prettier": "^2.8.8",
+    "tsup": "^7.2.0",
+    "unconfig": "^0.3.10"
+  }
+}
