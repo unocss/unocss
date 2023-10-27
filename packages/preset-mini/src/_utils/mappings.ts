@@ -113,5 +113,3 @@ export const globalKeywords = [
   'revert-layer',
   'unset',
 ]
-
-export const cssMathFnRE = /^(?:calc|clamp|min|max)\s*\(.*\)/
