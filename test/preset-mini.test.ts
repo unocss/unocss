@@ -79,7 +79,7 @@ describe('preset-mini', () => {
     const { css, matched } = await uno.generate(code, { preflights: false })
 
     expect(Array.from(matched)).toEqual([])
-    expect(css).toMatchInlineSnapshot('""')
+    expect(css).toBe('')
   })
 
   it('custom var prefix', async () => {

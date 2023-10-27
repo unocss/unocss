@@ -178,10 +178,7 @@ export function colorResolver(property: string, varName: string, shouldPass?: (c
       return
 
     const { alpha, color, cssColor } = data
-    // console.log({ property,alpha, color, cssColor })
-    // if (color && isSize(color)) {
-    //   return
-    // }
+
     const css: CSSObject = {}
     if (cssColor) {
       if (alpha != null) {
