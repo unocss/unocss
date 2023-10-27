@@ -78,12 +78,8 @@ describe('preset-mini', () => {
     const code = presetWindTargets.join(' ')
     const { css, matched } = await uno.generate(code, { preflights: false })
 
-    expect(Array.from(matched)).toEqual(['bg-[calc(10%+10px)]', 'bg-[calc(10vw+10px)]'])
-    expect(css).toMatchInlineSnapshot(`
-      "/* layer: default */
-      .bg-\\\\[calc\\\\(10\\\\%\\\\+10px\\\\)\\\\]{background-color:calc(10% + 10px);}
-      .bg-\\\\[calc\\\\(10vw\\\\+10px\\\\)\\\\]{background-color:calc(10vw + 10px);}"
-    `)
+    expect(Array.from(matched)).toEqual([])
+    expect(css).toMatchInlineSnapshot('""')
   })
 
   it('custom var prefix', async () => {

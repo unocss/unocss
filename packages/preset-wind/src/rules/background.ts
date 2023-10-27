@@ -1,5 +1,5 @@
 import type { CSSColorValue, Rule, RuleContext } from '@unocss/core'
-import { cssMathFnRE, globalKeywords, h, makeGlobalStaticRules, parseColor, positionMap } from '@unocss/preset-mini/utils'
+import { globalKeywords, h, isSize, makeGlobalStaticRules, parseColor, positionMap } from '@unocss/preset-mini/utils'
 import type { Theme } from '@unocss/preset-mini'
 import { colorOpacityToString, colorToString } from '@unocss/rule-utils'
 
@@ -158,9 +158,3 @@ export const backgroundStyles: Rule[] = [
   ['bg-origin-content', { 'background-origin': 'content-box' }],
   ...makeGlobalStaticRules('bg-origin', 'background-origin'),
 ]
-
-export function isSize(str: string) {
-  if (str[0] === '[' && str.slice(-1) === ']')
-    str = str.slice(1, -1)
-  return cssMathFnRE.test(str) || /^[0-9]+(?:px|rem|em|vw|vh|%)$/.test(str)
-}

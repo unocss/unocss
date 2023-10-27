@@ -1,9 +1,9 @@
 import type { CSSEntries, CSSObject, DynamicMatcher, ParsedColorValue, RuleContext, StaticRule, VariantContext } from '@unocss/core'
 import { toArray } from '@unocss/core'
-import { colorOpacityToString, colorToString, getStringComponents, parseCssColor } from '@unocss/rule-utils'
+import { colorOpacityToString, colorToString, cssMathFnRE, getStringComponents, parseCssColor } from '@unocss/rule-utils'
 import type { Theme } from '../theme'
 import { h } from './handlers'
-import { cssMathFnRE, directionMap, globalKeywords } from './mappings'
+import { directionMap, globalKeywords } from './mappings'
 
 export const CONTROL_MINI_NO_NEGATIVE = '$$mini-no-negative'
 
@@ -178,7 +178,10 @@ export function colorResolver(property: string, varName: string, shouldPass?: (c
       return
 
     const { alpha, color, cssColor } = data
-
+    // console.log({ property,alpha, color, cssColor })
+    // if (color && isSize(color)) {
+    //   return
+    // }
     const css: CSSObject = {}
     if (cssColor) {
       if (alpha != null) {
