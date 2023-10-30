@@ -1,3 +1,4 @@
+const process = require('node:process')
 const UnoCSS = require('@unocss/webpack').default
 
 module.exports = {
@@ -14,8 +15,12 @@ module.exports = {
     })
   },
   css: {
-    extract: {
-      filename: '[name].[hash:9].css',
-    },
+    extract: process.env.NODE_ENV === 'development'
+      ? {
+          filename: '[name].css',
+        }
+      : {
+          filename: '[name].[hash:9].css',
+        },
   },
 }
