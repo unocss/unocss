@@ -1,9 +1,10 @@
 import type { CSSEntries, CSSObject, DynamicMatcher, ParsedColorValue, RuleContext, StaticRule, VariantContext } from '@unocss/core'
 import { toArray } from '@unocss/core'
-import { colorOpacityToString, colorToString, cssMathFnRE, getStringComponents, parseCssColor } from '@unocss/rule-utils'
+import { colorOpacityToString, colorToString, getStringComponents, parseCssColor } from '@unocss/rule-utils'
 import type { Theme } from '../theme'
 import { h } from './handlers'
 import { directionMap, globalKeywords } from './mappings'
+import { numberWithUnitRE } from './handlers/regex'
 
 export const CONTROL_MINI_NO_NEGATIVE = '$$mini-no-negative'
 
@@ -241,6 +242,14 @@ export function makeGlobalStaticRules(prefix: string, property?: string): Static
   return globalKeywords.map(keyword => [`${prefix}-${keyword}`, { [property ?? prefix]: keyword }])
 }
 
+export const cssMathFnRE = /(?:calc|clamp|min|max)\s*\(.*\)/
+
 export function isCSSMathFn(value: string) {
   return cssMathFnRE.test(value)
+}
+
+export function isSize(str: string) {
+  if (str[0] === '[' && str.slice(-1) === ']')
+    str = str.slice(1, -1)
+  return cssMathFnRE.test(str) || numberWithUnitRE.test(str)
 }
