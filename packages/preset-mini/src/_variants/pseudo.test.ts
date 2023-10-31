@@ -76,7 +76,7 @@ it('focus-visible:', async () => {
   expect(result.css)
     .toMatchInlineSnapshot(`
       "/* layer: default */
-      .focus\\\\:foo-2:focus{text:foo-2;}
-      .focus-visible\\\\:foo-1:focus-visible{text:foo-1;}"
+      .focus-visible\\\\:foo-1:focus-visible{text:foo-1;}
+      .focus\\\\:foo-2:focus{text:foo-2;}"
     `)
 })

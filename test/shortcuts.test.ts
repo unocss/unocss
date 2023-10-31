@@ -94,8 +94,8 @@ describe('shortcuts', () => {
     const { css } = await uno.generate('shortcut-hover-active-1', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      .shortcut-hover-active-1:hover{--un-bg-opacity:1;background-color:rgb(134 239 172 / var(--un-bg-opacity));}
       .shortcut-hover-active-1:focus{--un-bg-opacity:1;background-color:rgb(134 239 172 / var(--un-bg-opacity));}
+      .shortcut-hover-active-1:hover{--un-bg-opacity:1;background-color:rgb(134 239 172 / var(--un-bg-opacity));}
       .shortcut-hover-active-1:active{--un-bg-opacity:1;background-color:rgb(134 239 172 / var(--un-bg-opacity));}"
     `)
   })
@@ -104,8 +104,8 @@ describe('shortcuts', () => {
     const { css } = await uno.generate('shortcut-hover-active-2', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      .shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgb(253 224 71 / var(--un-bg-opacity));}
       .shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgb(252 165 165 / var(--un-bg-opacity));}
+      .shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgb(253 224 71 / var(--un-bg-opacity));}
       .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgb(147 197 253 / var(--un-bg-opacity));}"
     `)
   })
@@ -114,10 +114,10 @@ describe('shortcuts', () => {
     const { css } = await uno.generate('shortcut-hover-active-2 uno-layer-shortcuts:bg-red-300', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      .uno-layer-shortcuts\\\\:bg-red-300{--un-bg-opacity:1;background-color:rgb(252 165 165 / var(--un-bg-opacity));}
-      .shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgb(253 224 71 / var(--un-bg-opacity));}
       .shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgb(252 165 165 / var(--un-bg-opacity));}
-      .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgb(147 197 253 / var(--un-bg-opacity));}"
+      .shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgb(253 224 71 / var(--un-bg-opacity));}
+      .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgb(147 197 253 / var(--un-bg-opacity));}
+      .uno-layer-shortcuts\\\\:bg-red-300{--un-bg-opacity:1;background-color:rgb(252 165 165 / var(--un-bg-opacity));}"
     `)
   })
 
@@ -125,10 +125,10 @@ describe('shortcuts', () => {
     const { css } = await uno.generate('shortcut-hover-active-2 uno-layer-shortcuts:bg-yellow-300', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      .uno-layer-shortcuts\\\\:bg-yellow-300{--un-bg-opacity:1;background-color:rgb(253 224 71 / var(--un-bg-opacity));}
-      .shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgb(253 224 71 / var(--un-bg-opacity));}
       .shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgb(252 165 165 / var(--un-bg-opacity));}
-      .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgb(147 197 253 / var(--un-bg-opacity));}"
+      .shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgb(253 224 71 / var(--un-bg-opacity));}
+      .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgb(147 197 253 / var(--un-bg-opacity));}
+      .uno-layer-shortcuts\\\\:bg-yellow-300{--un-bg-opacity:1;background-color:rgb(253 224 71 / var(--un-bg-opacity));}"
     `)
   })
 
@@ -136,10 +136,10 @@ describe('shortcuts', () => {
     const { css } = await uno.generate('shortcut-hover-active-2 uno-layer-shortcuts:bg-blue-300', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      .uno-layer-shortcuts\\\\:bg-blue-300{--un-bg-opacity:1;background-color:rgb(147 197 253 / var(--un-bg-opacity));}
-      .shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgb(253 224 71 / var(--un-bg-opacity));}
       .shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgb(252 165 165 / var(--un-bg-opacity));}
-      .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgb(147 197 253 / var(--un-bg-opacity));}"
+      .shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgb(253 224 71 / var(--un-bg-opacity));}
+      .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgb(147 197 253 / var(--un-bg-opacity));}
+      .uno-layer-shortcuts\\\\:bg-blue-300{--un-bg-opacity:1;background-color:rgb(147 197 253 / var(--un-bg-opacity));}"
     `)
   })
 
@@ -168,9 +168,9 @@ describe('shortcuts', () => {
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
       .shortcut-inline-body{padding:0.5rem;margin:3px;}
+      .hover\\\\:shortcut-inline-body:hover{padding:0.5rem;margin:3px;}
       .shortcut-inline-dynamic-1{padding:0.25rem;margin:1px;}
-      .shortcut-inline-dynamic-2{padding:0.5rem;margin:2px;}
-      .hover\\\\:shortcut-inline-body:hover{padding:0.5rem;margin:3px;}"
+      .shortcut-inline-dynamic-2{padding:0.5rem;margin:2px;}"
     `)
   })
 
@@ -187,8 +187,8 @@ describe('shortcuts', () => {
     const { css } = await uno.generate('divide-y divide-default', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      .dark .divide-default>:not([hidden])~:not([hidden]){--un-divide-opacity:1;border-color:rgb(51 51 74 / var(--un-divide-opacity));}
       .divide-default>:not([hidden])~:not([hidden]){--un-divide-opacity:1;border-color:rgb(0 0 0 / var(--un-divide-opacity));}
+      .dark .divide-default>:not([hidden])~:not([hidden]){--un-divide-opacity:1;border-color:rgb(51 51 74 / var(--un-divide-opacity));}
       /* layer: default */
       .divide-y>:not([hidden])~:not([hidden]){--un-divide-y-reverse:0;border-top-width:calc(1px * calc(1 - var(--un-divide-y-reverse)));border-bottom-width:calc(1px * var(--un-divide-y-reverse));}"
     `)
@@ -198,8 +198,8 @@ describe('shortcuts', () => {
     const { css } = await uno.generate('space-x-2px space-default', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      .dark .space-default>:not([hidden])~:not([hidden]){--un-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--un-space-y-reverse)));margin-bottom:calc(1rem * var(--un-space-y-reverse));}
       .space-default>:not([hidden])~:not([hidden]){--un-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--un-space-y-reverse)));margin-bottom:calc(0.5rem * var(--un-space-y-reverse));}
+      .dark .space-default>:not([hidden])~:not([hidden]){--un-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--un-space-y-reverse)));margin-bottom:calc(1rem * var(--un-space-y-reverse));}
       /* layer: default */
       .space-x-2px>:not([hidden])~:not([hidden]){--un-space-x-reverse:0;margin-left:calc(2px * calc(1 - var(--un-space-x-reverse)));margin-right:calc(2px * var(--un-space-x-reverse));}"
     `)

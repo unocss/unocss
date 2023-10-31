@@ -1,4 +1,4 @@
 /* layer: default */
+.with-no-merge{no-merge:1;}
 .merge-candidate,
 .with-no-merge{merged:1;}
-.with-no-merge{no-merge:1;}

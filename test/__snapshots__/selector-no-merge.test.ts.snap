@@ -27,6 +27,6 @@ exports[`variant > variant split selector 1`] = `
 
 exports[`variant > variant split shortcuts 1`] = `
 "/* layer: shortcuts */
-.m1-no-merge::breaking{merged:1;}
-.m1-no-merge::non-breaking{merged:1;}"
+.m1-no-merge::non-breaking{merged:1;}
+.m1-no-merge::breaking{merged:1;}"
 `;

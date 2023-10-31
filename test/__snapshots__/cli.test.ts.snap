@@ -7,8 +7,8 @@ exports[`cli > @unocss-skip uno.css 1`] = `
 
 exports[`cli > builds uno.css 1`] = `
 "/* layer: default */
-.max-w-screen-md{max-width:768px;}
-.p-4{padding:1rem;}"
+.p-4{padding:1rem;}
+.max-w-screen-md{max-width:768px;}"
 `;
 
 exports[`cli > supports directives transformer 1`] = `""`;
@@ -26,18 +26,18 @@ exports[`cli > supports updating source files with transformed utilities ('direc
 
 exports[`cli > supports updating source files with transformed utilities ('variant group transformer') 1`] = `
 "/* layer: default */
-.border-red{--un-border-opacity:1;border-color:rgb(248 113 113 / var(--un-border-opacity));}
+.p-4{padding:1rem;}
 .border-solid{border-style:solid;}
-.p-4{padding:1rem;}"
+.border-red{--un-border-opacity:1;border-color:rgb(248 113 113 / var(--un-border-opacity));}"
 `;
 
 exports[`cli > supports updating source files with transformed utilities ('variant group transformer') 2`] = `"<div class=\\"p-4 border-solid border-red\\"></div>"`;
 
 exports[`cli > supports variantGroup transformer 1`] = `
 "/* layer: default */
-.border-red{--un-border-opacity:1;border-color:rgb(248 113 113 / var(--un-border-opacity));}
+.p-4{padding:1rem;}
 .border-solid{border-style:solid;}
-.p-4{padding:1rem;}"
+.border-red{--un-border-opacity:1;border-color:rgb(248 113 113 / var(--un-border-opacity));}"
 `;
 
 exports[`cli > supports variantGroup transformer 2`] = `"<div class=\\"p-4 border-(solid red)\\"></div>"`;
