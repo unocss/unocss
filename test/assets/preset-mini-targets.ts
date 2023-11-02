@@ -362,8 +362,6 @@ export const presetMiniTargets: string[] = [
   'grid-areas-[prepend_content_append]',
   'grid-areas-[prepend_content_append]-[prepend_content_append]',
   'grid-areas-$variable',
-  'grid-cols-subgrid',
-  'grid-rows-subgrid',
 
   // layout
   'of-y-visible',
