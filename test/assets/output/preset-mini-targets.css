@@ -624,6 +624,8 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .grid-areas-\[prepend_content_append\]{grid-template-areas:"prepend content append";}
 .grid-areas-\[prepend_content_append\]-\[prepend_content_append\]{grid-template-areas:"prepend content append" "prepend content append";}
 .grid-areas-\$variable{grid-template-areas:var(--variable);}
+.grid-cols-subgrid{grid-template-columns:subgrid;}
+.grid-rows-subgrid{grid-template-rows:subgrid;}
 .gap-\$variable{gap:var(--variable);}
 .gap-4{gap:1rem;}
 .gap-inherit{gap:inherit;}
