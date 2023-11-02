@@ -74,5 +74,5 @@ export const grids: Rule<Theme>[] = [
 
   // template subgrid
   ['grid-rows-subgrid', { 'grid-template-rows': 'subgrid' }],
-  ['grid-cols-subgrid', { 'grid-template-cols': 'subgrid' }],
+  ['grid-cols-subgrid', { 'grid-template-columns': 'subgrid' }],
 ]
