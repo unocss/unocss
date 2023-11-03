@@ -116,7 +116,6 @@ Some UI/App frameworks have some caveats that must be fixed to make it work, if 
 
 ### VanillaJS / TypeScript
 
-
 When using VanillaJS or TypeScript, you need to add `js` and `ts` files extensions to allow UnoCSS read and parse the content, by default `js` and `ts` files are excluded, check [Extracting from Build Tools Pipeline](/guide/extracting#extracting-from-build-tools-pipeline) section.
 
 ### React
