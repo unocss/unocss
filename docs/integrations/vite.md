@@ -4,6 +4,15 @@ description: The Vite plugin for UnoCSS (@unocss/vite).
 outline: deep
 ---
 
+<script setup lang="ts">
+import { examples } from '../.vitepress/content'
+
+const playgrounds = examples.reduce((acc, cur) => {
+  acc[cur.name] = cur
+  return acc
+}, {})
+</script>
+
 # Vite Plugin
 
 The Vite plugin ships with the `unocss` package.
@@ -105,6 +114,11 @@ Please use it with caution, under the hood we use [`MutationObserver`](https://d
 
 Some UI/App frameworks have some caveats that must be fixed to make it work, if you're using one of the following frameworks, just apply the suggestions.
 
+### VanillaJS / TypeScript
+
+
+When using VanillaJS or TypeScript, you need to add `js` and `ts` files extensions to allow UnoCSS read and parse the content, by default `js` and `ts` files are excluded, check [Extracting from Build Tools Pipeline](/guide/extracting#extracting-from-build-tools-pipeline) section.
+
 ### React
 
 If you're using `@vitejs/plugin-react`:
@@ -141,6 +155,8 @@ export default {
 
 You have a `React` example project on [examples/vite-react](https://github.com/unocss/unocss/tree/main/examples/vite-react) directory  using both plugins, check the scripts on `package.json` and its Vite configuration file.
 
+<ContentExample :item="playgrounds['vite-react']"  class="Link" integrations />
+
 ### Preact
 
 If you're using `@preact/preset-vite`:
@@ -175,7 +191,9 @@ export default {
 
 If you're using `@unocss/preset-attributify` you should remove `tsc` from the `build` script.
 
-You have a `Preact` example project on [examples/vite-preact](https://github.com/unocss/unocss/tree/main/examples/vite-preact) directory  using both plugins, check the scripts on `package.json` and its Vite configuration file.
+You have a `Preact` example project on [examples/vite-preact](https://github.com/unocss/unocss/tree/main/examples/vite-preact) directory using both plugins, check the scripts on `package.json` and its Vite configuration file.
+
+<ContentExample :item="playgrounds['vite-preact']"  class="Link" integrations />
 
 ### Svelte
 
@@ -204,7 +222,7 @@ export default {
 }
 ```
 
-You have a `Vite + Svelte` example project on [examples/vite-svelte](https://github.com/unocss/unocss/tree/main/examples/vite-svelte) directory.
+<ContentExample :item="playgrounds['vite-svelte']"  class="Link" integrations />
 
 ### Sveltekit
 
@@ -232,7 +250,11 @@ const config = {
 }
 ```
 
-You have a `SvelteKit` example project in [examples/sveltekit](https://github.com/unocss/unocss/tree/main/examples/sveltekit) directory.
+<ContentExample :item="playgrounds['sveltekit']"  class="Link mb-4" integrations />
+
+<ContentExample :item="playgrounds['sveltekit-preprocess']"  class="Link mb-4" integrations />
+
+<ContentExample :item="playgrounds['sveltekit-scoped']"  class="Link" integrations />
 
 ### Web Components
 
@@ -335,9 +357,11 @@ template.innerHTML = `
 </div>
 `
 ```
+<ContentExample :item="playgrounds['vite-lit']"  class="Link" integrations />
 
 ### Solid
 
+You need to add the `vite-plugin-solid` plugin after UnoCSS's plugin.
 
 ```ts
 // vite.config.js
@@ -346,15 +370,15 @@ import UnoCSS from 'unocss/vite'
 
 export default {
   plugins: [
-    solidPlugin(),
     UnoCSS({
       /* options */
     }),
+    solidPlugin(),
   ],
 }
 ```
 
-You have a `Vite + Solid` example project on [examples/vite-solid](https://github.com/unocss/unocss/tree/main/examples/vite-solid) directory.
+<ContentExample :item="playgrounds['vite-solid']"  class="Link" integrations />
 
 ### Elm
 
@@ -374,7 +398,7 @@ export default defineConfig({
 })
 ```
 
-You have a `Vite + Elm` example project on [examples/vite-elm](https://github.com/unocss/unocss/tree/main/examples/vite-elm) directory.
+<ContentExample :item="playgrounds['vite-elm']"  class="Link" integrations />
 
 ## License
 
