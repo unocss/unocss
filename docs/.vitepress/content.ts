@@ -52,13 +52,19 @@ export const examples: Example[] = [
   {
     name: 'vite-solid',
     path: 'examples/vite-solid',
-    icon: 'i-logos-solidjs-icon',
+    icons: [
+      'i-logos-vitejs',
+      'i-logos-solidjs-icon',
+    ],
     stackblitz: true,
   },
   {
     name: 'vue-cli4',
     path: 'examples/vue-cli4',
-    icon: 'i-logos-vue',
+    icons: [
+      'i-logos-webpack',
+      'i-logos-vue',
+    ],
     stackblitz: true,
   },
   {
@@ -79,7 +85,10 @@ export const examples: Example[] = [
   {
     name: 'vite-elm',
     path: 'examples/vite-elm',
-    icon: 'i-logos-elm',
+    icons: [
+      'i-logos-vitejs',
+      'i-logos-elm',
+    ],
     // stackblitz: true,
   },
   {
@@ -94,7 +103,10 @@ export const examples: Example[] = [
   {
     name: 'vue-cli5',
     path: 'examples/vue-cli5',
-    icon: 'i-logos-vue',
+    icons: [
+      'i-logos-webpack',
+      'i-logos-vue',
+    ],
     stackblitz: true,
   },
   {
@@ -107,14 +119,20 @@ export const examples: Example[] = [
   {
     name: 'vite-lightningcss',
     path: 'examples/vite-lightningcss',
-    icon: 'i-ph-lightning text-yellow',
+    icons: [
+      'i-logos-vitejs',
+      'i-ph-lightning text-yellow',
+    ],
     // lightingcss is not supported by stackblitz yet
     // stackblitz: true,
   },
   {
     name: 'vite-lit',
     path: 'examples/vite-lit',
-    icon: 'i-logos-lit-icon',
+    icons: [
+      'i-logos-vitejs',
+      'i-logos-lit-icon',
+    ],
     stackblitz: true,
   },
   {
@@ -141,7 +159,10 @@ export const examples: Example[] = [
   {
     name: 'vite-preact',
     path: 'examples/vite-preact',
-    icon: 'i-logos-preact',
+    icons: [
+      'i-logos-vitejs',
+      'i-logos-preact',
+    ],
     stackblitz: true,
   },
   {
@@ -171,7 +192,10 @@ export const examples: Example[] = [
   {
     name: 'vite-pug',
     path: 'examples/vite-pug',
-    icon: 'i-logos-pug',
+    icons: [
+      'i-logos-vitejs',
+      'i-logos-pug',
+    ],
     stackblitz: true,
   },
   {

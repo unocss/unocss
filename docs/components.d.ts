@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    ContentExample: typeof import('./.vitepress/theme/components/ContentExample.vue')['default']
     ContentExamples: typeof import('./.vitepress/theme/components/ContentExamples.vue')['default']
     ContentIntegrations: typeof import('./.vitepress/theme/components/ContentIntegrations.vue')['default']
     HomePage: typeof import('./.vitepress/theme/components/HomePage.vue')['default']
