@@ -86,6 +86,20 @@ if (import.meta.vitest) {
       expect(result).toEqual(expected)
     })
 
+    it('classDirectivesInQuotes', () => {
+      const code = '<span class:mb-1="{foo}" />'
+      const result = findClasses(code)
+      const expected: FoundClass[] = [
+        {
+          body: 'mb-1',
+          start: 12,
+          end: 16,
+          type: 'directive',
+        },
+      ]
+      expect(result).toEqual(expected)
+    })
+
     it('classDirectivesShorthand', () => {
       const code = '<span class:logo />'
       const result = findClasses(code)
