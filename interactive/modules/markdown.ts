@@ -1,7 +1,7 @@
 import { defineNuxtModule } from '@nuxt/kit'
 import Markdown from 'vite-plugin-vue-markdown'
 import LinkAttributes from 'markdown-it-link-attributes'
-import { getHighlighter } from 'shiki'
+import { getHighlighter } from 'shikiji'
 
 export default defineNuxtModule({
   async setup(_, nuxt) {
@@ -23,6 +23,8 @@ export default defineNuxtModule({
               },
             })
             md.options.highlight = (code, lang) => {
+              // const dark = highlighter.codeToHtml(code, { lang, theme: 'vitesse-dark' })
+
               const dark = highlighter.codeToHtml(code, { lang, theme: 'vitesse-dark' })
                 .replace('<pre class="shiki"', '<pre class="shiki shiki-dark"')
               const light = highlighter.codeToHtml(code, { lang: lang || 'text', theme: 'vitesse-light' })

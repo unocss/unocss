@@ -25,7 +25,7 @@
     "p-limit": "^4.0.0",
     "postcss-nested": "^6.0.1",
     "prettier": "^2.8.8",
-    "shiki": "^0.14.4",
+    "shikiji": "^0.6.12",
     "theme-vitesse": "^0.7.3",
     "vite-plugin-vue-markdown": "^0.23.8",
     "vue": "^3.3.4"

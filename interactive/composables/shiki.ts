@@ -1,23 +1,20 @@
-import type { Highlighter, Lang } from 'shiki'
+import type { BuiltinLanguage, Highlighter } from 'shikiji'
+import { getHighlighter } from 'shikiji'
 
-export const shiki = ref<Highlighter>()
-
-import('shiki')
-  .then(async (r) => {
-    r.setCDN('/interactive/shiki/')
-    shiki.value = await r.getHighlighter({
-      themes: [
-        'vitesse-dark',
-        'vitesse-light',
-      ],
-      langs: [
-        'css',
-        'javascript',
-      ],
-    })
+export const shiki = computedAsync<Highlighter>(async () => {
+  return await getHighlighter({
+    themes: [
+      'vitesse-dark',
+      'vitesse-light',
+    ],
+    langs: [
+      'css',
+      'javascript',
+    ],
   })
+})
 
-export function highlight(code: string, lang: Lang) {
+export function highlight(code: string, lang: BuiltinLanguage) {
   if (!shiki.value)
     return code
   return shiki.value.codeToHtml(code, {
