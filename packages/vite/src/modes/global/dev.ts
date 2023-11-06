@@ -132,8 +132,8 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
         return null
       },
       transformIndexHtml: {
-        enforce: 'pre',
-        transform(code, { filename }) {
+        order: 'pre',
+        handler(code, { filename }) {
           setWarnTimer()
           tasks.push(extract(code, filename))
         },
