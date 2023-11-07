@@ -43,7 +43,7 @@ function hasBody(foundClass: FoundClass) {
 if (import.meta.vitest) {
   const { describe, expect, it } = import.meta.vitest
 
-  describe('findClasses', () => {
+  describe(findClasses, () => {
     it('returns body, start, and end for basic class', () => {
       const code = '<span class="mb-1 pr-2 " />'
       const result = findClasses(code)
@@ -72,7 +72,7 @@ if (import.meta.vitest) {
       expect(result).toEqual(expected)
     })
 
-    it('classDirectives', () => {
+    it('finds class directives', () => {
       const code = '<span class:mb-1={foo} />'
       const result = findClasses(code)
       const expected: FoundClass[] = [
@@ -86,7 +86,7 @@ if (import.meta.vitest) {
       expect(result).toEqual(expected)
     })
 
-    it('classDirectivesInQuotes', () => {
+    it('finds class directives in quotes', () => {
       const code = '<span class:mb-1="{foo}" />'
       const result = findClasses(code)
       const expected: FoundClass[] = [
@@ -100,7 +100,7 @@ if (import.meta.vitest) {
       expect(result).toEqual(expected)
     })
 
-    it('classDirectivesShorthand', () => {
+    it('finds shorthand class directives', () => {
       const code = '<span class:logo />'
       const result = findClasses(code)
       const expected: FoundClass[] = [
