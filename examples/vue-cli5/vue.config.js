@@ -1,7 +1,9 @@
+const process = require('node:process')
 const UnoCSS = require('@unocss/webpack').default
 
 module.exports = {
   configureWebpack: {
+    devtool: 'inline-source-map',
     plugins: [
       UnoCSS(),
     ],
@@ -17,6 +19,11 @@ module.exports = {
     })
   },
   css: {
-    extract: true,
+    extract: process.env.NODE_ENV === 'development'
+      ? {
+          filename: 'css/[name].css',
+          chunkFilename: 'css/[name].css',
+        }
+      : true,
   },
 }
