@@ -203,7 +203,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .border-x{border-left-width:1px;border-right-width:1px;}
 .border-b{border-bottom-width:1px;}
 .border-e-4{border-inline-end-width:4px;}
-.border-s-0{border-inline-start-width:0;}
+.border-s-0{border-inline-start-width:0px;}
 .border-t-2,
 .border-t-size-2{border-top-width:2px;}
 .border-inline{border-inline-start-width:1px;border-inline-end-width:1px;}
@@ -624,6 +624,8 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .grid-areas-\[prepend_content_append\]{grid-template-areas:"prepend content append";}
 .grid-areas-\[prepend_content_append\]-\[prepend_content_append\]{grid-template-areas:"prepend content append" "prepend content append";}
 .grid-areas-\$variable{grid-template-areas:var(--variable);}
+.grid-rows-subgrid{grid-template-rows:subgrid;}
+.grid-cols-subgrid{grid-template-columns:subgrid;}
 .gap-\$variable{gap:var(--variable);}
 .gap-4{gap:1rem;}
 .gap-inherit{gap:inherit;}

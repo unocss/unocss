@@ -4,6 +4,7 @@ import { colorOpacityToString, colorToString, getStringComponents, parseCssColor
 import type { Theme } from '../theme'
 import { h } from './handlers'
 import { cssMathFnRE, directionMap, globalKeywords } from './mappings'
+import { numberWithUnitRE } from './handlers/regex'
 
 export const CONTROL_MINI_NO_NEGATIVE = '$$mini-no-negative'
 
@@ -243,4 +244,10 @@ export function makeGlobalStaticRules(prefix: string, property?: string): Static
 
 export function isCSSMathFn(value: string) {
   return cssMathFnRE.test(value)
+}
+
+export function isSize(str: string) {
+  if (str[0] === '[' && str.slice(-1) === ']')
+    str = str.slice(1, -1)
+  return cssMathFnRE.test(str) || numberWithUnitRE.test(str)
 }
