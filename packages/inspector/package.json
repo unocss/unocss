@@ -41,6 +41,7 @@
     "update-post": "vite build"
   },
   "dependencies": {
+    "@unocss/core": "workspace:*",
     "@unocss/rule-utils": "workspace:*",
     "gzip-size": "^6.0.0",
     "sirv": "^2.0.3"
