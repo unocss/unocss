@@ -1,5 +1,4 @@
 import { basename, parse } from 'node:path'
-import process from 'node:process'
 import fs from 'fs-extra'
 import fg from 'fast-glob'
 import YAML from 'js-yaml'
