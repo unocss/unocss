@@ -11,8 +11,8 @@ export function createTransformerPlugins(ctx: UnocssPluginContext): Plugin[] {
       return applyTransformers(ctx, code, id, enforce)
     },
     transformIndexHtml: {
-      enforce: enforce === 'default' ? undefined : enforce,
-      transform(code) {
+      order: enforce === 'default' ? undefined : enforce,
+      handler(code) {
         return applyTransformers(ctx, code, 'index.html', enforce)
           .then(t => t?.code)
       },

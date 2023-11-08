@@ -112,6 +112,8 @@ You might need to read some code to take the full power of it.
 
 UnoCSS respects the order of the rules you defined in the generated CSS. Latter ones come with higher priority.
 
+When using dynamic rule, it would likely match multiple tokens. By default, output of those matched under a single dynamic rule will be sorted alphabetically within the group.
+
 ## Rules merging
 
 By default, UnoCSS will merge CSS rules with the same body to minimize the CSS size.
