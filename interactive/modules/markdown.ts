@@ -23,8 +23,6 @@ export default defineNuxtModule({
               },
             })
             md.options.highlight = (code, lang) => {
-              // const dark = highlighter.codeToHtml(code, { lang, theme: 'vitesse-dark' })
-
               const dark = highlighter.codeToHtml(code, { lang, theme: 'vitesse-dark' })
                 .replace('<pre class="shiki"', '<pre class="shiki shiki-dark"')
               const light = highlighter.codeToHtml(code, { lang: lang || 'text', theme: 'vitesse-light' })
