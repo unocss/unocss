@@ -29,10 +29,13 @@
       <RouterLink :to="{ query: { s: 'colors' } }" badge-lg-lime transition hover:translate-y--2px>
         colors
       </RouterLink>
-      <RouterLink :to="{ query: { s: 'i-twemoji-frog' } }" badge-lg-green transition hover:translate-y--2px>
+      <RouterLink :to="{ query: { s: 'mdn:' } }" badge-lg-green transition hover:translate-y--2px>
+        mdn:
+      </RouterLink>
+      <RouterLink :to="{ query: { s: 'i-twemoji-frog' } }" badge-lg-emerald transition hover:translate-y--2px>
         i-twemoji-frog
       </RouterLink>
-      <RouterLink :to="{ query: { s: 'random:' } }" badge-lg-emerald transition hover:translate-y--2px>
+      <RouterLink :to="{ query: { s: 'random:' } }" badge-lg-teal transition hover:translate-y--2px>
         random:
       </RouterLink>
     </div>
