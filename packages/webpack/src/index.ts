@@ -13,7 +13,7 @@ import { getPath, isCssId } from '../../shared-integration/src/utils'
 export interface WebpackPluginOptions<Theme extends object = object> extends UserConfig<Theme> {
   /**
    * Manually enable watch mode
-   * 
+   *
    * @default false
    */
   watch?: boolean
