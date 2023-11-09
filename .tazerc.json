@@ -9,10 +9,12 @@
     "msw",
     "prettier",
     "prettier-plugin-svelte",
-    "@types/prettier"
+    "@types/prettier",
+    "rollup"
   ],
   "packageMode": {
     "vue": "minor",
-    "nuxt": "minor"
+    "nuxt": "minor",
+    "lit": "minor"
   }
 }

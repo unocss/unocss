@@ -25,8 +25,8 @@
   "svelte": "./dist/index.js",
   "devDependencies": {
     "@iconify-json/logos": "^1.1.37",
-    "@sveltejs/adapter-auto": "^2.1.0",
-    "@sveltejs/kit": "^1.27.2",
+    "@sveltejs/adapter-auto": "^2.1.1",
+    "@sveltejs/kit": "^1.27.4",
     "@sveltejs/package": "^2.2.2",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-icons": "link:../../packages/preset-icons",

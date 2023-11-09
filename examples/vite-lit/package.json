@@ -26,7 +26,7 @@
     "typescript": "^5.2.2",
     "unocss": "link:../../packages/unocss",
     "vite": "^4.5.0",
-    "vite-plugin-inspect": "^0.7.41"
+    "vite-plugin-inspect": "^0.7.42"
   },
   "stackblitz": {
     "installDependencies": false,

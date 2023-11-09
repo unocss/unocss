@@ -1,5 +1,5 @@
 import path, { dirname } from 'path'
-import type { ExtensionContext, StatusBarItem, WorkspaceConfiguration } from 'vscode'
+import type { ExtensionContext, WorkspaceConfiguration } from 'vscode'
 import { StatusBarAlignment, commands, window, workspace } from 'vscode'
 import { findUp } from 'find-up'
 import type { FilterPattern } from '@rollup/pluginutils'
