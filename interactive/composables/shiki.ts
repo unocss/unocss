@@ -19,7 +19,11 @@ export function highlight(code: string, lang: BuiltinLanguage) {
     return code
   return shiki.value.codeToHtml(code, {
     lang,
-    theme: isDark.value ? 'vitesse-dark' : 'vitesse-light',
+    defaultColor: false,
+    themes: {
+      dark: 'vitesse-dark',
+      light: 'vitesse-light',
+    },
   })
 }
 
