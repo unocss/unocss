@@ -8,7 +8,7 @@ import { throttle } from './utils'
 import type { ContextLoader } from './contextLoader'
 import { getMatchedPositionsFromCode } from './integration'
 
-export async function registerSelectionStyle(cwd: string, contextLoader: ContextLoader) {
+export async function registerSelectionStyle(contextLoader: ContextLoader) {
   const hasSelectionStyle = (): boolean => workspace.getConfiguration().get('unocss.selectionStyle') ?? true
 
   const integrationDecoration = window.createTextEditorDecorationType({})
@@ -33,7 +33,11 @@ export async function registerSelectionStyle(cwd: string, contextLoader: Context
         code = `<div ${code}`
       if (!code.endsWith('>'))
         code = `${code} >`
-      const ctx = await contextLoader.resolveContext(code, id) || (await contextLoader.resolveClosestContext(code, id))
+
+      const ctx = await contextLoader.resolveClosestContext(code, id)
+      if (!ctx)
+        return reset()
+
       const result = await getMatchedPositionsFromCode(ctx.uno, code)
       if (result.length <= 1)
         return reset()
@@ -46,6 +50,8 @@ export async function registerSelectionStyle(cwd: string, contextLoader: Context
       const sheetMap = new TwoKeyMap<string | undefined, string, string>()
       await Promise.all(Array.from(uniqMap.values())
         .map(async (name) => {
+          if (!ctx)
+            return
           const tokens = await ctx.uno.parseToken(name, classNamePlaceholder) || []
           tokens.forEach(([, className, cssText, media]) => {
             if (className && cssText) {

@@ -47,7 +47,6 @@ class UnoCompletionItem extends CompletionItem {
 }
 
 export async function registerAutoComplete(
-  cwd: string,
   contextLoader: ContextLoader,
   ext: ExtensionContext,
 ) {
@@ -103,16 +102,16 @@ export async function registerAutoComplete(
   const provider: CompletionItemProvider<UnoCompletionItem> = {
     async provideCompletionItems(doc, position) {
       const id = doc.uri.fsPath
-      if (!isSubdir(cwd, id))
+      if (!contextLoader.isTarget(id))
         return null
 
       const code = doc.getText()
       if (!code)
         return null
 
-      let ctx = await contextLoader.resolveContext(code, id)
+      const ctx = await contextLoader.resolveClosestContext(code, id)
       if (!ctx)
-        ctx = await contextLoader.resolveClosestContext(code, id)
+        return null
 
       if (!ctx.filter(code, id) && !isCssId(id))
         return null

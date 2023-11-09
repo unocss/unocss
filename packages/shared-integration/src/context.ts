@@ -127,7 +127,9 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     uno,
     extract,
     getConfig,
-    root,
+    get root() {
+      return root
+    },
     updateRoot,
     getConfigFileList: () => configFileList,
   }

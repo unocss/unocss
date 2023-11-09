@@ -42,6 +42,10 @@ export class ContextLoader {
       })
   }
 
+  isTarget(id: string) {
+    return isSubdir(this.cwd, id)
+  }
+
   get contexts() {
     return Array.from(new Set(this.contextsMap.values())).filter(notNull)
   }
@@ -53,12 +57,16 @@ export class ContextLoader {
   }
 
   private async _reload() {
-    for (const dir of this.contextsMap.keys())
-      this.unloadContext(dir)
+    const dirs = Array.from(this.contextsMap.keys())
+    await Promise.allSettled(Array.from(dirs).map(dir => this.unloadContext(dir)))
+
     this.fileContextCache.clear()
     this.configExistsCache.clear()
 
-    await this.loadContextInDirectory(this.cwd)
+    for (const dir of dirs)
+      await this.loadContextInDirectory(dir)
+    if (!dirs.length)
+      await this.loadContextInDirectory(this.cwd)
   }
 
   async unload(configDir: string) {
@@ -88,6 +96,7 @@ export class ContextLoader {
     }
 
     this.events.emit('contextUnload', context)
+    this.events.emit('reload')
   }
 
   async configExists(dir: string) {
@@ -194,61 +203,26 @@ export class ContextLoader {
     const context = await load()
     if (!this.contextsMap.has(dir))
       this.contextsMap.set(dir, context)
+    this.fileContextCache.clear()
+    this.events.emit('reload')
+
+    log.appendLine(`🗂️ All context: ${Array.from(this.contextsMap.keys()).join(', ')}`)
+
     return context
   }
 
-  async resolveContext(code: string, file: string) {
-    if (file.match(/[\/](node_modules|dist|\.temp|\.cache)[\/]/g))
-      return
-
-    const cached = this.fileContextCache.get(file)
-    if (cached !== undefined)
-      return cached
-
-    // try finding an existing context that includes the file
-    for (const [configDir, context] of this.contextsMap) {
-      if (!context)
-        continue
-
-      if (!isSubdir(configDir, file))
-        continue
-
-      if (!context.filter(code, file) && !isCssId(file))
-        continue
-
-      this.fileContextCache.set(file, context)
-      return context
-    }
-
-    // try finding a config from disk
-    if (fs.existsSync(file)) {
-      let dir = path.dirname(file)
-      while (isSubdir(this.cwd, dir)) {
-        if (await this.configExists(dir)) {
-          const context = await this.loadContextInDirectory(dir)
-          if (context?.filter(code, file) || isCssId(file)) {
-            this.fileContextCache.set(file, context)
-            return context
-          }
-        }
-
-        const newDir = path.dirname(dir)
-        if (newDir === dir)
-          break
-        dir = newDir
-      }
-    }
-
-    this.fileContextCache.set(file, null)
-    return null
-  }
-
   async resolveClosestContext(code: string, file: string) {
-    const cached = this.fileContextCache.get(file)
-    if (cached)
-      return cached
+    if (!this.contextsMap.size)
+      return undefined
 
-    for (const [configDir, context] of this.contextsMap) {
+    if (file.match(/[\/](node_modules|dist|\.temp|\.cache)[\/]/g))
+      return undefined
+
+    if (this.fileContextCache.has(file))
+      return this.fileContextCache.get(file)
+
+    const entries = Array.from(this.contextsMap.entries()).sort((a, b) => b[0].length - a[0].length)
+    for (const [configDir, context] of entries) {
       if (!context)
         continue
 
@@ -262,7 +236,7 @@ export class ContextLoader {
       return context
     }
 
-    for (const [configDir, context] of this.contextsMap) {
+    for (const [configDir, context] of entries) {
       if (!context)
         continue
 

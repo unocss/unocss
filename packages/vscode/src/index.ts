@@ -1,4 +1,4 @@
-import path from 'path'
+import path, { dirname } from 'path'
 import type { ExtensionContext, StatusBarItem, WorkspaceConfiguration } from 'vscode'
 import { StatusBarAlignment, commands, window, workspace } from 'vscode'
 import { findUp } from 'find-up'
@@ -10,22 +10,8 @@ import { registerAnnotations } from './annotation'
 import { registerAutoComplete } from './autocomplete'
 import { ContextLoader } from './contextLoader'
 import { registerSelectionStyle } from './selectionStyle'
-import { isFulfilled, isRejected } from './utils'
+import { isRejected } from './utils'
 import { defaultPipelineExclude, defaultPipelineInclude } from './integration'
-
-async function registerRoot(ext: ExtensionContext, status: StatusBarItem, cwd: string) {
-  const contextLoader = new ContextLoader(cwd)
-  await contextLoader.ready
-
-  const hasConfig = await contextLoader.loadContextInDirectory(cwd)
-  if (hasConfig) {
-    registerAutoComplete(cwd, contextLoader, ext)
-    registerAnnotations(cwd, contextLoader, status, ext)
-    registerSelectionStyle(cwd, contextLoader)
-  }
-
-  return contextLoader
-}
 
 export async function activate(ext: ExtensionContext) {
   log.appendLine(`⚪️ UnoCSS for VS Code v${version}\n`)
@@ -48,48 +34,54 @@ export async function activate(ext: ExtensionContext) {
 
   const root = config.get<string | string[]>('root')
 
-  if (Array.isArray(root) && root.length)
-    return await rootRegisterManual(ext, root, projectPath, status)
-  else
-    return await rootRegisterAuto(ext, root, config, status)
-}
+  const ctx = (Array.isArray(root) && root.length)
+    ? await rootRegisterManual(ext, root, projectPath)
+    : await rootRegisterAuto(ext, typeof root === 'string' ? root : projectPath, config)
 
-async function rootRegisterManual(
-  ext: ExtensionContext,
-  root: string[],
-  projectPath: string,
-  status: StatusBarItem,
-) {
-  log.appendLine('📂 Manual roots search mode.' + `\n${root.map(i => `  - ${i}`).join('\n')}`)
-
-  const cwds = root.map(dir => path.resolve(projectPath, dir))
-  const contextLoadersResult = await Promise.allSettled(
-    cwds.map(cwd => registerRoot(ext, status, cwd)),
-  )
+  registerAutoComplete(ctx, ext)
+  registerAnnotations(ctx, status, ext)
+  registerSelectionStyle(ctx)
 
   ext.subscriptions.push(
     commands.registerCommand('unocss.reload', async () => {
       log.appendLine('🔁 Reloading...')
-      await Promise.all(
-        contextLoadersResult
-          .filter(isFulfilled)
-          .map(result => result.value.reload),
-      )
+      await ctx.reload()
       log.appendLine('✅ Reloaded.')
     }),
   )
+}
 
-  for (const result of contextLoadersResult.filter(isRejected)) {
+async function rootRegisterManual(
+  _ext: ExtensionContext,
+  root: string[],
+  projectPath: string,
+) {
+  log.appendLine('📂 Manual roots search mode.' + `\n${root.map(i => `  - ${i}`).join('\n')}`)
+
+  const roots = root.map(dir => path.resolve(projectPath, dir))
+
+  const ctx = roots.length === 1
+    ? new ContextLoader(roots[0])
+    : new ContextLoader(projectPath)
+
+  await ctx.ready
+
+  const loaderResult = await Promise.allSettled(
+    roots.map(cwd => ctx.loadContextInDirectory(cwd)),
+  )
+
+  for (const result of loaderResult.filter(isRejected)) {
     const e = result.reason
     log.appendLine(String(e.stack ?? e))
   }
+
+  return ctx
 }
 
 async function rootRegisterAuto(
   ext: ExtensionContext,
-  root: string | string[] | undefined,
+  root: string,
   config: WorkspaceConfiguration,
-  status: StatusBarItem,
 ) {
   log.appendLine('📂 Auto roots search mode.')
 
@@ -100,25 +92,30 @@ async function rootRegisterAuto(
   const exclude: FilterPattern = _exclude || [/[\/](node_modules|dist|\.temp|\.cache|\.vscode)[\/]/, ...defaultPipelineExclude]
   const filter = createFilter(include, exclude)
 
+  const ctx = new ContextLoader(root)
+  await ctx.ready
+
   const cacheFileLookUp = new Set<string>()
-  const cacheContext = new Map()
 
-  const watchConfigMap = ['uno.config.js', 'uno.config.ts', 'unocss.config.js', 'unocss.config.ts']
-  const useWatcherUnoConfig = (configUrl: string) => {
-    const watcher = workspace.createFileSystemWatcher(configUrl)
+  const watcher = workspace.createFileSystemWatcher('**/{uno,unocss}.config.{js,ts}')
 
-    ext.subscriptions.push(watcher.onDidChange(() => {
-      cacheContext.get(configUrl).reload()
-    }))
+  ext.subscriptions.push(watcher.onDidChange(async (uri) => {
+    const dir = dirname(uri.fsPath)
+    await ctx.unloadContext(dir)
+    await ctx.loadContextInDirectory(dir)
+  }))
 
-    ext.subscriptions.push(watcher.onDidDelete(() => {
-      cacheContext.get(configUrl).unload(path.dirname(configUrl))
-      watcher.dispose()
-      cacheFileLookUp.clear()
-    }))
+  ext.subscriptions.push(watcher.onDidDelete((uri) => {
+    ctx.unloadContext(dirname(uri.fsPath))
+    cacheFileLookUp.clear()
+  }))
 
-    return () => watcher.dispose()
-  }
+  const configNames = [
+    'uno.config.js',
+    'uno.config.ts',
+    'unocss.config.js',
+    'unocss.config.ts',
+  ]
 
   const registerUnocss = async () => {
     const url = window.activeTextEditor?.document.uri.fsPath
@@ -139,7 +136,7 @@ async function rootRegisterAuto(
       return
     }
 
-    const configUrl = await findUp(watchConfigMap, { cwd: url })
+    const configUrl = await findUp(configNames, { cwd: url })
     if (!configUrl) {
       cacheFileLookUp.add(url)
       return
@@ -150,30 +147,7 @@ async function rootRegisterAuto(
       return
 
     cacheFileLookUp.add(cwd)
-
-    const contextLoader = await registerRoot(ext, status, cwd)
-    const reload = async () => {
-      log.appendLine('🔁 Reloading...')
-      await contextLoader.reload()
-      log.appendLine('✅ Reloaded.')
-    }
-    const unload = (configDir: string) => {
-      log.appendLine('🔁 unloading...')
-      contextLoader.unload(configDir)
-      cacheFileLookUp.delete(cwd)
-      cacheContext.delete(configUrl)
-      log.appendLine('✅ unloaded.')
-    }
-    const dispose = useWatcherUnoConfig(configUrl)
-
-    cacheContext.set(configUrl, {
-      reload,
-      unload,
-      dispose,
-    })
-    ext.subscriptions.push(
-      commands.registerCommand('unocss.reload', reload),
-    )
+    await ctx.loadContextInDirectory(cwd)
   }
 
   try {
@@ -184,6 +158,8 @@ async function rootRegisterAuto(
   catch (e: any) {
     log.appendLine(String(e.stack ?? e))
   }
+
+  return ctx
 }
 
 export function deactivate() { }
