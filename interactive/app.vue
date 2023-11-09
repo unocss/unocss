@@ -49,11 +49,13 @@ html.dark {
   background: #121212;
   color: white;
 }
-html.dark .shiki-light {
-  display: none;
+html.dark .shiki,
+html.dark .shiki span {
+  color: var(--shiki-dark);
 }
-html:not(.dark) .shiki-dark {
-  display: none;
+html:not(.dark) .shiki,
+html:not(.dark) .shiki span {
+  color: var(--shiki-light);
 }
 html.dark ::-moz-selection  {
   background: #444;
