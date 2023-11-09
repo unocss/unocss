@@ -10,7 +10,14 @@ import { HASH_PLACEHOLDER_RE, LAYER_MARK_ALL, LAYER_PLACEHOLDER_RE, RESOLVED_ID_
 import { applyTransformers } from '../../shared-integration/src/transformers'
 import { getPath, isCssId } from '../../shared-integration/src/utils'
 
-export interface WebpackPluginOptions<Theme extends object = object> extends UserConfig<Theme> {}
+export interface WebpackPluginOptions<Theme extends object = object> extends UserConfig<Theme> {
+  /**
+   * Manually enable watch mode
+   *
+   * @default false
+   */
+  watch?: boolean
+}
 
 const PLUGIN_NAME = 'unocss:webpack'
 const UPDATE_DEBOUNCE = 10
@@ -47,7 +54,7 @@ export default function WebpackPlugin<Theme extends object>(
     }
 
     // TODO: detect webpack's watch mode and enable watcher
-    tasks.push(setupContentExtractor(ctx))
+    tasks.push(setupContentExtractor(ctx, typeof configOrPath === 'object' && configOrPath?.watch))
 
     const entries = new Set<string>()
     const hashes = new Map<string, string>()
