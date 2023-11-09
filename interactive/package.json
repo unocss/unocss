@@ -21,6 +21,7 @@
     "js-yaml": "^4.1.0",
     "knitwork": "^1.0.0",
     "markdown-it-link-attributes": "^4.0.1",
+    "markdown-it-shikiji": "^0.6.12",
     "nuxt": "^3.7.3",
     "p-limit": "^5.0.0",
     "postcss-nested": "^6.0.1",

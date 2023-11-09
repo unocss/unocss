@@ -490,6 +490,9 @@ importers:
       markdown-it-link-attributes:
         specifier: ^4.0.1
         version: 4.0.1
+      markdown-it-shikiji:
+        specifier: ^0.6.12
+        version: 0.6.12
       nuxt:
         specifier: latest
         version: 3.7.4(@types/node@20.8.10)(eslint@8.52.0)(rollup@3.29.4)(terser@5.24.0)(typescript@5.2.2)
@@ -14798,8 +14801,26 @@ packages:
     resolution: {integrity: sha512-pg5OK0jPLg62H4k7M9mRJLT61gUp9nvG0XveKYHMOOluASo9OEF13WlXrpAp2aj35LbedAy3QOCgQCw0tkLKAQ==}
     dev: true
 
+  /markdown-it-shikiji@0.6.12:
+    resolution: {integrity: sha512-9yLmOaqQnioBoPwNG/Zbk1/Sp1G06lC3qHweL5OUAbtTLylMxBeE6S8LIVxjZm1+75HoP6jPJFsVUyNn++DzuQ==}
+    dependencies:
+      markdown-it: 13.0.2
+      shikiji: 0.6.12
+    dev: true
+
   /markdown-it@13.0.1:
     resolution: {integrity: sha512-lTlxriVoy2criHP0JKRhO2VDG9c2ypWCsT237eDiLqi09rmbKoUetyGHq2uOIRoRS//kfoJckS0eUzzkDR+k2Q==}
+    hasBin: true
+    dependencies:
+      argparse: 2.0.1
+      entities: 3.0.1
+      linkify-it: 4.0.1
+      mdurl: 1.0.1
+      uc.micro: 1.0.6
+    dev: true
+
+  /markdown-it@13.0.2:
+    resolution: {integrity: sha512-FtwnEuuK+2yVU7goGn/MJ0WBZMM9ZPgU9spqlFs7/A/pDIUNSOQZhUgOqYCficIuR2QaFnrt8LHqBWsbTAoI5w==}
     hasBin: true
     dependencies:
       argparse: 2.0.1
