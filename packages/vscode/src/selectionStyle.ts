@@ -56,8 +56,7 @@ export async function registerSelectionStyle(cwd: string, contextLoader: Context
               sheetMap.set(media, selector, (sheetMap.get(media, selector) || '') + cssText)
             }
           })
-        }),
-      )
+        }))
 
       const css = Array.from(sheetMap._map.entries())
         .map(([media, map]) => {
@@ -91,5 +90,9 @@ export async function registerSelectionStyle(cwd: string, contextLoader: Context
     }
   }
 
-  window.onDidChangeTextEditorSelection(throttle(selectionStyle, 200))
+  const dispose = window.onDidChangeTextEditorSelection(throttle(selectionStyle, 200))
+
+  contextLoader.events.on('unload', () => {
+    dispose.dispose()
+  })
 }

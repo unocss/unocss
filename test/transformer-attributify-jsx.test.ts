@@ -2,7 +2,7 @@ import MagicString from 'magic-string'
 import presetAttributify from '@unocss/preset-attributify'
 import presetUno from '@unocss/preset-uno'
 import { createGenerator } from '@unocss/core'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import transformerAttributifyJsx from '../packages/transformer-attributify-jsx/src'
 import transformerAttributifyJsxBabel from '../packages/transformer-attributify-jsx-babel/src'
 
@@ -40,8 +40,25 @@ const originalCode = `
     on-demand · instant · fully customizable
   </div>
   <div components={<div absolute bottom-5></div>}></div>
+  <h1 flex>h1</h1>
+  <div {...{ flex }} />  
+  <div {...{ onClick: () => { grid(); flex } }} flex />
+  <div {...true ? flex : props.grid } {...grid || ( block ) && $flex } />  
+  <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, "flex", \`flex\` ] } />  
 </div>
   `.trim()
+
+const tagCouldBeAttrCode = `
+<div>
+  <b text-red>Test</b>
+  <h1 text-red>Test</h1>
+  <h2 text-red>Test</h2>
+  <h3 text-red>Test</h3>
+  <h4 text-red>Test</h4>
+  <h5 text-red>Test</h5>
+  <h6 text-red>Test</h6>
+</div>
+`.trim()
 
 describe('transformerAttributifyJsx', () => {
   const uno = createGenerator({
@@ -51,7 +68,7 @@ describe('transformerAttributifyJsx', () => {
     ],
   })
 
-  test('transform', async () => {
+  it('transform', async () => {
     const code = new MagicString(originalCode)
     await transformerAttributifyJsx().transform(code, 'app.tsx', { uno, tokens: new Set() } as any)
 
@@ -88,12 +105,17 @@ describe('transformerAttributifyJsx', () => {
         <div absolute=\\"\\" bottom-5=\\"\\" right-0=\\"\\" left-0=\\"\\" text-center=\\"\\" op30=\\"\\" fw300=\\"\\">
           on-demand · instant · fully customizable
         </div>
-        <div components={<div absolute bottom-5></div>}></div>
+        <div components={<div absolute=\\"\\" bottom-5=\\"\\"></div>}></div>
+        <h1 flex=\\"\\">h1</h1>
+        <div {...{ flex }} />  
+        <div {...{ onClick: () => { grid(); flex } }} flex=\\"\\" />
+        <div {...true ? flex : props.grid } {...grid || ( block ) && $flex } />  
+        <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, \\"flex\\", \`flex\` ] } />  
       </div>"
     `)
   })
 
-  test('blocklist', async () => {
+  it('blocklist', async () => {
     const code = new MagicString(originalCode)
     const blocklist: (string | RegExp)[] = ['flex', 'absolute']
 
@@ -134,7 +156,12 @@ describe('transformerAttributifyJsx', () => {
         <div absolute bottom-5=\\"\\" right-0=\\"\\" left-0=\\"\\" text-center=\\"\\" op30=\\"\\" fw300=\\"\\">
           on-demand · instant · fully customizable
         </div>
-        <div components={<div absolute bottom-5></div>}></div>
+        <div components={<div absolute bottom-5=\\"\\"></div>}></div>
+        <h1 flex>h1</h1>
+        <div {...{ flex }} />  
+        <div {...{ onClick: () => { grid(); flex } }} flex />
+        <div {...true ? flex : props.grid } {...grid || ( block ) && $flex } />  
+        <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, \\"flex\\", \`flex\` ] } />  
       </div>"
     `)
 
@@ -146,6 +173,23 @@ describe('transformerAttributifyJsx', () => {
         expect(codeToString).not.toMatch(`${rule}=""`)
     })
   })
+
+  it('if class-like tag do not cause error', async () => {
+    const code = new MagicString(tagCouldBeAttrCode)
+    await transformerAttributifyJsx().transform(code, 'app.tsx', { uno, tokens: new Set() } as any)
+
+    expect(code.toString()).toMatchInlineSnapshot(`
+      "<div>
+        <b text-red=\\"\\">Test</b>
+        <h1 text-red=\\"\\">Test</h1>
+        <h2 text-red=\\"\\">Test</h2>
+        <h3 text-red=\\"\\">Test</h3>
+        <h4 text-red=\\"\\">Test</h4>
+        <h5 text-red=\\"\\">Test</h5>
+        <h6 text-red=\\"\\">Test</h6>
+      </div>"
+    `)
+  })
 })
 
 describe('transformerAttributifyJsxBabel', () => {
@@ -156,7 +200,7 @@ describe('transformerAttributifyJsxBabel', () => {
     ],
   })
 
-  test('transform', async () => {
+  it('transform', async () => {
     const code = new MagicString(originalCode)
     await transformerAttributifyJsxBabel().transform(code, 'app.tsx', { uno, tokens: new Set() } as any)
 
@@ -187,11 +231,23 @@ describe('transformerAttributifyJsxBabel', () => {
           on-demand · instant · fully customizable
         </div>
         <div components={<div absolute=\\"\\" bottom-5=\\"\\"></div>}></div>
+        <h1 flex=\\"\\">h1</h1>
+        <div {...{
+          flex
+        }} />  
+        <div {...{
+          onClick: () => {
+            grid();
+            flex;
+          }
+        }} flex=\\"\\" />
+        <div {...true ? flex : props.grid} {...grid || block && $flex} />  
+        <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, \\"flex\\", \`flex\`]} />  
       </div>;"
     `)
   })
 
-  test('blocklist', async () => {
+  it('blocklist', async () => {
     const code = new MagicString(originalCode)
     const blocklist: (string | RegExp)[] = ['flex', 'absolute']
 
@@ -226,6 +282,18 @@ describe('transformerAttributifyJsxBabel', () => {
           on-demand · instant · fully customizable
         </div>
         <div components={<div absolute bottom-5=\\"\\"></div>}></div>
+        <h1 flex>h1</h1>
+        <div {...{
+          flex
+        }} />  
+        <div {...{
+          onClick: () => {
+            grid();
+            flex;
+          }
+        }} flex />
+        <div {...true ? flex : props.grid} {...grid || block && $flex} />  
+        <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, \\"flex\\", \`flex\`]} />  
       </div>;"
     `)
 
@@ -236,5 +304,22 @@ describe('transformerAttributifyJsxBabel', () => {
       else
         expect(codeToString).not.toMatch(`${rule}=""`)
     })
+  })
+
+  it('if class-like tag do not cause error', async () => {
+    const code = new MagicString(tagCouldBeAttrCode)
+    await transformerAttributifyJsx().transform(code, 'app.tsx', { uno, tokens: new Set() } as any)
+
+    expect(code.toString()).toMatchInlineSnapshot(`
+      "<div>
+        <b text-red=\\"\\">Test</b>
+        <h1 text-red=\\"\\">Test</h1>
+        <h2 text-red=\\"\\">Test</h2>
+        <h3 text-red=\\"\\">Test</h3>
+        <h4 text-red=\\"\\">Test</h4>
+        <h5 text-red=\\"\\">Test</h5>
+        <h6 text-red=\\"\\">Test</h6>
+      </div>"
+    `)
   })
 })

@@ -1,8 +1,8 @@
 import { mergeDeep } from '@unocss/core'
-import { getComponent } from '@unocss/preset-mini/utils'
 import { expect, it } from 'vitest'
 import { addRemToPxComment, getColorString } from '@unocss/vscode/utils'
 import { cartesian } from '@unocss/autocomplete'
+import { getStringComponent } from '@unocss/rule-utils'
 
 it('mergeDeep', () => {
   expect(mergeDeep<any>({
@@ -23,15 +23,18 @@ it('mergeDeep', () => {
       }
     `)
 
-  expect(mergeDeep<any>({
-    foo: true,
-    bar: 1,
-    arr: [1],
-  }, {
-    bar: {},
-    arr: [2],
-  } as any,
-  true))
+  expect(mergeDeep<any>(
+    {
+      foo: true,
+      bar: 1,
+      arr: [1],
+    },
+    {
+      bar: {},
+      arr: [2],
+    } as any,
+    true,
+  ))
     .toMatchInlineSnapshot(`
       {
         "arr": [
@@ -45,7 +48,7 @@ it('mergeDeep', () => {
 })
 
 it('getComponents', () => {
-  const fn1 = (s: string) => getComponent(s, '(', ')', ',')
+  const fn1 = (s: string) => getStringComponent(s, '(', ')', ',')
 
   expect(fn1('comma,separated')).eql(['comma', 'separated'])
   expect(fn1('comma ,separated')).eql(['comma ', 'separated'])
@@ -114,6 +117,20 @@ it('addRemToPxComment', () => {
 
   expect(addRemToPxComment(text, 0)).eql(text)
   expect(addRemToPxComment(text, -1)).eql(text)
+
+  const importantText = `
+  /* layer: default */
+  .\!m-9 {
+    margin: 2.25rem !important;
+  }`
+
+  const importantComment = addRemToPxComment(importantText, 16)
+
+  expect(importantComment).eql(`
+  /* layer: default */
+  .\!m-9 {
+    margin: 2.25rem !important; /* 36px */
+  }`)
 })
 
 it('cartesian', () => {

@@ -1,6 +1,6 @@
 import { createGenerator } from '@unocss/core'
 import { variantMatcher } from '@unocss/preset-mini/utils'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 describe('selector', () => {
   const uno = createGenerator({
@@ -11,7 +11,7 @@ describe('selector', () => {
     ],
   })
 
-  test('rules split selector', async () => {
+  it('rules split selector', async () => {
     const { css } = await uno.generate('to-merge merge-candidate not-merged')
     expect(css).toMatchSnapshot()
   })
@@ -37,22 +37,22 @@ describe('variant', () => {
     ],
   })
 
-  test('variant split selector', async () => {
+  it('variant split selector', async () => {
     const { css } = await uno.generate('moz:no-merge webkit:no-merge')
     expect(css).toMatchSnapshot()
   })
 
-  test('variant split shortcuts', async () => {
+  it('variant split shortcuts', async () => {
     const { css } = await uno.generate('m1-no-merge')
     expect(css).toMatchSnapshot()
   })
 
-  test('variant shortcuts early', async () => {
+  it('variant shortcuts early', async () => {
     const { css } = await uno.generate('m2-no-merge')
     expect(css).toMatchSnapshot()
   })
 
-  test('variant shortcuts late', async () => {
+  it('variant shortcuts late', async () => {
     const { css } = await uno.generate('m3-no-merge-ordered')
     expect(css).toMatchSnapshot()
   })

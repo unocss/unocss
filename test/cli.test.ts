@@ -4,7 +4,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { startCli } from '../packages/cli/src/cli-start'
 import { getWatcher } from '../packages/cli/src/watcher'
 
-export const tempDir = resolve('.temp')
+export const tempDir = resolve('_temp')
 export const cli = resolve(__dirname, '../packages/cli/src/cli.ts')
 
 beforeAll(async () => {
@@ -94,12 +94,11 @@ export default defineConfig({
       },
       transformFile: 'views/index.css',
     },
-  ])('supports updating source files with transformed utilities ($transformer)',
-    async ({ files, transformFile }) => {
-      const { output, transform } = await runCli(files, { transformFile, args: ['--write-transformed'] })
-      expect(output).toMatchSnapshot()
-      expect(transform).toMatchSnapshot()
-    })
+  ])('supports updating source files with transformed utilities ($transformer)', async ({ files, transformFile }) => {
+    const { output, transform } = await runCli(files, { transformFile, args: ['--write-transformed'] })
+    expect(output).toMatchSnapshot()
+    expect(transform).toMatchSnapshot()
+  })
 
   it('uno.css exclude initialized class after changing file', async () => {
     const fileName = 'views/index.html'
@@ -207,6 +206,62 @@ export default defineConfig({
       }
     }
   })
+
+  it('@unocss-skip uno.css', async () => {
+    const { output } = await runCli({
+      'views/index.html': `
+import clsx from "clsx"
+import React, { useCallback, useEffect, useRef, useState } from "react"
+
+const Navbar: React.FC<any> = ({
+  className,
+  children,
+  show,
+  id,
+  navbar,
+  tag: Tag = "div",
+  collapseRef,
+  style,
+  ...props
+}): JSX.Element => {
+
+  const [showCollapse, setShowCollapse] = useState<boolean | undefined>(false)
+  //  @unocss-skip-start
+  const [transition, setTransition] = useState(false)
+
+  const classes = clsx(
+    transition ? "collapsing" : "collapse", // transition is not used in the app
+    !transition && showCollapse && "show", // transition is not used in the app
+    navbar && "navbar-collapse",
+    className
+  )
+  const handleResize = useCallback(() => {
+
+  }, [])
+
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize) // resize is not used in the app
+
+    return () => {
+      window.removeEventListener("resize", handleResize) // resize is not used in the app
+    }
+  }, [handleResize])
+  //  @unocss-skip-end
+
+  return (
+    <div className="w-10">
+
+    </div>
+  )
+}
+
+export default Navbar
+`,
+    })
+
+    expect(output).toMatchSnapshot()
+  })
 })
 
 // ----- Utils -----
@@ -224,9 +279,7 @@ function getTestDir() {
 
 function initOutputFiles(testDir: string, files: Record<string, string>) {
   return Promise.all(
-    Object.entries(files).map(([path, content]) =>
-      fs.outputFile(resolve(testDir, path), content, 'utf8'),
-    ),
+    Object.entries(files).map(([path, content]) => fs.outputFile(resolve(testDir, path), content, 'utf8')),
   )
 }
 

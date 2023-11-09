@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { transformDirectives } from '@unocss/transformer-directives'
 import type { UnoGenerator } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
@@ -19,6 +19,12 @@ describe('transformer-directives', () => {
       btn: 'px-2 py-3 md:px-4 bg-blue-500 text-white rounded',
     },
     theme: {
+      colors: {
+        hsl: 'hsl(210, 50%, 50%)',
+        hsla: 'hsl(210, 50%, 50%, )',
+        rgb: 'rgb(255, 0, 0)',
+        rgba: 'rgba(255 0 0 / 0.5)',
+      },
       breakpoints: {
         xs: '320px',
         sm: '640px',
@@ -39,7 +45,7 @@ describe('transformer-directives', () => {
     })
   }
 
-  test('basic', async () => {
+  it('basic', async () => {
     const result = await transform(
       '.btn { @apply rounded text-lg font-mono; }',
     )
@@ -56,7 +62,7 @@ describe('transformer-directives', () => {
       `)
   })
 
-  test('breakpoints', async () => {
+  it('breakpoints', async () => {
     const result = await transform(
       '.grid { @apply grid grid-cols-2 xl:grid-cols-10 sm:grid-cols-7 md:grid-cols-3 lg:grid-cols-4 }',
     )
@@ -64,7 +70,7 @@ describe('transformer-directives', () => {
       .toMatchFileSnapshot('./assets/output/transformer-directives-breakpoints.css')
   })
 
-  test('variant group', async () => {
+  it('variant group', async () => {
     const result = await transform(
       '.btn { @apply grid-(cols-2 rows-4) hover:(border bg-white) }',
     )
@@ -72,7 +78,7 @@ describe('transformer-directives', () => {
       .toMatchFileSnapshot('./assets/output/transformer-directives-variant-group.css')
   })
 
-  test('pseudo-classes', async () => {
+  it('pseudo-classes', async () => {
     const result = await transform(
       '.btn { @apply p-3 hover:bg-white focus:border }',
     )
@@ -86,13 +92,13 @@ describe('transformer-directives', () => {
         }
         .btn:hover {
           --un-bg-opacity: 1;
-          background-color: rgba(255, 255, 255, var(--un-bg-opacity));
+          background-color: rgb(255 255 255 / var(--un-bg-opacity));
         }
         "
       `)
   })
 
-  test('multiple pseudo-classes', async () => {
+  it('multiple pseudo-classes', async () => {
     const result = await transform(
       '.btn { @apply sm:hover:bg-white }',
     )
@@ -103,14 +109,14 @@ describe('transformer-directives', () => {
         @media (min-width: 640px) {
           .btn:hover {
             --un-bg-opacity: 1;
-            background-color: rgba(255, 255, 255, var(--un-bg-opacity));
+            background-color: rgb(255 255 255 / var(--un-bg-opacity));
           }
         }
         "
       `)
   })
 
-  test('element selector', async () => {
+  it('element selector', async () => {
     const result = await transform(
       'input { @apply px-3 focus:border; }',
     )
@@ -127,7 +133,7 @@ describe('transformer-directives', () => {
       `)
   })
 
-  test('multiple selector', async () => {
+  it('multiple selector', async () => {
     const result = await transform(
       '.btn,.box { @apply px-3 focus:border; }',
     )
@@ -146,7 +152,7 @@ describe('transformer-directives', () => {
       `)
   })
 
-  test('two class selector', async () => {
+  it('two class selector', async () => {
     const result = await transform(
       '.btn.box { @apply px-3 focus:border; }',
     )
@@ -163,7 +169,7 @@ describe('transformer-directives', () => {
       `)
   })
 
-  test('multiple apply', async () => {
+  it('multiple apply', async () => {
     const result = await transform(
       `.btn {
         @apply p-3;
@@ -177,20 +183,20 @@ describe('transformer-directives', () => {
         ".btn {
           padding: 0.75rem;
           --un-bg-opacity: 1;
-          background-color: rgba(255, 255, 255, var(--un-bg-opacity));
+          background-color: rgb(255 255 255 / var(--un-bg-opacity));
         }
         .btn:hover {
           border-width: 1px;
         }
         .btn:hover {
           --un-bg-opacity: 1;
-          background-color: rgba(59, 130, 246, var(--un-bg-opacity));
+          background-color: rgb(59 130 246 / var(--un-bg-opacity));
         }
         "
       `)
   })
 
-  test('dark class', async () => {
+  it('dark class', async () => {
     const uno = createGenerator({
       presets: [
         presetUno({
@@ -211,17 +217,17 @@ describe('transformer-directives', () => {
       .toMatchInlineSnapshot(`
         ".btn {
           --un-bg-opacity: 1;
-          background-color: rgba(255, 255, 255, var(--un-bg-opacity));
+          background-color: rgb(255 255 255 / var(--un-bg-opacity));
         }
         .dark .btn {
           --un-bg-opacity: 1;
-          background-color: rgba(0, 0, 0, var(--un-bg-opacity));
+          background-color: rgb(0 0 0 / var(--un-bg-opacity));
         }
         "
       `)
   })
 
-  test('nested class', async () => {
+  it('nested class', async () => {
     const result = await transform(
       `nav {
         ul {
@@ -254,7 +260,7 @@ describe('transformer-directives', () => {
       `)
   })
 
-  test('css file', async () => {
+  it('css file', async () => {
     const css = await readFile('./test/assets/apply.css', 'utf8')
     const result = await transform(css)
 
@@ -262,13 +268,13 @@ describe('transformer-directives', () => {
       .toMatchFileSnapshot('./assets/output/transformer-directives-apply.css')
   })
 
-  test('custom breakpoints', async () => {
+  it('custom breakpoints', async () => {
     const result = await transform('.grid { @apply grid grid-cols-2 xs:grid-cols-1 xxl:grid-cols-15 xl:grid-cols-10 sm:grid-cols-7 md:grid-cols-3 lg:grid-cols-4 }')
     await expect(result)
       .toMatchFileSnapshot('./assets/output/transformer-directives-custom-breakpoints.css')
   })
 
-  test('var style class', async () => {
+  it('var style class', async () => {
     const result = await transform(
       `nav {
         --at-apply: border;
@@ -288,7 +294,7 @@ describe('transformer-directives', () => {
       .toMatchFileSnapshot('./assets/output/transformer-directives-var-style-class.css')
   })
 
-  test('@screen basic', async () => {
+  it('@screen basic', async () => {
     const result = await transform(`
 .grid {
   @apply grid grid-cols-2;
@@ -328,7 +334,7 @@ describe('transformer-directives', () => {
       .toMatchFileSnapshot('./assets/output/transformer-directives-at-screen.css')
   })
 
-  test('@screen lt variant', async () => {
+  it('@screen lt variant', async () => {
     const result = await transform(`
 .grid {
   @apply grid grid-cols-2;
@@ -353,7 +359,7 @@ describe('transformer-directives', () => {
       .toMatchFileSnapshot('./assets/output/transformer-directives-screen-lt.css')
   })
 
-  test('@screen at variant', async () => {
+  it('@screen at variant', async () => {
     const result = await transform(`
   .grid {
     @apply grid grid-cols-2;
@@ -379,7 +385,7 @@ describe('transformer-directives', () => {
   })
 
   describe('theme()', () => {
-    test('basic', async () => {
+    it('basic', async () => {
       const result = await transform(
         `.btn {
           background-color: theme("colors.blue.500");
@@ -402,7 +408,7 @@ describe('transformer-directives', () => {
         `)
     })
 
-    test('non-exist', async () => {
+    it('non-exist', async () => {
       expect(async () => await transform(
         `.btn {
         color: theme("color.none.500");
@@ -418,7 +424,7 @@ describe('transformer-directives', () => {
         .toMatchInlineSnapshot('[Error: theme of "size.lg" did not found]')
     })
 
-    test('args', async () => {
+    it('args', async () => {
       expect(async () => await transform(
         `.btn {
           color: theme();
@@ -427,15 +433,14 @@ describe('transformer-directives', () => {
         .toMatchInlineSnapshot('[Error: theme() expect exact one argument, but got 0]')
     })
 
-    test('with @apply', async () => {
+    it('with @apply', async () => {
       const result = await transform(`
 div {
   @apply flex h-full w-full justify-center items-center;
 
   --my-color: theme('colors.red.500');
   color: var(--my-color);
-}`,
-      )
+}`)
       expect(result).toMatchInlineSnapshot(`
         "div {
           height: 100%;
@@ -450,9 +455,30 @@ div {
         "
       `)
     })
+
+    it('opacity', async () => {
+      const result = await transform(`
+        div {
+          color: theme('colors.red.500 / 50%');
+          color: theme('colors.rgb / 0.5');
+          color: theme('colors.rgba / 50%');
+          color: theme('colors.hsl / 0.6');
+          color: theme('colors.hsla / 60%');
+        }`)
+      expect(result).toMatchInlineSnapshot(`
+        "div {
+          color: rgb(239 68 68 / 50%);
+          color: rgb(255 0 0 / 0.5);
+          color: rgba(255, 0, 0, 50%);
+          color: hsl(210 50% 50% / 0.6);
+          color: hsl(210 50% 50% / 60%);
+        }
+        "
+      `)
+    })
   })
 
-  test('escape backslash', async () => {
+  it('escape backslash', async () => {
     const result = await transform(
       '.btn { @apply border-r-\$theme-color }',
     )
@@ -465,7 +491,7 @@ div {
       `)
   })
 
-  test('@apply with colon', async () => {
+  it('@apply with colon', async () => {
     const result = await transform(
       '.btn { @apply: rounded text-lg font-mono }',
     )

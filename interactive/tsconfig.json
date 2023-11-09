@@ -1,12 +1,12 @@
 {
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
-    "strict": true,
-    "strictNullChecks": true,
     "types": [
       "node",
       "vite/client"
-    ]
+    ],
+    "strict": true,
+    "strictNullChecks": true
   },
   "exclude": [
     "node_modules",

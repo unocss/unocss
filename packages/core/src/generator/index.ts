@@ -261,8 +261,7 @@ export class UnoGenerator<Theme extends object = object> {
 
     const layers = this.config.sortLayers(Array
       .from(layerSet)
-      .sort((a, b) => ((this.config.layers[a] ?? 0) - (this.config.layers[b] ?? 0)) || a.localeCompare(b)),
-    )
+      .sort((a, b) => ((this.config.layers[a] ?? 0) - (this.config.layers[b] ?? 0)) || a.localeCompare(b)))
 
     const layerCache: Record<string, string> = {}
     const getLayer = (layer: string) => {
@@ -275,14 +274,14 @@ export class UnoGenerator<Theme extends object = object> {
           const size = items.length
           const sorted: PreparedRule[] = items
             .filter(i => (i[4]?.layer || LAYER_DEFAULT) === layer)
-            .sort((a, b) =>
-              a[0] - b[0] // rule index
-              || (a[4]?.sort || 0) - (b[4]?.sort || 0) // sort context
-              || a[5]?.currentSelector?.localeCompare(b[5]?.currentSelector ?? '') // shortcuts
-              || a[1]?.localeCompare(b[1] || '') // selector
-              || a[2]?.localeCompare(b[2] || '') // body
-              || 0,
-            )
+            .sort((a, b) => {
+              return a[0] - b[0] // rule index
+                  || (a[4]?.sort || 0) - (b[4]?.sort || 0) // sort context
+                  || a[5]?.currentSelector?.localeCompare(b[5]?.currentSelector ?? '') // shortcuts
+                  || a[1]?.localeCompare(b[1] || '') // selector
+                  || a[2]?.localeCompare(b[2] || '') // body
+                  || 0
+            })
             .map(([, selector, body,, meta,, variantNoMerge]) => {
               const scopedSelector = selector ? applyScope(selector, scope) : selector
               return [
@@ -312,8 +311,7 @@ export class UnoGenerator<Theme extends object = object> {
                 ? uniq(selectorSortPair
                   .sort((a, b) => a[1] - b[1] || a[0]?.localeCompare(b[0] || '') || 0)
                   .map(pair => pair[0])
-                  .filter(Boolean),
-                )
+                  .filter(Boolean))
                 : []
 
               return selectors.length
@@ -368,7 +366,7 @@ export class UnoGenerator<Theme extends object = object> {
     const variants = new Set<Variant<Theme>>()
     const handlers: VariantHandler[] = []
     let processed = current || raw
-    let applied = false
+    let applied = true
 
     const context: VariantContext<Theme> = {
       rawSelector: raw,
@@ -376,7 +374,7 @@ export class UnoGenerator<Theme extends object = object> {
       generator: this,
     }
 
-    while (true) {
+    while (applied) {
       applied = false
       for (const v of this.config.variants) {
         if (!v.multiPass && variants.has(v))
@@ -413,20 +411,19 @@ export class UnoGenerator<Theme extends object = object> {
     const handler = variantHandlers.slice()
       .sort((a, b) => (a.order || 0) - (b.order || 0))
       .reduceRight(
-        (previous, v) =>
-          (input: VariantHandlerContext) => {
-            const entries = v.body?.(input.entries) || input.entries
-            const parents: [string | undefined, number | undefined] = Array.isArray(v.parent) ? v.parent : [v.parent, undefined]
-            return (v.handle ?? defaultVariantHandler)({
-              ...input,
-              entries,
-              selector: v.selector?.(input.selector, entries) || input.selector,
-              parent: parents[0] || input.parent,
-              parentOrder: parents[1] || input.parentOrder,
-              layer: v.layer || input.layer,
-              sort: v.sort || input.sort,
-            }, previous)
-          },
+        (previous, v) => (input: VariantHandlerContext) => {
+          const entries = v.body?.(input.entries) || input.entries
+          const parents: [string | undefined, number | undefined] = Array.isArray(v.parent) ? v.parent : [v.parent, undefined]
+          return (v.handle ?? defaultVariantHandler)({
+            ...input,
+            entries,
+            selector: v.selector?.(input.selector, entries) || input.selector,
+            parent: parents[0] || input.parent,
+            parentOrder: parents[1] || input.parentOrder,
+            layer: v.layer || input.layer,
+            sort: v.sort || input.sort,
+          }, previous)
+        },
         (input: VariantHandlerContext) => input,
       )
 
@@ -645,13 +642,11 @@ export class UnoGenerator<Theme extends object = object> {
       return
 
     return [
-      (await Promise.all(result.map(async r =>
-        (
-          isString(r)
-            ? (await this.expandShortcut(r, context, depth - 1))?.[0]
-            : undefined
-        ) || [r],
-      )))
+      (await Promise.all(result.map(async r => (
+        isString(r)
+          ? (await this.expandShortcut(r, context, depth - 1))?.[0]
+          : undefined
+      ) || [r])))
         .flat(1)
         .filter(Boolean),
       meta,
@@ -674,7 +669,7 @@ export class UnoGenerator<Theme extends object = object> {
             // inline CSS value in shortcut
             : [[Number.POSITIVE_INFINITY, '{inline}', normalizeCSSEntries(i), undefined, []] as ParsedUtil]
 
-          if (!result)
+          if (!result && this.config.warn)
             warnOnce(`unmatched utility "${i}" in shortcut "${parent[1]}"`)
           return result || []
         })))
@@ -724,7 +719,7 @@ export class UnoGenerator<Theme extends object = object> {
   }
 
   isBlocked(raw: string): boolean {
-    return !raw || this.config.blocklist.some(e => isString(e) ? e === raw : e.test(raw))
+    return !raw || this.config.blocklist.some(e => typeof e === 'function' ? e(raw) : isString(e) ? e === raw : e.test(raw))
   }
 }
 

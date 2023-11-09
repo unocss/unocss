@@ -1,8 +1,8 @@
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
-import { expect, test } from 'vitest'
+import { expect, it } from 'vitest'
 
-test('postprocess', async () => {
+it('postprocess', async () => {
   const positive = [
     'text-opacity-50',
     'scale-100',

@@ -22,12 +22,12 @@ if (!customConfigRaw.value)
         />
       </template>
       <div
-        flex flex-1 justify-end items-center w-full gap2
+        flex flex-1 justify-end items-center w-full h-full gap2
         transition duration-400
         :class="isCollapsed(index) ? 'op0' : ''"
         un-children="inline-flex items-center cursor-pointer gap1"
       >
-        <div w-1px h-28px my--1 bg-gray:20 />
+        <div w-1px h-full bg-gray:20 />
         <button
           i-ri-mist-line icon-btn
           title="Format"
@@ -43,7 +43,7 @@ if (!customConfigRaw.value)
       class="scrolls"
     />
     <div
-      v-if="customConfigError"
+      v-if="!isCollapsed(index) && customConfigError"
       absolute
       left-0
       right-0

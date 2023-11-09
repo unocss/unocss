@@ -1,4 +1,5 @@
 import type { Rule } from '@unocss/core'
+import type { Theme } from '../theme'
 import { transitions } from './transition'
 import { borders } from './border'
 import { bgColors, colorScheme, opacity, textColors } from './color'
@@ -22,7 +23,7 @@ import { textDecorations } from './decoration'
 import { svgUtilities } from './svg'
 import { containerParent } from './container'
 
-export const rules: Rule[] = [
+export const rules: Rule<Theme>[] = [
   cssVariables,
   cssProperty,
   paddings,

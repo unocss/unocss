@@ -1,5 +1,5 @@
-import type { Preset, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
-import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq } from './utils'
+import type { Preset, PresetFactory, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
+import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq, uniqueBy } from './utils'
 import { extractorSplit } from './extractors'
 import { DEFAULT_LAYERS } from './constants'
 
@@ -16,7 +16,11 @@ const __RESOLVED = '_uno_resolved'
 /**
  * Resolve a single preset, nested presets are ignored
  */
-export function resolvePreset<Theme extends object = object>(preset: Preset<Theme>): Preset<Theme> {
+export function resolvePreset<Theme extends object = object>(presetInput: Preset<Theme> | PresetFactory<Theme, any>): Preset<Theme> {
+  let preset = typeof presetInput === 'function'
+    ? presetInput()
+    : presetInput
+
   if (__RESOLVED in preset)
     return preset
 
@@ -51,7 +55,7 @@ export function resolvePreset<Theme extends object = object>(preset: Preset<Them
 /**
  * Resolve presets with nested presets
  */
-export function resolvePresets<Theme extends object = object>(preset: Preset<Theme>): Preset<Theme>[] {
+export function resolvePresets<Theme extends object = object>(preset: Preset<Theme> | PresetFactory<Theme, any>): Preset<Theme>[] {
   const root = resolvePreset(preset)
   if (!root.presets)
     return [root]
@@ -64,7 +68,7 @@ export function resolveConfig<Theme extends object = object>(
   defaults: UserConfigDefaults<Theme> = {},
 ): ResolvedConfig<Theme> {
   const config = Object.assign({}, defaults, userConfig) as UserConfigDefaults<Theme>
-  const rawPresets = uniq((config.presets || []).flatMap(toArray).flatMap(resolvePresets))
+  const rawPresets = uniqueBy((config.presets || []).flatMap(toArray).flatMap(resolvePresets), (a, b) => a.name === b.name)
 
   const sortedPresets = [
     ...rawPresets.filter(p => p.enforce === 'pre'),
@@ -209,6 +213,11 @@ function mergeAutocompleteShorthands(shorthands: Record<string, string | string[
       ...a,
       ...rs,
     }
-  }
-  , {})
+  }, {})
+}
+
+export function definePreset<Options extends object | undefined = undefined, Theme extends object = object>(preset: PresetFactory<Theme, Options>): PresetFactory<Theme, Options>
+export function definePreset<Theme extends object = object>(preset: Preset<Theme>): Preset<Theme>
+export function definePreset(preset: any) {
+  return preset
 }

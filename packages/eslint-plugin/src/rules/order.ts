@@ -1,12 +1,8 @@
-import { join } from 'node:path'
 import { ESLintUtils } from '@typescript-eslint/utils'
-import { createSyncFn } from 'synckit'
 import type { RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import type { TSESTree } from '@typescript-eslint/types'
-import { distDir } from '../dirs'
 import { AST_NODES_WITH_QUOTES, CLASS_FIELDS } from '../constants'
-
-const sortClasses = createSyncFn<(classes: string) => Promise<string>>(join(distDir, 'worker-sort.cjs'))
+import { syncAction } from './_'
 
 export default ESLintUtils.RuleCreator(name => name)({
   name: 'order',
@@ -28,7 +24,7 @@ export default ESLintUtils.RuleCreator(name => name)({
       if (typeof node.value !== 'string' || !node.value.trim())
         return
       const input = node.value
-      const sorted = sortClasses(input).trim()
+      const sorted = syncAction('sort', input).trim()
       if (sorted !== input) {
         context.report({
           node,
@@ -77,4 +73,4 @@ export default ESLintUtils.RuleCreator(name => name)({
       return context.parserServices?.defineTemplateBodyVisitor(templateBodyVisitor, scriptVisitor)
     }
   },
-})
+}) as any as ESLintUtils.RuleWithMeta<[], ''>

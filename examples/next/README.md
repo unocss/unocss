@@ -24,29 +24,30 @@ export default defineConfig({
     // ...
   ],
 })
- ```
+```
 
 <br>
 
- ```ts
+```ts
 // @filename postcss.config.js
 module.exports = {
-   plugins: {
-     '@unocss/postcss': {
-       // Optional
-       content: ['**/*.{html,js,ts,jsx,tsx}'],
-     },
-   },
+  plugins: {
+    '@unocss/postcss': {
+      // Optional
+      content: ['**/*.{html,js,ts,jsx,tsx}'],
+    },
+  },
 }
- ```
+```
 
- #### 3. Update your `globals.css` file with UnoCSS
+#### 3. Update your `globals.css` file with UnoCSS
 
 ```css
 // @filename src/app/globals.css
 @import '@unocss/reset/tailwind.css';
 @unocss all;
- ```
+```
+
 ## Usage 
 
 Style your components using UnoCSS!
@@ -55,11 +56,11 @@ Style your components using UnoCSS!
 // @filename src/app/page.tsx
 export default function Home() {
   return (
-    <main className='flex min-h-screen flex-col items-center justify-between p-24'>
-      <div className='z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex'>
-        <p className='...'>
+    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
+        <p className="...">
           Get started by editing&nbsp;
-          <code className='font-mono font-bold'>src/app/page.tsx</code>
+          <code className="font-mono font-bold">src/app/page.tsx</code>
         </p>
       </div>
     </main>
@@ -92,9 +93,9 @@ Then you can style your components in attributify mode
 export const Resources: React.FC<{ resources: Resource[] }> = ({ resources }) => {
   return (
     <div
-      m='b-32 lg:b-0'
-      grid='~ lg:cols-4' // ~ is used as a prefix for self-referencing
-      text='center lg:left'
+      m="b-32 lg:b-0"
+      grid="~ lg:cols-4" // ~ is used as a prefix for self-referencing
+      text="center lg:left"
     />
   )
 }
@@ -122,12 +123,12 @@ export default defineConfig({
     // ...
   ],
 })
- ```
+```
 
- Then you can use any of the available icons:
+Then you can use any of the available icons:
 
- ```html
- <span className='i-lucide:arrow-up-right' />
- ```
+```html
+<span className='i-lucide:arrow-up-right' />
+```
 
- For more information on UnoCSS please visit the Docs [UnoCSS.dev](https://unocss.dev/)
+For more information on UnoCSS please visit the Docs [UnoCSS.dev](https://unocss.dev/)

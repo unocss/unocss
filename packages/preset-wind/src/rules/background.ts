@@ -1,12 +1,13 @@
 import type { CSSColorValue, Rule, RuleContext } from '@unocss/core'
-import { colorOpacityToString, colorToString, globalKeywords, h, makeGlobalStaticRules, parseColor, positionMap } from '@unocss/preset-mini/utils'
+import { globalKeywords, h, isSize, makeGlobalStaticRules, parseColor, positionMap } from '@unocss/preset-mini/utils'
 import type { Theme } from '@unocss/preset-mini'
+import { colorOpacityToString, colorToString } from '@unocss/rule-utils'
 
 function bgGradientToValue(cssColor: CSSColorValue | undefined) {
   if (cssColor)
     return colorToString(cssColor, 0)
 
-  return 'rgba(255,255,255,0)'
+  return 'rgb(255 255 255 / 0)'
 }
 
 function bgGradientColorValue(mode: string, cssColor: CSSColorValue | undefined, color: string, alpha: any) {
@@ -75,7 +76,7 @@ export const backgroundStyles: Rule[] = [
       return { '--un-url': h.bracket(d), 'background-image': 'var(--un-url)' }
     if (bgLengthRE.test(d) && h.bracketOfLength(d) != null)
       return { 'background-size': h.bracketOfLength(d)!.split(' ').map(e => h.fraction.auto.px.cssvar(e) ?? e).join(' ') }
-    if (bgPositionRE.test(d) && h.bracketOfPosition(d) != null)
+    if ((isSize(d) || bgPositionRE.test(d)) && h.bracketOfPosition(d) != null)
       return { 'background-position': h.bracketOfPosition(d)!.split(' ').map(e => h.position.fraction.auto.px.cssvar(e) ?? e).join(' ') }
   }],
 
@@ -91,7 +92,7 @@ export const backgroundStyles: Rule[] = [
   [/^(from|via|to)-([\d\.]+)%$/, bgGradientPositionResolver()],
   // images
   [/^bg-gradient-((?:repeating-)?(?:linear|radial|conic))$/, ([, s]) => ({
-    'background-image': `${s}-gradient(var(--un-gradient, var(--un-gradient-stops, rgba(255, 255, 255, 0))))`,
+    'background-image': `${s}-gradient(var(--un-gradient, var(--un-gradient-stops, rgb(255 255 255 / 0))))`,
   }), { autocomplete: ['bg-gradient-repeating', 'bg-gradient-(linear|radial|conic)', 'bg-gradient-repeating-(linear|radial|conic)'] }],
   // ignore any center position
   [/^bg-gradient-to-([rltb]{1,2})$/, ([, d]) => {

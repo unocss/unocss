@@ -1,5 +1,5 @@
 import type { CSSColorValue, VariantObject } from '@unocss/core'
-import { colorToString, parseCssColor } from '@unocss/preset-mini/utils'
+import { colorToString, parseCssColor } from '@unocss/rule-utils'
 
 function mixComponent(v1: string | number, v2: string | number, w: string | number) {
   return `calc(${v2} + (${v1} - ${v2}) * ${w} / 100)`
@@ -9,10 +9,10 @@ function mixComponent(v1: string | number, v2: string | number, w: string | numb
  * Returns RGB color from a mixture of color1 and color2. Support RGB color values.
  * https://sass-lang.com/documentation/modules/color#mix
  *
- * @param {string | CSSColorValue} color1
- * @param {string | CSSColorValue} color2
- * @param {string | number} weight - How many of color2 will be used to mix into color1. Value of 0 will resulting in color2, value of 100 color1.
- * @return {CSSColorValue | undefined}
+ * @param color1
+ * @param color2
+ * @param weight - How many of color2 will be used to mix into color1. Value of 0 will resulting in color2, value of 100 color1.
+ * @return
  */
 function mixColor(color1: string | CSSColorValue, color2: string | CSSColorValue, weight: string | number): CSSColorValue | undefined {
   const colors = [color1, color2]
@@ -65,7 +65,7 @@ const fns: Record<string, (color: string | CSSColorValue, weight: string | numbe
  * Shading mixes the color with black, Tinting mixes the color with white.
  * @see {@link mixColor}
  */
-export function variantColorMix(): VariantObject {
+export function variantColorMix<Theme extends object>(): VariantObject<Theme> {
   let re: RegExp
   return {
     name: 'mix',

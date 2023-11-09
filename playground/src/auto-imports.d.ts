@@ -31,6 +31,7 @@ declare global {
   const cssFormatted: typeof import('./composables/prettier')['cssFormatted']
   const customCSS: typeof import('./composables/url')['customCSS']
   const customCSSLayerName: typeof import('./composables/constants')['customCSSLayerName']
+  const customCSSWarn: typeof import('./composables/uno')['customCSSWarn']
   const customConfigError: typeof import('./composables/uno')['customConfigError']
   const customConfigRaw: typeof import('./composables/url')['customConfigRaw']
   const customRef: typeof import('vue')['customRef']
@@ -58,6 +59,7 @@ declare global {
   const ignorableWatch: typeof import('@vueuse/core')['ignorableWatch']
   const init: typeof import('./composables/uno')['init']
   const inject: typeof import('vue')['inject']
+  const injectLocal: typeof import('@vueuse/core')['injectLocal']
   const inputHTML: typeof import('./composables/url')['inputHTML']
   const isCSSPrettify: typeof import('./composables/prettier')['isCSSPrettify']
   const isCollapsed: typeof import('./composables/panel')['isCollapsed']
@@ -98,6 +100,7 @@ declare global {
   const panelSizes: typeof import('./composables/panel')['panelSizes']
   const pausableWatch: typeof import('@vueuse/core')['pausableWatch']
   const provide: typeof import('vue')['provide']
+  const provideLocal: typeof import('@vueuse/core')['provideLocal']
   const reactify: typeof import('@vueuse/core')['reactify']
   const reactifyObject: typeof import('@vueuse/core')['reactifyObject']
   const reactive: typeof import('vue')['reactive']
@@ -131,6 +134,7 @@ declare global {
   const toValue: typeof import('vue')['toValue']
   const toggleDark: typeof import('./composables/dark')['toggleDark']
   const togglePanel: typeof import('./composables/panel')['togglePanel']
+  const transformedCSS: typeof import('./composables/uno')['transformedCSS']
   const transformedHTML: typeof import('./composables/uno')['transformedHTML']
   const triggerRef: typeof import('vue')['triggerRef']
   const tryOnBeforeMount: typeof import('@vueuse/core')['tryOnBeforeMount']
@@ -334,7 +338,7 @@ declare global {
 // for type re-export
 declare global {
   // @ts-ignore
-  export type { Component, ComponentPublicInstance, ComputedRef, InjectionKey, PropType, Ref, VNode } from 'vue'
+  export type { Component, ComponentPublicInstance, ComputedRef, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, VNode, WritableComputedRef } from 'vue'
 }
 // for vue template auto import
 import { UnwrapRef } from 'vue'
@@ -366,6 +370,7 @@ declare module 'vue' {
     readonly cssFormatted: UnwrapRef<typeof import('./composables/prettier')['cssFormatted']>
     readonly customCSS: UnwrapRef<typeof import('./composables/url')['customCSS']>
     readonly customCSSLayerName: UnwrapRef<typeof import('./composables/constants')['customCSSLayerName']>
+    readonly customCSSWarn: UnwrapRef<typeof import('./composables/uno')['customCSSWarn']>
     readonly customConfigError: UnwrapRef<typeof import('./composables/uno')['customConfigError']>
     readonly customConfigRaw: UnwrapRef<typeof import('./composables/url')['customConfigRaw']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
@@ -393,6 +398,7 @@ declare module 'vue' {
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
     readonly init: UnwrapRef<typeof import('./composables/uno')['init']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
+    readonly injectLocal: UnwrapRef<typeof import('@vueuse/core')['injectLocal']>
     readonly inputHTML: UnwrapRef<typeof import('./composables/url')['inputHTML']>
     readonly isCSSPrettify: UnwrapRef<typeof import('./composables/prettier')['isCSSPrettify']>
     readonly isCollapsed: UnwrapRef<typeof import('./composables/panel')['isCollapsed']>
@@ -433,6 +439,7 @@ declare module 'vue' {
     readonly panelSizes: UnwrapRef<typeof import('./composables/panel')['panelSizes']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
+    readonly provideLocal: UnwrapRef<typeof import('@vueuse/core')['provideLocal']>
     readonly reactify: UnwrapRef<typeof import('@vueuse/core')['reactify']>
     readonly reactifyObject: UnwrapRef<typeof import('@vueuse/core')['reactifyObject']>
     readonly reactive: UnwrapRef<typeof import('vue')['reactive']>
@@ -466,6 +473,7 @@ declare module 'vue' {
     readonly toValue: UnwrapRef<typeof import('vue')['toValue']>
     readonly toggleDark: UnwrapRef<typeof import('./composables/dark')['toggleDark']>
     readonly togglePanel: UnwrapRef<typeof import('./composables/panel')['togglePanel']>
+    readonly transformedCSS: UnwrapRef<typeof import('./composables/uno')['transformedCSS']>
     readonly transformedHTML: UnwrapRef<typeof import('./composables/uno')['transformedHTML']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly tryOnBeforeMount: UnwrapRef<typeof import('@vueuse/core')['tryOnBeforeMount']>
@@ -695,6 +703,7 @@ declare module '@vue/runtime-core' {
     readonly cssFormatted: UnwrapRef<typeof import('./composables/prettier')['cssFormatted']>
     readonly customCSS: UnwrapRef<typeof import('./composables/url')['customCSS']>
     readonly customCSSLayerName: UnwrapRef<typeof import('./composables/constants')['customCSSLayerName']>
+    readonly customCSSWarn: UnwrapRef<typeof import('./composables/uno')['customCSSWarn']>
     readonly customConfigError: UnwrapRef<typeof import('./composables/uno')['customConfigError']>
     readonly customConfigRaw: UnwrapRef<typeof import('./composables/url')['customConfigRaw']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
@@ -722,6 +731,7 @@ declare module '@vue/runtime-core' {
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
     readonly init: UnwrapRef<typeof import('./composables/uno')['init']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
+    readonly injectLocal: UnwrapRef<typeof import('@vueuse/core')['injectLocal']>
     readonly inputHTML: UnwrapRef<typeof import('./composables/url')['inputHTML']>
     readonly isCSSPrettify: UnwrapRef<typeof import('./composables/prettier')['isCSSPrettify']>
     readonly isCollapsed: UnwrapRef<typeof import('./composables/panel')['isCollapsed']>
@@ -762,6 +772,7 @@ declare module '@vue/runtime-core' {
     readonly panelSizes: UnwrapRef<typeof import('./composables/panel')['panelSizes']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
+    readonly provideLocal: UnwrapRef<typeof import('@vueuse/core')['provideLocal']>
     readonly reactify: UnwrapRef<typeof import('@vueuse/core')['reactify']>
     readonly reactifyObject: UnwrapRef<typeof import('@vueuse/core')['reactifyObject']>
     readonly reactive: UnwrapRef<typeof import('vue')['reactive']>
@@ -795,6 +806,7 @@ declare module '@vue/runtime-core' {
     readonly toValue: UnwrapRef<typeof import('vue')['toValue']>
     readonly toggleDark: UnwrapRef<typeof import('./composables/dark')['toggleDark']>
     readonly togglePanel: UnwrapRef<typeof import('./composables/panel')['togglePanel']>
+    readonly transformedCSS: UnwrapRef<typeof import('./composables/uno')['transformedCSS']>
     readonly transformedHTML: UnwrapRef<typeof import('./composables/uno')['transformedHTML']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly tryOnBeforeMount: UnwrapRef<typeof import('@vueuse/core')['tryOnBeforeMount']>

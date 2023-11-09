@@ -94,6 +94,8 @@ export const staticUtilities: Record<string, string> = {
   'justify-between': 'justifyContent',
   'justify-around': 'justifyContent',
   'justify-evenly': 'justifyContent',
+  'justify-left': 'justifyContent',
+  'justify-right': 'justifyContent',
   'justify-items-auto': 'justifyItems',
   'justify-items-start': 'justifyItems',
   'justify-items-end': 'justifyItems',

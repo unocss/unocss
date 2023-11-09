@@ -131,11 +131,9 @@ export function createSearch(
       ...a2zd.map(j => `${i}${j}`),
     ])
 
-    await Promise.all(keys.map(key =>
-      ac
-        .suggest(key)
-        .then(i => i.forEach(j => matched.add(j))),
-    ))
+    await Promise.all(keys.map(key => ac
+      .suggest(key)
+      .then(i => i.forEach(j => matched.add(j)))))
 
     return matched
   }

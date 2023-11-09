@@ -29,7 +29,7 @@ describe('getUtils', async () => {
     expect(result).toMatchInlineSnapshot(`
       [
         [
-          84,
+          86,
           ".\\\\-",
           "margin-bottom:0.25rem;margin-right:0.25rem;",
           undefined,
@@ -41,13 +41,13 @@ describe('getUtils', async () => {
           undefined,
         ],
         [
-          84,
+          86,
           ".\\\\-:hover",
           "margin-right:0.5rem;",
           undefined,
           {
             "layer": undefined,
-            "sort": 22,
+            "sort": 24,
           },
           undefined,
           true,
@@ -64,13 +64,13 @@ describe('getUtils', async () => {
     expect(result).toMatchInlineSnapshot(`
       [
         [
-          84,
+          86,
           ".\\\\-:hover",
           "margin-right:0.25rem;font-weight:500;",
           undefined,
           {
             "layer": undefined,
-            "sort": 22,
+            "sort": 24,
           },
           undefined,
           true,

@@ -18,7 +18,10 @@ export function replaceGlobalStylesPlaceholder(code: string, stylesTag: string) 
   const matchCapturedQuoteMark = '\\1'
   const QUOTES_WITH_PLACEHOLDER_RE = new RegExp(captureQuoteMark + GLOBAL_STYLES_PLACEHOLDER + matchCapturedQuoteMark)
 
-  const escapedStylesTag = stylesTag.replaceAll(/`/g, '\\`')
+  const escapedStylesTag = stylesTag
+    .replaceAll(/\\(?![`$])/g, '\\\\')
+    .replaceAll(/(?<!\\)([`$])/g, '\\$1')
+
   return code.replace(QUOTES_WITH_PLACEHOLDER_RE, `\`${escapedStylesTag}\``)
   // preset-web-fonts doesn't heed the minify option and sends through newlines (\n) that break if we use regular quotes here. Always using a backtick here is easier than removing newlines, which are actually kind of useful in dev mode. I might consider turning minify off altogether in dev mode.
 }
@@ -38,7 +41,7 @@ export function checkTransformPageChunkHook(server: ViteDevServer, isSvelteKit: 
     const originalWrite = res.write
 
     res.write = function (chunk, ...rest) {
-      // eslint-disable-next-line n/prefer-global/buffer
+      // eslint-disable-next-line node/prefer-global/buffer
       const str = typeof chunk === 'string' ? chunk : (chunk instanceof Buffer) ? chunk.toString() : ((Array.isArray(chunk) || 'at' in chunk) ? Buffer.from(chunk).toString() : (`${chunk}`))
 
       if (str.includes('<head>') && !str.includes(DEV_GLOBAL_STYLES_DATA_TITLE))

@@ -1,4 +1,5 @@
 import { mergeDeep } from '@unocss/core'
+import type { PreflightContext } from '@unocss/core'
 import type { TypographyCompatibilityOptions } from '../types/compatibilityOptions'
 import { DEFAULT } from './default'
 
@@ -32,11 +33,9 @@ function getCSS(
         if (match) {
           const matchStr = match[0]
           s = s.replace(matchStr, '')
-          return escapedSelector.map(e =>
-            disableNotUtility
-              ? `${e} ${s}${matchStr}`
-              : `${e} :where(${s})${notProseSelector}${matchStr}`,
-          ).join(',')
+          return escapedSelector.map(e => disableNotUtility
+            ? `${e} ${s}${matchStr}`
+            : `${e} :where(${s})${notProseSelector}${matchStr}`).join(',')
         }
         return null
       })
@@ -49,11 +48,9 @@ function getCSS(
     }
     else {
       // directly from css declaration
-      css += escapedSelector.map(e =>
-        disableNotUtility
-          ? selector.split(',').map(s => `${e} ${s}`).join(',')
-          : `${e} :where(${selector})${notProseSelector}`,
-      ).join(',')
+      css += escapedSelector.map(e => disableNotUtility
+        ? selector.split(',').map(s => `${e} ${s}`).join(',')
+        : `${e} :where(${selector})${notProseSelector}`).join(',')
     }
 
     css += '{'
@@ -69,6 +66,7 @@ function getCSS(
 }
 
 export function getPreflights(
+  context: PreflightContext,
   options: {
     escapedSelectors: Set<string>
     selectorName: string
@@ -84,7 +82,7 @@ export function getPreflights(
     escapedSelector = [`:is(${escapedSelector[escapedSelector.length - 1]},.${selectorName})`]
 
   if (cssExtend)
-    return getCSS({ escapedSelector, selectorName, preflights: mergeDeep(DEFAULT, cssExtend), compatibility })
+    return getCSS({ escapedSelector, selectorName, preflights: mergeDeep(DEFAULT(context.theme), cssExtend), compatibility })
 
-  return getCSS({ escapedSelector, selectorName, preflights: DEFAULT, compatibility })
+  return getCSS({ escapedSelector, selectorName, preflights: DEFAULT(context.theme), compatibility })
 }

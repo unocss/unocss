@@ -5,6 +5,7 @@ import type { Plugin, ResolvedConfig, ViteDevServer } from 'vite'
 import type { IncomingMessage } from 'connect'
 import type { UnocssPluginContext } from '@unocss/core'
 import { toEscapedSelector } from '@unocss/core'
+import type { VitePluginConfig } from './types'
 
 const _dirname = typeof __dirname !== 'undefined' ? __dirname : dirname(fileURLToPath(import.meta.url))
 
@@ -39,7 +40,7 @@ function getBodyJson(req: IncomingMessage) {
   })
 }
 
-export function createDevtoolsPlugin(ctx: UnocssPluginContext): Plugin[] {
+export function createDevtoolsPlugin(ctx: UnocssPluginContext, pluginConfig: VitePluginConfig<any>): Plugin[] {
   let config: ResolvedConfig
   let server: ViteDevServer | undefined
   let clientCode = ''
@@ -144,6 +145,7 @@ export function createDevtoolsPlugin(ctx: UnocssPluginContext): Plugin[] {
             ]
               .join('\n')
               .replace('__POST_PATH__', `${(config.server?.origin ?? '')}${postPath}`)
+              .replace('__POST_FETCH_MODE__', pluginConfig.fetchMode ?? 'cors')
           }
           return config.command === 'build'
             ? ''

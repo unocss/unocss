@@ -14,10 +14,10 @@
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
     "@unocss/preset-uno": "link:../../packages/preset-uno",
-    "lightningcss": "^1.21.7",
+    "lightningcss": "^1.22.0",
     "typescript": "^5.2.2",
     "unocss": "link:../../packages/unocss",
-    "vite": "^4.4.9"
+    "vite": "^4.5.0"
   },
   "stackblitz": {
     "installDependencies": false,

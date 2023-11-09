@@ -23,6 +23,8 @@ export const justifies: StaticRule[] = [
   ['justify-around', { 'justify-content': 'space-around' }],
   ['justify-evenly', { 'justify-content': 'space-evenly' }],
   ['justify-stretch', { 'justify-content': 'stretch' }],
+  ['justify-left', { 'justify-content': 'left' }],
+  ['justify-right', { 'justify-content': 'right' }],
   ...makeGlobalStaticRules('justify', 'justify-content'),
 
   // items
@@ -124,7 +126,9 @@ function handleInsetValues([, d, v]: string[], ctx: RuleContext): CSSEntries | u
 }
 
 export const insets: Rule[] = [
-  [/^(?:position-|pos-)?inset-(.+)$/, ([, v], ctx) => ({ inset: handleInsetValue(v, ctx) }),
+  [
+    /^(?:position-|pos-)?inset-(.+)$/,
+    ([, v], ctx) => ({ inset: handleInsetValue(v, ctx) }),
     {
       autocomplete: [
         '(position|pos)-inset-<directions>-$spacing',
@@ -159,7 +163,7 @@ export const floats: Rule[] = [
 
 export const zIndexes: Rule[] = [
   [/^(?:position-|pos-)?z([\d.]+)$/, ([, v]) => ({ 'z-index': h.number(v) })],
-  [/^(?:position-|pos-)?z-(.+)$/, ([, v]) => ({ 'z-index': h.bracket.cssvar.global.auto.number(v) }), { autocomplete: 'z-<num>' }],
+  [/^(?:position-|pos-)?z-(.+)$/, ([, v], { theme }: RuleContext<Theme>) => ({ 'z-index': theme.zIndex?.[v] ?? h.bracket.cssvar.global.auto.number(v) }), { autocomplete: 'z-<num>' }],
 ]
 
 export const boxSizing: Rule[] = [

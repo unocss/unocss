@@ -3,7 +3,9 @@ import type { Plugin, ResolvedConfig } from 'vite'
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import type { NormalizedOutputOptions, PluginContext, RenderedChunk } from 'rollup'
 import {
-  HASH_PLACEHOLDER_RE, LAYER_MARK_ALL, LAYER_PLACEHOLDER_RE,
+  HASH_PLACEHOLDER_RE,
+  LAYER_MARK_ALL,
+  LAYER_PLACEHOLDER_RE,
   RESOLVED_ID_RE,
   getHash,
   getHashPlaceholder,
@@ -79,8 +81,8 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         return null
       },
       transformIndexHtml: {
-        enforce: 'pre',
-        transform(code, { filename }) {
+        order: 'pre',
+        handler(code, { filename }) {
           tasks.push(extract(code, filename))
         },
       },
@@ -211,13 +213,11 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         }
         const result = await generateAll()
         const mappedVfsLayer = Array.from(vfsLayers).map(layer => layer === LAYER_MARK_ALL ? layer : layer.replace(/^_/, ''))
-        const cssWithLayers = Array.from(vfsLayers).map(layer =>
-          `#--unocss-layer-start--${layer}--{start:${layer}} ${
+        const cssWithLayers = Array.from(vfsLayers).map(layer => `#--unocss-layer-start--${layer}--{start:${layer}} ${
             layer === LAYER_MARK_ALL
             ? result.getLayers(undefined, mappedVfsLayer)
             : (result.getLayer(layer.replace(/^_/, '')) || '')
-          } #--unocss-layer-end--${layer}--{end:${layer}}`,
-        ).join('')
+          } #--unocss-layer-end--${layer}--{end:${layer}}`).join('')
 
         const fakeCssId = `${viteConfig.root}/${chunk.fileName}-unocss-hash.css`
         const css = await applyCssTransform(cssWithLayers, fakeCssId, options.dir, this)

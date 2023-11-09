@@ -21,7 +21,19 @@ ESLint config for UnoCSS: `@unocss/eslint-config`.
   ```
 :::
 
-In `.eslintrc`:
+In [Flat Config Style](https://eslint.org/docs/latest/use/configure/configuration-files-new):
+
+```js
+// eslint.config.js
+import unocss from '@unocss/eslint-config/flat'
+
+export default [
+  unocss,
+  // other configs
+]
+```
+
+In legacy `.eslintrc` style:
 
 ```json
 {
@@ -35,6 +47,24 @@ In `.eslintrc`:
 
 - `@unocss/order` - Enforce a specific order for class selectors.
 - `@unocss/order-attributify` - Enforce a specific order for attributify selectors.
+- `@unocss/blocklist` - Disallow specific class selectors [Optional].
+
+### `@unocss/blocklist`
+
+Throw warning or error when using utilities listed in `blocklist` get matched.
+
+This rule is not enabled by default. To enable it, add the following to your `.eslintrc`:
+
+```jsonc
+{
+  "extends": [
+    "@unocss"
+  ],
+  "rules": {
+    "@unocss/blocklist": "warn" // or "error"
+  }
+}
+```
 
 ## Prior Arts
 

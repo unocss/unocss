@@ -66,6 +66,11 @@ export const presetWindTargets: string[] = [
   'bg-repeat-revert',
   'bg-right-bottom',
   'bg-scroll',
+  'bg-[10px]',
+  'bg-[10%]',
+  'bg-[10vw]',
+  'bg-[calc(10%+10px)]',
+  'bg-[calc(10vw+10px)]',
   'bg-[url(https://test.unocss.png)]',
   'bg-[length:--variable]',
   'bg-[length:10_20rem]',
@@ -287,6 +292,7 @@ export const presetWindTargets: string[] = [
   'space-y-4',
   'space-x-reverse',
   'space-x-$space',
+  'space-x-[var(--space)]',
   'space-inline-2',
   'space-block-4',
   'space-block-none',
@@ -411,6 +417,10 @@ export const presetWindTargets: string[] = [
 
   // variants - data (theme)
   'data-dropdown:ring-green',
+
+  // view-transition
+  'view-transition-foo',
+  'view-transition-none',
 ]
 
 export const presetWindNonTargets: string[] = [

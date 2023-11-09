@@ -1,4 +1,5 @@
-import type { Postprocessor, Preflight, PreflightContext, Preset, PresetOptions } from '@unocss/core'
+import type { Postprocessor, Preflight, PreflightContext, PresetOptions } from '@unocss/core'
+import { definePreset } from '@unocss/core'
 import { extractorArbitraryVariants } from '@unocss/extractor-arbitrary-variants'
 import { preflights } from './preflights'
 import { rules } from './rules'
@@ -71,12 +72,11 @@ export interface PresetMiniOptions extends PresetOptions {
   arbitraryVariants?: boolean
 }
 
-export function presetMini(options: PresetMiniOptions = {}): Preset<Theme> {
+export const presetMini = definePreset((options: PresetMiniOptions = {}) => {
   options.dark = options.dark ?? 'class'
   options.attributifyPseudo = options.attributifyPseudo ?? false
   options.preflight = options.preflight ?? true
   options.variablePrefix = options.variablePrefix ?? 'un-'
-
   return {
     name: '@unocss/preset-mini',
     theme,
@@ -95,7 +95,7 @@ export function presetMini(options: PresetMiniOptions = {}): Preset<Theme> {
       shorthands,
     },
   }
-}
+})
 
 export default presetMini
 
@@ -111,11 +111,11 @@ export function VarPrefixPostprocessor(prefix: string): Postprocessor | undefine
   }
 }
 
-export function normalizePreflights(preflights: Preflight[], variablePrefix: string) {
+export function normalizePreflights<Theme extends object>(preflights: Preflight<Theme>[], variablePrefix: string) {
   if (variablePrefix !== 'un-') {
     return preflights.map(p => ({
       ...p,
-      getCSS: (() => async (ctx: PreflightContext) => {
+      getCSS: (() => async (ctx: PreflightContext<Theme>) => {
         const css = await p.getCSS(ctx)
         if (css)
           return css.replace(/--un-/g, `--${variablePrefix}`)

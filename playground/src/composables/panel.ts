@@ -1,6 +1,7 @@
 export const panelEl = ref()
 const TITLE_HEIGHT = 29
 const { height: vh } = useElementSize(panelEl)
+const collapsedPanels = ref(new Set())
 
 export const titleHeightPercent = computed(() => {
   if (!vh.value)
@@ -23,47 +24,44 @@ export function getInitialPanelSizes(percent: number): number[] {
   ]
 }
 
-export function isCollapsed(index: number) {
-  return panelSizes.value[index] <= titleHeightPercent.value + 0.1
+export function isCollapsed(idx: number) {
+  return collapsedPanels.value.has(idx)
 }
 
-export function togglePanel(index: number) {
-  if (isCollapsed(index))
-    panelSizes.value[index] = 100 / panelSizes.value.length
-  else
-    panelSizes.value[index] = titleHeightPercent.value
+export function togglePanel(idx: number) {
+  if (collapsedPanels.value.has(idx)) {
+    collapsedPanels.value.delete(idx)
+  }
+  else {
+    collapsedPanels.value.add(idx)
+    if (collapsedPanels.value.size === panelSizes.value.length)
+      collapsedPanels.value.delete((idx + 1) % panelSizes.value.length)
+  }
 
   normalizePanels()
 }
 
 export function normalizePanels() {
-  const ignoredIndex: number[] = []
-  let originalSum = 0
-  let ignoredSum = 0
-
-  panelSizes.value.forEach((v, idx) => {
-    if (v <= titleHeightPercent.value) {
-      ignoredIndex.push(idx)
-      ignoredSum += v
-    }
-    else {
-      originalSum += v
-    }
-  })
-
-  const resize = (100 - ignoredSum) / originalSum
-
-  panelSizes.value.forEach((v, idx) => {
-    if (ignoredIndex.includes(idx))
-      return
-    panelSizes.value[idx] *= resize
-  })
+  const height = (100 - collapsedPanels.value.size * titleHeightPercent.value) / (panelSizes.value.length - collapsedPanels.value.size)
+  panelSizes.value = panelSizes.value.map((_, idx) => collapsedPanels.value.has(idx) ? titleHeightPercent.value : height)
 }
+
+watch(
+  panelSizes,
+  (value: number[]) => {
+    value.forEach((height, idx) => {
+      if (height > titleHeightPercent.value)
+        collapsedPanels.value.delete(idx)
+      else
+        collapsedPanels.value.add(idx)
+    })
+  },
+)
 
 watch(
   titleHeightPercent,
   (value: number) => {
-    if (panelSizes.value.includes(100))
-      panelSizes.value = getInitialPanelSizes(value)
+    const spareSpace = (100 - collapsedPanels.value.size * value - panelSizes.value.reduce((uncollapsed, height, idx) => collapsedPanels.value.has(idx) ? uncollapsed : uncollapsed + height, 0)) / (panelSizes.value.length - collapsedPanels.value.size)
+    panelSizes.value = panelSizes.value.map((height, idx) => (height <= value || collapsedPanels.value.has(idx)) ? value : height + spareSpace)
   },
 )

@@ -7,4 +7,8 @@ export default defineConfig({
     UnoCSS(),
     Legacy(),
   ],
+  build: {
+    // Don't inline SVG to test output
+    assetsInlineLimit: 0,
+  },
 })

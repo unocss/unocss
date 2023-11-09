@@ -1,8 +1,8 @@
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { h } from '@unocss/preset-mini/utils'
 
 describe('value handler', () => {
-  test('bracket math function', () => {
+  it('bracket math function', () => {
     expect(h.bracket('[calc(1-2)]')).eql('calc(1 - 2)')
     expect(h.bracket('[min(1-2)]')).eql('min(1 - 2)')
     expect(h.bracket('[max(1-2)]')).eql('max(1 - 2)')
@@ -15,7 +15,7 @@ describe('value handler', () => {
     expect(h.bracket('[calc(var(--min-width)_-_2_*_var(--col-gap))]')).eql('calc(var(--min-width) - 2 * var(--col-gap))')
   })
 
-  test('bracket curly', () => {
+  it('bracket curly', () => {
     expect(h.bracket('[foo][bar]')).eql(undefined)
     expect(h.bracket('[[]]')).eql('[]')
     expect(h.bracket('[]]')).eql(undefined)
@@ -23,7 +23,7 @@ describe('value handler', () => {
     expect(h.bracket('[[][[[]]]]')).eql('[][[[]]]')
   })
 
-  test('bracket underscore', () => {
+  it('bracket underscore', () => {
     expect(h.bracket('[a_b]')).eql('a b')
     expect(h.bracket('[a\\_b]')).eql('a_b')
     expect(h.bracket('[_b_only]')).eql(' b only')
@@ -34,19 +34,19 @@ describe('value handler', () => {
     expect(h.bracket('[var(--A\\_B)]')).eql('var(--A_B)')
   })
 
-  test('bracket string-type', () => {
+  it('bracket string-type', () => {
     expect(h.bracket('[string:a_b]')).eql('a b')
     expect(h.bracket('[string:a\\_b]')).eql('a\_b')
     expect(h.bracket('[string:attr(data-label)_":_"]')).eql('attr(data-label) ": "')
   })
 
-  test('bracket quoted-type', () => {
+  it('bracket quoted-type', () => {
     expect(h.bracket('[quoted:a_b]')).eql('"a b"')
     expect(h.bracket('[quoted:a\\_b]')).eql('"a_b"')
     expect(h.bracket('[quoted:\'with-\\,-\'-and-"]')).toMatchInlineSnapshot('"\\"\'with-\\\\\\\\,-\'-and-\\\\\\"\\""')
   })
 
-  test('handler resolves numbers using numberWithUnit', () => {
+  it('handler resolves numbers using numberWithUnit', () => {
     // normalizations
     expect(h.numberWithUnit('10unknown')).eql(undefined)
     expect(h.numberWithUnit('10 unknown')).eql(undefined)
@@ -68,27 +68,60 @@ describe('value handler', () => {
       'pc',
       '%',
 
-      'rem', 'em',
-      'rex', 'ex',
-      'rcap', 'cap',
-      'rch', 'ch',
-      'ric', 'ic',
-      'rlh', 'lh',
+      'rem',
+      'em',
+      'rex',
+      'ex',
+      'rcap',
+      'cap',
+      'rch',
+      'ch',
+      'ric',
+      'ic',
+      'rlh',
+      'lh',
 
-      'vw', 'vh', 'vi', 'vb', 'vmin', 'vmax',
-      'svw', 'svh', 'svi', 'svb', 'svmin', 'svmax',
-      'lvw', 'lvh', 'lvi', 'lvb', 'lvmin', 'lvmax',
-      'dvw', 'dvh', 'dvi', 'dvb', 'dvmin', 'dvmax',
-      'cqw', 'cqh', 'cqi', 'cqb', 'cqmin', 'cqmax',
+      'vw',
+      'vh',
+      'vi',
+      'vb',
+      'vmin',
+      'vmax',
+      'svw',
+      'svh',
+      'svi',
+      'svb',
+      'svmin',
+      'svmax',
+      'lvw',
+      'lvh',
+      'lvi',
+      'lvb',
+      'lvmin',
+      'lvmax',
+      'dvw',
+      'dvh',
+      'dvi',
+      'dvb',
+      'dvmin',
+      'dvmax',
+      'cqw',
+      'cqh',
+      'cqi',
+      'cqb',
+      'cqmin',
+      'cqmax',
 
-      'in', 'cm', 'mm',
+      'in',
+      'cm',
+      'mm',
       'rpx',
     ]
 
     expect(units.map(y => h.numberWithUnit(`12.34${y}`))).eql(units.map(y => `12.34${y}`))
   })
 
-  test('handler resolves numbers using time', () => {
+  it('handler resolves numbers using time', () => {
     // normalizations
     expect(h.time('10unknown')).eql(undefined)
     expect(h.time('10 unknown')).eql(undefined)
@@ -114,7 +147,7 @@ describe('value handler', () => {
     expect(units.map(y => h.time(`12.34${y}`))).eql(units.map(y => `12.34${y}`))
   })
 
-  test('handler resolves numbers using degree', () => {
+  it('handler resolves numbers using degree', () => {
     // normalizations
     expect(h.degree('10unknown')).eql(undefined)
     expect(h.degree('10 unknown')).eql(undefined)

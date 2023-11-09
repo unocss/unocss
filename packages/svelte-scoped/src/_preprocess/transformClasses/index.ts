@@ -50,12 +50,11 @@ async function generateStyles(rulesToGenerate: ProcessResult['rulesToGenerate'],
   uno.config.shortcuts.push(...shortcutsForThisComponent)
 
   const selectorsToGenerate = Object.keys(rulesToGenerate)
-  const { css } = await uno.generate(selectorsToGenerate,
-    {
-      preflights: false,
-      safelist: false,
-      minify: REMOVE_COMMENTS_TO_MAKE_GLOBAL_WRAPPING_EASY,
-    })
+  const { css } = await uno.generate(selectorsToGenerate, {
+    preflights: false,
+    safelist: false,
+    minify: REMOVE_COMMENTS_TO_MAKE_GLOBAL_WRAPPING_EASY,
+  })
 
   const cssPreparedForSvelteCompiler = wrapSelectorsWithGlobal(css)
   return cssPreparedForSvelteCompiler

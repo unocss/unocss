@@ -32,7 +32,7 @@ if (window.parent.document.body.parentElement.className.includes('dark'))
   root.classList.toggle('dark', true)
 
 window.addEventListener('message', ({ data }) => {
-  const payload = JSON.parse(data)
+  const payload = typeof data === 'string' ? JSON.parse(data) : data
   if (payload.source !== 'unocss-playground')
     return
 
