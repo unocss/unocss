@@ -56,6 +56,11 @@ export interface RuntimeOptions {
    * This is useful when using the runtime alongwith the build-time UnoCSS.
    */
   bypassDefined?: boolean
+  /**
+   * Optional function to control the target element to extract.
+   * When provided, the default target logic will be overridden.
+   */
+  extractAllTarget?: () => Element | undefined
 }
 
 export type RuntimeInspectorCallback = (element: Element) => boolean
@@ -229,12 +234,12 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   }
 
   async function extractAll() {
-    const body = defaultDocument.body
-    const outerHTML = body && body.outerHTML
+    const target = runtimeOptions.extractAllTarget ? runtimeOptions.extractAllTarget() : defaultDocument.body
+    const outerHTML = target && target.outerHTML
     if (outerHTML) {
       await extract(`${outerHTML} ${decodeHtml(outerHTML)}`)
       removeCloak(html())
-      removeCloak(body)
+      removeCloak(target)
     }
   }
 
