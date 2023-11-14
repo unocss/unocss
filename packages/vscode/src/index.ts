@@ -38,9 +38,11 @@ export async function activate(ext: ExtensionContext) {
     ? await rootRegisterManual(ext, root, projectPath)
     : await rootRegisterAuto(ext, typeof root === 'string' ? root : projectPath, config)
 
-  registerAutoComplete(ctx, ext)
-  registerAnnotations(ctx, status, ext)
-  registerSelectionStyle(ctx)
+  if (await ctx.loadContextInDirectory(ctx.cwd)) {
+    registerAutoComplete(ctx, ext)
+    registerAnnotations(ctx, status, ext)
+    registerSelectionStyle(ctx)
+  }
 
   ext.subscriptions.push(
     commands.registerCommand('unocss.reload', async () => {
