@@ -33,7 +33,7 @@ export async function activate(ext: ExtensionContext) {
 
   const ctx = (Array.isArray(root) && root.length)
     ? await rootRegisterManual(ext, root, projectPath, status)
-    : await rootRegisterAuto(ext, typeof root === 'string' ? root : projectPath, config, status)
+    : await rootRegisterAuto(ext, typeof root === 'string' ? path.resolve(projectPath, root) : projectPath, config, status)
 
   ext.subscriptions.push(
     commands.registerCommand('unocss.reload', async () => {
