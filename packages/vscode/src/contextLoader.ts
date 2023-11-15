@@ -4,16 +4,18 @@ import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocs
 import { notNull } from '@unocss/core'
 import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
 import presetUno from '@unocss/preset-uno'
+import type { ExtensionContext, StatusBarItem } from 'vscode'
 import { resolveOptions as resolveNuxtOptions } from '../../nuxt/src/options'
 import { createNanoEvents } from '../../core/src/utils/events'
 import { createContext, isCssId } from './integration'
 import { isSubdir } from './utils'
 import { log } from './log'
+import { registerAnnotations } from './annotation'
+import { registerAutoComplete } from './autocomplete'
+import { registerSelectionStyle } from './selectionStyle'
 
 export class ContextLoader {
-  public cwd: string
   public ready: Promise<void>
-  public defaultContext: UnocssPluginContext<UserConfig<any>>
   public contextsMap = new Map<string, UnocssPluginContext<UserConfig<any>> | null>()
   public configSources: string[] = []
 
@@ -31,14 +33,12 @@ export class ContextLoader {
     contextUnload: (context: UnocssPluginContext<UserConfig<any>>) => void
   }>()
 
-  constructor(cwd: string) {
-    this.cwd = cwd
-    this.defaultContext = createContext(this.defaultUnocssConfig)
-
+  constructor(
+    public cwd: string,
+    public ext: ExtensionContext,
+    public status: StatusBarItem,
+  ) {
     this.ready = this.reload()
-      .then(async () => {
-        await this.defaultContext.ready
-      })
   }
 
   isTarget(id: string) {
@@ -205,7 +205,10 @@ export class ContextLoader {
     this.fileContextCache.clear()
     this.events.emit('reload')
 
-    log.appendLine(`🗂️ All context: ${Array.from(this.contextsMap.keys()).join(', ')}`)
+    log.appendLine(`🗂️ Enabled context: ${Array.from(this.contextsMap.entries()).filter(i => i[1]).map(i => i[0]).join(', ') || '[none]'}`)
+
+    if (context)
+      this.registerEditorSupport()
 
     return context
   }
@@ -244,7 +247,15 @@ export class ContextLoader {
         return context
       }
     }
+  }
 
-    return this.defaultContext
+  private _isRegistered = false
+  registerEditorSupport() {
+    if (this._isRegistered)
+      return
+    registerAutoComplete(this, this.ext)
+    registerAnnotations(this, this.status, this.ext)
+    registerSelectionStyle(this)
+    this._isRegistered = true
   }
 }
