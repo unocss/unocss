@@ -33,7 +33,7 @@ export async function activate(ext: ExtensionContext) {
 
   const ctx = (Array.isArray(root) && root.length)
     ? await rootRegisterManual(ext, root, projectPath, status)
-    : await rootRegisterAuto(ext, typeof root === 'string' ? root : projectPath, config, status, projectPath)
+    : await rootRegisterAuto(ext, typeof root === 'string' ? path.resolve(projectPath, root) : projectPath, config, status)
 
   ext.subscriptions.push(
     commands.registerCommand('unocss.reload', async () => {
@@ -77,7 +77,6 @@ async function rootRegisterAuto(
   root: string,
   config: WorkspaceConfiguration,
   status: StatusBarItem,
-  projectPath: string,
 ) {
   log.appendLine('📂 Auto roots search mode.')
 
@@ -88,7 +87,7 @@ async function rootRegisterAuto(
   const exclude: FilterPattern = _exclude || [/[\/](node_modules|dist|\.temp|\.cache|\.vscode)[\/]/, ...defaultPipelineExclude]
   const filter = createFilter(include, exclude)
 
-  const ctx = new ContextLoader(path.resolve(projectPath, root), ext, status)
+  const ctx = new ContextLoader(root, ext, status)
   await ctx.ready
 
   const cacheFileLookUp = new Set<string>()
