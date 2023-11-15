@@ -4,10 +4,10 @@ import { StatusBarAlignment, commands, window, workspace } from 'vscode'
 import { findUp } from 'find-up'
 import type { FilterPattern } from '@rollup/pluginutils'
 import { createFilter } from '@rollup/pluginutils'
+import { toArray } from '@unocss/core'
 import { version } from '../package.json'
 import { log } from './log'
 import { ContextLoader } from './contextLoader'
-import { isRejected } from './utils'
 import { defaultPipelineExclude, defaultPipelineInclude } from './integration'
 
 export async function activate(ext: ExtensionContext) {
@@ -31,9 +31,7 @@ export async function activate(ext: ExtensionContext) {
 
   const root = config.get<string | string[]>('root')
 
-  const ctx = (Array.isArray(root) && root.length)
-    ? await rootRegisterManual(ext, root, projectPath, status)
-    : await rootRegisterAuto(ext, typeof root === 'string' ? path.resolve(projectPath, root) : projectPath, config, status)
+  const ctx = await rootRegister(ext, root ? toArray(root).map(r => path.resolve(projectPath, r)) : [projectPath], config, status)
 
   ext.subscriptions.push(
     commands.registerCommand('unocss.reload', async () => {
@@ -44,41 +42,13 @@ export async function activate(ext: ExtensionContext) {
   )
 }
 
-async function rootRegisterManual(
+async function rootRegister(
   ext: ExtensionContext,
   root: string[],
-  projectPath: string,
-  status: StatusBarItem,
-) {
-  log.appendLine('📂 Manual roots search mode.' + `\n${root.map(i => `  - ${i}`).join('\n')}`)
-
-  const roots = root.map(dir => path.resolve(projectPath, dir))
-
-  const ctx = roots.length === 1
-    ? new ContextLoader(roots[0], ext, status)
-    : new ContextLoader(projectPath, ext, status)
-
-  await ctx.ready
-
-  const loaderResult = await Promise.allSettled(
-    roots.map(cwd => ctx.loadContextInDirectory(cwd)),
-  )
-
-  for (const result of loaderResult.filter(isRejected)) {
-    const e = result.reason
-    log.appendLine(String(e.stack ?? e))
-  }
-
-  return ctx
-}
-
-async function rootRegisterAuto(
-  ext: ExtensionContext,
-  root: string,
   config: WorkspaceConfiguration,
   status: StatusBarItem,
 ) {
-  log.appendLine('📂 Auto roots search mode.')
+  log.appendLine('📂 roots search mode.')
 
   const _exclude = config.get<FilterPattern>('exclude')
   const _include = config.get<FilterPattern>('include')
@@ -87,7 +57,7 @@ async function rootRegisterAuto(
   const exclude: FilterPattern = _exclude || [/[\/](node_modules|dist|\.temp|\.cache|\.vscode)[\/]/, ...defaultPipelineExclude]
   const filter = createFilter(include, exclude)
 
-  const ctx = new ContextLoader(root, ext, status)
+  const ctx = new ContextLoader(root[0], ext, status)
   await ctx.ready
 
   const cacheFileLookUp = new Set<string>()
@@ -112,8 +82,7 @@ async function rootRegisterAuto(
     'unocss.config.ts',
   ]
 
-  const registerUnocss = async () => {
-    const url = window.activeTextEditor?.document.uri.fsPath
+  const registerUnocss = async (url = window.activeTextEditor?.document.uri.fsPath) => {
     if (!url)
       return
 
@@ -146,9 +115,8 @@ async function rootRegisterAuto(
   }
 
   try {
-    await registerUnocss()
-    if (!root || !root.length)
-      ext.subscriptions.push(window.onDidChangeActiveTextEditor(registerUnocss))
+    await Promise.all(root.map(registerUnocss))
+    ext.subscriptions.push(window.onDidChangeActiveTextEditor(() => registerUnocss()))
   }
   catch (e: any) {
     log.appendLine(String(e.stack ?? e))
