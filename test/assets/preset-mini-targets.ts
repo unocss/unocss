@@ -867,6 +867,9 @@ export const presetMiniTargets: string[] = [
   'color-scheme-dark',
 
   // variables
+  'border-[1_red_dashed]',
+  'border-[calc(10px+1px)_red_dashed]',
+  'border-b-[1px_red_solid]',
   'bg-[--test-variable]',
   'bg-$test-variable',
   'border-$color',
