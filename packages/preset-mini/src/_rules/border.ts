@@ -1,7 +1,7 @@
 import type { CSSEntries, CSSObject, Rule, RuleContext } from '@unocss/core'
 import { colorOpacityToString, colorToString } from '@unocss/rule-utils'
 import type { Theme } from '../theme'
-import { cornerMap, directionMap, globalKeywords, h, hasParseableColor, isCSSMathFn, parseColor } from '../utils'
+import { cornerMap, directionMap, globalKeywords, h, hasParseableColor, isCSSMathFn, isSize, parseColor } from '../utils'
 
 export const borderStyles = ['solid', 'dashed', 'dotted', 'double', 'hidden', 'none', 'groove', 'ridge', 'inset', 'outset', ...globalKeywords]
 
@@ -56,7 +56,7 @@ function borderColorResolver(direction: string) {
     if (!data)
       return
 
-    const { alpha, color, cssColor } = data
+    const { alpha, color, cssColor, name } = data
 
     if (cssColor) {
       if (alpha != null) {
@@ -80,6 +80,23 @@ function borderColorResolver(direction: string) {
       }
     }
     else if (color) {
+      if (/\[[^\]]*\]/.test(name)) {
+        const multipleValue = name.slice(1, -1).split('_')
+        if (multipleValue.length) {
+          return multipleValue.reduce((result, v) => {
+            v = h.bracketOfColor(`[${v}]`) || v
+            if (isSize(v))
+              result['border-width'] = isCSSMathFn(v) ? v : h.bracket.cssvar.global.px(v || '1')
+            else if (borderStyles.includes(v))
+              result[`border${direction}-style`] = v
+            else
+              result[`border${direction}-color`] = colorToString(v, alpha)
+
+            return result
+          }, {} as CSSObject)
+        }
+      }
+
       if (isCSSMathFn(color)) {
         return {
           'border-width': color,

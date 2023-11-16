@@ -353,4 +353,30 @@ describe('preset-mini', () => {
         .text-sm{font-size:0.875rem;line-height:1.25rem;}"
       `)
   })
+
+  it('border(-[trlb])?-[a_b_c]', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+    })
+
+    expect((await uno.generate('border-b-[1px_red_solid]', { preflights: false })).css)
+      .toMatchInlineSnapshot(`
+        "/* layer: default */
+        .border-b-\\\\[1px_red_solid\\\\]{border-width:1px;border-bottom-color:red;border-bottom-style:solid;}"
+      `)
+
+    expect((await uno.generate('border-[calc(10px+1px)_red_dashed]', { preflights: false })).css)
+      .toMatchInlineSnapshot(`
+        "/* layer: default */
+        .border-\\\\[calc\\\\(10px\\\\+1px\\\\)_red_dashed\\\\]{border-width:calc(10px + 1px);border-color:red;border-style:dashed;}"
+      `)
+
+    expect((await uno.generate('border-[1_red_dashed]', { preflights: false })).css)
+      .toMatchInlineSnapshot(`
+        "/* layer: default */
+        .border-\\\\[1_red_dashed\\\\]{border-width:1px;border-color:red;border-style:dashed;}"
+      `)
+  })
 })
