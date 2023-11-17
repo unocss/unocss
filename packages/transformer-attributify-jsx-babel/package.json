@@ -39,15 +39,15 @@
   "dependencies": {
     "@unocss/core": "workspace:*"
   },
-  "devDependencies": {
-    "magic-string": "^0.30.5",
-    "@babel/core": "^7.23.3",
-    "@babel/plugin-syntax-jsx": "^7.23.3",
-    "@babel/preset-typescript": "^7.23.3"
-  },
   "peerDependencies": {
     "@babel/core": "^7.23.3",
     "@babel/plugin-syntax-jsx": "^7.23.3",
     "@babel/preset-typescript": "^7.23.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.3",
+    "@babel/plugin-syntax-jsx": "^7.23.3",
+    "@babel/preset-typescript": "^7.23.3",
+    "magic-string": "^0.30.5"
   }
 }
