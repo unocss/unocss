@@ -108,9 +108,9 @@ export async function build(_options: CliOptions) {
 
   await startWatcher().catch(handleError)
 
-  function transformFiles(sources: { id: string; code: string; transformedCode?: string | undefined }[], enforce: SourceCodeTransformerEnforce = 'default') {
+  function transformFiles(sources: { id: string, code: string, transformedCode?: string | undefined }[], enforce: SourceCodeTransformerEnforce = 'default') {
     return Promise.all(
-      sources.map(({ id, code, transformedCode }) => new Promise<{ id: string; code: string; transformedCode: string | undefined }>((resolve) => {
+      sources.map(({ id, code, transformedCode }) => new Promise<{ id: string, code: string, transformedCode: string | undefined }>((resolve) => {
         applyTransformers(ctx, code, id, enforce)
           .then((transformsRes) => {
             resolve({ id, code, transformedCode: transformsRes?.code || transformedCode })

@@ -111,7 +111,7 @@ function unocss(options: UnoPostcssPluginOptions = {}) {
           absolute: true,
           ignore: ['**/node_modules/**'],
           stats: true,
-        }) as unknown as { path: string; mtimeMs: number }[]
+        }) as unknown as { path: string, mtimeMs: number }[]
 
         await parseApply(root, uno, directiveMap.apply)
         await parseTheme(root, uno)
