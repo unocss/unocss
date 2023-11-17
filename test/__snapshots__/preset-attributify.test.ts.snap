@@ -2,15 +2,15 @@
 
 exports[`attributify > merge attribute name and value-only 1`] = `
 "/* layer: default */
-[bg~=\\"\\\\[\\\\&\\\\:nth-child\\\\(3\\\\)\\\\]\\\\:\\\\[\\\\#123456\\\\]\\"]:nth-child(3){--un-bg-opacity:1;background-color:rgb(18 52 86 / var(--un-bg-opacity));}
-[bg~=\\"\\\\[\\\\&\\\\.foo\\\\]\\\\:\\\\[\\\\&\\\\:nth-child\\\\(3\\\\)\\\\]\\\\:\\\\[\\\\#123\\\\]\\"]:nth-child(3).foo{--un-bg-opacity:1;background-color:rgb(17 34 51 / var(--un-bg-opacity));}"
+[bg~="\\[\\&\\:nth-child\\(3\\)\\]\\:\\[\\#123456\\]"]:nth-child(3){--un-bg-opacity:1;background-color:rgb(18 52 86 / var(--un-bg-opacity));}
+[bg~="\\[\\&\\.foo\\]\\:\\[\\&\\:nth-child\\(3\\)\\]\\:\\[\\#123\\]"]:nth-child(3).foo{--un-bg-opacity:1;background-color:rgb(17 34 51 / var(--un-bg-opacity));}"
 `;
 
 exports[`attributify > prefixedOnly 1`] = `
 "/* layer: default */
 .absolute{position:absolute;}
 .fixed{position:fixed;}
-[un-children~=\\"m-auto\\"]>*{margin:auto;}"
+[un-children~="m-auto"]>*{margin:auto;}"
 `;
 
 exports[`attributify > variant 1`] = `
@@ -62,7 +62,7 @@ exports[`attributify > variant 1`] = `
   "after-content-[quoted:uno_css]",
   "rotate-60",
   "ma",
-  "m-\\\\",
+  "m-\\",
   "m-1",
   "m-2",
   "m-3",
@@ -73,7 +73,7 @@ exports[`attributify > variant 1`] = `
 
 exports[`attributify > with trueToNonValued 1`] = `
 "/* layer: default */
-[grid~=\\"\\\\~\\"]{display:grid;}
-[grid~=\\"cols-2\\"]{grid-template-columns:repeat(2,minmax(0,1fr));}
-[flex~=\\"true\\"]{display:flex;}"
+[grid~="\\~"]{display:grid;}
+[grid~="cols-2"]{grid-template-columns:repeat(2,minmax(0,1fr));}
+[flex~="true"]{display:flex;}"
 `;

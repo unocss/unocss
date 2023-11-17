@@ -8,7 +8,7 @@ import { addGeneratedStylesIntoStyleBlock } from './addGeneratedStyles'
 import type { ProcessResult } from './processClasses'
 import { processClasses } from './processClasses'
 
-export async function transformClasses({ content, filename, uno, options }: { content: string; filename: string; uno: UnoGenerator; options: TransformClassesOptions }): Promise<Processed | void> {
+export async function transformClasses({ content, filename, uno, options }: { content: string, filename: string, uno: UnoGenerator, options: TransformClassesOptions }): Promise<Processed | void> {
   const classesToProcess = findClasses(content)
   if (!classesToProcess.length)
     return

@@ -87,15 +87,15 @@ describe('runtime auto prefixer', () => {
 
 describe('runtime decode html', () => {
   it('decode function', async () => {
-    expect(decodeHtml('<tag class="[&_*]:text-red>"')).toMatchInlineSnapshot('"<tag class=\\"[&_*]:text-red>\\""')
-    expect(decodeHtml('<tag class="[&amp;_*]:text-red>"')).toMatchInlineSnapshot('"<tag class=\\"[&_*]:text-red>\\""')
-    expect(decodeHtml('<tag class="[&amp;>*]:text-red>"')).toMatchInlineSnapshot('"<tag class=\\"[&>*]:text-red>\\""')
-    expect(decodeHtml('<tag class="[&amp;&gt;*]:text-red>"')).toMatchInlineSnapshot('"<tag class=\\"[&>*]:text-red>\\""')
-    expect(decodeHtml('<tag class="[&<*]:text-red>"')).toMatchInlineSnapshot('"<tag class=\\"[&<*]:text-red>\\""')
-    expect(decodeHtml('<tag class="[&&lt;*]:text-red>"')).toMatchInlineSnapshot('"<tag class=\\"[&<*]:text-red>\\""')
+    expect(decodeHtml('<tag class="[&_*]:text-red>"')).toMatchInlineSnapshot(`"<tag class="[&_*]:text-red>""`)
+    expect(decodeHtml('<tag class="[&amp;_*]:text-red>"')).toMatchInlineSnapshot(`"<tag class="[&_*]:text-red>""`)
+    expect(decodeHtml('<tag class="[&amp;>*]:text-red>"')).toMatchInlineSnapshot(`"<tag class="[&>*]:text-red>""`)
+    expect(decodeHtml('<tag class="[&amp;&gt;*]:text-red>"')).toMatchInlineSnapshot(`"<tag class="[&>*]:text-red>""`)
+    expect(decodeHtml('<tag class="[&<*]:text-red>"')).toMatchInlineSnapshot(`"<tag class="[&<*]:text-red>""`)
+    expect(decodeHtml('<tag class="[&&lt;*]:text-red>"')).toMatchInlineSnapshot(`"<tag class="[&<*]:text-red>""`)
   })
 
   it('not decoding all entities', async () => {
-    expect(decodeHtml('<tag class="[&_*]:content-[&nbsp;]>"')).toMatchInlineSnapshot('"<tag class=\\"[&_*]:content-[&nbsp;]>\\""')
+    expect(decodeHtml('<tag class="[&_*]:content-[&nbsp;]>"')).toMatchInlineSnapshot(`"<tag class="[&_*]:content-[&nbsp;]>""`)
   })
 })
