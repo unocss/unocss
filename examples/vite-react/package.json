@@ -13,7 +13,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.37",
+    "@iconify-json/logos": "^1.1.38",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "@unocss/core": "link:../../packages/core",

@@ -9,8 +9,7 @@
     "msw",
     "prettier",
     "prettier-plugin-svelte",
-    "@types/prettier",
-    "rollup"
+    "@types/prettier"
   ],
   "packageMode": {
     "vue": "minor",

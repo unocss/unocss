@@ -9,13 +9,13 @@
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.37",
+    "@iconify-json/logos": "^1.1.38",
     "@sveltejs/vite-plugin-svelte": "^3.0.0",
     "@tsconfig/svelte": "^5.0.2",
     "@unocss/core": "link:../../packages/core",
     "@unocss/extractor-svelte": "link:../../packages/extractor-svelte",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
-    "svelte": "^4.2.3",
+    "svelte": "^4.2.4",
     "svelte-check": "^3.6.0",
     "svelte-preprocess": "^5.1.0",
     "tslib": "^2.6.2",

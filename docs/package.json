@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@iconify-json/carbon": "^1.1.21",
-    "@iconify-json/logos": "^1.1.37",
+    "@iconify-json/logos": "^1.1.38",
     "@iconify-json/mdi": "^1.1.55",
     "@iconify-json/ph": "^1.1.6",
     "@iconify-json/twemoji": "^1.1.12",
