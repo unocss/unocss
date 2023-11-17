@@ -40,7 +40,7 @@ exports[`matched-positions-pug > plain class: normal case 1`] = `
   [
     106,
     109,
-    "[text=\\"red\\"]",
+    "[text="red"]",
   ],
 ]
 `;

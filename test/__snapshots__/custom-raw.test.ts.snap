@@ -10,7 +10,7 @@ exports[`custom-raw > basic 1`] = `
   border-bottom: 1px solid green;
 }
 .m-hi-anthony::after {
-  content: \\"hi-anthony\\";
+  content: "hi-anthony";
   color: skyblue;
 }
 .hi m-hi-anthony::before {
@@ -23,7 +23,7 @@ exports[`custom-raw > basic 1`] = `
   border-bottom: 1px solid green;
 }
 .m-hi-hi::after {
-  content: \\"hi-hi\\";
+  content: "hi-hi";
   color: skyblue;
 }
 .hi m-hi-hi::before {

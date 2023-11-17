@@ -5,7 +5,7 @@ describe('removeSourceMap()', () => {
   it('should remove the source map from the code', () => {
     const code = 'console.log("Hello, world!");\n//# sourceMappingURL=app.js.map\n'
     expect(removeSourceMap(code)).toMatchInlineSnapshot(`
-      "console.log(\\"Hello, world!\\");
+      "console.log("Hello, world!");
       "
     `)
   })

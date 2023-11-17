@@ -56,7 +56,7 @@ describe('transformer-directives', () => {
           font-size: 1.125rem;
           line-height: 1.75rem;
           font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-            \\"Liberation Mono\\", \\"Courier New\\", monospace;
+            "Liberation Mono", "Courier New", monospace;
         }
         "
       `)
@@ -502,7 +502,7 @@ div {
           font-size: 1.125rem;
           line-height: 1.75rem;
           font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-            \\"Liberation Mono\\", \\"Courier New\\", monospace;
+            "Liberation Mono", "Courier New", monospace;
         }
         "
       `)
