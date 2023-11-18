@@ -120,6 +120,8 @@ async function rootRegister(
 
   try {
     await Promise.all(root.map(registerUnocss))
+    // Take effect immediately on the current file
+    registerUnocss()
     ext.subscriptions.push(window.onDidChangeActiveTextEditor(() => registerUnocss()))
   }
   catch (e: any) {
