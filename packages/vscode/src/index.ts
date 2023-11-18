@@ -31,7 +31,11 @@ export async function activate(ext: ExtensionContext) {
 
   const root = config.get<string | string[]>('root')
 
-  const ctx = await rootRegister(ext, root ? toArray(root).map(r => path.resolve(projectPath, r)) : [projectPath], config, status)
+  const ctx = await rootRegister(ext, Array.isArray(root) && !root.length
+    ? [projectPath]
+    : root
+      ? toArray(root).map(r => path.resolve(projectPath, r))
+      : [projectPath], config, status)
 
   ext.subscriptions.push(
     commands.registerCommand('unocss.reload', async () => {
@@ -116,6 +120,8 @@ async function rootRegister(
 
   try {
     await Promise.all(root.map(registerUnocss))
+    // Take effect immediately on the current file
+    registerUnocss()
     ext.subscriptions.push(window.onDidChangeActiveTextEditor(() => registerUnocss()))
   }
   catch (e: any) {
