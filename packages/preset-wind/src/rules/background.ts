@@ -23,7 +23,7 @@ function bgGradientColorValue(mode: string, cssColor: CSSColorValue | undefined,
 
 function bgGradientColorResolver() {
   return ([, mode, body]: string[], { theme }: RuleContext<Theme>) => {
-    const data = parseColor(body, theme)
+    const data = parseColor(body, theme, 'backgroundColor')
 
     if (!data)
       return

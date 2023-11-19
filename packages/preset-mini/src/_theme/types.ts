@@ -29,6 +29,11 @@ export interface Theme {
   breakpoints?: Record<string, string>
   verticalBreakpoints?: Record<string, string>
   colors?: Colors
+  borderColor?: Colors
+  backgroundColor?: Colors
+  textColor?: Colors
+  shadowColor?: Colors
+  accentColor?: Colors
   fontFamily?: Record<string, string>
   fontSize?: Record<string, string | [string, string | CSSObject] | [string, string, string]>
   fontWeight?: Record<string, string>

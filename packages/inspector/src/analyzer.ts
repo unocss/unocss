@@ -48,7 +48,7 @@ export async function analyzer(modules: BetterMap<string, string>, ctx: UnocssPl
       const body = baseSelector
         .replace(/^ring-offset|outline-solid|outline-dotted/, 'head')
         .replace(/^\w+-/, '')
-      const parsedColor = parseColor(body, ctx.uno.config.theme)
+      const parsedColor = parseColor(body, ctx.uno.config.theme, 'colors')
 
       if (parsedColor?.color && !ignoredColors.includes(parsedColor?.color)) {
         const existing = colors.find(c => c.name === parsedColor.name && c.no === parsedColor.no)

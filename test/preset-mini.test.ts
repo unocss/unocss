@@ -353,4 +353,31 @@ describe('preset-mini', () => {
         .text-sm{font-size:0.875rem;line-height:1.25rem;}"
       `)
   })
+
+  it('override colors differently', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+      theme: {
+        colors: {
+          blue: {
+            400: 'rgb(0 0 400)',
+          },
+        },
+        textColor: {
+          blue: {
+            400: 'rgb(0 0 700)',
+          },
+        },
+      },
+    })
+
+    expect((await uno.generate('bg-blue-400 text-blue-400', { preflights: false })).css)
+      .toMatchInlineSnapshot(`
+        "/* layer: default */
+        .bg-blue-400{--un-bg-opacity:1;background-color:rgb(0 0 400 / var(--un-bg-opacity));}
+        .text-blue-400{--un-text-opacity:1;color:rgb(0 0 700 / var(--un-text-opacity));}"
+      `)
+  })
 })
