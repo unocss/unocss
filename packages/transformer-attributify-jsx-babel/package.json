@@ -37,17 +37,12 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@unocss/core": "workspace:*"
-  },
-  "peerDependencies": {
-    "@babel/core": "^7.23.3",
-    "@babel/plugin-syntax-jsx": "^7.23.3",
-    "@babel/preset-typescript": "^7.23.3"
-  },
-  "devDependencies": {
     "@babel/core": "^7.23.3",
     "@babel/plugin-syntax-jsx": "^7.23.3",
     "@babel/preset-typescript": "^7.23.3",
+    "@unocss/core": "workspace:*"
+  },
+  "devDependencies": {
     "magic-string": "^0.30.5"
   }
 }
