@@ -18,7 +18,7 @@
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
-    "@quasar/app-vite": "^1.6.2",
+    "@quasar/app-vite": "^1.7.0",
     "autoprefixer": "^10.4.16",
     "typescript": "^5.2.2",
     "unocss": "link:../../packages/unocss"

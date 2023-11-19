@@ -45,11 +45,11 @@ describe('transformer-compile-class', () => {
 </div>
     `.trim())
     expect(result.code.trim()).toMatchInlineSnapshot(`
-      "<div class=\\"uno-pe1esh\\">
-      <div class=\\"foo bar\\">
+      "<div class="uno-pe1esh">
+      <div class="foo bar">
 
-      <div class=\\"uno-cbgd7b foo\\">
-        <div class=\\"uno-s9yxer\\"/>
+      <div class="uno-cbgd7b foo">
+        <div class="uno-s9yxer"/>
       </div>"
     `)
     expect(result.css).toMatchInlineSnapshot(`
@@ -79,7 +79,7 @@ describe('transformer-compile-class', () => {
       createUno({ trigger: CUSTOM_TRIGGER }),
     )
 
-    expect(result.code.trim()).toMatchInlineSnapshot('"<div class=\\"uno-trmz0g\\">"')
+    expect(result.code.trim()).toMatchInlineSnapshot(`"<div class="uno-trmz0g">"`)
 
     expect(result.css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
@@ -96,7 +96,7 @@ describe('transformer-compile-class', () => {
       }),
     )
 
-    expect(result.code.trim()).toMatchInlineSnapshot('"<div class=\\"something-foo\\">"')
+    expect(result.code.trim()).toMatchInlineSnapshot(`"<div class="something-foo">"`)
 
     expect(result.css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
@@ -110,7 +110,7 @@ describe('transformer-compile-class', () => {
       createUno({ trigger: CUSTOM_TRIGGER }),
     )
 
-    expect(result.code.trim()).toMatchInlineSnapshot('"<div class=\\"uno-foo_bar-baz\\">"')
+    expect(result.code.trim()).toMatchInlineSnapshot(`"<div class="uno-foo_bar-baz">"`)
 
     expect(result.css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
@@ -135,8 +135,8 @@ describe('transformer-compile-class', () => {
     `.trim())
 
     expect(result.code.trim()).toMatchInlineSnapshot(`
-      "<div class=\\"uno-foo\\"/>
-      <div class=\\"uno-foo\\"/>"
+      "<div class="uno-foo"/>
+      <div class="uno-foo"/>"
     `)
 
     expect(result.css.trim()).toMatchInlineSnapshot(`
@@ -153,9 +153,9 @@ describe('transformer-compile-class', () => {
     `)
 
     expect(result.code.trim()).toMatchInlineSnapshot(`
-      "<div class=\\"uno-prhvrm\\"/>
-      <div class=\\"uno-umiu5u\\"/>
-      <div class=\\"uno-prhvrm\\"/>"
+      "<div class="uno-prhvrm"/>
+      <div class="uno-umiu5u"/>
+      <div class="uno-prhvrm"/>"
     `)
   })
 

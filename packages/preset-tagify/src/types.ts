@@ -14,8 +14,8 @@ export interface TagifyOptions {
    * Extra CSS properties to apply to matched rules
    */
   extraProperties?:
-  | Record<string, string>
-  | ((matched: string) => Partial<Record<string, string>>)
+    | Record<string, string>
+    | ((matched: string) => Partial<Record<string, string>>)
 
   /**
    * Enable default extractor

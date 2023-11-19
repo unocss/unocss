@@ -2,7 +2,7 @@ import { dynamicUtilities, staticUtilities } from './categories'
 
 export function getSelectorCategory(selector: string) {
   return staticUtilities[selector]
-  || Object.entries(dynamicUtilities).find(([name]) => new RegExp(`^${name}+(-.+|[0-9]+)$`).test(selector))?.[1]
+    || Object.entries(dynamicUtilities).find(([name]) => new RegExp(`^${name}+(-.+|[0-9]+)$`).test(selector))?.[1]
 }
 
 export function intersect<T>(a: T[], b: T[]) {

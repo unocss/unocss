@@ -22,11 +22,10 @@ export function directionSize(propertyPrefix: string): DynamicMatcher {
   }
 }
 
-/**
- * Obtain color from theme by camel-casing colors.
- */
-function getThemeColor(theme: Theme, colors: string[]) {
-  let obj: Theme['colors'] | string = theme.colors
+type ThemeColorKeys = 'colors' | 'borderColor' | 'backgroundColor' | 'textColor' | 'shadowColor' | 'accentColor'
+
+function getThemeColorForKey(theme: Theme, colors: string[], key: ThemeColorKeys = 'colors') {
+  let obj = theme[key] as Theme['colors'] | string
   let index = -1
 
   for (const c of colors) {
@@ -45,6 +44,13 @@ function getThemeColor(theme: Theme, colors: string[]) {
   }
 
   return obj
+}
+
+/**
+ * Obtain color from theme by camel-casing colors.
+ */
+function getThemeColor(theme: Theme, colors: string[], key?: ThemeColorKeys) {
+  return getThemeColorForKey(theme, colors, key) || getThemeColorForKey(theme, colors, 'colors')
 }
 
 /**
@@ -77,7 +83,7 @@ export function splitShorthand(body: string, type: string) {
  * @param theme - {@link Theme} object.
  * @return object if string is parseable.
  */
-export function parseColor(body: string, theme: Theme): ParsedColorValue | undefined {
+export function parseColor(body: string, theme: Theme, key?: ThemeColorKeys): ParsedColorValue | undefined {
   const [main, opacity] = splitShorthand(body, 'color')
 
   const colors = main
@@ -105,7 +111,7 @@ export function parseColor(body: string, theme: Theme): ParsedColorValue | undef
   color = color || bracket
 
   if (!color) {
-    const colorData = getThemeColor(theme, [main])
+    const colorData = getThemeColor(theme, [main], key)
     if (typeof colorData === 'string')
       color = colorData
   }
@@ -116,17 +122,17 @@ export function parseColor(body: string, theme: Theme): ParsedColorValue | undef
     const [scale] = colors.slice(-1)
     if (scale.match(/^\d+$/)) {
       no = scale
-      colorData = getThemeColor(theme, colors.slice(0, -1))
+      colorData = getThemeColor(theme, colors.slice(0, -1), key)
       if (!colorData || typeof colorData === 'string')
         color = undefined
       else
         color = colorData[no] as string
     }
     else {
-      colorData = getThemeColor(theme, colors)
+      colorData = getThemeColor(theme, colors, key)
       if (!colorData && colors.length <= 2) {
         [, no = no] = colors
-        colorData = getThemeColor(theme, [name])
+        colorData = getThemeColor(theme, [name], key)
       }
       if (typeof colorData === 'string')
         color = colorData
@@ -171,9 +177,9 @@ export function parseColor(body: string, theme: Theme): ParsedColorValue | undef
  * @param [shouldPass] - Function to decide whether to pass the css.
  * @return object.
  */
-export function colorResolver(property: string, varName: string, shouldPass?: (css: CSSObject) => boolean): DynamicMatcher {
+export function colorResolver(property: string, varName: string, key?: ThemeColorKeys, shouldPass?: (css: CSSObject) => boolean): DynamicMatcher {
   return ([, body]: string[], { theme }: RuleContext<Theme>): CSSObject | undefined => {
-    const data = parseColor(body, theme)
+    const data = parseColor(body, theme, key)
 
     if (!data)
       return
@@ -215,8 +221,8 @@ export function colorableShadows(shadows: string | string[], colorVar: string) {
   return colored
 }
 
-export function hasParseableColor(color: string | undefined, theme: Theme) {
-  return color != null && !!parseColor(color, theme)?.color
+export function hasParseableColor(color: string | undefined, theme: Theme, key: ThemeColorKeys) {
+  return color != null && !!parseColor(color, theme, key)?.color
 }
 
 export function resolveBreakpoints({ theme, generator }: Readonly<VariantContext<Theme>>, key: 'breakpoints' | 'verticalBreakpoints' = 'breakpoints') {
