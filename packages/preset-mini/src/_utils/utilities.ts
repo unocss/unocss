@@ -49,7 +49,7 @@ function getThemeColorForKey(theme: Theme, colors: string[], key: ThemeColorKeys
 /**
  * Obtain color from theme by camel-casing colors.
  */
-function getThemeColor(theme: Theme, colors: string[], key: ThemeColorKeys) {
+function getThemeColor(theme: Theme, colors: string[], key?: ThemeColorKeys) {
   return getThemeColorForKey(theme, colors, key) || getThemeColorForKey(theme, colors, 'colors')
 }
 
@@ -83,7 +83,7 @@ export function splitShorthand(body: string, type: string) {
  * @param theme - {@link Theme} object.
  * @return object if string is parseable.
  */
-export function parseColor(body: string, theme: Theme, key: ThemeColorKeys): ParsedColorValue | undefined {
+export function parseColor(body: string, theme: Theme, key?: ThemeColorKeys): ParsedColorValue | undefined {
   const [main, opacity] = splitShorthand(body, 'color')
 
   const colors = main
@@ -177,7 +177,7 @@ export function parseColor(body: string, theme: Theme, key: ThemeColorKeys): Par
  * @param [shouldPass] - Function to decide whether to pass the css.
  * @return object.
  */
-export function colorResolver(property: string, varName: string, key: ThemeColorKeys, shouldPass?: (css: CSSObject) => boolean): DynamicMatcher {
+export function colorResolver(property: string, varName: string, key?: ThemeColorKeys, shouldPass?: (css: CSSObject) => boolean): DynamicMatcher {
   return ([, body]: string[], { theme }: RuleContext<Theme>): CSSObject | undefined => {
     const data = parseColor(body, theme, key)
 
