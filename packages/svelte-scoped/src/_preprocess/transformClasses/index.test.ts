@@ -258,10 +258,14 @@ describe('transform', () => {
 
       <style>
         :global(.uno-3h14cd) {
-          font-weight: 600;
           --un-text-opacity: 1;
           color: rgb(34 197 94 / var(--un-text-opacity));
           color: rgb(96 165 250 / var(--un-text-opacity));
+          font-weight: 600;
+        }
+        :global(.uno-ffvc5a) {
+          --un-text-opacity: 1;
+          color: rgb(220 38 38 / var(--un-text-opacity));
         }
         :global(.uno-r4l94t) {
           font-weight: 700;
@@ -269,10 +273,6 @@ describe('transform', () => {
         }
         :global(.uno-br1nw8) {
           font-style: italic;
-        }
-        :global(.uno-ffvc5a) {
-          --un-text-opacity: 1;
-          color: rgb(220 38 38 / var(--un-text-opacity));
         }
       </style>
       "
