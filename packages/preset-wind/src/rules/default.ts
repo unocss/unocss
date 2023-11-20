@@ -83,7 +83,6 @@ export const rules: Rule<Theme>[] = [
   textTransforms,
   _.fontStyles,
   fontVariantNumeric,
-  _.textColors,
   _.textDecorations,
   _.fontSmoothings,
   _.tabSizes,

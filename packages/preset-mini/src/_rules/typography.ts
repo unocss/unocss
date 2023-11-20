@@ -1,14 +1,15 @@
 import type { CSSObject, Rule } from '@unocss/core'
 import { toArray } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorResolver, colorableShadows, h, splitShorthand } from '../utils'
+import { colorResolver, colorableShadows, globalKeywords, h, splitShorthand } from '../utils'
+import { numberWithUnitRE } from '../_utils/handlers/regex'
 
 function handleThemeByKey(s: string, theme: Theme, key: 'lineHeight' | 'letterSpacing') {
   return theme[key]?.[s] || h.bracket.cssvar.global.rem(s)
 }
 
 export const fonts: Rule<Theme>[] = [
-  // size
+  // text
   [
     /^text-(.+)$/,
     ([, s = 'base'], { theme }) => {
@@ -47,12 +48,26 @@ export const fonts: Rule<Theme>[] = [
     },
     { autocomplete: 'text-$fontSize' },
   ],
+
+  // text size
   [/^(?:text|font)-size-(.+)$/, ([, s], { theme }) => {
     const themed = toArray(theme.fontSize?.[s]) as [string, string | CSSObject]
     const size = themed?.[0] ?? h.bracket.cssvar.global.rem(s)
     if (size != null)
       return { 'font-size': size }
   }, { autocomplete: 'text-size-$fontSize' }],
+
+  // colors
+  [/^(?:color|c)-(.+)$/, colorResolver('color', 'text', 'textColor'), { autocomplete: '(color|c)-$colors' }],
+
+  // text colors
+  [/^text-(.+)$/, colorResolver('color', 'text', 'textColor', css => !css.color?.toString().match(numberWithUnitRE)), { autocomplete: 'text-$colors' }],
+
+  // style
+  [/^(?:text|color|c)-(.+)$/, ([, v]) => globalKeywords.includes(v) ? { color: v } : undefined, { autocomplete: `(text|color|c)-(${globalKeywords.join('|')})` }],
+
+  // opacity
+  [/^(?:text|color|c)-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: '(text|color|c)-(op|opacity)-<percent>' }],
 
   // weights
   [
