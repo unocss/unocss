@@ -1,10 +1,10 @@
 import type { CSSEntries, CSSObject, DynamicMatcher, ParsedColorValue, RuleContext, StaticRule, VariantContext } from '@unocss/core'
 import { toArray } from '@unocss/core'
-import { colorOpacityToString, colorToString, getStringComponents, parseCssColor } from '@unocss/rule-utils'
+import { colorOpacityToString, colorToString, getStringComponent, getStringComponents, parseCssColor } from '@unocss/rule-utils'
 import type { Theme } from '../theme'
 import { h } from './handlers'
 import { cssMathFnRE, directionMap, globalKeywords } from './mappings'
-import { numberWithUnitRE } from './handlers/regex'
+import { bracketTypeRe, numberWithUnitRE } from './handlers/regex'
 
 export const CONTROL_MINI_NO_NEGATIVE = '$$mini-no-negative'
 
@@ -57,16 +57,14 @@ function getThemeColor(theme: Theme, colors: string[], key?: ThemeColorKeys) {
  * Split utility shorthand delimited by / or :
  */
 export function splitShorthand(body: string, type: string) {
-  const split = body.split(/(?:\/|:)/)
+  const [front, rest] = getStringComponent(body, '[', ']', ['/', ':']) ?? []
 
-  if (split[0] === `[${type}`) {
-    return [
-      split.slice(0, 2).join(':'),
-      split[2],
-    ]
+  if (front != null) {
+    const match = (front.match(bracketTypeRe) ?? [])[1]
+
+    if (match == null || match === type)
+      return [front, rest]
   }
-
-  return split
 }
 
 /**
@@ -84,8 +82,11 @@ export function splitShorthand(body: string, type: string) {
  * @return object if string is parseable.
  */
 export function parseColor(body: string, theme: Theme, key?: ThemeColorKeys): ParsedColorValue | undefined {
-  const [main, opacity] = splitShorthand(body, 'color')
+  const split = splitShorthand(body, 'color')
+  if (!split)
+    return
 
+  const [main, opacity] = split
   const colors = main
     .replace(/([a-z])([0-9])/g, '$1-$2')
     .split(/-/g)

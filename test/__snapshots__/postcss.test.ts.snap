@@ -211,20 +211,6 @@ exports[`postcss > @unocss 1`] = `
 .overscroll-y-unset{overscroll-behavior-y:unset;}
 .scroll-auto{scroll-behavior:auto;}
 .scroll-unset{scroll-behavior:unset;}
-.bg-\\[10\\%\\]{background-position:10%;}
-.bg-\\[10px\\]{background-position:10px;}
-.bg-\\[10vw\\]{background-position:10vw;}
-.bg-\\[calc\\(10\\%\\+10px\\)\\]{background-position:calc(10% + 10px);}
-.bg-\\[calc\\(10vw\\+10px\\)\\]{background-position:calc(10vw + 10px);}
-.bg-\\[length\\:--variable\\]{background-size:var(--variable);}
-.bg-\\[length\\:1\\/2_20rem\\]{background-size:50% 20rem;}
-.bg-\\[length\\:10_20rem\\]{background-size:10px 20rem;}
-.bg-\\[position\\:--variable\\]{background-position:var(--variable);}
-.bg-\\[position\\:1\\/2_20rem\\]{background-position:50% 20rem;}
-.bg-\\[position\\:10_20rem\\]{background-position:10px 20rem;}
-.bg-\\[position\\:bottom_left_10\\%\\]{background-position:bottom left 10%;}
-.bg-\\[position\\:top_right_1\\/3\\]{background-position:top right 33.3333333333%;}
-.bg-\\[url\\(https\\:\\/\\/test\\.unocss\\.png\\)\\]{--un-url:url(https://test.unocss.png);background-image:var(--un-url);}
 .bg-gradient-\\[70deg\\,blue\\,pink\\]{--un-gradient:70deg,blue,pink;}
 .bg-gradient-stops-\\[blue\\,pink\\],
 .stops-\\[blue\\,pink\\]{--un-gradient-stops:blue,pink;}
