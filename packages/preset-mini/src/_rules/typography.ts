@@ -1,8 +1,7 @@
 import type { CSSObject, Rule, RuleContext } from '@unocss/core'
 import { toArray } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorResolver, colorableShadows, globalKeywords, h, splitShorthand } from '../utils'
-import { numberWithUnitRE } from '../_utils/handlers/regex'
+import { colorResolver, colorableShadows, globalKeywords, h, isCSSMathFn, splitShorthand } from '../utils'
 
 export const fonts: Rule<Theme>[] = [
   // text
@@ -12,7 +11,7 @@ export const fonts: Rule<Theme>[] = [
   [/^(?:text|font)-size-(.+)$/, handleSize, { autocomplete: 'text-size-$fontSize' }],
 
   // text colors
-  [/^text-(.+)$/, handleColor, { autocomplete: 'text-$colors' }],
+  [/^text-(?:color-)?(.+)$/, handlerColorOrSize, { autocomplete: 'text-$colors' }],
 
   // colors
   [/^(?:color|c)-(.+)$/, colorResolver('color', 'text', 'textColor'), { autocomplete: '(color|c)-$colors' }],
@@ -125,8 +124,10 @@ function handleSize([, s]: string[], { theme }: RuleContext<Theme>): CSSObject |
     return { 'font-size': size }
 }
 
-function handleColor(match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | undefined {
-  return colorResolver('color', 'text', 'textColor', css => !css.color?.toString().match(numberWithUnitRE))(match, ctx) as CSSObject | undefined
+function handlerColorOrSize(match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | undefined {
+  if (isCSSMathFn(h.bracket(match[1])))
+    return handleSize(match, ctx)
+  return colorResolver('color', 'text', 'textColor')(match, ctx) as CSSObject | undefined
 }
 
 function handleText([, s = 'base']: string[], { theme }: RuleContext<Theme>): CSSObject | undefined {

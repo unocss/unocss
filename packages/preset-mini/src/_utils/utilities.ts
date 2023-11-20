@@ -258,8 +258,8 @@ export function makeGlobalStaticRules(prefix: string, property?: string): Static
   return globalKeywords.map(keyword => [`${prefix}-${keyword}`, { [property ?? prefix]: keyword }])
 }
 
-export function isCSSMathFn(value: string) {
-  return cssMathFnRE.test(value)
+export function isCSSMathFn(value: string | undefined) {
+  return value != null && cssMathFnRE.test(value)
 }
 
 export function isSize(str: string) {

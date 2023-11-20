@@ -1,6 +1,6 @@
-import type { Rule } from '@unocss/core'
+import type { CSSObject, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorResolver, h } from '../utils'
+import { colorResolver, h, isCSSMathFn } from '../utils'
 
 export const svgUtilities: Rule<Theme>[] = [
   // fills
@@ -9,14 +9,14 @@ export const svgUtilities: Rule<Theme>[] = [
   ['fill-none', { fill: 'none' }],
 
   // stroke size
-  [/^stroke-(?:width-|size-)?(.+)$/, ([, s], { theme }) => ({ 'stroke-width': theme.lineWidth?.[s] ?? h.bracket.cssvar.fraction.px.number(s) }), { autocomplete: ['stroke-width-$lineWidth', 'stroke-size-$lineWidth'] }],
+  [/^stroke-(?:width-|size-)?(.+)$/, handleWidth, { autocomplete: ['stroke-width-$lineWidth', 'stroke-size-$lineWidth'] }],
 
   // stroke dash
   [/^stroke-dash-(.+)$/, ([, s]) => ({ 'stroke-dasharray': h.bracket.cssvar.number(s) }), { autocomplete: 'stroke-dash-<num>' }],
   [/^stroke-offset-(.+)$/, ([, s], { theme }) => ({ 'stroke-dashoffset': theme.lineWidth?.[s] ?? h.bracket.cssvar.px.numberWithUnit(s) }), { autocomplete: 'stroke-offset-$lineWidth' }],
 
   // stroke colors
-  [/^stroke-(.+)$/, colorResolver('stroke', 'stroke', 'borderColor'), { autocomplete: 'stroke-$colors' }],
+  [/^stroke-(.+)$/, handleColorOrWidth, { autocomplete: 'stroke-$colors' }],
   [/^stroke-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-stroke-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'stroke-(op|opacity)-<percent>' }],
 
   // line cap
@@ -34,3 +34,13 @@ export const svgUtilities: Rule<Theme>[] = [
   // none
   ['stroke-none', { stroke: 'none' }],
 ]
+
+function handleWidth([, b]: string[], { theme }: RuleContext<Theme>): CSSObject {
+  return { 'stroke-width': theme.lineWidth?.[b] ?? h.bracket.cssvar.fraction.px.number(b) }
+}
+
+function handleColorOrWidth(match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | undefined {
+  if (isCSSMathFn(h.bracket(match[1])))
+    return handleWidth(match, ctx)
+  return colorResolver('stroke', 'stroke', 'borderColor')(match, ctx) as CSSObject | undefined
+}
