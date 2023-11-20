@@ -15,11 +15,11 @@
 .bg-info{--un-bg-opacity:1;background-color:hsl(200.1 100% 54.3% / var(--un-bg-opacity));}
 .bg-info\/\[10\%\]{background-color:hsl(200.1 100% 54.3% / 10%);}
 .bg-info\/10{background-color:hsl(200.1 100% 54.3% / 0.1);}
+.text-custom-a{color:var(--custom);}
 .mix-shade-50-c-red-400{--un-text-opacity:1;color:rgb(calc(248 + (0 - 248) * 50 / 100) calc(113 + (0 - 113) * 50 / 100) calc(113 + (0 - 113) * 50 / 100) / calc(var(--un-text-opacity) + (1 - var(--un-text-opacity)) * 50 / 100));}
 .mix-shift--50-c-red-600{--un-text-opacity:1;color:rgb(calc(220 + (255 - 220) * 50 / 100) calc(38 + (255 - 38) * 50 / 100) calc(38 + (255 - 38) * 50 / 100) / calc(var(--un-text-opacity) + (1 - var(--un-text-opacity)) * 50 / 100));}
 .mix-shift-50-c-red-600{--un-text-opacity:1;color:rgb(calc(220 + (0 - 220) * 50 / 100) calc(38 + (0 - 38) * 50 / 100) calc(38 + (0 - 38) * 50 / 100) / calc(var(--un-text-opacity) + (1 - var(--un-text-opacity)) * 50 / 100));}
 .mix-tint-50-c-red-400{--un-text-opacity:1;color:rgb(calc(248 + (255 - 248) * 50 / 100) calc(113 + (255 - 113) * 50 / 100) calc(113 + (255 - 113) * 50 / 100) / calc(var(--un-text-opacity) + (1 - var(--un-text-opacity)) * 50 / 100));}
-.text-custom-a{color:var(--custom);}
 .focus\:placeholder-red-300:focus::placeholder{--un-placeholder-opacity:1;color:rgb(252 165 165 / var(--un-placeholder-opacity));}
 .placeholder-inherit::placeholder{color:inherit;}
 .placeholder-red-400::placeholder{--un-placeholder-opacity:1;color:rgb(248 113 113 / var(--un-placeholder-opacity));}

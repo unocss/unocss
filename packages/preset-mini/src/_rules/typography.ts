@@ -57,11 +57,11 @@ export const fonts: Rule<Theme>[] = [
       return { 'font-size': size }
   }, { autocomplete: 'text-size-$fontSize' }],
 
-  // colors
-  [/^(?:color|c)-(.+)$/, colorResolver('color', 'text', 'textColor'), { autocomplete: '(color|c)-$colors' }],
-
   // text colors
   [/^text-(.+)$/, colorResolver('color', 'text', 'textColor', css => !css.color?.toString().match(numberWithUnitRE)), { autocomplete: 'text-$colors' }],
+
+  // colors
+  [/^(?:color|c)-(.+)$/, colorResolver('color', 'text', 'textColor'), { autocomplete: '(color|c)-$colors' }],
 
   // style
   [/^(?:text|color|c)-(.+)$/, ([, v]) => globalKeywords.includes(v) ? { color: v } : undefined, { autocomplete: `(text|color|c)-(${globalKeywords.join('|')})` }],
