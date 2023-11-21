@@ -67,7 +67,7 @@ Using quotes in the template (the files intended to be processed) is not support
 |:--|:--|
 | `<sm:p-1` | `lt-sm:p-1` |
 | `@lg:p-1` | `at-lg:p-1` |
-| `>xl:p-1` | `lg:p-1`    |
+| `>xl:p-1` | `xl:p-1`    |
 
 ### Bracket syntax spaces
 
