@@ -85,6 +85,11 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         handler(code, { filename }) {
           tasks.push(extract(code, filename))
         },
+        // Compatibility with Legacy Vite
+        enforce: 'pre',
+        transform(code, { filename }) {
+          tasks.push(extract(code, filename))
+        },
       },
       resolveId(id, importer) {
         const entry = resolveId(id)

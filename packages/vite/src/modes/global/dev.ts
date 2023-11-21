@@ -137,6 +137,12 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
           setWarnTimer()
           tasks.push(extract(code, filename))
         },
+        // Compatibility with Legacy Vite
+        enforce: 'pre',
+        transform(code, { filename }) {
+          setWarnTimer()
+          tasks.push(extract(code, filename))
+        },
       },
       resolveId(id) {
         const entry = resolveId(id)
