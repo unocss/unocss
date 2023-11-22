@@ -16,8 +16,8 @@ describe('worker', () => {
       ],
     })
     setGenerator(uno)
-    const rs = await run('blocklist', 'block !block w-3px text-green-500 text-red-500')
-    expect(rs).toEqual(['block', 'text-green-500', 'text-red-500', '!block'])
+    const rs = await run('blocklist', 'block !block w-3px bg-green-500 text-red-500')
+    expect(rs).toEqual(['block', 'bg-green-500', 'text-red-500', '!block'])
   })
   it('sort', async () => {
     const uno = createGenerator({
