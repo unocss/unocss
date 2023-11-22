@@ -721,24 +721,6 @@ export class UnoGenerator<Theme extends object = object> {
   isBlocked(raw: string): boolean {
     return !raw || this.config.blocklist.some(e => typeof e === 'function' ? e(raw) : isString(e) ? e === raw : e.test(raw))
   }
-
-  async isBlockedWithStrict(raw: string): Promise<boolean> {
-    if (this.blocked.has(raw))
-      return true
-    if (this.isBlocked(raw)) {
-      this.blocked.add(raw)
-      return true
-    }
-    let current = raw
-    for (const p of this.config.preprocess)
-      current = p(raw)!
-    const applied = await this.matchVariants(raw, current)
-    if (applied && this.isBlocked(applied[1])) {
-      this.blocked.add(raw)
-      return true
-    }
-    return false
-  }
 }
 
 export function createGenerator<Theme extends object = object>(config?: UserConfig<Theme>, defaults?: UserConfigDefaults<Theme>) {
