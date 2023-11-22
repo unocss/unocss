@@ -32,7 +32,9 @@ async function actionSort(classes: string) {
 async function actionBlocklist(classes: string, id?: string) {
   const uno = await getGenerator()
   const extracted = await uno.applyExtractors(classes, id)
-  return [...extracted.values()].filter(i => uno.isBlocked(i))
+  const values = [...extracted.values()]
+  const blocked = await Promise.all(values.map(i => uno.isBlockedWithStrict(i)))
+  return values.filter((_, i) => blocked[i])
 }
 
 export function run(action: 'sort', classes: string): string

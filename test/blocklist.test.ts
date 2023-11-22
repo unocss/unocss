@@ -29,5 +29,11 @@ describe('blocklist', () => {
 
     const { css: css3 } = await dos.generate('block text-red-200 hover:block', { minify: true, preflights: false })
     expect(css3).eq('')
+
+    expect(dos.isBlocked('block')).eq(true)
+    expect(dos.isBlocked('!block')).eq(false)
+    expect(dos.isBlocked('hover:block')).eq(false)
+    expect(await dos.isBlockedWithStrict('!block')).eq(true)
+    expect(await dos.isBlockedWithStrict('hover:block')).eq(true)
   })
 })
