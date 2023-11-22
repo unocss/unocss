@@ -23,7 +23,7 @@
 - [unocss-preset-useful](https://github.com/unpreset/unocss-preset-useful) - Integrate and Useful Preset by [@zyyv](https://github.com/zyyv).
 - [una-ui-preset](https://unaui.com/getting-started/installation#presets-mode) - Build your own components using [UnaUI](https://unaui.com/) preset by [@phojie](https://github.com/phojie).
 - [unocss-preset-fluid](https://renatomoor.github.io/unocss-preset-fluid/) - Elegantly scale type and space without breakpoints by [@renatomoor](https://github.com/renatomoor).
-
+- [unocss-preset-block](https://github.com/unpreset/unocss-preset-block) - Block some non-standard classnames by [@chizuki](https://github.com/chizukicn).
 # Community frameworks
 
 - [Anu](https://github.com/jd-solanki/anu) - DX focused utility based vue component library by [@jd-solanki](https://github.com/jd-solanki).
