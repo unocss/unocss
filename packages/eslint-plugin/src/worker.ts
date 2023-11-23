@@ -60,9 +60,9 @@ async function actionBlocklist(classes: string, id?: string) {
   return [...blocked]
 }
 
-export function run(action: 'sort', classes: string): Promise<string>
-export function run(action: 'blocklist', classes: string, id?: string): Promise<string[]>
-export function run(action: string, ...args: any[]): any {
+export function runAsync(action: 'sort', classes: string): Promise<string>
+export function runAsync(action: 'blocklist', classes: string, id?: string): Promise<string[]>
+export async function runAsync(action: string, ...args: any[]): Promise<any> {
   switch (action) {
     case 'sort':
       // @ts-expect-error cast
@@ -71,6 +71,13 @@ export function run(action: string, ...args: any[]): any {
       // @ts-expect-error cast
       return actionBlocklist(...args)
   }
+}
+
+export function run(action: 'sort', classes: string): string
+export function run(action: 'blocklist', classes: string, id?: string): string[]
+export function run(action: string, ...args: any[]): any {
+  // @ts-expect-error cast
+  return runAsync(action, ...args)
 }
 
 runAsWorker(run as any)

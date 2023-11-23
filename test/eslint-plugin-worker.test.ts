@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { createGenerator } from '@unocss/core'
 import { presetUno } from '@unocss/preset-uno'
-import { run, setGenerator } from '../packages/eslint-plugin/src/worker'
+import { runAsync, setGenerator } from '../packages/eslint-plugin/src/worker'
 
 describe('worker', () => {
   it('blocklist', async () => {
@@ -16,7 +16,7 @@ describe('worker', () => {
       ],
     })
     setGenerator(uno)
-    const rs = await run('blocklist', 'block !block w-3px bg-green-500 text-red-500')
+    const rs = await runAsync('blocklist', 'block !block w-3px bg-green-500 text-red-500')
     expect(rs).toEqual(['block', 'bg-green-500', 'text-red-500', '!block'])
   })
   it('sort', async () => {
@@ -26,7 +26,7 @@ describe('worker', () => {
       ],
     })
     setGenerator(uno)
-    const rs = await run('sort', 'text-red-300 w-8')
+    const rs = await runAsync('sort', 'text-red-300 w-8')
     expect(rs).toMatchInlineSnapshot(`"w-8 text-red-300"`)
   })
 })
