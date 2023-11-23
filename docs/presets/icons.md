@@ -209,7 +209,7 @@ Additionally, you can also use [FileSystemIconLoader](https://github.com/iconify
 ```ts
 // uno.config.ts
 import fs from 'node:fs/promises'
-import { defineConfig } from 'unocss'
+import { defineConfig, presetIcons } from 'unocss'
 
 // loader helpers
 import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
