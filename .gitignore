@@ -12,6 +12,7 @@ bench/source/gen*.js
 coverage
 dist
 examples/**/pnpm-lock.yaml
+pnpm-lock.yaml
 node_modules
 packages/runtime/*.global.js
 packages/unocss/README.md
