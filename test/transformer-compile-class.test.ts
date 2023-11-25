@@ -45,20 +45,20 @@ describe('transformer-compile-class', () => {
 </div>
     `.trim())
     expect(result.code.trim()).toMatchInlineSnapshot(`
-      "<div class=\\"uno-pe1esh\\">
-      <div class=\\"foo bar\\">
+      "<div class="uno-pe1esh">
+      <div class="foo bar">
 
-      <div class=\\"uno-cbgd7b foo\\">
-        <div class=\\"uno-s9yxer\\"/>
+      <div class="uno-cbgd7b foo">
+        <div class="uno-s9yxer"/>
       </div>"
     `)
     expect(result.css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      .uno-pe1esh{--un-scale-x:0.05;--un-scale-y:0.05;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));border-width:1px;--un-border-opacity:1;border-color:rgba(229,231,235,var(--un-border-opacity));--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));font-size:1.25rem;line-height:1.75rem;font-weight:700;}
-      .dark .uno-pe1esh:hover{--un-bg-opacity:1;background-color:rgba(34,197,94,var(--un-bg-opacity));}
+      .uno-pe1esh{--un-scale-x:0.05;--un-scale-y:0.05;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));border-width:1px;--un-border-opacity:1;border-color:rgb(229 231 235 / var(--un-border-opacity));--un-bg-opacity:1;background-color:rgb(239 68 68 / var(--un-bg-opacity));font-size:1.25rem;line-height:1.75rem;font-weight:700;}
+      .dark .uno-pe1esh:hover{--un-bg-opacity:1;background-color:rgb(34 197 94 / var(--un-bg-opacity));}
       .uno-cbgd7b{text-align:center;}
       .uno-s9yxer{font-size:0.875rem;line-height:1.25rem;font-weight:700;}
-      .uno-s9yxer:hover{--un-text-opacity:1;color:rgba(248,113,113,var(--un-text-opacity));}
+      .uno-s9yxer:hover{--un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity));}
       @media (min-width: 640px){
       .uno-cbgd7b{text-align:left;}
       }"
@@ -79,11 +79,11 @@ describe('transformer-compile-class', () => {
       createUno({ trigger: CUSTOM_TRIGGER }),
     )
 
-    expect(result.code.trim()).toMatchInlineSnapshot('"<div class=\\"uno-trmz0g\\">"')
+    expect(result.code.trim()).toMatchInlineSnapshot(`"<div class="uno-trmz0g">"`)
 
     expect(result.css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      .uno-trmz0g{--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));font-size:1.25rem;line-height:1.75rem;}"
+      .uno-trmz0g{--un-bg-opacity:1;background-color:rgb(239 68 68 / var(--un-bg-opacity));font-size:1.25rem;line-height:1.75rem;}"
     `)
   })
 
@@ -96,11 +96,11 @@ describe('transformer-compile-class', () => {
       }),
     )
 
-    expect(result.code.trim()).toMatchInlineSnapshot('"<div class=\\"something-foo\\">"')
+    expect(result.code.trim()).toMatchInlineSnapshot(`"<div class="something-foo">"`)
 
     expect(result.css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      .something-foo{--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));font-size:1.25rem;line-height:1.75rem;}"
+      .something-foo{--un-bg-opacity:1;background-color:rgb(239 68 68 / var(--un-bg-opacity));font-size:1.25rem;line-height:1.75rem;}"
     `)
   })
 
@@ -110,11 +110,11 @@ describe('transformer-compile-class', () => {
       createUno({ trigger: CUSTOM_TRIGGER }),
     )
 
-    expect(result.code.trim()).toMatchInlineSnapshot('"<div class=\\"uno-foo_bar-baz\\">"')
+    expect(result.code.trim()).toMatchInlineSnapshot(`"<div class="uno-foo_bar-baz">"`)
 
     expect(result.css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      .uno-foo_bar-baz{--un-bg-opacity:1;background-color:rgba(239,68,68,var(--un-bg-opacity));font-size:1.25rem;line-height:1.75rem;}"
+      .uno-foo_bar-baz{--un-bg-opacity:1;background-color:rgb(239 68 68 / var(--un-bg-opacity));font-size:1.25rem;line-height:1.75rem;}"
     `)
   })
 
@@ -135,8 +135,8 @@ describe('transformer-compile-class', () => {
     `.trim())
 
     expect(result.code.trim()).toMatchInlineSnapshot(`
-      "<div class=\\"uno-foo\\"/>
-      <div class=\\"uno-foo\\"/>"
+      "<div class="uno-foo"/>
+      <div class="uno-foo"/>"
     `)
 
     expect(result.css.trim()).toMatchInlineSnapshot(`
@@ -153,9 +153,9 @@ describe('transformer-compile-class', () => {
     `)
 
     expect(result.code.trim()).toMatchInlineSnapshot(`
-      "<div class=\\"uno-prhvrm\\"/>
-      <div class=\\"uno-umiu5u\\"/>
-      <div class=\\"uno-prhvrm\\"/>"
+      "<div class="uno-prhvrm"/>
+      <div class="uno-umiu5u"/>
+      <div class="uno-prhvrm"/>"
     `)
   })
 

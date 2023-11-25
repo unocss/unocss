@@ -21,8 +21,8 @@ exports[`variant > variant shortcuts late 1`] = `
 
 exports[`variant > variant split selector 1`] = `
 "/* layer: default */
-.moz\\\\:no-merge::non-breaking{merged:1;}
-.webkit\\\\:no-merge::breaking{merged:1;}"
+.moz\\:no-merge::non-breaking{merged:1;}
+.webkit\\:no-merge::breaking{merged:1;}"
 `;
 
 exports[`variant > variant split shortcuts 1`] = `

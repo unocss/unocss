@@ -1,4 +1,4 @@
-import type { Arrayable } from '@unocss/core'
+import type { Arrayable, CSSObject } from '@unocss/core'
 
 export interface ThemeAnimation {
   keyframes?: Record<string, string>
@@ -29,8 +29,13 @@ export interface Theme {
   breakpoints?: Record<string, string>
   verticalBreakpoints?: Record<string, string>
   colors?: Colors
+  borderColor?: Colors
+  backgroundColor?: Colors
+  textColor?: Colors
+  shadowColor?: Colors
+  accentColor?: Colors
   fontFamily?: Record<string, string>
-  fontSize?: Record<string, string | [string, string]>
+  fontSize?: Record<string, string | [string, string | CSSObject] | [string, string, string]>
   fontWeight?: Record<string, string>
   lineHeight?: Record<string, string>
   letterSpacing?: Record<string, string>

@@ -16,11 +16,11 @@ Add the following line to your `index.html`:
 <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></script>
 ```
 
-To configure UnoCSS (optional):
+The runtime may be configured by defining the configuration before loading the runtime:
 
 ```html
+<!-- define unocss options... -->
 <script>
-// pass unocss options
 window.__unocss = {
   rules: [
     // custom rules...
@@ -31,6 +31,8 @@ window.__unocss = {
   // ...
 }
 </script>
+<!-- ... and then load the runtime -->
+<script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></script>
 ```
 
 By default, the [Uno preset](/presets/uno) is be applied.
@@ -46,14 +48,6 @@ The runtime does not come with preflights, if you want to have style resets, you
 ## Builds
 
 Several builds are available for different use cases.
-
-### Core
-
-Without any preset:
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/@unocss/runtime/core.global.js"></script>
-```
 
 ### Uno (default)
 
@@ -77,6 +71,25 @@ With `@unocss/preset-mini` and `@unocss/preset-attributify` preset:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime/mini.global.js"></script>
+```
+
+### Core
+
+If you need to mix and match presets, you can load only the core runtime and assign the presets manually. All the [official presets](/presets/#presets) from UnoCSS are available and must be loaded before initializing the core runtime.
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@unocss/runtime/preset-icons.global.js"></script>
+<script>
+  window.__unocss = {
+    presets: [
+      () => window.__unocss_runtime.presets.presetIcons({
+        scale: 1.2,
+        cdn: 'https://esm.sh/'
+      }),
+    ],
+  }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@unocss/runtime/core.global.js"></script>
 ```
 
 ## Bundler Usage

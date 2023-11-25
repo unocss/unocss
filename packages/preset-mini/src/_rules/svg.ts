@@ -4,7 +4,7 @@ import { colorResolver, h } from '../utils'
 
 export const svgUtilities: Rule<Theme>[] = [
   // fills
-  [/^fill-(.+)$/, colorResolver('fill', 'fill'), { autocomplete: 'fill-$colors' }],
+  [/^fill-(.+)$/, colorResolver('fill', 'fill', 'backgroundColor'), { autocomplete: 'fill-$colors' }],
   [/^fill-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-fill-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'fill-(op|opacity)-<percent>' }],
   ['fill-none', { fill: 'none' }],
 
@@ -16,7 +16,7 @@ export const svgUtilities: Rule<Theme>[] = [
   [/^stroke-offset-(.+)$/, ([, s], { theme }) => ({ 'stroke-dashoffset': theme.lineWidth?.[s] ?? h.bracket.cssvar.px.numberWithUnit(s) }), { autocomplete: 'stroke-offset-$lineWidth' }],
 
   // stroke colors
-  [/^stroke-(.+)$/, colorResolver('stroke', 'stroke'), { autocomplete: 'stroke-$colors' }],
+  [/^stroke-(.+)$/, colorResolver('stroke', 'stroke', 'borderColor'), { autocomplete: 'stroke-$colors' }],
   [/^stroke-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-stroke-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'stroke-(op|opacity)-<percent>' }],
 
   // line cap

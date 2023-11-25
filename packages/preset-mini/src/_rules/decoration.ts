@@ -13,7 +13,7 @@ export const textDecorations: Rule<Theme>[] = [
 
   // colors
   [/^(?:underline|decoration)-(.+)$/, (match, ctx) => {
-    const result = colorResolver('text-decoration-color', 'line')(match, ctx) as CSSObject | undefined
+    const result = colorResolver('text-decoration-color', 'line', 'borderColor')(match, ctx) as CSSObject | undefined
     if (result) {
       return {
         '-webkit-text-decoration-color': result['text-decoration-color'],

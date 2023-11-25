@@ -11,10 +11,10 @@
   },
   "devDependencies": {
     "@unocss/extractor-pug": "link:../../packages/extractor-pug",
-    "@vitejs/plugin-vue": "^4.4.0",
+    "@vitejs/plugin-vue": "^4.5.0",
     "pug": "^3.0.2",
     "unocss": "link:../../packages/unocss",
-    "vite": "^4.4.11"
+    "vite": "^5.0.0"
   },
   "stackblitz": {
     "installDependencies": false,

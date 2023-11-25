@@ -1,7 +1,7 @@
 import type { CSSEntries, CSSObject, Rule, RuleContext } from '@unocss/core'
 import { colorOpacityToString, colorToString } from '@unocss/rule-utils'
 import type { Theme } from '../theme'
-import { cornerMap, directionMap, globalKeywords, h, hasParseableColor, parseColor } from '../utils'
+import { cornerMap, directionMap, globalKeywords, h, hasParseableColor, isCSSMathFn, parseColor } from '../utils'
 
 export const borderStyles = ['solid', 'dashed', 'dotted', 'double', 'hidden', 'none', 'groove', 'ridge', 'inset', 'outset', ...globalKeywords]
 
@@ -51,7 +51,7 @@ export const borders: Rule[] = [
 
 function borderColorResolver(direction: string) {
   return ([, body]: string[], theme: Theme): CSSObject | undefined => {
-    const data = parseColor(body, theme)
+    const data = parseColor(body, theme, 'borderColor')
 
     if (!data)
       return
@@ -80,6 +80,12 @@ function borderColorResolver(direction: string) {
       }
     }
     else if (color) {
+      if (isCSSMathFn(color)) {
+        return {
+          'border-width': color,
+        }
+      }
+
       return {
         [`border${direction}-color`]: colorToString(color, alpha),
       }
@@ -98,7 +104,7 @@ function handlerBorderSize([, a = '', b]: string[], { theme }: RuleContext<Theme
 }
 
 function handlerBorderColor([, a = '', c]: string[], { theme }: RuleContext<Theme>): CSSObject | undefined {
-  if (a in directionMap && hasParseableColor(c, theme)) {
+  if (a in directionMap && hasParseableColor(c, theme, 'borderColor')) {
     return Object.assign(
       {},
       ...directionMap[a].map(i => borderColorResolver(i)(['', c], theme)),

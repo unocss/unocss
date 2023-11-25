@@ -293,16 +293,16 @@ describe('preset-mini', () => {
     expect(css).toMatchInlineSnapshot(`
       "/* layer: default */
       @media (max-width: 999.9px){
-      .\\\\<xl\\\\:text-3xl{font-size:1.875rem;line-height:2.25rem;}
+      .\\<xl\\:text-3xl{font-size:1.875rem;line-height:2.25rem;}
       }
       @media (max-width: calc(64rem - 0.1px)){
-      .\\\\<lg\\\\:text-sm{font-size:0.875rem;line-height:1.25rem;}
+      .\\<lg\\:text-sm{font-size:0.875rem;line-height:1.25rem;}
       }
       @media (min-width: 48rem){
-      .md\\\\:text-xl{font-size:1.25rem;line-height:1.75rem;}
+      .md\\:text-xl{font-size:1.25rem;line-height:1.75rem;}
       }
       @media (min-width: 48rem) and (max-width: calc(64rem - 0.1px)){
-      .\\\\~md\\\\:text-base{font-size:1rem;line-height:1.5rem;}
+      .\\~md\\:text-base{font-size:1rem;line-height:1.5rem;}
       }"
     `)
   })
@@ -318,10 +318,66 @@ describe('preset-mini', () => {
         },
       },
     })
+
     expect((await uno.generate('z-header', { preflights: false })).css)
       .toMatchInlineSnapshot(`
         "/* layer: default */
         .z-header{z-index:500;}"
+      `)
+  })
+
+  it('theme font-size with letter-space', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+      theme: {
+        fontSize: {
+          normal: '24px',
+          ls: ['8rem', '1', '2.25rem'],
+          obj: ['8rem', {
+            'line-height': '2.25rem',
+            'letter-spacing': '-0.02em',
+            'font-weight': '700',
+          }],
+        },
+      },
+    })
+
+    expect((await uno.generate('text-sm text-normal text-ls text-obj', { preflights: false })).css)
+      .toMatchInlineSnapshot(`
+        "/* layer: default */
+        .text-ls{font-size:8rem;line-height:1;letter-spacing:2.25rem;}
+        .text-normal{font-size:24px;line-height:1;}
+        .text-obj{font-size:8rem;line-height:2.25rem;letter-spacing:-0.02em;font-weight:700;}
+        .text-sm{font-size:0.875rem;line-height:1.25rem;}"
+      `)
+  })
+
+  it('override colors differently', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+      theme: {
+        colors: {
+          blue: {
+            400: 'rgb(0 0 400)',
+          },
+        },
+        textColor: {
+          blue: {
+            400: 'rgb(0 0 700)',
+          },
+        },
+      },
+    })
+
+    expect((await uno.generate('bg-blue-400 text-blue-400', { preflights: false })).css)
+      .toMatchInlineSnapshot(`
+        "/* layer: default */
+        .bg-blue-400{--un-bg-opacity:1;background-color:rgb(0 0 400 / var(--un-bg-opacity));}
+        .text-blue-400{--un-text-opacity:1;color:rgb(0 0 700 / var(--un-text-opacity));}"
       `)
   })
 })

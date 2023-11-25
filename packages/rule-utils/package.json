@@ -1,6 +1,6 @@
 {
   "name": "@unocss/rule-utils",
-  "version": "0.56.5",
+  "version": "0.57.7",
   "description": "Utilities for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -37,6 +37,7 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@unocss/core": "workspace:^"
+    "@unocss/core": "workspace:^",
+    "magic-string": "^0.30.5"
   }
 }

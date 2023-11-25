@@ -1,8 +1,9 @@
 /// <reference types="vite/client" />
 /// <reference lib="dom" />
 
-function post(data: any) {
+function post(data: any, config: any) {
   return fetch('__POST_PATH__', {
+    ...config,
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -33,7 +34,10 @@ function schedule() {
     clearTimeout(_timer)
   _timer = setTimeout(() => {
     if (pendingClasses.size) {
-      post({ type: 'add-classes', data: Array.from(pendingClasses) })
+      post(
+        { type: 'add-classes', data: Array.from(pendingClasses) },
+        { mode: '__POST_FETCH_MODE__' },
+      )
       include(visitedClasses, pendingClasses)
       pendingClasses.clear()
     }

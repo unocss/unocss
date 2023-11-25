@@ -10,6 +10,7 @@ export interface RuntimeGenerateResult extends GenerateResult {
 export interface RuntimeObserverConfig {
   /**
    * A function that returns an HTML Element for the MutationObserver to watch.
+   * Defaults to the same as rootElement
    */
   target?: () => Element
   /**
@@ -56,6 +57,10 @@ export interface RuntimeOptions {
    * This is useful when using the runtime alongwith the build-time UnoCSS.
    */
   bypassDefined?: boolean
+  /**
+   * Optional function to control the root element to extract.
+   */
+  rootElement?: () => Element | undefined
 }
 
 export type RuntimeInspectorCallback = (element: Element) => boolean
@@ -80,7 +85,7 @@ export interface RuntimeContext {
    *
    * @returns {Promise<void>}
    */
-  extractAll: () => Promise<void>
+  extractAll: (target?: Element) => Promise<void>
 
   /**
    * Set/unset inspection callback to allow/ignore element to be extracted.
@@ -106,6 +111,13 @@ export interface RuntimeContext {
    * @returns {RuntimeGenerateResult}
    */
   update: () => Promise<RuntimeGenerateResult>
+
+  /**
+   * Loaded presets
+   *
+   * @type {Record<string, Function>}
+   */
+  presets: Record<string, Function>
 
   /**
    * The UnoCSS version.
@@ -144,6 +156,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   runtimeOptions.configResolved?.(userConfig, userConfigDefaults)
   const uno = createGenerator(userConfig, userConfigDefaults)
   const inject = (styleElement: HTMLStyleElement) => runtimeOptions.inject ? runtimeOptions.inject(styleElement) : html().prepend(styleElement)
+  const rootElement = () => runtimeOptions.rootElement ? runtimeOptions.rootElement() : defaultDocument.body
   const styleElements = new Map<string, HTMLStyleElement>()
 
   let paused = true
@@ -221,13 +234,12 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
       await scheduleUpdate()
   }
 
-  async function extractAll() {
-    const body = defaultDocument.body
-    const outerHTML = body && body.outerHTML
+  async function extractAll(target = rootElement()) {
+    const outerHTML = target && target.outerHTML
     if (outerHTML) {
       await extract(`${outerHTML} ${decodeHtml(outerHTML)}`)
       removeCloak(html())
-      removeCloak(body)
+      removeCloak(target)
     }
   }
 
@@ -273,7 +285,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   function observe() {
     if (observing)
       return
-    const target = runtimeOptions.observer?.target ? runtimeOptions.observer.target() : (html() || defaultDocument.body)
+    const target = runtimeOptions.observer?.target ? runtimeOptions.observer.target() : rootElement()
     if (!target)
       return
     mutationObserver.observe(target, {
@@ -322,6 +334,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
         ready()
     },
     update: updateStyle,
+    presets: defaultWindow.__unocss_runtime?.presets ?? {},
   }
 
   if (runtimeOptions.ready?.(unoCssRuntime) !== false) {

@@ -91,3 +91,38 @@ it('empty prefix', async () => {
 
   await expect(css).toMatchFileSnapshot('./assets/output/preset-uno-empty-prefix.css')
 })
+
+it('define breakpoints with irregular sorting', async () => {
+  const uno = createGenerator({
+    presets: [
+      presetUno(),
+    ],
+    theme: {
+      breakpoints: {
+        'xxs': '320px',
+        'sm': '640px',
+        'xs': '480px',
+        'xl': '1280px',
+        '2xl': '1536px',
+        'md': '768px',
+        'lg': '1024px',
+      },
+      container: {
+        center: true,
+        padding: {
+          'DEFAULT': '1rem',
+          'xl': '5rem',
+          '2xl': '6rem',
+        },
+      },
+    },
+  })
+
+  expect((await uno.generate('2xl:container', { preflights: false })).css)
+    .toMatchInlineSnapshot(`
+      "/* layer: shortcuts */
+      @media (min-width: 1536px){
+      .\\32 xl\\:container{max-width:1536px;margin-left:auto;margin-right:auto;padding-left:6rem;padding-right:6rem;}
+      }"
+    `)
+})

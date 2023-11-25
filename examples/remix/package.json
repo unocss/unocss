@@ -15,22 +15,22 @@
     "start": "remix-serve build"
   },
   "dependencies": {
-    "@remix-run/react": "^2.0.1",
-    "@remix-run/serve": "^2.0.1",
+    "@remix-run/react": "^2.3.0",
+    "@remix-run/serve": "^2.3.0",
     "@unocss/reset": "link:../../packages/reset",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "remix": "^2.0.1"
+    "remix": "^2.3.0"
   },
   "devDependencies": {
-    "@remix-run/dev": "^2.0.1",
-    "@types/react": "^18.2.25",
-    "@types/react-dom": "^18.2.11",
+    "@remix-run/dev": "^2.3.0",
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
     "@unocss/cli": "link:../../packages/cli",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-uno": "link:../../packages/preset-uno",
     "@unocss/preset-web-fonts": "link:../../packages/preset-web-fonts",
-    "concurrently": "^8.2.1",
+    "concurrently": "^8.2.2",
     "typescript": "^5.2.2",
     "unocss": "link:../../packages/unocss"
   },

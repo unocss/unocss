@@ -71,6 +71,8 @@ export const presetMiniTargets: string[] = [
   'border-size-unset',
   'border-x-width-3',
   'border-t-width-3',
+  'border-[calc(var(--border-width)*1px)]',
+  'border-[calc(10px+1px)]',
   'rounded-[4px]',
   'rounded-1/2',
   'rounded-full',
@@ -360,6 +362,8 @@ export const presetMiniTargets: string[] = [
   'grid-areas-[prepend_content_append]',
   'grid-areas-[prepend_content_append]-[prepend_content_append]',
   'grid-areas-$variable',
+  'grid-cols-subgrid',
+  'grid-rows-subgrid',
 
   // layout
   'of-y-visible',
@@ -596,6 +600,7 @@ export const presetMiniTargets: string[] = [
   'mt-$height',
   'my-auto',
   'my-revert-layer',
+  'my-[var(--hello-space-y)]',
   'm-none',
 
   // spacing - logical
@@ -925,7 +930,13 @@ export const presetMiniTargets: string[] = [
   '[font-family:\'Inter\',_sans-serif]',
   '[font-feature-settings:\'cv02\',\'cv03\',\'cv04\',\'cv11\']',
   '[font-variation-settings:"wght"_400,_"opsz"_14]',
+  '[padding:theme(spacing.xl)]',
+  '[color:theme(colors.blue.300/40%)]',
   '[--css-variable:"wght"_400,_"opsz"_14]',
+  '[--css-variable-color:theme(colors.red.500)]',
+  '[--css-variable-color:theme(colors.red.500/50%)]',
+  '[--css-variable-color:theme(colors.green.500),theme(colors.blue.500)]',
+  '[--css-spacing:theme(spacing.sm)]',
 
   // variants
   'active:scale-4',
@@ -1006,7 +1017,9 @@ export const presetMiniTargets: string[] = [
   'supports-[(display:_grid)]:block',
 
   // variants media
+  'media-mouse:block',
   'media-[(--cssvar)]:block',
+  'group-hover:media-mouse:bg-red',
 
   // variants prints
   'print:block',

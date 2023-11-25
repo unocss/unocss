@@ -8,7 +8,7 @@ const { isDark } = useData()
 
 function enableTransitions() {
   return 'startViewTransition' in document
-      && window.matchMedia('(prefers-reduced-motion: no-preference)').matches
+    && window.matchMedia('(prefers-reduced-motion: no-preference)').matches
 }
 
 provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
@@ -42,6 +42,7 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
 </script>
 
 <template>
+  <!-- eslint-disable-next-line vue/component-name-in-template-casing -->
   <DefaultTheme.Layout>
     <template #home-features-after>
       <HomePage />

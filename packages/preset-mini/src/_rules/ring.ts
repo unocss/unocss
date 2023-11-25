@@ -8,8 +8,8 @@ export const ringBase = {
   '--un-ring-offset-width': '0px',
   '--un-ring-offset-color': '#fff',
   '--un-ring-width': '0px',
-  '--un-ring-color': 'rgba(147,197,253,0.5)',
-  '--un-shadow': '0 0 rgba(0,0,0,0)',
+  '--un-ring-color': 'rgb(147 197 253 / 0.5)',
+  '--un-shadow': '0 0 rgb(0 0 0 / 0)',
 }
 
 export const rings: Rule<Theme>[] = [
@@ -32,11 +32,11 @@ export const rings: Rule<Theme>[] = [
   [/^ring-offset-(?:width-|size-)?(.+)$/, ([, d], { theme }) => ({ '--un-ring-offset-width': theme.lineWidth?.[d] ?? h.bracket.cssvar.px(d) }), { autocomplete: 'ring-offset-(width|size)-$lineWidth' }],
 
   // colors
-  [/^ring-(.+)$/, colorResolver('--un-ring-color', 'ring'), { autocomplete: 'ring-$colors' }],
+  [/^ring-(.+)$/, colorResolver('--un-ring-color', 'ring', 'borderColor'), { autocomplete: 'ring-$colors' }],
   [/^ring-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-ring-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'ring-(op|opacity)-<percent>' }],
 
   // offset color
-  [/^ring-offset-(.+)$/, colorResolver('--un-ring-offset-color', 'ring-offset'), { autocomplete: 'ring-offset-$colors' }],
+  [/^ring-offset-(.+)$/, colorResolver('--un-ring-offset-color', 'ring-offset', 'borderColor'), { autocomplete: 'ring-offset-$colors' }],
   [/^ring-offset-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-ring-offset-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'ring-offset-(op|opacity)-<percent>' }],
 
   // style

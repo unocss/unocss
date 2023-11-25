@@ -14,7 +14,9 @@ export function App() {
               type="button"
               onClick={() => setCount(count => count + 1)}
             >
-              count is: {count}
+              count is:
+              {' '}
+              {count}
             </button>
 
             <button
@@ -27,7 +29,9 @@ export function App() {
               type="button"
               onClick={() => setCount(count => count + 1)}
             >
-              count is: {count}
+              count is:
+              {' '}
+              {count}
             </button>
 
           </p>

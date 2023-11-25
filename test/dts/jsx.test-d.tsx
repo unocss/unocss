@@ -8,8 +8,13 @@ function App() {
       <header className="m-4">
         <p>
           <button
-            ma flex absolute
-            op30 fw20 p1 m10px
+            ma
+            flex
+            absolute
+            op30
+            fw20
+            p1
+            m10px
             items="center"
             p="x-4 y-2"
             hover:p="0"
@@ -17,7 +22,9 @@ function App() {
             className="*app-border rounded mt-4"
             onClick={() => setCount(count => count + 1)}
           >
-            count is: {count}
+            count is:
+            {' '}
+            {count}
           </button>
         </p>
       </header>

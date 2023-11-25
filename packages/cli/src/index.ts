@@ -48,10 +48,17 @@ export async function build(_options: CliOptions) {
     }),
   )
 
-  if (!options.stdout) {
-    consola.log(green(`${name} v${version}`))
-    consola.start(`UnoCSS ${options.watch ? 'in watch mode...' : 'for production...'}`)
+  if (options.stdout && options.outFile) {
+    consola.fatal(`Cannot use --stdout and --out-file at the same time`)
+    return
   }
+
+  consola.log(green(`${name} v${version}`))
+
+  if (options.watch)
+    consola.start('UnoCSS in watch mode...')
+  else
+    consola.start('UnoCSS for production...')
 
   const debouncedBuild = debounce(
     async () => {
@@ -61,7 +68,7 @@ export async function build(_options: CliOptions) {
   )
 
   const startWatcher = async () => {
-    if (options.stdout || !options.watch)
+    if (!options.watch)
       return
     const { patterns } = options
 
@@ -101,9 +108,9 @@ export async function build(_options: CliOptions) {
 
   await startWatcher().catch(handleError)
 
-  function transformFiles(sources: { id: string; code: string; transformedCode?: string | undefined }[], enforce: SourceCodeTransformerEnforce = 'default') {
+  function transformFiles(sources: { id: string, code: string, transformedCode?: string | undefined }[], enforce: SourceCodeTransformerEnforce = 'default') {
     return Promise.all(
-      sources.map(({ id, code, transformedCode }) => new Promise<{ id: string; code: string; transformedCode: string | undefined }>((resolve) => {
+      sources.map(({ id, code, transformedCode }) => new Promise<{ id: string, code: string, transformedCode: string | undefined }>((resolve) => {
         applyTransformers(ctx, code, id, enforce)
           .then((transformsRes) => {
             resolve({ id, code, transformedCode: transformsRes?.code || transformedCode })

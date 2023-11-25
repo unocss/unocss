@@ -91,6 +91,11 @@ describe('autocomplete', () => {
         'text-red-',
         'touch-',
         'transition-',
+        'translate-',
+        'translate-x-',
+        'scale-',
+        'scale-x-',
+        'skew-x-',
         'transform-scale-z-',
         'transform-scale-x-',
         'transform-scale-',
@@ -173,8 +178,8 @@ describe('autocomplete', () => {
     expect(fixture.slice(0, replacement.start) + replacement.replacement + fixture.slice(replacement.end))
       .toMatchInlineSnapshot(`
         "
-        <div bg=\\"blue-500\\">
-          <div border=\\"~ b-amber
+        <div bg="blue-500">
+          <div border="~ b-amber
         </div>
         "
       `)

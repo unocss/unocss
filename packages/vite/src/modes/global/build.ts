@@ -81,6 +81,11 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         return null
       },
       transformIndexHtml: {
+        order: 'pre',
+        handler(code, { filename }) {
+          tasks.push(extract(code, filename))
+        },
+        // Compatibility with Legacy Vite
         enforce: 'pre',
         transform(code, { filename }) {
           tasks.push(extract(code, filename))
