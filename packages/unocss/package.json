@@ -27,69 +27,134 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     },
     "./preset-attributify": {
-      "types": "./dist/preset-attributify.d.ts",
-      "import": "./dist/preset-attributify.mjs",
-      "require": "./dist/preset-attributify.cjs"
+      "import": {
+        "types": "./dist/preset-attributify.d.mts",
+        "default": "./dist/preset-attributify.mjs"
+      },
+      "require": {
+        "types": "./dist/preset-attributify.d.cts",
+        "default": "./dist/preset-attributify.cjs"
+      }
     },
     "./preset-tagify": {
-      "types": "./dist/preset-tagify.d.ts",
-      "import": "./dist/preset-tagify.mjs",
-      "require": "./dist/preset-tagify.cjs"
+      "import": {
+        "types": "./dist/preset-tagify.d.mts",
+        "default": "./dist/preset-tagify.mjs"
+      },
+      "require": {
+        "types": "./dist/preset-tagify.d.cts",
+        "default": "./dist/preset-tagify.cjs"
+      }
     },
     "./preset-icons": {
-      "types": "./dist/preset-icons.d.ts",
-      "import": "./dist/preset-icons.mjs",
-      "require": "./dist/preset-icons.cjs"
+      "import": {
+        "types": "./dist/preset-icons.d.mts",
+        "default": "./dist/preset-icons.mjs"
+      },
+      "require": {
+        "types": "./dist/preset-icons.d.cts",
+        "default": "./dist/preset-icons.cjs"
+      }
     },
     "./preset-mini": {
-      "types": "./dist/preset-mini.d.ts",
-      "import": "./dist/preset-mini.mjs",
-      "require": "./dist/preset-mini.cjs"
+      "import": {
+        "types": "./dist/preset-mini.d.mts",
+        "default": "./dist/preset-mini.mjs"
+      },
+      "require": {
+        "types": "./dist/preset-mini.d.cts",
+        "default": "./dist/preset-mini.cjs"
+      }
     },
     "./preset-typography": {
-      "types": "./dist/preset-typography.d.ts",
-      "import": "./dist/preset-typography.mjs",
-      "require": "./dist/preset-typography.cjs"
+      "import": {
+        "types": "./dist/preset-typography.d.mts",
+        "default": "./dist/preset-typography.mjs"
+      },
+      "require": {
+        "types": "./dist/preset-typography.d.cts",
+        "default": "./dist/preset-typography.cjs"
+      }
     },
     "./preset-uno": {
-      "types": "./dist/preset-uno.d.ts",
-      "import": "./dist/preset-uno.mjs",
-      "require": "./dist/preset-uno.cjs"
+      "import": {
+        "types": "./dist/preset-uno.d.mts",
+        "default": "./dist/preset-uno.mjs"
+      },
+      "require": {
+        "types": "./dist/preset-uno.d.cts",
+        "default": "./dist/preset-uno.cjs"
+      }
     },
     "./preset-web-fonts": {
-      "types": "./dist/preset-web-fonts.d.ts",
-      "import": "./dist/preset-web-fonts.mjs",
-      "require": "./dist/preset-web-fonts.cjs"
+      "import": {
+        "types": "./dist/preset-web-fonts.d.mts",
+        "default": "./dist/preset-web-fonts.mjs"
+      },
+      "require": {
+        "types": "./dist/preset-web-fonts.d.cts",
+        "default": "./dist/preset-web-fonts.cjs"
+      }
     },
     "./preset-wind": {
-      "types": "./dist/preset-wind.d.ts",
-      "import": "./dist/preset-wind.mjs",
-      "require": "./dist/preset-wind.cjs"
+      "import": {
+        "types": "./dist/preset-wind.d.mts",
+        "default": "./dist/preset-wind.mjs"
+      },
+      "require": {
+        "types": "./dist/preset-wind.d.cts",
+        "default": "./dist/preset-wind.cjs"
+      }
     },
     "./vite": {
-      "types": "./dist/vite.d.ts",
-      "import": "./dist/vite.mjs",
-      "require": "./dist/vite.cjs"
+      "import": {
+        "types": "./dist/vite.d.mts",
+        "default": "./dist/vite.mjs"
+      },
+      "require": {
+        "types": "./dist/vite.d.cts",
+        "default": "./dist/vite.cjs"
+      }
     },
     "./astro": {
-      "types": "./dist/astro.d.ts",
-      "import": "./dist/astro.mjs",
-      "require": "./dist/astro.cjs"
+      "import": {
+        "types": "./dist/astro.d.mts",
+        "default": "./dist/astro.mjs"
+      },
+      "require": {
+        "types": "./dist/astro.d.cts",
+        "default": "./dist/astro.cjs"
+      }
     },
     "./webpack": {
-      "types": "./dist/webpack.d.ts",
-      "import": "./dist/webpack.mjs",
-      "require": "./dist/webpack.cjs"
+      "import": {
+        "types": "./dist/webpack.d.mts",
+        "default": "./dist/webpack.mjs"
+      },
+      "require": {
+        "types": "./dist/webpack.d.cts",
+        "default": "./dist/webpack.cjs"
+      }
     },
     "./postcss": {
-      "types": "./dist/postcss.d.ts",
-      "import": "./dist/postcss.mjs",
-      "require": "./dist/postcss.cjs"
+      "import": {
+        "types": "./dist/postcss.d.mts",
+        "default": "./dist/postcss.mjs"
+      },
+      "require": {
+        "types": "./dist/postcss.d.cts",
+        "default": "./dist/postcss.cjs"
+      }
     }
   },
   "main": "dist/index.cjs",

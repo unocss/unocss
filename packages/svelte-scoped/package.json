@@ -25,14 +25,24 @@
   "sideEffects": false,
   "exports": {
     "./preprocess": {
-      "types": "./dist/preprocess.d.ts",
-      "import": "./dist/preprocess.mjs",
-      "require": "./dist/preprocess.cjs"
+      "import": {
+        "types": "./dist/preprocess.d.mts",
+        "default": "./dist/preprocess.mjs"
+      },
+      "require": {
+        "types": "./dist/preprocess.d.cts",
+        "default": "./dist/preprocess.cjs"
+      }
     },
     "./vite": {
-      "types": "./dist/vite.d.ts",
-      "import": "./dist/vite.mjs",
-      "require": "./dist/vite.cjs"
+      "import": {
+        "types": "./dist/vite.d.mts",
+        "default": "./dist/vite.mjs"
+      },
+      "require": {
+        "types": "./dist/vite.d.cts",
+        "default": "./dist/vite.cjs"
+      }
     }
   },
   "main": "./dist/vite.cjs",
