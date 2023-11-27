@@ -1,5 +1,6 @@
 {
   "name": "@unocss/preset-mini",
+  "type": "module",
   "version": "0.57.7",
   "description": "The minimal preset for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
@@ -22,61 +23,61 @@
   "exports": {
     ".": {
       "import": {
-        "types": "./dist/index.d.mts",
+        "types": "./dist/index.d.ts",
         "default": "./dist/index.mjs"
       },
       "require": {
-        "types": "./dist/index.d.ts",
+        "types": "./dist/index.d.cts",
         "default": "./dist/index.cjs"
       }
     },
     "./theme": {
       "import": {
-        "types": "./dist/theme.d.mts",
+        "types": "./dist/theme.d.ts",
         "default": "./dist/theme.mjs"
       },
       "require": {
-        "types": "./dist/theme.d.ts",
+        "types": "./dist/theme.d.cts",
         "default": "./dist/theme.cjs"
       }
     },
     "./variants": {
       "import": {
-        "types": "./dist/variants.d.mts",
+        "types": "./dist/variants.d.ts",
         "default": "./dist/variants.mjs"
       },
       "require": {
-        "types": "./dist/variants.d.ts",
+        "types": "./dist/variants.d.cts",
         "default": "./dist/variants.cjs"
       }
     },
     "./rules": {
       "import": {
-        "types": "./dist/rules.d.mts",
+        "types": "./dist/rules.d.ts",
         "default": "./dist/rules.mjs"
       },
       "require": {
-        "types": "./dist/rules.d.ts",
+        "types": "./dist/rules.d.cts",
         "default": "./dist/rules.cjs"
       }
     },
     "./colors": {
       "import": {
-        "types": "./dist/colors.d.mts",
+        "types": "./dist/colors.d.ts",
         "default": "./dist/colors.mjs"
       },
       "require": {
-        "types": "./dist/colors.d.ts",
+        "types": "./dist/colors.d.cts",
         "default": "./dist/colors.cjs"
       }
     },
     "./utils": {
       "import": {
-        "types": "./dist/utils.d.mts",
+        "types": "./dist/utils.d.ts",
         "default": "./dist/utils.mjs"
       },
       "require": {
-        "types": "./dist/utils.d.ts",
+        "types": "./dist/utils.d.cts",
         "default": "./dist/utils.cjs"
       }
     },

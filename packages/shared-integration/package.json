@@ -1,5 +1,6 @@
 {
   "name": "@unocss/shared-integration",
+  "type": "module",
   "version": "0.57.7",
   "private": true,
   "dependencies": {

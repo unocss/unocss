@@ -1,5 +1,6 @@
 {
   "name": "@unocss/eslint-config",
+  "type": "module",
   "version": "0.57.7",
   "description": "ESLint config for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
@@ -22,21 +23,21 @@
   "exports": {
     ".": {
       "import": {
-        "types": "./dist/index.d.mts",
+        "types": "./dist/index.d.ts",
         "default": "./dist/index.mjs"
       },
       "require": {
-        "types": "./dist/index.d.ts",
+        "types": "./dist/index.d.cts",
         "default": "./dist/index.cjs"
       }
     },
     "./flat": {
       "import": {
-        "types": "./dist/flat.d.mts",
+        "types": "./dist/flat.d.ts",
         "default": "./dist/flat.mjs"
       },
       "require": {
-        "types": "./dist/flat.d.ts",
+        "types": "./dist/flat.d.cts",
         "default": "./dist/flat.cjs"
       }
     }

@@ -1,5 +1,6 @@
 {
   "name": "@unocss/preset-icons",
+  "type": "module",
   "version": "0.57.7",
   "description": "Pure CSS Icons for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
@@ -25,31 +26,31 @@
   "exports": {
     ".": {
       "import": {
-        "types": "./dist/index.d.mts",
+        "types": "./dist/index.d.ts",
         "default": "./dist/index.mjs"
       },
       "require": {
-        "types": "./dist/index.d.ts",
+        "types": "./dist/index.d.cts",
         "default": "./dist/index.cjs"
       }
     },
     "./browser": {
       "import": {
-        "types": "./dist/browser.d.mts",
+        "types": "./dist/browser.d.ts",
         "default": "./dist/browser.mjs"
       },
       "require": {
-        "types": "./dist/browser.d.ts",
+        "types": "./dist/browser.d.cts",
         "default": "./dist/browser.cjs"
       }
     },
     "./core": {
       "import": {
-        "types": "./dist/core.d.mts",
+        "types": "./dist/core.d.ts",
         "default": "./dist/core.mjs"
       },
       "require": {
-        "types": "./dist/core.d.ts",
+        "types": "./dist/core.d.cts",
         "default": "./dist/core.cjs"
       }
     }

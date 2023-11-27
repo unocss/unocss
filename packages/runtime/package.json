@@ -1,5 +1,6 @@
 {
   "name": "@unocss/runtime",
+  "type": "module",
   "version": "0.57.7",
   "description": "CSS-in-JS Runtime for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
@@ -21,7 +22,7 @@
   "exports": {
     ".": {
       "import": {
-        "types": "./dist/index.d.mts",
+        "types": "./dist/index.d.ts",
         "default": "./dist/index.mjs"
       },
       "require": {

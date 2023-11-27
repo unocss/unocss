@@ -1,5 +1,6 @@
 {
   "name": "@unocss/cli",
+  "type": "module",
   "version": "0.57.7",
   "description": "CLI for UnoCSS",
   "author": {

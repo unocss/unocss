@@ -1,5 +1,6 @@
 {
   "name": "@unocss/eslint-plugin",
+  "type": "module",
   "version": "0.57.7",
   "description": "ESLint plugin for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
