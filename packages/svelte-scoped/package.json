@@ -26,7 +26,7 @@
   "exports": {
     "./preprocess": {
       "import": {
-        "types": "./dist/preprocess.d.mts",
+        "types": "./dist/preprocess.d.ts",
         "default": "./dist/preprocess.mjs"
       },
       "require": {
@@ -36,7 +36,7 @@
     },
     "./vite": {
       "import": {
-        "types": "./dist/vite.d.mts",
+        "types": "./dist/vite.d.ts",
         "default": "./dist/vite.mjs"
       },
       "require": {

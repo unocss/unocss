@@ -32,7 +32,7 @@
         "default": "./dist/index.mjs"
       },
       "require": {
-        "types": "./dist/index.d.cts",
+        "types": "./dist/index.d.ts",
         "default": "./dist/index.cjs"
       }
     },
@@ -42,7 +42,7 @@
         "default": "./dist/preset-attributify.mjs"
       },
       "require": {
-        "types": "./dist/preset-attributify.d.cts",
+        "types": "./dist/preset-attributify.d.ts",
         "default": "./dist/preset-attributify.cjs"
       }
     },
@@ -52,7 +52,7 @@
         "default": "./dist/preset-tagify.mjs"
       },
       "require": {
-        "types": "./dist/preset-tagify.d.cts",
+        "types": "./dist/preset-tagify.d.ts",
         "default": "./dist/preset-tagify.cjs"
       }
     },
@@ -62,7 +62,7 @@
         "default": "./dist/preset-icons.mjs"
       },
       "require": {
-        "types": "./dist/preset-icons.d.cts",
+        "types": "./dist/preset-icons.d.ts",
         "default": "./dist/preset-icons.cjs"
       }
     },
@@ -72,7 +72,7 @@
         "default": "./dist/preset-mini.mjs"
       },
       "require": {
-        "types": "./dist/preset-mini.d.cts",
+        "types": "./dist/preset-mini.d.ts",
         "default": "./dist/preset-mini.cjs"
       }
     },
@@ -82,7 +82,7 @@
         "default": "./dist/preset-typography.mjs"
       },
       "require": {
-        "types": "./dist/preset-typography.d.cts",
+        "types": "./dist/preset-typography.d.ts",
         "default": "./dist/preset-typography.cjs"
       }
     },
@@ -92,7 +92,7 @@
         "default": "./dist/preset-uno.mjs"
       },
       "require": {
-        "types": "./dist/preset-uno.d.cts",
+        "types": "./dist/preset-uno.d.ts",
         "default": "./dist/preset-uno.cjs"
       }
     },
@@ -102,7 +102,7 @@
         "default": "./dist/preset-web-fonts.mjs"
       },
       "require": {
-        "types": "./dist/preset-web-fonts.d.cts",
+        "types": "./dist/preset-web-fonts.d.ts",
         "default": "./dist/preset-web-fonts.cjs"
       }
     },
@@ -112,7 +112,7 @@
         "default": "./dist/preset-wind.mjs"
       },
       "require": {
-        "types": "./dist/preset-wind.d.cts",
+        "types": "./dist/preset-wind.d.ts",
         "default": "./dist/preset-wind.cjs"
       }
     },
@@ -122,7 +122,7 @@
         "default": "./dist/vite.mjs"
       },
       "require": {
-        "types": "./dist/vite.d.cts",
+        "types": "./dist/vite.d.ts",
         "default": "./dist/vite.cjs"
       }
     },
@@ -132,7 +132,7 @@
         "default": "./dist/astro.mjs"
       },
       "require": {
-        "types": "./dist/astro.d.cts",
+        "types": "./dist/astro.d.ts",
         "default": "./dist/astro.cjs"
       }
     },
@@ -142,7 +142,7 @@
         "default": "./dist/webpack.mjs"
       },
       "require": {
-        "types": "./dist/webpack.d.cts",
+        "types": "./dist/webpack.d.ts",
         "default": "./dist/webpack.cjs"
       }
     },
@@ -152,7 +152,7 @@
         "default": "./dist/postcss.mjs"
       },
       "require": {
-        "types": "./dist/postcss.d.cts",
+        "types": "./dist/postcss.d.ts",
         "default": "./dist/postcss.cjs"
       }
     }

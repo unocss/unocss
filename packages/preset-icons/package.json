@@ -29,7 +29,7 @@
         "default": "./dist/index.mjs"
       },
       "require": {
-        "types": "./dist/index.d.cts",
+        "types": "./dist/index.d.ts",
         "default": "./dist/index.cjs"
       }
     },
@@ -39,7 +39,7 @@
         "default": "./dist/browser.mjs"
       },
       "require": {
-        "types": "./dist/browser.d.cts",
+        "types": "./dist/browser.d.ts",
         "default": "./dist/browser.cjs"
       }
     },
@@ -49,7 +49,7 @@
         "default": "./dist/core.mjs"
       },
       "require": {
-        "types": "./dist/core.d.cts",
+        "types": "./dist/core.d.ts",
         "default": "./dist/core.cjs"
       }
     }

@@ -26,7 +26,7 @@
         "default": "./dist/index.mjs"
       },
       "require": {
-        "types": "./dist/index.d.cts",
+        "types": "./dist/index.d.ts",
         "default": "./dist/index.cjs"
       }
     },
@@ -36,7 +36,7 @@
         "default": "./dist/theme.mjs"
       },
       "require": {
-        "types": "./dist/theme.d.cts",
+        "types": "./dist/theme.d.ts",
         "default": "./dist/theme.cjs"
       }
     },
@@ -46,7 +46,7 @@
         "default": "./dist/colors.mjs"
       },
       "require": {
-        "types": "./dist/colors.d.cts",
+        "types": "./dist/colors.d.ts",
         "default": "./dist/colors.cjs"
       }
     },
@@ -56,7 +56,7 @@
         "default": "./dist/utils.mjs"
       },
       "require": {
-        "types": "./dist/utils.d.cts",
+        "types": "./dist/utils.d.ts",
         "default": "./dist/utils.cjs"
       }
     },
