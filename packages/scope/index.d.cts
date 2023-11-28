@@ -1,3 +1,4 @@
 declare function getUnocssScope(): string
 
-export = getUnocssScope;
+// eslint-disable-next-line no-restricted-syntax
+export = getUnocssScope
