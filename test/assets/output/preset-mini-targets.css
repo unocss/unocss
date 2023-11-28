@@ -983,6 +983,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .text-wrap{text-wrap:wrap;}
 .text-nowrap{text-wrap:nowrap;}
 .text-balance{text-wrap:balance;}
+.text-pretty{text-wrap:pretty;}
 @container (min-width: 10.5rem){
 .\@\[10\.5rem\]-text-red{--un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity));}
 }
