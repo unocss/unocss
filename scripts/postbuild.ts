@@ -57,6 +57,9 @@ patchCjs(resolve('./packages/extractor-pug/dist/index.cjs'), 'extractorPug')
 // @unocss/extractor-svelte
 patchCjs(resolve('./packages/extractor-svelte/dist/index.cjs'), 'extractorSvelte')
 
+// @unocss/inspector
+patchCjs(resolve('./packages/inspector/dist/index.cjs'), 'UnocssInspector')
+
 // @unocss/nuxt
 patchCjs(resolve('./packages/nuxt/dist/index.cjs'), 'index')
 patchDCts(resolve('./packages/nuxt/dist/index.d.cts'), '_default')
