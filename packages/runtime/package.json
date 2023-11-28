@@ -21,18 +21,12 @@
   ],
   "exports": {
     ".": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.mjs"
-      },
-      "require": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      }
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "unpkg": "./uno.global.js",
   "jsdelivr": "./uno.global.js",
   "types": "./dist/index.d.ts",
@@ -43,7 +37,7 @@
   "scripts": {
     "build": "pnpm run build:node && pnpm run build:cdn && pnpm run build:presets",
     "build:cdn": "tsup src/cdn/*.ts --format iife --minify --out-dir .",
-    "build:node": "tsup src/index.ts --format esm,cjs --dts",
+    "build:node": "tsup --config tsup.node-config.ts",
     "build:presets": "tsup src/presets/*.ts --format iife --minify --out-dir .",
     "watch": "tsup src/cdn/*.ts --format iife --watch src --out-dir .",
     "dev": "nr watch & live-server --open=/play"

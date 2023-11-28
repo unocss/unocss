@@ -12,9 +12,14 @@
   },
   "exports": {
     ".": {
-      "types": "./index.d.ts",
-      "import": "./index.mjs",
-      "require": "./index.cjs"
+      "import": {
+        "types": "./index.d.ts",
+        "import": "./index.mjs"
+      },
+      "require": {
+        "types": "./index.d.cts",
+        "require": "./index.cjs"
+      }
     }
   },
   "main": "./index.cjs",

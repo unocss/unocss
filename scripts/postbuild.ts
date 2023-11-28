@@ -10,8 +10,33 @@ function patchCjs(cjsModulePath: string, name: string) {
   )
 }
 
+function patchTsupCjs(cjsModuleName: string, name: string) {
+  let file = resolve(`${cjsModuleName}.cjs`)
+  let content = readFileSync(file, 'utf-8')
+  writeFileSync(
+    file,
+    content.replace(`module.exports = __`, `exports.default = __`),
+    { encoding: 'utf-8' },
+  )
+  file = resolve(`${cjsModuleName}.d.cts`)
+  content = readFileSync(file, 'utf-8').replace(`, ${name} as default `, ' ')
+  content += `\nexport = ${name};`
+  writeFileSync(
+    file,
+    content,
+    { encoding: 'utf-8' },
+  )
+}
+
 // @unocss/astro
 patchCjs(resolve('./packages/astro/dist/index.cjs'), 'UnoCSSAstroIntegration')
+
+// @unocss/eslint-config
+patchCjs(resolve('./packages/eslint-config/dist/flat.cjs'), 'flat')
+patchCjs(resolve('./packages/eslint-config/dist/index.cjs'), 'index')
+
+// @unocss/eslint-plugin
+patchCjs(resolve('./packages/eslint-plugin/dist/index.cjs'), 'index')
 
 // @unocss/extractor-mdc
 patchCjs(resolve('./packages/extractor-mdc/dist/index.cjs'), 'extractorMdc')
@@ -24,6 +49,9 @@ patchCjs(resolve('./packages/extractor-svelte/dist/index.cjs'), 'extractorSvelte
 
 // @unocss/postcss
 patchCjs(resolve('./packages/postcss/dist/index.cjs'), 'unocss')
+
+// @unocss/runtime
+patchTsupCjs('./packages/runtime/dist/index', 'init')
 
 // @unocss/svelte-scoped
 patchCjs(resolve('./packages/svelte-scoped/dist/preprocess.cjs'), 'UnocssSveltePreprocess')
