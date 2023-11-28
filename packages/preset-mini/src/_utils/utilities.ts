@@ -214,6 +214,9 @@ export function colorableShadows(shadows: string | string[], colorVar: string) {
     if (!components || components.length < 3)
       return shadows
 
+    if (parseCssColor(components.at(0)))
+      return shadows
+
     let colorVarValue = ''
     if (parseCssColor(components.at(-1))) {
       const color = parseCssColor(components.pop())
