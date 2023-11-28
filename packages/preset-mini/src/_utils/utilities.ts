@@ -213,11 +213,17 @@ export function colorableShadows(shadows: string | string[], colorVar: string) {
     const components = getStringComponents(shadows[i], ' ', 6)
     if (!components || components.length < 3)
       return shadows
-    const color = parseCssColor(components.pop())
-    if (color == null)
-      return shadows
-    colored.push(`${components.join(' ')} var(${colorVar}, ${colorToString(color)})`)
+
+    let colorVarValue = ''
+    if (parseCssColor(components.at(-1))) {
+      const color = parseCssColor(components.pop())
+      if (color)
+        colorVarValue = `, ${colorToString(color)}`
+    }
+
+    colored.push(`${components.join(' ')} var(${colorVar}${colorVarValue})`)
   }
+
   return colored
 }
 
