@@ -18,15 +18,15 @@
     "lit": "^2.8.0"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.38",
+    "@iconify-json/logos": "^1.1.40",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
     "@unocss/preset-typography": "link:../../packages/preset-typography",
-    "typescript": "^5.2.2",
+    "typescript": "^5.3.2",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.0.0",
-    "vite-plugin-inspect": "^0.7.42"
+    "vite": "^5.0.3",
+    "vite-plugin-inspect": "^0.8.0"
   },
   "stackblitz": {
     "installDependencies": false,

@@ -92,7 +92,11 @@ export async function parseApply({ code, uno, offset, applyVariable }: Transform
       code.appendLeft(calcOffset(node.loc!.end.offset), css)
     }
     else {
-      code.appendRight(calcOffset(childNode!.loc!.end.offset), body)
+      // If nested css was scoped, put them last.
+      if (body.includes('@'))
+        code.appendRight(code.original.length, body)
+      else
+        code.appendRight(calcOffset(childNode!.loc!.end.offset), body)
     }
   }
   code.remove(
