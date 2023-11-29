@@ -404,8 +404,8 @@ importers:
         specifier: workspace:*
         version: link:../packages/unocss
       vitepress:
-        specifier: 1.0.0-rc.29
-        version: 1.0.0-rc.29(@algolia/client-search@4.19.1)(@types/node@20.10.0)(@types/react@18.2.39)(postcss@8.4.31)(react@18.2.0)(search-insights@2.7.0)(terser@5.24.0)(typescript@5.3.2)
+        specifier: 1.0.0-rc.31
+        version: 1.0.0-rc.31(@algolia/client-search@4.19.1)(@types/node@20.10.0)(@types/react@18.2.39)(postcss@8.4.31)(react@18.2.0)(search-insights@2.7.0)(terser@5.24.0)(typescript@5.3.2)
 
   examples/vue-cli4:
     dependencies:
@@ -5149,6 +5149,13 @@ packages:
       '@types/mdurl': 1.0.2
     dev: true
 
+  /@types/markdown-it@13.0.7:
+    resolution: {integrity: sha512-U/CBi2YUUcTHBt5tjO2r5QV/x0Po6nsYwQU4Y04fBS6vfoImaiZ6f8bi3CjTCxBPQSO1LMyUqkByzi8AidyxfA==}
+    dependencies:
+      '@types/linkify-it': 3.0.2
+      '@types/mdurl': 1.0.2
+    dev: true
+
   /@types/mdast@3.0.12:
     resolution: {integrity: sha512-DT+iNIRNX884cx0/Q1ja7NyUPpZuv0KPyL5rGNxm1WC1OtHstl7n4Jb7nk+xacNShQMbczJjt8uFzznpp6kYBg==}
     dependencies:
@@ -7070,10 +7077,6 @@ packages:
   /ansi-regex@6.0.1:
     resolution: {integrity: sha512-n5M855fKb2SsfMIiFFoVrABHJC8QtHwVx+mHWP3QcEqBHYienj5dHSgjbxtC0WEZXYt4wcD6zrQElDPhFuZgfA==}
     engines: {node: '>=12'}
-    dev: true
-
-  /ansi-sequence-parser@1.1.0:
-    resolution: {integrity: sha512-lEm8mt52to2fT8GhciPCGeCXACSz2UwIN4X2e2LJSnZ5uAbn2/dsYdOmUXq0AtWS5cpAupysIneExOgH0Vd2TQ==}
     dev: true
 
   /ansi-styles@3.2.1:
@@ -14591,8 +14594,8 @@ packages:
     engines: {node: '>=16 || 14 >=14.17'}
     dev: true
 
-  /minisearch@6.2.0:
-    resolution: {integrity: sha512-BECkorDF1TY2rGKt9XHdSeP9TP29yUbrAaCh/C03wpyf1vx3uYcP/+8XlMcpTkgoU0rBVnHMAOaP83Rc9Tm+TQ==}
+  /minisearch@6.3.0:
+    resolution: {integrity: sha512-ihFnidEeU8iXzcVHy74dhkxh/dn8Dc08ERl0xwoMMGqp4+LvRSCgicb+zGqWthVokQKvCSxITlh3P08OzdTYCQ==}
     dev: true
 
   /minizlib@2.1.2:
@@ -18391,13 +18394,10 @@ packages:
     resolution: {integrity: sha512-6j1W9l1iAs/4xYBI1SYOVZyFcCis9b4KCLQ8fgAGG07QvzaRLVVRQvAy85yNmmZSjYjg4MWh4gNvlPujU/5LpA==}
     dev: true
 
-  /shiki@0.14.5:
-    resolution: {integrity: sha512-1gCAYOcmCFONmErGTrS1fjzJLA7MGZmKzrBNX7apqSwhyITJg2O102uFzXUeBxNnEkDA9vHIKLyeKq0V083vIw==}
+  /shikiji-transformers@0.7.5:
+    resolution: {integrity: sha512-9faGNS/3xI9QP8HZI2Xa1xtMQtaVkl/ulgMIOiaKY7XcETdUsz2yzors3UQkPUO2cwbQLS376wnZe4Xik8wMBA==}
     dependencies:
-      ansi-sequence-parser: 1.1.0
-      jsonc-parser: 3.2.0
-      vscode-oniguruma: 1.7.0
-      vscode-textmate: 8.0.0
+      shikiji: 0.7.5
     dev: true
 
   /shikiji@0.6.13:
@@ -20869,8 +20869,8 @@ packages:
       vite: 5.0.0(@types/node@20.10.0)(terser@5.24.0)
     dev: true
 
-  /vitepress@1.0.0-rc.29(@algolia/client-search@4.19.1)(@types/node@20.10.0)(@types/react@18.2.39)(postcss@8.4.31)(react@18.2.0)(search-insights@2.7.0)(terser@5.24.0)(typescript@5.3.2):
-    resolution: {integrity: sha512-6sKmyEvH16SgMqkHzRwwadt9Uju13AOIqouzOVEg3Rk6X9mds6jLsq2GxnAJvg0s6bl/0Qs/cw+f8SNki82ltw==}
+  /vitepress@1.0.0-rc.31(@algolia/client-search@4.19.1)(@types/node@20.10.0)(@types/react@18.2.39)(postcss@8.4.31)(react@18.2.0)(search-insights@2.7.0)(terser@5.24.0)(typescript@5.3.2):
+    resolution: {integrity: sha512-ikH9pIjOOAbyoYAGBVfTz8TzuXp+UoWaIRMU4bw/oiTg8R65SbAaGKY84xx6TuL+f4VqUJ8lhzW82YyxSLvstA==}
     hasBin: true
     peerDependencies:
       markdown-it-mathjax3: ^4.3.2
@@ -20883,17 +20883,18 @@ packages:
     dependencies:
       '@docsearch/css': 3.5.2
       '@docsearch/js': 3.5.2(@algolia/client-search@4.19.1)(@types/react@18.2.39)(react@18.2.0)(search-insights@2.7.0)
-      '@types/markdown-it': 13.0.6
+      '@types/markdown-it': 13.0.7
       '@vitejs/plugin-vue': 4.5.0(vite@5.0.0)(vue@3.3.9)
       '@vue/devtools-api': 6.5.1
       '@vueuse/core': 10.6.1(vue@3.3.9)
       '@vueuse/integrations': 10.6.1(focus-trap@7.5.4)(vue@3.3.9)
       focus-trap: 7.5.4
       mark.js: 8.11.1
-      minisearch: 6.2.0
+      minisearch: 6.3.0
       mrmime: 1.0.1
       postcss: 8.4.31
-      shiki: 0.14.5
+      shikiji: 0.7.5
+      shikiji-transformers: 0.7.5
       vite: 5.0.0(@types/node@20.10.0)(terser@5.24.0)
       vue: 3.3.9(typescript@5.3.2)
     transitivePeerDependencies:
@@ -21026,14 +21027,6 @@ packages:
     hasBin: true
     dependencies:
       vscode-languageserver-protocol: 3.16.0
-    dev: true
-
-  /vscode-oniguruma@1.7.0:
-    resolution: {integrity: sha512-L9WMGRfrjOhgHSdOYgCt/yRMsXzLDJSL7BPrOZt73gU0iWO4mpqzqQzOz5srxqTvMBaR0XZTSrVWo4j55Rc6cA==}
-    dev: true
-
-  /vscode-textmate@8.0.0:
-    resolution: {integrity: sha512-AFbieoL7a5LMqcnOF04ji+rpXadgOXnZsxQr//r83kLPr7biP7am3g9zbaZIaBGwBRWeSvoMD4mgPdX3e4NWBg==}
     dev: true
 
   /vscode-uri@3.0.7:
