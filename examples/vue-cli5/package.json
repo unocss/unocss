@@ -6,8 +6,8 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "core-js": "^3.33.2",
-    "vue": "^2.7.14"
+    "core-js": "^3.33.3",
+    "vue": "^2.7.15"
   },
   "devDependencies": {
     "@unocss/webpack": "link:../../packages/webpack",

@@ -9,15 +9,15 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@iconify-json/ph": "^1.1.6",
+    "@iconify-json/ph": "^1.1.8",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
     "@unocss/preset-uno": "link:../../packages/preset-uno",
     "lightningcss": "^1.22.1",
-    "typescript": "^5.2.2",
+    "typescript": "^5.3.2",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.0.0"
+    "vite": "^5.0.3"
   },
   "stackblitz": {
     "installDependencies": false,

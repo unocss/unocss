@@ -1,5 +1,10 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`prefix > generate tagged attributify 1`] = `
+"/* layer: default */
+[h-group=""]:hover .group-hover\\:h-bg-red{--un-bg-opacity:1;background-color:rgb(248 113 113 / var(--un-bg-opacity));}"
+`;
+
 exports[`prefix > multiple preset prefix 1`] = `
 "/* layer: default */
 .h-container{width:100%;}
@@ -52,6 +57,7 @@ exports[`prefix > preset prefix 1`] = `
 .dark .dark\\:children\\:hover\\:h-space-x-4:hover>*>:not([hidden])~:not([hidden]){--un-space-x-reverse:0;margin-left:calc(1rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(1rem * var(--un-space-x-reverse));}
 .dark .dark\\:hover\\:children\\:h-space-x-4>*:hover>:not([hidden])~:not([hidden]){--un-space-x-reverse:0;margin-left:calc(1rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(1rem * var(--un-space-x-reverse));}
 .dark .dark\\:hover\\:children\\:h-divide-x>*:hover>:not([hidden])~:not([hidden]){--un-divide-x-reverse:0;border-left-width:calc(1px * calc(1 - var(--un-divide-x-reverse)));border-right-width:calc(1px * var(--un-divide-x-reverse));}
+.h-group:hover .group-hover\\:h-bg-red{--un-bg-opacity:1;background-color:rgb(248 113 113 / var(--un-bg-opacity));}
 .hover\\:h-p4:hover{padding:1rem;}
 .h-text-red{--un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity));}
 .bar-bar,
@@ -87,4 +93,9 @@ exports[`prefix > preset prefix 1`] = `
 @media (min-width: 768px){@media (min-width: 1536px){
 .\\32 xl\\:h-container{max-width:768px;}
 }}"
+`;
+
+exports[`prefix > uses first truthy prefix 1`] = `
+"/* layer: default */
+.h-group:hover .group-hover\\:h-bg-red{--un-bg-opacity:1;background-color:rgb(248 113 113 / var(--un-bg-opacity));}"
 `;
