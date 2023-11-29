@@ -38,9 +38,6 @@ function patchTsupCjs(cjsModuleName: string, name: string) {
   )
 }
 
-// @unocss/astro
-patchCjs(resolve('./packages/astro/dist/index.cjs'), 'UnoCSSAstroIntegration')
-
 // @unocss/eslint-config
 patchCjs(resolve('./packages/eslint-config/dist/flat.cjs'), 'flat')
 patchCjs(resolve('./packages/eslint-config/dist/index.cjs'), 'index')
