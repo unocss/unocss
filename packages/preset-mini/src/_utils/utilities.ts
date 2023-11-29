@@ -175,6 +175,7 @@ export function parseColor(body: string, theme: Theme, key?: ThemeColorKeys): Pa
  *
  * @param property - Property for the css value to be created.
  * @param varName - Base name for the opacity variable.
+ * @param [key] - Theme key to select the color from.
  * @param [shouldPass] - Function to decide whether to pass the css.
  * @return object.
  */
