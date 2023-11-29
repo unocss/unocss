@@ -75,7 +75,7 @@ const formatted = useCSSPrettify(computed(() => mod.value?.css), isPrettify)
       <Splitpanes>
         <Pane size="50">
           <CodeMirror
-            h-full :model-value="mod.code" :read-only="true" :mode="mode" :matched="mod.matched"
+            h-full :model-value="mod.code" :read-only="true" :mode="mode" :matched="(mod.matched || []).map(i => i.name)"
             class="scrolls module-scrolls" :style="style"
           />
         </Pane>
