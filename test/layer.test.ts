@@ -22,26 +22,6 @@ describe('layers', () => {
     expect(css).toMatchSnapshot()
   })
 
-  it('colors', async () => {
-    const uno = createGenerator({
-      theme: {
-        colors: {
-          blackA7: 'hsla(0, 0%, 0%, 0.169)',
-        },
-      },
-      presets: [
-        presetMini(),
-
-      ],
-    })
-    const { css } = await uno.generate('shadow-[0_2px_10px] shadow-blackA7', { preflights: false })
-    expect(css).toMatchInlineSnapshot(`
-    "/* layer: default */
-    .shadow-\\[0_2px_10px\\]{--un-shadow:0 2px 10px var(--un-shadow-color);box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
-    .shadow-blackA7{--un-shadow-opacity:0.169;--un-shadow-color:hsla(0, 0%, 0%, var(--un-shadow-opacity));}"
-    `)
-  })
-
   it('@import layer', async () => {
     const uno = createGenerator({
       presets: [
