@@ -12,7 +12,11 @@ export const fonts: Rule<Theme>[] = [
   [
     /^text-(.+)$/,
     ([, s = 'base'], { theme }) => {
-      const [size, leading] = splitShorthand(s, 'length')
+      const split = splitShorthand(s, 'length')
+      if (!split)
+        return
+
+      const [size, leading] = split
       const sizePairs = toArray(theme.fontSize?.[size]) as [string, string | CSSObject, string?]
       const lineHeight = leading ? handleThemeByKey(leading, theme, 'lineHeight') : undefined
 

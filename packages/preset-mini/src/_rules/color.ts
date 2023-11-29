@@ -20,8 +20,20 @@ export const textColors: Rule[] = [
   [/^(?:text|color|c)-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: '(text|color|c)-(op|opacity)-<percent>' }],
 ]
 
+const bgUrlRE = /^\[url\(.+\)\]$/
+const bgLengthRE = /^\[length:.+\]$/
+const bgPositionRE = /^\[position:.+\]$/
 export const bgColors: Rule[] = [
-  [/^bg-(.+)$/, (...args) => isSize(args[0][1]) ? undefined : colorResolver('background-color', 'bg', 'backgroundColor')(...args), { autocomplete: 'bg-$colors' }],
+  [/^bg-(.+)$/, (...args) => {
+    const d = args[0][1]
+    if (bgUrlRE.test(d))
+      return { '--un-url': h.bracket(d), 'background-image': 'var(--un-url)' }
+    if (bgLengthRE.test(d) && h.bracketOfLength(d) != null)
+      return { 'background-size': h.bracketOfLength(d)!.split(' ').map(e => h.fraction.auto.px.cssvar(e) ?? e).join(' ') }
+    if ((isSize(d) || bgPositionRE.test(d)) && h.bracketOfPosition(d) != null)
+      return { 'background-position': h.bracketOfPosition(d)!.split(' ').map(e => h.position.fraction.auto.px.cssvar(e) ?? e).join(' ') }
+    return colorResolver('background-color', 'bg', 'backgroundColor')(...args)
+  }],
   [/^bg-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-bg-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'bg-(op|opacity)-<percent>' }],
 ]
 
