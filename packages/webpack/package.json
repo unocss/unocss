@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "@ampproject/remapping": "^2.2.1",
-    "@rollup/pluginutils": "^5.0.5",
+    "@rollup/pluginutils": "^5.1.0",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "chokidar": "^3.5.3",

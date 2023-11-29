@@ -10,25 +10,25 @@
   },
   "devDependencies": {
     "@antfu/utils": "^0.7.6",
-    "@nuxt/devtools": "^1.0.2",
+    "@nuxt/devtools": "^1.0.4",
     "@unocss/autocomplete": "workspace:*",
     "@unocss/nuxt": "workspace:*",
     "@unocss/shared-docs": "workspace:*",
     "@vueuse/nuxt": "^10.6.1",
     "esno": "^4.0.0",
-    "fs-extra": "^11.1.1",
+    "fs-extra": "^11.2.0",
     "fuse.js": "^7.0.0",
     "js-yaml": "^4.1.0",
     "knitwork": "^1.0.0",
     "markdown-it-link-attributes": "^4.0.1",
-    "markdown-it-shikiji": "^0.6.13",
-    "nuxt": "^3.7.3",
+    "markdown-it-shikiji": "^0.7.5",
+    "nuxt": "^3.8.2",
     "p-limit": "^5.0.0",
     "postcss-nested": "^6.0.1",
     "prettier": "^2.8.8",
-    "shikiji": "^0.6.13",
-    "theme-vitesse": "^0.7.3",
+    "shikiji": "^0.7.5",
+    "theme-vitesse": "^0.7.5",
     "vite-plugin-vue-markdown": "^0.23.8",
-    "vue": "^3.3.4"
+    "vue": "^3.3.9"
   }
 }
