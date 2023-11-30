@@ -33,7 +33,7 @@ export const variantNegative: Variant = {
           const value = v[1]?.toString()
           if (!value || value === '0')
             return
-          if (ignoreProps.some(i => v[0].match(i)))
+          if (ignoreProps.some(i => i.test(v[0])))
             return
           const negated = negateFunctions(value)
           if (negated) {
