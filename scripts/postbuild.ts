@@ -42,5 +42,4 @@ patchCjs(resolve('./packages/postcss/dist/index.cjs'), 'unocss')
 patchTsupCjs('./packages/runtime/dist/index', 'init')
 
 // unocss
-patchCjs(resolve('./packages/unocss/dist/astro.cjs'), 'UnocssAstroIntegration')
 patchCjs(resolve('./packages/unocss/dist/postcss.cjs'), 'postcss__default')

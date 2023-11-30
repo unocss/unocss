@@ -28,114 +28,48 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.mjs"
-      },
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
-      }
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
     },
     "./preset-attributify": {
-      "import": {
-        "types": "./dist/preset-attributify.d.ts",
-        "default": "./dist/preset-attributify.mjs"
-      },
-      "require": {
-        "types": "./dist/preset-attributify.d.cts",
-        "default": "./dist/preset-attributify.cjs"
-      }
+      "types": "./dist/preset-attributify.d.mts",
+      "default": "./dist/preset-attributify.mjs"
     },
     "./preset-tagify": {
-      "import": {
-        "types": "./dist/preset-tagify.d.ts",
-        "default": "./dist/preset-tagify.mjs"
-      },
-      "require": {
-        "types": "./dist/preset-tagify.d.cts",
-        "default": "./dist/preset-tagify.cjs"
-      }
+      "types": "./dist/preset-tagify.d.mts",
+      "default": "./dist/preset-tagify.mjs"
     },
     "./preset-icons": {
-      "import": {
-        "types": "./dist/preset-icons.d.ts",
-        "default": "./dist/preset-icons.mjs"
-      },
-      "require": {
-        "types": "./dist/preset-icons.d.cts",
-        "default": "./dist/preset-icons.cjs"
-      }
+      "types": "./dist/preset-icons.d.mts",
+      "default": "./dist/preset-icons.mjs"
     },
     "./preset-mini": {
-      "import": {
-        "types": "./dist/preset-mini.d.ts",
-        "default": "./dist/preset-mini.mjs"
-      },
-      "require": {
-        "types": "./dist/preset-mini.d.cts",
-        "default": "./dist/preset-mini.cjs"
-      }
+      "types": "./dist/preset-mini.d.mts",
+      "default": "./dist/preset-mini.mjs"
     },
     "./preset-typography": {
-      "import": {
-        "types": "./dist/preset-typography.d.ts",
-        "default": "./dist/preset-typography.mjs"
-      },
-      "require": {
-        "types": "./dist/preset-typography.d.cts",
-        "default": "./dist/preset-typography.cjs"
-      }
+      "types": "./dist/preset-typography.d.mts",
+      "default": "./dist/preset-typography.mjs"
     },
     "./preset-uno": {
-      "import": {
-        "types": "./dist/preset-uno.d.ts",
-        "default": "./dist/preset-uno.mjs"
-      },
-      "require": {
-        "types": "./dist/preset-uno.d.cts",
-        "default": "./dist/preset-uno.cjs"
-      }
+      "types": "./dist/preset-uno.d.mts",
+      "default": "./dist/preset-uno.mjs"
     },
     "./preset-web-fonts": {
-      "import": {
-        "types": "./dist/preset-web-fonts.d.ts",
-        "default": "./dist/preset-web-fonts.mjs"
-      },
-      "require": {
-        "types": "./dist/preset-web-fonts.d.cts",
-        "default": "./dist/preset-web-fonts.cjs"
-      }
+      "types": "./dist/preset-web-fonts.d.mts",
+      "default": "./dist/preset-web-fonts.mjs"
     },
     "./preset-wind": {
-      "import": {
-        "types": "./dist/preset-wind.d.ts",
-        "default": "./dist/preset-wind.mjs"
-      },
-      "require": {
-        "types": "./dist/preset-wind.d.cts",
-        "default": "./dist/preset-wind.cjs"
-      }
+      "types": "./dist/preset-wind.d.mts",
+      "default": "./dist/preset-wind.mjs"
     },
     "./vite": {
-      "import": {
-        "types": "./dist/vite.d.ts",
-        "default": "./dist/vite.mjs"
-      },
-      "require": {
-        "types": "./dist/vite.d.cts",
-        "default": "./dist/vite.cjs"
-      }
+      "types": "./dist/vite.d.mts",
+      "default": "./dist/vite.mjs"
     },
     "./astro": {
-      "import": {
-        "types": "./dist/astro.d.ts",
-        "default": "./dist/astro.mjs"
-      },
-      "require": {
-        "types": "./dist/astro.d.cts",
-        "default": "./dist/astro.cjs"
-      }
+      "types": "./dist/astro.d.mts",
+      "default": "./dist/astro.mjs"
     },
     "./webpack": {
       "import": {
@@ -158,7 +92,7 @@
       }
     }
   },
-  "main": "dist/index.cjs",
+  "main": "dist/index.mjs",
   "module": "dist/index.mjs",
   "types": "index.d.ts",
   "files": [
