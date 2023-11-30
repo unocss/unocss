@@ -30,7 +30,7 @@ export async function parseApply({ code, uno, offset, applyVariable }: Transform
   else if (childNode!.type === 'Declaration' && applyVariable.includes(childNode.property) && childNode.value.type === 'Raw') {
     body = childNode.value.value.trim()
     // remove quotes
-    if (body.match(/^(['"]).*\1$/))
+    if (/^(['"]).*\1$/.test(body))
       body = body.slice(1, -1)
   }
 

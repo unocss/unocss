@@ -33,7 +33,7 @@ export const cssProperty: Rule[] = [
     const [prop, ...rest] = body.split(':')
     const value = rest.join(':')
 
-    if (!isURI(body) && prop.match(/^[a-z-]+$/) && isValidCSSBody(value)) {
+    if (!isURI(body) && /^[a-z-]+$/.test(prop) && isValidCSSBody(value)) {
       let parsed
 
       if (hasThemeFn(value))

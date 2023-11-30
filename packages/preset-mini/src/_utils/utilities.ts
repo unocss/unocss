@@ -102,9 +102,9 @@ export function parseColor(body: string, theme: Theme, key?: ThemeColorKeys): Pa
   if (h.numberWithUnit(bracketOrMain))
     return
 
-  if (bracketOrMain.match(/^#[\da-fA-F]+/g))
+  if (/^#[\da-fA-F]+/.test(bracketOrMain))
     color = bracketOrMain
-  else if (bracketOrMain.match(/^hex-[\da-fA-F]+/g))
+  else if (/^hex-[\da-fA-F]+/.test(bracketOrMain))
     color = `#${bracketOrMain.slice(4)}`
   else if (main.startsWith('$'))
     color = h.cssvar(main)
@@ -121,7 +121,7 @@ export function parseColor(body: string, theme: Theme, key?: ThemeColorKeys): Pa
   if (!color) {
     let colorData
     const [scale] = colors.slice(-1)
-    if (scale.match(/^\d+$/)) {
+    if (/^\d+$/.test(scale)) {
       no = scale
       colorData = getThemeColor(theme, colors.slice(0, -1), key)
       if (!colorData || typeof colorData === 'string')
@@ -175,6 +175,7 @@ export function parseColor(body: string, theme: Theme, key?: ThemeColorKeys): Pa
  *
  * @param property - Property for the css value to be created.
  * @param varName - Base name for the opacity variable.
+ * @param [key] - Theme key to select the color from.
  * @param [shouldPass] - Function to decide whether to pass the css.
  * @return object.
  */
@@ -258,8 +259,8 @@ export function makeGlobalStaticRules(prefix: string, property?: string): Static
   return globalKeywords.map(keyword => [`${prefix}-${keyword}`, { [property ?? prefix]: keyword }])
 }
 
-export function isCSSMathFn(value: string) {
-  return cssMathFnRE.test(value)
+export function isCSSMathFn(value: string | undefined) {
+  return value != null && cssMathFnRE.test(value)
 }
 
 export function isSize(str: string) {
