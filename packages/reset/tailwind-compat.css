@@ -22,15 +22,21 @@ Please read: https://github.com/unocss/unocss/blob/main/packages/reset/tailwind-
 2. Prevent adjustments of font size after orientation changes in iOS.
 3. Use a more readable tab size.
 4. Use the user's configured `sans` font-family by default.
+5. Use the user's configured `sans` font-feature-settings by default.
+6. Use the user's configured `sans` font-variation-settings by default.
+7. Disable tap highlights on iOS.
 */
 
-html {
+html,
+:host {
   line-height: 1.5; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
-  text-size-adjust: 100%; /* 2 */
   -moz-tab-size: 4; /* 3 */
   tab-size: 4; /* 3 */
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; /* 4 */
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; /* 4 */
+  font-feature-settings: normal; /* 5 */
+  font-variation-settings: normal; /* 6 */
+  -webkit-tap-highlight-color: transparent; /* 7 */
 }
 
 /*
@@ -96,8 +102,10 @@ strong {
 }
 
 /*
-1. Use the user's configured `mono` font family by default.
-2. Correct the odd `em` font sizing in all browsers.
+1. Use the user's configured `mono` font-family by default.
+2. Use the user's configured `mono` font-feature-settings by default.
+3. Use the user's configured `mono` font-variation-settings by default.
+4. Correct the odd `em` font sizing in all browsers.
 */
 
 code,
@@ -105,7 +113,9 @@ kbd,
 samp,
 pre {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; /* 1 */
-  font-size: 1em; /* 2 */
+  font-feature-settings: normal; /* 2 */
+  font-variation-settings: normal; /* 3 */
+  font-size: 1em; /* 4 */
 }
 
 /*
@@ -189,9 +199,9 @@ button,
 [type='reset'],
 [type='submit'] {
   -webkit-appearance: button; /* 1 */
-  /*will affect the button style of most component libraries, so disable it*/
-  /*https://github.com/unocss/unocss/issues/2127*/
-  /*background-color: transparent; !* 2 *!*/
+  /* Will affect the button style of most component libraries, so disable it */
+  /* https://github.com/unocss/unocss/issues/2127 */
+  /* background-color: transparent; !* 2 *! */
   background-image: none; /* 2 */
 }
 
@@ -265,7 +275,7 @@ summary {
 }
 
 /*
-Removes the default spacing and border for appropriate elements.
+Removes the default spacing for appropriate elements.
 */
 
 blockquote,
@@ -301,6 +311,10 @@ menu {
   padding: 0;
 }
 
+dialog {
+  padding: 0;
+}
+
 /*
 Prevent resizing textareas horizontally by default.
 */
@@ -332,6 +346,7 @@ button,
 /*
 Make sure disabled buttons don't get the pointer cursor.
 */
+
 :disabled {
   cursor: default;
 }
@@ -364,8 +379,10 @@ video {
   height: auto;
 }
 
-/* Make elements with the HTML hidden attribute stay hidden by default */
+/*
+Make elements with the HTML hidden attribute stay hidden by default.
+*/
+
 [hidden] {
   display: none;
 }
-
