@@ -56,7 +56,7 @@ export function PerModuleModePlugin({ uno, filter }: UnocssPluginContext): Plugi
         if (!filter(code, id))
           return
         const hash = getHash(id)
-        const hasScope = code.match(SCOPE_IMPORT_RE)
+        const hasScope = SCOPE_IMPORT_RE.test(code)
 
         const { css } = await uno.generate(code, { id, scope: hasScope ? `.${hash}` : undefined, preflights: false })
         if (!css && !hasScope)

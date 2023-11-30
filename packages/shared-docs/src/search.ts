@@ -65,7 +65,7 @@ export function createSearch(
     input = input.trim()
 
     // mdn
-    if (input.match(/^(mdn|doc):/)) {
+    if (input.startsWith('mdn:') || input.startsWith('doc:')) {
       input = input.slice(4).trim()
       if (!input)
         return docs.value.slice(0, limit)
@@ -73,7 +73,7 @@ export function createSearch(
     }
 
     // guide
-    if (input.match(/^guide:/)) {
+    if (input.startsWith('guide:')) {
       input = input.slice(6).trim()
       if (!input)
         return guides.slice(0, limit)
@@ -81,7 +81,7 @@ export function createSearch(
     }
 
     // random
-    if (input.match(/^rand(om)?:/))
+    if (input.startsWith('rand:') || input.startsWith('random:'))
       return sampleArray(fuseCollection, limit)
 
     const parts = input.split(/\s/g).filter(notNull)
@@ -212,7 +212,7 @@ export function createSearch(
   function getUrls(css: string) {
     return uniq([...css.matchAll(/\burl\(([^)]+)\)/mg)]
       .map(i => i[1]))
-      .map(i => i.match(/^(['"]).*\1$/) ? i.slice(1, -1) : i)
+      .map(i => /^(['"]).*\1$/.test(i) ? i.slice(1, -1) : i)
   }
 
   function getUtilsOfFeature(name: string) {

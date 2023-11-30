@@ -84,7 +84,7 @@ export function auto(str: string) {
 }
 
 export function rem(str: string) {
-  if (str.match(unitOnlyRE))
+  if (unitOnlyRE.test(str))
     return `1${str}`
   const match = str.match(numberWithUnitRE)
   if (!match)
@@ -99,7 +99,7 @@ export function rem(str: string) {
 }
 
 export function px(str: string) {
-  if (str.match(unitOnlyRE))
+  if (unitOnlyRE.test(str))
     return `1${str}`
   const match = str.match(numberWithUnitRE)
   if (!match)
@@ -225,7 +225,7 @@ export function bracketOfPosition(str: string) {
 }
 
 export function cssvar(str: string) {
-  if (str.match(/^\$[^\s'"`;{}]/))
+  if (/^\$[^\s'"`;{}]/.test(str))
     return `var(--${escapeSelector(str.slice(1))})`
 }
 
