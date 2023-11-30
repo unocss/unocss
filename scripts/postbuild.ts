@@ -35,9 +35,6 @@ patchCjs(resolve('./packages/eslint-config/dist/index.cjs'), 'index')
 // @unocss/eslint-plugin
 patchCjs(resolve('./packages/eslint-plugin/dist/index.cjs'), 'index')
 
-// @unocss/inspector
-patchCjs(resolve('./packages/inspector/dist/index.cjs'), 'UnocssInspector')
-
 // @unocss/postcss
 patchCjs(resolve('./packages/postcss/dist/index.cjs'), 'unocss')
 
