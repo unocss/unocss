@@ -385,6 +385,8 @@ export const presetWindTargets: string[] = [
   '!animate-ping',
   '-backdrop-hue-rotate-90',
   '-hue-rotate-90',
+  '-hue-rotate--90',
+  '-hue-rotate-[var(--for-hue,0.5turn)]',
   'hover:animate-bounce',
 
   '-scroll-mb-px',
