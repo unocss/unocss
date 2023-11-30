@@ -67,10 +67,6 @@ patchCjs(resolve('./packages/postcss/dist/index.cjs'), 'unocss')
 // @unocss/runtime
 patchTsupCjs('./packages/runtime/dist/index', 'init')
 
-// @unocss/svelte-scoped
-patchCjs(resolve('./packages/svelte-scoped/dist/preprocess.cjs'), 'UnocssSveltePreprocess')
-patchCjs(resolve('./packages/svelte-scoped/dist/vite.cjs'), 'UnocssSvelteScopedVite')
-
 // @unocss/transformer-attributify-jsx
 patchCjs(resolve('./packages/transformer-attributify-jsx/dist/index.cjs'), 'transformerAttributifyJsx')
 
