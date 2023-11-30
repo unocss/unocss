@@ -23,27 +23,27 @@ describe('matched-positions', async () => {
           [
             13,
             14,
-            "[border=\\"b\\"]",
+            "[border="b"]",
           ],
           [
             15,
             20,
-            "[border=\\"gray4\\"]",
+            "[border="gray4"]",
           ],
           [
             21,
             22,
-            "[border=\\"2\\"]",
+            "[border="2"]",
           ],
           [
             23,
             37,
-            "[border=\\"[&_span]:white\\"]",
+            "[border="[&_span]:white"]",
           ],
           [
             46,
             65,
-            "[hover=\\"[&>span]:text-white\\"]",
+            "[hover="[&>span]:text-white"]",
           ],
           [
             67,
@@ -73,12 +73,12 @@ describe('matched-positions', async () => {
           [
             13,
             15,
-            "[border=\\"bb\\"]",
+            "[border="bb"]",
           ],
           [
             16,
             17,
-            "[border=\\"b\\"]",
+            "[border="b"]",
           ],
         ]
       `)
@@ -304,17 +304,17 @@ describe('matched-positions-pug', async () => {
         [
           39,
           40,
-          "[border=\\"b\\"]",
+          "[border="b"]",
         ],
         [
           41,
           46,
-          "[border=\\"gray4\\"]",
+          "[border="gray4"]",
         ],
         [
           65,
           68,
-          "[text=\\"red\\"]",
+          "[text="red"]",
         ],
       ]
     `)

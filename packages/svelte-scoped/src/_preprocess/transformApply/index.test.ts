@@ -65,8 +65,8 @@ describe('transformApply', () => {
         margin-bottom: 0.25rem;
         display: flex;
       }
-      :global(.dark [dir=\\"rtl\\"]) button:hover,
-      :global(.dark [dir=\\"rtl\\"]) .btn:hover {
+      :global(.dark [dir="rtl"]) button:hover,
+      :global(.dark [dir="rtl"]) .btn:hover {
         margin-right: 0.25rem;
       }
       button:hover :global(> :not([hidden]) ~ :not([hidden])),
@@ -109,11 +109,11 @@ describe('transformApply', () => {
       "button {
         display: flex;
       }
-      :global([dir=\\"rtl\\"]) button {
+      :global([dir="rtl"]) button {
         margin-right: 0.25rem;
       }
       @media (min-width: 640px) {
-        :global(.dark [dir=\\"rtl\\"])
+        :global(.dark [dir="rtl"])
           button:hover
           :global(> :not([hidden]) ~ :not([hidden])) {
           --un-space-x-reverse: 0;

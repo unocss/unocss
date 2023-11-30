@@ -1,4 +1,5 @@
 {
+  "name": "unocss-nuxt2",
   "private": true,
   "scripts": {
     "build": "nuxi build",
@@ -6,7 +7,7 @@
     "start": "node .output/server/index.mjs"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "^1.1.21",
+    "@iconify-json/carbon": "^1.1.23",
     "@nuxt/bridge-edge": "latest",
     "@unocss/core": "link:../../packages/core",
     "@unocss/nuxt": "link:../../packages/nuxt",

@@ -3,7 +3,7 @@ import { createAutocomplete } from '@unocss/autocomplete'
 import type { CompletionItemProvider, Disposable, ExtensionContext } from 'vscode'
 import { CompletionItem, CompletionItemKind, CompletionList, MarkdownString, Range, languages, window, workspace } from 'vscode'
 import type { UnoGenerator, UnocssPluginContext } from '@unocss/core'
-import { getCSS, getColorString, getPrettiedCSS, getPrettiedMarkdown, isSubdir } from './utils'
+import { getCSS, getColorString, getPrettiedCSS, getPrettiedMarkdown } from './utils'
 import { log } from './log'
 import type { ContextLoader } from './contextLoader'
 import { isCssId } from './integration'
@@ -47,7 +47,6 @@ class UnoCompletionItem extends CompletionItem {
 }
 
 export async function registerAutoComplete(
-  cwd: string,
   contextLoader: ContextLoader,
   ext: ExtensionContext,
 ) {
@@ -103,16 +102,16 @@ export async function registerAutoComplete(
   const provider: CompletionItemProvider<UnoCompletionItem> = {
     async provideCompletionItems(doc, position) {
       const id = doc.uri.fsPath
-      if (!isSubdir(cwd, id))
+      if (!contextLoader.isTarget(id))
         return null
 
       const code = doc.getText()
       if (!code)
         return null
 
-      let ctx = await contextLoader.resolveContext(code, id)
+      const ctx = await contextLoader.resolveClosestContext(code, id)
       if (!ctx)
-        ctx = await contextLoader.resolveClosestContext(code, id)
+        return null
 
       if (!ctx.filter(code, id) && !isCssId(id))
         return null

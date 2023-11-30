@@ -178,8 +178,8 @@ describe('autocomplete', () => {
     expect(fixture.slice(0, replacement.start) + replacement.replacement + fixture.slice(replacement.end))
       .toMatchInlineSnapshot(`
         "
-        <div bg=\\"blue-500\\">
-          <div border=\\"~ b-amber
+        <div bg="blue-500">
+          <div border="~ b-amber
         </div>
         "
       `)

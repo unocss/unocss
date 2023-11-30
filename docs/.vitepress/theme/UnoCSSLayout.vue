@@ -8,7 +8,7 @@ const { isDark } = useData()
 
 function enableTransitions() {
   return 'startViewTransition' in document
-      && window.matchMedia('(prefers-reduced-motion: no-preference)').matches
+    && window.matchMedia('(prefers-reduced-motion: no-preference)').matches
 }
 
 provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {

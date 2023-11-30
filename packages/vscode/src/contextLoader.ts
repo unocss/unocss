@@ -1,20 +1,21 @@
 import { readdir } from 'fs/promises'
 import path from 'path'
-import fs from 'fs'
 import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { notNull } from '@unocss/core'
 import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
 import presetUno from '@unocss/preset-uno'
+import type { ExtensionContext, StatusBarItem } from 'vscode'
 import { resolveOptions as resolveNuxtOptions } from '../../nuxt/src/options'
 import { createNanoEvents } from '../../core/src/utils/events'
 import { createContext, isCssId } from './integration'
 import { isSubdir } from './utils'
 import { log } from './log'
+import { registerAnnotations } from './annotation'
+import { registerAutoComplete } from './autocomplete'
+import { registerSelectionStyle } from './selectionStyle'
 
 export class ContextLoader {
-  public cwd: string
   public ready: Promise<void>
-  public defaultContext: UnocssPluginContext<UserConfig<any>>
   public contextsMap = new Map<string, UnocssPluginContext<UserConfig<any>> | null>()
   public configSources: string[] = []
 
@@ -32,14 +33,16 @@ export class ContextLoader {
     contextUnload: (context: UnocssPluginContext<UserConfig<any>>) => void
   }>()
 
-  constructor(cwd: string) {
-    this.cwd = cwd
-    this.defaultContext = createContext(this.defaultUnocssConfig)
-
+  constructor(
+    public cwd: string,
+    public ext: ExtensionContext,
+    public status: StatusBarItem,
+  ) {
     this.ready = this.reload()
-      .then(async () => {
-        await this.defaultContext.ready
-      })
+  }
+
+  isTarget(id: string) {
+    return isSubdir(this.cwd, id)
   }
 
   get contexts() {
@@ -53,12 +56,16 @@ export class ContextLoader {
   }
 
   private async _reload() {
-    for (const dir of this.contextsMap.keys())
-      this.unloadContext(dir)
+    const dirs = Array.from(this.contextsMap.keys())
+    await Promise.allSettled(Array.from(dirs).map(dir => this.unloadContext(dir)))
+
     this.fileContextCache.clear()
     this.configExistsCache.clear()
 
-    await this.loadContextInDirectory(this.cwd)
+    for (const dir of dirs)
+      await this.loadContextInDirectory(dir)
+    if (!dirs.length)
+      await this.loadContextInDirectory(this.cwd)
   }
 
   async unload(configDir: string) {
@@ -88,6 +95,7 @@ export class ContextLoader {
     }
 
     this.events.emit('contextUnload', context)
+    this.events.emit('reload')
   }
 
   async configExists(dir: string) {
@@ -194,61 +202,29 @@ export class ContextLoader {
     const context = await load()
     if (!this.contextsMap.has(dir))
       this.contextsMap.set(dir, context)
+    this.fileContextCache.clear()
+    this.events.emit('reload')
+
+    log.appendLine(`🗂️ Enabled context: ${Array.from(this.contextsMap.entries()).filter(i => i[1]).map(i => i[0]).join(', ') || '[none]'}`)
+
+    if (context)
+      this.registerEditorSupport()
+
     return context
   }
 
-  async resolveContext(code: string, file: string) {
-    if (file.match(/[\/](node_modules|dist|\.temp|\.cache)[\/]/g))
-      return
-
-    const cached = this.fileContextCache.get(file)
-    if (cached !== undefined)
-      return cached
-
-    // try finding an existing context that includes the file
-    for (const [configDir, context] of this.contextsMap) {
-      if (!context)
-        continue
-
-      if (!isSubdir(configDir, file))
-        continue
-
-      if (!context.filter(code, file) && !isCssId(file))
-        continue
-
-      this.fileContextCache.set(file, context)
-      return context
-    }
-
-    // try finding a config from disk
-    if (fs.existsSync(file)) {
-      let dir = path.dirname(file)
-      while (isSubdir(this.cwd, dir)) {
-        if (await this.configExists(dir)) {
-          const context = await this.loadContextInDirectory(dir)
-          if (context?.filter(code, file) || isCssId(file)) {
-            this.fileContextCache.set(file, context)
-            return context
-          }
-        }
-
-        const newDir = path.dirname(dir)
-        if (newDir === dir)
-          break
-        dir = newDir
-      }
-    }
-
-    this.fileContextCache.set(file, null)
-    return null
-  }
-
   async resolveClosestContext(code: string, file: string) {
-    const cached = this.fileContextCache.get(file)
-    if (cached)
-      return cached
+    if (!this.contextsMap.size)
+      return undefined
 
-    for (const [configDir, context] of this.contextsMap) {
+    if (file.match(/[\/](node_modules|dist|\.temp|\.cache)[\/]/g))
+      return undefined
+
+    if (this.fileContextCache.has(file))
+      return this.fileContextCache.get(file)
+
+    const entries = Array.from(this.contextsMap.entries()).sort((a, b) => b[0].length - a[0].length)
+    for (const [configDir, context] of entries) {
       if (!context)
         continue
 
@@ -262,7 +238,7 @@ export class ContextLoader {
       return context
     }
 
-    for (const [configDir, context] of this.contextsMap) {
+    for (const [configDir, context] of entries) {
       if (!context)
         continue
 
@@ -271,7 +247,15 @@ export class ContextLoader {
         return context
       }
     }
+  }
 
-    return this.defaultContext
+  private _isRegistered = false
+  registerEditorSupport() {
+    if (this._isRegistered)
+      return
+    registerAutoComplete(this, this.ext)
+    registerAnnotations(this, this.status, this.ext)
+    registerSelectionStyle(this)
+    this._isRegistered = true
   }
 }

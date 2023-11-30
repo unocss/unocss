@@ -63,7 +63,7 @@ export interface TypographyOptions {
 export const presetTypography = definePreset((options?: TypographyOptions): Preset<Theme> => {
   if (options?.className) {
     console.warn('[unocss:preset-typography] "className" is deprecated. '
-      + 'Use "selectorName" instead.')
+    + 'Use "selectorName" instead.')
   }
   const escapedSelectors = new Set<string>()
   const selectorName = options?.selectorName || options?.className || 'prose'

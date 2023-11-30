@@ -3,12 +3,11 @@ import type { DecorationOptions, Disposable, ExtensionContext, StatusBarItem, Te
 import { DecorationRangeBehavior, MarkdownString, Range, window, workspace } from 'vscode'
 import { INCLUDE_COMMENT_IDE, getMatchedPositionsFromCode, isCssId } from './integration'
 import { log } from './log'
-import { getColorString, getPrettiedMarkdown, isSubdir, throttle } from './utils'
+import { getColorString, getPrettiedMarkdown, throttle } from './utils'
 import type { ContextLoader } from './contextLoader'
 import { useConfigurations } from './configuration'
 
 export async function registerAnnotations(
-  cwd: string,
   contextLoader: ContextLoader,
   status: StatusBarItem,
   ext: ExtensionContext,
@@ -31,7 +30,7 @@ export async function registerAnnotations(
         return
       try {
         await ctx.reloadConfig()
-        log.appendLine(`🛠 Config reloaded by ${path.relative(cwd, doc.uri.fsPath)}`)
+        log.appendLine(`🛠 Config reloaded by ${path.relative(contextLoader.cwd, doc.uri.fsPath)}`)
       }
       catch (e: any) {
         log.appendLine('⚠️ Error on loading config')
@@ -77,16 +76,16 @@ export async function registerAnnotations(
         return reset(editor)
 
       const id = doc.uri.fsPath
-      if (!isSubdir(cwd, id))
+      if (!contextLoader.isTarget(id))
         return reset(editor)
 
       const code = doc.getText()
       if (!code)
         return reset(editor)
 
-      let ctx = await contextLoader.resolveContext(code, id)
+      const ctx = await contextLoader.resolveClosestContext(code, id)
       if (!ctx)
-        ctx = await contextLoader.resolveClosestContext(code, id)
+        return reset(editor)
 
       const isTarget = ctx.filter(code, id) // normal unocss filter
         || code.includes(INCLUDE_COMMENT_IDE) // force include

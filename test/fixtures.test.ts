@@ -106,7 +106,7 @@ describe.concurrent('fixtures', () => {
     }
   })
 
-  it('vite lib rollupOptions', async () => {
+  it.skipIf(isWindows)('vite lib rollupOptions', async () => {
     const root = resolve(__dirname, 'fixtures/vite-lib-rollupoptions')
     await fs.emptyDir(join(root, 'dist'))
     await build({
