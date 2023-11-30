@@ -44,21 +44,6 @@ patchCjs(resolve('./packages/postcss/dist/index.cjs'), 'unocss')
 // @unocss/runtime
 patchTsupCjs('./packages/runtime/dist/index', 'init')
 
-// @unocss/transformer-attributify-jsx
-patchCjs(resolve('./packages/transformer-attributify-jsx/dist/index.cjs'), 'transformerAttributifyJsx')
-
-// @unocss/transformer-attributify-jsx-babel
-patchCjs(resolve('./packages/transformer-attributify-jsx-babel/dist/index.cjs'), 'transformerAttributifyJsx')
-
-// @unocss/transformer-compile-class
-patchCjs(resolve('./packages/transformer-compile-class/dist/index.cjs'), 'transformerCompileClass')
-
-// @unocss/transformer-directives
-patchCjs(resolve('./packages/transformer-directives/dist/index.cjs'), 'transformerDirectives')
-
-// @unocss/transformer-variant-group
-patchCjs(resolve('./packages/transformer-variant-group/dist/index.cjs'), 'transformerVariantGroup')
-
 // unocss
 patchCjs(resolve('./packages/unocss/dist/astro.cjs'), 'UnocssAstroIntegration')
 patchCjs(resolve('./packages/unocss/dist/postcss.cjs'), 'postcss__default')
