@@ -22,68 +22,32 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.mjs"
-      },
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
-      }
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.mjs"
     },
     "./theme": {
-      "import": {
-        "types": "./dist/theme.d.ts",
-        "default": "./dist/theme.mjs"
-      },
-      "require": {
-        "types": "./dist/theme.d.cts",
-        "default": "./dist/theme.cjs"
-      }
+      "types": "./dist/theme.d.ts",
+      "default": "./dist/theme.mjs"
     },
     "./variants": {
-      "import": {
-        "types": "./dist/variants.d.ts",
-        "default": "./dist/variants.mjs"
-      },
-      "require": {
-        "types": "./dist/variants.d.cts",
-        "default": "./dist/variants.cjs"
-      }
+      "types": "./dist/variants.d.ts",
+      "default": "./dist/variants.mjs"
     },
     "./rules": {
-      "import": {
-        "types": "./dist/rules.d.ts",
-        "default": "./dist/rules.mjs"
-      },
-      "require": {
-        "types": "./dist/rules.d.cts",
-        "default": "./dist/rules.cjs"
-      }
+      "types": "./dist/rules.d.ts",
+      "default": "./dist/rules.mjs"
     },
     "./colors": {
-      "import": {
-        "types": "./dist/colors.d.ts",
-        "default": "./dist/colors.mjs"
-      },
-      "require": {
-        "types": "./dist/colors.d.cts",
-        "default": "./dist/colors.cjs"
-      }
+      "types": "./dist/colors.d.ts",
+      "default": "./dist/colors.mjs"
     },
     "./utils": {
-      "import": {
-        "types": "./dist/utils.d.ts",
-        "default": "./dist/utils.mjs"
-      },
-      "require": {
-        "types": "./dist/utils.d.cts",
-        "default": "./dist/utils.cjs"
-      }
+      "types": "./dist/utils.d.ts",
+      "default": "./dist/utils.mjs"
     },
     "./*": "./*"
   },
-  "main": "dist/index.cjs",
+  "main": "dist/index.mjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
