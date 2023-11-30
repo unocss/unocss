@@ -35,15 +35,6 @@ patchCjs(resolve('./packages/eslint-config/dist/index.cjs'), 'index')
 // @unocss/eslint-plugin
 patchCjs(resolve('./packages/eslint-plugin/dist/index.cjs'), 'index')
 
-// @unocss/extractor-mdc
-patchCjs(resolve('./packages/extractor-mdc/dist/index.cjs'), 'extractorMdc')
-
-// @unocss/extractor-pug
-patchCjs(resolve('./packages/extractor-pug/dist/index.cjs'), 'extractorPug')
-
-// @unocss/extractor-svelte
-patchCjs(resolve('./packages/extractor-svelte/dist/index.cjs'), 'extractorSvelte')
-
 // @unocss/inspector
 patchCjs(resolve('./packages/inspector/dist/index.cjs'), 'UnocssInspector')
 

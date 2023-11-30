@@ -9,7 +9,4 @@ export default defineBuildConfig({
   externals: [
     '@unocss/core',
   ],
-  rollup: {
-    emitCJS: true,
-  },
 })
