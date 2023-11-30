@@ -25,11 +25,11 @@
   "sideEffects": false,
   "exports": {
     "./preprocess": {
-      "types": "./dist/preprocess.d.ts",
+      "types": "./dist/preprocess.d.mts",
       "default": "./dist/preprocess.mjs"
     },
     "./vite": {
-      "types": "./dist/vite.d.ts",
+      "types": "./dist/vite.d.mts",
       "default": "./dist/vite.mjs"
     }
   },

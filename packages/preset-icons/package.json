@@ -25,15 +25,15 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./dist/index.d.mts",
       "default": "./dist/index.mjs"
     },
     "./browser": {
-      "types": "./dist/browser.d.ts",
+      "types": "./dist/browser.d.mts",
       "default": "./dist/browser.mjs"
     },
     "./core": {
-      "types": "./dist/core.d.ts",
+      "types": "./dist/core.d.mts",
       "default": "./dist/core.mjs"
     },
     "./*": "./*"
