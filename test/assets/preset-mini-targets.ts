@@ -1146,6 +1146,10 @@ export const presetMiniTargets: string[] = [
   'data-[inline]:inline',
   'data-[invalid~=grammar]:underline-green-600',
 
+  // variants - tagged-data
+  'group-data-[state=open]:font-bold',
+  'peer-data-[state=closed]:border-3',
+
   // variants - container parent
   '@container',
   '@container/label',

@@ -215,6 +215,8 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .stroke-join-clip{stroke-linejoin:miter-clip;}
 .stroke-join-auto{stroke-linejoin:miter;}
 .stroke-none{stroke:none;}
+.peer[data-state=closed]~.peer-data-\[state\=closed\]\:border-3,
+.border-width-3{border-width:3px;}
 .b-2,
 .border-size-2{border-width:2px;}
 .border{border-width:1px;}
@@ -234,7 +236,6 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .border-size-unset{border-width:unset;}
 .border-width-\[2em\]{border-width:2em;}
 .border-width-\[calc\(1em-1px\)\]{border-width:calc(1em - 1px);}
-.border-width-3{border-width:3px;}
 .border-x-size-2{border-left-width:2px;border-right-width:2px;}
 .border-x-width-3{border-left-width:3px;border-right-width:3px;}
 .border-s-width-\$variable{border-inline-start-width:var(--variable);}
@@ -449,6 +450,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .group:hover .group-\[\:hover\]\:font-11{font-weight:11;}
 .group.not-parent .group-\[\.not-parent\]\:font-14{font-weight:14;}
 .group[data-attr] .group-\[\[data-attr\]\]\:font-12{font-weight:12;}
+.group[data-state=open] .group-data-\[state\=open\]\:font-bold{font-weight:700;}
 .group\/label:hover .group-\[\:hover\]\/label\:font-16{font-weight:16;}
 .group\/label.not-parent .group-\[\.not-parent\]\/label\:font-19{font-weight:19;}
 .group\/label[data-attr] .group-\[\[data-attr\]\]\/label\:font-17{font-weight:17;}
