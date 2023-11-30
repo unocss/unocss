@@ -23,11 +23,11 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.mts",
+      "types": "./dist/index.d.ts",
       "default": "./dist/index.mjs"
     },
     "./client": {
-      "types": "./dist/client.d.mts",
+      "types": "./dist/client.d.ts",
       "default": "./dist/client.mjs"
     }
   },
