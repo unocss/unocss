@@ -10,16 +10,6 @@ function patchCjs(cjsModulePath: string, name: string) {
   )
 }
 
-function patchDCts(ctsModulePath: string, name: string) {
-  let content = readFileSync(ctsModulePath, 'utf-8').replace(`, ${name} as default `, ' ')
-  content += `\nexport = ${name};`
-  writeFileSync(
-    ctsModulePath,
-    content,
-    { encoding: 'utf-8' },
-  )
-}
-
 function patchTsupCjs(cjsModuleName: string, name: string) {
   let file = resolve(`${cjsModuleName}.cjs`)
   let content = readFileSync(file, 'utf-8')
@@ -56,10 +46,6 @@ patchCjs(resolve('./packages/extractor-svelte/dist/index.cjs'), 'extractorSvelte
 
 // @unocss/inspector
 patchCjs(resolve('./packages/inspector/dist/index.cjs'), 'UnocssInspector')
-
-// @unocss/nuxt
-patchCjs(resolve('./packages/nuxt/dist/index.cjs'), 'index')
-patchDCts(resolve('./packages/nuxt/dist/index.d.cts'), '_default')
 
 // @unocss/postcss
 patchCjs(resolve('./packages/postcss/dist/index.cjs'), 'unocss')
