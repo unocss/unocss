@@ -2,6 +2,7 @@ import type { Variant } from '@unocss/core'
 import { getStringComponent } from '@unocss/rule-utils'
 import { CONTROL_MINI_NO_NEGATIVE, cssMathFnRE } from '../utils'
 
+const anchoredNumberRE = /^-?[0-9.]+(?:[a-z]+|%)?$/
 const numberRE = /-?[0-9.]+(?:[a-z]+|%)?/
 
 const ignoreProps = [
@@ -23,7 +24,7 @@ function negateFunctionBody(value: string) {
   if (match) {
     const [fnBody, rest] = getStringComponent(match[2], '(', ')', ' ') ?? []
     if (fnBody) {
-      const body = numberRE.test(fnBody)
+      const body = anchoredNumberRE.test(fnBody.slice(1, -1))
         ? fnBody.replace(numberRE, i => i.startsWith('-') ? i.slice(1) : `-${i}`)
         : `(calc(${fnBody} * -1))`
       return `${match[1]}${body}${rest ? ` ${rest}` : ''}`
@@ -61,7 +62,7 @@ export const variantNegative: Variant = {
             changed = true
             return
           }
-          if (numberRE.test(value)) {
+          if (anchoredNumberRE.test(value)) {
             v[1] = value.replace(numberRE, i => i.startsWith('-') ? i.slice(1) : `-${i}`)
             changed = true
           }
