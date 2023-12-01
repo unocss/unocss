@@ -43,7 +43,7 @@ describe('value handler', () => {
   it('bracket quoted-type', () => {
     expect(h.bracket('[quoted:a_b]')).eql('"a b"')
     expect(h.bracket('[quoted:a\\_b]')).eql('"a_b"')
-    expect(h.bracket('[quoted:\'with-\\,-\'-and-"]')).toMatchInlineSnapshot('"\\"\'with-\\\\\\\\,-\'-and-\\\\\\"\\""')
+    expect(h.bracket('[quoted:\'with-\\,-\'-and-"]')).toMatchInlineSnapshot(`""'with-\\\\,-'-and-\\"""`)
   })
 
   it('handler resolves numbers using numberWithUnit', () => {

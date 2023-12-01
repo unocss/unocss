@@ -293,16 +293,16 @@ describe('preset-mini', () => {
     expect(css).toMatchInlineSnapshot(`
       "/* layer: default */
       @media (max-width: 999.9px){
-      .\\\\<xl\\\\:text-3xl{font-size:1.875rem;line-height:2.25rem;}
+      .\\<xl\\:text-3xl{font-size:1.875rem;line-height:2.25rem;}
       }
       @media (max-width: calc(64rem - 0.1px)){
-      .\\\\<lg\\\\:text-sm{font-size:0.875rem;line-height:1.25rem;}
+      .\\<lg\\:text-sm{font-size:0.875rem;line-height:1.25rem;}
       }
       @media (min-width: 48rem){
-      .md\\\\:text-xl{font-size:1.25rem;line-height:1.75rem;}
+      .md\\:text-xl{font-size:1.25rem;line-height:1.75rem;}
       }
       @media (min-width: 48rem) and (max-width: calc(64rem - 0.1px)){
-      .\\\\~md\\\\:text-base{font-size:1rem;line-height:1.5rem;}
+      .\\~md\\:text-base{font-size:1rem;line-height:1.5rem;}
       }"
     `)
   })
@@ -351,6 +351,53 @@ describe('preset-mini', () => {
         .text-normal{font-size:24px;line-height:1;}
         .text-obj{font-size:8rem;line-height:2.25rem;letter-spacing:-0.02em;font-weight:700;}
         .text-sm{font-size:0.875rem;line-height:1.25rem;}"
+      `)
+  })
+
+  it('override colors differently', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+      theme: {
+        colors: {
+          blue: {
+            400: 'rgb(0 0 400)',
+          },
+        },
+        textColor: {
+          blue: {
+            400: 'rgb(0 0 700)',
+          },
+        },
+      },
+    })
+
+    expect((await uno.generate('bg-blue-400 text-blue-400', { preflights: false })).css)
+      .toMatchInlineSnapshot(`
+        "/* layer: default */
+        .bg-blue-400{--un-bg-opacity:1;background-color:rgb(0 0 400 / var(--un-bg-opacity));}
+        .text-blue-400{--un-text-opacity:1;color:rgb(0 0 700 / var(--un-text-opacity));}"
+      `)
+  })
+
+  it('account custom color for shadow theme', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+      theme: {
+        colors: {
+          blackA7: 'hsla(0, 0%, 0%, 0.169)',
+        },
+      },
+    })
+
+    expect((await uno.generate('shadow-[0_2px_10px] shadow-blackA7', { preflights: false })).css)
+      .toMatchInlineSnapshot(`
+        "/* layer: default */
+        .shadow-\\[0_2px_10px\\]{--un-shadow:0 2px 10px var(--un-shadow-color);box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
+        .shadow-blackA7{--un-shadow-opacity:0.169;--un-shadow-color:hsla(0, 0%, 0%, var(--un-shadow-opacity));}"
       `)
   })
 })

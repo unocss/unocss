@@ -42,7 +42,7 @@ describe('transform', () => {
   it('simple', async () => {
     const code = '<div class="bg-red-500" />'
     expect(await transform(code)).toMatchInlineSnapshot(`
-      "<div class=\\"uno-orrz3z\\" />
+      "<div class="uno-orrz3z" />
 
       <style>
         :global(.uno-orrz3z) {
@@ -53,7 +53,7 @@ describe('transform', () => {
       "
     `)
     expect(await transform(code, { combine: false })).toMatchInlineSnapshot(`
-      "<div class=\\"_bg-red-500_7dkb0w\\" />
+      "<div class="_bg-red-500_7dkb0w" />
 
       <style>
         :global(._bg-red-500_7dkb0w) {
@@ -71,7 +71,7 @@ describe('transform', () => {
     <div class:shortcut />
     `.trim()
     expect(await transform(code)).toMatchInlineSnapshot(`
-      "<div class=\\"uno-azh9r1 foo\\" />
+      "<div class="uno-azh9r1 foo" />
       <div class:uno-4cfcv2={shortcut} />
 
       <style>
@@ -86,7 +86,7 @@ describe('transform', () => {
       "
     `)
     expect(await transform(code, { combine: false })).toMatchInlineSnapshot(`
-      "<div class=\\"_shortcut_7dkb0w _mb-1_7dkb0w foo\\" />
+      "<div class="_shortcut_7dkb0w _mb-1_7dkb0w foo" />
       <div class:_shortcut_7dkb0w={shortcut} />
 
       <style>
@@ -104,10 +104,10 @@ describe('transform', () => {
   it('wraps parent and child dependent classes like rtl: and space-x-1 with :global() wrapper', async () => {
     const code = '<div class="mb-1 text-sm rtl:right-0 space-x-1" />'
     expect(await transform(code)).toMatchInlineSnapshot(`
-      "<div class=\\"uno-tlm2ul\\" />
+      "<div class="uno-tlm2ul" />
 
       <style>
-        :global([dir=\\"rtl\\"] .uno-tlm2ul) {
+        :global([dir="rtl"] .uno-tlm2ul) {
           right: 0;
         }
         :global(.uno-tlm2ul) {
@@ -125,11 +125,11 @@ describe('transform', () => {
     `)
     expect(await transform(code, { combine: false })).toMatchInlineSnapshot(`
       "<div
-        class=\\"_mb-1_7dkb0w _text-sm_7dkb0w _rtl:right-0_7dkb0w _space-x-1_7dkb0w\\"
+        class="_mb-1_7dkb0w _text-sm_7dkb0w _rtl:right-0_7dkb0w _space-x-1_7dkb0w"
       />
 
       <style>
-        :global([dir=\\"rtl\\"] ._rtl\\\\:right-0_7dkb0w) {
+        :global([dir="rtl"] ._rtl\\:right-0_7dkb0w) {
           right: 0;
         }
         :global(._mb-1_7dkb0w) {
@@ -159,12 +159,12 @@ describe('transform', () => {
     <div class:flex class="bar" />
     `.trim(), { format: false })
     expect(result).toMatchInlineSnapshot(`
-      "<div class=\\"uno-oo7fkj\\"/>
+      "<div class="uno-oo7fkj"/>
           <div class:uno-oo7fkj={bar} />
           <div class:uno-oo7fkj={flex} />
           <div class:uno-oo7fkj={flex} />
           <div class:uno-oo7fkj={flex} />
-          <div class:uno-oo7fkj={flex} class=\\"bar\\" />
+          <div class:uno-oo7fkj={flex} class="bar" />
       <style>:global(.uno-oo7fkj){display:flex;}</style>"
     `)
   })
@@ -180,7 +180,7 @@ describe('transform', () => {
     const result = await transform(`
     <div class="dark:hover:sm:space-x-1" />`.trim())
     expect(result).toMatchInlineSnapshot(`
-      "<div class=\\"uno-1eyzu3\\" />
+      "<div class="uno-1eyzu3" />
 
       <style>
         @media (min-width: 640px) {
@@ -198,7 +198,7 @@ describe('transform', () => {
   it('does not place :global() around animate-bounce keyframe digits', async () => {
     const result = await transform('<div class="animate-bounce" />')
     expect(result).toMatchInlineSnapshot(`
-      "<div class=\\"uno-swfyci\\" />
+      "<div class="uno-swfyci" />
 
       <style>
         :global(.uno-swfyci) {
@@ -234,7 +234,7 @@ describe('transform', () => {
     const singleQuotes = await transform(`
     <span class='font-bold' />`.trim())
     expect(singleQuotes).toMatchInlineSnapshot(`
-      "<span class=\\"uno-k2ufqh\\" />
+      "<span class="uno-k2ufqh" />
 
       <style>
         :global(.uno-k2ufqh) {
@@ -251,17 +251,21 @@ describe('transform', () => {
     <span class="font-bold {bar ? 'text-red-600' : 'text-(green-500 blue-400) font-semibold boo'} underline foo {baz ? 'italic ' : ''}">Hello</span>`.trim())
     expect(result).toMatchInlineSnapshot(`
       "<span
-        class=\\"uno-r4l94t foo {bar ? 'uno-ffvc5a' : 'uno-3h14cd boo'} {baz
+        class="uno-r4l94t foo {bar ? 'uno-ffvc5a' : 'uno-3h14cd boo'} {baz
           ? 'uno-br1nw8'
-          : ''}\\">Hello</span
+          : ''}">Hello</span
       >
 
       <style>
         :global(.uno-3h14cd) {
-          font-weight: 600;
           --un-text-opacity: 1;
           color: rgb(34 197 94 / var(--un-text-opacity));
           color: rgb(96 165 250 / var(--un-text-opacity));
+          font-weight: 600;
+        }
+        :global(.uno-ffvc5a) {
+          --un-text-opacity: 1;
+          color: rgb(220 38 38 / var(--un-text-opacity));
         }
         :global(.uno-r4l94t) {
           font-weight: 700;
@@ -269,10 +273,6 @@ describe('transform', () => {
         }
         :global(.uno-br1nw8) {
           font-style: italic;
-        }
-        :global(.uno-ffvc5a) {
-          --un-text-opacity: 1;
-          color: rgb(220 38 38 / var(--un-text-opacity));
         }
       </style>
       "
@@ -293,7 +293,7 @@ describe('transform', () => {
   it('in dev, when it only hashes but does not combine, handles classes that fail when coming at the beginning of a shortcut name', async () => {
     const code = '<div class="mb-1 !mt-2 md:mr-3 space-x-1" />'
     expect(await transform(code)).toMatchInlineSnapshot(`
-      "<div class=\\"uno-83is87\\" />
+      "<div class="uno-83is87" />
 
       <style>
         :global(.uno-83is87) {
@@ -314,10 +314,10 @@ describe('transform', () => {
       "
     `)
     expect(await transform(code, { combine: false })).toMatchInlineSnapshot(`
-      "<div class=\\"_mb-1_7dkb0w _!mt-2_7dkb0w _md:mr-3_7dkb0w _space-x-1_7dkb0w\\" />
+      "<div class="_mb-1_7dkb0w _!mt-2_7dkb0w _md:mr-3_7dkb0w _space-x-1_7dkb0w" />
 
       <style>
-        :global(._\\\\!mt-2_7dkb0w) {
+        :global(._\\!mt-2_7dkb0w) {
           margin-top: 0.5rem !important;
         }
         :global(._mb-1_7dkb0w) {
@@ -329,7 +329,7 @@ describe('transform', () => {
           margin-right: calc(0.25rem * var(--un-space-x-reverse));
         }
         @media (min-width: 768px) {
-          :global(._md\\\\:mr-3_7dkb0w) {
+          :global(._md\\:mr-3_7dkb0w) {
             margin-right: 0.75rem;
           }
         }
@@ -343,7 +343,7 @@ describe('transform', () => {
     const output = await transform(code)
     expect(output).toContain(safelistClassToSkip)
     expect(output).toMatchInlineSnapshot(`
-      "<div class=\\"uno-orrz3z mr-7\\" />
+      "<div class="uno-orrz3z mr-7" />
 
       <style>
         :global(.uno-orrz3z) {
@@ -360,7 +360,7 @@ describe('transform', () => {
       <!-- <style></style> -->`
     const output = await transform(code)
     expect(output).toMatchInlineSnapshot(`
-      "<div class=\\"uno-ssrvwc\\" />
+      "<div class="uno-ssrvwc" />
 
       <!-- <style></style> -->
       <style>

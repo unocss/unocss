@@ -38,7 +38,7 @@ export interface PresetMiniOptions extends PresetOptions {
    */
   dark?: 'class' | 'media' | DarkModeSelectors
   /**
-   * Generate pseudo selector as `[group=""]` instead of `.group`
+   * Generate tagged pseudo selector as `[group=""]` instead of `.group`
    *
    * @default false
    */
@@ -50,7 +50,7 @@ export interface PresetMiniOptions extends PresetOptions {
    */
   variablePrefix?: string
   /**
-   * Utils prefix
+   * Utils prefix. When using tagged pseudo selector, only the first truthy prefix will be used.
    *
    * @default undefined
    */

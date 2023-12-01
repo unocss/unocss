@@ -291,7 +291,7 @@ function readFile(testDir: string, targetFile?: string) {
   return fs.readFile(resolve(testDir, targetFile ?? 'uno.css'), 'utf8')
 }
 
-async function runCli(files: Record<string, string>, options?: { transformFile?: string; args?: string[] }) {
+async function runCli(files: Record<string, string>, options?: { transformFile?: string, args?: string[] }) {
   const testDir = getTestDir()
 
   await initOutputFiles(testDir, files)

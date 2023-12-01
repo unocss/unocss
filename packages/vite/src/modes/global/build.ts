@@ -85,6 +85,11 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         handler(code, { filename }) {
           tasks.push(extract(code, filename))
         },
+        // Compatibility with Legacy Vite
+        enforce: 'pre',
+        transform(code, { filename }) {
+          tasks.push(extract(code, filename))
+        },
       },
       resolveId(id, importer) {
         const entry = resolveId(id)
@@ -155,7 +160,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           return null
 
         // skip hash generation on non-entry chunk
-        if (!Object.keys(chunk.modules).some(i => i.match(RESOLVED_ID_RE)))
+        if (!Object.keys(chunk.modules).some(i => RESOLVED_ID_RE.test(i)))
           return null
 
         const cssPost = cssPostPlugins.get(options.dir)
@@ -203,7 +208,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         if (isLegacyChunk(chunk, options))
           return null
 
-        if (!Object.keys(chunk.modules).some(i => i.match(RESOLVED_ID_RE)))
+        if (!Object.keys(chunk.modules).some(i => RESOLVED_ID_RE.test(i)))
           return null
 
         const cssPost = cssPostPlugins.get(options.dir)
