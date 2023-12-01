@@ -36,6 +36,7 @@ export const presetMiniTargets: string[] = [
   'outline-110',
   'outline-blue-2',
   'outline-[var(--red)]',
+  'outline-[calc(1rem-1px)]',
   'outline-size-[var(--width)]',
   'outline-offset-[var(--offset)]',
   'appearance-none',
@@ -151,6 +152,7 @@ export const presetMiniTargets: string[] = [
   'border-y-red',
   'border-y-op-30',
   'border-x-[rgb(1,2,3)]/[0.5]',
+  'border-x-[rgb(4_5_6)]/[0.5]',
   'border-t-[#124]',
   'border-t-black/10',
   'border-b-blue',
@@ -240,6 +242,7 @@ export const presetMiniTargets: string[] = [
   'text-[11px]/4',
   'text-[12px]/[13px]',
   'text-[length:var(--size)]:$leading',
+  'text-[calc(1rem-1px)]',
   'text-size-1em',
   'font-size-1.5rem',
 
@@ -248,6 +251,9 @@ export const presetMiniTargets: string[] = [
   'bg-[#1533]',
   'bg-[#1533]/10',
   'bg-[rgba(1,2,3,0.5)]',
+  'bg-[rgba(4_5_6/0.7)]',
+  'bg-[rgba(4_5_6/0.7)]/80',
+  'bg-[rgb(4_5_6/0.7)]/[calc(100/3)]',
   'bg-#452233/40',
   'bg-red-100',
   'bg-teal-100/55',
@@ -259,6 +265,20 @@ export const presetMiniTargets: string[] = [
   'bg-opacity-45',
   'bg-opacity-[--opacity-variable]',
   'bg-opacity-$opacity-variable',
+  'bg-[10px]',
+  'bg-[10%]',
+  'bg-[10vw]',
+  'bg-[calc(10%+10px)]',
+  'bg-[calc(10vw+10px)]',
+  'bg-[url(https://test.unocss.png)]',
+  'bg-[length:--variable]',
+  'bg-[length:10_20rem]',
+  'bg-[length:1/2_20rem]',
+  'bg-[position:--variable]',
+  'bg-[position:10_20rem]',
+  'bg-[position:1/2_20rem]',
+  'bg-[position:bottom_left_10%]',
+  'bg-[position:top_right_1/3]',
 
   // color - ring
   'ring-red2',
@@ -283,6 +303,7 @@ export const presetMiniTargets: string[] = [
   'decoration-offset-none',
   'decoration-underline',
   'decoration-size-unset',
+  'decoration-[calc(1rem-1px)]',
   'underline',
   'underline-dashed',
   'underline-red-500',
@@ -291,6 +312,7 @@ export const presetMiniTargets: string[] = [
   'underline-auto',
   'underline-inherit',
   'underline-5',
+  'underline-[calc(1rem-1px)]',
   'underline-1rem',
   'underline-offset-auto',
   'underline-offset-4',
@@ -455,6 +477,7 @@ export const presetMiniTargets: string[] = [
   'ring-offset-4',
   'ring-offset-green5',
   'ring-inset',
+  'ring-[calc(1rem-1px)]',
   'shadow',
   'shadow-transparent',
   'shadow-current',
@@ -467,6 +490,7 @@ export const presetMiniTargets: string[] = [
   'shadow-op-$opacity-variable',
   'shadow-inset',
   'shadow-[0px_4px_4px_0px_rgba(237,_0,_0,_1)]',
+  'shadow-[0px_4px_4px_0px_rgba(238_0_0/1)]',
   'shadow-$variable',
 
   // size
@@ -668,6 +692,7 @@ export const presetMiniTargets: string[] = [
   'text-wrap',
   'text-nowrap',
   'text-balance',
+  'text-pretty',
   'case-upper', // !
   'case-normal', // !
   'case-inherit', // !
@@ -712,6 +737,7 @@ export const presetMiniTargets: string[] = [
   'stroke-opacity-$opacity-variable',
   'stroke-[#123]',
   'stroke-[1rem]',
+  'stroke-[calc(1rem-1px)]',
   'stroke-size-none',
   'stroke-size-1',
   'stroke-size-1px',
@@ -1010,6 +1036,7 @@ export const presetMiniTargets: string[] = [
   '!p-5px',
   '-gap-y-5',
   '-mb-px',
+  '-mt--5cm',
   '-p-px',
   '-z-1',
 
@@ -1118,6 +1145,10 @@ export const presetMiniTargets: string[] = [
   // variants - data
   'data-[inline]:inline',
   'data-[invalid~=grammar]:underline-green-600',
+
+  // variants - tagged-data
+  'group-data-[state=open]:font-bold',
+  'peer-data-[state=closed]:border-3',
 
   // variants - container parent
   '@container',

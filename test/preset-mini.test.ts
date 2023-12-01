@@ -250,25 +250,6 @@ describe('preset-mini', () => {
     expect(css).toBe('')
   })
 
-  it('group data variant', async () => {
-    const uno = createGenerator({
-      presets: [
-        presetMini(),
-      ],
-    })
-
-    const { css } = await uno.generate([
-      'group-data-[state=open]:rotate-180',
-      'group-data-[state=open]:text-black',
-      'data-[state=open]:text-red',
-      'group-hover:font-bold',
-    ].join(' '), {
-      preflights: false,
-    })
-
-    await expect(css).toMatchFileSnapshot('./assets/output/preset-mini-group-data.css')
-  })
-
   it('define breakpoints with other unit', async () => {
     const uno = createGenerator({
       presets: [
@@ -378,6 +359,26 @@ describe('preset-mini', () => {
         "/* layer: default */
         .bg-blue-400{--un-bg-opacity:1;background-color:rgb(0 0 400 / var(--un-bg-opacity));}
         .text-blue-400{--un-text-opacity:1;color:rgb(0 0 700 / var(--un-text-opacity));}"
+      `)
+  })
+
+  it('account custom color for shadow theme', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+      theme: {
+        colors: {
+          blackA7: 'hsla(0, 0%, 0%, 0.169)',
+        },
+      },
+    })
+
+    expect((await uno.generate('shadow-[0_2px_10px] shadow-blackA7', { preflights: false })).css)
+      .toMatchInlineSnapshot(`
+        "/* layer: default */
+        .shadow-\\[0_2px_10px\\]{--un-shadow:0 2px 10px var(--un-shadow-color);box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
+        .shadow-blackA7{--un-shadow-opacity:0.169;--un-shadow-color:hsla(0, 0%, 0%, var(--un-shadow-opacity));}"
       `)
   })
 })

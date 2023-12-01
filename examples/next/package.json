@@ -13,7 +13,7 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@iconify-json/lucide": "^1.1.141",
+    "@iconify-json/lucide": "^1.1.143",
     "@types/node": "20.8.3",
     "@types/react": "18.2.25",
     "@types/react-dom": "18.2.11",

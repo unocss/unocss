@@ -1,6 +1,6 @@
-import type { Rule } from '@unocss/core'
+import type { CSSObject, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorResolver, h } from '../utils'
+import { colorResolver, h, isCSSMathFn } from '../utils'
 import { varEmpty } from './static'
 
 export const ringBase = {
@@ -13,7 +13,7 @@ export const ringBase = {
 }
 
 export const rings: Rule<Theme>[] = [
-  // size
+  // ring
   [/^ring(?:-(.+))?$/, ([, d], { theme }) => {
     const value = theme.ringWidth?.[d || 'DEFAULT'] ?? h.px(d || '1')
     if (value) {
@@ -25,14 +25,16 @@ export const rings: Rule<Theme>[] = [
       }
     }
   }, { autocomplete: 'ring-$ringWidth' }],
-  [/^ring-(?:width-|size-)(.+)$/, ([, d], { theme }) => ({ '--un-ring-width': theme.lineWidth?.[d] ?? h.bracket.cssvar.px(d) }), { autocomplete: 'ring-(width|size)-$lineWidth' }],
+
+  // size
+  [/^ring-(?:width-|size-)(.+)$/, handleWidth, { autocomplete: 'ring-(width|size)-$lineWidth' }],
 
   // offset size
   ['ring-offset', { '--un-ring-offset-width': '1px' }],
   [/^ring-offset-(?:width-|size-)?(.+)$/, ([, d], { theme }) => ({ '--un-ring-offset-width': theme.lineWidth?.[d] ?? h.bracket.cssvar.px(d) }), { autocomplete: 'ring-offset-(width|size)-$lineWidth' }],
 
   // colors
-  [/^ring-(.+)$/, colorResolver('--un-ring-color', 'ring', 'borderColor'), { autocomplete: 'ring-$colors' }],
+  [/^ring-(.+)$/, handleColorOrWidth, { autocomplete: 'ring-$colors' }],
   [/^ring-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-ring-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'ring-(op|opacity)-<percent>' }],
 
   // offset color
@@ -42,3 +44,13 @@ export const rings: Rule<Theme>[] = [
   // style
   ['ring-inset', { '--un-ring-inset': 'inset' }],
 ]
+
+function handleWidth([, b]: string[], { theme }: RuleContext<Theme>): CSSObject {
+  return { '--un-ring-width': theme.ringWidth?.[b] ?? h.bracket.cssvar.px(b) }
+}
+
+function handleColorOrWidth(match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | undefined {
+  if (isCSSMathFn(h.bracket(match[1])))
+    return handleWidth(match, ctx)
+  return colorResolver('--un-ring-color', 'ring', 'borderColor')(match, ctx) as CSSObject | undefined
+}

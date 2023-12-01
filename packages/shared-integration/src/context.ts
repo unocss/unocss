@@ -18,7 +18,11 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
   let rawConfig = {} as Config
   let configFileList: string[] = []
   const uno = createGenerator(rawConfig, defaults)
-  let rollupFilter = createFilter(defaultPipelineInclude, defaultPipelineExclude)
+  let rollupFilter = createFilter(
+    defaultPipelineInclude,
+    defaultPipelineExclude,
+    { resolve: typeof configOrPath === 'string' ? configOrPath : root },
+  )
 
   const invalidations: Array<() => void> = []
   const reloadListeners: Array<() => void> = []
@@ -44,6 +48,7 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
       : createFilter(
         rawConfig.content?.pipeline?.include || rawConfig.include || defaultPipelineInclude,
         rawConfig.content?.pipeline?.exclude || rawConfig.exclude || defaultPipelineExclude,
+        { resolve: typeof configOrPath === 'string' ? configOrPath : root },
       )
     tokens.clear()
     await Promise.all(modules.map((code, id) => uno.applyExtractors(code.replace(SKIP_COMMENT_RE, ''), id, tokens)))

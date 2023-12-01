@@ -1,10 +1,10 @@
 import type { CSSEntries, CSSObject, DynamicMatcher, ParsedColorValue, RuleContext, StaticRule, VariantContext } from '@unocss/core'
 import { toArray } from '@unocss/core'
-import { colorOpacityToString, colorToString, getStringComponents, parseCssColor } from '@unocss/rule-utils'
+import { colorOpacityToString, colorToString, getStringComponent, getStringComponents, parseCssColor } from '@unocss/rule-utils'
 import type { Theme } from '../theme'
 import { h } from './handlers'
 import { cssMathFnRE, directionMap, globalKeywords } from './mappings'
-import { numberWithUnitRE } from './handlers/regex'
+import { bracketTypeRe, numberWithUnitRE } from './handlers/regex'
 
 export const CONTROL_MINI_NO_NEGATIVE = '$$mini-no-negative'
 
@@ -57,16 +57,14 @@ function getThemeColor(theme: Theme, colors: string[], key?: ThemeColorKeys) {
  * Split utility shorthand delimited by / or :
  */
 export function splitShorthand(body: string, type: string) {
-  const split = body.split(/(?:\/|:)/)
+  const [front, rest] = getStringComponent(body, '[', ']', ['/', ':']) ?? []
 
-  if (split[0] === `[${type}`) {
-    return [
-      split.slice(0, 2).join(':'),
-      split[2],
-    ]
+  if (front != null) {
+    const match = (front.match(bracketTypeRe) ?? [])[1]
+
+    if (match == null || match === type)
+      return [front, rest]
   }
-
-  return split
 }
 
 /**
@@ -84,8 +82,11 @@ export function splitShorthand(body: string, type: string) {
  * @return object if string is parseable.
  */
 export function parseColor(body: string, theme: Theme, key?: ThemeColorKeys): ParsedColorValue | undefined {
-  const [main, opacity] = splitShorthand(body, 'color')
+  const split = splitShorthand(body, 'color')
+  if (!split)
+    return
 
+  const [main, opacity] = split
   const colors = main
     .replace(/([a-z])([0-9])/g, '$1-$2')
     .split(/-/g)
@@ -101,9 +102,9 @@ export function parseColor(body: string, theme: Theme, key?: ThemeColorKeys): Pa
   if (h.numberWithUnit(bracketOrMain))
     return
 
-  if (bracketOrMain.match(/^#[\da-fA-F]+/g))
+  if (/^#[\da-fA-F]+/.test(bracketOrMain))
     color = bracketOrMain
-  else if (bracketOrMain.match(/^hex-[\da-fA-F]+/g))
+  else if (/^hex-[\da-fA-F]+/.test(bracketOrMain))
     color = `#${bracketOrMain.slice(4)}`
   else if (main.startsWith('$'))
     color = h.cssvar(main)
@@ -120,7 +121,7 @@ export function parseColor(body: string, theme: Theme, key?: ThemeColorKeys): Pa
   if (!color) {
     let colorData
     const [scale] = colors.slice(-1)
-    if (scale.match(/^\d+$/)) {
+    if (/^\d+$/.test(scale)) {
       no = scale
       colorData = getThemeColor(theme, colors.slice(0, -1), key)
       if (!colorData || typeof colorData === 'string')
@@ -174,6 +175,7 @@ export function parseColor(body: string, theme: Theme, key?: ThemeColorKeys): Pa
  *
  * @param property - Property for the css value to be created.
  * @param varName - Base name for the opacity variable.
+ * @param [key] - Theme key to select the color from.
  * @param [shouldPass] - Function to decide whether to pass the css.
  * @return object.
  */
@@ -213,11 +215,20 @@ export function colorableShadows(shadows: string | string[], colorVar: string) {
     const components = getStringComponents(shadows[i], ' ', 6)
     if (!components || components.length < 3)
       return shadows
-    const color = parseCssColor(components.pop())
-    if (color == null)
+
+    if (parseCssColor(components.at(0)))
       return shadows
-    colored.push(`${components.join(' ')} var(${colorVar}, ${colorToString(color)})`)
+
+    let colorVarValue = ''
+    if (parseCssColor(components.at(-1))) {
+      const color = parseCssColor(components.pop())
+      if (color)
+        colorVarValue = `, ${colorToString(color)}`
+    }
+
+    colored.push(`${components.join(' ')} var(${colorVar}${colorVarValue})`)
   }
+
   return colored
 }
 
@@ -248,8 +259,8 @@ export function makeGlobalStaticRules(prefix: string, property?: string): Static
   return globalKeywords.map(keyword => [`${prefix}-${keyword}`, { [property ?? prefix]: keyword }])
 }
 
-export function isCSSMathFn(value: string) {
-  return cssMathFnRE.test(value)
+export function isCSSMathFn(value: string | undefined) {
+  return value != null && cssMathFnRE.test(value)
 }
 
 export function isSize(str: string) {

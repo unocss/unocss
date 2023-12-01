@@ -6,14 +6,14 @@
     "@unocss/vite": "workspace:*",
     "@vitejs/plugin-vue": "^4.5.0",
     "autoprefixer": "^10.4.16",
-    "fs-extra": "^11.1.1",
+    "fs-extra": "^11.2.0",
     "local-pkg": "^0.5.0",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.5",
     "unocss": "workspace:*",
-    "vite": "^5.0.0",
-    "vite-plugin-windicss": "^1.9.1",
-    "vue": "^3.3.4",
+    "vite": "^5.0.3",
+    "vite-plugin-windicss": "^1.9.2",
+    "vue": "^3.3.9",
     "windicss": "^3.5.6"
   }
 }

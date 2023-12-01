@@ -36,3 +36,8 @@
 
 - [unocss-transformer-attribute-values-group](https://github.com/lvjiaxuan/unocss-transformer-attribute-values-group) - Attribute values group transformer for UnoCSS by [@lvjiaxuan](https://github.com/lvjiaxuan).
 - [unocss-transformer-alias](https://github.com/zyyv/unocss-transformer-alias) - Transform alias for UnoCSS shortcuts by [@zyyv](https://github.com/zyyv).
+- [CSS to UnoCss](https://github.com/Simon-He95/transformToUnoCSS) - Transform CSS to Unocss by [@Simon-He95](https://github.com/Simon-He95)
+
+# Community tools
+
+- [Unot](https://github.com/Simon-He95/unot) - VSCode extension that provides the ability to convert css to unocss and simplifies the writing of unocss by [@Simon-He95](https://github.com/Simon-He95)

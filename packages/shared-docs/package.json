@@ -5,7 +5,7 @@
   "dependencies": {
     "@unocss/autocomplete": "workspace:*",
     "@unocss/core": "workspace:*",
-    "@vue/reactivity": "^3.3.8",
+    "@vue/reactivity": "^3.3.9",
     "fuse.js": "^7.0.0",
     "prettier": "^2.8.8"
   }

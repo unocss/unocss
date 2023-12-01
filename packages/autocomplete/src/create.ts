@@ -47,7 +47,7 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
 
     await Promise.all(
       [...matched]
-        .filter(i => i.match(/^\w+$/) && i.length > 3)
+        .filter(i => /^\w+$/.test(i) && i.length > 3)
         .map(i => suggest(`${i}-`)
           .then(i => i.forEach(j => matched.add(j)))),
     )
@@ -187,7 +187,7 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
 
   function processSuggestions(suggestions: (string[] | undefined)[], prefix = '', suffix = '') {
     return uniq(suggestions.flat())
-      .filter((i): i is string => !!(i && !i.match(/-$/) && !uno.isBlocked(i)))
+      .filter((i): i is string => !!(i && !i.endsWith('-') && !uno.isBlocked(i)))
       .sort((a, b) => {
         if (/\d/.test(a) && /\D/.test(b))
           return 1

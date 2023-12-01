@@ -12,16 +12,16 @@
     "preact": "^10.19.2"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.38",
+    "@iconify-json/logos": "^1.1.40",
     "@preact/preset-vite": "^2.7.0",
     "@prefresh/vite": "^2.4.4",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
     "cross-env": "^7.0.3",
-    "typescript": "^5.2.2",
+    "typescript": "^5.3.2",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.0.0"
+    "vite": "^5.0.3"
   },
   "stackblitz": {
     "installDependencies": false,
