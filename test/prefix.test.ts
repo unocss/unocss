@@ -34,6 +34,7 @@ describe('prefix', () => {
       'dark:hover:children:h-space-x-4',
       'dark:hover:children:h-divide-x',
       'group-hover:h-bg-red',
+      'group-data-[enabled]:h-bg-green',
     ]
 
     const { css, matched } = await uno.generate(new Set([
@@ -54,7 +55,7 @@ describe('prefix', () => {
       ],
     })
 
-    expect((await uno.generate('group-hover:h-bg-red', { preflights: false })).css).toMatchSnapshot()
+    expect((await uno.generate('group-hover:h-bg-red group-data-[enabled]:h-bg-green', { preflights: false })).css).toMatchSnapshot()
   })
 
   it('generate tagged attributify', async () => {
@@ -67,7 +68,7 @@ describe('prefix', () => {
       ],
     })
 
-    expect((await uno.generate('group-hover:h-bg-red', { preflights: false })).css).toMatchSnapshot()
+    expect((await uno.generate('group-hover:h-bg-red group-data-[enabled]:h-bg-green', { preflights: false })).css).toMatchSnapshot()
   })
 
   it('multiple preset prefix', async () => {
