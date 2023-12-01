@@ -729,7 +729,7 @@ export function createGenerator<Theme extends object = object>(config?: UserConf
 
 export const regexScopePlaceholder = /\s\$\$\s+/g
 export function hasScopePlaceholder(css: string) {
-  return css.match(/\s\$\$\s/)
+  return regexScopePlaceholder.test(css)
 }
 
 function applyScope(css: string, scope?: string) {

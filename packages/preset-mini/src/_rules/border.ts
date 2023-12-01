@@ -7,11 +7,11 @@ export const borderStyles = ['solid', 'dashed', 'dotted', 'double', 'hidden', 'n
 
 export const borders: Rule[] = [
   // compound
-  [/^(?:border|b)()(?:-(.+))?$/, handlerBorder, { autocomplete: '(border|b)-<directions>' }],
-  [/^(?:border|b)-([xy])(?:-(.+))?$/, handlerBorder],
-  [/^(?:border|b)-([rltbse])(?:-(.+))?$/, handlerBorder],
-  [/^(?:border|b)-(block|inline)(?:-(.+))?$/, handlerBorder],
-  [/^(?:border|b)-([bi][se])(?:-(.+))?$/, handlerBorder],
+  [/^(?:border|b)()(?:-(.+))?$/, handlerBorderSize, { autocomplete: '(border|b)-<directions>' }],
+  [/^(?:border|b)-([xy])(?:-(.+))?$/, handlerBorderSize],
+  [/^(?:border|b)-([rltbse])(?:-(.+))?$/, handlerBorderSize],
+  [/^(?:border|b)-(block|inline)(?:-(.+))?$/, handlerBorderSize],
+  [/^(?:border|b)-([bi][se])(?:-(.+))?$/, handlerBorderSize],
 
   // size
   [/^(?:border|b)-()(?:width|size)-(.+)$/, handlerBorderSize, { autocomplete: ['(border|b)-<num>', '(border|b)-<directions>-<num>'] }],
@@ -21,11 +21,11 @@ export const borders: Rule[] = [
   [/^(?:border|b)-([bi][se])-(?:width|size)-(.+)$/, handlerBorderSize],
 
   // colors
-  [/^(?:border|b)-()(?:color-)?(.+)$/, handlerBorderColor, { autocomplete: ['(border|b)-$colors', '(border|b)-<directions>-$colors'] }],
-  [/^(?:border|b)-([xy])-(?:color-)?(.+)$/, handlerBorderColor],
-  [/^(?:border|b)-([rltbse])-(?:color-)?(.+)$/, handlerBorderColor],
-  [/^(?:border|b)-(block|inline)-(?:color-)?(.+)$/, handlerBorderColor],
-  [/^(?:border|b)-([bi][se])-(?:color-)?(.+)$/, handlerBorderColor],
+  [/^(?:border|b)-()(?:color-)?(.+)$/, handlerBorderColorOrSize, { autocomplete: ['(border|b)-$colors', '(border|b)-<directions>-$colors'] }],
+  [/^(?:border|b)-([xy])-(?:color-)?(.+)$/, handlerBorderColorOrSize],
+  [/^(?:border|b)-([rltbse])-(?:color-)?(.+)$/, handlerBorderColorOrSize],
+  [/^(?:border|b)-(block|inline)-(?:color-)?(.+)$/, handlerBorderColorOrSize],
+  [/^(?:border|b)-([bi][se])-(?:color-)?(.+)$/, handlerBorderColorOrSize],
 
   // opacity
   [/^(?:border|b)-()op(?:acity)?-?(.+)$/, handlerBorderOpacity, { autocomplete: '(border|b)-(op|opacity)-<percent>' }],
@@ -80,21 +80,11 @@ function borderColorResolver(direction: string) {
       }
     }
     else if (color) {
-      if (isCSSMathFn(color)) {
-        return {
-          'border-width': color,
-        }
-      }
-
       return {
         [`border${direction}-color`]: colorToString(color, alpha),
       }
     }
   }
-}
-
-function handlerBorder(m: string[], ctx: RuleContext): CSSEntries | undefined {
-  return handlerBorderSize(m, ctx)
 }
 
 function handlerBorderSize([, a = '', b]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
@@ -103,12 +93,16 @@ function handlerBorderSize([, a = '', b]: string[], { theme }: RuleContext<Theme
     return directionMap[a].map(i => [`border${i}-width`, v])
 }
 
-function handlerBorderColor([, a = '', c]: string[], { theme }: RuleContext<Theme>): CSSObject | undefined {
-  if (a in directionMap && hasParseableColor(c, theme, 'borderColor')) {
-    return Object.assign(
-      {},
-      ...directionMap[a].map(i => borderColorResolver(i)(['', c], theme)),
-    )
+function handlerBorderColorOrSize([, a = '', b]: string[], ctx: RuleContext<Theme>): CSSEntries | undefined {
+  if (a in directionMap) {
+    if (isCSSMathFn(h.bracket(b)))
+      return handlerBorderSize(['', a, b], ctx)
+    if (hasParseableColor(b, ctx.theme, 'borderColor')) {
+      return Object.assign(
+        {},
+        ...directionMap[a].map(i => borderColorResolver(i)(['', b], ctx.theme)),
+      )
+    }
   }
 }
 
