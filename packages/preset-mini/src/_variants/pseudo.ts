@@ -30,6 +30,8 @@ const PseudoClasses: Record<string, string> = Object.fromEntries([
   'required',
   'valid',
   'invalid',
+  'user-valid',
+  'user-invalid',
   'in-range',
   'out-of-range',
   'read-only',
@@ -290,12 +292,15 @@ export function variantPseudoClassFunctions(): VariantObject {
 
 export function variantTaggedPseudoClasses(options: PresetMiniOptions = {}): VariantObject[] {
   const attributify = !!options?.attributifyPseudo
+  let firstPrefix = options?.prefix ?? ''
+  firstPrefix = (Array.isArray(firstPrefix) ? firstPrefix : [firstPrefix]).filter(Boolean)[0] ?? ''
+  const tagWithPrefix = (tag: string, combinator: string) => taggedPseudoClassMatcher(tag, attributify ? `[${firstPrefix}${tag}=""]` : `.${firstPrefix}${tag}`, combinator)
 
   return [
-    taggedPseudoClassMatcher('group', attributify ? '[group=""]' : '.group', ' '),
-    taggedPseudoClassMatcher('peer', attributify ? '[peer=""]' : '.peer', '~'),
-    taggedPseudoClassMatcher('parent', attributify ? '[parent=""]' : '.parent', '>'),
-    taggedPseudoClassMatcher('previous', attributify ? '[previous=""]' : '.previous', '+'),
+    tagWithPrefix('group', ' '),
+    tagWithPrefix('peer', '~'),
+    tagWithPrefix('parent', '>'),
+    tagWithPrefix('previous', '+'),
   ]
 }
 

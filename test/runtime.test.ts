@@ -1,7 +1,7 @@
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import presetTagify from '@unocss/preset-tagify'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { autoPrefixer, decodeHtml } from '../packages/runtime/src/utils'
 
 function mockElementWithStyle() {
@@ -37,7 +37,7 @@ const targets = [
 ].join(' ')
 
 describe('runtime auto prefixer', () => {
-  test('without autoprefixer', async () => {
+  it('without autoprefixer', async () => {
     const uno = createGenerator({
       presets: [
         presetUno(),
@@ -48,7 +48,7 @@ describe('runtime auto prefixer', () => {
     expect(css).toMatchSnapshot()
   })
 
-  test('using autoprefixer', async () => {
+  it('using autoprefixer', async () => {
     const uno = createGenerator({
       presets: [
         presetUno(),
@@ -62,7 +62,7 @@ describe('runtime auto prefixer', () => {
     expect(css).toMatchFileSnapshot('./assets/output/runtime-preset-uno-autoprefixer.css')
   })
 
-  test('runtime tagify', async () => {
+  it('runtime tagify', async () => {
     const uno = createGenerator({
       presets: [
         presetUno(),
@@ -86,16 +86,16 @@ describe('runtime auto prefixer', () => {
 })
 
 describe('runtime decode html', () => {
-  test('decode function', async () => {
-    expect(decodeHtml('<tag class="[&_*]:text-red>"')).toMatchInlineSnapshot('"<tag class=\\"[&_*]:text-red>\\""')
-    expect(decodeHtml('<tag class="[&amp;_*]:text-red>"')).toMatchInlineSnapshot('"<tag class=\\"[&_*]:text-red>\\""')
-    expect(decodeHtml('<tag class="[&amp;>*]:text-red>"')).toMatchInlineSnapshot('"<tag class=\\"[&>*]:text-red>\\""')
-    expect(decodeHtml('<tag class="[&amp;&gt;*]:text-red>"')).toMatchInlineSnapshot('"<tag class=\\"[&>*]:text-red>\\""')
-    expect(decodeHtml('<tag class="[&<*]:text-red>"')).toMatchInlineSnapshot('"<tag class=\\"[&<*]:text-red>\\""')
-    expect(decodeHtml('<tag class="[&&lt;*]:text-red>"')).toMatchInlineSnapshot('"<tag class=\\"[&<*]:text-red>\\""')
+  it('decode function', async () => {
+    expect(decodeHtml('<tag class="[&_*]:text-red>"')).toMatchInlineSnapshot(`"<tag class="[&_*]:text-red>""`)
+    expect(decodeHtml('<tag class="[&amp;_*]:text-red>"')).toMatchInlineSnapshot(`"<tag class="[&_*]:text-red>""`)
+    expect(decodeHtml('<tag class="[&amp;>*]:text-red>"')).toMatchInlineSnapshot(`"<tag class="[&>*]:text-red>""`)
+    expect(decodeHtml('<tag class="[&amp;&gt;*]:text-red>"')).toMatchInlineSnapshot(`"<tag class="[&>*]:text-red>""`)
+    expect(decodeHtml('<tag class="[&<*]:text-red>"')).toMatchInlineSnapshot(`"<tag class="[&<*]:text-red>""`)
+    expect(decodeHtml('<tag class="[&&lt;*]:text-red>"')).toMatchInlineSnapshot(`"<tag class="[&<*]:text-red>""`)
   })
 
-  test('not decoding all entities', async () => {
-    expect(decodeHtml('<tag class="[&_*]:content-[&nbsp;]>"')).toMatchInlineSnapshot('"<tag class=\\"[&_*]:content-[&nbsp;]>\\""')
+  it('not decoding all entities', async () => {
+    expect(decodeHtml('<tag class="[&_*]:content-[&nbsp;]>"')).toMatchInlineSnapshot(`"<tag class="[&_*]:content-[&nbsp;]>""`)
   })
 })

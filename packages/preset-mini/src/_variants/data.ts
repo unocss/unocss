@@ -19,18 +19,27 @@ export const variantDataAttribute: VariantObject = {
   },
 }
 
-export const variantGroupDataAttribute: Variant = {
-  name: 'group-data',
-  match(matcher, ctx: VariantContext<Theme>) {
-    const variant = variantGetParameter('group-data-', matcher, ctx.generator.config.separators)
-    if (variant) {
-      const [match, rest] = variant
-      const dataAttribute = h.bracket(match) ?? ctx.theme.data?.[match] ?? ''
-      if (dataAttribute) {
-        return {
-          matcher: `group-[[data-${dataAttribute}]]:${rest}`,
+function taggedData(tagName: string): Variant {
+  return {
+    name: `${tagName}-data`,
+    match(matcher, ctx: VariantContext<Theme>) {
+      const variant = variantGetParameter(`${tagName}-data-`, matcher, ctx.generator.config.separators)
+      if (variant) {
+        const [match, rest] = variant
+        const dataAttribute = h.bracket(match) ?? ctx.theme.data?.[match] ?? ''
+        if (dataAttribute) {
+          return {
+            matcher: `${tagName}-[[data-${dataAttribute}]]:${rest}`,
+          }
         }
       }
-    }
-  },
+    },
+  }
 }
+
+export const variantTaggedDataAttributes: Variant[] = [
+  taggedData('group'),
+  taggedData('peer'),
+  taggedData('parent'),
+  taggedData('previous'),
+]

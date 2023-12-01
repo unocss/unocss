@@ -1,6 +1,6 @@
 import { escapeSelector } from '@unocss/core'
 import { globalKeywords } from '../mappings'
-import { numberRE, numberWithUnitRE, unitOnlyRE } from './regex'
+import { bracketTypeRe, numberRE, numberWithUnitRE, unitOnlyRE } from './regex'
 
 // Not all, but covers most high frequency attributes
 const cssProps = [
@@ -84,7 +84,7 @@ export function auto(str: string) {
 }
 
 export function rem(str: string) {
-  if (str.match(unitOnlyRE))
+  if (unitOnlyRE.test(str))
     return `1${str}`
   const match = str.match(numberWithUnitRE)
   if (!match)
@@ -99,18 +99,15 @@ export function rem(str: string) {
 }
 
 export function px(str: string) {
-  if (str.match(unitOnlyRE))
+  if (unitOnlyRE.test(str))
     return `1${str}`
   const match = str.match(numberWithUnitRE)
   if (!match)
     return
   const [, n, unit] = match
   const num = Number.parseFloat(n)
-  if (!Number.isNaN(num)) {
-    if (num === 0)
-      return '0'
+  if (!Number.isNaN(num))
     return unit ? `${round(num)}${unit}` : `${round(num)}px`
-  }
 }
 
 export function number(str: string) {
@@ -143,7 +140,6 @@ export function fraction(str: string) {
   }
 }
 
-const bracketTypeRe = /^\[(color|length|position|quoted|string):/i
 function bracketWithType(str: string, requiredType?: string) {
   if (str && str.startsWith('[') && str.endsWith(']')) {
     let base: string | undefined
@@ -229,7 +225,7 @@ export function bracketOfPosition(str: string) {
 }
 
 export function cssvar(str: string) {
-  if (str.match(/^\$[^\s'"`;{}]/))
+  if (/^\$[^\s'"`;{}]/.test(str))
     return `var(--${escapeSelector(str.slice(1))})`
 }
 

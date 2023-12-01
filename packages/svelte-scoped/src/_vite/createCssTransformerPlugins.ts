@@ -12,7 +12,7 @@ export function createCssTransformerPlugins(context: SvelteScopedContext, cssTra
     enforce: enforce === 'default' ? undefined : enforce,
 
     async transform(code, id) {
-      if (!id.match(cssIdRE) || id.match(svelteIdRE))
+      if (!cssIdRE.test(id) || svelteIdRE.test(id))
         return
       context.uno.config.transformers = cssTransformers ?? []
       return applyTransformers({

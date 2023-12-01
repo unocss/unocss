@@ -29,8 +29,8 @@
       <RouterLink :to="{ query: { s: 'colors' } }" badge-lg-lime transition hover:translate-y--2px>
         colors
       </RouterLink>
-      <RouterLink :to="{ query: { s: 'guide:' } }" badge-lg-green transition hover:translate-y--2px>
-        guide:
+      <RouterLink :to="{ query: { s: 'mdn:' } }" badge-lg-green transition hover:translate-y--2px>
+        mdn:
       </RouterLink>
       <RouterLink :to="{ query: { s: 'i-twemoji-frog' } }" badge-lg-emerald transition hover:translate-y--2px>
         i-twemoji-frog

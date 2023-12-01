@@ -3,7 +3,8 @@ import type { SourceCodeTransformer, UnoGenerator } from '@unocss/core'
 import type { CssNode, List, ListItem } from 'css-tree'
 import { parse, walk } from 'css-tree'
 import type MagicString from 'magic-string'
-import { handleThemeFn, themeFnRE } from './theme'
+import { hasThemeFn as hasThemeFunction } from '@unocss/rule-utils'
+import { handleThemeFn } from './theme'
 import { handleScreen } from './screen'
 import { handleApply } from './apply'
 
@@ -50,7 +51,7 @@ export default function transformerDirectives(options: TransformerDirectivesOpti
   return {
     name: '@unocss/transformer-directives',
     enforce: options?.enforce,
-    idFilter: id => !!id.match(cssIdRE),
+    idFilter: id => cssIdRE.test(id),
     transform: (code, id, ctx) => {
       return transformDirectives(code, ctx.uno, options, id)
     },
@@ -76,7 +77,7 @@ export async function transformDirectives(
 
   const hasApply = code.original.includes('@apply') || applyVariable.some(s => code.original.includes(s))
   const hasScreen = code.original.includes('@screen')
-  const hasThemeFn = code.original.match(themeFnRE)
+  const hasThemeFn = hasThemeFunction(code.original)
 
   if (!hasApply && !hasThemeFn && !hasScreen)
     return

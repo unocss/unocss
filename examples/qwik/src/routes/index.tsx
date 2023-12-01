@@ -7,7 +7,7 @@ export default component$(() => {
   return (
     <div class="text-center">
       <header class="bg-#282c34 min-h-100vh flex flex-col items-center justify-center color-white space-y-2em">
-        <div class="logo"/>
+        <div class="logo" />
         <h1 class="text-xl font-500 animate-bounce-alt animate-duration-2s">Hello Vite + Qwik!</h1>
         <p>
           <button
@@ -15,25 +15,38 @@ export default component$(() => {
             type="button"
             onClick$={() => state.count++}
           >
-            count is: {state.count}
+            count is:
+            {' '}
+            {state.count}
           </button>
 
           <button
-            bg-blue-400 hover:bg-blue-500
-            text-sm text-white
-            font-mono font-light
-            py-2 px-4
+            bg-blue-400
+            hover:bg-blue-500
+            text-sm
+            text-white
+            font-mono
+            font-light
+            py-2
+            px-4
             ml-1em
-            b-2 b-blue-200
+            b-2
+            b-blue-200
             class="rounded"
             type="button"
             onClick$={() => state.count++}
           >
-            count is: {state.count}
+            count is:
+            {' '}
+            {state.count}
           </button>
         </p>
         <p>
-          Edit <code>index.tsx</code> and save to test HMR updates.
+          Edit
+          {' '}
+          <code>index.tsx</code>
+          {' '}
+          and save to test HMR updates.
         </p>
         <p>
           <a

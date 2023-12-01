@@ -2,7 +2,7 @@ import { createGenerator } from '@unocss/core'
 import presetMini from '@unocss/preset-mini'
 import type { WebFontsOptions } from '@unocss/preset-web-fonts'
 import presetWebFonts from '@unocss/preset-web-fonts'
-import { expect, test } from 'vitest'
+import { expect, it } from 'vitest'
 
 const options: WebFontsOptions = {
   provider: 'google',
@@ -32,7 +32,7 @@ const classes = new Set([
   'font-lato',
 ])
 
-test('web-fonts (inline: false)', async () => {
+it('web-fonts (inline: false)', async () => {
   const uno = createGenerator({
     presets: [
       presetMini(),
@@ -47,7 +47,7 @@ test('web-fonts (inline: false)', async () => {
   expect(css).toMatchFileSnapshot('./assets/output/preset-web-fonts.css')
 })
 
-test('web-fonts (inline: true)', async () => {
+it('web-fonts (inline: true)', async () => {
   const uno = createGenerator({
     presets: [
       presetMini(),
@@ -62,7 +62,7 @@ test('web-fonts (inline: true)', async () => {
   expect(css).toContain('@font-face')
 })
 
-test('web-fonts weigth sort', async () => {
+it('web-fonts weigth sort', async () => {
   const uno = createGenerator({
     presets: [
       presetMini(),
@@ -88,7 +88,7 @@ test('web-fonts weigth sort', async () => {
   expect(importUrl).toMatchInlineSnapshot('"https://fonts.googleapis.com/css2?family=Fira+Mono:wght@200;1000&family=Lato:ital,wght@0,200;0,1000;1,200;1,1000&display=swap"')
 })
 
-test('web-fonts weigth deduplicate', async () => {
+it('web-fonts weigth deduplicate', async () => {
   const uno = createGenerator({
     presets: [
       presetMini(),

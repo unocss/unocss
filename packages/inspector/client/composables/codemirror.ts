@@ -59,7 +59,7 @@ const langExtensions: Record<string, () => object> = {
 export function useCodeMirror(
   parent: Ref<HTMLElement | null | undefined>,
   input: Ref<string> | WritableComputedRef<string>,
-  options: MaybeRef<EditorViewConfig & { readOnly?: boolean; mode?: string; autocomplete?: CompletionSource }> = {},
+  options: MaybeRef<EditorViewConfig & { readOnly?: boolean, mode?: string, autocomplete?: CompletionSource }> = {},
 ) {
   const keymaps = [...completionKeymap]
   keymaps.push({ key: 'Tab', run: acceptCompletion })

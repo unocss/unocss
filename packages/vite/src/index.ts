@@ -42,7 +42,7 @@ export default function UnocssPlugin<Theme extends object>(
   const plugins = [
     ConfigHMRPlugin(ctx),
     ...createTransformerPlugins(ctx),
-    ...createDevtoolsPlugin(ctx),
+    ...createDevtoolsPlugin(ctx, inlineConfig),
     {
       name: 'unocss:api',
       api: <UnocssVitePluginAPI>{

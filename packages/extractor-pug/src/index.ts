@@ -19,13 +19,13 @@ export default function extractorPug(options: Options = {}): Extractor {
     async extract(ctx) {
       if (!ctx.id)
         return
-      if (ctx.id.match(/\.pug$/) || ctx.id.match(/\?vue&type=template/)) {
+      if (ctx.id.endsWith('.pug') || ctx.id.includes('?vue&type=template')) {
         try {
           ctx.code = await compile(ctx.code, ctx.id) || ctx.code
         }
         catch {}
       }
-      else if (ctx.id.match(/\.vue$/)) {
+      else if (ctx.id.endsWith('.vue')) {
         const matches = Array.from(ctx.code.matchAll(regexVueTemplate))
         let tail = ''
         for (const match of matches) {

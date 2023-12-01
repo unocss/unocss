@@ -1,6 +1,6 @@
 import { createGenerator, escapeSelector } from '@unocss/core'
 import presetMini from '@unocss/preset-mini'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { presetMiniNonTargets, presetMiniTargets } from './assets/preset-mini-targets'
 import { presetWindTargets } from './assets/preset-wind-targets'
 
@@ -33,7 +33,7 @@ const uno = createGenerator({
 })
 
 describe('preset-mini', () => {
-  test('dark customizing selector', async () => {
+  it('dark customizing selector', async () => {
     const uno = createGenerator({
       presets: [
         presetMini({
@@ -59,7 +59,7 @@ describe('preset-mini', () => {
     await expect(css).toMatchFileSnapshot('./assets/output/preset-mini-dark-customizing-selector.css')
   })
 
-  test('targets', async () => {
+  it('targets', async () => {
     const code = presetMiniTargets.join(' ')
     const { css } = await uno.generate(code)
     const { css: css2 } = await uno.generate(code)
@@ -74,7 +74,7 @@ describe('preset-mini', () => {
     expect(css).toEqual(css2)
   })
 
-  test('utils from preset-wind should be non-targets', async () => {
+  it('utils from preset-wind should be non-targets', async () => {
     const code = presetWindTargets.join(' ')
     const { css, matched } = await uno.generate(code, { preflights: false })
 
@@ -82,7 +82,7 @@ describe('preset-mini', () => {
     expect(css).toBe('')
   })
 
-  test('custom var prefix', async () => {
+  it('custom var prefix', async () => {
     const uno = createGenerator({
       presets: [
         presetMini({
@@ -100,7 +100,7 @@ describe('preset-mini', () => {
     await expect(css).toMatchFileSnapshot('./assets/output/preset-mini-custom-var-prefix.css')
   })
 
-  test('empty prefix', async () => {
+  it('empty prefix', async () => {
     const uno = createGenerator({
       presets: [
         presetMini({
@@ -118,7 +118,7 @@ describe('preset-mini', () => {
     await expect(css).toMatchFileSnapshot('./assets/output/preset-mini-empty-prefix.css')
   })
 
-  test('nested theme colors', async () => {
+  it('nested theme colors', async () => {
     const { css, matched } = await uno.generate([
       'text-a-b-c',
       'text-a-camel-case',
@@ -129,7 +129,7 @@ describe('preset-mini', () => {
     expect(matched.size).toBe(3)
   })
 
-  test('non-nested theme colors with hyphens and/or numbers', async () => {
+  it('non-nested theme colors with hyphens and/or numbers', async () => {
     const { css, matched } = await uno.generate([
       'text-with-hyphen',
       'bg-with-hyphen',
@@ -141,14 +141,14 @@ describe('preset-mini', () => {
     expect(matched.size).toBe(4)
   })
 
-  test('none targets', async () => {
+  it('none targets', async () => {
     const { css, matched } = await uno.generate(new Set(presetMiniNonTargets), { minify: true, preflights: false })
 
     expect([...matched]).toEqual([])
     expect(css).toEqual('')
   })
 
-  test('fontSize theme', async () => {
+  it('fontSize theme', async () => {
     const uno = createGenerator({
       presets: [
         presetMini(),
@@ -175,7 +175,7 @@ describe('preset-mini', () => {
     await expect(css).toMatchFileSnapshot('./assets/output/preset-mini-font-size-theme.css')
   })
 
-  test('fontWeight theme', async () => {
+  it('fontWeight theme', async () => {
     const uno = createGenerator({
       presets: [
         presetMini(),
@@ -198,7 +198,7 @@ describe('preset-mini', () => {
     await expect(css).toMatchFileSnapshot('./assets/output/preset-mini-font-weight-theme.css')
   })
 
-  test('dark class', async () => {
+  it('dark class', async () => {
     const uno = createGenerator({
       presets: [
         presetMini(),
@@ -215,7 +215,7 @@ describe('preset-mini', () => {
     await expect(css).toMatchFileSnapshot('./assets/output/preset-mini-dark-class.css')
   })
 
-  test('the :active pseudo is sorted and separated after other pseudo', async () => {
+  it('the :active pseudo is sorted and separated after other pseudo', async () => {
     const uno = createGenerator({
       presets: [
         presetMini(),
@@ -233,7 +233,7 @@ describe('preset-mini', () => {
     await expect(css).toMatchFileSnapshot('./assets/output/preset-mini-active-pseudo.css')
   })
 
-  test('css variable with `{` `}` will not generate css ', async () => {
+  it('css variable with `{` `}` will not generate css ', async () => {
     const uno = createGenerator({
       presets: [
         presetMini(),
@@ -250,26 +250,7 @@ describe('preset-mini', () => {
     expect(css).toBe('')
   })
 
-  test('group data variant', async () => {
-    const uno = createGenerator({
-      presets: [
-        presetMini(),
-      ],
-    })
-
-    const { css } = await uno.generate([
-      'group-data-[state=open]:rotate-180',
-      'group-data-[state=open]:text-black',
-      'data-[state=open]:text-red',
-      'group-hover:font-bold',
-    ].join(' '), {
-      preflights: false,
-    })
-
-    await expect(css).toMatchFileSnapshot('./assets/output/preset-mini-group-data.css')
-  })
-
-  test('define breakpoints with other unit', async () => {
+  it('define breakpoints with other unit', async () => {
     const uno = createGenerator({
       presets: [
         presetMini(),
@@ -293,21 +274,21 @@ describe('preset-mini', () => {
     expect(css).toMatchInlineSnapshot(`
       "/* layer: default */
       @media (max-width: 999.9px){
-      .\\\\<xl\\\\:text-3xl{font-size:1.875rem;line-height:2.25rem;}
+      .\\<xl\\:text-3xl{font-size:1.875rem;line-height:2.25rem;}
       }
       @media (max-width: calc(64rem - 0.1px)){
-      .\\\\<lg\\\\:text-sm{font-size:0.875rem;line-height:1.25rem;}
+      .\\<lg\\:text-sm{font-size:0.875rem;line-height:1.25rem;}
       }
       @media (min-width: 48rem){
-      .md\\\\:text-xl{font-size:1.25rem;line-height:1.75rem;}
+      .md\\:text-xl{font-size:1.25rem;line-height:1.75rem;}
       }
       @media (min-width: 48rem) and (max-width: calc(64rem - 0.1px)){
-      .\\\\~md\\\\:text-base{font-size:1rem;line-height:1.5rem;}
+      .\\~md\\:text-base{font-size:1rem;line-height:1.5rem;}
       }"
     `)
   })
 
-  test('theme for zIndex', async () => {
+  it('theme for zIndex', async () => {
     const uno = createGenerator({
       presets: [
         presetMini(),
@@ -318,10 +299,86 @@ describe('preset-mini', () => {
         },
       },
     })
+
     expect((await uno.generate('z-header', { preflights: false })).css)
       .toMatchInlineSnapshot(`
         "/* layer: default */
         .z-header{z-index:500;}"
+      `)
+  })
+
+  it('theme font-size with letter-space', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+      theme: {
+        fontSize: {
+          normal: '24px',
+          ls: ['8rem', '1', '2.25rem'],
+          obj: ['8rem', {
+            'line-height': '2.25rem',
+            'letter-spacing': '-0.02em',
+            'font-weight': '700',
+          }],
+        },
+      },
+    })
+
+    expect((await uno.generate('text-sm text-normal text-ls text-obj', { preflights: false })).css)
+      .toMatchInlineSnapshot(`
+        "/* layer: default */
+        .text-ls{font-size:8rem;line-height:1;letter-spacing:2.25rem;}
+        .text-normal{font-size:24px;line-height:1;}
+        .text-obj{font-size:8rem;line-height:2.25rem;letter-spacing:-0.02em;font-weight:700;}
+        .text-sm{font-size:0.875rem;line-height:1.25rem;}"
+      `)
+  })
+
+  it('override colors differently', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+      theme: {
+        colors: {
+          blue: {
+            400: 'rgb(0 0 400)',
+          },
+        },
+        textColor: {
+          blue: {
+            400: 'rgb(0 0 700)',
+          },
+        },
+      },
+    })
+
+    expect((await uno.generate('bg-blue-400 text-blue-400', { preflights: false })).css)
+      .toMatchInlineSnapshot(`
+        "/* layer: default */
+        .bg-blue-400{--un-bg-opacity:1;background-color:rgb(0 0 400 / var(--un-bg-opacity));}
+        .text-blue-400{--un-text-opacity:1;color:rgb(0 0 700 / var(--un-text-opacity));}"
+      `)
+  })
+
+  it('account custom color for shadow theme', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+      theme: {
+        colors: {
+          blackA7: 'hsla(0, 0%, 0%, 0.169)',
+        },
+      },
+    })
+
+    expect((await uno.generate('shadow-[0_2px_10px] shadow-blackA7', { preflights: false })).css)
+      .toMatchInlineSnapshot(`
+        "/* layer: default */
+        .shadow-\\[0_2px_10px\\]{--un-shadow:0 2px 10px var(--un-shadow-color);box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
+        .shadow-blackA7{--un-shadow-opacity:0.169;--un-shadow-color:hsla(0, 0%, 0%, var(--un-shadow-opacity));}"
       `)
   })
 })

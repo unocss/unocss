@@ -206,6 +206,62 @@ export default defineConfig({
       }
     }
   })
+
+  it('@unocss-skip uno.css', async () => {
+    const { output } = await runCli({
+      'views/index.html': `
+import clsx from "clsx"
+import React, { useCallback, useEffect, useRef, useState } from "react"
+
+const Navbar: React.FC<any> = ({
+  className,
+  children,
+  show,
+  id,
+  navbar,
+  tag: Tag = "div",
+  collapseRef,
+  style,
+  ...props
+}): JSX.Element => {
+
+  const [showCollapse, setShowCollapse] = useState<boolean | undefined>(false)
+  //  @unocss-skip-start
+  const [transition, setTransition] = useState(false)
+
+  const classes = clsx(
+    transition ? "collapsing" : "collapse", // transition is not used in the app
+    !transition && showCollapse && "show", // transition is not used in the app
+    navbar && "navbar-collapse",
+    className
+  )
+  const handleResize = useCallback(() => {
+
+  }, [])
+
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize) // resize is not used in the app
+
+    return () => {
+      window.removeEventListener("resize", handleResize) // resize is not used in the app
+    }
+  }, [handleResize])
+  //  @unocss-skip-end
+
+  return (
+    <div className="w-10">
+
+    </div>
+  )
+}
+
+export default Navbar
+`,
+    })
+
+    expect(output).toMatchSnapshot()
+  })
 })
 
 // ----- Utils -----
@@ -235,7 +291,7 @@ function readFile(testDir: string, targetFile?: string) {
   return fs.readFile(resolve(testDir, targetFile ?? 'uno.css'), 'utf8')
 }
 
-async function runCli(files: Record<string, string>, options?: { transformFile?: string; args?: string[] }) {
+async function runCli(files: Record<string, string>, options?: { transformFile?: string, args?: string[] }) {
   const testDir = getTestDir()
 
   await initOutputFiles(testDir, files)

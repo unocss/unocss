@@ -2,7 +2,7 @@ import { CONTROL_SHORTCUT_NO_MERGE, createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 describe('shortcuts', () => {
   const uno = createGenerator({
@@ -57,17 +57,17 @@ describe('shortcuts', () => {
     ],
   })
 
-  test('static', async () => {
+  it('static', async () => {
     const { css } = await uno.generate('sh1 sh2 focus:sh2 sh3', { preflights: false })
     await expect(css).toMatchFileSnapshot('./assets/output/shortcuts-static.css')
   })
 
-  test('nesting static', async () => {
+  it('nesting static', async () => {
     const { css } = await uno.generate('btn1 btn btn2', { preflights: false })
     await expect(css).toMatchFileSnapshot('./assets/output/shortcuts-nesting-static.css')
   })
 
-  test('dynamic', async () => {
+  it('dynamic', async () => {
     const { css } = await uno.generate('button-1 button-2', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
@@ -76,7 +76,7 @@ describe('shortcuts', () => {
     `)
   })
 
-  test('merge transform-duplicated', async () => {
+  it('merge transform-duplicated', async () => {
     const { css } = await uno.generate('transform-duplicated', { preflights: false })
     const prettified = prettier.format(css, {
       parser: 'css',
@@ -85,65 +85,65 @@ describe('shortcuts', () => {
     await expect(prettified).toMatchFileSnapshot('./assets/output/shortcuts-transform-duplicated.css')
   })
 
-  test('no-merge', async () => {
+  it('no-merge', async () => {
     const { css } = await uno.generate('with-no-merge merge-candidate', { preflights: false })
     await expect(css).toMatchFileSnapshot('./assets/output/shortcuts-no-merge.css')
   })
 
-  test('variant order', async () => {
+  it('variant order', async () => {
     const { css } = await uno.generate('shortcut-hover-active-1', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      .shortcut-hover-active-1:hover{--un-bg-opacity:1;background-color:rgba(134,239,172,var(--un-bg-opacity));}
-      .shortcut-hover-active-1:focus{--un-bg-opacity:1;background-color:rgba(134,239,172,var(--un-bg-opacity));}
-      .shortcut-hover-active-1:active{--un-bg-opacity:1;background-color:rgba(134,239,172,var(--un-bg-opacity));}"
+      .shortcut-hover-active-1:hover{--un-bg-opacity:1;background-color:rgb(134 239 172 / var(--un-bg-opacity));}
+      .shortcut-hover-active-1:focus{--un-bg-opacity:1;background-color:rgb(134 239 172 / var(--un-bg-opacity));}
+      .shortcut-hover-active-1:active{--un-bg-opacity:1;background-color:rgb(134 239 172 / var(--un-bg-opacity));}"
     `)
   })
 
-  test('variant order', async () => {
+  it('variant order 1', async () => {
     const { css } = await uno.generate('shortcut-hover-active-2', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      .shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgba(253,224,71,var(--un-bg-opacity));}
-      .shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgba(252,165,165,var(--un-bg-opacity));}
-      .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgba(147,197,253,var(--un-bg-opacity));}"
+      .shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgb(253 224 71 / var(--un-bg-opacity));}
+      .shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgb(252 165 165 / var(--un-bg-opacity));}
+      .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgb(147 197 253 / var(--un-bg-opacity));}"
     `)
   })
 
-  test('variant order', async () => {
+  it('variant order 2', async () => {
     const { css } = await uno.generate('shortcut-hover-active-2 uno-layer-shortcuts:bg-red-300', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      .uno-layer-shortcuts\\\\:bg-red-300{--un-bg-opacity:1;background-color:rgba(252,165,165,var(--un-bg-opacity));}
-      .shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgba(253,224,71,var(--un-bg-opacity));}
-      .shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgba(252,165,165,var(--un-bg-opacity));}
-      .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgba(147,197,253,var(--un-bg-opacity));}"
+      .uno-layer-shortcuts\\:bg-red-300{--un-bg-opacity:1;background-color:rgb(252 165 165 / var(--un-bg-opacity));}
+      .shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgb(253 224 71 / var(--un-bg-opacity));}
+      .shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgb(252 165 165 / var(--un-bg-opacity));}
+      .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgb(147 197 253 / var(--un-bg-opacity));}"
     `)
   })
 
-  test('variant order', async () => {
+  it('variant order 3', async () => {
     const { css } = await uno.generate('shortcut-hover-active-2 uno-layer-shortcuts:bg-yellow-300', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      .uno-layer-shortcuts\\\\:bg-yellow-300{--un-bg-opacity:1;background-color:rgba(253,224,71,var(--un-bg-opacity));}
-      .shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgba(253,224,71,var(--un-bg-opacity));}
-      .shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgba(252,165,165,var(--un-bg-opacity));}
-      .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgba(147,197,253,var(--un-bg-opacity));}"
+      .uno-layer-shortcuts\\:bg-yellow-300{--un-bg-opacity:1;background-color:rgb(253 224 71 / var(--un-bg-opacity));}
+      .shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgb(253 224 71 / var(--un-bg-opacity));}
+      .shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgb(252 165 165 / var(--un-bg-opacity));}
+      .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgb(147 197 253 / var(--un-bg-opacity));}"
     `)
   })
 
-  test('variant order', async () => {
+  it('variant order 4', async () => {
     const { css } = await uno.generate('shortcut-hover-active-2 uno-layer-shortcuts:bg-blue-300', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      .uno-layer-shortcuts\\\\:bg-blue-300{--un-bg-opacity:1;background-color:rgba(147,197,253,var(--un-bg-opacity));}
-      .shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgba(253,224,71,var(--un-bg-opacity));}
-      .shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgba(252,165,165,var(--un-bg-opacity));}
-      .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgba(147,197,253,var(--un-bg-opacity));}"
+      .uno-layer-shortcuts\\:bg-blue-300{--un-bg-opacity:1;background-color:rgb(147 197 253 / var(--un-bg-opacity));}
+      .shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgb(253 224 71 / var(--un-bg-opacity));}
+      .shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgb(252 165 165 / var(--un-bg-opacity));}
+      .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgb(147 197 253 / var(--un-bg-opacity));}"
     `)
   })
 
-  test('animate', async () => {
+  it('animate', async () => {
     const { css } = await uno.generate('loading', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
@@ -153,12 +153,12 @@ describe('shortcuts', () => {
     `)
   })
 
-  test('shortcut of nested pseudo', async () => {
+  it('shortcut of nested pseudo', async () => {
     const { css } = await uno.generate('btn3 focus:btn3 hover:btn3 focus:hover:btn3', { preflights: false })
     await expect(css).toMatchFileSnapshot('./assets/output/shortcuts-nested-pseudo.css')
   })
 
-  test('shortcut with inline body', async () => {
+  it('shortcut with inline body', async () => {
     const { css } = await uno.generate(`
       shortcut-inline-body
       hover:shortcut-inline-body
@@ -170,31 +170,31 @@ describe('shortcuts', () => {
       .shortcut-inline-body{padding:0.5rem;margin:3px;}
       .shortcut-inline-dynamic-1{padding:0.25rem;margin:1px;}
       .shortcut-inline-dynamic-2{padding:0.5rem;margin:2px;}
-      .hover\\\\:shortcut-inline-body:hover{padding:0.5rem;margin:3px;}"
+      .hover\\:shortcut-inline-body:hover{padding:0.5rem;margin:3px;}"
     `)
   })
 
-  test('shortcut order', async () => {
+  it('shortcut order', async () => {
     const { css } = await uno.generate('test test-last', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      .test:focus{--un-text-opacity:1;color:rgba(74,222,128,var(--un-text-opacity));}
-      .test-last:focus{--un-text-opacity:1;color:rgba(96,165,250,var(--un-text-opacity));}"
+      .test:focus{--un-text-opacity:1;color:rgb(74 222 128 / var(--un-text-opacity));}
+      .test-last:focus{--un-text-opacity:1;color:rgb(96 165 250 / var(--un-text-opacity));}"
     `)
   })
 
-  test('divide', async () => {
+  it('divide', async () => {
     const { css } = await uno.generate('divide-y divide-default', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      .dark .divide-default>:not([hidden])~:not([hidden]){--un-divide-opacity:1;border-color:rgba(51,51,74,var(--un-divide-opacity));}
-      .divide-default>:not([hidden])~:not([hidden]){--un-divide-opacity:1;border-color:rgba(0,0,0,var(--un-divide-opacity));}
+      .dark .divide-default>:not([hidden])~:not([hidden]){--un-divide-opacity:1;border-color:rgb(51 51 74 / var(--un-divide-opacity));}
+      .divide-default>:not([hidden])~:not([hidden]){--un-divide-opacity:1;border-color:rgb(0 0 0 / var(--un-divide-opacity));}
       /* layer: default */
       .divide-y>:not([hidden])~:not([hidden]){--un-divide-y-reverse:0;border-top-width:calc(1px * calc(1 - var(--un-divide-y-reverse)));border-bottom-width:calc(1px * var(--un-divide-y-reverse));}"
     `)
   })
 
-  test('space', async () => {
+  it('space', async () => {
     const { css } = await uno.generate('space-x-2px space-default', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */

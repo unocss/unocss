@@ -1,5 +1,5 @@
 import { createGenerator } from '@unocss/core'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import presetRemToPx from '@unocss/preset-rem-to-px'
 import presetMini from '@unocss/preset-mini'
 
@@ -11,7 +11,7 @@ describe('rem-to-px', () => {
     ],
   })
 
-  test('should works', async () => {
+  it('should works', async () => {
     expect((await uno.generate(
       new Set(['m4', 'mx2', '-p2', 'gap2']),
       { preflights: false },
@@ -25,17 +25,17 @@ describe('rem-to-px', () => {
       `)
   })
 
-  test('important prefix should works', async () => {
+  it('important prefix should works', async () => {
     expect((await uno.generate(
       new Set(['!m4', '!mx2', '!-p2', '!gap2']),
       { preflights: false },
     )).css)
       .toMatchInlineSnapshot(`
         "/* layer: default */
-        .\\\\!-p2{padding:-8px !important;}
-        .\\\\!m4{margin:16px !important;}
-        .\\\\!mx2{margin-left:8px !important;margin-right:8px !important;}
-        .\\\\!gap2{gap:8px !important;}"
+        .\\!-p2{padding:-8px !important;}
+        .\\!m4{margin:16px !important;}
+        .\\!mx2{margin-left:8px !important;margin-right:8px !important;}
+        .\\!gap2{gap:8px !important;}"
       `)
   })
 })

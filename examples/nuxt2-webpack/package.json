@@ -1,4 +1,5 @@
 {
+  "name": "unocss-nuxt2-webpack",
   "private": true,
   "scripts": {
     "build": "nuxt build",
@@ -6,11 +7,11 @@
     "start": "nuxt start"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "^1.1.21",
+    "@iconify-json/carbon": "^1.1.23",
     "@unocss/core": "link:../../packages/core",
     "@unocss/nuxt": "link:../../packages/nuxt",
     "@unocss/reset": "link:../../packages/reset",
-    "nuxt": "^2.17.1",
+    "nuxt": "^2.17.2",
     "unocss": "link:../../packages/unocss"
   },
   "stackblitz": {

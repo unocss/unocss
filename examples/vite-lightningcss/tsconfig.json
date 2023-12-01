@@ -7,16 +7,16 @@
 
     /* Bundler mode */
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
-    "noEmit": true,
-    "isolatedModules": true,
+    "allowImportingTsExtensions": true,
 
     /* Linting */
     "strict": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "noEmit": true,
+    "isolatedModules": true,
     "skipLibCheck": true
   },
   "include": ["src"]

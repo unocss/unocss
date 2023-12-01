@@ -1,9 +1,9 @@
 import { createGenerator } from '@unocss/core'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import presetUno from '@unocss/preset-uno'
 
 describe('prefix', () => {
-  test('preset prefix', async () => {
+  it('preset prefix', async () => {
     const uno = createGenerator({
       presets: [
         presetUno({ prefix: 'h-' }),
@@ -33,6 +33,8 @@ describe('prefix', () => {
       'dark:children:hover:h-space-x-4',
       'dark:hover:children:h-space-x-4',
       'dark:hover:children:h-divide-x',
+      'group-hover:h-bg-red',
+      'group-data-[enabled]:h-bg-green',
     ]
 
     const { css, matched } = await uno.generate(new Set([
@@ -44,7 +46,32 @@ describe('prefix', () => {
     expect(css).toMatchSnapshot()
   })
 
-  test('multiple preset prefix', async () => {
+  it('uses first truthy prefix', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetUno({
+          prefix: ['', 'h-'],
+        }),
+      ],
+    })
+
+    expect((await uno.generate('group-hover:h-bg-red group-data-[enabled]:h-bg-green', { preflights: false })).css).toMatchSnapshot()
+  })
+
+  it('generate tagged attributify', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetUno({
+          prefix: 'h-',
+          attributifyPseudo: true,
+        }),
+      ],
+    })
+
+    expect((await uno.generate('group-hover:h-bg-red group-data-[enabled]:h-bg-green', { preflights: false })).css).toMatchSnapshot()
+  })
+
+  it('multiple preset prefix', async () => {
     const uno = createGenerator({
       presets: [
         presetUno({ prefix: ['h-', 'x-'] }),

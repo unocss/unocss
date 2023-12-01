@@ -1,6 +1,6 @@
 import { createGenerator, escapeSelector } from '@unocss/core'
 import presetWind from '@unocss/preset-wind'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { presetWindNonTargets, presetWindTargets } from './assets/preset-wind-targets'
 
 const uno = createGenerator({
@@ -33,7 +33,7 @@ const uno = createGenerator({
 })
 
 describe('preset-wind', () => {
-  test('targets', async () => {
+  it('targets', async () => {
     const targets = presetWindTargets
     const code = targets.join(' ')
     const { css } = await uno.generate(code)
@@ -49,13 +49,13 @@ describe('preset-wind', () => {
     expect(css).toEqual(css2)
   })
 
-  test('non-targets', async () => {
+  it('non-targets', async () => {
     const { matched } = await uno.generate(new Set(presetWindNonTargets), { preflights: false })
 
     expect([...matched]).toEqual([])
   })
 
-  test('containers', async () => {
+  it('containers', async () => {
     const targets = [
       'container',
       'md:container',
@@ -70,7 +70,7 @@ describe('preset-wind', () => {
     await expect(css).toMatchFileSnapshot('./assets/output/preset-wind-containers.css')
   })
 
-  test('centered containers', async () => {
+  it('centered containers', async () => {
     const uno = createGenerator({
       presets: [
         presetWind(),
@@ -93,7 +93,7 @@ describe('preset-wind', () => {
     await expect(css).toMatchFileSnapshot('./assets/output/preset-wind-containers-centered.css')
   })
 
-  test('containers with max width', async () => {
+  it('containers with max width', async () => {
     const uno = createGenerator({
       presets: [
         presetWind(),
@@ -123,7 +123,7 @@ describe('preset-wind', () => {
     await expect(css).toMatchFileSnapshot('./assets/output/preset-wind-containers-max-width.css')
   })
 
-  test('custom var prefix', async () => {
+  it('custom var prefix', async () => {
     const uno = createGenerator({
       presets: [
         presetWind({
@@ -142,7 +142,7 @@ describe('preset-wind', () => {
   })
 })
 
-test('empty prefix', async () => {
+it('empty prefix', async () => {
   const uno = createGenerator({
     presets: [
       presetWind({

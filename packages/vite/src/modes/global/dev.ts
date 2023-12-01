@@ -2,8 +2,8 @@ import process from 'node:process'
 import type { Plugin, Update, ViteDevServer } from 'vite'
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import { notNull } from '@unocss/core'
-import type { VitePluginConfig } from 'unocss/vite'
 import MagicString from 'magic-string'
+import type { VitePluginConfig } from '../../types'
 import { LAYER_MARK_ALL, getHash, getPath, resolveId, resolveLayer } from '../../integration'
 
 const WARN_TIMEOUT = 20000
@@ -30,7 +30,6 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
       if (tokensSize === tokens.size)
         break
       tokensSize = tokens.size
-    // eslint-disable-next-line no-constant-condition
     } while (true)
 
     const css = layer === LAYER_MARK_ALL
@@ -116,9 +115,10 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
       async configureServer(_server) {
         servers.push(_server)
 
-        _server.ws.on(WS_EVENT_PREFIX, async ([layer, hash]: string[]) => {
+        _server.ws.on(WS_EVENT_PREFIX, async ([layer]: string[]) => {
+          const preHash = lastServedHash.get(layer)
           await generateCSS(layer)
-          if (lastServedHash.get(layer) !== hash)
+          if (lastServedHash.get(layer) !== preHash)
             sendUpdate(entries)
         })
       },
@@ -132,6 +132,12 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
         return null
       },
       transformIndexHtml: {
+        order: 'pre',
+        handler(code, { filename }) {
+          setWarnTimer()
+          tasks.push(extract(code, filename))
+        },
+        // Compatibility with Legacy Vite
         enforce: 'pre',
         transform(code, { filename }) {
           setWarnTimer()
@@ -181,7 +187,7 @@ try {
   if (!hash)
     console.warn('[unocss-hmr]', 'failed to get unocss hash, hmr might not work')
   else
-    await import.meta.hot.send('${WS_EVENT_PREFIX}', ['${layer}', hash]);
+    await import.meta.hot.send('${WS_EVENT_PREFIX}', ['${layer}']);
 } catch (e) {
   console.warn('[unocss-hmr]', e)
 }

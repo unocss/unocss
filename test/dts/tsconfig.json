@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "jsx": "preserve",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "moduleResolution": "node",
     "paths": {
       "@unocss/preset-attributify": ["../../packages/preset-attributify/src/index.ts"]

@@ -2,7 +2,7 @@
   "publisher": "antfu",
   "name": "@unocss/vscode",
   "displayName": "UnoCSS",
-  "version": "0.56.4",
+  "version": "0.57.7",
   "private": true,
   "description": "UnoCSS for VS Code",
   "license": "MIT",
@@ -121,17 +121,18 @@
   "scripts": {
     "build": "tsup",
     "dev": "esno ./scripts/dev.ts && tsup --watch src",
-    "publish": "esno ./scripts/publish.ts"
+    "publish": "esno ./scripts/publish.ts",
+    "pack": "vsce package --no-dependencies"
   },
   "devDependencies": {
     "@types/vscode": "^1.71.0",
     "@unocss/nuxt": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
-    "esno": "^0.17.0",
+    "esno": "^4.0.0",
     "find-up": "^6.3.0",
-    "jiti": "^1.20.0",
+    "jiti": "^1.21.0",
     "prettier": "^2.8.8",
-    "tsup": "^7.2.0",
-    "unconfig": "^0.3.10"
+    "tsup": "^8.0.1",
+    "unconfig": "^0.3.11"
   }
 }

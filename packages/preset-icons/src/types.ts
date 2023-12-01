@@ -76,4 +76,9 @@ export interface IconsOptions {
    * - https://cdn.skypack.dev/
    */
   cdn?: string
+
+  /**
+   * Custom fetch function to provide the icon data.
+   */
+  customFetch?: (url: string) => Promise<any>
 }

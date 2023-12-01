@@ -276,11 +276,11 @@ export class UnoGenerator<Theme extends object = object> {
             .filter(i => (i[4]?.layer || LAYER_DEFAULT) === layer)
             .sort((a, b) => {
               return a[0] - b[0] // rule index
-                  || (a[4]?.sort || 0) - (b[4]?.sort || 0) // sort context
-                  || a[5]?.currentSelector?.localeCompare(b[5]?.currentSelector ?? '') // shortcuts
-                  || a[1]?.localeCompare(b[1] || '') // selector
-                  || a[2]?.localeCompare(b[2] || '') // body
-                  || 0
+                || (a[4]?.sort || 0) - (b[4]?.sort || 0) // sort context
+                || a[5]?.currentSelector?.localeCompare(b[5]?.currentSelector ?? '') // shortcuts
+                || a[1]?.localeCompare(b[1] || '') // selector
+                || a[2]?.localeCompare(b[2] || '') // body
+                || 0
             })
             .map(([, selector, body,, meta,, variantNoMerge]) => {
               const scopedSelector = selector ? applyScope(selector, scope) : selector
@@ -729,7 +729,7 @@ export function createGenerator<Theme extends object = object>(config?: UserConf
 
 export const regexScopePlaceholder = /\s\$\$\s+/g
 export function hasScopePlaceholder(css: string) {
-  return css.match(/\s\$\$\s/)
+  return regexScopePlaceholder.test(css)
 }
 
 function applyScope(css: string, scope?: string) {

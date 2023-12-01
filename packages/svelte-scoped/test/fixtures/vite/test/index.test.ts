@@ -28,7 +28,7 @@ describe.skipIf(isCI && (isWindows || isMacOS))('@unocss/svelte-scoped/vite', ()
     const css = await getGlobContent(process.cwd(), '.svelte-kit/output/**/*.css')
     expect(css).not.toContain('--at-apply')
     expect(css).toContain('gap:0.5rem')
-    expect(css).toContain('background-color:rgba(0,0,0')
+    expect(css).toContain('background-color:rgb(0 0 0')
   })
 
   it('includes the default preset', async () => {

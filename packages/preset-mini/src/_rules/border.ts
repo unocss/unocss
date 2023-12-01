@@ -1,17 +1,17 @@
 import type { CSSEntries, CSSObject, Rule, RuleContext } from '@unocss/core'
 import { colorOpacityToString, colorToString } from '@unocss/rule-utils'
 import type { Theme } from '../theme'
-import { cornerMap, directionMap, globalKeywords, h, hasParseableColor, parseColor } from '../utils'
+import { cornerMap, directionMap, globalKeywords, h, hasParseableColor, isCSSMathFn, parseColor } from '../utils'
 
 export const borderStyles = ['solid', 'dashed', 'dotted', 'double', 'hidden', 'none', 'groove', 'ridge', 'inset', 'outset', ...globalKeywords]
 
 export const borders: Rule[] = [
   // compound
-  [/^(?:border|b)()(?:-(.+))?$/, handlerBorder, { autocomplete: '(border|b)-<directions>' }],
-  [/^(?:border|b)-([xy])(?:-(.+))?$/, handlerBorder],
-  [/^(?:border|b)-([rltbse])(?:-(.+))?$/, handlerBorder],
-  [/^(?:border|b)-(block|inline)(?:-(.+))?$/, handlerBorder],
-  [/^(?:border|b)-([bi][se])(?:-(.+))?$/, handlerBorder],
+  [/^(?:border|b)()(?:-(.+))?$/, handlerBorderSize, { autocomplete: '(border|b)-<directions>' }],
+  [/^(?:border|b)-([xy])(?:-(.+))?$/, handlerBorderSize],
+  [/^(?:border|b)-([rltbse])(?:-(.+))?$/, handlerBorderSize],
+  [/^(?:border|b)-(block|inline)(?:-(.+))?$/, handlerBorderSize],
+  [/^(?:border|b)-([bi][se])(?:-(.+))?$/, handlerBorderSize],
 
   // size
   [/^(?:border|b)-()(?:width|size)-(.+)$/, handlerBorderSize, { autocomplete: ['(border|b)-<num>', '(border|b)-<directions>-<num>'] }],
@@ -21,11 +21,11 @@ export const borders: Rule[] = [
   [/^(?:border|b)-([bi][se])-(?:width|size)-(.+)$/, handlerBorderSize],
 
   // colors
-  [/^(?:border|b)-()(?:color-)?(.+)$/, handlerBorderColor, { autocomplete: ['(border|b)-$colors', '(border|b)-<directions>-$colors'] }],
-  [/^(?:border|b)-([xy])-(?:color-)?(.+)$/, handlerBorderColor],
-  [/^(?:border|b)-([rltbse])-(?:color-)?(.+)$/, handlerBorderColor],
-  [/^(?:border|b)-(block|inline)-(?:color-)?(.+)$/, handlerBorderColor],
-  [/^(?:border|b)-([bi][se])-(?:color-)?(.+)$/, handlerBorderColor],
+  [/^(?:border|b)-()(?:color-)?(.+)$/, handlerBorderColorOrSize, { autocomplete: ['(border|b)-$colors', '(border|b)-<directions>-$colors'] }],
+  [/^(?:border|b)-([xy])-(?:color-)?(.+)$/, handlerBorderColorOrSize],
+  [/^(?:border|b)-([rltbse])-(?:color-)?(.+)$/, handlerBorderColorOrSize],
+  [/^(?:border|b)-(block|inline)-(?:color-)?(.+)$/, handlerBorderColorOrSize],
+  [/^(?:border|b)-([bi][se])-(?:color-)?(.+)$/, handlerBorderColorOrSize],
 
   // opacity
   [/^(?:border|b)-()op(?:acity)?-?(.+)$/, handlerBorderOpacity, { autocomplete: '(border|b)-(op|opacity)-<percent>' }],
@@ -51,7 +51,7 @@ export const borders: Rule[] = [
 
 function borderColorResolver(direction: string) {
   return ([, body]: string[], theme: Theme): CSSObject | undefined => {
-    const data = parseColor(body, theme)
+    const data = parseColor(body, theme, 'borderColor')
 
     if (!data)
       return
@@ -87,22 +87,22 @@ function borderColorResolver(direction: string) {
   }
 }
 
-function handlerBorder(m: string[], ctx: RuleContext): CSSEntries | undefined {
-  return handlerBorderSize(m, ctx)
-}
-
 function handlerBorderSize([, a = '', b]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
   const v = theme.lineWidth?.[b || 'DEFAULT'] ?? h.bracket.cssvar.global.px(b || '1')
   if (a in directionMap && v != null)
     return directionMap[a].map(i => [`border${i}-width`, v])
 }
 
-function handlerBorderColor([, a = '', c]: string[], { theme }: RuleContext<Theme>): CSSObject | undefined {
-  if (a in directionMap && hasParseableColor(c, theme)) {
-    return Object.assign(
-      {},
-      ...directionMap[a].map(i => borderColorResolver(i)(['', c], theme)),
-    )
+function handlerBorderColorOrSize([, a = '', b]: string[], ctx: RuleContext<Theme>): CSSEntries | undefined {
+  if (a in directionMap) {
+    if (isCSSMathFn(h.bracket(b)))
+      return handlerBorderSize(['', a, b], ctx)
+    if (hasParseableColor(b, ctx.theme, 'borderColor')) {
+      return Object.assign(
+        {},
+        ...directionMap[a].map(i => borderColorResolver(i)(['', b], ctx.theme)),
+      )
+    }
   }
 }
 

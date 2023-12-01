@@ -13,7 +13,7 @@ export const divides: Rule[] = [
   [/^divide-(block|inline)-reverse$/, ([, d]) => ({ [`--un-divide-${d}-reverse`]: 1 })],
 
   // color & opacity
-  [/^divide-(.+)$/, colorResolver('border-color', 'divide'), { autocomplete: 'divide-$colors' }],
+  [/^divide-(.+)$/, colorResolver('border-color', 'divide', 'borderColor'), { autocomplete: 'divide-$colors' }],
   [/^divide-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-divide-opacity': h.bracket.percent(opacity) }), { autocomplete: ['divide-(op|opacity)', 'divide-(op|opacity)-<percent>'] }],
 
   // styles

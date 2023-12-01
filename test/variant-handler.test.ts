@@ -1,9 +1,9 @@
 import { createGenerator } from '@unocss/core'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { variantMatcher } from '@unocss/preset-mini/utils'
 
 describe('variants', () => {
-  test('variant context is propagated', async () => {
+  it('variant context is propagated', async () => {
     const uno = createGenerator({
       rules: [
         ['foo', { name: 'bar' }],
@@ -41,7 +41,7 @@ describe('variants', () => {
     expect(css).toMatchSnapshot()
   })
 
-  test('selector section is merged in order', async () => {
+  it('selector section is merged in order', async () => {
     const uno = createGenerator({
       rules: [
         ['foo', { name: 'bar' }],
@@ -64,7 +64,7 @@ describe('variants', () => {
     expect(css).toMatchSnapshot()
   })
 
-  test('variant can stack', async () => {
+  it('variant can stack', async () => {
     const uno = createGenerator({
       rules: [
         ['foo', { name: 'bar' }],
@@ -115,7 +115,7 @@ describe('variants', () => {
     expect(css).toMatchSnapshot()
   })
 
-  test('noMerge on variant', async () => {
+  it('noMerge on variant', async () => {
     const uno = createGenerator({
       rules: [
         ['foo', { name: 'bar' }],
@@ -149,7 +149,7 @@ describe('variants', () => {
     expect(css).toMatchSnapshot()
   })
 
-  test('noMerge variant with shortcut', async () => {
+  it('noMerge variant with shortcut', async () => {
     const uno = createGenerator({
       rules: [
         ['foo', { name: 'bar' }],
@@ -183,7 +183,7 @@ describe('variants', () => {
     expect(css).toMatchSnapshot()
   })
 
-  test('selector match can be ordered', async () => {
+  it('selector match can be ordered', async () => {
     const uno = createGenerator({
       rules: [
         ['foo', { name: 'bar' }],
