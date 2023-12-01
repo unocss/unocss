@@ -27,7 +27,7 @@ const unmatchedClasses = asyncComputed(async () => {
   }
   return Array.from(set)
     .filter(i => !i.startsWith('['))
-    .filter(i => !mod.value?.matched.includes(i))
+    .filter(i => !mod.value?.matched?.some(({ rawSelector }) => rawSelector === i))
 })
 
 const isPrettify = ref(false)
@@ -75,7 +75,7 @@ const formatted = useCSSPrettify(computed(() => mod.value?.css), isPrettify)
       <Splitpanes>
         <Pane size="50">
           <CodeMirror
-            h-full :model-value="mod.code" :read-only="true" :mode="mode" :matched="(mod.matched || []).map(i => i.name)"
+            h-full :model-value="mod.code" :read-only="true" :mode="mode" :matched="mod.matched?.map(({ rawSelector }) => rawSelector)"
             class="scrolls module-scrolls" :style="style"
           />
         </Pane>
