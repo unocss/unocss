@@ -1,4 +1,4 @@
-import { describe, expect, test, vi } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import type { UnoGenerator } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
 import MagicString from 'magic-string'
@@ -35,7 +35,7 @@ describe('transformer-compile-class', () => {
     }
   }
 
-  test('basic', async () => {
+  it('basic', async () => {
     const result = await transform(`
 <div class=":uno: bg-red-500 text-xl font-bold border border-gray-200 dark:hover:bg-green-500 transform scale-5">
 <div class=":uno: foo bar">
@@ -65,7 +65,7 @@ describe('transformer-compile-class', () => {
     `)
   })
 
-  test('different sequence of utility classes', async () => {
+  it('different sequence of utility classes', async () => {
     const order1 = await transform('<div class=":uno: flex bg-blue-400 my-awesome-class font-bold"></div>')
     const order2 = await transform('<div class=":uno: my-awesome-class bg-blue-400  font-bold flex"></div>')
 
@@ -73,7 +73,7 @@ describe('transformer-compile-class', () => {
     expect(order1.code).toBe(order2.code)
   })
 
-  test('custom class name trigger (without class name)', async () => {
+  it('custom class name trigger (without class name)', async () => {
     const result = await transform(
       '<div class=":custom: bg-red-500 text-xl">'.trim(),
       createUno({ trigger: CUSTOM_TRIGGER }),
@@ -87,7 +87,7 @@ describe('transformer-compile-class', () => {
     `)
   })
 
-  test('custom class name trigger (with basic class name)', async () => {
+  it('custom class name trigger (with basic class name)', async () => {
     const result = await transform(
       '<div class=":custom-foo: bg-red-500 text-xl">'.trim(),
       createUno({
@@ -104,7 +104,7 @@ describe('transformer-compile-class', () => {
     `)
   })
 
-  test('custom class name trigger (with complex class name)', async () => {
+  it('custom class name trigger (with complex class name)', async () => {
     const result = await transform(
       '<div class=":custom-foo_bar-baz: bg-red-500 text-xl">'.trim(),
       createUno({ trigger: CUSTOM_TRIGGER }),
@@ -118,7 +118,7 @@ describe('transformer-compile-class', () => {
     `)
   })
 
-  test('custom class name conflicts', async () => {
+  it('custom class name conflicts', async () => {
     await expect(async () => {
       await transform(`
       <div class=":uno-foo: w-1"/>
@@ -128,7 +128,7 @@ describe('transformer-compile-class', () => {
       .toMatchInlineSnapshot('[Error: Duplicated compile class name "uno-foo". One is "w-2" and the other is "w-1" Please choose different class name or set \'hashExplicitName\' to \'true\' in the plugin options.]')
   })
 
-  test('custom class name should not conflict when the content is the same', async () => {
+  it('custom class name should not conflict when the content is the same', async () => {
     const result = await transform(`
 <div class=":uno-foo: h-1 w-1"/>
 <div class=":uno-foo: w-1 h-1"/>
@@ -145,11 +145,11 @@ describe('transformer-compile-class', () => {
     `)
   })
 
-  test('custom class name should not conflict when hashExplicitName is true', async () => {
+  it('custom class name should not conflict when hashExplicitName is true', async () => {
     const result = await transform(`
 <div class=":uno-foo: w-1"/>
 <div class=":uno-foo: w-2"/>
-    `.trim(), createUno({ hashExplicitName: true }))
+    `.trim(), createUno({ alwaysHash: true }))
 
     expect(result.code.trim()).toMatchInlineSnapshot(`
     "<div class=\\"uno-foo-kos6xc\\"/>
@@ -157,7 +157,7 @@ describe('transformer-compile-class', () => {
     `)
   })
 
-  test('normal class name should not conflict', async () => {
+  it('normal class name should not conflict', async () => {
     const result = await transform(`
 <div class=":uno: w-1 h-1"/>
 <div class=":uno: w-2 h-2"/>
@@ -171,7 +171,7 @@ describe('transformer-compile-class', () => {
     `)
   })
 
-  test('css should be updated exact times when compiled class changes', async () => {
+  it('css should be updated exact times when compiled class changes', async () => {
     const invalidateFn = vi.fn()
     const uno = createUno()
 
