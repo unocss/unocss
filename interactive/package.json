@@ -28,7 +28,7 @@
     "prettier": "^2.8.8",
     "shikiji": "^0.7.5",
     "theme-vitesse": "^0.7.5",
-    "vite-plugin-vue-markdown": "^0.23.8",
+    "unplugin-vue-markdown": "^0.25.2",
     "vue": "^3.3.9"
   }
 }
