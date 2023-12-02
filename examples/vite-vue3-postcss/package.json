@@ -13,10 +13,10 @@
   "devDependencies": {
     "@iconify-json/logos": "^1.1.40",
     "@unocss/postcss": "link:../../packages/postcss",
-    "@vitejs/plugin-vue": "^4.5.0",
+    "@vitejs/plugin-vue": "^4.5.1",
     "typescript": "^5.3.2",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.0.3"
+    "vite": "^5.0.4"
   },
   "stackblitz": {
     "installDependencies": false,
