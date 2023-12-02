@@ -1,5 +1,5 @@
 import { defineNuxtModule } from '@nuxt/kit'
-import Markdown from 'vite-plugin-vue-markdown'
+import Markdown from 'unplugin-vue-markdown/vite'
 import LinkAttributes from 'markdown-it-link-attributes'
 import Shikiji from 'markdown-it-shikiji'
 
