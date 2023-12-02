@@ -24,6 +24,7 @@
 - [una-ui-preset](https://unaui.com/getting-started/installation#presets-mode) - Build your own components using [UnaUI](https://unaui.com/) preset by [@phojie](https://github.com/phojie).
 - [unocss-preset-fluid](https://renatomoor.github.io/unocss-preset-fluid/) - Elegantly scale type and space without breakpoints by [@renatomoor](https://github.com/renatomoor).
 - [unocss-preset-block](https://github.com/unpreset/unocss-preset-block) - Block some non-standard classnames by [@chizuki](https://github.com/chizukicn).
+- [unocss-preset-animatione](https://unocss-preset-animations.aelita.me/) - Preset for flexible and composable animations by [@Aelita](https://github.com/xsjcTony)
 
 # Community frameworks
 
