@@ -66,6 +66,8 @@ async function rootRegister(
 
   const cacheFileLookUp = new Set<string>()
 
+  const rootCache = new Set<string>()
+
   const watcher = workspace.createFileSystemWatcher('**/{uno,unocss}.config.{js,ts}')
 
   ext.subscriptions.push(watcher.onDidChange(async (uri) => {
@@ -75,7 +77,9 @@ async function rootRegister(
   }))
 
   ext.subscriptions.push(watcher.onDidDelete((uri) => {
-    ctx.unloadContext(dirname(uri.fsPath))
+    const dir = dirname(uri.fsPath)
+    rootCache.delete(dir)
+    ctx.unloadContext(dir)
     cacheFileLookUp.clear()
   }))
 
@@ -98,23 +102,22 @@ async function rootRegister(
       return
     }
 
-    const dir = path.dirname(url)
-    if (cacheFileLookUp.has(dir)) {
+    if ([...rootCache].some(root => url.startsWith(root))) {
+      // root has been created
       cacheFileLookUp.add(url)
       return
     }
 
     const configUrl = await findUp(configNames, { cwd: url })
-    if (!configUrl) {
-      cacheFileLookUp.add(url)
+
+    cacheFileLookUp.add(url)
+
+    if (!configUrl)
       return
-    }
 
     const cwd = path.dirname(configUrl)
-    if (cacheFileLookUp.has(cwd))
-      return
+    rootCache.add(cwd)
 
-    cacheFileLookUp.add(cwd)
     await ctx.loadContextInDirectory(cwd)
   }
 
