@@ -45,6 +45,13 @@ export interface CompileClassOptions {
   hashFn?: (str: string) => string
 
   /**
+   * Allow add hash to class name even if the class name is explicitly defined
+   *
+   * @default false
+   */
+  alwaysHash?: boolean
+
+  /**
    * Left unknown classes inside the string
    *
    * @default true
@@ -63,6 +70,7 @@ export default function transformerCompileClass(options: CompileClassOptions = {
     classPrefix = 'uno-',
     hashFn = hash,
     keepUnknown = true,
+    alwaysHash = false,
   } = options
   // #2866
   const compiledClass = new Set()
@@ -105,6 +113,8 @@ export default function transformerCompileClass(options: CompileClassOptions = {
 
           if (match.groups && match.groups.name) {
             hash = match.groups.name
+            if (alwaysHash)
+              hash += `-${hashFn(body)}`
             explicitName = true
           }
           else {
@@ -115,7 +125,7 @@ export default function transformerCompileClass(options: CompileClassOptions = {
           if (tokens && tokens.has(className) && explicitName) {
             const existing = uno.config.shortcuts.find(i => i[0] === className)
             if (existing && existing[1] !== body)
-              throw new Error(`Duplicated compile class name "${className}". One is "${body}" and the other is "${existing[1]}" Please choose different class name`)
+              throw new Error(`Duplicated compile class name "${className}". One is "${body}" and the other is "${existing[1]}". Please choose different class name or set 'alwaysHash' to 'true'.`)
           }
 
           compiledClass.add(className)
