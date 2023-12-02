@@ -44,7 +44,7 @@
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "magic-string": "^0.30.5",
-    "synckit": "^0.8.5"
+    "synckit": "^0.8.6"
   },
   "devDependencies": {
     "@unocss/eslint-plugin": "workspace:*"
