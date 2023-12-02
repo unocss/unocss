@@ -73,7 +73,7 @@
     },
     "./webpack": {
       "import": {
-        "types": "./dist/webpack.d.ts",
+        "types": "./dist/webpack.d.mts",
         "default": "./dist/webpack.mjs"
       },
       "require": {
@@ -83,7 +83,7 @@
     },
     "./postcss": {
       "import": {
-        "types": "./dist/postcss.d.ts",
+        "types": "./dist/postcss.d.mts",
         "default": "./dist/postcss.mjs"
       },
       "require": {
