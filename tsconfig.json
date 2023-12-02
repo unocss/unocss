@@ -4,7 +4,7 @@
     "jsx": "preserve",
     "lib": ["esnext"],
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "paths": {
       "@unocss/astro": ["./packages/astro/src/index.ts"],
       "@unocss/autocomplete": ["./packages/autocomplete/src/index.ts"],
