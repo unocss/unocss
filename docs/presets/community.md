@@ -24,6 +24,7 @@
 - [una-ui-preset](https://unaui.com/getting-started/installation#presets-mode) - Build your own components using [UnaUI](https://unaui.com/) preset by [@phojie](https://github.com/phojie).
 - [unocss-preset-fluid](https://renatomoor.github.io/unocss-preset-fluid/) - Elegantly scale type and space without breakpoints by [@renatomoor](https://github.com/renatomoor).
 - [unocss-preset-block](https://github.com/unpreset/unocss-preset-block) - Block some non-standard classnames by [@chizuki](https://github.com/chizukicn).
+- [unocss-preset-animatione](https://unocss-preset-animations.aelita.me/) - Preset for flexible and composable animations by [@Aelita](https://github.com/xsjcTony)
 
 # Community frameworks
 
@@ -36,8 +37,9 @@
 
 - [unocss-transformer-attribute-values-group](https://github.com/lvjiaxuan/unocss-transformer-attribute-values-group) - Attribute values group transformer for UnoCSS by [@lvjiaxuan](https://github.com/lvjiaxuan).
 - [unocss-transformer-alias](https://github.com/zyyv/unocss-transformer-alias) - Transform alias for UnoCSS shortcuts by [@zyyv](https://github.com/zyyv).
-- [CSS to UnoCss](https://github.com/Simon-He95/transformToUnoCSS) - Transform CSS to Unocss by [@Simon-He95](https://github.com/Simon-He95)
+- [CSS to UnoCss](https://github.com/Simon-He95/transformToUnoCSS) - Transform CSS to Unocss by [@Simon-He95](https://github.com/Simon-He95).
 
 # Community tools
 
-- [Unot](https://github.com/Simon-He95/unot) - VSCode extension that provides the ability to convert css to unocss and simplifies the writing of unocss by [@Simon-He95](https://github.com/Simon-He95)
+- [Unot](https://github.com/Simon-He95/unot) - VSCode extension that provides the ability to convert css to unocss and simplifies the writing of unocss by [@Simon-He95](https://github.com/Simon-He95).
+- [figma-to-unocss](https://github.com/zouhangwithsweet/figma-to-unocss) - Figma plugin to transform design to unocss by [@zouhang](https://github.com/zouhangwithsweet).

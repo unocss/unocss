@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "moduleResolution": "node",
     "types": [
       "vite/client",
       "vitest/importMeta"

@@ -14,4 +14,9 @@ export default defineBuildConfig({
       respectExternal: true,
     },
   },
+  externals: [
+    '@typescript-eslint/utils/ts-eslint',
+    '@typescript-eslint/utils',
+    '@typescript-eslint/types',
+  ],
 })
