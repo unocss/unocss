@@ -8,9 +8,9 @@
     "docs:preview": "vitepress preview"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "^1.1.23",
+    "@iconify-json/carbon": "^1.1.24",
     "@iconify-json/logos": "^1.1.40",
-    "@iconify-json/mdi": "^1.1.57",
+    "@iconify-json/mdi": "^1.1.58",
     "@iconify-json/ph": "^1.1.8",
     "@iconify-json/twemoji": "^1.1.14",
     "@iconify-json/vscode-icons": "^1.1.31",

@@ -17,7 +17,7 @@
     "@unocss/preset-icons": "link:../../packages/preset-icons",
     "typescript": "^5.3.2",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.0.4",
+    "vite": "^5.0.5",
     "vite-plugin-solid": "^2.7.2"
   },
   "stackblitz": {

@@ -14,7 +14,7 @@
     "@vitejs/plugin-vue": "^4.5.1",
     "pug": "^3.0.2",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.0.4"
+    "vite": "^5.0.5"
   },
   "stackblitz": {
     "installDependencies": false,
