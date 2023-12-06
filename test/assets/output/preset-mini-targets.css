@@ -670,6 +670,11 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .pos-unset{position:unset;}
 .position-inherit{position:inherit;}
 .static{position:static;}
+.size-\[calc\(1000px-4rem\)\]{width:calc(1000px - 4rem);height:calc(1000px - 4rem);}
+.size-\[var\(--something\)\]{width:var(--something);height:var(--something);}
+.size-10{width:2.5rem;height:2.5rem;}
+.size-max-10{max-width:2.5rem;max-height:2.5rem;}
+.size-min-10{min-width:2.5rem;min-height:2.5rem;}
 .h-\[calc\(1000px-4rem\)\],
 .size-h-\[calc\(1000px-4rem\)\]{height:calc(1000px - 4rem);}
 .h-\$var{height:var(--var);}
@@ -763,11 +768,6 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .h-screen-sm{height:640px;}
 .max-w-screen-lg{max-width:1024px;}
 .min-w-screen-lg{min-width:1024px;}
-.size-\[calc\(1000px-4rem\)\]{width:calc(1000px - 4rem);height:calc(1000px - 4rem);}
-.size-\[var\(--something\)\]{width:var(--something);height:var(--something);}
-.size-10{width:2.5rem;height:2.5rem;}
-.size-max-10{max-width:2.5rem;max-height:2.5rem;}
-.size-min-10{min-width:2.5rem;min-height:2.5rem;}
 .aspect-\[auto_16\/9\],
 .aspect-ratio-\[auto_16\/9\]{aspect-ratio:auto 16/9;}
 .aspect-auto{aspect-ratio:auto;}
