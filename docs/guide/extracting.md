@@ -160,6 +160,31 @@ safelist: [
 
 If you are seeking for a true dynamic generation at runtime, you may want to check out the [@unocss/runtime](https://github.com/unocss/unocss/tree/main/packages/runtime) package.
 
+### List Combinations Statically
+
+Another ways to workaround the limitation of dynamic constructed utilities, is that you can using an object that list all the combinations **statically**. For example, if you want to have this:
+
+```html
+<div class="text-${color} border-${color}"></div> <!-- this won't work! -->
+```
+
+You can create an object that list all the combinations (assume you know any possible values of `color`)
+
+```ts
+// Since they are static, UnoCSS will able to extract them on build time
+const classes = {
+  red: 'text-red border-red',
+  green: 'text-green border-green',
+  blue: 'text-blue border-blue',
+}
+```
+
+And then use it in your template:
+
+```html
+<div class="${classes[color]}"></div>
+```
+
 ### Blocklist
 
 Similar to `safelist`, you can also configure `blocklist` to exclude some utilities from being generated. Different from `safelist`, `blocklist` accept both string for exact match and regex for pattern match.
