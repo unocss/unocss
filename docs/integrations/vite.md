@@ -85,9 +85,9 @@ This mode will inject generated CSS to Vue SFCs `<style scoped>` for isolation.
 
 ### `shadow-dom`
 
-Since `Web Components` uses `Shadow DOM`, there is no way to style content directly from a global stylesheet (unless you use `custom css vars`, those will penetrate the `Shadow DOM`), you need to inline the generated css by the plugin into the `Shadow DOM` style.
+Since `Web Components` uses `Shadow DOM`, there is no way to style content directly from a global stylesheet (unless you use `CSS custom properties`, those will penetrate the `Shadow DOM`), you need to inline the generated CSS by the plugin into the `Shadow DOM` style.
 
-To inline the generated css, you only need to configure the plugin mode to `shadow-dom` and include `@unocss-placeholder` magic placeholder on each web component style css block. If you are defining your Web Components in Vue SFCs and want to define custom styles alongside UnoCSS, you can wrap placeholder in a CSS comment to avoid syntax errors in your IDE.
+To inline the generated CSS, you only need to configure the plugin mode to `shadow-dom` and include `@unocss-placeholder` magic placeholder on each web component style CSS block. If you are defining your Web Components in Vue SFCs and want to define custom styles alongside UnoCSS, you can wrap placeholder in a CSS comment to avoid syntax errors in your IDE.
 
 ### `per-module` (experimental)
 
@@ -116,7 +116,7 @@ Some UI/App frameworks have some caveats that must be fixed to make it work, if 
 
 ### VanillaJS / TypeScript
 
-When using VanillaJS or TypeScript, you need to add `js` and `ts` files extensions to allow UnoCSS read and parse the content, by default `js` and `ts` files are excluded, check [Extracting from Build Tools Pipeline](/guide/extracting#extracting-from-build-tools-pipeline) section.
+When using VanillaJS or TypeScript, you need to add `js` and `ts` files extensions to allow UnoCSS read and parse the content, by default `js` and `ts` files are excluded, check out the [Extracting from Build Tools Pipeline](/guide/extracting#extracting-from-build-tools-pipeline) section.
 
 ### React
 
@@ -275,7 +275,7 @@ export default {
 }
 ```
 
-On each `web component` just add `@unocss-placeholder` to its style css block:
+On each `web component` just add `@unocss-placeholder` to its style CSS block:
 ```ts
 const template = document.createElement('template')
 template.innerHTML = `

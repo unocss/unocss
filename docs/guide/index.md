@@ -5,7 +5,7 @@ description: Getting started with UnoCSS
 
 # What is UnoCSS?
 
-UnoCSS is the instant atomic CSS engine, that is designed to be flexible and extensible. The core is un-opinionated, and all the CSS utilities are provided via presets.
+UnoCSS is the instant atomic CSS engine, that is designed to be flexible and extensible. The core is un-opinionated and all the CSS utilities are provided via presets.
 
 For example, you could define your custom CSS utilities, by providing rules in your local [config file](/guide/config-file).
 
@@ -15,7 +15,7 @@ import { defineConfig } from 'unocss'
 
 export default defineConfig({
   rules: [
-    ['m-1', { margin: '1px' }]
+    ['m-1', { margin: '1px' }],
   ],
 })
 ```
@@ -38,7 +38,7 @@ To make it more flexible, you can make your rule dynamic by changing the first a
 // uno.config.ts
 export default defineConfig({
   rules: [
--    ['m-1', { margin: '1px' }]
+-    ['m-1', { margin: '1px' }],
 +    [/^m-([\.\d]+)$/, ([_, num]) => ({ margin: `${num}px` })],
   ],
 })
@@ -71,7 +71,7 @@ export const myPreset: Preset = {
     [/^p-([\.\d]+)$/, ([_, num]) => ({ padding: `${num}px` })],
   ],
   variants: [/* ... */],
-  shortcuts: [/* ... */]
+  shortcuts: [/* ... */],
   // ...
 }
 ```
@@ -83,7 +83,7 @@ import { myPreset } from './my-preset'
 
 export default defineConfig({
   presets: [
-    myPreset // your own preset
+    myPreset, // your own preset
   ],
 })
 ```

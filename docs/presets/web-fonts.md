@@ -40,7 +40,6 @@ export default defineConfig({
 })
 ```
 
-
 ::: tip
 This preset is included in the `unocss` package, you can also import it from there:
 
@@ -48,7 +47,6 @@ This preset is included in the `unocss` package, you can also import it from the
 import { presetWebFonts } from 'unocss'
 ```
 :::
-
 
 ## Providers
 
@@ -144,7 +142,6 @@ Inline CSS `@import()`.
 - **Default:** `undefined`
 
 Use your own function to fetch font source. See [Custom fetch function](#custom-fetch-function).
-
 
 ## Example
 
