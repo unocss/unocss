@@ -182,7 +182,7 @@ And then use it in your template:
 
 ### Blocklist
 
-Similar to `safelist`, you can also configure `blocklist` to exclude some utilities from being generated. This is useful to exclude some extraction false positives. Different from `safelist`, `blocklist` accepts both string for exact match and regex for pattern match.
+Similar to `safelist`, you can also configure `blocklist` to exclude some utilities from being generated. This is useful to exclude some extraction false positives. Different from `safelist`, `blocklist` accepts both string for exact match and regular expression for pattern match.
 
 ```ts
 // uno.config.ts

@@ -32,7 +32,7 @@ This will add a new CSS utility `m-1` to your project. Since UnoCSS is on-demand
 .m-1 { margin: 1px; }
 ```
 
-To make it more flexible, you can make your rule dynamic by changing the first argument on the rule (we call it matcher) to a RegExp, and the body to a function, for example:
+To make it more flexible, you can make your rule dynamic by changing the first argument on the rule (we call it matcher) to a `RegExp`, and the body to a function, for example:
 
 ```diff
 // uno.config.ts

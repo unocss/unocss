@@ -6,7 +6,7 @@ outline: deep
 
 # Browser Style Reset
 
-UnoCSS engine does not provide style resetting or preflight by default so not to populate your global CSS and also for maximum flexibility. If you use UnoCSS along with other CSS frameworks, they probably already do the resetting for you. If you use UnoCSS alone, you can use resetting libraries like [Normalize.css](https://github.com/csstools/normalize.css).
+UnoCSS does not provide style resetting or preflight by default so not to populate your global CSS and also for maximum flexibility. If you use UnoCSS along with other CSS frameworks, they probably already do the resetting for you. If you use UnoCSS alone, you can use resetting libraries like [Normalize.css](https://github.com/csstools/normalize.css).
 
 We also provide a small collection for you to grab them quickly:
 

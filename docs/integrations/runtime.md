@@ -6,7 +6,7 @@ outline: deep
 
 # Runtime
 
-UnoCSS runtime provide a CDN build that runs the UnoCSS engine right in the browser. It will detect the DOM changes and generate the styles on the fly.
+UnoCSS runtime provide a CDN build that runs the UnoCSS right in the browser. It will detect the DOM changes and generate the styles on the fly.
 
 ## Usage
 

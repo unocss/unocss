@@ -34,7 +34,7 @@ rules: [
 ]
 ```
 
-The first argument of the body function is the `RegExp` match result than can be destructured to get the matched groups.
+The first argument of the body function is the `RegExp` match result that can be destructured to get the matched groups.
 
 For example, with the following usage:
 
