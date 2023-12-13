@@ -25,7 +25,7 @@ The following CSS will be generated whenever `m-1` is detected in users' codebas
 
 ## Dynamic rules
 
-To make it smarter, change the matcher to a RegExp and the body to a function:
+To make it smarter, change the matcher to a `RegExp` and the body to a function:
 
 ```ts
 rules: [
@@ -34,7 +34,7 @@ rules: [
 ]
 ```
 
-The first argument of the body function is the match result, you can destructure it to get the matched groups.
+The first argument of the body function is the `RegExp` match result that can be destructured to get the matched groups.
 
 For example, with the following usage:
 
@@ -55,7 +55,7 @@ the corresponding CSS will be generated:
 .p-5 { padding: 1.25rem; }
 ```
 
-Congratulations! Now you got your own powerful atomic CSS utilities, enjoy!
+Congratulations! Now you got your own powerful atomic CSS utilities. Enjoy!
 
 ## Full controlled rules
 
@@ -63,7 +63,7 @@ Congratulations! Now you got your own powerful atomic CSS utilities, enjoy!
 This is an advanced feature, you don't need it in most of the cases.
 :::
 
-When you really need some advanced rules that can't be covered by the combination of [Dynamic Rules](#dynamic-rules) and [Variants](/config/variants), we also provide a way to give you full control to generate the CSS.
+When you really need some advanced rules that can't be covered by the combination of [Dynamic Rules](#dynamic-rules) and [Variants](/config/variants), UnoCSS also provide a way to give you full control to generate the CSS.
 
 By returning a `string` from the dynamic rule's body function, it will be directly passed to the generated CSS. That also means you would need to take care of things like CSS escaping, variants applying, CSS constructing, and so on.
 
@@ -105,8 +105,6 @@ ${selector}::after {
   ],
 })
 ```
-
-You might need to read some code to take the full power of it.
 
 ## Ordering
 

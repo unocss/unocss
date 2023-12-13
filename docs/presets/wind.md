@@ -1,12 +1,12 @@
 ---
 title: Wind preset
-description: The Tailwind / Windi CSS compact preset for UnoCSS (@unocss/preset-wind).
+description: The Tailwind CSS / Windi CSS compact preset for UnoCSS (@unocss/preset-wind).
 outline: deep
 ---
 
 # Wind preset
 
-The Tailwind / Windi CSS compact preset for UnoCSS.
+The Tailwind CSS / Windi CSS compact preset for UnoCSS.
 
 [Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-wind)
 

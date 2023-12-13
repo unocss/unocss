@@ -46,7 +46,7 @@ import { presetAttributify } from 'unocss'
 
 ## Attributify Mode
 
-Imagine you have this button using Tailwind's utilities. When the list gets longer, it becomes really hard to read and maintain.
+Imagine you have this button using Tailwind CSS's utilities. When the list gets longer, it becomes really hard to read and maintain.
 
 ```html
 <button class="bg-blue-400 hover:bg-blue-500 text-sm text-white font-mono font-light py-2 px-4 rounded border-2 border-blue-200 dark:bg-blue-500 dark:hover:bg-blue-600">
