@@ -6,7 +6,7 @@
 | ------- | ----------- |
 | [@unocss/preset-uno](/presets/uno) | The default preset |
 | [@unocss/preset-mini](/presets/mini) | The minimal but essential rules and variants |
-| [@unocss/preset-wind](/presets/wind) | Tailwind / Windi CSS compact preset |
+| [@unocss/preset-wind](/presets/wind) | Tailwind CSS / Windi CSS compact preset |
 | [@unocss/preset-attributify](/presets/attributify) | Enables Attributify Mode for other rules |
 | [@unocss/preset-tagify](/presets/tagify) | Enables Tagify Mode for other rules |
 | [@unocss/preset-icons](/presets/icons) | Pure CSS Icons solution powered by Iconify |
@@ -18,10 +18,10 @@
 
 | Package | Description |
 | ------- | ----------- |
-| [@unocss/transformer-variant-group](/transformers/variant-group) | Transformer for Windi CSS's variant group feature | ✅ |
-| [@unocss/transformer-directives](/transformers/directives) | Transformer for CSS directives like `@apply` | ✅ |
-| [@unocss/transformer-compile-class](/transformers/compile-class) | Compile group of classes into one class | ✅ |
-| [@unocss/transformer-attributify-jsx](/transformers/attributify-jsx) | Support valueless attributify in JSX/TSX | ✅ |
+| [@unocss/transformer-variant-group](/transformers/variant-group) | Transformer for Windi CSS's variant group feature |
+| [@unocss/transformer-directives](/transformers/directives) | Transformer for CSS directives like `@apply` |
+| [@unocss/transformer-compile-class](/transformers/compile-class) | Compile group of classes into one class |
+| [@unocss/transformer-attributify-jsx](/transformers/attributify-jsx) | Support valueless attributify in JSX/TSX |
 
 ## Extractors
 

@@ -22,7 +22,6 @@ UnoCSS transformer for `@apply`, `@screen` and `theme()` directives: `@unocss/tr
   ```
 :::
 
-
 ```ts
 // uno.config.ts
 import { defineConfig } from 'unocss'
@@ -59,7 +58,7 @@ Will be transformed to:
 
 #### `--at-apply`
 
-To be compatible with vanilla CSS, you can use CSS Variables to replace the `@apply` directive:
+To be compatible with vanilla CSS, you can use CSS custom properties to replace the `@apply` directive:
 
 ```css
 .custom-div {

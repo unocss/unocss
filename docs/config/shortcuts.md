@@ -5,7 +5,7 @@ description: The shortcuts functionality that UnoCSS provides is similar to Wind
 
 # Shortcuts
 
-Shortcuts could let you combine multiple rules into a single shorthand, inspired by [Windi CSS's](https://windicss.org/features/shortcuts.html).
+Shortcuts let you combine multiple rules into a single shorthand, inspired by [Windi CSS's](https://windicss.org/features/shortcuts.html).
 
 ## Usage
 
@@ -17,13 +17,13 @@ shortcuts: {
   'btn': 'py-2 px-4 font-semibold rounded-lg shadow-md',
   'btn-green': 'text-white bg-green-500 hover:bg-green-700',
   // single utility alias
-  'red': 'text-red-100'
+  'red': 'text-red-100',
 }
 ```
 
 In addition to the plain mapping, UnoCSS also allows you to define dynamic shortcuts.
 
-Similar to [Rules](/config/rules), a dynamic shortcut is the combination of a matcher RegExp and a handler function.
+Similar to [Rules](/config/rules), a dynamic shortcut is the combination of a matcher `RegExp` and a handler function.
 
 ```ts
 shortcuts: [
