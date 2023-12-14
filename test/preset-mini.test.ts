@@ -381,4 +381,26 @@ describe('preset-mini', () => {
         .shadow-blackA7{--un-shadow-opacity:0.169;--un-shadow-color:hsla(0, 0%, 0%, var(--un-shadow-opacity));}"
       `)
   })
+
+  it('support new color notation using css variables for compatibility', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+      theme: {
+        colors: {
+          primary: 'var(--base-primary, oklch(var(--primary) / <alpha-value>))',
+        },
+      },
+    })
+
+    expect((await uno.generate('bg-primary bg-opacity-50 text-primary text-opacity-50', { preflights: false })).css)
+      .toMatchInlineSnapshot(`
+      "/* layer: default */
+      .bg-primary{--un-bg-opacity:1;background-color:var(--base-primary, oklch(var(--primary) / var(--un-bg-opacity)));}
+      .bg-opacity-50{--un-bg-opacity:0.5;}
+      .text-primary{--un-text-opacity:1;color:var(--base-primary, oklch(var(--primary) / var(--un-text-opacity)));}
+      .text-opacity-50{--un-text-opacity:0.5;}"
+    `)
+  })
 })

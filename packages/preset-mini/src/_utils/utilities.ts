@@ -199,7 +199,13 @@ export function colorResolver(property: string, varName: string, key?: ThemeColo
       }
     }
     else if (color) {
-      css[property] = colorToString(color, alpha)
+      if (alpha != null) {
+        css[property] = colorToString(color, alpha)
+      }
+      else {
+        css[`--un-${varName}-opacity`] = 1
+        css[property] = colorToString(color, `var(--un-${varName}-opacity)`)
+      }
     }
 
     if (shouldPass?.(css) !== false)
