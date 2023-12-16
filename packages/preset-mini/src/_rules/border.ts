@@ -1,4 +1,4 @@
-import type { CSSEntries, CSSObject, Rule, RuleContext } from '@unocss/core'
+import type { CSSColorValue, CSSEntries, CSSObject, Rule, RuleContext } from '@unocss/core'
 import { colorOpacityToString, colorToString } from '@unocss/rule-utils'
 import type { Theme } from '../theme'
 import { cornerMap, directionMap, globalKeywords, h, hasParseableColor, isCSSMathFn, parseColor } from '../utils'
@@ -49,6 +49,28 @@ export const borders: Rule[] = [
   [/^(?:border|b)-([bi][se])-(?:style-)?(.+)$/, handlerBorderStyle],
 ]
 
+function transformBorderColor(color: string | CSSColorValue, alpha: string | number | undefined, direction: string | undefined) {
+  if (alpha != null) {
+    return {
+      [`border${direction}-color`]: colorToString(color, alpha),
+    }
+  }
+  if (direction === '') {
+    return {
+      '--un-border-opacity': typeof color === 'string' ? 1 : colorOpacityToString(color),
+      'border-color': colorToString(color, 'var(--un-border-opacity)'),
+    }
+  }
+  else {
+    return {
+    // Separate this return since if `direction` is an empty string, the first key will be overwritten by the second.
+      '--un-border-opacity': typeof color === 'string' ? 1 : colorOpacityToString(color),
+      [`--un-border${direction}-opacity`]: 'var(--un-border-opacity)',
+      [`border${direction}-color`]: colorToString(color, `var(--un-border${direction}-opacity)`),
+    }
+  }
+}
+
 function borderColorResolver(direction: string) {
   return ([, body]: string[], theme: Theme): CSSObject | undefined => {
     const data = parseColor(body, theme, 'borderColor')
@@ -58,32 +80,11 @@ function borderColorResolver(direction: string) {
 
     const { alpha, color, cssColor } = data
 
-    if (cssColor) {
-      if (alpha != null) {
-        return {
-          [`border${direction}-color`]: colorToString(cssColor, alpha),
-        }
-      }
-      if (direction === '') {
-        return {
-          '--un-border-opacity': colorOpacityToString(cssColor),
-          'border-color': colorToString(cssColor, 'var(--un-border-opacity)'),
-        }
-      }
-      else {
-        return {
-        // Separate this return since if `direction` is an empty string, the first key will be overwritten by the second.
-          '--un-border-opacity': colorOpacityToString(cssColor),
-          [`--un-border${direction}-opacity`]: 'var(--un-border-opacity)',
-          [`border${direction}-color`]: colorToString(cssColor, `var(--un-border${direction}-opacity)`),
-        }
-      }
-    }
-    else if (color) {
-      return {
-        [`border${direction}-color`]: colorToString(color, alpha),
-      }
-    }
+    if (cssColor)
+      return transformBorderColor(cssColor, alpha, direction)
+
+    else if (color)
+      return transformBorderColor(color, alpha, direction)
   }
 }
 
