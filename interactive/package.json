@@ -21,14 +21,14 @@
     "js-yaml": "^4.1.0",
     "knitwork": "^1.0.0",
     "markdown-it-link-attributes": "^4.0.1",
-    "markdown-it-shikiji": "^0.7.5",
+    "markdown-it-shikiji": "^0.7.6",
     "nuxt": "^3.8.2",
     "p-limit": "^5.0.0",
     "postcss-nested": "^6.0.1",
     "prettier": "^2.8.8",
-    "shikiji": "^0.7.5",
+    "shikiji": "^0.7.6",
     "theme-vitesse": "^0.7.5",
-    "vite-plugin-vue-markdown": "^0.23.8",
+    "unplugin-vue-markdown": "^0.25.2",
     "vue": "^3.3.9"
   }
 }

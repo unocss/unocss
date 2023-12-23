@@ -15,10 +15,10 @@
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
-    "@vitejs/plugin-vue": "^4.5.0",
+    "@vitejs/plugin-vue": "^4.5.1",
     "typescript": "^5.3.2",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.0.3"
+    "vite": "^5.0.5"
   },
   "stackblitz": {
     "installDependencies": false,

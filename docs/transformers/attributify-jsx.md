@@ -68,7 +68,7 @@ export default defineConfig({
   // ...
   presets: [
     // ...
-    presetAttributify()
+    presetAttributify(),
   ],
   transformers: [
     transformerAttributifyJsx(), // <--

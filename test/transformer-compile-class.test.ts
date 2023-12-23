@@ -125,10 +125,10 @@ describe('transformer-compile-class', () => {
       <div class=":uno-foo: w-2"/>
     `.trim())
     }).rejects
-      .toMatchInlineSnapshot('[Error: Duplicated compile class name "uno-foo". One is "w-2" and the other is "w-1" Please choose different class name]')
+      .toMatchInlineSnapshot(`[Error: Duplicated compile class name "uno-foo". One is "w-2" and the other is "w-1". Please choose different class name or set 'alwaysHash' to 'true'.]`)
   })
 
-  it('custom class name should not conflicts when the content is the same', async () => {
+  it('custom class name should not conflict when the content is the same', async () => {
     const result = await transform(`
 <div class=":uno-foo: h-1 w-1"/>
 <div class=":uno-foo: w-1 h-1"/>

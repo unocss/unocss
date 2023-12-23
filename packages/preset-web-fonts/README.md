@@ -2,7 +2,6 @@
 
 Web fonts support for [UnoCSS](https://github.com/unocss/unocss).
 
-
 ## Documentation
 
 Please refer to the [documentation](https://unocss.dev/presets/web-fonts).

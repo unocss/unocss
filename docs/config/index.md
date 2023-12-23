@@ -14,7 +14,7 @@ Configurations are what make UnoCSS powerful.
 - [Theme](/config/theme) - Define theme variables.
 - [Variants](/config/variants) - Apply custom conventions to rules.
 - [Extractors](/config/extractors) - Define where and how the usage of utilities are extracted.
-- [Preflights](/config/preflights) - Define global CSS rules.
+- [Preflights](/config/preflights) - Define global raw CSS.
 - [Layers](/config/layers) - Define the order of each utilities layer.
 - [Presets](/config/presets) - Predefined configurations for common use cases.
 - [Transformers](/config/transformers) - Code transformers to user sources code to support conventions.
