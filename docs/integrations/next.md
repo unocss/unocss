@@ -87,7 +87,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 export default MyApp
 ```
 
-
 ## Usage 
 
 Style your components with unocss!
@@ -137,4 +136,4 @@ Try deleting the `.next` directory and restart the dev server.
 
 You might need to bump your target up to at least `es2015` in your `tsconfig.json` to build your project.
 
-Files with `.js` extension are not supported by default. Change your file extensions to `.jsx` or try to include js files in your config with `include: /\.js$/`. [Learn more](https://github.com/unocss/unocss#scanning).
+Files with `.js` extension are not supported by default. Change your file extensions to `.jsx` or try to include js files in your config with `include: /\.js$/`. [Learn more](/guide/extracting#extracting-from-build-tools-pipeline).

@@ -36,7 +36,7 @@ is transformed into:
 
 ## How it works
 
-A regular UnoCSS/Tailwind setup places utility styles in a global CSS file with proper ordering. In contrast, Svelte Scoped distributes your styles across many arbitrarily ordered Svelte component CSS files. However, it must keep the utility styles global to allow them to be context aware as needed for things like right-to-left and other [use cases](#context-aware) listed below. This presents a challenge that is solved by using Svelte's `:global()` wrapper to opt out of the default Svelte CSS hashing method and instead use a hash based on filename + class name(s) to compile unique class names that can be made global without style conflicts.
+A regular UnoCSS/Tailwind CSS setup places utility styles in a global CSS file with proper ordering. In contrast, Svelte Scoped distributes your styles across many arbitrarily ordered Svelte component CSS files. However, it must keep the utility styles global to allow them to be context aware as needed for things like right-to-left and other [use cases](#context-aware) listed below. This presents a challenge that is solved by using Svelte's `:global()` wrapper to opt out of the default Svelte CSS hashing method and instead use a hash based on filename + class name(s) to compile unique class names that can be made global without style conflicts.
 
 ## Usage
 
@@ -173,7 +173,6 @@ In Svelte or SvelteKit apps, inject generated styles directly into your Svelte c
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/sveltekit-scoped)
 
-
 ### Install
 
 ::: code-group
@@ -242,7 +241,6 @@ export async function handle({ event, resolve }) {
 
 *In a regular Svelte project, Vite's `transformIndexHtml` hook will do this automatically.*
 
-
 ## Svelte Preprocessor
 
 Use utility styles to build a component library that is not dependent on including a companion CSS file by using a preprocessor to place generated styles directly into built components. Check out the [SvelteKit Library example](https://github.com/unocss/unocss/tree/main/examples/sveltekit-preprocess) in Stackblitz:
@@ -291,7 +289,7 @@ When using Svelte Scoped in a normal app, the Vite plugin will automatically det
 If you want this same behavior when using the preprocessor, you must manually set the the `combine` option based on environemnt. One way to do this is to install [cross-env](https://www.npmjs.com/package/cross-env) and update your dev script to this:
 
 ```
-"dev": "cross-env NODE_ENV=development vite dev",
+"dev": "cross-env NODE_ENV=development vite dev"
 ```
 
 Then adjust your svelte.config.js:

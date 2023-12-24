@@ -97,26 +97,23 @@ async function rootRegister(
     if (cacheFileLookUp.has(url))
       return
 
-    if (!filter(url)) {
-      cacheFileLookUp.add(url)
+    if (!filter(url))
       return
-    }
-
-    if ([...rootCache].some(root => url.startsWith(root))) {
-      // root has been created
-      cacheFileLookUp.add(url)
-      return
-    }
-
-    const configUrl = await findUp(configNames, { cwd: url })
 
     cacheFileLookUp.add(url)
+
+    // root has been created
+    if ([...rootCache].some(root => url.startsWith(root)))
+      return
+
+    const configUrl = await findUp(configNames, { cwd: url })
 
     if (!configUrl)
       return
 
     const cwd = path.dirname(configUrl)
-    rootCache.add(cwd)
+    // Prevent sub-repositories from having the same naming prefix
+    rootCache.add(`${cwd}/`)
 
     await ctx.loadContextInDirectory(cwd)
   }

@@ -55,7 +55,7 @@ Throw warning or error when using utilities listed in `blocklist` get matched.
 
 This rule is not enabled by default. To enable it, add the following to your `.eslintrc`:
 
-```jsonc
+```json
 {
   "extends": [
     "@unocss"
