@@ -5,7 +5,7 @@
   "private": true,
   "packageManager": "pnpm@8.11.0",
   "scripts": {
-    "postinstall": "esno scripts/prepare.ts",
+    "postinstall": "tsx scripts/prepare.ts",
     "taze": "taze minor -wIr && pnpm -r --parallel run update-post",
     "bench": "npm -C bench run bench",
     "build": "rimraf packages/*/dist --glob && esno scripts/copy-files.ts && pnpm -r --filter=./packages/* run build && pnpm -r run build-post",
