@@ -24,7 +24,7 @@ The UnoCSS integration for [Astro](https://astro.build/): `@unocss/astro`. Check
 ```ts
 // astro.config.ts
 import { defineConfig } from 'astro/config'
-import UnoCSS from 'unocss/astro'
+import UnoCSS from '@unocss/astro'
 
 export default defineConfig({
   integrations: [
