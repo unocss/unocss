@@ -5,8 +5,7 @@ import { CLASS_FIELDS } from '../constants'
 import { syncAction } from './_'
 import { IGNORE_ATTRIBUTES } from './order-attributify'
 
-export default ESLintUtils.RuleCreator(name => name)({
-  name: 'blocklist',
+export default ESLintUtils.RuleCreator.withoutDocs({
   meta: {
     type: 'problem',
     fixable: 'code',

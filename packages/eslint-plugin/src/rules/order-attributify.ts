@@ -6,8 +6,7 @@ import { syncAction } from './_'
 
 export const IGNORE_ATTRIBUTES = ['style', 'class', 'classname', 'value']
 
-export default ESLintUtils.RuleCreator(name => name)({
-  name: 'order-attributify',
+export default ESLintUtils.RuleCreator.withoutDocs({
   meta: {
     type: 'layout',
     fixable: 'code',

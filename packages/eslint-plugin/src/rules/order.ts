@@ -4,8 +4,7 @@ import type { TSESTree } from '@typescript-eslint/types'
 import { AST_NODES_WITH_QUOTES, CLASS_FIELDS } from '../constants'
 import { syncAction } from './_'
 
-export default ESLintUtils.RuleCreator(name => name)({
-  name: 'order',
+export default ESLintUtils.RuleCreator.withoutDocs({
   meta: {
     type: 'layout',
     fixable: 'code',
