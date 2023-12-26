@@ -52,7 +52,7 @@ export function extractorAttributify(options?: AttributifyOptions): Extractor {
               .filter(isValidSelector)
           }
           else if (elementRE.test(content)) {
-            elementRE.test(content) // global regular expression is stateful, clear the state
+            elementRE.lastIndex = 0
             return this.extract!({ code: content } as ExtractorContext) as string[]
           }
           else {
