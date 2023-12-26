@@ -40,7 +40,7 @@ const Integrations: DefaultTheme.NavItemWithLink[] = [
   { text: 'CLI', link: '/integrations/cli' },
   { text: 'PostCSS', link: '/integrations/postcss' },
   { text: 'ESLint', link: '/integrations/eslint' },
-  { text: 'VSCode extension', link: '/integrations/vscode' },
+  { text: 'VS Code Extension', link: '/integrations/vscode' },
   { text: 'JetBrains IDE Plugin', link: '/integrations/jetbrains' },
 ]
 
@@ -216,7 +216,7 @@ const SidebarPresets: DefaultTheme.SidebarItem[] = [
     items: Extractors,
   },
   {
-    text: 'Other packages',
+    text: 'Other Packages',
     collapsed: false,
     items: Tools,
   },

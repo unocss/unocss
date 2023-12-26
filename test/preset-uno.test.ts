@@ -122,7 +122,7 @@ it('define breakpoints with irregular sorting', async () => {
     .toMatchInlineSnapshot(`
       "/* layer: shortcuts */
       @media (min-width: 1536px){
-      .\\\\32 xl\\\\:container{max-width:1536px;margin-left:auto;margin-right:auto;padding-left:6rem;padding-right:6rem;}
+      .\\32 xl\\:container{max-width:1536px;margin-left:auto;margin-right:auto;padding-left:6rem;padding-right:6rem;}
       }"
     `)
 })

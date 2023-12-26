@@ -2,7 +2,7 @@ import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
 import { transitions } from './transition'
 import { borders } from './border'
-import { bgColors, colorScheme, opacity, textColors } from './color'
+import { bgColors, colorScheme, opacity } from './color'
 import { flex } from './flex'
 import { fonts, tabSizes, textIndents, textShadows, textStrokes } from './typography'
 import { gaps } from './gap'
@@ -45,7 +45,6 @@ export const rules: Rule<Theme>[] = [
   textShadows,
   textTransforms,
   textAligns,
-  textColors,
   fontStyles,
   fontSmoothings,
   boxShadows,

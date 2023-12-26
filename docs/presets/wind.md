@@ -1,12 +1,12 @@
 ---
 title: Wind preset
-description: The Tailwind / Windi CSS compact preset for UnoCSS (@unocss/preset-wind).
+description: The Tailwind CSS / Windi CSS compact preset for UnoCSS (@unocss/preset-wind).
 outline: deep
 ---
 
 # Wind preset
 
-The Tailwind / Windi CSS compact preset for UnoCSS.
+The Tailwind CSS / Windi CSS compact preset for UnoCSS.
 
 [Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-wind)
 
@@ -67,7 +67,7 @@ Using quotes in the template (the files intended to be processed) is not support
 |:--|:--|
 | `<sm:p-1` | `lt-sm:p-1` |
 | `@lg:p-1` | `at-lg:p-1` |
-| `>xl:p-1` | `lg:p-1`    |
+| `>xl:p-1` | `xl:p-1`    |
 
 ### Bracket syntax spaces
 

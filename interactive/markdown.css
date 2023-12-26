@@ -781,7 +781,6 @@
   .shiki {
     padding: 16px;
     overflow: auto;
-    background-color: transparent !important;
     --at-apply: border-base border;
   }
 
@@ -894,17 +893,5 @@
 
   s {
     opacity: 0.6;
-  }
-
-  &.light {
-    .shiki.Vitesse.Dark {
-      display: none;
-    }
-  }
-
-  &.dark {
-    .shiki.Vitesse.Light {
-      display: none;
-    }
   }
 }

@@ -13,6 +13,7 @@
   ],
   "packageMode": {
     "vue": "minor",
-    "nuxt": "minor"
+    "nuxt": "minor",
+    "lit": "minor"
   }
 }

@@ -1,5 +1,0 @@
-/* layer: default */
-.group:hover .group-hover\:font-bold{font-weight:700;}
-.group[data-state=open] .group-data-\[state\=open\]\:text-black{--un-text-opacity:1;color:rgb(0 0 0 / var(--un-text-opacity));}
-.data-\[state\=open\]\:text-red[data-state=open]{--un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity));}
-.group[data-state=open] .group-data-\[state\=open\]\:rotate-180{--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-rotate:180deg;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}

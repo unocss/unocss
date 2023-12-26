@@ -218,10 +218,10 @@ input:focus {
   padding-left: 1rem;
   padding-right: 1rem;
   text-align: center;
-  font-weight: 500;
-  text-transform: uppercase;
   --un-text-opacity: 1;
   color: rgb(255 255 255 / var(--un-text-opacity));
+  font-weight: 500;
+  text-transform: uppercase;
 }
 .btn:disabled {
   cursor: not-allowed;

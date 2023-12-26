@@ -2,8 +2,8 @@ import process from 'node:process'
 import type { Plugin, Update, ViteDevServer } from 'vite'
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import { notNull } from '@unocss/core'
-import type { VitePluginConfig } from 'unocss/vite'
 import MagicString from 'magic-string'
+import type { VitePluginConfig } from '../../types'
 import { LAYER_MARK_ALL, getHash, getPath, resolveId, resolveLayer } from '../../integration'
 
 const WARN_TIMEOUT = 20000
@@ -132,6 +132,12 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
         return null
       },
       transformIndexHtml: {
+        order: 'pre',
+        handler(code, { filename }) {
+          setWarnTimer()
+          tasks.push(extract(code, filename))
+        },
+        // Compatibility with Legacy Vite
         enforce: 'pre',
         transform(code, { filename }) {
           setWarnTimer()

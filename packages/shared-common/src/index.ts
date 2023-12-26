@@ -111,7 +111,7 @@ export function getMatchedPositions(
 
   // highlight classes that includes `><`
   function highlightLessGreaterThanSign(str: string) {
-    if (str.match(/[><]/)) {
+    if (/[><]/.test(str)) {
       for (const match of code.matchAll(new RegExp(escapeRegExp(str), 'g'))) {
         const start = match.index!
         const end = start + match[0].length
@@ -162,7 +162,7 @@ export function getMatchedPositions(
         const escaped = match[1]
         const body = match[0].slice(escaped.length)
         let bodyIndex = body.match(`[\\b\\s'"]${escapeRegExp(value)}[\\b\\s'"]`)?.index ?? -1
-        if (body[bodyIndex]?.match(/[\s'"]/))
+        if (/[\s'"]/.test(body[bodyIndex] ?? ''))
           bodyIndex++
         if (bodyIndex < 0)
           return

@@ -31,7 +31,7 @@ exports[`cli > supports updating source files with transformed utilities ('varia
 .p-4{padding:1rem;}"
 `;
 
-exports[`cli > supports updating source files with transformed utilities ('variant group transformer') 2`] = `"<div class=\\"p-4 border-solid border-red\\"></div>"`;
+exports[`cli > supports updating source files with transformed utilities ('variant group transformer') 2`] = `"<div class="p-4 border-solid border-red"></div>"`;
 
 exports[`cli > supports variantGroup transformer 1`] = `
 "/* layer: default */
@@ -40,4 +40,4 @@ exports[`cli > supports variantGroup transformer 1`] = `
 .p-4{padding:1rem;}"
 `;
 
-exports[`cli > supports variantGroup transformer 2`] = `"<div class=\\"p-4 border-(solid red)\\"></div>"`;
+exports[`cli > supports variantGroup transformer 2`] = `"<div class="p-4 border-(solid red)"></div>"`;

@@ -3,19 +3,26 @@ import type { UnocssPluginContext } from '@unocss/core'
 import { applyTransformers } from '../../shared-integration/src/transformers'
 
 export function createTransformerPlugins(ctx: UnocssPluginContext): Plugin[] {
-  const enforces = ['default', 'pre', 'post'] as const
-  return enforces.map((enforce): Plugin => ({
-    name: `unocss:transformers:${enforce}`,
-    enforce: enforce === 'default' ? undefined : enforce,
-    transform(code, id) {
-      return applyTransformers(ctx, code, id, enforce)
-    },
-    transformIndexHtml: {
-      enforce: enforce === 'default' ? undefined : enforce,
-      transform(code) {
-        return applyTransformers(ctx, code, 'index.html', enforce)
-          .then(t => t?.code)
+  const orders = ['default', 'pre', 'post'] as const
+  return orders.map((_order): Plugin => {
+    const order = _order === 'default' ? undefined : _order
+    const htmlHandler = (code: string) => {
+      return applyTransformers(ctx, code, 'index.html', order)
+        .then(t => t?.code)
+    }
+    return {
+      name: `unocss:transformers:${order}`,
+      enforce: order,
+      transform(code, id) {
+        return applyTransformers(ctx, code, id, order)
       },
-    },
-  }))
+      transformIndexHtml: {
+        order,
+        handler: htmlHandler,
+        // Compatibility with Legacy Vite
+        enforce: order,
+        transform: htmlHandler,
+      },
+    } satisfies Plugin
+  })
 }

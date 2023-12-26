@@ -6,7 +6,7 @@ outline: deep
 
 # Runtime
 
-UnoCSS runtime provide a CDN build that runs the UnoCSS engine right in the browser. It will detect the DOM changes and generate the styles on the fly.
+UnoCSS runtime provide a CDN build that runs the UnoCSS right in the browser. It will detect the DOM changes and generate the styles on the fly.
 
 ## Usage
 
@@ -75,7 +75,7 @@ With `@unocss/preset-mini` and `@unocss/preset-attributify` preset:
 
 ### Core
 
-If you need to mix and match presets, you can load only the core runtime and assign the presets manually. All the [official presets](/presets/#presets) from UnoCSS are available and must be loaded before initializing the core runtime.
+If you need to mix and match presets, you can load only the core runtime and assign the presets manually. All the [official presets](/presets/#presets) from UnoCSS are available. Load the one you need before initializing the core runtime.
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime/preset-icons.global.js"></script>
@@ -106,18 +106,19 @@ initUnocssRuntime({ /* options */ })
 
 ## Preventing FOUC
 
-Since UnoCSS runs after the DOM is present, there can be a "flash of unstyled content" (FOUC) which may leads the user to see the page as unstyled.
+Since UnoCSS runs after the DOM is ready, there can be a "flash of unstyled content" (FOUC) which may leads the user to see the page as unstyled.
 
 Use `un-cloak` attribute with CSS rules such as `[un-cloak] { display: none }` to hide the unstyled element until UnoCSS applies the styles for it.
 
-```css
-[un-cloak] {
-  display: none;
-}
-```
-
-```html
-<div class="text-blue-500" un-cloak>
-  This text will only be visible in blue color.
-</div>
-```
+::: code-group
+  ```css
+  [un-cloak] {
+    display: none;
+  }
+  ```
+  ```html
+  <div class="text-blue-500" un-cloak>
+    This text will only be visible in blue color.
+  </div>
+  ```
+:::

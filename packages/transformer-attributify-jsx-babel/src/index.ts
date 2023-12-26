@@ -69,12 +69,12 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
     options.exclude || [],
   )
 
-  interface InternaalBabelContext {
+  interface InternalBabelContext {
     tasks: Promise<void>[]
     matched: string[]
   }
 
-  function babelPlugin(uno: UnoGenerator, ctx: InternaalBabelContext): babel.PluginObj {
+  function babelPlugin(uno: UnoGenerator, ctx: InternalBabelContext): babel.PluginObj {
     return {
       name: '@unocss/transformer-attributify-jsx-babel',
       visitor: {
@@ -109,7 +109,7 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
     enforce: 'pre',
     idFilter,
     async transform(code, id, { uno }) {
-      const ctx: InternaalBabelContext = { tasks: [], matched: [] }
+      const ctx: InternalBabelContext = { tasks: [], matched: [] }
       const babelOptions = {
         presets: [ts],
         plugins: [

@@ -66,15 +66,6 @@ export const presetWindTargets: string[] = [
   'bg-repeat-revert',
   'bg-right-bottom',
   'bg-scroll',
-  'bg-[url(https://test.unocss.png)]',
-  'bg-[length:--variable]',
-  'bg-[length:10_20rem]',
-  'bg-[length:1/2_20rem]',
-  'bg-[position:--variable]',
-  'bg-[position:10_20rem]',
-  'bg-[position:1/2_20rem]',
-  'bg-[position:bottom_left_10%]',
-  'bg-[position:top_right_1/3]',
 
   // bg gradient
   'from-current',
@@ -394,6 +385,8 @@ export const presetWindTargets: string[] = [
   '!animate-ping',
   '-backdrop-hue-rotate-90',
   '-hue-rotate-90',
+  '-hue-rotate--90',
+  '-hue-rotate-[var(--for-hue,0.5turn)]',
   'hover:animate-bounce',
 
   '-scroll-mb-px',

@@ -33,6 +33,8 @@ describe('prefix', () => {
       'dark:children:hover:h-space-x-4',
       'dark:hover:children:h-space-x-4',
       'dark:hover:children:h-divide-x',
+      'group-hover:h-bg-red',
+      'group-data-[enabled]:h-bg-green',
     ]
 
     const { css, matched } = await uno.generate(new Set([
@@ -42,6 +44,31 @@ describe('prefix', () => {
 
     expect([...matched].sort()).toEqual(expected.sort())
     expect(css).toMatchSnapshot()
+  })
+
+  it('uses first truthy prefix', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetUno({
+          prefix: ['', 'h-'],
+        }),
+      ],
+    })
+
+    expect((await uno.generate('group-hover:h-bg-red group-data-[enabled]:h-bg-green', { preflights: false })).css).toMatchSnapshot()
+  })
+
+  it('generate tagged attributify', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetUno({
+          prefix: 'h-',
+          attributifyPseudo: true,
+        }),
+      ],
+    })
+
+    expect((await uno.generate('group-hover:h-bg-red group-data-[enabled]:h-bg-green', { preflights: false })).css).toMatchSnapshot()
   })
 
   it('multiple preset prefix', async () => {
