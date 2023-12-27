@@ -39,11 +39,11 @@
     "lint": "nr build && cd ./fixtures && eslint ./src"
   },
   "dependencies": {
-    "@typescript-eslint/utils": "^6.13.2",
+    "@typescript-eslint/utils": "^6.16.0",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "magic-string": "^0.30.5",
-    "synckit": "^0.8.6"
+    "synckit": "^0.8.8"
   },
   "devDependencies": {
     "@unocss/eslint-plugin": "workspace:*"
