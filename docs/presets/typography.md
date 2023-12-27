@@ -175,7 +175,7 @@ The class name to use the typographic utilities. To undo the styles to the eleme
 ### cssExtend
 - **Type:** `Record<string, CSSObject>`
 - **Default:** `undefined`
-  
+
 Extend or override CSS selectors with CSS declaration block.
 
 ### compatibility

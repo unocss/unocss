@@ -26,7 +26,7 @@ This plugin does not come with any default presets.
   ```
 :::
 
-From UnoCSS version `v0.58.0`, UnoCSS has been moved to ESM-only, and so you need to load your configuration via dynamic import:
+From UnoCSS version `v0.58.1`, UnoCSS has been moved to ESM-only, and so you need to load your configuration via dynamic import:
 
 ::: code-group
 ```ts [webpack 5]
@@ -122,7 +122,7 @@ import 'uno.css'
 
 ### Vue + Vue CLI
 
-If you're using [Vue CLI](https://cli.vuejs.org/) with webpack 4/5 with UnoCSS `v0.58.0+`, you need to use the latest [Vue CLI Service](https://cli.vuejs.org/guide/cli-service.html) `v5.0.8` to load your configuration with dynamic import:
+If you're using [Vue CLI](https://cli.vuejs.org/) with webpack 4/5 with UnoCSS `v0.58.1+`, you need to use the latest [Vue CLI Service](https://cli.vuejs.org/guide/cli-service.html) `v5.0.8` to load your configuration with dynamic import:
 
 ::: code-group
 ```ts [webpack 5]

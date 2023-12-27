@@ -6,6 +6,8 @@ const directions: Record<string, string> = {
   '': '',
   'x': 'column-',
   'y': 'row-',
+  'col': 'column-',
+  'row': 'row-',
 }
 
 function handleGap([, d = '', s]: string[], { theme }: RuleContext<Theme>) {
@@ -20,4 +22,5 @@ function handleGap([, d = '', s]: string[], { theme }: RuleContext<Theme>) {
 export const gaps: Rule[] = [
   [/^(?:flex-|grid-)?gap-?()(.+)$/, handleGap, { autocomplete: ['gap-$spacing', 'gap-<num>'] }],
   [/^(?:flex-|grid-)?gap-([xy])-?(.+)$/, handleGap, { autocomplete: ['gap-(x|y)-$spacing', 'gap-(x|y)-<num>'] }],
+  [/^(?:flex-|grid-)?gap-(col|row)-?(.+)$/, handleGap, { autocomplete: ['gap-(col|row)-$spacing', 'gap-(col|row)-<num>'] }],
 ]

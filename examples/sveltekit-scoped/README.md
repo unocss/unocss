@@ -93,7 +93,7 @@ will be transformed into this:
   :global(.uno-0hashz) {
     /* logo shortcut styles will be put here... */
   }
-  
+
   div {
     --un-text-opacity: 1;
     color: rgb(59 130 246 / var(--un-text-opacity));

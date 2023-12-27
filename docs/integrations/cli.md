@@ -126,4 +126,3 @@ For a list of options, head over to the [UnoCSS configurations](/config/) docs.
 | `--write-transformed` | Update source files with transformed utilities |
 | `-m, --minify` | Minify generated CSS |
 | `-h, --help` | Display available CLI options |
-

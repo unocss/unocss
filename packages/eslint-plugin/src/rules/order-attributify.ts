@@ -1,12 +1,12 @@
-import { ESLintUtils } from '@typescript-eslint/utils'
+import type { ESLintUtils } from '@typescript-eslint/utils'
 import type { RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import type { TSESTree } from '@typescript-eslint/types'
 import MagicString from 'magic-string'
-import { syncAction } from './_'
+import { createRule, syncAction } from './_'
 
 export const IGNORE_ATTRIBUTES = ['style', 'class', 'classname', 'value']
 
-export default ESLintUtils.RuleCreator(name => name)({
+export default createRule({
   name: 'order-attributify',
   meta: {
     type: 'layout',
