@@ -559,6 +559,11 @@ export const presetMiniTargets: string[] = [
   'size-w-10',
   'size-h-[calc(1000px-4rem)]',
   'size-min-w-full',
+  'size-10',
+  'size-[calc(1000px-4rem)]',
+  'size-[var(--something)]',
+  'size-min-10',
+  'size-max-10',
 
   // size - logical
   'block-auto',
