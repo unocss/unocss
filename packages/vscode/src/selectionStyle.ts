@@ -1,4 +1,4 @@
-import { MarkdownString, Position, Range, window, workspace } from 'vscode'
+import { MarkdownString, Position, Range, window } from 'vscode'
 import parserCSS from 'prettier/parser-postcss'
 import prettier from 'prettier/standalone'
 import type { ExtensionContext, TextEditorSelectionChangeEvent } from 'vscode'
@@ -10,7 +10,7 @@ import { getMatchedPositionsFromCode } from './integration'
 import { useConfigurations } from './configuration'
 
 export async function registerSelectionStyle(contextLoader: ContextLoader, ext: ExtensionContext) {
-  const {configuration} = useConfigurations(ext)
+  const { configuration } = useConfigurations(ext)
 
   const integrationDecoration = window.createTextEditorDecorationType({})
 
