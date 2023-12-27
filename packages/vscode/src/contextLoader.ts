@@ -255,7 +255,7 @@ export class ContextLoader {
       return
     registerAutoComplete(this, this.ext)
     registerAnnotations(this, this.status, this.ext)
-    registerSelectionStyle(this)
+    registerSelectionStyle(this, this.ext)
     this._isRegistered = true
   }
 }

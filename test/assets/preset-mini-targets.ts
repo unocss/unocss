@@ -194,6 +194,7 @@ export const presetMiniTargets: string[] = [
   'c-$color-variable',
   'c-$color-variable/10',
   'c-$color-variable/$opacity-variable',
+  'c-$color-variable,red',
   'op-10',
   'opacity-0',
   'opacity-$opa',
@@ -558,6 +559,11 @@ export const presetMiniTargets: string[] = [
   'size-w-10',
   'size-h-[calc(1000px-4rem)]',
   'size-min-w-full',
+  'size-10',
+  'size-[calc(1000px-4rem)]',
+  'size-[var(--something)]',
+  'size-min-10',
+  'size-max-10',
 
   // size - logical
   'block-auto',
