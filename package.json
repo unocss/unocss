@@ -88,6 +88,7 @@
     "codemirror-theme-vars": "^0.1.2",
     "eslint": "^8.56.0",
     "eslint-plugin-antfu": "^2.1.1",
+    "eslint-plugin-svelte": "^2.35.1",
     "esno": "^4.0.0",
     "execa": "^8.0.1",
     "fast-glob": "^3.3.2",
