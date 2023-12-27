@@ -485,8 +485,6 @@ div {
     expect(result)
       .toMatchInlineSnapshot(`
         ".btn {
-          --un-border-opacity: 1;
-          --un-border-right-opacity: var(--un-border-opacity);
           border-right-color: var(--theme-color);
         }
         "

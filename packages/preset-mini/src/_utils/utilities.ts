@@ -1,6 +1,6 @@
 import type { CSSEntries, CSSObject, DynamicMatcher, ParsedColorValue, RuleContext, StaticRule, VariantContext } from '@unocss/core'
 import { toArray } from '@unocss/core'
-import { colorOpacityToString, colorToString, getStringComponent, getStringComponents, hasAlphaPlaceholder, parseCssColor } from '@unocss/rule-utils'
+import { colorOpacityToString, colorToString, getStringComponent, getStringComponents, parseCssColor } from '@unocss/rule-utils'
 import type { Theme } from '../theme'
 import { h } from './handlers'
 import { cssMathFnRE, directionMap, globalKeywords } from './mappings'

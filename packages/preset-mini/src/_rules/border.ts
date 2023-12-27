@@ -49,25 +49,35 @@ export const borders: Rule[] = [
   [/^(?:border|b)-([bi][se])-(?:style-)?(.+)$/, handlerBorderStyle],
 ]
 
-function transformBorderColor(color: string | CSSColorValue, alpha: string | number | undefined, direction: string | undefined) {
+function transformBorderColor(color: string | CSSColorValue, alpha: string | number | undefined, direction: string | undefined): CSSObject {
   if (alpha != null) {
     return {
       [`border${direction}-color`]: colorToString(color, alpha),
     }
   }
   if (direction === '') {
-    return {
-      '--un-border-opacity': typeof color === 'string' ? 1 : colorOpacityToString(color),
-      'border-color': colorToString(color, 'var(--un-border-opacity)'),
-    }
+    const object: CSSObject = {}
+    const opacityVar = `--un-border-opacity`
+    const result = colorToString(color, `var(${opacityVar})`)
+
+    if (result.includes(opacityVar))
+      object[opacityVar] = typeof color === 'string' ? 1 : colorOpacityToString(color)
+    object['border-color'] = result
+
+    return object
   }
   else {
-    return {
-    // Separate this return since if `direction` is an empty string, the first key will be overwritten by the second.
-      '--un-border-opacity': typeof color === 'string' ? 1 : colorOpacityToString(color),
-      [`--un-border${direction}-opacity`]: 'var(--un-border-opacity)',
-      [`border${direction}-color`]: colorToString(color, `var(--un-border${direction}-opacity)`),
+    const object: CSSObject = {}
+    const opacityVar = '--un-border-opacity'
+    const opacityDirectionVar = `--un-border${direction}-opacity`
+    const result = colorToString(color, `var(${opacityDirectionVar})`)
+    if (result.includes(opacityDirectionVar)) {
+      object[opacityVar] = typeof color === 'string' ? 1 : colorOpacityToString(color)
+      object[opacityDirectionVar] = `var(${opacityVar})`
     }
+    object[`border${direction}-color`] = result
+
+    return object
   }
 }
 
