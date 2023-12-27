@@ -7,4 +7,4 @@ exports.default = function (...args) {
   return import('./dist/index.mjs').then(m => m.default.call(this, ...args))
 }
 
-exports.default.meta = require('./package.json')
+module.exports.meta = require('./package.json')
