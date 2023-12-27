@@ -27,6 +27,10 @@
         "types": "./dist/index.d.cts",
         "default": "./dist/index.cjs"
       }
+    },
+    "./esm": {
+      "types": "./dist/esm.d.mts",
+      "import": "./dist/esm.mjs"
     }
   },
   "main": "dist/index.cjs",
