@@ -1,5 +1,6 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { verifyDist } from './dist-verify'
 
 function patchCjs(cjsModulePath: string, name: string) {
   const cjsModule = readFileSync(cjsModulePath, 'utf-8')
@@ -24,3 +25,5 @@ patchCjs(resolve('./packages/postcss/dist/index.cjs'), 'unocss')
 
 // unocss
 patchCjs(resolve('./packages/unocss/dist/postcss.cjs'), 'postcss__default')
+
+await verifyDist()
