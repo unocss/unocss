@@ -6,7 +6,7 @@ outline: deep
 
 # Configuring UnoCSS
 
-## Configuration 
+## Configuration
 Configurations are what make UnoCSS powerful.
 
 - [Rules](/config/rules) - Define atomic CSS utilities
@@ -35,7 +35,7 @@ Similar to Windi CSS's shortcuts, allows you to create new utilities by combinin
 
 ### theme
 - **Type:** `Theme`
-  
+
 Theme object for shared configuration between rules.
 
 ### extendTheme
@@ -210,7 +210,7 @@ First presets runs first and the user config.
 
 - **Type:** `string | false`
 
-Load from configs files. 
+Load from configs files.
 
 Set `false` to disable.
 
@@ -264,5 +264,3 @@ Expose internal details for debugging / inspecting.
 - **Default:** `true`
 
 Emit warning when matched selectors are presented in blocklist.
-
-

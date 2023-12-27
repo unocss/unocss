@@ -128,6 +128,7 @@
   },
   "pnpm": {
     "overrides": {
+      "@nuxt/kit-edge": "npm:@nuxt/kit@latest",
       "array-buffer-byte-length": "npm:@nolyfill/array-buffer-byte-length@latest",
       "arraybuffer.prototype.slice": "npm:@nolyfill/arraybuffer.prototype.slice@latest",
       "available-typed-arrays": "npm:@nolyfill/available-typed-arrays@latest",
@@ -154,12 +155,16 @@
       "is-symbol": "npm:@nolyfill/is-symbol@latest",
       "is-weakref": "npm:@nolyfill/is-weakref@latest",
       "isarray": "npm:@nolyfill/isarray@latest",
+      "magic-string": "latest",
+      "nuxt": "^3.8.2",
       "object-is": "npm:@nolyfill/object-is@latest",
       "object-keys": "npm:@nolyfill/object-keys@latest",
       "object.assign": "npm:@nolyfill/object.assign@latest",
       "object.getownpropertydescriptors": "npm:@nolyfill/object.getownpropertydescriptors@latest",
       "object.values": "npm:@nolyfill/object.values@latest",
+      "prettier": "^2.8.8",
       "regexp.prototype.flags": "npm:@nolyfill/regexp.prototype.flags@latest",
+      "rollup": "^4.9.1",
       "safe-array-concat": "npm:@nolyfill/safe-array-concat@latest",
       "safe-regex-test": "npm:@nolyfill/safe-regex-test@latest",
       "side-channel": "npm:@nolyfill/side-channel@latest",
@@ -172,13 +177,8 @@
       "typed-array-length": "npm:@nolyfill/typed-array-length@latest",
       "typedarray": "npm:@nolyfill/typedarray@latest",
       "unbox-primitive": "npm:@nolyfill/unbox-primitive@latest",
-      "which-typed-array": "npm:@nolyfill/which-typed-array@latest",
-      "@nuxt/kit-edge": "npm:@nuxt/kit@latest",
-      "magic-string": "latest",
-      "nuxt": "^3.8.2",
-      "prettier": "^2.8.8",
-      "rollup": "^4.9.1",
-      "vite": "^5.0.10"
+      "vite": "^5.0.10",
+      "which-typed-array": "npm:@nolyfill/which-typed-array@latest"
     }
   },
   "simple-git-hooks": {

@@ -193,4 +193,3 @@ blocklist: [
 ```
 
 This will exclude `p-1` and `p-2`, `p-3`, `p-4` from being generated.
-
