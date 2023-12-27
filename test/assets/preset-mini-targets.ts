@@ -194,6 +194,7 @@ export const presetMiniTargets: string[] = [
   'c-$color-variable',
   'c-$color-variable/10',
   'c-$color-variable/$opacity-variable',
+  'c-$color-variable,red',
   'op-10',
   'opacity-0',
   'opacity-$opa',
