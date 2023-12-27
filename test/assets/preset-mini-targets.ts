@@ -351,10 +351,14 @@ export const presetMiniTargets: string[] = [
   'gap-inherit',
   'gap-4',
   'gap-x-1',
+  'gap-col-1',
   'gap2',
   'flex-gap-y-1',
+  'flex-gap-row-1',
   'flex-gap-y-unset',
+  'flex-gap-row-unset',
   'grid-gap-y-1',
+  'grid-gap-row-1',
 
   // grid
   'grid-cols-$1',
@@ -1041,6 +1045,7 @@ export const presetMiniTargets: string[] = [
   '!m-$c-m',
   '!p-5px',
   '-gap-y-5',
+  '-gap-row-5',
   '-mb-px',
   '-mt--5cm',
   '-p-px',

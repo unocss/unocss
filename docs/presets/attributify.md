@@ -57,7 +57,7 @@ Imagine you have this button using Tailwind CSS's utilities. When the list gets 
 With attributify mode, you can separate utilities into attributes:
 
 ```html
-<button 
+<button
   bg="blue-400 hover:blue-500 dark:blue-500 dark:hover:blue-600"
   text="sm white"
   font="mono light"

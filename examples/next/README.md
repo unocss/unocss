@@ -48,7 +48,7 @@ module.exports = {
 @unocss all;
 ```
 
-## Usage 
+## Usage
 
 Style your components using UnoCSS!
 

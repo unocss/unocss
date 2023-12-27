@@ -1,4 +1,4 @@
-# Autocomplete 
+# Autocomplete
 
 Autocomplete can be customized for UnoCSS's intelligent suggestions in <a href="/play" target="_blank" rel="noreferrer">playground</a> and the [VS Code extension](/integrations/vscode).
 <!--eslint-skip-->

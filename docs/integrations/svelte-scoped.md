@@ -6,7 +6,7 @@ outline: deep
 
 # Svelte Scoped
 
-Place generated CSS for each Svelte component's utility styles directly into the Svelte component's `<style>` block instead of in a global CSS file. 
+Place generated CSS for each Svelte component's utility styles directly into the Svelte component's `<style>` block instead of in a global CSS file.
 
 This component:
 
@@ -110,7 +110,7 @@ turns into:
 
 #### Passing classes to child components
 
-You can add a `class` prop to a component to allow passing custom classes wherever that component is consumed. 
+You can add a `class` prop to a component to allow passing custom classes wherever that component is consumed.
 
 ```svelte
 <Button class="px-2 py-1">Login</Button>
@@ -135,7 +135,7 @@ An easy way to implement the class in a receiving component would be to place th
 
 ### Apply directives
 
-You can use apply directives inside your `<style>` blocks with either `--at-apply` or `@apply` or a custom value set using the `applyVariables` option. 
+You can use apply directives inside your `<style>` blocks with either `--at-apply` or `@apply` or a custom value set using the `applyVariables` option.
 
 Svelte Scoped even properly handles context dependent classes like `dark:text-white` that the regular [`@unocss/transformer-directives`](/transformers/directives) package can't handle properly because it wasn't built specifically for Svelte style blocks. For example, with Svelte Scoped this component:
 
@@ -324,7 +324,7 @@ Any special preflights that start with a period, such as `.prose :where(a):not(:
 
 ### Safelist
 
-When using the preprocessor you have the option to include safelist classes in a component by adding `uno-safelist` as a style attribute. 
+When using the preprocessor you have the option to include safelist classes in a component by adding `uno-safelist` as a style attribute.
 
 ```html
 <style uno-safelist></style>
@@ -334,7 +334,7 @@ Your safelist styles will be wrapped with `:global()` to avoid being automatical
 
 ## Configuration
 
-Place your UnoCSS settings in an `uno.config.ts` file: 
+Place your UnoCSS settings in an `uno.config.ts` file:
 
 ```ts
 // uno.config.ts
@@ -351,11 +351,11 @@ Extractors are not supported due to the differences in normal UnoCSS global usag
 
 Do to the nature of having a few necessary styles in a global stylesheet and everything else contained in each component where needed, presets need to be handled on a case-by-case basis:
 
-| Preset | Supported | Notes | 
-| --- | :-- | :-- | 
+| Preset | Supported | Notes |
+| --- | :-- | :-- |
 | [@unocss/preset-uno](https://unocss.dev/presets/uno), [@unocss/preset-mini](https://unocss.dev/presets/mini), [@unocss/preset-wind](https://unocss.dev/presets/wind), [@unocss/preset-icons](https://github.com/unocss/unocss/tree/main/packages/preset-icons), [@unocss/web-fonts](https://github.com/unocss/unocss/tree/main/packages/preset-icons) | ✅ | These and all community plugins, e.g. [unocss-preset-forms](https://github.com/Julien-R44/unocss-preset-forms), that only rely on rules/variants/preflights will work. |
-| [@unocss/preset-typography](https://github.com/unocss/unocss/tree/main/packages/preset-typography) | ✅ | Due to how this preset adds rulesets to your preflights you must add the `prose` class to your safelist when using this preset, otherwise the preflights will never be triggered. All other classes from this preset, e.g. `prose-pink`, can be component scoped. | 
-| [@unocss/preset-rem-to-px](https://github.com/unocss/unocss/tree/main/packages/preset-rem-to-px) | ✅ | This and all presets like it that only modify style output will work. | 
+| [@unocss/preset-typography](https://github.com/unocss/unocss/tree/main/packages/preset-typography) | ✅ | Due to how this preset adds rulesets to your preflights you must add the `prose` class to your safelist when using this preset, otherwise the preflights will never be triggered. All other classes from this preset, e.g. `prose-pink`, can be component scoped. |
+| [@unocss/preset-rem-to-px](https://github.com/unocss/unocss/tree/main/packages/preset-rem-to-px) | ✅ | This and all presets like it that only modify style output will work. |
 | [@unocss/preset-attributify](https://github.com/unocss/unocss/tree/main/packages/preset-attributify) | - | Preset won't work. Instead use [unplugin-attributify-to-class](https://github.com/MellowCo/unplugin-attributify-to-class) Vite plugin (`attributifyToClass({ include: [/\.svelte$/]})`) before the Svelte Scoped Vite plugin  |
 | [@unocss/preset-tagify](https://github.com/unocss/unocss/tree/main/packages/preset-tagify) | - | Presets that add custom extractors will not work. Create a preprocessor to convert `<text-red>Hi</text-red>` to `<span class="text-red">Hi</span>`, then create a PR to add the link here. |
 

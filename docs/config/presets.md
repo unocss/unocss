@@ -37,4 +37,3 @@ export default defineConfig({
 ```
 
 You can check [official presets](/presets/) and [community presets](/presets/community) for more examples.
-

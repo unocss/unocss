@@ -24,4 +24,3 @@ Note: This is a **community-maintained plugin, not reviewed or maintained by the
 ## Bug Reports / Feature Requests
 
 Report it at [Issue Tracker](https://github.com/re-ovo/unocss-intellij/issues)
-
