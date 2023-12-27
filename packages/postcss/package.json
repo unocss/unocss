@@ -30,12 +30,20 @@
     },
     "./esm": {
       "types": "./dist/esm.d.mts",
-      "import": "./dist/esm.mjs"
+      "default": "./dist/esm.mjs"
     }
   },
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/*",
+        "./*"
+      ]
+    }
+  },
   "files": [
     "dist"
   ],
