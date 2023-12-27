@@ -65,7 +65,7 @@ describe('config', () => {
     const { css } = await unocss.generate('text-red-100 text-red-200', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: default */
-      .text-red-200{--un-text-opacity:1;color:red;}"
+      .text-red-200{color:red;}"
     `)
   })
 
@@ -84,8 +84,8 @@ describe('config', () => {
     const { css } = await unocss.generate('text-red-100 text-red-200', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: default */
-      .text-red-100{--un-text-opacity:1;color:green;}
-      .text-red-200{--un-text-opacity:1;color:red;}"
+      .text-red-100{color:green;}
+      .text-red-200{color:red;}"
     `)
   })
 

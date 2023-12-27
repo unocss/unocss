@@ -195,10 +195,10 @@ exports[`postcss > @unocss 1`] = `
 .divide-inline-4>:not([hidden])~:not([hidden]){--un-divide-inline-reverse:0;border-inline-start-width:calc(4px * calc(1 - var(--un-divide-inline-reverse)));border-inline-end-width:calc(4px * calc(1 - var(--un-divide-inline-reverse)));}
 .divide-inline-none>:not([hidden])~:not([hidden]){--un-divide-inline-reverse:0;border-inline-start-width:calc(0px * calc(1 - var(--un-divide-inline-reverse)));border-inline-end-width:calc(0px * calc(1 - var(--un-divide-inline-reverse)));}
 .divide-inline-reverse>:not([hidden])~:not([hidden]){--un-divide-inline-reverse:1;}
-.divide-\\$variable>:not([hidden])~:not([hidden]){--un-divide-opacity:1;border-color:var(--variable);}
-.divide-current>:not([hidden])~:not([hidden]){--un-divide-opacity:1;border-color:currentColor;}
+.divide-\\$variable>:not([hidden])~:not([hidden]){border-color:var(--variable);}
+.divide-current>:not([hidden])~:not([hidden]){border-color:currentColor;}
 .divide-green-500>:not([hidden])~:not([hidden]){--un-divide-opacity:1;border-color:rgb(34 197 94 / var(--un-divide-opacity));}
-.divide-transparent>:not([hidden])~:not([hidden]){--un-divide-opacity:1;border-color:transparent;}
+.divide-transparent>:not([hidden])~:not([hidden]){border-color:transparent;}
 .divide-opacity-50>:not([hidden])~:not([hidden]){--un-divide-opacity:0.5;}
 .divide-dashed>:not([hidden])~:not([hidden]){border-style:dashed;}
 .divide-dotted>:not([hidden])~:not([hidden]){border-style:dotted;}
@@ -380,7 +380,7 @@ exports[`postcss > @unocss 1`] = `
 .backdrop-filter-none{-webkit-backdrop-filter:none;backdrop-filter:none;}
 .filter-unset{filter:unset;}
 .backdrop-filter-revert{-webkit-backdrop-filter:revert;backdrop-filter:revert;}
-.placeholder-inherit::placeholder{--un-placeholder-opacity:1;color:inherit;}
+.placeholder-inherit::placeholder{color:inherit;}
 .placeholder-red-400::placeholder{--un-placeholder-opacity:1;color:rgb(248 113 113 / var(--un-placeholder-opacity));}
 .view-transition-foo{view-transition-name:foo;}
 .view-transition-none{view-transition-name:none;}

@@ -27,7 +27,7 @@
 .dark [bg~="dark\:\!blue-500"]{--un-bg-opacity:1 !important;background-color:rgb(59 130 246 / var(--un-bg-opacity)) !important;}
 [bg~="blue-400"]{--un-bg-opacity:1;background-color:rgb(96 165 250 / var(--un-bg-opacity));}
 [bg~="sky-400"]{--un-bg-opacity:1;background-color:rgb(56 189 248 / var(--un-bg-opacity));}
-[bg~="transparent"]{--un-bg-opacity:1;background-color:transparent;}
+[bg~="transparent"]{background-color:transparent;}
 [important~="bg-red"]{--un-bg-opacity:1 !important;background-color:rgb(248 113 113 / var(--un-bg-opacity)) !important;}
 .dark [bg~="dark\:hover\:blue-600"]:hover{--un-bg-opacity:1;background-color:rgb(37 99 235 / var(--un-bg-opacity));}
 [bg~="hover\:blue-500"]:hover{--un-bg-opacity:1;background-color:rgb(59 130 246 / var(--un-bg-opacity));}

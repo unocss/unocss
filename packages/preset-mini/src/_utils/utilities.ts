@@ -1,6 +1,6 @@
 import type { CSSEntries, CSSObject, DynamicMatcher, ParsedColorValue, RuleContext, StaticRule, VariantContext } from '@unocss/core'
 import { toArray } from '@unocss/core'
-import { colorOpacityToString, colorToString, getStringComponent, getStringComponents, parseCssColor } from '@unocss/rule-utils'
+import { colorOpacityToString, colorToString, getStringComponent, getStringComponents, hasAlphaPlaceholder, parseCssColor } from '@unocss/rule-utils'
 import type { Theme } from '../theme'
 import { h } from './handlers'
 import { cssMathFnRE, directionMap, globalKeywords } from './mappings'
@@ -194,8 +194,11 @@ export function colorResolver(property: string, varName: string, key?: ThemeColo
         css[property] = colorToString(cssColor, alpha)
       }
       else {
-        css[`--un-${varName}-opacity`] = colorOpacityToString(cssColor)
-        css[property] = colorToString(cssColor, `var(--un-${varName}-opacity)`)
+        const opacityVar = `--un-${varName}-opacity`
+        const result = colorToString(cssColor, `var(${opacityVar})`)
+        if (result.includes(opacityVar))
+          css[opacityVar] = colorOpacityToString(cssColor)
+        css[property] = result
       }
     }
     else if (color) {
@@ -203,8 +206,11 @@ export function colorResolver(property: string, varName: string, key?: ThemeColo
         css[property] = colorToString(color, alpha)
       }
       else {
-        css[`--un-${varName}-opacity`] = 1
-        css[property] = colorToString(color, `var(--un-${varName}-opacity)`)
+        const opacityVar = `--un-${varName}-opacity`
+        const result = colorToString(color, `var(${opacityVar})`)
+        if (result.includes(opacityVar))
+          css[opacityVar] = 1
+        css[property] = result
       }
     }
 
