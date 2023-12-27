@@ -25,6 +25,7 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.mts",
+      "require": "./index.cjs",
       "default": "./dist/index.mjs"
     }
   },
@@ -33,6 +34,7 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist",
+    "index.cjs",
     "runtime"
   ],
   "scripts": {
