@@ -5,7 +5,7 @@ description: Variants allow you to apply some variations to your existing rules.
 
 # Variants
 
-[Variants](https://windicss.org/utilities/general/variants.html) allow you to apply some variations to your existing rules, like the `hover:` variant from Tailwind.
+[Variants](https://windicss.org/utilities/general/variants.html) allow you to apply some variations to your existing rules, like the `hover:` variant from Tailwind CSS.
 
 ## Example
 
@@ -22,7 +22,7 @@ variants: [
       matcher: matcher.slice(6),
       selector: s => `${s}:hover`,
     }
-  }
+  },
 ],
 rules: [
   [/^m-(\d)$/, ([, d]) => ({ margin: `${d / 4}rem` })],

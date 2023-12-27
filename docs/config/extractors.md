@@ -13,7 +13,7 @@ export default defineConfig({
 })
 ```
 
-By default [extractorSplit](https://github.com/unocss/unocss/blob/main/packages/core/src/extractors/split.ts) will always be applied, which split the source code into tokens and directly feed to the engine.
+By default [extractorSplit](https://github.com/unocss/unocss/blob/main/packages/core/src/extractors/split.ts) will always be applied, which splits the source code into tokens and directly feed to the engine.
 
 To override the default extractors, you can use `extractorDefault` option.
 
@@ -32,4 +32,4 @@ export default defineConfig({
 })
 ```
 
-For example, you could check how we implement the [pug extractor](https://github.com/unocss/unocss/tree/main/packages/extractor-pug) or the [attributify extractor](https://github.com/unocss/unocss/blob/main/packages/preset-attributify/src/extractor.ts).
+For example, please check the implementation of [pug extractor](https://github.com/unocss/unocss/tree/main/packages/extractor-pug) or the [attributify extractor](https://github.com/unocss/unocss/blob/main/packages/preset-attributify/src/extractor.ts).

@@ -23,7 +23,7 @@ jobs:
       - name: Set node
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 18.18.2
           cache: pnpm
 
       - name: Setup
@@ -41,7 +41,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node_version: [18, lts/*]
+        node_version: [18.18.2, lts/*]
         include:
           - os: macos-latest
             node_version: lts/*

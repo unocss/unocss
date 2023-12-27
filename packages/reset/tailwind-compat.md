@@ -51,5 +51,3 @@ button,
 </tr>
 </tbody>
 </table>
-
-

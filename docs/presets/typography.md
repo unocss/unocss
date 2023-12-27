@@ -24,7 +24,6 @@ Provides a set of prose classes you can use to add typographic defaults to vanil
   ```
 :::
 
-
 ::: tip
 This preset is included in the `unocss` package, you can also import it from there:
 
@@ -228,5 +227,5 @@ export default defineConfig({
 
 ## Acknowledgement
 
-- [TailwindCSS Typography](https://github.com/tailwindlabs/tailwindcss-typography)
-- [WindiCSS Typography](https://github.com/windicss/windicss/tree/main/src/plugin/typography)
+- [Tailwind CSS Typography](https://github.com/tailwindlabs/tailwindcss-typography)
+- [Windi CSS Typography](https://github.com/windicss/windicss/tree/main/src/plugin/typography)

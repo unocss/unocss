@@ -31,6 +31,13 @@ export interface UnocssNuxtOptions extends UserConfig {
   preflight?: boolean
 
   /**
+   * Adjust the position of the `uno.css` injection. (Depends on `mode`)
+   *
+   * @default 'first'
+   */
+  injectPosition?: 'first' | 'last' | number | { after?: string }
+
+  /**
    * Installing UnoCSS components
    * - `<UnoIcon>`
    *

@@ -1,21 +1,22 @@
-import { MarkdownString, Position, Range, window, workspace } from 'vscode'
+import { MarkdownString, Position, Range, window } from 'vscode'
 import parserCSS from 'prettier/parser-postcss'
 import prettier from 'prettier/standalone'
-import type { TextEditorSelectionChangeEvent } from 'vscode'
+import type { ExtensionContext, TextEditorSelectionChangeEvent } from 'vscode'
 import { TwoKeyMap, regexScopePlaceholder } from '@unocss/core'
 import { log } from './log'
-import { throttle } from './utils'
+import { addRemToPxComment, throttle } from './utils'
 import type { ContextLoader } from './contextLoader'
 import { getMatchedPositionsFromCode } from './integration'
+import { useConfigurations } from './configuration'
 
-export async function registerSelectionStyle(contextLoader: ContextLoader) {
-  const hasSelectionStyle = (): boolean => workspace.getConfiguration().get('unocss.selectionStyle') ?? true
+export async function registerSelectionStyle(contextLoader: ContextLoader, ext: ExtensionContext) {
+  const { configuration } = useConfigurations(ext)
 
   const integrationDecoration = window.createTextEditorDecorationType({})
 
   async function selectionStyle(editor: TextEditorSelectionChangeEvent) {
     try {
-      if (!hasSelectionStyle())
+      if (!configuration.selectionStyle)
         return reset()
 
       const doc = editor.textEditor.document
@@ -38,6 +39,10 @@ export async function registerSelectionStyle(contextLoader: ContextLoader) {
       if (!ctx)
         return reset()
 
+      const remToPxRatio = configuration.remToPxPreview
+        ? configuration.remToPxRatio
+        : -1
+
       const result = await getMatchedPositionsFromCode(ctx.uno, code)
       if (result.length <= 1)
         return reset()
@@ -55,6 +60,7 @@ export async function registerSelectionStyle(contextLoader: ContextLoader) {
           const tokens = await ctx.uno.parseToken(name, classNamePlaceholder) || []
           tokens.forEach(([, className, cssText, media]) => {
             if (className && cssText) {
+              cssText = addRemToPxComment(cssText, remToPxRatio)
               const selector = className
                 .replace(`.${classNamePlaceholder}`, '&')
                 .replace(regexScopePlaceholder, ' ')
