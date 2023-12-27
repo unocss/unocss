@@ -194,12 +194,24 @@ export function colorResolver(property: string, varName: string, key?: ThemeColo
         css[property] = colorToString(cssColor, alpha)
       }
       else {
-        css[`--un-${varName}-opacity`] = colorOpacityToString(cssColor)
-        css[property] = colorToString(cssColor, `var(--un-${varName}-opacity)`)
+        const opacityVar = `--un-${varName}-opacity`
+        const result = colorToString(cssColor, `var(${opacityVar})`)
+        if (result.includes(opacityVar))
+          css[opacityVar] = colorOpacityToString(cssColor)
+        css[property] = result
       }
     }
     else if (color) {
-      css[property] = colorToString(color, alpha)
+      if (alpha != null) {
+        css[property] = colorToString(color, alpha)
+      }
+      else {
+        const opacityVar = `--un-${varName}-opacity`
+        const result = colorToString(color, `var(${opacityVar})`)
+        if (result.includes(opacityVar))
+          css[opacityVar] = 1
+        css[property] = result
+      }
     }
 
     if (shouldPass?.(css) !== false)
