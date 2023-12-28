@@ -553,6 +553,15 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .font-oblique,
 .oblique{font-style:oblique;}
 .antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+.h-dvh{height:100dvh;}
+.h-lvh{height:100lvh;}
+.h-svh{height:100svh;}
+.max-h-dvh{max-height:100dvh;}
+.max-h-lvh{max-height:100lvh;}
+.max-h-svh{max-height:100svh;}
+.min-h-dvh{min-height:100dvh;}
+.min-h-lvh{min-height:100lvh;}
+.min-h-svh{min-height:100svh;}
 .backdrop\:shadow-green::backdrop{--un-shadow-opacity:1;--un-shadow-color:rgb(74 222 128 / var(--un-shadow-opacity));}
 .shadow{--un-shadow:var(--un-shadow-inset) 0 1px 3px 0 var(--un-shadow-color, rgb(0 0 0 / 0.1)),var(--un-shadow-inset) 0 1px 2px -1px var(--un-shadow-color, rgb(0 0 0 / 0.1));box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
 .shadow-\[\#fff\]{--un-shadow-opacity:1;--un-shadow-color:rgb(255 255 255 / var(--un-shadow-opacity));}
