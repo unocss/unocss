@@ -29,10 +29,7 @@ function handleColorOrWidth(match: RegExpMatchArray, ctx: RuleContext<Theme>): C
 }
 
 export const appearance: Rule[] = [
-  ['appearance-none', {
-    '-webkit-appearance': 'none',
-    'appearance': 'none',
-  }],
+  [/^appearance-(none|auto)$/, ([, m]) => ({ '-webkit-appearance': m, 'appearance': m }), { autocomplete: 'appearance-(none|auto)' }],
 ]
 
 function willChangeProperty(prop: string): string | undefined {
