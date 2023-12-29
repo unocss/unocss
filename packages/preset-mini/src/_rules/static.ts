@@ -138,9 +138,3 @@ export const fontSmoothings: Rule[] = [
     '-moz-osx-font-smoothing': 'auto',
   }],
 ]
-
-export const viewportHeight: Rule[] = [[
-  /^(max-|min-)?h-([dsl])vh$/,
-  ([, type, unit]) => ({ [`${type ?? ''}height`]: `100${unit}vh` }),
-  { autocomplete: ['(max-|min-)h-(d|s|l)vh'] },
-]]
