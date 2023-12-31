@@ -10,6 +10,11 @@ UnoCSS also supports the theming system that you might be familiar with in Tailw
 
 ## Usage
 
+::: warning
+Since [v0.57.0](https://github.com/unocss/unocss/releases/tag/v0.57.0), UnoCSS does not support the legacy comma syntax for `rgb()` and `hsl()` any more.
+Make sure that all specified `theme` value use spaces.
+:::
+
 <!--eslint-skip-->
 
 ```ts
