@@ -40,6 +40,7 @@ export const presetMiniTargets: string[] = [
   'outline-size-[var(--width)]',
   'outline-offset-[var(--offset)]',
   'appearance-none',
+  'appearance-auto',
   'will-change-margin,padding',
   'will-change-padding,margin',
   'will-change-transform',
