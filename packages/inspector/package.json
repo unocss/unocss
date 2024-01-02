@@ -1,6 +1,6 @@
 {
   "name": "@unocss/inspector",
-  "version": "0.58.0",
+  "version": "0.58.3",
   "description": "The inspector UI for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -44,6 +44,6 @@
     "@unocss/core": "workspace:*",
     "@unocss/rule-utils": "workspace:*",
     "gzip-size": "^6.0.0",
-    "sirv": "^2.0.3"
+    "sirv": "^2.0.4"
   }
 }

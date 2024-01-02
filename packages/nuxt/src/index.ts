@@ -40,6 +40,9 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     options.mode ??= 'global'
     const InjectModes: VitePluginConfig['mode'][] = ['global', 'dist-chunk']
 
+    if (options.injectPosition != null)
+      console.warn('[unocss/nuxt] options `injectPosition` is temporary removed due to the incompatibility with Nuxt 3.9. We are seeking for better solution. It\'s not effective at this moment.')
+
     if (options.autoImport) {
       addPluginTemplate({
         filename: 'unocss.mjs',

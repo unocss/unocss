@@ -11,14 +11,14 @@
     "solid-js": "^1.8.7"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.40",
+    "@iconify-json/logos": "^1.1.42",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
-    "typescript": "^5.3.2",
+    "typescript": "^5.3.3",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.0.5",
-    "vite-plugin-solid": "^2.7.2"
+    "vite": "^5.0.10",
+    "vite-plugin-solid": "^2.8.0"
   },
   "stackblitz": {
     "installDependencies": false,

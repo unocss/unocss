@@ -8,3 +8,21 @@ export const defaultPipelineInclude = [/\.(vue|svelte|[jt]sx|mdx?|astro|elm|php|
 export const defaultFilesystemGlobs = [
   '**/*.{html,js,ts,jsx,tsx,vue,svelte,astro,elm,php,phtml,mdx,md}',
 ]
+
+/**
+ * Default match includes in getMatchedPositions for IDE
+ */
+export const defaultIdeMatchInclude: RegExp[] = [
+  // String literals
+  /(['"`])[^\1]*?\1/g,
+  // HTML tags
+  /<[^>]+?>/g,
+  // CSS directives
+  /(@apply|--uno|--at-apply)[^;]*?;/g,
+]
+
+/**
+ * Default match includes in getMatchedPositions for IDE
+ */
+export const defaultIdeMatchExclude: RegExp[] = [
+]

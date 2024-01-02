@@ -19,5 +19,3 @@ Please refer to the [documentation](https://unocss.dev/integrations/vscode).
 ## License
 
 MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)
-
-

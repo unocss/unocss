@@ -585,7 +585,7 @@ export interface UserOnlyOptions<Theme extends object = object> {
  */
 export interface CliOptions {
   cli?: {
-    entry?: CliEntryItem | CliEntryItem[]
+    entry?: Arrayable<CliEntryItem>
   }
 }
 

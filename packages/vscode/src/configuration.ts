@@ -91,6 +91,8 @@ export function useConfigurations(ext: ExtensionContext) {
       remToPxPreview: false,
       remToPxRatio: 16,
       underline: true,
+      selectionStyle: true,
+      strictAnnotationMatch: true,
     },
     alias: {
       matchType: 'autocomplete.matchType',
