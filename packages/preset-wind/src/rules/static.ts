@@ -125,3 +125,15 @@ export const mixBlendModes: Rule[] = [
   ['mix-blend-normal', { 'mix-blend-mode': 'normal' }],
   ...makeGlobalStaticRules('mix-blend'),
 ]
+
+export const dynamicViewportHeight: Rule[] = [
+  ['min-h-dvh', { 'min-height': '100dvh' }],
+  ['min-h-svh', { 'min-height': '100svh' }],
+  ['min-h-lvh', { 'min-height': '100lvh' }],
+  ['h-dvh', { height: '100dvh' }],
+  ['h-svh', { height: '100svh' }],
+  ['h-lvh', { height: '100lvh' }],
+  ['max-h-dvh', { 'max-height': '100dvh' }],
+  ['max-h-svh', { 'max-height': '100svh' }],
+  ['max-h-lvh', { 'max-height': '100lvh' }],
+]
