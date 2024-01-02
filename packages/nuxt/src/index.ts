@@ -8,7 +8,7 @@ import VitePlugin from '@unocss/vite'
 import type { NuxtPlugin } from '@nuxt/schema'
 import { loadConfig } from '@unocss/config'
 import type { UserConfig } from '@unocss/core'
-import { resolveInjectPosition, resolveOptions } from './options'
+import { resolveOptions } from './options'
 import type { UnocssNuxtOptions } from './types'
 
 export { UnocssNuxtOptions }
@@ -25,7 +25,6 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     autoImport: true,
     preflight: false,
     components: true,
-    injectPosition: 'first',
 
     // presets
     uno: true,
@@ -38,20 +37,18 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     // preset shortcuts
     resolveOptions(options)
 
+    options.mode ??= 'global'
+    const InjectModes: VitePluginConfig['mode'][] = ['global', 'dist-chunk']
+
+    if (options.injectPosition != null)
+      console.warn('[unocss/nuxt] options `injectPosition` is temporary removed due to the incompatibility with Nuxt 3.9. We are seeking for better solution. It\'s not effective at this moment.')
+
     if (options.autoImport) {
-      options.mode ??= 'global'
-      const InjectModes: VitePluginConfig['mode'][] = ['global', 'dist-chunk']
-      nuxt.options.css = nuxt.options.css ?? []
-
-      if (InjectModes.includes(options.mode) && !nuxt.options.css.includes('uno.css')) {
-        const position = resolveInjectPosition(nuxt.options.css, options.injectPosition)
-        nuxt.options.css.splice(position, 0, 'uno.css')
-      }
-
       addPluginTemplate({
         filename: 'unocss.mjs',
         getContents: () => {
           const lines = [
+            InjectModes.includes(options.mode) ? 'import \'uno.css\'' : '',
             isNuxt2()
               ? 'export default () => {}'
               : 'import { defineNuxtPlugin } from \'#imports\'; export default defineNuxtPlugin(() => {})',
