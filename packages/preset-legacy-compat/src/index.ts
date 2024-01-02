@@ -34,4 +34,4 @@ export const presetLegacyCompat = definePreset((options: LegacyCompatOptions = {
   }
 })
 
-export default presetRemToPx
+export default presetLegacyCompat
