@@ -1,11 +1,11 @@
 ---
-title: Autocomplete utilites
-description: Autocomplete utilites for UnoCSS (@unocss/autocomplete).
+title: Autocomplete utilities
+description: Autocomplete utilities for UnoCSS (@unocss/autocomplete).
 ---
 
 # Autocomplete
 
-Autocomplete utilites for UnoCSS: `@unocss/autocomplete`. This is embedded in the <a href="/play" target="_blank" rel="noreferrer">playground</a> and the [VS Code extension](/integrations/vscode).
+Autocomplete utilities for UnoCSS: `@unocss/autocomplete`. This is embedded in the <a href="/play" target="_blank" rel="noreferrer">playground</a> and the [VS Code extension](/integrations/vscode).
 
 ## Usage
 

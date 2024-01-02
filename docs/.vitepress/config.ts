@@ -52,6 +52,7 @@ const Presets: DefaultTheme.NavItemWithLink[] = [
   { text: 'Web fonts', link: '/presets/web-fonts' },
   { text: 'Wind', link: '/presets/wind' },
   { text: 'Mini', link: '/presets/mini' },
+  { text: 'Legacy Compat', link: '/presets/legacy-compat' },
   { text: 'Tagify', link: '/presets/tagify' },
   { text: 'Rem to px', link: '/presets/rem-to-px' },
 ]

@@ -34,6 +34,7 @@ export interface UnocssNuxtOptions extends UserConfig {
    * Adjust the position of the `uno.css` injection. (Depends on `mode`)
    *
    * @default 'first'
+   * @deprecated Temporarily removed, will be added back in the future.
    */
   injectPosition?: 'first' | 'last' | number | { after?: string }
 
