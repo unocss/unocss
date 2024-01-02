@@ -107,3 +107,38 @@ The variant `@hover-text-red` will output:
 ::: info
 This preset options are inherited from [`@unocss/preset-mini`](/presets/mini#options).
 :::
+
+### important
+- **Type:** `boolean | string`
+- **Default:** `false`
+
+The `important` option lets you control whether UnoCSS’s utilities should be marked with `!important`. This can be really useful when using UnoCSS with existing CSS that has high specificity selectors.
+
+However, setting `important` to `true` can introduce some issues when incorporating third-party JS libraries that add inline styles to your elements. In those cases, UnoCSS's `!important` utilities defeat the inline styles, which can break your intended design.
+
+To get around this, you can set important to an ID selector like `#app` instead:
+
+```ts
+// uno.config.ts
+import { defineConfig } from 'unocss'
+import presetWind from '@unocss/preset-wind'
+
+export default defineConfig({
+  presets: [
+    presetWind({
+      important: '#app',
+    }),
+  ],
+})
+```
+
+This configuration will prefix all of your utilities with the given selector, effectively increasing their specificity without actually making them `!important`.
+
+The classname `dark:bg-blue` will output:
+
+```css
+#app :is(.dark .dark\:bg-blue) {
+  --un-bg-opacity: 1;
+  background-color: rgb(96 165 250 / var(--un-bg-opacity));
+}
+```
