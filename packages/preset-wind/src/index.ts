@@ -6,7 +6,7 @@ import { rules } from './rules'
 import { shortcuts } from './shortcuts'
 import { theme } from './theme'
 import { variants } from './variants'
-import { postprocessors } from './postprocessors/default'
+import { postprocessors } from './postprocessors'
 
 export { colors, preflights } from '@unocss/preset-mini'
 export type { Theme } from '@unocss/preset-mini'
