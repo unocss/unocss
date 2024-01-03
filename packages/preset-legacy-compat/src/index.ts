@@ -15,7 +15,7 @@ export interface LegacyCompatOptions {
 
 export const presetLegacyCompat = definePreset((options: LegacyCompatOptions = {}) => {
   const {
-    commaStyleColorFunction = 16,
+    commaStyleColorFunction = false,
   } = options
 
   return {
