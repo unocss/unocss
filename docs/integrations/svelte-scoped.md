@@ -233,10 +233,33 @@ If using SvelteKit, you also must add the following to the `transformPageChunk` 
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({ event, resolve }) {
   const response = await resolve(event, {
-    transformPageChunk: ({ html }) => html.replace('%unocss-svelte-scoped.global%', 'unocss_svelte_scoped_global_styles'),
+    transformPageChunk: ({ html }) =>
+      html.replace(
+        '%unocss-svelte-scoped.global%',
+        'unocss_svelte_scoped_global_styles'
+      ),
   })
   return response
 }
+```
+
+When using [sequence](https://kit.svelte.dev/docs/modules#sveltejs-kit-hooks-sequence) from `@sveltejs/kit/hooks`, this transformation ***must*** be in the `src/hooks.server.js` file. It [cannot be imported](https://github.com/unocss/unocss/blob/main/packages/svelte-scoped/src/_vite/global.ts#L12) from another file. For example, it may be set up like this:
+
+```js
+import { sequence } from "@sveltejs/kit/hooks";
+import { first, second } from '...'
+
+/** @type {import('@sveltejs/kit').Handle} */
+const transformUno = ({ event, resolve }) =>
+  resolve(event, {
+    transformPageChunk: ({ html }) =>
+      html.replace(
+        '%unocss-svelte-scoped.global%',
+        'unocss_svelte_scoped_global_styles'
+      ),
+  })
+
+export const handle = sequence(first, second, transformUno)
 ```
 
 *In a regular Svelte project, Vite's `transformIndexHtml` hook will do this automatically.*
