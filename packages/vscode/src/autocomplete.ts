@@ -128,7 +128,7 @@ export async function registerAutoComplete(
 
         const completionItems: UnoCompletionItem[] = []
 
-        const suggestions = result.suggestions.slice(0, configuration.maxItems).sort((a,b) => a[1].localeCompare(b[1]))
+        const suggestions = result.suggestions.slice(0, configuration.maxItems)
 
         for (const [value, label] of suggestions) {
           const css = await getCSS(ctx!.uno, value)
