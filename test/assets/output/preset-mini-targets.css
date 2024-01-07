@@ -1024,21 +1024,6 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .text-nowrap{text-wrap:nowrap;}
 .text-balance{text-wrap:balance;}
 .text-pretty{text-wrap:pretty;}
-@container (min-width: 10.5rem){
-.\@\[10\.5rem\]-text-red{--un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity));}
-}
-@container (min-width: 24rem){
-.\@sm\:text-red{--un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity));}
-}
-@container (min-width: 32rem){
-.\@lg-text-red{--un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity));}
-}
-@container label (min-width: 100px){
-.\@\[100px\]\/label\:text-green{--un-text-opacity:1;color:rgb(74 222 128 / var(--un-text-opacity));}
-}
-@container label (min-width: 20rem){
-.\@xs\/label\:text-green{--un-text-opacity:1;color:rgb(74 222 128 / var(--un-text-opacity));}
-}
 @layer base{
 .layer-base\:translate-0{--un-translate-x:0;--un-translate-y:0;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 }
@@ -1069,6 +1054,21 @@ unocss .scope-\[unocss\]\:block{display:block;}
 @supports(display:grid){
 .\[\@supports\(display\:grid\)\]\:bg-red\/33{background-color:rgb(248 113 113 / 0.33);}
 *+.\[\@supports\(display\:grid\)\]\:\[\*\+\&\]\:bg-red\/34{background-color:rgb(248 113 113 / 0.34);}
+}
+@container (min-width: 10.5rem){
+.\@\[10\.5rem\]-text-red{--un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity));}
+}
+@container (min-width: 24rem){
+.\@sm\:text-red{--un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity));}
+}
+@container (min-width: 32rem){
+.\@lg-text-red{--un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity));}
+}
+@container label (min-width: 100px){
+.\@\[100px\]\/label\:text-green{--un-text-opacity:1;color:rgb(74 222 128 / var(--un-text-opacity));}
+}
+@container label (min-width: 20rem){
+.\@xs\/label\:text-green{--un-text-opacity:1;color:rgb(74 222 128 / var(--un-text-opacity));}
 }
 @media (max-width: 1023.9px){
 .lt-lg\:m2{margin:0.5rem;}
