@@ -16,8 +16,10 @@ describe('removeSourceMap()', () => {
     const code = 'console.log("Hello, world!");\n'
     expect(removeSourceMap(code)).toBe(code)
   })
+})
 
-  it('should complete without hanging', async () => {
+describe('quotedArbitraryValuesRE', () => {
+  it('should match within reasonable time', async () => {
     const code = await readFile(`${process.cwd()}/test/assets/regex-dos.ts`, { encoding: 'utf-8' })
     quotedArbitraryValuesRE.test(code)
   })
