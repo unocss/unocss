@@ -2,9 +2,12 @@ import type { Extractor } from '@unocss/core'
 import { defaultSplitRE, isValidSelector } from '@unocss/core'
 import { removeSourceMap } from './source-map'
 
-export const quotedArbitraryValuesRE = /(?:[\w&:[\]-]|\[\S+=\S+\])+\[\\?['"]?\S+?['"]\]\]?[\w:-]*/g
-export const arbitraryPropertyRE = /\[(\\\W|[\w-])+:[^\s:]*?("\S+?"|'\S+?'|`\S+?`|[^\s:]+?)[^\s:]*?\)?\]/g
-const arbitraryPropertyCandidateRE = /^\[(\\\W|[\w-])+:['"]?\S+?['"]?\]$/
+export const quotedArbitraryValuesRE
+  = /(?:[\w&:[\]-]|\[\S{1,64}=\S{1,64}\]){1,64}\[\\?['"]?\S{1,64}?['"]\]\]?[\w:-]{0,64}/g
+export const arbitraryPropertyRE
+  = /\[(\\\W|[\w-]){1,64}:[^\s:]{0,64}?("\S{1,64}?"|'\S{1,64}?'|`\S{1,64}?`|[^\s:]{1,64}?)[^\s:]{0,64}?\)?\]/g
+const arbitraryPropertyCandidateRE
+  = /^\[(\\\W|[\w-]){1,64}:['"]?\S{1,64}?['"]?\]$/
 
 export function splitCodeWithArbitraryVariants(code: string): string[] {
   const result: string[] = []
