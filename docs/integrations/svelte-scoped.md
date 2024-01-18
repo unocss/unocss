@@ -233,11 +233,17 @@ If using SvelteKit, you also must add the following to the `transformPageChunk` 
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({ event, resolve }) {
   const response = await resolve(event, {
-    transformPageChunk: ({ html }) => html.replace('%unocss-svelte-scoped.global%', 'unocss_svelte_scoped_global_styles'),
+    transformPageChunk: ({ html }) =>
+      html.replace(
+        '%unocss-svelte-scoped.global%',
+        'unocss_svelte_scoped_global_styles'
+      ),
   })
   return response
 }
 ```
+
+This transformation must be in a file whose [path includes `hooks` and `server`](https://github.com/unocss/unocss/blob/main/packages/svelte-scoped/src/_vite/global.ts#L12) (e.g. `src/hooks.server.js`, `src/hooks.server.ts`) as `svelte-scoped` will be looking in your server hooks file to replace `unocss_svelte_scoped_global_styles` with your global styles. Make sure to not import this transformation from another file, such as when using [sequence](https://kit.svelte.dev/docs/modules#sveltejs-kit-hooks-sequence) from `@sveltejs/kit/hooks`.
 
 *In a regular Svelte project, Vite's `transformIndexHtml` hook will do this automatically.*
 
