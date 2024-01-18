@@ -788,7 +788,7 @@ importers:
   packages/preset-icons:
     dependencies:
       '@iconify/utils':
-        specifier: ^2.1.12
+        specifier: ^2.1.13
         version: 2.1.13
       '@unocss/core':
         specifier: workspace:*
@@ -1204,7 +1204,7 @@ importers:
         specifier: latest
         version: 0.30.5
       unplugin:
-        specifier: ^1.5.1
+        specifier: ^1.6.0
         version: 1.6.0
       webpack-sources:
         specifier: ^3.2.3
