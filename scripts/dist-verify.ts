@@ -17,11 +17,15 @@ export async function verifyDist() {
     'module.exports',
   ]
 
+  const exportsDefault = 'exports.default'
+
   let error = false
   await Promise.all(cjsFiles.map(async (file) => {
     const code = await fs.readFile(file, 'utf-8')
     const matches = forbidden.map(r => code.match(r)).filter(Boolean)
-    if (matches.length) {
+    // the CJS module can have exports.default and another module.exports
+    // preset-legacy-compat is an example, exporting presetLegacyCompat as default and named
+    if (matches.length && !code.match(exportsDefault)) {
       console.error(`\nFound forbidden code in ${file}`)
       console.error(matches.map(i => ` - ${i![0]}`).join('\n'))
       error = true
