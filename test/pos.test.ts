@@ -7,6 +7,7 @@ import { getMatchedPositionsFromCode as match } from '@unocss/shared-common'
 import transformerVariantGroup from '@unocss/transformer-variant-group'
 import cssDirectives from '@unocss/transformer-directives'
 import extractorPug from '@unocss/extractor-pug'
+import { defaultIdeMatchExclude, defaultIdeMatchInclude } from '@unocss/shared-integration'
 
 describe('matched-positions', async () => {
   it('attributify', async () => {
@@ -244,6 +245,115 @@ describe('matched-positions', async () => {
             15,
             21,
             "w-full",
+          ],
+        ]
+      `)
+  })
+
+  it('with include and exclude', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetUno(),
+      ],
+    })
+
+    const code = `
+<script setup>
+let transition = 'ease-in-out duration-300'
+</script>
+
+<template>
+  <div class="h-1 text-red" />
+</template>
+
+<style>
+.css { 
+  transform: translateX(0);
+  @apply: text-blue;
+  --uno:
+    text-purple;
+}
+</style>
+    `
+
+    expect(await match(uno, code))
+      .toMatchInlineSnapshot(`
+        [
+          [
+            20,
+            30,
+            "transition",
+          ],
+          [
+            34,
+            45,
+            "ease-in-out",
+          ],
+          [
+            46,
+            58,
+            "duration-300",
+          ],
+          [
+            96,
+            99,
+            "h-1",
+          ],
+          [
+            100,
+            108,
+            "text-red",
+          ],
+          [
+            144,
+            153,
+            "transform",
+          ],
+          [
+            180,
+            189,
+            "text-blue",
+          ],
+          [
+            204,
+            215,
+            "text-purple",
+          ],
+        ]
+      `)
+
+    expect(await match(uno, code, undefined, { includeRegex: defaultIdeMatchInclude, excludeRegex: defaultIdeMatchExclude }))
+      .toMatchInlineSnapshot(`
+        [
+          [
+            34,
+            45,
+            "ease-in-out",
+          ],
+          [
+            46,
+            58,
+            "duration-300",
+          ],
+          [
+            96,
+            99,
+            "h-1",
+          ],
+          [
+            100,
+            108,
+            "text-red",
+          ],
+          [
+            180,
+            189,
+            "text-blue",
+          ],
+          [
+            204,
+            215,
+            "text-purple",
           ],
         ]
       `)

@@ -85,15 +85,47 @@ export function getPlainClassMatchedPositionsForPug(codeSplit: string, matchedPl
   return result
 }
 
+export interface GetMatchedPositionsOptions {
+  isPug?: boolean
+  /**
+   * Regex to only limit the matched positions for certain code
+   */
+  includeRegex?: RegExp[]
+  /**
+   * Regex to exclude the matched positions for certain code, excludeRegex has higher priority than includeRegex
+   */
+  excludeRegex?: RegExp[]
+}
+
 export function getMatchedPositions(
   code: string,
   matched: string[],
   extraAnnotations: HighlightAnnotation[] = [],
-  isPug = false,
+  options: GetMatchedPositionsOptions = {},
 ) {
   const result: (readonly [start: number, end: number, text: string])[] = []
   const attributify: RegExpMatchArray[] = []
   const plain = new Set<string>()
+
+  const includeRanges: [number, number][] = []
+  const excludeRanges: [number, number][] = []
+
+  if (options.includeRegex) {
+    for (const regex of options.includeRegex) {
+      for (const match of code.matchAll(regex))
+        includeRanges.push([match.index!, match.index! + match[0].length])
+    }
+  }
+  else {
+    includeRanges.push([0, code.length])
+  }
+
+  if (options.excludeRegex) {
+    for (const regex of options.excludeRegex) {
+      for (const match of code.matchAll(regex))
+        excludeRanges.push([match.index!, match.index! + match[0].length])
+    }
+  }
 
   Array.from(matched)
     .forEach((v) => {
@@ -106,7 +138,9 @@ export function getMatchedPositions(
         highlightLessGreaterThanSign(match[1])
         plain.add(match[1])
       }
-      else { attributify.push(match) }
+      else {
+        attributify.push(match)
+      }
     })
 
   // highlight classes that includes `><`
@@ -124,7 +158,7 @@ export function getMatchedPositions(
   let start = 0
   code.split(splitWithVariantGroupRE).forEach((i) => {
     const end = start + i.length
-    if (isPug) {
+    if (options.isPug) {
       result.push(...getPlainClassMatchedPositionsForPug(i, plain, start))
     }
     else {
@@ -172,9 +206,18 @@ export function getMatchedPositions(
       })
   })
 
-  result.push(...extraAnnotations.map(i => [i.offset, i.offset + i.length, i.className] as const))
+  result
+    .push(...extraAnnotations.map(i => [i.offset, i.offset + i.length, i.className] as const))
 
-  return result.sort((a, b) => a[0] - b[0])
+  return result
+    .filter(([start, end]) => {
+      if (excludeRanges.some(([s, e]) => start >= s && end <= e))
+        return false
+      if (includeRanges.some(([s, e]) => start >= s && end <= e))
+        return true
+      return false
+    })
+    .sort((a, b) => a[0] - b[0])
 }
 
 // remove @unocss/transformer-directives transformer to get matched result from source code
@@ -183,7 +226,12 @@ const ignoreTransformers = [
   '@unocss/transformer-compile-class',
 ]
 
-export async function getMatchedPositionsFromCode(uno: UnoGenerator, code: string, id = '') {
+export async function getMatchedPositionsFromCode(
+  uno: UnoGenerator,
+  code: string,
+  id = '',
+  options: GetMatchedPositionsOptions = {},
+) {
   const s = new MagicString(code)
   const tokens = new Set()
   const ctx = { uno, tokens } as any
@@ -201,5 +249,8 @@ export async function getMatchedPositionsFromCode(uno: UnoGenerator, code: strin
 
   const { pug, code: pugCode } = await isPug(uno, s.toString(), id)
   const result = await uno.generate(pug ? pugCode : s.toString(), { preflights: false })
-  return getMatchedPositions(code, [...result.matched], annotations, pug)
+  return getMatchedPositions(code, [...result.matched], annotations, {
+    isPug: pug,
+    ...options,
+  })
 }

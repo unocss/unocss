@@ -36,26 +36,3 @@ export function resolveOptions(options: UnocssNuxtOptions) {
       options.content.pipeline.exclude.push(/\?macro=true/)
   }
 }
-
-export function resolveInjectPosition(css: string[], position: UnocssNuxtOptions['injectPosition']) {
-  if (typeof (position) === 'number')
-    return ~~Math.min(position, css.length + 1)
-
-  if (typeof (position) === 'string') {
-    switch (position) {
-      case 'first': return 0
-      case 'last': return css.length
-      default: throw new Error(`invalid literal: ${position}`)
-    }
-  }
-
-  if (position?.after !== undefined) {
-    const index = css.indexOf(position.after)
-    if (index === -1)
-      throw new Error(`\`after\` position specifies a file which does not exists on CSS stack: ${position.after}`)
-
-    return index + 1
-  }
-
-  throw new Error(`invalid position: ${JSON.stringify(position)}`)
-}

@@ -21,6 +21,7 @@ UnoCSS is a monorepo that contains multiple packages. This page lists all the pa
 | [@unocss/preset-web-fonts](/presets/web-fonts)                       | Web fonts (Google Fonts, etc.) support            | ✅ | No |
 | [@unocss/preset-typography](/presets/typography)                     | The typography preset                             | ✅ | No |
 | [@unocss/preset-rem-to-px](/presets/rem-to-px)                       | Coverts rem to px for utils                       | No | No |
+| [@unocss/preset-legacy-compat](/presets/legacy-compat)               | Collections of legacy compatibility utilities     | No | No |
 | [@unocss/transformer-variant-group](/transformers/variant-group)     | Transformer for Windi CSS's variant group feature | ✅ | No |
 | [@unocss/transformer-directives](/transformers/directives)           | Transformer for CSS directives like `@apply`      | ✅ | No |
 | [@unocss/transformer-compile-class](/transformers/compile-class)     | Compile group of classes into one class           | ✅ | No |

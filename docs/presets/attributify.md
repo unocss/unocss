@@ -107,7 +107,7 @@ now can be
 ```
 
 ::: info
-Note: If you are using JSX, `<div foo>` might be transformed to `<div foo={true}>` which will make the generated CSS from UnoCSS fail to match the attributes. To solve this, you might want to try [`transformer-attributify-jsx`](https://github.com/unocss/unocss/tree/main/packages/transformer-attributify-jsx) along with this preset.
+Note: If you are using JSX, `<div foo>` might be transformed to `<div foo={true}>` which will make the generated CSS from UnoCSS fail to match the attributes. To solve this, you might want to try [`transformer-attributify-jsx`](/transformers/attributify-jsx) along with this preset.
 :::
 
 ## Properties conflicts

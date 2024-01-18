@@ -1,7 +1,7 @@
 import path from 'path'
 import type { DecorationOptions, Disposable, ExtensionContext, StatusBarItem, TextEditor } from 'vscode'
 import { DecorationRangeBehavior, MarkdownString, Range, window, workspace } from 'vscode'
-import { INCLUDE_COMMENT_IDE, getMatchedPositionsFromCode, isCssId } from './integration'
+import { INCLUDE_COMMENT_IDE, defaultIdeMatchExclude, defaultIdeMatchInclude, getMatchedPositionsFromCode, isCssId } from './integration'
 import { log } from './log'
 import { getColorString, getPrettiedMarkdown, throttle } from './utils'
 import type { ContextLoader } from './contextLoader'
@@ -14,7 +14,8 @@ export async function registerAnnotations(
 ) {
   const { configuration, watchChanged, disposable } = useConfigurations(ext)
   const disposals: Disposable[] = []
-  watchChanged(['underline', 'colorPreview', 'remToPxPreview', 'remToPxRatio'], () => {
+
+  watchChanged(['underline', 'colorPreview', 'remToPxPreview', 'remToPxRatio', 'strictAnnotationMatch'], () => {
     updateAnnotation()
   })
 
@@ -103,35 +104,42 @@ export async function registerAnnotations(
         ? configuration.remToPxRatio
         : -1
 
-      const ranges: DecorationOptions[] = (
-        await Promise.all(
-          (await getMatchedPositionsFromCode(ctx.uno, code))
-            .map(async (i): Promise<DecorationOptions> => {
-              try {
-                const md = await getPrettiedMarkdown(ctx!.uno, i[2], remToPxRatio)
+      const options = configuration.strictAnnotationMatch
+        ? {
+            includeRegex: defaultIdeMatchInclude,
+            excludeRegex: defaultIdeMatchExclude,
+          }
+        : undefined
 
-                if (configuration.colorPreview) {
-                  const color = getColorString(md)
-                  if (color && !colorRanges.find(r => r.range.start.isEqual(doc.positionAt(i[0])))) {
-                    colorRanges.push({
-                      range: new Range(doc.positionAt(i[0]), doc.positionAt(i[1])),
-                      renderOptions: { before: { backgroundColor: color } },
-                    })
-                  }
-                }
-                return {
+      const positions = await getMatchedPositionsFromCode(ctx.uno, code, id, options)
+
+      const ranges: DecorationOptions[] = (
+        await Promise.all(positions.map(async (i): Promise<DecorationOptions> => {
+          try {
+            const md = await getPrettiedMarkdown(ctx!.uno, i[2], remToPxRatio)
+
+            if (configuration.colorPreview) {
+              const color = getColorString(md)
+              if (color && !colorRanges.find(r => r.range.start.isEqual(doc.positionAt(i[0])))) {
+                colorRanges.push({
                   range: new Range(doc.positionAt(i[0]), doc.positionAt(i[1])),
-                  get hoverMessage() {
-                    return new MarkdownString(md)
-                  },
-                }
+                  renderOptions: { before: { backgroundColor: color } },
+                })
               }
-              catch (e: any) {
-                log.appendLine(`⚠️ Failed to parse ${i[2]}`)
-                log.appendLine(String(e.stack ?? e))
-                return undefined!
-              }
-            }),
+            }
+            return {
+              range: new Range(doc.positionAt(i[0]), doc.positionAt(i[1])),
+              get hoverMessage() {
+                return new MarkdownString(md)
+              },
+            }
+          }
+          catch (e: any) {
+            log.appendLine(`⚠️ Failed to parse ${i[2]}`)
+            log.appendLine(String(e.stack ?? e))
+            return undefined!
+          }
+        }),
         )
       ).filter(Boolean)
 
