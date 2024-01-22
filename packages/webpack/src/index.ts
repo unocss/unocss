@@ -37,7 +37,7 @@ export default function WebpackPlugin<Theme extends object>(
     })
     const { uno, tokens, filter, extract, onInvalidate, tasks, flushTasks } = ctx
 
-    let timer: any
+    let timer: ReturnType<typeof setTimeout>
     onInvalidate(() => {
       clearTimeout(timer)
       timer = setTimeout(updateModules, UPDATE_DEBOUNCE)
