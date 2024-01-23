@@ -78,7 +78,7 @@ export const alignments: StaticRule[] = [
   ...makeGlobalStaticRules('self', 'align-self'),
 ]
 
-export const placements: Rule[] = [
+export const placements: StaticRule[] = [
   // contents
   ['place-content-center', { 'place-content': 'center' }],
   ['place-content-start', { 'place-content': 'start' }],
@@ -109,7 +109,7 @@ export const placements: Rule[] = [
  * This is to add `flex-` and `grid-` prefix to the alignment rules,
  * supporting `flex="~ items-center"` in attributify mode.
  */
-export const flexGridJustifiesAlignments = [...justifies, ...alignments]
+export const flexGridJustifiesAlignments = [...justifies, ...alignments, ...placements]
   .flatMap(([k, v]): StaticRule[] => [
     [`flex-${k}`, v],
     [`grid-${k}`, v],
