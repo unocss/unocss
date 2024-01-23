@@ -126,7 +126,7 @@ const plainTeamMembers: CoreTeam[] = [
     github: 'Simon-He95',
     twitter: 'simon_he1995',
     title: 'Passionate about open source & FE Developer',
-    desc: 'webview-use author, vscode plugin master, open source magician, antfu’s number one fan',
+    desc: '@webview-use author, vscode plugin master, open source magician, antfu’s number one fan',
   },
 ]
 
