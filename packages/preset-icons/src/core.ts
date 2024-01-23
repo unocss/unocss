@@ -30,6 +30,8 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
       unit,
     } = options
 
+    const flags = getEnvFlags()
+
     const loaderOptions: IconifyLoaderOptions = {
       addXmlNs: true,
       scale,
@@ -86,7 +88,7 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
           }
 
           if (!svg) {
-            if (warn)
+            if (warn && !flags.isESLint)
               warnOnce(`failed to load icon "${full}"`)
             return
           }
@@ -165,5 +167,20 @@ export function createCDNFetchLoader(fetcher: (url: string) => Promise<any>, cdn
     }
 
     return result
+  }
+}
+
+export function getEnvFlags() {
+  // eslint-disable-next-line node/prefer-global/process
+  const isNode = typeof process !== 'undefined' && process.stdout && !process.versions.deno
+  // eslint-disable-next-line node/prefer-global/process
+  const isVSCode = isNode && !!process.env.VSCODE_CWD
+  // eslint-disable-next-line node/prefer-global/process
+  const isESLint = isNode && !!process.env.ESLINT
+
+  return {
+    isNode,
+    isVSCode,
+    isESLint,
   }
 }
