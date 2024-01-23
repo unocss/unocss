@@ -109,6 +109,7 @@ export type SeparateEnabled =
   | 'p'
   | 'place'
   | 'pos'
+  | 'position'
   | 'ring'
   | 'select'
   | 'shadow'
