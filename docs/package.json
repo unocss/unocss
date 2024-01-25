@@ -17,5 +17,6 @@
     "ofetch": "^1.3.3",
     "unocss": "workspace:*",
     "vitepress": "1.0.0-rc.31"
-  }
+  },
+  "version": "0.58.4"
 }

@@ -30,5 +30,6 @@
     "theme-vitesse": "^0.7.5",
     "unplugin-vue-markdown": "^0.25.2",
     "vue": "^3.3.9"
-  }
+  },
+  "version": "0.58.4"
 }

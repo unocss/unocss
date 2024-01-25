@@ -15,5 +15,6 @@
     "vite-plugin-windicss": "^1.9.3",
     "vue": "^3.3.9",
     "windicss": "^3.5.6"
-  }
+  },
+  "version": "0.58.4"
 }
