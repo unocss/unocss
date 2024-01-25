@@ -25,6 +25,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     autoImport: true,
     preflight: false,
     components: true,
+    disableNuxtInlineStyle: true,
 
     // presets
     uno: true,
@@ -39,6 +40,11 @@ export default defineNuxtModule<UnocssNuxtOptions>({
 
     options.mode ??= 'global'
     const InjectModes: VitePluginConfig['mode'][] = ['global', 'dist-chunk']
+
+    if (options.disableNuxtInlineStyle) {
+      nuxt.options.features ||= {} as any
+      nuxt.options.features.inlineStyles = false
+    }
 
     if (options.injectPosition != null)
       console.warn('[unocss/nuxt] options `injectPosition` is temporary removed due to the incompatibility with Nuxt 3.9. We are seeking for better solution. It\'s not effective at this moment.')
