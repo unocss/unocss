@@ -1,4 +1,5 @@
 {
+  "version": "0.58.4",
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider vue-cli-service serve",
@@ -19,6 +20,5 @@
   "stackblitz": {
     "installDependencies": false,
     "startCommand": "node .stackblitz.mjs && npm install && npm run dev"
-  },
-  "version": "0.58.4"
+  }
 }
