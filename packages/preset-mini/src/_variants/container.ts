@@ -25,11 +25,18 @@ export const variantContainerQuery: VariantObject = {
 
       if (container) {
         warnOnce('The container query variant is experimental and may not follow semver.')
+
+        let order = 1000 + Object.keys(ctx.theme.containers ?? {}).indexOf(match)
+
+        if (label)
+          order += 1000
+
         return {
           matcher: rest,
           handle: (input, next) => next({
             ...input,
             parent: `${input.parent ? `${input.parent} $$ ` : ''}@container${label ? ` ${label} ` : ' '}${container}`,
+            parentOrder: order,
           }),
         }
       }
