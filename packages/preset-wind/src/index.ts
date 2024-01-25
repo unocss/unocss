@@ -6,15 +6,29 @@ import { rules } from './rules'
 import { shortcuts } from './shortcuts'
 import { theme } from './theme'
 import { variants } from './variants'
+import { postprocessors } from './postprocessors'
 
 export { colors, preflights } from '@unocss/preset-mini'
 export type { Theme } from '@unocss/preset-mini'
 
 export { rules, shortcuts, theme, variants }
 
-export interface PresetWindOptions extends PresetMiniOptions { }
+export interface PresetWindOptions extends PresetMiniOptions {
+  /**
+   * The important option lets you control whether UnoCSS’s utilities should be marked with `!important`.
+   *
+   * This can be really useful when using UnoCSS with existing CSS that has high specificity selectors.
+   *
+   * You can also set `important` to a selector like `#app` instead, which will generate `#app .m-1 { ... }`
+   *
+   * @default false
+   */
+  important?: boolean | string
+}
 
 export const presetWind = definePreset((options: PresetWindOptions = {}) => {
+  options.important = options.important ?? false
+
   return {
     ...presetMini(options),
     name: '@unocss/preset-wind',
@@ -22,6 +36,7 @@ export const presetWind = definePreset((options: PresetWindOptions = {}) => {
     rules,
     shortcuts,
     variants: variants(options),
+    postprocess: postprocessors(options),
   }
 })
 
