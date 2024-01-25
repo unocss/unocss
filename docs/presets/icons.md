@@ -45,7 +45,7 @@ For example:
   <div class="i-mdi:alarm text-orange-400 hover:text-teal-400" />
   <div class="w-2em h-2em i-logos:vue transform transition-800 hover:rotate-180" />
   <button class="i-carbon:sun dark:i-carbon:moon !w-2em !h-2em" @click="toggleDark()" title="toggle dark mode"/>
-  <div class="i-twemoji:grinning-face-with-smiling-eyes hover:i-twemoji:face-with-tears-of-joy" /> 
+  <div class="i-twemoji:grinning-face-with-smiling-eyes hover:i-twemoji:face-with-tears-of-joy" />
   <div class="text-base my-auto flex"><div class="i-carbon:arrow-left my-auto mr-1" /> Hover it</div>
 </div>
 

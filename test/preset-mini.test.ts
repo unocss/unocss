@@ -381,4 +381,43 @@ describe('preset-mini', () => {
         .shadow-blackA7{--un-shadow-opacity:0.169;--un-shadow-color:hsla(0, 0%, 0%, var(--un-shadow-opacity));}"
       `)
   })
+
+  it('support new color notation using css variables for compatibility', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+      theme: {
+        colors: {
+          primary: 'var(--base-primary, oklch(var(--primary) / <alpha-value>))',
+        },
+      },
+    })
+
+    expect((await uno.generate('bg-primary bg-opacity-50 text-primary text-opacity-50', { preflights: false })).css)
+      .toMatchInlineSnapshot(`
+      "/* layer: default */
+      .bg-primary{--un-bg-opacity:1;background-color:var(--base-primary, oklch(var(--primary) / var(--un-bg-opacity)));}
+      .bg-opacity-50{--un-bg-opacity:0.5;}
+      .text-primary{--un-text-opacity:1;color:var(--base-primary, oklch(var(--primary) / var(--un-text-opacity)));}
+      .text-opacity-50{--un-text-opacity:0.5;}"
+    `)
+
+    expect((await uno.generate('bg-primary/50 ring-5 ring-primary ring-opacity-50', { preflights: false })).css)
+      .toMatchInlineSnapshot(`
+    "/* layer: default */
+    .bg-primary\\/50{background-color:var(--base-primary, oklch(var(--primary) / 0.5));}
+    .ring-5{--un-ring-width:5px;--un-ring-offset-shadow:var(--un-ring-inset) 0 0 0 var(--un-ring-offset-width) var(--un-ring-offset-color);--un-ring-shadow:var(--un-ring-inset) 0 0 0 calc(var(--un-ring-width) + var(--un-ring-offset-width)) var(--un-ring-color);box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
+    .ring-primary{--un-ring-opacity:1;--un-ring-color:var(--base-primary, oklch(var(--primary) / var(--un-ring-opacity)));}
+    .ring-opacity-50{--un-ring-opacity:0.5;}"
+  `)
+
+    expect((await uno.generate('border-5 border-primary border-opacity-50', { preflights: false })).css)
+      .toMatchInlineSnapshot(`
+    "/* layer: default */
+    .border-5{border-width:5px;}
+    .border-primary{--un-border-opacity:1;border-color:var(--base-primary, oklch(var(--primary) / var(--un-border-opacity)));}
+    .border-opacity-50{--un-border-opacity:0.5;}"
+  `)
+  })
 })

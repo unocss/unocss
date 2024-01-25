@@ -28,7 +28,7 @@ export interface TransformClassesOptions {
 
 export interface TransformApplyOptions {
   /**
-   * Transform CSS variables (recommended for CSS syntax compatibility) or @apply directives.
+   * Transform CSS custom properties (recommended for CSS syntax compatibility) or @apply directives.
    *
    * Pass `false` to disable.
    *

@@ -44,7 +44,7 @@ export default defineConfig({
   content: {
     filesystem: [
       '**/*.{html,js,ts,jsx,tsx,vue,svelte,astro}',
-    ]
+    ],
   },
   presets: [
     presetUno(),
@@ -61,7 +61,7 @@ export default defineConfig({
 
 ### `@unocss`
 
-`@unocss` at-rule is a placeholder. It will be replaced by the generated CSS. 
+`@unocss` at-rule is a placeholder. It will be replaced by the generated CSS.
 
 You can also inject each layer individually:
 
@@ -74,13 +74,13 @@ You can also inject each layer individually:
   Fallback layer. It's always recommended to include.
   Only unused layers will be injected here.
 */
-@unocss; 
+@unocss;
 ```
 
 If you want to include all layers no matter whether they are previously included or not, you can use `@unocss all`. This is useful if you want to include generated CSS in multiple files.
 
 ```css
-@unocss all; 
+@unocss all;
 ```
 
 ### `@apply`

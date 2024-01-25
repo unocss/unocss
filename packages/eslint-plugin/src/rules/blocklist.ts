@@ -1,11 +1,11 @@
-import { ESLintUtils } from '@typescript-eslint/utils'
+import type { ESLintUtils } from '@typescript-eslint/utils'
 import type { RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import type { TSESTree } from '@typescript-eslint/types'
 import { CLASS_FIELDS } from '../constants'
-import { syncAction } from './_'
+import { createRule, syncAction } from './_'
 import { IGNORE_ATTRIBUTES } from './order-attributify'
 
-export default ESLintUtils.RuleCreator(name => name)({
+export default createRule({
   name: 'blocklist',
   meta: {
     type: 'problem',

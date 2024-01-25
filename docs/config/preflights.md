@@ -1,11 +1,11 @@
 ---
 title: Preflights
-description: You can inject raw css as preflights from the configuration. The resolved theme is available to customize the css.
+description: You can inject raw CSS as preflights from the configuration. The resolved theme is available to customize the CSS.
 ---
 
 # Preflights
 
-You can inject raw css as preflights from the configuration. The resolved `theme` is available to customize the css.
+You can inject raw CSS as preflights from the configuration. The resolved `theme` is available to customize the CSS.
 
 <!--eslint-skip-->
 
@@ -18,7 +18,7 @@ preflights: [
         padding: 0;
         margin: 0;
       }
-    `
-  }
+    `,
+  },
 ]
 ```

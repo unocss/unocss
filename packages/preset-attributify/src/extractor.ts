@@ -1,4 +1,4 @@
-import type { Extractor } from '@unocss/core'
+import type { Extractor, ExtractorContext } from '@unocss/core'
 import { isValidSelector } from '@unocss/core'
 import type { AttributifyOptions } from '.'
 
@@ -50,6 +50,10 @@ export function extractorAttributify(options?: AttributifyOptions): Extractor {
             return content
               .split(splitterRE)
               .filter(isValidSelector)
+          }
+          else if (elementRE.test(content)) {
+            elementRE.lastIndex = 0
+            return this.extract!({ code: content } as ExtractorContext) as string[]
           }
           else {
             if (options?.prefixedOnly && options.prefix && !name.startsWith(options.prefix))
