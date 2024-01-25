@@ -22,7 +22,7 @@ export default createRule<[{ prefix: string, enableFix: boolean }], 'missing'>({
           type: 'string',
         },
         enableFix: {
-          type: 'string',
+          type: 'boolean',
         },
       },
       additionalProperties: false,
