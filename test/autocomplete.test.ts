@@ -141,11 +141,11 @@ describe('autocomplete', () => {
     expect(await ac.suggest('lt-'))
       .toMatchInlineSnapshot(`
         [
+          "lt-2xl:",
           "lt-lg:",
           "lt-md:",
           "lt-sm:",
           "lt-xl:",
-          "lt-2xl:",
         ]
       `)
   })
@@ -170,7 +170,7 @@ describe('autocomplete', () => {
     expect(replacement).toMatchInlineSnapshot(`
       {
         "end": 40,
-        "replacement": "b-amber",
+        "replacement": "b-0",
         "start": 38,
       }
     `)
@@ -179,7 +179,7 @@ describe('autocomplete', () => {
       .toMatchInlineSnapshot(`
         "
         <div bg="blue-500">
-          <div border="~ b-amber
+          <div border="~ b-0
         </div>
         "
       `)
