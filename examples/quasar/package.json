@@ -18,8 +18,8 @@
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
-    "@quasar/app-vite": "^1.7.1",
-    "autoprefixer": "^10.4.16",
+    "@quasar/app-vite": "^1.7.3",
+    "autoprefixer": "^10.4.17",
     "typescript": "^5.3.3",
     "unocss": "link:../../packages/unocss"
   },
