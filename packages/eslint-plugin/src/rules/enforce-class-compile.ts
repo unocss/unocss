@@ -101,7 +101,12 @@ export default createRule<[{ prefix: string, enableFix: boolean }], 'missing'>({
         report({
           node: property.key,
           fix(fixer) {
-            return fixer.replaceTextRange([property.key.range[0], property.key.range[1]], `'${CLASS_COMPILE_PREFIX}${classListString}': ${classListString}`)
+            let replacePropertyKeyText = `'${CLASS_COMPILE_PREFIX}${classListString}'`
+
+            if (property.shorthand)
+              replacePropertyKeyText = `${replacePropertyKeyText}: ${classListString}`
+
+            return fixer.replaceTextRange(property.key.range, replacePropertyKeyText)
           },
         })
       },

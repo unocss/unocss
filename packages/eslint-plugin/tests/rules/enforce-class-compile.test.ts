@@ -203,6 +203,28 @@ vueTester.run('enforce-class-compile', rule as any, {
     {
       code: html`
         <template>
+          <div :class="{flex: condition}"></div>
+        </template>
+      `,
+      errors: [
+        {
+          messageId: 'missing',
+          data: { prefix: ':uno:' },
+          line: 3,
+          column: 15,
+          endLine: 3,
+          endColumn: 19,
+        },
+      ],
+      output: html`
+        <template>
+          <div :class="{':uno: flex': condition}"></div>
+        </template>
+      `,
+    },
+    {
+      code: html`
+        <template>
           <div :class="\`mr-1\`"></div>
         </template>
       `,
