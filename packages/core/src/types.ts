@@ -655,7 +655,7 @@ export interface SourceCodeTransformer {
     code: MagicString,
     id: string,
     ctx: UnocssPluginContext,
-    type?: string
+    onlyAttribute?: boolean
   ) => Awaitable<{ highlightAnnotations?: HighlightAnnotation[] } | void>
 }
 

@@ -25,8 +25,8 @@ export default function transformerVariantGroup(
   return {
     name: '@unocss/transformer-variant-group',
     enforce: 'pre',
-    transform(s, id, ctx, type) {
-      const result = parseVariantGroup(s, options.separators, undefined, type)
+    transform(s, id, ctx, onlyAttribute?: boolean) {
+      const result = parseVariantGroup(s, options.separators, undefined, onlyAttribute)
       return {
         get highlightAnnotations() {
           return [...result.groupsByOffset.values()].flatMap(group => group.items)

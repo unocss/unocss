@@ -190,11 +190,10 @@ export async function getMatchedPositionsFromCode(uno: UnoGenerator, code: strin
 
   const transformers = uno.config.transformers?.filter(i => !ignoreTransformers.includes(i.name))
   const annotations = []
-  const _isPug = (await isPug(uno, s.toString(), id)).pug
 
   for (const enforce of ['pre', 'default', 'post']) {
     for (const i of transformers?.filter(i => (i.enforce ?? 'default') === enforce) || []) {
-      const result = await i.transform(s, id, ctx, _isPug ? 'pug' : '')
+      const result = await i.transform(s, id, ctx, true)
       const _annotations = result?.highlightAnnotations
       if (_annotations)
         annotations.push(..._annotations)
