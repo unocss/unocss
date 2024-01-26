@@ -13,7 +13,7 @@ export async function processClassBody(
   uno: UnoGenerator,
   filename: string,
 ): Promise<Partial<ProcessResult>> {
-  const expandedBody = expandVariantGroup(body, undefined, undefined, 'class')
+  const expandedBody = expandVariantGroup(body, undefined, undefined, true)
 
   const { rulesToGenerate: rulesFromExpressions, restOfBody, updatedExpressions } = await processExpressions(expandedBody, options, uno, filename)
   const { rulesToGenerate: rulesFromRegularClasses, ignore } = await sortClassesIntoCategories(restOfBody, options, uno, filename)

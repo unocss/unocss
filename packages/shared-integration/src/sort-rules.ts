@@ -11,7 +11,7 @@ export async function sortRules(rules: string, uno: UnoGenerator) {
   // const hasAttributify = !!uno.config.presets.find(i => i.name === '@unocss/preset-attributify')
   // const hasVariantGroup = !!uno.config.transformers?.find(i => i.name === '@unocss/transformer-variant-group')
 
-  const expandedResult = parseVariantGroup(rules, undefined, undefined, 'sort') // todo read seperators from config
+  const expandedResult = parseVariantGroup(rules, undefined, undefined, true) // todo read seperators from config
   rules = expandedResult.expanded
 
   const result = await Promise.all(rules.split(/\s+/g)
