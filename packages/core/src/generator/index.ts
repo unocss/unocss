@@ -626,7 +626,7 @@ export class UnoGenerator<Theme extends object = object> {
 
     // expand nested shortcuts
     if (isString(result))
-      result = expandVariantGroup(result.trim(), undefined, undefined, 'shortcut').split(/\s+/g)
+      result = expandVariantGroup(result.trim(), undefined, undefined, true).split(/\s+/g)
 
     // expand nested shortcuts with variants
     if (!result) {

@@ -37,7 +37,7 @@ export async function parseApply({ code, uno, offset, applyVariable }: Transform
   if (!body)
     return
 
-  const classNames = expandVariantGroup(body, undefined, undefined, childNode.type)
+  const classNames = expandVariantGroup(body, undefined, undefined, true)
     .split(/\s+/g)
     .map(className => className.trim().replace(/\\/, ''))
 
