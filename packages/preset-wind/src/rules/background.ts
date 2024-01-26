@@ -1,5 +1,5 @@
 import type { CSSColorValue, Rule, RuleContext } from '@unocss/core'
-import { globalKeywords, h, isSize, makeGlobalStaticRules, parseColor, positionMap } from '@unocss/preset-mini/utils'
+import { globalKeywords, h, makeGlobalStaticRules, parseColor, positionMap } from '@unocss/preset-mini/utils'
 import type { Theme } from '@unocss/preset-mini'
 import { colorOpacityToString, colorToString } from '@unocss/rule-utils'
 
@@ -67,19 +67,7 @@ function bgGradientPositionResolver() {
   }
 }
 
-const bgUrlRE = /^\[url\(.+\)\]$/
-const bgLengthRE = /^\[length:.+\]$/
-const bgPositionRE = /^\[position:.+\]$/
 export const backgroundStyles: Rule[] = [
-  [/^bg-(.+)$/, ([, d]) => {
-    if (bgUrlRE.test(d))
-      return { '--un-url': h.bracket(d), 'background-image': 'var(--un-url)' }
-    if (bgLengthRE.test(d) && h.bracketOfLength(d) != null)
-      return { 'background-size': h.bracketOfLength(d)!.split(' ').map(e => h.fraction.auto.px.cssvar(e) ?? e).join(' ') }
-    if ((isSize(d) || bgPositionRE.test(d)) && h.bracketOfPosition(d) != null)
-      return { 'background-position': h.bracketOfPosition(d)!.split(' ').map(e => h.position.fraction.auto.px.cssvar(e) ?? e).join(' ') }
-  }],
-
   // gradients
   [/^bg-gradient-(.+)$/, ([, d]) => ({ '--un-gradient': h.bracket(d) }), {
     autocomplete: ['bg-gradient', 'bg-gradient-(from|to|via)', 'bg-gradient-(from|to|via)-$colors', 'bg-gradient-(from|to|via)-(op|opacity)', 'bg-gradient-(from|to|via)-(op|opacity)-<percent>'],

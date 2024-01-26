@@ -1,4 +1,4 @@
-import type { CSSEntries, CSSObject, Rule, RuleContext } from '@unocss/core'
+import type { CSSColorValue, CSSEntries, CSSObject, Rule, RuleContext } from '@unocss/core'
 import { colorOpacityToString, colorToString } from '@unocss/rule-utils'
 import type { Theme } from '../theme'
 import { cornerMap, directionMap, globalKeywords, h, hasParseableColor, isCSSMathFn, parseColor } from '../utils'
@@ -7,11 +7,11 @@ export const borderStyles = ['solid', 'dashed', 'dotted', 'double', 'hidden', 'n
 
 export const borders: Rule[] = [
   // compound
-  [/^(?:border|b)()(?:-(.+))?$/, handlerBorder, { autocomplete: '(border|b)-<directions>' }],
-  [/^(?:border|b)-([xy])(?:-(.+))?$/, handlerBorder],
-  [/^(?:border|b)-([rltbse])(?:-(.+))?$/, handlerBorder],
-  [/^(?:border|b)-(block|inline)(?:-(.+))?$/, handlerBorder],
-  [/^(?:border|b)-([bi][se])(?:-(.+))?$/, handlerBorder],
+  [/^(?:border|b)()(?:-(.+))?$/, handlerBorderSize, { autocomplete: '(border|b)-<directions>' }],
+  [/^(?:border|b)-([xy])(?:-(.+))?$/, handlerBorderSize],
+  [/^(?:border|b)-([rltbse])(?:-(.+))?$/, handlerBorderSize],
+  [/^(?:border|b)-(block|inline)(?:-(.+))?$/, handlerBorderSize],
+  [/^(?:border|b)-([bi][se])(?:-(.+))?$/, handlerBorderSize],
 
   // size
   [/^(?:border|b)-()(?:width|size)-(.+)$/, handlerBorderSize, { autocomplete: ['(border|b)-<num>', '(border|b)-<directions>-<num>'] }],
@@ -21,11 +21,11 @@ export const borders: Rule[] = [
   [/^(?:border|b)-([bi][se])-(?:width|size)-(.+)$/, handlerBorderSize],
 
   // colors
-  [/^(?:border|b)-()(?:color-)?(.+)$/, handlerBorderColor, { autocomplete: ['(border|b)-$colors', '(border|b)-<directions>-$colors'] }],
-  [/^(?:border|b)-([xy])-(?:color-)?(.+)$/, handlerBorderColor],
-  [/^(?:border|b)-([rltbse])-(?:color-)?(.+)$/, handlerBorderColor],
-  [/^(?:border|b)-(block|inline)-(?:color-)?(.+)$/, handlerBorderColor],
-  [/^(?:border|b)-([bi][se])-(?:color-)?(.+)$/, handlerBorderColor],
+  [/^(?:border|b)-()(?:color-)?(.+)$/, handlerBorderColorOrSize, { autocomplete: ['(border|b)-$colors', '(border|b)-<directions>-$colors'] }],
+  [/^(?:border|b)-([xy])-(?:color-)?(.+)$/, handlerBorderColorOrSize],
+  [/^(?:border|b)-([rltbse])-(?:color-)?(.+)$/, handlerBorderColorOrSize],
+  [/^(?:border|b)-(block|inline)-(?:color-)?(.+)$/, handlerBorderColorOrSize],
+  [/^(?:border|b)-([bi][se])-(?:color-)?(.+)$/, handlerBorderColorOrSize],
 
   // opacity
   [/^(?:border|b)-()op(?:acity)?-?(.+)$/, handlerBorderOpacity, { autocomplete: '(border|b)-(op|opacity)-<percent>' }],
@@ -49,6 +49,38 @@ export const borders: Rule[] = [
   [/^(?:border|b)-([bi][se])-(?:style-)?(.+)$/, handlerBorderStyle],
 ]
 
+function transformBorderColor(color: string | CSSColorValue, alpha: string | number | undefined, direction: string | undefined): CSSObject {
+  if (alpha != null) {
+    return {
+      [`border${direction}-color`]: colorToString(color, alpha),
+    }
+  }
+  if (direction === '') {
+    const object: CSSObject = {}
+    const opacityVar = `--un-border-opacity`
+    const result = colorToString(color, `var(${opacityVar})`)
+
+    if (result.includes(opacityVar))
+      object[opacityVar] = typeof color === 'string' ? 1 : colorOpacityToString(color)
+    object['border-color'] = result
+
+    return object
+  }
+  else {
+    const object: CSSObject = {}
+    const opacityVar = '--un-border-opacity'
+    const opacityDirectionVar = `--un-border${direction}-opacity`
+    const result = colorToString(color, `var(${opacityDirectionVar})`)
+    if (result.includes(opacityDirectionVar)) {
+      object[opacityVar] = typeof color === 'string' ? 1 : colorOpacityToString(color)
+      object[opacityDirectionVar] = `var(${opacityVar})`
+    }
+    object[`border${direction}-color`] = result
+
+    return object
+  }
+}
+
 function borderColorResolver(direction: string) {
   return ([, body]: string[], theme: Theme): CSSObject | undefined => {
     const data = parseColor(body, theme, 'borderColor')
@@ -58,43 +90,12 @@ function borderColorResolver(direction: string) {
 
     const { alpha, color, cssColor } = data
 
-    if (cssColor) {
-      if (alpha != null) {
-        return {
-          [`border${direction}-color`]: colorToString(cssColor, alpha),
-        }
-      }
-      if (direction === '') {
-        return {
-          '--un-border-opacity': colorOpacityToString(cssColor),
-          'border-color': colorToString(cssColor, 'var(--un-border-opacity)'),
-        }
-      }
-      else {
-        return {
-        // Separate this return since if `direction` is an empty string, the first key will be overwritten by the second.
-          '--un-border-opacity': colorOpacityToString(cssColor),
-          [`--un-border${direction}-opacity`]: 'var(--un-border-opacity)',
-          [`border${direction}-color`]: colorToString(cssColor, `var(--un-border${direction}-opacity)`),
-        }
-      }
-    }
-    else if (color) {
-      if (isCSSMathFn(color)) {
-        return {
-          'border-width': color,
-        }
-      }
+    if (cssColor)
+      return transformBorderColor(cssColor, alpha, direction)
 
-      return {
-        [`border${direction}-color`]: colorToString(color, alpha),
-      }
-    }
+    else if (color)
+      return transformBorderColor(color, alpha, direction)
   }
-}
-
-function handlerBorder(m: string[], ctx: RuleContext): CSSEntries | undefined {
-  return handlerBorderSize(m, ctx)
 }
 
 function handlerBorderSize([, a = '', b]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
@@ -103,12 +104,16 @@ function handlerBorderSize([, a = '', b]: string[], { theme }: RuleContext<Theme
     return directionMap[a].map(i => [`border${i}-width`, v])
 }
 
-function handlerBorderColor([, a = '', c]: string[], { theme }: RuleContext<Theme>): CSSObject | undefined {
-  if (a in directionMap && hasParseableColor(c, theme, 'borderColor')) {
-    return Object.assign(
-      {},
-      ...directionMap[a].map(i => borderColorResolver(i)(['', c], theme)),
-    )
+function handlerBorderColorOrSize([, a = '', b]: string[], ctx: RuleContext<Theme>): CSSEntries | undefined {
+  if (a in directionMap) {
+    if (isCSSMathFn(h.bracket(b)))
+      return handlerBorderSize(['', a, b], ctx)
+    if (hasParseableColor(b, ctx.theme, 'borderColor')) {
+      return Object.assign(
+        {},
+        ...directionMap[a].map(i => borderColorResolver(i)(['', b], ctx.theme)),
+      )
+    }
   }
 }
 

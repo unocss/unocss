@@ -1,6 +1,6 @@
 import { escapeSelector } from '@unocss/core'
 import { globalKeywords } from '../mappings'
-import { numberRE, numberWithUnitRE, unitOnlyRE } from './regex'
+import { bracketTypeRe, numberRE, numberWithUnitRE, unitOnlyRE } from './regex'
 
 // Not all, but covers most high frequency attributes
 const cssProps = [
@@ -84,7 +84,7 @@ export function auto(str: string) {
 }
 
 export function rem(str: string) {
-  if (str.match(unitOnlyRE))
+  if (unitOnlyRE.test(str))
     return `1${str}`
   const match = str.match(numberWithUnitRE)
   if (!match)
@@ -99,7 +99,7 @@ export function rem(str: string) {
 }
 
 export function px(str: string) {
-  if (str.match(unitOnlyRE))
+  if (unitOnlyRE.test(str))
     return `1${str}`
   const match = str.match(numberWithUnitRE)
   if (!match)
@@ -140,7 +140,6 @@ export function fraction(str: string) {
   }
 }
 
-const bracketTypeRe = /^\[(color|length|position|quoted|string):/i
 function bracketWithType(str: string, requiredType?: string) {
   if (str && str.startsWith('[') && str.endsWith(']')) {
     let base: string | undefined
@@ -226,8 +225,10 @@ export function bracketOfPosition(str: string) {
 }
 
 export function cssvar(str: string) {
-  if (str.match(/^\$[^\s'"`;{}]/))
-    return `var(--${escapeSelector(str.slice(1))})`
+  if (/^\$[^\s'"`;{}]/.test(str)) {
+    const [name, defaultValue] = str.slice(1).split(',')
+    return `var(--${escapeSelector(name)}${defaultValue ? `, ${defaultValue}` : ''})`
+  }
 }
 
 export function time(str: string) {

@@ -4,7 +4,7 @@ outline: deep
 
 # Extracting
 
-UnoCSS works by searching for the utilities usages from your codebase and generate the corresponding CSS on-demand. And we call this process **extracting**.
+UnoCSS works by searching for the utilities usages from your codebase and generate the corresponding CSS on-demand. We call this process **extracting**.
 
 ## Content Sources
 
@@ -16,12 +16,11 @@ UnoCSS supports extracting utilities usages from multiple sources:
 
 Usages of utilities that comes from different sources will be merged together and generate the final CSS.
 
-
 ### Extracting from Build Tools Pipeline
 
 This is supported in the [Vite](/integrations/vite) and [Webpack](/integrations/webpack) integrations.
 
-UnoCSS will read the content that goes through your build tools pipeline and extract the utilities usages from them. This is the most efficient and accurate way to extract as we only extract the usages that are actually used in your app smartly, and no additional file IO is made during the extraction.
+UnoCSS will read the content that goes through your build tools pipeline and extract the utilities usages from them. This is the most efficient and accurate way to extract as we only extract the usages that are actually used in your app smartly with no additional file I/O is made during the extraction.
 
 By default, UnoCSS will extract the utilities usage from files in your build pipeline with extension `.jsx`, `.tsx`, `.vue`, `.md`, `.html`, `.svelte`, `.astro` and then generate the appropriate CSS on demand. `.js` and `.ts` files are **NOT included by default**.
 
@@ -40,12 +39,12 @@ export default defineConfig({
       ],
       // exclude files
       // exclude: []
-    }
-  }
+    },
+  },
 })
 ```
 
-You can also add `@unocss-include` magic comment, per-file basis, anywhere in the file that you want UnoCSS to scan, or add `*.js` or `*.ts` in the configuration to include all js/ts files as scan targets.
+You can also add `@unocss-include` magic comment, per-file basis, anywhere in the file that you want UnoCSS to scan. If you need to scan `*.js` or `*.ts` files, add them in the configuration to include all js/ts files as scan targets.
 
 ```ts
 // ./some-utils.js
@@ -59,9 +58,9 @@ export const classes = {
 }
 ```
 
-Similarly, you can also add `@unocss-ignore` to bypass the scanning and transforming for a file.
+Similarly, you can also add `@unocss-ignore` to bypass the scanning and transforming for the whole file.
 
-If you want the UnoCSS to skip a block of code without being extracted, you can use `@unocss-skip-start` `@unocss-skip-end` in pairs:
+If you want the UnoCSS to skip a block of code without being extracted in any extracting files, you can use `@unocss-skip-start` `@unocss-skip-end` in pairs. Note that it must be used **in pairs** to be effective.
 
 ```html
 <p class="text-green text-xl">
@@ -76,13 +75,9 @@ If you want the UnoCSS to skip a block of code without being extracted, you can 
 <!-- @unocss-skip-end -->
 ```
 
-:::tip
-You can use `@unocss-skip-start` `@unocss-skip-end` magic comment in any extracting files, and must be used **in pairs** to be effective.
-:::
-
 ### Extracting from Filesystem
 
-In cases that you are using integrations that does not have access to the build tools pipeline (for example, the [PostCSS](/integrations/postcss) plugin), or you are integrating with backend frameworks that the code does not go through the pipeline, you can manually specify the files to be extracted.
+In cases that you are using integrations that does not have access to the build tools pipeline (for example, the [PostCSS](/integrations/postcss) plugin), or you are integrating with backend frameworks such that the code does not go through the pipeline, you can manually specify the files to be extracted.
 
 ```ts
 // uno.config.ts
@@ -91,8 +86,8 @@ export default defineConfig({
     filesystem: [
       'src/**/*.php',
       'public/*.html',
-    ]
-  }
+    ],
+  },
 })
 ```
 
@@ -100,7 +95,7 @@ The files matched will be read directly from the filesystem and watched for chan
 
 ### Extracting from Inline Text
 
-Additionally, you can also extract utilities usages from inline text, that you might retrieve from else where.
+Additionally, you can also extract utilities usages from inline text, that you might retrieve from elsewhere.
 
 You may also pass an async function to return the content. But note that the function will only be called once at the build time.
 
@@ -115,15 +110,15 @@ export default defineConfig({
       async () => {
         const response = await fetch('https://example.com')
         return response.text()
-      }
-    ]
-  }
+      },
+    ],
+  },
 })
 ```
 
 ## Limitations
 
-Since UnoCSS works **at build time**, it means that only statically presented utilities will be generated and shipped to your app. Utilities that are used dynamically or fetched from external resources at runtime might **NOT** be applied.
+Since UnoCSS works **at build time**, it means that only statically presented utilities will be generated and shipped to your app. Utilities that are used dynamically or fetched from external resources at runtime might **NOT** be detected or applied.
 
 ### Safelist
 
@@ -133,14 +128,14 @@ Sometimes you might want to use dynamic concatenations like:
 <div class="p-${size}"></div> <!-- this won't work! -->
 ```
 
-Due the fact that UnoCSS works in build time using static extracting, at the compile time we can't possibility know all the combination of the utilities. For that, you can configure the `safelist` option.
+Due the fact that UnoCSS works in build time using static extraction, at the compile time it can't possibility know all the combination of the utilities then. For that, you can configure the `safelist` option.
 
 ```ts
 // uno.config.ts
 safelist: 'p-1 p-2 p-3 p-4'.split(' ')
 ```
 
-the corresponding CSS will always be generated:
+The corresponding CSS will always be generated:
 
 ```css
 .p-1 { padding: 0.25rem; }
@@ -158,11 +153,36 @@ safelist: [
 ]
 ```
 
-If you are seeking for a true dynamic generation at runtime, you may want to check out the [@unocss/runtime](https://github.com/unocss/unocss/tree/main/packages/runtime) package.
+If you are seeking for a true dynamic generation at runtime, you may want to check out the [@unocss/runtime](/integrations/runtime) package.
+
+### Static List Combinations
+
+Another ways to work around the limitation of dynamically constructed utilities is that you can use an object that list all the combinations **statically**. For example, if you want to have this:
+
+```html
+<div class="text-${color} border-${color}"></div> <!-- this won't work! -->
+```
+
+You can create an object that lists all the combinations (assuming you know any possible values of `color` you want to use)
+
+```ts
+// Since they are static, UnoCSS will able to extract them on build time
+const classes = {
+  red: 'text-red border-red',
+  green: 'text-green border-green',
+  blue: 'text-blue border-blue',
+}
+```
+
+And then use it in your template:
+
+```html
+<div class="${classes[color]}"></div>
+```
 
 ### Blocklist
 
-Similar to `safelist`, you can also configure `blocklist` to exclude some utilities from being generated. Different from `safelist`, `blocklist` accept both string for exact match and regex for pattern match.
+Similar to `safelist`, you can also configure `blocklist` to exclude some utilities from being generated. This is useful to exclude some extraction false positives. Different from `safelist`, `blocklist` accepts both string for exact match and regular expression for pattern match.
 
 ```ts
 // uno.config.ts
@@ -172,6 +192,4 @@ blocklist: [
 ]
 ```
 
-This will exclude `p-1` and `p-2`, `p-3`, `p-4` from being generated. Useful to exclude some false positives.
-
-
+This will exclude `p-1` and `p-2`, `p-3`, `p-4` from being generated.

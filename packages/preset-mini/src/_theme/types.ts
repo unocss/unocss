@@ -78,7 +78,7 @@ export interface Theme {
     maxWidth?: Record<string, string>
   }
   // vars
-  /** Used to generate CSS variables placeholder in preflight */
+  /** Used to generate CSS custom properties placeholder in preflight */
   preflightRoot?: Arrayable<string>
   preflightBase?: Record<string, string | number>
 }

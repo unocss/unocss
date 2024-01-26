@@ -19,7 +19,7 @@ export interface TransformerDirectivesOptions {
   throwOnMissing?: boolean
 
   /**
-   * Treat CSS variables as @apply directives for CSS syntax compatible.
+   * Treat CSS custom properties as @apply directives for CSS syntax compatibility.
    *
    * Pass `false` to disable.
    *
@@ -28,7 +28,7 @@ export interface TransformerDirectivesOptions {
   applyVariable?: false | string | string[]
 
   /**
-   * Treat CSS variables as directives for CSS syntax compatible.
+   * Treat CSS custom properties as directives for CSS syntax compatibility.
    *
    * Pass `false` to disable, or a string to use as a prefix.
    *
@@ -51,7 +51,7 @@ export default function transformerDirectives(options: TransformerDirectivesOpti
   return {
     name: '@unocss/transformer-directives',
     enforce: options?.enforce,
-    idFilter: id => !!id.match(cssIdRE),
+    idFilter: id => cssIdRE.test(id),
     transform: (code, id, ctx) => {
       return transformDirectives(code, ctx.uno, options, id)
     },

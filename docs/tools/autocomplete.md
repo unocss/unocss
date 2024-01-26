@@ -1,11 +1,11 @@
 ---
-title: Autocomplete utils
-description: Autocomplete utils for UnoCSS (@unocss/autocomplete).
+title: Autocomplete utilities
+description: Autocomplete utilities for UnoCSS (@unocss/autocomplete).
 ---
 
 # Autocomplete
 
-Autocomplete utils for UnoCSS: `@unocss/autocomplete`. This is embedded in the <a href="/play" target="_blank" rel="noreferrer">playground</a> and the [VS Code extension](/integrations/vscode).
+Autocomplete utilities for UnoCSS: `@unocss/autocomplete`. This is embedded in the <a href="/play" target="_blank" rel="noreferrer">playground</a> and the [VS Code extension](/integrations/vscode).
 
 ## Usage
 
@@ -35,9 +35,9 @@ rules: [
 
 The template uses a simple DSL to specify the autocomplete suggestions. The syntax is:
 
-- `(...|...)`: logic OR groups. `|` as the separator. Will be used as suggestions when the some of the groups match.
-- `<...>`: built-in short hands. currently supports `<num>`, `<percent>` and `<directions>`
-- `$...`: theme inferring. for example, `$colors` will list all the properties of the `colors` object of the theme.
+- `(...|...)`: logic OR groups using `|` as the separator. It will be used as suggestions when some of the groups match.
+- `<...>`: built-in shorthands. Currently supports `<num>`, `<percent>` and `<directions>`
+- `$...`: theme inferring. For example `$colors` will list all the properties of the `colors` object of the theme.
 
 ## Examples
 

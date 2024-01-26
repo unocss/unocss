@@ -27,7 +27,7 @@ export const integrations: Integration[] = [
   { name: 'CLI', link: '/integrations/cli', icon: 'i-carbon-terminal' },
   { name: 'PostCSS', link: '/integrations/postcss', icon: 'i-logos-postcss' },
   { name: 'ESLint', link: '/integrations/eslint', icon: 'i-logos-eslint' },
-  { name: 'VSCode', link: '/integrations/vscode', icon: 'i-logos-visual-studio-code' },
+  { name: 'VS Code', link: '/integrations/vscode', icon: 'i-logos-visual-studio-code' },
 ]
 
 export const examples: Example[] = [

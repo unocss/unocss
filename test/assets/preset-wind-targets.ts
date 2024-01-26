@@ -66,20 +66,6 @@ export const presetWindTargets: string[] = [
   'bg-repeat-revert',
   'bg-right-bottom',
   'bg-scroll',
-  'bg-[10px]',
-  'bg-[10%]',
-  'bg-[10vw]',
-  'bg-[calc(10%+10px)]',
-  'bg-[calc(10vw+10px)]',
-  'bg-[url(https://test.unocss.png)]',
-  'bg-[length:--variable]',
-  'bg-[length:10_20rem]',
-  'bg-[length:1/2_20rem]',
-  'bg-[position:--variable]',
-  'bg-[position:10_20rem]',
-  'bg-[position:1/2_20rem]',
-  'bg-[position:bottom_left_10%]',
-  'bg-[position:top_right_1/3]',
 
   // bg gradient
   'from-current',
@@ -399,6 +385,8 @@ export const presetWindTargets: string[] = [
   '!animate-ping',
   '-backdrop-hue-rotate-90',
   '-hue-rotate-90',
+  '-hue-rotate--90',
+  '-hue-rotate-[var(--for-hue,0.5turn)]',
   'hover:animate-bounce',
 
   '-scroll-mb-px',
@@ -421,6 +409,17 @@ export const presetWindTargets: string[] = [
   // view-transition
   'view-transition-foo',
   'view-transition-none',
+
+  // dynamic viewport height
+  'h-svh',
+  'h-dvh',
+  'h-lvh',
+  'min-h-dvh',
+  'min-h-lvh',
+  'min-h-svh',
+  'max-h-dvh',
+  'max-h-svh',
+  'max-h-lvh',
 ]
 
 export const presetWindNonTargets: string[] = [

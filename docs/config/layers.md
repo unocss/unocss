@@ -6,11 +6,11 @@ description: UnoCSS allows you to define the layers as you want.
 
 # Layers
 
-The order of CSS will affect their priorities. While we will [retain the order of rules](/config/rules#ordering), sometimes you may want to group some utilities to have more explicit control of their order.
+The order of CSS will affect their priorities. While the engine will [retain the order of rules](/config/rules#ordering), sometimes you may want to group some utilities to have explicit control of their order.
 
 ## Usage
 
-Unlike Tailwind, which offers 3 fixed layers (`base`, `components`, `utilities`), UnoCSS allows you to define the layers as you want. To set the layer, you can pass the metadata as the third item of your rules:
+Unlike Tailwind CSS which offers three fixed layers (`base`, `components`, `utilities`), UnoCSS allows you to define the layers as you want. To set the layer, you can pass the metadata as the third item of your rules:
 
 ```ts
 rules: [
@@ -29,7 +29,7 @@ This will generate:
 .m-2 { margin: 0.5rem; }
 ```
 
-Layering also can be set on each preflight:
+Layer also can be set on each preflight:
 
 ```ts
 preflights: [
@@ -48,9 +48,9 @@ You can control the order of layers by:
 
 ```ts
 layers: {
-  components: -1,
-  default: 1,
-  utilities: 2,
+  'components': -1,
+  'default': 1,
+  'utilities': 2,
   'my-layer': 3,
 }
 ```

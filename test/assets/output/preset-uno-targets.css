@@ -1,11 +1,11 @@
 /* layer: default */
-.border-custom-b{border-color:rgba(var(--custom), 1);}
+.border-custom-b{--un-border-opacity:1;border-color:rgba(var(--custom), var(--un-border-opacity));}
 .border-custom-b\/0{border-color:rgba(var(--custom), 0);}
 .border-custom-b\/10{border-color:rgba(var(--custom), 0.1);}
-.bg-custom-b{background-color:rgba(var(--custom), 1);}
+.bg-custom-b{--un-bg-opacity:1;background-color:rgba(var(--custom), var(--un-bg-opacity));}
 .bg-custom-c{--un-bg-opacity:1;background-color:rgba(var(--custom-c), var(--un-bg-opacity));}
 .bg-custom-c\/10{background-color:rgba(var(--custom-c), 0.1);}
-.bg-custom-d{background-color:hsl(var(--custom-d), 1);}
+.bg-custom-d{--un-bg-opacity:1;background-color:hsl(var(--custom-d), var(--un-bg-opacity));}
 .bg-custom-d\/20{background-color:hsl(var(--custom-d), 0.2);}
 .bg-custom-e{--un-bg-opacity:1;background-color:hsl(var(--custom-e) / var(--un-bg-opacity));}
 .bg-custom-e\/30{background-color:hsl(var(--custom-e) / 0.3);}
@@ -15,11 +15,11 @@
 .bg-info{--un-bg-opacity:1;background-color:hsl(200.1 100% 54.3% / var(--un-bg-opacity));}
 .bg-info\/\[10\%\]{background-color:hsl(200.1 100% 54.3% / 10%);}
 .bg-info\/10{background-color:hsl(200.1 100% 54.3% / 0.1);}
+.text-custom-a{color:var(--custom);}
 .mix-shade-50-c-red-400{--un-text-opacity:1;color:rgb(calc(248 + (0 - 248) * 50 / 100) calc(113 + (0 - 113) * 50 / 100) calc(113 + (0 - 113) * 50 / 100) / calc(var(--un-text-opacity) + (1 - var(--un-text-opacity)) * 50 / 100));}
 .mix-shift--50-c-red-600{--un-text-opacity:1;color:rgb(calc(220 + (255 - 220) * 50 / 100) calc(38 + (255 - 38) * 50 / 100) calc(38 + (255 - 38) * 50 / 100) / calc(var(--un-text-opacity) + (1 - var(--un-text-opacity)) * 50 / 100));}
 .mix-shift-50-c-red-600{--un-text-opacity:1;color:rgb(calc(220 + (0 - 220) * 50 / 100) calc(38 + (0 - 38) * 50 / 100) calc(38 + (0 - 38) * 50 / 100) / calc(var(--un-text-opacity) + (1 - var(--un-text-opacity)) * 50 / 100));}
 .mix-tint-50-c-red-400{--un-text-opacity:1;color:rgb(calc(248 + (255 - 248) * 50 / 100) calc(113 + (255 - 113) * 50 / 100) calc(113 + (255 - 113) * 50 / 100) / calc(var(--un-text-opacity) + (1 - var(--un-text-opacity)) * 50 / 100));}
-.text-custom-a{color:var(--custom);}
 .focus\:placeholder-red-300:focus::placeholder{--un-placeholder-opacity:1;color:rgb(252 165 165 / var(--un-placeholder-opacity));}
 .placeholder-inherit::placeholder{color:inherit;}
 .placeholder-red-400::placeholder{--un-placeholder-opacity:1;color:rgb(248 113 113 / var(--un-placeholder-opacity));}

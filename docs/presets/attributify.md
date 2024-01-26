@@ -46,7 +46,7 @@ import { presetAttributify } from 'unocss'
 
 ## Attributify Mode
 
-Imagine you have this button using Tailwind's utilities. When the list gets longer, it becomes really hard to read and maintain.
+Imagine you have this button using Tailwind CSS's utilities. When the list gets longer, it becomes really hard to read and maintain.
 
 ```html
 <button class="bg-blue-400 hover:bg-blue-500 text-sm text-white font-mono font-light py-2 px-4 rounded border-2 border-blue-200 dark:bg-blue-500 dark:hover:bg-blue-600">
@@ -57,7 +57,7 @@ Imagine you have this button using Tailwind's utilities. When the list gets long
 With attributify mode, you can separate utilities into attributes:
 
 ```html
-<button 
+<button
   bg="blue-400 hover:blue-500 dark:blue-500 dark:hover:blue-600"
   text="sm white"
   font="mono light"
@@ -107,7 +107,7 @@ now can be
 ```
 
 ::: info
-Note: If you are using JSX, `<div foo>` might be transformed to `<div foo={true}>` which will make the generated CSS from UnoCSS fail to match the attributes. To solve this, you might want to try [`transformer-attributify-jsx`](https://github.com/unocss/unocss/tree/main/packages/transformer-attributify-jsx) along with this preset.
+Note: If you are using JSX, `<div foo>` might be transformed to `<div foo={true}>` which will make the generated CSS from UnoCSS fail to match the attributes. To solve this, you might want to try [`transformer-attributify-jsx`](/transformers/attributify-jsx) along with this preset.
 :::
 
 ## Properties conflicts

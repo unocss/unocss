@@ -6,7 +6,7 @@ outline: deep
 
 # Svelte Scoped
 
-Place generated CSS for each Svelte component's utility styles directly into the Svelte component's `<style>` block instead of in a global CSS file. 
+Place generated CSS for each Svelte component's utility styles directly into the Svelte component's `<style>` block instead of in a global CSS file.
 
 This component:
 
@@ -36,7 +36,7 @@ is transformed into:
 
 ## How it works
 
-A regular UnoCSS/Tailwind setup places utility styles in a global CSS file with proper ordering. In contrast, Svelte Scoped distributes your styles across many arbitrarily ordered Svelte component CSS files. However, it must keep the utility styles global to allow them to be context aware as needed for things like right-to-left and other [use cases](#context-aware) listed below. This presents a challenge that is solved by using Svelte's `:global()` wrapper to opt out of the default Svelte CSS hashing method and instead use a hash based on filename + class name(s) to compile unique class names that can be made global without style conflicts.
+A regular UnoCSS/Tailwind CSS setup places utility styles in a global CSS file with proper ordering. In contrast, Svelte Scoped distributes your styles across many arbitrarily ordered Svelte component CSS files. However, it must keep the utility styles global to allow them to be context aware as needed for things like right-to-left and other [use cases](#context-aware) listed below. This presents a challenge that is solved by using Svelte's `:global()` wrapper to opt out of the default Svelte CSS hashing method and instead use a hash based on filename + class name(s) to compile unique class names that can be made global without style conflicts.
 
 ## Usage
 
@@ -110,7 +110,7 @@ turns into:
 
 #### Passing classes to child components
 
-You can add a `class` prop to a component to allow passing custom classes wherever that component is consumed. 
+You can add a `class` prop to a component to allow passing custom classes wherever that component is consumed.
 
 ```svelte
 <Button class="px-2 py-1">Login</Button>
@@ -135,7 +135,7 @@ An easy way to implement the class in a receiving component would be to place th
 
 ### Apply directives
 
-You can use apply directives inside your `<style>` blocks with either `--at-apply` or `@apply` or a custom value set using the `applyVariables` option. 
+You can use apply directives inside your `<style>` blocks with either `--at-apply` or `@apply` or a custom value set using the `applyVariables` option.
 
 Svelte Scoped even properly handles context dependent classes like `dark:text-white` that the regular [`@unocss/transformer-directives`](/transformers/directives) package can't handle properly because it wasn't built specifically for Svelte style blocks. For example, with Svelte Scoped this component:
 
@@ -172,7 +172,6 @@ Using [theme()](https://unocss.dev/transformers/directives#theme) is also suppor
 In Svelte or SvelteKit apps, inject generated styles directly into your Svelte components, while placing the minimum necessary styles in a global stylesheet. Check out the [SvelteKit example](https://github.com/unocss/unocss/tree/main/examples/sveltekit-scoped) in Stackblitz:
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/sveltekit-scoped)
-
 
 ### Install
 
@@ -234,14 +233,19 @@ If using SvelteKit, you also must add the following to the `transformPageChunk` 
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({ event, resolve }) {
   const response = await resolve(event, {
-    transformPageChunk: ({ html }) => html.replace('%unocss-svelte-scoped.global%', 'unocss_svelte_scoped_global_styles'),
+    transformPageChunk: ({ html }) =>
+      html.replace(
+        '%unocss-svelte-scoped.global%',
+        'unocss_svelte_scoped_global_styles'
+      ),
   })
   return response
 }
 ```
 
-*In a regular Svelte project, Vite's `transformIndexHtml` hook will do this automatically.*
+This transformation must be in a file whose [path includes `hooks` and `server`](https://github.com/unocss/unocss/blob/main/packages/svelte-scoped/src/_vite/global.ts#L12) (e.g. `src/hooks.server.js`, `src/hooks.server.ts`) as `svelte-scoped` will be looking in your server hooks file to replace `unocss_svelte_scoped_global_styles` with your global styles. Make sure to not import this transformation from another file, such as when using [sequence](https://kit.svelte.dev/docs/modules#sveltejs-kit-hooks-sequence) from `@sveltejs/kit/hooks`.
 
+*In a regular Svelte project, Vite's `transformIndexHtml` hook will do this automatically.*
 
 ## Svelte Preprocessor
 
@@ -291,7 +295,7 @@ When using Svelte Scoped in a normal app, the Vite plugin will automatically det
 If you want this same behavior when using the preprocessor, you must manually set the the `combine` option based on environemnt. One way to do this is to install [cross-env](https://www.npmjs.com/package/cross-env) and update your dev script to this:
 
 ```
-"dev": "cross-env NODE_ENV=development vite dev",
+"dev": "cross-env NODE_ENV=development vite dev"
 ```
 
 Then adjust your svelte.config.js:
@@ -326,7 +330,7 @@ Any special preflights that start with a period, such as `.prose :where(a):not(:
 
 ### Safelist
 
-When using the preprocessor you have the option to include safelist classes in a component by adding `uno-safelist` as a style attribute. 
+When using the preprocessor you have the option to include safelist classes in a component by adding `uno-safelist` as a style attribute.
 
 ```html
 <style uno-safelist></style>
@@ -336,7 +340,7 @@ Your safelist styles will be wrapped with `:global()` to avoid being automatical
 
 ## Configuration
 
-Place your UnoCSS settings in an `uno.config.ts` file: 
+Place your UnoCSS settings in an `uno.config.ts` file:
 
 ```ts
 // uno.config.ts
@@ -353,11 +357,11 @@ Extractors are not supported due to the differences in normal UnoCSS global usag
 
 Do to the nature of having a few necessary styles in a global stylesheet and everything else contained in each component where needed, presets need to be handled on a case-by-case basis:
 
-| Preset | Supported | Notes | 
-| --- | :-- | :-- | 
+| Preset | Supported | Notes |
+| --- | :-- | :-- |
 | [@unocss/preset-uno](https://unocss.dev/presets/uno), [@unocss/preset-mini](https://unocss.dev/presets/mini), [@unocss/preset-wind](https://unocss.dev/presets/wind), [@unocss/preset-icons](https://github.com/unocss/unocss/tree/main/packages/preset-icons), [@unocss/web-fonts](https://github.com/unocss/unocss/tree/main/packages/preset-icons) | ✅ | These and all community plugins, e.g. [unocss-preset-forms](https://github.com/Julien-R44/unocss-preset-forms), that only rely on rules/variants/preflights will work. |
-| [@unocss/preset-typography](https://github.com/unocss/unocss/tree/main/packages/preset-typography) | ✅ | Due to how this preset adds rulesets to your preflights you must add the `prose` class to your safelist when using this preset, otherwise the preflights will never be triggered. All other classes from this preset, e.g. `prose-pink`, can be component scoped. | 
-| [@unocss/preset-rem-to-px](https://github.com/unocss/unocss/tree/main/packages/preset-rem-to-px) | ✅ | This and all presets like it that only modify style output will work. | 
+| [@unocss/preset-typography](https://github.com/unocss/unocss/tree/main/packages/preset-typography) | ✅ | Due to how this preset adds rulesets to your preflights you must add the `prose` class to your safelist when using this preset, otherwise the preflights will never be triggered. All other classes from this preset, e.g. `prose-pink`, can be component scoped. |
+| [@unocss/preset-rem-to-px](https://github.com/unocss/unocss/tree/main/packages/preset-rem-to-px) | ✅ | This and all presets like it that only modify style output will work. |
 | [@unocss/preset-attributify](https://github.com/unocss/unocss/tree/main/packages/preset-attributify) | - | Preset won't work. Instead use [unplugin-attributify-to-class](https://github.com/MellowCo/unplugin-attributify-to-class) Vite plugin (`attributifyToClass({ include: [/\.svelte$/]})`) before the Svelte Scoped Vite plugin  |
 | [@unocss/preset-tagify](https://github.com/unocss/unocss/tree/main/packages/preset-tagify) | - | Presets that add custom extractors will not work. Create a preprocessor to convert `<text-red>Hi</text-red>` to `<span class="text-red">Hi</span>`, then create a PR to add the link here. |
 

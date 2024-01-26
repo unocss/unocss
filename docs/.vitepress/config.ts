@@ -40,7 +40,7 @@ const Integrations: DefaultTheme.NavItemWithLink[] = [
   { text: 'CLI', link: '/integrations/cli' },
   { text: 'PostCSS', link: '/integrations/postcss' },
   { text: 'ESLint', link: '/integrations/eslint' },
-  { text: 'VSCode extension', link: '/integrations/vscode' },
+  { text: 'VS Code Extension', link: '/integrations/vscode' },
   { text: 'JetBrains IDE Plugin', link: '/integrations/jetbrains' },
 ]
 
@@ -52,6 +52,7 @@ const Presets: DefaultTheme.NavItemWithLink[] = [
   { text: 'Web fonts', link: '/presets/web-fonts' },
   { text: 'Wind', link: '/presets/wind' },
   { text: 'Mini', link: '/presets/mini' },
+  { text: 'Legacy Compat', link: '/presets/legacy-compat' },
   { text: 'Tagify', link: '/presets/tagify' },
   { text: 'Rem to px', link: '/presets/rem-to-px' },
 ]
@@ -216,7 +217,7 @@ const SidebarPresets: DefaultTheme.SidebarItem[] = [
     items: Extractors,
   },
   {
-    text: 'Other packages',
+    text: 'Other Packages',
     collapsed: false,
     items: Tools,
   },

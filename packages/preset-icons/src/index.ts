@@ -1,7 +1,7 @@
 import type { UniversalIconLoader } from '@iconify/utils'
 import { loadIcon } from '@iconify/utils'
 import { createCDNLoader } from './cdn'
-import { combineLoaders, createPresetIcons } from './core'
+import { combineLoaders, createPresetIcons, getEnvFlags } from './core'
 
 export * from './core'
 
@@ -17,19 +17,18 @@ async function createNodeLoader() {
   catch { }
 }
 
-export const presetIcons = createPresetIcons(async (options) => {
+export const presetIcons = /* @__PURE__ */ createPresetIcons(async (options) => {
   const {
     cdn,
   } = options
 
   const loaders: UniversalIconLoader[] = []
 
-  // eslint-disable-next-line node/prefer-global/process
-  const isNode = typeof process !== 'undefined' && process.stdout && !process.versions.deno
-  // eslint-disable-next-line node/prefer-global/process
-  const isVSCode = isNode && !!process.env.VSCODE_CWD
-  // eslint-disable-next-line node/prefer-global/process
-  const isESLint = isNode && !!process.env.ESLINT
+  const {
+    isNode,
+    isVSCode,
+    isESLint,
+  } = getEnvFlags()
 
   if (isNode && !isVSCode && !isESLint) {
     const nodeLoader = await createNodeLoader()

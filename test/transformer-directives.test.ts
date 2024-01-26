@@ -34,6 +34,19 @@ describe('transformer-directives', () => {
         xxl: '1536px',
       },
     },
+    variants: [
+      (matcher) => {
+        const prefix = 'sgroup:' // selector group
+
+        if (!matcher.startsWith(prefix))
+          return matcher
+
+        return {
+          matcher: matcher.slice(prefix.length),
+          selector: s => `${s}:hover, ${s}:focus`,
+        }
+      },
+    ],
   })
 
   async function transform(code: string, _uno: UnoGenerator = uno) {
@@ -503,6 +516,45 @@ div {
           line-height: 1.75rem;
           font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
             "Liberation Mono", "Courier New", monospace;
+        }
+        "
+      `)
+  })
+
+  it('@apply animate- scoped', async () => {
+    const result = await transform(
+      '.btn { @apply: animate-pulse }',
+    )
+    expect(result)
+      .toMatchInlineSnapshot(`
+        ".btn {
+          animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+          0%,
+          100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.5;
+          }
+        }
+        "
+      `)
+  })
+
+  it('@apply selector group', async () => {
+    const result = await transform(
+      '.btn { @apply: sgroup:bg-orange }',
+    )
+    expect(result)
+      .toMatchInlineSnapshot(`
+        ".btn {
+        }
+        .btn:hover,
+        .btn:focus {
+          --un-bg-opacity: 1;
+          background-color: rgb(251 146 60 / var(--un-bg-opacity));
         }
         "
       `)

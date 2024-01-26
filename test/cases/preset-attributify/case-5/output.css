@@ -1,3 +1,6 @@
 /* layer: default */
+.absolute{position:absolute;}
+[bottom-5=""]{bottom:1.25rem;}
+[top-5=""]{top:1.25rem;}
 .text-red{--un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity));}
 [text~="green"]{--un-text-opacity:1;color:rgb(74 222 128 / var(--un-text-opacity));}

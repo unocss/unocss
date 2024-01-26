@@ -69,7 +69,7 @@ export default defineConfig({
 ```
 
 ::: warning
-If you are using webpack@4.x, the `optimization.realContentHash` configuration is not supported, And you should use `css.extract.filename` to customize css filename (we use first 9 letter of hashcode instead of contenthash as example). Beware this [known issue](https://github.com/unocss/unocss/issues/1728) with bundle and [webpack#9520](https://github.com/webpack/webpack/issues/9520#issuecomment-749534245).
+If you are using webpack@4.x, the `optimization.realContentHash` configuration is not supported, And you should use `css.extract.filename` to customize CSS filename (we use first 9 letter of hashcode instead of contenthash as example). Beware this [known issue](https://github.com/unocss/unocss/issues/1728) with bundle and [webpack#9520](https://github.com/webpack/webpack/issues/9520#issuecomment-749534245).
 :::
 
 ## Usage
