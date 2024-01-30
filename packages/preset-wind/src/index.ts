@@ -19,7 +19,9 @@ export interface PresetWindOptions extends PresetMiniOptions {
    *
    * This can be really useful when using UnoCSS with existing CSS that has high specificity selectors.
    *
-   * You can also set `important` to a selector like `#app` instead, which will generate `#app .m-1 { ... }`
+   * You can also set `important` to a selector like `#app` instead, which will generate `#app :is(.m-1) { ... }`
+   *
+   * Also check out the compatibility with [:is()](https://caniuse.com/?search=%3Ais())
    *
    * @default false
    */

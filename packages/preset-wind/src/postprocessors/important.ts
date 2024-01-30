@@ -9,6 +9,10 @@ export function important(option: PresetWindOptions['important']): Postprocessor
     if (selector.startsWith(':is(') && selector.endsWith(')'))
       return selector
 
+    // handle pseudo
+    if (selector.includes('::'))
+      return selector.replace(/(.*)(::.*)/, ':is($1)$2')
+
     return `:is(${selector})`
   }
 
