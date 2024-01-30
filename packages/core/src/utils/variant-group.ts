@@ -17,18 +17,17 @@ interface VariantGroup {
   items: HighlightAnnotation[]
 }
 
+const regexAttribute = /(<[\w\-_]+)\s+(([^<>"']|"[^"]*"|'[^']*'|<)*)\/?>/gm
 export function parseVariantGroup(str: string | MagicString, separators = ['-', ':'], depth = 5, onlyAttribute?: boolean) {
   const regexClassGroup = makeRegexClassGroup(separators)
   let hasChanged
   let content = str.toString()
   const prefixes = new Set<string>()
   const groupsByOffset = new Map<number, VariantGroup>()
-  const processedStr = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  const isAttributor = (matchText: string, offset: number) => {
-    const reg = new RegExp(`<[\\w_\\-]+[^>\\/]*${processedStr(matchText)}[^>\\/]*\/?>`, 'gm')
-    for (const match of content.matchAll(reg)) {
+  const isAttributor = (offset: number) => {
+    for (const match of content.matchAll(regexAttribute)) {
       const index = match.index!
-      if (index < offset && (index + match[0].length > offset))
+      if (index + match[1].length < offset && (index + match[0].length > offset))
         return true
     }
     return false
@@ -38,7 +37,7 @@ export function parseVariantGroup(str: string | MagicString, separators = ['-', 
     content = content.replace(
       regexClassGroup,
       (from, pre: string, sep: string, body: string, groupOffset: number) => {
-        if (!onlyAttribute && !isAttributor(from, groupOffset))
+        if (!onlyAttribute && !isAttributor(groupOffset))
           return from
         if (!separators.includes(sep))
           return from
