@@ -12,6 +12,7 @@
   "devDependencies": {
     "@antfu/utils": "^0.7.7",
     "@nuxt/devtools": "^1.0.8",
+    "@shikijs/markdown-it": "^1.0.0-beta.4",
     "@unocss/autocomplete": "workspace:*",
     "@unocss/nuxt": "workspace:*",
     "@unocss/shared-docs": "workspace:*",
@@ -22,12 +23,11 @@
     "js-yaml": "^4.1.0",
     "knitwork": "^1.0.0",
     "markdown-it-link-attributes": "^4.0.1",
-    "markdown-it-shikiji": "^0.10.0",
     "nuxt": "^3.8.2",
     "p-limit": "^5.0.0",
     "postcss-nested": "^6.0.1",
     "prettier": "^2.8.8",
-    "shikiji": "^0.10.0",
+    "shiki": "^1.0.0-beta.4",
     "theme-vitesse": "^0.7.5",
     "unplugin-vue-markdown": "^0.25.2",
     "vue": "^3.3.9"
