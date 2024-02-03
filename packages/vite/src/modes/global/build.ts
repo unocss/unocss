@@ -252,7 +252,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           // to replace on current build pipeline, we can skip the warning.
           if (replaced)
             return
-          const msg = '[unocss] entry module not found, have you add `import \'uno.css\'` in your main entry?'
+          const msg = '[unocss] Entry module not found. Did you add `import \'uno.css\'` in your main entry?'
           this.warn(msg)
           return
         }
