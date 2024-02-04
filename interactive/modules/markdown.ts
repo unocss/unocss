@@ -1,7 +1,7 @@
 import { defineNuxtModule } from '@nuxt/kit'
 import Markdown from 'unplugin-vue-markdown/vite'
 import LinkAttributes from 'markdown-it-link-attributes'
-import Shikiji from 'markdown-it-shikiji'
+import Shiki from '@shikijs/markdown-it'
 
 export default defineNuxtModule({
   async setup(_, nuxt) {
@@ -16,7 +16,7 @@ export default defineNuxtModule({
                 rel: 'noopener',
               },
             })
-            md.use(await Shikiji({
+            md.use(await Shiki({
               defaultColor: false,
               themes: {
                 dark: 'vitesse-dark',
