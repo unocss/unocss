@@ -13,7 +13,7 @@
     "@iconify-json/ri": "^1.1.19",
     "@julr/unocss-preset-forms": "^0.1.0",
     "@sveltejs/adapter-auto": "^3.1.1",
-    "@sveltejs/kit": "^2.4.3",
+    "@sveltejs/kit": "^2.5.0",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
     "@unocss/svelte-scoped": "link:../../packages/svelte-scoped",

@@ -26,7 +26,7 @@ export interface AutocompleteTemplateTheme {
 
 export interface ParsedAutocompleteTemplate {
   parts: AutocompleteTemplatePart[]
-  suggest(input: string, matchType?: AutoCompleteMatchType): string[] | undefined
+  suggest: (input: string, matchType?: AutoCompleteMatchType) => string[] | undefined
 }
 
 export interface UnocssAutocomplete {
