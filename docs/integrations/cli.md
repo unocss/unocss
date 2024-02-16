@@ -41,6 +41,10 @@ You can also install the standalone package:
   ```
 :::
 
+::: info
+If you are not able to find the binary (e.g. with `pnpm` and only `unocss` is installed), you'll need to explicit install `@unocss/cli` standalone package.
+:::
+
 ## Usage
 
 You can also pass multiple glob patterns to `@unocss/cli`:
