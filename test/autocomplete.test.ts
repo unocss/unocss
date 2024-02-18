@@ -57,6 +57,8 @@ describe('autocomplete', () => {
         // sort this list in alphabetical order
         'align-',
         'aspect-',
+        'auto-flow-', // grid-auto-flow
+        'auto-rows-', // grid-auto-rows
         'bg-',
         'bg-gradient-',
         'bg-r',
@@ -71,6 +73,7 @@ describe('autocomplete', () => {
         'fle',
         'font-',
         'font-',
+        'grid-rows-',
         'grow-',
         'keyframes-',
         'leading-',
@@ -83,6 +86,7 @@ describe('autocomplete', () => {
         'outline-',
         'outline-offset-',
         'placeholder-',
+        'rows-', // grid-rows
         'scroll-',
         'scroll-m-',
         'shadow-',
@@ -101,14 +105,6 @@ describe('autocomplete', () => {
         'transform-scale-',
         'transform-skew-x-',
         'transform-skew-y-',
-        'grid-row',
-        'grid-row-start-',
-        'grid-row-end-',
-        'grid-rows-',
-        'grid-auto-flow-',
-        'grid-flow-',
-        'auto-flow-',
-        'grid-auto-rows-',
         'v-',
         'w-',
         'z-',
