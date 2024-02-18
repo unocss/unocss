@@ -976,6 +976,9 @@ export const presetMiniTargets: string[] = [
   '[--css-variable-color:theme(colors.red.500/50%)]',
   '[--css-variable-color:theme(colors.green.500),theme(colors.blue.500)]',
   '[--css-spacing:theme(spacing.sm)]',
+  'bg-[--css-spacing,theme(spacing.sm)]',
+  'text-[theme(spacing.sm)]',
+  'c-[theme(colors.red.500/50%)]',
 
   // variants
   'active:scale-4',

@@ -3,8 +3,8 @@ import { createGenerator, isString, toArray } from '@unocss/core'
 import { autoPrefixer, decodeHtml } from './utils'
 
 export interface RuntimeGenerateResult extends GenerateResult {
-  getStyleElement(name: string): HTMLStyleElement | undefined
-  getStyleElements(): Map<string, HTMLStyleElement>
+  getStyleElement: (name: string) => HTMLStyleElement | undefined
+  getStyleElements: () => Map<string, HTMLStyleElement>
 }
 
 export interface RuntimeObserverConfig {

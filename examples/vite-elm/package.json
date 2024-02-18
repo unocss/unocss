@@ -17,7 +17,7 @@
     "elm-tooling": "^1.15.0",
     "unocss": "link:../../packages/unocss",
     "vite": "^5.0.12",
-    "vite-plugin-elm": "^2.9.0"
+    "vite-plugin-elm": "^3.0.0"
   },
   "stackblitz": {
     "installDependencies": false,

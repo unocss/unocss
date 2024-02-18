@@ -139,7 +139,7 @@ export interface Extractor {
    *
    * Return `undefined` to skip this extractor.
    */
-  extract?(ctx: ExtractorContext): Awaitable<Set<string> | CountableSet<string> | string[] | undefined | void>
+  extract?: (ctx: ExtractorContext) => Awaitable<Set<string> | CountableSet<string> | string[] | undefined | void>
 }
 
 export interface RuleMeta {
@@ -604,7 +604,7 @@ export interface UnocssPluginContext<Config extends UserConfig = UserConfig> {
   /**
    * Await all pending tasks
    */
-  flushTasks(): Promise<any>
+  flushTasks: () => Promise<any>
 
   filter: (code: string, id: string) => boolean
   extract: (code: string, id?: string) => Promise<void>
@@ -789,8 +789,8 @@ RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variant
 export interface GenerateResult<T = Set<string>> {
   css: string
   layers: string[]
-  getLayer(name?: string): string | undefined
-  getLayers(includes?: string[], excludes?: string[]): string
+  getLayer: (name?: string) => string | undefined
+  getLayers: (includes?: string[], excludes?: string[]) => string
   matched: T
 }
 
