@@ -62,7 +62,6 @@ exports[`autocomplete > should provide autocomplete 1`] = `
   "shadow-": "shadow-amber shadow-black shadow-blue shadow-bluegray shadow-blueGray shadow-coolgray shadow-coolGray shadow-current shadow-cyan shadow-dark",
   "skew-x-": "skew-x-0 skew-x-10 skew-x-20 skew-x-30 skew-x-40 skew-x-50 skew-x-60 skew-x-70 skew-x-80 skew-x-90",
   "space-": "space-block space-block-reverse space-inline space-inline-reverse space-x space-x-reverse space-y space-y-reverse",
-  "stretch-": "stretch-10% stretch-20% stretch-30% stretch-40% stretch-50% stretch-60% stretch-70% stretch-80% stretch-90% stretch-100%",
   "text-r": "text-red text-revert text-revert-layer text-right text-rose",
   "text-red-": "text-red-1 text-red-2 text-red-3 text-red-4 text-red-5 text-red-6 text-red-7 text-red-8 text-red-9 text-red-50",
   "touch-": "touch-auto touch-inherit touch-initial touch-manipulation touch-none touch-pan touch-pinch-zoom touch-revert touch-revert-layer touch-unset",

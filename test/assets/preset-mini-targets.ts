@@ -876,7 +876,7 @@ export const presetMiniTargets: string[] = [
   'font-tracking-1em',
   'font-stretch-normal',
   'font-stretch-[ultra-expanded]',
-  'stretch-1/2',
+  'font-stretch-1/2',
   'word-spacing-1',
   'word-spacing-wide',
   'word-spacing-2',

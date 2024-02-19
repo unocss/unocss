@@ -95,7 +95,6 @@ describe('autocomplete', () => {
         'scale-',
         'scale-x-',
         'skew-x-',
-        'stretch-',
         'transform-scale-z-',
         'transform-scale-x-',
         'transform-scale-',
