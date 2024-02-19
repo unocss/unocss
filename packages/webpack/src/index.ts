@@ -104,7 +104,11 @@ export default function WebpackPlugin<Theme extends object>(
       webpack(compiler) {
         // replace the placeholders
         compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation) => {
-          compilation.hooks.optimizeAssets.tapPromise(PLUGIN_NAME, async () => {
+          const optimizeAssetsHook
+          = /* webpack 5 & 6 */ compilation.hooks.processAssets
+          || /* webpack 4 */ compilation.hooks.optimizeAssets
+
+          optimizeAssetsHook.tapPromise(PLUGIN_NAME, async () => {
             const files = Object.keys(compilation.assets)
 
             await flushTasks()
