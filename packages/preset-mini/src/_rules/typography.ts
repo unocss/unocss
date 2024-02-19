@@ -73,7 +73,7 @@ export const fonts: Rule<Theme>[] = [
   ['font-stretch-extra-expanded', { 'font-stretch': 'extra-expanded' }],
   ['font-stretch-ultra-expanded', { 'font-stretch': 'ultra-expanded' }],
   [
-    /^(?:font-)?stretch-(.+)$/,
+    /^font-stretch-(.+)$/,
     ([, s]) => ({ 'font-stretch': h.bracket.cssvar.fraction.global(s) }),
     { autocomplete: '(font-stretch|stretch)-<percentage>' },
   ],
