@@ -33,7 +33,7 @@ export function resolveLayer(id: string) {
 //                                                                  111                              222
 export const LAYER_PLACEHOLDER_RE = /#--unocss--\s*{\s*layer\s*:\s*(.+?)\s*(?:;\s*escape-view\s*:\s*(.+?)\s*)?;?\s*}/g
 export function getLayerPlaceholder(layer: string) {
-  // escape view is to determine how many backslashes will be appended for special symbols in this scope.
+  // escape view is to determine how many backslashes will be prepended to special symbols in this scope.
   return `#--unocss--{layer:${layer};escape-view:\\"\\'\\\`\\\\}`
 }
 
