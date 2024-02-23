@@ -24,8 +24,8 @@ export function defineConfig<Theme extends object>(config: VitePluginConfig<Them
 }
 
 export interface UnocssVitePluginAPI {
-  getContext(): UnocssPluginContext<VitePluginConfig>
-  getMode(): VitePluginConfig['mode']
+  getContext: () => UnocssPluginContext<VitePluginConfig>
+  getMode: () => VitePluginConfig['mode']
 }
 
 export default function UnocssPlugin<Theme extends object>(

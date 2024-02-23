@@ -38,7 +38,7 @@ export function variantBreakpoints(): VariantObject {
         const isLtPrefix = pre.startsWith('lt-') || pre.startsWith('<') || pre.startsWith('max-')
         const isAtPrefix = pre.startsWith('at-') || pre.startsWith('~')
 
-        let order = 1000 // parseInt(size)
+        let order = 3000 // parseInt(size)
 
         if (isLtPrefix) {
           order -= (idx + 1)

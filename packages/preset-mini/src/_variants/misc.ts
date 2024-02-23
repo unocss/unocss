@@ -1,5 +1,5 @@
 import type { Variant } from '@unocss/core'
-import { getBracket, h, variantGetBracket, variantGetParameter } from '../utils'
+import { getBracket, h, hasThemeFn, transformThemeFn, variantGetBracket, variantGetParameter } from '../utils'
 
 export const variantSelector: Variant = {
   name: 'selector',
@@ -116,4 +116,23 @@ export const variantVariables: Variant = {
     }
   },
   multiPass: true,
+}
+
+export const variantTheme: Variant = {
+  name: 'theme-variables',
+  match(matcher, ctx) {
+    if (!hasThemeFn(matcher))
+      return
+
+    return {
+      matcher,
+      handle(input, next) {
+        return next({
+          ...input,
+          //  entries: [ [ '--css-spacing', '28px' ] ],
+          entries: JSON.parse(transformThemeFn(JSON.stringify(input.entries), ctx.theme)),
+        })
+      },
+    }
+  },
 }

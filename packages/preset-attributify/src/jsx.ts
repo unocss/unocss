@@ -8,6 +8,8 @@ export type TwoStringsCompositionSuffix =
   | 'l'
   | 't'
   | 'a'
+  | 'x'
+  | 'y'
 
 /** Some words can compose with two strings to become a complete unocss rule such as ha, mr, mb */
 export type TwoStringsComposition = `${TwoStringsCompositionPrefix}${TwoStringsCompositionSuffix}` | 'ha' | 'wa'
@@ -109,9 +111,11 @@ export type SeparateEnabled =
   | 'p'
   | 'place'
   | 'pos'
+  | 'position'
   | 'ring'
   | 'select'
   | 'shadow'
+  | 'size'
   | 'space'
   | 'table'
   | 'text'

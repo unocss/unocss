@@ -56,18 +56,23 @@ export interface IconsOptions {
   /**
    * Auto install icon sources package when the usages is detected
    *
-   * **WARNING**: only on `node` environment, on `browser` this option will be ignored.
+   * Only effective in Node.js environment.
    *
    * @default false
    */
   autoInstall?: boolean
+  /**
+   * Path to resolve the iconify collections in Node.js environment.
+   *
+   * @default process.cwd()
+   */
+  collectionsNodeResolvePath?: string
   /**
    * Custom icon unit.
    *
    * @default `em`
    */
   unit?: string
-
   /**
    * Load icons from CDN. Should starts with `https://` and ends with `/`
    *
@@ -76,7 +81,6 @@ export interface IconsOptions {
    * - https://cdn.skypack.dev/
    */
   cdn?: string
-
   /**
    * Custom fetch function to provide the icon data.
    */

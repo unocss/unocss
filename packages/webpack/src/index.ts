@@ -1,4 +1,5 @@
 import process from 'node:process'
+import { isAbsolute, normalize } from 'node:path'
 import type { UserConfig, UserConfigDefaults } from '@unocss/core'
 import type { ResolvedUnpluginOptions, UnpluginOptions } from 'unplugin'
 import { createUnplugin } from 'unplugin'
@@ -103,7 +104,11 @@ export default function WebpackPlugin<Theme extends object>(
       webpack(compiler) {
         // replace the placeholders
         compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation) => {
-          compilation.hooks.optimizeAssets.tapPromise(PLUGIN_NAME, async () => {
+          const optimizeAssetsHook
+          = /* webpack 5 & 6 */ compilation.hooks.processAssets
+          || /* webpack 4 */ compilation.hooks.optimizeAssets
+
+          optimizeAssetsHook.tapPromise(PLUGIN_NAME, async () => {
             const files = Object.keys(compilation.assets)
 
             await flushTasks()
@@ -155,7 +160,10 @@ export default function WebpackPlugin<Theme extends object>(
       lastTokenSize = tokens.size
       Array.from(plugin.__vfsModules)
         .forEach((id) => {
-          const path = decodeURIComponent(id.slice(plugin.__virtualModulePrefix.length))
+          let path = decodeURIComponent(id.slice(plugin.__virtualModulePrefix.length))
+          // unplugin changes the id in the `load` hook, follow it
+          // https://github.com/unjs/unplugin/pull/145/files#diff-2b106437404a793ee5b8f3823344656ce880f698d3d8cb6a7cf785e36fb4bf5cR27
+          path = normalizeAbsolutePath(path)
           const layer = resolveLayer(path)
           if (!layer)
             return
@@ -181,4 +189,12 @@ function getLayer(id: string) {
       layer = resolveLayer(entry)
   }
   return layer
+}
+
+// https://github.com/unjs/unplugin/pull/145/files#diff-39b2554fd18da165b59a6351b1aafff3714e2a80c1435f2de9706355b4d32351R13-R19
+function normalizeAbsolutePath(path: string) {
+  if (isAbsolute(path))
+    return normalize(path)
+  else
+    return path
 }

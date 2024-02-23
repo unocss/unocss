@@ -26,6 +26,7 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
       extraProperties = {},
       customizations = {},
       autoInstall = false,
+      collectionsNodeResolvePath,
       layer = 'icons',
       unit,
     } = options
@@ -37,6 +38,7 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
       scale,
       customCollections,
       autoInstall,
+      cwd: collectionsNodeResolvePath,
       // avoid warn from @iconify/loader: we'll warn below if not found
       warn: undefined,
       customizations: {

@@ -140,6 +140,48 @@ describe('preset-wind', () => {
 
     await expect(css).toMatchFileSnapshot('./assets/output/preset-wind-custom-var-prefix.css')
   })
+
+  describe('important', () => {
+    it(`should add " !important" at the end when "true" unless it's already marked important`, async () => {
+      const uno = createGenerator({
+        presets: [
+          presetWind({
+            important: true,
+          }),
+        ],
+      })
+
+      const { css } = await uno.generate([
+        'text-opacity-50',
+        'text-red',
+        'important:scale-100',
+        'dark:bg-blue',
+      ].join(' '), { preflights: false })
+
+      await expect(css).toMatchFileSnapshot('./assets/output/preset-wind-important-true.css')
+    })
+
+    it(`should prefix selector with provided important string and wrap the original selector in ":is()"`, async () => {
+      const uno = createGenerator({
+        presets: [
+          presetWind({
+            important: '#app',
+          }),
+        ],
+      })
+
+      const { css } = await uno.generate([
+        'text-opacity-50',
+        'text-red',
+        'important:scale-100',
+        'dark:bg-blue',
+        'after:m-4',
+        'selection:bg-yellow',
+      ].join(' '), { preflights: false })
+
+      await expect(css).toMatchFileSnapshot('./assets/output/preset-wind-important-string.css')
+    })
+  })
 })
 
 it('empty prefix', async () => {
