@@ -41,7 +41,7 @@ export default defineConfig({
 
 ```css
 .custom-div {
-  @apply text-center my-0 font-medium;
+  @apply text-center my-0 font-medium hover:font-bold;
 }
 ```
 
@@ -53,6 +53,9 @@ Will be transformed to:
   margin-bottom: 0rem;
   text-align: center;
   font-weight: 500;
+}
+.custom-div:hover {
+  font-weight: 700;
 }
 ```
 
@@ -66,7 +69,7 @@ To be compatible with vanilla CSS, you can use CSS custom properties to replace 
 }
 ```
 
-To use rules with `:`, you will have to quote the value:
+To use rules with `:`, you will have to quote the value (not required when using `@apply`):
 
 ```css
 .custom-div {
