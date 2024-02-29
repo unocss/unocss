@@ -72,3 +72,27 @@ import './my-custom.css'
 // "utilities" layer will have the highest priority
 import 'uno:utilities.css'
 ```
+
+## CSS Cascade Layers
+
+You can output CSS Cascade Layers by:
+
+```ts
+outputToCssLayers: true
+```
+
+You can change the CSS Layer names with:
+
+```ts
+outputToCssLayers: (layer) => {
+  // The default layer will be output to the "utilities" CSS layer.
+  if (layer === 'default')
+    return 'utilities'
+
+  // The shortcuts layer will be output to the "shortcuts" sublayer the of "utilities" CSS layer.
+  if (layer === 'shortcuts')
+    return 'utilities.shortcuts'
+
+  // All other layer will just use their name as the CSS layer name.
+}
+```
