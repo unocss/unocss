@@ -41,7 +41,7 @@ export default defineConfig({
 
 ```css
 .custom-div {
-  @apply text-center my-0 font-medium hover:font-bold;
+  @apply text-center my-0 font-medium;
 }
 ```
 
@@ -53,9 +53,6 @@ Will be transformed to:
   margin-bottom: 0rem;
   text-align: center;
   font-weight: 500;
-}
-.custom-div:hover {
-  font-weight: 700;
 }
 ```
 
@@ -69,14 +66,6 @@ To be compatible with vanilla CSS, you can use CSS custom properties to replace 
 }
 ```
 
-To use rules with `:`, you will have to quote the value (not required when using `@apply`):
-
-```css
-.custom-div {
-  --at-apply: "hover:text-red";
-}
-```
-
 This feature is enabled by default with a few aliases, that you can configure or disable via:
 
 ```js
@@ -87,6 +76,20 @@ transformerDirectives({
   // applyVariable: false
 })
 ```
+
+#### Adding quotes
+
+To use rules with `:`, you will have to quote the whole value:
+
+```css
+.custom-div {
+  --at-apply: "hover:text-red hover:font-bold";
+  /* or */
+  @apply 'hover:text-red hover:font-bold';
+}
+```
+
+Using quotes after `@apply` is optional, to meet the behavior of some formatters.
 
 ### `@screen`
 
