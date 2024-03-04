@@ -66,14 +66,6 @@ To be compatible with vanilla CSS, you can use CSS custom properties to replace 
 }
 ```
 
-To use rules with `:`, you will have to quote the value:
-
-```css
-.custom-div {
-  --at-apply: "hover:text-red";
-}
-```
-
 This feature is enabled by default with a few aliases, that you can configure or disable via:
 
 ```js
@@ -84,6 +76,20 @@ transformerDirectives({
   // applyVariable: false
 })
 ```
+
+#### Adding quotes
+
+To use rules with `:`, you will have to quote the whole value:
+
+```css
+.custom-div {
+  --at-apply: "hover:text-red hover:font-bold";
+  /* or */
+  @apply 'hover:text-red hover:font-bold';
+}
+```
+
+Using quotes after `@apply` is optional, to meet the behavior of some formatters.
 
 ### `@screen`
 
