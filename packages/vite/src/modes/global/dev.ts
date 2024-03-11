@@ -85,7 +85,7 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
         if (process.env.TEST || process.env.NODE_ENV === 'test')
           return
         if (!resolved) {
-          const msg = '[unocss] entry module not found, have you add `import \'uno.css\'` in your main entry?'
+          const msg = '[unocss] Entry module not found. Did you add `import \'uno.css\'` in your main entry?'
           console.warn(msg)
           servers.forEach(({ ws }) => ws.send({
             type: 'error',

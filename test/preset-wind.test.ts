@@ -175,6 +175,8 @@ describe('preset-wind', () => {
         'text-red',
         'important:scale-100',
         'dark:bg-blue',
+        'after:m-4',
+        'selection:bg-yellow',
       ].join(' '), { preflights: false })
 
       await expect(css).toMatchFileSnapshot('./assets/output/preset-wind-important-string.css')

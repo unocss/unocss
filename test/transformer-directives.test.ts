@@ -1,12 +1,12 @@
 import { readFile } from 'node:fs/promises'
-import { describe, expect, it } from 'vitest'
-import { transformDirectives } from '@unocss/transformer-directives'
 import type { UnoGenerator } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
-import prettier from 'prettier/standalone'
-import parserCSS from 'prettier/parser-postcss'
+import { transformDirectives } from '@unocss/transformer-directives'
 import MagicString from 'magic-string'
+import parserCSS from 'prettier/parser-postcss'
+import prettier from 'prettier/standalone'
+import { describe, expect, it } from 'vitest'
 
 describe('transformer-directives', () => {
   const uno = createGenerator({
@@ -60,7 +60,10 @@ describe('transformer-directives', () => {
 
   it('basic', async () => {
     const result = await transform(
-      '.btn { @apply rounded text-lg font-mono; }',
+      `.btn {
+        @apply rounded text-lg;
+        @apply 'font-mono';
+      }`,
     )
     await expect(result)
       .toMatchInlineSnapshot(`

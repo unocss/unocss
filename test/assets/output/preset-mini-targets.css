@@ -131,6 +131,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .disabled\:op50:disabled{opacity:0.5;}
 .placeholder-opacity-60::placeholder{opacity:0.6;}
 .\[\&\[data-active\=\"true\"\]\]\:bg-red[data-active="true"]{--un-bg-opacity:1;background-color:rgb(248 113 113 / var(--un-bg-opacity));}
+.bg-\[--css-spacing\,theme\(spacing\.sm\)\]{background-color:var(--css-spacing,0.875rem);}
 .bg-\[--test-variable\],
 .bg-\$test-variable{background-color:var(--test-variable);}
 .bg-\[\#153\]\/10,
@@ -141,14 +142,17 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .bg-\[10vw\]{background-position:10vw;}
 .bg-\[calc\(10\%\+10px\)\]{background-position:calc(10% + 10px);}
 .bg-\[calc\(10vw\+10px\)\]{background-position:calc(10vw + 10px);}
+.bg-\[conic-gradient\(red\,blue\)\]{background-image:conic-gradient(red,blue);}
 .bg-\[length\:--variable\]{background-size:var(--variable);}
 .bg-\[length\:1\/2_20rem\]{background-size:50% 20rem;}
 .bg-\[length\:10_20rem\]{background-size:10px 20rem;}
+.bg-\[linear-gradient\(45deg\,\#0072ff\,\#00d2e8\,\#04fd8f\,\#70fd6c\)\]{background-image:linear-gradient(45deg,#0072ff,#00d2e8,#04fd8f,#70fd6c);}
 .bg-\[position\:--variable\]{background-position:var(--variable);}
 .bg-\[position\:1\/2_20rem\]{background-position:50% 20rem;}
 .bg-\[position\:10_20rem\]{background-position:10px 20rem;}
 .bg-\[position\:bottom_left_10\%\]{background-position:bottom left 10%;}
 .bg-\[position\:top_right_1\/3\]{background-position:top right 33.3333333333%;}
+.bg-\[radial-gradient\(red\,blue\)\]{background-image:radial-gradient(red,blue);}
 .bg-\[rgb\(4_5_6\/0\.7\)\]\/\[calc\(100\/3\)\]{background-color:rgb(4 5 6 / calc(100 / 3));}
 .bg-\[rgba\(1\,2\,3\,0\.5\)\]{--un-bg-opacity:0.5;background-color:rgba(1, 2, 3, var(--un-bg-opacity));}
 .bg-\[rgba\(4_5_6\/0\.7\)\]{--un-bg-opacity:0.7;background-color:rgba(4, 5, 6, var(--un-bg-opacity));}
@@ -374,6 +378,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .text-\[color\:var\(--color-x\)\]\:\[trick\]{color:var(--color-x);}
 .text-\[color\:var\(--color\)\],
 .text-\[var\(--color\)\]{color:var(--color);}
+.text-\[theme\(spacing\.sm\)\]{color:0.875rem;}
 .text-black\/10{color:rgb(0 0 0 / 0.1);}
 .text-red-100,
 .text-red100{--un-text-opacity:1;color:rgb(254 226 226 / var(--un-text-opacity));}
@@ -415,6 +420,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .c-\[\#44557733\]\/10,
 .c-\#44557733\/10,
 .c-hex-44557733\/10{color:rgb(68 85 119 / 0.1);}
+.c-\[theme\(colors\.red\.500\/50\%\)\]{color:rgb(239 68 68 / 50%);}
 .c-\$color-variable,
 .c-\$color-variable\/\$opacity-variable,
 .c-\$color-variable\/10{color:var(--color-variable);}

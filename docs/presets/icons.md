@@ -202,7 +202,9 @@ And then, you can use it on your html: `<span class="i-custom:circle"></span>`
 
 In `Node.js` the preset will search for the installed iconify dataset automatically, so you don't need to register the `iconify` collections.
 
-You can also provide your own custom collections using also [CustomIconLoader](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/types.ts#L17) or [InlineCollection](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/types.ts#L86).
+You can also provide your own custom collections using also [CustomIconLoader](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/types.ts#L24) or [InlineCollection](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/types.ts#L100).
+
+#### FileSystemIconLoader
 
 Additionally, you can also use [FileSystemIconLoader](https://github.com/iconify/iconify/blob/master/packages/utils/src/loader/node-loaders.ts#L9) to load your custom icons from your file system. You will need to install `@iconify/utils` package as `dev dependency`.
 
@@ -236,6 +238,53 @@ export default defineConfig({
         'my-yet-other-icons': FileSystemIconLoader(
           './assets/icons',
           svg => svg.replace(/#fff/, 'currentColor')
+        )
+      }
+    })
+  ]
+})
+```
+
+#### ExternalPackageIconLoader
+
+From `@iconify/utils v2.1.20` you can use other packages to load icons from others authors using the new [createExternalPackageIconLoader](https://github.com/iconify/iconify/blob/main/packages/utils/src/loader/external-pkg.ts#L13) helper.
+
+::: warning WARNING
+External packages must include `icons.json` file with the `icons` data in `IconifyJSON` format, which can be exported with Iconify Tools. Check [Exporting icon set as JSON package](https://iconify.design/docs/libraries/tools/export/json-package.html) for more details.
+:::
+
+For example, you can use `an-awesome-collection` or `@my-awesome-collections/some-collection` to load your custom or third party icons:
+```ts
+// uno.config.ts
+import { defineConfig, presetIcons } from 'unocss'
+import { createExternalPackageIconLoader } from '@iconify/utils/lib/loader/external-pkg'
+
+export default defineConfig({
+  presets: [
+    presetIcons({
+      collections: createExternalPackageIconLoader('an-awesome-collection')
+    })
+  ]
+})
+```
+
+You can also combine it with other custom icon loaders, for example:
+```ts
+// uno.config.ts
+import { defineConfig, presetIcons } from 'unocss'
+import { FileSystemIconLoader } from 'unplugin-icons/loaders'
+import { createExternalPackageIconLoader } from '@iconify/utils/lib/loader/external-pkg'
+
+export default defineConfig({
+  presets: [
+    presetIcons({
+      collections: {
+        ...createExternalPackageIconLoader('other-awesome-collection'),
+        ...createExternalPackageIconLoader('@my-awesome-collections/some-collection'),
+        ...createExternalPackageIconLoader('@my-awesome-collections/some-other-collection'),
+        'my-yet-other-icons': FileSystemIconLoader(
+          './assets/icons',
+          svg => svg.replace(/^<svg /, '<svg fill="currentColor" ')
         )
       }
     })

@@ -264,7 +264,7 @@ export class UnoGenerator<Theme extends object = object> {
       .sort((a, b) => ((this.config.layers[a] ?? 0) - (this.config.layers[b] ?? 0)) || a.localeCompare(b)))
 
     const layerCache: Record<string, string> = {}
-    const getLayer = (layer: string) => {
+    const getLayer = (layer: string = LAYER_DEFAULT) => {
       if (layerCache[layer])
         return layerCache[layer]
 

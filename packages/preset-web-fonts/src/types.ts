@@ -57,7 +57,7 @@ export interface WebFontsOptions {
 
 export interface Provider {
   name: WebFontsProviders
-  getPreflight?(fonts: WebFontMeta[]): string
-  getImportUrl?(fonts: WebFontMeta[]): string | undefined
-  getFontName?(font: WebFontMeta): string
+  getPreflight?: (fonts: WebFontMeta[]) => string
+  getImportUrl?: (fonts: WebFontMeta[]) => string | undefined
+  getFontName?: (font: WebFontMeta) => string
 }
