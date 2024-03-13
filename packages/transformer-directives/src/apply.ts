@@ -24,18 +24,18 @@ export async function parseApply({ code, uno, offset, applyVariable }: Transform
   const calcOffset = (pos: number) => offset ? pos + offset : pos
 
   let body: string | undefined
-  if (childNode.type === 'Atrule' && childNode.name === 'apply' && childNode.prelude && childNode.prelude.type === 'Raw') {
+  if (childNode.type === 'Atrule' && childNode.name === 'apply' && childNode.prelude && childNode.prelude.type === 'Raw')
     body = childNode.prelude.value.trim()
-  }
-  else if (childNode!.type === 'Declaration' && applyVariable.includes(childNode.property) && childNode.value.type === 'Raw') {
+
+  else if (childNode!.type === 'Declaration' && applyVariable.includes(childNode.property) && childNode.value.type === 'Raw')
     body = childNode.value.value.trim()
-    // remove quotes
-    if (/^(['"]).*\1$/.test(body))
-      body = body.slice(1, -1)
-  }
 
   if (!body)
     return
+
+  // remove quotes
+  if (/^(['"]).*\1$/.test(body))
+    body = body.slice(1, -1)
 
   const classNames = expandVariantGroup(body)
     .split(/\s+/g)
