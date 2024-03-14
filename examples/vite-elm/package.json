@@ -16,7 +16,7 @@
     "@unocss/preset-uno": "link:../../packages/preset-uno",
     "elm-tooling": "^1.15.0",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.0.12",
+    "vite": "^5.1.6",
     "vite-plugin-elm": "^3.0.0"
   },
   "stackblitz": {

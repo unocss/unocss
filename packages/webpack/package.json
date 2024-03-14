@@ -40,19 +40,19 @@
     "webpack": "^4 || ^5"
   },
   "dependencies": {
-    "@ampproject/remapping": "^2.2.1",
+    "@ampproject/remapping": "^2.3.0",
     "@rollup/pluginutils": "^5.1.0",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
-    "chokidar": "^3.5.3",
+    "chokidar": "^3.6.0",
     "fast-glob": "^3.3.2",
-    "magic-string": "^0.30.6",
-    "unplugin": "^1.6.0",
+    "magic-string": "^0.30.8",
+    "unplugin": "^1.10.0",
     "webpack-sources": "^3.2.3"
   },
   "devDependencies": {
     "@types/webpack": "^5.28.5",
     "@types/webpack-sources": "^3.2.3",
-    "webpack": "^5.90.1"
+    "webpack": "^5.90.3"
   }
 }

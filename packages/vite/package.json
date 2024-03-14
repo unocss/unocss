@@ -46,19 +46,19 @@
     "vite": "^2.9.0 || ^3.0.0-0 || ^4.0.0 || ^5.0.0-0"
   },
   "dependencies": {
-    "@ampproject/remapping": "^2.2.1",
+    "@ampproject/remapping": "^2.3.0",
     "@rollup/pluginutils": "^5.1.0",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/inspector": "workspace:*",
     "@unocss/scope": "workspace:*",
     "@unocss/transformer-directives": "workspace:*",
-    "chokidar": "^3.5.3",
+    "chokidar": "^3.6.0",
     "fast-glob": "^3.3.2",
-    "magic-string": "^0.30.6"
+    "magic-string": "^0.30.8"
   },
   "devDependencies": {
     "@unocss/shared-integration": "workspace:*",
-    "vite": "^5.0.12"
+    "vite": "^5.1.6"
   }
 }
