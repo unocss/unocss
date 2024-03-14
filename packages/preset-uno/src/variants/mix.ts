@@ -17,7 +17,7 @@ function mixComponent(v1: string | number, v2: string | number, w: string | numb
 function mixColor(color1: string | CSSColorValue, color2: string | CSSColorValue, weight: string | number): CSSColorValue | undefined {
   const colors = [color1, color2]
   const cssColors: CSSColorValue[] = []
-  for (let c = 0; c < 2; ++c) {
+  for (let c = 0; c < 2; c++) {
     const color = (typeof colors[c] === 'string' ? parseCssColor(colors[c] as string) : colors[c]) as CSSColorValue | undefined
     if (!color || !['rgb', 'rgba'].includes(color.type))
       return
@@ -25,7 +25,7 @@ function mixColor(color1: string | CSSColorValue, color2: string | CSSColorValue
   }
 
   const newComponents = []
-  for (let x = 0; x < 3; ++x)
+  for (let x = 0; x < 3; x++)
     newComponents.push(mixComponent(cssColors[0].components[x], cssColors[1].components[x], weight))
 
   return {
