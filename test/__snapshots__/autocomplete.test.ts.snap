@@ -70,7 +70,7 @@ exports[`autocomplete > should provide autocomplete 1`] = `
   "transform-scale-z-": "transform-scale-z-0 transform-scale-z-10 transform-scale-z-20 transform-scale-z-30 transform-scale-z-40 transform-scale-z-50 transform-scale-z-60 transform-scale-z-70 transform-scale-z-80 transform-scale-z-90",
   "transform-skew-x-": "transform-skew-x-0 transform-skew-x-10 transform-skew-x-20 transform-skew-x-30 transform-skew-x-40 transform-skew-x-50 transform-skew-x-60 transform-skew-x-70 transform-skew-x-80 transform-skew-x-90",
   "transform-skew-y-": "transform-skew-y-0 transform-skew-y-10 transform-skew-y-20 transform-skew-y-30 transform-skew-y-40 transform-skew-y-50 transform-skew-y-60 transform-skew-y-70 transform-skew-y-80 transform-skew-y-90",
-  "transition-": "transition-all transition-colors transition-inherit transition-initial transition-none transition-opacity transition-revert transition-revert-layer transition-shadow transition-transform",
+  "transition-": "transition-all transition-colors transition-discrete transition-inherit transition-initial transition-none transition-normal transition-opacity transition-revert transition-revert-layer",
   "translate-": "translate-0 translate-10 translate-20 translate-30 translate-40 translate-50 translate-60 translate-70 translate-80 translate-90",
   "translate-x-": "translate-x-0 translate-x-10 translate-x-20 translate-x-30 translate-x-40 translate-x-50 translate-x-60 translate-x-70 translate-x-80 translate-x-90",
   "v-": "v-base v-baseline v-bottom v-btm v-end v-inherit v-initial v-mid v-middle v-revert",
