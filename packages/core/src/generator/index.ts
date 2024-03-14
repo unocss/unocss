@@ -167,6 +167,8 @@ export class UnoGenerator<Theme extends object = object> {
       extendedInfo = false,
     } = options
 
+    const outputCssLayers = this.config.outputToCssLayers
+
     const tokens: Readonly<Set<string> | CountableSet<string>> = isString(input)
       ? await this.applyExtractors(
         input,
@@ -335,6 +337,19 @@ export class UnoGenerator<Theme extends object = object> {
         css = [preflightsMap[layer], css]
           .filter(Boolean)
           .join(nl)
+      }
+
+      if (outputCssLayers && css) {
+        let cssLayer = typeof outputCssLayers === 'object'
+          ? (outputCssLayers.cssLayerName?.(layer))
+          : undefined
+
+        if (cssLayer !== null) {
+          if (!cssLayer)
+            cssLayer = layer
+
+          css = `@layer ${cssLayer}{${nl}${css}${nl}}`
+        }
       }
 
       const layerMark = minify ? '' : `/* layer: ${layer} */${nl}`
