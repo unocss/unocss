@@ -48,12 +48,11 @@ In legacy `.eslintrc` style:
 - `@unocss/order` - Enforce a specific order for class selectors.
 - `@unocss/order-attributify` - Enforce a specific order for attributify selectors.
 - `@unocss/blocklist` - Disallow specific class selectors [Optional].
+- `@unocss/enforce-class-compile` - Enforce class compile [Optional].
 
-### `@unocss/blocklist`
+### Optional rules
 
-Throw warning or error when using utilities listed in `blocklist` get matched.
-
-This rule is not enabled by default. To enable it, add the following to your `.eslintrc`:
+These rules are not enabled by default. To enable it, add the following to your `.eslintrc`:
 
 ```json
 {
@@ -61,10 +60,30 @@ This rule is not enabled by default. To enable it, add the following to your `.e
     "@unocss"
   ],
   "rules": {
-    "@unocss/blocklist": "warn" // or "error"
+    "@unocss/<rule-name>": "warn", // or "error",
+    "@unocss/<another-rule-name>": ["warn" /* or "error" */, { /* options */ }]
   }
 }
 ```
+
+#### `@unocss/blocklist`
+
+Throw warning or error when using utilities listed in `blocklist` get matched.
+
+#### `@unocss/enforce-class-compile` :wrench:
+
+_This rule is designed to work in combination with [compile class transformer](https://unocss.dev/transformers/compile-class)._
+
+Throw warning or error when class attribute or directive doesn't start with `:uno:`.
+
+:wrench: automatically adds prefix `:uno:` to all class attributes and directives.
+
+Options:
+
+- `prefix` (string) - can be used in combination with [custom prefix](https://github.com/unocss/unocss/blob/main/packages/transformer-compile-class/src/index.ts#L34). Default: `:uno:`
+- `enableFix` (boolean) - can be used for gradual migration when `false`. Default: `true`
+
+**Note**: currently only Vue supported. _Contribute a PR_ if you want this in JSX. If you're looking for this in Svelte, you might be looking for [`svelte-scoped`](https://unocss.dev/integrations/svelte-scoped) mode.
 
 ## Prior Arts
 
