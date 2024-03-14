@@ -29,7 +29,7 @@ The instant on-demand Atomic CSS engine.
 
 Inspired by [Windi CSS](http://windicss.org/), [Tailwind CSS](https://tailwindcss.com/), and [Twind](https://github.com/tw-in-js/twind), but:
 
-- [Fully customizable](https://unocss.dev/config/) - no core utilities, all functionalities are provided via presets.
+- [Fully customizable](https://unocss.dev/config/) - no core utilities. All functionalities are provided via presets.
 - No parsing, no AST, no scanning, it's **INSTANT** (5x faster than Windi CSS or Tailwind JIT).
 - ~6kb min+brotli - zero deps and browser friendly.
 - [Shortcuts](https://unocss.dev/config/shortcuts) - aliasing utilities, dynamically.
@@ -63,7 +63,7 @@ Read the [documentation](https://unocss.dev/) for more details.
 
 UnoCSS is made possible thanks to the inspirations from the following projects:
 
-> in alphabet order
+> in alphabetical order
 
 - [ACSS](https://acss.io/)
 - [Bootstrap Utilities](https://getbootstrap.com/docs/5.1/utilities/flex/)

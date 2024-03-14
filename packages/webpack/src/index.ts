@@ -7,7 +7,17 @@ import WebpackSources from 'webpack-sources'
 import { createContext } from '../../shared-integration/src/context'
 import { setupContentExtractor } from '../../shared-integration/src/content'
 import { getHash } from '../../shared-integration/src/hash'
-import { HASH_PLACEHOLDER_RE, LAYER_MARK_ALL, LAYER_PLACEHOLDER_RE, RESOLVED_ID_RE, getHashPlaceholder, getLayerPlaceholder, resolveId, resolveLayer } from '../../shared-integration/src/layers'
+import {
+  HASH_PLACEHOLDER_RE,
+  LAYER_MARK_ALL,
+  LAYER_PLACEHOLDER_RE,
+  RESOLVED_ID_RE,
+  getCssEscaperForJsContent,
+  getHashPlaceholder,
+  getLayerPlaceholder,
+  resolveId,
+  resolveLayer,
+} from '../../shared-integration/src/layers'
 import { applyTransformers } from '../../shared-integration/src/transformers'
 import { getPath, isCssId } from '../../shared-integration/src/utils'
 
@@ -104,7 +114,11 @@ export default function WebpackPlugin<Theme extends object>(
       webpack(compiler) {
         // replace the placeholders
         compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation) => {
-          compilation.hooks.optimizeAssets.tapPromise(PLUGIN_NAME, async () => {
+          const optimizeAssetsHook
+          = /* webpack 5 & 6 */ compilation.hooks.processAssets
+          || /* webpack 4 */ compilation.hooks.optimizeAssets
+
+          optimizeAssetsHook.tapPromise(PLUGIN_NAME, async () => {
             const files = Object.keys(compilation.assets)
 
             await flushTasks()
@@ -118,22 +132,16 @@ export default function WebpackPlugin<Theme extends object>(
               let code = compilation.assets[file].source().toString()
               let replaced = false
               code = code.replace(HASH_PLACEHOLDER_RE, '')
-              code = code.replace(LAYER_PLACEHOLDER_RE, (_, quote, layer) => {
+              code = code.replace(LAYER_PLACEHOLDER_RE, (_, layer, escapeView) => {
                 replaced = true
                 const css = layer === LAYER_MARK_ALL
                   ? result.getLayers(undefined, Array.from(entries)
                     .map(i => resolveLayer(i)).filter((i): i is string => !!i))
                   : (result.getLayer(layer) || '')
 
-                if (!quote)
-                  return css
+                const escapeCss = getCssEscaperForJsContent(escapeView)
 
-                // the css is in a js file, escaping
-                let escaped = JSON.stringify(css).slice(1, -1)
-                // in `eval()`, escaping twice
-                if (quote === '\\"')
-                  escaped = JSON.stringify(escaped).slice(1, -1)
-                return quote + escaped
+                return escapeCss(css)
               })
               if (replaced)
                 compilation.assets[file] = new WebpackSources.RawSource(code) as any
