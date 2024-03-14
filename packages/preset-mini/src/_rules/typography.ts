@@ -62,6 +62,22 @@ export const fonts: Rule<Theme>[] = [
     { autocomplete: 'word-spacing-$wordSpacing' },
   ],
 
+  // stretch
+  ['font-stretch-normal', { 'font-stretch': 'normal' }],
+  ['font-stretch-ultra-condensed', { 'font-stretch': 'ultra-condensed' }],
+  ['font-stretch-extra-condensed', { 'font-stretch': 'extra-condensed' }],
+  ['font-stretch-condensed', { 'font-stretch': 'condensed' }],
+  ['font-stretch-semi-condensed', { 'font-stretch': 'semi-condensed' }],
+  ['font-stretch-semi-expanded', { 'font-stretch': 'semi-expanded' }],
+  ['font-stretch-expanded', { 'font-stretch': 'expanded' }],
+  ['font-stretch-extra-expanded', { 'font-stretch': 'extra-expanded' }],
+  ['font-stretch-ultra-expanded', { 'font-stretch': 'ultra-expanded' }],
+  [
+    /^font-stretch-(.+)$/,
+    ([, s]) => ({ 'font-stretch': h.bracket.cssvar.fraction.global(s) }),
+    { autocomplete: 'font-stretch-<percentage>' },
+  ],
+
   // family
   [
     /^font-(.+)$/,

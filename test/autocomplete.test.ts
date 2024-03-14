@@ -70,7 +70,6 @@ describe('autocomplete', () => {
         'filter-',
         'fle',
         'font-',
-        'font-',
         'grow-',
         'keyframes-',
         'leading-',
