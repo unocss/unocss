@@ -81,7 +81,7 @@ describe.concurrent('fixtures', () => {
       },
     })
 
-    const files = await fg('dist/**/*.{umd,iife}.js', { cwd: root, absolute: true })
+    const files = await fg('dist/**/*.{umd,iife}.?(c)js', { cwd: root, absolute: true })
 
     expect(files).toHaveLength(2)
 

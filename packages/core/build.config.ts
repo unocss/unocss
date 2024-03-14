@@ -11,7 +11,6 @@ export default defineBuildConfig({
     'magic-string',
   ],
   rollup: {
-    emitCJS: true,
     inlineDependencies: true,
   },
 })

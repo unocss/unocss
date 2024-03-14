@@ -12,7 +12,4 @@ export default defineBuildConfig({
     '@babel/preset-typescript',
     '@babel/plugin-syntax-jsx',
   ],
-  rollup: {
-    emitCJS: true,
-  },
 })

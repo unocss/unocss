@@ -12,7 +12,6 @@ export default defineBuildConfig({
     '@unocss/core',
   ],
   rollup: {
-    emitCJS: true,
     inlineDependencies: true,
   },
 })
