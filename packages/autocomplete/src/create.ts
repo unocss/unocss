@@ -189,10 +189,10 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
     return uniq(suggestions.flat())
       .filter((i): i is string => !!(i && !i.endsWith('-') && !uno.isBlocked(i)))
       .sort((a, b) => {
-        if (/\d/.test(a) && /\D/.test(b))
+        if (/^\d/.test(a) && /^\D/.test(b))
           return 1
 
-        if (/\D/.test(a) && /\d/.test(b))
+        if (/^\D/.test(a) && /^\d/.test(b))
           return -1
 
         const numA = +(a.match(/\d+$/)?.[0] || Number.NaN)
