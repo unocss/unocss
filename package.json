@@ -45,6 +45,7 @@
     "@iconify-json/twemoji": "^1.1.15",
     "@iconify-json/uim": "^1.1.9",
     "@iconify/json": "^2.2.192",
+    "@shikijs/vitepress-twoslash": "^1.1.7",
     "@types/connect": "^3.4.38",
     "@types/css-tree": "^2.3.7",
     "@types/fs-extra": "^11.0.4",

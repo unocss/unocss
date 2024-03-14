@@ -4,7 +4,7 @@ We **highly recommend to use a dedicated `uno.config.ts` file** to configure you
 
 A full featured config file looks like this:
 
-```ts
+```ts twoslash
 // uno.config.ts
 import {
   defineConfig,
