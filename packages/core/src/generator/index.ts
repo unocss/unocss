@@ -1,7 +1,7 @@
 import { createNanoEvents } from '../utils/events'
 import type { CSSEntries, CSSObject, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
-import { CONTROL_SHORTCUT_NO_MERGE, CountableSet, TwoKeyMap, e, entriesToCss, expandVariantGroup, isCountableSet, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, uniq, warnOnce } from '../utils'
+import { BetterMap, CONTROL_SHORTCUT_NO_MERGE, CountableSet, TwoKeyMap, e, entriesToCss, expandVariantGroup, isCountableSet, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
 import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from '../constants'
 
@@ -674,7 +674,8 @@ export class UnoGenerator<Theme extends object = object> {
     expanded: ShortcutValue[],
     meta: RuleMeta = { layer: this.config.shortcutsLayer },
   ): Promise<StringifiedUtil<Theme>[] | undefined> {
-    const selectorMap = new TwoKeyMap<string, string | undefined, [[CSSEntries, boolean, number][], number]>()
+    const layerMap = new BetterMap<string | undefined, TwoKeyMap<string, string | undefined, [[CSSEntries, boolean, number][], number]>>()
+
     const parsed = (
       await Promise.all(uniq(expanded)
         .map(async (i) => {
@@ -699,38 +700,43 @@ export class UnoGenerator<Theme extends object = object> {
         rawStringifiedUtil.push([item[0], undefined, item[1], undefined, item[2], context, undefined])
         continue
       }
-      const { selector, entries, parent, sort, noMerge } = this.applyVariants(item, [...item[4], ...parentVariants], raw)
+      const { selector, entries, parent, sort, noMerge, layer } = this.applyVariants(item, [...item[4], ...parentVariants], raw)
 
+      // find existing layer and merge
+      const selectorMap = layerMap.getFallback(layer ?? meta.layer, new TwoKeyMap())
       // find existing selector/mediaQuery pair and merge
       const mapItem = selectorMap.getFallback(selector, parent, [[], item[0]])
       // add entries
       mapItem[0].push([entries, !!(noMerge ?? item[3]?.noMerge), sort ?? 0])
     }
-    return rawStringifiedUtil.concat(selectorMap
-      .map(([e, index], selector, joinedParents) => {
-        const stringify = (flatten: boolean, noMerge: boolean, entrySortPair: [CSSEntries, number][]): (StringifiedUtil<Theme> | undefined)[] => {
-          const maxSort = Math.max(...entrySortPair.map(e => e[1]))
-          const entriesList = entrySortPair.map(e => e[0])
-          return (flatten ? [entriesList.flat(1)] : entriesList).map((entries: CSSEntries): StringifiedUtil<Theme> | undefined => {
-            const body = entriesToCss(entries)
-            if (body)
-              return [index, selector, body, joinedParents, { ...meta, noMerge, sort: maxSort }, context, undefined]
-            return undefined
+    return rawStringifiedUtil.concat(layerMap
+      .flatMap((selectorMap, layer) =>
+        selectorMap
+          .map(([e, index], selector, joinedParents) => {
+            const stringify = (flatten: boolean, noMerge: boolean, entrySortPair: [CSSEntries, number][]): (StringifiedUtil<Theme> | undefined)[] => {
+              const maxSort = Math.max(...entrySortPair.map(e => e[1]))
+              const entriesList = entrySortPair.map(e => e[0])
+              return (flatten ? [entriesList.flat(1)] : entriesList).map((entries: CSSEntries): StringifiedUtil<Theme> | undefined => {
+                const body = entriesToCss(entries)
+                if (body)
+                  return [index, selector, body, joinedParents, { ...meta, noMerge, sort: maxSort, layer }, context, undefined]
+                return undefined
+              })
+            }
+
+            const merges = [
+              [e.filter(([, noMerge]) => noMerge).map(([entries,, sort]) => [entries, sort]), true],
+              [e.filter(([, noMerge]) => !noMerge).map(([entries,, sort]) => [entries, sort]), false],
+            ] as [[CSSEntries, number][], boolean][]
+
+            return merges.map(([e, noMerge]) => [
+              ...stringify(false, noMerge, e.filter(([entries]) => entries.some(entry => entry[0] === CONTROL_SHORTCUT_NO_MERGE))),
+              ...stringify(true, noMerge, e.filter(([entries]) => entries.every(entry => entry[0] !== CONTROL_SHORTCUT_NO_MERGE))),
+            ])
           })
-        }
-
-        const merges = [
-          [e.filter(([, noMerge]) => noMerge).map(([entries,, sort]) => [entries, sort]), true],
-          [e.filter(([, noMerge]) => !noMerge).map(([entries,, sort]) => [entries, sort]), false],
-        ] as [[CSSEntries, number][], boolean][]
-
-        return merges.map(([e, noMerge]) => [
-          ...stringify(false, noMerge, e.filter(([entries]) => entries.some(entry => entry[0] === CONTROL_SHORTCUT_NO_MERGE))),
-          ...stringify(true, noMerge, e.filter(([entries]) => entries.every(entry => entry[0] !== CONTROL_SHORTCUT_NO_MERGE))),
-        ])
-      })
-      .flat(2)
-      .filter(Boolean) as StringifiedUtil<Theme>[])
+          .flat(2)
+          .filter(Boolean) as StringifiedUtil<Theme>[],
+      ))
   }
 
   isBlocked(raw: string): boolean {

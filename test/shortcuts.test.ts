@@ -204,4 +204,9 @@ describe('shortcuts', () => {
       .space-x-2px>:not([hidden])~:not([hidden]){--un-space-x-reverse:0;margin-left:calc(2px * calc(1 - var(--un-space-x-reverse)));margin-right:calc(2px * var(--un-space-x-reverse));}"
     `)
   })
+
+  it('layer', async () => {
+    const { css } = await uno.generate('uno-layer-l1:sh1 sh2 focus:uno-layer-l2:sh2 uno-layer-l3:sh3', { preflights: false })
+    await expect(css).toMatchFileSnapshot('./assets/output/shortcuts-layer.css')
+  })
 })
