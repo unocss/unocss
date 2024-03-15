@@ -66,6 +66,6 @@ export const transitions: Rule<Theme>[] = [
   ...makeGlobalStaticRules('transition'),
 
   // behavior
-  ['transition-discrete', { 'transition-behavior': 'allow discrete' }],
+  ['transition-discrete', { 'transition-behavior': 'allow-discrete' }],
   ['transition-normal', { 'transition-behavior': 'normal' }],
 ]
