@@ -4,30 +4,30 @@ import type { UserConfig } from '@unocss/core'
 
 const CodeMirror = defineAsyncComponent(() => import('../../packages/inspector/client/components/CodeMirror.vue'))
 
-let raw = $ref(userConfigRaw.value || defaultConfigRaw)
-let config = $ref<UserConfig | undefined>()
-let error = $ref<Error | undefined>()
-let isLoading = $ref(true)
-const isValid = $computed(() => !isLoading && !error && !!config)
-const isChanged = $computed(() => raw !== (userConfigRaw.value || defaultConfigRaw))
-const isDefault = $computed(() => !raw || raw === defaultConfigRaw)
+const raw = ref(userConfigRaw.value || defaultConfigRaw)
+const config = ref<UserConfig | undefined>()
+const error = ref<Error | undefined>()
+const isLoading = ref(true)
+const isValid = computed(() => !isLoading.value && !error.value && !!config.value)
+const isChanged = computed(() => raw.value !== (userConfigRaw.value || defaultConfigRaw))
+const isDefault = computed(() => !raw.value || raw.value === defaultConfigRaw)
 
 watchDebounced(
-  () => raw,
+  () => raw.value,
   async () => {
-    error = undefined
-    isLoading = true
-    config = undefined
+    error.value = undefined
+    isLoading.value = true
+    config.value = undefined
     try {
-      config = await evaluateUserConfig(raw)
+      config.value = await evaluateUserConfig(raw.value)
     }
     catch (e) {
       console.error(e)
-      config = undefined
-      error = e as Error
+      config.value = undefined
+      error.value = e as Error
     }
     finally {
-      isLoading = false
+      isLoading.value = false
     }
   },
   {
@@ -39,7 +39,7 @@ watchDebounced(
 searchResult.value = []
 
 function resetToDefault() {
-  raw = defaultConfigRaw
+  raw.value = defaultConfigRaw
 }
 
 function cancel() {
@@ -47,11 +47,11 @@ function cancel() {
 }
 
 function save() {
-  if (!isValid)
+  if (!isValid.value)
     return
-  if (isChanged) {
-    userConfigRaw.value = raw
-    userConfig.value = config
+  if (isChanged.value) {
+    userConfigRaw.value = raw.value
+    userConfig.value = config.value
   }
   currentTab.value = 'search'
 }

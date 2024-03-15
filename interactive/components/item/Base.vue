@@ -6,9 +6,9 @@ const { compact = undefined } = defineProps<{
   badgeTitle?: string
 }>()
 
-const compactMode = $computed(() => compact ?? isCompact.value)
-const badgeStyle = $computed(() => {
-  if (compactMode)
+const compactMode = computed(() => compact ?? isCompact.value)
+const badgeStyle = computed(() => {
+  if (compactMode.value)
     return 'w-5 h-5 text-sm'
   return ''
 })

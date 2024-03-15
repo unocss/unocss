@@ -3,7 +3,7 @@ import { breakpoints, currentTab, isModalOpen, searchResult, selectIndex } from 
 
 const lg = breakpoints.lg
 
-const modal = $computed<boolean>({
+const modal = computed<boolean>({
   get() {
     return isModalOpen.value && !!searchResult.value[selectIndex.value]
   },
