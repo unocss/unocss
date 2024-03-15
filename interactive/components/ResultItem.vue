@@ -7,17 +7,17 @@ const { compact = undefined, active } = defineProps<{
   compact?: boolean | undefined
 }>()
 
-const el = $ref<HTMLDivElement>()
-const compactMode = $computed(() => compact ?? isCompact.value)
-const badgeStyle = $computed(() => {
-  if (compactMode)
+const el = ref<HTMLDivElement>()
+const compactMode = computed(() => compact ?? isCompact.value)
+const badgeStyle = computed(() => {
+  if (compactMode.value)
     return 'w-5 h-5 text-sm'
   return ''
 })
 
 watchEffect(() => {
   if (active)
-    el?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    el.value?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
 })
 </script>
 

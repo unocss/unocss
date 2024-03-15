@@ -7,7 +7,7 @@ import { input, isSearching, searchResult, selectIndex, userConfigLoading } from
 
 const route = useRoute()
 const router = useRouter()
-const inputEl = $ref<HTMLInputElement>()
+const inputEl = ref<HTMLInputElement>()
 const vFocus = {
   mounted: (el: HTMLElement) => el.focus(),
 }
@@ -70,12 +70,12 @@ useEventListener('keydown', (e) => {
 
   // allow typing from everywhere to search
   if (e.key.match(/^[\w:-]$/) && !e.metaKey && !e.ctrlKey && !e.altKey && !e.shiftKey)
-    inputEl?.focus()
+    inputEl.value?.focus()
 })
 
 onBeforeRouteUpdate(() => {
   nextTick().then(() => {
-    inputEl?.focus()
+    inputEl.value?.focus()
   })
 })
 
@@ -85,7 +85,7 @@ function moveIndex(delta: number) {
 
 function clear() {
   router.push('/')
-  nextTick().then(() => inputEl?.focus())
+  nextTick().then(() => inputEl.value?.focus())
 }
 
 async function openItem(item: ResultItem) {

@@ -1,7 +1,10 @@
 // https://vitepress.dev/guide/custom-theme
 import { h, watch } from 'vue'
 import Theme from 'vitepress/theme'
+import TwoslashFloatingVue from '@shikijs/vitepress-twoslash/client'
 import UnoCSSLayout from './UnoCSSLayout.vue'
+
+import '@shikijs/vitepress-twoslash/style.css'
 
 import './rainbow.css'
 import './vars.css'
@@ -15,7 +18,9 @@ export default {
   Layout: () => {
     return h(UnoCSSLayout)
   },
-  enhanceApp({ router }) {
+  enhanceApp({ app, router }) {
+    app.use(TwoslashFloatingVue)
+
     if (typeof window === 'undefined')
       return
 
