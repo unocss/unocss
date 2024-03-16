@@ -148,7 +148,7 @@ export function parseAutocomplete(template: string, theme: any = {}, extraShorth
             .filter((i): i is Record<string, unknown> => !!i && typeof i === 'object')
 
           if (subObjects.length) {
-            matched = matched.map(m => m + fullMatched)
+            matched = matched.map(m => `${m + fullMatched}-`)
             tempParts.unshift({
               type: 'theme',
               objects: subObjects,

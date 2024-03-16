@@ -88,7 +88,7 @@ describe('autocomplete-parse', () => {
         "pt-36",
       ]
     `)
-    return
+
     const parsed2 = parseAutocomplete('text-<size>', {}, {
       size: '(sm|md|lg|xl)',
     })
