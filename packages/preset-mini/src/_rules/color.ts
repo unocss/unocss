@@ -9,7 +9,7 @@ export const opacity: Rule[] = [
 ]
 
 const bgUrlRE = /^\[url\(.+\)\]$/
-const bgLengthRE = /^\[length:.+\]$/
+const bgLengthRE = /^\[(length|size):.+\]$/
 const bgPositionRE = /^\[position:.+\]$/
 const bgGradientRE = /^\[(linear|conic|radial)-gradient\(.+\)\]$/
 export const bgColors: Rule[] = [
