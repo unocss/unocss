@@ -143,9 +143,12 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .bg-\[calc\(10\%\+10px\)\]{background-position:calc(10% + 10px);}
 .bg-\[calc\(10vw\+10px\)\]{background-position:calc(10vw + 10px);}
 .bg-\[conic-gradient\(red\,blue\)\]{background-image:conic-gradient(red,blue);}
-.bg-\[length\:--variable\]{background-size:var(--variable);}
-.bg-\[length\:1\/2_20rem\]{background-size:50% 20rem;}
-.bg-\[length\:10_20rem\]{background-size:10px 20rem;}
+.bg-\[length\:--variable\],
+.bg-\[size\:--variable\]{background-size:var(--variable);}
+.bg-\[length\:1\/2_20rem\],
+.bg-\[size\:1\/2_20rem\]{background-size:50% 20rem;}
+.bg-\[length\:10_20rem\],
+.bg-\[size\:10_20rem\]{background-size:10px 20rem;}
 .bg-\[linear-gradient\(45deg\,\#0072ff\,\#00d2e8\,\#04fd8f\,\#70fd6c\)\]{background-image:linear-gradient(45deg,#0072ff,#00d2e8,#04fd8f,#70fd6c);}
 .bg-\[position\:--variable\]{background-position:var(--variable);}
 .bg-\[position\:1\/2_20rem\]{background-position:50% 20rem;}
