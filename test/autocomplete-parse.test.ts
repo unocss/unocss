@@ -42,10 +42,11 @@ describe('autocomplete-parse', () => {
           },
         ]
       `)
-
     expect(parsed.suggest('prefix-b-do'))
       .toMatchInlineSnapshot(`
         [
+          "prefix-b-dotted-suffix",
+          "prefix-b-double-suffix",
           "prefix-b-dotted",
           "prefix-b-double",
         ]
@@ -53,6 +54,12 @@ describe('autocomplete-parse', () => {
     expect(parsed.suggest('prefix-border-'))
       .toMatchInlineSnapshot(`
         [
+          "prefix-border-solid-suffix",
+          "prefix-border-dashed-suffix",
+          "prefix-border-dotted-suffix",
+          "prefix-border-double-suffix",
+          "prefix-border-hidden-suffix",
+          "prefix-border-none-suffix",
           "prefix-border-solid",
           "prefix-border-dashed",
           "prefix-border-dotted",
@@ -167,7 +174,6 @@ describe('autocomplete-parse', () => {
           },
         ]
       `)
-
     expect(parsed.suggest('text-m'))
       .toMatchInlineSnapshot(`
         [

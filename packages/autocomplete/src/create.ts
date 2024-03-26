@@ -62,7 +62,7 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
   }
 
   async function suggest(input: string, allowsEmptyInput = false) {
-    if (!allowsEmptyInput && input.length < 2)
+    if (!allowsEmptyInput && input.length < 1)
       return []
     if (cache.has(input))
       return cache.get(input)!
