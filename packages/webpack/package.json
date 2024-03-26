@@ -53,6 +53,6 @@
   "devDependencies": {
     "@types/webpack": "^5.28.5",
     "@types/webpack-sources": "^3.2.3",
-    "webpack": "^5.90.3"
+    "webpack": "^5.91.0"
   }
 }

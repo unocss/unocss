@@ -11,8 +11,8 @@
   },
   "devDependencies": {
     "@antfu/utils": "^0.7.7",
-    "@nuxt/devtools": "^1.0.8",
-    "@shikijs/markdown-it": "^1.1.7",
+    "@nuxt/devtools": "^1.1.4",
+    "@shikijs/markdown-it": "^1.2.0",
     "@unocss/autocomplete": "workspace:*",
     "@unocss/nuxt": "workspace:*",
     "@unocss/shared-docs": "workspace:*",
@@ -27,7 +27,7 @@
     "p-limit": "^5.0.0",
     "postcss-nested": "^6.0.1",
     "prettier": "^2.8.8",
-    "shiki": "^1.1.7",
+    "shiki": "^1.2.1",
     "theme-vitesse": "^0.7.7",
     "unplugin-vue-markdown": "^0.26.0",
     "vue": "^3.4.21"

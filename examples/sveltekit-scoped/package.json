@@ -14,16 +14,16 @@
     "@julr/unocss-preset-forms": "^0.1.0",
     "@sveltejs/adapter-auto": "^3.1.1",
     "@sveltejs/kit": "^2.5.4",
-    "@sveltejs/vite-plugin-svelte": "^3.0.0",
+    "@sveltejs/vite-plugin-svelte": "^3.0.2",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
     "@unocss/svelte-scoped": "link:../../packages/svelte-scoped",
     "svelte": "^4.2.12",
-    "svelte-check": "^3.6.7",
+    "svelte-check": "^3.6.8",
     "tslib": "^2.6.2",
-    "typescript": "^5.4.2",
+    "typescript": "^5.4.3",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.1.6"
+    "vite": "^5.2.6"
   },
   "stackblitz": {
     "installDependencies": false,
