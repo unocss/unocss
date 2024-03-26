@@ -28,6 +28,7 @@
     "@sveltejs/adapter-auto": "^3.1.1",
     "@sveltejs/kit": "^2.5.4",
     "@sveltejs/package": "^2.3.0",
+    "@sveltejs/vite-plugin-svelte": "^3.0.0",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
     "@unocss/svelte-scoped": "link:../../packages/svelte-scoped",

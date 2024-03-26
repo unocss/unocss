@@ -72,7 +72,6 @@ describe('autocomplete', () => {
         'filter-',
         'fle',
         'font-',
-        'font-',
         'grid-rows-',
         'grow-',
         'keyframes-',

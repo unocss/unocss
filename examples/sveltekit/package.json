@@ -13,6 +13,7 @@
     "@iconify/utils": "^2.1.22",
     "@sveltejs/adapter-auto": "^3.1.1",
     "@sveltejs/kit": "^2.5.4",
+    "@sveltejs/vite-plugin-svelte": "^3.0.0",
     "@unocss/core": "link:../../packages/core",
     "@unocss/extractor-svelte": "link:../../packages/extractor-svelte",
     "@unocss/preset-icons": "link:../../packages/preset-icons",

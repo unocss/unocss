@@ -145,7 +145,10 @@ export function getColorString(str: string) {
   // if (!(new TinyColor(colorString).isValid))
   //   return
 
-  return colorString
+  if (/\/\)/.test(colorString))
+    colorString = colorString.replace(/ \/\)/g, '/ 1)')
+
+  return convertToRGBA(colorString)
 }
 
 export function isSubdir(parent: string, child: string) {
@@ -159,4 +162,21 @@ export function isFulfilled<T>(result: PromiseSettledResult<T>): result is Promi
 
 export function isRejected(result: PromiseSettledResult<unknown>): result is PromiseRejectedResult {
   return result.status === 'rejected'
+}
+
+export function convertToRGBA(rgbColor: string) {
+  const match = rgbColor.match(/rgb\((\d+)\s+(\d+)\s+(\d+)\s*\/\s*([\d.]+)\)/)
+
+  if (match) {
+    const r = Number.parseInt(match[1])
+    const g = Number.parseInt(match[2])
+    const b = Number.parseInt(match[3])
+    const alpha = Number.parseFloat(match[4])
+
+    const rgbaColor = `rgba(${r}, ${g}, ${b}, ${alpha})`
+
+    return rgbaColor
+  }
+
+  return rgbColor
 }
