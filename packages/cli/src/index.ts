@@ -82,6 +82,8 @@ export async function build(_options: CliOptions) {
 
       if (configSources.includes(absolutePath)) {
         await ctx.reloadConfig()
+        if (configSources.length)
+          watcher.add(configSources)
         consola.info(`${cyan(basename(file))} changed, setting new config`)
       }
       else {
