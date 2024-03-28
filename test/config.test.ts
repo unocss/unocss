@@ -126,7 +126,7 @@ describe('config', () => {
     const { css } = await uno.generate('btn text-red text-yellow-500', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      .btn{backgroundColor:yellow;color:red;}
+      .btn{background-color:yellow;color:red;}
       .text-red{color:red;}
       /* layer: default */
       .text-yellow-500{color:yellow;}"

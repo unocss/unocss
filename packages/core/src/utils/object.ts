@@ -1,10 +1,15 @@
+import { hyphenate } from '../../../runtime/src/utils'
 import type { CSSEntries, CSSObject, CSSValue, DeepPartial, Rule, Shortcut, StaticRule, StaticShortcut } from '../types'
 import { isString } from './basic'
 
 export function normalizeCSSEntries(obj: string | CSSEntries | CSSObject): string | CSSEntries {
   if (isString(obj))
     return obj
-  return (!Array.isArray(obj) ? Object.entries(obj) : obj).filter(i => i[1] != null)
+  return (!Array.isArray(obj)
+    ? Object.entries(obj)
+    : obj)
+    .map(([key, value]) => [hyphenate(key), value] as [string, any])
+    .filter(i => i[1] != null)
 }
 
 export function normalizeCSSValues(obj: CSSValue | string | (CSSValue | string)[]): (string | CSSEntries)[] {

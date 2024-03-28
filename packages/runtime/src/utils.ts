@@ -1,12 +1,12 @@
 import type { Postprocessor } from '@unocss/core'
 
-function camelize(str: string) {
+export function camelize(str: string) {
   return str.replace(/-(\w)/g, (_, c) => c ? c.toUpperCase() : '')
 }
-function capitalize(str: string) {
+export function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
-function hyphenate(str: string) {
+export function hyphenate(str: string) {
   return str.replace(/(?:^|\B)([A-Z])/g, '-$1').toLowerCase()
 }
 const prefixes = ['Webkit', 'Moz', 'ms']
