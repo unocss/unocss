@@ -84,6 +84,8 @@ export function auto(str: string) {
 }
 
 export function rem(str: string) {
+  if (!str)
+    return
   if (unitOnlyRE.test(str))
     return `1${str}`
   const match = str.match(numberWithUnitRE)
@@ -129,6 +131,8 @@ export function percent(str: string) {
 }
 
 export function fraction(str: string) {
+  if (!str)
+    return
   if (str === 'full')
     return '100%'
   const [left, right] = str.split('/')
