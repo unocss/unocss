@@ -26,6 +26,7 @@
 - [unocss-preset-block](https://github.com/unpreset/unocss-preset-block) - Block some non-standard classnames by [@chizuki](https://github.com/chizukicn).
 - [unocss-preset-animations](https://unocss-preset-animations.aelita.me/) - Preset for flexible and composable animations by [@Aelita](https://github.com/xsjcTony).
 - [unocss-preset-shadcn](https://github.com/hyoban/unocss-preset-shadcn#readme) - Use [shadcn/ui](https://ui.shadcn.com) with UnoCSS by [@zouhang](https://github.com/zouhangwithsweet) and [@hyoban](https://github.com/hyoban).
+- [@yeungkc/unocss-preset-safe-area](https://github.com/YeungKC/unocss-preset-safe-area) - Use safe area with Unocss by [YeungKC](https://github.com/YeungKC)
 
 # Community frameworks
 
