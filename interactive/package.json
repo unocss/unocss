@@ -11,8 +11,8 @@
   },
   "devDependencies": {
     "@antfu/utils": "^0.7.7",
-    "@nuxt/devtools": "^1.1.4",
-    "@shikijs/markdown-it": "^1.2.0",
+    "@nuxt/devtools": "^1.1.5",
+    "@shikijs/markdown-it": "^1.2.1",
     "@unocss/autocomplete": "workspace:*",
     "@unocss/nuxt": "workspace:*",
     "@unocss/shared-docs": "workspace:*",
