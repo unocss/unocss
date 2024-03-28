@@ -8,8 +8,8 @@ export function normalizeCSSEntries(obj: string | CSSEntries | CSSObject): strin
   return (!Array.isArray(obj)
     ? Object.entries(obj)
     : obj)
-    .map(([key, value]) => [hyphenate(key), value] as [string, any])
     .filter(i => i[1] != null)
+    .map(([key, value]) => [hyphenate(key), value] as [string, any])
 }
 
 export function normalizeCSSValues(obj: CSSValue | string | (CSSValue | string)[]): (string | CSSEntries)[] {
