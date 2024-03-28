@@ -26,7 +26,7 @@ export function VueScopedPlugin({ uno, ready }: UnocssPluginContext): Plugin {
         )
     },
     transform(code, id) {
-      if (!filter(id))
+      if (!filter(id) || !id.endsWith('.vue'))
         return
       return transformSFC(code)
     },
