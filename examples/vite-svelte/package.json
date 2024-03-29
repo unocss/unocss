@@ -11,7 +11,7 @@
   "devDependencies": {
     "@iconify-json/logos": "^1.1.42",
     "@sveltejs/vite-plugin-svelte": "^3.0.2",
-    "@tsconfig/svelte": "^5.0.3",
+    "@tsconfig/svelte": "^5.0.4",
     "@unocss/core": "link:../../packages/core",
     "@unocss/extractor-svelte": "link:../../packages/extractor-svelte",
     "@unocss/preset-icons": "link:../../packages/preset-icons",

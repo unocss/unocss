@@ -12,7 +12,7 @@
     "@iconify-json/logos": "^1.1.42",
     "@iconify-json/ri": "^1.1.20",
     "@julr/unocss-preset-forms": "^0.1.0",
-    "@sveltejs/adapter-auto": "^3.1.1",
+    "@sveltejs/adapter-auto": "^3.2.0",
     "@sveltejs/kit": "^2.5.4",
     "@sveltejs/vite-plugin-svelte": "^3.0.2",
     "@unocss/core": "link:../../packages/core",

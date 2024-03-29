@@ -43,7 +43,10 @@ export async function applyTransformers(
     ctx.affectedModules.add(id)
     return {
       code,
-      map: remapping(maps, () => null) as any,
+      map: remapping(maps, (_, ctx) => {
+        ctx.content = code
+        return null
+      }) as any,
     }
   }
 }
