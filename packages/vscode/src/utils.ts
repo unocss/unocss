@@ -131,12 +131,27 @@ export function getColorString(str: string) {
     const cssVarName = match.groups?.cssVarName
     const fallback = match.groups?.fallback
 
-    if (cssVarName && cssVars.get(cssVarName))
+    if (cssVarName && cssVars.get(cssVarName)) {
       // rgb(248 113 113 / var(--un-text-opacity)) => rgb(248 113 113 / 1)
-      colorString = colorString.replaceAll(matchedString, cssVars.get(cssVarName) ?? matchedString)
-    else if (fallback)
-      // rgb(248 113 113 / var(--no-value, 0.5)) => rgb(248 113 113 / 0.5)
+      colorString = colorString.replaceAll(matchedString, () => {
+        let v = cssVars.get(cssVarName) ?? matchedString
+        // resolve nested css var
+        while (v && v.startsWith('var(')) {
+          const varName = v.match(/var\((--[^,|)]+)(?:,\s*([^)]+))?\)/)?.[1]
+          if (!varName) {
+            v = ''
+            break
+          }
+
+          v = cssVars.get(varName) || ''
+        }
+        return v || '1'
+      })
+    }
+    else if (fallback) {
+    // rgb(248 113 113 / var(--no-value, 0.5)) => rgb(248 113 113 / 0.5)
       colorString = colorString.replaceAll(matchedString, fallback)
+    }
 
     // rgb(248 113 113 / var(--no-value)) => rgba(248 113 113)
     colorString = colorString.replaceAll(/,?\s+var\(--.*?\)/gm, '')
