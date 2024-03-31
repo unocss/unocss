@@ -2,7 +2,7 @@
   "publisher": "antfu",
   "name": "@unocss/vscode",
   "displayName": "UnoCSS",
-  "version": "0.58.6",
+  "version": "0.58.8",
   "private": true,
   "description": "UnoCSS for VS Code",
   "license": "MIT",

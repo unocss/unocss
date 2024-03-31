@@ -53,13 +53,14 @@ export async function parseApply({ code, uno, offset, applyVariable }: Transform
       if (target)
         target[2] += item[2]
       else
-      // use spread operator to prevent reassign to uno internal cache
+        // use spread operator to prevent reassign to uno internal cache
         acc.push([...item] as Writeable<StringifiedUtil>)
       return acc
     }, [] as Writeable<StringifiedUtil>[])
 
   if (!utils.length)
     return
+  const simicolonOffset = code.toString()[childNode.loc!.end.offset] === ';' ? 1 : 0
 
   for (const i of utils) {
     const [, _selector, body, parent] = i
@@ -98,13 +99,13 @@ export async function parseApply({ code, uno, offset, applyVariable }: Transform
     else {
       // If nested css was scoped, put them last.
       if (body.includes('@'))
-        code.appendRight(code.original.length, body)
+        code.appendRight(code.original.length + simicolonOffset, body)
       else
-        code.appendRight(calcOffset(childNode!.loc!.end.offset), body)
+        code.appendRight(calcOffset(childNode!.loc!.end.offset + simicolonOffset), body)
     }
   }
   code.remove(
     calcOffset(childNode!.loc!.start.offset),
-    calcOffset(childNode!.loc!.end.offset),
+    calcOffset(childNode!.loc!.end.offset + simicolonOffset),
   )
 }

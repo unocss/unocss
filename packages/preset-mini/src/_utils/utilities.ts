@@ -3,8 +3,8 @@ import { toArray } from '@unocss/core'
 import { colorOpacityToString, colorToString, getStringComponent, getStringComponents, parseCssColor } from '@unocss/rule-utils'
 import type { Theme } from '../theme'
 import { h } from './handlers'
-import { cssMathFnRE, directionMap, globalKeywords } from './mappings'
-import { bracketTypeRe, numberWithUnitRE } from './handlers/regex'
+import { cssMathFnRE, directionMap, globalKeywords, xyzArray, xyzMap } from './mappings'
+import { bracketTypeRe, numberWithUnitRE, splitComma } from './handlers/regex'
 
 export const CONTROL_MINI_NO_NEGATIVE = '$$mini-no-negative'
 
@@ -288,4 +288,12 @@ export function isSize(str: string) {
   if (str[0] === '[' && str.slice(-1) === ']')
     str = str.slice(1, -1)
   return cssMathFnRE.test(str) || numberWithUnitRE.test(str)
+}
+
+export function transformXYZ(d: string, v: string, name: string): [string, string][] {
+  const values: string[] = v.split(splitComma)
+  if (d || (!d && values.length === 1))
+    return xyzMap[d].map((i): [string, string] => [`--un-${name}${i}`, v])
+
+  return values.map((v, i) => [`--un-${name}-${xyzArray[i]}`, v])
 }

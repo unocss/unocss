@@ -15,7 +15,7 @@
     "@astrojs/vue": "^4.0.9",
     "@iconify-json/logos": "^1.1.42",
     "@unocss/reset": "link:../../packages/reset",
-    "astro": "^4.5.4",
+    "astro": "^4.5.10",
     "unocss": "link:../../packages/unocss"
   },
   "stackblitz": {

@@ -2,3 +2,4 @@ export const numberWithUnitRE = /^(-?\d*(?:\.\d+)?)(px|pt|pc|%|r?(?:em|ex|lh|cap
 export const numberRE = /^(-?\d*(?:\.\d+)?)$/i
 export const unitOnlyRE = /^(px)$/i
 export const bracketTypeRe = /^\[(color|length|size|position|quoted|string):/i
+export const splitComma = /,(?![^()]*\))/g

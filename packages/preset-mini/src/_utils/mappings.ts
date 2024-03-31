@@ -71,6 +71,8 @@ export const xyzMap: Record<string, string[]> = {
   '': ['-x', '-y'],
 }
 
+export const xyzArray = ['x', 'y', 'z']
+
 const basePositionMap = [
   'top',
   'top center',
