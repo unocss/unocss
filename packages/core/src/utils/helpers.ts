@@ -1,4 +1,5 @@
 import type { ParsedUtil, RawUtil, StringifiedUtil, Variant, VariantObject } from '../types'
+import { isFunction } from '../utils'
 
 export const attributifyRE = /^\[(.+?)~?="(.*)"\]$/
 export const cssIdRE = /\.(css|postcss|sass|scss|less|stylus|styl)($|\?)/
@@ -15,7 +16,7 @@ export function isValidSelector(selector = ''): selector is string {
 }
 
 export function normalizeVariant(variant: Variant<any>): VariantObject<any> {
-  return typeof variant === 'function'
+  return isFunction(variant)
     ? { match: variant }
     : variant
 }

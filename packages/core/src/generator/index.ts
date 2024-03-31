@@ -1,7 +1,7 @@
 import { createNanoEvents } from '../utils/events'
 import type { CSSEntries, CSSObject, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
-import { BetterMap, CONTROL_SHORTCUT_NO_MERGE, CountableSet, TwoKeyMap, e, entriesToCss, expandVariantGroup, isCountableSet, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, uniq, warnOnce } from '../utils'
+import { BetterMap, CONTROL_SHORTCUT_NO_MERGE, CountableSet, TwoKeyMap, e, entriesToCss, expandVariantGroup, isCountableSet, isFunction, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
 import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from '../constants'
 
@@ -740,7 +740,7 @@ export class UnoGenerator<Theme extends object = object> {
   }
 
   isBlocked(raw: string): boolean {
-    return !raw || this.config.blocklist.some(e => typeof e === 'function' ? e(raw) : isString(e) ? e === raw : e.test(raw))
+    return !raw || this.config.blocklist.some(e => isFunction(e) ? e(raw) : isString(e) ? e === raw : e.test(raw))
   }
 }
 

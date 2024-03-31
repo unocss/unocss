@@ -1,5 +1,5 @@
 import type { Preset, PresetFactory, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
-import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq, uniqueBy } from './utils'
+import { clone, isFunction, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq, uniqueBy } from './utils'
 import { extractorSplit } from './extractors'
 import { DEFAULT_LAYERS } from './constants'
 
@@ -17,7 +17,7 @@ const __RESOLVED = '_uno_resolved'
  * Resolve a single preset, nested presets are ignored
  */
 export function resolvePreset<Theme extends object = object>(presetInput: Preset<Theme> | PresetFactory<Theme, any>): Preset<Theme> {
-  let preset = typeof presetInput === 'function'
+  let preset = isFunction(presetInput)
     ? presetInput()
     : presetInput
 

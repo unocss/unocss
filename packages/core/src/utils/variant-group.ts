@@ -1,6 +1,6 @@
 import type MagicString from 'magic-string'
 import type { HighlightAnnotation } from '../types'
-import { notNull } from '../utils'
+import { isString, notNull } from '../utils'
 
 const regexCache: Record<string, RegExp> = {}
 
@@ -72,7 +72,7 @@ export function parseVariantGroup(str: string | MagicString, separators = ['-', 
 
   let expanded: MagicString | string
 
-  if (typeof str === 'string') {
+  if (isString(str)) {
     expanded = ''
     let prevOffset = 0
     for (const [offset, group] of groupsByOffset) {
@@ -128,7 +128,7 @@ export function collapseVariantGroup(str: string, prefixes: string[]): string {
   })
     .filter(notNull)
     .map((i) => {
-      if (typeof i === 'string')
+      if (isString(i))
         return i
       return `${i.prefix}(${i.items.join(' ')})`
     })
@@ -139,7 +139,5 @@ export function expandVariantGroup(str: string, separators?: string[], depth?: n
 export function expandVariantGroup(str: MagicString, separators?: string[], depth?: number): MagicString
 export function expandVariantGroup(str: string | MagicString, separators = ['-', ':'], depth = 5) {
   const res = parseVariantGroup(str, separators, depth)
-  return typeof str === 'string'
-    ? res.expanded
-    : str
+  return isString(str) ? res.expanded : str
 }
