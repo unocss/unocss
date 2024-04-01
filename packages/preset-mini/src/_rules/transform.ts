@@ -1,6 +1,6 @@
 import type { CSSValues, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { h, makeGlobalStaticRules, positionMap, xyzMap } from '../utils'
+import { h, makeGlobalStaticRules, positionMap, transformXYZ } from '../utils'
 
 const transformValues = [
   'translate',
@@ -104,7 +104,7 @@ function handleTranslate([, d, b]: string[], { theme }: RuleContext<Theme>): CSS
   const v = theme.spacing?.[b] ?? h.bracket.cssvar.fraction.rem(b)
   if (v != null) {
     return [
-      ...xyzMap[d].map((i): [string, string] => [`--un-translate${i}`, v]),
+      ...transformXYZ(d, v, 'translate'),
       ['transform', transformCpu],
     ]
   }
@@ -114,7 +114,7 @@ function handleScale([, d, b]: string[]): CSSValues | undefined {
   const v = h.bracket.cssvar.fraction.percent(b)
   if (v != null) {
     return [
-      ...xyzMap[d].map((i): [string, string] => [`--un-scale${i}`, v]),
+      ...transformXYZ(d, v, 'scale'),
       ['transform', transformCpu],
     ]
   }
@@ -146,7 +146,7 @@ function handleSkew([, d, b]: string[]): CSSValues | undefined {
   const v = h.bracket.cssvar.degree(b)
   if (v != null) {
     return [
-      ...xyzMap[d].map((i): [string, string] => [`--un-skew${i}`, v]),
+      ...transformXYZ(d, v, 'skew'),
       ['transform', transformCpu],
     ]
   }

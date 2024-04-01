@@ -19,9 +19,6 @@ export default defineNuxtConfig({
   ],
   ssr: false,
   spaLoadingTemplate: './spa-loading-template.html',
-  experimental: {
-    reactivityTransform: true,
-  },
   app: {
     baseURL: '/interactive/',
   },

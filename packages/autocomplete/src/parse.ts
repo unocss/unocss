@@ -1,6 +1,6 @@
 import { uniq } from '@unocss/core'
 import { Fzf } from 'fzf'
-import type { AutoCompleteMatchType, AutocompleteTemplatePart, ParsedAutocompleteTemplate } from './types'
+import type { AutoCompleteMatchType, AutocompleteTemplateGroup, AutocompleteTemplatePart, ParsedAutocompleteTemplate } from './types'
 import { cartesian } from './utils'
 
 export const shorthands: Record<string, string> = {
@@ -99,36 +99,43 @@ export function parseAutocomplete(template: string, theme: any = {}, extraShorth
   function suggest(input: string, matchType: AutoCompleteMatchType = 'prefix') {
     if (input.length > 1 && matchType === 'fuzzy')
       return fzf.find(input).map(i => i.item)
-    let rest = input
-    let matched = ''
-    let combinations: string[] = []
+    let rest = input.replace(/-/g, '')
+    let matched: string[] = ['']
+    let combinations: string[] = ['']
     const tempParts = [...parts]
 
     while (tempParts.length) {
       const part = tempParts.shift()!
       if (part.type === 'static') {
-        if (combinations.length)
-          combinations = combinations.map(i => i + part.value)
-        if (part.value.startsWith(rest) && part.value !== rest && !combinations.length) {
-          combinations = [part.value]
-          break
-        }
-        else if (!rest.startsWith(part.value)) {
-          break
-        }
-        matched += part.value
-        rest = rest.slice(part.value.length)
+        const temp = part.value.replace(/-/g, '')
+        if (!rest.startsWith(temp) && !part.value.startsWith(rest))
+          return ['']
+        matched = matched.map(m => m + part.value)
+        rest = rest.slice(temp.length)
       }
       else if (part.type === 'group') {
         const fullMatched = part.values.find(i => i && rest.startsWith(i))
-        if (fullMatched != null) {
-          matched += fullMatched
+        if (fullMatched) {
+          matched = matched.map(m => m + fullMatched)
           rest = rest.slice(fullMatched.length)
+          if (!tempParts[0] && rest)
+            return []
+          continue
         }
         else {
-          combinations = part.values.filter(i => i.startsWith(rest))
-          if (tempParts[0]?.type !== 'static')
+          if (tempParts[0]) {
+            const values = part.values.filter(i => i && i.startsWith(rest))
+            rest = ''
+            if (values.length) {
+              matched = matched.map(m => values.map(n => m + n)).flat()
+              continue
+            }
             break
+          }
+          if (matched[0] === '')
+            break
+          combinations = part.values.filter(p => p.startsWith(rest))
+          break
         }
       }
       else if (part.type === 'theme') {
@@ -136,31 +143,34 @@ export function parseAutocomplete(template: string, theme: any = {}, extraShorth
           .filter(i => i && !ignoredThemeKeys.includes(i) && i[0] !== '_')
         const fullMatched = keys.find(i => i && rest.startsWith(i))
         if (fullMatched != null) {
-          matched += fullMatched
           rest = rest.slice(fullMatched.length)
           const subObjects = part.objects.map(i => i[fullMatched])
             .filter((i): i is Record<string, unknown> => !!i && typeof i === 'object')
 
           if (subObjects.length) {
+            matched = matched.map(m => `${m + fullMatched}-`)
             tempParts.unshift({
-              type: 'static',
-              value: '-',
-            }, {
               type: 'theme',
               objects: subObjects,
             })
           }
+          else {
+            combinations = keys.filter(i => i.startsWith(rest))
+          }
         }
         else {
-          combinations = keys.filter(i => i.startsWith(rest))
-          if (tempParts[0]?.type !== 'static')
-            break
+          if (tempParts[0] && tempParts[0].type !== 'static') {
+            const values = (tempParts[0] as AutocompleteTemplateGroup).values
+            if (values)
+              matched = matched.filter(i => i && rest.startsWith(i)).map(m => values.map(n => m + n)).flat()
+          }
+          else {
+            combinations = keys.filter(i => i.startsWith(rest))
+          }
+          break
         }
       }
     }
-
-    if (combinations.length === 0)
-      combinations.push('')
 
     // if (listAll && tempParts.length) {
     //   for (const part of tempParts) {
@@ -188,7 +198,7 @@ export function parseAutocomplete(template: string, theme: any = {}, extraShorth
     //   }
     // }
 
-    return combinations.map(i => matched + i)
+    return combinations.map(i => matched.map(m => m + i)).flat()
       .filter(i => i.length >= input.length)
   }
 }

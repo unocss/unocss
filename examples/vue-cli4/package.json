@@ -1,5 +1,5 @@
 {
-  "version": "0.58.5",
+  "version": "0.58.9",
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider vue-cli-service serve",
@@ -7,7 +7,7 @@
     "build:macos": "vue-cli-service build"
   },
   "dependencies": {
-    "vue": "^2.7.15"
+    "vue": "^2.7.16"
   },
   "devDependencies": {
     "@unocss/webpack": "link:../../packages/webpack",

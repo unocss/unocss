@@ -398,6 +398,11 @@ export interface ConfigBase<Theme extends object = object> {
   layers?: Record<string, number>
 
   /**
+   * Output the internal layers as CSS Cascade Layers.
+   */
+  outputToCssLayers?: boolean | OutputCssLayersOptions
+
+  /**
    * Custom function to sort layers.
    */
   sortLayers?: (layers: string[]) => string[]
@@ -462,6 +467,16 @@ export interface ConfigBase<Theme extends object = object> {
    * @default `true` when `envMode` is `dev`, otherwise `false`
    */
   details?: boolean
+}
+
+export interface OutputCssLayersOptions {
+
+  /**
+   * Specify the css layer that the internal layer should be output to.
+   *
+   * Return `null` to specify that the layer should not be output to any css layer.
+   */
+  cssLayerName?: (internalLayer: string) => string | undefined | null
 }
 
 export type AutoCompleteTemplate = string

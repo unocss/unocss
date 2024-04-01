@@ -9,9 +9,9 @@ const { item } = defineProps<{
   item: RuleItem
 }>()
 
-const docs = $computed(() => getDocs(item))
-const alias = $computed(() => searcher.getAliasOf(item))
-const variantSteps = $computed(() => {
+const docs = computed(() => getDocs(item))
+const alias = computed(() => searcher.getAliasOf(item))
+const variantSteps = computed(() => {
   const steps: {
     variant?: Variant
     name?: string
@@ -36,19 +36,19 @@ const variantSteps = $computed(() => {
   }
   return steps
 })
-const imageUrls = $computed(() => {
+const imageUrls = computed(() => {
   // @ts-expect-error cast
   return item.urls?.filter(i => i.startsWith('data:image') || i.match(/\.(png|jpg|jpeg|svg)$/ig))
 })
 
-const guides = $computed(() => {
+const guides = computed(() => {
   const items: GuideItem[] = []
   if (item.colors?.length)
     items.push(guideColors)
   return items
 })
 
-const sameRules = $computed(() => searcher.getSameRules(item))
+const sameRules = computed(() => searcher.getSameRules(item))
 
 function getRegex101Link(regex: RegExp, text: string) {
   return `https://regex101.com/?regex=${encodeURIComponent(regex.source)}&flag=${encodeURIComponent(regex.flags)}&testString=${encodeURIComponent(text)}`

@@ -5,13 +5,13 @@ const { item } = defineProps<{
   item: DocItem
 }>()
 
-const caniuseItem = $computed<DocItem>(() => ({
+const caniuseItem = computed<DocItem>(() => ({
   type: 'caniuse',
   title: item.title,
   url: `https://caniuse.com/?search=${encodeURIComponent(item.title)}`,
 }))
 
-const relatives = $computed(() => searcher.getUtilsOfFeature(item.title))
+const relatives = computed(() => searcher.getUtilsOfFeature(item.title))
 </script>
 
 <template>

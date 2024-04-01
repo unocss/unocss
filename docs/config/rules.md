@@ -5,7 +5,7 @@ description: Writing custom rules for UnoCSS is super easy.
 
 # Rules
 
-Rules define the way UnoCSS search and generate CSS for your codebase.
+Rules define utility classes and the resulting CSS. UnoCSS has many built-in rules but also allows for easily adding custom rules.
 
 ## Static rules
 
@@ -22,6 +22,14 @@ The following CSS will be generated whenever `m-1` is detected in users' codebas
 ```css
 .m-1 { margin: 0.25rem; }
 ```
+
+> **Note**: The body syntax follows CSS property syntax, eg. `font-weight` instead of `fontWeight`. If there is a hyphen `-` in the property name it should be quoted.
+>
+> ```ts
+> rules: [
+>   ['font-bold', { 'font-weight': 700 }],
+> ]
+> ```
 
 ## Dynamic rules
 

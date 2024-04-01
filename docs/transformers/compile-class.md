@@ -81,6 +81,23 @@ Will be compiled to:
 
 You can config the trigger string and prefix for compile class with the options. Refer to [the types](https://github.com/unocss/unocss/blob/main/packages/transformer-compile-class/src/index.ts#L4) for details.
 
+## Tooling
+
+### ESLint
+
+There is an eslint rule for enforcing the class compile transformer across the whole project: [@unocss/enforce-class-compile](https://unocss.dev/integrations/eslint#unocss-enforce-class-compile)
+
+**Usage:**
+
+```json
+{
+  "plugins": ["@unocss"],
+  "rules": {
+    "@unocss/enforce-class-compile": "warn"
+  }
+}
+```
+
 ## License
 
 - MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)

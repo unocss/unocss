@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/types'
+import { transformerTwoslash } from '@shikijs/vitepress-twoslash'
 import { version } from '../../package.json'
 
 const ogUrl = 'https://unocss.dev/'
@@ -269,6 +270,11 @@ export default defineConfig({
       light: 'vitesse-light',
       dark: 'vitesse-dark',
     },
+    codeTransformers: [
+      transformerTwoslash({
+        processHoverInfo: info => info.replace(/_unocss_core\./g, ''),
+      }),
+    ],
   },
 
   themeConfig: {

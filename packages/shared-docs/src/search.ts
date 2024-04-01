@@ -4,7 +4,7 @@ import { watchAtMost } from '@vueuse/core'
 import Fuse from 'fuse.js'
 import { createAutocomplete } from '@unocss/autocomplete'
 import type { Ref } from 'vue'
-import { computed, reactive, toRaw } from 'vue'
+import { computed, shallowReactive, toRaw } from 'vue'
 import type { DocItem, GuideItem, ResultItem, RuleItem } from './types'
 import { extractColors, formatCSS, sampleArray } from './utils'
 
@@ -19,8 +19,8 @@ export function createSearch(
   { uno, docs, guides, limit = 50 }: SearchState,
 ) {
   const ac = createAutocomplete(uno)
-  const matchedMap = reactive(new Map<string, RuleItem>())
-  const featuresMap = reactive(new Map<string, Set<RuleItem>>())
+  const matchedMap = shallowReactive(new Map<string, RuleItem>())
+  const featuresMap = shallowReactive(new Map<string, Set<RuleItem>>())
 
   let fuseCollection: ResultItem[] = []
 

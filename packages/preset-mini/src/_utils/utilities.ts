@@ -3,8 +3,8 @@ import { toArray } from '@unocss/core'
 import { colorOpacityToString, colorToString, getStringComponent, getStringComponents, parseCssColor } from '@unocss/rule-utils'
 import type { Theme } from '../theme'
 import { h } from './handlers'
-import { cssMathFnRE, directionMap, globalKeywords } from './mappings'
-import { bracketTypeRe, numberWithUnitRE } from './handlers/regex'
+import { cssMathFnRE, directionMap, globalKeywords, xyzArray, xyzMap } from './mappings'
+import { bracketTypeRe, numberWithUnitRE, splitComma } from './handlers/regex'
 
 export const CONTROL_MINI_NO_NEGATIVE = '$$mini-no-negative'
 
@@ -102,9 +102,9 @@ export function parseColor(body: string, theme: Theme, key?: ThemeColorKeys): Pa
   if (h.numberWithUnit(bracketOrMain))
     return
 
-  if (/^#[\da-fA-F]+/.test(bracketOrMain))
+  if (/^#[\da-fA-F]+$/.test(bracketOrMain))
     color = bracketOrMain
-  else if (/^hex-[\da-fA-F]+/.test(bracketOrMain))
+  else if (/^hex-[\da-fA-F]+$/.test(bracketOrMain))
     color = `#${bracketOrMain.slice(4)}`
   else if (main.startsWith('$'))
     color = h.cssvar(main)
@@ -228,17 +228,26 @@ export function colorableShadows(shadows: string | string[], colorVar: string) {
     if (!components || components.length < 3)
       return shadows
 
-    if (parseCssColor(components.at(0)))
-      return shadows
+    let isInset = false
+    const pos = components.indexOf('inset')
+    if (pos !== -1) {
+      components.splice(pos, 1)
+      isInset = true
+    }
 
     let colorVarValue = ''
-    if (parseCssColor(components.at(-1))) {
+    if (parseCssColor(components.at(0))) {
+      const color = parseCssColor(components.shift())
+      if (color)
+        colorVarValue = `, ${colorToString(color)}`
+    }
+    else if (parseCssColor(components.at(-1))) {
       const color = parseCssColor(components.pop())
       if (color)
         colorVarValue = `, ${colorToString(color)}`
     }
 
-    colored.push(`${components.join(' ')} var(${colorVar}${colorVarValue})`)
+    colored.push(`${isInset ? 'inset ' : ''}${components.join(' ')} var(${colorVar}${colorVarValue})`)
   }
 
   return colored
@@ -279,4 +288,12 @@ export function isSize(str: string) {
   if (str[0] === '[' && str.slice(-1) === ']')
     str = str.slice(1, -1)
   return cssMathFnRE.test(str) || numberWithUnitRE.test(str)
+}
+
+export function transformXYZ(d: string, v: string, name: string): [string, string][] {
+  const values: string[] = v.split(splitComma)
+  if (d || (!d && values.length === 1))
+    return xyzMap[d].map((i): [string, string] => [`--un-${name}${i}`, v])
+
+  return values.map((v, i) => [`--un-${name}-${xyzArray[i]}`, v])
 }

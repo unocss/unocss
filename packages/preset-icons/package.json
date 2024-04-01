@@ -1,7 +1,6 @@
 {
   "name": "@unocss/preset-icons",
-  "type": "module",
-  "version": "0.58.5",
+  "version": "0.58.9",
   "description": "Pure CSS Icons for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -25,30 +24,24 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.mts",
-      "default": "./dist/index.mjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
     },
     "./browser": {
-      "types": "./dist/browser.d.mts",
-      "default": "./dist/browser.mjs"
+      "types": "./dist/browser.d.ts",
+      "import": "./dist/browser.mjs",
+      "require": "./dist/browser.cjs"
     },
     "./core": {
-      "types": "./dist/core.d.mts",
-      "default": "./dist/core.mjs"
-    },
-    "./*": "./*"
-  },
-  "main": "dist/index.mjs",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./dist/*",
-        "./*"
-      ]
+      "types": "./dist/core.d.ts",
+      "import": "./dist/core.mjs",
+      "require": "./dist/core.cjs"
     }
   },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "*.css",
     "dist"
@@ -60,7 +53,7 @@
   "dependencies": {
     "@iconify/utils": "^2.1.22",
     "@unocss/core": "workspace:*",
-    "ofetch": "^1.3.3"
+    "ofetch": "^1.3.4"
   },
   "devDependencies": {
     "@iconify/types": "^2.0.0"

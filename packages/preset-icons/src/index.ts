@@ -17,6 +17,19 @@ async function createNodeLoader() {
   catch { }
 }
 
+/**
+ * Use any icon with Pure CSS for UnoCSS.
+ *
+ * @example
+ *
+ * ```html
+ * <div class="i-mdi-alarm"></div>
+ * <div class="i-logos-vue text-3xl"></div>
+ * <button class="i-carbon-sun dark:i-carbon-moon"></div>
+ * ```
+ *
+ * @see https://unocss.dev/presets/icons
+ */
 export const presetIcons = /* @__PURE__ */ createPresetIcons(async (options) => {
   const {
     cdn,

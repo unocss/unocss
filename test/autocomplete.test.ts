@@ -57,6 +57,8 @@ describe('autocomplete', () => {
         // sort this list in alphabetical order
         'align-',
         'aspect-',
+        'auto-flow-', // grid-auto-flow
+        'auto-rows-', // grid-auto-rows
         'bg-',
         'bg-gradient-',
         'bg-r',
@@ -70,7 +72,7 @@ describe('autocomplete', () => {
         'filter-',
         'fle',
         'font-',
-        'font-',
+        'grid-rows-',
         'grow-',
         'keyframes-',
         'leading-',
@@ -83,6 +85,7 @@ describe('autocomplete', () => {
         'outline-',
         'outline-offset-',
         'placeholder-',
+        'rows-', // grid-rows
         'scroll-',
         'scroll-m-',
         'shadow-',
@@ -101,14 +104,6 @@ describe('autocomplete', () => {
         'transform-scale-',
         'transform-skew-x-',
         'transform-skew-y-',
-        'grid-row',
-        'grid-row-start-',
-        'grid-row-end-',
-        'grid-rows-',
-        'grid-auto-flow-',
-        'grid-flow-',
-        'auto-flow-',
-        'grid-auto-rows-',
         'v-',
         'w-',
         'z-',
@@ -141,11 +136,12 @@ describe('autocomplete', () => {
     expect(await ac.suggest('lt-'))
       .toMatchInlineSnapshot(`
         [
-          "lt-lg:",
-          "lt-md:",
-          "lt-sm:",
-          "lt-xl:",
-          "lt-2xl:",
+          "lt-lg",
+          "lt-md",
+          "lt-sm",
+          "lt-xl",
+          "ltr:",
+          "lt-2xl",
         ]
       `)
   })
@@ -229,14 +225,20 @@ describe('use uno cache', () => {
 
   it('use cache', async () => {
     expect(await ac.suggest('btn'))
-      .toMatchInlineSnapshot('[]')
-
+      .toMatchInlineSnapshot(`
+        [
+          "b-t-neutral",
+          "b-t-none",
+        ]
+      `)
     await uno.generate('btn-red btn-green m-100', { preflights: false })
     ac.reset()
 
     expect(await ac.suggest('btn'))
       .toMatchInlineSnapshot(`
         [
+          "b-t-neutral",
+          "b-t-none",
           "btn-green",
           "btn-red",
         ]

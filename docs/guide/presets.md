@@ -12,7 +12,7 @@ Presets are the heart of UnoCSS. They let you make your own custom framework in 
 
 To set presets to your project:
 
-```ts
+```ts twoslash
 // uno.config.ts
 import { defineConfig, presetAttributify, presetUno } from 'unocss'
 
@@ -29,7 +29,7 @@ When the `presets` option is specified, the default preset will be ignored.
 
 To disable the default preset, you can set `presets` to an empty array:
 
-```ts
+```ts twoslash
 // uno.config.ts
 import { defineConfig } from 'unocss'
 

@@ -1,7 +1,6 @@
 {
   "name": "@unocss/eslint-config",
-  "type": "module",
-  "version": "0.58.5",
+  "version": "0.58.9",
   "description": "ESLint config for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -22,37 +21,19 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "import": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
-      },
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
-      }
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
     },
     "./flat": {
-      "import": {
-        "types": "./dist/flat.d.ts",
-        "default": "./dist/flat.mjs"
-      },
-      "require": {
-        "types": "./dist/flat.d.cts",
-        "default": "./dist/flat.cjs"
-      }
+      "types": "./dist/flat.d.ts",
+      "import": "./dist/flat.mjs",
+      "require": "./dist/flat.cjs"
     }
   },
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./dist/*",
-        "./*"
-      ]
-    }
-  },
   "files": [
     "dist"
   ],

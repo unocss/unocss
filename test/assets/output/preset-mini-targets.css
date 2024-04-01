@@ -143,9 +143,12 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .bg-\[calc\(10\%\+10px\)\]{background-position:calc(10% + 10px);}
 .bg-\[calc\(10vw\+10px\)\]{background-position:calc(10vw + 10px);}
 .bg-\[conic-gradient\(red\,blue\)\]{background-image:conic-gradient(red,blue);}
-.bg-\[length\:--variable\]{background-size:var(--variable);}
-.bg-\[length\:1\/2_20rem\]{background-size:50% 20rem;}
-.bg-\[length\:10_20rem\]{background-size:10px 20rem;}
+.bg-\[length\:--variable\],
+.bg-\[size\:--variable\]{background-size:var(--variable);}
+.bg-\[length\:1\/2_20rem\],
+.bg-\[size\:1\/2_20rem\]{background-size:50% 20rem;}
+.bg-\[length\:10_20rem\],
+.bg-\[size\:10_20rem\]{background-size:10px 20rem;}
 .bg-\[linear-gradient\(45deg\,\#0072ff\,\#00d2e8\,\#04fd8f\,\#70fd6c\)\]{background-image:linear-gradient(45deg,#0072ff,#00d2e8,#04fd8f,#70fd6c);}
 .bg-\[position\:--variable\]{background-position:var(--variable);}
 .bg-\[position\:1\/2_20rem\]{background-position:50% 20rem;}
@@ -494,6 +497,9 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .word-spacing-2{word-spacing:0.5rem;}
 .word-spacing-inherit{word-spacing:inherit;}
 .word-spacing-wide{word-spacing:0.025em;}
+.font-stretch-normal{font-stretch:normal;}
+.font-stretch-\[ultra-expanded\]{font-stretch:ultra-expanded;}
+.font-stretch-1\/2{font-stretch:50%;}
 .font-\[\"custom_fontFamily_name\"\]{font-family:"custom fontFamily name";}
 .font-\[system-ui\]{font-family:system-ui;}
 .font-\$font-name{font-family:var(--font-name);}
@@ -645,14 +651,16 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .auto-flow-col-dense,
 .grid-flow-col-dense{grid-auto-flow:column dense;}
 .grid-flow-dense{grid-auto-flow:dense;}
-.grid-cols-\[1fr_2fr_100px_min-content\]{grid-template-columns:1fr 2fr 100px min-content;}
+.cols-\[repeat\(3\,auto\)\],
 .grid-cols-\[repeat\(3\,auto\)\]{grid-template-columns:repeat(3,auto);}
+.grid-cols-\[1fr_2fr_100px_min-content\]{grid-template-columns:1fr 2fr 100px min-content;}
 .grid-cols-\$1{grid-template-columns:var(--\31 );}
 .grid-rows-\[1fr_2fr_100px_min-content\]{grid-template-rows:1fr 2fr 100px min-content;}
 .grid-cols-minmax-1rem{grid-template-columns:repeat(auto-fill,minmax(1rem,1fr));}
 .grid-rows-minmax-100px{grid-template-rows:repeat(auto-fill,minmax(100px,1fr));}
 .grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr));}
-.grid-rows-3{grid-template-rows:repeat(3,minmax(0,1fr));}
+.grid-rows-3,
+.rows-3{grid-template-rows:repeat(3,minmax(0,1fr));}
 .grid-area-\[content\]{grid-area:content;}
 .grid-area-\$variable{grid-area:var(--variable);}
 .grid-areas-\[prepend_content_append\]{grid-template-areas:"prepend content append";}
@@ -965,6 +973,8 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .-translate-full{--un-translate-x:-100%;--un-translate-y:-100%;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .scope_class .scope-\[\.scope\\_class\]\:translate-0,
 .translate-none{--un-translate-x:0;--un-translate-y:0;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
+.translate-\[var\(--x\)\,var\(--y\)\,25\%\]{--un-translate-x:var(--x);--un-translate-y:var(--y);--un-translate-z:25%;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
+.translate-\[var\(--x\)\,var\(--y\)\]{--un-translate-x:var(--x);--un-translate-y:var(--y);transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .translate-full{--un-translate-x:100%;--un-translate-y:100%;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .-translate-x-full{--un-translate-x:-100%;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .-translate-y-1\/2{--un-translate-y:-50%;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
@@ -985,6 +995,8 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .transform-rotate-y-1{--un-rotate:0;--un-rotate-y:1deg;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .rotate-z-\[var\(--spin\)\],
 .transform-rotate-z-\[var\(--spin\)\]{--un-rotate:0;--un-rotate-z:var(--spin);transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
+.skew-\[var\(--x\)\,var\(--y\)\,25\%\]{--un-skew-x:var(--x);--un-skew-y:var(--y);--un-skew-z:25%;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
+.skew-\[var\(--x\)\,var\(--y\)\]{--un-skew-x:var(--x);--un-skew-y:var(--y);transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .skew-10{--un-skew-x:10deg;--un-skew-y:10deg;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .skew-x-\[var\(--skew-x\)\]{--un-skew-x:var(--skew-x);transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .skew-x-\$variable{--un-skew-x:var(--variable);transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
@@ -1000,6 +1012,8 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .skew-y-10deg{--un-skew-y:10deg;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .skew-y-2grad{--un-skew-y:2grad;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .skew-y-3\.14rad{--un-skew-y:3.14rad;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
+.scale-\[var\(--x\)\,var\(--y\)\,20\%\]{--un-scale-x:var(--x);--un-scale-y:var(--y);--un-scale-z:20%;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
+.scale-\[var\(--x\)\,var\(--y\)\]{--un-scale-x:var(--x);--un-scale-y:var(--y);transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .scale-\$variable{--un-scale-x:var(--variable);--un-scale-y:var(--variable);transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .hover\:scale-4:hover{--un-scale-x:0.04;--un-scale-y:0.04;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .active\:scale-4:active{--un-scale-x:0.04;--un-scale-y:0.04;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}

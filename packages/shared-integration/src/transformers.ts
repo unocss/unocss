@@ -2,7 +2,6 @@ import type { SourceCodeTransformerEnforce, UnocssPluginContext } from '@unocss/
 import MagicString from 'magic-string'
 import type { EncodedSourceMap } from '@ampproject/remapping'
 import remapping from '@ampproject/remapping'
-import type { SourceMap } from 'rollup'
 import { IGNORE_COMMENT, SKIP_COMMENT_RE } from './constants'
 import { hash } from './hash'
 
@@ -44,7 +43,10 @@ export async function applyTransformers(
     ctx.affectedModules.add(id)
     return {
       code,
-      map: remapping(maps, () => null) as SourceMap,
+      map: remapping(maps, (_, ctx) => {
+        ctx.content = code
+        return null
+      }) as any,
     }
   }
 }

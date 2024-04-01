@@ -118,13 +118,24 @@ describe('color utils', () => {
     expect(colorableShadows('0', '--v')).eql(['0'])
     expect(colorableShadows('1px 2px', '--v')).eql(['1px 2px'])
 
-    // text shadow alternative syntax (color first, unsupported/not parsed)
-    expect(colorableShadows('#0000 0 0', '--v')).eql(['#0000 0 0'])
+    // text shadow alternative syntax (color first)
+    expect(colorableShadows('#0000 0 0', '--v')).eql(['0 0 var(--v, rgb(0 0 0 / 0))'])
 
     // component length
     expect(colorableShadows('1px #200', '--v')).eql(['1px #200'])
     expect(colorableShadows('inset 2px 3px 4px 5px #600', '--v')).eql(['inset 2px 3px 4px 5px var(--v, rgb(102 0 0))'])
     expect(colorableShadows('inset 2px 3px 4px 5px 6px #700', '--v')).eql(['inset 2px 3px 4px 5px 6px #700'])
+
+    // optional keyword "inset" and color value order
+    expect(colorableShadows('1px 0 0 0 #000', '--v')).eql(['1px 0 0 0 var(--v, rgb(0 0 0))'])
+    expect(colorableShadows('#000 inset 1px 0 0 0', '--v')).eql(['inset 1px 0 0 0 var(--v, rgb(0 0 0))'])
+    expect(colorableShadows('inset #000 1px 0 0 0', '--v')).eql(['inset 1px 0 0 0 var(--v, rgb(0 0 0))'])
+    expect(colorableShadows('inset 1px 0 0 0 #000', '--v')).eql(['inset 1px 0 0 0 var(--v, rgb(0 0 0))'])
+    expect(colorableShadows('#000 1px 0 0 0 inset', '--v')).eql(['inset 1px 0 0 0 var(--v, rgb(0 0 0))'])
+    expect(colorableShadows('1px 0 0 0 #000 inset', '--v')).eql(['inset 1px 0 0 0 var(--v, rgb(0 0 0))'])
+    expect(colorableShadows('1px 0 0 0 inset #000', '--v')).eql(['inset 1px 0 0 0 var(--v, rgb(0 0 0))'])
+
+    // invalid
   })
 
   it('parses color token', () => {
@@ -186,9 +197,16 @@ describe('color utils', () => {
       prop: 'var(--abc)',
     })
 
+    expect(fn('#0000')).eql({
+      '--un-v-opacity': 0,
+      'prop': 'rgb(0 0 0 / var(--un-v-opacity))',
+    })
+
     // invalid
     expect(fn('hex-invalid')).eql({})
     expect(fn('5px')).eql(undefined)
     expect(fn('5rem')).eql(undefined)
+    expect(fn('#fff f')).eql({})
+    expect(fn('hex-fff f')).eql({})
   })
 })
