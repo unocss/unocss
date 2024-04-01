@@ -23,19 +23,19 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs"
+      "default": "./dist/index.mjs"
     },
     "./theme": {
       "types": "./dist/theme.d.mts",
-      "import": "./dist/theme.mjs"
+      "default": "./dist/theme.mjs"
     },
     "./colors": {
       "types": "./dist/colors.d.mts",
-      "import": "./dist/colors.mjs"
+      "default": "./dist/colors.mjs"
     },
     "./utils": {
       "types": "./dist/utils.d.mts",
-      "import": "./dist/utils.mjs"
+      "default": "./dist/utils.mjs"
     },
     "./*": "./*"
   },
