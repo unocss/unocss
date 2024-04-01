@@ -1,6 +1,6 @@
 import { escapeSelector } from '@unocss/core'
 import { globalKeywords } from '../mappings'
-import { bracketTypeRe, numberRE, numberWithUnitRE, unitOnlyRE } from './regex'
+import { bracketTypeRe, numberRE, numberWithUnitRE, unitOnlyMap, unitOnlyRE } from './regex'
 
 // Not all, but covers most high frequency attributes
 const cssProps = [
@@ -87,7 +87,7 @@ export function rem(str: string) {
   if (!str)
     return
   if (unitOnlyRE.test(str))
-    return `1${str}`
+    return `${unitOnlyMap[str]}${str}`
   const match = str.match(numberWithUnitRE)
   if (!match)
     return
@@ -102,7 +102,7 @@ export function rem(str: string) {
 
 export function px(str: string) {
   if (unitOnlyRE.test(str))
-    return `1${str}`
+    return `${unitOnlyMap[str]}${str}`
   const match = str.match(numberWithUnitRE)
   if (!match)
     return
