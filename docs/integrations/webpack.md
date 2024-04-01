@@ -26,7 +26,7 @@ This plugin does not come with any default presets.
   ```
 :::
 
-From UnoCSS version `v0.58.1`, UnoCSS has been moved to ESM-only, and so you need to load your configuration via dynamic import:
+From UnoCSS version `v0.59.0`, UnoCSS has been moved to ESM-only, you need to load your configuration via dynamic import:
 
 ::: code-group
 ```ts [webpack 5]
