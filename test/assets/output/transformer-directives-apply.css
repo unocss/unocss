@@ -199,7 +199,7 @@ input {
   outline-offset: 2px;
 }
 input:focus {
-  --un-ring-width: 1px;
+  --un-ring-width: 3px;
   --un-ring-offset-shadow: var(--un-ring-inset) 0 0 0
     var(--un-ring-offset-width) var(--un-ring-offset-color);
   --un-ring-shadow: var(--un-ring-inset) 0 0 0
@@ -230,7 +230,7 @@ input:focus {
 .btn:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
-  --un-ring-width: 1px;
+  --un-ring-width: 3px;
   --un-ring-offset-shadow: var(--un-ring-inset) 0 0 0
     var(--un-ring-offset-width) var(--un-ring-offset-color);
   --un-ring-shadow: var(--un-ring-inset) 0 0 0
