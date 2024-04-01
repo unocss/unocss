@@ -16,6 +16,7 @@
       "@unocss/extractor-svelte": ["./packages/extractor-svelte/src/index.ts"],
       "@unocss/inspector": ["./packages/inspector/node/index.ts"],
       "@unocss/postcss": ["./packages/postcss/src/index.ts"],
+      "@unocss/postcss/esm": ["./packages/postcss/src/esm.ts"],
       "@unocss/preset-attributify": ["./packages/preset-attributify/src/index.ts"],
       "@unocss/preset-icons": ["./packages/preset-icons/src/index.ts"],
       "@unocss/preset-mini": ["./packages/preset-mini/src/index.ts"],

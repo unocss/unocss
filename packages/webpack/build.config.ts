@@ -10,7 +10,4 @@ export default defineBuildConfig({
     'vite',
     'webpack',
   ],
-  rollup: {
-    emitCJS: true,
-  },
 })

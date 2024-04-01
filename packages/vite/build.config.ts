@@ -10,7 +10,4 @@ export default defineBuildConfig({
   externals: [
     'vite',
   ],
-  rollup: {
-    emitCJS: true,
-  },
 })
