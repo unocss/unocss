@@ -12,7 +12,7 @@
     "@iconify-json/logos": "^1.1.42",
     "@iconify/utils": "^2.1.22",
     "@sveltejs/adapter-auto": "^3.2.0",
-    "@sveltejs/kit": "^2.5.4",
+    "@sveltejs/kit": "^2.5.5",
     "@sveltejs/vite-plugin-svelte": "^3.0.2",
     "@unocss/core": "link:../../packages/core",
     "@unocss/extractor-svelte": "link:../../packages/extractor-svelte",
@@ -23,7 +23,7 @@
     "tslib": "^2.6.2",
     "typescript": "^5.4.3",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.2.6"
+    "vite": "^5.2.7"
   },
   "stackblitz": {
     "installDependencies": false,

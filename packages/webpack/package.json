@@ -47,7 +47,7 @@
     "chokidar": "^3.6.0",
     "fast-glob": "^3.3.2",
     "magic-string": "^0.30.8",
-    "unplugin": "^1.10.0",
+    "unplugin": "^1.10.1",
     "webpack-sources": "^3.2.3"
   },
   "devDependencies": {

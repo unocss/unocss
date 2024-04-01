@@ -13,7 +13,7 @@
     "@iconify-json/ri": "^1.1.20",
     "@julr/unocss-preset-forms": "^0.1.0",
     "@sveltejs/adapter-auto": "^3.2.0",
-    "@sveltejs/kit": "^2.5.4",
+    "@sveltejs/kit": "^2.5.5",
     "@sveltejs/vite-plugin-svelte": "^3.0.2",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
@@ -23,7 +23,7 @@
     "tslib": "^2.6.2",
     "typescript": "^5.4.3",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.2.6"
+    "vite": "^5.2.7"
   },
   "stackblitz": {
     "installDependencies": false,

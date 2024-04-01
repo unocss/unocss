@@ -13,7 +13,7 @@
   "devDependencies": {
     "@iconify-json/logos": "^1.1.42",
     "@types/react": "^18.2.73",
-    "@types/react-dom": "^18.2.22",
+    "@types/react-dom": "^18.2.23",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
@@ -21,7 +21,7 @@
     "cross-env": "^7.0.3",
     "typescript": "^5.4.3",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.2.6"
+    "vite": "^5.2.7"
   },
   "stackblitz": {
     "installDependencies": false,
