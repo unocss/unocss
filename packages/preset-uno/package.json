@@ -22,30 +22,26 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
     },
     "./theme": {
-      "types": "./dist/theme.d.ts",
-      "import": "./dist/theme.mjs",
-      "require": "./dist/theme.cjs"
+      "types": "./dist/theme.d.mts",
+      "import": "./dist/theme.mjs"
     },
     "./colors": {
-      "types": "./dist/colors.d.ts",
-      "import": "./dist/colors.mjs",
-      "require": "./dist/colors.cjs"
+      "types": "./dist/colors.d.mts",
+      "import": "./dist/colors.mjs"
     },
     "./utils": {
-      "types": "./dist/utils.d.ts",
-      "import": "./dist/utils.mjs",
-      "require": "./dist/utils.cjs"
+      "types": "./dist/utils.d.mts",
+      "import": "./dist/utils.mjs"
     },
     "./*": "./*"
   },
-  "main": "dist/index.cjs",
+  "main": "dist/index.mjs",
   "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "types": "dist/index.d.mts",
   "files": [
     "*.css",
     "dist"
