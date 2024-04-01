@@ -1,5 +1,6 @@
 {
   "name": "@unocss/postcss",
+  "type": "module",
   "version": "0.59.0-beta.1",
   "description": "PostCSS plugin for UnoCSS",
   "author": "sibbng <sibbngheid@gmail.com>",
@@ -18,13 +19,31 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./esm": {
+      "types": "./dist/esm.d.mts",
+      "default": "./dist/esm.mjs"
     }
   },
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/*",
+        "./*"
+      ]
+    }
+  },
   "files": [
     "dist"
   ],
