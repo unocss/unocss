@@ -78,7 +78,7 @@ export const easing = {
 } satisfies Theme['easing']
 
 export const ringWidth = {
-  DEFAULT: '1px',
+  DEFAULT: '3px',
   none: '0',
 } satisfies Theme['ringWidth']
 
