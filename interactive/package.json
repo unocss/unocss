@@ -1,7 +1,7 @@
 {
   "name": "interactive",
   "type": "module",
-  "version": "0.58.8",
+  "version": "0.58.9",
   "private": true,
   "scripts": {
     "build": "nuxi prepare && esno scripts/prepare.ts && nuxi generate",
