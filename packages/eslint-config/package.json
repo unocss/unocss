@@ -1,5 +1,6 @@
 {
   "name": "@unocss/eslint-config",
+  "type": "module",
   "version": "0.59.0-beta.1",
   "description": "ESLint config for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
@@ -32,6 +33,14 @@
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*",
+        "./*"
+      ]
+    }
+  },
   "files": [
     "dist"
   ],
