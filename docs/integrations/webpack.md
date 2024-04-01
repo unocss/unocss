@@ -122,7 +122,7 @@ import 'uno.css'
 
 ### Vue + Vue CLI
 
-If you're using [Vue CLI](https://cli.vuejs.org/) with webpack 4/5 with UnoCSS `v0.58.1+`, you need to use the latest [Vue CLI Service](https://cli.vuejs.org/guide/cli-service.html) `v5.0.8` to load your configuration with dynamic import:
+If you're using [Vue CLI](https://cli.vuejs.org/) with webpack 4/5 with UnoCSS `v0.59.0`, you need to use the latest [Vue CLI Service](https://cli.vuejs.org/guide/cli-service.html) `v5.0.8` to load your configuration with dynamic import:
 
 ::: code-group
 ```ts [webpack 5]
