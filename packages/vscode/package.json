@@ -88,7 +88,7 @@
         },
         "unocss.remToPxPreview": {
           "type": "boolean",
-          "default": false,
+          "default": true,
           "description": "Enable/disable rem to px preview in hover"
         },
         "unocss.remToPxRatio": {
