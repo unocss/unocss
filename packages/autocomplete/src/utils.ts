@@ -1,4 +1,4 @@
-export function searchUsageBoundary(line: string, index: number, ignoreAttributify: boolean) {
+export function searchUsageBoundary(line: string, index: number, ignoreAttributify = false) {
   let start = index
   let end = index
 
