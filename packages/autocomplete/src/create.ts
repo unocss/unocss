@@ -99,7 +99,7 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
     return result
   }
 
-  async function suggestInFile(content: string, cursor: number): Promise<SuggestResult> {
+  async function suggestInFile(content: string, cursor: number): Promise<SuggestResult | undefined> {
     const isInsideAttrValue = searchAttrKey(content, cursor) !== undefined
 
     // try resolve by extractors
@@ -114,7 +114,13 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
     }
 
     // regular resolve
-    const regular = searchUsageBoundary(content, cursor)
+    const regular = searchUsageBoundary(
+      content,
+      cursor,
+      (uno.config.presets || []).some(i => i.name === '@unocss/preset-attributify'),
+    )
+    if (!regular)
+      return
     const suggestions = await suggest(regular.content, isInsideAttrValue)
 
     return {
