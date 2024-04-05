@@ -114,7 +114,11 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
     }
 
     // regular resolve
-    const regular = searchUsageBoundary(content, cursor, !(uno.config.presets || []).some(i => i.name === '@unocss/preset-attributify'))
+    const regular = searchUsageBoundary(
+      content,
+      cursor,
+      (uno.config.presets || []).some(i => i.name === '@unocss/preset-attributify'),
+    )
     if (!regular)
       return
     const suggestions = await suggest(regular.content, isInsideAttrValue)

@@ -1,4 +1,8 @@
-export function searchUsageBoundary(line: string, index: number, ignoreAttributify = false) {
+export function searchUsageBoundary(
+  line: string,
+  index: number,
+  attributify = true,
+) {
   let start = index
   let end = index
 
@@ -6,7 +10,7 @@ export function searchUsageBoundary(line: string, index: number, ignoreAttributi
   while (start && regex.test(line.charAt(start - 1))) --start
   while (end < line.length && regex.test(line.charAt(end))) ++end
 
-  if (!ignoreAttributify) {
+  if (attributify) {
     return {
       content: line.slice(start, end),
       start,
