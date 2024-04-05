@@ -19,11 +19,11 @@
     "@unocss/preset-icons": "link:../../packages/preset-icons",
     "@unocss/preset-uno": "link:../../packages/preset-uno",
     "svelte": "^4.2.12",
-    "svelte-check": "^3.6.8",
+    "svelte-check": "^3.6.9",
     "tslib": "^2.6.2",
-    "typescript": "^5.4.3",
+    "typescript": "^5.4.4",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.2.7"
+    "vite": "^5.2.8"
   },
   "stackblitz": {
     "installDependencies": false,
