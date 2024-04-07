@@ -1,7 +1,7 @@
 {
   "name": "@unocss/vite",
   "type": "module",
-  "version": "0.59.0-beta.1",
+  "version": "0.59.0",
   "description": "The Vite plugin for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -62,10 +62,10 @@
     "@unocss/transformer-directives": "workspace:*",
     "chokidar": "^3.6.0",
     "fast-glob": "^3.3.2",
-    "magic-string": "^0.30.8"
+    "magic-string": "^0.30.9"
   },
   "devDependencies": {
     "@unocss/shared-integration": "workspace:*",
-    "vite": "^5.2.7"
+    "vite": "^5.2.8"
   }
 }

@@ -1,4 +1,8 @@
-export function searchUsageBoundary(line: string, index: number) {
+export function searchUsageBoundary(
+  line: string,
+  index: number,
+  attributify = true,
+) {
   let start = index
   let end = index
 
@@ -6,10 +10,42 @@ export function searchUsageBoundary(line: string, index: number) {
   while (start && regex.test(line.charAt(start - 1))) --start
   while (end < line.length && regex.test(line.charAt(end))) ++end
 
-  return {
-    content: line.slice(start, end),
-    start,
-    end,
+  if (attributify) {
+    return {
+      content: line.slice(start, end),
+      start,
+      end,
+    }
+  }
+
+  let temp = start - 1
+  // match class="" or className=""
+  const matchClassText = 'class'
+  const matchClassNameText = 'className'
+  while (temp > matchClassText.length && !/[="{}><]/.test(line[temp--])) {
+    // Continue to match attrName forward
+  }
+  if (line[temp] !== '=')
+    return
+  if (temp > matchClassNameText.length) {
+    const data = line.slice(temp - matchClassNameText.length, temp)
+    if (data === matchClassNameText) {
+      return {
+        content: line.slice(start, end),
+        start,
+        end,
+      }
+    }
+  }
+  if (temp > matchClassText.length) {
+    const data = line.slice(temp - matchClassText.length, temp)
+    if (data === matchClassText) {
+      return {
+        content: line.slice(start, end),
+        start,
+        end,
+      }
+    }
   }
 }
 
