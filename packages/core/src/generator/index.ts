@@ -184,6 +184,14 @@ export class UnoGenerator<Theme extends object = object> {
     if (safelist) {
       this.config.safelist.forEach((s) => {
         // We don't want to increment count if token is already in the set
+        if (typeof s === 'function') {
+          const result = toArray(s(this.config))
+          result.forEach((s) => {
+            if (!tokens.has(s))
+              tokens.add(s)
+          })
+          return
+        }
         if (!tokens.has(s))
           tokens.add(s)
       })
@@ -284,7 +292,7 @@ export class UnoGenerator<Theme extends object = object> {
                 || a[2]?.localeCompare(b[2] || '') // body
                 || 0
             })
-            .map(([, selector, body,, meta,, variantNoMerge]) => {
+            .map(([, selector, body, , meta, , variantNoMerge]) => {
               const scopedSelector = selector ? applyScope(selector, scope) : selector
               return [
                 [[scopedSelector ?? '', meta?.sort ?? 0]],
@@ -725,8 +733,8 @@ export class UnoGenerator<Theme extends object = object> {
             }
 
             const merges = [
-              [e.filter(([, noMerge]) => noMerge).map(([entries,, sort]) => [entries, sort]), true],
-              [e.filter(([, noMerge]) => !noMerge).map(([entries,, sort]) => [entries, sort]), false],
+              [e.filter(([, noMerge]) => noMerge).map(([entries, , sort]) => [entries, sort]), true],
+              [e.filter(([, noMerge]) => !noMerge).map(([entries, , sort]) => [entries, sort]), false],
             ] as [[CSSEntries, number][], boolean][]
 
             return merges.map(([e, noMerge]) => [
