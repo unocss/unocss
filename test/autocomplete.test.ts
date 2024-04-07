@@ -159,10 +159,10 @@ describe('autocomplete', () => {
   it('should support extractors', async () => {
     const res = await ac.suggestInFile(fixture, 40)
 
-    expect(res.suggestions.every(i => i[0].startsWith('border-'))).toBeTruthy()
-    expect(res.suggestions.some(i => i[1].startsWith('border-'))).toBeFalsy()
+    expect(res?.suggestions.every(i => i[0].startsWith('border-'))).toBeTruthy()
+    expect(res?.suggestions.some(i => i[1].startsWith('border-'))).toBeFalsy()
 
-    const replacement = res.resolveReplacement(res.suggestions[0][0])
+    const replacement = res?.resolveReplacement(res?.suggestions[0][0])
     expect(replacement).toMatchInlineSnapshot(`
       {
         "end": 40,
@@ -171,7 +171,7 @@ describe('autocomplete', () => {
       }
     `)
 
-    expect(fixture.slice(0, replacement.start) + replacement.replacement + fixture.slice(replacement.end))
+    expect(fixture.slice(0, replacement?.start) + replacement?.replacement + fixture.slice(replacement?.end))
       .toMatchInlineSnapshot(`
         "
         <div bg="blue-500">

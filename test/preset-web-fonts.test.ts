@@ -62,7 +62,7 @@ it('web-fonts (inline: true)', async () => {
   expect(css).toContain('@font-face')
 })
 
-it('web-fonts weigth sort', async () => {
+it('web-fonts weight sort', async () => {
   const uno = createGenerator({
     presets: [
       presetMini(),
@@ -88,7 +88,7 @@ it('web-fonts weigth sort', async () => {
   expect(importUrl).toMatchInlineSnapshot('"https://fonts.googleapis.com/css2?family=Fira+Mono:wght@200;1000&family=Lato:ital,wght@0,200;0,1000;1,200;1,1000&display=swap"')
 })
 
-it('web-fonts weigth deduplicate', async () => {
+it('web-fonts weight deduplicate', async () => {
   const uno = createGenerator({
     presets: [
       presetMini(),

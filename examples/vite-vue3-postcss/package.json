@@ -14,9 +14,9 @@
     "@iconify-json/logos": "^1.1.42",
     "@unocss/postcss": "link:../../packages/postcss",
     "@vitejs/plugin-vue": "^5.0.4",
-    "typescript": "^5.4.3",
+    "typescript": "^5.4.4",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.2.7"
+    "vite": "^5.2.8"
   },
   "stackblitz": {
     "installDependencies": false,

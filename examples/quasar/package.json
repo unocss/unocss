@@ -20,7 +20,7 @@
   "devDependencies": {
     "@quasar/app-vite": "^1.8.0",
     "autoprefixer": "^10.4.19",
-    "typescript": "^5.4.3",
+    "typescript": "^5.4.4",
     "unocss": "link:../../packages/unocss"
   },
   "stackblitz": {
