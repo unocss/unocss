@@ -125,7 +125,15 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
         for (const candidate of matched)
           classes.add(candidate)
       }),
-      ...entries.map(async ({ path: file, mtimeMs }) => {
+    )
+    await Promise.all(promises)
+    promises = []
+
+    const BATCH_SIZE = 500
+
+    for (let i = 0; i < entries.length; i += BATCH_SIZE) {
+      const batch = entries.slice(i, i + BATCH_SIZE)
+      promises.push(...batch.map(async ({ path: file, mtimeMs }) => {
         result.messages.push({
           type: 'dependency',
           plugin: directiveMap.unocss,
@@ -145,10 +153,11 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
         })
 
         fileClassMap.set(file, matched)
-      }),
-    )
-    await Promise.all(promises)
-    promises = []
+      }))
+      await Promise.all(promises)
+      promises = []
+    }
+
     for (const set of fileClassMap.values()) {
       for (const candidate of set)
         classes.add(candidate)
