@@ -131,6 +131,8 @@ export interface PreflightContext<Theme extends object = object> {
   theme: Theme
 }
 
+export interface SafeListContext<Theme extends object = object> extends PreflightContext<Theme> { }
+
 export interface Extractor {
   name: string
   order?: number
@@ -359,7 +361,7 @@ export interface ConfigBase<Theme extends object = object> {
   /**
    * Utilities that always been included
    */
-  safelist?: (string | ((config: ResolvedConfig<Theme>) => string[] | string))[]
+  safelist?: (string | ((context: SafeListContext<Theme>) => Arrayable<string>))[]
 
   /**
    * Extractors to handle the source file and outputs possible classes/selectors

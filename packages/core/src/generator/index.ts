@@ -1,5 +1,5 @@
 import { createNanoEvents } from '../utils/events'
-import type { CSSEntries, CSSObject, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
+import type { CSSEntries, CSSObject, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
 import { BetterMap, CONTROL_SHORTCUT_NO_MERGE, CountableSet, TwoKeyMap, e, entriesToCss, expandVariantGroup, isCountableSet, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
@@ -182,18 +182,17 @@ export class UnoGenerator<Theme extends object = object> {
         : input
 
     if (safelist) {
+      const safelistContext: SafeListContext<Theme> = {
+        generator: this,
+        theme: this.config.theme,
+      }
       this.config.safelist.forEach((s) => {
         // We don't want to increment count if token is already in the set
-        if (typeof s === 'function') {
-          const result = toArray(s(this.config))
-          result.forEach((s) => {
+        toArray(typeof s === 'function' ? s(safelistContext) : s)
+          .forEach((s) => {
             if (!tokens.has(s))
               tokens.add(s)
           })
-          return
-        }
-        if (!tokens.has(s))
-          tokens.add(s)
       })
     }
 
