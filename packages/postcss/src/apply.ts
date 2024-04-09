@@ -8,7 +8,7 @@ import { expandVariantGroup, notNull, regexScopePlaceholder } from '@unocss/core
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
 
 export async function parseApply(root: Root, uno: UnoGenerator, directiveName: string) {
-  const promises: Promise<unknown>[] = [];
+  const promises: Promise<unknown>[] = []
   root.walkAtRules(directiveName, (rule) => {
     promises.push((async () => {
       if (!rule.parent)
@@ -88,5 +88,5 @@ export async function parseApply(root: Root, uno: UnoGenerator, directiveName: s
       rule.remove()
     })())
   })
-  await Promise.all(promises);
+  await Promise.all(promises)
 }
