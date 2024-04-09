@@ -677,6 +677,7 @@ export const presetMiniTargets: string[] = [
   'mxy',
   'm-xy',
   '-m-lg',
+  '-m-md',
   'm--lg',
   'm--md',
   'm-lg',

@@ -77,6 +77,8 @@
 .has-\[\:hover\]\:m-1:has(:hover){margin:0.25rem;}
 .-m-lg,
 .m--lg{margin:calc(var(--spacing-lg) * -1);}
+.-m-md,
+.m--md{margin:calc(calc(var(--spacing-md)) * -1);}
 .\!m-\$c-m{margin:var(--c-m) !important;}
 .\[\&_\&\]\:m-13 .\[\&_\&\]\:m-13{margin:3.25rem;}
 .\[\&\:nth-child\(2\)\]\:m-10:nth-child(2){margin:2.5rem;}
@@ -88,7 +90,6 @@
 .children\:m-auto>*,
 .m-auto{margin:auto;}
 .all\:m1\/1 *{margin:100%;}
-.m--md{margin:calc(calc(var(--spacing-md)) * -1);}
 .m-\[3em\]{margin:3em;}
 .m-0,
 .m-none{margin:0;}
