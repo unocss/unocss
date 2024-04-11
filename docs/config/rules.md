@@ -67,7 +67,7 @@ Congratulations! Now you've got your own powerful atomic CSS utilities. Enjoy!
 
 ## Fully controlled rules
 
-::: info
+::: tip
 This is an advanced feature, it can be safely ignored
 :::
 
