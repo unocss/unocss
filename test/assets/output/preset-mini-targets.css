@@ -75,7 +75,10 @@
 .peer:where(.child)~.peer-where-\[\.child\]\:m-1,
 .previous:is(div)+.previous-is-\[div\]\:m-1,
 .has-\[\:hover\]\:m-1:has(:hover){margin:0.25rem;}
-.-m-lg{margin:-1.125rem;}
+.-m-lg,
+.m--lg{margin:calc(var(--spacing-lg) * -1);}
+.-m-md,
+.m--md{margin:calc(calc(var(--spacing-md)) * -1);}
 .\!m-\$c-m{margin:var(--c-m) !important;}
 .\[\&_\&\]\:m-13 .\[\&_\&\]\:m-13{margin:3.25rem;}
 .\[\&\:nth-child\(2\)\]\:m-10:nth-child(2){margin:2.5rem;}
@@ -92,6 +95,8 @@
 .m-none{margin:0;}
 .m-1\/2{margin:50%;}
 .m-inherit{margin:inherit;}
+.m-lg{margin:var(--spacing-lg);}
+.m-md{margin:calc(var(--spacing-md));}
 *[open]:readonly .\[\*\[open\]\:readonly_\&\]\:\[\&\[open\]\:disabled\]\:m-17[open]:disabled{margin:4.25rem;}
 *>.\[\*\>\&\]\:m-12{margin:3rem;}
 .m-xy,

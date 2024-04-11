@@ -358,6 +358,35 @@ let transition = 'ease-in-out duration-300'
         ]
       `)
   })
+
+  it('with include and exclude in attributify', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetUno(),
+        presetAttributify(),
+      ],
+    })
+
+    // #3684, origin HTML tags not include `mt-1`
+    expect(await match(uno, '<div class="[&_>*]:w-full" mt-1></div>', '', {
+      includeRegex: defaultIdeMatchInclude,
+      excludeRegex: defaultIdeMatchExclude,
+    }))
+      .toMatchInlineSnapshot(`
+          [
+            [
+              12,
+              25,
+              "[&_>*]:w-full",
+            ],
+            [
+              27,
+              31,
+              "mt-1",
+            ],
+          ]
+        `)
+  })
 })
 
 describe('matched-positions-pug', async () => {

@@ -15,7 +15,7 @@
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
-    "typescript": "^5.4.4",
+    "typescript": "^5.4.5",
     "unocss": "link:../../packages/unocss",
     "vite": "^5.2.8",
     "vite-plugin-solid": "^2.10.2"
