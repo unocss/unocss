@@ -71,7 +71,7 @@ shortcuts: [
 ## Breakpoints
 
 ::: warning
-One exception is that UnoCSS gives full control of `breakpoints` to users. When a custom `breakpoints` is provided, the default will be overridden instead of merging.
+When a custom `breakpoints` object is provided the default will be overridden instead of merging.
 :::
 
 With the following example, you will be able to only use the `sm:` and `md:` breakpoint variants:
