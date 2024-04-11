@@ -15,6 +15,10 @@ export interface ResolvedWebFontMeta extends Omit<WebFontMeta, 'provider'> {
   provider: Provider
 }
 
+export interface CustomFetchOptions {
+  headers?: HeadersInit
+}
+
 export interface WebFontsOptions {
   /**
    * Provider service of the web fonts
@@ -52,7 +56,13 @@ export interface WebFontsOptions {
    *
    * @default undefined
    */
-  customFetch?: (url: string) => Promise<any>
+  customFetch?: (url: string, options?: CustomFetchOptions) => Promise<any>
+
+  /**
+   * Whether to download the font locally or not
+   * @default false
+   */
+  downloadLocally?: boolean
 }
 
 export interface Provider {

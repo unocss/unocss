@@ -5,7 +5,8 @@ import { BunnyFontsProvider } from './providers/bunny'
 import { GoogleFontsProvider } from './providers/google'
 import { FontshareProvider } from './providers/fontshare'
 import { NoneProvider } from './providers/none'
-import type { Provider, ResolvedWebFontMeta, WebFontMeta, WebFontsOptions, WebFontsProviders } from './types'
+import type { CustomFetchOptions, Provider, ResolvedWebFontMeta, WebFontMeta, WebFontsOptions, WebFontsProviders } from './types'
+import { useLocalFont } from './local-font'
 
 const builtinProviders = {
   google: GoogleFontsProvider,
@@ -37,14 +38,23 @@ export function normalizedFontMeta(meta: WebFontMeta | string, defaultProvider: 
   }
 }
 
-export function createWebFontPreset(fetcher: (url: string) => Promise<any>) {
+const userAgentWoff2 = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36'
+const defaultHeaders: HeadersInit = { 'User-Agent': userAgentWoff2 }
+
+async function defaultFetch(url: string, { headers = defaultHeaders }: CustomFetchOptions = {}) {
+  const { $fetch } = (await import('ofetch'))
+  return await $fetch(url, { headers, retry: 3 })
+}
+
+export function createWebFontPreset() {
   return (options: WebFontsOptions = {}): Preset<any> => {
     const {
       provider: defaultProvider = 'google',
       extendTheme = true,
       inlineImports = true,
       themeKey = 'fontFamily',
-      customFetch = fetcher,
+      customFetch = defaultFetch,
+      downloadLocally = false,
     } = options
 
     const fontObject = Object.fromEntries(
@@ -87,8 +97,12 @@ export function createWebFontPreset(fetcher: (url: string) => Promise<any>) {
 
               if (provider.getImportUrl) {
                 const url = provider.getImportUrl(fontsForProvider)
-                if (url)
-                  preflights.push(await importUrl(url))
+                if (url) {
+                  let css = await importUrl(url)
+                  if (downloadLocally)
+                    css = await useLocalFont(css, customFetch)
+                  preflights.push(css)
+                }
               }
 
               preflights.push(provider.getPreflight?.(fontsForProvider))

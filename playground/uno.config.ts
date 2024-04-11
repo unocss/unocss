@@ -7,6 +7,7 @@ import {
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
+import presetWebFonts from '../packages/preset-web-fonts/src/'
 
 export default defineConfig({
   theme: {
@@ -22,6 +23,14 @@ export default defineConfig({
     presetAttributify(),
     presetUno(),
     presetIcons(),
+    presetWebFonts({
+      downloadLocally: true,
+      provider: 'google',
+      fonts: {
+        sans: 'Roboto',
+        mono: ['Fira Code', 'Fira Mono:400,700'],
+      },
+    }),
   ],
   transformers: [
     transformerCompileClass(),
