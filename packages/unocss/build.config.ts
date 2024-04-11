@@ -4,10 +4,15 @@ export default defineBuildConfig([
   {
     name: 'Dual',
     entries: [
+      'src/webpack',
       'src/postcss',
     ],
     clean: true,
     declaration: true,
+    externals: [
+      'webpack',
+      '@unocss/webpack',
+    ],
     failOnWarn: false,
     rollup: {
       emitCJS: true,
@@ -17,7 +22,6 @@ export default defineBuildConfig([
     name: 'ESM only',
     entries: [
       'src/index',
-      'src/webpack',
       'src/vite',
       'src/astro',
       'src/preset-uno',
@@ -34,8 +38,6 @@ export default defineBuildConfig([
     externals: [
       'vite',
       'astro',
-      'webpack',
-      '@unocss/webpack',
     ],
   },
 ])
