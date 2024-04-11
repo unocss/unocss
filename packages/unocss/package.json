@@ -72,14 +72,8 @@
       "default": "./dist/astro.mjs"
     },
     "./webpack": {
-      "import": {
-        "types": "./dist/webpack.d.mts",
-        "default": "./dist/webpack.mjs"
-      },
-      "require": {
-        "types": "./dist/webpack.d.cts",
-        "default": "./dist/webpack.cjs"
-      }
+      "types": "./dist/webpack.d.mts",
+      "default": "./dist/webpack.mjs"
     },
     "./postcss": {
       "import": {
