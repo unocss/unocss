@@ -15,8 +15,8 @@ export const defaultFilesystemGlobs = [
 export const defaultIdeMatchInclude: RegExp[] = [
   // String literals
   /(['"`])[^\1]*?\1/g,
-  // HTML tags ignore [>]
-  /<(?:[^<>\[\]]+|\[[^\]]*\])*>/g,
+  // HTML tags
+  /<[^>]+?>/g,
   // CSS directives
   /(@apply|--uno|--at-apply)[^;]*?;/g,
 ]
