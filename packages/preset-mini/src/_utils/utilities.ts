@@ -17,8 +17,16 @@ export const CONTROL_MINI_NO_NEGATIVE = '$$mini-no-negative'
 export function directionSize(propertyPrefix: string): DynamicMatcher {
   return ([_, direction, size]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined => {
     const v = theme.spacing?.[size || 'DEFAULT'] ?? h.bracket.cssvar.global.auto.fraction.rem(size)
-    if (v != null)
+
+    if (v != null) {
       return directionMap[direction].map(i => [`${propertyPrefix}${i}`, v])
+    }
+    else if (size.startsWith('-')) {
+      // --custom-spacing-value
+      const v = theme.spacing?.[size.slice(1)]
+      if (v != null)
+        return directionMap[direction].map(i => [`${propertyPrefix}${i}`, `calc(${v} * -1)`])
+    }
   }
 }
 

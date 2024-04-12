@@ -20,8 +20,8 @@ exports[`order > multiple variant sorting 1`] = `
 
 exports[`order > pseudo-elements sorting 1`] = `
 "/* layer: default */
-.dark .dark\\:hover\\:file\\:marker\\:bg-red-600::file-selector-button:hover::marker{--un-bg-opacity:1;background-color:rgb(220 38 38 / var(--un-bg-opacity));}
-.dark .dark\\:file\\:marker\\:hover\\:bg-red-600:hover::file-selector-button::marker{--un-bg-opacity:1;background-color:rgb(220 38 38 / var(--un-bg-opacity));}"
+.dark .dark\\:hover\\:file\\:marker\\:bg-red-600 ::marker::file-selector-button:hover{--un-bg-opacity:1;background-color:rgb(220 38 38 / var(--un-bg-opacity));}
+.dark .dark\\:file\\:marker\\:hover\\:bg-red-600:hover ::marker::file-selector-button{--un-bg-opacity:1;background-color:rgb(220 38 38 / var(--un-bg-opacity));}"
 `;
 
 exports[`order > variant ordering 1`] = `
