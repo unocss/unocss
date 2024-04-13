@@ -2,14 +2,18 @@ import { readFile } from 'node:fs/promises'
 import process from 'node:process'
 import { beforeAll, describe, expect, it } from 'vitest'
 import { build } from 'vite'
-import fg from 'fast-glob'
+import { fdir as FDir } from 'fdir'
 
 const isMacOS = process.platform === 'darwin'
 const isWindows = process.platform === 'win32'
 const isCI = process.env.CI
 
 async function getGlobContent(cwd: string, glob: string) {
-  return await fg(glob, { cwd, absolute: true })
+  return await new FDir()
+    .glob(glob)
+    .withFullPaths()
+    .crawl(cwd)
+    .withPromise()
     .then(r => Promise.all(r.map(f => readFile(f, 'utf8'))))
     .then(r => r.join('\n'))
 }

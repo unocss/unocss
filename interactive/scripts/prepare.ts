@@ -1,6 +1,6 @@
 import { basename, parse } from 'node:path'
 import fs from 'fs-extra'
-import fg from 'fast-glob'
+import { fdir as FDir } from 'fdir'
 import YAML from 'js-yaml'
 import { genArrayFromRaw, genObjectFromRaw } from 'knitwork'
 import { objectMap } from '@antfu/utils'
@@ -10,7 +10,12 @@ const { writeFileSync } = fs
 await fs.ensureDir('guides/vendor/')
 
 const code = genArrayFromRaw(
-  fg.sync('guides/**/*.{md,vue}')
+  new FDir()
+    .filter((path, isDir) =>
+      (path.endsWith('.md') || path.endsWith('.vue'))
+      && !isDir)
+    .crawl('guides')
+    .sync()
     .map((file) => {
       const ext = parse(file).ext
       const yml = `${file.slice(0, -ext.length)}.yml`

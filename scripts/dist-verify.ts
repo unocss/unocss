@@ -1,11 +1,13 @@
 import fs from 'node:fs/promises'
 import process from 'node:process'
-import fg from 'fast-glob'
+import { fdir as FDir } from 'fdir'
 
 export async function verifyDist() {
-  const cjsFiles = await fg('packages/*/dist/**/*.cjs', {
-    ignore: ['**/node_modules/**'],
-  })
+  const cjsFiles = await new FDir()
+    .glob('packages/*/dist/**/*.cjs')
+    .exclude(dirName => dirName === 'node_modules')
+    .crawl(process.cwd())
+    .withPromise()
 
   console.log(`${cjsFiles.length} cjs files found`)
   console.log(cjsFiles.map(i => ` - ${i}`).join('\n'))

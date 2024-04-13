@@ -10,6 +10,8 @@
   "devDependencies": {
     "@sveltejs/kit": "^2.5.5",
     "@unocss/svelte-scoped": "workspace:*",
-    "@unocss/transformer-directives": "workspace:*"
+    "@unocss/transformer-directives": "workspace:*",
+    "fdir": "^6.1.1",
+    "picomatch": "^3.0.0"
   }
 }

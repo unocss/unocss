@@ -57,11 +57,12 @@
     "@rollup/pluginutils": "^5.1.0",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
+    "fdir": "^6.1.1",
+    "picomatch": "^3.0.0",
     "@unocss/inspector": "workspace:*",
     "@unocss/scope": "workspace:*",
     "@unocss/transformer-directives": "workspace:*",
     "chokidar": "^3.6.0",
-    "fast-glob": "^3.3.2",
     "magic-string": "^0.30.9"
   },
   "devDependencies": {

@@ -53,9 +53,10 @@
     "chokidar": "^3.6.0",
     "colorette": "^2.0.20",
     "consola": "^3.2.3",
-    "fast-glob": "^3.3.2",
+    "fdir": "^6.1.1",
     "magic-string": "^0.30.9",
     "pathe": "^1.1.2",
-    "perfect-debounce": "^1.0.0"
+    "perfect-debounce": "^1.0.0",
+    "picomatch": "^3.0.0"
   }
 }

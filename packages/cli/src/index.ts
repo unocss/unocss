@@ -1,7 +1,7 @@
 import { existsSync, promises as fs } from 'node:fs'
 import process from 'node:process'
 import { basename, dirname, normalize, relative, resolve } from 'pathe'
-import fg from 'fast-glob'
+import { fdir as FDir } from 'fdir'
 import { consola } from 'consola'
 import { cyan, dim, green } from 'colorette'
 import { debounce } from 'perfect-debounce'
@@ -41,7 +41,11 @@ export async function build(_options: CliOptions) {
   }
 
   const { ctx, configSources } = await loadConfig()
-  const files = await fg(options.patterns, { cwd, absolute: true })
+  const files = await new FDir()
+    .glob(...options.patterns)
+    .withFullPaths()
+    .crawl(cwd)
+    .withPromise()
   await Promise.all(
     files.map(async (file) => {
       fileCache.set(file, await fs.readFile(file, 'utf8'))

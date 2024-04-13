@@ -4,14 +4,18 @@ import { execa } from 'execa'
 import { build } from 'vite'
 import { describe, expect, it } from 'vitest'
 import fs from 'fs-extra'
-import fg from 'fast-glob'
+import { fdir as FDir } from 'fdir'
 
 const isMacOS = process.platform === 'darwin'
 const isWindows = process.platform === 'win32'
 const isNode16 = process.versions.node.startsWith('16')
 
 async function getGlobContent(cwd: string, glob: string) {
-  return await fg(glob, { cwd, absolute: true })
+  return await new FDir()
+    .glob(glob)
+    .withFullPaths()
+    .crawl(cwd)
+    .withPromise()
     .then(r => Promise.all(r.map(f => fs.readFile(f, 'utf8'))))
     .then(r => r.join('\n'))
 }
@@ -63,7 +67,12 @@ describe.concurrent('fixtures', () => {
       logLevel: 'warn',
     })
 
-    const svgs = await fg('dist/assets/uno-*.svg', { cwd: root, absolute: true })
+    const svgs = await new FDir()
+      .withFullPaths()
+      .glob('dist/assets/uno-*.svg')
+      .crawl(root)
+      .withPromise()
+
     expect(svgs).toHaveLength(1)
 
     const css = await getGlobContent(root, 'dist/**/*.css')
@@ -81,7 +90,11 @@ describe.concurrent('fixtures', () => {
       },
     })
 
-    const files = await fg('dist/**/*.{umd,iife}.?(c)js', { cwd: root, absolute: true })
+    const files = await new FDir()
+      .withFullPaths()
+      .glob('dist/**/*.{umd,iife}.?(c)js')
+      .crawl(root)
+      .withPromise()
 
     expect(files).toHaveLength(2)
 
@@ -114,7 +127,11 @@ describe.concurrent('fixtures', () => {
       logLevel: 'warn',
     })
 
-    const files = await fg(['dist/**/index.js'], { cwd: root, absolute: true })
+    const files = await new FDir()
+      .withFullPaths()
+      .glob('dist/**/index.js')
+      .crawl(root)
+
     expect(files).toHaveLength(2)
 
     for (const path of files) {
