@@ -53,6 +53,20 @@ export interface WebFontsOptions {
    * @default undefined
    */
   customFetch?: (url: string) => Promise<any>
+
+  /**
+   * Download fonts locally
+   *
+   * @default false
+   */
+  downloadLocally?: boolean
+
+  /**
+   * Where to download the fonts
+   *
+   * @default 'process.cwd()/public/fonts'
+   */
+  downloadDir?: string | (() => Promise<string>)
 }
 
 export interface Provider {

@@ -7,11 +7,12 @@ import {
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
+import presetWebFonts from '../packages/preset-web-fonts/src/'
 
 export default defineConfig({
   theme: {
     fontFamily: {
-      sans: '\'Inter\', sans-serif',
+      sans: '\'Lato\', sans-serif',
       mono: '\'Fira Code\', monospace',
     },
   },
@@ -22,6 +23,14 @@ export default defineConfig({
     presetAttributify(),
     presetUno(),
     presetIcons(),
+    presetWebFonts({
+      downloadLocally: true,
+      provider: 'google',
+      fonts: {
+        sans: 'Lato',
+        serif: 'Merriweather',
+      },
+    }),
   ],
   transformers: [
     transformerCompileClass(),

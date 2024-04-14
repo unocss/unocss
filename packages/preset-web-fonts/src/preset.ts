@@ -6,6 +6,9 @@ import { GoogleFontsProvider } from './providers/google'
 import { FontshareProvider } from './providers/fontshare'
 import { NoneProvider } from './providers/none'
 import type { Provider, ResolvedWebFontMeta, WebFontMeta, WebFontsOptions, WebFontsProviders } from './types'
+import { getRemoteFontsCSS } from './remote-font'
+import { resolveDownloadDir } from './util'
+import { readFontCSS } from './local-font'
 
 const builtinProviders = {
   google: GoogleFontsProvider,
@@ -45,60 +48,34 @@ export function createWebFontPreset(fetcher: (url: string) => Promise<any>) {
       inlineImports = true,
       themeKey = 'fontFamily',
       customFetch = fetcher,
+      downloadLocally = false,
+      downloadDir = 'public',
     } = options
 
     const fontObject = Object.fromEntries(
       Object.entries(options.fonts || {})
         .map(([name, meta]) => [name, toArray(meta).map(m => normalizedFontMeta(m, defaultProvider))]),
     )
-    const fonts = Object.values(fontObject).flatMap(i => i)
-
-    const importCache: Record<string, Promise<string>> = {}
-
-    async function importUrl(url: string) {
-      if (inlineImports) {
-        if (!importCache[url]) {
-          importCache[url] = customFetch(url).catch((e) => {
-            console.error('Failed to fetch web fonts')
-            console.error(e)
-            // eslint-disable-next-line node/prefer-global/process
-            if (typeof process !== 'undefined' && process.env.CI)
-              throw e
-          })
-        }
-        return await importCache[url]
-      }
-      else {
-        return `@import url('${url}');`
-      }
-    }
-
-    const enabledProviders = new Set(fonts.map(i => i.provider))
 
     const preset: Preset<any> = {
       name: '@unocss/preset-web-fonts',
       preflights: [
         {
           async getCSS() {
-            const preflights: (string | undefined)[] = []
-
-            for (const provider of enabledProviders) {
-              const fontsForProvider = fonts.filter(i => i.provider.name === provider.name)
-
-              if (provider.getImportUrl) {
-                const url = provider.getImportUrl(fontsForProvider)
-                if (url)
-                  preflights.push(await importUrl(url))
-              }
-
-              preflights.push(provider.getPreflight?.(fontsForProvider))
+            if (downloadLocally) {
+              const resolvedDownloadDir = await resolveDownloadDir(downloadDir)
+              return await readFontCSS(resolvedDownloadDir)
             }
-
-            return preflights.filter(Boolean).join('\n')
+            else { return getRemoteFontsCSS(fontObject, { inlineImports, customFetch }) }
           },
           layer: inlineImports ? undefined : LAYER_IMPORTS,
         },
       ],
+      options: {
+        downloadLocally,
+        downloadDir,
+        fontObject,
+      },
     }
 
     if (extendTheme) {
