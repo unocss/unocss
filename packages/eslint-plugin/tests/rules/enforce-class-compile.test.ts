@@ -1,14 +1,17 @@
 import { RuleTester } from 'eslint'
+import * as vueParser from 'vue-eslint-parser'
 
 import rule from '../../src/rules/enforce-class-compile'
 
 import { html } from '../utils/html'
 
 const vueTester = new RuleTester({
-  parser: require.resolve('vue-eslint-parser'),
-  parserOptions: {
-    ecmaVersion: 2018,
-    sourceType: 'module',
+  languageOptions: {
+    parser: vueParser,
+    parserOptions: {
+      ecmaVersion: 2018,
+      sourceType: 'module',
+    },
   },
 })
 

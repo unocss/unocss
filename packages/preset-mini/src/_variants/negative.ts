@@ -1,6 +1,6 @@
 import type { Variant } from '@unocss/core'
 import { getStringComponent } from '@unocss/rule-utils'
-import { CONTROL_MINI_NO_NEGATIVE, cssMathFnRE } from '../utils'
+import { CONTROL_MINI_NO_NEGATIVE, cssMathFnRE, cssVarFnRE } from '../utils'
 
 const anchoredNumberRE = /^-?[0-9.]+(?:[a-z]+|%)?$/
 const numberRE = /-?[0-9.]+(?:[a-z]+|%)?/
@@ -10,7 +10,7 @@ const ignoreProps = [
 ]
 
 function negateMathFunction(value: string) {
-  const match = value.match(cssMathFnRE)
+  const match = value.match(cssMathFnRE) || value.match(cssVarFnRE)
   if (match) {
     const [fnBody, rest] = getStringComponent(`(${match[2]})${match[3]}`, '(', ')', ' ') ?? []
     if (fnBody)
