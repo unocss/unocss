@@ -118,7 +118,7 @@ ${selector}::after {
 
 UnoCSS respects the order of the rules you defined in the generated CSS. Latter ones come with higher priority.
 
-When using a dynamic rule, it would may match multiple tokens. By default, the output of those matched under a single dynamic rule will be sorted alphabetically within the group.
+When using dynamic rules, it may match multiple tokens. By default, the output of those matched under a single dynamic rule will be sorted alphabetically within the group.
 
 ## Rules merging
 
