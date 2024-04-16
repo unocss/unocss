@@ -129,12 +129,16 @@ export const textShadows: Rule<Theme>[] = [
   [/^text-shadow-color-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-shadow-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'text-shadow-color-(op|opacity)-<percent>' }],
 ]
 
+function toCamelCase(s: string) {
+  return s.replace(/-(\w)/g, (_, c) => c.toUpperCase())
+}
+
 function handleThemeByKey(s: string, theme: Theme, key: 'lineHeight' | 'letterSpacing') {
   return theme[key]?.[s] || h.bracket.cssvar.global.rem(s)
 }
 
 function handleSize([, s]: string[], { theme }: RuleContext<Theme>): CSSObject | undefined {
-  const themed = toArray(theme.fontSize?.[s]) as [string, string | CSSObject]
+  const themed = toArray(theme.fontSize?.[toCamelCase(s)]) as [string, string | CSSObject]
   const size = themed?.[0] ?? h.bracket.cssvar.global.rem(s)
   if (size != null)
     return { 'font-size': size }
@@ -152,8 +156,8 @@ function handleText([, s = 'base']: string[], { theme }: RuleContext<Theme>): CS
     return
 
   const [size, leading] = split
-  const sizePairs = toArray(theme.fontSize?.[size]) as [string, string | CSSObject, string?]
-  const lineHeight = leading ? handleThemeByKey(leading, theme, 'lineHeight') : undefined
+  const sizePairs = toArray(theme.fontSize?.[toCamelCase(size)]) as [string, string | CSSObject, string?]
+  const lineHeight = leading ? handleThemeByKey(toCamelCase(leading), theme, 'lineHeight') : undefined
 
   if (sizePairs?.[0]) {
     const [fontSize, height, letterSpacing] = sizePairs

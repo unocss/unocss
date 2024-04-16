@@ -443,4 +443,33 @@ describe('preset-mini', () => {
     .border-opacity-50{--un-border-opacity:0.5;}"
   `)
   })
+
+  it('use fontSize by camel-case', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+      theme: {
+        fontSize: {
+          bodySmall: '1rem',
+          titleMedium: ['2rem', '1.5em'],
+        },
+      },
+    })
+
+    const { css } = await uno.generate([
+      'text-bodySmall',
+      'text-body-small',
+      'text-title-medium',
+      'text-body-small:1.5em',
+    ].join(' '), { preflights: false })
+
+    expect(css).toMatchInlineSnapshot(`
+    "/* layer: default */
+    .text-body-small,
+    .text-bodySmall{font-size:1rem;line-height:1;}
+    .text-body-small\\:1\\.5em{font-size:1rem;line-height:1.5em;}
+    .text-title-medium{font-size:2rem;line-height:1.5em;}"
+  `)
+  })
 })
