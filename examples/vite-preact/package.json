@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "preact": "^10.20.1"
+    "preact": "^10.20.2"
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.1.42",
@@ -19,7 +19,7 @@
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
     "cross-env": "^7.0.3",
-    "typescript": "^5.4.4",
+    "typescript": "^5.4.5",
     "unocss": "link:../../packages/unocss",
     "vite": "^5.2.8"
   },
