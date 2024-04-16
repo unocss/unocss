@@ -15,7 +15,7 @@ const transformCpu = [
   'rotate(var(--un-rotate))',
   'rotateX(var(--un-rotate-x))',
   'rotateY(var(--un-rotate-y))',
-  // 'rotateZ(var(--un-rotate-z))',
+  'rotateZ(var(--un-rotate-z))',
   'skewX(var(--un-skew-x))',
   'skewY(var(--un-skew-y))',
   'scaleX(var(--un-scale-x))',
