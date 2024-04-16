@@ -145,7 +145,7 @@ export default function WebpackPlugin<Theme extends object>(
                 return escapeCss(css)
               })
               if (replaced)
-                compilation.assets[file] = new WebpackSources.RawSource(code) as any
+                compilation.assets[file] = new WebpackSources.SourceMapSource(code, file, compilation.assets[file].map() as any) as any
             }
           })
         })
