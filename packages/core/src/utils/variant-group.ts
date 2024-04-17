@@ -70,28 +70,30 @@ export function parseVariantGroup(str: string | MagicString, separators = ['-', 
     depth -= 1
   } while (hasChanged && depth)
 
-  let expanded: MagicString | string
+  let expanded = ''
+  if (typeof str !== 'string')
+    str = str.original
 
-  if (typeof str === 'string') {
-    expanded = ''
-    let prevOffset = 0
-    for (const [offset, group] of groupsByOffset) {
-      expanded += str.slice(prevOffset, offset)
-      expanded += group.items.map(item => item.className).join(' ')
-      prevOffset = offset + group.length
-    }
-    expanded += str.slice(prevOffset)
+  // if (typeof str === 'string') {
+  // #3518 Modifying MagicString seems to cause extra hmr updates in vite
+  let prevOffset = 0
+  for (const [offset, group] of groupsByOffset) {
+    expanded += str.slice(prevOffset, offset)
+    expanded += group.items.map(item => item.className).join(' ')
+    prevOffset = offset + group.length
   }
-  else {
-    expanded = str
-    for (const [offset, group] of groupsByOffset) {
-      expanded.overwrite(
-        offset,
-        offset + group.length,
-        group.items.map(item => item.className).join(' '),
-      )
-    }
-  }
+  expanded += str.slice(prevOffset)
+  // }
+  // else {
+  //   expanded = str
+  //   for (const [offset, group] of groupsByOffset) {
+  //     expanded.overwrite(
+  //       offset,
+  //       offset + group.length,
+  //       group.items.map(item => item.className).join(' '),
+  //     )
+  //   }
+  // }
 
   return {
     prefixes: Array.from(prefixes),
