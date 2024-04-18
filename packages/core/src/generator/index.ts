@@ -14,6 +14,7 @@ export class UnoGenerator<Theme extends object = object> {
   public events = createNanoEvents<{
     config: (config: ResolvedConfig<Theme>) => void
   }>()
+
   public currentFile?: string
 
   constructor(

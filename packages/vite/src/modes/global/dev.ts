@@ -46,9 +46,9 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
     let needsUpdateModules: string[] = []
     for (const server of servers) {
       const currentFileMod = server.moduleGraph.getModuleById(uno.currentFile!)
-      if (currentFileMod && currentFileMod.clientImportedModules.size) {
+      if (currentFileMod && currentFileMod.clientImportedModules.size)
         needsUpdateModules = [...needsUpdateModules, ...[...currentFileMod.clientImportedModules].map(i => i.id!)]
-      }
+
       for (const id of ids) {
         const mod = server.moduleGraph.getModuleById(id)
 
@@ -60,9 +60,9 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
     clearTimeout(invalidateTimer)
     invalidateTimer = setTimeout(() => {
       lastServedHash.clear()
-      if (needsUpdateModules.length && affectedModules.size) {
+      if (needsUpdateModules.length && affectedModules.size)
         Array.from(affectedModules).filter(m => needsUpdateModules.includes((m))).forEach(id => ids.add(id))
-      }
+
       sendUpdate(ids)
     }, timer)
   }
