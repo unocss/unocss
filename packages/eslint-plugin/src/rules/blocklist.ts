@@ -82,14 +82,15 @@ export default createRule({
       },
     }
 
+    const parserServices = context?.sourceCode.parserServices || context.parserServices
     // @ts-expect-error missing-types
-    if (context.parserServices == null || context.parserServices.defineTemplateBodyVisitor == null) {
+    if (parserServices == null || parserServices.defineTemplateBodyVisitor == null) {
       return scriptVisitor
     }
     else {
       // For Vue
       // @ts-expect-error missing-types
-      return context.parserServices?.defineTemplateBodyVisitor(templateBodyVisitor, scriptVisitor)
+      return parserServices?.defineTemplateBodyVisitor(templateBodyVisitor, scriptVisitor)
     }
   },
 }) as any as ESLintUtils.RuleWithMeta<[], ''>
