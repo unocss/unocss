@@ -21,7 +21,7 @@
     "cross-env": "^7.0.3",
     "typescript": "^5.4.5",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.2.8"
+    "vite": "^5.2.9"
   },
   "stackblitz": {
     "installDependencies": false,
