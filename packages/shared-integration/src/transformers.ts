@@ -11,6 +11,7 @@ export async function applyTransformers(
   id: string,
   enforce: SourceCodeTransformerEnforce = 'default',
 ) {
+  ctx.uno.currentFile = id
   if (original.includes(IGNORE_COMMENT))
     return
 
