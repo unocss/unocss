@@ -63,17 +63,17 @@ the corresponding CSS will be generated:
 .p-5 { padding: 1.25rem; }
 ```
 
-Congratulations! Now you got your own powerful atomic CSS utilities. Enjoy!
+Congratulations! Now you've got your own powerful atomic CSS utilities. Enjoy!
 
-## Full controlled rules
+## Fully controlled rules
 
-::: warning
-This is an advanced feature, you don't need it in most of the cases.
+::: tip
+This is an advanced feature, in most situtations it won't be needed.
 :::
 
-When you really need some advanced rules that can't be covered by the combination of [Dynamic Rules](#dynamic-rules) and [Variants](/config/variants), UnoCSS also provide a way to give you full control to generate the CSS.
+When you really need some advanced rules that aren't covered by the combination of [Dynamic Rules](#dynamic-rules) and [Variants](/config/variants), UnoCSS also provides a way to give you full control to generate the CSS.
 
-By returning a `string` from the dynamic rule's body function, it will be directly passed to the generated CSS. That also means you would need to take care of things like CSS escaping, variants applying, CSS constructing, and so on.
+It allows you to return a string from the dynamic rule's body function which will be **directly** passed to the generated CSS (this also means you need to take care of things like CSS escaping, variant applying, CSS constructing, and so on).
 
 ```ts
 // uno.config.ts
@@ -118,7 +118,7 @@ ${selector}::after {
 
 UnoCSS respects the order of the rules you defined in the generated CSS. Latter ones come with higher priority.
 
-When using dynamic rule, it would likely match multiple tokens. By default, output of those matched under a single dynamic rule will be sorted alphabetically within the group.
+When using dynamic rules, it may match multiple tokens. By default, the output of those matched under a single dynamic rule will be sorted alphabetically within the group.
 
 ## Rules merging
 

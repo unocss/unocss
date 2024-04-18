@@ -1,8 +1,6 @@
 # Transformers
 
-Transformers are used to transform the source code to support conventions.
-
-It provide a unified interface to transform source code in order to support conventions.
+Provides a unified interface to transform source code in order to support conventions.
 
 ```ts
 // my-transformer.ts
