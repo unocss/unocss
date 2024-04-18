@@ -12,7 +12,7 @@
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
     "unocss": "workspace:*",
-    "vite": "^5.2.8",
+    "vite": "^5.2.9",
     "vite-plugin-windicss": "^1.9.3",
     "vue": "^3.4.21",
     "windicss": "^3.5.6"
