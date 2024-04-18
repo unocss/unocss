@@ -46,12 +46,10 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
     const needsUpdateModules = new Set<string>()
     for (const server of servers) {
       const currentFileMod = server.moduleGraph.getModuleById(uno.currentFile!)
-      if (currentFileMod && currentFileMod.clientImportedModules.size) {
-        currentFileMod.clientImportedModules.forEach((i) => {
-          if (i.id)
-            needsUpdateModules.add(i.id)
-        })
-      }
+      currentFileMod?.clientImportedModules.forEach((i) => {
+        if (i.id)
+          needsUpdateModules.add(i.id)
+      })
 
       for (const id of ids) {
         const mod = server.moduleGraph.getModuleById(id)
