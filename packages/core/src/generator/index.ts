@@ -186,14 +186,14 @@ export class UnoGenerator<Theme extends object = object> {
         generator: this,
         theme: this.config.theme,
       }
-      this.config.safelist.forEach((s) => {
-        // We don't want to increment count if token is already in the set
-        toArray(typeof s === 'function' ? s(safelistContext) : s)
-          .forEach((s) => {
-            if (!tokens.has(s))
-              tokens.add(s)
-          })
-      })
+
+      this.config.safelist
+        .flatMap(s => typeof s === 'function' ? s(safelistContext) : s)
+        .forEach((s) => {
+          // We don't want to increment count if token is already in the set
+          if (!tokens.has(s))
+            tokens.add(s)
+        })
     }
 
     const nl = minify ? '' : '\n'
