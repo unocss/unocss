@@ -1,5 +1,5 @@
 // eslint-disable-next-line node/prefer-global/process
-const isNode = typeof process !== 'undefined' && process.stdout && !process.versions.deno
+export const isNode = typeof process !== 'undefined' && process.stdout && !process.versions.deno
 
 export async function resolveDownloadDir(downloadDir?: string | (() => Promise<string>)) {
   if (!isNode)

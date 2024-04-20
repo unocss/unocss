@@ -5,6 +5,7 @@ import { BunnyFontsProvider } from './providers/bunny'
 import { GoogleFontsProvider } from './providers/google'
 import { FontshareProvider } from './providers/fontshare'
 import { NoneProvider } from './providers/none'
+import { isNode } from './util'
 import type { Provider, ResolvedWebFontMeta, WebFontMeta, WebFontsOptions, WebFontsProviders } from './types'
 
 const builtinProviders = {
@@ -59,15 +60,14 @@ export function createWebFontPreset(fetcher: (url: string) => Promise<any>) {
       preflights: [
         {
           async getCSS() {
-            if (downloadLocally) {
-              const { readFontCSS, resolveDownloadDir } = await import('./local-font')
-              const resolvedDownloadDir = await resolveDownloadDir(downloadDir)
-              return readFontCSS(resolvedDownloadDir)
-            }
-            else {
+            if (!isNode || !downloadLocally) {
               const { getRemoteFontsCSS } = await import('./remote-font')
               return getRemoteFontsCSS(fontObject, { inlineImports, customFetch })
             }
+
+            const { readFontCSS, resolveDownloadDir } = await import('./local-font')
+            const resolvedDownloadDir = await resolveDownloadDir(downloadDir)
+            return readFontCSS(resolvedDownloadDir)
           },
           layer: inlineImports ? undefined : LAYER_IMPORTS,
         },

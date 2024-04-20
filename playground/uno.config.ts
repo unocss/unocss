@@ -7,7 +7,7 @@ import {
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
-import presetWebFonts from '../packages/preset-web-fonts/src/'
+import presetWebFonts from '@unocss/preset-web-fonts'
 
 export default defineConfig({
   theme: {
@@ -24,7 +24,6 @@ export default defineConfig({
     presetUno(),
     presetIcons(),
     presetWebFonts({
-      downloadLocally: true,
       provider: 'google',
       fonts: {
         sans: 'Lato',

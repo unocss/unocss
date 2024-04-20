@@ -40,6 +40,7 @@ export default defineConfig({
   ],
   optimizeDeps: {
     exclude: [
+      '@unocss/preset-web-fonts/local-font',
       '@iconify/utils/lib/loader/fs',
       '@iconify/utils/lib/loader/install-pkg',
       '@iconify/utils/lib/loader/node-loader',
@@ -51,6 +52,7 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       external: [
+        '@unocss/preset-web-fonts/local-font',
         '@iconify/utils/lib/loader/fs',
         '@iconify/utils/lib/loader/install-pkg',
         '@iconify/utils/lib/loader/node-loader',
