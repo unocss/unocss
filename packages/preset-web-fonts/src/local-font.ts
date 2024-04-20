@@ -6,6 +6,7 @@ import { resolveDownloadDir } from './util'
 
 const fontUrlRegex = /[-a-z0-9@:%_+.~#?&/=]+\.(?:woff2?|eot|ttf|otf|svg)/gi
 
+export const defaultFontFolder = 'unocss-fonts'
 export const defaultFontCssFilename = 'fonts.css'
 
 interface UseLocalFontOptions {
@@ -26,7 +27,7 @@ export async function useLocalFont(css: string, { downloadDir, downloadBasePath 
   for (const url of css.match(fontUrlRegex) || []) {
     const name = url.split('/').pop()!
     await saveFont(url, resolve(downloadDir, name))
-    css = css.replaceAll(url, `${downloadBasePath}${name}`)
+    css = css.replaceAll(url, `${downloadBasePath}${defaultFontFolder}/${name}`)
   }
 
   // Save the updated font.css file

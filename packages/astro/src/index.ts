@@ -98,7 +98,7 @@ export default function UnoCSSAstroIntegration<Theme extends object>(
         if (injectExtra.length > 0)
           injects.push(...injectExtra)
 
-        configureWebFontPreset(config, defaults)
+        await configureWebFontPreset(config, defaults)
 
         updateConfig({
           vite: {

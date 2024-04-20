@@ -1,13 +1,13 @@
 import type { Preset } from '@unocss/core'
 import type { Nuxt } from '@nuxt/schema'
-import { dirname, relative } from 'pathe'
-import { defaultFontCssFilename } from '@unocss/preset-web-fonts/local-font'
+import { dirname, relative, resolve } from 'pathe'
 import type { UnocssNuxtOptions } from './types'
 
-export function configureWebFontPreset(nuxt: Nuxt, options: UnocssNuxtOptions) {
+export async function configureWebFontPreset(nuxt: Nuxt, options: UnocssNuxtOptions) {
   const webFontPreset = lookupPreset(options, '@unocss/preset-web-fonts')
   if (webFontPreset && !!webFontPreset.options?.downloadLocally) {
-    const downloadDir = `${nuxt.options.dir.public}/unocss-fonts`
+    const { defaultFontFolder, defaultFontCssFilename } = await import('@unocss/preset-web-fonts/local-font')
+    const downloadDir = resolve(nuxt.options.dir.public, defaultFontFolder)
     webFontPreset.options.downloadLocally = {
       downloadDir,
       downloadBasePath: nuxt.options.app.baseURL,

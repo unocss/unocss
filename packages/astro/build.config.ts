@@ -8,5 +8,9 @@ export default defineBuildConfig({
   declaration: true,
   externals: [
     'astro',
+    'ofetch',
+    'destr',
+    'ufo',
+    '@unocss/preset-web-fonts/local-font',
   ],
 })

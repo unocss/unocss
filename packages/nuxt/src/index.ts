@@ -40,7 +40,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     resolveOptions(options)
 
     // configure local webfonts preset
-    configureWebFontPreset(nuxt, options)
+    await configureWebFontPreset(nuxt, options)
 
     options.mode ??= 'global'
     const InjectModes: VitePluginConfig['mode'][] = ['global', 'dist-chunk']
