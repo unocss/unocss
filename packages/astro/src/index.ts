@@ -7,6 +7,7 @@ import type { UserConfigDefaults } from '@unocss/core'
 import type { Plugin } from 'vite'
 import { normalizePath } from 'vite'
 import { RESOLVED_ID_RE } from '../../shared-integration/src/layers'
+import { configureWebFontPreset } from './web-fonts'
 
 const UNO_INJECT_ID = 'uno-astro'
 
@@ -96,6 +97,8 @@ export default function UnoCSSAstroIntegration<Theme extends object>(
         }
         if (injectExtra.length > 0)
           injects.push(...injectExtra)
+
+        configureWebFontPreset(config, defaults)
 
         updateConfig({
           vite: {

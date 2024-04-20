@@ -13,9 +13,10 @@ import Button from '../components/Button.astro';
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Astro + UnoCSS</title>
+		<link rel="stylesheet" href="/unocss-fonts/fonts.css" />
 	</head>
 
-	<body>
+	<body class="font-sans">
 		<div class="grid place-items-center h-screen content-center">
 			<Button>UnoCSS Button in Astro!</Button>
 			<a href="/markdown-page" class="p-4 underline">Markdown is also supported...</a>
