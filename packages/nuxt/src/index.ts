@@ -5,11 +5,12 @@ import { addComponentsDir, addPluginTemplate, defineNuxtModule, extendWebpackCon
 import WebpackPlugin from '@unocss/webpack'
 import type { VitePluginConfig } from '@unocss/vite'
 import VitePlugin from '@unocss/vite'
-import type { Nuxt, NuxtPlugin } from '@nuxt/schema'
+import type { NuxtPlugin } from '@nuxt/schema'
 import { loadConfig } from '@unocss/config'
-import type { Preset, UserConfig } from '@unocss/core'
+import type { UserConfig } from '@unocss/core'
 import { resolveOptions } from './options'
 import type { UnocssNuxtOptions } from './types'
+import { configureWebFontPreset } from './web-fonts'
 
 export { UnocssNuxtOptions }
 
@@ -134,20 +135,6 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     })
   },
 })
-
-function lookupPreset<P extends Preset<any>>(options: UnocssNuxtOptions, presetName: P['name']) {
-  const preset: P | undefined = (options.presets || []).flat().find(p => p.name === presetName) as any
-  return preset
-}
-
-function configureWebFontPreset(nuxt: Nuxt, options: UnocssNuxtOptions) {
-  const webFontPreset = lookupPreset(options, '@unocss/preset-web-fonts')
-  if (webFontPreset && !!webFontPreset.options?.downloadLocally) {
-    webFontPreset.options.downloadLocally = {}
-    webFontPreset.options.downloadLocally.downloadDir = `${nuxt.options.dir.public}/unocss-fonts`
-    webFontPreset.options.downloadLocally.downloadBasePath = nuxt.options.app.baseURL
-  }
-}
 
 declare module '@nuxt/schema' {
   interface NuxtConfig {

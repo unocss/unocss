@@ -25,3 +25,4 @@ interactive/public/shiki
 .svelte-kit
 .eslintcache
 vite.config.ts.timestamp-*
+unocss-fonts/

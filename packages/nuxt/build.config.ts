@@ -8,5 +8,6 @@ export default defineBuildConfig({
   declaration: true,
   externals: [
     '@nuxt/schema',
+    'pathe',
   ],
 })

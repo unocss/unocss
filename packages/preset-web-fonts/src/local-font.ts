@@ -6,7 +6,7 @@ import { resolveDownloadDir } from './util'
 
 const fontUrlRegex = /[-a-z0-9@:%_+.~#?&/=]+\.(?:woff2?|eot|ttf|otf|svg)/gi
 
-const defaultFontCssFilename = 'fonts.css'
+export const defaultFontCssFilename = 'fonts.css'
 
 interface UseLocalFontOptions {
   downloadDir: string
