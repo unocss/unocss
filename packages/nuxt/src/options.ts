@@ -5,10 +5,12 @@ import presetWebFonts from '@unocss/preset-web-fonts'
 import presetTypography from '@unocss/preset-typography'
 import presetTagify from '@unocss/preset-tagify'
 import presetWind from '@unocss/preset-wind'
+import type { Preset } from '@unocss/core'
+import type { Nuxt } from '@nuxt/schema'
 import { defaultPipelineExclude } from '../../shared-integration/src/defaults'
 import type { UnocssNuxtOptions } from './types'
 
-export function resolveOptions(options: UnocssNuxtOptions) {
+export function resolveOptions(nuxt: Nuxt, options: UnocssNuxtOptions) {
   if (options.presets == null) {
     options.presets = []
     const presetMap = {
@@ -27,6 +29,13 @@ export function resolveOptions(options: UnocssNuxtOptions) {
     }
   }
 
+  const webFontPreset = lookupPreset(options, '@unocss/preset-web-fonts')
+  if (webFontPreset && !!webFontPreset.options?.downloadLocally) {
+    webFontPreset.options.downloadLocally = {}
+    webFontPreset.options.downloadLocally.downloadDir = `${nuxt.options.dir.public}/unocss-fonts`
+    webFontPreset.options.downloadLocally.downloadBasePath = nuxt.options.app.baseURL
+  }
+
   options.content ??= {}
   options.content.pipeline ??= {}
   if (options.content.pipeline !== false) {
@@ -35,4 +44,9 @@ export function resolveOptions(options: UnocssNuxtOptions) {
     // ignore macro files created by Nuxt
       options.content.pipeline.exclude.push(/\?macro=true/)
   }
+}
+
+function lookupPreset<P extends Preset<any>>(options: UnocssNuxtOptions, presetName: P['name']) {
+  const preset: P | undefined = (options.presets || []).flat().find(p => p.name === presetName) as any
+  return preset
 }

@@ -36,7 +36,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
   },
   async setup(options, nuxt) {
     // preset shortcuts
-    resolveOptions(options)
+    resolveOptions(nuxt, options)
 
     options.mode ??= 'global'
     const InjectModes: VitePluginConfig['mode'][] = ['global', 'dist-chunk']
