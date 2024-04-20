@@ -12,5 +12,5 @@ export async function resolveDownloadDir(downloadDir?: string | (() => Promise<s
     return await downloadDir()
   else if (typeof downloadDir === 'string')
     return resolve(cwd(), downloadDir)
-  return `${cwd()}/public/fonts`
+  return `${cwd()}/public/unocss-fonts`
 }

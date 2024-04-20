@@ -1,27 +1,26 @@
 import type { Plugin } from 'vite'
-import { type PreflightContext, type Preset, type UnocssPluginContext, resolvePreset } from '@unocss/core'
-import { useLocalFont } from '../../preset-web-fonts/src/local-font'
-import { resolveDownloadDir } from '../../preset-web-fonts/src/util'
-import { getRemoteFontsCSS } from '../../preset-web-fonts/src/remote-font'
-
-// eslint-disable-next-line node/prefer-global/process
-const isNode = typeof process !== 'undefined' && process.stdout && !process.versions.deno
+import type { Preset, UnocssPluginContext } from '@unocss/core'
 
 export function createWebFontPlugins(ctx: UnocssPluginContext): Plugin[] {
   return [
     {
       name: `unocss:web-fonts-local:dev`,
       enforce: 'pre',
-      apply: 'serve',
-      async configureServer(_server) {
-        if (!isNode)
-          return
-
-        const webFontPreset = lookupPreset(ctx, '@unocss/preset-web-fonts')
-
+      async configResolved(config) {
+        const webFontPreset = await lookupPreset(ctx, '@unocss/preset-web-fonts')
         if (!webFontPreset || !webFontPreset.options?.downloadLocally)
           return
 
+        if (webFontPreset) {
+          webFontPreset.options ??= {}
+          if (typeof webFontPreset.options.downloadDir === 'undefined')
+            webFontPreset.options.downloadDir = `${config.publicDir}/unocss-fonts`
+        }
+
+        const [{ resolveDownloadDir, useLocalFont }, { getRemoteFontsCSS }] = await Promise.all([
+          import('@unocss/preset-web-fonts/local-font'),
+          import('@unocss/preset-web-fonts/remote-font'),
+        ])
         const { $fetch } = await import('ofetch')
         const fontCSS = await getRemoteFontsCSS(webFontPreset.options.fontObject, { inlineImports: true, customFetch: $fetch })
         const downloadDir = await resolveDownloadDir(webFontPreset.options.downloadDir)
@@ -31,7 +30,8 @@ export function createWebFontPlugins(ctx: UnocssPluginContext): Plugin[] {
   ]
 }
 
-function lookupPreset<P extends Preset<any>>(ctx: UnocssPluginContext, presetName: P['name']) {
+async function lookupPreset<P extends Preset<any>>(ctx: UnocssPluginContext, presetName: P['name']) {
+  await ctx.ready
   const preset: P | undefined = ctx.uno.config?.presets?.find(p => p.name === presetName) as any
   return preset
 }

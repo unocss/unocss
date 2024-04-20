@@ -6,9 +6,6 @@ import { GoogleFontsProvider } from './providers/google'
 import { FontshareProvider } from './providers/fontshare'
 import { NoneProvider } from './providers/none'
 import type { Provider, ResolvedWebFontMeta, WebFontMeta, WebFontsOptions, WebFontsProviders } from './types'
-import { getRemoteFontsCSS } from './remote-font'
-import { resolveDownloadDir } from './util'
-import { readFontCSS } from './local-font'
 
 const builtinProviders = {
   google: GoogleFontsProvider,
@@ -49,7 +46,7 @@ export function createWebFontPreset(fetcher: (url: string) => Promise<any>) {
       themeKey = 'fontFamily',
       customFetch = fetcher,
       downloadLocally = false,
-      downloadDir = 'public',
+      downloadDir,
     } = options
 
     const fontObject = Object.fromEntries(
@@ -63,10 +60,14 @@ export function createWebFontPreset(fetcher: (url: string) => Promise<any>) {
         {
           async getCSS() {
             if (downloadLocally) {
+              const { readFontCSS, resolveDownloadDir } = await import('./local-font')
               const resolvedDownloadDir = await resolveDownloadDir(downloadDir)
-              return await readFontCSS(resolvedDownloadDir)
+              return readFontCSS(resolvedDownloadDir)
             }
-            else { return getRemoteFontsCSS(fontObject, { inlineImports, customFetch }) }
+            else {
+              const { getRemoteFontsCSS } = await import('./remote-font')
+              return getRemoteFontsCSS(fontObject, { inlineImports, customFetch })
+            }
           },
           layer: inlineImports ? undefined : LAYER_IMPORTS,
         },

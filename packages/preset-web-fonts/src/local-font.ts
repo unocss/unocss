@@ -2,25 +2,28 @@
  * Inspired by:
  * https://github.com/feat-agency/vite-plugin-webfont-dl/blob/master/src/downloader.ts
  */
+import process from 'node:process'
+import { resolve } from 'node:path'
+import { lstat, mkdir, readFile, writeFile } from 'node:fs/promises'
+import { Buffer } from 'node:buffer'
 import { $fetch } from 'ofetch'
+import { resolveDownloadDir } from './util'
 
 const fontUrlRegex = /[-a-z0-9@:%_+.~#?&/=]+\.(?:woff2?|eot|ttf|otf|svg)/gi
 
 const defaultFontCssFilename = 'fonts.css'
 
-// eslint-disable-next-line node/prefer-global/process
 const isNode = typeof process !== 'undefined' && process.stdout && !process.versions.deno
 
 interface UseLocalFontOptions {
   downloadDir: string
 }
 
+export { resolveDownloadDir }
+
 export async function useLocalFont(css: string, { downloadDir }: UseLocalFontOptions) {
   if (!isNode)
     return
-
-  const { resolve } = await import('node:path')
-  const { writeFile, mkdir } = await import('node:fs/promises')
 
   await mkdir(downloadDir, { recursive: true })
 
@@ -37,17 +40,12 @@ export async function useLocalFont(css: string, { downloadDir }: UseLocalFontOpt
 }
 
 async function fileExists(path: string) {
-  const { stat } = await import('node:fs/promises')
-  const isFile = (await stat(path).catch(() => undefined))?.isFile()
-  return isFile
+  return await lstat(path).then(({ isFile }) => isFile()).catch(() => false)
 }
 
 async function saveFont(url: string, path: string) {
   if (await fileExists(path))
     return
-  const { writeFile } = await import('node:fs/promises')
-  const { Buffer } = await import('node:buffer')
-
   const response = await $fetch(url, { headers: { responseType: 'arraybuffer' } }) as ArrayBuffer
   const content = new Uint8Array(response)
   await writeFile(path, Buffer.from(content))
@@ -56,9 +54,6 @@ async function saveFont(url: string, path: string) {
 export async function readFontCSS(downloadDir: string) {
   if (!isNode)
     return ''
-
-  const { resolve } = await import('node:path')
-  const { readFile } = await import('node:fs/promises')
 
   const fontCssPath = resolve(downloadDir, defaultFontCssFilename)
   if (!await fileExists(fontCssPath))

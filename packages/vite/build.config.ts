@@ -9,5 +9,10 @@ export default defineBuildConfig({
   declaration: true,
   externals: [
     'vite',
+    'ofetch',
+    'destr',
+    'ufo',
+    '@unocss/preset-web-fonts/local-font',
+    '@unocss/preset-web-fonts/remote-font',
   ],
 })

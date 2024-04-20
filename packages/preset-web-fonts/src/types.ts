@@ -64,7 +64,7 @@ export interface WebFontsOptions {
   /**
    * Where to download the fonts
    *
-   * @default 'process.cwd()/public/fonts'
+   * @default 'process.cwd()/public/unocss-fonts'
    */
   downloadDir?: string | (() => Promise<string>)
 }

@@ -1,6 +1,6 @@
 import process from 'node:process'
 import type { Plugin } from 'vite'
-import type { Preset, UnocssPluginContext, UserConfigDefaults } from '@unocss/core'
+import type { UnocssPluginContext, UserConfigDefaults } from '@unocss/core'
 import UnocssInspector from '@unocss/inspector'
 import { createContext } from './integration'
 import { ChunkModeBuildPlugin } from './modes/chunk-build'
