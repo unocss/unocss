@@ -11,20 +11,22 @@ export function createWebFontPlugins(ctx: UnocssPluginContext): Plugin[] {
         if (!webFontPreset || !webFontPreset.options?.downloadLocally)
           return
 
-        if (webFontPreset) {
-          webFontPreset.options ??= {}
-          if (typeof webFontPreset.options.downloadDir === 'undefined')
-            webFontPreset.options.downloadDir = `${config.publicDir}/unocss-fonts`
-        }
+        if (webFontPreset.options.downloadLocally === true)
+          webFontPreset.options.downloadLocally = {}
 
-        const [{ resolveDownloadDir, useLocalFont }, { getRemoteFontsCSS }] = await Promise.all([
+        if (typeof webFontPreset.options.downloadLocally.downloadDir === 'undefined')
+          webFontPreset.options.downloadLocally.downloadDir = `${config.publicDir}/unocss-fonts`
+
+        if (typeof webFontPreset.options.downloadLocally.downloadBasePath === 'undefined')
+          webFontPreset.options.downloadLocally.downloadBasePath = config.base
+
+        const [{ useLocalFont }, { getRemoteFontsCSS }] = await Promise.all([
           import('@unocss/preset-web-fonts/local-font'),
           import('@unocss/preset-web-fonts/remote-font'),
         ])
         const { $fetch } = await import('ofetch')
         const fontCSS = await getRemoteFontsCSS(webFontPreset.options.fontObject, { inlineImports: true, customFetch: $fetch })
-        const downloadDir = await resolveDownloadDir(webFontPreset.options.downloadDir)
-        await useLocalFont(fontCSS, { downloadDir })
+        await useLocalFont(fontCSS, webFontPreset.options.downloadLocally)
       },
     },
   ]

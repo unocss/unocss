@@ -12,7 +12,7 @@ import presetWebFonts from '@unocss/preset-web-fonts'
 export default defineConfig({
   theme: {
     fontFamily: {
-      sans: '\'Lato\', sans-serif',
+      sans: 'sans-serif',
       mono: '\'Fira Code\', monospace',
     },
   },
@@ -24,6 +24,7 @@ export default defineConfig({
     presetUno(),
     presetIcons(),
     presetWebFonts({
+      downloadLocally: true,
       provider: 'google',
       fonts: {
         sans: 'Lato',

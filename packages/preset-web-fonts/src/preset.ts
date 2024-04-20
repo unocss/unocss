@@ -46,8 +46,7 @@ export function createWebFontPreset(fetcher: (url: string) => Promise<any>) {
       inlineImports = true,
       themeKey = 'fontFamily',
       customFetch = fetcher,
-      downloadLocally = false,
-      downloadDir,
+      downloadLocally,
     } = options
 
     const fontObject = Object.fromEntries(
@@ -66,7 +65,9 @@ export function createWebFontPreset(fetcher: (url: string) => Promise<any>) {
             }
 
             const { readFontCSS, resolveDownloadDir } = await import('./local-font')
-            const resolvedDownloadDir = await resolveDownloadDir(downloadDir)
+            const resolvedDownloadDir = await resolveDownloadDir(
+              downloadLocally === true ? undefined : downloadLocally.downloadDir,
+            )
             return readFontCSS(resolvedDownloadDir)
           },
           layer: inlineImports ? undefined : LAYER_IMPORTS,
@@ -74,7 +75,6 @@ export function createWebFontPreset(fetcher: (url: string) => Promise<any>) {
       ],
       options: {
         downloadLocally,
-        downloadDir,
         fontObject,
       },
     }

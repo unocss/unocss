@@ -10,11 +10,12 @@ const defaultFontCssFilename = 'fonts.css'
 
 interface UseLocalFontOptions {
   downloadDir: string
+  downloadBasePath: string
 }
 
 export { resolveDownloadDir }
 
-export async function useLocalFont(css: string, { downloadDir }: UseLocalFontOptions) {
+export async function useLocalFont(css: string, { downloadDir, downloadBasePath }: UseLocalFontOptions) {
   const [{ mkdir, writeFile }, { resolve }] = await Promise.all([
     import('node:fs/promises'),
     import('node:path'),
@@ -23,9 +24,9 @@ export async function useLocalFont(css: string, { downloadDir }: UseLocalFontOpt
 
   // Download the fonts locally and update the font.css file
   for (const url of css.match(fontUrlRegex) || []) {
-    const path = resolve(downloadDir, url.split('/').pop()!)
-    await saveFont(url, path)
-    css = css.replaceAll(url, path)
+    const name = url.split('/').pop()!
+    await saveFont(url, resolve(downloadDir, name))
+    css = css.replaceAll(url, `${downloadBasePath}${name}`)
   }
 
   // Save the updated font.css file

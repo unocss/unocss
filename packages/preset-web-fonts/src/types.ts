@@ -55,18 +55,28 @@ export interface WebFontsOptions {
   customFetch?: (url: string) => Promise<any>
 
   /**
-   * Download fonts locally
+   * Download fonts locally.
    *
    * @default false
    */
-  downloadLocally?: boolean
-
-  /**
-   * Where to download the fonts
-   *
-   * @default 'process.cwd()/public/unocss-fonts'
-   */
-  downloadDir?: string | (() => Promise<string>)
+  downloadLocally?: boolean | {
+    /**
+     * Where to download the fonts.
+     *
+     * This option will be overridden by integrations:
+     * - Vite, Astro and Nuxt will use Vite [publicDir](): `${publicDir}/unocss-fonts`
+     * - SvelteKit will use `static` folder: `static/unocss-fonts`
+     *
+     * @default 'process.cwd()/public/unocss-fonts'
+     */
+    downloadDir?: string
+    /**
+     *
+     *
+     * @default /
+     */
+    downloadBasePath?: string
+  }
 }
 
 export interface Provider {
