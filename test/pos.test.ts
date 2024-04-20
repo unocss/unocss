@@ -386,6 +386,47 @@ let transition = 'ease-in-out duration-300'
             ],
           ]
         `)
+
+    // origin HTML tags not include `mr-1 px2`
+    expect(await match(uno, `<Tabs
+    @edit="(e) => handleEdit()"
+    mr-1 px2
+    type="editable-card"
+    size="small"
+    :animated="false"
+    :hideAdd="true"
+    :tabBarGutter="3"
+    :activeKey="activeKeyRef"
+    @change="handleChange"
+  >`, '', {
+      includeRegex: defaultIdeMatchInclude,
+      excludeRegex: defaultIdeMatchExclude,
+    }))
+      .toMatchInlineSnapshot(`
+        [
+          [
+            42,
+            46,
+            "mr-1",
+          ],
+          [
+            47,
+            50,
+            "px2",
+          ],
+        ]
+      `)
+
+    // #3733, match php <? stuck
+    expect(await match(uno, `<?php
+    Route::get('/some-route', [SomeController::class, 'someMethod']);
+    Route::get('/some-route', [SomeController::class, 'someMethod']);
+    Route::get('/some-route', [SomeController::class, 'someMethod']);
+    `, '', {
+      includeRegex: defaultIdeMatchInclude,
+      excludeRegex: defaultIdeMatchExclude,
+    }))
+      .toMatchInlineSnapshot(`[]`)
   })
 })
 

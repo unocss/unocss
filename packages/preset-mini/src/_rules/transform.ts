@@ -11,6 +11,21 @@ const transformValues = [
 const transformCpu = [
   'translateX(var(--un-translate-x))',
   'translateY(var(--un-translate-y))',
+  // 'translateZ(var(--un-translate-z))',
+  'rotate(var(--un-rotate))',
+  'rotateX(var(--un-rotate-x))',
+  'rotateY(var(--un-rotate-y))',
+  'rotateZ(var(--un-rotate-z))',
+  'skewX(var(--un-skew-x))',
+  'skewY(var(--un-skew-y))',
+  'scaleX(var(--un-scale-x))',
+  'scaleY(var(--un-scale-y))',
+  // 'scaleZ(var(--un-scale-z))',
+].join(' ')
+
+const transform = [
+  'translateX(var(--un-translate-x))',
+  'translateY(var(--un-translate-y))',
   'translateZ(var(--un-translate-z))',
   'rotate(var(--un-rotate))',
   'rotateX(var(--un-rotate-x))',
@@ -93,7 +108,7 @@ export const transforms: Rule[] = [
   [/^(?:transform-)?preserve-flat$/, () => ({ 'transform-style': 'flat' })],
 
   // base
-  ['transform', { transform: transformCpu }],
+  ['transform', { transform }],
   ['transform-cpu', { transform: transformCpu }],
   ['transform-gpu', { transform: transformGpu }],
   ['transform-none', { transform: 'none' }],
@@ -105,7 +120,7 @@ function handleTranslate([, d, b]: string[], { theme }: RuleContext<Theme>): CSS
   if (v != null) {
     return [
       ...transformXYZ(d, v, 'translate'),
-      ['transform', transformCpu],
+      ['transform', transform],
     ]
   }
 }
@@ -115,7 +130,7 @@ function handleScale([, d, b]: string[]): CSSValues | undefined {
   if (v != null) {
     return [
       ...transformXYZ(d, v, 'scale'),
-      ['transform', transformCpu],
+      ['transform', transform],
     ]
   }
 }
@@ -127,7 +142,7 @@ function handleRotate([, d = '', b]: string[]): CSSValues | undefined {
       return {
         '--un-rotate': 0,
         [`--un-rotate-${d}`]: v,
-        'transform': transformCpu,
+        'transform': transform,
       }
     }
     else {
@@ -136,7 +151,7 @@ function handleRotate([, d = '', b]: string[]): CSSValues | undefined {
         '--un-rotate-y': 0,
         '--un-rotate-z': 0,
         '--un-rotate': v,
-        'transform': transformCpu,
+        'transform': transform,
       }
     }
   }
@@ -147,7 +162,7 @@ function handleSkew([, d, b]: string[]): CSSValues | undefined {
   if (v != null) {
     return [
       ...transformXYZ(d, v, 'skew'),
-      ['transform', transformCpu],
+      ['transform', transform],
     ]
   }
 }
