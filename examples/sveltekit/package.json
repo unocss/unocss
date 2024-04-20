@@ -18,6 +18,7 @@
     "@unocss/extractor-svelte": "link:../../packages/extractor-svelte",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
     "@unocss/preset-uno": "link:../../packages/preset-uno",
+    "@unocss/preset-web-fonts": "link:../../packages/preset-web-fonts",
     "svelte": "^4.2.13",
     "svelte-check": "^3.6.9",
     "tslib": "^2.6.2",
