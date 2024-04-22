@@ -42,7 +42,7 @@ export class ContextLoader {
   }
 
   isTarget(id: string) {
-    return isSubdir(this.cwd, id)
+    return !this.contextsMap.get(this.cwd) || isSubdir(this.cwd, id)
   }
 
   get contexts() {

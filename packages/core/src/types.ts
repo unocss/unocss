@@ -131,6 +131,8 @@ export interface PreflightContext<Theme extends object = object> {
   theme: Theme
 }
 
+export interface SafeListContext<Theme extends object = object> extends PreflightContext<Theme> { }
+
 export interface Extractor {
   name: string
   order?: number
@@ -359,7 +361,7 @@ export interface ConfigBase<Theme extends object = object> {
   /**
    * Utilities that always been included
    */
-  safelist?: string[]
+  safelist?: (string | ((context: SafeListContext<Theme>) => Arrayable<string>))[]
 
   /**
    * Extractors to handle the source file and outputs possible classes/selectors
@@ -686,7 +688,7 @@ export interface ContentOptions {
   /**
    * Inline text to be extracted
    */
-  inline?: (string | { code: string, id?: string } | (() => Awaitable<string | { code: string, id?: string }>)) []
+  inline?: (string | { code: string, id?: string } | (() => Awaitable<string | { code: string, id?: string }>))[]
 
   /**
    * Filters to determine whether to extract certain modules from the build tools' transformation pipeline.
@@ -722,7 +724,7 @@ export interface ContentOptions {
   /**
    * @deprecated Renamed to `inline`
    */
-  plain?: (string | { code: string, id?: string }) []
+  plain?: (string | { code: string, id?: string })[]
 }
 
 /**
@@ -778,12 +780,12 @@ export interface PluginOptions {
   exclude?: FilterPattern
 }
 
-export interface UserConfig<Theme extends object = object> extends ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions, PluginOptions, CliOptions {}
-export interface UserConfigDefaults<Theme extends object = object> extends ConfigBase<Theme>, UserOnlyOptions<Theme> {}
+export interface UserConfig<Theme extends object = object> extends ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions, PluginOptions, CliOptions { }
+export interface UserConfigDefaults<Theme extends object = object> extends ConfigBase<Theme>, UserOnlyOptions<Theme> { }
 
 export interface ResolvedConfig<Theme extends object = object> extends Omit<
-RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>,
-'rules' | 'shortcuts' | 'autocomplete'
+  RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>,
+  'rules' | 'shortcuts' | 'autocomplete'
 > {
   presets: Preset<Theme>[]
   shortcuts: Shortcut<Theme>[]

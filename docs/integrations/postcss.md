@@ -28,11 +28,13 @@ This package is in an experimental state right now. It doesn't follow semver, an
 :::
 
 ```ts
-// postcss.config.cjs
-module.exports = {
-  plugins: {
-    '@unocss/postcss': {},
-  },
+// postcss.config.mjs
+import UnoCSS from '@unocss/postcss'
+
+export default {
+  plugins: [
+    UnoCSS(),
+  ],
 }
 ```
 
