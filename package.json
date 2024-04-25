@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.59.4",
   "private": true,
-  "packageManager": "pnpm@9.0.2",
+  "packageManager": "pnpm@9.0.6",
   "scripts": {
     "postinstall": "esno scripts/prepare.ts",
     "taze": "taze minor -wIr && pnpm -r --parallel run update-post",
@@ -66,6 +66,7 @@
     "@unocss/postcss": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
     "@unocss/preset-icons": "workspace:*",
+    "@unocss/preset-legacy-compat": "workspace:*",
     "@unocss/preset-mini": "workspace:*",
     "@unocss/preset-tagify": "workspace:*",
     "@unocss/preset-typography": "workspace:*",

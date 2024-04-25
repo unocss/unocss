@@ -416,6 +416,17 @@ let transition = 'ease-in-out duration-300'
           ],
         ]
       `)
+
+    // #3733, match php <? stuck
+    expect(await match(uno, `<?php
+    Route::get('/some-route', [SomeController::class, 'someMethod']);
+    Route::get('/some-route', [SomeController::class, 'someMethod']);
+    Route::get('/some-route', [SomeController::class, 'someMethod']);
+    `, '', {
+      includeRegex: defaultIdeMatchInclude,
+      excludeRegex: defaultIdeMatchExclude,
+    }))
+      .toMatchInlineSnapshot(`[]`)
   })
 })
 
