@@ -25,7 +25,7 @@ describe('preset-legacy-compat', () => {
 
     await expect(css).toMatchInlineSnapshot(`
       "/* layer: default */
-      .bg-\\[rgba\\(255\\,255\\,255\\,0\\.1\\)\\]{--un-bg-opacity:0.1;background-color:rgb(255, 255, 255, var(--un-bg-opacity));}
+      .bg-\\[rgba\\(255\\,255\\,255\\,0\\.1\\)\\]{--un-bg-opacity:0.1;background-color:rgba(255, 255, 255, var(--un-bg-opacity));}
       .text-red{--un-text-opacity:1;color:rgba(248, 113, 113, var(--un-text-opacity));}"
     `)
   })
