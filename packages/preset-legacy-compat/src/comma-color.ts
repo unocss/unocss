@@ -1,10 +1,11 @@
 export function toCommaStyleColorFunction(str: string) {
+  // rgba(1, 1, 1, var(--un-bg-opacity))
   return str.replace(/(rgb|hsl)a?\(([^)]+)\)/g, (_, fn: string, v: string) => {
     const [rgb, alpha] = v.split(/\//g).map(i => i.trim())
     if (alpha && !fn.endsWith('a'))
       fn += 'a'
 
-    const parts = rgb.split(/(?!,)\s+/).map(i => i.trim())
+    const parts = rgb.split(/,?\s+/).map(i => i.trim())
     if (alpha)
       parts.push(alpha)
 
