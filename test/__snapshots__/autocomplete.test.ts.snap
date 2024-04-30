@@ -389,7 +389,7 @@ exports[`autocomplete > should provide autocomplete 1`] = `
   "origin-": "origin-b origin-bc origin-bl origin-bottom origin-bottom-center origin-bottom-left origin-bottom-right origin-br origin-c origin-cb",
   "outline-": "outline-amber outline-auto outline-black outline-blue outline-bluegray outline-blueGray outline-coolgray outline-coolGray outline-current outline-cyan",
   "outline-offset-": "outline-offset-0 outline-offset-1 outline-offset-2 outline-offset-3 outline-offset-4 outline-offset-5 outline-offset-6 outline-offset-8 outline-offset-10 outline-offset-12",
-  "placeholder-": "placeholder-.dark: placeholder-.light: placeholder-@dark: placeholder-@hover: placeholder-@light: placeholder-accent-amber placeholder-accent-black placeholder-accent-blue placeholder-accent-bluegray placeholder-accent-blueGray",
+  "placeholder-": "placeholder-.dark: placeholder-.light: placeholder-@dark: placeholder-@hover: placeholder-@light: placeholder-*: placeholder-accent-amber placeholder-accent-black placeholder-accent-blue placeholder-accent-bluegray",
   "rows-": "rows-0 rows-1 rows-2 rows-3 rows-4 rows-5 rows-6 rows-8 rows-10 rows-12",
   "scale-": "scale-0 scale-10 scale-20 scale-30 scale-40 scale-50 scale-60 scale-70 scale-80 scale-90",
   "scale-x-": "scale-x-0 scale-x-10 scale-x-20 scale-x-30 scale-x-40 scale-x-50 scale-x-60 scale-x-70 scale-x-80 scale-x-90",
