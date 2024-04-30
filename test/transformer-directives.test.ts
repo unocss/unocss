@@ -430,14 +430,14 @@ describe('transformer-directives', () => {
         color: theme("color.none.500");
         }`,
       )).rejects
-        .toMatchInlineSnapshot('[Error: theme of "color.none.500" did not found]')
+        .toMatchInlineSnapshot(`[Error: theme of "color.none.500" did not found]`)
 
       expect(async () => await transform(
           `.btn {
           font-size: theme("size.lg");
           }`,
       )).rejects
-        .toMatchInlineSnapshot('[Error: theme of "size.lg" did not found]')
+        .toMatchInlineSnapshot(`[Error: theme of "size.lg" did not found]`)
     })
 
     it('args', async () => {
@@ -446,7 +446,7 @@ describe('transformer-directives', () => {
           color: theme();
         }`,
       )).rejects
-        .toMatchInlineSnapshot('[Error: theme() expect exact one argument, but got 0]')
+        .toMatchInlineSnapshot(`[Error: theme() expect exact one argument]`)
     })
 
     it('with @apply', async () => {
@@ -465,7 +465,7 @@ div {
           align-items: center;
           justify-content: center;
 
-          --my-color: #ef4444;
+          --my-color: theme("colors.red.500");
           color: var(--my-color);
         }
         "
@@ -488,6 +488,28 @@ div {
           color: rgba(255, 0, 0, 50%);
           color: hsl(210 50% 50% / 0.6);
           color: hsl(210 50% 50% / 60%);
+        }
+        "
+      `)
+    })
+
+    it('nest class', async () => {
+      const result = await transform(`
+      div {
+        @apply flex h-full w-full justify-center items-center;
+        --my-color: theme('colors.red.500');
+        color: var(--my-color);
+      }
+      `)
+      expect(result).toMatchInlineSnapshot(`
+        "div {
+          height: 100%;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          --my-color: theme("colors.red.500");
+          color: var(--my-color);
         }
         "
       `)
