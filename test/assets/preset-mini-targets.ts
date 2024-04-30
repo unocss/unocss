@@ -1037,6 +1037,7 @@ export const presetMiniTargets: string[] = [
   '-mt-safe',
   '-!mb-safe',
   '!-ms-safe',
+  '*:p-2',
 
   // variants class
   'all-[.target]-[combinator:test-2]',

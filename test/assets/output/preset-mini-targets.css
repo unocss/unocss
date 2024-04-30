@@ -29,6 +29,7 @@
 .sibling-\[div\:hover\]-\[combinator\:test-4\]+div:hover{combinator:test-4;}
 .-p-px{padding:-1px;}
 .\!p-5px{padding:5px !important;}
+.\*\:p-2 > *,
 .has-hover\:p-2:has(:hover),
 .p-2,
 .p2,
