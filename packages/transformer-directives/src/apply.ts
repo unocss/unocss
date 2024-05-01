@@ -24,7 +24,9 @@ export async function parseApply({ code, uno, offset, applyVariable }: Transform
   const calcOffset = (pos: number) => offset ? pos + offset : pos
 
   let body: string | undefined
-  if (childNode.type === 'Atrule' && childNode.name === 'apply' && childNode.prelude && childNode.prelude.type === 'Raw') { body = childNode.prelude.value.trim() }
+  if (childNode.type === 'Atrule' && childNode.name === 'apply' && childNode.prelude && childNode.prelude.type === 'Raw') {
+    body = childNode.prelude.value.trim()
+  }
 
   else if (childNode!.type === 'Declaration' && applyVariable.includes(childNode.property) && childNode.value.type === 'Value') {
     body = childNode.value.children.reduce((str, nodeItem) => {

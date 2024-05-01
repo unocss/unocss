@@ -307,29 +307,8 @@ describe('transformer-directives', () => {
       }`,
     )
 
-    expect(result).toMatchInlineSnapshot(`
-      "nav {
-        border-width: 1px;
-        font-size: 1.125rem;
-        line-height: 1.75rem;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-          "Liberation Mono", "Courier New", monospace;
-
-        ul {
-          li {
-            border-width: 1px;
-          }
-        }
-        a {
-          padding-left: 0.5rem;
-          padding-right: 0.5rem;
-        }
-        a:hover {
-          text-decoration-line: underline;
-        }
-      }
-      "
-    `)
+    await expect(result)
+      .toMatchFileSnapshot('./assets/output/transformer-directives-var-style-class.css')
   })
 
   it('@screen basic', async () => {
