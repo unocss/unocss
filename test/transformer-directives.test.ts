@@ -293,7 +293,7 @@ describe('transformer-directives', () => {
   it('var style class', async () => {
     const result = await transform(
       `nav {
-        --at-apply: border;
+        --at-apply: border font-mono text-lg;
 
         ul {
           li {
@@ -309,16 +309,23 @@ describe('transformer-directives', () => {
 
     expect(result).toMatchInlineSnapshot(`
       "nav {
-        --at-apply: border;
+        border-width: 1px;
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
 
         ul {
           li {
-            --uno-apply: border;
+            border-width: 1px;
           }
         }
         a {
-          --at-apply: px-2;
-          --uno: "hover:underline";
+          padding-left: 0.5rem;
+          padding-right: 0.5rem;
+        }
+        a:hover {
+          text-decoration-line: underline;
         }
       }
       "

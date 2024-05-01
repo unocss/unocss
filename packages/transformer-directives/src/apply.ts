@@ -26,16 +26,17 @@ export async function parseApply({ code, uno, offset, applyVariable }: Transform
   let body: string | undefined
   if (childNode.type === 'Atrule' && childNode.name === 'apply' && childNode.prelude && childNode.prelude.type === 'Raw') { body = childNode.prelude.value.trim() }
 
-  else if (childNode!.type === 'Declaration' && applyVariable.includes(childNode.property)) {
-    if (childNode.value.type === 'Raw') {
-      console.log(childNode.value.value)
-      body = childNode.value.value.trim()
-    }
-    else if (childNode.value.type === 'Value') {
-      console.log(childNode.value.children.head.data)
-
-      body = (childNode.value.children as any).head.data.value.trim()
-    }
+  else if (childNode!.type === 'Declaration' && applyVariable.includes(childNode.property) && childNode.value.type === 'Value') {
+    body = childNode.value.children.reduce((str, nodeItem) => {
+      switch (nodeItem.type) {
+        case 'String':
+          return `${str} ${nodeItem.value}`
+        case 'Identifier':
+          return `${str} ${nodeItem.name}`
+        default:
+          return str
+      }
+    }, '').trim()
   }
 
   if (!body)
