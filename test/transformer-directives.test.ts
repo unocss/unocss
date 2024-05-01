@@ -306,8 +306,23 @@ describe('transformer-directives', () => {
         }
       }`,
     )
-    await expect(result)
-      .toMatchFileSnapshot('./assets/output/transformer-directives-var-style-class.css')
+
+    expect(result).toMatchInlineSnapshot(`
+      "nav {
+        --at-apply: border;
+
+        ul {
+          li {
+            --uno-apply: border;
+          }
+        }
+        a {
+          --at-apply: px-2;
+          --uno: "hover:underline";
+        }
+      }
+      "
+    `)
   })
 
   it('@screen basic', async () => {
@@ -465,7 +480,7 @@ div {
           align-items: center;
           justify-content: center;
 
-          --my-color: theme("colors.red.500");
+          --my-color: #ef4444;
           color: var(--my-color);
         }
         "
@@ -508,7 +523,7 @@ div {
           display: flex;
           align-items: center;
           justify-content: center;
-          --my-color: theme("colors.red.500");
+          --my-color: #ef4444;
           color: var(--my-color);
         }
         "

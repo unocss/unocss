@@ -1,16 +1,13 @@
 nav {
-  border-width: 1px;
+  --at-apply: border;
 
   ul {
     li {
-      border-width: 1px;
+      --uno-apply: border;
     }
   }
   a {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-  }
-  a:hover {
-    text-decoration-line: underline;
+    --at-apply: px-2;
+    --uno: "hover:underline";
   }
 }

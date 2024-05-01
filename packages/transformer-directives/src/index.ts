@@ -83,6 +83,7 @@ export async function transformDirectives(
     return
 
   const ast = parse(originalCode || code.original, {
+    parseCustomProperty: true,
     parseAtrulePrelude: false,
     positions: true,
     filename,
