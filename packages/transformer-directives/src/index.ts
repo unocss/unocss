@@ -3,6 +3,7 @@ import type { SourceCodeTransformer, UnoGenerator } from '@unocss/core'
 import type { CssNode, List, ListItem } from 'css-tree'
 import { parse, walk } from 'css-tree'
 import type MagicString from 'magic-string'
+import { hasThemeFn as hasThemeFunction } from '@unocss/rule-utils'
 import { handleScreen } from './screen'
 import { handleApply } from './apply'
 import { handleFunction } from './functions'
@@ -76,8 +77,9 @@ export async function transformDirectives(
 
   const hasApply = code.original.includes('@apply') || applyVariable.some(s => code.original.includes(s))
   const hasScreen = code.original.includes('@screen')
+  const hasThemeFn = hasThemeFunction(code.original)
 
-  if (!hasApply && !hasScreen)
+  if (!hasApply && !hasThemeFn && !hasScreen)
     return
 
   const ast = parse(originalCode || code.original, {
