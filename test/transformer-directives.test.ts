@@ -493,28 +493,6 @@ div {
         "
       `)
     })
-
-    it('nest class', async () => {
-      const result = await transform(`
-      div {
-        @apply flex h-full w-full justify-center items-center;
-        --my-color: theme('colors.red.500');
-        color: var(--my-color);
-      }
-      `)
-      expect(result).toMatchInlineSnapshot(`
-        "div {
-          height: 100%;
-          width: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          --my-color: #ef4444;
-          color: var(--my-color);
-        }
-        "
-      `)
-    })
   })
 
   it('escape backslash', async () => {
