@@ -31,6 +31,10 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
       unit,
     } = options
 
+    // eslint-disable-next-line unicorn/prefer-includes
+    if (prefix === '' || (Array.isArray(prefix) && prefix.some(p => p === '')))
+      throw new Error('prefix cannot be empty')
+
     const flags = getEnvFlags()
 
     const loaderOptions: IconifyLoaderOptions = {
