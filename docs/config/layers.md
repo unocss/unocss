@@ -93,6 +93,6 @@ outputToCssLayers: (layer) => {
   if (layer === 'shortcuts')
     return 'utilities.shortcuts'
 
-  // All other layer will just use their name as the CSS layer name.
+  // All other layers will just use their name as the CSS layer name.
 }
 ```
