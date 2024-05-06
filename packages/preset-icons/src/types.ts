@@ -99,7 +99,7 @@ export interface IconsOptions {
   customFetch?: (url: string) => Promise<any>
 
   /**
-   * Custom the finnal additional props.
+   * Custom the final additional props.
    */
   propsProcessor?: (props: Record<string, string>, collection?: string, icon?: string, svg?: string, mode?: string) => void
 }
