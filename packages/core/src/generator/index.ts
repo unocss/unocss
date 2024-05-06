@@ -1,5 +1,5 @@
 import { createNanoEvents } from '../utils/events'
-import type { CSSEntries, CSSObject, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
+import type { CSSEntries, CSSObject, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
 import { BetterMap, CONTROL_SHORTCUT_NO_MERGE, CountableSet, TwoKeyMap, e, entriesToCss, expandVariantGroup, isCountableSet, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
@@ -182,11 +182,18 @@ export class UnoGenerator<Theme extends object = object> {
         : input
 
     if (safelist) {
-      this.config.safelist.forEach((s) => {
-        // We don't want to increment count if token is already in the set
-        if (!tokens.has(s))
-          tokens.add(s)
-      })
+      const safelistContext: SafeListContext<Theme> = {
+        generator: this,
+        theme: this.config.theme,
+      }
+
+      this.config.safelist
+        .flatMap(s => typeof s === 'function' ? s(safelistContext) : s)
+        .forEach((s) => {
+          // We don't want to increment count if token is already in the set
+          if (!tokens.has(s))
+            tokens.add(s)
+        })
     }
 
     const nl = minify ? '' : '\n'
@@ -284,7 +291,7 @@ export class UnoGenerator<Theme extends object = object> {
                 || a[2]?.localeCompare(b[2] || '') // body
                 || 0
             })
-            .map(([, selector, body,, meta,, variantNoMerge]) => {
+            .map(([, selector, body, , meta, , variantNoMerge]) => {
               const scopedSelector = selector ? applyScope(selector, scope) : selector
               return [
                 [[scopedSelector ?? '', meta?.sort ?? 0]],
@@ -725,8 +732,8 @@ export class UnoGenerator<Theme extends object = object> {
             }
 
             const merges = [
-              [e.filter(([, noMerge]) => noMerge).map(([entries,, sort]) => [entries, sort]), true],
-              [e.filter(([, noMerge]) => !noMerge).map(([entries,, sort]) => [entries, sort]), false],
+              [e.filter(([, noMerge]) => noMerge).map(([entries, , sort]) => [entries, sort]), true],
+              [e.filter(([, noMerge]) => !noMerge).map(([entries, , sort]) => [entries, sort]), false],
             ] as [[CSSEntries, number][], boolean][]
 
             return merges.map(([e, noMerge]) => [

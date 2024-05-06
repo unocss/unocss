@@ -8,17 +8,17 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "solid-js": "^1.8.15"
+    "solid-js": "^1.8.16"
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.1.42",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
-    "typescript": "^5.4.2",
+    "typescript": "^5.4.5",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.1.6",
-    "vite-plugin-solid": "^2.10.1"
+    "vite": "^5.2.9",
+    "vite-plugin-solid": "^2.10.2"
   },
   "stackblitz": {
     "installDependencies": false,

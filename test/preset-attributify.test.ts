@@ -210,4 +210,34 @@ describe('attributify', async () => {
     `, { preflights: false })
     expect(css).toMatchSnapshot()
   })
+
+  it('support inline arrow functions', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetAttributify(),
+        presetUno(),
+      ],
+    })
+    const { css: css1 } = await uno.generate('<div v-for="(v, i) of [0].map(() => 1)" h-1px />', { preflights: false })
+    expect(css1).toMatchSnapshot()
+
+    const { css: css2 } = await uno.generate(`
+      <div
+        h-1px
+        v-for="(
+          v, i
+        ) of [0].map(() => 1)"
+      />
+    `, { preflights: false })
+    expect(css2).toMatchSnapshot()
+
+    const { css: css3 } = await uno.generate(`
+      <div v-for="(
+          v, i
+        ) of [0].map(() => 1)"
+        h-1px
+      />
+    `, { preflights: false })
+    expect(css3).toMatchSnapshot()
+  })
 })

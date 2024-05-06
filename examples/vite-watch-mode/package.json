@@ -12,16 +12,16 @@
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.1.42",
-    "@types/react": "^18.2.66",
-    "@types/react-dom": "^18.2.22",
+    "@types/react": "^18.2.79",
+    "@types/react-dom": "^18.2.25",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
     "@vitejs/plugin-react": "^4.2.1",
     "cross-env": "^7.0.3",
-    "typescript": "^5.4.2",
+    "typescript": "^5.4.5",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.1.6"
+    "vite": "^5.2.9"
   },
   "stackblitz": {
     "installDependencies": false,

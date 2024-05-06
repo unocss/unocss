@@ -11,7 +11,7 @@
   "devDependencies": {
     "@iconify-json/logos": "^1.1.42",
     "@unocss/reset": "link:../../packages/reset",
-    "astro": "^4.5.4",
+    "astro": "^4.6.2",
     "canvas-confetti": "^1.9.2",
     "unocss": "link:../../packages/unocss"
   },

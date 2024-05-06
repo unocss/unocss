@@ -1,6 +1,7 @@
 {
   "name": "unocss",
-  "version": "0.58.6",
+  "type": "module",
+  "version": "0.59.4",
   "description": "The instant on-demand Atomic CSS engine.",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -27,72 +28,71 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
     },
     "./preset-attributify": {
-      "types": "./dist/preset-attributify.d.ts",
-      "import": "./dist/preset-attributify.mjs",
-      "require": "./dist/preset-attributify.cjs"
+      "types": "./dist/preset-attributify.d.mts",
+      "default": "./dist/preset-attributify.mjs"
     },
     "./preset-tagify": {
-      "types": "./dist/preset-tagify.d.ts",
-      "import": "./dist/preset-tagify.mjs",
-      "require": "./dist/preset-tagify.cjs"
+      "types": "./dist/preset-tagify.d.mts",
+      "default": "./dist/preset-tagify.mjs"
     },
     "./preset-icons": {
-      "types": "./dist/preset-icons.d.ts",
-      "import": "./dist/preset-icons.mjs",
-      "require": "./dist/preset-icons.cjs"
+      "types": "./dist/preset-icons.d.mts",
+      "default": "./dist/preset-icons.mjs"
     },
     "./preset-mini": {
-      "types": "./dist/preset-mini.d.ts",
-      "import": "./dist/preset-mini.mjs",
-      "require": "./dist/preset-mini.cjs"
+      "types": "./dist/preset-mini.d.mts",
+      "default": "./dist/preset-mini.mjs"
     },
     "./preset-typography": {
-      "types": "./dist/preset-typography.d.ts",
-      "import": "./dist/preset-typography.mjs",
-      "require": "./dist/preset-typography.cjs"
+      "types": "./dist/preset-typography.d.mts",
+      "default": "./dist/preset-typography.mjs"
     },
     "./preset-uno": {
-      "types": "./dist/preset-uno.d.ts",
-      "import": "./dist/preset-uno.mjs",
-      "require": "./dist/preset-uno.cjs"
+      "types": "./dist/preset-uno.d.mts",
+      "default": "./dist/preset-uno.mjs"
     },
     "./preset-web-fonts": {
-      "types": "./dist/preset-web-fonts.d.ts",
-      "import": "./dist/preset-web-fonts.mjs",
-      "require": "./dist/preset-web-fonts.cjs"
+      "types": "./dist/preset-web-fonts.d.mts",
+      "default": "./dist/preset-web-fonts.mjs"
     },
     "./preset-wind": {
-      "types": "./dist/preset-wind.d.ts",
-      "import": "./dist/preset-wind.mjs",
-      "require": "./dist/preset-wind.cjs"
+      "types": "./dist/preset-wind.d.mts",
+      "default": "./dist/preset-wind.mjs"
     },
     "./vite": {
-      "types": "./dist/vite.d.ts",
-      "import": "./dist/vite.mjs",
-      "require": "./dist/vite.cjs"
+      "types": "./dist/vite.d.mts",
+      "default": "./dist/vite.mjs"
     },
     "./astro": {
-      "types": "./dist/astro.d.ts",
-      "import": "./dist/astro.mjs",
-      "require": "./dist/astro.cjs"
+      "types": "./dist/astro.d.mts",
+      "default": "./dist/astro.mjs"
     },
     "./webpack": {
-      "types": "./dist/webpack.d.ts",
-      "import": "./dist/webpack.mjs",
-      "require": "./dist/webpack.cjs"
+      "import": {
+        "types": "./dist/webpack.d.mts",
+        "default": "./dist/webpack.mjs"
+      },
+      "require": {
+        "types": "./dist/webpack.d.cts",
+        "default": "./dist/webpack.cjs"
+      }
     },
     "./postcss": {
-      "types": "./dist/postcss.d.ts",
-      "import": "./dist/postcss.mjs",
-      "require": "./dist/postcss.cjs"
+      "import": {
+        "types": "./dist/postcss.d.mts",
+        "default": "./dist/postcss.mjs"
+      },
+      "require": {
+        "types": "./dist/postcss.d.cts",
+        "default": "./dist/postcss.cjs"
+      }
     }
   },
-  "main": "dist/index.cjs",
+  "main": "dist/index.mjs",
   "module": "dist/index.mjs",
   "types": "index.d.ts",
   "files": [
@@ -142,6 +142,6 @@
   },
   "devDependencies": {
     "@unocss/webpack": "workspace:*",
-    "vite": "^5.1.6"
+    "vite": "^5.2.9"
   }
 }

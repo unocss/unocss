@@ -14,10 +14,10 @@
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
     "@unocss/preset-uno": "link:../../packages/preset-uno",
-    "elm-tooling": "^1.15.0",
+    "elm-tooling": "^1.15.1",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.1.6",
-    "vite-plugin-elm": "^3.0.0"
+    "vite": "^5.2.9",
+    "vite-plugin-elm": "^3.0.1"
   },
   "stackblitz": {
     "installDependencies": false,

@@ -274,7 +274,7 @@ Add `@unocss/svelte-scoped/preprocess` to your Svelte config:
 ```ts
 // svelte.config.js
 import adapter from '@sveltejs/adapter-auto'
-import { vitePreprocess } from '@sveltejs/kit/vite'
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 import UnoCSS from '@unocss/svelte-scoped/preprocess'
 
 const config = {

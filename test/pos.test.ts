@@ -358,6 +358,76 @@ let transition = 'ease-in-out duration-300'
         ]
       `)
   })
+
+  it('with include and exclude in attributify', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetUno(),
+        presetAttributify(),
+      ],
+    })
+
+    // #3684, origin HTML tags not include `mt-1`
+    expect(await match(uno, '<div class="[&_>*]:w-full" mt-1></div>', '', {
+      includeRegex: defaultIdeMatchInclude,
+      excludeRegex: defaultIdeMatchExclude,
+    }))
+      .toMatchInlineSnapshot(`
+          [
+            [
+              12,
+              25,
+              "[&_>*]:w-full",
+            ],
+            [
+              27,
+              31,
+              "mt-1",
+            ],
+          ]
+        `)
+
+    // origin HTML tags not include `mr-1 px2`
+    expect(await match(uno, `<Tabs
+    @edit="(e) => handleEdit()"
+    mr-1 px2
+    type="editable-card"
+    size="small"
+    :animated="false"
+    :hideAdd="true"
+    :tabBarGutter="3"
+    :activeKey="activeKeyRef"
+    @change="handleChange"
+  >`, '', {
+      includeRegex: defaultIdeMatchInclude,
+      excludeRegex: defaultIdeMatchExclude,
+    }))
+      .toMatchInlineSnapshot(`
+        [
+          [
+            42,
+            46,
+            "mr-1",
+          ],
+          [
+            47,
+            50,
+            "px2",
+          ],
+        ]
+      `)
+
+    // #3733, match php <? stuck
+    expect(await match(uno, `<?php
+    Route::get('/some-route', [SomeController::class, 'someMethod']);
+    Route::get('/some-route', [SomeController::class, 'someMethod']);
+    Route::get('/some-route', [SomeController::class, 'someMethod']);
+    `, '', {
+      includeRegex: defaultIdeMatchInclude,
+      excludeRegex: defaultIdeMatchExclude,
+    }))
+      .toMatchInlineSnapshot(`[]`)
+  })
 })
 
 describe('matched-positions-pug', async () => {

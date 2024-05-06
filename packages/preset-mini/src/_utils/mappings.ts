@@ -71,6 +71,8 @@ export const xyzMap: Record<string, string[]> = {
   '': ['-x', '-y'],
 }
 
+export const xyzArray = ['x', 'y', 'z']
+
 const basePositionMap = [
   'top',
   'top center',
@@ -115,3 +117,4 @@ export const globalKeywords = [
 ]
 
 export const cssMathFnRE = /^(calc|clamp|min|max)\s*\((.+)\)(.*)/
+export const cssVarFnRE = /^(var)\s*\((.+)\)(.*)/

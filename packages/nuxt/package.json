@@ -1,6 +1,7 @@
 {
   "name": "@unocss/nuxt",
-  "version": "0.58.6",
+  "type": "module",
+  "version": "0.59.4",
   "description": "Nuxt module for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -23,14 +24,14 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./index.cjs"
+      "types": "./dist/index.d.mts",
+      "require": "./index.cjs",
+      "default": "./dist/index.mjs"
     }
   },
-  "main": "./index.cjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "main": "dist/index.mjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist",
     "index.cjs",
@@ -41,7 +42,7 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.10.3",
+    "@nuxt/kit": "^3.11.2",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
@@ -57,6 +58,6 @@
     "unocss": "workspace:*"
   },
   "devDependencies": {
-    "@nuxt/schema": "^3.10.3"
+    "@nuxt/schema": "^3.11.2"
   }
 }

@@ -10,18 +10,18 @@
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.1.42",
-    "@sveltejs/vite-plugin-svelte": "^3.0.2",
-    "@tsconfig/svelte": "^5.0.2",
+    "@sveltejs/vite-plugin-svelte": "^3.1.0",
+    "@tsconfig/svelte": "^5.0.4",
     "@unocss/core": "link:../../packages/core",
     "@unocss/extractor-svelte": "link:../../packages/extractor-svelte",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
-    "svelte": "^4.2.12",
-    "svelte-check": "^3.6.7",
-    "svelte-preprocess": "^5.1.3",
+    "svelte": "^4.2.15",
+    "svelte-check": "^3.6.9",
+    "svelte-preprocess": "^5.1.4",
     "tslib": "^2.6.2",
-    "typescript": "^5.4.2",
+    "typescript": "^5.4.5",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.1.6"
+    "vite": "^5.2.9"
   },
   "stackblitz": {
     "installDependencies": false,

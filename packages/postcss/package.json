@@ -1,6 +1,7 @@
 {
   "name": "@unocss/postcss",
-  "version": "0.58.6",
+  "type": "module",
+  "version": "0.59.4",
   "description": "PostCSS plugin for UnoCSS",
   "author": "sibbng <sibbngheid@gmail.com>",
   "license": "MIT",
@@ -18,14 +19,31 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./esm": {
+      "types": "./dist/esm.d.mts",
+      "default": "./dist/esm.mjs"
     }
   },
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/*",
+        "./*"
+      ]
+    }
+  },
   "files": [
     "dist"
   ],
@@ -45,7 +63,7 @@
     "@unocss/rule-utils": "workspace:*",
     "css-tree": "^2.3.1",
     "fast-glob": "^3.3.2",
-    "magic-string": "^0.30.8",
-    "postcss": "^8.4.35"
+    "magic-string": "^0.30.10",
+    "postcss": "^8.4.38"
   }
 }

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onBeforeRouteUpdate } from 'vue-router'
 
-// eslint-disable-next-line ts/consistent-type-imports
 import type { ResultItem } from '~/types'
 import { input, isSearching, searchResult, selectIndex, userConfigLoading } from '~/composables/state'
 

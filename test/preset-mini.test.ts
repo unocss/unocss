@@ -28,6 +28,8 @@ const uno = createGenerator({
     },
     spacing: {
       safe: 'max(env(safe-area-inset-left), env(safe-area-inset-right))',
+      md: 'calc(var(--spacing-md))',
+      lg: 'var(--spacing-lg)',
     },
   },
 })
@@ -78,8 +80,29 @@ describe('preset-mini', () => {
     const code = presetWindTargets.join(' ')
     const { css, matched } = await uno.generate(code, { preflights: false })
 
-    expect(Array.from(matched)).toEqual([])
-    expect(css).toBe('')
+    expect(Array.from(matched)).toEqual([
+      'h-svh',
+      'h-dvh',
+      'h-lvh',
+      'min-h-dvh',
+      'min-h-lvh',
+      'min-h-svh',
+      'max-h-dvh',
+      'max-h-svh',
+      'max-h-lvh',
+    ])
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .h-dvh{height:100dvh;}
+      .h-lvh{height:100lvh;}
+      .h-svh{height:100svh;}
+      .max-h-dvh{max-height:100dvh;}
+      .max-h-lvh{max-height:100lvh;}
+      .max-h-svh{max-height:100svh;}
+      .min-h-dvh{min-height:100dvh;}
+      .min-h-lvh{min-height:100lvh;}
+      .min-h-svh{min-height:100svh;}"
+    `)
   })
 
   it('custom var prefix', async () => {

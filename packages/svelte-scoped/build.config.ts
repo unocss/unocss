@@ -22,9 +22,6 @@ export default defineBuildConfig({
     'svelte',
     'vite',
   ],
-  rollup: {
-    emitCJS: true,
-  },
   replace: {
     'import.meta.vitest': 'undefined',
   },

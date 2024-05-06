@@ -88,8 +88,8 @@ export default defineNuxtModule<UnocssNuxtOptions>({
       const preset = nuxt.options.postcss.plugins.cssnano.preset
       nuxt.options.postcss.plugins.cssnano = {
         preset: [preset?.[0] || 'default', Object.assign(
-          preset?.[1] || {},
           { mergeRules: false, normalizeWhitespace: false, discardComments: false },
+          preset?.[1],
         )],
       }
     }

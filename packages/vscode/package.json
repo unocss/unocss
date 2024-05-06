@@ -2,7 +2,7 @@
   "publisher": "antfu",
   "name": "@unocss/vscode",
   "displayName": "UnoCSS",
-  "version": "0.58.6",
+  "version": "0.59.4",
   "private": true,
   "description": "UnoCSS for VS Code",
   "license": "MIT",
@@ -88,7 +88,7 @@
         },
         "unocss.remToPxPreview": {
           "type": "boolean",
-          "default": false,
+          "default": true,
           "description": "Enable/disable rem to px preview in hover"
         },
         "unocss.remToPxRatio": {
@@ -133,6 +133,6 @@
     "jiti": "^1.21.0",
     "prettier": "^2.8.8",
     "tsup": "^8.0.2",
-    "unconfig": "^0.3.11"
+    "unconfig": "^0.3.13"
   }
 }

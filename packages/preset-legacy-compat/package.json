@@ -1,6 +1,6 @@
 {
   "name": "@unocss/preset-legacy-compat",
-  "version": "0.58.6",
+  "version": "0.59.4",
   "description": "Collections of legacy compatibility utilities.",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -21,7 +21,6 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     }

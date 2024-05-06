@@ -1,6 +1,7 @@
 {
   "name": "@unocss/scope",
-  "version": "0.58.6",
+  "type": "module",
+  "version": "0.59.4",
   "description": "Placeholder for UnoCSS scope import",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -11,9 +12,14 @@
   },
   "exports": {
     ".": {
-      "types": "./index.d.ts",
-      "import": "./index.mjs",
-      "require": "./index.cjs"
+      "import": {
+        "types": "./index.d.ts",
+        "default": "./index.mjs"
+      },
+      "require": {
+        "types": "./index.d.cts",
+        "default": "./index.cjs"
+      }
     }
   },
   "main": "./index.cjs",

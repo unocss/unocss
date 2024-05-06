@@ -1,6 +1,7 @@
 {
   "name": "@unocss/webpack",
-  "version": "0.58.6",
+  "type": "module",
+  "version": "0.59.4",
   "description": "The Webpack plugin for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -21,9 +22,14 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     }
   },
   "main": "./dist/index.cjs",
@@ -46,13 +52,13 @@
     "@unocss/core": "workspace:*",
     "chokidar": "^3.6.0",
     "fast-glob": "^3.3.2",
-    "magic-string": "^0.30.8",
-    "unplugin": "^1.10.0",
+    "magic-string": "^0.30.10",
+    "unplugin": "^1.10.1",
     "webpack-sources": "^3.2.3"
   },
   "devDependencies": {
     "@types/webpack": "^5.28.5",
     "@types/webpack-sources": "^3.2.3",
-    "webpack": "^5.90.3"
+    "webpack": "^5.91.0"
   }
 }

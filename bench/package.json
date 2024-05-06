@@ -1,18 +1,18 @@
 {
-  "version": "0.58.6",
+  "version": "0.59.4",
   "scripts": {
     "bench": "node run.mjs"
   },
   "devDependencies": {
     "@unocss/vite": "workspace:*",
     "@vitejs/plugin-vue": "^5.0.4",
-    "autoprefixer": "^10.4.18",
+    "autoprefixer": "^10.4.19",
     "fs-extra": "^11.2.0",
     "local-pkg": "^0.5.0",
-    "postcss": "^8.4.35",
-    "tailwindcss": "^3.4.1",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.3",
     "unocss": "workspace:*",
-    "vite": "^5.1.6",
+    "vite": "^5.2.9",
     "vite-plugin-windicss": "^1.9.3",
     "vue": "^3.4.21",
     "windicss": "^3.5.6"

@@ -136,11 +136,12 @@ describe('autocomplete', () => {
     expect(await ac.suggest('lt-'))
       .toMatchInlineSnapshot(`
         [
-          "lt-lg:",
-          "lt-md:",
-          "lt-sm:",
-          "lt-xl:",
-          "lt-2xl:",
+          "lt-lg",
+          "lt-md",
+          "lt-sm",
+          "lt-xl",
+          "ltr:",
+          "lt-2xl",
         ]
       `)
   })
@@ -158,10 +159,10 @@ describe('autocomplete', () => {
   it('should support extractors', async () => {
     const res = await ac.suggestInFile(fixture, 40)
 
-    expect(res.suggestions.every(i => i[0].startsWith('border-'))).toBeTruthy()
-    expect(res.suggestions.some(i => i[1].startsWith('border-'))).toBeFalsy()
+    expect(res?.suggestions.every(i => i[0].startsWith('border-'))).toBeTruthy()
+    expect(res?.suggestions.some(i => i[1].startsWith('border-'))).toBeFalsy()
 
-    const replacement = res.resolveReplacement(res.suggestions[0][0])
+    const replacement = res?.resolveReplacement(res?.suggestions[0][0])
     expect(replacement).toMatchInlineSnapshot(`
       {
         "end": 40,
@@ -170,7 +171,7 @@ describe('autocomplete', () => {
       }
     `)
 
-    expect(fixture.slice(0, replacement.start) + replacement.replacement + fixture.slice(replacement.end))
+    expect(fixture.slice(0, replacement?.start) + replacement?.replacement + fixture.slice(replacement?.end))
       .toMatchInlineSnapshot(`
         "
         <div bg="blue-500">
@@ -224,14 +225,20 @@ describe('use uno cache', () => {
 
   it('use cache', async () => {
     expect(await ac.suggest('btn'))
-      .toMatchInlineSnapshot('[]')
-
+      .toMatchInlineSnapshot(`
+        [
+          "b-t-neutral",
+          "b-t-none",
+        ]
+      `)
     await uno.generate('btn-red btn-green m-100', { preflights: false })
     ac.reset()
 
     expect(await ac.suggest('btn'))
       .toMatchInlineSnapshot(`
         [
+          "b-t-neutral",
+          "b-t-none",
           "btn-green",
           "btn-red",
         ]

@@ -1,6 +1,7 @@
 {
   "name": "@unocss/cli",
-  "version": "0.58.6",
+  "type": "module",
+  "version": "0.59.4",
   "description": "CLI for UnoCSS",
   "author": {
     "name": "Johann Schopplich",
@@ -21,8 +22,8 @@
   "keywords": [],
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs"
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
     }
   },
   "main": "./dist/index.mjs",
@@ -53,7 +54,7 @@
     "colorette": "^2.0.20",
     "consola": "^3.2.3",
     "fast-glob": "^3.3.2",
-    "magic-string": "^0.30.8",
+    "magic-string": "^0.30.10",
     "pathe": "^1.1.2",
     "perfect-debounce": "^1.0.0"
   }
