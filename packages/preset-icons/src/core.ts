@@ -29,6 +29,7 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
       collectionsNodeResolvePath,
       layer = 'icons',
       unit,
+      propsProcessor,
     } = options
 
     const flags = getEnvFlags()
@@ -94,6 +95,8 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
               warnOnce(`failed to load icon "${full}"`)
             return
           }
+
+          propsProcessor?.(usedProps, collection, name, svg, _mode)
 
           const url = `url("data:image/svg+xml;utf8,${encodeSvgForCss(svg)}")`
 
