@@ -68,7 +68,7 @@ describe('preset-icons', () => {
       presets: [
         presetUno(),
         presetIcons({
-          propsProcessor(props, collection, icon, svg, mode) {
+          processor(props, { mode }) {
             if (mode === 'bg') {
               delete props.width
               delete props.height

@@ -1,6 +1,13 @@
 import type { CustomIconLoader, IconCustomizations, InlineCollection } from '@iconify/utils/lib/loader/types'
-import type { Awaitable } from '@unocss/core'
+import type { Awaitable, CSSObject } from '@unocss/core'
 import type { IconifyJSON } from '@iconify/types'
+
+interface IconMeta {
+  collection: string
+  icon: string
+  svg: string
+  mode?: IconsOptions['mode']
+}
 
 export interface IconsOptions {
   /**
@@ -20,7 +27,7 @@ export interface IconsOptions {
    * @default 'auto'
    * @see https://antfu.me/posts/icons-in-pure-css
    */
-  mode?: 'mask' | 'background-img' | 'auto'
+  mode?: 'mask' | 'bg' | 'auto'
 
   /**
    * Class prefix for matching icon rules.
@@ -99,7 +106,7 @@ export interface IconsOptions {
   customFetch?: (url: string) => Promise<any>
 
   /**
-   * Custom the final additional props.
+   * processor for the generated CSS object
    */
-  propsProcessor?: (props: Record<string, string>, collection?: string, icon?: string, svg?: string, mode?: string) => void
+  processor?: (cssObject: CSSObject, meta: Required<IconMeta>) => void
 }
