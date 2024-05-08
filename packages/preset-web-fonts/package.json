@@ -27,11 +27,27 @@
     ".": {
       "types": "./dist/index.d.mts",
       "default": "./dist/index.mjs"
+    },
+    "./local-font": {
+      "types": "./dist/local-font.d.mts",
+      "default": "./dist/local-font.mjs"
+    },
+    "./remote-font": {
+      "types": "./dist/remote-font.d.mts",
+      "default": "./dist/remote-font.mjs"
     }
   },
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*",
+        "./*"
+      ]
+    }
+  },
   "files": [
     "*.css",
     "dist"

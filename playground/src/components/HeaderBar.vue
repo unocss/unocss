@@ -23,7 +23,7 @@ function handleReset() {
 
 <template>
   <div
-    class="flex items-center px-2 op-60 bg-gray/10"
+    class="flex items-center px2 op-60 bg-gray/10 font-sans"
     border="l t gray-400/20" w-full
   >
     <div flex items-center gap-2>
@@ -36,7 +36,7 @@ function handleReset() {
       </div>
     </div>
 
-    <div class="pl-1 ml-auto space-x-2 text-sm md:text-base flex items-center flex-nowrap">
+    <div class="pl1 ml-auto space-x-2 text-sm md:text-base flex items-center flex-nowrap">
       <button
         :class="copied ? 'i-ri-checkbox-circle-line text-green' : 'i-ri-share-line'"
         icon-btn

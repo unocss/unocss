@@ -10,6 +10,7 @@ import { loadConfig } from '@unocss/config'
 import type { UserConfig } from '@unocss/core'
 import { resolveOptions } from './options'
 import type { UnocssNuxtOptions } from './types'
+import { configureWebFontPreset } from './web-fonts'
 
 export { UnocssNuxtOptions }
 
@@ -37,6 +38,9 @@ export default defineNuxtModule<UnocssNuxtOptions>({
   async setup(options, nuxt) {
     // preset shortcuts
     resolveOptions(options)
+
+    // configure local webfonts preset
+    await configureWebFontPreset(nuxt, options)
 
     options.mode ??= 'global'
     const InjectModes: VitePluginConfig['mode'][] = ['global', 'dist-chunk']

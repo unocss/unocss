@@ -3,7 +3,8 @@ import Vue from '@vitejs/plugin-vue'
 import Inspect from 'vite-plugin-inspect'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
-import UnoCSS from '@unocss/vite'
+// import UnoCSS from '@unocss/vite'
+import UnoCSS from '../packages/vite/src'
 import { alias } from '../alias'
 
 export default defineConfig({
@@ -39,6 +40,7 @@ export default defineConfig({
   ],
   optimizeDeps: {
     exclude: [
+      '@unocss/preset-web-fonts/local-font',
       '@iconify/utils/lib/loader/fs',
       '@iconify/utils/lib/loader/install-pkg',
       '@iconify/utils/lib/loader/node-loader',
@@ -50,6 +52,7 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       external: [
+        '@unocss/preset-web-fonts/local-font',
         '@iconify/utils/lib/loader/fs',
         '@iconify/utils/lib/loader/install-pkg',
         '@iconify/utils/lib/loader/node-loader',

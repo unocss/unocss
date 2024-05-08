@@ -8,8 +8,9 @@ const { content } = Astro.props;
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<title>{content.title}</title>
+		<link rel="stylesheet" href="/unocss-fonts/fonts.css" />
 	</head>
-	<body>
+	<body class="font-sans">
 		<slot />
 	</body>
 </html>

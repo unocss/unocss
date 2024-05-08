@@ -2,7 +2,7 @@ import defaultConfigRaw from '../../../packages/shared-docs/src/defaultConfig.ts
 import { version } from '../../../package.json'
 
 export const defaultHTML = `
-<div h-full text-center flex select-none all:transition-400>
+<div h-full text-center flex select-none all:transition-400 font-serif>
   <div ma>
     <div text-5xl fw100 animate-bounce-alt animate-count-infinite animate-duration-1s>
       UnoCSS

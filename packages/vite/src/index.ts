@@ -12,6 +12,7 @@ import { ConfigHMRPlugin } from './config-hmr'
 import type { VitePluginConfig } from './types'
 import { createTransformerPlugins } from './transformers'
 import { createDevtoolsPlugin } from './devtool'
+import { createWebFontPlugins } from './web-fonts'
 
 export * from './types'
 export * from './modes/chunk-build'
@@ -43,6 +44,7 @@ export default function UnocssPlugin<Theme extends object>(
     ConfigHMRPlugin(ctx),
     ...createTransformerPlugins(ctx),
     ...createDevtoolsPlugin(ctx, inlineConfig),
+    ...createWebFontPlugins(ctx),
     {
       name: 'unocss:api',
       api: <UnocssVitePluginAPI>{

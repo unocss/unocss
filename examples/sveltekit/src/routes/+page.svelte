@@ -7,4 +7,4 @@
 
 <Go /><br />
 
-<a href="/about" class="text-green-600 fw-bold">About</a><br />
+<a href="/about" class="text-green-600 fw-bold font-serif">About</a><br />

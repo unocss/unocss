@@ -13,6 +13,10 @@
 	$: span = red ? 'Normal' : 'Red'
 </script>
 
+<svelte:head>
+	<link rel="stylesheet" href="/unocss-fonts/fonts.css" />
+</svelte:head>
+
 <main class="text-center p-1em my-0 mx-auto">
 	<span class="logo"></span>
 

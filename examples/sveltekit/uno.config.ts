@@ -1,10 +1,15 @@
-import { defineConfig } from 'unocss'
+import { defineConfig, presetWebFonts } from 'unocss'
 import extractorSvelte from '@unocss/extractor-svelte'
 import presetIcons from '@unocss/preset-icons'
 import presetUno from '@unocss/preset-uno'
 import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
 
 export default defineConfig({
+  theme: {
+    fontFamily: {
+      sans: 'sans-serif',
+    },
+  },
   extractors: [
     extractorSvelte(),
   ],
@@ -30,6 +35,14 @@ export default defineConfig({
       extraProperties: {
         'display': 'inline-block',
         'vertical-align': 'middle',
+      },
+    }),
+    presetWebFonts({
+      downloadLocally: true,
+      provider: 'google',
+      fonts: {
+        sans: 'Lato',
+        serif: 'Merriweather',
       },
     }),
   ],

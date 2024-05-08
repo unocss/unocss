@@ -1,5 +1,5 @@
 <template>
-  <div class=":uno: font-sans leading-1em">
+  <div class=":uno: font-serif leading-[1em]">
     <Playground />
   </div>
 </template>
