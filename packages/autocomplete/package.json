@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "fzf": "^0.5.2",
-    "lru-cache": "^10.2.0"
+    "lru-cache": "^10.2.2"
   },
   "devDependencies": {
     "@unocss/core": "workspace:*"
