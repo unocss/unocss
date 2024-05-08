@@ -293,7 +293,7 @@ describe('transformer-directives', () => {
   it('var style class', async () => {
     const result = await transform(
       `nav {
-        --at-apply: border;
+        --at-apply: border font-mono text-lg;
 
         ul {
           li {
@@ -306,6 +306,7 @@ describe('transformer-directives', () => {
         }
       }`,
     )
+
     await expect(result)
       .toMatchFileSnapshot('./assets/output/transformer-directives-var-style-class.css')
   })
@@ -430,14 +431,14 @@ describe('transformer-directives', () => {
         color: theme("color.none.500");
         }`,
       )).rejects
-        .toMatchInlineSnapshot('[Error: theme of "color.none.500" did not found]')
+        .toMatchInlineSnapshot(`[Error: theme of "color.none.500" did not found]`)
 
       expect(async () => await transform(
           `.btn {
           font-size: theme("size.lg");
           }`,
       )).rejects
-        .toMatchInlineSnapshot('[Error: theme of "size.lg" did not found]')
+        .toMatchInlineSnapshot(`[Error: theme of "size.lg" did not found]`)
     })
 
     it('args', async () => {
@@ -446,7 +447,7 @@ describe('transformer-directives', () => {
           color: theme();
         }`,
       )).rejects
-        .toMatchInlineSnapshot('[Error: theme() expect exact one argument, but got 0]')
+        .toMatchInlineSnapshot(`[Error: theme() expect exact one argument]`)
     })
 
     it('with @apply', async () => {

@@ -4,9 +4,9 @@ import type { CssNode, List, ListItem } from 'css-tree'
 import { parse, walk } from 'css-tree'
 import type MagicString from 'magic-string'
 import { hasThemeFn as hasThemeFunction } from '@unocss/rule-utils'
-import { handleThemeFn } from './theme'
 import { handleScreen } from './screen'
 import { handleApply } from './apply'
+import { handleFunction } from './functions'
 
 export interface TransformerDirectivesOptions {
   enforce?: SourceCodeTransformer['enforce']
@@ -83,6 +83,7 @@ export async function transformDirectives(
     return
 
   const ast = parse(originalCode || code.original, {
+    parseCustomProperty: true,
     parseAtrulePrelude: false,
     positions: true,
     filename,
@@ -106,8 +107,8 @@ export async function transformDirectives(
     if (hasScreen && node.type === 'Atrule')
       handleScreen(ctx, node)
 
-    if (hasThemeFn && node.type === 'Declaration')
-      handleThemeFn(ctx, node)
+    if (node.type === 'Function')
+      handleFunction(ctx, node)
 
     if (hasApply && node.type === 'Rule')
       await handleApply(ctx, node)
