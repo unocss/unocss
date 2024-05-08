@@ -11,7 +11,7 @@ export function important(option: PresetWindOptions['important']): Postprocessor
 
     // handle pseudo
     if (selector.includes('::'))
-      return selector.replace(/(.*)(::.*)/, ':is($1)$2')
+      return selector.replace(/(.*?)(\s*::.*)/, ':is($1)$2')
 
     return `:is(${selector})`
   }
