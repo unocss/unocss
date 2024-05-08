@@ -106,7 +106,7 @@ export interface IconsOptions {
   customFetch?: (url: string) => Promise<any>
 
   /**
-   * processor for the generated CSS object
+   * Processor for the CSS object before stringify
    */
   processor?: (cssObject: CSSObject, meta: Required<IconMeta>) => void
 }
