@@ -91,7 +91,7 @@
     "eslint": "^9.2.0",
     "eslint-plugin-antfu": "^2.2.0",
     "esno": "^4.7.0",
-    "execa": "^8.0.1",
+    "execa": "^9.0.0",
     "fast-glob": "^3.3.2",
     "floating-vue": "2.0.0-beta.24",
     "fs-extra": "^11.2.0",
@@ -134,16 +134,16 @@
       "deep-equal": "npm:@nolyfill/deep-equal@latest",
       "is-typed-array": "npm:@nolyfill/is-typed-array@latest",
       "isarray": "npm:@nolyfill/isarray@latest",
-      "magic-string": "^0.30.10",
-      "nuxt": "^3.11.2",
       "object.assign": "npm:@nolyfill/object.assign@latest",
       "object.values": "npm:@nolyfill/object.values@latest",
-      "prettier": "^2.8.8",
-      "rollup": "^4.17.2",
       "typedarray": "npm:@nolyfill/typedarray@latest",
       "util.promisify": "npm:@nolyfill/util.promisify@latest",
-      "vite": "^5.2.11",
-      "which-typed-array": "npm:@nolyfill/which-typed-array@latest"
+      "which-typed-array": "npm:@nolyfill/which-typed-array@latest",
+      "magic-string": "^0.30.10",
+      "nuxt": "^3.11.2",
+      "prettier": "^2.8.8",
+      "rollup": "^4.17.2",
+      "vite": "^5.2.11"
     }
   },
   "simple-git-hooks": {
