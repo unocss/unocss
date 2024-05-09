@@ -11,13 +11,18 @@ describe('worker', () => {
       ],
       blocklist: [
         'block',
-        /^text-/,
+        [/^text-/, { message: 'foo' }],
         i => i.includes('green'),
       ],
     })
     setGenerator(uno)
     const rs = await runAsync('blocklist', 'block !block w-3px bg-green-500 text-red-500')
-    expect(rs).toEqual(['block', 'bg-green-500', 'text-red-500', '!block'])
+    expect(rs).toEqual([
+      ['block', undefined],
+      ['bg-green-500', undefined],
+      ['text-red-500', { message: 'foo' }],
+      ['!block', undefined],
+    ])
   })
   it('sort', async () => {
     const uno = createGenerator({
