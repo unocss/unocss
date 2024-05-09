@@ -1,6 +1,7 @@
 import type { ESLintUtils } from '@typescript-eslint/utils'
 import type { RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import type { TSESTree } from '@typescript-eslint/types'
+import type { BlocklistMeta } from '@unocss/core'
 import { CLASS_FIELDS } from '../constants'
 import { createRule, syncAction } from './_'
 import { IGNORE_ATTRIBUTES } from './order-attributify'
@@ -14,24 +15,26 @@ export default createRule({
       description: 'Utilities in UnoCSS blocklist',
       recommended: 'recommended',
     },
-    messages: {
-      'in-blocklist': 'Utility \'{{ name }}\' is in blocklist',
-    },
     schema: [],
+    messages: {},
   },
   defaultOptions: [],
   create(context) {
+    const getMessage = (name: string, meta: BlocklistMeta) =>
+      [`Utility '${name}' is in blocklist`, meta?.message].filter(Boolean).join(': ')
+
     const checkLiteral = (node: TSESTree.Literal) => {
       if (typeof node.value !== 'string' || !node.value.trim())
         return
       const input = node.value
       const blocked = syncAction('blocklist', input, context.filename)
-      blocked.forEach((i) => {
+      blocked.forEach(([name, meta]) => {
         context.report({
           node,
-          messageId: 'in-blocklist',
+          // @ts-expect-error missing-types
+          message: getMessage(name, meta),
           data: {
-            name: i,
+            name,
           },
         })
       })
@@ -69,12 +72,13 @@ export default createRule({
           if (!node?.key?.name)
             continue
           const blocked = syncAction('blocklist', node.key.name, context.filename)
-          blocked.forEach((i) => {
+          blocked.forEach(([name, meta]) => {
             context.report({
               node,
-              messageId: 'in-blocklist',
+              // @ts-expect-error missing-types
+              message: getMessage(name, meta),
               data: {
-                name: i,
+                name,
               },
             })
           })

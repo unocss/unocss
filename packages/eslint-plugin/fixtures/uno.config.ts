@@ -9,6 +9,6 @@ export default defineConfig({
     transformerVariantGroup(),
   ],
   blocklist: [
-    (i) => i.includes('blocked')
+    [(i) => i.includes('blocked'), { message: 'use non-blocked-rule' }]
   ]
 })
