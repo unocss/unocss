@@ -1,6 +1,7 @@
 /* @export-submodules */
 export * from './aria'
 export * from './breakpoints'
+export * from './children'
 export * from './combinators'
 export * from './container'
 export * from './dark'

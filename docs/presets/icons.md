@@ -482,7 +482,30 @@ Recommends:
 - `https://esm.sh/`
 - `https://cdn.skypack.dev/`
 
-### Advanced Custom Icon Set Cleanup
+### customFetch
+
+- Type: `(url: string) => Promise<any>`
+- Default: `undefined`
+
+Preset used [`ofetch`](https://github.com/unjs/ofetch) as the default fetcher, you can also custom fetch function to provide the icon data.
+
+### processor
+
+- Type: `(cssObject: CSSObject, meta: Required<IconMeta>) => void`
+- Default: `undefined`
+
+```ts
+interface IconMeta {
+  collection: string
+  icon: string
+  svg: string
+  mode?: IconsOptions['mode']
+}
+```
+
+Processor for the CSS object before stringify. See [example](https://github.com/unocss/unocss/blob/7d83789b0dee8c72c401db24263ea429086de95d/test/preset-icons.test.ts#L66-L82).
+
+## Advanced Custom Icon Set Cleanup
 
 When using this preset with your custom icons, consider using a cleanup process similar to that done by [Iconify](https://iconify.design/) for any icons sets. All the tools you need are available in [Iconify Tools](https://iconify.design/docs/libraries/tools/).
 

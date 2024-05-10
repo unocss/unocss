@@ -1,7 +1,7 @@
 {
   "name": "interactive",
   "type": "module",
-  "version": "0.59.4",
+  "version": "0.60.0",
   "private": true,
   "scripts": {
     "build": "nuxi prepare && esno scripts/prepare.ts && nuxi generate",
@@ -10,9 +10,9 @@
     "fetch": "esno scripts/fetch.ts"
   },
   "devDependencies": {
-    "@antfu/utils": "^0.7.7",
-    "@nuxt/devtools": "^1.1.5",
-    "@shikijs/markdown-it": "^1.3.0",
+    "@antfu/utils": "^0.7.8",
+    "@nuxt/devtools": "^1.2.0",
+    "@shikijs/markdown-it": "^1.4.0",
     "@unocss/autocomplete": "workspace:*",
     "@unocss/nuxt": "workspace:*",
     "@unocss/shared-docs": "workspace:*",
@@ -27,7 +27,7 @@
     "p-limit": "^5.0.0",
     "postcss-nested": "^6.0.1",
     "prettier": "^2.8.8",
-    "shiki": "^1.3.0",
+    "shiki": "^1.5.0",
     "theme-vitesse": "^0.7.9",
     "unplugin-vue-markdown": "^0.26.2",
     "vue": "^3.4.21"
