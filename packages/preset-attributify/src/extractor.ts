@@ -7,7 +7,7 @@ const strippedPrefixes = [
   ':',
 ]
 
-const splitterRE = /[\s'"`;]+/g
+const splitterRE = /[\s'"`;]+(?![^\[]*])/g
 const elementRE = /<[^>\s]*\s((?:'.*?'|".*?"|`.*?`|\{.*?\}|=>|[^>]*?)*)/g
 const valuedAttributeRE = /([?]|(?!\d|-{2}|-\d)[a-zA-Z0-9\u00A0-\uFFFF-_:!%-.~<]+)=?(?:["]([^"]*)["]|[']([^']*)[']|[{]([^}]*)[}])?/gms
 

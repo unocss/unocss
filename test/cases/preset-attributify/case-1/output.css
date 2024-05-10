@@ -44,6 +44,7 @@
 [\!leading-4=""]{line-height:1rem !important;}
 [font~="mono"]{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;}
 [font~="sans"]{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";}
+[before~="content-\[\'\'\]"]::before{content:'';}
 [after~="content-\[quoted\:uno_css\]"]::after{content:"uno css";}
 @media (min-width: 640px){
 [sm~="\[color\:red\]"]{color:red;}

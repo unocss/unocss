@@ -77,6 +77,7 @@ exports[`attributify > variant 1`] = `
   "translate-y-",
   "%",
   "rotate-30",
+  "before-content-['']",
   "after-content-[quoted:uno_css]",
   "rotate-60",
   "ma",
