@@ -2,8 +2,8 @@ import type { StringifiedUtil } from '@unocss/core'
 import { expandVariantGroup, notNull, regexScopePlaceholder } from '@unocss/core'
 import type { CssNode, Operator, Rule, Selector, SelectorList } from 'css-tree'
 import { List, clone, generate, parse } from 'css-tree'
-import type { TransformerDirectivesContext } from '.'
-import { transformDirectives } from '.'
+import { transformDirectives } from './transform'
+import type { TransformerDirectivesContext } from './types'
 
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
 
@@ -25,55 +25,26 @@ export async function parseApply({ code, uno, offset, applyVariable }: Transform
 
   let body: string | undefined
   if (childNode.type === 'Atrule' && childNode.name === 'apply' && childNode.prelude && childNode.prelude.type === 'Raw') {
-    body = childNode.prelude.value.trim()
+    body = removeQuotes(childNode.prelude.value.trim())
   }
 
   else if (childNode!.type === 'Declaration' && applyVariable.includes(childNode.property) && childNode.value.type === 'Value') {
-    const children = childNode.value.children.toArray()
-    const normalizedChildren: CssNode[] = []
-    const getNodeValue = (node: any) => node.value || node.name
-
-    for (let i = 0; i < children.length; i++) {
-      if (children[i + 1]?.type === 'Operator'
-        && (children[i + 1] as Operator).value === '/'
-        && children[i + 2] != null
-      ) {
-        normalizedChildren.push({
-          type: 'String',
-          value: `${getNodeValue(children[i])}/${getNodeValue(children[i + 2])}`,
-        })
-        i += 2
-      }
-      else if (children[i + 1]?.type === 'Hash') {
-        normalizedChildren.push({
-          type: 'String',
-          value: `${getNodeValue(children[i])}#${getNodeValue(children[i + 1])}`,
-        })
-        i += 1
-      }
-      else {
-        normalizedChildren.push(children[i])
-      }
-    }
-
-    body = normalizedChildren.reduce((str, nodeItem) => {
-      switch (nodeItem.type) {
-        case 'String':
-          return `${str} ${nodeItem.value}`
-        case 'Identifier':
-          return `${str} ${nodeItem.name}`
-        default:
-          return str
-      }
-    }, '').trim()
+    // Get raw value of the declaration
+    // as csstree would try to parse the content with operators, but we don't need them.
+    let rawValue = code.original.slice(
+      calcOffset(childNode.value.loc!.start.offset),
+      calcOffset(childNode.value.loc!.end.offset),
+    )
+    rawValue = removeQuotes(rawValue)
+    const items = rawValue
+      .split(/\s+/g)
+      .filter(Boolean)
+      .map(i => removeQuotes(i))
+    body = items.join(' ')
   }
 
   if (!body)
     return
-
-  // remove quotes
-  if (/^(['"]).*\1$/.test(body))
-    body = body.slice(1, -1)
 
   const classNames = expandVariantGroup(body)
     .split(/\s+/g)
@@ -146,4 +117,8 @@ export async function parseApply({ code, uno, offset, applyVariable }: Transform
     calcOffset(childNode!.loc!.start.offset),
     calcOffset(childNode!.loc!.end.offset + simicolonOffset),
   )
+}
+
+function removeQuotes(value: string) {
+  return value.replace(/^(['"])(.*)\1$/, '$2')
 }
