@@ -1,6 +1,6 @@
 import type { Theme } from '@unocss/preset-mini'
 import type { Atrule } from 'css-tree'
-import type { TransformerDirectivesContext } from '.'
+import type { TransformerDirectivesContext } from './types'
 
 const screenRuleRE = /(@screen) (.+) /g
 
