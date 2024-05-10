@@ -1,6 +1,6 @@
 import type { StringifiedUtil } from '@unocss/core'
 import { expandVariantGroup, notNull, regexScopePlaceholder } from '@unocss/core'
-import type { CssNode, Operator, Rule, Selector, SelectorList } from 'css-tree'
+import type { CssNode, Rule, Selector, SelectorList } from 'css-tree'
 import { List, clone, generate, parse } from 'css-tree'
 import { transformDirectives } from './transform'
 import type { TransformerDirectivesContext } from './types'
