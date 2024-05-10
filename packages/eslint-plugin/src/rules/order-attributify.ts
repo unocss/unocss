@@ -32,7 +32,11 @@ export default createRule({
           return
 
         const input = valueless.map((i: any) => i.key.name).join(' ').trim()
-        const sorted = syncAction('sort', input)
+        const sorted = syncAction(
+          context.settings.unocss?.configPath,
+          'sort',
+          input,
+        )
         if (sorted !== input) {
           context.report({
             node,

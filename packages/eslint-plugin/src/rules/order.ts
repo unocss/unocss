@@ -24,7 +24,11 @@ export default createRule({
       if (typeof node.value !== 'string' || !node.value.trim())
         return
       const input = node.value
-      const sorted = syncAction('sort', input).trim()
+      const sorted = syncAction(
+        context.settings.unocss?.configPath,
+        'sort',
+        input,
+      ).trim()
       if (sorted !== input) {
         context.report({
           node,
