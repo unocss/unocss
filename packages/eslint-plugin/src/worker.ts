@@ -1,6 +1,6 @@
 import process from 'node:process'
 import { loadConfig } from '@unocss/config'
-import type { UnoGenerator } from '@unocss/core'
+import type { BlocklistMeta, UnoGenerator } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
 import { runAsWorker } from 'synckit'
 import { sortRules } from '../../shared-integration/src/sort-rules'
@@ -35,7 +35,7 @@ async function actionSort(classes: string) {
 
 async function actionBlocklist(classes: string, id?: string) {
   const uno = await getGenerator()
-  const blocked = new Set<string>()
+  const blocked = new Map<string, BlocklistMeta | undefined>()
 
   const extracted = await uno.applyExtractors(classes, id)
   const values = [...extracted.values()]
@@ -43,16 +43,18 @@ async function actionBlocklist(classes: string, id?: string) {
   const matchBlocked = async (raw: string) => {
     if (blocked.has(raw))
       return
-    if (uno.isBlocked(raw)) {
-      blocked.add(raw)
+    let rule = uno.getBlocked(raw)
+    if (rule) {
+      blocked.set(raw, rule[1])
       return
     }
     let current = raw
     for (const p of uno.config.preprocess)
       current = p(raw)!
     const applied = await uno.matchVariants(raw, current)
-    if (applied && uno.isBlocked(applied[1]))
-      blocked.add(raw)
+    rule = applied && uno.getBlocked(applied[1])
+    if (rule)
+      blocked.set(raw, rule[1])
   }
 
   await Promise.all(values.map(matchBlocked))
@@ -74,7 +76,7 @@ export async function runAsync(action: string, ...args: any[]): Promise<any> {
 }
 
 export function run(action: 'sort', classes: string): string
-export function run(action: 'blocklist', classes: string, id?: string): string[]
+export function run(action: 'blocklist', classes: string, id?: string): [string, BlocklistMeta | undefined][]
 export function run(action: string, ...args: any[]): any {
   // @ts-expect-error cast
   return runAsync(action, ...args)
