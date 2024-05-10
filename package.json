@@ -90,6 +90,7 @@
     "codemirror-theme-vars": "^0.1.2",
     "eslint": "^9.2.0",
     "eslint-plugin-antfu": "^2.2.0",
+    "eslint-vitest-rule-tester": "^0.3.2",
     "esno": "^4.7.0",
     "execa": "^9.0.0",
     "fast-glob": "^3.3.2",
