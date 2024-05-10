@@ -64,4 +64,13 @@ export default antfu(
       'ts/no-var-requires': 'off',
     },
   },
+  {
+    name: 'tests',
+    files: [
+      '**/*.test.ts',
+    ],
+    rules: {
+      'antfu/indent-unindent': ['error', { tags: ['$', 'html'] }],
+    },
+  },
 )
