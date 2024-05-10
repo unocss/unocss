@@ -212,6 +212,9 @@ export interface Preflight<Theme extends object = object> {
 }
 
 export interface BlocklistMeta {
+  /**
+   * Custom message to show why this selector is blocked.
+   */
   message?: string
 }
 export type BlocklistValue = string | RegExp | ((selector: string) => boolean | null | undefined)

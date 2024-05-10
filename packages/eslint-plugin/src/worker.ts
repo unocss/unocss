@@ -76,7 +76,7 @@ export async function runAsync(action: string, ...args: any[]): Promise<any> {
 }
 
 export function run(action: 'sort', classes: string): string
-export function run(action: 'blocklist', classes: string, id?: string): string[]
+export function run(action: 'blocklist', classes: string, id?: string): [string, BlocklistMeta | undefined][]
 export function run(action: string, ...args: any[]): any {
   // @ts-expect-error cast
   return runAsync(action, ...args)
