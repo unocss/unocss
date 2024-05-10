@@ -294,8 +294,7 @@ describe('transformer-directives', () => {
     const result = await transform(
       `nav {
         --at-apply: border font-mono text-lg;
-        --uno: bg-black/5 fw-600 text-teal/5 'b-red/5';
-
+        
         ul {
           li {
             --uno-apply: border;
@@ -310,6 +309,26 @@ describe('transformer-directives', () => {
 
     await expect(result)
       .toMatchFileSnapshot('./assets/output/transformer-directives-var-style-class.css')
+  })
+
+  it('declaration for apply variable', async () => {
+    const result = await transform(
+      `nav {
+        --uno: b-#fff bg-black/6 fw-600 text-teal/5 'bg-red/5';
+      }`,
+    )
+
+    expect(result).toMatchInlineSnapshot(`
+      "nav {
+        --un-border-opacity: 1;
+        border-color: rgb(255 255 255 / var(--un-border-opacity));
+        background-color: rgb(0 0 0 / 0.06);
+        background-color: rgb(248 113 113 / 0.05);
+        color: rgb(45 212 191 / 0.05);
+        font-weight: 600;
+      }
+      "
+    `)
   })
 
   it('@screen basic', async () => {

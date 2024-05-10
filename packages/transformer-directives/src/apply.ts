@@ -44,6 +44,13 @@ export async function parseApply({ code, uno, offset, applyVariable }: Transform
         })
         i += 2
       }
+      else if (children[i + 1]?.type === 'Hash') {
+        normalizedChildren.push({
+          type: 'String',
+          value: `${getNodeValue(children[i])}#${getNodeValue(children[i + 1])}`,
+        })
+        i += 1
+      }
       else {
         normalizedChildren.push(children[i])
       }
