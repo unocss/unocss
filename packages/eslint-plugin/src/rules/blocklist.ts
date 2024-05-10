@@ -15,7 +15,7 @@ export default createRule({
       recommended: 'recommended',
     },
     messages: {
-      'in-blocklist': 'Utility \'{{ name }}\' is in blocklist',
+      'in-blocklist': '\"{{name}}\" is in blocklist{{reason}}',
     },
     schema: [],
   },
@@ -26,12 +26,13 @@ export default createRule({
         return
       const input = node.value
       const blocked = syncAction('blocklist', input, context.filename)
-      blocked.forEach((i) => {
+      blocked.forEach(([name, meta]) => {
         context.report({
           node,
           messageId: 'in-blocklist',
           data: {
-            name: i,
+            name,
+            reason: meta?.message ? `: ${meta.message}` : '',
           },
         })
       })
@@ -69,12 +70,13 @@ export default createRule({
           if (!node?.key?.name)
             continue
           const blocked = syncAction('blocklist', node.key.name, context.filename)
-          blocked.forEach((i) => {
+          blocked.forEach(([name, meta]) => {
             context.report({
               node,
               messageId: 'in-blocklist',
               data: {
-                name: i,
+                name,
+                reason: meta?.message ? `: ${meta.message}` : '',
               },
             })
           })
