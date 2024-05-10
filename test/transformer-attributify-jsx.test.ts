@@ -68,7 +68,7 @@ describe('transformerAttributifyJsx', () => {
     ],
   })
 
-  it('transform', async () => {
+  it('transform test1', async () => {
     const code = new MagicString(originalCode)
     await transformerAttributifyJsx().transform(code, 'app.tsx', { uno, tokens: new Set() } as any)
 
@@ -112,6 +112,35 @@ describe('transformerAttributifyJsx', () => {
         <div {...true ? flex : props.grid } {...grid || ( block ) && $flex } />  
         <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, "flex", \`flex\` ] } />  
       </div>"
+    `)
+  })
+  // #3754
+  it('transform test2', async () => {
+    const code = new MagicString(`
+    const App: React.FC = () => {
+      return (
+        <div w-full h-full bg-gray-300 
+        >
+          <div>123</div>
+        </div>
+      )
+    }
+    export default App
+    `)
+    await transformerAttributifyJsx().transform(code, 'app.tsx', { uno, tokens: new Set() } as any)
+
+    expect(code.toString()).toMatchInlineSnapshot(`
+      "
+          const App: React.FC = () => {
+            return (
+              <div w-full="" h-full="" bg-gray-300="" 
+              >
+                <div>123</div>
+              </div>
+            )
+          }
+          export default App
+          "
     `)
   })
 
