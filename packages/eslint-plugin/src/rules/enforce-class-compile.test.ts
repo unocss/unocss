@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'node:url'
 import * as vueParser from 'vue-eslint-parser'
 import { $ as html, run } from 'eslint-vitest-rule-tester'
 import rule from './enforce-class-compile'
@@ -7,6 +8,11 @@ run({
   rule,
   languageOptions: {
     parser: vueParser,
+  },
+  settings: {
+    unocss: {
+      configPath: fileURLToPath(new URL('./uno.config.ts', import.meta.url)),
+    },
   },
 
   valid: [

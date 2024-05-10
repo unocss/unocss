@@ -25,7 +25,13 @@ export default createRule({
       if (typeof node.value !== 'string' || !node.value.trim())
         return
       const input = node.value
-      const blocked = syncAction('blocklist', input, context.filename)
+
+      const blocked = syncAction(
+        context.settings.unocss?.configPath,
+        'blocklist',
+        input,
+        context.filename,
+      )
       blocked.forEach(([name, meta]) => {
         context.report({
           node,
@@ -69,7 +75,12 @@ export default createRule({
         for (const node of valueless) {
           if (!node?.key?.name)
             continue
-          const blocked = syncAction('blocklist', node.key.name, context.filename)
+          const blocked = syncAction(
+            context.settings.unocss?.configPath,
+            'blocklist',
+            node.key.name,
+            context.filename,
+          )
           blocked.forEach(([name, meta]) => {
             context.report({
               node,
