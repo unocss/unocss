@@ -13,6 +13,5 @@ export default defineConfig({
     name: 'unit',
     setupFiles: ['./test/setup.ts'],
     exclude: [...defaultExclude, '**/svelte-scoped/**'],
-    globals: true,
   },
 })
