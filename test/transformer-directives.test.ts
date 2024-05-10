@@ -294,6 +294,7 @@ describe('transformer-directives', () => {
     const result = await transform(
       `nav {
         --at-apply: border font-mono text-lg;
+        --uno: bg-black/5 fw-600 text-teal/5 'b-red/5';
 
         ul {
           li {

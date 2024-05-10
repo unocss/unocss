@@ -1,6 +1,6 @@
 import type { StringifiedUtil } from '@unocss/core'
 import { expandVariantGroup, notNull, regexScopePlaceholder } from '@unocss/core'
-import type { CssNode, Rule, Selector, SelectorList } from 'css-tree'
+import type { CssNode, Operator, Rule, Selector, SelectorList } from 'css-tree'
 import { List, clone, generate, parse } from 'css-tree'
 import type { TransformerDirectivesContext } from '.'
 import { transformDirectives } from '.'
@@ -29,7 +29,27 @@ export async function parseApply({ code, uno, offset, applyVariable }: Transform
   }
 
   else if (childNode!.type === 'Declaration' && applyVariable.includes(childNode.property) && childNode.value.type === 'Value') {
-    body = childNode.value.children.reduce((str, nodeItem) => {
+    const children = childNode.value.children.toArray()
+    const normalizedChildren: CssNode[] = []
+    const getNodeValue = (node: any) => node.value || node.name
+
+    for (let i = 0; i < children.length; i++) {
+      if (children[i + 1]?.type === 'Operator'
+        && (children[i + 1] as Operator).value === '/'
+        && children[i + 2] != null
+      ) {
+        normalizedChildren.push({
+          type: 'String',
+          value: `${getNodeValue(children[i])}/${getNodeValue(children[i + 2])}`,
+        })
+        i += 2
+      }
+      else {
+        normalizedChildren.push(children[i])
+      }
+    }
+
+    body = normalizedChildren.reduce((str, nodeItem) => {
       switch (nodeItem.type) {
         case 'String':
           return `${str} ${nodeItem.value}`
