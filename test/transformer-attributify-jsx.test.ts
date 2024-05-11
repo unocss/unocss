@@ -26,12 +26,12 @@ const originalCode = `
       <router-link to={\`/path/\${1}\`}/>
     </div>
   </div>
-  <section 
-    className={cn({ 'c-red': variable > 0 }, 'mr-10')} 
-    mr-10 
+  <section
+    className={cn({ 'c-red': variable > 0 }, 'mr-10')}
+    mr-10
     className={cn({ 'c-red': variable > 0 }, 'mr-10')}
   ></section>
-  <div 
+  <div
     label={
       <b>1</b>
     }
@@ -44,7 +44,7 @@ const originalCode = `
     <div text-center> flex </div>
   </div>}></div>
   <h1 flex>h1</h1>
-  <div {...{ flex }} />  
+  <div {...{ flex }} />
   <div {...{ onClick: () => { grid(); flex } }} flex />
   <div {...true ? flex : props.grid } {...grid || ( block ) && $flex } />  
   <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, "flex", \`flex\` ] } />  
@@ -95,12 +95,12 @@ describe('transformerAttributifyJsx', () => {
             <router-link to={\`/path/\${1}\`}/>
           </div>
         </div>
-        <section 
-          className={cn({ 'c-red': variable > 0 }, 'mr-10')} 
-          mr-10="" 
+        <section
+          className={cn({ 'c-red': variable > 0 }, 'mr-10')}
+          mr-10=""
           className={cn({ 'c-red': variable > 0 }, 'mr-10')}
         ></section>
-        <div 
+        <div
           label={
             <b>1</b>
           }
@@ -113,7 +113,7 @@ describe('transformerAttributifyJsx', () => {
           <div text-center=""> flex </div>
         </div>}></div>
         <h1 flex="">h1</h1>
-        <div {...{ flex }} />  
+        <div {...{ flex }} />
         <div {...{ onClick: () => { grid(); flex } }} flex="" />
         <div {...true ? flex : props.grid } {...grid || ( block ) && $flex } />  
         <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, "flex", \`flex\` ] } />  
@@ -198,8 +198,8 @@ describe('transformerAttributifyJsx', () => {
         <h1 flex>h1</h1>
         <div {...{ flex }} />
         <div {...{ onClick: () => { grid(); flex } }} flex />
-        <div {...true ? flex : props.grid } {...grid || ( block ) && $flex } />
-        <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, "flex", \`flex\` ] } />
+        <div {...true ? flex : props.grid } {...grid || ( block ) && $flex } />  
+        <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, "flex", \`flex\` ] } />  
       </div>"
     `)
 
@@ -275,7 +275,7 @@ describe('transformerAttributifyJsxBabel', () => {
         <h1 flex="">h1</h1>
         <div {...{
           flex
-        }} />  
+        }} />
         <div {...{
           onClick: () => {
             grid();
@@ -329,7 +329,7 @@ describe('transformerAttributifyJsxBabel', () => {
         <h1 flex>h1</h1>
         <div {...{
           flex
-        }} />  
+        }} />
         <div {...{
           onClick: () => {
             grid();
