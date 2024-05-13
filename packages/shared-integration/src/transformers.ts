@@ -41,7 +41,7 @@ export async function applyTransformers(
   }
 
   if (code !== original) {
-    ctx.affectedModules.add(id)
+    // ctx.affectedModules.add(id)
     return {
       code,
       map: remapping(maps, (_, ctx) => {
