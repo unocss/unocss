@@ -1,4 +1,5 @@
 import antfu from '@antfu/eslint-config'
+import regexp from 'eslint-plugin-regexp'
 
 export default antfu(
   {},
@@ -71,6 +72,16 @@ export default antfu(
     ],
     rules: {
       'antfu/indent-unindent': ['error', { tags: ['$', 'html'] }],
+    },
+  },
+  {
+    name: 'regex',
+    ...regexp.configs['flat/recommended'],
+  },
+  {
+    rules: {
+      'regexp/no-empty-capturing-group': 'off',
+      'regexp/no-empty-group': 'off',
     },
   },
 )

@@ -2,8 +2,8 @@ import type { AutoCompleteExtractor } from '@unocss/core'
 import { variantsRE } from './variant'
 import type { AttributifyOptions } from '.'
 
-const elementRE = /(<\w[\w:\.$-]*\s)((?:'[^>]*?'|"[^>]*?"|`[^>]*?`|\{[^>]*?\}|[^>]*?)*)/g
-const valuedAttributeRE = /([?]|(?!\d|-{2}|-\d)[a-zA-Z0-9\u00A0-\uFFFF-_:%-]+)(?:=("[^"]*|'[^']*))?/g
+const elementRE = /(<\w[\w:.$-]*\s)((?:'[^>]*?'|"[^>]*?"|`[^>]*?`|\{[^>]*?\}|[^>]*?)*)/g
+const valuedAttributeRE = /(\?|(?!\d|-{2}|-\d)[\w\u00A0-\uFFFF-:%]+)(?:=("[^"]*|'[^']*))?/g
 const splitterRE = /[\s'"`;>]+/
 
 export function autocompleteExtractorAttributify(options?: AttributifyOptions): AutoCompleteExtractor {

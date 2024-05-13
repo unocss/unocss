@@ -277,7 +277,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
               .replace(HASH_PLACEHOLDER_RE, '')
             chunk.source = await replaceAsync(css, LAYER_PLACEHOLDER_RE, async (_, layer) => {
               replaced = true
-              return getLayer(layer, css)
+              return getLayer(layer.trim(), css)
             })
             Array.from(vfsLayers).forEach((layer) => {
               chunk.source = getLayer(layer, chunk.source as string, true)
@@ -288,7 +288,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
               .replace(HASH_PLACEHOLDER_RE, '')
             chunk.code = await replaceAsync(js, LAYER_PLACEHOLDER_RE, async (_, layer) => {
               replaced = true
-              const css = getLayer(layer, js)
+              const css = getLayer(layer.trim(), js)
               return css
                 .replace(/\n/g, '')
                 .replace(/(?<!\\)(['"])/g, '\\$1')

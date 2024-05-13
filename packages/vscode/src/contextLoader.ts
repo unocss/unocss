@@ -14,6 +14,10 @@ import { registerAnnotations } from './annotation'
 import { registerAutoComplete } from './autocomplete'
 import { registerSelectionStyle } from './selectionStyle'
 
+const frameworkConfigRE = /^(?:vite|svelte|astro|iles|nuxt|unocss|uno)\.config/
+const unoConfigRE = /\buno(?:css)?\.config\./
+const excludeFileRE = /[\\/](?:node_modules|dist|\.temp|\.cache)[\\/]/
+
 export class ContextLoader {
   public ready: Promise<void>
   public contextsMap = new Map<string, UnocssPluginContext<UserConfig<any>> | null>()
@@ -101,7 +105,7 @@ export class ContextLoader {
   async configExists(dir: string) {
     if (!this.configExistsCache.has(dir)) {
       const files = await readdir(dir)
-      this.configExistsCache.set(dir, files.some(f => /^(vite|svelte|astro|iles|nuxt|unocss|uno)\.config/.test(f)))
+      this.configExistsCache.set(dir, files.some(f => frameworkConfigRE.test(f)))
     }
     return this.configExistsCache.get(dir)!
   }
@@ -191,7 +195,7 @@ export class ContextLoader {
       log.appendLine(`🛠 New configuration loaded from\n${sources.map(s => `  - ${s}`).join('\n')}`)
       log.appendLine(`ℹ️ ${context.uno.config.presets.length} presets, ${context.uno.config.rulesSize} rules, ${context.uno.config.shortcuts.length} shortcuts, ${context.uno.config.variants.length} variants, ${context.uno.config.transformers?.length || 0} transformers loaded`)
 
-      if (!sources.some(i => /\buno(css)?\.config\./.test(i))) {
+      if (!sources.some(i => unoConfigRE.test(i))) {
         log.appendLine('💡 To have the best IDE experience, it\'s recommended to move UnoCSS configurations into a standalone `uno.config.ts` file at the root of your project.')
         log.appendLine('👉 Learn more at https://unocss.dev/guide/config-file')
       }
@@ -217,7 +221,7 @@ export class ContextLoader {
     if (!this.contextsMap.size)
       return undefined
 
-    if (/[\/](node_modules|dist|\.temp|\.cache)[\/]/g.test(file))
+    if (excludeFileRE.test(file))
       return undefined
 
     if (this.fileContextCache.has(file))

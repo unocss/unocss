@@ -15,7 +15,7 @@ const computedCustomCSS = computed({
 const WarnContent = computed(() => {
   if (customCSSWarn.value) {
     const msg = customCSSWarn.value.message
-    const match = msg.match(/^(.+)'(.+)'(.+)$/)
+    const match = msg.match(/^([^']+)'(.+)'([^']+)$/)
     if (match)
       return `Warning: ${match[1]}<a inline-block b="b dashed yellow4" href="https://unocss.dev/transformers/directives" target='_blank'>${match[2]}</a>${match[3]}`
   }

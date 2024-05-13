@@ -7,7 +7,7 @@ export default function extractorMdc(): Extractor {
       if (!/\.(md|mdc|markdown)$/i.test(ctx.id ?? ''))
         return
 
-      ctx.code.match(/\.[\w:\/_-]+/g)?.forEach((c) => {
+      ctx.code.match(/\.[\w:/\-]+/g)?.forEach((c) => {
         ctx.extracted.add(c.slice(1))
       })
     },

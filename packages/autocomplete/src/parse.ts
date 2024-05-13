@@ -58,7 +58,7 @@ export function parseAutocomplete(template: string, theme: any = {}, extraShorth
   function handleNonGroup(input: string) {
     handleRegexMatch(
       input,
-      /\$([\w\.\|]+)/g,
+      /\$([\w.|]+)/g,
       (m) => {
         parts.push({
           type: 'theme',

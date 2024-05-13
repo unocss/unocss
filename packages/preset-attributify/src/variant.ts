@@ -2,7 +2,7 @@ import type { VariantObject } from '@unocss/core'
 import { isAttributifySelector } from '@unocss/core'
 import type { AttributifyOptions } from './types'
 
-export const variantsRE = /^(?!.*\[(?:[^:]+):(?:.+)\]$)((?:.+:)?!?)?(.*)$/
+export const variantsRE = /^(?![^\n\r[\u2028\u2029]*\[(?:[^\n\r:\u2028\u2029]*:[^\n\r[\u2028\u2029]*\[)*(?:[\n\r\u2028\u2029][^:]*|[^\n\r:\u2028\u2029]+(?:[\n\r\u2028\u2029][^:]*)?):.+\]$)((?:.+:)?!?)?(.*)$/
 
 export function variantAttributify(options: AttributifyOptions = {}): VariantObject {
   const prefix = options.prefix ?? 'un-'
