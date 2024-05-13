@@ -49,7 +49,7 @@ export function getCssEscaperForJsContent(view: string) {
   //                     111    2222222
   const escapeViewRe = /(\\*)\\(["'`\\])/g
   view.trim().replace(escapeViewRe, (_, bs, char) => {
-    prefix[char] = bs
+    prefix[char] = bs.replace(/\\\\/g, '\\')
     return ''
   })
   return (css: string) => css.replace(/["'`\\]/g, (v) => {
