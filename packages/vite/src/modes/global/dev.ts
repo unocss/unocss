@@ -43,17 +43,9 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
   }
 
   function invalidate(timer = 10, ids: Set<string> = entries) {
-    const needsUpdateModules = new Set<string>()
     for (const server of servers) {
-      const currentFileMod = server.moduleGraph.getModuleById(uno.currentFile!)
-      currentFileMod?.clientImportedModules.forEach((i) => {
-        if (i.id)
-          needsUpdateModules.add(i.id)
-      })
-
       for (const id of ids) {
         const mod = server.moduleGraph.getModuleById(id)
-
         if (!mod)
           continue
         server!.moduleGraph.invalidateModule(mod)
@@ -62,9 +54,6 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
     clearTimeout(invalidateTimer)
     invalidateTimer = setTimeout(() => {
       lastServedHash.clear()
-      Array.from(affectedModules)
-        .filter(m => needsUpdateModules.has((m)))
-        .forEach(id => ids.add(id))
       sendUpdate(ids)
     }, timer)
   }
@@ -115,7 +104,7 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
   }
 
   onInvalidate(() => {
-    invalidate(10, entries)
+    invalidate(10, new Set([...entries, ...affectedModules]))
   })
 
   return [
