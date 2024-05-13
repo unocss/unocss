@@ -127,5 +127,5 @@ function removeQuotes(value: string) {
 }
 
 function removeComments(value: string) {
-  return value.replace(/\/\*[\s\S]*?\*\/|([^\\:]|^)\/\/.*$/gm, '$1')
+  return value.replace(/\/\*[\s\S]*?\*\//g, '$1')
 }

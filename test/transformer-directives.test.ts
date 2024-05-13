@@ -231,11 +231,11 @@ describe('transformer-directives', () => {
           background-color: rgb(255 255 255 / var(--un-bg-opacity));
         }
         .btn:hover {
-          --un-bg-opacity: 1;
-          background-color: rgb(59 130 246 / var(--un-bg-opacity));
+          border-width: 1px;
         }
         .btn:hover {
-          border-width: 1px;
+          --un-bg-opacity: 1;
+          background-color: rgb(59 130 246 / var(--un-bg-opacity));
         }
         "
       `)
