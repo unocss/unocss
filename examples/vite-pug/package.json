@@ -7,14 +7,14 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.4.21"
+    "vue": "^3.4.27"
   },
   "devDependencies": {
     "@unocss/extractor-pug": "link:../../packages/extractor-pug",
     "@vitejs/plugin-vue": "^5.0.4",
     "pug": "^3.0.2",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.2.9"
+    "vite": "^5.2.11"
   },
   "stackblitz": {
     "installDependencies": false,

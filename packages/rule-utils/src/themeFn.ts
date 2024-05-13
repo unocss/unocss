@@ -20,27 +20,34 @@ export function transformThemeFn(code: string, theme: Record<string, any>, throw
     if (!rawArg)
       throw new Error('theme() expect exact one argument, but got 0')
 
-    const [rawKey, alpha] = rawArg.split('/') as [string, string?]
-    const keys = rawKey.trim().split('.')
-    let value = keys.reduce((t, k) => t?.[k], theme) as unknown as string | undefined
-
-    if (typeof value === 'string') {
-      if (alpha) {
-        const color = parseCssColor(value)
-        if (color)
-          value = colorToString(color, alpha)
-      }
-
+    const value = transformThemeString(rawArg, theme, throwOnMissing)
+    if (value) {
       s.overwrite(
         match.index!,
         match.index! + match[0].length,
         value,
       )
     }
-    else if (throwOnMissing) {
-      throw new Error(`theme of "${rawArg}" did not found`)
-    }
   }
 
   return s.toString()
+}
+
+export function transformThemeString(code: string, theme: Record<string, any>, throwOnMissing = true) {
+  const [rawKey, alpha] = code.split('/') as [string, string?]
+  const keys = rawKey.trim().split('.')
+  let value = keys.reduce((t, k) => t?.[k], theme) as unknown as string | undefined
+
+  if (typeof value === 'string') {
+    if (alpha) {
+      const color = parseCssColor(value)
+      if (color)
+        value = colorToString(color, alpha)
+    }
+
+    return value
+  }
+  else if (throwOnMissing) {
+    throw new Error(`theme of "${code}" did not found`)
+  }
 }

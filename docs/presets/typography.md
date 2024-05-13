@@ -81,7 +81,7 @@ Notice: `not-prose` can only be used as a class, not as an attribute.
 
 Apply any font size for body you like and `prose` will scale the styles for
 the respective HTML elements. For instance, `prose text-lg` has body font size
-`1.125rem` and `h1` will with scale with that size 2.25 times. See [all the
+`1.125rem` and `h1` will scale with that size 2.25 times. See [all the
 supported HTML elements](https://github.com/unocss/unocss/blob/main/packages/preset-typography/src/preflights/default.ts).
 
 ### Any color

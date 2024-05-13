@@ -29,6 +29,8 @@
 .sibling-\[div\:hover\]-\[combinator\:test-4\]+div:hover{combinator:test-4;}
 .-p-px{padding:-1px;}
 .\!p-5px{padding:5px !important;}
+.\*-p-2 > *,
+.\*\:p-2 > *,
 .has-hover\:p-2:has(:hover),
 .p-2,
 .p2,
@@ -452,7 +454,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .out-of-range\:color-pink-100:out-of-range{--un-text-opacity:1;color:rgb(252 231 243 / var(--un-text-opacity));}
 .placeholder-color-red-1::placeholder{--un-text-opacity:1;color:rgb(254 226 226 / var(--un-text-opacity));}
 .placeholder\:color-transparent::placeholder{color:transparent;}
-.selection\:color-\[var\(--select-color\)\]::selection{color:var(--select-color);}
+.selection\:color-\[var\(--select-color\)\] ::selection{color:var(--select-color);}
 .color-inherit,
 .text-inherit{color:inherit;}
 .color-initial{color:initial;}
