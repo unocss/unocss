@@ -212,6 +212,35 @@ describe('transformer-directives', () => {
       `)
   })
 
+  // #3794
+  it('multiple apply ignore comments', async () => {
+    const result = await transform(
+      `.btn {
+        @apply p-3 m-4 /* overflow-hidden */ /*bg-white*/;
+        @apply bg-white;
+        @apply hover:bg-blue-500 /* m-4 */;
+        @apply hover:border;
+      }`,
+    )
+    expect(result)
+      .toMatchInlineSnapshot(`
+        ".btn {
+          margin: 1rem;
+          padding: 0.75rem;
+          --un-bg-opacity: 1;
+          background-color: rgb(255 255 255 / var(--un-bg-opacity));
+        }
+        .btn:hover {
+          --un-bg-opacity: 1;
+          background-color: rgb(59 130 246 / var(--un-bg-opacity));
+        }
+        .btn:hover {
+          border-width: 1px;
+        }
+        "
+      `)
+  })
+
   it('dark class', async () => {
     const uno = createGenerator({
       presets: [
