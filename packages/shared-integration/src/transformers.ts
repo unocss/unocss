@@ -40,6 +40,7 @@ export async function applyTransformers(
   }
 
   if (code !== original) {
+    // Investigate if this is safe to remove: https://github.com/unocss/unocss/pull/3741
     // ctx.affectedModules.add(id)
     return {
       code,
