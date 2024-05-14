@@ -140,13 +140,19 @@ export async function build(_options: CliOptions) {
       )
     }
 
-    const { css, matched } = await ctx.uno.generate(
-      [...postTransform.map(({ code, transformedCode }) => (transformedCode ?? code).replace(SKIP_COMMENT_RE, ''))].join('\n'),
-      {
-        preflights: options.preflights,
-        minify: options.minify,
-      },
-    )
+    const result = await Promise.all(postTransform.map(async ({ code, transformedCode, id }, index) => {
+      return await ctx.uno.generate(
+        (transformedCode ?? code).replace(SKIP_COMMENT_RE, ''),
+        {
+          preflights: options.preflights ? index === 0 : false, // avoid duplicate preflights
+          minify: options.minify,
+          id,
+        },
+      )
+    }))
+
+    const css = result.map(({ css }) => css).join('\n')
+    const matched = new Set(...result.map(({ matched }) => matched))
 
     if (options.stdout) {
       process.stdout.write(css)
