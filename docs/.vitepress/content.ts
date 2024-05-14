@@ -233,7 +233,7 @@ export const examples: Example[] = [
     path: 'examples/vite-angular',
     icons: [
       'i-logos-vitejs',
-      'i-logos-angular',
+      'i-logos-angular-icon',
     ],
     stackblitz: true,
   },
