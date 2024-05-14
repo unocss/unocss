@@ -26,12 +26,12 @@ const originalCode = `
       <router-link to={\`/path/\${1}\`}/>
     </div>
   </div>
-  <section 
-    className={cn({ 'c-red': variable > 0 }, 'mr-10')} 
-    mr-10 
+  <section
+    className={cn({ 'c-red': variable > 0 }, 'mr-10')}
+    mr-10
     className={cn({ 'c-red': variable > 0 }, 'mr-10')}
   ></section>
-  <div 
+  <div
     label={
       <b>1</b>
     }
@@ -40,8 +40,11 @@ const originalCode = `
     on-demand · instant · fully customizable
   </div>
   <div components={<div absolute bottom-5></div>}></div>
+  <div components={() => <div left-0 bottom-5>
+    <div text-center> flex </div>
+  </div>}></div>
   <h1 flex>h1</h1>
-  <div {...{ flex }} />  
+  <div {...{ flex }} />
   <div {...{ onClick: () => { grid(); flex } }} flex />
   <div {...true ? flex : props.grid } {...grid || ( block ) && $flex } />  
   <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, "flex", \`flex\` ] } />  
@@ -68,7 +71,7 @@ describe('transformerAttributifyJsx', () => {
     ],
   })
 
-  it('transform', async () => {
+  it('transform test1', async () => {
     const code = new MagicString(originalCode)
     await transformerAttributifyJsx().transform(code, 'app.tsx', { uno, tokens: new Set() } as any)
 
@@ -92,12 +95,12 @@ describe('transformerAttributifyJsx', () => {
             <router-link to={\`/path/\${1}\`}/>
           </div>
         </div>
-        <section 
-          className={cn({ 'c-red': variable > 0 }, 'mr-10')} 
-          mr-10="" 
+        <section
+          className={cn({ 'c-red': variable > 0 }, 'mr-10')}
+          mr-10=""
           className={cn({ 'c-red': variable > 0 }, 'mr-10')}
         ></section>
-        <div 
+        <div
           label={
             <b>1</b>
           }
@@ -106,12 +109,44 @@ describe('transformerAttributifyJsx', () => {
           on-demand · instant · fully customizable
         </div>
         <div components={<div absolute="" bottom-5=""></div>}></div>
+        <div components={() => <div left-0="" bottom-5="">
+          <div text-center=""> flex </div>
+        </div>}></div>
         <h1 flex="">h1</h1>
-        <div {...{ flex }} />  
+        <div {...{ flex }} />
         <div {...{ onClick: () => { grid(); flex } }} flex="" />
         <div {...true ? flex : props.grid } {...grid || ( block ) && $flex } />  
         <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, "flex", \`flex\` ] } />  
       </div>"
+    `)
+  })
+  // #3754
+  it('transform test2', async () => {
+    const code = new MagicString(`
+    const App: React.FC = () => {
+      return (
+        <div w-full h-full bg-gray-300
+        >
+          <div>123</div>
+        </div>
+      )
+    }
+    export default App
+    `)
+    await transformerAttributifyJsx().transform(code, 'app.tsx', { uno, tokens: new Set() } as any)
+
+    expect(code.toString()).toMatchInlineSnapshot(`
+      "
+          const App: React.FC = () => {
+            return (
+              <div w-full="" h-full="" bg-gray-300=""
+              >
+                <div>123</div>
+              </div>
+            )
+          }
+          export default App
+          "
     `)
   })
 
@@ -143,12 +178,12 @@ describe('transformerAttributifyJsx', () => {
             <router-link to={\`/path/\${1}\`}/>
           </div>
         </div>
-        <section 
-          className={cn({ 'c-red': variable > 0 }, 'mr-10')} 
-          mr-10="" 
+        <section
+          className={cn({ 'c-red': variable > 0 }, 'mr-10')}
+          mr-10=""
           className={cn({ 'c-red': variable > 0 }, 'mr-10')}
         ></section>
-        <div 
+        <div
           label={
             <b>1</b>
           }
@@ -157,8 +192,11 @@ describe('transformerAttributifyJsx', () => {
           on-demand · instant · fully customizable
         </div>
         <div components={<div absolute bottom-5=""></div>}></div>
+        <div components={() => <div left-0="" bottom-5="">
+          <div text-center=""> flex </div>
+        </div>}></div>
         <h1 flex>h1</h1>
-        <div {...{ flex }} />  
+        <div {...{ flex }} />
         <div {...{ onClick: () => { grid(); flex } }} flex />
         <div {...true ? flex : props.grid } {...grid || ( block ) && $flex } />  
         <div {...[, flex, [flex], !flex, -flex, +flex, ~flex, "flex", \`flex\` ] } />  
@@ -231,10 +269,13 @@ describe('transformerAttributifyJsxBabel', () => {
           on-demand · instant · fully customizable
         </div>
         <div components={<div absolute="" bottom-5=""></div>}></div>
+        <div components={() => <div left-0="" bottom-5="">
+          <div text-center=""> flex </div>
+        </div>}></div>
         <h1 flex="">h1</h1>
         <div {...{
           flex
-        }} />  
+        }} />
         <div {...{
           onClick: () => {
             grid();
@@ -282,10 +323,13 @@ describe('transformerAttributifyJsxBabel', () => {
           on-demand · instant · fully customizable
         </div>
         <div components={<div absolute bottom-5=""></div>}></div>
+        <div components={() => <div left-0="" bottom-5="">
+          <div text-center=""> flex </div>
+        </div>}></div>
         <h1 flex>h1</h1>
         <div {...{
           flex
-        }} />  
+        }} />
         <div {...{
           onClick: () => {
             grid();

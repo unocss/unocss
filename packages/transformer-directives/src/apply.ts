@@ -22,6 +22,7 @@ export async function handleApply(ctx: TransformerDirectivesContext, node: Rule)
 
 export async function parseApply({ code, uno, offset, applyVariable }: TransformerDirectivesContext, node: Rule, childNode: CssNode) {
   const calcOffset = (pos: number) => offset ? pos + offset : pos
+  const original = code.original
 
   let body: string | undefined
   if (childNode.type === 'Atrule' && childNode.name === 'apply' && childNode.prelude && childNode.prelude.type === 'Raw') {
@@ -31,10 +32,10 @@ export async function parseApply({ code, uno, offset, applyVariable }: Transform
   else if (childNode!.type === 'Declaration' && applyVariable.includes(childNode.property) && childNode.value.type === 'Value') {
     // Get raw value of the declaration
     // as csstree would try to parse the content with operators, but we don't need them.
-    let rawValue = code.original.slice(
+    let rawValue = original.slice(
       calcOffset(childNode.value.loc!.start.offset),
       calcOffset(childNode.value.loc!.end.offset),
-    )
+    ).trim()
     rawValue = removeQuotes(rawValue)
     const items = rawValue
       .split(/\s+/g)
@@ -69,8 +70,8 @@ export async function parseApply({ code, uno, offset, applyVariable }: Transform
 
   if (!utils.length)
     return
-  const simicolonOffset = code.toString()[childNode.loc!.end.offset] === ';' ? 1 : 0
 
+  const simicolonOffset = original[calcOffset(childNode.loc!.end.offset)] === ';' ? 1 : 0
   for (const i of utils) {
     const [, _selector, body, parent] = i
     const selectorOrGroup = _selector?.replace(regexScopePlaceholder, ' ') || _selector
@@ -108,7 +109,7 @@ export async function parseApply({ code, uno, offset, applyVariable }: Transform
     else {
       // If nested css was scoped, put them last.
       if (body.includes('@'))
-        code.appendRight(code.original.length + simicolonOffset, body)
+        code.appendRight(original.length + simicolonOffset, body)
       else
         code.appendRight(calcOffset(childNode!.loc!.end.offset + simicolonOffset), body)
     }

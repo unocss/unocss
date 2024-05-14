@@ -15,16 +15,16 @@
     "start": "remix-serve build"
   },
   "dependencies": {
-    "@remix-run/react": "^2.9.1",
-    "@remix-run/serve": "^2.9.1",
+    "@remix-run/react": "^2.9.2",
+    "@remix-run/serve": "^2.9.2",
     "@unocss/reset": "link:../../packages/reset",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "remix": "^2.9.1"
+    "remix": "^2.9.2"
   },
   "devDependencies": {
-    "@remix-run/dev": "^2.9.1",
-    "@types/react": "^18.3.1",
+    "@remix-run/dev": "^2.9.2",
+    "@types/react": "^18.3.2",
     "@types/react-dom": "^18.3.0",
     "@unocss/cli": "link:../../packages/cli",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
