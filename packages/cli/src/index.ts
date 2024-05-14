@@ -145,6 +145,7 @@ export async function build(_options: CliOptions) {
       {
         preflights: options.preflights,
         minify: options.minify,
+        id: postTransform[0].id,
       },
     )
 
