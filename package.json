@@ -27,7 +27,7 @@
     "test:ci": "nr build && nr typecheck && nr lint && nr test && nr test:integration"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.17.0",
+    "@antfu/eslint-config": "^2.18.0",
     "@antfu/ni": "^0.21.12",
     "@codemirror/lang-css": "^6.2.1",
     "@codemirror/lang-html": "^6.4.9",
@@ -90,7 +90,6 @@
     "codemirror-theme-vars": "^0.1.2",
     "eslint": "^9.2.0",
     "eslint-plugin-antfu": "^2.2.0",
-    "eslint-plugin-regexp": "^2.5.0",
     "eslint-vitest-rule-tester": "^0.3.2",
     "esno": "^4.7.0",
     "execa": "^9.0.2",

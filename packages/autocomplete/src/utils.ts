@@ -51,7 +51,7 @@ export function searchUsageBoundary(
 
 export function searchAttrKey(content: string, cursor: number) {
   const text = content.substring(0, cursor)
-  if (/(<\w+\s*)[^>]*$/.test(text))
+  if (/<\w[^>]*$/.test(text))
     return text.match(/\S+(?=\s*=(?:\s*["'])?[^"']*$)/)?.[0]
 }
 

@@ -2,7 +2,7 @@ import type { Extractor } from '@unocss/core'
 import type { TagifyOptions } from './types'
 
 export const MARKER = '__TAGIFY__'
-export const htmlTagRE = /<([\w-:]+)/g
+export const htmlTagRE = /<([\w:-]+)/g
 
 export function extractorTagify(options: TagifyOptions): Extractor {
   const {
