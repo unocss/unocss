@@ -30,7 +30,7 @@ export default function extractorPug(options: Options = {}): Extractor {
         let tail = ''
         for (const match of matches) {
           if (match && match[1])
-            tail += `\n${await compile(match[1], ctx.id)}`
+            tail += `\n${await compile(match[1].trim(), ctx.id)}`
         }
         if (tail)
           ctx.code = `${ctx.code}\n\n${tail}`

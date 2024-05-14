@@ -2,6 +2,7 @@ import type { VariantObject } from '@unocss/core'
 import { isAttributifySelector } from '@unocss/core'
 import type { AttributifyOptions } from './types'
 
+// eslint-disable-next-line regexp/no-useless-quantifier, regexp/no-super-linear-backtracking
 export const variantsRE = /^(?![^\n\r[\u2028\u2029]*\[(?:[^\n\r:\u2028\u2029]*:[^\n\r[\u2028\u2029]*\[)*(?:[\n\r\u2028\u2029][^:]*|[^\n\r:\u2028\u2029]+(?:[\n\r\u2028\u2029][^:]*)?):.+\]$)((?:.+:)?!?)?(.*)$/
 
 export function variantAttributify(options: AttributifyOptions = {}): VariantObject {
