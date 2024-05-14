@@ -216,7 +216,9 @@ describe('transformer-directives', () => {
   it('multiple apply ignore comments', async () => {
     const result = await transform(
       `.btn {
-        @apply p-3 m-4 /* overflow-hidden */ /*bg-white*/;
+        @apply p-3 m-4 /* overflow-hidden */ /*bg-white*/ // bg-black
+        text-center // w-2
+        ;
         @apply bg-white;
         @apply hover:bg-blue-500 /* m-4 */;
         @apply hover:border;
@@ -227,6 +229,7 @@ describe('transformer-directives', () => {
         ".btn {
           margin: 1rem;
           padding: 0.75rem;
+          text-align: center;
           --un-bg-opacity: 1;
           background-color: rgb(255 255 255 / var(--un-bg-opacity));
         }
