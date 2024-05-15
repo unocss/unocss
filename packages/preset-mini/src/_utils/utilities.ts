@@ -21,7 +21,7 @@ export function directionSize(propertyPrefix: string): DynamicMatcher {
     if (v != null) {
       return directionMap[direction].map(i => [`${propertyPrefix}${i}`, v])
     }
-    else if (size.startsWith('-')) {
+    else if (size?.startsWith('-')) {
       // --custom-spacing-value
       const v = theme.spacing?.[size.slice(1)]
       if (v != null)
