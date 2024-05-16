@@ -14,11 +14,12 @@ export const defaultFilesystemGlobs = [
  */
 export const defaultIdeMatchInclude: RegExp[] = [
   // String literals
+  // eslint-disable-next-line regexp/strict
   /(['"`])[^\1]*?\1/g,
   // HTML tags
-  /<[^\/?<>0-9$_!](?:"[^"]*"|'[^"]*'|[^>])+>/g,
+  /<[^/?<>0-9$_!](?:"[^"]*"|'[^']*'|[^>])+>/g,
   // CSS directives
-  /(@apply|--uno|--at-apply)[^;]*?;/g,
+  /(@apply|--uno|--at-apply)[^;]*;/g,
 ]
 
 /**

@@ -38,7 +38,7 @@ const variantSteps = computed(() => {
 })
 const imageUrls = computed(() => {
   // @ts-expect-error cast
-  return item.urls?.filter(i => i.startsWith('data:image') || i.match(/\.(png|jpg|jpeg|svg)$/ig))
+  return item.urls?.filter(i => i.startsWith('data:image') || i.match(/\.(png|jpg|jpeg|svg)$/gi))
 })
 
 const guides = computed(() => {

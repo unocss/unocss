@@ -4,8 +4,8 @@ import type { ProcessResult } from './processClasses'
 import { sortClassesIntoCategories } from './sortClassesIntoCategories'
 import { shortcutName, unoMock } from './unoMock'
 
-const expressionsRE = /\S*{[^{}]+?}\S*/g // { foo ? 'mt-1' : 'mt-2'}, \S* handles expressions as partial class name as in bg-{color}-100
-const classesRE = /(["'\`])([\S\s]*?)\1/g // 'mt-1 mr-1'
+const expressionsRE = /\S*\{[^{}]+\}\S*/g // { foo ? 'mt-1' : 'mt-2'}, \S* handles expressions as partial class name as in bg-{color}-100
+const classesRE = /(["'`])([\s\S]*?)\1/g // 'mt-1 mr-1'
 
 export async function processExpressions(
   body: string,

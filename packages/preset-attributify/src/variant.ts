@@ -2,7 +2,8 @@ import type { VariantObject } from '@unocss/core'
 import { isAttributifySelector } from '@unocss/core'
 import type { AttributifyOptions } from './types'
 
-export const variantsRE = /^(?!.*\[(?:[^:]+):(?:.+)\]$)((?:.+:)?!?)?(.*)$/
+// eslint-disable-next-line regexp/no-super-linear-backtracking
+export const variantsRE = /^(?!.*\[[^:]+:.+\]$)((?:.+:)?!?)(.*)$/
 
 export function variantAttributify(options: AttributifyOptions = {}): VariantObject {
   const prefix = options.prefix ?? 'un-'
