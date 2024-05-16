@@ -51,8 +51,9 @@ export function searchUsageBoundary(
 
 export function searchAttrKey(content: string, cursor: number) {
   const text = content.substring(0, cursor)
-  if (/(<\w+\s*)[^>]*$/.test(text))
-    return text.match(/\S+(?=\s*=\s*["']?[^"']*$)/)?.[0]
+  if (/<\w[^>]*$/.test(text))
+    // eslint-disable-next-line regexp/no-super-linear-backtracking
+    return text.match(/\S+(?=\s*=(?:\s*["'])?[^"']*$)/)?.[0]
 }
 
 export function cartesian<T>(arr: T[][]): T[][] {

@@ -566,7 +566,9 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .parent:hover>.parent-hover\:text-center{text-align:center;}
 .text-left,
 [dir="ltr"] .ltr\:text-left{text-align:left;}
+.text-align-right,
 [dir="rtl"] .rtl\:text-right{text-align:right;}
+.text-align-inherit{text-align:inherit;}
 .font-italic,
 .italic{font-style:italic;}
 .font-oblique,
