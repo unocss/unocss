@@ -2,8 +2,8 @@ import type { VariantObject } from '@unocss/core'
 import { isAttributifySelector } from '@unocss/core'
 import type { AttributifyOptions } from './types'
 
-// eslint-disable-next-line regexp/no-useless-quantifier, regexp/no-super-linear-backtracking
-export const variantsRE = /^(?![^\n\r[\u2028\u2029]*\[(?:[^\n\r:\u2028\u2029]*:[^\n\r[\u2028\u2029]*\[)*(?:[\n\r\u2028\u2029][^:]*|[^\n\r:\u2028\u2029]+(?:[\n\r\u2028\u2029][^:]*)?):.+\]$)((?:.+:)?!?)?(.*)$/
+// eslint-disable-next-line regexp/no-super-linear-backtracking
+export const variantsRE = /^(?!.*\[[^:]+:.+\]$)((?:.+:)?!?)(.*)$/
 
 export function variantAttributify(options: AttributifyOptions = {}): VariantObject {
   const prefix = options.prefix ?? 'un-'
