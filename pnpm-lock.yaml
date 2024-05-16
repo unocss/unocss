@@ -590,8 +590,8 @@ importers:
         specifier: workspace:*
         version: link:../core
       unconfig:
-        specifier: ^0.3.13
-        version: 0.3.13
+        specifier: ^0.4.1
+        version: 0.4.1
 
   packages/core:
     devDependencies:
@@ -599,8 +599,8 @@ importers:
         specifier: ^0.30.10
         version: 0.30.10
       unconfig:
-        specifier: ^0.3.13
-        version: 0.3.13
+        specifier: ^0.4.1
+        version: 0.4.1
 
   packages/eslint-config:
     dependencies:
@@ -1149,8 +1149,8 @@ importers:
         specifier: ^8.0.2
         version: 8.0.2(postcss@8.4.38)(typescript@5.4.5)
       unconfig:
-        specifier: ^0.3.13
-        version: 0.3.13
+        specifier: ^0.4.1
+        version: 0.4.1
 
   packages/webpack:
     dependencies:
@@ -4578,6 +4578,12 @@ packages:
     peerDependencies:
       esbuild: '>=0.17'
 
+  bundle-require@4.1.0:
+    resolution: {integrity: sha512-FeArRFM+ziGkRViKRnSTbHZc35dgmR9yNog05Kn0+ItI59pOAISGvnnIwW1WgFZQW59IxD9QpJnUPkdIPfZuXg==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    peerDependencies:
+      esbuild: '>=0.17'
+
   bytes@3.0.0:
     resolution: {integrity: sha512-pMhOfFDPiv9t5jjIXkHosWmkSyQbvsgEVNkz0ERHbuLh2T/7j4Mqqpz523Fe8MVY89KC6Sh/QfS2sM+SjgFDcw==}
     engines: {node: '>= 0.8'}
@@ -6160,6 +6166,9 @@ packages:
   get-tsconfig@4.7.3:
     resolution: {integrity: sha512-ZvkrzoUA0PQZM6fy6+/Hce561s+faD1rsNwhnO5FelNjyy7EMGJ3Rz1AQ8GYDWjhRs/7dBLOEJvhK8MiEJOAFg==}
 
+  get-tsconfig@4.7.5:
+    resolution: {integrity: sha512-ZCuZCnlqNzjb4QprAzXKdpp/gh6KTxSJuw3IBsPnV/7fV4NxC9ckB+vPTt8w7fJA0TaSD7c55BR47JD6MEDyDw==}
+
   giget@1.2.1:
     resolution: {integrity: sha512-4VG22mopWtIeHwogGSy1FViXVo0YT+m6BrqZfz0JJFwbSsePsCdOzdLIIli5BtMp7Xe8f/o2OmBpQX2NBOC24g==}
     hasBin: true
@@ -6499,6 +6508,9 @@ packages:
 
   import-meta-resolve@4.0.0:
     resolution: {integrity: sha512-okYUR7ZQPH+efeuMJGlq4f8ubUgO50kByRPyt/Cy1Io4PSRsPjxME+YlVaCOx+NIToW7hCsZNFJyTPFFKepRSA==}
+
+  importx@0.2.4:
+    resolution: {integrity: sha512-FldH9d+GsFzPAsyVrzvrkdGmXpysa4TRg5CyA4XCdKhMYk8s3H4JrlChoocAmzmeKzG7SmeYIO3NYWWFsvvfEQ==}
 
   imurmurhash@0.1.4:
     resolution: {integrity: sha512-JmXMZ6wuvDmLiHEml9ykzqO6lwFbof0GG4IkcGaENdCRDDmMVnny7s5HsIgHCbaq0w2MyPhDqkhTUgS2LU2PHA==}
@@ -9402,6 +9414,11 @@ packages:
       typescript:
         optional: true
 
+  tsx@4.10.3:
+    resolution: {integrity: sha512-f0g60aFSVRVkzcQkEflh8fPLRfmt+HJHgWi/plG5UgvVaV+9TcpOwJ0sZJSACXmwmjMPg9yQR0BhTLbhkfV2uA==}
+    engines: {node: '>=18.0.0'}
+    hasBin: true
+
   tsx@4.7.1:
     resolution: {integrity: sha512-8d6VuibXHtlN5E3zFkgY8u4DX7Y3Z27zvvPKVmLon/D4AjuKzarkUBTLDBgj9iTQ0hg5xM7c/mYiRVM+HETf0g==}
     engines: {node: '>=18.0.0'}
@@ -9485,6 +9502,9 @@ packages:
 
   unconfig@0.3.13:
     resolution: {integrity: sha512-N9Ph5NC4+sqtcOjPfHrRcHekBCadCXWTBzp2VYYbySOHW0PfD9XLCeXshTXjkPYwLrBr9AtSeU0CZmkYECJhng==}
+
+  unconfig@0.4.1:
+    resolution: {integrity: sha512-R13UbdxX+bhFIwM+N5jFYWPpHBNbFUct5Mn3eTt+zMUFpwgRQ6R2aIOnu9HBly9dAHN8uMzgIYRZu9QXLMLIiw==}
 
   uncrypto@0.1.3:
     resolution: {integrity: sha512-Ql87qFHB3s/De2ClA9e0gsnS6zXG27SkTiSJwjCc9MebbfapQfuPzumMIUMi38ezPZVNFcHI9sUIepeQfw8J8Q==}
@@ -14724,6 +14744,11 @@ snapshots:
       esbuild: 0.19.12
       load-tsconfig: 0.2.5
 
+  bundle-require@4.1.0(esbuild@0.20.2):
+    dependencies:
+      esbuild: 0.20.2
+      load-tsconfig: 0.2.5
+
   bytes@3.0.0: {}
 
   bytes@3.1.2: {}
@@ -16376,6 +16401,10 @@ snapshots:
     dependencies:
       resolve-pkg-maps: 1.0.0
 
+  get-tsconfig@4.7.5:
+    dependencies:
+      resolve-pkg-maps: 1.0.0
+
   giget@1.2.1:
     dependencies:
       citty: 0.1.6
@@ -16809,6 +16838,16 @@ snapshots:
       resolve-from: 4.0.0
 
   import-meta-resolve@4.0.0: {}
+
+  importx@0.2.4:
+    dependencies:
+      bundle-require: 4.1.0(esbuild@0.20.2)
+      debug: 4.3.4
+      esbuild: 0.20.2
+      jiti: 1.21.0
+      tsx: 4.10.3
+    transitivePeerDependencies:
+      - supports-color
 
   imurmurhash@0.1.4: {}
 
@@ -20350,6 +20389,13 @@ snapshots:
       - supports-color
       - ts-node
 
+  tsx@4.10.3:
+    dependencies:
+      esbuild: 0.20.2
+      get-tsconfig: 4.7.5
+    optionalDependencies:
+      fsevents: 2.3.3
+
   tsx@4.7.1:
     dependencies:
       esbuild: 0.19.12
@@ -20452,6 +20498,14 @@ snapshots:
       '@antfu/utils': 0.7.8
       defu: 6.1.4
       jiti: 1.21.0
+
+  unconfig@0.4.1:
+    dependencies:
+      '@antfu/utils': 0.7.8
+      defu: 6.1.4
+      importx: 0.2.4
+    transitivePeerDependencies:
+      - supports-color
 
   uncrypto@0.1.3: {}
 
