@@ -840,6 +840,7 @@ export const presetMiniTargets: string[] = [
   'transition-property-[border]',
   'transition-200',
   'transition-opacity-200',
+  'transition-colors',
   'transition-colors,opacity',
   'transition-colors,opacity-200',
   'transition-color,background-color-200',

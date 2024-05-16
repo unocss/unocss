@@ -12,8 +12,8 @@ const transitionPropertyGroup: Record<string, string> = {
 }
 
 function transitionProperty(prop: string): string | undefined {
-  return h.properties(prop) ?? h.properties(prop)!
-    .split(',')
+  return h.properties(prop)
+    ?.split(',')
     .flatMap(k => transitionPropertyGroup[k])
     .filter(Boolean)
     .join(',')
@@ -27,6 +27,7 @@ export const transitions: Rule<Theme>[] = [
       const p = prop != null
         ? transitionProperty(prop)
         : [transitionPropertyGroup.colors, 'opacity', 'box-shadow', 'transform', 'filter', 'backdrop-filter'].join(',')
+
       if (p) {
         const duration = theme.duration?.[d || 'DEFAULT'] ?? h.time(d || '150')
         return {
