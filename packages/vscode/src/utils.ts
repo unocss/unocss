@@ -3,6 +3,11 @@ import type { UnoGenerator } from '@unocss/core'
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
 
+const remUnitRE = /(-?[\d.]+)rem(\s+!important)?;/
+const matchCssVarNameRE = /var\((?<cssVarName>--[^,|)]+)(?:,(?<fallback>[^)]+))?\)/g
+const cssColorRE = /(?:#|0x)(?:[a-f0-9]{3}|[a-f0-9]{6})\b|(?:rgb|hsl)a?\(.*\)/g
+const varFnRE = /var\((--[^,|)]+)(?:,([^)]+))?\)/
+
 export function throttle<T extends ((...args: any) => any)>(func: T, timeFrame: number): T {
   let lastTime = 0
   let timer: any
@@ -39,7 +44,7 @@ export function addRemToPxComment(str?: string, remToPixel = 16) {
   const output: string[] = []
 
   while (index < str.length) {
-    const rem = str.slice(index).match(/(-?[\d.]+)rem(\s+\!important)?;/)
+    const rem = str.slice(index).match(remUnitRE)
     if (!rem || !rem.index)
       break
     const px = ` /* ${Number.parseFloat(rem[1]) * remToPixel}px */`
@@ -72,7 +77,7 @@ export async function getPrettiedMarkdown(uno: UnoGenerator, util: string, remTo
 }
 
 function getCssVariables(code: string) {
-  const regex = /(?<key>--\S+?):\s*(?<value>.+?)\s*[!;]/gm
+  const regex = /(?<key>--[^\s:]+):(?<value>.+?)[!;]/g
   const cssVariables = new Map<string, string>()
   for (const match of code.matchAll(regex)) {
     const key = match.groups?.key
@@ -82,9 +87,6 @@ function getCssVariables(code: string) {
 
   return cssVariables
 }
-
-const matchCssVarNameRegex = /var\((?<cssVarName>--[^,|)]+)(?:,\s*(?<fallback>[^)]+))?\)/gm
-const cssColorRegex = /(?:#|0x)(?:[a-f0-9]{3}|[a-f0-9]{6})\b|(?:rgb|hsl)a?\(.*\)/gm
 
 /**
  * Get CSS color string from CSS string
@@ -118,7 +120,7 @@ const cssColorRegex = /(?:#|0x)(?:[a-f0-9]{3}|[a-f0-9]{6})\b|(?:rgb|hsl)a?\(.*\)
  * @returns The **first** CSS color string (hex, rgb[a], hsl[a]) or `undefined`
  */
 export function getColorString(str: string) {
-  let colorString = str.match(cssColorRegex)?.[0] // e.g rgb(248 113 113 / var(--maybe-css-var))
+  let colorString = str.match(cssColorRE)?.[0] // e.g rgb(248 113 113 / var(--maybe-css-var))
 
   if (!colorString)
     return
@@ -126,7 +128,7 @@ export function getColorString(str: string) {
   const cssVars = getCssVariables(str)
 
   // replace `var(...)` with its value
-  for (const match of colorString.matchAll(matchCssVarNameRegex)) {
+  for (const match of colorString.matchAll(matchCssVarNameRE)) {
     const matchedString = match[0]
     const cssVarName = match.groups?.cssVarName
     const fallback = match.groups?.fallback
@@ -137,7 +139,7 @@ export function getColorString(str: string) {
         let v = cssVars.get(cssVarName) ?? matchedString
         // resolve nested css var
         while (v && v.startsWith('var(')) {
-          const varName = v.match(/var\((--[^,|)]+)(?:,\s*([^)]+))?\)/)?.[1]
+          const varName = v.match(varFnRE)?.[1]
           if (!varName) {
             v = ''
             break
@@ -149,12 +151,12 @@ export function getColorString(str: string) {
       })
     }
     else if (fallback) {
-    // rgb(248 113 113 / var(--no-value, 0.5)) => rgb(248 113 113 / 0.5)
+      // rgb(248 113 113 / var(--no-value, 0.5)) => rgb(248 113 113 / 0.5)
       colorString = colorString.replaceAll(matchedString, fallback)
     }
 
     // rgb(248 113 113 / var(--no-value)) => rgba(248 113 113)
-    colorString = colorString.replaceAll(/,?\s+var\(--.*?\)/gm, '')
+    colorString = colorString.replaceAll(/,?\s+var\(--.*?\)/g, '')
   }
 
   // if (!(new TinyColor(colorString).isValid))
@@ -179,14 +181,16 @@ export function isRejected(result: PromiseSettledResult<unknown>): result is Pro
   return result.status === 'rejected'
 }
 
+const reRgbFn = /rgb\((\d+)\s+(\d+)\s+(\d+)\s*\/\s*([\d.]+)\)/
+
 export function convertToRGBA(rgbColor: string) {
-  const match = rgbColor.match(/rgb\((\d+)\s+(\d+)\s+(\d+)\s*\/\s*([\d.]+)\)/)
+  const match = rgbColor.match(reRgbFn)
 
   if (match) {
-    const r = Number.parseInt(match[1])
-    const g = Number.parseInt(match[2])
-    const b = Number.parseInt(match[3])
-    const alpha = Number.parseFloat(match[4])
+    const r = Number.parseInt(match[1].trim())
+    const g = Number.parseInt(match[2].trim())
+    const b = Number.parseInt(match[3].trim())
+    const alpha = Number.parseFloat(match[4].trim())
 
     const rgbaColor = `rgba(${r}, ${g}, ${b}, ${alpha})`
 

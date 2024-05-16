@@ -172,7 +172,7 @@ describe('transform', () => {
   it('order of utility classes does not styles output (though hash will be different)', async () => {
     const order1 = await transform('<div class="flex bg-blue-400 my-awesome-class font-bold"></div>')
     const order2 = await transform('<div class="my-awesome-class bg-blue-400  font-bold flex"></div>')
-    const extractCss = (css: string) => css.match(/{([^}]*)}/)![1]
+    const extractCss = (css: string) => css.match(/\{([^}]*)\}/)![1]
     expect(extractCss(order1!)).toEqual(extractCss(order2!))
   })
 

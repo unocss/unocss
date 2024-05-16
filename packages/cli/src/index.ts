@@ -165,15 +165,17 @@ export async function build(_options: CliOptions) {
         })))
       const cssCollection: Record<string, string[]> = {}
       result.forEach(({ css, layers }) => {
-        css.split(/\/*.*\*\//).filter(Boolean).forEach((c, i) => {
-          if (!cssCollection[layers[i]]) {
-            cssCollection[layers[i]] = c.split('\n')
-          }
-          else {
-            // remove duplicates
-            cssCollection[layers[i]] = [...new Set([...cssCollection[layers[i]], ...c.split('\n')])]
-          }
-        })
+        css
+          .split(/\/\*.*?\*\//g) // Remove inline comments
+          .filter(Boolean).forEach((c, i) => {
+            if (!cssCollection[layers[i]]) {
+              cssCollection[layers[i]] = c.split('\n')
+            }
+            else {
+              // remove duplicates
+              cssCollection[layers[i]] = [...new Set([...cssCollection[layers[i]], ...c.split('\n')])]
+            }
+          })
       })
       css = result[0].layers.map(layer => `/* layer: ${layer} */${cssCollection[layer].join('\n')}`).join('\n')
       matched = new Set(result.map(({ matched }) => [...matched]).flat())

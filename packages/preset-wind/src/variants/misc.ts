@@ -6,7 +6,7 @@ export const variantSpaceAndDivide: Variant = (matcher) => {
   if (matcher.startsWith('_'))
     return
 
-  if (/space-([xy])-(-?.+)$/.test(matcher) || /divide-/.test(matcher)) {
+  if (/space-[xy]-.+$/.test(matcher) || /divide-/.test(matcher)) {
     return {
       matcher,
       selector: (input) => {
