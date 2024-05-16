@@ -28,7 +28,7 @@ function getCSS(
       .map((s) => {
         // pseudo class & pseudo elements matcher
         // matches :, ::, -, (), numbers and words
-        const match = s.match(/::?(?:[\(\)\:\-\d\w]+)$/g)
+        const match = s.match(/:[():\-\w]+$/g)
 
         if (match) {
           const matchStr = match[0]

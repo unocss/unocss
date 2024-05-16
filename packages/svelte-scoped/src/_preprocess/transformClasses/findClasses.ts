@@ -7,8 +7,8 @@ export interface FoundClass {
 
 type ClassForms = 'regular' | 'directive' | 'directiveShorthand'
 
-const classesRE = /class=(["'\`])([\S\s]*?)\1/g // class="mb-1"
-const classDirectivesRE = /class:([\S]+?)="?{/g // class:mb-1={foo} and class:mb-1="{foo}"
+const classesRE = /class=(["'`])([\s\S]*?)\1/g // class="mb-1"
+const classDirectivesRE = /class:(\S+?)="?\{/g // class:mb-1={foo} and class:mb-1="{foo}"
 const classDirectivesShorthandRE = /class:([^=>\s/]+)[{>\s/]/g // class:logo (compiled to class:uno-1hashz={logo})
 
 export function findClasses(code: string) {

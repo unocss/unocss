@@ -1,6 +1,6 @@
 import { definePreset } from '@unocss/core'
 
-const remRE = /(-?[\.\d]+)rem/g
+const remRE = /(-?[.\d]+)rem/g
 
 export interface RemToPxOptions {
   /**
