@@ -47,6 +47,8 @@ export async function parseApply({ code, uno, offset, applyVariable }: Transform
   if (!body)
     return
 
+  body = removeComments(body)
+
   const classNames = expandVariantGroup(body)
     .split(/\s+/g)
     .map(className => className.trim().replace(/\\/, ''))
@@ -122,4 +124,8 @@ export async function parseApply({ code, uno, offset, applyVariable }: Transform
 
 function removeQuotes(value: string) {
   return value.replace(/^(['"])(.*)\1$/, '$2')
+}
+
+function removeComments(value: string) {
+  return value.replace(/(\/\*(?:.|\n)*?\*\/)|(\/\/.*)/g, '')
 }
