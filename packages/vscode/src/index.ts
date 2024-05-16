@@ -58,7 +58,7 @@ async function rootRegister(
   const _include = config.get<FilterPattern>('include')
 
   const include: FilterPattern = _include || defaultPipelineInclude
-  const exclude: FilterPattern = _exclude || [/[\/](node_modules|dist|\.temp|\.cache|\.vscode)[\/]/, ...defaultPipelineExclude]
+  const exclude: FilterPattern = _exclude || [/[\\/](node_modules|dist|\.temp|\.cache|\.vscode)[\\/]/, ...defaultPipelineExclude]
   const filter = createFilter(include, exclude)
 
   const ctx = new ContextLoader(root[0], ext, status)

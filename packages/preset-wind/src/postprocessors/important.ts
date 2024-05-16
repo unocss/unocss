@@ -11,6 +11,7 @@ export function important(option: PresetWindOptions['important']): Postprocessor
 
     // handle pseudo
     if (selector.includes('::'))
+      // eslint-disable-next-line regexp/no-super-linear-backtracking
       return selector.replace(/(.*?)(\s*::.*)/, ':is($1)$2')
 
     return `:is(${selector})`
