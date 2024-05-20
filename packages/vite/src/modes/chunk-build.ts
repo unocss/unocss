@@ -11,7 +11,7 @@ export function ChunkModeBuildPlugin({ uno, filter }: UnocssPluginContext): Plug
     apply: 'build',
     enforce: 'pre',
     configResolved(config) {
-      cssPlugin = config.plugins.find(i => i.name === 'vite:css-post')
+      cssPlugin = config.plugins.find(i => i.name === 'vite:css-post') as Plugin | undefined
     },
     transform(code, id) {
       if (!filter(code, id))

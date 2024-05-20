@@ -143,8 +143,8 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           })
         }
 
-        const cssPostPlugin = config.plugins.find(i => i.name === 'vite:css-post')
-        const cssPlugin = config.plugins.find(i => i.name === 'vite:css')
+        const cssPostPlugin = config.plugins.find(i => i.name === 'vite:css-post') as Plugin | undefined
+        const cssPlugin = config.plugins.find(i => i.name === 'vite:css') as Plugin | undefined
 
         if (cssPostPlugin)
           distDirs.forEach(dir => cssPostPlugins.set(dir, cssPostPlugin))
