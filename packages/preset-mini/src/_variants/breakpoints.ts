@@ -11,11 +11,24 @@ export function calcMaxWidthBySize(size: string) {
   return `calc(${size} - 0.1px)`
 }
 
+const sizePseudo = /(max|min)-\[([^\]]*)\]:/
 export function variantBreakpoints(): VariantObject {
   const regexCache: Record<string, RegExp> = {}
   return {
     name: 'breakpoints',
     match(matcher, context) {
+      if (sizePseudo.test(matcher)) {
+        const match = matcher.match(sizePseudo)!
+        const m = matcher.replace(match[0], '')
+        return {
+          matcher: m,
+          handle: (input, next) => next({
+            ...input,
+            parent: `${input.parent ? `${input.parent} $$ ` : ''}@media (${match[1]}-width: ${match[2]})`,
+            // parentOrder: order,
+          }),
+        }
+      }
       const variantEntries: Array<[string, string, number]> = (resolveBreakpoints(context) ?? [])
         .map(({ point, size }, idx) => [point, size, idx])
       for (const [point, size, idx] of variantEntries) {
@@ -39,7 +52,6 @@ export function variantBreakpoints(): VariantObject {
         const isAtPrefix = pre.startsWith('at-') || pre.startsWith('~')
 
         let order = 3000 // parseInt(size)
-
         if (isLtPrefix) {
           order -= (idx + 1)
           return {
