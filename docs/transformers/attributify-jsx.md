@@ -47,22 +47,9 @@ export function Component() {
 
 ## Installation
 
-::: code-group
-  ```bash [pnpm]
-  pnpm add -D @unocss/transformer-attributify-jsx
-  ```
-  ```bash [yarn]
-  yarn add -D @unocss/transformer-attributify-jsx
-  ```
-  ```bash [npm]
-  npm install -D @unocss/transformer-attributify-jsx
-  ```
-:::
-
 ```ts{12}
 // uno.config.ts
-import { defineConfig, presetAttributify } from 'unocss'
-import transformerAttributifyJsx from '@unocss/transformer-attributify-jsx'
+import { defineConfig, presetAttributify, transformerAttributifyJsx } from 'unocss'
 
 export default defineConfig({
   // ...
