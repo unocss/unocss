@@ -1,6 +1,6 @@
 <template>
-  <main class=" text-center px-12 py-20 foo">
-    <span text="5xl hover:red blue  " cursor="default">Hello Nuxt 3</span>
+  <main class="py-20 px-12 text-center foo">
+    <span text="blue 5xl hover:red" cursor="default">Hello Nuxt 3</span>
     <br>
     <div i-carbon-car text-4xl inline-block />
     <br>

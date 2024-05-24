@@ -97,7 +97,7 @@ export default mergeConfigs([${configPaths.map((_, index) => `cfg${index}`).join
 
     async function loadUnoConfig() {
       const { config: unoConfig } = await loadConfig<UserConfig>(process.cwd(), {
-        configFile: options.configFile,
+        configFile: options.nuxtLayers ? resolve(nuxt.options.buildDir, 'uno.config.mjs') : options.configFile,
       }, [], options)
 
       await nuxt.callHook('unocss:config', unoConfig)
