@@ -12,6 +12,7 @@ export function calcMaxWidthBySize(size: string) {
 }
 
 const sizePseudo = /(max|min)-\[([^\]]*)\]:/
+
 export function variantBreakpoints(): VariantObject {
   const regexCache: Record<string, RegExp> = {}
   return {
@@ -52,6 +53,7 @@ export function variantBreakpoints(): VariantObject {
         const isAtPrefix = pre.startsWith('at-') || pre.startsWith('~')
 
         let order = 3000 // parseInt(size)
+
         if (isLtPrefix) {
           order -= (idx + 1)
           return {
