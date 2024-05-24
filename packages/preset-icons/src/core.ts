@@ -1,3 +1,4 @@
+import type { CSSObject } from '@unocss/core'
 import { definePreset, warnOnce } from '@unocss/core'
 import type {
   IconifyLoaderOptions,
@@ -29,6 +30,7 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
       collectionsNodeResolvePath,
       layer = 'icons',
       unit,
+      processor,
     } = options
 
     const flags = getEnvFlags()
@@ -66,7 +68,8 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
       layers: { icons: -30 },
       rules: [[
         /^([a-z0-9:_-]+)(?:\?(mask|bg|auto))?$/,
-        async ([full, body, _mode = mode]) => {
+        async (matcher) => {
+          let [full, body, _mode = mode] = matcher as [string, string, IconsOptions['mode']]
           let collection = ''
           let name = ''
           let svg: string | undefined
@@ -95,6 +98,7 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
             return
           }
 
+          let cssObject: CSSObject
           const url = `url("data:image/svg+xml;utf8,${encodeSvgForCss(svg)}")`
 
           if (_mode === 'auto')
@@ -102,7 +106,7 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
 
           if (_mode === 'mask') {
             // Thanks to https://codepen.io/noahblon/post/coloring-svgs-in-css-background-images
-            return {
+            cssObject = {
               '--un-icon': url,
               '-webkit-mask': 'var(--un-icon) no-repeat',
               'mask': 'var(--un-icon) no-repeat',
@@ -115,13 +119,17 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
             }
           }
           else {
-            return {
+            cssObject = {
               'background': `${url} no-repeat`,
               'background-size': '100% 100%',
               'background-color': 'transparent',
               ...usedProps,
             }
           }
+
+          processor?.(cssObject, { collection, icon: name, svg, mode: _mode })
+
+          return cssObject
         },
         { layer, prefix },
       ]],

@@ -2,11 +2,11 @@ import { readFile } from 'node:fs/promises'
 import type { UnoGenerator } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
-import { transformDirectives } from '@unocss/transformer-directives'
 import MagicString from 'magic-string'
 import parserCSS from 'prettier/parser-postcss'
 import prettier from 'prettier/standalone'
 import { describe, expect, it } from 'vitest'
+import { transformDirectives } from '../packages/transformer-directives/src/transform'
 
 describe('transformer-directives', () => {
   const uno = createGenerator({
@@ -212,6 +212,38 @@ describe('transformer-directives', () => {
       `)
   })
 
+  // #3794
+  it('multiple apply ignore comments', async () => {
+    const result = await transform(
+      `.btn {
+        @apply p-3 m-4 /* overflow-hidden */ /*bg-white*/ // bg-black
+        text-center // w-2
+        ;
+        @apply bg-white;
+        @apply hover:bg-blue-500 /* m-4 */;
+        @apply hover:border;
+      }`,
+    )
+    expect(result)
+      .toMatchInlineSnapshot(`
+        ".btn {
+          margin: 1rem;
+          padding: 0.75rem;
+          text-align: center;
+          --un-bg-opacity: 1;
+          background-color: rgb(255 255 255 / var(--un-bg-opacity));
+        }
+        .btn:hover {
+          --un-bg-opacity: 1;
+          background-color: rgb(59 130 246 / var(--un-bg-opacity));
+        }
+        .btn:hover {
+          border-width: 1px;
+        }
+        "
+      `)
+  })
+
   it('dark class', async () => {
     const uno = createGenerator({
       presets: [
@@ -293,7 +325,7 @@ describe('transformer-directives', () => {
   it('var style class', async () => {
     const result = await transform(
       `nav {
-        --at-apply: border;
+        --at-apply: border font-mono text-lg;
 
         ul {
           li {
@@ -306,8 +338,29 @@ describe('transformer-directives', () => {
         }
       }`,
     )
+
     await expect(result)
       .toMatchFileSnapshot('./assets/output/transformer-directives-var-style-class.css')
+  })
+
+  it('declaration for apply variable', async () => {
+    const result = await transform(
+      `nav {
+        --uno: b-#fff bg-black/5 fw-600 text-teal/7 'shadow-red:80';
+      }`,
+    )
+
+    expect(result).toMatchInlineSnapshot(`
+      "nav {
+        --un-border-opacity: 1;
+        border-color: rgb(255 255 255 / var(--un-border-opacity));
+        background-color: rgb(0 0 0 / 0.05);
+        color: rgb(45 212 191 / 0.07);
+        font-weight: 600;
+        --un-shadow-color: rgb(248 113 113 / 0.8);
+      }
+      "
+    `)
   })
 
   it('@screen basic', async () => {
@@ -430,14 +483,14 @@ describe('transformer-directives', () => {
         color: theme("color.none.500");
         }`,
       )).rejects
-        .toMatchInlineSnapshot('[Error: theme of "color.none.500" did not found]')
+        .toMatchInlineSnapshot(`[Error: theme of "color.none.500" did not found]`)
 
       expect(async () => await transform(
           `.btn {
           font-size: theme("size.lg");
           }`,
       )).rejects
-        .toMatchInlineSnapshot('[Error: theme of "size.lg" did not found]')
+        .toMatchInlineSnapshot(`[Error: theme of "size.lg" did not found]`)
     })
 
     it('args', async () => {
@@ -446,7 +499,7 @@ describe('transformer-directives', () => {
           color: theme();
         }`,
       )).rejects
-        .toMatchInlineSnapshot('[Error: theme() expect exact one argument, but got 0]')
+        .toMatchInlineSnapshot(`[Error: theme() expect exact one argument]`)
     })
 
     it('with @apply', async () => {

@@ -17,6 +17,7 @@ import {
 } from '../../integration'
 import type { VitePluginConfig } from '../../types'
 import { setupContentExtractor } from '../../../../shared-integration/src/content'
+import { LAYER_IMPORTS } from '../../../../core/src/constants'
 
 // https://github.com/vitejs/vite/blob/main/packages/plugin-legacy/src/index.ts#L742-L744
 function isLegacyChunk(chunk: RenderedChunk, options: NormalizedOutputOptions) {
@@ -142,8 +143,8 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           })
         }
 
-        const cssPostPlugin = config.plugins.find(i => i.name === 'vite:css-post')
-        const cssPlugin = config.plugins.find(i => i.name === 'vite:css')
+        const cssPostPlugin = config.plugins.find(i => i.name === 'vite:css-post') as Plugin | undefined
+        const cssPlugin = config.plugins.find(i => i.name === 'vite:css') as Plugin | undefined
 
         if (cssPostPlugin)
           distDirs.forEach(dir => cssPostPlugins.set(dir, cssPostPlugin))
@@ -218,9 +219,10 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         }
         const result = await generateAll()
         const mappedVfsLayer = Array.from(vfsLayers).map(layer => layer === LAYER_MARK_ALL ? layer : layer.replace(/^_/, ''))
-        const cssWithLayers = Array.from(vfsLayers).map(layer => `#--unocss-layer-start--${layer}--{start:${layer}} ${
+        const importStatements = result.getLayer(LAYER_IMPORTS)
+        const cssWithLayers = Array.from(vfsLayers).map(layer => `${importStatements ?? ''}#--unocss-layer-start--${layer}--{start:${layer}} ${
             layer === LAYER_MARK_ALL
-            ? result.getLayers(undefined, mappedVfsLayer)
+            ? result.getLayers(undefined, [...mappedVfsLayer, LAYER_IMPORTS])
             : (result.getLayer(layer.replace(/^_/, '')) || '')
           } #--unocss-layer-end--${layer}--{end:${layer}}`).join('')
 
@@ -275,7 +277,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
               .replace(HASH_PLACEHOLDER_RE, '')
             chunk.source = await replaceAsync(css, LAYER_PLACEHOLDER_RE, async (_, layer) => {
               replaced = true
-              return getLayer(layer, css)
+              return getLayer(layer.trim(), css)
             })
             Array.from(vfsLayers).forEach((layer) => {
               chunk.source = getLayer(layer, chunk.source as string, true)
@@ -286,7 +288,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
               .replace(HASH_PLACEHOLDER_RE, '')
             chunk.code = await replaceAsync(js, LAYER_PLACEHOLDER_RE, async (_, layer) => {
               replaced = true
-              const css = getLayer(layer, js)
+              const css = getLayer(layer.trim(), js)
               return css
                 .replace(/\n/g, '')
                 .replace(/(?<!\\)(['"])/g, '\\$1')
@@ -303,7 +305,8 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
             msg += '\nIt seems you are building in library mode, it\'s recommended to set `build.cssCodeSplit` to true.\nSee https://github.com/vitejs/vite/issues/1579'
           else
             msg += '\nThis is likely an internal bug of unocss vite plugin'
-          this.error(msg)
+          // #3748 Because some files may not contain unocss syntax, and then an error will be reported.
+          this.warn(msg)
         }
       },
     },

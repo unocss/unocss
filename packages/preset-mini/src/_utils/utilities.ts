@@ -21,7 +21,7 @@ export function directionSize(propertyPrefix: string): DynamicMatcher {
     if (v != null) {
       return directionMap[direction].map(i => [`${propertyPrefix}${i}`, v])
     }
-    else if (size.startsWith('-')) {
+    else if (size?.startsWith('-')) {
       // --custom-spacing-value
       const v = theme.spacing?.[size.slice(1)]
       if (v != null)
@@ -96,7 +96,7 @@ export function parseColor(body: string, theme: Theme, key?: ThemeColorKeys): Pa
 
   const [main, opacity] = split
   const colors = main
-    .replace(/([a-z])([0-9])/g, '$1-$2')
+    .replace(/([a-z])(\d)/g, '$1-$2')
     .split(/-/g)
   const [name] = colors
 
@@ -110,7 +110,7 @@ export function parseColor(body: string, theme: Theme, key?: ThemeColorKeys): Pa
   if (h.numberWithUnit(bracketOrMain))
     return
 
-  if (/^#[\da-fA-F]+$/.test(bracketOrMain))
+  if (/^#[\da-f]+$/i.test(bracketOrMain))
     color = bracketOrMain
   else if (/^hex-[\da-fA-F]+$/.test(bracketOrMain))
     color = `#${bracketOrMain.slice(4)}`
@@ -265,19 +265,24 @@ export function hasParseableColor(color: string | undefined, theme: Theme, key: 
   return color != null && !!parseColor(color, theme, key)?.color
 }
 
+const reLetters = /[a-z]+/gi
+const resolvedBreakpoints = new WeakMap<any, { point: string, size: string }[]>()
+
 export function resolveBreakpoints({ theme, generator }: Readonly<VariantContext<Theme>>, key: 'breakpoints' | 'verticalBreakpoints' = 'breakpoints') {
-  let breakpoints: Record<string, string> | undefined
-  if (generator.userConfig && generator.userConfig.theme)
-    breakpoints = (generator.userConfig.theme as any)[key]
+  const breakpoints: Record<string, string> | undefined = (generator?.userConfig?.theme as any)?.[key] || theme[key]
 
   if (!breakpoints)
-    breakpoints = theme[key]
+    return undefined
 
-  return breakpoints
-    ? Object.entries(breakpoints)
-      .sort((a, b) => Number.parseInt(a[1].replace(/[a-z]+/gi, '')) - Number.parseInt(b[1].replace(/[a-z]+/gi, '')))
-      .map(([point, size]) => ({ point, size }))
-    : undefined
+  if (resolvedBreakpoints.has(theme))
+    return resolvedBreakpoints.get(theme)
+
+  const resolved = Object.entries(breakpoints)
+    .sort((a, b) => Number.parseInt(a[1].replace(reLetters, '')) - Number.parseInt(b[1].replace(reLetters, '')))
+    .map(([point, size]) => ({ point, size }))
+
+  resolvedBreakpoints.set(theme, resolved)
+  return resolved
 }
 
 export function resolveVerticalBreakpoints(context: Readonly<VariantContext<Theme>>) {

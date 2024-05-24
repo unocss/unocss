@@ -1,5 +1,5 @@
 import { createNanoEvents } from '../utils/events'
-import type { CSSEntries, CSSObject, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
+import type { BlocklistMeta, BlocklistValue, CSSEntries, CSSObject, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
 import { BetterMap, CONTROL_SHORTCUT_NO_MERGE, CountableSet, TwoKeyMap, e, entriesToCss, expandVariantGroup, isCountableSet, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
@@ -747,7 +747,19 @@ export class UnoGenerator<Theme extends object = object> {
   }
 
   isBlocked(raw: string): boolean {
-    return !raw || this.config.blocklist.some(e => typeof e === 'function' ? e(raw) : isString(e) ? e === raw : e.test(raw))
+    return !raw || this.config.blocklist
+      .map(e => Array.isArray(e) ? e[0] : e)
+      .some(e => typeof e === 'function' ? e(raw) : isString(e) ? e === raw : e.test(raw))
+  }
+
+  getBlocked(raw: string): [BlocklistValue, BlocklistMeta | undefined] | undefined {
+    const rule = this.config.blocklist
+      .find((e) => {
+        const v = Array.isArray(e) ? e[0] : e
+        return typeof v === 'function' ? v(raw) : isString(v) ? v === raw : v.test(raw)
+      })
+
+    return rule ? (Array.isArray(rule) ? rule : [rule, undefined]) : undefined
   }
 }
 

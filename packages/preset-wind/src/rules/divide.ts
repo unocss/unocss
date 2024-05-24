@@ -6,10 +6,10 @@ import { colorResolver, directionMap, h } from '@unocss/preset-mini/utils'
 export const divides: Rule[] = [
   // divides
   [/^divide-?([xy])$/, handlerDivide, { autocomplete: ['divide-(x|y|block|inline)', 'divide-(x|y|block|inline)-reverse', 'divide-(x|y|block|inline)-$lineWidth'] }],
-  [/^divide-?([xy])-?(-?.+)$/, handlerDivide],
+  [/^divide-?([xy])-?(.+)$/, handlerDivide],
   [/^divide-?([xy])-reverse$/, ([, d]) => ({ [`--un-divide-${d}-reverse`]: 1 })],
   [/^divide-(block|inline)$/, handlerDivide],
-  [/^divide-(block|inline)-(-?.+)$/, handlerDivide],
+  [/^divide-(block|inline)-(.+)$/, handlerDivide],
   [/^divide-(block|inline)-reverse$/, ([, d]) => ({ [`--un-divide-${d}-reverse`]: 1 })],
 
   // color & opacity

@@ -99,10 +99,9 @@ export async function build(_options: CliOptions) {
     })
 
     consola.info(
-      `Watching for changes in ${
-        toArray(patterns)
-          .map(i => cyan(i))
-          .join(', ')}`,
+      `Watching for changes in ${toArray(patterns)
+        .map(i => cyan(i))
+        .join(', ')}`,
     )
   }
 
@@ -139,14 +138,48 @@ export async function build(_options: CliOptions) {
           })),
       )
     }
-
-    const { css, matched } = await ctx.uno.generate(
-      [...postTransform.map(({ code, transformedCode }) => (transformedCode ?? code).replace(SKIP_COMMENT_RE, ''))].join('\n'),
-      {
-        preflights: options.preflights,
-        minify: options.minify,
-      },
-    )
+    const firstIdType = postTransform[0].id.split('.').pop()!
+    const isSameFileType = postTransform.every(({ id }) => id.split('.').pop() === firstIdType)
+    let css!: string
+    let matched: Set<string>
+    if (isSameFileType) {
+      // if all files are the same type, we can generate them all at once
+      const { css: _css, matched: _matched } = await ctx.uno.generate(
+        [...postTransform.map(({ code, transformedCode }) => (transformedCode ?? code).replace(SKIP_COMMENT_RE, ''))].join('\n'),
+        {
+          preflights: options.preflights,
+          minify: options.minify,
+          id: postTransform[0].id,
+        },
+      )
+      css = _css
+      matched = _matched
+    }
+    else {
+      // if files are different types, we need to generate them one by one
+      const result = await Promise.all(postTransform.map(({ code, transformedCode, id }) =>
+        ctx.uno.generate(transformedCode ?? code, {
+          preflights: options.preflights,
+          minify: options.minify,
+          id,
+        })))
+      const cssCollection: Record<string, string[]> = {}
+      result.forEach(({ css, layers }) => {
+        css
+          .split(/\/\*.*?\*\//g) // Remove inline comments
+          .filter(Boolean).forEach((c, i) => {
+            if (!cssCollection[layers[i]]) {
+              cssCollection[layers[i]] = c.split('\n')
+            }
+            else {
+              // remove duplicates
+              cssCollection[layers[i]] = [...new Set([...cssCollection[layers[i]], ...c.split('\n')])]
+            }
+          })
+      })
+      css = result[0].layers.map(layer => `/* layer: ${layer} */${cssCollection[layer].join('\n')}`).join('\n')
+      matched = new Set(result.map(({ matched }) => [...matched]).flat())
+    }
 
     if (options.stdout) {
       process.stdout.write(css)
@@ -161,9 +194,9 @@ export async function build(_options: CliOptions) {
 
     if (!options.watch) {
       consola.success(
-      `${[...matched].length} utilities generated to ${cyan(
-        relative(process.cwd(), outFile),
-      )}\n`,
+        `${[...matched].length} utilities generated to ${cyan(
+          relative(process.cwd(), outFile),
+        )}\n`,
       )
     }
   }

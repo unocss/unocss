@@ -62,4 +62,22 @@ describe('preset-icons', () => {
     expect(css).toContain('data:image/svg+xml;utf8,%3Csvg')
     await expect(css).toMatchFileSnapshot('./assets/output/preset-icons-unit-svg-prologue.css')
   })
+
+  it('custom the usedProps in propsProcessor', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetUno(),
+        presetIcons({
+          processor(props, { mode }) {
+            if (mode === 'bg') {
+              delete props.width
+              delete props.height
+            }
+          },
+        }),
+      ],
+    })
+    const { css } = await uno.generate(fixtures.join(' '), { preflights: false })
+    await expect(css).toMatchFileSnapshot('./assets/output/preset-icons-propsProcessor.css')
+  })
 })

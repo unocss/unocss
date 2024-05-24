@@ -7,13 +7,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.1.42",
-    "@types/react": "^18.2.79",
-    "@types/react-dom": "^18.2.25",
+    "@types/react": "^18.3.2",
+    "@types/react-dom": "^18.3.0",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
@@ -21,7 +21,7 @@
     "cross-env": "^7.0.3",
     "typescript": "^5.4.5",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.2.9"
+    "vite": "^5.2.11"
   },
   "stackblitz": {
     "installDependencies": false,

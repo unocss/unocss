@@ -1,6 +1,4 @@
-// @vitest-environment jsdom
-
-import { afterEach, describe, expect, it } from 'vitest'
+/// <reference types="vitest/globals" />
 import initUnocssRuntime from '@unocss/runtime'
 import presetUno from '@unocss/preset-uno'
 

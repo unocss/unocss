@@ -69,7 +69,7 @@ const PseudoClasses: Record<string, string> = Object.fromEntries([
   ['placeholder', '::placeholder'],
   ['before', '::before'],
   ['after', '::after'],
-  ['selection', '::selection'],
+  ['selection', ' ::selection'],
   ['marker', ' ::marker'],
   ['file', '::file-selector-button'],
 ].map(key => Array.isArray(key) ? key : [key, `:${key}`]))
@@ -305,7 +305,7 @@ export function variantTaggedPseudoClasses(options: PresetMiniOptions = {}): Var
   ]
 }
 
-const PartClassesRE = /(part-\[(.+)]:)(.+)/
+const PartClassesRE = /(part-\[(.+)\]:)(.+)/
 
 export const variantPartClasses: VariantObject = {
   match(input) {

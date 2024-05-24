@@ -34,6 +34,7 @@ export function createValueHandler<K extends string>(handlers: Record<K, ValueHa
   for (const name of Object.keys(handlers) as K[]) {
     Object.defineProperty(handler, name, {
       enumerable: true,
+      configurable: true,
       get() {
         return addProcessor(this, name)
       },

@@ -25,6 +25,7 @@
       "@unocss/preset-mini/variants": ["./packages/preset-mini/src/variants.ts"],
       "@unocss/preset-rem-to-px": ["./packages/preset-rem-to-px/src/index.ts"],
       "@unocss/preset-tagify": ["./packages/preset-tagify/src/index.ts"],
+      "@unocss/preset-legacy-compat": ["./packages/preset-legacy-compat/src/index.ts"],
       "@unocss/preset-typography": ["./packages/preset-typography/src/index.ts"],
       "@unocss/preset-uno": ["./packages/preset-uno/src/index.ts"],
       "@unocss/preset-web-fonts": ["./packages/preset-web-fonts/src/index.ts"],

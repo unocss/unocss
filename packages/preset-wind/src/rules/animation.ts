@@ -56,7 +56,7 @@ export const animations: Rule<Theme>[] = [
   }],
 
   // others
-  [/^animate-(?:iteration-count-|iteration-|count-)(.+)$/, ([, d]) => ({ 'animation-iteration-count': h.bracket.cssvar(d) ?? d.replace(/\-/g, ',') }), { autocomplete: ['animate-(iteration|count|iteration-count)', 'animate-(iteration|count|iteration-count)-<num>'] }],
+  [/^animate-(?:iteration-count-|iteration-|count-)(.+)$/, ([, d]) => ({ 'animation-iteration-count': h.bracket.cssvar(d) ?? d.replace(/-/g, ',') }), { autocomplete: ['animate-(iteration|count|iteration-count)', 'animate-(iteration|count|iteration-count)-<num>'] }],
   [/^animate-(play-state-|play-|state-)?(.+)$/, ([, t, d]) => ['paused', 'running', ...[t ? globalKeywords : []]].includes(d) ? { 'animation-play-state': d } : undefined, {
     autocomplete: [
       'animate-(play|state|play-state)',
