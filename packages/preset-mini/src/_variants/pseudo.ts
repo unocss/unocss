@@ -305,7 +305,7 @@ export function variantTaggedPseudoClasses(options: PresetMiniOptions = {}): Var
   ]
 }
 
-const PartClassesRE = /(part-\[(.+)]:)(.+)/
+const PartClassesRE = /(part-\[(.+)\]:)(.+)/
 
 export const variantPartClasses: VariantObject = {
   match(input) {

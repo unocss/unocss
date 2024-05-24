@@ -2,7 +2,7 @@ import type { VariantObject } from '@unocss/core'
 import { resolveBreakpoints } from '../utils'
 
 export function calcMaxWidthBySize(size: string) {
-  const value = size.match(/^-?[0-9]+\.?[0-9]*/)?.[0] || ''
+  const value = size.match(/^-?\d+\.?\d*/)?.[0] || ''
   const unit = size.slice(value.length)
   if (unit === 'px') {
     const maxWidth = (Number.parseFloat(value) - 0.1)

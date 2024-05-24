@@ -202,15 +202,15 @@ export function createSearch(
   }
 
   function getFeatureUsage(css: string) {
-    const props = uniq([...css.matchAll(/^\s+(\w[\w-]+)\:/mg)].map(i => i[1]))
-    const functions = uniq([...css.matchAll(/\b(\w+)\(/mg)].map(i => `${i[1]}()`))
-    const pseudo = uniq([...css.matchAll(/\:([\w-]+)/mg)].map(i => `:${i[1]}`))
+    const props = uniq([...css.matchAll(/^\s+(\w[\w-]+):/gm)].map(i => i[1]))
+    const functions = uniq([...css.matchAll(/\b(\w+)\(/g)].map(i => `${i[1]}()`))
+    const pseudo = uniq([...css.matchAll(/:([\w-]+)/g)].map(i => `:${i[1]}`))
     return [...props, ...functions, ...pseudo]
       .filter(i => docs.value.find(s => s.title === i))
   }
 
   function getUrls(css: string) {
-    return uniq([...css.matchAll(/\burl\(([^)]+)\)/mg)]
+    return uniq([...css.matchAll(/\burl\(([^)]+)\)/g)]
       .map(i => i[1]))
       .map(i => /^(['"]).*\1$/.test(i) ? i.slice(1, -1) : i)
   }

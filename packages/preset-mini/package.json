@@ -1,7 +1,7 @@
 {
   "name": "@unocss/preset-mini",
   "type": "module",
-  "version": "0.60.2",
+  "version": "0.60.3",
   "description": "The minimal preset for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",

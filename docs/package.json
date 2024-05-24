@@ -1,7 +1,7 @@
 {
   "name": "docs",
   "type": "module",
-  "version": "0.60.2",
+  "version": "0.60.3",
   "private": true,
   "scripts": {
     "docs:dev": "vitepress dev",
@@ -9,7 +9,7 @@
     "docs:preview": "vitepress preview"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "^1.1.32",
+    "@iconify-json/carbon": "^1.1.33",
     "@iconify-json/logos": "^1.1.42",
     "@iconify-json/mdi": "^1.1.66",
     "@iconify-json/ph": "^1.1.13",

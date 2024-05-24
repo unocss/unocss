@@ -1,7 +1,7 @@
 {
   "name": "@unocss/extractor-mdc",
   "type": "module",
-  "version": "0.60.2",
+  "version": "0.60.3",
   "description": "UnoCSS extractor for MDC",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",

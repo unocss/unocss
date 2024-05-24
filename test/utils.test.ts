@@ -94,10 +94,10 @@ it('getColorString', () => {
   }
   `
 
-  expect(getColorString(textAmber)).eql('rgba(251, 191, 36, 1)')
-  expect(getColorString(textAmberImportant)).eql('rgba(251, 191, 36, 1)')
-  expect(getColorString(bgAmber)).eql('rgba(251, 191, 36, 1)')
-  expect(getColorString(bgAmberImportant)).eql('rgba(251, 191, 36, 1)')
+  expect(getColorString(textAmber)).eql('rgba(251, 191, 36,  1)')
+  expect(getColorString(textAmberImportant)).eql('rgba(251, 191, 36,  1 )')
+  expect(getColorString(bgAmber)).eql('rgba(251, 191, 36,  1)')
+  expect(getColorString(bgAmberImportant)).eql('rgba(251, 191, 36,  1 )')
 })
 
 it('addRemToPxComment', () => {

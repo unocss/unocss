@@ -68,7 +68,7 @@ export function handleScreen({ code, uno }: TransformerDirectivesContext, node: 
 }
 
 function calcMaxWidthBySize(size: string) {
-  const value = size.match(/^-?[0-9]+\.?[0-9]*/)?.[0] || ''
+  const value = size.match(/^-?\d+\.?\d*/)?.[0] || ''
   const unit = size.slice(value.length)
   const maxWidth = (Number.parseFloat(value) - 0.1)
   return Number.isNaN(maxWidth) ? size : `${maxWidth}${unit}`
