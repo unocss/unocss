@@ -37,6 +37,14 @@ export default defineConfig({
 })
 ```
 
+::: tip
+This preset is included in the `unocss` package, you can also import it from there:
+
+```ts
+import { transformerCompileClass } from 'unocss'
+```
+:::
+
 ## Usage
 
 Add `:uno:` at the beginning of the class strings to mark them for compilation.
