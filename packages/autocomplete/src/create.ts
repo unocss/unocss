@@ -114,22 +114,26 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
     }
 
     // regular resolve
+    const attributify = (uno.config.presets || []).find(i => i.name === '@unocss/preset-attributify')
+    const attributifyPrefix = attributify?.options?.prefix
     const regular = searchUsageBoundary(
       content,
       cursor,
-      (uno.config.presets || []).some(i => i.name === '@unocss/preset-attributify'),
+      !!attributify,
+      attributifyPrefix,
     )
     if (!regular)
       return
     const suggestions = await suggest(regular.content, isInsideAttrValue)
-
+    const offset = regular.attributifyPrefix?.length ?? 0
     return {
       suggestions: suggestions.map(v => [v, v] as [string, string]),
       resolveReplacement: suggestion => ({
-        start: regular.start,
+        start: offset + regular.start,
         end: regular.end,
         replacement: suggestion,
       }),
+      attributifyPrefix: regular.attributifyPrefix,
     }
   }
 

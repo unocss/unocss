@@ -2,6 +2,7 @@ export function searchUsageBoundary(
   line: string,
   index: number,
   attributify = true,
+  attributifyPrefix: string,
 ) {
   let start = index
   let end = index
@@ -11,10 +12,16 @@ export function searchUsageBoundary(
   while (end < line.length && regex.test(line.charAt(end))) ++end
 
   if (attributify) {
+    let content = line.slice(start, end)
+    if (attributifyPrefix && content.startsWith(attributifyPrefix))
+      content = content.slice(attributifyPrefix.length)
+    else
+      attributifyPrefix = ''
     return {
-      content: line.slice(start, end),
+      content,
       start,
       end,
+      attributifyPrefix,
     }
   }
 

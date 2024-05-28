@@ -520,6 +520,10 @@ export interface SuggestResult {
    * Needs to pass in the original one.
    */
   resolveReplacement: (suggestion: string) => Replacement
+  /**
+   * The prefix of presetAttributify
+   */
+  attributifyPrefix?: string
 }
 
 export interface AutoCompleteExtractorResult {
