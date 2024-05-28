@@ -37,9 +37,11 @@ export interface TransformerAttributifyJsxOptions {
   exclude?: FilterPattern
 }
 
-const elementRE = /<([^\/?<>0-9$_!][^\s>]*)\s+((?:"[^"]*"|'[^"]*'|({[^}]*})|[^{>])+)>/g
-const attributeRE = /(?<![~`!$%^&*()_+\-=[{;':"|,.<>/?]\s*)([a-zA-Z()#][\[?a-zA-Z0-9-_:()#%\]?]*)(?:\s*=\s*((?:'[^']*')|(?:"[^"]*")|\S+))?/g
-const valuedAttributeRE = /((?!\d|-{2}|-\d)[a-zA-Z0-9\u00A0-\uFFFF-_:!%-.~<]+)=(?:["](?:[^"]*)["]|['](?:[^']*)[']|([{])((?:[`(](?:[^`)]*)[`)]|[^}])+)([}]))/gms
+// eslint-disable-next-line regexp/no-super-linear-backtracking
+const elementRE = /<([^/?<>0-9$_!][^\s>]*)\s+((?:"[^"]*"|'[^"]*'|(\{[^}]*\})|[^{>])+)>/g
+const attributeRE = /(?<![~`!$%^&*()_+\-=[{;':"|,.<>/?]\s*)([a-z()#][[?\w\-:()#%\]]*)(?:\s*=\s*('[^']*'|"[^"]*"|\S+))?/gi
+// eslint-disable-next-line regexp/no-super-linear-backtracking
+const valuedAttributeRE = /((?!\d|-{2}|-\d)[\w\u00A0-\uFFFF:!%.~<-]+)=(?:"[^"]*"|'[^']*'|(\{)((?:[`(][^`)]*[`)]|[^}])+)(\}))/g
 
 export default function transformerAttributifyJsx(options: TransformerAttributifyJsxOptions = {}): SourceCodeTransformer {
   const {
@@ -98,7 +100,7 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
           })
         }
         for (const attr of attributifyPart.matchAll(attributeRE)) {
-          const matchedRule = attr[0].replace(/\:/i, '-')
+          const matchedRule = attr[0].replace(/:/, '-')
           if (matchedRule.includes('=') || isBlocked(matchedRule))
             continue
 

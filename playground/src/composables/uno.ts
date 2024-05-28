@@ -148,7 +148,7 @@ async function detectTransformer() {
 export { transformedHTML, transformedCSS }
 
 function cleanOutput(code: string) {
-  return code.replace(/\/\*\s*?[\s\S]*?\s*?\*\//g, '')
+  return code.replace(/\/\*[\s\S]*?\*\//g, '')
     .replace(/\n\s+/g, '\n')
     .trim()
 }

@@ -135,12 +135,12 @@ export default function WebpackPlugin<Theme extends object>(
               code = code.replace(HASH_PLACEHOLDER_RE, '')
               code = code.replace(LAYER_PLACEHOLDER_RE, (_, layer, escapeView) => {
                 replaced = true
-                const css = layer === LAYER_MARK_ALL
+                const css = layer.trim() === LAYER_MARK_ALL
                   ? result.getLayers(undefined, Array.from(entries)
                     .map(i => resolveLayer(i)).filter((i): i is string => !!i))
                   : (result.getLayer(layer) || '')
 
-                escapeCss = escapeCss ?? getCssEscaperForJsContent(escapeView)
+                escapeCss = escapeCss ?? getCssEscaperForJsContent(escapeView.trim())
 
                 return escapeCss(css)
               })

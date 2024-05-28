@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { verifyDist } from './dist-verify'
 
-const regexp = /export\s*\{\s*(.*)\s*};/
+const regexp = /export\s*\{([^}]*)\};/
 
 function parseExports(dtsModulePath: string, defaultExport: string, content: string) {
   const exportAsDefault = `${defaultExport} as default`

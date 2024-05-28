@@ -1,7 +1,7 @@
 {
   "name": "@unocss/eslint-plugin",
   "type": "module",
-  "version": "0.60.2",
+  "version": "0.60.3",
   "description": "ESLint plugin for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -40,7 +40,7 @@
     "lint": "nr build && cd ./fixtures && eslint ./src"
   },
   "dependencies": {
-    "@typescript-eslint/utils": "^7.8.0",
+    "@typescript-eslint/utils": "^7.9.0",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "magic-string": "^0.30.10",

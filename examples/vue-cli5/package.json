@@ -1,5 +1,5 @@
 {
-  "version": "0.60.2",
+  "version": "0.60.3",
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve",
@@ -7,7 +7,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "core-js": "^3.37.0",
+    "core-js": "^3.37.1",
     "vue": "^2.7.16"
   },
   "devDependencies": {

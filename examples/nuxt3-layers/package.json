@@ -1,0 +1,25 @@
+{
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "postinstall": "nuxi prepare",
+    "build": "nuxi build",
+    "dev": "nuxi dev",
+    "preview": "nuxi preview",
+    "lint": "eslint .",
+    "lint:fix": "nr lint --fix"
+  },
+  "devDependencies": {
+    "@iconify-json/carbon": "^1.1.33",
+    "@unocss/core": "link:../../packages/core",
+    "@unocss/eslint-plugin": "link:../../packages/eslint-plugin",
+    "@unocss/nuxt": "link:../../packages/nuxt",
+    "@unocss/reset": "link:../../packages/reset",
+    "nuxt": "^3.11.2",
+    "unocss": "link:../../packages/unocss"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node .stackblitz.mjs && npm install && npm run dev"
+  }
+}

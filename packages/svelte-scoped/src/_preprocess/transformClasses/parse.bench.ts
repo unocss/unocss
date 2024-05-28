@@ -21,7 +21,7 @@ div {
 `
 
 describe('measure basic operations', () => {
-  const classesRE = /class=(["'\`])([\S\s]+?)\1/g // class="mb-1"
+  const classesRE = /class=(["'`])([\s\S]+?)\1/g // class="mb-1"
   it('find classes using regex', () => {
     const classes = [...simpleSvelteComponent.matchAll(classesRE)]
   })

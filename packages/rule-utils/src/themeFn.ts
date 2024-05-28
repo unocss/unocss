@@ -1,7 +1,8 @@
 import MagicString from 'magic-string'
 import { colorToString, parseCssColor } from './colors'
 
-export const themeFnRE = /theme\(\s*['"]?(.*?)['"]?\s*\)/g
+// eslint-disable-next-line regexp/no-super-linear-backtracking, regexp/strict, regexp/no-potentially-useless-backreference
+export const themeFnRE = /theme\(\s*(['"])?([^\1]*?)\1?\s*\)/g
 
 export function hasThemeFn(str: string) {
   return str.includes('theme(') && str.includes(')')
@@ -16,7 +17,7 @@ export function transformThemeFn(code: string, theme: Record<string, any>, throw
   const s = new MagicString(code)
 
   for (const match of matches) {
-    const rawArg = match[1]
+    const rawArg = match[2]
     if (!rawArg)
       throw new Error('theme() expect exact one argument, but got 0')
 
