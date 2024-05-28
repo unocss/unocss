@@ -2,7 +2,7 @@ export function searchUsageBoundary(
   line: string,
   index: number,
   attributify = true,
-  attributifyPrefix: string,
+  attributifyPrefix?: string,
 ) {
   let start = index
   let end = index
