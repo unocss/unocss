@@ -421,6 +421,7 @@ export class UnoGenerator<Theme extends object = object> {
       if (handlers.length > 500)
         throw new Error(`Too many variants applied to "${raw}"`)
     }
+
     return [raw, processed, handlers, variants]
   }
 
