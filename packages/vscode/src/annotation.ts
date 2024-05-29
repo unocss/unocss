@@ -112,6 +112,7 @@ export async function registerAnnotations(
         : undefined
 
       const positions = await getMatchedPositionsFromCode(ctx.uno, code, id, options)
+
       const ranges: DecorationOptions[] = (
         await Promise.all(positions.map(async (i): Promise<DecorationOptions> => {
           try {

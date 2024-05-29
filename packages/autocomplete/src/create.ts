@@ -125,6 +125,7 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
     const regular = searchUsageBoundary(
       content,
       cursor,
+      (uno.config.presets || []).some(i => i.name === '@unocss/preset-attributify'),
     )
     if (!regular)
       return

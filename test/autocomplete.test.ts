@@ -158,6 +158,7 @@ describe('autocomplete', () => {
 
   it('should support extractors', async () => {
     const res = await ac.suggestInFile(fixture, 40)
+
     expect(res?.suggestions.every(i => i[0].startsWith('border-'))).toBeTruthy()
     expect(res?.suggestions.some(i => i[1].startsWith('border-'))).toBeFalsy()
 
