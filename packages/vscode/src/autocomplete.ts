@@ -137,7 +137,7 @@ export async function registerAutoComplete(
           const css = await getCSS(ctx!.uno, value)
           const colorString = getColorString(css)
           const itemKind = colorString ? CompletionItemKind.Color : CompletionItemKind.EnumMember
-          const item = new UnoCompletionItem(result.attributifyPrefix ? `${result.attributifyPrefix}${label}` : label, itemKind, value, ctx!.uno)
+          const item = new UnoCompletionItem(label, itemKind, value, ctx!.uno)
           const resolved = result.resolveReplacement(value)
 
           item.insertText = resolved.replacement

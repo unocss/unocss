@@ -117,7 +117,15 @@ export class UnoGenerator<Theme extends object = object> {
       return
     }
 
-    const applied = await this.matchVariants(raw, current)
+    const attributify = this.config.presets.find(p => p.name === '@unocss/preset-attributify')
+    const attributifyPrefix = attributify?.options?.prefix ?? ''
+    const _current = attributifyPrefix
+      ? current.startsWith(attributifyPrefix)
+        ? current.slice(attributifyPrefix.length)
+        : current.replace(`:${attributifyPrefix}`, ':')
+      : current
+
+    const applied = await this.matchVariants(raw, _current)
 
     if (!applied || this.isBlocked(applied[1])) {
       this.blocked.add(raw)
