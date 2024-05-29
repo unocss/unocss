@@ -115,8 +115,7 @@ export async function registerAnnotations(
       const ranges: DecorationOptions[] = (
         await Promise.all(positions.map(async (i): Promise<DecorationOptions> => {
           try {
-            const util = i[2]
-            const md = await getPrettiedMarkdown(ctx!.uno, util, remToPxRatio)
+            const md = await getPrettiedMarkdown(ctx!.uno, i[2], remToPxRatio)
 
             if (configuration.colorPreview) {
               const color = getColorString(md)
