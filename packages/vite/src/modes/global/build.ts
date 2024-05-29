@@ -199,7 +199,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         viteConfig = config
       },
       buildStart() {
-        tasks.push(setupContentExtractor(ctx, viteConfig.command === 'serve'))
+        tasks.push(setupContentExtractor(ctx, viteConfig.mode !== 'test' && viteConfig.command === 'serve'))
       },
     },
     {
