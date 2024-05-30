@@ -71,6 +71,10 @@ export interface RuleContext<Theme extends object = object> {
    * Available only when `details` option is enabled.
    */
   variants?: Variant<Theme>[]
+  /**
+   * show origin theme color
+   */
+  showOriginThemeColor?: boolean
 }
 
 declare const SymbolShortcutsNoMerge: unique symbol
@@ -941,4 +945,9 @@ export interface GenerateOptions<T extends boolean> {
    * If return extended "matched" with payload and count
    */
   extendedInfo?: T
+
+  /**
+   * show origin theme color
+   */
+  showOriginThemeColor?: boolean
 }
