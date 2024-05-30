@@ -385,6 +385,32 @@ describe('preset-mini', () => {
       `)
   })
 
+  it('showOriginThemeColor', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+      theme: {
+        colors: {
+          blue: {
+            400: 'rgb(0 0 400)',
+          },
+        },
+        textColor: {
+          blue: {
+            400: 'rgb(0 0 700)',
+          },
+        },
+      },
+    })
+    expect((await uno.generate('bg-blue-400 text-blue-400', { preflights: false, showOriginThemeColor: true })).css)
+      .toMatchInlineSnapshot(`
+        "/* layer: default */
+        .bg-blue-400{--un-bg-opacity:1;background-color:rgb(0 0 400 / var(--un-bg-opacity)) /* rgb(0 0 400) */;}
+        .text-blue-400{--un-text-opacity:1;color:rgb(0 0 700 / var(--un-text-opacity)) /* rgb(0 0 700) */;}"
+      `)
+  })
+
   it('account custom color for shadow theme', async () => {
     const uno = createGenerator({
       presets: [
