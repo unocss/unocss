@@ -22,6 +22,8 @@ export class UnoGenerator<Theme extends object = object> {
     config: (config: ResolvedConfig<Theme>) => void
   }>()
 
+  private showOriginThemeColor: boolean = false
+
   constructor(
     public userConfig: UserConfig<Theme> = {},
     public defaults: UserConfigDefaults<Theme> = {},
@@ -98,6 +100,7 @@ export class UnoGenerator<Theme extends object = object> {
       variantHandlers: applied[2],
       constructCSS: (...args) => this.constructCustomCSS(context, ...args),
       variantMatch: applied,
+      showOriginThemeColor: this.showOriginThemeColor,
     }
     return context
   }
@@ -173,9 +176,12 @@ export class UnoGenerator<Theme extends object = object> {
       safelist = true,
       minify = false,
       extendedInfo = false,
+      showOriginThemeColor = false,
     } = options
 
     const outputCssLayers = this.config.outputToCssLayers
+
+    this.showOriginThemeColor = showOriginThemeColor
 
     const tokens: Readonly<Set<string> | CountableSet<string>> = isString(input)
       ? await this.applyExtractors(
