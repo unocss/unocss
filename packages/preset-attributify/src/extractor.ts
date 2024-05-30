@@ -1,5 +1,6 @@
 import type { Extractor, ExtractorContext } from '@unocss/core'
 import { isValidSelector } from '@unocss/core'
+import { IGNORE_COMMENT, INCLUDE_COMMENT, SKIP_END_COMMENT, SKIP_START_COMMENT } from '../../shared-integration/src/constants'
 import type { AttributifyOptions } from '.'
 
 const strippedPrefixes = [
@@ -22,7 +23,9 @@ export function extractorAttributify(options?: AttributifyOptions): Extractor {
   return {
     name: '@unocss/preset-attributify/extractor',
     extract({ code }) {
-      return Array.from(code.matchAll(elementRE))
+      // Filter out commented code, but keep @unocss's comments
+      const cleanCode = code.replace(/(?:<!--|\/\*\s*)([\s\S]*?)(?:-->|\*\/)/g, (_, match) => (match.includes(SKIP_END_COMMENT) || match.includes(SKIP_START_COMMENT)) ? _ : '').replace(/^\s*\/\/(.*)/gm, (_, match) => match.includes(INCLUDE_COMMENT) || match.includes(IGNORE_COMMENT))
+      return Array.from(cleanCode.matchAll(elementRE))
         .flatMap(match => Array.from((match[1] || '').matchAll(valuedAttributeRE)))
         .flatMap(([, name, ...contents]) => {
           const content = contents.filter(Boolean).join('')
