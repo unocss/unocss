@@ -1,48 +1,41 @@
-/* eslint-disable node/prefer-global/process */
-import reset from '@unocss/reset/tailwind.css'
-import type { LinksFunction, MetaFunction } from 'remix'
+import reset from '@unocss/reset/tailwind.css?url'
+import type { LinksFunction } from '@remix-run/node'
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-} from 'remix'
-import unocss from '~/uno.css'
+} from '@remix-run/react'
+import unocss from '~/uno.css?url'
 
-export const meta: MetaFunction = () => {
-  return { title: 'unocss remix' }
-}
+export const meta: MetaFunction = () => [
+  { title: 'unocss remix' },
+]
 
-export const links: LinksFunction = () => {
-  return [
-    {
-      rel: 'stylesheet',
-      href: unocss,
-    },
-    {
-      rel: 'stylesheet',
-      href: reset,
-    },
-  ]
-}
+export const links: LinksFunction = () => [
+  { rel: 'stylesheet', href: reset },
+  { rel: 'stylesheet', href: unocss },
+]
 
-export default function App() {
+export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
       </head>
       <body>
-        <Outlet />
+        {children}
         <ScrollRestoration />
         <Scripts />
-        {process.env.NODE_ENV === 'development' && <LiveReload />}
       </body>
     </html>
   )
+}
+
+export default function App() {
+  return <Outlet />
 }

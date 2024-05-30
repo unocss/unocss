@@ -4,23 +4,24 @@
   "description": "",
   "license": "",
   "sideEffects": false,
+  "type": "module",
   "engines": {
-    "node": ">=14"
+    "node": ">=20"
   },
   "scripts": {
-    "dev": "concurrently \"unocss \"app/**/*.tsx\" --out-file=\"app/uno.css\" --watch\" \"remix dev\"",
-    "build": "remix build",
+    "dev": "concurrently \"unocss \"app/**/*.tsx\" --out-file=\"app/uno.css\" --watch\" \"remix vite:dev\"",
+    "build": "remix vite:build",
     "css": "unocss app/**/*.tsx --out-file=app/uno.css",
-    "postinstall": "remix setup node",
-    "start": "remix-serve build"
+    "start": "remix-serve ./build/server/index.js"
   },
   "dependencies": {
+    "@remix-run/node": "^2.9.2",
     "@remix-run/react": "^2.9.2",
     "@remix-run/serve": "^2.9.2",
     "@unocss/reset": "link:../../packages/reset",
+    "isbot": "^4",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "remix": "^2.9.2"
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@remix-run/dev": "^2.9.2",
@@ -32,7 +33,9 @@
     "@unocss/preset-web-fonts": "link:../../packages/preset-web-fonts",
     "concurrently": "^8.2.2",
     "typescript": "^5.4.5",
-    "unocss": "link:../../packages/unocss"
+    "unocss": "link:../../packages/unocss",
+    "vite": "^5.1.0",
+    "vite-tsconfig-paths": "^4.2.1"
   },
   "stackblitz": {
     "installDependencies": false,
