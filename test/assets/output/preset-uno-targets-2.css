@@ -1,9 +1,15 @@
 /* layer: default */
 .cls.multi,
 section{--un-text-opacity:1;color:rgb(156 163 175 / var(--un-text-opacity));}
+@media (max-width: 500px){
+.max-\[500px\]\:bg-red-100{--un-bg-opacity:1;background-color:rgb(254 226 226 / var(--un-bg-opacity));}
+}
 @media (prefers-color-scheme: dark){
 .body_main{--un-bg-opacity:1;background-color:rgb(255 255 255 / var(--un-bg-opacity));}
 }
+@media (prefers-color-scheme: dark){@media (min-width: 300px){
+.dark\:min-\[300px\]\:bg-red-100{--un-bg-opacity:1;background-color:rgb(254 226 226 / var(--un-bg-opacity));}
+}}
 @media (min-width: 768px){
 aside{--un-shadow:var(--un-shadow-inset) 0 20px 25px -5px var(--un-shadow-color, rgb(0 0 0 / 0.1)),var(--un-shadow-inset) 0 8px 10px -6px var(--un-shadow-color, rgb(0 0 0 / 0.1));box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
 }
