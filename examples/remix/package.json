@@ -1,10 +1,10 @@
 {
   "name": "remix-app-template",
+  "type": "module",
   "private": true,
   "description": "",
   "license": "",
   "sideEffects": false,
-  "type": "module",
   "engines": {
     "node": ">=20"
   },
