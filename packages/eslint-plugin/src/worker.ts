@@ -51,7 +51,7 @@ async function actionBlocklist(configPath: string | undefined, classes: string, 
     return meta?.message
       ? {
           ...meta,
-          message: typeof meta?.message === 'function' ? meta?.message(raw) : meta?.message,
+          message: typeof meta.message === 'function' ? meta.message(raw) : meta.message,
         }
       : meta
   }
