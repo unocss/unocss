@@ -48,10 +48,12 @@ async function actionBlocklist(configPath: string | undefined, classes: string, 
   const values = [...extracted.values()]
 
   const getMeta = (raw: string, meta?: BlocklistMeta) => {
-    return {
-      ...meta,
-      message: typeof meta?.message === 'function' ? meta?.message(raw) : meta?.message,
-    }
+    return meta?.message
+      ? {
+          ...meta,
+          message: typeof meta?.message === 'function' ? meta?.message(raw) : meta?.message,
+        }
+      : meta
   }
 
   const matchBlocked = async (raw: string) => {
