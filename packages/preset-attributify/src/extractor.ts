@@ -58,15 +58,25 @@ export function extractorAttributify(options?: AttributifyOptions): Extractor {
           }
           else if (elementRE.test(content)) {
             elementRE.lastIndex = 0
-            return this.extract!({ code: content } as ExtractorContext) as string[]
+            // < for special case like <div :class="a ? 'b' : 'c'" xxx> -> xxx need to be as an part of element node
+            return this.extract!({ code: `<${content}` } as ExtractorContext) as string[]
           }
           else {
             if (options?.prefixedOnly && options.prefix && !name.startsWith(options.prefix))
               return []
-
-            return content.split(splitterRE)
+            const data = content.split(splitterRE)
               .filter(v => Boolean(v) && v !== ':')
-              .map(v => `[${name}~="${v}"]`)
+            const specialCase = []
+            // data maybe includes `aaa="bbb"`, we need to push it to result
+            for (let i = 0; i < data.length; i++) {
+              const cur = data[i]
+              if (cur.endsWith('=')) {
+                specialCase.push(`[${cur.slice(0, -1)}~="${data[i + 1]}"]`)
+                data[i] = ''
+                data[i + 1] = ''
+              }
+            }
+            return [...specialCase, ...data.filter(Boolean).map(v => `[${name}~="${v}"]`)]
           }
         })
     },
