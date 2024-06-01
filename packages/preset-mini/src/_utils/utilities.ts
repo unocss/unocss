@@ -196,30 +196,30 @@ export function colorResolver(property: string, varName: string, key?: ThemeColo
 
     const isDev = generator.config.envMode === 'dev'
     const { alpha, color, cssColor } = data
-    const rawColor = isDev && color ? ` /* ${color} */` : ''
+    const rawColorComment = isDev && color ? ` /* ${color} */` : ''
     const css: CSSObject = {}
     if (cssColor) {
       if (alpha != null) {
-        css[property] = colorToString(cssColor, alpha) + rawColor
+        css[property] = colorToString(cssColor, alpha) + rawColorComment
       }
       else {
         const opacityVar = `--un-${varName}-opacity`
         const result = colorToString(cssColor, `var(${opacityVar})`)
         if (result.includes(opacityVar))
           css[opacityVar] = colorOpacityToString(cssColor)
-        css[property] = result + rawColor
+        css[property] = result + rawColorComment
       }
     }
     else if (color) {
       if (alpha != null) {
-        css[property] = colorToString(color, alpha) + rawColor
+        css[property] = colorToString(color, alpha) + rawColorComment
       }
       else {
         const opacityVar = `--un-${varName}-opacity`
         const result = colorToString(color, `var(${opacityVar})`)
         if (result.includes(opacityVar))
           css[opacityVar] = 1
-        css[property] = result + rawColor
+        css[property] = result + rawColorComment
       }
     }
 
