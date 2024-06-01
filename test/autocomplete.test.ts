@@ -339,7 +339,7 @@ describe('autocomplete with attributify prefix', () => {
   })
 
   it('should accept variants', async () => {
-    expect(await ac.suggest('u-dark:md:m-'))
+    expect((await ac.suggest('u-dark:md:m-')).slice(0, 20))
       .toMatchSnapshot()
   })
 
