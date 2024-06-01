@@ -189,7 +189,7 @@ export function parseColor(body: string, theme: Theme, key?: ThemeColorKeys): Pa
  * @return object.
  */
 export function colorResolver(property: string, varName: string, key?: ThemeColorKeys, shouldPass?: (css: CSSObject) => boolean): DynamicMatcher {
-  return ([, body]: string[], { theme, showOriginThemeColor }: RuleContext<Theme>): CSSObject | undefined => {
+  return ([, body]: string[], { theme, generator }: RuleContext<Theme>): CSSObject | undefined => {
     const data = parseColor(body, theme, key)
 
     if (!data)
@@ -197,7 +197,7 @@ export function colorResolver(property: string, varName: string, key?: ThemeColo
 
     const isDev = generator.config.envMode === 'dev'
     const { alpha, color, cssColor } = data
-    const rawColor = showOriginThemeColor && color ? ` /* ${color} */` : ''
+    const rawColor = isDev && color ? ` /* ${color} */` : ''
     const css: CSSObject = {}
     if (cssColor) {
       if (alpha != null) {

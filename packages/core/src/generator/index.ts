@@ -22,8 +22,6 @@ export class UnoGenerator<Theme extends object = object> {
     config: (config: ResolvedConfig<Theme>) => void
   }>()
 
-  private showOriginThemeColor: boolean = false
-
   constructor(
     public userConfig: UserConfig<Theme> = {},
     public defaults: UserConfigDefaults<Theme> = {},

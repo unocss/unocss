@@ -60,7 +60,7 @@ export function addRemToPxComment(str?: string, remToPixel = 16) {
 }
 
 export async function getPrettiedCSS(uno: UnoGenerator, util: string, remToPxRatio: number) {
-  const result = (await uno.generate(new Set([util]), { preflights: false, safelist: false, showOriginThemeColor: true }))
+  const result = (await uno.generate(new Set([util]), { preflights: false, safelist: false }))
   const css = addRemToPxComment(result.css, remToPxRatio)
   const prettified = prettier.format(css, {
     parser: 'css',
