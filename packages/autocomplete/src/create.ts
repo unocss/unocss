@@ -67,8 +67,16 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
     if (cache.has(input))
       return cache.get(input)!
 
+    const attributify = uno.config.presets.find(i => i.name === '@unocss/preset-attributify')
+    const attributifyPrefix = attributify?.options?.prefix
+    const _input = attributifyPrefix
+      ? input.startsWith(attributifyPrefix)
+        ? input.slice(attributifyPrefix.length)
+        : input.replace(`:${attributifyPrefix}`, ':')
+      : input
     // match and ignore existing variants
-    const [, processed, , variants] = await uno.matchVariants(input)
+    const [, processed, , variants] = await uno.matchVariants(_input)
+
     let idx = processed ? input.search(escapeRegExp(processed)) : input.length
     // This input contains variants that modifies the processed part,
     // autocomplete will need to reverse it which is not possible
@@ -122,7 +130,6 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
     if (!regular)
       return
     const suggestions = await suggest(regular.content, isInsideAttrValue)
-
     return {
       suggestions: suggestions.map(v => [v, v] as [string, string]),
       resolveReplacement: suggestion => ({

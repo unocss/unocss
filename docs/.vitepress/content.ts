@@ -228,5 +228,14 @@ export const examples: Example[] = [
     ],
     stackblitz: true,
   },
+  {
+    name: 'vite-angular',
+    path: 'examples/vite-angular',
+    icons: [
+      'i-logos-vitejs',
+      'i-logos-angular-icon',
+    ],
+    stackblitz: true,
+  },
 ]
   .sort((a, b) => a.name.localeCompare(b.name))

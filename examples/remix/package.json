@@ -19,13 +19,13 @@
     "@remix-run/react": "^2.9.2",
     "@remix-run/serve": "^2.9.2",
     "@unocss/reset": "link:../../packages/reset",
-    "isbot": "^4",
+    "isbot": "^4.4.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@remix-run/dev": "^2.9.2",
-    "@types/react": "^18.3.2",
+    "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@unocss/cli": "link:../../packages/cli",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
@@ -34,8 +34,8 @@
     "concurrently": "^8.2.2",
     "typescript": "^5.4.5",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.1.0",
-    "vite-tsconfig-paths": "^4.2.1"
+    "vite": "^5.2.12",
+    "vite-tsconfig-paths": "^4.3.2"
   },
   "stackblitz": {
     "installDependencies": false,
