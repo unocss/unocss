@@ -941,9 +941,4 @@ export interface GenerateOptions<T extends boolean> {
    * If return extended "matched" with payload and count
    */
   extendedInfo?: T
-
-  /**
-   * show origin theme color
-   */
-  showOriginThemeColor?: boolean
 }
