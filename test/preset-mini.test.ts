@@ -402,6 +402,7 @@ describe('preset-mini', () => {
           },
         },
       },
+      envMode: 'dev',
     })
     expect((await uno.generate('bg-blue-400 text-blue-400', { preflights: false, showOriginThemeColor: true })).css)
       .toMatchInlineSnapshot(`

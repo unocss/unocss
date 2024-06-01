@@ -186,7 +186,7 @@ export default defineConfig({
       if (output)
         break
     }
-    expect(output).toContain('.bg-foo{background-color:red;}')
+    expect(output).toContain('.bg-foo{background-color:red /* red */;}')
     await fs.writeFile(resolve(testDir as string, 'uno.config.ts'), `
 import { defineConfig } from 'unocss'
 export default defineConfig({

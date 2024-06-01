@@ -95,10 +95,6 @@ export interface RuleContext<Theme extends object = object> {
    * Available only when `details` option is enabled.
    */
   variants?: Variant<Theme>[]
-  /**
-   * show origin theme color
-   */
-  showOriginThemeColor?: boolean
 }
 
 export interface VariantContext<Theme extends object = object> {
