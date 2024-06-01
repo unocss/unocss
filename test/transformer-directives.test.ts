@@ -615,4 +615,31 @@ div {
         "
       `)
   })
+
+  it('--at-apply with colon in value', async () => {
+    const result = await transform(
+      `.v-popper--theme-dropdown .v-popper__inner,
+      .v-popper--theme-tooltip .v-popper__inner {
+        --at-apply: text-green dark:text-red;
+        box-shadow: 0 6px 30px #0000001a;
+      }`,
+    )
+    expect(result)
+      .toMatchInlineSnapshot(`
+        ".v-popper--theme-dropdown .v-popper__inner,
+        .v-popper--theme-tooltip .v-popper__inner {
+          --un-text-opacity: 1;
+          color: rgb(74 222 128 / var(--un-text-opacity));
+          box-shadow: 0 6px 30px #0000001a;
+        }
+        @media (prefers-color-scheme: dark) {
+          .v-popper--theme-dropdown .v-popper__inner,
+          .v-popper--theme-tooltip .v-popper__inner {
+            --un-text-opacity: 1;
+            color: rgb(248 113 113 / var(--un-text-opacity));
+          }
+        }
+        "
+      `)
+  })
 })
