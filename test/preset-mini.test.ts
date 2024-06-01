@@ -404,7 +404,7 @@ describe('preset-mini', () => {
       },
       envMode: 'dev',
     })
-    expect((await uno.generate('bg-blue-400 text-blue-400', { preflights: false, showOriginThemeColor: true })).css)
+    expect((await uno.generate('bg-blue-400 text-blue-400', { preflights: false })).css)
       .toMatchInlineSnapshot(`
         "/* layer: default */
         .bg-blue-400{--un-bg-opacity:1;background-color:rgb(0 0 400 / var(--un-bg-opacity)) /* rgb(0 0 400) */;}
