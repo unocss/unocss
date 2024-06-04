@@ -1,7 +1,7 @@
 {
   "name": "@unocss/scope",
   "type": "module",
-  "version": "0.60.3",
+  "version": "0.60.4",
   "description": "Placeholder for UnoCSS scope import",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
