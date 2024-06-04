@@ -29,7 +29,7 @@ export async function parseApply({ code, uno, offset, applyVariable }: Transform
     body = removeQuotes(childNode.prelude.value.trim())
   }
 
-  else if (childNode!.type === 'Declaration' && applyVariable.includes(childNode.property) && childNode.value.type === 'Value') {
+  else if (childNode!.type === 'Declaration' && applyVariable.includes(childNode.property) && (childNode.value.type === 'Value' || childNode.value.type === 'Raw')) {
     // Get raw value of the declaration
     // as csstree would try to parse the content with operators, but we don't need them.
     let rawValue = original.slice(

@@ -70,6 +70,18 @@ These rules are not enabled by default. To enable it, add the following to your 
 
 Throw warning or error when using utilities listed in `blocklist` get matched.
 
+You can customize messages for blocked rules to make them more informative and context-specific by using the `message` property of the meta object:
+
+```ts
+// uno.config.ts
+export default defineConfig({
+  blocklist: [
+    ['bg-red-500', { message: 'Use bg-red-600 instead' }],
+    [/-auto$/, { message: s => `Use ${s.replace(/-auto$/, '-a')} instead` }], // -> "my-auto" is in blocklist: Use "my-a" instead
+  ],
+})
+```
+
 #### `@unocss/enforce-class-compile` :wrench:
 
 _This rule is designed to work in combination with [compile class transformer](https://unocss.dev/transformers/compile-class)._

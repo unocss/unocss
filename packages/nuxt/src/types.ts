@@ -38,6 +38,13 @@ export interface UnocssNuxtOptions extends UserConfig {
   disableNuxtInlineStyle?: boolean
 
   /**
+   * Automatically merge UnoCSS configs from Nuxt layers.
+   *
+   * @default false
+   */
+  nuxtLayers?: boolean
+
+  /**
    * Adjust the position of the `uno.css` injection. (Depends on `mode`)
    *
    * @default 'first'

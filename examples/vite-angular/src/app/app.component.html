@@ -1,0 +1,77 @@
+<div class="app font-sans">
+
+    <!--
+    // v0 by Vercel - used to generate a simple tech documentation page
+    // https://v0.dev/t/5pmIMtwRbKF
+    -->
+
+    <div class="flex flex-col">
+        <section class="px-4 md:px-6 lg:px-8">
+            <div class="mx-auto max-w-4xl">
+                <h1 class="text-3xl font-bold tracking-tight md:text-4xl">Setup</h1>
+                <p class="mt-2 text-lg text-gray-500">
+                    Using UnoCSS via its CLI allows us to integrate it into our Angular flow.
+                </p>
+                <div class="mt-8 rounded-lg bg-white border border-gray-300 border-solid">
+                    <p class="p-4 pb-0 m-0">
+                        First we run UnoCSS in watch mode for development.
+                    </p>
+                    <div class="p-4">
+                        <div class="rounded-md bg-gray-100 p-4 font-mono text-sm text-gray-900 ">
+                            npm run dev:css
+                        </div>
+                    </div>
+                    <div class="px-4">Start Angular after UnoCSS has generated the <span class="font-mono">uno.css</span> file.</div>
+                    <div class="p-4">
+                        <div class="rounded-md bg-gray-100 p-4 font-mono text-sm text-gray-900 ">
+                            npm run start
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="px-4 md:px-6 lg:px-8">
+            <div class="mx-auto max-w-4xl"><h1 class="text-3xl font-bold tracking-tight md:text-4xl">
+                Presets
+            </h1>
+                <p class="mt-2 text-lg text-gray-500">
+                    Presets allow you to utilize know utility classes in your project right away.
+                </p>
+                <div class="mt-8 rounded-lg bg-white border border-gray-300 border-solid">
+                    <div class="p-4 pb-0"><span class="font-mono">presetUno()</span> provides a common superset of: Tailwind CSS, WindiCSS, Bootstrap,
+                        Tachyons,
+                        etc.
+                    </div>
+                    <div class="p-4 pb-0">
+                        Combine that with <span class="font-mono"> presetWebFonts()</span> and you are ready to code.
+                    </div>
+                    <div class="p-4">
+                        <pre class="rounded-md bg-gray-100 p-4 font-mono text-sm text-gray-900 ">
+presets: [
+    presetUno(),
+    presetWebFonts(&#123;
+        provider: 'google',
+        fonts: &#123;
+            sans: 'Montserrat',
+            mono: ['Fira Code', 'Fira Mono:400,700'],
+        &#125;,
+    &#125;)
+]</pre>
+                    </div>
+                    <div class="px-4">Reset the default presets - including preflight layer:</div>
+                    <div class="p-4">
+                        <div class="rounded-md bg-gray-100 p-4 font-mono text-sm text-gray-900 ">
+                            presets: []
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="mt-2 text-lg text-green-600">
+                Now you are ready to dive into <a href="https://unocss.dev/" target="_blank">UnoCSS</a>!
+
+            </p>
+        </section>
+    </div>
+</div>
