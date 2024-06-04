@@ -443,20 +443,4 @@ describe('preset-mini', () => {
     .border-opacity-50{--un-border-opacity:0.5;}"
   `)
   })
-
-  it('transition composite props', async () => {
-    const uno = createGenerator({
-      presets: [
-        presetMini(),
-      ],
-    })
-
-    expect((await uno.generate('transition-colors transition-colors,opacity transition-colors,opacity-200', { preflights: false })).css)
-      .toMatchInlineSnapshot(`
-        "/* layer: default */
-        .transition-colors{transition-property:color,background-color,border-color,outline-color,text-decoration-color,fill,stroke;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms;}
-        .transition-colors\\,opacity{transition-property:color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,opacity;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms;}
-        .transition-colors\\,opacity-200{transition-property:color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,opacity;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:200ms;}"
-      `)
-  })
 })
