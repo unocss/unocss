@@ -112,11 +112,12 @@ export async function registerAnnotations(
         : undefined
 
       const positions = await getMatchedPositionsFromCode(ctx.uno, code, id, options)
+      const isAttributify = ctx.uno.config.presets.some(i => i.name === '@unocss/preset-attributify')
 
       const ranges: DecorationOptions[] = (
         await Promise.all(positions.map(async (i): Promise<DecorationOptions> => {
           try {
-            const md = await getPrettiedMarkdown(ctx!.uno, i[2], remToPxRatio)
+            const md = await getPrettiedMarkdown(ctx!.uno, isAttributify ? [i[2], `[${i[2]}=""]`] : i[2], remToPxRatio)
 
             if (configuration.colorPreview) {
               const color = getColorString(md)
