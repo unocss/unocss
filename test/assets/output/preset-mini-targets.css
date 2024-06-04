@@ -947,8 +947,11 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .box-inherit{box-sizing:inherit;}
 .transition{transition-property:color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms;}
 .transition-200{transition-property:color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:200ms;}
-.transition-background-color\,color-200{transition-property:background-color,color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:200ms;}
-.transition-color\,background-color-200{transition-property:color,background-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:200ms;}
+.transition-background-color\,color-200{transition-property:background-color,color,background-color,color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:200ms;}
+.transition-color\,background-color-200{transition-property:color,background-color,color,background-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:200ms;}
+.transition-colors{transition-property:color,background-color,border-color,outline-color,text-decoration-color,fill,stroke;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms;}
+.transition-colors\,opacity{transition-property:color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,opacity;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms;}
+.transition-colors\,opacity-200{transition-property:color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,opacity;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:200ms;}
 .transition-opacity-200{transition-property:opacity;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:200ms;}
 .duration-111{transition-duration:111ms;}
 .transition-duration-\$variable{transition-duration:var(--variable);}
@@ -961,9 +964,9 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .transition-ease-in{transition-timing-function:cubic-bezier(0.4, 0, 1, 1);}
 .property-all,
 .transition-property-all{transition-property:all;}
-.property-margin\,padding{transition-property:margin,padding;}
+.property-margin\,padding{transition-property:margin,padding,margin,padding;}
 .property-none{transition-property:none;}
-.property-padding\,margin{transition-property:padding,margin;}
+.property-padding\,margin{transition-property:padding,margin,padding,margin;}
 .property-unset{transition-property:unset;}
 .transition-property-\[border\]{transition-property:border;}
 .transition-property-width{transition-property:width;}

@@ -62,9 +62,6 @@ const cssProps = [
   'clip-path',
   'clip',
   'border-radius',
-
-  // composite props
-  'colors',
 ]
 
 function round(n: number) {
