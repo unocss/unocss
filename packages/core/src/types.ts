@@ -215,7 +215,7 @@ export interface BlocklistMeta {
   /**
    * Custom message to show why this selector is blocked.
    */
-  message?: string
+  message?: string | ((selector: string) => string)
 }
 export type BlocklistValue = string | RegExp | ((selector: string) => boolean | null | undefined)
 export type BlocklistRule = BlocklistValue | [BlocklistValue, BlocklistMeta]

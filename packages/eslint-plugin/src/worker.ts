@@ -47,12 +47,21 @@ async function actionBlocklist(configPath: string | undefined, classes: string, 
   const extracted = await uno.applyExtractors(classes, id)
   const values = [...extracted.values()]
 
+  const getMeta = (raw: string, meta?: BlocklistMeta) => {
+    return meta?.message
+      ? {
+          ...meta,
+          message: typeof meta.message === 'function' ? meta.message(raw) : meta.message,
+        }
+      : meta
+  }
+
   const matchBlocked = async (raw: string) => {
     if (blocked.has(raw))
       return
     let rule = uno.getBlocked(raw)
     if (rule) {
-      blocked.set(raw, rule[1])
+      blocked.set(raw, getMeta(raw, rule[1]))
       return
     }
     let current = raw
@@ -61,7 +70,7 @@ async function actionBlocklist(configPath: string | undefined, classes: string, 
     const applied = await uno.matchVariants(raw, current)
     rule = applied && uno.getBlocked(applied[1])
     if (rule)
-      blocked.set(raw, rule[1])
+      blocked.set(raw, getMeta(raw, rule[1]))
   }
 
   await Promise.all(values.map(matchBlocked))

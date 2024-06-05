@@ -15,16 +15,16 @@
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.1.42",
-    "@types/react": "^18.3.2",
+    "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
-    "@vitejs/plugin-react": "^4.2.1",
+    "@vitejs/plugin-react": "^4.3.0",
     "cross-env": "^7.0.3",
     "typescript": "^5.4.5",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.2.11"
+    "vite": "^5.2.12"
   },
   "stackblitz": {
     "installDependencies": false,
