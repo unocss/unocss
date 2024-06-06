@@ -56,8 +56,9 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
             rule.name === directiveMap.unocss
             || rule.name === directiveMap.apply
             || rule.name === directiveMap.screen
-          )
+          ) {
             isTarget = true
+          }
 
           if (isTarget)
             return false

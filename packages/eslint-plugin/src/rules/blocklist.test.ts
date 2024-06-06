@@ -73,5 +73,22 @@ run({
         },
       ],
     },
+    {
+      description: 'dynamic blocklist with dynamic message',
+      code: html`
+        <template>
+          <div class="h-auto"></div>
+        </template>
+      `,
+      errors: [
+        {
+          messageId: 'in-blocklist',
+          data: {
+            name: 'h-auto',
+            reason: ': Use h-a instead',
+          },
+        },
+      ],
+    },
   ],
 })
