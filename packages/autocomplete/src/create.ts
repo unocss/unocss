@@ -9,6 +9,7 @@ import { searchAttrKey, searchUsageBoundary } from './utils'
 export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptions = {}): UnocssAutocomplete {
   const templateCache = new Map<string, ParsedAutocompleteTemplate>()
   const cache = new LRUCache<string, string[]>({ max: 5000 })
+  const autocompleteCache = new LRUCache<string, { suggestions: string[], variantPrefix: string, needFixed: boolean, isStart: boolean, isEnd: boolean }>({ max: 5000 })
 
   let staticUtils: string[] = []
 
@@ -21,6 +22,8 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
   return {
     suggest,
     suggestInFile,
+    autocompleteSuggest,
+    autocompleteSuggestInFile,
     templates,
     cache,
     reset,
@@ -96,6 +99,77 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
       result = fzf.find(input).map(i => i.item)
     }
     cache.set(input, result)
+
+    return result
+  }
+
+  async function autocompleteSuggest(input: string, allowsEmptyInput = false) {
+    let result = {
+      suggestions: [] as string[],
+      variantPrefix: '',
+      needFixed: false,
+      isStart: false,
+      isEnd: false,
+    }
+    if (!allowsEmptyInput && input.length < 1)
+      return result
+    if (autocompleteCache.has(input))
+      return autocompleteCache.get(input)!
+
+    // match and ignore existing variants
+    const [, processed, , variants] = await uno.matchVariants(input)
+    let idx = processed ? input.search(escapeRegExp(processed)) : input.length
+    // This input contains variants that modifies the processed part,
+    // autocomplete will need to reverse it which is not possible
+    if (idx === -1)
+      idx = 0
+    const variantPrefix = input.slice(0, idx)
+    const variantSuffix = input.slice(idx + input.length)
+    let fixedProcessed = processed
+    let needFixed = false
+    let fixedVariantPrefix = variantPrefix
+    let isStart = false
+    let isEnd = false
+    if (/^\(/.test(processed)) {
+      isStart = true
+    }
+    if (/\)$/.test(processed)) {
+      isEnd = true
+    }
+    if (/(^\(|\)$)/.test(processed)) {
+      needFixed = true
+      fixedProcessed = processed.replace(/(^\(|\)$)/g, '')
+      if (variantPrefix)
+        fixedVariantPrefix = ''
+    }
+
+    let suggestions = processSuggestions(
+      await Promise.all([
+        suggestSelf(fixedProcessed),
+        suggestStatic(fixedProcessed),
+        suggestUnoCache(fixedProcessed),
+        ...suggestFromPreset(fixedProcessed),
+        ...suggestVariant(fixedProcessed, variants),
+      ]),
+      fixedVariantPrefix,
+      variantSuffix,
+    )
+
+    if (matchType === 'fuzzy') {
+      const fzf = new Fzf(suggestions, {
+        tiebreakers: [byStartAsc, byLengthAsc],
+      })
+      suggestions = fzf.find(input).map(i => i.item)
+    }
+    result = {
+      suggestions,
+      variantPrefix,
+      needFixed,
+      isStart,
+      isEnd,
+    }
+    autocompleteCache.set(input, result)
+
     return result
   }
 
@@ -125,6 +199,42 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
 
     return {
       suggestions: suggestions.map(v => [v, v] as [string, string]),
+      resolveReplacement: suggestion => ({
+        start: regular.start,
+        end: regular.end,
+        replacement: suggestion,
+      }),
+    }
+  }
+
+  async function autocompleteSuggestInFile(content: string, cursor: number): Promise<SuggestResult | undefined> {
+    const isInsideAttrValue = searchAttrKey(content, cursor) !== undefined
+
+    // try resolve by extractors
+    const byExtractor = await searchUsageByExtractor(content, cursor)
+    if (byExtractor) {
+      const suggestions = await suggest(byExtractor.extracted, isInsideAttrValue)
+      const formatted = byExtractor.transformSuggestions ? byExtractor.transformSuggestions(suggestions) : suggestions
+      return {
+        suggestions: suggestions.map((v, i) => [v, formatted[i]] as [string, string]),
+        resolveReplacement: byExtractor.resolveReplacement,
+      }
+    }
+
+    // regular resolve
+    const regular = searchUsageBoundary(
+      content,
+      cursor,
+      (uno.config.presets || []).some(i => i.name === '@unocss/preset-attributify'),
+    )
+    if (!regular)
+      return
+    const { suggestions, variantPrefix, needFixed, isStart, isEnd } = await autocompleteSuggest(regular.content, isInsideAttrValue)
+
+    return {
+      suggestions: needFixed
+        ? suggestions.map(v => [`${variantPrefix}${v}`, `${variantPrefix}${isStart ? '(' : ''}${v}${isEnd ? ')' : ''}`] as [string, string])
+        : suggestions.map(v => [v, v] as [string, string]),
       resolveReplacement: suggestion => ({
         start: regular.start,
         end: regular.end,

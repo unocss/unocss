@@ -3,12 +3,16 @@ import presetUno from '@unocss/preset-uno'
 import { describe, expect, it } from 'vitest'
 import { createAutocomplete, parseAutocomplete } from '@unocss/autocomplete'
 import presetAttributify from '@unocss/preset-attributify'
+import transformerVariantGroup from '@unocss/transformer-variant-group'
 
 describe('autocomplete', () => {
   const uno = createGenerator({
     presets: [
       presetAttributify(),
       presetUno(),
+    ],
+    transformers: [
+      transformerVariantGroup(),
     ],
     shortcuts: [
       {
@@ -149,6 +153,24 @@ describe('autocomplete', () => {
   it('should accept variants', async () => {
     expect(await ac.suggest('dark:md:m-'))
       .toMatchSnapshot()
+  })
+
+  it('should accept variants groups ', async () => {
+    expect((await ac.autocompleteSuggest('dark:(m-)')).suggestions.slice(0, 10))
+      .toMatchInlineSnapshot(`
+        [
+          "m-xy",
+          "marker:",
+          "max-block",
+          "max-block-auto",
+          "max-block-lg",
+          "max-block-md",
+          "max-block-none",
+          "max-block-prose",
+          "max-block-screen",
+          "max-block-sm",
+        ]
+      `)
   })
 
   it('should skip single-pass variants', async () => {

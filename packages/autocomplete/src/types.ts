@@ -31,6 +31,8 @@ export interface ParsedAutocompleteTemplate {
 
 export interface UnocssAutocomplete {
   suggest: (input: string, allowsEmptyInput?: boolean) => Promise<string[]>
+  autocompleteSuggest: (input: string, allowsEmptyInput?: boolean) => Promise<{ suggestions: string[], variantPrefix: string, needFixed: boolean }>
+  autocompleteSuggestInFile: (content: string, cursor: number) => Promise<SuggestResult | undefined>
   suggestInFile: (content: string, cursor: number) => Promise<SuggestResult | undefined>
   templates: (string | AutoCompleteFunction)[]
   cache: LRUCache<string, string[]>

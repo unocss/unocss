@@ -119,7 +119,7 @@ export async function registerAutoComplete(
       try {
         const autoComplete = getAutocomplete(ctx)
 
-        const result = await autoComplete.suggestInFile(code, doc.offsetAt(position))
+        const result = await autoComplete.autocompleteSuggestInFile(code, doc.offsetAt(position))
 
         if (!result)
           return

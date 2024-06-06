@@ -98,6 +98,9 @@ export class UnoGenerator<Theme extends object = object> {
     raw: string,
     alias?: string,
   ): Promise<StringifiedUtil<Theme>[] | undefined | null> {
+    if (/(^\(|\)$)/.test(raw))
+      raw = raw.replace(/(^\(|\)$)/g, '')
+
     if (this.blocked.has(raw))
       return
 
@@ -209,6 +212,9 @@ export class UnoGenerator<Theme extends object = object> {
     const tokenPromises = Array.from(tokens).map(async (raw) => {
       if (matched.has(raw))
         return
+
+      if (/(^(\w+:)*\(|\)$)/.test(raw))
+        raw = raw.replace(/(^(\w+:)\(|\)$)/g, '')
 
       const payload = await this.parseToken(raw)
       if (payload == null)
