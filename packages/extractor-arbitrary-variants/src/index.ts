@@ -1,6 +1,6 @@
 import type { Extractor } from '@unocss/core'
 import { defaultSplitRE, isValidSelector } from '@unocss/core'
-import { restoreSkipCode, transformSkipCode } from '../../shared-integration/src/transformers'
+import { restoreSkipCode, transformSkipCode } from '../../shared-integration/src/utils'
 import { removeSourceMap } from './source-map'
 
 export const quotedArbitraryValuesRE

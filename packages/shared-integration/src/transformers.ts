@@ -3,7 +3,7 @@ import MagicString from 'magic-string'
 import type { EncodedSourceMap } from '@ampproject/remapping'
 import remapping from '@ampproject/remapping'
 import { IGNORE_COMMENT, SKIP_COMMENT_RE } from './constants'
-import { hash } from './hash'
+import { restoreSkipCode, transformSkipCode } from './utils'
 
 export async function applyTransformers(
   ctx: UnocssPluginContext,
@@ -50,24 +50,4 @@ export async function applyTransformers(
       }) as any,
     }
   }
-}
-
-export function transformSkipCode(code: string, map: Map<string, string>, SKIP_RULES_RE: RegExp, keyFlag: string) {
-  for (const item of Array.from(code.matchAll(SKIP_RULES_RE))) {
-    if (item != null) {
-      const matched = item[0]
-      const withHashKey = `${keyFlag}${hash(matched)}`
-      map.set(withHashKey, matched)
-      code = code.replace(matched, withHashKey)
-    }
-  }
-
-  return code
-}
-
-export function restoreSkipCode(code: string, map: Map<string, string>) {
-  for (const [withHashKey, matched] of map.entries())
-    code = code.replaceAll(withHashKey, matched)
-
-  return code
 }
