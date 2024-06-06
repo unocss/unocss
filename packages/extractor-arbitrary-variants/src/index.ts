@@ -1,5 +1,6 @@
 import type { Extractor } from '@unocss/core'
 import { defaultSplitRE, isValidSelector } from '@unocss/core'
+import { restoreSkipCode, transformSkipCode } from '../../shared-integration/src/transformers'
 import { removeSourceMap } from './source-map'
 
 export const quotedArbitraryValuesRE
@@ -24,9 +25,19 @@ export function splitCodeWithArbitraryVariants(code: string): string[] {
   for (const match of code.matchAll(quotedArbitraryValuesRE))
     result.push(match[0])
 
+  // Convert the information in [] in advance to prevent incorrect separation
+  const tempMap = new Map()
+  const tempFlag = '@unocss-skip-tempMap'
+  code = transformSkipCode(code, tempMap, /-\[[^\]]*\]/g, tempFlag)
+
+  if (!code)
+    return result
+
   code
     .split(defaultSplitRE)
     .forEach((match) => {
+      if (match.includes(tempFlag))
+        match = restoreSkipCode(match, tempMap)
       if (isValidSelector(match) && !arbitraryPropertyCandidateRE.test(match))
         result.push(match)
     })

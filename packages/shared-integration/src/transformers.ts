@@ -20,7 +20,7 @@ export async function applyTransformers(
 
   const skipMap = new Map<string, string>()
   let code = original
-  let s = new MagicString(transformSkipCode(code, skipMap))
+  let s = new MagicString(transformSkipCode(code, skipMap, SKIP_COMMENT_RE, '@unocss-skip-placeholder-'))
   const maps: EncodedSourceMap[] = []
 
   for (const t of transformers) {
@@ -52,11 +52,11 @@ export async function applyTransformers(
   }
 }
 
-function transformSkipCode(code: string, map: Map<string, string>) {
-  for (const item of Array.from(code.matchAll(SKIP_COMMENT_RE))) {
+export function transformSkipCode(code: string, map: Map<string, string>, SKIP_RULES_RE: RegExp, keyFlag: string) {
+  for (const item of Array.from(code.matchAll(SKIP_RULES_RE))) {
     if (item != null) {
       const matched = item[0]
-      const withHashKey = `@unocss-skip-placeholder-${hash(matched)}`
+      const withHashKey = `${keyFlag}${hash(matched)}`
       map.set(withHashKey, matched)
       code = code.replace(matched, withHashKey)
     }
@@ -65,9 +65,9 @@ function transformSkipCode(code: string, map: Map<string, string>) {
   return code
 }
 
-function restoreSkipCode(code: string, map: Map<string, string>) {
+export function restoreSkipCode(code: string, map: Map<string, string>) {
   for (const [withHashKey, matched] of map.entries())
-    code = code.replace(withHashKey, matched)
+    code = code.replaceAll(withHashKey, matched)
 
   return code
 }
