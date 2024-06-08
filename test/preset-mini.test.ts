@@ -409,6 +409,17 @@ describe('preset-mini', () => {
         .shadow-\\[0_2px_10px\\]{--un-shadow:0 2px 10px var(--un-shadow-color);box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
         .shadow-blackA7{--un-shadow-opacity:0.169;--un-shadow-color:hsla(0, 0%, 0%, var(--un-shadow-opacity));}"
       `)
+    expect((await uno.generate('shadow-[0_0_7.5rem_0_var(--shadow)]', { preflights: false })).css)
+      .toMatchInlineSnapshot(`
+        "/* layer: default */
+        .shadow-\\[0_0_7\\.5rem_0_var\\(--shadow\\)\\]{--un-shadow:0 0 7.5rem 0 var(--un-shadow-color, var(--shadow));box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}"
+      `)
+
+    expect((await uno.generate('shadow-[0_0_7.5rem_0_#000]', { preflights: false })).css)
+      .toMatchInlineSnapshot(`
+        "/* layer: default */
+        .shadow-\\[0_0_7\\.5rem_0_\\#000\\]{--un-shadow:0 0 7.5rem 0 var(--un-shadow-color, rgb(0 0 0));box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}"
+      `)
   })
 
   it('support new color notation using css variables for compatibility', async () => {
