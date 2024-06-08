@@ -35,6 +35,7 @@ export default function UnocssPlugin<Theme extends object>(
   const ctx = createContext<VitePluginConfig>(configOrPath as any, {
     envMode: process.env.NODE_ENV === 'development' ? 'dev' : 'build',
     ...defaults,
+    legacy: typeof configOrPath !== 'string' ? configOrPath?.legacy || { renderModernChunks: true } : { renderModernChunks: true },
   })
   const inlineConfig = (configOrPath && typeof configOrPath !== 'string') ? configOrPath : {}
   const mode = inlineConfig.mode ?? 'global'

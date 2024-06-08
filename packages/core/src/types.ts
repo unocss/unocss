@@ -602,6 +602,12 @@ export interface UserOnlyOptions<Theme extends object = object> {
    * @default 'build'
    */
   envMode?: 'dev' | 'build'
+  /**
+   *
+   */
+  legacy?: {
+    renderModernChunks: boolean
+  }
 }
 
 /**
