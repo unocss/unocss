@@ -144,6 +144,7 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
     if (/\)$/.test(processed)) {
       isEnd = true
     }
+    // eslint-disable-next-line regexp/no-unused-capturing-group
     if (/(^\(|\)$)/.test(processed)) {
       needFixed = true
       fixedProcessed = processed.replace(/(^\(|\)$)/g, '')

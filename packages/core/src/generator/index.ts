@@ -98,6 +98,7 @@ export class UnoGenerator<Theme extends object = object> {
     raw: string,
     alias?: string,
   ): Promise<StringifiedUtil<Theme>[] | undefined | null> {
+    // eslint-disable-next-line regexp/no-unused-capturing-group
     if (/(^\(|\)$)/.test(raw))
       raw = raw.replace(/(^\(|\)$)/g, '')
 
@@ -212,7 +213,7 @@ export class UnoGenerator<Theme extends object = object> {
     const tokenPromises = Array.from(tokens).map(async (raw) => {
       if (matched.has(raw))
         return
-
+      // eslint-disable-next-line regexp/no-unused-capturing-group
       if (/(^(\w+:)*\(|\)$)/.test(raw))
         raw = raw.replace(/(^(\w+:)\(|\)$)/g, '')
 
