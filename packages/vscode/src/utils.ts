@@ -1,5 +1,6 @@
 import path from 'path'
 import type { UnoGenerator } from '@unocss/core'
+import { toArray } from '@unocss/core'
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
 
@@ -24,8 +25,8 @@ export function throttle<T extends ((...args: any) => any)>(func: T, timeFrame: 
   } as T
 }
 
-export async function getCSS(uno: UnoGenerator, utilName: string) {
-  const { css } = await uno.generate(utilName, { preflights: false, safelist: false })
+export async function getCSS(uno: UnoGenerator, utilName: string | string[]) {
+  const { css } = await uno.generate(new Set(toArray(utilName)), { preflights: false, safelist: false })
   return css
 }
 
@@ -58,8 +59,8 @@ export function addRemToPxComment(str?: string, remToPixel = 16) {
   return output.join('')
 }
 
-export async function getPrettiedCSS(uno: UnoGenerator, util: string, remToPxRatio: number) {
-  const result = (await uno.generate(new Set([util]), { preflights: false, safelist: false }))
+export async function getPrettiedCSS(uno: UnoGenerator, util: string | string[], remToPxRatio: number) {
+  const result = (await uno.generate(new Set(toArray(util)), { preflights: false, safelist: false }))
   const css = addRemToPxComment(result.css, remToPxRatio)
   const prettified = prettier.format(css, {
     parser: 'css',
@@ -72,7 +73,7 @@ export async function getPrettiedCSS(uno: UnoGenerator, util: string, remToPxRat
   }
 }
 
-export async function getPrettiedMarkdown(uno: UnoGenerator, util: string, remToPxRatio: number) {
+export async function getPrettiedMarkdown(uno: UnoGenerator, util: string | string[], remToPxRatio: number) {
   return `\`\`\`css\n${(await getPrettiedCSS(uno, util, remToPxRatio)).prettified}\n\`\`\``
 }
 
