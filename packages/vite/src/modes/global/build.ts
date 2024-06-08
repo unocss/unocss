@@ -157,9 +157,6 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
       // we inject a hash to chunk before the dist hash calculation to make sure
       // the hash is different when unocss changes
       async renderChunk(_, chunk, options) {
-        if (isLegacyChunk(chunk, options))
-          return null
-
         // skip hash generation on non-entry chunk
         if (!Object.keys(chunk.modules).some(i => RESOLVED_ID_RE.test(i)))
           return null
@@ -174,10 +171,15 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         const fakeCssId = `${viteConfig.root}/${chunk.fileName}-unocss-hash.css`
         css = await applyCssTransform(css, fakeCssId, options.dir, this)
 
-        const hash = getHash(css)
         const transformHandler = 'handler' in cssPost.transform!
           ? cssPost.transform.handler
           : cssPost.transform!
+
+        if (isLegacyChunk(chunk, options)) {
+          await transformHandler.call({} as any, css, '/__uno.css')
+          return null
+        }
+        const hash = getHash(css)
         await transformHandler.call({} as any, getHashPlaceholder(hash), fakeCssId)
 
         // fool the css plugin to generate the css in corresponding chunk
@@ -220,10 +222,9 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         const result = await generateAll()
         const mappedVfsLayer = Array.from(vfsLayers).map(layer => layer === LAYER_MARK_ALL ? layer : layer.replace(/^_/, ''))
         const importStatements = result.getLayer(LAYER_IMPORTS)
-        const cssWithLayers = Array.from(vfsLayers).map(layer => `${importStatements ?? ''}#--unocss-layer-start--${layer}--{start:${layer}} ${
-            layer === LAYER_MARK_ALL
-            ? result.getLayers(undefined, [...mappedVfsLayer, LAYER_IMPORTS])
-            : (result.getLayer(layer.replace(/^_/, '')) || '')
+        const cssWithLayers = Array.from(vfsLayers).map(layer => `${importStatements ?? ''}#--unocss-layer-start--${layer}--{start:${layer}} ${layer === LAYER_MARK_ALL
+          ? result.getLayers(undefined, [...mappedVfsLayer, LAYER_IMPORTS])
+          : (result.getLayer(layer.replace(/^_/, '')) || '')
           } #--unocss-layer-end--${layer}--{end:${layer}}`).join('')
 
         const fakeCssId = `${viteConfig.root}/${chunk.fileName}-unocss-hash.css`
