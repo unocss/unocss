@@ -3,7 +3,7 @@ import { toArray } from '@unocss/core'
 import { colorOpacityToString, colorToString, getStringComponent, getStringComponents, parseCssColor } from '@unocss/rule-utils'
 import type { Theme } from '../theme'
 import { h } from './handlers'
-import { cssMathFnRE, directionMap, globalKeywords, xyzArray, xyzMap } from './mappings'
+import { cssMathFnRE, cssVarFnRE, directionMap, globalKeywords, xyzArray, xyzMap } from './mappings'
 import { bracketTypeRe, numberWithUnitRE, splitComma } from './handlers/regex'
 
 export const CONTROL_MINI_NO_NEGATIVE = '$$mini-no-negative'
@@ -245,15 +245,20 @@ export function colorableShadows(shadows: string | string[], colorVar: string) {
     }
 
     let colorVarValue = ''
+    const lastComp = components.at(-1)
     if (parseCssColor(components.at(0))) {
       const color = parseCssColor(components.shift())
       if (color)
         colorVarValue = `, ${colorToString(color)}`
     }
-    else if (parseCssColor(components.at(-1))) {
+    else if (parseCssColor(lastComp)) {
       const color = parseCssColor(components.pop())
       if (color)
         colorVarValue = `, ${colorToString(color)}`
+    }
+    else if (lastComp && cssVarFnRE.test(lastComp)) {
+      const color = components.pop()!
+      colorVarValue = `, ${color}`
     }
 
     colored.push(`${isInset ? 'inset ' : ''}${components.join(' ')} var(${colorVar}${colorVarValue})`)
