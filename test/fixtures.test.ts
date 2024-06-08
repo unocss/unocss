@@ -1,6 +1,5 @@
 import { join, resolve } from 'node:path'
 import process from 'node:process'
-import { execa } from 'execa'
 import { build } from 'vite'
 import { describe, expect, it } from 'vitest'
 import fs from 'fs-extra'
@@ -17,58 +16,58 @@ async function getGlobContent(cwd: string, glob: string) {
 }
 
 describe.concurrent('fixtures', () => {
-  // it('vite client', async () => {
-  //   const root = resolve(__dirname, 'fixtures/vite')
-  //   await fs.emptyDir(join(root, 'dist'))
-  //   await build({
-  //     root,
-  //     logLevel: 'warn',
-  //     build: {
-  //       sourcemap: true,
-  //     },
-  //   })
+  it('vite client', async () => {
+    const root = resolve(__dirname, 'fixtures/vite')
+    await fs.emptyDir(join(root, 'dist'))
+    await build({
+      root,
+      logLevel: 'warn',
+      build: {
+        sourcemap: true,
+      },
+    })
 
-  //   const css = await getGlobContent(root, 'dist/**/*.css')
-  //   const js = await getGlobContent(root, 'dist/**/*.js')
+    const css = await getGlobContent(root, 'dist/**/*.css')
+    const js = await getGlobContent(root, 'dist/**/*.js')
 
-  //   // basic
-  //   expect(css).contains('.text-red')
-  //   // transformer-variant-group
-  //   expect(css).contains('.text-sm')
-  //   // transformer-compile-class
-  //   expect(css).contains('.uno-tacwqa')
-  //   // transformer-directives
-  //   expect(css).not.contains('@apply')
-  //   expect(css).contains('gap:.25rem')
+    // basic
+    expect(css).contains('.text-red')
+    // transformer-variant-group
+    expect(css).contains('.text-sm')
+    // transformer-compile-class
+    expect(css).contains('.uno-tacwqa')
+    // transformer-directives
+    expect(css).not.contains('@apply')
+    expect(css).contains('gap:.25rem')
 
-  //   // transformer-variant-group
-  //   expect(js).contains('text-sm')
-  //   // transformer-compile-class
-  //   expect(js).contains('uno-tacwqa')
+    // transformer-variant-group
+    expect(js).contains('text-sm')
+    // transformer-compile-class
+    expect(js).contains('uno-tacwqa')
 
-  //   // @unocss-skip magic comment
-  //   // test extract
-  //   expect(css).not.contains('.text-yellow')
-  //   // test transform
-  //   expect(css).contains('--at-apply')
-  //   expect(css).not.contains('gap:.5rem')
-  //   expect(css).not.contains('.text-teal')
-  // })
+    // @unocss-skip magic comment
+    // test extract
+    expect(css).not.contains('.text-yellow')
+    // test transform
+    expect(css).contains('--at-apply')
+    expect(css).not.contains('gap:.5rem')
+    expect(css).not.contains('.text-teal')
+  })
 
-  // it.skipIf(isWindows)('vite legacy', async () => {
-  //   const root = resolve(__dirname, 'fixtures/vite-legacy')
-  //   await fs.emptyDir(join(root, 'dist'))
-  //   await build({
-  //     root,
-  //     logLevel: 'warn',
-  //   })
+  it.skipIf(isWindows)('vite legacy', async () => {
+    const root = resolve(__dirname, 'fixtures/vite-legacy')
+    await fs.emptyDir(join(root, 'dist'))
+    await build({
+      root,
+      logLevel: 'warn',
+    })
 
-  //   const svgs = await fg('dist/assets/uno-*.svg', { cwd: root, absolute: true })
-  //   expect(svgs).toHaveLength(1)
+    const svgs = await fg('dist/assets/uno-*.svg', { cwd: root, absolute: true })
+    expect(svgs).toHaveLength(1)
 
-  //   const css = await getGlobContent(root, 'dist/**/index*.css')
-  //   expect(css).contains('.text-red')
-  // }, 15000)
+    const css = await getGlobContent(root, 'dist/**/index*.css')
+    expect(css).contains('.text-red')
+  }, 15000)
 
   it.skipIf(isWindows)('vite legacy renderModernChunks false', async () => {
     const root = resolve(__dirname, 'fixtures/vite-legacy-renderModernChunks-false')
@@ -81,94 +80,94 @@ describe.concurrent('fixtures', () => {
     expect(css).contains('.mb-\\\\[50px\\\\]')
   })
 
-  // it('vite lib', async () => {
-  //   const root = resolve(__dirname, 'fixtures/vite-lib')
-  //   await fs.emptyDir(join(root, 'dist'))
-  //   await build({
-  //     root,
-  //     logLevel: 'warn',
-  //     build: {
-  //       sourcemap: true,
-  //     },
-  //   })
+  it('vite lib', async () => {
+    const root = resolve(__dirname, 'fixtures/vite-lib')
+    await fs.emptyDir(join(root, 'dist'))
+    await build({
+      root,
+      logLevel: 'warn',
+      build: {
+        sourcemap: true,
+      },
+    })
 
-  //   const files = await fg('dist/**/*.{umd,iife}.?(c)js', { cwd: root, absolute: true })
+    const files = await fg('dist/**/*.{umd,iife}.?(c)js', { cwd: root, absolute: true })
 
-  //   expect(files).toHaveLength(2)
+    expect(files).toHaveLength(2)
 
-  //   for (const path of files) {
-  //     const code = await fs.readFile(path, 'utf-8')
-  //     // basic
-  //     expect(code).contains('.text-red')
-  //     // transformer-variant-group
-  //     expect(code).contains('.text-sm')
-  //     // transformer-compile-class
-  //     expect(code).contains('.uno-tacwqa')
-  //     // transformer-directives
-  //     expect(code).not.contains('@apply')
-  //     expect(code).not.contains('--at-apply')
-  //     expect(code).contains('gap:.25rem')
-  //     expect(code).contains('gap:.5rem')
+    for (const path of files) {
+      const code = await fs.readFile(path, 'utf-8')
+      // basic
+      expect(code).contains('.text-red')
+      // transformer-variant-group
+      expect(code).contains('.text-sm')
+      // transformer-compile-class
+      expect(code).contains('.uno-tacwqa')
+      // transformer-directives
+      expect(code).not.contains('@apply')
+      expect(code).not.contains('--at-apply')
+      expect(code).contains('gap:.25rem')
+      expect(code).contains('gap:.5rem')
 
-  //     // transformer-variant-group
-  //     expect(code).contains('text-sm')
-  //     // transformer-compile-class
-  //     expect(code).contains('uno-tacwqa')
-  //   }
-  // }, 15000)
+      // transformer-variant-group
+      expect(code).contains('text-sm')
+      // transformer-compile-class
+      expect(code).contains('uno-tacwqa')
+    }
+  }, 15000)
 
-  // it.skipIf(isWindows)('vite lib rollupOptions', async () => {
-  //   const root = resolve(__dirname, 'fixtures/vite-lib-rollupoptions')
-  //   await fs.emptyDir(join(root, 'dist'))
-  //   await build({
-  //     root,
-  //     logLevel: 'warn',
-  //   })
+  it.skipIf(isWindows)('vite lib rollupOptions', async () => {
+    const root = resolve(__dirname, 'fixtures/vite-lib-rollupoptions')
+    await fs.emptyDir(join(root, 'dist'))
+    await build({
+      root,
+      logLevel: 'warn',
+    })
 
-  //   const files = await fg(['dist/**/index.js'], { cwd: root, absolute: true })
-  //   expect(files).toHaveLength(2)
+    const files = await fg(['dist/**/index.js'], { cwd: root, absolute: true })
+    expect(files).toHaveLength(2)
 
-  //   for (const path of files) {
-  //     const code = await fs.readFile(path, 'utf-8')
-  //     // basic
-  //     expect(code).contains('.text-red')
-  //     // transformer-variant-group
-  //     expect(code).contains('.text-sm')
-  //     // transformer-compile-class
-  //     expect(code).contains('.uno-tacwqa')
-  //     // transformer-directives
-  //     expect(code).not.contains('@apply')
-  //     expect(code).not.contains('--at-apply')
-  //     expect(code).contains('gap:.25rem')
-  //     expect(code).contains('gap:.5rem')
+    for (const path of files) {
+      const code = await fs.readFile(path, 'utf-8')
+      // basic
+      expect(code).contains('.text-red')
+      // transformer-variant-group
+      expect(code).contains('.text-sm')
+      // transformer-compile-class
+      expect(code).contains('.uno-tacwqa')
+      // transformer-directives
+      expect(code).not.contains('@apply')
+      expect(code).not.contains('--at-apply')
+      expect(code).contains('gap:.25rem')
+      expect(code).contains('gap:.5rem')
 
-  //     // transformer-variant-group
-  //     expect(code).contains('text-sm')
-  //     // transformer-compile-class
-  //     expect(code).contains('uno-tacwqa')
-  //   }
-  // })
+      // transformer-variant-group
+      expect(code).contains('text-sm')
+      // transformer-compile-class
+      expect(code).contains('uno-tacwqa')
+    }
+  })
 
-  // it.skipIf(isMacOS || isNode16)('vue cli 4', async () => {
-  //   const root = resolve(__dirname, '../examples/vue-cli4')
-  //   await fs.emptyDir(join(root, 'dist'))
-  //   await execa('npm', ['run', 'build'], { cwd: root })
+  it.skipIf(isMacOS || isNode16)('vue cli 4', async () => {
+    const root = resolve(__dirname, '../examples/vue-cli4')
+    await fs.emptyDir(join(root, 'dist'))
+    await execa('npm', ['run', 'build'], { cwd: root })
 
-  //   const css = await getGlobContent(root, 'dist/**/*.css')
+    const css = await getGlobContent(root, 'dist/**/*.css')
 
-  //   expect(css).contains('.w-200px')
-  //   expect(css).contains('[font~="mono"]')
-  // }, 60_000)
+    expect(css).contains('.w-200px')
+    expect(css).contains('[font~="mono"]')
+  }, 60_000)
 
-  // // something wrong with webpack, skip for now
-  // it.skip('vue cli 5', async () => {
-  //   const root = resolve(__dirname, '../examples/vue-cli5')
-  //   await fs.emptyDir(join(root, 'dist'))
-  //   await execa('npm', ['run', 'build'], { stdio: 'ignore', cwd: root })
+  // something wrong with webpack, skip for now
+  it.skip('vue cli 5', async () => {
+    const root = resolve(__dirname, '../examples/vue-cli5')
+    await fs.emptyDir(join(root, 'dist'))
+    await execa('npm', ['run', 'build'], { stdio: 'ignore', cwd: root })
 
-  //   const css = await getGlobContent(root, 'dist/**/*.css')
+    const css = await getGlobContent(root, 'dist/**/*.css')
 
-  //   expect(css).contains('.w-200px')
-  //   expect(css).contains('[font~="mono"]')
-  // }, 60_000)
+    expect(css).contains('.w-200px')
+    expect(css).contains('[font~="mono"]')
+  }, 60_000)
 })
