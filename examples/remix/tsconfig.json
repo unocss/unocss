@@ -12,13 +12,13 @@
     "resolveJsonModule": true,
     "types": ["@remix-run/node", "vite/client"],
     "allowJs": true,
-    "esModuleInterop": true,
-    "isolatedModules": true,
     "strict": true,
 
     // Vite takes care of building everything, not tsc.
     "noEmit": true,
+    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
     "skipLibCheck": true
   },
   "include": [
