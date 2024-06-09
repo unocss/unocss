@@ -2,13 +2,17 @@ import type MagicString from 'magic-string'
 import type { HighlightAnnotation } from '../types'
 import { notNull } from '../utils'
 
-const regexCache: Record<string, RegExp> = {}
+const regexCache: Record<string, [RegExp, RegExp]> = {}
 
 export function makeRegexClassGroup(separators = ['-', ':']) {
   const key = separators.join('|')
-  if (!regexCache[key])
-    regexCache[key] = new RegExp(`((?:[!@<~\\w+:_/-]|\\[&?>?:?\\S*\\])+?)(${key})\\(((?:[~!<>\\w\\s:/\\\\,%#.$?-]|\\[.*?\\])+?)\\)(?!\\s*?=>)`, 'gm')
-  regexCache[key].lastIndex = 0
+  if (!regexCache[key]) {
+    regexCache[key] = [
+      new RegExp(`\\(((?:[~!<>\\w\\s:/\\\\,%#.$?-]|\\[.*?\\])+?)\\)(?!\\s*?=>)(${key})((?:[!@<~\\w+:_/-]+|\\[&?>?:?\\S*\\])+?)`, 'gm'),
+      new RegExp(`((?:[!@<~\\w+:_/-]|\\[&?>?:?\\S*\\])+?)(${key})\\(((?:[~!<>\\w\\s:/\\\\,%#.$?-]|\\[.*?\\])+?)\\)(?!\\s*?=>)`, 'gm'),
+    ]
+  }
+  regexCache[key].forEach(item => item.lastIndex = 0)
   return regexCache[key]
 }
 
@@ -18,7 +22,7 @@ interface VariantGroup {
 }
 
 export function parseVariantGroup(str: string | MagicString, separators = ['-', ':'], depth = 5) {
-  const regexClassGroup = makeRegexClassGroup(separators)
+  const [regexClassGroupLeft, regexClassGroupRight] = makeRegexClassGroup(separators)
   let hasChanged
   let content = str.toString()
   const prefixes = new Set<string>()
@@ -27,7 +31,7 @@ export function parseVariantGroup(str: string | MagicString, separators = ['-', 
   do {
     hasChanged = false
     content = content.replace(
-      regexClassGroup,
+      regexClassGroupRight,
       (from, pre: string, sep: string, body: string, groupOffset: number) => {
         if (!separators.includes(sep))
           return from
@@ -57,6 +61,45 @@ export function parseVariantGroup(str: string | MagicString, separators = ['-', 
             item.className = item.className === '~'
               ? pre
               : item.className.replace(/^(!?)(.*)/, `$1${pre}${sep}$2`)
+            group.items.push(item)
+          }
+        }
+        // The replacement string just needs to be the same length (so it doesn't mess up offsets)
+        // and not contain any grouping/separator characters (so any outer groups will match on
+        // the next pass). The final value of `content` won't be used; we construct the final result
+        // below using groupsByOffset.
+        return '$'.repeat(from.length)
+      },
+    )
+    content = content.replace(
+      regexClassGroupLeft,
+      (from, pre: string, sep: string, body: string, groupOffset: number) => {
+        if (!separators.includes(sep))
+          return from
+
+        hasChanged = true
+        prefixes.add(pre + sep)
+        const bodyOffset = groupOffset + pre.length + sep.length + 1
+        const group: VariantGroup = { length: from.length, items: [] }
+        groupsByOffset.set(groupOffset, group)
+
+        for (const itemMatch of [...pre.matchAll(/\S+/g)]) {
+          const itemOffset = bodyOffset + itemMatch.index!
+          let innerItems = groupsByOffset.get(itemOffset)?.items
+          if (innerItems) {
+            // We won't need to look up this group from this offset again.
+            // It gets added to the current group below.
+            groupsByOffset.delete(itemOffset)
+          }
+          else {
+            innerItems = [{
+              offset: itemOffset,
+              length: itemMatch[0].length,
+              className: itemMatch[0],
+            }]
+          }
+          for (const item of innerItems) {
+            item.className = itemMatch[0] + sep + body
             group.items.push(item)
           }
         }
