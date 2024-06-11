@@ -9,7 +9,7 @@
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.42",
+    "@iconify-json/logos": "^1.1.43",
     "@iconify-json/ri": "^1.1.20",
     "@julr/unocss-preset-forms": "^0.1.0",
     "@sveltejs/adapter-auto": "^3.2.1",
@@ -18,12 +18,12 @@
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
     "@unocss/svelte-scoped": "link:../../packages/svelte-scoped",
-    "svelte": "^4.2.17",
+    "svelte": "^4.2.18",
     "svelte-check": "^3.8.0",
-    "tslib": "^2.6.2",
+    "tslib": "^2.6.3",
     "typescript": "^5.4.5",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.2.12"
+    "vite": "^5.2.13"
   },
   "stackblitz": {
     "installDependencies": false,
