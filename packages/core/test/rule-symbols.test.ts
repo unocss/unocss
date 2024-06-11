@@ -1,4 +1,4 @@
-import type { Variant, VariantHandler } from '@unocss/core'
+import type { VariantHandler } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
 import { expect, it } from 'vitest'
 

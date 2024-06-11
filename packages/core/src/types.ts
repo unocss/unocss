@@ -14,42 +14,13 @@ export type FlatObjectTuple<T> = { [K in keyof T]: T[K] }
 export type PartialByKeys<T, K extends keyof T = keyof T> = FlatObjectTuple<Partial<Pick<T, Extract<keyof T, K>>> & Omit<T, K>>
 export type RequiredByKey<T, K extends keyof T = keyof T> = FlatObjectTuple<Required<Pick<T, Extract<keyof T, K>>> & Omit<T, K>>
 
-export type CSSObject = Record<string, string | number | undefined> & Partial<ControlSymbolsValue>
-export type CSSEntries = (ControlSymbolsEntries | [string, string | number | undefined])[]
+export type CSSObject = Record<string, string | number | undefined>
+export type CSSEntry = [string, string | number | undefined]
+export type CSSEntries = CSSEntry[]
 
-export interface CSSColorValue {
-  type: string
-  components: (string | number)[]
-  alpha: string | number | undefined
-}
-
-export type RGBAColorValue = [number, number, number, number] | [number, number, number]
-export interface ParsedColorValue {
-  /**
-   * Parsed color value.
-   */
-  color?: string
-  /**
-   * Parsed opacity value.
-   */
-  opacity: string
-  /**
-   * Color name.
-   */
-  name: string
-  /**
-   * Color scale, preferably 000 - 999.
-   */
-  no: string
-  /**
-   * {@link CSSColorValue}
-   */
-  cssColor: CSSColorValue | undefined
-  /**
-   * Parsed alpha value from opacity
-   */
-  alpha: string | number | undefined
-}
+export type CSSObjectInput = CSSObject | Partial<ControlSymbolsValue>
+export type CSSEntriesInput = (CSSEntry | ControlSymbolsEntry)[]
+export type CSSValueInput = CSSObjectInput | CSSEntriesInput | CSSValue
 
 export type PresetOptions = Record<string, any>
 
@@ -135,7 +106,7 @@ export interface ControlSymbolsValue {
 
 export type ObjectToEntry<T> = { [K in keyof T]: [K, T[K]] }[keyof T]
 
-export type ControlSymbolsEntries = ObjectToEntry<ControlSymbolsValue>
+export type ControlSymbolsEntry = ObjectToEntry<ControlSymbolsValue>
 
 export interface VariantContext<Theme extends object = object> {
   /**
@@ -235,9 +206,9 @@ export type DynamicMatcher<Theme extends object = object> =
     match: RegExpMatchArray,
     context: Readonly<RuleContext<Theme>>
   ) =>
-  | Awaitable<CSSValue | string | (CSSValue | string)[] | undefined>
-  | Generator<CSSValue | string | undefined>
-  | AsyncGenerator<CSSValue | string | undefined>
+  | Awaitable<CSSValueInput | string | (CSSValueInput | string)[] | undefined>
+  | Generator<CSSValueInput | string | undefined>
+  | AsyncGenerator<CSSValueInput | string | undefined>
 
 export type DynamicRule<Theme extends object = object> = [RegExp, DynamicMatcher<Theme>] | [RegExp, DynamicMatcher<Theme>, RuleMeta]
 export type StaticRule = [string, CSSObject | CSSEntries] | [string, CSSObject | CSSEntries, RuleMeta]

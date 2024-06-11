@@ -1,5 +1,5 @@
 import { createNanoEvents } from '../utils/events'
-import type { BlocklistMeta, BlocklistValue, CSSEntries, CSSObject, CSSValue, ControlSymbols, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
+import type { BlocklistMeta, BlocklistValue, CSSEntries, CSSEntriesInput, CSSObject, CSSValueInput, ControlSymbols, ControlSymbolsEntry, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
 import { BetterMap, CountableSet, TwoKeyMap, e, entriesToCss, expandVariantGroup, isCountableSet, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
@@ -577,7 +577,7 @@ export class UnoGenerator<Theme extends object = object> {
       // Handle generator result
       if (typeof result !== 'string') {
         if (Symbol.asyncIterator in result) {
-          const entries: (CSSValue | string)[] = []
+          const entries: (CSSValueInput | string)[] = []
           for await (const r of result) {
             if (r)
               entries.push(r)
@@ -590,9 +590,9 @@ export class UnoGenerator<Theme extends object = object> {
         }
       }
 
-      const entries = normalizeCSSValues(result).filter(i => i.length)
+      const entries = normalizeCSSValues(result).filter(i => i.length) as (string | CSSEntriesInput)[]
       if (entries.length) {
-        return entries.map((css) => {
+        return entries.map((css): ParsedUtil | RawUtil => {
           if (isString(css)) {
             return [i, css, meta]
           }
@@ -620,7 +620,7 @@ export class UnoGenerator<Theme extends object = object> {
             }
           }
 
-          return [i, raw, css, meta, variants]
+          return [i, raw, css as CSSEntries, meta, variants]
         })
       }
     }
@@ -794,8 +794,8 @@ export class UnoGenerator<Theme extends object = object> {
             ] as [[CSSEntries, number][], boolean][]
 
             return merges.map(([e, noMerge]) => [
-              ...stringify(false, noMerge, e.filter(([entries]) => entries.some(entry => entry[0] === symbols.shortcutsNoMerge))),
-              ...stringify(true, noMerge, e.filter(([entries]) => entries.every(entry => entry[0] !== symbols.shortcutsNoMerge))),
+              ...stringify(false, noMerge, e.filter(([entries]) => entries.some(entry => (entry as unknown as ControlSymbolsEntry)[0] === symbols.shortcutsNoMerge))),
+              ...stringify(true, noMerge, e.filter(([entries]) => entries.every(entry => (entry as unknown as ControlSymbolsEntry)[0] !== symbols.shortcutsNoMerge))),
             ])
           })
           .flat(2)

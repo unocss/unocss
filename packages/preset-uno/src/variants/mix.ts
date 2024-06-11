@@ -1,4 +1,5 @@
-import type { CSSColorValue, VariantObject } from '@unocss/core'
+import type { VariantObject } from '@unocss/core'
+import type { CSSColorValue } from '@unocss/rule-utils'
 import { colorToString, parseCssColor } from '@unocss/rule-utils'
 
 function mixComponent(v1: string | number, v2: string | number, w: string | number) {
