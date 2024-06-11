@@ -86,6 +86,11 @@
           "default": true,
           "description": "Enable/disable color preview decorations"
         },
+        "unocss.colorPreviewRadius": {
+          "type": "string",
+          "default": "50%",
+          "description": "Radius for color preview"
+        },
         "unocss.remToPxPreview": {
           "type": "boolean",
           "default": true,
