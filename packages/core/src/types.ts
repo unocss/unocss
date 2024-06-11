@@ -602,6 +602,12 @@ export interface UserOnlyOptions<Theme extends object = object> {
    * @default 'build'
    */
   envMode?: 'dev' | 'build'
+  /**
+   * legacy.renderModernChunks need to be consistent with @vitejs/plugin-legacy
+   */
+  legacy?: {
+    renderModernChunks: boolean
+  }
 }
 
 /**
