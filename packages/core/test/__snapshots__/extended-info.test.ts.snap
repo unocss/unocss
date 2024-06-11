@@ -28,6 +28,9 @@ Map {
               },
             ],
           ],
+          "symbols": {
+            "shortcutsNoMerge": "$$shortcut-no-merge",
+          },
           "theme": {},
           "variantHandlers": [],
           "variantMatch": [
@@ -68,6 +71,9 @@ Map {
               },
             ],
           ],
+          "symbols": {
+            "shortcutsNoMerge": "$$shortcut-no-merge",
+          },
           "theme": {},
           "variantHandlers": [],
           "variantMatch": [
@@ -106,6 +112,9 @@ Map {
               },
             ],
           ],
+          "symbols": {
+            "shortcutsNoMerge": "$$shortcut-no-merge",
+          },
           "theme": {},
           "variantHandlers": [],
           "variantMatch": [

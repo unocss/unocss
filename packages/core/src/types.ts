@@ -14,8 +14,9 @@ export type FlatObjectTuple<T> = { [K in keyof T]: T[K] }
 export type PartialByKeys<T, K extends keyof T = keyof T> = FlatObjectTuple<Partial<Pick<T, Extract<keyof T, K>>> & Omit<T, K>>
 export type RequiredByKey<T, K extends keyof T = keyof T> = FlatObjectTuple<Required<Pick<T, Extract<keyof T, K>>> & Omit<T, K>>
 
-export type CSSObject = Record<string, string | number | undefined>
-export type CSSEntries = [string, string | number | undefined][]
+export type CSSObject = Record<string, string | number | undefined> & Partial<ControlSymbolsValue>
+export type CSSEntries = (ControlSymbolsEntries | [string, string | number | undefined])[]
+
 export interface CSSColorValue {
   type: string
   components: (string | number)[]
@@ -67,6 +68,10 @@ export interface RuleContext<Theme extends object = object> {
    */
   generator: UnoGenerator<Theme>
   /**
+   * Symbols for special handling
+   */
+  symbols: ControlSymbols
+  /**
    * The theme object
    */
   theme: Theme
@@ -96,6 +101,20 @@ export interface RuleContext<Theme extends object = object> {
    */
   variants?: Variant<Theme>[]
 }
+
+export interface ControlSymbols {
+  shortcutsNoMerge: unique symbol
+  variants: unique symbol
+}
+
+export interface ControlSymbolsValue {
+  shortcutsNoMerge: true
+  variants: VariantHandler[]
+}
+
+export type ObjectToEntry<T> = { [K in keyof T]: [K, T[K]] }[keyof T]
+
+export type ControlSymbolsEntries = ObjectToEntry<ControlSymbolsValue>
 
 export interface VariantContext<Theme extends object = object> {
   /**

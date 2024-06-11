@@ -1,4 +1,4 @@
-import { CONTROL_SHORTCUT_NO_MERGE, createGenerator } from '@unocss/core'
+import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
@@ -44,10 +44,10 @@ describe('shortcuts', () => {
       presetUno(),
     ],
     rules: [
-      [/^with-no-merge$/, () => [
+      [/^with-no-merge$/, (_, ctx) => [
         {
           'no-merge': 1,
-          [CONTROL_SHORTCUT_NO_MERGE]: '',
+          [ctx.symbols.shortcutsNoMerge]: '',
         },
         {
           merged: 1,

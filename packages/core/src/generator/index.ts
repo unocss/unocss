@@ -1,9 +1,20 @@
 import { createNanoEvents } from '../utils/events'
-import type { BlocklistMeta, BlocklistValue, CSSEntries, CSSObject, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
+import type { BlocklistMeta, BlocklistValue, CSSEntries, CSSObject, ControlSymbols, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
-import { BetterMap, CONTROL_SHORTCUT_NO_MERGE, CountableSet, TwoKeyMap, e, entriesToCss, expandVariantGroup, isCountableSet, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, uniq, warnOnce } from '../utils'
+import { BetterMap, CountableSet, TwoKeyMap, e, entriesToCss, expandVariantGroup, isCountableSet, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
 import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from '../constants'
+
+export const symbols: ControlSymbols = {
+  /**
+   * Prevent merging in shortcuts
+   */
+  shortcutsNoMerge: '$$shortcut-no-merge' as unknown as symbol,
+  /**
+   * Additional variants applied to this rule
+   */
+  variants: '$$variants' as unknown as symbol,
+}
 
 export class UnoGenerator<Theme extends object = object> {
   public version = version
@@ -87,6 +98,7 @@ export class UnoGenerator<Theme extends object = object> {
       currentSelector: applied[1],
       theme: this.config.theme,
       generator: this,
+      symbols,
       variantHandlers: applied[2],
       constructCSS: (...args) => this.constructCustomCSS(context, ...args),
       variantMatch: applied,
@@ -737,8 +749,8 @@ export class UnoGenerator<Theme extends object = object> {
             ] as [[CSSEntries, number][], boolean][]
 
             return merges.map(([e, noMerge]) => [
-              ...stringify(false, noMerge, e.filter(([entries]) => entries.some(entry => entry[0] === CONTROL_SHORTCUT_NO_MERGE))),
-              ...stringify(true, noMerge, e.filter(([entries]) => entries.every(entry => entry[0] !== CONTROL_SHORTCUT_NO_MERGE))),
+              ...stringify(false, noMerge, e.filter(([entries]) => entries.some(entry => entry[0] === symbols.shortcutsNoMerge))),
+              ...stringify(true, noMerge, e.filter(([entries]) => entries.every(entry => entry[0] !== symbols.shortcutsNoMerge))),
             ])
           })
           .flat(2)
