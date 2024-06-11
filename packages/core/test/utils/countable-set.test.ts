@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { CountableSet } from '../packages/unocss'
+import { CountableSet } from '../../src/utils'
 
 describe('countableSet', () => {
   it('constructor', () => {

@@ -1,7 +1,7 @@
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import { describe, expect, it } from 'vitest'
-import { sortRules } from '../packages/shared-integration/src/sort-rules'
+import { sortRules } from '../src/sort-rules'
 
 describe('sort rules', () => {
   const uno = createGenerator({

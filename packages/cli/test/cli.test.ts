@@ -1,11 +1,11 @@
 import { resolve } from 'node:path'
 import fs from 'fs-extra'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-import { startCli } from '../packages/cli/src/cli-start'
-import { getWatcher } from '../packages/cli/src/watcher'
+import { startCli } from '../src/cli-start'
+import { getWatcher } from '../src/watcher'
 
 export const tempDir = resolve('_temp')
-export const cli = resolve(__dirname, '../packages/cli/src/cli.ts')
+export const cli = resolve(__dirname, '../src/cli.ts')
 
 beforeAll(async () => {
   await fs.remove(tempDir)
