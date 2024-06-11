@@ -26,9 +26,9 @@ export function splitCodeWithArbitraryVariants(code: string): string[] {
     result.push(match[0])
 
   // Convert the information in [] in advance to prevent incorrect separation
-  const tempMap = new Map()
-  const tempFlag = '@unocss-skip-tempMap'
-  code = transformSkipCode(code, tempMap, /-\[[^\]]*\]/g, tempFlag)
+  const skipMap = new Map<string, string>()
+  const skipFlag = '@unocss-skip-arbitrary-brackets'
+  code = transformSkipCode(code, skipMap, /-\[[^\]]*\]/g, skipFlag)
 
   if (!code)
     return result
@@ -36,8 +36,8 @@ export function splitCodeWithArbitraryVariants(code: string): string[] {
   code
     .split(defaultSplitRE)
     .forEach((match) => {
-      if (match.includes(tempFlag))
-        match = restoreSkipCode(match, tempMap)
+      if (match.includes(skipFlag))
+        match = restoreSkipCode(match, skipMap)
       if (isValidSelector(match) && !arbitraryPropertyCandidateRE.test(match))
         result.push(match)
     })
