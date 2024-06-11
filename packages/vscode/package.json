@@ -81,15 +81,15 @@
           "default": true,
           "description": "Enable/disable underline decoration for class names"
         },
-        "unocss.borderRadius": {
-          "type": "number",
-          "default": 50,
-          "description": "set borderRadius for color cube"
-        },
         "unocss.colorPreview": {
           "type": "boolean",
           "default": true,
           "description": "Enable/disable color preview decorations"
+        },
+        "unocss.colorPreviewRadius": {
+          "type": "string",
+          "default": "50%",
+          "description": "Radius for color preview"
         },
         "unocss.remToPxPreview": {
           "type": "boolean",
