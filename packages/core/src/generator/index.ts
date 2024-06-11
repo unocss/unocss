@@ -1,9 +1,16 @@
 import { createNanoEvents } from '../utils/events'
-import type { BlocklistMeta, BlocklistValue, CSSEntries, CSSObject, CSSValue, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
+import type { BlocklistMeta, BlocklistValue, CSSEntries, CSSEntriesInput, CSSObject, CSSValueInput, ControlSymbols, ControlSymbolsEntry, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
-import { BetterMap, CONTROL_SHORTCUT_NO_MERGE, CountableSet, TwoKeyMap, e, entriesToCss, expandVariantGroup, isCountableSet, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, uniq, warnOnce } from '../utils'
+import { BetterMap, CountableSet, TwoKeyMap, e, entriesToCss, expandVariantGroup, isCountableSet, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
 import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from '../constants'
+
+export const symbols: ControlSymbols = {
+  shortcutsNoMerge: '$$symbol-shortcut-no-merge' as unknown as ControlSymbols['shortcutsNoMerge'],
+  variants: '$$symbol-variants' as unknown as ControlSymbols['variants'],
+  parent: '$$symbol-parent' as unknown as ControlSymbols['parent'],
+  selector: '$$symbol-selector' as unknown as ControlSymbols['selector'],
+}
 
 export class UnoGenerator<Theme extends object = object> {
   public version = version
@@ -87,6 +94,7 @@ export class UnoGenerator<Theme extends object = object> {
       currentSelector: applied[1],
       theme: this.config.theme,
       generator: this,
+      symbols,
       variantHandlers: applied[2],
       constructCSS: (...args) => this.constructCustomCSS(context, ...args),
       variantMatch: applied,
@@ -409,7 +417,7 @@ export class UnoGenerator<Theme extends object = object> {
             continue
           handler = { matcher: handler }
         }
-        processed = handler.matcher
+        processed = handler.matcher ?? processed
         handlers.unshift(handler)
         variants.add(v)
         applied = true
@@ -435,7 +443,9 @@ export class UnoGenerator<Theme extends object = object> {
       .reduceRight(
         (previous, v) => (input: VariantHandlerContext) => {
           const entries = v.body?.(input.entries) || input.entries
-          const parents: [string | undefined, number | undefined] = Array.isArray(v.parent) ? v.parent : [v.parent, undefined]
+          const parents: [string | undefined, number | undefined] = Array.isArray(v.parent)
+            ? v.parent
+            : [v.parent, undefined]
           return (v.handle ?? defaultVariantHandler)({
             ...input,
             entries,
@@ -567,7 +577,7 @@ export class UnoGenerator<Theme extends object = object> {
       // Handle generator result
       if (typeof result !== 'string') {
         if (Symbol.asyncIterator in result) {
-          const entries: (CSSValue | string)[] = []
+          const entries: (CSSValueInput | string)[] = []
           for await (const r of result) {
             if (r)
               entries.push(r)
@@ -580,13 +590,37 @@ export class UnoGenerator<Theme extends object = object> {
         }
       }
 
-      const entries = normalizeCSSValues(result).filter(i => i.length)
+      const entries = normalizeCSSValues(result).filter(i => i.length) as (string | CSSEntriesInput)[]
       if (entries.length) {
-        return entries.map((e) => {
-          if (isString(e))
-            return [i, e, meta]
-          else
-            return [i, raw, e, meta, variantHandlers]
+        return entries.map((css): ParsedUtil | RawUtil => {
+          if (isString(css)) {
+            return [i, css, meta]
+          }
+
+          // Extract variants from special symbols
+          let variants = variantHandlers
+          for (const entry of css) {
+            if (entry[0] === symbols.variants) {
+              variants = [
+                ...toArray(entry[1]),
+                ...variants,
+              ]
+            }
+            else if (entry[0] === symbols.parent) {
+              variants = [
+                { parent: entry[1] },
+                ...variants,
+              ]
+            }
+            else if (entry[0] === symbols.selector) {
+              variants = [
+                { selector: entry[1] },
+                ...variants,
+              ]
+            }
+          }
+
+          return [i, raw, css as CSSEntries, meta, variants]
         })
       }
     }
@@ -601,7 +635,14 @@ export class UnoGenerator<Theme extends object = object> {
     if (isRawUtil(parsed))
       return [parsed[0], undefined, parsed[1], undefined, parsed[2], this.config.details ? context : undefined, undefined]
 
-    const { selector, entries, parent, layer: variantLayer, sort: variantSort, noMerge } = this.applyVariants(parsed)
+    const {
+      selector,
+      entries,
+      parent,
+      layer: variantLayer,
+      sort: variantSort,
+      noMerge,
+    } = this.applyVariants(parsed)
     const body = entriesToCss(entries)
 
     if (!body)
@@ -753,8 +794,8 @@ export class UnoGenerator<Theme extends object = object> {
             ] as [[CSSEntries, number][], boolean][]
 
             return merges.map(([e, noMerge]) => [
-              ...stringify(false, noMerge, e.filter(([entries]) => entries.some(entry => entry[0] === CONTROL_SHORTCUT_NO_MERGE))),
-              ...stringify(true, noMerge, e.filter(([entries]) => entries.every(entry => entry[0] !== CONTROL_SHORTCUT_NO_MERGE))),
+              ...stringify(false, noMerge, e.filter(([entries]) => entries.some(entry => (entry as unknown as ControlSymbolsEntry)[0] === symbols.shortcutsNoMerge))),
+              ...stringify(true, noMerge, e.filter(([entries]) => entries.every(entry => (entry as unknown as ControlSymbolsEntry)[0] !== symbols.shortcutsNoMerge))),
             ])
           })
           .flat(2)

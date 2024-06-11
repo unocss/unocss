@@ -1,13 +1,13 @@
-import type { CSSEntries, CSSObject, CSSValue, DeepPartial, Rule, Shortcut, StaticRule, StaticShortcut } from '../types'
+import type { CSSEntries, CSSEntriesInput, CSSObjectInput, CSSValue, CSSValueInput, DeepPartial, Rule, Shortcut, StaticRule, StaticShortcut } from '../types'
 import { isString } from './basic'
 
-export function normalizeCSSEntries(obj: string | CSSEntries | CSSObject): string | CSSEntries {
+export function normalizeCSSEntries(obj: string | CSSEntriesInput | CSSObjectInput): string | CSSEntries {
   if (isString(obj))
     return obj
-  return (!Array.isArray(obj) ? Object.entries(obj) : obj).filter(i => i[1] != null)
+  return (!Array.isArray(obj) ? Object.entries(obj) : obj).filter(i => i[1] != null) as CSSEntries
 }
 
-export function normalizeCSSValues(obj: CSSValue | string | (CSSValue | string)[]): (string | CSSEntries)[] {
+export function normalizeCSSValues(obj: CSSValueInput | string | (CSSValueInput | string)[]): (string | CSSEntries)[] {
   if (Array.isArray(obj)) {
     // eslint-disable-next-line ts/prefer-ts-expect-error
     // @ts-ignore type cast
