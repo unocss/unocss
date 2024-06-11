@@ -73,7 +73,8 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
     idFilter,
     async transform(code, _, { uno }) {
       const tasks: Promise<void>[] = []
-
+      const attributify = uno.config.presets.find(i => i.name === '@unocss/preset-attributify')
+      const attributifyPrefix = attributify?.options?.prefix ?? 'un-'
       for (const item of Array.from(code.original.matchAll(elementRE))) {
         // Get the length of the className part, and replace it with the equal length of empty string
         let attributifyPart = item[2]
@@ -103,8 +104,8 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
           const matchedRule = attr[0].replace(/:/, '-')
           if (matchedRule.includes('=') || isBlocked(matchedRule))
             continue
-
-          tasks.push(uno.parseToken(matchedRule).then((matched) => {
+          const updatedMatchedRule = matchedRule.startsWith(attributifyPrefix) ? matchedRule.slice(attributifyPrefix.length) : matchedRule
+          tasks.push(uno.parseToken(updatedMatchedRule).then((matched) => {
             if (matched) {
               const startIdx = (item.index || 0) + (attr.index || 0) + item[0].indexOf(item[2])
               const endIdx = startIdx + matchedRule.length
