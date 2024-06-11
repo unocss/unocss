@@ -1251,3 +1251,8 @@ export const presetMiniNonTargets = [
 
   'display-a',
 ]
+
+export const specialPresetMiniTargets: string[] = [
+  '[&>*]:content-[\',\\00a0\']',
+  '[&>*:not(:last-child)]:after:content-[\',\\00a0\']',
+]

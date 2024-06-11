@@ -3,7 +3,7 @@ import MagicString from 'magic-string'
 import type { EncodedSourceMap } from '@ampproject/remapping'
 import remapping from '@ampproject/remapping'
 import { IGNORE_COMMENT, SKIP_COMMENT_RE } from './constants'
-import { hash } from './hash'
+import { restoreSkipCode, transformSkipCode } from './utils'
 
 export async function applyTransformers(
   ctx: UnocssPluginContext,
@@ -20,7 +20,7 @@ export async function applyTransformers(
 
   const skipMap = new Map<string, string>()
   let code = original
-  let s = new MagicString(transformSkipCode(code, skipMap))
+  let s = new MagicString(transformSkipCode(code, skipMap, SKIP_COMMENT_RE, '@unocss-skip-placeholder-'))
   const maps: EncodedSourceMap[] = []
 
   for (const t of transformers) {
@@ -50,24 +50,4 @@ export async function applyTransformers(
       }) as any,
     }
   }
-}
-
-function transformSkipCode(code: string, map: Map<string, string>) {
-  for (const item of Array.from(code.matchAll(SKIP_COMMENT_RE))) {
-    if (item != null) {
-      const matched = item[0]
-      const withHashKey = `@unocss-skip-placeholder-${hash(matched)}`
-      map.set(withHashKey, matched)
-      code = code.replace(matched, withHashKey)
-    }
-  }
-
-  return code
-}
-
-function restoreSkipCode(code: string, map: Map<string, string>) {
-  for (const [withHashKey, matched] of map.entries())
-    code = code.replace(withHashKey, matched)
-
-  return code
 }
