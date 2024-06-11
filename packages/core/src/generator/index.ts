@@ -1,5 +1,5 @@
 import { createNanoEvents } from '../utils/events'
-import type { BlocklistMeta, BlocklistValue, CSSEntries, CSSObject, ControlSymbols, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
+import type { BlocklistMeta, BlocklistValue, CSSEntries, CSSObject, CSSValue, ControlSymbols, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
 import { BetterMap, CountableSet, TwoKeyMap, e, entriesToCss, expandVariantGroup, isCountableSet, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
@@ -569,12 +569,28 @@ export class UnoGenerator<Theme extends object = object> {
       if (!match)
         continue
 
-      const result = await handler(match, context)
+      let result = await handler(match, context)
       if (!result)
         continue
 
       if (this.config.details)
         context.rules!.push([matcher, handler, meta] as DynamicRule<Theme>)
+
+      // Handle generator result
+      if (typeof result !== 'string') {
+        if (Symbol.asyncIterator in result) {
+          const entries: (CSSValue | string)[] = []
+          for await (const r of result) {
+            if (r)
+              entries.push(r)
+          }
+          result = entries
+        }
+        else if (Symbol.iterator in result && !Array.isArray(result)) {
+          result = Array.from(result)
+            .filter(notNull)
+        }
+      }
 
       const entries = normalizeCSSValues(result).filter(i => i.length)
       if (entries.length) {

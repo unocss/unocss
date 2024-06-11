@@ -41,6 +41,7 @@
 - [unocss-transformer-attribute-values-group](https://github.com/lvjiaxuan/unocss-transformer-attribute-values-group) - Attribute values group transformer for UnoCSS by [@lvjiaxuan](https://github.com/lvjiaxuan).
 - [unocss-transformer-alias](https://github.com/zyyv/unocss-transformer-alias) - Transform alias for UnoCSS shortcuts by [@zyyv](https://github.com/zyyv).
 - [CSS to UnoCss](https://github.com/Simon-He95/transformToUnoCSS) - Transform CSS to Unocss by [@Simon-He95](https://github.com/Simon-He95).
+- [unocss-transformer-classnames-minifier](https://github.com/alisobirjanov/unocss-transformer-classnames-minifier) - Transform UnoCSS classnames minifier by [@alisobirjanov](https://github.com/alisobirjanov).
 
 # Community tools
 

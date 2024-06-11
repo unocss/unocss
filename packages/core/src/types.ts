@@ -209,7 +209,14 @@ export interface RuleMeta {
 export type CSSValue = CSSObject | CSSEntries
 export type CSSValues = CSSValue | CSSValue[]
 
-export type DynamicMatcher<Theme extends object = object> = ((match: RegExpMatchArray, context: Readonly<RuleContext<Theme>>) => Awaitable<CSSValue | string | (CSSValue | string)[] | undefined>)
+export type DynamicMatcher<Theme extends object = object> =
+  (
+    match: RegExpMatchArray,
+    context: Readonly<RuleContext<Theme>>
+  ) => Awaitable<CSSValue | string | (CSSValue | string)[] | undefined>
+  | Generator<CSSValue | string | undefined>
+  | AsyncGenerator<CSSValue | string | undefined>
+
 export type DynamicRule<Theme extends object = object> = [RegExp, DynamicMatcher<Theme>] | [RegExp, DynamicMatcher<Theme>, RuleMeta]
 export type StaticRule = [string, CSSObject | CSSEntries] | [string, CSSObject | CSSEntries, RuleMeta]
 export type Rule<Theme extends object = object> = DynamicRule<Theme> | StaticRule
