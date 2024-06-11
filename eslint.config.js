@@ -34,9 +34,9 @@ export default antfu(
   },
   {
     files: [
-      'playground/**/*.*',
-      'examples/**/*.*',
-      'test/fixtures/**/*.*',
+      'playground/**/*.?([mc])ts',
+      'examples/**/*.?([mc])ts',
+      'test/fixtures/**/*.?([mc])ts',
     ],
     rules: {
       'no-restricted-imports': 'off',
