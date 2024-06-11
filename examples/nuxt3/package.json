@@ -7,11 +7,11 @@
     "preview": "nuxi preview"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "^1.1.34",
+    "@iconify-json/carbon": "^1.1.35",
     "@unocss/core": "link:../../packages/core",
     "@unocss/nuxt": "link:../../packages/nuxt",
     "@unocss/reset": "link:../../packages/reset",
-    "nuxt": "^3.11.2",
+    "nuxt": "^3.12.1",
     "unocss": "link:../../packages/unocss"
   },
   "stackblitz": {
