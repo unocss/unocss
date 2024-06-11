@@ -34,9 +34,9 @@ export default antfu(
   },
   {
     files: [
-      'playground/**/*.ts',
-      'examples/**/*.ts',
-      'test/fixtures/**/*.ts',
+      'playground/**/*.*',
+      'examples/**/*.*',
+      'test/fixtures/**/*.*',
     ],
     rules: {
       'no-restricted-imports': 'off',
