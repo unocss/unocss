@@ -2,7 +2,7 @@ import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import presetTagify from '@unocss/preset-tagify'
 import { describe, expect, it } from 'vitest'
-import { autoPrefixer, decodeHtml } from '../packages/runtime/src/utils'
+import { autoPrefixer, decodeHtml } from '../src/utils'
 
 function mockElementWithStyle() {
   const store: any = {}

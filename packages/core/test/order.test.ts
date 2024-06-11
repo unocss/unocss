@@ -1,6 +1,6 @@
 import { createGenerator } from '@unocss/core'
 import { describe, expect, it } from 'vitest'
-import { variantMatcher } from '@unocss/preset-mini/utils'
+import { variantMatcher } from '@unocss/rule-utils'
 import presetMini from '@unocss/preset-mini'
 
 describe('order', () => {

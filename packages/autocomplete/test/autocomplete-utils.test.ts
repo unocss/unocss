@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { searchUsageBoundary } from '@unocss/autocomplete'
+import { cartesian, searchUsageBoundary } from '@unocss/autocomplete'
 
 describe('searchUsageBoundary', () => {
   it('works', () => {
@@ -22,4 +22,27 @@ describe('searchUsageBoundary', () => {
     expect(searchUsageBoundary('<div p-1 p-2>', 10, false)?.content)
       .toBe(undefined)
   })
+})
+
+it('cartesian', () => {
+  const a = ['a', 'b', 'c']
+  const b = ['1', '2', '3']
+  // multiple
+  expect(cartesian([a, b])).eql([
+    ['a', '1'],
+    ['a', '2'],
+    ['a', '3'],
+    ['b', '1'],
+    ['b', '2'],
+    ['b', '3'],
+    ['c', '1'],
+    ['c', '2'],
+    ['c', '3'],
+  ])
+  // single
+  expect(cartesian([a])).eql([
+    ['a'],
+    ['b'],
+    ['c'],
+  ])
 })
