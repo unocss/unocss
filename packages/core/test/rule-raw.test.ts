@@ -1,7 +1,7 @@
 import { createGenerator, e } from '@unocss/core'
 import { describe, expect, it } from 'vitest'
 
-describe('custom-raw', () => {
+describe('rule-raw', () => {
   it('basic', async () => {
     const uno = createGenerator({
       presets: [],
