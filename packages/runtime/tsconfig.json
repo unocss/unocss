@@ -10,5 +10,5 @@
     "sourceMap": true,
     "esModuleInterop": true
   },
-  "include": ["**/*.ts", "**/*.d.ts", "**/*.tsx", "**/*.vue"]
+  "include": ["**/*.ts", "**/*.d.ts", "**/*.tsx", "**/*.vue", "../../vitest.config.ts", "../../vitest.workspace.ts"]
 }

@@ -1,6 +1,8 @@
 export const presetMiniTargets: string[] = [
   // align
   'text-left',
+  'text-align-right',
+  'text-align-inherit',
   'vertical-baseline',
   'vertical-super',
   'vertical-inherit',
@@ -840,6 +842,9 @@ export const presetMiniTargets: string[] = [
   'transition-property-[border]',
   'transition-200',
   'transition-opacity-200',
+  'transition-colors',
+  'transition-colors,opacity',
+  'transition-colors,opacity-200',
   'transition-color,background-color-200',
   'transition-background-color,color-200',
   'transition',
@@ -1245,4 +1250,9 @@ export const presetMiniNonTargets = [
   'op50>Foo',
 
   'display-a',
+]
+
+export const specialPresetMiniTargets: string[] = [
+  '[&>*]:content-[\',\\00a0\']',
+  '[&>*:not(:last-child)]:after:content-[\',\\00a0\']',
 ]

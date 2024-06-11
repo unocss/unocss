@@ -1,0 +1,42 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`use-css-layer > change layer name 1`] = `
+"/* layer: shortcuts */
+@layer utilities.shortcuts{
+.custom-shortcut{font-size:1.125rem;line-height:1.75rem;--un-text-opacity:1;color:rgb(251 146 60 / var(--un-text-opacity));}
+.custom-shortcut:hover{--un-text-opacity:1;color:rgb(45 212 191 / var(--un-text-opacity));}
+}
+/* layer: default */
+@layer utilities{
+.h-1{height:0.25rem;}
+.w-1{width:0.25rem;}
+}"
+`;
+
+exports[`use-css-layer > static 1`] = `
+"/* layer: shortcuts */
+@layer shortcuts{
+.abc{name:bar1;name:bar2;name:4;}
+}
+/* layer: a */
+@layer a{
+.a{name:bar1;}
+}
+/* layer: b */
+@layer b{
+.b{name:bar2;}
+}
+/* layer: c */
+@layer c{
+.c5{name:5;}
+}
+/* layer: d */
+@layer d{
+/* RAW 4 */
+/* RAW 3 */
+}
+/* layer: s */
+@layer s{
+.abcd{name:bar1;name:bar2;name:2;}
+}"
+`;

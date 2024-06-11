@@ -143,8 +143,8 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           })
         }
 
-        const cssPostPlugin = config.plugins.find(i => i.name === 'vite:css-post')
-        const cssPlugin = config.plugins.find(i => i.name === 'vite:css')
+        const cssPostPlugin = config.plugins.find(i => i.name === 'vite:css-post') as Plugin | undefined
+        const cssPlugin = config.plugins.find(i => i.name === 'vite:css') as Plugin | undefined
 
         if (cssPostPlugin)
           distDirs.forEach(dir => cssPostPlugins.set(dir, cssPostPlugin))
@@ -157,9 +157,10 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
       // we inject a hash to chunk before the dist hash calculation to make sure
       // the hash is different when unocss changes
       async renderChunk(_, chunk, options) {
-        if (isLegacyChunk(chunk, options))
-          return null
+        const isLegacy = isLegacyChunk(chunk, options)
 
+        if (isLegacy && (!ctx.uno.config.legacy || ctx.uno.config.legacy.renderModernChunks))
+          return null
         // skip hash generation on non-entry chunk
         if (!Object.keys(chunk.modules).some(i => RESOLVED_ID_RE.test(i)))
           return null
@@ -174,11 +175,16 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         const fakeCssId = `${viteConfig.root}/${chunk.fileName}-unocss-hash.css`
         css = await applyCssTransform(css, fakeCssId, options.dir, this)
 
-        const hash = getHash(css)
         const transformHandler = 'handler' in cssPost.transform!
           ? cssPost.transform.handler
           : cssPost.transform!
-        await transformHandler.call({} as any, getHashPlaceholder(hash), fakeCssId)
+        if (isLegacy) {
+          await transformHandler.call({} as any, css, '/__uno.css')
+        }
+        else {
+          const hash = getHash(css)
+          await transformHandler.call({} as any, getHashPlaceholder(hash), fakeCssId)
+        }
 
         // fool the css plugin to generate the css in corresponding chunk
         chunk.modules[fakeCssId] = {
@@ -199,7 +205,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         viteConfig = config
       },
       buildStart() {
-        tasks.push(setupContentExtractor(ctx, viteConfig.command === 'serve'))
+        tasks.push(setupContentExtractor(ctx, viteConfig.mode !== 'test' && viteConfig.command === 'serve'))
       },
     },
     {
@@ -220,8 +226,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         const result = await generateAll()
         const mappedVfsLayer = Array.from(vfsLayers).map(layer => layer === LAYER_MARK_ALL ? layer : layer.replace(/^_/, ''))
         const importStatements = result.getLayer(LAYER_IMPORTS)
-        const cssWithLayers = Array.from(vfsLayers).map(layer => `${importStatements ?? ''}#--unocss-layer-start--${layer}--{start:${layer}} ${
-            layer === LAYER_MARK_ALL
+        const cssWithLayers = Array.from(vfsLayers).map(layer => `${importStatements ?? ''}#--unocss-layer-start--${layer}--{start:${layer}} ${layer === LAYER_MARK_ALL
             ? result.getLayers(undefined, [...mappedVfsLayer, LAYER_IMPORTS])
             : (result.getLayer(layer.replace(/^_/, '')) || '')
           } #--unocss-layer-end--${layer}--{end:${layer}}`).join('')

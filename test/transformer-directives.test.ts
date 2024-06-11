@@ -212,6 +212,38 @@ describe('transformer-directives', () => {
       `)
   })
 
+  // #3794
+  it('multiple apply ignore comments', async () => {
+    const result = await transform(
+      `.btn {
+        @apply p-3 m-4 /* overflow-hidden */ /*bg-white*/ // bg-black
+        text-center // w-2
+        ;
+        @apply bg-white;
+        @apply hover:bg-blue-500 /* m-4 */;
+        @apply hover:border;
+      }`,
+    )
+    expect(result)
+      .toMatchInlineSnapshot(`
+        ".btn {
+          margin: 1rem;
+          padding: 0.75rem;
+          text-align: center;
+          --un-bg-opacity: 1;
+          background-color: rgb(255 255 255 / var(--un-bg-opacity));
+        }
+        .btn:hover {
+          --un-bg-opacity: 1;
+          background-color: rgb(59 130 246 / var(--un-bg-opacity));
+        }
+        .btn:hover {
+          border-width: 1px;
+        }
+        "
+      `)
+  })
+
   it('dark class', async () => {
     const uno = createGenerator({
       presets: [
@@ -579,6 +611,33 @@ div {
         .btn:focus {
           --un-bg-opacity: 1;
           background-color: rgb(251 146 60 / var(--un-bg-opacity));
+        }
+        "
+      `)
+  })
+
+  it('--at-apply with colon in value', async () => {
+    const result = await transform(
+      `.v-popper--theme-dropdown .v-popper__inner,
+      .v-popper--theme-tooltip .v-popper__inner {
+        --at-apply: text-green dark:text-red;
+        box-shadow: 0 6px 30px #0000001a;
+      }`,
+    )
+    expect(result)
+      .toMatchInlineSnapshot(`
+        ".v-popper--theme-dropdown .v-popper__inner,
+        .v-popper--theme-tooltip .v-popper__inner {
+          --un-text-opacity: 1;
+          color: rgb(74 222 128 / var(--un-text-opacity));
+          box-shadow: 0 6px 30px #0000001a;
+        }
+        @media (prefers-color-scheme: dark) {
+          .v-popper--theme-dropdown .v-popper__inner,
+          .v-popper--theme-tooltip .v-popper__inner {
+            --un-text-opacity: 1;
+            color: rgb(248 113 113 / var(--un-text-opacity));
+          }
         }
         "
       `)

@@ -2,7 +2,7 @@
   "publisher": "antfu",
   "name": "@unocss/vscode",
   "displayName": "UnoCSS",
-  "version": "0.60.2",
+  "version": "0.60.4",
   "private": true,
   "description": "UnoCSS for VS Code",
   "license": "MIT",
@@ -86,6 +86,11 @@
           "default": true,
           "description": "Enable/disable color preview decorations"
         },
+        "unocss.colorPreviewRadius": {
+          "type": "string",
+          "default": "50%",
+          "description": "Radius for color preview"
+        },
         "unocss.remToPxPreview": {
           "type": "boolean",
           "default": true,
@@ -133,6 +138,6 @@
     "jiti": "^1.21.0",
     "prettier": "^2.8.8",
     "tsup": "^8.0.2",
-    "unconfig": "^0.4.1"
+    "unconfig": "^0.4.4"
   }
 }

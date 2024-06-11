@@ -1,7 +1,7 @@
 import { createGenerator, escapeSelector } from '@unocss/core'
 import presetMini from '@unocss/preset-mini'
 import { describe, expect, it } from 'vitest'
-import { presetMiniNonTargets, presetMiniTargets } from './assets/preset-mini-targets'
+import { presetMiniNonTargets, presetMiniTargets, specialPresetMiniTargets } from './assets/preset-mini-targets'
 import { presetWindTargets } from './assets/preset-wind-targets'
 
 const uno = createGenerator({
@@ -74,6 +74,12 @@ describe('preset-mini', () => {
     expect(unmatched).toEqual([])
     await expect(css).toMatchFileSnapshot('./assets/output/preset-mini-targets.css')
     expect(css).toEqual(css2)
+  })
+
+  it('specialPresetMiniTargets', async () => {
+    const code = specialPresetMiniTargets.join(' ')
+    const { css: css2 } = await uno.generate(code)
+    await expect(css2).toMatchFileSnapshot('./assets/output/preset-mini-special-targets.css')
   })
 
   it('utils from preset-wind should be non-targets', async () => {
@@ -402,6 +408,17 @@ describe('preset-mini', () => {
         "/* layer: default */
         .shadow-\\[0_2px_10px\\]{--un-shadow:0 2px 10px var(--un-shadow-color);box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
         .shadow-blackA7{--un-shadow-opacity:0.169;--un-shadow-color:hsla(0, 0%, 0%, var(--un-shadow-opacity));}"
+      `)
+    expect((await uno.generate('shadow-[0_0_7.5rem_0_var(--shadow)]', { preflights: false })).css)
+      .toMatchInlineSnapshot(`
+        "/* layer: default */
+        .shadow-\\[0_0_7\\.5rem_0_var\\(--shadow\\)\\]{--un-shadow:0 0 7.5rem 0 var(--un-shadow-color, var(--shadow));box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}"
+      `)
+
+    expect((await uno.generate('shadow-[0_0_7.5rem_0_#000]', { preflights: false })).css)
+      .toMatchInlineSnapshot(`
+        "/* layer: default */
+        .shadow-\\[0_0_7\\.5rem_0_\\#000\\]{--un-shadow:0 0 7.5rem 0 var(--un-shadow-color, rgb(0 0 0));box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}"
       `)
   })
 
