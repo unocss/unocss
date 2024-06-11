@@ -28,6 +28,12 @@ Map {
               },
             ],
           ],
+          "symbols": {
+            "parent": "$$symbol-parent",
+            "selector": "$$symbol-selector",
+            "shortcutsNoMerge": "$$symbol-shortcut-no-merge",
+            "variants": "$$symbol-variants",
+          },
           "theme": {},
           "variantHandlers": [],
           "variantMatch": [
@@ -68,6 +74,12 @@ Map {
               },
             ],
           ],
+          "symbols": {
+            "parent": "$$symbol-parent",
+            "selector": "$$symbol-selector",
+            "shortcutsNoMerge": "$$symbol-shortcut-no-merge",
+            "variants": "$$symbol-variants",
+          },
           "theme": {},
           "variantHandlers": [],
           "variantMatch": [
@@ -106,6 +118,12 @@ Map {
               },
             ],
           ],
+          "symbols": {
+            "parent": "$$symbol-parent",
+            "selector": "$$symbol-selector",
+            "shortcutsNoMerge": "$$symbol-shortcut-no-merge",
+            "variants": "$$symbol-variants",
+          },
           "theme": {},
           "variantHandlers": [],
           "variantMatch": [

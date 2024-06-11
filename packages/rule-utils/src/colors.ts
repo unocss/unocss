@@ -1,9 +1,42 @@
-import type { CSSColorValue, RGBAColorValue } from '@unocss/core'
 import { escapeRegExp } from '@unocss/core'
 import { getStringComponents } from './utilities'
 
-/* eslint-disable no-case-declarations */
+export interface CSSColorValue {
+  type: string
+  components: (string | number)[]
+  alpha: string | number | undefined
+}
 
+export type RGBAColorValue = [number, number, number, number] | [number, number, number]
+
+export interface ParsedColorValue {
+  /**
+   * Parsed color value.
+   */
+  color?: string
+  /**
+   * Parsed opacity value.
+   */
+  opacity: string
+  /**
+   * Color name.
+   */
+  name: string
+  /**
+   * Color scale, preferably 000 - 999.
+   */
+  no: string
+  /**
+   * {@link CSSColorValue}
+   */
+  cssColor: CSSColorValue | undefined
+  /**
+   * Parsed alpha value from opacity
+   */
+  alpha: string | number | undefined
+}
+
+/* eslint-disable no-case-declarations */
 const cssColorFunctions = ['hsl', 'hsla', 'hwb', 'lab', 'lch', 'oklab', 'oklch', 'rgb', 'rgba']
 const alphaPlaceholders = ['%alpha', '<alpha-value>']
 const alphaPlaceholdersRE = new RegExp(alphaPlaceholders.map(v => escapeRegExp(v)).join('|'))
