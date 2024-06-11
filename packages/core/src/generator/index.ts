@@ -417,7 +417,7 @@ export class UnoGenerator<Theme extends object = object> {
             continue
           handler = { matcher: handler }
         }
-        processed = handler.matcher || processed
+        processed = handler.matcher ?? processed
         handlers.unshift(handler)
         variants.add(v)
         applied = true
