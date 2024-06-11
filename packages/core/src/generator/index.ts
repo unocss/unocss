@@ -6,14 +6,10 @@ import { version } from '../../package.json'
 import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from '../constants'
 
 export const symbols: ControlSymbols = {
-  /**
-   * Prevent merging in shortcuts
-   */
-  shortcutsNoMerge: '$$shortcut-no-merge' as unknown as symbol,
-  /**
-   * Additional variants applied to this rule
-   */
-  variants: '$$variants' as unknown as symbol,
+  shortcutsNoMerge: '$$symbol-shortcut-no-merge' as unknown as ControlSymbols['shortcutsNoMerge'],
+  variants: '$$symbol-variants' as unknown as ControlSymbols['variants'],
+  parent: '$$symbol-parent' as unknown as ControlSymbols['parent'],
+  selector: '$$symbol-selector' as unknown as ControlSymbols['selector'],
 }
 
 export class UnoGenerator<Theme extends object = object> {
@@ -421,7 +417,7 @@ export class UnoGenerator<Theme extends object = object> {
             continue
           handler = { matcher: handler }
         }
-        processed = handler.matcher
+        processed = handler.matcher || processed
         handlers.unshift(handler)
         variants.add(v)
         applied = true
@@ -447,7 +443,9 @@ export class UnoGenerator<Theme extends object = object> {
       .reduceRight(
         (previous, v) => (input: VariantHandlerContext) => {
           const entries = v.body?.(input.entries) || input.entries
-          const parents: [string | undefined, number | undefined] = Array.isArray(v.parent) ? v.parent : [v.parent, undefined]
+          const parents: [string | undefined, number | undefined] = Array.isArray(v.parent)
+            ? v.parent
+            : [v.parent, undefined]
           return (v.handle ?? defaultVariantHandler)({
             ...input,
             entries,
@@ -594,11 +592,35 @@ export class UnoGenerator<Theme extends object = object> {
 
       const entries = normalizeCSSValues(result).filter(i => i.length)
       if (entries.length) {
-        return entries.map((e) => {
-          if (isString(e))
-            return [i, e, meta]
-          else
-            return [i, raw, e, meta, variantHandlers]
+        return entries.map((css) => {
+          if (isString(css)) {
+            return [i, css, meta]
+          }
+
+          // Extract variants from special symbols
+          let variants = variantHandlers
+          for (const entry of css) {
+            if (entry[0] === symbols.variants) {
+              variants = [
+                ...toArray(entry[1]),
+                ...variants,
+              ]
+            }
+            else if (entry[0] === symbols.parent) {
+              variants = [
+                { parent: entry[1] },
+                ...variants,
+              ]
+            }
+            else if (entry[0] === symbols.selector) {
+              variants = [
+                { selector: entry[1] },
+                ...variants,
+              ]
+            }
+          }
+
+          return [i, raw, css, meta, variants]
         })
       }
     }
@@ -613,7 +635,14 @@ export class UnoGenerator<Theme extends object = object> {
     if (isRawUtil(parsed))
       return [parsed[0], undefined, parsed[1], undefined, parsed[2], this.config.details ? context : undefined, undefined]
 
-    const { selector, entries, parent, layer: variantLayer, sort: variantSort, noMerge } = this.applyVariants(parsed)
+    const {
+      selector,
+      entries,
+      parent,
+      layer: variantLayer,
+      sort: variantSort,
+      noMerge,
+    } = this.applyVariants(parsed)
     const body = entriesToCss(entries)
 
     if (!body)

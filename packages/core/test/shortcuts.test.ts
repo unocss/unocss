@@ -47,7 +47,7 @@ describe('shortcuts', () => {
       [/^with-no-merge$/, (_, ctx) => [
         {
           'no-merge': 1,
-          [ctx.symbols.shortcutsNoMerge]: '',
+          [ctx.symbols.shortcutsNoMerge]: true,
         },
         {
           merged: 1,

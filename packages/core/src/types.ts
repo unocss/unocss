@@ -102,14 +102,35 @@ export interface RuleContext<Theme extends object = object> {
   variants?: Variant<Theme>[]
 }
 
+declare const SymbolShortcutsNoMerge: unique symbol
+declare const SymbolVariants: unique symbol
+declare const SymbolParent: unique symbol
+declare const SymbolSelector: unique symbol
+
 export interface ControlSymbols {
-  shortcutsNoMerge: unique symbol
-  variants: unique symbol
+  /**
+   * Prevent merging in shortcuts
+   */
+  shortcutsNoMerge: typeof SymbolShortcutsNoMerge
+  /**
+   * Additional variants applied to this rule
+   */
+  variants: typeof SymbolVariants
+  /**
+   * Parent selector (`@media`, `@supports`, etc.)
+   */
+  parent: typeof SymbolParent
+  /**
+   * Selector modifier
+   */
+  selector: typeof SymbolSelector
 }
 
 export interface ControlSymbolsValue {
-  shortcutsNoMerge: true
-  variants: VariantHandler[]
+  [SymbolShortcutsNoMerge]: true
+  [SymbolVariants]: VariantHandler[]
+  [SymbolParent]: string
+  [SymbolSelector]: (selector: string) => string
 }
 
 export type ObjectToEntry<T> = { [K in keyof T]: [K, T[K]] }[keyof T]
@@ -213,7 +234,8 @@ export type DynamicMatcher<Theme extends object = object> =
   (
     match: RegExpMatchArray,
     context: Readonly<RuleContext<Theme>>
-  ) => Awaitable<CSSValue | string | (CSSValue | string)[] | undefined>
+  ) =>
+  | Awaitable<CSSValue | string | (CSSValue | string)[] | undefined>
   | Generator<CSSValue | string | undefined>
   | AsyncGenerator<CSSValue | string | undefined>
 
@@ -294,7 +316,7 @@ export interface VariantHandler {
   /**
    * The result rewritten selector for the next round of matching
    */
-  matcher: string
+  matcher?: string
   /**
    * Order in which the variant is applied to selector.
    */
