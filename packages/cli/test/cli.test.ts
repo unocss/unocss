@@ -186,7 +186,7 @@ export default defineConfig({
       if (output)
         break
     }
-    expect(output).toContain('.bg-foo{background-color:red;}')
+    expect(output).toContain('.bg-foo{background-color:red /* red */;}')
     await fs.writeFile(resolve(testDir as string, 'uno.config.ts'), `
 import { defineConfig } from 'unocss'
 export default defineConfig({
@@ -200,8 +200,8 @@ export default defineConfig({
     for (let i = 100; i >= 0; i--) {
       await sleep(500)
       const outputChanged = await readFile(testDir as string)
-      if (i === 0 || outputChanged.includes('.bg-foo{background-color:blue;}')) {
-        expect(outputChanged).toContain('.bg-foo{background-color:blue;}')
+      if (i === 0 || outputChanged.includes('.bg-foo{background-color:blue /* blue */;}')) {
+        expect(outputChanged).toContain('.bg-foo{background-color:blue /* blue */;}')
         break
       }
     }
