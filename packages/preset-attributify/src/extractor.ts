@@ -24,7 +24,7 @@ export function extractorAttributify(options?: AttributifyOptions): Extractor {
     extract({ code }) {
       // Filter out commented code
       const cleanCode = code
-        .replace(/(?:<!--|\/\*\s*)([\s\S]*?)(?:-->|\*\/)/g, '')
+        .replace(/(?:<!--|\/\*)([\s\S]*?)(?:-->|\*\/)/g, '')
         .replace(/^\s*\/\/(.*)/gm, '')
       return Array.from(cleanCode.matchAll(elementRE))
         .flatMap(match => Array.from((match[1] || '').matchAll(valuedAttributeRE)))
