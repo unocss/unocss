@@ -200,8 +200,8 @@ export default defineConfig({
     for (let i = 100; i >= 0; i--) {
       await sleep(500)
       const outputChanged = await readFile(testDir as string)
-      if (i === 0 || outputChanged.includes('.bg-foo{background-color:blue;}')) {
-        expect(outputChanged).toContain('.bg-foo{background-color:blue;}')
+      if (i === 0 || outputChanged.includes('.bg-foo{background-color:blue /* blue */;}')) {
+        expect(outputChanged).toContain('.bg-foo{background-color:blue /* blue */;}')
         break
       }
     }
