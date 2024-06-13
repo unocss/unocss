@@ -172,8 +172,14 @@ export async function build(_options: CliOptions) {
               cssCollection[layers[i]] = c.split('\n')
             }
             else {
-              // remove duplicates
-              cssCollection[layers[i]] = [...new Set([...cssCollection[layers[i]], ...c.split('\n')])]
+              // remove duplicates, excluding '}'
+              const tokens: string[] = []
+              for (const token of [...cssCollection[layers[i]], ...c.split('\n')]) {
+                if (!tokens.includes(token) || token === '}') {
+                  tokens.push(token)
+                }
+              }
+              cssCollection[layers[i]] = tokens
             }
           })
       })
