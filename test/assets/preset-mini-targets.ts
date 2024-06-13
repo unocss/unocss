@@ -849,6 +849,7 @@ export const presetMiniTargets: string[] = [
   'transition-background-color,color-200',
   'transition',
   'transition-revert-layer',
+  'transition-[color_background-color_border-color]',
   'property-none',
   'property-all',
   'property-unset',

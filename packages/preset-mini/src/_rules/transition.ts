@@ -20,11 +20,12 @@ function transitionProperty(prop: string): string | undefined {
 export const transitions: Rule<Theme>[] = [
   // transition
   [
-    /^transition(?:-([a-z-]+(?:,[a-z-]+)*))?(?:-(\d+))?$/,
-    ([, prop, d], { theme }) => {
+    /^transition(?:-\[?([a-z-_]+(?:,[a-z-]+)*))?(?:-(\d+))?(\]?)$/,
+    ([, prop, d, customizedFlag], { theme }) => {
       const p = prop != null
-        ? transitionProperty(prop)
+        ? customizedFlag ? prop.split('_').join(' ') : transitionProperty(prop)
         : [transitionPropertyGroup.colors, 'opacity', 'box-shadow', 'transform', 'filter', 'backdrop-filter'].join(',')
+
       if (p) {
         const duration = theme.duration?.[d || 'DEFAULT'] ?? h.time(d || '150')
         return {
