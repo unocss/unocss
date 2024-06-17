@@ -208,8 +208,8 @@ importers:
         specifier: ^0.1.2
         version: 0.1.2
       css-var-hoist:
-        specifier: ^0.0.4
-        version: 0.0.4
+        specifier: ^0.0.5
+        version: 0.0.5
       eslint:
         specifier: ^9.4.0
         version: 9.4.0
@@ -10981,9 +10981,8 @@ packages:
       mdn-data: 2.0.30
       source-map-js: 1.2.0
 
-  /css-var-hoist@0.0.4:
-    resolution: {integrity: sha512-/pjnpHeNoTYO3sp7LsEwKQWWxg5Ja7lTQVgjo9/08BROtbSK0IkGtLUNxcb9QfnglKSCzbHSKa4RGfxj4CraxA==}
-    requiresBuild: true
+  /css-var-hoist@0.0.5:
+    resolution: {integrity: sha512-YnunWe8jHSQopkJG+VgM5exHZsPxTJbHzRwufi4EGEjFl/Y51eVLGyhxTt3kSyPKQHR53yozlALbMELRlMMAmA==}
     dev: true
 
   /css-what@6.1.0:
