@@ -11,17 +11,17 @@ exports[`order > fully controlled rules merged and sorted by body 1`] = `
 `;
 
 exports[`order > multiple variant sorting 1`] = `
-"/* layer: default */
-.dark .group:hover:focus-within .dark\\:group-hover\\:group-focus-within\\:bg-blue-600{--un-bg-opacity:1;background-color:rgb(37 99 235 / var(--un-bg-opacity));}
-.group:hover:focus-within .dark .group-hover\\:group-focus-within\\:dark\\:bg-red-600{--un-bg-opacity:1;background-color:rgb(220 38 38 / var(--un-bg-opacity));}
-.parent:hover>.light .group:focus-within .parent-hover\\:light\\:group-focus-within\\:bg-yellow-600{--un-bg-opacity:1;background-color:rgb(202 138 4 / var(--un-bg-opacity));}
-.parent:hover>.light .parent:focus-within>.parent-hover\\:light\\:parent-focus-within\\:bg-green-600{--un-bg-opacity:1;background-color:rgb(22 163 74 / var(--un-bg-opacity));}"
+":root{--un-bg-opacity-efwnq4:1;}/* layer: default */
+.dark .group:hover:focus-within .dark\\:group-hover\\:group-focus-within\\:bg-blue-600{background-color:rgb(37 99 235 / var(--un-bg-opacity-efwnq4));}
+.group:hover:focus-within .dark .group-hover\\:group-focus-within\\:dark\\:bg-red-600{background-color:rgb(220 38 38 / var(--un-bg-opacity-efwnq4));}
+.parent:hover>.light .group:focus-within .parent-hover\\:light\\:group-focus-within\\:bg-yellow-600{background-color:rgb(202 138 4 / var(--un-bg-opacity-efwnq4));}
+.parent:hover>.light .parent:focus-within>.parent-hover\\:light\\:parent-focus-within\\:bg-green-600{background-color:rgb(22 163 74 / var(--un-bg-opacity-efwnq4));}"
 `;
 
 exports[`order > pseudo-elements sorting 1`] = `
-"/* layer: default */
-.dark .dark\\:hover\\:file\\:marker\\:bg-red-600 ::marker::file-selector-button:hover{--un-bg-opacity:1;background-color:rgb(220 38 38 / var(--un-bg-opacity));}
-.dark .dark\\:file\\:marker\\:hover\\:bg-red-600:hover ::marker::file-selector-button{--un-bg-opacity:1;background-color:rgb(220 38 38 / var(--un-bg-opacity));}"
+":root{--un-bg-opacity-efwnq4:1;}/* layer: default */
+.dark .dark\\:hover\\:file\\:marker\\:bg-red-600 ::marker::file-selector-button:hover{background-color:rgb(220 38 38 / var(--un-bg-opacity-efwnq4));}
+.dark .dark\\:file\\:marker\\:hover\\:bg-red-600:hover ::marker::file-selector-button{background-color:rgb(220 38 38 / var(--un-bg-opacity-efwnq4));}"
 `;
 
 exports[`order > variant ordering 1`] = `

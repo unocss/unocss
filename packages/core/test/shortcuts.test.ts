@@ -93,53 +93,53 @@ describe('shortcuts', () => {
   it('variant order', async () => {
     const { css } = await uno.generate('shortcut-hover-active-1', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
-      "/* layer: shortcuts */
-      .shortcut-hover-active-1:hover{--un-bg-opacity:1;background-color:rgb(134 239 172 / var(--un-bg-opacity));}
-      .shortcut-hover-active-1:focus{--un-bg-opacity:1;background-color:rgb(134 239 172 / var(--un-bg-opacity));}
-      .shortcut-hover-active-1:active{--un-bg-opacity:1;background-color:rgb(134 239 172 / var(--un-bg-opacity));}"
+      ":root{--un-bg-opacity-efwnq4:1;}/* layer: shortcuts */
+      .shortcut-hover-active-1:hover{background-color:rgb(134 239 172 / var(--un-bg-opacity-efwnq4));}
+      .shortcut-hover-active-1:focus{background-color:rgb(134 239 172 / var(--un-bg-opacity-efwnq4));}
+      .shortcut-hover-active-1:active{background-color:rgb(134 239 172 / var(--un-bg-opacity-efwnq4));}"
     `)
   })
 
   it('variant order 1', async () => {
     const { css } = await uno.generate('shortcut-hover-active-2', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
-      "/* layer: shortcuts */
-      .shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgb(253 224 71 / var(--un-bg-opacity));}
-      .shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgb(252 165 165 / var(--un-bg-opacity));}
-      .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgb(147 197 253 / var(--un-bg-opacity));}"
+      ":root{--un-bg-opacity-efwnq4:1;}/* layer: shortcuts */
+      .shortcut-hover-active-2:hover{background-color:rgb(253 224 71 / var(--un-bg-opacity-efwnq4));}
+      .shortcut-hover-active-2:focus{background-color:rgb(252 165 165 / var(--un-bg-opacity-efwnq4));}
+      .shortcut-hover-active-2:active{background-color:rgb(147 197 253 / var(--un-bg-opacity-efwnq4));}"
     `)
   })
 
   it('variant order 2', async () => {
     const { css } = await uno.generate('shortcut-hover-active-2 uno-layer-shortcuts:bg-red-300', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
-      "/* layer: shortcuts */
-      .uno-layer-shortcuts\\:bg-red-300{--un-bg-opacity:1;background-color:rgb(252 165 165 / var(--un-bg-opacity));}
-      .shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgb(253 224 71 / var(--un-bg-opacity));}
-      .shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgb(252 165 165 / var(--un-bg-opacity));}
-      .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgb(147 197 253 / var(--un-bg-opacity));}"
+      ":root{--un-bg-opacity-efwnq4:1;}/* layer: shortcuts */
+      .uno-layer-shortcuts\\:bg-red-300{background-color:rgb(252 165 165 / var(--un-bg-opacity-efwnq4));}
+      .shortcut-hover-active-2:hover{background-color:rgb(253 224 71 / var(--un-bg-opacity-efwnq4));}
+      .shortcut-hover-active-2:focus{background-color:rgb(252 165 165 / var(--un-bg-opacity-efwnq4));}
+      .shortcut-hover-active-2:active{background-color:rgb(147 197 253 / var(--un-bg-opacity-efwnq4));}"
     `)
   })
 
   it('variant order 3', async () => {
     const { css } = await uno.generate('shortcut-hover-active-2 uno-layer-shortcuts:bg-yellow-300', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
-      "/* layer: shortcuts */
-      .uno-layer-shortcuts\\:bg-yellow-300{--un-bg-opacity:1;background-color:rgb(253 224 71 / var(--un-bg-opacity));}
-      .shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgb(253 224 71 / var(--un-bg-opacity));}
-      .shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgb(252 165 165 / var(--un-bg-opacity));}
-      .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgb(147 197 253 / var(--un-bg-opacity));}"
+      ":root{--un-bg-opacity-efwnq4:1;}/* layer: shortcuts */
+      .uno-layer-shortcuts\\:bg-yellow-300{background-color:rgb(253 224 71 / var(--un-bg-opacity-efwnq4));}
+      .shortcut-hover-active-2:hover{background-color:rgb(253 224 71 / var(--un-bg-opacity-efwnq4));}
+      .shortcut-hover-active-2:focus{background-color:rgb(252 165 165 / var(--un-bg-opacity-efwnq4));}
+      .shortcut-hover-active-2:active{background-color:rgb(147 197 253 / var(--un-bg-opacity-efwnq4));}"
     `)
   })
 
   it('variant order 4', async () => {
     const { css } = await uno.generate('shortcut-hover-active-2 uno-layer-shortcuts:bg-blue-300', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
-      "/* layer: shortcuts */
-      .uno-layer-shortcuts\\:bg-blue-300{--un-bg-opacity:1;background-color:rgb(147 197 253 / var(--un-bg-opacity));}
-      .shortcut-hover-active-2:hover{--un-bg-opacity:1;background-color:rgb(253 224 71 / var(--un-bg-opacity));}
-      .shortcut-hover-active-2:focus{--un-bg-opacity:1;background-color:rgb(252 165 165 / var(--un-bg-opacity));}
-      .shortcut-hover-active-2:active{--un-bg-opacity:1;background-color:rgb(147 197 253 / var(--un-bg-opacity));}"
+      ":root{--un-bg-opacity-efwnq4:1;}/* layer: shortcuts */
+      .uno-layer-shortcuts\\:bg-blue-300{background-color:rgb(147 197 253 / var(--un-bg-opacity-efwnq4));}
+      .shortcut-hover-active-2:hover{background-color:rgb(253 224 71 / var(--un-bg-opacity-efwnq4));}
+      .shortcut-hover-active-2:focus{background-color:rgb(252 165 165 / var(--un-bg-opacity-efwnq4));}
+      .shortcut-hover-active-2:active{background-color:rgb(147 197 253 / var(--un-bg-opacity-efwnq4));}"
     `)
   })
 
@@ -177,31 +177,31 @@ describe('shortcuts', () => {
   it('shortcut order', async () => {
     const { css } = await uno.generate('test test-last', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
-      "/* layer: shortcuts */
-      .test:focus{--un-text-opacity:1;color:rgb(74 222 128 / var(--un-text-opacity));}
-      .test-last:focus{--un-text-opacity:1;color:rgb(96 165 250 / var(--un-text-opacity));}"
+      ":root{--un-text-opacity-efwnq4:1;}/* layer: shortcuts */
+      .test:focus{color:rgb(74 222 128 / var(--un-text-opacity-efwnq4));}
+      .test-last:focus{color:rgb(96 165 250 / var(--un-text-opacity-efwnq4));}"
     `)
   })
 
   it('divide', async () => {
     const { css } = await uno.generate('divide-y divide-default', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
-      "/* layer: shortcuts */
-      .dark .divide-default>:not([hidden])~:not([hidden]){--un-divide-opacity:1;border-color:rgb(51 51 74 / var(--un-divide-opacity));}
-      .divide-default>:not([hidden])~:not([hidden]){--un-divide-opacity:1;border-color:rgb(0 0 0 / var(--un-divide-opacity));}
+      ":root{--un-divide-opacity-efwnq4:1;--un-divide-y-reverse-epw9f3:0;}/* layer: shortcuts */
+      .dark .divide-default>:not([hidden])~:not([hidden]){border-color:rgb(51 51 74 / var(--un-divide-opacity-efwnq4));}
+      .divide-default>:not([hidden])~:not([hidden]){border-color:rgb(0 0 0 / var(--un-divide-opacity-efwnq4));}
       /* layer: default */
-      .divide-y>:not([hidden])~:not([hidden]){--un-divide-y-reverse:0;border-top-width:calc(1px * calc(1 - var(--un-divide-y-reverse)));border-bottom-width:calc(1px * var(--un-divide-y-reverse));}"
+      .divide-y>:not([hidden])~:not([hidden]){border-top-width:calc(1px * calc(1 - var(--un-divide-y-reverse-epw9f3)));border-bottom-width:calc(1px * var(--un-divide-y-reverse-epw9f3));}"
     `)
   })
 
   it('space', async () => {
     const { css } = await uno.generate('space-x-2px space-default', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
-      "/* layer: shortcuts */
-      .dark .space-default>:not([hidden])~:not([hidden]){--un-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--un-space-y-reverse)));margin-bottom:calc(1rem * var(--un-space-y-reverse));}
-      .space-default>:not([hidden])~:not([hidden]){--un-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--un-space-y-reverse)));margin-bottom:calc(0.5rem * var(--un-space-y-reverse));}
+      ":root{--un-space-y-reverse-epw9f3:0;--un-space-x-reverse-epw9f3:0;}/* layer: shortcuts */
+      .dark .space-default>:not([hidden])~:not([hidden]){margin-top:calc(1rem * calc(1 - var(--un-space-y-reverse-epw9f3)));margin-bottom:calc(1rem * var(--un-space-y-reverse-epw9f3));}
+      .space-default>:not([hidden])~:not([hidden]){margin-top:calc(0.5rem * calc(1 - var(--un-space-y-reverse-epw9f3)));margin-bottom:calc(0.5rem * var(--un-space-y-reverse-epw9f3));}
       /* layer: default */
-      .space-x-2px>:not([hidden])~:not([hidden]){--un-space-x-reverse:0;margin-left:calc(2px * calc(1 - var(--un-space-x-reverse)));margin-right:calc(2px * var(--un-space-x-reverse));}"
+      .space-x-2px>:not([hidden])~:not([hidden]){margin-left:calc(2px * calc(1 - var(--un-space-x-reverse-epw9f3)));margin-right:calc(2px * var(--un-space-x-reverse-epw9f3));}"
     `)
   })
 

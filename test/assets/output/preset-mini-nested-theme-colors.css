@@ -1,4 +1,4 @@
-/* layer: default */
-.bg-a-b-c{--un-bg-opacity:1;background-color:rgb(81 69 67 / var(--un-bg-opacity));}
-.text-a-b-c{--un-text-opacity:1;color:rgb(81 69 67 / var(--un-text-opacity));}
-.text-a-camel-case{--un-text-opacity:1;color:rgb(34 51 68 / var(--un-text-opacity));}
+:root{--un-bg-opacity-efwnq4:1;--un-text-opacity-efwnq4:1;}/* layer: default */
+.bg-a-b-c{background-color:rgb(81 69 67 / var(--un-bg-opacity-efwnq4));}
+.text-a-b-c{color:rgb(81 69 67 / var(--un-text-opacity-efwnq4));}
+.text-a-camel-case{color:rgb(34 51 68 / var(--un-text-opacity-efwnq4));}

@@ -25,9 +25,9 @@ describe('config', () => {
     })
     const { css } = await uno.generate('text-red-500 text-blue', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
-      "/* layer: default */
-      .text-blue{--un-text-opacity:1;color:rgb(96 165 250 / var(--un-text-opacity));}
-      .text-red-500{--un-text-opacity:1;color:rgb(0 255 0 / var(--un-text-opacity));}"
+      ":root{--un-text-opacity-efwnq4:1;}/* layer: default */
+      .text-blue{color:rgb(96 165 250 / var(--un-text-opacity-efwnq4));}
+      .text-red-500{color:rgb(0 255 0 / var(--un-text-opacity-efwnq4));}"
     `)
   })
 

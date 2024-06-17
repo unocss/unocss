@@ -1,10 +1,10 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`use-css-layer > change layer name 1`] = `
-"/* layer: shortcuts */
+":root{--un-text-opacity-efwnq4:1;}/* layer: shortcuts */
 @layer utilities.shortcuts{
-.custom-shortcut{font-size:1.125rem;line-height:1.75rem;--un-text-opacity:1;color:rgb(251 146 60 / var(--un-text-opacity));}
-.custom-shortcut:hover{--un-text-opacity:1;color:rgb(45 212 191 / var(--un-text-opacity));}
+.custom-shortcut{font-size:1.125rem;line-height:1.75rem;color:rgb(251 146 60 / var(--un-text-opacity-efwnq4));}
+.custom-shortcut:hover{color:rgb(45 212 191 / var(--un-text-opacity-efwnq4));}
 }
 /* layer: default */
 @layer utilities{

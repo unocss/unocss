@@ -1,9 +1,9 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`attributify > merge attribute name and value-only 1`] = `
-"/* layer: default */
-[bg~="\\[\\&\\:nth-child\\(3\\)\\]\\:\\[\\#123456\\]"]:nth-child(3){--un-bg-opacity:1;background-color:rgb(18 52 86 / var(--un-bg-opacity));}
-[bg~="\\[\\&\\.foo\\]\\:\\[\\&\\:nth-child\\(3\\)\\]\\:\\[\\#123\\]"]:nth-child(3).foo{--un-bg-opacity:1;background-color:rgb(17 34 51 / var(--un-bg-opacity));}"
+":root{--un-bg-opacity-efwnq4:1;}/* layer: default */
+[bg~="\\[\\&\\:nth-child\\(3\\)\\]\\:\\[\\#123456\\]"]:nth-child(3){background-color:rgb(18 52 86 / var(--un-bg-opacity-efwnq4));}
+[bg~="\\[\\&\\.foo\\]\\:\\[\\&\\:nth-child\\(3\\)\\]\\:\\[\\#123\\]"]:nth-child(3).foo{background-color:rgb(17 34 51 / var(--un-bg-opacity-efwnq4));}"
 `;
 
 exports[`attributify > prefixedOnly 1`] = `

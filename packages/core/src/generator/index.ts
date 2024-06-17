@@ -1,3 +1,4 @@
+import cssvarHoist from 'css-var-hoist'
 import { createNanoEvents } from '../utils/events'
 import type { BlocklistMeta, BlocklistValue, CSSEntries, CSSEntriesInput, CSSObject, CSSValueInput, ControlSymbols, ControlSymbolsEntry, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
@@ -380,7 +381,7 @@ export class UnoGenerator<Theme extends object = object> {
     }
 
     return {
-      get css() { return getLayers() },
+      get css() { return cssvarHoist(getLayers()) },
       layers,
       matched,
       getLayers,

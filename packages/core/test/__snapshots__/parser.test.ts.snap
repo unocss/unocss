@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`split string with custom separator 1`] = `
-"/* layer: default */
-.backdrop__shadow-green::backdrop{--un-shadow-opacity:1;--un-shadow-color:rgb(74 222 128 / var(--un-shadow-opacity));}"
+":root{--un-shadow-opacity-efwnq4:1;}/* layer: default */
+.backdrop__shadow-green::backdrop{--un-shadow-color:rgb(74 222 128 / var(--un-shadow-opacity-efwnq4));}"
 `;

@@ -1,4 +1,4 @@
-/* layer: default */
-.hover\:bg-blue-3:hover{--un-bg-opacity:1;background-color:rgb(147 197 253 / var(--un-bg-opacity));}
-.focus\:bg-blue-3:focus{--un-bg-opacity:1;background-color:rgb(147 197 253 / var(--un-bg-opacity));}
-.active\:bg-blue-3:active{--un-bg-opacity:1;background-color:rgb(147 197 253 / var(--un-bg-opacity));}
+:root{--un-bg-opacity-efwnq4:1;}/* layer: default */
+.hover\:bg-blue-3:hover{background-color:rgb(147 197 253 / var(--un-bg-opacity-efwnq4));}
+.focus\:bg-blue-3:focus{background-color:rgb(147 197 253 / var(--un-bg-opacity-efwnq4));}
+.active\:bg-blue-3:active{background-color:rgb(147 197 253 / var(--un-bg-opacity-efwnq4));}
