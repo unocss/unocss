@@ -112,7 +112,12 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
     name: 'unocss:shadow-dom',
     enforce: 'pre',
     async transform(code, id) {
-      return transformWebComponent(code, id)
+      const css = await transformWebComponent(code, id)
+
+      return {
+        code: css,
+        map: null,
+      }
     },
     handleHotUpdate(ctx) {
       const read = ctx.read
