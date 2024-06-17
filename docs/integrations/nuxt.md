@@ -58,6 +58,38 @@ The `uno.css` entry will be automatically injected by the module.
 
 We recommend to use the dedicated `uno.config.ts` file for configuration. See [Config File](/guide/config-file) for more details.
 
+You can enable the `nuxtLayers` option, so Nuxt will automatically merge `uno.config` files from each Nuxt layer:
+
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
+  // ...
+  unocss: {
+    nuxtLayers: true,
+  },
+})
+```
+
+then you can reexport the generated config in the root config file:
+
+```ts
+// uno.config.ts
+import config from './.nuxt/uno.config.mjs'
+
+export default config
+```
+
+or modify/extend it:
+
+```ts
+import { mergeConfigs } from '@unocss/core'
+import config from './.nuxt/uno.config.mjs'
+
+export default mergeConfigs(config, {
+  // your overrides
+})
+```
+
 ## License
 
 - MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)

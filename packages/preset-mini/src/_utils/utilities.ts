@@ -189,37 +189,38 @@ export function parseColor(body: string, theme: Theme, key?: ThemeColorKeys): Pa
  * @return object.
  */
 export function colorResolver(property: string, varName: string, key?: ThemeColorKeys, shouldPass?: (css: CSSObject) => boolean): DynamicMatcher {
-  return ([, body]: string[], { theme }: RuleContext<Theme>): CSSObject | undefined => {
+  return ([, body]: string[], { theme, generator }: RuleContext<Theme>): CSSObject | undefined => {
     const data = parseColor(body, theme, key)
 
     if (!data)
       return
 
     const { alpha, color, cssColor } = data
-
+    const isDev = generator.config.envMode === 'dev'
+    const rawColorComment = isDev && color ? ` /* ${color} */` : ''
     const css: CSSObject = {}
     if (cssColor) {
       if (alpha != null) {
-        css[property] = colorToString(cssColor, alpha)
+        css[property] = colorToString(cssColor, alpha) + rawColorComment
       }
       else {
         const opacityVar = `--un-${varName}-opacity`
         const result = colorToString(cssColor, `var(${opacityVar})`)
         if (result.includes(opacityVar))
           css[opacityVar] = colorOpacityToString(cssColor)
-        css[property] = result
+        css[property] = result + rawColorComment
       }
     }
     else if (color) {
       if (alpha != null) {
-        css[property] = colorToString(color, alpha)
+        css[property] = colorToString(color, alpha) + rawColorComment
       }
       else {
         const opacityVar = `--un-${varName}-opacity`
         const result = colorToString(color, `var(${opacityVar})`)
         if (result.includes(opacityVar))
           css[opacityVar] = 1
-        css[property] = result
+        css[property] = result + rawColorComment
       }
     }
 
