@@ -7,6 +7,9 @@ export * from './extractor'
 export * from './types'
 export * from './variant'
 
+/**
+ * @see https://unocss.dev/presets/tagify
+ */
 export const presetTagify = definePreset((options: TagifyOptions = {}) => {
   const {
     defaultExtractor = true,
