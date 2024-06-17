@@ -45,9 +45,11 @@ describe('transform', () => {
       "<div class="uno-orrz3z" />
 
       <style>
+        :root {
+          --un-bg-opacity-efwnq4: 1;
+        }
         :global(.uno-orrz3z) {
-          --un-bg-opacity: 1;
-          background-color: rgb(239 68 68 / var(--un-bg-opacity));
+          background-color: rgb(239 68 68 / var(--un-bg-opacity-efwnq4));
         }
       </style>
       "
@@ -56,9 +58,11 @@ describe('transform', () => {
       "<div class="_bg-red-500_7dkb0w" />
 
       <style>
+        :root {
+          --un-bg-opacity-efwnq4: 1;
+        }
         :global(._bg-red-500_7dkb0w) {
-          --un-bg-opacity: 1;
-          background-color: rgb(239 68 68 / var(--un-bg-opacity));
+          background-color: rgb(239 68 68 / var(--un-bg-opacity-efwnq4));
         }
       </style>
       "
@@ -107,6 +111,9 @@ describe('transform', () => {
       "<div class="uno-tlm2ul" />
 
       <style>
+        :root {
+          --un-space-x-reverse-epw9f3: 0;
+        }
         :global([dir="rtl"] .uno-tlm2ul) {
           right: 0;
         }
@@ -116,9 +123,8 @@ describe('transform', () => {
           line-height: 1.25rem;
         }
         :global(.uno-tlm2ul > :not([hidden]) ~ :not([hidden])) {
-          --un-space-x-reverse: 0;
-          margin-left: calc(0.25rem * calc(1 - var(--un-space-x-reverse)));
-          margin-right: calc(0.25rem * var(--un-space-x-reverse));
+          margin-left: calc(0.25rem * calc(1 - var(--un-space-x-reverse-epw9f3)));
+          margin-right: calc(0.25rem * var(--un-space-x-reverse-epw9f3));
         }
       </style>
       "
@@ -129,6 +135,9 @@ describe('transform', () => {
       />
 
       <style>
+        :root {
+          --un-space-x-reverse-epw9f3: 0;
+        }
         :global([dir="rtl"] ._rtl\\:right-0_7dkb0w) {
           right: 0;
         }
@@ -136,9 +145,8 @@ describe('transform', () => {
           margin-bottom: 0.25rem;
         }
         :global(._space-x-1_7dkb0w > :not([hidden]) ~ :not([hidden])) {
-          --un-space-x-reverse: 0;
-          margin-left: calc(0.25rem * calc(1 - var(--un-space-x-reverse)));
-          margin-right: calc(0.25rem * var(--un-space-x-reverse));
+          margin-left: calc(0.25rem * calc(1 - var(--un-space-x-reverse-epw9f3)));
+          margin-right: calc(0.25rem * var(--un-space-x-reverse-epw9f3));
         }
         :global(._text-sm_7dkb0w) {
           font-size: 0.875rem;
@@ -183,11 +191,13 @@ describe('transform', () => {
       "<div class="uno-1eyzu3" />
 
       <style>
+        :root {
+          --un-space-x-reverse-epw9f3: 0;
+        }
         @media (min-width: 640px) {
           :global(.dark .uno-1eyzu3:hover > :not([hidden]) ~ :not([hidden])) {
-            --un-space-x-reverse: 0;
-            margin-left: calc(0.25rem * calc(1 - var(--un-space-x-reverse)));
-            margin-right: calc(0.25rem * var(--un-space-x-reverse));
+            margin-left: calc(0.25rem * calc(1 - var(--un-space-x-reverse-epw9f3)));
+            margin-right: calc(0.25rem * var(--un-space-x-reverse-epw9f3));
           }
         }
       </style>
@@ -257,15 +267,16 @@ describe('transform', () => {
       >
 
       <style>
+        :root {
+          --un-text-opacity-efwnq4: 1;
+        }
         :global(.uno-3h14cd) {
-          --un-text-opacity: 1;
-          color: rgb(34 197 94 / var(--un-text-opacity));
-          color: rgb(96 165 250 / var(--un-text-opacity));
+          color: rgb(34 197 94 / var(--un-text-opacity-efwnq4));
+          color: rgb(96 165 250 / var(--un-text-opacity-efwnq4));
           font-weight: 600;
         }
         :global(.uno-ffvc5a) {
-          --un-text-opacity: 1;
-          color: rgb(220 38 38 / var(--un-text-opacity));
+          color: rgb(220 38 38 / var(--un-text-opacity-efwnq4));
         }
         :global(.uno-r4l94t) {
           font-weight: 700;
@@ -296,14 +307,16 @@ describe('transform', () => {
       "<div class="uno-83is87" />
 
       <style>
+        :root {
+          --un-space-x-reverse-epw9f3: 0;
+        }
         :global(.uno-83is87) {
           margin-bottom: 0.25rem;
           margin-top: 0.5rem !important;
         }
         :global(.uno-83is87 > :not([hidden]) ~ :not([hidden])) {
-          --un-space-x-reverse: 0;
-          margin-left: calc(0.25rem * calc(1 - var(--un-space-x-reverse)));
-          margin-right: calc(0.25rem * var(--un-space-x-reverse));
+          margin-left: calc(0.25rem * calc(1 - var(--un-space-x-reverse-epw9f3)));
+          margin-right: calc(0.25rem * var(--un-space-x-reverse-epw9f3));
         }
         @media (min-width: 768px) {
           :global(.uno-83is87) {
@@ -317,6 +330,9 @@ describe('transform', () => {
       "<div class="_mb-1_7dkb0w _!mt-2_7dkb0w _md:mr-3_7dkb0w _space-x-1_7dkb0w" />
 
       <style>
+        :root {
+          --un-space-x-reverse-epw9f3: 0;
+        }
         :global(._\\!mt-2_7dkb0w) {
           margin-top: 0.5rem !important;
         }
@@ -324,9 +340,8 @@ describe('transform', () => {
           margin-bottom: 0.25rem;
         }
         :global(._space-x-1_7dkb0w > :not([hidden]) ~ :not([hidden])) {
-          --un-space-x-reverse: 0;
-          margin-left: calc(0.25rem * calc(1 - var(--un-space-x-reverse)));
-          margin-right: calc(0.25rem * var(--un-space-x-reverse));
+          margin-left: calc(0.25rem * calc(1 - var(--un-space-x-reverse-epw9f3)));
+          margin-right: calc(0.25rem * var(--un-space-x-reverse-epw9f3));
         }
         @media (min-width: 768px) {
           :global(._md\\:mr-3_7dkb0w) {
@@ -346,9 +361,11 @@ describe('transform', () => {
       "<div class="uno-orrz3z mr-7" />
 
       <style>
+        :root {
+          --un-bg-opacity-efwnq4: 1;
+        }
         :global(.uno-orrz3z) {
-          --un-bg-opacity: 1;
-          background-color: rgb(239 68 68 / var(--un-bg-opacity));
+          background-color: rgb(239 68 68 / var(--un-bg-opacity-efwnq4));
         }
       </style>
       "

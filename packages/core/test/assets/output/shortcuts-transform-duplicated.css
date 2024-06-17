@@ -1,26 +1,26 @@
 :root {
   --un-translate-x-1ifswm: 0.25rem;
   --un-translate-y-6mfwl2: 0.5rem;
+  --un-scale-x-y0g8gn: 0.04;
   --un-scale-y-y0g8gn: 0.04;
   --un-scale-x-xgh12p: 0.02;
-  --un-scale-x-y0g8gn: 0.04;
+  --un-scale-y-xgh12p: 0.02;
 } /* layer: shortcuts */
 .transform-duplicated {
   transform: translateX(var(--un-translate-x-1ifswm))
     translateY(var(--un-translate-y-6mfwl2)) translateZ(var(--un-translate-z))
     rotate(var(--un-rotate)) rotateX(var(--un-rotate-x))
     rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z))
-    skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x))
-    scaleY(var(--un-scale-y-y0g8gn)) scaleZ(var(--un-scale-z));
-  --un-scale-x: 0.04;
+    skewX(var(--un-skew-x)) skewY(var(--un-skew-y))
+    scaleX(var(--un-scale-x-y0g8gn)) scaleY(var(--un-scale-y-y0g8gn))
+    scaleZ(var(--un-scale-z));
 }
 .transform-duplicated:hover {
-  --un-scale-y: 0.02;
   transform: translateX(var(--un-translate-x)) translateY(var(--un-translate-y))
     translateZ(var(--un-translate-z)) rotate(var(--un-rotate))
     rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y))
     rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y))
-    scaleX(var(--un-scale-x-xgh12p)) scaleY(var(--un-scale-y))
+    scaleX(var(--un-scale-x-xgh12p)) scaleY(var(--un-scale-y-xgh12p))
     scaleZ(var(--un-scale-z));
 }
 .transform-duplicated:active {

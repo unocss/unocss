@@ -68,8 +68,9 @@ describe('preset-mini', () => {
 
     const unmatched = []
     for (const i of presetMiniTargets) {
-      if (!css.includes(escapeSelector(i)))
+      if (!css.includes(escapeSelector(i))) {
         unmatched.push(i)
+      }
     }
     expect(unmatched).toEqual([])
     await expect(css).toMatchFileSnapshot('./assets/output/preset-mini-targets.css')
@@ -275,7 +276,6 @@ describe('preset-mini', () => {
     ].join(' '), {
       preflights: false,
     })
-
     expect(css).toBe('')
   })
 
@@ -438,18 +438,18 @@ describe('preset-mini', () => {
       .toMatchInlineSnapshot(`
         ":root{--un-bg-opacity-efwnq4:1;--un-text-opacity-efwnq4:1;}/* layer: default */
         .bg-primary{background-color:var(--base-primary, oklch(var(--primary) / var(--un-bg-opacity-efwnq4)));}
-        .bg-opacity-50{}
+        .bg-opacity-50{--un-bg-opacity:0.5;}
         .text-primary{color:var(--base-primary, oklch(var(--primary) / var(--un-text-opacity-efwnq4)));}
-        .text-opacity-50{}"
+        .text-opacity-50{--un-text-opacity:0.5;}"
       `)
 
     expect((await uno.generate('bg-primary/50 ring-5 ring-primary ring-opacity-50', { preflights: false })).css)
       .toMatchInlineSnapshot(`
-        ":root{--un-ring-width-vwgfuw:5px;--un-ring-shadow-ge0oiq:var(--un-ring-inset) 0 0 0 calc(var(--un-ring-width) + var(--un-ring-offset-width)) var(--un-ring-color);--un-ring-opacity-efwnq4:1;}/* layer: default */
+        ":root{--un-ring-width-vwgfuw:5px;--un-ring-offset-shadow-obu6l2:var(--un-ring-inset) 0 0 0 var(--un-ring-offset-width) var(--un-ring-offset-color);--un-ring-shadow-ge0oiq:var(--un-ring-inset) 0 0 0 calc(var(--un-ring-width) + var(--un-ring-offset-width)) var(--un-ring-color);--un-ring-opacity-efwnq4:1;}/* layer: default */
         .bg-primary\\/50{background-color:var(--base-primary, oklch(var(--primary) / 0.5));}
-        .ring-5{--un-ring-offset-shadow:var(--un-ring-inset) 0 0 0 var(--un-ring-offset-width) var(--un-ring-offset-color);box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow-ge0oiq), var(--un-shadow);}
+        .ring-5{box-shadow:var(--un-ring-offset-shadow-obu6l2), var(--un-ring-shadow-ge0oiq), var(--un-shadow);}
         .ring-primary{--un-ring-color:var(--base-primary, oklch(var(--primary) / var(--un-ring-opacity-efwnq4)));}
-        .ring-opacity-50{}"
+        .ring-opacity-50{--un-ring-opacity:0.5;}"
       `)
 
     expect((await uno.generate('border-5 border-primary border-opacity-50', { preflights: false })).css)
@@ -457,7 +457,7 @@ describe('preset-mini', () => {
         ":root{--un-border-opacity-efwnq4:1;}/* layer: default */
         .border-5{border-width:5px;}
         .border-primary{border-color:var(--base-primary, oklch(var(--primary) / var(--un-border-opacity-efwnq4)));}
-        .border-opacity-50{}"
+        .border-opacity-50{--un-border-opacity:0.5;}"
       `)
   })
 })

@@ -17,7 +17,7 @@ exports[`cli > supports directives transformer 2`] = `".btn-center{@apply text-c
 
 exports[`cli > supports unocss.config.js 1`] = `
 ":root{--un-bg-opacity-efwnq4:1;--un-shadow-9rsefa:var(--un-shadow-inset) 0 1px 2px 0 var(--un-shadow-color, rgb(0 0 0 / 0.05));}/* layer: shortcuts */
-.box{margin-left:auto;margin-right:auto;max-width:80rem;border-radius:0.375rem;background-color:rgb(243 244 246 / var(--un-bg-opacity-efwnq4));padding:1rem;box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow-9rsefa);}"
+.box{margin-left:auto;margin-right:auto;max-width:80rem;border-radius:0.375rem;background-color:rgb(243 244 246 / var(--un-bg-opacity-efwnq4)) /* #f3f4f6 */;padding:1rem;box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow-9rsefa);}"
 `;
 
 exports[`cli > supports updating source files with transformed utilities ('directives transformer') 1`] = `""`;
