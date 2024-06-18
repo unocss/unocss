@@ -57,6 +57,7 @@ export interface TypographyOptions {
  * })
  * ```
  *
+ * @see https://unocss.dev/presets/typography
  * @returns typography preset
  * @public
  */
