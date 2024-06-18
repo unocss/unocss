@@ -160,7 +160,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   const styleElements = new Map<string, HTMLStyleElement>()
 
   let paused = true
-  let tokens = new Set<string>()
+  const tokens = new Set<string>()
   let inspector: RuntimeInspectorCallback | undefined
 
   let _timer: number | undefined
@@ -212,14 +212,17 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   }
 
   async function updateStyle() {
-    const result = await uno.generate(tokens)
+    const currentToken = [...tokens]
+    const result = await uno.generate(currentToken)
 
     result.layers.reduce((previous: string | undefined, current) => {
       getStyleElement(current, previous).innerHTML = result.getLayer(current) ?? ''
       return current
     }, undefined)
 
-    tokens = result.matched
+    const clearTokens = currentToken.filter(i => !result.matched.has(i))
+    clearTokens.forEach(t => tokens.delete(t))
+
     return {
       ...result,
       getStyleElement: (layer: string) => styleElements.get(layer),
