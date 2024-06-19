@@ -30,7 +30,9 @@ describe('shortcuts', () => {
       ['shortcut-hover-active-2', 'focus:bg-red-300 hover:bg-yellow-300 active:bg-blue-300'],
       ['loading', 'animate-spin duration-1000'],
       ['shortcut-inline-body', ['p2', { margin: '3px' }]],
-      [/^shortcut-inline-dynamic-(\d)$/, ([,d]) => [`p${d}`, { margin: `${d}px` }]],
+      ['shortcut-inline-mutiple-body', ['p2 fw-normal', { margin: '3px' }]],
+      ['shortcut-inline-mutiple-nest-body', ['p2 fw-normal btn', { margin: '3px' }]],
+      [/^shortcut-inline-dynamic-(\d)$/, ([,d]) => [`p${d} text-${d}px`, { margin: `${d}px` }]],
       {
         'test': 'focus:text-green',
         'test-last': 'focus:text-blue',
@@ -168,9 +170,9 @@ describe('shortcuts', () => {
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
       .shortcut-inline-body{padding:0.5rem;margin:3px;}
-      .shortcut-inline-dynamic-1{padding:0.25rem;margin:1px;}
-      .shortcut-inline-dynamic-2{padding:0.5rem;margin:2px;}
-      .hover\\:shortcut-inline-body:hover{padding:0.5rem;margin:3px;}"
+      .hover\\:shortcut-inline-body:hover{padding:0.5rem;margin:3px;}
+      .shortcut-inline-dynamic-1{margin:1px;}
+      .shortcut-inline-dynamic-2{margin:2px;}"
     `)
   })
 
@@ -208,5 +210,19 @@ describe('shortcuts', () => {
   it('layer', async () => {
     const { css } = await uno.generate('uno-layer-l1:sh1 sh2 focus:uno-layer-l2:sh2 uno-layer-l3:sh3', { preflights: false })
     await expect(css).toMatchFileSnapshot('./assets/output/shortcuts-layer.css')
+  })
+
+  it('inline multiple body', async () => {
+    const { css } = await uno.generate('shortcut-inline-mutiple-body', { preflights: false })
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: shortcuts */
+      .shortcut-inline-mutiple-body{margin:3px;}"
+    `)
+
+    const { css: css2 } = await uno.generate('shortcut-inline-mutiple-nest-body', { preflights: false })
+    expect(css2).toMatchInlineSnapshot(`
+      "/* layer: shortcuts */
+      .shortcut-inline-mutiple-nest-body{margin:3px;}"
+    `)
   })
 })
