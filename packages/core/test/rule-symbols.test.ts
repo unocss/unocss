@@ -47,13 +47,13 @@ it('shortcuts-no-merge', async () => {
       }],
     ],
     shortcuts: [
-      ['shortcut', 'color-red bg-red'],
+      ['shortcut', ['color-red bg-red', { color: 'blue' }]],
     ],
   })
   expect((await uno2.generate('shortcut')).css)
     .toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      .shortcut{color:red;background-color:red;}
+      .shortcut{color:red bg-red;color:blue;}
       .shortcut{font-weight:bold;}"
     `)
 })

@@ -126,3 +126,23 @@ it('define breakpoints with irregular sorting', async () => {
       }"
     `)
 })
+
+it('rule and shortcut with same token', async () => {
+  const uno = createGenerator({
+    presets: [
+      presetUno(),
+    ],
+    rules: [
+      ['color-red', { color: 'red' }, { noMerge: true }],
+    ],
+    shortcuts: [
+      ['color-red', [{ color: 'blue' }]],
+    ],
+  })
+
+  expect((await uno.generate('color-red', { preflights: false })).css)
+    .toMatchInlineSnapshot(`
+      "/* layer: shortcuts */
+      .color-red{color:blue;}"
+    `)
+})

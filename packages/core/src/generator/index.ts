@@ -704,8 +704,18 @@ export class UnoGenerator<Theme extends object = object> {
     }
 
     // expand nested shortcuts
-    if (isString(result))
+    // console.log('result: ', result)
+
+    if (isString(result)) {
       result = expandVariantGroup(result.trim()).split(/\s+/g)
+    }
+    else if (Array.isArray(result)) {
+      result = result.map((s) => {
+        if (isString(s))
+          return expandVariantGroup(s.trim()).split(/\s+/g)
+        return s
+      }) as ShortcutValue[]
+    }
 
     // expand nested shortcuts with variants
     if (!result) {
@@ -730,6 +740,24 @@ export class UnoGenerator<Theme extends object = object> {
         .filter(Boolean),
       meta,
     ]
+
+    // return [
+    //   (await Promise.all(result.map(async (r) => {
+    //     return (
+    //       isString(r)
+    //         ? await Promise.all(
+    //           r.split(/\s+/g)
+    //             .map(async s => (await this.expandShortcut(s, context, depth - 1))?.[0]),
+    //         )
+    //         : undefined
+    //     ) || [r]
+    //   }),
+    //   ))
+    //     .flat(1)
+    //     .filter(Boolean),
+
+    //   meta,
+    // ]
   }
 
   async stringifyShortcuts(
