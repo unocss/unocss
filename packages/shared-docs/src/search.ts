@@ -16,7 +16,7 @@ export interface SearchState {
 }
 
 export function createSearch(
-  { uno, docs, guides, limit = 50 }: SearchState,
+  { uno, docs, guides, limit = 25 }: SearchState,
 ) {
   const ac = createAutocomplete(uno)
   const matchedMap = shallowReactive(new Map<string, RuleItem>())
