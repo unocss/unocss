@@ -29,9 +29,9 @@ describe('shortcuts', () => {
       ['shortcut-hover-active-1', 'focus:bg-green-300 hover:bg-green-300 active:bg-green-300'],
       ['shortcut-hover-active-2', 'focus:bg-red-300 hover:bg-yellow-300 active:bg-blue-300'],
       ['loading', 'animate-spin duration-1000'],
-      ['shortcut-inline-body', ['p2 text-red', { margin: '3px' }]],
-      ['shortcut-inline-body2', ['p2', { margin: '3px' }]],
-      ['shortcut-inline-body3', ['p2 text-red btn', { margin: '3px' }]],
+      ['shortcut-inline-body', ['p2', { margin: '3px' }]],
+      ['shortcut-inline-mutiple-body', ['p2 fw-normal', { margin: '3px' }]],
+      ['shortcut-inline-mutiple-nest-body', ['p2 fw-normal btn', { margin: '3px' }]],
       [/^shortcut-inline-dynamic-(\d)$/, ([,d]) => [`p${d}`, { margin: `${d}px` }]],
       {
         'test': 'focus:text-green',
@@ -162,11 +162,11 @@ describe('shortcuts', () => {
 
   it('shortcut with inline body', async () => {
     const { css } = await uno.generate(`
-      shortcut-inline-body shortcut-inline-body2 shortcut-inline-body3
+      shortcut-inline-body
     `, { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      .shortcut-inline-body{margin:3px;}"
+      .shortcut-inline-body{padding:0.5rem;margin:3px;}"
     `)
   })
 
@@ -204,5 +204,19 @@ describe('shortcuts', () => {
   it('layer', async () => {
     const { css } = await uno.generate('uno-layer-l1:sh1 sh2 focus:uno-layer-l2:sh2 uno-layer-l3:sh3', { preflights: false })
     await expect(css).toMatchFileSnapshot('./assets/output/shortcuts-layer.css')
+  })
+
+  it('inline multiple body', async () => {
+    const { css } = await uno.generate('shortcut-inline-mutiple-body', { preflights: false })
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: shortcuts */
+      .shortcut-inline-mutiple-body{padding:0.5rem;font-weight:400;margin:3px;}"
+    `)
+
+    const { css: css2 } = await uno.generate('shortcut-inline-mutiple-nest-body', { preflights: false })
+    expect(css2).toMatchInlineSnapshot(`
+      "/* layer: shortcuts */
+      .shortcut-inline-mutiple-nest-body{margin-right:2rem;padding:0.5rem;font-weight:400;margin:3px;}"
+    `)
   })
 })

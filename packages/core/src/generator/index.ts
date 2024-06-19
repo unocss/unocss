@@ -593,9 +593,8 @@ export class UnoGenerator<Theme extends object = object> {
       const entries = normalizeCSSValues(result).filter(i => i.length) as (string | CSSEntriesInput)[]
       if (entries.length) {
         return entries.map((css): ParsedUtil | RawUtil => {
-          if (isString(css)) {
+          if (isString(css))
             return [i, css, meta]
-          }
 
           // Extract variants from special symbols
           let variants = variantHandlers
@@ -703,18 +702,12 @@ export class UnoGenerator<Theme extends object = object> {
       }
     }
 
-    // expand nested shortcuts
-    // console.log('result: ', result)
-
-    if (isString(result)) {
-      result = expandVariantGroup(result.trim()).split(/\s+/g)
-    }
-    else if (Array.isArray(result)) {
-      result = result.map((s) => {
+    if (result) {
+      result = toArray(result).map((s) => {
         if (isString(s))
           return expandVariantGroup(s.trim()).split(/\s+/g)
         return s
-      }) as ShortcutValue[]
+      }).flat() as ShortcutValue[]
     }
 
     // expand nested shortcuts with variants
@@ -731,7 +724,7 @@ export class UnoGenerator<Theme extends object = object> {
       return
 
     return [
-      (await Promise.all(result.map(async r => (
+      (await Promise.all((result as ShortcutValue[]).map(async r => (
         isString(r)
           ? (await this.expandShortcut(r, context, depth - 1))?.[0]
           : undefined
@@ -740,24 +733,6 @@ export class UnoGenerator<Theme extends object = object> {
         .filter(Boolean),
       meta,
     ]
-
-    // return [
-    //   (await Promise.all(result.map(async (r) => {
-    //     return (
-    //       isString(r)
-    //         ? await Promise.all(
-    //           r.split(/\s+/g)
-    //             .map(async s => (await this.expandShortcut(s, context, depth - 1))?.[0]),
-    //         )
-    //         : undefined
-    //     ) || [r]
-    //   }),
-    //   ))
-    //     .flat(1)
-    //     .filter(Boolean),
-
-    //   meta,
-    // ]
   }
 
   async stringifyShortcuts(
