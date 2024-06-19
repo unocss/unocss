@@ -32,7 +32,7 @@ describe('shortcuts', () => {
       ['shortcut-inline-body', ['p2', { margin: '3px' }]],
       ['shortcut-inline-mutiple-body', ['p2 fw-normal', { margin: '3px' }]],
       ['shortcut-inline-mutiple-nest-body', ['p2 fw-normal btn', { margin: '3px' }]],
-      [/^shortcut-inline-dynamic-(\d)$/, ([,d]) => [`p${d}`, { margin: `${d}px` }]],
+      [/^shortcut-inline-dynamic-(\d)$/, ([,d]) => [`p${d} text-${d}px`, { margin: `${d}px` }]],
       {
         'test': 'focus:text-green',
         'test-last': 'focus:text-blue',
@@ -163,10 +163,16 @@ describe('shortcuts', () => {
   it('shortcut with inline body', async () => {
     const { css } = await uno.generate(`
       shortcut-inline-body
+      hover:shortcut-inline-body
+      shortcut-inline-dynamic-1
+      shortcut-inline-dynamic-2
     `, { preflights: false })
     expect(css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      .shortcut-inline-body{padding:0.5rem;margin:3px;}"
+      .shortcut-inline-body{padding:0.5rem;margin:3px;}
+      .shortcut-inline-dynamic-1{padding:0.25rem;font-size:1px;margin:1px;}
+      .shortcut-inline-dynamic-2{padding:0.5rem;font-size:2px;margin:2px;}
+      .hover\\:shortcut-inline-body:hover{padding:0.5rem;margin:3px;}"
     `)
   })
 

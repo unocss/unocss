@@ -47,7 +47,7 @@ it('shortcuts-no-merge', async () => {
       }],
     ],
     shortcuts: [
-      ['shortcut', ['color-red bg-red']],
+      ['shortcut', 'color-red bg-red'],
     ],
   })
   expect((await uno2.generate('shortcut')).css)
