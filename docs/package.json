@@ -9,7 +9,7 @@
     "docs:preview": "vitepress preview"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "^1.1.36",
+    "@iconify-json/carbon": "^1.1.35",
     "@iconify-json/logos": "^1.1.43",
     "@iconify-json/mdi": "^1.1.66",
     "@iconify-json/ph": "^1.1.13",
