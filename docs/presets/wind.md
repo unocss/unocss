@@ -57,7 +57,7 @@ For all rules and presets included in this preset, please refer to our <a href="
 
 ### Quotes
 
-Using quotes in the template (the files intended to be processed) is not supported due to how the extractor works.
+Using quotes in the template (the files intended to be processed) is not supported due to how the extractor works. E.g. you won't be able to write [`before:content-['Hello_World']`](https://tailwindcss.com/docs/content#using-spaces-and-underscores)).
 
 ## Differences from Windi CSS
 
