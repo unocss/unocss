@@ -45,7 +45,7 @@ async function executeSearch() {
 watchDebounced(
   input,
   executeSearch,
-  { debounce: 200, immediate: true },
+  { debounce: 300, immediate: true },
 )
 
 useEventListener('keydown', (e) => {

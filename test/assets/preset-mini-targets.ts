@@ -344,6 +344,7 @@ export const presetMiniTargets: string[] = [
   'flex-shrink-0',
   'flex-grow',
   'flex-grow-0',
+  '!flex-grow-0',
   'flex-basis-0',
   'flex-basis-1/2',
   'flex-$variable',

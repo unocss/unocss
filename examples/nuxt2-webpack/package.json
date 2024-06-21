@@ -11,7 +11,7 @@
     "@unocss/core": "link:../../packages/core",
     "@unocss/nuxt": "link:../../packages/nuxt",
     "@unocss/reset": "link:../../packages/reset",
-    "nuxt": "^2.17.3",
+    "nuxt": "^2.17.4",
     "unocss": "link:../../packages/unocss"
   },
   "stackblitz": {
