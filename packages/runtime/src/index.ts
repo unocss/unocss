@@ -275,8 +275,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
           const tag = `<${target.tagName.toLowerCase()} ${attrs}>`
           await extract(tag)
         }
-        if (target.hasAttribute(cloakAttribute))
-          target.removeAttribute(cloakAttribute)
+        removeCloak(target)
       }
     })
   })
