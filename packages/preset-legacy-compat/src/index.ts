@@ -13,6 +13,9 @@ export interface LegacyCompatOptions {
   commaStyleColorFunction?: boolean
 }
 
+/**
+ * @see https://unocss.dev/presets/legacy-compat
+ */
 export const presetLegacyCompat = definePreset((options: LegacyCompatOptions = {}) => {
   const {
     commaStyleColorFunction = false,
