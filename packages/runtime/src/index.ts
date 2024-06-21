@@ -176,13 +176,13 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
     }), 0) as any
   })
 
-  function removeCloak(node: Node) {
+  function removeCloak(node: Node, isAll = false) {
     if (node.nodeType !== 1)
       return
     const el = node as Element
     if (el.hasAttribute(cloakAttribute))
       el.removeAttribute(cloakAttribute)
-    el.querySelectorAll(`[${cloakAttribute}]`).forEach((n) => {
+    isAll && el.querySelectorAll(`[${cloakAttribute}]`).forEach((n) => {
       n.removeAttribute(cloakAttribute)
     })
   }
@@ -239,7 +239,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
     if (outerHTML) {
       await extract(`${outerHTML} ${decodeHtml(outerHTML)}`)
       removeCloak(html())
-      removeCloak(target)
+      removeCloak(target, true)
     }
   }
 
