@@ -82,7 +82,9 @@ export const transitions: Rule<Theme>[] = [
   [
     /^(?:transition-)?property-(.+)$/,
     ([, v], { theme }) => {
-      return { 'transition-property': h.global(v) || resolveTransitionProperty(v, theme) }
+      const p = h.global(v) || resolveTransitionProperty(v, theme)
+      if (p)
+        return { 'transition-property': p }
     },
     { autocomplete: [
       `transition-property-(${[...globalKeywords].join('|')})`,
