@@ -14,7 +14,10 @@ function resolveTransitionProperty(prop: string, theme: Theme): string | undefin
       p = props.split(' ').map(p => theme.transitionProperty?.[p] ?? p).join(',')
   }
   else {
-    p = prop.split(',').map(p => theme.transitionProperty?.[p] ?? h.properties(p)).filter(Boolean).join(',')
+    const props = prop.split(',').map(p => theme.transitionProperty?.[p] ?? h.properties(p))
+    if (props.every(Boolean)) {
+      p = props.join(',')
+    }
   }
 
   return p
