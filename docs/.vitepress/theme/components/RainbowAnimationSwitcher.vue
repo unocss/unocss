@@ -25,7 +25,7 @@ const switchTitle = computed(() => {
 <template>
   <UnoCSSSwitcher
     :title="switchTitle"
-    class="VPSwitchAppearance"
+    class="RainbowAnimationSwitcher"
     :aria-checked="animated"
     @click="toggleRainbow"
   >
@@ -43,15 +43,15 @@ const switchTitle = computed(() => {
   opacity: 0;
 }
 
-.VPSwitchAppearance[aria-checked="false"] .non-animated {
+.RainbowAnimationSwitcher[aria-checked="false"] .non-animated {
   opacity: 1;
 }
 
-.VPSwitchAppearance[aria-checked="true"] .animated {
+.RainbowAnimationSwitcher[aria-checked="true"] .animated {
   opacity: 1;
 }
 
-.VPSwitchAppearance[aria-checked="false"] :deep(.check) {
+.RainbowAnimationSwitcher[aria-checked="false"] :deep(.check) {
   /*rtl:ignore*/
   transform: translateX(18px);
 }
