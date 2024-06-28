@@ -12,7 +12,7 @@ import RainbowAnimationSwitcher from './RainbowAnimationSwitcher.vue'
 </template>
 
 <style scoped>
-.NavScreenRainbowAnimtation {
+.NavScreenRainbowAnimation {
   display: flex;
   justify-content: space-between;
   align-items: center;
