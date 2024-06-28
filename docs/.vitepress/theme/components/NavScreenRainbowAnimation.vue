@@ -3,7 +3,7 @@ import RainbowAnimationSwitcher from './RainbowAnimationSwitcher.vue'
 </script>
 
 <template>
-  <div class="NavScreenRainbowAnimtation">
+  <div class="NavScreenRainbowAnimation">
     <p class="text">
       Rainbow animation
     </p>
