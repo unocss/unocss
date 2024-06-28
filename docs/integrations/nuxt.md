@@ -82,12 +82,12 @@ export default config
 or modify/extend it:
 
 ```ts
-import { mergeConfigs } from '@unocss/core'
+import { mergeConfigs } from 'unocss'
 import config from './.nuxt/uno.config.mjs'
 
-export default mergeConfigs(config, {
+export default mergeConfigs([config, {
   // your overrides
-})
+}])
 ```
 
 ## License
