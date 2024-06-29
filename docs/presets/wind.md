@@ -59,6 +59,20 @@ For all rules and presets included in this preset, please refer to our <a href="
 
 Using quotes in the template (the files intended to be processed) is not supported due to how the extractor works. E.g. you won't be able to write `before:content-['']`. For these cases, you may prefer to introduce a new utility that you can explicitly set such as `class="before:content-empty"`.
 
+### background-position with arbitrary values
+
+Tailwind [allows](https://tailwindcss.com/docs/background-position#using-custom-values) one to use custom values for `background-position` using the bare syntax:
+
+```html
+<div class="bg-[center_top_1rem]">
+```
+
+The Wind preset will instead interpret `center_top_1rem` as a color. Use a `position:` prefix to accomplish the same thing:
+
+```html
+<div class="bg-[position:center_top_1rem]">
+```
+
 ## Differences from Windi CSS
 
 ### Breakpoints
