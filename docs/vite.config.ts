@@ -1,4 +1,3 @@
-import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
 import UnoCSS from 'unocss/vite'
 import Components from 'unplugin-vue-components/vite'
@@ -14,7 +13,7 @@ export default defineConfig({
       overlay: false,
     },
   },
-  resolve: {
+  /* resolve: {
     alias: [
       {
         find: /^.*\/VPSwitcher\.vue$/,
@@ -41,7 +40,7 @@ export default defineConfig({
         ),
       },
     ],
-  },
+  }, */
   plugins: [
     UnoCSS(),
     Components({
