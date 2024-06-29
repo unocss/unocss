@@ -1,6 +1,7 @@
 // https://vitepress.dev/guide/custom-theme
 import { h, watch } from 'vue'
-import Theme from 'vitepress/theme'
+import type { Theme } from 'vitepress'
+import DefaultTheme from 'vitepress/theme'
 import TwoslashFloatingVue from '@shikijs/vitepress-twoslash/client'
 import UnoCSSLayout from './UnoCSSLayout.vue'
 
@@ -14,7 +15,7 @@ import 'uno.css'
 let homePageStyle: HTMLStyleElement | undefined
 
 export default {
-  ...Theme,
+  ...DefaultTheme,
   Layout: () => {
     return h(UnoCSSLayout)
   },
@@ -30,7 +31,7 @@ export default {
       { immediate: true },
     )
   },
-}
+} satisfies Theme
 
 if (typeof window !== 'undefined') {
   // detect browser, add to class for conditional styling
