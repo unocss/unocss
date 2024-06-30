@@ -46,6 +46,9 @@ export default defineNuxtConfig({
       include: [/\.vue$/, /\.md$/],
     },
   },
+  vue: {
+    propsDestructure: true,
+  },
   vite: {
     logLevel: 'info',
     vue: {
