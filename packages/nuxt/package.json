@@ -42,7 +42,7 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.12.1",
+    "@nuxt/kit": "^3.12.2",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
@@ -58,6 +58,6 @@
     "unocss": "workspace:*"
   },
   "devDependencies": {
-    "@nuxt/schema": "^3.12.1"
+    "@nuxt/schema": "^3.12.2"
   }
 }

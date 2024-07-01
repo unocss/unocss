@@ -160,7 +160,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   const styleElements = new Map<string, HTMLStyleElement>()
 
   let paused = true
-  let tokens = new Set<string>()
+  const tokens = new Set<string>()
   let inspector: RuntimeInspectorCallback | undefined
 
   let _timer: number | undefined
@@ -176,13 +176,13 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
     }), 0) as any
   })
 
-  function removeCloak(node: Node) {
+  function removeCloak(node: Node, isAll = false) {
     if (node.nodeType !== 1)
       return
     const el = node as Element
     if (el.hasAttribute(cloakAttribute))
       el.removeAttribute(cloakAttribute)
-    el.querySelectorAll(`[${cloakAttribute}]`).forEach((n) => {
+    isAll && el.querySelectorAll(`[${cloakAttribute}]`).forEach((n) => {
       n.removeAttribute(cloakAttribute)
     })
   }
@@ -212,14 +212,17 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   }
 
   async function updateStyle() {
-    const result = await uno.generate(tokens)
+    const currentToken = [...tokens]
+    const result = await uno.generate(currentToken)
 
     result.layers.reduce((previous: string | undefined, current) => {
       getStyleElement(current, previous).innerHTML = result.getLayer(current) ?? ''
       return current
     }, undefined)
 
-    tokens = result.matched
+    const clearTokens = currentToken.filter(i => !result.matched.has(i))
+    clearTokens.forEach(t => tokens.delete(t))
+
     return {
       ...result,
       getStyleElement: (layer: string) => styleElements.get(layer),
@@ -239,7 +242,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
     if (outerHTML) {
       await extract(`${outerHTML} ${decodeHtml(outerHTML)}`)
       removeCloak(html())
-      removeCloak(target)
+      removeCloak(target, true)
     }
   }
 
@@ -275,8 +278,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
           const tag = `<${target.tagName.toLowerCase()} ${attrs}>`
           await extract(tag)
         }
-        if (target.hasAttribute(cloakAttribute))
-          target.removeAttribute(cloakAttribute)
+        removeCloak(target)
       }
     })
   })
