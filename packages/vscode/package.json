@@ -29,6 +29,11 @@
         "command": "unocss.reload",
         "title": "Reload UnoCSS",
         "category": "UnoCSS"
+      },
+      {
+        "command": "unocss.skip",
+        "title": "Skip Code From UnoCSS",
+        "category": "UnoCSS"
       }
     ],
     "configuration": {
