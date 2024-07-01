@@ -25,10 +25,17 @@ export function VueScopedPlugin({ uno, ready }: UnocssPluginContext): Plugin {
           config.content?.pipeline?.exclude ?? config.exclude ?? defaultPipelineExclude,
         )
     },
-    transform(code, id) {
+    async transform(code, id) {
       if (!filter(id) || !id.endsWith('.vue'))
         return
-      return transformSFC(code)
+      const css = await transformSFC(code)
+
+      if (css) {
+        return {
+          code: css,
+          map: null,
+        }
+      }
     },
     handleHotUpdate(ctx) {
       const read = ctx.read

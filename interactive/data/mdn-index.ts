@@ -1,6 +1,6 @@
 import type { DocItem } from '../types'
 
-export const mdnIndex = ref<DocItem[]>([])
+export const mdnIndex = shallowRef<DocItem[]>([])
 
 import('./mdn-index.json')
   .then((r) => {
