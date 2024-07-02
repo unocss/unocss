@@ -210,8 +210,6 @@ watchEffect(() => {
               :index="index"
               @click="selectItem(item)"
             />
-          </template>
-          <template #after>
             <div divider />
           </template>
         </RecycleScroller>
