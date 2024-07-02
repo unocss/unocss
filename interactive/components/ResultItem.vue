@@ -98,9 +98,6 @@ const classes = computed(() => ([
 .mdn:not(.compact) {
   height: 80px;
 }
-.rule:not(.compact) {
-  height: 56px;
-}
 .rule.compact,
 .guide.compact,
 .canisuse.compact,
