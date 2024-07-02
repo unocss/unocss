@@ -39,6 +39,7 @@ export async function activate(ext: ExtensionContext) {
 
   const skipMap = {
     '<!-- @unocss-skip -->': ['<!-- @unocss-skip-start -->\n', '\n<!-- @unocss-skip-end -->'],
+    '/* @unocss-skip */': ['/* @unocss-skip-start */\n', '\n/* @unocss-skip-end */'],
     '// @unocss-skip': ['// @unocss-skip-start\n', '\n// @unocss-skip-end'],
   }
 
