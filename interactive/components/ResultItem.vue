@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import type { ResultItem } from '~/types'
 
-const { compact = undefined, active } = defineProps<{
+const { item, compact = undefined, index } = defineProps<{
   item: ResultItem
-  active?: boolean
+  index?: number
   compact?: boolean | undefined
 }>()
 
-const el = ref<HTMLDivElement>()
 const compactMode = computed(() => compact ?? isCompact.value)
 const badgeStyle = computed(() => {
   if (compactMode.value)
@@ -15,19 +14,21 @@ const badgeStyle = computed(() => {
   return ''
 })
 
-watchEffect(() => {
-  if (active)
-    el.value?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-})
+const active = computed(() => index === selectIndex.value)
+
+const classes = computed(() => ([
+  active.value ? 'bg-gray5:6' : 'op60 hover:bg-gray5:2 hover:op100',
+  compactMode.value ? 'compact' : '',
+  item.type,
+].join(' ')))
 </script>
 
 <template>
   <div
-    ref="el"
     border="l-4 transparent" row gap3
     text-left items-center py2 px3
     cursor-pointer select-none
-    :class="active ? 'bg-gray5:6' : 'op60 hover:bg-gray5:2 hover:op100'"
+    :class="classes"
     :style="'css' in item ? { borderColor: item.colors?.[0] } : {}"
   >
     <template v-if="'url' in item">
@@ -85,3 +86,22 @@ watchEffect(() => {
     </template>
   </div>
 </template>
+
+<style>
+.rule:not(.compact) {
+  height: 56px;
+}
+.guide:not(.compact) {
+  height: 44px;
+}
+.canisuse:not(.compact),
+.mdn:not(.compact) {
+  height: 80px;
+}
+.rule.compact,
+.guide.compact,
+.canisuse.compact,
+.mdn.compact {
+  height: 40px;
+}
+</style>

@@ -509,6 +509,9 @@ importers:
       vue:
         specifier: ^3.4.29
         version: 3.4.29(typescript@5.4.5)
+      vue-virtual-scroller:
+        specifier: 2.0.0-beta.8
+        version: 2.0.0-beta.8(vue@3.4.29(typescript@5.4.5))
 
   packages/astro:
     dependencies:
