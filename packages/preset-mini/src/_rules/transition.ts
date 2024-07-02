@@ -8,12 +8,10 @@ function resolveTransitionProperty(prop: string, theme: Theme): string | undefin
   if (h.cssvar(prop) != null) {
     p = h.cssvar(prop)
   }
-  else if ((prop.startsWith('[') && prop.endsWith(']'))) {
-    const props = h.bracket(prop)
-    if (props != null)
-      p = props.split(' ').map(p => theme.transitionProperty?.[p] ?? p).join(',')
-  }
   else {
+    if ((prop.startsWith('[') && prop.endsWith(']'))) {
+      prop = prop.slice(1, -1)
+    }
     const props = prop.split(',').map(p => theme.transitionProperty?.[p] ?? h.properties(p))
     if (props.every(Boolean)) {
       p = props.join(',')
@@ -51,9 +49,9 @@ export const transitions: Rule<Theme>[] = [
 
       else if (d != null) {
         return {
-          'transition-duration': theme.duration?.[d] ?? h.time(d),
           'transition-property': theme.transitionProperty?.DEFAULT,
           'transition-timing-function': theme.easing?.DEFAULT,
+          'transition-duration': theme.duration?.[d] ?? h.time(d),
         }
       }
     },
