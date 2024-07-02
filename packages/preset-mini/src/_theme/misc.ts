@@ -69,14 +69,6 @@ export const boxShadow = {
   'inner': 'inset 0 2px 4px 0 rgb(0 0 0 / 0.05)',
 } satisfies Theme['boxShadow']
 
-export const easing = {
-  'DEFAULT': 'cubic-bezier(0.4, 0, 0.2, 1)',
-  'linear': 'linear',
-  'in': 'cubic-bezier(0.4, 0, 1, 1)',
-  'out': 'cubic-bezier(0, 0, 0.2, 1)',
-  'in-out': 'cubic-bezier(0.4, 0, 0.2, 1)',
-} satisfies Theme['easing']
-
 export const ringWidth = {
   DEFAULT: '3px',
   none: '0',

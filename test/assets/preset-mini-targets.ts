@@ -848,6 +848,10 @@ export const presetMiniTargets: string[] = [
   'transition-colors,opacity-200',
   'transition-color,background-color-200',
   'transition-background-color,color-200',
+  'transition-$variant',
+  'transition-[width,height]',
+  'transition-[width,height,colors]',
+  'transition-[width,height,colors]-200',
   'transition',
   'transition-revert-layer',
   'property-none',
@@ -855,6 +859,7 @@ export const presetMiniTargets: string[] = [
   'property-unset',
   'property-margin,padding',
   'property-padding,margin',
+  'property-[padding,margin]',
   'duration-111',
 
   // transition - timings
