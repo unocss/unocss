@@ -1,14 +1,20 @@
 import type { RuleContext } from '@unocss/core'
 import type { Component } from 'vue'
 
-export interface DocItem {
+export interface SearchItem {
+  id: string
+  size: number
+  type: 'mdn' | 'caniuse' | 'rule' | 'guide'
+}
+
+export interface DocItem extends SearchItem {
   type: 'mdn' | 'caniuse'
   title: string
   url: string
   summary?: string
 }
 
-export interface RuleItem {
+export interface RuleItem extends SearchItem {
   type: 'rule'
   class: string
   css?: string
@@ -19,7 +25,7 @@ export interface RuleItem {
   layers?: string[]
 }
 
-export interface GuideItem {
+export interface GuideItem extends SearchItem {
   type: 'guide'
   name: string
   title: string
