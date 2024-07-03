@@ -60,15 +60,21 @@ export function parseAutocomplete(template: string, theme: any = {}, extraShorth
       input,
       /\$([\w.|]+)/g,
       (m) => {
-        parts.push({
-          type: 'theme',
-          objects: m[1].split('|').map((i) => {
+        const objects = m[1].split('|').map((i) => {
+          try {
             return i.split('.').reduce((v, k) => {
               if (!k || !v[k])
                 throw new Error(`Invalid theme key ${k}`)
               return v[k]
             }, theme)
-          }),
+          }
+          catch (_) {
+            return null
+          }
+        }).filter(Boolean)
+        parts.push({
+          type: 'theme',
+          objects,
         })
       },
       (str) => {
