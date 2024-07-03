@@ -1,4 +1,6 @@
 <script setup lang="ts">
+defineProps<{ resizing: boolean }>()
+
 const iframe = ref<HTMLIFrameElement>()
 
 const iframeData = reactive({
@@ -17,7 +19,7 @@ watch([iframeData, iframe], send, { deep: true })
 const canvasRef = ref()
 const frameRef = ref()
 const scale = ref(1)
-const { width, height, isResizing, style, onResizeEnd } = useResize(frameRef, {
+const { width, height, style, onResizeEnd } = useResize(frameRef, {
   borderRadius: 8,
   xMultiplier: computed(() => 2 / scale.value),
   yMultiplier: computed(() => 1 / scale.value),
@@ -74,7 +76,7 @@ watch(isResponsive, (responsive) => {
   <div
     ref="canvasRef"
     class="h-full overflow-hidden flex justify-center w-full bg-light-900 dark:bg-dark-900 relative"
-    :class="{ 'p-4': options.responsive, 'pointer-events-none': isResizing }"
+    :class="{ 'p-4': options.responsive, 'pointer-events-none': resizing }"
   >
     <div v-if="options.responsive" class="absolute flex items-start" :style="`width:${frameWidth}px;height:${frameHeight}px`">
       <div class="responsiveBorder -mt-4 h-4 w-full">
@@ -118,7 +120,7 @@ watch(isResponsive, (responsive) => {
           v-show="init"
           ref="iframe"
           border-0 flex-grow min-w-0 w-full h-full min-h-0
-          :class="{ 'dark': isDark, 'pointer-events-none': isResizing }"
+          :class="{ 'dark': isDark, 'pointer-events-none': resizing }"
           src="/play/__play.html"
           @load="send"
         />

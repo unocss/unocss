@@ -16,7 +16,7 @@ export interface SearchState {
 }
 
 export function createSearch(
-  { uno, docs, guides, limit = 50 }: SearchState,
+  { uno, docs, guides, limit = 25 }: SearchState,
 ) {
   const ac = createAutocomplete(uno)
   const matchedMap = shallowReactive(new Map<string, RuleItem>())
@@ -59,10 +59,13 @@ export function createSearch(
 
   let _fusePrepare: Promise<void> | undefined
   async function search(input: string) {
+    input = input.trim()
+    if (!input)
+      return []
+
+    const timeStart = performance.now()
     _fusePrepare = _fusePrepare || prepareFuse()
     await _fusePrepare
-
-    input = input.trim()
 
     // mdn
     if (input.startsWith('mdn:') || input.startsWith('doc:')) {
@@ -102,10 +105,15 @@ export function createSearch(
       .map(i => i.item))
       .slice(0, limit)
 
-    return uniq([
+    const result = uniq([
       ...extract,
       ...searchResult,
     ].filter(notNull))
+
+    const duration = performance.now() - timeStart
+    // eslint-disable-next-line no-console
+    console.log('Search:', input, 'Duration:', duration, 'ms', 'Results:', result.length, '/', fuseCollection.length)
+    return result
   }
 
   async function suggestMultiple(str: string[]) {
@@ -118,6 +126,7 @@ export function createSearch(
 
   async function prepareFuse() {
     await Promise.all(Array.from(await enumerateAutocomplete())
+      .slice(0, 500)
       .map(async i => await generateFor(i)))
   }
 
@@ -159,7 +168,7 @@ export function createSearch(
       type: 'rule',
       class: input,
       body: last[2].replace(/([:;])/g, '$1 '),
-      context: last[5],
+      // context: last[5],
       css,
       colors: extractColors(css),
       features,
