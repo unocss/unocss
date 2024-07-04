@@ -7,6 +7,7 @@ import { createConfigLoader as createLoader } from 'unconfig'
 
 export type { LoadConfigResult, LoadConfigSource }
 
+let historyLoadedConfig: any = null
 export async function loadConfig<U extends UserConfig>(
   cwd = process.cwd(),
   configOrPath: string | U = cwd,
@@ -56,14 +57,24 @@ export async function loadConfig<U extends UserConfig>(
     defaults: inlineConfig,
   })
 
-  const result = await loader.load()
-  result.config = Object.assign(defaults, result.config || inlineConfig)
-  if (result.config.configDeps) {
-    result.sources = [
-      ...result.sources,
-      ...result.config.configDeps.map(i => resolve(cwd, i)),
-    ]
-  }
+  try {
+    const result = await loader.load()
+    result.config = Object.assign(defaults, result.config || inlineConfig)
+    if (result.config.configDeps) {
+      result.sources = [
+        ...result.sources,
+        ...result.config.configDeps.map(i => resolve(cwd, i)),
+      ]
+    }
+    historyLoadedConfig = result
 
-  return result
+    return result
+  }
+  catch (e) {
+    if (historyLoadedConfig) {
+      console.error(e)
+      return historyLoadedConfig
+    }
+    throw e
+  }
 }
