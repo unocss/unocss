@@ -6,6 +6,7 @@ import { parseAutocomplete } from './parse'
 import type { AutocompleteOptions, ParsedAutocompleteTemplate, UnocssAutocomplete } from './types'
 import { searchAttrKey, searchUsageBoundary } from './utils'
 
+export const vscodeErrors = new Set<string>()
 export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptions = {}): UnocssAutocomplete {
   const templateCache = new Map<string, ParsedAutocompleteTemplate>()
   const cache = new LRUCache<string, string[]>({ max: 5000 })
