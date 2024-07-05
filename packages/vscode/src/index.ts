@@ -49,7 +49,7 @@ export async function activate(ext: ExtensionContext) {
       await ctx.reload()
       log.appendLine('✅ Reloaded.')
     }),
-    commands.registerCommand('unocss.skip', async () => {
+    commands.registerCommand('unocss.insert-skip-annotation', async () => {
       const activeTextEditor = window.activeTextEditor
       if (!activeTextEditor)
         return

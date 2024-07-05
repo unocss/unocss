@@ -31,7 +31,7 @@
         "category": "UnoCSS"
       },
       {
-        "command": "unocss.skip",
+        "command": "unocss.insert-skip-annotation",
         "title": "Skip Code From UnoCSS",
         "category": "UnoCSS"
       }
