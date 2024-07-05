@@ -32,7 +32,7 @@
       },
       {
         "command": "unocss.insert-skip-annotation",
-        "title": "Skip Code From UnoCSS",
+        "title": "Insert `@unocss-skip` for the selection",
         "category": "UnoCSS"
       }
     ],
