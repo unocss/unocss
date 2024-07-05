@@ -29,6 +29,11 @@
         "command": "unocss.reload",
         "title": "Reload UnoCSS",
         "category": "UnoCSS"
+      },
+      {
+        "command": "unocss.insert-skip-annotation",
+        "title": "Insert `@unocss-skip` for the selection",
+        "category": "UnoCSS"
       }
     ],
     "configuration": {
