@@ -593,9 +593,8 @@ export class UnoGenerator<Theme extends object = object> {
       const entries = normalizeCSSValues(result).filter(i => i.length) as (string | CSSEntriesInput)[]
       if (entries.length) {
         return entries.map((css): ParsedUtil | RawUtil => {
-          if (isString(css)) {
+          if (isString(css))
             return [i, css, meta]
-          }
 
           // Extract variants from special symbols
           let variants = variantHandlers
@@ -703,9 +702,13 @@ export class UnoGenerator<Theme extends object = object> {
       }
     }
 
-    // expand nested shortcuts
-    if (isString(result))
-      result = expandVariantGroup(result.trim()).split(/\s+/g)
+    if (result) {
+      result = toArray(result).map((s) => {
+        if (isString(s))
+          return expandVariantGroup(s.trim()).split(/\s+/g)
+        return s
+      }).flat() as ShortcutValue[]
+    }
 
     // expand nested shortcuts with variants
     if (!result) {
@@ -721,7 +724,7 @@ export class UnoGenerator<Theme extends object = object> {
       return
 
     return [
-      (await Promise.all(result.map(async r => (
+      (await Promise.all((result as ShortcutValue[]).map(async r => (
         isString(r)
           ? (await this.expandShortcut(r, context, depth - 1))?.[0]
           : undefined
