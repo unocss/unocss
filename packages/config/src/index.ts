@@ -7,8 +7,7 @@ import { createConfigLoader as createLoader } from 'unconfig'
 
 export type { LoadConfigResult, LoadConfigSource }
 
-let historyLoadedConfig: any = null
-export async function loadConfig<U extends UserConfig>(
+async function loadConfig<U extends UserConfig>(
   cwd = process.cwd(),
   configOrPath: string | U = cwd,
   extraConfigSources: LoadConfigSource[] = [],
@@ -57,23 +56,36 @@ export async function loadConfig<U extends UserConfig>(
     defaults: inlineConfig,
   })
 
-  try {
-    const result = await loader.load()
-    result.config = Object.assign(defaults, result.config || inlineConfig)
-    if (result.config.configDeps) {
-      result.sources = [
-        ...result.sources,
-        ...result.config.configDeps.map(i => resolve(cwd, i)),
-      ]
-    }
-    historyLoadedConfig = result
+  const result = await loader.load()
+  result.config = Object.assign(defaults, result.config || inlineConfig)
+  if (result.config.configDeps) {
+    result.sources = [
+      ...result.sources,
+      ...result.config.configDeps.map(i => resolve(cwd, i)),
+    ]
+  }
 
-    return result
+  return result
+}
+
+const loadConfigCache = new Map<string, LoadConfigResult<UserConfig>>()
+
+export async function createCachedConfigLoader<U extends UserConfig>(
+  cwd = process.cwd(),
+  configOrPath: string | U = cwd,
+  extraConfigSources: LoadConfigSource[] = [],
+  defaults: UserConfigDefaults = {},
+): Promise<LoadConfigResult<U>> {
+  try {
+    const config = await loadConfig(cwd, configOrPath, extraConfigSources, defaults)
+    loadConfigCache.set(cwd, config)
+
+    return config
   }
   catch (e) {
-    if (historyLoadedConfig) {
+    if (loadConfigCache.has(cwd)) {
       console.error(e)
-      return historyLoadedConfig
+      return loadConfigCache.get(cwd) as LoadConfigResult<U>
     }
     throw e
   }

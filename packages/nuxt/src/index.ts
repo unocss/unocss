@@ -6,7 +6,7 @@ import WebpackPlugin from '@unocss/webpack'
 import type { VitePluginConfig } from '@unocss/vite'
 import VitePlugin from '@unocss/vite'
 import type { NuxtPlugin } from '@nuxt/schema'
-import { loadConfig } from '@unocss/config'
+import { createCachedConfigLoader } from '@unocss/config'
 import type { UserConfig } from '@unocss/core'
 import { resolveOptions } from './options'
 import type { UnocssNuxtOptions } from './types'
@@ -96,7 +96,7 @@ export default mergeConfigs([${configPaths.map((_, index) => `cfg${index}`).join
     }
 
     async function loadUnoConfig() {
-      const { config: unoConfig } = await loadConfig<UserConfig>(process.cwd(), {
+      const { config: unoConfig } = await createCachedConfigLoader<UserConfig>(process.cwd(), {
         configFile: options.configFile,
       }, [], options)
 

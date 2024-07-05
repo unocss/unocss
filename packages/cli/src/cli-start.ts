@@ -1,6 +1,6 @@
 import process from 'node:process'
 import { cac } from 'cac'
-import { loadConfig } from '@unocss/config'
+import { createCachedConfigLoader } from '@unocss/config'
 import { toArray } from '@unocss/core'
 import { version } from '../package.json'
 import type { CliOptions } from './types'
@@ -32,7 +32,7 @@ export async function startCli(cwd = process.cwd(), argv = process.argv, options
 
       if (patterns)
         options.patterns = patterns
-      const { config } = await loadConfig(cwd, options.config)
+      const { config } = await createCachedConfigLoader(cwd, options.config)
 
       const entries = toArray(config.cli?.entry || options)
       await Promise.all(entries.map(entry => build({

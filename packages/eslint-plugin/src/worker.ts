@@ -1,5 +1,5 @@
 import process from 'node:process'
-import { loadConfig } from '@unocss/config'
+import { createCachedConfigLoader } from '@unocss/config'
 import type { BlocklistMeta, UnoGenerator } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
 import { runAsWorker } from 'synckit'
@@ -11,7 +11,7 @@ const promises = new Map<string | undefined, Promise<UnoGenerator<any>> | undefi
 process.env.ESLINT ||= 'true'
 
 async function _getGenerator(configPath?: string) {
-  const { config, sources } = await loadConfig(
+  const { config, sources } = await createCachedConfigLoader(
     process.cwd(),
     configPath,
   )

@@ -2,7 +2,7 @@ import process from 'node:process'
 import type { PreprocessorGroup } from 'svelte/types/compiler/preprocess'
 import { type UnoGenerator, type UserConfig, type UserConfigDefaults, createGenerator, warnOnce } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
-import { loadConfig } from '@unocss/config'
+import { createCachedConfigLoader } from '@unocss/config'
 import { transformClasses } from './transformClasses'
 import { checkForApply, transformStyle } from './transformStyle'
 import type { SvelteScopedContext, UnocssSveltePreprocessOptions } from './types'
@@ -87,6 +87,6 @@ async function getGenerator(configOrPath?: UserConfig | string, unoContextFromVi
       presetUno(),
     ],
   }
-  const { config } = await loadConfig(process.cwd(), configOrPath)
+  const { config } = await createCachedConfigLoader(process.cwd(), configOrPath)
   return createGenerator(config, defaults)
 }
