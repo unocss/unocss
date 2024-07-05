@@ -45,6 +45,7 @@ export function createWebFontPreset(fetcher: (url: string) => Promise<any>) {
       inlineImports = true,
       themeKey = 'fontFamily',
       customFetch = fetcher,
+      timeouts = {},
     } = options
 
     const fontObject = Object.fromEntries(
@@ -55,16 +56,38 @@ export function createWebFontPreset(fetcher: (url: string) => Promise<any>) {
 
     const importCache: Record<string, Promise<string>> = {}
 
+    async function fetchWithTimeout(url: string) {
+      if (timeouts === false)
+        return customFetch(url)
+      const {
+        warning = 500,
+        failure = 2000,
+      } = timeouts
+
+      const timer = setTimeout(() => {
+        console.warn(`[unocss] Fetching web fonts: ${url}`)
+      }, warning)
+
+      return await Promise.race([
+        customFetch(url),
+        new Promise((_, reject) => {
+          setTimeout(() => reject(new Error(`[unocss] Fetch web fonts timeout.`)), failure)
+        }),
+      ])
+        .finally(() => clearTimeout(timer))
+    }
+
     async function importUrl(url: string) {
       if (inlineImports) {
         if (!importCache[url]) {
-          importCache[url] = customFetch(url).catch((e) => {
-            console.error('Failed to fetch web fonts')
-            console.error(e)
-            // eslint-disable-next-line node/prefer-global/process
-            if (typeof process !== 'undefined' && process.env.CI)
-              throw e
-          })
+          importCache[url] = fetchWithTimeout(url)
+            .catch((e) => {
+              console.error(`[unocss] Failed to fetch web fonts: ${url}`)
+              console.error(e)
+              // eslint-disable-next-line node/prefer-global/process
+              if (typeof process !== 'undefined' && process.env.CI)
+                throw e
+            })
         }
         return await importCache[url]
       }
