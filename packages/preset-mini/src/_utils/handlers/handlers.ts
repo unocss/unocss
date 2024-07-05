@@ -22,6 +22,7 @@ const cssProps = [
   'text-shadow',
   'transform',
   'box-shadow',
+  'border',
 
   // positions
   'background-position',
