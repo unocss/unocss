@@ -109,6 +109,20 @@ export async function registerAutoComplete(
       if (!code)
         return null
 
+      const offset = window.activeTextEditor!.document.offsetAt(position)
+
+      const afterCode = code.slice(offset)
+        .replace(/"[^"<>{}]*"/g, '')
+        .replace(/\{[^}]*\}/g, '')
+        .replace(/'[^'<>{}]*'/g, '')
+      // get style range
+      const start = code.indexOf('<style')
+      const end = code.lastIndexOf('</style')
+
+      // skip: if is not in tag & not in <style>
+      if (!/^[^<>]*>/.test(afterCode) && (offset < start || offset > end))
+        return
+
       const ctx = await contextLoader.resolveClosestContext(code, id)
       if (!ctx)
         return null
