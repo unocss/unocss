@@ -53,6 +53,24 @@ export interface WebFontsOptions {
    * @default undefined
    */
   customFetch?: (url: string) => Promise<any>
+
+  /**
+   * Timeouts for fetching web fonts
+   */
+  timeouts?: false | {
+    /**
+     * Timeout for printing warning message
+     *
+     * @default 500
+     */
+    warning?: number
+    /**
+     * Timeout for failing the fetch
+     *
+     * @default 2000
+     */
+    failure?: number
+  }
 }
 
 export interface Provider {
