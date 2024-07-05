@@ -1,7 +1,7 @@
 {
   "name": "@unocss/shared-docs",
   "type": "module",
-  "version": "0.61.1",
+  "version": "0.61.2",
   "private": true,
   "dependencies": {
     "@unocss/autocomplete": "workspace:*",
