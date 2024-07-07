@@ -53,12 +53,12 @@
     "chokidar": "^3.6.0",
     "fast-glob": "^3.3.2",
     "magic-string": "^0.30.10",
-    "unplugin": "^1.10.1",
+    "unplugin": "^1.11.0",
     "webpack-sources": "^3.2.3"
   },
   "devDependencies": {
     "@types/webpack": "^5.28.5",
     "@types/webpack-sources": "^3.2.3",
-    "webpack": "^5.92.0"
+    "webpack": "^5.92.1"
   }
 }

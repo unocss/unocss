@@ -206,7 +206,7 @@ describe('transformerAttributifyJsx', () => {
     const codeToString = code.toString()
     blocklist.forEach((rule) => {
       if (rule instanceof RegExp)
-        expect(new RegExp(`${rule.source}=""`).test(codeToString)).not.true
+        expect(new RegExp(`${rule.source}=""`).test(codeToString)).not.toBe(true)
       else
         expect(codeToString).not.toMatch(`${rule}=""`)
     })
@@ -400,7 +400,7 @@ describe('transformerAttributifyJsxBabel', () => {
     const codeToString = code.toString()
     blocklist.forEach((rule) => {
       if (rule instanceof RegExp)
-        expect(new RegExp(`${rule.source}=""`).test(codeToString)).not.true
+        expect(new RegExp(`${rule.source}=""`).test(codeToString)).not.toBe(true)
       else
         expect(codeToString).not.toMatch(`${rule}=""`)
     })

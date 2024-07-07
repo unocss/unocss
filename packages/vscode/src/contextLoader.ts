@@ -121,7 +121,7 @@ export class ContextLoader {
       if (await exists(path.join(dir, file))) {
         try {
           // `require` is used due to dynamic import.
-          // eslint-disable-next-line ts/no-var-requires, ts/no-require-imports
+          // eslint-disable-next-line ts/no-require-imports
           require(path.join(dir, file)).setup()
         }
         catch {}
