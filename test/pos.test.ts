@@ -3,11 +3,11 @@ import presetAttributify from '@unocss/preset-attributify'
 import presetUno from '@unocss/preset-uno'
 import type { UnoGenerator } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
-import { getMatchedPositionsFromCode as match } from '@unocss/shared-common'
 import transformerVariantGroup from '@unocss/transformer-variant-group'
 import cssDirectives from '@unocss/transformer-directives'
 import extractorPug from '@unocss/extractor-pug'
 import { defaultIdeMatchExclude, defaultIdeMatchInclude } from '@unocss/shared-integration'
+import { getMatchedPositionsFromCode as match } from '../packages/shared-common/src'
 
 describe('matched-positions', async () => {
   it('attributify', async () => {
