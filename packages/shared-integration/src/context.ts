@@ -35,7 +35,7 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
   let ready = reloadConfig()
 
   async function reloadConfig() {
-    const result = await createCachedConfigLoader(root, configOrPath, extraConfigSources, defaults)
+    const result = await createCachedConfigLoader()(root, configOrPath, extraConfigSources, defaults)
     resolveConfigResult(result)
     deprecationCheck(result.config)
 

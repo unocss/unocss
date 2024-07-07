@@ -68,25 +68,21 @@ async function loadConfig<U extends UserConfig>(
   return result
 }
 
-const loadConfigCache = new Map<string, LoadConfigResult<UserConfig>>()
+export function createCachedConfigLoader() {
+  const loadConfigCache = new Map<string, LoadConfigResult<UserConfig>>()
+  return async <U extends UserConfig>(cwd = process.cwd(), configOrPath: string | U = cwd, extraConfigSources: LoadConfigSource[] = [], defaults: UserConfigDefaults = {}): Promise<LoadConfigResult<U>> => {
+    try {
+      const config = await loadConfig(cwd, configOrPath, extraConfigSources, defaults)
+      loadConfigCache.set(cwd, config)
 
-export async function createCachedConfigLoader<U extends UserConfig>(
-  cwd = process.cwd(),
-  configOrPath: string | U = cwd,
-  extraConfigSources: LoadConfigSource[] = [],
-  defaults: UserConfigDefaults = {},
-): Promise<LoadConfigResult<U>> {
-  try {
-    const config = await loadConfig(cwd, configOrPath, extraConfigSources, defaults)
-    loadConfigCache.set(cwd, config)
-
-    return config
-  }
-  catch (e) {
-    if (loadConfigCache.has(cwd)) {
-      console.error(e)
-      return loadConfigCache.get(cwd) as LoadConfigResult<U>
+      return config
     }
-    throw e
+    catch (e) {
+      if (loadConfigCache.has(cwd)) {
+        console.error(e)
+        return loadConfigCache.get(cwd) as LoadConfigResult<U>
+      }
+      throw e
+    }
   }
 }

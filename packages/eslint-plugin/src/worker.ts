@@ -11,7 +11,7 @@ const promises = new Map<string | undefined, Promise<UnoGenerator<any>> | undefi
 process.env.ESLINT ||= 'true'
 
 async function _getGenerator(configPath?: string) {
-  const { config, sources } = await createCachedConfigLoader(
+  const { config, sources } = await createCachedConfigLoader()(
     process.cwd(),
     configPath,
   )

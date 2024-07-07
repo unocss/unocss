@@ -32,7 +32,7 @@ export async function startCli(cwd = process.cwd(), argv = process.argv, options
 
       if (patterns)
         options.patterns = patterns
-      const { config } = await createCachedConfigLoader(cwd, options.config)
+      const { config } = await createCachedConfigLoader()(cwd, options.config)
 
       const entries = toArray(config.cli?.entry || options)
       await Promise.all(entries.map(entry => build({

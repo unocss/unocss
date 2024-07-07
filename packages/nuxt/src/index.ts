@@ -96,7 +96,7 @@ export default mergeConfigs([${configPaths.map((_, index) => `cfg${index}`).join
     }
 
     async function loadUnoConfig() {
-      const { config: unoConfig } = await createCachedConfigLoader<UserConfig>(process.cwd(), {
+      const { config: unoConfig } = await createCachedConfigLoader()<UserConfig>(process.cwd(), {
         configFile: options.configFile,
       }, [], options)
 

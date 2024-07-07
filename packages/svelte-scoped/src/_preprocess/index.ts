@@ -87,6 +87,6 @@ async function getGenerator(configOrPath?: UserConfig | string, unoContextFromVi
       presetUno(),
     ],
   }
-  const { config } = await createCachedConfigLoader(process.cwd(), configOrPath)
+  const { config } = await createCachedConfigLoader()(process.cwd(), configOrPath)
   return createGenerator(config, defaults)
 }
