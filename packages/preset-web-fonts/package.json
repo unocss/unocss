@@ -27,6 +27,10 @@
     ".": {
       "types": "./dist/index.d.mts",
       "default": "./dist/index.mjs"
+    },
+    "./local": {
+      "types": "./dist/local.d.mts",
+      "default": "./dist/local.mjs"
     }
   },
   "main": "dist/index.mjs",

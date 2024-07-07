@@ -15,6 +15,7 @@
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
+    "@unocss/preset-web-fonts": "link:../../packages/preset-web-fonts",
     "@vitejs/plugin-vue": "^5.0.5",
     "typescript": "^5.4.5",
     "unocss": "link:../../packages/unocss",

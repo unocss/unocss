@@ -192,3 +192,44 @@ The following CSS will be generated automatically:
     "Noto Color Emoji";
 }
 ```
+
+## Serve Fonts Locally
+
+By default the preset will fetch the fonts from the provider's CDN. If you want to serve the fonts locally, you can download the fonts and serve them from your own server using the processor from `@unocss/preset-web-fonts/local`.
+
+```ts
+import { defineConfig } from 'unocss'
+import presetWebFonts from '@unocss/preset-web-fonts'
+import { createLocalFontProcessor } from '@unocss/preset-web-fonts/local'
+
+export default defineConfig({
+  presets: [
+    presetWebFonts({
+      provider: 'none',
+      fonts: {
+        sans: 'Roboto',
+        mono: 'Fira Code',
+      },
+      // This will download the fonts and serve them locally
+      processors: createLocalFontProcessor({
+        // Directory to cache the fonts
+        cacheDir: 'node_modules/.cache/unocss/fonts',
+
+        // Directory to save the fonts assets
+        fontAssetsDir: 'public/assets/fonts',
+
+        // Base URL to serve the fonts from the client
+        fontServeBaseUrl: '/assets/fonts'
+      })
+    }),
+  ],
+})
+```
+
+This will download the fonts assets to `public/assets/fonts` and serve them from `/assets/fonts` on the client. When doing this, please make sure the license of the fonts allows you to redistribute so, the tool is not responsible for any legal issues.
+
+:::note
+
+This feature is Node.js specific and will not work in the browser.
+
+:::
