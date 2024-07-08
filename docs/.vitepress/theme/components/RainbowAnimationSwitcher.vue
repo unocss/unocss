@@ -78,7 +78,7 @@ const switchTitle = computed(() => {
   align-items: center;
   border-radius: 8px;
   padding: 12px 12px 12px 12px;
-  background-color: var(--vp-c-bg);
+  background-color: var(--vp-c-bg-elv);
   max-width: 220px;
 }
 .group.mobile .NavScreenRainbowAnimation {
