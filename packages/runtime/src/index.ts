@@ -117,6 +117,7 @@ export interface RuntimeContext {
    *
    * @type {Record<string, Function>}
    */
+  // eslint-disable-next-line ts/no-unsafe-function-type
   presets: Record<string, Function>
 
   /**
@@ -182,9 +183,11 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
     const el = node as Element
     if (el.hasAttribute(cloakAttribute))
       el.removeAttribute(cloakAttribute)
-    isAll && el.querySelectorAll(`[${cloakAttribute}]`).forEach((n) => {
-      n.removeAttribute(cloakAttribute)
-    })
+    if (isAll) {
+      el.querySelectorAll(`[${cloakAttribute}]`).forEach((n) => {
+        n.removeAttribute(cloakAttribute)
+      })
+    }
   }
 
   function getStyleElement(layer: string, previousLayer?: string) {
@@ -370,7 +373,7 @@ function getDefinedCssSelectors(selectors = new Set<string>()) {
           selectors.add(s)
         })
     }
-    catch (e) {
+    catch {
       continue
     }
   }

@@ -1,8 +1,8 @@
 import MagicString from 'magic-string'
 import { colorToString, parseCssColor } from './colors'
 
-// eslint-disable-next-line regexp/no-super-linear-backtracking, regexp/strict, regexp/no-potentially-useless-backreference
-export const themeFnRE = /theme\(\s*(['"])?([^\1]*?)\1?\s*\)/g
+// eslint-disable-next-line regexp/no-super-linear-backtracking, regexp/no-potentially-useless-backreference
+export const themeFnRE = /theme\(\s*(['"])?(.*?)\1?\s*\)/g
 
 export function hasThemeFn(str: string) {
   return str.includes('theme(') && str.includes(')')
