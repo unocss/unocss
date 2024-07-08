@@ -13,34 +13,6 @@ export default defineConfig({
       overlay: false,
     },
   },
-  /* resolve: {
-    alias: [
-      {
-        find: /^.*\/VPSwitcher\.vue$/,
-        replacement: fileURLToPath(
-          new URL('./.vitepress/theme/components/UnoCSSSwitcher.vue', import.meta.url),
-        ),
-      },
-      {
-        find: /^.*\/VPNavScreen\.vue$/,
-        replacement: fileURLToPath(
-          new URL('./.vitepress/theme/components/UnoCSSNavScreen.vue', import.meta.url),
-        ),
-      },
-      {
-        find: /^.*\/VPNavBarExtra\.vue$/,
-        replacement: fileURLToPath(
-          new URL('./.vitepress/theme/components/UnoCSSNavBarExtra.vue', import.meta.url),
-        ),
-      },
-      {
-        find: /^.*\/VPNavBar\.vue$/,
-        replacement: fileURLToPath(
-          new URL('./.vitepress/theme/components/UnoCSSNavBar.vue', import.meta.url),
-        ),
-      },
-    ],
-  }, */
   plugins: [
     UnoCSS(),
     Components({

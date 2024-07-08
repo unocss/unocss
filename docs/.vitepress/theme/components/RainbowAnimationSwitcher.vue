@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { computed, watch } from 'vue'
 import { useLocalStorage, useMediaQuery } from '@vueuse/core'
-import UnoCSSSwitcher from './UnoCSSSwitcher.vue'
 
 defineProps<{ text?: string, screenMenu?: boolean }>()
 
@@ -30,7 +29,7 @@ const switchTitle = computed(() => {
       <p class="text">
         {{ text ?? 'Rainbow Animation' }}
       </p>
-      <UnoCSSSwitcher
+      <RainbowSwitcher
         :title="switchTitle"
         class="RainbowAnimationSwitcher"
         :aria-checked="animated"
@@ -38,7 +37,7 @@ const switchTitle = computed(() => {
       >
         <span class="i-tabler:rainbow animated" />
         <span class="i-tabler:rainbow-off non-animated" />
-      </UnoCSSSwitcher>
+      </RainbowSwitcher>
     </div>
   </div>
 </template>

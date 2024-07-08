@@ -16,7 +16,7 @@ import 'uno.css'
 let homePageStyle: HTMLStyleElement | undefined
 
 export default {
-  ...DefaultTheme,
+  extends: DefaultTheme,
   Layout: () => {
     return h(UnoCSSLayout)
   },

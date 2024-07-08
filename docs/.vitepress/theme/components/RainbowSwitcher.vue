@@ -47,8 +47,7 @@
   overflow: hidden;
 }
 
-.icon :deep([class^='i-']),
-.icon :deep([class^='vpi-']) {
+.icon :deep([class^='i-']) {
   position: absolute;
   top: 3px;
   left: 3px;
@@ -57,8 +56,7 @@
   color: var(--vp-c-text-2);
 }
 
-.dark .icon :deep([class^='i-']),
-.dark .icon :deep([class^='vpi-']) {
+.dark .icon :deep([class^='i-']) {
   color: var(--vp-c-text-1);
   transition: opacity 0.25s !important;
 }
