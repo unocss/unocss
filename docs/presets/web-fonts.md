@@ -228,7 +228,7 @@ export default defineConfig({
 
 This will download the fonts assets to `public/assets/fonts` and serve them from `/assets/fonts` on the client. When doing this, please make sure the license of the fonts allows you to redistribute so, the tool is not responsible for any legal issues.
 
-:::note
+::: info
 
 This feature is Node.js specific and will not work in the browser.
 
