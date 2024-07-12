@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import { onBeforeRouteUpdate } from 'vue-router'
 
+// @ts-expect-error missing types
+import { RecycleScroller } from 'vue-virtual-scroller'
+
+import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 import type { ResultItem } from '~/types'
 import { input, isSearching, searchResult, selectIndex, userConfigLoading } from '~/composables/state'
 
 const route = useRoute()
 const router = useRouter()
+const scrollerRef = ref()
 const inputEl = ref<HTMLInputElement>()
 const vFocus = {
   mounted: (el: HTMLElement) => el.focus(),
@@ -18,11 +23,37 @@ watch(
   },
 )
 
+function mapSearch(result: import('@unocss/shared-docs').ResultItem[]) {
+  return result.map((item) => {
+    if (item.type === 'guide') {
+      return {
+        ...item,
+        size: 44,
+        id: item.name,
+      }
+    }
+
+    if (item.type === 'rule') {
+      return {
+        ...item,
+        size: 56,
+        id: item.class,
+      }
+    }
+
+    return {
+      ...item,
+      size: 80,
+      id: item.url,
+    }
+  })
+}
+
 async function executeSearch() {
   if (input.value)
     isSearching.value = true
   try {
-    searchResult.value = await searcher.search(input.value)
+    searchResult.value = mapSearch(await searcher.search(input.value))
   }
   catch (e) {
     console.error(e)
@@ -45,17 +76,21 @@ async function executeSearch() {
 watchDebounced(
   input,
   executeSearch,
-  { debounce: 200, immediate: true },
+  { debounce: 300, immediate: true },
 )
 
 useEventListener('keydown', (e) => {
   if (e.key === 'ArrowDown') {
-    moveIndex(1)
     e.preventDefault()
+    nextTick(() => {
+      moveIndex(1)
+    })
   }
   else if (e.key === 'ArrowUp') {
-    moveIndex(-1)
     e.preventDefault()
+    nextTick(() => {
+      moveIndex(-1)
+    })
   }
   else if (e.key === 'Enter') {
     const item = searchResult.value[selectIndex.value]
@@ -107,6 +142,13 @@ function selectItem(item: ResultItem) {
     openItem(item)
   }
 }
+watchEffect(() => {
+  const current = selectIndex.value
+  if (current < 0 || current >= searchResult.value.length)
+    return
+
+  scrollerRef.value?.scrollToItem?.(current)
+})
 </script>
 
 <template>
@@ -139,28 +181,46 @@ function selectItem(item: ResultItem) {
       <span i-carbon-close ma block aria-hidden="true" />
     </button>
   </div>
-  <div v-if="searchResult.length || isSearching" border="l b r base" mx2 of-auto>
-    <template v-if="isSearching">
-      <ItemBase>
-        <template #badge>
-          <div i-carbon-circle-dash w-5 h-5 animate-spin ma />
-        </template>
-        <template #title>
-          Searching...
-        </template>
-      </ItemBase>
-      <div divider />
-    </template>
-    <template v-for="(i, idx) of searchResult" :key="idx">
-      <ResultItem
-        :item="i"
-        :active="selectIndex === idx"
-        @click="selectItem(i)"
-      />
-      <div divider />
-    </template>
+  <div v-if="searchResult.length || isSearching" class="search-container">
+    <div border="l b r base" mx2 class="scrolls" flex-auto>
+      <template v-if="isSearching">
+        <ItemBase>
+          <template #badge>
+            <div i-carbon-circle-dash w-5 h-5 animate-spin ma />
+          </template>
+          <template #title>
+            Searching...
+          </template>
+        </ItemBase>
+        <div divider />
+      </template>
+      <template v-else>
+        <RecycleScroller
+          ref="scrollerRef"
+          page-mode
+          key-field="id"
+          type-field="type"
+          :size-field="isCompact ? undefined : 'size'"
+          :item-size="isCompact ? 40 : undefined"
+          :items="searchResult"
+        >
+          <template #default="{ item, index }">
+            <ResultItem
+              :item="item"
+              :index="index"
+              @click="selectItem(item)"
+            />
+            <div divider />
+          </template>
+        </RecycleScroller>
+      </template>
+    </div>
   </div>
-  <Intro v-else-if="!input" />
+  <div v-else-if="!input" class="intro-container">
+    <div class="scrolls" flex-auto>
+      <Intro />
+    </div>
+  </div>
   <div v-else p10>
     <div op40 italic mb5>
       No result found
@@ -172,3 +232,18 @@ function selectItem(item: ResultItem) {
     </div>
   </div>
 </template>
+
+<style scoped>
+.search-container,
+.intro-container {
+  height: calc(100vh - 140px);
+}
+.search-container > .scrolls {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  .search-container > .scrolls {
+    scroll-behavior: auto;
+  }
+}
+</style>

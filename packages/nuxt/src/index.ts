@@ -78,7 +78,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
       addTemplate({
         filename: 'uno.config.mjs',
         async getContents() {
-          const configPaths = (await Promise.all(nuxt.options._layers.map(layer =>
+          const configPaths = (await Promise.all(nuxt.options._layers.slice(1).map(layer =>
             findPath(options.configFile || ['uno.config', 'unocss.config'], { cwd: layer.config.srcDir }),
           )))
             .filter(Boolean)
@@ -97,7 +97,7 @@ export default mergeConfigs([${configPaths.map((_, index) => `cfg${index}`).join
 
     async function loadUnoConfig() {
       const { config: unoConfig } = await loadConfig<UserConfig>(process.cwd(), {
-        configFile: options.nuxtLayers ? resolve(nuxt.options.buildDir, 'uno.config.mjs') : options.configFile,
+        configFile: options.configFile,
       }, [], options)
 
       await nuxt.callHook('unocss:config', unoConfig)

@@ -22,7 +22,7 @@ export function searchUsageBoundary(
   // match class="" or className=""
   const matchClassText = 'class'
   const matchClassNameText = 'className'
-  while (temp > matchClassText.length && !/[="{}><]/.test(line[temp--])) {
+  while (temp > matchClassText.length && !/[="'{}><]/.test(line[temp--])) {
     // Continue to match attrName forward
   }
   if (line[temp] !== '=')
