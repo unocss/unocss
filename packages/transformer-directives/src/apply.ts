@@ -74,12 +74,25 @@ export async function parseApply({ code, uno, offset, applyVariable }: Transform
     return
 
   const simicolonOffset = original[calcOffset(childNode.loc!.end.offset)] === ';' ? 1 : 0
+
   for (const i of utils) {
     const [, _selector, body, parent] = i
     const selectorOrGroup = _selector?.replace(regexScopePlaceholder, ' ') || _selector
-
     if (parent || (selectorOrGroup && selectorOrGroup !== '.\\-')) {
       let newSelector = generate(node.prelude)
+      let className = ''
+      // maybe no node.prelude.children ?
+      try {
+        let children = (node.prelude as any).children.head.data
+        while (children.children) {
+          children = children.children.head.data
+        }
+        className = children.name
+      }
+      catch (e) {
+        console.error(`An unexpected judgment condition occurred, You can create issues. [code]: ${code}`)
+      }
+
       if (selectorOrGroup && selectorOrGroup !== '.\\-') {
         // use rule context since it could be a selector(.foo) or a selector group(.foo, .bar)
         const ruleAST = parse(`${selectorOrGroup}{}`, {
@@ -101,14 +114,20 @@ export async function parseApply({ code, uno, offset, applyVariable }: Transform
         })
         newSelector = generate(prelude)
       }
-
-      let css = `${newSelector}{${body}}`
+      let css = `${className ? newSelector.replace(/.\\-/g, className) : newSelector}{${body}}`
       if (parent)
         css = `${parent}{${css}}`
 
       code.appendLeft(calcOffset(node.loc!.end.offset), css)
     }
     else {
+      // if (isImportantPrefix) {
+      //   const prelude = node.prelude
+      //   const className = code.slice(prelude.loc!.start.offset, prelude.loc!.end.offset)
+      //   console.log({ className, _selector })
+      //   // rewrite className with important prefix
+      //   code.overwrite(prelude.loc!.start.offset, prelude.loc!.end.offset, className.replace('.\\-', className))
+      // }
       // If nested css was scoped, put them last.
       if (body.includes('@'))
         code.appendRight(original.length + simicolonOffset, body)
