@@ -708,11 +708,11 @@ describe('transformer-directives with important', () => {
       .toMatchInlineSnapshot(`
         ".btn {
         }
-        #app :is(btn) {
+        #app :is(.btn) {
           font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
             "Liberation Mono", "Courier New", monospace;
         }
-        #app :is(btn) {
+        #app :is(.btn) {
           border-radius: 0.25rem;
           font-size: 1.125rem;
           line-height: 1.75rem;
@@ -745,14 +745,14 @@ describe('transformer-directives with important', () => {
       .toMatchInlineSnapshot(`
         ".btn {
         }
-        #app :is(btn:focus) {
+        #app :is(.btn:focus) {
           border-width: 1px;
         }
-        #app :is(btn:hover) {
+        #app :is(.btn:hover) {
           --un-bg-opacity: 1;
           background-color: rgb(255 255 255 / var(--un-bg-opacity));
         }
-        #app :is(btn) {
+        #app :is(.btn) {
           padding: 0.75rem;
         }
         "
@@ -768,7 +768,7 @@ describe('transformer-directives with important', () => {
         ".btn {
         }
         @media (min-width: 640px) {
-          #app :is(btn:hover) {
+          #app :is(.btn:hover) {
             --un-bg-opacity: 1;
             background-color: rgb(255 255 255 / var(--un-bg-opacity));
           }
@@ -805,12 +805,12 @@ describe('transformer-directives with important', () => {
         ".btn,
         .box {
         }
-        #app :is(btn:focus),
-        #app :is(btn:focus) {
+        #app :is(.btn, .box:focus),
+        #app :is(.btn, .box:focus) {
           border-width: 1px;
         }
-        #app :is(btn),
-        #app :is(btn) {
+        #app :is(.btn, .box),
+        #app :is(.btn, .box) {
           padding-left: 0.75rem;
           padding-right: 0.75rem;
         }
@@ -826,10 +826,10 @@ describe('transformer-directives with important', () => {
       .toMatchInlineSnapshot(`
         ".btn.box {
         }
-        #app :is(btn:focus) {
+        #app :is(.btn.box:focus) {
           border-width: 1px;
         }
-        #app :is(btn) {
+        #app :is(.btn.box) {
           padding-left: 0.75rem;
           padding-right: 0.75rem;
         }
@@ -850,17 +850,17 @@ describe('transformer-directives with important', () => {
       .toMatchInlineSnapshot(`
         ".btn {
         }
-        #app :is(btn) {
+        #app :is(.btn) {
           padding: 0.75rem;
         }
-        #app :is(btn:hover) {
+        #app :is(.btn:hover) {
           border-width: 1px;
         }
-        #app :is(btn) {
+        #app :is(.btn) {
           --un-bg-opacity: 1;
           background-color: rgb(255 255 255 / var(--un-bg-opacity));
         }
-        #app :is(btn:hover) {
+        #app :is(.btn:hover) {
           --un-bg-opacity: 1;
           background-color: rgb(59 130 246 / var(--un-bg-opacity));
         }
@@ -884,18 +884,18 @@ describe('transformer-directives with important', () => {
       .toMatchInlineSnapshot(`
         ".btn {
         }
-        #app :is(btn) {
+        #app :is(.btn) {
           --un-bg-opacity: 1;
           background-color: rgb(255 255 255 / var(--un-bg-opacity));
         }
-        #app :is(btn:hover) {
+        #app :is(.btn:hover) {
           --un-bg-opacity: 1;
           background-color: rgb(59 130 246 / var(--un-bg-opacity));
         }
-        #app :is(btn:hover) {
+        #app :is(.btn:hover) {
           border-width: 1px;
         }
-        #app :is(btn) {
+        #app :is(.btn) {
           margin: 1rem;
           padding: 0.75rem;
           text-align: center;
@@ -1192,7 +1192,7 @@ div {
       .toMatchInlineSnapshot(`
         ".btn {
         }
-        #app :is(btn) {
+        #app :is(.btn) {
           border-right-color: var(--theme-color);
         }
         "
@@ -1207,7 +1207,7 @@ div {
       .toMatchInlineSnapshot(`
         ".btn {
         }
-        #app :is(btn) {
+        #app :is(.btn) {
           border-radius: 0.25rem;
           font-size: 1.125rem;
           line-height: 1.75rem;
@@ -1226,7 +1226,7 @@ div {
       .toMatchInlineSnapshot(`
         ".btn {
         }
-        #app :is(btn) {
+        #app :is(.btn) {
           animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
         @keyframes pulse {
@@ -1250,7 +1250,7 @@ div {
       .toMatchInlineSnapshot(`
         ".btn {
         }
-        #app :is(btn:hover, btn:focus) {
+        #app :is(.btn:hover, .btn:focus) {
           --un-bg-opacity: 1;
           background-color: rgb(251 146 60 / var(--un-bg-opacity));
         }
@@ -1272,14 +1272,30 @@ div {
         .v-popper--theme-tooltip .v-popper__inner {
           box-shadow: 0 6px 30px #0000001a;
         }
-        #app :is(v-popper--theme-dropdown),
-        #app :is(v-popper--theme-dropdown) {
+        #app
+          :is(
+            .v-popper--theme-dropdown .v-popper__inner,
+            .v-popper--theme-tooltip .v-popper__inner
+          ),
+        #app
+          :is(
+            .v-popper--theme-dropdown .v-popper__inner,
+            .v-popper--theme-tooltip .v-popper__inner
+          ) {
           --un-text-opacity: 1;
           color: rgb(74 222 128 / var(--un-text-opacity));
         }
         @media (prefers-color-scheme: dark) {
-          #app :is(v-popper--theme-dropdown),
-          #app :is(v-popper--theme-dropdown) {
+          #app
+            :is(
+              .v-popper--theme-dropdown .v-popper__inner,
+              .v-popper--theme-tooltip .v-popper__inner
+            ),
+          #app
+            :is(
+              .v-popper--theme-dropdown .v-popper__inner,
+              .v-popper--theme-tooltip .v-popper__inner
+            ) {
             --un-text-opacity: 1;
             color: rgb(248 113 113 / var(--un-text-opacity));
           }

@@ -13,7 +13,7 @@ html {
 
 html.dark {
 }
-#app :is(html) {
+#app :is(html.dark) {
   --un-bg-opacity: 1;
   background-color: rgb(24 24 24 / var(--un-bg-opacity));
   --un-text-opacity: 1;
@@ -32,13 +32,13 @@ html.dark {
 
   width: 100%;
 }
-#app :is(nprogress) {
+#app :is(#nprogress .bar) {
   z-index: 1031;
 }
-#app :is(nprogress) {
+#app :is(#nprogress .bar) {
   height: 2px;
 }
-#app :is(nprogress) {
+#app :is(#nprogress .bar) {
   --un-bg-opacity: 1;
   background-color: rgb(168 85 247 / var(--un-bg-opacity));
   --un-bg-opacity: 0.75;
@@ -46,7 +46,7 @@ html.dark {
 
 .hover-transform {
 }
-#app :is(hover-transform:hover) {
+#app :is(.hover-transform:hover) {
   --un-translate-y: -1px;
   transform: translateX(var(--un-translate-x)) translateY(var(--un-translate-y))
     translateZ(var(--un-translate-z)) rotate(var(--un-rotate))
@@ -55,7 +55,7 @@ html.dark {
     scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y))
     scaleZ(var(--un-scale-z));
 }
-#app :is(hover-transform) {
+#app :is(.hover-transform) {
   transform: translateX(var(--un-translate-x)) translateY(var(--un-translate-y))
     translateZ(var(--un-translate-z)) rotate(var(--un-rotate))
     rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y))
@@ -73,7 +73,7 @@ html.dark {
 
 .basic-transition {
 }
-#app :is(basic-transition) {
+#app :is(.basic-transition) {
   transition-property: color, background-color, border-color, outline-color,
     text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter,
     backdrop-filter;
@@ -89,7 +89,7 @@ html.dark {
 
 .select-dark {
 }
-#app :is(select-dark) {
+#app :is(.select-dark) {
   display: block;
   width: 100%;
   -webkit-appearance: none;
@@ -118,18 +118,18 @@ html.dark {
   --un-ring-opacity: 0.75;
 }
 @media (prefers-color-scheme: dark) {
-  #app :is(select-dark) {
+  #app :is(.select-dark) {
     --un-bg-opacity: 1;
     background-color: rgb(31 41 55 / var(--un-bg-opacity));
   }
 }
-#app :is(select-dark:focus) {
+#app :is(.select-dark:focus) {
   --un-ring-opacity: 1;
 }
 
 .icon-btn {
 }
-#app :is(icon-btn) {
+#app :is(.icon-btn) {
   display: inline-block;
   cursor: pointer;
   -webkit-user-select: none;
@@ -145,13 +145,13 @@ html.dark {
   transition-duration: 200ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
-#app :is(icon-btn:hover) {
+#app :is(.icon-btn:hover) {
   opacity: 1;
 }
 
 .d-header {
 }
-#app :is(d-header) {
+#app :is(.d-header) {
   position: sticky;
   top: 0;
   z-index: 50;
@@ -185,7 +185,7 @@ html.dark {
     var(--un-backdrop-sepia);
 }
 @media (prefers-color-scheme: dark) {
-  #app :is(d-header) {
+  #app :is(.d-header) {
     --un-bg-opacity: 1;
     background-color: rgb(45 45 45 / var(--un-bg-opacity));
   }
@@ -193,7 +193,7 @@ html.dark {
 
 .d-container {
 }
-#app :is(d-container) {
+#app :is(.d-container) {
   margin-left: auto;
   margin-right: auto;
   max-width: 1280px;
@@ -202,7 +202,7 @@ html.dark {
   padding-top: 2rem;
 }
 @media (min-width: 1024px) {
-  #app :is(d-container) {
+  #app :is(.d-container) {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
     padding-top: 3rem;
@@ -235,11 +235,11 @@ input {
 
 .btn {
 }
-#app :is(btn:disabled) {
+#app :is(.btn:disabled) {
   cursor: not-allowed;
   opacity: 0.6;
 }
-#app :is(btn) {
+#app :is(.btn) {
   border-radius: 0.25rem;
   --un-bg-opacity: 1;
   background-color: rgb(60 60 60 / var(--un-bg-opacity));
@@ -253,7 +253,7 @@ input {
   font-weight: 500;
   text-transform: uppercase;
 }
-#app :is(btn:focus) {
+#app :is(.btn:focus) {
   outline: 2px solid transparent;
   outline-offset: 2px;
   --un-ring-width: 3px;
