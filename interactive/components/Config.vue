@@ -126,3 +126,28 @@ function save() {
     </div>
   </div>
 </template>
+
+<style>
+.cm-scroller::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.cm-scroller {
+  overflow: auto !important;
+  scrollbar-width: thin;
+  scrollbar-color: var(--cm-ttc-c-thumb) var(--cm-ttc-c-track);
+}
+.cm-scroller::-webkit-scrollbar-track {
+  background: var(--cm-ttc-c-track);
+}
+.cm-scroller::-webkit-scrollbar-thumb {
+  background-color: var(--cm-ttc-c-thumb);
+  border: 2px solid var(--cm-ttc-c-thumb);
+}
+.cm-scroller::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+}
+.cm-scroller::-webkit-scrollbar-corner {
+  background-color: var(--cm-ttc-c-track);
+}
+</style>

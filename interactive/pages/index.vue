@@ -14,10 +14,12 @@ const modal = computed<boolean>({
 </script>
 
 <template>
-  <div grid="~ lg:cols-2 gap2" px8 h-full of-hidden>
-    <div h-full grid="~ rows-[min-content_min-content_1fr]" of-hidden>
+  <div grid="~ lg:cols-2 gap2" px8>
+    <div h-full flex="~ col">
       <TheNav />
-      <Config v-if="currentTab === 'config'" />
+      <div v-if="currentTab === 'config'" class="scrolls" flex-auto>
+        <Config />
+      </div>
       <Search v-else />
     </div>
     <template v-if="lg">

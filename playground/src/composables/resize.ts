@@ -140,7 +140,8 @@ export function useResize(element: MaybeElementRef, options: UseResizeOptions = 
     if (container.value[0] === target.value) {
       direction.value = setDirection
       isOverEdge.value = !!setDirection
-      !unref(disableCursor) && window!.document.body.style.setProperty('cursor', setCursor)
+      if (!unref(disableCursor))
+        window!.document.body.style.setProperty('cursor', setCursor)
       window!.document.body.style.setProperty('touch-action', setTouchAction)
       window!.document.body.style.setProperty('user-select', setTouchAction)
     }

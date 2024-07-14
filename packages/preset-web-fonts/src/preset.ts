@@ -45,7 +45,10 @@ export function createWebFontPreset(fetcher: (url: string) => Promise<any>) {
       inlineImports = true,
       themeKey = 'fontFamily',
       customFetch = fetcher,
+      timeouts = {},
     } = options
+
+    const processors = toArray(options.processors || [])
 
     const fontObject = Object.fromEntries(
       Object.entries(options.fonts || {})
@@ -55,16 +58,47 @@ export function createWebFontPreset(fetcher: (url: string) => Promise<any>) {
 
     const importCache: Record<string, Promise<string>> = {}
 
+    async function fetchWithTimeout(url: string) {
+      if (timeouts === false)
+        return customFetch(url)
+      const {
+        warning = 1000,
+        failure = 2000,
+      } = timeouts
+
+      let warned = false
+
+      const timer = setTimeout(() => {
+        console.warn(`[unocss] Fetching web fonts: ${url}`)
+        warned = true
+      }, warning)
+
+      return await Promise.race([
+        customFetch(url),
+        new Promise((_, reject) => {
+          setTimeout(() => reject(new Error(`[unocss] Fetch web fonts timeout.`)), failure)
+        }),
+      ])
+        .then((res) => {
+          if (warned)
+            // eslint-disable-next-line no-console
+            console.info(`[unocss] Web fonts fetched.`)
+          return res
+        })
+        .finally(() => clearTimeout(timer))
+    }
+
     async function importUrl(url: string) {
       if (inlineImports) {
         if (!importCache[url]) {
-          importCache[url] = customFetch(url).catch((e) => {
-            console.error('Failed to fetch web fonts')
-            console.error(e)
-            // eslint-disable-next-line node/prefer-global/process
-            if (typeof process !== 'undefined' && process.env.CI)
-              throw e
-          })
+          importCache[url] = fetchWithTimeout(url)
+            .catch((e) => {
+              console.error(`[unocss] Failed to fetch web fonts: ${url}`)
+              console.error(e)
+              // eslint-disable-next-line node/prefer-global/process
+              if (typeof process !== 'undefined' && process.env.CI)
+                throw e
+            })
         }
         return await importCache[url]
       }
@@ -73,28 +107,56 @@ export function createWebFontPreset(fetcher: (url: string) => Promise<any>) {
       }
     }
 
-    const enabledProviders = new Set(fonts.map(i => i.provider))
+    const enabledProviders = Array.from(new Set(fonts.map(i => i.provider)))
+
+    async function getCSSDefault(
+      fonts: ResolvedWebFontMeta[],
+      providers: Provider[] | Set<Provider>,
+    ) {
+      const preflights: (string | undefined)[] = []
+
+      for (const provider of providers) {
+        const fontsForProvider = fonts.filter(i => i.provider.name === provider.name)
+
+        if (provider.getImportUrl) {
+          const url = provider.getImportUrl(fontsForProvider)
+          if (url)
+            preflights.push(await importUrl(url))
+        }
+
+        preflights.push(provider.getPreflight?.(fontsForProvider))
+      }
+
+      const css = preflights.filter(Boolean).join('\n')
+
+      return css
+    }
 
     const preset: Preset<any> = {
       name: '@unocss/preset-web-fonts',
       preflights: [
         {
           async getCSS() {
-            const preflights: (string | undefined)[] = []
+            let css: string | undefined
 
-            for (const provider of enabledProviders) {
-              const fontsForProvider = fonts.filter(i => i.provider.name === provider.name)
-
-              if (provider.getImportUrl) {
-                const url = provider.getImportUrl(fontsForProvider)
-                if (url)
-                  preflights.push(await importUrl(url))
+            for (const processor of processors) {
+              const result = await processor.getCSS?.(fonts, enabledProviders, getCSSDefault)
+              if (result) {
+                css = result
+                break
               }
-
-              preflights.push(provider.getPreflight?.(fontsForProvider))
             }
 
-            return preflights.filter(Boolean).join('\n')
+            if (!css) {
+              css = await getCSSDefault(
+                fonts,
+                enabledProviders,
+              )
+            }
+            for (const processor of processors)
+              css = await processor.transformCSS?.(css) || css
+
+            return css
           },
           layer: inlineImports ? undefined : LAYER_IMPORTS,
         },
