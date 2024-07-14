@@ -108,7 +108,8 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
   async function flushTasks() {
     const _tasks = [...tasks]
     await Promise.all(_tasks)
-    tasks.splice(0, _tasks.length)
+    if (tasks[0] === _tasks[0])
+      tasks.splice(0, _tasks.length)
   }
 
   return {
