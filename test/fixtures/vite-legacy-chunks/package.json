@@ -8,7 +8,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "vue": "^3.4.29"
+    "vue": "^3.4.31"
   },
   "devDependencies": {
     "@vitejs/plugin-legacy": "^5.4.1",

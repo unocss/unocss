@@ -961,6 +961,10 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .box-content{box-sizing:content-box;}
 .box-inherit{box-sizing:inherit;}
 .transition{transition-property:color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms;}
+.transition-\[width\,height\,colors\]{transition-property:width,height,color,background-color,border-color,outline-color,text-decoration-color,fill,stroke;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms;}
+.transition-\[width\,height\,colors\]-200{transition-property:width,height,color,background-color,border-color,outline-color,text-decoration-color,fill,stroke;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:200ms;}
+.transition-\[width\,height\]{transition-property:width,height;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms;}
+.transition-\$variant{transition-property:var(--variant);transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms;}
 .transition-200{transition-property:color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:200ms;}
 .transition-background-color\,color-200{transition-property:background-color,color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:200ms;}
 .transition-color\,background-color-200{transition-property:color,background-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:200ms;}
@@ -977,11 +981,12 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .ease-linear{transition-timing-function:linear;}
 .ease-out{transition-timing-function:cubic-bezier(0, 0, 0.2, 1);}
 .transition-ease-in{transition-timing-function:cubic-bezier(0.4, 0, 1, 1);}
+.property-\[padding\,margin\],
+.property-padding\,margin{transition-property:padding,margin;}
 .property-all,
 .transition-property-all{transition-property:all;}
 .property-margin\,padding{transition-property:margin,padding;}
 .property-none{transition-property:none;}
-.property-padding\,margin{transition-property:padding,margin;}
 .property-unset{transition-property:unset;}
 .transition-property-\[border\]{transition-property:border;}
 .transition-property-width{transition-property:width;}
