@@ -68,8 +68,7 @@ async function loadConfig<U extends UserConfig>(
   return result
 }
 
-export function createCachedConfigLoader() {
-  const loadConfigCache = new Map<string, LoadConfigResult<UserConfig>>()
+export function createCachedConfigLoader(loadConfigCache = new Map<string, LoadConfigResult<UserConfig>>()) {
   return async <U extends UserConfig>(cwd = process.cwd(), configOrPath: string | U = cwd, extraConfigSources: LoadConfigSource[] = [], defaults: UserConfigDefaults = {}): Promise<LoadConfigResult<U>> => {
     try {
       const config = await loadConfig(cwd, configOrPath, extraConfigSources, defaults)
