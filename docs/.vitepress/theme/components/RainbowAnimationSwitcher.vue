@@ -1,20 +1,24 @@
 <script lang="ts" setup>
 import { computed, watch } from 'vue'
 import { useLocalStorage, useMediaQuery } from '@vueuse/core'
+import { inBrowser } from 'vitepress'
 
 defineProps<{ text?: string, screenMenu?: boolean }>()
 
 const reduceMotion = useMediaQuery('(prefers-reduced-motion: reduce)').value
 
-const animated = useLocalStorage('animate-rainbow', !reduceMotion)
+const animated = useLocalStorage('animate-rainbow', inBrowser ? !reduceMotion : true)
 
 function toggleRainbow() {
   animated.value = !animated.value
 }
 
-watch(animated, (a) => {
-  document.documentElement.classList.toggle('rainbow', a)
-})
+watch(animated, (anim) => {
+  document.documentElement.classList.remove('rainbow')
+  if (anim) {
+    document.documentElement.classList.add('rainbow')
+  }
+}, { immediate: inBrowser, flush: 'post' })
 
 const switchTitle = computed(() => {
   return animated.value
@@ -24,22 +28,24 @@ const switchTitle = computed(() => {
 </script>
 
 <template>
-  <div class="group" :class="{ mobile: screenMenu }">
-    <div class="NavScreenRainbowAnimation">
-      <p class="text">
-        {{ text ?? 'Rainbow Animation' }}
-      </p>
-      <RainbowSwitcher
-        :title="switchTitle"
-        class="RainbowAnimationSwitcher"
-        :aria-checked="animated"
-        @click="toggleRainbow"
-      >
-        <span class="i-tabler:rainbow animated" />
-        <span class="i-tabler:rainbow-off non-animated" />
-      </RainbowSwitcher>
+  <ClientOnly>
+    <div class="group" :class="{ mobile: screenMenu }">
+      <div class="NavScreenRainbowAnimation">
+        <p class="text">
+          {{ text ?? 'Rainbow Animation' }}
+        </p>
+        <RainbowSwitcher
+          :title="switchTitle"
+          class="RainbowAnimationSwitcher"
+          :aria-checked="animated ? 'true' : 'false'"
+          @click="toggleRainbow"
+        >
+          <span class="i-tabler:rainbow animated" />
+          <span class="i-tabler:rainbow-off non-animated" />
+        </RainbowSwitcher>
+      </div>
     </div>
-  </div>
+  </ClientOnly>
 </template>
 
 <style scoped>
