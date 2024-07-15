@@ -32,10 +32,12 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
   const tasks: Promise<void>[] = []
   const affectedModules = new Set<string>()
 
+  const loadConfig = createCachedConfigLoader(root, configOrPath, extraConfigSources, defaults)
+
   let ready = reloadConfig()
 
   async function reloadConfig() {
-    const result = await createCachedConfigLoader()(root, configOrPath, extraConfigSources, defaults)
+    const result = await loadConfig()
     resolveConfigResult(result)
     deprecationCheck(result.config)
 

@@ -44,8 +44,10 @@ function createSvelteScopedContext(configOrPath?: UserConfig | string): SvelteSc
   const uno = createGenerator()
   const ready = reloadConfig()
 
+  const loadConfig = createCachedConfigLoader(process.cwd(), configOrPath)
+
   async function reloadConfig() {
-    const { config, sources } = await createCachedConfigLoader()(process.cwd(), configOrPath)
+    const { config, sources } = await loadConfig()
     uno.setConfig(config, defaults)
     return { config, sources }
   }
