@@ -11,7 +11,7 @@ async function createNodeLoader() {
   }
   catch { }
   try {
-    // eslint-disable-next-line ts/no-require-imports, ts/no-var-requires
+    // eslint-disable-next-line ts/no-require-imports
     return require('@iconify/utils/lib/loader/node-loader.cjs').loadNodeIcon
   }
   catch { }
