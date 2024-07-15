@@ -453,6 +453,20 @@ describe('transformer-directives', () => {
       .toMatchFileSnapshot('./assets/output/transformer-directives-screen-at.css')
   })
 
+  it('@screen with compression', async () => {
+    const result = await transform(`@screen md{#__page{--uno:px-4}}`)
+    await expect(result)
+      .toMatchInlineSnapshot(`
+        "@media (min-width: 768px) {
+          #__page {
+            padding-left: 1rem;
+            padding-right: 1rem;
+          }
+        }
+        "
+      `)
+  })
+
   describe('theme()', () => {
     it('basic', async () => {
       const result = await transform(
@@ -486,7 +500,7 @@ describe('transformer-directives', () => {
         .toMatchInlineSnapshot(`[Error: theme of "color.none.500" did not found]`)
 
       expect(async () => await transform(
-          `.btn {
+        `.btn {
           font-size: theme("size.lg");
           }`,
       )).rejects
