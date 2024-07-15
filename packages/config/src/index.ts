@@ -69,11 +69,13 @@ export async function loadConfig<U extends UserConfig>(
 }
 
 /**
- * Create a factory function that returns a cached config loader.
+ * Create a factory function that returns a config loader that recovers from errors.
  *
  * When it fails to load the config, it will return the last successfully loaded config.
+ *
+ * Mainly used for dev-time where users might have a broken config in between changes.
  */
-export function createCachedConfigLoader<U extends UserConfig>(
+export function createRecoveryConfigLoader<U extends UserConfig>(
   cwd = process.cwd(),
   configOrPath: string | U = cwd,
   extraConfigSources: LoadConfigSource[] = [],

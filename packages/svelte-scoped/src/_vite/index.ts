@@ -2,7 +2,7 @@ import process from 'node:process'
 import type { Plugin } from 'vite'
 import { createGenerator } from '@unocss/core'
 import type { UserConfig, UserConfigDefaults } from '@unocss/core'
-import { createCachedConfigLoader } from '@unocss/config'
+import { createRecoveryConfigLoader } from '@unocss/config'
 import presetUno from '@unocss/preset-uno'
 import type { SvelteScopedContext } from '../preprocess'
 import type { UnocssSvelteScopedViteOptions } from './types'
@@ -44,7 +44,7 @@ function createSvelteScopedContext(configOrPath?: UserConfig | string): SvelteSc
   const uno = createGenerator()
   const ready = reloadConfig()
 
-  const loadConfig = createCachedConfigLoader(process.cwd(), configOrPath)
+  const loadConfig = createRecoveryConfigLoader(process.cwd(), configOrPath)
 
   async function reloadConfig() {
     const { config, sources } = await loadConfig()

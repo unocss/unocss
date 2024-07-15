@@ -6,7 +6,7 @@ import WebpackPlugin from '@unocss/webpack'
 import type { VitePluginConfig } from '@unocss/vite'
 import VitePlugin from '@unocss/vite'
 import type { NuxtPlugin } from '@nuxt/schema'
-import { createCachedConfigLoader } from '@unocss/config'
+import { createRecoveryConfigLoader } from '@unocss/config'
 import type { UserConfig } from '@unocss/core'
 import { resolveOptions } from './options'
 import type { UnocssNuxtOptions } from './types'
@@ -39,7 +39,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     // preset shortcuts
     resolveOptions(options)
 
-    const loadConfig = createCachedConfigLoader<UserConfig>(
+    const loadConfig = createRecoveryConfigLoader<UserConfig>(
       process.cwd(),
       { configFile: options.configFile },
       [],

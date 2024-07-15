@@ -1,7 +1,7 @@
 import process from 'node:process'
 import { createFilter } from '@rollup/pluginutils'
 import type { LoadConfigResult, LoadConfigSource } from '@unocss/config'
-import { createCachedConfigLoader } from '@unocss/config'
+import { createRecoveryConfigLoader } from '@unocss/config'
 import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { BetterMap, createGenerator } from '@unocss/core'
 import { CSS_PLACEHOLDER, IGNORE_COMMENT, INCLUDE_COMMENT, SKIP_COMMENT_RE } from './constants'
@@ -32,7 +32,7 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
   const tasks: Promise<void>[] = []
   const affectedModules = new Set<string>()
 
-  const loadConfig = createCachedConfigLoader(root, configOrPath, extraConfigSources, defaults)
+  const loadConfig = createRecoveryConfigLoader(root, configOrPath, extraConfigSources, defaults)
 
   let ready = reloadConfig()
 

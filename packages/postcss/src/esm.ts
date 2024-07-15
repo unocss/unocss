@@ -8,7 +8,7 @@ import fg from 'fast-glob'
 import type { Result, Root } from 'postcss'
 import postcss from 'postcss'
 import { createGenerator } from '@unocss/core'
-import { createCachedConfigLoader } from '@unocss/config'
+import { createRecoveryConfigLoader } from '@unocss/config'
 import { hasThemeFn } from '@unocss/rule-utils'
 import { defaultFilesystemGlobs } from '../../shared-integration/src/defaults'
 import { parseApply } from './apply'
@@ -33,7 +33,7 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
   const fileClassMap = new Map()
   const classes = new Set<string>()
   const targetCache = new Set<string>()
-  const loadConfig = createCachedConfigLoader(cwd, configOrPath)
+  const loadConfig = createRecoveryConfigLoader(cwd, configOrPath)
   const config = loadConfig()
 
   let uno: UnoGenerator
