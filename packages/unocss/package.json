@@ -149,6 +149,6 @@
   },
   "devDependencies": {
     "@unocss/webpack": "workspace:*",
-    "vite": "^5.3.3"
+    "vite": "^5.3.4"
   }
 }
