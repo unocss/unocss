@@ -3,7 +3,7 @@ import { createAutocomplete } from '@unocss/autocomplete'
 import type { CompletionItemProvider, Disposable, ExtensionContext } from 'vscode'
 import { CompletionItem, CompletionItemKind, CompletionList, MarkdownString, Range, languages, window, workspace } from 'vscode'
 import type { UnoGenerator, UnocssPluginContext } from '@unocss/core'
-import { getCSS, getColorString, getPrettiedCSS, getPrettiedMarkdown } from './utils'
+import { getCSS, getColorString, getPrettiedCSS, getPrettiedMarkdown, shouldProvideAutocomplete } from './utils'
 import { log } from './log'
 import type { ContextLoader } from './contextLoader'
 import { isCssId } from './integration'
@@ -111,16 +111,7 @@ export async function registerAutoComplete(
 
       const offset = window.activeTextEditor!.document.offsetAt(position)
 
-      const afterCode = code.slice(offset)
-        .replace(/"[^"<>{}]*"/g, '')
-        .replace(/\{[^}]*\}/g, '')
-        .replace(/'[^'<>{}]*'/g, '')
-      // get style range
-      const start = code.indexOf('<style')
-      const end = code.lastIndexOf('</style')
-
-      // skip: if is not in tag & not in <style>
-      if (!/^[^<>]*>/.test(afterCode) && (offset < start || offset > end))
+      if (!shouldProvideAutocomplete(code, offset))
         return
 
       const ctx = await contextLoader.resolveClosestContext(code, id)

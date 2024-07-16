@@ -200,3 +200,16 @@ export function convertToRGBA(rgbColor: string) {
 
   return rgbColor
 }
+
+export function shouldProvideAutocomplete(code: string, offset: number) {
+  const afterCode = code.slice(offset)
+    .replace(/"[^"<>{}]*"/g, '')
+    .replace(/\{[^}]*\}/g, '')
+    .replace(/'[^'<>{}]*'/g, '')
+  // get style range
+  const start = code.indexOf('<style')
+  const end = code.lastIndexOf('</style')
+
+  // should provide in tag or <style>
+  return /^[^<>]*>/.test(afterCode) || (offset > start && offset < end)
+}
