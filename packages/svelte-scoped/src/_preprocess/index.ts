@@ -15,12 +15,12 @@ export function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = 
 
   let uno: UnoGenerator
 
-  const loadConfig = createRecoveryConfigLoader(process.cwd(), options.configOrPath)
+  const loadConfig = createRecoveryConfigLoader()
 
   return {
     markup: async ({ content, filename }) => {
       if (!uno)
-        uno = await getGenerator((await loadConfig()).config, unoContextFromVite)
+        uno = await getGenerator((await loadConfig(process.cwd(), options.configOrPath)).config, unoContextFromVite)
 
       if (isViteBuild && options.combine === undefined)
         options.combine = isViteBuild()

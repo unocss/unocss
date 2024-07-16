@@ -33,8 +33,8 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
   const fileClassMap = new Map()
   const classes = new Set<string>()
   const targetCache = new Set<string>()
-  const loadConfig = createRecoveryConfigLoader(cwd, configOrPath)
-  const config = loadConfig()
+  const loadConfig = createRecoveryConfigLoader()
+  const config = loadConfig(cwd, configOrPath)
 
   let uno: UnoGenerator
   let promises: Promise<void>[] = []

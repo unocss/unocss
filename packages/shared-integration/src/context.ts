@@ -12,7 +12,7 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
   configOrPath?: Config | string,
   defaults: UserConfigDefaults = {},
   extraConfigSources: LoadConfigSource[] = [],
-  resolveConfigResult: (config: LoadConfigResult<Config>) => void = () => {},
+  resolveConfigResult: (config: LoadConfigResult<Config>) => void = () => { },
 ): UnocssPluginContext<Config> {
   let root = process.cwd()
   let rawConfig = {} as Config
@@ -32,12 +32,12 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
   const tasks: Promise<void>[] = []
   const affectedModules = new Set<string>()
 
-  const loadConfig = createRecoveryConfigLoader(root, configOrPath, extraConfigSources, defaults)
+  const loadConfig = createRecoveryConfigLoader<Config>()
 
   let ready = reloadConfig()
 
   async function reloadConfig() {
-    const result = await loadConfig()
+    const result = await loadConfig(root, configOrPath, extraConfigSources, defaults)
     resolveConfigResult(result)
     deprecationCheck(result.config)
 

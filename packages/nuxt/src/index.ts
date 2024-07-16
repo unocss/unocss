@@ -39,12 +39,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     // preset shortcuts
     resolveOptions(options)
 
-    const loadConfig = createRecoveryConfigLoader<UserConfig>(
-      process.cwd(),
-      { configFile: options.configFile },
-      [],
-      options,
-    )
+    const loadConfig = createRecoveryConfigLoader<UserConfig>()
 
     options.mode ??= 'global'
     const InjectModes: VitePluginConfig['mode'][] = ['global', 'dist-chunk']
@@ -103,7 +98,12 @@ export default mergeConfigs([${configPaths.map((_, index) => `cfg${index}`).join
     }
 
     async function loadUnoConfig() {
-      const { config: unoConfig } = await loadConfig()
+      const { config: unoConfig } = await loadConfig(
+        process.cwd(),
+        { configFile: options.configFile },
+        [],
+        options,
+      )
 
       await nuxt.callHook('unocss:config', unoConfig)
 

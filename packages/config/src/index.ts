@@ -75,14 +75,14 @@ export async function loadConfig<U extends UserConfig>(
  *
  * Mainly used for dev-time where users might have a broken config in between changes.
  */
-export function createRecoveryConfigLoader<U extends UserConfig>(
-  cwd = process.cwd(),
-  configOrPath: string | U = cwd,
-  extraConfigSources: LoadConfigSource[] = [],
-  defaults: UserConfigDefaults = {},
-): () => Promise<LoadConfigResult<U>> {
+export function createRecoveryConfigLoader<U extends UserConfig>() {
   let lastResolved: LoadConfigResult<U> | undefined
-  return async () => {
+  return async (
+    cwd = process.cwd(),
+    configOrPath: string | U = cwd,
+    extraConfigSources: LoadConfigSource[] = [],
+    defaults: UserConfigDefaults = {},
+  ) => {
     try {
       const config = await loadConfig(cwd, configOrPath, extraConfigSources, defaults)
       lastResolved = config
