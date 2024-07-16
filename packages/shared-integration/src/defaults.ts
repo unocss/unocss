@@ -14,7 +14,8 @@ export const defaultFilesystemGlobs = [
  */
 export const defaultIdeMatchInclude: RegExp[] = [
   // String literals
-  /(['"`])[^\\1]*?\1/g,
+  // eslint-disable-next-line no-control-regex
+  /(['"`])[^\x01]*?\1/g,
   // HTML tags
   /<[^/?<>0-9$_!](?:"[^"]*"|'[^']*'|[^>])+>/g,
   // CSS directives

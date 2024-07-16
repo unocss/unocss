@@ -1,5 +1,5 @@
 {
-  "version": "0.61.3",
+  "version": "0.61.4",
   "scripts": {
     "bench": "node run.mjs"
   },
@@ -10,9 +10,9 @@
     "fs-extra": "^11.2.0",
     "local-pkg": "^0.5.0",
     "postcss": "^8.4.39",
-    "tailwindcss": "^3.4.4",
+    "tailwindcss": "^3.4.5",
     "unocss": "workspace:*",
-    "vite": "^5.3.3",
+    "vite": "^5.3.4",
     "vite-plugin-windicss": "^1.9.3",
     "vue": "^3.4.31",
     "windicss": "^3.5.6"
