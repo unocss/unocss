@@ -1,4 +1,4 @@
-import { expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { addRemToPxComment, getColorString, shouldProvideAutocomplete } from '@unocss/vscode/utils'
 
 it('getColorString', () => {
@@ -70,34 +70,34 @@ it('addRemToPxComment', () => {
   }`)
 })
 
-it('shouldProvideAutocomplete', () => {
+describe('shouldProvideAutocomplete', () => {
   const shouldPrefix = 'should_provide'
   const notProvidePrefix = 'not_provide'
   const code = `
 <script setup lang="ts"></script>
 <template>
-${notProvidePrefix}1
-  <div id='app' ${shouldPrefix}1> ${notProvidePrefix}2
-    ${notProvidePrefix}3<div ${shouldPrefix}2 class="list1 ${shouldPrefix}3" fw600 ${shouldPrefix}4 font-size-10 color-red ${shouldPrefix}5>${notProvidePrefix}4</div>${notProvidePrefix}5
-  </div>${notProvidePrefix}6
+${notProvidePrefix}
+  <div id='app' ${shouldPrefix}> ${notProvidePrefix}
+    ${notProvidePrefix}<div ${shouldPrefix} jsx={<div ${shouldPrefix}>${notProvidePrefix}</div>} class="[>500px]:w-[200px] list1 ${shouldPrefix}" fw600 ${shouldPrefix} font-size-10 color-red ${shouldPrefix}>${notProvidePrefix}</div>${notProvidePrefix}
+  </div>${notProvidePrefix}
 </template>
 <style scoped>
 .list2 > .item {
-  @apply mb-5 ${shouldPrefix}6;
+  @apply mb-5 ${shouldPrefix};
 }
 </style>`
 
-  for (let i = 1; i < 100; i++) {
-    const offset = code.indexOf(`${notProvidePrefix}${i}`)
-    if (offset === -1)
-      break
-    expect(shouldProvideAutocomplete(code, offset)).toBe(false)
-  }
+  it('notProvideAutocomplete', () => {
+    const notProvidePrefixReg = new RegExp(notProvidePrefix, 'g')
+    for (const match of code.matchAll(notProvidePrefixReg)) {
+      expect(shouldProvideAutocomplete(code, match.index)).toBe(false)
+    }
+  })
 
-  for (let i = 1; i < 100; i++) {
-    const offset = code.indexOf(`${shouldPrefix}${i}`)
-    if (offset === -1)
-      break
-    expect(shouldProvideAutocomplete(code, offset)).toBe(true)
-  }
+  it('shouldProvideAutocomplete', () => {
+    const shouldProvidePrefixReg = new RegExp(shouldPrefix, 'g')
+    for (const match of code.matchAll(shouldProvidePrefixReg)) {
+      expect(shouldProvideAutocomplete(code, match.index)).toBe(true)
+    }
+  })
 })
