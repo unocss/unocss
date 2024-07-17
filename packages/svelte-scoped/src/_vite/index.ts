@@ -42,9 +42,8 @@ const defaults: UserConfigDefaults = {
 
 function createSvelteScopedContext(configOrPath?: UserConfig | string): SvelteScopedContext {
   const uno = createGenerator()
-  const ready = reloadConfig()
-
   const loadConfig = createRecoveryConfigLoader()
+  const ready = reloadConfig()
 
   async function reloadConfig() {
     const { config, sources } = await loadConfig(process.cwd(), configOrPath)
