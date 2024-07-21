@@ -44,6 +44,21 @@ describe('preset-icons', () => {
     ],
   })
 
+  const unoWithCustomize = createGenerator({
+    presets: [
+      presetIcons({
+        customizations: {
+          customize(props) {
+            props.width = '2em'
+            props.height = '2em'
+            return props
+          },
+        },
+      }),
+      presetUno(),
+    ],
+  })
+
   it('fixtures', async () => {
     const { css, layers } = await uno.generate(fixtures.join(' '), { preflights: false })
     expect(layers).toEqual(['icons', 'default'])
@@ -79,5 +94,11 @@ describe('preset-icons', () => {
     })
     const { css } = await uno.generate(fixtures.join(' '), { preflights: false })
     await expect(css).toMatchFileSnapshot('./assets/output/preset-icons-propsProcessor.css')
+  })
+
+  it.only('loadIcon with customize without scale should work', async () => {
+    const { css, layers } = await unoWithCustomize.generate(fixtures.join(' '), { preflights: false })
+    expect(layers).toEqual(['icons', 'default'])
+    await expect(css).toMatchFileSnapshot('./assets/output/preset-icons-customize.css')
   })
 })

@@ -19,7 +19,7 @@ export { icons }
 export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => Promise<UniversalIconLoader>) {
   return definePreset((options: IconsOptions = {}) => {
     const {
-      scale = 1,
+      scale,
       mode = 'auto',
       prefix = 'i-',
       warn = false,
@@ -51,9 +51,9 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
           await customizations.iconCustomizer?.(collection, icon, props)
           if (unit) {
             if (!props.width)
-              props.width = `${scale}${unit}`
+              props.width = `${scale ?? 1}${unit}`
             if (!props.height)
-              props.height = `${scale}${unit}`
+              props.height = `${scale ?? 1}${unit}`
           }
         },
       },
