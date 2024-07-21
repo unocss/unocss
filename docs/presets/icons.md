@@ -300,7 +300,7 @@ Available customizations functions:
 
 - `transform`: transform raw `svg`, will be only applied when using `custom` icon collection (`iconify` collections excluded).
 - `customize`: change default icon customizations values.
-- `iconCustomizer`: change default icon customizations values.
+- `iconCustomizer`: Custom icon customizer.
 
 For each loaded icon, the customizations will be applied in this order:
 
