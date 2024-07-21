@@ -96,7 +96,7 @@ describe('preset-icons', () => {
     await expect(css).toMatchFileSnapshot('./assets/output/preset-icons-propsProcessor.css')
   })
 
-  it.only('loadIcon with customize without scale should work', async () => {
+  it('loadIcon with customize without scale should work', async () => {
     const { css, layers } = await unoWithCustomize.generate(fixtures.join(' '), { preflights: false })
     expect(layers).toEqual(['icons', 'default'])
     await expect(css).toMatchFileSnapshot('./assets/output/preset-icons-customize.css')
