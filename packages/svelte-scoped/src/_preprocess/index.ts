@@ -2,7 +2,7 @@ import process from 'node:process'
 import type { PreprocessorGroup } from 'svelte/types/compiler/preprocess'
 import { type UnoGenerator, type UserConfig, type UserConfigDefaults, createGenerator, warnOnce } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
-import { loadConfig } from '@unocss/config'
+import { createRecoveryConfigLoader } from '@unocss/config'
 import { transformClasses } from './transformClasses'
 import { checkForApply, transformStyle } from './transformStyle'
 import type { SvelteScopedContext, UnocssSveltePreprocessOptions } from './types'
@@ -15,10 +15,12 @@ export function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = 
 
   let uno: UnoGenerator
 
+  const loadConfig = createRecoveryConfigLoader()
+
   return {
     markup: async ({ content, filename }) => {
       if (!uno)
-        uno = await getGenerator(options.configOrPath, unoContextFromVite)
+        uno = await getGenerator((await loadConfig(process.cwd(), options.configOrPath)).config, unoContextFromVite)
 
       if (isViteBuild && options.combine === undefined)
         options.combine = isViteBuild()
@@ -51,7 +53,7 @@ export function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = 
         return
 
       if (!uno)
-        uno = await getGenerator(options.configOrPath)
+        uno = await getGenerator((await loadConfig()).config)
 
       let preflightsSafelistCss = ''
       if (addPreflights || addSafelist) {
@@ -76,7 +78,7 @@ export function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = 
   }
 }
 
-async function getGenerator(configOrPath?: UserConfig | string, unoContextFromVite?: SvelteScopedContext) {
+async function getGenerator(config: UserConfig, unoContextFromVite?: SvelteScopedContext) {
   if (unoContextFromVite) {
     await unoContextFromVite.ready
     return unoContextFromVite.uno
@@ -87,6 +89,5 @@ async function getGenerator(configOrPath?: UserConfig | string, unoContextFromVi
       presetUno(),
     ],
   }
-  const { config } = await loadConfig(process.cwd(), configOrPath)
   return createGenerator(config, defaults)
 }

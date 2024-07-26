@@ -15,40 +15,12 @@ export type PartialByKeys<T, K extends keyof T = keyof T> = FlatObjectTuple<Part
 export type RequiredByKey<T, K extends keyof T = keyof T> = FlatObjectTuple<Required<Pick<T, Extract<keyof T, K>>> & Omit<T, K>>
 
 export type CSSObject = Record<string, string | number | undefined>
-export type CSSEntries = [string, string | number | undefined][]
-export interface CSSColorValue {
-  type: string
-  components: (string | number)[]
-  alpha: string | number | undefined
-}
+export type CSSEntry = [string, string | number | undefined]
+export type CSSEntries = CSSEntry[]
 
-export type RGBAColorValue = [number, number, number, number] | [number, number, number]
-export interface ParsedColorValue {
-  /**
-   * Parsed color value.
-   */
-  color?: string
-  /**
-   * Parsed opacity value.
-   */
-  opacity: string
-  /**
-   * Color name.
-   */
-  name: string
-  /**
-   * Color scale, preferably 000 - 999.
-   */
-  no: string
-  /**
-   * {@link CSSColorValue}
-   */
-  cssColor: CSSColorValue | undefined
-  /**
-   * Parsed alpha value from opacity
-   */
-  alpha: string | number | undefined
-}
+export type CSSObjectInput = CSSObject | Partial<ControlSymbolsValue>
+export type CSSEntriesInput = (CSSEntry | ControlSymbolsEntry)[]
+export type CSSValueInput = CSSObjectInput | CSSEntriesInput | CSSValue
 
 export type PresetOptions = Record<string, any>
 
@@ -66,6 +38,10 @@ export interface RuleContext<Theme extends object = object> {
    * UnoCSS generator instance
    */
   generator: UnoGenerator<Theme>
+  /**
+   * Symbols for special handling
+   */
+  symbols: ControlSymbols
   /**
    * The theme object
    */
@@ -96,6 +72,41 @@ export interface RuleContext<Theme extends object = object> {
    */
   variants?: Variant<Theme>[]
 }
+
+declare const SymbolShortcutsNoMerge: unique symbol
+declare const SymbolVariants: unique symbol
+declare const SymbolParent: unique symbol
+declare const SymbolSelector: unique symbol
+
+export interface ControlSymbols {
+  /**
+   * Prevent merging in shortcuts
+   */
+  shortcutsNoMerge: typeof SymbolShortcutsNoMerge
+  /**
+   * Additional variants applied to this rule
+   */
+  variants: typeof SymbolVariants
+  /**
+   * Parent selector (`@media`, `@supports`, etc.)
+   */
+  parent: typeof SymbolParent
+  /**
+   * Selector modifier
+   */
+  selector: typeof SymbolSelector
+}
+
+export interface ControlSymbolsValue {
+  [SymbolShortcutsNoMerge]: true
+  [SymbolVariants]: VariantHandler[]
+  [SymbolParent]: string
+  [SymbolSelector]: (selector: string) => string
+}
+
+export type ObjectToEntry<T> = { [K in keyof T]: [K, T[K]] }[keyof T]
+
+export type ControlSymbolsEntry = ObjectToEntry<ControlSymbolsValue>
 
 export interface VariantContext<Theme extends object = object> {
   /**
@@ -190,7 +201,15 @@ export interface RuleMeta {
 export type CSSValue = CSSObject | CSSEntries
 export type CSSValues = CSSValue | CSSValue[]
 
-export type DynamicMatcher<Theme extends object = object> = ((match: RegExpMatchArray, context: Readonly<RuleContext<Theme>>) => Awaitable<CSSValue | string | (CSSValue | string)[] | undefined>)
+export type DynamicMatcher<Theme extends object = object> =
+  (
+    match: RegExpMatchArray,
+    context: Readonly<RuleContext<Theme>>
+  ) =>
+  | Awaitable<CSSValueInput | string | (CSSValueInput | string)[] | undefined>
+  | Generator<CSSValueInput | string | undefined>
+  | AsyncGenerator<CSSValueInput | string | undefined>
+
 export type DynamicRule<Theme extends object = object> = [RegExp, DynamicMatcher<Theme>] | [RegExp, DynamicMatcher<Theme>, RuleMeta]
 export type StaticRule = [string, CSSObject | CSSEntries] | [string, CSSObject | CSSEntries, RuleMeta]
 export type Rule<Theme extends object = object> = DynamicRule<Theme> | StaticRule
@@ -268,7 +287,7 @@ export interface VariantHandler {
   /**
    * The result rewritten selector for the next round of matching
    */
-  matcher: string
+  matcher?: string
   /**
    * Order in which the variant is applied to selector.
    */
@@ -602,6 +621,12 @@ export interface UserOnlyOptions<Theme extends object = object> {
    * @default 'build'
    */
   envMode?: 'dev' | 'build'
+  /**
+   * legacy.renderModernChunks need to be consistent with @vitejs/plugin-legacy
+   */
+  legacy?: {
+    renderModernChunks: boolean
+  }
 }
 
 /**

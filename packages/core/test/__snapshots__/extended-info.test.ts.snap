@@ -1,0 +1,142 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`extended-info 1`] = `
+Map {
+  "a" => {
+    "count": 1,
+    "data": [
+      [
+        0,
+        ".a",
+        "name:bar1;",
+        undefined,
+        {
+          "layer": "a",
+          "sort": undefined,
+        },
+        {
+          "currentSelector": "a",
+          "rawSelector": "a",
+          "rules": [
+            [
+              "a",
+              {
+                "name": "bar1",
+              },
+              {
+                "layer": "a",
+              },
+            ],
+          ],
+          "symbols": {
+            "parent": "$$symbol-parent",
+            "selector": "$$symbol-selector",
+            "shortcutsNoMerge": "$$symbol-shortcut-no-merge",
+            "variants": "$$symbol-variants",
+          },
+          "theme": {},
+          "variantHandlers": [],
+          "variantMatch": [
+            "a",
+            "a",
+            [],
+            Set {},
+          ],
+          "variants": [],
+        },
+        undefined,
+      ],
+    ],
+  },
+  "b" => {
+    "count": 2,
+    "data": [
+      [
+        1,
+        ".b",
+        "name:bar2;",
+        undefined,
+        {
+          "layer": "b",
+          "sort": undefined,
+        },
+        {
+          "currentSelector": "b",
+          "rawSelector": "b",
+          "rules": [
+            [
+              "b",
+              {
+                "name": "bar2",
+              },
+              {
+                "layer": "b",
+              },
+            ],
+          ],
+          "symbols": {
+            "parent": "$$symbol-parent",
+            "selector": "$$symbol-selector",
+            "shortcutsNoMerge": "$$symbol-shortcut-no-merge",
+            "variants": "$$symbol-variants",
+          },
+          "theme": {},
+          "variantHandlers": [],
+          "variantMatch": [
+            "b",
+            "b",
+            [],
+            Set {},
+          ],
+          "variants": [],
+        },
+        undefined,
+      ],
+    ],
+  },
+  "c1" => {
+    "count": 1,
+    "data": [
+      [
+        2,
+        ".c1",
+        "name:1;",
+        undefined,
+        {
+          "layer": "c",
+          "sort": undefined,
+        },
+        {
+          "currentSelector": "c1",
+          "rawSelector": "c1",
+          "rules": [
+            [
+              /\\^c\\(\\\\d\\+\\)\\$/,
+              [Function],
+              {
+                "layer": "c",
+              },
+            ],
+          ],
+          "symbols": {
+            "parent": "$$symbol-parent",
+            "selector": "$$symbol-selector",
+            "shortcutsNoMerge": "$$symbol-shortcut-no-merge",
+            "variants": "$$symbol-variants",
+          },
+          "theme": {},
+          "variantHandlers": [],
+          "variantMatch": [
+            "c1",
+            "c1",
+            [],
+            Set {},
+          ],
+          "variants": [],
+        },
+        undefined,
+      ],
+    ],
+  },
+}
+`;

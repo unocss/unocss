@@ -2,7 +2,7 @@
   "publisher": "antfu",
   "name": "@unocss/vscode",
   "displayName": "UnoCSS",
-  "version": "0.60.4",
+  "version": "0.61.5",
   "private": true,
   "description": "UnoCSS for VS Code",
   "license": "MIT",
@@ -28,6 +28,11 @@
       {
         "command": "unocss.reload",
         "title": "Reload UnoCSS",
+        "category": "UnoCSS"
+      },
+      {
+        "command": "unocss.insert-skip-annotation",
+        "title": "Insert `@unocss-skip` for the selection",
         "category": "UnoCSS"
       }
     ],
@@ -86,6 +91,11 @@
           "default": true,
           "description": "Enable/disable color preview decorations"
         },
+        "unocss.colorPreviewRadius": {
+          "type": "string",
+          "default": "50%",
+          "description": "Radius for color preview"
+        },
         "unocss.remToPxPreview": {
           "type": "boolean",
           "default": true,
@@ -130,9 +140,9 @@
     "@unocss/preset-uno": "workspace:*",
     "esno": "^4.7.0",
     "find-up": "^6.3.0",
-    "jiti": "^1.21.0",
+    "jiti": "^1.21.6",
     "prettier": "^2.8.8",
-    "tsup": "^8.0.2",
+    "tsup": "^8.2.3",
     "unconfig": "^0.3.13"
   }
 }

@@ -85,6 +85,7 @@ export function useConfigurations(ext: ExtensionContext) {
     scope: 'unocss',
     initialValue: {
       colorPreview: true,
+      colorPreviewRadius: '50%',
       languagesIds: <string[]>[],
       matchType: <AutoCompleteMatchType>'prefix',
       maxItems: 1000,

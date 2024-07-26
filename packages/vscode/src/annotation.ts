@@ -50,13 +50,14 @@ export async function registerAnnotations(
     rangeBehavior: DecorationRangeBehavior.ClosedClosed,
   })
 
+  const borderRadius = configuration.colorPreviewRadius || '50%'
   const colorDecoration = window.createTextEditorDecorationType({
     before: {
       width: '0.9em',
       height: '0.9em',
       contentText: ' ',
       border: '1px solid',
-      margin: 'auto 0.2em auto 0;vertical-align: middle;border-radius:50%;',
+      margin: `auto 0.2em auto 0;vertical-align: middle;border-radius: ${borderRadius};`,
     },
     dark: {
       before: {

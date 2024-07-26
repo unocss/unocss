@@ -79,7 +79,7 @@ function isURI(declaration: string) {
   try {
     return new URL(declaration).host !== ''
   }
-  catch (err) {
+  catch {
     return false
   }
 }

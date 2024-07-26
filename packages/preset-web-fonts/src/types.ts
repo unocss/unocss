@@ -1,3 +1,5 @@
+import type { Arrayable, Awaitable } from '@unocss/core'
+
 export type WebFontsProviders = 'google' | 'bunny' | 'fontshare' | 'none' | Provider
 
 export interface WebFontMeta {
@@ -9,6 +11,18 @@ export interface WebFontMeta {
    * @default <matches root config>
    */
   provider?: WebFontsProviders
+}
+
+export interface WebFontProcessor {
+  getCSS?: (
+    fonts: ResolvedWebFontMeta[],
+    providers: Provider[],
+    getCSSDefault: (
+      fonts: ResolvedWebFontMeta[],
+      providers: Provider[],
+    ) => Awaitable<string>
+  ) => Awaitable<string | undefined>
+  transformCSS?: (css: string) => Promise<string | undefined>
 }
 
 export interface ResolvedWebFontMeta extends Omit<WebFontMeta, 'provider'> {
@@ -53,6 +67,29 @@ export interface WebFontsOptions {
    * @default undefined
    */
   customFetch?: (url: string) => Promise<any>
+
+  /**
+   * Custom processor for the font CSS
+   */
+  processors?: Arrayable<WebFontProcessor>
+
+  /**
+   * Timeouts for fetching web fonts
+   */
+  timeouts?: false | {
+    /**
+     * Timeout for printing warning message
+     *
+     * @default 500
+     */
+    warning?: number
+    /**
+     * Timeout for failing the fetch
+     *
+     * @default 2000
+     */
+    failure?: number
+  }
 }
 
 export interface Provider {

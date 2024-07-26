@@ -66,9 +66,20 @@ describe.concurrent('fixtures', () => {
     const svgs = await fg('dist/assets/uno-*.svg', { cwd: root, absolute: true })
     expect(svgs).toHaveLength(1)
 
-    const css = await getGlobContent(root, 'dist/**/*.css')
+    const css = await getGlobContent(root, 'dist/**/index*.css')
     expect(css).contains('.text-red')
   }, 15000)
+
+  it.skipIf(isWindows)('vite legacy renderModernChunks false', async () => {
+    const root = resolve(__dirname, 'fixtures/vite-legacy-chunks')
+    await fs.emptyDir(join(root, 'dist'))
+    await build({
+      root,
+      logLevel: 'warn',
+    })
+    const css = await getGlobContent(root, 'dist/**/index*.js')
+    expect(css).contains('.mb-\\\\[50px\\\\]')
+  })
 
   it('vite lib', async () => {
     const root = resolve(__dirname, 'fixtures/vite-lib')
@@ -104,7 +115,7 @@ describe.concurrent('fixtures', () => {
       // transformer-compile-class
       expect(code).contains('uno-tacwqa')
     }
-  })
+  }, 15000)
 
   it.skipIf(isWindows)('vite lib rollupOptions', async () => {
     const root = resolve(__dirname, 'fixtures/vite-lib-rollupoptions')

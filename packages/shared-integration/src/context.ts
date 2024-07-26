@@ -1,7 +1,7 @@
 import process from 'node:process'
 import { createFilter } from '@rollup/pluginutils'
 import type { LoadConfigResult, LoadConfigSource } from '@unocss/config'
-import { loadConfig } from '@unocss/config'
+import { createRecoveryConfigLoader } from '@unocss/config'
 import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { BetterMap, createGenerator } from '@unocss/core'
 import { CSS_PLACEHOLDER, IGNORE_COMMENT, INCLUDE_COMMENT, SKIP_COMMENT_RE } from './constants'
@@ -12,7 +12,7 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
   configOrPath?: Config | string,
   defaults: UserConfigDefaults = {},
   extraConfigSources: LoadConfigSource[] = [],
-  resolveConfigResult: (config: LoadConfigResult<Config>) => void = () => {},
+  resolveConfigResult: (config: LoadConfigResult<Config>) => void = () => { },
 ): UnocssPluginContext<Config> {
   let root = process.cwd()
   let rawConfig = {} as Config
@@ -31,6 +31,8 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
   const tokens = new Set<string>()
   const tasks: Promise<void>[] = []
   const affectedModules = new Set<string>()
+
+  const loadConfig = createRecoveryConfigLoader<Config>()
 
   let ready = reloadConfig()
 
@@ -108,7 +110,8 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
   async function flushTasks() {
     const _tasks = [...tasks]
     await Promise.all(_tasks)
-    tasks.splice(0, _tasks.length)
+    if (tasks[0] === _tasks[0])
+      tasks.splice(0, _tasks.length)
   }
 
   return {

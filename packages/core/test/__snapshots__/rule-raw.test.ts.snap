@@ -1,0 +1,33 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`rule-raw > basic 1`] = `
+"/* layer: default */
+.before{content:before;}
+/* return a string to take full control of the generated CSS */
+/* this also means you have to take care of all the things yourself */
+/* for example, escaping, applying variants, etc. */
+.m-hi-anthony {
+  border-bottom: 1px solid green;
+}
+.m-hi-anthony::after {
+  content: "hi-anthony";
+  color: skyblue;
+}
+.hi m-hi-anthony::before {
+  content: 'hi';
+}
+/* return a string to take full control of the generated CSS */
+/* this also means you have to take care of all the things yourself */
+/* for example, escaping, applying variants, etc. */
+.m-hi-hi {
+  border-bottom: 1px solid green;
+}
+.m-hi-hi::after {
+  content: "hi-hi";
+  color: skyblue;
+}
+.hi m-hi-hi::before {
+  content: 'hi';
+}
+.m-1{margin:1px;}"
+`;

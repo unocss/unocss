@@ -1,5 +1,6 @@
 import { readdir } from 'fs/promises'
 import path from 'path'
+import { exists } from 'fs-extra'
 import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { notNull } from '@unocss/core'
 import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
@@ -114,6 +115,18 @@ export class ContextLoader {
     const cached = this.contextsMap.get(dir)
     if (cached !== undefined)
       return cached
+
+    // Yarn PnP workflow, setup the PnP resolver
+    for (const file of ['.pnp.js', '.pnp.cjs']) {
+      if (await exists(path.join(dir, file))) {
+        try {
+          // `require` is used due to dynamic import.
+          // eslint-disable-next-line ts/no-require-imports
+          require(path.join(dir, file)).setup()
+        }
+        catch {}
+      }
+    }
 
     const load = async () => {
       log.appendLine('\n-----------')
