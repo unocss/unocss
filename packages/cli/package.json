@@ -1,7 +1,7 @@
 {
   "name": "@unocss/cli",
   "type": "module",
-  "version": "0.61.0",
+  "version": "0.61.5",
   "description": "CLI for UnoCSS",
   "author": {
     "name": "Johann Schopplich",

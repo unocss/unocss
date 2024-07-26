@@ -2,7 +2,7 @@
   "publisher": "antfu",
   "name": "@unocss/vscode",
   "displayName": "UnoCSS",
-  "version": "0.61.0",
+  "version": "0.61.5",
   "private": true,
   "description": "UnoCSS for VS Code",
   "license": "MIT",
@@ -28,6 +28,11 @@
       {
         "command": "unocss.reload",
         "title": "Reload UnoCSS",
+        "category": "UnoCSS"
+      },
+      {
+        "command": "unocss.insert-skip-annotation",
+        "title": "Insert `@unocss-skip` for the selection",
         "category": "UnoCSS"
       }
     ],

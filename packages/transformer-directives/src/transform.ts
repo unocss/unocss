@@ -38,6 +38,7 @@ export async function transformDirectives(
     parseAtrulePrelude: false,
     positions: true,
     filename,
+    offset,
   })
 
   if (ast.type !== 'StyleSheet')

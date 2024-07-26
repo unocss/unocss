@@ -1,12 +1,12 @@
 import type { HighlighterCore } from 'shiki/core'
-import { getHighlighterCore } from 'shiki/core'
+import { createHighlighterCore } from 'shiki/core'
 import vitesseDark from 'shiki/themes/vitesse-dark.mjs'
 import vitesseLight from 'shiki/themes/vitesse-light.mjs'
 import langCss from 'shiki/langs/css.mjs'
 import langJs from 'shiki/langs/javascript.mjs'
 
 export const shiki = computedAsync<HighlighterCore>(async () => {
-  return await getHighlighterCore({
+  return await createHighlighterCore({
     loadWasm: () => import('shiki/wasm'),
     themes: [
       vitesseDark,

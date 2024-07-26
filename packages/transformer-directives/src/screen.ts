@@ -2,7 +2,8 @@ import type { Theme } from '@unocss/preset-mini'
 import type { Atrule } from 'css-tree'
 import type { TransformerDirectivesContext } from './types'
 
-const screenRuleRE = /(@screen) (.+) /g
+// eslint-disable-next-line regexp/no-misleading-capturing-group
+const screenRuleRE = /(@screen [^{]+)(.+)/g
 
 export function handleScreen({ code, uno }: TransformerDirectivesContext, node: Atrule) {
   let breakpointName = ''
@@ -61,8 +62,8 @@ export function handleScreen({ code, uno }: TransformerDirectivesContext, node: 
   for (const match of matches) {
     code.overwrite(
       offset + match.index!,
-      offset + match.index! + match[0].length,
-      `${generateMediaQuery(breakpointName, prefix)} `,
+      offset + match.index! + match[1].length,
+      `${generateMediaQuery(breakpointName, prefix)}`,
     )
   }
 }
