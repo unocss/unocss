@@ -57,6 +57,7 @@ declare global {
   const getInitialPanelSizes: typeof import('./composables/panel')['getInitialPanelSizes']
   const h: typeof import('vue')['h']
   const ignorableWatch: typeof import('@vueuse/core')['ignorableWatch']
+  const importMapsPlugin: typeof import('./composables/reload')['importMapsPlugin']
   const init: typeof import('./composables/uno')['init']
   const inject: typeof import('vue')['inject']
   const injectLocal: typeof import('@vueuse/core')['injectLocal']
@@ -399,6 +400,7 @@ declare module 'vue' {
     readonly getInitialPanelSizes: UnwrapRef<typeof import('./composables/panel')['getInitialPanelSizes']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
+    readonly importMapsPlugin: UnwrapRef<typeof import('./composables/reload')['importMapsPlugin']>
     readonly init: UnwrapRef<typeof import('./composables/uno')['init']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly injectLocal: UnwrapRef<typeof import('@vueuse/core')['injectLocal']>
@@ -734,6 +736,7 @@ declare module '@vue/runtime-core' {
     readonly getInitialPanelSizes: UnwrapRef<typeof import('./composables/panel')['getInitialPanelSizes']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
+    readonly importMapsPlugin: UnwrapRef<typeof import('./composables/reload')['importMapsPlugin']>
     readonly init: UnwrapRef<typeof import('./composables/uno')['init']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly injectLocal: UnwrapRef<typeof import('@vueuse/core')['injectLocal']>

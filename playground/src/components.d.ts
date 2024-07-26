@@ -29,6 +29,7 @@ declare module 'vue' {
     ReplPlayground: typeof import('./../../packages/inspector/client/components/ReplPlayground.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SelectVersion: typeof import('./components/SelectVersion.vue')['default']
     Sidebar: typeof import('./../../packages/inspector/client/components/Sidebar.vue')['default']
     StatusBar: typeof import('./../../packages/inspector/client/components/StatusBar.vue')['default']
     Tabs: typeof import('./../../packages/inspector/client/components/Tabs.vue')['default']
