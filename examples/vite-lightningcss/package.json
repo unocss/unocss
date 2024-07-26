@@ -15,9 +15,9 @@
     "@unocss/preset-icons": "link:../../packages/preset-icons",
     "@unocss/preset-uno": "link:../../packages/preset-uno",
     "lightningcss": "^1.25.1",
-    "typescript": "^5.5.3",
+    "typescript": "^5.5.4",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.3.4"
+    "vite": "^5.3.5"
   },
   "stackblitz": {
     "installDependencies": false,

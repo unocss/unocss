@@ -9,16 +9,16 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "solid-js": "^1.8.18"
+    "solid-js": "^1.8.19"
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.1.43",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
-    "typescript": "^5.5.3",
+    "typescript": "^5.5.4",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.3.4",
+    "vite": "^5.3.5",
     "vite-plugin-solid": "^2.10.2"
   },
   "stackblitz": {
