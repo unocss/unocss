@@ -8,9 +8,9 @@ export function importMapsPlugin(): Plugin {
       const customScript = `
 const r = (packageName, version) => {
   if(version) {
-    return \`https://esm.run\${packageName}@\${version}\`
+    return \`https://esm.run/\${packageName}@\${version}\`
   }
-  return \`https://esm.run\${packageName}\`
+  return \`https://esm.run/\${packageName}\`
 }
 const updateImportMap = async (newImportsVersion) => {
   const map = {
