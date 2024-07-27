@@ -22,9 +22,9 @@
     "@unocss/preset-icons": "link:../../packages/preset-icons",
     "@vitejs/plugin-react": "^4.3.1",
     "cross-env": "^7.0.3",
-    "typescript": "^5.5.3",
+    "typescript": "^5.5.4",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.3.4"
+    "vite": "^5.3.5"
   },
   "stackblitz": {
     "installDependencies": false,

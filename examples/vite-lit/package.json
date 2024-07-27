@@ -23,10 +23,10 @@
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
     "@unocss/preset-typography": "link:../../packages/preset-typography",
-    "typescript": "^5.5.3",
+    "typescript": "^5.5.4",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.3.4",
-    "vite-plugin-inspect": "^0.8.4"
+    "vite": "^5.3.5",
+    "vite-plugin-inspect": "^0.8.5"
   },
   "stackblitz": {
     "installDependencies": false,

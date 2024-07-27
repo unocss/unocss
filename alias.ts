@@ -12,7 +12,7 @@ export const alias: Record<string, string> = {
   '@unocss/core': r('./packages/core/src/'),
   '@unocss/extractor-pug': r('./packages/extractor-pug/src/'),
   '@unocss/extractor-svelte': r('./packages/extractor-svelte/src/'),
-  '@unocss/inspector': r('./packages/inspector/node/'),
+  '@unocss/inspector': r('./packages/inspector/src/'),
   '@unocss/nuxt': r('./packages/nuxt/src/'),
   '@unocss/preset-attributify': r('./packages/preset-attributify/src/'),
   '@unocss/preset-icons': r('./packages/preset-icons/src/'),
