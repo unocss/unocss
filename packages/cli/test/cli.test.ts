@@ -207,6 +207,27 @@ export default defineConfig({
     }
   })
 
+  it('should correctly deduplicate files of different types containing @media', async () => {
+    const { output, transform } = await runCli(
+      {
+        'views/index1.html': '<div class="lg:p-8"></div>',
+        'views/index2.html': '<div class="md:p-4"></div>',
+        'views/index3.html': '<div class="box"></div>',
+        'views/index.css': '.box { @apply pd-6 sm:p-2; }',
+        'unocss.config.js': `
+          import { defineConfig, transformerDirectives } from 'unocss'
+          export default defineConfig({
+            transformers: [transformerDirectives()]
+          })
+        `.trim(),
+      },
+      { transformFile: 'views/index.css', args: ['--write-transformed'] },
+    )
+
+    expect(output).toMatchSnapshot()
+    expect(transform).toMatchSnapshot()
+  })
+
   it('@unocss-skip uno.css', async () => {
     const { output } = await runCli({
       'views/index.html': `
@@ -300,7 +321,7 @@ async function runCli(files: Record<string, string>, options?: { transformFile?:
   const output = await readFile(testDir)
 
   if (options?.transformFile) {
-    const transform = await readFile(testDir, options?.transformFile)
+    const transform = await readFile(testDir, options.transformFile)
     return {
       output,
       transform,
