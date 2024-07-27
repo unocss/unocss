@@ -23,7 +23,7 @@ function handleReset() {
 
 <template>
   <div
-    class="flex items-center px-2 z-1 bg-gray/10"
+    class="flex items-center px-2 z-10 bg-gray/10"
     border="l t gray-400/20" w-full
   >
     <div flex items-center gap-2>
