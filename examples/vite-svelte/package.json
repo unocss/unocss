@@ -19,9 +19,9 @@
     "svelte-check": "^3.8.4",
     "svelte-preprocess": "^5.1.4",
     "tslib": "^2.6.3",
-    "typescript": "^5.5.3",
+    "typescript": "^5.5.4",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.3.4"
+    "vite": "^5.3.5"
   },
   "stackblitz": {
     "installDependencies": false,

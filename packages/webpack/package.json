@@ -1,7 +1,7 @@
 {
   "name": "@unocss/webpack",
   "type": "module",
-  "version": "0.61.5",
+  "version": "0.61.6",
   "description": "The Webpack plugin for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -53,7 +53,7 @@
     "chokidar": "^3.6.0",
     "fast-glob": "^3.3.2",
     "magic-string": "^0.30.10",
-    "unplugin": "^1.11.0",
+    "unplugin": "^1.12.0",
     "webpack-sources": "^3.2.3"
   },
   "devDependencies": {

@@ -17,9 +17,9 @@
     "@builder.io/qwik-city": "1.2.13",
     "@types/node": "latest",
     "@unocss/reset": "link:../../packages/reset",
-    "typescript": "^5.5.3",
+    "typescript": "^5.5.4",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.3.4"
+    "vite": "^5.3.5"
   },
   "stackblitz": {
     "installDependencies": false,
