@@ -763,8 +763,8 @@ importers:
   packages/preset-icons:
     dependencies:
       '@iconify/utils':
-        specifier: ^2.1.28
-        version: 2.1.28
+        specifier: ^2.1.29
+        version: 2.1.29
       '@unocss/core':
         specifier: workspace:*
         version: link:../core
@@ -2899,8 +2899,8 @@ packages:
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
 
-  '@iconify/utils@2.1.28':
-    resolution: {integrity: sha512-7tHIALKosS/Vz2i6cd91XXqvDbJ8qR4Oz0BFErJPECbwIQf5Fpj6MMDE7WMRRYZyxCwmdao1IKGciAMx7Xu6OQ==}
+  '@iconify/utils@2.1.29':
+    resolution: {integrity: sha512-wCcTsmlJvTi1VWBgcJ7HeuWlh7gLGWY7L9HmbgMfjOfsoo7DADemB2Nqnrw1KvCdEAxLL5wTMBAOP5BesFrtng==}
 
   '@img/sharp-darwin-arm64@0.33.3':
     resolution: {integrity: sha512-FaNiGX1MrOuJ3hxuNzWgsT/mg5OHG/Izh59WW2mk1UwYHUwtfbhk5QNKYZgxf0pLOhx9ctGiGa2OykD71vOnSw==}
@@ -12151,7 +12151,7 @@ snapshots:
 
   '@iconify/types@2.0.0': {}
 
-  '@iconify/utils@2.1.28':
+  '@iconify/utils@2.1.29':
     dependencies:
       '@antfu/install-pkg': 0.1.1
       '@antfu/utils': 0.7.10
