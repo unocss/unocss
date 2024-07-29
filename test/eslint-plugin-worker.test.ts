@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { createGenerator } from '@unocss/core'
 import { presetUno } from '@unocss/preset-uno'
+import { presetMini } from '@unocss/preset-mini'
 import { runAsync, setGenerator } from '../packages/eslint-plugin/src/worker'
 
 describe('worker', () => {
@@ -33,5 +34,27 @@ describe('worker', () => {
     setGenerator(uno, undefined)
     const rs = await runAsync(undefined, 'sort', 'text-red-300 w-8')
     expect(rs).toMatchInlineSnapshot(`"w-8 text-red-300"`)
+  })
+
+  it('sort presetMini', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+    })
+    setGenerator(uno, undefined)
+    const rs = await runAsync(undefined, 'sort', 'absolute left-1/2 top-1/2 h-100 w-100 flex items-center justify-center -translate-1/2')
+    expect(rs).toMatchInlineSnapshot(`"flex absolute h-100 w-100 justify-center items-center left-1/2 top-1/2 -translate-1/2"`)
+  })
+
+  it('sort presetUno', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetUno(),
+      ],
+    })
+    setGenerator(uno, undefined)
+    const rs = await runAsync(undefined, 'sort', 'absolute left-1/2 top-1/2 h-100 w-100 flex items-center justify-center -translate-1/2')
+    expect(rs).toMatchInlineSnapshot(`"absolute left-1/2 top-1/2 h-100 w-100 flex items-center justify-center -translate-1/2"`)
   })
 })
