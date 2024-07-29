@@ -11,4 +11,11 @@ export default defineConfig({
     'cjs',
   ],
   shims: false,
+  loader: {
+    '': 'file',
+    '.ps1': 'file',
+    '.cmd': 'file',
+    '.CMD': 'file',
+    '.md': 'file',
+  },
 })
