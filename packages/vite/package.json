@@ -62,7 +62,7 @@
     "@unocss/transformer-directives": "workspace:*",
     "chokidar": "^3.6.0",
     "fast-glob": "^3.3.2",
-    "magic-string": "^0.30.10"
+    "magic-string": "^0.30.11"
   },
   "devDependencies": {
     "@unocss/shared-integration": "workspace:*",

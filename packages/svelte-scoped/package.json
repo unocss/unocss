@@ -59,7 +59,7 @@
     "@unocss/config": "workspace:*",
     "@unocss/reset": "workspace:*",
     "css-tree": "^2.3.1",
-    "magic-string": "^0.30.10"
+    "magic-string": "^0.30.11"
   },
   "devDependencies": {
     "prettier-plugin-svelte": "^2.10.1",
