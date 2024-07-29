@@ -201,14 +201,22 @@ export function convertToRGBA(rgbColor: string) {
   return rgbColor
 }
 
-export function shouldProvideAutocomplete(code: string, offset: number) {
-  const afterCode = code.slice(offset)
+const styleTagsRe = /<style[^>]*>[\s\S]*?<\/style>/g
+
+export function shouldProvideAutocomplete(code: string, id: string, offset: number) {
+  const isSfcLike = id.match(/\.(svelte|vue|astro)$/)
+
+  const isInStyleTag = isSfcLike
+    ? [...code.matchAll(styleTagsRe)]
+        .map(v => [v.index, v.index + v[0].length])
+        .some(([start, end]) => offset > start && offset < end)
+    : false
+
+  const codeStripStrings = code
+    .slice(offset)
     .replace(/"[^"]*"|\{[^}]*\}|'[^']*'/g, '')
 
-  // get style range
-  const start = code.indexOf('<style')
-  const end = code.lastIndexOf('</style')
+  const isInStartTag = /^[^<>]*>/.test(codeStripStrings)
 
-  // should provide in tag or <style>
-  return /^[^<>]*>/.test(afterCode) || (offset > start && offset < end)
+  return isInStartTag || isInStyleTag
 }

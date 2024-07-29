@@ -90,14 +90,14 @@ ${notProvidePrefix}
   it('notProvideAutocomplete', () => {
     const notProvidePrefixReg = new RegExp(notProvidePrefix, 'g')
     for (const match of code.matchAll(notProvidePrefixReg)) {
-      expect(shouldProvideAutocomplete(code, match.index)).toBe(false)
+      expect(shouldProvideAutocomplete(code, 'foo.vue', match.index)).toBe(false)
     }
   })
 
   it('shouldProvideAutocomplete', () => {
     const shouldProvidePrefixReg = new RegExp(shouldPrefix, 'g')
     for (const match of code.matchAll(shouldProvidePrefixReg)) {
-      expect(shouldProvideAutocomplete(code, match.index)).toBe(true)
+      expect(shouldProvideAutocomplete(code, 'foo.vue', match.index)).toBe(true)
     }
   })
 })

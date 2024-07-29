@@ -111,7 +111,7 @@ export async function registerAutoComplete(
 
       const offset = window.activeTextEditor!.document.offsetAt(position)
 
-      if (!shouldProvideAutocomplete(code, offset))
+      if (configuration.autocompleteStrict && !shouldProvideAutocomplete(code, id, offset))
         return
 
       const ctx = await contextLoader.resolveClosestContext(code, id)
