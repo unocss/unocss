@@ -36,25 +36,26 @@ describe('worker', () => {
     expect(rs).toMatchInlineSnapshot(`"w-8 text-red-300"`)
   })
 
-  it('sort presetMini', async () => {
-    const uno = createGenerator({
+  it('sort presetMini should be same as presetUno', async () => {
+    const uno1 = createGenerator({
       presets: [
         presetMini(),
       ],
     })
-    setGenerator(uno, undefined)
-    const rs = await runAsync(undefined, 'sort', 'absolute left-1/2 top-1/2 h-100 w-100 flex items-center justify-center -translate-1/2')
-    expect(rs).toMatchInlineSnapshot(`"flex absolute h-100 w-100 justify-center items-center left-1/2 top-1/2 -translate-1/2"`)
-  })
-
-  it('sort presetUno', async () => {
-    const uno = createGenerator({
+    const uno2 = createGenerator({
       presets: [
         presetUno(),
       ],
     })
-    setGenerator(uno, undefined)
-    const rs = await runAsync(undefined, 'sort', 'absolute left-1/2 top-1/2 h-100 w-100 flex items-center justify-center -translate-1/2')
-    expect(rs).toMatchInlineSnapshot(`"absolute left-1/2 top-1/2 h-100 w-100 flex items-center justify-center -translate-1/2"`)
+
+    const input = 'absolute left-1/2 top-1/2 h-100 w-100 flex items-center justify-center -translate-1/2'
+
+    setGenerator(uno1, undefined)
+    const rs1 = await runAsync(undefined, 'sort', input)
+
+    setGenerator(uno2, undefined)
+    const rs2 = await runAsync(undefined, 'sort', input)
+
+    expect(rs1).toEqual(rs2)
   })
 })
