@@ -344,6 +344,7 @@ export const presetMiniTargets: string[] = [
   'flex-shrink-0',
   'flex-grow',
   'flex-grow-0',
+  '!flex-grow-0',
   'flex-basis-0',
   'flex-basis-1/2',
   'flex-$variable',
@@ -847,6 +848,10 @@ export const presetMiniTargets: string[] = [
   'transition-colors,opacity-200',
   'transition-color,background-color-200',
   'transition-background-color,color-200',
+  'transition-$variant',
+  'transition-[width,height]',
+  'transition-[width,height,colors]',
+  'transition-[width,height,colors]-200',
   'transition',
   'transition-revert-layer',
   'property-none',
@@ -854,6 +859,7 @@ export const presetMiniTargets: string[] = [
   'property-unset',
   'property-margin,padding',
   'property-padding,margin',
+  'property-[padding,margin]',
   'duration-111',
 
   // transition - timings
@@ -1146,7 +1152,7 @@ export const presetMiniTargets: string[] = [
   'scope-[unocss]:block',
   'scope-[[data-any]]:inline',
 
-  // variants - tagged
+  // variants - taggedData
   'group-focus:p-4',
   'peer-checked:bg-blue-500',
   'parent-hover:text-center',
@@ -1161,6 +1167,22 @@ export const presetMiniTargets: string[] = [
   'group-[[data-attr]]/label:font-17',
   'group-[.as-parent_&]/label:font-18',
   'group-[.not-parent]/label:font-19',
+
+  // variants - taggedAria
+  'group-aria-focus:p-4',
+  'peer-aria-checked:bg-blue-500',
+  'parent-aria-hover:text-center',
+  'previous-aria-checked/label:bg-red-500',
+  'group-aria-hover:font-10',
+  'group-aria-[:hover]:font-11',
+  'group-aria-[[data-attr]]:font-12',
+  'group-aria-[.as-parent_&]:font-13',
+  'group-aria-[.not-parent]:font-14',
+  'group-aria-hover/label:font-15',
+  'group-aria-[:hover]/label:font-16',
+  'group-aria-[[data-attr]]/label:font-17',
+  'group-aria-[.as-parent_&]/label:font-18',
+  'group-aria-[.not-parent]/label:font-19',
 
   // variants - variables
   '[&:nth-child(2)]:m-10',

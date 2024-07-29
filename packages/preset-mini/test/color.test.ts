@@ -1,5 +1,5 @@
 import type { RuleContext } from '@unocss/core'
-import { createGenerator } from '@unocss/core'
+import { createGenerator, symbols } from '@unocss/core'
 import { colorResolver, colorableShadows } from '@unocss/preset-mini/utils'
 
 import { describe, expect, it } from 'vitest'
@@ -48,6 +48,7 @@ describe('preset-mini color utils', () => {
           danger: 'hsl(var(--danger))',
         },
       },
+      symbols,
       rawSelector: '',
       currentSelector: '',
       generator: createGenerator(),

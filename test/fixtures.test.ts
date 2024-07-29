@@ -71,7 +71,7 @@ describe.concurrent('fixtures', () => {
   }, 15000)
 
   it.skipIf(isWindows)('vite legacy renderModernChunks false', async () => {
-    const root = resolve(__dirname, 'fixtures/vite-legacy-renderModernChunks-false')
+    const root = resolve(__dirname, 'fixtures/vite-legacy-chunks')
     await fs.emptyDir(join(root, 'dist'))
     await build({
       root,

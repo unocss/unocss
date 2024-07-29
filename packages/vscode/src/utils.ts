@@ -200,3 +200,23 @@ export function convertToRGBA(rgbColor: string) {
 
   return rgbColor
 }
+
+const styleTagsRe = /<style[^>]*>[\s\S]*?<\/style>/g
+
+export function shouldProvideAutocomplete(code: string, id: string, offset: number) {
+  const isSfcLike = id.match(/\.(svelte|vue|astro)$/)
+
+  const isInStyleTag = isSfcLike
+    ? [...code.matchAll(styleTagsRe)]
+        .map(v => [v.index, v.index + v[0].length])
+        .some(([start, end]) => offset > start && offset < end)
+    : false
+
+  const codeStripStrings = code
+    .slice(offset)
+    .replace(/"[^"]*"|\{[^}]*\}|'[^']*'/g, '')
+
+  const isInStartTag = /^[^<>]*>/.test(codeStripStrings)
+
+  return isInStartTag || isInStyleTag
+}
