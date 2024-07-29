@@ -120,6 +120,11 @@
           ],
           "description": "The matching type for autocomplete"
         },
+        "unocss.autocomplete.strict": {
+          "type": "boolean",
+          "default": false,
+          "description": "Be strict about where to show autocomplete"
+        },
         "unocss.autocomplete.maxItems": {
           "type": "number",
           "default": 1000,

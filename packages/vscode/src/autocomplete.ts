@@ -3,7 +3,7 @@ import { createAutocomplete } from '@unocss/autocomplete'
 import type { CompletionItemProvider, Disposable, ExtensionContext } from 'vscode'
 import { CompletionItem, CompletionItemKind, CompletionList, MarkdownString, Range, languages, window, workspace } from 'vscode'
 import type { UnoGenerator, UnocssPluginContext } from '@unocss/core'
-import { getCSS, getColorString, getPrettiedCSS, getPrettiedMarkdown } from './utils'
+import { getCSS, getColorString, getPrettiedCSS, getPrettiedMarkdown, shouldProvideAutocomplete } from './utils'
 import { log } from './log'
 import type { ContextLoader } from './contextLoader'
 import { isCssId } from './integration'
@@ -108,6 +108,11 @@ export async function registerAutoComplete(
       const code = doc.getText()
       if (!code)
         return null
+
+      const offset = window.activeTextEditor!.document.offsetAt(position)
+
+      if (configuration.autocompleteStrict && !shouldProvideAutocomplete(code, id, offset))
+        return
 
       const ctx = await contextLoader.resolveClosestContext(code, id)
       if (!ctx)
