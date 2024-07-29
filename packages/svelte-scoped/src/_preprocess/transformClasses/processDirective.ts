@@ -5,7 +5,6 @@ import { needsGenerated } from './needsGenerated'
 import { generateClassName } from './generateClassName'
 import type { ProcessResult } from './processClasses'
 import { isShortcut } from './isShortcut'
-import { shortcutName, unoMock } from './unoMock'
 
 export async function processDirective(
   { body: token, start, end, type }: FoundClass,
