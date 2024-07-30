@@ -1,5 +1,5 @@
 {
-  "version": "0.61.7",
+  "version": "0.61.8",
   "scripts": {
     "bench": "node run.mjs"
   },
