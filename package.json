@@ -133,6 +133,7 @@
     "overrides": {
       "assert": "npm:@nolyfill/assert@latest",
       "deep-equal": "npm:@nolyfill/deep-equal@latest",
+      "importx": "0.4.3",
       "is-typed-array": "npm:@nolyfill/is-typed-array@latest",
       "isarray": "npm:@nolyfill/isarray@latest",
       "magic-string": "^0.30.11",
