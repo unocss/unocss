@@ -130,21 +130,22 @@ export default function WebpackPlugin<Theme extends object>(
                 return
 
               let code = compilation.assets[file].source().toString()
+              let escapeCss: ReturnType<typeof getCssEscaperForJsContent>
               let replaced = false
               code = code.replace(HASH_PLACEHOLDER_RE, '')
               code = code.replace(LAYER_PLACEHOLDER_RE, (_, layer, escapeView) => {
                 replaced = true
-                const css = layer === LAYER_MARK_ALL
+                const css = layer.trim() === LAYER_MARK_ALL
                   ? result.getLayers(undefined, Array.from(entries)
                     .map(i => resolveLayer(i)).filter((i): i is string => !!i))
                   : (result.getLayer(layer) || '')
 
-                const escapeCss = getCssEscaperForJsContent(escapeView)
+                escapeCss = escapeCss ?? getCssEscaperForJsContent(escapeView.trim())
 
                 return escapeCss(css)
               })
               if (replaced)
-                compilation.assets[file] = new WebpackSources.RawSource(code) as any
+                compilation.assets[file] = new WebpackSources.SourceMapSource(code, file, compilation.assets[file].map() as any) as any
             }
           })
         })

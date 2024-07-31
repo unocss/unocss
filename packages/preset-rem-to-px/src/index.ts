@@ -1,6 +1,6 @@
 import { definePreset } from '@unocss/core'
 
-const remRE = /(-?[\.\d]+)rem/g
+const remRE = /(-?[.\d]+)rem/g
 
 export interface RemToPxOptions {
   /**
@@ -10,6 +10,9 @@ export interface RemToPxOptions {
   baseFontSize?: number
 }
 
+/**
+ * @see https://unocss.dev/presets/rem-to-px
+ */
 export const presetRemToPx = definePreset((options: RemToPxOptions = {}) => {
   const {
     baseFontSize = 16,

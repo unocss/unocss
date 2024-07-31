@@ -17,22 +17,24 @@ This package is in an experimental state right now. It doesn't follow semver, an
 
 ::: code-group
   ```bash [pnpm]
-  pnpm add -D @unocss/postcss
+  pnpm add -D unocss @unocss/postcss
   ```
   ```bash [yarn]
-  yarn add -D @unocss/postcss
+  yarn add -D unocss @unocss/postcss
   ```
   ```bash [npm]
-  npm install -D @unocss/postcss
+  npm install -D unocss @unocss/postcss
   ```
 :::
 
 ```ts
-// postcss.config.cjs
-module.exports = {
-  plugins: {
-    '@unocss/postcss': {},
-  },
+// postcss.config.mjs
+import UnoCSS from '@unocss/postcss'
+
+export default {
+  plugins: [
+    UnoCSS(),
+  ],
 }
 ```
 

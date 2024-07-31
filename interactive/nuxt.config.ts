@@ -19,9 +19,6 @@ export default defineNuxtConfig({
   ],
   ssr: false,
   spaLoadingTemplate: './spa-loading-template.html',
-  experimental: {
-    reactivityTransform: true,
-  },
   app: {
     baseURL: '/interactive/',
   },
@@ -48,6 +45,9 @@ export default defineNuxtConfig({
     transform: {
       include: [/\.vue$/, /\.md$/],
     },
+  },
+  vue: {
+    propsDestructure: true,
   },
   vite: {
     logLevel: 'info',

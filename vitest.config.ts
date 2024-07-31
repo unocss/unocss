@@ -12,7 +12,6 @@ export default defineConfig({
     testTimeout: 30_000,
     name: 'unit',
     setupFiles: ['./test/setup.ts'],
-    exclude: [...defaultExclude, '**/svelte-scoped/**'],
-    globals: true,
+    exclude: [...defaultExclude, '**/svelte-scoped/**', '**/test-dom/**'],
   },
 })

@@ -9,19 +9,19 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "preact": "^10.19.3"
+    "preact": "^10.23.1"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.42",
-    "@preact/preset-vite": "^2.8.1",
-    "@prefresh/vite": "^2.4.5",
+    "@iconify-json/logos": "^1.1.43",
+    "@preact/preset-vite": "^2.9.0",
+    "@prefresh/vite": "^2.4.6",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
     "cross-env": "^7.0.3",
-    "typescript": "^5.3.3",
+    "typescript": "^5.5.4",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.0.12"
+    "vite": "^5.3.5"
   },
   "stackblitz": {
     "installDependencies": false,

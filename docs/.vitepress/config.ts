@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/types'
+import { transformerTwoslash } from '@shikijs/vitepress-twoslash'
 import { version } from '../../package.json'
 
 const ogUrl = 'https://unocss.dev/'
@@ -159,6 +160,12 @@ const Nav: DefaultTheme.NavItem[] = [
         text: 'Contributing',
         link: 'https://github.com/unocss/unocss/blob/main/CONTRIBUTING.md',
       },
+      {
+        component: 'RainbowAnimationSwitcher',
+        props: {
+          text: 'Rainbow Animation',
+        },
+      },
     ],
   },
 ]
@@ -269,6 +276,11 @@ export default defineConfig({
       light: 'vitesse-light',
       dark: 'vitesse-dark',
     },
+    codeTransformers: [
+      transformerTwoslash({
+        processHoverInfo: info => info.replace(/_unocss_core\./g, ''),
+      }),
+    ],
   },
 
   themeConfig: {

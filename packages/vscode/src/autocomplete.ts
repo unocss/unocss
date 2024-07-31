@@ -3,7 +3,7 @@ import { createAutocomplete } from '@unocss/autocomplete'
 import type { CompletionItemProvider, Disposable, ExtensionContext } from 'vscode'
 import { CompletionItem, CompletionItemKind, CompletionList, MarkdownString, Range, languages, window, workspace } from 'vscode'
 import type { UnoGenerator, UnocssPluginContext } from '@unocss/core'
-import { getCSS, getColorString, getPrettiedCSS, getPrettiedMarkdown } from './utils'
+import { getCSS, getColorString, getPrettiedCSS, getPrettiedMarkdown, shouldProvideAutocomplete } from './utils'
 import { log } from './log'
 import type { ContextLoader } from './contextLoader'
 import { isCssId } from './integration'
@@ -109,6 +109,11 @@ export async function registerAutoComplete(
       if (!code)
         return null
 
+      const offset = window.activeTextEditor!.document.offsetAt(position)
+
+      if (configuration.autocompleteStrict && !shouldProvideAutocomplete(code, id, offset))
+        return
+
       const ctx = await contextLoader.resolveClosestContext(code, id)
       if (!ctx)
         return null
@@ -121,6 +126,9 @@ export async function registerAutoComplete(
 
         const result = await autoComplete.suggestInFile(code, doc.offsetAt(position))
 
+        if (!result)
+          return
+
         // log.appendLine(`🤖 ${id} | ${result.suggestions.slice(0, 10).map(v => `[${v[0]}, ${v[1]}]`).join(', ')}`)
 
         if (!result.suggestions.length)
@@ -129,9 +137,9 @@ export async function registerAutoComplete(
         const completionItems: UnoCompletionItem[] = []
 
         const suggestions = result.suggestions.slice(0, configuration.maxItems)
-
+        const isAttributify = ctx.uno.config.presets.some(p => p.name === '@unocss/preset-attributify')
         for (const [value, label] of suggestions) {
-          const css = await getCSS(ctx!.uno, value)
+          const css = await getCSS(ctx!.uno, isAttributify ? [value, `[${value}=""]`] : value)
           const colorString = getColorString(css)
           const itemKind = colorString ? CompletionItemKind.Color : CompletionItemKind.EnumMember
           const item = new UnoCompletionItem(label, itemKind, value, ctx!.uno)

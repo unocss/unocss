@@ -13,7 +13,6 @@ export default defineBuildConfig({
     '@unocss/config',
   ],
   rollup: {
-    emitCJS: true,
     dts: {
       respectExternal: false,
     },

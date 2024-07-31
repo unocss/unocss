@@ -5,13 +5,15 @@ const { item } = defineProps<{
   item: DocItem
 }>()
 
-const caniuseItem = $computed<DocItem>(() => ({
+const caniuseItem = computed<DocItem>(() => ({
+  id: item.id,
+  size: item.size,
   type: 'caniuse',
   title: item.title,
   url: `https://caniuse.com/?search=${encodeURIComponent(item.title)}`,
 }))
 
-const relatives = $computed(() => searcher.getUtilsOfFeature(item.title))
+const relatives = computed(() => searcher.getUtilsOfFeature(item.title))
 </script>
 
 <template>
@@ -36,7 +38,7 @@ const relatives = $computed(() => searcher.getUtilsOfFeature(item.title))
           Relatives
         </div>
         <div border="~ base" flex="~ col">
-          <template v-for="a, idx of relatives" :key="a.class">
+          <template v-for="(a, idx) of relatives" :key="a.class">
             <div v-if="idx" divider />
             <RouterLink :to="{ query: { s: a.class } }">
               <ResultItem :item="a" />

@@ -150,6 +150,8 @@ export const floats: Rule[] = [
   // floats
   ['float-left', { float: 'left' }],
   ['float-right', { float: 'right' }],
+  ['float-start', { float: 'inline-start' }],
+  ['float-end', { float: 'inline-end' }],
   ['float-none', { float: 'none' }],
   ...makeGlobalStaticRules('float'),
 
@@ -157,6 +159,8 @@ export const floats: Rule[] = [
   ['clear-left', { clear: 'left' }],
   ['clear-right', { clear: 'right' }],
   ['clear-both', { clear: 'both' }],
+  ['clear-start', { clear: 'inline-start' }],
+  ['clear-end', { clear: 'inline-end' }],
   ['clear-none', { clear: 'none' }],
   ...makeGlobalStaticRules('clear'),
 ]

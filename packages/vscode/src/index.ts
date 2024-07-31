@@ -1,6 +1,7 @@
 import path, { dirname } from 'path'
+import process from 'process'
 import type { ExtensionContext, StatusBarItem, WorkspaceConfiguration } from 'vscode'
-import { StatusBarAlignment, commands, window, workspace } from 'vscode'
+import { Position, StatusBarAlignment, commands, window, workspace } from 'vscode'
 import { findUp } from 'find-up'
 import type { FilterPattern } from '@rollup/pluginutils'
 import { createFilter } from '@rollup/pluginutils'
@@ -11,6 +12,10 @@ import { ContextLoader } from './contextLoader'
 import { defaultPipelineExclude, defaultPipelineInclude } from './integration'
 
 export async function activate(ext: ExtensionContext) {
+  // Neither Jiti2 nor Tsx supports running in VS Code yet
+  // We have to use Jiti1 for now
+  process.env.IMPORTX_LOADER = 'jiti-v1'
+
   log.appendLine(`⚪️ UnoCSS for VS Code v${version}\n`)
 
   const projectPath = workspace.workspaceFolders?.[0].uri.fsPath
@@ -37,11 +42,34 @@ export async function activate(ext: ExtensionContext) {
       ? toArray(root).map(r => path.resolve(projectPath, r))
       : [projectPath], config, status)
 
+  const skipMap = {
+    '<!-- @unocss-skip -->': ['<!-- @unocss-skip-start -->\n', '\n<!-- @unocss-skip-end -->'],
+    '/* @unocss-skip */': ['/* @unocss-skip-start */\n', '\n/* @unocss-skip-end */'],
+    '// @unocss-skip': ['// @unocss-skip-start\n', '\n// @unocss-skip-end'],
+  }
+
   ext.subscriptions.push(
     commands.registerCommand('unocss.reload', async () => {
       log.appendLine('🔁 Reloading...')
       await ctx.reload()
       log.appendLine('✅ Reloaded.')
+    }),
+    commands.registerCommand('unocss.insert-skip-annotation', async () => {
+      const activeTextEditor = window.activeTextEditor
+      if (!activeTextEditor)
+        return
+      const selection = activeTextEditor.selection
+      if (!selection)
+        return
+      // pick <!-- @unocss-skip-start --> or // @unocss-skip-start
+      const key = await window.showQuickPick(Object.keys(skipMap))
+      if (!key)
+        return
+      const [insertStart, insertEnd] = skipMap[key as keyof typeof skipMap]
+      activeTextEditor.edit((builder) => {
+        builder.insert(new Position(selection.start.line, 0), insertStart)
+        builder.insert(selection.end, insertEnd)
+      })
     }),
   )
 }
@@ -58,7 +86,7 @@ async function rootRegister(
   const _include = config.get<FilterPattern>('include')
 
   const include: FilterPattern = _include || defaultPipelineInclude
-  const exclude: FilterPattern = _exclude || [/[\/](node_modules|dist|\.temp|\.cache|\.vscode)[\/]/, ...defaultPipelineExclude]
+  const exclude: FilterPattern = _exclude || [/[\\/](node_modules|dist|\.temp|\.cache|\.vscode)[\\/]/, ...defaultPipelineExclude]
   const filter = createFilter(include, exclude)
 
   const ctx = new ContextLoader(root[0], ext, status)

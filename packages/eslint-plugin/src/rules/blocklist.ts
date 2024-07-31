@@ -15,7 +15,7 @@ export default createRule({
       recommended: 'recommended',
     },
     messages: {
-      'in-blocklist': 'Utility \'{{ name }}\' is in blocklist',
+      'in-blocklist': '\"{{name}}\" is in blocklist{{reason}}',
     },
     schema: [],
   },
@@ -25,13 +25,20 @@ export default createRule({
       if (typeof node.value !== 'string' || !node.value.trim())
         return
       const input = node.value
-      const blocked = syncAction('blocklist', input, context.filename)
-      blocked.forEach((i) => {
+
+      const blocked = syncAction(
+        context.settings.unocss?.configPath,
+        'blocklist',
+        input,
+        context.filename,
+      )
+      blocked.forEach(([name, meta]) => {
         context.report({
           node,
           messageId: 'in-blocklist',
           data: {
-            name: i,
+            name,
+            reason: meta?.message ? `: ${meta.message}` : '',
           },
         })
       })
@@ -68,13 +75,19 @@ export default createRule({
         for (const node of valueless) {
           if (!node?.key?.name)
             continue
-          const blocked = syncAction('blocklist', node.key.name, context.filename)
-          blocked.forEach((i) => {
+          const blocked = syncAction(
+            context.settings.unocss?.configPath,
+            'blocklist',
+            node.key.name,
+            context.filename,
+          )
+          blocked.forEach(([name, meta]) => {
             context.report({
               node,
               messageId: 'in-blocklist',
               data: {
-                name: i,
+                name,
+                reason: meta?.message ? `: ${meta.message}` : '',
               },
             })
           })
@@ -82,14 +95,15 @@ export default createRule({
       },
     }
 
+    const parserServices = context?.sourceCode.parserServices || context.parserServices
     // @ts-expect-error missing-types
-    if (context.parserServices == null || context.parserServices.defineTemplateBodyVisitor == null) {
+    if (parserServices == null || parserServices.defineTemplateBodyVisitor == null) {
       return scriptVisitor
     }
     else {
       // For Vue
       // @ts-expect-error missing-types
-      return context.parserServices?.defineTemplateBodyVisitor(templateBodyVisitor, scriptVisitor)
+      return parserServices?.defineTemplateBodyVisitor(templateBodyVisitor, scriptVisitor)
     }
   },
 }) as any as ESLintUtils.RuleWithMeta<[], ''>

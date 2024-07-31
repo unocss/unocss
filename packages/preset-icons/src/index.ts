@@ -11,12 +11,25 @@ async function createNodeLoader() {
   }
   catch { }
   try {
-    // eslint-disable-next-line ts/no-require-imports, ts/no-var-requires
+    // eslint-disable-next-line ts/no-require-imports
     return require('@iconify/utils/lib/loader/node-loader.cjs').loadNodeIcon
   }
   catch { }
 }
 
+/**
+ * Use any icon with Pure CSS for UnoCSS.
+ *
+ * @example
+ *
+ * ```html
+ * <div class="i-mdi-alarm"></div>
+ * <div class="i-logos-vue text-3xl"></div>
+ * <button class="i-carbon-sun dark:i-carbon-moon"></div>
+ * ```
+ *
+ * @see https://unocss.dev/presets/icons
+ */
 export const presetIcons = /* @__PURE__ */ createPresetIcons(async (options) => {
   const {
     cdn,

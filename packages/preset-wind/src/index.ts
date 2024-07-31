@@ -28,6 +28,11 @@ export interface PresetWindOptions extends PresetMiniOptions {
   important?: boolean | string
 }
 
+/**
+ * The Tailwind CSS / Windi CSS compact preset for UnoCSS.
+ *
+ * @see https://unocss.dev/presets/wind
+ */
 export const presetWind = definePreset((options: PresetWindOptions = {}) => {
   options.important = options.important ?? false
 

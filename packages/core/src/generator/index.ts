@@ -1,9 +1,16 @@
 import { createNanoEvents } from '../utils/events'
-import type { CSSEntries, CSSObject, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
+import type { BlocklistMeta, BlocklistValue, CSSEntries, CSSEntriesInput, CSSObject, CSSValueInput, ControlSymbols, ControlSymbolsEntry, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
 import { resolveConfig } from '../config'
-import { BetterMap, CONTROL_SHORTCUT_NO_MERGE, CountableSet, TwoKeyMap, e, entriesToCss, expandVariantGroup, isCountableSet, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, uniq, warnOnce } from '../utils'
+import { BetterMap, CountableSet, TwoKeyMap, e, entriesToCss, expandVariantGroup, isCountableSet, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, uniq, warnOnce } from '../utils'
 import { version } from '../../package.json'
 import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from '../constants'
+
+export const symbols: ControlSymbols = {
+  shortcutsNoMerge: '$$symbol-shortcut-no-merge' as unknown as ControlSymbols['shortcutsNoMerge'],
+  variants: '$$symbol-variants' as unknown as ControlSymbols['variants'],
+  parent: '$$symbol-parent' as unknown as ControlSymbols['parent'],
+  selector: '$$symbol-selector' as unknown as ControlSymbols['selector'],
+}
 
 export class UnoGenerator<Theme extends object = object> {
   public version = version
@@ -87,6 +94,7 @@ export class UnoGenerator<Theme extends object = object> {
       currentSelector: applied[1],
       theme: this.config.theme,
       generator: this,
+      symbols,
       variantHandlers: applied[2],
       constructCSS: (...args) => this.constructCustomCSS(context, ...args),
       variantMatch: applied,
@@ -182,11 +190,18 @@ export class UnoGenerator<Theme extends object = object> {
         : input
 
     if (safelist) {
-      this.config.safelist.forEach((s) => {
-        // We don't want to increment count if token is already in the set
-        if (!tokens.has(s))
-          tokens.add(s)
-      })
+      const safelistContext: SafeListContext<Theme> = {
+        generator: this,
+        theme: this.config.theme,
+      }
+
+      this.config.safelist
+        .flatMap(s => typeof s === 'function' ? s(safelistContext) : s)
+        .forEach((s) => {
+          // We don't want to increment count if token is already in the set
+          if (!tokens.has(s))
+            tokens.add(s)
+        })
     }
 
     const nl = minify ? '' : '\n'
@@ -284,7 +299,7 @@ export class UnoGenerator<Theme extends object = object> {
                 || a[2]?.localeCompare(b[2] || '') // body
                 || 0
             })
-            .map(([, selector, body,, meta,, variantNoMerge]) => {
+            .map(([, selector, body, , meta, , variantNoMerge]) => {
               const scopedSelector = selector ? applyScope(selector, scope) : selector
               return [
                 [[scopedSelector ?? '', meta?.sort ?? 0]],
@@ -402,7 +417,7 @@ export class UnoGenerator<Theme extends object = object> {
             continue
           handler = { matcher: handler }
         }
-        processed = handler.matcher
+        processed = handler.matcher ?? processed
         handlers.unshift(handler)
         variants.add(v)
         applied = true
@@ -428,7 +443,9 @@ export class UnoGenerator<Theme extends object = object> {
       .reduceRight(
         (previous, v) => (input: VariantHandlerContext) => {
           const entries = v.body?.(input.entries) || input.entries
-          const parents: [string | undefined, number | undefined] = Array.isArray(v.parent) ? v.parent : [v.parent, undefined]
+          const parents: [string | undefined, number | undefined] = Array.isArray(v.parent)
+            ? v.parent
+            : [v.parent, undefined]
           return (v.handle ?? defaultVariantHandler)({
             ...input,
             entries,
@@ -550,20 +567,59 @@ export class UnoGenerator<Theme extends object = object> {
       if (!match)
         continue
 
-      const result = await handler(match, context)
+      let result = await handler(match, context)
       if (!result)
         continue
 
       if (this.config.details)
         context.rules!.push([matcher, handler, meta] as DynamicRule<Theme>)
 
-      const entries = normalizeCSSValues(result).filter(i => i.length)
+      // Handle generator result
+      if (typeof result !== 'string') {
+        if (Symbol.asyncIterator in result) {
+          const entries: (CSSValueInput | string)[] = []
+          for await (const r of result) {
+            if (r)
+              entries.push(r)
+          }
+          result = entries
+        }
+        else if (Symbol.iterator in result && !Array.isArray(result)) {
+          result = Array.from(result)
+            .filter(notNull)
+        }
+      }
+
+      const entries = normalizeCSSValues(result).filter(i => i.length) as (string | CSSEntriesInput)[]
       if (entries.length) {
-        return entries.map((e) => {
-          if (isString(e))
-            return [i, e, meta]
-          else
-            return [i, raw, e, meta, variantHandlers]
+        return entries.map((css): ParsedUtil | RawUtil => {
+          if (isString(css))
+            return [i, css, meta]
+
+          // Extract variants from special symbols
+          let variants = variantHandlers
+          for (const entry of css) {
+            if (entry[0] === symbols.variants) {
+              variants = [
+                ...toArray(entry[1]),
+                ...variants,
+              ]
+            }
+            else if (entry[0] === symbols.parent) {
+              variants = [
+                { parent: entry[1] },
+                ...variants,
+              ]
+            }
+            else if (entry[0] === symbols.selector) {
+              variants = [
+                { selector: entry[1] },
+                ...variants,
+              ]
+            }
+          }
+
+          return [i, raw, css as CSSEntries, meta, variants]
         })
       }
     }
@@ -578,7 +634,14 @@ export class UnoGenerator<Theme extends object = object> {
     if (isRawUtil(parsed))
       return [parsed[0], undefined, parsed[1], undefined, parsed[2], this.config.details ? context : undefined, undefined]
 
-    const { selector, entries, parent, layer: variantLayer, sort: variantSort, noMerge } = this.applyVariants(parsed)
+    const {
+      selector,
+      entries,
+      parent,
+      layer: variantLayer,
+      sort: variantSort,
+      noMerge,
+    } = this.applyVariants(parsed)
     const body = entriesToCss(entries)
 
     if (!body)
@@ -639,9 +702,13 @@ export class UnoGenerator<Theme extends object = object> {
       }
     }
 
-    // expand nested shortcuts
-    if (isString(result))
-      result = expandVariantGroup(result.trim()).split(/\s+/g)
+    if (result) {
+      result = toArray(result).map((s) => {
+        if (isString(s))
+          return expandVariantGroup(s.trim()).split(/\s+/g)
+        return s
+      }).flat() as ShortcutValue[]
+    }
 
     // expand nested shortcuts with variants
     if (!result) {
@@ -657,7 +724,7 @@ export class UnoGenerator<Theme extends object = object> {
       return
 
     return [
-      (await Promise.all(result.map(async r => (
+      (await Promise.all((result as ShortcutValue[]).map(async r => (
         isString(r)
           ? (await this.expandShortcut(r, context, depth - 1))?.[0]
           : undefined
@@ -725,13 +792,13 @@ export class UnoGenerator<Theme extends object = object> {
             }
 
             const merges = [
-              [e.filter(([, noMerge]) => noMerge).map(([entries,, sort]) => [entries, sort]), true],
-              [e.filter(([, noMerge]) => !noMerge).map(([entries,, sort]) => [entries, sort]), false],
+              [e.filter(([, noMerge]) => noMerge).map(([entries, , sort]) => [entries, sort]), true],
+              [e.filter(([, noMerge]) => !noMerge).map(([entries, , sort]) => [entries, sort]), false],
             ] as [[CSSEntries, number][], boolean][]
 
             return merges.map(([e, noMerge]) => [
-              ...stringify(false, noMerge, e.filter(([entries]) => entries.some(entry => entry[0] === CONTROL_SHORTCUT_NO_MERGE))),
-              ...stringify(true, noMerge, e.filter(([entries]) => entries.every(entry => entry[0] !== CONTROL_SHORTCUT_NO_MERGE))),
+              ...stringify(false, noMerge, e.filter(([entries]) => entries.some(entry => (entry as unknown as ControlSymbolsEntry)[0] === symbols.shortcutsNoMerge))),
+              ...stringify(true, noMerge, e.filter(([entries]) => entries.every(entry => (entry as unknown as ControlSymbolsEntry)[0] !== symbols.shortcutsNoMerge))),
             ])
           })
           .flat(2)
@@ -740,7 +807,19 @@ export class UnoGenerator<Theme extends object = object> {
   }
 
   isBlocked(raw: string): boolean {
-    return !raw || this.config.blocklist.some(e => typeof e === 'function' ? e(raw) : isString(e) ? e === raw : e.test(raw))
+    return !raw || this.config.blocklist
+      .map(e => Array.isArray(e) ? e[0] : e)
+      .some(e => typeof e === 'function' ? e(raw) : isString(e) ? e === raw : e.test(raw))
+  }
+
+  getBlocked(raw: string): [BlocklistValue, BlocklistMeta | undefined] | undefined {
+    const rule = this.config.blocklist
+      .find((e) => {
+        const v = Array.isArray(e) ? e[0] : e
+        return typeof v === 'function' ? v(raw) : isString(v) ? v === raw : v.test(raw)
+      })
+
+    return rule ? (Array.isArray(rule) ? rule : [rule, undefined]) : undefined
   }
 }
 

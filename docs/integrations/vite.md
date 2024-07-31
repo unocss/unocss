@@ -399,6 +399,34 @@ export default defineConfig({
 
 <ContentExample :item="playgrounds['vite-elm']"  class="Link" integrations />
 
+## Legacy
+
+If `@vitejs/plugin-legacy` with `renderModernChunks: false`, your need add it to `unocss` option
+
+```ts
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import Unocss from 'unocss/vite'
+import { presetUno } from 'unocss'
+import legacy from '@vitejs/plugin-legacy'
+
+export default defineConfig({
+  plugins: [
+    vue(),
+    Unocss({
+      presets: [presetUno()],
+      legacy: {
+        renderModernChunks: false,
+      },
+    }),
+    legacy({
+      targets: ['defaults', 'not IE 11'],
+      renderModernChunks: false,
+    }),
+  ],
+})
+```
+
 ## License
 
 - MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)

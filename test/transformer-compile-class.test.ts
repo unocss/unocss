@@ -6,7 +6,7 @@ import type { CompileClassOptions } from '@unocss/transformer-compile-class'
 import transformerCompileClass from '@unocss/transformer-compile-class'
 import presetUno from '@unocss/preset-uno'
 
-const CUSTOM_TRIGGER = /(["'`]):custom(?:-)?(?<name>[^\s\1]+)?:\s([^\1]*?)\1/g
+const CUSTOM_TRIGGER = /(["'`]):custom-?(?<name>[^\s\\1]+)?:\s([^\\1]*?)\1/g
 
 describe('transformer-compile-class', () => {
   function createUno(options?: CompileClassOptions) {

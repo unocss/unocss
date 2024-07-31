@@ -1,0 +1,25 @@
+nav {
+  ul {
+    li {
+    }
+    #app :is(li) {
+      border-width: 1px;
+    }
+  }
+  a {
+  }
+  #app :is(a) {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  #app :is(a:hover) {
+    text-decoration-line: underline;
+  }
+}
+#app :is(nav) {
+  border-width: 1px;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}

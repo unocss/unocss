@@ -5,7 +5,7 @@ updateDependencyLinksToLatest('./package.json')
 async function updateDependencyLinksToLatest(filename) {
   try {
     const contents = await fsPromises.readFile(filename, 'utf-8')
-    const updatedContent = contents.replace(/"link:...+"/gi, '"latest"')
+    const updatedContent = contents.replace(/"link:.{3,}"/gi, '"latest"')
     await fsPromises.writeFile(filename, updatedContent)
   }
   catch (err) {

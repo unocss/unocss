@@ -32,5 +32,13 @@ export const verticalAligns: Rule[] = [
   ],
 ]
 
-export const textAligns: Rule[] = ['center', 'left', 'right', 'justify', 'start', 'end']
-  .map(v => [`text-${v}`, { 'text-align': v }])
+const textAlignValues = ['center', 'left', 'right', 'justify', 'start', 'end']
+
+export const textAligns: Rule[] = [
+  ...textAlignValues
+    .map(v => [`text-${v}`, { 'text-align': v }] as Rule),
+  ...[
+    ...globalKeywords,
+    ...textAlignValues,
+  ].map(v => [`text-align-${v}`, { 'text-align': v }] as Rule),
+]

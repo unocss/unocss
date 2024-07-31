@@ -66,7 +66,7 @@ export interface CompileClassOptions {
 
 export default function transformerCompileClass(options: CompileClassOptions = {}): SourceCodeTransformer {
   const {
-    trigger = /(["'`]):uno(?:-)?(?<name>[^\s\1]+)?:\s([^\1]*?)\1/g,
+    trigger = /(["'`]):uno-?(?<name>\S+)?:\s(.*?)\1/g,
     classPrefix = 'uno-',
     hashFn = hash,
     keepUnknown = true,

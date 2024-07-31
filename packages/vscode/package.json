@@ -2,7 +2,7 @@
   "publisher": "antfu",
   "name": "@unocss/vscode",
   "displayName": "UnoCSS",
-  "version": "0.58.5",
+  "version": "0.61.9",
   "private": true,
   "description": "UnoCSS for VS Code",
   "license": "MIT",
@@ -28,6 +28,11 @@
       {
         "command": "unocss.reload",
         "title": "Reload UnoCSS",
+        "category": "UnoCSS"
+      },
+      {
+        "command": "unocss.insert-skip-annotation",
+        "title": "Insert `@unocss-skip` for the selection",
         "category": "UnoCSS"
       }
     ],
@@ -86,9 +91,14 @@
           "default": true,
           "description": "Enable/disable color preview decorations"
         },
+        "unocss.colorPreviewRadius": {
+          "type": "string",
+          "default": "50%",
+          "description": "Radius for color preview"
+        },
         "unocss.remToPxPreview": {
           "type": "boolean",
-          "default": false,
+          "default": true,
           "description": "Enable/disable rem to px preview in hover"
         },
         "unocss.remToPxRatio": {
@@ -110,6 +120,11 @@
           ],
           "description": "The matching type for autocomplete"
         },
+        "unocss.autocomplete.strict": {
+          "type": "boolean",
+          "default": false,
+          "description": "Be strict about where to show autocomplete"
+        },
         "unocss.autocomplete.maxItems": {
           "type": "number",
           "default": 1000,
@@ -128,11 +143,11 @@
     "@types/vscode": "^1.71.0",
     "@unocss/nuxt": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
-    "esno": "^4.0.0",
+    "esno": "^4.7.0",
     "find-up": "^6.3.0",
-    "jiti": "^1.21.0",
+    "jiti": "^1.21.6",
     "prettier": "^2.8.8",
-    "tsup": "^8.0.1",
-    "unconfig": "^0.3.11"
+    "tsup": "^8.2.3",
+    "unconfig": "^0.5.4"
   }
 }

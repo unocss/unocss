@@ -8,17 +8,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.3.9"
+    "vue": "^3.4.35"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.42",
+    "@iconify-json/logos": "^1.1.43",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
-    "@vitejs/plugin-vue": "^5.0.3",
-    "typescript": "^5.3.3",
+    "@unocss/preset-web-fonts": "link:../../packages/preset-web-fonts",
+    "@vitejs/plugin-vue": "^5.1.1",
+    "typescript": "^5.5.4",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.0.12"
+    "vite": "^5.3.5"
   },
   "stackblitz": {
     "installDependencies": false,

@@ -82,6 +82,8 @@ export async function build(_options: CliOptions) {
 
       if (configSources.includes(absolutePath)) {
         await ctx.reloadConfig()
+        if (configSources.length)
+          watcher.add(configSources)
         consola.info(`${cyan(basename(file))} changed, setting new config`)
       }
       else {
@@ -97,10 +99,9 @@ export async function build(_options: CliOptions) {
     })
 
     consola.info(
-      `Watching for changes in ${
-        toArray(patterns)
-          .map(i => cyan(i))
-          .join(', ')}`,
+      `Watching for changes in ${toArray(patterns)
+        .map(i => cyan(i))
+        .join(', ')}`,
     )
   }
 
@@ -122,24 +123,38 @@ export async function build(_options: CliOptions) {
   async function generate(options: ResolvedCliOptions) {
     const sourceCache = Array.from(fileCache).map(([id, code]) => ({ id, code }))
 
-    const preTransform = await transformFiles(sourceCache, 'pre')
-    const defaultTransform = await transformFiles(preTransform)
-    const postTransform = await transformFiles(defaultTransform, 'post')
+    const afterPreTrans = await transformFiles(sourceCache, 'pre')
+    const afterDefaultTrans = await transformFiles(afterPreTrans)
+    const afterPostTrans = await transformFiles(afterDefaultTrans, 'post')
 
     // update source file
     if (options.writeTransformed) {
       await Promise.all(
-        postTransform
+        afterPostTrans
           .filter(({ transformedCode }) => !!transformedCode)
-          .map(({ transformedCode, id }) => new Promise<void>((resolve) => {
+          .map(async ({ transformedCode, id }) => {
             if (existsSync(id))
-              fs.writeFile(id, transformedCode as string, 'utf-8').then(resolve)
-          })),
+              await fs.writeFile(id, transformedCode as string, 'utf-8')
+          }),
       )
     }
 
+    const tokens = new Set<string>()
+
+    for (const file of afterPostTrans) {
+      const { matched } = await ctx.uno.generate(
+        (file.transformedCode || file.code).replace(SKIP_COMMENT_RE, ''),
+        {
+          preflights: false,
+          minify: true,
+          id: file.id,
+        },
+      )
+      matched.forEach(i => tokens.add(i))
+    }
+
     const { css, matched } = await ctx.uno.generate(
-      [...postTransform.map(({ code, transformedCode }) => (transformedCode ?? code).replace(SKIP_COMMENT_RE, ''))].join('\n'),
+      tokens,
       {
         preflights: options.preflights,
         minify: options.minify,
@@ -159,9 +174,9 @@ export async function build(_options: CliOptions) {
 
     if (!options.watch) {
       consola.success(
-      `${[...matched].length} utilities generated to ${cyan(
-        relative(process.cwd(), outFile),
-      )}\n`,
+        `${[...matched].length} utilities generated to ${cyan(
+          relative(process.cwd(), outFile),
+        )}\n`,
       )
     }
   }

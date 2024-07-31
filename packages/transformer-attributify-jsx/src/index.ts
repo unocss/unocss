@@ -37,9 +37,11 @@ export interface TransformerAttributifyJsxOptions {
   exclude?: FilterPattern
 }
 
-const elementRE = /(<\w[\w:\.$-]*\s)([\s\S]*?)(?=>[\s\S]?<\/[\s\w:\.$-]*>|\/>)/g
-const attributeRE = /(?<![~`!$%^&*()_+\-=[{;':"|,.<>/?]\s*)([a-zA-Z()#][\[?a-zA-Z0-9-_:()#%\]?]*)(?:\s*=\s*((?:'[^']*')|(?:"[^"]*")|\S+))?/g
-const valuedAttributeRE = /((?!\d|-{2}|-\d)[a-zA-Z0-9\u00A0-\uFFFF-_:!%-.~<]+)=(?:["]([^"]*)["]|[']([^']*)[']|[{]((?:[`(](?:[^`)]*)[`)]|[^}])+)[}])/gms
+// eslint-disable-next-line regexp/no-super-linear-backtracking
+const elementRE = /<([^/?<>0-9$_!][^\s>]*)\s+((?:"[^"]*"|'[^"]*'|(\{[^}]*\})|[^{>])+)>/g
+const attributeRE = /(?<![~`!$%^&*()_+\-=[{;':"|,.<>/?])([a-z()#][[?\w\-:()#%\]]*)(?:\s*=\s*('[^']*'|"[^"]*"|\S+))?|\{[^}]*\}/gi
+// eslint-disable-next-line regexp/no-super-linear-backtracking
+const valuedAttributeRE = /((?!\d|-{2}|-\d)[\w\u00A0-\uFFFF:!%.~<-]+)=(?:"[^"]*"|'[^']*'|(\{)((?:[`(][^`)]*[`)]|[^}])+)(\}))/g
 
 export default function transformerAttributifyJsx(options: TransformerAttributifyJsxOptions = {}): SourceCodeTransformer {
   const {
@@ -71,21 +73,41 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
     idFilter,
     async transform(code, _, { uno }) {
       const tasks: Promise<void>[] = []
-
+      const attributify = uno.config.presets.find(i => i.name === '@unocss/preset-attributify')
+      const attributifyPrefix = attributify?.options?.prefix ?? 'un-'
       for (const item of Array.from(code.original.matchAll(elementRE))) {
         // Get the length of the className part, and replace it with the equal length of empty string
         let attributifyPart = item[2]
-        if (valuedAttributeRE.test(attributifyPart))
-          attributifyPart = attributifyPart.replace(valuedAttributeRE, match => ' '.repeat(match.length))
+        if (valuedAttributeRE.test(attributifyPart)) {
+          attributifyPart = attributifyPart.replace(valuedAttributeRE, (match, _, dynamicFlagStart) => {
+            if (!dynamicFlagStart)
+              return ' '.repeat(match.length)
+            let preLastModifierIndex = 0
+            let temp = match
+            // No more recursively processing the more complex situations of jsx in attributes.
+            for (const _item of match.matchAll(elementRE)) {
+              const attrAttributePart = _item[2]
+              if (valuedAttributeRE.test(attrAttributePart))
+                attrAttributePart.replace(valuedAttributeRE, (m: string) => ' '.repeat(m.length))
+
+              const pre = temp.slice(0, preLastModifierIndex) + ' '.repeat(_item.index + _item[0].indexOf(_item[2]) - preLastModifierIndex) + attrAttributePart
+              temp = pre + ' '.repeat(_item.input.length - pre.length)
+              preLastModifierIndex = pre.length
+            }
+            if (preLastModifierIndex !== 0)
+              return temp
+
+            return ' '.repeat(match.length)
+          })
+        }
         for (const attr of attributifyPart.matchAll(attributeRE)) {
-          const matchedRule = attr[0].replace(/\:/i, '-')
+          const matchedRule = attr[0].replace(/:/, '-')
           if (matchedRule.includes('=') || isBlocked(matchedRule))
             continue
-
-          tasks.push(uno.parseToken(matchedRule).then((matched) => {
+          const updatedMatchedRule = matchedRule.startsWith(attributifyPrefix) ? matchedRule.slice(attributifyPrefix.length) : matchedRule
+          tasks.push(uno.parseToken(updatedMatchedRule).then((matched) => {
             if (matched) {
-              const tag = item[1]
-              const startIdx = (item.index || 0) + (attr.index || 0) + tag.length
+              const startIdx = (item.index || 0) + (attr.index || 0) + item[0].indexOf(item[2])
               const endIdx = startIdx + matchedRule.length
               code.overwrite(startIdx, endIdx, `${matchedRule}=""`)
             }

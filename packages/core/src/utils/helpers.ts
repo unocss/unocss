@@ -2,9 +2,8 @@ import type { ParsedUtil, RawUtil, StringifiedUtil, Variant, VariantObject } fro
 
 export const attributifyRE = /^\[(.+?)~?="(.*)"\]$/
 export const cssIdRE = /\.(css|postcss|sass|scss|less|stylus|styl)($|\?)/
-export const validateFilterRE = /[\w\u00A0-\uFFFF-_:%-?]/
-
-export const CONTROL_SHORTCUT_NO_MERGE = '$$shortcut-no-merge'
+// eslint-disable-next-line regexp/no-obscure-range
+export const validateFilterRE = /[\w\u00A0-\uFFFF%-?]/
 
 export function isAttributifySelector(selector: string) {
   return selector.match(attributifyRE)

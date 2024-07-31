@@ -72,6 +72,11 @@ export interface PresetMiniOptions extends PresetOptions {
   arbitraryVariants?: boolean
 }
 
+/**
+ * The basic preset for UnoCSS, with only the most essential utilities.
+ *
+ * @see https://unocss.dev/presets/mini
+ */
 export const presetMini = definePreset((options: PresetMiniOptions = {}) => {
   options.dark = options.dark ?? 'class'
   options.attributifyPseudo = options.attributifyPseudo ?? false

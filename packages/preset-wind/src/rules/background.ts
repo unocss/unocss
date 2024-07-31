@@ -1,6 +1,7 @@
-import type { CSSColorValue, Rule, RuleContext } from '@unocss/core'
+import type { Rule, RuleContext } from '@unocss/core'
 import { globalKeywords, h, makeGlobalStaticRules, parseColor, positionMap } from '@unocss/preset-mini/utils'
 import type { Theme } from '@unocss/preset-mini'
+import type { CSSColorValue } from '@unocss/rule-utils'
 import { colorOpacityToString, colorToString } from '@unocss/rule-utils'
 
 function bgGradientToValue(cssColor: CSSColorValue | undefined) {
@@ -77,7 +78,7 @@ export const backgroundStyles: Rule[] = [
   [/^(?:bg-gradient-)?(via)-(.+)$/, bgGradientColorResolver()],
   [/^(?:bg-gradient-)?(to)-(.+)$/, bgGradientColorResolver()],
   [/^(?:bg-gradient-)?(from|via|to)-op(?:acity)?-?(.+)$/, ([, position, opacity]) => ({ [`--un-${position}-opacity`]: h.bracket.percent(opacity) })],
-  [/^(from|via|to)-([\d\.]+)%$/, bgGradientPositionResolver()],
+  [/^(from|via|to)-([\d.]+)%$/, bgGradientPositionResolver()],
   // images
   [/^bg-gradient-((?:repeating-)?(?:linear|radial|conic))$/, ([, s]) => ({
     'background-image': `${s}-gradient(var(--un-gradient, var(--un-gradient-stops, rgb(255 255 255 / 0))))`,

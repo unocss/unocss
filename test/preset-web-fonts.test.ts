@@ -3,6 +3,7 @@ import presetMini from '@unocss/preset-mini'
 import type { WebFontsOptions } from '@unocss/preset-web-fonts'
 import presetWebFonts from '@unocss/preset-web-fonts'
 import { expect, it } from 'vitest'
+import { createLocalFontProcessor } from '../packages/preset-web-fonts/src/local'
 
 const options: WebFontsOptions = {
   provider: 'google',
@@ -62,7 +63,7 @@ it('web-fonts (inline: true)', async () => {
   expect(css).toContain('@font-face')
 })
 
-it('web-fonts weigth sort', async () => {
+it('web-fonts weight sort', async () => {
   const uno = createGenerator({
     presets: [
       presetMini(),
@@ -88,7 +89,7 @@ it('web-fonts weigth sort', async () => {
   expect(importUrl).toMatchInlineSnapshot('"https://fonts.googleapis.com/css2?family=Fira+Mono:wght@200;1000&family=Lato:ital,wght@0,200;0,1000;1,200;1,1000&display=swap"')
 })
 
-it('web-fonts weigth deduplicate', async () => {
+it('web-fonts weight deduplicate', async () => {
   const uno = createGenerator({
     presets: [
       presetMini(),
@@ -112,4 +113,37 @@ it('web-fonts weigth deduplicate', async () => {
   const { css } = await uno.generate(classes)
   const importUrl = css.match(/@import url\('(.*)'\)/)![1]
   expect(importUrl).toMatchInlineSnapshot('"https://fonts.googleapis.com/css2?family=Fira+Mono:wght@200;1000&family=Lato:ital,wght@0,200;0,400;0,1000;1,200;1,400;1,1000&display=swap"')
+})
+
+it('createLocalFontProcessor', async () => {
+  const uno = createGenerator({
+    presets: [
+      presetMini(),
+      presetWebFonts({
+        provider: 'google',
+        fonts: {
+          mono: 'Fira Mono',
+          lato: [
+            {
+              name: 'Lato',
+              italic: true,
+            },
+          ],
+        },
+        processors: [
+          createLocalFontProcessor({
+            fontAssetsDir: 'test/assets/fonts',
+            fontServeBaseUrl: '/__base__/fonts',
+          }),
+        ],
+      }),
+    ],
+  })
+
+  const { css } = await uno.generate(classes)
+
+  expect(css).includes('url(/__base__/fonts/')
+
+  expect(css)
+    .toMatchFileSnapshot('./assets/output/preset-web-fonts-local.css')
 })

@@ -1,0 +1,49 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`order > fully controlled rules merged and sorted by body 1`] = `
+"/* layer: default */
+.uno{--var:uno;}
+/* sort: css */ .foo{--foo:0}
+/* sort: uno */ .foo{--foo:0}
+.bar-css{--bar:css;}
+.bar-uno{--bar:uno;}
+.css{--var:css;}"
+`;
+
+exports[`order > multiple variant sorting 1`] = `
+"/* layer: default */
+.dark .group:hover:focus-within .dark\\:group-hover\\:group-focus-within\\:bg-blue-600{--un-bg-opacity:1;background-color:rgb(37 99 235 / var(--un-bg-opacity));}
+.group:hover:focus-within .dark .group-hover\\:group-focus-within\\:dark\\:bg-red-600{--un-bg-opacity:1;background-color:rgb(220 38 38 / var(--un-bg-opacity));}
+.parent:hover>.light .group:focus-within .parent-hover\\:light\\:group-focus-within\\:bg-yellow-600{--un-bg-opacity:1;background-color:rgb(202 138 4 / var(--un-bg-opacity));}
+.parent:hover>.light .parent:focus-within>.parent-hover\\:light\\:parent-focus-within\\:bg-green-600{--un-bg-opacity:1;background-color:rgb(22 163 74 / var(--un-bg-opacity));}"
+`;
+
+exports[`order > pseudo-elements sorting 1`] = `
+"/* layer: default */
+.dark .dark\\:hover\\:file\\:marker\\:bg-red-600 ::marker::file-selector-button:hover{--un-bg-opacity:1;background-color:rgb(220 38 38 / var(--un-bg-opacity));}
+.dark .dark\\:file\\:marker\\:hover\\:bg-red-600:hover ::marker::file-selector-button{--un-bg-opacity:1;background-color:rgb(220 38 38 / var(--un-bg-opacity));}"
+`;
+
+exports[`order > variant ordering 1`] = `
+"/* layer: default */
+.group .dark .dark\\:group\\:foo-3{name:foo-3;}
+.group .dark .group\\:dark\\:foo-4{name:foo-4;}
+.group .light .light\\:group\\:foo-1{name:foo-1;}
+.light .group .group\\:light\\:foo-2{name:foo-2;}"
+`;
+
+exports[`order > variant ordering reversed 1`] = `
+"/* layer: default */
+.dark .group .dark\\:group\\:foo-3{name:foo-3;}
+.dark .group .group\\:dark\\:foo-4{name:foo-4;}
+.group .light .group\\:light\\:foo-2{name:foo-2;}
+.light .group .light\\:group\\:foo-1{name:foo-1;}"
+`;
+
+exports[`order > variant sorting 1`] = `
+"/* layer: default */
+pre .pre\\:foo-1,
+any .any\\:foo-1,
+zzz .zzz\\:foo-1,
+post .post\\:foo-1{foo:foo-1;}"
+`;

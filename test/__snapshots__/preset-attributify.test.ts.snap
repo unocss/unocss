@@ -13,6 +13,24 @@ exports[`attributify > prefixedOnly 1`] = `
 [un-children~="m-auto"]>*{margin:auto;}"
 `;
 
+exports[`attributify > support inline arrow functions 1`] = `
+"/* layer: default */
+.h-1px,
+[h-1px=""]{height:1px;}"
+`;
+
+exports[`attributify > support inline arrow functions 2`] = `
+"/* layer: default */
+.h-1px,
+[h-1px=""]{height:1px;}"
+`;
+
+exports[`attributify > support inline arrow functions 3`] = `
+"/* layer: default */
+.h-1px,
+[h-1px=""]{height:1px;}"
+`;
+
 exports[`attributify > variant 1`] = `
 [
   "uno-layer-base-c-white/10",
@@ -74,6 +92,7 @@ exports[`attributify > variant 1`] = `
 exports[`attributify > with trueToNonValued 1`] = `
 "/* layer: default */
 [grid~="\\~"]{display:grid;}
+.cols-2,
 [grid~="cols-2"]{grid-template-columns:repeat(2,minmax(0,1fr));}
 [flex~="true"]{display:flex;}"
 `;

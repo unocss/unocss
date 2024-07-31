@@ -2,7 +2,7 @@ import type { VariantObject } from '@unocss/core'
 import { resolveBreakpoints } from '../utils'
 
 export function calcMaxWidthBySize(size: string) {
-  const value = size.match(/^-?[0-9]+\.?[0-9]*/)?.[0] || ''
+  const value = size.match(/^-?\d+\.?\d*/)?.[0] || ''
   const unit = size.slice(value.length)
   if (unit === 'px') {
     const maxWidth = (Number.parseFloat(value) - 0.1)
@@ -11,13 +11,27 @@ export function calcMaxWidthBySize(size: string) {
   return `calc(${size} - 0.1px)`
 }
 
+const sizePseudo = /(max|min)-\[([^\]]*)\]:/
+
 export function variantBreakpoints(): VariantObject {
   const regexCache: Record<string, RegExp> = {}
   return {
     name: 'breakpoints',
     match(matcher, context) {
-      const variantEntries: Array<[string, string, number]>
-      = (resolveBreakpoints(context) ?? []).map(({ point, size }, idx) => [point, size, idx])
+      if (sizePseudo.test(matcher)) {
+        const match = matcher.match(sizePseudo)!
+        const m = matcher.replace(match[0], '')
+        return {
+          matcher: m,
+          handle: (input, next) => next({
+            ...input,
+            parent: `${input.parent ? `${input.parent} $$ ` : ''}@media (${match[1]}-width: ${match[2]})`,
+            // parentOrder: order,
+          }),
+        }
+      }
+      const variantEntries: Array<[string, string, number]> = (resolveBreakpoints(context) ?? [])
+        .map(({ point, size }, idx) => [point, size, idx])
       for (const [point, size, idx] of variantEntries) {
         if (!regexCache[point])
           regexCache[point] = new RegExp(`^((?:([al]t-|[<~]|max-))?${point}(?:${context.generator.config.separators.join('|')}))`)

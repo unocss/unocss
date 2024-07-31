@@ -1,4 +1,3 @@
-/* eslint-disable curly */
 import { computed, nextTick, reactive, ref, unref, watch } from 'vue'
 import type { MaybeElementRef, MaybeRef } from '@vueuse/core'
 import { clamp, createEventHook, tryOnScopeDispose, unrefElement, useEventListener } from '@vueuse/core'
@@ -141,7 +140,8 @@ export function useResize(element: MaybeElementRef, options: UseResizeOptions = 
     if (container.value[0] === target.value) {
       direction.value = setDirection
       isOverEdge.value = !!setDirection
-      !unref(disableCursor) && window!.document.body.style.setProperty('cursor', setCursor)
+      if (!unref(disableCursor))
+        window!.document.body.style.setProperty('cursor', setCursor)
       window!.document.body.style.setProperty('touch-action', setTouchAction)
       window!.document.body.style.setProperty('user-select', setTouchAction)
     }
@@ -307,32 +307,36 @@ export function useResize(element: MaybeElementRef, options: UseResizeOptions = 
       && ((currentX - left) < 0 ? Math.abs(currentX - left) < edgeWidthOutside : (currentX - left) <= edgeWidthInside))
       && isEdgeActive('top-left')
       && isOnForeground(left, top, true, 1, 1)
-    )
+    ) {
       setCursorAndDirection('nwse-resize', 'top-left')
+    }
 
     else if (
       (((currentY - top) < 0 ? Math.abs(currentY - top) < edgeWidthOutside : (currentY - top) < edgeWidthInside)
       && ((currentX - right) > 0 ? Math.abs(currentX - right) < edgeWidthOutside : Math.abs(currentX - right) < edgeWidthInside))
       && isEdgeActive('top-right')
       && isOnForeground(right, top, true, -1, 1)
-    )
+    ) {
       setCursorAndDirection('nesw-resize', 'top-right')
+    }
 
     else if (
       (((currentY - bottom) > 0 ? Math.abs(currentY - bottom) < edgeWidthOutside : Math.abs(currentY - bottom) < edgeWidthInside)
       && ((currentX - left) < 0 ? Math.abs(currentX - left) < edgeWidthOutside : (currentX - left) < edgeWidthInside))
       && isEdgeActive('bottom-left')
       && isOnForeground(left, bottom, true, 1, -1)
-    )
+    ) {
       setCursorAndDirection('nesw-resize', 'bottom-left')
+    }
 
     else if (
       (((currentY - bottom) > 0 ? Math.abs(currentY - bottom) < edgeWidthOutside : Math.abs(currentY - bottom) < edgeWidthInside)
       && ((currentX - right) > 0 ? Math.abs(currentX - right) < edgeWidthOutside : Math.abs(currentX - right) < edgeWidthInside))
       && isEdgeActive('bottom-right')
       && isOnForeground(right, bottom, true, -1, -1)
-    )
+    ) {
       setCursorAndDirection('nwse-resize', 'bottom-right')
+    }
 
     else if (
       (((currentY - bottom) > 0 && Math.abs(currentY - bottom) < edgeWidthOutside)
@@ -341,8 +345,9 @@ export function useResize(element: MaybeElementRef, options: UseResizeOptions = 
       && currentX < right
       && isEdgeActive('bottom')
       && isOnForeground(currentX, bottom)
-    )
+    ) {
       setCursorAndDirection('ns-resize', 'bottom')
+    }
 
     else if (
       (((currentY - top) < 0 && Math.abs(currentY - top) < edgeWidthOutside)
@@ -351,8 +356,9 @@ export function useResize(element: MaybeElementRef, options: UseResizeOptions = 
       && currentX < right
       && isEdgeActive('top')
       && isOnForeground(currentX, top)
-    )
+    ) {
       setCursorAndDirection('ns-resize', 'top')
+    }
 
     else if (
       (((currentX - left) < 0 && Math.abs(currentX - left) < edgeWidthOutside)
@@ -361,8 +367,9 @@ export function useResize(element: MaybeElementRef, options: UseResizeOptions = 
       && currentY < bottom
       && isEdgeActive('left')
       && isOnForeground(left, currentY)
-    )
+    ) {
       setCursorAndDirection('ew-resize', 'left')
+    }
 
     else if (
       (((currentX - right) > 0 && Math.abs(currentX - right) < edgeWidthOutside)
@@ -371,11 +378,13 @@ export function useResize(element: MaybeElementRef, options: UseResizeOptions = 
       && currentY < bottom
       && isEdgeActive('right')
       && isOnForeground(right, currentY)
-    )
+    ) {
       setCursorAndDirection('ew-resize', 'right')
+    }
 
-    else
+    else {
       setCursorAndDirection('', '', '')
+    }
   }
 
   tryOnScopeDispose(stop)

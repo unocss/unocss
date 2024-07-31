@@ -71,6 +71,8 @@ export const xyzMap: Record<string, string[]> = {
   '': ['-x', '-y'],
 }
 
+export const xyzArray = ['x', 'y', 'z']
+
 const basePositionMap = [
   'top',
   'top center',
@@ -103,6 +105,7 @@ export const positionMap: Record<string, string> = Object.assign(
   ...basePositionMap.map(p => ({ [p.replace(/ /, '-')]: p })),
 
   // [{ t: 'top' }, { tc: 'top center' }, ...]
+  // eslint-disable-next-line regexp/optimal-quantifier-concatenation
   ...basePositionMap.map(p => ({ [p.replace(/\b(\w)\w+/g, '$1').replace(/ /, '')]: p })),
 )
 
@@ -115,3 +118,4 @@ export const globalKeywords = [
 ]
 
 export const cssMathFnRE = /^(calc|clamp|min|max)\s*\((.+)\)(.*)/
+export const cssVarFnRE = /^(var)\s*\((.+)\)(.*)/

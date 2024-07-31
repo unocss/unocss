@@ -1,7 +1,14 @@
 import antfu from '@antfu/eslint-config'
 
 export default antfu(
-  {},
+  {
+    regexp: {
+      overrides: {
+        'regexp/no-empty-capturing-group': 'off',
+        'regexp/no-empty-group': 'off',
+      },
+    },
+  },
   {
     ignores: [
       '**/.svelte-kit',
@@ -27,9 +34,9 @@ export default antfu(
   },
   {
     files: [
-      'playground/**/*.ts',
-      'examples/**/*.ts',
-      'test/fixtures/**/*.ts',
+      'playground/**/*.?([mc])ts',
+      'examples/**/*.?([mc])ts',
+      'test/fixtures/**/*.?([mc])ts',
     ],
     rules: {
       'no-restricted-imports': 'off',
@@ -62,6 +69,15 @@ export default antfu(
       'no-labels': 'off',
       'ts/no-unused-vars': 'off',
       'ts/no-var-requires': 'off',
+    },
+  },
+  {
+    name: 'tests',
+    files: [
+      '**/*.test.ts',
+    ],
+    rules: {
+      'antfu/indent-unindent': ['error', { tags: ['$', 'html'] }],
     },
   },
 )
