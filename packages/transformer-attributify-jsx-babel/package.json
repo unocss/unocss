@@ -37,7 +37,7 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@babel/core": "^7.24.9",
+    "@babel/core": "^7.25.2",
     "@babel/plugin-syntax-jsx": "^7.24.7",
     "@babel/preset-typescript": "^7.24.7",
     "@unocss/core": "workspace:*"

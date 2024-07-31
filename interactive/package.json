@@ -30,7 +30,7 @@
     "shiki": "^1.12.0",
     "theme-vitesse": "^0.8.1",
     "unplugin-vue-markdown": "^0.26.2",
-    "vue": "^3.4.34",
+    "vue": "^3.4.35",
     "vue-virtual-scroller": "2.0.0-beta.8"
   }
 }

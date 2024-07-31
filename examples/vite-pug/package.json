@@ -7,7 +7,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.4.34"
+    "vue": "^3.4.35"
   },
   "devDependencies": {
     "@unocss/extractor-pug": "link:../../packages/extractor-pug",
