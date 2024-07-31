@@ -82,7 +82,7 @@ export interface IconsOptions {
    *
    * @default process.cwd()
    */
-  collectionsNodeResolvePath?: string
+  collectionsNodeResolvePath?: string | string[]
 
   /**
    * Custom icon unit.
