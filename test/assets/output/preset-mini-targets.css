@@ -1052,6 +1052,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .transition-none{transition:none;}
 .transition-revert-layer{transition:revert-layer;}
 .transition-discrete{transition-behavior:allow-discrete;}
+.transition-normal{transition-behavior:normal;}
 .will-change-auto{will-change:auto;}
 .will-change-contents{will-change:contents;}
 .will-change-margin\,padding{will-change:margin,padding;}

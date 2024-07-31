@@ -874,8 +874,9 @@ export const presetMiniTargets: string[] = [
   'ease-out',
   'transition-ease-in',
 
-  // transition - discrete
+  // transition - behavior - discrete/normal
   'transition-discrete',
+  'transition-normal',
 
   // typography
   'font-mono',
