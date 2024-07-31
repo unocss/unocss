@@ -1,6 +1,6 @@
 {
   "name": "@unocss/preset-legacy-compat",
-  "version": "0.61.6",
+  "version": "0.61.9",
   "description": "Collections of legacy compatibility utilities.",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",

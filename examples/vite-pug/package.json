@@ -7,11 +7,11 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.4.34"
+    "vue": "^3.4.35"
   },
   "devDependencies": {
     "@unocss/extractor-pug": "link:../../packages/extractor-pug",
-    "@vitejs/plugin-vue": "^5.1.0",
+    "@vitejs/plugin-vue": "^5.1.1",
     "pug": "^3.0.3",
     "unocss": "link:../../packages/unocss",
     "vite": "^5.3.5"

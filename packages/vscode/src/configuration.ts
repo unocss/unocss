@@ -15,7 +15,9 @@ export type ConfigurationListenerMap<Init> = Map<keyof Init, WatchConfigurationH
 
 export type WatchConfigurationHandler<Init, K extends keyof Init> = (value: Init[K]) => void
 
-export function getConfigurations<Init extends Record<string, unknown>>(options: UseConfigurationOptions<Init>) {
+export function getConfigurations<Init extends Record<string, unknown>>(
+  options: UseConfigurationOptions<Init>,
+) {
   const { initialValue, alias, scope, ext } = options
   const configuration = {} as Init
 
@@ -94,10 +96,12 @@ export function useConfigurations(ext: ExtensionContext) {
       underline: true,
       selectionStyle: true,
       strictAnnotationMatch: true,
+      autocompleteStrict: false,
     },
     alias: {
       matchType: 'autocomplete.matchType',
       maxItems: 'autocomplete.maxItems',
+      autocompleteStrict: 'autocomplete.strict',
     },
   })
 }

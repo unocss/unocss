@@ -71,6 +71,7 @@ export const rules: Rule<Theme>[] = [
   _.borders,
   _.bgColors,
   backgroundStyles,
+  _.colorScheme,
   _.svgUtilities,
   objectPositions,
   _.paddings,

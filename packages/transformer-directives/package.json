@@ -1,7 +1,7 @@
 {
   "name": "@unocss/transformer-directives",
   "type": "module",
-  "version": "0.61.6",
+  "version": "0.61.9",
   "description": "UnoCSS transformer for `@apply` directive",
   "author": "hannoeru <me@hanlee.co>",
   "license": "MIT",
@@ -41,6 +41,6 @@
     "css-tree": "^2.3.1"
   },
   "devDependencies": {
-    "magic-string": "^0.30.10"
+    "magic-string": "^0.30.11"
   }
 }

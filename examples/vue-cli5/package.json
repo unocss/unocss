@@ -1,5 +1,5 @@
 {
-  "version": "0.61.6",
+  "version": "0.61.9",
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve",
