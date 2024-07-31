@@ -57,7 +57,7 @@ declare global {
   const getInitialPanelSizes: typeof import('./composables/panel')['getInitialPanelSizes']
   const h: typeof import('vue')['h']
   const ignorableWatch: typeof import('@vueuse/core')['ignorableWatch']
-  const importMapsPlugin: typeof import('./composables/reload')['importMapsPlugin']
+  const importMapsPlugin: typeof import('../plugin-import-maps')['importMapsPlugin']
   const init: typeof import('./composables/uno')['init']
   const inject: typeof import('vue')['inject']
   const injectLocal: typeof import('@vueuse/core')['injectLocal']
@@ -144,9 +144,11 @@ declare global {
   const tryOnScopeDispose: typeof import('@vueuse/core')['tryOnScopeDispose']
   const tryOnUnmounted: typeof import('@vueuse/core')['tryOnUnmounted']
   const uno: typeof import('./composables/uno')['uno']
+  const unocssVersion: typeof import('./composables/url')['unocssVersion']
   const unref: typeof import('vue')['unref']
   const unrefElement: typeof import('@vueuse/core')['unrefElement']
   const until: typeof import('@vueuse/core')['until']
+  const updateUrl: typeof import('./composables/url')['updateUrl']
   const useAbs: typeof import('@vueuse/math')['useAbs']
   const useActiveElement: typeof import('@vueuse/core')['useActiveElement']
   const useAnimate: typeof import('@vueuse/core')['useAnimate']
@@ -400,7 +402,6 @@ declare module 'vue' {
     readonly getInitialPanelSizes: UnwrapRef<typeof import('./composables/panel')['getInitialPanelSizes']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
-    readonly importMapsPlugin: UnwrapRef<typeof import('./composables/reload')['importMapsPlugin']>
     readonly init: UnwrapRef<typeof import('./composables/uno')['init']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly injectLocal: UnwrapRef<typeof import('@vueuse/core')['injectLocal']>
@@ -487,9 +488,11 @@ declare module 'vue' {
     readonly tryOnScopeDispose: UnwrapRef<typeof import('@vueuse/core')['tryOnScopeDispose']>
     readonly tryOnUnmounted: UnwrapRef<typeof import('@vueuse/core')['tryOnUnmounted']>
     readonly uno: UnwrapRef<typeof import('./composables/uno')['uno']>
+    readonly unocssVersion: UnwrapRef<typeof import('./composables/url')['unocssVersion']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly unrefElement: UnwrapRef<typeof import('@vueuse/core')['unrefElement']>
     readonly until: UnwrapRef<typeof import('@vueuse/core')['until']>
+    readonly updateUrl: UnwrapRef<typeof import('./composables/url')['updateUrl']>
     readonly useAbs: UnwrapRef<typeof import('@vueuse/math')['useAbs']>
     readonly useActiveElement: UnwrapRef<typeof import('@vueuse/core')['useActiveElement']>
     readonly useAnimate: UnwrapRef<typeof import('@vueuse/core')['useAnimate']>
@@ -736,7 +739,6 @@ declare module '@vue/runtime-core' {
     readonly getInitialPanelSizes: UnwrapRef<typeof import('./composables/panel')['getInitialPanelSizes']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
-    readonly importMapsPlugin: UnwrapRef<typeof import('./composables/reload')['importMapsPlugin']>
     readonly init: UnwrapRef<typeof import('./composables/uno')['init']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly injectLocal: UnwrapRef<typeof import('@vueuse/core')['injectLocal']>
@@ -823,9 +825,11 @@ declare module '@vue/runtime-core' {
     readonly tryOnScopeDispose: UnwrapRef<typeof import('@vueuse/core')['tryOnScopeDispose']>
     readonly tryOnUnmounted: UnwrapRef<typeof import('@vueuse/core')['tryOnUnmounted']>
     readonly uno: UnwrapRef<typeof import('./composables/uno')['uno']>
+    readonly unocssVersion: UnwrapRef<typeof import('./composables/url')['unocssVersion']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly unrefElement: UnwrapRef<typeof import('@vueuse/core')['unrefElement']>
     readonly until: UnwrapRef<typeof import('@vueuse/core')['until']>
+    readonly updateUrl: UnwrapRef<typeof import('./composables/url')['updateUrl']>
     readonly useAbs: UnwrapRef<typeof import('@vueuse/math')['useAbs']>
     readonly useActiveElement: UnwrapRef<typeof import('@vueuse/core')['useActiveElement']>
     readonly useAnimate: UnwrapRef<typeof import('@vueuse/core')['useAnimate']>

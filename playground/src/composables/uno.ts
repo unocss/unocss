@@ -36,7 +36,7 @@ export async function getHint(context: CompletionContext): Promise<CompletionRes
   const cursor = context.pos
   const result = await autocomplete.suggestInFile(context.state.doc.toString(), cursor)
 
-  if (!result.suggestions?.length)
+  if (!result?.suggestions?.length)
     return null
 
   const resolved = result.resolveReplacement(result.suggestions[0][0])

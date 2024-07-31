@@ -5,7 +5,7 @@ import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import UnoCSS from '@unocss/vite'
 import { alias } from '../alias'
-import { importMapsPlugin } from './src/composables/reload'
+import { importMapsPlugin } from './plugin-import-maps'
 
 export default defineConfig({
   base: '/play/',
@@ -56,13 +56,8 @@ export default defineConfig({
         '@iconify/utils/lib/loader/install-pkg',
         '@iconify/utils/lib/loader/node-loader',
         '@iconify/utils/lib/loader/node-loaders',
-        '@unocss/autocomplete',
-        '@unocss/core',
-        '@unocss/preset-rem-to-px',
-        '@unocss/extractor-arbitrary-variants',
-        '@unocss/transformer-attributify-jsx-babel',
+        /^@unocss\//,
         'unocss',
-        '@unocss/vite',
       ],
       input: [
         './index.html',
