@@ -135,16 +135,16 @@
       "deep-equal": "npm:@nolyfill/deep-equal@latest",
       "is-typed-array": "npm:@nolyfill/is-typed-array@latest",
       "isarray": "npm:@nolyfill/isarray@latest",
-      "object.assign": "npm:@nolyfill/object.assign@latest",
-      "object.values": "npm:@nolyfill/object.values@latest",
-      "typedarray": "npm:@nolyfill/typedarray@latest",
-      "util.promisify": "npm:@nolyfill/util.promisify@latest",
-      "which-typed-array": "npm:@nolyfill/which-typed-array@latest",
       "magic-string": "^0.30.11",
       "nuxt": "^3.12.4",
+      "object.assign": "npm:@nolyfill/object.assign@latest",
+      "object.values": "npm:@nolyfill/object.values@latest",
       "prettier": "^2.8.8",
       "rollup": "^4.19.2",
-      "vite": "^5.3.5"
+      "typedarray": "npm:@nolyfill/typedarray@latest",
+      "util.promisify": "npm:@nolyfill/util.promisify@latest",
+      "vite": "^5.3.5",
+      "which-typed-array": "npm:@nolyfill/which-typed-array@latest"
     }
   },
   "simple-git-hooks": {
