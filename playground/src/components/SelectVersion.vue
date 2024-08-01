@@ -37,6 +37,12 @@ function setVersion(version: string) {
   location.reload()
 }
 
+function getLink(version: string) {
+  if (version === 'latest')
+    return `https://github.com/unocss/unocss/commit/${sha}`
+  return `https://github.com/unocss/unocss/releases/tag/v${version}`
+}
+
 const VersionRender = defineComponent({
   props: {
     version: String,
@@ -71,24 +77,31 @@ onMounted(async () => {
 <template>
   <div v-if="selectedVersion" ref="el" class="ml-2 mr-3 relative text-sm" @click.stop>
     <button flex="~ gap-0.5 items-center" rounded hover="bg-gray/5" pl2 pr1 @click="toggle">
-      <VersionRender :version="selectedVersion" c-green />
-      <div i-ri-arrow-down-s-line />
+      <VersionRender :version="selectedVersion" c-pink-5 dark:c-pink-4 />
+      <div i-ri-arrow-down-s-line flex-none />
     </button>
 
     <div
       v-if="expanded"
-      class="top-18px bg-base max-h-450px of-y-auto absolute top-0"
+      class="top-20px bg-base max-h-450px of-y-auto absolute left--5px z-100 py1"
       flex="~ col"
       border="~ base rounded" shadow font-mono
     >
-      <button
+      <div
         v-for="ver of versions" :key="ver"
-        hover="c-green hover:bg-gray/5"
-        ws-nowrap text-left px3 py0.5
-        @click="setVersion(ver)"
+        hover="hover:bg-gray/5"
+        flex="~ items-center gap-1"
+        ws-nowrap pl3 pr1 py0.5
+        class="group"
+        :class="ver === selectedVersion ? 'c-pink-5 dark:c-pink-4 font-bold' : ''"
       >
-        <VersionRender :version="ver" />
-      </button>
+        <button flex-auto text-left @click="setVersion(ver)">
+          <VersionRender :version="ver" />
+        </button>
+        <a rounded hover="bg-gray/5 op100!" group-hover:op50 op0 p1 target="_blank" :href="getLink(ver)">
+          <div i-ri-arrow-right-up-line />
+        </a>
+      </div>
     </div>
   </div>
 </template>
