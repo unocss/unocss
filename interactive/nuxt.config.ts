@@ -11,28 +11,34 @@ const externals = [
 
 export default defineNuxtConfig({
   alias,
+
   modules: [
     '@vueuse/nuxt',
     '@nuxt/devtools',
     '../packages/nuxt/src/index.ts',
     '~/modules/markdown',
   ],
+
   ssr: false,
   spaLoadingTemplate: './spa-loading-template.html',
+
   app: {
     baseURL: '/interactive/',
   },
+
   nitro: {
     rootDir: resolve(__dirname, '..'),
     output: {
       publicDir: resolve(__dirname, '../docs/dist/interactive/'),
     },
   },
+
   postcss: {
     plugins: {
       'postcss-nested': {},
     },
   },
+
   components: {
     dirs: [
       './components',
@@ -41,14 +47,17 @@ export default defineNuxtConfig({
       include: [/\.vue$/, /\.md$/],
     },
   },
+
   imports: {
     transform: {
       include: [/\.vue$/, /\.md$/],
     },
   },
+
   vue: {
     propsDestructure: true,
   },
+
   vite: {
     logLevel: 'info',
     vue: {
@@ -67,4 +76,6 @@ export default defineNuxtConfig({
       target: 'esnext',
     },
   },
+
+  compatibilityDate: '2024-08-01',
 })

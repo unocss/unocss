@@ -177,12 +177,20 @@ function getGitHubCodeSearchLink(key: RegExp | string, repo = 'unocss/unocss') {
         <div>
           <div
             v-for="c of item.colors" :key="c" row
-            w-20 h-10 border="~ main" flex="~ gap-2"
-            text-lg items-center justify-center
-            :style="{ background: c }"
+            border="~ main" flex="~ inline" text-lg w-max
           >
-            <span text-white>A</span>
-            <span text-black>A</span>
+            <div flex items-center justify-center h-10 w-10 :style="{ background: c }">
+              <span text-white>A</span>
+            </div>
+            <div flex items-center justify-center h-10 w-10 :style="{ background: c }">
+              <span text-black>A</span>
+            </div>
+            <div flex items-center justify-center h-10 w-10 bg-white>
+              <span :style="{ color: c }">A</span>
+            </div>
+            <div flex items-center justify-center h-10 w-10 bg-black>
+              <span :style="{ color: c }">A</span>
+            </div>
           </div>
         </div>
       </div>
