@@ -12,7 +12,7 @@
     "@iconify-json/logos": "^1.1.43",
     "@iconify/utils": "^2.1.29",
     "@sveltejs/adapter-auto": "^3.2.2",
-    "@sveltejs/kit": "^2.5.18",
+    "@sveltejs/kit": "^2.5.19",
     "@sveltejs/vite-plugin-svelte": "^3.1.1",
     "@unocss/core": "link:../../packages/core",
     "@unocss/extractor-svelte": "link:../../packages/extractor-svelte",
