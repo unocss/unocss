@@ -19,7 +19,7 @@ watch([iframeData, iframe], send, { deep: true })
 const canvasRef = ref()
 const frameRef = ref()
 const scale = ref(1)
-const { width, height, style, onResizeEnd } = useResize(frameRef, {
+const { width, height, style, onResizeEnd, isResizing } = useResize(frameRef, {
   borderRadius: 8,
   xMultiplier: computed(() => 2 / scale.value),
   yMultiplier: computed(() => 1 / scale.value),
@@ -78,31 +78,35 @@ watch(isResponsive, (responsive) => {
     class="h-full overflow-hidden flex justify-center w-full bg-light-900 dark:bg-dark-900 relative"
     :class="{ 'p-4': options.responsive, 'pointer-events-none': resizing }"
   >
-    <div v-if="options.responsive" class="absolute flex items-start" :style="`width:${frameWidth}px;height:${frameHeight}px`">
-      <div class="responsiveBorder -mt-4 h-4 w-full">
+    <div
+      v-if="options.responsive"
+      class="absolute flex items-start"
+      :style="`width:${frameWidth}px;height:${frameHeight}px`"
+    >
+      <div class="responsive-border -mt-4 h-4 w-full">
         <div class="text-xs font-medium text-gray-600 dark:text-gray-400">
           {{ width.toFixed(0) }}x{{ height.toFixed(0) }} ({{ (100 * scale).toFixed(0) }}%)
         </div>
       </div>
-      <div class="responsiveBorder -ml-4 h-full w-4">
+      <div class="responsive-border -ml-4 h-full w-4">
         <span i-la-grip-lines-vertical />
       </div>
-      <div class="responsiveBorder right-0 -mr-4 h-full w-4">
+      <div class="responsive-border right-0 -mr-4 h-full w-4">
         <span i-la-grip-lines-vertical />
       </div>
-      <div class="responsiveBorder bottom-0 -mb-4 h-4 w-full">
+      <div class="responsive-border bottom-0 -mb-4 h-4 w-full">
         <span i-la-grip-lines />
       </div>
-      <div class="responsiveBorder right-0 bottom-0 -mr-4 -mb-4 h-4 w-4">
+      <div class="responsive-border right-0 bottom-0 -mr-4 -mb-4 h-4 w-4">
         <span i-la-grip-lines class="-rotate-45 -mt-1 -ml-1" />
       </div>
-      <div class="responsiveBorder left-0 bottom-0 -ml-4 -mb-4 h-4 w-4">
+      <div class="responsive-border left-0 bottom-0 -ml-4 -mb-4 h-4 w-4">
         <span i-la-grip-lines class="rotate-45 -mt-1 -mr-1" />
       </div>
-      <div class="responsiveBorder top-0 left-0 -ml-4 -mt-4 h-4 w-4">
+      <div class="responsive-border top-0 left-0 -ml-4 -mt-4 h-4 w-4">
         <span i-la-grip-lines class="rotate-135 -mb-1 -mr-1" />
       </div>
-      <div class="responsiveBorder top-0 right-0 -mr-4 -mt-4 h-4 w-4">
+      <div class="responsive-border top-0 right-0 -mr-4 -mt-4 h-4 w-4">
         <span i-la-grip-lines class="rotate-45 -mb-1 -ml-1" />
       </div>
     </div>
@@ -120,7 +124,7 @@ watch(isResponsive, (responsive) => {
           v-show="init"
           ref="iframe"
           border-0 flex-grow min-w-0 w-full h-full min-h-0
-          :class="{ 'dark': isDark, 'pointer-events-none': resizing }"
+          :class="{ 'dark': isDark, 'pointer-events-none': resizing || isResizing }"
           src="/play/__play.html"
           @load="send"
         />
@@ -128,3 +132,9 @@ watch(isResponsive, (responsive) => {
     </div>
   </div>
 </template>
+
+<style>
+.responsive-border {
+  --uno: 'absolute flex items-center justify-center bg-light-700 dark:bg-dark-800 [&>span]-(w-4 h-4 text-gray-400)';
+}
+</style>

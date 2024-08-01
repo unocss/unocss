@@ -17,7 +17,7 @@ if (!customConfigRaw.value)
     >
       <template #before>
         <div
-          class="flex-shrink-0 i-ri-arrow-right-s-line mr-1 transition-transform transform"
+          class="flex-shrink-0 i-ri-arrow-right-s-line transition-transform transform"
           :class="isCollapsed(index) ? '' : 'rotate-90'"
         />
       </template>
@@ -39,7 +39,7 @@ if (!customConfigRaw.value)
       v-model="customConfigRaw"
       flex-auto
       mode="js"
-      border="l gray-400/20"
+      border="l main"
       class="scrolls"
     />
     <div

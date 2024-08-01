@@ -27,3 +27,4 @@ interactive/public/shiki
 vite.config.ts.timestamp-*
 test/assets/fonts
 examples/**/public/assets/fonts
+playground/public/assets/fonts

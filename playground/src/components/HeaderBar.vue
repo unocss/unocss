@@ -23,20 +23,20 @@ function handleReset() {
 
 <template>
   <div
-    class="flex items-center px-2 op-60 bg-gray/10"
-    border="l t gray-400/20" w-full
+    class="p2 z-10 bg-gray/10"
+    flex="~ items-center wrap gap-3"
+    border="l t main" w-full
   >
-    <div flex items-center gap-2>
-      <img src="/icon-gray.svg" w-4 h-4alt="">
-      <div text-sm>
-        UnoCSS Playground
+    <div flex="~ items-center">
+      <div flex items-center gap-2>
+        <img src="/icon-gray.svg" w-4 h-4alt="">
+        <div text-sm>
+          UnoCSS Playground
+        </div>
       </div>
-      <div text-xs op50>
-        v{{ version }}
-      </div>
+      <SelectVersion />
     </div>
-
-    <div class="pl-1 ml-auto space-x-2 text-sm md:text-base flex items-center flex-nowrap">
+    <div class="text-sm md:text-base flex flex-auto items-center justify-end flex-nowrap gap-1">
       <button
         :class="copied ? 'i-ri-checkbox-circle-line text-green' : 'i-ri-share-line'"
         icon-btn
