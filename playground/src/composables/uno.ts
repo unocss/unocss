@@ -5,6 +5,7 @@ import MagicString from 'magic-string'
 import type { HighlightAnnotation, UnocssPluginContext } from '@unocss/core'
 import { evaluateUserConfig } from '@unocss/shared-docs'
 import type { CompletionContext, CompletionResult } from '@codemirror/autocomplete'
+import { unocssBundle } from '../../../packages/shared-docs/src/unocss-bundle'
 
 export const init = ref(false)
 export const customConfigError = ref<Error>()
@@ -59,7 +60,7 @@ debouncedWatch(
     customConfigError.value = undefined
     customCSSWarn.value = undefined
     try {
-      const result = await evaluateUserConfig(customConfigRaw.value)
+      const result = await evaluateUserConfig(customConfigRaw.value, unocssBundle)
       if (result) {
         const preflights = (result.preflights ?? []).filter(p => p.layer !== customCSSLayerName)
         preflights.push({

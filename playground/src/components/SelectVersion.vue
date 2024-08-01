@@ -16,35 +16,79 @@ async function getVersionsList() {
     return versions
   }
   const list = await fetchVersions()
+  // Filter out pre-releases and limit to latest 25 versions
   return list
+    .filter(i => !i.includes('-'))
+    .slice(0, 25)
 }
+
+const sha = __SHA__
+const latestVersion = __LASTEST_TAG__
+const latestVersionSha = __LASTEST_TAG_SHA__
+
+const isRelease = sha === latestVersionSha
+
 async function toggle() {
   expanded.value = !expanded.value
 }
 function setVersion(version: string) {
-  unocssVersion.value = version
+  selectedVersion.value = version
   updateUrl()
   location.reload()
 }
+
+const VersionRender = defineComponent({
+  props: {
+    version: String,
+  },
+  setup(props) {
+    return () => h(
+      'span',
+      {},
+      props.version === 'latest'
+        ? isRelease
+          ? [
+              h('span', latestVersion),
+              h('span', { class: 'op50 text-xs' }, '(latest)'),
+            ]
+          : [
+              h('span', `${latestVersion}*`),
+              h('span', { class: 'op50 font-mono text-xs' }, `(${latestVersionSha.slice(0, 7)})`),
+            ]
+        : `v${props.version}`,
+    )
+  },
+})
+
 onMounted(async () => {
-  versions.value = await getVersionsList()
+  versions.value = [
+    'latest',
+    ...await getVersionsList(),
+  ]
 })
 </script>
 
 <template>
-  <div v-if="unocssVersion" ref="el" class="ml-2 mr-3 relative text-sm" @click.stop>
-    <span class="place-items-center cursor-pointer relative active-version after:(top-50% -translate-y-50% absolute content-[''] border-l-4 ml-2 border-l-transparent border-r-4 border-r-transparent border-t-6 border-gray-400)" @click="toggle">
-      <span class="c-green ml-1">v{{ unocssVersion }}</span>
-    </span>
+  <div v-if="selectedVersion" ref="el" class="ml-2 mr-3 relative text-sm" @click.stop>
+    <button flex="~ gap-0.5 items-center" rounded hover="bg-gray/5" pl2 pr1 @click="toggle">
+      <VersionRender :version="selectedVersion" c-green />
+      <div i-ri-arrow-down-s-line />
+    </button>
 
-    <ul
+    <div
       v-if="expanded"
-      class="top-18px bg-base py-2 px-3 space-y-2 max-h-450px of-y-auto absolute top-0 mt-1"
+      class="top-18px bg-base max-h-450px of-y-auto absolute top-0"
+      flex="~ col"
       border="~ base rounded" shadow font-mono
     >
-      <li v-for="ver of versions" :key="ver" class="hover:c-green cursor-pointer mr-2">
-        <a @click="setVersion(ver)">v{{ ver }}</a>
-      </li>
-    </ul>
+      <button
+        v-for="ver of versions" :key="ver"
+        hover="c-green hover:bg-gray/5"
+        ws-nowrap text-left px3 py0.5
+        @click="setVersion(ver)"
+      >
+        <VersionRender :version="ver" />
+      </button>
+    </div>
   </div>
 </template>
