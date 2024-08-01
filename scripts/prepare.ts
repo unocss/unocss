@@ -38,7 +38,10 @@ const ignores = [
   'svelte',
   'runtime',
   'mdc',
+  'shared',
   'pug',
+  'scope',
+  'babel',
   '/config',
 ]
 
@@ -71,7 +74,7 @@ async function preparePackagesBundle() {
       '',
       `export const unocssBundle = new Map([`,
       clientPackages.map(p => `  [${JSON.stringify(p)}, () => import('${p}')] as any,`).join('\n'),
-      `])`,
+      `]) as Map<string, () => Promise<any>>`,
     ].join('\n'),
     'utf-8',
   )
