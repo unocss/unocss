@@ -55,11 +55,11 @@ const VersionRender = defineComponent({
         ? isRelease
           ? [
               h('span', latestVersion),
-              h('span', { class: 'op50 text-xs' }, '(latest)'),
+              h('span', { class: 'op75 text-xs' }, '(latest)'),
             ]
           : [
               h('span', `${latestVersion}*`),
-              h('span', { class: 'op50 font-mono text-xs' }, `(${latestVersionSha.slice(0, 7)})`),
+              h('span', { class: 'op75 font-mono text-xs' }, `(${latestVersionSha.slice(0, 7)})`),
             ]
         : `v${props.version}`,
     )
@@ -76,24 +76,24 @@ onMounted(async () => {
 
 <template>
   <div v-if="selectedVersion" ref="el" class="ml-2 mr-3 relative text-sm" @click.stop>
-    <button flex="~ gap-0.5 items-center" rounded hover="bg-gray/5" pl2 pr1 @click="toggle">
-      <VersionRender :version="selectedVersion" c-pink-5 dark:c-pink-4 />
+    <button flex="~ gap-0.5 items-center" rounded hover="bg-hover" pl2 pr1 @click="toggle">
+      <VersionRender :version="selectedVersion" c-primary />
       <div i-ri-arrow-down-s-line flex-none />
     </button>
 
     <div
       v-if="expanded"
-      class="top-20px bg-base max-h-450px of-y-auto absolute left--5px z-100 py1"
+      class="top-20px bg-main max-h-450px of-y-auto absolute left--5px z-100 py1"
       flex="~ col"
-      border="~ base rounded" shadow font-mono
+      border="~ main rounded" shadow font-mono
     >
       <div
         v-for="ver of versions" :key="ver"
-        hover="hover:bg-gray/5"
+        hover="hover:bg-hover"
         flex="~ items-center gap-1"
         ws-nowrap pl3 pr1 py0.5
         class="group"
-        :class="ver === selectedVersion ? 'c-pink-5 dark:c-pink-4 font-bold' : ''"
+        :class="ver === selectedVersion ? 'c-primary font-bold' : ''"
       >
         <button flex-auto text-left @click="setVersion(ver)">
           <VersionRender :version="ver" />

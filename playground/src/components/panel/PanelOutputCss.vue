@@ -11,7 +11,7 @@ defineProps<{ index: number }>()
     <TitleBar title="Output CSS" @title-click="togglePanel(index)">
       <template #before>
         <div
-          class="flex-shrink-0 i-ri-arrow-right-s-line mr-1 transition-transform transform"
+          class="flex-shrink-0 i-ri-arrow-right-s-line transition-transform transform"
           :class="isCollapsed(index) ? '' : 'rotate-90'"
         />
       </template>
@@ -32,7 +32,7 @@ defineProps<{ index: number }>()
       </div>
     </TitleBar>
     <CodeMirror
-      :model-value="cssFormatted" flex-auto mode="css" border="l gray-400/20" class="scrolls"
+      :model-value="cssFormatted" flex-auto mode="css" border="l main" class="scrolls"
       :read-only="true"
     />
   </Pane>

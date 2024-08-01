@@ -25,7 +25,7 @@ function handleReset() {
   <div
     class="p2 z-10 bg-gray/10"
     flex="~ items-center wrap gap-3"
-    border="l t gray-400/20" w-full
+    border="l t main" w-full
   >
     <div flex="~ items-center">
       <div flex items-center gap-2>
