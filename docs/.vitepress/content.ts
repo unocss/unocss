@@ -237,5 +237,14 @@ export const examples: Example[] = [
     ],
     stackblitz: true,
   },
+  {
+    name: 'angular-postcss',
+    path: 'examples/angular-postcss',
+    icons: [
+      'i-logos-postcss',
+      'i-logos-angular-icon',
+    ],
+    stackblitz: true,
+  },
 ]
   .sort((a, b) => a.name.localeCompare(b.name))
