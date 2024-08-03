@@ -29,6 +29,7 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
     unocss: 'unocss',
   }, options.directiveMap || {})
 
+  const fileMap = new Map()
   const fileClassMap = new Map()
   const classes = new Set<string>()
   const targetCache = new Set<string>()
@@ -141,6 +142,14 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
           file: normalize(file),
           parent: from,
         })
+
+        const { mtimeMs } = await stat(file)
+
+        if (fileMap.has(file) && mtimeMs <= fileMap.get(file))
+          return
+
+        else
+          fileMap.set(file, mtimeMs)
 
         const content = await readFile(file, 'utf8')
         const { matched } = await uno.generate(content, {
