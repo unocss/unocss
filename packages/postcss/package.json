@@ -62,8 +62,8 @@
     "@unocss/core": "workspace:*",
     "@unocss/rule-utils": "workspace:*",
     "css-tree": "^2.3.1",
-    "fast-glob": "^3.3.2",
     "magic-string": "^0.30.11",
-    "postcss": "^8.4.40"
+    "postcss": "^8.4.40",
+    "tinyglobby": "^0.2.0"
   }
 }

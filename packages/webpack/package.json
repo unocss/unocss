@@ -51,8 +51,8 @@
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "chokidar": "^3.6.0",
-    "fast-glob": "^3.3.2",
     "magic-string": "^0.30.11",
+    "tinyglobby": "^0.2.0",
     "unplugin": "^1.12.0",
     "webpack-sources": "^3.2.3"
   },
