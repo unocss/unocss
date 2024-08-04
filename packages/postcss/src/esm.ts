@@ -148,8 +148,7 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
         if (fileMap.has(file) && mtimeMs <= fileMap.get(file))
           return
 
-        else
-          fileMap.set(file, mtimeMs)
+        fileMap.set(file, mtimeMs)
 
         const content = await readFile(file, 'utf8')
         const { matched } = await uno.generate(content, {
