@@ -46,7 +46,7 @@ const ignores = [
 ]
 
 async function preparePackagesBundle() {
-  const allPackages = globSync(['./packages/*/package.json'], { absolute: true })
+  const allPackages = globSync(['./packages/*/package.json'], { absolute: true, expandDirectories: false })
     .map(p => JSON.parse(fs.readFileSync(p, 'utf-8')).name)
 
   const clientPackages = allPackages.filter(p => !ignores.some(i => p.includes(i)))

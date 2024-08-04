@@ -10,7 +10,7 @@ const { writeFileSync } = fs
 await fs.ensureDir('guides/vendor/')
 
 const code = genArrayFromRaw(
-  globSync(['guides/**/*.{md,vue}'])
+  globSync(['guides/**/*.{md,vue}'], { expandDirectories: false })
     .map((file) => {
       const ext = parse(file).ext
       const yml = `${file.slice(0, -ext.length)}.yml`

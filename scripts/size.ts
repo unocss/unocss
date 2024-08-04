@@ -19,7 +19,7 @@ console.log()
 console.log(`unocss v${version}`)
 
 for (const pkg of packages) {
-  const files = globSync([`packages/${pkg}/dist/**/*.mjs`], { absolute: true })
+  const files = globSync([`packages/${pkg}/dist/**/*.mjs`], { absolute: true, expandDirectories: false })
   let minified = ''
   for (const file of files) {
     const code = await fs.readFile(file, 'utf8')
