@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises'
 import { isAbsolute, resolve } from 'node:path'
-import fg from 'fast-glob'
+import { glob } from 'tinyglobby'
 import type { UnocssPluginContext } from '@unocss/core'
 import { applyTransformers } from './transformers'
 
@@ -26,7 +26,7 @@ export async function setupContentExtractor(
 
   // filesystem
   if (content?.filesystem) {
-    const files = await fg(content.filesystem, { cwd: root })
+    const files = await glob(content.filesystem, { cwd: root, expandDirectories: false })
 
     async function extractFile(file: string) {
       file = isAbsolute(file) ? file : resolve(root, file)

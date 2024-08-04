@@ -2,14 +2,14 @@ import { readFile } from 'node:fs/promises'
 import process from 'node:process'
 import { beforeAll, describe, expect, it } from 'vitest'
 import { build } from 'vite'
-import fg from 'fast-glob'
+import { glob } from 'tinyglobby'
 
 const isMacOS = process.platform === 'darwin'
 const isWindows = process.platform === 'win32'
 const isCI = process.env.CI
 
-async function getGlobContent(cwd: string, glob: string) {
-  return await fg(glob, { cwd, absolute: true })
+async function getGlobContent(cwd: string, pattern: string) {
+  return await glob([pattern], { cwd, absolute: true, expandDirectories: false })
     .then(r => Promise.all(r.map(f => readFile(f, 'utf8'))))
     .then(r => r.join('\n'))
 }

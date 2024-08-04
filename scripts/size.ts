@@ -3,7 +3,7 @@ import { basename } from 'node:path'
 import { sync as brotli } from 'brotli-size'
 import { sync as gzip } from 'gzip-size'
 import { minify } from 'terser'
-import fg from 'fast-glob'
+import { glob, globSync } from 'tinyglobby'
 import { version } from '../package.json'
 
 const packages = [
@@ -19,7 +19,7 @@ console.log()
 console.log(`unocss v${version}`)
 
 for (const pkg of packages) {
-  const files = fg.sync(`packages/${pkg}/dist/**/*.mjs`, { absolute: true })
+  const files = globSync([`packages/${pkg}/dist/**/*.mjs`], { absolute: true, expandDirectories: false })
   let minified = ''
   for (const file of files) {
     const code = await fs.readFile(file, 'utf8')
@@ -32,7 +32,10 @@ for (const pkg of packages) {
   console.log(`brotli  ${(brotli(minified) / 1024).toFixed(2)} KiB`)
 }
 
-const globals = await fg('packages/runtime/*.global.js', { absolute: true })
+const globals = await glob(['packages/runtime/*.global.js'], {
+  absolute: true,
+  expandDirectories: false,
+})
 
 console.log()
 console.log('@unocss/runtime')

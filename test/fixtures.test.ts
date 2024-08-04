@@ -4,14 +4,14 @@ import { execa } from 'execa'
 import { build } from 'vite'
 import { describe, expect, it } from 'vitest'
 import fs from 'fs-extra'
-import fg from 'fast-glob'
+import { glob } from 'tinyglobby'
 
 const isMacOS = process.platform === 'darwin'
 const isWindows = process.platform === 'win32'
 const isNode16 = process.versions.node.startsWith('16')
 
-async function getGlobContent(cwd: string, glob: string) {
-  return await fg(glob, { cwd, absolute: true })
+async function getGlobContent(cwd: string, pattern: string) {
+  return await glob([pattern], { cwd, absolute: true, expandDirectories: false })
     .then(r => Promise.all(r.map(f => fs.readFile(f, 'utf8'))))
     .then(r => r.join('\n'))
 }
@@ -63,7 +63,11 @@ describe.concurrent('fixtures', () => {
       logLevel: 'warn',
     })
 
-    const svgs = await fg('dist/assets/uno-*.svg', { cwd: root, absolute: true })
+    const svgs = await glob(['dist/assets/uno-*.svg'], {
+      cwd: root,
+      absolute: true,
+      expandDirectories: false,
+    })
     expect(svgs).toHaveLength(1)
 
     const css = await getGlobContent(root, 'dist/**/index*.css')
@@ -92,7 +96,11 @@ describe.concurrent('fixtures', () => {
       },
     })
 
-    const files = await fg('dist/**/*.{umd,iife}.?(c)js', { cwd: root, absolute: true })
+    const files = await glob(['dist/**/*.{umd,iife}.?(c)js'], {
+      cwd: root,
+      absolute: true,
+      expandDirectories: false,
+    })
 
     expect(files).toHaveLength(2)
 
@@ -125,7 +133,11 @@ describe.concurrent('fixtures', () => {
       logLevel: 'warn',
     })
 
-    const files = await fg(['dist/**/index.js'], { cwd: root, absolute: true })
+    const files = await glob(['dist/**/index.js'], {
+      cwd: root,
+      absolute: true,
+      expandDirectories: false,
+    })
     expect(files).toHaveLength(2)
 
     for (const path of files) {

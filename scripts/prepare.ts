@@ -2,7 +2,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import fs from 'fs-extra'
 import { execa } from 'execa'
-import fg from 'fast-glob'
+import { globSync } from 'tinyglobby'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -46,7 +46,7 @@ const ignores = [
 ]
 
 async function preparePackagesBundle() {
-  const allPackages = fg.sync('./packages/*/package.json', { absolute: true })
+  const allPackages = globSync(['./packages/*/package.json'], { absolute: true, expandDirectories: false })
     .map(p => JSON.parse(fs.readFileSync(p, 'utf-8')).name)
 
   const clientPackages = allPackages.filter(p => !ignores.some(i => p.includes(i)))
