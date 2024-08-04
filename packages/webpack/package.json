@@ -52,7 +52,7 @@
     "@unocss/core": "workspace:*",
     "chokidar": "^3.6.0",
     "magic-string": "^0.30.11",
-    "tinyglobby": "^0.2.0",
+    "tinyglobby": "^0.2.1",
     "unplugin": "^1.12.0",
     "webpack-sources": "^3.2.3"
   },

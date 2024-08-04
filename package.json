@@ -115,7 +115,7 @@
     "std-env": "^3.7.0",
     "taze": "^0.16.3",
     "terser": "^5.31.3",
-    "tinyglobby": "^0.2.0",
+    "tinyglobby": "^0.2.1",
     "tsup": "^8.2.3",
     "typescript": "^5.5.4",
     "unbuild": "^2.0.0",
