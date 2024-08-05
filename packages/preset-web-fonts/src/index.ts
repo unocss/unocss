@@ -13,6 +13,6 @@ const defaultFetch = async (url: string) => (await import('ofetch')).$fetch(url,
  *
  * @see https://unocss.dev/presets/web-fonts
  */
-const presetWebFonts = definePreset(createWebFontPreset(defaultFetch))
+export const presetWebFonts = definePreset(createWebFontPreset(defaultFetch))
 
 export default presetWebFonts
