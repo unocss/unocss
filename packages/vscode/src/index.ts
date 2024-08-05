@@ -6,6 +6,7 @@ import { findUp } from 'find-up'
 import type { FilterPattern } from '@rollup/pluginutils'
 import { createFilter } from '@rollup/pluginutils'
 import { toArray } from '@unocss/core'
+import { vscodeErrors } from '@unocss/autocomplete'
 import { version } from '../package.json'
 import { log } from './log'
 import { ContextLoader } from './contextLoader'
@@ -99,12 +100,14 @@ async function rootRegister(
   const watcher = workspace.createFileSystemWatcher('**/{uno,unocss}.config.{js,ts}')
 
   ext.subscriptions.push(watcher.onDidChange(async (uri) => {
+    vscodeErrors.clear()
     const dir = dirname(uri.fsPath)
     await ctx.unloadContext(dir)
     await ctx.loadContextInDirectory(dir)
   }))
 
   ext.subscriptions.push(watcher.onDidDelete((uri) => {
+    vscodeErrors.clear()
     const dir = dirname(uri.fsPath)
     rootCache.delete(dir)
     ctx.unloadContext(dir)
@@ -159,4 +162,6 @@ async function rootRegister(
   return ctx
 }
 
-export function deactivate() { }
+export function deactivate() {
+  vscodeErrors.clear()
+}

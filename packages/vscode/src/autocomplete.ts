@@ -1,5 +1,5 @@
 import type { UnocssAutocomplete } from '@unocss/autocomplete'
-import { createAutocomplete } from '@unocss/autocomplete'
+import { createAutocomplete, vscodeErrors } from '@unocss/autocomplete'
 import type { CompletionItemProvider, Disposable, ExtensionContext } from 'vscode'
 import { CompletionItem, CompletionItemKind, CompletionList, MarkdownString, Range, languages, window, workspace } from 'vscode'
 import type { UnoGenerator, UnocssPluginContext } from '@unocss/core'
@@ -133,6 +133,11 @@ export async function registerAutoComplete(
 
         if (!result.suggestions.length)
           return
+
+        if (vscodeErrors.size) {
+          log.appendLine('⚠️ Error on getting autocompletion items')
+          log.appendLine([...vscodeErrors].join('\n'))
+        }
 
         const completionItems: UnoCompletionItem[] = []
 

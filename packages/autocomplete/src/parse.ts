@@ -1,8 +1,11 @@
+import process from 'node:process'
 import { uniq } from '@unocss/core'
 import { Fzf } from 'fzf'
 import type { AutoCompleteMatchType, AutocompleteTemplateGroup, AutocompleteTemplatePart, ParsedAutocompleteTemplate } from './types'
 import { cartesian } from './utils'
+import { vscodeErrors } from './create'
 
+const isVSCode = process.env.VSCODE_CWD
 export const shorthands: Record<string, string> = {
   directions: '(x|y|t|b|l|r|s|e)',
   num: `(${[0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 24, 36].join('|')})`,
@@ -60,15 +63,26 @@ export function parseAutocomplete(template: string, theme: any = {}, extraShorth
       input,
       /\$([\w.|]+)/g,
       (m) => {
-        parts.push({
-          type: 'theme',
-          objects: m[1].split('|').map((i) => {
+        const objects = m[1].split('|').map((i) => {
+          try {
             return i.split('.').reduce((v, k) => {
               if (!k || !v[k])
                 throw new Error(`Invalid theme key ${k}`)
               return v[k]
             }, theme)
-          }),
+          }
+          catch (e) {
+            if (isVSCode)
+              vscodeErrors.add(String(e))
+            else
+              throw e
+
+            return null
+          }
+        }).filter(Boolean)
+        parts.push({
+          type: 'theme',
+          objects,
         })
       },
       (str) => {
