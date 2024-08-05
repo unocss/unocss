@@ -9,6 +9,8 @@ import { replaceAsync } from '../../shared-common/src/replace-async'
 import type { WebFontProcessor } from './types'
 
 const fontUrlRegex = /[-\w@:%+.~#?&/=]+\.(?:woff2?|eot|ttf|otf|svg)/gi
+// eslint-disable-next-line regexp/no-unused-capturing-group
+const urlProtocolRegex = /^[\s\w\0+.-]{2,}:([/\\]{1,2})/
 
 export interface LocalFontProcessorOptions {
   /**
@@ -91,7 +93,8 @@ export function createLocalFontProcessor(options?: LocalFontProcessorOptions): W
         const assetPath = join(fontAssetsDir, filename)
 
         if (!fs.existsSync(assetPath)) {
-          await downloadFont(url, assetPath)
+          const _url = hasProtocol(url) ? url : withProtocol(url)
+          await downloadFont(_url, assetPath)
         }
 
         return `${fontServeBaseUrl}/${filename}`
@@ -105,4 +108,16 @@ function getHash(input: string, length = 8) {
     .update(input)
     .digest('hex')
     .slice(0, length)
+}
+
+function hasProtocol(input: string) {
+  return urlProtocolRegex.test(input)
+}
+
+function withProtocol(input: string, protocol = 'https://') {
+  const match = input.match(/^\/{2,}/)
+  if (!match)
+    return protocol + input
+
+  return protocol + input.slice(match[0].length)
 }
