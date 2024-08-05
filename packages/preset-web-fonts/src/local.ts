@@ -10,7 +10,7 @@ import type { WebFontProcessor } from './types'
 
 const fontUrlRegex = /[-\w@:%+.~#?&/=]+\.(?:woff2?|eot|ttf|otf|svg)/gi
 // eslint-disable-next-line regexp/no-unused-capturing-group
-const urlProtocolRegex = /^[\s\w\0+.-]{2,}:([/\\]{1,2})/g
+const urlProtocolRegex = /^[\s\w\0+.-]{2,}:([/\\]{1,2})/
 
 export interface LocalFontProcessorOptions {
   /**
