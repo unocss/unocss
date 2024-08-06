@@ -20,7 +20,7 @@ const _panelEl = ref(panelEl)
 
 <template>
   <div flex="~ col" h-full>
-    <HeaderBar flex="[0_0_36px]" />
+    <HeaderBar />
     <div flex-1 of-hidden>
       <Splitpanes ref="_panelEl" :class="{ loading }" horizontal @resized="handleResize">
         <PanelHtml :index="0" />

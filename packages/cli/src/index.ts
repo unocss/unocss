@@ -123,63 +123,43 @@ export async function build(_options: CliOptions) {
   async function generate(options: ResolvedCliOptions) {
     const sourceCache = Array.from(fileCache).map(([id, code]) => ({ id, code }))
 
-    const preTransform = await transformFiles(sourceCache, 'pre')
-    const defaultTransform = await transformFiles(preTransform)
-    const postTransform = await transformFiles(defaultTransform, 'post')
+    const afterPreTrans = await transformFiles(sourceCache, 'pre')
+    const afterDefaultTrans = await transformFiles(afterPreTrans)
+    const afterPostTrans = await transformFiles(afterDefaultTrans, 'post')
 
     // update source file
     if (options.writeTransformed) {
       await Promise.all(
-        postTransform
+        afterPostTrans
           .filter(({ transformedCode }) => !!transformedCode)
-          .map(({ transformedCode, id }) => new Promise<void>((resolve) => {
+          .map(async ({ transformedCode, id }) => {
             if (existsSync(id))
-              fs.writeFile(id, transformedCode as string, 'utf-8').then(resolve)
-          })),
+              await fs.writeFile(id, transformedCode as string, 'utf-8')
+          }),
       )
     }
-    const firstIdType = postTransform[0].id.split('.').pop()!
-    const isSameFileType = postTransform.every(({ id }) => id.split('.').pop() === firstIdType)
-    let css!: string
-    let matched: Set<string>
-    if (isSameFileType) {
-      // if all files are the same type, we can generate them all at once
-      const { css: _css, matched: _matched } = await ctx.uno.generate(
-        [...postTransform.map(({ code, transformedCode }) => (transformedCode ?? code).replace(SKIP_COMMENT_RE, ''))].join('\n'),
+
+    const tokens = new Set<string>()
+
+    for (const file of afterPostTrans) {
+      const { matched } = await ctx.uno.generate(
+        (file.transformedCode || file.code).replace(SKIP_COMMENT_RE, ''),
         {
-          preflights: options.preflights,
-          minify: options.minify,
-          id: postTransform[0].id,
+          preflights: false,
+          minify: true,
+          id: file.id,
         },
       )
-      css = _css
-      matched = _matched
+      matched.forEach(i => tokens.add(i))
     }
-    else {
-      // if files are different types, we need to generate them one by one
-      const result = await Promise.all(postTransform.map(({ code, transformedCode, id }) =>
-        ctx.uno.generate(transformedCode ?? code, {
-          preflights: options.preflights,
-          minify: options.minify,
-          id,
-        })))
-      const cssCollection: Record<string, string[]> = {}
-      result.forEach(({ css, layers }) => {
-        css
-          .split(/\/\*.*?\*\//g) // Remove inline comments
-          .filter(Boolean).forEach((c, i) => {
-            if (!cssCollection[layers[i]]) {
-              cssCollection[layers[i]] = c.split('\n')
-            }
-            else {
-              // remove duplicates
-              cssCollection[layers[i]] = [...new Set([...cssCollection[layers[i]], ...c.split('\n')])]
-            }
-          })
-      })
-      css = result[0].layers.map(layer => `/* layer: ${layer} */${cssCollection[layer].join('\n')}`).join('\n')
-      matched = new Set(result.map(({ matched }) => [...matched]).flat())
-    }
+
+    const { css, matched } = await ctx.uno.generate(
+      tokens,
+      {
+        preflights: options.preflights,
+        minify: options.minify,
+      },
+    )
 
     if (options.stdout) {
       process.stdout.write(css)

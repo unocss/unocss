@@ -14,7 +14,7 @@
       "@unocss/extractor-arbitrary-variants": ["./packages/extractor-arbitrary-variants/src/index.ts"],
       "@unocss/extractor-pug": ["./packages/extractor-pug/src/index.ts"],
       "@unocss/extractor-svelte": ["./packages/extractor-svelte/src/index.ts"],
-      "@unocss/inspector": ["./packages/inspector/node/index.ts"],
+      "@unocss/inspector": ["./packages/inspector/src/index.ts"],
       "@unocss/postcss": ["./packages/postcss/src/index.ts"],
       "@unocss/postcss/esm": ["./packages/postcss/src/esm.ts"],
       "@unocss/preset-attributify": ["./packages/preset-attributify/src/index.ts"],

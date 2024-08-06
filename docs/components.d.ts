@@ -12,6 +12,8 @@ declare module 'vue' {
     ContentIntegrations: typeof import('./.vitepress/theme/components/ContentIntegrations.vue')['default']
     HomePage: typeof import('./.vitepress/theme/components/HomePage.vue')['default']
     LinkGrid: typeof import('./.vitepress/theme/components/LinkGrid.vue')['default']
+    RainbowAnimationSwitcher: typeof import('./.vitepress/theme/components/RainbowAnimationSwitcher.vue')['default']
+    RainbowSwitcher: typeof import('./.vitepress/theme/components/RainbowSwitcher.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

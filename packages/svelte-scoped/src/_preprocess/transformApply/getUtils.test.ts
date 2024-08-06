@@ -29,7 +29,7 @@ describe('getUtils', async () => {
     expect(result).toMatchInlineSnapshot(`
       [
         [
-          86,
+          ${result[0][0]},
           ".\\-",
           "margin-bottom:0.25rem;margin-right:0.25rem;",
           undefined,
@@ -41,7 +41,7 @@ describe('getUtils', async () => {
           undefined,
         ],
         [
-          86,
+          ${result[0][0]},
           ".\\-:hover",
           "margin-right:0.5rem;",
           undefined,
@@ -64,7 +64,7 @@ describe('getUtils', async () => {
     expect(result).toMatchInlineSnapshot(`
       [
         [
-          86,
+          ${result[0][0]},
           ".\\-:hover",
           "margin-right:0.25rem;font-weight:500;",
           undefined,

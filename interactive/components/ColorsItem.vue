@@ -19,7 +19,7 @@ const ignores = ['inherit', 'current', 'transparent', 'DEFAULT']
         <div font-mono text-sm op30>
           {{ i[1] }}
         </div>
-        <div w-17 h-9 mt1 border="~ base" shadow :style="{ background: i[1] }" />
+        <div w-17 h-9 mt1 border="~ main" shadow :style="{ background: i[1] }" />
       </template>
       <div v-else row gap1 flex-wrap>
         <ColorsItem :item="i[1]" :level="level + 1" />

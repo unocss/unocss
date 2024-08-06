@@ -1,19 +1,23 @@
-/* eslint-disable no-restricted-imports */
-import * as __unocss from 'unocss'
 import type { UserConfig } from '@unocss/core'
 
 const AsyncFunction = Object.getPrototypeOf(async () => {}).constructor
 
 const CDN_BASE = 'https://esm.sh/'
-const modulesCache = new Map<string, Promise<unknown> | unknown>()
-modulesCache.set('unocss', __unocss)
 
-export function clearModuleCache() {
-  modulesCache.clear()
-  modulesCache.set('unocss', __unocss)
+export type ModuleMap = Map<string, () => Promise<unknown> | unknown>
+export type ModuleCache = Map<string, Promise<unknown> | unknown>
+
+const globalCache: ModuleCache = new Map()
+
+export function clearGlobalModuleCache() {
+  globalCache.clear()
 }
 
-export async function evaluateUserConfig<U = UserConfig>(configStr: string): Promise<U | undefined> {
+export async function evaluateUserConfig<U = UserConfig>(
+  configStr: string,
+  moduleMap: ModuleMap,
+  modulesCache: ModuleCache = globalCache,
+): Promise<U | undefined> {
   const code = configStr
     .replace(/import\s(.*?)\sfrom\s*(['"])unocss\2/g, 'const $1 = await __import("unocss");')
     .replace(/import\s*(\{[\s\S]*?\})\s*from\s*(['"])([\w@/-]+)\2/g, 'const $1 = await __import("$3");')
@@ -28,9 +32,11 @@ export async function evaluateUserConfig<U = UserConfig>(configStr: string): Pro
     if (!modulesCache.has(name)) {
       modulesCache.set(
         name,
-        name.endsWith('.json')
-          ? $fetch(CDN_BASE + name, { responseType: 'json' }).then(r => ({ default: r }))
-          : _import(CDN_BASE + name),
+        moduleMap.has(name)
+          ? moduleMap.get(name)!()
+          : name.endsWith('.json')
+            ? $fetch(CDN_BASE + name, { responseType: 'json' }).then(r => ({ default: r }))
+            : _import(CDN_BASE + name),
       )
     }
     return modulesCache.get(name)

@@ -8,20 +8,18 @@ import type { TransformerDirectivesContext } from './types'
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
 
 export async function handleApply(ctx: TransformerDirectivesContext, node: Rule) {
-  const { code, uno, options, filename, offset } = ctx
-  const calcOffset = (pos: number) => offset ? pos + offset : pos
+  const { code, uno, options, filename } = ctx
 
   await Promise.all(
     node.block.children.map(async (childNode) => {
       if (childNode.type === 'Raw')
-        return transformDirectives(code, uno, options, filename, childNode.value, calcOffset(childNode.loc!.start.offset))
+        return transformDirectives(code, uno, options, filename, childNode.value, childNode.loc!.start.offset)
       await parseApply(ctx, node, childNode)
     }).toArray(),
   )
 }
 
-export async function parseApply({ code, uno, offset, applyVariable }: TransformerDirectivesContext, node: Rule, childNode: CssNode) {
-  const calcOffset = (pos: number) => offset ? pos + offset : pos
+export async function parseApply({ code, uno, applyVariable }: TransformerDirectivesContext, node: Rule, childNode: CssNode) {
   const original = code.original
 
   let body: string | undefined
@@ -33,8 +31,8 @@ export async function parseApply({ code, uno, offset, applyVariable }: Transform
     // Get raw value of the declaration
     // as csstree would try to parse the content with operators, but we don't need them.
     let rawValue = original.slice(
-      calcOffset(childNode.value.loc!.start.offset),
-      calcOffset(childNode.value.loc!.end.offset),
+      childNode.value.loc!.start.offset,
+      childNode.value.loc!.end.offset,
     ).trim()
     rawValue = removeQuotes(rawValue)
     const items = rawValue
@@ -73,13 +71,14 @@ export async function parseApply({ code, uno, offset, applyVariable }: Transform
   if (!utils.length)
     return
 
-  const simicolonOffset = original[calcOffset(childNode.loc!.end.offset)] === ';' ? 1 : 0
+  const simicolonOffset = original[childNode.loc!.end.offset] === ';' ? 1 : 0
+
   for (const i of utils) {
     const [, _selector, body, parent] = i
     const selectorOrGroup = _selector?.replace(regexScopePlaceholder, ' ') || _selector
-
     if (parent || (selectorOrGroup && selectorOrGroup !== '.\\-')) {
       let newSelector = generate(node.prelude)
+      const className = code.slice(node.prelude.loc!.start.offset, node.prelude.loc!.end.offset)
       if (selectorOrGroup && selectorOrGroup !== '.\\-') {
         // use rule context since it could be a selector(.foo) or a selector group(.foo, .bar)
         const ruleAST = parse(`${selectorOrGroup}{}`, {
@@ -101,24 +100,23 @@ export async function parseApply({ code, uno, offset, applyVariable }: Transform
         })
         newSelector = generate(prelude)
       }
-
-      let css = `${newSelector}{${body}}`
+      let css = `${newSelector.replace(/.\\-/g, className)}{${body}}`
       if (parent)
         css = `${parent}{${css}}`
 
-      code.appendLeft(calcOffset(node.loc!.end.offset), css)
+      code.appendLeft(node.loc!.end.offset, css)
     }
     else {
       // If nested css was scoped, put them last.
       if (body.includes('@'))
         code.appendRight(original.length + simicolonOffset, body)
       else
-        code.appendRight(calcOffset(childNode!.loc!.end.offset + simicolonOffset), body)
+        code.appendRight(childNode!.loc!.end.offset + simicolonOffset, body)
     }
   }
   code.remove(
-    calcOffset(childNode!.loc!.start.offset),
-    calcOffset(childNode!.loc!.end.offset + simicolonOffset),
+    childNode!.loc!.start.offset,
+    childNode!.loc!.end.offset + simicolonOffset,
   )
 }
 
