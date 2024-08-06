@@ -90,6 +90,10 @@ export default mergeConfigs([config, {
 }])
 ```
 
+::: warning
+if you met `Cannot find module 'unocss'`，please try install unocss as devDeps, or enable [hoisted mode](https://pnpm.io/npmrc#shamefully-hoist) in pnpm.
+:::
+
 ## License
 
 - MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)
