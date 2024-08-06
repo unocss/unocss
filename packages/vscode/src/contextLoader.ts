@@ -47,7 +47,7 @@ export class ContextLoader {
   }
 
   isTarget(id: string) {
-    return !this.contextsMap.get(this.cwd) || isSubdir(this.cwd, id)
+    return Array.from(this.contextsMap.keys()).some(cwd => isSubdir(cwd, id))
   }
 
   get contexts() {
