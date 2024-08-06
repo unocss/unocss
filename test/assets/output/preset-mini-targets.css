@@ -1051,6 +1051,8 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .transition-property-width{transition-property:width;}
 .transition-none{transition:none;}
 .transition-revert-layer{transition:revert-layer;}
+.transition-discrete{transition-behavior:allow-discrete;}
+.transition-normal{transition-behavior:normal;}
 .will-change-auto{will-change:auto;}
 .will-change-contents{will-change:contents;}
 .will-change-margin\,padding{will-change:margin,padding;}
@@ -1106,6 +1108,10 @@ unocss .scope-\[unocss\]\:block{display:block;}
 @media print{
 .print\:block{display:block;}
 .print\:link\:\!underline:link{text-decoration-line:underline !important;}
+}
+@starting-style{
+.starting\:opacity-0{opacity:0;}
+.starting\:popover-open\:opacity-0:popover-open{opacity:0;}
 }
 @supports (display: grid){
 .supports-\[\(display\:_grid\)\]\:block{display:block;}
