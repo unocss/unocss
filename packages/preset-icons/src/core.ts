@@ -29,7 +29,7 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
       autoInstall = false,
       collectionsNodeResolvePath,
       layer = 'icons',
-      unit,
+      unit = 'em',
       processor,
     } = options
 
