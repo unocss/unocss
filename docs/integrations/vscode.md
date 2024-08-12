@@ -19,8 +19,4 @@ The extension will try to find the UnoCSS configurations under your project. Whe
 
 ## Icons Preset
 
-If you're using the [Icons Preset](/presets/icons), you can also install [Iconify IntelliSense](https://marketplace.visualstudio.com/items?itemName=antfu.iconify):
-- inline display corresponding icons
-- auto-completion for icon-sets
-- hover
-- snippets
+If you're using the [Icons Preset](/presets/icons), you can also install [Iconify IntelliSense](https://marketplace.visualstudio.com/items?itemName=antfu.iconify) to get inlay preview, auto-completion, and hover information for your icons.
