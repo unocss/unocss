@@ -32,7 +32,7 @@ const WarnContent = computed(() => {
       >
         <template #before>
           <div
-            class="flex-shrink-0 i-ri-arrow-right-s-line mr-1 transition-transform transform"
+            class="flex-shrink-0 i-ri-arrow-right-s-line transition-transform transform"
             :class="isCollapsed(index) ? '' : 'rotate-90'"
           />
         </template>

@@ -8,5 +8,8 @@
     "build": "vite build",
     "update-post": "vite build",
     "serve": "vite preview"
+  },
+  "devDependencies": {
+    "simple-git": "^3.25.0"
   }
 }

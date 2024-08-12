@@ -11,7 +11,6 @@ export default createRule({
     fixable: 'code',
     docs: {
       description: 'Order of UnoCSS utilities in class attribute',
-      recommended: 'recommended',
     },
     messages: {
       'invalid-order': 'UnoCSS utilities are not ordered',

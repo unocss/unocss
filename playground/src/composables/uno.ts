@@ -5,6 +5,7 @@ import MagicString from 'magic-string'
 import type { HighlightAnnotation, UnocssPluginContext } from '@unocss/core'
 import { evaluateUserConfig } from '@unocss/shared-docs'
 import type { CompletionContext, CompletionResult } from '@codemirror/autocomplete'
+import { unocssBundle } from '../../../packages/shared-docs/src/unocss-bundle'
 
 export const init = ref(false)
 export const customConfigError = ref<Error>()
@@ -36,7 +37,7 @@ export async function getHint(context: CompletionContext): Promise<CompletionRes
   const cursor = context.pos
   const result = await autocomplete.suggestInFile(context.state.doc.toString(), cursor)
 
-  if (!result.suggestions?.length)
+  if (!result?.suggestions?.length)
     return null
 
   const resolved = result.resolveReplacement(result.suggestions[0][0])
@@ -59,7 +60,7 @@ debouncedWatch(
     customConfigError.value = undefined
     customCSSWarn.value = undefined
     try {
-      const result = await evaluateUserConfig(customConfigRaw.value)
+      const result = await evaluateUserConfig(customConfigRaw.value, unocssBundle)
       if (result) {
         const preflights = (result.preflights ?? []).filter(p => p.layer !== customCSSLayerName)
         preflights.push({

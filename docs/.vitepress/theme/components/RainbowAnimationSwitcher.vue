@@ -118,8 +118,4 @@ const switchTitle = computed(() => {
   /*rtl:ignore*/
   transform: translateX(18px);
 }
-
-html.browser-firefox .group {
-  display: none !important;
-}
 </style>
