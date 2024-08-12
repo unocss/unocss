@@ -1,4 +1,4 @@
-import type { ContentOptions, Preset, PresetFactory, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
+import type { ContentOptions, FilterPattern, Preset, PresetFactory, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
 import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq, uniqueBy } from './utils'
 import { extractorSplit } from './extractors'
 import { DEFAULT_LAYERS } from './constants'
@@ -88,13 +88,10 @@ function mergeContentOptions(optionsArray: ContentOptions[]): ContentOptions {
       mergedResult.inline!.push(...options.plain)
     }
 
-    if (options.pipeline !== false) {
-      if (options.pipeline?.include) {
-        (mergedResult.pipeline as any)?.include?.push(...(options.pipeline?.include as any))
-      }
-
-      if (options.pipeline?.exclude) {
-        (mergedResult.pipeline as any)?.exclude?.push(...(options.pipeline?.exclude as any))
+    if (mergedResult.pipeline !== false && options.pipeline !== false) {
+      options.pipeline = {
+        include: mergeFilterPatterns(mergedResult.pipeline?.include, options.pipeline?.include),
+        exclude: mergeFilterPatterns(mergedResult.pipeline?.exclude, options.pipeline?.exclude),
       }
     }
     else {
@@ -112,8 +109,10 @@ function mergeContentOptions(optionsArray: ContentOptions[]): ContentOptions {
   }
 
   if (mergedResult.pipeline !== false) {
-    mergedResult.pipeline!.include = Array.from(new Set((mergedResult.pipeline as any)?.include))
-    mergedResult.pipeline!.exclude = Array.from(new Set((mergedResult.pipeline as any)?.exclude))
+    mergedResult.pipeline = {
+      include: uniq(toArray(mergedResult.pipeline?.include || [])),
+      exclude: uniq(toArray(mergedResult.pipeline?.exclude || [])),
+    }
   }
 
   return mergedResult
@@ -182,9 +181,9 @@ export function resolveConfig<Theme extends object = object>(
     theme = extendTheme(theme) || theme
 
   const autocomplete = {
-    templates: uniq(sources.flatMap(p => toArray(p.autocomplete?.templates))),
-    extractors: sources.flatMap(p => toArray(p.autocomplete?.extractors))
-      .sort((a, b) => (a.order || 0) - (b.order || 0)),
+    templates: uniq(sources.flatMap(p => toArray(p.autocomplete?.templates ?? []))),
+    extractors: sources.flatMap(p => toArray(p.autocomplete?.extractors ?? []))
+      .sort((a, b) => (a?.order || 0) - (b?.order || 0)),
     shorthands: mergeAutocompleteShorthands(sources.map(p => p.autocomplete?.shorthands || {})),
   }
 
@@ -274,6 +273,13 @@ function mergeAutocompleteShorthands(shorthands: Record<string, string | string[
       ...rs,
     }
   }, {})
+}
+
+function mergeFilterPatterns(a?: FilterPattern, b?: FilterPattern): FilterPattern {
+  if (a && b) {
+    return [...toArray(a), ...toArray(b)]
+  }
+  return a || b || null
 }
 
 export function definePreset<Options extends object | undefined = undefined, Theme extends object = object>(preset: PresetFactory<Theme, Options>): PresetFactory<Theme, Options>
