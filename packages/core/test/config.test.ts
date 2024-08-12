@@ -239,4 +239,74 @@ describe('mergeConfigs', () => {
         }
       `)
   })
+  it('content.pipeline', () => {
+    expect(mergeConfigs([
+      {
+        content: {
+          pipeline: { include: 'string' },
+        },
+      },
+      {
+        content: {
+          pipeline: { include: /regex/ },
+        },
+      },
+      {
+        content: {
+          pipeline: { include: ['array1'] },
+        },
+      },
+      {
+        content: {
+          pipeline: { include: ['array2'] },
+        },
+      },
+    ]))
+      .toMatchInlineSnapshot(`
+        {
+          "content": {
+            "filesystem": [],
+            "inline": [],
+            "pipeline": {
+              "exclude": [],
+              "include": [
+                "string",
+                /regex/,
+                "array1",
+                "array2",
+              ],
+            },
+            "plain": [],
+          },
+        }
+      `)
+
+    expect(mergeConfigs([
+      {
+        content: {
+          pipeline: { include: 'string' },
+        },
+      },
+      {
+        content: {
+          pipeline: { exclude: /regex/ },
+        },
+      },
+      {
+        content: {
+          pipeline: false,
+        },
+      },
+    ]))
+      .toMatchInlineSnapshot(`
+        {
+          "content": {
+            "filesystem": [],
+            "inline": [],
+            "pipeline": false,
+            "plain": [],
+          },
+        }
+      `)
+  })
 })
