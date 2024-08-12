@@ -4,7 +4,7 @@ import { readFile, stat } from 'node:fs/promises'
 import { normalize } from 'node:path'
 import process from 'node:process'
 import type { UnoGenerator } from '@unocss/core'
-import fg from 'fast-glob'
+import { glob } from 'tinyglobby'
 import type { Result, Root } from 'postcss'
 import postcss from 'postcss'
 import { createGenerator } from '@unocss/core'
@@ -105,12 +105,12 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
     const globs = uno.config.content?.filesystem ?? defaultFilesystemGlobs
     const plainContent = uno.config.content?.inline ?? []
 
-    const entries = await fg(isScanTarget ? globs : from, {
+    const entries = await glob(isScanTarget ? globs : [from], {
       cwd,
       absolute: true,
       ignore: ['**/node_modules/**'],
-      stats: true,
-    }) as unknown as { path: string, mtimeMs: number }[]
+      expandDirectories: false,
+    })
 
     await parseApply(root, uno, directiveMap.apply)
     await parseTheme(root, uno)
@@ -135,19 +135,20 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
 
     for (let i = 0; i < entries.length; i += BATCH_SIZE) {
       const batch = entries.slice(i, i + BATCH_SIZE)
-      promises.push(...batch.map(async ({ path: file, mtimeMs }) => {
+      promises.push(...batch.map(async (file) => {
+        const { mtimeMs } = await stat(file)
+
+        if (fileMap.has(file) && mtimeMs <= fileMap.get(file))
+          return
+
+        fileMap.set(file, mtimeMs)
+
         result.messages.push({
           type: 'dependency',
           plugin: directiveMap.unocss,
           file: normalize(file),
           parent: from,
         })
-
-        if (fileMap.has(file) && mtimeMs <= fileMap.get(file))
-          return
-
-        else
-          fileMap.set(file, mtimeMs)
 
         const content = await readFile(file, 'utf8')
         const { matched } = await uno.generate(content, {
