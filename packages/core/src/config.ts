@@ -110,8 +110,8 @@ function mergeContentOptions(optionsArray: ContentOptions[]): ContentOptions {
 
   if (mergedResult.pipeline !== false) {
     mergedResult.pipeline = {
-      include: uniq(flatternPatternToArray(mergedResult.pipeline?.include)),
-      exclude: uniq(flatternPatternToArray(mergedResult.pipeline?.exclude)),
+      include: uniq(flatternFilterPattern(mergedResult.pipeline?.include)),
+      exclude: uniq(flatternFilterPattern(mergedResult.pipeline?.exclude)),
     }
   }
 
@@ -276,10 +276,10 @@ function mergeAutocompleteShorthands(shorthands: Record<string, string | string[
 }
 
 function mergeFilterPatterns(a?: FilterPattern, b?: FilterPattern): Array<string | RegExp> {
-  return [...flatternPatternToArray(a), ...flatternPatternToArray(b)]
+  return [...flatternFilterPattern(a), ...flatternFilterPattern(b)]
 }
 
-function flatternPatternToArray(pattern?: FilterPattern): Array<string | RegExp> {
+function flatternFilterPattern(pattern?: FilterPattern): Array<string | RegExp> {
   return Array.isArray(pattern) ? pattern : pattern ? [pattern] : []
 }
 
