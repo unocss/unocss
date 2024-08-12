@@ -65,57 +65,31 @@ export function resolvePresets<Theme extends object = object>(preset: Preset<The
 
 // merge ContentOptions array
 function mergeContentOptions(optionsArray: ContentOptions[]): ContentOptions {
-  const mergedResult: ContentOptions = {
-    filesystem: [],
-    inline: [],
-    pipeline: {
-      include: [],
-      exclude: [],
-    },
-    plain: [],
-  }
+  const pipelineIncludes: FilterPattern[] = []
+  const pipelineExcludes: FilterPattern[] = []
+  let pipelineDisabled = false
 
   for (const options of optionsArray) {
-    if (options.filesystem) {
-      mergedResult.filesystem!.push(...options.filesystem)
-    }
-
-    if (options.inline) {
-      mergedResult.inline!.push(...options.inline)
-    }
-
-    if (options.plain) {
-      mergedResult.inline!.push(...options.plain)
-    }
-
-    if (mergedResult.pipeline !== false && options.pipeline !== false) {
-      options.pipeline = {
-        include: mergeFilterPatterns(mergedResult.pipeline?.include, options.pipeline?.include),
-        exclude: mergeFilterPatterns(mergedResult.pipeline?.exclude, options.pipeline?.exclude),
-      }
+    if (options.pipeline === false) {
+      pipelineDisabled = true
     }
     else {
-      mergedResult.pipeline = false
+      pipelineIncludes.push(options.pipeline?.include ?? [])
+      pipelineExcludes.push(options.pipeline?.exclude ?? [])
     }
   }
 
-  // Removing duplicates for arrays
-  if (mergedResult.filesystem) {
-    mergedResult.filesystem = Array.from(new Set(mergedResult.filesystem))
+  return {
+    filesystem: uniq(optionsArray.flatMap(options => options.filesystem ?? [])),
+    inline: uniq(optionsArray.flatMap(options => options.inline ?? [])),
+    plain: uniq(optionsArray.flatMap(options => options.plain ?? [])),
+    pipeline: pipelineDisabled
+      ? false
+      : {
+          include: uniq(mergeFilterPatterns(...pipelineIncludes)),
+          exclude: uniq(mergeFilterPatterns(...pipelineExcludes)),
+        },
   }
-
-  if (mergedResult.inline) {
-    mergedResult.inline = Array.from(new Set(mergedResult.inline))
-  }
-
-  if (mergedResult.pipeline !== false) {
-    mergedResult.pipeline = {
-      include: uniq(flatternFilterPattern(mergedResult.pipeline?.include)),
-      exclude: uniq(flatternFilterPattern(mergedResult.pipeline?.exclude)),
-    }
-  }
-
-  return mergedResult
 }
 
 export function resolveConfig<Theme extends object = object>(
@@ -275,8 +249,8 @@ function mergeAutocompleteShorthands(shorthands: Record<string, string | string[
   }, {})
 }
 
-function mergeFilterPatterns(a?: FilterPattern, b?: FilterPattern): Array<string | RegExp> {
-  return [...flatternFilterPattern(a), ...flatternFilterPattern(b)]
+function mergeFilterPatterns(...filterPatterns: FilterPattern[]): Array<string | RegExp> {
+  return filterPatterns.flatMap(flatternFilterPattern)
 }
 
 function flatternFilterPattern(pattern?: FilterPattern): Array<string | RegExp> {
