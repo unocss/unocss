@@ -874,6 +874,10 @@ export const presetMiniTargets: string[] = [
   'ease-out',
   'transition-ease-in',
 
+  // transition - behavior - discrete/normal
+  'transition-discrete',
+  'transition-normal',
+
   // typography
   'font-mono',
   'font-[system-ui]',
@@ -1237,6 +1241,10 @@ export const presetMiniTargets: string[] = [
   '@[10.5rem]-text-red',
   '@xs/label:text-green',
   '@[100px]/label:text-green',
+
+  // variants - starting style
+  'starting:opacity-0',
+  'starting:popover-open:opacity-0',
 ]
 
 export const presetMiniNonTargets = [
