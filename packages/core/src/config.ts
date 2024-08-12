@@ -181,9 +181,9 @@ export function resolveConfig<Theme extends object = object>(
     theme = extendTheme(theme) || theme
 
   const autocomplete = {
-    templates: uniq(sources.flatMap(p => toArray(p.autocomplete?.templates || []))),
-    extractors: sources.flatMap(p => toArray(p.autocomplete?.extractors || []))
-      .sort((a, b) => (a?.order || 0) - (b?.order || 0)),
+    templates: uniq(sources.flatMap(p => toArray(p.autocomplete?.templates))),
+    extractors: sources.flatMap(p => toArray(p.autocomplete?.extractors))
+      .sort((a, b) => (a.order || 0) - (b.order || 0)),
     shorthands: mergeAutocompleteShorthands(sources.map(p => p.autocomplete?.shorthands || {})),
   }
 
