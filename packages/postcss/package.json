@@ -63,7 +63,7 @@
     "@unocss/rule-utils": "workspace:*",
     "css-tree": "^2.3.1",
     "magic-string": "^0.30.11",
-    "postcss": "^8.4.40",
-    "tinyglobby": "^0.2.1"
+    "tinyglobby": "^0.2.1",
+    "postcss": "^8.4.41"
   }
 }

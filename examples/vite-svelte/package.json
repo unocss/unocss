@@ -9,7 +9,7 @@
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.43",
+    "@iconify-json/logos": "^1.1.44",
     "@sveltejs/vite-plugin-svelte": "^3.1.1",
     "@tsconfig/svelte": "^5.0.4",
     "@unocss/core": "link:../../packages/core",
@@ -21,7 +21,7 @@
     "tslib": "^2.6.3",
     "typescript": "^5.5.4",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.3.5"
+    "vite": "^5.4.0"
   },
   "stackblitz": {
     "installDependencies": false,

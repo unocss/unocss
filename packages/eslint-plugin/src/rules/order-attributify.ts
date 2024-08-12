@@ -13,7 +13,6 @@ export default createRule({
     fixable: 'code',
     docs: {
       description: 'Order of UnoCSS attributes',
-      recommended: 'recommended',
     },
     messages: {
       'invalid-order': 'UnoCSS attributes are not ordered',
