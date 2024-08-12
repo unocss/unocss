@@ -110,8 +110,8 @@ function mergeContentOptions(optionsArray: ContentOptions[]): ContentOptions {
 
   if (mergedResult.pipeline !== false) {
     mergedResult.pipeline = {
-      include: uniq(toArray(mergedResult.pipeline?.include || [])),
-      exclude: uniq(toArray(mergedResult.pipeline?.exclude || [])),
+      include: uniq(flatternPatternToArray(mergedResult.pipeline?.include)),
+      exclude: uniq(flatternPatternToArray(mergedResult.pipeline?.exclude)),
     }
   }
 
@@ -275,11 +275,12 @@ function mergeAutocompleteShorthands(shorthands: Record<string, string | string[
   }, {})
 }
 
-function mergeFilterPatterns(a?: FilterPattern, b?: FilterPattern): FilterPattern {
-  if (a && b) {
-    return [...toArray(a), ...toArray(b)]
-  }
-  return a || b || null
+function mergeFilterPatterns(a?: FilterPattern, b?: FilterPattern): Array<string | RegExp> {
+  return [...flatternPatternToArray(a), ...flatternPatternToArray(b)]
+}
+
+function flatternPatternToArray(pattern?: FilterPattern): Array<string | RegExp> {
+  return Array.isArray(pattern) ? pattern : pattern ? [pattern] : []
 }
 
 export function definePreset<Options extends object | undefined = undefined, Theme extends object = object>(preset: PresetFactory<Theme, Options>): PresetFactory<Theme, Options>

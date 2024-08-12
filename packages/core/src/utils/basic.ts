@@ -1,5 +1,5 @@
-export function toArray<T, P = T extends readonly any[] ? T : T[]>(value: T): P {
-  return (Array.isArray(value) ? value : [value]) as P
+export function toArray<T>(value: T | T[] = []): T[] {
+  return Array.isArray(value) ? value : [value]
 }
 
 export function uniq<T>(value: T[]): T[] {
