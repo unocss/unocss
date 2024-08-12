@@ -1,4 +1,4 @@
-import type { Preset, PresetFactory, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
+import type { ContentOptions, Preset, PresetFactory, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
 import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq, uniqueBy } from './utils'
 import { extractorSplit } from './extractors'
 import { DEFAULT_LAYERS } from './constants'
@@ -63,6 +63,62 @@ export function resolvePresets<Theme extends object = object>(preset: Preset<The
   return [root, ...nested]
 }
 
+// merge ContentOptions array
+function mergeContentOptions(optionsArray: ContentOptions[]): ContentOptions {
+  const mergedResult: ContentOptions = {
+    filesystem: [],
+    inline: [],
+    pipeline: {
+      include: [],
+      exclude: [],
+    },
+    plain: [],
+  }
+
+  for (const options of optionsArray) {
+    if (options.filesystem) {
+      mergedResult.filesystem!.push(...options.filesystem)
+    }
+
+    if (options.inline) {
+      mergedResult.inline!.push(...options.inline)
+    }
+
+    if (options.plain) {
+      mergedResult.inline!.push(...options.plain)
+    }
+
+    if (options.pipeline !== false) {
+      if (options.pipeline?.include) {
+        (mergedResult.pipeline as any)?.include?.push(...(options.pipeline?.include as any))
+      }
+
+      if (options.pipeline?.exclude) {
+        (mergedResult.pipeline as any)?.exclude?.push(...(options.pipeline?.exclude as any))
+      }
+    }
+    else {
+      mergedResult.pipeline = false
+    }
+  }
+
+  // Removing duplicates for arrays
+  if (mergedResult.filesystem) {
+    mergedResult.filesystem = Array.from(new Set(mergedResult.filesystem))
+  }
+
+  if (mergedResult.inline) {
+    mergedResult.inline = Array.from(new Set(mergedResult.inline))
+  }
+
+  if (mergedResult.pipeline !== false) {
+    mergedResult.pipeline!.include = Array.from(new Set((mergedResult.pipeline as any)?.include))
+    mergedResult.pipeline!.exclude = Array.from(new Set((mergedResult.pipeline as any)?.exclude))
+  }
+
+  return mergedResult
+}
+
 export function resolveConfig<Theme extends object = object>(
   userConfig: UserConfig<Theme> = {},
   defaults: UserConfigDefaults<Theme> = {},
@@ -84,7 +140,7 @@ export function resolveConfig<Theme extends object = object>(
 
   const layers = Object.assign({}, DEFAULT_LAYERS, ...sources.map(i => i.layers))
 
-  function getMerged<T extends 'rules' | 'blocklist' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist' | 'separators'>(key: T): ToArray<Required<UserConfig<Theme>>[T]> {
+  function getMerged<T extends 'rules' | 'blocklist' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist' | 'separators' | 'content'>(key: T): ToArray<Required<UserConfig<Theme>>[T]> {
     return uniq(sources.flatMap(p => toArray(p[key] || []) as any[])) as any
   }
 
@@ -136,6 +192,9 @@ export function resolveConfig<Theme extends object = object>(
   if (!separators.length)
     separators = [':', '-']
 
+  const contents = getMerged('content')
+  const content = mergeContentOptions(contents)
+
   const resolved: ResolvedConfig<any> = {
     mergeSelectors: true,
     warn: true,
@@ -162,6 +221,7 @@ export function resolveConfig<Theme extends object = object>(
     safelist: getMerged('safelist'),
     separators,
     details: config.details ?? (config.envMode === 'dev'),
+    content,
   }
 
   for (const p of sources)
