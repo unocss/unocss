@@ -65,6 +65,10 @@ export function resolvePresets<Theme extends object = object>(preset: Preset<The
 
 // merge ContentOptions array
 function mergeContentOptions(optionsArray: ContentOptions[]): ContentOptions {
+  if (optionsArray.length === 0) {
+    return {}
+  }
+
   const pipelineIncludes: FilterPattern[] = []
   const pipelineExcludes: FilterPattern[] = []
   let pipelineDisabled = false
@@ -215,15 +219,17 @@ export function mergeConfigs<Theme extends object = object>(
       ...acc,
       [key]: maybeArrays.includes(key) ? toArray(value) : value,
     }), {}))
-    .reduce<UserConfig<Theme>>(({ theme: themeA, ...a }, { theme: themeB, ...b }) => {
+    .reduce<UserConfig<Theme>>(({ theme: themeA, content: contentA, ...a }, { theme: themeB, content: contentB, ...b }) => {
       const c = mergeDeep<UserConfig<Theme>>(a, b, true)
 
       if (themeA || themeB)
         c.theme = mergeThemes([themeA, themeB])
 
+      if (contentA || contentB)
+        c.content = mergeContentOptions([contentA || {}, contentB || {}])
+
       return c
     }, {})
-
   return config
 }
 
