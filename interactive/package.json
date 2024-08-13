@@ -1,7 +1,7 @@
 {
   "name": "interactive",
   "type": "module",
-  "version": "0.61.9",
+  "version": "0.62.1",
   "private": true,
   "scripts": {
     "build": "nuxi prepare && esno scripts/prepare.ts && nuxi generate",
@@ -16,7 +16,7 @@
     "@unocss/autocomplete": "workspace:*",
     "@unocss/nuxt": "workspace:*",
     "@unocss/shared-docs": "workspace:*",
-    "@vueuse/nuxt": "^10.11.0",
+    "@vueuse/nuxt": "^10.11.1",
     "esno": "^4.7.0",
     "fs-extra": "^11.2.0",
     "fuse.js": "^7.0.0",
@@ -30,7 +30,7 @@
     "shiki": "^1.12.1",
     "theme-vitesse": "^0.8.1",
     "unplugin-vue-markdown": "^0.26.2",
-    "vue": "^3.4.35",
+    "vue": "^3.4.37",
     "vue-virtual-scroller": "2.0.0-beta.8"
   }
 }
