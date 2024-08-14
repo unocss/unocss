@@ -325,13 +325,12 @@ describe('mergeConfigs', () => {
         filesystem: ['foo.js'],
       },
     })
-    it('should work', () => {
-      expect(uno.config.content).toMatchObject({
-        filesystem: ['foo/bar.css', 'foo.js'],
-        inline: ['bg-blue-1'],
-        pipeline: { include: [], exclude: [] },
-        plain: [],
-      })
+
+    expect(uno.config.content).toMatchObject({
+      filesystem: ['foo/bar.css', 'foo.js'],
+      inline: ['bg-blue-1'],
+      pipeline: { include: [], exclude: [] },
+      plain: [],
     })
   })
 
