@@ -501,6 +501,11 @@ export interface ConfigBase<Theme extends object = object> {
    *
    */
   content?: ContentOptions
+
+  /**
+   * Custom transformers to the source code.
+   */
+  transformers?: SourceCodeTransformer[]
 }
 
 export interface OutputCssLayersOptions {
