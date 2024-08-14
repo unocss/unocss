@@ -675,6 +675,10 @@ describe('transformer-directives with important', () => {
         hsla: 'hsl(210, 50%, 50%, )',
         rgb: 'rgb(255, 0, 0)',
         rgba: 'rgba(255 0 0 / 0.5)',
+        primary: {
+          500: '#222',
+          DEFAULT: '#ccc',
+        },
       },
       breakpoints: {
         xs: '320px',
@@ -1192,6 +1196,26 @@ div {
           color: rgba(255, 0, 0, 50%);
           color: hsl(210 50% 50% / 0.6);
           color: hsl(210 50% 50% / 60%);
+        }
+        "
+      `)
+    })
+
+    it('color with DEFAULT', async () => {
+      const result = await transform(`
+        div {
+          color: theme('colors.primary');
+          color: theme('colors.primary.DEFAULT');
+          color: theme('colors.primary / 50%');
+          color: theme('colors.primary.500');
+        }`)
+
+      expect(result).toMatchInlineSnapshot(`
+        "div {
+          color: #ccc;
+          color: #ccc;
+          color: rgb(204 204 204 / 50%);
+          color: #222;
         }
         "
       `)
