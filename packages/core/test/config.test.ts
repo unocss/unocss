@@ -1,5 +1,5 @@
 import type { Preset, UserConfig } from '@unocss/core'
-import { createGenerator, mergeConfigs } from '@unocss/core'
+import { createGenerator, mergeConfigs, noop } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
 import presetMini from '@unocss/preset-mini'
 import { describe, expect, it } from 'vitest'
@@ -194,6 +194,7 @@ describe('mergeConfigs', () => {
         }
       `)
   })
+
   it('theme', () => {
     expect(mergeConfigs([
       {
@@ -239,6 +240,7 @@ describe('mergeConfigs', () => {
         }
       `)
   })
+
   it('content.pipeline', () => {
     expect(mergeConfigs([
       {
@@ -308,5 +310,56 @@ describe('mergeConfigs', () => {
           },
         }
       `)
+  })
+
+  it('content', () => {
+    const uno = createGenerator({
+      presets: [{
+        name: 'test',
+        content: {
+          filesystem: ['foo/bar.css'],
+          inline: ['bg-blue-1'],
+        },
+      }],
+      content: {
+        filesystem: ['foo.js'],
+      },
+    })
+    it('should work', () => {
+      expect(uno.config.content).toMatchObject({
+        filesystem: ['foo/bar.css', 'foo.js'],
+        inline: ['bg-blue-1'],
+        pipeline: { include: [], exclude: [] },
+        plain: [],
+      })
+    })
+  })
+
+  it('merge transformers', () => {
+    const uno = createGenerator({
+      presets: [
+        {
+          name: 'preset-foo',
+          transformers: [
+            {
+              name: 'transformer-foo',
+              transform: noop,
+            },
+            {
+              name: 'transformer-bar',
+              transform: noop,
+            },
+          ],
+        },
+      ],
+      transformers: [
+        {
+          name: 'transformer-bar',
+          transform: noop,
+        },
+      ],
+    })
+
+    expect(uno.config.transformers?.map(i => i.name)).toEqual(['transformer-foo', 'transformer-bar'])
   })
 })
