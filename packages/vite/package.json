@@ -62,7 +62,7 @@
     "@unocss/transformer-directives": "workspace:*",
     "chokidar": "^3.6.0",
     "magic-string": "^0.30.11",
-    "tinyglobby": "^0.2.1"
+    "tinyglobby": "^0.2.2"
   },
   "devDependencies": {
     "@unocss/shared-integration": "workspace:*",
