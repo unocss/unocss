@@ -37,7 +37,7 @@ export function entriesToCss(arr?: CSSEntries) {
   if (arr == null)
     return ''
   return clearIdenticalEntries(arr)
-    .map(([key, value]) => value != null ? `${key}:${value};` : undefined)
+    .map(([key, value]) => (value != null && typeof value !== 'function') ? `${key}:${value};` : undefined)
     .filter(Boolean)
     .join('')
 }
