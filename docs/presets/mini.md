@@ -117,7 +117,7 @@ will generate:
 You can fully customize your theme property in your config, and UnoCSS will eventually deeply merge it to the default theme.
 
 :::warning
-`breakpoints` propertie isn't deeply merged, but overridden, see [Breakpoints](/config/theme#breakpoints).
+`breakpoints` property isn't deeply merged, but overridden, see [Breakpoints](/config/theme#breakpoints).
 :::
 
 ```ts
