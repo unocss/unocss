@@ -26,8 +26,9 @@ export async function generate() {
   init.value = true
 }
 
-function reGenerate() {
+async function reGenerate() {
   uno.setConfig(customConfig, defaultConfig.value)
+  await detectTransformer()
   generate()
   autocomplete = createAutocomplete(uno)
 }
@@ -69,8 +70,7 @@ debouncedWatch(
 
         result.preflights = preflights
         customConfig = result
-        reGenerate()
-        await detectTransformer()
+        await reGenerate()
 
         if (initial) {
           const { transformers = [] } = uno.config
