@@ -116,16 +116,18 @@ will generate:
 ### Theme
 You can fully customize your theme property in your config, and UnoCSS will eventually deeply merge it to the default theme.
 
-<!--eslint-skip-->
+:::warning
+`breakpoints` property isn't deeply merged, but overridden, see [Breakpoints](/config/theme#breakpoints).
+:::
 
 ```ts
 presetMini({
   theme: {
     // ...
     colors: {
-      'veryCool': '#0000ff', // class="text-very-cool"
-      'brand': {
-        'primary': 'hsl(var(--hue, 217) 78% 51%)', //class="bg-brand-primary"
+      veryCool: '#0000ff', // class="text-very-cool"
+      brand: {
+        primary: 'hsl(var(--hue, 217) 78% 51%)', // class="bg-brand-primary"
       }
     },
   }

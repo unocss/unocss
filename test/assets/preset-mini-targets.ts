@@ -857,6 +857,13 @@ export const presetMiniTargets: string[] = [
   'property-none',
   'property-all',
   'property-unset',
+  'property-color',
+  'property-background-color',
+  'property-border-color',
+  'property-outline-color',
+  'property-text-decoration-color',
+  'property-fill',
+  'property-stroke',
   'property-margin,padding',
   'property-padding,margin',
   'property-[padding,margin]',
@@ -866,6 +873,10 @@ export const presetMiniTargets: string[] = [
   'ease-linear',
   'ease-out',
   'transition-ease-in',
+
+  // transition - behavior - discrete/normal
+  'transition-discrete',
+  'transition-normal',
 
   // typography
   'font-mono',
@@ -1230,6 +1241,10 @@ export const presetMiniTargets: string[] = [
   '@[10.5rem]-text-red',
   '@xs/label:text-green',
   '@[100px]/label:text-green',
+
+  // variants - starting style
+  'starting:opacity-0',
+  'starting:popover-open:opacity-0',
 ]
 
 export const presetMiniNonTargets = [
@@ -1270,8 +1285,19 @@ export const presetMiniNonTargets = [
 
   // overmatch
   'op50>Foo',
-
   'display-a',
+
+  // object prototype
+  'px-toString',
+  'px-toLocaleString',
+  'px-valueOf',
+  'px-hasOwnProperty',
+  'px-isPrototypeOf',
+  'px-propertyIsEnumerable',
+  'px-__defineGetter__',
+  'px-__defineSetter__',
+  'px-__lookupGetter__',
+  'bg-toString',
 ]
 
 export const specialPresetMiniTargets: string[] = [

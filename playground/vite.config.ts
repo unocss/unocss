@@ -4,12 +4,24 @@ import Inspect from 'vite-plugin-inspect'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import UnoCSS from '@unocss/vite'
+import SimpleGit from 'simple-git'
 import { alias } from '../alias'
+
+const git = SimpleGit()
+
+const SHA = await git.revparse(['HEAD'])
+const LASTEST_TAG = (await git.raw(['describe', '--tags', '--abbrev=0'])).trim()
+const LASTEST_TAG_SHA = await git.revparse([LASTEST_TAG])
 
 export default defineConfig({
   base: '/play/',
   resolve: {
     alias,
+  },
+  define: {
+    __SHA__: JSON.stringify(SHA),
+    __LASTEST_TAG__: JSON.stringify(LASTEST_TAG),
+    __LASTEST_TAG_SHA__: JSON.stringify(LASTEST_TAG_SHA),
   },
   plugins: [
     Vue(),

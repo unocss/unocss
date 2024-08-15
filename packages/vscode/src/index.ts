@@ -1,4 +1,5 @@
 import path, { dirname } from 'path'
+import process from 'process'
 import type { ExtensionContext, StatusBarItem, WorkspaceConfiguration } from 'vscode'
 import { Position, StatusBarAlignment, commands, window, workspace } from 'vscode'
 import { findUp } from 'find-up'
@@ -11,6 +12,10 @@ import { ContextLoader } from './contextLoader'
 import { defaultPipelineExclude, defaultPipelineInclude } from './integration'
 
 export async function activate(ext: ExtensionContext) {
+  // Neither Jiti2 nor Tsx supports running in VS Code yet
+  // We have to use Jiti1 for now
+  process.env.IMPORTX_LOADER = 'jiti-v1'
+
   log.appendLine(`⚪️ UnoCSS for VS Code v${version}\n`)
 
   const projectPath = workspace.workspaceFolders?.[0].uri.fsPath

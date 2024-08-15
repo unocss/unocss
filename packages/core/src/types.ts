@@ -495,6 +495,17 @@ export interface ConfigBase<Theme extends object = object> {
    * @default `true` when `envMode` is `dev`, otherwise `false`
    */
   details?: boolean
+
+  /**
+   * Options for sources to be extracted as utilities usages.
+   *
+   */
+  content?: ContentOptions
+
+  /**
+   * Custom transformers to the source code.
+   */
+  transformers?: SourceCodeTransformer[]
 }
 
 export interface OutputCssLayersOptions {

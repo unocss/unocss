@@ -152,7 +152,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div relative border="~ rounded base" shadow font-200 text-2xl>
+  <div relative border="~ rounded main" shadow font-200 text-2xl>
     <div v-if="userConfigLoading" p="x6 y4" gap2 row items-center animate-pulse>
       <div i-carbon-circle-dash w-7 h-7 animate-spin />
       <div op50>
@@ -182,7 +182,7 @@ watchEffect(() => {
     </button>
   </div>
   <div v-if="searchResult.length || isSearching" class="search-container">
-    <div border="l b r base" mx2 class="scrolls" flex-auto>
+    <div border="l b r main" mx2 class="scrolls" flex-auto>
       <template v-if="isSearching">
         <ItemBase>
           <template #badge>

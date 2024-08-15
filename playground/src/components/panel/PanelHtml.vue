@@ -25,7 +25,7 @@ const computedInputHTML = computed({
       >
         <template #before>
           <div
-            class="flex-shrink-0 i-ri-arrow-right-s-line mr-1 transition-transform transform"
+            class="flex-shrink-0 i-ri-arrow-right-s-line transition-transform transform"
             :class="isCollapsed(index) ? '' : 'rotate-90'"
           />
         </template>
@@ -52,7 +52,7 @@ const computedInputHTML = computed({
       v-model="computedInputHTML"
       flex-auto
       mode="html"
-      class="scrolls border-(l gray-400/20)"
+      class="scrolls border-l border-main"
       :matched="output?.matched || new Set()"
       :annotations="annotations"
       :get-hint="getHint"

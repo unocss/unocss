@@ -2,7 +2,7 @@
   "publisher": "antfu",
   "name": "@unocss/vscode",
   "displayName": "UnoCSS",
-  "version": "0.61.3",
+  "version": "0.62.1",
   "private": true,
   "description": "UnoCSS for VS Code",
   "license": "MIT",
@@ -120,6 +120,11 @@
           ],
           "description": "The matching type for autocomplete"
         },
+        "unocss.autocomplete.strict": {
+          "type": "boolean",
+          "default": false,
+          "description": "Be strict about where to show autocomplete"
+        },
         "unocss.autocomplete.maxItems": {
           "type": "number",
           "default": 1000,
@@ -142,7 +147,7 @@
     "find-up": "^6.3.0",
     "jiti": "^1.21.6",
     "prettier": "^2.8.8",
-    "tsup": "^8.1.0",
-    "unconfig": "^0.3.13"
+    "tsup": "^8.2.4",
+    "unconfig": "^0.5.5"
   }
 }

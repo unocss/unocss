@@ -12,7 +12,6 @@ export default createRule({
     fixable: 'code',
     docs: {
       description: 'Utilities in UnoCSS blocklist',
-      recommended: 'recommended',
     },
     messages: {
       'in-blocklist': '\"{{name}}\" is in blocklist{{reason}}',

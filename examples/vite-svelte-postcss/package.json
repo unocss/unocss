@@ -9,17 +9,17 @@
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.43",
+    "@iconify-json/logos": "^1.1.44",
     "@sveltejs/vite-plugin-svelte": "^3.1.1",
     "@tsconfig/svelte": "^5.0.4",
     "@unocss/extractor-svelte": "link:../../packages/extractor-svelte",
     "@unocss/postcss": "link:../../packages/postcss",
     "svelte": "^4.2.18",
-    "svelte-check": "^3.8.4",
+    "svelte-check": "^3.8.5",
     "tslib": "^2.6.3",
-    "typescript": "^5.5.3",
+    "typescript": "^5.5.4",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.3.3"
+    "vite": "^5.4.0"
   },
   "stackblitz": {
     "installDependencies": false,

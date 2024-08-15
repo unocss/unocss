@@ -1,7 +1,7 @@
 {
   "name": "interactive",
   "type": "module",
-  "version": "0.61.3",
+  "version": "0.62.1",
   "private": true,
   "scripts": {
     "build": "nuxi prepare && esno scripts/prepare.ts && nuxi generate",
@@ -12,25 +12,25 @@
   "devDependencies": {
     "@antfu/utils": "^0.7.10",
     "@nuxt/devtools": "^1.3.9",
-    "@shikijs/markdown-it": "^1.10.1",
+    "@shikijs/markdown-it": "^1.12.1",
     "@unocss/autocomplete": "workspace:*",
     "@unocss/nuxt": "workspace:*",
     "@unocss/shared-docs": "workspace:*",
-    "@vueuse/nuxt": "^10.11.0",
+    "@vueuse/nuxt": "^10.11.1",
     "esno": "^4.7.0",
     "fs-extra": "^11.2.0",
     "fuse.js": "^7.0.0",
     "js-yaml": "^4.1.0",
     "knitwork": "^1.1.0",
     "markdown-it-link-attributes": "^4.0.1",
-    "nuxt": "^3.12.3",
-    "p-limit": "^5.0.0",
-    "postcss-nested": "^6.0.1",
+    "nuxt": "^3.12.4",
+    "p-limit": "^6.1.0",
+    "postcss-nested": "^6.2.0",
     "prettier": "^2.8.8",
-    "shiki": "^1.10.1",
-    "theme-vitesse": "^0.8.0",
+    "shiki": "^1.12.1",
+    "theme-vitesse": "^0.8.1",
     "unplugin-vue-markdown": "^0.26.2",
-    "vue": "^3.4.31",
+    "vue": "^3.4.37",
     "vue-virtual-scroller": "2.0.0-beta.8"
   }
 }

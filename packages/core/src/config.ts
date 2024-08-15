@@ -1,4 +1,4 @@
-import type { Preset, PresetFactory, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
+import type { ContentOptions, FilterPattern, Preset, PresetFactory, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
 import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq, uniqueBy } from './utils'
 import { extractorSplit } from './extractors'
 import { DEFAULT_LAYERS } from './constants'
@@ -63,6 +63,39 @@ export function resolvePresets<Theme extends object = object>(preset: Preset<The
   return [root, ...nested]
 }
 
+// merge ContentOptions array
+function mergeContentOptions(optionsArray: ContentOptions[]): ContentOptions {
+  if (optionsArray.length === 0) {
+    return {}
+  }
+
+  const pipelineIncludes: FilterPattern[] = []
+  const pipelineExcludes: FilterPattern[] = []
+  let pipelineDisabled = false
+
+  for (const options of optionsArray) {
+    if (options.pipeline === false) {
+      pipelineDisabled = true
+    }
+    else {
+      pipelineIncludes.push(options.pipeline?.include ?? [])
+      pipelineExcludes.push(options.pipeline?.exclude ?? [])
+    }
+  }
+
+  return {
+    filesystem: uniq(optionsArray.flatMap(options => options.filesystem ?? [])),
+    inline: uniq(optionsArray.flatMap(options => options.inline ?? [])),
+    plain: uniq(optionsArray.flatMap(options => options.plain ?? [])),
+    pipeline: pipelineDisabled
+      ? false
+      : {
+          include: uniq(mergeFilterPatterns(...pipelineIncludes)),
+          exclude: uniq(mergeFilterPatterns(...pipelineExcludes)),
+        },
+  }
+}
+
 export function resolveConfig<Theme extends object = object>(
   userConfig: UserConfig<Theme> = {},
   defaults: UserConfigDefaults<Theme> = {},
@@ -84,7 +117,7 @@ export function resolveConfig<Theme extends object = object>(
 
   const layers = Object.assign({}, DEFAULT_LAYERS, ...sources.map(i => i.layers))
 
-  function getMerged<T extends 'rules' | 'blocklist' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist' | 'separators'>(key: T): ToArray<Required<UserConfig<Theme>>[T]> {
+  function getMerged<T extends 'rules' | 'blocklist' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist' | 'separators' | 'content' | 'transformers'>(key: T): ToArray<Required<UserConfig<Theme>>[T]> {
     return uniq(sources.flatMap(p => toArray(p[key] || []) as any[])) as any
   }
 
@@ -136,6 +169,9 @@ export function resolveConfig<Theme extends object = object>(
   if (!separators.length)
     separators = [':', '-']
 
+  const contents = getMerged('content')
+  const content = mergeContentOptions(contents)
+
   const resolved: ResolvedConfig<any> = {
     mergeSelectors: true,
     warn: true,
@@ -162,6 +198,8 @@ export function resolveConfig<Theme extends object = object>(
     safelist: getMerged('safelist'),
     separators,
     details: config.details ?? (config.envMode === 'dev'),
+    content,
+    transformers: uniqueBy(getMerged('transformers'), (a, b) => a.name === b.name),
   }
 
   for (const p of sources)
@@ -182,15 +220,17 @@ export function mergeConfigs<Theme extends object = object>(
       ...acc,
       [key]: maybeArrays.includes(key) ? toArray(value) : value,
     }), {}))
-    .reduce<UserConfig<Theme>>(({ theme: themeA, ...a }, { theme: themeB, ...b }) => {
+    .reduce<UserConfig<Theme>>(({ theme: themeA, content: contentA, ...a }, { theme: themeB, content: contentB, ...b }) => {
       const c = mergeDeep<UserConfig<Theme>>(a, b, true)
 
       if (themeA || themeB)
         c.theme = mergeThemes([themeA, themeB])
 
+      if (contentA || contentB)
+        c.content = mergeContentOptions([contentA || {}, contentB || {}])
+
       return c
     }, {})
-
   return config
 }
 
@@ -214,6 +254,14 @@ function mergeAutocompleteShorthands(shorthands: Record<string, string | string[
       ...rs,
     }
   }, {})
+}
+
+function mergeFilterPatterns(...filterPatterns: FilterPattern[]): Array<string | RegExp> {
+  return filterPatterns.flatMap(flatternFilterPattern)
+}
+
+function flatternFilterPattern(pattern?: FilterPattern): Array<string | RegExp> {
+  return Array.isArray(pattern) ? pattern : pattern ? [pattern] : []
 }
 
 export function definePreset<Options extends object | undefined = undefined, Theme extends object = object>(preset: PresetFactory<Theme, Options>): PresetFactory<Theme, Options>

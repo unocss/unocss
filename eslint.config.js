@@ -34,9 +34,9 @@ export default antfu(
   },
   {
     files: [
-      'playground/**/*.ts',
-      'examples/**/*.ts',
-      'test/fixtures/**/*.ts',
+      'playground/**/*.?([mc])ts',
+      'examples/**/*.?([mc])ts',
+      'test/fixtures/**/*.?([mc])ts',
     ],
     rules: {
       'no-restricted-imports': 'off',
@@ -62,6 +62,7 @@ export default antfu(
   {
     files: [
       '**/*.md/*.[jt]s',
+      'packages/shared-docs/src/default-config.ts',
     ],
     rules: {
       'no-restricted-imports': 'off',
@@ -80,4 +81,5 @@ export default antfu(
       'antfu/indent-unindent': ['error', { tags: ['$', 'html'] }],
     },
   },
+
 )

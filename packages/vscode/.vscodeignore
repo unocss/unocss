@@ -2,3 +2,7 @@
 .vscode/**
 .vscode-test/**
 scripts/**
+src/**
+test/**
+tsconfig.json
+tsup.config.ts

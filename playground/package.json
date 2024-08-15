@@ -1,12 +1,15 @@
 {
   "name": "playground",
   "type": "module",
-  "version": "0.61.3",
+  "version": "0.62.1",
   "private": true,
   "scripts": {
     "dev": "vite --open",
     "build": "vite build",
     "update-post": "vite build",
     "serve": "vite preview"
+  },
+  "devDependencies": {
+    "simple-git": "^3.25.0"
   }
 }

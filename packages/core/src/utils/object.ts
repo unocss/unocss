@@ -9,8 +9,6 @@ export function normalizeCSSEntries(obj: string | CSSEntriesInput | CSSObjectInp
 
 export function normalizeCSSValues(obj: CSSValueInput | string | (CSSValueInput | string)[]): (string | CSSEntries)[] {
   if (Array.isArray(obj)) {
-    // eslint-disable-next-line ts/prefer-ts-expect-error
-    // @ts-ignore type cast
     if (obj.find(i => !Array.isArray(i) || Array.isArray(i[0])))
       return (obj as (string | CSSValue)[]).map(i => normalizeCSSEntries(i))
     else
@@ -39,7 +37,7 @@ export function entriesToCss(arr?: CSSEntries) {
   if (arr == null)
     return ''
   return clearIdenticalEntries(arr)
-    .map(([key, value]) => value != null ? `${key}:${value};` : undefined)
+    .map(([key, value]) => (value != null && typeof value !== 'function') ? `${key}:${value};` : undefined)
     .filter(Boolean)
     .join('')
 }

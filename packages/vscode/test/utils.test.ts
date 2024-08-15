@@ -1,5 +1,5 @@
-import { expect, it } from 'vitest'
-import { addRemToPxComment, getColorString } from '@unocss/vscode/utils'
+import { describe, expect, it } from 'vitest'
+import { addRemToPxComment, getColorString, shouldProvideAutocomplete } from '@unocss/vscode/utils'
 
 it('getColorString', () => {
   const textAmber = `
@@ -68,4 +68,36 @@ it('addRemToPxComment', () => {
   .\!m-9 {
     margin: 2.25rem !important; /* 36px */
   }`)
+})
+
+describe('shouldProvideAutocomplete', () => {
+  const shouldPrefix = 'should_provide'
+  const notProvidePrefix = 'not_provide'
+  const code = `
+<script setup lang="ts"></script>
+<template>
+${notProvidePrefix}
+  <div id='app' ${shouldPrefix}> ${notProvidePrefix}
+    ${notProvidePrefix}<div ${shouldPrefix} jsx={<div ${shouldPrefix}>${notProvidePrefix}</div>} class="[>500px]:w-[200px] list1 ${shouldPrefix}" fw600 ${shouldPrefix} font-size-10 color-red ${shouldPrefix}>${notProvidePrefix}</div>${notProvidePrefix}
+  </div>${notProvidePrefix}
+</template>
+<style scoped>
+.list2 > .item {
+  @apply mb-5 ${shouldPrefix};
+}
+</style>`
+
+  it('notProvideAutocomplete', () => {
+    const notProvidePrefixReg = new RegExp(notProvidePrefix, 'g')
+    for (const match of code.matchAll(notProvidePrefixReg)) {
+      expect(shouldProvideAutocomplete(code, 'foo.vue', match.index)).toBe(false)
+    }
+  })
+
+  it('shouldProvideAutocomplete', () => {
+    const shouldProvidePrefixReg = new RegExp(shouldPrefix, 'g')
+    for (const match of code.matchAll(shouldProvidePrefixReg)) {
+      expect(shouldProvideAutocomplete(code, 'foo.vue', match.index)).toBe(true)
+    }
+  })
 })

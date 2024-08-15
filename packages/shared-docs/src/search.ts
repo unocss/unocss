@@ -50,8 +50,14 @@ export function createSearch(
       includeScore: true,
     },
   )
-  const docsFuse = computed(() => new Fuse<ResultItem>(docs.value, { keys: ['title', 'summary'], isCaseSensitive: false }))
-  const guideFuse = new Fuse<ResultItem>(guides, { keys: ['title'], isCaseSensitive: false })
+  const docsFuse = computed(() => new Fuse<ResultItem>(docs.value, {
+    keys: ['title', 'summary'],
+    isCaseSensitive: false,
+  }))
+  const guideFuse = new Fuse<ResultItem>(guides, {
+    keys: ['title'],
+    isCaseSensitive: false,
+  })
 
   const az09 = Array.from('abcdefghijklmnopqrstuvwxyz01234567890')
 
@@ -94,7 +100,8 @@ export function createSearch(
       ...parts,
       ...parts.map(i => `${i}-`),
       ...parts.flatMap(i => az09.map(a => `${i}-${a}`)),
-    ]).then(r => generateForMultiple(r))
+    ])
+      .then(r => generateForMultiple(r))
 
     const searchResult = uniq([
       ...fuse.search(input, { limit: limit * 2 }),
@@ -168,7 +175,7 @@ export function createSearch(
       type: 'rule',
       class: input,
       body: last[2].replace(/([:;])/g, '$1 '),
-      // context: last[5],
+      context: last[5],
       css,
       colors: extractColors(css),
       features,

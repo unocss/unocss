@@ -15,6 +15,7 @@ import { variantAria, variantTaggedAriaAttributes } from './aria'
 import { variantDataAttribute, variantTaggedDataAttributes } from './data'
 import { variantContainerQuery } from './container'
 import { variantChildren } from './children'
+import { variantStartingStyle } from './startingstyle'
 
 export function variants(options: PresetMiniOptions): Variant<Theme>[] {
   return [
@@ -25,6 +26,7 @@ export function variants(options: PresetMiniOptions): Variant<Theme>[] {
     variantSelector,
     variantInternalLayer,
     variantNegative,
+    variantStartingStyle,
     variantImportant(),
     variantSupports,
     variantPrint,

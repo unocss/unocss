@@ -54,7 +54,7 @@
     font-weight: 600;
     padding-bottom: 0.3em;
     font-size: 1.7em;
-    --at-apply: border-b border-base;
+    --at-apply: border-b border-main;
   }
 
   mark {
@@ -105,7 +105,7 @@
     box-sizing: content-box;
     overflow: hidden;
     background: transparent;
-    --at-apply: border-b border-base bg-gray:10;
+    --at-apply: border-b border-main bg-gray:10;
     height: 0.25em;
     padding: 0;
     margin: 24px 0;
@@ -216,7 +216,7 @@
     color: #c9d1d9;
     vertical-align: middle;
     background-color: #161b22;
-    --at-apply: border border-base;
+    --at-apply: border border-main;
     border-radius: 6px;
     box-shadow: inset 0 -1px 0 rgb(110 118 129 / 0.4);
   }
@@ -237,7 +237,7 @@
     font-weight: 600;
     padding-bottom: 0.3em;
     font-size: 1.5em;
-    --at-apply: border-b border-base;
+    --at-apply: border-b border-main;
   }
 
   h3 {
@@ -621,11 +621,11 @@
   table th,
   table td {
     padding: 6px 13px;
-    --at-apply: border border-base;
+    --at-apply: border border-main;
   }
 
   table tr {
-    --at-apply: border-t border-base;
+    --at-apply: border-t border-main;
   }
 
   table tr:nth-child(2n) {
@@ -781,7 +781,7 @@
   .shiki {
     padding: 16px;
     overflow: auto;
-    --at-apply: border-base border;
+    --at-apply: border-main border;
   }
 
   pre code,
@@ -827,7 +827,7 @@
   .footnotes {
     font-size: 12px;
     color: #8b949e;
-    --at-apply: border-t border-base;
+    --at-apply: border-t border-main;
   }
 
   .footnotes ol {

@@ -398,7 +398,7 @@ Scale related to the current font size (1em).
 
 ### mode
 
-- Type: `'mask' | 'background-img' | 'auto'`
+- Type: `'mask' | 'bg' | 'auto'`
 - Default: `'auto'`
 - See: https://antfu.me/posts/icons-in-pure-css
 
@@ -406,8 +406,8 @@ Mode of generated CSS icons.
 
 :::tip
 - `mask` - use background color and the `mask` property for monochrome icons
-- `background-img` - use background image for the icons, colors are static
-- `auto` - smartly decide mode between `mask` and `background-img` per icon based on its style
+- `bg` - use background image for the icons, colors are static
+- `auto` - smartly decide mode between `mask` and `bg` per icon based on its style
 :::
 
 ### prefix
