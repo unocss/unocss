@@ -1285,8 +1285,19 @@ export const presetMiniNonTargets = [
 
   // overmatch
   'op50>Foo',
-
   'display-a',
+
+  // object prototype
+  'px-toString',
+  'px-toLocaleString',
+  'px-valueOf',
+  'px-hasOwnProperty',
+  'px-isPrototypeOf',
+  'px-propertyIsEnumerable',
+  'px-__defineGetter__',
+  'px-__defineSetter__',
+  'px-__lookupGetter__',
+  'bg-toString',
 ]
 
 export const specialPresetMiniTargets: string[] = [

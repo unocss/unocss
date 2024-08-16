@@ -37,8 +37,11 @@ export function transformThemeFn(code: string, theme: Record<string, any>, throw
 export function transformThemeString(code: string, theme: Record<string, any>, throwOnMissing = true) {
   const [rawKey, alpha] = code.split('/') as [string, string?]
   const keys = rawKey.trim().split('.')
-  let value = keys.reduce((t, k) => t?.[k], theme) as unknown as string | undefined
+  let value = keys.reduce((t, k) => t?.[k], theme) as unknown as string | Record<string, any> | undefined
 
+  if (typeof value === 'object') {
+    value = value.DEFAULT
+  }
   if (typeof value === 'string') {
     if (alpha) {
       const color = parseCssColor(value)
