@@ -26,14 +26,15 @@ export async function transformDirectives(
   }
   applyVariable = toArray(applyVariable || [])
 
-  const hasApply = code.original.includes('@apply') || applyVariable.some(s => code.original.includes(s))
-  const hasScreen = code.original.includes('@screen')
-  const hasThemeFn = hasThemeFunction(code.original)
+  const parseCode = originalCode || code.original
+  const hasApply = parseCode.includes('@apply') || applyVariable.some(s => parseCode.includes(s))
+  const hasScreen = parseCode.includes('@screen')
+  const hasThemeFn = hasThemeFunction(parseCode)
 
   if (!hasApply && !hasThemeFn && !hasScreen)
     return
 
-  const ast = parse(originalCode || code.original, {
+  const ast = parse(parseCode, {
     parseCustomProperty: true,
     parseAtrulePrelude: false,
     positions: true,

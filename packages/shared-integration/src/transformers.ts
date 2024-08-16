@@ -19,7 +19,8 @@ export async function applyTransformers(
     return
 
   const skipMap = new Map<string, string>()
-  let code = original
+  // There may be multiple @apply statements in one line. In this case, magic-string will process the calculation and modify the same position. Add a space here to handle this.
+  let code = original.replace(/;(@apply|--uno|--at-apply) /g, '; $1 ')
   let s = new MagicString(transformSkipCode(code, skipMap, SKIP_COMMENT_RE, '@unocss-skip-placeholder-'))
   const maps: EncodedSourceMap[] = []
 
