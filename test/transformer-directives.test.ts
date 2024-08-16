@@ -347,15 +347,12 @@ describe('transformer-directives', () => {
     const result = await transform(
       `nav {
         --at-apply: border font-mono text-lg;
-
+        
         .test-a {
-          @apply shadow-lg;
-          @apply rounded-md bg-slate-300 shadow-amber-500;
+          @apply shadow-lg;@apply rounded-md bg-slate-300 shadow-amber-500;
         }
         .test-b {
-          @apply shadow-lg;
-          font-size:20px;
-          @apply rounded-md bg-slate-300 shadow-amber-500;
+          @apply shadow-lg;font-size:20px;@apply rounded-md bg-slate-300 shadow-amber-500;
         }
         a {
           --at-apply: px-2;
