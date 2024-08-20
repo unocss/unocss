@@ -21,16 +21,19 @@ jobs:
         with:
           fetch-depth: 0
 
-      - run: corepack enable
-      - uses: actions/setup-node@v4
+      - name: Set node ${{ matrix.node_version }}
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: pnpm
 
-      - name: Install dependencies
+      - run: corepack enable
+
+      - name: Install
         run: pnpm install
 
       - name: Build
         run: pnpm build
 
-      - run: pnpx pkg-pr-new publish
+      - name: Release
+        run: pnpx pkg-pr-new publish --compact --pnpm './packages/*'
