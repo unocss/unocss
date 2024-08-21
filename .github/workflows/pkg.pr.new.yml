@@ -18,13 +18,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      - run: corepack enable
+
       - name: Set node
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
           cache: pnpm
-
-      - run: corepack enable
 
       - name: Install
         run: pnpm install
