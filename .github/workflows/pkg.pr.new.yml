@@ -23,7 +23,8 @@ jobs:
         with:
           node-version: lts/*
           cache: pnpm
-        run: corepack enable
+
+      - run: corepack enable
 
       - name: Install
         run: pnpm install
