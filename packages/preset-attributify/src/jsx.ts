@@ -83,6 +83,7 @@ export type SeparateEnabled =
   | 'backdrop'
   | 'bg'
   | 'blend'
+  | 'b'
   | 'border'
   | 'box'
   | 'container'
