@@ -71,7 +71,12 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
   if (!utils.length)
     return
 
-  let simicolonOffset = original[childNode.loc!.end.offset] === ';' ? 1 : original[childNode.loc!.end.offset] === '@' ? -1 : 0
+  let simicolonOffset = original[childNode.loc!.end.offset] === ';'
+    ? 1
+    : original[childNode.loc!.end.offset] === '@'
+      ? -1
+      : 0
+
   for (const i of utils) {
     const [, _selector, body, parent] = i
     const selectorOrGroup = _selector?.replace(regexScopePlaceholder, ' ') || _selector
