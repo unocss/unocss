@@ -20,7 +20,6 @@ catalog:
   '@codemirror/lang-javascript': ^6.2.2
   '@codemirror/lang-xml': ^6.1.0
   '@csstools/normalize.css': ^12.1.1
-  '@typescript-eslint/utils': ^8.2.0
   '@iconify-json/carbon': ^1.1.37
   '@iconify-json/iconoir': ^1.1.46
   '@iconify-json/la': ^1.1.9
@@ -55,6 +54,7 @@ catalog:
   '@types/webpack': ^5.28.5
   '@types/webpack-sources': ^3.2.3
   '@types/ws': ^8.5.12
+  '@typescript-eslint/utils': ^8.2.0
   '@vitejs/plugin-legacy': ^5.4.2
   '@vitejs/plugin-vue': ^5.1.2
   '@vitest/ui': ^2.0.5

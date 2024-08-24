@@ -413,14 +413,14 @@ overrides:
   prettier: ^2.8.8
   rollup: ^4.21.0
   vite: ^5.4.2
-  is-arguments: npm:@nolyfill/is-arguments@^1
-  is-core-module: npm:@nolyfill/is-core-module@^1
-  is-generator-function: npm:@nolyfill/is-generator-function@^1
-  is-regex: npm:@nolyfill/is-regex@^1
-  is-typed-array: npm:@nolyfill/is-typed-array@^1
-  object.assign: npm:@nolyfill/object.assign@^1
-  side-channel: npm:@nolyfill/side-channel@^1
-  which-typed-array: npm:@nolyfill/which-typed-array@^1
+  is-arguments: npm:@nolyfill/is-arguments@^1.0.29
+  is-core-module: npm:@nolyfill/is-core-module@^1.0.39
+  is-generator-function: npm:@nolyfill/is-generator-function@^1.0.29
+  is-regex: npm:@nolyfill/is-regex@^1.0.29
+  is-typed-array: npm:@nolyfill/is-typed-array@^1.0.29
+  object.assign: npm:@nolyfill/object.assign@^1.0.28
+  side-channel: npm:@nolyfill/side-channel@^1.0.29
+  which-typed-array: npm:@nolyfill/which-typed-array@^1.0.29
 
 importers:
 
