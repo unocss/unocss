@@ -1140,7 +1140,7 @@ describe('transformer-directives with important', () => {
         .toMatchInlineSnapshot(`[Error: theme of "color.none.500" did not found]`)
 
       expect(async () => await transform(
-          `.btn {
+        `.btn {
           font-size: theme("size.lg");
           }`,
       )).rejects

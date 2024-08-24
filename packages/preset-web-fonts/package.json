@@ -54,6 +54,6 @@
   },
   "dependencies": {
     "@unocss/core": "workspace:*",
-    "ofetch": "^1.3.4"
+    "ofetch": "catalog:"
   }
 }

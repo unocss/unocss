@@ -43,7 +43,7 @@
   "dependencies": {
     "@unocss/core": "workspace:*",
     "@unocss/rule-utils": "workspace:*",
-    "gzip-size": "^6.0.0",
-    "sirv": "^2.0.4"
+    "gzip-size": "catalog:",
+    "sirv": "catalog:"
   }
 }

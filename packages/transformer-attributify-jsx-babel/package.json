@@ -37,12 +37,12 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@babel/core": "^7.25.2",
-    "@babel/plugin-syntax-jsx": "^7.24.7",
-    "@babel/preset-typescript": "^7.24.7",
+    "@babel/core": "catalog:",
+    "@babel/plugin-syntax-jsx": "catalog:",
+    "@babel/preset-typescript": "catalog:",
     "@unocss/core": "workspace:*"
   },
   "devDependencies": {
-    "magic-string": "^0.30.11"
+    "magic-string": "catalog:"
   }
 }

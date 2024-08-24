@@ -10,6 +10,6 @@
     "serve": "vite preview"
   },
   "devDependencies": {
-    "simple-git": "^3.25.0"
+    "simple-git": "catalog:"
   }
 }

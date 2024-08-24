@@ -37,8 +37,8 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "fzf": "^0.5.2",
-    "lru-cache": "^10.4.3"
+    "fzf": "catalog:",
+    "lru-cache": "catalog:"
   },
   "devDependencies": {
     "@unocss/core": "workspace:*"
