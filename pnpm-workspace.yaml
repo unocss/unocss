@@ -138,7 +138,7 @@ catalog:
   vite-plugin-pages: ^0.32.3
   vite-plugin-windicss: ^1.9.3
   vitepress: ^1.3.3
-  vitepress-plugin-group-icons: ^1.0.1
+  vitepress-plugin-group-icons: ^1.0.3
   vitest: ^2.0.5
   vue: ^3.4.38
   vue-eslint-parser: ^9.4.3

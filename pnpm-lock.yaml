@@ -379,8 +379,8 @@ catalogs:
       specifier: ^1.3.3
       version: 1.3.3
     vitepress-plugin-group-icons:
-      specifier: ^1.0.1
-      version: 1.0.1
+      specifier: ^1.0.3
+      version: 1.0.3
     vitest:
       specifier: ^2.0.5
       version: 2.0.5
@@ -800,7 +800,7 @@ importers:
         version: 1.3.3(@algolia/client-search@4.19.1)(@types/node@22.5.0)(@types/react@18.3.4)(fuse.js@7.0.0)(postcss@8.4.41)(react@18.3.1)(search-insights@2.7.0)(terser@5.31.6)(typescript@5.5.4)
       vitepress-plugin-group-icons:
         specifier: 'catalog:'
-        version: 1.0.1
+        version: 1.0.3
 
   examples/vue-cli4:
     dependencies:
@@ -10495,8 +10495,8 @@ packages:
       vite:
         optional: true
 
-  vitepress-plugin-group-icons@1.0.1:
-    resolution: {integrity: sha512-wt169hnYGtRz68GgGxh9qx8AIQATGDluWT0x79Y9HuA/Z+q22W07lo5mCGrafYl3Fnme4C0i2WY1zKOqQl8KdA==}
+  vitepress-plugin-group-icons@1.0.3:
+    resolution: {integrity: sha512-IGQ7Jw52vHeBKTT1sgjhl/pGT1TwtL0MyeCb6m1xHthyoFQLqnkzVyEyUGkZfw0LBtro5OwmRvcYbDUSjMVOGw==}
 
   vitepress@1.3.3:
     resolution: {integrity: sha512-6UzEw/wZ41S/CATby7ea7UlffvRER/uekxgN6hbEvSys9ukmLOKsz87Ehq9yOx1Rwiw+Sj97yjpivP8w1sUmng==}
@@ -21375,7 +21375,7 @@ snapshots:
     optionalDependencies:
       vite: 5.4.2(@types/node@22.5.0)(terser@5.31.6)
 
-  vitepress-plugin-group-icons@1.0.1:
+  vitepress-plugin-group-icons@1.0.3:
     dependencies:
       '@iconify-json/logos': 1.1.44
       '@iconify/utils': 2.1.32
