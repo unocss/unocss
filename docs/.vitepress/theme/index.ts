@@ -3,7 +3,6 @@ import { h, watch } from 'vue'
 import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import TwoslashFloatingVue from '@shikijs/vitepress-twoslash/client'
-import { GroupIconComponent } from 'vitepress-plugin-group-icons/client'
 import UnoCSSLayout from './UnoCSSLayout.vue'
 import RainbowAnimationSwitcher from './components/RainbowAnimationSwitcher.vue'
 
@@ -13,6 +12,7 @@ import './rainbow.css'
 import './vars.css'
 import './overrides.css'
 import 'uno.css'
+import 'virtual:group-icons.css'
 
 let homePageStyle: HTMLStyleElement | undefined
 
@@ -24,7 +24,6 @@ export default {
   enhanceApp({ app, router }) {
     app.component('RainbowAnimationSwitcher', RainbowAnimationSwitcher)
     app.use(TwoslashFloatingVue)
-    app.use(GroupIconComponent)
 
     if (typeof window === 'undefined')
       return
