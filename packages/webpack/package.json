@@ -52,13 +52,13 @@
     "@unocss/core": "workspace:*",
     "chokidar": "^3.6.0",
     "magic-string": "^0.30.11",
-    "tinyglobby": "^0.2.2",
-    "unplugin": "^1.12.1",
+    "tinyglobby": "^0.2.5",
+    "unplugin": "^1.12.2",
     "webpack-sources": "^3.2.3"
   },
   "devDependencies": {
     "@types/webpack": "^5.28.5",
     "@types/webpack-sources": "^3.2.3",
-    "webpack": "^5.93.0"
+    "webpack": "^5.94.0"
   }
 }

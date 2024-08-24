@@ -17,7 +17,7 @@
     "@iconify-json/vscode-icons": "^1.1.37",
     "ofetch": "^1.3.4",
     "unocss": "workspace:*",
-    "vitepress": "^1.3.2",
-    "vitepress-plugin-group-icons": "^0.0.9"
+    "vitepress": "^1.3.3",
+    "vitepress-plugin-group-icons": "^1.0.0"
   }
 }
