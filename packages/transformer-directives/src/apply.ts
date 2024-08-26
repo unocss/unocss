@@ -87,7 +87,7 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
 
         const prelude = clone(node.prelude) as SelectorList
 
-        prelude.children.forEach((child) => {
+        prelude.children?.forEach((child) => {
           const selectorListAst = clone(ruleAST.prelude) as SelectorList
           const classSelectors: List<CssNode> = new List()
 
