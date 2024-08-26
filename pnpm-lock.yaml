@@ -379,8 +379,8 @@ catalogs:
       specifier: ^1.3.3
       version: 1.3.3
     vitepress-plugin-group-icons:
-      specifier: ^1.0.0
-      version: 1.0.0
+      specifier: ^1.0.3
+      version: 1.0.3
     vitest:
       specifier: ^2.0.5
       version: 2.0.5
@@ -800,7 +800,7 @@ importers:
         version: 1.3.3(@algolia/client-search@4.19.1)(@types/node@22.5.0)(@types/react@18.3.4)(fuse.js@7.0.0)(postcss@8.4.41)(react@18.3.1)(search-insights@2.7.0)(terser@5.31.6)(typescript@5.5.4)
       vitepress-plugin-group-icons:
         specifier: 'catalog:'
-        version: 1.0.0
+        version: 1.0.3
 
   examples/vue-cli4:
     dependencies:
@@ -3266,7 +3266,7 @@ packages:
     resolution: {integrity: sha512-1/sA4dwrzBAyeUoQ6oxahHKmrZvsnLCg4RfxW3ZFGGmQkSNQPFNLV9CUEFQP1x9EYXHTo5p6xdhZM1Ne9p/AfA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
-      eslint: ^9.9.0
+      eslint: ^6.0.0 || ^7.0.0 || >=8.0.0
 
   '@eslint-community/regexpp@4.11.0':
     resolution: {integrity: sha512-G/M/tIiMrTAxEWRfLfQJMmGNX28IxBg4PBz8XqQhqUHLFI6TL2htpIB1iQCj144V5ee/JaKyT9/WZ0MGZWfA7A==}
@@ -6438,7 +6438,7 @@ packages:
     resolution: {integrity: sha512-3RQOsJEoAExM3KHAayvTpRJQOYxTETP89RS9x0QRBK4cvCut0Tyjmb1xVQWY8ibC49M0B+QeSGrVZhtbcxOl4Q==}
     peerDependencies:
       eslint: ^9.0.0
-      vitest: ^2.0.5
+      vitest: ^1.0.0 || ^2.0.0
 
   eslint@9.9.1:
     resolution: {integrity: sha512-dHvhrbfr4xFQ9/dq+jcVneZMyRYLjggWjk6RVsIiHsP8Rz6yZ8LvZ//iU4TrZF+SXWG+JkNF2OyiZRvzgRDqMg==}
@@ -10495,8 +10495,8 @@ packages:
       vite:
         optional: true
 
-  vitepress-plugin-group-icons@1.0.0:
-    resolution: {integrity: sha512-YJsKk56WJ7BM+hIMjqOG5055EpjaW5snkxT3BnxUqDBBXen0T1x/Ln7HZWRjC1eTxLVlajNr/6weapGZ5jJaSA==}
+  vitepress-plugin-group-icons@1.0.3:
+    resolution: {integrity: sha512-IGQ7Jw52vHeBKTT1sgjhl/pGT1TwtL0MyeCb6m1xHthyoFQLqnkzVyEyUGkZfw0LBtro5OwmRvcYbDUSjMVOGw==}
 
   vitepress@1.3.3:
     resolution: {integrity: sha512-6UzEw/wZ41S/CATby7ea7UlffvRER/uekxgN6hbEvSys9ukmLOKsz87Ehq9yOx1Rwiw+Sj97yjpivP8w1sUmng==}
@@ -21375,7 +21375,7 @@ snapshots:
     optionalDependencies:
       vite: 5.4.2(@types/node@22.5.0)(terser@5.31.6)
 
-  vitepress-plugin-group-icons@1.0.0:
+  vitepress-plugin-group-icons@1.0.3:
     dependencies:
       '@iconify-json/logos': 1.1.44
       '@iconify/utils': 2.1.32
