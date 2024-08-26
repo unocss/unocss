@@ -13,7 +13,7 @@ catalogs:
       specifier: ^2.27.1
       version: 2.27.1
     '@antfu/ni':
-      specifier: ^0.22.4
+      specifier: https://pkg.pr.new/antfu-collective/ni/@antfu/ni@571d519
       version: 0.22.4
     '@antfu/utils':
       specifier: ^0.7.10
@@ -431,7 +431,7 @@ importers:
         version: 2.27.1(@typescript-eslint/utils@8.2.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4))(@unocss/eslint-plugin@packages+eslint-plugin)(@vue/compiler-sfc@3.4.38)(eslint@9.9.1(jiti@1.21.6))(svelte@4.2.19)(typescript@5.5.4)(vitest@2.0.5(@types/node@22.5.0)(@vitest/ui@2.0.5)(jsdom@24.1.1)(terser@5.31.6))
       '@antfu/ni':
         specifier: 'catalog:'
-        version: 0.22.4
+        version: https://pkg.pr.new/antfu-collective/ni/@antfu/ni@571d519
       '@codemirror/lang-css':
         specifier: 'catalog:'
         version: 6.2.1(@codemirror/view@6.19.0)
@@ -1758,6 +1758,11 @@ packages:
 
   '@antfu/ni@0.22.4':
     resolution: {integrity: sha512-uCzh43cmUwQQcgv2BPyo0JWOMgXhcaE+F2I6Ucmfc7f9ir52lfA4OtZXdfL5D8cMa5GAwuCSNqOshIol8YN82g==}
+    hasBin: true
+
+  '@antfu/ni@https://pkg.pr.new/antfu-collective/ni/@antfu/ni@571d519':
+    resolution: {tarball: https://pkg.pr.new/antfu-collective/ni/@antfu/ni@571d519}
+    version: 0.22.4
     hasBin: true
 
   '@antfu/utils@0.7.10':
@@ -11122,6 +11127,8 @@ snapshots:
       tinyexec: 0.2.0
 
   '@antfu/ni@0.22.4': {}
+
+  '@antfu/ni@https://pkg.pr.new/antfu-collective/ni/@antfu/ni@571d519': {}
 
   '@antfu/utils@0.7.10': {}
 

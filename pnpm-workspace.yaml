@@ -10,7 +10,7 @@ packages:
 catalog:
   '@ampproject/remapping': ^2.3.0
   '@antfu/eslint-config': ^2.27.1
-  '@antfu/ni': ^0.22.4
+  '@antfu/ni': https://pkg.pr.new/antfu-collective/ni/@antfu/ni@571d519
   '@antfu/utils': ^0.7.10
   '@babel/core': ^7.25.2
   '@babel/plugin-syntax-jsx': ^7.24.7
