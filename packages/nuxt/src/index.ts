@@ -87,7 +87,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
             .reverse() as string[]
 
           return (
-`import { mergeConfigs } from '@unocss/core'
+            `import { mergeConfigs } from '@unocss/core'
 ${configPaths.map((path, index) => `import cfg${index} from '${path}'`.trimStart()).join('\n').trimEnd()}
 
 export default mergeConfigs([${configPaths.map((_, index) => `cfg${index}`).join(', ')}])

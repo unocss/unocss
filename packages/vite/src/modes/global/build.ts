@@ -227,9 +227,9 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         const mappedVfsLayer = Array.from(vfsLayers).map(layer => layer === LAYER_MARK_ALL ? layer : layer.replace(/^_/, ''))
         const importStatements = result.getLayer(LAYER_IMPORTS)
         const cssWithLayers = Array.from(vfsLayers).map(layer => `${importStatements ?? ''}#--unocss-layer-start--${layer}--{start:${layer}} ${layer === LAYER_MARK_ALL
-            ? result.getLayers(undefined, [...mappedVfsLayer, LAYER_IMPORTS])
-            : (result.getLayer(layer.replace(/^_/, '')) || '')
-          } #--unocss-layer-end--${layer}--{end:${layer}}`).join('')
+          ? result.getLayers(undefined, [...mappedVfsLayer, LAYER_IMPORTS])
+          : (result.getLayer(layer.replace(/^_/, '')) || '')
+        } #--unocss-layer-end--${layer}--{end:${layer}}`).join('')
 
         const fakeCssId = `${viteConfig.root}/${chunk.fileName}-unocss-hash.css`
         const css = await applyCssTransform(cssWithLayers, fakeCssId, options.dir, this)

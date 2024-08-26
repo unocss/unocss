@@ -2,7 +2,7 @@
   "publisher": "antfu",
   "name": "@unocss/vscode",
   "displayName": "UnoCSS",
-  "version": "0.62.2",
+  "version": "0.62.3",
   "private": true,
   "description": "UnoCSS for VS Code",
   "license": "MIT",
@@ -143,11 +143,11 @@
     "@types/vscode": "^1.71.0",
     "@unocss/nuxt": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
-    "esno": "^4.7.0",
-    "find-up": "^6.3.0",
-    "jiti": "^1.21.6",
-    "prettier": "^2.8.8",
-    "tsup": "^8.2.4",
-    "unconfig": "^0.5.5"
+    "esno": "catalog:",
+    "find-up": "catalog:",
+    "jiti": "catalog:",
+    "prettier": "catalog:",
+    "tsup": "catalog:",
+    "unconfig": "catalog:"
   }
 }
