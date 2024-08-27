@@ -210,15 +210,15 @@ export type DynamicMatcher<Theme extends object = object> =
   | Generator<CSSValueInput | string | undefined>
   | AsyncGenerator<CSSValueInput | string | undefined>
 
-export type DynamicRule<Theme extends object = object> = [RegExp, DynamicMatcher<Theme>] | [RegExp, DynamicMatcher<Theme>, RuleMeta]
-export type StaticRule = [string, CSSObject | CSSEntries] | [string, CSSObject | CSSEntries, RuleMeta]
+export type DynamicRule<Theme extends object = object> = [RegExp, DynamicMatcher<Theme>, RuleMeta?]
+export type StaticRule = [string, CSSObject | CSSEntries, RuleMeta?]
 export type Rule<Theme extends object = object> = DynamicRule<Theme> | StaticRule
 
 export type DynamicShortcutMatcher<Theme extends object = object> = ((match: RegExpMatchArray, context: Readonly<RuleContext<Theme>>) => (string | ShortcutValue[] | undefined))
 
-export type StaticShortcut = [string, string | ShortcutValue[]] | [string, string | ShortcutValue[], RuleMeta]
+export type StaticShortcut = [string, string | ShortcutValue[], RuleMeta?]
 export type StaticShortcutMap = Record<string, string | ShortcutValue[]>
-export type DynamicShortcut<Theme extends object = object> = [RegExp, DynamicShortcutMatcher<Theme>] | [RegExp, DynamicShortcutMatcher<Theme>, RuleMeta]
+export type DynamicShortcut<Theme extends object = object> = [RegExp, DynamicShortcutMatcher<Theme>, RuleMeta?]
 export type UserShortcuts<Theme extends object = object> = StaticShortcutMap | (StaticShortcut | DynamicShortcut<Theme> | StaticShortcutMap)[]
 export type Shortcut<Theme extends object = object> = StaticShortcut | DynamicShortcut<Theme>
 export type ShortcutValue = string | CSSValue
