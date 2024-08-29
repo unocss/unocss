@@ -41,7 +41,7 @@ export const vitesseTheme = EditorView.theme({
   },
 
   '.cm-cursor, .cm-dropCursor': { borderLeftColor: cursor },
-  '&.cm-focused .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection': { backgroundColor: selection },
+  '&.cm-focused .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection': { backgroundColor: `${selection} !important` },
 
   '.cm-panels': { backgroundColor: darkBackground, color: foreground },
   '.cm-panels.cm-panels-top': { borderBottom: '2px solid black' },
