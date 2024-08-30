@@ -77,6 +77,7 @@ export default function WebpackPlugin<Theme extends object>(
         return filter('', id) && !id.endsWith('.html') && !RESOLVED_ID_RE.test(id)
       },
       async transform(code, id) {
+        await flushTasks()
         const result = await applyTransformers(ctx, code, id, 'pre')
         if (isCssId(id))
           return result
