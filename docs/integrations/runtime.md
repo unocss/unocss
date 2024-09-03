@@ -104,6 +104,27 @@ import initUnocssRuntime from '@unocss/runtime'
 initUnocssRuntime({ /* options */ })
 ```
 
+A UnoCSS config can be provided using the `defaults` property:
+
+```ts
+import initUnocssRuntime from '@unocss/runtime'
+import config from './uno.config'
+
+initUnocssRuntime({ defaults: config })
+```
+
+Presets can be imported from `esm.sh`:
+
+```ts
+import { defineConfig } from '@unocss/runtime'
+import presetUno from 'https://esm.sh/@unocss/preset-uno'
+import presetIcons from 'https://esm.sh/@unocss/preset-icons/browser'
+
+export default defineConfig({
+  presets: [presetUno(), presetIcons({ cdn: 'https://esm.sh/' })],
+})
+```
+
 ## Preventing FOUC
 
 Since UnoCSS runs after the DOM is ready, there can be a "flash of unstyled content" (FOUC) which may leads the user to see the page as unstyled.
