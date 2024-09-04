@@ -110,7 +110,7 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
             }
           }
 
-          processor?.(cssObject, { collection: parsed.collection, icon: parsed.name, svg: parsed.svg, mode: _mode })
+          processor?.(cssObject, { ...parsed, mode: _mode })
 
           return cssObject
         },

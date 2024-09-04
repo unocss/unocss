@@ -4,7 +4,7 @@ import type { IconifyJSON } from '@iconify/types'
 
 interface IconMeta {
   collection: string
-  icon: string
+  name: string
   svg: string
   mode?: IconsOptions['mode']
 }
