@@ -3,6 +3,7 @@ import { type Preset, type UnoGenerator, toArray } from '@unocss/core'
 import type { IconsOptions } from '@unocss/preset-icons'
 
 const COLLECTION_NAME_PARTS_MAX = 3
+const iconCache = new Map<string, string>()
 
 // eslint-disable-next-line regexp/no-super-linear-backtracking
 export const iconFnRE = /icon\(\s*(['"])?(.*?)\1?\s*\)/g
@@ -56,13 +57,19 @@ export async function transformIconString(uno: UnoGenerator, icon: string, color
 
   const loader = await createNodeLoader()
 
-  for (const p of toArray(prefix)) {
-    if (icon.startsWith(p)) {
-      icon = icon.slice(p.length)
-      const parsed = await parseIcon(icon, loader, loaderOptions)
-      if (parsed)
-        return `url("data:image/svg+xml;utf8,${color ? encodeSvgForCss(parsed.svg).replace(/currentcolor/gi, color) : encodeSvgForCss(parsed.svg)}")`
-    }
+  try {
+    return await Promise.any(toArray(prefix).map(async (p) => {
+      if (icon.startsWith(p)) {
+        icon = icon.slice(p.length)
+        const parsed = await parseIcon(icon, loader, loaderOptions)
+        if (parsed)
+          return `url("data:image/svg+xml;utf8,${color ? encodeSvgForCss(parsed.svg).replace(/currentColor/gi, color) : encodeSvgForCss(parsed.svg)}")`
+      }
+      throw new Error('No valid icon found')
+    }))
+  }
+  catch {
+    console.error(`Invalid icon in icon(): ${icon}`)
   }
 }
 
@@ -81,26 +88,30 @@ export async function createNodeLoader() {
 export async function parseIcon(body: string, loader: UniversalIconLoader, options: IconifyLoaderOptions = {}) {
   let collection = ''
   let name = ''
-  let svg: string | undefined
+  let svg = iconCache.get(body)
 
-  if (body.includes(':')) {
-    [collection, name] = body.split(':')
-    svg = await loader(collection, name, options)
-  }
-  else {
-    const parts = body.split(/-/g)
-    for (let i = COLLECTION_NAME_PARTS_MAX; i >= 1; i--) {
-      collection = parts.slice(0, i).join('-')
-      name = parts.slice(i).join('-')
+  if (!svg) {
+    if (body.includes(':')) {
+      [collection, name] = body.split(':')
       svg = await loader(collection, name, options)
-      if (svg)
-        break
+    }
+    else {
+      const parts = body.split(/-/g)
+      for (let i = COLLECTION_NAME_PARTS_MAX; i >= 1; i--) {
+        collection = parts.slice(0, i).join('-')
+        name = parts.slice(i).join('-')
+        svg = await loader(collection, name, options)
+        if (svg)
+          break
+      }
     }
   }
 
   if (!svg) {
     return
   }
+
+  iconCache.set(body, svg)
 
   return {
     collection,
