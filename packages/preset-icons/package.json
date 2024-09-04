@@ -59,6 +59,7 @@
   "dependencies": {
     "@iconify/utils": "catalog:",
     "@unocss/core": "workspace:*",
+    "@unocss/rule-utils": "workspace:*",
     "ofetch": "catalog:"
   },
   "devDependencies": {

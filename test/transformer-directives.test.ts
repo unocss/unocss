@@ -6,6 +6,7 @@ import MagicString from 'magic-string'
 import parserCSS from 'prettier/parser-postcss'
 import prettier from 'prettier/standalone'
 import { describe, expect, it } from 'vitest'
+import presetIcons from '@unocss/preset-icons'
 import { transformDirectives } from '../packages/transformer-directives/src/transform'
 
 describe('transformer-directives', () => {
@@ -1362,5 +1363,49 @@ div {
         }
         "
       `)
+  })
+})
+
+describe('icon directive', () => {
+  const uno = createGenerator({
+    presets: [
+      presetIcons({
+        collections: {
+          ph: {
+            check: `<svg xmlns="http://www.w3.org/2000/svg" fill="currentcolor" viewBox="0 0 24 24"><path d="ph:check"/></svg>`,
+          },
+        },
+      }),
+    ],
+  })
+
+  async function transform(code: string, _uno: UnoGenerator = uno) {
+    const s = new MagicString(code)
+    await transformDirectives(s, _uno, {})
+    return prettier.format(s.toString(), {
+      parser: 'css',
+      plugins: [parserCSS],
+    })
+  }
+
+  it('icon()', async () => {
+    const result = await transform(
+      `.icon {
+          background-image: icon('i-ph-check');
+          background-image: icon('i-ph-check', '#fff');
+          background-image: icon('i-carbon-sun');
+          background-image: icon('i-carbon-sun', '#fff');
+        }`,
+    )
+
+    expect(result).toMatchInlineSnapshot(`
+      ".icon {
+        background-image: url("data:image/svg+xml;utf8,%3Csvg width='1em' height='1em' xmlns='http://www.w3.org/2000/svg' fill='currentcolor' viewBox='0 0 24 24'%3E%3Cpath d='ph:check'/%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml;utf8,%3Csvg width='1em' height='1em' xmlns='http://www.w3.org/2000/svg' fill='#fff' viewBox='0 0 24 24'%3E%3Cpath d='ph:check'/%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml;utf8,%3Csvg viewBox='0 0 32 32' width='1em' height='1em' xmlns='http://www.w3.org/2000/svg' %3E%3Cpath fill='currentColor' d='M16 12.005a4 4 0 1 1-4 4a4.005 4.005 0 0 1 4-4m0-2a6 6 0 1 0 6 6a6 6 0 0 0-6-6M5.394 6.813L6.81 5.399l3.505 3.506L8.9 10.319zM2 15.005h5v2H2zm3.394 10.193L8.9 21.692l1.414 1.414l-3.505 3.506zM15 25.005h2v5h-2zm6.687-1.9l1.414-1.414l3.506 3.506l-1.414 1.414zm3.313-8.1h5v2h-5zm-3.313-6.101l3.506-3.506l1.414 1.414l-3.506 3.506zM15 2.005h2v5h-2z'/%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml;utf8,%3Csvg viewBox='0 0 32 32' width='1em' height='1em' xmlns='http://www.w3.org/2000/svg' %3E%3Cpath fill='#fff' d='M16 12.005a4 4 0 1 1-4 4a4.005 4.005 0 0 1 4-4m0-2a6 6 0 1 0 6 6a6 6 0 0 0-6-6M5.394 6.813L6.81 5.399l3.505 3.506L8.9 10.319zM2 15.005h5v2H2zm3.394 10.193L8.9 21.692l1.414 1.414l-3.505 3.506zM15 25.005h2v5h-2zm6.687-1.9l1.414-1.414l3.506 3.506l-1.414 1.414zm3.313-8.1h5v2h-5zm-3.313-6.101l3.506-3.506l1.414 1.414l-3.506 3.506zM15 2.005h2v5h-2z'/%3E%3C/svg%3E");
+      }
+      "
+    `)
   })
 })

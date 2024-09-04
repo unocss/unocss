@@ -1,21 +1,10 @@
 import type { UniversalIconLoader } from '@iconify/utils'
 import { loadIcon } from '@iconify/utils'
+import { createNodeLoader } from '@unocss/rule-utils'
 import { createCDNLoader } from './cdn'
 import { combineLoaders, createPresetIcons, getEnvFlags } from './core'
 
 export * from './core'
-
-async function createNodeLoader() {
-  try {
-    return await import('@iconify/utils/lib/loader/node-loader').then(i => i?.loadNodeIcon)
-  }
-  catch { }
-  try {
-    // eslint-disable-next-line ts/no-require-imports
-    return require('@iconify/utils/lib/loader/node-loader.cjs').loadNodeIcon
-  }
-  catch { }
-}
 
 /**
  * Use any icon with Pure CSS for UnoCSS.
