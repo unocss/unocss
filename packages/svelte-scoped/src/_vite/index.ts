@@ -1,9 +1,8 @@
 import process from 'node:process'
 import type { Plugin } from 'vite'
 import { createGenerator } from '@unocss/core'
-import type { UserConfig, UserConfigDefaults } from '@unocss/core'
+import type { UserConfig } from '@unocss/core'
 import { createRecoveryConfigLoader } from '@unocss/config'
-import presetUno from '@unocss/preset-uno'
 import type { SvelteScopedContext } from '../preprocess'
 import type { UnocssSvelteScopedViteOptions } from './types'
 import { PassPreprocessToSveltePlugin } from './passPreprocessToSveltePlugin'
@@ -34,21 +33,13 @@ export function UnocssSvelteScopedVite(options: UnocssSvelteScopedViteOptions = 
   return plugins
 }
 
-const defaults: UserConfigDefaults = {
-  presets: [
-    presetUno(),
-  ],
-}
-
 function createSvelteScopedContext(configOrPath?: UserConfig | string): SvelteScopedContext {
   const uno = createGenerator()
   const loadConfig = createRecoveryConfigLoader()
   const ready = reloadConfig()
 
   async function reloadConfig() {
-    const { config, sources } = await loadConfig(process.cwd(), configOrPath)
-    uno.setConfig(config, defaults)
-    return { config, sources }
+    return await loadConfig(process.cwd(), configOrPath)
   }
 
   return {
