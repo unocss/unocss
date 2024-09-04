@@ -8,6 +8,20 @@ description: The inspector UI for UnoCSS (@unocss/inspector).
 The inspector UI for UnoCSS: `@unocss/inspector`.
 Ships with `unocss` and `@unocss/vite`.
 
+## Configuration
+
+Enable or disable `inspect` option in your `unocss` configuration (disabled by default):
+
+```ts
+// uno.config.ts
+import { defineConfig } from 'unocss'
+
+export default defineConfig({
+  inspect: true,
+  /* other options */
+})
+```
+
 ## Usage
 
 Visit <a href="http://localhost:5173/__unocss" target="_blank" rel="noreferrer">localhost:5173/__unocss</a> in your Vite dev server to see the inspector.
