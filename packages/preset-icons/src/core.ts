@@ -8,10 +8,9 @@ import { encodeSvgForCss } from '@iconify/utils/lib/svg/encode-svg-for-css'
 import type { IconifyJSON } from '@iconify/types'
 import { loadIcon } from '@iconify/utils/lib/loader/loader'
 import { searchForIcon } from '@iconify/utils/lib/loader/modern'
+import { parseIcon } from '@unocss/rule-utils'
 import type { IconsOptions } from './types'
 import icons from './collections.json'
-
-const COLLECTION_NAME_PARTS_MAX = 3
 
 export { IconsOptions }
 export { icons }
@@ -70,39 +69,23 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
         /^([a-z0-9:_-]+)(?:\?(mask|bg|auto))?$/,
         async (matcher) => {
           let [full, body, _mode = mode] = matcher as [string, string, IconsOptions['mode']]
-          let collection = ''
-          let name = ''
-          let svg: string | undefined
 
           iconLoader = iconLoader || await lookupIconLoader(options)
 
           const usedProps = {}
-          if (body.includes(':')) {
-            [collection, name] = body.split(':')
-            svg = await iconLoader(collection, name, { ...loaderOptions, usedProps })
-          }
-          else {
-            const parts = body.split(/-/g)
-            for (let i = COLLECTION_NAME_PARTS_MAX; i >= 1; i--) {
-              collection = parts.slice(0, i).join('-')
-              name = parts.slice(i).join('-')
-              svg = await iconLoader(collection, name, { ...loaderOptions, usedProps })
-              if (svg)
-                break
-            }
-          }
+          const parsed = await parseIcon(body, iconLoader, { ...loaderOptions, usedProps })
 
-          if (!svg) {
+          if (!parsed) {
             if (warn && !flags.isESLint)
               warnOnce(`failed to load icon "${full}"`)
             return
           }
 
           let cssObject: CSSObject
-          const url = `url("data:image/svg+xml;utf8,${encodeSvgForCss(svg)}")`
+          const url = `url("data:image/svg+xml;utf8,${encodeSvgForCss(parsed.svg)}")`
 
           if (_mode === 'auto')
-            _mode = svg.includes('currentColor') ? 'mask' : 'bg'
+            _mode = parsed.svg.includes('currentColor') ? 'mask' : 'bg'
 
           if (_mode === 'mask') {
             // Thanks to https://codepen.io/noahblon/post/coloring-svgs-in-css-background-images
@@ -127,7 +110,7 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
             }
           }
 
-          processor?.(cssObject, { collection, icon: name, svg, mode: _mode })
+          processor?.(cssObject, { collection: parsed.collection, icon: parsed.name, svg: parsed.svg, mode: _mode })
 
           return cssObject
         },

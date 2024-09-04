@@ -1,4 +1,4 @@
-import { type IconifyLoaderOptions, encodeSvgForCss } from '@iconify/utils'
+import { type IconifyLoaderOptions, type UniversalIconLoader, encodeSvgForCss } from '@iconify/utils'
 import { type Preset, type UnoGenerator, toArray } from '@unocss/core'
 import type { IconsOptions } from '@unocss/preset-icons'
 
@@ -54,10 +54,12 @@ export async function transformIconString(uno: UnoGenerator, icon: string, color
     },
   }
 
+  const loader = await createNodeLoader()
+
   for (const p of toArray(prefix)) {
     if (icon.startsWith(p)) {
       icon = icon.slice(p.length)
-      const parsed = await parseIcon(icon, loaderOptions)
+      const parsed = await parseIcon(icon, loader, loaderOptions)
       if (parsed)
         return `url("data:image/svg+xml;utf8,${color ? encodeSvgForCss(parsed.svg).replace(/currentcolor/gi, color) : encodeSvgForCss(parsed.svg)}")`
     }
@@ -76,12 +78,10 @@ export async function createNodeLoader() {
   catch { }
 }
 
-export async function parseIcon(body: string, options: IconifyLoaderOptions = {}) {
+export async function parseIcon(body: string, loader: UniversalIconLoader, options: IconifyLoaderOptions = {}) {
   let collection = ''
   let name = ''
   let svg: string | undefined
-
-  const loader = await createNodeLoader()
 
   if (body.includes(':')) {
     [collection, name] = body.split(':')
