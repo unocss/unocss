@@ -2,6 +2,7 @@ import type { StringifiedUtil } from '@unocss/core'
 import { expandVariantGroup, notNull, regexScopePlaceholder } from '@unocss/core'
 import type { CssNode, Rule, Selector, SelectorList } from 'css-tree'
 import { List, clone, generate, parse } from 'css-tree'
+import type { VitePluginConfig } from '../../vite/src/types'
 import { transformDirectives } from './transform'
 import type { TransformerDirectivesContext } from './types'
 
@@ -79,7 +80,8 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
     if (parent || (selectorOrGroup && selectorOrGroup !== '.\\-')) {
       let newSelector = generate(node.prelude)
       const className = code.slice(node.prelude.loc!.start.offset, node.prelude.loc!.end.offset)
-      if (selectorOrGroup && selectorOrGroup !== '.\\-') {
+      // if mode is 'vue-scoped', we don't need to scope the selector
+      if ((uno.userConfig as VitePluginConfig).mode !== 'vue-scoped' && selectorOrGroup && selectorOrGroup !== '.\\-') {
         // use rule context since it could be a selector(.foo) or a selector group(.foo, .bar)
         const ruleAST = parse(`${selectorOrGroup}{}`, {
           context: 'rule',
