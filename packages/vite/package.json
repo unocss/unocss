@@ -1,7 +1,7 @@
 {
   "name": "@unocss/vite",
   "type": "module",
-  "version": "0.62.2",
+  "version": "0.62.3",
   "description": "The Vite plugin for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -53,19 +53,19 @@
     "vite": "^2.9.0 || ^3.0.0-0 || ^4.0.0 || ^5.0.0-0"
   },
   "dependencies": {
-    "@ampproject/remapping": "^2.3.0",
-    "@rollup/pluginutils": "^5.1.0",
+    "@ampproject/remapping": "catalog:",
+    "@rollup/pluginutils": "catalog:",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/inspector": "workspace:*",
     "@unocss/scope": "workspace:*",
     "@unocss/transformer-directives": "workspace:*",
-    "chokidar": "^3.6.0",
-    "magic-string": "^0.30.11",
-    "tinyglobby": "^0.2.2"
+    "chokidar": "catalog:",
+    "magic-string": "catalog:",
+    "tinyglobby": "catalog:"
   },
   "devDependencies": {
     "@unocss/shared-integration": "workspace:*",
-    "vite": "^5.4.0"
+    "vite": "catalog:"
   }
 }

@@ -19,6 +19,7 @@ theme: {
     veryCool: '#0000ff', // class="text-very-cool"
     brand: {
       primary: 'hsl(var(--hue, 217) 78% 51%)', //class="bg-brand-primary"
+      DEFAULT: '#942192' //class="bg-brand"
     },
   },
 }

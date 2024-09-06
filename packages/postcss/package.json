@@ -1,7 +1,7 @@
 {
   "name": "@unocss/postcss",
   "type": "module",
-  "version": "0.62.2",
+  "version": "0.62.3",
   "description": "PostCSS plugin for UnoCSS",
   "author": "sibbng <sibbngheid@gmail.com>",
   "license": "MIT",
@@ -61,9 +61,9 @@
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/rule-utils": "workspace:*",
-    "css-tree": "^2.3.1",
-    "magic-string": "^0.30.11",
-    "postcss": "^8.4.41",
-    "tinyglobby": "^0.2.2"
+    "css-tree": "catalog:",
+    "magic-string": "catalog:",
+    "postcss": "catalog:",
+    "tinyglobby": "catalog:"
   }
 }
