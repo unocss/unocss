@@ -57,6 +57,7 @@
   },
   "dependencies": {
     "@unocss/config": "workspace:*",
+    "@unocss/preset-uno": "workspace:*",
     "@unocss/reset": "workspace:*",
     "css-tree": "catalog:",
     "magic-string": "catalog:"
