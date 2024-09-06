@@ -25,8 +25,8 @@
     "@unocss/preset-typography": "link:../../packages/preset-typography",
     "typescript": "^5.5.4",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.4.0",
-    "vite-plugin-inspect": "^0.8.5"
+    "vite": "^5.4.2",
+    "vite-plugin-inspect": "^0.8.7"
   },
   "stackblitz": {
     "installDependencies": false,
