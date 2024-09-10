@@ -6,6 +6,7 @@ import { notNull } from '@unocss/core'
 import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
 import presetUno from '@unocss/preset-uno'
 import type { ExtensionContext, StatusBarItem } from 'vscode'
+import { errorCwdMap } from '@unocss/config'
 import { resolveOptions as resolveNuxtOptions } from '../../nuxt/src/options'
 import { createNanoEvents } from '../../core/src/utils/events'
 import { createContext, isCssId } from './integration'
@@ -217,8 +218,10 @@ export class ContextLoader {
     }
 
     const context = await load()
-    if (!this.contextsMap.has(dir))
+    if (!this.contextsMap.has(dir) && !errorCwdMap.has(dir))
       this.contextsMap.set(dir, context)
+    else if (errorCwdMap.has(dir))
+      errorCwdMap.delete(dir)
     this.fileContextCache.clear()
     this.events.emit('reload')
 
