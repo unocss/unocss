@@ -92,7 +92,6 @@ export function createRecoveryConfigLoader<U extends UserConfig>() {
     }
     catch (e) {
       if (lastResolved) {
-        // 如果报错了，就不要再追加到 this.contextsMap 中
         errorCwdMap.add(cwd)
         console.error(e)
         return lastResolved
