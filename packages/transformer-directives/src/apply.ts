@@ -71,7 +71,11 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
   if (!utils.length)
     return
 
-  const simicolonOffset = original[childNode.loc!.end.offset] === ';' ? 1 : 0
+  let simicolonOffset = original[childNode.loc!.end.offset] === ';'
+    ? 1
+    : original[childNode.loc!.end.offset] === '@'
+      ? -1
+      : 0
 
   for (const i of utils) {
     const [, _selector, body, parent] = i
@@ -87,7 +91,7 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
 
         const prelude = clone(node.prelude) as SelectorList
 
-        prelude.children.forEach((child) => {
+        prelude.children?.forEach((child) => {
           const selectorListAst = clone(ruleAST.prelude) as SelectorList
           const classSelectors: List<CssNode> = new List()
 
@@ -103,13 +107,13 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
       let css = `${newSelector.replace(/.\\-/g, className)}{${body}}`
       if (parent)
         css = `${parent}{${css}}`
-
+      simicolonOffset = 0
       code.appendLeft(node.loc!.end.offset, css)
     }
     else {
       // If nested css was scoped, put them last.
       if (body.includes('@'))
-        code.appendRight(original.length + simicolonOffset, body)
+        code.appendRight(original.length, body)
       else
         code.appendRight(childNode!.loc!.end.offset + simicolonOffset, body)
     }

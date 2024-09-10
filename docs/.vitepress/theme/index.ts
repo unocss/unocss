@@ -12,6 +12,7 @@ import './rainbow.css'
 import './vars.css'
 import './overrides.css'
 import 'uno.css'
+import 'virtual:group-icons.css'
 
 let homePageStyle: HTMLStyleElement | undefined
 
