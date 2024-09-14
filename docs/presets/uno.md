@@ -28,8 +28,7 @@ This preset inherits [`@unocss/preset-wind`](/presets/wind) and [`@unocss/preset
   ```
 :::
 
-```ts
-// uno.config.ts
+```ts [uno.config.ts]
 import { defineConfig } from 'unocss'
 import presetUno from '@unocss/preset-uno'
 

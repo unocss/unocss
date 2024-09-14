@@ -23,8 +23,7 @@ ESLint config for UnoCSS: `@unocss/eslint-config`.
 
 In [Flat Config Style](https://eslint.org/docs/latest/use/configure/configuration-files-new):
 
-```js
-// eslint.config.js
+```js [eslint.config.js]
 import unocss from '@unocss/eslint-config/flat'
 
 export default [
@@ -35,7 +34,7 @@ export default [
 
 In legacy `.eslintrc` style:
 
-```json
+```json [.eslintrc]
 {
   "extends": [
     "@unocss"
@@ -54,7 +53,7 @@ In legacy `.eslintrc` style:
 
 These rules are not enabled by default. To enable it, add the following to your `.eslintrc`:
 
-```json
+```json [.eslintrc]
 {
   "extends": [
     "@unocss"
@@ -72,8 +71,7 @@ Throw warning or error when using utilities listed in `blocklist` get matched.
 
 You can customize messages for blocked rules to make them more informative and context-specific by using the `message` property of the meta object:
 
-```ts
-// uno.config.ts
+```ts [unocss.config.ts]
 export default defineConfig({
   blocklist: [
     ['bg-red-500', { message: 'Use bg-red-600 instead' }],

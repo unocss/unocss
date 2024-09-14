@@ -21,7 +21,7 @@ Support extracting classes from [MDC (Markdown Components)](https://content.nuxt
   ```
 :::
 
-```ts
+```ts [uno.config.ts]
 import { defineConfig } from 'unocss'
 import extractorMdc from '@unocss/extractor-mdc'
 

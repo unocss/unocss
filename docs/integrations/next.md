@@ -29,8 +29,7 @@ Getting Started with UnoCSS and Next.js.
 
 Create `uno.config.ts` at the root of your project.
 
-```ts
-// uno.config.ts
+```ts [uno.config.ts]
 import {
   defineConfig,
   presetAttributify,
