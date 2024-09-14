@@ -379,8 +379,8 @@ catalogs:
       specifier: ^1.3.3
       version: 1.3.3
     vitepress-plugin-group-icons:
-      specifier: ^1.0.3
-      version: 1.0.3
+      specifier: ^1.2.3
+      version: 1.2.3
     vitest:
       specifier: ^2.0.5
       version: 2.0.5
@@ -800,7 +800,7 @@ importers:
         version: 1.3.3(@algolia/client-search@4.19.1)(@types/node@22.5.0)(@types/react@18.3.4)(fuse.js@7.0.0)(postcss@8.4.41)(react@18.3.1)(search-insights@2.7.0)(terser@5.31.6)(typescript@5.5.4)
       vitepress-plugin-group-icons:
         specifier: 'catalog:'
-        version: 1.0.3
+        version: 1.2.3
 
   examples/vue-cli4:
     dependencies:
@@ -1756,6 +1756,9 @@ packages:
   '@antfu/install-pkg@0.4.0':
     resolution: {integrity: sha512-vI73C0pFA9L+5v+djh0WSLXb8qYQGH5fX8nczaFe1OTI/8Fh03JS1Mov1V7urb6P3A2cBlBqZNjJIKv54+zVRw==}
 
+  '@antfu/install-pkg@0.4.1':
+    resolution: {integrity: sha512-T7yB5QNG29afhWVkVq7XeIMBa5U/vs9mX69YqayXypPRmYzUmzwnYltplHmPtZ4HPCn+sQKeXW8I47wCbuBOjw==}
+
   '@antfu/ni@0.22.4':
     resolution: {integrity: sha512-uCzh43cmUwQQcgv2BPyo0JWOMgXhcaE+F2I6Ucmfc7f9ir52lfA4OtZXdfL5D8cMa5GAwuCSNqOshIol8YN82g==}
     hasBin: true
@@ -1788,44 +1791,44 @@ packages:
     resolution: {integrity: sha512-nBrLsEWm4J2u5LpAPjxADTlq3trDgVZZXHNKabeXZtpq3d3AbN/KGO82R87rdDz5/lYB024rtEf10/q0urNgsA==}
     engines: {node: '>=18.0.0'}
 
-  '@azure/core-auth@1.7.2':
-    resolution: {integrity: sha512-Igm/S3fDYmnMq1uKS38Ae1/m37B3zigdlZw+kocwEhh5GjyKjPrXKO2J6rzpC1wAxrNil/jX9BJRqBshyjnF3g==}
+  '@azure/core-auth@1.8.0':
+    resolution: {integrity: sha512-YvFMowkXzLbXNM11yZtVLhUCmuG0ex7JKOH366ipjmHBhL3vpDcPAeWF+jf0X+jVXwFqo3UhsWUq4kH0ZPdu/g==}
     engines: {node: '>=18.0.0'}
 
   '@azure/core-client@1.9.2':
     resolution: {integrity: sha512-kRdry/rav3fUKHl/aDLd/pDLcB+4pOFwPPTVEExuMyaI5r+JBbMWqRbCY1pn5BniDaU3lRxO9eaQ1AmSMehl/w==}
     engines: {node: '>=18.0.0'}
 
-  '@azure/core-rest-pipeline@1.16.1':
-    resolution: {integrity: sha512-ExPSbgjwCoht6kB7B4MeZoBAxcQSIl29r/bPeazZJx50ej4JJCByimLOrZoIsurISNyJQQHf30b3JfqC3Hb88A==}
+  '@azure/core-rest-pipeline@1.17.0':
+    resolution: {integrity: sha512-62Vv8nC+uPId3j86XJ0WI+sBf0jlqTqPUFCBNrGtlaUeQUIXWV/D8GE5A1d+Qx8H7OQojn2WguC8kChD6v0shA==}
     engines: {node: '>=18.0.0'}
 
   '@azure/core-tracing@1.1.2':
     resolution: {integrity: sha512-dawW9ifvWAWmUm9/h+/UQ2jrdvjCJ7VJEuCJ6XVNudzcOwm53BFZH4Q845vjfgoUAM8ZxokvVNxNxAITc502YA==}
     engines: {node: '>=18.0.0'}
 
-  '@azure/core-util@1.9.0':
-    resolution: {integrity: sha512-AfalUQ1ZppaKuxPPMsFEUdX6GZPB3d9paR9d/TTL7Ow2De8cJaC7ibi7kWVlFAVPCYo31OcnGymc0R89DX8Oaw==}
+  '@azure/core-util@1.10.0':
+    resolution: {integrity: sha512-dqLWQsh9Nro1YQU+405POVtXnwrIVqPyfUzc4zXCbThTg7+vNNaiMkwbX9AMXKyoFYFClxmB3s25ZFr3+jZkww==}
     engines: {node: '>=18.0.0'}
 
   '@azure/identity@4.3.0':
     resolution: {integrity: sha512-LHZ58/RsIpIWa4hrrE2YuJ/vzG1Jv9f774RfTTAVDZDriubvJ0/S5u4pnw4akJDlS0TiJb6VMphmVUFsWmgodQ==}
     engines: {node: '>=18.0.0'}
 
-  '@azure/logger@1.1.2':
-    resolution: {integrity: sha512-l170uE7bsKpIU6B/giRc9i4NI0Mj+tANMMMxf7Zi/5cKzEqPayP7+X1WPrG7e+91JgY8N+7K7nF2WOi7iVhXvg==}
+  '@azure/logger@1.1.4':
+    resolution: {integrity: sha512-4IXXzcCdLdlXuCG+8UKEwLA1T1NHqUfanhXYHiQTn+6sfWCZXduqbtXDGceg3Ce5QxTGo7EqmbV6Bi+aqKuClQ==}
     engines: {node: '>=18.0.0'}
 
-  '@azure/msal-browser@3.17.0':
-    resolution: {integrity: sha512-csccKXmW2z7EkZ0I3yAoW/offQt+JECdTIV/KrnRoZyM7wCSsQWODpwod8ZhYy7iOyamcHApR9uCh0oD1M+0/A==}
+  '@azure/msal-browser@3.23.0':
+    resolution: {integrity: sha512-+QgdMvaeEpdtgRTD7AHHq9aw8uga7mXVHV1KshO1RQ2uI5B55xJ4aEpGlg/ga3H+0arEVcRfT4ZVmX7QLXiCVw==}
     engines: {node: '>=0.8.0'}
 
-  '@azure/msal-common@14.12.0':
-    resolution: {integrity: sha512-IDDXmzfdwmDkv4SSmMEyAniJf6fDu3FJ7ncOjlxkDuT85uSnLEhZi3fGZpoR7T4XZpOMx9teM9GXBgrfJgyeBw==}
+  '@azure/msal-common@14.14.2':
+    resolution: {integrity: sha512-XV0P5kSNwDwCA/SjIxTe9mEAsKB0NqGNSuaVrkCCE2lAyBr/D6YtD80Vkdp4tjWnPFwjzkwldjr1xU/facOJog==}
     engines: {node: '>=0.8.0'}
 
-  '@azure/msal-node@2.9.2':
-    resolution: {integrity: sha512-8tvi6Cos3m+0KmRbPjgkySXi+UQU/QiuVRFnrxIwt5xZlEEFa69O04RTaNESGgImyBBlYbo2mfE8/U8Bbdk1WQ==}
+  '@azure/msal-node@2.13.1':
+    resolution: {integrity: sha512-sijfzPNorKt6+9g1/miHwhj6Iapff4mPQx1azmmZExgzUROqWTM1o3ACyxDja0g47VpowFy/sxTM/WsuCyXTiw==}
     engines: {node: '>=16'}
 
   '@babel/code-frame@7.24.7':
@@ -3360,6 +3363,9 @@ packages:
   '@iconify-json/vscode-icons@1.1.37':
     resolution: {integrity: sha512-02+dR2/LdIZTqGfyQerla5snhdN4edwYgpDuFZpI2lK9w8OVm26WYbg8RR8TxXQrlCRs726NQYxl5W+7V1YM/Q==}
 
+  '@iconify-json/vscode-icons@1.2.1':
+    resolution: {integrity: sha512-pEZCknk+6xlx7JC8e5Sz0cpkS3yezKKSouii0OTkUnTM3Kljc7V01AbYJ3iarw4b41jV0CpDpzj3BzRdvweGaA==}
+
   '@iconify/json@2.2.241':
     resolution: {integrity: sha512-zpeIjmIrTjl0ra6BYTYDfoK/hXn++xT5Hllc87K5SQwnqKs9RJeToSBzjF1gAsrxia+ilkhtGCcqbFF0ppDXiw==}
 
@@ -3368,6 +3374,9 @@ packages:
 
   '@iconify/utils@2.1.32':
     resolution: {integrity: sha512-LeifFZPPKu28O3AEDpYJNdEbvS4/ojAPyIW+pF/vUpJTYnbTiXUHkCh0bwgFRzKvdpb8H4Fbfd/742++MF4fPQ==}
+
+  '@iconify/utils@2.1.33':
+    resolution: {integrity: sha512-jP9h6v/g0BIZx0p7XGJJVtkVnydtbgTgt9mVNcGDYwaa7UhdHdI9dvoq+gKj9sijMSJKxUPEG2JyjsgXjxL7Kw==}
 
   '@img/sharp-darwin-arm64@0.33.3':
     resolution: {integrity: sha512-FaNiGX1MrOuJ3hxuNzWgsT/mg5OHG/Izh59WW2mk1UwYHUwtfbhk5QNKYZgxf0pLOhx9ctGiGa2OykD71vOnSw==}
@@ -4169,8 +4178,8 @@ packages:
       svelte: ^4.0.0 || ^5.0.0-next.0
       vite: ^5.4.2
 
-  '@sveltejs/vite-plugin-svelte-inspector@2.0.0':
-    resolution: {integrity: sha512-gjr9ZFg1BSlIpfZ4PRewigrvYmHWbDrq2uvvPB1AmTWKuM+dI1JXQSUu2pIrYLb/QncyiIGkFDFKTwJ0XqQZZg==}
+  '@sveltejs/vite-plugin-svelte-inspector@2.1.0':
+    resolution: {integrity: sha512-9QX28IymvBlSCqsCll5t0kQVxipsfhFFL+L2t3nTWfXnddYwxBuAEtTtlaVQpRz9c37BhJjltSeY4AJSC03SSg==}
     engines: {node: ^18.0.0 || >=20}
     peerDependencies:
       '@sveltejs/vite-plugin-svelte': ^3.0.0
@@ -5973,6 +5982,15 @@ packages:
 
   debug@4.3.6:
     resolution: {integrity: sha512-O/09Bd4Z1fBrU4VzkhFqVgpPzaGbw6Sm9FEkBT1A/YBXQFGuuSxa1dN2nxgxS34JmKXqYx8CZAwEVoJFImUXIg==}
+    engines: {node: '>=6.0'}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+
+  debug@4.3.7:
+    resolution: {integrity: sha512-Er2nc/H7RrMXZBFCEim6TCmMk02Z8vLC2Rbi1KEBggpo0fS6l0S1nnapwmIi3yW/+GOJap1Krg4w0Hg80oCqgQ==}
     engines: {node: '>=6.0'}
     peerDependencies:
       supports-color: '*'
@@ -8394,6 +8412,9 @@ packages:
   package-manager-detector@0.1.2:
     resolution: {integrity: sha512-iePyefLTOm2gEzbaZKSW+eBMjg+UYsQvUKxmvGXAQ987K16efBg10MxIjZs08iyX+DY2/owKY9DIdu193kX33w==}
 
+  package-manager-detector@0.2.0:
+    resolution: {integrity: sha512-E385OSk9qDcXhcM9LNSe4sdhx8a9mAPrZ4sMLW+tmxl5ZuGtPUcdFu+MPP2jbgiWAZ6Pfe5soGFMd+0Db5Vrog==}
+
   param-case@3.0.4:
     resolution: {integrity: sha512-RXlj7zCYokReqWpOPH9oYivUzLYZ5vAPIfEmCTNViosC78F8F0H9y7T7gG2M39ymgutxF5gcFEsyZQSph9Bp3A==}
 
@@ -9939,6 +9960,9 @@ packages:
   tinyexec@0.2.0:
     resolution: {integrity: sha512-au8dwv4xKSDR+Fw52csDo3wcDztPdne2oM1o/7LFro4h6bdFmvyUAeAfX40pwDtzHgRFqz1XWaUqgKS2G83/ig==}
 
+  tinyexec@0.3.0:
+    resolution: {integrity: sha512-tVGE0mVJPGb0chKhqmsoosjsS+qUnJVGJpZgsHYQcGoPlG3B51R3PouqTgEGH2Dc9jjFyOqOpix6ZHNMXp1FZg==}
+
   tinyglobby@0.2.5:
     resolution: {integrity: sha512-Dlqgt6h0QkoHttG53/WGADNh9QhcjCAIZMTERAVhdpmIBEejSuLI9ZmGKWzB7tweBjlk30+s/ofi4SLmBeTYhw==}
     engines: {node: '>=12.0.0'}
@@ -10027,6 +10051,9 @@ packages:
 
   tslib@2.6.2:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
+
+  tslib@2.7.0:
+    resolution: {integrity: sha512-gLXCKdN1/j47AiHiOkJN69hJmcbGTHI0ImLmbYLHykhgeN0jVGola9yVjFgzCUklsZQMW55o+dW7IXv3RCXDzA==}
 
   tsup@8.2.4:
     resolution: {integrity: sha512-akpCPePnBnC/CXgRrcy72ZSntgIEUa1jN0oJbbvpALWKNOz1B7aM+UVDWGRGIO/T/PZugAESWDJUAb5FD48o8Q==}
@@ -10495,8 +10522,8 @@ packages:
       vite:
         optional: true
 
-  vitepress-plugin-group-icons@1.0.3:
-    resolution: {integrity: sha512-IGQ7Jw52vHeBKTT1sgjhl/pGT1TwtL0MyeCb6m1xHthyoFQLqnkzVyEyUGkZfw0LBtro5OwmRvcYbDUSjMVOGw==}
+  vitepress-plugin-group-icons@1.2.3:
+    resolution: {integrity: sha512-Z2FGK/zubHFAE3luai2PYSyl247wIgAyj88EBNIe6DumJLz8Z+eFhLFwDafY/lfMnjwDDbrEl0aM5HWwg0Io/w==}
 
   vitepress@1.3.3:
     resolution: {integrity: sha512-6UzEw/wZ41S/CATby7ea7UlffvRER/uekxgN6hbEvSys9ukmLOKsz87Ehq9yOx1Rwiw+Sj97yjpivP8w1sUmng==}
@@ -11121,6 +11148,11 @@ snapshots:
       package-manager-detector: 0.1.2
       tinyexec: 0.2.0
 
+  '@antfu/install-pkg@0.4.1':
+    dependencies:
+      package-manager-detector: 0.2.0
+      tinyexec: 0.3.0
+
   '@antfu/ni@0.22.4': {}
 
   '@antfu/utils@0.7.10': {}
@@ -11170,95 +11202,95 @@ snapshots:
 
   '@azure/abort-controller@1.1.0':
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.7.0
     optional: true
 
   '@azure/abort-controller@2.1.2':
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.7.0
     optional: true
 
-  '@azure/core-auth@1.7.2':
+  '@azure/core-auth@1.8.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
-      '@azure/core-util': 1.9.0
-      tslib: 2.6.2
+      '@azure/core-util': 1.10.0
+      tslib: 2.7.0
     optional: true
 
   '@azure/core-client@1.9.2':
     dependencies:
       '@azure/abort-controller': 2.1.2
-      '@azure/core-auth': 1.7.2
-      '@azure/core-rest-pipeline': 1.16.1
+      '@azure/core-auth': 1.8.0
+      '@azure/core-rest-pipeline': 1.17.0
       '@azure/core-tracing': 1.1.2
-      '@azure/core-util': 1.9.0
-      '@azure/logger': 1.1.2
-      tslib: 2.6.2
+      '@azure/core-util': 1.10.0
+      '@azure/logger': 1.1.4
+      tslib: 2.7.0
     transitivePeerDependencies:
       - supports-color
     optional: true
 
-  '@azure/core-rest-pipeline@1.16.1':
+  '@azure/core-rest-pipeline@1.17.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
-      '@azure/core-auth': 1.7.2
+      '@azure/core-auth': 1.8.0
       '@azure/core-tracing': 1.1.2
-      '@azure/core-util': 1.9.0
-      '@azure/logger': 1.1.2
+      '@azure/core-util': 1.10.0
+      '@azure/logger': 1.1.4
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.5
-      tslib: 2.6.2
+      tslib: 2.7.0
     transitivePeerDependencies:
       - supports-color
     optional: true
 
   '@azure/core-tracing@1.1.2':
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.7.0
     optional: true
 
-  '@azure/core-util@1.9.0':
+  '@azure/core-util@1.10.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
-      tslib: 2.6.2
+      tslib: 2.7.0
     optional: true
 
   '@azure/identity@4.3.0':
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.7.2
+      '@azure/core-auth': 1.8.0
       '@azure/core-client': 1.9.2
-      '@azure/core-rest-pipeline': 1.16.1
+      '@azure/core-rest-pipeline': 1.17.0
       '@azure/core-tracing': 1.1.2
-      '@azure/core-util': 1.9.0
-      '@azure/logger': 1.1.2
-      '@azure/msal-browser': 3.17.0
-      '@azure/msal-node': 2.9.2
+      '@azure/core-util': 1.10.0
+      '@azure/logger': 1.1.4
+      '@azure/msal-browser': 3.23.0
+      '@azure/msal-node': 2.13.1
       events: 3.3.0
       jws: 4.0.0
       open: 8.4.2
       stoppable: 1.1.0
-      tslib: 2.6.2
+      tslib: 2.7.0
     transitivePeerDependencies:
       - supports-color
     optional: true
 
-  '@azure/logger@1.1.2':
+  '@azure/logger@1.1.4':
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.7.0
     optional: true
 
-  '@azure/msal-browser@3.17.0':
+  '@azure/msal-browser@3.23.0':
     dependencies:
-      '@azure/msal-common': 14.12.0
+      '@azure/msal-common': 14.14.2
     optional: true
 
-  '@azure/msal-common@14.12.0':
+  '@azure/msal-common@14.14.2':
     optional: true
 
-  '@azure/msal-node@2.9.2':
+  '@azure/msal-node@2.13.1':
     dependencies:
-      '@azure/msal-common': 14.12.0
+      '@azure/msal-common': 14.14.2
       jsonwebtoken: 9.0.2
       uuid: 8.3.2
     optional: true
@@ -12738,6 +12770,10 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
+  '@iconify-json/vscode-icons@1.2.1':
+    dependencies:
+      '@iconify/types': 2.0.0
+
   '@iconify/json@2.2.241':
     dependencies:
       '@iconify/types': 2.0.0
@@ -12751,6 +12787,18 @@ snapshots:
       '@antfu/utils': 0.7.10
       '@iconify/types': 2.0.0
       debug: 4.3.6
+      kolorist: 1.8.0
+      local-pkg: 0.5.0
+      mlly: 1.7.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@iconify/utils@2.1.33':
+    dependencies:
+      '@antfu/install-pkg': 0.4.1
+      '@antfu/utils': 0.7.10
+      '@iconify/types': 2.0.0
+      debug: 4.3.7
       kolorist: 1.8.0
       local-pkg: 0.5.0
       mlly: 1.7.1
@@ -13736,10 +13784,10 @@ snapshots:
       tiny-glob: 0.2.9
       vite: 5.4.2(@types/node@22.5.0)(terser@5.31.6)
 
-  '@sveltejs/vite-plugin-svelte-inspector@2.0.0(@sveltejs/vite-plugin-svelte@3.0.1(svelte@4.2.19)(vite@5.4.2(@types/node@22.5.0)(terser@5.31.6)))(svelte@4.2.19)(vite@5.4.2(@types/node@22.5.0)(terser@5.31.6))':
+  '@sveltejs/vite-plugin-svelte-inspector@2.1.0(@sveltejs/vite-plugin-svelte@3.0.1(svelte@4.2.19)(vite@5.4.2(@types/node@22.5.0)(terser@5.31.6)))(svelte@4.2.19)(vite@5.4.2(@types/node@22.5.0)(terser@5.31.6))':
     dependencies:
       '@sveltejs/vite-plugin-svelte': 3.0.1(svelte@4.2.19)(vite@5.4.2(@types/node@22.5.0)(terser@5.31.6))
-      debug: 4.3.6
+      debug: 4.3.7
       svelte: 4.2.19
       vite: 5.4.2(@types/node@22.5.0)(terser@5.31.6)
     transitivePeerDependencies:
@@ -13747,8 +13795,8 @@ snapshots:
 
   '@sveltejs/vite-plugin-svelte@3.0.1(svelte@4.2.19)(vite@5.4.2(@types/node@22.5.0)(terser@5.31.6))':
     dependencies:
-      '@sveltejs/vite-plugin-svelte-inspector': 2.0.0(@sveltejs/vite-plugin-svelte@3.0.1(svelte@4.2.19)(vite@5.4.2(@types/node@22.5.0)(terser@5.31.6)))(svelte@4.2.19)(vite@5.4.2(@types/node@22.5.0)(terser@5.31.6))
-      debug: 4.3.6
+      '@sveltejs/vite-plugin-svelte-inspector': 2.1.0(@sveltejs/vite-plugin-svelte@3.0.1(svelte@4.2.19)(vite@5.4.2(@types/node@22.5.0)(terser@5.31.6)))(svelte@4.2.19)(vite@5.4.2(@types/node@22.5.0)(terser@5.31.6))
+      debug: 4.3.7
       deepmerge: 4.3.1
       kleur: 4.1.5
       magic-string: 0.30.11
@@ -14895,7 +14943,7 @@ snapshots:
 
   agent-base@6.0.2:
     dependencies:
-      debug: 4.3.6
+      debug: 4.3.7
     transitivePeerDependencies:
       - supports-color
 
@@ -15968,6 +16016,10 @@ snapshots:
   debug@4.3.6:
     dependencies:
       ms: 2.1.2
+
+  debug@4.3.7:
+    dependencies:
+      ms: 2.1.3
 
   decimal.js@10.4.3: {}
 
@@ -17351,7 +17403,7 @@ snapshots:
   https-proxy-agent@5.0.1:
     dependencies:
       agent-base: 6.0.2
-      debug: 4.3.6
+      debug: 4.3.7
     transitivePeerDependencies:
       - supports-color
 
@@ -19076,6 +19128,8 @@ snapshots:
 
   package-manager-detector@0.1.2: {}
 
+  package-manager-detector@0.2.0: {}
+
   param-case@3.0.4:
     dependencies:
       dot-case: 3.0.4
@@ -19986,7 +20040,7 @@ snapshots:
 
   require-in-the-middle@7.3.0:
     dependencies:
-      debug: 4.3.6
+      debug: 4.3.7
       module-details-from-path: 1.0.3
       resolve: 1.22.8
     transitivePeerDependencies:
@@ -20353,7 +20407,7 @@ snapshots:
   socks-proxy-agent@8.0.4:
     dependencies:
       agent-base: 7.1.1
-      debug: 4.3.6
+      debug: 4.3.7
       socks: 2.8.3
     transitivePeerDependencies:
       - supports-color
@@ -20752,6 +20806,8 @@ snapshots:
 
   tinyexec@0.2.0: {}
 
+  tinyexec@0.3.0: {}
+
   tinyglobby@0.2.5:
     dependencies:
       fdir: 6.2.0(picomatch@4.0.2)
@@ -20817,6 +20873,9 @@ snapshots:
       typescript: 5.5.4
 
   tslib@2.6.2: {}
+
+  tslib@2.7.0:
+    optional: true
 
   tsup@8.2.4(jiti@1.21.6)(postcss@8.4.41)(tsx@4.16.2)(typescript@5.5.4)(yaml@2.5.0):
     dependencies:
@@ -21375,10 +21434,11 @@ snapshots:
     optionalDependencies:
       vite: 5.4.2(@types/node@22.5.0)(terser@5.31.6)
 
-  vitepress-plugin-group-icons@1.0.3:
+  vitepress-plugin-group-icons@1.2.3:
     dependencies:
       '@iconify-json/logos': 1.1.44
-      '@iconify/utils': 2.1.32
+      '@iconify-json/vscode-icons': 1.2.1
+      '@iconify/utils': 2.1.33
     transitivePeerDependencies:
       - supports-color
 

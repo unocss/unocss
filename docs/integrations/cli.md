@@ -59,7 +59,7 @@ Example package configuration:
 Make sure to add escaped quotes to your npm script glob patterns.
 :::
 
-```json
+```json [package.json]
 {
   "scripts": {
     "dev": "unocss \"site/{snippets,templates}/**/*.php\" --watch",
@@ -93,7 +93,7 @@ The final `uno.css` will be generated to the current directory by default.
 
 Create a `uno.config.js` or `uno.config.ts` configuration file the root-level of your project to customize UnoCSS.
 
-```ts
+```ts [uno.config.ts]
 import { defineConfig } from 'unocss'
 
 export default defineConfig({

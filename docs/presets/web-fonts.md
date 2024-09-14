@@ -26,8 +26,7 @@ See [all supported providers](#providers).
   ```
 :::
 
-```ts
-// uno.config.ts
+```ts [uno.config.ts]
 import { defineConfig } from 'unocss'
 import presetWebFonts from '@unocss/preset-web-fonts'
 import presetUno from '@unocss/preset-uno'
@@ -65,8 +64,7 @@ PR welcome to add more providers. 🙌
 
 Use your own function to fetch font source.
 
-```ts
-// uno.config.ts
+```ts [uno.config.ts]
 import { defineConfig } from 'unocss'
 import presetWebFonts from '@unocss/preset-web-fonts'
 import presetUno from '@unocss/preset-uno'

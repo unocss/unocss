@@ -34,8 +34,7 @@ import { presetTypography } from 'unocss'
 
 ## Usage
 
-```js
-// uno.config.ts
+```js [uno.config.js]
 import {
   defineConfig,
   presetAttributify,
@@ -196,8 +195,7 @@ interface TypographyCompatibilityOptions {
 
 ## Example
 
-```ts
-// uno.config.ts
+```ts [uno.config.ts]
 import { defineConfig, presetAttributify, presetUno } from 'unocss'
 import { presetTypography } from '@unocss/preset-typography'
 

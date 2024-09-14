@@ -26,6 +26,10 @@ export default defineConfig({
         /\.md$/,
       ],
     }),
-    groupIconVitePlugin(),
+    groupIconVitePlugin({
+      customIcon: {
+        postcss: 'vscode-icons:file-type-postcss',
+      },
+    }),
   ],
 })

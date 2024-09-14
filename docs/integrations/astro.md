@@ -21,8 +21,7 @@ The UnoCSS integration for [Astro](https://astro.build/): `@unocss/astro`. Check
   ```
 :::
 
-```ts
-// astro.config.ts
+```ts [astro.config.ts]
 import { defineConfig } from 'astro/config'
 import UnoCSS from 'unocss/astro'
 
@@ -35,8 +34,7 @@ export default defineConfig({
 
 Create a `uno.config.ts` file:
 
-```ts
-// uno.config.ts
+```ts [uno.config.ts]
 import { defineConfig } from 'unocss'
 
 export default defineConfig({
@@ -62,8 +60,7 @@ By default, [browser style reset](/guide/style-reset) will not be injected. To e
 
 And update your `astro.config.ts`:
 
-```ts
-// astro.config.ts
+```ts [astro.config.ts]
 import { defineConfig } from 'astro/config'
 import UnoCSS from 'unocss/astro'
 
@@ -92,8 +89,7 @@ This plugin does not come with any default presets.
   ```
 :::
 
-```ts
-// astro.config.mjs
+```ts [astro.config.mjs]
 import UnoCSS from '@unocss/astro'
 
 export default {
