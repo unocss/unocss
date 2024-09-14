@@ -18,6 +18,6 @@
     "ofetch": "catalog:",
     "unocss": "workspace:*",
     "vitepress": "catalog:",
-    "vitepress-plugin-group-icons": "^1.2.3"
+    "vitepress-plugin-group-icons": "catalog:"
   }
 }
