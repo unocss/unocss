@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest'
 import type { FoundClass } from './findClasses'
+import { describe, expect, it } from 'vitest'
 import { findClasses } from './findClasses'
 
 describe(findClasses, () => {

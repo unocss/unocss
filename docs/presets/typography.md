@@ -196,8 +196,8 @@ interface TypographyCompatibilityOptions {
 ## Example
 
 ```ts [uno.config.ts]
-import { defineConfig, presetAttributify, presetUno } from 'unocss'
 import { presetTypography } from '@unocss/preset-typography'
+import { defineConfig, presetAttributify, presetUno } from 'unocss'
 
 export default defineConfig({
   presets: [

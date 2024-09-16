@@ -25,8 +25,8 @@ Converts rem to px for all utilities.
 :::
 
 ```ts [uno.config.ts]
-import { defineConfig } from 'unocss'
 import presetRemToPx from '@unocss/preset-rem-to-px'
+import { defineConfig } from 'unocss'
 
 export default defineConfig({
   presets: [

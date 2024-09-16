@@ -120,8 +120,8 @@ When using VanillaJS or TypeScript, you need to add `js` and `ts` files extensio
 If you're using `@vitejs/plugin-react`:
 
 ```ts [vite.config.ts]
-import UnoCSS from 'unocss/vite'
 import React from '@vitejs/plugin-react'
+import UnoCSS from 'unocss/vite'
 
 export default {
   plugins: [
@@ -136,8 +136,8 @@ If you're using `@unocss/preset-attributify` you should remove `tsc` from the `b
 If you are using `@vitejs/plugin-react` with `@unocss/preset-attributify`, you must add the plugin before `@vitejs/plugin-react`.
 
 ```ts [vite.config.ts]
-import UnoCSS from 'unocss/vite'
 import React from '@vitejs/plugin-react'
+import UnoCSS from 'unocss/vite'
 
 export default {
   plugins: [
@@ -197,8 +197,8 @@ You can use simple rules with `class:`, for example `class:bg-red-500={foo}` or 
 
 ```ts [vite.config.ts]
 import { svelte } from '@sveltejs/vite-plugin-svelte'
-import UnoCSS from 'unocss/vite'
 import extractorSvelte from '@unocss/extractor-svelte'
+import UnoCSS from 'unocss/vite'
 
 export default {
   plugins: [
@@ -223,8 +223,8 @@ You can use simple rules with `class:`, for example `class:bg-red-500={foo}` or 
 
 ```ts [vite.config.ts]
 import { sveltekit } from '@sveltejs/kit/vite'
-import UnoCSS from 'unocss/vite'
 import extractorSvelte from '@unocss/extractor-svelte'
+import UnoCSS from 'unocss/vite'
 
 /** @type {import('vite').UserConfig} */
 const config = {
@@ -352,8 +352,8 @@ template.innerHTML = `
 You need to add the `vite-plugin-solid` plugin after UnoCSS's plugin.
 
 ```ts [vite.config.ts]
-import solidPlugin from 'vite-plugin-solid'
 import UnoCSS from 'unocss/vite'
+import solidPlugin from 'vite-plugin-solid'
 
 export default {
   plugins: [
@@ -372,9 +372,9 @@ export default {
 You need to add the `vite-plugin-elm` plugin before UnoCSS's plugin.
 
 ```ts [vite.config.ts]
+import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vite'
 import Elm from 'vite-plugin-elm'
-import UnoCSS from 'unocss/vite'
 
 export default defineConfig({
   plugins: [
@@ -391,11 +391,11 @@ export default defineConfig({
 If `@vitejs/plugin-legacy` with `renderModernChunks: false`, your need add it to `unocss` option
 
 ```ts
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import Unocss from 'unocss/vite'
-import { presetUno } from 'unocss'
 import legacy from '@vitejs/plugin-legacy'
+import vue from '@vitejs/plugin-vue'
+import { presetUno } from 'unocss'
+import Unocss from 'unocss/vite'
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [

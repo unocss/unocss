@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { Variant } from '@unocss/core'
-import type { GuideItem, RuleItem } from '~/types'
 import { highlightCSS, highlightJS } from '~/composables/shiki'
 import { searcher } from '~/composables/state'
 import { guideColors } from '~/data/guides'
+import type { GuideItem, RuleItem } from '~/types'
 
 const { item } = defineProps<{
   item: RuleItem

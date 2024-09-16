@@ -1,6 +1,6 @@
 import type { BetterMap, ExtendedTokenInfo, UnocssPluginContext } from '@unocss/core'
-import { parseColor } from '../../preset-mini/src/utils'
 import type { MatchedColor, MatchedSelector } from '../types'
+import { parseColor } from '../../preset-mini/src/utils'
 import { getSelectorCategory } from './utils'
 
 const ignoredColors = [

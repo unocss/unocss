@@ -1,20 +1,20 @@
-import process from 'node:process'
-import { isAbsolute, normalize } from 'node:path'
 import type { UserConfig, UserConfigDefaults } from '@unocss/core'
 import type { ResolvedUnpluginOptions, UnpluginOptions } from 'unplugin'
+import { isAbsolute, normalize } from 'node:path'
+import process from 'node:process'
 import { createUnplugin } from 'unplugin'
 import WebpackSources from 'webpack-sources'
-import { createContext } from '../../shared-integration/src/context'
 import { setupContentExtractor } from '../../shared-integration/src/content'
+import { createContext } from '../../shared-integration/src/context'
 import { getHash } from '../../shared-integration/src/hash'
 import {
+  getCssEscaperForJsContent,
+  getHashPlaceholder,
+  getLayerPlaceholder,
   HASH_PLACEHOLDER_RE,
   LAYER_MARK_ALL,
   LAYER_PLACEHOLDER_RE,
   RESOLVED_ID_RE,
-  getCssEscaperForJsContent,
-  getHashPlaceholder,
-  getLayerPlaceholder,
   resolveId,
   resolveLayer,
 } from '../../shared-integration/src/layers'

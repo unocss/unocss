@@ -1,6 +1,6 @@
 import type { Ref } from 'vue'
-import { unref } from 'vue'
 import type { ModuleInfo, OverviewInfo, ProjectInfo, Result } from '../../types'
+import { unref } from 'vue'
 import { onConfigChanged, onModuleUpdated } from './hmr'
 
 const API_ROOT = '/__unocss_api'
@@ -62,7 +62,8 @@ export const moduleTree = computed(() => {
   const inRoot: ModuleDest[] = []
   const inNodeModules: ModuleDest[] = []
   info.value
-    .modules.map(i => ({ full: i, path: i }))
+    .modules
+    .map(i => ({ full: i, path: i }))
     .forEach((i) => {
       if (i.full.includes('node_modules'))
         inNodeModules.push(i)

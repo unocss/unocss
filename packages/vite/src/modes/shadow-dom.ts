@@ -1,5 +1,5 @@
-import type { Plugin } from 'vite'
 import type { UnocssPluginContext } from '@unocss/core'
+import type { Plugin } from 'vite'
 import { CSS_PLACEHOLDER } from '../integration'
 
 export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin {

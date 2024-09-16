@@ -25,8 +25,8 @@ Compile group of classes into one class. Inspired by the [compilation mode](http
 :::
 
 ```ts [uno.config.ts]
-import { defineConfig } from 'unocss'
 import transformerCompileClass from '@unocss/transformer-compile-class'
+import { defineConfig } from 'unocss'
 
 export default defineConfig({
   // ...

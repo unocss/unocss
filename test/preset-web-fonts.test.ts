@@ -1,6 +1,6 @@
+import type { WebFontsOptions } from '@unocss/preset-web-fonts'
 import { createGenerator } from '@unocss/core'
 import presetMini from '@unocss/preset-mini'
-import type { WebFontsOptions } from '@unocss/preset-web-fonts'
 import presetWebFonts from '@unocss/preset-web-fonts'
 import { expect, it } from 'vitest'
 import { createLocalFontProcessor } from '../packages/preset-web-fonts/src/local'

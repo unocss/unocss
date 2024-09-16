@@ -1,9 +1,9 @@
-import { defineConfig } from 'vite'
-import UnoCSS from 'unocss/vite'
-import presetIcons from '@unocss/preset-icons'
-import presetUno from '@unocss/preset-uno'
 import presetAttributify from '@unocss/preset-attributify'
+import presetIcons from '@unocss/preset-icons'
 import presetTypography from '@unocss/preset-typography'
+import presetUno from '@unocss/preset-uno'
+import UnoCSS from 'unocss/vite'
+import { defineConfig } from 'vite'
 import ViteInspector from 'vite-plugin-inspect'
 
 // https://vitejs.dev/config/

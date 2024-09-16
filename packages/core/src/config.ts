@@ -1,7 +1,7 @@
 import type { ContentOptions, FilterPattern, Preset, PresetFactory, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
-import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq, uniqueBy } from './utils'
-import { extractorSplit } from './extractors'
 import { DEFAULT_LAYERS } from './constants'
+import { extractorSplit } from './extractors'
+import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq, uniqueBy } from './utils'
 
 export function resolveShortcuts<Theme extends object = object>(shortcuts: UserShortcuts<Theme>): Shortcut<Theme>[] {
   return toArray(shortcuts).flatMap((s) => {
@@ -123,7 +123,8 @@ export function resolveConfig<Theme extends object = object>(
 
   const extractors = getMerged('extractors')
   let extractorDefault = sourcesReversed
-    .find(i => i.extractorDefault !== undefined)?.extractorDefault
+    .find(i => i.extractorDefault !== undefined)
+    ?.extractorDefault
   if (extractorDefault === undefined)
     extractorDefault = extractorSplit
   if (extractorDefault && !extractors.includes(extractorDefault))

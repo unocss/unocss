@@ -1,6 +1,6 @@
 import type { RuleContext } from '@unocss/core'
 import { createGenerator, symbols } from '@unocss/core'
-import { colorResolver, colorableShadows } from '@unocss/preset-mini/utils'
+import { colorableShadows, colorResolver } from '@unocss/preset-mini/utils'
 
 import { describe, expect, it } from 'vitest'
 

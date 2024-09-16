@@ -1,6 +1,6 @@
-import { defineConfig } from 'vite'
 import UnoCSS from '@unocss/vite'
 import Legacy from '@vitejs/plugin-legacy'
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [

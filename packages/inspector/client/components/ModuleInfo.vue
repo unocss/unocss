@@ -2,8 +2,8 @@
 import attributifyPreset from '@unocss/preset-attributify'
 import { Pane, Splitpanes } from 'splitpanes'
 import { fetchModule } from '../composables/fetch'
-import { useScrollStyle } from '../composables/useScrollStyle'
 import { useCSSPrettify } from '../composables/usePrettify'
+import { useScrollStyle } from '../composables/useScrollStyle'
 
 const props = defineProps<{ id: string }>()
 const { data: mod } = fetchModule(toRef(props, 'id'))

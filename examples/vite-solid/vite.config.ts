@@ -1,9 +1,9 @@
-import { defineConfig } from 'vite'
-import solidPlugin from 'vite-plugin-solid'
-import UnoCSS from 'unocss/vite'
+import presetAttributify from '@unocss/preset-attributify'
 import presetIcons from '@unocss/preset-icons'
 import presetUno from '@unocss/preset-uno'
-import presetAttributify from '@unocss/preset-attributify'
+import UnoCSS from 'unocss/vite'
+import { defineConfig } from 'vite'
+import solidPlugin from 'vite-plugin-solid'
 
 export default defineConfig({
   plugins: [

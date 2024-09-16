@@ -1,8 +1,8 @@
-import path from 'path'
 import type { UnoGenerator } from '@unocss/core'
+import path from 'path'
 import { toArray } from '@unocss/core'
-import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
+import prettier from 'prettier/standalone'
 
 const remUnitRE = /(-?[\d.]+)rem(\s+!important)?;/
 const matchCssVarNameRE = /var\((?<cssVarName>--[^,|)]+)(?:,(?<fallback>[^)]+))?\)/g

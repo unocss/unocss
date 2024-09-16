@@ -1,7 +1,7 @@
-import path from 'node:path'
 import type { SourceCodeTransformer, UnoGenerator } from '@unocss/core'
-import { toArray } from '@unocss/core'
+import path from 'node:path'
 import * as babel from '@babel/core'
+import { toArray } from '@unocss/core'
 
 // @ts-expect-error no types
 import ts from '@babel/preset-typescript'

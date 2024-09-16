@@ -1,5 +1,5 @@
-import type { UnoGenerator, UserConfig } from '@unocss/core'
 import type { LoadConfigResult } from '@unocss/config'
+import type { UnoGenerator, UserConfig } from '@unocss/core'
 
 export interface UnocssSveltePreprocessOptions extends TransformClassesOptions, TransformApplyOptions {
   /**

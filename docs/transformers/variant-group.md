@@ -22,8 +22,8 @@ Enables the [variant group feature](https://windicss.org/features/variant-groups
 :::
 
 ```ts [uno.config.ts]
-import { defineConfig } from 'unocss'
 import transformerVariantGroup from '@unocss/transformer-variant-group'
+import { defineConfig } from 'unocss'
 
 export default defineConfig({
   // ...

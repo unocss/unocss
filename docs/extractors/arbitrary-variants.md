@@ -29,8 +29,8 @@ This extractor is included in [`@unocss/preset-mini`](/presets/mini) as the defa
 :::
 
 ```ts [uno.config.ts]
-import { defineConfig } from 'unocss'
 import extractorArbitrary from '@unocss/extractor-arbitrary-variants'
+import { defineConfig } from 'unocss'
 
 export default defineConfig({
   extractors: [

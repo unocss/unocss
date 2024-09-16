@@ -1,5 +1,5 @@
-import { expect, it } from 'vitest'
 import { createGenerator } from '@unocss/core'
+import { expect, it } from 'vitest'
 import { variantPseudoClassesAndElements } from './pseudo'
 
 // https://github.com/unocss/unocss/issues/2713

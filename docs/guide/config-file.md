@@ -48,8 +48,8 @@ Compared to the inline configuration inside your `vite.config.ts` or other tools
 By default, UnoCSS will automatically look for `uno.config.{js,ts,mjs,mts}` or `unocss.config.{js,ts,mjs,mts}` in the root directory of your project. You can also specify the config file manually, for example in Vite:
 
 ```ts [vite.config.ts]
-import { defineConfig } from 'vite'
 import UnoCSS from 'unocss/vite'
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [

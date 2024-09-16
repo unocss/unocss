@@ -68,8 +68,8 @@ Check [all available icons](https://icones.js.org/).
 We use [Iconify](https://iconify.design) as our data source of icons. You need to install the corresponding icon-set in `devDependencies` by following the `@iconify-json/*` pattern. For example, `@iconify-json/mdi` for [Material Design Icons](https://materialdesignicons.com/), `@iconify-json/tabler` for [Tabler](https://tabler-icons.io/). You can refer to [Icônes](https://icones.js.org/) or [Iconify](https://icon-sets.iconify.design/) for all the collections available.
 
 ```ts [uno.config.ts]
-import { defineConfig } from 'unocss'
 import presetIcons from '@unocss/preset-icons'
+import { defineConfig } from 'unocss'
 
 export default defineConfig({
   presets: [
@@ -253,8 +253,8 @@ External packages must include `icons.json` file with the `icons` data in `Iconi
 
 For example, you can use `an-awesome-collection` or `@my-awesome-collections/some-collection` to load your custom or third party icons:
 ```ts [unocss.config.ts]
-import { defineConfig, presetIcons } from 'unocss'
 import { createExternalPackageIconLoader } from '@iconify/utils/lib/loader/external-pkg'
+import { defineConfig, presetIcons } from 'unocss'
 
 export default defineConfig({
   presets: [
@@ -267,9 +267,9 @@ export default defineConfig({
 
 You can also combine it with other custom icon loaders, for example:
 ```ts [unocss.config.ts]
+import { createExternalPackageIconLoader } from '@iconify/utils/lib/loader/external-pkg'
 import { defineConfig, presetIcons } from 'unocss'
 import { FileSystemIconLoader } from 'unplugin-icons/loaders'
-import { createExternalPackageIconLoader } from '@iconify/utils/lib/loader/external-pkg'
 
 export default defineConfig({
   presets: [

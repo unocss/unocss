@@ -1,12 +1,12 @@
-import process from 'node:process'
 import type { PluginOption } from 'vite'
-import { defineConfig } from 'vite'
+import process from 'node:process'
 import preact from '@preact/preset-vite'
 import prefresh from '@prefresh/vite'
-import UnoCSS from 'unocss/vite'
+import presetAttributify from '@unocss/preset-attributify'
 import presetIcons from '@unocss/preset-icons'
 import presetUno from '@unocss/preset-uno'
-import presetAttributify from '@unocss/preset-attributify'
+import UnoCSS from 'unocss/vite'
+import { defineConfig } from 'vite'
 
 const plugins: (PluginOption | PluginOption[])[] = [
   UnoCSS({

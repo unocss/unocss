@@ -1,6 +1,6 @@
-import { defineConfig } from 'vite'
 import UnoCSS from 'unocss/vite'
 import Components from 'unplugin-vue-components/vite'
+import { defineConfig } from 'vite'
 import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 
 export default defineConfig({

@@ -33,8 +33,8 @@ Will be extracted as `text-orange-400` and generates:
 :::
 
 ```ts [uno.config.ts]
-import { defineConfig } from 'unocss'
 import extractorSvelte from '@unocss/extractor-svelte'
+import { defineConfig } from 'unocss'
 
 export default defineConfig({
   extractors: [

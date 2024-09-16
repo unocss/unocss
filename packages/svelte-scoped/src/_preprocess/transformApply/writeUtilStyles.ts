@@ -1,8 +1,8 @@
 import type { StringifiedUtil } from '@unocss/core'
-import { regexScopePlaceholder } from '@unocss/core'
 import type { CssNode, Rule, Selector, SelectorList } from 'css-tree'
-import { clone, generate, parse } from 'css-tree'
 import type MagicString from 'magic-string'
+import { regexScopePlaceholder } from '@unocss/core'
+import { clone, generate, parse } from 'css-tree'
 
 export function writeUtilStyles([, selector, body, parent]: StringifiedUtil, s: MagicString, node: Rule, childNode: CssNode) {
   if (!selector)

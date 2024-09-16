@@ -1,8 +1,8 @@
 import { sveltekit } from '@sveltejs/kit/vite'
-import { defineConfig } from 'vite'
-
 import UnoCSS from '@unocss/svelte-scoped/vite'
+
 import transformerDirectives from '@unocss/transformer-directives'
+import { defineConfig } from 'vite'
 import { getAllConfigFiles } from './getAllConfigFiles'
 
 export default defineConfig({

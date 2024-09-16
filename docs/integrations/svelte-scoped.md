@@ -192,9 +192,9 @@ In Svelte or SvelteKit apps, inject generated styles directly into your Svelte c
 Add `@unocss/svelte-scoped/vite` to your Vite config:
 
 ```ts [vite.config.ts]
-import { defineConfig } from 'vite'
 import { sveltekit } from '@sveltejs/kit/vite'
 import UnoCSS from '@unocss/svelte-scoped/vite'
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [

@@ -1,9 +1,9 @@
 import { basename, parse } from 'node:path'
+import { objectMap } from '@antfu/utils'
 import fs from 'fs-extra'
 import YAML from 'js-yaml'
 import { genArrayFromRaw, genObjectFromRaw } from 'knitwork'
 import { globSync } from 'tinyglobby'
-import { objectMap } from '@antfu/utils'
 
 const { writeFileSync } = fs
 

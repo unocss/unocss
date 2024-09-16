@@ -1,23 +1,23 @@
-import { isAbsolute, resolve } from 'node:path'
-import type { Plugin, ResolvedConfig } from 'vite'
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import type { NormalizedOutputOptions, PluginContext, RenderedChunk } from 'rollup'
+import type { Plugin, ResolvedConfig } from 'vite'
+import type { VitePluginConfig } from '../../types'
+import { isAbsolute, resolve } from 'node:path'
+import { LAYER_IMPORTS } from '../../../../core/src/constants'
+import { setupContentExtractor } from '../../../../shared-integration/src/content'
 import {
-  HASH_PLACEHOLDER_RE,
-  LAYER_MARK_ALL,
-  LAYER_PLACEHOLDER_RE,
-  RESOLVED_ID_RE,
   getHash,
   getHashPlaceholder,
   getLayerPlaceholder,
   getPath,
+  HASH_PLACEHOLDER_RE,
+  LAYER_MARK_ALL,
+  LAYER_PLACEHOLDER_RE,
   replaceAsync,
+  RESOLVED_ID_RE,
   resolveId,
   resolveLayer,
 } from '../../integration'
-import type { VitePluginConfig } from '../../types'
-import { setupContentExtractor } from '../../../../shared-integration/src/content'
-import { LAYER_IMPORTS } from '../../../../core/src/constants'
 
 // https://github.com/vitejs/vite/blob/main/packages/plugin-legacy/src/index.ts#L742-L744
 function isLegacyChunk(chunk: RenderedChunk, options: NormalizedOutputOptions) {

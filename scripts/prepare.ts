@@ -1,7 +1,7 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import fs from 'fs-extra'
 import { execa } from 'execa'
+import fs from 'fs-extra'
 import { globSync } from 'tinyglobby'
 
 const __filename = fileURLToPath(import.meta.url)

@@ -1,8 +1,8 @@
-import { defineConfig } from 'unocss'
+import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
 import extractorSvelte from '@unocss/extractor-svelte'
 import presetIcons from '@unocss/preset-icons'
 import presetUno from '@unocss/preset-uno'
-import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
+import { defineConfig } from 'unocss'
 
 export default defineConfig({
   extractors: [

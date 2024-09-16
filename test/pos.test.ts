@@ -1,12 +1,12 @@
-import { describe, expect, it } from 'vitest'
-import presetAttributify from '@unocss/preset-attributify'
-import presetUno from '@unocss/preset-uno'
 import type { UnoGenerator } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
-import transformerVariantGroup from '@unocss/transformer-variant-group'
-import cssDirectives from '@unocss/transformer-directives'
 import extractorPug from '@unocss/extractor-pug'
+import presetAttributify from '@unocss/preset-attributify'
+import presetUno from '@unocss/preset-uno'
 import { defaultIdeMatchExclude, defaultIdeMatchInclude } from '@unocss/shared-integration'
+import cssDirectives from '@unocss/transformer-directives'
+import transformerVariantGroup from '@unocss/transformer-variant-group'
+import { describe, expect, it } from 'vitest'
 import { getMatchedPositionsFromCode as match } from '../packages/shared-common/src'
 
 describe('matched-positions', async () => {

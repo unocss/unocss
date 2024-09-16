@@ -27,9 +27,9 @@ See [all supported providers](#providers).
 :::
 
 ```ts [uno.config.ts]
-import { defineConfig } from 'unocss'
-import presetWebFonts from '@unocss/preset-web-fonts'
 import presetUno from '@unocss/preset-uno'
+import presetWebFonts from '@unocss/preset-web-fonts'
+import { defineConfig } from 'unocss'
 
 export default defineConfig({
   presets: [
@@ -65,11 +65,11 @@ PR welcome to add more providers. 🙌
 Use your own function to fetch font source.
 
 ```ts [uno.config.ts]
-import { defineConfig } from 'unocss'
-import presetWebFonts from '@unocss/preset-web-fonts'
 import presetUno from '@unocss/preset-uno'
+import presetWebFonts from '@unocss/preset-web-fonts'
 import axios from 'axios'
 import ProxyAgent from 'proxy-agent'
+import { defineConfig } from 'unocss'
 
 export default defineConfig({
   presets: [
@@ -196,9 +196,9 @@ The following CSS will be generated automatically:
 By default the preset will fetch the fonts from the provider's CDN. If you want to serve the fonts locally, you can download the fonts and serve them from your own server using the processor from `@unocss/preset-web-fonts/local`.
 
 ```ts
-import { defineConfig } from 'unocss'
 import presetWebFonts from '@unocss/preset-web-fonts'
 import { createLocalFontProcessor } from '@unocss/preset-web-fonts/local'
+import { defineConfig } from 'unocss'
 
 export default defineConfig({
   presets: [
