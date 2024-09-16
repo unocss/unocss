@@ -1149,9 +1149,6 @@ importers:
       css-tree:
         specifier: 'catalog:'
         version: 2.3.1
-      magic-string:
-        specifier: ^0.30.11
-        version: 0.30.11
       postcss:
         specifier: 'catalog:'
         version: 8.4.41
@@ -1431,9 +1428,6 @@ importers:
       '@unocss/core':
         specifier: workspace:*
         version: link:../core
-      '@unocss/extractor-arbitrary-variants':
-        specifier: workspace:*
-        version: link:../extractor-arbitrary-variants
       '@unocss/postcss':
         specifier: workspace:*
         version: link:../postcss
@@ -1461,15 +1455,9 @@ importers:
       '@unocss/preset-wind':
         specifier: workspace:*
         version: link:../preset-wind
-      '@unocss/reset':
-        specifier: workspace:*
-        version: link:../reset
       '@unocss/transformer-attributify-jsx':
         specifier: workspace:*
         version: link:../transformer-attributify-jsx
-      '@unocss/transformer-attributify-jsx-babel':
-        specifier: workspace:*
-        version: link:../transformer-attributify-jsx-babel
       '@unocss/transformer-compile-class':
         specifier: workspace:*
         version: link:../transformer-compile-class
@@ -1507,12 +1495,6 @@ importers:
       '@unocss/inspector':
         specifier: workspace:*
         version: link:../inspector
-      '@unocss/scope':
-        specifier: workspace:*
-        version: link:../scope
-      '@unocss/transformer-directives':
-        specifier: workspace:*
-        version: link:../transformer-directives
       chokidar:
         specifier: 'catalog:'
         version: 3.6.0
