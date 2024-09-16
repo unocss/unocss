@@ -25,7 +25,7 @@ export default function extractorPug(options: Options = {}): Extractor {
         }
         catch {}
       }
-      else if (ctx.id.endsWith('.vue')) {
+      else if (ctx.id.endsWith('.vue') || ctx.id.endsWith('.svelte')) {
         const matches = Array.from(ctx.code.matchAll(regexVueTemplate))
         let tail = ''
         for (const match of matches) {
