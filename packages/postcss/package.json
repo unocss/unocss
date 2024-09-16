@@ -62,7 +62,6 @@
     "@unocss/core": "workspace:*",
     "@unocss/rule-utils": "workspace:*",
     "css-tree": "catalog:",
-    "magic-string": "catalog:",
     "postcss": "catalog:",
     "tinyglobby": "catalog:"
   }
