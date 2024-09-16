@@ -1,6 +1,14 @@
 import type { GenerateResult, UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
+import type { Theme } from '@unocss/preset-uno'
 import { createGenerator, isString, toArray } from '@unocss/core'
 import { autoPrefixer, decodeHtml } from './utils'
+
+/**
+ * Define UnoCSS config
+ */
+export function defineConfig<T extends object = Theme>(config: UserConfig<T>) {
+  return config
+}
 
 export interface RuntimeGenerateResult extends GenerateResult {
   getStyleElement: (name: string) => HTMLStyleElement | undefined
