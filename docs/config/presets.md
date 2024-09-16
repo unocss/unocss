@@ -4,8 +4,7 @@ Presets are partial configurations that will be merged into the main configurati
 
 When authoring a preset, we usually export a constructor function that you could ask for some preset-specific options. For example:
 
-```ts
-// my-preset.ts
+```ts [my-preset.ts]
 import { Preset, definePreset } from 'unocss'
 
 export default definePreset((options?: MyPresetOptions) => {
@@ -24,8 +23,7 @@ export default definePreset((options?: MyPresetOptions) => {
 
 Then the user can use it like this:
 
-```ts
-// uno.config.ts
+```ts [uno.config.ts]
 import { defineConfig } from 'unocss'
 import myPreset from './my-preset'
 

@@ -24,8 +24,7 @@ This enables the [tagify mode](#tagify-mode) for other presets.
   ```
 :::
 
-```ts
-// uno.config.ts
+```ts [uno.config.ts]
 import { defineConfig } from 'unocss'
 import presetTagify from '@unocss/preset-tagify'
 

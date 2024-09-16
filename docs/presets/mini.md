@@ -24,8 +24,7 @@ The basic preset for UnoCSS, with only the most essential utilities.
   ```
 :::
 
-```ts
-// uno.config.ts
+```ts [uno.config.ts]
 import { defineConfig } from 'unocss'
 import presetMini from '@unocss/preset-mini'
 

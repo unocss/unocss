@@ -28,8 +28,7 @@ By default none of the options are enabled, you need to opt-in each of them expl
   ```
 :::
 
-```ts
-// uno.config.ts
+```ts [uno.config.ts]
 import { defineConfig } from 'unocss'
 import presetLegacyCompat from '@unocss/preset-legacy-compat'
 

@@ -164,8 +164,7 @@ When you really need some advanced rules that aren't covered by the combination 
 
 It allows you to return a string from the dynamic rule's body function which will be **directly** passed to the generated CSS (this also means you need to take care of things like CSS escaping, variant applying, CSS constructing, and so on).
 
-```ts
-// uno.config.ts
+```ts [uno.config.ts]
 import { defineConfig, toEscapedSelector as e } from 'unocss'
 
 export default defineConfig({

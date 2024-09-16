@@ -28,8 +28,7 @@ This preset inherits [`@unocss/preset-mini`](/presets/mini).
   ```
 :::
 
-```ts
-// uno.config.ts
+```ts [uno.config.ts]
 import { defineConfig } from 'unocss'
 import presetWind from '@unocss/preset-wind'
 
@@ -136,8 +135,7 @@ However, setting `important` to `true` can introduce some issues when incorporat
 
 To get around this, you can set important to an ID selector like `#app` instead:
 
-```ts
-// uno.config.ts
+```ts [uno.config.ts]
 import { defineConfig } from 'unocss'
 import presetWind from '@unocss/preset-wind'
 
