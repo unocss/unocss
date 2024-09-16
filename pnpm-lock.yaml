@@ -1323,6 +1323,9 @@ importers:
       '@unocss/config':
         specifier: workspace:*
         version: link:../config
+      '@unocss/preset-uno':
+        specifier: workspace:*
+        version: link:../preset-uno
       '@unocss/reset':
         specifier: workspace:*
         version: link:../reset
