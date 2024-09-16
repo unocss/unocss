@@ -117,8 +117,8 @@ Presets can be imported from `esm.sh`:
 
 ```ts
 import { defineConfig } from '@unocss/runtime'
-import presetUno from 'https://esm.sh/@unocss/preset-uno'
 import presetIcons from 'https://esm.sh/@unocss/preset-icons/browser'
+import presetUno from 'https://esm.sh/@unocss/preset-uno'
 
 export default defineConfig({
   presets: [presetUno(), presetIcons({ cdn: 'https://esm.sh/' })],

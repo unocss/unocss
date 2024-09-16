@@ -1,6 +1,6 @@
 import type { GenerateResult, UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
-import { createGenerator, isString, toArray } from '@unocss/core'
 import type { Theme } from '@unocss/preset-uno'
+import { createGenerator, isString, toArray } from '@unocss/core'
 import { autoPrefixer, decodeHtml } from './utils'
 
 /**
