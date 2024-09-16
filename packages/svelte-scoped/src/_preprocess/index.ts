@@ -1,7 +1,6 @@
 import process from 'node:process'
 import type { PreprocessorGroup } from 'svelte/types/compiler/preprocess'
 import { type UnoGenerator, type UserConfig, type UserConfigDefaults, createGenerator, warnOnce } from '@unocss/core'
-import presetUno from '@unocss/preset-uno'
 import { createRecoveryConfigLoader } from '@unocss/config'
 import { transformClasses } from './transformClasses'
 import { checkForApply, transformStyle } from './transformStyle'
@@ -84,10 +83,15 @@ async function getGenerator(config: UserConfig, unoContextFromVite?: SvelteScope
     return unoContextFromVite.uno
   }
 
-  const defaults: UserConfigDefaults = {
-    presets: [
-      presetUno(),
-    ],
+  let defaults: UserConfigDefaults | undefined
+  if (!config.presets) {
+    const presetUno = (await import('@unocss/preset-uno')).default
+    defaults = {
+      presets: [
+        presetUno(),
+      ],
+    }
   }
+
   return createGenerator(config, defaults)
 }
