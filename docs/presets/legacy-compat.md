@@ -28,10 +28,9 @@ By default none of the options are enabled, you need to opt-in each of them expl
   ```
 :::
 
-```ts
-// uno.config.ts
-import { defineConfig } from 'unocss'
+```ts [uno.config.ts]
 import presetLegacyCompat from '@unocss/preset-legacy-compat'
+import { defineConfig } from 'unocss'
 
 export default defineConfig({
   presets: [

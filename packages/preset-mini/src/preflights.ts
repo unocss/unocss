@@ -1,6 +1,6 @@
 import type { Preflight } from '@unocss/core'
-import { entriesToCss, toArray } from '@unocss/core'
 import type { Theme } from './theme'
+import { entriesToCss, toArray } from '@unocss/core'
 
 export const preflights: Preflight<Theme>[] = [
   {

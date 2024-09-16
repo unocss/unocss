@@ -1,6 +1,6 @@
-import { computed, nextTick, reactive, ref, unref, watch } from 'vue'
 import type { MaybeElementRef, MaybeRef } from '@vueuse/core'
 import { clamp, createEventHook, tryOnScopeDispose, unrefElement, useEventListener } from '@vueuse/core'
+import { computed, nextTick, reactive, ref, unref, watch } from 'vue'
 
 type Edges = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'left' | 'right' | 'top' | 'bottom'
 
@@ -304,80 +304,80 @@ export function useResize(element: MaybeElementRef, options: UseResizeOptions = 
 
     if (
       (((currentY - top) < 0 ? Math.abs(currentY - top) < edgeWidthOutside : (currentY - top) <= edgeWidthInside)
-      && ((currentX - left) < 0 ? Math.abs(currentX - left) < edgeWidthOutside : (currentX - left) <= edgeWidthInside))
-      && isEdgeActive('top-left')
-      && isOnForeground(left, top, true, 1, 1)
+        && ((currentX - left) < 0 ? Math.abs(currentX - left) < edgeWidthOutside : (currentX - left) <= edgeWidthInside))
+        && isEdgeActive('top-left')
+        && isOnForeground(left, top, true, 1, 1)
     ) {
       setCursorAndDirection('nwse-resize', 'top-left')
     }
 
     else if (
       (((currentY - top) < 0 ? Math.abs(currentY - top) < edgeWidthOutside : (currentY - top) < edgeWidthInside)
-      && ((currentX - right) > 0 ? Math.abs(currentX - right) < edgeWidthOutside : Math.abs(currentX - right) < edgeWidthInside))
-      && isEdgeActive('top-right')
-      && isOnForeground(right, top, true, -1, 1)
+        && ((currentX - right) > 0 ? Math.abs(currentX - right) < edgeWidthOutside : Math.abs(currentX - right) < edgeWidthInside))
+        && isEdgeActive('top-right')
+        && isOnForeground(right, top, true, -1, 1)
     ) {
       setCursorAndDirection('nesw-resize', 'top-right')
     }
 
     else if (
       (((currentY - bottom) > 0 ? Math.abs(currentY - bottom) < edgeWidthOutside : Math.abs(currentY - bottom) < edgeWidthInside)
-      && ((currentX - left) < 0 ? Math.abs(currentX - left) < edgeWidthOutside : (currentX - left) < edgeWidthInside))
-      && isEdgeActive('bottom-left')
-      && isOnForeground(left, bottom, true, 1, -1)
+        && ((currentX - left) < 0 ? Math.abs(currentX - left) < edgeWidthOutside : (currentX - left) < edgeWidthInside))
+        && isEdgeActive('bottom-left')
+        && isOnForeground(left, bottom, true, 1, -1)
     ) {
       setCursorAndDirection('nesw-resize', 'bottom-left')
     }
 
     else if (
       (((currentY - bottom) > 0 ? Math.abs(currentY - bottom) < edgeWidthOutside : Math.abs(currentY - bottom) < edgeWidthInside)
-      && ((currentX - right) > 0 ? Math.abs(currentX - right) < edgeWidthOutside : Math.abs(currentX - right) < edgeWidthInside))
-      && isEdgeActive('bottom-right')
-      && isOnForeground(right, bottom, true, -1, -1)
+        && ((currentX - right) > 0 ? Math.abs(currentX - right) < edgeWidthOutside : Math.abs(currentX - right) < edgeWidthInside))
+        && isEdgeActive('bottom-right')
+        && isOnForeground(right, bottom, true, -1, -1)
     ) {
       setCursorAndDirection('nwse-resize', 'bottom-right')
     }
 
     else if (
       (((currentY - bottom) > 0 && Math.abs(currentY - bottom) < edgeWidthOutside)
-      || ((currentY - bottom) <= 0 && Math.abs(currentY - bottom) <= edgeWidthInside))
-      && currentX > left
-      && currentX < right
-      && isEdgeActive('bottom')
-      && isOnForeground(currentX, bottom)
+        || ((currentY - bottom) <= 0 && Math.abs(currentY - bottom) <= edgeWidthInside))
+        && currentX > left
+        && currentX < right
+        && isEdgeActive('bottom')
+        && isOnForeground(currentX, bottom)
     ) {
       setCursorAndDirection('ns-resize', 'bottom')
     }
 
     else if (
       (((currentY - top) < 0 && Math.abs(currentY - top) < edgeWidthOutside)
-      || ((currentY - top) >= 0 && Math.abs(currentY - top) <= edgeWidthInside))
-      && currentX > left
-      && currentX < right
-      && isEdgeActive('top')
-      && isOnForeground(currentX, top)
+        || ((currentY - top) >= 0 && Math.abs(currentY - top) <= edgeWidthInside))
+        && currentX > left
+        && currentX < right
+        && isEdgeActive('top')
+        && isOnForeground(currentX, top)
     ) {
       setCursorAndDirection('ns-resize', 'top')
     }
 
     else if (
       (((currentX - left) < 0 && Math.abs(currentX - left) < edgeWidthOutside)
-      || ((currentX - left) >= 0 && Math.abs(currentX - left) <= edgeWidthInside))
-      && currentY > top
-      && currentY < bottom
-      && isEdgeActive('left')
-      && isOnForeground(left, currentY)
+        || ((currentX - left) >= 0 && Math.abs(currentX - left) <= edgeWidthInside))
+        && currentY > top
+        && currentY < bottom
+        && isEdgeActive('left')
+        && isOnForeground(left, currentY)
     ) {
       setCursorAndDirection('ew-resize', 'left')
     }
 
     else if (
       (((currentX - right) > 0 && Math.abs(currentX - right) < edgeWidthOutside)
-      || ((currentX - right) <= 0 && Math.abs(currentX - right) <= edgeWidthInside))
-      && currentY > top
-      && currentY < bottom
-      && isEdgeActive('right')
-      && isOnForeground(right, currentY)
+        || ((currentX - right) <= 0 && Math.abs(currentX - right) <= edgeWidthInside))
+        && currentY > top
+        && currentY < bottom
+        && isEdgeActive('right')
+        && isOnForeground(right, currentY)
     ) {
       setCursorAndDirection('ew-resize', 'right')
     }

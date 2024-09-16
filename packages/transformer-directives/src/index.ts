@@ -1,7 +1,7 @@
-import { cssIdRE } from '@unocss/core'
 import type { SourceCodeTransformer } from '@unocss/core'
-import { transformDirectives } from './transform'
 import type { TransformerDirectivesOptions } from './types'
+import { cssIdRE } from '@unocss/core'
+import { transformDirectives } from './transform'
 
 export * from './types'
 

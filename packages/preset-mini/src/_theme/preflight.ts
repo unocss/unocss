@@ -1,5 +1,5 @@
-import { boxShadowsBase, ringBase, transformBase } from '../rules'
 import type { Theme } from './types'
+import { boxShadowsBase, ringBase, transformBase } from '../rules'
 
 export const preflightBase = {
   ...transformBase,

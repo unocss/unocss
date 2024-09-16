@@ -1,5 +1,5 @@
-import { definePreset } from '@unocss/core'
 import type { TagifyOptions } from './types'
+import { definePreset } from '@unocss/core'
 import { extractorTagify } from './extractor'
 import { variantTagify } from './variant'
 

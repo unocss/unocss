@@ -1,3 +1,3 @@
-export * from './types'
-export * from './search'
 export * from './config'
+export * from './search'
+export * from './types'

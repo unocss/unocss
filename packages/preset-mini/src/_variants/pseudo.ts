@@ -1,6 +1,6 @@
 import type { VariantObject } from '@unocss/core'
-import { escapeRegExp, escapeSelector, warnOnce } from '@unocss/core'
 import type { PresetMiniOptions } from '..'
+import { escapeRegExp, escapeSelector, warnOnce } from '@unocss/core'
 import { getBracket, h, variantGetBracket } from '../_utils'
 
 /**

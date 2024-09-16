@@ -107,25 +107,27 @@ export function collapseVariantGroup(str: string, prefixes: string[]): string {
 
   const sortedPrefix = prefixes.sort((a, b) => b.length - a.length)
 
-  return str.split(/\s+/g).map((part) => {
-    const prefix = sortedPrefix.find(prefix => part.startsWith(prefix))
-    if (!prefix)
-      return part
+  return str
+    .split(/\s+/g)
+    .map((part) => {
+      const prefix = sortedPrefix.find(prefix => part.startsWith(prefix))
+      if (!prefix)
+        return part
 
-    const body = part.slice(prefix.length)
-    if (collection.has(prefix)) {
-      collection.get(prefix)!.push(body)
-      return null
-    }
-    else {
-      const items = [body]
-      collection.set(prefix, items)
-      return {
-        prefix,
-        items,
+      const body = part.slice(prefix.length)
+      if (collection.has(prefix)) {
+        collection.get(prefix)!.push(body)
+        return null
       }
-    }
-  })
+      else {
+        const items = [body]
+        collection.set(prefix, items)
+        return {
+          prefix,
+          items,
+        }
+      }
+    })
     .filter(notNull)
     .map((i) => {
       if (typeof i === 'string')

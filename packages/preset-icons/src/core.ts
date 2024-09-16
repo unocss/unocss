@@ -1,14 +1,14 @@
-import type { CSSObject } from '@unocss/core'
-import { definePreset, warnOnce } from '@unocss/core'
+import type { IconifyJSON } from '@iconify/types'
 import type {
   IconifyLoaderOptions,
   UniversalIconLoader,
 } from '@iconify/utils/lib/loader/types'
-import { encodeSvgForCss } from '@iconify/utils/lib/svg/encode-svg-for-css'
-import type { IconifyJSON } from '@iconify/types'
+import type { CSSObject } from '@unocss/core'
+import type { IconsOptions } from './types'
 import { loadIcon } from '@iconify/utils/lib/loader/loader'
 import { searchForIcon } from '@iconify/utils/lib/loader/modern'
-import type { IconsOptions } from './types'
+import { encodeSvgForCss } from '@iconify/utils/lib/svg/encode-svg-for-css'
+import { definePreset, warnOnce } from '@unocss/core'
 import icons from './collections.json'
 
 const COLLECTION_NAME_PARTS_MAX = 3

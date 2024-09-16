@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { getMatchedPositions } from '@unocss/shared-common'
+import type { CompletionSource } from '@codemirror/autocomplete'
 import type { HighlightAnnotation } from '@unocss/core'
 import { Decoration } from '@codemirror/view'
+import { getMatchedPositions } from '@unocss/shared-common'
 import { useEventListener, useThrottleFn, useVModel } from '@vueuse/core'
-import type { CompletionSource } from '@codemirror/autocomplete'
 import { onMounted, reactive, ref, toRefs, watch } from 'vue'
 import { addMarks, filterMarks, useCodeMirror } from '../composables/codemirror'
 

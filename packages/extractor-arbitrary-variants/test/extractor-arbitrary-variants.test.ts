@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises'
 import { describe, expect, it } from 'vitest'
-import { removeSourceMap } from '../src/source-map'
 import { quotedArbitraryValuesRE } from '../src/index'
+import { removeSourceMap } from '../src/source-map'
 
 describe('removeSourceMap()', () => {
   it('should remove the source map from the code', () => {

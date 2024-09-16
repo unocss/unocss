@@ -12,7 +12,7 @@ UnoCSS runtime provide a CDN build that runs the UnoCSS right in the browser. It
 
 Add the following line to your `index.html`:
 
-```html
+```html [index.html]
 <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></script>
 ```
 

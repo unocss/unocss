@@ -1,11 +1,11 @@
 import { resolve } from 'node:path'
-import { defineConfig } from 'unocss'
+import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
 import presetAttributify from '@unocss/preset-attributify'
 import presetIcons from '@unocss/preset-icons'
 import presetUno from '@unocss/preset-uno'
 import presetWebFonts from '@unocss/preset-web-fonts'
 import { createLocalFontProcessor } from '@unocss/preset-web-fonts/local'
-import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
+import { defineConfig } from 'unocss'
 
 const iconDirectory = resolve(__dirname, 'icons')
 

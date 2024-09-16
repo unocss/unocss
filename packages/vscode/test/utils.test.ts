@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest'
 import { addRemToPxComment, getColorString, shouldProvideAutocomplete } from '@unocss/vscode/utils'
+import { describe, expect, it } from 'vitest'
 
 it('getColorString', () => {
   const textAmber = `
