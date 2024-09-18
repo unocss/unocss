@@ -29,6 +29,7 @@ Map {
             ],
           ],
           "symbols": {
+            "layer": "$$symbol-layer",
             "parent": "$$symbol-parent",
             "selector": "$$symbol-selector",
             "shortcutsNoMerge": "$$symbol-shortcut-no-merge",
@@ -75,6 +76,7 @@ Map {
             ],
           ],
           "symbols": {
+            "layer": "$$symbol-layer",
             "parent": "$$symbol-parent",
             "selector": "$$symbol-selector",
             "shortcutsNoMerge": "$$symbol-shortcut-no-merge",
@@ -119,6 +121,7 @@ Map {
             ],
           ],
           "symbols": {
+            "layer": "$$symbol-layer",
             "parent": "$$symbol-parent",
             "selector": "$$symbol-selector",
             "shortcutsNoMerge": "$$symbol-shortcut-no-merge",

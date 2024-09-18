@@ -10,6 +10,7 @@ export const symbols: ControlSymbols = {
   variants: '$$symbol-variants' as unknown as ControlSymbols['variants'],
   parent: '$$symbol-parent' as unknown as ControlSymbols['parent'],
   selector: '$$symbol-selector' as unknown as ControlSymbols['selector'],
+  layer: '$$symbol-layer' as unknown as ControlSymbols['layer'],
 }
 
 export class UnoGenerator<Theme extends object = object> {
@@ -614,6 +615,12 @@ export class UnoGenerator<Theme extends object = object> {
             else if (entry[0] === symbols.selector) {
               variants = [
                 { selector: entry[1] },
+                ...variants,
+              ]
+            }
+            else if (entry[0] === symbols.layer) {
+              variants = [
+                { layer: entry[1] },
                 ...variants,
               ]
             }

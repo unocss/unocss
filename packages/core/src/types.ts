@@ -77,6 +77,7 @@ declare const SymbolShortcutsNoMerge: unique symbol
 declare const SymbolVariants: unique symbol
 declare const SymbolParent: unique symbol
 declare const SymbolSelector: unique symbol
+declare const SymbolLayer: unique symbol
 
 export interface ControlSymbols {
   /**
@@ -95,6 +96,10 @@ export interface ControlSymbols {
    * Selector modifier
    */
   selector: typeof SymbolSelector
+  /**
+   * Layer modifier
+   */
+  layer: typeof SymbolLayer
 }
 
 export interface ControlSymbolsValue {
@@ -102,6 +107,7 @@ export interface ControlSymbolsValue {
   [SymbolVariants]: VariantHandler[]
   [SymbolParent]: string
   [SymbolSelector]: (selector: string) => string
+  [SymbolLayer]: string
 }
 
 export type ObjectToEntry<T> = { [K in keyof T]: [K, T[K]] }[keyof T]
