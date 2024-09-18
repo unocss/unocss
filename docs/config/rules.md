@@ -119,6 +119,7 @@ Will generate:
 
 - `symbols.parent`: The parent wrapper of the generated CSS rule (eg. `@supports`, `@media`, etc.)
 - `symbols.selector`: A function to modify the selector of the generated CSS rule (see the example below)
+- `symbols.layer`: A string/function/regex match that sets the UnoCSS layer of the generated CSS rule
 - `symbols.variants`: An array of variant handler that are applied to the current CSS object
 - `symbols.shortcutsNoMerge`: A boolean to disable the merging of the current rule in shortcuts
 
