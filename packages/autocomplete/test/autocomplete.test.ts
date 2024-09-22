@@ -1,8 +1,8 @@
+import { createAutocomplete, parseAutocomplete } from '@unocss/autocomplete'
 import { createGenerator } from '@unocss/core'
+import presetAttributify from '@unocss/preset-attributify'
 import presetUno from '@unocss/preset-uno'
 import { describe, expect, it } from 'vitest'
-import { createAutocomplete, parseAutocomplete } from '@unocss/autocomplete'
-import presetAttributify from '@unocss/preset-attributify'
 
 describe('autocomplete', () => {
   const uno = createGenerator({
@@ -48,7 +48,8 @@ describe('autocomplete', () => {
       .toMatchInlineSnapshot(`"m-1"`)
 
     expect((await ac.suggest('invalid'))[0])
-      .not.toBe('invalid')
+      .not
+      .toBe('invalid')
   })
 
   it('should provide autocomplete', async () => {
@@ -240,7 +241,8 @@ describe('autocomplete with attributify prefix', () => {
       .toMatchInlineSnapshot(`"m-1"`)
 
     expect((await ac.suggest('invalid'))[0])
-      .not.toBe('invalid')
+      .not
+      .toBe('invalid')
   })
 
   it('should provide autocomplete', async () => {

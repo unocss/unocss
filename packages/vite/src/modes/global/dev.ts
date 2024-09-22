@@ -1,6 +1,6 @@
 import process from 'node:process'
-import type { Plugin, Update, ViteDevServer } from 'vite'
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
+import type { Plugin, Update, ViteDevServer } from 'vite'
 import { notNull } from '@unocss/core'
 import MagicString from 'magic-string'
 import type { VitePluginConfig } from '../../types'

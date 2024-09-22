@@ -1,6 +1,6 @@
-import { defineConfig } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/types'
 import { transformerTwoslash } from '@shikijs/vitepress-twoslash'
+import { defineConfig } from 'vitepress'
 import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
 import { version } from '../../package.json'
 

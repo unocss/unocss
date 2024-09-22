@@ -519,15 +519,13 @@ describe('transformer-directives', () => {
         `.btn {
         color: theme("color.none.500");
         }`,
-      )).rejects
-        .toMatchInlineSnapshot(`[Error: theme of "color.none.500" did not found]`)
+      )).rejects.toMatchInlineSnapshot(`[Error: theme of "color.none.500" did not found]`)
 
       expect(async () => await transform(
         `.btn {
           font-size: theme("size.lg");
           }`,
-      )).rejects
-        .toMatchInlineSnapshot(`[Error: theme of "size.lg" did not found]`)
+      )).rejects.toMatchInlineSnapshot(`[Error: theme of "size.lg" did not found]`)
     })
 
     it('args', async () => {
@@ -535,8 +533,7 @@ describe('transformer-directives', () => {
         `.btn {
           color: theme();
         }`,
-      )).rejects
-        .toMatchInlineSnapshot(`[Error: theme() expect exact one argument]`)
+      )).rejects.toMatchInlineSnapshot(`[Error: theme() expect exact one argument]`)
     })
 
     it('with @apply', async () => {
@@ -1159,15 +1156,13 @@ describe('transformer-directives with important', () => {
         `.btn {
         color: theme("color.none.500");
         }`,
-      )).rejects
-        .toMatchInlineSnapshot(`[Error: theme of "color.none.500" did not found]`)
+      )).rejects.toMatchInlineSnapshot(`[Error: theme of "color.none.500" did not found]`)
 
       expect(async () => await transform(
         `.btn {
           font-size: theme("size.lg");
           }`,
-      )).rejects
-        .toMatchInlineSnapshot(`[Error: theme of "size.lg" did not found]`)
+      )).rejects.toMatchInlineSnapshot(`[Error: theme of "size.lg" did not found]`)
     })
 
     it('args', async () => {
@@ -1175,8 +1170,7 @@ describe('transformer-directives with important', () => {
         `.btn {
           color: theme();
         }`,
-      )).rejects
-        .toMatchInlineSnapshot(`[Error: theme() expect exact one argument]`)
+      )).rejects.toMatchInlineSnapshot(`[Error: theme() expect exact one argument]`)
     })
 
     it('with @apply', async () => {

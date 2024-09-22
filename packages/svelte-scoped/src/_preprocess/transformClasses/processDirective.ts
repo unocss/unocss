@@ -1,10 +1,10 @@
 import type { UnoGenerator } from '@unocss/core'
 import type { TransformClassesOptions } from '../types'
 import type { FoundClass } from './findClasses'
-import { needsGenerated } from './needsGenerated'
-import { generateClassName } from './generateClassName'
 import type { ProcessResult } from './processClasses'
+import { generateClassName } from './generateClassName'
 import { isShortcut } from './isShortcut'
+import { needsGenerated } from './needsGenerated'
 
 export async function processDirective(
   { body: token, start, end, type }: FoundClass,

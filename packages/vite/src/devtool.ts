@@ -1,9 +1,9 @@
 import fs from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import type { Plugin, ResolvedConfig, ViteDevServer } from 'vite'
-import type { IncomingMessage } from 'connect'
 import type { UnocssPluginContext } from '@unocss/core'
+import type { IncomingMessage } from 'connect'
+import type { Plugin, ResolvedConfig, ViteDevServer } from 'vite'
 import { toEscapedSelector } from '@unocss/core'
 import type { VitePluginConfig } from './types'
 

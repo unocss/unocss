@@ -1,12 +1,12 @@
-import { definePreset } from '@unocss/core'
 import type { PresetMiniOptions } from '@unocss/preset-mini'
+import { definePreset } from '@unocss/core'
 import { presetMini } from '@unocss/preset-mini'
 
+import { postprocessors } from './postprocessors'
 import { rules } from './rules'
 import { shortcuts } from './shortcuts'
 import { theme } from './theme'
 import { variants } from './variants'
-import { postprocessors } from './postprocessors'
 
 export { colors, preflights } from '@unocss/preset-mini'
 export type { Theme } from '@unocss/preset-mini'

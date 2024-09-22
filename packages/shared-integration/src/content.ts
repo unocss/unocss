@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises'
 import { isAbsolute, resolve } from 'node:path'
-import { glob } from 'tinyglobby'
 import type { UnocssPluginContext } from '@unocss/core'
+import { glob } from 'tinyglobby'
 import { applyTransformers } from './transformers'
 
 export async function setupContentExtractor(

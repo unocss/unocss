@@ -1,8 +1,8 @@
 import type { CSSObject, Preset } from '@unocss/core'
-import { definePreset, toEscapedSelector } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
-import { getPreflights } from './preflights'
+import { definePreset, toEscapedSelector } from '@unocss/core'
 import type { TypographyCompatibilityOptions } from './types/compatibilityOptions'
+import { getPreflights } from './preflights'
 
 /**
  * @public

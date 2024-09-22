@@ -1,8 +1,8 @@
 import type { IconsOptions } from '@unocss/preset-icons'
-import { createPresetIcons } from '@unocss/preset-icons'
 import { loadIcon } from '@iconify/utils'
-import { createCDNFetchLoader } from '../../../preset-icons/src/core'
+import { createPresetIcons } from '@unocss/preset-icons'
 import type { RuntimeContext } from '..'
+import { createCDNFetchLoader } from '../../../preset-icons/src/core'
 
 window.__unocss_runtime = window.__unocss_runtime ?? {} as RuntimeContext
 window.__unocss_runtime.presets = Object.assign(window.__unocss_runtime?.presets ?? {}, (() => {

@@ -1,5 +1,5 @@
-import { mergeDeep } from '@unocss/core'
 import type { PreflightContext } from '@unocss/core'
+import { mergeDeep } from '@unocss/core'
 import type { TypographyCompatibilityOptions } from '../types/compatibilityOptions'
 import { DEFAULT } from './default'
 

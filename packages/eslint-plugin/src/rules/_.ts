@@ -1,8 +1,8 @@
 import { join } from 'node:path'
-import { createSyncFn } from 'synckit'
 import { ESLintUtils } from '@typescript-eslint/utils'
-import { distDir } from '../dirs'
+import { createSyncFn } from 'synckit'
 import type { run } from '../worker'
+import { distDir } from '../dirs'
 
 export const syncAction = createSyncFn(join(distDir, 'worker.mjs')) as typeof run
 

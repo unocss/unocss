@@ -198,8 +198,7 @@ export function parseAutocomplete(template: string, theme: any = {}, extraShorth
     //   }
     // }
 
-    return combinations.map(i => matched.map(m => m + i)).flat()
-      .filter(i => i.length >= input.length)
+    return combinations.map(i => matched.map(m => m + i)).flat().filter(i => i.length >= input.length)
   }
 }
 

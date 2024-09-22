@@ -1,9 +1,9 @@
 import type { UserConfig } from '@unocss/core'
 import { escapeSelector } from '@unocss/core'
-import presetWind from '@unocss/preset-wind'
 import postcssPlugin from '@unocss/postcss'
-import { describe, expect, it } from 'vitest'
+import presetWind from '@unocss/preset-wind'
 import postcss from 'postcss'
+import { describe, expect, it } from 'vitest'
 import { presetWindTargets } from './assets/preset-wind-targets'
 
 const config: UserConfig = {

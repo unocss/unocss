@@ -98,3 +98,27 @@ outputToCssLayers: {
   }
 }
 ```
+
+## Layers using variants
+
+Layers can be created using variants.
+
+`uno-layer-<name>:` can be used to create a UnoCSS layer.
+
+```html
+<p class="uno-layer-my-layer:text-xl">text</p>
+
+/* layer: my-layer */
+.uno-layer-my-layer\:text-xl{font-size:1.25rem;line-height:1.75rem;}
+```
+
+`layer-<name>:` can be used to create a CSS @layer.
+
+```html
+<p class="layer-my-layer:text-xl">text</p>
+
+/* layer: default */
+@layer my-layer{
+.layer-my-layer\:text-xl{font-size:1.25rem;line-height:1.75rem;}
+}
+```

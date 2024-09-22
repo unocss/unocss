@@ -1,3 +1,4 @@
+import { presetForms } from '@julr/unocss-preset-forms'
 import {
   defineConfig,
   presetIcons,
@@ -5,7 +6,6 @@ import {
   presetUno,
   presetWebFonts,
 } from 'unocss'
-import { presetForms } from '@julr/unocss-preset-forms'
 import { logo } from './src/shortcuts/logo'
 
 export default defineConfig({

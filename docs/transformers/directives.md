@@ -22,10 +22,9 @@ UnoCSS transformer for `@apply`, `@screen` and `theme()` directives: `@unocss/tr
   ```
 :::
 
-```ts
-// uno.config.ts
-import { defineConfig } from 'unocss'
+```ts [uno.config.ts]
 import transformerDirectives from '@unocss/transformer-directives'
+import { defineConfig } from 'unocss'
 
 export default defineConfig({
   // ...

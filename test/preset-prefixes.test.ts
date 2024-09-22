@@ -1,7 +1,7 @@
 import { createGenerator } from '@unocss/core'
-import presetUno from '@unocss/preset-uno'
-import presetIcons from '@unocss/preset-icons'
 import presetAttributify from '@unocss/preset-attributify'
+import presetIcons from '@unocss/preset-icons'
+import presetUno from '@unocss/preset-uno'
 import { expect, it } from 'vitest'
 
 const targets = [

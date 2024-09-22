@@ -24,8 +24,7 @@ This enables the [attributify mode](#attributify-mode) for other presets.
   ```
 :::
 
-```ts
-// uno.config.ts
+```ts [uno.config.ts]
 import presetAttributify from '@unocss/preset-attributify'
 
 export default defineConfig({
@@ -152,8 +151,7 @@ Create `shims.d.ts` with the following content:
 
 Since Volar 0.36, [it's now strict to unknown attributes](https://github.com/johnsoncodehk/volar/issues/1077#issuecomment-1145361472). To opt-out, you can add the following file to your project:
 
-```ts
-// html.d.ts
+```ts [html.d.ts]
 declare module '@vue/runtime-dom' {
   interface HTMLAttributes {
     [key: string]: any

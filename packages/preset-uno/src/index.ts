@@ -1,5 +1,5 @@
-import { definePreset } from '@unocss/core'
 import type { PresetMiniOptions, Theme } from '@unocss/preset-mini'
+import { definePreset } from '@unocss/core'
 import { presetWind } from '@unocss/preset-wind'
 import { variantColorMix } from './variants/mix'
 

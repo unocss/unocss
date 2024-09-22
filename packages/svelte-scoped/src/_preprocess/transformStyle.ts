@@ -1,9 +1,9 @@
-import { type UnoGenerator, toArray } from '@unocss/core'
 import type { Processed } from 'svelte/types/compiler/preprocess'
+import { type UnoGenerator, toArray } from '@unocss/core'
 import MagicString from 'magic-string'
+import type { TransformApplyOptions } from './types'
 import { transformApply } from './transformApply'
 import { transformTheme } from './transformTheme'
-import type { TransformApplyOptions } from './types'
 
 const DEFAULT_APPLY_VARIABLES = ['--at-apply']
 

@@ -1,8 +1,8 @@
-import presetIcons from '@unocss/preset-icons'
 import { type ExtractorContext, createGenerator } from '@unocss/core'
-import { describe, expect, it } from 'vitest'
-import presetTagify, { extractorTagify } from '@unocss/preset-tagify'
+import presetIcons from '@unocss/preset-icons'
 import presetMini from '@unocss/preset-mini'
+import presetTagify, { extractorTagify } from '@unocss/preset-tagify'
+import { describe, expect, it } from 'vitest'
 
 describe('tagify', () => {
   it('extractor', async () => {

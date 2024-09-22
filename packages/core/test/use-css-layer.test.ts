@@ -1,6 +1,6 @@
 import { createGenerator } from '@unocss/core'
-import { describe, expect, it } from 'vitest'
 import presetUno from '@unocss/preset-uno'
+import { describe, expect, it } from 'vitest'
 
 describe('use-css-layer', () => {
   it('static', async () => {

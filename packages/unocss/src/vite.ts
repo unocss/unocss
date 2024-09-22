@@ -1,7 +1,7 @@
 import type { VitePluginConfig } from '@unocss/vite'
-import VitePlugin from '@unocss/vite'
-import presetUno from '@unocss/preset-uno'
 import type { Plugin } from 'vite'
+import presetUno from '@unocss/preset-uno'
+import VitePlugin from '@unocss/vite'
 
 export * from '@unocss/vite'
 

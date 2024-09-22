@@ -1,11 +1,11 @@
-import process from 'node:process'
 import { isAbsolute, normalize } from 'node:path'
+import process from 'node:process'
 import type { UserConfig, UserConfigDefaults } from '@unocss/core'
 import type { ResolvedUnpluginOptions, UnpluginOptions } from 'unplugin'
 import { createUnplugin } from 'unplugin'
 import WebpackSources from 'webpack-sources'
-import { createContext } from '../../shared-integration/src/context'
 import { setupContentExtractor } from '../../shared-integration/src/content'
+import { createContext } from '../../shared-integration/src/context'
 import { getHash } from '../../shared-integration/src/hash'
 import {
   HASH_PLACEHOLDER_RE,
