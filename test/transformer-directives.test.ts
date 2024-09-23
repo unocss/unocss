@@ -3,12 +3,34 @@ import { readFile } from 'node:fs/promises'
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import MagicString from 'magic-string'
+import parserHTML from 'prettier/parser-html'
 import parserCSS from 'prettier/parser-postcss'
 import prettier from 'prettier/standalone'
 import { describe, expect, it } from 'vitest'
 import { transformDirectives } from '../packages/transformer-directives/src/transform'
 
-describe('transformer-directives', () => {
+interface DirectiveParseContextConfig {
+  name: 'css' | 'embed'
+  cssTemplate: (code: string) => string
+}
+
+describe.each<DirectiveParseContextConfig>([
+  {
+    name: 'css',
+    cssTemplate: (code: string) => code,
+  },
+  {
+    name: 'embed',
+    cssTemplate: code => `<style>${code}</style>`,
+  },
+])('transformer-directives-$name', ({ name, cssTemplate }) => {
+  const snapshotPathPrefix = (name: DirectiveParseContextConfig['name']) =>
+    `./assets/output/transformer-directives${name === 'css' ? '' : `-${name}`}-`
+  const snapshotPath = (name: DirectiveParseContextConfig['name'], task: string) => {
+    const formattedTask = task.split(/\s+/).filter(Boolean).join('-')
+    return `${snapshotPathPrefix(name)}${formattedTask}.css`
+  }
+
   const uno = createGenerator({
     presets: [
       presetUno({
@@ -49,143 +71,86 @@ describe('transformer-directives', () => {
     ],
   })
 
-  async function transform(code: string, _uno: UnoGenerator = uno) {
-    const s = new MagicString(code)
-    await transformDirectives(s, _uno, {})
-    return prettier.format(s.toString(), {
-      parser: 'css',
-      plugins: [parserCSS],
+  function format(code: string) {
+    return prettier.format(code, {
+      parser: name === 'embed' ? 'html' : 'css',
+      plugins: [...(name === 'embed' ? [parserHTML] : []), parserCSS],
+      embeddedLanguageFormatting: 'auto',
     })
   }
 
-  it('basic', async () => {
-    const result = await transform(
-      `.btn {
+  async function transform(code: string, _uno: UnoGenerator = uno) {
+    const s = new MagicString(cssTemplate(code))
+    await transformDirectives(s, _uno, {})
+    return format(s.toString())
+  }
+
+  it('basic', async ({ task }) => {
+    const result = await transform(`.btn {
         @apply rounded text-lg;
         @apply 'font-mono';
       }`,
     )
-    await expect(result)
-      .toMatchInlineSnapshot(`
-        ".btn {
-          border-radius: 0.25rem;
-          font-size: 1.125rem;
-          line-height: 1.75rem;
-          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-            "Liberation Mono", "Courier New", monospace;
-        }
-        "
-      `)
+    await expect(result).toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('breakpoints', async () => {
+  it('breakpoints', async ({ task }) => {
     const result = await transform(
       '.grid { @apply grid grid-cols-2 xl:grid-cols-10 sm:grid-cols-7 md:grid-cols-3 lg:grid-cols-4 }',
     )
     await expect(result)
-      .toMatchFileSnapshot('./assets/output/transformer-directives-breakpoints.css')
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('variant group', async () => {
+  it('variant group', async ({ task }) => {
     const result = await transform(
       '.btn { @apply grid-(cols-2 rows-4) hover:(border bg-white) }',
     )
     await expect(result)
-      .toMatchFileSnapshot('./assets/output/transformer-directives-variant-group.css')
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('pseudo-classes', async () => {
+  it('pseudo-classes', async ({ task }) => {
     const result = await transform(
       '.btn { @apply p-3 hover:bg-white focus:border }',
     )
     expect(result)
-      .toMatchInlineSnapshot(`
-        ".btn {
-          padding: 0.75rem;
-        }
-        .btn:focus {
-          border-width: 1px;
-        }
-        .btn:hover {
-          --un-bg-opacity: 1;
-          background-color: rgb(255 255 255 / var(--un-bg-opacity));
-        }
-        "
-      `)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('multiple pseudo-classes', async () => {
+  it('multiple pseudo-classes', async ({ task }) => {
     const result = await transform(
       '.btn { @apply sm:hover:bg-white }',
     )
     expect(result)
-      .toMatchInlineSnapshot(`
-        ".btn {
-        }
-        @media (min-width: 640px) {
-          .btn:hover {
-            --un-bg-opacity: 1;
-            background-color: rgb(255 255 255 / var(--un-bg-opacity));
-          }
-        }
-        "
-      `)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('element selector', async () => {
+  it('element selector', async ({ task }) => {
     const result = await transform(
       'input { @apply px-3 focus:border; }',
     )
     expect(result)
-      .toMatchInlineSnapshot(`
-        "input {
-          padding-left: 0.75rem;
-          padding-right: 0.75rem;
-        }
-        input:focus {
-          border-width: 1px;
-        }
-        "
-      `)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('multiple selector', async () => {
+  it('multiple selector', async ({ task }) => {
     const result = await transform(
       '.btn,.box { @apply px-3 focus:border; }',
     )
     expect(result)
-      .toMatchInlineSnapshot(`
-        ".btn,
-        .box {
-          padding-left: 0.75rem;
-          padding-right: 0.75rem;
-        }
-        .btn:focus,
-        .box:focus {
-          border-width: 1px;
-        }
-        "
-      `)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('two class selector', async () => {
+  it('two class selector', async ({ task }) => {
     const result = await transform(
       '.btn.box { @apply px-3 focus:border; }',
     )
     expect(result)
-      .toMatchInlineSnapshot(`
-        ".btn.box {
-          padding-left: 0.75rem;
-          padding-right: 0.75rem;
-        }
-        .btn.box:focus {
-          border-width: 1px;
-        }
-        "
-      `)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('multiple apply', async () => {
+  it('multiple apply', async ({ task }) => {
     const result = await transform(
       `.btn {
         @apply p-3;
@@ -195,25 +160,11 @@ describe('transformer-directives', () => {
       }`,
     )
     expect(result)
-      .toMatchInlineSnapshot(`
-        ".btn {
-          padding: 0.75rem;
-          --un-bg-opacity: 1;
-          background-color: rgb(255 255 255 / var(--un-bg-opacity));
-        }
-        .btn:hover {
-          border-width: 1px;
-        }
-        .btn:hover {
-          --un-bg-opacity: 1;
-          background-color: rgb(59 130 246 / var(--un-bg-opacity));
-        }
-        "
-      `)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
   // #3794
-  it('multiple apply ignore comments', async () => {
+  it('multiple apply ignore comments', async ({ task }) => {
     const result = await transform(
       `.btn {
         @apply p-3 m-4 /* overflow-hidden */ /*bg-white*/ // bg-black
@@ -225,26 +176,10 @@ describe('transformer-directives', () => {
       }`,
     )
     expect(result)
-      .toMatchInlineSnapshot(`
-        ".btn {
-          margin: 1rem;
-          padding: 0.75rem;
-          text-align: center;
-          --un-bg-opacity: 1;
-          background-color: rgb(255 255 255 / var(--un-bg-opacity));
-        }
-        .btn:hover {
-          --un-bg-opacity: 1;
-          background-color: rgb(59 130 246 / var(--un-bg-opacity));
-        }
-        .btn:hover {
-          border-width: 1px;
-        }
-        "
-      `)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('dark class', async () => {
+  it('dark class', async ({ task }) => {
     const uno = createGenerator({
       presets: [
         presetUno({
@@ -262,20 +197,10 @@ describe('transformer-directives', () => {
       uno,
     )
     expect(result)
-      .toMatchInlineSnapshot(`
-        ".btn {
-          --un-bg-opacity: 1;
-          background-color: rgb(255 255 255 / var(--un-bg-opacity));
-        }
-        .dark .btn {
-          --un-bg-opacity: 1;
-          background-color: rgb(0 0 0 / var(--un-bg-opacity));
-        }
-        "
-      `)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('nested class', async () => {
+  it('nested class', async ({ task }) => {
     const result = await transform(
       `nav {
         ul {
@@ -289,40 +214,24 @@ describe('transformer-directives', () => {
       }`,
     )
     expect(result)
-      .toMatchInlineSnapshot(`
-        "nav {
-          ul {
-            li {
-              border-width: 1px;
-            }
-          }
-          a {
-            padding-left: 0.5rem;
-            padding-right: 0.5rem;
-          }
-          a:hover {
-            text-decoration-line: underline;
-          }
-        }
-        "
-      `)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('css file', async () => {
+  it('css file', async ({ task }) => {
     const css = await readFile('./test/assets/apply.css', 'utf8')
     const result = await transform(css)
 
     await expect(result)
-      .toMatchFileSnapshot('./assets/output/transformer-directives-apply.css')
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('custom breakpoints', async () => {
+  it('custom breakpoints', async ({ task }) => {
     const result = await transform('.grid { @apply grid grid-cols-2 xs:grid-cols-1 xxl:grid-cols-15 xl:grid-cols-10 sm:grid-cols-7 md:grid-cols-3 lg:grid-cols-4 }')
     await expect(result)
-      .toMatchFileSnapshot('./assets/output/transformer-directives-custom-breakpoints.css')
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('var style class', async () => {
+  it('var style class', async ({ task }) => {
     const result = await transform(
       `nav {
         --at-apply: border font-mono text-lg;
@@ -340,14 +249,14 @@ describe('transformer-directives', () => {
     )
 
     await expect(result)
-      .toMatchFileSnapshot('./assets/output/transformer-directives-var-style-class.css')
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('multiple apply in one class', async () => {
+  it('multiple apply in one class', async ({ task }) => {
     const result = await transform(
       `nav {
         --at-apply: border font-mono text-lg;
-        
+
         .test-a {
           @apply shadow-lg;@apply rounded-md bg-slate-300 shadow-amber-500;
         }
@@ -362,30 +271,20 @@ describe('transformer-directives', () => {
     )
 
     await expect(result)
-      .toMatchFileSnapshot('./assets/output/transformer-directives-multiple-apply-in-one-class.css')
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('declaration for apply variable', async () => {
+  it('declaration for apply variable', async ({ task }) => {
     const result = await transform(
       `nav {
         --uno: b-#fff bg-black/5 fw-600 text-teal/7 'shadow-red:80';
       }`,
     )
 
-    expect(result).toMatchInlineSnapshot(`
-      "nav {
-        --un-border-opacity: 1;
-        border-color: rgb(255 255 255 / var(--un-border-opacity));
-        background-color: rgb(0 0 0 / 0.05);
-        color: rgb(45 212 191 / 0.07);
-        font-weight: 600;
-        --un-shadow-color: rgb(248 113 113 / 0.8);
-      }
-      "
-    `)
+    expect(result).toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('@screen basic', async () => {
+  it('@screen basic', async ({ task }) => {
     const result = await transform(`
 .grid {
   @apply grid grid-cols-2;
@@ -422,10 +321,10 @@ describe('transformer-directives', () => {
 }
 `)
     await expect(result)
-      .toMatchFileSnapshot('./assets/output/transformer-directives-at-screen.css')
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('@screen lt variant', async () => {
+  it('@screen lt variant', async ({ task }) => {
     const result = await transform(`
 .grid {
   @apply grid grid-cols-2;
@@ -447,10 +346,10 @@ describe('transformer-directives', () => {
 }
 `)
     await expect(result)
-      .toMatchFileSnapshot('./assets/output/transformer-directives-screen-lt.css')
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('@screen at variant', async () => {
+  it('@screen at variant', async ({ task }) => {
     const result = await transform(`
   .grid {
     @apply grid grid-cols-2;
@@ -472,25 +371,17 @@ describe('transformer-directives', () => {
   }
 `)
     await expect(result)
-      .toMatchFileSnapshot('./assets/output/transformer-directives-screen-at.css')
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('@screen with compression', async () => {
+  it('@screen with compression', async ({ task }) => {
     const result = await transform(`@screen md{#__page{--uno:px-4}}`)
-    await expect(result)
-      .toMatchInlineSnapshot(`
-        "@media (min-width: 768px) {
-          #__page {
-            padding-left: 1rem;
-            padding-right: 1rem;
-          }
-        }
-        "
-      `)
+    expect(result)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
   describe('theme()', () => {
-    it('basic', async () => {
+    it('theme-basic', async ({ task }) => {
       const result = await transform(
         `.btn {
           background-color: theme("colors.blue.500");
@@ -501,16 +392,7 @@ describe('transformer-directives', () => {
         }`,
       )
       expect(result)
-        .toMatchInlineSnapshot(`
-          ".btn {
-            background-color: #3b82f6;
-            padding: 0.75rem 0.875rem;
-          }
-          .btn-2 {
-            height: calc(100vh - 0.875rem);
-          }
-          "
-        `)
+        .toMatchFileSnapshot(snapshotPath(name, task.name))
     })
 
     it('non-exist', async () => {
@@ -518,13 +400,13 @@ describe('transformer-directives', () => {
         `.btn {
         color: theme("color.none.500");
         }`,
-      )).rejects.toMatchInlineSnapshot(`[Error: theme of "color.none.500" did not found]`)
+      )).rejects.toThrowError('theme of "color.none.500" did not found')
 
       expect(async () => await transform(
         `.btn {
           font-size: theme("size.lg");
           }`,
-      )).rejects.toMatchInlineSnapshot(`[Error: theme of "size.lg" did not found]`)
+      )).rejects.toThrowError('theme of "size.lg" did not found')
     })
 
     it('args', async () => {
@@ -532,10 +414,10 @@ describe('transformer-directives', () => {
         `.btn {
           color: theme();
         }`,
-      )).rejects.toMatchInlineSnapshot(`[Error: theme() expect exact one argument]`)
+      )).rejects.toThrowError('theme() expect exact one argument')
     })
 
-    it('with @apply', async () => {
+    it('with @apply', async ({ task }) => {
       const result = await transform(`
 div {
   @apply flex h-full w-full justify-center items-center;
@@ -543,22 +425,10 @@ div {
   --my-color: theme('colors.red.500');
   color: var(--my-color);
 }`)
-      expect(result).toMatchInlineSnapshot(`
-        "div {
-          height: 100%;
-          width: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-          --my-color: #ef4444;
-          color: var(--my-color);
-        }
-        "
-      `)
+      expect(result).toMatchFileSnapshot(snapshotPath(name, task.name))
     })
 
-    it('opacity', async () => {
+    it('opacity', async ({ task }) => {
       const result = await transform(`
         div {
           color: theme('colors.red.500 / 50%');
@@ -567,89 +437,43 @@ div {
           color: theme('colors.hsl / 0.6');
           color: theme('colors.hsla / 60%');
         }`)
-      expect(result).toMatchInlineSnapshot(`
-        "div {
-          color: rgb(239 68 68 / 50%);
-          color: rgb(255 0 0 / 0.5);
-          color: rgba(255, 0, 0, 50%);
-          color: hsl(210 50% 50% / 0.6);
-          color: hsl(210 50% 50% / 60%);
-        }
-        "
-      `)
+      expect(result).toMatchFileSnapshot(snapshotPath(name, task.name))
     })
   })
 
-  it('escape backslash', async () => {
+  it('escape backslash', async ({ task }) => {
     const result = await transform(
       '.btn { @apply border-r-\$theme-color }',
     )
     expect(result)
-      .toMatchInlineSnapshot(`
-        ".btn {
-          border-right-color: var(--theme-color);
-        }
-        "
-      `)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('@apply with colon', async () => {
+  it('@apply with colon', async ({ task }) => {
     const result = await transform(
       '.btn { @apply: rounded text-lg font-mono }',
     )
     expect(result)
-      .toMatchInlineSnapshot(`
-        ".btn {
-          border-radius: 0.25rem;
-          font-size: 1.125rem;
-          line-height: 1.75rem;
-          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-            "Liberation Mono", "Courier New", monospace;
-        }
-        "
-      `)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('@apply animate- scoped', async () => {
+  it('@apply animate- scoped', async ({ task }) => {
     const result = await transform(
       '.btn { @apply: animate-pulse }',
     )
     expect(result)
-      .toMatchInlineSnapshot(`
-        ".btn {
-          animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        @keyframes pulse {
-          0%,
-          100% {
-            opacity: 1;
-          }
-          50% {
-            opacity: 0.5;
-          }
-        }
-        "
-      `)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('@apply selector group', async () => {
+  it('@apply selector group', async ({ task }) => {
     const result = await transform(
       '.btn { @apply: sgroup:bg-orange }',
     )
     expect(result)
-      .toMatchInlineSnapshot(`
-        ".btn {
-        }
-        .btn:hover,
-        .btn:focus {
-          --un-bg-opacity: 1;
-          background-color: rgb(251 146 60 / var(--un-bg-opacity));
-        }
-        "
-      `)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('--at-apply with colon in value', async () => {
+  it('--at-apply with colon in value', async ({ task }) => {
     const result = await transform(
       `.v-popper--theme-dropdown .v-popper__inner,
       .v-popper--theme-tooltip .v-popper__inner {
@@ -658,26 +482,26 @@ div {
       }`,
     )
     expect(result)
-      .toMatchInlineSnapshot(`
-        ".v-popper--theme-dropdown .v-popper__inner,
-        .v-popper--theme-tooltip .v-popper__inner {
-          --un-text-opacity: 1;
-          color: rgb(74 222 128 / var(--un-text-opacity));
-          box-shadow: 0 6px 30px #0000001a;
-        }
-        @media (prefers-color-scheme: dark) {
-          .v-popper--theme-dropdown .v-popper__inner,
-          .v-popper--theme-tooltip .v-popper__inner {
-            --un-text-opacity: 1;
-            color: rgb(248 113 113 / var(--un-text-opacity));
-          }
-        }
-        "
-      `)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 })
 
-describe('transformer-directives with important', () => {
+describe.each<DirectiveParseContextConfig>([
+  {
+    name: 'css',
+    cssTemplate: (code: string) => code,
+  },
+  {
+    name: 'embed',
+    cssTemplate: code => `<style>${code}</style>`,
+  },
+])('transformer-directives-$name with important', ({ name, cssTemplate }) => {
+  const snapshotPathPrefix = (name: DirectiveParseContextConfig['name']) =>
+    `./assets/output/transformer-directives-${name === 'css' ? '' : `${name}-`}with-important-`
+  const snapshotPath = (name: DirectiveParseContextConfig['name'], task: string) => {
+    const formattedTask = task.split(/\s+/).filter(Boolean).join('-')
+    return `${snapshotPathPrefix(name)}${formattedTask}.css`
+  }
   const uno = createGenerator({
     presets: [
       presetUno({
@@ -723,17 +547,21 @@ describe('transformer-directives with important', () => {
     ],
   })
 
-  async function transform(code: string, _uno: UnoGenerator = uno) {
-    const s = new MagicString(code)
-    await transformDirectives(s, _uno, {})
-    return prettier.format(s.toString(), {
-      parser: 'css',
-      plugins: [parserCSS],
+  function format(code: string) {
+    return prettier.format(code, {
+      parser: name === 'embed' ? 'html' : 'css',
+      plugins: [...(name === 'embed' ? [parserHTML] : []), parserCSS],
+      embeddedLanguageFormatting: 'auto',
     })
   }
 
-  // todo: remove empty class and merge same class
-  it('basic', async () => {
+  async function transform(code: string, _uno: UnoGenerator = uno) {
+    const s = new MagicString(cssTemplate(code))
+    await transformDirectives(s, _uno, {})
+    return format(s.toString())
+  }
+
+  it('basic', async ({ task }) => {
     const result = await transform(
       `.btn {
         @apply rounded text-lg;
@@ -741,140 +569,66 @@ describe('transformer-directives with important', () => {
       }`,
     )
 
-    await expect(result)
-      .toMatchInlineSnapshot(`
-        ".btn {
-        }
-        #app :is(.btn) {
-          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-            "Liberation Mono", "Courier New", monospace;
-        }
-        #app :is(.btn) {
-          border-radius: 0.25rem;
-          font-size: 1.125rem;
-          line-height: 1.75rem;
-        }
-        "
-      `)
+    expect(result).toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('breakpoints', async () => {
+  it('breakpoints', async ({ task }) => {
     const result = await transform(
       '.grid { @apply grid grid-cols-2 xl:grid-cols-10 sm:grid-cols-7 md:grid-cols-3 lg:grid-cols-4 }',
     )
     await expect(result)
-      .toMatchFileSnapshot('./assets/output/transformer-directives-breakpoints-with-important.css')
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('variant group', async () => {
+  it('variant group', async ({ task }) => {
     const result = await transform(
       '.btn { @apply grid-(cols-2 rows-4) hover:(border bg-white) }',
     )
     await expect(result)
-      .toMatchFileSnapshot('./assets/output/transformer-directives-variant-group-with-important.css')
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('pseudo-classes', async () => {
+  it('pseudo-classes', async ({ task }) => {
     const result = await transform(
       '.btn { @apply p-3 hover:bg-white focus:border }',
     )
     expect(result)
-      .toMatchInlineSnapshot(`
-        ".btn {
-        }
-        #app :is(.btn:focus) {
-          border-width: 1px;
-        }
-        #app :is(.btn:hover) {
-          --un-bg-opacity: 1;
-          background-color: rgb(255 255 255 / var(--un-bg-opacity));
-        }
-        #app :is(.btn) {
-          padding: 0.75rem;
-        }
-        "
-      `)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('multiple pseudo-classes', async () => {
+  it('multiple pseudo-classes', async ({ task }) => {
     const result = await transform(
       '.btn { @apply sm:hover:bg-white }',
     )
     expect(result)
-      .toMatchInlineSnapshot(`
-        ".btn {
-        }
-        @media (min-width: 640px) {
-          #app :is(.btn:hover) {
-            --un-bg-opacity: 1;
-            background-color: rgb(255 255 255 / var(--un-bg-opacity));
-          }
-        }
-        "
-      `)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('element selector', async () => {
+  it('element selector', async ({ task }) => {
     const result = await transform(
       'input { @apply px-3 focus:border; }',
     )
     expect(result)
-      .toMatchInlineSnapshot(`
-        "input {
-        }
-        #app :is(input:focus) {
-          border-width: 1px;
-        }
-        #app :is(input) {
-          padding-left: 0.75rem;
-          padding-right: 0.75rem;
-        }
-        "
-      `)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('multiple selector', async () => {
+  it('multiple selector', async ({ task }) => {
     const result = await transform(
       '.btn,.box { @apply px-3 focus:border; }',
     )
     expect(result)
-      .toMatchInlineSnapshot(`
-        ".btn,
-        .box {
-        }
-        #app :is(.btn, .box:focus),
-        #app :is(.btn, .box:focus) {
-          border-width: 1px;
-        }
-        #app :is(.btn, .box),
-        #app :is(.btn, .box) {
-          padding-left: 0.75rem;
-          padding-right: 0.75rem;
-        }
-        "
-      `)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('two class selector', async () => {
+  it('two class selector', async ({ task }) => {
     const result = await transform(
       '.btn.box { @apply px-3 focus:border; }',
     )
     expect(result)
-      .toMatchInlineSnapshot(`
-        ".btn.box {
-        }
-        #app :is(.btn.box:focus) {
-          border-width: 1px;
-        }
-        #app :is(.btn.box) {
-          padding-left: 0.75rem;
-          padding-right: 0.75rem;
-        }
-        "
-      `)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('multiple apply', async () => {
+  it('multiple apply', async ({ task }) => {
     const result = await transform(
       `.btn {
         @apply p-3;
@@ -884,29 +638,11 @@ describe('transformer-directives with important', () => {
       }`,
     )
     expect(result)
-      .toMatchInlineSnapshot(`
-        ".btn {
-        }
-        #app :is(.btn) {
-          padding: 0.75rem;
-        }
-        #app :is(.btn:hover) {
-          border-width: 1px;
-        }
-        #app :is(.btn) {
-          --un-bg-opacity: 1;
-          background-color: rgb(255 255 255 / var(--un-bg-opacity));
-        }
-        #app :is(.btn:hover) {
-          --un-bg-opacity: 1;
-          background-color: rgb(59 130 246 / var(--un-bg-opacity));
-        }
-        "
-      `)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
   // #3794
-  it('multiple apply ignore comments', async () => {
+  it('multiple apply ignore comments', async ({ task }) => {
     const result = await transform(
       `.btn {
         @apply p-3 m-4 /* overflow-hidden */ /*bg-white*/ // bg-black
@@ -918,31 +654,11 @@ describe('transformer-directives with important', () => {
       }`,
     )
     expect(result)
-      .toMatchInlineSnapshot(`
-        ".btn {
-        }
-        #app :is(.btn) {
-          --un-bg-opacity: 1;
-          background-color: rgb(255 255 255 / var(--un-bg-opacity));
-        }
-        #app :is(.btn:hover) {
-          --un-bg-opacity: 1;
-          background-color: rgb(59 130 246 / var(--un-bg-opacity));
-        }
-        #app :is(.btn:hover) {
-          border-width: 1px;
-        }
-        #app :is(.btn) {
-          margin: 1rem;
-          padding: 0.75rem;
-          text-align: center;
-        }
-        "
-      `)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
   // todo: fix the test
-  it('nested class', async () => {
+  it('nested class', async ({ task }) => {
     const result = await transform(
       `nav {
         ul {
@@ -956,44 +672,24 @@ describe('transformer-directives with important', () => {
       }`,
     )
     expect(result)
-      .toMatchInlineSnapshot(`
-        "nav {
-          ul {
-            li {
-            }
-            #app :is(li) {
-              border-width: 1px;
-            }
-          }
-          a {
-          }
-          #app :is(a) {
-            padding-left: 0.5rem;
-            padding-right: 0.5rem;
-          }
-          #app :is(a:hover) {
-            text-decoration-line: underline;
-          }
-        }
-        "
-      `)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('css file', async () => {
+  it('css file', async ({ task }) => {
     const css = await readFile('./test/assets/apply.css', 'utf8')
     const result = await transform(css)
 
     await expect(result)
-      .toMatchFileSnapshot('./assets/output/transformer-directives-apply-with-important.css')
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('custom breakpoints', async () => {
+  it('custom breakpoints', async ({ task }) => {
     const result = await transform('.grid { @apply grid grid-cols-2 xs:grid-cols-1 xxl:grid-cols-15 xl:grid-cols-10 sm:grid-cols-7 md:grid-cols-3 lg:grid-cols-4 }')
     await expect(result)
-      .toMatchFileSnapshot('./assets/output/transformer-directives-custom-breakpoints-with-important.css')
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('var style class', async () => {
+  it('var style class', async ({ task }) => {
     const result = await transform(
       `nav {
         --at-apply: border font-mono text-lg;
@@ -1011,32 +707,20 @@ describe('transformer-directives with important', () => {
     )
 
     await expect(result)
-      .toMatchFileSnapshot('./assets/output/transformer-directives-var-style-class-with-important.css')
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('declaration for apply variable', async () => {
+  it('declaration for apply variable', async ({ task }) => {
     const result = await transform(
       `nav {
         --uno: b-#fff bg-black/5 fw-600 text-teal/7 'shadow-red:80';
       }`,
     )
 
-    expect(result).toMatchInlineSnapshot(`
-      "nav {
-      }
-      #app :is(nav) {
-        --un-border-opacity: 1;
-        border-color: rgb(255 255 255 / var(--un-border-opacity));
-        background-color: rgb(0 0 0 / 0.05);
-        color: rgb(45 212 191 / 0.07);
-        font-weight: 600;
-        --un-shadow-color: rgb(248 113 113 / 0.8);
-      }
-      "
-    `)
+    expect(result).toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('@screen basic', async () => {
+  it('@screen basic', async ({ task }) => {
     const result = await transform(`
 .grid {
   @apply grid grid-cols-2;
@@ -1073,10 +757,10 @@ describe('transformer-directives with important', () => {
 }
 `)
     await expect(result)
-      .toMatchFileSnapshot('./assets/output/transformer-directives-at-screen-with-important.css')
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('@screen lt variant', async () => {
+  it('@screen lt variant', async ({ task }) => {
     const result = await transform(`
 .grid {
   @apply grid grid-cols-2;
@@ -1098,10 +782,10 @@ describe('transformer-directives with important', () => {
 }
 `)
     await expect(result)
-      .toMatchFileSnapshot('./assets/output/transformer-directives-screen-lt-with-important.css')
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('@screen at variant', async () => {
+  it('@screen at variant', async ({ task }) => {
     const result = await transform(`
   .grid {
     @apply grid grid-cols-2;
@@ -1123,11 +807,11 @@ describe('transformer-directives with important', () => {
   }
 `)
     await expect(result)
-      .toMatchFileSnapshot('./assets/output/transformer-directives-screen-at-with-important.css')
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
   describe('theme()', () => {
-    it('basic', async () => {
+    it('theme-basic', async ({ task }) => {
       const result = await transform(
         `.btn {
           background-color: theme("colors.blue.500");
@@ -1138,16 +822,7 @@ describe('transformer-directives with important', () => {
         }`,
       )
       expect(result)
-        .toMatchInlineSnapshot(`
-          ".btn {
-            background-color: #3b82f6;
-            padding: 0.75rem 0.875rem;
-          }
-          .btn-2 {
-            height: calc(100vh - 0.875rem);
-          }
-          "
-        `)
+        .toMatchFileSnapshot(snapshotPath(name, task.name))
     })
 
     it('non-exist', async () => {
@@ -1155,13 +830,13 @@ describe('transformer-directives with important', () => {
         `.btn {
         color: theme("color.none.500");
         }`,
-      )).rejects.toMatchInlineSnapshot(`[Error: theme of "color.none.500" did not found]`)
+      )).rejects.toThrowError(`theme of "color.none.500" did not found`)
 
       expect(async () => await transform(
         `.btn {
           font-size: theme("size.lg");
           }`,
-      )).rejects.toMatchInlineSnapshot(`[Error: theme of "size.lg" did not found]`)
+      )).rejects.toThrowError(`theme of "size.lg" did not found`)
     })
 
     it('args', async () => {
@@ -1169,10 +844,10 @@ describe('transformer-directives with important', () => {
         `.btn {
           color: theme();
         }`,
-      )).rejects.toMatchInlineSnapshot(`[Error: theme() expect exact one argument]`)
+      )).rejects.toThrowError(`theme() expect exact one argument`)
     })
 
-    it('with @apply', async () => {
+    it('with @apply', async ({ task }) => {
       const result = await transform(`
 div {
   @apply flex h-full w-full justify-center items-center;
@@ -1180,23 +855,10 @@ div {
   --my-color: theme('colors.red.500');
   color: var(--my-color);
 }`)
-      expect(result).toMatchInlineSnapshot(`
-        "div {
-          --my-color: #ef4444;
-          color: var(--my-color);
-        }
-        #app :is(div) {
-          height: 100%;
-          width: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        "
-      `)
+      expect(result).toMatchFileSnapshot(snapshotPath(name, task.name))
     })
 
-    it('opacity', async () => {
+    it('opacity', async ({ task }) => {
       const result = await transform(`
         div {
           color: theme('colors.red.500 / 50%');
@@ -1205,19 +867,10 @@ div {
           color: theme('colors.hsl / 0.6');
           color: theme('colors.hsla / 60%');
         }`)
-      expect(result).toMatchInlineSnapshot(`
-        "div {
-          color: rgb(239 68 68 / 50%);
-          color: rgb(255 0 0 / 0.5);
-          color: rgba(255, 0, 0, 50%);
-          color: hsl(210 50% 50% / 0.6);
-          color: hsl(210 50% 50% / 60%);
-        }
-        "
-      `)
+      expect(result).toMatchFileSnapshot(snapshotPath(name, task.name))
     })
 
-    it('color with DEFAULT', async () => {
+    it('color with DEFAULT', async ({ task }) => {
       const result = await transform(`
         div {
           color: theme('colors.primary');
@@ -1226,93 +879,43 @@ div {
           color: theme('colors.primary.500');
         }`)
 
-      expect(result).toMatchInlineSnapshot(`
-        "div {
-          color: #ccc;
-          color: #ccc;
-          color: rgb(204 204 204 / 50%);
-          color: #222;
-        }
-        "
-      `)
+      expect(result).toMatchFileSnapshot(snapshotPath(name, task.name))
     })
   })
 
-  it('escape backslash', async () => {
+  it('escape backslash', async ({ task }) => {
     const result = await transform(
       '.btn { @apply border-r-\$theme-color }',
     )
     expect(result)
-      .toMatchInlineSnapshot(`
-        ".btn {
-        }
-        #app :is(.btn) {
-          border-right-color: var(--theme-color);
-        }
-        "
-      `)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('@apply with colon', async () => {
+  it('@apply with colon', async ({ task }) => {
     const result = await transform(
       '.btn { @apply: rounded text-lg font-mono }',
     )
     expect(result)
-      .toMatchInlineSnapshot(`
-        ".btn {
-        }
-        #app :is(.btn) {
-          border-radius: 0.25rem;
-          font-size: 1.125rem;
-          line-height: 1.75rem;
-          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-            "Liberation Mono", "Courier New", monospace;
-        }
-        "
-      `)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('@apply animate- scoped', async () => {
+  it('@apply animate- scoped', async ({ task }) => {
     const result = await transform(
       '.btn { @apply: animate-pulse }',
     )
     expect(result)
-      .toMatchInlineSnapshot(`
-        ".btn {
-        }
-        #app :is(.btn) {
-          animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        @keyframes pulse {
-          0%,
-          100% {
-            opacity: 1;
-          }
-          50% {
-            opacity: 0.5;
-          }
-        }
-        "
-      `)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('@apply selector group', async () => {
+  it('@apply selector group', async ({ task }) => {
     const result = await transform(
       '.btn { @apply: sgroup:bg-orange }',
     )
     expect(result)
-      .toMatchInlineSnapshot(`
-        ".btn {
-        }
-        #app :is(.btn:hover, .btn:focus) {
-          --un-bg-opacity: 1;
-          background-color: rgb(251 146 60 / var(--un-bg-opacity));
-        }
-        "
-      `)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 
-  it('--at-apply with colon in value', async () => {
+  it('--at-apply with colon in value', async ({ task }) => {
     const result = await transform(
       `.v-popper--theme-dropdown .v-popper__inner,
       .v-popper--theme-tooltip .v-popper__inner {
@@ -1321,40 +924,6 @@ div {
       }`,
     )
     expect(result)
-      .toMatchInlineSnapshot(`
-        ".v-popper--theme-dropdown .v-popper__inner,
-        .v-popper--theme-tooltip .v-popper__inner {
-          box-shadow: 0 6px 30px #0000001a;
-        }
-        #app
-          :is(
-            .v-popper--theme-dropdown .v-popper__inner,
-            .v-popper--theme-tooltip .v-popper__inner
-          ),
-        #app
-          :is(
-            .v-popper--theme-dropdown .v-popper__inner,
-            .v-popper--theme-tooltip .v-popper__inner
-          ) {
-          --un-text-opacity: 1;
-          color: rgb(74 222 128 / var(--un-text-opacity));
-        }
-        @media (prefers-color-scheme: dark) {
-          #app
-            :is(
-              .v-popper--theme-dropdown .v-popper__inner,
-              .v-popper--theme-tooltip .v-popper__inner
-            ),
-          #app
-            :is(
-              .v-popper--theme-dropdown .v-popper__inner,
-              .v-popper--theme-tooltip .v-popper__inner
-            ) {
-            --un-text-opacity: 1;
-            color: rgb(248 113 113 / var(--un-text-opacity));
-          }
-        }
-        "
-      `)
+      .toMatchFileSnapshot(snapshotPath(name, task.name))
   })
 })
