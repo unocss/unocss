@@ -24,13 +24,13 @@ export async function applyTransformers(
   const maps: EncodedSourceMap[] = []
 
   for (const t of transformers) {
-    if (t.idFilter) {
-      if (!t.idFilter(id))
-        continue
-    }
-    else if (!ctx.filter(code, id)) {
+    if (!(
+      (t.idFilter && t.idFilter(id))
+      || ctx.filter(code, id)
+    )) {
       continue
     }
+
     await t.transform(s, id, ctx)
     if (s.hasChanged()) {
       code = restoreSkipCode(s.toString(), skipMap)
