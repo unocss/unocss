@@ -1,0 +1,10 @@
+<style>
+  .btn {
+  }
+  @media (min-width: 640px) {
+    .btn:hover {
+      --un-bg-opacity: 1;
+      background-color: rgb(255 255 255 / var(--un-bg-opacity));
+    }
+  }
+</style>

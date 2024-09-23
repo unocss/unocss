@@ -1,0 +1,9 @@
+<style>
+  .btn {
+  }
+  .btn:hover,
+  .btn:focus {
+    --un-bg-opacity: 1;
+    background-color: rgb(251 146 60 / var(--un-bg-opacity));
+  }
+</style>

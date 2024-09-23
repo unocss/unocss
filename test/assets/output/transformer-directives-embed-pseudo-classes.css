@@ -1,0 +1,12 @@
+<style>
+  .btn {
+    padding: 0.75rem;
+  }
+  .btn:focus {
+    border-width: 1px;
+  }
+  .btn:hover {
+    --un-bg-opacity: 1;
+    background-color: rgb(255 255 255 / var(--un-bg-opacity));
+  }
+</style>

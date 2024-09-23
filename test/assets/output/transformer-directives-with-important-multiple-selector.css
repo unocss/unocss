@@ -1,0 +1,12 @@
+.btn,
+.box {
+}
+#app :is(.btn, .box:focus),
+#app :is(.btn, .box:focus) {
+  border-width: 1px;
+}
+#app :is(.btn, .box),
+#app :is(.btn, .box) {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}

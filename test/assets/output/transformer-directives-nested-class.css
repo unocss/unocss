@@ -1,0 +1,14 @@
+nav {
+  ul {
+    li {
+      border-width: 1px;
+    }
+  }
+  a {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  a:hover {
+    text-decoration-line: underline;
+  }
+}

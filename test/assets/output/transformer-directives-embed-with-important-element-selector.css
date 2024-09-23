@@ -1,0 +1,11 @@
+<style>
+  input {
+  }
+  #app :is(input:focus) {
+    border-width: 1px;
+  }
+  #app :is(input) {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+</style>

@@ -1,0 +1,9 @@
+<style>
+  .btn.box {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  .btn.box:focus {
+    border-width: 1px;
+  }
+</style>

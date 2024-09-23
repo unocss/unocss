@@ -1,0 +1,9 @@
+<style>
+  .btn {
+    background-color: #3b82f6;
+    padding: 0.75rem 0.875rem;
+  }
+  .btn-2 {
+    height: calc(100vh - 0.875rem);
+  }
+</style>

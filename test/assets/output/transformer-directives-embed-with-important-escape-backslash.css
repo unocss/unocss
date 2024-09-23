@@ -1,0 +1,7 @@
+<style>
+  .btn {
+  }
+  #app :is(.btn) {
+    border-right-color: var(--theme-color);
+  }
+</style>

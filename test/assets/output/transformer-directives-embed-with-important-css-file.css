@@ -1,0 +1,269 @@
+<style>
+  :root {
+    --header-height: 4.5rem;
+  }
+
+  html {
+  }
+  #app :is(html) {
+    --un-bg-opacity: 1;
+    background-color: rgb(242 242 242 / var(--un-bg-opacity));
+    --un-text-opacity: 1;
+    color: rgb(64 64 64 / var(--un-text-opacity));
+  }
+
+  html.dark {
+  }
+  #app :is(html.dark) {
+    --un-bg-opacity: 1;
+    background-color: rgb(24 24 24 / var(--un-bg-opacity));
+    --un-text-opacity: 1;
+    color: rgb(243 244 246 / var(--un-text-opacity));
+  }
+
+  #nprogress {
+    pointer-events: none;
+  }
+
+  #nprogress .bar {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+  }
+  #app :is(#nprogress .bar) {
+    z-index: 1031;
+  }
+  #app :is(#nprogress .bar) {
+    height: 2px;
+  }
+  #app :is(#nprogress .bar) {
+    --un-bg-opacity: 1;
+    background-color: rgb(168 85 247 / var(--un-bg-opacity));
+    --un-bg-opacity: 0.75;
+  }
+
+  .hover-transform {
+  }
+  #app :is(.hover-transform:hover) {
+    --un-translate-y: -1px;
+    transform: translateX(var(--un-translate-x))
+      translateY(var(--un-translate-y)) translateZ(var(--un-translate-z))
+      rotate(var(--un-rotate)) rotateX(var(--un-rotate-x))
+      rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z))
+      skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x))
+      scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));
+  }
+  #app :is(.hover-transform) {
+    transform: translateX(var(--un-translate-x))
+      translateY(var(--un-translate-y)) translateZ(var(--un-translate-z))
+      rotate(var(--un-rotate)) rotateX(var(--un-rotate-x))
+      rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z))
+      skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x))
+      scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));
+    transition-property: color, background-color, border-color,
+      text-decoration-color, fill, stroke, opacity, box-shadow, transform,
+      filter, backdrop-filter;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .basic-transition {
+  }
+  #app :is(.basic-transition) {
+    transition-property: color, background-color, border-color,
+      text-decoration-color, fill, stroke, opacity, box-shadow, transform,
+      filter, backdrop-filter;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .cursor-pen {
+    cursor: url(https://api.iconify.design/mdi:lead-pencil.svg) 2 18, auto;
+  }
+
+  .select-dark {
+  }
+  #app :is(.select-dark) {
+    display: block;
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 0.25rem;
+    --un-bg-opacity: 1;
+    background-color: rgb(55 65 81 / var(--un-bg-opacity));
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-right: 2.5rem;
+    line-height: 1.25;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    --un-ring-width: 1px;
+    --un-ring-offset-shadow: var(--un-ring-inset) 0 0 0
+      var(--un-ring-offset-width) var(--un-ring-offset-color);
+    --un-ring-shadow: var(--un-ring-inset) 0 0 0
+      calc(var(--un-ring-width) + var(--un-ring-offset-width))
+      var(--un-ring-color);
+    box-shadow: var(--un-ring-offset-shadow), var(--un-ring-shadow),
+      var(--un-shadow);
+    --un-ring-opacity: 1;
+    --un-ring-color: rgb(31 41 55 / var(--un-ring-opacity));
+    --un-ring-opacity: 0.75;
+  }
+  @media (prefers-color-scheme: dark) {
+    #app :is(.select-dark) {
+      --un-bg-opacity: 1;
+      background-color: rgb(31 41 55 / var(--un-bg-opacity));
+    }
+  }
+  #app :is(.select-dark:focus) {
+    --un-ring-opacity: 1;
+  }
+
+  .icon-btn {
+  }
+  #app :is(.icon-btn) {
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    opacity: 0.75;
+    transition-property: color, background-color, border-color,
+      text-decoration-color, fill, stroke, opacity, box-shadow, transform,
+      filter, backdrop-filter;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  #app :is(.icon-btn:hover) {
+    opacity: 1;
+  }
+
+  .d-header {
+  }
+  #app :is(.d-header) {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    width: 100%;
+    height: var(--header-height);
+    --un-bg-opacity: 1;
+    background-color: rgb(0 0 0 / var(--un-bg-opacity));
+    --un-bg-opacity: 0.8;
+    --un-text-opacity: 1;
+    color: rgb(255 255 255 / var(--un-text-opacity));
+    --un-backdrop-blur: blur(16px);
+    -webkit-backdrop-filter: var(--un-backdrop-blur)
+      var(--un-backdrop-brightness) var(--un-backdrop-contrast)
+      var(--un-backdrop-grayscale) var(--un-backdrop-hue-rotate)
+      var(--un-backdrop-invert) var(--un-backdrop-opacity)
+      var(--un-backdrop-saturate) var(--un-backdrop-sepia);
+    backdrop-filter: var(--un-backdrop-blur) var(--un-backdrop-brightness)
+      var(--un-backdrop-contrast) var(--un-backdrop-grayscale)
+      var(--un-backdrop-hue-rotate) var(--un-backdrop-invert)
+      var(--un-backdrop-opacity) var(--un-backdrop-saturate)
+      var(--un-backdrop-sepia);
+    -webkit-backdrop-filter: var(--un-backdrop-blur)
+      var(--un-backdrop-brightness) var(--un-backdrop-contrast)
+      var(--un-backdrop-grayscale) var(--un-backdrop-hue-rotate)
+      var(--un-backdrop-invert) var(--un-backdrop-opacity)
+      var(--un-backdrop-saturate) var(--un-backdrop-sepia);
+    backdrop-filter: var(--un-backdrop-blur) var(--un-backdrop-brightness)
+      var(--un-backdrop-contrast) var(--un-backdrop-grayscale)
+      var(--un-backdrop-hue-rotate) var(--un-backdrop-invert)
+      var(--un-backdrop-opacity) var(--un-backdrop-saturate)
+      var(--un-backdrop-sepia);
+  }
+  @media (prefers-color-scheme: dark) {
+    #app :is(.d-header) {
+      --un-bg-opacity: 1;
+      background-color: rgb(45 45 45 / var(--un-bg-opacity));
+    }
+  }
+
+  .d-container {
+  }
+  #app :is(.d-container) {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1280px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 2rem;
+  }
+  @media (min-width: 1024px) {
+    #app :is(.d-container) {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+      padding-top: 3rem;
+    }
+  }
+
+  input {
+  }
+  #app :is(input) {
+    border-radius: 0.25rem;
+    --un-bg-opacity: 1;
+    background-color: rgb(50 50 50 / var(--un-bg-opacity));
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+  }
+  #app :is(input:focus) {
+    --un-ring-width: 3px;
+    --un-ring-offset-shadow: var(--un-ring-inset) 0 0 0
+      var(--un-ring-offset-width) var(--un-ring-offset-color);
+    --un-ring-shadow: var(--un-ring-inset) 0 0 0
+      calc(var(--un-ring-width) + var(--un-ring-offset-width))
+      var(--un-ring-color);
+    box-shadow: var(--un-ring-offset-shadow), var(--un-ring-shadow),
+      var(--un-shadow);
+  }
+
+  .btn {
+  }
+  #app :is(.btn:disabled) {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+  #app :is(.btn) {
+    border-radius: 0.25rem;
+    --un-bg-opacity: 1;
+    background-color: rgb(60 60 60 / var(--un-bg-opacity));
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    text-align: center;
+    --un-text-opacity: 1;
+    color: rgb(255 255 255 / var(--un-text-opacity));
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+  #app :is(.btn:focus) {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    --un-ring-width: 3px;
+    --un-ring-offset-shadow: var(--un-ring-inset) 0 0 0
+      var(--un-ring-offset-width) var(--un-ring-offset-color);
+    --un-ring-shadow: var(--un-ring-inset) 0 0 0
+      calc(var(--un-ring-width) + var(--un-ring-offset-width))
+      var(--un-ring-color);
+    box-shadow: var(--un-ring-offset-shadow), var(--un-ring-shadow),
+      var(--un-shadow);
+  }
+</style>

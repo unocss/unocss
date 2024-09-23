@@ -1,0 +1,8 @@
+.btn {
+  --un-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--un-bg-opacity));
+}
+.dark .btn {
+  --un-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--un-bg-opacity));
+}

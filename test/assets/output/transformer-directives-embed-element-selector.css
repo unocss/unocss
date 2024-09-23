@@ -1,0 +1,9 @@
+<style>
+  input {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  input:focus {
+    border-width: 1px;
+  }
+</style>

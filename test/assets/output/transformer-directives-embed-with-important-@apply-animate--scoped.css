@@ -1,0 +1,7 @@
+<style>
+  .btn {
+  }
+  #app :is(.btn) {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }</style
+>@keyframes pulse{0%, 100% {opacity:1} 50% {opacity:.5}}

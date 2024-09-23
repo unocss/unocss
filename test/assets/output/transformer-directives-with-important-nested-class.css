@@ -1,0 +1,18 @@
+nav {
+  ul {
+    li {
+    }
+    #app :is(li) {
+      border-width: 1px;
+    }
+  }
+  a {
+  }
+  #app :is(a) {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  #app :is(a:hover) {
+    text-decoration-line: underline;
+  }
+}

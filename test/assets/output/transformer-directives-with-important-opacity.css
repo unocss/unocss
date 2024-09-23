@@ -1,0 +1,7 @@
+div {
+  color: rgb(239 68 68 / 50%);
+  color: rgb(255 0 0 / 0.5);
+  color: rgba(255, 0, 0, 50%);
+  color: hsl(210 50% 50% / 0.6);
+  color: hsl(210 50% 50% / 60%);
+}

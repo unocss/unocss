@@ -1,0 +1,18 @@
+<style>
+  .btn {
+  }
+  #app :is(.btn) {
+    padding: 0.75rem;
+  }
+  #app :is(.btn:hover) {
+    border-width: 1px;
+  }
+  #app :is(.btn) {
+    --un-bg-opacity: 1;
+    background-color: rgb(255 255 255 / var(--un-bg-opacity));
+  }
+  #app :is(.btn:hover) {
+    --un-bg-opacity: 1;
+    background-color: rgb(59 130 246 / var(--un-bg-opacity));
+  }
+</style>
