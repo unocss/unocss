@@ -147,3 +147,19 @@ it('createLocalFontProcessor', async () => {
   expect(css)
     .toMatchFileSnapshot('./assets/output/preset-web-fonts-local.css')
 })
+
+it('fontsource provider', async () => {
+  const uno = createGenerator({
+    presets: [
+      presetMini(),
+      presetWebFonts({
+        provider: 'fontsource',
+        fonts: {
+          mono: 'Fira Mono',
+        },
+      }),
+    ],
+  })
+
+  const { css } = await uno.generate(classes)
+})
