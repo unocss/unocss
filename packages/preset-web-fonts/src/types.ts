@@ -1,11 +1,11 @@
 import type { Arrayable, Awaitable } from '@unocss/core'
 
-export type WebFontsProviders = 'google' | 'bunny' | 'fontshare' | 'none' | Provider
+export type WebFontsProviders = 'google' | 'bunny' | 'fontshare' | 'fontsource' | 'none' | Provider
 
 export interface WebFontMeta {
   name: string
-  weights?: (string | number)[]
-  italic?: boolean
+  weights?: (string | number)[] // wght axis
+  italic?: boolean // ital axis
   /**
    * Override the provider
    * @default <matches root config>
@@ -94,7 +94,7 @@ export interface WebFontsOptions {
 
 export interface Provider {
   name: WebFontsProviders
-  getPreflight?: (fonts: WebFontMeta[]) => string
+  getPreflight?: (fonts: WebFontMeta[]) => Promise<string>
   getImportUrl?: (fonts: WebFontMeta[]) => string | undefined
   getFontName?: (font: WebFontMeta) => string
 }

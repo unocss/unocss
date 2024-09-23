@@ -4,6 +4,7 @@ import { toArray } from '@unocss/core'
 import { LAYER_IMPORTS } from '../../core/src/constants'
 import { BunnyFontsProvider } from './providers/bunny'
 import { FontshareProvider } from './providers/fontshare'
+import { FontSourceProvider } from './providers/fontsource'
 import { GoogleFontsProvider } from './providers/google'
 import { NoneProvider } from './providers/none'
 
@@ -11,6 +12,7 @@ const builtinProviders = {
   google: GoogleFontsProvider,
   bunny: BunnyFontsProvider,
   fontshare: FontshareProvider,
+  fontsource: FontSourceProvider,
   none: NoneProvider,
 }
 
@@ -124,7 +126,7 @@ export function createWebFontPreset(fetcher: (url: string) => Promise<any>) {
             preflights.push(await importUrl(url))
         }
 
-        preflights.push(provider.getPreflight?.(fontsForProvider))
+        preflights.push(await provider.getPreflight?.(fontsForProvider))
       }
 
       const css = preflights.filter(Boolean).join('\n')
