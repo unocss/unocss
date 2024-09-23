@@ -1,5 +1,5 @@
-import process from 'node:process'
 import type { PluginOption } from 'vite'
+import process from 'node:process'
 import preact from '@preact/preset-vite'
 import prefresh from '@prefresh/vite'
 import presetAttributify from '@unocss/preset-attributify'

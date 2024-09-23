@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import type { MatchedSelector } from '../../types'
 import { Dropdown } from 'floating-vue'
 import { computed } from 'vue'
-import type { MatchedSelector } from '../../types'
 import { isAttributifySelector } from '../../../core/src'
 
 const props = defineProps<{

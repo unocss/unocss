@@ -1,6 +1,6 @@
 import type { PreflightContext } from '@unocss/core'
-import { mergeDeep } from '@unocss/core'
 import type { TypographyCompatibilityOptions } from '../types/compatibilityOptions'
+import { mergeDeep } from '@unocss/core'
 import { DEFAULT } from './default'
 
 function getCSS(

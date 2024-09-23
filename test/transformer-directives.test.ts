@@ -1,12 +1,12 @@
-import { readFile } from 'node:fs/promises'
 import type { UnoGenerator } from '@unocss/core'
+import { readFile } from 'node:fs/promises'
 import { createGenerator } from '@unocss/core'
+import presetIcons from '@unocss/preset-icons'
 import presetUno from '@unocss/preset-uno'
 import MagicString from 'magic-string'
 import parserCSS from 'prettier/parser-postcss'
 import prettier from 'prettier/standalone'
 import { describe, expect, it } from 'vitest'
-import presetIcons from '@unocss/preset-icons'
 import { transformDirectives } from '../packages/transformer-directives/src/transform'
 
 describe('transformer-directives', () => {

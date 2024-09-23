@@ -1,6 +1,6 @@
 import type { Ref } from 'vue'
-import { unref } from 'vue'
 import type { ModuleInfo, OverviewInfo, ProjectInfo, Result } from '../../types'
+import { unref } from 'vue'
 import { onConfigChanged, onModuleUpdated } from './hmr'
 
 const API_ROOT = '/__unocss_api'

@@ -17,10 +17,9 @@ async function publish() {
   await execa('npm', ['run', 'build'], { cwd: root, stdio: 'inherit' })
 
   try {
-    // eslint-disable-next-line no-console
     console.log('\nPublish to VSCE...\n')
     await execa('npx', ['@vscode/vsce', 'publish', '--no-dependencies', '-p', process.env.VSCE_TOKEN!], { cwd: root, stdio: 'inherit' })
-    // eslint-disable-next-line no-console
+
     console.log('\nPublish to OVSE...\n')
     await execa('npx', ['ovsx', 'publish', '--no-dependencies', '-p', process.env.OVSX_TOKEN!], { cwd: root, stdio: 'inherit' })
   }

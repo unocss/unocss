@@ -1,6 +1,6 @@
+import type { AutoCompleteMatchType, AutocompleteTemplateGroup, AutocompleteTemplatePart, ParsedAutocompleteTemplate } from './types'
 import { uniq } from '@unocss/core'
 import { Fzf } from 'fzf'
-import type { AutoCompleteMatchType, AutocompleteTemplateGroup, AutocompleteTemplatePart, ParsedAutocompleteTemplate } from './types'
 import { cartesian } from './utils'
 
 export const shorthands: Record<string, string> = {

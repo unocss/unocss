@@ -1,13 +1,13 @@
 import type { UnocssAutocomplete } from '@unocss/autocomplete'
-import type { UnoGenerator, UnocssPluginContext } from '@unocss/core'
+import type { UnocssPluginContext, UnoGenerator } from '@unocss/core'
 import type { CompletionItemProvider, Disposable, ExtensionContext } from 'vscode'
-import { createAutocomplete } from '@unocss/autocomplete'
-import { CompletionItem, CompletionItemKind, CompletionList, MarkdownString, Range, languages, window, workspace } from 'vscode'
 import type { ContextLoader } from './contextLoader'
+import { createAutocomplete } from '@unocss/autocomplete'
+import { CompletionItem, CompletionItemKind, CompletionList, languages, MarkdownString, Range, window, workspace } from 'vscode'
 import { useConfigurations } from './configuration'
 import { isCssId } from './integration'
 import { log } from './log'
-import { getCSS, getColorString, getPrettiedCSS, getPrettiedMarkdown, shouldProvideAutocomplete } from './utils'
+import { getColorString, getCSS, getPrettiedCSS, getPrettiedMarkdown, shouldProvideAutocomplete } from './utils'
 
 const defaultLanguageIds = [
   'erb',

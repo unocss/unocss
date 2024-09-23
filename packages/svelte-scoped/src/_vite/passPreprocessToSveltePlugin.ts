@@ -1,7 +1,7 @@
 import type { Plugin } from 'vite'
 import type { SvelteScopedContext } from '../preprocess'
-import UnocssSveltePreprocess from '../preprocess'
 import type { UnocssSvelteScopedViteOptions } from './types'
+import UnocssSveltePreprocess from '../preprocess'
 
 export function PassPreprocessToSveltePlugin(context: SvelteScopedContext, options: UnocssSvelteScopedViteOptions = {}): Plugin {
   let commandIsBuild = true

@@ -1,6 +1,6 @@
+import type { UnocssPluginContext } from '@unocss/core'
 import fs from 'node:fs/promises'
 import { isAbsolute, resolve } from 'node:path'
-import type { UnocssPluginContext } from '@unocss/core'
 import { glob } from 'tinyglobby'
 import { applyTransformers } from './transformers'
 

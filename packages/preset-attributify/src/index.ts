@@ -1,5 +1,5 @@
-import { definePreset } from '@unocss/core'
 import type { AttributifyOptions } from './types'
+import { definePreset } from '@unocss/core'
 import { autocompleteExtractorAttributify } from './autocomplete'
 import { defaultIgnoreAttributes, extractorAttributify } from './extractor'
 import { variantAttributify } from './variant'

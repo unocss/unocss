@@ -1,6 +1,6 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorResolver, colorableShadows, h, hasParseableColor } from '../utils'
+import { colorableShadows, colorResolver, h, hasParseableColor } from '../utils'
 import { varEmpty } from './static'
 
 export const boxShadowsBase = {

@@ -1,8 +1,8 @@
 import type { AutoCompleteExtractorResult, AutoCompleteFunction, AutoCompleteTemplate, SuggestResult, UnoGenerator, Variant } from '@unocss/core'
-import { escapeRegExp, toArray, uniq } from '@unocss/core'
-import { Fzf, byLengthAsc, byStartAsc } from 'fzf'
-import { LRUCache } from 'lru-cache'
 import type { AutocompleteOptions, ParsedAutocompleteTemplate, UnocssAutocomplete } from './types'
+import { escapeRegExp, toArray, uniq } from '@unocss/core'
+import { byLengthAsc, byStartAsc, Fzf } from 'fzf'
+import { LRUCache } from 'lru-cache'
 import { parseAutocomplete } from './parse'
 import { searchAttrKey, searchUsageBoundary } from './utils'
 

@@ -212,9 +212,9 @@ export type DynamicMatcher<Theme extends object = object> =
     match: RegExpMatchArray,
     context: Readonly<RuleContext<Theme>>
   ) =>
-  | Awaitable<CSSValueInput | string | (CSSValueInput | string)[] | undefined>
-  | Generator<CSSValueInput | string | undefined>
-  | AsyncGenerator<CSSValueInput | string | undefined>
+    | Awaitable<CSSValueInput | string | (CSSValueInput | string)[] | undefined>
+    | Generator<CSSValueInput | string | undefined>
+    | AsyncGenerator<CSSValueInput | string | undefined>
 
 export type DynamicRule<Theme extends object = object> = [RegExp, DynamicMatcher<Theme>, RuleMeta?]
 export type StaticRule = [string, CSSObject | CSSEntries, RuleMeta?]

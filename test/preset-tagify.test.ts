@@ -1,4 +1,4 @@
-import { type ExtractorContext, createGenerator } from '@unocss/core'
+import { createGenerator, type ExtractorContext } from '@unocss/core'
 import presetIcons from '@unocss/preset-icons'
 import presetMini from '@unocss/preset-mini'
 import presetTagify, { extractorTagify } from '@unocss/preset-tagify'

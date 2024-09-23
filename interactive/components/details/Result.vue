@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Summary from '../Summary.vue'
 import type { ResultItem } from '~/types'
+import Summary from '../Summary.vue'
 
 defineProps<{
   item?: ResultItem

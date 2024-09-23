@@ -4,12 +4,12 @@ import type {
   UniversalIconLoader,
 } from '@iconify/utils/lib/loader/types'
 import type { CSSObject } from '@unocss/core'
+import type { IconsOptions } from './types'
 import { loadIcon } from '@iconify/utils/lib/loader/loader'
 import { searchForIcon } from '@iconify/utils/lib/loader/modern'
-import { parseIcon } from '@unocss/rule-utils'
 import { encodeSvgForCss } from '@iconify/utils/lib/svg/encode-svg-for-css'
 import { definePreset, warnOnce } from '@unocss/core'
-import type { IconsOptions } from './types'
+import { parseIcon } from '@unocss/rule-utils'
 import icons from './collections.json'
 
 export { IconsOptions }

@@ -1,7 +1,7 @@
+import type { DocItem } from '../types'
 import fs from 'fs-extra'
 import { $fetch } from 'ofetch'
 import pLimit from 'p-limit'
-import type { DocItem } from '../types'
 
 const MDN = 'https://developer.mozilla.org'
 const LANG = 'en-US'
@@ -17,7 +17,6 @@ await Promise.all(
     i.title = i.title.replace(/\s+\(.*\)$/, '')
     i.url = MDN + i.url
 
-    // eslint-disable-next-line no-console
     console.log(`got ${i.url}`)
   })),
 )

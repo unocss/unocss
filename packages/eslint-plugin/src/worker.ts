@@ -1,5 +1,5 @@
-import process from 'node:process'
 import type { BlocklistMeta, UnoGenerator } from '@unocss/core'
+import process from 'node:process'
 import { loadConfig } from '@unocss/config'
 import { createGenerator } from '@unocss/core'
 import { runAsWorker } from 'synckit'

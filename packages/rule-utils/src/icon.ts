@@ -1,6 +1,6 @@
-import { type IconifyLoaderOptions, type UniversalIconLoader, encodeSvgForCss } from '@iconify/utils'
-import { type Preset, type UnoGenerator, toArray } from '@unocss/core'
 import type { IconsOptions } from '@unocss/preset-icons'
+import { encodeSvgForCss, type IconifyLoaderOptions, type UniversalIconLoader } from '@iconify/utils'
+import { type Preset, toArray, type UnoGenerator } from '@unocss/core'
 
 const COLLECTION_NAME_PARTS_MAX = 3
 

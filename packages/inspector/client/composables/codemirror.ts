@@ -10,7 +10,7 @@ import { javascript } from '@codemirror/lang-javascript'
 import { xml } from '@codemirror/lang-xml'
 import { EditorSelection, EditorState, StateEffect, StateField } from '@codemirror/state'
 import { Decoration, keymap } from '@codemirror/view'
-import { EditorView, basicSetup } from 'codemirror'
+import { basicSetup, EditorView } from 'codemirror'
 import { computed, unref, watch } from 'vue'
 import { vitesse } from '../theme'
 

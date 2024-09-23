@@ -5,7 +5,7 @@ Presets are partial configurations that will be merged into the main configurati
 When authoring a preset, we usually export a constructor function that you could ask for some preset-specific options. For example:
 
 ```ts [my-preset.ts]
-import { Preset, definePreset } from 'unocss'
+import { definePreset, Preset } from 'unocss'
 
 export default definePreset((options?: MyPresetOptions) => {
   return {

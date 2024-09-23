@@ -1,5 +1,5 @@
-import path from 'path'
 import type { UnoGenerator } from '@unocss/core'
+import path from 'path'
 import { toArray } from '@unocss/core'
 import parserCSS from 'prettier/parser-postcss'
 import prettier from 'prettier/standalone'

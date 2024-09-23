@@ -13,7 +13,7 @@ import { variantImportant } from './important'
 import { variantCustomMedia, variantPrint } from './media'
 import { variantCssLayer, variantInternalLayer, variantScope, variantSelector, variantTheme, variantVariables } from './misc'
 import { variantNegative } from './negative'
-import { variantPartClasses, variantPseudoClassFunctions, variantPseudoClassesAndElements, variantTaggedPseudoClasses } from './pseudo'
+import { variantPartClasses, variantPseudoClassesAndElements, variantPseudoClassFunctions, variantTaggedPseudoClasses } from './pseudo'
 import { variantStartingStyle } from './startingstyle'
 import { variantSupports } from './supports'
 

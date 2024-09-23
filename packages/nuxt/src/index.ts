@@ -1,14 +1,14 @@
+import type { NuxtPlugin } from '@nuxt/schema'
+import type { UserConfig } from '@unocss/core'
+import type { VitePluginConfig } from '@unocss/vite'
+import type { UnocssNuxtOptions } from './types'
 import { dirname, resolve } from 'node:path'
 import process from 'node:process'
 import { fileURLToPath } from 'node:url'
-import type { VitePluginConfig } from '@unocss/vite'
-import type { UserConfig } from '@unocss/core'
-import type { NuxtPlugin } from '@nuxt/schema'
 import { addComponentsDir, addPluginTemplate, addTemplate, defineNuxtModule, extendWebpackConfig, findPath, isNuxt2, isNuxt3 } from '@nuxt/kit'
 import { createRecoveryConfigLoader } from '@unocss/config'
 import VitePlugin from '@unocss/vite'
 import WebpackPlugin from '@unocss/webpack'
-import type { UnocssNuxtOptions } from './types'
 import { resolveOptions } from './options'
 
 export { UnocssNuxtOptions }

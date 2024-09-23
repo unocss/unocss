@@ -7,7 +7,7 @@ async function run() {
   if (json.name !== 'unocss') {
     json.name = 'unocss'
     await fs.writeJSON(new URL('../package.json', import.meta.url), json, { spaces: 2, EOL: '\n' })
-    // eslint-disable-next-line no-console
+
     console.log('Update package.json name to "unocss"')
   }
 }

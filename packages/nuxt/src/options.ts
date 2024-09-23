@@ -1,3 +1,4 @@
+import type { UnocssNuxtOptions } from './types'
 import presetAttributify from '@unocss/preset-attributify'
 import presetIcons from '@unocss/preset-icons'
 import presetTagify from '@unocss/preset-tagify'
@@ -6,7 +7,6 @@ import presetUno from '@unocss/preset-uno'
 import presetWebFonts from '@unocss/preset-web-fonts'
 import presetWind from '@unocss/preset-wind'
 import { defaultPipelineExclude } from '../../shared-integration/src/defaults'
-import type { UnocssNuxtOptions } from './types'
 
 export function resolveOptions(options: UnocssNuxtOptions) {
   if (options.presets == null) {

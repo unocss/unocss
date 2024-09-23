@@ -1,6 +1,6 @@
 import type { FunctionNode, StringNode } from 'css-tree'
-import { transformIconString, transformThemeString } from '@unocss/rule-utils'
 import type { TransformerDirectivesContext } from './types'
+import { transformIconString, transformThemeString } from '@unocss/rule-utils'
 
 export async function handleFunction({ code, uno, options }: TransformerDirectivesContext, node: FunctionNode) {
   const { throwOnMissing = true } = options

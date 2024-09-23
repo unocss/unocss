@@ -1,11 +1,11 @@
-import fs from 'node:fs'
-import { dirname, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
 import type { UnocssPluginContext } from '@unocss/core'
 import type { IncomingMessage } from 'connect'
 import type { Plugin, ResolvedConfig, ViteDevServer } from 'vite'
-import { toEscapedSelector } from '@unocss/core'
 import type { VitePluginConfig } from './types'
+import fs from 'node:fs'
+import { dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { toEscapedSelector } from '@unocss/core'
 
 const _dirname = typeof __dirname !== 'undefined' ? __dirname : dirname(fileURLToPath(import.meta.url))
 

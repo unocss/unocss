@@ -1,6 +1,6 @@
-import process from 'node:process'
 import type { LoadConfigResult, LoadConfigSource } from '@unocss/config'
 import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocss/core'
+import process from 'node:process'
 import { createFilter } from '@rollup/pluginutils'
 import { createRecoveryConfigLoader } from '@unocss/config'
 import { BetterMap, createGenerator } from '@unocss/core'

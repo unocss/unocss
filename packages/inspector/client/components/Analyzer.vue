@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
 import type { MatchedColor, MatchedSelector } from '../../types'
+import { computed } from 'vue'
 
 interface Grouped {
   name: string

@@ -1,7 +1,7 @@
 import type { Postprocessor, Preflight, PreflightContext, PresetOptions } from '@unocss/core'
+import type { Theme, ThemeAnimation } from './theme'
 import { definePreset } from '@unocss/core'
 import { extractorArbitraryVariants } from '@unocss/extractor-arbitrary-variants'
-import type { Theme, ThemeAnimation } from './theme'
 import { preflights } from './preflights'
 import { rules } from './rules'
 import { shorthands } from './shorthands'

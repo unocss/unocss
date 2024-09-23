@@ -1,13 +1,13 @@
 import type { UnoGenerator } from '@unocss/core'
 import type { CssNode, List, ListItem } from 'css-tree'
 import type MagicString from 'magic-string'
-import { hasIconFn, hasThemeFn } from '@unocss/rule-utils'
-import { toArray } from '@unocss/core'
-import { parse, walk } from 'css-tree'
-import { handleScreen } from './screen'
 import type { TransformerDirectivesContext, TransformerDirectivesOptions } from './types'
+import { toArray } from '@unocss/core'
+import { hasIconFn, hasThemeFn } from '@unocss/rule-utils'
+import { parse, walk } from 'css-tree'
 import { handleApply } from './apply'
 import { handleFunction } from './functions'
+import { handleScreen } from './screen'
 
 export async function transformDirectives(
   code: MagicString,
