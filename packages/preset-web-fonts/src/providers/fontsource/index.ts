@@ -42,7 +42,7 @@ export function createFontSourceProvider(name: WebFontsProviders, host: string):
           const mergeAxes = mergeDeep(variableData.axes, font.variable ?? {})
 
           for (const subset of subsets) {
-            const url = `${host}/fontsource/fonts/${metadata.id}:vf@latest/${subset}-${font.italic ? 'full-italic' : 'full-normal'}.woff2`
+            const url = `${host}/fontsource/fonts/${metadata.id}:vf@latest/${subset}-${font.italic ? 'wght-italic' : 'wght-normal'}.woff2`
 
             const fontObj: FontObject = {
               family: `${metadata.family}`,
