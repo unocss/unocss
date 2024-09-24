@@ -6,6 +6,7 @@ export interface WebFontMeta {
   name: string
   weights?: (string | number)[] // wght axis
   italic?: boolean // ital axis
+  variable?: Record<string, Partial<Axes>> // variable font
   /**
    * Override the provider
    * @default <matches root config>
@@ -97,4 +98,11 @@ export interface Provider {
   getPreflight?: (fonts: WebFontMeta[]) => Promise<string | undefined>
   getImportUrl?: (fonts: WebFontMeta[]) => string | undefined
   getFontName?: (font: WebFontMeta) => string
+}
+
+export interface Axes {
+  default: string
+  min: string
+  max: string
+  step: string
 }
