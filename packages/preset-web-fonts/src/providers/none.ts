@@ -2,7 +2,7 @@ import type { Provider } from '../types'
 
 export const NoneProvider: Provider = {
   name: 'none',
-  getPreflight() {
+  async getPreflight() {
     return ''
   },
   getFontName(font) {
