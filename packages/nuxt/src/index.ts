@@ -154,7 +154,6 @@ export default mergeConfigs([${configPaths.map((_, index) => `cfg${index}`).join
     }
 
     extendWebpackConfig(async (config) => {
-      const unoConfig = await loadUnoConfig()
       config.plugins = config.plugins || []
       config.plugins.unshift(WebpackPlugin({}, unoConfig))
     })
