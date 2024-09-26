@@ -1,7 +1,7 @@
-import { toArray } from '@unocss/core'
-import type { ExtensionContext } from 'vscode'
-import { workspace } from 'vscode'
 import type { AutoCompleteMatchType } from '@unocss/autocomplete'
+import type { ExtensionContext } from 'vscode'
+import { toArray } from '@unocss/core'
+import { workspace } from 'vscode'
 import { createNanoEvents } from '../../core/src/utils/events'
 
 export interface UseConfigurationOptions<Init> {

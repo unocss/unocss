@@ -275,6 +275,8 @@ export const presetMiniTargets: string[] = [
   'bg-[calc(10%+10px)]',
   'bg-[calc(10vw+10px)]',
   'bg-[url(https://test.unocss.png)]',
+  'bg-[image:$variable]',
+  'bg-[image:https://test.unocss.png]',
   'bg-[length:--variable]',
   'bg-[length:10_20rem]',
   'bg-[length:1/2_20rem]',

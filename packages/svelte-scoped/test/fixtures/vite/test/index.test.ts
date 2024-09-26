@@ -1,8 +1,8 @@
 import { readFile } from 'node:fs/promises'
 import process from 'node:process'
-import { beforeAll, describe, expect, it } from 'vitest'
-import { build } from 'vite'
 import { glob } from 'tinyglobby'
+import { build } from 'vite'
+import { beforeAll, describe, expect, it } from 'vitest'
 
 const isMacOS = process.platform === 'darwin'
 const isWindows = process.platform === 'win32'

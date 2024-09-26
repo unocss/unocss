@@ -1,7 +1,7 @@
 import { fileURLToPath } from 'node:url'
-import * as vueParser from 'vue-eslint-parser'
 import { $ as html, run } from 'eslint-vitest-rule-tester'
 import { expect } from 'vitest'
+import * as vueParser from 'vue-eslint-parser'
 import rule from './order'
 
 run({

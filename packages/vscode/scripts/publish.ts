@@ -1,9 +1,8 @@
-/* eslint-disable no-console */
+import process from 'node:process'
 import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
-import process from 'node:process'
-import fs from 'fs-extra'
 import { execa } from 'execa'
+import fs from 'fs-extra'
 
 const dir = typeof __dirname === 'string' ? __dirname : dirname(fileURLToPath(import.meta.url))
 const root = dirname(dir)

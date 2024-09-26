@@ -1,10 +1,10 @@
-import { describe, expect, it, vi } from 'vitest'
 import type { UnoGenerator } from '@unocss/core'
-import { createGenerator } from '@unocss/core'
-import MagicString from 'magic-string'
 import type { CompileClassOptions } from '@unocss/transformer-compile-class'
-import transformerCompileClass from '@unocss/transformer-compile-class'
+import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
+import transformerCompileClass from '@unocss/transformer-compile-class'
+import MagicString from 'magic-string'
+import { describe, expect, it, vi } from 'vitest'
 
 const CUSTOM_TRIGGER = /(["'`]):custom-?(?<name>[^\s\\1]+)?:\s([^\\1]*?)\1/g
 
@@ -124,8 +124,7 @@ describe('transformer-compile-class', () => {
       <div class=":uno-foo: w-1"/>
       <div class=":uno-foo: w-2"/>
     `.trim())
-    }).rejects
-      .toMatchInlineSnapshot(`[Error: Duplicated compile class name "uno-foo". One is "w-2" and the other is "w-1". Please choose different class name or set 'alwaysHash' to 'true'.]`)
+    }).rejects.toMatchInlineSnapshot(`[Error: Duplicated compile class name "uno-foo". One is "w-2" and the other is "w-1". Please choose different class name or set 'alwaysHash' to 'true'.]`)
   })
 
   it('custom class name should not conflict when the content is the same', async () => {

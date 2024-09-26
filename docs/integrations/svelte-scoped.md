@@ -191,11 +191,10 @@ In Svelte or SvelteKit apps, inject generated styles directly into your Svelte c
 
 Add `@unocss/svelte-scoped/vite` to your Vite config:
 
-```ts
-// vite.config.ts
-import { defineConfig } from 'vite'
+```ts [vite.config.ts]
 import { sveltekit } from '@sveltejs/kit/vite'
 import UnoCSS from '@unocss/svelte-scoped/vite'
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [
@@ -218,7 +217,7 @@ While almost all styles are placed into individual components, there are still a
 
 Add the `%unocss-svelte-scoped.global%` placeholder into your `<head>` tag. In Svelte this is `index.html`. In SvelteKit this will be in `app.html` before `%sveltekit.head%`:
 
-```html
+```html [index.html]
 <head>
   <!-- ... -->
   <title>SvelteKit using UnoCSS Svelte Scoped</title>
@@ -229,7 +228,7 @@ Add the `%unocss-svelte-scoped.global%` placeholder into your `<head>` tag. In S
 
 If using SvelteKit, you also must add the following to the `transformPageChunk` hook in your `src/hooks.server.js` file:
 
-```js
+```js [src/hooks.server.js]
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({ event, resolve }) {
   const response = await resolve(event, {
@@ -271,8 +270,7 @@ Use utility styles to build a component library that is not dependent on includi
 
 Add `@unocss/svelte-scoped/preprocess` to your Svelte config:
 
-```ts
-// svelte.config.js
+```ts [svelte.config.js]
 import adapter from '@sveltejs/adapter-auto'
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 import UnoCSS from '@unocss/svelte-scoped/preprocess'
@@ -342,8 +340,7 @@ Your safelist styles will be wrapped with `:global()` to avoid being automatical
 
 Place your UnoCSS settings in an `uno.config.ts` file:
 
-```ts
-// uno.config.ts
+```ts [uno.config.ts]
 import { defineConfig } from 'unocss'
 
 export default defineConfig({
@@ -371,8 +368,7 @@ For other presets, if they don't rely on traditional `class="..."` usage you wil
 
 Transformers are supported for your CSS files (css|postcss|sass|scss|less|stylus|styl). To use them, add the transformer into the `cssFileTransformers` option in your `vite.config.ts`:
 
-```ts
-// vite.config.ts
+```ts [vite.config.ts]
 import transformerDirectives from '@unocss/transformer-directives'
 
 export default defineConfig({

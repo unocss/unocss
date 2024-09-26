@@ -119,6 +119,7 @@ Will generate:
 
 - `symbols.parent`: The parent wrapper of the generated CSS rule (eg. `@supports`, `@media`, etc.)
 - `symbols.selector`: A function to modify the selector of the generated CSS rule (see the example below)
+- `symbols.layer`: A string/function/regex match that sets the UnoCSS layer of the generated CSS rule
 - `symbols.variants`: An array of variant handler that are applied to the current CSS object
 - `symbols.shortcutsNoMerge`: A boolean to disable the merging of the current rule in shortcuts
 
@@ -164,8 +165,7 @@ When you really need some advanced rules that aren't covered by the combination 
 
 It allows you to return a string from the dynamic rule's body function which will be **directly** passed to the generated CSS (this also means you need to take care of things like CSS escaping, variant applying, CSS constructing, and so on).
 
-```ts
-// uno.config.ts
+```ts [uno.config.ts]
 import { defineConfig, toEscapedSelector as e } from 'unocss'
 
 export default defineConfig({

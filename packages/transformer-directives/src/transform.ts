@@ -1,13 +1,13 @@
-import { toArray } from '@unocss/core'
 import type { UnoGenerator } from '@unocss/core'
 import type { CssNode, List, ListItem } from 'css-tree'
-import { parse, walk } from 'css-tree'
 import type MagicString from 'magic-string'
+import type { TransformerDirectivesContext, TransformerDirectivesOptions } from './types'
+import { toArray } from '@unocss/core'
 import { hasThemeFn as hasThemeFunction } from '@unocss/rule-utils'
-import { handleScreen } from './screen'
+import { parse, walk } from 'css-tree'
 import { handleApply } from './apply'
 import { handleFunction } from './functions'
-import type { TransformerDirectivesContext, TransformerDirectivesOptions } from './types'
+import { handleScreen } from './screen'
 
 export async function transformDirectives(
   code: MagicString,
@@ -26,14 +26,15 @@ export async function transformDirectives(
   }
   applyVariable = toArray(applyVariable || [])
 
-  const hasApply = code.original.includes('@apply') || applyVariable.some(s => code.original.includes(s))
-  const hasScreen = code.original.includes('@screen')
-  const hasThemeFn = hasThemeFunction(code.original)
+  const parseCode = originalCode || code.original
+  const hasApply = parseCode.includes('@apply') || applyVariable.some(s => parseCode.includes(s))
+  const hasScreen = parseCode.includes('@screen')
+  const hasThemeFn = hasThemeFunction(parseCode)
 
   if (!hasApply && !hasThemeFn && !hasScreen)
     return
 
-  const ast = parse(originalCode || code.original, {
+  const ast = parse(parseCode, {
     parseCustomProperty: true,
     parseAtrulePrelude: false,
     positions: true,

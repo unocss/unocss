@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest'
 import MagicString from 'magic-string'
+import { describe, expect, it } from 'vitest'
 import { getThemeValue, transformTheme } from './transformTheme'
 
 const theme = {

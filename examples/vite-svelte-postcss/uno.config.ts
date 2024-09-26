@@ -1,3 +1,4 @@
+import extractorSvelte from '@unocss/extractor-svelte'
 import {
   defineConfig,
   presetAttributify,
@@ -6,7 +7,6 @@ import {
   presetUno,
   presetWebFonts,
 } from 'unocss'
-import extractorSvelte from '@unocss/extractor-svelte'
 
 export default defineConfig({
   extractors: [

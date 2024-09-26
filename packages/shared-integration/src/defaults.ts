@@ -1,4 +1,5 @@
 import { cssIdRE } from '@unocss/core'
+import { SKIP_COMMENT_RE } from './constants'
 
 // picomatch patterns, used with rollup's createFilter
 export const defaultPipelineExclude = [cssIdRE]
@@ -26,4 +27,5 @@ export const defaultIdeMatchInclude: RegExp[] = [
  * Default match includes in getMatchedPositions for IDE
  */
 export const defaultIdeMatchExclude: RegExp[] = [
+  SKIP_COMMENT_RE,
 ]

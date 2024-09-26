@@ -1,7 +1,7 @@
 import type { UnoGenerator } from '@unocss/core'
-import type { Root } from 'postcss'
-
 import type { Theme } from '@unocss/preset-mini'
+
+import type { Root } from 'postcss'
 
 export async function parseScreen(root: Root, uno: UnoGenerator, directiveName: string) {
   // @ts-expect-error types

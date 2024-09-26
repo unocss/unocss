@@ -1,18 +1,18 @@
 import type { Postprocessor, Preflight, PreflightContext, PresetOptions } from '@unocss/core'
+import type { Theme, ThemeAnimation } from './theme'
 import { definePreset } from '@unocss/core'
 import { extractorArbitraryVariants } from '@unocss/extractor-arbitrary-variants'
 import { preflights } from './preflights'
 import { rules } from './rules'
-import type { Theme, ThemeAnimation } from './theme'
+import { shorthands } from './shorthands'
 import { theme } from './theme'
 import { variants } from './variants'
-import { shorthands } from './shorthands'
 
 export { preflights } from './preflights'
-export { theme, colors } from './theme'
+export { colors, theme } from './theme'
 export { parseColor } from './utils'
 
-export type { ThemeAnimation, Theme }
+export type { Theme, ThemeAnimation }
 
 export interface DarkModeSelectors {
   /**

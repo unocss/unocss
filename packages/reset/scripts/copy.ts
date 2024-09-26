@@ -1,7 +1,7 @@
-import fs from 'node:fs/promises'
 import { existsSync } from 'node:fs'
-import { dirname } from 'node:path'
+import fs from 'node:fs/promises'
 import { createRequire } from 'node:module'
+import { dirname } from 'node:path'
 
 const require = createRequire(import.meta.url)
 

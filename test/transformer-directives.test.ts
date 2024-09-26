@@ -1,5 +1,5 @@
-import { readFile } from 'node:fs/promises'
 import type { UnoGenerator } from '@unocss/core'
+import { readFile } from 'node:fs/promises'
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import MagicString from 'magic-string'
@@ -343,6 +343,28 @@ describe('transformer-directives', () => {
       .toMatchFileSnapshot('./assets/output/transformer-directives-var-style-class.css')
   })
 
+  it('multiple apply in one class', async () => {
+    const result = await transform(
+      `nav {
+        --at-apply: border font-mono text-lg;
+        
+        .test-a {
+          @apply shadow-lg;@apply rounded-md bg-slate-300 shadow-amber-500;
+        }
+        .test-b {
+          @apply shadow-lg;font-size:20px;@apply rounded-md bg-slate-300 shadow-amber-500;
+        }
+        a {
+          --at-apply: px-2;
+          --uno: "hover:underline";
+        }
+      }`,
+    )
+
+    await expect(result)
+      .toMatchFileSnapshot('./assets/output/transformer-directives-multiple-apply-in-one-class.css')
+  })
+
   it('declaration for apply variable', async () => {
     const result = await transform(
       `nav {
@@ -496,15 +518,13 @@ describe('transformer-directives', () => {
         `.btn {
         color: theme("color.none.500");
         }`,
-      )).rejects
-        .toMatchInlineSnapshot(`[Error: theme of "color.none.500" did not found]`)
+      )).rejects.toMatchInlineSnapshot(`[Error: theme of "color.none.500" did not found]`)
 
       expect(async () => await transform(
         `.btn {
           font-size: theme("size.lg");
           }`,
-      )).rejects
-        .toMatchInlineSnapshot(`[Error: theme of "size.lg" did not found]`)
+      )).rejects.toMatchInlineSnapshot(`[Error: theme of "size.lg" did not found]`)
     })
 
     it('args', async () => {
@@ -512,8 +532,7 @@ describe('transformer-directives', () => {
         `.btn {
           color: theme();
         }`,
-      )).rejects
-        .toMatchInlineSnapshot(`[Error: theme() expect exact one argument]`)
+      )).rejects.toMatchInlineSnapshot(`[Error: theme() expect exact one argument]`)
     })
 
     it('with @apply', async () => {
@@ -1136,15 +1155,13 @@ describe('transformer-directives with important', () => {
         `.btn {
         color: theme("color.none.500");
         }`,
-      )).rejects
-        .toMatchInlineSnapshot(`[Error: theme of "color.none.500" did not found]`)
+      )).rejects.toMatchInlineSnapshot(`[Error: theme of "color.none.500" did not found]`)
 
       expect(async () => await transform(
-          `.btn {
+        `.btn {
           font-size: theme("size.lg");
           }`,
-      )).rejects
-        .toMatchInlineSnapshot(`[Error: theme of "size.lg" did not found]`)
+      )).rejects.toMatchInlineSnapshot(`[Error: theme of "size.lg" did not found]`)
     })
 
     it('args', async () => {
@@ -1152,8 +1169,7 @@ describe('transformer-directives with important', () => {
         `.btn {
           color: theme();
         }`,
-      )).rejects
-        .toMatchInlineSnapshot(`[Error: theme() expect exact one argument]`)
+      )).rejects.toMatchInlineSnapshot(`[Error: theme() expect exact one argument]`)
     })
 
     it('with @apply', async () => {

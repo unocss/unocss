@@ -1,23 +1,23 @@
-import { isAbsolute, resolve } from 'node:path'
-import type { Plugin, ResolvedConfig } from 'vite'
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import type { NormalizedOutputOptions, PluginContext, RenderedChunk } from 'rollup'
+import type { Plugin, ResolvedConfig } from 'vite'
+import type { VitePluginConfig } from '../../types'
+import { isAbsolute, resolve } from 'node:path'
+import { LAYER_IMPORTS } from '../../../../core/src/constants'
+import { setupContentExtractor } from '../../../../shared-integration/src/content'
 import {
-  HASH_PLACEHOLDER_RE,
-  LAYER_MARK_ALL,
-  LAYER_PLACEHOLDER_RE,
-  RESOLVED_ID_RE,
   getHash,
   getHashPlaceholder,
   getLayerPlaceholder,
   getPath,
+  HASH_PLACEHOLDER_RE,
+  LAYER_MARK_ALL,
+  LAYER_PLACEHOLDER_RE,
   replaceAsync,
+  RESOLVED_ID_RE,
   resolveId,
   resolveLayer,
 } from '../../integration'
-import type { VitePluginConfig } from '../../types'
-import { setupContentExtractor } from '../../../../shared-integration/src/content'
-import { LAYER_IMPORTS } from '../../../../core/src/constants'
 
 // https://github.com/vitejs/vite/blob/main/packages/plugin-legacy/src/index.ts#L742-L744
 function isLegacyChunk(chunk: RenderedChunk, options: NormalizedOutputOptions) {
@@ -227,9 +227,9 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         const mappedVfsLayer = Array.from(vfsLayers).map(layer => layer === LAYER_MARK_ALL ? layer : layer.replace(/^_/, ''))
         const importStatements = result.getLayer(LAYER_IMPORTS)
         const cssWithLayers = Array.from(vfsLayers).map(layer => `${importStatements ?? ''}#--unocss-layer-start--${layer}--{start:${layer}} ${layer === LAYER_MARK_ALL
-            ? result.getLayers(undefined, [...mappedVfsLayer, LAYER_IMPORTS])
-            : (result.getLayer(layer.replace(/^_/, '')) || '')
-          } #--unocss-layer-end--${layer}--{end:${layer}}`).join('')
+          ? result.getLayers(undefined, [...mappedVfsLayer, LAYER_IMPORTS])
+          : (result.getLayer(layer.replace(/^_/, '')) || '')
+        } #--unocss-layer-end--${layer}--{end:${layer}}`).join('')
 
         const fakeCssId = `${viteConfig.root}/${chunk.fileName}-unocss-hash.css`
         const css = await applyCssTransform(cssWithLayers, fakeCssId, options.dir, this)

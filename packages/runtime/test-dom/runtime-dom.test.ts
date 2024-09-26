@@ -1,6 +1,7 @@
 /// <reference types="vitest/globals" />
-import initUnocssRuntime from '@unocss/runtime'
+
 import presetUno from '@unocss/preset-uno'
+import initUnocssRuntime from '@unocss/runtime'
 
 describe('runtime dom manipulation', () => {
   afterEach(() => {

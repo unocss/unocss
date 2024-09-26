@@ -1,7 +1,7 @@
-import { describe, expect, it } from 'vitest'
 import { createGenerator } from '@unocss/core'
-import { presetUno } from '@unocss/preset-uno'
 import { presetMini } from '@unocss/preset-mini'
+import { presetUno } from '@unocss/preset-uno'
+import { describe, expect, it } from 'vitest'
 import { runAsync, setGenerator } from '../packages/eslint-plugin/src/worker'
 
 describe('worker', () => {

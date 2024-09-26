@@ -1,6 +1,6 @@
 import type { Preset, UserConfig } from '@unocss/core'
-import { createGenerator, mergeConfigs, noop } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
+import { createGenerator, mergeConfigs, noop } from '@unocss/core'
 import presetMini from '@unocss/preset-mini'
 import { describe, expect, it } from 'vitest'
 

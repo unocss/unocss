@@ -26,8 +26,7 @@ By default, UnoCSS will extract the utilities usage from files in your build pip
 
 To configure them, you can update your `uno.config.ts`:
 
-```ts
-// uno.config.ts
+```ts [uno.config.ts]
 export default defineConfig({
   content: {
     pipeline: {
@@ -79,8 +78,7 @@ If you want the UnoCSS to skip a block of code without being extracted in any ex
 
 In cases that you are using integrations that does not have access to the build tools pipeline (for example, the [PostCSS](/integrations/postcss) plugin), or you are integrating with backend frameworks such that the code does not go through the pipeline, you can manually specify the files to be extracted.
 
-```ts
-// uno.config.ts
+```ts [uno.config.ts]
 export default defineConfig({
   content: {
     filesystem: [
@@ -99,8 +97,7 @@ Additionally, you can also extract utilities usages from inline text, that you m
 
 You may also pass an async function to return the content. But note that the function will only be called once at the build time.
 
-```ts
-// uno.config.ts
+```ts [uno.config.ts]
 export default defineConfig({
   content: {
     inline: [
@@ -130,8 +127,7 @@ Sometimes you might want to use dynamic concatenations like:
 
 Due the fact that UnoCSS works in build time using static extraction, at the compile time it can't possibility know all the combination of the utilities then. For that, you can configure the `safelist` option.
 
-```ts
-// uno.config.ts
+```ts [uno.config.ts]
 safelist: 'p-1 p-2 p-3 p-4'.split(' ')
 ```
 
@@ -146,8 +142,7 @@ The corresponding CSS will always be generated:
 
 Or more flexible:
 
-```ts
-// uno.config.ts
+```ts [uno.config.ts]
 safelist: [
   ...Array.from({ length: 4 }, (_, i) => `p-${i + 1}`),
 ]
@@ -184,8 +179,7 @@ And then use it in your template:
 
 Similar to `safelist`, you can also configure `blocklist` to exclude some utilities from being generated. This is useful to exclude some extraction false positives. Different from `safelist`, `blocklist` accepts both string for exact match and regular expression for pattern match.
 
-```ts
-// uno.config.ts
+```ts [uno.config.ts]
 blocklist: [
   'p-1',
   /^p-[2-4]$/,

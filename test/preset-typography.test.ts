@@ -1,7 +1,7 @@
 import { createGenerator } from '@unocss/core'
 import presetAttributify, { type AttributifyOptions } from '@unocss/preset-attributify'
+import { presetTypography, type TypographyOptions } from '@unocss/preset-typography'
 import { presetUno } from '@unocss/preset-uno'
-import { type TypographyOptions, presetTypography } from '@unocss/preset-typography'
 import { describe, expect, it } from 'vitest'
 
 const testConfigs: {

@@ -96,8 +96,7 @@ module.exports = {
 
 Create a `uno.config.ts` file:
 
-```ts
-// uno.config.ts
+```ts [uno.config.ts]
 import { defineConfig } from 'unocss'
 
 export default defineConfig({
@@ -113,8 +112,7 @@ If you are using webpack@4.x, the `optimization.realContentHash` configuration i
 
 Add `uno.css` to your main entry:
 
-```ts
-// main.ts
+```ts [main.ts]
 import 'uno.css'
 ```
 

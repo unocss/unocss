@@ -1,12 +1,12 @@
+import type { WebFontProcessor } from './types'
+import { Buffer } from 'node:buffer'
 import { createHash } from 'node:crypto'
 import fs from 'node:fs'
 import fsp from 'node:fs/promises'
-import process from 'node:process'
 import { join, resolve } from 'node:path'
-import { Buffer } from 'node:buffer'
+import process from 'node:process'
 import { fetch } from 'ofetch'
 import { replaceAsync } from '../../shared-common/src/replace-async'
-import type { WebFontProcessor } from './types'
 
 const fontUrlRegex = /[-\w@:%+.~#?&/=]+\.(?:woff2?|eot|ttf|otf|svg)/gi
 // eslint-disable-next-line regexp/no-unused-capturing-group
