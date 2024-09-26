@@ -449,7 +449,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .break-normal{overflow-wrap:normal;word-break:normal;}
 .break-words{overflow-wrap:break-word;}
 .break-keep{word-break:keep-all;}
-.peer[data-state=closed]~.peer-data-\[state\=closed\]\:border-3,
+.peer[data-state="closed"]~.peer-data-\[state\=closed\]\:border-3,
 .border-width-3{border-width:3px;}
 .b-2,
 .border-size-2{border-width:2px;}
@@ -844,7 +844,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .group\/label.not-parent .group-\[\.not-parent\]\/label\:font-19{font-weight:19;}
 .group-aria\/label[data-attr] .group-aria-\[\[data-attr\]\]\/label\:font-17,
 .group\/label[data-attr] .group-\[\[data-attr\]\]\/label\:font-17{font-weight:17;}
-.group[data-state=open] .group-data-\[state\=open\]\:font-bold{font-weight:700;}
+.group[data-state="open"] .group-data-\[state\=open\]\:font-bold{font-weight:700;}
 .font-050,
 .font-50,
 .fw-050,
