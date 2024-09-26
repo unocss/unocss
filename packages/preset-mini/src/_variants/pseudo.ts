@@ -167,7 +167,7 @@ function taggedPseudoClassMatcher(tag: string, parent: string, combinator: strin
     if (!match)
       return
     const [original, _, _pseudoValue] = match
-    // 如果 pseudoValue 中包含 =，则要等号后面包裹在引号中
+    // [data-xx=yy] => [data-xx="yy"]
     const pseudoValue = _pseudoValue.includes('=') ? `${_pseudoValue.split('=').join('="')}"` : _pseudoValue
     const label = match[3] ?? ''
     const pseudo = `[data-${pseudoValue}]`
