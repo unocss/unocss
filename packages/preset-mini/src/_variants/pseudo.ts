@@ -107,6 +107,7 @@ function taggedPseudoClassMatcher(tag: string, parent: string, combinator: strin
   let pseudoRE: RegExp
   let pseudoColonRE: RegExp
   let pseudoVarRE: RegExp
+  let pseudoGroupVarRE: RegExp
 
   const matchBracket = (input: string): [label: string, rest: string, prefix: string] | undefined => {
     const body = variantGetBracket(`${tag}-`, input, [])
@@ -161,6 +162,23 @@ function taggedPseudoClassMatcher(tag: string, parent: string, combinator: strin
     ]
   }
 
+  const matchPseudoGroupVar = (input: string): [label: string, rest: string, prefix: string] | undefined => {
+    const match = input.match(pseudoGroupVarRE)
+    if (!match)
+      return
+    const [original, _, _pseudoValue] = match
+    // 如果 pseudoValue 中包含 =，则要等号后面包裹在引号中
+    const pseudoValue = _pseudoValue.includes('=') ? `${_pseudoValue.split('=').join('="')}"` : _pseudoValue
+    const label = match[3] ?? ''
+    const pseudo = `[data-${pseudoValue}]`
+
+    return [
+      label,
+      input.slice(original.length),
+      `${parent}${escapeSelector(label)}${pseudo}`,
+    ]
+  }
+
   return {
     name: `pseudo:${tag}`,
     match(input, ctx) {
@@ -168,13 +186,14 @@ function taggedPseudoClassMatcher(tag: string, parent: string, combinator: strin
         splitRE = new RegExp(`(?:${ctx.generator.config.separators.join('|')})`)
         pseudoRE = new RegExp(`^${tag}-(?:(?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesStr}))(?:(/\\w+))?(?:${ctx.generator.config.separators.join('|')})`)
         pseudoColonRE = new RegExp(`^${tag}-(?:(?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesColonStr}))(?:(/\\w+))?(?:${ctx.generator.config.separators.filter(x => x !== '-').join('|')})`)
+        pseudoGroupVarRE = new RegExp(`^${tag}-data-(?:(${PseudoClassFunctionsStr})-)?\\[(.+)\\](?:(/\\w+))?(?:${ctx.generator.config.separators.filter(x => x !== '-').join('|')})`)
         pseudoVarRE = new RegExp(`^${tag}-(?:(${PseudoClassFunctionsStr})-)?\\[(.+)\\](?:(/\\w+))?(?:${ctx.generator.config.separators.filter(x => x !== '-').join('|')})`)
       }
 
       if (!input.startsWith(tag))
         return
 
-      const result = matchBracket(input) || matchPseudo(input) || matchPseudoVar(input)
+      const result = matchBracket(input) || matchPseudo(input) || matchPseudoGroupVar(input) || matchPseudoVar(input)
       if (!result)
         return
 

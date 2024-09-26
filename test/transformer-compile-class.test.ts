@@ -177,4 +177,17 @@ describe('transformer-compile-class', () => {
 
     expect(invalidateFn).toHaveBeenCalledTimes(2)
   })
+
+  it('named group data selectors', async () => {
+    const result = await transform(
+      'group-data-[state=open]/named:text-red-400',
+    )
+
+    expect(result.code.trim()).toMatchInlineSnapshot(`"group-data-[state=open]/named:text-red-400"`)
+
+    expect(result.css).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .group\\/named[data-state="open"] .group-data-\\[state\\=open\\]\\/named\\:text-red-400{--un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity));}"
+    `)
+  })
 })
