@@ -24,6 +24,7 @@ export async function transformStyle({
   filename,
   applyVariables,
   hasThemeFn,
+  useThemeFn,
 }: {
   content: string
   uno: UnoGenerator
@@ -31,6 +32,7 @@ export async function transformStyle({
   prepend: string
   applyVariables: string[]
   hasThemeFn: boolean
+  useThemeFn: boolean
 }): Promise<Processed | void> {
   const s = new MagicString(content)
 
@@ -38,7 +40,7 @@ export async function transformStyle({
     await transformApply({ s, uno, applyVariables })
 
   if (hasThemeFn)
-    transformTheme(s, uno.config.theme)
+    transformTheme(s, uno.config.theme, useThemeFn)
 
   if (!s.hasChanged())
     return
