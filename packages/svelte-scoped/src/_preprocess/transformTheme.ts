@@ -11,6 +11,7 @@ export function transformTheme(s: MagicString, theme: Theme, useThemeFn: boolean
       return getThemeValue(argumentsWithoutQuotes, theme)
     })
   }
+
   if (!useThemeFn)
     return s
   return s
