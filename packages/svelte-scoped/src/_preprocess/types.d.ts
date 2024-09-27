@@ -6,6 +6,12 @@ export interface UnocssSveltePreprocessOptions extends TransformClassesOptions, 
    * UnoCSS config or path to config file. If not provided, will load unocss.config.ts/js. It's recommended to use the separate config file if you are having trouble with the UnoCSS extension in VSCode.
    */
   configOrPath?: UserConfig | string
+  /**
+   * Whether to enable the UnoCSS theme() function.
+   *
+   * @default true
+   */
+  useThemeFunction?: boolean
 }
 
 export interface TransformClassesOptions {
