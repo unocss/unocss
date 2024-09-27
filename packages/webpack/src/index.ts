@@ -37,10 +37,7 @@ export function defineConfig<Theme extends object>(config: WebpackPluginOptions<
   return config
 }
 
-export default function WebpackPlugin<Theme extends object>(
-  configOrPath?: WebpackPluginOptions<Theme> | string,
-  defaults?: UserConfigDefaults,
-) {
+function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptions<Theme> | string, defaults?: UserConfigDefaults) {
   return createUnplugin(() => {
     const ctx = createContext<WebpackPluginOptions>(configOrPath as any, {
       envMode: process.env.NODE_ENV === 'development' ? 'dev' : 'build',
@@ -150,6 +147,9 @@ export default function WebpackPlugin<Theme extends object>(
           })
         })
       },
+      get rspack() {
+        return this.webpack
+      },
     } as UnpluginOptions as Required<ResolvedUnpluginOptions>
 
     let lastTokenSize = tokens.size
@@ -184,8 +184,23 @@ export default function WebpackPlugin<Theme extends object>(
     }
 
     return plugin
-  }).webpack()
+  })
 }
+
+export default function WebpackPlugin<Theme extends object>(
+  configOrPath?: WebpackPluginOptions<Theme> | string,
+  defaults?: UserConfigDefaults,
+) {
+  return unplugin(configOrPath, defaults).webpack()
+}
+
+export function UnoCSSRspackPlugin<Theme extends object>(
+  configOrPath?: WebpackPluginOptions<Theme> | string,
+  defaults?: UserConfigDefaults,
+) {
+  return unplugin(configOrPath, defaults).rspack()
+}
+
 function getLayer(id: string) {
   let layer = resolveLayer(getPath(id))
   if (!layer) {
