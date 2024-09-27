@@ -20,7 +20,7 @@ div {
   background: theme('colors.blue.500');
   margin-right: theme("spacing.sm"); 
 }`.trim()
-    expect(transformTheme(new MagicString(code), theme).toString()).toMatchInlineSnapshot(`
+    expect(transformTheme(new MagicString(code), theme, true).toString()).toMatchInlineSnapshot(`
         "div { 
           background: #3b82f6;
           margin-right: 0.875rem; 
@@ -28,9 +28,23 @@ div {
     `)
   })
 
+  it('does not replace when useThemeFn is false', () => {
+    const code = `
+div { 
+  background: theme('colors.blue.500');
+  margin-right: theme("spacing.sm"); 
+}`.trim()
+    expect(transformTheme(new MagicString(code), theme, false).toString()).toMatchInlineSnapshot(`
+        "div { 
+          background: theme('colors.blue.500');
+          margin-right: theme("spacing.sm"); 
+        }"
+    `)
+  })
+
   it('does nothing if contains no arguments', () => {
     const noArgument = 'div { background: theme() }'
-    expect(transformTheme(new MagicString(noArgument), theme).toString()).toBe(noArgument)
+    expect(transformTheme(new MagicString(noArgument), theme, true).toString()).toBe(noArgument)
   })
 })
 
