@@ -380,12 +380,19 @@ export class UnoGenerator<Theme extends object = object> {
         .join(nl)
     }
 
+    const setLayer = async (layer: string, callback: (content: string) => Promise<string>) => {
+      const content = await callback(getLayer(layer))
+      layerCache[layer] = content
+      return content
+    }
+
     return {
       get css() { return getLayers() },
       layers,
       matched,
       getLayers,
       getLayer,
+      setLayer,
     }
   }
 

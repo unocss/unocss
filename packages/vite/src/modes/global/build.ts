@@ -225,9 +225,16 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           return null
         }
         const result = await generateAll()
-        const mappedVfsLayer = Array.from(vfsLayers).map(layer => layer === LAYER_MARK_ALL ? layer : layer.replace(/^_/, ''))
-        const importStatements = result.getLayer(LAYER_IMPORTS)
+        const importsLayer = result.getLayer(LAYER_IMPORTS) ?? ''
         const fakeCssId = `${viteConfig.root}/${chunk.fileName}-unocss-hash.css`
+        const preflightLayers = ctx.uno.config.preflights?.map(i => i.layer).concat(LAYER_PREFLIGHTS).filter(Boolean)
+
+        preflightLayers.forEach(i => result.setLayer(i!, async (layerContent) => {
+          const preTransform = await applyTransformers(ctx, layerContent, fakeCssId, 'pre')
+          const defaultTransform = await applyTransformers(ctx, preTransform?.code || layerContent, fakeCssId)
+          const postTransform = await applyTransformers(ctx, defaultTransform?.code || preTransform?.code || layerContent, fakeCssId, 'post')
+          return postTransform?.code || defaultTransform?.code || preTransform?.code || layerContent
+        }))
 
         const cssWithLayers = await Promise.all(Array.from(vfsLayers).map(async (layer) => {
           const layerStart = `#--unocss-layer-start--${layer}--{start:${layer}}`
@@ -235,20 +242,13 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
 
           let layerContent
           if (layer === LAYER_MARK_ALL) {
-            layerContent = result.getLayers(undefined, [...mappedVfsLayer, LAYER_IMPORTS])
+            layerContent = result.getLayers(undefined, [...vfsLayers, LAYER_IMPORTS])
           }
           else {
-            layerContent = result.getLayer(layer.replace(/^_/, '')) || ''
+            layerContent = result.getLayer(layer) || ''
           }
 
-          if (layer === LAYER_PREFLIGHTS || layer === LAYER_MARK_ALL) {
-            const preTransform = await applyTransformers(ctx, layerContent, fakeCssId, 'pre')
-            const defaultTransform = await applyTransformers(ctx, preTransform?.code || layerContent, fakeCssId)
-            const postTransform = await applyTransformers(ctx, defaultTransform?.code || preTransform?.code || layerContent, fakeCssId, 'post')
-            layerContent = postTransform?.code || defaultTransform?.code || preTransform?.code || layerContent
-          }
-
-          return `${importStatements ?? ''}${layerStart} ${layerContent} ${layerEnd}`
+          return `${importsLayer}${layerStart} ${layerContent} ${layerEnd}`
         }))
 
         const css = await applyCssTransform(cssWithLayers.join(''), fakeCssId, options.dir, this)
