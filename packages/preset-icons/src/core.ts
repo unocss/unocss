@@ -17,6 +17,7 @@ export { icons }
  * API for preset-icons
  */
 export interface IconsAPI {
+  encodeSvgForCss: typeof encodeSvgForCss
   parseIconWithLoader: typeof parseIconWithLoader
   /**
    * This API only available for preset-icons created on Node.js environment
@@ -75,6 +76,7 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
       options,
       layers: { icons: -30 },
       api: <IconsAPI>{
+        encodeSvgForCss,
         parseIconWithLoader,
       },
       rules: [[

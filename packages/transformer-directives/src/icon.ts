@@ -1,7 +1,6 @@
 import type { IconifyLoaderOptions, UniversalIconLoader } from '@iconify/utils'
 import type { Preset, UnoGenerator } from '@unocss/core'
 import type { IconsAPI, IconsOptions } from '@unocss/preset-icons'
-import { encodeSvgForCss } from '@iconify/utils'
 import { toArray } from '@unocss/core'
 
 export async function transformIconString(uno: UnoGenerator, icon: string, color?: string) {
@@ -56,7 +55,7 @@ export async function transformIconString(uno: UnoGenerator, icon: string, color
       icon = icon.slice(p.length)
       const parsed = await api.parseIconWithLoader(icon, loader, loaderOptions)
       if (parsed)
-        return `url("data:image/svg+xml;utf8,${color ? encodeSvgForCss(parsed.svg).replace(/currentcolor/gi, color) : encodeSvgForCss(parsed.svg)}")`
+        return `url("data:image/svg+xml;utf8,${color ? api.encodeSvgForCss(parsed.svg).replace(/currentcolor/gi, color) : api.encodeSvgForCss(parsed.svg)}")`
     }
   }
 }
