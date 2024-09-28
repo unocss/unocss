@@ -30,7 +30,7 @@ const variantSteps = computed(() => {
       steps.push({
         variant: v,
         name: v?.name,
-        result: h.matcher,
+        result: h.matcher!,
       })
     })
   }

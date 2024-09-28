@@ -383,6 +383,22 @@ presetIcons({
 })
 ```
 
+## Directives
+
+You can use the `icon()` directive in your CSS to get the metadata of the icon.
+
+```css
+.icon {
+  background-image: icon('i-carbon-sun');
+}
+```
+
+::: warning
+`icon()` depends on `@unocss/preset-icons` and will use the configuration, make sure you have added this preset.
+:::
+
+More about `icon()` directive, check [Directives](/transformers/directives#icon).
+
 ## Options
 
 ### scale

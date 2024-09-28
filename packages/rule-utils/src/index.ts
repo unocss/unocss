@@ -1,5 +1,6 @@
 export * from './colors'
 export * from './handlers'
+export * from './icon'
 export * from './themeFn'
 export * from './utilities'
 export * from './variants'
