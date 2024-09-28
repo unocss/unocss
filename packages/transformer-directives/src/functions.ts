@@ -24,8 +24,7 @@ export async function handleFunction({ code, uno, options }: TransformerDirectiv
       if (params.length === 0)
         throw new Error('icon() expects at least one argument')
 
-      // eslint-disable-next-line prefer-spread
-      const value = await transformIconString.apply(null, [uno, ...params] as any)
+      const value = await transformIconString(uno, ...(params as [string, string]))
 
       if (value)
         code.overwrite(node.loc!.start.offset, node.loc!.end.offset, value)

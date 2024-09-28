@@ -1170,9 +1170,6 @@ importers:
       '@unocss/core':
         specifier: workspace:*
         version: link:../core
-      '@unocss/rule-utils':
-        specifier: workspace:*
-        version: link:../rule-utils
       ofetch:
         specifier: 'catalog:'
         version: 1.3.4
@@ -1267,19 +1264,12 @@ importers:
 
   packages/rule-utils:
     dependencies:
-      '@iconify/utils':
-        specifier: 'catalog:'
-        version: 2.1.33
       '@unocss/core':
         specifier: workspace:^
         version: link:../core
       magic-string:
         specifier: ^0.30.11
         version: 0.30.11
-    devDependencies:
-      '@iconify/types':
-        specifier: 'catalog:'
-        version: 2.0.0
 
   packages/runtime:
     dependencies:

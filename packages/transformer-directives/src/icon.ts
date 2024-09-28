@@ -8,7 +8,7 @@ export async function transformIconString(uno: UnoGenerator, icon: string, color
   const presetIcons = uno.userConfig.presets?.flat()?.findLast(i => i.name === '@unocss/preset-icons') as Preset | undefined
 
   if (!presetIcons) {
-    console.warn('@unocss/preset-icons not found')
+    console.warn('@unocss/preset-icons not found, icon() directive will be keep as-is')
     return
   }
 

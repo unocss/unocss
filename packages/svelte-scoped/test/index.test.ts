@@ -1,8 +1,8 @@
 import type { UnocssSveltePreprocessOptions } from '../src/preprocess'
 import presetIcons from '@unocss/preset-icons'
 import presetTypography from '@unocss/preset-typography'
-
 import presetUno from '@unocss/preset-uno'
+
 import fs from 'fs-extra'
 import { format as prettier } from 'prettier'
 import { preprocess } from 'svelte/compiler'

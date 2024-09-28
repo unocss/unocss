@@ -37,11 +37,7 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@iconify/utils": "catalog:",
     "@unocss/core": "workspace:^",
     "magic-string": "catalog:"
-  },
-  "devDependencies": {
-    "@iconify/types": "catalog:"
   }
 }
