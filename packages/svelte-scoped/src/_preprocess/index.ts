@@ -46,7 +46,9 @@ export function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = 
       }
 
       const { hasApply, applyVariables } = checkForApply(content, options.applyVariables)
-      const hasThemeFn = !!content.match(themeRE)
+      const hasThemeFn = options.transformThemeDirective === false
+        ? false
+        : !!content.match(themeRE)
 
       const changeNeeded = addPreflights || addSafelist || hasApply || hasThemeFn
       if (!changeNeeded)
@@ -68,7 +70,7 @@ export function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = 
           filename,
           prepend: preflightsSafelistCss,
           applyVariables,
-          hasThemeFn,
+          transformThemeFn: hasThemeFn,
         })
       }
 

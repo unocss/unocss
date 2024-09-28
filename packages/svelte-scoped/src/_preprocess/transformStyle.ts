@@ -23,21 +23,21 @@ export async function transformStyle({
   prepend,
   filename,
   applyVariables,
-  hasThemeFn,
+  transformThemeFn,
 }: {
   content: string
   uno: UnoGenerator
   filename?: string
   prepend: string
   applyVariables: string[]
-  hasThemeFn: boolean
+  transformThemeFn: boolean
 }): Promise<Processed | void> {
   const s = new MagicString(content)
 
   if (applyVariables?.length)
     await transformApply({ s, uno, applyVariables })
 
-  if (hasThemeFn)
+  if (transformThemeFn)
     transformTheme(s, uno.config.theme)
 
   if (!s.hasChanged())
