@@ -1,5 +1,5 @@
 import type { IconifyJSON } from '@iconify/types'
-import type { CustomIconLoader, IconCustomizations, InlineCollection } from '@iconify/utils/lib/loader/types'
+import type { CustomIconLoader, IconCustomizations, InlineCollection } from '@iconify/utils'
 import type { Awaitable, CSSObject } from '@unocss/core'
 
 interface IconMeta {

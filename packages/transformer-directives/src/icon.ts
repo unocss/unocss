@@ -1,4 +1,4 @@
-import type { IconifyLoaderOptions, UniversalIconLoader } from '@iconify/utils/lib/loader/types'
+import type { IconifyLoaderOptions, UniversalIconLoader } from '@iconify/utils'
 import type { Preset, UnoGenerator } from '@unocss/core'
 import type { IconsAPI, IconsOptions } from '@unocss/preset-icons'
 import { encodeSvgForCss } from '@iconify/utils'
