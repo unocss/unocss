@@ -97,6 +97,9 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
           return (hash ? getHashPlaceholder(hash) : '') + getLayerPlaceholder(layer)
       },
       webpack(compiler) {
+        compiler.hooks.beforeCompile.tapPromise(PLUGIN_NAME, async () => {
+          await ctx.ready
+        })
         // replace the placeholders
         compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation) => {
           const optimizeAssetsHook
