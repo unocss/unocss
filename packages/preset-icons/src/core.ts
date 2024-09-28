@@ -1,19 +1,28 @@
 import type { IconifyJSON } from '@iconify/types'
-import type {
-  IconifyLoaderOptions,
-  UniversalIconLoader,
-} from '@iconify/utils/lib/loader/types'
+import type { IconifyLoaderOptions, UniversalIconLoader } from '@iconify/utils'
 import type { CSSObject } from '@unocss/core'
 import type { IconsOptions } from './types'
 import { loadIcon } from '@iconify/utils/lib/loader/loader'
 import { searchForIcon } from '@iconify/utils/lib/loader/modern'
 import { encodeSvgForCss } from '@iconify/utils/lib/svg/encode-svg-for-css'
 import { definePreset, warnOnce } from '@unocss/core'
-import { parseIcon } from '@unocss/rule-utils'
 import icons from './collections.json'
+
+const COLLECTION_NAME_PARTS_MAX = 3
 
 export { IconsOptions }
 export { icons }
+
+/**
+ * API for preset-icons
+ */
+export interface IconsAPI {
+  parseIconWithLoader: typeof parseIconWithLoader
+  /**
+   * This API only available for preset-icons created on Node.js environment
+   */
+  createNodeLoader?: () => Promise<UniversalIconLoader | undefined>
+}
 
 export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => Promise<UniversalIconLoader>) {
   return definePreset((options: IconsOptions = {}) => {
@@ -65,6 +74,9 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
       enforce: 'pre',
       options,
       layers: { icons: -30 },
+      api: <IconsAPI>{
+        parseIconWithLoader,
+      },
       rules: [[
         /^([a-z0-9:_-]+)(?:\?(mask|bg|auto))?$/,
         async (matcher) => {
@@ -73,7 +85,7 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
           iconLoader = iconLoader || await lookupIconLoader(options)
 
           const usedProps = {}
-          const parsed = await parseIcon(body, iconLoader, { ...loaderOptions, usedProps })
+          const parsed = await parseIconWithLoader(body, iconLoader, { ...loaderOptions, usedProps })
 
           if (!parsed) {
             if (warn && !flags.isESLint)
@@ -110,7 +122,11 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
             }
           }
 
-          processor?.(cssObject, { ...parsed, mode: _mode })
+          processor?.(cssObject, {
+            ...parsed,
+            icon: parsed.name,
+            mode: _mode,
+          })
 
           return cssObject
         },
@@ -175,5 +191,36 @@ export function getEnvFlags() {
     isNode,
     isVSCode,
     isESLint,
+  }
+}
+
+export async function parseIconWithLoader(body: string, loader: UniversalIconLoader, options: IconifyLoaderOptions = {}) {
+  let collection = ''
+  let name = ''
+  let svg: string | undefined
+
+  if (body.includes(':')) {
+    [collection, name] = body.split(':')
+    svg = await loader(collection, name, options)
+  }
+  else {
+    const parts = body.split(/-/g)
+    for (let i = COLLECTION_NAME_PARTS_MAX; i >= 1; i--) {
+      collection = parts.slice(0, i).join('-')
+      name = parts.slice(i).join('-')
+      svg = await loader(collection, name, options)
+      if (svg)
+        break
+    }
+  }
+
+  if (!svg) {
+    return
+  }
+
+  return {
+    collection,
+    name,
+    svg,
   }
 }

@@ -35,6 +35,14 @@
     "build": "unbuild",
     "stub": "unbuild --stub"
   },
+  "peerDependencies": {
+    "@unocss/preset-icons": "workspace:*"
+  },
+  "peerDependenciesMeta": {
+    "@unocss/preset-icons": {
+      "optional": true
+    }
+  },
   "dependencies": {
     "@unocss/core": "workspace:*",
     "@unocss/rule-utils": "workspace:*",

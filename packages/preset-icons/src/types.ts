@@ -7,6 +7,11 @@ interface IconMeta {
   name: string
   svg: string
   mode?: IconsOptions['mode']
+
+  /**
+   * @deprecated renamed to `name`
+   */
+  icon: string
 }
 
 export interface IconsOptions {
