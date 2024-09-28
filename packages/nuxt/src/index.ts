@@ -97,36 +97,30 @@ export default mergeConfigs([${configPaths.map((_, index) => `cfg${index}`).join
       })
     }
 
-    async function loadUnoConfig() {
-      const { config: unoConfig } = await loadConfig(
-        process.cwd(),
-        { configFile: options.configFile },
-        [],
-        options,
-      )
+    const { config: unoConfig } = await loadConfig(
+      process.cwd(),
+      { configFile: options.configFile },
+      [],
+      options,
+    )
 
-      await nuxt.callHook('unocss:config', unoConfig)
-
-      if (
-        isNuxt3()
-        && nuxt.options.builder === '@nuxt/vite-builder'
-        && nuxt.options.postcss.plugins.cssnano
-        && unoConfig.transformers?.some(t => t.name === '@unocss/transformer-directives' && t.enforce !== 'pre')
-      ) {
-        const preset = nuxt.options.postcss.plugins.cssnano.preset
-        nuxt.options.postcss.plugins.cssnano = {
-          preset: [preset?.[0] || 'default', Object.assign(
-            { mergeRules: false, normalizeWhitespace: false, discardComments: false },
-            preset?.[1],
-          )],
-        }
+    if (
+      isNuxt3()
+      && nuxt.options.builder === '@nuxt/vite-builder'
+      && nuxt.options.postcss.plugins.cssnano
+      && unoConfig.transformers?.some(t => t.name === '@unocss/transformer-directives' && t.enforce !== 'pre')
+    ) {
+      const preset = nuxt.options.postcss.plugins.cssnano.preset
+      nuxt.options.postcss.plugins.cssnano = {
+        preset: [preset?.[0] || 'default', Object.assign(
+          { mergeRules: false, normalizeWhitespace: false, discardComments: false },
+          preset?.[1],
+        )],
       }
-
-      return unoConfig
     }
 
     nuxt.hook('vite:extend', async ({ config }) => {
-      const unoConfig = await loadUnoConfig()
+      await nuxt.callHook('unocss:config', unoConfig)
       config.plugins = config.plugins || []
       config.plugins.unshift(...VitePlugin({
         mode: options.mode,
@@ -160,7 +154,6 @@ export default mergeConfigs([${configPaths.map((_, index) => `cfg${index}`).join
     }
 
     extendWebpackConfig(async (config) => {
-      const unoConfig = await loadUnoConfig()
       config.plugins = config.plugins || []
       config.plugins.unshift(WebpackPlugin({}, unoConfig))
     })

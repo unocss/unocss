@@ -28,7 +28,7 @@ export function splitCodeWithArbitraryVariants(code: string): string[] {
   // Convert the information in [] in advance to prevent incorrect separation
   const skipMap = new Map<string, string>()
   const skipFlag = '@unocss-skip-arbitrary-brackets'
-  code = transformSkipCode(code, skipMap, /-\[[^\]]*\]/g, skipFlag)
+  code = transformSkipCode(code, skipMap, /-\[(?!&.+?;)[^\]]*\]/g, skipFlag)
 
   if (!code)
     return result

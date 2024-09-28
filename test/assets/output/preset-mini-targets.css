@@ -847,6 +847,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .group-aria\/label[data-attr] .group-aria-\[\[data-attr\]\]\/label\:font-17,
 .group\/label[data-attr] .group-\[\[data-attr\]\]\/label\:font-17{font-weight:17;}
 .group[data-state=open] .group-data-\[state\=open\]\:font-bold{font-weight:700;}
+.group\/named[data-state=open] .group-data-\[state\=open\]\/named\:font-medium{font-weight:500;}
 .font-050,
 .font-50,
 .fw-050,

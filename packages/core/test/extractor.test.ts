@@ -20,4 +20,5 @@ it('extractorSplitArbitrary', async () => {
   }
 
   expect(await extract('<div class="[content:\'bar:baz\'] [foo:bar:baz]">')).not.contains('[foo:bar:baz]')
+  expect(await extract('<div class="after:content-[&#39;&#39;]">')).not.toContain('after:content-[&#39;&#39;]')
 })

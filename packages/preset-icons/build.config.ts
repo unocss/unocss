@@ -7,13 +7,6 @@ const externals = [
   '@unocss/config',
   '@unocss/core',
   'magic-string',
-  '@iconify/types',
-  '@iconify/utils',
-  '@iconify/utils/lib',
-  '@iconify/utils/lib/loader/fs',
-  '@iconify/utils/lib/loader/install-pkg',
-  '@iconify/utils/lib/loader/node-loader',
-  '@iconify/utils/lib/loader/node-loaders',
 ]
 
 export default defineBuildConfig({
@@ -27,6 +20,9 @@ export default defineBuildConfig({
   externals,
   rollup: {
     inlineDependencies: true,
+    dts: {
+      respectExternal: false,
+    },
   },
   hooks: {
     'rollup:options': function (ctx, options) {

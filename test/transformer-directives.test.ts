@@ -1,6 +1,7 @@
 import type { UnoGenerator } from '@unocss/core'
 import { readFile } from 'node:fs/promises'
 import { createGenerator } from '@unocss/core'
+import presetIcons from '@unocss/preset-icons'
 import presetUno from '@unocss/preset-uno'
 import MagicString from 'magic-string'
 import parserCSS from 'prettier/parser-postcss'
@@ -1356,5 +1357,50 @@ div {
         }
         "
       `)
+  })
+})
+
+describe('icon directive', () => {
+  const uno = createGenerator({
+    presets: [
+      presetIcons({
+        collections: {
+          ph: {
+            check: `<svg xmlns="http://www.w3.org/2000/svg" fill="currentcolor" viewBox="0 0 24 24"><path d="ph:check"/></svg>`,
+          },
+        },
+      }),
+    ],
+  })
+
+  async function transform(code: string, _uno: UnoGenerator = uno) {
+    const s = new MagicString(code)
+    await transformDirectives(s, _uno, {})
+    return prettier.format(s.toString(), {
+      parser: 'css',
+      plugins: [parserCSS],
+    })
+  }
+
+  it('icon()', async () => {
+    const result = await transform(
+      `.icon {
+          background-image: icon('i-ph-check');
+          background-image: icon('i-ph:check', '#fff') no-repeat;
+          background-image: icon('i-carbon-sun');
+          background-image: icon('i-carbon:moon', '#fff');
+        }`,
+    )
+
+    expect(result).toMatchInlineSnapshot(`
+      ".icon {
+        background-image: url("data:image/svg+xml;utf8,%3Csvg width='1em' height='1em' xmlns='http://www.w3.org/2000/svg' fill='currentcolor' viewBox='0 0 24 24'%3E%3Cpath d='ph:check'/%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml;utf8,%3Csvg width='1em' height='1em' xmlns='http://www.w3.org/2000/svg' fill='#fff' viewBox='0 0 24 24'%3E%3Cpath d='ph:check'/%3E%3C/svg%3E")
+          no-repeat;
+        background-image: url("data:image/svg+xml;utf8,%3Csvg viewBox='0 0 32 32' width='1em' height='1em' xmlns='http://www.w3.org/2000/svg' %3E%3Cpath fill='currentColor' d='M16 12.005a4 4 0 1 1-4 4a4.005 4.005 0 0 1 4-4m0-2a6 6 0 1 0 6 6a6 6 0 0 0-6-6M5.394 6.813L6.81 5.399l3.505 3.506L8.9 10.319zM2 15.005h5v2H2zm3.394 10.193L8.9 21.692l1.414 1.414l-3.505 3.506zM15 25.005h2v5h-2zm6.687-1.9l1.414-1.414l3.506 3.506l-1.414 1.414zm3.313-8.1h5v2h-5zm-3.313-6.101l3.506-3.506l1.414 1.414l-3.506 3.506zM15 2.005h2v5h-2z'/%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml;utf8,%3Csvg viewBox='0 0 32 32' width='1em' height='1em' xmlns='http://www.w3.org/2000/svg' %3E%3Cpath fill='#fff' d='M13.503 5.414a15.076 15.076 0 0 0 11.593 18.194a11.1 11.1 0 0 1-7.975 3.39c-.138 0-.278.005-.418 0a11.094 11.094 0 0 1-3.2-21.584M14.98 3a1 1 0 0 0-.175.016a13.096 13.096 0 0 0 1.825 25.981c.164.006.328 0 .49 0a13.07 13.07 0 0 0 10.703-5.555a1.01 1.01 0 0 0-.783-1.565A13.08 13.08 0 0 1 15.89 4.38A1.015 1.015 0 0 0 14.98 3'/%3E%3C/svg%3E");
+      }
+      "
+    `)
   })
 })
