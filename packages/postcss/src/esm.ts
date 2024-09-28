@@ -136,19 +136,19 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
     for (let i = 0; i < entries.length; i += BATCH_SIZE) {
       const batch = entries.slice(i, i + BATCH_SIZE)
       promises.push(...batch.map(async (file) => {
-        const { mtimeMs } = await stat(file)
-
-        if (fileMap.has(file) && mtimeMs <= fileMap.get(file))
-          return
-
-        fileMap.set(file, mtimeMs)
-
         result.messages.push({
           type: 'dependency',
           plugin: directiveMap.unocss,
           file: normalize(file),
           parent: from,
         })
+
+        const { mtimeMs } = await stat(file)
+
+        if (fileMap.has(file) && mtimeMs <= fileMap.get(file))
+          return
+
+        fileMap.set(file, mtimeMs)
 
         const content = await readFile(file, 'utf8')
         const { matched } = await uno.generate(content, {
