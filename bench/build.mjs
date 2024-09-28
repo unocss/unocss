@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable no-console, antfu/no-top-level-await */
 import { join } from 'node:path'
 import { performance } from 'node:perf_hooks'
 import process from 'node:process'

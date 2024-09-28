@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable no-console, antfu/no-top-level-await */
 import { execSync } from 'node:child_process'
 import { join } from 'node:path'
 import { escapeSelector } from '@unocss/core'

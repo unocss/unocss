@@ -11,8 +11,8 @@
   "devDependencies": {
     "@iconify-json/logos": "^1.2.0",
     "@iconify/utils": "^2.1.33",
-    "@sveltejs/adapter-auto": "^3.2.4",
-    "@sveltejs/kit": "^2.5.27",
+    "@sveltejs/adapter-auto": "^3.2.5",
+    "@sveltejs/kit": "^2.6.1",
     "@sveltejs/vite-plugin-svelte": "^3.1.2",
     "@unocss/core": "link:../../packages/core",
     "@unocss/extractor-svelte": "link:../../packages/extractor-svelte",
@@ -23,7 +23,7 @@
     "tslib": "^2.7.0",
     "typescript": "^5.6.2",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.4.5"
+    "vite": "^5.4.8"
   },
   "stackblitz": {
     "installDependencies": false,
