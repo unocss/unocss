@@ -229,12 +229,12 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         const fakeCssId = `${viteConfig.root}/${chunk.fileName}-unocss-hash.css`
         const preflightLayers = ctx.uno.config.preflights?.map(i => i.layer).concat(LAYER_PREFLIGHTS).filter(Boolean)
 
-        preflightLayers.forEach(i => result.setLayer(i!, async (layerContent) => {
+        await Promise.all(preflightLayers.map(i => result.setLayer(i!, async (layerContent) => {
           const preTransform = await applyTransformers(ctx, layerContent, fakeCssId, 'pre')
           const defaultTransform = await applyTransformers(ctx, preTransform?.code || layerContent, fakeCssId)
           const postTransform = await applyTransformers(ctx, defaultTransform?.code || preTransform?.code || layerContent, fakeCssId, 'post')
           return postTransform?.code || defaultTransform?.code || preTransform?.code || layerContent
-        }))
+        })))
 
         const cssWithLayers = await Promise.all(Array.from(vfsLayers).map(async (layer) => {
           const layerStart = `#--unocss-layer-start--${layer}--{start:${layer}}`
