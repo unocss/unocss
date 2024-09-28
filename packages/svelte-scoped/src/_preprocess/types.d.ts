@@ -1,7 +1,7 @@
 import type { LoadConfigResult } from '@unocss/config'
 import type { UnoGenerator, UserConfig } from '@unocss/core'
 
-export interface UnocssSveltePreprocessOptions extends TransformClassesOptions, TransformDirectivesOptions {
+export interface UnocssSveltePreprocessOptions extends TransformClassesOptions, TransformApplyOptions, TransformDirectivesOptions {
   /**
    * UnoCSS config or path to config file. If not provided, will load unocss.config.ts/js. It's recommended to use the separate config file if you are having trouble with the UnoCSS extension in VSCode.
    */
@@ -26,7 +26,7 @@ export interface TransformClassesOptions {
   hashFn?: (str: string) => string
 }
 
-export interface TransformDirectivesOptions {
+export interface TransformApplyOptions {
   /**
    * Transform CSS custom properties (recommended for CSS syntax compatibility) or @apply directives.
    *
@@ -35,6 +35,9 @@ export interface TransformDirectivesOptions {
    * @default ['--at-apply', '@apply']
    */
   applyVariables?: string | string[] | false
+}
+
+export interface TransformDirectivesOptions {
   /**
    * Transform the `theme()` directive (recommended for CSS syntax compatibility).
    *

@@ -1,5 +1,5 @@
 import type { Processed } from 'svelte/types/compiler/preprocess'
-import type { TransformDirectivesOptions } from './types'
+import type { TransformApplyOptions } from './types'
 import { toArray, type UnoGenerator } from '@unocss/core'
 import MagicString from 'magic-string'
 import { transformApply } from './transformApply'
@@ -7,7 +7,7 @@ import { transformTheme } from './transformTheme'
 
 const DEFAULT_APPLY_VARIABLES = ['--at-apply']
 
-export function checkForApply(content: string, _applyVariables: TransformDirectivesOptions['applyVariables']) {
+export function checkForApply(content: string, _applyVariables: TransformApplyOptions['applyVariables']) {
   if (_applyVariables === false)
     return { hasApply: false, applyVariables: [] }
   const applyVariables = toArray(_applyVariables || DEFAULT_APPLY_VARIABLES)
