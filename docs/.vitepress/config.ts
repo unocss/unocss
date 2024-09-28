@@ -150,6 +150,7 @@ const Nav: DefaultTheme.NavItem[] = [
   },
   { text: 'Interactive Docs', link: '/interactive/', target: '_blank' },
   { text: 'Playground', link: '/play/', target: '_blank' },
+  { text: 'Tutorial', link: 'https://tutorial.unocss.dev/', target: '_blank' },
   {
     text: `v${version}`,
     items: [
