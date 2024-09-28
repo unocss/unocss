@@ -861,6 +861,7 @@ export interface GenerateResult<T = Set<string>> {
   layers: string[]
   getLayer: (name?: string) => string | undefined
   getLayers: (includes?: string[], excludes?: string[]) => string
+  setLayer: (layer: string, callback: (content: string) => Promise<string>) => Promise<string>
   matched: T
 }
 
