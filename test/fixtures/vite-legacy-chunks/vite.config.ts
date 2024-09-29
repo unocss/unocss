@@ -1,8 +1,8 @@
+import { presetUno } from '@unocss/preset-uno'
+import Unocss from '@unocss/vite'
+
 import legacy from '@vitejs/plugin-legacy'
 import vue from '@vitejs/plugin-vue'
-
-import { presetUno } from 'unocss'
-import Unocss from 'unocss/vite'
 
 import { defineConfig } from 'vite'
 
