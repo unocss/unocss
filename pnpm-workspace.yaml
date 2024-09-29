@@ -55,8 +55,8 @@ catalog:
   '@types/webpack-sources': ^3.2.3
   '@types/ws': ^8.5.12
   '@typescript-eslint/utils': ^8.7.0
-  '@vitejs/plugin-legacy': ^5.4.2
-  '@vitejs/plugin-vue': ^5.1.4
+  '@vitejs/plugin-legacy': ^5.4.1
+  '@vitejs/plugin-vue': ^5.0.5
   '@vitest/ui': ^2.1.1
   '@vue/reactivity': ^3.5.10
   '@vueuse/core': ^11.1.0
@@ -72,11 +72,13 @@ catalog:
   codemirror-theme-vars: ^0.1.2
   colorette: ^2.0.20
   consola: ^3.2.3
+  core-js: ^3.38.1
+  cross-env: ^7.0.3
   css-tree: ^3.0.0
   eslint: ^9.11.1
   eslint-plugin-antfu: ^2.7.0
   eslint-vitest-rule-tester: ^0.6.1
-  esno: ^4.7.0
+  esno: ^4.8.0
   execa: ^9.4.0
   find-up: ^6.3.0
   floating-vue: 2.0.0-beta.24
@@ -96,6 +98,7 @@ catalog:
   markdown-it-link-attributes: ^4.0.1
   msw: 1.0.1
   nuxt: ^3.13.2
+  npm-run-path: ^6.0.0
   nuxt-tsconfig-stub: ^0.0.2
   ofetch: ^1.4.0
   p-limit: ^6.1.0
@@ -126,6 +129,7 @@ catalog:
   theme-vitesse: ^0.8.3
   tinyglobby: ^0.2.6
   tsup: ^8.3.0
+  tsx: ^4.19.1
   typescript: ^5.6.2
   unbuild: ^2.0.0
   unconfig: ^0.6.0
