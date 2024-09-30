@@ -1,12 +1,17 @@
-import type { CustomIconLoader, IconCustomizations, InlineCollection } from '@iconify/utils/lib/loader/types'
-import type { Awaitable, CSSObject } from '@unocss/core'
 import type { IconifyJSON } from '@iconify/types'
+import type { CustomIconLoader, IconCustomizations, InlineCollection } from '@iconify/utils'
+import type { Awaitable, CSSObject } from '@unocss/core'
 
 interface IconMeta {
   collection: string
-  icon: string
+  name: string
   svg: string
   mode?: IconsOptions['mode']
+
+  /**
+   * @deprecated renamed to `name`
+   */
+  icon: string
 }
 
 export interface IconsOptions {

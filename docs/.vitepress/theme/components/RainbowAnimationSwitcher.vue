@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { computed, watch } from 'vue'
 import { useLocalStorage, useMediaQuery } from '@vueuse/core'
 import { inBrowser } from 'vitepress'
+import { computed, watch } from 'vue'
 
 defineProps<{ text?: string, screenMenu?: boolean }>()
 

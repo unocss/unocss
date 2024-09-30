@@ -1,6 +1,6 @@
-import { Buffer } from 'node:buffer'
-import type { Plugin, ViteDevServer } from 'vite'
 import type { UnocssPluginContext } from '@unocss/core'
+import type { Plugin, ViteDevServer } from 'vite'
+import { Buffer } from 'node:buffer'
 import { getHash, getPath, resolveId, resolveLayer } from '../integration'
 
 const VIRTUAL_PREFIX = '/@unocss/'

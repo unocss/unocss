@@ -1,6 +1,6 @@
 import type { VariantObject } from '@unocss/core'
-import { isAttributifySelector } from '@unocss/core'
 import type { AttributifyOptions } from './types'
+import { isAttributifySelector } from '@unocss/core'
 
 // eslint-disable-next-line regexp/no-super-linear-backtracking
 export const variantsRE = /^(?!.*\[[^:]+:.+\]$)((?:.+:)?!?)(.*)$/

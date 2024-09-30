@@ -11,7 +11,7 @@ export const easing = {
 export const transitionProperty = {
   none: 'none',
   all: 'all',
-  colors: ['color', 'background-color', 'border-color', 'outline-color', 'text-decoration-color', 'fill', 'stroke'].join(','),
+  colors: ['color', 'background-color', 'border-color', 'text-decoration-color', 'fill', 'stroke'].join(','),
   opacity: 'opacity',
   shadow: 'box-shadow',
   transform: 'transform',

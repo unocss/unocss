@@ -22,10 +22,10 @@
 | [@unocss/extractor-pug](./extractor-pug) | Extractor for Pug | No | - |
 | [@unocss/extractor-svelte](./extractor-svelte) | Extractor for Svelte | No | - |
 | [@unocss/extractor-mdc](./extractor-mdc) | Extractor for MDC | No | - |
-| [@unocss/extractor-arbitrary-variants](./extractor-arbitrary-variants) | Arbitrary variants for utils | ✅ | No |
+| [@unocss/extractor-arbitrary-variants](./extractor-arbitrary-variants) | Arbitrary variants for utils | No | No |
 | [@unocss/autocomplete](./autocomplete) | Utils for autocomplete | No | - |
 | [@unocss/config](./config) | Configuration file loader | ✅ | - |
-| [@unocss/reset](./reset) | Collection of common CSS resets | ✅ | No |
+| [@unocss/reset](./reset) | Collection of common CSS resets | No | No |
 | [@unocss/vite](./vite) | The Vite plugins | ✅ | - |
 | [@unocss/astro](./astro) | The Astro integration |  ✅ | - |
 | [@unocss/webpack](./webpack) | The Webpack plugin | No | - |

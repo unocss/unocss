@@ -128,6 +128,14 @@ const plainTeamMembers: CoreTeam[] = [
     title: 'Passionate about open source & FE Developer',
     desc: '@webview-use author, vscode plugin master, open source magician, antfu’s number one fan',
   },
+  {
+    avatar: 'https://github.com/henrikvilhelmberglund.png',
+    name: 'Henrik Berglund',
+    github: 'henrikvilhelmberglund',
+    twitter: 'henrikvberglund',
+    title: 'Frontend Developer',
+    desc: 'Loves Svelte, Vite and open source, author of the UnoCSS tutorial',
+  },
 ]
 
 const teamMembers = plainTeamMembers.map(tm => createLinks(tm))

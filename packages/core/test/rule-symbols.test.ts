@@ -156,3 +156,39 @@ it('selector', async () => {
       .color-red:hover{color:lighten(red, 10%);}"
     `)
 })
+
+it('layer', async () => {
+  const uno1 = createGenerator({
+    rules: [
+      [/^color-(.*)$/, function * ([, color], ctx) {
+        yield {
+          color,
+          [ctx.symbols.layer]: color,
+        }
+      }],
+    ],
+  })
+  expect((await uno1.generate('color-red')).css)
+    .toMatchInlineSnapshot(`
+      "/* layer: red */
+      .color-red{color:red;}"
+    `)
+})
+
+it('layer string', async () => {
+  const uno1 = createGenerator({
+    rules: [
+      [/^color-(.*)$/, function * ([, color], ctx) {
+        yield {
+          color,
+          [ctx.symbols.layer]: 'custom-layer',
+        }
+      }],
+    ],
+  })
+  expect((await uno1.generate('color-red')).css)
+    .toMatchInlineSnapshot(`
+      "/* layer: custom-layer */
+      .color-red{color:red;}"
+    `)
+})

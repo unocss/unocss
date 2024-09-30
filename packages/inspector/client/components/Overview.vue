@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { info, overview, overviewFetch } from '../composables/fetch'
-import { useScrollStyle } from '../composables/useScrollStyle'
 import { useCSSPrettify } from '../composables/usePrettify'
+import { useScrollStyle } from '../composables/useScrollStyle'
 import Analyzer from './Analyzer.vue'
 
 const status = ref(null)

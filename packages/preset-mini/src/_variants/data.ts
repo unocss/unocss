@@ -25,11 +25,11 @@ function taggedData(tagName: string): Variant {
     match(matcher, ctx: VariantContext<Theme>) {
       const variant = variantGetParameter(`${tagName}-data-`, matcher, ctx.generator.config.separators)
       if (variant) {
-        const [match, rest] = variant
+        const [match, rest, label] = variant
         const dataAttribute = h.bracket(match) ?? ctx.theme.data?.[match] ?? ''
         if (dataAttribute) {
           return {
-            matcher: `${tagName}-[[data-${dataAttribute}]]:${rest}`,
+            matcher: `${tagName}-[[data-${dataAttribute}]]${label ? `/${label}` : ''}:${rest}`,
           }
         }
       }

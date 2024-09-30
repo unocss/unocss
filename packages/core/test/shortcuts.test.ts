@@ -1,7 +1,7 @@
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
-import prettier from 'prettier/standalone'
 import parserCSS from 'prettier/parser-postcss'
+import prettier from 'prettier/standalone'
 import { describe, expect, it } from 'vitest'
 
 describe('shortcuts', () => {

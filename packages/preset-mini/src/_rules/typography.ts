@@ -1,7 +1,7 @@
 import type { CSSObject, Rule, RuleContext } from '@unocss/core'
-import { toArray } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorResolver, colorableShadows, globalKeywords, h, isCSSMathFn, splitShorthand } from '../utils'
+import { toArray } from '@unocss/core'
+import { colorableShadows, colorResolver, globalKeywords, h, isCSSMathFn, splitShorthand } from '../utils'
 
 export const fonts: Rule<Theme>[] = [
   // text

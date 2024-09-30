@@ -1,10 +1,10 @@
 import type { PluginOption } from 'vite'
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import UnoCSS from 'unocss/vite'
+import presetAttributify from '@unocss/preset-attributify'
 import presetIcons from '@unocss/preset-icons'
 import presetUno from '@unocss/preset-uno'
-import presetAttributify from '@unocss/preset-attributify'
+import react from '@vitejs/plugin-react'
+import UnoCSS from 'unocss/vite'
+import { defineConfig } from 'vite'
 
 const plugins: (PluginOption | PluginOption[])[] = [
   UnoCSS({

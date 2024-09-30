@@ -1,6 +1,6 @@
 import { createGenerator, toEscapedSelector as e } from '@unocss/core'
-import presetUno from '@unocss/preset-uno'
 import { autocompleteExtractorAttributify, presetAttributify, variantAttributify } from '@unocss/preset-attributify'
+import presetUno from '@unocss/preset-uno'
 import { describe, expect, it } from 'vitest'
 
 describe('attributify', async () => {

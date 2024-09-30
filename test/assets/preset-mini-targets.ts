@@ -275,6 +275,8 @@ export const presetMiniTargets: string[] = [
   'bg-[calc(10%+10px)]',
   'bg-[calc(10vw+10px)]',
   'bg-[url(https://test.unocss.png)]',
+  'bg-[image:$variable]',
+  'bg-[image:https://test.unocss.png]',
   'bg-[length:--variable]',
   'bg-[length:10_20rem]',
   'bg-[length:1/2_20rem]',
@@ -1227,6 +1229,7 @@ export const presetMiniTargets: string[] = [
 
   // variants - tagged-data
   'group-data-[state=open]:font-bold',
+  'group-data-[state=open]/named:font-medium',
   'peer-data-[state=closed]:border-3',
 
   // variants - container parent

@@ -1,7 +1,7 @@
 import type { Rule, RuleContext } from '@unocss/core'
-import { globalKeywords, h, makeGlobalStaticRules, parseColor, positionMap } from '@unocss/preset-mini/utils'
 import type { Theme } from '@unocss/preset-mini'
 import type { CSSColorValue } from '@unocss/rule-utils'
+import { globalKeywords, h, makeGlobalStaticRules, parseColor, positionMap } from '@unocss/preset-mini/utils'
 import { colorOpacityToString, colorToString } from '@unocss/rule-utils'
 
 function bgGradientToValue(cssColor: CSSColorValue | undefined) {

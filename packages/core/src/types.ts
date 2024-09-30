@@ -1,5 +1,5 @@
-import type { LoadConfigResult } from 'unconfig'
 import type MagicString from 'magic-string'
+import type { LoadConfigResult } from 'unconfig'
 import type { UnoGenerator } from './generator'
 import type { BetterMap, CountableSet } from './utils'
 
@@ -77,6 +77,7 @@ declare const SymbolShortcutsNoMerge: unique symbol
 declare const SymbolVariants: unique symbol
 declare const SymbolParent: unique symbol
 declare const SymbolSelector: unique symbol
+declare const SymbolLayer: unique symbol
 
 export interface ControlSymbols {
   /**
@@ -95,6 +96,10 @@ export interface ControlSymbols {
    * Selector modifier
    */
   selector: typeof SymbolSelector
+  /**
+   * Layer modifier
+   */
+  layer: typeof SymbolLayer
 }
 
 export interface ControlSymbolsValue {
@@ -102,6 +107,7 @@ export interface ControlSymbolsValue {
   [SymbolVariants]: VariantHandler[]
   [SymbolParent]: string
   [SymbolSelector]: (selector: string) => string
+  [SymbolLayer]: string
 }
 
 export type ObjectToEntry<T> = { [K in keyof T]: [K, T[K]] }[keyof T]
@@ -206,19 +212,19 @@ export type DynamicMatcher<Theme extends object = object> =
     match: RegExpMatchArray,
     context: Readonly<RuleContext<Theme>>
   ) =>
-  | Awaitable<CSSValueInput | string | (CSSValueInput | string)[] | undefined>
-  | Generator<CSSValueInput | string | undefined>
-  | AsyncGenerator<CSSValueInput | string | undefined>
+    | Awaitable<CSSValueInput | string | (CSSValueInput | string)[] | undefined>
+    | Generator<CSSValueInput | string | undefined>
+    | AsyncGenerator<CSSValueInput | string | undefined>
 
-export type DynamicRule<Theme extends object = object> = [RegExp, DynamicMatcher<Theme>] | [RegExp, DynamicMatcher<Theme>, RuleMeta]
-export type StaticRule = [string, CSSObject | CSSEntries] | [string, CSSObject | CSSEntries, RuleMeta]
+export type DynamicRule<Theme extends object = object> = [RegExp, DynamicMatcher<Theme>, RuleMeta?]
+export type StaticRule = [string, CSSObject | CSSEntries, RuleMeta?]
 export type Rule<Theme extends object = object> = DynamicRule<Theme> | StaticRule
 
 export type DynamicShortcutMatcher<Theme extends object = object> = ((match: RegExpMatchArray, context: Readonly<RuleContext<Theme>>) => (string | ShortcutValue[] | undefined))
 
-export type StaticShortcut = [string, string | ShortcutValue[]] | [string, string | ShortcutValue[], RuleMeta]
+export type StaticShortcut = [string, string | ShortcutValue[], RuleMeta?]
 export type StaticShortcutMap = Record<string, string | ShortcutValue[]>
-export type DynamicShortcut<Theme extends object = object> = [RegExp, DynamicShortcutMatcher<Theme>] | [RegExp, DynamicShortcutMatcher<Theme>, RuleMeta]
+export type DynamicShortcut<Theme extends object = object> = [RegExp, DynamicShortcutMatcher<Theme>, RuleMeta?]
 export type UserShortcuts<Theme extends object = object> = StaticShortcutMap | (StaticShortcut | DynamicShortcut<Theme> | StaticShortcutMap)[]
 export type Shortcut<Theme extends object = object> = StaticShortcut | DynamicShortcut<Theme>
 export type ShortcutValue = string | CSSValue
@@ -591,6 +597,10 @@ export interface Preset<Theme extends object = object> extends ConfigBase<Theme>
    * Apply layer to all utilities and shortcuts
    */
   layer?: string
+  /**
+   * Custom API endpoint for cross-preset communication
+   */
+  api?: any
 }
 
 export type PresetFactory<Theme extends object = object, PresetOptions extends object | undefined = undefined> = (options?: PresetOptions) => Preset<Theme>
@@ -851,6 +861,7 @@ export interface GenerateResult<T = Set<string>> {
   layers: string[]
   getLayer: (name?: string) => string | undefined
   getLayers: (includes?: string[], excludes?: string[]) => string
+  setLayer: (layer: string, callback: (content: string) => Promise<string>) => Promise<string>
   matched: T
 }
 

@@ -1,6 +1,6 @@
 import type { Rule } from '@unocss/core'
-import { globalKeywords } from '../_utils/mappings'
 import { h } from '../_utils/handlers'
+import { globalKeywords } from '../_utils/mappings'
 
 const verticalAlignAlias: Record<string, string> = {
   'mid': 'middle',
@@ -25,8 +25,8 @@ export const verticalAligns: Rule[] = [
     ([, v]) => ({ 'vertical-align': verticalAlignAlias[v] ?? h.numberWithUnit(v) }),
     {
       autocomplete: [
-      `(vertical|align|v)-(${Object.keys(verticalAlignAlias).join('|')})`,
-      '(vertical|align|v)-<percentage>',
+        `(vertical|align|v)-(${Object.keys(verticalAlignAlias).join('|')})`,
+        '(vertical|align|v)-<percentage>',
       ],
     },
   ],

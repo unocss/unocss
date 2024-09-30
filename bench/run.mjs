@@ -1,10 +1,10 @@
-/* eslint-disable no-console */
+/* eslint-disable no-console, antfu/no-top-level-await */
 import { execSync } from 'node:child_process'
 import { join } from 'node:path'
-import fs from 'fs-extra'
 import { escapeSelector } from '@unocss/core'
-import { dir, getVersions, targets } from './meta.mjs'
+import fs from 'fs-extra'
 import { classes, writeMock } from './gen.mjs'
+import { dir, getVersions, targets } from './meta.mjs'
 
 const times = 200
 const metric = '75%' // average / min / 50% / 75% / 95% / 99%

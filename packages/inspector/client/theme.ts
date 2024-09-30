@@ -1,6 +1,6 @@
-import { EditorView } from '@codemirror/view'
 import type { Extension } from '@codemirror/state'
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language'
+import { EditorView } from '@codemirror/view'
 import { tags as t } from '@lezer/highlight'
 
 const keyword = 'var(--cm-keyword)'
@@ -41,7 +41,7 @@ export const vitesseTheme = EditorView.theme({
   },
 
   '.cm-cursor, .cm-dropCursor': { borderLeftColor: cursor },
-  '&.cm-focused .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection': { backgroundColor: selection },
+  '&.cm-focused .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection': { backgroundColor: `${selection} !important` },
 
   '.cm-panels': { backgroundColor: darkBackground, color: foreground },
   '.cm-panels.cm-panels-top': { borderBottom: '2px solid black' },

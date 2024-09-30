@@ -1,8 +1,8 @@
 import { readFile } from 'node:fs/promises'
-import { describe, expect, it } from 'vitest'
-import { type UnocssPluginContext, expandVariantGroup } from '@unocss/core'
-import MagicString from 'magic-string'
+import { expandVariantGroup, type UnocssPluginContext } from '@unocss/core'
 import transformerVariantGroup from '@unocss/transformer-variant-group'
+import MagicString from 'magic-string'
+import { describe, expect, it } from 'vitest'
 
 const transformer = transformerVariantGroup()
 
