@@ -23,24 +23,24 @@ catalog:
   '@iconify-json/carbon': ^1.2.1
   '@iconify-json/iconoir': ^1.2.1
   '@iconify-json/la': ^1.2.0
-  '@iconify-json/logos': ^1.2.0
+  '@iconify-json/logos': ^1.2.1
   '@iconify-json/mdi': ^1.2.0
   '@iconify-json/ph': ^1.2.0
   '@iconify-json/ri': ^1.2.0
-  '@iconify-json/tabler': ^1.2.3
+  '@iconify-json/tabler': ^1.2.4
   '@iconify-json/teenyicons': ^1.2.0
   '@iconify-json/twemoji': ^1.2.0
   '@iconify-json/uim': ^1.2.0
   '@iconify-json/vscode-icons': ^1.2.2
-  '@iconify/json': ^2.2.253
+  '@iconify/json': ^2.2.255
   '@iconify/types': ^2.0.0
   '@iconify/utils': ^2.1.33
   '@nuxt/devtools': ^1.5.1
   '@nuxt/kit': ^3.13.2
   '@nuxt/schema': ^3.13.2
   '@rollup/pluginutils': ^5.1.2
-  '@shikijs/markdown-it': ^1.20.0
-  '@shikijs/vitepress-twoslash': ^1.20.0
+  '@shikijs/markdown-it': ^1.21.0
+  '@shikijs/vitepress-twoslash': ^1.21.0
   '@sveltejs/kit': ^2.6.1
   '@types/connect': ^3.4.38
   '@types/css-tree': ^2.3.8
@@ -54,18 +54,18 @@ catalog:
   '@types/webpack': ^5.28.5
   '@types/webpack-sources': ^3.2.3
   '@types/ws': ^8.5.12
-  '@typescript-eslint/utils': ^8.7.0
-  '@vitejs/plugin-legacy': ^5.4.1
-  '@vitejs/plugin-vue': ^5.0.5
+  '@typescript-eslint/utils': ^8.8.0
+  '@vitejs/plugin-legacy': ^5.4.2
+  '@vitejs/plugin-vue': ^5.1.4
   '@vitest/ui': ^2.1.1
   '@vue/reactivity': ^3.5.10
   '@vueuse/core': ^11.1.0
   '@vueuse/math': ^11.1.0
   '@vueuse/nuxt': ^11.1.0
-  astro: ^4.15.9
+  astro: ^4.15.10
   autoprefixer: ^10.4.20
   brotli-size: ^4.0.0
-  bumpp: ^9.6.0
+  bumpp: ^9.6.1
   cac: ^6.7.14
   chokidar: ^3.6.0
   codemirror: ^6.0.1
@@ -86,7 +86,7 @@ catalog:
   fuse.js: ^7.0.0
   fzf: ^0.5.2
   gzip-size: ^6.0.0
-  jiti: ^2.0.0
+  jiti: ^1.21.6
   js-yaml: ^4.1.0
   jsdom: ^25.0.1
   knitwork: ^1.1.0
@@ -97,8 +97,8 @@ catalog:
   magic-string: ^0.30.11
   markdown-it-link-attributes: ^4.0.1
   msw: 1.0.1
-  nuxt: ^3.13.2
   npm-run-path: ^6.0.0
+  nuxt: ^3.13.2
   nuxt-tsconfig-stub: ^0.0.2
   ofetch: ^1.4.0
   p-limit: ^6.1.0
@@ -112,10 +112,10 @@ catalog:
   pug: ^3.0.3
   react: ^18.3.1
   rimraf: ^6.0.1
-  rollup: ^4.22.5
+  rollup: ^4.23.0
   sanitize.css: ^13.0.0
   semver: ^7.6.3
-  shiki: ^1.20.0
+  shiki: ^1.21.0
   simple-git: ^3.27.0
   simple-git-hooks: ^2.11.1
   sirv: ^2.0.4
@@ -127,12 +127,12 @@ catalog:
   taze: ^0.17.2
   terser: ^5.34.1
   theme-vitesse: ^0.8.3
-  tinyglobby: ^0.2.6
+  tinyglobby: ^0.2.9
   tsup: ^8.3.0
   tsx: ^4.19.1
   typescript: ^5.6.2
   unbuild: ^2.0.0
-  unconfig: ^0.6.0
+  unconfig: ~0.5.5
   unplugin: ^1.14.1
   unplugin-auto-import: ^0.18.3
   unplugin-vue-components: ^0.27.4
