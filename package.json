@@ -144,6 +144,7 @@
   },
   "resolutions": {
     "@typescript-eslint/utils": "catalog:",
+    "jiti": "catalog:",
     "magic-string": "catalog:",
     "nuxt": "catalog:",
     "prettier": "catalog:",
