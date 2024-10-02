@@ -7,7 +7,7 @@
 <h1 align="center">UnoCSS</h1>
 
 <p align="center">
-The instant on-demand Atomic CSS engine. test
+The instant on-demand Atomic CSS engine.
 </p>
 
 <p align="center">
