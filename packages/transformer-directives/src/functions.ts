@@ -1,6 +1,6 @@
 import type { FunctionNode, StringNode } from 'css-tree'
 import type { TransformerDirectivesContext } from './types'
-import { transformThemeString } from '@unocss/rule-utils'
+import { transformThemeFn, transformThemeString } from '@unocss/rule-utils'
 import { transformIconString } from './icon'
 
 export async function handleFunction({ code, uno, options }: TransformerDirectivesContext, node: FunctionNode) {
@@ -24,7 +24,12 @@ export async function handleFunction({ code, uno, options }: TransformerDirectiv
       if (params.length === 0)
         throw new Error('icon() expects at least one argument')
 
-      const value = await transformIconString(uno, ...(params as [string, string]))
+      let [icon, color] = params as [string, string?]
+      if (color) {
+        color = encodeURIComponent(transformThemeFn(color, uno.config.theme, throwOnMissing))
+      }
+
+      const value = await transformIconString(uno, icon, color)
 
       if (value)
         code.overwrite(node.loc!.start.offset, node.loc!.end.offset, value)
