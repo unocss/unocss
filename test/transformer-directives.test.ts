@@ -1,6 +1,7 @@
 import type { UnoGenerator } from '@unocss/core'
+import type { IconsOptions } from '@unocss/preset-icons'
 import { readFile } from 'node:fs/promises'
-import { createGenerator } from '@unocss/core'
+import { createGenerator, mergeDeep } from '@unocss/core'
 import presetIcons from '@unocss/preset-icons'
 import presetUno from '@unocss/preset-uno'
 import MagicString from 'magic-string'
@@ -1361,20 +1362,24 @@ div {
 })
 
 describe('icon directive', () => {
-  const uno = createGenerator({
-    presets: [
-      presetUno(),
-      presetIcons({
-        collections: {
-          ph: {
-            check: `<svg xmlns="http://www.w3.org/2000/svg" fill="currentcolor" viewBox="0 0 24 24"><path d="ph:check"/></svg>`,
-          },
+  function createUno(iconsOptions?: IconsOptions) {
+    const defaultOptions = {
+      collections: {
+        ph: {
+          check: `<svg xmlns="http://www.w3.org/2000/svg" fill="currentcolor" viewBox="0 0 24 24"><path d="ph:check"/></svg>`,
         },
-      }),
-    ],
-  })
+      },
+    }
 
-  async function transform(code: string, _uno: UnoGenerator = uno) {
+    return createGenerator({
+      presets: [
+        presetUno(),
+        presetIcons(mergeDeep(defaultOptions, iconsOptions ?? {})),
+      ],
+    })
+  }
+
+  async function transform(code: string, _uno: UnoGenerator) {
     const s = new MagicString(code)
     await transformDirectives(s, _uno, {})
     return prettier.format(s.toString(), {
@@ -1384,6 +1389,8 @@ describe('icon directive', () => {
   }
 
   it('icon()', async () => {
+    const uno = createUno()
+
     const result = await transform(
       `.icon {
           background-image: icon('i-ph-check');
@@ -1391,6 +1398,7 @@ describe('icon directive', () => {
           background-image: icon('i-ph:check', 'theme("colors.red.500")');
           background-image: icon('i-carbon-sun');
         }`,
+      uno,
     )
 
     expect(result).toMatchInlineSnapshot(`
@@ -1403,5 +1411,24 @@ describe('icon directive', () => {
       }
       "
     `)
+  })
+
+  it('icon() without extra properties', async () => {
+    const uno = createUno({
+      extraProperties: {
+        'display': 'inline-block',
+        'vertical-align': 'middle',
+      },
+    })
+
+    const result = await transform(
+      `.icon {
+          background-image: icon('i-ph-check');
+        }`,
+      uno,
+    )
+
+    expect(result).not.toContain(`display='inline-block'`)
+    expect(result).not.toContain(`vertical-align='middle'`)
   })
 })
